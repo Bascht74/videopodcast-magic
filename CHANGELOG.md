@@ -1,5 +1,28 @@
 # Changelog
 
+## 1.1.0-beta
+
+**Two switched-off buttons now look switched off in the same way.**
+**Start** kept its filled shape and its own colour while **Dry run
+(writes nothing)** went pale and flat, so one of the pair still looked
+pressable. Both now fade into the same muted blue -- filled for the main
+action, outlined for the dry run, so the rank is still readable -- and
+the label on a switched-off button was measured for contrast rather than
+guessed: 4.7 against its own background, where the old grey on grey gave
+2.6.
+
+**The opening line is no longer written in warning colour.** "No files
+or project opened yet" is where everybody starts, not a fault, and it
+now stands in quiet type. The warning colour is kept for the case where
+something really is missing. The quiet grey was darkened a shade so it
+still reads on the footer: measured against the desktop's #efefef it
+went from 4.0 to 4.5.
+
+**Settings ... moved into the footer.** It sat beside the tabs, in the
+top right corner, where a button is not looked for. It now stands with
+the other buttons at the bottom right, flat and set apart, because it is
+not a step of the work.
+
 ## 1.0.0-beta
 
 **The terms are DaVinci Resolve's now, not our own.** Looked up in

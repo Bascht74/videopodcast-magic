@@ -375,7 +375,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "1.0.0-beta"
+VERSION = "1.1.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -434,7 +434,10 @@ COLOURS = {
     "warning": "#b06010",       # warning, run continues
     "error":  "#b02020",       # aborted
     "value":    "#2f5d8a",       # numbers and results
-    "quiet":   "#6b7684",       # secondary
+    # Measured against the footer, which the desktop paints #efefef:
+    # the old #6b7684 gave 4.0, this gives 4.5, the usual floor for
+    # small type.
+    "quiet":   "#646e7b",       # secondary
     "text":    "#222222",
     # Surfaces -- GUI only
     "frame":  "#cfd8e3",
@@ -442,7 +445,13 @@ COLOURS = {
     "head":    "#eef2f7",
     "sheet":   "#ffffff",
     "stripe":  "#dce6f2",
-    "off":     "#b9c4d0",       # disabled button
+    # A switched-off button stays visible and keeps its own colour,
+    # only muted -- flat grey reads as a different kind of thing, and
+    # the two buttons of a pair then look as if only one were off.
+    # Measured: #3a5c80 on #c6d6e6 gives a contrast of 4.7, so the
+    # label is still readable.
+    "off":     "#c6d6e6",       # disabled button: the fill, muted
+    "off_text": "#3a5c80",      # disabled button: what stands on it
 }
 
 # Same roles for a dark desktop: same hues, lighter and less saturated.
@@ -461,7 +470,8 @@ COLOURS_DARK = {
     "head":    "#2b333d",
     "sheet":   "#1d232a",
     "stripe":  "#33404f",
-    "off":     "#3a434e",
+    "off":     "#2c3a48",
+    "off_text": "#93a9c0",
 }
 
 
@@ -16849,14 +16859,6 @@ def gui():
 
     tabs = QtWidgets.QTabWidget()
     vertical.addWidget(tabs, 1)
-    # Top right of the tab bar: the things that are set up once and then
-    # left alone. They are not a step of the work, so they get no tab.
-    settings_button = QtWidgets.QPushButton(T('Settings ...'))
-    settings_button.setFlat(True)
-    hint(settings_button, T('Key for auphonic.com, and whether Resolve '
-                            'answers.'))
-    settings_button.clicked.connect(lambda: settings_open())
-    tabs.setCornerWidget(settings_button, Qt.TopRightCorner)
 
     def scroll_sheet():
         """Return a scrolling tab; the settings outgrow the window."""
@@ -17388,10 +17390,18 @@ def gui():
             # further points beside a finished sentence reads like a
             # punchline instead of a hint.
             if note is not None:
-                note.setText(T('No files or project opened yet.')
-                             if 1 in pending
-                             else T('Cannot start yet -- the details are '
-                                    'in the tooltip of the Start button.'))
+                # Nothing opened yet is where everybody starts, not a
+                # fault: quiet type. The warning colour is kept for the
+                # case where something really is missing.
+                if 1 in pending:
+                    note.setText(T('No files or project opened yet.'))
+                    note.setStyleSheet("color: %s;" % COLOURS["quiet"])
+                else:
+                    note.setText(T('Cannot start yet -- the details are '
+                                   'in the tooltip of the Start '
+                                   'button.'))
+                    note.setStyleSheet(
+                        "color: %s;" % COLOURS["warning"])
                 note.setVisible(True)
         else:
             start_run_env_curve.setToolTip(T('Measure, align, process, '
@@ -20974,7 +20984,7 @@ def gui():
     # Why the start button is grey, in words and in view: a tooltip is read
     # only by somebody who already guesses there is one. Just the first
     # reason -- the rest is in the tooltip, and each tab carries its tick.
-    start_note = label("", COLOURS["warning"])
+    start_note = label("", COLOURS["quiet"])
     start_note.setWordWrap(True)
     start_note.setMaximumWidth(430)
     start_note.setVisible(False)
@@ -20997,14 +21007,38 @@ def gui():
     hint(preview_button,
             T('Measure only -- nothing is written or uploaded.'))
     foot.addWidget(preview_button)
+    # The two run buttons are one pair and switch off the same way: both
+    # keep their shape and fade into the same muted blue. The rank stays
+    # readable -- the main action is filled, the dry run only outlined --
+    # but neither of them looks pressable while it is off.
     start_run.setStyleSheet(
         "QPushButton { background: %s; color: %s; font-weight: bold; "
-        "border: 0px; border-radius: 5px; padding: 7px 22px; }"
-        "QPushButton:disabled { background: %s; color: %s; }"
+        "border: 1px solid %s; border-radius: 5px; padding: 6px 21px; }"
+        "QPushButton:disabled { background: %s; color: %s; "
+        "border-color: %s; }"
+        "QPushButton:hover:!disabled { background: %s; border-color: %s; }"
+        % (COLOURS["heading"], COLOURS["sheet"], COLOURS["heading"],
+           COLOURS["off"], COLOURS["off_text"], COLOURS["off"],
+           COLOURS["value"], COLOURS["value"]))
+    preview_button.setStyleSheet(
+        "QPushButton { background: %s; color: %s; "
+        "border: 1px solid %s; border-radius: 5px; padding: 6px 17px; }"
+        "QPushButton:disabled { background: transparent; color: %s; "
+        "border-color: %s; }"
         "QPushButton:hover:!disabled { background: %s; }"
-        % (COLOURS["heading"], COLOURS["sheet"], COLOURS["off"],
-           COLOURS["quiet"], COLOURS["value"]))
+        % (COLOURS["box"], COLOURS["heading"], COLOURS["heading"],
+           COLOURS["off_text"], COLOURS["off"], COLOURS["backdrop"]))
     hint(start_run, T('Measure, align, process, write files.'))
+    # Settings belongs with the buttons, not beside the tabs: it is not
+    # a step of the work, so it stays flat and keeps its distance, but
+    # the footer is where a button is looked for.
+    settings_button = QtWidgets.QPushButton(T('Settings ...'))
+    settings_button.setFlat(True)
+    hint(settings_button, T('Key for auphonic.com, and whether Resolve '
+                            'answers.'))
+    settings_button.clicked.connect(lambda: settings_open())
+    foot.addSpacing(18)
+    foot.addWidget(settings_button)
 
     # ------------------------------------------------------------------
     # Project file
