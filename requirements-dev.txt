@@ -1,0 +1,4 @@
+# Only for running the test suite in tests/. The program itself does not
+# need this.
+-r requirements.txt
+pyspellchecker

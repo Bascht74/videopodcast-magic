@@ -1,0 +1,93 @@
+# The test suite
+
+81 tests against `../videopodcast-magic.py`.
+
+```bash
+bash run.sh              # all of them, several at a time
+WORKERS=1 bash run.sh    # one after another, easier to read
+python3 speakers_test.py # a single one
+```
+
+A test counts as green when it returns 0 and prints neither a traceback
+nor `FAIL`. A test that finds nothing to work on prints `SKIPPED:` and is
+counted apart -- the summary line then reads `green: 50 skipped: 1`, never
+green for a test that checked nothing.
+
+Needed: `python3`, `ffmpeg`, `ffprobe`, `numpy`, `PySide6` and
+`pyspellchecker` (with its German and English word lists -- without it
+`language_test.py` turns red rather than skipping). The window tests run
+offscreen (`QT_QPA_PLATFORM=offscreen`), so no display is required.
+
+## Fixtures and temporary material
+
+Every test builds its own material below `TMPDIR`. `run.sh` points that at
+one folder per run and removes it at the end -- most tests do not clean up
+after themselves, and a whole run is several gigabytes. `KEEP_TEMP=1 bash
+run.sh` leaves it in place for looking at.
+
+Four folders are shared and read-only, so `fixtures.sh` builds them once
+before the tests fan out -- otherwise `hdr_test.py` and
+`foreign_files_test.py` would race for `/tmp/foreign`:
+
+| Folder | Holds |
+|---|---|
+| `/tmp/foreign` | everything that is not a camera file: text, an empty file, a truncated MP4, a folder |
+| `/tmp/hdrtest` | one file per HDR case: HDR10, HLG, no static metadata, the wrong curve, SDR |
+| `/tmp/playertest` | a minute of picture and sound, enough for a cut of five shots |
+| `/tmp/interview` | a whole small production: three recordings, three cameras, a project file |
+
+A finished folder carries a `.built` marker; a build broken off half way
+is therefore built again rather than taken for complete. `bash fixtures.sh
+force` rebuilds regardless.
+
+## Environment
+
+| Variable | Effect |
+|---|---|
+| `VPM_SCRIPT` | which script is tested (default: the one in the folder above) |
+| `VPM_MEDIA` | folder with a project to open (default: `/tmp/interview`, which `fixtures.sh` builds) |
+| `VPM_SHOTS` | where the window screenshots go (default: `tests/shots/`) |
+| `WORKERS` | how many tests at once (default: processors + 1, at most 12) |
+| `KEEP_TEMP` | keep the run's temporary folder |
+
+Five tests need a folder holding `videopodcast-magic_Interview_2.json` and
+the files it points at: `start_button_test.py`, `footer_bar_test.py`,
+`run_bar_test.py` and the two screenshot scripts `preview_shot.py` and
+`assignment_shot.py`, which `run.sh` does not collect. `fixtures.sh` builds
+a synthetic one in `/tmp/interview`, so they run from a fresh checkout.
+Point `VPM_MEDIA` at real recordings to run them against those instead;
+where neither is there they print `SKIPPED:` and are counted apart.
+
+## The ratchets
+
+`style_test.py`, `language_test.py` and `consistency_test.py` count things
+that are meant to go to zero and keep the count in `state/`. A count may
+fall, never rise. Today:
+
+| Counter | Stands at |
+|---|---|
+| German passages in comments and docstrings | 0 |
+| narrating comments | 0 |
+| text lines over 79 characters | 0 |
+| docstring heading defects | 0 |
+| lazy plurals (`file(s)`) | 0 |
+| uncoloured messages | 0 |
+| German words in the source | 0 |
+| project keys nobody reads | 10 |
+
+So any German word or `(s)` plural that creeps back into the source turns
+the suite red. **Do not delete `state/`**: a missing count is treated as
+"no baseline yet" and seeded from the current source, which would quietly
+disarm the ratchet.
+
+## What these tests do not do
+
+Three of them -- `render`, `render_hdr`, `multicam` -- print their result
+and compare it to nothing. They catch a crash, not a wrong number, and
+they will stay that way: what they build is a render job or a multicam
+clip for DaVinci Resolve, and only Resolve can say whether it is right.
+Each of the three says so in its docstring rather than leaving the reader
+to find out.
+
+The other five that used to be silent -- `colours`, `metrics`,
+`dualmono`, `crosstalk`, `intro` -- now measure what they print.

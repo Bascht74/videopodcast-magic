@@ -1,0 +1,152 @@
+# -*- coding: utf-8 -*-
+"""Clip colours: one per angle, and the same one every time.
+
+In Resolve the colour is what tells the cutter at a glance which camera a
+clip comes from, so two things have to hold: every clip of one camera
+carries the same colour, and two cameras never share one while there are
+colours left. Resolve accepts only its own sixteen names -- anything else
+is silently refused -- so the run has to find out which ones this
+installation takes rather than trust a list.
+"""
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
+    os.path.dirname(HERE), "videopodcast-magic.py")
+import importlib.util, sys
+spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
+bad = []
+
+
+def check(what, ok, detail=""):
+    print("  %-54s %s%s" % (what, "ok" if ok else "FAIL",
+                            "" if ok else "   " + detail))
+    if not ok:
+        bad.append(what)
+
+
+# Resolve takes only these names. The set is swapped below to see what
+# happens on an installation that knows fewer of them.
+REAL_COLOURS = {"Orange", "Apricot", "Yellow", "Lime", "Olive", "Green",
+                "Teal", "Navy", "Blue", "Purple", "Violet", "Pink", "Tan",
+                "Beige", "Brown", "Chocolate"}
+
+
+class Item(object):
+    """One clip in the timeline, as much of it as the colouring needs."""
+
+    def __init__(self, name):
+        self.name = name
+        self.colour = None
+
+    def GetName(self):
+        return self.name
+
+    def GetClipColor(self):
+        return self.colour
+
+    def ClearClipColor(self):
+        self.colour = None
+        return True
+
+    def SetClipColor(self, wanted):
+        if wanted in REAL_COLOURS:
+            self.colour = wanted
+            return True
+        return False
+
+
+class TL(object):
+    def __init__(self, item):
+        self.item = item
+
+    def GetTrackCount(self, kind):
+        return 1
+
+    def GetItemListInTrack(self, kind, track):
+        return self.item
+
+
+PER_CAMERA = 3
+
+
+def run(speaker_count):
+    """Colour a timeline of one wide shot and this many speakers."""
+    cameras = [{"camera": "Wide", "track": "Wide", "file": "W.mov",
+                "source": "W.mov", "wide": True}]
+    for i in range(speaker_count):
+        cameras.append({"camera": "C%d" % i, "track": "Speaker %d" % i,
+                        "file": "C%d.mov" % i, "source": "C%d.mov" % i,
+                        "wide": False})
+    item = []
+    for cam in cameras:
+        for _n in range(PER_CAMERA):
+            item.append(Item(cam["file"]))
+    vpm.colour_clips_by_camera(TL(item), cameras)
+    return cameras, item
+
+
+def per_camera(item):
+    """Return {file name: the colours its clips carry}."""
+    out = {}
+    for clip in item:
+        out.setdefault(clip.GetName(), set()).add(clip.colour)
+    return out
+
+
+print("1. Every clip gets a colour, one per camera")
+for n in (1, 2, 3, 5, 8, 15):
+    cameras, item = run(n)
+    angles = n + 1
+    groups = per_camera(item)
+    check("%2d angles: every clip is coloured" % angles,
+          all(c.colour for c in item))
+    check("%2d angles: each camera keeps one colour" % angles,
+          all(len(v) == 1 for v in groups.values()),
+          str({k: v for k, v in groups.items() if len(v) > 1}))
+    check("%2d angles: no two cameras share a colour" % angles,
+          len(set(c.colour for c in item)) == angles,
+          "%d colours for %d angles"
+          % (len(set(c.colour for c in item)), angles))
+    check("%2d angles: only names Resolve knows" % angles,
+          all(c.colour in REAL_COLOURS for c in item))
+
+print("\n2. More angles than colours")
+cameras, item = run(20)
+groups = per_camera(item)
+check("every clip is still coloured", all(c.colour for c in item))
+check("each camera still keeps one colour",
+      all(len(v) == 1 for v in groups.values()))
+check("all sixteen colours are used",
+      len(set(c.colour for c in item)) == len(REAL_COLOURS),
+      str(len(set(c.colour for c in item))))
+
+print("\n3. An installation that knows only three names")
+REAL_COLOURS = {"Blue", "Green", "Orange"}
+cameras, item = run(4)
+groups = per_camera(item)
+check("every clip is coloured with what is left",
+      all(c.colour for c in item))
+check("and only with names it accepts",
+      all(c.colour in REAL_COLOURS for c in item))
+check("each camera still keeps one colour",
+      all(len(v) == 1 for v in groups.values()),
+      str({k: v for k, v in groups.items() if len(v) > 1}))
+check("three colours for five angles, so two repeat",
+      len(set(c.colour for c in item)) == 3,
+      str(sorted(set(c.colour for c in item))))
+
+print("\n4. Nothing to colour")
+REAL_COLOURS = {"Blue"}
+empty = TL([])
+vpm.colour_clips_by_camera(empty, [{"camera": "A", "track": "A",
+                                    "file": "A.mov", "source": "A.mov",
+                                    "wide": False}])
+check("an empty timeline does not raise", True)
+
+print()
+if bad:
+    print("FAIL: %d of the checks" % len(bad))
+    sys.exit(1)
+print("All good.")

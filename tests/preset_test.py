@@ -1,0 +1,75 @@
+# -*- coding: utf-8 -*-
+"""Preflight for the preset: does it hold what the run needs?"""
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
+    os.path.dirname(HERE), "videopodcast-magic.py")
+import importlib.util, sys
+spec = importlib.util.spec_from_file_location(
+    "vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
+
+CASES = {
+ "fits": {"algorithms": {"loudnesstarget": -16, "leveler": True,
+                         "denoise": True, "crossgate": True,
+                         "filtering": "autoeq"},
+          "multi_input_files": [{"id": "Speaker",
+                                 "algorithms": {"denoise": True,
+                                                "filtering": "autoeq"}}]},
+ "other loudness": {"algorithms": {"loudnesstarget": -23, "leveler": True},
+                    "multi_input_files": [{"id": "A",
+                                           "algorithms": {"denoise": True}}]},
+ "no track template": {"algorithms": {"loudnesstarget": -16},
+                       "multi_input_files": []},
+ "empty track template": {"algorithms": {"loudnesstarget": -16},
+                          "multi_input_files": [{"id": "A",
+                                                 "algorithms": {}}]},
+}
+# What each case has to lead to, and why. The run asks for -16 LUFS and
+# for multitrack.
+WANTED = {
+    # Everything the run needs is in the preset: nothing to say.
+    "fits": False,
+    # The preset would deliver -23. Going ahead would mean the whole
+    # production comes back at the wrong loudness, and that is only
+    # noticed at the end.
+    "other loudness": True,
+    # Without a track in the preset our tracks come back unprocessed --
+    # the one thing multitrack is for.
+    "no track template": True,
+    # A track is there but nothing is switched on. That is a choice
+    # somebody may have made, so it is said and not stopped.
+    "empty track template": False,
+}
+
+error = []
+def check(name, ok, extra=""):
+    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        error.append(name)
+
+verdict = {}
+for name, p in CASES.items():
+    vpm.read_preset = lambda key, uuid, _p=p: _p
+    print("== %s" % name)
+    findings = vpm.check_preset("key", "uuid", "Podcast_Multitrack",
+                                -16.0, True)
+    stop = vpm.report_findings(findings, "does the preset fit the run?",
+                               False)
+    verdict[name] = bool(stop)
+    print("  -> stop: %s\n" % stop)
+
+print("Does it stop where it has to?")
+for name, wanted in WANTED.items():
+    check("%-22s -> %s" % (name, "stop" if wanted else "go"),
+          verdict.get(name) is wanted,
+          "" if verdict.get(name) is wanted else "got %s" % verdict.get(name))
+check("every case was tried", set(verdict) == set(WANTED),
+      str(sorted(set(WANTED) ^ set(verdict))))
+
+print()
+if error:
+    print("FAIL: " + ", ".join(error))
+    sys.exit(1)
+print("All good.")

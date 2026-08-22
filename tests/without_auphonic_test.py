@@ -1,0 +1,142 @@
+# -*- coding: utf-8 -*-
+"""#80: a multitrack run that never touches auphonic.com."""
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
+    os.path.dirname(HERE), "videopodcast-magic.py")
+import importlib.util, json, shutil, subprocess, sys, wave
+import numpy as np
+sys.path.insert(0, os.path.dirname(
+    os.path.abspath(__file__)))
+from fixture_root import fixture
+
+os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
+
+error = []
+
+
+def check(name, ok, extra=""):
+    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        error.append(name)
+
+
+D = fixture("withoutauphonic")
+shutil.rmtree(D, ignore_errors=True)
+os.makedirs(D)
+RATE, LENGTH = 48000, 40.0
+TURNS = {"Host": [(1, 8), (17, 24), (33, 39)],
+         "Guest": [(9, 16), (25, 32)]}
+
+
+def voice(turns, seed):
+    rng = np.random.default_rng(seed)
+    x = np.zeros(int(LENGTH * RATE))
+    for a, b in turns:
+        n = int((b - a) * RATE)
+        env = 0.3 + 0.7 * np.abs(np.sin(np.linspace(0, 50, n)))
+        x[int(a * RATE):int(a * RATE) + n] = rng.normal(0, 0.25, n) * env
+    return x
+
+
+def write(path, x):
+    with wave.open(path, "wb") as f:
+        f.setnchannels(1); f.setsampwidth(2); f.setframerate(RATE)
+        f.writeframes((np.clip(x, -1, 1) * 32000).astype("<i2").tobytes())
+
+
+host, guest = voice(TURNS["Host"], 1), voice(TURNS["Guest"], 2)
+bleed = 10 ** (-8.0 / 20)            # under the 3:1 rule on purpose
+noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
+write(D + "/Host.wav", host + bleed * guest + noise)
+write(D + "/Guest.wav", guest + bleed * host + noise)
+write(D + "/room.wav", 0.6 * host + 0.6 * guest + noise)
+for name, late in (("CamHost", 0.0), ("CamGuest", 1.5)):
+    subprocess.run(
+        ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+         "testsrc=size=320x180:rate=25:duration=%.1f" % (LENGTH - late),
+         "-ss", "%.2f" % late, "-i", D + "/room.wav",
+         "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
+         "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
+         D + "/%s.mov" % name], check=True)
+
+plan = {"format": vpm.FILE_FORMAT, "created_by": "test", "production": "WA",
+        "tracks_of": [
+            {"audio": D + "/Host.wav", "blocks": [D + "/Host.wav"],
+             "speakers": "Host", "camera": D + "/CamHost.mov",
+             "camera_audio": False},
+            {"audio": D + "/Guest.wav", "blocks": [D + "/Guest.wav"],
+             "speakers": "Guest", "camera": D + "/CamGuest.mov",
+             "camera_audio": False}],
+        "cameras": [{"video": D + "/CamHost.mov", "name": "CamHost"},
+                    {"video": D + "/CamGuest.mov", "name": "CamGuest"}]}
+with open(D + "/assign.json", "w", encoding="utf-8") as f:
+    json.dump(plan, f)
+
+OUT = D + "/out"
+print("1. The run goes through without a key")
+p = subprocess.run(
+    [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+     "--assign", D + "/assign.json", "--out", OUT, "--no-metrics",
+     "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",
+     D + "/CamHost.mov", D + "/CamGuest.mov"],
+    capture_output=True, text=True, timeout=900,
+    env=dict(os.environ, LANG="C", LC_ALL="C"))
+out = (p.stdout or "") + (p.stderr or "")
+check("return code 0", p.returncode == 0, str(p.returncode))
+check("no traceback", "Traceback" not in out,
+        out[out.find("Traceback"):][:90])
+check("it says what is missing", "WITHOUT AUPHONIC.COM" in out)
+check("nothing was uploaded", "auphonic.com/api" not in out
+        and "Uploading" not in out)
+check("the bleed was measured", "Bleed measured" in out, "")
+
+print("\n2. The files are there")
+for tail in ("_speakers.csv", "_cameracut.csv", "_resolve.json"):
+    check("WA%s written" % tail, os.path.exists(OUT + "/WA" + tail))
+for name in ("CamHost.mov", "CamGuest.mov"):
+    check("%s written" % name, os.path.exists(OUT + "/" + name))
+check("the mix is there",
+        os.path.exists(OUT + "/auphonic-tracks/final_Full-Mix.wav"))
+
+print("\n3. The speakers were told apart")
+rows = open(OUT + "/WA_speakers.csv", encoding="utf-8").read().splitlines()[1:]
+found = {}
+for line in rows:
+    part = line.split(",")
+    found[part[0]] = found.get(part[0], 0.0) + float(part[4])
+print("   ", {k: round(v) for k, v in found.items()})
+check("both speakers appear", set(found) == {"Host", "Guest"}, str(set(found)))
+check("Host about 20 s", 15 <= found.get("Host", 0) <= 25,
+        str(round(found.get("Host", 0))))
+check("Guest about 14 s", 10 <= found.get("Guest", 0) <= 19,
+        str(round(found.get("Guest", 0))))
+
+print("\n4. And the cut alternates")
+cut = open(OUT + "/WA_cameracut.csv", encoding="utf-8").read().splitlines()[1:]
+cameras = [line.split(",")[1] for line in cut]
+print("   ", len(cut), "shots:", cameras)
+check("more than two shots", len(cut) > 2, str(len(cut)))
+check("both cameras are used", set(cameras) == {"CamHost", "CamGuest"},
+        str(set(cameras)))
+
+print("\n5. The handover holds the same cut")
+d = json.load(open(OUT + "/WA_resolve.json", encoding="utf-8"))
+check("format stamped", d.get("format") == vpm.FILE_FORMAT)
+check("cut in the file", len(d.get("cut") or []) == len(cut),
+        "%d/%d" % (len(d.get("cut") or []), len(cut)))
+# The track name is the speaker where one is assigned; the camera name
+# stands beside it.
+check("both cameras in the file",
+        {cam.get("camera") for cam in (d.get("cameras") or [])}
+        == {"CamHost", "CamGuest"},
+        str([cam.get("camera") for cam in (d.get("cameras") or [])]))
+
+print()
+if error:
+    print("FAIL: " + ", ".join(error))
+    sys.exit(1)
+print("All good.")

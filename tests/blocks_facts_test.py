@@ -1,0 +1,174 @@
+# -*- coding: utf-8 -*-
+"""The channels are judged over the whole recording, not over one block.
+
+Measured on a real pair of five minute blocks from a 32 channel mixer:
+the first block was the soundcheck and read as one used channel pair, the
+second was the show and read as ten tracks. Judging the first block alone
+would have thrown nine tracks away.
+
+So each block is measured on its own -- they do not all fit in memory at
+once -- and the answers are combined: a channel counts as used where it
+carries something in any block, and the pair judgement comes from the
+block where that pair is loudest.
+"""
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
+    os.path.dirname(HERE), "videopodcast-magic.py")
+import importlib.util, struct, sys, tempfile
+import numpy as np
+spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
+SR = vpm.SR
+WORK = tempfile.mkdtemp(prefix="blocksfacts_")
+bad = []
+
+
+def check(what, ok, detail=""):
+    print("%-58s %s%s" % (what, "ok" if ok else "FAIL",
+                          "" if ok else "   " + detail))
+    if not ok:
+        bad.append(what)
+
+
+def voice(seed, n):
+    """Speech-like noise in bursts, so the pair judgement has something."""
+    r = np.random.default_rng(seed)
+    x = np.zeros(n)
+    t = 0
+    while t < n - SR:
+        length = int(r.uniform(0.15, 0.45) * SR)
+        block = r.normal(size=length)
+        spectrum = np.fft.rfft(block)
+        f = np.fft.rfftfreq(length, 1.0 / SR)
+        spectrum[(f < 200) | (f > 3000)] = 0
+        piece = np.fft.irfft(spectrum, length)
+        piece /= (np.abs(piece).max() or 1.0)
+        x[t:t + length] += 0.5 * np.hanning(length) * piece
+        t += length + int(r.uniform(0.1, 0.4) * SR)
+    return x
+
+
+def write(path, columns):
+    x = np.stack(columns, axis=1)
+    ch = x.shape[1]
+    b = (np.clip(x, -1, 1) * 32767).astype("<i2").tobytes()
+    with open(path, "wb") as f:
+        f.write(b"RIFF" + struct.pack("<I", 36 + len(b)) + b"WAVE")
+        f.write(b"fmt " + struct.pack("<IHHIIHH", 16, 1, ch, SR,
+                                      SR * 2 * ch, 2 * ch, 16))
+        f.write(b"data" + struct.pack("<I", len(b)) + b)
+    return path
+
+
+DURATION = 12.0
+n = int(DURATION * SR)
+a = voice(11, n)
+b = voice(22, n)
+hush = np.zeros(n)
+
+# Block one: four channels, and only the first two carry anything at all
+# -- and those two so quietly that they are under the absolute floor.
+one = write(os.path.join(WORK, "Mix_01.wav"),
+            [a * 0.00002, b * 0.00002, hush, hush])
+# Block two: the same four channels, now with the recording on them. One
+# and two are two microphones a good way apart, three and four a pair.
+def late(x, ms):
+    d = int(round(ms / 1000.0 * SR))
+    y = np.zeros_like(x)
+    y[d:] = x[:len(x) - d]
+    return y
+
+
+# Three and four stand together somewhere else in the room, so both
+# hear both voices -- and both hear them equally late. That delay is
+# what tells them apart from their neighbour: channel three shares
+# plenty with channel two, but not at the same moment.
+two = write(os.path.join(WORK, "Mix_02.wav"),
+            [a + 0.05 * late(b, 6.0),
+             b + 0.05 * late(a, 6.0),
+             0.6 * late(a, 3.0) + 0.6 * late(b, 3.0),
+             0.5 * late(a, 3.0) + 0.7 * late(b, 3.0)])
+
+first = vpm.channel_facts_cached(one)
+second = vpm.channel_facts_cached(two)
+both = vpm.blocks_facts([one, two])
+
+check("the quiet block on its own has nothing left",
+      all(first["silent"]), str(first["silent"]))
+check("the loud block has all four channels",
+      not any(second["silent"]), str(second["silent"]))
+check("together, the recording has all four", not any(both["silent"]),
+      str(both["silent"]))
+check("and the levels are the louder block's",
+      both["level"] == second["level"],
+      "%s against %s" % (both["level"], second["level"]))
+
+pairs = vpm.channel_joins(both)
+check("three neighbours are judged", len(pairs) == 3, str(len(pairs)))
+check("channels 1 and 2 are read as two microphones",
+      pairs[0][1] is False, str(pairs[0]))
+check("channels 3 and 4 as one stereo track",
+      pairs[2][1] is True, str(pairs[2]))
+check("the judgement is the loud block's",
+      [p[1] for p in pairs] == [q[1] for q in vpm.channel_joins(second)])
+
+tracks = vpm.channel_tracks(both, "Mix")
+check("so the recording gives three tracks",
+      len([t for t in tracks if not t[2]]) == 3,
+      str([t[1] for t in tracks if not t[2]]))
+
+#---------------------------------- the pair is judged where it was audible
+# A block in which one of the two channels is silent measures nothing for
+# that pair. Taking its answer because it happens to be the loudest block
+# overall would mean taking no answer at all.
+def facts(level, zero):
+    n = len(level)
+    highest = max(level)
+    silent = [x < highest - vpm.SILENT_BELOW_DB or x < vpm.QUIET_BELOW_DBFS
+              for x in level]
+    return {"channels": n, "level": level, "silent": silent,
+            "pair_same": [None] * (n - 1), "pair_zero": list(zero),
+            "pair_apart": [None] * (n - 1), "readable": True}
+
+
+loud_but_blind = facts([-20.0, -20.0, -30.0, -110.0], [0.9, 0.1, None])
+quiet_but_seeing = facts([-40.0, -40.0, -45.0, -45.0], [0.9, 0.1, 0.95])
+kept = dict(vpm._PROBE)
+try:
+    vpm.channel_facts_cached = lambda p: (loud_but_blind if p == "loud"
+                                          else quiet_but_seeing)
+    both = vpm.blocks_facts(["loud", "quiet"])
+    pairs = vpm.channel_joins(both)
+    check("the pair is judged in the block that could see it",
+          len(pairs) == 3 and pairs[2][1] is True,
+          str(pairs[2] if len(pairs) > 2 else pairs))
+    check("and it is not reported as unmeasurable",
+          "not recognisable" not in (pairs[2][3] if len(pairs) > 2 else ""),
+          str(pairs[2][3] if len(pairs) > 2 else ""))
+finally:
+    vpm.channel_facts_cached = lambda p: vpm.probe_remember(
+        "channelfacts", p, lambda: vpm.channel_facts(p))
+    vpm._PROBE.clear()
+    vpm._PROBE.update(kept)
+
+#------------------------------------------------------- the simple cases
+check("one block alone is just that block's answer",
+      vpm.blocks_facts([two])["silent"] == second["silent"])
+check("no blocks at all is not readable",
+      vpm.blocks_facts([])["readable"] is False)
+
+#--------------------------------------------------- what has to match to join
+mono = write(os.path.join(WORK, "Mono_01.wav"), [a])
+fits, why = vpm.shapes_match(one, two)
+check("two blocks of the same shape fit", fits and not why)
+fits, why = vpm.shapes_match(one, mono)
+check("a different channel count does not", not fits, why)
+check("and the reason names both counts", "4" in why and "1" in why, why)
+
+print()
+if bad:
+    print("FAIL: %d of the checks" % len(bad))
+    sys.exit(1)
+print("all checks passed")

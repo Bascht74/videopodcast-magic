@@ -1,0 +1,27 @@
+__pycache__/
+*.pyc
+.DS_Store
+
+# Recordings and screenshots: the tests make these, they do not belong here.
+tests/media/
+tests/shots/
+
+# The program writes its log next to itself.
+videopodcast-magic.log
+videopodcast-magic_1.log
+
+# Working notes from real productions: material for the two of us, not
+# part of what is delivered. They stay on Sebastian's disk.
+docs/notes/
+
+# Folders the cleanup script fills. They hold superseded files, not code.
+zu_loeschen/
+_to_delete/
+
+# Measurement scraps from a real production.
+*.wav
+*.mov
+*.mp4
+
+# Claude Code keeps its local settings here.
+.claude/settings.local.json

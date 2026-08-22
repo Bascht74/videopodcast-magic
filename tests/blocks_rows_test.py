@@ -1,0 +1,164 @@
+# -*- coding: utf-8 -*-
+"""A recording of several blocks must not wait for ever to be judged.
+
+The channel rows of a recording are drawn from the measurement over all
+its blocks, and the row hangs on the first one. Each finished block asked
+for a redraw of its own row -- which only the first block has. So the
+last block to finish redrew nothing, and a recording of two blocks said
+"measurement running ..." for as long as the window stayed open, and
+work was long done and the bar had gone.
+"""
+import os
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
+    os.path.dirname(HERE), "videopodcast-magic.py")
+import importlib.util, shutil, sys, tempfile, wave
+import numpy as np
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+from PySide6 import QtCore, QtWidgets
+app = QtWidgets.QApplication(sys.argv[:1])
+spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
+vpm.list_presets = lambda key: []
+vpm.load_api_key = lambda: ""
+
+error = []
+
+
+def check(name, ok, extra=""):
+    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        error.append(name)
+
+
+RATE, SEC, CH = 48000, 5, 24
+folder = tempfile.mkdtemp(prefix="vpm_blockrows_")
+
+
+def block(name):
+    """A mixer file: a stereo pair, two microphones, the rest unused."""
+    t = np.arange(RATE * SEC) / float(RATE)
+    rows = []
+    for c in range(CH):
+        if c in (0, 1):
+            rows.append(0.4 * np.sin(2 * np.pi * 300 * t))
+        elif c == 2:
+            rows.append(0.4 * np.sin(2 * np.pi * 800 * t))
+        elif c == 3:
+            rows.append(0.4 * np.sin(2 * np.pi * 1900 * t))
+        else:
+            rows.append(np.zeros_like(t))
+    x = (np.stack(rows, axis=1) * 32767).astype("<i2")
+    path = os.path.join(folder, name)
+    with wave.open(path, "wb") as f:
+        f.setnchannels(CH); f.setsampwidth(2); f.setframerate(RATE)
+        f.writeframes(x.tobytes())
+    return path
+
+
+# Five seconds apart on the clock in the name, five seconds long: the
+# second block continues the first, so the two are one recording.
+FILES = [block("r_260808_185628.wav"), block("r_260808_185633.wav")]
+QtWidgets.QFileDialog.getOpenFileNames = staticmethod(
+    lambda *a, **k: (FILES, ""))
+QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
+
+
+def win():
+    for x in app.topLevelWidgets():
+        if x.windowTitle().startswith("Video Podcast"):
+            return x
+
+
+def channel_rows():
+    out = []
+    for t in win().findChildren(QtWidgets.QTreeWidget):
+        it = QtWidgets.QTreeWidgetItemIterator(t)
+        while it.value():
+            x = it.value()
+            if (x.data(0, QtCore.Qt.UserRole + 2) or "") == "channel":
+                out.append((x.text(0).strip(), x.text(2)))
+            it += 1
+    return out
+
+
+n = [0]
+waited = [0]
+
+
+def done():
+    print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+    app.quit()
+
+
+def after_tick(was, bar):
+    app.processEvents()
+    check("the list stayed where it was", abs(bar.value() - was) <= 2,
+          "%d, was %d" % (bar.value(), was))
+    done()
+
+
+def step():
+    i = n[0]; n[0] += 1
+    try:
+        if i == 0:
+            win().show(); win().resize(1200, 800); app.processEvents()
+            for w in win().findChildren(QtWidgets.QPushButton):
+                if "add files" in w.text().lower():
+                    w.click()
+                    break
+        else:
+            rows = channel_rows()
+            still = [r for r in rows if "..." in r[1] or "not measured" in r[1]]
+            if (not rows or still) and waited[0] < 30:
+                waited[0] += 1; n[0] = 1
+                QtCore.QTimer.singleShot(2000, step); return
+            print("   rows: %s" % rows[:3])
+            check("the recording was judged, not left waiting",
+                  bool(rows) and not still, str(rows[:2]))
+            check("one row per channel", len(rows) == CH, str(len(rows)))
+            check("the pair was found",
+                  any("one stereo track" in r[1] for r in rows), str(rows))
+            check("the unused inputs are named",
+                  sum(1 for r in rows if "unused" in r[1]) == CH - 4,
+                  str(len([1 for r in rows if "unused" in r[1]])))
+            print("\n2. A tick does not throw the list back to the top")
+            # Ticking a channel halfway down replaces every row under the
+            # file. The list would otherwise jump to the top at every
+            # click, and on a mixer file that means hunting for the place
+            # again each time.
+            tree = win().findChildren(QtWidgets.QTreeWidget)[0]
+            tree.expandAll()
+            # Small enough that two dozen channels do not fit: without a
+            # scrollbar there is no position to lose.
+            win().resize(1000, 420); app.processEvents()
+            bar = tree.verticalScrollBar()
+            check("the list is long enough to scroll", bar.maximum() > 0,
+                  str(bar.maximum()))
+            bar.setValue(bar.maximum()); app.processEvents()
+            was = bar.value()
+            box = None
+            for w in tree.findChildren(QtWidgets.QCheckBox):
+                if w.isVisible():
+                    box = w
+            check("a tick was found to click", box is not None)
+            if box is not None and was:
+                box.setChecked(not box.isChecked())
+                app.processEvents()
+                QtCore.QTimer.singleShot(1500, lambda: after_tick(was, bar))
+                return
+            done()
+            return
+    except Exception:
+        import traceback; traceback.print_exc()
+        error.append("crash"); app.quit(); return
+    QtCore.QTimer.singleShot(2000, step)
+
+
+QtCore.QTimer.singleShot(800, step)
+QtCore.QTimer.singleShot(150000, app.quit)
+sys.argv = ["videopodcast-magic.py"]
+vpm.gui()
+shutil.rmtree(folder, ignore_errors=True)
+sys.exit(1 if error else 0)
