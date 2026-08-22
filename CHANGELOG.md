@@ -1,74 +1,86 @@
 # Changelog
 
-## 1.1.0-beta
+All notable changes to this project are documented in this file. The
+format is based on [Keep a Changelog][kac], and the numbers are given
+out under [Semantic Versioning][semver]. English only, unlike the
+manual: this is for whoever picks the script up from a repository.
 
-**Two switched-off buttons now look switched off in the same way.**
-**Start** kept its filled shape and its own colour while **Dry run
-(writes nothing)** went pale and flat, so one of the pair still looked
-pressable. Both now fade into the same muted blue -- filled for the main
-action, outlined for the dry run, so the rank is still readable -- and
-the label on a switched-off button was measured for contrast rather than
-guessed: 4.7 against its own background, where the old grey on grey gave
-2.6.
+Only the two releases of 2026-08-22 carry a date. The versions below
+them were numbered after the fact, and no reliable release date for them
+survives.
 
-**The opening line is no longer written in warning colour.** "No files
-or project opened yet" is where everybody starts, not a fault, and it
-now stands in quiet type. The warning colour is kept for the case where
-something really is missing. The quiet grey was darkened a shade so it
-still reads on the footer: measured against the desktop's #efefef it
-went from 4.0 to 4.5.
+## [1.1.0-beta] - 2026-08-22
 
-**Settings ... moved into the footer.** It sat beside the tabs, in the
-top right corner, where a button is not looked for. It now stands with
-the other buttons at the bottom right, flat and set apart, because it is
-not a step of the work.
+### Changed
 
-## 1.0.0-beta
+- **Settings ...** moved into the footer. It sat beside the tabs, in
+  the top right corner, where a button is not looked for. It now stands
+  with the other buttons at the bottom right, flat and set apart,
+  because it is not a step of the work.
 
-**The terms are DaVinci Resolve's now, not our own.** Looked up in
-Resolve's manual rather than assumed: `Cut in` and `Cut out` become
-**In point** and **Out point** (the manual has `In point` 171 times and
-`Cut in` not once), the two buttons that set them become **Mark In** and
-**Mark Out**, and `Minimum shot length` becomes **Minimum Edit
-Duration**. The German side follows Resolve's German window: „In
-markieren", „Out markieren", „Mindestschnittdauer", and the wide shot is
-„Weitwinkel". The switches are `--in-point`, `--out-point` and
-`--min-edit-duration`; the keys in the project file are `in_point` and
-`out_point`, so the file format counts up to **3**. An older project
-file is refused with a clear message rather than half read.
+### Fixed
 
-**A stereo pair now has to prove itself twice.** Measured on a 32
-channel drum recording: the share of what two channels hear together
-said "stereo" eight times and was wrong every time, because in one room
-every microphone hears the same drum. Two more legs decide now -- the
-spacing that comes out of the same measurement has to be under 0.3 m,
-and the pair has to stand out from the pairs beside it.
+- Two switched-off buttons now look switched off in the same way.
+  **Start** kept its filled shape and its own colour while **Dry run
+  (writes nothing)** went pale and flat, so one of the pair still looked
+  pressable. Both now fade into the same muted blue -- filled for the
+  main action, outlined for the dry run, so the rank is still readable.
+  The label on a switched-off button was measured for contrast rather
+  than guessed: 4.7 against its own background, where the old grey on
+  grey gave 2.6.
+- The opening line is no longer written in warning colour. "No files or
+  project opened yet" is where everybody starts, not a fault, and it now
+  stands in quiet type. The warning colour is kept for the case where
+  something really is missing. The quiet grey was darkened a shade so it
+  still reads on the footer: measured against the desktop's #efefef it
+  went from 4.0 to 4.5.
 
-**In a project the script creates itself, the colour space follows the
-material.** A project made a minute ago carries whatever that machine
-defaults to; measured, one starts at Rec.709 and the next at Rec.2100
-ST2084. HDR material now gets an HDR output space, SDR material Rec.709,
-and SDR is no longer delivered wrapped in HDR. A project somebody set up
-is never touched, and automatic colour management is never switched off.
+## [1.0.0-beta] - 2026-08-22
 
-**Fixed:** the Resolve part crashed after reporting two cameras with the
-same file name (two clips on one track cannot be put in an order); the
-same collision made the self check report a camera as not inserted
-although its clip was there; the footer bar stood at 170 pixels however
-wide the window was; and the run bar of a fresh run could open at full.
+### Changed
 
-**The suite runs in a fifth of the time.** Four tests waited on the
-clock instead of on a condition -- `channel_rows` spent 121 of its 123
-seconds waiting for a tick that never comes. 112 seconds became 33, and
-one test that had quietly stopped checking anything is checking again.
+- The terms are DaVinci Resolve's now, not our own. Looked up in
+  Resolve's manual rather than assumed: `Cut in` and `Cut out` become
+  **In point** and **Out point** (the manual has `In point` 171 times
+  and `Cut in` not once), the two buttons that set them become **Mark
+  In** and **Mark Out**, and `Minimum shot length` becomes **Minimum
+  Edit Duration**. The German side follows Resolve's German window: „In
+  markieren", „Out markieren", „Mindestschnittdauer", and the wide shot
+  is „Weitwinkel". The switches are `--in-point`, `--out-point` and
+  `--min-edit-duration`; the keys in the project file are `in_point`
+  and `out_point`, so the file format counts up to **3**. An older
+  project file is refused with a clear message rather than half read.
+- A stereo pair now has to prove itself twice. Measured on a 32 channel
+  drum recording: the share of what two channels hear together said
+  "stereo" eight times and was wrong every time, because in one room
+  every microphone hears the same drum. Two more legs decide now -- the
+  spacing that comes out of the same measurement has to be under 0.3 m,
+  and the pair has to stand out from the pairs beside it.
+- In a project the script creates itself, the colour space follows the
+  material. A project made a minute ago carries whatever that machine
+  defaults to; measured, one starts at Rec.709 and the next at Rec.2100
+  ST2084. HDR material now gets an HDR output space, SDR material
+  Rec.709, and SDR is no longer delivered wrapped in HDR. A project
+  somebody set up is never touched, and automatic colour management is
+  never switched off.
 
-English only, unlike the manual: this is for whoever picks the script up
-from a repository.
+### Fixed
 
-The record starts at 0.1.0. Everything before that was built without a
-changelog, and reconstructing it after the fact would mean guessing at
-dates and wording. What the older versions did is in the manual, which
-describes the program as it stands rather than how it got there.
+- The Resolve part crashed after reporting two cameras with the same
+  file name: two clips on one track cannot be put in an order.
+- The same collision made the self check report a camera as not
+  inserted although its clip was there.
+- The footer bar stood at 170 pixels however wide the window was.
+- The run bar of a fresh run could open at full.
+
+### Tests
+
+- The suite runs in a fifth of the time. Four tests waited on the clock
+  instead of on a condition -- `channel_rows` spent 121 of its 123
+  seconds waiting for a tick that never comes. 112 seconds became 33,
+  and one test that had quietly stopped checking anything is checking
+  again.
+
 ## Before 1.0
 
 What follows is the record from before the first release, counted as
@@ -76,6 +88,11 @@ What follows is the record from before the first release, counted as
 really happened, in the order they happened, and only their numbers were
 brought into this scheme. The program was written for one podcast then
 and never handed to anybody.
+
+The record starts at 0.1.0. Everything before that was built without a
+changelog, and reconstructing it after the fact would mean guessing at
+dates and wording. What the older versions did is in the manual, which
+describes the program as it stands rather than how it got there.
 
 ## 0.11.1
 
@@ -95,10 +112,21 @@ and never handed to anybody.
 
 ## 0.11.0
 
+Seven findings from a review of the Resolve and render part. Each is
+read from the source; none is confirmed against a running Resolve.
+
+### Changed
+
+- The test doubles in `cut_timeline_test.py` and `intro_test.py` can
+  report what landed on a track, which is what the timeline report in
+  the program asks them for.
+- Ready for a public repository: the one-off cleanup script moved out of
+  the tree, the preset fixtures carry no personal name, and
+  `.gitignore` also holds back `zu_loeschen/`, `_to_delete/` and stray
+  media files.
+
 ### Fixed
 
-- Seven findings from a review of the Resolve and render part. Each is
-  read from the source; none is confirmed against a running Resolve.
 - A camera without a rendered file lost its measured offset. The offsets
   are kept under the rendered name, and the missing key fell back to
   0.0, which put that camera at the start of the axis instead of where
@@ -126,16 +154,6 @@ and never handed to anybody.
   first one's picture. The import uses the real path Resolve reports;
   on the timeline, where only a name exists, a collision is reported.
 
-### Changed
-
-- The test doubles in `cut_timeline_test.py` and `intro_test.py` can
-  report what landed on a track, which is what the timeline report in
-  the program asks them for.
-- Ready for a public repository: the one-off cleanup script moved out of
-  the tree, the preset fixtures carry no personal name, and
-  `.gitignore` also holds back `zu_loeschen/`, `_to_delete/` and stray
-  media files.
-
 ## 0.10.0
 
 ### Changed
@@ -162,7 +180,7 @@ and never handed to anybody.
 Two reviews went over everything 0.7.0 and 0.8.0 changed. What they
 found is below; every fix has a test.
 
-### Fixed -- the hand corrects the proposal, it does not restart it
+### Fixed
 
 - Taking a stereo pair apart freed a channel, the proposal was rerun
   over it, and the freed channel was joined to its *other* neighbour.
@@ -173,9 +191,6 @@ found is below; every fix has a test.
 - The tick used to read "with Channel 5 one stereo track" beside a
   measurement saying they are two microphones. It says "join with
   Channel 5" now -- an offer, not a claim.
-
-### Fixed -- what the reviews turned up
-
 - On resume, an output whose channel count the answer gives as empty was
   read as "not mono" and sent again. auphonic.com appends rather than
   replaces, so that is a second render and a second bill. An output that
@@ -211,7 +226,7 @@ found is below; every fix has a test.
 
 ## 0.8.0
 
-### Changed -- which Python this is for
+### Changed
 
 - The floor is Python 3.10, because PySide6 does not build below that
   and the window could not open there whatever the command line did.
@@ -228,9 +243,24 @@ found is below; every fix has a test.
 - `consistency_test.py` reported `__annotate__` and `__classdict__` as
   names without an origin. Both are put there by the 3.14 compiler, not
   by anybody writing code.
+- Two sorts of setting stood in one box on the first sheet: the key for
+  auphonic.com, entered once in a lifetime, and the preset, chosen for
+  every production. Choosing a preset therefore meant paging back from
+  the table where the decision is actually made.
+- **Settings ...**, top right of the tab bar, opens a window holding the
+  key, the tick that stores it, **Connect**, and the Resolve check. The
+  Resolve box has left the third tab; the check itself still runs by
+  itself on the first look at that tab, since a run that ends by
+  building a project should not find out at the end that Resolve was
+  never running.
+- The preset and **Fetch transcript** now stand under the assignment
+  table, right below the Multitrack tick. The whole "what should this
+  run do" is in one place.
+- The first tab holds files, production name, spoken language and output
+  folder. Nothing else.
+- `settings_window_test.py` holds all three to it.
 
-
-### Fixed -- a recording of several blocks waited for ever
+### Fixed
 
 - The channel rows of a recording are drawn from the measurement over
   all its blocks, and the row hangs on the first block. Each finished
@@ -250,38 +280,17 @@ found is below; every fix has a test.
   remembered, so clicking through the rows no longer leaves every one of
   them claiming to have been set by hand.
 
-
-### Changed -- what is set up once, and what is decided every time
-
-Two sorts of setting stood in one box on the first sheet: the key for
-auphonic.com, entered once in a lifetime, and the preset, chosen for
-every production. Choosing a preset therefore meant paging back from the
-table where the decision is actually made.
-
-- **Settings ...**, top right of the tab bar, opens a window holding the
-  key, the tick that stores it, **Connect**, and the Resolve check. The
-  Resolve box has left the third tab; the check itself still runs by
-  itself on the first look at that tab, since a run that ends by building
-  a project should not find out at the end that Resolve was never
-  running.
-- The preset and **Fetch transcript** now stand under the assignment
-  table, right below the Multitrack tick. The whole "what should this run
-  do" is in one place.
-- The first tab holds files, production name, spoken language and output
-  folder. Nothing else.
-- `settings_window_test.py` holds all three to it.
-
 ## 0.7.0
 
-### Changed -- the channel measurement is eleven times faster
+### Changed
 
-- Every channel was read by decoding the whole file again: a 32 channel
-  recording went through ffmpeg 32 times. It is one pass now, taken
-  apart afterwards. Measured on one 92 MB block of 32 channels: 22.9 s
-  before, 2.0 s after -- 4.0 MB/s to 46.2 MB/s -- with the same levels,
-  the same silent channels and the same pair numbers to six decimals.
-  A pair of 1.8 GB blocks drops from about fifteen minutes to about
-  ninety seconds.
+- The channel measurement is eleven times faster. Every channel was read
+  by decoding the whole file again: a 32 channel recording went through
+  ffmpeg 32 times. It is one pass now, taken apart afterwards. Measured
+  on one 92 MB block of 32 channels: 22.9 s before, 2.0 s after -- 4.0
+  MB/s to 46.2 MB/s -- with the same levels, the same silent channels
+  and the same pair numbers to six decimals. A pair of 1.8 GB blocks
+  drops from about fifteen minutes to about ninety seconds.
 - `channel_read_test.py` reads the same file both ways and compares
   sample by sample, so it stays that way.
 
@@ -295,69 +304,10 @@ table where the decision is actually made.
 
 ## 0.6.0
 
-Four reviews went over the program from four sides -- what happens to the
-API key, what a stranger meets on a fresh machine, whether the newest code
-is right, and whether the manual still describes the program. What they
-found is below.
-
-### Fixed -- the channel judgement over several blocks
-
-- `blocks_facts` gave back the last block's pair judgement instead of the
-  loudest block's: the inner loop reused the name of the list it was
-  filling. A recording whose second block is the run-out or pure silence
-  was therefore judged on that, and the answer even depended on the order
-  the blocks arrived in. It also grew the cached measurement of the block
-  it read. The combining half is now `blocks_facts_from`, which can be
-  held against made-up numbers without building gigabytes of audio.
-- A recording of several blocks never came apart into tracks: the
-  regrouping still looked for the `_ch` in the names from before 0.4.0,
-  while the pieces are called `_Channel1` now. Two 32-channel blocks
-  stayed one row with one speaker name, and the run folded all channels
-  into one voice.
-- `--together` promised "in this order" and then sorted the blocks by
-  name again. Without a timecode that is the one case where name order is
-  meaningless -- it is exactly why the switch exists.
-- A tick joining two channels to a stereo track is no longer honoured
-  where one of the two is an unused input. The interface never offers the
-  tick there, but a tick made earlier outlives the measurement it was
-  made under.
-- A file named in `--together` that is not on disk was reported only when
-  one of its partners ended up in a recording of its own.
-- Two file names spelling the same moment ("260808" and "20260808") drop
-  both, which was right and silent. It is now said.
-- Intro and outro survived the opening of another project, because the
-  file marks are the one per-file store that was not cleared. With the
-  0.5.0 guard against two intros, that stopped the run with a message
-  naming a file that was not even in the list.
-
-### Fixed -- the first minutes on a machine that is not the author's
-
-- `--help` and `--version` answer without numpy and without ffmpeg. They
-  used to fetch twenty megabytes and look for ffmpeg first, and on a
-  machine without either they failed instead of answering.
-- Starting the interface without PySide6 printed one line and died
-  silently: the console went into the log file before Qt was resolved, so
-  a hundred megabyte download happened behind a silent terminal. Qt is
-  resolved first now.
-- When pip fails, the last lines of its output are printed. The advice
-  underneath was the same command that had just failed, with no hint why.
-- pip no longer inherits `AUPHONIC_TOKEN`. It runs code from the packages
-  it installs, and any of them could have read the key out of the
-  environment.
-- Below Python 3.7 the program says so and stops, instead of failing
-  later on a keyword argument.
-- Where ffmpeg is missing, the advice names the machine this is: brew on
-  a Mac, the package manager on Linux, ffmpeg.org on Windows. Linux used
-  to get the other two.
-- Installing past the system package manager is said out loud when it
-  happens, with the virtual environment named as the way round it.
-- `requirements.txt` and `requirements-dev.txt`.
-- On resume, a mixdown of one channel is no longer taken for the
-  two-channel one a stereo run needs. Where the answer says nothing about
-  the channel count, both still count as present -- an upload sent twice
-  is billed twice.
-- `--lufs` was marked "multitrack only" in the help text and is read by
-  the simple path too.
+Four reviews went over the program from four sides -- what happens to
+the API key, what a stranger meets on a fresh machine, whether the
+newest code is right, and whether the manual still describes the
+program. What they found is below.
 
 ### Changed
 
@@ -368,16 +318,72 @@ found is below.
   `AUPHONIC_TOKEN` named as the way round the first.
 - The manual says which Python versions run, and what Linux costs.
 - The temporary file holding a curl answer is removed even when the call
-  is interrupted, and a failed removal no longer replaces the real error.
-
-### Changed -- the name of a joined pair
-
+  is interrupted, and a failed removal no longer replaces the real
+  error.
 - A pair is written with a plus, not an ampersand: `Channel 1+2` on
   screen and `_Channel1+2.wav` on disk. Measured: both are legal file
   names everywhere, but an unquoted ampersand splits the command in two
   in every shell, and in a web address it separates parameters. The old
   spelling is not recognised any more and does not need to be -- the cut
   pieces live in a temporary folder that goes when the program does.
+
+### Fixed
+
+- `blocks_facts` gave back the last block's pair judgement instead of
+  the loudest block's: the inner loop reused the name of the list it was
+  filling. A recording whose second block is the run-out or pure silence
+  was therefore judged on that, and the answer even depended on the
+  order the blocks arrived in. It also grew the cached measurement of
+  the block it read. The combining half is now `blocks_facts_from`,
+  which can be held against made-up numbers without building gigabytes
+  of audio.
+- A recording of several blocks never came apart into tracks: the
+  regrouping still looked for the `_ch` in the names from before 0.4.0,
+  while the pieces are called `_Channel1` now. Two 32-channel blocks
+  stayed one row with one speaker name, and the run folded all channels
+  into one voice.
+- `--together` promised "in this order" and then sorted the blocks by
+  name again. Without a timecode that is the one case where name order
+  is meaningless -- it is exactly why the switch exists.
+- A tick joining two channels to a stereo track is no longer honoured
+  where one of the two is an unused input. The interface never offers
+  the tick there, but a tick made earlier outlives the measurement it
+  was made under.
+- A file named in `--together` that is not on disk was reported only
+  when one of its partners ended up in a recording of its own.
+- Two file names spelling the same moment ("260808" and "20260808") drop
+  both, which was right and silent. It is now said.
+- Intro and outro survived the opening of another project, because the
+  file marks are the one per-file store that was not cleared. With the
+  0.5.0 guard against two intros, that stopped the run with a message
+  naming a file that was not even in the list.
+- `--help` and `--version` answer without numpy and without ffmpeg. They
+  used to fetch twenty megabytes and look for ffmpeg first, and on a
+  machine without either they failed instead of answering.
+- Starting the interface without PySide6 printed one line and died
+  silently: the console went into the log file before Qt was resolved,
+  so a hundred megabyte download happened behind a silent terminal. Qt
+  is resolved first now.
+- When pip fails, the last lines of its output are printed. The advice
+  underneath was the same command that had just failed, with no hint
+  why.
+- pip no longer inherits `AUPHONIC_TOKEN`. It runs code from the
+  packages it installs, and any of them could have read the key out of
+  the environment.
+- Below Python 3.7 the program says so and stops, instead of failing
+  later on a keyword argument.
+- Where ffmpeg is missing, the advice names the machine this is: brew on
+  a Mac, the package manager on Linux, ffmpeg.org on Windows. Linux used
+  to get the other two.
+- Installing past the system package manager is said out loud when it
+  happens, with the virtual environment named as the way round it.
+- `requirements.txt` and `requirements-dev.txt`.
+- On resume, a mixdown of one channel is no longer taken for the
+  two-channel one a stereo run needs. Where the answer says nothing
+  about the channel count, both still count as present -- an upload sent
+  twice is billed twice.
+- `--lufs` was marked "multitrack only" in the help text and is read by
+  the simple path too.
 
 ### Tests
 
@@ -387,22 +393,6 @@ found is below.
   `split_target` now.
 
 ## 0.5.0
-
-### Fixed -- the interface says why
-
-- The reason the start button is grey stands in the footer beside it. It
-  was in the tooltip alone, and a disabled Qt button shows no tooltip at
-  all -- the text hung on a wrapper around it, where nobody looks.
-- A missing production name marks its field red, like a duplicate speaker
-  name or a duplicate output name does in its row.
-- The reason named pages that no longer exist ("2.1 Production", "2.3
-  Resolve cut"). The names are now read off the tabs themselves, so they
-  cannot drift apart again.
-- The Resolve tab no longer carries a tick. Nothing on it can keep a run
-  from starting, so the tick was there whatever happened.
-- Two files set to intro (or to outro) both went into the same switch and
-  the last one silently won. The second choice now frees the first, and a
-  run that still sees two of a kind stops and names them.
 
 ### Changed
 
@@ -414,14 +404,27 @@ found is below.
   guessed at.
 - The metrics CSV stays comma separated. The manual says what that costs
   on a German system and which way in avoids it.
-
-### Changed -- the prose
-
 - A pass over every comment and docstring against the house rule "short
   and to the point": storytelling, self-justification and anecdotes from
   particular recordings are gone, the reasons and the measured numbers
-  stay. 99 places, 51 lines fewer, no code touched -- proved by comparing
-  the syntax tree with docstrings stripped.
+  stay. 99 places, 51 lines fewer, no code touched -- proved by
+  comparing the syntax tree with docstrings stripped.
+
+### Fixed
+
+- The reason the start button is grey stands in the footer beside it. It
+  was in the tooltip alone, and a disabled Qt button shows no tooltip at
+  all -- the text hung on a wrapper around it, where nobody looks.
+- A missing production name marks its field red, like a duplicate
+  speaker name or a duplicate output name does in its row.
+- The reason named pages that no longer exist ("2.1 Production", "2.3
+  Resolve cut"). The names are now read off the tabs themselves, so they
+  cannot drift apart again.
+- The Resolve tab no longer carries a tick. Nothing on it can keep a run
+  from starting, so the tick was there whatever happened.
+- Two files set to intro (or to outro) both went into the same switch
+  and the last one silently won. The second choice now frees the first,
+  and a run that still sees two of a kind stops and names them.
 
 ### Tests
 
@@ -429,27 +432,6 @@ found is below.
   `argv_test.py` for the doubled intro. 77 in all.
 
 ## 0.4.0
-
-### Changed -- the channel judgement
-
-- Every neighbour is judged, not every second one. On a mixer, channels 2
-  and 3 can be the stereo pair just as well as 1 and 2; fixed pairs asked
-  the wrong question and got a confident wrong answer.
-- One row per channel in the file list, with a tick that says "this one
-  and the next are one stereo track". Ticking channel 2 takes the tick
-  away from channel 3 -- a channel can belong to only one pair. Where two
-  neighbours both look like a pair, the left one wins.
-- The tick and the reason behind it moved into the wide column. In the
-  narrow one, where the file marks live, the word beside the box was cut
-  off after its first letter.
-- Tracks are named after their channels -- `Channel 1`, `Channel 2+3` --
-  and so are the files they are cut into, closed up and with a fingerprint
-  of the source folder in between: `Mixer_3f9a1c02_Channel1+2.wav`,
-  instead of `_cha` and `_chef`. "Channel" stays English in every language
-  -- it is the word on the recorder and on the mixer.
-- The hint under a file with more than two channels said they would be
-  mixed into one track. They have not been since 0.1.0; it now says what
-  actually happens.
 
 ### Added
 
@@ -487,29 +469,49 @@ found is below.
   block was the soundcheck and read as one used channel pair; the second
   was the show and read as ten tracks.
 - An absolute floor for a channel that carries anything: under -70 dBFS
-  there is only the converter's noise, and a pair judged on noise answers
-  differently every time it is measured.
+  there is only the converter's noise, and a pair judged on noise
+  answers differently every time it is measured.
 
 ### Changed
 
+- Every neighbour is judged, not every second one. On a mixer, channels
+  2 and 3 can be the stereo pair just as well as 1 and 2; fixed pairs
+  asked the wrong question and got a confident wrong answer.
+- One row per channel in the file list, with a tick that says "this one
+  and the next are one stereo track". Ticking channel 2 takes the tick
+  away from channel 3 -- a channel can belong to only one pair. Where
+  two neighbours both look like a pair, the left one wins.
+- The tick and the reason behind it moved into the wide column. In the
+  narrow one, where the file marks live, the word beside the box was cut
+  off after its first letter.
+- Tracks are named after their channels -- `Channel 1`, `Channel 2+3` --
+  and so are the files they are cut into, closed up and with a
+  fingerprint of the source folder in between:
+  `Mixer_3f9a1c02_Channel1+2.wav`, instead of `_cha` and `_chef`.
+  "Channel" stays English in every language -- it is the word on the
+  recorder and on the mixer.
+- The hint under a file with more than two channels said they would be
+  mixed into one track. They have not been since 0.1.0; it now says what
+  actually happens.
 - `--min-shot` from 1.2 s to 3 s. Interview cutting practice asks for
-  three to five seconds; a camera that changes faster than the viewer can
-  settle on a face reads as nervous. SmartSwitch calls the same thing
-  1.00, which is where the old 1.2 came from.
+  three to five seconds; a camera that changes faster than the viewer
+  can settle on a face reads as nervous. SmartSwitch calls the same
+  thing 1.00, which is where the old 1.2 came from.
 - The Multitrack tick moved from the settings sheet to under the
   assignment table, because what it needs is decided in that table.
-- With cameras only and no audio file, the interface offers the Multitrack
-  tick instead of stopping the run afterwards.
-- Channel conversions are written out rather than left to ffmpeg, in both
-  directions. Its own uses an equal-power law -- measured on a signal at
-  -24.08 dBFS, one channel to two comes out at -27.09 and two channels to
-  one at -21.07 -- and the second of those depends on the output format.
+- With cameras only and no audio file, the interface offers the
+  Multitrack tick instead of stopping the run afterwards.
+- Channel conversions are written out rather than left to ffmpeg, in
+  both directions. Its own uses an equal-power law -- measured on a
+  signal at -24.08 dBFS, one channel to two comes out at -27.09 and two
+  channels to one at -21.07 -- and the second of those depends on the
+  output format.
 
 ### Fixed
 
 - A production with a transcript did not start when the preset already
-  carried the transcript output formats. The run then waited for it until
-  the time limit.
+  carried the transcript output formats. The run then waited for it
+  until the time limit.
 - The check report cleared the channel rows out of the file list when it
   came back: the stereo tick and everything beside it disappeared, and
   only a later rebuild brought them back. Finding lines now carry a mark
@@ -530,10 +532,10 @@ found is below.
   looked at what was on it, so four microphones on four channels became
   one voice. The audio is now extracted with every channel it has and
   folded only if nothing has to be cut out of it.
-- Where a recording is made of blocks, the pair judgement took the answer
-  of the loudest block even when that block had one of the two channels
-  silent -- which is no answer at all. It now takes the loudest block
-  that actually measured the pair.
+- Where a recording is made of blocks, the pair judgement took the
+  answer of the loudest block even when that block had one of the two
+  channels silent -- which is no answer at all. It now takes the loudest
+  block that actually measured the pair.
 - Changing the stereo tick dropped the cut tracks of one block only. The
   other blocks kept their old cut, and the rows then held block one's
   channel 1 next to block two's channels 1 and 2.
@@ -544,9 +546,9 @@ found is below.
   step forward it compared a block with itself and always said yes, so a
   short finished take in front of the real recording was glued onto it.
   Which answer came out depended on which block was selected.
-- Two files carrying the same recording time were laid end to end instead
-  of on top of each other. Two recorders started together write exactly
-  the same number, and those recordings run at the same time.
+- Two files carrying the same recording time were laid end to end
+  instead of on top of each other. Two recorders started together write
+  exactly the same number, and those recordings run at the same time.
 - Two by-hand groups could both claim the same block, and it was then
   decoded and mixed into two productions. The first group to claim it
   keeps it, and the second is told.
@@ -576,6 +578,8 @@ found is below.
 
 ## 0.3.0
 
+### Added
+
 - A single continuation file can be taken out of a recording by hand and
   stays out, even though the search would find it in the folder again.
   Added later it is a recording of its own; only removing the whole
@@ -583,11 +587,20 @@ found is below.
 
 ## 0.2.0
 
+### Changed
+
 - The camera cut is built even with one camera, so Resolve can group,
   colour and zoom the clips.
 
 ## 0.1.0
 
+### Changed
+
 - The pipeline works in tracks instead of files. A multichannel recorder
   file is cut into its tracks, each with its own row in the assignment,
   its own name and its own camera.
+
+[kac]: https://keepachangelog.com/en/1.1.0/
+[semver]: https://semver.org/spec/v2.0.0.html
+[1.1.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v1.0.0-beta...v1.1.0-beta
+[1.0.0-beta]: https://github.com/Bascht74/videopodcast-magic/releases/tag/v1.0.0-beta
