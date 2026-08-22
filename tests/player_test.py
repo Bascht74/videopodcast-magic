@@ -8,6 +8,7 @@ import sys
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_PLAYER_DEBUG"] = "1"
 import importlib.util
+os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec)

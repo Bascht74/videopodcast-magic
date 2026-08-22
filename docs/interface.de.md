@@ -4,20 +4,22 @@
 
 ## Die Oberfläche
 
-Vier Reiter, in der Reihenfolge, in der man sie braucht, und daneben der
-Knopf **Einstellungen ...**. Dahinter steht, was man einmal
-einrichtet und dann nicht mehr anfasst: der Schlüssel für auphonic.com samt
-Häkchen, das ihn ablegt, und ob Resolve antwortet. Was zur Produktion gehört
--- das Preset, die Transkription -- steht dort, wo über die Spuren
-entschieden wird: unter der Zuordnungstabelle.
+Vier Reiter, in der Reihenfolge, in der man sie braucht. Der Knopf
+**Einstellungen ...** sitzt im Fußbereich, neben **Start**. Dahinter steht, was
+man einmal einrichtet und dann nicht mehr anfasst: der Schlüssel für
+auphonic.com samt Häkchen, das ihn ablegt, und ob Resolve antwortet. Was zur
+Produktion gehört -- das Preset, die Transkription -- steht dort, wo über die
+Spuren entschieden wird: unter der Zuordnungstabelle.
 
-Das Fenster hinter dem Knopf hat zwei Kästen. **Zugang zu auphonic.com**
-enthält das Feld für den API Key, das Häkchen, das ihn behält --
-**Im Schlüsselbund speichern** auf dem Mac, **In der Registry speichern**
-unter Windows -- und **Verbinden**, das den Schlüssel prüft und die Presets
-holt. **Verbindung zu Resolve** sagt, ob Resolve antwortet, mit seiner
-Version, wenn ja, und den Gründen, wenn nein; **Erneut prüfen** fragt noch
-einmal. Auch das Öffnen des Fensters fragt Resolve von sich aus neu.
+Das Fenster hinter dem Knopf hat zwei Kästen.
+
+- **Zugang zu auphonic.com** -- das Feld für den API Key, das Häkchen,
+  das ihn behält (**Im Schlüsselbund speichern** auf dem Mac, **In der
+  Registry speichern** unter Windows) und **Verbinden**, das den
+  Schlüssel prüft und die Presets holt.
+- **Verbindung zu Resolve** -- ob Resolve antwortet, mit Version, wenn
+  ja, und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal,
+  das Öffnen des Fensters ebenso.
 
 ![Das Einstellungsfenster](images/settings.de.png)
 
@@ -41,11 +43,13 @@ Resolve antwortet.*
    je Kanal eine Zeile, mit einem Haken, der
    **mit Channel 2 zusammenlegen** anbietet, und daneben, was gemessen
    wurde. Kanäle, in denen nichts steht, werden benannt und bleiben aus
-   allem Weiteren heraus. Eine
-   einzelne Fortsetzungsdatei lässt sich für sich entfernen -- sie bleibt
-   dann draußen, obwohl sie im Ordner liegt, und später wieder hinzugefügt
-   ist sie eine eigene Aufnahme. Erst wenn die ganze Aufnahme entfernt und
-   wieder hinzugefügt wird, gehören die Blöcke wieder zusammen.
+   allem Weiteren heraus.
+
+   Eine einzelne Fortsetzungsdatei lässt sich für sich entfernen. Sie
+   bleibt dann draußen, obwohl sie im Ordner liegt, und später wieder
+   hinzugefügt ist sie eine eigene Aufnahme. Erst wenn die ganze Aufnahme
+   entfernt und wieder hinzugefügt wird, gehören die Blöcke wieder
+   zusammen.
 
    ![Die Dateiliste](images/files.de.png)
 
@@ -98,15 +102,17 @@ Preset, wie viele Dateien entstehen, wieviel Platz sie brauchen und wieviel
 frei ist. Würden bestehende Dateien überschrieben, zeigt ein Fenster erst,
 welche.
 
-Der Player hat Abspielen und Pause, sekunden- und bildweise vor und zurück,
-Lautstärke und Tempo; links der Timecode, rechts die Position, ab dem
-In point gezählt. Ein Klick auf eine Tabellenzeile holt die Datei an
-dieselbe Stelle im Geschehen, so lassen sich zwei Kameras vergleichen;
-gespielt wird die zugeordnete Aufnahme, nicht der Kameraton. In point und
-Out point nehmen die Stelle aus dem Bild, ein blauer Streifen zeigt das
-Fenster, und beim Ziehen laufen nur die Zahlen mit. Formate, die der Rechner
-nicht abspielen kann (MXF, R3D, manche ProRes-Spielarten), bekommen einen
-Knopf für `ffplay`.
+Der Player hat Abspielen und Pause, sekunden- und bildweise vor und
+zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
+dem In point gezählt.
+
+- Ein Klick auf eine Tabellenzeile holt die Datei an dieselbe Stelle im
+  Geschehen, so lassen sich zwei Kameras vergleichen. Gespielt wird die
+  zugeordnete Aufnahme, nicht der Kameraton.
+- In point und Out point nehmen die Stelle aus dem Bild, ein blauer
+  Streifen zeigt das Fenster, und beim Ziehen laufen nur die Zahlen mit.
+- Formate, die der Rechner nicht abspielen kann (MXF, R3D, manche
+  ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
 Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem Script,
 mit Version, Zeit und Rechner in der Kopfzeile und einer Trennlinie je Lauf;
@@ -114,14 +120,12 @@ vom vorletzten Lauf bleibt `videopodcast-magic_1.log`. Auch was Qt und ffmpeg
 an Python vorbei ausgeben, steht darin.
 
 Neben **Start** läuft **ein Balken für alles Ausstehende**, mit einer
-Zeile daneben, woran gerade gearbeitet wird. Er deckt beide Hälften ab: das
-Messen nach jeder Änderung an der Dateiliste -- Hüllkurven, Kameraton,
-Kanäle, die Prüfung -- und den Lauf selbst, in gewichtete Abschnitte zerlegt.
-Die Kameradateien zu schreiben bekommt den größten Anteil, den Plan zu lesen
-den kleinsten. Wo ein Abschnitt echte Prozente meldet, folgt der Balken
-ihnen; wo einer nichts meldet, kriecht er langsam weiter, nur ein Stück über
-den zuletzt gemeldeten Wert hinaus, und bleibt vor dem Ende stehen, statt
-stillzustehen. Rückwärts geht er nie.
+Zeile daneben, woran gerade gearbeitet wird. Er deckt beide Hälften ab:
+das Messen nach jeder Änderung an der Dateiliste -- Hüllkurven,
+Kameraton, Kanäle, die Prüfung -- und den Lauf selbst. Wo ein Abschnitt
+echte Prozente meldet, folgt der Balken ihnen; wo einer nichts meldet,
+kriecht er langsam weiter und bleibt vor dem Ende stehen. Rückwärts geht
+er nie.
 
 ## Zeitachse ohne Timecode
 

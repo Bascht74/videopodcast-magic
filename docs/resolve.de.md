@@ -17,20 +17,19 @@ inzwischen geändert, bricht er ab — der Ton in den Videos gehört dann zum
 alten Fenster.
 
 Ob Resolve antwortet, wird beim ersten Blick auf den Reiter
-**3. Resolve-Schnitt** von selbst gefragt, im Hintergrund: ein Lauf, der
-am Ende ein Projekt baut, soll nicht erst am Ende erfahren, dass Resolve
-nie lief. Der Reiter sagt die Antwort in einer Zeile, und daneben steht der
-Weg zum Fenster **Einstellungen ...**, in dem die Prüfung selbst sitzt. In
-dessen Kasten **Verbindung zu Resolve** stehen Produkt und Version, wenn es
-geht, und wenn nicht, die beiden Pfade, nach denen gesucht wurde, und was im
-Weg sein kann:
+**3. Resolve-Schnitt** von selbst gefragt, im Hintergrund. Der Reiter sagt
+die Antwort in einer Zeile, und daneben steht der Weg zum Fenster
+**Einstellungen ...**, in dem die Prüfung selbst sitzt. In dessen Kasten
+**Verbindung zu Resolve** stehen Produkt und Version, wenn es geht, und
+wenn nicht, die beiden Pfade, nach denen gesucht wurde, und was im Weg
+sein kann:
 
 - Resolve läuft nicht.
 - Das externe Scripting steht auf „None" statt „Local", unter
   Preferences > System > General.
 - Die freie Fassung, für die berichtet wird, dass externes Scripting seit
-  Version 19.1 der Studio-Fassung vorbehalten ist — eine offizielle Aussage
-  dazu gibt es nicht, deshalb wird hier gemessen statt behauptet.
+  Version 19.1 der Studio-Fassung vorbehalten ist. Eine offizielle Aussage
+  dazu gibt es nicht.
 
 In diesem Kasten fragt **Erneut prüfen** noch einmal, und das Öffnen des
 Fensters ebenso.
@@ -52,28 +51,26 @@ Timecodes werden mit der ganzzahligen Rate gerechnet, Dauern mit der echten;
 Drop-Frame ist berücksichtigt.
 
 **… Cut** — der fertige Kameraschnitt. Auf V1 (`Camera cut`) liegen die
-Bildstücke **ohne ihren Ton**; darunter läuft auf A1 (`Audio-Full-Mix`) der
-Full-Mix in einem Stück durch, damit der Klang an den Schnitten nicht springt.
-Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem Weitwinkel, wo
-er die erste Tonspur ist. Welches Stück aus welcher Kameradatei genommen
-wird, ergibt sich aus dem gemessenen Versatz, nicht aus dem Timecode — die
-Kameras haben zu
-verschiedenen Zeiten angefangen. Lief eine nicht, springt eine andere ein,
-zuerst der Weitwinkel; das Protokoll sagt, wie oft. Marker gibt es hier keine —
-der Schnitt ist gemacht.
+Bildstücke **ohne ihren Ton**; darunter läuft auf A1 (`Audio-Full-Mix`)
+der Full-Mix in einem Stück durch, damit der Klang an den Schnitten nicht
+springt. Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem
+Weitwinkel, wo er die erste Tonspur ist.
 
-**… Multicam** — alle Kameras nebeneinander, eine je Bildspur, in voller Länge
-und **ohne Schnitte**, jede an ihrer gemessenen Stelle, Spurnamen = Sprecher
-(eine Kamera ohne Sprecher heißt `Wide`), dazu die Sprechernamen als Marker.
-Genau so muss eine Timeline aussehen, die ein Multicam-Clip werden soll. Auf
-Bildspur 1 kommt die Kamera, deren erste Tonspur der Full-Mix ist, meist der
-Weitwinkel; beim Umwandeln wird er zu Perspektive 1.
+Welches Stück aus welcher Kameradatei genommen wird, ergibt sich aus dem
+gemessenen Versatz, nicht aus dem Timecode. Lief eine Kamera nicht,
+springt eine andere ein, zuerst der Weitwinkel; das Protokoll sagt, wie
+oft. Marker gibt es hier keine — der Schnitt ist gemacht.
 
-**Je Kamera genau eine Tonspur, mit ihrem Bild verknüpft.** Beim Umwandeln
-wird jede Spur zu einer Perspektive; Full-Mix und Kameramikrofon ergäben
-Perspektiven ohne Bild, und SmartSwitch hörte jeden Sprecher auf jeder
-Kamera. Der überzählige Ton wird nach dem Einfügen gelöscht und die Tonspuren
-werden wie die Bildspuren benannt. Eine Kamera, die nicht gelandet ist, wird
+**… Multicam** — alle Kameras nebeneinander, eine je Bildspur, in voller
+Länge und **ohne Schnitte**, jede an ihrer gemessenen Stelle, Spurnamen =
+Sprecher (eine Kamera ohne Sprecher heißt `Wide`), dazu die Sprechernamen
+als Marker. Auf Bildspur 1 kommt die Kamera, deren erste Tonspur der
+Full-Mix ist, meist der Weitwinkel; beim Umwandeln wird er zu
+Perspektive 1.
+
+**Je Kamera genau eine Tonspur, mit ihrem Bild verknüpft.** Der
+überzählige Ton wird nach dem Einfügen gelöscht und die Tonspuren werden
+wie die Bildspuren benannt. Eine Kamera, die nicht gelandet ist, wird
 einzeln nachgelegt und andernfalls gemeldet.
 
 ### Wenn es das Projekt schon gibt
@@ -112,22 +109,19 @@ kommen soll (Handbuch, Kapitel „Multicam Audio Options"):
 | **Adaptive Tracks** | alle Spuren und Kanäle einer Perspektive kommen in **eine** Adaptive-Spur |
 | **All Angles** | jede Tonspur jeder Perspektive kommt mit — vier plus fünf ergibt neun |
 
-Weil je Kamera nur noch eine Tonspur übrig ist, ist *Source Audio Channels*
-die richtige Wahl, und der Schlusshinweis im Protokoll sagt es auch: jede
-Perspektive bringt genau den Sprecher mit, der vor ihr sitzt.
+*Source Audio Channels* ist die richtige Wahl: je Kamera ist nur noch eine
+Tonspur übrig, und jede Perspektive bringt genau den Sprecher mit, der vor
+ihr sitzt. Der Schlusshinweis im Protokoll sagt es auch.
 
 ### Clipfarben
 
-Jeder Schnitt bekommt die Farbe seiner Perspektive, auf beiden Timelines. Im
-Schnittfenster sieht man dann den Rhythmus der Folge auf einen Blick — wer
-lange steht, wie oft es auf den Weitwinkel geht. Die Farben sind nach
-Unterscheidbarkeit sortiert, die ersten beiden liegen also so weit
-auseinander wie möglich. Der Weitwinkel bekommt `Tan`. Gibt es mehr
-Perspektiven als Farben, wiederholt sich die Reihe, und das Protokoll sagt
-es.
+Jeder Schnitt bekommt die Farbe seiner Perspektive, auf beiden Timelines.
+Die Farben sind nach Unterscheidbarkeit sortiert, der Weitwinkel bekommt
+`Tan`. Gibt es mehr Perspektiven als Farben, wiederholt sich die Reihe,
+und das Protokoll sagt es.
 
-Dazu bekommt jede Kamera eine **Farbgruppe**, korrigiert wird also einmal je
-Kamera statt einmal je Schnitt — siehe *Farbgruppen* weiter unten.
+Dazu bekommt jede Kamera eine **Farbgruppe** — siehe *Farbgruppen* weiter
+unten.
 
 ### Der Renderauftrag
 
@@ -140,17 +134,15 @@ gilt:
 
 - **PQ oder HLG** (Übertragungsfunktion 16 oder 18), die beiden
   HDR-Anzeigekurven,
-- **Log** (Apple Log steht als 21 in der Datei) — eine Aufnahmekurve, keine
-  Anzeigekurve. Ungradiert sieht Log flau aus und wird leicht für harmloses
-  SDR gehalten, trägt aber den vollen Dynamikumfang der Kamera und zeigt in
-  acht Bit Streifen. **Log ist HDR.**
+- **Log** (Apple Log steht als 21 in der Datei) — eine Aufnahmekurve,
+  keine Anzeigekurve. **Log ist HDR.**
 - **BT.2020** als Farbraum oder als Matrix.
 
-Schreibt eine Kamera nichts Brauchbares in den `colr`-Block, werden zusätzlich
-ihre QuickTime-Schlüssel gelesen; dort steht bei den meisten Kameras die
-Kurve. Gesucht wird nach Wortmarken (`apple log`, `s-log`, `v-log`, `logc`,
-…), nicht nach „log" — das steckt in zu vielen harmlosen Wörtern. Sagen die
-Projekteinstellungen etwas anderes, sticht das Projekt.
+Schreibt eine Kamera nichts Brauchbares in den `colr`-Block, werden
+zusätzlich ihre QuickTime-Schlüssel gelesen; dort steht bei den meisten
+Kameras die Kurve. Gesucht wird nach Wortmarken (`apple log`, `s-log`,
+`v-log`, `logc`, …), nicht nach „log". Sagen die Projekteinstellungen
+etwas anderes, sticht das Projekt.
 
 | | SDR | HDR |
 |---|---|---|
@@ -207,34 +199,31 @@ das richtet sich nach dem **Ton**, nicht nach der Dateilänge:
 - Hat ein Clip keinen Ton, gilt beim Vorspann sein Ende, beim Abspann sein
   Anfang.
 
-Die weiche Blende zieht man selbst, und genau dafür liegen die Clips *über*
-dem Inhalt statt daneben: so genügt ein Zug an der oberen Ecke. Die
-Scripting-Schnittstelle von Resolve kennt keine Übergänge — die Wörter
-„transition", „dissolve" und „fade" kommen in ihrer Dokumentation nicht ein
-einziges Mal vor.
+Die weiche Blende zieht man selbst, und genau dafür liegen die Clips
+*über* dem Inhalt statt daneben: so genügt ein Zug an der oberen Ecke. Die
+Scripting-Schnittstelle von Resolve kennt keine Übergänge.
 
 ### Farbe
 
-Beim Kopieren des Bildes schreibt ffmpeg den `colr`-Block aus seinen eigenen
-Werten neu und ersetzt, was es nicht kennt: aus Apple Log (Transferfunktion
-21) würde eine 18. Das Script liest den Block deshalb selbst aus der Quelle,
-gibt die Zahlen ausdrücklich weiter, erzwingt das Schreiben und prüft nach:
-Protokollzeile **Farbe**.
+Die Farbe der Quelle bleibt unverändert erhalten. Das Script liest den
+`colr`-Block selbst aus der Quelle, gibt die Zahlen ausdrücklich weiter,
+erzwingt das Schreiben und prüft nach: Protokollzeile **Farbe**.
 
-Der Block allein genügt nicht. iPhone-Aufnahmen aus der Blackmagic Camera App
-tragen dort „unbestimmt" als Kurve; Resolve geht nach den QuickTime-Schlüsseln
-des Containers (`com.apple.quicktime.model`, `com.apple.quicktime.software`,
-`com.blackmagic-design.camera.*`). Das Script nimmt sie mit und zählt nach, ob
-alle Schlüssel ankamen (Protokollzeile **Kameradaten**).
+iPhone-Aufnahmen aus der Blackmagic Camera App tragen im `colr`-Block
+„unbestimmt" als Kurve; Resolve geht nach den QuickTime-Schlüsseln des
+Containers (`com.apple.quicktime.model`, `com.apple.quicktime.software`,
+`com.blackmagic-design.camera.*`). Das Script nimmt sie mit und zählt
+nach, ob alle Schlüssel ankamen (Protokollzeile **Kameradaten**).
 
 #### Das `logs`-Atom
 
-Auch das genügt nicht. In der Bildbeschreibung selbst liegt ein kleines Atom
-`logs`, in dem die Aufnahmekurve als Kennung steht, etwa
-`com.apple.apple-wide-gamut.apple-log`. **Das** ist, woran Resolve Apple Log
-erkennt — im `colr`-Block steht davon nichts. ffmpeg kann das Atom nicht
-erhalten, deshalb trägt das Script es nach dem Schreiben selbst nach, Byte für
-Byte aus der Quelle, und liest danach nach, ob die Datei noch heil ist.
+In der Bildbeschreibung liegt ein kleines Atom `logs`, in dem die
+Aufnahmekurve als Kennung steht, etwa
+`com.apple.apple-wide-gamut.apple-log`. **Das** ist, woran Resolve Apple
+Log erkennt — im `colr`-Block steht davon nichts. ffmpeg kann das Atom
+nicht erhalten, deshalb trägt das Script es nach dem Schreiben selbst
+nach, Byte für Byte aus der Quelle, und liest danach nach, ob die Datei
+noch heil ist.
 
 Im Protokoll steht danach unter **Kameraatome**, ob das Atom nachgetragen
 wurde und welche Kurve es nennt, in der Dateiliste die Kurve in der Zeile
@@ -243,9 +232,9 @@ sonst mit der Kennung, wie sie dasteht.
 
 ### Farbgruppen
 
-Damit man nicht jeden Schnitt einzeln färben muss, legt das Script je Kamera
-eine **Farbgruppe** an und weist ihr alle Clips dieser Kamera zu. Der
-Node-Editor auf der Farbseite kennt dafür vier Betriebsarten:
+Das Script legt je Kamera eine **Farbgruppe** an und weist ihr alle Clips
+dieser Kamera zu, korrigiert wird also einmal je Kamera statt einmal je
+Schnitt. Der Node-Editor auf der Farbseite kennt dafür vier Betriebsarten:
 
 | Betriebsart | wirkt auf |
 |---|---|
@@ -259,23 +248,21 @@ Gerechnet wird in dieser Reihenfolge. Also: die Grundkorrektur einer Kamera in
 **Clip** nachziehen. Weitere Clips kommen per Rechtsklick > Group > Name >
 Assign to Group in die Gruppe.
 
-### Warum keine Remote-Grades
+### Lokale statt Remote-Grades
 
+Das Script setzt **lokale Versionen**, bei jedem Lauf ausdrücklich.
 Remote-Grades („Use local version for new clips" aus) binden alle Clips
-derselben Quelldatei an eine Korrektur und kleben damit auch die **Clip**-Ebene
-zusammen: ein einzelner Schnitt lässt sich dann nicht mehr für sich
-korrigieren. Die Farbgruppe leistet dasselbe, ohne die Clip-Ebene zu opfern.
+derselben Quelldatei an eine Korrektur, ein einzelner Schnitt ließe sich
+dann nicht mehr für sich korrigieren. Einen Schalter zum Wiedereinschalten
+gibt es nicht.
 
-Das Script setzt deshalb **lokale Versionen**, bei jedem Lauf ausdrücklich —
-ein Projekt aus einem früheren Lauf hätte die Remote-Grades sonst noch an.
-Einen Schalter zum Wiedereinschalten gibt es nicht. Die Einstellung wirkt
-nur auf Clips, die **danach** in eine Timeline kommen:
-`--resolve-project update` baut beide Timelines neu und erledigt das; bei
-`keep` hängen die vorhandenen Clips an ihrem Remote-Grade, und das Protokoll
-nennt den Weg — Farbseite, Rechtsklick
-auf ein Miniaturbild > **Copy Remote Grades to Local** (nimmt die Korrektur
-mit) oder **Use Local Grades**. Wie die Einstellung intern heißt, wird aus der
-Liste aller Projekteinstellungen herausgesucht und nachgelesen.
+Die Einstellung wirkt nur auf Clips, die **danach** in eine Timeline
+kommen: `--resolve-project update` baut beide Timelines neu und erledigt
+das. Bei `keep` hängen die vorhandenen Clips an ihrem Remote-Grade, und
+das Protokoll nennt den Weg — Farbseite, Rechtsklick auf ein Miniaturbild
+> **Copy Remote Grades to Local** (nimmt die Korrektur mit) oder **Use
+Local Grades**. Wie die Einstellung intern heißt, wird aus der Liste aller
+Projekteinstellungen herausgesucht und nachgelesen.
 
 ### HDR: was in der Datei stehen muss
 
@@ -350,9 +337,8 @@ nicht.
 
 ### Wenn Resolve selbst schneiden soll
 
-Dafür braucht es einen Multicam-Clip, und den kann das Script nicht anlegen:
-die Scripting-Schnittstelle kennt Multicam nicht — in der mitgelieferten
-README kommt das Wort kein einziges Mal vor. Also von Hand:
+Dafür braucht es einen Multicam-Clip, und den kann das Script nicht
+anlegen: die Scripting-Schnittstelle kennt Multicam nicht. Also von Hand:
 
 1. Medienpool, Rechtsklick auf „… Multicam"
 2. **Timeline in Multicam-Clip umwandeln** > **Quellaudiokanäle verwenden**

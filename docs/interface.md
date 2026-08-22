@@ -4,19 +4,20 @@
 
 ## The interface
 
-Four tabs, in the order they are needed, and beside them the button
-**Settings ...**. Behind it stands what is set up once and then left
-alone: the key for auphonic.com with the tick that stores it, and whether
+Four tabs, in the order they are needed. The button **Settings ...** sits in
+the footer, next to **Start**. Behind it stands what is set up once and then
+left alone: the key for auphonic.com with the tick that stores it, and whether
 Resolve answers. What belongs to the production being made -- the preset, the
 transcript -- stands where the tracks are decided, under the assignment table.
 
-The window behind the button holds two boxes. **Access to auphonic.com**
-has the field for the API key, the tick that keeps it -- **Save in
-Keychain** on a Mac, **Save in Registry** on Windows -- and **Connect**,
-which checks the key and fetches the presets. **Connection to Resolve**
-says whether Resolve answers, with its version where it does and the
-reasons where it does not, and **Check again** asks once more. Opening the
-window asks Resolve again by itself.
+The window behind the button holds two boxes.
+
+- **Access to auphonic.com** -- the field for the API key, the tick that
+  keeps it (**Save in Keychain** on a Mac, **Save in Registry** on
+  Windows) and **Connect**, which checks the key and fetches the presets.
+- **Connection to Resolve** -- whether Resolve answers, with its version
+  where it does and the reasons where it does not. **Check again** asks
+  once more, and so does opening the window.
 
 ![The settings window](images/settings.png)
 
@@ -37,12 +38,13 @@ answers.*
 
    A file with more than one channel says underneath what will become of
    it: one row per channel, with a tick offering **join with Channel 2**
-   and, beside it, what was measured. Channels that hold nothing are named
-   and stay out of everything after. A single block of a multi-part recording
-   can be removed on its own -- it then stays out although it lies in the
-   folder, and putting it back later makes it a recording of its own.
-   Only removing the whole recording and adding it again joins the blocks
-   up as before.
+   and, beside it, what was measured. Channels that hold nothing are
+   named and stay out of everything after.
+
+   A single block of a multi-part recording can be removed on its own. It
+   then stays out although it lies in the folder, and putting it back
+   later makes it a recording of its own. Only removing the whole
+   recording and adding it again joins the blocks up as before.
 
    ![The file list](images/files.png)
 
@@ -94,14 +96,17 @@ Then a summary: how many cameras and audio tracks, how long, which preset,
 how many files this makes, how much room they need and how much is free.
 Where existing files would be overwritten, a window first shows which.
 
-The player has play and pause, seconds and frames forward and back, volume
-and speed; timecode on the left, position on the right, counted from the
-In point. A click on a table row brings that file in at the same point in
-what is happening, so two cameras can be compared; it plays the assigned
-recording, not the camera sound. In point and Out point take the spot from
-the picture, a blue stripe shows the window, and dragging the rail moves
-only the numbers. Formats the machine cannot play (MXF, R3D, some ProRes
-variants) get a button for `ffplay`.
+The player has play and pause, seconds and frames forward and back,
+volume and speed; timecode on the left, position on the right, counted
+from the In point.
+
+- A click on a table row brings that file in at the same point in what is
+  happening, so two cameras can be compared. It plays the assigned
+  recording, not the camera sound.
+- In point and Out point take the spot from the picture, a blue stripe
+  shows the window, and dragging the rail moves only the numbers.
+- Formats the machine cannot play (MXF, R3D, some ProRes variants) get a
+  button for `ffplay`.
 
 The output also goes to `videopodcast-magic.log` next to the script, with
 version, time and machine in the header and a dividing line per run; the
@@ -109,14 +114,11 @@ previous run stays as `videopodcast-magic_1.log`. What Qt and ffmpeg write
 past Python is in there too.
 
 Beside **Start** runs **one bar for everything outstanding**, with a line
-saying what is being worked on. It covers both halves: the
-measuring that follows every change to the file list -- envelopes, camera
-audio, channels, the check -- and the run itself, split into weighted
-sections. Writing the camera files gets the largest share, reading the plan
-the smallest. Where a step reports a real percentage the bar follows it;
-where a step reports nothing the bar creeps on slowly, only a little past
-what was last reported, and stops short of the end rather than standing
-still. Backwards it never goes.
+saying what is being worked on. It covers both halves: the measuring that
+follows every change to the file list -- envelopes, camera audio,
+channels, the check -- and the run itself. Where a step reports a real
+percentage the bar follows it; where a step reports nothing it creeps on
+slowly and stops short of the end. Backwards it never goes.
 
 ## Time axis without timecode
 

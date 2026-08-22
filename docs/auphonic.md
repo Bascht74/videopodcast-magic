@@ -4,13 +4,13 @@
 
 ## Processing at auphonic.com
 
-The assembled audio goes up, is processed there with a stored preset,
-waited for, fetched and then used like any other audio file. The access is
-entered once, the preset belongs to the single production.
+The assembled audio is processed at auphonic.com with a stored preset and
+comes back as an ordinary audio file. The access is entered once, the
+preset belongs to the single production.
 
 The key is in the Auphonic account settings, or in `AUPHONIC_TOKEN`. In the
-interface it stands behind **Settings ...**, top right of the tab bar, with
-the tick **Save in Keychain** that keeps it in the Keychain (macOS) or in the
+interface it stands behind **Settings ...** in the footer, with the tick
+**Save in Keychain** that keeps it in the Keychain (macOS) or in the
 Registry (Windows); the window itself is described in
 [The interface](interface.md). Never in a file, never in the project file.
 
@@ -34,34 +34,42 @@ program's input, not as an argument, and reads it back to see that it arrived;
 only where the wrong key comes back does the argument form follow, which has
 the weakness of the command line. The Windows Registry path does not have it.
 
-On tab **2. Assignment & time window** the preset list stands under the
-assignment table, in the box **Processing at auphonic.com (optional)** right
-below the tick **Multitrack (one track per speaker)**: the preset under
-**Preset:** (on the command line `--auphonic-preset`), and beside it
-**Fetch transcript** -- what this run is to do, in one place. The
-production is rebuilt from the preset.
+On tab **2. Assignment & time window** the box **Processing at
+auphonic.com (optional)** holds what this run does. It stands under the
+assignment table, right below the tick **Multitrack (one track per
+speaker)**.
+
+* the preset under **Preset:** (on the command line `--auphonic-preset`)
+* the tick **Fetch transcript** beside it
+
+The production is rebuilt from the preset.
 
 ### Fetch transcript
 
-With **Fetch transcript** auphonic.com writes down what is said and
-delivers three files beside the audio: a json with times, an srt for
-subtitles and a txt to read (on the command line `--transcript`).
-Auphonic's own Whisper does the work, so no account anywhere else is
-needed and there is no extra fee -- the production only takes longer.
-With multitrack the transcript carries the speaker names.
+With **Fetch transcript** auphonic.com writes down what is said (on the
+command line `--transcript`). Three files come back beside the audio:
+
+* a json with times
+* an srt for subtitles
+* a txt to read
+
+Auphonic's own Whisper does the work: no account anywhere else, no extra
+fee, a longer production. With multitrack the transcript carries the
+speaker names.
 
 ### Working without Auphonic
 
-Multitrack no longer needs the service: the first entry of the preset list,
-**work without Auphonic** (on the command line `--without-auphonic`). It is
-not a preset but the statement that this run does not go there; the key
-stays in the field, remembered and checked, only not passed on. The
-Multitrack tick sits above the Auphonic box and needs no key.
+Multitrack no longer needs the service. The first entry of the preset
+list, **work without Auphonic**, keeps this run here (on the command line
+`--without-auphonic`). It is not a preset but the statement that this run
+does not go there; the key stays in the field, remembered and checked,
+only not passed on. The Multitrack tick sits above the Auphonic box and
+needs no key.
 
 Everything then happens here: the tracks are aligned on the common axis,
 mixed, brought to the target loudness (`--lufs`, -16 by default) and
-distributed over the cameras; camera cut and Resolve project come out as
-usual. Only what the service does is missing: de-bleed, leveler, noise
+distributed over the cameras. Camera cut and Resolve project come out as
+usual. Missing is only what the service does: de-bleed, leveler, noise
 removal. The bleed stays in the audio.
 
 Who speaks when is measured from the tracks, and the bleed is taken out of
@@ -74,9 +82,8 @@ with the service or without. The audio is then joined and laid into the
 video as recorded; only Auphonic sets the loudness.
 
 While no key is checked, the list holds this one entry. Once the presets
-arrive, the choice jumps to the first of them; the placeholder alone does
-not count as a choice. A deliberate choice survives a rebuild of the list
-and goes into the project file.
+arrive, the choice jumps to the first of them. A deliberate choice
+survives a rebuild of the list and goes into the project file.
 
 ### A production that already exists
 
@@ -104,11 +111,11 @@ Everything is downloaded: the single tracks, the statistics as
 chapter marks, transcript, analyses. All of it lands in `auphonic-tracks/`
 next to the finished videos, later the `final_*.wav` too.
 
-Set In point and Out point afterwards and the tracks are longer than the new
-window. They are trimmed and the times in the statistics shifted by the same
-amount, so the camera cut still fits -- with no second run at Auphonic.
-Where the length matches neither the window nor the whole measured range,
-the files belong to another run, and the message says so.
+Setting In point and Out point afterwards costs no second run at
+Auphonic. The tracks are trimmed to the new window and the times in the
+statistics shift by the same amount, so the camera cut still fits. Where
+the length matches neither the window nor the whole measured range, the
+files belong to another run, and the message says so.
 
 ### Further options on the command line
 

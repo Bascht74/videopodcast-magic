@@ -67,11 +67,12 @@ is measured.
 Whoever speaks alone gets their camera, with a little lead so the cut
 sits before the first word. When several speak at once, a camera showing
 exactly those people beats the wide shot. The wide shot itself does not
-come by the clock: what is looked for is a long pause, shortly before
-someone else starts, so the rhythm comes out irregular by itself. Two
-numbers set how fine the cut turns out, and the window shows their effect
-at once, without writing anything. Out come a table, an EDL and the
-speaker statistics: who talked how long, in per cent ([camera
+come by the clock, but at a long pause shortly before someone else
+starts.
+
+Two numbers set how fine the cut turns out, and the window shows their
+effect at once, without writing anything. Out come a table, an EDL and
+the speaker statistics: who talked how long, in per cent ([camera
 cut](camera-cut.md)).
 
 ## Into DaVinci Resolve

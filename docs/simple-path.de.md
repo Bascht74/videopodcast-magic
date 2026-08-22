@@ -27,9 +27,11 @@ Was der einfache Weg genauso kann wie Multitrack:
 Es fehlen Kameraschnitt, Sprecherstatistik und Schnittprognose: die brauchen
 die Sprecherzuordnung.
 
-Nur Ton: Fortsetzungsdateien werden zusammengesetzt und geschrieben. Ton und
-Bild: der Ton wird ausgerichtet und in die Videodatei gelegt. Nur ein Video:
-dessen eigener Ton, links und rechts getrennt.
+Was herauskommt, hängt am Material:
+
+- **Nur Ton.** Fortsetzungsdateien werden zusammengesetzt und geschrieben.
+- **Ton und Bild.** Der Ton wird ausgerichtet und in die Videodatei gelegt.
+- **Nur ein Video.** Dessen eigener Ton, links und rechts getrennt.
 
 ### Die Einzelaufnahmen neben dem Mix
 
@@ -37,16 +39,16 @@ Ohne Multitrack geht aller Ton in eine Spur. Liefen mehrere Aufnahmen
 gleichzeitig, geht jede davon zusätzlich als eigene Spur ins Video,
 hinter dem Mix, auf derselben Achse und in derselben Länge.
 
-Ob sie gleichzeitig liefen, liest der Lauf am Timecode ab statt es zu
-raten. Aufnahmen, die sich überlappen, waren mehrere Mikrofone
-gleichzeitig. Blöcke, die aufeinander folgen, sind eine Aufnahme und
-bekommen keine zusätzlichen Spuren.
+Ob sie gleichzeitig liefen, liest der Lauf am Timecode ab. Aufnahmen, die
+sich überlappen, waren mehrere Mikrofone gleichzeitig. Blöcke, die
+aufeinander folgen, sind eine Aufnahme und bekommen keine zusätzlichen
+Spuren.
 
-Die Einzelspuren sind unbearbeitet: dieser Weg schickt nur den Mix zu
-auphonic.com, also kein De-Bleed und kein Leveler auf ihnen. Sie kosten
-rund 520 MB je Spur und Stunde. Kommt der Mix von auphonic.com in anderer
-Länge zurück als sie haben — etwa mit vorangestelltem Jingle im
-Gratis-Tarif — fallen sie von selbst weg, und der Lauf sagt es.
+Die Einzelspuren sind unbearbeitet: nur der Mix geht zu auphonic.com,
+also kein De-Bleed und kein Leveler auf ihnen. Sie kosten rund 520 MB je
+Spur und Stunde. Kommt der Mix von auphonic.com in anderer Länge zurück
+als sie haben — etwa mit vorangestelltem Jingle im Gratis-Tarif — fallen
+sie von selbst weg, und der Lauf sagt es.
 
 Fortsetzungsdateien findet das Script selbst; der erste nummerierte Block
 genügt. Als Fortsetzung gilt nur, was lückenlos anschließt — geprüft am
@@ -59,14 +61,14 @@ Wert abweicht.
 
 ### Blöcke mit Uhrzeit statt Zähler
 
-Ein Recorder nummeriert seine Dateien, und der nächste Block ist die
-nächste Nummer. Ein Mischer schreibt oft stattdessen Datum und Uhrzeit:
-`r_260808_185628.wav` und `r_260808_190128.wav`.
+Namen mit Datum und Uhrzeit gelten ebenso als Blöcke:
+`r_260808_185628.wav` und `r_260808_190128.wav`. Ein Recorder nummeriert
+seine Dateien; ein Mischer schreibt oft stattdessen die Uhrzeit.
 
-Die Uhr wird gelesen und gegen die Länge gehalten: der nächste Block
-gehört dazu, wenn er dort beginnt, wo der vorige endet, auf zwei
-Sekunden genau. Wo jeder Block dieselbe Uhrzeit trägt — den Beginn der
-Session, mit der echten Nummer dahinter — gilt weiter die Zähler-Regel.
+Der nächste Block gehört dazu, wenn er dort beginnt, wo der vorige endet,
+auf zwei Sekunden genau. Wo jeder Block dieselbe Uhrzeit trägt — den
+Beginn der Session, mit der echten Nummer dahinter — gilt weiter die
+Zähler-Regel.
 
 ### Blöcke von Hand zusammenlegen
 
@@ -79,26 +81,21 @@ Blöcke mit, die ohnehin schon zu ihm gehören.
 
 Die Gegenrichtung: die Zeile des Blocks in der Dateiliste auswählen und
 **Entfernen** drücken — er bleibt dann aus der gefundenen Aufnahme
-draußen (auf der Kommandozeile `--apart`). Beides ist von Hand, beides
-schlägt die Messung, und eine für sich gestellte Datei bleibt auch aus
-einer Gruppe draußen, in die sie gelegt wurde. Beides steht im Projekt.
+draußen (auf der Kommandozeile `--apart`). Beides schlägt die Messung.
+Eine für sich gestellte Datei bleibt auch aus einer Gruppe draußen, in
+die sie gelegt wurde. Beides steht im Projekt.
 
-### Ablauf je Videodatei
+### Je Videodatei
 
-1. Welcher Teil des Tons hat eine Entsprechung im Bild? Der Rest fällt weg.
-2. Ausrichten über Hüllkurven gegen die Tonspur der Kamera.
-3. Uhrengang messen und herausrechnen, soweit die Messung ihn hergibt;
-   Bezug ist das Bild.
-4. Ton auf Startpunkt und Länge des Bildes bringen, Fehlendes mit Stille.
-5. Neu zusammensetzen: Bild unverändert (`-c:v copy`), der neue Ton als
-   erste Spur, dahinter die Kameraspur, beide benannt, Timecode bleibt.
-6. Nachmessen, wie weit die neue Spur gegen die Kameraspur liegt.
+Jede Videodatei kommt zurück mit unverändertem Bild (`-c:v copy`), dem
+neuen Ton als erster Spur und der Kameraspur dahinter, beide benannt und
+der Timecode erhalten.
 
 ### Warum MOV
 
 Ziel ist immer MOV, auch bei MP4-Quellen; neu berechnet wird dabei nichts.
-MP4 würde die Spurnamen verwerfen und kennt keinen unkomprimierten Ton im
-Standard. `--container` gibt es nicht.
+MOV trägt die Spurnamen und den unkomprimierten Ton, MP4 beides nicht.
+`--container` gibt es nicht.
 
 ### Weitere Optionen über die Kommandozeile
 

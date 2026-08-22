@@ -6,18 +6,20 @@
 
 Mehrere Leute am Tisch, jeder mit einem Mikrofon, auf dem alle zu hören
 sind. Dieses Übersprechen aus dem Ton zu nehmen ist das Einzige, was nur
-auphonic.com kann. Alles andere läuft lokal: im Kasten **Aufbereitung bei
-auphonic.com (optional)** auf dem Reiter **2. Zuordnung & Zeitfenster**
-im Auswahlfeld **Preset:** den Eintrag **ohne Auphonic arbeiten** wählen
-(auf der Kommandozeile `--without-auphonic`). Der Lauf ist dann
-ausgerichtet, gemischt, Lautheit gesetzt, Kameraschnitt inbegriffen — nur
-ohne De-Bleed, Leveler und Rauschentfernung.
+auphonic.com kann.
 
-Davor kommt alles auf eine gemeinsame Zeitachse, Uhrengang eingerechnet.
-Das Fenster kommt allein aus den Kameras; fehlt darin der Ton, wird Stille
+Alles andere läuft lokal. Im Kasten **Aufbereitung bei auphonic.com
+(optional)** auf dem Reiter **2. Zuordnung & Zeitfenster** im Auswahlfeld
+**Preset:** den Eintrag **ohne Auphonic arbeiten** wählen (auf der
+Kommandozeile `--without-auphonic`). Der Lauf ist dann ausgerichtet,
+gemischt, Lautheit gesetzt, Kameraschnitt inbegriffen — nur ohne
+De-Bleed, Leveler und Rauschentfernung.
+
+Alles kommt auf eine gemeinsame Zeitachse, Uhrengang eingerechnet. Das
+Fenster kommt allein aus den Kameras; fehlt darin der Ton, wird Stille
 eingesetzt. Zeilen mit demselben Sprechernamen werden zu einer Spur
-zusammengefasst und über ihren Timecode hintereinandergelegt. Das ist
-richtig, wenn die Aufnahme zwischendurch gestoppt wurde.
+zusammengefasst und über ihren Timecode hintereinandergelegt. Eine
+Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
 
 ### Die Zuordnung
 
@@ -39,46 +41,43 @@ zur gemessenen Zeitachse passen, stehen in Rot — hier wie in der
 Dateiliste.
 
 Über den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
-ist dasselbe Häkchen wie unter **Produktion** und derselbe Wert — klickt
-man eines, zeigen beide es. Multitrack will zwei getrennte Aufnahmen, und
-eine Kamera zählt als eine, sobald bei ihr **als Spur** gesetzt ist. Auf
-der Kommandozeile (`--multitrack`) zählt es genauso und liest dafür die
-Zuordnungsdatei.
+ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
+beide es. Multitrack will zwei getrennte Aufnahmen, und eine Kamera zählt
+als eine, sobald bei ihr **als Spur** gesetzt ist. Auf der Kommandozeile
+(`--multitrack`) zählt es genauso.
 
 ### Ohne getrennte Tonaufnahmen
 
-Sind nur Kameras da — mindestens zwei —, wird ihr eigener Ton zur Spur, je
-Kamera eine. Sonst kann eine einzelne Kamera ihren Ton trotzdem
-beisteuern: Häkchen **als Spur** in der Spalte **eigener Ton**. Sie
-bekommt dann eine Zeile in der oberen Tabelle, mit ihrem Sprechernamen,
-und zählt wie jede andere Spur — aufbereitet, im Full-Mix, in der
-Sprecherstatistik und als erste Tonspur ihrer eigenen Kamera. Ohne
-Multitrack hätte der Lauf bei reinem Kameramaterial nichts hineinzulegen
-und bräche ab.
+Sind nur Kameras da — mindestens zwei —, wird ihr eigener Ton zur Spur,
+je Kamera eine. Ohne Multitrack hat der Lauf bei reinem Kameramaterial
+nichts hineinzulegen und bricht ab.
+
+Eine einzelne Kamera kann ihren Ton ebenso beisteuern: Häkchen **als
+Spur** in der Spalte **eigener Ton**. Sie bekommt dann eine Zeile in der
+oberen Tabelle, mit ihrem Sprechernamen, und zählt wie jede andere Spur —
+aufbereitet, im Full-Mix, in der Sprecherstatistik und als erste Tonspur
+ihrer eigenen Kamera.
 
 „Wie jede andere Spur“ schließt die Kanäle ein. Das Häkchen sagt nicht
-mehr als „diesen Ton nicht wegwerfen“; was daraus wird, entscheidet
-dieselbe Messung wie bei einer Recorder-Datei. Eine Kamera, deren zwei
-Kanäle zwei Ansteckmikrofone tragen — die DJI Osmo macht das —, ergibt
-zwei Zeilen mit zwei Sprechernamen, beurteilt und geschnitten wie eine
-zweikanalige Recorder-Datei. Eine Kamera mit einem echten Stereopaar
-behält es als eine zweikanalige Spur. Auf der Kommandozeile geschieht
-dasselbe ohne Oberfläche: `videopodcast-magic.py Osmo.mov Weitwinkel.mov
---multitrack` liest die Osmo als zwei Sprecher und den Weitwinkel als einen
-— und schreibt trotzdem je Kamera eine Datei.
+mehr als: diesen Ton nicht wegwerfen. Was aus dem Ton wird, entscheidet
+dieselbe Messung wie bei einer Recorder-Datei.
 
-Zu welcher Kamera so eine Spur gehört, ist eine eigene Frage, und das
-Auswahlfeld beantwortet sie: ein Ansteckmikrofon, das in einer Kamera
-steckt, heißt nicht, dass diese Kamera die Person filmt. Die Kamera, aus
-der der Ton kommt, ist die Vorauswahl, mehr nicht.
+- **Zwei Ansteckmikrofone auf den zwei Kanälen** ergeben zwei Zeilen mit
+  zwei Sprechernamen, beurteilt und geschnitten wie eine zweikanalige
+  Recorder-Datei.
+- **Ein echtes Stereopaar** bleibt eine zweikanalige Spur.
+
+Zu welcher Kamera so eine Spur gehört, stellt das Auswahlfeld **gehört
+zu** ein; die Kamera, aus der der Ton kommt, ist nur die Vorauswahl. Ein
+Ansteckmikrofon, das in einer Kamera steckt, heißt nicht, dass diese
+Kamera die Person filmt.
 
 ### Vorarbeit im Hintergrund
 
-Den Kameraton herauszuziehen und die Hüllkurve zu lesen dauert bei langen
-4K-Dateien Minuten. Beides beginnt, sobald die Tabelle steht, bis zu vier
-Dateien gleichzeitig, angezeigt als ein Balken unter den Tabellen.
-Weiterarbeiten geht derweil; wer zu früh auf **Start** drückt, wartet nur
-kurz.
+Kameraton und Hüllkurve werden gelesen, sobald die Tabelle steht, bis zu
+vier Dateien gleichzeitig, angezeigt als ein Balken unter den Tabellen.
+Bei langen 4K-Dateien dauert das Minuten. Weiterarbeiten geht derweil;
+wer zu früh auf **Start** drückt, wartet nur kurz.
 
 ### Mehrere Dateien gleichzeitig
 
@@ -88,8 +87,9 @@ gemeinsamen Balken.
 
 **Entfernen** nimmt eine Datei aus der Liste: sie fliegt aus der
 Warteschlange, ihre Hüllkurve wird vergessen und die schon
-herausgezogene Tondatei gelöscht. Sonst bleiben die Hüllkurven im
-Ablageordner des Systems
+herausgezogene Tondatei gelöscht.
+
+Sonst bleiben die Hüllkurven im Ablageordner des Systems
 (`~/Library/Caches/videopodcast-magic/envelopes/`, unter Windows
 `%LOCALAPPDATA%`), benannt nach Pfad, Größe und Änderungszeit der
 Quelldatei. Was älter als dreißig Tage ist, wird beim Start weggeräumt.

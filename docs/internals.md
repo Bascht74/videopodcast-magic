@@ -43,6 +43,15 @@ button)` in the order intended -- `"error"` means show and abort, `"question"`
 means ask and abort on no. So the order of the queries can be tested:
 `argv_test.py` goes through eighteen cases.
 
+## How speech is detected without Auphonic
+
+Recorders are turned up to different degrees, so the threshold sits
+over each track's own noise floor and not at a fixed level.
+
+Without the bleed taken out of the tracks, every microphone reports
+speech at once, no camera shows exactly those speakers, and the cut
+stays on the wide shot for the whole recording.
+
 ## How far down the speaker gate still works
 
 Measured on three real microphone tracks, remixed to a separation we
@@ -76,6 +85,13 @@ it holds: every 120 ms, tolerance 350 ms, up to five seconds, and always at
 a standstill. A `play` that does not arrive is repeated after 400 ms; when
 the output device changes, the player follows the new device.
 
+## How the progress bar counts
+
+The run is split into weighted sections. Writing the camera files gets
+the largest share, reading the plan the smallest. Where a section
+reports nothing, the bar creeps on slowly, only a little past what was
+last reported, and stops short of the end rather than standing still.
+
 ## How the channels are measured
 
 Which two channels are one stereo pair is decided by *when* both hear
@@ -93,7 +109,8 @@ the delay put in on purpose:
 | two clip-ons, 2.0 m | 0.10 | two microphones |
 
 Level and correlation both fail here: with bleed the two microphones
-are loud together most of the time.
+are loud together most of the time. Read as a pair, both speakers land
+in one track, and the camera cut has nothing left to switch between.
 
 The absolute floor of -70 dBFS comes from a measurement as well -- two
 excerpts of one 32 channel recording judged the same pairs differently,
@@ -124,6 +141,13 @@ single listen and wrong in every meter.
 Only neighbours are compared: channel 1 against 2, 2 against 3, and so
 on. A pair whose two channels do not sit side by side is not found.
 
+A camera's two channels are judged like a two channel recorder file:
+two clip-on microphones on them give two rows with two speaker names.
+On the command line (`--multitrack`) two separate recordings are
+counted the same way as in the window, and the assignment file is what
+the count is read from. A two channel file that was never split carries
+no extra mark.
+
 ## How the time axis is measured
 
 The time axis is measured with sample points over the whole runtime, a
@@ -132,6 +156,41 @@ interface uses the same method in the background as the run itself.
 
 The spread of a file is read at five spots over it, two seconds each,
 from the packet timestamps in the container.
+
+## What the preflight remembers a file by
+
+A measurement is filed under a fingerprint. The fingerprint is a sha1
+over the measurement version, the language of the run and, for every
+file involved, its absolute path, its size and its modification time;
+the first sixteen hex digits of that hash name the file in the
+preflight cache. A file that changed gets a different fingerprint and
+is measured again, an unchanged one is read from the cache.
+
+The language belongs in the fingerprint because a stored finding holds
+its text ready-made: without it a run in one language would serve the
+report of the last run in the other. The measurement version is raised
+whenever a measurement starts to contain something new, which makes all
+older entries stale at once. A cached entry written by a different
+version of the program is ignored.
+
+Every entry is written beside its place and then moved into it, so a
+run broken off halfway leaves no half json to be read as a measurement
+later.
+
+## The order of work per video file
+
+Per video file the run works in this order:
+
+1. Which part of the audio has a counterpart in the picture? The rest
+   falls away.
+2. Align over envelopes against the camera's audio track.
+3. Measure the clock drift and take it out, as far as the measurement
+   carries; the picture is the reference.
+4. Bring the audio to the start point and length of the picture, gaps
+   filled with silence.
+5. Reassemble: picture untouched (`-c:v copy`), the new audio as the
+   first track, the camera track behind it, both named, timecode kept.
+6. Measure again how far the new track lies against the camera track.
 
 ## What the loudness was measured at
 
@@ -154,22 +213,62 @@ would mean threads taking turns. Python 3.13 and newer answer that
 question directly (`os.process_cpu_count()`); below it the machine's
 count has to do.
 
-## How the transcription is asked for
+## How a production at auphonic.com is created and started
 
 The simple interface Auphonic offers for a single file has no field for
-speech recognition. The production is therefore created first, then told
-to recognise, then started. Its own output files are read and sent back
-along with the new ones, so the audio the preset asks for does not fall
-away.
+speech recognition. A production with a transcript is created first and
+started second. For a single track the file goes to
+`/api/simple/productions.json` together with preset and title, and
+`action=start` is left out, so the production waits. The program then
+reads the production back from `/api/production/<id>.json`, adds the
+recognition to its own output files and posts all of it in one call to
+the same address -- that call starts the production.
+
+For multitrack the recognition is already part of the create request to
+`/api/productions.json`; the tracks follow through
+`/api/production/<id>/upload.json` and
+`/api/production/<id>/start.json` starts the run.
+
+Speech recognition is switched on with an empty service id, so
+Auphonic's own Whisper does the work, shownotes stay off, and the
+language stays empty where none is set. Three output files are asked
+for beside the audio: `speech` as json, `subtitle` as srt, `transcript`
+as txt.
+
+When the production is done, everything is downloaded into
+`auphonic-tracks/`: the ZIP with the single tracks and every further
+output file the production carries.
+
+On the simple path every output the preset would fold to mono is
+switched off: what a preset folds cannot be unfolded afterwards.
 
 On a recompute the track settings are brought to the preset as well,
 each through its own address (`.../multi_input_files/<Name>.json`).
 
-## Track names, and why the target is MOV
+## How the key reaches curl
 
-MOV keeps a track name of its own; MP4 throws it away and writes
-"SoundHandler" regardless, so the tracks could not be told apart. MP4
-also has no PCM in the standard.
+The key reaches curl through a temporary config file. `mkstemp` creates
+that file readable by its owner alone, and a `chmod` to `0600` says so
+again for the reader; on Windows the `chmod` only toggles the read-only
+bit, and the protection there comes from the temporary directory. The
+file holds one line, `header = "Authorization: bearer <key>"`, and the
+key goes in escaped: backslash and quotation mark get a backslash,
+carriage return and line feed are dropped. Without that escaping a
+quotation mark or a line break inside the key would start a directive
+of its own, because curl reads this file as configuration. The file is
+removed in a `finally`, whatever happened; where it cannot be removed
+it is overwritten with a single line first, so a file left behind no
+longer holds the key. A failure to remove it never replaces the real
+error.
+
+## Track names and the MOV target
+
+The target is MOV for every run, MP4 sources included. MOV keeps a
+track name of its own; MP4 throws it away and writes "SoundHandler"
+regardless, so the tracks could not be told apart. MP4 also has no PCM
+in the standard. Nothing is computed again: the picture is copied over
+(`-c:v copy`) and the audio is written uncompressed. There is no
+`--container`.
 
 ## How a file name with a clock in it is read
 
@@ -199,6 +298,15 @@ The QuickTime keys of the container (`com.apple.quicktime.model`,
 `com.apple.quicktime.software`, `com.blackmagic-design.camera.*`) ffmpeg
 throws away without `-map_metadata 0 -movflags +use_metadata_tags`. The
 script sets both.
+
+## What makes a file count as HDR
+
+Ungraded, Log looks flat and is easily taken for harmless SDR. It
+carries the camera's full dynamic range all the same, and it bands in
+eight bit.
+
+The search through the QuickTime keys runs on word markers, not on
+"log": that syllable hides in too many harmless words.
 
 ## How the `logs` atom is carried over
 
@@ -255,10 +363,70 @@ pause (capped at 2 s, x3), closeness to the next entry of another
 speaker (ramp over 6 s, x4), distance from the wanted spot (x1.5,
 negative).
 
+## Cutting when all speakers sit on one camera
+
+With several speakers on one camera the cut has nothing to switch
+between. It is cut anyway, at the change of speaker.
+
+## What the key figures compare
+
+What counts is the distance between the cameras, so the figures are
+measured against the mean of all cameras and not against a target.
+
+## The clip colours
+
+The colours are sorted by distinguishability, so the first two lie as
+far apart as possible. The wide shot gets "Tan" from that list, a warm
+sand brown that on a dark background sits too close to the orange of
+the second camera (34.9 CIE76); shown instead is a pale sage, at least
+52.9 from every speaker colour. In Resolve the clip is still called
+Tan, so that graded projects do not shift.
+
 ## Where the preview takes its offsets from
 
 A handover file carries `offset` per camera, a preview from the speaker
-statistics a `start_s` per camera, and both are read.
+statistics a `start_s` per camera, and both are read. The speaker
+segments count from the start of the material that went to
+auphonic.com.
+
+## How the script talks to Resolve
+
+The check runs in the background on the first look at the tab. A run
+that ends by building a project should not find out at the end that
+Resolve was never running.
+
+That external scripting has been kept to the Studio edition since
+version 19.1 is reported, not stated officially. This is why the
+program measures whether scripting answers instead of going by the
+edition it finds.
+
+The word "multicam" does not appear once in the README that comes with
+Resolve's scripting interface. The words "transition", "dissolve" and
+"fade" do not appear once in that documentation either. The dissolve is
+therefore pulled by hand, and the intro and outro clips lie over the
+content instead of beside it, so that one drag on the upper corner is
+enough.
+
+## How the timelines are built
+
+The cameras started at different times. Which part of each camera file
+lands in the cut therefore comes from the measured offset, not from the
+timecode.
+
+Full length, uncut, one camera per video track, each at its measured
+place: that is how a timeline destined to become a multicam clip has to
+look.
+
+Conversion turns every audio track into an angle. The Full-Mix and the
+camera microphone would become angles without picture, and SmartSwitch
+would hear every speaker on every camera. The surplus audio is
+therefore deleted after the insert.
+
+Remote grades glue the **Clip** level together with the source file, so
+a single cut can no longer be corrected on its own. The colour group
+does the same work without giving up the clip level. The script sets
+local versions on every run because a project from an earlier run would
+otherwise still have remote grades on.
 
 ## German and English: what lives where
 

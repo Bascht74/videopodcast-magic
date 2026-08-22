@@ -4,14 +4,13 @@
 
 ## Aufbereitung über auphonic.com
 
-Der zusammengesetzte Ton geht hoch, wird dort mit einem gespeicherten Preset
-verarbeitet, abgewartet, geholt und wie eine gewöhnliche Tondatei
-weiterverwendet. Der Zugang wird einmal hinterlegt, das Preset gehört zur
-einzelnen Produktion.
+Der zusammengesetzte Ton wird bei auphonic.com mit einem gespeicherten
+Preset verarbeitet und kommt als gewöhnliche Tondatei zurück. Der Zugang
+wird einmal hinterlegt, das Preset gehört zur einzelnen Produktion.
 
 Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
-`AUPHONIC_TOKEN`. In der Oberfläche steht er hinter **Einstellungen ...**,
-oben rechts neben den Reitern, mit dem Häkchen **Im Schlüsselbund speichern**,
+`AUPHONIC_TOKEN`. In der Oberfläche steht er hinter **Einstellungen ...**
+im Fußbereich, mit dem Häkchen **Im Schlüsselbund speichern**,
 das ihn im Schlüsselbund (macOS) oder in der Registry (Windows) behält; das
 Fenster selbst ist in [Die Oberfläche](interface.de.md) beschrieben. Nie in
 einer Datei, nie in der Projektdatei.
@@ -37,34 +36,44 @@ angekommen ist; nur wenn der falsche Schlüssel zurückkommt, folgt die Form mit
 dem Argument, die die Schwäche der Befehlszeile hat. Der Weg über die
 Windows-Registry hat sie nicht.
 
-Auf dem Reiter **2. Zuordnung & Zeitfenster** steht die Presetliste unter der
-Zuordnungstabelle, im Kasten **Aufbereitung bei auphonic.com (optional)**
-gleich unter dem Häkchen **Multitrack (je Sprecher eine Spur)**: das Preset
-unter **Preset:** (auf der Kommandozeile `--auphonic-preset`), daneben
-**Transkription holen** — was dieser Lauf tun soll, an einer Stelle. Die
-Produktion wird aus dem Preset neu gebaut.
+Auf dem Reiter **2. Zuordnung & Zeitfenster** steht im Kasten
+**Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut. Der
+Kasten steht unter der Zuordnungstabelle, gleich unter dem Häkchen
+**Multitrack (je Sprecher eine Spur)**.
+
+* das Preset unter **Preset:** (auf der Kommandozeile
+  `--auphonic-preset`)
+* das Häkchen **Transkription holen** daneben
+
+Die Produktion wird aus dem Preset neu gebaut.
 
 ### Transkription holen
 
 Mit **Transkription holen** schreibt auphonic.com mit, was gesprochen
-wird, und liefert neben dem Ton drei Dateien: ein json mit Zeiten, ein
-srt für Untertitel und ein txt zum Lesen (auf der Kommandozeile
-`--transcript`). Die Arbeit macht Auphonics eigenes Whisper, es braucht
-also kein Konto anderswo und kostet nichts extra — die Produktion dauert
-nur länger. Bei Multitrack trägt die Transkription die Sprechernamen.
+wird (auf der Kommandozeile `--transcript`). Neben dem Ton kommen drei
+Dateien zurück:
+
+* ein json mit Zeiten
+* ein srt für Untertitel
+* ein txt zum Lesen
+
+Die Arbeit macht Auphonics eigenes Whisper: kein Konto anderswo, keine
+Zusatzkosten, eine längere Produktion. Bei Multitrack trägt die
+Transkription die Sprechernamen.
 
 ### Ohne Auphonic arbeiten
 
-Multitrack braucht den Dienst nicht mehr: der erste Eintrag der Presetliste,
-**ohne Auphonic arbeiten** (auf der Kommandozeile `--without-auphonic`). Er
-ist kein Preset, sondern die Ansage, diesen Lauf nicht dorthin zu schicken;
-der Schlüssel bleibt im Feld, gemerkt und geprüft, nur nicht weitergereicht.
-Das Multitrack-Häkchen steht über dem Auphonic-Kasten und braucht keinen
+Multitrack braucht den Dienst nicht mehr. Der erste Eintrag der
+Presetliste, **ohne Auphonic arbeiten**, hält diesen Lauf hier (auf der
+Kommandozeile `--without-auphonic`). Er ist kein Preset, sondern die
+Ansage, diesen Lauf nicht dorthin zu schicken; der Schlüssel bleibt im
+Feld, gemerkt und geprüft, nur nicht weitergereicht. Das
+Multitrack-Häkchen steht über dem Auphonic-Kasten und braucht keinen
 Schlüssel.
 
 Alles läuft dann hier: die Spuren werden auf die gemeinsame Achse
 ausgerichtet, gemischt, auf die Ziellautheit gebracht (`--lufs`,
-voreingestellt -16) und auf die Kameras verteilt; Kameraschnitt und
+voreingestellt -16) und auf die Kameras verteilt. Kameraschnitt und
 Resolve-Projekt entstehen wie sonst. Es fehlt nur, was der Dienst tut:
 De-Bleed, Leveler, Rauschentfernung. Das Übersprechen bleibt im Ton.
 
@@ -77,10 +86,10 @@ Ohne Multitrack gibt es keine getrennten Spuren und damit keinen
 Kameraschnitt, mit Dienst wie ohne. Der Ton wird zusammengelegt und so ins
 Video gelegt, wie er aufgenommen wurde; die Lautheit setzt nur Auphonic.
 
-Solange kein Schlüssel geprüft ist, steht nur dieser Eintrag in der Liste.
-Sobald die Presets eintreffen, springt die Auswahl auf das erste davon; der
-Platzhalter allein zählt nicht als Wahl. Eine bewusste Wahl übersteht den
-Neuaufbau der Liste und steht in der Projektdatei.
+Solange kein Schlüssel geprüft ist, steht nur dieser Eintrag in der
+Liste. Sobald die Presets eintreffen, springt die Auswahl auf das erste
+davon. Eine bewusste Wahl übersteht den Neuaufbau der Liste und steht in
+der Projektdatei.
 
 ### Eine Produktion, die es schon gibt
 
@@ -108,12 +117,12 @@ Heruntergeladen wird alles: Einzelspuren, Statistik als
 Kapitelmarken, Transkript, Auswertungen. Alles landet in `auphonic-tracks/`
 neben den fertigen Videos, später auch die `final_*.wav`.
 
-Setzt man In point und Out point nachträglich, sind die Spuren länger als
-das neue Fenster. Sie werden beschnitten und die Zeiten der Statistik
-mitverschoben, damit der Kameraschnitt weiter passt — ohne zweiten Durchlauf
-bei Auphonic. Passt die Länge weder zum Fenster noch zum ganzen gemessenen
-Bereich, gehören die Dateien zu einem anderen Lauf, und das sagt die
-Meldung.
+In point und Out point nachträglich zu setzen kostet keinen zweiten
+Durchlauf bei Auphonic. Die Spuren werden auf das neue Fenster
+beschnitten und die Zeiten der Statistik mitverschoben, damit der
+Kameraschnitt weiter passt. Passt die Länge weder zum Fenster noch zum
+ganzen gemessenen Bereich, gehören die Dateien zu einem anderen Lauf, und
+das sagt die Meldung.
 
 ### Weitere Optionen über die Kommandozeile
 

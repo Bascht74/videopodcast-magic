@@ -6,6 +6,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import sys, importlib.util
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
+os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
 spec = importlib.util.spec_from_file_location(

@@ -6,17 +6,19 @@
 
 Several people at a table, each with a microphone that hears everyone.
 Taking that bleed out of the audio is the one thing only auphonic.com
-does. Everything else runs locally: in the box **Processing at
-auphonic.com (optional)** on tab **2. Assignment & time window** pick
-**work without Auphonic** in the selector **Preset:** (on the command
-line `--without-auphonic`). The run is then aligned, mixed, loudness set,
+does.
+
+Everything else runs locally. In the box **Processing at auphonic.com
+(optional)** on tab **2. Assignment & time window** pick **work without
+Auphonic** in the selector **Preset:** (on the command line
+`--without-auphonic`). The run is then aligned, mixed, loudness set,
 camera cut included, but no de-bleed, no leveler, no noise removal.
 
-Before that everything goes onto one common time axis, clock drift and
-all. The window comes from the cameras alone; where audio is missing
-inside it, silence goes there. Rows with the same speaker name become one
-track, laid end to end by timecode. That is right for a recording that was
-stopped in between.
+Everything lands on one common time axis, clock drift and all. The
+window comes from the cameras alone; where audio is missing inside it,
+silence goes there. Rows with the same speaker name become one track,
+laid end to end by timecode. A recording that was stopped in between
+comes back in one piece.
 
 ### The assignment
 
@@ -37,44 +39,42 @@ fetches that file into the player. Files that do not fit the measured
 time axis stand in red, here as in the file list.
 
 Above the tables the **Multitrack** tick sits a second time. It is the
-same tick as under **Production** and the same value -- click either one
-and both show it. Multitrack wants two separate recordings, and a camera
-counts as one as soon as **as a track** is ticked for it. On the command
-line (`--multitrack`) the count works the same way and reads the
-assignment file for it.
+same tick as under **Production**: click either one and both show it.
+Multitrack wants two separate recordings, and a camera counts as one as
+soon as **as a track** is ticked for it. The count is the same on the
+command line (`--multitrack`).
 
 ### Without separate audio recordings
 
-With only cameras — at least two — their own sound becomes the tracks, one
-per camera. Otherwise a single camera can still contribute its sound: the
-tick **as a track** in the column **own audio**. It then has a row in the
-upper table with its speaker name and counts like any other track —
-processed, in the Full-Mix, in the speaker statistics, and the first audio
-track of its own camera. Without Multitrack the run would have nothing to
-put into cameras-only material and would stop.
+With only cameras — at least two — their own sound becomes the tracks,
+one per camera. Without Multitrack the run has nothing to put into
+cameras-only material and stops.
 
-"Like any other track" includes the channels. The tick says no more than
-"do not throw this audio away"; what it becomes is decided by the same
-measurement as for a recorder file. A camera whose two channels carry two
-clip-on microphones — a DJI Osmo does that — gives two rows with two
-speaker names, judged and cut exactly as a two channel recorder file
-would be. A camera carrying a real stereo pair keeps it as one two
-channel track. On the command line the same thing happens without an
-interface: `videopodcast-magic.py Osmo.mov Wide.mov --multitrack` reads
-the Osmo as two speakers and the wide shot as one, and still writes one
-file per camera.
+A single camera can contribute its sound as well: the tick **as a track**
+in the column **own audio**. It then has a row in the upper table with
+its speaker name and counts like any other track — processed, in the
+Full-Mix, in the speaker statistics, and the first audio track of its own
+camera.
 
-Which camera such a track belongs to is a separate question, and the
-selector answers it: a clip-on microphone plugged into one camera does
-not mean the person is filmed by that camera. The camera the audio came
-out of is the preselection, nothing more.
+"Like any other track" includes the channels. The tick says no more than:
+do not throw this audio away. What the audio becomes is decided by the
+same measurement as for a recorder file.
+
+- **Two clip-on microphones on the two channels** give two rows with two
+  speaker names, judged and cut like a two channel recorder file.
+- **A real stereo pair** stays one two channel track.
+
+Which camera such a track belongs to is set in the selector **belongs
+to**; the camera the audio came out of is only the preselection. A
+clip-on microphone plugged into one camera does not mean that camera
+films the person.
 
 ### Prework in the background
 
-Pulling the camera audio out and reading the envelope takes minutes on
-long 4K files. Both start as soon as the table stands, up to four at once,
-shown as one bar under the tables. Work carries on meanwhile; pressing
-**Start** too early only costs a short wait.
+Camera audio and envelope are read as soon as the table stands, up to
+four files at once, shown as one bar under the tables. On long 4K files
+that takes minutes. Work carries on meanwhile; pressing **Start** too
+early only costs a short wait.
 
 ### Several files at once
 
@@ -83,6 +83,7 @@ report appears in one piece when it is finished, under one shared bar.
 
 **Remove** takes a file out of the list: it leaves the queue, its
 envelope is forgotten and the audio already extracted is deleted.
+
 Envelopes otherwise stay in the system cache folder
 (`~/Library/Caches/videopodcast-magic/envelopes/`, on Windows
 `%LOCALAPPDATA%`), keyed to the source file's path, size and change time.

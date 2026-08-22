@@ -5,6 +5,10 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import sys, importlib.util, inspect, re
+# A test must never play sound at somebody working next to it. The
+# program reads the variable with bool(), so every value silences the
+# player, "0" as well; only an unset variable lets it be heard.
+os.environ.setdefault("VPM_SILENT", "1")
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm

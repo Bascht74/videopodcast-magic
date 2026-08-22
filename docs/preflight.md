@@ -4,14 +4,14 @@
 
 ## Preflight
 
-Before the first long step the script looks the material over. On tab
+The script looks the material over before the first long step. On tab
 **1. Files & production** this happens by itself, and again after every
-change to the file list: one sentence under the list says what was found,
+change to the file list. One sentence under the list says what was found,
 and each row carries a mark. Hovering over the mark, or opening the row,
 shows what stands behind it.
 
-The report holds for both modes and stands at one place, before the switch;
-the bleed falls away where there is only one track.
+The report holds for both modes and stands at one place, before the
+switch. The bleed falls away where there is only one track.
 
 | | What | What follows |
 |---|---|---|
@@ -28,18 +28,17 @@ the bleed falls away where there is only one track.
 A stop halts the run before anything is written or uploaded.
 
 Only what changed is measured, and it is remembered **per file**, not per
-selection: path, size and modification time identify it. Adding a camera
-measures that camera alone; what shows only in comparison -- frame rates,
-resolutions, tracks out of line -- comes from the remembered data and costs
-nothing. The bleed counts for exactly that set of tracks. Disk space and
-loudness target are found afresh every time.
+selection. Adding a camera measures that camera alone. Frame rates,
+resolutions and tracks out of line show only in comparison and come from
+the remembered data. The bleed counts for exactly that set of tracks.
+Disk space and loudness target are found afresh every time.
 
 ### Variable frame rate
 
-A camera does not have to write a frame every 1/30 second; it can put a
-timestamp on every frame and let the spacing vary -- phones do that when the
-light goes. The file still states a fixed nominal rate. Two cases matter, and
-the report says which:
+A camera need not write a frame every 1/30 second. It can put a timestamp
+on every frame and let the spacing vary; phones do that when the light
+goes. The file still states a fixed nominal rate. The report says which of
+two cases it is:
 
 - **Evenly off.** The file says 30, in truth it is a constant 29.98 -- clock
   drift as in the audio. The audio is pulled onto the picture during
@@ -58,11 +57,11 @@ Where several speakers sit in one room, every voice stands quietly in the
 other microphones too. The report measures how much quieter, at five windows
 over the shared time, each where exactly one person is talking.
 
-The yardstick is the 3:1 rule: with the other microphone three times as far
-from the speaker as their own, the neighbouring voice is about 9.5 dB
+The yardstick is the 3:1 rule: with the other microphone three times as
+far from the speaker as their own, the neighbouring voice is about 9.5 dB
 quieter. That says something about the setup in the room, not about
-post-production, and can only be changed next time -- so it does not halt the
-run.
+post-production. It can only be changed next time, so it does not halt
+the run.
 
 ### Loudness
 
@@ -70,18 +69,18 @@ The target holds for both: normalising the tracks, and the target level of
 the loudness display in the Resolve project. Without an entry it is
 -16 LUFS.
 
-**The mix is two-channel, and so is the measurement.** The single tracks keep
-the channels their source has ([Channels](channels.md)); every *mix* though,
-the `Full-Mix` as much as one camera's mix, carries the same signal on both
-channels and is measured that way. On one channel the same mix measures a good
-three decibels quieter -- that is measured, not assumed -- so measure on one
-and deliver on two and you are off by that much.
+**The mix is two-channel, and so is the measurement.** The single tracks
+keep the channels their source has ([Channels](channels.md)). Every *mix*
+though, the `Full-Mix` as much as one camera's mix, carries the same
+signal on both channels and is measured that way. On one channel the same
+mix measures a good three decibels quieter. Measure on one and deliver on
+two and you are off by that much.
 
-Normalising also puts the **loudness range** in the log, the distance between
-quiet and loud passages. For speech 3 to 7 LU is usual; below 2 LU the log
-says so plainly. Then something was squashed, and not by the limiter, which
-only catches peaks and may take off 6 dB at most, but by the leveler in front
-of it.
+Normalising also puts the **loudness range** in the log, the distance
+between quiet and loud passages. For speech 3 to 7 LU is usual; below
+2 LU the log says so plainly. Then something was squashed by the leveler,
+not by the limiter, which only catches peaks and takes off 6 dB at
+most.
 
 ### Further options on the command line
 

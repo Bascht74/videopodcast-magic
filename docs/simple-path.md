@@ -25,9 +25,11 @@ What the simple path does just like multitrack:
 Camera cut, speaker statistics and cut forecast are missing: they need the
 speaker assignment.
 
-Audio only: the continuation files are joined and written. Audio and video:
-the audio is aligned and laid into the video file. One video only: its own
-audio, left and right kept apart.
+What comes out depends on the material:
+
+- **Audio only.** The continuation files are joined and written.
+- **Audio and video.** The audio is aligned and laid into the video file.
+- **One video only.** Its own audio, left and right kept apart.
 
 ### The recordings beside the mix
 
@@ -36,15 +38,15 @@ recordings ran at the same time, each of them also goes into the video
 as a track of its own, after the mix, on the same axis and of the same
 length.
 
-Whether they ran at the same time is read from the timecode rather than
-guessed. Recordings that overlap were several microphones at once.
-Blocks that follow one another are one recording and get no extra tracks.
+Whether they ran at the same time is read from the timecode. Recordings
+that overlap were several microphones at once. Blocks that follow one
+another are one recording and get no extra tracks.
 
-The single tracks are as recorded: this path sends only the mix to
-auphonic.com, so no de-bleed and no leveler on them. They cost about
-520 MB per track and hour. Where the mix comes back from auphonic.com
-with a different length than they have -- a jingle prepended on the free
-tier -- they drop out by themselves and the run says so.
+The single tracks are as recorded: only the mix goes to auphonic.com, so
+no de-bleed and no leveler on them. They cost about 520 MB per track and
+hour. Where the mix comes back from auphonic.com with a different length
+than they have -- a jingle prepended on the free tier -- they drop out by
+themselves and the run says so.
 
 The script finds continuation files itself; the first numbered block is
 enough. Only what joins seamlessly counts -- checked on the timecode,
@@ -57,15 +59,14 @@ the measured value.
 
 ### Blocks that carry a clock, not a counter
 
-A recorder numbers its files and the next block is the next number. A
-mixer often writes the date and the time of day instead:
-`r_260808_185628.wav` and `r_260808_190128.wav`.
+Names with date and time of day count as blocks too:
+`r_260808_185628.wav` and `r_260808_190128.wav`. A recorder numbers its
+files; a mixer often writes the clock instead.
 
-The clock is read and held against the length: the next block belongs
-to the recording when it starts where the previous one ends, within two
-seconds. Where every block carries the same clock -- the start of the
-session, with the real index in a counter behind it -- the counter rule
-applies as before.
+The next block belongs to the recording when it starts where the previous
+one ends, within two seconds. Where every block carries the same clock --
+the start of the session, with the real index in a counter behind it --
+the counter rule applies as before.
 
 ### Putting blocks together by hand
 
@@ -78,28 +79,21 @@ belong to it.
 
 The other direction: pick the block's row in the file list and press
 **Remove** -- it then stays out of the recording it was found in (on the
-command line `--apart`). Both are by hand, both beat the measurement, and
-a file set apart stays out even of a group it was put into. Both are
-stored in the project.
+command line `--apart`). Both beat the measurement. A file set apart
+stays out even of a group it was put into. Both are stored in the
+project.
 
 ### Per video file
 
-1. Which part of the audio has a counterpart in the picture? The rest falls
-   away.
-2. Align over envelopes against the camera's audio track.
-3. Measure the clock drift and take it out, as far as the measurement
-   carries; the picture is the reference.
-4. Bring the audio to the start point and length of the picture, gaps
-   filled with silence.
-5. Reassemble: picture untouched (`-c:v copy`), the new audio as the first
-   track, the camera track behind it, both named, timecode kept.
-6. Measure again how far the new track lies against the camera track.
+Each video file comes back with the picture untouched (`-c:v copy`), the
+new audio as the first track and the camera's own track behind it, both
+named and the timecode kept.
 
 ### Why MOV
 
 The target is always MOV, for MP4 sources too; nothing is computed again.
-MP4 would throw the track names away and has no uncompressed audio in the
-standard. There is no `--container`.
+MOV carries the track names and the uncompressed audio, MP4 does neither.
+There is no `--container`.
 
 ### Further options on the command line
 

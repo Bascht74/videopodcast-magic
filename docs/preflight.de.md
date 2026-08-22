@@ -4,14 +4,16 @@
 
 ## Vorflug
 
-Bevor der erste lange Schritt anfängt, sieht das Script das Material durch.
-Auf dem Reiter **1. Dateien & Produktion** geschieht das von selbst, und nach
-jeder Änderung der Dateiliste erneut: ein Satz unter der Liste sagt, was
-gefunden wurde, und jede Zeile trägt eine Marke. Wer mit dem Zeiger auf der
-Marke stehen bleibt oder die Zeile aufklappt, sieht, was dahintersteht.
+Das Script sieht das Material durch, bevor der erste lange Schritt
+anfängt. Auf dem Reiter **1. Dateien & Produktion** geschieht das von
+selbst, und nach jeder Änderung der Dateiliste erneut. Ein Satz unter der
+Liste sagt, was gefunden wurde, und jede Zeile trägt eine Marke. Wer mit
+dem Zeiger auf der Marke stehen bleibt oder die Zeile aufklappt, sieht,
+was dahintersteht.
 
-Der Bericht gilt für beide Betriebsarten und steht an einer einzigen Stelle,
-vor der Weiche; das Übersprechen fällt bei einer einzigen Spur weg.
+Der Bericht gilt für beide Betriebsarten und steht an einer einzigen
+Stelle, vor der Weiche. Das Übersprechen fällt bei einer einzigen Spur
+weg.
 
 | | Was | Was daraus folgt |
 |---|---|---|
@@ -27,19 +29,19 @@ vor der Weiche; das Übersprechen fällt bei einer einzigen Spur weg.
 
 Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen wird.
 
-Gemessen wird nur, was sich geändert hat, und gemerkt wird **je Datei**, nicht
-je Auswahl: Kennung sind Pfad, Größe und Änderungszeit. Kommt eine Kamera
-dazu, wird nur diese gemessen; was erst im Vergleich auffällt -- Bildraten,
-Auflösungen, Spuren aus der Reihe -- rechnet sich aus den gemerkten Daten und
-kostet nichts. Das Übersprechen gilt für genau diese Menge an Spuren.
-Plattenplatz und Lautheitsziel werden jedes Mal neu bestimmt.
+Gemessen wird nur, was sich geändert hat, und gemerkt wird **je Datei**,
+nicht je Auswahl. Kommt eine Kamera dazu, wird nur diese gemessen.
+Bildraten, Auflösungen und Spuren aus der Reihe fallen erst im Vergleich
+auf und rechnen sich aus den gemerkten Daten. Das Übersprechen gilt für
+genau diese Menge an Spuren. Plattenplatz und Lautheitsziel werden jedes
+Mal neu bestimmt.
 
 ### Variable Bildrate
 
-Eine Kamera muss nicht alle 1/30 Sekunde ein Bild schreiben; sie kann zu jedem
-Bild einen Zeitstempel ablegen und die Abstände schwanken lassen -- Telefone
-tun das, wenn es dunkel wird. In der Datei steht trotzdem eine feste Nennrate.
-Zwei Fälle sind zu unterscheiden, und der Bericht sagt, welcher vorliegt:
+Eine Kamera muss nicht alle 1/30 Sekunde ein Bild schreiben. Sie kann zu
+jedem Bild einen Zeitstempel ablegen und die Abstände schwanken lassen;
+Telefone tun das, wenn es dunkel wird. In der Datei steht trotzdem eine
+feste Nennrate. Der Bericht sagt, welcher von zwei Fällen vorliegt:
 
 - **Gleichmäßig daneben.** Die Datei sagt 30, in Wirklichkeit sind es konstant
   29,98 -- Uhrengang wie beim Ton. Der Ton wird beim Ausrichten ohnehin auf
@@ -59,10 +61,11 @@ Sitzen mehrere Sprecher in einem Raum, steht jede Stimme leise auch in den
 anderen Mikrofonen. Der Bericht misst, wieviel leiser -- an fünf Fenstern über
 die gemeinsame Zeit, jeweils dort, wo genau einer redet.
 
-Der Maßstab ist die 3:1-Regel: steht das fremde Mikrofon dreimal so weit vom
-Sprecher weg wie sein eigenes, ist die Nachbarstimme rund 9,5 dB leiser. Das
-sagt etwas über den Aufbau im Raum, nicht über die Nachbearbeitung, und ändern
-lässt es sich nur beim nächsten Mal -- deshalb hält es den Lauf nicht an.
+Der Maßstab ist die 3:1-Regel: steht das fremde Mikrofon dreimal so weit
+vom Sprecher weg wie sein eigenes, ist die Nachbarstimme rund 9,5 dB
+leiser. Das sagt etwas über den Aufbau im Raum, nicht über die
+Nachbearbeitung. Ändern lässt es sich nur beim nächsten Mal, deshalb hält
+es den Lauf nicht an.
 
 ### Lautheit
 
@@ -70,18 +73,18 @@ Der Wert gilt für beides: für die Normalisierung der Spuren und für den
 Zielpegel der Lautheitsanzeige im Resolve-Projekt. Ohne Angabe sind es
 −16 LUFS.
 
-**Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten die
-Kanäle ihrer Quelle ([Kanäle](channels.de.md)); jede *Mischung* dagegen, der
-`Full-Mix` wie der Mix einer einzelnen Kamera, bekommt dasselbe Signal auf
-beide Kanäle und wird so gemessen. Einkanalig misst sich dieselbe Mischung gut
-drei Dezibel leiser -- das ist gemessen, nicht angenommen -- wer einkanalig
-misst und zweikanalig abgibt, liegt genau um diesen Betrag daneben.
+**Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten
+die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jede *Mischung*
+dagegen, der `Full-Mix` wie der Mix einer einzelnen Kamera, bekommt
+dasselbe Signal auf beide Kanäle und wird so gemessen. Einkanalig misst
+sich dieselbe Mischung gut drei Dezibel leiser. Wer einkanalig misst und
+zweikanalig abgibt, liegt genau um diesen Betrag daneben.
 
 Beim Normalisieren steht auch der **Lautheitsumfang** im Protokoll, der
 Abstand zwischen leisen und lauten Stellen. Bei Sprache sind 3 bis 7 LU
 üblich; unter 2 LU sagt das Protokoll es ausdrücklich. Dann wurde
-plattgedrückt, und zwar nicht vom Limiter, der nur Spitzen abfängt und
-höchstens 6 dB wegnehmen darf, sondern vom Leveler davor.
+plattgedrückt, und zwar vom Leveler, nicht vom Limiter, der nur Spitzen
+abfängt und höchstens 6 dB wegnehmen darf.
 
 ### Weitere Optionen über die Kommandozeile
 

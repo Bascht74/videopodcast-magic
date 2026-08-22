@@ -8,6 +8,14 @@ WORKERS=1 bash run.sh    # one after another, easier to read
 python3 speakers_test.py # a single one
 ```
 
+A test started by hand stays silent: every test that builds a player
+sets `VPM_SILENT` itself, so it plays nothing at whoever is working
+next to it, and `run.sh` sets the variable for the whole run anyway.
+The program reads it with `bool()`, so any value silences the player,
+`0` included, and `env -u VPM_SILENT` does not help -- the test would
+set it again. Sound comes back with an empty value:
+`VPM_SILENT= python3 player_test.py`.
+
 A test counts as green when it returns 0 and prints neither a traceback
 nor `FAIL`. A test that finds nothing to work on prints `SKIPPED:` and is
 counted apart -- the summary line then reads `green: 50 skipped: 1`, never

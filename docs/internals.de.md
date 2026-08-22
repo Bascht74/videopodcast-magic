@@ -44,6 +44,15 @@ button)` in der vorgesehenen Reihenfolge — `"error"` heißt zeigen und
 abbrechen, `"question"` fragen und bei Nein abbrechen. So ist die Reihenfolge
 der Rückfragen prüfbar: `argv_test.py` geht achtzehn Fälle durch.
 
+## Wie Sprache ohne Auphonic erkannt wird
+
+Rekorder sind verschieden weit aufgedreht, deshalb liegt die Schwelle
+über dem eigenen Grundpegel jeder Spur und nicht auf einem festen Wert.
+
+Ohne das herausgerechnete Übersprechen meldet jedes Mikrofon
+gleichzeitig Sprache, keine Kamera zeigt genau diese Sprecher, und der
+Schnitt bleibt die ganze Aufnahme über auf dem Weitwinkel.
+
 ## Wie weit hinunter das Sprecher-Gatter trägt
 
 Gemessen an drei echten Mikrofonspuren, neu gemischt auf eine Trennung,
@@ -79,6 +88,14 @@ deshalb wird jede Stelle nachgesetzt, bis sie sitzt: alle 120 ms, Toleranz
 ankommt, wird nach 400 ms wiederholt; wechselt das Ausgabegerät, folgt der
 Spieler dem neuen Gerät.
 
+## Wie der Fortschrittsbalken rechnet
+
+Der Lauf ist in gewichtete Abschnitte zerlegt. Die Kameradateien zu
+schreiben bekommt den größten Anteil, den Plan zu lesen den kleinsten.
+Wo ein Abschnitt nichts meldet, kriecht der Balken langsam weiter, nur
+ein Stück über den zuletzt gemeldeten Wert hinaus, und bleibt vor dem
+Ende stehen, statt stillzustehen.
+
 ## Wie die Kanäle gemessen werden
 
 Welche zwei Kanäle ein Stereopaar sind, entscheidet sich daran, *wann*
@@ -96,7 +113,9 @@ gebauten Fällen mit absichtlich eingebauter Laufzeit:
 | zwei Ansteckmics, 2,0 m | 0,10 | zwei Mikrofone |
 
 Pegel und Korrelation versagen hier: bei Übersprechen sind beide
-Mikrofone die meiste Zeit gleichzeitig laut.
+Mikrofone die meiste Zeit gleichzeitig laut. Als Paar gelesen landen
+beide Sprecher in einer Spur, und der Kameraschnitt hat nichts mehr zu
+wechseln.
 
 Die absolute Grenze von −70 dBFS stammt ebenfalls aus einer Messung —
 zwei Ausschnitte derselben 32-Kanal-Aufnahme haben dieselben Paare
@@ -130,6 +149,13 @@ Verglichen werden nur Nachbarn: Kanal 1 gegen 2, 2 gegen 3, und so
 weiter. Ein Paar, dessen zwei Kanäle nicht nebeneinander liegen, wird
 nicht gefunden.
 
+Die zwei Kanäle einer Kamera werden beurteilt wie eine zweikanalige
+Recorder-Datei: zwei Ansteckmikrofone darauf ergeben zwei Zeilen mit
+zwei Sprechernamen. Auf der Kommandozeile (`--multitrack`) werden zwei
+getrennte Aufnahmen genauso gezählt wie im Fenster, und gelesen wird
+die Zählung aus der Zuordnungsdatei. Eine zweikanalige Datei, die nie
+getrennt wurde, trägt kein zusätzliches Kennzeichen.
+
 ## Wie die Zeitachse gemessen wird
 
 Die Zeitachse wird mit Stützstellen über die ganze Laufzeit gemessen,
@@ -140,6 +166,42 @@ selbst.
 Die Schwankung einer Datei wird an fünf Stellen über sie verteilt
 gelesen, jeweils zwei Sekunden, an den Zeitstempeln der Pakete im
 Container.
+
+## Woran der Vorflug eine Datei wiedererkennt
+
+Eine Messung wird unter einer Kennung abgelegt. Die Kennung ist ein
+sha1 über die Messfassung, die Sprache des Laufs und, für jede
+beteiligte Datei, deren absoluten Pfad, deren Größe und deren
+Änderungszeit; die ersten sechzehn Hexziffern dieses Werts benennen die
+Datei im Vorflug-Zwischenspeicher. Eine geänderte Datei bekommt eine
+andere Kennung und wird neu gemessen, eine unveränderte wird aus dem
+Zwischenspeicher gelesen.
+
+Die Sprache gehört in die Kennung, weil eine abgelegte Feststellung
+ihren Text fertig mitbringt: ohne sie bekäme ein Lauf in der einen
+Sprache den Bericht des letzten Laufs in der anderen. Die Messfassung
+wird heraufgesetzt, sobald eine Messung etwas Neues enthält, und damit
+werden alle älteren Einträge auf einmal ungültig. Ein Eintrag aus einer
+anderen Fassung des Programms wird nicht gelesen.
+
+Jeder Eintrag wird daneben geschrieben und dann an seinen Platz
+gerückt, damit ein abgebrochener Lauf kein halbes json hinterlässt, das
+später als Messung gelesen wird.
+
+## Die Reihenfolge je Videodatei
+
+Je Videodatei arbeitet der Lauf in dieser Reihenfolge:
+
+1. Welcher Teil des Tons hat eine Entsprechung im Bild? Der Rest fällt
+   weg.
+2. Ausrichten über Hüllkurven gegen die Tonspur der Kamera.
+3. Uhrengang messen und herausrechnen, soweit die Messung ihn hergibt;
+   Bezug ist das Bild.
+4. Ton auf Startpunkt und Länge des Bildes bringen, Fehlendes mit
+   Stille.
+5. Neu zusammensetzen: Bild unverändert (`-c:v copy`), der neue Ton als
+   erste Spur, dahinter die Kameraspur, beide benannt, Timecode bleibt.
+6. Nachmessen, wie weit die neue Spur gegen die Kameraspur liegt.
 
 ## Womit die Lautheit gemessen wurde
 
@@ -163,22 +225,66 @@ hieße, dass sich die Threads abwechseln. Python 3.13 und neuer
 beantworten diese Frage direkt (`os.process_cpu_count()`); darunter
 muss die Zahl der Maschine genügen.
 
-## Wie die Transkription angefordert wird
+## Wie eine Produktion bei auphonic.com angelegt und gestartet wird
 
 Die einfache Schnittstelle, die Auphonic für eine einzelne Datei
-anbietet, kennt kein Feld für Spracherkennung. Die Produktion wird
-deshalb erst angelegt, dann auf Erkennung gestellt, dann gestartet. Ihre
-eigenen Ausgabedateien werden gelesen und mit den neuen zusammen
-zurückgeschickt, damit der vom Preset gewünschte Ton nicht wegfällt.
+anbietet, kennt kein Feld für Spracherkennung. Eine Produktion mit
+Transkription wird erst angelegt und dann gestartet. Bei einer
+einzelnen Spur geht die Datei mit Preset und Titel an
+`/api/simple/productions.json`, und `action=start` bleibt weg, damit
+die Produktion wartet. Danach liest das Programm die Produktion über
+`/api/production/<id>.json` zurück, ergänzt die Erkennung um deren
+eigene Ausgabedateien und schickt alles in einem Aufruf an dieselbe
+Adresse — dieser Aufruf startet die Produktion.
+
+Bei Multitrack steht die Erkennung schon im Anlege-Aufruf an
+`/api/productions.json`; die Spuren folgen über
+`/api/production/<id>/upload.json`, und
+`/api/production/<id>/start.json` startet den Lauf.
+
+Die Erkennung wird ohne Dienstkennung eingeschaltet, also arbeitet
+Auphonics eigenes Whisper, Shownotes bleiben aus, und die Sprache
+bleibt leer, wenn keine gesetzt ist. Neben dem Ton werden drei
+Ausgabedateien angefordert: `speech` als json, `subtitle` als srt,
+`transcript` als txt.
+
+Ist die Produktion fertig, wird alles nach `auphonic-tracks/` geladen:
+das ZIP mit den Einzelspuren und jede weitere Ausgabedatei der
+Produktion.
+
+Auf dem einfachen Weg wird jede Ausgabe abgeschaltet, die das Preset
+auf Mono falten würde: was ein Preset faltet, lässt sich hinterher
+nicht entfalten.
 
 Beim Neurechnen kommen auch die Spureinstellungen auf das Preset, jede
 über ihre eigene Adresse (`.../multi_input_files/<Name>.json`).
 
-## Spurnamen, und warum das Ziel MOV ist
+## Wie der Schlüssel zu curl kommt
 
-MOV übernimmt einen eigenen Spurnamen; MP4 verwirft ihn und schreibt
-stur „SoundHandler", die Spuren wären dort nicht auseinanderzuhalten.
-MP4 kennt außerdem kein PCM im Standard.
+Der Schlüssel erreicht curl über eine temporäre Konfigurationsdatei.
+`mkstemp` legt diese Datei nur für ihren Eigentümer lesbar an, und ein
+`chmod` auf `0600` sagt es dem Leser noch einmal; unter Windows
+schaltet das `chmod` nur das Nur-Lesen-Bit, und der Schutz kommt dort
+aus dem temporären Verzeichnis. In der Datei steht eine Zeile,
+`header = "Authorization: bearer <Schlüssel>"`, und der Schlüssel geht
+maskiert hinein: Rückstrich und Anführungszeichen bekommen einen
+Rückstrich, Wagenrücklauf und Zeilenvorschub fallen weg. Ohne diese
+Maskierung könnte ein Anführungszeichen oder ein Zeilenumbruch im
+Schlüssel eine eigene Direktive anfangen, denn curl liest diese Datei
+als Konfiguration. Die Datei wird in einem `finally` entfernt, was auch
+immer geschehen ist; lässt sie sich nicht entfernen, wird sie vorher
+mit einer einzelnen Zeile überschrieben, damit eine liegengebliebene
+Datei den Schlüssel nicht mehr enthält. Ein Fehlschlag beim Entfernen
+ersetzt nie den eigentlichen Fehler.
+
+## Spurnamen und das Ziel MOV
+
+Ziel ist bei jedem Lauf MOV, auch bei MP4-Quellen. MOV übernimmt einen
+eigenen Spurnamen; MP4 verwirft ihn und schreibt stur „SoundHandler",
+die Spuren wären dort nicht auseinanderzuhalten. MP4 kennt außerdem
+kein PCM im Standard. Neu berechnet wird dabei nichts: das Bild wird
+umkopiert (`-c:v copy`), der Ton unkomprimiert geschrieben.
+`--container` gibt es nicht.
 
 ## Wie ein Dateiname mit Uhrzeit gelesen wird
 
@@ -210,6 +316,15 @@ Die QuickTime-Schlüssel des Containers (`com.apple.quicktime.model`,
 `com.apple.quicktime.software`, `com.blackmagic-design.camera.*`) wirft
 ffmpeg weg ohne `-map_metadata 0 -movflags +use_metadata_tags`. Das
 Script setzt beides.
+
+## Woran eine Datei als HDR gilt
+
+Ungradiert sieht Log flau aus und wird leicht für harmloses SDR
+gehalten. Es trägt trotzdem den vollen Dynamikumfang der Kamera und
+zeigt in acht Bit Streifen.
+
+Gesucht wird in den QuickTime-Schlüsseln nach Wortmarken, nicht nach
+„log": die Silbe steckt in zu vielen harmlosen Wörtern.
 
 ## Wie das `logs`-Atom übernommen wird
 
@@ -267,10 +382,71 @@ der Pause (bei 2 s gedeckelt, x3), Nähe zum nächsten Einsatz eines
 anderen Sprechers (Rampe über 6 s, x4), Abstand zum Wunschpunkt (x1,5
 negativ).
 
+## Schneiden, wenn alle Sprecher auf einer Kamera sitzen
+
+Sitzen mehrere Sprecher auf einer Kamera, hat der Schnitt nichts zu
+wechseln. Geschnitten wird trotzdem, am Sprecherwechsel.
+
+## Woran die Kennzahlen messen
+
+Es zählt der Abstand zwischen den Kameras, deshalb wird gegen den
+Mittelwert aller Kameras gemessen und nicht gegen eine Vorgabe.
+
+## Die Clipfarben
+
+Die Farben sind nach Unterscheidbarkeit sortiert, die ersten beiden
+liegen also so weit auseinander wie möglich. Der Weitwinkel bekommt aus
+dieser Liste „Tan", ein warmes Sandbraun, das auf dunklem Grund dem
+Orange der zweiten Kamera zu nahe liegt (CIE76-Abstand 34,9); angezeigt
+wird stattdessen ein blasser Salbeiton mit mindestens 52,9 Abstand zu
+jeder Sprecherfarbe. In Resolve heißt der Clip weiterhin Tan, damit
+gefärbte Projekte sich nicht verstellen.
+
 ## Woher die Vorschau ihre Versätze nimmt
 
 Eine Übergabedatei trägt je Kamera `offset`, eine Vorschau aus der
-Sprecherstatistik je Kamera `start_s`, und beides wird gelesen.
+Sprecherstatistik je Kamera `start_s`, und beides wird gelesen. Die
+Sprecherabschnitte zählen ab dem Anfang des Materials, das bei
+auphonic.com lag.
+
+## Wie das Script mit Resolve spricht
+
+Die Prüfung läuft beim ersten Blick auf den Reiter im Hintergrund. Ein
+Lauf, der am Ende ein Projekt baut, soll nicht erst am Ende erfahren,
+dass Resolve nie lief.
+
+Dass externes Scripting seit Version 19.1 der Studio-Fassung
+vorbehalten ist, wird berichtet, aber nicht offiziell gesagt. Deshalb
+misst das Programm, ob das Scripting antwortet, statt sich auf die
+vorgefundene Fassung zu verlassen.
+
+Das Wort „Multicam" kommt in der README, die der
+Scripting-Schnittstelle von Resolve beiliegt, kein einziges Mal vor.
+Die Wörter „transition", „dissolve" und „fade" kommen in deren
+Dokumentation ebenfalls kein einziges Mal vor. Die weiche Blende zieht
+man deshalb selbst, und die Clips für Vorspann und Abspann liegen über
+dem Inhalt statt daneben, damit ein Zug an der oberen Ecke genügt.
+
+## Wie die Timelines gebaut werden
+
+Die Kameras haben zu verschiedenen Zeiten angefangen. Welches Stück aus
+welcher Kameradatei in den Schnitt kommt, ergibt sich deshalb aus dem
+gemessenen Versatz und nicht aus dem Timecode.
+
+Volle Länge, ohne Schnitte, eine Kamera je Bildspur, jede an ihrer
+gemessenen Stelle: genau so muss eine Timeline aussehen, die ein
+Multicam-Clip werden soll.
+
+Beim Umwandeln wird jede Tonspur zu einer Perspektive. Full-Mix und
+Kameramikrofon ergäben Perspektiven ohne Bild, und SmartSwitch hörte
+jeden Sprecher auf jeder Kamera. Der überzählige Ton wird deshalb nach
+dem Einfügen gelöscht.
+
+Remote-Grades kleben die **Clip**-Ebene mit der Quelldatei zusammen,
+ein einzelner Schnitt lässt sich dann nicht mehr für sich korrigieren.
+Die Farbgruppe leistet dasselbe, ohne die Clip-Ebene zu opfern. Das
+Script setzt die lokalen Versionen bei jedem Lauf, weil ein Projekt aus
+einem früheren Lauf die Remote-Grades sonst noch an hätte.
 
 ## Deutsch und Englisch: was wo steht
 

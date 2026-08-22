@@ -65,15 +65,16 @@ gemessen.
 
 ## Der Kameraschnitt
 
-Wer allein spricht, bekommt seine Kamera, mit ein wenig Vorlauf, damit der
-Schnitt vor dem ersten Wort sitzt. Reden mehrere gleichzeitig, schlägt
-eine Kamera, die genau diese Leute zeigt, den Weitwinkel. Der Weitwinkel
-selbst kommt nicht nach der Uhr: gesucht wird eine lange Sprechpause,
-möglichst kurz bevor jemand anderes einsetzt, damit der Rhythmus von
-selbst unregelmäßig wird. Zwei Zahlen legen fest, wie fein der Schnitt
-ausfällt, und das Fenster zeigt ihre Wirkung sofort, ohne etwas zu
-schreiben. Heraus kommen eine Tabelle, eine EDL und die Sprecherstatistik:
-wer wie lange geredet hat, in Prozent ([Kameraschnitt](camera-cut.de.md)).
+Wer allein spricht, bekommt seine Kamera, mit ein wenig Vorlauf, damit
+der Schnitt vor dem ersten Wort sitzt. Reden mehrere gleichzeitig,
+schlägt eine Kamera, die genau diese Leute zeigt, den Weitwinkel. Der
+Weitwinkel selbst kommt nicht nach der Uhr, sondern an einer langen
+Sprechpause, kurz bevor jemand anderes einsetzt.
+
+Zwei Zahlen legen fest, wie fein der Schnitt ausfällt, und das Fenster
+zeigt ihre Wirkung sofort, ohne etwas zu schreiben. Heraus kommen eine
+Tabelle, eine EDL und die Sprecherstatistik: wer wie lange geredet hat,
+in Prozent ([Kameraschnitt](camera-cut.de.md)).
 
 ## Nach DaVinci Resolve
 
