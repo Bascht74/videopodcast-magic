@@ -14,6 +14,26 @@ project.
 
 One Python file, about 24000 lines. No package, no build step.
 
+## Why this exists
+
+Every episode began with the same hour of handwork. The recorder splits
+a take at two gigabytes, so one interview arrives as three files. Sound
+and picture do not start together, and by the end of the hour the lips
+are off by a tenth of a second, because camera and recorder each run on
+their own quartz. Then the good audio has to go into every camera file,
+every speaker has to be told apart from the others, and somebody has to
+decide which camera to be on while each of them talks.
+
+None of that is editing. It is the work before the editing, it is the
+same work every week, and a machine can measure it better than a person
+can guess it -- so the machine does it, and the hour goes into the cut
+instead.
+
+It was written for one podcast and does that job every week. What it
+does not do is decide: the camera cut is a proposal, and the edit stays
+yours. The story of one run, from the files on the disk to the finished
+Resolve project, is in **[docs/overview.md](docs/overview.md)**.
+
 ## Getting started
 
 ```
@@ -29,6 +49,11 @@ python3 videopodcast-magic.py --help                   all switches
 Without arguments the interface opens. Files are told apart by extension;
 the order does not matter. `--lang de` or `--lang en` fixes the language;
 without it the system locale decides. Only `--help` stays English.
+
+![The assignment tab](docs/images/assignment.png)
+
+*Which recording belongs to which camera, and what becomes of each
+camera.*
 
 ## What it needs
 

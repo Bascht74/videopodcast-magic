@@ -26,47 +26,60 @@ everything else from the service in `auphonic-tracks/`.
 
 ### The knobs
 
-| Switch | Default | What for |
-|---|---|---|
-| `--min-edit-duration` | 3 s | this long a shot stands at least |
-| `--edit-change-delay` | 0.3 s | this much later than the sound the picture cuts |
-| `--wide-after` | 45 s | from this hold time on, a short look at the wide shot |
-| `--wide-length` | 2.5 s | how long that wide shot holds at most |
-| `--wide-min` | 1.5 s | and how short it never gets -- if need be it runs into the first words |
-| `--wide-flow` | 6 s | how long it holds when the cut falls mid-speech |
-| `--wide-latest` | 120 s | upper limit for one camera in one piece |
-| `--no-wide-edges` | off | otherwise beginning and end stay wide |
+In multitrack every value can be typed into the interface: on tab
+**3. Resolve cut**, in the box **Camera cut**, one field per value, with
+the unit and a short line beside it.
 
-`--min-edit-duration` also takes care of short interjections ("mhm", "yes
+![The knobs for the camera cut](images/resolve-cut.png)
+
+*Tab 3: the values on the left, the preview on the right.*
+
+The fields, in the order they stand:
+
+* **Minimum Edit Duration** -- 3 s, this long a shot stands at least
+  (on the command line `--min-edit-duration`)
+* **Edit Change Delay** -- 0.3 s, this much later than the sound the
+  picture cuts (on the command line `--edit-change-delay`)
+* **Wide shot after** -- 45 s, from this hold time on, a short look at
+  the wide shot (on the command line `--wide-after`)
+* **Wide shot at most** -- 2.5 s, how long that wide shot holds at most
+  (on the command line `--wide-length`)
+* **Wide shot at least** -- 1.5 s, and how short it never gets -- if
+  need be it runs into the first words (on the command line `--wide-min`)
+* **Wide shot at the latest** -- 120 s, upper limit for one camera in
+  one piece (on the command line `--wide-latest`)
+* **Wide shot mid-speech** -- 6 s, how long it holds when the cut falls
+  mid-speech (on the command line `--wide-flow`)
+
+Under the fields the tick **Wide shot for greeting at the start and
+farewell at the end** keeps beginning and end on the wide shot (on the
+command line `--no-wide-edges` switches it off).
+
+**Minimum Edit Duration** also takes care of short interjections ("mhm", "yes
 exactly"): too brief a look at the other camera falls back into the shot
 before it.
 
-In multitrack every value can be typed into the interface, in the box "Camera
-cut" on tab **3. Resolve cut** -- the rhythm on the left, the wide shot on the
-right, below it the tick "Wide shot for greeting at the start and farewell at
-the end" (the counterpart to `--no-wide-edges`).
-
 ### Preview and speaker statistics
 
-On the right the box "Camera cut -- preview" carries the length in its title
+On the right the box **Camera cut -- preview** carries the length in its title
 and one line of numbers below it: shots, median hold time, shortest shot,
 longest a camera holds, and the speech time split into own camera, wide shot
 and a camera without the speaker. The last figure stands in the warning
 colour.
 
-On the left, under the knobs, the box "Speaker": per speaker the speech time,
+On the left, under the knobs, the box **Speaker**: per speaker the speech time,
 the share, the number of blocks and their average length, plus a row of
 silence. Where two speak at once the time counts twice, for silence it does
 not, so the rows add up to more than the running time. The heading names the
-source -- "Speaker statistics from auphonic.com" or "Speakers, self-measured
-from the tracks".
+source -- **Speaker statistics from auphonic.com** or
+**Speakers, self-measured from the tracks**.
 
-Both come out of the handover file of the last run, recomputed on every change
-and always for the chosen window; nothing is written or uploaded. Without
-statistics the box says so and offers the button "Measure speakers now"; where
-the computation fails, the reason stands in its place. Results that turn up
-later -- in `Ergebnis/auphonic-tracks/` too -- start the preview by
-themselves.
+Both come out of the handover file of the last run, recomputed on every
+change and always for the chosen window; nothing is written or uploaded.
+Without statistics the box says so and offers the button **Measure speakers
+now**; where the computation fails, the reason stands in its place. Results
+that turn up later -- in `Ergebnis/auphonic-tracks/` too -- start the
+preview by themselves.
 
 ### Cut band and legend
 
@@ -139,19 +152,21 @@ point along. The spot in each camera file is programme time minus offset,
 the same offset the cut timeline is built with.
 
 Seeking is a request in Qt, not a command, so every spot is set again until it
-holds; how often, and for how long, is in [Inside the script](internals.md).
-`VPM_PLAYER_DEBUG=1` puts clock, position and wanted value of all three
-players under the picture, and every attempt on the console.
+holds; how often, and for how long, is in
+[Inside the script](internals.md).
 
 ### Speakers without Auphonic
 
-With `--without-auphonic` the run stays local, and who speaks when is measured
-from the tracks; in the log that section is headed `SPEAKERS -- MEASURED
-HERE`. Each track is cut into blocks of 100 milliseconds and measured against
-its own noise floor, the quietest fifth of its blocks; 10 dB above that counts
-as speech, because a fixed threshold is no good with recorders turned up to
-different degrees. Pauses under 0.35 seconds are not speaker changes, passages
-under 0.4 seconds do not count.
+On tab **2. Assignment & time window**, in the box **Processing at
+auphonic.com (optional)**, the preset list carries the entry **work without
+Auphonic** (on the command line `--without-auphonic`). The run then stays
+local, and who speaks when is measured from the tracks; in the log that
+section is headed `SPEAKERS -- MEASURED HERE`. Each track is cut into blocks
+of 100 milliseconds and measured against its own noise floor, the quietest
+fifth of its blocks; 10 dB above that counts as speech, because a fixed
+threshold is no good with recorders turned up to different degrees. Pauses
+under 0.35 seconds are not speaker changes, passages under 0.4 seconds do
+not count.
 
 Before that the **bleed is taken out of the measurement**, not out of the
 audio: where exactly one person speaks -- that one at most 10 dB below their
@@ -205,10 +220,10 @@ refused. Older project files can no longer be opened.
 
 The file appears as soon as the time axis is measured -- then still next to
 the material, because there is no output folder yet; where one is chosen
-later, or the production renamed, **it moves along**. There is always exactly
-one, or you open the wrong state. "Open project ..." at the top left brings it
-back; point at the wrong file and `videopodcast-magic*.json` in the same
-folder is searched. Beside it lies the handover file
+later, or the production renamed, **it moves along**. There is always
+exactly one, or you open the wrong state. **Open project ...** at the top
+left brings it back; point at the wrong file and `videopodcast-magic*.json`
+in the same folder is searched. Beside it lies the handover file
 `<Production>_resolve.json` -- the preview computes from it, and the Resolve
 part builds from it.
 
@@ -255,5 +270,13 @@ spots in each camera file, compared not against a target but against the mean
 of all cameras: what counts is the distance *between* the cameras, because
 that is what shows when switching. From about twelve steps a warning comes
 with it. Both measurements together take a few minutes on long recordings
--- the loudness measurement runs through each track twice. `--no-metrics`
-leaves it out.
+-- the loudness measurement runs through each track twice.
+
+## Further options on the command line
+
+These have no counterpart in the window.
+
+* `--no-metrics` leaves out the metrics file and the colour comparison
+* `VPM_PLAYER_DEBUG=1` in front of the call puts clock, position and
+  wanted value of all three players under the picture, and every attempt
+  on the console

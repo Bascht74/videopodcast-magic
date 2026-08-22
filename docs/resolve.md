@@ -4,9 +4,33 @@
 
 ## DaVinci Resolve
 
-`--resolve` creates the project, sets frame rate, resolution and start
-timecode, imports the finished files and builds the timelines; the run is
-written along to `<Production>_resolve_log.txt`.
+On tab **4. Output** the button **Create Resolve project** builds it:
+files first, project afterwards. It creates the project, sets frame rate,
+resolution and start timecode, imports the finished files and builds the
+timelines; the run is written along to `<Production>_resolve_log.txt`.
+
+The button works on the handover file and sends the camera-cut values from
+the fields along, so the cut list is recomputed with what stands there now.
+Where In point or Out point have changed since, it stops -- the audio in the
+videos belongs to the old window.
+
+Whether Resolve answers is asked by itself on the first look at tab **3.
+Resolve cut**, in the background: a run that ends by building a project
+should not find out at the end that Resolve was never running. That tab says
+the answer in one line, and beside it stands the way to the
+**Settings ...** window, where the check itself lives. In its box
+**Connection to Resolve** it names the product and the version where it
+works, and where it does not, the two paths it looked for and what can be in
+the way:
+
+- Resolve is not running.
+- External scripting stands at "None" instead of "Local", under
+  Preferences > System > General.
+- The free edition, which is reported to have kept external scripting to
+  Studio since version 19.1 -- no official statement says so, which is why
+  this is measured rather than claimed.
+
+In that box, **Check again** asks once more, and so does opening the window.
 
 | | Cut timeline | Multicam timeline |
 |---|---|---|
@@ -18,33 +42,6 @@ The simple path builds a project too. A camera cut it cannot deliver -- that
 needs the speaker assignment from auphonic.com -- but it gives the timeline
 with all cameras at their measured places, and Resolve makes the multicam clip
 from it.
-
-The interface goes a step later: files first, project afterwards, with the
-button "Create Resolve project" on tab **4. Output**. The button runs
-`--resolve-json` on the handover file and sends the camera-cut values from
-the fields along, so the cut list is recomputed with what stands there now.
-Where In point or Out point have changed since, it stops -- the audio in the
-videos belongs to the old window.
-
-Whether Resolve answers is asked by itself on the first look at tab **3.
-Resolve cut**, in the background: a run that ends by building a project
-should not find out at the end that Resolve was never running. That tab says
-the answer in one line, and beside it stands the way to the settings window,
-where the check itself lives. There it names the product and the version
-where it works, and where it does not, the two paths it looked for and what
-can be in the way:
-
-- Resolve is not running.
-- External scripting stands at "None" instead of "Local", under
-  Preferences > System > General.
-- The free edition, which is reported to have kept external scripting to
-  Studio since version 19.1 -- no official statement says so, which is why
-  this is measured rather than claimed.
-
-**Check again** asks once more, and so does opening the window.
-
-`--resolve-audio-tracks` only looks: for the open project it prints the
-channel mapping of every clip and the tracks of every timeline.
 
 The frame rate is rounded to one Resolve knows -- ffprobe measures 29.994 or
 30.001 for some files -- and the log says which. Timecodes are computed with
@@ -86,8 +83,8 @@ It asks:
 - **create a new project alongside** -- name with a suffix.
 - **cancel.**
 
-`--resolve-project update|keep|new|abort` gives the answer in advance;
-otherwise a dialog in the interface, a number in the terminal.
+The interface asks in a dialog, the terminal with a number (on the command
+line in advance, `--resolve-project update|keep|new|abort`).
 
 Deletion is verified -- Resolve reports success even where nothing happened.
 Where a timeline stays, the log says so and the new one gets an addition to
@@ -167,18 +164,19 @@ the render on "Same as Project".
 
 Fixed are: one file instead of one per clip, target the output folder, file
 name the production name, `.mp4`, audio AAC at 48 kHz, 16 bit, two channels.
-The interface has no key for the audio bitrate; the log notes that 384 kbit/s
-would be the recommendation for stereo. For HDR it names the check too:
-`videopodcast-magic.py --hdr-check <file>`.
+Resolve's scripting interface has no key for the audio bitrate; the log
+notes that 384 kbit/s would be the recommendation for stereo. For HDR it
+names the check too: `videopodcast-magic.py --hdr-check <file>`.
 
 ### Intro and outro
 
-In the camera table every row has a column **Kind**: *Content*, *Intro*,
-*Outro* or *ignore this video*. Intro and outro are optional. A file that is
-not content is not aligned, not processed and not copied -- it is a finished
-clip and only goes into the timeline; on the command line `--intro FILE` and
-`--outro FILE`. Both land on the **second** video and audio track, over the
-content (`Intro / Outro` and `Audio Intro / Outro`).
+In the camera table on tab **2. Assignment & time window** every row has a
+column **Kind**: *Content*, *Intro*, *Outro* or *ignore this video*. Intro
+and outro are optional. A file that is not content is not aligned, not
+processed and not copied -- it is a finished clip and only goes into the
+timeline (on the command line `--intro FILE` and `--outro FILE`). Both land
+on the **second** video and audio track, over the content (`Intro / Outro`
+and `Audio Intro / Outro`).
 
 There is one intro and one outro. Setting a second file to the same kind puts
 the first one back to content. A run that still sees two of a kind stops and
@@ -304,8 +302,9 @@ That checks every point of the table, says for each what would have to be
 done, and changes nothing. Return value 0 means the file passes as HDR.
 
 "Embed HDR10 Metadata" and the HDR10+ analysis the script cannot switch on
-remotely -- the interface has no key for it. By hand: Color Management >
-HDR10+, Color page > Analyze All Shots, Deliver > Embed HDR10 Metadata.
+remotely -- Resolve's scripting interface has no key for it. By hand:
+Color Management > HDR10+, Color page > Analyze All Shots, Deliver > Embed
+HDR10 Metadata.
 
 ### Framing
 
@@ -345,5 +344,14 @@ the angle (manual, chapter 49) -- which is why the video tracks are named
 after the speakers. Converting is a one-way operation, and there is no backup
 copy.
 
-Everything needed is in `Production_resolve.json`. With `--resolve-json FILE`
-the Resolve part alone can be caught up.
+### Further options on the command line
+
+The window has no equivalent for these.
+
+- `--resolve` builds the project as part of a whole run, straight after the
+  files.
+- `--resolve-json FILE` catches up the Resolve part alone; everything
+  needed is in `Production_resolve.json`. That is what the button
+  **Create Resolve project** runs.
+- `--resolve-audio-tracks` only looks: for the open project it prints the
+  channel mapping of every clip and the tracks of every timeline.

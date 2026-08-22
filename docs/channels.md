@@ -9,22 +9,25 @@ two people that a recorder wrote into one file. The difference matters --
 read as a pair, both speakers land in one track, and the camera cut has
 nothing left to switch between.
 
-Every neighbour is asked, not every second one. Each channel has a row
-of its own, and on it a tick that offers "join with Channel 3"; what was
-measured stands beside it. A channel can belong to only one pair, so
-once 2 and 3 are joined, the row of channel 3 has no tick of its own any
-more and says "with Channel 2 one stereo track" -- it is spoken for.
-Where two neighbours both look like a pair, the left one wins until
-somebody says otherwise.
+In the file list on tab **1. Files & production** a file with more than
+one channel opens into one row per channel: **Channel 1**, **Channel 2**
+and so on. On each row a tick offers **join with Channel 3**, and what
+was measured stands beside it. Every neighbour is asked, not every
+second one. A channel can belong to only one pair, so once 2 and 3 are
+joined, the row of channel 3 has no tick of its own any more and says
+**with Channel 2 one stereo track** -- it is spoken for. Where two
+neighbours both look like a pair, the left one wins until somebody says
+otherwise.
 
 The measurement proposes once, and a tick corrects that proposal rather
 than starting it over: taking a pair apart takes exactly that pair apart
 and joins nothing else, putting one together frees both its neighbours.
 A tick that says the same as the measurement is no override and is not
-kept as one; only a row that says something else reads "set by hand --
-overrides the measurement". Until the measurement is in, the row says so
-instead of guessing; where the channel count of a file cannot be read at
-all, the run says that rather than leaving the row waiting.
+kept as one; only a row that says something else reads
+**set by hand -- overrides the measurement**. Until the measurement is
+in, the row says so instead of guessing; where the channel count of a
+file cannot be read at all, the run says that rather than leaving the
+row waiting.
 
 The tracks are named after their channels: `Channel 1`, `Channel 2+3`. So
 are the files they are cut into, closed up and with a short fingerprint of

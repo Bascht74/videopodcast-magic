@@ -15,6 +15,28 @@ DaVinci-Resolve-Projekt.
 
 Eine Python-Datei, rund 24000 Zeilen. Kein Paket, kein Bauschritt.
 
+## Warum es das gibt
+
+Vor jeder Folge stand dieselbe Stunde Handarbeit. Der Rekorder trennt
+eine Aufnahme bei zwei Gigabyte, aus einem Interview werden drei
+Dateien. Ton und Bild fangen nicht zusammen an, und nach einer Stunde
+sind die Lippen um eine Zehntelsekunde daneben, weil Kamera und
+Rekorder jeweils ihren eigenen Quarz haben. Dann muss der gute Ton in
+jede Kameradatei, jeder Sprecher muss von den anderen getrennt werden,
+und jemand muss entscheiden, welche Kamera zu sehen ist, während wer
+spricht.
+
+Nichts davon ist Schnitt. Es ist die Arbeit vor dem Schnitt, es ist
+jede Woche dieselbe, und eine Maschine kann sie messen, wo ein Mensch
+sie schätzen müsste — also macht es die Maschine, und die Stunde geht
+in den Schnitt.
+
+Geschrieben wurde es für einen Podcast, und dort tut es diese Arbeit
+jede Woche. Was es nicht tut, ist entscheiden: der Kameraschnitt ist ein
+Vorschlag, der Schnitt bleibt deiner. Die Geschichte eines Laufs, von
+den Dateien auf der Platte bis zum fertigen Resolve-Projekt, steht in
+**[docs/overview.de.md](docs/overview.de.md)**.
+
 ## Loslegen
 
 ```
@@ -31,6 +53,11 @@ Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
 erkannt, die Reihenfolge ist egal. `--lang de` oder `--lang en` legt die
 Sprache fest; ohne den Schalter entscheidet die Systemsprache. Nur `--help`
 bleibt englisch.
+
+![Der Reiter Zuordnung](docs/images/assignment.de.png)
+
+*Welche Aufnahme zu welcher Kamera gehört, und was aus jeder Kamera
+wird.*
 
 ## Was gebraucht wird
 

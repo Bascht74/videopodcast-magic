@@ -9,23 +9,26 @@ zwei Personen, die ein Recorder in eine Datei geschrieben hat. Der
 Unterschied zählt — als Paar gelesen landen beide Sprecher in einer Spur,
 und der Kameraschnitt hat nichts mehr zu wechseln.
 
-Gefragt wird jeder Nachbar, nicht jeder zweite. Jeder Channel hat eine
-eigene Zeile, und darauf ein Häkchen, das „mit Channel 3 zusammenlegen"
-anbietet; was gemessen wurde, steht daneben. Ein Channel kann nur zu
-einem Paar gehören: sind 2 und 3 zusammengelegt, hat die Zeile von
-Channel 3 kein eigenes Häkchen mehr und sagt „mit Channel 2 eine
-Stereospur" — der ist dann vergeben. Sehen zwei Nachbarn beide nach
-einem Paar aus, gewinnt der linke, bis jemand etwas anderes sagt.
+In der Dateiliste auf dem Reiter **1. Dateien & Produktion** wird eine
+Datei mit mehr als einem Kanal in eine Zeile je Kanal aufgeklappt:
+**Kanal 1**, **Kanal 2** und so fort. Auf jeder Zeile bietet ein Häkchen
+**mit Channel 3 zusammenlegen** an, und was gemessen wurde, steht
+daneben. Gefragt wird jeder Nachbar, nicht jeder zweite. Ein Channel
+kann nur zu einem Paar gehören: sind 2 und 3 zusammengelegt, hat die
+Zeile von Channel 3 kein eigenes Häkchen mehr und sagt **mit Channel 2
+eine Stereospur** — der ist dann vergeben. Sehen zwei Nachbarn beide
+nach einem Paar aus, gewinnt der linke, bis jemand etwas anderes sagt.
 
 Die Messung schlägt einmal vor, und ein Häkchen berichtigt diesen
 Vorschlag, statt ihn neu zu starten: ein Paar auseinanderzunehmen nimmt
 genau dieses auseinander und legt nichts anderes zusammen, eines
 zusammenzulegen macht seine beiden Nachbarn frei. Ein Häkchen, das
 dasselbe sagt wie die Messung, ist keine Übersteuerung und wird auch
-nicht als eine gemerkt; nur eine Zeile, die etwas anderes sagt, steht als
-„manuell gesetzt -- übersteuert die Messung" da. Bis die Messung da ist,
-sagt die Zeile das, statt zu raten; lässt sich die Kanalzahl einer Datei
-gar nicht lesen, sagt der Lauf das, statt die Zeile warten zu lassen.
+nicht als eine gemerkt; nur eine Zeile, die etwas anderes sagt, steht
+als **manuell gesetzt -- übersteuert die Messung** da. Bis die Messung
+da ist, sagt die Zeile das, statt zu raten; lässt sich die Kanalzahl
+einer Datei gar nicht lesen, sagt der Lauf das, statt die Zeile warten
+zu lassen.
 
 Die Spuren heißen nach ihren Channels: `Channel 1`, `Channel 2+3`. Die
 Dateien, in die sie geschnitten werden, ebenso — zusammengeschrieben und

@@ -4,8 +4,8 @@
 
 ## Die Oberfläche
 
-Vier Reiter, in der Reihenfolge, in der man sie braucht, und oben rechts
-daneben ein Knopf **Einstellungen ...**. Dahinter steht, was man einmal
+Vier Reiter, in der Reihenfolge, in der man sie braucht, und daneben der
+Knopf **Einstellungen ...**. Dahinter steht, was man einmal
 einrichtet und dann nicht mehr anfasst: der Schlüssel für auphonic.com samt
 Häkchen, das ihn ablegt, und ob Resolve antwortet. Was zur Produktion gehört
 -- das Preset, die Transkription -- steht dort, wo über die Spuren
@@ -19,6 +19,11 @@ holt. **Verbindung zu Resolve** sagt, ob Resolve antwortet, mit seiner
 Version, wenn ja, und den Gründen, wenn nein; **Erneut prüfen** fragt noch
 einmal. Auch das Öffnen des Fensters fragt Resolve von sich aus neu.
 
+![Das Einstellungsfenster](images/settings.de.png)
+
+*Hinter Einstellungen ...: der Schlüssel für auphonic.com, und ob
+Resolve antwortet.*
+
 1. **Dateien & Produktion** -- oben die Dateiliste, darunter ein schmaler
    Streifen mit Produktionsname, gesprochener Sprache und Ausgabeordner.
    Dateien oder ganze Ordner hineinziehen, hinzufügen oder ein früheres
@@ -29,29 +34,41 @@ einmal. Auch das Öffnen des Fensters fragt Resolve von sich aus neu.
    Hinzufügen läuft: ✓ nichts zu bemängeln, ! ein Hinweis, ✕ so geht es
    nicht. Unter der Liste steht das Ergebnis in einem Satz.
 
-   „Projekt öffnen ..." steht nur auf der Ablegefläche. Umgekehrt lassen sich
+   **Projekt öffnen ...** steht nur auf der Ablegefläche. Umgekehrt lassen sich
    zu einem geöffneten Projekt jederzeit Dateien dazunehmen.
 
    Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird:
-   je Kanal eine Zeile, mit einem Haken, der „mit Channel 2 zusammenlegen"
-   anbietet, und daneben, was gemessen wurde. Kanäle, in denen nichts
-   steht, werden benannt und bleiben aus allem Weiteren heraus. Eine
+   je Kanal eine Zeile, mit einem Haken, der
+   **mit Channel 2 zusammenlegen** anbietet, und daneben, was gemessen
+   wurde. Kanäle, in denen nichts steht, werden benannt und bleiben aus
+   allem Weiteren heraus. Eine
    einzelne Fortsetzungsdatei lässt sich für sich entfernen -- sie bleibt
    dann draußen, obwohl sie im Ordner liegt, und später wieder hinzugefügt
    ist sie eine eigene Aufnahme. Erst wenn die ganze Aufnahme entfernt und
    wieder hinzugefügt wird, gehören die Blöcke wieder zusammen.
+
+   ![Die Dateiliste](images/files.de.png)
+
+   *Die Liste nach dem Öffnen eines Projekts, mit den Prüfzeichen aus
+   dem Vorflug und dem Streifen darunter.*
 2. **Zuordnung & Zeitfenster** -- links die Tabellen, rechts der Player.
    Erscheint mit den Dateien.
+
+   ![Zuordnungstabelle und Player](images/assignment.de.png)
+
+   *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
+   jeder Kamera wird.*
 3. **Resolve-Schnitt** -- eine Zeile, die sagt, ob Resolve antwortet, mit
    dem Weg zu den Einstellungen daneben, das Zeitfenster, die Werte für
-   den Kameraschnitt, die Sprecherstatistik und der Kasten „Kameraschnitt
-   -- Vorschau" mit Schnittband und abspielbarer Vorschau.
+   den Kameraschnitt, die Sprecherstatistik und der Kasten
+   **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer Vorschau.
 
    Beide hinteren Reiter stehen mit und ohne getrennte Spuren da. Ohne sie
    zeigt die Zuordnungsspalte grau „in alle Kameras", und Regler und Vorschau
    für den Kameraschnitt weichen einer Zeile, die das sagt.
 4. **Ausgabe** -- erscheint, sobald etwas läuft, in denselben Farben wie das
-   Terminal, unten „Ergebnis-Ordner öffnen" und „Resolve-Projekt anlegen".
+   Terminal, mit den Knöpfen **Ergebnis-Ordner öffnen** und
+   **Resolve-Projekt anlegen**.
 
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile über dem
 Auphonic-Kasten und braucht keinen API Key: eine Spur je Sprecher ist die
@@ -63,8 +80,8 @@ geschriebenen Tonspur und sagt auphonic.com, was es beim Transkribieren
 erwarten soll. „nicht gesetzt" lässt die Spur ungekennzeichnet und überlässt
 der Erkennung die Sprache.
 
-„Start" und „Probelauf (schreibt nichts)" bleiben gesperrt, solange etwas
-offen ist -- und **daneben steht, was**:
+**Start** und **Probelauf (schreibt nichts)** bleiben gesperrt, solange
+etwas offen ist -- und **daneben steht, was**:
 
 - keine Dateien,
 - kein Produktionsname,
@@ -96,7 +113,7 @@ mit Version, Zeit und Rechner in der Kopfzeile und einer Trennlinie je Lauf;
 vom vorletzten Lauf bleibt `videopodcast-magic_1.log`. Auch was Qt und ffmpeg
 an Python vorbei ausgeben, steht darin.
 
-Unten, neben „Start", läuft **ein Balken für alles Ausstehende**, mit einer
+Neben **Start** läuft **ein Balken für alles Ausstehende**, mit einer
 Zeile daneben, woran gerade gearbeitet wird. Er deckt beide Hälften ab: das
 Messen nach jeder Änderung an der Dateiliste -- Hüllkurven, Kameraton,
 Kanäle, die Prüfung -- und den Lauf selbst, in gewichtete Abschnitte zerlegt.

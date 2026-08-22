@@ -10,12 +10,12 @@ spricht, bekommt seine Kamera, mit Vorlauf; ist es still, kommt der Weitwinkel.
 Steht eine Einstellung lange, wird in einer Sprechpause der Weitwinkel
 eingestreut.
 
-**Reden mehrere gleichzeitig**, gewinnt eine Kamera, die genau diese Sprecher
-zeigt — eine auf beide Moderatoren etwa; im Gespräch ist ein Zweier besser als
-der Weitwinkel. Passt keine genau, wird die kleinste genommen, auf der alle
-Redenden vorkommen. Erst wenn keine Kamera sie abdeckt, kommt der Weitwinkel. Wer
-auf welcher Kamera zu sehen ist, steht in der Zuordnung: zwei Sprecher bei
-derselben Kamera heißt, sie zeigt beide.
+**Reden mehrere gleichzeitig**, gewinnt eine Kamera, die genau diese
+Sprecher zeigt — eine auf beide Moderatoren etwa; im Gespräch ist ein Zweier
+besser als der Weitwinkel. Passt keine genau, wird die kleinste genommen,
+auf der alle Redenden vorkommen. Erst wenn keine Kamera sie abdeckt, kommt
+der Weitwinkel. Wer auf welcher Kamera zu sehen ist, steht in der Zuordnung:
+zwei Sprecher bei derselben Kamera heißt, sie zeigt beide.
 
 Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 und `_cameracut.edl`. Die Köpfe sind
@@ -26,45 +26,59 @@ anderen vom Dienst in `auphonic-tracks/`.
 
 ### Die Stellschrauben
 
-| Schalter | Vorgabe | wofür |
-|---|---|---|
-| `--min-edit-duration` | 3 s | so lange steht eine Einstellung mindestens |
-| `--edit-change-delay` | 0,3 s | so viel später als der Ton wechselt das Bild |
-| `--wide-after` | 45 s | ab dieser Standzeit ein kurzer Blick in den Weitwinkel |
-| `--wide-length` | 2,5 s | wie lange der Weitwinkel dabei höchstens steht |
-| `--wide-min` | 1,5 s | und wie kurz er nicht wird — notfalls steht er in die ersten Worte hinein |
-| `--wide-flow` | 6 s | so lange steht er, wenn mitten im Reden geschnitten wird |
-| `--wide-latest` | 120 s | Obergrenze für eine Kamera am Stück |
-| `--no-wide-edges` | aus | sonst bleiben Anfang und Ende auf dem Weitwinkel |
+Bei Multitrack lassen sich alle Werte in der Oberfläche eintragen: auf
+dem Reiter **3. Resolve-Schnitt**, im Kasten **Kameraschnitt**, je Wert
+ein Feld, daneben die Einheit und eine kurze Zeile.
 
-Kurze Einwürfe („mhm", „ja genau") erledigt `--min-edit-duration` mit: ein
+![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
+
+*Reiter 3: links die Werte, rechts die Vorschau.*
+
+Die Felder in der Reihenfolge, in der sie stehen:
+
+* **Mindestschnittdauer** -- 3 s, so lange steht eine Einstellung
+  mindestens (auf der Kommandozeile `--min-edit-duration`)
+* **Edit Change Delay** -- 0,3 s, so viel später als der Ton wechselt
+  das Bild (auf der Kommandozeile `--edit-change-delay`)
+* **Weitwinkel nach** -- 45 s, ab dieser Standzeit ein kurzer Blick in
+  den Weitwinkel (auf der Kommandozeile `--wide-after`)
+* **Weitwinkel höchstens** -- 2,5 s, wie lange der Weitwinkel dabei
+  höchstens steht (auf der Kommandozeile `--wide-length`)
+* **Weitwinkel mindestens** -- 1,5 s, und wie kurz er nicht wird --
+  notfalls steht er in die ersten Worte hinein (auf der Kommandozeile
+  `--wide-min`)
+* **Weitwinkel spätestens** -- 120 s, Obergrenze für eine Kamera am
+  Stück (auf der Kommandozeile `--wide-latest`)
+* **Weitwinkel im Redefluss** -- 6 s, so lange steht er, wenn mitten im
+  Reden geschnitten wird (auf der Kommandozeile `--wide-flow`)
+
+Unter den Feldern hält das Häkchen **Weitwinkel für Begrüßung am
+Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
+(auf der Kommandozeile schaltet `--no-wide-edges` es ab).
+
+Kurze Einwürfe („mhm", „ja genau") erledigt **Mindestschnittdauer** mit: ein
 zu kurzer Blick auf die andere Kamera fällt in die vorherige Einstellung
 zurück.
 
-Bei Multitrack lassen sich alle Werte in der Oberfläche eintragen, im Kasten
-„Kameraschnitt" auf dem Reiter **3. Resolve-Schnitt** — links der Rhythmus,
-rechts der Weitwinkel, darunter das Häkchen „Weitwinkel für Begrüßung am
-Anfang und Verabschiedung am Ende" (das Gegenstück zu `--no-wide-edges`).
-
 ### Vorschau und Sprecherstatistik
 
-Rechts steht der Kasten „Kameraschnitt -- Vorschau"; er trägt die Länge im
+Rechts steht der Kasten **Kameraschnitt -- Vorschau**; er trägt die Länge im
 Titel und darunter eine Zeile Zahlen: Einstellungen, mittlere Standzeit,
 kürzeste Einstellung, längste Standzeit einer Kamera, dazu die Redezeit,
-geteilt in eigene Kamera, Weitwinkel und fremde Kamera. Die letzte Zahl steht in
-der Warnfarbe.
+geteilt in eigene Kamera, Weitwinkel und fremde Kamera. Die letzte Zahl
+steht in der Warnfarbe.
 
-Links, unter den Stellschrauben, der Kasten „Sprecher": je Sprecher Redezeit,
+Links, unter den Stellschrauben, der Kasten **Sprecher**: je Sprecher Redezeit,
 Anteil, Zahl der Blöcke und deren mittlere Länge, dazu eine Zeile Stille. Wo
 zwei gleichzeitig reden, zählt die Zeit doppelt, bei der Stille nicht —
 deshalb ergeben die Zeilen zusammen mehr als die Laufzeit. Die Überschrift
-nennt die Quelle: „Sprecherstatistik von auphonic.com" oder „Sprecher, selbst
-aus den Spuren gemessen".
+nennt die Quelle: **Sprecherstatistik von auphonic.com** oder
+**Sprecher, selbst aus den Spuren gemessen**.
 
 Beides wird aus der Übergabedatei des letzten Laufs gerechnet, bei jeder
 Änderung neu und immer für das gewählte Zeitfenster; geschrieben oder
 hochgeladen wird nichts. Fehlt die Statistik, sagt der Kasten das und bietet
-den Knopf „Sprecher jetzt messen"; geht die Rechnung schief, steht an seiner
+den Knopf **Sprecher jetzt messen**; geht die Rechnung schief, steht an seiner
 Stelle der Grund. Ergebnisse, die später auftauchen — auch in
 `Ergebnis/auphonic-tracks/` —, starten die Vorschau von selbst.
 
@@ -115,7 +129,7 @@ sie wieder — solange sie die Grenzen genauso gut abdeckt wie die beste
 Alternative. Ob eine Grenze in einer Datei liegt, ist ohne Timecode oder
 gemessene Zeitachse nicht zu entscheiden; solange wird nichts behauptet, und
 steht die Achse später da, sieht der Spieler noch einmal nach.
-**zu In point** und **zu Out point** holen sich ihre Datei selbst; gibt es
+**zu In-Punkt** und **zu Out-Punkt** holen sich ihre Datei selbst; gibt es
 gar keine, steht eine Zeile da, warum nichts passiert ist.
 
 Mit **zugeordneten Ton hören** läuft zum Bild der Ton, der zu dieser Kamera
@@ -146,20 +160,20 @@ Schnitt-Timeline gebaut wird.
 
 Eine Stelle anzufahren ist bei Qt keine Anweisung, sondern eine Bitte —
 deshalb wird jede Stelle nachgesetzt, bis sie sitzt; wie oft und wie lange,
-steht in [Im Inneren des Scripts](internals.de.md). `VPM_PLAYER_DEBUG=1`
-stellt Uhr, Stand und Sollwert aller drei Abspieler unter das Bild und jeden
-Versuch auf die Konsole.
+steht in [Im Inneren des Scripts](internals.de.md).
 
 ### Sprecher ohne Auphonic
 
-Mit `--without-auphonic` bleibt der Lauf lokal, und wer wann redet, wird aus
-den Spuren gemessen; im Protokoll steht dieser Abschnitt unter der Überschrift
-`SPRECHER -- HIER GEMESSEN`. Jede Spur wird in Blöcke von 100 Millisekunden
-zerlegt und gegen ihren eigenen Grundpegel gemessen, das leiseste Fünftel
-ihrer Blöcke; 10 dB darüber gilt als Sprache, denn ein fester Schwellwert
-taugt nicht, wenn die Rekorder verschieden weit aufgedreht sind. Pausen unter
-0,35 Sekunden sind kein Sprecherwechsel, Passagen unter 0,4 Sekunden zählen
-nicht.
+Auf dem Reiter **2. Zuordnung & Zeitfenster**, im Kasten **Aufbereitung bei
+auphonic.com (optional)**, trägt die Preset-Liste den Eintrag **ohne
+Auphonic arbeiten** (auf der Kommandozeile `--without-auphonic`). Der Lauf
+bleibt dann lokal, und wer wann redet, wird aus den Spuren gemessen; im
+Protokoll steht dieser Abschnitt unter der Überschrift `SPRECHER -- HIER
+GEMESSEN`. Jede Spur wird in Blöcke von 100 Millisekunden zerlegt und gegen
+ihren eigenen Grundpegel gemessen, das leiseste Fünftel ihrer Blöcke; 10 dB
+darüber gilt als Sprache, denn ein fester Schwellwert taugt nicht, wenn die
+Rekorder verschieden weit aufgedreht sind. Pausen unter 0,35 Sekunden sind
+kein Sprecherwechsel, Passagen unter 0,4 Sekunden zählen nicht.
 
 Davor wird das **Übersprechen aus der Messung herausgerechnet**, nicht aus dem
 Ton: an den Stellen, an denen genau eine Person spricht — diese höchstens
@@ -215,7 +229,7 @@ Format wird abgewiesen. Ältere Projektdateien lassen sich nicht mehr öffnen.
 Sie entsteht schon, sobald die Zeitachse gemessen ist — dann noch neben dem
 Material, weil es den Ausgabeordner noch nicht gibt; wird er später gewählt
 oder die Produktion umbenannt, **wandert sie mit**. Es gibt immer genau eine,
-sonst öffnet man den falschen Stand. „Projekt öffnen ..." oben links holt sie
+sonst öffnet man den falschen Stand. **Projekt öffnen ...** oben links holt sie
 zurück; greift man daneben, wird im selben Ordner nach
 `videopodcast-magic*.json` gesucht. Daneben liegt die Übergabedatei
 `<Produktion>_resolve.json` — daraus rechnet die Vorschau, und daraus baut der
@@ -267,4 +281,12 @@ Farblage, verglichen nicht gegen eine Vorgabe, sondern gegen den Mittelwert
 aller Kameras: es zählt der Abstand *zwischen* den Kameras, denn der fällt
 beim Umschalten auf. Ab etwa zwölf Stufen steht eine Warnung dabei. Beide
 Messungen zusammen dauern bei langen Aufnahmen ein paar Minuten — die
-Lautheitsmessung läuft je Spur zweimal durch. `--no-metrics` lässt es weg.
+Lautheitsmessung läuft je Spur zweimal durch.
+
+## Weitere Optionen über die Kommandozeile
+
+Im Fenster gibt es dafür keine Entsprechung.
+
+* `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
+* `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
+  aller drei Abspieler unter das Bild und jeden Versuch auf die Konsole

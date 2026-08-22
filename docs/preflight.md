@@ -4,9 +4,14 @@
 
 ## Preflight
 
-Before the first long step the script looks the material over. The report
-holds for both modes and stands at one place, before the switch; the bleed
-falls away where there is only one track.
+Before the first long step the script looks the material over. On tab
+**1. Files & production** this happens by itself, and again after every
+change to the file list: one sentence under the list says what was found,
+and each row carries a mark. Hovering over the mark, or opening the row,
+shows what stands behind it.
+
+The report holds for both modes and stands at one place, before the switch;
+the bleed falls away where there is only one track.
 
 | | What | What follows |
 |---|---|---|
@@ -20,16 +25,14 @@ falls away where there is only one track.
 | Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
 | Loudness | which target holds and where it comes from | -- |
 
-A stop halts the run before anything is written or uploaded. `--anyway` runs
-regardless, `--no-preflight` skips the check entirely.
+A stop halts the run before anything is written or uploaded.
 
 Only what changed is measured, and it is remembered **per file**, not per
 selection: path, size and modification time identify it. Adding a camera
 measures that camera alone; what shows only in comparison -- frame rates,
 resolutions, tracks out of line -- comes from the remembered data and costs
 nothing. The bleed counts for exactly that set of tracks. Disk space and
-loudness target are found afresh every time, and `--preflight-again` measures
-everything again.
+loudness target are found afresh every time.
 
 ### Variable frame rate
 
@@ -61,19 +64,11 @@ quieter. That says something about the setup in the room, not about
 post-production, and can only be changed next time -- so it does not halt the
 run.
 
-### Loudness by platform
+### Loudness
 
-`--lufs` sets the target as a number, `--platform` by purpose:
-
-| Value | Target | What for |
-|---|---|---|
-| `podcast` | -16 LUFS | podcast directories, stereo |
-| `podcast-mono` | -19 LUFS | podcast directories, mono |
-| `youtube` | -14 LUFS | YouTube turns down only, never up |
-| `broadcast` | -23 LUFS | EBU R128 |
-
-The value holds for both: normalising the tracks, and the target level of the
-loudness display in the Resolve project.
+The target holds for both: normalising the tracks, and the target level of
+the loudness display in the Resolve project. Without an entry it is
+-16 LUFS.
 
 **The mix is two-channel, and so is the measurement.** The single tracks keep
 the channels their source has ([Channels](channels.md)); every *mix* though,
@@ -87,3 +82,19 @@ quiet and loud passages. For speech 3 to 7 LU is usual; below 2 LU the log
 says so plainly. Then something was squashed, and not by the limiter, which
 only catches peaks and may take off 6 dB at most, but by the leveler in front
 of it.
+
+### Further options on the command line
+
+The window does not offer these.
+
+`--anyway` runs despite a stop, `--no-preflight` skips the check entirely,
+`--preflight-again` measures everything again instead of only what changed.
+
+`--lufs` sets the target loudness as a number, `--platform` by purpose:
+
+| Value | Target | What for |
+|---|---|---|
+| `podcast` | -16 LUFS | podcast directories, stereo |
+| `podcast-mono` | -19 LUFS | podcast directories, mono |
+| `youtube` | -14 LUFS | YouTube turns down only, never up |
+| `broadcast` | -23 LUFS | EBU R128 |

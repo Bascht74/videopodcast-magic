@@ -4,9 +4,36 @@
 
 ## DaVinci Resolve
 
-`--resolve` legt das Projekt an, setzt Bildrate, Auflösung und Start-Timecode,
-importiert die fertigen Dateien und baut die Timelines; der Ablauf wird als
+Auf dem Reiter **4. Ausgabe** baut es der Knopf
+**Resolve-Projekt anlegen**: erst die Dateien, dann das Projekt. Er legt das
+Projekt an, setzt Bildrate, Auflösung und Start-Timecode, importiert die
+fertigen Dateien und baut die Timelines; der Ablauf wird als
 `<Produktion>_resolve_log.txt` mitgeschrieben.
+
+Der Knopf arbeitet auf der Übergabedatei und schickt die Werte für den
+Kameraschnitt aus den Feldern mit; die Schnittliste wird also mit dem
+gerechnet, was jetzt dort steht. Haben sich In point oder Out point
+inzwischen geändert, bricht er ab — der Ton in den Videos gehört dann zum
+alten Fenster.
+
+Ob Resolve antwortet, wird beim ersten Blick auf den Reiter
+**3. Resolve-Schnitt** von selbst gefragt, im Hintergrund: ein Lauf, der
+am Ende ein Projekt baut, soll nicht erst am Ende erfahren, dass Resolve
+nie lief. Der Reiter sagt die Antwort in einer Zeile, und daneben steht der
+Weg zum Fenster **Einstellungen ...**, in dem die Prüfung selbst sitzt. In
+dessen Kasten **Verbindung zu Resolve** stehen Produkt und Version, wenn es
+geht, und wenn nicht, die beiden Pfade, nach denen gesucht wurde, und was im
+Weg sein kann:
+
+- Resolve läuft nicht.
+- Das externe Scripting steht auf „None" statt „Local", unter
+  Preferences > System > General.
+- Die freie Fassung, für die berichtet wird, dass externes Scripting seit
+  Version 19.1 der Studio-Fassung vorbehalten ist — eine offizielle Aussage
+  dazu gibt es nicht, deshalb wird hier gemessen statt behauptet.
+
+In diesem Kasten fragt **Erneut prüfen** noch einmal, und das Öffnen des
+Fensters ebenso.
 
 | | Schnitt-Timeline | Multicam-Timeline |
 |---|---|---|
@@ -19,34 +46,6 @@ nicht liefern — dafür bräuchte es die Sprecherzuordnung von auphonic.com —
 wohl aber die Timeline mit allen Kameras an ihren gemessenen Stellen; daraus
 macht Resolve den Multicam-Clip.
 
-Die Oberfläche geht einen Schritt später vor: erst die Dateien, dann das
-Projekt, über den Knopf „Resolve-Projekt anlegen" auf dem Reiter
-**4. Ausgabe**. Der Knopf ruft `--resolve-json` auf der Übergabedatei auf und
-schickt die Werte für den Kameraschnitt aus den Feldern mit; die
-Schnittliste wird also mit dem gerechnet, was jetzt dort steht. Haben sich
-In point oder Out point inzwischen geändert, bricht er ab — der Ton in den
-Videos gehört dann zum alten Fenster.
-
-Ob Resolve antwortet, wird beim ersten Blick auf den Reiter
-**3. Resolve-Schnitt** von selbst gefragt, im Hintergrund: ein Lauf, der
-am Ende ein Projekt baut, soll nicht erst am Ende erfahren, dass Resolve
-nie lief. Der Reiter sagt die Antwort in einer Zeile, und daneben steht der
-Weg zum Einstellungsfenster, in dem die Prüfung selbst sitzt. Dort stehen
-Produkt und Version, wenn es geht, und wenn nicht, die beiden Pfade, nach
-denen gesucht wurde, und was im Weg sein kann:
-
-- Resolve läuft nicht.
-- Das externe Scripting steht auf „None" statt „Local", unter
-  Preferences > System > General.
-- Die freie Fassung, für die berichtet wird, dass externes Scripting seit
-  Version 19.1 der Studio-Fassung vorbehalten ist — eine offizielle Aussage
-  dazu gibt es nicht, deshalb wird hier gemessen statt behauptet.
-
-**Erneut prüfen** fragt noch einmal, und das Öffnen des Fensters ebenso.
-
-`--resolve-audio-tracks` sieht nur nach: für das offene Projekt schreibt es
-die Kanalzuordnung jedes Clips und die Spuren jeder Timeline hin.
-
 Die Bildrate wird auf eine gebracht, die Resolve kennt — ffprobe misst bei
 manchen Dateien 29,994 oder 30,001 —, und das Protokoll sagt, welche.
 Timecodes werden mit der ganzzahligen Rate gerechnet, Dauern mit der echten;
@@ -55,9 +54,10 @@ Drop-Frame ist berücksichtigt.
 **… Cut** — der fertige Kameraschnitt. Auf V1 (`Camera cut`) liegen die
 Bildstücke **ohne ihren Ton**; darunter läuft auf A1 (`Audio-Full-Mix`) der
 Full-Mix in einem Stück durch, damit der Klang an den Schnitten nicht springt.
-Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem Weitwinkel, wo er die
-erste Tonspur ist. Welches Stück aus welcher Kameradatei genommen wird, ergibt
-sich aus dem gemessenen Versatz, nicht aus dem Timecode — die Kameras haben zu
+Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem Weitwinkel, wo
+er die erste Tonspur ist. Welches Stück aus welcher Kameradatei genommen
+wird, ergibt sich aus dem gemessenen Versatz, nicht aus dem Timecode — die
+Kameras haben zu
 verschiedenen Zeiten angefangen. Lief eine nicht, springt eine andere ein,
 zuerst der Weitwinkel; das Protokoll sagt, wie oft. Marker gibt es hier keine —
 der Schnitt ist gemacht.
@@ -89,8 +89,8 @@ Es wird gefragt:
 - **ein neues Projekt daneben anlegen** — Name mit Zusatz.
 - **abbrechen.**
 
-Vorgeben lässt sich die Antwort mit `--resolve-project update|keep|new|abort`;
-sonst kommt in der Oberfläche ein Dialog, im Terminal eine Nummer.
+In der Oberfläche fragt ein Dialog, im Terminal kommt eine Nummer (auf der
+Kommandozeile vorweg `--resolve-project update|keep|new|abort`).
 
 Nach dem Löschen wird nachgesehen — Resolve meldet auch dann Erfolg, wenn
 nichts geschah. Bleibt eine Timeline stehen, sagt das Protokoll es, und die
@@ -122,8 +122,9 @@ Jeder Schnitt bekommt die Farbe seiner Perspektive, auf beiden Timelines. Im
 Schnittfenster sieht man dann den Rhythmus der Folge auf einen Blick — wer
 lange steht, wie oft es auf den Weitwinkel geht. Die Farben sind nach
 Unterscheidbarkeit sortiert, die ersten beiden liegen also so weit
-auseinander wie möglich. Der Weitwinkel bekommt `Tan`. Gibt es mehr Perspektiven
-als Farben, wiederholt sich die Reihe, und das Protokoll sagt es.
+auseinander wie möglich. Der Weitwinkel bekommt `Tan`. Gibt es mehr
+Perspektiven als Farben, wiederholt sich die Reihe, und das Protokoll sagt
+es.
 
 Dazu bekommt jede Kamera eine **Farbgruppe**, korrigiert wird also einmal je
 Kamera statt einmal je Schnitt — siehe *Farbgruppen* weiter unten.
@@ -174,17 +175,19 @@ Projekt keine HDR-Kurve, bleibt der Render auf „Same as Project".
 
 Fest sind: eine Datei statt eine je Clip, Ziel ist der Ausgabeordner,
 Dateiname der Produktionsname, `.mp4`, Ton AAC bei 48 kHz, 16 Bit, zwei
-Kanäle. Die Tonbitrate kennt die Schnittstelle nicht als Schlüssel; das
-Protokoll schreibt hin, dass 384 kbit/s die Empfehlung für Stereo wären. Bei
-HDR nennt es auch die Prüfung: `videopodcast-magic.py --hdr-check DATEI`.
+Kanäle. Die Tonbitrate kennt die Scripting-Schnittstelle von Resolve nicht
+als Schlüssel; das Protokoll schreibt hin, dass 384 kbit/s die Empfehlung
+für Stereo wären. Bei HDR nennt es auch die Prüfung:
+`videopodcast-magic.py --hdr-check DATEI`.
 
 ### Vorspann und Abspann
 
-In der Kameratabelle hat jede Zeile eine Spalte **Typ**: *Inhalt*, *Vorspann*,
-*Abspann* oder *Video ignorieren*. Vorspann und Abspann sind freiwillig. Eine
-Datei, die kein Inhalt ist, wird nicht ausgerichtet, nicht aufbereitet und
-nicht umkopiert — sie ist ein fertiger Clip und kommt nur in die Timeline; auf
-der Kommandozeile `--intro DATEI` und `--outro DATEI`. Beide landen auf der
+In der Kameratabelle auf dem Reiter **2. Zuordnung & Zeitfenster** hat jede
+Zeile eine Spalte **Typ**: *Inhalt*, *Vorspann*, *Abspann* oder
+*Video ignorieren*. Vorspann und Abspann sind freiwillig. Eine Datei, die
+kein Inhalt ist, wird nicht ausgerichtet, nicht aufbereitet und nicht
+umkopiert — sie ist ein fertiger Clip und kommt nur in die Timeline (auf der
+Kommandozeile `--intro DATEI` und `--outro DATEI`). Beide landen auf der
 **zweiten** Bild- und Tonspur, über dem Inhalt (`Intro / Outro` und
 `Audio Intro / Outro`).
 
@@ -258,17 +261,18 @@ Assign to Group in die Gruppe.
 
 ### Warum keine Remote-Grades
 
-Remote-Grades („Use local version for new clips" aus) binden alle Clips derselben
-Quelldatei an eine Korrektur und kleben damit auch die **Clip**-Ebene
+Remote-Grades („Use local version for new clips" aus) binden alle Clips
+derselben Quelldatei an eine Korrektur und kleben damit auch die **Clip**-Ebene
 zusammen: ein einzelner Schnitt lässt sich dann nicht mehr für sich
 korrigieren. Die Farbgruppe leistet dasselbe, ohne die Clip-Ebene zu opfern.
 
 Das Script setzt deshalb **lokale Versionen**, bei jedem Lauf ausdrücklich —
-ein Projekt aus einem früheren Lauf hätte die Remote-Grades sonst noch an. Einen
-Schalter zum Wiedereinschalten gibt es nicht. Die Einstellung wirkt nur auf
-Clips, die **danach** in eine Timeline kommen: `--resolve-project update` baut
-beide Timelines neu und erledigt das; bei `keep` hängen die vorhandenen Clips
-an ihrem Remote-Grade, und das Protokoll nennt den Weg — Farbseite, Rechtsklick
+ein Projekt aus einem früheren Lauf hätte die Remote-Grades sonst noch an.
+Einen Schalter zum Wiedereinschalten gibt es nicht. Die Einstellung wirkt
+nur auf Clips, die **danach** in eine Timeline kommen:
+`--resolve-project update` baut beide Timelines neu und erledigt das; bei
+`keep` hängen die vorhandenen Clips an ihrem Remote-Grade, und das Protokoll
+nennt den Weg — Farbseite, Rechtsklick
 auf ein Miniaturbild > **Copy Remote Grades to Local** (nimmt die Korrektur
 mit) oder **Use Local Grades**. Wie die Einstellung intern heißt, wird aus der
 Liste aller Projekteinstellungen herausgesucht und nachgelesen.
@@ -315,9 +319,9 @@ Das prüft alle Punkte der Tabelle, sagt zu jedem, was zu tun wäre, und ändert
 nichts. Rückgabewert 0 heißt: die Datei geht als HDR durch.
 
 „Embed HDR10 Metadata" und die HDR10+-Analyse kann das Script nicht
-ferngesteuert einschalten — dafür kennt die Schnittstelle keinen Schlüssel.
-Von Hand: Color Management > HDR10+, Farbseite > Analyze All Shots, Deliver >
-Embed HDR10 Metadata.
+ferngesteuert einschalten — dafür kennt die Scripting-Schnittstelle von
+Resolve keinen Schlüssel. Von Hand: Color Management > HDR10+, Farbseite >
+Analyze All Shots, Deliver > Embed HDR10 Metadata.
 
 ### Bildausschnitt
 
@@ -358,5 +362,15 @@ der Perspektive (Handbuch, Kapitel 49) — deshalb heißen die Bildspuren nach
 den Sprechern. Die Umwandlung ist ein Einwegvorgang, und eine
 Sicherungskopie gibt es nicht.
 
-Alles Nötige steht in `Produktion_resolve.json`. Mit `--resolve-json DATEI`
-lässt sich der Resolve-Teil allein nachholen.
+### Weitere Optionen über die Kommandozeile
+
+Im Fenster gibt es diese Möglichkeiten nicht.
+
+- `--resolve` baut das Projekt als Teil eines ganzen Laufs, gleich nach den
+  Dateien.
+- `--resolve-json DATEI` holt den Resolve-Teil allein nach; alles Nötige
+  steht in `Produktion_resolve.json`. Das ruft auch der Knopf
+  **Resolve-Projekt anlegen** auf.
+- `--resolve-audio-tracks` sieht nur nach: für das offene Projekt schreibt
+  es die Kanalzuordnung jedes Clips und die Spuren jeder Timeline hin.
+

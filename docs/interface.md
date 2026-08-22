@@ -4,8 +4,8 @@
 
 ## The interface
 
-Four tabs, in the order they are needed, and top right of them a
-**Settings ...** button. Behind it stands what is set up once and then left
+Four tabs, in the order they are needed, and beside them the button
+**Settings ...**. Behind it stands what is set up once and then left
 alone: the key for auphonic.com with the tick that stores it, and whether
 Resolve answers. What belongs to the production being made -- the preset, the
 transcript -- stands where the tracks are decided, under the assignment table.
@@ -18,6 +18,11 @@ says whether Resolve answers, with its version where it does and the
 reasons where it does not, and **Check again** asks once more. Opening the
 window asks Resolve again by itself.
 
+![The settings window](images/settings.png)
+
+*Behind Settings ...: the key for auphonic.com, and whether Resolve
+answers.*
+
 1. **Files & production** -- the file list on top, below it a narrow strip
    with production name, spoken language and output folder. Drag files or
    whole folders in, add them, or open an earlier project; while the list is
@@ -27,30 +32,40 @@ window asks Resolve again by itself.
    ✓ nothing to fault, ! a note, ✕ this will not work. Below the list the
    result stands in one sentence.
 
-   "Open project ..." sits on the drop area only. Files can be added to an
+   **Open project ...** sits on the drop area only. Files can be added to an
    open project at any time.
 
    A file with more than one channel says underneath what will become of
-   it: one row per channel, with a tick offering "join with Channel 2"
+   it: one row per channel, with a tick offering **join with Channel 2**
    and, beside it, what was measured. Channels that hold nothing are named
    and stay out of everything after. A single block of a multi-part recording
    can be removed on its own -- it then stays out although it lies in the
    folder, and putting it back later makes it a recording of its own.
    Only removing the whole recording and adding it again joins the blocks
    up as before.
+
+   ![The file list](images/files.png)
+
+   *The list after a project was opened, with the marks from the
+   preflight and the strip underneath.*
 2. **Assignment & time window** -- tables on the left, player on the right.
    Appears with the files.
+
+   ![Assignment table and player](images/assignment.png)
+
+   *Above which recording belongs to which camera, below what becomes
+   of each camera.*
 3. **Resolve cut** -- one line saying whether Resolve answers, with the way
    to the settings beside it, the time window, the values for the camera
-   cut, the speaker statistics and the box "Camera cut -- preview" with the
-   cut band and a picture that plays.
+   cut, the speaker statistics and the box **Camera cut -- preview** with
+   the cut band and a picture that plays.
 
    Both rear tabs are there with or without separate tracks. Without them the
    assignment column reads "into every camera" in grey, and sliders and
    preview for the camera cut give way to a line saying why.
 4. **Output** -- appears as soon as something runs, in the same colours as
-   the terminal, with "Open result folder" and "Create Resolve project"
-   below.
+   the terminal, with the buttons **Open result folder** and
+   **Create Resolve project**.
 
 **Multitrack (one track per speaker)** has a line of its own above the
 Auphonic box and needs no API key: one track per speaker is the basis for the
@@ -62,7 +77,7 @@ audio track and tells auphonic.com what to expect when transcribing. "not
 set" leaves the track untagged and lets the recognition work the language out
 for itself.
 
-"Start" and "Dry run (writes nothing)" stay locked while something is
+**Start** and **Dry run (writes nothing)** stay locked while something is
 outstanding, and **they say what**:
 
 - no files,
@@ -93,8 +108,8 @@ version, time and machine in the header and a dividing line per run; the
 previous run stays as `videopodcast-magic_1.log`. What Qt and ffmpeg write
 past Python is in there too.
 
-Along the bottom, beside Start, runs **one bar for everything outstanding**,
-with a line saying what is being worked on. It covers both halves: the
+Beside **Start** runs **one bar for everything outstanding**, with a line
+saying what is being worked on. It covers both halves: the
 measuring that follows every change to the file list -- envelopes, camera
 audio, channels, the check -- and the run itself, split into weighted
 sections. Writing the camera files gets the largest share, reading the plan

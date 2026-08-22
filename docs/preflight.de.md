@@ -5,6 +5,11 @@
 ## Vorflug
 
 Bevor der erste lange Schritt anfängt, sieht das Script das Material durch.
+Auf dem Reiter **1. Dateien & Produktion** geschieht das von selbst, und nach
+jeder Änderung der Dateiliste erneut: ein Satz unter der Liste sagt, was
+gefunden wurde, und jede Zeile trägt eine Marke. Wer mit dem Zeiger auf der
+Marke stehen bleibt oder die Zeile aufklappt, sieht, was dahintersteht.
+
 Der Bericht gilt für beide Betriebsarten und steht an einer einzigen Stelle,
 vor der Weiche; das Übersprechen fällt bei einer einzigen Spur weg.
 
@@ -21,15 +26,13 @@ vor der Weiche; das Übersprechen fällt bei einer einzigen Spur weg.
 | Lautheit | welches Ziel gilt und woher es kommt | -- |
 
 Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen wird.
-`--anyway` läuft dennoch, `--no-preflight` überspringt die Prüfung ganz.
 
 Gemessen wird nur, was sich geändert hat, und gemerkt wird **je Datei**, nicht
 je Auswahl: Kennung sind Pfad, Größe und Änderungszeit. Kommt eine Kamera
 dazu, wird nur diese gemessen; was erst im Vergleich auffällt -- Bildraten,
 Auflösungen, Spuren aus der Reihe -- rechnet sich aus den gemerkten Daten und
 kostet nichts. Das Übersprechen gilt für genau diese Menge an Spuren.
-Plattenplatz und Lautheitsziel werden jedes Mal neu bestimmt,
-`--preflight-again` misst alles neu.
+Plattenplatz und Lautheitsziel werden jedes Mal neu bestimmt.
 
 ### Variable Bildrate
 
@@ -61,19 +64,11 @@ Sprecher weg wie sein eigenes, ist die Nachbarstimme rund 9,5 dB leiser. Das
 sagt etwas über den Aufbau im Raum, nicht über die Nachbearbeitung, und ändern
 lässt es sich nur beim nächsten Mal -- deshalb hält es den Lauf nicht an.
 
-### Lautheit nach Plattform
-
-`--lufs` setzt das Ziel als Zahl, `--platform` nach Zweck:
-
-| Angabe | Ziel | Wofür |
-|---|---|---|
-| `podcast` | −16 LUFS | Podcast-Verzeichnisse, stereo |
-| `podcast-mono` | −19 LUFS | Podcast-Verzeichnisse, mono |
-| `youtube` | −14 LUFS | YouTube regelt nur herunter, nie herauf |
-| `broadcast` | −23 LUFS | EBU R128 |
+### Lautheit
 
 Der Wert gilt für beides: für die Normalisierung der Spuren und für den
-Zielpegel der Lautheitsanzeige im Resolve-Projekt.
+Zielpegel der Lautheitsanzeige im Resolve-Projekt. Ohne Angabe sind es
+−16 LUFS.
 
 **Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten die
 Kanäle ihrer Quelle ([Kanäle](channels.de.md)); jede *Mischung* dagegen, der
@@ -87,3 +82,19 @@ Abstand zwischen leisen und lauten Stellen. Bei Sprache sind 3 bis 7 LU
 üblich; unter 2 LU sagt das Protokoll es ausdrücklich. Dann wurde
 plattgedrückt, und zwar nicht vom Limiter, der nur Spitzen abfängt und
 höchstens 6 dB wegnehmen darf, sondern vom Leveler davor.
+
+### Weitere Optionen über die Kommandozeile
+
+Im Fenster gibt es diese Optionen nicht.
+
+`--anyway` läuft trotz eines Abbruchs, `--no-preflight` überspringt die
+Prüfung ganz, `--preflight-again` misst alles neu statt nur das Geänderte.
+
+`--lufs` setzt das Ziel als Zahl, `--platform` nach Zweck:
+
+| Angabe | Ziel | Wofür |
+|---|---|---|
+| `podcast` | −16 LUFS | Podcast-Verzeichnisse, stereo |
+| `podcast-mono` | −19 LUFS | Podcast-Verzeichnisse, mono |
+| `youtube` | −14 LUFS | YouTube regelt nur herunter, nie herauf |
+| `broadcast` | −23 LUFS | EBU R128 |
