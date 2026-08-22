@@ -2,6 +2,11 @@
 
 *In English: [README.md](README.md)*
 
+![Das Hauptfenster: die Dateien einer Produktion](docs/images/files.de.png)
+
+*Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
+zusammenpasst -- bevor irgendetwas geschrieben wird.*
+
 **Fassung 1.0.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,

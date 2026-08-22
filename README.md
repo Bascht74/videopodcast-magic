@@ -2,6 +2,11 @@
 
 *Auf Deutsch: [README.de.md](README.de.md)*
 
+![The main window: the files of one production](docs/images/files.png)
+
+*The main window. What was found, what belongs together, and what does
+not fit -- before anything is written.*
+
 **Version 1.0.0-beta.** It does the work it was written for, every
 week, on real material. It is called beta because it is not finished
 being tested: the format of the project file may still change, and an
