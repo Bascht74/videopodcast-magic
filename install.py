@@ -11,6 +11,7 @@ read the same instructions.
     python3 install.py --check      hold what is there against the sums
     python3 install.py --packages   fetch numpy and PySide6 as well
     python3 install.py --from PATH  out of a folder instead of the net
+    python3 install.py --ref NAME   one named version, not the newest
     python3 install.py --no-start   fetch it, do not start it
 
 What it brings:
@@ -38,6 +39,8 @@ import urllib.error
 import urllib.request
 
 RAW = "https://raw.githubusercontent.com/Bascht74/videopodcast-magic"
+LATEST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
+          "/releases/latest")
 PROGRAM = "videopodcast-magic.py"
 MODEL = "models/speaker-diarization-community-1"
 SUMS = MODEL + "/SHA256SUMS.txt"
@@ -151,6 +154,27 @@ def fetch(url, tries=2):
     return None
 
 
+def newest_release():
+    """The tag of the newest release, or "".
+
+    GitHub answers with the release marked latest, and a pre-release is
+    never that one. So a version put out for trying does not reach
+    somebody who just wants the program.
+    """
+    try:
+        with urllib.request.urlopen(LATEST, context=context(),
+                                    timeout=30) as answer:
+            import json
+            return str(json.load(answer).get("tag_name") or "")
+    except urllib.error.URLError as e:
+        if isinstance(getattr(e, "reason", None), ssl.SSLError) \
+                and with_certificates():
+            return newest_release()
+        return ""
+    except (OSError, ValueError):
+        return ""
+
+
 def read_sums(text):
     """Read a SHA256SUMS file: {file name: digest}.
 
@@ -251,9 +275,13 @@ def main():
     ap.add_argument("--to", default="videopodcast-magic",
                     metavar="PATH", help="where it goes "
                     "(default: ./videopodcast-magic)")
-    ap.add_argument("--ref", default="main", metavar="NAME",
-                    help="which state to fetch: a branch or a tag, "
-                         "for instance v2.0.0-beta (default: main)")
+    ap.add_argument("--ref", default="", metavar="NAME",
+                    help="which state to fetch: a tag, for instance "
+                         "v2.0.0-beta, or a branch, for instance main. "
+                         "Without it the newest release is taken -- the "
+                         "one the repository marks as the latest, which "
+                         "is never a pre-release. (default: the newest "
+                         "release)")
     ap.add_argument("--check", action="store_true",
                     help="hold what is there against the sums and "
                          "fetch nothing")
@@ -276,10 +304,22 @@ def main():
     say("videopodcast-magic -- installer")
     say("=" * 60)
     say("Into:  %s" % folder)
+    ref = args.ref
     if source:
         say("From:  %s" % source)
     else:
-        say("From:  %s (%s)" % (RAW, args.ref))
+        if not ref:
+            say("Looking for the newest release ...")
+            ref = newest_release()
+            if ref:
+                say("  %s" % ref)
+            else:
+                # Nothing published yet, or no way to ask. The branch is
+                # still there, and saying which one was taken beats
+                # stopping over it.
+                ref = "main"
+                say("  none found -- taking the %s branch instead" % ref)
+        say("From:  %s (%s)" % (RAW, ref))
     say()
     if source and os.path.abspath(folder) == source:
         say("Into and from are the same folder. Nothing to do.")
@@ -289,7 +329,7 @@ def main():
         return 1
     say()
 
-    base = "%s/%s/" % (RAW, args.ref)
+    base = "%s/%s/" % (RAW, ref)
 
     def take(name):
         """One file, out of the folder or off the network."""
@@ -316,6 +356,13 @@ def main():
     text = take(SUMS)
     if text is None:
         say("The file list could not be read. Nothing was written.")
+        if ref and ref != "main":
+            # The model started travelling with the program in
+            # 2.0.0-beta. Older tags have no models/ folder, and this is
+            # what that looks like from here.
+            say("%s may be older than the model that travels with the "
+                "program. Without --ref you get the newest release."
+                % ref)
         return 1
     sums = read_sums(text.decode("utf-8", "replace"))
     if not sums:

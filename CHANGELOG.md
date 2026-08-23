@@ -9,6 +9,58 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.1.0-beta] - 2026-08-23
+
+### Added
+
+- The program looks whether a newer release is out, and offers to fetch
+  it and start again. Looking needs no permission -- it asks github.com
+  for a version number and sends nothing -- but nothing is ever fetched
+  or replaced without being asked, and the question comes at the start,
+  never during a run. What comes down has to be readable text, has to
+  look like this program and has to compile before it replaces the file
+  that works; the old one stays beside it as `.old`. `--no-update-check`
+  switches the looking off and the answer is remembered.
+- `install.py` fetches the newest release by default rather than the
+  tip of the main branch. `--ref` takes a named version instead -- a
+  tag for a particular release, or a branch. A release marked as a
+  pre-release is never what the newest means.
+
+### Changed
+
+- ffmpeg comes from the package manager where there is one. It asks,
+  and then does it: brew on a Mac, apt-get, dnf, zypper or pacman on
+  Linux, each with the switch that stops it asking a second time. On
+  Windows it offers to open ffmpeg.org. static-ffmpeg is what is left
+  when none of that is there, and it now says what it brings: sixteen
+  packages, and a binary loaded from a private repository without being
+  held against anything. `VPM_INSTALL_TOOLS=1` answers yes in advance,
+  for a run with nobody in front of it.
+- A package that was half removed counted as installed. pip leaves a
+  package's `__pycache__` folder behind when it uninstalls it, and
+  Python reads that folder as a namespace package: the import goes
+  through and the module is hollow. Only a module that names the file
+  it was read from counts as there now.
+
+### Fixed
+
+- The message that ffmpeg was being installed came at every start, even
+  though nothing was being installed: static-ffmpeg only puts its
+  programs on the search path for the running process.
+
+### Tests
+
+- `update_test.py`, 24 checks: which version is newer, what counts as a
+  newer release, that a no is remembered, that an error page and a file
+  that does not compile are both refused, and that the old file is kept.
+  Nothing in it touches the network.
+- `first_run.sh` puts the machine back the way it was before the program
+  ever ran -- the environment, the caches, the packages, what a package
+  downloaded after pip was done with it, the keychain entry -- so a
+  change to how the program installs itself can be watched from
+  nothing. It is not part of the suite.
+- The suite stops instead of going red where there is no ffmpeg.
+
 ## [2.0.0-beta] - 2026-08-23
 
 ### Added
@@ -711,5 +763,7 @@ program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.1.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.0.0-beta...v2.1.0-beta
+[2.0.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v1.1.0-beta...v2.0.0-beta
 [1.1.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v1.0.0-beta...v1.1.0-beta
 [1.0.0-beta]: https://github.com/Bascht74/videopodcast-magic/releases/tag/v1.0.0-beta

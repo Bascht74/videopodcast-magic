@@ -75,6 +75,10 @@ export VPM_SILENT=1
 # fetches 218 MB, and a run takes minutes on the graphics unit -- a
 # suite must do neither. The tests that need it say so themselves.
 export VPM_NO_SPEAKER_SPLIT=1
+# The suite never asks github.com whether a newer version is out, and
+# it certainly never lets the program swap the file under test. The one
+# test about updating unsets this itself and answers with a table.
+export VPM_NO_UPDATE_CHECK=1
 # As many at a time as the machine has cores, and one more: most of a
 # test is Python starting up and ffmpeg waiting on the disc, so there is
 # room beside the processors. Measured on a two-core box: 2 workers

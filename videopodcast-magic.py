@@ -545,7 +545,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.0.0-beta"
+VERSION = "2.1.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -14006,6 +14006,165 @@ def certificate_file():
     return where if os.path.exists(where) else None
 
 
+# =====================================================================
+#  Keeping itself up to date
+# =====================================================================
+# The program can look whether a newer release is out and, if somebody
+# says so, fetch it and start again. Three rules hold it in place:
+#
+#   * Looking is free and needs no permission: one question for a
+#     version number, nothing sent. --no-update-check switches even
+#     that off, and the answer is remembered.
+#   * Fetching is not free, and is asked every single time. It never
+#     replaces itself unasked, and never while a run is going on.
+#   * What comes down is read before it is used: a file that does not
+#     compile is not written over the one that works.
+
+RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
+            "/releases/latest")
+RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
+            "/videopodcast-magic/%s/videopodcast-magic.py")
+# Off for a test run: a suite must not reach for the network, and it
+# must certainly not swap the file it is testing.
+UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
+
+
+def update_answer_file():
+    """Where the yes or no to looking for updates is kept."""
+    folder = cache_folder()
+    return os.path.join(folder, "update_check") if folder else ""
+
+
+def update_wanted():
+    """Whether to look for a newer version. Yes unless switched off.
+
+    Looking costs one question to github.com for a version number and
+    sends nothing, so it needs no permission. Fetching does, and that
+    is asked every time.
+    """
+    if UPDATE_OFF:
+        return False
+    where = update_answer_file()
+    if not where or not os.path.exists(where):
+        return True
+    try:
+        with open(where, encoding="utf-8") as f:
+            return f.read().strip() != "no"
+    except OSError:
+        return True
+
+
+def set_update_wanted(yes):
+    """Remember the answer, so the question is asked once."""
+    where = update_answer_file()
+    if not where:
+        return
+    try:
+        with open(where, "w", encoding="utf-8") as f:
+            f.write("yes" if yes else "no")
+    except OSError:
+        pass
+
+
+def version_key(text):
+    """A version as something that can be compared.
+
+    Semantic Versioning: 2.0.0 is newer than 2.0.0-beta, and a release
+    without a pre-release part beats one with it. Anything unreadable
+    sorts oldest, so a name nobody understands never counts as newer.
+    """
+    text = str(text or "").strip().lstrip("vV")
+    core, _, pre = text.partition("-")
+    numbers = []
+    for piece in core.split(".")[:3]:
+        numbers.append(int(piece) if piece.isdigit() else 0)
+    while len(numbers) < 3:
+        numbers.append(0)
+    # 1 for a finished release, 0 for a pre-release: that way 2.0.0
+    # comes after 2.0.0-beta, which is what the standard says.
+    return (tuple(numbers), 1 if not pre else 0, pre)
+
+
+def newer_release():
+    """(tag, page) of a release newer than this one, or (), ().
+
+    A pre-release is never the answer: GitHub only calls one release
+    the latest, and it is never one put out for trying.
+    """
+    if UPDATE_OFF or not update_wanted():
+        return "", ""
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RELEASES, context=https_context(),
+                                    timeout=20) as answer:
+            found = json.load(answer)
+    except Exception:
+        return "", ""          # no network, no answer, no complaint
+    tag = str(found.get("tag_name") or "")
+    if not tag or version_key(tag) <= version_key(VERSION):
+        return "", ""
+    return tag, str(found.get("html_url") or "")
+
+
+def fetch_new_self(tag):
+    """Fetch that release of this program. (text, "") or ("", why).
+
+    Read before it is believed: what comes down has to compile, and it
+    has to look like this program rather than like an error page a
+    proxy put there.
+    """
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RAW_FILE % tag,
+                                    context=https_context(),
+                                    timeout=120) as answer:
+            raw = answer.read()
+    except Exception as e:
+        return "", T('The new version could not be fetched: %s') % e
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError:
+        return "", T('The new version is not readable text.')
+    if "VERSION = " not in text or "CATALOGUE" not in text:
+        return "", T('What came back is not this program.')
+    try:
+        compile(text, "videopodcast-magic.py", "exec")
+    except SyntaxError as e:
+        return "", T('The new version does not compile: line %s.') \
+            % e.lineno
+    return text, ""
+
+
+def put_new_self(text):
+    """Write it in place of this file, the old one kept beside it.
+
+    Returns "" when it worked. The old file stays as .old: an update
+    that turns out wrong should not need the network to be undone.
+    """
+    here = os.path.abspath(__file__)
+    try:
+        beside = here + ".new"
+        with open(beside, "w", encoding="utf-8") as f:
+            f.write(text)
+        shutil.copymode(here, beside)
+        shutil.copyfile(here, here + ".old")
+        os.replace(beside, here)
+    except OSError as e:
+        return T('The new version could not be written: %s') % e
+    return ""
+
+
+def start_again():
+    """Start this program once more, in place of this run."""
+    here = os.path.abspath(__file__)
+    try:
+        sys.stdout.flush()
+        os.execv(sys.executable, [sys.executable, here] + sys.argv[1:])
+    except OSError as e:
+        print(T('Starting again did not work: %s') % e)
+        print(T('Start it by hand: %s %s') % (sys.executable, here))
+
+
 def https_context():
     """An SSL context that can verify, not the default one.
 
@@ -16283,6 +16442,12 @@ def build_argument_parser():
                          "about %d MB the first time and the run takes "
                          "minutes. (default: whatever the run picks)"
                          % SPEAKER_SETUP_MB)
+    ap.add_argument("--no-update-check", dest="update_check",
+                    action="store_false", default=True,
+                    help="do not look whether a newer version is out. "
+                         "The window looks once at its start, asks "
+                         "before it fetches anything, and remembers a "
+                         "no given here. (default: it looks)")
     ap.add_argument("--speakers-from", dest="speakers_from", default=None,
                     metavar="FILE",
                     help="take a finished separation out of a project or "
@@ -17009,11 +17174,17 @@ def main():
     clean_envelope_cache()
     # --lang alone is not a job: it only picks the language, so the window
     # still opens. Anything else on the command line means a run.
+    # --no-update-check is the same kind of thing: it settles a question
+    # rather than asking for work, and the answer is kept so it need not
+    # be given again.
     rest = list(sys.argv[1:])
     while "--lang" in rest:
         i = rest.index("--lang")
         del rest[i:i + 2]
     rest = [a for a in rest if not a.startswith("--lang=")]
+    if "--no-update-check" in rest:
+        set_update_wanted(False)
+        rest = [a for a in rest if a != "--no-update-check"]
     if not rest:
         if len(sys.argv) > 1:
             set_language(ap.parse_args(sys.argv[1:]).lang)
@@ -24865,7 +25036,56 @@ def gui():
     # are needed on the simple path too.
     mode_toggled()
     window.show()
+    # A moment after the window is up, not before: the first thing
+    # somebody sees should be their files, not a question about
+    # updates. And never during a run -- the check is only made here,
+    # at the start, when nothing is going on yet.
+    QtCore.QTimer.singleShot(1500, lambda: update_offer(window))
     return app.exec()
+
+
+def update_offer(window):
+    """Ask about looking for updates, look, and offer the new one.
+
+    Everything here happens in the window: the command line is left
+    alone on purpose, because a run started from a script must not
+    stop to ask anything.
+    """
+    QtWidgets = _qt_widgets()
+    tag, page = newer_release()
+    if not tag:
+        return
+    box = QtWidgets.QMessageBox(window)
+    box.setWindowTitle(T('A newer version is out'))
+    box.setText(T('%s is out. This is %s.') % (tag, VERSION))
+    box.setInformativeText(
+        T('Fetch it and start again? The run then begins from the new '
+          'version. The one running now stays beside it as '
+          'videopodcast-magic.py.old.\n\nWhat changed: %s') % page)
+    later = box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
+    now = box.addButton(T('Fetch and start again'),
+                        QtWidgets.QMessageBox.AcceptRole)
+    box.setDefaultButton(now)
+    box.exec()
+    if box.clickedButton() is later:
+        return
+    text, trouble = fetch_new_self(tag)
+    if not text:
+        QtWidgets.QMessageBox.warning(window, T('A newer version is out'),
+                                      trouble)
+        return
+    trouble = put_new_self(text)
+    if trouble:
+        QtWidgets.QMessageBox.warning(window, T('A newer version is out'),
+                                      trouble)
+        return
+    start_again()
+
+
+def _qt_widgets():
+    """QtWidgets, without carrying it down from the caller."""
+    from PySide6 import QtWidgets
+    return QtWidgets
 
 
 # ---------------------------------------------------------------------------
@@ -24879,6 +25099,34 @@ CATALOGUE["de"] = {
         '  %d Wort kam ohne Zeit zurück und blieb weg.',
     '  %d words came back without a time and were left out.':
         '  %d Wörter kamen ohne Zeit zurück und blieben weg.',
+    'A newer version is out':
+        'Es gibt eine neuere Fassung',
+    '%s is out. This is %s.':
+        '%s ist da. Hier läuft %s.',
+    'Fetch it and start again? The run then begins from the new '
+    'version. The one running now stays beside it as '
+    'videopodcast-magic.py.old.\n\nWhat changed: %s':
+        'Holen und neu starten? Danach läuft die neue Fassung. Die '
+        'jetzige bleibt als videopodcast-magic.py.old daneben '
+        'liegen.\n\nWas sich geändert hat: %s',
+    'Later':
+        'Später',
+    'Fetch and start again':
+        'Holen und neu starten',
+    'The new version could not be fetched: %s':
+        'Die neue Fassung ließ sich nicht holen: %s',
+    'The new version is not readable text.':
+        'Die neue Fassung ist kein lesbarer Text.',
+    'What came back is not this program.':
+        'Was zurückkam, ist nicht dieses Programm.',
+    'The new version does not compile: line %s.':
+        'Die neue Fassung lässt sich nicht übersetzen: Zeile %s.',
+    'The new version could not be written: %s':
+        'Die neue Fassung ließ sich nicht schreiben: %s',
+    'Starting again did not work: %s':
+        'Der Neustart hat nicht geklappt: %s',
+    'Start it by hand: %s %s':
+        'Von Hand starten: %s %s',
     '  No certificate bundle found -- an HTTPS download may fail.':
         '  Kein Zertifikatsbündel gefunden -- ein Download über HTTPS '
         'kann fehlschlagen.',
