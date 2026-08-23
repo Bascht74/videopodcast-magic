@@ -22,8 +22,8 @@ What the simple path does just like multitrack:
 - **Resolve project.** Several cameras give one timeline with all of them
   side by side, ready for multicam; one camera a straight one.
 
-Camera cut, speaker statistics and cut forecast are missing: they need the
-speaker assignment.
+Camera cut, speaking times and cut forecast are missing: they need one
+track per speaker.
 
 What comes out depends on the material:
 

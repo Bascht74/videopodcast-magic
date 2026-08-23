@@ -39,6 +39,11 @@
 | `--platform NAME` | dieses Ziel nach Plattform: `broadcast` -23, `podcast` -16, `podcast-mono` -19, `youtube` -14 |
 | `--speech-language CODE` | Sprachkennung der Tonspuren, ISO 639-2/B: `ger`, `eng`. Vorsicht, `deu` wirft ffmpeg stillschweigend weg (keine) |
 | `--speech-language-camera CODE` | dasselbe für die Kameraspur (keine — nur so unterscheidet der QuickTime-Player die beiden Einträge im Tonmenü) |
+| `--speakers-local DATEI` | diese Aufnahme auf diesem Rechner nach Stimmen trennen und danach schneiden (keine) |
+| `--speakers-from DATEI` | eine fertige Trennung aus einer Projekt- oder Zuordnungsdatei übernehmen, statt zu rechnen (keine) |
+| `--speakers-count ZAHL` | wie viele Personen `--speakers-local` suchen soll (selbst herausfinden) |
+| `--no-speakers-local` | in diesem Lauf nie eine Aufnahme nach Stimmen trennen (aus) |
+| `--no-speech-recognition` | nicht mitschreiben, was gesprochen wird; der Schnitt hat dann keine Satzgrenzen (aus) |
 
 **Auphonic**
 
@@ -64,12 +69,19 @@
 
 | Schalter | Wirkung |
 |---|---|
-| `--min-edit-duration SEKUNDEN` | wie kurz eine Einstellung stehen darf; kürzere gehen in die vorige auf, 0 aus (3) |
+| `--min-edit-duration SEKUNDEN` | wie kurz eine Einstellung stehen darf; kürzere gehen in die folgende auf, 0 aus (3) |
+| `--min-speech-to-switch SEKUNDEN` | wie lange jemand reden muss, bevor die Kamera ihm folgt, 0 aus (1,5) |
 | `--edit-change-delay SEKUNDEN` | wie viel später als der Ton das Bild schneidet; negativ lässt es vorlaufen (0,3) |
-| `--wide-after SEKUNDEN` | ab dieser Standzeit wird die Einstellung mit einem Blick in den Weitwinkel aufgebrochen, 0 aus (45) |
-| `--wide-length SEKUNDEN` | längster so eingeschobener Weitwinkel (2,5) |
-| `--wide-min SEKUNDEN` | kürzester, auf den er schrumpft (1,5) |
-| `--wide-flow SEKUNDEN` | wie lange er steht, wenn mitten im Satz geschnitten werden muss (6) |
+| `--reaction-lead SEKUNDEN` | wie viel früher das Bild nach einer Frage zur Antwort geht (1,5) |
+| `--reaction-gap SEKUNDEN` | wie schnell die Antwort auf die Frage folgen muss, damit der Reaktionsschnitt greift (3) |
+| `--reaction-hold ANTEIL` | wie viel der zehn Sekunden nach der Frage der Antwortende halten muss, zwischen 0 und 1 (0,7) |
+| `--on-monologue WERT` | einer redet lange allein: `wide`, `listener`, `alternate`, `hold` (alternate) |
+| `--on-together WERT` | mehrere reden zugleich: dieselben vier Werte (wide) |
+| `--on-uncertain WERT` | die Erkennung ist unsicher: dieselben vier Werte (wide) |
+| `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
+| `--wide-after SEKUNDEN` | ab dieser Standzeit wird die Einstellung aufgebrochen, gesetzt auf eine Satzgrenze, nicht nach der Uhr, 0 aus (40) |
+| `--wide-length SEKUNDEN` | wie lange die eingeschobene Einstellung mindestens steht; danach läuft sie bis zum Satzende (5) |
+| `--wide-most SEKUNDEN` | wie lange sie höchstens steht; liegt das Satzende darüber, beendet die letzte Teilsatzgrenze davor die Einstellung (15) |
 | `--wide-latest SEKUNDEN` | wie lange eine Kamera höchstens ohne Schnitt stehen darf (120) |
 | `--no-wide-edges` | den Weitwinkel nicht über Begrüßung und Verabschiedung halten |
 

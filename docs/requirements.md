@@ -2,6 +2,18 @@
 
 *Auf Deutsch: [requirements.de.md](requirements.de.md). Back to the [contents](README.md).*
 
+## Getting the program
+
+`install.py` fetches everything in one command -- the program, the
+speaker separation model, and the checksums it holds them against. The
+command is in the [README](../README.md#getting-it). Python has to be
+there first; that is the one thing the installer cannot bring.
+
+The model matters here. The separation reads it from a folder beside
+the program, without an account, a token or a network, and nothing
+fetches it later. Downloading the one Python file on its own therefore
+leaves the separation with nothing to work from.
+
 ## Python
 
 Python: 3.10 or newer, and the program says so and stops below that. The

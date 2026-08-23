@@ -1,0 +1,319 @@
+#!/bin/bash
+# Put the machine back the way it was before the program ever ran.
+#
+# Not part of the suite. run.sh picks up *_test.py and nothing else, so
+# this file is never started by accident -- which is the point: it
+# uninstalls, it deletes, and a suite must do neither.
+#
+# Run it when something about installing or caching has changed: the
+# environment the separation is built in, a package the program fetches
+# by itself, a cache folder, the model beside the program. Then open a
+# real project and watch the first run put it all back.
+#
+#   bash first_run.sh              say what would go, delete nothing
+#   bash first_run.sh --for-real   delete it, after one question
+#
+# With --then-install it does the whole thing in one go: it clears the
+# machine and then runs the command the manual gives a stranger, off
+# the network, into ~/videopodcast-magic. That is the round trip --
+# nothing installed, then everything installed, the way anybody else
+# would get it.
+#
+#   bash first_run.sh --for-real --then-install
+#   bash first_run.sh --for-real --then-install --to PATH
+#   bash first_run.sh --for-real --then-install --from-here
+#
+# --from-here takes the installer and the files out of this checkout
+# instead of the network. For trying a change before it is pushed.
+#
+# Leave a group out with --without-<group>:
+#   environment  the virtual environment the separation runs in
+#   cache        what the program stores between runs
+#   modules      the packages it installs into this Python
+#   torch        torch and what came with it (see below)
+#   models       the model files in the Hugging Face store
+#   pip          pip's download store
+#   keychain     the auphonic key
+#
+# What it never touches:
+#   * models/ beside the program. The separation model travels with the
+#     program and is not fetched, so removing it does not test an
+#     install -- it breaks the program.
+#   * project folders and their results.
+#   * ffmpeg from a package manager.
+
+set -u
+
+HERE="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO="$(dirname "$HERE")"
+PY="${VPM_PYTHON:-python3}"
+
+# The same rule cache_folder() follows in the program, without importing
+# it: importing would run the part that installs what is missing, and
+# this script is here to take that away.
+CACHE=$("$PY" - <<'EOF'
+import os, sys
+if sys.platform == "darwin":
+    base = os.path.expanduser("~/Library/Caches")
+elif os.name == "nt":
+    base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
+else:
+    base = os.environ.get("XDG_CACHE_HOME") or os.path.expanduser("~/.cache")
+print(os.path.join(base, "videopodcast-magic"))
+EOF
+)
+HF="${HF_HOME:-$HOME/.cache/huggingface}/hub"
+if [ "$(uname -s)" = "Darwin" ]; then
+    PIPCACHE="$HOME/Library/Caches/pip"
+else
+    PIPCACHE="${XDG_CACHE_HOME:-$HOME/.cache}/pip"
+fi
+
+# What the program installs into the interpreter it runs in.
+MODULES="numpy PySide6 PySide6_Addons PySide6_Essentials certifi \
+faster-whisper static-ffmpeg"
+# Only with these gone does the environment really cost 218 MB: it is
+# built with --system-site-packages and borrows whatever is already
+# here. torchvision, torchinfo and rotary-embedding-torch are not on the
+# list -- the program never installs them and the environment never asks
+# for them, so taking them away would test nothing.
+TORCH="torch torchaudio"
+
+# The bash on a Mac is 3.2 and has no named arrays, so the groups left
+# out are a string with a space on either side of every name.
+FOR_REAL=0
+THEN_INSTALL=0
+FROM_HERE=0
+INTO="$HOME/videopodcast-magic"
+WITHOUT=" "
+want_into=0
+for a in "$@"; do
+    if [ $want_into -eq 1 ]; then INTO="$a"; want_into=0; continue; fi
+    case "$a" in
+    --for-real)        FOR_REAL=1 ;;
+    --then-install)    THEN_INSTALL=1 ;;
+    --from-here)       FROM_HERE=1 ;;
+    --to)              want_into=1 ;;
+    --without-*)       WITHOUT="$WITHOUT${a#--without-} " ;;
+    -h|--help)         sed -n '2,44p' "$0" | sed 's/^# \{0,1\}//'; exit 0 ;;
+    *) echo "not a switch: $a  (--help says what there is)"; exit 2 ;;
+    esac
+done
+[ $want_into -eq 1 ] && { echo "--to wants a path after it"; exit 2; }
+wanted() { case "$WITHOUT" in *" $1 "*) return 1 ;; *) return 0 ;; esac; }
+
+size_of() { du -sh "$1" 2>/dev/null | cut -f1; }
+LINES=()    # what the summary prints
+GOING=()    # what gets deleted
+COUNT=0     # bash 3.2 with set -u calls an empty array unbound, so the
+            # question "is there anything" gets its own counter
+
+note() {    # note <path> <what it is>
+    [ -e "$1" ] || return 0
+    LINES+=("$(printf '  %-7s %s\n           %s' "$(size_of "$1")" "$2" "$1")")
+    GOING+=("$1")
+    COUNT=$((COUNT + 1))
+}
+
+echo "======================================================================"
+echo " Back to a first run -- videopodcast-magic"
+echo "======================================================================"
+echo " Python: $("$PY" -c 'import sys; print(sys.executable)' 2>/dev/null)"
+echo " Cache:  $CACHE"
+echo
+
+# --- 1. The environment: the thing actually under test -----------------
+if wanted environment; then
+    echo "1. The environment the separation runs in"
+    note "$CACHE/pyannote" "the environment and the worker file"
+    if [ ! -d "$CACHE/pyannote" ] \
+       || [ -z "$(ls -A "$CACHE/pyannote" 2>/dev/null)" ]; then
+        echo "   (already empty -- nothing set up here yet)"
+    fi
+    echo
+fi
+
+# --- 2. What the program keeps between runs ----------------------------
+if wanted cache; then
+    echo "2. What the program keeps between runs"
+    for n in envelopes preflight speakers speech huellkurven vorflug; do
+        case "$n" in
+        envelopes)   w="envelopes of the sound tracks" ;;
+        preflight)   w="preflight measurements: length, channels, timecode" ;;
+        speakers)    w="separations already computed" ;;
+        speech)      w="the compiled macOS recogniser" ;;
+        huellkurven) w="DEAD: a name from before, nothing reads it" ;;
+        vorflug)     w="DEAD: a name from before, nothing reads it" ;;
+        esac
+        note "$CACHE/$n" "$w"
+    done
+    note "$CACHE/protokoll.log" "DEAD: the log under its old name"
+    note "$REPO/videopodcast-magic.log"   "the log beside the program"
+    note "$REPO/videopodcast-magic_1.log" "the log beside the program"
+    note "$REPO/__pycache__" "compiled Python left over"
+    note "$HOME/.lhotse" "DEAD: left over from the separation measurements"
+    echo
+fi
+
+# --- 3. The packages the program fetches for itself --------------------
+FOUND=""
+if wanted modules; then
+    echo "3. The packages the program installs by itself"
+    for m in $MODULES; do
+        v=$("$PY" -m pip show "$m" 2>/dev/null | awk '/^Version:/{print $2}')
+        [ -n "$v" ] && { echo "   $m $v"; FOUND="$FOUND $m"; }
+    done
+    [ -z "$FOUND" ] && echo "   (none of them is here)"
+    echo "   Careful: whatever else in this interpreter stands on numpy --"
+    echo "   scipy, scikit-learn, numba, OpenCV -- is broken until it is"
+    echo "   back. The program fetches it again on the next start; other"
+    echo "   work does not."
+    echo
+fi
+FOUND_TORCH=""
+if wanted torch; then
+    echo "4. torch and what came with it"
+    for m in $TORCH; do
+        v=$("$PY" -m pip show "$m" 2>/dev/null | awk '/^Version:/{print $2}')
+        [ -n "$v" ] && { echo "   $m $v"; FOUND_TORCH="$FOUND_TORCH $m"; }
+    done
+    [ -z "$FOUND_TORCH" ] && echo "   (none of it is here)"
+    echo "   The environment is built with --system-site-packages: with a"
+    echo "   torch already in this interpreter it fetches 58 MB instead of"
+    echo "   218, and the first run measures a shortcut."
+    echo "   Nothing brings these back on their own. The environment gets"
+    echo "   its own torch and leaves this interpreter alone, so whatever"
+    echo "   here stands on torch stays broken until it is installed by"
+    echo "   hand. Leave the group out with --without-torch."
+    echo
+fi
+
+# --- 5. The models in the Hugging Face store ---------------------------
+if wanted models; then
+    echo "5. Models in the Hugging Face store"
+    if [ -d "$HF" ]; then
+        for d in "$HF"/models--*; do
+            [ -e "$d" ] || continue
+            n=$(basename "$d"); n=${n#models--}; n=${n//--//}
+            case "$n" in
+            *whisper*turbo*) w="speech recognition -- fetched again" ;;
+            *wespeaker*)     w="DEAD: rest of an earlier pyannote" ;;
+            *pyannote*)      w="DEAD: the model travels in models/" ;;
+            *)               w="DEAD: measurements, nothing uses it" ;;
+            esac
+            note "$d" "$n -- $w"
+        done
+    else
+        echo "   (no Hugging Face store here)"
+    fi
+    echo
+fi
+
+# --- 6. pip's download store -------------------------------------------
+if wanted pip; then
+    echo "6. pip's download store"
+    echo "   Left in place, pip takes the packages off the shelf instead"
+    echo "   of the network, and a first install is not what is measured."
+    note "$PIPCACHE" "packages already downloaded"
+    echo
+fi
+
+# --- 7. The keychain ----------------------------------------------------
+KEY=0
+if wanted keychain && [ "$(uname -s)" = "Darwin" ]; then
+    echo "7. The keychain"
+    if security find-generic-password -s videopodcast-magic \
+            -a auphonic > /dev/null 2>&1; then
+        echo "   The auphonic key is in the keychain and goes with the"
+        echo "   rest; the window asks for it again. Have it ready -- this"
+        echo "   script never reads it and cannot put it back."
+        KEY=1
+    else
+        echo "   (no entry)"
+    fi
+    echo
+fi
+
+# --- The summary --------------------------------------------------------
+echo "----------------------------------------------------------------------"
+echo " What goes"
+echo "----------------------------------------------------------------------"
+if [ $COUNT -eq 0 ] && [ -z "$FOUND$FOUND_TORCH" ] && [ $KEY -eq 0 ]; then
+    echo " Nothing. The machine already stands that way."
+    exit 0
+fi
+[ $COUNT -gt 0 ] && for z in "${LINES[@]}"; do echo "$z"; done
+[ -n "$FOUND" ]       && echo "  packages: $FOUND"
+[ -n "$FOUND_TORCH" ] && echo "  torch:    $FOUND_TORCH"
+[ $KEY -eq 1 ]        && echo "  keychain: videopodcast-magic/auphonic"
+echo
+if [ $COUNT -gt 0 ]; then
+    echo -n " On disc together: "
+    du -shc "${GOING[@]}" 2>/dev/null | tail -1 | cut -f1
+fi
+echo
+echo " Staying: models/ beside the program, the project folders, ffmpeg."
+echo
+
+if [ $FOR_REAL -eq 0 ]; then
+    echo " Nothing deleted -- that was the look beforehand."
+    echo " Delete it with:  bash $0 --for-real"
+    exit 0
+fi
+
+printf " Delete all of that? Type  yes  and press return: "
+read -r answer
+[ "$answer" = "yes" ] || { echo " Stopped, nothing touched."; exit 1; }
+echo
+
+# --- Doing it -----------------------------------------------------------
+if [ $COUNT -gt 0 ]; then
+    for p in "${GOING[@]}"; do
+        [ -n "$p" ] && [ -e "$p" ] || continue
+        rm -rf -- "$p" && echo " gone: $p"
+    done
+fi
+if [ -n "$FOUND$FOUND_TORCH" ]; then
+    echo " uninstalling:$FOUND$FOUND_TORCH"
+    "$PY" -m pip uninstall -y $FOUND $FOUND_TORCH 2>&1 \
+        | grep -i "success\|not installed" | sed 's/^/   /'
+fi
+if [ $KEY -eq 1 ]; then
+    security delete-generic-password -s videopodcast-magic \
+        -a auphonic > /dev/null 2>&1 && echo " gone: the keychain entry"
+fi
+
+echo
+echo "======================================================================"
+echo " Done. The next start is a first run."
+echo "======================================================================"
+
+if [ $THEN_INSTALL -eq 1 ]; then
+    echo " Installing again, the way a stranger would."
+    echo " Into: $INTO"
+    echo "-------------------------------------------------------------------"
+    if [ $FROM_HERE -eq 1 ]; then
+        # Out of this checkout: for trying a change before it is pushed.
+        exec "$PY" "$REPO/install.py" --to "$INTO" --from "$REPO"
+    fi
+    # The command the manual gives, run here rather than pasted: one
+    # download and one start, and the network is part of what is tested.
+    WORK=$(mktemp -d "${TMPDIR:-/tmp}/vpm_install_XXXXXX")
+    URL="https://raw.githubusercontent.com/Bascht74/videopodcast-magic"
+    if ! curl -fsSL "$URL/main/install.py" -o "$WORK/install.py"; then
+        echo " The installer could not be fetched. Nothing was installed."
+        exit 1
+    fi
+    exec "$PY" "$WORK/install.py" --to "$INTO"
+fi
+
+echo " What happens by itself from here:"
+echo "   * numpy and PySide6 are fetched before the window opens"
+echo "   * the environment is built the first time a separation is asked"
+echo "     for -- 218 MB and some minutes"
+echo "   * envelopes and preflight are measured again"
+echo "   * the macOS recogniser is compiled once, about a second"
+echo
+echo " Not coming back on their own -- by hand, if something else on"
+echo " this machine needs them:"
+echo "   $PY -m pip install torch torchaudio"

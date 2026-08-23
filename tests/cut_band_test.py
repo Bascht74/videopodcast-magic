@@ -28,7 +28,7 @@ d = {"speakers": [{"name": n, "sections": segs[n]} for n in names],
                  {"track": "Guest", "speakers": ["Guest"]},
                  {"track": "Wide", "speakers": []}],
      "length_s": 600.0}
-numbers = m.cut_statistics(d, 1.2, 0.3, 45.0, 2.5, 120.0, True, 1.5, 6.0)
+numbers = m.cut_statistics(d, 1.2, 0.3, 45.0, 2.5, 120.0, True)
 print("Shots:", numbers["shots"])
 print("Colours:", numbers["colours"])
 assert numbers.get("cut"), "no cut list came back"

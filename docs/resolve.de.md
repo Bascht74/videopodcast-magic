@@ -37,11 +37,11 @@ Fensters ebenso.
 | | Schnitt-Timeline | Multicam-Timeline |
 |---|---|---|
 | Multitrack, mehrere Kameras | Bild aus dem Kameraschnitt, Ton am Stück | alle Kameras nebeneinander |
-| einfacher Weg, mehrere Kameras | — keine Sprecherstatistik, also keine | alle Kameras nebeneinander |
+| einfacher Weg, mehrere Kameras | — keine getrennten Sprecher, also keine | alle Kameras nebeneinander |
 | eine Kamera | die Kamera am Stück, der Mix darunter | — wäre sinnlos |
 
 Der einfache Weg legt ebenfalls ein Projekt an. Einen Kameraschnitt kann er
-nicht liefern — dafür bräuchte es die Sprecherzuordnung von auphonic.com —,
+nicht liefern — dafür bräuchte es Multitrack und die Sprecherzuordnung —,
 wohl aber die Timeline mit allen Kameras an ihren gemessenen Stellen; daraus
 macht Resolve den Multicam-Clip.
 
@@ -195,7 +195,7 @@ das richtet sich nach dem **Ton**, nicht nach der Dateilänge:
   Gemeint ist der Jingle, nicht die Datei. Die Schwelle liegt 40 dB unter der
   lautesten Stelle der Datei selbst.
 - **Abspann**: der *Anfang seines Tons* trifft auf das Ende des letzten Worts.
-- Wo die Worte liegen, steht in der Sprecherstatistik.
+- Wo die Worte liegen, steht in den Sprecherabschnitten der Übergabedatei.
 - Hat ein Clip keinen Ton, gilt beim Vorspann sein Ende, beim Abspann sein
   Anfang.
 

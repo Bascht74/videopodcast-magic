@@ -7,7 +7,7 @@
 *The main window. What was found, what belongs together, and what does
 not fit -- before anything is written.*
 
-**Version 1.1.0-beta.** It does the work it was written for, every
+**Version 2.0.0-beta.** It does the work it was written for, every
 week, on real material. It is called beta because it is not finished
 being tested: the format of the project file may still change, and an
 older file is refused with a clear message rather than half read.
@@ -38,6 +38,31 @@ It was written for one podcast and does that job every week. What it
 does not do is decide: the camera cut is a proposal, and the edit stays
 yours. The story of one run, from the files on the disk to the finished
 Resolve project, is in **[docs/overview.md](docs/overview.md)**.
+
+## Getting it
+
+One command. It fetches the program and the speaker separation model,
+holds every file against its checksum, and starts it:
+
+```
+curl -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py && python3 install.py
+```
+
+On Windows, in PowerShell:
+
+```
+curl.exe -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py; python install.py
+```
+
+It lands in `./videopodcast-magic`; `--to PATH` puts it somewhere else,
+`--no-start` fetches it without starting it, and `--check` holds an
+installation already there against the checksums. Python has to be
+there first -- that is the one thing the installer cannot bring.
+
+**The model is why this is not just a download.** The speaker
+separation reads it from a folder beside the program: no account, no
+token, no network. Fetching the one Python file on its own leaves that
+folder empty, and the separation then says so and stops.
 
 ## Getting started
 
@@ -79,12 +104,31 @@ platform, is in **[docs/requirements.md](docs/requirements.md)**.
 * **[The simple path](docs/simple-path.md)** -- One audio file, one camera: the shortest way through.
 * **[Processing at auphonic.com](docs/auphonic.md)** -- Levelling, de-bleed, transcription -- and where the key lives.
 * **[Multitrack: several speakers, several cameras](docs/multitrack.md)** -- One track per speaker, several cameras, one time axis.
+* **[Speech recognition and speaker separation](docs/speech.md)** -- What is said and who says it, worked out on this machine.
 * **[Speaker statistics, camera cut, EDL](docs/camera-cut.md)** -- How the first cut is proposed, and the numbers it is judged by.
 * **[DaVinci Resolve](docs/resolve.md)** -- The project that comes out: timelines, tracks, colour, render.
 * **[All switches](docs/command-line.md)** -- Every command line switch, with what it does.
-* **[Inside the script](docs/internals.md)** -- How the one file is put together, and where the German lives.
 
 The whole contents: **[docs/README.md](docs/README.md)**.
+
+## Further information and technical detail
+
+Beside the manual stand the documents for whoever changes the program
+rather than uses it. They are English only.
+
+**[Inside the script](development/internals.md)** says how the one
+file is put together and how each step works. **[What was
+measured](development/measurements.md)** holds the evidence behind
+the numbers: hit rates, run times, distributions, comparisons.
+**[Coding guidelines](development/coding_guidelines.md)** says how
+the code is written, and why. All three are in `development/`.
+
+**[CHANGELOG.md](CHANGELOG.md)** says what changed in each version, from
+0.1.0. **[THIRD-PARTY.md](THIRD-PARTY.md)** lists what the program leans
+on at run time and under which terms, the speaker model included.
+**[CLAUDE.md](CLAUDE.md)** holds the project rules, the ones that are
+not negotiable among them; Claude Code reads it by itself at the start
+of a session.
 
 ## What the script does not do
 

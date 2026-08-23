@@ -8,6 +8,10 @@ Several people at a table, each with a microphone that hears everyone.
 Taking that bleed out of the audio is the one thing only auphonic.com
 does.
 
+Multitrack is the way for one track per person. Where everybody is on one
+common recording, the speaker separation takes over
+([Speech recognition and speaker separation](speech.md)).
+
 Everything else runs locally. In the box **Processing at auphonic.com
 (optional)** on tab **2. Assignment & time window** pick **work without
 Auphonic** in the selector **Preset:** (on the command line
@@ -53,8 +57,8 @@ cameras-only material and stops.
 A single camera can contribute its sound as well: the tick **as a track**
 in the column **own audio**. It then has a row in the upper table with
 its speaker name and counts like any other track — processed, in the
-Full-Mix, in the speaker statistics, and the first audio track of its own
-camera.
+Full-Mix, counted in the speaking time for the camera cut, and the first
+audio track of its own camera.
 
 "Like any other track" includes the channels. The tick says no more than:
 do not throw this audio away. What the audio becomes is decided by the

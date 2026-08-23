@@ -4,13 +4,17 @@
 
 ## Sprecherstatistik, Kameraschnitt, EDL
 
-Bei Multitrack weiß das Script, wann wer geredet hat — von auphonic.com
-oder hier gemessen (siehe unten). Daraus baut es den Kameraschnitt:
+Bei Multitrack weiß das Script, wann wer geredet hat: nach Stimmen
+getrennt auf diesem Rechner oder aus den Spuren gegeneinander gemessen —
+beides in [Spracherkennung und Sprechertrennung](speech.de.md). Daraus
+baut es den Kameraschnitt:
 
 * Wer allein spricht, bekommt seine Kamera, mit Vorlauf.
+* Ein kurzes „ja" nicht: unter **Redet mindestens** bleibt das Bild, wo
+  es ist.
 * Ist es still, läuft der Weitwinkel.
-* Steht eine Einstellung lange, kommt der Weitwinkel in eine
-  Sprechpause.
+* Steht eine Einstellung lange, kommt der Weitwinkel an einer
+  Satzgrenze.
 
 **Reden mehrere gleichzeitig**, gewinnt eine Kamera, die genau diese
 Sprecher zeigt — eine auf beide Moderatoren etwa. Passt keine genau, wird
@@ -23,8 +27,7 @@ Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 und `_cameracut.edl`. Die Köpfe sind
 `Speaker,Start TC,End TC,Time from start,Duration s` und
 `Shot,Camera,Start TC,End TC,Duration s`, die EDL-Titel `Speakers` und
-`Camera cut`. Auphonics eigene `<Produktion>_statistics.json` liegt mit
-allem anderen vom Dienst in `auphonic-tracks/`.
+`Camera cut`.
 
 ### Die Stellschrauben
 
@@ -36,33 +39,77 @@ ein Feld, daneben die Einheit und eine kurze Zeile.
 
 *Reiter 3: links die Werte, rechts die Vorschau.*
 
-Die Felder in der Reihenfolge, in der sie stehen:
+Vier Felder formen den Schnitt selbst:
 
 * **Mindestschnittdauer** -- 3 s, so lange steht eine Einstellung
   mindestens (auf der Kommandozeile `--min-edit-duration`)
+* **Redet mindestens** -- 1,5 s, darunter folgt die Kamera nicht (auf
+  der Kommandozeile `--min-speech-to-switch`)
 * **Edit Change Delay** -- 0,3 s, so viel später als der Ton wechselt
   das Bild (auf der Kommandozeile `--edit-change-delay`)
-* **Weitwinkel nach** -- 45 s, ab dieser Standzeit ein kurzer Blick in
-  den Weitwinkel (auf der Kommandozeile `--wide-after`)
-* **Weitwinkel höchstens** -- 2,5 s, wie lange der Weitwinkel dabei
-  höchstens steht (auf der Kommandozeile `--wide-length`)
-* **Weitwinkel mindestens** -- 1,5 s, und wie kurz er nicht wird --
-  notfalls steht er in die ersten Worte hinein (auf der Kommandozeile
-  `--wide-min`)
+* **Reaktionsschnitt früher** -- 1,5 s, so viel früher steht nach einer
+  Frage die Antwort im Bild (auf der Kommandozeile `--reaction-lead`)
+
+Vier weitere formen den Weitwinkel:
+
+* **Weitwinkel nach** -- 40 s, ab dieser Standzeit ein Blick in den
+  Weitwinkel (auf der Kommandozeile `--wide-after`)
+* **Weitwinkel steht** -- 5 s, so lange steht der eingeschobene
+  Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
+* **Weitwinkel höchstens** -- 15 s, und so lange höchstens (auf der
+  Kommandozeile `--wide-most`)
 * **Weitwinkel spätestens** -- 120 s, Obergrenze für eine Kamera am
   Stück (auf der Kommandozeile `--wide-latest`)
-* **Weitwinkel im Redefluss** -- 6 s, so lange steht er, wenn mitten im
-  Reden geschnitten wird (auf der Kommandozeile `--wide-flow`)
+
+Darunter stehen vier Auswahlfelder. Sie sagen, was zu sehen ist, wenn
+die Sprache nicht sagt, wer zu zeigen ist:
+
+* **Langer Monolog** -- **Abwechselnd** (auf der Kommandozeile
+  `--on-monologue`)
+* **Mehrere reden zugleich** -- **Weitwinkel** (auf der Kommandozeile
+  `--on-together`)
+* **Erkennung unsicher** -- **Weitwinkel** (auf der Kommandozeile
+  `--on-uncertain`)
+* **Frage** -- **Antwortender** (auf der Kommandozeile `--on-question`)
+
+Die ersten drei nehmen außerdem **Zuhörer**, **Abwechselnd** und **Kein
+Kamerawechsel**; **Frage** nimmt außerdem **aus** und **Zuhörer**.
 
 Unter den Feldern hält das Häkchen **Weitwinkel für Begrüßung am Anfang
 und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel (auf der
-Kommandozeile schaltet `--no-wide-edges` es ab).
+Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel am Anfang
+hält, bis das Wort wirklich übergeben wird, nicht bis zum ersten längeren
+Block einer Nebenstimme.
 
-**Mindestschnittdauer** erledigt kurze Einwürfe mit („mhm", „ja genau"):
-ein zu kurzer Blick auf die andere Kamera fällt in die vorherige
-Einstellung zurück.
+**Redet mindestens** erledigt kurze Einwürfe („mhm", „ja genau"). Eine
+Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
+in die vorherige.
 
-### Vorschau und Sprecherstatistik
+### Wenn die Sprache nicht sagt, wer zu zeigen ist
+
+Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
+
+* **Langer Monolog** -- einer hat über **Weitwinkel nach** hinaus das
+  Wort. **Abwechselnd** merkt sich, was die letzte Unterbrechung zeigte.
+* **Mehrere reden zugleich** -- und keine Kamera zeigt genau sie.
+* **Erkennung unsicher** -- die Erkennung zerfasert über eine Passage,
+  oder von einem Namen bleiben nur Schnipsel.
+* **Frage** -- das Bild geht zur Antwort, bevor sie anfängt. Nur nach
+  einer Frage, die nicht vom Vielredner kommt, wenn sofort ein anderer
+  übernimmt und das Wort behält.
+
+**Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
+Kamera in den letzten 20 Sekunden jemand zu hören war. Sonst der
+Weitwinkel.
+
+**Zuhörer** und **Abwechselnd** zeigen einen Menschen, von dem das
+Programm nur weiß, dass er kurz vorher zu hören war. Ob er zusieht, weiß
+es nicht -- es sieht das Bild nicht. Der Weitwinkel ist das ehrlichere.
+
+Zwei Sprecher auf einer Kamera zählen für diese Regeln als einer: ein
+Sprecherwechsel zwischen ihnen ändert das Bild nicht.
+
+### Vorschau und Sprecher
 
 Rechts steht der Kasten **Kameraschnitt -- Vorschau**; er trägt die Länge
 im Titel und darunter eine Zeile Zahlen: Einstellungen, mittlere
@@ -72,8 +119,8 @@ letzte Zahl steht in der Warnfarbe.
 
 Links, unter den Stellschrauben, der Kasten **Sprecher**: je Sprecher
 Redezeit, Anteil, Zahl der Blöcke und deren mittlere Länge, dazu eine
-Zeile Stille. Die Überschrift nennt die Quelle: **Sprecherstatistik von
-auphonic.com** oder **Sprecher, selbst aus den Spuren gemessen**. Wo zwei
+Zeile Stille. Die Überschrift nennt die Quelle: **Sprecher, nach Stimmen
+getrennt** oder **Sprecher, selbst aus den Spuren gemessen**. Wo zwei
 gleichzeitig reden, zählt die Zeit doppelt, bei der Stille nicht —
 deshalb ergeben die Zeilen zusammen mehr als die Laufzeit.
 
@@ -81,10 +128,10 @@ Beides wird aus der Übergabedatei des letzten Laufs gerechnet, bei jeder
 Änderung neu und immer für das gewählte Zeitfenster. Geschrieben oder
 hochgeladen wird nichts.
 
-Fehlt die Statistik, sagt der Kasten das und bietet den Knopf **Sprecher
-jetzt messen**; geht die Rechnung schief, steht an seiner Stelle der
-Grund. Ergebnisse, die später auftauchen — auch in
-`Ergebnis/auphonic-tracks/` —, starten die Vorschau von selbst.
+Sind keine Sprecher bekannt, sagt der Kasten das und bietet den Knopf
+**Sprecher jetzt messen**; geht die Rechnung schief, steht an seiner
+Stelle der Grund. Sprecher, die später auftauchen, starten die Vorschau
+von selbst.
 
 ### Schnittband und Legende
 
@@ -162,7 +209,7 @@ in jeder Kameradatei ist Programmzeit minus Versatz, derselbe Versatz,
 mit dem auch die Schnitt-Timeline gebaut wird.
 
 Jede Stelle wird nachgesetzt, bis sie sitzt; wie oft und wie lange, steht
-in [Im Inneren des Scripts](internals.de.md).
+in [Inside the script](../development/internals.md) (englisch).
 
 ### Sprecher ohne Auphonic
 
@@ -197,16 +244,16 @@ schlechteste Paar.
 
 Bis 5 dB Trennung hinunter arbeitet die Erkennung exakt, deutlich unter
 den 9,5 dB, die die 3:1-Regel verlangt; die Messreihe dahinter steht in
-[Im Inneren des Scripts](internals.de.md).
+[What was measured](../development/measurements.md) (englisch).
 
 Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
 Sprecher Redezeit und Zahl der Abschnitte. War nichts zu hören, gibt es
 keinen Kameraschnitt.
 
 Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, schon
-vor dem ersten Lauf: gröber als auphonic.com, aber genug, um den Schnitt
-einzustellen. Sobald die Statistik da ist, hat sie Vorrang, und die
-Überschrift über der Tabelle sagt, welche Quelle gerade gilt.
+vor dem ersten Lauf: gröber als die Trennung nach Stimmen, aber genug, um
+den Schnitt einzustellen. Nach Stimmen getrennte Sprecher haben Vorrang,
+sobald es sie gibt, und die Überschrift über der Tabelle sagt, was gilt.
 
 ### Eine Kamera für alle
 
@@ -245,16 +292,18 @@ Vorschau, und daraus baut der Resolve-Teil.
 
 ### Wie der Weitwinkel gesetzt wird
 
-Ein Weitwinkel kommt nicht nach der Uhr. Er geht dorthin, wo ein Schnitt
-ohnehin unauffällig ist: in eine lange Sprechpause, möglichst kurz bevor
-jemand anderes einsetzt und nicht zu weit von der Stelle, an der der
-Weitwinkel gewünscht war. Gewürfelt wird nichts — dasselbe Material gibt
-denselben Schnitt.
+Ein Weitwinkel kommt nicht nach der Uhr. Er steigt an einer Satzgrenze
+nahe der gewünschten Stelle ein, und den genauen Punkt liefert der Ton:
+die Senke im Pegel um diese Satzgrenze. Gewürfelt wird nichts — dasselbe
+Material gibt denselben Schnitt.
 
-`--wide-latest` ist die Reißleine: findet sich keine Pause, wird trotzdem
-geschnitten. Der Schnitt fällt dann mitten ins Reden, deshalb steht der
-Weitwinkel `--wide-flow` lang statt `--wide-length`; ist der Platz bis
-zum nächsten Schnitt knapp, wird er vorgezogen statt gekürzt.
+Er steht mindestens **Weitwinkel steht**, dann bis zum Satzende. Liegt
+dieses Ende jenseits von **Weitwinkel höchstens**, beendet ihn die letzte
+Teilsatzgrenze davor. Mitten im Satz endet er nie.
+
+`--wide-latest` ist die Reißleine: findet sich keine Satzgrenze, wird
+trotzdem geschnitten. Ohne Transkript geht der Weitwinkel an die längste
+Sprechpause in der Nähe und steht die eingestellte Mindestzeit.
 
 ## Kennzahlen und Farbvergleich
 
@@ -294,6 +343,10 @@ Lautheitsmessung läuft je Spur zweimal durch.
 
 Im Fenster gibt es dafür keine Entsprechung.
 
+* `--reaction-gap` wie schnell die Antwort auf die Frage folgen muss,
+  damit der Reaktionsschnitt greift (3 s)
+* `--reaction-hold` welchen Anteil der zehn Sekunden nach der Frage der
+  Antwortende halten muss, zwischen 0 und 1 (0,7)
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
   aller drei Abspieler unter das Bild und jeden Versuch auf die Konsole

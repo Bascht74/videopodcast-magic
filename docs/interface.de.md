@@ -58,13 +58,19 @@ Resolve antwortet.*
 2. **Zuordnung & Zeitfenster** -- links die Tabellen, rechts der Player.
    Erscheint mit den Dateien.
 
+   Neben dem Player ermittelt der Knopf **Sprecher trennen**, wer wann
+   spricht, auf diesem Rechner und ohne Hochladen; die Stimmen stehen
+   danach in einer eigenen Tabelle unter der Zuordnungstabelle
+   ([Spracherkennung und Sprechertrennung](speech.de.md)).
+
    ![Zuordnungstabelle und Player](images/assignment.de.png)
 
    *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
    jeder Kamera wird.*
 3. **Resolve-Schnitt** -- eine Zeile, die sagt, ob Resolve antwortet, mit
    dem Weg zu den Einstellungen daneben, das Zeitfenster, die Werte für
-   den Kameraschnitt, die Sprecherstatistik und der Kasten
+   den Kameraschnitt, der Kasten **Sprecher**, dessen Überschrift die
+   Quelle der Sprecher nennt, und der Kasten
    **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer Vorschau.
 
    Beide hinteren Reiter stehen mit und ohne getrennte Spuren da. Ohne sie

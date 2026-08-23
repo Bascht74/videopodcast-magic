@@ -10,6 +10,7 @@ Design and rationale: see the manual under docs/ next to this file.
 
 import argparse
 import atexit
+import bisect
 import datetime
 import glob
 import hashlib
@@ -375,7 +376,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "1.1.0-beta"
+VERSION = "2.0.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -424,6 +425,12 @@ def pick_choice(box, value):
 # bar, text goes to a private buffer and is flushed when the file is done.
 THREAD_SHARE = {}    # thread id -> progress fraction of that file
 THREAD_BUFFER = {}   # thread id -> list of text chunks
+
+# How much room a file name gets on a button or in a chooser, in pixels.
+# Wide enough for a name like Recorder_2_Track3.wav, and narrow enough
+# that the control beside the table does not push the player on the
+# right out of a 1400 pixel window.
+NAME_ROOM = 260
 
 # One palette for all three outputs -- GUI, log pane and terminal -- so a
 # run looks the same wherever it is watched.
@@ -670,37 +677,93 @@ class Value(object):
         return f
 
 
-# The camera cut is derived from the speaker statistics; five numbers
-# decide how fine it turns out. Per entry: switch, label, default,
-# unit, short explanation beside it, longer one in the tooltip.
+# What can be shown where "whoever speaks is on screen" gives no
+# answer. The names are the values of the four choice fields below and
+# of the switches behind them.
+SHOT_WIDE = "wide"
+SHOT_LISTENER = "listener"
+SHOT_ALTERNATE = "alternate"
+SHOT_HOLD = "hold"
+SHOT_OFF = "off"
+SHOT_ANSWER = "answer"
+
+SHOT_NAMES = {
+    SHOT_WIDE: 'Wide shot',
+    SHOT_LISTENER: 'Listener',
+    SHOT_ALTERNATE: 'Alternating',
+    SHOT_HOLD: 'No camera change',
+    SHOT_OFF: 'off',
+    SHOT_ANSWER: 'Answering speaker',
+}
+
+# The shortest a shot may stand. Interview cutting practice asks for
+# three seconds; a camera that changes faster than the viewer can
+# settle on a face reads as nervous. It lives here and nowhere else:
+# the interface, the switch and every function default read this one
+# value, or a run without the slider cuts differently from the window.
+MIN_EDIT_DURATION_S = 3.0
+
+# The camera cut is derived from who speaks when; these numbers decide
+# how fine it turns out. Per entry: switch, label, default, unit,
+# short explanation beside it, longer one in the tooltip.
 CUT_FIELDS = (
-    ("min-edit-duration", 'Minimum Edit Duration', "3.0", "s",
+    ("min-edit-duration", 'Minimum Edit Duration',
+     "%.1f" % MIN_EDIT_DURATION_S, "s",
      'shorter shots are merged in',
-     'Shorter shots fall back into the previous one.'),
+     'Shorter shots fall into the following one.'),
+    ("min-speech-to-switch", 'Speaks at least', "1.5", "s",
+     'below this the camera does not follow',
+     ('A short "yes" does not move the picture. Without this a block of '
+      'half a second draws the camera over, and the minimum edit '
+      'duration then holds it there for seconds.')),
     ("edit-change-delay", "Edit Change Delay", "0.3", "s",
      'the picture changes this much later than the sound',
      'A negative value makes the picture lead the sound.'),
-    ("wide-after", 'Wide shot after', "45", "s",
-     'from this hold time on, a brief look at the wide shot',
-     'Placed in a speech pause, not by the clock. 0 turns it off.'),
-    ("wide-length", 'Wide shot at most', "2.5", "s",
-     'the inserted wide shot holds this long at most',
-     ('Shorter if the speech pause is shorter -- but never shorter than '
-      '"Wide shot at least".')),
-    ("wide-min", 'Wide shot at least', "1.5", "s",
-     'the inserted wide shot does not get shorter than this',
-     ('If the speech pause is too short, the wide shot runs into the '
-      'first words. A one-second twitch looks like a mistake.')),
+    ("reaction-lead", 'Reaction cut earlier', "1.5", "s",
+     'after a question the answer is on screen this much earlier',
+     ('Applies only where "Question" asks for it. The point comes from '
+      'the sound, and the Edit Change Delay is not added again.')),
+    ("wide-after", 'Wide shot after', "40", "s",
+     'from this hold time on, a look at the wide shot',
+     'Placed on a sentence boundary, not by the clock. 0 turns it off.'),
+    ("wide-length", 'Wide shot holds', "5", "s",
+     'the inserted wide shot stands at least this long',
+     ('It then runs to the end of the sentence. Below five seconds the '
+      'look reads as a twitch.')),
+    ("wide-most", 'Wide shot at most', "15", "s",
+     'and at most this long',
+     ('Where the end of the sentence lies beyond it, the last clause '
+      'break before it ends the shot -- it is not cut off mid-sentence.')),
     ("wide-latest", 'Wide shot at the latest', "120", "s",
      'a camera may hold this long at most',
-     'If no pause is found, the cut happens anyway.'),
-    ("wide-flow", 'Wide shot mid-speech', "6", "s",
-     'it holds this long when the cut falls mid-speech',
-     ('Applies only to the forced cut after "Wide shot at the latest": '
-      'there is no pause there, the cut falls mid-sentence. A brief look '
-      'would seem like a mistake, so the wide shot holds longer. If the '
-      'room to the next cut is short, it is brought forward rather than '
-      'shortened.')),
+     'If no sentence boundary is found, the cut happens anyway.'),
+)
+
+# The four cases where the speech does not say whom to show, and what
+# is shown instead. Per entry: switch, label, default, the values it
+# takes, short explanation beside it, longer one in the tooltip.
+CUT_CHOICES = (
+    ("on-monologue", 'Long monologue', SHOT_ALTERNATE,
+     (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
+     'one person holds the floor past "Wide shot after"',
+     ('"Alternating" remembers what the last break of this monologue '
+      'showed. The listener only gets the picture when someone on that '
+      'camera was heard in the last 20 seconds; otherwise the wide '
+      'shot.')),
+    ("on-together", 'Several speak at once', SHOT_WIDE,
+     (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
+     'and no camera shows exactly them',
+     'Cutting into a jumble looks frantic.'),
+    ("on-uncertain", 'Recognition uncertain', SHOT_WIDE,
+     (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
+     'the speaker recognition frays or leaves a heap behind',
+     ('Guessing puts the wrong person on screen for seconds; the wide '
+      'shot is right in every case.')),
+    ("on-question", 'Question', SHOT_ANSWER,
+     (SHOT_OFF, SHOT_ANSWER, SHOT_LISTENER),
+     'the picture goes to the answer before it starts',
+     ('Only after a question that is not the main speaker\'s, when '
+      'somebody else takes over at once and keeps the floor.')),
 )
 
 
@@ -2563,49 +2626,6 @@ def master_output_format(key, stereo=False):
     return entry
 
 
-def statistics_output_format(key):
-    """Look up the identifier of the statistics output format.
-
-    Undocumented, so it is looked up rather than guessed:
-    /api/info/output_files.json lists every output format. The wanted one
-    has "statistic" in its name.
-    """
-    try:
-        d = _parse_json(_curl_call(key, [AUPHONIC + "/api/info/output_files.json"]))
-    except Exception as e:
-        print(T('  Output formats not reachable (%s) -- statistics from '
-                'the production only.') % e)
-        return None
-    kinds = d.get("data")
-    if isinstance(kinds, dict):
-        # Some info endpoints return a mapping rather than a list.
-        kinds = [dict(v, format=k) for k, v in kinds.items()
-                 if isinstance(v, dict)]
-    if not isinstance(kinds, list):
-        kinds = []
-    names = [str(a.get("format") or "?") for a in kinds
-             if isinstance(a, dict)]
-    # The exact identifier first -- at Auphonic the statistics are simply
-    # "stats". Only when that is missing, search by display name.
-    for a in kinds:
-        if isinstance(a, dict) and str(a.get("format") or "") == "stats":
-            return {"format": "stats", "ending": a.get("ending") or "json"}
-    for a in kinds:
-        if not isinstance(a, dict):
-            continue
-        text = " ".join(str(a.get(f) or "")
-                        for f in ("format", "string", "name")).lower()
-        if any(word in text for word in ("statistic", "analysis")):
-            return {"format": a.get("format"),
-                    "ending": a.get("ending") or "json"}
-    # Do not guess, but do not stay silent either: print the identifiers
-    # that exist, so next time the log says what to look for.
-    print(T('  No statistics output format found -- the statistics then '
-            'come from\n  the production itself. On offer: %s')
-          % (", ".join(names[:20]) or T('nothing')))
-    return None
-
-
 def build_multitrack_request(preset, title, names, base_name, key=None,
                              transcript=False, language="", stereo=False):
     """Build the production request from the preset that was read.
@@ -2626,16 +2646,9 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
         {"type": "multitrack", "id": n, "algorithms": dict(template)}
         for n in names]
     # We choose the output ourselves: the single tracks only. The mixdown
-    # is built from them afterwards to match the cameras. Plus the speaker
-    # statistics -- without them there is no camera cut, and whether the
-    # preset delivers them should not decide that.
+    # is built from them afterwards to match the cameras.
     request["output_files"] = [{"format": "tracks", "ending": "wav.zip"}]
     if key:
-        kind = statistics_output_format(key)
-        if kind and kind.get("format"):
-            request["output_files"].append(kind)
-            print(T('  Speaker statistics requested as output file (%s)')
-                  % kind["format"])
         # The finished mixdown comes along as a yardstick: it shows how loud
         # our own mix should end up.
         mst = master_output_format(key, stereo)
@@ -2691,9 +2704,6 @@ def print_production(p):
             small = (n or "").lower()
             if small.endswith(".zip"):
                 what = T('the individual tracks, packed')
-            elif "statistic" in small or "stats" in small or small.endswith(
-                    ".json"):
-                what = T('the speaker statistics')
             elif small.endswith(".wav"):
                 what = T('the finished mixdown')
             else:
@@ -2701,19 +2711,15 @@ def print_production(p):
             print("    %-46s %s" % (n, what))
     else:
         print(T('  Results:     none'))
-    # Without the tracks nothing works, without the statistics there is
-    # no camera cut, without the mixdown the loudness has no yardstick.
-    # Left unsaid, a missing one turns "reuse" into a dead end.
+    # Without the tracks nothing works, without the mixdown the loudness
+    # has no yardstick. Left unsaid, a missing one turns "reuse" into a
+    # dead end.
     small = [(n or "").lower() for n in done]
     has_zip = any(n.endswith(".zip") for n in small)
-    has_stat = any("statistic" in n or n.endswith(".json")
-                   for n in small)
     has_master = any(n.endswith(".wav") for n in small)
     missing = []
     if not has_zip:
         missing.append(T('the individual tracks'))
-    if not has_stat:
-        missing.append(T('the speaker statistics'))
     if not has_master:
         missing.append(T('the mixdown as the yardstick'))
     if missing:
@@ -2825,7 +2831,7 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
     print(T('  To upload:   %s') % as_data_size(total))
     if dry_run:
         print(T('  (measuring only: nothing uploaded)\n'))
-        return {}, {}
+        return {}
 
     preset = read_preset(key, preset_uuid)
     if not preset.get("is_multitrack"):
@@ -2885,7 +2891,7 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
 
 
 def download_results(key, p, names, target_folder, base):
-    """Download a finished production: single tracks and statistics."""
+    """Download a finished production: the single tracks."""
     zip_file = None
     for f in (p.get("output_files") or []):
         if (f.get("filename") or "").lower().endswith(".zip"):
@@ -2918,65 +2924,7 @@ def download_results(key, p, names, target_folder, base):
                   progress=T('Downloading %s') % name)
         except Exception as e:
             print(T('  %s could not be fetched: %s') % (name, e))
-    # The statistics sit in the production itself rather than in an output
-    # file, and hold who spoke when.
-    statistics = p.get("statistics") or {}
-    if statistics.get("tracks"):
-        js = os.path.join(cache, "%s_statistics.json" % base)
-        with open(js, "w", encoding="utf-8") as f:
-            json.dump(statistics, f, ensure_ascii=False, indent=1)
-        print(T('  Speaker statistics: %s') % os.path.join(
-            os.path.basename(cache), os.path.basename(js)))
-    else:
-        print(T('  No speaker statistics in the production -- without them '
-                'there is no cut list'))
-    return match_zip_entries_to_tracks(target, names, target_folder), statistics
-
-
-def tracks_from_statistics(statistics, offset=None, from_s=0.0, until=None):
-    """Return the speaker segments from the Auphonic statistics.
-
-    Auphonic knows who speaks when while removing crosstalk and writes it
-    into the statistics, so this is a finished speaker assignment.
-
-    The times sit a fixed amount behind the audio, visible in the analysis
-    block: it starts not at zero but exactly that amount later. Without an
-    explicit offset the value is read from there and subtracted.
-
-    *from_s* and *to_s* clip the result to a time window set later: the
-    statistics belong to the processed files, and if those were trimmed
-    afterwards their times still count from the old start.
-    """
-    tracks = statistics.get("tracks") or []
-    if not tracks:
-        return [], 0.0, 0.0
-    if offset is None:
-        candidates = []
-        for t in tracks:
-            for blk in (t.get("noise_hum_reduction") or []):
-                if "start_sec" in blk:
-                    candidates.append(float(blk["start_sec"]))
-            ms = t.get("music_speech")
-            if isinstance(ms, list):
-                for blk in ms:
-                    if isinstance(blk, dict) and "start_sec" in blk:
-                        candidates.append(float(blk["start_sec"]))
-        offset = min(candidates) if candidates else 0.0
-    out, length = [], 0.0
-    for t in tracks:
-        name = t.get("identifier") or T('Track')
-        segs = [(float(a) - offset - from_s, float(b) - offset - from_s)
-                for a, b in (t.get("activity") or [])]
-        if until is not None:
-            segs = [(a, min(b, until - from_s)) for a, b in segs]
-        segs = [(max(0.0, a), max(0.0, b)) for a, b in segs]
-        out.append((name, [(a, b) for a, b in segs if b > a]))
-        length = max(length, float((t.get("format") or {}).get("length_sec", 0)))
-    if from_s or until is not None:
-        length = (until - from_s) if until is not None else max(0.0, length - from_s)
-    if length <= 0:
-        length = max((b for _, segs in out for _, b in segs), default=0.0)
-    return out, length, offset
+    return match_zip_entries_to_tracks(target, names, target_folder)
 
 
 def find_pauses(tracks):
@@ -2994,106 +2942,536 @@ def find_pauses(tracks):
     return pauses, entries_in
 
 
-def insert_wide_shots(cut, tracks, wide_shot, after=45.0, duration=2.5,
-                      min_len=1.2, at_latest=120.0, camera_of=None,
-                      shortest=1.5, speech_flow=6.0):
-    """Break up long shots with a short cut to the wide shot.
+# =====================================================================
+#  What the cut is decided by
+#  --------------------------
+#  On top of "whoever speaks is on screen" sit the rules a human
+#  editor follows. Every number below was measured against a hand-made
+#  edit of the same material, and every one of them is adjustable.
+# =====================================================================
 
-    Not a metronome: the algorithm looks for a spot where a cut is
-    unobtrusive anyway. Every candidate is scored on three things -- how
-    long the speech pause is, how soon afterwards someone else starts, and
-    how far it sits from the wanted spacing. Because the score follows the
-    audio rather than the clock, the rhythm comes out irregular by itself,
-    yet the same recording always yields the same result.
+# A speaker has to hold the floor this long before the camera follows.
+# Half a second of "yes" used to draw the camera over, and the minimum
+# edit duration then held it on the wrong person for seconds.
+MIN_SPEECH_TO_SWITCH_S = 1.5
 
-    The numbers come from a measured SmartSwitch edit: 22 of 41 wide
-    shots lasted 1 to 2 seconds, the median was 1.8 s, and no camera
-    held longer than 125 s. Hence short wide shots and an upper bound.
+# A label that is not a person: its segments average shorter than this
+# and it holds less than this share of the recognised speech. Over six
+# recordings that found 5 of 5 real ones with no false alarm. A
+# threshold on total duration does not work -- the largest such heap
+# runs longer than a host does elsewhere.
+STRAY_MEAN_S = 1.5
+STRAY_SHARE = 0.10
 
-    *at_latest* forces the cut even without a good pause: a cut at a
-    mediocre spot beats two minutes of stasis.
+# Restlessness: this many entries inside this window mean the
+# recognition is fraying, not that people are talking fast. On correct
+# recognition it fires next to never.
+UNREST_STARTS = 7
+UNREST_WINDOW_S = 12.0
+
+# The listener only earns the picture when somebody on that camera was
+# heard within this stretch. Without the condition the picture goes to
+# someone who has said nothing for minutes.
+LISTENER_MEMORY_S = 20.0
+
+# Where a cut may sit: a sentence beginning first, a clause break
+# second, near before far. Beyond four seconds nothing changes any
+# more, so five is room at no cost. Both directions -- searching
+# forwards only finds half as many.
+BOUNDARY_NEAR_S = 2.0
+BOUNDARY_FAR_S = 5.0
+
+# The exact point comes from the sound, not from the text: over 2798
+# sentence ends the dip lands in a real speech pause 98 % of the time
+# against 42 to 46 % for the word boundary of the recognition.
+DIP_NEAR_S = 0.5
+DIP_FAR_S = 1.0
+DIP_STEP_S = 0.010
+# The threshold is a share of the dynamic range of the window itself.
+# A fixed level in dB misses entirely on quiet material, where the
+# whole file spans twenty dB and the threshold lands below the noise.
+DIP_LEVEL_SHARE = 0.30
+
+
+def merged_spans(spans, join=0.0):
+    """Merge overlapping spans; *join* closes gaps up to that long."""
+    out = []
+    for a, b in sorted(spans):
+        if out and a - out[-1][1] <= join:
+            out[-1][1] = max(out[-1][1], b)
+        else:
+            out.append([a, b])
+    return [(a, b) for a, b in out]
+
+
+def span_finder(spans):
+    """Return a function saying whether a time falls inside a span.
+
+    The starts are sorted once and searched by halving. The caller asks
+    this for every block of the cut against every camera, and a linear
+    scan there turned the preview into a wait.
     """
-    pauses, entries_in = find_pauses(tracks)
-    others = {}
-    for name, times in entries_in.items():
-        others.setdefault((camera_of or {}).get(name), []).extend(times)
-    for k in others:
-        others[k].sort()
+    ordered = merged_spans(spans)
+    starts = [a for a, _b in ordered]
 
-    def before_other_entry(t, who):
-        """Return the time until another camera would be due."""
-        best = 1e9
-        for cam, times in others.items():
-            if cam == who or cam is None:
+    def inside(t):
+        i = bisect.bisect_right(starts, t) - 1
+        return i >= 0 and t < ordered[i][1]
+    return inside
+
+
+def stray_labels(tracks, mean_s=STRAY_MEAN_S, share=STRAY_SHARE):
+    """Return the labels that are a leftover heap rather than a person.
+
+    Speaker recognition leaves small mixed heaps behind: many very
+    short segments, little total time. They mark the places where it
+    did not know, and giving them a camera shows the wrong person. The
+    label with the most speech time is never one of them.
+    """
+    total = sum(b - a for _n, segs in tracks for a, b in segs)
+    if total <= 0 or len(tracks) < 2:
+        return set()
+    held = {n: sum(b - a for a, b in segs) for n, segs in tracks}
+    biggest = max(held, key=held.get)
+    out = set()
+    for name, segs in tracks:
+        if name == biggest or not segs:
+            continue
+        if held[name] / total >= share:
+            continue
+        if held[name] / len(segs) < mean_s:
+            out.add(name)
+    return out
+
+
+def unrest_spans(tracks, camera_of, starts_needed=UNREST_STARTS,
+                 window=UNREST_WINDOW_S):
+    """Return the stretches where the speaker recognition frays.
+
+    Counted per camera: two people on one camera taking turns are one
+    picture and not two, so their alternation is not restlessness.
+    What is counted is how often the picture would have to change --
+    two entries in a row on the same camera are one entry.
+    """
+    need = max(2, int(starts_needed))
+    starts, last = [], None
+    for a, camera in sorted(
+            (a, cam) for cam, segs
+            in segments_per_camera(tracks, camera_of) for a, _b in segs):
+        if camera != last:
+            starts.append(a)
+            last = camera
+    out = []
+    for i in range(len(starts) - need + 1):
+        if starts[i + need - 1] - starts[i] <= window:
+            out.append((starts[i], starts[i + need - 1]))
+    return merged_spans(out)
+
+
+def next_speaker_camera(t, per_camera, not_this,
+                        memory=LISTENER_MEMORY_S):
+    """Return the camera of whoever speaks next, if they are there.
+
+    "There" means somebody on that camera was audible within the last
+    *memory* seconds. At an insertion point the presumed listener has
+    on average been silent for a minute, in the worst case for
+    nineteen -- and a camera nobody has reacted on shows a person
+    scratching, drinking or looking at a phone.
+    """
+    best, when = None, None
+    for camera, segs in per_camera:
+        if camera == not_this:
+            continue
+        for a, _b in segs:
+            if a >= t and (when is None or a < when):
+                best, when = camera, a
+            if a >= t:
+                break
+    if best is None:
+        return None
+    for camera, segs in per_camera:
+        if camera != best:
+            continue
+        if any(b > t - memory and a <= t for a, b in segs):
+            return best
+    return None
+
+
+def boundary_near(target, sentences, clauses, near=BOUNDARY_NEAR_S,
+                  far=BOUNDARY_FAR_S):
+    """Return the sentence or clause boundary a cut should aim at.
+
+    Four steps: a sentence beginning close by, then a clause break
+    close by, then the same two further out. In German two thirds of
+    the clause breaks carry no pause at all, so punctuation is a
+    signal of its own and not the pauses over again.
+    """
+    for times, radius in ((sentences, near), (clauses, near),
+                          (sentences, far), (clauses, far)):
+        best = None
+        for t in times or ():
+            if abs(t - target) <= radius and (
+                    best is None or abs(t - target) < abs(best - target)):
+                best = t
+        if best is not None:
+            return best
+    return None
+
+
+def sound_dip(levels, step, target, radius=DIP_NEAR_S,
+              share=DIP_LEVEL_SHARE):
+    """Return the middle of the quietest stretch around *target*.
+
+    Among the stretches under the threshold the widest wins, less half
+    its distance: width alone picks a far one, nearness alone picks a
+    narrow one. Returns None where there is nothing to measure.
+    """
+    if not levels or step <= 0 or radius <= 0:
+        return None
+    first = max(0, int((target - radius) / step))
+    last = min(len(levels), int((target + radius) / step) + 1)
+    window = levels[first:last]
+    if len(window) < 3:
+        return None
+    ordered = sorted(window)
+    low = ordered[int(0.05 * (len(ordered) - 1))]
+    high = ordered[int(0.95 * (len(ordered) - 1))]
+    if high <= low:
+        return None
+    limit = low + share * (high - low)
+    best, score, i = None, None, 0
+    while i < len(window):
+        if window[i] > limit:
+            i += 1
+            continue
+        j = i
+        while j < len(window) and window[j] <= limit:
+            j += 1
+        middle = (first + (i + j) / 2.0) * step
+        value = (j - i) * step - 0.5 * abs(middle - target)
+        if score is None or value > score:
+            best, score = middle, value
+        i = j
+    return best
+
+
+def cut_point(target, sentences=(), clauses=(), levels=(),
+              step=DIP_STEP_S):
+    """Return where a cut aimed at *target* should really sit.
+
+    The text says roughly where -- a sentence beginning or a clause
+    break -- and the sound says exactly where. Without either the aim
+    comes back unchanged.
+    """
+    aim = boundary_near(target, sentences, clauses)
+    if aim is None:
+        aim = target
+    for radius in (DIP_NEAR_S, DIP_FAR_S):
+        found = sound_dip(levels, step, aim, radius)
+        if found is not None:
+            return found
+    return aim
+
+
+def wide_shot_length(start, room, sentences=(), clauses=(), holds=5.0,
+                     most=15.0):
+    """Return how long an inserted wide shot stands.
+
+    At least *holds* seconds, then to the end of the sentence. Where
+    that would run past *most*, the last clause break at or below it
+    ends the shot instead of a hard cap -- so no wide shot ends in the
+    middle of a sentence.
+    """
+    room = max(0.0, room)
+    if room <= 0:
+        return 0.0
+    floor_t = start + min(holds, room)
+    ceiling = start + min(max(holds, most), room)
+    for t in sorted(sentences or ()):
+        if t >= floor_t:
+            if t <= ceiling:
+                return t - start
+            break
+    breaks = [t for t in (clauses or ()) if floor_t <= t <= ceiling]
+    if breaks:
+        return max(breaks) - start
+    return min(holds, room)
+
+
+_LEVELS = {}
+
+
+def sound_levels(path, step=DIP_STEP_S):
+    """Return the loudness of every ten milliseconds of a recording.
+
+    ffmpeg does the work: the signal is brought down to 8000 Hz,
+    rectified and resampled to one value per step, which is the
+    envelope. Two seconds for an hour of audio, and it is kept for as
+    long as the program runs -- the preview asks for the same recording
+    on every keystroke.
+
+    An empty list means the file could not be read. Every caller then
+    falls back to the boundary in the text, so nothing depends on this
+    succeeding.
+    """
+    if not path or step <= 0:
+        return []
+    try:
+        key = (os.path.abspath(path), os.path.getmtime(path),
+               os.path.getsize(path), round(step, 4))
+    except OSError:
+        return []
+    if key in _LEVELS:
+        return _LEVELS[key]
+    rate = int(round(1.0 / step))
+    try:
+        p = subprocess.run(
+            ["ffmpeg", "-v", "error", "-i", path, "-map", "a:0", "-af",
+             "aresample=8000,aeval=abs(val(0)):c=same,aresample=%d" % rate,
+             "-ac", "1", "-f", "s16le", "-"], capture_output=True)
+    except OSError:
+        return []
+    data = p.stdout or b""
+    if p.returncode or len(data) < 4:
+        _LEVELS[key] = []
+        return []
+    out = list(struct.unpack("<%dh" % (len(data) // 2),
+                             data[:len(data) // 2 * 2]))
+    _LEVELS[key] = out
+    return out
+
+
+def sound_levels_for(d):
+    """Return the level envelope belonging to a handover file.
+
+    Only a recording as long as the programme itself can be used: the
+    stored single tracks start where the programme starts, and a file
+    of a different length would put every dip at the wrong second. The
+    length is measured, not assumed.
+    """
+    files = (d or {}).get("audio_files") or {}
+    length = float((d or {}).get("length_s") or 0.0)
+    if not files or length <= 0:
+        return []
+    for name in sorted(files, key=lambda n: (n != "Full-Mix", n)):
+        path = files[name]
+        if not path or not os.path.exists(path):
+            continue
+        try:
+            seconds = sample_count(path) / float(SR)
+        except Exception:
+            continue
+        if abs(seconds - length) > 2.0:
+            continue
+        return sound_levels(path)
+    return []
+
+
+def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
+                  over=10.0):
+    """Return {when the answer begins: who answers} for every question.
+
+    After a question the picture belongs to whoever answers: they draw
+    breath, look up and start. The question mark raises the chance of
+    a change of speaker to three or four times the normal, and the
+    question is almost always the last thing the asker says.
+
+    It fires only where the asker is not the main speaker, somebody
+    else starts within *gap* seconds and holds *holds* of the next
+    *over* seconds. Where both sit on the same camera nothing happens:
+    the cut would be a jump onto the same picture.
+    """
+    out = {}
+    if not words or not tracks:
+        return out
+    held = {n: sum(b - a for a, b in segs) for n, segs in tracks}
+    if len(held) < 2:
+        return out
+    main = max(held, key=held.get)
+    entries = sorted((a, n) for n, segs in tracks for a, _b in segs)
+
+    def talking_at(t):
+        for name, segs in tracks:
+            for a, b in segs:
+                if a <= t < b:
+                    return name
+        return None
+
+    for group in sentences_of(words):
+        last = group[-1]
+        text = (last.get("word") or "").strip().rstrip(CLOSING_MARKS)
+        if not text.endswith("?"):
+            continue
+        end = last["end"]
+        asker = talking_at((group[0]["start"] + end) / 2.0)
+        if asker is None or asker == main:
+            continue
+        answer = None
+        for a, n in entries:
+            if a < end:
                 continue
-            for other in times:
-                if other >= t:
-                    best = min(best, other - t)
-                    break
-        return best
+            if a > end + gap:
+                break
+            if n != asker:
+                answer = (a, n)
+                break
+        if not answer:
+            continue
+        when, who = answer
+        spoken = sum(max(0.0, min(b, when + over) - max(a, when))
+                     for n, segs in tracks if n == who for a, b in segs)
+        if over > 0 and spoken < holds * over:
+            continue
+        if camera_of.get(who) and camera_of.get(who) == camera_of.get(asker):
+            continue
+        out[when] = who
+    return out
 
-    def split_up(a, b, who, depth=0):
+
+def cut_rules(**over):
+    """Return the settings the cut rules read, with their defaults.
+
+    One dict rather than a dozen parameters: the same seven rules are
+    read in three places, and a keyword is all it takes to override
+    one of them.
+    """
+    out = {"min_speech": MIN_SPEECH_TO_SWITCH_S,
+           "on_monologue": SHOT_ALTERNATE,
+           "on_together": SHOT_WIDE,
+           "on_uncertain": SHOT_WIDE,
+           "on_question": SHOT_ANSWER,
+           "reaction_lead": 1.5,
+           "reaction_gap": 3.0,
+           "reaction_hold": 0.7,
+           "reaction_over": 10.0,
+           # None means: whatever the caller passed as the length of an
+           # inserted wide shot. Two ways of saying the same number
+           # would let the preview and the run disagree.
+           "wide_holds": None,
+           "wide_most": 15.0,
+           "words": (),
+           "levels": (),
+           "level_step": DIP_STEP_S}
+    out.update(over)
+    return out
+
+
+def rules_from_settings(args):
+    """Read the cut rules out of the command line settings.
+
+    The four choices come out of CUT_CHOICES rather than being named
+    again here: two lists of the same four names drift apart.
+    """
+    picked = {}
+    for switch, _caption, default_value, _values, _k, _l in CUT_CHOICES:
+        field = switch.replace("-", "_")
+        picked[field] = getattr(args, field, None) or default_value
+    return cut_rules(
+        min_speech=float(getattr(args, "min_speech_to_switch",
+                                 MIN_SPEECH_TO_SWITCH_S)),
+        reaction_lead=float(getattr(args, "reaction_lead", 1.5)),
+        reaction_gap=float(getattr(args, "reaction_gap", 3.0)),
+        reaction_hold=float(getattr(args, "reaction_hold", 0.7)),
+        wide_holds=float(getattr(args, "wide_length", 5.0)),
+        wide_most=float(getattr(args, "wide_most", 15.0)),
+        **picked)
+
+
+def insert_wide_shots(cut, tracks, wide_shot, after=40.0, duration=5.0,
+                      min_len=1.2, at_latest=120.0, camera_of=None,
+                      rules=None):
+    """Break up long shots by leaving the speaker for a while.
+
+    A shot that holds longer than *after* is opened at a sentence
+    boundary nearby -- a sentence beginning within two seconds, else a
+    clause break, else the same two within five. The exact point comes
+    from the sound. What is shown there is the "Long monologue"
+    choice: the wide shot, the listener, the two by turns, or nothing
+    at all.
+
+    The shot then stands at least *duration* seconds and runs to the
+    end of the sentence. Where no sentence boundary is known at all,
+    the longest speech pause nearby takes its place, and *at_latest*
+    forces a cut where there is not even one: a cut at a mediocre spot
+    beats two minutes of stasis.
+    """
+    rules = rules or cut_rules()
+    words = rules.get("words") or ()
+    sentences = sentence_start_times(words) if words else []
+    clauses = clause_break_times(words) if words else []
+    levels = rules.get("levels") or ()
+    step = rules.get("level_step") or DIP_STEP_S
+    holds = float(rules.get("wide_holds") or duration)
+    most = float(rules.get("wide_most") or 15.0)
+    show = rules.get("on_monologue") or SHOT_WIDE
+    if show == SHOT_HOLD:
+        return list(cut)
+    per_camera = segments_per_camera(tracks, camera_of or {})
+    pauses, _entries = find_pauses(tracks)
+
+    def picture(t, who, shown):
+        """Return which camera the break shows, and remember it."""
+        listener = (next_speaker_camera(t, per_camera, who)
+                    if show in (SHOT_LISTENER, SHOT_ALTERNATE) else None)
+        if show == SHOT_LISTENER:
+            choice = listener or wide_shot
+        elif show == SHOT_ALTERNATE:
+            # Alternating needs a memory: without it the same camera
+            # comes up again by chance and it is not alternation.
+            turns = [wide_shot] + ([listener] if listener else [])
+            choice = turns[len(shown) % len(turns)]
+        else:
+            choice = wide_shot
+        shown.append(choice)
+        return choice
+
+    def split_up(a, b, who, shown, depth=0):
         if depth > 12 or b - a <= after:
             return [(a, b, who)]
-        def usable(items, index):
-            # There has to be room for a whole shot after the wide shot, and
-            # the wide shot needs its minimum duration, otherwise a twitch is
-            # left over.
-            return [(t, g) for t, g in items
-                    if a + min_len <= t <= b - min_len - index]
-
-        without_pause = False
-        points = usable([(p[0] + min(0.3, (p[1] - p[0]) / 2.0), p[1] - p[0])
-                            for p in pauses if p[0] >= a and p[1] <= b],
-                           shortest)
-        if not points and b - a > at_latest:
-            # No usable pause anywhere, so go by the clock. A single
-            # speech block can run for minutes without a gap, and the
-            # camera would otherwise hold rigid for all of it.
-            parts = int((b - a) // at_latest) + 1
-            step = (b - a) / parts
-            points = usable([(a + step * i, 0.0)
-                                for i in range(1, parts)], shortest)
-            without_pause = bool(points)
-        if not points:
+        first, last = a + min_len, b - min_len - holds
+        if last <= first:
             return [(a, b, who)]
         wanted = a + min(after, (b - a) / 2.0)
-
-        def value(tg):
-            t, g = tg
-            score = 3.0 * min(g, 2.0)             # a long pause is good
-            v = before_other_entry(t, who)
-            if v <= 6.0:                      # shortly before the next entry
-                score += 4.0 * (1.0 - v / 6.0)
-            score -= abs(t - wanted) / max(1.0, after) * 1.5
-            return score
-
-        t, g = max(points, key=value)
-        if without_pause:
-            # A short glance would look accidental at a mid-sentence cut,
-            # so the wide shot holds longer; where the room to the next
-            # cut is short it is brought forward rather than trimmed.
-            length = max(speech_flow, shortest)
-            if t + length > b - min_len:
-                t = max(a + min_len, b - length)
-                length = max(shortest, min(length, b - t))
-        else:
-            # The pause sets the length, but not downwards: a one second wide
-            # shot is a twitch, not a glance. Where the pause is too short it
-            # runs into the first words -- Resolve does the same, where 19 of
-            # 40 wide shots end only once someone is already speaking.
-            length = min(max(duration, shortest), max(shortest, g))
-            if t + length > b - min_len:
-                length = max(1.0, b - min_len - t)
-        return (split_up(a, t, who, depth + 1) + [(t, t + length, wide_shot)]
-                + split_up(t + length, b, who, depth + 1))
+        t = None
+        if sentences or clauses:
+            aim = cut_point(wanted, sentences, clauses, levels, step)
+            if first <= aim <= last:
+                t = aim
+        if t is None:
+            # No usable boundary: the longest speech pause nearby, and
+            # without one of those the clock.
+            points = [(p[0] + min(0.3, (p[1] - p[0]) / 2.0), p[1] - p[0])
+                      for p in pauses if p[0] >= a and p[1] <= b]
+            points = [(x, g) for x, g in points if first <= x <= last]
+            if not points and b - a > at_latest:
+                parts = int((b - a) // at_latest) + 1
+                stride = (b - a) / parts
+                points = [(a + stride * i, 0.0) for i in range(1, parts)]
+                points = [(x, g) for x, g in points if first <= x <= last]
+            if not points:
+                return [(a, b, who)]
+            t = max(points, key=lambda xg: (
+                3.0 * min(xg[1], 2.0)
+                - abs(xg[0] - wanted) / max(1.0, after) * 1.5))[0]
+            t = cut_point(t, (), (), levels, step)
+            t = min(max(t, first), last)
+        length = wide_shot_length(t, b - min_len - t, sentences, clauses,
+                                  holds, most)
+        if length <= 0:
+            return [(a, b, who)]
+        seen = picture(t, who, shown)
+        if seen == who:
+            return [(a, b, who)]
+        return (split_up(a, t, who, shown, depth + 1)
+                + [(t, t + length, seen)]
+                + split_up(t + length, b, who, shown, depth + 1))
 
     result = []
     for a, b, who in cut:
         if who == wide_shot or b - a <= after:
             result.append((a, b, who))
         else:
-            result += split_up(a, b, who)
+            result += split_up(a, b, who, [])
     return merge_adjacent(result)
 
 
@@ -3108,15 +3486,66 @@ def merge_adjacent(cut):
     return [tuple(x) for x in extra]
 
 
+# How long somebody may pause and still be holding the floor. Below
+# this a gap is a breath, above it the next person may come in. It is
+# what makes the opening independent of how finely a source cuts its
+# segments: a recogniser that chops one long introduction into ten
+# pieces must not read as ten handovers.
+FLOOR_HOLD_GAP_S = 2.0
+
+
+def floor_handovers(tracks, main_speaker, min_len_speech,
+                    gap=FLOOR_HOLD_GAP_S):
+    """Return where somebody other than the main speaker holds the floor.
+
+    A single speech block is not a handover: one block says only that
+    the source drew a boundary there. A handover is somebody speaking
+    on, through their own breaths, and being the one heard while they
+    do it -- so the blocks of one person are chained across short
+    gaps, and the chain counts only where its speaker holds more of
+    its own window than everybody else together.
+
+    Returns [(from, to), ...] in time order.
+    """
+    own = {}
+    for n, segs in tracks:
+        own.setdefault(n, []).extend(segs)
+    out = []
+    for n, segs in own.items():
+        if n == main_speaker:
+            continue
+        chains = []
+        for a, b in sorted(segs):
+            if chains and a - chains[-1][1] <= gap:
+                chains[-1][1] = max(chains[-1][1], b)
+                chains[-1][2] += b - a
+            else:
+                chains.append([a, b, b - a])
+        for a, b, spoke in chains:
+            spoke = min(spoke, b - a)
+            if spoke < min_len_speech:
+                continue
+            rivals = sum(max(0.0, min(b, y) - max(a, x))
+                         for other_name, parts in own.items()
+                         if other_name != n for x, y in parts)
+            if rivals >= spoke:
+                continue
+            out.append((a, b))
+    return sorted(out)
+
+
 def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
                    faint=False):
     """Hold the wide shot while the round is introduced and closed.
 
     Someone introduces the participants at the start and says goodbye at the
-    end; both belong in the wide frame. The first longer speech block that
-    is not the main speaker marks the end of the opening, and the same rule
-    runs backwards from the end. Resolve calls this "use wide angle for
+    end; both belong in the wide frame. The opening ends where the floor
+    first changes hands away from the main speaker, and the same rule runs
+    backwards from the end. Resolve calls this "use wide angle for
     intro and outro".
+
+    The rule stops at the recognition: it reads who speaks when, and a
+    voice the separation never hears cannot end the opening.
     """
     if not cut:
         return cut
@@ -3124,8 +3553,7 @@ def wide_shot_at_edges(cut, tracks, wide_shot, min_len_speech=4.0,
     if len(speech_time) < 2:
         return cut
     main_speaker = max(speech_time, key=speech_time.get)
-    other = sorted((a, b) for n, segs in tracks if n != main_speaker
-                    for a, b in segs if b - a >= min_len_speech)
+    other = floor_handovers(tracks, main_speaker, min_len_speech)
     if not other:
         return cut
     begin, end = cut[0][0], cut[-1][1]
@@ -3178,11 +3606,13 @@ def metrics_sentence(numbers, colours, minutes_fn):
 def speech_heading(own_measure_measured, total_sum=""):
     """Return the heading for the speech segment table.
 
-    Self-measured segments are coarser than what auphonic.com delivers;
-    whoever judges the preview needs to know which of the two they see.
+    Levels measured against each other are coarser than voices taken
+    apart; whoever judges the preview needs to know which of the two
+    they see.
     """
-    source_text = (T('Speakers, self-measured from the tracks') if own_measure_measured
-             else T('Speaker statistics from auphonic.com'))
+    source_text = (T('Speakers, self-measured from the tracks')
+                   if own_measure_measured
+                   else T('Speakers, separated by voice'))
     return "%s -- %s" % (source_text, total_sum) if total_sum else source_text
 
 
@@ -3288,9 +3718,9 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
     empty helps nobody, so every no comes with a sentence.
     """
     if not segment_list or not length or length <= 0:
-        return None, (T('No speaker statistics found. Searched for '
-                        '*statistic*.json in %s, in their subfolders and '
-                        'in auphonic-tracks.')
+        return None, (T('No speakers known yet -- nothing measured, '
+                        'nothing separated, and no handover file of an '
+                        'earlier run in %s or its subfolders.')
                       % (T(' and ').join([x for x in places if x])
                          or T('no folder')))
     if not cameras:
@@ -3371,6 +3801,13 @@ def apply_time_window(d, in_point, out_point):
                         for a, b in (s.get("sections") or [])
                         if b > from_s and a < until]}
         for s in (d.get("speakers") or [])]
+    # The words move with them. Left where they were, every sentence
+    # boundary would sit as far out as the removed head is long, and
+    # the cut points would follow them there.
+    if d.get("words"):
+        fresh["words"] = [[a - from_s, b - from_s, text]
+                          for a, b, text in d["words"]
+                          if b > from_s and a < until]
     return fresh, ""
 
 
@@ -3614,9 +4051,31 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     return out
 
 
-def cut_statistics(d, min_len=1.2, delay=0.3, after=45.0,
-                       duration=2.5, at_latest=120.0, edge=True,
-                       shortest=1.5, speech_flow=6.0):
+def camera_cut(tracks, length, camera_of, wide_shot,
+               min_len=MIN_EDIT_DURATION_S,
+               delay=0.3, after=40.0, holds=5.0, at_latest=120.0,
+               edge=True, rules=None, faint=True):
+    """Build the whole camera cut, in the order the rules apply.
+
+    The preview and the run both come through here. Two copies of this
+    order drift apart, and then the same material yields a different
+    cut depending on which of the two produced it.
+    """
+    rules = rules or cut_rules()
+    cut = build_camera_cut(tracks, length, camera_of, wide_shot,
+                           min_len, -delay, rules)
+    if edge:
+        cut = wide_shot_at_edges(cut, tracks, wide_shot, faint=faint)
+        cut = merge_short_shots(cut, min_len)
+    if after > 0:
+        cut = insert_wide_shots(cut, tracks, wide_shot, after, holds,
+                                min_len, at_latest, camera_of, rules)
+    return cut
+
+
+def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3, after=40.0,
+                       holds=5.0, at_latest=120.0, edge=True,
+                       rules=None):
     """Compute the camera cut without writing anything.
 
     *d* is a parsed handover file (..._resolve.json). Returns the numbers
@@ -3642,16 +4101,15 @@ def cut_statistics(d, min_len=1.2, delay=0.3, after=45.0,
     if length <= 0:
         return None
 
-    cut = build_camera_cut(tracks, length, camera_of, wide_shot,
-                            min_len, -delay)
-    if edge:
-        cut = wide_shot_at_edges(cut, tracks, wide_shot,
-                                 faint=True)
-        cut = merge_short_shots(cut, min_len)
-    if after > 0:
-        cut = insert_wide_shots(cut, tracks, wide_shot, after, duration,
-                                    min_len, at_latest, camera_of,
-                                    shortest, speech_flow)
+    # What was said and the sound itself come out of the handover file:
+    # the caller sets the numbers, not the material.
+    rules = dict(rules or cut_rules())
+    if not rules.get("words"):
+        rules["words"] = words_from_handover(d)
+    if not rules.get("levels"):
+        rules["levels"] = sound_levels_for(d)
+    cut = camera_cut(tracks, length, camera_of, wide_shot, min_len,
+                     delay, after, holds, at_latest, edge, rules)
     if not cut:
         return None
 
@@ -3721,40 +4179,45 @@ def cut_statistics(d, min_len=1.2, delay=0.3, after=45.0,
     }
 
 
-def build_camera_cut(tracks, length, camera_of, wide_shot, min_len=1.2,
-                  lead_in=-0.3):
+def build_camera_cut(tracks, length, camera_of, wide_shot,
+                     min_len=MIN_EDIT_DURATION_S, lead_in=-0.3,
+                     rules=None):
     """Return the camera cut as [(from, to, camera)].
 
     The same list camera_cut_detail builds, without who was speaking.
     """
     return [(a, b, who) for a, b, who, _speaking
             in camera_cut_detail(tracks, length, camera_of, wide_shot,
-                                 min_len, lead_in)]
+                                 min_len, lead_in, rules)]
 
 
-def camera_cut_detail(tracks, length, camera_of, wide_shot, min_len=1.2,
-                  lead_in=-0.3):
+def camera_cut_detail(tracks, length, camera_of, wide_shot,
+                      min_len=MIN_EDIT_DURATION_S, lead_in=-0.3,
+                      rules=None):
     """Turn speaker segments into a camera cut list.
 
     Returns [(from, to, camera, speakers)]; *speakers* is who talks in
     that shot, empty during silence.
 
-    The rules are the ones a human editor follows. Blackmagic names the same
-    knobs for SmartSwitch -- minimum duration, delay, wide shot frequency --
-    but publishes no values, so these are adjustable:
+    The rules are the ones a human editor follows:
 
-      * Whoever speaks alone gets their camera.
-      * When several speak at once, a camera showing exactly those speakers
-        is preferred -- one covering both hosts, say. A two-shot is almost
-        always the better choice in conversation. Only when no camera covers
-        the speakers does the wide shot take over; cutting into a jumble
-        looks frantic.
+      * Whoever speaks alone gets their camera, once they have held the
+        floor for the minimum speaking time.
+      * When several speak at once, a camera showing exactly those
+        speakers is preferred -- one covering both hosts, say. Where no
+        camera covers them, the "Several speak at once" choice decides.
+      * Where the recognition frays or leaves a heap of scraps behind,
+        the "Recognition uncertain" choice decides.
       * Silence stays on the wide shot unless someone is about to speak,
         in which case it switches early by the lead-in.
-      * Every shot has to stand for a minimum time or it is merged back into
-        the previous one. Short interjections ("mhm", "yes exactly")
-        disappear on their own. Resolve calls this Minimum Edit Duration.
+      * After a question the picture may go to the answer before it
+        starts -- the "Question" choice.
+
+    Everything is judged per camera, never per speaker: two people on one
+    camera are one condition, and a change of speaker between them is a
+    jump onto the same picture, so nothing is cut there.
     """
+    rules = rules or cut_rules()
     long = [(n, list(segs)) for n, segs in tracks]
     edges = sorted({t for _, segs in long for s in segs for t in s}
                     | {0.0, length})
@@ -3780,19 +4243,85 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot, min_len=1.2,
                    if wanted_name <= who]
         return min(matching)[1] if matching else None
 
+    per_camera = segments_per_camera(long, camera_of or {})
+    words = rules.get("words") or ()
+    sentences = sentence_start_times(words) if words else []
+    clauses = clause_break_times(words) if words else []
+    levels = rules.get("levels") or ()
+    step = rules.get("level_step") or DIP_STEP_S
+    # Too short to move the camera, judged per camera: what counts is
+    # that one of the people on it was speaking, not which of them.
+    min_speech = float(rules.get("min_speech") or 0.0)
+    too_short = {}
+    for camera, segs in per_camera:
+        too_short[camera] = span_finder(
+            [(a, b) for a, b in segs if b - a < min_speech])
+    stray = stray_labels(long)
+    restless = span_finder(unrest_spans(long, camera_of or {}))
+    turns = []
+
+    def unsure_picture(t, active):
+        """Return what to show where the cut does not know whom."""
+        want = rules.get("on_uncertain") or SHOT_WIDE
+        if want == SHOT_HOLD:
+            return None
+        if want in (SHOT_LISTENER, SHOT_ALTERNATE):
+            here = {camera_of.get(n) for n in active}
+            listener = next_speaker_camera(
+                t, per_camera, next(iter(here)) if len(here) == 1 else None)
+            if want == SHOT_LISTENER:
+                return listener or wide_shot
+            row = [wide_shot] + ([listener] if listener else [])
+            choice = row[len(turns) % len(row)]
+            turns.append(choice)
+            return choice
+        return wide_shot
+
+    def together_picture(t, active):
+        """Return what to show where several speak and no camera fits."""
+        want = rules.get("on_together") or SHOT_WIDE
+        if want == SHOT_HOLD:
+            return None
+        if want == SHOT_LISTENER:
+            return next_speaker_camera(t, per_camera, None) or wide_shot
+        if want == SHOT_ALTERNATE:
+            row = sorted({camera_of.get(n) for n in active
+                          if camera_of.get(n)}) or [wide_shot]
+            choice = row[len(turns) % len(row)]
+            turns.append(choice)
+            return choice
+        return wide_shot
+
     raw = []
     for a, b in zip(edges, edges[1:]):
         if b - a <= 1e-6:
             continue
         middle = (a + b) / 2.0
         active = [n for n, segs in long for s0, s1 in segs if s0 <= middle < s1]
-        if len(active) == 1:
-            who = camera_of.get(active[0]) or wide_shot
-        elif active:
-            who = common_camera(active) or wide_shot
-        else:
+        heap = [n for n in active if n in stray]
+        strong = [n for n in active if n not in stray
+                  and not too_short.get(camera_of.get(n), lambda _t: False)(
+                      middle)]
+        if not active:
             who = wide_shot          # silence -> wide shot
+        elif restless(middle) or (heap and not strong):
+            who = unsure_picture(middle, active)
+        elif not strong:
+            who = None               # nobody held the floor long enough
+        elif len(strong) == 1:
+            who = camera_of.get(strong[0]) or wide_shot
+        else:
+            who = common_camera(strong) or together_picture(middle, strong)
         raw.append([a, b, who, tuple(sorted(active))])
+
+    # "Hold" means the picture does not change, so the block takes the
+    # camera of the one before it -- or of the one after, at the start.
+    for i in range(len(raw)):
+        if raw[i][2] is None:
+            raw[i][2] = raw[i - 1][2] if i else None
+    for i in range(len(raw) - 1, -1, -1):
+        if raw[i][2] is None:
+            raw[i][2] = raw[i + 1][2] if i + 1 < len(raw) else wide_shot
 
     # Lead-in: switch to the coming camera shortly before the entry. Given
     # as a negative value it becomes a lag, and the cut arrives after the
@@ -3801,12 +4330,51 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot, min_len=1.2,
     #
     # The edge moves, not the shot: both edges of a shot move by the same
     # amount, otherwise shifting would shorten it.
-    if lead_in and raw:
+    answers = {}
+    if (rules.get("on_question") or SHOT_OFF) != SHOT_OFF and words:
+        answers = reaction_cuts(
+            long, words, camera_of or {},
+            float(rules.get("reaction_gap") or 3.0),
+            float(rules.get("reaction_hold") or 0.0),
+            float(rules.get("reaction_over") or 0.0))
+    lead = float(rules.get("reaction_lead") or 0.0)
+    if (lead_in or answers) and raw:
         limits = [r[0] for r in raw] + [raw[-1][1]]
         end = limits[-1]
+        brought = []
         for i in range(1, len(raw)):
-            if raw[i][2] != raw[i - 1][2]:
+            if raw[i][2] == raw[i - 1][2]:
+                continue
+            who = answers.get(round(raw[i][0], 6))
+            if who is None:
+                for when in answers:
+                    if abs(when - raw[i][0]) < 1e-6:
+                        who = answers[when]
+                        break
+            early = (who is not None and lead > 0
+                     and raw[i][2] == (camera_of or {}).get(who))
+            if early and (rules.get("on_question") == SHOT_LISTENER
+                          and not next_speaker_camera(
+                              raw[i][0] - lead, per_camera, raw[i - 1][2])):
+                early = False
+            if early:
+                # The point comes from the sound alone: the target sits
+                # inside the breath after the question, not on a
+                # boundary in the text. And the edge is set here, so the
+                # Edit Change Delay is not added to it a second time.
+                limits[i] = min(end, max(0.0, cut_point(
+                    raw[i][0] - lead, (), (), levels, step)))
+                brought.append(i)
+            elif lead_in:
                 limits[i] = min(end, limits[i] - lead_in)
+        # A reaction cut reaches back over the pause after the question,
+        # and the wide shot standing in that pause goes with it -- else
+        # the edge before it would push the reaction back where it was.
+        for i in brought:
+            for j in range(i - 1, 0, -1):
+                if limits[j] <= limits[i]:
+                    break
+                limits[j] = limits[i]
         # No edge may end up before the previous one.
         for i in range(1, len(limits)):
             if limits[i] < limits[i - 1]:
@@ -3831,7 +4399,7 @@ def shot_key(row):
     return row[2]
 
 
-def split_shots_by_speaker(cut, tracks, min_len=1.2):
+def split_shots_by_speaker(cut, tracks, min_len=MIN_EDIT_DURATION_S):
     """Cut every shot again where the speech changes hands.
 
     For the case where one camera shows everybody: the camera cut is
@@ -3847,8 +4415,13 @@ def split_shots_by_speaker(cut, tracks, min_len=1.2):
     if not cut:
         return []
     edges = sorted({t for _n, segs in tracks for s in segs for t in s})
+    key = lambda r: (r[2], r[3])
     out = []
     for a, b, who in cut:
+        # Merged inside this shot and not across it: the camera edges
+        # were placed by the Edit Change Delay, and a piece pulled over
+        # one of them would move the picture as well as the name.
+        pieces = []
         inside = [t for t in edges if a < t < b]
         for x, y in zip([a] + inside, inside + [b]):
             if y - x <= 1e-6:
@@ -3857,15 +4430,18 @@ def split_shots_by_speaker(cut, tracks, min_len=1.2):
             talking = tuple(sorted(
                 n for n, segs in tracks
                 for s0, s1 in segs if s0 <= middle < s1))
-            out.append([x, y, who, talking])
-    key = lambda r: (r[2], r[3])
+            if pieces and pieces[-1][3] == talking:
+                pieces[-1][1] = y
+            else:
+                pieces.append([x, y, who, talking])
+        out += merge_short_shots(pieces, min_len, key)
     joined = []
     for r in out:
         if joined and key(joined[-1]) == key(r):
             joined[-1][1] = r[1]
         else:
             joined.append(list(r))
-    return [tuple(r) for r in merge_short_shots(joined, min_len, key)]
+    return [tuple(r) for r in joined]
 
 
 def one_camera_only(camera_of):
@@ -3879,11 +4455,19 @@ def one_camera_only(camera_of):
 
 
 def merge_short_shots(cut, min_len, key=shot_key):
-    """Merge shots below the minimum duration back into the previous one.
+    """Merge shots below the minimum duration into the following one.
 
-    Same rule as Resolve's Minimum Edit Duration. It has to run again after
-    every other step, because the wide shot at the edges and the inserted
-    wide shots can both leave short remnants.
+    Same rule as Resolve's Minimum Edit Duration. It has to run again
+    after every other step, because the wide shot at the edges and the
+    inserted wide shots can both leave short remnants.
+
+    Forwards, not backwards: merging back gives the time to whoever has
+    just finished, merging forward to whoever is about to speak. Where
+    the recognition is finely chopped the second one is nearly always
+    right -- measured against a hand-made edit, wrong picture time falls
+    by a factor of five to eight, and it falls just as far when the
+    truth itself goes in. The last shot has nothing after it and falls
+    back into the one before.
 
     *key* says when two neighbours are the same shot. By default that is
     the camera; where one camera shows everybody it is the camera and
@@ -3892,19 +4476,25 @@ def merge_short_shots(cut, min_len, key=shot_key):
     if min_len <= 0 or not cut:
         return list(cut)
     extra = [list(x) for x in cut]
-    i = 1
-    while i < len(extra):
-        if extra[i][1] - extra[i][0] < min_len:
+    i = 0
+    while i < len(extra) and len(extra) > 1:
+        if extra[i][1] - extra[i][0] >= min_len:
+            i += 1
+            continue
+        if i + 1 < len(extra):
+            extra[i + 1][0] = extra[i][0]
+            del extra[i]
+        else:
             extra[i - 1][1] = extra[i][1]
             del extra[i]
-            while i < len(extra) and key(extra[i - 1]) == key(extra[i]):
-                extra[i - 1][1] = extra[i][1]
-                del extra[i]
-        else:
-            i += 1
-    while len(extra) > 1 and extra[0][1] - extra[0][0] < min_len:
-        extra[1][0] = extra[0][0]
-        del extra[0]
+            i -= 1
+        # The neighbours may now be the same shot, and two of those in a
+        # row would leave a cut where the picture does not change.
+        j = max(0, i - 1)
+        while j + 1 < len(extra) and key(extra[j]) == key(extra[j + 1]):
+            extra[j][1] = extra[j + 1][1]
+            del extra[j + 1]
+        i = max(0, i - 1)
     return extra
 
 
@@ -4484,7 +5074,6 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                                               0.0, window_length2, drift=False)
             else:
                 track["ready"] = done
-            track["stat_from"] = float(track.get("edge", 0.0))
             continue
         # Median rather than a regression line: Auphonic shifts a track as a
         # whole or not at all, so there is no slope to estimate here.
@@ -4523,10 +5112,6 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
         if fine is not None and abs(fine) < 500.0:
             a_corr += fine / 1000.0
         edge = track.get("edge", 0.0)
-        # The track is about to be moved by exactly this amount, and the
-        # statistics times have to move by the same one, since they count from
-        # the start of the file held at auphonic.com.
-        track["stat_from"] = float(a_corr)
         ms = (a_corr - edge) * 1000.0
         # Record what was measured here for the metrics.
         track["drift_ppm"] = clock_drift_ppm
@@ -6275,6 +6860,10 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                 return 1
             plan = d.get("tracks_of") or []
             cameras = d.get("cameras") or []
+            # What the window already had taken apart by voice. Carried
+            # over rather than computed again: three minutes of the
+            # graphics unit for a result that is already there.
+            args._speakers_of = d.get("speakers_of") or {}
             title = d.get("production") or ""
             args.production = title
         else:
@@ -6431,7 +7020,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             continue
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
-                       "hint": hint})
+                       "blocks": list(blocks), "hint": hint})
         print(T('  %-20s offset %s, clock drift %+.2f ppm (+/- %.2f), '
                 'residual spread %.1f ms, %d of %d points%s')
               % (name, as_hms(a), st.get("ppm", 0.0), st.get("ppm_error", 0.0),
@@ -6529,6 +7118,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     verify_alignment(tracks, t0, t1,
                      drift_allowed=not getattr(args, "no_drift", False))
 
+    # Who speaks when, before anything is uploaded and before the audio
+    # is processed: the axis stands now, so a separation can be placed
+    # on it. Computed here it is arithmetic on stored segments.
+    args._speakers = separation_for_run(args, tracks, position, t0, t1,
+                                        video_paths)
+
     #--------------------------------------------------- Processing
     if getattr(args, "without_auphonic", False):
         return finish_without_auphonic(args, tracks, cameras, videos, tmpdir,
@@ -6599,29 +7194,18 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                     'speakers and belong\n  to this run. Without the folder '
                     'it goes through auphonic.com again.'))
             return 1
-        # The statistics belong to the processed files. Where those were
-        # trimmed, their times still count from the old start.
-        stat_from = shift if any(track.get("edge") for track in tracks) else 0.0
-        if stat_from:
-            print(T('\n  In point is %s after the start of the measured range '
-                    '-- the processed\n  tracks are trimmed accordingly.')
-                  % as_hms(stat_from))
         if args.dry_run:
             print(T('\n  (measuring only: nothing written)'))
             return 0
-        # The statistics normally come from Auphonic; here one from the first
-        # run may still be lying around. Without them there is no cut list.
-        statistics = find_statistics_file(folder, args.out,
-                                     os.path.dirname(video_paths[0]))
         if not verify_returned_tracks(tracks, t1 - t0, tmpdir):
             return 1
         gain, curve = normalise_loudness(
             tracks, args.lufs, tmpdir,
             find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
             channels=2)
-        return distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
-                         position, t0, statistics, ref_clip, t1, stat_from,
-                         curve)
+        return distribute_tracks_to_cameras(
+            args, tracks, cameras, videos, tmpdir, gain, position, t0,
+            ref_clip, t1, curve)
 
     if args.dry_run and not args.auphonic_key:
         print(T('\n  (measuring only: without an API key it stops here)'))
@@ -6638,7 +7222,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         os.path.abspath(video_paths[0]))
     print()
     try:
-        done, statistics = run_multitrack_production(
+        done = run_multitrack_production(
             key, preset, title or 'Production', tracks, folder,
             args.auphonic_wait, args.dry_run, args.auphonic_resume,
             bool(getattr(args, "transcript", False)),
@@ -6659,82 +7243,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
 
     if not verify_returned_tracks(tracks, t1 - t0, tmpdir):
         return 1
-    # The statistics belong to the files held at auphonic.com. Where those
-    # reach beyond our window -- because a production from an earlier run was
-    # reused -- their times count from that start rather than from In point. By
-    # how much is what the return check just measured; the tracks were moved by
-    # the same amount.
-    measured = sorted(track["stat_from"] for track in tracks if "stat_from" in track)
-    stat_from = measured[len(measured) // 2] if measured else 0.0
-    if stat_from < 0.5:
-        stat_from = 0.0
-    else:
-        print(T('\n  The recording at auphonic.com starts %s before In point. '
-                'The times of\n  the speaker statistics are shifted by the '
-                'same amount -- otherwise\n  the whole edit would be off.')
-              % as_hms(stat_from))
     gain, curve = normalise_loudness(
         tracks, args.lufs, tmpdir,
         find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
         channels=2)
-    return distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
-                     position, t0, statistics, ref_clip, t1, stat_from, curve=curve)
-
-
-def find_statistics_file(*places, quiet=False, deeper=False):
-    """Find the statistics file; it belongs with the tracks.
-
-    *quiet* suppresses the messages: the interface looks after every change
-    and that does not belong in the log.
-
-    Searched in auphonic-tracks and in the given folder itself, since
-    --auphonic-done points at the latter. Nothing is moved: what the
-    script did not create, it does not touch.
-    """
-    wanted_name = []
-    for place in places:
-        if not place:
-            continue
-        place = os.path.abspath(place)
-        tracks = (place if os.path.basename(place) == "auphonic-tracks"
-                  else os.path.join(place, "auphonic-tracks"))
-        for base in (tracks, place):
-            if base not in wanted_name:
-                wanted_name.append(base)
-        if not deeper:
-            continue
-        # Look one level down: the result of an earlier run often sits in a
-        # subfolder next to the raw material.
-        try:
-            for name in sorted(os.listdir(place)):
-                below = os.path.join(place, name)
-                if not os.path.isdir(below) or name.startswith("."):
-                    continue
-                for base in (os.path.join(below, "auphonic-tracks"), below):
-                    if base not in wanted_name:
-                        wanted_name.append(base)
-        except OSError:
-            pass
-    for base in wanted_name:
-        if not os.path.isdir(base):
-            continue
-        for f in sorted(os.listdir(base)):
-            # Our own name is "..._statistics.json"; searching more generously
-            # costs nothing and finds older runs too.
-            if f.lower().endswith(".json") and "statistic" in f.lower():
-                try:
-                    with open(os.path.join(base, f), encoding="utf-8") as fh:
-                        d = json.load(fh)
-                    if d.get("tracks"):
-                        if not quiet:
-                            print(T('    Statistics           <- %s') % f)
-                        return d
-                except (ValueError, OSError):
-                    pass
-    if not quiet:
-        print(T('    Statistics           none found -- without them there '
-                'is no cut list'))
-    return {}
+    return distribute_tracks_to_cameras(
+        args, tracks, cameras, videos, tmpdir, gain, position, t0, ref_clip,
+        t1, curve=curve)
 
 
 def check_written_file(target, items, n_camera, args, fps):
@@ -6856,6 +7371,190 @@ def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
     return file_path
 
 
+def read_separation_file(file_path):
+    """Read a stored separation out of a project or assignment file.
+
+    Returns the dict with source, segments and names, or {}.
+    """
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError) as e:
+        print(T('  %s cannot be read: %s') % (os.path.basename(file_path), e))
+        return {}
+    if not isinstance(d, dict):
+        return {}
+    for key in ("speakers_of", "speakers"):
+        entry = d.get(key)
+        if isinstance(entry, dict) and entry.get("segments"):
+            return entry
+    return d if d.get("segments") else {}
+
+
+def separation_on_axis(given, tracks, position, t0, t1):
+    """Put a stored separation onto the axis of this run.
+
+    The segments are kept raw, in the time of the file they were
+    measured in. Where that file sits on the axis is already known from
+    the alignment, so this is arithmetic and never a second
+    measurement.
+
+    Returns (segments, "") or ([], why not).
+    """
+    if not (given or {}).get("source"):
+        return [], T('no recording named')
+    # Looked up by the real path: /tmp is a link to /private/tmp on
+    # macOS, and the same file then carries two names.
+    source = os.path.realpath(given["source"])
+    where = {}
+    for track in tracks:
+        blocks = track.get("blocks") or [track.get("source")]
+        if blocks and blocks[0]:
+            where[os.path.realpath(blocks[0])] = (track["a"], track["b"])
+    for v, place in (position or {}).items():
+        where[os.path.realpath(v)] = (place[0], place[1])
+    if source not in where:
+        return [], T('%s is not part of this run') % os.path.basename(source)
+    a, b = where[source]
+    if not b:
+        return [], T('%s has no place on the axis') % os.path.basename(source)
+    named = dict((given or {}).get("names") or {})
+    out = []
+    for label, parts in speaker_segments_polish(
+            speaker_segments_group((given or {}).get("segments") or [])):
+        kept = []
+        for x, y in parts:
+            x, y = (x - a) / b - t0, (y - a) / b - t0
+            x, y = max(0.0, x), min(y, t1 - t0)
+            if y > x:
+                kept.append((round(x, 3), round(y, 3)))
+        if kept:
+            out.append((named.get(label) or label, kept))
+    if not out:
+        return [], T('nothing of it falls inside the window')
+    return out, ""
+
+
+def separation_source_of_run(args, tracks, video_paths):
+    """Which recording a run without a window takes apart by voice.
+
+    The same rule the window follows, on the same function: one
+    recording everybody is audible on is the source, several
+    microphones are the truth themselves and need no separation, and
+    where there is no audio recording at all the camera track carries
+    everybody.
+
+    The boundary: which cameras were ticked by hand is not on the
+    command line, so where the tracks come out of cameras all of them
+    are offered. Returns (path, why) as speaker_source_pick does.
+    """
+    from_cameras = bool(getattr(args, "_camera_audio", None))
+    recordings = []
+    for track in tracks or ():
+        for p in (track.get("blocks") or [track.get("source")]):
+            if p and p not in recordings:
+                recordings.append(p)
+    return speaker_source_pick([] if from_cameras else recordings,
+                               video_paths or (),
+                               camera_audio=from_cameras)
+
+
+def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
+    """Work out who speaks when, before the audio is processed.
+
+    Four ways in, in this order: a separation handed over by the
+    interface in the assignment file, one named with --speakers-from,
+    the recording named with --speakers-local, and otherwise the
+    recording this run picks itself. The window and the command line
+    pick it by the same rule, so the same folder gives the same cut on
+    both ways.
+
+    --no-speakers-local leaves it out. The separation fetches an
+    environment of a few hundred megabytes and computes for minutes,
+    so both are said before it starts, and a dry run says them instead
+    of doing them.
+
+    Returns (segments, where they came from) with ([], "") for nothing.
+    """
+    given = getattr(args, "_speakers_of", None) or {}
+    where_from = T('the interface') if given else ""
+    if not given and getattr(args, "speakers_from", None):
+        given = read_separation_file(args.speakers_from)
+        where_from = os.path.basename(args.speakers_from)
+    source = ""
+    if not given and not getattr(args, "no_speakers_local", False):
+        if getattr(args, "speakers_local", None):
+            source = os.path.abspath(args.speakers_local)
+        elif not SPEAKER_SPLIT_OFF:
+            source = separation_source_of_run(args, tracks, video_paths)[0]
+    if source:
+        print(as_head(T('\nSEPARATING THE SPEAKERS')))
+        print(T('  In %s, on this machine.') % os.path.basename(source))
+        how_long = media_seconds(source)
+        if how_long:
+            print(T('  About %s of computing for %s of audio.')
+                  % (as_hms(how_long / SPEAKER_SPLIT_SPEED),
+                     as_hms(how_long)))
+        if not speaker_split_available():
+            print(T('  The environment for it is not here yet: about '
+                    '%d MB are fetched now.') % SPEAKER_SETUP_MB)
+        if getattr(args, "dry_run", False):
+            print(T('  (measuring only: nothing separated)'))
+            return [], ""
+        if not speaker_split_available():
+            trouble = speaker_split_setup(
+                report=lambda text, share: show_progress(text, share))
+            if trouble:
+                print("  %s" % trouble)
+                return [], ""
+        segments, trouble = speaker_split_run(
+            source, int(getattr(args, "speakers_count", 0) or 0),
+            report=lambda text, share: show_progress(text, share))
+        print()
+        if trouble:
+            print("  %s" % trouble)
+            return [], ""
+        given = {"source": source,
+                 "segments": [[label, a, b] for label, parts in segments
+                              for a, b in parts]}
+        where_from = T('the separation in this run')
+    if not given:
+        return [], ""
+    out, why_not = separation_on_axis(given, tracks, position, t0, t1)
+    if not out:
+        print(as_warn(T('  The speaker separation is not used: %s.')
+                      % why_not))
+        return [], ""
+    return out, where_from
+
+
+def speakers_for_the_cut(args, tracks):
+    """Say who speaks when, and put the origin in the log.
+
+    Either the separation this run carries -- one recording everybody
+    is audible on, taken apart by voice -- or the measurement out of
+    the separate tracks. The heading names which of the two, because
+    the cut cannot be judged without knowing it.
+    """
+    segments, where_from = getattr(args, "_speakers", None) or ([], "")
+    if segments:
+        print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
+        print(T('  From %s: %d voices.') % (where_from, len(segments)))
+    else:
+        print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
+        print(T('  From the tracks themselves, one voice per track.'))
+        segments = speakers_from_tracks(
+            [(track["name"], track.get("ready") or track["axis"], 0.0)
+             for track in tracks], note=print)
+    for name, segs in segments:
+        print(T('  %-20s %s in %d passages')
+              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
+    if not any(segs for _, segs in segments):
+        print(T('  Nothing was audible in the tracks -- no camera cut from '
+                'this.'))
+    return segments
+
+
 def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
                             t0, t1, ref_clip):
     """Finish a multitrack run without auphonic.com.
@@ -6865,10 +7564,11 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     taking the bleed out of the audio, the leveler, the noise removal. The
     loudness is set here as always; that computation was never remote.
 
-    Who speaks when is measured from the tracks themselves. The bleed is
-    taken out of the *measurement*, not out of the audio -- without that,
-    every microphone would report its neighbour as a speaker and the cut
-    would stay on the wide shot.
+    Who speaks when comes from the separation where this run carries
+    one, otherwise it is measured from the tracks themselves. In that
+    measurement the bleed is taken out of the *measurement*, not out of
+    the audio -- without that, every microphone would report its
+    neighbour as a speaker and the cut would stay on the wide shot.
     """
     step_begin("loudness")
     print(as_head(T('\nWITHOUT AUPHONIC.COM')))
@@ -6880,31 +7580,30 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     if args.dry_run:
         print(T('\n  (measuring only: nothing written)'))
         return 0
-    print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
     step_begin("speakers")
-    segment_list = speakers_from_tracks(
-        [(track["name"], track["axis"], 0.0) for track in tracks],
-        note=print)
-    for name, segs in segment_list:
-        print(T('  %-20s %s in %d passages')
-              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
-    if not any(segs for _, segs in segment_list):
-        print(T('  Nothing was audible in the tracks -- no camera cut from '
-                'this.'))
+    segment_list = speakers_for_the_cut(args, tracks)
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(videos[0][0]))
     gain, curve = normalise_loudness(tracks, args.lufs, tmpdir, None,
                                      channels=2)
     return distribute_tracks_to_cameras(
-        args, tracks, cameras, videos, tmpdir, gain, position, t0, None,
-        ref_clip, t1, 0.0, curve, segment_list=segment_list)
+        args, tracks, cameras, videos, tmpdir, gain, position, t0,
+        ref_clip, t1, curve, segment_list=segment_list)
 
 
 def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
-              position, t0, statistics=None, ref_clip=None, t1=None, stat_from=0.0,
-              curve=None, segment_list=None):
-    """Place the processed tracks onto the cameras."""
+              position, t0, ref_clip=None, t1=None, curve=None,
+              segment_list=None):
+    """Place the processed tracks onto the cameras.
+
+    Without *segment_list* the speakers are worked out here: the run
+    through auphonic.com comes in this way, and its tracks are cleaner
+    to measure than the raw ones.
+    """
     step_begin("cameras")
+    if segment_list is None:
+        step_begin("speakers")
+        segment_list = speakers_for_the_cut(args, tracks)
     names_every = [track["name"] for track in tracks]
     after_camera = {}
     for track in tracks:
@@ -6922,6 +7621,32 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                         os.path.join(tmpdir, "mix_full.wav"), gain,
                         curve, channels=2)
     print(T('  Full-Mix from %d tracks, two channels') % len(tracks))
+
+    # What is said and when, out of the finished mix. It runs beside
+    # the cameras rather than in front of them: on a machine where the
+    # recognition is slow it is the cameras that take the longer, and
+    # the words are needed only when the cut is built at the end.
+    # Without them the cut still happens -- the wide shot then looks
+    # for the longest pause instead of the end of a sentence.
+    heard = {}
+
+    def listen_to_the_mix():
+        """Write down the words of the mix, in a thread of its own."""
+        words, _way = recognise_speech(
+            full_mix, getattr(args, "speech_language", "") or "")
+        heard["words"] = words or []
+
+    listening = None
+    if not getattr(args, "no_speech_recognition", False):
+        listening = threading.Thread(target=listen_to_the_mix, daemon=True)
+        listening.start()
+
+    def heard_words():
+        """Wait for the recognition and return what it heard."""
+        if listening is not None:
+            listening.join()
+        return heard.get("words") or []
+
     single, in_stereo = {}, []
     for track in tracks:
         single[track["name"]] = mix_tracks(
@@ -7178,8 +7903,15 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print("  %s" % path)
 
     cut, segment_list = write_cut_list(
-        args, statistics, tracks, cameras, videos, folder, tc_start, ref_clip,
-        t1 - t0 if t1 is not None else 0, stat_from, segment_list)
+        args, segment_list, tracks, cameras, videos, folder, tc_start,
+        ref_clip, t1 - t0 if t1 is not None else 0,
+        words=heard_words(), sound_source=single_files.get("Full-Mix", ""))
+    if not getattr(args, "no_transcript_file", False) and heard_words():
+        print(as_head(T('\nTRANSCRIPT')))
+        for path in write_transcript_files(
+                folder, safe_filename(args.production or 'Production'),
+                heard_words(), segment_list):
+            print("  %s" % path)
     colours = []
     if not getattr(args, "no_metrics", False):
         try:
@@ -7201,7 +7933,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results, cut, segment_list,
                       t1 - t0 if t1 is not None else 0, track_names,
-                      single_files, offsets, stat_from)
+                      single_files, offsets, words=heard_words())
     shutil.rmtree(tmpdir, ignore_errors=True)
     return 1 if error else 0
 
@@ -9886,6 +10618,13 @@ def _sliders_from_command_line(call, production):
                 except ValueError:
                     pass
         setattr(e, field, value)
+    for switch, _caption, default_value, values, _k, _l in CUT_CHOICES:
+        value = default_value
+        if call and "--" + switch in call:
+            i = call.index("--" + switch)
+            if i + 1 < len(call) and call[i + 1] in values:
+                value = call[i + 1]
+        setattr(e, switch.replace("-", "_"), value)
     return e
 
 
@@ -9903,20 +10642,18 @@ def _read_project_file(folder):
 def refresh_cut_list(d, file_path):
     """Check the cut list is still valid before building.
 
-    Two things can invalidate it. First, the recording at auphonic.com
-    reaches back before In point -- then the statistics times count from its
-    start rather than from the In point and the whole cut would sit wrong. That
-    can be recomputed here without touching the videos again, since their
-    audio is correct.
-
-    Second, In point or Out point have changed since. Then the audio inside the
-    videos belongs to a different window and only a new run helps. The
-    return value is the reason as text.
+    Who speaks when is in the handover file already, so turning the cut
+    values afterwards costs no run and no measurement. What only a new
+    run can mend: In point or Out point changed since, and then the
+    audio inside the videos belongs to a different window. The return
+    value is that reason as text.
     """
     folder = os.path.dirname(os.path.abspath(file_path))
-    statistics = find_statistics_file(folder, quiet=True)
     project = _read_project_file(folder)
-    if not statistics or not project or d.get("start_s") is None:
+    speakers = [(x.get("name") or "", [tuple(v) for v in
+                                       (x.get("sections") or [])])
+                for x in (d.get("speakers") or [])]
+    if not speakers or not project or d.get("start_s") is None:
         return None
     fps = max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0))
     call = project.get("call") or []
@@ -9946,22 +10683,7 @@ def refresh_cut_list(d, file_path):
                   'existing\n  files are %s -- press Start above again.') % (timecode_string(out_point, fps), as_hms(out_point - in_point),
                             as_hms(length)))
 
-    if d.get("stat_from") is not None:
-        # The run wrote down how far before In point the statistics start, so
-        # nothing has to be derived here.
-        offset = float(d["stat_from"])
-    else:
-        times = [e.get("start_s") for e in (project.get("timeline") or [])
-                  if e.get("start_s") is not None]
-        offset = (round(float(d["start_s"]) - min(times), 3)
-                   if times else 0.0)
-    if offset < 0.5:
-        offset = 0.0
-
     print(T('\n  REFRESH THE CUT LIST'))
-    if offset:
-        print(T('  The recording at auphonic.com begins %s before In point. '
-                'The statistics\n  times are shifted by that amount.') % as_hms(offset))
     # The sliders come from the interface where they were sent along, otherwise
     # from the project file. Otherwise the button would carry on with the
     # values of the last run while something else is set above.
@@ -9981,11 +10703,15 @@ def refresh_cut_list(d, file_path):
               for n in (cam.get("speakers") or [])]
     ref_clip = (cameras[0]["video"] if cameras else "",
                 {"fps": fps, "tc": d.get("start_tc")})
+    # The handover file carries what was said and where the sound is:
+    # the cut points come from those two, not from the clock.
     cut, segs = write_cut_list(
-        settings, statistics, tracks, cameras, videos, folder,
-        float(d["start_s"]), ref_clip, length, offset)
+        settings, speakers, tracks, cameras, videos, folder,
+        float(d["start_s"]), ref_clip, length,
+        words=words_from_handover(d),
+        sound_source=(d.get("audio_files") or {}).get("Full-Mix", ""))
     if not cut:
-        return (T('The statistics produced no cut -- press Start above again.'))
+        return T('That produced no cut -- press Start above again.')
     before_value = d.get("cut") or []
     d["cut"] = [{"start": round(a, 3), "end": round(b, 3), "camera": n}
                     for a, b, n in cut]
@@ -9997,7 +10723,8 @@ def refresh_cut_list(d, file_path):
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
-    d["created_by"] = ('videopodcast-magic.py %s (cut list refreshed, %+.3f s)' % (VERSION, offset))
+    d["created_by"] = ('videopodcast-magic.py %s (cut list refreshed)'
+                       % VERSION)
     # Written beside it and moved into place. This file is the whole
     # product of a long run -- the measured offsets, the cut, the speaker
     # statistics -- and writing straight onto it means a failure half way
@@ -10267,7 +10994,7 @@ def widest_frame(sizes):
 def write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results=None, cut=None, segment_list=None,
                       length=0.0, track_names=None, single_files=None,
-                      offsets=None, stat_from=0.0):
+                      offsets=None, words=()):
     """Write everything Resolve needs: the handover file and instructions.
 
     The Resolve scripting interface has no multicam: the word does not
@@ -10364,11 +11091,6 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # processed and not copied -- they only go into the timeline.
         "intro": _intro_outro_entry(getattr(args, "intro", None)),
         "outro": _intro_outro_entry(getattr(args, "outro", None)),
-        # How far before In point the statistics start. With freshly uploaded
-        # tracks that is 0; only a reused older production puts something here.
-        # The value belongs in the handover, otherwise the Resolve part would
-        # have to guess it again and would be wrong after a new upload.
-        "stat_from": round(float(stat_from or 0.0), 3),
         "cameras": items,
         "cut": [{"start": round(a, 3), "end": round(b, 3), "camera": n}
                     for a, b, n in (cut or [])],
@@ -10380,6 +11102,11 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # them, regardless of the order the audio tracks sit in inside the
         # camera files.
         "audio_files": dict(single_files or {}),
+        # What was said and when. Three values a word rather than an
+        # object with three named keys: an hour of speech is around
+        # twelve thousand words, and the key names alone would be the
+        # larger half of the file.
+        "words": words_for_handover(words or []),
     }
     js = stem + "_resolve.json"
     # Beside it, then moved into place: a run that dies while writing
@@ -10449,30 +11176,26 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                     'later.') % os.path.basename(js))
 
 
-def write_cut_list(args, statistics, tracks, cameras, videos, folder,
-                           tc_start, ref_clip, length, stat_from=0.0,
-                           segment_list=None):
-    """Write the speaker list, markers and camera cut from the statistics.
+def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
+                           tc_start, ref_clip, length, words=(),
+                           sound_source=""):
+    """Write the speaker list, markers and camera cut.
 
     Returns (camera cut, speaker segments) so the Resolve handover uses the
     same result instead of recomputing it.
 
-    Without auphonic.com there are no statistics; the caller then measures
-    the segments itself and passes them in as *segment_list*.
+    *segment_list* says who speaks when; the caller works that out and
+    says in the log where it came from. *words* and *sound_source* say
+    where the cut points come from: the text says roughly where a cut
+    belongs, the sound says exactly where.
     """
     fps = max(1.0, ref_clip[1]["fps"]) if ref_clip else 30.0
-    stat_length, offset = 0.0, 0.0
-    if segment_list is None:
-        if not statistics or not statistics.get("tracks"):
-            return [], []
-        segment_list, stat_length, offset = tracks_from_statistics(
-            statistics, from_s=stat_from,
-            until=stat_from + length if length else None)
-    if not any(segs for _, segs in segment_list):
-        print(as_head(T('\nSPEAKER STATISTICS\n  No activity data in the '
-                        'statistics.')))
+    if not any(segs for _, segs in (segment_list or ())):
+        print(as_head(T('\nSPEAKERS\n  Nobody was heard -- no camera '
+                        'cut from this.')))
         return [], []
-    length = length or stat_length
+    length = length or max((b for _n, segs in segment_list
+                            for _a, b in segs), default=0.0)
     tc0 = tc_start if tc_start is not None else 0.0
 
     # Who belongs to which camera, and which one is the wide shot?
@@ -10502,26 +11225,30 @@ def write_cut_list(args, statistics, tracks, cameras, videos, folder,
                               as_hms(a, "."), "%.2f" % (b - a))))
     write_edl(stem + "_speakers.edl", "Speakers", lines, tc0, fps)
 
-    cut = build_camera_cut(segment_list, length, camera_of, wide_shot,
-                            args.min_edit_duration, -getattr(args, "delay", 0.3))
-    print(as_head(T('\nSPEAKER STATISTICS')))
+    print(as_head(T('\nCAMERA CUT')))
     # The interface shows the whole cut as a band, so the closing line is
     # enough here.
-    if not getattr(args, "no_wide_edges", False):
-        cut = wide_shot_at_edges(cut, segment_list, wide_shot,
-                                 faint=GUI_RUNNING)
-        cut = merge_short_shots(cut, args.min_edit_duration)
-    if args.wide_after > 0:
-        before_value = len(cut)
-        cut = insert_wide_shots(
-            cut, segment_list, wide_shot, args.wide_after, args.wide_length,
-            args.min_edit_duration, getattr(args, "wide_latest", 120.0),
-            camera_of, getattr(args, "wide_min", 1.5),
-            getattr(args, "wide_flow", 6.0))
-        if len(cut) > before_value and not GUI_RUNNING:
-            print(T('  %dx briefly to the wide shot because a shot ran '
-                    'longer than %.0f s') % ((len(cut) - before_value) // 2,
-                                        args.wide_after))
+    rules = rules_from_settings(args)
+    rules["words"] = list(words or ())
+    rules["levels"] = sound_levels(sound_source) if sound_source else []
+    edges_on = not getattr(args, "no_wide_edges", False)
+    cut = camera_cut(
+        segment_list, length, camera_of, wide_shot,
+        args.min_edit_duration, getattr(args, "delay", 0.3),
+        args.wide_after, args.wide_length,
+        getattr(args, "wide_latest", 120.0), edges_on, rules,
+        faint=GUI_RUNNING)
+    before_value = len(cut)
+    if args.wide_after > 0 and not GUI_RUNNING:
+        before_value = len(camera_cut(
+            segment_list, length, camera_of, wide_shot,
+            args.min_edit_duration, getattr(args, "delay", 0.3),
+            0.0, args.wide_length, getattr(args, "wide_latest", 120.0),
+            edges_on, rules))
+    if args.wide_after > 0 and len(cut) > before_value and not GUI_RUNNING:
+        print(T('  %dx away from the speaker because a shot ran '
+                'longer than %.0f s') % ((len(cut) - before_value) // 2,
+                                    args.wide_after))
     # One camera for everybody: the cut is then a single long shot and
     # says nothing. Cut again at the change of speaker -- the picture
     # stays the same, but Resolve gets one clip per speaker, which can
@@ -10546,8 +11273,6 @@ def write_cut_list(args, statistics, tracks, cameras, videos, folder,
                for a, b, n, speaking in detail] if alone else cut,
               tc0, fps)
 
-    if offset:
-        print(T('  Offset of the statistics times: %.3f s subtracted') % offset)
     # The individual numbers are in the interface and in the files; what came
     # of them is enough here.
     print(T('  %d speakers, %d shots, shortest %.1f s')
@@ -12562,6 +13287,1708 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
     return coarse, 1.0, count_n
 
 
+# =====================================================================
+#  Speech recognition
+#  ------------------
+#  What is said, and when. A word with a start and an end is what
+#  every sentence rule below rests on: where a sentence ends, where a
+#  clause breaks, where a cut may fall without cutting into a word.
+#
+#  Two ways lead there and both come out in the same form: the
+#  recognition macOS brings with it, and faster-whisper for every
+#  other machine. Measured over five hours of interview: 22 seconds
+#  per hour of audio for the first, six times real time for the
+#  second on a processor.
+# =====================================================================
+
+# One recognised word is {"start": seconds, "end": seconds,
+# "word": text}. The word keeps the punctuation it was written with,
+# because that is the only place a sentence end can be read from.
+
+# Sentence ends and clause boundaries, counted over five hours of
+# German speech: 8.4 sentence ends and 17.2 clause boundaries per
+# minute. Semicolon, colon and dash did not occur once -- a clause
+# boundary is a comma in practice; the others are listed because they
+# cost nothing.
+SENTENCE_MARKS = ".!?"
+CLAUSE_MARKS = ",;:–—"
+# Punctuation may stand inside a closing quote or bracket, so those
+# come off before the last character is looked at.
+CLOSING_MARKS = "\"')]}“”„’»«"
+
+# turbo and not large-v3: over the same twenty minutes large-v3 costs
+# five and a half times as long, agrees with macOS no better (95.2
+# against 95.4 %) and has the worse word times. The 3 GB buy computing
+# time, not accuracy. distil-large-v3 is out because it is English
+# only, and small saves a fifth of the time for two points.
+WHISPER_MODEL = "large-v3-turbo"
+
+# Both recognisers report a word as beginning about a tenth of a
+# second after the sound does -- measured against the audio itself, at
+# entries after at least half a second of silence, where the beginning
+# is not in doubt: macOS +0.09 to +0.14 s, Whisper +0.065 to +0.115 s.
+# Neither stretches at the other end: both stop hearing 0.04 to 0.10 s
+# before the sound dies away.
+#
+# There is no shared axis to pull the two onto, because neither of
+# them is the truth. Each gets its own correction, and only where the
+# correction buys something.
+
+# Whisper scatters two to five times less than macOS, so a fixed
+# correction lands: word boundaries within 0.1 s of the sound go from
+# 33-54 % to 53-63 %.
+WHISPER_START_S = -0.090
+WHISPER_END_S = 0.060
+
+# macOS gets none, and that is a decision rather than an omission: its
+# scatter is wider than the offset, so a correction would move noise
+# and little else -- 25-33 % within 0.1 s becomes 24-39 %. What looks
+# like a stretched word end is a refused gap between two words, and no
+# offset repairs that.
+MACOS_START_S = 0.0
+MACOS_END_S = 0.0
+
+
+def word_mark(text):
+    """Say what a word closes: a sentence, a clause, or nothing.
+
+    The mark sits on the word, so the end of that word is the time of
+    the boundary. A trailing hyphen does not count: in German it
+    breaks a compound and ends nothing.
+    """
+    stripped = (text or "").strip().rstrip(CLOSING_MARKS)
+    if not stripped:
+        return ""
+    if stripped[-1] in SENTENCE_MARKS:
+        return "sentence"
+    if stripped[-1] in CLAUSE_MARKS:
+        return "clause"
+    return ""
+
+
+def speech_word(start, end, text):
+    """Build one word of the inner form, times rounded to the ms."""
+    return {"start": round(float(start), 3),
+            "end": round(float(end), 3),
+            "word": (text or "").strip()}
+
+
+def sentences_of(words):
+    """Group words into sentences: one list of words per sentence.
+
+    A sentence ends on the word carrying the mark. What follows the
+    last mark is a sentence as well -- the recognition does not always
+    close the final one, and dropping it would lose the last minutes
+    of an episode.
+    """
+    out, current = [], []
+    for w in words:
+        current.append(w)
+        if word_mark(w.get("word")) == "sentence":
+            out.append(current)
+            current = []
+    if current:
+        out.append(current)
+    return out
+
+
+def sentence_end_times(words):
+    """The times sentences end: the end of the word with the mark."""
+    return [w["end"] for w in words
+            if word_mark(w.get("word")) == "sentence"]
+
+
+def clause_break_times(words):
+    """The times clauses break, mostly commas."""
+    return [w["end"] for w in words
+            if word_mark(w.get("word")) == "clause"]
+
+
+def sentence_start_times(words):
+    """The times sentences begin: the start of their first word."""
+    return [group[0]["start"] for group in sentences_of(words) if group]
+
+
+def corrected_words(words, start_by, end_by):
+    """Move word starts and word ends by their own correction.
+
+    The two edges are wrong by different amounts and in different
+    directions, so one shift for both would put back at the end what
+    it took off at the start. Nothing moves before zero, and no word
+    ends before it begins.
+    """
+    if not start_by and not end_by:
+        return list(words)
+    out = []
+    for w in words:
+        start = max(0.0, w["start"] + start_by)
+        out.append(speech_word(start, max(start, w["end"] + end_by),
+                               w["word"]))
+    return out
+
+
+#------------------------------------------------------- Who said it
+
+# A word goes to whoever covers most of it. Measured over 45473 words
+# of two whole interviews against the clip-on microphones: 95 to 98 %
+# of the words touch exactly one speaker, 1 to 5 % touch two, and
+# under 0.4 % fall into a gap between two segments.
+#
+# The edges of the segments are widened where the segments are made
+# (speaker_segments_polish), not here -- widening twice would move the
+# boundaries a second time.
+
+# The majority of a sentence decides only where the sentence is nearly
+# of one voice. Measured: applied to every sentence the majority gains
+# almost nothing (98.71 -> 98.78 %), because it repairs as much in the
+# clean sentences as it breaks in the mixed ones. Below a fifth it
+# gains 98.89 %; at a tenth 98.86 %, at a third 98.83 %.
+SENTENCE_MINORITY_SHARE = 0.2
+
+
+def words_by_speaker(words, segments, tally=None):
+    """Give every word the speaker whose segments cover most of it.
+
+    A word that touches nobody goes to the nearest segment: inside a
+    gap there is no duration to weigh, and the neighbour is a fifth of
+    a second away in the median. Where two speakers cover the same
+    word equally the one who speaks more in the whole recording wins,
+    which is the order *segments* arrives in.
+
+    *segments* is [(name, [(from, to), ...])], the stretches of one
+    speaker sorted and without overlaps among themselves. *tally*, a
+    dict, is filled with how many words were clear, shared and in a
+    gap. Returns the words in time order, each with a "speaker";
+    without segments they come back without one.
+    """
+    out = [dict(w) for w in sorted(words or (),
+                                   key=lambda w: (w["start"], w["end"]))]
+    if tally is not None:
+        tally.update({"clear": 0, "shared": 0, "gap": 0})
+    if not out or not segments:
+        return out
+    covered_by = [0.0] * len(out)
+    touching = [0] * len(out)
+    nearest = [None] * len(out)
+    nearest_name = [""] * len(out)
+    for name, parts in segments:
+        parts = sorted(parts)
+        i = 0
+        for k, w in enumerate(out):
+            # The words are in time order, so a stretch that ends
+            # before this word ends before every later one too.
+            while i < len(parts) and parts[i][1] < w["start"]:
+                i += 1
+            covered, j = 0.0, i
+            while j < len(parts) and parts[j][0] < w["end"]:
+                covered += (min(parts[j][1], w["end"])
+                            - max(parts[j][0], w["start"]))
+                j += 1
+            if covered > 0:
+                touching[k] += 1
+                if covered > covered_by[k]:
+                    covered_by[k] = covered
+                    out[k]["speaker"] = name
+                continue
+            gap = None
+            if i < len(parts):
+                gap = max(0.0, parts[i][0] - w["end"])
+            if i > 0:
+                back = max(0.0, w["start"] - parts[i - 1][1])
+                gap = back if gap is None else min(gap, back)
+            if gap is not None and (nearest[k] is None or gap < nearest[k]):
+                nearest[k], nearest_name[k] = gap, name
+    for k, w in enumerate(out):
+        if not touching[k] and nearest_name[k]:
+            w["speaker"] = nearest_name[k]
+    if tally is not None:
+        tally["clear"] = sum(1 for n in touching if n == 1)
+        tally["shared"] = sum(1 for n in touching if n > 1)
+        tally["gap"] = sum(1 for n in touching if not n)
+    return out
+
+
+def sentence_speakers(words, limit=SENTENCE_MINORITY_SHARE):
+    """Let a sentence agree on one speaker where it is nearly of one.
+
+    A sentence more divided than *limit* keeps its single words: it is
+    usually two sentences of two people, and then the words know
+    better than the sentence.
+    """
+    out = []
+    for group in sentences_of(words):
+        count = {}
+        for w in group:
+            if w.get("speaker"):
+                count[w["speaker"]] = count.get(w["speaker"], 0) + 1
+        if count:
+            total = sum(count.values())
+            name, most = max(count.items(), key=lambda x: x[1])
+            if (total - most) / float(total) < limit:
+                group = [dict(w, speaker=name) for w in group]
+        out.extend(group)
+    return out
+
+
+def words_with_speakers(words, segments, tally=None,
+                        limit=SENTENCE_MINORITY_SHARE):
+    """Say who spoke each word: covered most, then agreed per sentence."""
+    return sentence_speakers(words_by_speaker(words, segments, tally), limit)
+
+
+def speech_passages(words):
+    """Group the words into passages: one voice, speaking on."""
+    out = []
+    for w in words or ():
+        who = w.get("speaker") or ""
+        if not out or out[-1]["speaker"] != who:
+            out.append({"speaker": who, "start": w["start"],
+                        "end": w["end"], "words": [w]})
+        else:
+            out[-1]["end"] = max(out[-1]["end"], w["end"])
+            out[-1]["words"].append(w)
+    return out
+
+
+#------------------------------------------------------ The three files
+
+# What a subtitle may hold. 42 characters a line and two lines is the
+# limit the timed text style guides give for Latin script, and seven
+# seconds is the longest a subtitle stands there.
+SUBTITLE_LINE_CHARS = 42
+SUBTITLE_LINES = 2
+SUBTITLE_LONGEST_S = 7.0
+
+# How wide the file for reading is set. Long enough for a sentence,
+# narrow enough to read in a terminal beside something else.
+TRANSCRIPT_WIDTH = 76
+
+
+def wrapped_lines(text, width):
+    """Break a text into lines of at most *width*, on the spaces.
+
+    A single word longer than the line stays whole: breaking it would
+    make it unreadable, and one long line is the smaller trouble.
+    """
+    lines, line = [], ""
+    for word in (text or "").split():
+        if line and len(line) + 1 + len(word) > width:
+            lines.append(line)
+            line = word
+        else:
+            line = word if not line else line + " " + word
+    if line:
+        lines.append(line)
+    return lines or [""]
+
+
+def srt_time(seconds):
+    """A time as SubRip writes it: hours, minutes, seconds, comma, ms."""
+    ms = int(round(max(0.0, float(seconds)) * 1000))
+    return "%02d:%02d:%02d,%03d" % (ms // 3600000, ms // 60000 % 60,
+                                    ms // 1000 % 60, ms % 1000)
+
+
+def subtitle_cues(words, line_chars=SUBTITLE_LINE_CHARS,
+                  lines=SUBTITLE_LINES, longest=SUBTITLE_LONGEST_S):
+    """Cut the words into subtitles: (from, to, speaker, text).
+
+    A subtitle never holds two speakers, never outlives *longest* and
+    never grows past what *lines* lines can hold. Inside that it ends
+    on a full stop, so a subtitle carries a whole thought wherever the
+    thought is short enough.
+    """
+    room = max(1, int(line_chars) * max(1, int(lines)))
+    out = []
+    for passage in speech_passages(words):
+        current = []
+        for w in passage["words"]:
+            text = " ".join(x["word"] for x in current + [w])
+            too_long = current and (
+                len(text) > room
+                or w["end"] - current[0]["start"] > longest)
+            if too_long:
+                out.append((current[0]["start"], current[-1]["end"],
+                            passage["speaker"],
+                            " ".join(x["word"] for x in current)))
+                current = []
+            current.append(w)
+            if word_mark(w["word"]) == "sentence":
+                out.append((current[0]["start"], current[-1]["end"],
+                            passage["speaker"],
+                            " ".join(x["word"] for x in current)))
+                current = []
+        if current:
+            out.append((current[0]["start"], current[-1]["end"],
+                        passage["speaker"],
+                        " ".join(x["word"] for x in current)))
+    return out
+
+
+def subtitle_file_text(cues, line_chars=SUBTITLE_LINE_CHARS):
+    """The subtitles as a SubRip file.
+
+    The name of the speaker stands in capitals with a colon, and only
+    where the speaker changes: that is how a subtitle names who is
+    talking, and repeating the name on every subtitle would take the
+    room the sentence needs.
+    """
+    parts, last = [], None
+    for i, (a, b, who, text) in enumerate(cues or (), 1):
+        if who and who != last:
+            text = "%s: %s" % (who.upper(), text)
+        last = who
+        parts.append("%d\n%s --> %s\n%s\n"
+                     % (i, srt_time(a), srt_time(b),
+                        "\n".join(wrapped_lines(text, line_chars))))
+    return "\n".join(parts)
+
+
+def transcript_passages_json(words):
+    """The passages in the shape auphonic.com writes beside a file.
+
+    One entry per passage with its speaker, its running text and one
+    row per word. The fourth column of a row is how sure the
+    recognition was; neither recogniser here reports that, so it
+    stays empty rather than being filled with a number nobody
+    measured.
+    """
+    out = []
+    for passage in speech_passages(words):
+        entry = {"start": round(passage["start"], 3),
+                 "end": round(passage["end"], 3),
+                 "text": " ".join(w["word"] for w in passage["words"]),
+                 "timestamps": [[w["word"], w["start"], w["end"], None]
+                                for w in passage["words"]]}
+        if passage["speaker"]:
+            entry["speaker"] = passage["speaker"]
+        out.append(entry)
+    return out
+
+
+def transcript_file_text(words, width=TRANSCRIPT_WIDTH):
+    """The transcript for reading: a paragraph a voice, no times."""
+    parts = []
+    for passage in speech_passages(words):
+        text = " ".join(w["word"] for w in passage["words"])
+        if passage["speaker"]:
+            text = "%s: %s" % (passage["speaker"], text)
+        parts.append("\n".join(wrapped_lines(text, width)))
+    return "\n\n".join(parts) + ("\n" if parts else "")
+
+
+def write_transcript_files(folder, base, words, segments=()):
+    """Write the transcript beside the run: json, srt and txt.
+
+    The three formats and their names are the ones auphonic.com
+    delivers, so whatever reads a transcript need not tell the two
+    origins apart. Without speaker segments the files carry no names:
+    who said it is then not known, and a guess in a transcript is
+    worse than a gap.
+
+    Returns the files written.
+    """
+    tally = {}
+    said = words_with_speakers(words, segments, tally)
+    if not said:
+        return []
+    total = len(said)
+    if segments:
+        print(T('  %s words: %.1f %% to one voice, %.1f %% to two, '
+                '%.1f %% in a gap')
+              % (group_text(total), 100.0 * tally["clear"] / total,
+                 100.0 * tally["shared"] / total,
+                 100.0 * tally["gap"] / total))
+    else:
+        print(T('  %s words, without names -- nobody was separated')
+              % group_text(total))
+    stem = os.path.join(folder, base)
+    written = []
+    for ending, content in (
+            # Written in one piece, not laid out over lines: an hour of
+            # speech is around twelve thousand words, and a word set out
+            # as six lines would make a file nobody opens twice.
+            ("json", json.dumps(transcript_passages_json(said),
+                                ensure_ascii=False)),
+            ("srt", subtitle_file_text(subtitle_cues(said))),
+            ("txt", transcript_file_text(said))):
+        target = stem + "." + ending
+        try:
+            with open(target, "w", encoding="utf-8") as f:
+                f.write(content)
+        except OSError as e:
+            print(T('  %s could not be written: %s')
+                  % (os.path.basename(target), e))
+            continue
+        written.append(target)
+    return written
+
+
+#--------------------------------------------------------------- Reading
+
+def words_for_handover(words):
+    """The words as the handover file carries them: start, end, word.
+
+    An hour of speech is around twelve thousand words. Written as
+    objects with three named keys each, the list alone would be a
+    megabyte of key names, so the three values stand in a row and the
+    reader names them again.
+    """
+    return [[w["start"], w["end"], w["word"]] for w in words]
+
+
+def words_from_handover(d):
+    """Read the words back out of a parsed handover file."""
+    out = []
+    for row in ((d or {}).get("words") or ()):
+        try:
+            out.append(speech_word(row[0], row[1], row[2]))
+        except (TypeError, ValueError, IndexError, KeyError):
+            continue
+    return out
+
+
+def read_word_tsv(path):
+    """Read the recogniser's own output: start, end and word a line.
+
+    A word without a time is written with -1 and skipped here; how
+    many were skipped is said out loud rather than passed over.
+    """
+    out, timeless = [], 0
+    with open(path, encoding="utf-8", errors="replace") as f:
+        for line in f:
+            parts = line.rstrip("\n").split("\t")
+            if len(parts) < 3 or not parts[2].strip():
+                continue
+            try:
+                start, end = float(parts[0]), float(parts[1])
+            except ValueError:
+                continue
+            if start < 0 or end < 0:
+                timeless += 1
+                continue
+            out.append(speech_word(start, end, parts[2]))
+    if timeless:
+        print(TN(timeless,
+                 '  %d word came back without a time and was left out.',
+                 '  %d words came back without a time and were left '
+                 'out.') % timeless)
+    out.sort(key=lambda w: (w["start"], w["end"]))
+    return out
+
+
+def read_speech_json(path):
+    """Read the word times auphonic.com writes beside a transcript.
+
+    The file is a list of passages; each carries the speaker, the
+    running text and one entry per word -- the word itself, its start,
+    its end and how sure the recognition was.
+    """
+    with open(path, encoding="utf-8", errors="replace") as f:
+        d = json.load(f)
+    if isinstance(d, dict):
+        return words_from_handover(d)
+    out = []
+    for passage in (d or ()):
+        for entry in (passage or {}).get("timestamps") or ():
+            try:
+                out.append(speech_word(entry[1], entry[2], entry[0]))
+            except (TypeError, ValueError, IndexError):
+                continue
+    out.sort(key=lambda w: (w["start"], w["end"]))
+    return out
+
+
+def read_words(path):
+    """Read word times from whichever kind of file this is.
+
+    Three kinds turn up: the recogniser's tab separated lines, the
+    json auphonic.com delivers, and the handover file this program
+    writes itself.
+    """
+    if os.path.splitext(path)[1].lower() == ".json":
+        return read_speech_json(path)
+    return read_word_tsv(path)
+
+
+#---------------------------------------------------------- Certificates
+
+def certificate_file():
+    """Return the bundle HTTPS connections are verified against.
+
+    A Python installed from python.org brings no certificates of its
+    own, and every download then fails with CERTIFICATE_VERIFY_FAILED.
+    certifi is the bundle; it is already on disc wherever pip has run
+    once, and it is installed if it is not.
+    """
+    import importlib
+    try:
+        certifi = importlib.import_module("certifi")
+    except ImportError:
+        if not _pip_install("certifi"):
+            return None
+        importlib.invalidate_caches()
+        try:
+            certifi = importlib.import_module("certifi")
+        except ImportError:
+            return None
+    try:
+        where = certifi.where()
+    except Exception:
+        return None
+    return where if os.path.exists(where) else None
+
+
+def https_context():
+    """An SSL context that can verify, not the default one.
+
+    The default context trusts whatever this Python was handed on
+    the way in, and this one was handed nothing.
+    """
+    import ssl
+    bundle = certificate_file()
+    if not bundle:
+        print(T('  No certificate bundle found -- an HTTPS download '
+                'may fail.'))
+        return ssl.create_default_context()
+    return ssl.create_default_context(cafile=bundle)
+
+
+def use_certificates():
+    """Point the libraries that fetch on their own at the bundle.
+
+    They read these two variables and nothing else; without them the
+    model download fails on a Python that has no certificates.
+    """
+    bundle = certificate_file()
+    if not bundle:
+        print(T('  No certificate bundle found -- an HTTPS download '
+                'may fail.'))
+        return None
+    os.environ.setdefault("SSL_CERT_FILE", bundle)
+    os.environ.setdefault("REQUESTS_CA_BUNDLE", bundle)
+    return bundle
+
+
+#------------------------------------------------ The recognition of macOS
+
+# The way into the recognition macOS brings with it is Swift, so this
+# is compiled once and kept. It takes the audio file, the file to
+# write and the wanted language, and writes one line per word:
+# start, end and the word with its punctuation.
+#
+# Two things it must not be without: -parse-as-library, or a single
+# file with @main does not build at all, and the locale is looked up
+# in supportedLocales rather than assembled from the language code --
+# de-DE, de-AT and de-CH all exist and only the system knows which
+# ones are installed.
+SPEECH_SWIFT = r'''import Foundation
+import Speech
+import AVFoundation
+
+@main struct Recogniser {
+  static func pick(_ want: String) async -> Locale? {
+    if want.isEmpty { return nil }
+    let all = await SpeechTranscriber.supportedLocales
+    let asked = want.replacingOccurrences(of: "_", with: "-")
+    for l in all where l.identifier
+        .replacingOccurrences(of: "_", with: "-")
+        .lowercased() == asked.lowercased() { return l }
+    let head = asked.split(separator: "-")[0].lowercased()
+    let same = all.filter {
+      ($0.language.languageCode?.identifier ?? "").lowercased()
+        == head }
+    let here = Locale.current.region?.identifier ?? ""
+    for l in same where (l.region?.identifier ?? "") == here {
+      return l
+    }
+    return same.first
+  }
+  static func main() async {
+    let t0 = Date()
+    let args = CommandLine.arguments
+    if args.count > 1 && args[1] == "--locales" {
+      for l in await SpeechTranscriber.supportedLocales {
+        print(l.identifier)
+      }
+      exit(0)
+    }
+    guard args.count > 2 else { print("ERR arguments"); exit(2) }
+    let want = args.count > 3 ? args[3] : ""
+    let loc = await pick(want) ?? Locale.current
+    let tr = SpeechTranscriber(locale: loc, transcriptionOptions: [],
+                               reportingOptions: [],
+                               attributeOptions: [.audioTimeRange])
+    do {
+      let url = URL(fileURLWithPath: args[1])
+      let file = try AVAudioFile(forReading: url)
+      if let ask = try await AssetInventory.assetInstallationRequest(
+            supporting: [tr]) {
+        try await ask.downloadAndInstall()
+      }
+      let analyzer = SpeechAnalyzer(modules: [tr])
+      let collector = Task { () -> String in
+        var s = ""
+        for try await r in tr.results {
+          let a = r.text
+          for run in a.runs {
+            let w = String(a[run.range].characters)
+            if let t = run.audioTimeRange {
+              s += String(format: "%.3f\t%.3f\t%@\n",
+                          t.start.seconds, t.end.seconds, w)
+            } else { s += "-1\t-1\t" + w + "\n" }
+          }
+        }
+        return s
+      }
+      let t1 = Date()
+      _ = try await analyzer.analyzeSequence(from: file)
+      try await analyzer.finalizeAndFinishThroughEndOfInput()
+      let text = try await collector.value
+      try text.write(to: URL(fileURLWithPath: args[2]),
+                     atomically: true, encoding: .utf8)
+      print(String(format: "LOCALE %@ SETUP %.2f SECONDS %.2f",
+                   loc.identifier, t1.timeIntervalSince(t0),
+                   Date().timeIntervalSince(t1)))
+    } catch { print("ERR", error); exit(4) }
+  }
+}
+'''
+
+
+def swift_compiler():
+    """Return the Swift compiler, or None where there is none.
+
+    /usr/bin/swiftc is only a stub: without the command line
+    developer tools behind it, calling it opens a dialogue asking for
+    them. xcode-select answers the same question without opening
+    anything, so it is asked first.
+    """
+    if sys.platform != "darwin" or not os.path.exists("/usr/bin/swiftc"):
+        return None
+    try:
+        p = subprocess.run(["/usr/bin/xcode-select", "-p"],
+                           stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL)
+    except OSError:
+        return None
+    return "/usr/bin/swiftc" if p.returncode == 0 else None
+
+
+def recogniser_names():
+    """Where the built recogniser goes, and where a failed build says so.
+
+    Both names carry a hash of the source and of the compiler
+    version, so a changed program or a system update starts over and
+    an unchanged one does not. Returns (binary, note) or (None, None)
+    where there is no compiler at all.
+    """
+    compiler = swift_compiler()
+    folder = cache_folder("speech")
+    if not compiler or not folder:
+        return None, None
+    try:
+        p = subprocess.run([compiler, "--version"],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT)
+        version = (p.stdout or b"").decode("utf-8", "replace")
+    except OSError:
+        return None, None
+    mark = hashlib.sha1(
+        (SPEECH_SWIFT + version).encode("utf-8")).hexdigest()[:12]
+    binary = os.path.join(folder, "recogniser_" + mark)
+    return binary, binary + ".refused"
+
+
+def recogniser_program(build=True):
+    """Return the compiled recogniser, building it once if need be.
+
+    Building costs about a second and would otherwise cost it on
+    every run, so the result is kept -- and so is a refusal. An older
+    macOS has the compiler but not the recognition, and without the
+    note it would try again, and say so again, for ever.
+    """
+    binary, refused = recogniser_names()
+    if not binary:
+        return None
+    if os.path.exists(binary):
+        return binary
+    if not build or os.path.exists(refused):
+        return None
+    print(T('  Building the speech recogniser ...'))
+    started = time.time()
+    folder = os.path.dirname(binary)
+    # Two runs at once must not write each other's files, so both the
+    # source and the result get a name of their own and only the
+    # finished binary is moved to the name everybody looks for.
+    handle, source = tempfile.mkstemp(suffix=".swift", dir=folder)
+    os.close(handle)
+    out = source[:-6] + ".bin"
+    try:
+        with open(source, "w", encoding="utf-8") as f:
+            f.write(SPEECH_SWIFT)
+        p = subprocess.run([swift_compiler(), "-O", "-parse-as-library",
+                            source, "-o", out],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT)
+        note = (p.stdout or b"").decode("utf-8", "replace").strip()
+    except OSError as e:
+        print(T('  The Swift compiler reports: %s') % e)
+        return None
+    finally:
+        try:
+            os.unlink(source)
+        except OSError:
+            pass
+    if p.returncode != 0 or not os.path.exists(out):
+        print(T('  The Swift compiler reports: %s')
+              % (note.splitlines() or [""])[-1])
+        try:
+            with open(refused, "w", encoding="utf-8") as f:
+                f.write(note)
+        except OSError:
+            pass
+        return None
+    os.replace(out, binary)
+    print(T('  The speech recogniser is built (%.1f s).')
+          % (time.time() - started))
+    return binary
+
+
+def macos_recognition_ready():
+    """Say whether the recognition macOS brings with it can be used."""
+    binary, refused = recogniser_names()
+    if not binary:
+        return False
+    return os.path.exists(binary) or not os.path.exists(refused)
+
+
+def macos_words(audio_path, language=""):
+    """Let the recognition macOS brings with it write the words.
+
+    Returns the words, or None where this way does not exist -- an
+    older macOS, no developer tools, another system. An empty list
+    means it ran and heard nothing, which is a different answer.
+    """
+    program = recogniser_program()
+    if not program:
+        return None
+    handle, out = tempfile.mkstemp(suffix=".tsv", prefix="vpm_words_")
+    os.close(handle)
+    try:
+        p = subprocess.run([program, audio_path, out,
+                            language or ""],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT)
+        note = (p.stdout or b"").decode("utf-8", "replace").strip()
+        if p.returncode != 0:
+            print(T('  The speech recognition reports: %s')
+                  % (note.splitlines() or [""])[-1])
+            return None
+        # What it was asked to do and what it did: which locale it
+        # settled on and how long it took, so a slow run later can be
+        # held against this one.
+        if note:
+            print("  %s" % note)
+        return corrected_words(read_word_tsv(out),
+                               MACOS_START_S, MACOS_END_S)
+    except OSError as e:
+        print(T('  The speech recognition reports: %s') % e)
+        return None
+    finally:
+        try:
+            os.unlink(out)
+        except OSError:
+            pass
+
+
+#--------------------------------------------------------------- Whisper
+
+def whisper_arithmetic():
+    """Pick what faster-whisper computes in.
+
+    Measured on Apple Silicon: float32 runs 2.3 times faster than
+    int8, because that path goes through Accelerate while int8 goes
+    through a general ARM matrix multiplication. On x86 the usual
+    order holds and int8 is the faster one; that has not been
+    measured here.
+    """
+    if sys.platform == "darwin" and platform.machine() == "arm64":
+        return "float32"
+    return "int8"
+
+
+def whisper_words(audio_path, language="", install=True):
+    """Recognise with faster-whisper where macOS cannot.
+
+    large-v3-turbo: large-v3 costs five and a half times the time for
+    the same result and worse word times. The voice activity filter
+    is not optional -- without it the recognition writes
+    words into silence, twenty-one of them into a five minute pause.
+
+    Returns the words with Whisper's own correction applied, or None
+    where the package is not there.
+    """
+    import importlib
+    try:
+        module = importlib.import_module("faster_whisper")
+    except ImportError:
+        if not install:
+            return None
+        print(T('%s is missing -- installing it. The first time takes '
+                'a few minutes.') % "faster-whisper")
+        if not _pip_install("faster-whisper"):
+            return None
+        importlib.invalidate_caches()
+        try:
+            module = importlib.import_module("faster_whisper")
+        except ImportError:
+            return None
+    # The model is fetched over HTTPS on first use, and that is where
+    # a Python without certificates fails.
+    use_certificates()
+    try:
+        # CTranslate2 knows two devices, cpu and cuda -- mps and metal
+        # are not refused, they are unknown names. "auto" therefore
+        # means the graphics unit only on a machine with an NVIDIA
+        # card, and the processor everywhere else.
+        model = module.WhisperModel(WHISPER_MODEL, device="auto",
+                                    compute_type=whisper_arithmetic())
+        pieces, _info = model.transcribe(
+            audio_path, language=(language or "").split("-")[0] or None,
+            word_timestamps=True, vad_filter=True)
+        out = []
+        for piece in pieces:
+            # words is None unless word_timestamps was asked for, and
+            # it was: without the times there is nothing here to use.
+            for w in (piece.words or ()):
+                out.append(speech_word(w.start, w.end, w.word))
+    except Exception as e:
+        print(T('  The speech recognition reports: %s') % e)
+        return None
+    out.sort(key=lambda w: (w["start"], w["end"]))
+    return corrected_words(out, WHISPER_START_S, WHISPER_END_S)
+
+
+def recognise_speech(audio_path, language="", way=""):
+    """Write down what is spoken in a file, with a time per word.
+
+    The way macOS brings with it needs nothing installed and takes 22
+    seconds for an hour of audio; faster-whisper needs 144 MB of
+    packages and a 1.5 GB model and takes about six times real time
+    on a processor. The first one that works wins, unless a way was
+    named.
+
+    Returns (words, the way it took). (None, "") means neither way
+    exists on this machine.
+    """
+    started = time.time()
+    words = None
+    took = ""
+    if way in ("", "macos"):
+        words = macos_words(audio_path, language)
+        took = "macOS" if words is not None else ""
+    if words is None and way in ("", "whisper"):
+        words = whisper_words(audio_path, language)
+        took = WHISPER_MODEL if words is not None else ""
+    if words is None:
+        print(T('  No speech recognition on this machine: macOS 26 '
+                'brings one, otherwise faster-whisper is installed.'))
+        return None, ""
+    print(T('  Speech recognition (%s): %s words in %.1f s')
+          % (took, group_text(len(words)), time.time() - started))
+    return words, took
+
+
+# =====================================================================
+#  Local speaker separation
+#  ------------------------
+#  Who speaks when, out of one recording everybody is audible on --
+#  not out of separate microphones, which is what
+#  speakers_from_tracks does.
+#
+#  Measured over two whole interviews against the speech activity of
+#  the clip-on microphones: 98.7 % of 45473 words land on the right
+#  person, and three quarters of what is left sits in real overlap or
+#  around a change of speaker. A raw recorder file separates as well
+#  as a processed mix, so this runs before anything is uploaded.
+# =====================================================================
+
+# It runs in a process of its own, in an environment of its own, for
+# two measured reasons: the packages pin versions the Python this
+# program runs in should not have to follow, and a process can be
+# broken off where a thread with a model inside it cannot.
+
+SPEAKER_MODEL_NAME = "speaker-diarization-community-1"
+
+# The waveform goes in at 16 kHz mono. That is what the model was
+# trained on; anything else is resampled inside it anyway.
+SPEAKER_SPLIT_RATE = 16000
+
+# Widening every segment by 0.2 s and closing gaps below 0.25 s buys
+# 4.2 points. 0.5 s is the F1 optimum for the boundaries themselves
+# but doubles the words that fall to two speakers at once, so the
+# smaller edge is the one taken. Both are applied when the segments
+# are used, never when they are stored.
+SPEAKER_MARGIN_S = 0.2
+SPEAKER_GAP_S = 0.25
+
+# Measured on Apple Silicon with the graphics unit: an hour of audio
+# in a little over two minutes. Used to give the step its share of the
+# bar, so it need not be guessed.
+SPEAKER_SPLIT_SPEED = 28.0
+
+# What the environment costs on a machine that has nothing yet. Where
+# torch is already on disc it is a quarter of that. Said out loud
+# before it is fetched.
+SPEAKER_SETUP_MB = 218
+
+# From four processors upwards everything starts at once: measured,
+# the different kinds of work do not slow each other down at all --
+# the separation stays at 0 % beside speech recognition, ffmpeg and
+# the prework together, which do not take two processors between them.
+# Below that the prework is narrowed while the separation runs, since
+# the one real brake is a full processor (+10 to +34 %).
+SPEAKER_SPLIT_TOGETHER_CORES = 4
+
+# One separation at a time. Two of them raise throughput by 12 % and
+# charge 1.75 times the wait for the first answer plus 4.5 GB for the
+# second process -- on a smaller machine that is where it starts
+# swapping.
+SPEAKER_SPLIT_TURN = threading.Semaphore(1)
+
+# Where nothing may be fetched and nothing may compute for minutes
+# without being asked -- a test suite, a machine on a metered line --
+# this switches the separation off. It then never starts by itself;
+# the button still starts it.
+SPEAKER_SPLIT_OFF = bool(os.environ.get("VPM_NO_SPEAKER_SPLIT"))
+
+# The mix auphonic.com writes is not offered as a source: measured, it
+# separates no better than the raw recording, and it exists only after
+# an upload. One name here rather than a rule spread over the file.
+SPEAKER_SOURCE_MIX_ALLOWED = False
+
+
+def media_seconds(file_path):
+    """How long a file is. 0 where it cannot be asked."""
+    try:
+        return float(ffprobe_json(file_path).get("format", {})
+                     .get("duration") or 0.0)
+    except Exception:
+        return 0.0
+
+
+def speaker_model_folder():
+    """Return the folder holding the separation model, or "".
+
+    It travels with the program rather than being fetched: measured,
+    a folder is all the pipeline needs -- with an empty HOME, without
+    a Hugging Face cache and without a network.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    folder = os.path.join(here, "models", SPEAKER_MODEL_NAME)
+    return folder if os.path.isfile(
+        os.path.join(folder, "config.yaml")) else ""
+
+
+def read_checksums(file_path):
+    """Read a SHA256SUMS file: {file name: digest}.
+
+    The plain format, digest and name separated by spaces, because
+    that is the one shasum -c reads back. A comment block above it
+    carries the sizes.
+    """
+    out = {}
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if not line or line.startswith("#"):
+                    continue
+                parts = line.split(None, 1)
+                if len(parts) == 2:
+                    out[parts[1].strip().lstrip("*")] = parts[0].lower()
+    except OSError:
+        return {}
+    return out
+
+
+def file_digest(file_path):
+    """The SHA-256 of a file, read in pieces."""
+    h = hashlib.sha256()
+    with open(file_path, "rb") as f:
+        while True:
+            piece = f.read(1 << 20)
+            if not piece:
+                break
+            h.update(piece)
+    return h.hexdigest()
+
+
+def speaker_model_checked(folder=""):
+    """Hold every model file against its checksum before it is loaded.
+
+    Returns "" when all of them match. Otherwise the name of the first
+    file that does not: weights that changed on the way are not put
+    into a process that then decides who speaks.
+    """
+    folder = folder or speaker_model_folder()
+    if not folder:
+        return SPEAKER_MODEL_NAME
+    sums = read_checksums(os.path.join(folder, "SHA256SUMS.txt"))
+    if not sums:
+        return "SHA256SUMS.txt"
+    for name in sorted(sums):
+        here = os.path.join(folder, name)
+        try:
+            if file_digest(here) != sums[name]:
+                return name
+        except OSError:
+            return name
+    return ""
+
+
+def speaker_model_mark(folder=""):
+    """A short mark for the model, so a changed one is measured again.
+
+    Taken from the checksum file, which names every weight and its
+    digest: a different model or a different version of it gives a
+    different mark without reading a gigabyte to find out.
+    """
+    folder = folder or speaker_model_folder()
+    if not folder:
+        return ""
+    try:
+        with open(os.path.join(folder, "SHA256SUMS.txt"), "rb") as f:
+            raw = f.read()
+    except OSError:
+        return ""
+    return hashlib.sha1(raw).hexdigest()[:12]
+
+
+#------------------------------------------------------ The environment
+
+def speaker_venv_folder():
+    """Where the environment the separation runs in lives."""
+    folder = cache_folder("pyannote")
+    return os.path.join(folder, "venv") if folder else ""
+
+
+def speaker_venv_python(folder=""):
+    """The interpreter of that environment, or "" if it is not there."""
+    base = folder or speaker_venv_folder()
+    if not base:
+        return ""
+    if os.name == "nt":
+        here = os.path.join(base, "Scripts", "python.exe")
+    else:
+        here = os.path.join(base, "bin", "python")
+    return here if os.path.exists(here) else ""
+
+
+def speaker_setup_mark(folder=""):
+    """The note left behind once the environment is usable.
+
+    Importing pyannote takes seconds, so the question "is it there"
+    is not answered by importing it every time the window redraws.
+    """
+    base = folder or speaker_venv_folder()
+    return os.path.join(base, "vpm_ready") if base else ""
+
+
+def speaker_split_available(deep=False):
+    """Say whether the separation can run without setting anything up.
+
+    *deep* imports the package in the environment and takes a few
+    seconds; without it the note left by the setup is trusted.
+    """
+    python = speaker_venv_python()
+    if not python:
+        return False
+    if not deep:
+        mark = speaker_setup_mark()
+        return bool(mark and os.path.exists(mark))
+    try:
+        p = subprocess.run([python, "-c", "import pyannote.audio"],
+                           stdout=subprocess.DEVNULL,
+                           stderr=subprocess.DEVNULL)
+    except OSError:
+        return False
+    return p.returncode == 0
+
+
+def speaker_split_setup(report=None):
+    """Build the environment the separation runs in.
+
+    --system-site-packages, so a torch already on the machine is used
+    rather than fetched again: measured, that is the difference
+    between 218 MB and 58 MB.
+
+    Returns "" when it worked, otherwise a sentence saying what did
+    not.
+    """
+    if SPEAKER_SPLIT_OFF:
+        return T('The speaker separation is not set up.')
+    base = speaker_venv_folder()
+    if not base:
+        return T('The cache folder cannot be written to.')
+    if report:
+        report(T('Setting up the speaker separation (about %d MB) ...')
+               % SPEAKER_SETUP_MB, 0.05)
+    if not speaker_venv_python(base):
+        try:
+            p = subprocess.run([sys.executable, "-m", "venv",
+                                "--system-site-packages", base],
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT)
+        except OSError as e:
+            return T('The speaker separation reports: %s') % e
+        if p.returncode != 0 or not speaker_venv_python(base):
+            note = (p.stdout or b"").decode("utf-8", "replace").strip()
+            return T('The speaker separation reports: %s') \
+                % (note.splitlines() or [""])[-1][:160]
+    if report:
+        report(T('Setting up the speaker separation (about %d MB) ...')
+               % SPEAKER_SETUP_MB, 0.2)
+    # pip runs code out of the packages it installs, so it is not
+    # handed the environment this program runs in.
+    clean = dict(os.environ)
+    clean.pop("AUPHONIC_TOKEN", None)
+    try:
+        p = subprocess.run([speaker_venv_python(base), "-m", "pip",
+                            "install", "pyannote.audio"],
+                           stdout=subprocess.PIPE,
+                           stderr=subprocess.STDOUT, env=clean)
+    except OSError as e:
+        return T('The speaker separation reports: %s') % e
+    if p.returncode != 0:
+        note = (p.stdout or b"").decode("utf-8", "replace").strip()
+        return T('The speaker separation reports: %s') \
+            % (note.splitlines() or [""])[-1][:160]
+    mark = speaker_setup_mark(base)
+    try:
+        with open(mark, "w", encoding="utf-8") as f:
+            f.write(time.strftime("%Y-%m-%d %H:%M:%S"))
+    except OSError:
+        pass
+    return ""
+
+
+#------------------------------------------------------- The worker
+
+# What runs in the other process. Written to a file rather than passed
+# on the command line so a failure has a line number to point at.
+#
+# The first thing it does, before any pipeline exists, is switch the
+# telemetry off: pyannote 4 sends a trace to its own server on every
+# pipeline it builds and every run it makes. No audio goes with it,
+# but something goes out, and this program never sends anything by
+# itself. Where the switch cannot be found the process refuses to run
+# at all -- a separation is not worth breaking that rule for.
+SPEAKER_SPLIT_WORKER = r'''"""Run one speaker separation and report it.
+
+Reads a header line and then the raw waveform from standard input,
+writes progress to standard error and the segments to standard output.
+"""
+import json
+import os
+import sys
+
+
+def hush():
+    """Switch off what pyannote would send home. Nothing else first."""
+    for where in ("pyannote.audio.telemetry", "pyannote.audio"):
+        try:
+            mod = __import__(where, fromlist=["set_telemetry_metrics"])
+        except Exception:
+            continue
+        switch = getattr(mod, "set_telemetry_metrics", None)
+        if switch is not None:
+            switch(False)
+            return True
+    return False
+
+
+def read_header():
+    """Read one line off the raw stream, before any waveform."""
+    line = b""
+    while not line.endswith(b"\n"):
+        piece = sys.stdin.buffer.read(1)
+        if not piece:
+            return None
+        line += piece
+    return json.loads(line.decode("utf-8"))
+
+
+def say(text):
+    sys.stderr.write(text + "\n")
+    sys.stderr.flush()
+
+
+def main():
+    if not hush():
+        print(json.dumps({"error": "telemetry"}))
+        return 3
+    head = read_header()
+    if not head:
+        return 2
+    raw = sys.stdin.buffer.read(int(head["samples"]) * 4)
+    import numpy
+    import torch
+    from pyannote.audio import Pipeline
+    wave = numpy.frombuffer(raw, dtype="<f4").copy()
+    piece = torch.from_numpy(wave).reshape(1, -1)
+    pipeline = Pipeline.from_pretrained(head["model"])
+    # The graphics unit is what makes this 28 times real time. Where
+    # there is none the processor does it, slower and not wrongly.
+    for name, there in (("mps", lambda: torch.backends.mps.is_available()),
+                        ("cuda", lambda: torch.cuda.is_available())):
+        try:
+            if there():
+                pipeline.to(torch.device(name))
+                say("D\t%s" % name)
+                break
+        except Exception:
+            continue
+
+    def hook(step, artifact=None, file=None, total=None, completed=None):
+        say("P\t%s\t%s\t%s" % (step, completed or 0, total or 0))
+
+    asked = {}
+    if int(head.get("speakers") or 0) > 0:
+        asked["num_speakers"] = int(head["speakers"])
+    # The waveform, not the path: torchcodec cannot load the ffmpeg
+    # libraries on every machine, and the audio is already decoded
+    # here.
+    out = pipeline({"waveform": piece,
+                    "sample_rate": int(head["sample_rate"])},
+                   hook=hook, **asked)
+    segments = []
+    for turn, _track, label in out.itertracks(yield_label=True):
+        segments.append([str(label), round(float(turn.start), 3),
+                         round(float(turn.end), 3)])
+    print(json.dumps({"segments": segments}))
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
+'''
+
+
+def speaker_worker_file():
+    """Write the worker out once and return where it is.
+
+    The name carries a mark of its source, so a changed program does
+    not run last week's worker.
+    """
+    folder = cache_folder("pyannote")
+    if not folder:
+        return ""
+    mark = hashlib.sha1(
+        SPEAKER_SPLIT_WORKER.encode("utf-8")).hexdigest()[:12]
+    here = os.path.join(folder, "worker_%s.py" % mark)
+    if not os.path.exists(here):
+        fd, beside = tempfile.mkstemp(dir=folder, prefix=".vpm_",
+                                      suffix=".py")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            f.write(SPEAKER_SPLIT_WORKER)
+        os.replace(beside, here)
+    return here
+
+
+def speaker_split_run(path, num_speakers=0, report=None,
+                      stopping=None):
+    """Work out who speaks when in one file, on this machine.
+
+    Returns (segments, ""), the segments raw and in the time of the
+    file itself: [(label, [(from, to), ...])], without the widened
+    edges and without the closed gaps. Storing them raw is what makes
+    a later change of offset, of time window or of edge cost nothing.
+
+    Returns ([], sentence) where it could not run. *stopping* is asked
+    now and then and ends the run when it answers true.
+    """
+    folder = speaker_model_folder()
+    if not folder:
+        return [], T('The speaker separation model is not beside the '
+                     'program.')
+    wrong = speaker_model_checked(folder)
+    if wrong:
+        return [], T('The model file %s does not match its checksum.') \
+            % wrong
+    python = speaker_venv_python()
+    worker = speaker_worker_file()
+    if not python or not worker:
+        return [], T('The speaker separation is not set up.')
+    if report:
+        report(T('Reading the audio ...'), 0.02)
+    try:
+        wave = decode_audio(path, SPEAKER_SPLIT_RATE).astype(np.float32)
+    except Exception as e:
+        return [], T('The speaker separation reports: %s') % str(e)[:140]
+    if not len(wave):
+        return [], T('Nothing was audible in the recording.')
+    head = json.dumps({"model": folder,
+                       "sample_rate": SPEAKER_SPLIT_RATE,
+                       "samples": int(len(wave)),
+                       "speakers": int(num_speakers or 0)})
+    clean = dict(os.environ)
+    clean.pop("AUPHONIC_TOKEN", None)
+    # Belt and braces: the folder branch of from_pretrained never asks
+    # a server, and with this it could not if it wanted to.
+    clean["HF_HUB_OFFLINE"] = "1"
+    # Only one at a time. The graphics unit is nearly saturated by one
+    # run, and a second one costs 4.5 GB for 12 % more throughput.
+    with SPEAKER_SPLIT_TURN:
+        if stopping and stopping():
+            return [], ""
+        return _speaker_split_talk(python, worker, head, wave, clean,
+                                   report, stopping)
+
+
+def _speaker_split_talk(python, worker, head, wave, environment,
+                        report, stopping):
+    """Start the worker, feed it the waveform and read it out."""
+    seconds = len(wave) / float(SPEAKER_SPLIT_RATE)
+    try:
+        proc = subprocess.Popen([python, worker], stdin=subprocess.PIPE,
+                                stdout=subprocess.PIPE,
+                                stderr=subprocess.PIPE, env=environment)
+    except OSError as e:
+        return [], T('The speaker separation reports: %s') % e
+    trouble, device = [], []
+
+    def listen():
+        """Read what the worker says about how far it is."""
+        for line in proc.stderr:
+            text = line.decode("utf-8", "replace").rstrip()
+            parts = text.split("\t")
+            if parts[0] == "D":
+                device.append(parts[-1])
+            elif parts[0] == "P":
+                share = 0.0
+                try:
+                    if float(parts[3]) > 0:
+                        share = float(parts[2]) / float(parts[3])
+                except (ValueError, IndexError):
+                    share = 0.0
+                if report:
+                    report(T('Separating speakers ...'),
+                           0.05 + 0.9 * max(0.0, min(1.0, share)))
+            elif text:
+                trouble.append(text)
+
+    watcher = threading.Thread(target=listen, daemon=True)
+    watcher.start()
+    try:
+        proc.stdin.write(head.encode("utf-8") + b"\n")
+        proc.stdin.write(wave.tobytes())
+        proc.stdin.close()
+    except (OSError, ValueError):
+        pass
+    answer = []
+
+    def collect():
+        answer.append(proc.stdout.read())
+
+    reader = threading.Thread(target=collect, daemon=True)
+    reader.start()
+    # Asked rather than waited on, so a cancel takes effect within a
+    # fraction of a second instead of at the end of three minutes.
+    while proc.poll() is None:
+        if stopping and stopping():
+            proc.terminate()
+            return [], ""
+        time.sleep(0.2)
+    reader.join(5.0)
+    watcher.join(5.0)
+    raw = (answer[0] if answer else b"").decode("utf-8", "replace")
+    line = (raw.strip().splitlines() or [""])[-1]
+    try:
+        d = json.loads(line)
+    except ValueError:
+        d = {}
+    if d.get("error") == "telemetry":
+        return [], T('pyannote sends a trace home on every run and this '
+                     'version offers no way to switch it off, so the '
+                     'separation was not started.')
+    if proc.returncode != 0 or "segments" not in d:
+        note = (trouble or [""])[-1]
+        return [], T('The speaker separation reports: %s') % note[:160]
+    # What it ran on, not what it should have run on: on the processor
+    # the same file takes many times as long, and that belongs in the
+    # log beside the time it took.
+    print(T('  Speaker separation (%s): %d speakers out of %s of audio')
+          % (device[-1] if device else "cpu",
+             len(set(x[0] for x in d["segments"])), as_hms(seconds)))
+    return speaker_segments_group(d["segments"]), ""
+
+
+def speaker_segments_group(rows):
+    """Turn [label, from, to] rows into [(label, [(from, to), ...])].
+
+    In order of speaking time, the longest first: that is the order
+    the voices are numbered in, and a name given by hand keeps its
+    place because the label stays what it was.
+    """
+    per = {}
+    for row in rows or ():
+        # Read first, then filed: setting up the entry before the
+        # numbers are known leaves a speaker behind who never spoke.
+        try:
+            stretch = (round(float(row[1]), 3), round(float(row[2]), 3))
+        except (TypeError, ValueError, IndexError):
+            continue
+        per.setdefault(str(row[0]), []).append(stretch)
+    for label in per:
+        per[label].sort()
+    return sorted(per.items(),
+                  key=lambda x: -sum(b - a for a, b in x[1]))
+
+
+#--------------------------------------------------------- Arithmetic
+
+def speaker_segments_polish(segments, margin=SPEAKER_MARGIN_S,
+                            gap=SPEAKER_GAP_S):
+    """Widen the edges and close the small gaps inside one speaker.
+
+    Measured, this is worth 4.2 points on the assignment of words to
+    people: a recogniser reports a word as beginning about a tenth of
+    a second late, and the separation stops a moment before the sound
+    dies away. Nothing moves before zero.
+
+    It is arithmetic on the stored measurement, not a measurement, so
+    it happens where the segments are used.
+    """
+    out = []
+    for label, parts in segments or ():
+        wide = sorted((max(0.0, a - margin), b + margin)
+                      for a, b in parts)
+        joined = []
+        for a, b in wide:
+            if joined and a - joined[-1][1] <= gap:
+                joined[-1] = (joined[-1][0], max(joined[-1][1], b))
+            else:
+                joined.append((a, b))
+        out.append((label, [(round(a, 3), round(b, 3))
+                            for a, b in joined]))
+    return out
+
+
+def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
+    """Move segments from the time of their file onto the common axis.
+
+    *offset* is where that file begins on the axis. With *t0* and *t1*
+    the result is cut to that window and counted from its start, the
+    same arithmetic a finished handover gets when the window moves.
+
+    A file that starts minutes before the episode does contain speech
+    nobody will see; it falls out here rather than being kept out of
+    the measurement, which is why the number of speakers shown has to
+    be read off this result and not off the raw run.
+    """
+    out = []
+    for label, parts in segments or ():
+        kept = []
+        for a, b in parts:
+            a, b = a + offset, b + offset
+            if t0 is not None:
+                a, b = max(a, t0), min(b, t1 if t1 is not None else b)
+            if b > a:
+                kept.append((round(a - (t0 or 0.0), 3),
+                             round(b - (t0 or 0.0), 3)))
+        if kept:
+            out.append((label, kept))
+    return out
+
+
+def speaker_label_names(segments, called=None):
+    """Name the voices: whoever spoke most is the first one.
+
+    A name given by hand stays, keyed by the label the model used --
+    renaming somebody is an assignment, not a reason to measure again.
+    """
+    called = called or {}
+    out = []
+    for i, (label, _parts) in enumerate(segments or ()):
+        out.append((label, (called.get(label) or "").strip()
+                    or T('Speaker %d') % (i + 1)))
+    return out
+
+
+def segments_per_camera(segments, where_to, names=None):
+    """Fold the speakers onto their cameras: either of them counts.
+
+    Two people assigned to one camera are one condition and not two.
+    A rule about that camera -- how long it has been held, when it may
+    be cut to -- holds as soon as one of the two speaks, so their
+    segments are merged into one series rather than kept apart.
+
+    *where_to* is {speaker name: camera}; a track set to be left out
+    contributes nothing. Returns [(camera, [(from, to), ...])].
+    """
+    names = dict(names or {})
+    per = {}
+    for label, parts in segments or ():
+        who = names.get(label, label)
+        camera = (where_to or {}).get(who)
+        if not camera or camera == IGNORE_AUDIO:
+            continue
+        per.setdefault(camera, []).extend(parts)
+    out = []
+    for camera in sorted(per):
+        joined = []
+        for a, b in sorted(per[camera]):
+            if joined and a <= joined[-1][1]:
+                joined[-1] = (joined[-1][0], max(joined[-1][1], b))
+            else:
+                joined.append((a, b))
+        out.append((camera, joined))
+    return out
+
+
+def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
+                        camera_audio=False, weak=(), length_of=None):
+    """Say which file the separation should listen to.
+
+    The separation is the way for one recording everybody is audible
+    on. Where every person has a microphone of their own, measuring
+    the tracks themselves is the better answer and this stays out.
+
+    Returns (path, why), why being one of: "chosen" a setting made by
+    hand, "one recording", "camera track", "several microphones" --
+    then the path is empty because the tracks are the truth -- or
+    "nothing".
+    """
+    weak = set(os.path.abspath(p) for p in (weak or ()))
+
+    def usable(p):
+        return (p and os.path.exists(p)
+                and os.path.abspath(p) not in weak)
+
+    if chosen and usable(chosen):
+        return chosen, "chosen"
+    good = [p for p in (audio_files or ()) if usable(p)]
+    if len(good) == 1:
+        return good[0], "one recording"
+    if len(good) > 1:
+        return "", "several microphones"
+    cameras = [p for p in (list(videos) if camera_audio
+                           else list(own_cameras or ())) if usable(p)]
+    if cameras:
+        how_long = length_of or media_seconds
+        # The longest of them, because it covers the most of the
+        # episode; where none can be measured the first stands.
+        try:
+            return max(cameras, key=how_long), "camera track"
+        except OSError:
+            return cameras[0], "camera track"
+    return "", "nothing"
+
+
+#------------------------------------------------------------- Storage
+
+def speaker_cache_key(path, model_mark="", num_speakers=0):
+    """The name a stored separation lives under.
+
+    Path, mtime and size say whether it is still the same recording;
+    the model and a number of speakers set by hand are inputs to the
+    measurement and belong in the key as well. What is not in it: the
+    language, the time window, the offset and the names -- none of
+    them change what was measured.
+    """
+    mark = file_fingerprint(path)
+    if not mark:
+        return ""
+    parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
+             model_mark or "", str(int(num_speakers or 0))]
+    return hashlib.sha1(
+        "\n".join(parts).encode("utf-8")).hexdigest()[:16]
+
+
+def speaker_cache_file(key):
+    """Where a stored separation lives, or None."""
+    folder = cache_folder("speakers")
+    return os.path.join(folder, key + ".json") if folder and key else None
+
+
+def speaker_cache_read(key):
+    """Read a stored separation. None means: measure it again.
+
+    Not tied to the program version: three minutes of computing are
+    not thrown away because a number in the title bar changed. What
+    decides is the model, and that is in the key.
+    """
+    file_path = speaker_cache_file(key)
+    if not file_path or not os.path.exists(file_path):
+        return None
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return None
+    return speaker_segments_group(d.get("segments") or [])
+
+
+def speaker_cache_write(key, segments):
+    """Store a separation so the next start need not repeat it."""
+    file_path = speaker_cache_file(key)
+    if not file_path:
+        return
+    d = {"when": time.time(), "version": VERSION,
+         "model": SPEAKER_MODEL_NAME,
+         "segments": [[label, a, b] for label, parts in segments
+                      for a, b in parts]}
+    try:
+        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
+                                      prefix=".vpm_", suffix=".json")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False)
+        os.replace(beside, file_path)
+    except OSError:
+        pass
+
+
+def speakers_for_project(source, segments, num_speakers=0, called=None):
+    """The separation as the project file carries it.
+
+    It travels with the project so a machine that opens it somewhere
+    else does not pay the three minutes again. Raw, in the time of the
+    source file, exactly as it is stored in the cache.
+    """
+    mark = file_fingerprint(source) or [source, 0, 0]
+    return {"source": mark[0], "mtime": mark[1], "size": mark[2],
+            "model": SPEAKER_MODEL_NAME,
+            "model_mark": speaker_model_mark(),
+            "num_speakers": int(num_speakers or 0),
+            "names": dict(called or {}),
+            "segments": [[label, a, b] for label, parts in segments
+                         for a, b in parts]}
+
+
+def speakers_from_project(d, fingerprint=file_fingerprint):
+    """Read a stored separation back, if it still fits its source.
+
+    Returns (source, segments, names). The same test the time axis
+    gets: a source that has been changed is measured again rather than
+    carried on wrongly.
+    """
+    d = (d or {}).get("speakers") or {}
+    source = d.get("source") or ""
+    if not source:
+        return "", [], {}
+    mark = fingerprint(source)
+    if not mark or mark[1] != d.get("mtime") or mark[2] != d.get("size"):
+        return "", [], {}
+    if d.get("model_mark") and speaker_model_mark() \
+            and d["model_mark"] != speaker_model_mark():
+        return "", [], {}
+    return (source, speaker_segments_group(d.get("segments") or []),
+            dict(d.get("names") or {}))
+
+
+
 #---------------------------------------------------------------- Building
 
 # =====================================================================
@@ -13679,6 +16106,42 @@ def build_argument_parser():
                          "per ISO 639-2/B -- ger, eng, fra. Careful: ffmpeg "
                          "drops 'deu' silently. Empty means no tag. "
                          "(default: none)")
+    ap.add_argument("--speakers-local", dest="speakers_local", default=None,
+                    metavar="FILE",
+                    help="take exactly that recording apart by voice, "
+                         "instead of the one the run would pick itself. A "
+                         "run picks a single audio recording, or the "
+                         "longest camera track where there is none, and "
+                         "takes it apart on its own. The setup fetches "
+                         "about %d MB the first time and the run takes "
+                         "minutes. (default: whatever the run picks)"
+                         % SPEAKER_SETUP_MB)
+    ap.add_argument("--speakers-from", dest="speakers_from", default=None,
+                    metavar="FILE",
+                    help="take a finished separation out of a project or "
+                         "assignment file instead of computing one. "
+                         "(default: none)")
+    ap.add_argument("--speakers-count", dest="speakers_count", type=int,
+                    default=0, metavar="NUMBER",
+                    help="how many people --speakers-local should find. A "
+                         "given number improves the recognition and "
+                         "quadruples the picture time on the wrong person, "
+                         "so it is set only where it is known. "
+                         "(default: work it out)")
+    ap.add_argument("--no-speakers-local", dest="no_speakers_local",
+                    action="store_true",
+                    help="never take a recording apart by voice in this "
+                         "run, whatever else says so. (default: off)")
+    ap.add_argument("--no-speech-recognition", dest="no_speech_recognition",
+                    action="store_true",
+                    help="do not write down what is said. The cut then has "
+                         "no sentence boundaries and the wide shot goes to "
+                         "the longest pause nearby. (default: off)")
+    ap.add_argument("--no-transcript-file", dest="no_transcript_file",
+                    action="store_true",
+                    help="write no transcript beside the result. Normally "
+                         "the words that were heard go into the output "
+                         "folder as json, srt and txt. (default: off)")
     ap.add_argument("--auphonic-resume", dest="auphonic_resume", default=None,
                     choices=("result", "rerun", "adopt", "upload", "abort"),
                     help="what to do when the production is already there: "
@@ -13695,39 +16158,65 @@ def build_argument_parser():
                          "nothing is uploaded and no credit is spent -- for "
                          "a second run on the same audio. (default: none)")
     ap.add_argument("--min-edit-duration", dest="min_edit_duration", type=float,
-                    default=3.0, metavar="SECONDS",
+                    default=MIN_EDIT_DURATION_S, metavar="SECONDS",
                     help="shortest a shot may stand. Anything shorter is "
-                         "merged into the one before; 0 turns it off. Three "
+                         "merged into the one that follows; 0 turns it "
+                         "off. Three "
                          "seconds is what interview cutting practice asks "
                          "for -- a camera that changes faster than the "
                          "viewer can settle on a face reads as nervous. "
                          "SmartSwitch calls the same thing 1.00, which is "
                          "why this used to be 1.2. (default: 3)")
+    ap.add_argument("--min-speech-to-switch", dest="min_speech_to_switch",
+                    type=float, default=MIN_SPEECH_TO_SWITCH_S,
+                    metavar="SECONDS",
+                    help="how long somebody has to hold the floor before "
+                         "the camera follows them. Below it the picture "
+                         "stays where it is: a short \"yes\" is not a "
+                         "change of speaker, and without this the minimum "
+                         "edit duration then holds the wrong person on "
+                         "screen for seconds. 0 turns it off. (default: "
+                         "1.5)")
     ap.add_argument("--edit-change-delay", dest="delay", type=float,
                     default=0.3, metavar="SECONDS",
                     help="how much later than the audio the picture cuts. "
                          "Negative lets the picture lead. (default: 0.3)")
+    ap.add_argument("--reaction-lead", dest="reaction_lead", type=float,
+                    default=1.5, metavar="SECONDS",
+                    help="how much earlier the picture goes to the answer "
+                         "after a question. Only where --on-question asks "
+                         "for it. (default: 1.5)")
+    ap.add_argument("--reaction-gap", dest="reaction_gap", type=float,
+                    default=3.0, metavar="SECONDS",
+                    help="how soon the answer has to follow the question "
+                         "for the reaction cut to fire. (default: 3)")
+    ap.add_argument("--reaction-hold", dest="reaction_hold", type=float,
+                    default=0.7, metavar="SHARE",
+                    help="how much of the ten seconds after the question "
+                         "the answering speaker has to hold, as a share "
+                         "between 0 and 1. (default: 0.7)")
+    for switch, _caption, default_value, values, _short, _long in CUT_CHOICES:
+        ap.add_argument("--" + switch, dest=switch.replace("-", "_"),
+                        choices=list(values), default=default_value,
+                        help="what is shown where the speech does not say "
+                             "it: %s. (default: %s)"
+                             % (", ".join(values), default_value))
     ap.add_argument("--wide-after", dest="wide_after", type=float,
-                    default=45.0, metavar="SECONDS",
-                    help="from this hold time on, a shot is broken up "
-                         "with a short look at the wide shot -- placed at "
-                         "the least conspicuous spot nearby, not by the "
-                         "clock. 0 turns it off. (default: 45)")
+                    default=40.0, metavar="SECONDS",
+                    help="from this hold time on, a shot is broken up by "
+                         "leaving the speaker for a while -- placed on a "
+                         "sentence boundary nearby, not by the clock. "
+                         "0 turns it off. (default: 40)")
     ap.add_argument("--wide-length", dest="wide_length", type=float,
-                    default=2.5, metavar="SECONDS",
-                    help="longest such interposed wide shot; it gets shorter "
-                         "where the pause is shorter. (default: 2.5)")
-    ap.add_argument("--wide-min", dest="wide_min", type=float, default=1.5,
-                    metavar="SECONDS",
-                    help="shortest an interposed wide shot gets. Where the "
-                         "pause is too short, it reaches into the first "
-                         "words. (default: 1.5)")
-    ap.add_argument("--wide-flow", dest="wide_flow", type=float, default=6.0,
-                    metavar="SECONDS",
-                    help="how long the wide shot holds when the cut has to "
-                         "happen mid-sentence -- the forced cut after "
-                         "--wide-latest. Where there is no room, it is moved "
-                         "earlier rather than shortened. (default: 6)")
+                    default=5.0, metavar="SECONDS",
+                    help="how long such an interposed shot stands at "
+                         "least; it then runs to the end of the sentence. "
+                         "(default: 5)")
+    ap.add_argument("--wide-most", dest="wide_most", type=float,
+                    default=15.0, metavar="SECONDS",
+                    help="how long it stands at most. Where the end of the "
+                         "sentence lies beyond it, the last clause break "
+                         "before it ends the shot. (default: 15)")
     ap.add_argument("--wide-latest", dest="wide_latest", type=float,
                     default=120.0, metavar="SECONDS",
                     help="upper limit: longest one camera may stand without "
@@ -14375,10 +16864,17 @@ def main():
         return gui()
     # Not every switch works in both modes, so the help text says which.
     # Otherwise a switch is accepted in the wrong path and does nothing.
-    ONLY_MULTITRACK = ("auphonic_done", "min_edit_duration", "delay", "wide_after",
-                       "wide_length", "wide_min", "wide_flow", "wide_latest",
-                       "no_wide_edges", "parallel", "assign",
-                       "multitrack")
+    ONLY_MULTITRACK = ("auphonic_done", "min_edit_duration", "delay",
+                       "min_speech_to_switch", "reaction_lead",
+                       "reaction_gap", "reaction_hold",
+                       "wide_after", "wide_length", "wide_most",
+                       "wide_latest", "no_wide_edges", "parallel",
+                       "speakers_local", "speakers_from", "speakers_count",
+                       "no_speakers_local", "no_speech_recognition",
+                       "no_transcript_file",
+                       "assign", "multitrack") + tuple(
+                           s.replace("-", "_")
+                           for s, _c, _d, _v, _k, _l in CUT_CHOICES)
     ONLY_SIMPLE = ("no_trim", "head", "tail", "suffix", "name",
                    "no_single_tracks")
     for entry in ap._actions:
@@ -15182,8 +17678,10 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             return timecode_string(self.tc0 + t)
 
         def _times_show(self):
-            self.left_label.setText("In point %s" % self._timer(self.begins))
-            self.right_label.setText("Out point %s" % self._timer(self.until))
+            self.left_label.setText(
+                T('In point %s') % self._timer(self.begins))
+            self.right_label.setText(
+                T('Out point %s') % self._timer(self.until))
 
         # -- Setup ----------------------------------------------------
         def set(self, cut, files, offset, audio_file, audio_offset,
@@ -16229,8 +18727,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.left_label.setText(T('Start %s') % self.time_mark(0.0))
             self.right_label.setText(T('End %s') % self.time_mark(duration))
             begins, until = state["in_point"], state["out_point"]
-            self.cut_left.setText("In point %s" % (begins or "--"))
-            self.cut_right.setText("Out point %s" % (until or "--"))
+            self.cut_left.setText(T('In point %s') % (begins or "--"))
+            self.cut_right.setText(T('Out point %s') % (until or "--"))
             self.cut_middle.setText(self._window_length())
 
         def spot(self, ms):
@@ -16380,6 +18878,10 @@ def slider_argv(values):
         if api_key not in numbers:
             break
         out += ["--" + api_key, numbers[api_key][0]]
+    for api_key, _b, default_value, allowed, _k, _l in CUT_CHOICES:
+        picked = str((values or {}).get(api_key, "")).strip()
+        out += ["--" + api_key,
+                picked if picked in allowed else default_value]
     return out, bad
 
 
@@ -16545,7 +19047,13 @@ def run_argv(values, assignment_file_path=""):
                 "created_by": "videopodcast-magic.py %s" % VERSION,
                 "production": (values.get("production") or "").strip()
                 or 'Production', "tracks_of": tracks, "cameras": cameras}
+        # What the separation heard travels with the assignment. Raw and
+        # in the time of its own file -- the run puts it on the axis.
+        if (values.get("speakers_of") or {}).get("segments"):
+            plan["speakers_of"] = values["speakers_of"]
         argv += ["--multitrack", "--assign", assignment_file_path]
+        if values.get("speakers_wanted") is False:
+            argv += ["--no-speakers-local"]
         if (values.get("in_point") or "").strip():
             argv += ["--in-point", values["in_point"].strip()]
         if (values.get("out_point") or "").strip():
@@ -16693,6 +19201,8 @@ def gui():
         channels_done = QtCore.Signal(str)
         split_done = QtCore.Signal(str)
         speaker_note = QtCore.Signal(str)
+        speakers_split = QtCore.Signal(object)
+        speakers_split_note = QtCore.Signal(str, float)
 
     bridge = Bridge()
 
@@ -16726,6 +19236,16 @@ def gui():
         if style:
             widget.setStyleSheet(";".join(style))
         return widget
+
+    def short_name(widget, text, room):
+        """Shorten a file name to the room there is, from the middle.
+
+        Both ends of a file name carry what tells two of them apart --
+        the take at the front, the channel at the back -- so what goes
+        is the middle. The width is measured in the font the widget
+        actually draws with.
+        """
+        return widget.fontMetrics().elidedText(text, Qt.ElideMiddle, room)
 
     def report(title, text):
         """Show a message with a button that says what it does."""
@@ -16795,6 +19315,27 @@ def gui():
 
         value.listen(follow_up)
         return field
+
+    def choice_bind(box, value, allowed):
+        """Bind a drop-down and a value; *allowed* are the stored names.
+
+        The list shows the translated names, the value keeps the name
+        the switch carries -- a project written on a German machine has
+        to read the same on an English one.
+        """
+        for name in allowed:
+            box.addItem(T(SHOT_NAMES.get(name, name)), name)
+        box.setCurrentIndex(max(0, list(allowed).index(value.get())
+                                if value.get() in allowed else 0))
+        box.currentIndexChanged.connect(
+            lambda i: value.set(box.itemData(i)))
+
+        def follow_up():
+            if box.currentData() != value.get() and value.get() in allowed:
+                box.setCurrentIndex(list(allowed).index(value.get()))
+
+        value.listen(follow_up)
+        return box
 
     def checkbox_bind(checkbox, value):
         checkbox.setChecked(bool(value.get()))
@@ -18159,6 +20700,29 @@ def gui():
     view_position.addWidget(window_hint)
     view_position.addWidget(axis_label)
 
+    # Under the time axis, because that is the other thing computed
+    # while the files are being looked at: who speaks when. One line
+    # for the state, one button that starts it or breaks it off.
+    split_line = QtWidgets.QWidget()
+    _split_row = QtWidgets.QHBoxLayout(split_line)
+    _split_row.setContentsMargins(0, 0, 0, 0)
+    split_label = label("", COLOURS["quiet"])
+    split_label.setWordWrap(True)
+    _split_row.addWidget(split_label, 1)
+    split_button = QtWidgets.QPushButton(T('Separate speakers'))
+    hint(split_button,
+         T('Works out who speaks when from one recording everybody is '
+           'audible on -- on this machine, without an upload. About one '
+           'minute for half an hour of audio.'))
+    _split_row.addWidget(split_button)
+    split_never = QtWidgets.QPushButton(T('Not on this machine'))
+    hint(split_never, T('Leaves the separation switched off for this '
+                        'project. The cut then comes from the tracks or '
+                        'from auphonic.com, as before.'))
+    _split_row.addWidget(split_never)
+    view_position.addWidget(split_line)
+    split_line.setVisible(False)
+
     def window_ready():
         """Enable the time window only once all files share an axis.
 
@@ -18266,6 +20830,9 @@ def gui():
     prework_lock = threading.Lock()
     prework_run = {"threads": 0}
     prework_shares = {}              # (path, task) -> 0..1
+    # Declared here rather than beside its own block: the prework asks
+    # whether the separation is running before that block is reached.
+    split_run = {"busy": False, "stop": False}
 
     def prework_api_key(file_path):
         s = os.stat(file_path)
@@ -18596,7 +21163,15 @@ def gui():
             # Several threads at once: ffmpeg is barely held up while reading
             # and the files sit on the same disk -- four at a time saturate the
             # machine without getting in each other's way.
-            needed = min(PREWORK_THREADS - prework_run["threads"], len(prework_queue))
+            # Measured: the different kinds of work do not slow each
+            # other down, and the one real brake on the separation is a
+            # full processor. On a small machine the prework therefore
+            # goes single file while the separation runs; from four
+            # processors up everything runs at once.
+            room = (PREWORK_THREADS
+                    if (how_many_processors() >= SPEAKER_SPLIT_TOGETHER_CORES
+                        or not split_run["busy"]) else 1)
+            needed = min(room - prework_run["threads"], len(prework_queue))
             prework_run["threads"] += max(0, needed)
         if not prework_shares:
             prework_run["bar"] = 0
@@ -18754,6 +21329,21 @@ def gui():
                            else preset_plaintext().strip())
             d["transcript"] = bool(transcript_on.get())
             d["speech_language"] = speech_language.get().strip()
+            # The separation travels with the project: three minutes of
+            # computing should not be paid a second time because the
+            # folder moved to another machine. Raw, in the time of the
+            # source file -- a changed offset is then arithmetic.
+            if state.get("speakers_local"):
+                d["speakers"] = speakers_for_project(
+                    state.get("speakers_source") or "",
+                    state["speakers_local"],
+                    state.get("speakers_count") or 0,
+                    state.get("speakers_named") or {})
+            d["speakers_source"] = state.get("speakers_source") or ""
+            # Missing means nobody has been asked yet, which is not the
+            # same as a no.
+            if state.get("speakers_wanted") is not None:
+                d["speakers_local"] = bool(state["speakers_wanted"])
             d["apart"] = sorted(no_join)
             d["together"] = {k: v for k, v in sorted(join_to.items())}
             # Which pair of channels is one track and which is two: set
@@ -18773,19 +21363,24 @@ def gui():
         """
         project_move()
         file_path = axis_file()
-        if not file_path or not axis:
+        if not file_path:
             return
         d = project_collect(file_path)
-        entries = []
-        for p, start in axis.items():
-            k = file_fingerprint(p)
-            if k:
-                entries.append({"path": k[0], "mtime": k[1], "size": k[2],
-                                  "start_s": round(start, 3)})
         d["format"] = FILE_FORMAT
         d["version"] = VERSION
-        d["timeline"] = entries
-        d["timeline_absolute"] = bool(state.get("axis_absolute"))
+        # Without a measurement the stored one stays: this is also the
+        # way the settings reach the file where every file carries a
+        # timecode and no axis was ever measured.
+        if axis:
+            entries = []
+            for p, start in axis.items():
+                k = file_fingerprint(p)
+                if k:
+                    entries.append({"path": k[0], "mtime": k[1],
+                                    "size": k[2],
+                                    "start_s": round(start, 3)})
+            d["timeline"] = entries
+            d["timeline_absolute"] = bool(state.get("axis_absolute"))
         d["files"] = [{"path": p, "kind": a} for p, a in files]
         settings_extend(d)
         try:
@@ -18877,6 +21472,202 @@ def gui():
         player_follow_up()
 
     bridge.axis.connect(axis_present)
+
+    # ------------------------------------------------------------------
+    # Separate the speakers, locally
+    #
+    # A third source for the same thing: who speaks when. auphonic.com
+    # says it from its statistics, speakers_from_tracks measures it
+    # where every person has a microphone, and this works it out from
+    # one recording, on this machine, before anything is uploaded.
+    # ------------------------------------------------------------------
+    #
+    # It gets a thread of its own and an entry of its own on the bar,
+    # and deliberately no place in the prework count: axis_work_loop
+    # waits in "while prework_busy()", and three minutes there would
+    # hold up the time axis and the playhead with it.
+    def speaker_split_wanted():
+        """May the separation run by itself? True, False, or unasked.
+
+        On a Mac it runs without being asked: the graphics unit does an
+        hour of audio in two minutes and nothing else is waiting on it.
+        Elsewhere the answer is asked for once, with the two buttons on
+        the line itself rather than in a dialogue, and then remembered
+        in the project file.
+        """
+        if SPEAKER_SPLIT_OFF:
+            return False
+        if state.get("speakers_wanted") is not None:
+            return bool(state["speakers_wanted"])
+        return True if sys.platform == "darwin" else None
+
+    def speaker_split_source():
+        """Which file the separation listens to, and why that one."""
+        audio_files = [p for p, a in files if a == "audio"]
+        videos = [p for p, a in files if a == "video"]
+        own = [b for b in videos if remembered.get("own:" + b)]
+        return speaker_source_pick(
+            audio_files, videos, own,
+            chosen=state.get("speakers_source_chosen") or "",
+            camera_audio=bool(state.get("camera_audio")),
+            weak=state.get("weak") or ())
+
+    def speaker_split_show(text="", colour=None):
+        """The one line under the time axis: what is happening."""
+        source, why = speaker_split_source()
+        wanted = speaker_split_wanted()
+        busy = split_run["busy"]
+        if SPEAKER_SPLIT_OFF:
+            split_line.setVisible(False)
+            return
+        split_line.setVisible(bool(files) and why != "several microphones")
+        split_button.setText(T('Break off') if busy
+                             else T('Separate speakers'))
+        split_button.setVisible(bool(source) and (busy or wanted is not False))
+        split_never.setVisible(wanted is None and not busy and bool(source))
+        if text:
+            split_label.setText(text)
+            split_label.setStyleSheet("color: %s"
+                                      % (colour or COLOURS["quiet"]))
+            return
+        if not source:
+            split_label.setText("")
+        elif busy:
+            split_label.setText(T('Separating speakers in %s ...')
+                                % os.path.basename(source))
+        elif state.get("speakers_local"):
+            split_label.setText(TN(len(state["speakers_local"]),
+                                   'Separated: %d speaker in %s',
+                                   'Separated: %d speakers in %s')
+                                % (len(state["speakers_local"]),
+                                   os.path.basename(
+                                       state.get("speakers_source") or "")))
+            split_label.setStyleSheet("color: %s" % COLOURS["good"])
+            return
+        elif wanted is False:
+            split_label.setText(T('Speaker separation is switched off for '
+                                  'this project.'))
+        else:
+            split_label.setText(T('Who speaks when can be worked out from '
+                                  '%s on this machine.')
+                                % os.path.basename(source))
+        split_label.setStyleSheet("color: %s" % COLOURS["quiet"])
+
+    def speaker_split_note(text, share):
+        """Runs in the window thread: the line and the bar together."""
+        speaker_split_show(text)
+        source = state.get("speakers_running") or ""
+        if source:
+            plan.report("speakers:" + source, share)
+
+    bridge.speakers_split_note.connect(speaker_split_note)
+
+    def speaker_split_done(result):
+        """The separation came back: keep it, store it, show it."""
+        source, count, segments, trouble = result
+        split_run["busy"] = False
+        plan.done("speakers:" + source)
+        state["speakers_running"] = ""
+        if trouble:
+            speaker_split_show(trouble[:200], COLOURS["error"])
+            return
+        if not segments:
+            speaker_split_show("", COLOURS["quiet"])
+            return
+        state["speakers_local"] = segments
+        state["speakers_source"] = source
+        state["speakers_count"] = count
+        # The names are an assignment, not a measurement: a voice that
+        # already had one keeps it.
+        called = dict(state.get("speakers_named") or {})
+        state["speakers_named"] = {
+            label: called.get(label) or name
+            for label, name in speaker_label_names(segments, called)}
+        axis_store(state.get("axis") or {})
+        assignment_fresh()
+        speaker_split_show()
+        preview_kick_off()
+
+    bridge.speakers_split.connect(speaker_split_done)
+
+    def speaker_split_work_loop(source, count):
+        """One separation, in a thread of its own."""
+        segments, trouble = [], ""
+        try:
+            if not speaker_split_available():
+                trouble = speaker_split_setup(
+                    lambda t, s: bridge_emit(bridge.speakers_split_note,
+                                             t, s))
+            key = speaker_cache_key(source, speaker_model_mark(), count)
+            if not trouble:
+                segments = speaker_cache_read(key) or []
+            if not trouble and not segments:
+                segments, trouble = speaker_split_run(
+                    source, count,
+                    report=lambda t, s: bridge_emit(
+                        bridge.speakers_split_note, t, s),
+                    stopping=lambda: split_run["stop"])
+                if segments:
+                    speaker_cache_write(key, segments)
+        except Exception as e:
+            trouble = T('The speaker separation reports: %s') % str(e)[:140]
+        bridge_emit(bridge.speakers_split, (source, count, segments,
+                                            trouble))
+
+    def speaker_split_kick_off(fresh=False):
+        """Start the separation where there is something to separate.
+
+        Nothing is computed again for a moved time window, a new In
+        point or a renamed speaker: those are arithmetic on what is
+        stored. A different source file, a changed source file or a
+        number of speakers set by hand are inputs to the measurement,
+        and only they start it over.
+        """
+        if split_run["busy"] or not files:
+            return
+        source, _why = speaker_split_source()
+        if not source:
+            speaker_split_show()
+            return
+        count = int(state.get("speakers_count") or 0)
+        if not fresh:
+            if state.get("speakers_local") \
+                    and state.get("speakers_source") == source:
+                speaker_split_show()
+                return
+            if not speaker_split_wanted():
+                speaker_split_show()
+                return
+        state["speakers_wanted"] = True
+        split_run["busy"] = True
+        split_run["stop"] = False
+        state["speakers_running"] = source
+        # Measured at 28 times real time on the graphics unit, so the
+        # share of the bar is known rather than guessed.
+        plan.add("speakers:" + source,
+                 max(2.0, media_seconds(source) / SPEAKER_SPLIT_SPEED),
+                 T('Separating speakers'))
+        plan.begin("speakers:" + source, T('Separating speakers'))
+        speaker_split_show()
+        threading.Thread(target=speaker_split_work_loop,
+                         args=(source, count), daemon=True).start()
+
+    def speaker_split_button():
+        """The button: start it, or break off what is running."""
+        if split_run["busy"]:
+            split_run["stop"] = True
+            speaker_split_show(T('Breaking off ...'))
+            return
+        speaker_split_kick_off(fresh=True)
+
+    def speaker_split_never():
+        """The other button: not on this machine, and remember it."""
+        state["speakers_wanted"] = False
+        axis_store(state.get("axis") or {})
+        speaker_split_show()
+
+    split_button.clicked.connect(speaker_split_button)
+    split_never.clicked.connect(speaker_split_never)
 
     def tc_column_show():
         """Fill the timecode column, real or computed.
@@ -19364,6 +22155,174 @@ def gui():
                     video_reason.setVisible(False)
         buttons_check()
 
+    # One row per voice the separation heard. Not rows of the table
+    # above: a voice has no file, no timecode and no channels. It has a
+    # name, a camera and a place to listen to it.
+    voice_lines = []        # (label, name Value, camera Value)
+
+    def voice_names_now():
+        """The names of the voices, including what was just typed in."""
+        named = dict(state.get("speakers_named") or {})
+        for label, name_value, _cv in voice_lines:
+            if name_value.get().strip():
+                named[label] = name_value.get().strip()
+        return named
+
+    def voice_longest(label_name):
+        """The longest stretch that voice speaks, in the source's time.
+
+        The longest one, because the name is read off what is heard,
+        and a two second scrap between two other people is the worst
+        place to judge from.
+        """
+        for label, parts in (state.get("speakers_local") or ()):
+            if label == label_name and parts:
+                return max(parts, key=lambda p: p[1] - p[0])
+        return None
+
+    def voice_play(label_name):
+        """Play a moment of that voice.
+
+        Without hearing it, a name is a guess.
+        """
+        source = state.get("speakers_source") or ""
+        stretch = voice_longest(label_name)
+        if not source or not stretch:
+            return
+        from PySide6 import QtMultimedia
+        length = min(8.0, stretch[1] - stretch[0])
+        begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
+        fd, sample = tempfile.mkstemp(prefix="vpm_voice_", suffix=".wav")
+        os.close(fd)
+        try:
+            subprocess.run(["ffmpeg", "-v", "error", "-ss", "%.3f" % begin,
+                            "-t", "%.3f" % length, "-i", source,
+                            "-ac", "1", "-y", sample], check=True)
+        except (OSError, subprocess.CalledProcessError):
+            return
+        # The player is kept: one made inside this function would be
+        # collected while it is still playing, and nothing is heard.
+        if not state.get("voice_player"):
+            out = audio_sink(QtMultimedia, window)
+            state["voice_player"] = (QtMultimedia.QMediaPlayer(window),
+                                     out)
+            state["voice_player"][0].setAudioOutput(out)
+        player_here = state["voice_player"][0]
+        player_here.stop()
+        player_here.setSource(QtCore.QUrl.fromLocalFile(sample))
+        player_here.play()
+
+    def voice_add(source):
+        """Say there is one more voice on that recording than was found.
+
+        A row without segments would say nothing, so this is the input
+        to a fresh separation rather than an entry in a list: the
+        number of speakers is set and the recording is listened to
+        again.
+        """
+        found = (len(state.get("speakers_local") or ())
+                 if state.get("speakers_source") == source else 0)
+        state["speakers_source_chosen"] = source
+        state["speakers_count"] = found + 1
+        speaker_split_kick_off(fresh=True)
+
+    def voices_build(column, audio_file_list, videos, targets):
+        """The voices heard in one recording, under the recordings.
+
+        Everything here counts per camera and not per speaker: two
+        voices set to the same camera are one condition, and what one
+        of them did counts for both. Which is why the camera sits on
+        the voice and not on the file.
+        """
+        voice_lines[:] = []
+        segments = state.get("speakers_local") or []
+        source = state.get("speakers_source") or ""
+        called = dict(state.get("speakers_named") or {})
+        if segments and source:
+            table = table_build([T('Voice'), T('Speaker name'),
+                                 T('belongs to'), T('Listen')])
+            column.addWidget(table)
+            for i, (label, parts) in enumerate(segments):
+                table.insertRow(i)
+                spoken = sum(b - a for a, b in parts)
+                cell(table, i, 0, T('heard in %s -- %s')
+                     % (os.path.basename(source), as_hms(spoken)))
+                name_value = Value(called.get(label)
+                                   or T('Speaker %d') % (i + 1))
+                table.setCellWidget(
+                    i, 1, field_bind(QtWidgets.QLineEdit(), name_value))
+                camera_value = Value(preselected_camera(
+                    remembered.get("voice:" + label), targets,
+                    name_value.get(), videos))
+                box = QtWidgets.QComboBox()
+                fill_choices(box, targets, camera_value.get())
+                box.currentIndexChanged.connect(
+                    lambda *_, b=box, v=camera_value: v.set(b.currentData()))
+                table.setCellWidget(i, 2, box)
+                listen = QtWidgets.QPushButton(T('Listen'))
+                hint(listen, T('Plays the longest stretch this voice '
+                               'speaks, out of the recording itself.'))
+                listen.clicked.connect(
+                    lambda *_, k=label: voice_play(k))
+                table.setCellWidget(i, 3, listen)
+                name_value.listen(lambda *_: QtCore.QTimer.singleShot(
+                    0, voices_remember))
+                camera_value.listen(lambda *_: QtCore.QTimer.singleShot(
+                    0, voices_remember))
+                voice_lines.append((label, name_value, camera_value))
+            table_height(table)
+            table.resizeColumnsToContents()
+            table.setColumnWidth(1, max(160, table.columnWidth(1)))
+        # Every recording can be listened to again, whether anything
+        # was found in it or not: whoever hears a fourth person knows
+        # it before the program does. One button per recording put the
+        # player on the right over the edge of the window from three
+        # recordings on, and there can be seven -- so with more than
+        # one recording the name moves off the button and into a
+        # chooser beside it, and the row stays the same width whatever
+        # the material.
+        if audio_file_list:
+            more = QtWidgets.QWidget()
+            more_row = QtWidgets.QHBoxLayout(more)
+            more_row.setContentsMargins(0, 0, 0, 0)
+            if len(audio_file_list) == 1:
+                only = audio_file_list[0]
+                button = QtWidgets.QPushButton()
+                button.setText(T('One more speaker in %s')
+                               % short_name(button, os.path.basename(only),
+                                            NAME_ROOM))
+                button.clicked.connect(lambda *_, x=only: voice_add(x))
+                more_row.addWidget(button)
+            else:
+                which = QtWidgets.QComboBox()
+                for path in audio_file_list:
+                    which.addItem(os.path.basename(path), path)
+                # Without this the box would be as wide as the longest
+                # file name in it; the name is elided instead, and the
+                # whole one stands in the list when it is opened.
+                which.setSizeAdjustPolicy(
+                    QtWidgets.QComboBox.AdjustToMinimumContentsLengthWithIcon)
+                which.setMinimumContentsLength(12)
+                which.setMaximumWidth(NAME_ROOM)
+                button = QtWidgets.QPushButton(T('One more speaker in'))
+                button.clicked.connect(
+                    lambda *_, b=which: voice_add(b.currentData()))
+                more_row.addWidget(button)
+                more_row.addWidget(which)
+            hint(button, T('Listens to that recording again, looking '
+                           'for one speaker more than was found.'))
+            more_row.addStretch(1)
+            column.addWidget(more)
+
+    def voices_remember():
+        """Keep the names and cameras given to the voices."""
+        state["speakers_named"] = {k: nv.get().strip()
+                                   for k, nv, _cv in voice_lines
+                                   if nv.get().strip()}
+        for k, _nv, cv in voice_lines:
+            remembered["voice:" + k] = cv.get()
+        preview_kick_off()
+
     def assignment_fresh(forget=(), camera_fresh=False):
         """Two tables: audio recordings above, video files below."""
         assignment_remember()
@@ -19387,6 +22346,10 @@ def gui():
         assign_position.insertWidget(0, content)
         state["assignment_content"] = content
         assign_lines[:] = []
+        # Cleared with the rest: the voices belong to the table that
+        # has just gone, and a row that no longer exists must not
+        # still be able to say which camera it is on.
+        voice_lines[:] = []
         audio_fields[:] = []
         video_fields[:] = []
         audio_files = [p for p, a in files if a == "audio"]
@@ -19516,6 +22479,11 @@ def gui():
             audio_fields.append(name_field)
             name_value.listen(lambda *_: QtCore.QTimer.singleShot(
                 0, assignment_check))
+        # Under the recordings, not inside them: a voice heard on one
+        # recording is a different kind of row. It has no file, no
+        # timecode and no channels -- it has a name, a camera and a
+        # place to listen to.
+        voices_build(column_layout, audio_file_list, videos, targets)
         audio_reason = label("", COLOURS["error"])
         audio_reason.setWordWrap(True)
         audio_reason.setVisible(False)
@@ -19655,6 +22623,9 @@ def gui():
                     every.append(x)
         if every:
             prework_kick_off(every, having_audio)
+        # Beside the prework, not behind it: the two do not slow each
+        # other down, and the separation is the long one of the two.
+        speaker_split_kick_off()
         assignment_check()
 
     def refresh_names():
@@ -20036,6 +23007,31 @@ def gui():
             for _w in (m, field, t):
                 hint(_w, T(long))
             field_grid.addWidget(line, idx, column)
+    # Below the numbers: the four cases where the speech does not say
+    # who belongs on screen, and what is shown instead. They sit here
+    # and not in the settings window because they change the cut, and
+    # the cut is what this tab is about.
+    choice_grid = QtWidgets.QGridLayout()
+    cut_position.addLayout(choice_grid)
+    for idx, (api_key, caption, default_value, allowed, short,
+             long) in enumerate(CUT_CHOICES):
+        line = QtWidgets.QWidget()
+        row_layout = QtWidgets.QHBoxLayout(line)
+        row_layout.setContentsMargins(0, 0, 18, 0)
+        m = label(T(caption))
+        m.setFixedWidth(140)
+        row_layout.addWidget(m)
+        value = Value(default_value)
+        cut_var[api_key] = value
+        box = choice_bind(QtWidgets.QComboBox(), value, allowed)
+        box.setFixedWidth(150)
+        row_layout.addWidget(box)
+        t = label(T(short), COLOURS["quiet"])
+        row_layout.addWidget(t)
+        row_layout.addStretch(1)
+        for _w in (line, m, box, t):
+            hint(_w, T(long))
+        choice_grid.addWidget(line, idx, 0)
     edge_on = Value(True)
     _edge_box = checkbox_bind(QtWidgets.QCheckBox(
         T('Wide shot for greeting at the start and farewell at the end')), edge_on)
@@ -20068,7 +23064,7 @@ def gui():
     resolve_left.addWidget(speaker_box)
     speech_column = QtWidgets.QVBoxLayout(speaker_box)
     speech_column.setContentsMargins(10, 2, 10, 8)
-    speech_title = label(T('Speaker statistics from auphonic.com'),
+    speech_title = label(T('Speakers, separated by voice'),
                         COLOURS["heading"], True)
     speech_column.addWidget(speech_title)
     speech_position = speech_column
@@ -20350,31 +23346,56 @@ def gui():
     # not to empty space.
     resolve_right.addStretch(0)
 
-    def off_statistics():
-        """Build a handover from the statistics and the current assignment.
+    def local_speaker_segments():
+        """The local separation, on the common axis and under its names.
 
-        Auphonic leaves the statistics behind as soon as the audio is
-        processed. Turning the cut values afterwards then needs no Resolve run
-        to see the effect.
-
-        Where nothing is found, the reason is stated.
+        Stored raw and in the time of its own file. The offset and the
+        widened edges are applied here, where it is used -- a later
+        change of offset then costs this arithmetic and no measurement.
         """
-        # find_statistics_file returns the statistics already parsed.
-        stat = find_statistics_file(out_folder.get(), commonest_folder(),
-                                quiet=True, deeper=True)
-        segment_list, length = None, 0.0
-        if stat:
-            segment_list, length, _ = tracks_from_statistics(stat)
+        segments = state.get("speakers_local") or []
+        source = state.get("speakers_source") or ""
+        if not segments or not source:
+            return None, 0.0
+        begin = min([audio_start(row[0]) for row, _n, cv in assign_lines
+                     if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
+                    or [0.0])
+        moved = speaker_segments_on_axis(
+            speaker_segments_polish(segments), audio_start(source) - begin)
+        named = voice_names_now()
+        out = [(named.get(label) or label, parts) for label, parts in moved]
+        length = max((b for _n, parts in out for _a, b in parts),
+                     default=0.0)
+        return out, length
+
+    def off_speakers():
+        """Build a handover from who speaks when and the assignment.
+
+        Turning the cut values then needs no Resolve run to see the
+        effect. Where nothing is found, the reason is stated.
+        """
+        # The local separation first: one recording, worked out on this
+        # machine, and there before anything has been uploaded. Above
+        # the measurement from the tracks because it separates people
+        # rather than levels.
+        segment_list, length = local_speaker_segments()
+        state["stat_measured"] = not bool(segment_list)
         if not segment_list or length <= 0:
-            # Failing that, the self-measured segments -- coarser than
-            # Auphonic, but they are there before the first run.
+            # Failing that, the self-measured segments -- coarser, but
+            # there before the first run.
             measured = state.get("speakers_measured")
             if measured:
                 segment_list = measured["segments"]
                 length = measured["length"]
-        state["stat_measured"] = not bool(stat)
         where_to = {}
         for _chain, name_value, camera_value in assign_lines:
+            n = name_value.get().strip()
+            if n and camera_value.get() != IGNORE_AUDIO:
+                where_to[n] = camera_value.get()
+        # The voices the separation heard carry a camera of their own.
+        # Two of them on one camera are one condition and not two, and
+        # that is what segments_per_camera folds them into.
+        for _label, name_value, camera_value in voice_lines:
             n = name_value.get().strip()
             if n and camera_value.get() != IGNORE_AUDIO:
                 where_to[n] = camera_value.get()
@@ -20501,8 +23522,9 @@ def gui():
     measure_button = QtWidgets.QPushButton(T('Measure speakers now'))
     hint(measure_button,
             T('Works out who speaks when from the audio tracks themselves '
-              '-- rougher than auphonic.com, but available before the '
-              'first run. Enough to set up the cut.'))
+              '-- one microphone per person, level against its own noise '
+              'floor. Where everybody is on one recording, "Separate '
+              'speakers" is the way.'))
     _measure_row.addWidget(measure_button)
     measure_label = label("", COLOURS["quiet"])
     measure_label.setWordWrap(True)
@@ -20521,9 +23543,9 @@ def gui():
         preview_label.setStyleSheet("color: %s" % (colour or COLOURS["value"]))
 
     def preview_compute():
-        # Preferably the handover file, which holds everything. Failing that
-        # the Auphonic speaker statistics together with the assignment set
-        # above; those are there before the first Resolve run.
+        # Preferably the handover file, which holds everything. Failing
+        # that the speakers worked out here together with the assignment
+        # set above; those are there before the first Resolve run.
         d = None
         state["reason"] = ""
         js = state.get("resolve_json") or find_handover_file(
@@ -20535,7 +23557,7 @@ def gui():
             except (OSError, ValueError):
                 d = None
         if d is None:
-            d = off_statistics()
+            d = off_speakers()
         if d is None:
             state["statistics"] = False
             speech_show(None)
@@ -20545,8 +23567,10 @@ def gui():
             forecast_box.setTitle(T('Camera cut -- preview'))
             state["cut_numbers"] = None
             band_show(None)
-            preview_set(T('The speaker statistics from auphonic.com do not '
-                          'exist yet.'), COLOURS["quiet"])
+            preview_set(T('No speakers are known yet -- "Measure speakers '
+                          'now" works them out of the tracks, "Separate '
+                          'speakers" out of one recording everybody is '
+                          'audible on.'), COLOURS["quiet"])
             preview_label.setToolTip(state.get("reason") or "")
             measure_line.setVisible(bool(
                 [1 for _p, a in files if a == "audio"]))
@@ -20570,10 +23594,16 @@ def gui():
         window_info_show()
         try:
             numbers = cut_statistics(
-                d, number["min-shot"], number["edit-change-delay"],
-                number["wide-after"], number["wide-length"],
-                number["wide-latest"], bool(edge_on.get()),
-                number["wide-min"], number["wide-flow"])
+                d, number["min-edit-duration"],
+                number["edit-change-delay"], number["wide-after"],
+                number["wide-length"], number["wide-latest"],
+                bool(edge_on.get()), cut_rules(
+                    min_speech=number["min-speech-to-switch"],
+                    reaction_lead=number["reaction-lead"],
+                    wide_holds=number["wide-length"],
+                    wide_most=number["wide-most"],
+                    **{k.replace("-", "_"): cut_var[k].get()
+                       for k, _c, _d, _v, _s, _l in CUT_CHOICES}))
         except Exception as e:
             preview_set(T('Preview not possible: %s') % e,
                             COLOURS["warning"])
@@ -20616,21 +23646,18 @@ def gui():
     start_var.listen(preview_kick_off)
     end_var.listen(preview_kick_off)
 
-    # As soon as Auphonic is done the statistics are there, and the preview
+    # As soon as a run has left a handover file behind, the preview
     # should appear by itself rather than on the next click.
     watchdog = QtCore.QTimer(window)
     watchdog.setInterval(3000)
 
-    def check_for_statistics():
+    def check_for_a_cut():
         if state["statistics"] or state["running"] or not multitrack.get():
             return
-        if find_statistics_file(out_folder.get(), commonest_folder(),
-                            quiet=True)\
-                or find_handover_file(out_folder.get(),
-                                       commonest_folder()):
+        if find_handover_file(out_folder.get(), commonest_folder()):
             preview_compute()
 
-    watchdog.timeout.connect(check_for_statistics)
+    watchdog.timeout.connect(check_for_a_cut)
     watchdog.start()
 
     def presets_filter():
@@ -21142,6 +24169,16 @@ def gui():
             transcript_on.set(bool(d.get("transcript")))
         if d.get("speech_language"):
             speech_language.set(d["speech_language"])
+        # The separation comes back before the tables are built, or the
+        # voices would be missing from them until it has run again.
+        source, found, called = speakers_from_project(d)
+        state["speakers_local"] = found
+        state["speakers_source"] = source or (d.get("speakers_source") or "")
+        state["speakers_named"] = called
+        state["speakers_count"] = int(
+            ((d.get("speakers") or {}).get("num_speakers")) or 0)
+        state["speakers_wanted"] = (bool(d["speakers_local"])
+                                    if "speakers_local" in d else None)
         no_join.clear()
         no_join.update(d.get("apart") or [])
         join_to.clear()
@@ -21540,6 +24577,18 @@ def gui():
             "out_point": end_var.get(),
             "cut": {k: cut_var[k].get() for k in cut_var},
             "wide_at_edges": bool(edge_on.get()),
+            # The voices this machine has already taken apart. They
+            # travel with the run so it need not separate them again.
+            "speakers_of": (speakers_for_project(
+                state.get("speakers_source") or "",
+                state.get("speakers_local") or [],
+                state.get("speakers_count") or 0,
+                voice_names_now())
+                if state.get("speakers_local")
+                and state.get("speakers_source") else None),
+            # A no given in the window has to reach the run: it would
+            # otherwise pick a source itself and separate after all.
+            "speakers_wanted": state.get("speakers_wanted"),
             # Without auphonic.com: the key stays in the field but this run
             # does not see it.
             "key": "" if without_auphonic() else key_var.get(),
@@ -21659,6 +24708,90 @@ def gui():
 # English wording. How to add a language: see the top of this file.
 
 CATALOGUE["de"] = {
+    '  %d word came back without a time and was left out.':
+        '  %d Wort kam ohne Zeit zurück und blieb weg.',
+    '  %d words came back without a time and were left out.':
+        '  %d Wörter kamen ohne Zeit zurück und blieben weg.',
+    '  No certificate bundle found -- an HTTPS download may fail.':
+        '  Kein Zertifikatsbündel gefunden -- ein Download über HTTPS '
+        'kann fehlschlagen.',
+    '  Building the speech recogniser ...':
+        '  Die Spracherkennung wird gebaut ...',
+    '  The Swift compiler reports: %s':
+        '  Der Swift-Übersetzer meldet: %s',
+    '  The speech recogniser is built (%.1f s).':
+        '  Die Spracherkennung ist gebaut (%.1f s).',
+    '  The speech recognition reports: %s':
+        '  Die Spracherkennung meldet: %s',
+    '  No speech recognition on this machine: macOS 26 brings one, otherwise '
+    'faster-whisper is installed.':
+        '  Auf diesem Rechner gibt es keine Spracherkennung: macOS 26 bringt '
+        'eine mit, sonst wird faster-whisper installiert.',
+    '  Speech recognition (%s): %s words in %.1f s':
+        '  Spracherkennung (%s): %s Wörter in %.1f s',
+    '  Speaker separation (%s): %d speakers out of %s of audio':
+        '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
+    'Separate speakers': 'Sprecher trennen',
+    'Separating speakers': 'Sprecher werden getrennt',
+    'Separating speakers ...': 'Sprecher werden getrennt ...',
+    'Separating speakers in %s ...':
+        'Sprecher werden getrennt in %s ...',
+    'Separated: %d speaker in %s': 'Getrennt: %d Sprecher in %s',
+    'Separated: %d speakers in %s': 'Getrennt: %d Sprecher in %s',
+    'Break off': 'Abbrechen',
+    'Breaking off ...': 'Wird abgebrochen ...',
+    'Not on this machine': 'Auf diesem Rechner nicht',
+    'Reading the audio ...': 'Der Ton wird gelesen ...',
+    'Nothing was audible in the recording.':
+        'In der Aufnahme war nichts zu hören.',
+    'Setting up the speaker separation (about %d MB) ...':
+        'Die Sprechertrennung wird eingerichtet (rund %d MB) ...',
+    'Speaker separation is switched off for this project.':
+        'Die Sprechertrennung ist für dieses Projekt abgeschaltet.',
+    'Who speaks when can be worked out from %s on this machine.':
+        'Wer wann spricht, lässt sich auf diesem Rechner aus %s '
+        'ermitteln.',
+    'Works out who speaks when from one recording everybody is '
+    'audible on -- on this machine, without an upload. About one '
+    'minute for half an hour of audio.':
+        'Ermittelt aus einer Aufnahme, auf der alle zu hören sind, wer '
+        'wann spricht -- auf diesem Rechner, ohne Hochladen. Rund eine '
+        'Minute je halbe Stunde Ton.',
+    'Leaves the separation switched off for this project. The cut '
+    'then comes from the tracks or from auphonic.com, as before.':
+        'Lässt die Sprechertrennung für dieses Projekt aus. Der '
+        'Schnitt kommt dann wie bisher aus den Spuren oder von '
+        'auphonic.com.',
+    'The speaker separation reports: %s':
+        'Die Sprechertrennung meldet: %s',
+    'The speaker separation is not set up.':
+        'Die Sprechertrennung ist nicht eingerichtet.',
+    'The speaker separation model is not beside the program.':
+        'Das Modell für die Sprechertrennung liegt nicht neben dem '
+        'Programm.',
+    'The model file %s does not match its checksum.':
+        'Die Modelldatei %s stimmt nicht mit ihrer Prüfsumme überein.',
+    'The cache folder cannot be written to.':
+        'In den Zwischenspeicherordner lässt sich nicht schreiben.',
+    'pyannote sends a trace home on every run and this version offers '
+    'no way to switch it off, so the separation was not started.':
+        'pyannote schickt bei jedem Lauf eine Spur nach Hause, und '
+        'diese Fassung bietet keinen Weg, das abzuschalten -- die '
+        'Trennung wurde nicht gestartet.',
+    'Voice': 'Stimme',
+    'Speaker %d': 'Sprecher %d',
+    'heard in %s -- %s': 'gehört in %s -- %s',
+    'Listen': 'Anhören',
+    'Plays the longest stretch this voice speaks, out of the '
+    'recording itself.':
+        'Spielt die längste Strecke ab, die diese Stimme spricht, aus '
+        'der Aufnahme selbst.',
+    'One more speaker in %s': 'Ein Sprecher mehr in %s',
+    'One more speaker in': 'Ein Sprecher mehr in',
+    'Listens to that recording again, looking for one speaker more '
+    'than was found.':
+        'Hört diese Aufnahme noch einmal ab, mit einem Sprecher mehr '
+        'als gefunden wurde.',
     "%d:%02d min": "%d:%02d Min",
     ' SEEKING':
         ' SUCHT',
@@ -21807,10 +24940,6 @@ CATALOGUE["de"] = {
         '\n  Kontrolle am Übersprechen -- Bezug ist %s:',
     '\n  Could not write %s: %s':
         '\n  Konnte %s nicht schreiben: %s',
-    '\n  In point is %s after the start of the measured range -- the '
-    'processed\n  tracks are trimmed accordingly.':
-        '\n  In-Punkt liegt %s hinter dem Anfang des gemessenen Bereichs -- '
-        'die\n  aufbereiteten Spuren werden entsprechend beschnitten.',
     '\n  For %s it could not be established whether the return matches the\n '
     ' upload. Better to stop than to write something wrong.':
         '\n  Bei %s war nicht feststellbar, ob die Rückgabe zum '
@@ -21825,12 +24954,6 @@ CATALOGUE["de"] = {
         '\n  Nichts wurde geändert.',
     '\n  Only one camera -- a multicam clip would be pointless.':
         '\n  Nur eine Kamera -- ein Multicam-Clip wäre sinnlos.',
-    '\n  The recording at auphonic.com starts %s before In point. The times '
-    'of\n  the speaker statistics are shifted by the same amount -- '
-    'otherwise\n  the whole edit would be off.':
-        '\n  Die Aufnahme bei auphonic.com fängt %s vor dem In-Punkt an. Die '
-        'Zeiten\n  der Sprecherstatistik werden um denselben Betrag '
-        'verschoben -- sonst\n  läge der ganze Schnitt daneben.',
     '\n  The tracks are named differently there:':
         '\n  Die Spuren heißen dort anders:',
     '\n  Time window by hand:':
@@ -21853,8 +24976,6 @@ CATALOGUE["de"] = {
         '\nHDR-PRUEFUNG  %s',
     '\nNo preset chosen: %s':
         '\nKein Preset gewählt: %s',
-    '\nSPEAKER STATISTICS\n  No activity data in the statistics.':
-        '\nSPRECHERSTATISTIK\n  Keine Aktivitätsdaten in der Statistik.',
     '\nStopped before the first long step. With --anyway it runs regardless.':
         '\nAbbruch vor dem ersten langen Schritt. Mit --anyway läuft es '
         'dennoch.',
@@ -22092,9 +25213,6 @@ CATALOGUE["de"] = {
         '  %d Sprecher, %d Einstellungen, kürzeste %.1f s',
     '  %d video tracks, named after the speakers:':
         '  %d Bildspuren, benannt nach den Sprechern:',
-    '  %dx briefly to the wide shot because a shot ran longer than %.0f s':
-        '  %dx kurz in den Weitwinkel, weil eine Einstellung länger als %.0f s '
-        'stand',
     '  %s appears twice with different cameras -- %s is used':
         '  %s steht zweimal mit verschiedenen Kameras -- genommen wird %s',
     '  %s cannot be classified: %s':
@@ -22292,14 +25410,6 @@ CATALOGUE["de"] = {
         '  Kein Schnitt übrig -- Timeline bleibt leer.',
     '  No measured offset for %s -- placed at the start of the axis.':
         '  Kein gemessener Versatz für %s -- liegt am Anfang der Achse.',
-    '  No speaker statistics in the production -- without them there is no '
-    'cut list':
-        '  Keine Sprecherstatistik in der Produktion -- ohne sie gibt es '
-        'keine Schnittliste',
-    '  No statistics output format found -- the statistics then come from\n '
-    ' the production itself. On offer: %s':
-        '  Keine Statistik-Ausgabeart gefunden -- die Statistik kommt dann '
-        'nur\n  aus der Produktion selbst. Angeboten werden: %s',
     '  No such Timeline existed yet -- it is only built.':
         '  Es gab noch keine dieser Timelines -- es wird nur gebaut.',
     '  Note: this computes with the files uploaded at the time. They '
@@ -22308,7 +25418,7 @@ CATALOGUE["de"] = {
     'measures the\n  difference and moves the tracks into place.':
         '  Hinweis: gerechnet wird mit den Dateien von damals. Sie tragen '
         'das\n  Zeitfenster und die Ausrichtung von damals in sich. Sind '
-        'In-Punkt, Out\n  point oder die Lage seither andere, misst die '
+        'In-Punkt,\n  Out-Punkt oder die Lage seither andere, misst die '
         'Rückgabeprüfung den\n  Unterschied und rückt die Spuren zurecht.',
     '  Note: this ffmpeg has no soxr -- clock drift can only be taken out '
     'in\n  steps of 21 ppm.':
@@ -22316,8 +25426,6 @@ CATALOGUE["de"] = {
         'sich nur in\n  Schritten von 21 ppm herausrechnen.',
     '  Of no consequence for the sound.':
         '  Für den Ton ohne Belang.',
-    '  Offset of the statistics times: %.3f s subtracted':
-        '  Versatz der Statistikzeiten: %.3f s abgezogen',
     '  Offset:          %s   (from the camera comparison)':
         '  Versatz:         %s   (aus dem Kameravergleich)',
     '  Offset:          %s (too few sample points for a drift measurement)':
@@ -22331,10 +25439,6 @@ CATALOGUE["de"] = {
     '  Only %s of %s is needed -- the rest has no match in the picture':
         '  Gebraucht wird nur %s von %s -- der Rest hat keine Entsprechung '
         'im Bild',
-    '  Output formats not reachable (%s) -- statistics from the production '
-    'only.':
-        '  Ausgabearten nicht abrufbar (%s) -- Statistik nur aus der '
-        'Produktion.',
     '  Peaks:             %+.1f dB above %.1f dBTP -- the limiter catches them':
         '  Spitzen:           %+.1f dB über %.1f dBTP -- der Limiter fängt '
         'sie ab',
@@ -22424,10 +25528,6 @@ CATALOGUE["de"] = {
         '  Der Medienpool bleibt, wie er ist.',
     '  The names from there are adopted:':
         '  Die Namen von dort werden übernommen:',
-    '  The recording at auphonic.com begins %s before In point. The '
-    'statistics\n  times are shifted by that amount.':
-        '  Die Aufnahme bei auphonic.com beginnt %s vor dem In-Punkt. Die\n  '
-        'Statistikzeiten werden um diesen Betrag verschoben.',
     '  The sample points spread by %.0f ms. Audio and picture do not fit '
     'closely enough. Skipped.\n':
         '  Die Stützstellen streuen um %.0f ms. Ton und Bild passen nicht '
@@ -22649,8 +25749,6 @@ CATALOGUE["de"] = {
         '\nERGEBNIS',
     '\nSAVING TRACKS':
         '\nSPUREN ABLEGEN',
-    '\nSPEAKER STATISTICS':
-        '\nSPRECHERSTATISTIK',
     '\nStopped: %s':
         '\nAbbruch: %s',
     '\nWRITING TRACKS TO THE AXIS':
@@ -22705,11 +25803,6 @@ CATALOGUE["de"] = {
         '    Kein passender Codec gefunden. Angeboten: %s',
     '    Render settings rejected.':
         '    Rendereinstellungen abgelehnt.',
-    '    Statistics           <- %s':
-        '    Statistik            <- %s',
-    '    Statistics           none found -- without them there is no cut list':
-        '    Statistik            keine gefunden -- ohne sie keine '
-        'Schnittliste',
     '    V2 now holds %d clip: %s':
         '    Auf V2 liegt jetzt %d Clip: %s',
     '    V2 now holds %d clips: %s':
@@ -22786,10 +25879,6 @@ CATALOGUE["de"] = {
         '  Ergebnisse:',
     '  Results:     none':
         '  Ergebnisse:  keine',
-    '  Speaker statistics requested as output file (%s)':
-        '  Sprecherstatistik als Ausgabedatei angefordert (%s)',
-    '  Speaker statistics: %s':
-        '  Sprecherstatistik: %s',
     '  The existing files are reused -- recomputing costs nothing.':
         '  Vorhandene Dateien werden weiterverwendet -- neu rechnen kostet '
         'nichts.',
@@ -23073,15 +26162,6 @@ CATALOGUE["de"] = {
     'Multitrack needs at least two.':
         'Alle Zeilen tragen denselben Namen -- daraus wird eine einzige '
         'Spur, und Multitrack braucht mindestens zwei.',
-    'Applies only to the forced cut after "Wide shot at the latest": there '
-    'is no pause there, the cut falls mid-sentence. A brief look would '
-    'seem like a mistake, so the wide shot holds longer. If the room to '
-    'the next cut is short, it is brought forward rather than shortened.':
-        'Gilt nur für den erzwungenen Schnitt nach "Weitwinkel spätestens": '
-        'dort gibt es keine Pause, der Schnitt fällt mitten in den Satz. '
-        'Ein kurzer Blick sähe nach Versehen aus, deshalb steht der Weitwinkel '
-        'länger. Reicht der Platz bis zum nächsten Schnitt nicht, wird sie '
-        'vorgezogen statt gekürzt.',
     'Assignment: which audio track belongs to which camera':
         'Zuordnung: welche Tonspur gehört zu welcher Kamera',
     'Audio':
@@ -23246,13 +26326,6 @@ CATALOGUE["de"] = {
         'Mastering-Display gibt es nicht.',
     'If empty: next to each video file.':
         'Ohne Angabe: neben der jeweiligen Videodatei.',
-    'If no pause is found, the cut happens anyway.':
-        'Findet sich keine Pause, wird trotzdem geschnitten.',
-    'If the speech pause is too short, the wide shot runs into the first '
-    'words. A one-second twitch looks like a mistake.':
-        'Reicht die Sprechpause nicht, steht der Weitwinkel in die ersten '
-        'Worte hinein. Ein Zucken von einer Sekunde sieht nach Versehen '
-        'aus.',
     'It arose during the recording and cannot be changed now. The less the '
     'microphones are separated, the more cautiously De-Bleed at '
     'auphonic.com can work. Next time: three times as far from the '
@@ -23350,11 +26423,11 @@ CATALOGUE["de"] = {
     'interface.':
         'Keine Presets im Konto gespeichert. Eines lässt sich in der '
         'Weboberfläche anlegen.',
-    'No speaker statistics found. Searched for *statistic*.json in %s, in '
-    'their subfolders and in auphonic-tracks.':
-        'Keine Sprecherstatistik gefunden. Gesucht wurde nach '
-        '*statistik*.json in %s, in deren Unterordnern und in '
-        'auphonic-tracks.',
+    'No speakers known yet -- nothing measured, nothing separated, and '
+    'no handover file of an earlier run in %s or its subfolders.':
+        'Noch keine Sprecher bekannt -- nichts gemessen, nichts getrennt, '
+        'und keine Übergabedatei eines früheren Laufs in %s oder deren '
+        'Unterordnern.',
     'Not found again after import: %s':
         'Nach dem Import nicht wiedergefunden: %s',
     'Not found: %s.\nThe programs must be in the search path or next to '
@@ -23412,9 +26485,6 @@ CATALOGUE["de"] = {
         'Fläche %d lädt %s (%s)',
     'Pane %d on %s':
         'Fläche %d auf %s',
-    'Placed in a speech pause, not by the clock. 0 turns it off.':
-        'Gesetzt wird in einer Sprechpause, nicht nach der Uhr. 0 schaltet '
-        'es ab.',
     'Play and pause -- the space bar works too.':
         'Abspielen und anhalten -- Leertaste geht auch.',
     'Play and pause.':
@@ -23501,14 +26571,6 @@ CATALOGUE["de"] = {
         'In der Registry speichern',
     'Select audio and video files':
         'Ton- und Videodateien wählen',
-    'Shorter if the speech pause is shorter -- but never shorter than '
-    '"Wide shot at least".':
-        'Kürzer, wenn die Sprechpause kürzer ist -- aber nie kürzer als '
-        '"Weitwinkel mindestens".',
-    'Shorter shots fall back into the previous one.':
-        'Kürzere Einstellungen fallen in die vorherige zurück.',
-    'Speaker statistics from auphonic.com':
-        'Sprecherstatistik von auphonic.com',
     'Speakers, self-measured from the tracks':
         'Sprecher, selbst aus den Spuren gemessen',
     'Started late or stopped early -- this voice is then missing from the '
@@ -23585,10 +26647,13 @@ CATALOGUE["de"] = {
         'Statt Kameraton die Aufnahme, die dieser Kamera zugeordnet ist.',
     'The run is still going.':
         'Der Lauf läuft noch.',
-    'The speaker statistics from auphonic.com do not exist yet.':
-        'Die Sprecherstatistik von auphonic.com gibt es noch nicht.',
-    'The statistics produced no cut -- press Start above again.':
-        'Aus der Statistik kam kein Schnitt -- bitte oben neu auf Start.',
+    'No speakers are known yet -- "Measure speakers now" works them out '
+    'of the tracks, "Separate speakers" out of one recording everybody is '
+    'audible on.':
+        'Es sind noch keine Sprecher bekannt -- „Sprecher jetzt '
+        'messen“ holt sie aus den Spuren, „Sprecher '
+        'trennen“ aus einer Aufnahme, auf der alle zu hören '
+        'sind.',
     'The three numbers are primaries, curve and matrix. Different tags '
     'need different input colour spaces in Resolve -- otherwise one camera '
     'looks unlike the other.':
@@ -23729,8 +26794,6 @@ CATALOGUE["de"] = {
         'Weitwinkel spätestens',
     'Wide shot for greeting at the start and farewell at the end':
         'Weitwinkel für Begrüßung am Anfang und Verabschiedung am Ende',
-    'Wide shot mid-speech':
-        'Weitwinkel im Redefluss',
     'Without a key there are no presets. It is in the account settings at '
     'auphonic.com.':
         'Ohne Schlüssel gibt es keine Presets. Er steht in den '
@@ -23752,12 +26815,12 @@ CATALOGUE["de"] = {
         'gemessenen Stellen, bereit für Multicam.',
     'Without timecode the position of the files is measured.':
         'Ohne Timecode wird die Lage der Dateien gemessen.',
-    'Works out who speaks when from the audio tracks themselves -- rougher '
-    'than auphonic.com, but available before the first run. Enough to set '
-    'up the cut.':
-        'Rechnet aus den Tonspuren selbst, wer wann redet -- gröber als '
-        'auphonic.com, aber schon vor dem ersten Lauf. Reicht, um den '
-        'Schnitt einzustellen.',
+    'Works out who speaks when from the audio tracks themselves -- one '
+    'microphone per person, level against its own noise floor. Where '
+    'everybody is on one recording, "Separate speakers" is the way.':
+        'Rechnet aus den Tonspuren selbst, wer wann redet -- ein Mikrofon '
+        'je Person, Pegel gegen das eigene Grundrauschen. Wo alle auf einer '
+        'Aufnahme sind, ist "Sprecher trennen" der Weg.',
     'YouTube -- turns down only, never up':
         'YouTube -- regelt nur herunter, nie herauf',
     'a box no longer fits into its parent':
@@ -23808,8 +26871,6 @@ CATALOGUE["de"] = {
         'passt das Preset zum Lauf?',
     'downloaded file is only %d bytes':
         'heruntergeladene Datei hat nur %d Byte',
-    'from this hold time on, a brief look at the wide shot':
-        'ab dieser Standzeit ein kurzer Blick in den Weitwinkel',
     'gets audio from':
         'bekommt Audio von',
     'hear assigned audio':
@@ -23820,8 +26881,6 @@ CATALOGUE["de"] = {
         'nicht von der Streuung zu unterscheiden',
     'is actively removed':
         'wird aktiv herausgerechnet',
-    'it holds this long when the cut falls mid-speech':
-        'so lange steht sie, wenn mitten im Reden geschnitten wird',
     'keep our names and upload everything again -- this costs\n       credit':
         'unsere Namen behalten und alles neu hochladen -- das kostet\n      '
         ' Guthaben',
@@ -23948,10 +27007,6 @@ CATALOGUE["de"] = {
         'die Einzelspuren',
     'the individual tracks, packed':
         'die Einzelspuren, gepackt',
-    'the inserted wide shot does not get shorter than this':
-        'so kurz wird der eingestreute Weitwinkel nicht',
-    'the inserted wide shot holds this long at most':
-        'so lange steht der eingestreute Weitwinkel höchstens',
     'the media data is no longer where it was':
         'die Mediendaten liegen nicht mehr, wo sie lagen',
     'the mix of all tracks':
@@ -23970,8 +27025,6 @@ CATALOGUE["de"] = {
         'die kürzeste Aufnahme hat nur %s -- zu wenig zum Messen.',
     'the source folder':
         'der Quellordner',
-    'the speaker statistics':
-        'die Sprecherstatistik',
     'the track template has nothing switched on -- the tracks would come '
     'back exactly as uploaded.':
         'die Spurvorlage hat nichts eingeschaltet -- die Spuren kämen '
@@ -24107,8 +27160,6 @@ CATALOGUE["de"] = {
         'Dateien (*)',
     'Wide shot after':
         'Weitwinkel nach',
-    'Wide shot at least':
-        'Weitwinkel mindestens',
     'into every camera':
         'in alle Kameras',
     'measured -- %d speakers, %s':
@@ -24199,6 +27250,10 @@ CATALOGUE["de"] = {
         'Kurve',
     'In point: %s     Out point: %s     Duration: %s':
         'In-Punkt: %s     Out-Punkt: %s     Dauer: %s',
+    'In point %s':
+        'In-Punkt %s',
+    'Out point %s':
+        'Out-Punkt %s',
     'Different track names':
         'Andere Spurnamen',
     'Disk space':
@@ -24433,6 +27488,47 @@ CATALOGUE["de"] = {
         ' -- Standard',
     '\nSPEAKERS -- MEASURED HERE':
         '\nSPRECHER -- HIER GEMESSEN',
+    '\nSPEAKERS -- SEPARATED BY VOICE':
+        '\nSPRECHER -- NACH STIMMEN GETRENNT',
+    '\nSPEAKERS\n  Nobody was heard -- no camera cut from this.':
+        '\nSPRECHER\n  Niemand war zu hören -- daraus wird kein '
+        'Kameraschnitt.',
+    '\nCAMERA CUT': '\nKAMERASCHNITT',
+    '\nTRANSCRIPT': '\nTRANSKRIPT',
+    '  %s words: %.1f %% to one voice, %.1f %% to two, %.1f %% in a gap':
+        '  %s Wörter: %.1f %% auf eine Stimme, %.1f %% auf zwei, '
+        '%.1f %% in einer Lücke',
+    '  %s words, without names -- nobody was separated':
+        '  %s Wörter, ohne Namen -- es wurde niemand getrennt',
+    '  %s could not be written: %s':
+        '  %s konnte nicht geschrieben werden: %s',
+    '\nSEPARATING THE SPEAKERS': '\nSPRECHER WERDEN GETRENNT',
+    '  About %s of computing for %s of audio.':
+        '  Etwa %s Rechenzeit für %s Ton.',
+    '  The environment for it is not here yet: about %d MB are fetched '
+    'now.':
+        '  Die Umgebung dafür fehlt noch: etwa %d MB werden jetzt '
+        'geholt.',
+    '  (measuring only: nothing separated)':
+        '  (nur gemessen: nichts getrennt)',
+    '  From %s: %d voices.': '  Aus %s: %d Stimmen.',
+    '  From the tracks themselves, one voice per track.':
+        '  Aus den Spuren selbst, eine Stimme je Spur.',
+    '  In %s, on this machine.': '  In %s, auf diesem Rechner.',
+    '  The speaker separation is not used: %s.':
+        '  Die Sprechertrennung wird nicht benutzt: %s.',
+    '  %s cannot be read: %s': '  %s ist nicht lesbar: %s',
+    '%s is not part of this run': '%s gehört nicht zu diesem Lauf',
+    '%s has no place on the axis':
+        '%s hat keinen Platz auf der Zeitachse',
+    'no recording named': 'keine Aufnahme genannt',
+    'nothing of it falls inside the window':
+        'nichts davon fällt in das Zeitfenster',
+    'the interface': 'der Oberfläche',
+    'the separation in this run': 'der Trennung in diesem Lauf',
+    'Speakers, separated by voice': 'Sprecher, nach Stimmen getrennt',
+    'That produced no cut -- press Start above again.':
+        'Daraus wird kein Schnitt -- bitte oben noch einmal auf Start.',
     '\nWITHOUT AUPHONIC.COM':
         '\nOHNE AUPHONIC.COM',
     '  %-20s %s in %d passages':
@@ -24599,6 +27695,93 @@ CATALOGUE["de"] = {
         'Herausschneiden fehlgeschlagen: %s',
     '  One camera for everybody: cut into %d shots at the change of speaker, so Resolve can group them.':
         '  Eine Kamera für alle: in %d Einstellungen am Sprecherwechsel geschnitten, damit Resolve sie gruppieren kann.',
+    'Shorter shots fall into the following one.':
+        'Kürzere Einstellungen fallen in die folgende.',
+    'Speaks at least':
+        'Redet mindestens',
+    'below this the camera does not follow':
+        'darunter folgt die Kamera nicht',
+    'A short "yes" does not move the picture. Without this a block of '
+    'half a second draws the camera over, and the minimum edit '
+    'duration then holds it there for seconds.':
+        'Ein kurzes „ja“ bewegt das Bild nicht. Ohne das zieht ein Block '
+        'von einer halben Sekunde die Kamera herüber, und die '
+        'Mindestschnittdauer hält sie dann Sekunden lang dort.',
+    'Reaction cut earlier':
+        'Reaktionsschnitt früher',
+    'after a question the answer is on screen this much earlier':
+        'nach einer Frage ist die Antwort so viel früher im Bild',
+    'Applies only where "Question" asks for it. The point comes from '
+    'the sound, and the Edit Change Delay is not added again.':
+        'Gilt nur, wo „Frage“ es verlangt. Der Punkt kommt aus dem Ton, '
+        'und die Bildverzögerung kommt nicht noch einmal dazu.',
+    'from this hold time on, a look at the wide shot':
+        'ab dieser Standzeit ein Blick in den Weitwinkel',
+    'Placed on a sentence boundary, not by the clock. 0 turns it off.':
+        'Auf eine Satzgrenze gelegt, nicht nach der Uhr. 0 schaltet es '
+        'ab.',
+    'Wide shot holds':
+        'Weitwinkel steht',
+    'the inserted wide shot stands at least this long':
+        'so lange steht der eingeschobene Weitwinkel mindestens',
+    'It then runs to the end of the sentence. Below five seconds the '
+    'look reads as a twitch.':
+        'Danach läuft er bis zum Satzende. Unter fünf Sekunden wirkt der '
+        'Blick wie ein Zucken.',
+    'and at most this long':
+        'und höchstens so lange',
+    'Where the end of the sentence lies beyond it, the last clause '
+    'break before it ends the shot -- it is not cut off mid-sentence.':
+        'Liegt das Satzende darüber, beendet die letzte Teilsatzgrenze '
+        'davor die Einstellung -- mitten im Satz wird nicht '
+        'abgeschnitten.',
+    'If no sentence boundary is found, the cut happens anyway.':
+        'Wird keine Satzgrenze gefunden, wird trotzdem geschnitten.',
+    'Long monologue':
+        'Langer Monolog',
+    'one person holds the floor past "Wide shot after"':
+        'einer redet über „Weitwinkel nach“ hinaus',
+    '"Alternating" remembers what the last break of this monologue '
+    'showed. The listener only gets the picture when someone on that '
+    'camera was heard in the last 20 seconds; otherwise the wide '
+    'shot.':
+        '„Abwechselnd“ merkt sich, was das letzte Aufbrechen dieses '
+        'Monologs gezeigt hat. Der Zuhörer bekommt das Bild nur, wenn auf '
+        'seiner Kamera in den letzten 20 Sekunden jemand zu hören war, '
+        'sonst der Weitwinkel.',
+    'Several speak at once':
+        'Mehrere reden zugleich',
+    'and no camera shows exactly them':
+        'und keine Kamera zeigt genau sie',
+    'Cutting into a jumble looks frantic.':
+        'In ein Durcheinander zu schneiden wirkt hektisch.',
+    'Recognition uncertain':
+        'Erkennung unsicher',
+    'the speaker recognition frays or leaves a heap behind':
+        'die Sprechererkennung zerfasert oder lässt ein Häufchen übrig',
+    'Guessing puts the wrong person on screen for seconds; the wide '
+    'shot is right in every case.':
+        'Raten zeigt sekundenlang den Falschen; der Weitwinkel ist in '
+        'jedem Fall richtig.',
+    'the picture goes to the answer before it starts':
+        'das Bild geht zur Antwort, bevor sie anfängt',
+    "Only after a question that is not the main speaker's, when "
+    'somebody else takes over at once and keeps the floor.':
+        'Nur nach einer Frage, die nicht vom Vielredner kommt, wenn '
+        'sofort ein anderer übernimmt und das Wort behält.',
+    'Wide shot':
+        'Weitwinkel',
+    'Listener':
+        'Zuhörer',
+    'Alternating':
+        'Abwechselnd',
+    'No camera change':
+        'Kein Kamerawechsel',
+    'Answering speaker':
+        'Antwortender',
+    '  %dx away from the speaker because a shot ran longer than %.0f s':
+        '  %dx weg vom Sprecher, weil eine Einstellung länger als %.0f s '
+        'stand',
 }
 
 LANG = known_language(system_locale())

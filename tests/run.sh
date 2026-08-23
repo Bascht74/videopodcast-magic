@@ -46,6 +46,10 @@ export LANG=C LC_ALL=C LANGUAGE=en
 # in the background. It forces volume and mute and nothing else -- where
 # the playhead lands, which is what the tests measure, is untouched.
 export VPM_SILENT=1
+# The speaker separation never starts by itself here. Setting it up
+# fetches 218 MB, and a run takes minutes on the graphics unit -- a
+# suite must do neither. The tests that need it say so themselves.
+export VPM_NO_SPEAKER_SPLIT=1
 # As many at a time as the machine has cores, and one more: most of a
 # test is Python starting up and ffmpeg waiting on the disc, so there is
 # room beside the processors. Measured on a two-core box: 2 workers

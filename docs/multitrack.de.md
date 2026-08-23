@@ -8,6 +8,10 @@ Mehrere Leute am Tisch, jeder mit einem Mikrofon, auf dem alle zu hören
 sind. Dieses Übersprechen aus dem Ton zu nehmen ist das Einzige, was nur
 auphonic.com kann.
 
+Multitrack ist der Weg für eine Spur je Person. Sind alle auf einer
+gemeinsamen Aufnahme, übernimmt die Sprechertrennung
+([Spracherkennung und Sprechertrennung](speech.de.md)).
+
 Alles andere läuft lokal. Im Kasten **Aufbereitung bei auphonic.com
 (optional)** auf dem Reiter **2. Zuordnung & Zeitfenster** im Auswahlfeld
 **Preset:** den Eintrag **ohne Auphonic arbeiten** wählen (auf der
@@ -55,8 +59,8 @@ nichts hineinzulegen und bricht ab.
 Eine einzelne Kamera kann ihren Ton ebenso beisteuern: Häkchen **als
 Spur** in der Spalte **eigener Ton**. Sie bekommt dann eine Zeile in der
 oberen Tabelle, mit ihrem Sprechernamen, und zählt wie jede andere Spur —
-aufbereitet, im Full-Mix, in der Sprecherstatistik und als erste Tonspur
-ihrer eigenen Kamera.
+aufbereitet, im Full-Mix, in der Sprechzeit für den Kameraschnitt
+mitgezählt und als erste Tonspur ihrer eigenen Kamera.
 
 „Wie jede andere Spur“ schließt die Kanäle ein. Das Häkchen sagt nicht
 mehr als: diesen Ton nicht wegwerfen. Was aus dem Ton wird, entscheidet

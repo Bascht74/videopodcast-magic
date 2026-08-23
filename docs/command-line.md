@@ -39,6 +39,11 @@
 | `--platform NAME` | that target by platform: `broadcast` -23, `podcast` -16, `podcast-mono` -19, `youtube` -14 |
 | `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Careful, ffmpeg drops `deu` silently (none) |
 | `--speech-language-camera CODE` | the same for the camera track (none -- that is what tells the two apart in the QuickTime audio menu) |
+| `--speakers-local FILE` | take that recording apart by voice on this machine, and cut by the result (none) |
+| `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one (none) |
+| `--speakers-count NUMBER` | how many people `--speakers-local` should find (work it out) |
+| `--no-speakers-local` | never take a recording apart by voice in this run (off) |
+| `--no-speech-recognition` | do not write down what is said; the cut then has no sentence boundaries (off) |
 
 **Auphonic**
 
@@ -64,12 +69,19 @@
 
 | Switch | Does |
 |---|---|
-| `--min-edit-duration SECONDS` | shortest a shot may stand; shorter ones merge into the one before, 0 off (3) |
+| `--min-edit-duration SECONDS` | shortest a shot may stand; shorter ones merge into the one that follows, 0 off (3) |
+| `--min-speech-to-switch SECONDS` | how long somebody has to hold the floor before the camera follows them, 0 off (1.5) |
 | `--edit-change-delay SECONDS` | how much later than the audio the picture cuts; negative lets it lead (0.3) |
-| `--wide-after SECONDS` | from this hold time on, break the shot with a look at the wide shot, 0 off (45) |
-| `--wide-length SECONDS` | longest such interposed wide shot (2.5) |
-| `--wide-min SECONDS` | shortest it gets (1.5) |
-| `--wide-flow SECONDS` | how long it holds when the cut has to happen mid-sentence (6) |
+| `--reaction-lead SECONDS` | how much earlier the picture goes to the answer after a question (1.5) |
+| `--reaction-gap SECONDS` | how soon the answer has to follow the question for the reaction cut to fire (3) |
+| `--reaction-hold SHARE` | how much of the ten seconds after the question the answering speaker has to hold, between 0 and 1 (0.7) |
+| `--on-monologue VALUE` | one person holds the floor: `wide`, `listener`, `alternate`, `hold` (alternate) |
+| `--on-together VALUE` | several speak at once: the same four values (wide) |
+| `--on-uncertain VALUE` | the recognition is uncertain: the same four values (wide) |
+| `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
+| `--wide-after SECONDS` | from this hold time on the shot is broken up, set on a sentence boundary, not by the clock, 0 off (40) |
+| `--wide-length SECONDS` | how long the interposed shot stands at least; it then runs to the end of the sentence (5) |
+| `--wide-most SECONDS` | how long it stands at most; where the end of the sentence lies beyond it, the last clause break before it ends the shot (15) |
 | `--wide-latest SECONDS` | longest one camera may stand without a cut (120) |
 | `--no-wide-edges` | do not hold the wide shot over the greeting and the goodbye |
 

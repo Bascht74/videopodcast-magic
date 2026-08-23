@@ -53,14 +53,20 @@ answers.*
 2. **Assignment & time window** -- tables on the left, player on the right.
    Appears with the files.
 
+   Beside the player the button **Separate speakers** works out who
+   speaks when, on this machine and without uploading; the voices then
+   stand in a table of their own under the assignment table
+   ([Speech recognition and speaker separation](speech.md)).
+
    ![Assignment table and player](images/assignment.png)
 
    *Above which recording belongs to which camera, below what becomes
    of each camera.*
 3. **Resolve cut** -- one line saying whether Resolve answers, with the way
    to the settings beside it, the time window, the values for the camera
-   cut, the speaker statistics and the box **Camera cut -- preview** with
-   the cut band and a picture that plays.
+   cut, the box **Speaker**, whose heading names where the speakers came
+   from, and the box **Camera cut -- preview** with the cut band and a
+   picture that plays.
 
    Both rear tabs are there with or without separate tracks. Without them the
    assignment column reads "into every camera" in grey, and sliders and

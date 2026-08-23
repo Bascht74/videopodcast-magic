@@ -72,10 +72,11 @@ distributed over the cameras. Camera cut and Resolve project come out as
 usual. Missing is only what the service does: de-bleed, leveler, noise
 removal. The bleed stays in the audio.
 
-Who speaks when is measured from the tracks, and the bleed is taken out of
-that measurement, not out of the audio. How it is measured, and how far down
-it still works, stands in
-[Speaker statistics, camera cut, EDL](camera-cut.md).
+Who speaks when comes from the local speaker separation
+([Speech recognition and speaker separation](speech.md)); without it, it is
+measured from the tracks, and the bleed is taken out of that measurement,
+not out of the audio. How it is measured, and how far down it still works,
+stands in [Speaker statistics, camera cut, EDL](camera-cut.md).
 
 Without multitrack there are no separate tracks and therefore no camera cut,
 with the service or without. The audio is then joined and laid into the
@@ -103,19 +104,14 @@ whether to take those names -- that costs nothing either.
 On a recompute the track settings are brought to the preset as well. Further
 tracks there go into the mix, and a warning names them.
 
-The speaker statistics are always requested, even where the preset does not
-provide for them -- without them there is no camera cut.
-
-Everything is downloaded: the single tracks, the statistics as
-`<Production>_statistics.json` and every further output of the preset --
-chapter marks, transcript, analyses. All of it lands in `auphonic-tracks/`
-next to the finished videos, later the `final_*.wav` too.
+Everything is downloaded: the single tracks and every further output of the
+preset -- chapter marks, transcript, analyses. All of it lands in
+`auphonic-tracks/` next to the finished videos, later the `final_*.wav` too.
 
 Setting In point and Out point afterwards costs no second run at
-Auphonic. The tracks are trimmed to the new window and the times in the
-statistics shift by the same amount, so the camera cut still fits. Where
-the length matches neither the window nor the whole measured range, the
-files belong to another run, and the message says so.
+Auphonic. The tracks are trimmed to the new window. Where the length
+matches neither the window nor the whole measured range, the files belong
+to another run, and the message says so.
 
 ### Further options on the command line
 
@@ -126,5 +122,4 @@ The window does not offer these.
 * `--auphonic-resume result|rerun|adopt|upload|abort` answers the question
   about a production that already exists in advance.
 * `--auphonic-done FOLDER` fetches nothing and takes the tracks lying there,
-  named after the speakers. The statistics are looked for in that folder and
-  in its `auphonic-tracks/`.
+  named after the speakers.

@@ -235,7 +235,8 @@ check("the key is still thrown out when saving",
 print("\n17. slider_argv on its own")
 t, bad = vpm.slider_argv({})
 check("empty values -> all defaults", bad is None
-        and len(t) == 2 * len(vpm.CUT_FIELDS), "%d" % len(t))
+        and len(t) == 2 * (len(vpm.CUT_FIELDS) + len(vpm.CUT_CHOICES)),
+        "%d" % len(t))
 t, bad = vpm.slider_argv({"wide-after": "60"})
 check("a set value gets through", t[t.index("--wide-after") + 1] == "60")
 t, bad = vpm.slider_argv({"wide-after": "6,5"})

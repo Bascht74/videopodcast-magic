@@ -144,25 +144,30 @@ print("\n4. The English documents carry no German")
 # caught by the pairing check further down.
 BOOKS = [os.path.join(ROOT, "README.md")]
 DOCS = os.path.join(ROOT, "docs")
+# What is not a chapter is not in docs/ any more: the three documents
+# for whoever changes the program stand beside it, in development/, and
+# they are English only.
+DEV = os.path.join(ROOT, "development")
 if os.path.isdir(DOCS):
     BOOKS += [os.path.join(DOCS, n) for n in sorted(os.listdir(DOCS))
-              if n.endswith(".md") and not n.endswith(".de.md")
-              # The coding guidelines are for whoever changes the code.
-              # They talk about the German catalogue and are checked for
-              # umlauts among the other documents below, not for words.
-              and n != "coding_guidelines.md"]
+              if n.endswith(".md") and not n.endswith(".de.md")]
+# Two of the three are scanned for German words like a chapter. The
+# coding guidelines are left out here: they talk about the German
+# catalogue, and they are checked for umlauts further down instead.
+BOOKS += [os.path.join(DEV, "internals.md"),
+          os.path.join(DEV, "measurements.md")]
 BOOKS = [b for b in BOOKS if os.path.exists(b)]
 check("the English documents are there", len(BOOKS) > 5, str(len(BOOKS)))
 
 # Every English chapter has a German one beside it, and the other way
 # round. A chapter translated on one side only is how a manual drifts.
 if os.path.isdir(DOCS):
-    # The coding guidelines are for whoever changes the code -- English
-    # only, and the one document that stands without a German twin.
-    ALONE = ("coding_guidelines.md",)
+    # Only chapters are in docs/ itself, so everything found here has to
+    # have a twin. The three documents that stand without one are in
+    # development/ and are not looked at by this check; they are still
+    # scanned for German words above.
     english = set(n[:-3] for n in os.listdir(DOCS)
-                  if n.endswith(".md") and not n.endswith(".de.md")
-                  and n not in ALONE)
+                  if n.endswith(".md") and not n.endswith(".de.md"))
     german = set(n[:-6] for n in os.listdir(DOCS) if n.endswith(".de.md"))
     check("every chapter has both languages", english == german,
           str(sorted(english ^ german)))
@@ -237,7 +242,7 @@ print("\n5. The other documents")
 # under docs/, overview.md among them. They are scanned for German words
 # there and for umlauts here -- an umlaut is the cheapest sign that a
 # translation slipped in.
-ENGLISH_ONLY = BOOKS + [os.path.join(ROOT, "docs", "coding_guidelines.md"),
+ENGLISH_ONLY = BOOKS + [os.path.join(DEV, "coding_guidelines.md"),
                         os.path.join(HERE, "README.md")]
 for path in ENGLISH_ONLY:
     # The path from the project root, not just the file name: three of

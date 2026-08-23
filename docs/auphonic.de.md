@@ -77,10 +77,11 @@ voreingestellt -16) und auf die Kameras verteilt. Kameraschnitt und
 Resolve-Projekt entstehen wie sonst. Es fehlt nur, was der Dienst tut:
 De-Bleed, Leveler, Rauschentfernung. Das Übersprechen bleibt im Ton.
 
-Wer wann spricht, wird aus den Spuren gemessen, und das Übersprechen wird aus
-dieser Messung herausgerechnet, nicht aus dem Ton. Wie gemessen wird, und wie
-weit hinunter das trägt, steht in
-[Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md).
+Wer wann spricht, kommt aus der örtlichen Sprechertrennung
+([Spracherkennung und Sprechertrennung](speech.de.md)); ohne sie wird es aus
+den Spuren gemessen, und das Übersprechen wird aus dieser Messung
+herausgerechnet, nicht aus dem Ton. Wie gemessen wird, und wie weit hinunter
+das trägt, steht in [Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md).
 
 Ohne Multitrack gibt es keine getrennten Spuren und damit keinen
 Kameraschnitt, mit Dienst wie ohne. Der Ton wird zusammengelegt und so ins
@@ -109,20 +110,15 @@ Namen übernommen werden — auch das kostet nichts.
 Beim Neurechnen kommen auch die Spureinstellungen auf das Preset. Weitere
 Spuren dort gehen in den Mix, eine Warnung nennt sie.
 
-Die Sprecherstatistik wird immer angefordert, auch wenn das Preset sie nicht
-vorsieht — ohne sie gibt es keinen Kameraschnitt.
-
-Heruntergeladen wird alles: Einzelspuren, Statistik als
-`<Produktion>_statistics.json` und jede weitere Ausgabe des Presets —
-Kapitelmarken, Transkript, Auswertungen. Alles landet in `auphonic-tracks/`
-neben den fertigen Videos, später auch die `final_*.wav`.
+Heruntergeladen wird alles: Einzelspuren und jede weitere Ausgabe des
+Presets — Kapitelmarken, Transkript, Auswertungen. Alles landet in
+`auphonic-tracks/` neben den fertigen Videos, später auch die `final_*.wav`.
 
 In point und Out point nachträglich zu setzen kostet keinen zweiten
 Durchlauf bei Auphonic. Die Spuren werden auf das neue Fenster
-beschnitten und die Zeiten der Statistik mitverschoben, damit der
-Kameraschnitt weiter passt. Passt die Länge weder zum Fenster noch zum
-ganzen gemessenen Bereich, gehören die Dateien zu einem anderen Lauf, und
-das sagt die Meldung.
+beschnitten. Passt die Länge weder zum Fenster noch zum ganzen gemessenen
+Bereich, gehören die Dateien zu einem anderen Lauf, und das sagt die
+Meldung.
 
 ### Weitere Optionen über die Kommandozeile
 
@@ -133,5 +129,4 @@ Im Fenster gibt es diese Optionen nicht.
 * `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die Frage
   nach einer schon vorhandenen Produktion im Voraus.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort liegenden
-  Spuren, benannt nach den Sprechern. Die Statistik wird in diesem Ordner und
-  in seinem `auphonic-tracks/` gesucht.
+  Spuren, benannt nach den Sprechern.

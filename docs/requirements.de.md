@@ -2,6 +2,19 @@
 
 *In English: [requirements.md](requirements.md). Zurück zum [Inhalt](README.de.md).*
 
+## Das Programm holen
+
+`install.py` holt alles mit einem Befehl — das Programm, das Modell für
+die Sprechertrennung und die Prüfsummen, gegen die beides gehalten
+wird. Der Befehl steht in der
+[README](../README.de.md#installieren). Python muss vorher da sein; das
+eine kann der Installierer nicht mitbringen.
+
+Auf das Modell kommt es hier an. Die Trennung liest es aus einem Ordner
+neben dem Programm, ohne Konto, ohne Zugangsschlüssel und ohne Netz,
+und nichts holt es später nach. Wer nur die eine Python-Datei
+herunterlädt, lässt die Trennung ohne Grundlage.
+
 ## Python
 
 Python: 3.10 oder neuer, darunter sagt das Programm es und hört auf. Die

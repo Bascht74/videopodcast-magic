@@ -9,6 +9,115 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.0.0-beta] - 2026-08-23
+
+### Added
+
+- `install.py` brings the program and the separation model in one
+  command, on macOS, Windows and Linux alike -- it is written in Python
+  because Python is the one thing that has to be there anyway. Every
+  file is held against the SHA-256 sums that travel with the model and
+  is not written where it does not match. It reports ffmpeg rather than
+  installing it, and hands over to the program at the end. `--check`
+  holds an installation already there against the sums, `--to` puts it
+  somewhere else, `--no-start` stops before the handover.
+- The speaker separation model travels with the repository, in
+  `models/speaker-diarization-community-1` -- five files, 33 MB, with
+  their licence, model card and checksums beside them. It is read from
+  a folder next to the program: no account, no token, no network.
+- The program recognises speech itself. On macOS 26 it uses the
+  recogniser the system brings, driven by a small Swift program built on
+  first use -- 22 seconds for an hour of audio, nothing to install.
+  Everywhere else it falls back to Whisper (`large-v3-turbo`, 1.5 GB,
+  measured at six times real time on a processor). The words carry their
+  punctuation, which is where sentence and clause boundaries come from.
+- The program separates speakers itself, locally, without uploading
+  anything. Measured against the individual microphones of two complete
+  interviews: 98.7 per cent of 45 473 words land on the right person,
+  and three quarters of the remaining errors sit where two people really
+  do talk at once or where the speaker had just changed. The model
+  travels with the program (`models/`, CC BY 4.0, checksummed before
+  every use) and is never fetched at run time.
+- A voice table under the assignment, one row per voice found, named
+  "Speaker 1, 2 ..." until somebody names them, with a button to listen
+  to each -- naming a voice without hearing it is guessing.
+- Four choices on tab 3 decide what is shown when nobody is clearly
+  speaking: the wide shot, the listener, alternating between them, or no
+  change at all.
+- The wide shot is placed by the language now. It enters on a sentence
+  boundary, holds at least five seconds and leaves at the next sentence
+  end; where that would run past fifteen seconds it leaves at the last
+  clause break before it, never in the middle of a sentence. Measured,
+  every inserted wide shot lands in the five-to-fifteen-second window it
+  is meant for.
+- The exact frame comes from the sound, not from the text: in a window
+  around the target the quietest stretch is looked for. That lands in a
+  real speech pause 97 to 99 times in a hundred, where the recogniser's
+  word boundary manages 42 to 46 -- and it costs a fifth of a second for
+  a whole episode.
+- A reaction cut. When somebody asks a question and another answers, the
+  picture goes to the answering person while the question is still
+  running.
+
+### Changed
+
+- A speaker has to hold the floor for one and a half seconds before the
+  picture follows. A short "mhm" used to switch the camera, and the
+  minimum edit duration then held that camera for three seconds.
+- Short shots are merged into the one that **follows**, not the one
+  before. Measured over four runs, the time the wrong camera is shown
+  falls from 326 to 99 seconds -- and it falls just as far when the
+  input is the truth instead of a recognition, so this is a better rule
+  and not a crutch.
+- The wide shot answers uncertainty. Where the separation frays -- seven
+  segment starts inside twelve seconds -- or produces a small mixed
+  cluster that belongs to nobody, the wide shot is shown instead of
+  guessing. Measured, that beats even the best possible guess, and the
+  longest stretch showing the wrong person drops from eight seconds to
+  2.3, which is below the minimum edit duration.
+- `--wide-after` is 40 seconds instead of 45, `--wide-length` is the
+  minimum hold of the wide shot instead of its length.
+- One minimum edit duration. The window showed three seconds while the
+  functions defaulted to 1.2, so every path without a slider cut
+  differently from the interface.
+- The opening wide shot survives a fragmented recognition. It used to
+  end at the first four-second block of another voice; a mislabelled
+  block ended it 88 seconds early.
+
+### Removed
+
+- **auphonic.com no longer supplies speaker data.** Its statistics knew
+  0.6 pauses a minute where our own measurement finds 16, and in 66
+  minutes the wide-shot search found no place at all on them. Levelling,
+  de-bleed, noise removal and transcription are untouched.
+- `--wide-min` and `--wide-flow`. With a five-second minimum hold they
+  could no longer change anything.
+
+### Fixed
+
+- The preview died on every call with "Preview not possible: 'min-shot'"
+  -- it read a key that does not exist.
+- The time axis looked files up under the path handed to it. On macOS
+  `/tmp` is a link to `/private/tmp`, so the same file carried two names
+  and was not found.
+- Four labels of the preview player reached the screen without going
+  through the catalogue and stayed English in the German window.
+- The row of "One more speaker in ..." buttons grew with every
+  recording and pushed the preview player off the edge. The file name
+  moved into a chooser; the row is now the same width whatever the
+  material.
+
+### Tests
+
+- Eight new test files, 90 in total. Among them a test that speaks its
+  own audio with `say` rather than shipping a file, and one that holds
+  the preview's cut list against the run's.
+- `first_run.sh` puts the machine back the way it was before the program
+  ever ran -- the environment, the caches, the packages, the models, the
+  keychain entry -- so a change to how the program installs itself can
+  be watched from nothing. It is not part of the suite: `run.sh` picks
+  up `*_test.py` and nothing else.
+
 ## [1.1.0-beta] - 2026-08-22
 
 ### Changed

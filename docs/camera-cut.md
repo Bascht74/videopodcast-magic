@@ -4,13 +4,17 @@
 
 ## Speaker statistics, camera cut, EDL
 
-With multitrack the script knows who spoke when -- from auphonic.com, or
-measured here (see below). Out of that it builds the camera cut:
+With multitrack the script knows who spoke when: separated by voice on
+this machine, or measured from the tracks against each other -- both in
+[Speech recognition and speaker separation](speech.md). Out of that it
+builds the camera cut:
 
 * Whoever speaks alone gets their camera, with a lead-in.
+* A short "yes" does not: below **Speaks at least** the picture stays
+  where it is.
 * In silence the wide shot runs.
-* Where a shot stands for a long time, the wide shot drops into a speech
-  pause.
+* Where a shot stands for a long time, the wide shot drops in at a
+  sentence boundary.
 
 **When several speak at once**, a camera showing exactly those speakers
 wins -- one on both hosts, say. If none fits exactly, the smallest camera
@@ -22,8 +26,7 @@ The output folder gets `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 and `_cameracut.edl`. The heads are
 `Speaker,Start TC,End TC,Time from start,Duration s` and
 `Shot,Camera,Start TC,End TC,Duration s`, the EDLs are titled `Speakers`
-and `Camera cut`. Auphonic's own `<Production>_statistics.json` lies with
-everything else from the service in `auphonic-tracks/`.
+and `Camera cut`.
 
 ### The knobs
 
@@ -35,32 +38,77 @@ the unit and a short line beside it.
 
 *Tab 3: the values on the left, the preview on the right.*
 
-The fields, in the order they stand:
+Four fields shape the cut itself:
 
 * **Minimum Edit Duration** -- 3 s, this long a shot stands at least
   (on the command line `--min-edit-duration`)
+* **Speaks at least** -- 1.5 s, below this the camera does not follow
+  (on the command line `--min-speech-to-switch`)
 * **Edit Change Delay** -- 0.3 s, this much later than the sound the
   picture cuts (on the command line `--edit-change-delay`)
-* **Wide shot after** -- 45 s, from this hold time on, a short look at
-  the wide shot (on the command line `--wide-after`)
-* **Wide shot at most** -- 2.5 s, how long that wide shot holds at most
-  (on the command line `--wide-length`)
-* **Wide shot at least** -- 1.5 s, and how short it never gets -- if
-  need be it runs into the first words (on the command line `--wide-min`)
+* **Reaction cut earlier** -- 1.5 s, after a question the answer is on
+  screen this much earlier (on the command line `--reaction-lead`)
+
+Four more shape the wide shot:
+
+* **Wide shot after** -- 40 s, from this hold time on, a look at the
+  wide shot (on the command line `--wide-after`)
+* **Wide shot holds** -- 5 s, the inserted wide shot stands at least
+  this long (on the command line `--wide-length`)
+* **Wide shot at most** -- 15 s, and at most this long (on the command
+  line `--wide-most`)
 * **Wide shot at the latest** -- 120 s, upper limit for one camera in
   one piece (on the command line `--wide-latest`)
-* **Wide shot mid-speech** -- 6 s, how long it holds when the cut falls
-  mid-speech (on the command line `--wide-flow`)
+
+Under them stand four selectors. They say what is shown where the
+speech does not say whom to show:
+
+* **Long monologue** -- **Alternating** (on the command line
+  `--on-monologue`)
+* **Several speak at once** -- **Wide shot** (on the command line
+  `--on-together`)
+* **Recognition uncertain** -- **Wide shot** (on the command line
+  `--on-uncertain`)
+* **Question** -- **Answering speaker** (on the command line
+  `--on-question`)
+
+The first three also take **Listener**, **Alternating** and **No camera
+change**; **Question** takes **off** and **Listener** as well.
 
 Under the fields the tick **Wide shot for greeting at the start and
 farewell at the end** keeps beginning and end on the wide shot (on the
-command line `--no-wide-edges` switches it off).
+command line `--no-wide-edges` switches it off). The opening wide shot
+holds until the floor is really handed over, not until the first longer
+block from somebody else.
 
-**Minimum Edit Duration** also takes care of short interjections ("mhm",
-"yes exactly"): too brief a look at the other camera falls back into the
-shot before it.
+**Speaks at least** takes care of short interjections ("mhm", "yes
+exactly"). A shot that still comes out too short falls into the one
+that follows, not into the one before.
 
-### Preview and speaker statistics
+### When the speech does not say whom to show
+
+Four cases, and what each of the four selectors decides:
+
+* **Long monologue** -- one person holds the floor past **Wide shot
+  after**. **Alternating** remembers what the last break showed.
+* **Several speak at once** -- and no camera shows exactly them.
+* **Recognition uncertain** -- the recognition frays over a passage, or
+  a name is left with nothing but scraps.
+* **Question** -- the picture goes to the answer before it starts. Only
+  after a question that is not the main speaker's, when somebody else
+  takes over at once and keeps the floor.
+
+**Listener** means whoever speaks next, and only where somebody on that
+camera was heard in the last 20 seconds. Otherwise the wide shot.
+
+**Listener** and **Alternating** show a person the program only knows
+was audible shortly before. Whether they are watching, it does not know
+-- it does not see the picture. The wide shot is the honest one.
+
+Two speakers on one camera count as one for these rules: a change of
+speaker between them does not change the picture.
+
+### Preview and speakers
 
 On the right the box **Camera cut -- preview** carries the length in its
 title and one line of numbers below it: shots, median hold time, shortest
@@ -70,18 +118,18 @@ warning colour.
 
 On the left, under the knobs, the box **Speaker**: per speaker the speech
 time, the share, the number of blocks and their average length, plus a
-row of silence. The heading names the source -- **Speaker statistics from
-auphonic.com** or **Speakers, self-measured from the tracks**. Where two
+row of silence. The heading names the source -- **Speakers, separated by
+voice** or **Speakers, self-measured from the tracks**. Where two
 speak at once the time counts twice, for silence it does not, so the rows
 add up to more than the running time.
 
 Both come out of the handover file of the last run, recomputed on every
 change and always for the chosen window. Nothing is written or uploaded.
 
-Without statistics the box says so and offers the button **Measure
-speakers now**; where the computation fails, the reason stands in its
-place. Results that turn up later -- in `Result/auphonic-tracks/` too
--- start the preview by themselves.
+Where no speakers are known the box says so and offers the button
+**Measure speakers now**; where the computation fails, the reason stands
+in its place. Speakers that turn up later start the preview by
+themselves.
 
 ### Cut band and legend
 
@@ -157,7 +205,7 @@ programme time minus offset, the same offset the cut timeline is built
 with.
 
 Every spot is set again until it holds; how often, and for how long, is
-in [Inside the script](internals.md).
+in [Inside the script](../development/internals.md).
 
 ### Speakers without Auphonic
 
@@ -189,16 +237,16 @@ measured, and the log says why and names the worst pair.
 
 Down to 5 dB of separation the detection is exact, well below the 9.5 dB
 the 3:1 rule asks for; the measurements behind that number are in
-[Inside the script](internals.md).
+[What was measured](../development/measurements.md).
 
 The log says how strong the bleed was, and under it the speech time and
 the number of passages per speaker. Where nothing was audible, there is
 no camera cut.
 
 The button **Measure speakers now** does the same in the interface,
-before the first run: coarser than auphonic.com, but enough to set the
-cut up. As soon as the statistics are there they take precedence, and the
-heading above the table says which source applies.
+before the first run: coarser than the separation by voice, but enough
+to set the cut up. Speakers separated by voice take precedence as soon
+as they are there, and the heading above the table says which applies.
 
 ### One camera for everybody
 
@@ -235,15 +283,18 @@ preview computes from it, and the Resolve part builds from it.
 
 ### How the wide shot is placed
 
-A wide shot does not come by the clock. It goes where a cut is
-unobtrusive anyway: into a long speech pause, if possible shortly before
-someone else comes in, and not too far from where the wide shot was
-wanted. Nothing is rolled for -- the same material gives the same cut.
+A wide shot does not come by the clock. It enters on a sentence
+boundary near the spot where it was wanted, and the exact point comes
+from the sound: the dip in the level around that boundary. Nothing is
+rolled for -- the same material gives the same cut.
 
-`--wide-latest` is the rip cord: where no pause turns up, the cut happens
-anyway. It then falls mid-speech, so the wide shot holds for
-`--wide-flow` instead of `--wide-length`; where the room to the next cut
-is short, it is brought forward rather than shortened.
+It stands at least **Wide shot holds**, then runs to the end of the
+sentence. Where that end lies beyond **Wide shot at most**, the last
+clause break before it ends the shot. It never ends mid-sentence.
+
+`--wide-latest` is the rip cord: where no sentence boundary turns up,
+the cut happens anyway. Without a transcript the wide shot goes to the
+longest speech pause nearby and stands the set minimum.
 
 ## Metrics and colour comparison
 
@@ -280,6 +331,10 @@ loudness measurement runs through each track twice.
 
 These have no counterpart in the window.
 
+* `--reaction-gap` how soon the answer has to follow the question for
+  the reaction cut to fire (3 s)
+* `--reaction-hold` how much of the ten seconds after the question the
+  answering speaker has to hold, as a share between 0 and 1 (0.7)
 * `--no-metrics` leaves out the metrics file and the colour comparison
 * `VPM_PLAYER_DEBUG=1` in front of the call puts clock, position and
   wanted value of all three players under the picture, and every attempt

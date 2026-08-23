@@ -90,7 +90,7 @@ check("the co-host moves just the same",
 
 print("\n6. The interface really takes this way")
 source = open(SCRIPT, encoding="utf-8").read()
-check("off_statistics calls build_handover",
+check("off_speakers calls build_handover",
         "d, reason = build_handover(" in source)
 check("the old calculation is gone",
         "zero = (min(audios) if audios else" not in source)
@@ -176,15 +176,15 @@ check("no leftover of the old formatting",
         "%(w)s" not in t and "%(l)s" not in t)
 
 print("\n11. The heading says where the sections come from")
-check("Auphonic", vpm.speech_heading(False) ==
-        "Speaker statistics from auphonic.com")
+check("separated by voice", vpm.speech_heading(False) ==
+        "Speakers, separated by voice")
 check("self-measured",
         "self-measured from the tracks" in vpm.speech_heading(True))
 check("with the total appended",
         vpm.speech_heading(False, "72 min") ==
-        "Speaker statistics from auphonic.com -- 72 min")
+        "Speakers, separated by voice -- 72 min")
 check("an empty total appends nothing",
-        vpm.speech_heading(False, "").endswith("auphonic.com"))
+        vpm.speech_heading(False, "").endswith("by voice"))
 
 print("\n%s" % ("all good" if not error
                 else "FAIL: %s" % ", ".join(error)))

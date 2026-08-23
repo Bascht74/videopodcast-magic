@@ -32,11 +32,11 @@ In that box, **Check again** asks once more, and so does opening the window.
 | | Cut timeline | Multicam timeline |
 |---|---|---|
 | multitrack, several cameras | picture from the camera cut, audio in one piece | all cameras side by side |
-| simple path, several cameras | — no speaker statistics, so none | all cameras side by side |
+| simple path, several cameras | — no separate speakers, so none | all cameras side by side |
 | one camera | the camera in one piece, the mix below | — would be pointless |
 
 The simple path builds a project too. A camera cut it cannot deliver -- that
-needs the speaker assignment from auphonic.com -- but it gives the timeline
+needs Multitrack and the speaker assignment -- but it gives the timeline
 with all cameras at their measured places, and Resolve makes the multicam clip
 from it.
 
@@ -181,7 +181,7 @@ is not trimmed either. Only where they lie shifts, and that follows the
   the jingle, not the file. The threshold is 40 dB below the loudest point of
   the file itself.
 - **Outro**: the *start of its sound* meets the end of the last word.
-- Where the words lie comes from the speaker statistics.
+- Where the words lie comes from the speaker sections in the handover file.
 - A clip without sound uses its end for the intro, its start for the outro.
 
 You pull the dissolve yourself, and that is why the clips lie *over* the

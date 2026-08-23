@@ -71,10 +71,10 @@ schlägt eine Kamera, die genau diese Leute zeigt, den Weitwinkel. Der
 Weitwinkel selbst kommt nicht nach der Uhr, sondern an einer langen
 Sprechpause, kurz bevor jemand anderes einsetzt.
 
-Zwei Zahlen legen fest, wie fein der Schnitt ausfällt, und das Fenster
-zeigt ihre Wirkung sofort, ohne etwas zu schreiben. Heraus kommen eine
-Tabelle, eine EDL und die Sprecherstatistik: wer wie lange geredet hat,
-in Prozent ([Kameraschnitt](camera-cut.de.md)).
+Acht Zahlenfelder und vier Auswahlfelder legen fest, wie fein der Schnitt
+ausfällt, und das Fenster zeigt ihre Wirkung sofort, ohne etwas zu
+schreiben. Heraus kommen eine Tabelle, eine EDL und die Sprechzeiten: wer
+wie lange geredet hat, in Prozent ([Kameraschnitt](camera-cut.de.md)).
 
 ## Nach DaVinci Resolve
 

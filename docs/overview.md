@@ -70,10 +70,10 @@ exactly those people beats the wide shot. The wide shot itself does not
 come by the clock, but at a long pause shortly before someone else
 starts.
 
-Two numbers set how fine the cut turns out, and the window shows their
-effect at once, without writing anything. Out come a table, an EDL and
-the speaker statistics: who talked how long, in per cent ([camera
-cut](camera-cut.md)).
+Eight number fields and four selectors set how fine the cut turns out, and
+the window shows their effect at once, without writing anything. Out come
+a table, an EDL and the speaking times: who talked how long, in per cent
+([camera cut](camera-cut.md)).
 
 ## Into DaVinci Resolve
 

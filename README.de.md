@@ -7,7 +7,7 @@
 *Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
 zusammenpasst -- bevor irgendetwas geschrieben wird.*
 
-**Fassung 1.1.0-beta.** Es macht die Arbeit, für die es geschrieben
+**Fassung 2.0.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
@@ -41,6 +41,32 @@ jede Woche. Was es nicht tut, ist entscheiden: der Kameraschnitt ist ein
 Vorschlag, der Schnitt bleibt deiner. Die Geschichte eines Laufs, von
 den Dateien auf der Platte bis zum fertigen Resolve-Projekt, steht in
 **[docs/overview.de.md](docs/overview.de.md)**.
+
+## Installieren
+
+Ein Befehl. Er holt das Programm und das Modell für die
+Sprechertrennung, hält jede Datei gegen ihre Prüfsumme und startet:
+
+```
+curl -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py && python3 install.py
+```
+
+Unter Windows, in der PowerShell:
+
+```
+curl.exe -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py; python install.py
+```
+
+Alles landet in `./videopodcast-magic`; `--to PFAD` legt es woanders
+hin, `--no-start` holt es, ohne zu starten, und `--check` hält eine
+vorhandene Installation gegen die Prüfsummen. Python muss vorher da
+sein — das eine kann der Installierer nicht mitbringen.
+
+**Wegen des Modells ist das kein bloßer Download.** Die
+Sprechertrennung liest es aus einem Ordner neben dem Programm: ohne
+Konto, ohne Zugangsschlüssel, ohne Netz. Wer nur die eine Python-Datei
+herunterlädt, hat diesen Ordner leer, und die Trennung sagt das und
+hört auf.
 
 ## Loslegen
 
@@ -84,12 +110,32 @@ Plattform, stehen in
 * **[Der einfache Fall](docs/simple-path.de.md)** -- Eine Tondatei, eine Kamera: der kürzeste Weg hindurch.
 * **[Aufbereitung über auphonic.com](docs/auphonic.de.md)** -- Pegeln, Übersprechen, Transkription — und wo der Schlüssel liegt.
 * **[Multitrack: mehrere Sprecher, mehrere Kameras](docs/multitrack.de.md)** -- Eine Spur je Sprecher, mehrere Kameras, eine Zeitachse.
+* **[Spracherkennung und Sprechertrennung](docs/speech.de.md)** -- Was gesagt wird und wer es sagt, auf dieser Maschine ausgerechnet.
 * **[Sprecherstatistik, Kameraschnitt, EDL](docs/camera-cut.de.md)** -- Wie der erste Schnitt vorgeschlagen wird, und die Zahlen, an denen er gemessen wird.
 * **[DaVinci Resolve](docs/resolve.de.md)** -- Das Projekt, das herauskommt: Timelines, Spuren, Farbe, Ausgabe.
 * **[Alle Schalter](docs/command-line.de.md)** -- Jeder Schalter der Befehlszeile, mit dem, was er tut.
-* **[Im Inneren des Scripts](docs/internals.de.md)** -- Wie die eine Datei aufgebaut ist, und wo das Deutsche steht.
 
 Das ganze Verzeichnis: **[docs/README.de.md](docs/README.de.md)**.
+
+## Weitere Informationen und technische Details
+
+Neben dem Handbuch stehen die Dokumente für alle, die das Programm
+ändern statt es zu benutzen. Sie sind alle englisch.
+
+**[Inside the script](development/internals.md)** sagt, wie die
+eine Datei aufgebaut ist und wie jeder Schritt arbeitet. **[What was
+measured](development/measurements.md)** hält die Belege hinter den
+Zahlen: Trefferquoten, Laufzeiten, Verteilungen, Vergleiche. **[Coding
+guidelines](development/coding_guidelines.md)** sagt, wie der Code
+geschrieben ist, und warum. Alle drei liegen in `development/`.
+
+**[CHANGELOG.md](CHANGELOG.md)** sagt, was sich in jeder Fassung
+geändert hat, von 0.1.0 an. **[THIRD-PARTY.md](THIRD-PARTY.md)** führt
+auf, worauf sich das Programm zur Laufzeit stützt und unter welchen
+Bedingungen, samt dem mitgelieferten Sprechermodell.
+**[CLAUDE.md](CLAUDE.md)** hält die Projektregeln, darunter die, über
+die nicht verhandelt wird; Claude Code liest die Datei zu Beginn einer
+Sitzung von selbst.
 
 ## Was das Script nicht tut
 

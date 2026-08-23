@@ -1,6 +1,6 @@
 # The test suite
 
-81 tests against `../videopodcast-magic.py`.
+90 tests against `../videopodcast-magic.py`.
 
 ```bash
 bash run.sh              # all of them, several at a time
@@ -87,6 +87,35 @@ So any German word or `(s)` plural that creeps back into the source turns
 the suite red. **Do not delete `state/`**: a missing count is treated as
 "no baseline yet" and seeded from the current source, which would quietly
 disarm the ratchet.
+
+## Back to a first run
+
+`first_run.sh` takes off the machine everything the program puts on it:
+the environment the separation runs in, the packages it installs by
+itself, what it stores between runs, the models in the Hugging Face
+store, pip's download store, the auphonic key in the keychain. The next
+start is then a first start.
+
+```bash
+bash first_run.sh              # say what would go, delete nothing
+bash first_run.sh --for-real   # delete it, after one question
+```
+
+It is not part of the suite -- `run.sh` picks up `*_test.py` and nothing
+else -- and it is not run in passing. It belongs to a change in how the
+program installs or caches: then it is run once, a real project is
+opened, and the first run is watched putting it all back.
+
+Two things it leaves alone on purpose. `models/` beside the program: the
+separation model travels with the program rather than being fetched, so
+removing it does not test an install, it breaks the program. And the
+project folders, whose results are nobody's to delete but their owner's.
+
+`--without-torch`, `--without-modules` and the other `--without-` names
+leave a group standing. That matters for `torch`: the environment is
+built with `--system-site-packages`, so a torch already in the
+interpreter makes it fetch 58 MB instead of 218 -- but other work on the
+same machine may need it.
 
 ## What these tests do not do
 

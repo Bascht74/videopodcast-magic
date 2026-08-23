@@ -54,7 +54,7 @@ end of the file. Changing a string means changing both sides, or
 and what was measured goes into the log. Third-party names are asked for
 at run time, never written into the code.
 
-`docs/coding_guidelines.md` says how the code is written, and why.
+`development/coding_guidelines.md` says how the code is written, and why.
 `CHANGELOG.md` says what changed in each version, from 0.1.0.
 
 ## How to work here

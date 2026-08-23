@@ -24,8 +24,8 @@ Was der einfache Weg genauso kann wie Multitrack:
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
   nebeneinander, fertig für Multicam; eine Kamera eine gerade.
 
-Es fehlen Kameraschnitt, Sprecherstatistik und Schnittprognose: die brauchen
-die Sprecherzuordnung.
+Es fehlen Kameraschnitt, Sprechzeiten und Schnittprognose: die brauchen je
+Sprecher eine Spur.
 
 Was herauskommt, hängt am Material:
 
