@@ -8,7 +8,7 @@ A file with two channels can be two things: one pair of microphones, or
 two people that a recorder wrote into one file. Read as a pair, both
 speakers land in one track.
 
-In the file list on tab **1. Files & production** a file with more than
+In the file list on tab **Files & production** a file with more than
 one channel opens into one row per channel: **Channel 1**, **Channel 2**
 and so on. On each row a tick offers **join with Channel 3**, and what
 was measured stands beside it.

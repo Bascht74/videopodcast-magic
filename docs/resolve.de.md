@@ -4,7 +4,7 @@
 
 ## DaVinci Resolve
 
-Auf dem Reiter **4. Ausgabe** baut es der Knopf
+Auf dem Reiter **Ausgabe** baut es der Knopf
 **Resolve-Projekt anlegen**: erst die Dateien, dann das Projekt. Er legt das
 Projekt an, setzt Bildrate, Auflösung und Start-Timecode, importiert die
 fertigen Dateien und baut die Timelines; der Ablauf wird als
@@ -17,7 +17,7 @@ inzwischen geändert, bricht er ab — der Ton in den Videos gehört dann zum
 alten Fenster.
 
 Ob Resolve antwortet, wird beim ersten Blick auf den Reiter
-**3. Resolve-Schnitt** von selbst gefragt, im Hintergrund. Der Reiter sagt
+**Resolve-Schnitt** von selbst gefragt, im Hintergrund. Der Reiter sagt
 die Antwort in einer Zeile, und daneben steht der Weg zum Fenster
 **Einstellungen ...**, in dem die Prüfung selbst sitzt. In dessen Kasten
 **Verbindung zu Resolve** stehen Produkt und Version, wenn es geht, und
@@ -174,7 +174,7 @@ für Stereo wären. Bei HDR nennt es auch die Prüfung:
 
 ### Vorspann und Abspann
 
-In der Kameratabelle auf dem Reiter **2. Zuordnung & Zeitfenster** hat jede
+In der Kameratabelle auf dem Reiter **Zuordnung & Zeitfenster** hat jede
 Zeile eine Spalte **Typ**: *Inhalt*, *Vorspann*, *Abspann* oder
 *Video ignorieren*. Vorspann und Abspann sind freiwillig. Eine Datei, die
 kein Inhalt ist, wird nicht ausgerichtet, nicht aufbereitet und nicht

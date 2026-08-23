@@ -540,7 +540,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.2.0-beta"
+VERSION = "2.3.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -595,6 +595,10 @@ THREAD_BUFFER = {}   # thread id -> list of text chunks
 # that the control beside the table does not push the player on the
 # right out of a 1400 pixel window.
 NAME_ROOM = 260
+# What the row under the assignment table may take before the player on
+# the right is pushed off the window. Measured on 23.8.2026: past this
+# the sheet asks for more than a 13 inch screen has.
+ROW_ROOM = 380
 
 # One palette for all three outputs -- GUI, log pane and terminal -- so a
 # run looks the same wherever it is watched.
@@ -602,7 +606,14 @@ COLOURS = {
     "heading":   "#1f4e79",       # section heading
     "backdrop": "#e8eff7",      # the strip behind a heading
     "good":     "#2e7d4f",       # done
-    "warning": "#b06010",       # warning, run continues
+    # Measured on 23.8.2026 against the light surfaces it stands on:
+    # 5.8 on the sheet, 5.6 in a box, 5.1 on a tab header, 4.6 on a
+    # stripe -- and 5.8, 5.2, 5.5 on the window colours of macOS,
+    # Windows and GNOME. The old #b06010 was the only one of thirty
+    # measured values that fell through on a foreign surface: 4.2 on
+    # Windows, 4.5 on GNOME. Windows and GNOME both take a darker tone
+    # for the same role (#9D5D00, #905400), so this is theirs as well.
+    "warning": "#985508",       # warning, run continues
     "error":  "#b02020",       # aborted
     "value":    "#2f5d8a",       # numbers and results
     # Measured against the footer, which the desktop paints #efefef:
@@ -631,6 +642,9 @@ COLOURS_DARK = {
     "heading":   "#7fb4e6",
     "backdrop": "#233040",
     "good":     "#5cc98a",
+    # Its own value, and it has to be: measured against our dark sheet
+    # this one gives 7.2 and the light #985508 gives 2.7. On the dark
+    # window colours of the three systems it stands at 7.6, 7.5, 7.2.
     "warning": "#e2a355",
     "error":  "#f07070",
     "value":    "#9dc4e8",
@@ -644,6 +658,11 @@ COLOURS_DARK = {
     "off":     "#2c3a48",
     "off_text": "#93a9c0",
 }
+
+# The light set kept aside. COLOURS is the one dictionary everything
+# reads, so a desktop switched to dark and back has to find the light
+# values again -- overwriting them in place would burn the way back.
+COLOURS_LIGHT = dict(COLOURS)
 
 
 def desktop_is_dark(QtWidgets, QtGui):
@@ -1375,6 +1394,28 @@ def _parse_json(text):
         return json.loads(text)
     except ValueError:
         raise RuntimeError(T('Response was not JSON: %s') % text[:300])
+
+
+def key_complaint(key):
+    """What is wrong with this key before it is sent, or "".
+
+    Only what can be told without asking anybody: whether there is one
+    at all, and whether it looks like something that was pasted wrong.
+    How long a real key is and which characters it uses is not written
+    down here -- it has never been measured, and a guessed format would
+    turn away a key that works. Whether a key is good is a question
+    only auphonic.com can answer, and it is asked once, when somebody
+    opens the preset list.
+    """
+    if not key:
+        return T('There is no key.')
+    if key != key.strip():
+        return T('The key has a space or a line break at one end.')
+    if any(c.isspace() for c in key):
+        return T('The key is broken in the middle by a space or a line break.')
+    if any(ord(c) < 32 or ord(c) == 127 for c in key):
+        return T('The key has a character in it that cannot be typed.')
+    return ""
 
 
 def list_presets(key):
@@ -10201,6 +10242,19 @@ CLIP_COLOURS_RGB_LIGHT = {"Beige": "#ccb989"}
 ON_DARK = [False]
 
 
+def colours_pick(dark):
+    """Fill COLOURS with the set this desktop asks for.
+
+    Refilled in place rather than replaced: every module and every
+    style sheet holds on to this one dictionary, and a new object
+    would leave all of them reading the old one. Called again when the
+    desktop switches while the program runs.
+    """
+    COLOURS.clear()
+    COLOURS.update(COLOURS_DARK if dark else COLOURS_LIGHT)
+    ON_DARK[0] = bool(dark)
+
+
 def clip_colour_rgb(name):
     """Return the RGB approximation of a clip colour for this background."""
     exception = (CLIP_COLOURS_RGB_DARK if ON_DARK[0]
@@ -14623,6 +14677,96 @@ def speaker_model_folder():
         os.path.join(folder, "config.yaml")) else ""
 
 
+# Where the model comes from when it is not there yet. The same
+# repository the program itself comes from, so the two always match.
+MODEL_BASE = ("https://raw.githubusercontent.com/Bascht74"
+              "/videopodcast-magic/%s/models/" + SPEAKER_MODEL_NAME + "/")
+MODEL_MB = 33
+
+
+def model_reference():
+    """Which state of the repository the model is fetched from.
+
+    The tag of this version, so a program and its model are never a
+    version apart. Where there is no such tag -- a run straight off the
+    main branch -- the branch is what there is.
+    """
+    return "v" + VERSION
+
+
+def fetch_model(report=None, ref=""):
+    """Fetch the separation model beside the program. "" when it worked.
+
+    Every file is held against the SHA-256 sums that come with it, and
+    one that does not match is not written. The sums are fetched first,
+    so the list of files is not written down twice and cannot drift
+    from what the model actually is.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    if not os.access(here, os.W_OK):
+        return T('The folder of the program cannot be written to: %s') \
+            % here
+    import urllib.request
+    base = MODEL_BASE % (ref or model_reference())
+
+    def take(name):
+        with urllib.request.urlopen(base + name,
+                                    context=https_context(),
+                                    timeout=120) as answer:
+            return answer.read()
+
+    try:
+        raw = take("SHA256SUMS.txt")
+    except Exception as e:
+        if not ref:
+            # No tag of that name: a run off the branch rather than off
+            # a release. Say so rather than failing over a name.
+            return fetch_model(report, "main")
+        return T('The model could not be fetched: %s') % e
+    sums = {}
+    for line in raw.decode("utf-8", "replace").splitlines():
+        line = line.strip()
+        parts = line.split()
+        if line and not line.startswith("#") and len(parts) >= 2 \
+                and len(parts[0]) == 64:
+            sums[parts[-1]] = parts[0].lower()
+    if not sums:
+        return T('The list of model files came back empty.')
+    folder = os.path.join(here, "models", SPEAKER_MODEL_NAME)
+    done = 0
+    for name in sorted(sums):
+        if report:
+            report(T('Fetching the model (about %d MB): %s')
+                   % (MODEL_MB, name), 0.05 + 0.9 * done / len(sums))
+        try:
+            data = take(name)
+        except Exception as e:
+            return T('The model could not be fetched: %s') % e
+        if hashlib.sha256(data).hexdigest() != sums[name]:
+            return T('%s does not match its checksum and was not '
+                     'written.') % name
+        where = os.path.join(folder, name.replace("/", os.sep))
+        try:
+            os.makedirs(os.path.dirname(where), exist_ok=True)
+            beside = where + ".part"
+            with open(beside, "wb") as f:
+                f.write(data)
+            os.replace(beside, where)
+        except OSError as e:
+            return T('The model could not be written: %s') % e
+        done += 1
+    # The licence and what it says about the model travel with it.
+    for name in ("SHA256SUMS.txt", "LICENSE-CC-BY-4.0.txt",
+                 "MODEL_CARD.md", "NOTICE.md"):
+        try:
+            data = raw if name == "SHA256SUMS.txt" else take(name)
+            with open(os.path.join(folder, name), "wb") as f:
+                f.write(data)
+        except Exception:
+            pass          # nice to have, not worth failing over
+    return ""
+
+
 def read_checksums(file_path):
     """Read a SHA256SUMS file: {file name: digest}.
 
@@ -14942,6 +15086,18 @@ def speaker_split_run(path, num_speakers=0, report=None,
     now and then and ends the run when it answers true.
     """
     folder = speaker_model_folder()
+    if not folder:
+        # Not there yet: fetch it once, beside the program, where it
+        # then stays. Whoever asked for a separation has asked for the
+        # 218 MB environment already; the 33 MB of the model itself
+        # need no second question.
+        if report:
+            report(T('Fetching the model (about %d MB) ...') % MODEL_MB,
+                   0.02)
+        trouble = fetch_model(report)
+        if trouble:
+            return [], trouble
+        folder = speaker_model_folder()
     if not folder:
         return [], T('The speaker separation model is not beside the '
                      'program.')
@@ -18357,23 +18513,36 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             QtWidgets.QSlider.__init__(self, Qt.Horizontal, parent)
             self.begins = None
             self.until = None
-            # The rail is drawn grey throughout -- only what lies between cut
-            # in and the Out point is blue. Otherwise the system would colour
-            # everything left of the handle and two unrelated things would look
-            # alike.
+            self.colours_apply()
+
+        def colours_apply(self):
+            """Paint the rail in the colours of this desktop.
+
+            The rail is drawn grey throughout -- only what lies between
+            the In point and the Out point is blue. Otherwise the
+            system would colour everything left of the handle and two
+            unrelated things would look alike.
+
+            The three values come from COLOURS, so the rail follows a
+            dark desktop; a fixed light grey stood there before at
+            10.7 against a dark box, a white band in a dark window.
+            Measured 23.8.2026: the outline against the handle is now
+            5.2 light and 6.0 dark, where the fixed pair gave 2.9 --
+            under the 3 that WCAG 1.4.11 asks of a control.
+            """
             self.setStyleSheet("""
                 QSlider::groove:horizontal {
-                    height: 6px; background: #d7dee7; border-radius: 3px;
+                    height: 6px; background: %(frame)s; border-radius: 3px;
                 }
                 QSlider::sub-page:horizontal,
                 QSlider::add-page:horizontal {
-                    background: #d7dee7; border-radius: 3px;
+                    background: %(frame)s; border-radius: 3px;
                 }
                 QSlider::handle:horizontal {
                     width: 13px; margin: -5px 0; border-radius: 7px;
-                    background: #ffffff; border: 1px solid #8b98a6;
+                    background: %(sheet)s; border: 1px solid %(quiet)s;
                 }
-            """)
+            """ % {k: COLOURS[k] for k in ("frame", "sheet", "quiet")})
 
         def set_range(self, begins, until):
             self.begins, self.until = begins, until
@@ -18516,6 +18685,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.slider.sliderReleased.connect(self.released)
             self._held = False
             self._should_play = False
+            # Fast forward doubles from here. Only forwards: a negative
+            # rate is accepted by Qt but the ffmpeg backend underneath
+            # reports 0.00 back and stands still, so backwards is not
+            # offered at all rather than offered and dead.
+            self._speed = 1.0
             self._muted = False
             # The picture should follow while dragging but not be decoded on
             # every pixel: four times a second is enough.
@@ -18655,6 +18829,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.player.videoSink().videoFrameChanged.connect(
                 self.frame_arrived)
             self.audio_adjust()
+            # Once here, so the play button carries its name for a
+            # screen reader before anything has been loaded.
+            self.speed_show()
             self.player.errorOccurred.connect(self.on_error)
 
         # --- load and play
@@ -18670,6 +18847,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             old_one_position = self.position()
             old_one_spot = self.spot_s()
             self.player.pause()
+            self.speed_set(1.0)
             self.file_path = os.path.abspath(file_path)
             self.failed = (file_path, seconds)
             audio_file = os.path.splitext(file_path)[1].lower() in AUDIO_SUFFIXES
@@ -18820,22 +18998,86 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                     == QtMultimedia.QMediaPlayer.PlayingState):
                 self.track.play()
 
+        def start(self):
+            """Play on from here, at the speed currently set."""
+            if self.file_path is None:
+                return
+            self._should_play = True
+            self.stack.setCurrentWidget(self.video)
+            self.player.play()
+            if self.track_path:
+                self.track.play()
+            self.set_mark()
+
+        def stop(self):
+            """Stop, and put the speed back to normal.
+
+            Everything that leaves the running picture -- stopping, a
+            jump, another file -- goes back to 1x. A rate that survives
+            out of sight is one nobody can explain the odd sound by
+            afterwards.
+            """
+            if self.file_path is None:
+                return
+            self._should_play = False
+            self.player.pause()
+            self.track.pause()
+            self.speed_set(1.0)
+            QtCore.QTimer.singleShot(60, self.expect_frame)
+            self.set_mark()
+
         def toggle(self):
             if self.file_path is None:
                 return
             if (self.player.playbackState()
                     == QtMultimedia.QMediaPlayer.PlayingState):
-                self._should_play = False
-                self.player.pause()
-                self.track.pause()
-                QtCore.QTimer.singleShot(60, self.expect_frame)
+                self.stop()
             else:
-                self._should_play = True
-                self.stack.setCurrentWidget(self.video)
-                self.player.play()
-                if self.track_path:
-                    self.track.play()
-            self.set_mark()
+                self.start()
+
+        def faster(self):
+            """Play forward, and double the rate on every further press.
+
+            1x, 2x, 4x, 8x, and there it stays: beyond that the sound
+            carries nothing to find a passage by, which is what fast
+            forward is for. Backward is not offered -- see _speed.
+            """
+            if self.file_path is None:
+                return
+            if (self.player.playbackState()
+                    == QtMultimedia.QMediaPlayer.PlayingState):
+                self.speed_set(min(8.0, self._speed * 2.0))
+            else:
+                self.speed_set(1.0)
+                self.start()
+
+        def speed_set(self, rate):
+            """Ask for a playback rate and keep the one that arrived.
+
+            Qt takes a rate without promising it, and the backend below
+            may hand back another. What is shown is therefore what the
+            player reports, not what was asked for.
+            """
+            self.player.setPlaybackRate(rate)
+            self.track.setPlaybackRate(rate)
+            arrived = self.player.playbackRate()
+            self._speed = arrived if arrived > 0 else 1.0
+            self.speed_show()
+
+        def speed_show(self):
+            """Put the rate on the play button; nothing at normal speed.
+
+            Beside the icon rather than off in a corner: whoever wonders
+            why the sound squeaks looks at the transport first.
+            """
+            fast = self._speed > 1.01
+            self.button.setToolButtonStyle(
+                Qt.ToolButtonTextBesideIcon if fast
+                else Qt.ToolButtonIconOnly)
+            self.button.setText("%g\u00d7" % self._speed if fast else "")
+            self.button.setAccessibleName(
+                T('Play and pause, %g times speed') % self._speed if fast
+                else T('Play and pause'))
 
         def frame_arrived(self, frames):
             """Qt delivered a frame; show it during playback."""
@@ -19038,6 +19280,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.spot(ms)
 
         def jump(self, ms):
+            # A jump is a new place, and the speed it was reached at
+            # says nothing about it: back to normal, playing or not.
+            self.speed_set(1.0)
             self.player.setPosition(ms)
             self.track_follow_up()
             self.spot(ms)
@@ -19466,14 +19711,18 @@ def gui():
     # With the system in dark mode the same roles get dark shades. Otherwise a
     # white box would stand in a dark window, and the lists Qt draws itself
     # would be black.
-    if desktop_is_dark(QtWidgets, QtGui):
-        COLOURS.update(COLOURS_DARK)
-        ON_DARK[0] = True
+    colours_pick(desktop_is_dark(QtWidgets, QtGui))
 
     # Only a few places get an appearance of their own: boxes, the tab bar and
     # the start button. Everything else stays as the system draws it, which
     # looks right on every machine.
-    app.setStyleSheet("""
+    def app_style_set():
+        """Put the palette into the style sheet of the whole program.
+
+        Its own function so it can be set again when the desktop
+        switches between light and dark.
+        """
+        app.setStyleSheet("""
         QGroupBox {
             border: 1px solid %(frame)s; border-radius: 6px;
             /* The top margin is half the height of the heading, so the
@@ -19508,6 +19757,8 @@ def gui():
         }
     """ % {k: COLOURS[k] for k in ("frame", "box", "heading", "head",
                                   "quiet", "sheet", "stripe", "text")})
+
+    app_style_set()
 
     window = QtWidgets.QWidget()
     window.setWindowTitle(T('Video Podcast Magic %s -- raw material '
@@ -19595,6 +19846,19 @@ def gui():
             f.setPixelSize(max(8, f.pixelSize() - less))
         widget.setFont(f)
         return widget
+
+    def font_smaller_if_wide(widget, less, room):
+        """Shrink the type only where the widget is wider than *room*.
+
+        Smaller type is a cost, not a free win: it is harder to read,
+        and on a machine whose system font was turned up it undoes
+        exactly what somebody set it for. So it is taken where the row
+        would otherwise push the sheet wider than the player leaves
+        it, and nowhere else.
+        """
+        if widget.sizeHint().width() <= room:
+            return widget
+        return font_smaller(widget, less)
 
     def speaks_as(widget, what, row_name=""):
         """Give a field a name a screen reader can say.
@@ -19786,7 +20050,7 @@ def gui():
     sheet1 = QtWidgets.QWidget()
     sheet1_position = QtWidgets.QVBoxLayout(sheet1)
     sheet1_position.setContentsMargins(10, 10, 10, 10)
-    tabs.addTab(sheet1, T('1. Files && production'))
+    tabs.addTab(sheet1, T('Files && production'))
 
     # Production name, output folder and auphonic.com sit as a narrow strip
     # under the file list rather than on a sheet of their own: there are four
@@ -19817,14 +20081,14 @@ def gui():
     def settings_show():
         """Show the later tabs only once there are files."""
         if files:
-            table_show(tab2, T('2. Assignment && time window'), 1)
-            table_show(tab3, T('3. Resolve cut'), 2)
+            table_show(tab2, T('Assignment && time window'), 1)
+            table_show(tab3, T('Resolve cut'), 2)
         else:
             tab_gone(tab2)
             tab_gone(tab3)
 
     def output_show(select=True):
-        table_show(sheet2, T('4. Output'), 3, select)
+        table_show(sheet2, T('Output'), 3, select)
 
     # ----------------------------------------------------- Tab 1: the files
     # While nothing is chosen the drop area is here and explains the
@@ -19850,6 +20114,7 @@ def gui():
     items.setColumnWidth(1, 26)
     items.setAcceptDrops(True)
     items.setDragDropMode(QtWidgets.QAbstractItemView.DropOnly)
+    speaks_as(items, T('Chosen files'))
     sheet1_position.addWidget(items, 1)
 
     def _list_accepts(e):
@@ -19879,15 +20144,28 @@ def gui():
 
     # The stripes of the file list: light on light, dark on dark. They should
     # structure the rows, not outshine them.
-    SHADES = ({"group": QtGui.QColor("#2f3b49"),
-              "audio": QtGui.QColor("#28313c"),
-              "video": QtGui.QColor("#332f27"),
-              "block": QtGui.QColor("#262b31")}
-             if desktop_is_dark(QtWidgets, QtGui) else
-             {"group": QtGui.QColor("#d9e2ec"),
-              "audio": QtGui.QColor("#eef4fa"),
-              "video": QtGui.QColor("#f3f0e8"),
-              "block": QtGui.QColor("#f7f7f7")})
+    SHADES = {}
+
+    def stripes_pick():
+        """Fill the stripes of the file list for this desktop.
+
+        Refilled in place, and read off ON_DARK rather than asking the
+        desktop a second time: two independent answers to the same
+        question drift apart the moment one of them is refreshed.
+        """
+        SHADES.clear()
+        SHADES.update(
+            {"group": QtGui.QColor("#2f3b49"),
+             "audio": QtGui.QColor("#28313c"),
+             "video": QtGui.QColor("#332f27"),
+             "block": QtGui.QColor("#262b31")}
+            if ON_DARK[0] else
+            {"group": QtGui.QColor("#d9e2ec"),
+             "audio": QtGui.QColor("#eef4fa"),
+             "video": QtGui.QColor("#f3f0e8"),
+             "block": QtGui.QColor("#f7f7f7")})
+
+    stripes_pick()
 
     def line_colourise(item, kind, bold=False):
         brush = QtGui.QBrush(SHADES[kind])
@@ -19901,10 +20179,17 @@ def gui():
 
     # What goes in the first, narrow column. A mark says more than a line of
     # text as long as there are only three of them.
-    MARKS = {"good": ("\u2713", COLOURS["good"]),
-               "hint": ("!", COLOURS["error"]),
-               "fixed": ("\u2713", COLOURS["good"]),
-               "abort": ("\u2715", COLOURS["error"])}
+    MARKS = {}
+
+    def marks_pick():
+        """Fill the marks of the first column with today's colours."""
+        MARKS.clear()
+        MARKS.update({"good": ("\u2713", COLOURS["good"]),
+                      "hint": ("!", COLOURS["error"]),
+                      "fixed": ("\u2713", COLOURS["good"]),
+                      "abort": ("\u2715", COLOURS["error"])})
+
+    marks_pick()
     # What a finding is called when it appears as its own row under the file.
     FINDING_WORD = {"hint": T('Note'), "fixed": T('fixed'),
                    "abort": T('Caution')}
@@ -20259,8 +20544,8 @@ def gui():
         # the Resolve tab keeps a run from starting, so a tick there would
         # always be on, and a mark that is always on says nothing.
         for sheet, pending_here, base_title in (
-                (sheet1, first, T('1. Files && production')),
-                (tab2, 22 in pending, T('2. Assignment && time window'))):
+                (sheet1, first, T('Files && production')),
+                (tab2, 22 in pending, T('Assignment && time window'))):
             i = tabs.indexOf(sheet)
             if i < 0:
                 continue
@@ -20336,8 +20621,8 @@ def gui():
             rows.addWidget(access_box)
             rows.addWidget(resolve_box)
             rows.addWidget(label(
-                T('Both are asked once and then stay. The key goes into '
-                  'the %s, never into a file.') % keep_where,
+                T('Both are asked once and then stay. The key goes '
+                  'into the %s, never into a file.') % keep_where,
                 COLOURS["quiet"]))
             close_row = QtWidgets.QHBoxLayout()
             rows.addLayout(close_row)
@@ -20829,6 +21114,9 @@ def gui():
     remove_button = QtWidgets.QPushButton(T('Remove'))
     remove_button.clicked.connect(remove)
     remove_button.setEnabled(False)
+    # "Remove" on its own leaves open what goes; on screen the list
+    # beside it says so, read out it does not.
+    speaks_as(remove_button, T('Remove the chosen file from the list'))
     bar.addWidget(hint(remove_button,
                              T('Dropping AUDIO or VIDEO takes all of it.')))
     bar.addStretch(1)
@@ -20862,6 +21150,7 @@ def gui():
     # a missing production name is the same kind of fault and gets the same
     # mark instead of only greying the start button out.
     late["name_field"] = _name_field
+    speaks_as(_name_field, T('Production name'))
     name_bar.addWidget(hint(
         _name_field, T('Title at auphonic.com and start of the new file names.')))
     _name_field.editingFinished.connect(lambda: refresh_names())
@@ -20874,10 +21163,13 @@ def gui():
     folder_button.clicked.connect(lambda: folder_pick())
     folder_bar.addWidget(hint(
         folder_button, T('If empty: next to each video file.')))
+    speaks_as(folder_button, T('Choose the output folder'))
     folder_label = label(T('next to each video file'), COLOURS["quiet"])
+    speaks_as(folder_label, T('Output folder'))
     folder_bar.addWidget(folder_label)
     reset = QtWidgets.QPushButton(T('reset'))
     reset.clicked.connect(lambda: folder_delete())
+    speaks_as(reset, T('Output folder back beside each video file'))
     reset.hide()
     folder_bar.addWidget(hint(reset,
                                     T('Puts it back next to each video file.')))
@@ -22681,17 +22973,22 @@ def gui():
             if len(audio_file_list) == 1:
                 only = audio_file_list[0]
                 button = QtWidgets.QPushButton()
-                # Smaller first, then the name: the elision is measured
-                # in the font the button really draws with.
-                font_smaller(button, 2)
-                button.setText(T('One more speaker in %s')
-                               % short_name(button, os.path.basename(only),
-                                            NAME_ROOM))
+                # The whole name first, at the ordinary size. Only if
+                # that is too wide does the type get smaller, and only
+                # then is the name shortened -- the elision has to be
+                # measured in the font the button really draws with.
+                whole = T('One more speaker in %s') % os.path.basename(only)
+                button.setText(whole)
+                font_smaller_if_wide(button, 2, ROW_ROOM)
+                if button.sizeHint().width() > ROW_ROOM:
+                    button.setText(T('One more speaker in %s')
+                                   % short_name(button,
+                                                os.path.basename(only),
+                                                NAME_ROOM))
                 button.clicked.connect(lambda *_, x=only: voice_add(x))
                 more_row.addWidget(button)
             else:
                 which = QtWidgets.QComboBox()
-                font_smaller(which, 2)
                 for path in audio_file_list:
                     which.addItem(os.path.basename(path), path)
                 # Without this the box would be as wide as the longest
@@ -22702,7 +22999,14 @@ def gui():
                 which.setMinimumContentsLength(12)
                 which.setMaximumWidth(NAME_ROOM)
                 button = QtWidgets.QPushButton(T('One more speaker in'))
-                font_smaller(button, 2)
+                # Button and chooser together have to fit; measured as
+                # a pair, and shrunk as a pair or not at all -- two
+                # different sizes side by side look like a mistake.
+                if (button.sizeHint().width()
+                        + min(which.sizeHint().width(), NAME_ROOM)
+                        > ROW_ROOM):
+                    font_smaller(button, 2)
+                    font_smaller(which, 2)
                 button.clicked.connect(
                     lambda *_, b=which: voice_add(b.currentData()))
                 more_row.addWidget(button)
@@ -22976,7 +23280,22 @@ def gui():
             own_flag = QtWidgets.QWidget()
             own_row = QtWidgets.QHBoxLayout(own_flag)
             own_row.setContentsMargins(0, 0, 0, 0)
-            checkbox = checkbox_bind(QtWidgets.QCheckBox(T('as a track')), own_audio)
+            checkbox = checkbox_bind(
+                QtWidgets.QCheckBox(T('as a track')), own_audio)
+            # The macOS style reports a checkbox narrower than its own
+            # text, and the column then takes that number: "as a track"
+            # came out clipped. Measured on 23.8.2026 -- hint 74 px for
+            # text that needs more. So the text is measured here, and
+            # the room around it comes from the style rather than from
+            # a number somebody liked.
+            _style = checkbox.style()
+            _room = (_style.pixelMetric(QtWidgets.QStyle.PM_IndicatorWidth)
+                     + _style.pixelMetric(
+                         QtWidgets.QStyle.PM_CheckBoxLabelSpacing)
+                     + checkbox.fontMetrics().horizontalAdvance(
+                         checkbox.text()) + 8)
+            if checkbox.sizeHint().width() < _room:
+                checkbox.setMinimumWidth(_room)
             speaks_as(checkbox, T('own audio'), short)
             hint(checkbox, T('This camera contributes its audio as its own '
                              'track -- it appears at the top of the table.'))
@@ -23050,8 +23369,8 @@ def gui():
         # there was no choice.
         assignment_fresh(camera_fresh=True)
         if files:
-            table_show(tab2, T('2. Assignment && time window'), 1)
-            table_show(tab3, T('3. Resolve cut'), 2)
+            table_show(tab2, T('Assignment && time window'), 1)
+            table_show(tab3, T('Resolve cut'), 2)
         # What gets checked hangs on this decision.
         preflight_kick_off()
         presets_filter()
@@ -23156,6 +23475,13 @@ def gui():
     first_line.addWidget(hint(check_button,
                                   T('Check the key and fetch Presets.')))
 
+    key_note = label("", COLOURS["quiet"])
+    key_note.setWordWrap(True)
+    key_note.setVisible(False)
+    key_note.setObjectName("key_note")
+    key_note.setAccessibleName(T('What auphonic.com replied'))
+    run_layout.addWidget(key_note)
+
     def button_green(on):
         """Checked and good: the button turns green and goes to sleep."""
         check_button.setEnabled(not on)
@@ -23167,7 +23493,20 @@ def gui():
     second_line = QtWidgets.QHBoxLayout()
     run_layout.addLayout(second_line)
     second_line.addWidget(label(T('Preset:')))
-    preset_box = QtWidgets.QComboBox()
+    class PresetBox(QtWidgets.QComboBox):
+        """The preset list, which fetches itself when it is opened.
+
+        Opening the list is the moment somebody wants to know what
+        auphonic.com has. Before that the program does not ask it
+        anything -- not at start-up, not in the background.
+        """
+
+        def showPopup(self):
+            if not state.get("presets") and not state.get("presets_busy"):
+                presets_load(asked=False)
+            QtWidgets.QComboBox.showPopup(self)
+
+    preset_box = PresetBox()
     preset_box.setMinimumWidth(320)
     # While no key is checked there is only the one entry, and it describes
     # exactly what happens then.
@@ -23285,6 +23624,7 @@ def gui():
     resolve_head.setWordWrap(True)
     _resolve_head_row.addWidget(resolve_head, 1)
     verify_button = QtWidgets.QPushButton(T('Check again'))
+    speaks_as(verify_button, T('Check the connection to Resolve again'))
     hint(verify_button, T('Connects to Resolve again.'))
     _resolve_head_row.addWidget(verify_button)
     resolve_text = label("", COLOURS["quiet"])
@@ -23403,6 +23743,11 @@ def gui():
             cut_var[api_key] = value
             field = field_bind(QtWidgets.QLineEdit(), value, 56)
             field.setAlignment(Qt.AlignRight)
+            # The caption stands to the left of the field and the unit
+            # to the right of it; neither is read out with the field, so
+            # both are said here.
+            speaks_as(field, T('%s, seconds') % T(caption)
+                      if unit == "s" else T(caption))
             row_layout.addWidget(field)
             t = label("%s  %s" % (unit, T(short)), COLOURS["quiet"])
             row_layout.addWidget(t)
@@ -23429,6 +23774,7 @@ def gui():
         cut_var[api_key] = value
         box = choice_bind(QtWidgets.QComboBox(), value, allowed)
         box.setFixedWidth(150)
+        speaks_as(box, T(caption))
         row_layout.addWidget(box)
         t = label(T(short), COLOURS["quiet"])
         row_layout.addWidget(t)
@@ -24111,19 +24457,41 @@ def gui():
         choice = preset_box.currentData()
         return "" if not choice or choice == PRESET_NONE else choice
 
-    def presets_load():
+    def presets_load(asked=True):
         """Check the API key and fetch the presets in one go.
 
         The call is the test: a preset list coming back means the key is good.
         Only then are preset and multitrack available. Fetched in its own
         thread so the window does not freeze.
+
+        *asked* is false for the try at start-up with a remembered key.
+        Nobody asked for that one, so it may not put a box in anybody's
+        face when it fails -- a key that has expired, been revoked or
+        was mistyped would otherwise greet its owner with an error
+        every single start. It says so in the settings instead, where
+        the key is, and where somebody who cares will look.
         """
-        key = key_var.get().strip()
-        if not key:
-            report(T('API Key missing'),
-                   T('Without a key there are no presets. It is in the '
-                     'account settings at auphonic.com.'))
+        state["key_asked"] = asked
+        key_note.setVisible(False)
+        key = key_var.get()
+        wrong = key_complaint(key)
+        if wrong:
+            # Nothing leaves the house over a key that is plainly not
+            # one. Saying which of the two it is beats one message for
+            # both cases.
+            if asked and not key.strip():
+                report(T('API Key missing'),
+                       T('Without a key there are no presets. It is in '
+                         'the account settings at auphonic.com.'))
+            elif asked:
+                report(T('The key is not accepted'), wrong)
+            else:
+                key_note.setText(wrong)
+                key_note.setStyleSheet("color: %s;" % COLOURS["warning"])
+                key_note.setVisible(True)
             return
+        key = key.strip()
+        state["presets_busy"] = True
         check_button.setEnabled(False)
         check_button.setText(T('checking ...'))
 
@@ -24136,11 +24504,18 @@ def gui():
         threading.Thread(target=fetch, daemon=True).start()
 
     def presets_arrived(preset_list, error):
+        state["presets_busy"] = False
         check_button.setText(T('Connect'))
         if preset_list is None:
             state["presets"] = []
             button_green(False)
             presets_filter()
+            if not state.get("key_asked", True):
+                key_note.setText(T('The stored key is not accepted: %s')
+                                 % error)
+                key_note.setStyleSheet("color: %s;" % COLOURS["warning"])
+                key_note.setVisible(True)
+                return
             report(T('The key is not accepted'),
                    T('auphonic.com replies:\n\n%s\n\nThe key is in the account '
                      'settings at auphonic.com.') % error)
@@ -24153,7 +24528,7 @@ def gui():
 
     bridge.preflight.connect(preflight_fill_in)
     bridge.presets.connect(presets_arrived)
-    check_button.clicked.connect(presets_load)
+    check_button.clicked.connect(lambda: presets_load(asked=True))
 
     def api_key_changed():
         """A new key means unchecked until OK is pressed again.
@@ -24424,7 +24799,7 @@ def gui():
     _start_row.setContentsMargins(0, 0, 0, 0)
     _start_row.addWidget(start_run)
     foot.addWidget(start_run_env_curve)
-    preview_button = QtWidgets.QPushButton(T('Dry run (writes nothing)'))
+    preview_button = QtWidgets.QPushButton(T('Dry run'))
     preview_button.setEnabled(False)
     hint(preview_button,
             T('Measure only -- nothing is written or uploaded.'))
@@ -25100,9 +25475,12 @@ def gui():
     folder_show()
     window_enable()
     preview_compute()
-    if key_var.get():
-        # A remembered key should be usable straight away.
-        QtCore.QTimer.singleShot(200, presets_load)
+    # No fetch at start-up, not even with a key that is remembered.
+    # Sebastian, 23.8.2026: it may not happen by itself. A start that
+    # speaks to auphonic.com unasked is a start that speaks to a third
+    # party about a key it was only asked to keep. The presets are
+    # fetched when somebody opens the list -- that is the moment they
+    # are wanted, and the only moment they are needed.
     # The later sheets exist from the start. Time window, player and Resolve
     # are needed on the simple path too.
     # ------------------------------------------------------- The menu
@@ -25140,7 +25518,7 @@ def gui():
     act(file_menu, T('Output folder ...'), folder_pick, "Ctrl+Shift+O")
     file_menu.addSeparator()
     act(file_menu, T('Start'), lambda: start_run.click(), "Ctrl+R")
-    act(file_menu, T('Dry run (writes nothing)'),
+    act(file_menu, T('Dry run'),
         lambda: preview_button.click(), "Ctrl+Shift+R")
     file_menu.addSeparator()
     # Qt moves anything it recognises as settings into the application
@@ -25157,6 +25535,13 @@ def gui():
 
     play_menu = menu.addMenu(T('&Player'))
     act(play_menu, T('Play and pause'), player.toggle, "Space", player)
+    # L and K as in every editing program. J is missing on purpose:
+    # backwards the ffmpeg backend under Qt reports a rate of 0.00 and
+    # stands still, and a key that does nothing is worse than none.
+    act(play_menu, T('Play forward, faster on every press'),
+        player.faster, "L", player)
+    act(play_menu, T('Stop, back to normal speed'), player.stop, "K",
+        player)
     play_menu.addSeparator()
     for text, keys, seconds in (
             (T('One frame back'), "Left", -1.0 / 30.0),
@@ -25190,6 +25575,39 @@ def gui():
     about = act(help_menu, T('About Video Podcast Magic'),
                 lambda: about_show(window))
     about.setMenuRole(QtGui.QAction.AboutRole)
+
+    def scheme_changed(*_):
+        """Follow a desktop switched between light and dark while running.
+
+        What is held centrally is rebuilt: the palette, the style
+        sheet of the whole program, the stripes and marks of the file
+        list, the rails of the players, and the clip colours, which
+        the preview works out again. What a single widget baked into
+        its own style sheet when it was built is not reached from here
+        -- those rows keep their colour until they are drawn again.
+        """
+        dark = desktop_is_dark(QtWidgets, QtGui)
+        if dark == ON_DARK[0]:
+            return
+        colours_pick(dark)
+        app_style_set()
+        stripes_pick()
+        marks_pick()
+        for rail in window.findChildren(WindowSlider):
+            rail.colours_apply()
+        items_fresh()
+        buttons_check()
+        # The clip colours follow ON_DARK, but only where they are
+        # worked out afresh -- the cut already drawn carries the ones
+        # it was built with.
+        preview_kick_off()
+
+    try:
+        app.styleHints().colorSchemeChanged.connect(scheme_changed)
+    except AttributeError:
+        # Qt without that signal leaves the palette as it was found at
+        # the start, which is how it behaved before.
+        pass
 
     mode_toggled()
     window.show()
@@ -25370,6 +25788,12 @@ CATALOGUE["de"] = {
         '%d. Reiter',
     'Play and pause':
         'Abspielen und anhalten',
+    'Play and pause, %g times speed':
+        'Abspielen und anhalten, %g-fache Geschwindigkeit',
+    'Play forward, faster on every press':
+        'Vorwärts abspielen, jeder Druck schneller',
+    'Stop, back to normal speed':
+        'Anhalten, zurück auf normale Geschwindigkeit',
     'One frame back':
         'Ein Bild zurück',
     'One frame forward':
@@ -25442,6 +25866,21 @@ CATALOGUE["de"] = {
         'Die Sprechertrennung meldet: %s',
     'The speaker separation is not set up.':
         'Die Sprechertrennung ist nicht eingerichtet.',
+    'Fetching the model (about %d MB) ...':
+        'Modell wird geholt (etwa %d MB) ...',
+    'Fetching the model (about %d MB): %s':
+        'Modell wird geholt (etwa %d MB): %s',
+    'The model could not be fetched: %s':
+        'Das Modell ließ sich nicht holen: %s',
+    'The model could not be written: %s':
+        'Das Modell ließ sich nicht schreiben: %s',
+    'The list of model files came back empty.':
+        'Die Liste der Modelldateien kam leer zurück.',
+    '%s does not match its checksum and was not written.':
+        '%s passt nicht zu seiner Prüfsumme und wurde nicht '
+        'geschrieben.',
+    'The folder of the program cannot be written to: %s':
+        'In den Ordner des Programms lässt sich nicht schreiben: %s',
     'The speaker separation model is not beside the program.':
         'Das Modell für die Sprechertrennung liegt nicht neben dem '
         'Programm.',
@@ -25507,11 +25946,13 @@ CATALOGUE["de"] = {
         '%s, Tonspur %d',
     '3:1 rule':
         '3:1-Regel',
-    '4. Output':
-        '4. Ausgabe',
+    'Output':
+        'Ausgabe',
     'Access to auphonic.com': 'Zugang zu auphonic.com',
-    'Both are asked once and then stay. The key goes into the %s, never into a file.':
-        'Beides wird einmal eingetragen und bleibt dann. Der Schlüssel geht in %s, nie in eine Datei.',
+    'Both are asked once and then stay. The key goes into the %s, '
+    'never into a file.':
+        'Beides wird einmal eingetragen und bleibt dann. Der Schlüssel '
+        'geht nie in eine Datei, sondern hierhin: %s.',
     'Checking files':
         'Dateien werden geprüft',
     'Everything still outstanding, measured against what is done. Long pieces of work take up more of the bar than short ones.':
@@ -26903,6 +27344,8 @@ CATALOGUE["de"] = {
         'Änderung abgelehnt: %s',
     'Check again':
         'Erneut prüfen',
+    'Check the connection to Resolve again':
+        'Die Verbindung zu Resolve noch einmal prüfen',
     'Check itself failed: %s':
         'Prüfung selbst gescheitert: %s',
     'Check the key and fetch Presets.':
@@ -27238,6 +27681,10 @@ CATALOGUE["de"] = {
         'Produktion fertig, aber kein ZIP mit Einzelspuren',
     'Production name':
         'Name der Produktion',
+    'Chosen files':
+        'Gewählte Dateien',
+    'Remove the chosen file from the list':
+        'Die gewählte Datei aus der Liste nehmen',
     'Project %r could not be created.':
         'Projekt %r ließ sich nicht anlegen.',
     'Project %r could not be created. Is the name already in another folder?':
@@ -27339,10 +27786,25 @@ CATALOGUE["de"] = {
         'Der Schlüssel lässt sich nur auf Mac und Windows ablegen -- im '
         'Schlüsselbund oder in der Registrierung. In eine Datei kommt er '
         'nicht.',
+    'The stored key is not accepted: %s':
+        'Der gemerkte Schlüssel wird nicht angenommen: %s',
+    'What auphonic.com replied':
+        'Was auphonic.com geantwortet hat',
+    'There is no key.':
+        'Es ist kein Schlüssel da.',
+    'The key has a space or a line break at one end.':
+        'Am Schlüssel klebt vorn oder hinten ein Leerzeichen oder ein '
+        'Zeilenumbruch.',
+    'The key is broken in the middle by a space or a line break.':
+        'Der Schlüssel ist in der Mitte durch ein Leerzeichen oder einen '
+        'Zeilenumbruch geteilt.',
+    'The key has a character in it that cannot be typed.':
+        'Im Schlüssel steht ein Zeichen, das sich nicht tippen lässt.',
     'The key is not accepted':
         'Der Schlüssel wird nicht angenommen',
     'The key is then in the %s, never in a file.':
-        'Der Schlüssel liegt dann im %s, nie in einer Datei.',
+        'Der Schlüssel liegt dann nicht in einer Datei, sondern '
+        'hier: %s.',
     'The production has no name yet.':
         'Die Produktion hat noch keinen Namen.',
     'The recording assigned to this camera instead of the camera audio.':
@@ -27781,12 +28243,12 @@ CATALOGUE["de"] = {
         '  Nummer: ',
     ', clock drift %+.1f ppm taken out':
         ', Gang %+.1f ppm herausgerechnet',
-    '1. Files && production':
-        '1. Dateien && Produktion',
-    '2. Assignment && time window':
-        '2. Zuordnung && Zeitfenster',
-    '3. Resolve cut':
-        '3. Resolve-Schnitt',
+    'Files && production':
+        'Dateien && Produktion',
+    'Assignment && time window':
+        'Zuordnung && Zeitfenster',
+    'Resolve cut':
+        'Resolve-Schnitt',
     'Camera audio':
         'Kameraton',
     'Camera audio %s':
@@ -27837,6 +28299,8 @@ CATALOGUE["de"] = {
         'Messen, ausrichten, aufbereiten, Dateien schreiben.',
     'Minimum Edit Duration':
         'Mindestschnittdauer',
+    '%s, seconds':
+        '%s, Sekunden',
     'Names used more than once':
         'Mehrfach vergebene Namen',
     'No files given.':
@@ -27964,8 +28428,6 @@ CATALOGUE["de"] = {
         'Lade herunter %s',
     'Dry run':
         'Probelauf',
-    'Dry run (writes nothing)':
-        'Probelauf (schreibt nichts)',
     'Duration %s':
         'Dauer %s',
     'Dynamic range':
@@ -28024,6 +28486,10 @@ CATALOGUE["de"] = {
         'Eine Sekunde vor.',
     'Output folder':
         'Ausgabeordner',
+    'Choose the output folder':
+        'Ausgabeordner wählen',
+    'Output folder back beside each video file':
+        'Ausgabeordner zurück neben jede Videodatei',
     'Output folder ...':
         'Ausgabeordner ...',
     'Podcast directories, mono':

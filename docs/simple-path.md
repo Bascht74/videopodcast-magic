@@ -6,8 +6,8 @@
 
 The simple path is the run with the tick **Multitrack (one track per
 speaker)** left off. It sits in the box **Production** on tab
-**1. Files & production**, and a second time above the tables on tab
-**2. Assignment & time window**.
+**Files & production**, and a second time above the tables on tab
+**Assignment & time window**.
 
 Both paths write the same kind of file: MOV, picture copied over, audio
 uncompressed, the `colr` box and the camera's QuickTime keys carried along.
@@ -72,7 +72,7 @@ the counter rule applies as before.
 
 Where the file names give the search nothing to go on, the recording
 carries a selector **belongs to** in the file list on tab
-**1. Files & production**. It puts this recording into another one, with
+**Files & production**. It puts this recording into another one, with
 every block it has (on the command line `--together A B C`, in that
 order, repeatable for several). Each name brings the blocks that already
 belong to it.

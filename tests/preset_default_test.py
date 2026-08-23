@@ -48,7 +48,24 @@ def look():
     if b is None:
         check("preset list found", False)
         app.quit(); return
-    print("1. With a stored key, after the presets have arrived")
+    # Since 23.8.2026 nothing is fetched at start-up: opening the list
+    # is what asks auphonic.com, and that is the whole point -- a start
+    # must not speak to a third party about a key it was only asked to
+    # keep. So the list is opened here, the way somebody would.
+    b.showPopup()
+    b.hidePopup()
+    # The fetch runs in a thread of its own, so the list is not full the
+    # moment the popup closes. Waited for, not slept through: under a
+    # whole suite the machine is busy and a fixed pause is either too
+    # short or wasted.
+    import time
+    until = time.time() + 20.0
+    while b.count() < 2 and time.time() < until:
+        app.processEvents()
+        time.sleep(0.02)
+    print("     waited %.1f s for the list" % (20.0 - (until - time.time())))
+
+    print("1. With a stored key, after the list has been opened once")
     print("     entries: %s" % [b.itemText(i) for i in range(b.count())])
     check("more than the placeholder is offered", b.count() > 1, str(b.count()))
     check("but 'without Auphonic' stays selected",

@@ -8,7 +8,7 @@ Eine Datei mit zwei Kanälen kann zweierlei sein: ein Mikrofonpaar, oder
 zwei Personen, die ein Recorder in eine Datei geschrieben hat. Als Paar
 gelesen landen beide Sprecher in einer Spur.
 
-In der Dateiliste auf dem Reiter **1. Dateien & Produktion** wird eine
+In der Dateiliste auf dem Reiter **Dateien & Produktion** wird eine
 Datei mit mehr als einem Kanal in eine Zeile je Kanal aufgeklappt:
 **Kanal 1**, **Kanal 2** und so fort. Auf jeder Zeile bietet ein Häkchen
 **mit Channel 3 zusammenlegen** an, und was gemessen wurde, steht daneben.

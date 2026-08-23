@@ -30,10 +30,19 @@ def button(t):
     for w in win().findChildren(QtWidgets.QPushButton):
         if w.text().strip().startswith(t): return w
 def tab(s):
+    """Switch to the sheet whose title contains *s*, or stop.
+
+    Silence here would mean photographing the wrong sheet with a return
+    code of 0 -- see the same function in preview_shot.py.
+    """
     for tw in win().findChildren(QtWidgets.QTabWidget):
         for k in range(tw.count()):
             if s.lower() in tw.tabText(k).lower():
                 tw.setCurrentIndex(k); app.processEvents(); return
+    named = [tw.tabText(k) for tw in win().findChildren(QtWidgets.QTabWidget)
+             for k in range(tw.count())]
+    raise SystemExit("FAIL: no sheet is called %r. There are: %s"
+                     % (s, named))
 
 n = [0]
 waited = [0]
@@ -141,7 +150,7 @@ def step():
                     cb.setChecked(True)
         elif i == 3:
             if hold(built()): return
-            tab(vpm.T('2. Assignment && time window')[3:9])
+            tab(vpm.T('Assignment && time window')[:9])
         elif i == 4:
             if hold(ready(), 150, 240): return
             app.processEvents()

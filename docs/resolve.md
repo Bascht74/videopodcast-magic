@@ -4,7 +4,7 @@
 
 ## DaVinci Resolve
 
-On tab **4. Output** the button **Create Resolve project** builds it:
+On tab **Output** the button **Create Resolve project** builds it:
 files first, project afterwards. It creates the project, sets frame rate,
 resolution and start timecode, imports the finished files and builds the
 timelines; the run is written along to `<Production>_resolve_log.txt`.
@@ -15,7 +15,7 @@ Where In point or Out point have changed since, it stops -- the audio in the
 videos belongs to the old window.
 
 Whether Resolve answers is asked by itself on the first look at tab
-**3. Resolve cut**, in the background. That tab says the answer in one
+**Resolve cut**, in the background. That tab says the answer in one
 line, and beside it stands the way to the **Settings ...** window, where
 the check itself lives. In its box **Connection to Resolve** it names the
 product and the version where it works, and where it does not, the two
@@ -161,7 +161,7 @@ names the check too: `videopodcast-magic.py --hdr-check <file>`.
 
 ### Intro and outro
 
-In the camera table on tab **2. Assignment & time window** every row has a
+In the camera table on tab **Assignment & time window** every row has a
 column **Kind**: *Content*, *Intro*, *Outro* or *ignore this video*. Intro
 and outro are optional. A file that is not content is not aligned, not
 processed and not copied -- it is a finished clip and only goes into the

@@ -5,7 +5,7 @@
 ## Vorflug
 
 Das Script sieht das Material durch, bevor der erste lange Schritt
-anfängt. Auf dem Reiter **1. Dateien & Produktion** geschieht das von
+anfängt. Auf dem Reiter **Dateien & Produktion** geschieht das von
 selbst, und nach jeder Änderung der Dateiliste erneut. Ein Satz unter der
 Liste sagt, was gefunden wurde, und jede Zeile trägt eine Marke. Wer mit
 dem Zeiger auf der Marke stehen bleibt oder die Zeile aufklappt, sieht,

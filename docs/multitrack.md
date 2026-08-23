@@ -13,7 +13,7 @@ common recording, the speaker separation takes over
 ([Speech recognition and speaker separation](speech.md)).
 
 Everything else runs locally. In the box **Processing at auphonic.com
-(optional)** on tab **2. Assignment & time window** pick **work without
+(optional)** on tab **Assignment & time window** pick **work without
 Auphonic** in the selector **Preset:** (on the command line
 `--without-auphonic`). The run is then aligned, mixed, loudness set,
 camera cut included, but no de-bleed, no leveler, no noise removal.
@@ -26,7 +26,7 @@ comes back in one piece.
 
 ### The assignment
 
-Tab **2. Assignment & time window** holds two tables on the left. The
+Tab **Assignment & time window** holds two tables on the left. The
 upper one has a row per audio recording: **Audio recording**, **Speaker
 name**, **belongs to**, Timecode. The selector **belongs to** lists the
 cameras, then two special cases:
@@ -96,11 +96,11 @@ Anything older than thirty days is cleared out at start.
 ### Time window
 
 By default the window reaches as far as the cameras. In the **Preview
-player** on tab **2. Assignment & time window** four buttons sit under
+player** on tab **Assignment & time window** four buttons sit under
 the picture: **Mark In** and **Mark Out** set the boundaries, **to In
 point** and **to Out point** jump back to them. Stop where it should
 begin, press **Mark In** (on the command line `--in-point` and
-`--out-point`). Tab **3. Resolve cut** repeats both as a line: In point,
+`--out-point`). Tab **Resolve cut** repeats both as a line: In point,
 Out point, Duration.
 
 Both boundaries take these entries:

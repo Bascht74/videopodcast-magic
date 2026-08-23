@@ -34,7 +34,7 @@ program's input, not as an argument, and reads it back to see that it arrived;
 only where the wrong key comes back does the argument form follow, which has
 the weakness of the command line. The Windows Registry path does not have it.
 
-On tab **2. Assignment & time window** the box **Processing at
+On tab **Assignment & time window** the box **Processing at
 auphonic.com (optional)** holds what this run does. It stands under the
 assignment table, right below the tick **Multitrack (one track per
 speaker)**.

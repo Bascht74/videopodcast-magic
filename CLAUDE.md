@@ -59,9 +59,20 @@ at run time, never written into the code.
 
 ## How to work here
 
-Parallelise: several reviews at once over different angles, a serial
-plan cut into blocks that run side by side. Say what was measured and
-what was assumed. Never claim a test passed without running it.
+**Parallelise, and account for it.** Before the first edit of any task
+that touches more than one file, or that has more than two pieces which
+do not depend on each other: split the work by file -- one file, one
+strand, never two strands in one file -- and start the strands. Say
+which file each one owns.
+
+Working alone is allowed. Saying nothing is not: **if you do not split,
+write one sentence saying why** ("one file", "three lines", "the second
+piece needs the first"). That sentence is the point of the rule. An
+exhortation to parallelise gets skipped once you are deep in a task; a
+sentence that has to be written does not.
+
+Say what was measured and what was assumed. Never claim a test passed
+without running it.
 
 Explain a change in plain words -- what it does and why -- not in terms
 of the code.

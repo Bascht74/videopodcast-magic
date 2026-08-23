@@ -10,7 +10,7 @@ ohne Hochladen, und bevor irgendetwas zu auphonic.com geht.
 
 ### Die Sprecher trennen
 
-Auf dem Reiter **2. Zuordnung & Zeitfenster** sagt im Kasten **Vorschau
+Auf dem Reiter **Zuordnung & Zeitfenster** sagt im Kasten **Vorschau
 Player** eine Zeile unter der gemessenen Zeitachse, ob sich die Stimmen
 einer Aufnahme hier trennen lassen, und wie weit das gediehen ist:
 bereit, läuft, fertig oder für dieses Projekt abgeschaltet. Ist nichts zu
@@ -44,8 +44,8 @@ wurde.
 
 ![Die Stimmen einer Aufnahme](images/voices.de.png)
 
-*Reiter 2: die Stimmentabelle unter der Zuordnung, und der Stand der
-Trennung neben dem Player.*
+*Reiter Zuordnung & Zeitfenster: die Stimmentabelle unter der
+Zuordnung, und der Stand der Trennung neben dem Player.*
 
 ### Wann neu gerechnet wird
 

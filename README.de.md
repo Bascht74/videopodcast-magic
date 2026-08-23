@@ -7,7 +7,7 @@
 *Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
 zusammenpasst -- bevor irgendetwas geschrieben wird.*
 
-**Fassung 2.2.0-beta.** Es macht die Arbeit, für die es geschrieben
+**Fassung 2.3.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
@@ -44,29 +44,27 @@ den Dateien auf der Platte bis zum fertigen Resolve-Projekt, steht in
 
 ## Installieren
 
-Ein Befehl. Er holt das Programm und das Modell für die
-Sprechertrennung, hält jede Datei gegen ihre Prüfsumme und startet:
+Eine Datei. `videopodcast-magic.py` holen und starten — mehr ist nicht
+zu installieren:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py && python3 install.py
+python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast-magic.py', 'videopodcast-magic.py')"
+python3 videopodcast-magic.py
 ```
 
-Unter Windows, in der PowerShell:
+Oder einfacher: die Adresse im Browser öffnen, die Datei speichern und
+starten. Unter Windows `python` statt `python3` schreiben.
 
-```
-curl.exe -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py; python install.py
-```
+Python 3.10 oder neuer muss vorher da sein; das eine kann das Programm
+nicht mitbringen. Alles andere holt es sich, wenn es gebraucht wird,
+und sagt dabei, was es tut: `numpy` und `PySide6` beim ersten Start,
+die Sprechertrennung samt Modell beim ersten Trennen.
 
-Alles landet in `./videopodcast-magic`; `--to PFAD` legt es woanders
-hin, `--no-start` holt es, ohne zu starten, und `--check` hält eine
-vorhandene Installation gegen die Prüfsummen. Python muss vorher da
-sein — das eine kann der Installierer nicht mitbringen.
-
-**Wegen des Modells ist das kein bloßer Download.** Die
-Sprechertrennung liest es aus einem Ordner neben dem Programm: ohne
-Konto, ohne Zugangsschlüssel, ohne Netz. Wer nur die eine Python-Datei
-herunterlädt, hat diesen Ordner leer, und die Trennung sagt das und
-hört auf.
+**Zum Modell.** Die Trennung liest es aus einem Ordner neben dem
+Programm — ohne Konto, ohne Zugangsschlüssel, und nach dem einen
+Download ohne Netz. Das Programm holt es aus seinem eigenen
+Repository, hält jede Datei gegen ihre Prüfsumme und legt es dorthin.
+Wer es schon hat, holt es nie wieder.
 
 ## Loslegen
 

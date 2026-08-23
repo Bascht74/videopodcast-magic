@@ -6,8 +6,8 @@
 
 Der einfache Weg ist der Lauf ohne das Häkchen **Multitrack (je Sprecher
 eine Spur)**. Es steht im Kasten **Produktion** auf dem Reiter
-**1. Dateien & Produktion** und ein zweites Mal über den Tabellen auf dem
-Reiter **2. Zuordnung & Zeitfenster**.
+**Dateien & Produktion** und ein zweites Mal über den Tabellen auf dem
+Reiter **Zuordnung & Zeitfenster**.
 
 Beide Wege schreiben dieselbe Art Datei: MOV, Bild umkopiert, Ton
 unkomprimiert, der `colr`-Block und die QuickTime-Schlüssel der Kamera
@@ -73,7 +73,7 @@ Zähler-Regel.
 ### Blöcke von Hand zusammenlegen
 
 Wo die Dateinamen der Suche nichts hergeben, trägt die Aufnahme in der
-Dateiliste auf dem Reiter **1. Dateien & Produktion** ein Auswahlfeld
+Dateiliste auf dem Reiter **Dateien & Produktion** ein Auswahlfeld
 **gehört zu**. Es legt diese Aufnahme in eine andere, mit allen Blöcken,
 die sie hat (auf der Kommandozeile `--together A B C`, in dieser
 Reihenfolge, wiederholbar für mehrere). Jeder genannte Name bringt die

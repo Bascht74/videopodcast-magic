@@ -26,7 +26,7 @@ Das Fenster hinter dem Knopf hat zwei Kästen.
 *Hinter Einstellungen ...: der Schlüssel für auphonic.com, und ob
 Resolve antwortet.*
 
-1. **Dateien & Produktion** -- oben die Dateiliste, darunter ein schmaler
+- **Dateien & Produktion** -- oben die Dateiliste, darunter ein schmaler
    Streifen mit Produktionsname, gesprochener Sprache und Ausgabeordner.
    Dateien oder ganze Ordner hineinziehen, hinzufügen oder ein früheres
    Projekt öffnen; solange die Liste leer ist, steht dort eine Ablegefläche,
@@ -55,7 +55,7 @@ Resolve antwortet.*
 
    *Die Liste nach dem Öffnen eines Projekts, mit den Prüfzeichen aus
    dem Vorflug und dem Streifen darunter.*
-2. **Zuordnung & Zeitfenster** -- links die Tabellen, rechts der Player.
+- **Zuordnung & Zeitfenster** -- links die Tabellen, rechts der Player.
    Erscheint mit den Dateien.
 
    Neben dem Player ermittelt der Knopf **Sprecher trennen**, wer wann
@@ -67,7 +67,7 @@ Resolve antwortet.*
 
    *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
    jeder Kamera wird.*
-3. **Resolve-Schnitt** -- eine Zeile, die sagt, ob Resolve antwortet, mit
+- **Resolve-Schnitt** -- eine Zeile, die sagt, ob Resolve antwortet, mit
    dem Weg zu den Einstellungen daneben, das Zeitfenster, die Werte für
    den Kameraschnitt, der Kasten **Sprecher**, dessen Überschrift die
    Quelle der Sprecher nennt, und der Kasten
@@ -76,7 +76,7 @@ Resolve antwortet.*
    Beide hinteren Reiter stehen mit und ohne getrennte Spuren da. Ohne sie
    zeigt die Zuordnungsspalte grau „in alle Kameras", und Regler und Vorschau
    für den Kameraschnitt weichen einer Zeile, die das sagt.
-4. **Ausgabe** -- erscheint, sobald etwas läuft, in denselben Farben wie das
+- **Ausgabe** -- erscheint, sobald etwas läuft, in denselben Farben wie das
    Terminal, mit den Knöpfen **Ergebnis-Ordner öffnen** und
    **Resolve-Projekt anlegen**.
 
@@ -90,8 +90,8 @@ geschriebenen Tonspur und sagt auphonic.com, was es beim Transkribieren
 erwarten soll. „nicht gesetzt" lässt die Spur ungekennzeichnet und überlässt
 der Erkennung die Sprache.
 
-**Start** und **Probelauf (schreibt nichts)** bleiben gesperrt, solange
-etwas offen ist -- und **daneben steht, was**:
+**Start** und **Probelauf** bleiben gesperrt, solange etwas offen ist --
+und **daneben steht, was**:
 
 - keine Dateien,
 - kein Produktionsname,

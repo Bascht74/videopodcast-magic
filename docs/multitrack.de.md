@@ -13,7 +13,7 @@ gemeinsamen Aufnahme, übernimmt die Sprechertrennung
 ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
 Alles andere läuft lokal. Im Kasten **Aufbereitung bei auphonic.com
-(optional)** auf dem Reiter **2. Zuordnung & Zeitfenster** im Auswahlfeld
+(optional)** auf dem Reiter **Zuordnung & Zeitfenster** im Auswahlfeld
 **Preset:** den Eintrag **ohne Auphonic arbeiten** wählen (auf der
 Kommandozeile `--without-auphonic`). Der Lauf ist dann ausgerichtet,
 gemischt, Lautheit gesetzt, Kameraschnitt inbegriffen — nur ohne
@@ -27,7 +27,7 @@ Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
 
 ### Die Zuordnung
 
-Auf dem Reiter **2. Zuordnung & Zeitfenster** stehen links zwei Tabellen.
+Auf dem Reiter **Zuordnung & Zeitfenster** stehen links zwei Tabellen.
 Die obere hat je Tonaufnahme eine Zeile: **Tonaufnahme**,
 **Sprechername**, **gehört zu**, Timecode. Das Auswahlfeld **gehört zu**
 listet die Kameras, danach zwei Sonderfälle:
@@ -101,12 +101,12 @@ Quelldatei. Was älter als dreißig Tage ist, wird beim Start weggeräumt.
 ### Zeitfenster
 
 Voreingestellt reicht das Fenster so weit wie die Kameras. Im
-**Vorschau Player** auf dem Reiter **2. Zuordnung & Zeitfenster** stehen
+**Vorschau Player** auf dem Reiter **Zuordnung & Zeitfenster** stehen
 unter dem Bild vier Knöpfe: **In markieren** und **Out markieren** setzen
 die Grenzen, **zu In-Punkt** und **zu Out-Punkt** springen sie wieder an.
 Anhalten, wo es anfangen soll, **In markieren** drücken (auf der
 Kommandozeile `--in-point` und `--out-point`). Der Reiter
-**3. Resolve-Schnitt** wiederholt beides als Zeile: In-Punkt, Out-Punkt,
+**Resolve-Schnitt** wiederholt beides als Zeile: In-Punkt, Out-Punkt,
 Dauer.
 
 Beide Grenzen nehmen diese Angaben:

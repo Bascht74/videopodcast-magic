@@ -24,7 +24,7 @@ The window behind the button holds two boxes.
 *Behind Settings ...: the key for auphonic.com, and whether Resolve
 answers.*
 
-1. **Files & production** -- the file list on top, below it a narrow strip
+- **Files & production** -- the file list on top, below it a narrow strip
    with production name, spoken language and output folder. Drag files or
    whole folders in, add them, or open an earlier project; while the list is
    empty a drop area stands in its place and explains the workflow.
@@ -50,7 +50,7 @@ answers.*
 
    *The list after a project was opened, with the marks from the
    preflight and the strip underneath.*
-2. **Assignment & time window** -- tables on the left, player on the right.
+- **Assignment & time window** -- tables on the left, player on the right.
    Appears with the files.
 
    Beside the player the button **Separate speakers** works out who
@@ -62,7 +62,7 @@ answers.*
 
    *Above which recording belongs to which camera, below what becomes
    of each camera.*
-3. **Resolve cut** -- one line saying whether Resolve answers, with the way
+- **Resolve cut** -- one line saying whether Resolve answers, with the way
    to the settings beside it, the time window, the values for the camera
    cut, the box **Speaker**, whose heading names where the speakers came
    from, and the box **Camera cut -- preview** with the cut band and a
@@ -71,7 +71,7 @@ answers.*
    Both rear tabs are there with or without separate tracks. Without them the
    assignment column reads "into every camera" in grey, and sliders and
    preview for the camera cut give way to a line saying why.
-4. **Output** -- appears as soon as something runs, in the same colours as
+- **Output** -- appears as soon as something runs, in the same colours as
    the terminal, with the buttons **Open result folder** and
    **Create Resolve project**.
 
@@ -85,8 +85,8 @@ audio track and tells auphonic.com what to expect when transcribing. "not
 set" leaves the track untagged and lets the recognition work the language out
 for itself.
 
-**Start** and **Dry run (writes nothing)** stay locked while something is
-outstanding, and **they say what**:
+**Start** and **Dry run** stay locked while something is outstanding,
+and **they say what**:
 
 - no files,
 - no production name,

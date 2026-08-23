@@ -10,7 +10,7 @@ without an upload, and before anything goes to auphonic.com.
 
 ### Separating the speakers
 
-On tab **2. Assignment & time window**, in the box **Preview player**, a
+On tab **Assignment & time window**, in the box **Preview player**, a
 line under the measured time axis says whether the voices in a recording
 can be told apart here, and how far that has got: ready, running,
 finished, or switched off for this project. Where there is nothing to
@@ -42,8 +42,8 @@ recording again, with one speaker more than was found.
 
 ![The voices of one recording](images/voices.png)
 
-*Tab 2: the voice table under the assignment, and the state of the
-separation beside the player.*
+*Tab Assignment & time window: the voice table under the assignment,
+and the state of the separation beside the player.*
 
 ### When it is worked out again
 

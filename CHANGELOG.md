@@ -9,6 +9,117 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.3.0-beta] - 2026-08-23
+
+### Added
+
+- The model for the speaker separation is fetched the first time a
+  separation is asked for, so the one Python file is all anybody has to
+  download. It comes from the same repository the program does, at the
+  tag of the running version, and off the `main` branch where there is
+  no such tag -- a program and its model are never a version apart.
+  Every file is held against the SHA-256 sums that come with it, and
+  one that does not match is not written. It lands in `models/` beside
+  the program and is never fetched a second time.
+
+- `L` plays forward and doubles the speed on every press, 1x to 8x; `K`
+  stops and goes back to normal. The speed stands on the play button.
+  `J` is absent: measured, Qt takes a negative rate and reports 0.00
+  back, and swapping the whole media backend for one key is the wrong
+  trade.
+- Names a reading program can announce on the first and third sheets as
+  well -- the file list, the production fields, the eight cut numbers
+  as "caption, seconds", the four choices, the Resolve button.
+
+### Changed
+
+- Nothing is asked of auphonic.com unless somebody asks for it. A key
+  that was remembered used to be checked at start-up, which meant a
+  start spoke to a third party about a key it had only been asked to
+  keep -- and a key that had expired or been mistyped greeted its owner
+  with an error box every time. The presets are fetched when the list
+  is opened, which is the moment they are wanted and the only moment
+  they are needed.
+- A key is measured before it is sent: whether there is one, and
+  whether it was pasted with a line break, a space in the middle or a
+  character that cannot be typed. Not its length or its character set
+  -- what a real key looks like has never been measured here, and a
+  guessed format would turn away a key that works.
+- The tabs lost their numbers. Numbered tabs promise an order that does
+  not exist -- one may jump, and the ticks behind the names already say
+  what is finished.
+- `Dry run (writes nothing)` is `Dry run` on the button; the
+  explanation was in the tooltip anyway.
+- The trim slider takes its colours from the scheme. Measured: its
+  outline against the handle 2.94 before, 5.17 light and 6.03 dark now
+  -- under the 3:1 that WCAG asks of a control. On dark it no longer
+  draws a white band across the window.
+- `warning` is `#985508` on light, measured at 5.77 against the sheet
+  where it used to fall under 4.5. Dark keeps `#e2a355`: `#985508`
+  there is 2.74.
+- A switch between light and dark arrives while the program runs.
+  Before, the scheme was read once at start and the way back to light
+  was burned in.
+- The type in the "one more speaker" row is made smaller only where
+  the row would otherwise grow wider than the player leaves it.
+  Smaller type is harder to read, and on a machine whose system font
+  was turned up it undoes what somebody set it for.
+
+### Removed
+
+- `install.py`. The program brings what it needs by itself -- numpy and
+  PySide6 at the first start, ffmpeg over the package manager, the
+  separation and its model at the first separation -- so there is one
+  file to fetch and one file to keep.
+
+### Fixed
+
+- `as a track` was clipped in the camera table. The macOS style reports
+  a checkbox narrower than its own text, and the column took that
+  number: 83 px offered for text that needs 87. The room now comes from
+  the style rather than from a number somebody liked.
+
+### Tests
+
+- `release_test.py`, new: one version number named the same in the
+  program, the changelog and both READMEs; the changelog in its shape;
+  every picture there and used, in both languages; and the rule that
+  the key never reaches a file. Four rules that used to be enforced by
+  somebody remembering them.
+- `auphonic_quiet_test.py`, new: what is turned away before it is sent,
+  what gets through, that no timer fetches presets at start-up, and
+  that the unasked fetch opens no box.
+- `preview_shot.py` and `assignment_shot.py` used to look for a tab and
+  return in silence where they found none -- the script then
+  photographed the wrong sheet and still returned 0. They stop and say
+  which sheets there are.
+- `first_run.sh --then-install` does what the manual tells a stranger
+  to do: fetch the one file and start it. It used to fetch the
+  installer and run that.
+
+### Documentation
+
+- The screenshots showed a window that exists nowhere. Taken under
+  `offscreen`, Qt draws them in the Fusion style: 46 of 63 palette
+  entries differ from the Mac, and the menu bar sat inside the window
+  instead of at the top of the screen. They are taken under `cocoa`
+  now, with the window kept off the desktop -- real style, real
+  palette, exact size, nothing in anybody's way. It needs a screen
+  somebody is logged in to, so the run is started by hand.
+- Twenty-five places in the manual named the numbered tabs, in each
+  language. All of them pulled along, four captions rebuilt where the
+  number was the only thing naming the sheet.
+- `docs/notes/begriffe.md`, new: which German word this project uses
+  for which thing, counted rather than felt -- Spur against Track
+  stands 88 to 1. Written after Tooltip had been replaced by
+  Kurzhinweis and put back: Tooltip is the ordinary German word too.
+- The requirements chapter says what the program fetches for itself,
+  when, and how much, in both languages. It described `install.py`,
+  which is gone.
+- The section on ffmpeg named `static-ffmpeg` as what happens where
+  ffmpeg is missing. The package manager comes first and is asked
+  about; `static-ffmpeg` is the way out where there is no manager.
+
 ## [2.2.0-beta] - 2026-08-23
 
 ### Added
@@ -51,6 +162,12 @@ survives.
   switch that stops it; without it a run with nobody in front of it
   waited for an answer that never came.
 
+### Tests
+
+- `start_reason_test.py` held the old behaviour in place -- it checked
+  that the footer points at the tooltip, which was the defect. It now
+  checks that the footer names the reason itself.
+
 ### Documentation
 
 - The manual has a chapter section on the menu and the keys, in both
@@ -60,12 +177,6 @@ survives.
   changed on every one of them: the menu bar, the state line at the
   bottom, the text beside red rows on the second sheet, and the
   shrunken "one more speaker" row.
-
-### Tests
-
-- `start_reason_test.py` held the old behaviour in place -- it checked
-  that the footer points at the tooltip, which was the defect. It now
-  checks that the footer names the reason itself.
 
 ## [2.1.0-beta] - 2026-08-23
 

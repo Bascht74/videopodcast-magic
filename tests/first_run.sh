@@ -14,17 +14,17 @@
 #   bash first_run.sh --for-real   delete it, after one question
 #
 # With --then-install it does the whole thing in one go: it clears the
-# machine and then runs the command the manual gives a stranger, off
-# the network, into ~/videopodcast-magic. That is the round trip --
-# nothing installed, then everything installed, the way anybody else
-# would get it.
+# machine and then does what the manual tells a stranger to do -- fetch
+# the one file into ~/videopodcast-magic and start it. That is the
+# round trip: nothing installed, then the program bringing everything
+# it needs by itself, the way anybody else would get it.
 #
 #   bash first_run.sh --for-real --then-install
 #   bash first_run.sh --for-real --then-install --to PATH
 #   bash first_run.sh --for-real --then-install --from-here
 #
-# --from-here takes the installer and the files out of this checkout
-# instead of the network. For trying a change before it is pushed.
+# --from-here copies the program out of this checkout instead of
+# fetching it. For trying a change before it is pushed.
 #
 # Leave a group out with --without-<group>:
 #   environment  the virtual environment the separation runs in
@@ -332,19 +332,27 @@ if [ $THEN_INSTALL -eq 1 ]; then
     echo " Installing again, the way a stranger would."
     echo " Into: $INTO"
     echo "-------------------------------------------------------------------"
+    mkdir -p "$INTO" || { echo " $INTO cannot be made."; exit 1; }
     if [ $FROM_HERE -eq 1 ]; then
         # Out of this checkout: for trying a change before it is pushed.
-        exec "$PY" "$REPO/install.py" --to "$INTO" --from "$REPO"
+        cp "$REPO/videopodcast-magic.py" "$INTO/" || exit 1
+        echo " taken from $REPO"
+    else
+        # What the manual tells a stranger to do: fetch the one file and
+        # start it. There is nothing else to install -- the program
+        # brings numpy, PySide6 and its own model when it needs them.
+        URL="https://raw.githubusercontent.com/Bascht74"
+        URL="$URL/videopodcast-magic/main/videopodcast-magic.py"
+        if ! "$PY" -c "import urllib.request as u, sys; \
+u.urlretrieve(sys.argv[1], sys.argv[2])" \
+                "$URL" "$INTO/videopodcast-magic.py"; then
+            echo " The program could not be fetched. Nothing installed."
+            exit 1
+        fi
+        echo " fetched from github.com"
     fi
-    # The command the manual gives, run here rather than pasted: one
-    # download and one start, and the network is part of what is tested.
-    WORK=$(mktemp -d "${TMPDIR:-/tmp}/vpm_install_XXXXXX")
-    URL="https://raw.githubusercontent.com/Bascht74/videopodcast-magic"
-    if ! curl -fsSL "$URL/main/install.py" -o "$WORK/install.py"; then
-        echo " The installer could not be fetched. Nothing was installed."
-        exit 1
-    fi
-    exec "$PY" "$WORK/install.py" --to "$INTO"
+    cd "$INTO" || exit 1
+    exec "$PY" videopodcast-magic.py
 fi
 
 echo " What happens by itself from here:"

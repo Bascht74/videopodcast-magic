@@ -1,0 +1,43 @@
+# pyannote speaker-diarization-community-1 -- file manifest
+#
+# Official repository : https://hf.co/pyannote/speaker-diarization-community-1
+# Official revision   : 3533c8cf8e369892e6b79ff1bf80f7b0286a54ee  (gated)
+# Mirror repository   : https://hf.co/pyannote-community/speaker-diarization-community-1
+# Mirror revision     : 8a527374977391da736e0daaef26855d949d9685  (ungated)
+#
+# The files here are the ones from the official repository.
+#
+# Verified 2026-08-22: all five files are byte-for-byte identical in both
+# repositories -- each pair held against the other with cmp, exit 0 five
+# times out of five. The two revision names above therefore stand for the
+# same bytes; only the repository they were published in differs.
+#
+# Side finding: for the four large files Hugging Face's own blob name in the
+# cache is already the SHA-256, so these sums are the same ones Hugging Face
+# keeps.
+#
+# Verified again 2026-08-23 after copying the files into this repository:
+# all five sums unchanged.
+#
+# Sizes in bytes:
+#
+#          444  config.yaml
+#     26646242  embedding/pytorch_model.bin
+#       133852  plda/plda.npz
+#       134376  plda/xvec_transform.npz
+#      5906507  segmentation/pytorch_model.bin
+#     --------
+#     32821421  total  (31.3 MiB / 32.8 MB)
+#
+# To check the files, from inside this folder:
+#
+#     shasum -a 256 -c SHA256SUMS.txt          (macOS, Linux)
+#     sha256sum -c SHA256SUMS.txt              (Linux)
+#
+# Both skip the comment lines above.
+#
+5ce2bfa9a938dc132cec1172592d65173cbb8f444ea1e4133f10f9391de155be  config.yaml
+6f10ff60898a1d185fa22e1d11e0bfa8a92efec811f11bca48cb8cafebefd929  embedding/pytorch_model.bin
+9b77bcd840692710dd3496f62ecfeed8d8e5f002fd991b785079b244eab7d255  plda/plda.npz
+325f1ce8e48f7e55e9c8aa47e05d2766b7c48c4b25b8de8dd751e7a4cc5fbe8f  plda/xvec_transform.npz
+7ad24338d844fb95985486eb1a464e32d229f6d7a03c9abe60f978bacf3f816e  segmentation/pytorch_model.bin

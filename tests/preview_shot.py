@@ -52,10 +52,22 @@ def shot(name, w=None):
     print("  ->", name)
 
 def tab(s):
+    """Switch to the sheet whose title contains *s*.
+
+    It used to return in silence where nothing matched, and the script
+    then carried on photographing the wrong sheet -- with a return code
+    of 0, so nothing anywhere went red. When the tab names lost their
+    numbers on 23.8.2026 that is exactly what happened. A lookup that
+    finds nothing is a defect, and says so.
+    """
     for tw in win().findChildren(QtWidgets.QTabWidget):
         for k in range(tw.count()):
             if s.lower() in tw.tabText(k).lower():
                 tw.setCurrentIndex(k); app.processEvents(); return
+    named = [tw.tabText(k) for tw in win().findChildren(QtWidgets.QTabWidget)
+             for k in range(tw.count())]
+    raise SystemExit("FAIL: no sheet is called %r. There are: %s"
+                     % (s, named))
 
 n = [0]
 waited = [0]
@@ -155,7 +167,7 @@ def step():
                     cb.setChecked(True)
         elif i == 3:
             if hold(built()): return
-            tab(vpm.T('3. Resolve cut'))
+            tab(vpm.T('Resolve cut'))
         elif i == 4:
             if hold(ready(), 150, 250): return
             shot("A_tab")

@@ -31,12 +31,12 @@ and `Camera cut`.
 ### The knobs
 
 In multitrack every value can be typed into the interface: on tab
-**3. Resolve cut**, in the box **Camera cut**, one field per value, with
+**Resolve cut**, in the box **Camera cut**, one field per value, with
 the unit and a short line beside it.
 
 ![The knobs for the camera cut](images/resolve-cut.png)
 
-*Tab 3: the values on the left, the preview on the right.*
+*Tab Resolve cut: the values on the left, the preview on the right.*
 
 Four fields shape the cut itself:
 
@@ -157,7 +157,7 @@ position, so it does not run out of the picture.
 
 Two players show the material, and both pick their file themselves.
 
-**On tab 2. Assignment & time window** the order is:
+**On tab Assignment & time window** the order is:
 
 1. a file **containing In point and Out point**, or the jump buttons go
    nowhere
@@ -186,7 +186,7 @@ Raw recordings sit 16 to 36 dB below the processed sound, and the
 interface cannot make them louder. The tooltip says what is running and
 in which version.
 
-**On tab 3. Resolve cut** the player in the preview box always shows
+**On tab Resolve cut** the player in the preview box always shows
 something: where there is a cut it plays the cut and switches camera at
 every edge, otherwise the file with no speaker assigned. Nothing is
 rendered.
@@ -209,7 +209,7 @@ in [Inside the script](../development/internals.md).
 
 ### Speakers without Auphonic
 
-On tab **2. Assignment & time window**, in the box **Processing at
+On tab **Assignment & time window**, in the box **Processing at
 auphonic.com (optional)**, the preset list carries the entry **work
 without Auphonic** (on the command line `--without-auphonic`). The run
 then stays local, and who speaks when is measured from the tracks. In the

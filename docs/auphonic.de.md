@@ -36,7 +36,7 @@ angekommen ist; nur wenn der falsche Schlüssel zurückkommt, folgt die Form mit
 dem Argument, die die Schwäche der Befehlszeile hat. Der Weg über die
 Windows-Registry hat sie nicht.
 
-Auf dem Reiter **2. Zuordnung & Zeitfenster** steht im Kasten
+Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
 **Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut. Der
 Kasten steht unter der Zuordnungstabelle, gleich unter dem Häkchen
 **Multitrack (je Sprecher eine Spur)**.

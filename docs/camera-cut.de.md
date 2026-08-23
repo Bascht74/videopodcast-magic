@@ -32,12 +32,12 @@ und `_cameracut.edl`. Die Köpfe sind
 ### Die Stellschrauben
 
 Bei Multitrack lassen sich alle Werte in der Oberfläche eintragen: auf
-dem Reiter **3. Resolve-Schnitt**, im Kasten **Kameraschnitt**, je Wert
+dem Reiter **Resolve-Schnitt**, im Kasten **Kameraschnitt**, je Wert
 ein Feld, daneben die Einheit und eine kurze Zeile.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
-*Reiter 3: links die Werte, rechts die Vorschau.*
+*Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau.*
 
 Vier Felder formen den Schnitt selbst:
 
@@ -160,7 +160,7 @@ Position, damit er nicht aus dem Bild läuft.
 Zwei Spieler zeigen das Material, und beide suchen sich ihre Datei
 selbst.
 
-**Auf dem Reiter 2. Zuordnung & Zeitfenster** gilt diese Rangfolge:
+**Auf dem Reiter Zuordnung & Zeitfenster** gilt diese Rangfolge:
 
 1. eine Datei, die **In point und Out point enthält**, sonst laufen die
    Sprungknöpfe ins Leere
@@ -187,10 +187,10 @@ Kamera gehört:
   sofern er vorliegt
 
 Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
-machen kann die Oberfläche sie nicht. Der Kurzhinweis nennt, was läuft
-und in welcher Fassung.
+machen kann die Oberfläche sie nicht. Der Tooltip nennt, was läuft und
+in welcher Fassung.
 
-**Auf dem Reiter 3. Resolve-Schnitt** zeigt der Spieler im
+**Auf dem Reiter Resolve-Schnitt** zeigt der Spieler im
 Vorschau-Kasten immer etwas: gibt es einen Schnitt, spielt er ihn und
 schaltet an jeder Kante die Kamera um, sonst die Datei ohne zugeordneten
 Sprecher. Gerendert wird nichts.
@@ -213,7 +213,7 @@ in [Inside the script](../development/internals.md) (englisch).
 
 ### Sprecher ohne Auphonic
 
-Auf dem Reiter **2. Zuordnung & Zeitfenster**, im Kasten **Aufbereitung
+Auf dem Reiter **Zuordnung & Zeitfenster**, im Kasten **Aufbereitung
 bei auphonic.com (optional)**, trägt die Preset-Liste den Eintrag **ohne
 Auphonic arbeiten** (auf der Kommandozeile `--without-auphonic`). Der
 Lauf bleibt dann lokal, und wer wann redet, wird aus den Spuren gemessen.

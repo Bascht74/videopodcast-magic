@@ -5,7 +5,7 @@
 ## Preflight
 
 The script looks the material over before the first long step. On tab
-**1. Files & production** this happens by itself, and again after every
+**Files & production** this happens by itself, and again after every
 change to the file list. One sentence under the list says what was found,
 and each row carries a mark. Hovering over the mark, or opening the row,
 shows what stands behind it.

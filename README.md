@@ -7,7 +7,7 @@
 *The main window. What was found, what belongs together, and what does
 not fit -- before anything is written.*
 
-**Version 2.2.0-beta.** It does the work it was written for, every
+**Version 2.3.0-beta.** It does the work it was written for, every
 week, on real material. It is called beta because it is not finished
 being tested: the format of the project file may still change, and an
 older file is refused with a clear message rather than half read.
@@ -41,28 +41,28 @@ Resolve project, is in **[docs/overview.md](docs/overview.md)**.
 
 ## Getting it
 
-One command. It fetches the program and the speaker separation model,
-holds every file against its checksum, and starts it:
+One file. Fetch `videopodcast-magic.py` and run it -- there is nothing
+else to install:
 
 ```
-curl -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py && python3 install.py
+python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast-magic.py', 'videopodcast-magic.py')"
+python3 videopodcast-magic.py
 ```
 
-On Windows, in PowerShell:
+Or simpler: open that address in a browser, save the file, and run it.
+On Windows write `python` instead of `python3`.
 
-```
-curl.exe -fsSL https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/install.py -o install.py; python install.py
-```
+Python 3.10 or newer has to be there first; that is the one thing the
+program cannot bring. Everything else it fetches when it needs it and
+says so while it does: `numpy` and `PySide6` at the first start, the
+speaker separation and its model the first time a separation is asked
+for.
 
-It lands in `./videopodcast-magic`; `--to PATH` puts it somewhere else,
-`--no-start` fetches it without starting it, and `--check` holds an
-installation already there against the checksums. Python has to be
-there first -- that is the one thing the installer cannot bring.
-
-**The model is why this is not just a download.** The speaker
-separation reads it from a folder beside the program: no account, no
-token, no network. Fetching the one Python file on its own leaves that
-folder empty, and the separation then says so and stops.
+**About the model.** The separation reads it from a folder beside the
+program -- no account, no token, and after the one download no network.
+The program fetches it from its own repository, holds every file
+against its checksum, and puts it there. If you have it already, it is
+never fetched again.
 
 ## Getting started
 
