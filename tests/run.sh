@@ -30,7 +30,10 @@ for tool in ffmpeg ffprobe; do
     echo "  brew install ffmpeg              (macOS)"
     echo "  apt install ffmpeg               (Debian, Ubuntu)"
     echo
-    echo "Or the one the program falls back to, into this Python:"
+    echo "Or let the program do it: VPM_INSTALL_TOOLS=1 answers the"
+    echo "question with yes, and it installs over the package manager."
+    echo
+    echo "Or the one it falls back to, into this Python:"
     echo "  $PY -m pip install static-ffmpeg"
     echo "  $PY -c 'import static_ffmpeg; static_ffmpeg.add_paths()'"
     echo "The second line prints where the binaries went; put that"

@@ -161,6 +161,13 @@ def channel_text(count):
         count, TN(count, '%d channel', '%d channels') % count)
 
 
+# Set to answer the ffmpeg question with yes before it is asked: a test
+# run, a build machine, anything with nobody sitting in front of it.
+# Only the package manager -- the fallback needs no permission, it stays
+# inside this Python.
+INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
+
+
 def find_required_tools():
     """Locate ffmpeg and ffprobe: PATH first, then next to this script.
 
@@ -175,14 +182,44 @@ def find_required_tools():
         missing = [tool for tool in missing if shutil.which(tool) is None]
     if not missing:
         return
-    # Last resort: the static-ffmpeg wheel ships both binaries, so Python
-    # alone is enough to get going.
-    print(T('%s is missing -- installing it ...') % ", ".join(missing))
+    # static-ffmpeg keeps its programs inside the package and only puts
+    # them on PATH for the running process, so this is asked again at
+    # every start. Where it is already there, nothing is missing and
+    # nothing is fetched -- saying "missing" then would be a lie.
+    ready = _really_there("static_ffmpeg")
+    if ready is not None:
+        try:
+            ready.add_paths()
+        except Exception:
+            pass
+        if not [tool for tool in ("ffmpeg", "ffprobe")
+                if shutil.which(tool) is None]:
+            return
+    print(T('%s is missing.') % ", ".join(missing))
+    # The package manager first, where there is one. It gives the build
+    # that is maintained and signed for this system, and it is what the
+    # manual tells people to use anyway. Only asked, never done unasked:
+    # it writes outside this program, into something the machine owner
+    # keeps.
+    if install_over_package_manager():
+        missing = [tool for tool in ("ffmpeg", "ffprobe")
+                   if shutil.which(tool) is None]
+        if not missing:
+            return
+    # Last resort: the static-ffmpeg wheel brings both binaries, so
+    # Python alone is enough to get going. It is a last resort and says
+    # so -- measured on 2026-08-23, it pulls sixteen packages in behind
+    # it, twine among them, and fetches a 50 MB binary from a private
+    # repository without checking it against anything.
     static_ffmpeg = _really_there("static_ffmpeg")
-    if static_ffmpeg is None and _pip_install("static-ffmpeg"):
-        import importlib
-        importlib.invalidate_caches()
-        static_ffmpeg = _really_there("static_ffmpeg")
+    if static_ffmpeg is None:
+        print(T('  Fetching static-ffmpeg instead: a build inside this '
+                'Python. It brings sixteen packages with it and loads '
+                'its programs from a private repository, unchecked.'))
+        if _pip_install("static-ffmpeg"):
+            import importlib
+            importlib.invalidate_caches()
+            static_ffmpeg = _really_there("static_ffmpeg")
     if static_ffmpeg is not None:
         try:
             static_ffmpeg.add_paths()
@@ -198,6 +235,125 @@ def find_required_tools():
         sys.exit(T('Not found: %s.\nThe programs must be in the search path '
                    'or next to this file (%s).\nHere: %s')
                  % (", ".join(missing), here, how))
+
+
+# What each manager needs so that it does not ask a second time. The
+# question was already asked here; being asked again, in another
+# wording, by a program the person did not start themselves, is the
+# kind of thing that makes people answer without reading.
+QUIET_MANAGER = {
+    # Homebrew reads NONINTERACTIVE the way its own installer does.
+    # Its own update is deliberately left switched on: it costs minutes,
+    # and without it the install works from whatever formula index the
+    # machine happens to hold. On one that has not been updated in
+    # months that is how an install fails on a dependency that has
+    # since moved.
+    "brew": {"NONINTERACTIVE": "1", "HOMEBREW_NO_ENV_HINTS": "1"},
+    # Without this apt opens full-screen dialogs of its own.
+    "apt-get": {"DEBIAN_FRONTEND": "noninteractive"},
+}
+
+
+def package_manager_command():
+    """How this system installs ffmpeg, or () where none of them is here.
+
+    The first manager found, and on Linux with sudo in front unless the
+    run is root already -- without it apt and dnf refuse, and refusing
+    after the question was answered with yes is worse than asking.
+
+    Each carries the switch that stops it asking again: -y, --noconfirm.
+    The password sudo wants is not a second question but the system's
+    own gate, and it is not for this program to go around it.
+    """
+    if sys.platform == "darwin":
+        if shutil.which("brew"):
+            return ("brew", "install", "ffmpeg")
+        return ()
+    if sys.platform == "win32":
+        return ()
+    for tool, rest in (("apt-get", ("install", "-y", "ffmpeg")),
+                       ("dnf", ("install", "-y", "ffmpeg")),
+                       ("zypper", ("--non-interactive", "install",
+                                   "ffmpeg")),
+                       ("pacman", ("-S", "--noconfirm", "ffmpeg"))):
+        if shutil.which(tool):
+            whole = (tool,) + rest
+            if hasattr(os, "geteuid") and os.geteuid() == 0:
+                return whole
+            return ("sudo",) + whole if shutil.which("sudo") else whole
+    return ()
+
+
+def manager_environment(command):
+    """The environment that manager runs in, quietened.
+
+    The key never travels into it, the same rule pip is handed.
+    """
+    clean = dict(os.environ)
+    clean.pop("AUPHONIC_TOKEN", None)
+    for part in command:
+        clean.update(QUIET_MANAGER.get(part, {}))
+    return clean
+
+
+def install_over_package_manager():
+    """Offer the package manager, and run it if that is wanted.
+
+    True when ffmpeg was installed. Asked only where somebody can
+    answer: a window started from the desktop has no console, and a
+    question nobody sees would hang the start for good.
+    """
+    if sys.platform == "win32":
+        return open_ffmpeg_page()
+    command = package_manager_command()
+    if not command:
+        return False
+    printed = " ".join(command)
+    if INSTALL_TOOLS:
+        # VPM_INSTALL_TOOLS: whoever set it has answered in advance.
+        # For a test, a build machine, anything with nobody in front
+        # of it -- and it still says what it is doing.
+        print(T('  Installing it: %s') % printed)
+    elif not sys.stdin.isatty():
+        print(T('  On this machine: %s') % printed)
+        return False
+    else:
+        print(T('  This machine can install it properly: %s') % printed)
+        answer = input(T('  Run that now? [Y/n] ')).strip().lower()
+        if answer and not answer.startswith(("y", "j")):
+            return False
+    try:
+        p = subprocess.run(list(command), env=manager_environment(command))
+    except OSError as e:
+        print(T('  That did not work: %s') % e)
+        return False
+    return p.returncode == 0
+
+
+def open_ffmpeg_page():
+    """Offer to open ffmpeg.org. Windows has no manager to ask.
+
+    Always False: a download in a browser is not finished when this
+    returns, so the run cannot go on as though ffmpeg were there.
+    """
+    if INSTALL_TOOLS or not sys.stdin.isatty():
+        return False
+    print(T('  ffmpeg.org has builds for Windows. The folder with '
+            'ffmpeg.exe then has to go into PATH, or the files next to '
+            'this program.'))
+    answer = input(T('  Open the page? [Y/n] ')).strip().lower()
+    if answer and not answer.startswith(("y", "j")):
+        return False
+    # os.startfile is the Windows way and exists nowhere else, which is
+    # exactly where this branch runs. It hands the address to whatever
+    # the machine opens addresses with.
+    page = "https://ffmpeg.org/download.html"
+    try:
+        os.startfile(page)
+    except Exception as e:
+        print(T('  The page could not be opened: %s') % e)
+        print("  %s" % page)
+    return False
 
 
 # The API key lives in the OS credential store -- macOS keychain, Windows
@@ -25596,8 +25752,33 @@ CATALOGUE["de"] = {
         'Messung.',
     '%s from %d recordings':
         '%s aus %d Aufnahmen',
-    '%s is missing -- installing it ...':
-        '%s fehlt -- wird nachinstalliert ...',
+    '%s is missing.':
+        '%s fehlt.',
+    '  This machine can install it properly: %s':
+        '  Diese Maschine kann es richtig installieren: %s',
+    '  Installing it: %s':
+        '  Wird installiert: %s',
+    '  On this machine: %s':
+        '  Auf dieser Maschine: %s',
+    '  Run that now? [Y/n] ':
+        '  Jetzt ausführen? [J/n] ',
+    '  That did not work: %s':
+        '  Das hat nicht geklappt: %s',
+    '  Fetching static-ffmpeg instead: a build inside this Python. It '
+    'brings sixteen packages with it and loads its programs from a '
+    'private repository, unchecked.':
+        '  Statt dessen static-ffmpeg: eine Fassung in diesem Python. Es '
+        'bringt sechzehn Pakete mit und lädt seine Programme ungeprüft '
+        'aus einem privaten Repository.',
+    '  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then '
+    'has to go into PATH, or the files next to this program.':
+        '  Auf ffmpeg.org gibt es Fassungen für Windows. Der Ordner mit '
+        'ffmpeg.exe muss dann in den Suchpfad, oder die Dateien neben '
+        'dieses Programm.',
+    '  Open the page? [Y/n] ':
+        '  Die Seite öffnen? [J/n] ',
+    '  The page could not be opened: %s':
+        '  Die Seite ließ sich nicht öffnen: %s',
     '%s is missing -- installing it. The first time takes a few minutes.':
         '%s fehlt -- wird nachinstalliert. Beim ersten Mal dauert das ein '
         'paar Minuten.',

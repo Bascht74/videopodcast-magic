@@ -57,6 +57,7 @@ force` rebuilds regardless.
 | `VPM_SHOTS` | where the window screenshots go (default: `tests/shots/`) |
 | `WORKERS` | how many tests at once (default: processors + 1, at most 12) |
 | `KEEP_TEMP` | keep the run's temporary folder |
+| `VPM_INSTALL_TOOLS` | answer the ffmpeg question with yes before it is asked, so a run with nobody in front of it installs it over the package manager instead of stopping |
 
 Five tests need a folder holding `videopodcast-magic_Interview_2.json` and
 the files it points at: `start_button_test.py`, `footer_bar_test.py`,

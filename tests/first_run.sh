@@ -295,20 +295,25 @@ try:
     roots.add(site.getusersitepackages())
 except Exception:
     pass
+# static-ffmpeg downloads its programs after it is installed, and pip
+# takes back only what it put there itself: 94 MB of ffmpeg stay behind
+# in the package folder. Measured on 2026-08-23.
+DOWNLOADED = ("static_ffmpeg",)
 for name in ("numpy", "PySide6", "certifi", "faster_whisper",
              "static_ffmpeg", "torch", "torchaudio", "shiboken6"):
     for root in roots:
         folder = os.path.join(root, name)
         if not os.path.isdir(folder):
             continue
-        # Only a shell: nothing in it but compiled leftovers.
+        # Only a shell: nothing in it but compiled leftovers -- or a
+        # folder one of them filled after pip was done with it.
         alive = [f for _, _, fs in os.walk(folder) for f in fs
                  if not f.endswith((".pyc", ".pyo"))]
-        if alive:
+        if alive and name not in DOWNLOADED:
             continue
         try:
             shutil.rmtree(folder)
-            print("   hollow package removed: %s" % folder)
+            print("   left-over package removed: %s" % folder)
         except OSError as e:
             print("   %s" % e)
 EOF
