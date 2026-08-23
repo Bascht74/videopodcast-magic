@@ -70,8 +70,10 @@ else
 fi
 
 # What the program installs into the interpreter it runs in.
-MODULES="numpy PySide6 PySide6_Addons PySide6_Essentials certifi \
-faster-whisper static-ffmpeg"
+# shiboken6 is on the list because it comes in with PySide6 and does not
+# go out with it: pip removes what was asked for, not what came along.
+MODULES="numpy PySide6 PySide6_Addons PySide6_Essentials shiboken6 \
+certifi faster-whisper static-ffmpeg"
 # Only with these gone does the environment really cost 218 MB: it is
 # built with --system-site-packages and borrows whatever is already
 # here. torchvision, torchinfo and rotary-embedding-torch are not on the
@@ -188,21 +190,24 @@ if wanted torch; then
     echo
 fi
 
-# --- 5. The models in the Hugging Face store ---------------------------
+# --- 5. The model the program fetches for itself -----------------------
+# Only that one. The store is shared with everything else on the machine
+# that speaks to Hugging Face, and a reset for this program has no
+# business in another one's models. The separation model is not here at
+# all -- it travels beside the program.
 if wanted models; then
-    echo "5. Models in the Hugging Face store"
+    echo "5. The speech model in the Hugging Face store"
     if [ -d "$HF" ]; then
-        for d in "$HF"/models--*; do
+        for d in "$HF"/models--*whisper*turbo*; do
             [ -e "$d" ] || continue
             n=$(basename "$d"); n=${n#models--}; n=${n//--//}
-            case "$n" in
-            *whisper*turbo*) w="speech recognition -- fetched again" ;;
-            *wespeaker*)     w="DEAD: rest of an earlier pyannote" ;;
-            *pyannote*)      w="DEAD: the model travels in models/" ;;
-            *)               w="DEAD: measurements, nothing uses it" ;;
-            esac
-            note "$d" "$n -- $w"
+            note "$d" "$n -- fetched again where macOS does not recognise"
         done
+        others=$(ls -d "$HF"/models--* 2>/dev/null | grep -cv "whisper.*turbo")
+        if [ "${others:-0}" -gt 0 ]; then
+            echo "   $others other models in the store are left alone --"
+            echo "   they belong to other work, not to this program."
+        fi
     else
         echo "   (no Hugging Face store here)"
     fi
@@ -277,6 +282,36 @@ if [ -n "$FOUND$FOUND_TORCH" ]; then
     echo " uninstalling:$FOUND$FOUND_TORCH"
     "$PY" -m pip uninstall -y $FOUND $FOUND_TORCH 2>&1 \
         | grep -i "success\|not installed" | sed 's/^/   /'
+    # pip leaves the __pycache__ folder of a package behind. Python
+    # then reads that folder as a namespace package: the import goes
+    # through and the module is hollow, so the program would take the
+    # shell for the package and never install it. That is a state no
+    # fresh machine is ever in, and it has to go with the rest.
+    "$PY" - <<'EOF' 
+import os, shutil, site, sys
+
+roots = set(site.getsitepackages())
+try:
+    roots.add(site.getusersitepackages())
+except Exception:
+    pass
+for name in ("numpy", "PySide6", "certifi", "faster_whisper",
+             "static_ffmpeg", "torch", "torchaudio", "shiboken6"):
+    for root in roots:
+        folder = os.path.join(root, name)
+        if not os.path.isdir(folder):
+            continue
+        # Only a shell: nothing in it but compiled leftovers.
+        alive = [f for _, _, fs in os.walk(folder) for f in fs
+                 if not f.endswith((".pyc", ".pyo"))]
+        if alive:
+            continue
+        try:
+            shutil.rmtree(folder)
+            print("   hollow package removed: %s" % folder)
+        except OSError as e:
+            print("   %s" % e)
+EOF
 fi
 if [ $KEY -eq 1 ]; then
     security delete-generic-password -s videopodcast-magic \

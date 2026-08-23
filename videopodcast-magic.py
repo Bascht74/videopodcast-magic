@@ -178,17 +178,11 @@ def find_required_tools():
     # Last resort: the static-ffmpeg wheel ships both binaries, so Python
     # alone is enough to get going.
     print(T('%s is missing -- installing it ...') % ", ".join(missing))
-    try:
-        import static_ffmpeg
-    except ImportError:
-        static_ffmpeg = None
-        if _pip_install("static-ffmpeg"):
-            import importlib
-            importlib.invalidate_caches()
-            try:
-                import static_ffmpeg
-            except ImportError:
-                static_ffmpeg = None
+    static_ffmpeg = _really_there("static_ffmpeg")
+    if static_ffmpeg is None and _pip_install("static-ffmpeg"):
+        import importlib
+        importlib.invalidate_caches()
+        static_ffmpeg = _really_there("static_ffmpeg")
     if static_ffmpeg is not None:
         try:
             static_ffmpeg.add_paths()
@@ -326,25 +320,44 @@ def _pip_install(*packages):
     return False
 
 
+def _really_there(module):
+    """Import a module, or None -- and a hollow one counts as missing.
+
+    pip leaves the __pycache__ folder of a package behind when it
+    uninstalls it. Python then reads that folder as a namespace
+    package: the import succeeds and the module has nothing in it,
+    __file__ among the things it does not have. Without this the
+    program would take the hollow shell for the real package and fail
+    much later, somewhere that says nothing about the cause.
+    """
+    import importlib
+    try:
+        got = importlib.import_module(module)
+    except ImportError:
+        return None
+    # A namespace package -- what the empty folder reads as -- has no
+    # origin. A real module names the file it was read from.
+    spec = got.__spec__
+    return got if spec is not None and spec.origin else None
+
+
 def _require_module(module, package=None):
     """Import a module, installing its package once if it is missing.
 
     Exits the process if the module is still unavailable after install.
     """
     import importlib
-    try:
-        return importlib.import_module(module)
-    except ImportError:
-        pass
+    got = _really_there(module)
+    if got is not None:
+        return got
     pkg = package or module
     print(T('%s is missing -- installing it. The first time takes a few '
             'minutes.') % pkg)
     if _pip_install(pkg):
         importlib.invalidate_caches()
-        try:
-            return importlib.import_module(module)
-        except ImportError:
-            pass
+        got = _really_there(module)
+        if got is not None:
+            return got
     sys.exit(T('%s could not be installed.\nBy hand:  %s -m pip install %s') % (pkg, sys.executable, pkg))
 
 
@@ -13822,15 +13835,13 @@ def certificate_file():
     once, and it is installed if it is not.
     """
     import importlib
-    try:
-        certifi = importlib.import_module("certifi")
-    except ImportError:
+    certifi = _really_there("certifi")
+    if certifi is None:
         if not _pip_install("certifi"):
             return None
         importlib.invalidate_caches()
-        try:
-            certifi = importlib.import_module("certifi")
-        except ImportError:
+        certifi = _really_there("certifi")
+        if certifi is None:
             return None
     try:
         where = certifi.where()

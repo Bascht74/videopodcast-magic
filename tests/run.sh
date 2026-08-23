@@ -17,6 +17,28 @@ fi
 export VPM_PYTHON="$PY"
 export PY
 echo "Python: $("$PY" -V 2>&1)"
+# Without ffmpeg most of the suite goes red, and none of those reds say
+# anything about the program: they say the machine has no ffmpeg. One
+# sentence beats thirty-eight of them. static-ffmpeg is named because it
+# is what the program itself falls back to, so the suite can be brought
+# up the same way the program comes up on a bare machine.
+for tool in ffmpeg ffprobe; do
+  if ! command -v "$tool" > /dev/null 2>&1; then
+    echo "$tool is not on the search path. Almost every test needs it,"
+    echo "and without it their red says nothing about the program."
+    echo
+    echo "  brew install ffmpeg              (macOS)"
+    echo "  apt install ffmpeg               (Debian, Ubuntu)"
+    echo
+    echo "Or the one the program falls back to, into this Python:"
+    echo "  $PY -m pip install static-ffmpeg"
+    echo "  $PY -c 'import static_ffmpeg; static_ffmpeg.add_paths()'"
+    echo "The second line prints where the binaries went; put that"
+    echo "folder on PATH for the run."
+    exit 2
+  fi
+done
+
 # The time limit around a single test. macOS brings no timeout(1); GNU
 # coreutils installs the same program under the name gtimeout. Where
 # neither is there the tests run unguarded, and that is said out loud

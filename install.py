@@ -54,33 +54,47 @@ def say(text=""):
     sys.stdout.flush()
 
 
-def context():
-    """An SSL context that also works on a Python without certificates.
+def bundle():
+    """The certificate bundle certifi holds, or "" if there is none.
 
-    A Python from python.org brings none of its own, and every download
-    then fails with CERTIFICATE_VERIFY_FAILED. certifi is the bundle;
-    it is fetched over pip if it is not there. The program does the
-    same thing for the same reason, and this is the same solution: no
-    unverified connection, ever.
+    A Python from python.org brings no certificates of its own, and
+    every download then fails with CERTIFICATE_VERIFY_FAILED. certifi
+    is the bundle; it is fetched over pip if it is not there. The
+    program does the same thing for the same reason.
+
+    An import that succeeds is not enough. pip leaves a package's
+    __pycache__ folder behind when it uninstalls it, and Python reads
+    that folder as a namespace package: the import goes through and the
+    module is hollow. Asking for where() is what tells the two apart.
     """
     try:
         import certifi
-    except ImportError:
-        certifi = None
-    if certifi is None:
-        return ssl.create_default_context()
-    return ssl.create_default_context(cafile=certifi.where())
+        where = certifi.where()
+    except Exception:
+        return ""
+    return where if os.path.exists(where) else ""
+
+
+def context():
+    """An SSL context that verifies, whatever this Python was given."""
+    found = bundle()
+    if found:
+        return ssl.create_default_context(cafile=found)
+    return ssl.create_default_context()
 
 
 def with_certificates():
     """Fetch certifi once, after a verification has failed."""
+    import importlib
     say("  The certificates are missing -- fetching certifi.")
-    ok = pip_install("certifi")
-    if not ok:
-        say("  certifi could not be installed. On a Mac, running")
-        say("  'Install Certificates.command' in the Python folder does")
-        say("  the same thing.")
-    return ok
+    if pip_install("certifi"):
+        importlib.invalidate_caches()
+        if bundle():
+            return True
+    say("  certifi could not be installed. On a Mac, running")
+    say("  'Install Certificates.command' in the Python folder does")
+    say("  the same thing.")
+    return False
 
 
 def pip_install(*packages):
