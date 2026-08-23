@@ -223,6 +223,72 @@ if len(lazy) < limit_p or "lazy_plural" not in old:
 for line, text in lazy[:8]:
     print("      line %-6d %s" % (line, text))
 
+# ------------------------------------------------- How big a function got
+# coding_guidelines.md sets 300 lines. Counted on 23.8.2026: eight
+# functions are over it and the largest is gui() at 5939 -- twenty times
+# the rule this project wrote for itself. Freezing that number would be
+# a decision that it is acceptable, and it is not.
+#
+# So three counters, and the second one is the point. It does not freeze
+# anything: it prints the largest function in every single run, so the
+# number cannot quietly leave anybody's head, and the moment somebody
+# takes a hundred lines out of gui() the ratchet holds the gain.
+#
+# Splitting gui() is not what this asks for. That is hundreds of
+# closures over shared variables and a week of new defects for no new
+# ability -- its own decision, for its own day. This is the cheap step
+# that stops the bleeding.
+tree = ast.parse(source)
+sizes = []
+for node in ast.walk(tree):
+    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+        end = getattr(node, "end_lineno", None)
+        if end:
+            sizes.append((end - node.lineno + 1, node.name, node.lineno))
+sizes.sort(reverse=True)
+big = [s for s in sizes if s[0] > 300]
+
+limit_b = old.get("over_300", len(big))
+check("functions over 300 lines: %d (ratchet %d)" % (len(big), limit_b),
+        len(big) <= limit_b)
+if len(big) < limit_b or "over_300" not in old:
+    remember_state("over_300", len(big))
+    if len(big) < limit_b:
+        print("      ratchet tightened: %d -> %d" % (limit_b, len(big)))
+for size, name, line in big[:8]:
+    print("      %-28s %5d lines, from line %d" % (name, size, line))
+
+largest = sizes[0][0] if sizes else 0
+limit_l = old.get("largest_function", largest)
+check("largest function: %d lines (ratchet %d)" % (largest, limit_l),
+        largest <= limit_l,
+        sizes[0][1] if sizes else "")
+if largest < limit_l or "largest_function" not in old:
+    remember_state("largest_function", largest)
+    if largest < limit_l:
+        print("      ratchet tightened: %d -> %d" % (limit_l, largest))
+
+# ------------------------------------------------- Exceptions swallowed
+# An except that does nothing hides the reason something did not work.
+# Counted the same way and held the same way: it may fall, never rise.
+silent = []
+for node in ast.walk(tree):
+    if not isinstance(node, ast.ExceptHandler):
+        continue
+    body = [b for b in node.body
+            if not (isinstance(b, ast.Expr)
+                    and isinstance(b.value, ast.Constant)
+                    and isinstance(b.value.value, str))]
+    if len(body) == 1 and isinstance(body[0], ast.Pass):
+        silent.append(node.lineno)
+limit_s = old.get("silent_except", len(silent))
+check("except branches that only pass: %d (ratchet %d)"
+      % (len(silent), limit_s), len(silent) <= limit_s)
+if len(silent) < limit_s or "silent_except" not in old:
+    remember_state("silent_except", len(silent))
+    if len(silent) < limit_s:
+        print("      ratchet tightened: %d -> %d" % (limit_s, len(silent)))
+
 print("\n%s" % ("All good." if not error
                 else "FAIL: %s" % ", ".join(error)))
 sys.exit(1 if error else 0)

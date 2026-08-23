@@ -262,7 +262,9 @@ really happens, rather than guessing a number that looks safe.
 ## 11. Structure
 
 **A function does one thing.** Once it runs longer than about 300 lines,
-it is doing more than one.
+it is doing more than one. One function in this program breaks that
+knowingly; section 12 says which one, why, and what still holds inside
+it.
 
 **What belongs together stays together.** The video player is a video
 player and has nothing to do with building the interface — so it lives
@@ -275,7 +277,72 @@ with the cut sliders and with the window arithmetic.
 **Lines up to 79 characters.** Not out of nostalgia: when comparing, two
 files side by side on one screen are worth more than long lines.
 
-## 12. Interface
+## 12. The one exception: `gui()`
+
+`gui()` is 5753 lines long -- nineteen times the rule above. Measured on
+23 August 2026; `style_test.py` prints the figure of the day on every
+run, so the current number is read there and not here. This is a
+decision, not an oversight, and this is where the reasons live.
+
+**Why it is one function.** Qt builds an interface out of closures. A
+button needs a callback, and the callback needs the button, the field
+beside it and the value both of them mean. In C++ the shared place for
+that is a class with fields; in Python it is a function with functions
+inside it. Both write down the same thing -- only one of them counts as
+a class with 182 methods and the other as a function with 5753 lines.
+Counted with the compiler's own bookkeeping, not by eye: 182 definitions
+sit directly in `gui()` and hold 76 percent of its lines, between them
+they capture 280 of its names, and the middle one captures three.
+`state`, a single dictionary, is captured by 64 of them.
+
+**Why the obvious split does not work.** 91 forward references: 43 of
+the inner functions read 69 names that the text binds further down.
+`buttons_check` uses a button that comes into being 4131 lines later,
+and that works only because a closure looks a name up late -- at the
+call, not at the definition. Those 69 names can therefore never become
+parameters, at no price and in no order. Cutting a section out and
+handing it what it needs gives functions with forty to eighty
+parameters, or a build in two phases: create everything, then wire it.
+Lifting the shared state into an object was weighed too: 280 captured
+names become 280 attributes, and afterwards each of the 182 methods may
+still touch every one of them. A seam of width zero separates nothing.
+It buys the number and leaves the structure where it was.
+
+Two more things belong to the picture. **PySide6 is imported inside
+`gui()`**, because without Qt the program has to keep working on the
+command line -- a class inheriting from a Qt widget cannot be defined at
+module level at all, so every Qt-touching helper that moves out costs a
+factory on top. And **there is no `nonlocal` in this file, not one**:
+shared mutable state runs through named containers, the `state`
+dictionary and the `Value` objects, and never through rebinding a name.
+That is why these 5753 lines can be read at all, and it is the condition
+the exception rests on.
+
+**What still holds.** The exception covers the interface that is there.
+It is not a licence.
+
+- **New code that gets by without a widget does not go into `gui()`.**
+  Computation, checking, preparation -- whatever touches no widget is
+  written beside `gui()` and takes what it needs as an argument.
+  `make_drop_area`, `qt_cut_band`, `qt_cut_player`, `make_key_note` and
+  `make_player_widgets` already live out there, and the docstring of the
+  last one states the rule: "Whatever is needed from gui() comes in as
+  an argument and keeps its name inside."
+- **A helper inside `gui()` that captures nothing is in the wrong
+  place.** Whether it captures anything has an exact answer:
+  `co_freevars` of the compiled function, not a search through the text.
+- **The number goes down, never up.** `style_test.py` prints the largest
+  function on every run, and a ratchet holds whatever comes off. Nothing
+  here freezes 5753 as acceptable.
+
+**The long version** is `docs/notes/gui_struktur.md`: the map of the
+banner sections with the seam measured at each one, what can be taken
+out cheaply, what cannot, and what was tried on a copy instead of
+argued. That folder is not delivered, so this section has to stand on
+its own -- what is needed to decide is here, and the note carries only
+the measurements behind it.
+
+## 13. Interface
 
 **The workflow is the order of the tabs.** Whatever comes first sits on
 the left.
@@ -301,7 +368,7 @@ file.
 **Long work shows a bar, and the bar does not lie.** It does not sit at
 100 % while something is still running.
 
-## 13. Changing something
+## 14. Changing something
 
 **A change covers the case, not the instance that was reported.** What
 comes back a second time cost twice: once to find, once to find again.

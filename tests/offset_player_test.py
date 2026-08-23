@@ -20,15 +20,14 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
-# Cut camera_offset out of the script and check it on its own.
-source = inspect.getsource(vpm.gui)
-begin = source.index("    def camera_offset(cameras, origin=None):")
-end = source.index("    def player_load_cut(numbers):")
-piece = "\n".join(line[4:] if line.startswith("    ") else line
-                   for line in source[begin:end].split("\n"))
-space = {}
-exec(piece, {"min": min, "float": float, "any": any}, space)
-camera_offset = space["camera_offset"]
+# The function itself, not a copy of it. It used to be cut out of the
+# source of gui() by string search and exec-ed, which held whatever the
+# text looked like on the day rather than what the program runs. Since
+# 23.8.2026 it stands at module level, because it reaches into nothing.
+camera_offset = vpm.camera_offset
+# Three checks further down read the text of gui() itself, so it is
+# still needed -- but as a whole, not cut into pieces.
+source = inspect.getsource(vpm.gui) + inspect.getsource(vpm.camera_offset)
 
 print("1. Handover file of a run -- the offset is taken")
 cameras = [{"track": "Wide", "offset": -534.2, "file": "W.mov"},

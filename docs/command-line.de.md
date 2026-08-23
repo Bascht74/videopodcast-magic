@@ -17,7 +17,7 @@
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
-| `--version` | Versionsnummer, und auf welchem Python das läuft |
+| `--version` | Nummer der Fassung, und auf welchem Python das läuft |
 | `--no-update-check` | nicht mehr nachsehen, ob eine neuere Fassung da ist; die Antwort wird behalten (es sieht nach) |
 | `--update-check` | wieder nachsehen, nachdem `--no-update-check` einmal gegeben wurde |
 

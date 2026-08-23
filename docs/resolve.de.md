@@ -12,7 +12,7 @@ fertigen Dateien und baut die Timelines; der Ablauf wird als
 
 Der Knopf arbeitet auf der Übergabedatei und schickt die Werte für den
 Kameraschnitt aus den Feldern mit; die Schnittliste wird also mit dem
-gerechnet, was jetzt dort steht. Haben sich In point oder Out point
+gerechnet, was jetzt dort steht. Haben sich In-Punkt oder Out-Punkt
 inzwischen geändert, bricht er ab — der Ton in den Videos gehört dann zum
 alten Fenster.
 
@@ -20,7 +20,7 @@ Ob Resolve antwortet, wird beim ersten Blick auf den Reiter
 **Resolve-Schnitt** von selbst gefragt, im Hintergrund. Der Reiter sagt
 die Antwort in einer Zeile, und daneben steht der Weg zum Fenster
 **Einstellungen ...**, in dem die Prüfung selbst sitzt. In dessen Kasten
-**Verbindung zu Resolve** stehen Produkt und Version, wenn es geht, und
+**Verbindung zu Resolve** stehen Produkt und Fassung, wenn es geht, und
 wenn nicht, die beiden Pfade, nach denen gesucht wurde, und was im Weg
 sein kann:
 
@@ -28,7 +28,7 @@ sein kann:
 - Das externe Scripting steht auf „None" statt „Local", unter
   Preferences > System > General.
 - Die freie Fassung, für die berichtet wird, dass externes Scripting seit
-  Version 19.1 der Studio-Fassung vorbehalten ist. Eine offizielle Aussage
+  Fassung 19.1 der Studio-Fassung vorbehalten ist. Eine offizielle Aussage
   dazu gibt es nicht.
 
 In diesem Kasten fragt **Erneut prüfen** noch einmal, und das Öffnen des
@@ -86,7 +86,7 @@ Es wird gefragt:
 - **ein neues Projekt daneben anlegen** — Name mit Zusatz.
 - **abbrechen.**
 
-In der Oberfläche fragt ein Dialog, im Terminal kommt eine Nummer (auf der
+In der Oberfläche fragt ein Fenster, im Terminal kommt eine Nummer (auf der
 Kommandozeile vorweg `--resolve-project update|keep|new|abort`).
 
 Nach dem Löschen wird nachgesehen — Resolve meldet auch dann Erfolg, wenn

@@ -124,9 +124,9 @@ Danach gelten sie für alle Dateien gleich, auch für die ohne Timecode.
 
 ### Was in die Kameradateien kommt
 
-Erste Tonspur jeder Kameradatei ist die Mischung genau der Sprecher in
-diesem Bild — `Mix <A> + <B>`, bei nur einem sein Name. Danach dieselben
-Sprecher einzeln, dann `Full-Mix (…)`, zuletzt `Camera Original`. Die
+Erste Tonspur jeder Kameradatei ist der Mix genau der Sprecher in diesem
+Bild — `Mix <A> + <B>`, bei nur einem sein Name. Danach dieselben Sprecher
+einzeln, dann `Full-Mix (…)`, zuletzt `Camera Original`. Die
 Lautheit wird über die Summe bestimmt und auf alle Spuren gleich
 angewendet, damit die Verhältnisse bleiben.
 
@@ -139,7 +139,7 @@ iXML für Premiere und Media Composer.
 Diese Optionen gibt es im Fenster nicht.
 
 - `--parallel COUNT` legt fest, wie viele Kameradateien gleichzeitig
-  laufen: `0` — die Voreinstellung — entscheidet selbst, `1` nimmt eine
+  laufen: `0` — die Vorgabe — entscheidet selbst, `1` nimmt eine
   Datei nach der anderen. Die geschriebenen Dateien sind in beiden Fällen
   byteweise identisch.
 - `--lufs` setzt die Lautheit, auf die die Summe gebracht wird,

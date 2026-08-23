@@ -540,7 +540,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.4.0-beta"
+VERSION = "2.5.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -1229,6 +1229,35 @@ def _bext_time_reference(path):
                 b = f.read(sz)
                 return struct.unpack("<Q", b[338:346])[0] if len(b) >= 346 else None
             f.seek(sz + (sz & 1), os.SEEK_CUR)
+
+
+DAY_S = 24 * 60 * 60
+
+
+def unwrap_day(value, near):
+    """Move *value* by whole days until it sits closest to *near*.
+
+    A timecode counts from midnight and starts over there. A recording
+    that runs from 23:50 to 00:10 therefore looks, to plain arithmetic,
+    like two recordings 23 hours and 40 minutes apart -- and every
+    difference taken from it comes out wrong by a day.
+
+    The obvious repair is worse than the fault: adding a day offset in
+    file_timecode would make the audio axis absolute while the picture
+    axis still counts from midnight, and the two are subtracted from
+    each other in several places. So nothing is added anywhere. The two
+    values are brought onto one axis at the moment they are compared,
+    by moving one of them whole days until it is closest to the other.
+
+    Half a day is the fence, and it has to be: past twelve hours there
+    is no telling a recording that crossed midnight from two that are
+    genuinely a day apart. Which is why the preflight says so out loud
+    when it sees the case -- see midnight_note.
+    """
+    if value is None or near is None:
+        return value
+    return value - DAY_S * round((value - near) / float(DAY_S))
+
 
 
 def file_timecode(path, fps=30.0):
@@ -2416,7 +2445,8 @@ def report_timecode_check(audio_start, info, measured, indent="  "):
     if audio_start is None or not info["tc"]:
         return
     fps = max(1.0, info["fps"])
-    loud_tc = parse_timecode(info["tc"], fps) - audio_start
+    loud_tc = unwrap_day(parse_timecode(info["tc"], fps),
+                         audio_start) - audio_start
     deviation = measured - loud_tc
     print(T('%sTimecode check of the audio file') % indent)
     if not GUI_RUNNING:
@@ -5410,7 +5440,8 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
     duration = sample_count(tracks[0]["ready"]) / float(SR)
     run_ffmpeg_with_progress(
         ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le", "-y", total_sum],
+         "-map", "[out]", "-c:a", "pcm_s24le"]
+            + wav_safe(total_sum) + ["-y", total_sum],
         duration, T('Building the sum'))
     have, peak, lra_range = measure_loudness(total_sum, duration, T('Measuring loudness'))
     if have is None:
@@ -5575,7 +5606,9 @@ def limiter_curve(total_sum, tmpdir, gain, ceiling=CEILING_DBTP):
     try:
         subprocess.run(["ffmpeg", "-v", "error", "-f", "f32le",
                         "-ar", str(SR), "-ac", str(channels), "-i", raw,
-                        "-c:a", "pcm_f32le", "-y", target], check=True)
+                        "-c:a", "pcm_f32le"]
+                            + wav_safe(target)
+                            + ["-y", target], check=True)
         os.unlink(raw)
     except Exception as e:
         print(T('  Level curve not possible (%s) -- without limiter') % e)
@@ -5849,6 +5882,72 @@ def channel_rate(file_path, channels, want=16000):
     return want
 
 
+# Peak level has to be this close to the top before counting starts.
+# "Peak count" counts samples sitting on the highest value in the file,
+# wherever that is -- on a quiet recording that is the loudest word, not
+# a fault.
+CLIP_NEAR_TOP_DB = -0.1
+# How many samples on the stop before it is worth saying. One is a
+# coincidence of rounding; a run is a converter that was asked for more
+# than it has.
+CLIP_ENOUGH_SAMPLES = 8
+
+
+def clipping_facts(file_path, stream=0):
+    """Count the samples that sit on the stop, per channel.
+
+    Only for integer formats, and that is the whole point of the check.
+    Measured on the same clipped source written three ways: 16 bit and
+    24 bit come out identical -- flat factor 31.15, 63520 samples on the
+    top, peak 0.00 dBFS -- and 32 bit float peaks at +5.94 dBFS with a
+    flat factor of 0 and nothing clipped at all. The line is not 16
+    against 24 bit, it is integer against float: an integer format has a
+    stop at full scale, float has none, and 0 dBFS there is a mark, not
+    a wall. Warning about float would be warning about nothing.
+
+    A hint, never a reason to stop: an overdriven recording is sometimes
+    the only recording there is.
+
+    Returns {channel index: (peak dBFS, samples on the stop)} for the
+    channels that are actually against the stop, empty otherwise.
+    """
+    if pcm_kind(file_path, stream) == "pcm_f32le":
+        return {}
+    try:
+        p = subprocess.run(
+            ["ffmpeg", "-v", "info", "-i", file_path,
+             "-map", "0:a:%d" % stream,
+             "-af", "astats=measure_overall=none:"
+                    "measure_perchannel=Peak_level+Peak_count",
+             "-f", "null", "-"],
+            stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+    except OSError:
+        return {}
+    out, channel, peak = {}, None, None
+    for line in (p.stderr or b"").decode("utf-8", "replace").splitlines():
+        line = line.split("] ")[-1].strip()
+        if line.startswith("Channel:"):
+            try:
+                channel, peak = int(line.split(":")[1]) - 1, None
+            except ValueError:
+                channel, peak = None, None
+        elif line.startswith("Peak level dB:"):
+            try:
+                peak = float(line.split(":")[1])
+            except ValueError:
+                peak = None
+        elif line.startswith("Peak count:") and channel is not None:
+            try:
+                count = int(float(line.split(":")[1]))
+            except ValueError:
+                continue
+            if (peak is not None and peak >= CLIP_NEAR_TOP_DB
+                    and count >= CLIP_ENOUGH_SAMPLES):
+                out[channel] = (peak, count)
+    return out
+
+
+
 def channel_levels(file_path, rate=16000, stream=0):
     """Return each audio channel of one file on its own.
 
@@ -5983,6 +6082,47 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
             float(np.median(away)) if away else 0.0)
 
 
+def channel_hush(level):
+    """Which channels carry nothing, and by how much they missed.
+
+    Two rules, and a channel need fail only one. Relative: 45 dB under
+    the loudest is an input nobody plugged anything into. Absolute:
+    under -70 dBFS there is no signal, only the converter's noise, and
+    a pair judged on noise answers differently every time it is
+    measured. The absolute rule applies only where at least one channel
+    is above it, so a recording that is quiet all through is still
+    judged on the relative one.
+
+    Not called hushed: that name belongs to the player's mute switch,
+    which lives further down and would win at call time.
+
+    The second return value says which rule caught a channel and by how
+    much, because the two are different recording faults with different
+    remedies: ("under", how many dB under the loudest) or ("quiet", the
+    level in dBFS). Without the number nobody can tell a channel that is
+    40 dB above its own noise floor from one that is buried in it.
+
+    Returns ([silent per channel], [reason per channel or None]).
+    """
+    if not level:
+        return [], []
+    highest = max(level)
+    floor = QUIET_BELOW_DBFS if highest > QUIET_BELOW_DBFS else float("-inf")
+    silent, why = [], []
+    for x in level:
+        gap = (highest - x) if x > float("-inf") else float("inf")
+        if not (x > float("-inf")):
+            silent.append(True), why.append(("quiet", float("-inf")))
+        elif gap > SILENT_BELOW_DB:
+            silent.append(True), why.append(("under", gap))
+        elif x < floor:
+            silent.append(True), why.append(("quiet", x))
+        else:
+            silent.append(False), why.append(None)
+    return silent, why
+
+
+
 def channel_facts(file_path, rate=None, stream=0):
     """Measure the channels of one file: how loud, how empty, how alike.
 
@@ -6015,17 +6155,7 @@ def channel_facts(file_path, rate=None, stream=0):
         top = float(np.percentile(np.abs(x), 99))
         level.append(20.0 * math.log10(top) if top > 0 else float("-inf"))
     highest = max(level)
-    # Two rules, and a channel need fail only one. Relative: 45 dB under
-    # the loudest is an input nobody plugged anything into. Absolute:
-    # under -70 dBFS there is no signal, only the converter's noise, and
-    # a pair judged on noise answers differently every time it is
-    # measured. The absolute rule applies only where at least one channel
-    # is above it, so a recording that is quiet all through is still
-    # judged on the relative one.
-    floor = QUIET_BELOW_DBFS if highest > QUIET_BELOW_DBFS else float("-inf")
-    silent = [not (x > float("-inf"))
-              or (highest - x) > SILENT_BELOW_DB or x < floor
-              for x in level]
+    silent, why = channel_hush(level)
     pair_same, pair_zero, pair_apart = [], [], []
     for a in range(0, n - 1):
         b = a + 1
@@ -6043,6 +6173,26 @@ def channel_facts(file_path, rate=None, stream=0):
     return {"channels": n, "level": level, "silent": silent,
             "pair_same": pair_same, "pair_zero": pair_zero,
             "pair_apart": pair_apart, "readable": True}
+
+
+def hush_reason(which, why):
+    """Say why a channel counts as carrying nothing, with the number.
+
+    Two rules catch a channel, and they are different recording faults:
+    nothing plugged in, against a level so low that only the converter's
+    own noise is left. The old line said "below the noise floor" for
+    both, which was wrong for the first one -- a channel 45 dB under the
+    loudest can still sit 40 dB above its own noise floor.
+    """
+    reason = why[which - 1] if 0 < which <= len(why) else None
+    if reason and reason[0] == "under" and reason[1] < float("inf"):
+        return T('Channel %d is %.0f dB under the loudest -- nothing '
+                 'plugged in') % (which, reason[1])
+    if reason and reason[1] > float("-inf"):
+        return T('Channel %d at %.0f dBFS -- only converter noise '
+                 'left') % (which, reason[1])
+    return T('Channel %d is silent -- unused input') % which
+
 
 
 def channel_joins(facts):
@@ -6074,6 +6224,7 @@ def channel_joins(facts):
     if not facts.get("readable") or n <= 1:
         return []
     silent = list(facts.get("silent") or [False] * n)
+    _, why = channel_hush(list(facts.get("level") or []))
     same = list(facts.get("pair_same") or [])
     zero = list(facts.get("pair_zero") or [])
     apart = list(facts.get("pair_apart") or [])
@@ -6085,9 +6236,8 @@ def channel_joins(facts):
         # What belongs on a row in the file list is the answer, not the
         # arithmetic behind it. What was measured is in channel_at_zero.
         if silent[k] or silent[k + 1]:
-            out.append((k, False, True,
-                        T('Channel %d below the noise floor -- unused input')
-                        % ((k + 2) if silent[k + 1] else (k + 1))))
+            which = (k + 2) if silent[k + 1] else (k + 1)
+            out.append((k, False, True, hush_reason(which, why)))
         elif r is not None and r >= SAME_SIGNAL:
             out.append((k, True, True,
                         T('both channels identical -- mono laid on both '
@@ -6204,6 +6354,24 @@ def _level_of(facts, k):
     return float(row[k])
 
 
+def wav_safe(target):
+    """["-rf64", "auto"] where the target is a WAV, [] where it is not.
+
+    A plain WAV keeps its sizes in 32 bit, so it stops at 4 GiB -- about
+    four hours of 24 bit stereo at 48 kHz, or seventy minutes of eight
+    tracks. Past that ffmpeg writes a header naming less than what is
+    there, every reader believes the header, and the tail is gone with
+    nothing anywhere saying so. RF64 is the same file with 64 bit
+    sizes; "auto" only switches when it is needed, so a short recording
+    stays an ordinary WAV that every program opens.
+
+    Only for WAV: the option belongs to that muxer, and ffmpeg refuses
+    a run that offers it for anything else.
+    """
+    return (["-rf64", "auto"]
+            if os.path.splitext(target)[1].lower() == ".wav" else [])
+
+
 def pcm_kind(file_path, stream=0):
     """Return the wav sample format to write a copy of this audio in.
 
@@ -6299,7 +6467,8 @@ def split_channels(file_path, channels, target, stream=0, rate=None):
                  "-map", "[o]"]
                 + (["-ar", str(rate)] if rate else [])
                 + stamp
-                + ["-c:a", pcm_kind(file_path, stream), "-y", target])
+                + ["-c:a", pcm_kind(file_path, stream)]
+                    + wav_safe(target) + ["-y", target])
     return target
 
 
@@ -6450,11 +6619,7 @@ def blocks_facts_from(every):
     for k in range(n):
         seen = [f["level"][k] for f in usable if k < len(f.get("level") or [])]
         level.append(max(seen) if seen else float("-inf"))
-    highest = max(level) if level else float("-inf")
-    floor = QUIET_BELOW_DBFS if highest > QUIET_BELOW_DBFS else float("-inf")
-    silent = [not (x > float("-inf"))
-              or (highest - x) > SILENT_BELOW_DB or x < floor
-              for x in level]
+    silent, why = channel_hush(level)
     same, zero, apart = [], [], []
     for i, a in enumerate(range(0, n - 1)):
         b = a + 1
@@ -6594,7 +6759,8 @@ def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
         fc += "[out]"
     run_ffmpeg_with_progress(
         ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le", "-y", target],
+         "-map", "[out]", "-c:a", "pcm_s24le"]
+        + wav_safe(target) + ["-y", target],
         sample_count(sources[0]) / float(SR),
         T('Mixing %s') % (os.path.splitext(os.path.basename(target))[0]
                        .replace("mix_", "").replace("single_", "")
@@ -6674,7 +6840,8 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     af.append("atrim=end_sample=%d" % n_window)
     af.append("asetpts=N/SR/TB")
     shell_quote(["ffmpeg", "-v", "error", "-i", source, "-af", ",".join(af),
-        "-ac", str(keep), "-c:a", "pcm_s24le", "-y", target])
+        "-ac", str(keep), "-c:a", "pcm_s24le"]
+            + wav_safe(target) + ["-y", target])
     return target
 
 
@@ -6743,7 +6910,7 @@ def extract_audio_from_video(file_path, tmpdir):
         except Exception:
             pass
     show_progress(T('Camera audio'), 0.0)
-    shell_quote(command + ["-y", target])
+    shell_quote(command + wav_safe(target) + ["-y", target])
     show_progress(T('Camera audio'), 1.0)
     print("  %s" % os.path.basename(target))
     return target
@@ -6794,7 +6961,8 @@ def extract_audio_for_plan(plan, tmpdir):
         try:
             shell_quote(["ffmpeg", "-v", "error", "-i", v, "-map", "0:a:0",
                 "-ac", str(max(1, channel_count(v))), "-ar", str(SR),
-                "-c:a", "pcm_s16le", "-y", target])
+                "-c:a", "pcm_s16le"]
+                + wav_safe(target) + ["-y", target])
         except Exception as ex:
             print(T('\n  %s: no audio to extract (%s)')
                   % (os.path.basename(v), ex))
@@ -6894,7 +7062,8 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
         try:
             shell_quote(["ffmpeg", "-v", "error", "-i", v, "-map", "0:a:0",
                 "-ac", str(max(1, channel_count(v))), "-ar", str(SR),
-                "-c:a", "pcm_s16le", "-y", target])
+                "-c:a", "pcm_s16le"]
+                + wav_safe(target) + ["-y", target])
         except Exception as e:
             print(T('\n  %s: no audio to extract (%s)')
                   % (os.path.basename(v), e))
@@ -7330,7 +7499,17 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                                         video_paths)
 
     #--------------------------------------------------- Processing
-    if getattr(args, "without_auphonic", False):
+    # --auphonic-done first, and on purpose. It names a folder: an
+    # instruction about this run, not a mode. --without-auphonic used to
+    # be read first and returned straight away, so the folder was never
+    # looked at and the run mixed from the raw recordings without a word
+    # -- the worse of the two failures, because it produced a result.
+    # Found on 23.8.2026 while comparing with AudioRecorder.
+    if getattr(args, "without_auphonic", False) and args.auphonic_done:
+        print(as_warn(T('  --without-auphonic and --auphonic-done were '
+                        'both given. The finished tracks win: there is '
+                        'nothing left to send anywhere.')))
+    if getattr(args, "without_auphonic", False) and not args.auphonic_done:
         return finish_without_auphonic(args, tracks, cameras, videos, tmpdir,
                                        position, t0, t1, ref_clip)
     if args.auphonic_done:
@@ -11731,6 +11910,16 @@ def _windows_for_pair(level, speech, i, j, loud=10.0, faint=6.0,
     return [good[int(k * step)] for k in range(at_most)]
 
 
+# Three points is the least a line through three unknowns can be drawn
+# through, and drawn through three it goes exactly -- so three is the
+# floor, not a good number.
+ENOUGH_WINDOWS = 3
+# How far the phase peak has to stand out of the noise around it before
+# a second of bleed counts as measured.
+SHARP_ENOUGH = 10.0
+
+
+
 def measure_offsets_by_crosstalk(tracks, rate=16000):
     """Measure the crosstalk window by window.
 
@@ -11750,23 +11939,34 @@ def measure_offsets_by_crosstalk(tracks, rate=16000):
             if j == i:
                 continue
             window = _windows_for_pair(level, speech, i, j)
-            if len(window) < 3:
+            # Both failures below carry their number. They are two
+            # different recording faults with two different remedies --
+            # everybody talking over each other, against bleed too weak
+            # or too reverberant to measure -- and without the number
+            # nobody can tell them apart from the line.
+            if len(window) < ENOUGH_WINDOWS:
                 lines.append((track["name"], tracks[j]["name"],
-                               T('too few places where only %s speaks')
-                               % track["name"]))
+                               T('only %d seconds where %s speaks alone, '
+                                 '%d needed')
+                               % (len(window), track["name"],
+                                  ENOUGH_WINDOWS)))
                 continue
-            values = []
+            values, best = [], 0.0
             for f in window:
                 a = data[i][f * nb:(f + 1) * nb]
                 b = data[j][f * nb:(f + 1) * nb]
                 ms, sharp = gcc_phat_offset(a, b, rate)
-                if sharp >= 10:
+                best = max(best, sharp)
+                if sharp >= SHARP_ENOUGH:
                     values.append((f + 0.5, ms))
-            if len(values) >= 3:
+            if len(values) >= ENOUGH_WINDOWS:
                 measurements[(i, j)] = values
             else:
                 lines.append((track["name"], tracks[j]["name"],
-                               T('bleed too indistinct')))
+                               T('bleed too indistinct: %d of %d seconds '
+                                 'usable, sharpest %.1f of %.0f needed')
+                               % (len(values), len(window), best,
+                                  SHARP_ENOUGH)))
     return measurements, lines
 
 
@@ -11779,8 +11979,12 @@ def solve_pair_offsets(measurements, i, j, highest_clock_drift=100.0):
     grows over time: offset(t) = d0 + k*t.
 
     Three unknowns, two series of measurements, solved in one least squares
-    fit. Returns (path_ms, d0_ms, k_ppm, points) or None if one of the two
-    directions is missing.
+    fit. Returns (path_ms, d0_ms, k_ppm, points, residual_ms) or None if
+    one of the two directions is missing. The residual is how far the
+    measurements sit from the line the fit drew through them, as a root
+    mean square in milliseconds. It says how much the number above is
+    worth: three points always fit a line through three unknowns
+    exactly, and a residual of zero there means nothing.
     """
     forward, backward = measurements.get((i, j)), measurements.get((j, i))
     if not forward or not backward:
@@ -11803,9 +12007,13 @@ def solve_pair_offsets(measurements, i, j, highest_clock_drift=100.0):
     if abs(k) > highest_clock_drift:
         # No two clocks drift that fast, so the slope is guesswork. Better to
         # take the fixed offset alone.
-        solution, *_ = np.linalg.lstsq(A[:, :2], y, rcond=None)
+        A = A[:, :2]
+        solution, *_ = np.linalg.lstsq(A, y, rcond=None)
         gone, d0, k = float(solution[0]), float(solution[1]), 0.0
-    return gone, d0, k, len(forward) + len(backward)
+    left = y - A.dot(solution)
+    over = max(1, len(y) - A.shape[1])
+    rest = float(np.sqrt(float(np.dot(left, left)) / over))
+    return gone, d0, k, len(forward) + len(backward), rest
 
 
 def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
@@ -11837,11 +12045,12 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
             if solution is None:
                 continue
             pairs[(i, j)] = solution
-            gone, d0, k, n = solution
+            gone, d0, k, n, rest = solution
             print(T('    %-14s <-> %-14s sound path %4.1f ms (%.2f m), '
-                    'offset %+6.1f ms, drift %+5.1f ppm (%d points)%s')
+                    'offset %+6.1f ms, drift %+5.1f ppm '
+                    '(%d points, %.1f ms left over)%s')
                   % (tracks[i]["name"], tracks[j]["name"], gone,
-                     max(0.0, gone) / 1000.0 * 343.0, d0, k, n,
+                     max(0.0, gone) / 1000.0 * 343.0, d0, k, n, rest,
                      T('   (sound path negative -- something is wrong)')
                      if gone < -1.0 else ""))
     if not pairs:
@@ -11855,7 +12064,7 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
             found = pairs.get((j, i)) or pairs.get((i, j))
             if not found:
                 continue
-            _, d0, k, _ = found
+            d0, k = found[1], found[2]
             if (i, j) in pairs:          # measured as (i against j)
                 d0, k = -d0, -k
             position[i] = (position[j][0] + d0, position[j][1] + k)
@@ -12555,7 +12764,17 @@ def check_mode_fits_input(audio_paths, args):
               'tracks\n  there is nothing to decouple; without the tick the '
               'same file runs\n  through as an ordinary production.')
             % chains)
-    if not args.auphonic_key and not getattr(args, "without_auphonic", False):
+    # A key is only needed where something is going to be sent. With
+    # --auphonic-done the tracks are already finished and lie in a
+    # folder -- from auphonic.com, or from a mixing desk, or from
+    # anywhere else. Asking for a key there refused a run that wanted
+    # nothing from auphonic.com, and the only way past it was the key
+    # on the command line, which the first rule of this project
+    # forbids. Found on 23.8.2026 while comparing with AudioRecorder.
+    brings_own = bool(getattr(args, "auphonic_done", None))
+    if (not args.auphonic_key
+            and not getattr(args, "without_auphonic", False)
+            and not brings_own):
         return as_warn(T('MULTITRACK NOT POSSIBLE\n  Without an API key '
                          'there is nothing to send to auphonic.com.\n  With '
                          '--without-auphonic it runs locally instead: '
@@ -13037,6 +13256,20 @@ def cache_folder(sub=""):
     return folder
 
 
+def running_from():
+    """Which copy of the script this is.
+
+    Not sys.argv[0]: the restart after an update and the call out of
+    DaVinci Resolve both set it to something else. __file__ is the file
+    that was really loaded.
+    """
+    try:
+        return os.path.abspath(__file__)
+    except Exception:
+        return "?"
+
+
+
 def log_path():
     """Return where the log goes: next to the script.
 
@@ -13074,13 +13307,18 @@ def redirect_console():
             os.replace(file_path, before_value)
         file = open(file_path, "w", buffering=1, encoding="utf-8",
                      errors="replace")
-        # Header: version, time and machine, so it is clear later which run
-        # this was.
-        file.write("Video Podcast Magic %s   %s   %s %s   %s\n\n"
+        # Header: version, time, machine -- and which copy of the
+        # script this was. Several runnable copies of the same version
+        # are the normal case here: the snapshot the test suite runs
+        # against, the .old the self-update leaves behind, the download
+        # in the Downloads folder. They share one log file, and without
+        # the path nobody can tell later why one run came out different
+        # from another.
+        file.write("Video Podcast Magic %s   %s   %s %s   %s\n%s\n\n"
                     % (VERSION,
                        time.strftime("%Y-%m-%d %H:%M:%S"),
                        platform.system(), platform.release(),
-                       python_note()))
+                       python_note(), running_from()))
         os.dup2(file.fileno(), 1)
         os.dup2(file.fileno(), 2)
     except Exception:
@@ -13191,14 +13429,89 @@ def envelope(x, hop_ms=5.0, rate=SR):
     return e - e.mean()
 
 
+def phase_align(a, b, rate, most_s=None):
+    """Where b sits against a, by phase alone. (seconds, sharpness).
+
+    The envelope way asks where two recordings are loud together, and
+    that needs something to be loud and quiet about. Music has almost
+    nothing: a mixed, limited song holds the same loudness for minutes.
+    Measured on 23.8.2026 -- an iPhone recording of monitor speakers
+    against the finished mix of the same music -- the envelope way
+    answered 74.775 s at a quality of -0.183, and the right answer was
+    569.2 s.
+
+    This one throws the loudness away and keeps only the phase, which
+    is what a re-recording through a room survives. It found that 569.2
+    s to within twelve milliseconds, first try, with nothing to go on.
+
+    The sharpness is the peak against the noise around it. It says how
+    much the answer is worth, and it is the only thing that does: a
+    peak that is barely above its neighbours is a guess.
+    """
+    if len(a) < rate or len(b) < rate:
+        return 0.0, 0.0
+    n = 1 << int(np.ceil(np.log2(len(a) + len(b))))
+    fa = np.fft.rfft(np.asarray(a, float) - np.mean(a), n)
+    fb = np.fft.rfft(np.asarray(b, float) - np.mean(b), n)
+    both = fb * np.conj(fa)
+    # The whitening is the whole point: every frequency counts the
+    # same, so a loud bass drum does not drown out the rest.
+    line = np.fft.irfft(both / (np.abs(both) + 1e-12), n)
+    k = int(np.argmax(line))
+    if k > n // 2:
+        k -= n
+    if most_s is not None and abs(k) / float(rate) > most_s:
+        return 0.0, 0.0
+    sharp = float(line.max() / (line.std() or 1.0))
+    return k / float(rate), sharp
+
+
+def looks_like_music(env):
+    """A guess at whether this is music, for the log and nothing else.
+
+    Speech swings in syllables, two to eight times a second. Music
+    swings with the beat and the phrase, slower. Measured on 23.8.2026
+    the two do not separate cleanly -- a finished mix landed at 26 per
+    cent of its movement in the syllable band, speech at 31 to 32 --
+    so this decides nothing. It only explains, afterwards, why the
+    plain way had so little to work with.
+    """
+    e = np.asarray(env, float)
+    e = e[np.isfinite(e)]
+    if len(e) < 4000:
+        return False
+    e = e - e.mean()
+    power = np.abs(np.fft.rfft(e * np.hanning(len(e)))) ** 2
+    hz = np.fft.rfftfreq(len(e), 0.005)
+    whole = float(power[(hz >= 0.2) & (hz < 20.0)].sum()) or 1.0
+    syllables = float(power[(hz >= 2.0) & (hz < 8.0)].sum()) / whole
+    return syllables < 0.20
+
+
 def cross_correlate(a, b):
+    """Where b sits against a, and how well it fits there.
+
+    The peak is the largest positive one, not the largest by size.
+    An envelope here is log loudness with its mean taken out, so it
+    swings either side of zero -- but two that belong together still
+    rise and fall together, and that pushes the correlation up. A
+    strong negative peak is the opposite: loud where the other is
+    quiet. That is never where they belong, however large it is.
+
+    Taking the absolute value used to hand exactly that back. Measured
+    on 23.8.2026, an iPhone recording of monitor speakers against the
+    finished mix of the same music: it answered +74.775 s at -0.183,
+    while the best real agreement was +0.131 somewhere else again.
+    Neither is a match -- but only one of the two is even a possible
+    one. The right answer, +569.2 s, needed another method entirely.
+    """
     m = min(len(a), len(b))
     if m < 10:
         return 0, 0.0
     a, b = a[:m], b[:m]
     nf = 1 << int(np.ceil(np.log2(2 * m)))
     cc = np.fft.irfft(np.fft.rfft(b, nf) * np.conj(np.fft.rfft(a, nf)), nf)
-    k = int(np.argmax(np.abs(cc)))
+    k = int(np.argmax(cc))
     if k > nf // 2:
         k -= nf
     label_text = np.sqrt((a ** 2).sum() * (b ** 2).sum())
@@ -13282,14 +13595,17 @@ def join_audio_parts(paths, target, keep_parts=False):
             chains.append("[%d:a]%s%s" % (i, ",".join(f), tail))
             markers.append("[t%d]" % i)
             if alone:
-                writes += ["-map", "[s%d]" % i, "-c:a", "pcm_s24le",
-                           "-write_bext", "1", "-metadata",
-                           "time_reference=%d" % t0, "-y", alone[i][1]]
+                writes += (["-map", "[s%d]" % i, "-c:a", "pcm_s24le",
+                            "-write_bext", "1", "-metadata",
+                            "time_reference=%d" % t0]
+                           + wav_safe(alone[i][1])
+                           + ["-y", alone[i][1]])
         fc = ";".join(chains) + ";" + "".join(markers) +\
              "amix=inputs=%d:normalize=0[out]" % len(markers)
         shell_quote(["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
             "-map", "[out]", "-c:a", "pcm_s24le", "-write_bext", "1",
-            "-metadata", "time_reference=%d" % t0, "-y", target] + writes)
+            "-metadata", "time_reference=%d" % t0]
+            + wav_safe(target) + ["-y", target] + writes)
         return target, {"blocks": len(paths), "tc": True, "gaps_found": gaps,
                       "start": t0, "side_by_side": side_by_side,
                       "parts": alone}
@@ -13420,13 +13736,102 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
             {"threshold": threshold, "level": level})
 
 
+# What the phase way has to beat before it is believed instead of the
+# plain one. Measured on 23.8.2026: on the music that sent us looking
+# it came out at 28.7 against a nearest rival of 26.5, and the answer
+# was right to twelve milliseconds. Not measured on enough material to
+# call it a threshold -- it is a floor, and the log prints the number
+# so anybody can see how close it was.
+PHASE_SHARP_ENOUGH = 8.0
+
+
 def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0,
                distance_s=120.0):
     """Return a, b with audio time = a + b * video time."""
     HOP, rate = 5.0, 4000
     env_video = video_envelope(video, HOP, rate)
     env_audio = envelope(decode_audio(audio, rate=rate, ss=head_s / float(SR)), HOP, rate)
-    return align_envelopes(env_video, env_audio, HOP, sample_points, window_s, distance_s)
+    a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
+                               window_s, distance_s)
+    if st.get("quality", 0.0) >= WEAK_MATCH:
+        return a, b, st
+    # The plain way found nothing worth having. Before giving up, the
+    # phase way -- it costs one more read of both files and only ever
+    # runs here, where the answer was going to be wrong anyway.
+    st["music_like"] = looks_like_music(env_audio)
+    where, sharp = phase_align(
+        decode_audio(video, rate=rate),
+        decode_audio(audio, rate=rate, ss=head_s / float(SR)), rate)
+    st["phase_s"], st["phase_sharp"] = where, sharp
+    if sharp >= PHASE_SHARP_ENOUGH:
+        st["from_phase"] = True
+        # No drift from this one: it answers where, not how fast. The
+        # factor stays 1.0 and the report says the drift is unknown
+        # rather than pretending it is zero.
+        return where, 1.0, st
+    return a, b, st
+
+
+# How far a point may sit from the middle before it is thrown away.
+# 3 is the ordinary choice for a robust fit; the floor keeps a very
+# tight set of points from throwing away its own scatter. 20 ms is the
+# floor because it is four times HOP -- what the envelope can resolve
+# at all. It is a floor, not a measured threshold, and says so.
+# Below this the global agreement between two envelopes is not worth
+# calling a match. Not measured on real material yet -- it is the old
+# 0.05 floor, kept, and now applied to the signed value instead of the
+# size. What a good alignment looks like is measured: 0.5 to 0.9 on
+# material that belongs together, 0.13 on a camera track against a
+# finished mix of the same room.
+WEAK_MATCH = 0.05
+
+OUTLIER_SIGMA = 3.0
+OUTLIER_FLOOR_S = 0.020
+OUTLIER_ROUNDS = 6
+
+
+def _spans_share(tv, duration_v):
+    """How much of the runtime the surviving points still cover.
+
+    A set that has been cleaned down to one corner of the recording
+    looks tidy and says nothing about the rest of it.
+    """
+    if len(tv) < 2 or duration_v <= 0:
+        return 0.0
+    return float((max(tv) - min(tv)) / duration_v)
+
+
+def without_outliers(tv, dt):
+    """Throw away points that lie far from the others. (tv, dt, dropped).
+
+    The anchor is the median, not the line: a single outlier tips the
+    line, and then the wrong points look like the odd ones out. The
+    scatter is measured as the median absolute deviation, scaled by
+    1.4826 so it means the same as a standard deviation on ordinary
+    data.
+
+    Six rounds at most, and never below three points -- two points
+    always fit a line perfectly, which would turn a broken measurement
+    into a confident one. Every point thrown away is named in the log:
+    a run that cleans up in silence cannot be checked afterwards.
+    """
+    kept_t, kept_d = np.asarray(tv, float), np.asarray(dt, float)
+    dropped = []
+    for _ in range(OUTLIER_ROUNDS):
+        if len(kept_t) < 4:
+            break
+        b, a = np.polyfit(kept_t, kept_d, 1)
+        rest = kept_d - (a + b * kept_t)
+        middle = float(np.median(rest))
+        mad = float(np.median(np.abs(rest - middle))) * 1.4826
+        limit = max(OUTLIER_SIGMA * mad, OUTLIER_FLOOR_S)
+        keep = np.abs(rest - middle) <= limit
+        if keep.all() or int(keep.sum()) < 3:
+            break
+        for i in np.flatnonzero(~keep):
+            dropped.append((float(kept_t[i]), float(rest[i]) * 1000))
+        kept_t, kept_d = kept_t[keep], kept_d[keep]
+    return kept_t, kept_d, dropped
 
 
 def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=20.0,
@@ -13453,8 +13858,13 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         return -a / b, 1.0 / b, st
     k, g = cross_correlate(env_video, env_audio)
     coarse = k * HOP / 1000.0
-    if abs(g) < 0.05:
-        print(as_warn(T('      WARNING: weak match (%.3f)') % g))
+    # Signed, not by size: see cross_correlate. And the number is said
+    # out loud even where it passes, because "found something" and
+    # "found it barely" used to look the same from outside.
+    if g < WEAK_MATCH:
+        print(as_warn(T('      WARNING: weak match (%.3f, %.2f is the '
+                        'floor). The two may not belong together.')
+                      % (g, WEAK_MATCH)))
 
     duration_v = len(env_video) * HOP / 1000.0
     W = int(window_s * 1000 / HOP)
@@ -13496,6 +13906,13 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
     if len(points) >= 3:
         tv = np.array([p[0] for p in points])
         dt = np.array([p[1] for p in points])
+        # What the raw points say, before anything is thrown away. It
+        # stays in the report: a run that quietly cleans itself up and
+        # then calls the result good has traded a loud fault for a
+        # quiet one.
+        b0, a0 = np.polyfit(tv, dt, 1)
+        raw_spread = float(np.std(dt - (a0 + b0 * tv)) * 1000)
+        tv, dt, dropped = without_outliers(tv, dt)
         b, a = np.polyfit(tv, dt, 1)
         rest = dt - (a + b * tv)
         n = len(tv)
@@ -13504,6 +13921,9 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         se_b = (s2 / sxx) ** 0.5 if sxx > 0 else float("inf")
         count_n.update({"ppm": b * 1e6, "ppm_error": se_b * 1e6,
                          "spread_ms": float(np.std(rest) * 1000), "quality": g,
+                         "raw_spread_ms": raw_spread,
+                         "dropped": dropped,
+                         "spans_share": _spans_share(tv, duration_v),
                          "offsets": [float(x) for x in dt],
                          "times": [float(x) for x in tv]})
         return a, 1.0 + b, count_n
@@ -14172,13 +14592,34 @@ def newer_release(asked=False):
             str(found.get("body") or "").strip())
 
 
-def fetch_new_self(tag):
-    """Fetch that release of this program. (text, "") or ("", why).
+def self_checked(raw):
+    """Read before it is believed: (text, "") or ("", why).
 
-    Read before it is believed: what comes down has to compile, and it
-    has to look like this program rather than like an error page a
-    proxy put there.
+    Three questions of anything that is about to become this program:
+    is it readable text, does it look like this program rather than
+    like an error page a proxy put there, and does it compile. They are
+    asked of what comes down from the network and of what lies beside
+    the program as .old -- the second one has nothing behind it to fall
+    back on, so it is asked exactly as hard.
     """
+    if isinstance(raw, bytes):
+        try:
+            text = raw.decode("utf-8")
+        except UnicodeDecodeError:
+            return "", T('That file is not readable text.')
+    else:
+        text = raw
+    if "VERSION = " not in text or "CATALOGUE" not in text:
+        return "", T('That file is not this program.')
+    try:
+        compile(text, "videopodcast-magic.py", "exec")
+    except SyntaxError as e:
+        return "", T('That file does not compile: line %s.') % e.lineno
+    return text, ""
+
+
+def fetch_new_self(tag):
+    """Fetch that release of this program. (text, "") or ("", why)."""
     try:
         import urllib.request
         with urllib.request.urlopen(RAW_FILE % tag,
@@ -14187,18 +14628,7 @@ def fetch_new_self(tag):
             raw = answer.read()
     except Exception as e:
         return "", T('The new version could not be fetched: %s') % e
-    try:
-        text = raw.decode("utf-8")
-    except UnicodeDecodeError:
-        return "", T('The new version is not readable text.')
-    if "VERSION = " not in text or "CATALOGUE" not in text:
-        return "", T('What came back is not this program.')
-    try:
-        compile(text, "videopodcast-magic.py", "exec")
-    except SyntaxError as e:
-        return "", T('The new version does not compile: line %s.') \
-            % e.lineno
-    return text, ""
+    return self_checked(raw)
 
 
 def put_new_self(text):
@@ -14217,6 +14647,77 @@ def put_new_self(text):
         os.replace(beside, here)
     except OSError as e:
         return T('The new version could not be written: %s') % e
+    return ""
+
+
+def old_self_file():
+    """The version kept beside this one by an update, or "".
+
+    Only when it is really there. The way back is not offered greyed
+    out where there is nothing to go back to -- a switch that can never
+    be pressed is a question nobody answers.
+    """
+    beside = os.path.abspath(__file__) + ".old"
+    return beside if os.path.isfile(beside) else ""
+
+
+def version_in_file(path):
+    """The version a copy of this program carries, or "".
+
+    Read out of the text, not by importing it: importing a file that
+    may be broken is the very thing the caller is trying to avoid.
+    """
+    try:
+        with open(path, encoding="utf-8", errors="replace") as f:
+            text = f.read()
+    except OSError:
+        return ""
+    found = re.search(r'^VERSION = "([^"]+)"', text, re.M)
+    return found.group(1) if found else ""
+
+
+def restore_old_self():
+    """Put the kept version back in place of this one. "" or why not.
+
+    The kept file is used up: afterwards it is the program and there is
+    no .old any more, so the entry offering this disappears by itself.
+    The way forward is the update over the network again, one file of
+    about a megabyte.
+
+    Nothing is touched unless the kept file passes the same three
+    checks an update passes. It is the only guard there is here.
+    """
+    beside = old_self_file()
+    if not beside:
+        return T('There is no version kept beside this one.')
+    try:
+        with open(beside, "rb") as f:
+            raw = f.read()
+    except OSError as e:
+        return T('The kept version could not be read: %s') % e
+    text, trouble = self_checked(raw)
+    if trouble:
+        return trouble
+    here = os.path.abspath(__file__)
+    step = here + ".back"
+    try:
+        with open(step, "w", encoding="utf-8") as f:
+            f.write(text)
+        shutil.copymode(here, step)
+        # Written beside it and then moved over in one go: a program
+        # file caught half written is one that starts no more.
+        os.replace(step, here)
+    except OSError as e:
+        return T('The kept version could not be put in place: %s') % e
+    try:
+        os.remove(beside)
+    except OSError as e:
+        # The swap has happened, so this is not a failure -- but the
+        # leftover copy keeps the menu entry standing, and it now holds
+        # what is already running. Offering it again would do nothing,
+        # and somebody would wonder why. So it says so once.
+        print(T('The kept copy could not be removed: %s\n  It holds '
+                'what is running now. %s can go.') % (e, beside))
     return ""
 
 
@@ -15941,7 +16442,7 @@ def find_camera_gaps(video_paths):
                 d1 = float(ffprobe_json(p1).get("format", {}).get("duration") or 0.0)
             except Exception:
                 d1 = 0.0
-            gap = t2 - (t1 + d1)
+            gap = unwrap_day(t2, t1 + d1) - (t1 + d1)
             if gap > 0.5:
                 out.append(Finding(
                     "hint", stem[:17],
@@ -15983,6 +16484,23 @@ def check_audio_file(file_path):
               'track, or two microphones and therefore two tracks. Silent '
               'inputs drop out. The rows under the file say what was '
               'measured, and the tick overrules it.')))
+    # Clipping is invisible here otherwise, and actively so: the master
+    # is measured as a sum and a limiter pulls it under -1 dBTP, so a
+    # lapel microphone that was against the stop all evening comes out
+    # looking clean. A hint, never a stop -- an overdriven recording is
+    # sometimes the only recording there is.
+    for channel, (peak, count) in sorted(clipping_facts(file_path).items()):
+        out.append(Finding(
+            "hint", "",
+            T('Channel %d is against the stop: %s samples at %+.2f dBFS.')
+            % (channel + 1, group_text(count), peak),
+            T('Counted, not guessed: how many samples sit on the highest '
+              'value an integer format can hold. What is cut off there is '
+              'gone and no processing brings it back -- but the recording '
+              'is still the recording, and this holds nothing up. Only '
+              'integer formats are counted. 32 bit float has no stop at '
+              'full scale, so there is nothing there to count.'),
+            os.path.abspath(file_path)))
     return out, {"name": name, "duration": duration, "rate": rate,
                   "channel_count": channels, "path": os.path.abspath(file_path),
                   "tc": file_timecode(file_path)}
@@ -16037,6 +16555,15 @@ def timecode_comparison(data):
     overlap. A file overlapping with none of the others had an unset clock --
     typical for a recorder starting at 00:00:00 while the cameras write time
     of day.
+
+    A shoot that runs across midnight would land here too, and with the
+    wrong answer: at 00:10 the timecode has started over, so the file
+    overlaps nothing and reads as an unset clock. All windows are
+    therefore brought onto one axis first, around the middle of the
+    material. Anything that had to be moved gets said out loud -- past
+    twelve hours there is no telling a night that crossed midnight from
+    two days that really are a day apart, and a silent guess at that is
+    worse than a sentence.
     """
     window = [(d["tc"], d["tc"] + max(1.0, d.get("duration") or 0.0),
                 d.get("name") or "?", d.get("path") or "")
@@ -16044,6 +16571,42 @@ def timecode_comparison(data):
     if len(window) < 3:
         return []      # with two there is no telling which one is off
     out = []
+    # Unwrapped only where it helps. Moving a file a whole day is a
+    # claim, and the claim is only worth making if the file then lands
+    # among the others. A recorder left at 03:00 while the cameras write
+    # 23:50 also moves under plain arithmetic -- and still overlaps
+    # nothing afterwards, so the move is taken back and the line below
+    # says what it always said: this clock was not set.
+    middle = sorted(a0 for a0, _a1, _n, _p in window)[len(window) // 2]
+    moved, unwrapped = [], []
+    for a0, a1, name, file_path in window:
+        shifted = unwrap_day(a0, middle)
+        # A file starting at 00:00:00 is not a recording that began in
+        # the first second after midnight, it is a recorder whose clock
+        # was never set -- and unwrapping it would drop it neatly among
+        # the cameras and hide exactly the fault this function is for.
+        if a0 < 1.0:
+            shifted = a0
+        if shifted != a0 and any(
+                p != file_path and shifted < b1 and b0 < shifted + (a1 - a0)
+                for b0, b1, _n, p in window):
+            moved.append(name)
+            unwrapped.append((shifted, shifted + (a1 - a0), name, file_path))
+        else:
+            unwrapped.append((a0, a1, name, file_path))
+    window = unwrapped
+    if moved:
+        out.append(Finding(
+            "hint", T('Midnight'),
+            T('%s carries a timecode from the other side of midnight -- '
+              'counted as one night, not as a day apart.')
+            % ", ".join(sorted(moved)[:3]),
+            T('A timecode counts from midnight and starts over there. '
+              'The files are put on one axis before anything is '
+              'subtracted, otherwise the recording after midnight looks '
+              'almost a day away from the one before. If these really '
+              'were recorded on different days, the alignment is wrong '
+              'and the measured offset is the one to trust.')))
     for a0, a1, name, file_path in window:
         neighbours = sum(1 for b0, b1, _n, p in window
                        if p != file_path and a0 < b1 and b0 < a1)
@@ -16519,8 +17082,22 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
                 out.append(path)
         hints += discarded
     # Sort by name so the order of selection does not matter: giving only the
-    # first block or all three in any order yields the same list.
-    out.sort(key=lambda x: os.path.basename(x).lower())
+    # first block or all three in any order yields the same list. A row
+    # forced together by hand is the one thing that keeps its order --
+    # --together promises "these files are one recording, in this
+    # order", and sorting the row by name would break that promise on
+    # every name that is not already alphabetical. The row travels as
+    # one block, and it lands where its first-named member would.
+    rank = {}
+    for row in together_chains(together):
+        row = [x for x in row if x not in apart]
+        if not row:
+            continue
+        first = min(os.path.basename(x).lower() for x in row)
+        for k, x in enumerate(row):
+            rank[x] = (first, k)
+    out.sort(key=lambda x: rank.get(os.path.abspath(x),
+                                    (os.path.basename(x).lower(), 0)))
     return out, hints
 
 
@@ -17164,14 +17741,55 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             print(as_bad(T('  Alignment failed: %s\n') % e))
             error += 1
             continue
-        if st.get("spread_ms", 0) > 250:
+        # What was thrown away, before the number that decides is
+        # shown. A run that cleans itself up in silence and then calls
+        # the result close enough has traded a loud fault for a quiet
+        # one, and the quiet one is the worse of the two.
+        for when, off in (st.get("dropped") or []):
+            print(T('  Sample point at %s thrown out: %+.0f ms off the '
+                    'others.') % (as_hms(when), off))
+        # The second way, and whether it was taken. Both numbers go into
+        # the log either way: where it was tried and failed, the sharpness
+        # says how close it came, and that is the only thing that tells a
+        # recording with no common sound from one this way cannot read.
+        if st.get("phase_sharp") is not None:
+            print(T('  Envelopes found nothing (%.2f) -- tried by phase: '
+                    'offset %s, sharpness %.1f of %.0f needed.%s')
+                  % (st.get("quality", 0.0), as_hms(st.get("phase_s", 0.0)),
+                     st.get("phase_sharp", 0.0), PHASE_SHARP_ENOUGH,
+                     T('  Taken.') if st.get("from_phase")
+                     else T('  Not taken.')))
+            if st.get("music_like"):
+                print(T('  The audio looks like music: little going on in '
+                        'the syllable band. Envelopes live on speech '
+                        'pauses, and music has none.'))
+            if st.get("from_phase"):
+                print(as_warn(T('  Offset by phase alone -- the clock '
+                                'drift is unknown, not zero, and no drift '
+                                'is taken out.')))
+        if st.get("dropped"):
+            print(T('  Spread before: %.0f ms, after: %.0f ms.')
+                  % (st.get("raw_spread_ms", 0.0), st.get("spread_ms", 0.0)))
+        # The cleaned spread may only speak for the whole recording
+        # where the surviving points still cover it. Cleaned down to
+        # one corner, a torn recording looks tidy.
+        thin = (st.get("spans_share", 1.0) < 0.5
+                or st.get("points", 0) < 5)
+        if thin and st.get("dropped"):
+            print(as_warn(T('  The remaining sample points cover %.0f %% '
+                            'of the runtime -- the spread below speaks '
+                            'for that part, not for the whole.')
+                          % (st.get("spans_share", 0.0) * 100)))
+        decides = (st.get("raw_spread_ms", 0.0) if thin
+                   else st.get("spread_ms", 0))
+        if decides > 250:
             print(T('  The sample points spread by %.0f ms. Audio and '
-                    'picture do not fit closely enough. Skipped.\n') % st["spread_ms"])
+                    'picture do not fit closely enough. Skipped.\n') % decides)
             error += 1
             continue
-        if st.get("spread_ms", 0) > 60:
+        if decides > 60:
             print(as_warn(T('  WARNING: the sample points spread by %.0f ms.')
-                          % st["spread_ms"]))
+                          % decides))
 
         drift_on = False
         if "ppm" in st:
@@ -17405,7 +18023,8 @@ def main():
         set_language(args.lang)
     force_utf8_output()
     enable_colour_output()
-    print("videopodcast-magic.py %s   %s\n" % (VERSION, python_note()))
+    print("videopodcast-magic.py %s   %s\n%s\n"
+          % (VERSION, python_note(), running_from()))
     args.auphonic_done = getattr(args, "auphonic_done", None)
     args.auphonic_resume = getattr(args, "auphonic_resume", None)
     args.production = ""
@@ -18635,6 +19254,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.setFullScreen(large)
 
     class Player(QtWidgets.QWidget):
+
+        plays = True
         # Signal for the still fetched in the background.
         still_ready = QtCore.Signal(bytes, str, int)
 
@@ -18801,9 +19422,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.button = button("SP_MediaPlay", T('Play and pause -- the '
                                                    'space bar works too.'),
                                self.toggle)
+            self.button.setAccessibleName(T('Play and pause'))
             step("+1 F", T('One frame forward.'), videos=1)
             step("+1 s", T('One second forward.'), seconds=1.0)
             step("+10 s", T('Ten seconds forward.'), seconds=10.0)
+            # Fast forward has a button of its own, at the end of the
+            # transport where the steps forward end. The L key did the
+            # same thing before and did it invisibly: a key nobody is
+            # told about is a key nobody presses.
+            self.fast_button = button("SP_MediaSeekForward",
+                                      T('Play forward, twice as fast on '
+                                        'every press -- the L key.'),
+                                      self.faster)
             self.mute_button = button("SP_MediaVolume", T('Mute.'),
                                      self.toggle_mute)
             self.loud = QtWidgets.QSlider(Qt.Horizontal)
@@ -18847,8 +19477,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.player.videoSink().videoFrameChanged.connect(
                 self.frame_arrived)
             self.audio_adjust()
-            # Once here, so the play button carries its name for a
-            # screen reader before anything has been loaded.
+            # Once here, so the fast forward button carries its name for
+            # a screen reader before anything has been loaded.
             self.speed_show()
             self.player.errorOccurred.connect(self.on_error)
 
@@ -19027,13 +19657,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 self.track.play()
             self.set_mark()
 
-        def stop(self):
-            """Stop, and put the speed back to normal.
+        def pause(self):
+            """Hold the picture, and put the speed back to normal.
 
-            Everything that leaves the running picture -- stopping, a
+            Everything that leaves the running picture -- pausing, a
             jump, another file -- goes back to 1x. A rate that survives
             out of sight is one nobody can explain the odd sound by
-            afterwards.
+            afterwards, and the way on from a standstill is the play
+            button, which says nothing about eight times speed.
+
+            There is no stop beside this. Stopping would mean going
+            back to the beginning, and nothing here wants that: what
+            the transport is for is holding a passage still.
             """
             if self.file_path is None:
                 return
@@ -19049,7 +19684,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 return
             if (self.player.playbackState()
                     == QtMultimedia.QMediaPlayer.PlayingState):
-                self.stop()
+                self.pause()
             else:
                 self.start()
 
@@ -19083,19 +19718,22 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.speed_show()
 
         def speed_show(self):
-            """Put the rate on the play button; nothing at normal speed.
+            """Put the rate on the fast forward button; nothing at 1x.
 
-            Beside the icon rather than off in a corner: whoever wonders
-            why the sound squeaks looks at the transport first.
+            On the button that made it: the rate is what that button
+            does, and the play button keeps one meaning. It also keeps
+            the row stiller -- measured at the narrowest the transport
+            goes, a number beside the play icon pushes five of the ten
+            buttons 26 pixels along, beside this one it pushes one.
             """
             fast = self._speed > 1.01
-            self.button.setToolButtonStyle(
+            self.fast_button.setToolButtonStyle(
                 Qt.ToolButtonTextBesideIcon if fast
                 else Qt.ToolButtonIconOnly)
-            self.button.setText("%g\u00d7" % self._speed if fast else "")
-            self.button.setAccessibleName(
-                T('Play and pause, %g times speed') % self._speed if fast
-                else T('Play and pause'))
+            self.fast_button.setText("%g\u00d7" % self._speed if fast else "")
+            self.fast_button.setAccessibleName(
+                T('Fast forward, %g times speed') % self._speed if fast
+                else T('Fast forward'))
 
         def frame_arrived(self, frames):
             """Qt delivered a frame; show it during playback."""
@@ -19450,6 +20088,24 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
         def jump_to(self, text):
             return False
+
+        # The menu binds these directly. Without them the window never
+        # gets built on a Qt without multimedia -- the menu is switched
+        # off there instead, see *plays*.
+        plays = False
+
+        def toggle(self):
+            pass
+
+        def faster(self):
+            pass
+
+        def pause(self):
+            pass
+
+        def nudge(self, seconds):
+            pass
+
     return WindowSlider, VideoSurface, Player, NoPlayer
 
 def slider_numbers(values):
@@ -19674,6 +20330,13 @@ def run_argv(values, assignment_file_path=""):
         if not values.get("wide_at_edges"):
             argv += ["--no-wide-edges"]
 
+    # Finished tracks lie in a folder, and nothing is sent anywhere to
+    # use them. This used to hang inside "if key:", so a run without a
+    # key never saw the folder -- the same lock as on the command line,
+    # found on 23.8.2026 while opening that one.
+    if values.get("done_folder"):
+        argv += ["--auphonic-done", values["done_folder"]]
+
     key = (values.get("key") or "").strip()
     if key:
         selected = (values.get("preset") or "").strip()
@@ -19682,8 +20345,6 @@ def run_argv(values, assignment_file_path=""):
                 T('Preset missing'),
                 T('Load Presets and pick one, or leave the API Key empty.'))
         argv += ["--auphonic-api-key", key, "--auphonic-preset", selected]
-        if values.get("done_folder"):
-            argv += ["--auphonic-done", values["done_folder"]]
         # Only with a key: without auphonic.com there is nobody to
         # transcribe, and the switch would promise something that
         # cannot happen.
@@ -19694,6 +20355,263 @@ def run_argv(values, assignment_file_path=""):
         # auphonic.com can do is missing, and the run says so.
         argv += ["--without-auphonic"]
     return argv, plan, messages
+
+
+def make_key_note(QtWidgets, label, hint, settings_open):
+    """The line that says what is wrong with the key for auphonic.com.
+
+    It is built twice, because the key is looked at from two places:
+    the field and its button live in the settings window, the preset
+    they unlock on the sheet. A note in only one of them is invisible
+    from the other -- and the settings window stands over the sheet
+    while somebody presses Connect.
+
+    Returns the label for the settings window, the row for the sheet,
+    and the two calls that show and hide the lot. Whatever is needed
+    from gui() comes in as an argument, as with the player.
+    """
+    settings_note = label("", COLOURS["warning"])
+    settings_note.setWordWrap(True)
+    settings_note.setVisible(False)
+    settings_note.setObjectName("key_note_settings")
+    settings_note.setAccessibleName(T('What auphonic.com replied'))
+
+    key_row = QtWidgets.QHBoxLayout()
+    key_note = label("", COLOURS["quiet"])
+    key_note.setWordWrap(True)
+    key_note.setVisible(False)
+    key_note.setObjectName("key_note")
+    key_note.setAccessibleName(T('What auphonic.com replied'))
+    key_row.addWidget(key_note, 1)
+    # A button and not a link inside the line: measured on this
+    # machine, a link in a label is announced as plain text and fires
+    # on no key at all, while a button carries its own name and answers
+    # the space bar. A pointer nobody can press is worse than none.
+    settings_way = QtWidgets.QPushButton(T('Settings ...'))
+    settings_way.setFlat(True)
+    settings_way.setVisible(False)
+    settings_way.setObjectName("key_note_way")
+    settings_way.clicked.connect(lambda: settings_open())
+    key_row.addWidget(hint(settings_way,
+                           T('Open the settings, where the key is.')))
+
+    def show(text):
+        """Say what is wrong with the key, in both places it is read.
+
+        Never in a box. A box has to be clicked away before the field
+        it is about can be reached, and it says nothing the ungreen
+        button and this line do not already say.
+        """
+        for note in (key_note, settings_note):
+            note.setText(text)
+            note.setStyleSheet("color: %s;" % COLOURS["warning"])
+            note.setVisible(True)
+        settings_way.setVisible(True)
+
+    def hide():
+        """Take the note back; nothing is wrong until something is."""
+        key_note.setVisible(False)
+        settings_note.setVisible(False)
+        settings_way.setVisible(False)
+
+    return settings_note, key_row, show, hide
+
+
+def restore_entry(act, where, window):
+    """Put the way back into the menu, where there is one to go back to.
+
+    Nothing at all where no update has left an .old beside the program:
+    greyed out would be a promise that cannot be kept. Read once, when
+    the menu is built -- going back starts the program over, so this
+    entry never outlives the file it names.
+    """
+    kept = old_self_file()
+    if not kept:
+        return
+    back = version_in_file(kept)
+    act(where, (T('Back to %s') % back) if back
+        else T('Back to the kept version'), lambda: restore_offer(window))
+
+
+# --- Helpers that hold nothing from gui() -----------------
+# Measured with co_freevars on 23.8.2026: not one of these
+# reaches into gui(). They lived inside it out of habit, and
+# 158 lines of the biggest function in the file were the
+# price. Out here a test can call them directly instead of
+# cutting them out of the source and exec-ing a copy, which
+# is what two of them used to need.
+
+def hint(widget, text):
+    widget.setToolTip(text)
+    return widget
+
+def speaks_as(widget, what, row_name=""):
+    """Give a field a name a screen reader can say.
+
+    A field in a table cell is read out as its kind and nothing
+    else -- "combo box", "edit field". Which column and which row
+    it sits in is on the screen only, so it is said here as well.
+    """
+    widget.setAccessibleName("%s -- %s" % (what, row_name)
+                             if row_name else what)
+    return widget
+
+def field_bind(field, value, width=None):
+    """Bind an input field and a value so each follows the other."""
+    field.setText(str(value.get()))
+    if width:
+        field.setFixedWidth(width)
+    field.textChanged.connect(lambda t: value.set(t))
+
+    def follow_up():
+        if field.text() != str(value.get()):
+            field.setText(str(value.get()))
+
+    value.listen(follow_up)
+    return field
+
+def choice_bind(box, value, allowed):
+    """Bind a drop-down and a value; *allowed* are the stored names.
+
+    The list shows the translated names, the value keeps the name
+    the switch carries -- a project written on a German machine has
+    to read the same on an English one.
+    """
+    for name in allowed:
+        box.addItem(T(SHOT_NAMES.get(name, name)), name)
+    box.setCurrentIndex(max(0, list(allowed).index(value.get())
+                            if value.get() in allowed else 0))
+    box.currentIndexChanged.connect(
+        lambda i: value.set(box.itemData(i)))
+
+    def follow_up():
+        if box.currentData() != value.get() and value.get() in allowed:
+            box.setCurrentIndex(list(allowed).index(value.get()))
+
+    value.listen(follow_up)
+    return box
+
+def checkbox_bind(checkbox, value):
+    checkbox.setChecked(bool(value.get()))
+    checkbox.toggled.connect(lambda b: value.set(bool(b)))
+    value.listen(lambda: checkbox.setChecked(bool(value.get()))
+                 if checkbox.isChecked() != bool(value.get()) else None)
+    return checkbox
+
+def _list_accepts(e):
+    if e.mimeData().hasUrls():
+        e.acceptProposedAction()
+
+def mark_red(widget, on, reason=""):
+    """Mark an entry as faulty in place.
+
+    A dialog at startup comes too late: by then the row is out of sight.
+    Red in the row shows which one is meant, and the hint on it says why.
+    """
+    if widget is None:
+        return
+    try:
+        widget.setStyleSheet(
+            "border: 1px solid %s; border-radius: 3px;" % COLOURS["error"]
+            if on else "")
+        widget.setToolTip(reason if on else "")
+    except RuntimeError:
+        pass
+
+def finished_tracks_find(base):
+    """Report whether processed tracks from Auphonic are already there.
+
+    After a run the output folder holds a subfolder with the single tracks.
+    Choosing the same folder again usually means reassembling rather than
+    uploading again, so it is offered.
+    """
+    if not base or not os.path.isdir(base):
+        return None
+    for name in ("auphonic-tracks",):
+        p = os.path.join(base, name)
+        if os.path.isdir(p) and any(
+                os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES
+                for f in os.listdir(p)):
+            return p
+    return None
+
+def prework_api_key(file_path):
+    s = os.stat(file_path)
+    return (os.path.abspath(file_path), int(s.st_mtime), s.st_size)
+
+def prework_fetch(file_path, target, report):
+    """Extract one file while reporting progress.
+
+    With -progress ffmpeg keeps writing how far it is. Without it the
+    display would sit on the same text for minutes.
+    """
+    try:
+        duration = video_facts(file_path)["duration"]
+    except Exception:
+        duration = 0.0
+    cmd = ["ffmpeg", "-v", "error", "-nostats", "-progress", "pipe:1",
+           "-i", file_path, "-map", "0:a:0", "-ac", "1", "-ar", str(SR),
+           "-c:a", "pcm_s16le", "-y", target]
+    # Errors into a file, not into a pipe: progress is read from stdout
+    # until it ends, and an unread stderr pipe would fill up and stop
+    # ffmpeg in the middle -- here in a thread that then never returns.
+    fd, log = tempfile.mkstemp(prefix="vpm_pre_", suffix=".txt")
+    os.close(fd)
+    try:
+        with open(log, "wb") as fh:
+            proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                    stderr=fh)
+            for line in proc.stdout:
+                share = progress_from_line(line, duration)
+                if share is not None:
+                    report(share)
+            proc.wait()
+        if proc.returncode:
+            with open(log, "r", encoding="utf-8", errors="replace") as fh:
+                raise RuntimeError(fh.read()[-300:])
+    finally:
+        try:
+            os.unlink(log)
+        except OSError:
+            pass
+
+def camera_offset(cameras, origin=None):
+    """Return how far each camera is shifted against programme time.
+
+    Two data shapes lead here and they say it differently.
+
+    The handover file of a run carries an ``offset`` per camera: measured,
+    in seconds, negative where the camera started before In point. The cut
+    timeline in Resolve uses exactly that, with the position in the file
+    being programme time minus offset.
+
+    The preview built from the speaker statistics has no ``offset`` but a
+    ``start_s`` per camera, the wall clock time of its start. The origin is
+    then the wall clock time programme time begins at; without that, the
+    earliest camera.
+    """
+    out = {}
+    if any(x.get("offset") is not None for x in cameras):
+        for x in cameras:
+            out[x["track"]] = float(x.get("offset") or 0.0)
+        return out
+    begin = (float(origin) if origin is not None else
+              min((float(x.get("start_s") or 0.0) for x in cameras),
+                  default=0.0))
+    for x in cameras:
+        out[x["track"]] = float(x.get("start_s") or 0.0) - begin
+    return out
+
+def reason_set(env_curve, button, on, reason, what_for):
+    button.setEnabled(on)
+    env_curve.setToolTip(what_for if on else reason)
+
+class Question(object):
+    def __init__(self, possible, title):
+        self.possible, self.title = possible, title
+        self.event = threading.Event()
+        self.choice = "abort"
+
 
 
 def gui():
@@ -19833,10 +20751,6 @@ def gui():
         except RuntimeError:
             pass
 
-    def hint(widget, text):
-        widget.setToolTip(text)
-        return widget
-
     def label(text, colour=None, bold=False, large=0):
         widget = QtWidgets.QLabel(text)
         style = []
@@ -19877,17 +20791,6 @@ def gui():
         if widget.sizeHint().width() <= room:
             return widget
         return font_smaller(widget, less)
-
-    def speaks_as(widget, what, row_name=""):
-        """Give a field a name a screen reader can say.
-
-        A field in a table cell is read out as its kind and nothing
-        else -- "combo box", "edit field". Which column and which row
-        it sits in is on the screen only, so it is said here as well.
-        """
-        widget.setAccessibleName("%s -- %s" % (what, row_name)
-                                 if row_name else what)
-        return widget
 
     def short_name(widget, text, room):
         """Shorten a file name to the room there is, from the middle.
@@ -19953,48 +20856,6 @@ def gui():
         yes_button.setAutoDefault(True)
         bar.addWidget(yes_button)
         return d.exec() == QtWidgets.QDialog.Accepted
-
-    def field_bind(field, value, width=None):
-        """Bind an input field and a value so each follows the other."""
-        field.setText(str(value.get()))
-        if width:
-            field.setFixedWidth(width)
-        field.textChanged.connect(lambda t: value.set(t))
-
-        def follow_up():
-            if field.text() != str(value.get()):
-                field.setText(str(value.get()))
-
-        value.listen(follow_up)
-        return field
-
-    def choice_bind(box, value, allowed):
-        """Bind a drop-down and a value; *allowed* are the stored names.
-
-        The list shows the translated names, the value keeps the name
-        the switch carries -- a project written on a German machine has
-        to read the same on an English one.
-        """
-        for name in allowed:
-            box.addItem(T(SHOT_NAMES.get(name, name)), name)
-        box.setCurrentIndex(max(0, list(allowed).index(value.get())
-                                if value.get() in allowed else 0))
-        box.currentIndexChanged.connect(
-            lambda i: value.set(box.itemData(i)))
-
-        def follow_up():
-            if box.currentData() != value.get() and value.get() in allowed:
-                box.setCurrentIndex(list(allowed).index(value.get()))
-
-        value.listen(follow_up)
-        return box
-
-    def checkbox_bind(checkbox, value):
-        checkbox.setChecked(bool(value.get()))
-        checkbox.toggled.connect(lambda b: value.set(bool(b)))
-        value.listen(lambda: checkbox.setChecked(bool(value.get()))
-                     if checkbox.isChecked() != bool(value.get()) else None)
-        return checkbox
 
     # ------------------------------------------------------------------
     # Play it -- Qt brings a player along
@@ -20134,10 +20995,6 @@ def gui():
     items.setDragDropMode(QtWidgets.QAbstractItemView.DropOnly)
     speaks_as(items, T('Chosen files'))
     sheet1_position.addWidget(items, 1)
-
-    def _list_accepts(e):
-        if e.mimeData().hasUrls():
-            e.acceptProposedAction()
 
     def _list_takes(e):
         paths = [u.toLocalFile() for u in e.mimeData().urls()
@@ -20488,22 +21345,6 @@ def gui():
             item(node, "      %s" % nm, T('does not belong: %s') % reason)
         node.setExpanded(False)
         return node
-
-    def mark_red(widget, on, reason=""):
-        """Mark an entry as faulty in place.
-
-        A dialog at startup comes too late: by then the row is out of sight.
-        Red in the row shows which one is meant, and the hint on it says why.
-        """
-        if widget is None:
-            return
-        try:
-            widget.setStyleSheet(
-                "border: 1px solid %s; border-radius: 3px;" % COLOURS["error"]
-                if on else "")
-            widget.setToolTip(reason if on else "")
-        except RuntimeError:
-            pass
 
     # Widgets that are built further down but are marked from up here.
     # Empty while the window is still being put together, so the checks
@@ -21198,23 +22039,6 @@ def gui():
         folder_label.setText(d if d else T('next to each video file'))
         reset.setVisible(bool(d))
 
-    def finished_tracks_find(base):
-        """Report whether processed tracks from Auphonic are already there.
-
-        After a run the output folder holds a subfolder with the single tracks.
-        Choosing the same folder again usually means reassembling rather than
-        uploading again, so it is offered.
-        """
-        if not base or not os.path.isdir(base):
-            return None
-        for name in ("auphonic-tracks",):
-            p = os.path.join(base, name)
-            if os.path.isdir(p) and any(
-                    os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES
-                    for f in os.listdir(p)):
-                return p
-        return None
-
     def folder_pick():
         d = QtWidgets.QFileDialog.getExistingDirectory(
             window, T('Output folder'),
@@ -21512,10 +22336,6 @@ def gui():
     # whether the separation is running before that block is reached.
     split_run = {"busy": False, "stop": False}
 
-    def prework_api_key(file_path):
-        s = os.stat(file_path)
-        return (os.path.abspath(file_path), int(s.st_mtime), s.st_size)
-
     def prework_busy():
         with prework_lock:
             return bool(prework_queue) or prework_run["threads"] > 0
@@ -21587,42 +22407,6 @@ def gui():
             QtCore.QTimer.singleShot(1200, prework_box.hide)
 
     bridge.progress.connect(prework_display_text)
-
-    def prework_fetch(file_path, target, report):
-        """Extract one file while reporting progress.
-
-        With -progress ffmpeg keeps writing how far it is. Without it the
-        display would sit on the same text for minutes.
-        """
-        try:
-            duration = video_facts(file_path)["duration"]
-        except Exception:
-            duration = 0.0
-        cmd = ["ffmpeg", "-v", "error", "-nostats", "-progress", "pipe:1",
-               "-i", file_path, "-map", "0:a:0", "-ac", "1", "-ar", str(SR),
-               "-c:a", "pcm_s16le", "-y", target]
-        # Errors into a file, not into a pipe: progress is read from stdout
-        # until it ends, and an unread stderr pipe would fill up and stop
-        # ffmpeg in the middle -- here in a thread that then never returns.
-        fd, log = tempfile.mkstemp(prefix="vpm_pre_", suffix=".txt")
-        os.close(fd)
-        try:
-            with open(log, "wb") as fh:
-                proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
-                                        stderr=fh)
-                for line in proc.stdout:
-                    share = progress_from_line(line, duration)
-                    if share is not None:
-                        report(share)
-                proc.wait()
-            if proc.returncode:
-                with open(log, "r", encoding="utf-8", errors="replace") as fh:
-                    raise RuntimeError(fh.read()[-300:])
-        finally:
-            try:
-                os.unlink(log)
-            except OSError:
-                pass
 
     def prework_where():
         """The folder the prepared files live in, made on first use."""
@@ -22782,18 +23566,6 @@ def gui():
         t.setItem(line, column, p)
         return p
 
-    def cell_red(t, line, column, on, reason=""):
-        """The same for a cell that is not an input field."""
-        p = t.item(line, column)
-        if p is None:
-            return
-        p.setForeground(QtGui.QBrush(QtGui.QColor(
-            COLOURS["error"] if on else COLOURS["quiet"])))
-        s = p.font()
-        s.setBold(bool(on))
-        p.setFont(s)
-        p.setToolTip(reason if on else "")
-
     audio_fields, video_fields = [], []
 
     def assignment_check():
@@ -23493,12 +24265,12 @@ def gui():
     first_line.addWidget(hint(check_button,
                                   T('Check the key and fetch Presets.')))
 
-    key_note = label("", COLOURS["quiet"])
-    key_note.setWordWrap(True)
-    key_note.setVisible(False)
-    key_note.setObjectName("key_note")
-    key_note.setAccessibleName(T('What auphonic.com replied'))
-    run_layout.addWidget(key_note)
+    # The note about the key, under the field and on the sheet both.
+    (settings_note, key_row, key_note_show,
+     key_note_hide) = make_key_note(QtWidgets, label, hint,
+                                    lambda: settings_open())
+    access_layout.addWidget(settings_note)
+    run_layout.addLayout(key_row)
 
     def button_green(on):
         """Checked and good: the button turns green and goes to sleep."""
@@ -24016,33 +24788,6 @@ def gui():
         free = [b for b in videos if os.path.basename(b) not in taken]
         return (free or videos)[0]
 
-    def camera_offset(cameras, origin=None):
-        """Return how far each camera is shifted against programme time.
-
-        Two data shapes lead here and they say it differently.
-
-        The handover file of a run carries an ``offset`` per camera: measured,
-        in seconds, negative where the camera started before In point. The cut
-        timeline in Resolve uses exactly that, with the position in the file
-        being programme time minus offset.
-
-        The preview built from the speaker statistics has no ``offset`` but a
-        ``start_s`` per camera, the wall clock time of its start. The origin is
-        then the wall clock time programme time begins at; without that, the
-        earliest camera.
-        """
-        out = {}
-        if any(x.get("offset") is not None for x in cameras):
-            for x in cameras:
-                out[x["track"]] = float(x.get("offset") or 0.0)
-            return out
-        begin = (float(origin) if origin is not None else
-                  min((float(x.get("start_s") or 0.0) for x in cameras),
-                      default=0.0))
-        for x in cameras:
-            out[x["track"]] = float(x.get("start_s") or 0.0) - begin
-        return out
-
     def audio_for_cut(d, cameras, offset):
         """Return the audio to run under the camera cut: (file, offset).
 
@@ -24483,30 +25228,20 @@ def gui():
         thread so the window does not freeze.
 
         *asked* is false for the try at start-up with a remembered key.
-        Nobody asked for that one, so it may not put a box in anybody's
-        face when it fails -- a key that has expired, been revoked or
-        was mistyped would otherwise greet its owner with an error
-        every single start. It says so in the settings instead, where
-        the key is, and where somebody who cares will look.
+        It decides the wording and nothing else: a key out of the store
+        is named as the stored one, a key just typed is not. Neither of
+        them opens a box -- a rejected key belongs at the button that
+        stays ungreen and in the line under it, not over the window.
         """
         state["key_asked"] = asked
-        key_note.setVisible(False)
+        key_note_hide()
         key = key_var.get()
         wrong = key_complaint(key)
         if wrong:
             # Nothing leaves the house over a key that is plainly not
-            # one. Saying which of the two it is beats one message for
-            # both cases.
-            if asked and not key.strip():
-                report(T('API Key missing'),
-                       T('Without a key there are no presets. It is in '
-                         'the account settings at auphonic.com.'))
-            elif asked:
-                report(T('The key is not accepted'), wrong)
-            else:
-                key_note.setText(wrong)
-                key_note.setStyleSheet("color: %s;" % COLOURS["warning"])
-                key_note.setVisible(True)
+            # one. Which of the cases it is stands in the sentence
+            # itself, so one place to say it is enough.
+            key_note_show(wrong)
             return
         key = key.strip()
         state["presets_busy"] = True
@@ -24528,15 +25263,16 @@ def gui():
             state["presets"] = []
             button_green(False)
             presets_filter()
+            # Whole and unshortened either way: what auphonic.com said
+            # is the only account anybody gets of the reason. Only the
+            # wording differs -- at start-up the key came out of the
+            # store, after Connect it is the one just typed.
             if not state.get("key_asked", True):
-                key_note.setText(T('The stored key is not accepted: %s')
-                                 % error)
-                key_note.setStyleSheet("color: %s;" % COLOURS["warning"])
-                key_note.setVisible(True)
+                key_note_show(T('The stored key is not accepted: %s')
+                              % error)
                 return
-            report(T('The key is not accepted'),
-                   T('auphonic.com replies:\n\n%s\n\nThe key is in the account '
-                     'settings at auphonic.com.') % error)
+            key_note_show(T('auphonic.com does not accept the key: %s')
+                          % error)
             return
         state["presets"] = preset_list
         if remember.get():
@@ -24556,6 +25292,9 @@ def gui():
         """
         state["presets"] = []
         button_green(False)
+        # The complaint was about the key that stood there before, and
+        # it must not be read as being about the one now being typed.
+        key_note_hide()
         presets_filter()
 
     key_var.listen(api_key_changed)
@@ -24653,10 +25392,6 @@ def gui():
         position.setContentsMargins(0, 0, 0, 0)
         position.addWidget(button)
         return env_curve
-
-    def reason_set(env_curve, button, on, reason, what_for):
-        button.setEnabled(on)
-        env_curve.setToolTip(what_for if on else reason)
 
     open_button = QtWidgets.QPushButton(T('Open result folder'))
     open_button.clicked.connect(result_open)
@@ -25147,12 +25882,6 @@ def gui():
         def flush(self):
             pass
 
-    class Question(object):
-        def __init__(self, possible, title):
-            self.possible, self.title = possible, title
-            self.event = threading.Event()
-            self.choice = "abort"
-
     def question_show(f):
         """Runs in the window thread while the worker thread waits."""
         dialog = QtWidgets.QDialog(window)
@@ -25551,15 +26280,17 @@ def gui():
             lambda i=number: tabs.setCurrentIndex(i),
             "Ctrl+%d" % (number + 1))
 
-    play_menu = menu.addMenu(T('&Player'))
+    play_menu = player_menu(menu, player)
     act(play_menu, T('Play and pause'), player.toggle, "Space", player)
-    # L and K as in every editing program. J is missing on purpose:
-    # backwards the ffmpeg backend under Qt reports a rate of 0.00 and
-    # stands still, and a key that does nothing is worse than none.
+    # L and K as in every editing program: L runs forward, K holds. J is
+    # missing on purpose: backwards the ffmpeg backend under Qt reports
+    # a rate of 0.00 and stands still, and a key that does nothing is
+    # worse than none. K holds and never starts -- that is what it does
+    # in an editing program, and the space bar is there for the other
+    # half.
     act(play_menu, T('Play forward, faster on every press'),
         player.faster, "L", player)
-    act(play_menu, T('Stop, back to normal speed'), player.stop, "K",
-        player)
+    act(play_menu, T('Pause'), player.pause, "K", player)
     play_menu.addSeparator()
     for text, keys, seconds in (
             (T('One frame back'), "Left", -1.0 / 30.0),
@@ -25590,6 +26321,7 @@ def gui():
     help_menu.addSeparator()
     act(help_menu, T('Look for a newer version now'),
         lambda: update_offer(window, asked=True))
+    restore_entry(act, help_menu, window)
     about = act(help_menu, T('About Video Podcast Magic'),
                 lambda: about_show(window))
     about.setMenuRole(QtGui.QAction.AboutRole)
@@ -25657,6 +26389,19 @@ def open_page(url):
         print(T('  The page could not be opened: %s') % e)
         print("  %s" % url)
         return False
+
+
+def player_menu(menu, player):
+    """The player menu, greyed out where there is no player.
+
+    A Qt without multimedia hands out the stand-in, which plays nothing
+    here -- it opens ffplay in a window of its own. Every entry in this
+    menu would then do nothing, and an entry that does nothing is worse
+    than one that is visibly not available.
+    """
+    out = menu.addMenu(T('&Player'))
+    out.menuAction().setEnabled(getattr(player, "plays", True))
+    return out
 
 
 def about_show(window):
@@ -25781,6 +26526,63 @@ def update_offer(window, asked=False):
     start_again()
 
 
+def restore_offer(window):
+    """Ask, then put the kept version back and start again.
+
+    Asked with the same weight as the update itself: it changes which
+    program runs from the next second on, and this way is the one
+    somebody takes when the newer one has just gone wrong on them.
+    """
+    QtWidgets = _qt_widgets()
+    beside = old_self_file()
+    if not beside:
+        return
+    back = version_in_file(beside)
+    title = (T('Back to %s') % back) if back \
+        else T('Back to the kept version')
+    box = QtWidgets.QDialog(window)
+    box.setWindowTitle(title)
+    box.setMinimumWidth(620)
+    rows = QtWidgets.QVBoxLayout(box)
+    rows.setContentsMargins(18, 16, 18, 14)
+    rows.setSpacing(14)
+    head = QtWidgets.QLabel(title)
+    font = head.font()
+    font.setBold(True)
+    head.setFont(font)
+    rows.addWidget(head)
+    # The buttons of the update window are named through T() rather
+    # than written out here: a name copied into a sentence points into
+    # thin air the day the button is renamed.
+    said = QtWidgets.QLabel(
+        T('%s takes the place of %s, and the file kept beside this one '
+          'is used up. Forward again means fetching %s over the '
+          'network. The program starts again straight '
+          'away.\n\nThe next start offers %s once more: "%s" puts that '
+          'off, "%s" stops it for good.')
+        % (back or T('The kept version'), VERSION, VERSION, VERSION,
+           T('Later'), T('Do not ask again')))
+    said.setWordWrap(True)
+    rows.addWidget(said)
+    feet = QtWidgets.QHBoxLayout()
+    rows.addLayout(feet)
+    feet.addStretch(1)
+    later = QtWidgets.QPushButton(T('Later'))
+    later.clicked.connect(box.reject)
+    feet.addWidget(later)
+    now = QtWidgets.QPushButton(T('Go back'))
+    now.setDefault(True)
+    now.clicked.connect(box.accept)
+    feet.addWidget(now)
+    if box.exec() != QtWidgets.QDialog.Accepted:
+        return
+    trouble = restore_old_self()
+    if trouble:
+        QtWidgets.QMessageBox.warning(window, title, trouble)
+        return
+    start_again()
+
+
 def _qt_widgets():
     """QtWidgets, without carrying it down from the caller."""
     from PySide6 import QtWidgets
@@ -25814,23 +26616,49 @@ CATALOGUE["de"] = {
     'version now still asks, and --update-check on the command line '
     'brings the question back.':
         'Das Programm sieht dann nicht mehr von selbst nach. Über '
-        'Hilfe > Jetzt nach einer neueren Fassung sehen geht es '
-        'weiterhin, und --update-check auf der Kommandozeile holt die '
-        'Frage zurück.',
+        'Hilfe > Nach Update suchen ... geht es weiterhin, und '
+        '--update-check auf der Kommandozeile holt die Frage zurück.',
     'Update':
         'Aktualisieren',
     'Later':
         'Später',
     'The new version could not be fetched: %s':
         'Die neue Fassung ließ sich nicht holen: %s',
-    'The new version is not readable text.':
-        'Die neue Fassung ist kein lesbarer Text.',
-    'What came back is not this program.':
-        'Was zurückkam, ist nicht dieses Programm.',
-    'The new version does not compile: line %s.':
-        'Die neue Fassung lässt sich nicht übersetzen: Zeile %s.',
+    'That file is not readable text.':
+        'Diese Datei ist kein lesbarer Text.',
+    'That file is not this program.':
+        'Diese Datei ist nicht dieses Programm.',
+    'That file does not compile: line %s.':
+        'Diese Datei lässt sich nicht übersetzen: Zeile %s.',
     'The new version could not be written: %s':
         'Die neue Fassung ließ sich nicht schreiben: %s',
+    'Back to %s':
+        'Zurück auf %s',
+    'Back to the kept version':
+        'Zurück auf die aufbewahrte Fassung',
+    'The kept version':
+        'Die aufbewahrte Fassung',
+    'Go back':
+        'Zurückgehen',
+    '%s takes the place of %s, and the file kept beside this one is '
+    'used up. Forward again means fetching %s over the network. The '
+    'program starts again straight away.\n\nThe next start offers %s '
+    'once more: "%s" puts that off, "%s" stops it for good.':
+        '%s tritt an die Stelle von %s, und die daneben aufbewahrte '
+        'Datei ist damit aufgebraucht. Vorwärts geht es wieder über '
+        'das Netz, indem %s geholt wird. Das Programm startet gleich '
+        'danach neu.\n\nBeim nächsten Start wird %s wieder angeboten: '
+        '„%s“ schiebt das auf, „%s“ stellt es ganz ab.',
+    'There is no version kept beside this one.':
+        'Neben dieser Fassung liegt keine aufbewahrte.',
+    'The kept version could not be read: %s':
+        'Die aufbewahrte Fassung ließ sich nicht lesen: %s',
+    'The kept copy could not be removed: %s\n  It holds what is '
+    'running now. %s can go.':
+        'Die aufbewahrte Kopie ließ sich nicht entfernen: %s\n  Sie '
+        'enthält, was jetzt läuft. %s kann weg.',
+    'The kept version could not be put in place: %s':
+        'Die aufbewahrte Fassung ließ sich nicht einsetzen: %s',
     'Starting again did not work: %s':
         'Der Neustart hat nicht geklappt: %s',
     'Start it by hand: %s %s':
@@ -25866,12 +26694,17 @@ CATALOGUE["de"] = {
         '%d. Reiter',
     'Play and pause':
         'Abspielen und anhalten',
-    'Play and pause, %g times speed':
-        'Abspielen und anhalten, %g-fache Geschwindigkeit',
+    'Fast forward':
+        'Vorlauf',
+    'Fast forward, %g times speed':
+        'Vorlauf, %g-fache Geschwindigkeit',
     'Play forward, faster on every press':
         'Vorwärts abspielen, jeder Druck schneller',
-    'Stop, back to normal speed':
-        'Anhalten, zurück auf normale Geschwindigkeit',
+    'Play forward, twice as fast on every press -- the L key.':
+        'Vorwärts abspielen, mit jedem Druck doppelt so schnell -- '
+        'Taste L.',
+    'Pause':
+        'Anhalten',
     'One frame back':
         'Ein Bild zurück',
     'One frame forward':
@@ -25889,7 +26722,7 @@ CATALOGUE["de"] = {
     'What changed in this version':
         'Was sich in dieser Fassung geändert hat',
     'Look for a newer version now':
-        'Jetzt nach einer neueren Fassung sehen',
+        'Nach Update suchen ...',
     '  No certificate bundle found -- an HTTPS download may fail.':
         '  Kein Zertifikatsbündel gefunden -- ein Download über HTTPS '
         'kann fehlschlagen.',
@@ -26195,8 +27028,10 @@ CATALOGUE["de"] = {
         'Übergänge anlegen.)',
     '      GetAudioMapping   fails: %s':
         '      GetAudioMapping   geht nicht: %s',
-    '      WARNING: weak match (%.3f)':
-        '      WARNUNG: schwache Übereinstimmung (%.3f)',
+    '      WARNING: weak match (%.3f, %.2f is the floor). The two may '
+    'not belong together.':
+        '      WARNUNG: schwache Übereinstimmung (%.3f, die Grenze ist '
+        '%.2f). Die beiden gehören vielleicht nicht zusammen.',
     '    %-20s %+.0f ms / %+.0f ppm -- that cannot be right, track\n    '
     '%-20s stays where it is.':
         '    %-20s %+.0f ms / %+.0f ppm -- das kann nicht stimmen, die '
@@ -26642,14 +27477,14 @@ CATALOGUE["de"] = {
     '  Picture range:   the whole audio, nothing to trim':
         '  Bezug zum Bild:  der ganze Ton, nichts abzuschneiden',
     '  Player: %s reports an error -- %s':
-        '  Spieler: %s meldet einen Fehler -- %s',
+        '  Player: %s meldet einen Fehler -- %s',
     '  Player: %s stays at %s instead of %s -- given up after %d attempts (%s)':
-        '  Spieler: %s bleibt bei %s statt %s -- aufgegeben nach %d '
+        '  Player: %s bleibt bei %s statt %s -- aufgegeben nach %d '
         'Versuchen (%s)',
     '  Player: audio output switches to %s':
-        '  Spieler: Tonausgabe wechselt auf %s',
+        '  Player: Tonausgabe wechselt auf %s',
     '  Player: the audio is not running (%s) -- one more attempt.':
-        '  Spieler: der Ton läuft nicht (%s) -- noch ein Versuch.',
+        '  Player: der Ton läuft nicht (%s) -- noch ein Versuch.',
     '  Please give a number between 1 and %d.':
         '  Bitte eine Zahl zwischen 1 und %d.',
     '  Production at auphonic.com:   %s':
@@ -26996,9 +27831,9 @@ CATALOGUE["de"] = {
     '    %-10s from %s, %s long%s':
         '    %-10s ab %s, %s lang%s',
     '    %-14s <-> %-14s sound path %4.1f ms (%.2f m), offset %+6.1f ms, '
-    'drift %+5.1f ppm (%d points)%s':
+    'drift %+5.1f ppm (%d points, %.1f ms left over)%s':
         '    %-14s <-> %-14s Schallweg %4.1f ms (%.2f m), Versatz %+6.1f '
-        'ms, Gang %+5.1f ppm (%d Punkte)%s',
+        'ms, Gang %+5.1f ppm (%d Punkte, %.1f ms Rest)%s',
     '    %-20s <- nothing suitable found':
         '    %-20s <- nichts Passendes gefunden',
     '    %d empty audio track removed':
@@ -27086,7 +27921,7 @@ CATALOGUE["de"] = {
     '  Offset:          %s':
         '  Versatz:         %s',
     '  Player: %s':
-        '  Spieler: %s',
+        '  Player: %s',
     '  Production:  %s':
         '  Produktion:  %s',
     '  Project %r':
@@ -27696,6 +28531,8 @@ CATALOGUE["de"] = {
         'Projekt öffnen ...',
     'Open result folder':
         'Ergebnis-Ordner öffnen',
+    'Open the settings, where the key is.':
+        'Die Einstellungen öffnen, wo der Schlüssel steht.',
     'Order does not matter. For a multi-part recording the first block is '
     'enough.':
         'Reihenfolge egal. Von einer mehrteiligen Aufnahme genügt der '
@@ -27878,8 +28715,6 @@ CATALOGUE["de"] = {
         'Zeilenumbruch geteilt.',
     'The key has a character in it that cannot be typed.':
         'Im Schlüssel steht ein Zeichen, das sich nicht tippen lässt.',
-    'The key is not accepted':
-        'Der Schlüssel wird nicht angenommen',
     'The key is then in the %s, never in a file.':
         'Der Schlüssel liegt dann nicht in einer Datei, sondern '
         'hier: %s.',
@@ -27912,7 +28747,7 @@ CATALOGUE["de"] = {
         'Der Sichtbereich: ein Fenster im Fenster, das stehen bleibt.\n\n    '
         '    Qt spielt Ton und Bild selbst ab -- für die ueblichen '
         'Formate\n        genügt das. Was der Rechner nicht kennt (MXF, '
-        'R3D, manche\n        ProRes-Spielarten), reicht der Spieler an '
+        'R3D, manche\n        ProRes-Spielarten), reicht der Player an '
         'ffplay weiter, statt\n        eine Fehlermeldung zu werfen.\n\n      '
         '  Von hier kommen auch In-Punkt und Out-Punkt: die Stelle, die man\n   '
         '     sieht, ist die, die man meint.\n        ',
@@ -28036,10 +28871,6 @@ CATALOGUE["de"] = {
         'Weitwinkel spätestens',
     'Wide shot for greeting at the start and farewell at the end':
         'Weitwinkel für Begrüßung am Anfang und Verabschiedung am Ende',
-    'Without a key there are no presets. It is in the account settings at '
-    'auphonic.com.':
-        'Ohne Schlüssel gibt es keine Presets. Er steht in den '
-        'Kontoeinstellungen bei auphonic.com.',
     'Without it every player has to guess, and all guess SDR. In Resolve '
     'under Deliver > Advanced Settings set the Color space tag and the '
     'Gamma tag instead of leaving them at "Same as Project".':
@@ -28075,16 +28906,65 @@ CATALOGUE["de"] = {
         'gewöhnlich',
     'as a track':
         'als Spur',
-    'auphonic.com replies:\n\n%s\n\nThe key is in the account settings at '
-    'auphonic.com.':
-        'auphonic.com antwortet:\n\n%s\n\nDer Schlüssel steht in den '
-        'Kontoeinstellungen bei auphonic.com.',
+    'auphonic.com does not accept the key: %s':
+        'auphonic.com nimmt den Schlüssel nicht an: %s',
     'average':
         'im Mittel',
     'belongs to':
         'gehört zu',
-    'bleed too indistinct':
-        'Übersprechen zu undeutlich',
+    'bleed too indistinct: %d of %d seconds usable, sharpest %.1f of %.0f '
+    'needed':
+        'Übersprechen zu undeutlich: %d von %d Sekunden brauchbar, '
+        'schärfste %.1f von %.0f nötig',
+    '  Envelopes found nothing (%.2f) -- tried by phase: offset %s, '
+    'sharpness %.1f of %.0f needed.%s':
+        '  Die Hüllkurven fanden nichts (%.2f) -- über die Phase '
+        'versucht: Versatz %s, Schärfe %.1f von %.0f nötig.%s',
+    '  Taken.':
+        '  Genommen.',
+    '  Not taken.':
+        '  Nicht genommen.',
+    '  The audio looks like music: little going on in the syllable band. '
+    'Envelopes live on speech pauses, and music has none.':
+        '  Der Ton sieht nach Musik aus: im Silbenband ist wenig los. '
+        'Hüllkurven leben von Sprechpausen, und Musik hat keine.',
+    '  Offset by phase alone -- the clock drift is unknown, not zero, and '
+    'no drift is taken out.':
+        '  Versatz allein über die Phase -- der Gang der Uhren ist '
+        'unbekannt, nicht etwa gleich schnell, und es wird kein Gang '
+        'herausgerechnet.',
+    'Midnight':
+        'Mitternacht',
+    '%s carries a timecode from the other side of midnight -- counted as '
+    'one night, not as a day apart.':
+        '%s trägt einen Timecode von der anderen Seite der Mitternacht '
+        '-- gezählt als eine Nacht, nicht als ein Tag Abstand.',
+    'A timecode counts from midnight and starts over there. The files are '
+    'put on one axis before anything is subtracted, otherwise the '
+    'recording after midnight looks almost a day away from the one '
+    'before. If these really were recorded on different days, the '
+    'alignment is wrong and the measured offset is the one to trust.':
+        'Ein Timecode zählt ab Mitternacht und fängt dort wieder '
+        'von vorn an. Die Dateien kommen auf eine Achse, bevor irgendetwas '
+        'voneinander abgezogen wird -- sonst liegt die Aufnahme nach '
+        'Mitternacht fast einen Tag von der davor entfernt. Wurde hier '
+        'wirklich an verschiedenen Tagen aufgenommen, ist die Zuordnung '
+        'falsch, und es gilt der gemessene Versatz.',
+    'Channel %d is against the stop: %s samples at %+.2f dBFS.':
+        'Kanal %d liegt am Anschlag: %s Abtastwerte bei %+.2f dBFS.',
+    'Counted, not guessed: how many samples sit on the highest value an '
+    'integer format can hold. What is cut off there is gone and no '
+    'processing brings it back -- but the recording is still the '
+    'recording, and this holds nothing up. Only integer formats are '
+    'counted. 32 bit float has no stop at full scale, so there is nothing '
+    'there to count.':
+        'Gezählt, nicht geraten: wie viele Abtastwerte auf dem '
+        'höchsten Wert liegen, den ein Ganzzahlformat fassen kann. Was '
+        'dort abgeschnitten ist, ist weg, und keine Bearbeitung holt es '
+        'zurück -- aber die Aufnahme bleibt die Aufnahme, und '
+        'aufgehalten wird hier nichts. Gezählt wird nur bei '
+        'Ganzzahlformaten. 32-Bit-Gleitkomma hat bei Vollausschlag keinen '
+        'Anschlag, dort gibt es nichts zu zählen.',
     'boxes no longer readable':
         'keine Boxen mehr lesbar',
     'bring up to date -- both Timelines are deleted and\n       rebuilt, '
@@ -28289,8 +29169,8 @@ CATALOGUE["de"] = {
         'Zeitachse nicht messbar',
     'time axis not measurable: %s':
         'Zeitachse nicht messbar: %s',
-    'too few places where only %s speaks':
-        'zu wenige Stellen, an denen nur %s redet',
+    'only %d seconds where %s speaks alone, %d needed':
+        'nur %d Sekunden, in denen %s allein spricht, %d nötig',
     'too little audio to align':
         'zu wenig Ton für die Ausrichtung',
     'unspecified':
@@ -28341,8 +29221,13 @@ CATALOGUE["de"] = {
         '%d Hz gegen %d Hz',
     '  %s: channel %s cannot be cut out (%s)':
         '  %s: Kanal %s lässt sich nicht herausschneiden (%s)',
-    'Channel %d below the noise floor -- unused input':
-        'Channel %d unter dem Rauschteppich -- unbelegter Eingang',
+    'Channel %d is %.0f dB under the loudest -- nothing plugged in':
+        'Kanal %d liegt %.0f dB unter dem lautesten -- nichts '
+        'angeschlossen',
+    'Channel %d at %.0f dBFS -- only converter noise left':
+        'Kanal %d bei %.0f dBFS -- nur noch Wandlerrauschen',
+    'Channel %d is silent -- unused input':
+        'Kanal %d ist still -- unbelegter Eingang',
     'On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it.':
         'An macht aus diesem und dem nächsten Channel eine Stereospur.\nDer nächste hat dann kein eigenes Häkchen mehr -- er ist vergeben.\nWas gemessen wurde, steht in der Zeile daneben.',
     'a track of its own':
@@ -28442,8 +29327,6 @@ CATALOGUE["de"] = {
         ', Umfang %.1f LU',
     '-- nothing --':
         '-- nichts --',
-    'API Key missing':
-        'API Key fehlt',
     'After: %s':
         'Nachher: %s',
     'Algorithms':
@@ -28799,6 +29682,19 @@ CATALOGUE["de"] = {
         'ausgerichtet,\n  gemischt und auf die Ziellautheit gebracht. Kein '
         'De-Bleed, kein\n  Leveler, keine Rauschentfernung -- dafür braucht '
         'der Lauf auphonic.com.',
+    '  --without-auphonic and --auphonic-done were both given. The '
+    'finished tracks win: there is nothing left to send anywhere.':
+        '  --without-auphonic und --auphonic-done wurden beide '
+        'angegeben. Die fertigen Spuren gewinnen: es ist ohnehin '
+        'nichts mehr zu verschicken.',
+    '  Sample point at %s thrown out: %+.0f ms off the others.':
+        '  Messpunkt bei %s verworfen: %+.0f ms neben den anderen.',
+    '  Spread before: %.0f ms, after: %.0f ms.':
+        '  Streuung vorher: %.0f ms, danach: %.0f ms.',
+    '  The remaining sample points cover %.0f %% of the runtime -- the '
+    'spread below speaks for that part, not for the whole.':
+        '  Die übrigen Messpunkte decken %.0f %% der Laufzeit ab -- die '
+        'Streuung unten gilt für diesen Teil, nicht für das Ganze.',
     'MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send '
     'to auphonic.com.\n  With --without-auphonic it runs locally instead: '
     'aligned,\n  mixed and cut, but without de-bleed and leveler.':

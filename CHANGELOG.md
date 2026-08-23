@@ -9,6 +9,72 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.5.0-beta] - 2026-08-23
+
+### Added
+
+- Clipping is counted per channel and named in the preflight, with the
+  number of samples sitting on the stop. It used to be invisible here,
+  and actively so: the master is measured as a sum and a limiter pulls
+  it under -1 dBTP, so a lapel microphone against the stop all evening
+  came out looking clean. Only integer formats are counted. Measured on
+  one overdriven source written three ways: 16 bit and 24 bit come out
+  identical -- 120,720 samples on the top, 0.00 dBFS -- while the 32
+  bit float copy peaks at +11.94 dBFS with nothing clipped at all. The
+  line is integer against float, not 16 against 24 bit: an integer
+  format has a stop at full scale and float has none. It is a note,
+  never a reason to stop. An overdriven recording is sometimes the only
+  recording there is.
+- A second way to find the offset between a recording and a video, by
+  phase, tried only where the first one came back empty. The way over
+  the envelopes lives on speech pauses, and music has none: on a
+  concert recording it returned 0.13 and -0.18, which is nothing.
+  Phase found the offset on the same material -- 9:29, to within 12 ms,
+  and those 12 ms are the sound travelling four metres from the
+  monitors to the telephone that recorded them. Both numbers go into
+  the log either way, so a failure says how close it came.
+- The log and the command line say which copy of the script is running.
+  Several runnable copies of one version are the normal case here --
+  the snapshot the tests run against, the `.old` an update leaves
+  behind, the download in the Downloads folder -- and they share one
+  log file. Without the path there is no telling later why one run came
+  out different from another.
+
+### Changed
+
+- A recording that crosses midnight is one night, not a day apart. A
+  timecode counts from midnight and starts over there, so the file
+  after midnight overlapped nothing and was reported as a clock that
+  had never been set. Nothing is added to any timecode: the values are
+  brought onto one axis where they are compared, and only where that
+  actually puts the file among the others. A recorder left at 00:00:00
+  is still reported for what it is.
+- A channel that carries nothing says which of the two rules caught it,
+  and by how much. One line said "below the noise floor" for both, and
+  for one of them that was simply wrong -- a channel 45 dB under the
+  loudest can sit 40 dB above its own noise floor. The rule itself
+  stood twice, word for word, in two functions; now it stands once.
+- A failed offset measurement says how close it came: how many seconds
+  of the recording had one voice alone, and how sharp the best of them
+  was against what was needed. "No pair measurable" hid two different
+  recording faults with two different remedies behind one sentence.
+- `--together` keeps the order it was given. Its own help promises
+  "these files are one recording, in this order", and one of the two
+  paths through the program sorted that row by name anyway, so the same
+  switch gave two different answers depending on how it was reached.
+- The pair fit hands back what it could not explain, and the line
+  prints it next to the number of points. It was worked out on every
+  run and thrown away. Three points fit three unknowns exactly, so a
+  residual of nothing there means nothing -- which is the point.
+
+### Fixed
+
+- The player menu no longer stops the window from being built on a Qt
+  without multimedia. The stand-in player has no play, pause or nudge,
+  the menu bound them directly, and the whole window died on the way
+  up. It has them now, and the menu greys out: there is nothing behind
+  those entries, and saying so is better than pretending.
+
 ## [2.4.0-beta] - 2026-08-23
 
 ### Added
@@ -986,6 +1052,9 @@ program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.5.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.4.0-beta...v2.5.0-beta
+[2.4.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.3.0-beta...v2.4.0-beta
+[2.3.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.2.0-beta...v2.3.0-beta
 [2.2.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.1.0-beta...v2.2.0-beta
 [2.1.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.0.0-beta...v2.1.0-beta
 [2.0.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v1.1.0-beta...v2.0.0-beta

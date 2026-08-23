@@ -19,6 +19,13 @@ Im Kasten **Zugang zu auphonic.com** kommt der Schlüssel in das Feld
 **API Key:**; **Verbinden** prüft ihn und holt die Presets (auf der
 Kommandozeile `--auphonic-api-key`).
 
+Ein Schlüssel, der nicht angenommen wird, öffnet kein Fenster.
+**Verbinden** wird nicht grün, und unter dem Feld sagt eine Zeile, was
+auphonic.com geantwortet hat; daneben steht ein Knopf, der die
+Einstellungen öffnet. Dieselbe Zeile steht im Einstellungsfenster und
+im Kasten auf dem Reiter **Zuordnung & Zeitfenster**, und sie nennt
+auch einen fehlenden Schlüssel.
+
 Zwei Dinge zum Schlüssel sollte man wissen statt sie anzunehmen:
 
 * Auf dem Weg zu auphonic.com steht er nie in der Prozessliste: curl liest ihn
@@ -26,14 +33,14 @@ Zwei Dinge zum Schlüssel sollte man wissen statt sie anzunehmen:
   danach gelöscht wird — vorher überschrieben, wo sie sich nicht löschen
   lässt, und der Schlüssel geht maskiert hinein, damit ein Anführungszeichen
   oder ein Zeilenumbruch darin keine eigenen Direktiven anfügen kann.
-* Aber `--auphonic-api-key SCHLUESSEL` schreibt ihn in die Befehlszeile dieses
-  Programms, wo `ps` und die Shell-Historie ihn sehen — auf der Befehlszeile
-  also lieber `AUPHONIC_TOKEN`.
+* Aber `--auphonic-api-key SCHLUESSEL` schreibt ihn in die Kommandozeile
+  dieses Programms, wo `ps` und die Shell-Historie ihn sehen — auf der
+  Kommandozeile also lieber `AUPHONIC_TOKEN`.
 
 Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security` über
 dessen Eingabe, nicht als Argument, und liest ihn zurück, um zu sehen, dass er
 angekommen ist; nur wenn der falsche Schlüssel zurückkommt, folgt die Form mit
-dem Argument, die die Schwäche der Befehlszeile hat. Der Weg über die
+dem Argument, die die Schwäche der Kommandozeile hat. Der Weg über die
 Windows-Registry hat sie nicht.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
@@ -114,11 +121,10 @@ Heruntergeladen wird alles: Einzelspuren und jede weitere Ausgabe des
 Presets — Kapitelmarken, Transkript, Auswertungen. Alles landet in
 `auphonic-tracks/` neben den fertigen Videos, später auch die `final_*.wav`.
 
-In point und Out point nachträglich zu setzen kostet keinen zweiten
-Durchlauf bei Auphonic. Die Spuren werden auf das neue Fenster
-beschnitten. Passt die Länge weder zum Fenster noch zum ganzen gemessenen
-Bereich, gehören die Dateien zu einem anderen Lauf, und das sagt die
-Meldung.
+In-Punkt und Out-Punkt nachträglich zu setzen kostet keinen zweiten Lauf
+bei Auphonic. Die Spuren werden auf das neue Fenster beschnitten. Passt
+die Länge weder zum Fenster noch zum ganzen gemessenen Bereich, gehören
+die Dateien zu einem anderen Lauf, und das sagt die Meldung.
 
 ### Weitere Optionen über die Kommandozeile
 

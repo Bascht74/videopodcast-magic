@@ -97,6 +97,10 @@ check("and the same indent", not indent,
 SAME_IN_BOTH = {
     '  Preset:  %s', 'Preset', 'Preset:', 'Start', '  Timecode:        %s',
     '\n    %s  --  %s, %s',
+    # Player is the ordinary German word too -- docs/notes/begriffe.md
+    # counts it 22 to 0 against "Spieler" in the manual. This line is
+    # the same on both sides because both sides are right.
+    '  Player: %s',
 }
 untranslated = [k for k, v in catalogue.items()
                 if k == v and k not in SAME_IN_BOTH]

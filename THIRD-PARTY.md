@@ -9,6 +9,21 @@ any third-party code. What it uses, it uses at run time:
   pyannote.audio MIT                   imported for speaker diarization
   ffmpeg/ffprobe LGPL-2.1+ or GPL      started as separate programs
 
+The program installs three more by itself, each only where it is needed,
+and each named here because a user who did not ask for it should still
+be able to find out what it is:
+
+  certifi        MPL-2.0               the certificates an HTTPS
+                                       download is verified against,
+                                       fetched where this Python brings
+                                       none of its own
+  faster-whisper MIT                   speech recognition where the
+                                       system brings none -- everywhere
+                                       but macOS 26 and newer
+  static-ffmpeg  BSD-3-Clause          ffmpeg builds inside a Python
+                                       package, the last resort where
+                                       no package manager has one
+
 One thing is redistributed here, and it is not code: the pretrained model
 files under `models/`.
 

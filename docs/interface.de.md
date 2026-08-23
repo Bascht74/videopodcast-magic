@@ -17,7 +17,7 @@ Das Fenster hinter dem Knopf hat zwei Kästen.
   das ihn behält (**Im Schlüsselbund speichern** auf dem Mac, **In der
   Registry speichern** unter Windows) und **Verbinden**, das den
   Schlüssel prüft und die Presets holt.
-- **Verbindung zu Resolve** -- ob Resolve antwortet, mit Version, wenn
+- **Verbindung zu Resolve** -- ob Resolve antwortet, mit Fassung, wenn
   ja, und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal,
   das Öffnen des Fensters ebenso.
 
@@ -108,20 +108,20 @@ Preset, wie viele Dateien entstehen, wieviel Platz sie brauchen und wieviel
 frei ist. Würden bestehende Dateien überschrieben, zeigt ein Fenster erst,
 welche.
 
-Der Player hat Abspielen und Pause, sekunden- und bildweise vor und
+Der Player hat Abspielen und Pause, sekunden- und frameweise vor und
 zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
-dem In point gezählt.
+dem In-Punkt gezählt.
 
 - Ein Klick auf eine Tabellenzeile holt die Datei an dieselbe Stelle im
   Geschehen, so lassen sich zwei Kameras vergleichen. Gespielt wird die
   zugeordnete Aufnahme, nicht der Kameraton.
-- In point und Out point nehmen die Stelle aus dem Bild, ein blauer
+- In-Punkt und Out-Punkt nehmen die Stelle aus dem Bild, ein blauer
   Streifen zeigt das Fenster, und beim Ziehen laufen nur die Zahlen mit.
 - Formate, die der Rechner nicht abspielen kann (MXF, R3D, manche
   ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
 Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem Script,
-mit Version, Zeit und Rechner in der Kopfzeile und einer Trennlinie je Lauf;
+mit Fassung, Zeit und Rechner in der Kopfzeile und einer Trennlinie je Lauf;
 vom vorletzten Lauf bleibt `videopodcast-magic_1.log`. Auch was Qt und ffmpeg
 an Python vorbei ausgeben, steht darin.
 
@@ -141,7 +141,7 @@ System dort erwartet: **Über das Programm**, **Einstellungen** und
 Bildschirmrand, sonst oben im Fenster.
 
 Alles, was über einen Knopf geht, geht auch über eine Taste. Die Tasten
-ohne Zusatztaste gehören dem Spieler und wirken nur, solange er den
+ohne Zusatztaste gehören dem Player und wirken nur, solange er den
 Fokus hat -- sonst setzte ein bloßes `I` den In-Punkt, während jemand
 gerade einen Namen in ein Feld tippt.
 
@@ -155,16 +155,21 @@ gerade einen Namen in ein Feld tippt.
 | `Cmd+1` `Cmd+2` `Cmd+3` | Auf diesen Reiter |
 | `Cmd+,` | Einstellungen |
 
-Im Spieler:
+Im Player:
 
 | Taste | Was sie tut |
 |---|---|
 | `Leertaste` | Abspielen und anhalten |
-| `Links` `Rechts` | Ein Einzelbild |
+| `L` | Vorwärts abspielen, mit jedem Druck doppelt so schnell |
+| `K` | Anhalten, zurück auf 1× |
+| `Links` `Rechts` | Ein Frame |
 | `Umschalt+Links` `Umschalt+Rechts` | Eine Sekunde |
 | `Alt+Links` `Alt+Rechts` | Zehn Sekunden |
 | `I` `O` | In-Punkt setzen, Out-Punkt setzen |
 | `Umschalt+I` `Umschalt+O` | Zum In-Punkt, zum Out-Punkt springen |
+
+`L` verdoppelt bis 8×, und das Tempo steht am Vorlauf-Knopf. Ein `J`
+gibt es nicht: Qt spielt hier nichts rückwärts, gemessen.
 
 Unter Windows und Linux steht `Strg` statt `Cmd`. Es ist die Belegung,
 die die Schnittprogramme gemeinsam haben -- wer schneidet, muss nichts
@@ -177,9 +182,8 @@ Laufs -- fragt das Programm github.com, ob es eine neuere Fassung gibt.
 Das ist eine Frage nach einer Nummer, gesendet wird nichts.
 
 Gibt es eine, nennt ein Fenster sie und die Fassung, die hier läuft.
-Hinter **Details einblenden** steht, was sich in der neuen Fassung
-geändert hat, in ihren eigenen Worten, und darunter die Adresse. Zwei
-Knöpfe:
+Es zeigt, was sich in der neuen Fassung geändert hat, in ihren eigenen
+Worten, und darunter die Adresse. Zwei Knöpfe:
 
 - **Später** ändert nichts.
 - **Aktualisieren** holt die neue Fassung, setzt sie an die Stelle der
@@ -191,15 +195,21 @@ Text sein, es muss wie dieses Programm aussehen, und es muss sich
 funktioniert, und das Fenster sagt, was nicht stimmte.
 
 Die Fassung, die lief, bleibt als `videopodcast-magic.py.old` neben der
-neuen liegen. Erweist sich die neue als falsch, bekommt diese Datei
-wieder ihren alten Namen; Netz braucht es dafür nicht.
+neuen liegen. **Hilfe > Zurück auf 2.3.0-beta** setzt sie wieder ein;
+der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
+solange die Datei da ist.
+
+Es wird vorher gefragt, und die aufbewahrte Datei muss dieselben drei
+Prüfungen bestehen wie das, was herunterkommt. Danach startet das
+Programm neu. Die Datei ist damit aufgebraucht: danach gibt es sie
+nicht mehr, und vorwärts geht es wieder über das Update aus dem Netz.
 
 Das Häkchen **Nicht mehr nachfragen** hält das Programm davon ab, von
-selbst nachzusehen. Über **Hilfe > Jetzt nach einer neueren Fassung
-sehen** geht es weiterhin, und `--update-check` auf der Kommandozeile
-holt das ungefragte Nachsehen zurück.
+selbst nachzusehen. Über **Hilfe > Nach Update suchen ...** geht es
+weiterhin, und `--update-check` auf der Kommandozeile holt das
+ungefragte Nachsehen zurück.
 
-Die Kommandozeile fragt nie. Ein Lauf aus einem Skript sieht nicht nach
+Die Kommandozeile fragt nie. Ein Lauf aus einem Script sieht nicht nach
 und bleibt für keine Frage stehen; `--no-update-check` setzt dort
 dasselbe Nein wie das Häkchen, `--update-check` nimmt es zurück.
 
@@ -211,12 +221,12 @@ setzt, wer die Maschine betreibt.
 
 Trägt eine Datei keinen Timecode, misst die Oberfläche im Hintergrund, wo
 sie liegt -- mit dem Verfahren des Laufs selbst. Danach springt der Player
-zwischen den Dateien auf dieselbe Stelle im Geschehen, und In point und
-Out point gelten für alle gleich.
+zwischen den Dateien auf dieselbe Stelle im Geschehen, und In-Punkt und
+Out-Punkt gelten für alle gleich.
 
 Ein einziger Timecode genügt, um die Achse daran zu hängen; ohne jeden zählt
 sie ab dem Anfang des Materials und wird als virtueller Timecode angezeigt.
-Solange die Achse fehlt, sind In point und Out point gesperrt.
+Solange die Achse fehlt, sind In-Punkt und Out-Punkt gesperrt.
 
 Die Achse steht in der Projektdatei, mit Größe und Änderungszeit jeder Datei,
 und wird beim nächsten Start übernommen; was sonst noch darin steht, sagt

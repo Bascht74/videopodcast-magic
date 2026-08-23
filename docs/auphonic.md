@@ -18,6 +18,12 @@ In the box **Access to auphonic.com** the key goes into the field
 **API Key:**; **Connect** checks it and fetches the presets (on the command
 line `--auphonic-api-key`).
 
+A key that is not accepted opens no window. **Connect** does not turn
+green, and under the field a line says what auphonic.com replied, with
+a button beside it that opens the settings. That line stands in the
+settings window and in the box on tab **Assignment & time window**
+alike, and it is where a missing key is named as well.
+
 Two things about the key are worth knowing rather than assuming:
 
 * On its way to auphonic.com it never appears in the process list: curl reads

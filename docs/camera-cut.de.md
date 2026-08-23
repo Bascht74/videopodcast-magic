@@ -135,11 +135,11 @@ von selbst.
 
 ### Schnittband und Legende
 
-Im Vorschau-Kasten sitzt unter dem Spieler das **Schnittband**, an Stelle
+Im Vorschau-Kasten sitzt unter dem Player das **Schnittband**, an Stelle
 der Positionsleiste: der gerechnete Schnitt über die ganze Länge, je
 Einstellung ein Balken in der Farbe seiner Kamera. Die Skala trägt
 Minuten über das Ganze und Sekunden im Hineingezoomten. Zeigen nennt
-Kamera, Von-bis und Dauer, Klicken setzt die Stelle für den Spieler.
+Kamera, Von-bis und Dauer, Klicken setzt die Stelle für den Player.
 Darunter die **Legende**: je Kamera ein Farbtupfer und
 `62 × Kandidat  77 %  (48:19 Min)`.
 
@@ -155,24 +155,24 @@ und 0. Hineingezoomt sieht und hört man, ob ein Schnitt in einer Pause
 oder mitten im Wort sitzt. Beim Abspielen folgt der Ausschnitt der
 Position, damit er nicht aus dem Bild läuft.
 
-### Die Vorschau-Spieler
+### Die Vorschau-Player
 
-Zwei Spieler zeigen das Material, und beide suchen sich ihre Datei
+Zwei Player zeigen das Material, und beide suchen sich ihre Datei
 selbst.
 
 **Auf dem Reiter Zuordnung & Zeitfenster** gilt diese Rangfolge:
 
-1. eine Datei, die **In point und Out point enthält**, sonst laufen die
+1. eine Datei, die **In-Punkt und Out-Punkt enthält**, sonst laufen die
    Sprungknöpfe ins Leere
 2. sonst eine mit wenigstens einer der Grenzen
 3. unter gleich guten die Kamera ohne **zugeordneten Sprecher**
 4. darunter die längste
 5. nie eine Datei auf „Video ignorieren", nie Vorspann oder Abspann
 
-Die Projektdatei merkt sich, welche Datei zuletzt im Spieler stand, und
+Die Projektdatei merkt sich, welche Datei zuletzt im Player stand, und
 nimmt sie wieder — solange sie die Grenzen genauso gut abdeckt wie die
 beste Alternative. Ohne Timecode oder gemessene Zeitachse wird über die
-Grenzen nichts behauptet; steht die Achse später da, sieht der Spieler
+Grenzen nichts behauptet; steht die Achse später da, sieht der Player
 noch einmal nach. **zu In-Punkt** und **zu Out-Punkt** holen sich ihre
 Datei selbst; gibt es gar keine, steht eine Zeile da, warum nichts
 passiert ist.
@@ -190,7 +190,7 @@ Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
 machen kann die Oberfläche sie nicht. Der Tooltip nennt, was läuft und
 in welcher Fassung.
 
-**Auf dem Reiter Resolve-Schnitt** zeigt der Spieler im
+**Auf dem Reiter Resolve-Schnitt** zeigt der Player im
 Vorschau-Kasten immer etwas: gibt es einen Schnitt, spielt er ihn und
 schaltet an jeder Kante die Kamera um, sonst die Datei ohne zugeordneten
 Sprecher. Gerendert wird nichts.
@@ -204,7 +204,7 @@ Multicam-Clips, und deutlich leiser.
 `start_s` ist die Uhrzeit, zu der die Programmzeit null ist: der früheste
 Tonanfang, der wirklich bekannt ist, eigener Timecode oder gemessene
 Lage; fehlt der, der früheste Kamera-Timecode; fehlt auch der, steht dort
-nichts. In point und Out point verschieben den Nullpunkt mit. Die Stelle
+nichts. In-Punkt und Out-Punkt verschieben den Nullpunkt mit. Die Stelle
 in jeder Kameradatei ist Programmzeit minus Versatz, derselbe Versatz,
 mit dem auch die Schnitt-Timeline gebaut wird.
 
@@ -349,4 +349,4 @@ Im Fenster gibt es dafür keine Entsprechung.
   Antwortende halten muss, zwischen 0 und 1 (0,7)
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
-  aller drei Abspieler unter das Bild und jeden Versuch auf die Konsole
+  aller drei Player unter das Bild und jeden Versuch auf die Konsole

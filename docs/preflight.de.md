@@ -74,10 +74,10 @@ Zielpegel der Lautheitsanzeige im Resolve-Projekt. Ohne Angabe sind es
 −16 LUFS.
 
 **Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten
-die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jede *Mischung*
-dagegen, der `Full-Mix` wie der Mix einer einzelnen Kamera, bekommt
-dasselbe Signal auf beide Kanäle und wird so gemessen. Einkanalig misst
-sich dieselbe Mischung gut drei Dezibel leiser. Wer einkanalig misst und
+die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jeder *Mix* dagegen,
+der `Full-Mix` wie der Mix einer einzelnen Kamera, bekommt dasselbe
+Signal auf beide Kanäle und wird so gemessen. Einkanalig misst sich
+derselbe Mix gut drei Dezibel leiser. Wer einkanalig misst und
 zweikanalig abgibt, liegt genau um diesen Betrag daneben.
 
 Beim Normalisieren steht auch der **Lautheitsumfang** im Protokoll, der

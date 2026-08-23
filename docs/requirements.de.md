@@ -35,7 +35,7 @@ geholt.
 
 Python: 3.10 oder neuer, darunter sagt das Programm es und hört auf. Die
 Untergrenze ist das, was die Oberfläche braucht — PySide6 baut unterhalb
-von 3.10 nicht, die Befehlszeile allein käme also tiefer, das Fenster
+von 3.10 nicht, die Kommandozeile allein käme also tiefer, das Fenster
 nicht. Die Testsuite läuft auf 3.14.7, der Fassung, die hier täglich
 benutzt wird. `--version`, die Kopfzeile des Protokolls und die erste
 Zeile jedes Laufs sagen, welches Python läuft, und nennen die empfohlene

@@ -53,10 +53,10 @@ das Programm zuerst jede Kamera und jede Spur auf eine gemeinsame
 Zeitachse.
 
 Dann ordnet man zu, wer zu welcher Kamera gehört, in einer Tabelle mit
-einem Player daneben. Jede Kameradatei trägt danach als erste Tonspur die
-Mischung genau der Sprecher, die in ihrem Bild zu sehen sind, und die
-einzelnen Stimmen dahinter: wer sie allein abspielt, hört das Passende,
-wer schneidet, hat alles einzeln zur Hand ([Multitrack](multitrack.de.md)).
+einem Player daneben. Jede Kameradatei trägt danach als erste Tonspur den
+Mix genau der Sprecher, die in ihrem Bild zu sehen sind, und die einzelnen
+Stimmen dahinter: wer sie allein abspielt, hört das Passende, wer
+schneidet, hat alles einzeln zur Hand ([Multitrack](multitrack.de.md)).
 
 Der Dienst ist freiwillig. Ohne ihn fehlen nur De-Bleed, Leveler und
 Rauschentfernung; wer wann spricht, findet das Programm selbst heraus,

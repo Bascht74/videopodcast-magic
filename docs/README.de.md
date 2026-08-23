@@ -18,7 +18,7 @@ für sich; nichts davon muss von vorn bis hinten gelesen werden.
 * **[Spracherkennung und Sprechertrennung](speech.de.md)** -- Was gesagt wird und wer es sagt, auf diesem Rechner ermittelt.
 * **[Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md)** -- Wie der erste Schnitt vorgeschlagen wird, und die Zahlen, an denen er gemessen wird.
 * **[DaVinci Resolve](resolve.de.md)** -- Das Projekt, das herauskommt: Timelines, Spuren, Farbe, Ausgabe.
-* **[Alle Schalter](command-line.de.md)** -- Jeder Schalter der Befehlszeile, mit dem, was er tut.
+* **[Alle Schalter](command-line.de.md)** -- Jeder Schalter der Kommandozeile, mit dem, was er tut.
 
 Der [Überblick](overview.de.md) ist kein Kapitel: er zeigt dasselbe Feld
 auf wenigen Seiten, für alle, die erst entscheiden wollen, ob dieses

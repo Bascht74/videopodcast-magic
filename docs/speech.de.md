@@ -97,9 +97,9 @@ Totale sucht dann die längste Sprechpause in der Nähe.
   die Sprecherzahl in der Tabelle ist die des ungeschnittenen Laufs. Wer
   im Vorlauf noch mit jemandem gesprochen hat, sieht eine Stimme mehr,
   als in der Folge vorkommt.
-* Die Erkennung läuft auf der fertigen Mischung, nicht auf den
-  Einzelspuren. Ein leiser Mitschnitt kann für die Sprechertrennung
-  reichen und für den Text trotzdem nicht taugen.
+* Die Erkennung läuft auf dem fertigen Mix, nicht auf den Einzelspuren.
+  Ein leiser Mitschnitt kann für die Sprechertrennung reichen und für
+  den Text trotzdem nicht taugen.
 
 ## Weitere Optionen über die Kommandozeile
 

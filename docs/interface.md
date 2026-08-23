@@ -153,11 +153,16 @@ In the player:
 | Key | What it does |
 |---|---|
 | `Space` | Play and pause |
+| `L` | Play forward, twice as fast on every press |
+| `K` | Pause, back to 1× |
 | `Left` `Right` | One frame |
 | `Shift+Left` `Shift+Right` | One second |
 | `Alt+Left` `Alt+Right` | Ten seconds |
 | `I` `O` | Set In point, set Out point |
 | `Shift+I` `Shift+O` | Jump to In point, to Out point |
+
+`L` doubles up to 8×, and the speed stands on the fast forward button.
+There is no `J`: Qt plays nothing backwards here, measured.
 
 This is the layout the editing programs share, so nobody who edits has
 to learn it twice.
@@ -169,8 +174,8 @@ run -- the program asks github.com whether a newer version is out. That
 is one question for a version number, and nothing is sent.
 
 Where there is one, a window names it and the version running here.
-Behind **Show Details** stands what changed in the new version, in its
-own words, and the address underneath. Two buttons:
+It shows what changed in the new version, in its own words, and the
+address underneath. Two buttons:
 
 - **Later** changes nothing.
 - **Update** fetches the new version, puts it in place of the file and
@@ -182,8 +187,14 @@ not, the file that works stays where it is and the window says what was
 wrong.
 
 The version that was running stays beside the new one as
-`videopodcast-magic.py.old`. Where the new one turns out wrong, that
-file goes back under its old name; no network is needed for it.
+`videopodcast-magic.py.old`. **Help > Back to 2.3.0-beta** puts it
+back; the entry names the version out of that file and stands in the
+menu only while the file is there.
+
+It asks first, and the kept file has to pass the same three checks as
+what comes down. Then the program starts again. The file is used up by
+it: afterwards there is none, and the way forward is the update over
+the network again.
 
 The tick **Do not ask again** stops the program from looking by itself.
 **Help > Look for a newer version now** still asks whenever it is

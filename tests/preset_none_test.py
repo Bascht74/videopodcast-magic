@@ -50,17 +50,31 @@ class Box(object):
     def blockSignals(self, a): pass
 
 def presets_filter(box, presets, multitrack, wanted=None):
-    """Word for word the presets_filter of gui(), only without Qt."""
+    """The presets_filter of gui(), without Qt. Line for line.
+
+    It said "word for word" and was not, in two places, and both of
+    them fell on the same side: the copy jumped to the first real
+    preset where the program stays on "without Auphonic". So the test
+    was green while asserting the very thing the program refuses to do
+    -- the comment there says why, and it is the first rule of this
+    project: a run may not spend credit because a list arrived, only
+    because somebody asked. Found on 23.8.2026.
+
+    Line for line now, and the two lines that differed carry a marker
+    so the next person can find them:
+      * the value before is read unconditionally (the program has no
+        count() > 1 around it),
+      * the index goes to 0, never to 1.
+    """
     matching = [(n, u) for n, u, m in presets if m == multitrack]
     entries = [(vpm.PRESET_NONE, vpm.label_of(vpm.PRESET_NONE))] + [
         (n, "%s  (%s)" % (n, "Multitrack" if multitrack else "normal"))
         for n, _ in matching]
-    before_value = box.currentData() if box.count() > 1 else ""
+    before_value = box.currentData() or ""          # <- no count() test
     box.clear()
     for value, text in entries:
         box.addItem(text, value)
-    if len(entries) > 1:
-        box.setCurrentIndex(1)
+    box.setCurrentIndex(0)                          # <- 0, never 1
     box.setEnabled(True)
     w = wanted or before_value or ""
     if w:
@@ -83,11 +97,14 @@ check("it is selected", b.currentData() == vpm.PRESET_NONE)
 check("the list still works", b.on is True)
 check("plaintext empty -> no preset in the run", plaintext(b) == "")
 
-print("\n3. With presets the entry is on top, a preset is chosen")
+print("\n3. With presets the entry is on top and stays chosen")
 b = Box(); names = presets_filter(b, PRESETS, False)
 check("entry first", names[0] == vpm.PRESET_NONE)
 check("preset after it", names[1] == "Podcast_Zoom")
-check("the preset is chosen", plaintext(b) == "Podcast_Zoom")
+# The list arriving is not somebody choosing. Staying here is what
+# keeps the next Start from spending credit unasked.
+check("nothing is chosen by the list arriving", plaintext(b) == "",
+      repr(b.currentData()))
 
 print("\n4. Multitrack filters, the entry stays")
 b = Box(); names = presets_filter(b, PRESETS, True)
@@ -104,8 +121,8 @@ print("\n5b. The placeholder alone is not a choice")
 b = Box(); presets_filter(b, [], False)     # unchecked: placeholder only
 check("sits on the placeholder", b.currentData() == vpm.PRESET_NONE)
 presets_filter(b, PRESETS, False)           # the presets arrive
-check("jumps to the first preset",
-        plaintext(b) == "Podcast_Zoom", repr(b.currentData()))
+check("and still sits on it when the presets arrive",
+      plaintext(b) == "", repr(b.currentData()))
 
 print("\n6. Back from the project file")
 b = Box(); presets_filter(b, PRESETS, False, wanted=vpm.PRESET_NONE)

@@ -48,14 +48,8 @@ check("the section at 1200 sits at 600 now",
         abs(segs[1][0] - 600.0) < 0.01, str(segs[1]))
 
 print("\n3. The camera offset counts against the zero point")
-source = inspect.getsource(vpm.gui)
-a = source.index("    def camera_offset(cameras, origin=None):")
-b = source.index("    def player_load_cut(numbers):")
-piece = "\n".join(line[4:] if line.startswith("    ") else line
-                   for line in source[a:b].split("\n"))
-space = {}
-exec(piece, {"min": min, "float": float, "any": any}, space)
-camera_offset = space["camera_offset"]
+# The function itself; it used to be cut out of gui() and exec-ed.
+camera_offset = vpm.camera_offset
 
 off = camera_offset(D["cameras"], n["start_s"])
 print("    ", off)
