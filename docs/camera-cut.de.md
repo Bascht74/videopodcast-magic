@@ -187,8 +187,8 @@ Kamera gehört:
   sofern er vorliegt
 
 Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
-machen kann die Oberfläche sie nicht. Der Tooltip nennt, was läuft und in
-welcher Fassung.
+machen kann die Oberfläche sie nicht. Der Kurzhinweis nennt, was läuft
+und in welcher Fassung.
 
 **Auf dem Reiter 3. Resolve-Schnitt** zeigt der Spieler im
 Vorschau-Kasten immer etwas: gibt es einen Schnitt, spielt er ihn und

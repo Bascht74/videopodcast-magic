@@ -126,6 +126,42 @@ channels, the check -- and the run itself. Where a step reports a real
 percentage the bar follows it; where a step reports nothing it creeps on
 slowly and stops short of the end. Backwards it never goes.
 
+## Menu and keys
+
+The menu bar carries what the window has no room for and what the
+system expects to find there: **About**, **Settings**, and **Help**
+with the way into this manual. On a Mac it sits in the system menu bar
+at the top of the screen, everywhere else at the top of the window.
+
+Everything reachable from a button is reachable from a key. The keys
+that need no modifier belong to the player and only work while the
+player has the focus -- otherwise a bare `I` would set the In point
+while somebody is typing a name into a field.
+
+| Key | What it does |
+|---|---|
+| `Ctrl+O` | Add files |
+| `Ctrl+Backspace` | Remove what is selected |
+| `Ctrl+Shift+O` | Choose the output folder |
+| `Ctrl+R` | Start |
+| `Ctrl+Shift+R` | Dry run |
+| `Ctrl+1` `Ctrl+2` `Ctrl+3` | To that sheet |
+| `Ctrl+,` | Settings |
+
+In the player:
+
+| Key | What it does |
+|---|---|
+| `Space` | Play and pause |
+| `Left` `Right` | One frame |
+| `Shift+Left` `Shift+Right` | One second |
+| `Alt+Left` `Alt+Right` | Ten seconds |
+| `I` `O` | Set In point, set Out point |
+| `Shift+I` `Shift+O` | Jump to In point, to Out point |
+
+This is the layout the editing programs share, so nobody who edits has
+to learn it twice.
+
 ## Time axis without timecode
 
 Where a file carries no timecode, the interface measures in the background

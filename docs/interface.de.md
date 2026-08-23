@@ -133,6 +133,43 @@ echte Prozente meldet, folgt der Balken ihnen; wo einer nichts meldet,
 kriecht er langsam weiter und bleibt vor dem Ende stehen. Rückwärts geht
 er nie.
 
+## Menü und Tasten
+
+Die Menüleiste trägt, wofür im Fenster kein Platz ist und was das
+System dort erwartet: **Über das Programm**, **Einstellungen** und
+**Hilfe** mit dem Weg in dieses Handbuch. Auf dem Mac sitzt sie oben am
+Bildschirmrand, sonst oben im Fenster.
+
+Alles, was über einen Knopf geht, geht auch über eine Taste. Die Tasten
+ohne Zusatztaste gehören dem Spieler und wirken nur, solange er den
+Fokus hat -- sonst setzte ein bloßes `I` den In-Punkt, während jemand
+gerade einen Namen in ein Feld tippt.
+
+| Taste | Was sie tut |
+|---|---|
+| `Cmd+O` | Dateien hinzufügen |
+| `Cmd+Rückschritt` | Das Ausgewählte entfernen |
+| `Cmd+Umschalt+O` | Ausgabeordner wählen |
+| `Cmd+R` | Start |
+| `Cmd+Umschalt+R` | Probelauf |
+| `Cmd+1` `Cmd+2` `Cmd+3` | Auf diesen Reiter |
+| `Cmd+,` | Einstellungen |
+
+Im Spieler:
+
+| Taste | Was sie tut |
+|---|---|
+| `Leertaste` | Abspielen und anhalten |
+| `Links` `Rechts` | Ein Einzelbild |
+| `Umschalt+Links` `Umschalt+Rechts` | Eine Sekunde |
+| `Alt+Links` `Alt+Rechts` | Zehn Sekunden |
+| `I` `O` | In-Punkt setzen, Out-Punkt setzen |
+| `Umschalt+I` `Umschalt+O` | Zum In-Punkt, zum Out-Punkt springen |
+
+Unter Windows und Linux steht `Strg` statt `Cmd`. Es ist die Belegung,
+die die Schnittprogramme gemeinsam haben -- wer schneidet, muss nichts
+umlernen.
+
 ## Zeitachse ohne Timecode
 
 Trägt eine Datei keinen Timecode, misst die Oberfläche im Hintergrund, wo

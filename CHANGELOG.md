@@ -9,6 +9,64 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.2.0-beta] - 2026-08-23
+
+### Added
+
+- A menu bar, with seventeen entries. On a Mac that is not a matter of
+  taste: About, Settings and Help are expected in places the window has
+  no say over, and Qt's minimal fallback carries none of them.
+- Keys. The player had buttons for a frame back and forward, which is
+  where anybody who edits reaches for the arrows and found nothing.
+  Space plays and pauses, the arrows step a frame, with Shift a second
+  and with Alt ten, I and O set the marks and Shift+I and Shift+O jump
+  to them. They hang on the player rather than on the window, so a bare
+  letter cannot fire while somebody is typing a name into a field.
+  Everything else is on Ctrl or Command, where it cannot collide:
+  Ctrl+O adds files, Ctrl+R starts, Ctrl+Shift+R is the dry run,
+  Ctrl+1 to Ctrl+3 pick a sheet, Ctrl+, opens the settings.
+- Seventeen controls carry a name a reading program can announce. There
+  were none.
+- `VPM_CACHE` points what the program keeps between runs somewhere else.
+  The suite sets it, so a test run no longer leaves envelopes and
+  measurements in the cache of whoever started it.
+
+### Changed
+
+- The reason a run cannot start stands in the window, in full. It used
+  to be in the tooltip of the start button -- a tooltip cannot be
+  reached with the keyboard and is not read out reliably, so the most
+  important sentence in the window was the one hardest to get at.
+- On the second sheet a file that does not fit is no longer red and
+  nothing else: it now carries the same sentence the first sheet writes
+  beside it. Colour alone carries nothing to whoever cannot tell red
+  from black.
+- The second sheet asked for 1800 pixels and now asks for 743, so it
+  fits on a laptop. The recording name moved out of the "one more
+  speaker" button into a chooser beside it.
+
+### Fixed
+
+- brew asked a second time despite NONINTERACTIVE. `--yes` is the
+  switch that stops it; without it a run with nobody in front of it
+  waited for an answer that never came.
+
+### Documentation
+
+- The manual has a chapter section on the menu and the keys, in both
+  languages. There was none: a way of working the program that is
+  nowhere written down does not exist for whoever reads.
+- All five screenshots taken again, English and German. Four things
+  changed on every one of them: the menu bar, the state line at the
+  bottom, the text beside red rows on the second sheet, and the
+  shrunken "one more speaker" row.
+
+### Tests
+
+- `start_reason_test.py` held the old behaviour in place -- it checked
+  that the footer points at the tooltip, which was the defect. It now
+  checks that the footer names the reason itself.
+
 ## [2.1.0-beta] - 2026-08-23
 
 ### Added
@@ -763,6 +821,7 @@ program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.2.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.1.0-beta...v2.2.0-beta
 [2.1.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.0.0-beta...v2.1.0-beta
 [2.0.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v1.1.0-beta...v2.0.0-beta
 [1.1.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v1.0.0-beta...v1.1.0-beta
