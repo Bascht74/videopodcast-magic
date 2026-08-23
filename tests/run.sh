@@ -91,6 +91,11 @@ WORKERS=${WORKERS:-$(( CORES + 1 > 12 ? 12 : CORES + 1 ))}
 # fixture_root.py says the same thing to the Python side.
 export VPM_FIXTURES="${VPM_FIXTURES:-/tmp/vpm-fixtures-$(id -u)}"
 
+# One cache folder per run, thrown away with the rest at the end.
+RUN_TEMP_CACHE="${TMPDIR:-/tmp}/vpm_cache_$(id -u)_$$"
+mkdir -p "$RUN_TEMP_CACHE"
+export VPM_CACHE="$RUN_TEMP_CACHE"
+
 # Three fixture folders are shared and read-only. Building them here,
 # before the fan-out, keeps two tests from racing for the same files.
 if ! bash "$HERE/fixtures.sh"; then
@@ -111,8 +116,9 @@ export TMPDIR="$RUN_TEMP"
 clean_up() {
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
+    echo "cache of this run kept in $RUN_TEMP_CACHE"
   else
-    rm -rf "$RUN_TEMP"
+    rm -rf "$RUN_TEMP" "$RUN_TEMP_CACHE"
   fi
 }
 trap clean_up EXIT

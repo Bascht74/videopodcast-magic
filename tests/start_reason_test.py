@@ -98,9 +98,9 @@ def name_field():
 
 
 def footer_note():
-    """The word-wrapped label left of the start button."""
+    """The state line under the sheets, above the start button."""
     for w in win().findChildren(QtWidgets.QLabel):
-        if w.wordWrap() and w.maximumWidth() == 430:
+        if w.objectName() == "start_note":
             return w
 
 
@@ -164,11 +164,13 @@ def step():
             check("the reason stands in the footer, not only in a hint",
                   note.isVisible() and bool(note.text().strip()),
                   repr(note.text()))
-            # The footer no longer names the reason once something is
-            # chosen: it points at the tooltip, which carries the whole
-            # list. What names this reason is the red field below.
-            check("and it points at the tooltip",
-                  "tooltip" in note.text().lower(), repr(note.text()))
+            # The state line names the reason itself. It used to point
+            # at the tooltip of the start button, and that was the
+            # defect: a tooltip cannot be reached with the keyboard and
+            # is not read out reliably.
+            check("and it names the reason rather than pointing at one",
+                  "tooltip" not in note.text().lower()
+                  and len(note.text()) > 20, repr(note.text()))
             check("the field itself is marked red",
                   "border" in (field.styleSheet() or ""),
                   repr(field.styleSheet()))

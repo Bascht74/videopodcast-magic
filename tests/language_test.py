@@ -323,9 +323,9 @@ GERMAN_KEEP = set("""
 bilder dokumente filme musik schreibtisch
 """.split())          # folder names on a German system, on purpose
 NOT_GERMAN = set("""
-also ansi antialiasing api ascii backend byte codec codecs cpu eng ext
-frontend gbr html installation iso lang man marker mpeg multi normal
-popen programme sei stand std standard systems url urls xml
+also alt ansi antialiasing api ascii backend byte codec codecs cpu ctrl
+eng ext frontend gbr html installation iso lang man marker mpeg multi
+normal popen programme sei stand std standard systems url urls xml
 """.split())          # technical words a German dictionary happens to know
 
 

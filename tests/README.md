@@ -56,7 +56,8 @@ force` rebuilds regardless.
 | `VPM_MEDIA` | folder with a project to open (default: `/tmp/interview`, which `fixtures.sh` builds) |
 | `VPM_SHOTS` | where the window screenshots go (default: `tests/shots/`) |
 | `WORKERS` | how many tests at once (default: processors + 1, at most 12) |
-| `KEEP_TEMP` | keep the run's temporary folder |
+| `KEEP_TEMP` | keep the run's temporary folder and its cache |
+| `VPM_CACHE` | where the program keeps what it computes between runs. `run.sh` points it at one folder per run and throws it away at the end, so a suite leaves nothing in the cache of whoever started it |
 | `VPM_NO_UPDATE_CHECK` | do not look whether a newer version is out (`run.sh` sets it: a suite has no business on the network, and none swapping the file it is testing) |
 | `VPM_INSTALL_TOOLS` | answer the ffmpeg question with yes before it is asked, so a run with nobody in front of it installs it over the package manager instead of stopping |
 

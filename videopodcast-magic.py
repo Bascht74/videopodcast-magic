@@ -267,7 +267,10 @@ def package_manager_command():
     """
     if sys.platform == "darwin":
         if shutil.which("brew"):
-            return ("brew", "install", "ffmpeg")
+            # --yes is brew's own switch. NONINTERACTIVE alone no
+            # longer covers the confirmation newer versions ask
+            # before they install anything.
+            return ("brew", "install", "--yes", "ffmpeg")
         return ()
     if sys.platform == "win32":
         return ()
@@ -344,15 +347,7 @@ def open_ffmpeg_page():
     answer = input(T('  Open the page? [Y/n] ')).strip().lower()
     if answer and not answer.startswith(("y", "j")):
         return False
-    # os.startfile is the Windows way and exists nowhere else, which is
-    # exactly where this branch runs. It hands the address to whatever
-    # the machine opens addresses with.
-    page = "https://ffmpeg.org/download.html"
-    try:
-        os.startfile(page)
-    except Exception as e:
-        print(T('  The page could not be opened: %s') % e)
-        print("  %s" % page)
+    open_page("https://ffmpeg.org/download.html")
     return False
 
 
@@ -12967,13 +12962,19 @@ def decode_audio_long(path, rate, duration, text, stream=None, report=None):
 
 def cache_folder(sub=""):
     """Return the folder the program may keep its intermediate state in."""
-    if sys.platform == "darwin":
-        base = os.path.expanduser("~/Library/Caches")
-    elif os.name == "nt":
-        base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
-    else:
-        base = (os.environ.get("XDG_CACHE_HOME")
-                 or os.path.expanduser("~/.cache"))
+    # VPM_CACHE points the whole thing somewhere else. The test suite
+    # sets it: a test run has no business leaving envelopes, preflight
+    # measurements and a compiled recogniser in the cache of whoever
+    # happens to run it.
+    base = os.environ.get("VPM_CACHE") or ""
+    if not base:
+        if sys.platform == "darwin":
+            base = os.path.expanduser("~/Library/Caches")
+        elif os.name == "nt":
+            base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
+        else:
+            base = (os.environ.get("XDG_CACHE_HOME")
+                     or os.path.expanduser("~/.cache"))
     folder = os.path.join(base, "videopodcast-magic", sub)
     try:
         os.makedirs(folder, exist_ok=True)
@@ -14085,13 +14086,18 @@ def version_key(text):
     return (tuple(numbers), 1 if not pre else 0, pre)
 
 
-def newer_release():
+def newer_release(asked=False):
     """(tag, page) of a release newer than this one, or (), ().
 
     A pre-release is never the answer: GitHub only calls one release
     the latest, and it is never one put out for trying.
+
+    *asked* is a direct question from the menu. The remembered no was
+    about looking unasked and does not stand against it;
+    VPM_NO_UPDATE_CHECK does, because that one is set by whoever runs
+    the machine rather than by whoever clicks.
     """
-    if UPDATE_OFF or not update_wanted():
+    if UPDATE_OFF or not (asked or update_wanted()):
         return "", ""
     try:
         import urllib.request
@@ -19575,6 +19581,32 @@ def gui():
             widget.setStyleSheet(";".join(style))
         return widget
 
+    def font_smaller(widget, less=1):
+        """Set a widget's font that many points below the application's.
+
+        Through the font and not through a style sheet: a fixed size in
+        a style sheet ignores whatever the system font is set to, and
+        then reads as tiny on one machine and as normal on the next.
+        """
+        f = QtWidgets.QApplication.font()
+        if f.pointSizeF() > 0:
+            f.setPointSizeF(max(6.0, f.pointSizeF() - less))
+        else:
+            f.setPixelSize(max(8, f.pixelSize() - less))
+        widget.setFont(f)
+        return widget
+
+    def speaks_as(widget, what, row_name=""):
+        """Give a field a name a screen reader can say.
+
+        A field in a table cell is read out as its kind and nothing
+        else -- "combo box", "edit field". Which column and which row
+        it sits in is on the screen only, so it is said here as well.
+        """
+        widget.setAccessibleName("%s -- %s" % (what, row_name)
+                                 if row_name else what)
+        return widget
+
     def short_name(widget, text, room):
         """Shorten a file name to the room there is, from the middle.
 
@@ -20261,13 +20293,10 @@ def gui():
             lines.append(T('Rows marked red show where the problem is; a '
                            'tick on the tab means everything is there.'))
             start_run_env_curve.setToolTip("\n".join(lines))
-            # And the same in view: a tooltip is only read by somebody who
-            # already suspects there is one.
-            # Two states, and no counter. Before anything is chosen the
-            # footer says what to do; after that it points at the
-            # tooltip, which carries the full list anyway. A count of
-            # further points beside a finished sentence reads like a
-            # punchline instead of a hint.
+            # And the same in the window itself, in full. A tooltip
+            # cannot be reached with the keyboard and is not read out
+            # reliably, so the state line carries the reason rather
+            # than a pointer at where the reason is kept.
             if note is not None:
                 # Nothing opened yet is where everybody starts, not a
                 # fault: quiet type. The warning colour is kept for the
@@ -20276,9 +20305,9 @@ def gui():
                     note.setText(T('No files or project opened yet.'))
                     note.setStyleSheet("color: %s;" % COLOURS["quiet"])
                 else:
-                    note.setText(T('Cannot start yet -- the details are '
-                                   'in the tooltip of the Start '
-                                   'button.'))
+                    note.setText(T('Cannot start yet: %s') % "   ".join(
+                        "%s -- %s" % (tab_named(on_tab.get(k)), pending[k])
+                        for k in sorted(pending)))
                     note.setStyleSheet(
                         "color: %s;" % COLOURS["warning"])
                 note.setVisible(True)
@@ -20792,10 +20821,11 @@ def gui():
     # project, so the two stand side by side. Once files are in the list the
     # way is decided -- a project would overwrite them. The other direction
     # works: files can be added to an opened project.
-    _k = QtWidgets.QPushButton(T('Add files ...'))
-    _k.clicked.connect(add_files)
-    bar.addWidget(hint(_k, T('Order does not matter. For a multi-part '
-                             'recording the first block is enough.')))
+    add_button = QtWidgets.QPushButton(T('Add files ...'))
+    add_button.clicked.connect(add_files)
+    bar.addWidget(hint(add_button,
+                       T('Order does not matter. For a multi-part '
+                         'recording the first block is enough.')))
     remove_button = QtWidgets.QPushButton(T('Remove'))
     remove_button.clicked.connect(remove)
     remove_button.setEnabled(False)
@@ -20840,10 +20870,10 @@ def gui():
 
     folder_bar = QtWidgets.QHBoxLayout()
     place_position.addLayout(folder_bar)
-    _k = QtWidgets.QPushButton(T('Output folder ...'))
-    _k.clicked.connect(lambda: folder_pick())
+    folder_button = QtWidgets.QPushButton(T('Output folder ...'))
+    folder_button.clicked.connect(lambda: folder_pick())
     folder_bar.addWidget(hint(
-        _k, T('If empty: next to each video file.')))
+        folder_button, T('If empty: next to each video file.')))
     folder_label = label(T('next to each video file'), COLOURS["quiet"])
     folder_bar.addWidget(folder_label)
     reset = QtWidgets.QPushButton(T('reset'))
@@ -22067,6 +22097,25 @@ def gui():
                         item_ = table.item(row, column)
                         if item_ is not None:
                             item_.setForeground(red if odd else black)
+                    # Colour carries nothing to anybody who cannot see
+                    # it, so the first cell says it in words too -- the
+                    # same words the first sheet uses. The plain
+                    # caption is kept on the cell, or the second pass
+                    # would write the sentence into the sentence.
+                    head = table.item(row, 0)
+                    if head is None:
+                        continue
+                    plain = head.data(Qt.UserRole)
+                    if plain is None:
+                        plain = head.text()
+                        head.setData(Qt.UserRole, plain)
+                    said = plain
+                    if odd:
+                        said = (T('%s   --   does not fit the other files')
+                                % plain)
+                    head.setText(said)
+                    # The column can be narrower than the sentence.
+                    head.setToolTip(said if odd else "")
             except RuntimeError:
                 pass
 
@@ -22583,21 +22632,27 @@ def gui():
             for i, (label, parts) in enumerate(segments):
                 table.insertRow(i)
                 spoken = sum(b - a for a, b in parts)
-                cell(table, i, 0, T('heard in %s -- %s')
-                     % (os.path.basename(source), as_hms(spoken)))
+                voice_caption = (T('heard in %s -- %s')
+                                 % (os.path.basename(source),
+                                    as_hms(spoken)))
+                cell(table, i, 0, voice_caption)
                 name_value = Value(called.get(label)
                                    or T('Speaker %d') % (i + 1))
                 table.setCellWidget(
-                    i, 1, field_bind(QtWidgets.QLineEdit(), name_value))
+                    i, 1, speaks_as(field_bind(QtWidgets.QLineEdit(),
+                                               name_value),
+                                    T('Speaker name'), voice_caption))
                 camera_value = Value(preselected_camera(
                     remembered.get("voice:" + label), targets,
                     name_value.get(), videos))
                 box = QtWidgets.QComboBox()
+                speaks_as(box, T('belongs to'), voice_caption)
                 fill_choices(box, targets, camera_value.get())
                 box.currentIndexChanged.connect(
                     lambda *_, b=box, v=camera_value: v.set(b.currentData()))
                 table.setCellWidget(i, 2, box)
                 listen = QtWidgets.QPushButton(T('Listen'))
+                speaks_as(listen, T('Listen'), voice_caption)
                 hint(listen, T('Plays the longest stretch this voice '
                                'speaks, out of the recording itself.'))
                 listen.clicked.connect(
@@ -22626,6 +22681,9 @@ def gui():
             if len(audio_file_list) == 1:
                 only = audio_file_list[0]
                 button = QtWidgets.QPushButton()
+                # Smaller first, then the name: the elision is measured
+                # in the font the button really draws with.
+                font_smaller(button, 2)
                 button.setText(T('One more speaker in %s')
                                % short_name(button, os.path.basename(only),
                                             NAME_ROOM))
@@ -22633,6 +22691,7 @@ def gui():
                 more_row.addWidget(button)
             else:
                 which = QtWidgets.QComboBox()
+                font_smaller(which, 2)
                 for path in audio_file_list:
                     which.addItem(os.path.basename(path), path)
                 # Without this the box would be as wide as the longest
@@ -22643,6 +22702,7 @@ def gui():
                 which.setMinimumContentsLength(12)
                 which.setMaximumWidth(NAME_ROOM)
                 button = QtWidgets.QPushButton(T('One more speaker in'))
+                font_smaller(button, 2)
                 button.clicked.connect(
                     lambda *_, b=which: voice_add(b.currentData()))
                 more_row.addWidget(button)
@@ -22724,9 +22784,10 @@ def gui():
         targets = ([os.path.basename(b) for b in videos]
                  + [MIX_ONLY, IGNORE_AUDIO])
         head = (T('Camera') if state["camera_audio"] else T('Audio recording'))
+        belongs_head = (T('Camera audio') if state["camera_audio"]
+                        else T('belongs to'))
         table_audio = table_build([head, T('Speaker name'),
-                                 T('Camera audio') if state["camera_audio"]
-                                 else T('belongs to'), "Timecode"])
+                                 belongs_head, "Timecode"])
         column_layout.addWidget(table_audio, 1)
         audio_file_list = []
         # Without timecode a position cannot be converted onto the common axis.
@@ -22767,6 +22828,7 @@ def gui():
             old_name, old_camera = remembered.get("audio:" + first, (None, None))
             name_value = Value(old_name or stem)
             name_field = field_bind(QtWidgets.QLineEdit(), name_value)
+            speaks_as(name_field, T('Speaker name'), caption)
             table_audio.setCellWidget(i, 1, name_field)
             # Without multitrack there is nothing to distribute: the same audio
             # goes into every camera. That is what it says, rather than a
@@ -22795,6 +22857,7 @@ def gui():
                             else "")))
             if True:
                 box = QtWidgets.QComboBox()
+                speaks_as(box, belongs_head, caption)
                 fill_choices(box, own_targets, camera_value.get())
 
                 def chosen(_i=0, b=box, value=camera_value, f=name_field):
@@ -22859,6 +22922,7 @@ def gui():
             clip_kind = clip_kind_values.setdefault(
                 b, Value(remembered.get("kind:" + b) or TYPE_CONTENT))
             clip_kind_box = QtWidgets.QComboBox()
+            speaks_as(clip_kind_box, T('Kind'), short)
             fill_choices(clip_kind_box, CLIP_TYPES, clip_kind.get())
             clip_kind_box.currentIndexChanged.connect(
                 lambda *_, b=clip_kind_box, value=clip_kind: value.set(b.currentData()))
@@ -22904,6 +22968,7 @@ def gui():
             suggestions[b] = suggestion
             name_value = Value(remembered.get("video:" + b) or suggestion)
             name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
+            speaks_as(name_entry, T('new file name'), short)
             table_video.setCellWidget(row, 2, name_entry)
             who = (", ".join(v.get().strip() or "?" for v in own)
                    if own else T('the mix of all tracks'))
@@ -22912,6 +22977,7 @@ def gui():
             own_row = QtWidgets.QHBoxLayout(own_flag)
             own_row.setContentsMargins(0, 0, 0, 0)
             checkbox = checkbox_bind(QtWidgets.QCheckBox(T('as a track')), own_audio)
+            speaks_as(checkbox, T('own audio'), short)
             hint(checkbox, T('This camera contributes its audio as its own '
                              'track -- it appears at the top of the table.'))
             checkbox.toggled.connect(
@@ -24346,15 +24412,6 @@ def gui():
     total_clock.timeout.connect(total_show)
     total_clock.start(200)
     foot.addStretch(1)
-    # Why the start button is grey, in words and in view: a tooltip is read
-    # only by somebody who already guesses there is one. Just the first
-    # reason -- the rest is in the tooltip, and each tab carries its tick.
-    start_note = label("", COLOURS["quiet"])
-    start_note.setWordWrap(True)
-    start_note.setMaximumWidth(430)
-    start_note.setVisible(False)
-    late["start_note"] = start_note
-    foot.addWidget(start_note)
     # Only the Resolve part: after a run, or where a handover file from earlier
     # is already in the output folder. Then nothing has to be recomputed -- one
     # looks at the result and creates the project after.
@@ -24404,6 +24461,20 @@ def gui():
     settings_button.clicked.connect(lambda: settings_open())
     foot.addSpacing(18)
     foot.addWidget(settings_button)
+
+    # The bottom row of the window, and the last thing added to it: why
+    # the start button is grey, in full and in view. A tooltip is out of
+    # reach for the keyboard and is not read out reliably, so it cannot
+    # be the only place the reason stands.
+    start_note = label("", COLOURS["quiet"])
+    start_note.setWordWrap(True)
+    start_note.setVisible(False)
+    # Named so it can be found: the test looks for this line, and a
+    # reading program announces it by name rather than as "label".
+    start_note.setObjectName("start_note")
+    start_note.setAccessibleName(T('Why the run cannot start'))
+    late["start_note"] = start_note
+    vertical.addWidget(start_note)
 
     # ------------------------------------------------------------------
     # Project file
@@ -25034,6 +25105,92 @@ def gui():
         QtCore.QTimer.singleShot(200, presets_load)
     # The later sheets exist from the start. Time window, player and Resolve
     # are needed on the simple path too.
+    # ------------------------------------------------------- The menu
+    # A Mac program without a menu bar is not a Mac program: About,
+    # Settings and Help are expected in places the window itself has no
+    # say over. QLayout.setMenuBar hands it to the system menu bar on a
+    # Mac and puts it at the top of the window everywhere else.
+    def act(where, text, doing, keys="", inside=None):
+        """One menu entry, with its key.
+
+        *inside* scopes the key to a widget: the player keys are bare
+        ones -- Space, I, O, the arrows -- and a bare key must not fire
+        while somebody is typing a name into a field. Attached to the
+        player, they work when the player has the focus and nowhere
+        else, and the menu still shows them.
+        """
+        action = QtGui.QAction(text, window)
+        action.triggered.connect(lambda _=False: doing())
+        if keys:
+            action.setShortcut(QtGui.QKeySequence(keys))
+            if inside is not None:
+                action.setShortcutContext(
+                    QtCore.Qt.WidgetWithChildrenShortcut)
+                inside.addAction(action)
+        where.addAction(action)
+        return action
+
+    menu = QtWidgets.QMenuBar()
+    vertical.setMenuBar(menu)
+
+    file_menu = menu.addMenu(T('&File'))
+    act(file_menu, T('Add files ...'), add_files, "Ctrl+O")
+    act(file_menu, T('Remove'), remove, "Ctrl+Backspace")
+    file_menu.addSeparator()
+    act(file_menu, T('Output folder ...'), folder_pick, "Ctrl+Shift+O")
+    file_menu.addSeparator()
+    act(file_menu, T('Start'), lambda: start_run.click(), "Ctrl+R")
+    act(file_menu, T('Dry run (writes nothing)'),
+        lambda: preview_button.click(), "Ctrl+Shift+R")
+    file_menu.addSeparator()
+    # Qt moves anything it recognises as settings into the application
+    # menu on a Mac, which is where people look for it.
+    settings_action = act(file_menu, T('Settings ...'),
+                          lambda: settings_open(), "Ctrl+,")
+    settings_action.setMenuRole(QtGui.QAction.PreferencesRole)
+
+    view_menu = menu.addMenu(T('&View'))
+    for number in range(3):
+        act(view_menu, T('%d. sheet') % (number + 1),
+            lambda i=number: tabs.setCurrentIndex(i),
+            "Ctrl+%d" % (number + 1))
+
+    play_menu = menu.addMenu(T('&Player'))
+    act(play_menu, T('Play and pause'), player.toggle, "Space", player)
+    play_menu.addSeparator()
+    for text, keys, seconds in (
+            (T('One frame back'), "Left", -1.0 / 30.0),
+            (T('One frame forward'), "Right", 1.0 / 30.0),
+            (T('One second back'), "Shift+Left", -1.0),
+            (T('One second forward'), "Shift+Right", 1.0),
+            (T('Ten seconds back'), "Alt+Left", -10.0),
+            (T('Ten seconds forward'), "Alt+Right", 10.0)):
+        act(play_menu, text, lambda s=seconds: player.nudge(s), keys,
+            player)
+    play_menu.addSeparator()
+    act(play_menu, T('Mark In'), lambda: limit_set(start_var), "I",
+        player)
+    act(play_menu, T('Mark Out'), lambda: limit_set(end_var), "O",
+        player)
+    act(play_menu, T('to In point'),
+        lambda: to_limit(start_var.get(), "In point"), "Shift+I", player)
+    act(play_menu, T('to Out point'),
+        lambda: to_limit(end_var.get(), "Out point"), "Shift+O", player)
+
+    help_menu = menu.addMenu(T('&Help'))
+    act(help_menu, T('The manual'),
+        lambda: open_page("https://github.com/Bascht74/"
+                          "videopodcast-magic#readme"))
+    act(help_menu, T('What changed in this version'),
+        lambda: open_page("https://github.com/Bascht74/"
+                          "videopodcast-magic/blob/main/CHANGELOG.md"))
+    help_menu.addSeparator()
+    act(help_menu, T('Look for a newer version now'),
+        lambda: update_offer(window, asked=True))
+    about = act(help_menu, T('About Video Podcast Magic'),
+                lambda: about_show(window))
+    about.setMenuRole(QtGui.QAction.AboutRole)
+
     mode_toggled()
     window.show()
     # A moment after the window is up, not before: the first thing
@@ -25044,16 +25201,71 @@ def gui():
     return app.exec()
 
 
-def update_offer(window):
+def open_page(url):
+    """Hand an address to whatever the system opens addresses with.
+
+    Every desktop has its own way and none of them is Python's: the
+    Windows shell, the open command on a Mac, xdg-open elsewhere.
+    """
+    try:
+        if os.name == "nt":
+            os.startfile(url)
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", url])
+        else:
+            subprocess.Popen(["xdg-open", url])
+        return True
+    except Exception as e:
+        # Silence would leave somebody waiting for a page that is not
+        # coming, so the address goes out to be opened by hand.
+        print(T('  The page could not be opened: %s') % e)
+        print("  %s" % url)
+        return False
+
+
+def about_show(window):
+    """Show what this program is, which version, and under what terms."""
+    QtWidgets = _qt_widgets()
+    box = QtWidgets.QMessageBox(window)
+    box.setWindowTitle(T('About Video Podcast Magic'))
+    box.setText("Video Podcast Magic %s" % VERSION)
+    box.setInformativeText(
+        T('Raw material from a video podcast becomes an edited '
+          'episode: the good audio out of the video files, the '
+          'cameras on one time axis, a first cut by speaker, and a '
+          'DaVinci Resolve project.')
+        + "\n\n"
+        + T('Python %s on %s') % (platform.python_version(),
+                                  platform.system())
+        + "\n\n"
+        + T('MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed '
+            'over as it is, without warranty of any kind.'))
+    box.exec()
+
+
+def update_offer(window, asked=False):
     """Ask about looking for updates, look, and offer the new one.
 
     Everything here happens in the window: the command line is left
     alone on purpose, because a run started from a script must not
     stop to ask anything.
+
+    *asked* is somebody choosing to look from the menu. Then there is
+    an answer either way -- silence after a click reads like a program
+    that did nothing.
     """
     QtWidgets = _qt_widgets()
-    tag, page = newer_release()
+    tag, page = newer_release(asked)
     if not tag:
+        if asked:
+            # Switched off means nothing was looked at, and calling
+            # this the newest version would then be a guess.
+            said = (T('The check for new versions is switched off here.')
+                    if UPDATE_OFF
+                    else T('No newer version found. This one is %s.')
+                    % VERSION)
+            QtWidgets.QMessageBox.information(
+                window, T('Look for a newer version now'), said)
         return
     box = QtWidgets.QMessageBox(window)
     box.setWindowTitle(T('A newer version is out'))
@@ -25127,6 +25339,55 @@ CATALOGUE["de"] = {
         'Der Neustart hat nicht geklappt: %s',
     'Start it by hand: %s %s':
         'Von Hand starten: %s %s',
+    'No newer version found. This one is %s.':
+        'Keine neuere Fassung gefunden. Hier läuft %s.',
+    'The check for new versions is switched off here.':
+        'Die Suche nach neuen Fassungen ist hier abgeschaltet.',
+    'About Video Podcast Magic':
+        'Über Video Podcast Magic',
+    'Raw material from a video podcast becomes an edited episode: the '
+    'good audio out of the video files, the cameras on one time axis, '
+    'a first cut by speaker, and a DaVinci Resolve project.':
+        'Aus dem Rohmaterial eines Video-Podcasts wird eine '
+        'geschnittene Folge: der gute Ton aus den Videodateien, die '
+        'Kameras auf einer Zeitachse, ein erster Schnitt nach '
+        'Sprechern und ein DaVinci-Resolve-Projekt.',
+    'Python %s on %s':
+        'Python %s auf %s',
+    'MIT licence, Copyright (c) 2026 Sebastian Lotz. Handed over as it '
+    'is, without warranty of any kind.':
+        'MIT-Lizenz, Copyright (c) 2026 Sebastian Lotz. Überlassen wie '
+        'sie ist, ohne Gewähr jeder Art.',
+    '&File':
+        '&Datei',
+    '&View':
+        '&Ansicht',
+    '&Player':
+        '&Wiedergabe',
+    '&Help':
+        '&Hilfe',
+    '%d. sheet':
+        '%d. Reiter',
+    'Play and pause':
+        'Abspielen und anhalten',
+    'One frame back':
+        'Ein Bild zurück',
+    'One frame forward':
+        'Ein Bild vor',
+    'One second back':
+        'Eine Sekunde zurück',
+    'One second forward':
+        'Eine Sekunde vor',
+    'Ten seconds back':
+        'Zehn Sekunden zurück',
+    'Ten seconds forward':
+        'Zehn Sekunden vor',
+    'The manual':
+        'Das Handbuch',
+    'What changed in this version':
+        'Was sich in dieser Fassung geändert hat',
+    'Look for a newer version now':
+        'Jetzt nach einer neueren Fassung sehen',
     '  No certificate bundle found -- an HTTPS download may fail.':
         '  Kein Zertifikatsbündel gefunden -- ein Download über HTTPS '
         'kann fehlschlagen.',
@@ -26632,9 +26893,10 @@ CATALOGUE["de"] = {
         'Kameraton, noch %d ...',
     'Camera cut -- preview  (length %s)':
         'Kameraschnitt -- Vorschau  (Länge %s)',
-    'Cannot start yet -- the details are in the tooltip of the '
-    'Start button.':
-        'Start noch nicht möglich, Details im Button-Tooltip',
+    'Why the run cannot start':
+        'Warum der Lauf nicht starten kann',
+    'Cannot start yet: %s':
+        'Start noch nicht möglich: %s',
     'Cannot remember here':
         'Merken geht hier nicht',
     'Change rejected: %s':
