@@ -540,7 +540,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.3.0-beta"
+VERSION = "2.4.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -14141,10 +14141,15 @@ def version_key(text):
 
 
 def newer_release(asked=False):
-    """(tag, page) of a release newer than this one, or (), ().
+    """(tag, page, what changed) of a newer release, or "", "", "".
 
     A pre-release is never the answer: GitHub only calls one release
     the latest, and it is never one put out for trying.
+
+    The third piece is the release text itself. An address alone asks
+    somebody to open a browser to find out what they are about to
+    install, and most will not: they will click yes without knowing.
+    It comes down with the same answer, so it costs nothing.
 
     *asked* is a direct question from the menu. The remembered no was
     about looking unasked and does not stand against it;
@@ -14152,18 +14157,19 @@ def newer_release(asked=False):
     the machine rather than by whoever clicks.
     """
     if UPDATE_OFF or not (asked or update_wanted()):
-        return "", ""
+        return "", "", ""
     try:
         import urllib.request
         with urllib.request.urlopen(RELEASES, context=https_context(),
                                     timeout=20) as answer:
             found = json.load(answer)
     except Exception:
-        return "", ""          # no network, no answer, no complaint
+        return "", "", ""      # no network, no answer, no complaint
     tag = str(found.get("tag_name") or "")
     if not tag or version_key(tag) <= version_key(VERSION):
-        return "", ""
-    return tag, str(found.get("html_url") or "")
+        return "", "", ""
+    return (tag, str(found.get("html_url") or ""),
+            str(found.get("body") or "").strip())
 
 
 def fetch_new_self(tag):
@@ -16606,10 +16612,14 @@ def build_argument_parser():
                          % SPEAKER_SETUP_MB)
     ap.add_argument("--no-update-check", dest="update_check",
                     action="store_false", default=True,
-                    help="do not look whether a newer version is out. "
-                         "The window looks once at its start, asks "
-                         "before it fetches anything, and remembers a "
-                         "no given here. (default: it looks)")
+                    help="stop looking whether a newer version is out. "
+                         "The answer is remembered, so it is given once "
+                         "and not again -- and --update-check takes it "
+                         "back. (default: it looks)")
+    ap.add_argument("--update-check", dest="update_check_on",
+                    action="store_true", default=False,
+                    help="look again, after --no-update-check was given "
+                         "at some point. (default: nothing to take back)")
     ap.add_argument("--speakers-from", dest="speakers_from", default=None,
                     metavar="FILE",
                     help="take a finished separation out of a project or "
@@ -17344,6 +17354,14 @@ def main():
         i = rest.index("--lang")
         del rest[i:i + 2]
     rest = [a for a in rest if not a.startswith("--lang=")]
+    # Both settle a question rather than ask for work, so neither turns
+    # a start into a run. The way back matters as much as the way out:
+    # a no that cannot be taken back is a trap, and on 23.8.2026 it
+    # caught Sebastian -- the switch had been given once in passing,
+    # the program never looked again, and nothing anywhere said why.
+    if "--update-check" in rest:
+        set_update_wanted(True)
+        rest = [a for a in rest if a != "--update-check"]
     if "--no-update-check" in rest:
         set_update_wanted(False)
         rest = [a for a in rest if a != "--no-update-check"]
@@ -25673,7 +25691,7 @@ def update_offer(window, asked=False):
     that did nothing.
     """
     QtWidgets = _qt_widgets()
-    tag, page = newer_release(asked)
+    tag, page, changed = newer_release(asked)
     if not tag:
         if asked:
             # Switched off means nothing was looked at, and calling
@@ -25685,19 +25703,70 @@ def update_offer(window, asked=False):
             QtWidgets.QMessageBox.information(
                 window, T('Look for a newer version now'), said)
         return
-    box = QtWidgets.QMessageBox(window)
+    # A dialog of its own rather than a QMessageBox: the box hides what
+    # changed behind a "Show Details" button of its own making, which
+    # it does not translate, and gives it four lines to be read in.
+    # What somebody is about to install is not a detail.
+    from PySide6 import QtCore
+    box = QtWidgets.QDialog(window)
     box.setWindowTitle(T('A newer version is out'))
-    box.setText(T('%s is out. This is %s.') % (tag, VERSION))
-    box.setInformativeText(
-        T('Fetch it and start again? The run then begins from the new '
-          'version. The one running now stays beside it as '
-          'videopodcast-magic.py.old.\n\nWhat changed: %s') % page)
-    later = box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
-    now = box.addButton(T('Fetch and start again'),
-                        QtWidgets.QMessageBox.AcceptRole)
-    box.setDefaultButton(now)
-    box.exec()
-    if box.clickedButton() is later:
+    box.resize(680, 560)
+    rows = QtWidgets.QVBoxLayout(box)
+
+    head = QtWidgets.QLabel(T('%s is out. This is %s.') % (tag, VERSION))
+    font = head.font()
+    font.setBold(True)
+    head.setFont(font)
+    rows.addWidget(head)
+
+    said = QtWidgets.QLabel(
+        T('Update? The run then begins from the new version. The one '
+          'running now stays beside it as videopodcast-magic.py.old.'))
+    said.setWordWrap(True)
+    rows.addWidget(said)
+
+    if changed:
+        rows.addWidget(QtWidgets.QLabel(T('What changed in %s:') % tag))
+        story = QtWidgets.QPlainTextEdit(changed)
+        story.setReadOnly(True)
+        # The bar stands there whether it is needed or not: a text that
+        # scrolls without one looks like a text that ends where the
+        # frame does.
+        story.setVerticalScrollBarPolicy(
+            QtCore.Qt.ScrollBarAlwaysOn)
+        story.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
+        story.setAccessibleName(T('What changed in %s:') % tag)
+        rows.addWidget(story, 1)
+    if page:
+        where = QtWidgets.QLabel(page)
+        where.setStyleSheet("color: %s;" % COLOURS["quiet"])
+        where.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        rows.addWidget(where)
+
+    quiet = QtWidgets.QCheckBox(T('Do not ask again'))
+    quiet.setToolTip(T('The program then stops looking by itself. Help '
+                       '> Look for a newer version now still asks, and '
+                       '--update-check on the command line brings the '
+                       'question back.'))
+    rows.addWidget(quiet)
+
+    feet = QtWidgets.QHBoxLayout()
+    rows.addLayout(feet)
+    feet.addStretch(1)
+    later = QtWidgets.QPushButton(T('Later'))
+    later.clicked.connect(box.reject)
+    feet.addWidget(later)
+    now = QtWidgets.QPushButton(T('Update'))
+    now.setDefault(True)
+    now.clicked.connect(box.accept)
+    feet.addWidget(now)
+
+    answered = box.exec()
+    if quiet.isChecked():
+        # Remembered whichever button was pressed: somebody who ticks
+        # this and then updates still means it for the next time.
+        set_update_wanted(False)
+    if answered != QtWidgets.QDialog.Accepted:
         return
     text, trouble = fetch_new_self(tag)
     if not text:
@@ -25733,16 +25802,25 @@ CATALOGUE["de"] = {
         'Es gibt eine neuere Fassung',
     '%s is out. This is %s.':
         '%s ist da. Hier läuft %s.',
-    'Fetch it and start again? The run then begins from the new '
-    'version. The one running now stays beside it as '
-    'videopodcast-magic.py.old.\n\nWhat changed: %s':
-        'Holen und neu starten? Danach läuft die neue Fassung. Die '
-        'jetzige bleibt als videopodcast-magic.py.old daneben '
-        'liegen.\n\nWas sich geändert hat: %s',
+    'Update? The run then begins from the new version. The one '
+    'running now stays beside it as videopodcast-magic.py.old.':
+        'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
+        'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
+    'What changed in %s:':
+        'Was sich in %s geändert hat:',
+    'Do not ask again':
+        'Nicht mehr nachfragen',
+    'The program then stops looking by itself. Help > Look for a newer '
+    'version now still asks, and --update-check on the command line '
+    'brings the question back.':
+        'Das Programm sieht dann nicht mehr von selbst nach. Über '
+        'Hilfe > Jetzt nach einer neueren Fassung sehen geht es '
+        'weiterhin, und --update-check auf der Kommandozeile holt die '
+        'Frage zurück.',
+    'Update':
+        'Aktualisieren',
     'Later':
         'Später',
-    'Fetch and start again':
-        'Holen und neu starten',
     'The new version could not be fetched: %s':
         'Die neue Fassung ließ sich nicht holen: %s',
     'The new version is not readable text.':

@@ -162,6 +162,42 @@ In the player:
 This is the layout the editing programs share, so nobody who edits has
 to learn it twice.
 
+## Keeping itself up to date
+
+A moment after the window is up -- not at the start, and never during a
+run -- the program asks github.com whether a newer version is out. That
+is one question for a version number, and nothing is sent.
+
+Where there is one, a window names it and the version running here.
+Behind **Show Details** stands what changed in the new version, in its
+own words, and the address underneath. Two buttons:
+
+- **Later** changes nothing.
+- **Update** fetches the new version, puts it in place of the file and
+  starts the program again.
+
+What comes down is read before it is used: it has to be readable text,
+it has to look like this program, and it has to compile. Where it is
+not, the file that works stays where it is and the window says what was
+wrong.
+
+The version that was running stays beside the new one as
+`videopodcast-magic.py.old`. Where the new one turns out wrong, that
+file goes back under its old name; no network is needed for it.
+
+The tick **Do not ask again** stops the program from looking by itself.
+**Help > Look for a newer version now** still asks whenever it is
+chosen, and `--update-check` on the command line brings the unasked
+look back.
+
+The command line never asks. A run started from a script does not look
+and is not stopped by a question; `--no-update-check` there sets the
+same no as the tick, and `--update-check` takes it back.
+
+`VPM_NO_UPDATE_CHECK` in the environment switches the whole thing off,
+the menu entry with it -- it then says so instead of looking. That one
+is for whoever runs the machine.
+
 ## Time axis without timecode
 
 Where a file carries no timecode, the interface measures in the background

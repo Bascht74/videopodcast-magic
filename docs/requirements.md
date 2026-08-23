@@ -18,6 +18,10 @@ while it does:
 * The environment the speaker separation runs in, about 218 MB, the
   first time a separation is asked for.
 * The model for the separation, about 33 MB, right after it.
+* The version number of the newest version, from github.com, a moment
+  after the window is up. Nothing is sent, and nothing is fetched
+  unasked; [The interface](interface.md#keeping-itself-up-to-date)
+  says what happens then.
 
 **The model.** Telling voices apart needs a trained model. The program
 fetches it from its own repository into the folder `models/` beside

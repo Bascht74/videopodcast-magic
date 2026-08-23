@@ -18,6 +18,10 @@ dabei, was es tut:
 * Die Umgebung, in der die Sprechertrennung läuft, etwa 218 MB, beim
   ersten Trennen.
 * Das Modell für die Trennung, etwa 33 MB, gleich danach.
+* Die Nummer der neuesten Fassung, von github.com, kurz nachdem das
+  Fenster steht. Gesendet wird nichts, ungefragt geholt auch nichts;
+  [Die Oberfläche](interface.de.md#sich-selbst-aktuell-halten) sagt,
+  was dann kommt.
 
 **Zum Modell.** Stimmen auseinanderzuhalten braucht ein trainiertes
 Modell. Das Programm holt es aus seinem eigenen Repository in den

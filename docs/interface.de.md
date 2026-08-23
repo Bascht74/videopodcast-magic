@@ -170,6 +170,43 @@ Unter Windows und Linux steht `Strg` statt `Cmd`. Es ist die Belegung,
 die die Schnittprogramme gemeinsam haben -- wer schneidet, muss nichts
 umlernen.
 
+## Sich selbst aktuell halten
+
+Kurz nachdem das Fenster steht -- nicht beim Start und nie während eines
+Laufs -- fragt das Programm github.com, ob es eine neuere Fassung gibt.
+Das ist eine Frage nach einer Nummer, gesendet wird nichts.
+
+Gibt es eine, nennt ein Fenster sie und die Fassung, die hier läuft.
+Hinter **Details einblenden** steht, was sich in der neuen Fassung
+geändert hat, in ihren eigenen Worten, und darunter die Adresse. Zwei
+Knöpfe:
+
+- **Später** ändert nichts.
+- **Aktualisieren** holt die neue Fassung, setzt sie an die Stelle der
+  Datei und startet das Programm neu.
+
+Was herunterkommt, wird gelesen, bevor es benutzt wird: es muss lesbarer
+Text sein, es muss wie dieses Programm aussehen, und es muss sich
+übersetzen lassen. Ist es das nicht, bleibt die Datei liegen, die
+funktioniert, und das Fenster sagt, was nicht stimmte.
+
+Die Fassung, die lief, bleibt als `videopodcast-magic.py.old` neben der
+neuen liegen. Erweist sich die neue als falsch, bekommt diese Datei
+wieder ihren alten Namen; Netz braucht es dafür nicht.
+
+Das Häkchen **Nicht mehr nachfragen** hält das Programm davon ab, von
+selbst nachzusehen. Über **Hilfe > Jetzt nach einer neueren Fassung
+sehen** geht es weiterhin, und `--update-check` auf der Kommandozeile
+holt das ungefragte Nachsehen zurück.
+
+Die Kommandozeile fragt nie. Ein Lauf aus einem Skript sieht nicht nach
+und bleibt für keine Frage stehen; `--no-update-check` setzt dort
+dasselbe Nein wie das Häkchen, `--update-check` nimmt es zurück.
+
+`VPM_NO_UPDATE_CHECK` in der Umgebung schaltet das Ganze ab, den
+Menüeintrag mit -- der sagt das dann, statt nachzusehen. Diese Variable
+setzt, wer die Maschine betreibt.
+
 ## Zeitachse ohne Timecode
 
 Trägt eine Datei keinen Timecode, misst die Oberfläche im Hintergrund, wo

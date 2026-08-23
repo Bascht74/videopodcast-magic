@@ -9,6 +9,60 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.4.0-beta] - 2026-08-23
+
+### Added
+
+- `--update-check` takes back a `--no-update-check`. Without it a no
+  could not be undone, and on 23.8.2026 that caught its own author: the
+  switch had been given once in passing, the program never looked
+  again, and nothing anywhere said why. A no that cannot be taken back
+  is a trap.
+- The update dialog has a tick, **Do not ask again**. It stops the
+  program looking by itself; asking from the menu still works, and the
+  tooltip says so. It is remembered whichever button is pressed --
+  somebody who ticks it and then updates still means it for next time.
+
+### Changed
+
+- The update dialog shows what changed, in the dialog. It used to give
+  an address and leave it at that: whoever has to open a browser to
+  find out what they are installing will mostly not, and will say yes
+  without knowing. The release text comes down with the same answer
+  that is asked for the version number, so it costs nothing.
+- That dialog is one of its own rather than a QMessageBox. The box
+  hides the text behind a "Show Details" button of its own making,
+  which it does not translate, and gives it four lines to be read in.
+  It is 680 by 560 now, the frame stands whether the text needs to
+  scroll or not, and the button says **Update**.
+- Asking from the menu is answered even where the program was told to
+  stop looking by itself. The no was about looking unasked, not about
+  refusing an answer to somebody who asks. `VPM_NO_UPDATE_CHECK` still
+  holds against both: that one is set by whoever runs the machine.
+
+### Fixed
+
+- The German tooltip on the tick named a menu entry that does not
+  exist: it said "Nach einer neueren Fassung sehen" where the menu says
+  "Jetzt nach einer neueren Fassung sehen". It pointed at the way out
+  of the trap and got the name wrong.
+- The settings sheet said the key goes into "Schluesselbund" with no
+  article. The sentence put the place in as a placeholder, and the
+  three possible places need three different German articles. Rebuilt
+  so that none is needed.
+
+### Documentation
+
+- The manual describes keeping itself up to date -- what is asked of
+  github.com and when, what is sent (nothing), what is checked before
+  anything replaces anything, and how to undo it. It was a whole
+  ability nobody had written down.
+- Both switches were missing from the command-line chapter entirely.
+- Undoing an update is written as an action. "The old one stays beside
+  it" is not enough: `put_new_self` copies the running version to
+  `.old` and replaces the original, so the way back is to put the file
+  back under its own name.
+
 ## [2.3.0-beta] - 2026-08-23
 
 ### Added
