@@ -24551,20 +24551,8 @@ def gui():
     second_line = QtWidgets.QHBoxLayout()
     run_layout.addLayout(second_line)
     second_line.addWidget(label(T('Preset:')))
-    class PresetBox(QtWidgets.QComboBox):
-        """The preset list, which fetches itself when it is opened.
-
-        Opening the list is the moment somebody wants to know what
-        auphonic.com has. Before that the program does not ask it
-        anything -- not at start-up, not in the background.
-        """
-
-        def showPopup(self):
-            if not state.get("presets") and not state.get("presets_busy"):
-                presets_load(asked=False)
-            QtWidgets.QComboBox.showPopup(self)
-
-    preset_box = PresetBox()
+    preset_box = preset_box_widget(QtWidgets, state,
+                                   lambda: presets_load(asked=False))()
     preset_box.setMinimumWidth(320)
     # While no key is checked there is only the one entry, and it describes
     # exactly what happens then.
@@ -25527,6 +25515,11 @@ def gui():
     def presets_arrived(preset_list, error):
         state["presets_busy"] = False
         check_button.setText(T('Connect'))
+        # Opened while it was still fetching: show it again, now with
+        # what came back. Only where the list is still the front thing
+        # somebody is looking at, so a fetch from Connect does not make
+        # a list jump open under their hands.
+        open_after = state.pop("presets_open_after", False) and preset_list
         if preset_list is None:
             state["presets"] = []
             button_green(False)
@@ -25547,6 +25540,11 @@ def gui():
             store_api_key(key_var.get().strip())
         button_green(True)
         presets_filter()
+        note, fitting = preset_mode_note(preset_list, multitrack.get())
+        if note:
+            key_note_show(note)
+        if open_after and fitting:
+            preset_box.showPopup()
 
     bridge.preflight.connect(preflight_fill_in)
     bridge.presets.connect(presets_arrived)
@@ -26748,6 +26746,60 @@ def newest_shown(window, page, changed):
     box.exec()
 
 
+def preset_box_widget(QtWidgets, state, fetch):
+    """The class for the preset list, which fetches itself when opened.
+
+    Opening the list is the moment somebody wants to know what
+    auphonic.com has. Before that the program does not ask it anything
+    -- not at start-up, not in the background.
+
+    Fetching takes a moment, and the list used to open on the one entry
+    it already had while the answer was still on its way. Whoever
+    opened it saw nothing and closed it, and the presets arrived into a
+    list nobody was looking at any more. They were there on the second
+    opening, and nobody opens twice. So it says it is fetching, and
+    whoever receives them opens it again.
+
+    A factory rather than a class inside gui(): it needs three names
+    from there and nothing else, and coding_guidelines section 12 keeps
+    out of gui() what does not have to be in it.
+    """
+
+    class PresetBox(QtWidgets.QComboBox):
+
+        def showPopup(self):
+            if not state.get("presets") and not state.get("presets_busy"):
+                state["presets_open_after"] = True
+                fetch()
+                if state.get("presets_busy"):
+                    self.addItem(T('fetching from auphonic.com ...'), "")
+                    self.model().item(self.count() - 1).setEnabled(False)
+            QtWidgets.QComboBox.showPopup(self)
+
+    return PresetBox
+
+
+def preset_mode_note(preset_list, multitrack_on):
+    """What to say where the list came back and shows nothing.
+
+    The presets are filtered by the mode, and an account without one of
+    the kind in use leaves the list at its single entry. Coming back
+    full and then showing empty reads like a key that was refused. It
+    is not: it is an account without a preset of this kind, and saying
+    so costs one sentence.
+
+    Returns (sentence or "", the presets that fit).
+    """
+    fitting = [n for n, _u, mt in (preset_list or []) if mt == multitrack_on]
+    if not preset_list or fitting:
+        return "", fitting
+    return (T('The key is good. Of the %d presets in the account none is '
+              'a %s one, so the list stays empty.')
+            % (len(preset_list),
+               T('multitrack') if multitrack_on else T('ordinary')),
+            fitting)
+
+
 def update_offer(window, asked=False):
     """Ask about looking for updates, look, and offer the new one.
 
@@ -26933,6 +26985,12 @@ CATALOGUE["de"] = {
     'running now stays beside it as videopodcast-magic.py.old.':
         'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
         'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
+    'fetching from auphonic.com ...':
+        'wird von auphonic.com geholt ...',
+    'The key is good. Of the %d presets in the account none is a %s one, '
+    'so the list stays empty.':
+        'Der Schlüssel ist gut. Von den %d Presets im Konto passt keines '
+        'zur Betriebsart %s, die Liste bleibt also leer.',
     'What is in %s:':
         'Was in %s steckt:',
     'What changed in %s:':
