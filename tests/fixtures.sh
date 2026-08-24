@@ -1,12 +1,13 @@
 #!/bin/bash
 # Build the fixture folders the suite does not build for itself.
 #
-# Most tests make their own material and clean it up again. Five folders
+# Most tests make their own material and clean it up again. Six folders
 # are shared and read-only, so they are built once, here: "$FIX/foreign"
 # (everything that is not a camera file), "$FIX/hdrtest" (HDR variants),
 # "$FIX/playertest" (long enough to play), "$FIX/interview" (the shape of
-# a whole job) and "$FIX/mixer" (one file with eight channels). run.sh
-# calls this before the tests fan out; pass "force" to build them again.
+# a whole job), "$FIX/mixer" (one file with eight channels) and
+# "$FIX/twovoices" (two synthetic voices taking turns). run.sh calls
+# this before the tests fan out; pass "force" to build them again.
 set -e
 force="$1"
 # Where this script lives, worked out before anything changes the
@@ -220,4 +221,102 @@ else
     -shortest Studio_08141855_C001.mov -y
   done_with "$FIX/mixer"
   echo "  "$FIX/mixer"        built"
+fi
+
+# ---- "$FIX/twovoices": two synthetic voices, taking turns ----
+#
+# Everything else here is sine tones and noise, and a speaker
+# separation finds nobody in those. This folder holds speech, because
+# it is spoken: macOS brings say(1), and two of its voices reading one
+# sentence each in turn give a recording whose truth is exact -- the
+# length of every turn is the length of the file that voice wrote, so
+# every boundary is known to the millisecond. speakers_for_real_test.py
+# runs the real separation over it.
+#
+# Measured on 24 August 2026, Apple M4 Pro, macOS 26.6.1: the build
+# takes about 4 s, six turns come to about 32 s of audio, and the
+# separation over it takes 4.4 s. Four turns would do -- the separation
+# gets those right too -- but six leave room for one turn to go astray
+# without the count of turns saying nothing.
+#
+# The voices are picked from what the machine really lists, not from a
+# name somebody remembered: say -v '?' differs between machines and
+# between system languages. The newer Apple voices carry the language
+# in their name, translated ("Eddy (English (UK))" on an English Mac,
+# "Eddy (Englisch (UK))" on a German one), so only the plain one-word
+# names are asked for. Measured over four pairs -- Samantha/Daniel,
+# Samantha/Kathy, Samantha/Fred, Anna/Daniel -- the separation told all
+# four apart and put every boundary within 0.11 s, so the order below
+# is a preference and not a condition. Where fewer than two of them are
+# there the folder is not built and the test skips.
+if have "$FIX/twovoices"; then
+  echo "  "$FIX/twovoices"    already there"
+elif ! command -v say > /dev/null 2>&1; then
+  echo "  "$FIX/twovoices"    skipped -- no say(1) on this machine"
+else
+  # Two voices out of the ones this machine really has.
+  spoken=$(say -v '?' 2>/dev/null | sed 's/ .*//' | sort -u)
+  picked=()
+  for want in Samantha Daniel Alex Karen Moira Tessa Fiona Victoria \
+              Serena Fred Anna Markus Petra Yannick; do
+    if [ "${#picked[@]}" -lt 2 ] && echo "$spoken" | grep -qx "$want"
+    then
+      picked+=("$want")
+    fi
+  done
+  if [ "${#picked[@]}" -lt 2 ]; then
+    echo "  "$FIX/twovoices"    skipped -- fewer than two known voices"
+  else
+    V1="${picked[0]}"; V2="${picked[1]}"
+    rm -rf "$FIX/twovoices" && mkdir -p "$FIX/twovoices"
+    cd "$FIX/twovoices"
+    # The pause between two turns. Long enough for the separation to
+    # see a boundary, short enough to sound like a conversation.
+    GAP=0.40
+    # Six sentences, long enough that a voice is more than a word.
+    # English, like everything else here.
+    #
+    # LC_ALL=C in front of every awk, and it is not decoration:
+    # printf "%.3f" writes the decimal separator of the locale, so on
+    # this German machine the truth file came out as "4,988" while
+    # ffprobe kept writing "4.988". The reader then had a truth it
+    # could not parse. run.sh sets LC_ALL=C for the whole suite, but
+    # fixtures.sh is also run by hand.
+    say_turn() {  # say_turn <who> <voice> <number> <text>
+      say -v "$2" -o "piece$3.wav" --data-format=LEI16@16000 \
+        --file-format=WAVE "$4"
+      dur=$(ffprobe -v error -show_entries format=duration \
+        -of csv=p=0 "piece$3.wav")
+      end=$(LC_ALL=C awk -v a="$at" -v d="$dur" \
+        'BEGIN{printf "%.3f", a+d}')
+      echo "$1 $at $end" >> truth.txt
+      echo "file 'piece$3.wav'" >> list.txt
+      $FF -f lavfi -i anullsrc=r=16000:cl=mono -t "$GAP" \
+        -c:a pcm_s16le "hush$3.wav" -y
+      echo "file 'hush$3.wav'" >> list.txt
+      at=$(LC_ALL=C awk -v e="$end" -v g="$GAP" \
+        'BEGIN{printf "%.3f", e+g}')
+    }
+    at=0.000
+    : > truth.txt
+    : > list.txt
+    say_turn A "$V1" 0 "Welcome to the show. Today we are talking \
+about how a recording becomes an episode."
+    say_turn B "$V2" 1 "Thank you for having me. I have been looking \
+forward to this conversation all week."
+    say_turn A "$V1" 2 "Let us start at the beginning. What happens \
+to the sound before anything else is done?"
+    say_turn B "$V2" 3 "The first thing is to find the good audio \
+inside the video files, and that takes a while."
+    say_turn A "$V1" 4 "And after that the cameras have to go onto \
+one time axis, if I understand it right."
+    say_turn B "$V2" 5 "Exactly. Without a common clock nothing lines \
+up and every cut lands in the wrong place."
+    $FF -f concat -safe 0 -i list.txt -c:a pcm_s16le -ar 16000 -ac 1 \
+      talk.wav -y
+    printf '%s %s\n' "$V1" "$V2" > voices.txt
+    rm -f piece*.wav hush*.wav list.txt
+    done_with "$FIX/twovoices"
+    echo "  "$FIX/twovoices"    built ($V1, $V2)"
+  fi
 fi
