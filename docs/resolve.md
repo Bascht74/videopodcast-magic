@@ -41,21 +41,22 @@ button takes into the cut list.*
 
 | Case | Cut timeline | Multicam timeline |
 |---|---|---|
-| multitrack, several cameras | picture from the camera cut, audio in one piece | all cameras side by side |
-| simple path, several cameras | none: the speakers are not separated | all cameras side by side |
-| one camera | the camera in one piece, the mix below | none: it would be pointless |
+| several cameras, speakers separated | picture from the camera cut, audio in one piece | all cameras side by side |
+| several cameras, no separation | none | all cameras side by side |
+| one camera, speakers separated | one shot per change of speaker, the mix below | none |
+| one camera, one voice or no separation | the camera in one piece, the mix below | none |
 
-The simple path builds a project too. It cannot deliver a camera cut,
-because that needs Multitrack and the speaker assignment. It gives the
-timeline with all cameras at their measured places, and Resolve makes
-the multicam clip from it.
+The speaker separation decides the cut timeline, not the path. Two
+people with a name and a camera give a camera cut, on the simple path as
+well. Without them the multicam timeline stands alone: all cameras at
+their measured places, and Resolve makes the multicam clip from it.
 
 The program rounds the frame rate to one Resolve knows: ffprobe
 measures 29.994 or 30.001 for some files. The log says which rate it
 took. It computes timecodes with the whole-number rate and durations
 with the true one, and it takes drop frame into account.
 
-**… Cut**: the finished camera cut. V1 (`Camera cut`) carries the
+**… Cut**: the finished cut. V1 (`Camera cut`) carries the
 picture pieces **without their audio**. Below on A1 (`Audio-Full-Mix`)
 the Full-Mix runs through in one piece, so the sound does not jump at
 the cuts. The mix comes from the separate file, otherwise from the wide
@@ -63,8 +64,8 @@ shot, where it is the first audio track.
 
 The measured offset decides which part of each camera file the timeline
 uses, not the timecode. If a camera was not running, another steps in,
-the wide shot first. The log says how often. The timeline carries no
-markers, because the cut is already made.
+the wide shot first. The log says how often. With several cameras the
+timeline carries no markers.
 
 **… Multicam**: all cameras side by side, one per video track, full
 length, **uncut**, each at its measured place. Track names = speakers, a
@@ -76,6 +77,18 @@ the Full-Mix, usually the wide shot; on conversion it becomes angle 1.
 script deletes the surplus audio after the insert and names the audio
 tracks like the video tracks. It inserts a camera that did not land
 separately, and reports it when even that fails.
+
+### One camera
+
+One camera gives no multicam timeline and no multicam clip. Resolve gets
+the **… Cut** timeline alone, and the speaker passages stand on it as
+markers, a colour per person.
+
+A single video file with its own sound is that case. The separation
+tells the speakers apart on the one track, and the cut falls at every
+change of speaker. The picture stays the same across the shots. A 360
+degree camera gets its framing by hand, shot by shot, and the markers
+say whose turn it is.
 
 ### When the project already exists
 

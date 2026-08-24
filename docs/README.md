@@ -39,6 +39,8 @@ in a few pages, for anyone deciding whether this program is for them.
 Each entry names its chapter and the section in it. The section that
 explains the word comes first.
 
+* **360 degree camera**: `resolve`, "One camera"; `simple-path`, "Telling
+  the speakers apart on one track"
 * **3:1 rule**: `preflight`, "How the report measures bleed against the 3:1
   rule"
 * **API key**: `auphonic`, "The key and the preset"; `interface`, "What
@@ -54,6 +56,8 @@ explains the word comes first.
   `simple-path`, "Putting blocks together by hand"
 * **camera audio**: `multitrack`, "Making camera sound a track";
   `simple-path`, "What comes back for each video file"
+* **camera, only one**: `resolve`, "One camera"; `camera-cut`, "Cutting when
+  one camera shows everybody"
 * **channel, used or not**: `channels`, "Which channels become tracks at
   all"
 * **clip-on microphone**: `channels`, "One track or two"; `multitrack`,
@@ -77,6 +81,8 @@ explains the word comes first.
 * **faster-whisper**: `speech`, "How the program writes the text down"
 * **ffmpeg**: `requirements`, "Where ffmpeg, PySide6 and numpy come from"
 * **ffplay**: `interface`, "The four tabs"
+* **First cut by speaker (box)**: `camera-cut`, "How the cut comes about";
+  `interface`, "The four tabs"
 * **follow-up file**: `simple-path`, "What goes into the video beside the
   mix"; `interface`, "The four tabs"
 * **frame rate, variable**: `preflight`, "What the report says about a
@@ -90,6 +96,8 @@ explains the word comes first.
 * **`--hdr-check`**: `resolve`, "HDR: what has to be in the file"
 * **In point**: `multitrack`, "Setting the time window"; `interface`, "The
   four tabs"
+* **input track**: `multitrack`, "Setting the assignment"; `interface`, "The
+  four tabs"
 * **intro**: `resolve`, "Setting intro and outro"; `multitrack`, "Setting
   the assignment"
 * **Keychain**: `auphonic`, "The key and the preset"; `requirements`, "What
@@ -102,6 +110,8 @@ explains the word comes first.
 * **loudness range**: `preflight`, "Which loudness target holds"
 * **loudness target (LUFS)**: `preflight`, "Which loudness target holds";
   `command-line`, "Basics"
+* **marker**: `resolve`, "One camera"; `resolve`, "The button and the two
+  timelines"
 * **marks ✓ ! ✕**: `interface`, "The four tabs"; `preflight`, "What is
   checked"
 * **Measure speakers now (button)**: `camera-cut`, "Measuring the speakers
@@ -144,7 +154,8 @@ explains the word comes first.
 * **Source Audio Channels**: `resolve`, "Choosing the multicam audio"
 * **speaker name**: `multitrack`, "Setting the assignment"; `speech`,
   "Naming the voices"
-* **speaker separation**: `speech`, "Separating the speakers"
+* **speaker separation**: `speech`, "Separating the speakers";
+  `simple-path`, "Telling the speakers apart on one track"
 * **Speaks at least**: `camera-cut`, "Setting the knobs"
 * **`start_s`**: `camera-cut`, "How the preview players choose file and
   sound"

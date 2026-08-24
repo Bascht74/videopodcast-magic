@@ -119,9 +119,12 @@ on. A pair whose two channels do not sit side by side is not found.
 
 A camera's two channels are judged like a two channel recorder file:
 two clip-on microphones on them give two rows with two speaker names.
-On the command line (`--multitrack`) two separate recordings count the
-same way as in the window. The count is read from the assignment file.
-A two channel file that was never split carries no extra mark.
+On the command line (`--multitrack`) the count works the same way as in
+the window, and it is a count of input tracks rather than of files: a
+recording of its own, a channel of a multichannel recorder, or the
+audio of a camera with **as a track** ticked. The count is read from
+the assignment file. A two channel file that was never split carries no
+extra mark.
 
 ## How the time axis is measured
 

@@ -5,10 +5,11 @@
 
 ## How the cut comes about
 
-With multitrack the script knows who spoke when: separated by voice on
-this machine, or measured from the tracks against each other. Both are
-in [Speech recognition and speaker separation](speech.md). Out of that
-it builds the camera cut:
+The cut needs two people, each with a name and a camera. Separate
+recordings give that, and so do the voices from **Separate speakers**;
+the **Multitrack** tick is no part of it. Both ways are in [Speech
+recognition and speaker separation](speech.md). With that the script
+knows who speaks when, and builds the cut from it:
 
 * One speaker alone gets their camera, with a lead-in.
 * A short "yes" does not: below **Speaks at least** the picture stays
@@ -22,17 +23,25 @@ carrying all the speakers does. If no camera covers them, the wide shot
 takes over. The assignment says who is on which camera: two speakers on
 one camera means it shows both.
 
+**The name follows the cameras.** Between two cameras the picture is
+switched; on one camera it is not. What comes out there is a first cut
+at every change of speaker. The run puts `CAMERA CUT` over its section
+with two cameras or more and `FIRST CUT BY SPEAKER` with one. The box in
+the window carries the same two names; before anything is separated it
+is called **Camera cut**.
+
 The output folder gets `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
-and `_cameracut.edl`. The heads are
+and `_cameracut.edl`, whatever the cut is called. The heads are
 `Speaker,Start TC,End TC,Time from start,Duration s` and
-`Shot,Camera,Start TC,End TC,Duration s`, the EDLs are titled `Speakers`
-and `Camera cut`.
+`Shot,Camera,Speaker,Start TC,End TC,Duration s`, the EDLs are titled
+`Speakers` and `Camera cut`.
 
 ### Setting the knobs
 
-In multitrack the interface takes every value, on the **Resolve cut**
-tab, in the box **Camera cut**. One field per value, with the unit and a
-short line beside it.
+The interface takes every value on the **Resolve cut** tab, in the box
+**Camera cut**. One field per value, with the unit and a short line
+beside it. The box is there once the cut has its two people; until then
+a line stands in its place and says what is missing.
 
 ![The knobs for the camera cut](images/resolve-cut.png)
 
@@ -270,8 +279,15 @@ framing, and carries the name of whoever is talking. Resolve gets a
 track already separated at the right places, and there each piece can be
 grouped, coloured and zoomed into, so the wide shot becomes the speaker.
 
-The cut list says so too: `_cameracut.csv` has a Speaker column, and
-with one camera for everybody the EDL carries the speaker name.
+The cut list says so too: with one camera for everybody the EDL carries
+the speaker name in place of the camera name. The Speaker column of
+`_cameracut.csv` is there in any case.
+
+**A single voice gives no cut.** Nobody hands over, so there is nothing
+to cut at, and neither a cut list nor an EDL is written. The passages go
+into the handover file, and Resolve sets them as markers on the timeline
+it builds. That is one camera in one piece with the mix below, or the
+timeline for the multicam clip with several.
 
 ### What the project file keeps
 
@@ -347,8 +363,12 @@ loudness measurement runs through each track twice.
 * **The Speaker box says no speakers are known.** Press **Measure
   speakers now**. The reason stands in place of the table if the
   computation fails.
-* **No camera cut comes out.** Nothing was audible on the tracks. The
-  log says so under `SPEAKERS -- MEASURED HERE`.
+* **No cut comes out.** Nothing was audible on the tracks, or the
+  separation found a single voice. The log says so, under
+  `SPEAKERS -- MEASURED HERE` or `SPEAKERS -- SEPARATED BY VOICE`.
+* **No box for the cut on the Resolve cut tab.** Fewer than two people
+  carry a name and a camera. On the **Assignment & time window** tab
+  give each voice a name and a camera.
 * **The picture stands still although the speaker changes.** Both
   speakers sit on one camera, or the block is shorter than **Speaks at
   least**.

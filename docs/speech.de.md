@@ -25,8 +25,11 @@ ein Projekt, das nein gesagt hat, fragt nicht wieder. Auf einem Mac
 läuft die Trennung von selbst, sobald die Dateien da sind.
 
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
-zu hören sind. Mit einem eigenen Mikrofon je Person sind die Spuren die
-Wahrheit, und die Zeile bleibt weg.
+zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
+Spur)** nicht: Zeile und Knopf stehen auf beiden Wegen da, auch bei
+einer einzigen Kamera. Mit einem eigenen Mikrofon je Person sind die
+Spuren die Wahrheit, und die Zeile bleibt weg. Die Trennung sagt, wer
+wann spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
 
 Die Einrichtung lädt beim ersten Mal rund 218 MB, das Modell danach
 etwa 33 MB. [Was gebraucht wird](requirements.de.md#das-programm-holen)
@@ -40,12 +43,18 @@ Sprecherzahl in der Tabelle ist die des ungeschnittenen Laufs. Ein
 Gespräch im Vorlauf bringt eine Stimme mehr in die Tabelle, als in der
 Folge vorkommt.
 
+Eine Stimme in der Tabelle heißt kein Schnitt: niemand übergibt, also
+gibt es keinen Wechsel, an dem geschnitten wird. Die Passagen gehen in
+die Übergabedatei, und der Lauf geht bis zum Ende durch.
+
 ### Die Stimmen benennen
 
 Auf demselben Reiter steht unter den Zuordnungstabellen eine Tabelle:
 **Stimme**, **Sprechername**, **gehört zu**, **Anhören**. Sie hat je
 erkannter Stimme eine Zeile, vorbelegt mit Sprecher 1, Sprecher 2 und
-so fort nach Sprechzeit, die längste zuerst.
+so fort nach Sprechzeit, die längste zuerst. Die Zelle **Stimme** nennt
+die Aufnahme, wie lange diese Stimme darin redet und wo ihre längste
+Stelle anfängt.
 
 1. **Sprecher trennen** drücken. Auf einem Mac ist das schon gelaufen.
 2. In einer Zeile **Anhören** drücken. Der Knopf spielt die längste
@@ -79,11 +88,11 @@ Programm rechnet sie nur noch auf dessen Zeitachse um.
 ### Woher die Sprecher kamen
 
 Das Protokoll sagt es. Zwei Marken zum Suchen:
-`SPRECHER -- NACH STIMMEN GETRENNT` und `SPRECHER -- HIER GEMESSEN`. Bei
-mehr als einer Quelle zählt zuerst die örtliche Trennung, dann die
-Messung aus den Spuren. Passt die Trennung nicht zum Lauf, sagt das
-Protokoll warum, das Programm misst aus den Spuren, und der Lauf geht
-weiter.
+`SPRECHER -- NACH STIMMEN GETRENNT` und `SPRECHER -- HIER GEMESSEN`.
+Zuerst zählt die örtliche Trennung. Die Messung unter der zweiten Marke
+braucht je Person eine Spur. Passt die Trennung nicht zum Lauf, sagt
+das Protokoll warum, und der Lauf geht weiter – mit der Messung aus den
+Spuren oder ohne Schnitt nach Sprechern.
 
 ### Wie das Programm den Text mitschreibt
 
@@ -122,10 +131,12 @@ dasselbe Kapitel sagt, was der Weitwinkel dann tut.
 
 * **Die Zeile sagt, die Trennung ist nicht eingerichtet.** Beim ersten
   Lauf holt sie sich, was sie braucht. Misslingt das, geht der Lauf
-  weiter, und die Sprecher kommen aus den Spuren.
+  weiter: mit je Person einer Spur kommen die Sprecher aus den Spuren,
+  sonst bleibt der Schnitt aus.
 * **Die Trennung bricht mit einer Meldung ab.** Das Protokoll sagt, was
-  war, das Programm misst stattdessen aus den Spuren, und der Schnitt
-  kommt trotzdem.
+  war. Mit je Person einer Spur misst das Programm stattdessen aus den
+  Spuren, und der Schnitt kommt trotzdem; auf einer gemeinsamen Aufnahme
+  kommt keiner.
 * **Auf einem Mac nimmt die Erkennung den langsamen Weg.** Die Command
   Line Developer Tools fehlen. `xcode-select --install` holt sie;
   danach nimmt der Lauf den schnellen Weg.

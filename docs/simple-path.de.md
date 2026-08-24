@@ -24,16 +24,45 @@ Was der einfache Weg genauso kann wie Multitrack:
 - **Vorschau Player.** Auf dem Reiter **Zuordnung & Zeitfenster**, mit
   denselben Knöpfen.
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
-  nebeneinander, fertig für Multicam; eine Kamera eine gerade.
+  nebeneinander, fertig für Multicam. Eine Kamera gibt eine gerade
+  Timeline, oder eine geschnittene, sobald die Sprecher getrennt sind.
 
-Es fehlen Kameraschnitt, Sprechzeiten und Schnittprognose: die brauchen je
-Sprecher eine Spur.
+Je Sprecher eine Spur gibt es hier nicht. Der Mix kommt als eine Spur bei
+auphonic.com an, und ohne getrennte Spuren hat das De-Bleed nichts
+auseinanderzunehmen.
 
 Was herauskommt, hängt am Material:
 
 - **Nur Ton.** Fortsetzungsdateien werden zusammengesetzt und geschrieben.
 - **Ton und Bild.** Der Ton wird ausgerichtet und in die Videodatei gelegt.
 - **Nur ein Video.** Dessen eigener Ton, links und rechts getrennt.
+
+### Die Sprecher auf einer Spur auseinanderhalten
+
+Eine gemeinsame Aufnahme, auf der alle zu hören sind, genügt für den
+Schnitt. Die Kamera mit diesem Ton braucht das Häkchen. Auf dem Reiter
+**Zuordnung & Zeitfenster**, in der unteren Tabelle, in der Spalte
+**eigener Ton** das Häkchen **als Spur** setzen. Die Zeile unter der
+Zeitachse bietet dann **Sprecher trennen** an
+([Spracherkennung und Sprechertrennung](speech.de.md)).
+
+Bei einer Kamera wird nichts umgeschnitten: es gibt nichts zu wechseln.
+Es entsteht ein Schnitt an jedem Sprecherwechsel, damit Resolve je Person
+einen Abschnitt bekommt statt einer langen Einstellung. Jeder Abschnitt
+lässt sich dort gruppieren, einfärben und mit einem eigenen Bildausschnitt
+versehen; bei einer 360-Grad-Kamera ist genau das der Punkt. Die Passagen
+liegen als Marker auf dieser Timeline, je Person eine Farbe, damit
+sichtbar ist, wer wo redet.
+
+Im Protokoll steht `ERSTER SCHNITT NACH SPRECHERN` statt
+`KAMERASCHNITT`, und der Kasten im Fenster heißt genauso. Sprechzeiten,
+Schnittprognose, die Einstellwerte des Schnitts und die vier
+Schnittlisten kommen mit
+([Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md)).
+
+Eine einzige gefundene Stimme ist kein Fehler. Niemand übergibt, also gibt
+es keinen Schnitt. Resolve bekommt die Kamera in einem Stück und den Mix
+darunter, und die Passagen sind auch dort markiert.
 
 ### Was neben dem Mix ins Video kommt
 
@@ -119,6 +148,8 @@ nicht.
 
 ### Wenn etwas klemmt
 
+- **Die Zeile unter der Zeitachse bleibt leer.** Der Ton der Kamera ist
+  noch keine Spur: bei ihr **als Spur** setzen.
 - **Die Fortsetzungsdateien fehlen in der Aufnahme.** Die Namen geben
   der Suche nichts her: mit **gehört zu** von Hand zusammenlegen.
 - **Eine Datei wurde in eine Aufnahme genommen, in die sie nicht
@@ -139,6 +170,6 @@ Diese Optionen gibt es im Fenster nicht.
 - `--no-single-tracks` lässt die Einzelspuren aus dem Video weg.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
-- `--help` kennzeichnet jeden Schalter mit `[simple path only]` oder
-  `[multitrack only]`. Beide Marker bleiben englisch, auch bei
-  `--lang de`.
+- `--help` setzt `[simple path only]` oder `[multitrack only]` an einen
+  Schalter, der nur auf einem Weg wirkt. Beide Kennzeichnungen bleiben englisch,
+  auch bei `--lang de`.

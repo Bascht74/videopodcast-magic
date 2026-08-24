@@ -418,9 +418,16 @@ def store_api_key(key):
 def load_api_key():
     """Read the stored API key, or "" if there is none."""
     if sys.platform == "darwin":
-        p = subprocess.run(["security", "find-generic-password",
-                            "-s", "videopodcast-magic", "-a", "auphonic", "-w"],
-                           capture_output=True)
+        try:
+            # A limit for the same reason the write has one: a locked
+            # keychain can leave "security" waiting, and a window that
+            # waits for good is worse than a key that is not found.
+            p = subprocess.run(
+                ["security", "find-generic-password", "-s",
+                 "videopodcast-magic", "-a", "auphonic", "-w"],
+                capture_output=True, timeout=20, start_new_session=True)
+        except (OSError, subprocess.TimeoutExpired):
+            return ""
         return p.stdout.decode("utf-8", "replace").strip()\
             if not p.returncode else ""
     if os.name == "nt":
@@ -566,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.6.1-beta"
+VERSION = "2.7.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -584,8 +591,16 @@ PRESET_NONE = "no-auphonic"      # list entry, not a preset name
 TYPE_CONTENT, TYPE_INTRO, TYPE_OUTRO = "content", "intro", "outro"
 TYPE_IGNORED = "ignore-video"    # video file stays out entirely
 CLIP_TYPES = (TYPE_CONTENT, TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)
-CHOICE_LABELS = {MIX_ONLY: "into the mix only",
-                 IGNORE_AUDIO: "ignore this audio",
+# Two names decided on 24.8.2026, after Sebastian read one and meant
+# the other: "ignore this audio" sounded like "skip in the cut" and
+# meant "leave out entirely", so somebody who only wanted a person off
+# camera lost their voice from the mix. The long form he first wanted,
+# "no camera of its own, only into the full mix", measures 546 px on
+# Windows against 289 for the short one -- wider than the longest camera
+# name -- so the rest of it lives in the tooltip. The reasoning is
+# written down with the other naming decisions in the working notes.
+CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
+                 IGNORE_AUDIO: "do not use",
                  PRESET_NONE: "work without Auphonic",
                  TYPE_CONTENT: "Content", TYPE_INTRO: "Intro",
                  TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video"}
@@ -1804,11 +1819,26 @@ def run_single_production(audio, preset, presetname, key, target_folder, wait_s=
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
     stereo = kept_channels(audio) == 2
+    # What the file really has, not what the run keeps of it. Measured
+    # on 25.8.2026 with a four channel camera track: kept_channels
+    # answers one for anything above two, and the line then called an
+    # ambisonic recording mono -- an untruth in the log about the file
+    # that is being uploaded. What happens to it does not change here;
+    # only the two lines that say what it is.
+    try:
+        really = int(channel_count(audio))
+    except (OSError, ValueError, RuntimeError):
+        really = kept_channels(audio)
     print(as_head(T('PROCESSING AT AUPHONIC.COM:')))
     print(T('  Preset:  %s') % presetname)
     print(T('  File:    %s (%s, %s)') % (os.path.basename(audio),
                               as_data_size(size),
-                              channel_text(kept_channels(audio))))
+                              channel_text(really)))
+    if really > 2:
+        print(as_warn(T('  More than two channels go to auphonic.com as '
+                        'one: the fold is only switched off for stereo.\n'
+                        '  Where the channels are meant to stay apart, '
+                        'cut the file into tracks first.')))
     if dry_run:
         print(T('  (measuring only: nothing uploaded)\n'))
         return None
@@ -8136,6 +8166,22 @@ def read_separation_file(file_path):
     return d if d.get("segments") else {}
 
 
+def voices_of_file(file_path):
+    """Which camera each voice belongs to, out of a handed-over file.
+
+    Only the interface knows this: on the command line a voice has no
+    row to be assigned in. Missing is the ordinary case and means every
+    voice goes to the camera the run is built around.
+    """
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return {}
+    got = d.get("voices_of") if isinstance(d, dict) else None
+    return dict(got) if isinstance(got, dict) else {}
+
+
 def separation_on_axis(given, tracks, position, t0, t1):
     """Put a stored separation onto the axis of this run.
 
@@ -11679,8 +11725,10 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     if d.get("cut"):
         print(T('\n  Timeline with the finished cut'))
         tl = create_timeline(mp, "%s Cut" % name)
-        # No speaker markers here: the cut is already made and the markers
-        # would only sit around under the clips.
+        # No speaker markers on a cut of several cameras: the picture
+        # already says who speaks, and they would only sit around under
+        # the clips. With one camera it is the other way round, and the
+        # only_one branch below sets them on this very timeline.
         _fps, _origin = timeline_origin(d)
         lead_in = lead_in_offset(mp, tl, d, clips, _fps, _origin)
         build_cut_timeline(mp, tl, d["cut"], cameras, clips, d,
@@ -11715,7 +11763,14 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
 
     if only_one:
         print(T('\n  Only one camera -- a multicam clip would be pointless.'))
+        # The markers then belong on the cut timeline. They sat on the
+        # multicam timeline alone, and with one camera there is none, so
+        # a single-camera run said the passages travelled as markers and
+        # set not one. Whoever reframes a 360 shot by hand needs to see
+        # where each person speaks.
         if tl is not None:
+            if d.get("speakers"):
+                add_speaker_markers(tl, d["speakers"], d)
             p.SetCurrentTimeline(tl)
         return 0
 
@@ -11759,16 +11814,52 @@ def build_resolve_project(source, project_carry_on=None, project_name=None,
     return 0
 
 
-def handover_for_single_track(args, videos, results, cameras, offsets, track_names,
-                    folder, audio):
+def voices_on_cameras(segment_list, videos, wanted=None, fallback=""):
+    """One pseudo track per voice, so write_cut_list can read the cameras.
+
+    The cut asks the tracks which camera a name belongs to. On the
+    simple path there is one track and several voices in it, so the
+    voices stand in for tracks here -- the same shape, and nothing
+    downstream has to know the difference.
+
+    *wanted* is name -> camera, as the interface assigned it; a name it
+    does not know, and every name at all where nothing was handed over,
+    falls back to *fallback*. All on one camera is not a defect: then
+    the cut falls at the change of speaker instead of between cameras.
+    """
+    wanted = dict(wanted or {})
+    known = dict((os.path.basename(v), v) for v, _info in videos)
+    known.update(dict((os.path.abspath(v), v) for v, _info in videos))
+    out = []
+    for name, _segs in segment_list or ():
+        pick = wanted.get(name) or ""
+        camera = known.get(pick) or known.get(os.path.abspath(pick)) \
+            if pick else ""
+        out.append({"name": name, "camera": camera or fallback})
+    return out
+
+
+def handover_for_single_track(args, videos, results, cameras, offsets,
+                    track_names, folder, audio, axis=None, sources=()):
     """Prepare a Resolve handover for the simple path too.
 
     What comes of it depends on the material: with several cameras a
-    timeline holding all of them side by side, ready to become a multicam
-    clip, with speaker and picture analysis then running in Resolve. With a
-    single camera a straight timeline of picture and audio. There can be no
-    camera cut here; that needs the speaker statistics, which only the
-    multitrack path produces.
+    timeline holding all of them side by side, ready to become a
+    multicam clip, with speaker and picture analysis then running in
+    Resolve. With a single camera a straight timeline of picture and
+    audio.
+
+    Since 24.8.2026 the speakers are told apart here as well. They used
+    to be the multitrack path's alone, and the sentence that stood here
+    -- there can be no camera cut without the speaker statistics -- was
+    only ever true because nothing on this path asked for them. One
+    recording taken apart by voice answers the same question, and with
+    a single camera what comes of it is not a camera cut but a first
+    cut at every change of speaker, which is what write_cut_list has
+    always done where one camera carries everybody.
+
+    *axis* says where the mix sits in each camera's own time, *sources*
+    are the recordings it was made of.
     """
     if not cameras:
         return
@@ -11788,9 +11879,86 @@ def handover_for_single_track(args, videos, results, cameras, offsets, track_nam
     origin = offsets.get(reference_target, 0.0) if reference_target else 0.0
     offsets = dict((name, round(value - origin, 4)) for name, value in offsets.items())
     length = max((float(e.get("duration") or 0.0) for _, e in videos), default=0.0)
+    cut, segment_list = speaker_cut_on_one_track(
+        args, videos, cameras, reference, folder, tc_start, length,
+        audio, axis or {}, sources)
     write_handover(args, [], cameras, videos, folder, tc_start,
-                      reference, results, None, None, length, track_names,
+                      reference, results, cut, segment_list, length,
+                      track_names,
                       {"Full-Mix": os.path.abspath(audio)}, offsets)
+
+
+def places_on_camera_axis(axis, reference):
+    """Where every file sits in the reference camera's own time.
+
+    *axis* holds, per camera, the (a, b) of the alignment: audio time =
+    a + b * that camera's time. The axis of this path is the reference
+    camera, so the mix is placed by its pair, and any other camera by
+    the two pairs together -- a file taken apart by voice may well be a
+    camera and not the mix, which is exactly the case of one camera
+    with a microphone built in.
+
+    Returns {file: (a, b)} in the form separation_on_axis reads.
+    """
+    home = axis.get(os.path.abspath(reference))
+    if not home or not home[1]:
+        return {}
+    out = {os.path.abspath(reference): (0.0, 1.0)}
+    for path, pair in axis.items():
+        if not pair or not pair[1]:
+            continue
+        out[path] = ((home[0] - pair[0]) / pair[1], home[1] / pair[1])
+    return out
+
+
+def speaker_cut_on_one_track(args, videos, cameras, reference, folder,
+                             tc_start, length, audio, axis, sources=()):
+    """Tell the speakers apart on the one track, and cut by them.
+
+    The axis of this path is the reference camera's own time, and the
+    alignment already measured where everything sits in it, so nothing
+    is measured twice here. The places are handed to the same
+    arithmetic the multitrack path uses, which is why a separation made
+    in the window fits without being redone.
+
+    Returns (cut, speakers). Both empty where nothing was heard, where
+    the separation was switched off, or where only one voice was found
+    -- one person hands over to nobody, so there is nothing to cut at.
+    """
+    place = (axis or {}).get(os.path.abspath(reference[0]))
+    if not place or not place[1]:
+        return [], []
+    stand_in = [{"name": getattr(args, "name", "") or "Mix",
+                 "source": audio, "blocks": [audio],
+                 "a": place[0], "b": place[1]}]
+    where = places_on_camera_axis(axis, reference[0])
+    where.update(dict((p, place)
+                      for p in [audio] + [x for x in (sources or ())]))
+    segments, where_from = separation_for_run(
+        args, stand_in, where, 0.0, length, [v for v, _e in videos])
+    if not segments:
+        return [], []
+    print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
+    print(TN(len(segments), '  From %s: %d voice.', '  From %s: %d voices.')
+          % (where_from, len(segments)))
+    for name, segs in segments:
+        print(T('  %-20s %s in %d passages')
+              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
+    if len(segments) < 2:
+        # Not a fault, and it must not read as one: a room microphone
+        # in front of one person is a perfectly ordinary recording.
+        # The passages still travel, as markers -- only the cut has
+        # nothing to fall between.
+        print(T('  Only one voice -- nobody hands over, so there is no '
+                'cut. The passages go into the handover as markers.'))
+        return [], segments
+    wanted = (voices_of_file(args.speakers_from)
+              if getattr(args, "speakers_from", None) else {})
+    return write_cut_list(args, segments,
+                          voices_on_cameras(segments, videos, wanted,
+                                            reference[0]),
+                          cameras, videos, folder, tc_start, reference,
+                          length)
 
 
 def widest_frame(sizes):
@@ -12039,7 +12207,12 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                               as_hms(a, "."), "%.2f" % (b - a))))
     write_edl(stem + "_speakers.edl", "Speakers", lines, tc0, fps)
 
-    print(as_head(T('\nCAMERA CUT')))
+    # With one camera nothing changes hands between cameras, so the
+    # word would be wrong: what comes of it is a first cut at every
+    # change of speaker. Said before the numbers, not after them.
+    alone = one_camera_only(camera_of)
+    print(as_head(T('\nFIRST CUT BY SPEAKER') if alone
+                  else T('\nCAMERA CUT')))
     # The interface shows the whole cut as a band, so the closing line is
     # enough here.
     rules = rules_from_settings(args)
@@ -12068,7 +12241,6 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     # stays the same, but Resolve gets one clip per speaker, which can
     # be grouped, coloured and zoomed into there.
     detail = split_shots_by_speaker(cut, segment_list, args.min_edit_duration)
-    alone = one_camera_only(camera_of)
     if alone and len(detail) > len(cut):
         cut = [(a, b, who) for a, b, who, _speaking in detail]
         print(T('  One camera for everybody: cut into %d shots at the '
@@ -13174,12 +13346,13 @@ def check_mode_fits_input(audio_paths, args):
     chains += cameras_as_tracks(args)
     if chains < 2:
         return as_warn(
-            T('MULTITRACK NOT POSSIBLE\n  At least two separate audio '
-              'recordings are needed -- one per speaker.\n  Only %d was '
-              'found. A camera counts as one as soon as its own audio\n  is '
-              'marked as a track in the assignment. Without separate '
-              'tracks\n  there is nothing to decouple; without the tick the '
-              'same file runs\n  through as an ordinary production.')
+            T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
+              'needed, and only %d was found.\n  A track is a recording of '
+              'its own, a channel of a multichannel\n  recorder, or the '
+              'audio of a camera -- that counts as soon as it\n  is marked '
+              'as a track in the assignment. Without two of them there\n  '
+              'is nothing to decouple, and the same file runs through as an\n'
+              '  ordinary production.')
             % chains)
     # A key is only needed where something is going to be sent. With
     # --auphonic-done the tracks are already finished and lie in a
@@ -13198,6 +13371,89 @@ def check_mode_fits_input(audio_paths, args):
                          'aligned,\n  mixed and cut, but without de-bleed '
                          'and leveler.'))
     return None
+
+
+def cut_has_people(pairs):
+    """Whether these (name, camera) pairs give a camera cut.
+
+    Two people with a name and a camera. That is the whole condition,
+    and Multitrack is not part of it: the cut reads who speaks when out
+    of one list, and it makes no difference to that list whether the
+    people were told apart by having a microphone each or by the
+    separation taking one recording apart. Hanging the cut off the tick
+    hid it from everybody with one recording and four voices in it.
+
+    The cameras may be the same one. Then nothing is switched, but the
+    cut still falls at every change of speaker, and Resolve gets one
+    clip per person instead of one long take -- write_cut_list says so
+    itself where it finds a single camera.
+    """
+    named = set((n or "").strip() for n, c in pairs
+                if (n or "").strip()
+                and c not in (IGNORE_AUDIO, MIX_ONLY))
+    return len(named) >= 2
+
+
+def cut_title_of(voice_rows, multitrack_on):
+    """The name the cut box carries, read off the voice rows.
+
+    The preview box stands beside it and has to say the same. It read
+    "Camera cut -- preview" next to a box called "First cut by speaker"
+    until 2.7.0-beta, because the two names were worked out in two
+    places.
+    """
+    return cut_box_title([(nv.get(), cv.get())
+                          for _k, nv, cv in voice_rows],
+                         bool(multitrack_on))
+
+
+def cut_box_title(pairs, multitrack_on=False):
+    """What the cut box is called, which depends on what it can do.
+
+    Between two cameras the picture changes hands and camera cut is the
+    right word. On one camera nothing changes hands: what comes of it
+    is a cut at every change of speaker, which Resolve can group -- and
+    a 360 degree camera gets reframed there, not switched. Calling that
+    a camera cut would promise the wrong thing.
+    """
+    cameras = set(c for n, c in pairs
+                  if (n or "").strip()
+                  and c not in (IGNORE_AUDIO, MIX_ONLY))
+    # Nothing separated yet says nothing about what will come of it,
+    # so the general name stands until the material has answered.
+    # And with Multitrack the pairs are not the whole picture: they
+    # hold the voices of the separation, while the rows of the
+    # assignment table carry cameras of their own that are not in
+    # here. Four voices on one camera plus a camera as a track would
+    # read as one camera and promise the smaller thing.
+    if multitrack_on or not cameras or len(cameras) > 1:
+        return T('Camera cut')
+    return T('First cut by speaker')
+
+
+def multitrack_state_note(tracks, cameras_left):
+    """Why Multitrack is not on offer here, in one line, or "".
+
+    The tick stays clickable -- a greyed out control without a reason
+    is the dead end this project took out of the preset list on
+    24.8.2026, and putting it back at the tick would be the same
+    mistake. Instead the line beside it says what is missing, at the
+    place where the question is asked rather than at the start button.
+
+    *tracks* is how many rows the assignment table holds that are not
+    set aside, *cameras_left* how many cameras could still contribute
+    their own audio. Nothing is said where nothing is known yet, and
+    nothing where two tracks are there: a line that always stands is
+    read as decoration.
+    """
+    if tracks >= 2:
+        return ""
+    if not tracks:
+        return ""
+    if cameras_left:
+        return T('One track only -- tick "as a track" at a camera for a '
+                 'second one.')
+    return T('One track only, and no camera audio left to take.')
 
 
 def split_audio_and_video(paths):
@@ -13419,7 +13675,7 @@ def step_report(share):
             pass
 
 
-def run_stages(multitrack, cameras, auphonic):
+def run_stages(multitrack, cameras, auphonic, speakers=None):
     """The stages of a run and what share of the bar each is worth.
 
     The weights are proportions measured on real jobs, not guesses at a
@@ -13438,7 +13694,7 @@ def run_stages(multitrack, cameras, auphonic):
         out.append(("auphonic", 8.0, T('Processing at auphonic.com')))
     else:
         out.append(("loudness", 4.0, T('Loudness and levels')))
-    if multitrack:
+    if multitrack if speakers is None else speakers:
         out.append(("speakers", 3.0, T('Who speaks when')))
     if cameras:
         out.append(("cameras", 12.0 * cameras,
@@ -16209,6 +16465,22 @@ def speaker_segments_polish(segments, margin=SPEAKER_MARGIN_S,
     return out
 
 
+def speakers_on_window_axis(segments, offset, named=None):
+    """The separation under its names, moved onto the shared axis.
+
+    Stored raw and in the time of its own file. The offset and the
+    widened edges are applied here, where it is used -- a later change
+    of offset then costs this arithmetic and no measurement.
+
+    Returns (speakers, how long the last of them runs).
+    """
+    out = [((named or {}).get(label) or label, parts)
+           for label, parts in speaker_segments_on_axis(
+               speaker_segments_polish(segments), offset)]
+    return out, max((b for _n, parts in out for _a, b in parts),
+                    default=0.0)
+
+
 def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
     """Move segments from the time of their file onto the common axis.
 
@@ -16279,6 +16551,76 @@ def segments_per_camera(segments, where_to, names=None):
                 joined.append((a, b))
         out.append((camera, joined))
     return out
+
+
+def speaker_split_wanted(asked):
+    """May the separation run by itself? True, False, or unasked.
+
+    On a Mac it runs without being asked: the graphics unit does an
+    hour of audio in two minutes and nothing else is waiting on it.
+    Elsewhere the answer is asked for once, with the two buttons on
+    the line itself rather than in a dialogue, and then remembered in
+    the project file. *asked* is that stored answer, None while
+    nobody has been asked.
+    """
+    if SPEAKER_SPLIT_OFF:
+        return False
+    if asked is not None:
+        return bool(asked)
+    return True if sys.platform == "darwin" else None
+
+
+def voice_caption_of(source, parts):
+    """What one voice's row says: where heard, how much, and where.
+
+    Two numbers, and they were one until 24.8.2026: the sum of the
+    speaking time stood alone behind a dash and was read as a place in
+    the recording -- by Sebastian and by me. A duration and a position
+    are not the same kind of thing, so each is now said as what it is.
+    """
+    spoken = sum(b - a for a, b in parts or ())
+    best = max(parts, key=lambda x: x[1] - x[0]) if parts else None
+    if best:
+        return T('in %s -- speaks %s, longest passage at %s') % (
+            os.path.basename(source), as_hms(spoken), as_hms(best[0]))
+    return T('in %s -- speaks %s') % (os.path.basename(source),
+                                      as_hms(spoken))
+
+
+def longest_stretch(segments, label_name):
+    """The longest stretch one voice speaks, in the source's time.
+
+    The longest one, because a name is read off what is heard, and a
+    two second scrap between two other people is the worst place to
+    judge from.
+    """
+    for label, parts in (segments or ()):
+        if label == label_name and parts:
+            return max(parts, key=lambda p: p[1] - p[0])
+    return None
+
+
+def audio_start_of(file_path, axis):
+    """Where an audio file starts: its timecode, else the measurement."""
+    try:
+        t = file_timecode(file_path)
+    except (OSError, ValueError, RuntimeError):
+        t = None
+    if t is not None:
+        return float(t)
+    a = (axis or {}).get(os.path.abspath(file_path))
+    return float(a) if a is not None else None
+
+
+def camera_start_of(file_path):
+    """Where a video file starts, from its timecode, or nothing."""
+    try:
+        info = video_facts(file_path)
+    except (OSError, ValueError, RuntimeError):
+        return None
+    if not info.get("tc"):
+        return None
+    return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
 
 
 def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
@@ -17828,7 +18170,9 @@ def build_argument_parser():
     ap.add_argument("--multitrack", action="store_true",
                     help="send every audio file to Auphonic as its own "
                          "track, so the bleed between the microphones can be "
-                         "removed. Needs several audio files and a "
+                         "removed. Needs two input tracks -- a recording "
+                         "of its own, a channel of a multichannel "
+                         "recorder, or the audio of a camera -- and a "
                          "multitrack preset. Which audio belongs to which "
                          "camera comes from --assign; the interface writes "
                          "that file.")
@@ -18095,6 +18439,10 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
     # Recorded for the Resolve part of the simple path.
     simple_cameras, simple_offset, simple_tracks = [], {}, {}
     simple_folder = [None]
+    # Where the mix sits in each camera's own time, so the separation
+    # can be put on the axis afterwards without measuring anything a
+    # second time.
+    simple_axis = {}
 
     #-------------------------------------------------- 6. Insertion
     error = 0
@@ -18185,6 +18533,10 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
 
         try:
             a, b, st = align_audio_to_video(audio, v, head_s)
+            # audio time = a + b * video time, and the alignment looked
+            # at the audio from head_s on -- so the mix as a whole
+            # begins at a + head_s in this camera's time.
+            simple_axis[os.path.abspath(v)] = (a + head_s / float(SR), b)
         except Exception as e:
             print(as_bad(T('  Alignment failed: %s\n') % e))
             error += 1
@@ -18375,7 +18727,7 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
         handover_for_single_track(args, videos, results, simple_cameras,
                         simple_offset, simple_tracks,
                         simple_folder[0] or os.path.dirname(results[0]),
-                        audio)
+                        audio, simple_axis, audio_paths)
 
     if results:
         print(as_head(T('RESULT')))
@@ -18448,19 +18800,18 @@ def main():
         return gui()
     # Not every switch works in both modes, so the help text says which.
     # Otherwise a switch is accepted in the wrong path and does nothing.
-    ONLY_MULTITRACK = ("auphonic_done", "min_edit_duration", "delay",
-                       "min_speech_to_switch", "reaction_lead",
-                       "reaction_gap", "reaction_hold",
-                       "wide_after", "wide_length", "wide_most",
-                       "wide_latest", "no_wide_edges", "parallel",
-                       "speakers_local", "speakers_from", "speakers_count",
-                       "no_speakers_local", "no_speech_recognition",
-                       "no_transcript_file",
-                       "assign", "multitrack") + tuple(
-                           s.replace("-", "_")
-                           for s, _c, _d, _v, _k, _l in CUT_CHOICES)
-    ONLY_SIMPLE = ("no_trim", "head", "tail", "suffix", "name",
-                   "no_single_tracks")
+    # Everything that shapes the cut left this list in 2.7.0-beta: the
+    # simple path hands the whole of args to write_cut_list now, so the
+    # sliders, the wide shot and the four cut rules work there too. What
+    # stays is what really needs several tracks -- the words come out of
+    # auphonic.com's per-track transcript, and the simple path calls
+    # write_cut_list with words=().
+    ONLY_MULTITRACK = ("auphonic_done", "parallel",
+                       "no_speech_recognition", "no_transcript_file",
+                       "assign", "multitrack")
+    # Not "suffix": finish_without_auphonic names the mixed file with it
+    # on the multitrack path as well.
+    ONLY_SIMPLE = ("no_trim", "head", "tail", "name", "no_single_tracks")
     for entry in ap._actions:
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"
@@ -20725,6 +21076,30 @@ def slider_numbers(values):
     return out, None
 
 
+def voices_of_values(values):
+    """Name -> camera file, out of what the interface holds.
+
+    The window knows a camera by the name of its file; the run wants
+    the file. A voice set to "no camera of its own" or left out is not
+    in the answer -- it keeps its name in the markers and takes no
+    picture.
+    """
+    where = {}
+    for cam in (values.get("cameras") or ()):
+        if not cam.get("path"):
+            continue
+        where[os.path.basename(cam["path"])] = cam["path"]
+        if (cam.get("name") or "").strip():
+            where[cam["name"].strip()] = cam["path"]
+    out = {}
+    for row in (values.get("voices") or ()):
+        name = (row.get("name") or "").strip()
+        pick = row.get("camera") or ""
+        if name and pick in where:
+            out[name] = where[pick]
+    return out
+
+
 def slider_argv(values):
     """Return the cut sliders as command line switches.
 
@@ -20831,11 +21206,12 @@ def run_argv(values, assignment_file_path=""):
                 % len(values.get("rows") or []), T('Take the camera audio')))
         if len(lines) < 2:
             return error(
-                T('Multitrack needs several recordings'),
-                T('Multitrack needs at least two separate audio recordings '
-                  '-- one per speaker. Several blocks of the same '
-                  'recording count as one, ignored ones not at all. '
-                  'Without own audio recordings, two cameras will do.'))
+                T('Multitrack needs several tracks'),
+                T('Multitrack needs at least two input tracks. A track is '
+                  'a recording of its own, a channel of a multichannel '
+                  'recorder, or the audio of a camera with "as a track" '
+                  'ticked. Several blocks of the same recording count as '
+                  'one, tracks set aside not at all.'))
         names = [(r.get("speakers") or "").strip() for r in lines]
         if not all(names):
             return error(
@@ -20925,6 +21301,34 @@ def run_argv(values, assignment_file_path=""):
         argv += part
         if not values.get("wide_at_edges"):
             argv += ["--no-wide-edges"]
+    elif (values.get("speakers_of") or {}).get("segments") \
+            and assignment_file_path:
+        # One track, and the voices in it already told apart. It
+        # travels the way the multitrack path sends it, so the run does
+        # not spend the minutes twice -- and with it which camera each
+        # voice belongs to, which only the window knows. The sliders go
+        # too: since 24.8.2026 this path cuts as well, and numbers that
+        # do not reach the run are numbers that do nothing.
+        plan = {"format": FILE_FORMAT,
+                "created_by": "videopodcast-magic.py %s" % VERSION,
+                "speakers_of": values["speakers_of"],
+                "voices_of": voices_of_values(values)}
+        argv += ["--speakers-from", assignment_file_path]
+        if (values.get("in_point") or "").strip():
+            argv += ["--in-point", values["in_point"].strip()]
+        if (values.get("out_point") or "").strip():
+            argv += ["--out-point", values["out_point"].strip()]
+        part, bad = slider_argv(values.get("cut"))
+        if bad:
+            return error(
+                T('Camera cut'),
+                T('%r is not a number.') % (values.get("cut") or {})[bad])
+        argv += part
+        if not values.get("wide_at_edges"):
+            argv += ["--no-wide-edges"]
+    if values.get("speakers_wanted") is False \
+            and not values.get("multitrack"):
+        argv += ["--no-speakers-local"]
 
     # Finished tracks lie in a folder, and nothing is sent anywhere to
     # use them. This used to hang inside "if key:", so a run without a
@@ -21969,8 +22373,9 @@ def gui():
         if multitrack.get():
             used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
             if len(used) < 2:
-                pending[22] = (T('Multitrack needs at least two separate '
-                                 'audio recordings.'))
+                pending[22] = (T('Multitrack needs two tracks in the table '
+                                 'above -- a camera counts as one once '
+                                 '"as a track" is ticked for it.'))
             elif not all(v.get().strip() for _r, v, _k in used):
                 pending[22] = T('One audio recording has no speaker name yet.')
             else:
@@ -23548,21 +23953,6 @@ def gui():
     # and deliberately no place in the prework count: axis_work_loop
     # waits in "while prework_busy()", and three minutes there would
     # hold up the time axis and the playhead with it.
-    def speaker_split_wanted():
-        """May the separation run by itself? True, False, or unasked.
-
-        On a Mac it runs without being asked: the graphics unit does an
-        hour of audio in two minutes and nothing else is waiting on it.
-        Elsewhere the answer is asked for once, with the two buttons on
-        the line itself rather than in a dialogue, and then remembered
-        in the project file.
-        """
-        if SPEAKER_SPLIT_OFF:
-            return False
-        if state.get("speakers_wanted") is not None:
-            return bool(state["speakers_wanted"])
-        return True if sys.platform == "darwin" else None
-
     def speaker_split_source():
         """Which file the separation listens to, and why that one."""
         audio_files = [p for p, a in files if a == "audio"]
@@ -23577,7 +23967,7 @@ def gui():
     def speaker_split_show(text="", colour=None):
         """The one line under the time axis: what is happening."""
         source, why = speaker_split_source()
-        wanted = speaker_split_wanted()
+        wanted = speaker_split_wanted(state.get("speakers_wanted"))
         busy = split_run["busy"]
         if SPEAKER_SPLIT_OFF:
             split_line.setVisible(False)
@@ -23697,7 +24087,7 @@ def gui():
                     and state.get("speakers_source") == source:
                 speaker_split_show()
                 return
-            if not speaker_split_wanted():
+            if not speaker_split_wanted(state.get("speakers_wanted")):
                 speaker_split_show()
                 return
         state["speakers_wanted"] = True
@@ -24196,6 +24586,34 @@ def gui():
     # name, a camera and a place to listen to it.
     voice_lines = []        # (label, name Value, camera Value)
 
+    def assignment_state_show():
+        """What the material allows: the cut box, and the tick's line.
+
+        The camera cut needs speakers told apart, and whether they came
+        of separate tracks or of one recording taken apart is no part
+        of it -- hanging the box off the Multitrack tick hid the cut
+        from everybody with one recording and four voices in it. The
+        line beside the tick says why Multitrack is not on offer, where
+        the question is asked instead of at the start button.
+
+        The widgets are looked up and not closed over: this runs while
+        the window is still being built.
+        """
+        boxes = state.get("cut_boxes")
+        if boxes:
+            pairs = [(nv.get(), cv.get()) for _k, nv, cv in voice_lines]
+            on = bool(multitrack.get()) or cut_has_people(pairs)
+            boxes[0].setTitle(cut_box_title(pairs, multitrack.get()))
+            boxes[0].setVisible(on)
+            boxes[1].setVisible(on)
+            boxes[2].setVisible(not on)
+        note = state.get("multitrack_note")
+        if note is not None:
+            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
+            note.setText(multitrack_state_note(
+                len(used), sum(1 for _b, _nv, own, _n in camera_lines
+                               if not own.get())))
+
     def voice_names_now():
         """The names of the voices, including what was just typed in."""
         named = dict(state.get("speakers_named") or {})
@@ -24203,18 +24621,6 @@ def gui():
             if name_value.get().strip():
                 named[label] = name_value.get().strip()
         return named
-
-    def voice_longest(label_name):
-        """The longest stretch that voice speaks, in the source's time.
-
-        The longest one, because the name is read off what is heard,
-        and a two second scrap between two other people is the worst
-        place to judge from.
-        """
-        for label, parts in (state.get("speakers_local") or ()):
-            if label == label_name and parts:
-                return max(parts, key=lambda p: p[1] - p[0])
-        return None
 
     def voice_play(label_name):
         """Hand that voice to the player on the right.
@@ -24231,7 +24637,7 @@ def gui():
         of somebody else's word.
         """
         source = state.get("speakers_source") or ""
-        stretch = voice_longest(label_name)
+        stretch = longest_stretch(state.get("speakers_local"), label_name)
         if not source or not stretch:
             return
         length = min(8.0, stretch[1] - stretch[0])
@@ -24270,10 +24676,7 @@ def gui():
             column.addWidget(table)
             for i, (label, parts) in enumerate(segments):
                 table.insertRow(i)
-                spoken = sum(b - a for a, b in parts)
-                voice_caption = (T('heard in %s -- %s')
-                                 % (os.path.basename(source),
-                                    as_hms(spoken)))
+                voice_caption = voice_caption_of(source, parts)
                 cell(table, i, 0, voice_caption)
                 name_value = Value(called.get(label)
                                    or T('Speaker %d') % (i + 1))
@@ -24371,6 +24774,9 @@ def gui():
                                    if nv.get().strip()}
         for k, _nv, cv in voice_lines:
             remembered["voice:" + k] = cv.get()
+        # A voice that has just been given a camera may be the second
+        # one, and with it the camera cut becomes possible.
+        assignment_state_show()
         preview_kick_off()
 
     def assignment_fresh(forget=(), camera_fresh=False):
@@ -24698,6 +25104,7 @@ def gui():
         # other down, and the separation is the long one of the two.
         speaker_split_kick_off()
         assignment_check()
+        assignment_state_show()
 
     def refresh_names():
         """Suggest file names again; hand-edited ones stay."""
@@ -24722,16 +25129,10 @@ def gui():
         # What gets checked hangs on this decision.
         preflight_kick_off()
         presets_filter()
-        try:
-            # Camera cut and forecast live off the speaker assignment. Without
-            # separate tracks there is none, so they go rather than offering
-            # sliders that do nothing.
-            on = bool(multitrack.get())
-            cut_box.setVisible(on)
-            forecast_box.setVisible(on)
-            without_cut_label.setVisible(not on)
-        except NameError:
-            pass            # the boxes do not exist during setup
+        # Camera cut and forecast live off the speakers being told
+        # apart. Whether that came of separate tracks or of one
+        # recording taken apart is not this question.
+        assignment_state_show()
         try:
             resolve_button_check()
         except NameError:
@@ -24740,8 +25141,8 @@ def gui():
     # --- Multitrack
     #
     # Under the assignment table, not beside the production name: what
-    # Multitrack needs is decided in that table. Two separate recordings,
-    # and a camera counts as one as soon as "as a track" is ticked for it.
+    # Multitrack needs is decided in that table. Two input tracks, and a
+    # camera counts as one as soon as "as a track" is ticked for it.
     # A tick on the sheet before would ask the question before the answer
     # can exist.
     multitrack_value = multitrack
@@ -24749,13 +25150,20 @@ def gui():
     checkbox_bind(multi_button, multitrack_value)
     multi_button.toggled.connect(lambda *_: mode_toggled())
     multitrack_row.addWidget(hint(
-        multi_button, T('One audio track per speaker: the basis for the '
-                        'camera cut and for Resolve.\nWorks without '
-                        'auphonic.com as well -- then without de-bleed and '
-                        'leveler.\nIt needs two separate recordings; a '
-                        'camera counts as one once\n"as a track" is ticked '
-                        'for it in the table above.')))
+        multi_button, T('One audio track per person, kept apart all the '
+                        'way to auphonic.com.\nWorks without it as well -- '
+                        'then without de-bleed and leveler.\nIt needs two '
+                        'input tracks: a recording of its own, a channel '
+                        'of a\nmultichannel recorder, or the audio of a '
+                        'camera once "as a track"\nis ticked for it above. '
+                        'The camera cut does not need this tick.')))
+    # Why it is not on offer. The tick stays clickable either way.
+    multitrack_note = label("", COLOURS["quiet"])
+    multitrack_row.addSpacing(10)
+    multitrack_row.addWidget(multitrack_note)
     multitrack_row.addStretch(1)
+    state["multitrack_note"] = multitrack_note
+    assignment_state_show()
 
     # --- Spoken language
     #
@@ -25044,11 +25452,15 @@ def gui():
     start_var.listen(window_info_show)
     end_var.listen(window_info_show)
 
-    # What stands in place of the camera cut on the simple path: one line
-    # saying why, which beats an empty area.
+    # What stands in place of the camera cut: one line saying why, which
+    # beats an empty area. Until 2.7.0-beta it sent people to
+    # auphonic.com for an assignment the machine has made since 2.0.0.
     without_cut_label = label(
-        T('Without separate audio tracks there is no camera cut: that '
-          'needs the speaker assignment from auphonic.com.\nA Resolve '
+        T('There is no camera cut yet: it needs two people, each with a '
+          'name and a camera.\nSeparate recordings give that with the '
+          'Multitrack tick, and so does Separate speakers on one '
+          'recording --\nthe voices found there '
+          'get their camera in the table under the recordings.\nA Resolve '
           'project is created anyway -- all cameras at their measured '
           'places, ready for Multicam.'),
         COLOURS["quiet"])
@@ -25127,7 +25539,11 @@ def gui():
     # Preview: as soon as a handover file from earlier is there, the cut can be
     # recomputed on every change without writing anything. Then the effect of a
     # number is visible rather than guessed.
-    forecast_box = QtWidgets.QGroupBox(T('Camera cut -- preview'))
+    forecast_box = QtWidgets.QGroupBox(
+        T('%s -- preview') % cut_title_of(voice_lines, multitrack.get()))
+    # The three that stand or fall together, where the assignment can
+    # reach them: it is rebuilt before this tab exists.
+    state["cut_boxes"] = (cut_box, forecast_box, without_cut_label)
     # Weighted: whatever stays free below goes into this picture.
     resolve_right.addWidget(forecast_box, 1)
     forecast_outer = QtWidgets.QVBoxLayout(forecast_box)
@@ -25407,12 +25823,7 @@ def gui():
     resolve_right.addStretch(0)
 
     def local_speaker_segments():
-        """The local separation, on the common axis and under its names.
-
-        Stored raw and in the time of its own file. The offset and the
-        widened edges are applied here, where it is used -- a later
-        change of offset then costs this arithmetic and no measurement.
-        """
+        """The local separation, where this window puts it."""
         segments = state.get("speakers_local") or []
         source = state.get("speakers_source") or ""
         if not segments or not source:
@@ -25420,13 +25831,9 @@ def gui():
         begin = min([audio_start(row[0]) for row, _n, cv in assign_lines
                      if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
                     or [0.0])
-        moved = speaker_segments_on_axis(
-            speaker_segments_polish(segments), audio_start(source) - begin)
-        named = voice_names_now()
-        out = [(named.get(label) or label, parts) for label, parts in moved]
-        length = max((b for _n, parts in out for _a, b in parts),
-                     default=0.0)
-        return out, length
+        return speakers_on_window_axis(segments,
+                                       audio_start(source) - begin,
+                                       voice_names_now())
 
     def off_speakers():
         """Build a handover from who speaks when and the assignment.
@@ -25460,34 +25867,18 @@ def gui():
             if n and camera_value.get() != IGNORE_AUDIO:
                 where_to[n] = camera_value.get()
 
-        def audio_origin(file_path):
-            """Return the audio start: timecode, else the measurement."""
-            try:
-                t = file_timecode(file_path)
-            except Exception:
-                t = None
-            if t is not None:
-                return float(t)
-            a = (state.get("axis") or {}).get(os.path.abspath(file_path))
-            return float(a) if a is not None else None
-
-        def video_origin(file_path):
-            try:
-                info = video_facts(file_path)
-            except Exception:
-                return None
-            if not info.get("tc"):
-                return None
-            return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
+        axis = state.get("axis") or {}
 
         d, reason = build_handover(
             segment_list, length, where_to,
             [{"track": guess_camera_name(b), "file": b,
               "start_s": camera_start(b)}
              for b, _nv, _own_audio, _name in camera_lines],
-            audio_origin=[audio_origin(row[0]) for row, _nv, cv in assign_lines
+            audio_origin=[audio_start_of(row[0], axis)
+                      for row, _nv, cv in assign_lines
                       if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])],
-            camera_origin=[video_origin(b) for b, _n, _own, _own_flag in camera_lines],
+            camera_origin=[camera_start_of(b)
+                           for b, _n, _own, _own_flag in camera_lines],
             places=(out_folder.get(), commonest_folder()))
         if d is None:
             state["reason"] = reason
@@ -25624,7 +26015,8 @@ def gui():
             # Without numbers the box stays empty but for the one sentence.
             # Empty table headers promise content that does not exist.
             forecast_empty(True)
-            forecast_box.setTitle(T('Camera cut -- preview'))
+            forecast_box.setTitle(T('%s -- preview') % cut_title_of(
+                voice_lines, multitrack.get()))
             state["cut_numbers"] = None
             band_show(None)
             preview_set(T('No speakers are known yet -- "Measure speakers '
@@ -25676,9 +26068,9 @@ def gui():
         preview_label.setToolTip("")
         forecast_empty(False)
         try:
-            forecast_box.setTitle(
-                T('Camera cut -- preview  (length %s)')
-                % as_hms(max(b for _a, b, _w in numbers["cut"])))
+            forecast_box.setTitle(T('%s -- preview  (length %s)') % (
+                cut_title_of(voice_lines, multitrack.get()),
+                as_hms(max(b for _a, b, _w in numbers["cut"]))))
         except Exception:
             pass
         # Where the segments come from belongs with them: self-measured is
@@ -26027,7 +26419,9 @@ def gui():
             total_line.setText("")
         cameras = len([1 for p, a in files if a == "video"])
         stages = run_stages(bool(multitrack.get()), cameras,
-                            not without_auphonic())
+                            not without_auphonic(),
+                            speakers=bool(multitrack.get()
+                                          or state.get("speakers_local")))
         run_step_order[:] = [name for name, _w, _c in stages]
         for name, weight, caption in stages:
             plan.add("run:" + name, weight, caption)
@@ -26672,6 +27066,10 @@ def gui():
             # A no given in the window has to reach the run: it would
             # otherwise pick a source itself and separate after all.
             "speakers_wanted": state.get("speakers_wanted"),
+            # Which camera each voice belongs to. The run cannot work
+            # that out: a voice has no file to be assigned by.
+            "voices": [{"name": nv.get().strip(), "camera": cv.get()}
+                       for _k, nv, cv in voice_lines],
             # Without auphonic.com: the key stays in the field but this run
             # does not see it.
             "key": "" if without_auphonic() else key_var.get(),
@@ -26683,7 +27081,7 @@ def gui():
             "together": together_now(),
         }
         assign_file = ""
-        if multitrack.get():
+        if multitrack.get() or state.get("speakers_local"):
             fd, assign_file = tempfile.mkstemp(prefix="vpm_assign_",
                                            suffix=".json")
             os.close(fd)
@@ -27513,6 +27911,7 @@ CATALOGUE["de"] = {
     'Separating speakers ...': 'Sprecher werden getrennt ...',
     'Separating speakers in %s ...':
         'Sprecher werden getrennt in %s ...',
+    '  From %s: %d voice.': '  Aus %s: %d Stimme.',
     'Separated: %d speaker in %s': 'Getrennt: %d Sprecher in %s',
     'Separated: %d speakers in %s': 'Getrennt: %d Sprecher in %s',
     'Break off': 'Abbrechen',
@@ -27572,7 +27971,9 @@ CATALOGUE["de"] = {
         'Trennung wurde nicht gestartet.',
     'Voice': 'Stimme',
     'Speaker %d': 'Sprecher %d',
-    'heard in %s -- %s': 'gehört in %s -- %s',
+    'in %s -- speaks %s, longest passage at %s':
+        'in %s -- redet %s, längste Stelle bei %s',
+    'in %s -- speaks %s': 'in %s -- redet %s',
     'Listen': 'Anhören',
     'Puts the recording into the player on the right and jumps to the '
     'longest stretch this voice speaks.':
@@ -27707,8 +28108,8 @@ CATALOGUE["de"] = {
         'keiner',
     'Length':
         'Länge',
-    "into the mix only": "nur in den Mix",
-    "ignore this audio": "Audio ignorieren",
+    "no camera of its own": "ohne eigene Kamera",
+    "do not use": "nicht verwenden",
     'this window': 'dieses Fenster',
     'two file names for the same moment -- neither of them is taken':
         'zwei Dateinamen für denselben Moment -- keiner von beiden wird genommen',
@@ -28424,17 +28825,19 @@ CATALOGUE["de"] = {
         'Zuordnungsdatei nicht lesbar: %s',
     'Camera audio not usable: %s':
         'Kameraton nicht verwendbar: %s',
-    'MULTITRACK NOT POSSIBLE\n  At least two separate audio recordings are '
-    'needed -- one per speaker.\n  Only %d was found. A camera counts as one '
-    'as soon as its own audio\n  is marked as a track in the assignment. '
-    'Without separate tracks\n  there is nothing to decouple; without the '
-    'tick the same file runs\n  through as an ordinary production.':
-        'MULTITRACK NICHT MOEGLICH\n  Nötig sind mindestens zwei getrennte '
-        'Tonaufnahmen -- je Sprecher eine.\n  Gefunden wurde nur %d. Eine '
-        'Kamera zählt als eine, sobald ihr Ton in\n  der Zuordnung als Spur '
-        'markiert ist. Ohne getrennte Spuren gibt es\n  nichts zu '
-        'entkoppeln; ohne das Häkchen läuft dieselbe Datei als\n  '
-        'gewöhnliche Produktion durch.',
+    'MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and '
+    'only %d was found.\n  A track is a recording of its own, a channel of '
+    'a multichannel\n  recorder, or the audio of a camera -- that counts as '
+    'soon as it\n  is marked as a track in the assignment. Without two of '
+    'them there\n  is nothing to decouple, and the same file runs through '
+    'as an\n  ordinary production.':
+        'MULTITRACK NICHT MOEGLICH\n  Nötig sind mindestens zwei '
+        'Eingangsspuren, gefunden wurde nur %d.\n  Eine Spur ist eine '
+        'eigene Aufnahme, ein Kanal eines mehrkanaligen\n  Aufnahmegeräts '
+        'oder der Ton einer Kamera -- der zählt mit, sobald\n  er in der '
+        'Zuordnung als Spur markiert ist. Ohne zwei davon gibt es\n  nichts '
+        'zu entkoppeln, und dieselbe Datei läuft als gewöhnliche\n  '
+        'Produktion durch.',
     'Multitrack needs at least two tracks -- with one camera there is '
     'nothing\nto unmix. Without --multitrack its audio is processed as '
     'usual.':
@@ -29006,8 +29409,8 @@ CATALOGUE["de"] = {
         'Kamera',
     'Camera audio, %d to go ...':
         'Kameraton, noch %d ...',
-    'Camera cut -- preview  (length %s)':
-        'Kameraschnitt -- Vorschau  (Länge %s)',
+    '%s -- preview  (length %s)':
+        '%s -- Vorschau  (Länge %s)',
     'Why the run cannot start':
         'Warum der Lauf nicht starten kann',
     'Cannot start yet: %s':
@@ -29187,17 +29590,28 @@ CATALOGUE["de"] = {
         'Fehlender Ton %s mit Stille aufgefüllt%s',
     'Module DaVinciResolveScript cannot be loaded: %s':
         'Modul DaVinciResolveScript nicht ladbar: %s',
-    'One audio track per speaker: the basis for the camera cut and for Resolve.\nWorks without auphonic.com as well -- then without de-bleed and leveler.\nIt needs two separate recordings; a camera counts as one once\n"as a track" is ticked for it in the table above.':
-        'Eine Tonspur je Sprecher: die Grundlage für den Kameraschnitt und\nfür Resolve. Geht auch ohne auphonic.com — dann ohne De-Bleed und\nLeveler. Es braucht zwei getrennte Aufnahmen; eine Kamera zählt mit,\nsobald bei ihr in der Tabelle darüber "als Spur" gesetzt ist.',
+    'One audio track per person, kept apart all the way to auphonic.com.'
+    '\nWorks without it as well -- then without de-bleed and leveler.\nIt '
+    'needs two input tracks: a recording of its own, a channel of a\n'
+    'multichannel recorder, or the audio of a camera once "as a track"\nis '
+    'ticked for it above. The camera cut does not need this tick.':
+        'Eine Tonspur je Person, bis zu auphonic.com getrennt gehalten.'
+        '\nGeht auch ohne -- dann ohne De-Bleed und Leveler.\nNötig sind '
+        'zwei Eingangsspuren: eine eigene Aufnahme, ein Kanal\neines '
+        'mehrkanaligen Aufnahmegeräts oder der Ton einer Kamera,\nsobald '
+        'bei ihr "als Spur" gesetzt ist. Der Kameraschnitt braucht das '
+        'Häkchen nicht.',
     'Multitrack (one track per speaker)':
         'Multitrack (je Sprecher eine Spur)',
-    'Multitrack needs at least two separate audio recordings -- one per '
-    'speaker. Several blocks of the same recording count as one, ignored '
-    'ones not at all. Without own audio recordings, two cameras will do.':
-        'Multitrack braucht mindestens zwei getrennte Tonaufnahmen -- je '
-        'Sprecher eine. Mehrere Blöcke derselben Aufnahme zählen als eine, '
-        'ignorierte gar nicht. Ohne eigene Tonaufnahmen gehen auch zwei '
-        'Kameras.',
+    'Multitrack needs at least two input tracks. A track is a recording '
+    'of its own, a channel of a multichannel recorder, or the audio of a '
+    'camera with "as a track" ticked. Several blocks of the same '
+    'recording count as one, tracks set aside not at all.':
+        'Multitrack braucht mindestens zwei Eingangsspuren. Eine Spur ist '
+        'eine eigene Aufnahme, ein Kanal eines mehrkanaligen '
+        'Aufnahmegeräts oder der Ton einer Kamera, bei der "als Spur" '
+        'gesetzt ist. Mehrere Blöcke derselben Aufnahme zählen als eine, '
+        'beiseitegelegte Spuren gar nicht.',
     'No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have '
     'it remembered once in the interface. The key is in the Auphonic '
     'account settings.':
@@ -29639,13 +30053,19 @@ CATALOGUE["de"] = {
         'setzen, statt sie auf „Same as Project“ zu lassen.',
     'Without processing at auphonic.com':
         'Ohne Aufbereitung bei auphonic.com',
-    'Without separate audio tracks there is no camera cut: that needs the '
-    'speaker assignment from auphonic.com.\nA Resolve project is created '
-    'anyway -- all cameras at their measured places, ready for Multicam.':
-        'Ohne getrennte Tonspuren gibt es keinen Kameraschnitt: dafür '
-        'braucht es die Sprecherzuordnung von auphonic.com.\nEin '
-        'Resolve-Projekt entsteht trotzdem -- alle Kameras an ihren '
-        'gemessenen Stellen, bereit für Multicam.',
+    'There is no camera cut yet: it needs two people, each with a name '
+    'and a camera.\nSeparate recordings give that with the Multitrack '
+    'tick, and so does Separate speakers on one recording --\nthe '
+    'voices found there get their camera in the table under the '
+    'recordings.\nA Resolve project is created anyway -- all cameras at '
+    'their measured places, ready for Multicam.':
+        'Noch kein Kameraschnitt: nötig sind zwei Personen mit je einem '
+        'Namen und einer Kamera.\nGetrennte Aufnahmen leisten das mit '
+        'dem Haken Multitrack, und Sprecher trennen auf einer Aufnahme '
+        'ebenso --\ndie dort gefundenen Stimmen bekommen ihre Kamera in '
+        'der Tabelle unter den Aufnahmen.\nEin Resolve-Projekt entsteht '
+        'trotzdem -- alle Kameras an ihren gemessenen Stellen, bereit '
+        'für Multicam.',
     'Without timecode the position of the files is measured.':
         'Ohne Timecode wird die Lage der Dateien gemessen.',
     'Works out who speaks when from the audio tracks themselves -- one '
@@ -30109,8 +30529,8 @@ CATALOGUE["de"] = {
         'ACHTUNG: ',
     'Camera cut':
         'Kameraschnitt',
-    'Camera cut -- preview':
-        'Kameraschnitt -- Vorschau',
+    '%s -- preview':
+        '%s -- Vorschau',
     'Cancel':
         'Abbrechen',
     'Capture curve':
@@ -30183,10 +30603,17 @@ CATALOGUE["de"] = {
         'Zusammenfassen',
     'Mixing %s':
         'Mische %s',
-    'Multitrack needs at least two separate audio recordings.':
-        'Multitrack braucht mindestens zwei getrennte Tonaufnahmen.',
-    'Multitrack needs several recordings':
-        'Multitrack braucht mehrere Aufnahmen',
+    'Multitrack needs two tracks in the table above -- a camera counts '
+    'as one once "as a track" is ticked for it.':
+        'Multitrack braucht zwei Spuren in der Tabelle darüber -- eine '
+        'Kamera zählt mit, sobald bei ihr "als Spur" gesetzt ist.',
+    'One track only -- tick "as a track" at a camera for a second one.':
+        'Nur eine Spur -- für eine zweite bei einer Kamera "als Spur" '
+        'setzen.',
+    'One track only, and no camera audio left to take.':
+        'Nur eine Spur, und es ist kein Kameraton mehr übrig.',
+    'Multitrack needs several tracks':
+        'Multitrack braucht mehrere Spuren',
     'Mute.':
         'Stumm schalten.',
     'No audio file given.':
@@ -30383,6 +30810,18 @@ CATALOGUE["de"] = {
         '\nSPRECHER\n  Niemand war zu hören -- daraus wird kein '
         'Kameraschnitt.',
     '\nCAMERA CUT': '\nKAMERASCHNITT',
+    '\nFIRST CUT BY SPEAKER': '\nERSTER SCHNITT NACH SPRECHERN',
+    '  More than two channels go to auphonic.com as one: the fold is '
+    'only switched off for stereo.\n  Where the channels are meant to '
+    'stay apart, cut the file into tracks first.':
+        '  Mehr als zwei Kanäle gehen als einer zu auphonic.com: die '
+        'Faltung wird nur für Stereo abgeschaltet.\n  Wo die Kanäle '
+        'getrennt bleiben sollen, die Datei vorher in Spuren schneiden.',
+    'First cut by speaker': 'Erster Schnitt nach Sprechern',
+    '  Only one voice -- nobody hands over, so there is no cut. The '
+    'passages go into the handover as markers.':
+        '  Nur eine Stimme -- niemand übergibt, also gibt es keinen '
+        'Schnitt. Die Passagen gehen als Marker in die Übergabe.',
     '\nTRANSCRIPT': '\nTRANSKRIPT',
     '  %s words: %.1f %% to one voice, %.1f %% to two, %.1f %% in a gap':
         '  %s Wörter: %.1f %% auf eine Stimme, %.1f %% auf zwei, '

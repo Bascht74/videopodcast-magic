@@ -5,10 +5,11 @@
 
 ## Wie der Schnitt entsteht
 
-Bei Multitrack weiß das Script, wann wer geredet hat: nach Stimmen
-getrennt auf diesem Rechner oder aus den Spuren gegeneinander gemessen.
-Beides steht in [Spracherkennung und Sprechertrennung](speech.de.md).
-Daraus baut es den Kameraschnitt:
+Der Schnitt braucht zwei Personen mit je einem Namen und einer Kamera.
+Getrennte Aufnahmen leisten das, und die Stimmen aus **Sprecher
+trennen** ebenso; das Häkchen **Multitrack** gehört nicht dazu. Beide
+Wege stehen in [Spracherkennung und Sprechertrennung](speech.de.md).
+Damit weiß das Script, wann wer redet, und baut daraus den Schnitt:
 
 * Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
 * Ein kurzes „ja“ nicht: unter **Redet mindestens** bleibt das Bild, wo
@@ -25,17 +26,26 @@ Kamera sie abdeckt, kommt der Weitwinkel. Die Zuordnung sagt, wer auf
 welcher Kamera zu sehen ist: zwei Sprecher bei derselben Kamera heißt,
 sie zeigt beide.
 
+**Der Name richtet sich nach den Kameras.** Zwischen zwei Kameras
+wechselt das Bild, auf einer Kamera nicht. Dort entsteht ein erster
+Schnitt an jedem Sprecherwechsel. Der Lauf stellt `KAMERASCHNITT` über
+seinen Abschnitt bei zwei Kameras und mehr, bei einer
+`ERSTER SCHNITT NACH SPRECHERN`. Der Kasten im Fenster trägt dieselben
+zwei Namen; bevor etwas getrennt ist, heißt er **Kameraschnitt**.
+
 Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
-und `_cameracut.edl`. Die Köpfe sind
+und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
 `Speaker,Start TC,End TC,Time from start,Duration s` und
-`Shot,Camera,Start TC,End TC,Duration s`, die EDL-Titel `Speakers` und
-`Camera cut`.
+`Shot,Camera,Speaker,Start TC,End TC,Duration s`, die EDL-Titel
+`Speakers` und `Camera cut`.
 
 ### Die Stellschrauben einstellen
 
-Bei Multitrack nimmt die Oberfläche alle Werte entgegen: auf dem Reiter
+Die Oberfläche nimmt alle Werte entgegen: auf dem Reiter
 **Resolve-Schnitt**, im Kasten **Kameraschnitt**. Je Wert ein Feld,
-daneben die Einheit und eine kurze Zeile.
+daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald der
+Schnitt seine zwei Personen hat; vorher steht an seiner Stelle eine
+Zeile und sagt, was fehlt.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
@@ -277,8 +287,15 @@ Resolve bekommt eine Spur, die an den richtigen Stellen schon getrennt
 ist, und dort lässt sich jedes Stück gruppieren, einfärben und
 heranzoomen, so dass aus dem Weitwinkel der Sprecher wird.
 
-Die Schnittliste sagt es mit: `_cameracut.csv` hat eine Spalte Sprecher,
-und bei einer Kamera für alle trägt die EDL den Sprechernamen.
+Die Schnittliste sagt es mit: bei einer Kamera für alle trägt die EDL
+den Sprechernamen an Stelle des Kameranamens. Die Spalte Sprecher in
+`_cameracut.csv` steht in jedem Fall da.
+
+**Eine einzige Stimme gibt keinen Schnitt.** Niemand übergibt, also gibt
+es nichts zu schneiden, und weder Schnittliste noch EDL entstehen. Die
+Passagen gehen in die Übergabedatei, und Resolve setzt sie als Marker
+auf die Timeline, die es baut. Das ist eine Kamera am Stück mit dem Mix
+darunter, bei mehreren die Timeline für den Multicam-Clip.
 
 ### Was die Projektdatei behält
 
@@ -358,8 +375,14 @@ Lautheitsmessung läuft je Spur zweimal durch.
 * **Der Kasten Sprecher sagt, dass keine Sprecher bekannt sind.**
   **Sprecher jetzt messen** drücken. Der Grund steht an Stelle der
   Tabelle, wenn die Rechnung schiefgeht.
-* **Es kommt kein Kameraschnitt heraus.** Auf den Spuren war nichts zu
-  hören. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN`.
+* **Es kommt kein Schnitt heraus.** Auf den Spuren war nichts zu hören,
+  oder die Trennung hat nur eine Stimme gefunden. Das Protokoll sagt es
+  unter `SPRECHER -- HIER GEMESSEN` oder
+  `SPRECHER -- NACH STIMMEN GETRENNT`.
+* **Auf dem Reiter Resolve-Schnitt fehlt der Kasten für den Schnitt.**
+  Weniger als zwei Personen tragen Namen und Kamera. Auf dem Reiter
+  **Zuordnung & Zeitfenster** jeder Stimme einen Namen und eine Kamera
+  geben.
 * **Das Bild steht, obwohl der Sprecher wechselt.** Beide Sprecher
   sitzen auf einer Kamera, oder der Block ist kürzer als **Redet
   mindestens**.

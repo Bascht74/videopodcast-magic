@@ -9,8 +9,9 @@ Mehrere Leute am Tisch, jeder mit einem Mikrofon, auf dem alle zu hören
 sind. Dieses Übersprechen aus dem Ton zu nehmen ist das Einzige, was nur
 auphonic.com kann.
 
-Multitrack ist der Weg für eine Spur je Person. Wenn alle auf einer
-gemeinsamen Aufnahme sind, übernimmt die Sprechertrennung
+Multitrack ist der Weg für eine Spur je Person. Alle auf einer Aufnahme
+bleiben eine Spur. Die Sprechertrennung hält die Stimmen darin
+auseinander und liefert den Schnitt, nicht je eine Spur
 ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
 Alles andere läuft lokal. [Aufbereitung über auphonic.com](auphonic.de.md)
@@ -45,9 +46,16 @@ Rot, hier wie in der Dateiliste.
 
 Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
 ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
-beide es. Multitrack will zwei getrennte Aufnahmen, und eine Kamera zählt
-als eine, sobald sie das Häkchen **als Spur** trägt. Auf der Kommandozeile
-(`--multitrack`) zählt es genauso.
+beide es. Auf der Kommandozeile (`--multitrack`) zählt es genauso.
+
+Multitrack braucht zwei Eingangsspuren. Drei Dinge zählen als Spur:
+
+- eine eigene Aufnahme,
+- ein Kanal eines mehrkanaligen Aufnahmegeräts,
+- der Ton einer Kamera mit dem Häkchen **als Spur**.
+
+Das Programm zählt die Zeilen der oberen Tabelle, ohne die auf **Audio
+ignorieren**. Der Kameraschnitt braucht dieses Häkchen nicht.
 
 ![Die beiden Tabellen der Zuordnung](images/assignment.de.png)
 
@@ -59,7 +67,8 @@ Häkchen Multitrack und der Kasten für auphonic.com.*
 
 Bei reinem Kameramaterial wird der eigene Ton der Kameras zur Spur, je
 Kamera eine. Dafür braucht es mindestens zwei Kameras. Ohne Multitrack
-hat der Lauf dann nichts hineinzulegen und bricht ab.
+bricht der Lauf bei mehreren Kameras ab. Eine einzelne Kamera läuft ohne
+das Häkchen ([Der einfache Weg](simple-path.de.md)).
 
 Eine einzelne Kamera kann ihren Ton ebenso beisteuern: Häkchen **als
 Spur** in der Spalte **eigener Ton**. Sie bekommt dann eine Zeile in der
@@ -153,9 +162,9 @@ bext-Block, dazu iXML für Premiere und Media Composer.
   wählen oder die Datei mit **Entfernen** aus der Liste nehmen.
 - **In markieren und Out markieren bleiben gesperrt.** Die gemeinsame
   Zeitachse steht noch nicht. Den Balken unter den Tabellen abwarten.
-- **Der Lauf bricht bei reinem Kameramaterial ab.** Multitrack ist aus.
-  Das Häkchen **Multitrack** setzen; dann wird jede Kamera zu einer
-  eigenen Spur.
+- **Der Lauf bricht bei mehreren Kameras ohne Tonaufnahme ab.**
+  Multitrack ist aus. Das Häkchen **Multitrack** setzen; dann wird jede
+  Kamera zu einer eigenen Spur.
 - **Ein Sprecher fehlt im Full-Mix.** Bei dieser Zeile steht in der
   Spalte **gehört zu** der Eintrag **Audio ignorieren**.
 

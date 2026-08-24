@@ -44,27 +44,53 @@ Four tabs, in the order they are needed.
   their own under the assignment table
   ([Speech recognition and speaker separation](speech.md)).
 
+  Each voice gets a row: the recording it was heard in, how long it
+  speaks altogether, and where its longest passage begins. Beside those
+  stand the name, the camera it belongs to and **Listen**, which puts
+  the recording into the player at that longest passage.
+
   ![Assignment table and player](images/assignment.png)
 
   *Above which recording belongs to which camera, below what becomes
   of each camera.*
 - **Resolve cut**: one line saying whether Resolve answers, with the way
-  to the settings beside it. Then the time window, the values for the
-  camera cut and the box **Speaker**, whose heading names where the
-  speakers came from. Last the box **Camera cut -- preview**, with the
-  cut band and a picture that plays.
+  to the settings beside it. Then the time window, the box with the cut
+  values and the box **Speaker**, whose heading names where the speakers
+  came from. Last the box **Camera cut -- preview**, with the cut band
+  and a picture that plays.
+
+  The box with the cut values is called **Camera cut** when the speakers
+  sit on two cameras or more. On one camera for everybody it is called
+  **First cut by speaker**. Nothing is switched there: the cut falls at
+  every change of speaker, and Resolve gets one clip per person. With
+  **Multitrack** ticked the name stays **Camera cut**.
+
+  The box appears as soon as **Multitrack** is ticked, or as soon as two
+  voices from **Separate speakers** carry a name and a camera. Until then
+  a line stands in place of box and preview and says what is missing. A
+  Resolve project is written anyway, with every camera at its measured
+  place.
 
   Both rear tabs are there with or without separate tracks. Without them
-  the assignment column reads "into every camera" in grey, and sliders
-  and preview for the camera cut give way to a line saying why.
+  the assignment column reads "into every camera" in grey.
 - **Output**: appears as soon as something runs, in the same colours as
   the terminal, with the buttons **Open result folder** and
   **Create Resolve project**.
 
-**Multitrack (one track per speaker)** has a line of its own above the
-Auphonic box. One track per speaker is the basis for the camera cut, with
-auphonic.com or without; the program asks for the API key only on the way
-over auphonic.com.
+**Multitrack (one track per speaker)** has a line of its own under the
+assignment table, above the Auphonic box. It works with auphonic.com and
+without; the program asks for the API key only on the way over
+auphonic.com. The camera cut does not need the tick.
+
+Multitrack needs two input tracks. An input track is a recording of its
+own, a channel of a multichannel recorder, or the audio of a camera with
+**as a track** ticked for it. Several blocks of one recording count as
+one track, and a track set aside counts as none.
+
+The tick stays clickable whatever the material. With one track only a
+grey line beside it says so, and it names the way to a second: **as a
+track** at a camera. If every camera already gives its audio away, that
+line says there is none left to take.
 
 **Language** beside the production name is the language spoken in the
 recording, preset from the system language. It becomes the tag of the
@@ -78,7 +104,7 @@ what**:
 
 - no files,
 - no production name,
-- fewer than two recordings for multitrack,
+- fewer than two tracks in the assignment table for multitrack,
 - a recording without a speaker name,
 - all recordings under the same name,
 - two cameras with the same output file.

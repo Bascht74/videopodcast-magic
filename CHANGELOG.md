@@ -9,6 +9,74 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.7.0-beta] - 2026-08-25
+
+### Added
+
+- The simple path tells speakers apart and cuts by them. Until now the
+  separation ran on the multitrack path alone: `--speakers-local`,
+  `--speakers-from`, `--speakers-count` and `--no-speakers-local` were
+  refused everywhere else, the window wrote the assignment file only
+  with Multitrack ticked, and the arithmetic that puts the voices on a
+  camera's own time axis was reachable from the multitrack path only.
+  One recording, or the audio of a single camera, is now enough. The
+  cut list itself needed nothing: it had handled a single camera all
+  along.
+- A line beside the Multitrack tick says why it cannot be used yet --
+  "One track only: tick 'as a track' at a camera for a second one", or
+  that no camera audio is left to take. The tick stays clickable
+  rather than going grey without a reason.
+
+### Changed
+
+- With one camera the result is called a first cut by speaker, not a
+  camera cut. Between one camera there is nothing to switch to. What
+  the run produces is a cut at every change of speaker, so Resolve
+  gets one clip per person to group, grade and reframe -- which is
+  what a 360 degree camera wants.
+- Multitrack counts input tracks, not recordings. It said "at least
+  two separate audio recordings" in four places, and what the program
+  counts is rows in the assignment table: a recording of its own, a
+  channel of a multichannel recorder, or the audio of a camera once
+  "as a track" is ticked for it.
+- The voice row said "0:59:08,376" where a timestamp was expected and
+  meant the sum of that speaker's talking time. It now gives the
+  duration and the position of the longest passage, each named as what
+  it is.
+- Only one voice found is no longer treated as a failure. There is no
+  cut, because nobody hands over; the passages travel into the
+  handover as markers and Resolve gets the camera in one piece.
+
+### Fixed
+
+- The camera cut hung on the Multitrack tick instead of on the
+  question it answers. Four speakers told apart in a single recording,
+  each with a camera, produced an empty Resolve tab and a line saying
+  it could not be done -- while the cut itself had read those voices
+  for two versions.
+- The Resolve tab said the camera cut needed the speaker assignment
+  from auphonic.com. That stopped being true in 2.0.0, when the
+  separation moved onto this machine, and the line stood there another
+  two versions sending people somewhere they no longer had to go.
+- A recording with more than two channels was announced to
+  auphonic.com as mono, because `kept_channels` answered 2 for two
+  channels and 1 for anything else. The count is now reported as
+  measured, with a warning that more than two channels go as one and
+  should be cut into tracks first. What four ambisonic channels ought
+  to become is a decision, not a default, so the fold itself is
+  unchanged.
+
+### Documentation
+
+- Six chapters carried the old restriction that speaker separation and
+  the cut need multitrack. Both languages.
+- `development/measurements.md` gains "Why one recording does not
+  become four tracks": the measurement behind not building per-speaker
+  tracks by muting the others. De-Bleed has nothing to correlate when
+  only one track is non-zero at a time, and only 34.3 % of segment
+  boundaries fall in a real speech pause against 97-99 % for the audio
+  dip.
+
 ## [2.6.1-beta] - 2026-08-24
 
 ### Fixed
@@ -1234,6 +1302,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.7.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.1-beta...v2.7.0-beta
 [2.6.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.0-beta...v2.6.1-beta
 [2.6.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.5.0-beta...v2.6.0-beta
 [2.5.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.4.0-beta...v2.5.0-beta

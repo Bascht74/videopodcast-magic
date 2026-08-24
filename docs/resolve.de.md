@@ -43,21 +43,23 @@ der Knopf in die Schnittliste nimmt.*
 
 | Fall | Schnitt-Timeline | Multicam-Timeline |
 |---|---|---|
-| Multitrack, mehrere Kameras | Bild aus dem Kameraschnitt, Ton am Stück | alle Kameras nebeneinander |
-| einfacher Weg, mehrere Kameras | keine: die Sprecher sind nicht getrennt | alle Kameras nebeneinander |
-| eine Kamera | die Kamera am Stück, der Mix darunter | keine: das wäre sinnlos |
+| mehrere Kameras, Sprecher getrennt | Bild aus dem Kameraschnitt, Ton am Stück | alle Kameras nebeneinander |
+| mehrere Kameras, keine Trennung | keine | alle Kameras nebeneinander |
+| eine Kamera, Sprecher getrennt | je Sprecherwechsel ein Schnitt, der Mix darunter | keine |
+| eine Kamera, eine Stimme oder keine Trennung | die Kamera am Stück, der Mix darunter | keine |
 
-Der einfache Weg legt ebenfalls ein Projekt an. Einen Kameraschnitt kann
-er nicht liefern, denn dafür bräuchte es Multitrack und die
-Sprecherzuordnung. Die Timeline mit allen Kameras an ihren gemessenen
-Stellen liefert er, und daraus macht Resolve den Multicam-Clip.
+Über die Schnitt-Timeline entscheidet die Sprechertrennung, nicht der
+Weg. Zwei Leute mit Namen und Kamera ergeben einen Kameraschnitt, auch
+auf dem einfachen Weg. Ohne sie bleibt nur die Multicam-Timeline: alle
+Kameras an ihren gemessenen Stellen, und Resolve macht daraus den
+Multicam-Clip.
 
 Das Programm bringt die Bildrate auf eine, die Resolve kennt: ffprobe
 misst bei manchen Dateien 29,994 oder 30,001. Das Protokoll sagt, welche
 Rate es genommen hat. Timecodes rechnet es mit der ganzzahligen Rate und
 Dauern mit der echten, und Drop-Frame ist berücksichtigt.
 
-**… Cut**: der fertige Kameraschnitt. Auf V1 (`Camera cut`) liegen die
+**… Cut**: der fertige Schnitt. Auf V1 (`Camera cut`) liegen die
 Bildstücke **ohne ihren Ton**. Darunter läuft auf A1 (`Audio-Full-Mix`)
 der Full-Mix in einem Stück durch, damit der Klang an den Schnitten nicht
 springt. Der Mix kommt aus der abgelegten Einzeldatei, sonst aus dem
@@ -66,8 +68,8 @@ Weitwinkel, wo er die erste Tonspur ist.
 Aus dem gemessenen Versatz ergibt sich, welches Stück aus welcher
 Kameradatei in die Timeline kommt, nicht aus dem Timecode. Wenn eine
 Kamera nicht lief, springt eine andere ein, zuerst der Weitwinkel. Das
-Protokoll sagt, wie oft. Die Timeline trägt keine Marker, denn der
-Schnitt ist schon gemacht.
+Protokoll sagt, wie oft. Bei mehreren Kameras trägt die Timeline keine
+Marker.
 
 **… Multicam**: alle Kameras nebeneinander, eine je Bildspur, in voller
 Länge und **ohne Schnitte**, jede an ihrer gemessenen Stelle. Die
@@ -80,6 +82,18 @@ Umwandeln wird er zu Perspektive 1.
 löscht den überzähligen Ton nach dem Einfügen und benennt die Tonspuren
 wie die Bildspuren. Eine Kamera, die nicht gelandet ist, legt es einzeln
 nach und meldet es, wenn auch das misslingt.
+
+### Eine Kamera
+
+Bei einer Kamera entstehen weder Multicam-Timeline noch Multicam-Clip.
+Resolve bekommt allein die Timeline **… Cut**, und die Passagen der
+Sprecher stehen als Marker darauf, je Person eine Farbe.
+
+Eine einzelne Videodatei mit eigenem Ton ist dieser Fall. Die Trennung
+hält die Sprecher auf der einen Spur auseinander, und der Schnitt fällt
+an jedem Sprecherwechsel. Das Bild bleibt über die Schnitte hinweg
+dasselbe. Eine 360-Grad-Kamera bekommt ihren Bildausschnitt von Hand,
+Schnitt für Schnitt, und die Marker sagen, wer dran ist.
 
 ### Wenn es das Projekt schon gibt
 
