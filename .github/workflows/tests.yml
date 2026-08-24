@@ -1,0 +1,91 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  suite:
+    name: ${{ matrix.os }} / py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        python: ['3.14']
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python }}
+          cache: pip
+          cache-dependency-path: requirements-dev.txt
+
+      - name: what is on this machine
+        shell: bash
+        run: |
+          echo "runner:  $RUNNER_OS $RUNNER_ARCH"
+          echo "python:  $(python -VV)"
+          echo "cores:   $(getconf _NPROCESSORS_ONLN 2>/dev/null || echo '?')"
+          echo "bash:    $BASH_VERSION"
+          echo "tmp:     ${TMPDIR:-/tmp}"
+          echo "id -u:   $(id -u 2>&1 || echo '?')"
+          for t in ffmpeg ffprobe; do
+            if command -v "$t" > /dev/null 2>&1; then
+              echo "$t: $(command -v $t) -- $($t -version 2>&1 | head -1)"
+            else
+              echo "$t: NOT THERE"
+            fi
+          done
+
+      - name: ffmpeg (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+
+      - name: ffmpeg (macOS)
+        if: runner.os == 'macOS'
+        run: |
+          command -v ffmpeg > /dev/null 2>&1 || brew install ffmpeg
+
+      - name: ffmpeg (Windows)
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          command -v ffmpeg > /dev/null 2>&1 || choco install ffmpeg -y --no-progress
+
+      - name: what Qt needs on a machine without a screen (Linux)
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get install -y -qq \
+            libegl1 libgl1 libxkbcommon-x11-0 libdbus-1-3 \
+            libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 \
+            libxcb-randr0 libxcb-render-util0 libxcb-image0 libxcb-sync1 \
+            libxcb-xfixes0 libxcb-xkb1 libxcb-xinerama0 \
+            libfontconfig1 libfreetype6
+
+      - name: the packages
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -r requirements-dev.txt
+          python -c "import numpy, PySide6, sys; \
+            print('numpy', numpy.__version__); \
+            print('PySide6', PySide6.__version__)"
+
+      - name: the suite
+        shell: bash
+        env:
+          VPM_PYTHON: python
+          QT_QPA_PLATFORM: offscreen
+        run: |
+          cd tests
+          time bash run.sh
