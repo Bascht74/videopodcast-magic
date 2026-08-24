@@ -139,8 +139,14 @@ jobs:
           cd tests
           ASIDE="$RUNNER_TEMP/set-aside"
           mkdir -p "$ASIDE"
+          : > "$RUNNER_TEMP/aside.txt"
           n=0
-          aside() { mv "$1_test.py" "$ASIDE/"; echo "  $1 -- $2"; n=$((n+1)); }
+          aside() {
+            mv "$1_test.py" "$ASIDE/"
+            echo "  $1 -- $2"
+            echo "$1 -- $2" >> "$RUNNER_TEMP/aside.txt"
+            n=$((n+1))
+          }
           case "$RUNNER_OS" in
             Windows)
               aside channel_read \
@@ -170,6 +176,32 @@ jobs:
           rc=${PIPESTATUS[0]}
           echo "the suite took $(( SECONDS - start )) s"
           exit $rc
+
+      # What a reader wants at a glance: how many ran, how many were taken
+      # out and which, and what is red.
+      - name: the run in five lines
+        if: always()
+        shell: bash
+        run: |
+          S="$RUNNER_TEMP/suite.log"
+          {
+            echo "## ${{ matrix.os }} / Python ${{ matrix.python }}"
+            echo
+            echo '```'
+            python -VV
+            grep -E "^green:" "$S" 2>/dev/null || echo "the suite did not"\
+              "get as far as a summary"
+            echo '```'
+            if [ -s "$RUNNER_TEMP/aside.txt" ]; then
+              echo "Taken out, because this machine cannot run them"\
+                "($(wc -l < "$RUNNER_TEMP/aside.txt" | tr -d ' ')):"
+              echo
+              while read -r l; do echo "* $l"; done \
+                < "$RUNNER_TEMP/aside.txt"
+            else
+              echo "Nothing was taken out: all 98 tests ran."
+            fi
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # run.sh prints four lines per red test. The whole output of a red
       # test says which caption, which channel, which file -- and that is
