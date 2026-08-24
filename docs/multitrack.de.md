@@ -43,11 +43,17 @@ dem Häkchen **als Spur**. Ein Klick auf eine Zeile holt die Datei in den
 Player. Dateien, die nicht zur gemessenen Zeitachse passen, stehen in
 Rot, hier wie in der Dateiliste.
 
-Über den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
+Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
 ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
 beide es. Multitrack will zwei getrennte Aufnahmen, und eine Kamera zählt
 als eine, sobald sie das Häkchen **als Spur** trägt. Auf der Kommandozeile
 (`--multitrack`) zählt es genauso.
+
+![Die beiden Tabellen der Zuordnung](images/assignment.de.png)
+
+*Reiter Zuordnung & Zeitfenster: die Aufnahmen mit ihrer Kamera, die
+Kameras mit der Spalte eigener Ton, und unter beiden Tabellen das
+Häkchen Multitrack und der Kasten für auphonic.com.*
 
 ### Kameraton zur Spur machen
 

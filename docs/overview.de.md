@@ -7,6 +7,13 @@ Aus dem Rohmaterial eines Videopodcasts wird eine geschnittene Folge: der
 gute Ton in den Videodateien, die Kameras auf einer Zeitachse und ein
 erster Kameraschnitt in DaVinci Resolve. Ein Fenster, oder ein Aufruf.
 
+![Das Hauptfenster mit Material darin](images/files.de.png)
+
+*Drei Reiter: Dateien & Produktion, Zuordnung & Zeitfenster,
+Resolve-Schnitt. Offen ist der erste, mit den Aufnahmen, den
+Videodateien und den Hinweisen aus dem Vorflug. Dieses Kapitel
+erklärt keinen davon; das tun die Kapitel dahinter.*
+
 ## Was es einem abnimmt
 
 Ein Interview ist im Kasten. Zwei Kameras liefen mit, und weil ein

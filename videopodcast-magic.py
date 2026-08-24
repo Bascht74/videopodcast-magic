@@ -27292,7 +27292,8 @@ CATALOGUE["de"] = {
     '  %s: %s, skipped':
         '  %s: %s, übersprungen',
     '  %s: how many channels it has cannot be determined (%s) -- it is not measured':
-        '  %s: wie viele Channels sie hat, ist nicht feststellbar (%s) -- sie wird nicht gemessen',
+        '  %s: wie viele Kanäle sie hat, ist nicht feststellbar (%s) '
+        '-- sie wird nicht gemessen',
     '  (%s deleted -- now in the video files and still at auphonic.com)':
         '  (%s gelöscht -- steckt jetzt in den Videodateien und liegt '
         'weiter bei auphonic.com)',

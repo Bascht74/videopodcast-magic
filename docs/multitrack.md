@@ -42,11 +42,17 @@ from**. The last column is **own audio**, with the tick **as a track**.
 A click on a row fetches that file into the player. Files that do not fit
 the measured time axis stand in red, here as in the file list.
 
-Above the tables the **Multitrack** tick sits a second time. It is the
+Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
 Multitrack wants two separate recordings, and a camera counts as one as
 soon as it has the **as a track** tick. The count is the same on the
 command line (`--multitrack`).
+
+![The two tables of the assignment](images/assignment.png)
+
+*Tab Assignment & time window: the recordings with their camera, the
+cameras with the column own audio, and under both tables the Multitrack
+tick and the box for auphonic.com.*
 
 ### Making camera sound a track
 

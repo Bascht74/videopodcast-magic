@@ -12,6 +12,12 @@ the list says what was found, and each row carries a mark
 ([The interface](interface.md)). Hovering over the mark, or opening the
 row, shows what stands behind it.
 
+![The file list with the marks from the preflight](images/files.png)
+
+*A tick on every row, and beside four of them the remark that the file
+does not fit the rest. The one note, about bleed, stands under GENERAL
+NOTES and in the sentence below the list.*
+
 The report holds for both modes.
 
 | Area | What | What follows |

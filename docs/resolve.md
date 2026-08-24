@@ -34,6 +34,11 @@ for and what can be in the way:
 **Check again** and the rest of that window are in [The
 interface](interface.md).
 
+![The Resolve cut tab with the answer line](images/resolve-cut.png)
+
+*Tab Resolve cut: the answer in green, and below it the values the
+button takes into the cut list.*
+
 | Case | Cut timeline | Multicam timeline |
 |---|---|---|
 | multitrack, several cameras | picture from the camera cut, audio in one piece | all cameras side by side |

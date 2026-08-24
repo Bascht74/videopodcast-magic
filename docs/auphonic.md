@@ -20,6 +20,11 @@ Never in a file, never in the project file.
    Keychain (macOS) or in the Registry (Windows).
 4. Press **Connect**. It checks the key and fetches the presets.
 
+![The box for the key](images/settings.png)
+
+*The window that Settings ... opens: above the box for the key, below
+the box for Resolve. The field is still empty.*
+
 A key that auphonic.com does not accept opens no window. **Connect**
 does not turn green, and under the field a line says what auphonic.com
 replied, with a button beside it that opens the settings. That line

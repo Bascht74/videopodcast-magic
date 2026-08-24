@@ -7,6 +7,13 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, and a first
 camera cut in DaVinci Resolve. One window, or one command.
 
+![The main window with material in it](images/files.png)
+
+*Three tabs: Files & production, Assignment & time window, Resolve cut.
+The first one is open, with the recordings, the video files and the
+notes from the preflight. This chapter explains none of them; the
+chapters after it do.*
+
 ## What it takes off your hands
 
 An interview is in the can. Two cameras ran, and because a camera

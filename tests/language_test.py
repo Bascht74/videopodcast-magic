@@ -389,6 +389,124 @@ _limit = remember_state("german_words", len(_found))
 check("German words: %d (ratchet %d)" % (len(_found), _limit),
         len(_found) <= _limit, str(sorted(set(w for _z, w in _found))[:6]))
 
+print("\n18. No English word forgotten on the German side")
+# Section 17 looks one way -- German in the English source. This is the
+# other way round: English left standing in the German catalogue. It was
+# written after 'join with Channel %d' was found reading 'mit Channel %d
+# zusammenlegen' on a screenshot on 24.8.2026, while the window beside it
+# said 'Kanal'. Two more entries had the same word left in them.
+#
+# Most English words in the German catalogue are meant to stay: Timecode,
+# Preset, Multitrack, Player, Resolve, Timeline, Leveler. docs/notes/
+# begriffe.md lists them and says why. Two ways were measured against the
+# three real entries:
+#
+#   the list from begriffe.md, everything else a find -- 147 entries
+#     flagged today, the three real ones among them. Two per cent signal,
+#     and the list has to be kept up by hand. Switched off on day one.
+#   the same catalogue translates the word elsewhere -- 10 entries today,
+#     13 with the three put back. This needs no list: what the catalogue
+#     itself translates is what the project has decided to translate, and
+#     where the word stands untranslated it was forgotten.
+#
+# The second one is used. Where a word is kept and where it is dropped is
+# decided by counting, the way begriffe.md decides ("Spur to Track, 88 to
+# 1"): a word has to be translated at least three times, and at least
+# three times as often as it is kept, before the places where it stands
+# count as forgotten. Quotations, switch names, placeholder names, file
+# names and all-caps names are cut out of both sides first -- a quoted
+# menu path is not a translation.
+#
+# The weak spot, said out loud: a word nobody ever translated has no
+# counter-evidence and does not show up. The check reads the catalogue,
+# not a dictionary of what things ought to be called.
+#
+# The ten that stand today, and why they stand:
+#   audio (2)     'ignore this audio', 'gets audio from' -- the loan word
+#                 is what the tick and the line really say; the rest of
+#                 the catalogue uses the German word.
+#   frame (3)     'One frame back.', 'One frame forward.', 'under half a
+#                 frame' -- decided in begriffe.md: Frame is the unit of
+#                 time, the picture itself has a German name.
+#   output (2)    'Output Color Space' -- the name of a setting in
+#                 Resolve, quoted without quotation marks.
+#   settings (1)  'Deliver > Advanced Settings' -- a menu path in Resolve.
+#   upload (1)    the loan word, as with audio.
+#   channels (1)  '  %s: how many channels it has cannot be determined'
+#                 -- a real one, the same kind as the three from 24.8.,
+#                 and still open. Whoever fixes it takes the ratchet down
+#                 to nine.
+NAMES = re.compile(u"\"[^\"]*\"|„[^“]*“"   # what is quoted
+                   u"|<[^>]*>"                            # markup
+                   u"|--[a-z][a-z-]*"                     # a switch
+                   u"|%\\([A-Za-z_]+\\)"                  # a placeholder
+                   u"|[A-Za-z0-9_.-]+\\.[a-z]{2,4}\\b"    # file, host
+                   u"|\\b[A-Z][A-Z_]{2,}\\b")             # PATH, HDR
+
+
+def free_words(text):
+    """The words of a text, without what is a quotation or a name."""
+    return set(w.lower() for w in
+               re.findall(u"[A-Za-zÀ-ɏ]+", NAMES.sub(" ", text))
+               if len(w) >= 4)
+
+
+def english_check():
+    """A test for "is this English and not German" -- None without one."""
+    try:
+        from spellchecker import SpellChecker
+    except ImportError:
+        return None
+    de, en = SpellChecker(language="de"), SpellChecker(language="en")
+    return lambda w: w in en and w not in de
+
+
+_at = source.find('CATALOGUE["de"] = {')
+_above = source[:_at].count("\n")
+_entries = []
+for _node in ast.walk(ast.parse(source[_at:])):
+    if not isinstance(_node, ast.Dict):
+        continue
+    for _a, _b in zip(_node.keys, _node.values):
+        if isinstance(_a, ast.Constant) and isinstance(_a.value, str) \
+                and isinstance(_b, ast.Constant) and isinstance(_b.value, str):
+            _entries.append((_above + _a.lineno, _a.value, _b.value))
+check("the German catalogue can be read as pairs", len(_entries) > 500,
+        "%d entries" % len(_entries))
+
+_english = english_check()
+_stands, _turned = {}, {}
+if _english:
+    for _line, _key, _value in _entries:
+        _there = free_words(_value)
+        for _w in free_words(_key):
+            if not _english(_w):
+                continue
+            if _w in _there:
+                _stands.setdefault(_w, []).append((_line, _key))
+            else:
+                _turned[_w] = _turned.get(_w, 0) + 1
+
+_forgotten = []
+for _w, _where in _stands.items():
+    _often = _turned.get(_w, 0)
+    if _often >= 3 and _often >= 3 * len(_where):
+        for _line, _key in _where:
+            _forgotten.append((_line, _w, _key))
+_forgotten.sort()
+
+if _english is None:
+    check("no dictionary -- the German side is not read", True)
+else:
+    _limit = remember_state("english_words", len(_forgotten))
+    check("English words on the German side: %d (ratchet %d)"
+            % (len(_forgotten), _limit), len(_forgotten) <= _limit,
+            str(sorted(set(w for _z, w, _y in _forgotten))))
+    if len(_forgotten) > _limit:
+        # Red is worth nothing without the place, so name every one.
+        for _line, _w, _key in _forgotten:
+            print("      line %-6d %-10s %r" % (_line, _w, _key[:56]))
+
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")
 

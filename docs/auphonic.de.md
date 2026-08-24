@@ -23,6 +23,11 @@ Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
 4. **Verbinden** drücken. Der Knopf prüft den Schlüssel und holt die
    Presets.
 
+![Der Kasten für den Schlüssel](images/settings.de.png)
+
+*Das Fenster, das Einstellungen ... öffnet: oben der Kasten für den
+Schlüssel, unten der für Resolve. Das Feld ist noch leer.*
+
 Ein Schlüssel, den auphonic.com nicht annimmt, öffnet kein Fenster.
 **Verbinden** wird nicht grün, und unter dem Feld sagt eine Zeile, was
 auphonic.com geantwortet hat; daneben steht ein Knopf, der die

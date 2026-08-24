@@ -36,6 +36,11 @@ nach denen das Programm gesucht hat, und was im Weg sein kann:
 **Erneut prüfen** und der Rest dieses Fensters stehen in [Die
 Oberfläche](interface.de.md).
 
+![Der Reiter Resolve-Schnitt mit der Antwortzeile](images/resolve-cut.de.png)
+
+*Reiter Resolve-Schnitt: die Antwort in Grün, darunter die Werte, die
+der Knopf in die Schnittliste nimmt.*
+
 | Fall | Schnitt-Timeline | Multicam-Timeline |
 |---|---|---|
 | Multitrack, mehrere Kameras | Bild aus dem Kameraschnitt, Ton am Stück | alle Kameras nebeneinander |

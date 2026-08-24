@@ -13,6 +13,12 @@ und jede Zeile trägt ein Prüfzeichen ([Die Oberfläche](interface.de.md)).
 Der Zeiger auf dem Prüfzeichen oder die aufgeklappte Zeile zeigt, was
 dahintersteht.
 
+![Die Dateiliste mit den Prüfzeichen aus dem Vorflug](images/files.de.png)
+
+*Ein Häkchen in jeder Zeile, und neben vier davon der Vermerk, dass die
+Datei nicht zu den anderen passt. Der eine Hinweis, das Übersprechen,
+steht unter ALLGEMEINE HINWEISE und im Satz unter der Liste.*
+
 Der Bericht gilt für beide Betriebsarten.
 
 | Bereich | Was | Was daraus folgt |
