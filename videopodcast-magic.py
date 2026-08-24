@@ -18180,6 +18180,81 @@ def fix_table_width(t, weights=None):
     t.setFixedHeight(height)
 
 
+# The same nine point font runs about twice as wide on Windows as it
+# does on macOS -- 1.89 times, measured on GitHub's runners over both
+# languages on 24.8.2026, with 62 captions standing cut off in fields
+# sized for the Mac, the worst of them by 136 px. Linux lies between
+# the two and misses by 9 px in one spot. So the fields grow on
+# Windows and nowhere else: the Mac layout is the one the manual's
+# pictures show, and the one where four cut buttons and a checkbox
+# were already weighed against a row 480 px wide.
+WIDE_FONT = sys.platform == "win32"
+
+
+def caption_room(widget, base, captions=()):
+    """How wide a field has to be, and never narrower than designed.
+
+    Measured in the font that is drawing rather than added as a
+    constant: a surcharge in pixels fits one font and misses the next.
+    A widget already carrying its text is asked for its own size hint,
+    which counts the frame its style draws around it. Where several
+    fields share one width every caption is handed in, because the
+    widest of them decides; one average character is left as air.
+    """
+    if not WIDE_FONT:
+        return base
+    metrics = widget.fontMetrics()
+    want = widget.sizeHint().width()
+    for caption in captions:
+        want = max(want, metrics.horizontalAdvance(caption)
+                   + metrics.averageCharWidth())
+    return max(base, want)
+
+
+def cut_caption_room(widget, base):
+    """Width of the caption column beside the camera cut numbers.
+
+    All the rows share it, so all the captions are measured: a column
+    as wide as its own caption would leave the fields beside it
+    ragged.
+    """
+    return caption_room(widget, base, [T(f[1]) for f in CUT_FIELDS]
+                        + [T(c[1]) for c in CUT_CHOICES])
+
+
+def box_room(box, base):
+    """Fix a box at its designed width, on Windows at what fits in it.
+
+    How much room it wants there only the finished box knows: what
+    stands inside is built after this line, and the times in it are
+    written first when a file is loaded. So the box keeps watch over
+    its own layout and is let out again every time what it carries
+    has grown.
+    """
+    box.setFixedWidth(base)
+    if WIDE_FONT:
+        from PySide6 import QtCore
+
+        class BoxWatch(QtCore.QObject):
+            def eventFilter(self, which, event):
+                if event.type() == QtCore.QEvent.LayoutRequest:
+                    box_grown(which)
+                return False
+
+        box.installEventFilter(BoxWatch(box))
+    return box
+
+
+def box_grown(box):
+    """Let a box out to the width the things inside it need."""
+    layout = box.layout()
+    if layout is None:
+        return
+    want = layout.totalMinimumSize().width()
+    if want > box.width():
+        box.setFixedWidth(want)
+
+
 def make_drop_area(QtCore, QtGui, QtWidgets):
     """The area files are dragged onto while the list is empty.
 
@@ -18725,7 +18800,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 button = QtWidgets.QToolButton()
                 button.setText(text)
                 button.setAutoRaise(True)
-                button.setMinimumWidth(42)
+                button.setMinimumWidth(caption_room(button, 42))
                 button.clicked.connect(lambda _=False, x=seconds: self.nudge(x))
                 bar.addWidget(hint(wide(button), tooltip_text), 1)
                 return button
@@ -19429,7 +19504,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 button = QtWidgets.QToolButton()
                 button.setText(text)
                 button.setAutoRaise(True)
-                button.setMinimumWidth(42)
+                button.setMinimumWidth(caption_room(button, 42))
                 button.clicked.connect(
                     lambda _=False, s=seconds, b=videos: self.nudge(s, b))
                 bar.addWidget(hint(wide(button), tooltip_text), 1)
@@ -22127,7 +22202,7 @@ def gui():
     two_columns.addLayout(right_column)
 
     view_box = QtWidgets.QGroupBox(T('Preview player'))
-    view_box.setFixedWidth(580)
+    box_room(view_box, 580)
     right_column.addWidget(view_box)
     # Top aligned: the box is as tall as it needs to be and the rest stays
     # empty. Otherwise Qt pulls the rows inside it apart.
@@ -24283,7 +24358,7 @@ def gui():
         keep_button, T('The key is then in the %s, never in a file.')
         % keep_where))
     check_button = QtWidgets.QPushButton(T('Connect'))
-    check_button.setFixedWidth(110)
+    check_button.setFixedWidth(caption_room(check_button, 110))
     first_line.addWidget(hint(check_button,
                                   T('Check the key and fetch Presets.')))
 
@@ -24549,7 +24624,7 @@ def gui():
             row_layout = QtWidgets.QHBoxLayout(line)
             row_layout.setContentsMargins(0, 0, 18, 0)
             m = label(T(caption))
-            m.setFixedWidth(140)
+            m.setFixedWidth(cut_caption_room(m, 140))
             row_layout.addWidget(m)
             value = Value(default_value)
             cut_var[api_key] = value
@@ -24580,7 +24655,7 @@ def gui():
         row_layout = QtWidgets.QHBoxLayout(line)
         row_layout.setContentsMargins(0, 0, 18, 0)
         m = label(T(caption))
-        m.setFixedWidth(140)
+        m.setFixedWidth(cut_caption_room(m, 140))
         row_layout.addWidget(m)
         value = Value(default_value)
         cut_var[api_key] = value
@@ -24748,7 +24823,7 @@ def gui():
         b = QtWidgets.QToolButton()
         b.setText(text)
         b.setAutoRaise(True)
-        b.setFixedWidth(24)
+        b.setFixedWidth(caption_room(b, 24))
         hint(b, tip)
         b.clicked.connect(does)
         return b
