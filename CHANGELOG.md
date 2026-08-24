@@ -65,6 +65,28 @@ survives.
   should be cut into tracks first. What four ambisonic channels ought
   to become is a decision, not a default, so the fold itself is
   unchanged.
+- With one camera not a single speaker marker was ever set. They lived
+  on the multicam timeline, and with one camera none is built, so the
+  run said the passages travelled as markers and set none. They sit on
+  the cut timeline now, a colour per person -- which is what somebody
+  reframing a 360 degree shot by hand needs to see.
+- Fifteen switches carried `[multitrack only]` in `--help` although the
+  simple path hands the whole of `args` to `write_cut_list` and uses
+  them there: the cut sliders, the four `--wide-...` and the four
+  `--on-...`. And `--suffix` carried `[simple path only]` although
+  `finish_without_auphonic` names the mixed file with it on the other
+  path.
+- The preview box stayed "Camera cut -- preview" beside a box called
+  "First cut by speaker". The two names were worked out in two places;
+  now in one.
+- Captions were measured on Windows alone. Everywhere else they kept
+  the width they were designed with, and on Linux that left the
+  "+10 s" button of the preview player 9 px short of its own text --
+  the tests had been red at every push since the CI was set up, which
+  is a signal nobody reads any more. The measurement runs on every
+  system now. It never returns less than the designed width, so
+  nothing moves where the design fits: measured on macOS, not one of
+  the 150 captions wants more than its base.
 
 ### Documentation
 
