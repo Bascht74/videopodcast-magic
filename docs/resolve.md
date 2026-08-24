@@ -1,96 +1,102 @@
 # DaVinci Resolve
 
-*Auf Deutsch: [resolve.de.md](resolve.de.md). Back to the [contents](README.md).*
+*Auf Deutsch: [resolve.de.md](resolve.de.md). Back to the
+[contents](README.md).*
 
-## DaVinci Resolve
+## The button and the two timelines
 
-On tab **Output** the button **Create Resolve project** builds it:
-files first, project afterwards. It creates the project, sets frame rate,
-resolution and start timecode, imports the finished files and builds the
-timelines; the run is written along to `<Production>_resolve_log.txt`.
+On the **Output** tab, the button **Create Resolve project** builds the
+project: files first, project afterwards. It creates the project, sets
+frame rate, resolution and start timecode, imports the finished files
+and builds the timelines. It writes the run along to
+`<Production>_resolve_log.txt`.
 
-The button works on the handover file and sends the camera-cut values from
-the fields along, so the cut list is recomputed with what stands there now.
-Where In point or Out point have changed since, it stops -- the audio in the
-videos belongs to the old window.
+The button works on the handover file and sends the camera-cut values
+from the fields along. So it recomputes the cut list with what stands
+there now. If In point or Out point have changed since, it stops. The
+audio in the videos belongs to the old window.
 
-Whether Resolve answers is asked by itself on the first look at tab
-**Resolve cut**, in the background. That tab says the answer in one
-line, and beside it stands the way to the **Settings ...** window, where
-the check itself lives. In its box **Connection to Resolve** it names the
-product and the version where it works, and where it does not, the two
-paths it looked for and what can be in the way:
+The program asks whether Resolve answers by itself, in the background,
+at the first look at the **Resolve cut** tab. That tab says the answer
+in one line, and beside it stands the way to the **Settings ...**
+window, where the check itself lives.
+
+Its box **Connection to Resolve** names the product and the version if
+the connection works. If it does not, it names the two paths it looked
+for and what can be in the way:
 
 - Resolve is not running.
 - External scripting stands at "None" instead of "Local", under
   Preferences > System > General.
-- The free edition, which is reported to have kept external scripting to
-  Studio since version 19.1. No official statement says so.
+- This is the free edition. External scripting there is reported to be
+  Studio-only since version 19.1. No official statement says so.
 
-In that box, **Check again** asks once more, and so does opening the window.
+**Check again** and the rest of that window are in [The
+interface](interface.md).
 
-| | Cut timeline | Multicam timeline |
+| Case | Cut timeline | Multicam timeline |
 |---|---|---|
 | multitrack, several cameras | picture from the camera cut, audio in one piece | all cameras side by side |
-| simple path, several cameras | — no separate speakers, so none | all cameras side by side |
-| one camera | the camera in one piece, the mix below | — would be pointless |
+| simple path, several cameras | none: the speakers are not separated | all cameras side by side |
+| one camera | the camera in one piece, the mix below | none: it would be pointless |
 
-The simple path builds a project too. A camera cut it cannot deliver -- that
-needs Multitrack and the speaker assignment -- but it gives the timeline
-with all cameras at their measured places, and Resolve makes the multicam clip
-from it.
+The simple path builds a project too. It cannot deliver a camera cut,
+because that needs Multitrack and the speaker assignment. It gives the
+timeline with all cameras at their measured places, and Resolve makes
+the multicam clip from it.
 
-The frame rate is rounded to one Resolve knows -- ffprobe measures 29.994 or
-30.001 for some files -- and the log says which. Timecodes are computed with
-the whole-number rate, durations with the true one; drop frame is taken into
-account.
+The program rounds the frame rate to one Resolve knows: ffprobe
+measures 29.994 or 30.001 for some files. The log says which rate it
+took. It computes timecodes with the whole-number rate and durations
+with the true one, and it takes drop frame into account.
 
-**… Cut** -- the finished camera cut. V1 (`Camera cut`) carries the
-picture pieces **without their audio**; below on A1 (`Audio-Full-Mix`) the
-Full-Mix runs through in one piece, so the sound does not jump at the
-cuts. The mix comes from the separate file, otherwise from the wide shot,
-where it is the first audio track.
+**… Cut**: the finished camera cut. V1 (`Camera cut`) carries the
+picture pieces **without their audio**. Below on A1 (`Audio-Full-Mix`)
+the Full-Mix runs through in one piece, so the sound does not jump at
+the cuts. The mix comes from the separate file, otherwise from the wide
+shot, where it is the first audio track.
 
-Which part of each camera file is used comes from the measured offset,
-not from the timecode. Where one camera was not running, another steps
-in, the wide shot first; the log says how often. No markers -- the cut is
-made.
+The measured offset decides which part of each camera file the timeline
+uses, not the timecode. If a camera was not running, another steps in,
+the wide shot first. The log says how often. The timeline carries no
+markers, because the cut is already made.
 
-**… Multicam** -- all cameras side by side, one per video track, full
-length, **uncut**, each at its measured place, track names = speakers (a
-camera without a speaker is called `Wide`), speaker names as markers.
-Video track 1 takes the camera whose first audio track is the Full-Mix,
-usually the wide shot; on conversion it becomes angle 1.
+**… Multicam**: all cameras side by side, one per video track, full
+length, **uncut**, each at its measured place. Track names = speakers, a
+camera without a speaker is called `Wide`, and the speaker names stand
+as markers. Video track 1 takes the camera whose first audio track is
+the Full-Mix, usually the wide shot; on conversion it becomes angle 1.
 
 **Exactly one audio track per camera, linked to its picture.** The
-surplus audio is deleted after the insert and the audio tracks are named
-like the video tracks. A camera that did not land is inserted separately,
-and reported where even that fails.
+script deletes the surplus audio after the insert and names the audio
+tracks like the video tracks. It inserts a camera that did not land
+separately, and reports it when even that fails.
 
 ### When the project already exists
 
-It asks:
+The program asks:
 
-- **bring up to date** -- the two timelines this script builds (`… Cut` and
-  `… Multicam`) are deleted and built again, the project settings brought up
-  to date. **Everything else stays untouched:** media pool, your own
-  timelines, everything from earlier runs.
-- **leave it and put the new timelines alongside** -- the existing ones stay.
-- **create a new project alongside** -- name with a suffix.
+- **bring up to date**: the script deletes the two timelines it builds
+  (`… Cut` and `… Multicam`), builds them again and brings the project
+  settings up to date. **Media pool, your own timelines and everything
+  from earlier runs stay as they are.**
+- **leave it and put the new timelines alongside**: the existing ones
+  stay.
+- **create a new project alongside**: name with a suffix.
 - **cancel.**
 
 The interface asks in a dialog, the terminal with a number (on the command
 line in advance, `--resolve-project update|keep|new|abort`).
 
-Deletion is verified -- Resolve reports success even where nothing happened.
-Where a timeline stays, the log says so and the new one gets an addition to
-its name.
+The script checks the deletion, because Resolve reports success even when
+nothing happened. If a timeline stays, the log says so and the new one gets
+an addition to its name.
 
-The multicam timeline is spared where it already fits -- same cameras, same
-order. Whoever wants a new one deletes it in Resolve. No backup copy is kept:
-one more run rebuilds it.
+The script leaves the multicam timeline alone if it already fits: same
+cameras, same order. Delete it in Resolve to get a new one. It keeps no
+backup copy, because one more run rebuilds it.
 
-### Multicam audio: the four choices
+### Choosing the multicam audio
 
 On conversion Resolve asks under *Multicam Audio Options* where the sound
 should come from (manual, chapter "Multicam Audio Options"):
@@ -100,40 +106,40 @@ should come from (manual, chapter "Multicam Audio Options"):
 | **Source Audio Channels** (default) | access to the single tracks and channels of every angle |
 | **Reference Audio / Angle 1** | the *first pure audio angle* becomes the audio track for all angles; without one it is the first angle |
 | **Adaptive Tracks** | all tracks and channels of an angle land in **one** adaptive track |
-| **All Angles** | every audio track of every angle comes along -- four plus five makes nine |
+| **All Angles** | every audio track of every angle comes along: four plus five makes nine |
 
 *Source Audio Channels* is the right choice: only one audio track per
-camera is left, and each angle then brings exactly the speaker in front of
+camera is left. Each angle then brings exactly the speaker in front of
 it. The closing note in the log says so too.
 
-### Clip colours
+### What colour each shot gets
 
-Every shot gets the colour of its angle, on both timelines. The colours
-are sorted by distinguishability, and the wide shot gets `Tan`. More
-angles than colours means the row repeats, and the log says so.
+Every shot gets the colour of its angle, on both timelines. The script
+sorts the colours by distinguishability, and the wide shot gets `Tan`.
+More angles than colours means the row repeats, and the log says so.
 
-Each camera also gets a **colour group** -- see *Colour groups* further
-down.
+Each camera also gets a **colour group**, described further down under
+*Grading a whole camera at once*.
 
-### The render job
+### What the render job sets
 
 Once the timelines stand, the script sets the render profile and queues the
-job. In Resolve only "Render All" is left.
+job. In Resolve only **Render All** is left.
 
-HDR or SDR is decided by the material and the project, not by taste. First the
-`colr` box of the camera files is read. HDR is:
+The material and the project decide HDR or SDR, not taste. The script reads
+the `colr` box of the camera files first. Three things count as HDR:
 
 - **PQ or HLG** (transfer function 16 or 18), the two HDR display curves,
-- **Log** (Apple Log is 21 in the file) -- a recording curve, not a
+- **Log** (Apple Log is 21 in the file): a recording curve, not a
   display curve. **Log is HDR.**
 - **BT.2020** as colour space or as matrix.
 
-Where a camera writes nothing usable into `colr`, its QuickTime keys are
-read as well; most cameras note the curve there. The search runs on word
-markers (`apple log`, `s-log`, `v-log`, `logc`, …), not on "log". Where
-the project settings say otherwise, the project wins.
+If a camera writes nothing usable into `colr`, the script reads its
+QuickTime keys as well; most cameras note the curve there. The search runs
+on word markers (`apple log`, `s-log`, `v-log`, `logc`, …), not on "log".
+If the project settings say otherwise, the project wins.
 
-| | SDR | HDR |
+| Setting | SDR | HDR |
 |---|---|---|
 | Codec | H.264, eight bit | H.265, ten bit (profile Main10) |
 | 2160p | 45,000 kbit/s | 56,000 kbit/s |
@@ -141,117 +147,117 @@ the project settings say otherwise, the project wins.
 | 1080p | 8,000 | 10,000 |
 | 720p | 5,000 | 6,500 |
 
-At high frame rates -- 48, 50, 60 -- the higher values apply: 68,000 and
+At high frame rates of 48, 50 and 60 the higher values apply: 68,000 and
 85,000 kbit/s at 2160p, correspondingly below. They are YouTube's upload
 recommendation, each the upper end of the range given there.
 
-A warning goes into the log where this Resolve offers no H.265, and another
-where it will not take the profile Main10, which is then set without.
+A warning goes into the log if this Resolve offers no H.265. Another goes
+in if it will not take the profile Main10, and the script then sets the
+job without it.
 
-HDR also has to be tagged, or the file carries none however cleanly it was
-graded. The curve comes from the project's output colour space: PQ gets
-Rec.2020 / ST.2084, HLG gets Rec.2020 / HLG. Naming no HDR curve there leaves
-the render on "Same as Project".
+The script also has to tag HDR, or the file carries none however cleanly
+it was graded. The section *HDR: what has to be in the file* names what
+the render job sets for that.
 
-Fixed are: one file instead of one per clip, target the output folder, file
-name the production name, `.mp4`, audio AAC at 48 kHz, 16 bit, two channels.
-Resolve's scripting interface has no key for the audio bitrate; the log
-notes that 384 kbit/s would be the recommendation for stereo. For HDR it
-names the check too: `videopodcast-magic.py --hdr-check <file>`.
+These stay fixed: one file instead of one per clip, target the output
+folder, file name the production name, `.mp4`. The audio is AAC at 48 kHz,
+16 bit, two channels. Resolve's scripting interface has no key for the
+audio bitrate; the log notes that 384 kbit/s would be the recommendation
+for stereo. For HDR it names the check too (*HDR: what has to be in the
+file*).
 
-### Intro and outro
+### Setting intro and outro
 
-In the camera table on tab **Assignment & time window** every row has a
-column **Kind**: *Content*, *Intro*, *Outro* or *ignore this video*. Intro
-and outro are optional. A file that is not content is not aligned, not
-processed and not copied -- it is a finished clip and only goes into the
-timeline (on the command line `--intro FILE` and `--outro FILE`). Both land
-on the **second** video and audio track, over the content (`Intro / Outro`
-and `Audio Intro / Outro`).
+In the camera table on the **Assignment & time window** tab every row has
+a column **Kind**: *Content*, *Intro*, *Outro* or *ignore this video*.
+Intro and outro are optional. The program does not align, process or copy
+a file that is not content. It is a finished clip and only goes into the
+timeline (on the command line `--intro FILE` and `--outro FILE`). Both
+land on the **second** video and audio track, over the content
+(`Intro / Outro` and `Audio Intro / Outro`).
 
-There is one intro and one outro. Setting a second file to the same kind puts
-the first one back to content. A run that still sees two of a kind stops and
-names them.
+The program takes one intro and one outro. Setting a second file to the same
+kind puts the first one back to content. A run that still sees two of a kind
+stops and names them.
 
-**Nothing is shortened.** Both clips keep their full length, and the content
-is not trimmed either. Only where they lie shifts, and that follows the
-**sound**, not the file length:
+**Both clips keep their full length, and so does the content.** Only their
+place shifts, and that follows the **sound**, not the file length:
 
 - **Intro**: the *end of its audible sound* meets the first word. That means
   the jingle, not the file. The threshold is 40 dB below the loudest point of
   the file itself.
 - **Outro**: the *start of its sound* meets the end of the last word.
-- Where the words lie comes from the speaker sections in the handover file.
+- The speaker sections in the handover file say where the words lie.
 - A clip without sound uses its end for the intro, its start for the outro.
 
-You pull the dissolve yourself, and that is why the clips lie *over* the
-content instead of beside it: one drag on the upper corner is enough.
+Pull the dissolve yourself: one drag on the upper corner is enough.
 Resolve's scripting interface knows no transitions.
 
-### Colour
+### Keeping the colour of the source
 
-The colour of the source is kept unchanged. The script reads the `colr`
+The script keeps the colour of the source unchanged. It reads the `colr`
 box out of the source itself, passes the numbers on explicitly, forces the
 write and checks afterwards: log line **Colour**.
 
 iPhone recordings from the Blackmagic Camera App carry "unspecified" as
-their curve in `colr`; Resolve goes by the QuickTime keys of the container
-(`com.apple.quicktime.model`, `com.apple.quicktime.software`,
+their curve in `colr`. Resolve goes by the QuickTime keys of the
+container (`com.apple.quicktime.model`, `com.apple.quicktime.software`,
 `com.blackmagic-design.camera.*`). The script carries them along and
 counts afterwards whether every key arrived (log line **Camera data**).
 
-#### The logs atom
+### How Apple Log survives the rewrite
 
 The picture description holds a small atom `logs` naming the recording
 curve, for instance `com.apple.apple-wide-gamut.apple-log`. **That** is
 what Resolve recognises Apple Log by; the `colr` box says nothing about
 it. ffmpeg cannot keep the atom, so the script adds it itself after
-writing, byte for byte from the source, and reads back afterwards whether
+writing, byte for byte from the source. Afterwards it reads back whether
 the file is still sound.
 
-The log then says under **Camera atoms** whether the atom was added and which
-curve it names, and in the file list the curve stands in the **Colour** row --
-with a plain name where one is known (Apple Log, Apple Log 2), otherwise with
-the identifier as it stands.
+The log then says under **Camera atoms** whether the atom was added and
+which curve it names. In the file list the curve stands in the **Colour**
+row. It carries a plain name if one is known (Apple Log, Apple Log 2),
+otherwise the identifier as it stands.
 
-### Colour groups
+### Grading a whole camera at once
 
 The script creates one **colour group** per camera and puts all clips of
-that camera into it, so a camera is graded once instead of once per cut.
-The node editor on the Color page has four modes for this:
+that camera into it. One grade then covers a whole camera instead of a
+single cut. The node editor on the Color page has four modes for this:
 
 | Mode | acts on |
 |---|---|
-| **Group Pre-Clip** | "affect every clip in the group simultaneously" -- the whole camera |
-| **Clip** | "only affect the specific clip that's selected" -- this one cut |
+| **Group Pre-Clip** | "affect every clip in the group simultaneously": the whole camera |
+| **Clip** | "only affect the specific clip that's selected": this one cut |
 | **Group Post-Clip** | the whole group again, but computed after the clip |
 | **Timeline** | every clip of the timeline |
 
-They are computed in that order. So: the basic correction of a camera in
-**Group Pre-Clip**, and where a single cut falls out of line, pull it back in
+Resolve computes them in that order. So: the basic correction of a camera in
+**Group Pre-Clip**, and if a single cut falls out of line, pull it back in
 **Clip**. Further clips join the group by right-click > Group > name > Assign
 to Group.
 
-### Local grades, not remote grades
+### Grading one cut on its own
 
-The script sets **local versions**, explicitly on every run. Remote grades
-("Use local version for new clips" off) would tie all clips of the same
-source file to one correction, so a single cut could no longer be
-corrected on its own. There is no switch to turn them back on.
+The script sets **local versions**, explicitly on every run. Remote
+grades ("Use local version for new clips" off) would tie all clips of the
+same source file to one correction. Nobody could then correct a single cut
+on its own. No switch turns them back on.
 
 The setting only affects clips that come into a timeline **afterwards**:
 `--resolve-project update` rebuilds both timelines and settles it. With
-`keep` the clips already there hang on to their remote grade, and the log
-names the way out -- Color page, right-click a thumbnail > **Copy Remote
+`keep` the clips already there hang on to their remote grade. The log
+names the way out: Color page, right-click a thumbnail > **Copy Remote
 Grades to Local** (takes the correction along) or **Use Local Grades**.
-What the setting is called inside Resolve is picked out of the list of all
-project settings and read back.
+The script picks the setting's name inside Resolve out of the list of all
+project settings and reads it back.
 
 ### HDR: what has to be in the file
 
-An HDR picture is not enough -- it has to say so as well. Three numbers from
-ITU-T H.273 decide whether a player or YouTube treats the file as HDR; without
-them everything shows as SDR, and the effort with Apple Log is lost.
+An HDR picture is not enough. The file has to say so as well. Three numbers
+from ITU-T H.273 decide whether a player or YouTube treats the file as HDR.
+Without them everything shows as SDR, and the effort with Apple Log is
+lost.
 
 | Feature | HDR10 (PQ) | HLG | Required |
 |---|---|---|---|
@@ -264,18 +270,21 @@ them everything shows as SDR, and the effort with Apple Log is lost.
 | Mastering display (ST 2086) | values of the reference monitor | none | no |
 | MaxCLL / MaxFALL | e.g. 1000 / 400 | none | no |
 
-Two traps: **the 14 is not an HDR curve** -- it is called "BT.2020 10 bit" and
-is SDR in the wide gamut. And **tagging changes no pixels**: a PQ tag on a
-Rec.709 grade turns it into wrongly labelled SDR. The static metadata is only
-a recommendation; without it YouTube applies default values (a Sony BVM-X300),
-and with HLG it falls away entirely.
+Two traps sit in that table. **The 14 is not an HDR curve**: it is called
+"BT.2020 10 bit" and is SDR in the wide gamut. And **tagging changes no
+pixels**: a PQ tag on a Rec.709 grade turns it into wrongly labelled SDR.
+The static metadata is only a recommendation; without it YouTube applies
+default values (a Sony BVM-X300), and with HLG it falls away entirely.
 
-**What the script does.** Building the render job, it reads the output colour
-space from the project settings. Where that names PQ or HLG it sets
-`ColorSpaceTag`, `GammaTag` and `EncodingProfile` = `Main10`; which spelling
-this Resolve version takes is documented nowhere, so several are tried and the
-accepted one goes into the log. Otherwise it stays at "Same as Project", and
-the log names the place to look: Project Settings > Color Management > Output
+**What the script does.** Building the render job, it reads the output
+colour space from the project settings. If that names PQ or HLG, it sets
+`ColorSpaceTag`, `GammaTag` and `EncodingProfile` = `Main10`: PQ gets
+Rec.2020 / ST.2084, HLG gets Rec.2020 / HLG.
+
+No document says which spelling this Resolve version takes, so the script
+tries several and writes the accepted one into the log. If the project
+names no HDR curve, the render stays on "Same as Project". The log then
+names the place to look: Project Settings > Color Management > Output
 Color Space.
 
 **Looking at the finished file:**
@@ -284,15 +293,18 @@ Color Space.
 videopodcast-magic.py --hdr-check Production.mp4
 ```
 
-That checks every point of the table, says for each what would have to be
-done, and changes nothing. Return value 0 means the file passes as HDR.
+That checks every point of the table and says for each what would have to
+be done. It reads the file and leaves it as it is. Return value 0 means the
+file passes as HDR.
 
-"Embed HDR10 Metadata" and the HDR10+ analysis the script cannot switch on
-remotely -- Resolve's scripting interface has no key for it. By hand:
-Color Management > HDR10+, Color page > Analyze All Shots, Deliver > Embed
-HDR10 Metadata.
+"Embed HDR10 Metadata" and the HDR10+ analysis the script cannot switch
+on remotely: Resolve's scripting interface has no key for it. By hand:
 
-### Framing
+1. Color Management > HDR10+
+2. Color page > Analyze All Shots
+3. Deliver > Embed HDR10 Metadata
+
+### Setting position and zoom for a whole camera
 
 Position and zoom go through the same group as the colour, but only in one
 place. The **Sizing** palette (Color page, bottom middle, between "Key" and
@@ -306,15 +318,21 @@ place. The **Sizing** palette (Color page, bottom middle, between "Key" and
 | Output Sizing | for the whole timeline |
 | Reference Sizing | only for the still comparison |
 
-A group shares the node tree, not the clip settings; it carries Node Sizing
-along, Edit and Input Sizing not. So: click a clip of that camera, switch the
-node editor from "Clip" to **Group Pre-Clip**, set the Sizing palette to
-**Node Sizing**, adjust -- it holds retroactively for every clip of that
-camera in both timelines. What is changed on the media pool clip, by contrast,
-takes hold only for clips that come into a timeline *afterwards*.
+A group shares the node tree, not the clip settings; it carries Node
+Sizing along, Edit and Input Sizing not. So, for a whole camera:
 
-Inferred from the manual (chapters 142 and 152), not copied from it: that Node
-Sizing in the Group-Pre-Clip tree acts on the whole group is not stated there.
+1. Click a clip of that camera.
+2. Switch the node editor from "Clip" to **Group Pre-Clip**.
+3. Set the Sizing palette to **Node Sizing**.
+4. Set position and zoom.
+
+It holds retroactively for every clip of that camera in both timelines.
+A change on the media pool clip, by contrast, takes hold only for clips
+that come into a timeline *afterwards*.
+
+Inferred from the manual (chapters 142 and 152), not copied from it. The
+manual does not state that Node Sizing in the Group-Pre-Clip tree acts on
+the whole group.
 
 ### When Resolve is to cut for itself
 
@@ -325,9 +343,30 @@ scripting interface has no multicam. So by hand:
 2. **Convert Timeline to Multicam Clip** > **Use Source Audio Channels**
 
 On the audio, see the four choices above. The track name becomes the name of
-the angle (manual, chapter 49) -- which is why the video tracks are named
-after the speakers. Converting is a one-way operation, and there is no backup
-copy.
+the angle (manual, chapter 49), and that is why the video tracks carry the
+speakers' names. Converting is a one-way operation, and Resolve keeps no
+backup copy.
+
+### When something goes wrong
+
+- **The button stops before it starts.** In point or Out point no longer
+  match the run the files came out of. Press **Start** again, with the
+  old values back in the two fields or with the new window.
+- **The tab says Resolve does not answer.** The three causes stand
+  above, in the box **Connection to Resolve**. Clear one and press
+  **Check again**.
+- **A timeline of an earlier run is still there, and the new one carries
+  an addition in its name.** Resolve did not delete it. Delete it by
+  hand and press the button again.
+- **The finished file plays as SDR.** Run
+  `videopodcast-magic.py --hdr-check <file>` and do what it names.
+- **An angle brings the wrong sound.** The conversion ran with a setting
+  other than **Use Source Audio Channels**. Convert again.
+
+That is the whole Resolve part: both timelines, a colour group per
+camera, and the render job in the queue. The next chapter,
+[All switches](command-line.md), lists every switch of the program in
+one place.
 
 ### Further options on the command line
 
@@ -340,3 +379,5 @@ The window has no equivalent for these.
   **Create Resolve project** runs.
 - `--resolve-audio-tracks` only looks: for the open project it prints the
   channel mapping of every clip and the tracks of every timeline.
+- `--hdr-check FILE` only looks: it measures the finished file against
+  the table under *HDR: what has to be in the file*.

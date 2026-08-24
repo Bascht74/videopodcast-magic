@@ -314,6 +314,76 @@ else:
             left.append((m.group(0), bare.strip()[:60]))
     check("and no English sentence is left in it", not left, str(left[:3]))
 
+print("\n8. What the German manual quotes in English stays English")
+# A trap somebody walks into exactly once. python_note() does not go
+# through T(): it returns "Python 3.11.15  (recommended version 3.14.7)"
+# in both languages, and requirements.de.md quotes it that way, which
+# is right today. Wrap that line in T() and the program starts saying
+# it in German -- while the German chapter still shows the English one.
+# Nothing goes red, nobody notices, and the manual quietly lies.
+#
+# The rule this checks is the whole class, not the one line: a German
+# chapter may quote program output in English only where that output is
+# not translated. The moment such a line enters the catalogue, this
+# turns red and names it.
+QUOTED = re.compile(r"`([^`\n]{12,})`")
+# Placeholders are filled in before anybody sees the line, so a quote
+# and its format string never match letter for letter. Both sides are
+# reduced to their fixed parts and compared on those.
+PLACE = re.compile(r"%[-+ #0-9.]*[a-z%]|\d+(?:\.\d+)?")
+
+
+def skeleton(text):
+    """The fixed parts of a line, without numbers and placeholders."""
+    return " ".join(PLACE.sub(" ", text).split())
+
+
+keys = {}
+for key in catalogue:
+    bones = skeleton(key)
+    if len(bones) >= 12:
+        keys.setdefault(bones, key)
+
+# BOOKS holds the English side. The German chapters are the twins
+# beside them, plus the German README in the root.
+GERMAN_BOOKS = [os.path.join(ROOT, "README.de.md")]
+if os.path.isdir(DOCS):
+    GERMAN_BOOKS += [os.path.join(DOCS, n) for n in sorted(os.listdir(DOCS))
+                     if n.endswith(".de.md")]
+GERMAN_BOOKS = [b for b in GERMAN_BOOKS if os.path.exists(b)]
+
+german_quotes = []
+for path in GERMAN_BOOKS:
+    try:
+        text = io.open(path, encoding="utf-8").read()
+    except OSError:
+        continue
+    for span in QUOTED.findall(text):
+        german_quotes.append((os.path.basename(path), span))
+
+check("the German chapters are readable at all", bool(german_quotes),
+      "%d quoted spans" % len(german_quotes))
+
+# A quote in a German chapter that matches an English catalogue key
+# means the reader is shown English for a line the program says in
+# German. Either the quote is wrong or the entry should not be there.
+translated = [(name, span) for name, span in german_quotes
+              if skeleton(span) in keys]
+check("no German chapter quotes a line the program translates",
+      not translated,
+      "%d: %s" % (len(translated), translated[:2]))
+
+# And the other direction, for the one line this was written for: as
+# long as requirements.de.md shows it in English, it must stay out of
+# the catalogue.
+version_line = [span for name, span in german_quotes
+                if "recommended version" in span]
+check("the version line is quoted in the German chapter",
+      bool(version_line), str(version_line[:1]))
+check("and it is not in the catalogue, which is why that is right",
+      not any(skeleton(x) in keys for x in version_line),
+      str(version_line[:1]))
+
 print()
 if bad:
     print("FAIL: %d of the checks" % len(bad))

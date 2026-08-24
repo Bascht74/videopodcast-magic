@@ -7,11 +7,11 @@ by speaker, and a DaVinci Resolve project.
 One file, `videopodcast-magic.py`, about 24000 lines. No package, no
 build step.
 
-`README.md` is the short version, `docs/` holds the manual: one file per
+`README.md` is the short version. `docs/` holds the manual: one file per
 chapter, English as `docs/name.md` and German as `docs/name.de.md`.
 Changing a chapter means changing both, or `german_hunt_test.py` turns
-red -- it checks that every chapter has both languages and that no German
-word stands in an English one.
+red. The test checks that every chapter has both languages and that no
+German word stands in an English one.
 
 ## Running the tests
 
@@ -50,9 +50,9 @@ string goes through `T()`; the German lives in `CATALOGUE["de"]` at the
 end of the file. Changing a string means changing both sides, or
 `german_hunt_test.py` turns red.
 
-**Measure, do not guess.** Where a number is needed it gets measured,
-and what was measured goes into the log. Third-party names are asked for
-at run time, never written into the code.
+**Measure, do not guess.** If a number is needed, it gets measured. What
+was measured goes into the log. Third-party names are asked for at run
+time, never written into the code.
 
 `development/coding_guidelines.md` says how the code is written, and why.
 `CHANGELOG.md` says what changed in each version, from 0.1.0.
@@ -60,10 +60,10 @@ at run time, never written into the code.
 ## How to work here
 
 **Parallelise, and account for it.** Before the first edit of any task
-that touches more than one file, or that has more than two pieces which
-do not depend on each other: split the work by file -- one file, one
-strand, never two strands in one file -- and start the strands. Say
-which file each one owns.
+that touches more than one file, split the work by file and start the
+strands. The same before the first edit of any task that has more than
+two pieces which do not depend on each other. One file, one strand,
+never two strands in one file. Say which file each one owns.
 
 Working alone is allowed. Saying nothing is not: **if you do not split,
 write one sentence saying why** ("one file", "three lines", "the second
@@ -74,14 +74,14 @@ sentence that has to be written does not.
 Say what was measured and what was assumed. Never claim a test passed
 without running it.
 
-Explain a change in plain words -- what it does and why -- not in terms
-of the code.
+Explain a change in plain words, not in terms of the code: what it does
+and why.
 
 ## The working notes are not in this repository
 
 Everything about who works on what, what is still open and what has been
-decided lives in `docs/notes/`, which is deliberately not shipped: it
-holds material from real productions. If you have that folder on disk,
-**read `docs/notes/claude_intern.md` first** -- it is the counterpart to
-this file and names the rest. If you do not have it, this file is
-complete on its own; nothing here depends on it.
+decided lives in `docs/notes/`. That folder is deliberately not shipped:
+it holds material from real productions. If you have it on disk, **read
+`docs/notes/claude_intern.md` first**. It is the counterpart to this
+file and names the rest. If you do not have it, this file is complete on
+its own; nothing here depends on it.

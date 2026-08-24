@@ -1,58 +1,65 @@
 # Aufbereitung über auphonic.com
 
-*In English: [Processing at auphonic.com](auphonic.md). Zurück zum [Inhalt](README.de.md).*
+*In English: [auphonic.md](auphonic.md). Zurück zum
+[Inhalt](README.de.md).*
 
-## Aufbereitung über auphonic.com
+## Der Schlüssel und das Preset
 
-Der zusammengesetzte Ton wird bei auphonic.com mit einem gespeicherten
-Preset verarbeitet und kommt als gewöhnliche Tondatei zurück. Der Zugang
-wird einmal hinterlegt, das Preset gehört zur einzelnen Produktion.
+Der Dienst auphonic.com verarbeitet den zusammengesetzten Ton mit einem
+gespeicherten Preset und schickt ihn als gewöhnliche Tondatei zurück.
+Der Zugang wird einmal hinterlegt, das Preset gehört zur einzelnen
+Produktion.
 
 Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
-`AUPHONIC_TOKEN`. In der Oberfläche steht er hinter **Einstellungen ...**
-im Fußbereich, mit dem Häkchen **Im Schlüsselbund speichern**,
-das ihn im Schlüsselbund (macOS) oder in der Registry (Windows) behält; das
-Fenster selbst ist in [Die Oberfläche](interface.de.md) beschrieben. Nie in
-einer Datei, nie in der Projektdatei.
+`AUPHONIC_TOKEN`. Nie in einer Datei, nie in der Projektdatei.
 
-Im Kasten **Zugang zu auphonic.com** kommt der Schlüssel in das Feld
-**API Key:**; **Verbinden** prüft ihn und holt die Presets (auf der
-Kommandozeile `--auphonic-api-key`).
+1. Im Fußbereich **Einstellungen ...** öffnen; das Fenster selbst ist in
+   [Die Oberfläche](interface.de.md) beschrieben.
+2. Im Kasten **Zugang zu auphonic.com** das Feld **API Key:** füllen
+   (auf der Kommandozeile `--auphonic-api-key`).
+3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen, das den
+   Schlüssel im Schlüsselbund (macOS) oder in der Registry (Windows)
+   behält.
+4. **Verbinden** drücken. Der Knopf prüft den Schlüssel und holt die
+   Presets.
 
-Ein Schlüssel, der nicht angenommen wird, öffnet kein Fenster.
+Ein Schlüssel, den auphonic.com nicht annimmt, öffnet kein Fenster.
 **Verbinden** wird nicht grün, und unter dem Feld sagt eine Zeile, was
 auphonic.com geantwortet hat; daneben steht ein Knopf, der die
 Einstellungen öffnet. Dieselbe Zeile steht im Einstellungsfenster und
-im Kasten auf dem Reiter **Zuordnung & Zeitfenster**, und sie nennt
-auch einen fehlenden Schlüssel.
+im Kasten auf dem Reiter **Zuordnung & Zeitfenster**. Sie nennt auch
+einen fehlenden Schlüssel.
 
-Zwei Dinge zum Schlüssel sollte man wissen statt sie anzunehmen:
-
-* Auf dem Weg zu auphonic.com steht er nie in der Prozessliste: curl liest ihn
-  aus einer Konfigurationsdatei, die nur ihrem Eigentümer lesbar ist und
-  danach gelöscht wird — vorher überschrieben, wo sie sich nicht löschen
-  lässt, und der Schlüssel geht maskiert hinein, damit ein Anführungszeichen
-  oder ein Zeilenumbruch darin keine eigenen Direktiven anfügen kann.
+* Auf dem Weg zu auphonic.com steht der Schlüssel nie in der
+  Prozessliste: curl liest ihn aus einer Konfigurationsdatei, die nur
+  ihrem Eigentümer lesbar ist. Das Programm löscht die Datei danach und
+  überschreibt sie vorher, wenn sie sich nicht löschen lässt. Der
+  Schlüssel geht maskiert hinein, damit ein Anführungszeichen oder ein
+  Zeilenumbruch darin keine eigenen Direktiven anfügen kann.
 * Aber `--auphonic-api-key SCHLUESSEL` schreibt ihn in die Kommandozeile
-  dieses Programms, wo `ps` und die Shell-Historie ihn sehen — auf der
+  dieses Programms, wo `ps` und die Shell-Historie ihn sehen. Auf der
   Kommandozeile also lieber `AUPHONIC_TOKEN`.
 
-Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security` über
-dessen Eingabe, nicht als Argument, und liest ihn zurück, um zu sehen, dass er
-angekommen ist; nur wenn der falsche Schlüssel zurückkommt, folgt die Form mit
-dem Argument, die die Schwäche der Kommandozeile hat. Der Weg über die
-Windows-Registry hat sie nicht.
+Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security`
+über dessen Eingabe, nicht als Argument. Das Programm liest ihn zurück,
+um zu sehen, dass er angekommen ist. Nur wenn der falsche Schlüssel
+zurückkommt, greift es zur Form mit dem Argument, die die Schwäche der
+Kommandozeile hat. Der Weg über die Windows-Registry hat sie nicht.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
-**Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut. Der
-Kasten steht unter der Zuordnungstabelle, gleich unter dem Häkchen
-**Multitrack (je Sprecher eine Spur)**.
+**Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut.
 
 * das Preset unter **Preset:** (auf der Kommandozeile
   `--auphonic-preset`)
 * das Häkchen **Transkription holen** daneben
 
-Die Produktion wird aus dem Preset neu gebaut.
+Das Programm baut die Produktion aus dem Preset neu.
+
+Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
+Auphonic-Kasten und braucht keinen Schlüssel. Ohne Multitrack macht das
+Programm keine getrennten Spuren und keinen Kameraschnitt, mit Dienst
+wie ohne. Es fügt den Ton zusammen und legt ihn so ins Video, wie er
+aufgenommen wurde; die Lautheit setzt nur Auphonic.
 
 ### Transkription holen
 
@@ -70,69 +77,89 @@ Transkription die Sprechernamen.
 
 ### Ohne Auphonic arbeiten
 
-Multitrack braucht den Dienst nicht mehr. Der erste Eintrag der
-Presetliste, **ohne Auphonic arbeiten**, hält diesen Lauf hier (auf der
-Kommandozeile `--without-auphonic`). Er ist kein Preset, sondern die
-Ansage, diesen Lauf nicht dorthin zu schicken; der Schlüssel bleibt im
-Feld, gemerkt und geprüft, nur nicht weitergereicht. Das
-Multitrack-Häkchen steht über dem Auphonic-Kasten und braucht keinen
-Schlüssel.
+Multitrack braucht den Dienst nicht. Der erste Eintrag der Presetliste,
+**ohne Auphonic arbeiten**, hält diesen Lauf hier (auf der
+Kommandozeile `--without-auphonic`). Er ist kein Preset. Der Schlüssel
+bleibt im Feld, gemerkt und geprüft, nur nicht weitergereicht.
 
-Alles läuft dann hier: die Spuren werden auf die gemeinsame Achse
-ausgerichtet, gemischt, auf die Ziellautheit gebracht (`--lufs`,
-voreingestellt -16) und auf die Kameras verteilt. Kameraschnitt und
-Resolve-Projekt entstehen wie sonst. Es fehlt nur, was der Dienst tut:
-De-Bleed, Leveler, Rauschentfernung. Das Übersprechen bleibt im Ton.
+Alles läuft dann hier: das Programm richtet die Spuren auf der
+gemeinsamen Achse aus, mischt sie und verteilt sie auf die Kameras.
+Kameraschnitt und Resolve-Projekt entstehen wie sonst. Es fehlt nur,
+was der Dienst tut: De-Bleed, Leveler, Rauschentfernung. Das
+Übersprechen bleibt im Ton.
 
-Wer wann spricht, kommt aus der örtlichen Sprechertrennung
-([Spracherkennung und Sprechertrennung](speech.de.md)); ohne sie wird es aus
-den Spuren gemessen, und das Übersprechen wird aus dieser Messung
-herausgerechnet, nicht aus dem Ton. Wie gemessen wird, und wie weit hinunter
-das trägt, steht in [Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md).
+Die Ziellautheit setzt `--lufs`, voreingestellt -16; eine kleinere Zahl
+ist leiser. Auf jede Spur kommt dieselbe Anhebung, so bleibt das
+Verhältnis der Sprecher erhalten.
 
-Ohne Multitrack gibt es keine getrennten Spuren und damit keinen
-Kameraschnitt, mit Dienst wie ohne. Der Ton wird zusammengelegt und so ins
-Video gelegt, wie er aufgenommen wurde; die Lautheit setzt nur Auphonic.
+Die örtliche Sprechertrennung sagt, wer wann spricht ([Spracherkennung
+und Sprechertrennung](speech.de.md)). Ohne sie misst das Programm es aus
+den Spuren und rechnet das Übersprechen aus dieser Messung heraus, nicht
+aus dem Ton. Die Messung und ihre untere Grenze stehen in
+[Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md).
 
-Solange kein Schlüssel geprüft ist, steht nur dieser Eintrag in der
-Liste. Sobald die Presets eintreffen, springt die Auswahl auf das erste
-davon. Eine bewusste Wahl übersteht den Neuaufbau der Liste und steht in
-der Projektdatei.
+Solange das Programm keinen Schlüssel geprüft hat, steht nur dieser
+Eintrag in der Liste. Sobald die Presets eintreffen, springt die Auswahl
+auf das erste davon. Eine bewusste Wahl übersteht den Neuaufbau der
+Liste und steht in der Projektdatei.
 
-### Eine Produktion, die es schon gibt
+### Wenn es die Produktion schon gibt
 
-Gibt es dort schon eine Produktion dieses Namens, wird gefragt:
+Das Programm erkennt die Produktion am Namen und fragt, was mit ihr
+geschehen soll:
 
-1. vorhandenes Ergebnis übernehmen — nichts rechnen, nichts bezahlen
-2. mit dem gewählten Preset neu rechnen, Dateien bleiben stehen — kostet
-   nichts
-3. alles neu hochladen und neu rechnen — kostet Guthaben
+1. vorhandenes Ergebnis übernehmen: nichts rechnen, nichts hochladen
+2. mit dem gewählten Preset neu rechnen, Dateien bleiben stehen: kostet
+   kein Guthaben
+3. alles neu hochladen und neu rechnen: kostet Guthaben
 4. abbrechen
 
-Nur das Hochladen kostet Guthaben — Presets lassen sich durchprobieren, ohne
-zu zahlen; von allein lädt das Script nie hoch. Punkt 1 erscheint nur, wenn
-alles Nötige da ist. Heißen die Spuren dort anders, wird gefragt, ob deren
-Namen übernommen werden — auch das kostet nichts.
+Guthaben verbraucht allein das Hochladen. Punkt 2 rechnet mit dem neuen
+Preset und lädt nichts hoch, also lässt sich ein Preset nach dem anderen
+durchgehen. Das Programm lädt erst hoch, wenn es dazu aufgefordert wird.
+Punkt 1 erscheint nur, wenn alles Nötige da ist. Bei anderen Spurnamen
+dort fragt das Programm, ob es sie übernimmt.
 
-Beim Neurechnen kommen auch die Spureinstellungen auf das Preset. Weitere
-Spuren dort gehen in den Mix, eine Warnung nennt sie.
+Beim Neurechnen bringt das Programm auch die Spureinstellungen auf das
+Preset. Weitere Spuren dort gehen in den Mix, eine Warnung nennt sie.
 
-Heruntergeladen wird alles: Einzelspuren und jede weitere Ausgabe des
-Presets — Kapitelmarken, Transkript, Auswertungen. Alles landet in
-`auphonic-tracks/` neben den fertigen Videos, später auch die `final_*.wav`.
+Das Programm lädt alles herunter, die Einzelspuren und jede weitere
+Ausgabe des Presets: Kapitelmarken, Transkript, Auswertungen. Alles
+landet in `auphonic-tracks/` neben den fertigen Videos, später auch die
+`final_*.wav`.
 
-In-Punkt und Out-Punkt nachträglich zu setzen kostet keinen zweiten Lauf
-bei Auphonic. Die Spuren werden auf das neue Fenster beschnitten. Passt
-die Länge weder zum Fenster noch zum ganzen gemessenen Bereich, gehören
-die Dateien zu einem anderen Lauf, und das sagt die Meldung.
+Einen nachträglich gesetzten In- oder Out-Punkt verrechnet das Programm
+hier, nicht bei Auphonic. Es beschneidet die zurückgekommenen Spuren auf
+das neue Fenster. Wenn die Länge weder zum Fenster noch zum ganzen
+gemessenen Bereich passt, gehören die Dateien zu einem anderen Lauf, und
+die Meldung sagt das.
+
+### Wenn etwas klemmt
+
+* **Verbinden wird nicht grün.** Die Zeile unter dem Feld sagt, was
+  auphonic.com geantwortet hat. Der Knopf daneben öffnet die
+  Einstellungen; dort den Schlüssel berichtigen.
+* **In der Presetliste steht nur ihr erster Eintrag.** Es ist noch kein
+  Schlüssel geprüft: **Verbinden** drücken.
+* **Die zurückgekommenen Spuren passen weder zum Zeitfenster noch zum
+  ganzen gemessenen Bereich.** Sie gehören zu einem anderen Lauf. Den
+  Ordner dieses Laufs nehmen, oder den Ton noch einmal über
+  auphonic.com schicken.
+* **Der Lauf soll Guthaben kosten, das nicht gemeint war.** Nur Punkt 3
+  lädt hoch, und nur das Hochladen kostet. Punkt 1 und Punkt 2 lassen
+  die Dateien stehen, wo sie sind.
+
+Der Ton ist jetzt aufbereitet und liegt in `auphonic-tracks/`. Wie die
+Spuren über mehrere Sprecher und mehrere Kameras verteilt werden, steht
+in [Multitrack: mehrere Sprecher, mehrere Kameras](multitrack.de.md).
 
 ### Weitere Optionen über die Kommandozeile
 
 Im Fenster gibt es diese Optionen nicht.
 
-* `--auphonic-preset` ohne Namen: die vorhandenen Presets werden nummeriert
-  abgefragt, der Schlüssel ohne Dateien listet sie auf.
-* `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die Frage
-  nach einer schon vorhandenen Produktion im Voraus.
-* `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort liegenden
-  Spuren, benannt nach den Sprechern.
+* `--auphonic-preset` ohne Namen: das Programm fragt die vorhandenen
+  Presets nummeriert ab, der Schlüssel ohne Dateien listet sie auf.
+* `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die
+  Frage nach einer schon vorhandenen Produktion im Voraus.
+* `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
+  liegenden Spuren, benannt nach den Sprechern.

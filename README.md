@@ -34,15 +34,15 @@ same work every week, and a machine can measure it better than a person
 can guess it -- so the machine does it, and the hour goes into the cut
 instead.
 
-It was written for one podcast and does that job every week. What it
-does not do is decide: the camera cut is a proposal, and the edit stays
-yours. The story of one run, from the files on the disk to the finished
-Resolve project, is in **[docs/overview.md](docs/overview.md)**.
+It was written for one podcast and does that job every week. It does not
+decide: the camera cut is a proposal, and the edit stays yours. The story
+of one run, from the files on the disk to the finished Resolve project,
+is in **[docs/overview.md](docs/overview.md)**.
 
 ## Getting it
 
-One file. Fetch `videopodcast-magic.py` and run it -- there is nothing
-else to install:
+One file. Fetch `videopodcast-magic.py` and run it -- nothing else has
+to be installed:
 
 ```
 python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast-magic.py', 'videopodcast-magic.py')"
@@ -61,8 +61,8 @@ for.
 **About the model.** The separation reads it from a folder beside the
 program -- no account, no token, and after the one download no network.
 The program fetches it from its own repository, holds every file
-against its checksum, and puts it there. If you have it already, it is
-never fetched again.
+against its checksum, and puts it there. It fetches the model only the
+first time.
 
 ## Getting started
 
@@ -88,26 +88,37 @@ camera.*
 ## What it needs
 
 Python 3.10 or newer, `ffmpeg` and `ffprobe` on the search path, and two
-packages -- `PySide6` for the window, `numpy` for the measurements. What is
-missing is installed at start over pip. macOS and Windows are what this is
-used on; Linux works with two limits.
+packages -- `PySide6` for the window, `numpy` for the measurements. The
+program installs what is missing at start over pip. macOS and Windows are
+what this is used on; Linux works with two limits.
 
 The detail, including which Python is recommended and what differs per
 platform, is in **[docs/requirements.md](docs/requirements.md)**.
 
 ## The manual
 
-* **[What it needs](docs/requirements.md)** -- Python, ffmpeg, the two packages, and what differs per platform.
-* **[The interface](docs/interface.md)** -- The window, tab by tab -- and what to do when there is no timecode.
-* **[Preflight](docs/preflight.md)** -- What is checked before a run starts, and what each complaint means.
-* **[Channels: one track or two?](docs/channels.md)** -- How a stereo pair is told apart from two separate microphones. Measured, not guessed.
-* **[The simple path](docs/simple-path.md)** -- One audio file, one camera: the shortest way through.
-* **[Processing at auphonic.com](docs/auphonic.md)** -- Levelling, de-bleed, transcription -- and where the key lives.
-* **[Multitrack: several speakers, several cameras](docs/multitrack.md)** -- One track per speaker, several cameras, one time axis.
-* **[Speech recognition and speaker separation](docs/speech.md)** -- What is said and who says it, worked out on this machine.
-* **[Speaker statistics, camera cut, EDL](docs/camera-cut.md)** -- How the first cut is proposed, and the numbers it is judged by.
-* **[DaVinci Resolve](docs/resolve.md)** -- The project that comes out: timelines, tracks, colour, render.
-* **[All switches](docs/command-line.md)** -- Every command line switch, with what it does.
+* **[What it needs](docs/requirements.md)**: Python, ffmpeg, the two
+  packages, and what differs per platform.
+* **[The interface](docs/interface.md)**: the window, tab by tab -- and
+  what to do when there is no timecode.
+* **[Preflight](docs/preflight.md)**: what is checked before a run
+  starts, and what each complaint means.
+* **[Channels: one track or two?](docs/channels.md)**: how a stereo pair
+  is told apart from two separate microphones. Measured, not guessed.
+* **[The simple path](docs/simple-path.md)**: one audio file, one camera
+  -- the shortest way through.
+* **[Processing at auphonic.com](docs/auphonic.md)**: levelling,
+  de-bleed, transcription -- and where the key lives.
+* **[Multitrack: several speakers, several cameras](docs/multitrack.md)**:
+  one track per speaker, several cameras, one time axis.
+* **[Speech recognition and speaker separation](docs/speech.md)**: what
+  is said and who says it, worked out on this machine.
+* **[Speaker statistics, camera cut, EDL](docs/camera-cut.md)**: how the
+  first cut is proposed, and the numbers it is judged by.
+* **[DaVinci Resolve](docs/resolve.md)**: the project that comes out --
+  timelines, tracks, colour, render.
+* **[All switches](docs/command-line.md)**: every command line switch,
+  with what it does.
 
 The whole contents: **[docs/README.md](docs/README.md)**.
 

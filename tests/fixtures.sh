@@ -1,11 +1,12 @@
 #!/bin/bash
 # Build the fixture folders the suite does not build for itself.
 #
-# Most tests make their own material and clean it up again. Three folders
+# Most tests make their own material and clean it up again. Five folders
 # are shared and read-only, so they are built once, here: "$FIX/foreign"
-# (everything that is not a camera file), "$FIX/hdrtest" (HDR variants) and
-# "$FIX/playertest" (long enough to play). run.sh calls this before the
-# tests fan out; pass "force" to build them again.
+# (everything that is not a camera file), "$FIX/hdrtest" (HDR variants),
+# "$FIX/playertest" (long enough to play), "$FIX/interview" (the shape of
+# a whole job) and "$FIX/mixer" (one file with eight channels). run.sh
+# calls this before the tests fan out; pass "force" to build them again.
 set -e
 force="$1"
 # Where this script lives, worked out before anything changes the
@@ -132,3 +133,91 @@ fi
 # Opening a project moves the project file into the output folder, so
 # after one run the fixture would have none. Written again every time.
 "${VPM_PYTHON:-python3}" "$HERE/interview_project.py" "$FIX/interview"
+
+# ---- "$FIX/mixer": eight channels in one file, one case each ----
+#
+# What a field mixer writes: eight inputs into one poly WAV. Nothing
+# else in the fixtures has more than one channel, so every case the
+# channel measurement knows is put into this one file, once each -- a
+# single reading of it shows the lot.
+#
+# Measured with channel_facts on ffmpeg 9.0.1. "share" is how much of
+# what two neighbours have in common arrives at the same moment; that,
+# and not how alike they are, is what decides a pair.
+#
+#   1  host lav           -33.8 dBFS   1+2  share 0.17, 2.5 ms apart
+#   2  guest lav          -33.5 dBFS   2+3  share 0.12, 4.5 ms apart
+#   3  room mic left      -37.1 dBFS   3+4  share 1.00, 0.0 ms  -> pair
+#   4  room mic right     -37.0 dBFS   4+5  channel 5, 63 dB under
+#   5  nothing plugged in -96.9 dBFS   5+6  channel 6 at -73 dBFS
+#   6  gain shut          -73.4 dBFS   6+7  channel 7 silent
+#   7  dead input          -inf        7+8  channel 7 silent
+#   8  spare microphone   -33.9 dBFS
+#
+# Both rules that take a channel out of the run fire here, and they can
+# only both fire in one file when the loudest channel stays under
+# -25 dBFS: the relative rule catches everything more than 45 dB under
+# the loudest first, so a channel can reach the absolute rule -- under
+# -70 dBFS -- only while the loudest is less than 45 dB above it. Hence
+# a recording that is quiet all through, the way a mixer sounds with
+# honest headroom. Channel 5 is 63 dB down and goes out on the relative
+# rule, channel 6 is 40 dB down but under -70 dBFS and goes out on the
+# absolute one. Channel 7 holds nothing at all, which is the third
+# wording again.
+#
+# The pairs are built, not hoped for. Noise on every channel makes no
+# pairs at all: what makes one is a signal two channels share with a
+# known delay. The two lavs hear each other 120 samples late (2.5 ms,
+# 0.86 m), the room pair is one signal 14 samples apart (0.29 ms, well
+# inside the 1 ms window), and the room mic hears both speakers 216
+# samples late (4.5 ms, 1.5 m). 24 bit, because channel 5 lies below
+# the last step of 16. Eight seconds, and the build takes under a
+# second -- run.sh calls this before every suite run.
+if have "$FIX/mixer"; then
+  echo "  "$FIX/mixer"        already there"
+else
+  rm -rf "$FIX/mixer" && mkdir -p "$FIX/mixer"
+  cd "$FIX/mixer"
+  # The gains are set here and not left to amix: the levels are the
+  # point of channels 5 and 6, and amix's own normalising would move
+  # them. 0.040 puts a voice at about -34 dBFS.
+  $FF -filter_complex "
+    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=1101,
+      highpass=f=140,lowpass=f=5200,tremolo=f=0.62:d=0.6,
+      asplit=3[a1][a2][a3];
+    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=2202,
+      highpass=f=170,lowpass=f=6000,tremolo=f=0.83:d=0.6,
+      asplit=3[b1][b2][b3];
+    anoisesrc=c=pink:r=48000:d=8:a=0.9:seed=3303,
+      highpass=f=60,lowpass=f=9000[r1];
+    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=4404,
+      highpass=f=150,lowpass=f=5600,tremolo=f=0.71:d=0.6[c1];
+    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=5505,volume=0.00002[ch5];
+    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=6606,volume=0.0003[ch6];
+    anullsrc=r=48000:cl=mono,atrim=end=8[ch7];
+    anoisesrc=c=white:r=48000:d=8:a=0.9:seed=7707,volume=0.06[nr];
+    [a2]adelay=delays=120S,volume=0.22[a2d];
+    [b2]adelay=delays=120S,volume=0.30[b2d];
+    [a3]adelay=delays=216S,volume=0.45[a3d];
+    [b3]adelay=delays=216S,volume=0.45[b3d];
+    [a1][b2d]amix=inputs=2:normalize=0,volume=0.040[ch1];
+    [b1][a2d]amix=inputs=2:normalize=0,volume=0.040[ch2];
+    [r1][a3d][b3d]amix=inputs=3:normalize=0:duration=first,
+      volume=0.8,asplit=2[p1][p2];
+    [p1]volume=0.040[ch3];
+    [p2]adelay=delays=14S,volume=0.040[p2d];
+    [p2d][nr]amix=inputs=2:normalize=0:weights=1 0.05:duration=first[ch4];
+    [c1]volume=0.040[ch8];
+    [ch1][ch2][ch3][ch4][ch5][ch6][ch7][ch8]amerge=inputs=8[out]" \
+    -map "[out]" -c:a pcm_s24le -ar 48000 -t 8 Mixer.wav -y
+  # One camera beside it, so the folder is a job and not a single file.
+  # Its sound is channel 1 of the mixer, which is what a camera picks up
+  # in that room -- anything else would be a file that cannot be lined
+  # up with the recording next to it.
+  $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=8" -i Mixer.wav \
+    -filter_complex "[1:a]pan=mono|c0=c0[a]" -map 0:v -map "[a]" \
+    -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
+    -shortest Studio_08141855_C001.mov -y
+  done_with "$FIX/mixer"
+  echo "  "$FIX/mixer"        built"
+fi

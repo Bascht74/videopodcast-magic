@@ -9,63 +9,65 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [2.5.0-beta] - 2026-08-23
+## [2.5.0-beta] - 2026-08-24
 
 ### Added
 
 - Clipping is counted per channel and named in the preflight, with the
   number of samples sitting on the stop. It used to be invisible here,
-  and actively so: the master is measured as a sum and a limiter pulls
-  it under -1 dBTP, so a lapel microphone against the stop all evening
-  came out looking clean. Only integer formats are counted. Measured on
-  one overdriven source written three ways: 16 bit and 24 bit come out
-  identical -- 120,720 samples on the top, 0.00 dBFS -- while the 32
+  and actively so. The master is measured as a sum, and a limiter pulls
+  it under -1 dBTP. A lapel microphone against the stop all evening
+  therefore came out looking clean. Only integer formats are counted.
+  Measured on one overdriven source written three ways: 16 bit and 24
+  bit come out identical, 120,720 samples on the top, 0.00 dBFS. The 32
   bit float copy peaks at +11.94 dBFS with nothing clipped at all. The
   line is integer against float, not 16 against 24 bit: an integer
   format has a stop at full scale and float has none. It is a note,
   never a reason to stop. An overdriven recording is sometimes the only
   recording there is.
 - A second way to find the offset between a recording and a video, by
-  phase, tried only where the first one came back empty. The way over
-  the envelopes lives on speech pauses, and music has none: on a
-  concert recording it returned 0.13 and -0.18, which is nothing.
-  Phase found the offset on the same material -- 9:29, to within 12 ms,
-  and those 12 ms are the sound travelling four metres from the
-  monitors to the telephone that recorded them. Both numbers go into
-  the log either way, so a failure says how close it came.
+  phase, tried only if the first one came back empty. The way over the
+  envelopes lives on speech pauses, and music has none. On a concert
+  recording it returned 0.13 and -0.18, which is nothing. Phase found
+  the offset on the same material: 9:29, to within 12 ms. Those 12 ms
+  are the sound travelling four metres from the monitors to the
+  telephone that recorded them. Both numbers go into the log either
+  way, so a failure says how close it came.
 - The log and the command line say which copy of the script is running.
-  Several runnable copies of one version are the normal case here --
-  the snapshot the tests run against, the `.old` an update leaves
-  behind, the download in the Downloads folder -- and they share one
-  log file. Without the path there is no telling later why one run came
-  out different from another.
+  Several runnable copies of one version are the normal case here.
+  There is the snapshot the tests run against, the `.old` an update
+  leaves behind, and the download in the Downloads folder. They share
+  one log file, and without the path there is no telling later why one
+  run came out different from another.
 
 ### Changed
 
 - A recording that crosses midnight is one night, not a day apart. A
-  timecode counts from midnight and starts over there, so the file
-  after midnight overlapped nothing and was reported as a clock that
-  had never been set. Nothing is added to any timecode: the values are
-  brought onto one axis where they are compared, and only where that
-  actually puts the file among the others. A recorder left at 00:00:00
-  is still reported for what it is.
+  timecode counts from midnight and starts over there. The file after
+  midnight therefore overlapped nothing and was reported as a clock
+  that had never been set. Nothing is added to any timecode: the values
+  are brought onto one axis where they are compared. That happens only
+  if it actually puts the file among the others. A recorder left at
+  00:00:00 is still reported for what it is.
 - A channel that carries nothing says which of the two rules caught it,
   and by how much. One line said "below the noise floor" for both, and
-  for one of them that was simply wrong -- a channel 45 dB under the
+  for one of them that was simply wrong. A channel 45 dB under the
   loudest can sit 40 dB above its own noise floor. The rule itself
   stood twice, word for word, in two functions; now it stands once.
-- A failed offset measurement says how close it came: how many seconds
-  of the recording had one voice alone, and how sharp the best of them
-  was against what was needed. "No pair measurable" hid two different
-  recording faults with two different remedies behind one sentence.
+- A failed offset measurement says how close it came. It names how many
+  seconds of the recording had one voice alone, and how sharp the best
+  of them was against what was needed. "No pair measurable" hid two
+  different recording faults with two different remedies behind one
+  sentence.
 - `--together` keeps the order it was given. Its own help promises
-  "these files are one recording, in this order", and one of the two
-  paths through the program sorted that row by name anyway, so the same
-  switch gave two different answers depending on how it was reached.
+  "these files are one recording, in this order". One of the two paths
+  through the program sorted that row by name anyway. The same switch
+  therefore gave two different answers, depending on how it was
+  reached.
 - The pair fit hands back what it could not explain, and the line
   prints it next to the number of points. It was worked out on every
   run and thrown away. Three points fit three unknowns exactly, so a
-  residual of nothing there means nothing -- which is the point.
+  residual of nothing there means nothing.
 
 ### Fixed
 
@@ -75,33 +77,95 @@ survives.
   up. It has them now, and the menu greys out: there is nothing behind
   those entries, and saying so is better than pretending.
 
+### Documentation
+
+- Thirteen places where the manual said something the program does not
+  do. The menu bar has four menus and the manual said three,
+  `--speakers-local` had a different default from the one printed,
+  `--no-transcript-file` was missing from the full list of switches,
+  the preflight compares the timecodes and no chapter mentioned it, and
+  static-ffmpeg arrives even when the question is answered with no.
+  Each one was checked against the source and carries a line number. A
+  manual that says something untrue is worse than one that says
+  nothing.
+- Eleven chapters gained a section **When something goes wrong**. None
+  of the four style guides asks for one. It names the action, not the
+  message text: what somebody does when it jams there. `overview` has
+  none on purpose, because it is the page for deciding whether the
+  program is for you, and it has no switch block for the section to sit
+  in front of.
+- The command line chapter was checked switch by switch against
+  `build_argument_parser`. Both tables now hold 68 rows against 68
+  switches and the sets match in both directions. Three switches named
+  no default although the chapter promises defaults in brackets, and
+  two descriptions were incomplete: `--on-monologue` fires only on a
+  shot that has held past `--wide-after`, and `--on-together` only
+  where no camera shows exactly those speakers.
+- The preflight chapter says what the clipping count is. It names
+  channel, count and peak level, holds nothing up, and counts in
+  integer formats only. The measurement behind that is in
+  `development/measurements.md`.
+- The manual, the changelog and the developer documents went through a
+  style pass. It came out of a complaint that the writing was too
+  narrative, and the complaint was measured before it was acted on:
+  against the DaVinci Resolve manual (903,627 words of running text),
+  against GIMP, LibreOffice, Kdenlive and `man ffmpeg`, and against the
+  Google, Microsoft, Diataxis and plain-language guides. Three separate
+  faults came out of it, and they are not the same thing. Sixty-three
+  of ninety-seven English headings named a thing instead of an action.
+  A hundred German sentences opened with a subordinate clause carrying
+  no conjunction, against two that had one. Forty-four appended dashes,
+  nine of which said the main clause over again. The counts afterwards:
+  appended dashes 199 to 38, `Where` as a condition 51 to 0, fronted
+  clauses 105 to 26, lines over 79 characters 22 to 0.
+- Nothing was cut to get there. The manual came out **longer**, 28,993
+  words to 29,962, and every measured number, reason and limit was
+  checked back one by one. The single number that changed is the pair
+  spacing in `channels`, which said 35 cm and is measured at 30. Two
+  proposals in three that would have cost information were refused and
+  written down with what would have gone, so the next round does not
+  open the same places again.
+- The rules behind that pass are rules 26 to 32 in the working notes,
+  each one countable. Rule 32 is the one that took two attempts to get
+  right: repeat nothing the sentence before already implies. Its test
+  looks back at that one sentence, not at the chapter. "Nothing is
+  uploaded on its own" repeats what "trying presets costs nothing"
+  already says. "The program uploads only when asked to" does not,
+  because it says *when* instead of *not*.
+- `development/measurements.md` gained what was measured on 23 and
+  24 August: that clipping does not depend on the bit depth, that the
+  envelope alignment stops where the music has no pauses, what one bad
+  sample point does to the drift line, and how big the PySide6
+  download really is. Each of them says what was **not** measured as
+  well.
+
 ## [2.4.0-beta] - 2026-08-23
 
 ### Added
 
 - `--update-check` takes back a `--no-update-check`. Without it a no
-  could not be undone, and on 23.8.2026 that caught its own author: the
+  could not be undone, and on 23.8.2026 that caught its own author. The
   switch had been given once in passing, the program never looked
   again, and nothing anywhere said why. A no that cannot be taken back
   is a trap.
 - The update dialog has a tick, **Do not ask again**. It stops the
   program looking by itself; asking from the menu still works, and the
-  tooltip says so. It is remembered whichever button is pressed --
-  somebody who ticks it and then updates still means it for next time.
+  tooltip says so. It is remembered whichever button is pressed.
+  Somebody who ticks it and then updates still means it for next time.
 
 ### Changed
 
 - The update dialog shows what changed, in the dialog. It used to give
-  an address and leave it at that: whoever has to open a browser to
+  an address and leave it at that. Whoever has to open a browser to
   find out what they are installing will mostly not, and will say yes
   without knowing. The release text comes down with the same answer
   that is asked for the version number, so it costs nothing.
 - That dialog is one of its own rather than a QMessageBox. The box
   hides the text behind a "Show Details" button of its own making,
-  which it does not translate, and gives it four lines to be read in.
-  It is 680 by 560 now, the frame stands whether the text needs to
+  which it does not translate. It gives that text four lines to be read
+  in. It is 680 by 560 now, the frame stands whether the text needs to
   scroll or not, and the button says **Update**.
-- Asking from the menu is answered even where the program was told to
+- Asking from the menu is answered even if the program was told to
   stop looking by itself. The no was about looking unasked, not about
   refusing an answer to somebody who asks. `VPM_NO_UPDATE_CHECK` still
   holds against both: that one is set by whoever runs the machine.
@@ -109,7 +173,7 @@ survives.
 ### Fixed
 
 - The German tooltip on the tick named a menu entry that does not
-  exist: it said "Nach einer neueren Fassung sehen" where the menu says
+  exist. It said "Nach einer neueren Fassung sehen"; the menu says
   "Jetzt nach einer neueren Fassung sehen". It pointed at the way out
   of the trap and got the name wrong.
 - The settings sheet said the key goes into "Schluesselbund" with no
@@ -119,13 +183,13 @@ survives.
 
 ### Documentation
 
-- The manual describes keeping itself up to date -- what is asked of
-  github.com and when, what is sent (nothing), what is checked before
-  anything replaces anything, and how to undo it. It was a whole
-  ability nobody had written down.
+- The manual describes keeping itself up to date. It names what is
+  asked of github.com and when, and what is sent (nothing). Also what
+  is checked before anything replaces anything, and how to undo it. It
+  was a whole ability nobody had written down.
 - Both switches were missing from the command-line chapter entirely.
 - Undoing an update is written as an action. "The old one stays beside
-  it" is not enough: `put_new_self` copies the running version to
+  it" is not enough. `put_new_self` copies the running version to
   `.old` and replaces the original, so the way back is to put the file
   back under its own name.
 
@@ -134,62 +198,63 @@ survives.
 ### Added
 
 - The model for the speaker separation is fetched the first time a
-  separation is asked for, so the one Python file is all anybody has to
-  download. It comes from the same repository the program does, at the
-  tag of the running version, and off the `main` branch where there is
-  no such tag -- a program and its model are never a version apart.
-  Every file is held against the SHA-256 sums that come with it, and
-  one that does not match is not written. It lands in `models/` beside
-  the program and is never fetched a second time.
+  separation is asked for. The one Python file is then all anybody has
+  to download. It comes from the same repository the program does. The
+  tag is that of the running version, or the `main` branch if there is
+  no such tag. Every file is held against the SHA-256 sums that come
+  with it, and one that does not match is not written. It lands in
+  `models/` beside the program and is never fetched a second time.
 
 - `L` plays forward and doubles the speed on every press, 1x to 8x; `K`
   stops and goes back to normal. The speed stands on the play button.
-  `J` is absent: measured, Qt takes a negative rate and reports 0.00
+  `J` is absent. Measured, Qt takes a negative rate and reports 0.00
   back, and swapping the whole media backend for one key is the wrong
   trade.
 - Names a reading program can announce on the first and third sheets as
-  well -- the file list, the production fields, the eight cut numbers
-  as "caption, seconds", the four choices, the Resolve button.
+  well. They cover the file list, the production fields, the eight cut
+  numbers as "caption, seconds", the four choices and the Resolve
+  button.
 
 ### Changed
 
 - Nothing is asked of auphonic.com unless somebody asks for it. A key
-  that was remembered used to be checked at start-up, which meant a
+  that was remembered used to be checked at start-up. That meant a
   start spoke to a third party about a key it had only been asked to
-  keep -- and a key that had expired or been mistyped greeted its owner
+  keep. A key that had expired or been mistyped greeted its owner
   with an error box every time. The presets are fetched when the list
   is opened, which is the moment they are wanted and the only moment
   they are needed.
-- A key is measured before it is sent: whether there is one, and
-  whether it was pasted with a line break, a space in the middle or a
-  character that cannot be typed. Not its length or its character set
-  -- what a real key looks like has never been measured here, and a
-  guessed format would turn away a key that works.
+- A key is measured before it is sent. The measurement asks whether
+  there is one at all. It also asks whether it was pasted with a line
+  break, a space in the middle or a character that cannot be typed.
+  Not its length or its character set: what a real key looks like has
+  never been measured here. A guessed format would turn away a key that
+  works.
 - The tabs lost their numbers. Numbered tabs promise an order that does
-  not exist -- one may jump, and the ticks behind the names already say
+  not exist. One may jump, and the ticks behind the names already say
   what is finished.
 - `Dry run (writes nothing)` is `Dry run` on the button; the
   explanation was in the tooltip anyway.
 - The trim slider takes its colours from the scheme. Measured: its
-  outline against the handle 2.94 before, 5.17 light and 6.03 dark now
-  -- under the 3:1 that WCAG asks of a control. On dark it no longer
-  draws a white band across the window.
-- `warning` is `#985508` on light, measured at 5.77 against the sheet
-  where it used to fall under 4.5. Dark keeps `#e2a355`: `#985508`
+  outline against the handle 2.94 before, 5.17 light and 6.03 dark now.
+  The 2.94 was under the 3:1 that WCAG asks of a control. On dark it no
+  longer draws a white band across the window.
+- `warning` is `#985508` on light, measured at 5.77 against the sheet.
+  The old colour fell under 4.5 there. Dark keeps `#e2a355`: `#985508`
   there is 2.74.
 - A switch between light and dark arrives while the program runs.
   Before, the scheme was read once at start and the way back to light
   was burned in.
-- The type in the "one more speaker" row is made smaller only where
-  the row would otherwise grow wider than the player leaves it.
+- The type in the "one more speaker" row is made smaller only if the
+  row would otherwise grow wider than the player leaves it.
   Smaller type is harder to read, and on a machine whose system font
   was turned up it undoes what somebody set it for.
 
 ### Removed
 
-- `install.py`. The program brings what it needs by itself -- numpy and
-  PySide6 at the first start, ffmpeg over the package manager, the
-  separation and its model at the first separation -- so there is one
+- `install.py`. The program brings what it needs by itself: numpy and
+  PySide6 at the first start, ffmpeg over the package manager. The
+  separation and its model come at the first separation. There is one
   file to fetch and one file to keep.
 
 ### Fixed
@@ -202,60 +267,60 @@ survives.
 ### Tests
 
 - `release_test.py`, new: one version number named the same in the
-  program, the changelog and both READMEs; the changelog in its shape;
-  every picture there and used, in both languages; and the rule that
-  the key never reaches a file. Four rules that used to be enforced by
-  somebody remembering them.
+  program, the changelog and both READMEs. Also the changelog in its
+  shape, every picture there and used in both languages, and the rule
+  that the key never reaches a file. Four rules that used to be
+  enforced by somebody remembering them.
 - `auphonic_quiet_test.py`, new: what is turned away before it is sent,
-  what gets through, that no timer fetches presets at start-up, and
-  that the unasked fetch opens no box.
+  and what gets through. Also that no timer fetches presets at
+  start-up, and that the unasked fetch opens no box.
 - `preview_shot.py` and `assignment_shot.py` used to look for a tab and
-  return in silence where they found none -- the script then
-  photographed the wrong sheet and still returned 0. They stop and say
-  which sheets there are.
+  return in silence if they found none. The script then photographed
+  the wrong sheet and still returned 0. They stop and say which sheets
+  there are.
 - `first_run.sh --then-install` does what the manual tells a stranger
   to do: fetch the one file and start it. It used to fetch the
   installer and run that.
 
 ### Documentation
 
-- The screenshots showed a window that exists nowhere. Taken under
-  `offscreen`, Qt draws them in the Fusion style: 46 of 63 palette
-  entries differ from the Mac, and the menu bar sat inside the window
-  instead of at the top of the screen. They are taken under `cocoa`
-  now, with the window kept off the desktop -- real style, real
-  palette, exact size, nothing in anybody's way. It needs a screen
+- The screenshots showed a window that exists nowhere. Qt draws them in
+  the Fusion style under `offscreen`. Of 63 palette entries 46 differ
+  from the Mac, and the menu bar sat inside the window instead of at
+  the top of the screen. They are taken under `cocoa` now, with the
+  window kept off the desktop: real style, real palette, exact size,
+  nothing in anybody's way. It needs a screen
   somebody is logged in to, so the run is started by hand.
 - Twenty-five places in the manual named the numbered tabs, in each
   language. All of them pulled along, four captions rebuilt where the
   number was the only thing naming the sheet.
 - `docs/notes/begriffe.md`, new: which German word this project uses
-  for which thing, counted rather than felt -- Spur against Track
+  for which thing, counted rather than felt. Spur against Track
   stands 88 to 1. Written after Tooltip had been replaced by
   Kurzhinweis and put back: Tooltip is the ordinary German word too.
 - The requirements chapter says what the program fetches for itself,
   when, and how much, in both languages. It described `install.py`,
   which is gone.
-- The section on ffmpeg named `static-ffmpeg` as what happens where
+- The section on ffmpeg named `static-ffmpeg` as what happens if
   ffmpeg is missing. The package manager comes first and is asked
-  about; `static-ffmpeg` is the way out where there is no manager.
+  about; `static-ffmpeg` is the way out if there is no manager.
 
 ## [2.2.0-beta] - 2026-08-23
 
 ### Added
 
 - A menu bar, with seventeen entries. On a Mac that is not a matter of
-  taste: About, Settings and Help are expected in places the window has
+  taste. About, Settings and Help are expected in places the window has
   no say over, and Qt's minimal fallback carries none of them.
 - Keys. The player had buttons for a frame back and forward, which is
   where anybody who edits reaches for the arrows and found nothing.
-  Space plays and pauses, the arrows step a frame, with Shift a second
-  and with Alt ten, I and O set the marks and Shift+I and Shift+O jump
-  to them. They hang on the player rather than on the window, so a bare
-  letter cannot fire while somebody is typing a name into a field.
+  Space plays and pauses, and the arrows step a frame, with Shift a
+  second and with Alt ten. I and O set the marks, Shift+I and Shift+O
+  jump to them. They hang on the player rather than on the window, so a
+  bare letter cannot fire while somebody is typing a name into a field.
   Everything else is on Ctrl or Command, where it cannot collide:
-  Ctrl+O adds files, Ctrl+R starts, Ctrl+Shift+R is the dry run,
-  Ctrl+1 to Ctrl+3 pick a sheet, Ctrl+, opens the settings.
+  Ctrl+O adds files, Ctrl+R starts, Ctrl+Shift+R is the dry run.
+  Ctrl+1 to Ctrl+3 pick a sheet, and Ctrl+, opens the settings.
 - Seventeen controls carry a name a reading program can announce. There
   were none.
 - `VPM_CACHE` points what the program keeps between runs somewhere else.
@@ -265,11 +330,12 @@ survives.
 ### Changed
 
 - The reason a run cannot start stands in the window, in full. It used
-  to be in the tooltip of the start button -- a tooltip cannot be
-  reached with the keyboard and is not read out reliably, so the most
-  important sentence in the window was the one hardest to get at.
+  to be in the tooltip of the start button. A tooltip cannot be
+  reached with the keyboard and is not read out reliably. The most
+  important sentence in the window was therefore the one hardest to get
+  at.
 - On the second sheet a file that does not fit is no longer red and
-  nothing else: it now carries the same sentence the first sheet writes
+  nothing else. It now carries the same sentence the first sheet writes
   beside it. Colour alone carries nothing to whoever cannot tell red
   from black.
 - The second sheet asked for 1800 pixels and now asks for 743, so it
@@ -284,7 +350,7 @@ survives.
 
 ### Tests
 
-- `start_reason_test.py` held the old behaviour in place -- it checked
+- `start_reason_test.py` held the old behaviour in place. It checked
   that the footer points at the tooltip, which was the defect. It now
   checks that the footer names the reason itself.
 
@@ -294,8 +360,8 @@ survives.
   languages. There was none: a way of working the program that is
   nowhere written down does not exist for whoever reads.
 - All five screenshots taken again, English and German. Four things
-  changed on every one of them: the menu bar, the state line at the
-  bottom, the text beside red rows on the second sheet, and the
+  changed on every one of them: the menu bar and the state line at the
+  bottom. Then the text beside red rows on the second sheet, and the
   shrunken "one more speaker" row.
 
 ## [2.1.0-beta] - 2026-08-23
@@ -303,99 +369,100 @@ survives.
 ### Added
 
 - The program looks whether a newer release is out, and offers to fetch
-  it and start again. Looking needs no permission -- it asks github.com
-  for a version number and sends nothing -- but nothing is ever fetched
+  it and start again. Looking needs no permission: it asks github.com
+  for a version number and sends nothing. But nothing is ever fetched
   or replaced without being asked, and the question comes at the start,
   never during a run. What comes down has to be readable text, has to
   look like this program and has to compile before it replaces the file
-  that works; the old one stays beside it as `.old`. `--no-update-check`
+  that works. The old one stays beside it as `.old`. `--no-update-check`
   switches the looking off and the answer is remembered.
 - `install.py` fetches the newest release by default rather than the
-  tip of the main branch. `--ref` takes a named version instead -- a
+  tip of the main branch. `--ref` takes a named version instead: a
   tag for a particular release, or a branch. A release marked as a
   pre-release is never what the newest means.
 
 ### Changed
 
-- ffmpeg comes from the package manager where there is one. It asks,
-  and then does it: brew on a Mac, apt-get, dnf, zypper or pacman on
-  Linux, each with the switch that stops it asking a second time. On
+- ffmpeg comes from the package manager if there is one. It asks, and
+  then does it: brew on a Mac, apt-get, dnf, zypper or pacman on Linux.
+  Each comes with the switch that stops it asking a second time. On
   Windows it offers to open ffmpeg.org. static-ffmpeg is what is left
-  when none of that is there, and it now says what it brings: sixteen
+  when none of that is there. It now says what it brings: sixteen
   packages, and a binary loaded from a private repository without being
   held against anything. `VPM_INSTALL_TOOLS=1` answers yes in advance,
   for a run with nobody in front of it.
 - A package that was half removed counted as installed. pip leaves a
   package's `__pycache__` folder behind when it uninstalls it, and
-  Python reads that folder as a namespace package: the import goes
+  Python reads that folder as a namespace package. The import goes
   through and the module is hollow. Only a module that names the file
   it was read from counts as there now.
 
 ### Fixed
 
 - The message that ffmpeg was being installed came at every start, even
-  though nothing was being installed: static-ffmpeg only puts its
+  though nothing was being installed. static-ffmpeg only puts its
   programs on the search path for the running process.
 
 ### Tests
 
 - `update_test.py`, 24 checks: which version is newer, what counts as a
-  newer release, that a no is remembered, that an error page and a file
-  that does not compile are both refused, and that the old file is kept.
-  Nothing in it touches the network.
+  newer release, and that a no is remembered. Then that an error page
+  and a file that does not compile are both refused, and that the old
+  file is kept. Nothing in it touches the network.
 - `first_run.sh` puts the machine back the way it was before the program
-  ever ran -- the environment, the caches, the packages, what a package
-  downloaded after pip was done with it, the keychain entry -- so a
-  change to how the program installs itself can be watched from
-  nothing. It is not part of the suite.
-- The suite stops instead of going red where there is no ffmpeg.
+  ever ran. That covers the environment, the caches, the packages, what
+  a package downloaded after pip was done with it, and the keychain
+  entry. A change to how the program installs itself can then be
+  watched from nothing. It is not part of the suite.
+- The suite stops instead of going red if there is no ffmpeg.
 
 ## [2.0.0-beta] - 2026-08-23
 
 ### Added
 
 - `install.py` brings the program and the separation model in one
-  command, on macOS, Windows and Linux alike -- it is written in Python
+  command, on macOS, Windows and Linux alike. It is written in Python
   because Python is the one thing that has to be there anyway. Every
   file is held against the SHA-256 sums that travel with the model and
-  is not written where it does not match. It reports ffmpeg rather than
+  is not written if it does not match. It reports ffmpeg rather than
   installing it, and hands over to the program at the end. `--check`
   holds an installation already there against the sums, `--to` puts it
   somewhere else, `--no-start` stops before the handover.
 - The speaker separation model travels with the repository, in
-  `models/speaker-diarization-community-1` -- five files, 33 MB, with
+  `models/speaker-diarization-community-1`: five files, 33 MB, with
   their licence, model card and checksums beside them. It is read from
   a folder next to the program: no account, no token, no network.
 - The program recognises speech itself. On macOS 26 it uses the
-  recogniser the system brings, driven by a small Swift program built on
-  first use -- 22 seconds for an hour of audio, nothing to install.
-  Everywhere else it falls back to Whisper (`large-v3-turbo`, 1.5 GB,
-  measured at six times real time on a processor). The words carry their
-  punctuation, which is where sentence and clause boundaries come from.
+  recogniser the system brings, driven by a small Swift program built
+  on first use. That takes 22 seconds for an hour of audio, with
+  nothing to install. Everywhere else it falls back to Whisper
+  (`large-v3-turbo`, 1.5 GB, measured at six times real time on a
+  processor). The words carry their punctuation, which is where
+  sentence and clause boundaries come from.
 - The program separates speakers itself, locally, without uploading
   anything. Measured against the individual microphones of two complete
-  interviews: 98.7 per cent of 45 473 words land on the right person,
-  and three quarters of the remaining errors sit where two people really
-  do talk at once or where the speaker had just changed. The model
+  interviews: 98.7 per cent of 45 473 words land on the right person.
+  Three quarters of the remaining errors sit where two people really
+  do talk at once, or where the speaker had just changed. The model
   travels with the program (`models/`, CC BY 4.0, checksummed before
   every use) and is never fetched at run time.
-- A voice table under the assignment, one row per voice found, named
-  "Speaker 1, 2 ..." until somebody names them, with a button to listen
-  to each -- naming a voice without hearing it is guessing.
+- A voice table under the assignment, one row per voice found. It is
+  named "Speaker 1, 2 ..." until somebody names them, and each row has
+  a button to listen. Naming a voice without hearing it is guessing.
 - Four choices on tab 3 decide what is shown when nobody is clearly
-  speaking: the wide shot, the listener, alternating between them, or no
-  change at all.
+  speaking. They are the wide shot, the listener, alternating between
+  them, or no change at all.
 - The wide shot is placed by the language now. It enters on a sentence
   boundary, holds at least five seconds and leaves at the next sentence
-  end; where that would run past fifteen seconds it leaves at the last
+  end. If that would run past fifteen seconds it leaves at the last
   clause break before it, never in the middle of a sentence. Measured,
   every inserted wide shot lands in the five-to-fifteen-second window it
   is meant for.
 - The exact frame comes from the sound, not from the text: in a window
   around the target the quietest stretch is looked for. That lands in a
   real speech pause 97 to 99 times in a hundred, where the recogniser's
-  word boundary manages 42 to 46 -- and it costs a fifth of a second for
-  a whole episode.
+  word boundary manages 42 to 46. It costs a fifth of a second for a
+  whole episode.
 - A reaction cut. When somebody asks a question and another answers, the
   picture goes to the answering person while the question is still
   running.
@@ -407,15 +474,15 @@ survives.
   minimum edit duration then held that camera for three seconds.
 - Short shots are merged into the one that **follows**, not the one
   before. Measured over four runs, the time the wrong camera is shown
-  falls from 326 to 99 seconds -- and it falls just as far when the
-  input is the truth instead of a recognition, so this is a better rule
-  and not a crutch.
-- The wide shot answers uncertainty. Where the separation frays -- seven
-  segment starts inside twelve seconds -- or produces a small mixed
-  cluster that belongs to nobody, the wide shot is shown instead of
-  guessing. Measured, that beats even the best possible guess, and the
-  longest stretch showing the wrong person drops from eight seconds to
-  2.3, which is below the minimum edit duration.
+  falls from 326 to 99 seconds. It falls just as far when the input is
+  the truth instead of a recognition, so this is a better rule and not
+  a crutch.
+- The wide shot answers uncertainty. The separation frays when seven
+  segment starts sit inside twelve seconds, or it produces a small
+  mixed cluster that belongs to nobody. In both cases the wide shot is
+  shown instead of guessing. Measured, that beats even the best
+  possible guess. The longest stretch showing the wrong person drops
+  from eight seconds to 2.3, which is below the minimum edit duration.
 - `--wide-after` is 40 seconds instead of 45, `--wide-length` is the
   minimum hold of the wide shot instead of its length.
 - One minimum edit duration. The window showed three seconds while the
@@ -428,16 +495,16 @@ survives.
 ### Removed
 
 - **auphonic.com no longer supplies speaker data.** Its statistics knew
-  0.6 pauses a minute where our own measurement finds 16, and in 66
-  minutes the wide-shot search found no place at all on them. Levelling,
+  0.6 pauses a minute, our own measurement finds 16. In 66 minutes the
+  wide-shot search found no place at all on them. Levelling,
   de-bleed, noise removal and transcription are untouched.
 - `--wide-min` and `--wide-flow`. With a five-second minimum hold they
   could no longer change anything.
 
 ### Fixed
 
-- The preview died on every call with "Preview not possible: 'min-shot'"
-  -- it read a key that does not exist.
+- The preview died on every call with "Preview not possible: 'min-shot'".
+  It read a key that does not exist.
 - The time axis looked files up under the path handed to it. On macOS
   `/tmp` is a link to `/private/tmp`, so the same file carried two names
   and was not found.
@@ -451,13 +518,13 @@ survives.
 ### Tests
 
 - Eight new test files, 90 in total. Among them a test that speaks its
-  own audio with `say` rather than shipping a file, and one that holds
-  the preview's cut list against the run's.
+  own audio with `say` rather than shipping a file. Another holds the
+  preview's cut list against the run's.
 - `first_run.sh` puts the machine back the way it was before the program
-  ever ran -- the environment, the caches, the packages, the models, the
-  keychain entry -- so a change to how the program installs itself can
-  be watched from nothing. It is not part of the suite: `run.sh` picks
-  up `*_test.py` and nothing else.
+  ever ran. That covers the environment, the caches, the packages, the
+  models and the keychain entry. A change to how the program installs
+  itself can then be watched from nothing. It is not part of the suite:
+  `run.sh` picks up `*_test.py` and nothing else.
 
 ## [1.1.0-beta] - 2026-08-22
 
@@ -472,17 +539,17 @@ survives.
 
 - Two switched-off buttons now look switched off in the same way.
   **Start** kept its filled shape and its own colour while **Dry run
-  (writes nothing)** went pale and flat, so one of the pair still looked
-  pressable. Both now fade into the same muted blue -- filled for the
-  main action, outlined for the dry run, so the rank is still readable.
-  The label on a switched-off button was measured for contrast rather
-  than guessed: 4.7 against its own background, where the old grey on
-  grey gave 2.6.
+  (writes nothing)** went pale and flat. One of the pair therefore
+  still looked pressable. Both now fade into the same muted blue:
+  filled for the main action, outlined for the dry run, so the rank is
+  still readable. The label on a switched-off button was measured for
+  contrast rather than guessed: 4.7 against its own background. The old
+  grey on grey gave 2.6.
 - The opening line is no longer written in warning colour. "No files or
   project opened yet" is where everybody starts, not a fault, and it now
   stands in quiet type. The warning colour is kept for the case where
   something really is missing. The quiet grey was darkened a shade so it
-  still reads on the footer: measured against the desktop's #efefef it
+  still reads on the footer. Measured against the desktop's #efefef it
   went from 4.0 to 4.5.
 
 ## [1.0.0-beta] - 2026-08-22
@@ -490,9 +557,9 @@ survives.
 ### Changed
 
 - The terms are DaVinci Resolve's now, not our own. Looked up in
-  Resolve's manual rather than assumed: `Cut in` and `Cut out` become
-  **In point** and **Out point** (the manual has `In point` 171 times
-  and `Cut in` not once), the two buttons that set them become **Mark
+  Resolve's manual rather than assumed. `Cut in` and `Cut out` become
+  **In point** and **Out point**; the manual has `In point` 171 times
+  and `Cut in` not once. The two buttons that set them become **Mark
   In** and **Mark Out**, and `Minimum shot length` becomes **Minimum
   Edit Duration**. The German side follows Resolve's German window: „In
   markieren", „Out markieren", „Mindestschnittdauer", and the wide shot
@@ -502,10 +569,10 @@ survives.
   project file is refused with a clear message rather than half read.
 - A stereo pair now has to prove itself twice. Measured on a 32 channel
   drum recording: the share of what two channels hear together said
-  "stereo" eight times and was wrong every time, because in one room
-  every microphone hears the same drum. Two more legs decide now -- the
-  spacing that comes out of the same measurement has to be under 0.3 m,
-  and the pair has to stand out from the pairs beside it.
+  "stereo" eight times and was wrong every time. In one room every
+  microphone hears the same drum. Two more legs decide now. The spacing
+  that comes out of the same measurement has to be under 0.3 m. The
+  pair also has to stand out from the pairs beside it.
 - In a project the script creates itself, the colour space follows the
   material. A project made a minute ago carries whatever that machine
   defaults to; measured, one starts at Rec.709 and the next at Rec.2100
@@ -526,7 +593,7 @@ survives.
 ### Tests
 
 - The suite runs in a fifth of the time. Four tests waited on the clock
-  instead of on a condition -- `channel_rows` spent 121 of its 123
+  instead of on a condition. `channel_rows` spent 121 of its 123
   seconds waiting for a tick that never comes. 112 seconds became 33,
   and one test that had quietly stopped checking anything is checking
   again.
@@ -534,7 +601,7 @@ survives.
 ## Before 1.0
 
 What follows is the record from before the first release, counted as
-0.x. Nothing in it was rewritten -- the versions are the ones that
+0.x. Nothing in it was rewritten. The versions are the ones that
 really happened, in the order they happened, and only their numbers were
 brought into this scheme. The program was written for one podcast then
 and never handed to anybody.
@@ -554,11 +621,11 @@ describes the program as it stands rather than how it got there.
   had its stages added to the plan that was already finished, and the
   finished steps went on counting. The old plan is cleared before the
   run's stages are announced, and the bar itself is put to nothing at
-  the same moment -- a widget goes on showing the figure it was last
-  given until the next redraw, so clearing the plan alone still left the
-  old 100 per cent standing for a tick. Found by run_bar_test.py, which
-  only saw it when the machine was loaded enough to reach the start
-  button inside that moment.
+  the same moment. A widget goes on showing the figure it was last
+  given until the next redraw. Clearing the plan alone therefore still
+  left the old 100 per cent standing for a tick. Found by
+  run_bar_test.py, which only saw it when the machine was loaded enough
+  to reach the start button inside that moment.
 
 ## 0.11.0
 
@@ -568,10 +635,10 @@ read from the source; none is confirmed against a running Resolve.
 ### Changed
 
 - The test doubles in `cut_timeline_test.py` and `intro_test.py` can
-  report what landed on a track, which is what the timeline report in
+  report what landed on a track. That is what the timeline report in
   the program asks them for.
 - Ready for a public repository: the one-off cleanup script moved out of
-  the tree, the preset fixtures carry no personal name, and
+  the tree, and the preset fixtures carry no personal name.
   `.gitignore` also holds back `zu_loeschen/`, `_to_delete/` and stray
   media files.
 
@@ -579,20 +646,20 @@ read from the source; none is confirmed against a running Resolve.
 
 - A camera without a rendered file lost its measured offset. The offsets
   are kept under the rendered name, and the missing key fell back to
-  0.0, which put that camera at the start of the axis instead of where
+  0.0. That put the camera at the start of the axis instead of where
   it was measured. The source path is tried too now, and what stays
   unknown is named in the log.
 - Width and height were each taken as their own maximum. A landscape and
   a portrait camera together produced a square frame that neither had.
   The largest frame a camera really recorded is used.
-- Where the earliest camera starts before cut in, the timeline start
+- If the earliest camera starts before cut in, the timeline start
   moves back. The "For checking" report kept measuring against the old
   start, so every distance it printed was wrong by that much.
 - The Full-Mix fallback takes a camera's audio. That audio begins where
   the camera began, not at cut in, so it ran against the picture by the
   camera's offset. The head is trimmed off now.
 - A project the program has just created carries Resolve's factory
-  Rec.709, and that beat the material: HDR sources would have been
+  Rec.709, and that beat the material. HDR sources would have been
   delivered as eight bit SDR without a word. On a project of our own
   making the material now wins, with a line saying where the output
   colour space is set by hand. A project somebody else set up still
@@ -609,20 +676,21 @@ read from the source; none is confirmed against a running Resolve.
 ### Changed
 
 - The manual describes the settings window, the preset under the
-  assignment table, the plus in a channel pair's name, the tick as an
-  offer, and which Python versions this is for. Both halves.
-- `CLAUDE.md`: what a session needs to know at its start -- where the
+  assignment table, and the plus in a channel pair's name. Also the
+  tick as an offer, and which Python versions this is for. Both halves.
+- `CLAUDE.md`, what a session needs to know at its start: where the
   state lives, how the tests run, and the rules that do not bend.
 - The shared test fixtures no longer live at fixed paths under `/tmp`.
-  Each was preceded by an `rm -rf` on a path anybody can write to, so on
-  a shared machine or a CI with two jobs the second run deleted the
-  first one's material. The root carries the user id now, and
+  Each was preceded by an `rm -rf` on a path anybody can write to. On a
+  shared machine or a CI with two jobs the second run therefore deleted
+  the first one's material. The root carries the user id now, and
   `VPM_FIXTURES` overrides it. `tests/fixture_root.py` says the same
   thing to the Python side.
 - The channel rows say "unused input -- ignored" rather than "stays
-  out", "measurement running ..." rather than "being looked at", and
-  "below the noise floor" rather than "practically silent". The
-  uncertain case says "uncertain", which is what it means.
+  out", and "measurement running ..." rather than "being looked at".
+  The third change puts "below the noise floor" in place of
+  "practically silent". The uncertain case says "uncertain", which is
+  what it means.
 - The suite ends by reminding whoever started it not to sit and watch.
 
 ## 0.9.0
@@ -635,42 +703,42 @@ found is below; every fix has a test.
 - Taking a stereo pair apart freed a channel, the proposal was rerun
   over it, and the freed channel was joined to its *other* neighbour.
   One click, two changes, the second one unasked. Now the measurement
-  proposes once and a tick corrects that proposal: taking one apart
+  proposes once and a tick corrects that proposal. Taking one apart
   takes exactly that one apart, putting one together frees both its
   neighbours.
 - The tick used to read "with Channel 5 one stereo track" beside a
   measurement saying they are two microphones. It says "join with
-  Channel 5" now -- an offer, not a claim.
+  Channel 5" now: an offer, not a claim.
 - On resume, an output whose channel count the answer gives as empty was
   read as "not mono" and sent again. auphonic.com appends rather than
   replaces, so that is a second render and a second bill. An output that
-  is configured but not rendered yet is now found by its own suffix,
-  since it has no file name to read one from.
+  is configured but not rendered yet is now found by its own suffix. It
+  has no file name to read one from.
 - An ffmpeg that died half way through reading the channels was taken
   for one that had finished: the return code was never looked at. The
   half-read judgement was then stored under the file's size and time and
   would never have been measured again.
 - The channel read held the whole recording twice at the moment of
-  joining the chunks -- the doubling the chunked read exists to avoid.
+  joining the chunks: the doubling the chunked read exists to avoid.
   Each channel is now joined and its chunks dropped one at a time.
 - A transfer broken off by an error left curl running and downloading,
   and left an open handle on a deleted file.
 - The API key went into curl's config file unescaped. A key containing a
   quotation mark or a line break could have added directives of its own.
-  Where the file cannot be deleted afterwards it is overwritten.
+  If the file cannot be deleted afterwards it is overwritten.
 - Removing the last audio file left the block map standing, so the work
   for the removed recording was queued again and again.
 - The Resolve verdict was written into a box that lives in the settings
   window: invisible to anybody who had not opened it. The Resolve tab
-  now says whether Resolve answers and offers the way to the settings,
-  and the check runs again every time that window is opened rather than
+  now says whether Resolve answers and offers the way to the settings.
+  The check runs again every time that window is opened, rather than
   once per session.
 - "not measured -- nothing is running for it" was shown in the ordinary
   case, because the work is registered a moment after the row is drawn.
   The row says "being looked at ..." again.
 - Four containers were declared twice in `gui()`, so the first four were
-  dead; and `plan` -- the one progress bar -- was shadowed inside
-  `start()` by the assignment plan.
+  dead. `plan`, the one progress bar, was shadowed inside `start()` by
+  the assignment plan.
 - `blocks_facts_from` raised on hand-made facts whose three lists are of
   different lengths, and choked on a non-dict.
 
@@ -681,28 +749,28 @@ found is below; every fix has a test.
 - The floor is Python 3.10, because PySide6 does not build below that
   and the window could not open there whatever the command line did.
 - The suite runs on **3.14.7**, the version this is used on daily. It
-  used to run on 3.11 while the program ran on 3.14 -- proving something
+  used to run on 3.11 while the program ran on 3.14, proving something
   about a Python nobody uses.
 - `--version`, the log header and every run say which Python is running
-  and name the recommended one where they differ:
+  and name the recommended one if they differ:
   `Python 3.11.15  (recommended version 3.14.7)`.
-- Pools are sized with `os.process_cpu_count()` where it exists (3.13
-  and up): it says how many processors this *process* may use, not how
+- Pools are sized with `os.process_cpu_count()` if it exists (3.13 and
+  up). It says how many processors this *process* may use, not how
   many the machine has. In a container held to two of thirty-two, the
   old number meant thirty threads taking turns.
 - `consistency_test.py` reported `__annotate__` and `__classdict__` as
   names without an origin. Both are put there by the 3.14 compiler, not
   by anybody writing code.
-- Two sorts of setting stood in one box on the first sheet: the key for
-  auphonic.com, entered once in a lifetime, and the preset, chosen for
-  every production. Choosing a preset therefore meant paging back from
-  the table where the decision is actually made.
+- Two sorts of setting stood in one box on the first sheet. One is the
+  key for auphonic.com, entered once in a lifetime; the other the
+  preset, chosen for every production. Choosing a preset therefore
+  meant paging back from the table where the decision is actually made.
 - **Settings ...**, top right of the tab bar, opens a window holding the
   key, the tick that stores it, **Connect**, and the Resolve check. The
-  Resolve box has left the third tab; the check itself still runs by
-  itself on the first look at that tab, since a run that ends by
-  building a project should not find out at the end that Resolve was
-  never running.
+  Resolve box has left the third tab. The check itself still runs by
+  itself on the first look at that tab. A run that ends by building a
+  project should not find out at the end that Resolve was never
+  running.
 - The preset and **Fetch transcript** now stand under the assignment
   table, right below the Multitrack tick. The whole "what should this
   run do" is in one place.
@@ -714,16 +782,16 @@ found is below; every fix has a test.
 
 - The channel rows of a recording are drawn from the measurement over
   all its blocks, and the row hangs on the first block. Each finished
-  block asked for a redraw of its own row -- which only the first block
-  has. The last block to finish therefore redrew nothing, and a
-  recording of two blocks said "being looked at ..." for as long as the
-  window stayed open, while the work was long done and the bar had gone.
+  block asked for a redraw of its own row, which only the first block
+  has. The last block to finish therefore redrew nothing. A recording
+  of two blocks said "being looked at ..." for as long as the window
+  stayed open. The work was long done and the bar had gone.
   Reproduced, then fixed: every finished block now redraws the row of
   the recording it belongs to. `blocks_rows_test.py` holds it there.
 - A row waiting for a measurement that nobody started said the same as
   one that is being measured. Now it says which of the two it is.
-- Where the channel count of a file cannot be determined, the run says
-  so instead of swallowing it -- that silence was what made the state
+- If the channel count of a file cannot be determined, the run says
+  so instead of swallowing it. That silence was what made the state
   above so hard to read.
 - Ticking a channel pair the measurement already found, or unticking one
   it did not, no longer counts as "set by hand". Only a real override is
@@ -737,32 +805,32 @@ found is below; every fix has a test.
 - The channel measurement is eleven times faster. Every channel was read
   by decoding the whole file again: a 32 channel recording went through
   ffmpeg 32 times. It is one pass now, taken apart afterwards. Measured
-  on one 92 MB block of 32 channels: 22.9 s before, 2.0 s after -- 4.0
-  MB/s to 46.2 MB/s -- with the same levels, the same silent channels
-  and the same pair numbers to six decimals. A pair of 1.8 GB blocks
-  drops from about fifteen minutes to about ninety seconds.
+  on one 92 MB block of 32 channels: 22.9 s before, 2.0 s after, 4.0
+  MB/s to 46.2 MB/s. It came out with the same levels, the same silent
+  channels and the same pair numbers to six decimals. A pair of 1.8 GB
+  blocks drops from about fifteen minutes to about ninety seconds.
 - `channel_read_test.py` reads the same file both ways and compares
   sample by sample, so it stays that way.
 
 ### Fixed
 
 - On a Mac the API key no longer travels to `security` as an argument
-  where it does not have to: it goes over the input first and is read
+  where it does not have to. It goes over the input first and is read
   back to see whether that worked. Only if the wrong key comes back does
   the old way follow. An argument stands in the process list, which
   every auditing agent on a managed machine writes to a log.
 
 ## 0.6.0
 
-Four reviews went over the program from four sides -- what happens to
-the API key, what a stranger meets on a fresh machine, whether the
-newest code is right, and whether the manual still describes the
-program. What they found is below.
+Four reviews went over the program from four sides. They asked what
+happens to the API key, and what a stranger meets on a fresh machine.
+Then whether the newest code is right, and whether the manual still
+describes the program. What they found is below.
 
 ### Changed
 
 - The manual no longer claims the key is never in the process list. On
-  the way to auphonic.com it is not, but `--auphonic-api-key` puts it in
+  the way to auphonic.com it is not. But `--auphonic-api-key` puts it in
   this program's own command line, and storing it in the macOS Keychain
   hands it to `security` as an argument. Both are now said plainly, with
   `AUPHONIC_TOKEN` named as the way round the first.
@@ -772,9 +840,9 @@ program. What they found is below.
   error.
 - A pair is written with a plus, not an ampersand: `Channel 1+2` on
   screen and `_Channel1+2.wav` on disk. Measured: both are legal file
-  names everywhere, but an unquoted ampersand splits the command in two
+  names everywhere. But an unquoted ampersand splits the command in two
   in every shell, and in a web address it separates parameters. The old
-  spelling is not recognised any more and does not need to be -- the cut
+  spelling is not recognised any more and does not need to be. The cut
   pieces live in a temporary folder that goes when the program does.
 
 ### Fixed
@@ -782,25 +850,25 @@ program. What they found is below.
 - `blocks_facts` gave back the last block's pair judgement instead of
   the loudest block's: the inner loop reused the name of the list it was
   filling. A recording whose second block is the run-out or pure silence
-  was therefore judged on that, and the answer even depended on the
-  order the blocks arrived in. It also grew the cached measurement of
+  was therefore judged on that. The answer even depended on the order
+  the blocks arrived in. It also grew the cached measurement of
   the block it read. The combining half is now `blocks_facts_from`,
   which can be held against made-up numbers without building gigabytes
   of audio.
-- A recording of several blocks never came apart into tracks: the
+- A recording of several blocks never came apart into tracks. The
   regrouping still looked for the `_ch` in the names from before 0.4.0,
   while the pieces are called `_Channel1` now. Two 32-channel blocks
   stayed one row with one speaker name, and the run folded all channels
   into one voice.
 - `--together` promised "in this order" and then sorted the blocks by
   name again. Without a timecode that is the one case where name order
-  is meaningless -- it is exactly why the switch exists.
+  is meaningless. It is exactly why the switch exists.
 - A tick joining two channels to a stereo track is no longer honoured
-  where one of the two is an unused input. The interface never offers
+  if one of the two is an unused input. The interface never offers
   the tick there, but a tick made earlier outlives the measurement it
   was made under.
-- A file named in `--together` that is not on disk was reported only
-  when one of its partners ended up in a recording of its own.
+- A file named in `--together` and not on disk went unreported, unless
+  one of its partners ended up in a recording of its own.
 - Two file names spelling the same moment ("260808" and "20260808") drop
   both, which was right and silent. It is now said.
 - Intro and outro survived the opening of another project, because the
@@ -811,7 +879,7 @@ program. What they found is below.
   used to fetch twenty megabytes and look for ffmpeg first, and on a
   machine without either they failed instead of answering.
 - Starting the interface without PySide6 printed one line and died
-  silently: the console went into the log file before Qt was resolved,
+  silently. The console went into the log file before Qt was resolved,
   so a hundred megabyte download happened behind a silent terminal. Qt
   is resolved first now.
 - When pip fails, the last lines of its output are printed. The advice
@@ -822,15 +890,15 @@ program. What they found is below.
   the environment.
 - Below Python 3.7 the program says so and stops, instead of failing
   later on a keyword argument.
-- Where ffmpeg is missing, the advice names the machine this is: brew on
+- If ffmpeg is missing, the advice names the machine this is: brew on
   a Mac, the package manager on Linux, ffmpeg.org on Windows. Linux used
   to get the other two.
 - Installing past the system package manager is said out loud when it
   happens, with the virtual environment named as the way round it.
 - `requirements.txt` and `requirements-dev.txt`.
 - On resume, a mixdown of one channel is no longer taken for the
-  two-channel one a stereo run needs. Where the answer says nothing
-  about the channel count, both still count as present -- an upload sent
+  two-channel one a stereo run needs. If the answer says nothing
+  about the channel count, both still count as present. An upload sent
   twice is billed twice.
 - `--lufs` was marked "multitrack only" in the help text and is read by
   the simple path too.
@@ -849,22 +917,22 @@ program. What they found is below.
 - The list of home-directory folder names that say nothing about a
   production ("Desktop", "Downloads") held German entries beside the
   English ones. macOS and Windows keep the English name on disk whatever
-  the system language, and Linux writes the names it chose into
-  `user-dirs.dirs` -- which is now read, instead of one language being
+  the system language. Linux writes the names it chose into
+  `user-dirs.dirs`, which is now read instead of one language being
   guessed at.
 - The metrics CSV stays comma separated. The manual says what that costs
   on a German system and which way in avoids it.
 - A pass over every comment and docstring against the house rule "short
-  and to the point": storytelling, self-justification and anecdotes from
-  particular recordings are gone, the reasons and the measured numbers
-  stay. 99 places, 51 lines fewer, no code touched -- proved by
-  comparing the syntax tree with docstrings stripped.
+  and to the point". Storytelling, self-justification and anecdotes from
+  particular recordings are gone; the reasons and the measured numbers
+  stay. 99 places, 51 lines fewer, no code touched. Proved by comparing
+  the syntax tree with docstrings stripped.
 
 ### Fixed
 
 - The reason the start button is grey stands in the footer beside it. It
   was in the tooltip alone, and a disabled Qt button shows no tooltip at
-  all -- the text hung on a wrapper around it, where nobody looks.
+  all. The text hung on a wrapper around it, where nobody looks.
 - A missing production name marks its field red, like a duplicate
   speaker name or a duplicate output name does in its row.
 - The reason named pages that no longer exist ("2.1 Production", "2.3
@@ -886,21 +954,21 @@ program. What they found is below.
 ### Added
 
 - A stereo track stays stereo the whole way: onto the time axis, through
-  the loudness measurement, into its own audio track on the camera file,
-  and into the mix. The rule is "keep what the source has" instead of
-  folding everything to one channel.
+  the loudness measurement. Then into its own audio track on the camera
+  file, and into the mix. The rule is "keep what the source has" instead
+  of folding everything to one channel.
 - At auphonic.com the finished mixdown is asked for in two channels as
-  soon as one track is stereo, and on the simple path the mono fold is
+  soon as one track is stereo. On the simple path the mono fold is
   switched off for every output the preset asks for.
 - Without Multitrack, recordings that ran at the same time now also go
   into the video as tracks of their own, after the mix. Whether they ran
   at the same time is read from the timecode, not guessed.
   `--no-single-tracks` leaves them out.
-- A camera ticked "as a track" is an audio candidate like any other: its
-  channels are judged and cut by the same rule as a recorder file, so a
-  camera carrying two clip-on microphones gives two tracks with two
-  speaker names.
-- The same on the command line: `Osmo.mov Wide.mov --multitrack` reads a
+- A camera ticked "as a track" is an audio candidate like any other. Its
+  channels are judged and cut by the same rule as a recorder file. A
+  camera carrying two clip-on microphones therefore gives two tracks
+  with two speaker names.
+- The same on the command line. `Osmo.mov Wide.mov --multitrack` reads a
   two microphone camera as two speakers without an interface, and still
   writes one file per camera.
 - Camera tracks get the full camera selector. A microphone plugged into
@@ -908,37 +976,37 @@ program. What they found is below.
 - A camera counts towards Multitrack as soon as it is ticked as a track,
   on the command line as well as in the interface.
 - Blocks whose names carry a date and a time instead of a counter are
-  joined into one recording when the next one starts where the previous
-  one ends.
+  joined into one recording. That happens when the next one starts where
+  the previous one ends.
 - `--together FILE ...` and the "belongs to" selector put files into one
   recording by hand, the counterpart to `--apart`.
 - Channel count and sample rate have to match before two blocks are
   joined.
 - The channels of a recording are judged over all its blocks, not over
   the first one. On a 32 channel mixer recording the first five minute
-  block was the soundcheck and read as one used channel pair; the second
+  block was the soundcheck and read as one used channel pair. The second
   was the show and read as ten tracks.
 - An absolute floor for a channel that carries anything: under -70 dBFS
-  there is only the converter's noise, and a pair judged on noise
-  answers differently every time it is measured.
+  there is only the converter's noise. A pair judged on noise answers
+  differently every time it is measured.
 
 ### Changed
 
 - Every neighbour is judged, not every second one. On a mixer, channels
-  2 and 3 can be the stereo pair just as well as 1 and 2; fixed pairs
+  2 and 3 can be the stereo pair just as well as 1 and 2. Fixed pairs
   asked the wrong question and got a confident wrong answer.
 - One row per channel in the file list, with a tick that says "this one
   and the next are one stereo track". Ticking channel 2 takes the tick
-  away from channel 3 -- a channel can belong to only one pair. Where
-  two neighbours both look like a pair, the left one wins.
+  away from channel 3. A channel can belong to only one pair. If two
+  neighbours both look like a pair, the left one wins.
 - The tick and the reason behind it moved into the wide column. In the
   narrow one, where the file marks live, the word beside the box was cut
   off after its first letter.
-- Tracks are named after their channels -- `Channel 1`, `Channel 2+3` --
-  and so are the files they are cut into, closed up and with a
-  fingerprint of the source folder in between:
+- Tracks are named after their channels: `Channel 1`, `Channel 2+3`. So
+  are the files they are cut into, closed up and with a fingerprint of
+  the source folder in between. That gives
   `Mixer_3f9a1c02_Channel1+2.wav`, instead of `_cha` and `_chef`.
-  "Channel" stays English in every language -- it is the word on the
+  "Channel" stays English in every language. It is the word on the
   recorder and on the mixer.
 - The hint under a file with more than two channels said they would be
   mixed into one track. They have not been since 0.1.0; it now says what
@@ -952,9 +1020,9 @@ program. What they found is below.
 - With cameras only and no audio file, the interface offers the
   Multitrack tick instead of stopping the run afterwards.
 - Channel conversions are written out rather than left to ffmpeg, in
-  both directions. Its own uses an equal-power law -- measured on a
+  both directions. Its own uses an equal-power law. Measured on a
   signal at -24.08 dBFS, one channel to two comes out at -27.09 and two
-  channels to one at -21.07 -- and the second of those depends on the
+  channels to one at -21.07. The second of those depends on the
   output format.
 
 ### Fixed
@@ -963,39 +1031,40 @@ program. What they found is below.
   carried the transcript output formats. The run then waited for it
   until the time limit.
 - The check report cleared the channel rows out of the file list when it
-  came back: the stereo tick and everything beside it disappeared, and
+  came back. The stereo tick and everything beside it disappeared, and
   only a later rebuild brought them back. Finding lines now carry a mark
   of their own instead of sharing one with every other extra row.
 - A track cut out of a multichannel file lost the recording time. Those
   files are exactly the ones that carry it, and everything after the cut
-  asks the piece rather than the file it came from, so a real pause
-  between two blocks was swallowed instead of being filled with silence
-  and reported.
+  asks the piece rather than the file it came from. A real pause between
+  two blocks was therefore swallowed instead of being filled with
+  silence and reported.
 - Two files with the same name on two cards wrote over each other's
-  tracks, silently, because a piece that is already there is not written
+  tracks, silently. A piece that is already there is not written
   again. The name of a piece now carries a fingerprint of where its
   source lies.
 - Above 26 channels the channel letters ran together: channels 1 and 2
   gave "ab", and so did channel 28. On a 32 channel mixer recording one
   track therefore held another one's audio.
 - A camera with more than two channels was folded to mono before anybody
-  looked at what was on it, so four microphones on four channels became
+  looked at what was on it. Four microphones on four channels became
   one voice. The audio is now extracted with every channel it has and
   folded only if nothing has to be cut out of it.
-- Where a recording is made of blocks, the pair judgement took the
-  answer of the loudest block even when that block had one of the two
-  channels silent -- which is no answer at all. It now takes the loudest
-  block that actually measured the pair.
+- If a recording is made of blocks, the pair judgement took the answer
+  of the loudest block. It did so even when that block had one of the
+  two channels silent, which is no answer at all. It now takes the
+  loudest block that actually measured the pair.
 - Changing the stereo tick dropped the cut tracks of one block only. The
   other blocks kept their old cut, and the rows then held block one's
   channel 1 next to block two's channels 1 and 2.
 - Continuation blocks that were found rather than selected were never
-  measured or cut, so a multi-part multichannel recording was cut from
+  measured or cut. A multi-part multichannel recording was cut from
   its first block alone.
-- The block-size rule never saw the block it was judging: on the first
-  step forward it compared a block with itself and always said yes, so a
-  short finished take in front of the real recording was glued onto it.
-  Which answer came out depended on which block was selected.
+- The block-size rule never saw the block it was judging. On the first
+  step forward it compared a block with itself and always said yes. A
+  short finished take in front of the real recording was therefore
+  glued onto it. Which answer came out depended on which block was
+  selected.
 - Two files carrying the same recording time were laid end to end
   instead of on top of each other. Two recorders started together write
   exactly the same number, and those recordings run at the same time.
@@ -1005,33 +1074,33 @@ program. What they found is below.
 - A file named with `--together` that is not on disk was accepted into
   the recording and then vanished without a word. It is refused, and the
   refusal is reported.
-- Two names spelling the same moment -- "260808" and "20260808" are the
-  same day -- put one file into two recordings, and which grouping came
-  out depended on the folder listing.
+- "260808" and "20260808" are the same day. Two names spelling the same
+  moment put one file into two recordings, and which grouping came out
+  depended on the folder listing.
 - On a case-sensitive disc, `REC0002.wav` and `rec0002.wav` collapsed
   into one entry and the folder listing decided which one was used.
-- A counter that reads as a time of day -- `260808_000001` -- made the
-  clock rule fire, find nothing and stop, instead of handing back to the
+- A counter that reads as a time of day, `260808_000001`, made the
+  clock rule fire, find nothing and stop. It did not hand back to the
   counter rule. Three blocks of one recording stayed three recordings.
 
 ### Tests
 
 - 75 tests, all of them checking something. The five that only printed
-  their result -- colours, metrics, dualmono, crosstalk, intro -- now
-  measure it. The three that cannot be checked outside Resolve --
-  render, render_hdr, multicam -- say so in their docstring.
+  their result (colours, metrics, dualmono, crosstalk, intro) now
+  measure it. The three that cannot be checked outside Resolve
+  (render, render_hdr, multicam) say so in their docstring.
 - New: stereo_mix, beside_mix, camera_track_mode, camera_channels,
   blocks_facts, clock_blocks, together, german_hunt.
 - `german_hunt_test.py` reads seven ways for German where only English
-  belongs, including the running program: the job is driven twice in
+  belongs, including the running program. The job is driven twice in
   German and the output searched for English function words.
 
 ## 0.3.0
 
 ### Added
 
-- A single continuation file can be taken out of a recording by hand and
-  stays out, even though the search would find it in the folder again.
+- A single continuation file can be taken out of a recording by hand. It
+  stays out even though the search would find it in the folder again.
   Added later it is a recording of its own; only removing the whole
   recording and adding it again joins it up as before.
 

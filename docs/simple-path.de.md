@@ -1,26 +1,28 @@
-# Der einfache Fall
+# Der einfache Weg
 
-*In English: [The simple path](simple-path.md). Zurück zum [Inhalt](README.de.md).*
+*In English: [simple-path.md](simple-path.md). Zurück zum
+[Inhalt](README.de.md).*
 
-## Der einfache Fall
+## Der Lauf ohne Multitrack
 
 Der einfache Weg ist der Lauf ohne das Häkchen **Multitrack (je Sprecher
-eine Spur)**. Es steht im Kasten **Produktion** auf dem Reiter
-**Dateien & Produktion** und ein zweites Mal über den Tabellen auf dem
-Reiter **Zuordnung & Zeitfenster**.
+eine Spur)**. Das Häkchen steht auf dem Reiter **Zuordnung &
+Zeitfenster** über dem Kasten **Aufbereitung bei auphonic.com
+(optional)**.
 
 Beide Wege schreiben dieselbe Art Datei: MOV, Bild umkopiert, Ton
-unkomprimiert, der `colr`-Block und die QuickTime-Schlüssel der Kamera
+unkomprimiert, die `colr`-Angabe und die QuickTime-Schlüssel der Kamera
 mitgenommen.
 
 Was der einfache Weg genauso kann wie Multitrack:
 
 - **Zeitfenster.** Die Knöpfe **In markieren** und **Out markieren**
-  wirken auch hier (auf der Kommandozeile `--in-point` und `--out-point`),
-  in den Schreibweisen aus [multitrack.de.md](multitrack.de.md), Abschnitt
-  „Zeitfenster". Beschnitten wird der Ton; das Bild bleibt ganz und behält
-  seinen Timecode.
-- **Vorschau Player.** Derselbe Reiter, dieselben Knöpfe.
+  wirken auch hier (auf der Kommandozeile `--in-point` und
+  `--out-point`). Sie nehmen die Schreibweisen aus
+  [Multitrack](multitrack.de.md), Abschnitt „Zeitfenster“. Beschnitten
+  wird der Ton; das Bild bleibt ganz und behält seinen Timecode.
+- **Vorschau Player.** Auf dem Reiter **Zuordnung & Zeitfenster**, mit
+  denselben Knöpfen.
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
   nebeneinander, fertig für Multicam; eine Kamera eine gerade.
 
@@ -33,75 +35,103 @@ Was herauskommt, hängt am Material:
 - **Ton und Bild.** Der Ton wird ausgerichtet und in die Videodatei gelegt.
 - **Nur ein Video.** Dessen eigener Ton, links und rechts getrennt.
 
-### Die Einzelaufnahmen neben dem Mix
+### Was neben dem Mix ins Video kommt
 
-Ohne Multitrack geht aller Ton in eine Spur. Liefen mehrere Aufnahmen
-gleichzeitig, geht jede davon zusätzlich als eigene Spur ins Video,
-hinter dem Mix, auf derselben Achse und in derselben Länge.
+Ohne Multitrack geht aller Ton in eine Spur. Wenn mehrere Aufnahmen
+gleichzeitig liefen, geht jede davon zusätzlich als eigene Spur ins
+Video, hinter dem Mix. Sie liegt auf derselben Achse und hat dieselbe
+Länge.
 
-Ob sie gleichzeitig liefen, liest der Lauf am Timecode ab. Aufnahmen, die
-sich überlappen, waren mehrere Mikrofone gleichzeitig. Blöcke, die
-aufeinander folgen, sind eine Aufnahme und bekommen keine zusätzlichen
-Spuren.
+Der Lauf liest am Timecode ab, ob sie gleichzeitig liefen. Aufnahmen, die
+sich überlappen, waren mehrere Mikrofone gleichzeitig. Das Programm nennt
+jede Datei einer zerlegten Aufnahme einen Block. Blöcke, die aufeinander
+folgen, sind eine Aufnahme und bekommen keine zusätzlichen Spuren.
 
 Die Einzelspuren sind unbearbeitet: nur der Mix geht zu auphonic.com,
 also kein De-Bleed und kein Leveler auf ihnen. Sie kosten rund 520 MB je
-Spur und Stunde. Kommt der Mix von auphonic.com in anderer Länge zurück
-als sie haben — etwa mit vorangestelltem Jingle im Gratis-Tarif — fallen
-sie von selbst weg, und der Lauf sagt es.
+Spur und Stunde. Wenn der Mix von auphonic.com in anderer Länge
+zurückkommt, als die Aufnahmen haben, fallen die Einzelspuren von selbst
+weg. Im Gratis-Tarif macht das ein vorangestellter Jingle. Der Lauf sagt
+es.
 
 Fortsetzungsdateien findet das Script selbst; der erste nummerierte Block
-genügt. Als Fortsetzung gilt nur, was lückenlos anschließt — geprüft am
+genügt. Als Fortsetzung gilt nur, was lückenlos anschließt, geprüft am
 Timecode, sonst an der Blockgröße. Ein späterer Take mit derselben
 Namensform wird nicht angehängt.
 
 Der Versatz wird immer gemessen, auch wenn beide Seiten Timecode tragen.
-Liegt er beidseitig vor, sagt der Lauf am Ende, wie weit er vom gemessenen
-Wert abweicht.
+Wenn der Timecode beidseitig vorliegt, sagt der Lauf am Ende, wie weit er
+vom gemessenen Wert abweicht.
 
-### Blöcke mit Uhrzeit statt Zähler
+### Wie der Lauf eine Uhrzeit statt eines Zählers liest
 
 Namen mit Datum und Uhrzeit gelten ebenso als Blöcke:
 `r_260808_185628.wav` und `r_260808_190128.wav`. Ein Recorder nummeriert
 seine Dateien; ein Mischer schreibt oft stattdessen die Uhrzeit.
 
 Der nächste Block gehört dazu, wenn er dort beginnt, wo der vorige endet,
-auf zwei Sekunden genau. Wo jeder Block dieselbe Uhrzeit trägt — den
-Beginn der Session, mit der echten Nummer dahinter — gilt weiter die
-Zähler-Regel.
+auf zwei Sekunden genau. Wenn jeder Block dieselbe Uhrzeit trägt, gilt
+weiter die Zähler-Regel. Diese Uhrzeit ist der Beginn der Session, und
+die echte Nummer steht in einem Zähler dahinter.
 
 ### Blöcke von Hand zusammenlegen
 
-Wo die Dateinamen der Suche nichts hergeben, trägt die Aufnahme in der
-Dateiliste auf dem Reiter **Dateien & Produktion** ein Auswahlfeld
-**gehört zu**. Es legt diese Aufnahme in eine andere, mit allen Blöcken,
-die sie hat (auf der Kommandozeile `--together A B C`, in dieser
-Reihenfolge, wiederholbar für mehrere). Jeder genannte Name bringt die
-Blöcke mit, die ohnehin schon zu ihm gehören.
+Wenn die Dateinamen der Suche nichts hergeben, legt man die Blöcke von
+Hand zusammen:
+
+1. In der Dateiliste auf dem Reiter **Dateien & Produktion** die Zeile
+   der Aufnahme aufklappen.
+2. Im Auswahlfeld **gehört zu** die Aufnahme wählen, zu der sie gehört.
+
+Die Aufnahme geht mit allen Blöcken, die sie hat, in die andere. Das
+Auswahlfeld wird nur angeboten, wenn es eine andere Aufnahme zum Anlegen
+gibt. Nicht angeboten wird es auf einer Aufnahme, die selbst in eine
+andere gelegt wird: eine Kette von Zusammenlegungen gibt es nicht.
+Zurück geht es mit dem Eintrag **eine eigene Aufnahme**.
+
+Auf der Kommandozeile nennt `--together A B C` sie in dieser Reihenfolge
+und ist für mehrere wiederholbar; jeder Name bringt die Blöcke mit, die
+schon zu ihm gehören.
 
 Die Gegenrichtung: die Zeile des Blocks in der Dateiliste auswählen und
-**Entfernen** drücken — er bleibt dann aus der gefundenen Aufnahme
-draußen (auf der Kommandozeile `--apart`). Beides schlägt die Messung.
-Eine für sich gestellte Datei bleibt auch aus einer Gruppe draußen, in
-die sie gelegt wurde. Beides steht im Projekt.
+**Entfernen** drücken. Er bleibt dann aus der gefundenen Aufnahme draußen
+(auf der Kommandozeile `--apart`). Beides schlägt die Messung. Eine für
+sich gestellte Datei bleibt auch aus einer Gruppe draußen, in die sie
+gelegt wurde. Beides steht im Projekt.
 
-### Je Videodatei
+### Was je Videodatei zurückkommt
 
 Jede Videodatei kommt zurück mit unverändertem Bild (`-c:v copy`), dem
-neuen Ton als erster Spur und der Kameraspur dahinter, beide benannt und
-der Timecode erhalten.
+neuen Ton als erster Spur und der Kameraspur dahinter. Das Programm
+benennt beide Spuren und behält den Timecode.
 
-### Warum MOV
+### Warum das Ziel immer MOV ist
 
-Ziel ist immer MOV, auch bei MP4-Quellen; neu berechnet wird dabei nichts.
-MOV trägt die Spurnamen und den unkomprimierten Ton, MP4 beides nicht.
-`--container` gibt es nicht.
+Ziel ist immer MOV, auch bei MP4-Quellen; das Programm kopiert Bild und
+Ton, statt sie neu zu berechnen. MOV trägt die Spurnamen und den
+unkomprimierten Ton, MP4 beides nicht, deshalb gibt es `--container`
+nicht.
+
+### Wenn etwas klemmt
+
+- **Die Fortsetzungsdateien fehlen in der Aufnahme.** Die Namen geben
+  der Suche nichts her: mit **gehört zu** von Hand zusammenlegen.
+- **Eine Datei wurde in eine Aufnahme genommen, in die sie nicht
+  gehört.** Ihre Zeile auswählen und **Entfernen** drücken; sie bleibt
+  von da an draußen.
+- **Die Einzelspuren fehlen im Video.** Der Mix kam von auphonic.com in
+  anderer Länge zurück als die Aufnahmen; der Lauf sagt es. Der Mix
+  selbst steht im Video.
+
+Im Video steht jetzt der fertige Mix und daneben die Aufnahmen, die
+gleichzeitig liefen. Was auphonic.com mit dem Mix macht, steht in
+[Aufbereitung über auphonic.com](auphonic.de.md).
 
 ### Weitere Optionen über die Kommandozeile
 
 Diese Optionen gibt es im Fenster nicht.
 
-- `--no-single-tracks` lässt die Einzelaufnahmen aus dem Video weg.
+- `--no-single-tracks` lässt die Einzelspuren aus dem Video weg.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
 - `--help` kennzeichnet jeden Schalter mit `[simple path only]` oder

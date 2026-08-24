@@ -1,26 +1,28 @@
 # Sprecherstatistik, Kameraschnitt, EDL
 
-*In English: [Speaker statistics, camera cut, EDL](camera-cut.md). Zurück zum [Inhalt](README.de.md).*
+*In English: [camera-cut.md](camera-cut.md). Zurück zum
+[Inhalt](README.de.md).*
 
-## Sprecherstatistik, Kameraschnitt, EDL
+## Wie der Schnitt entsteht
 
 Bei Multitrack weiß das Script, wann wer geredet hat: nach Stimmen
-getrennt auf diesem Rechner oder aus den Spuren gegeneinander gemessen —
-beides in [Spracherkennung und Sprechertrennung](speech.de.md). Daraus
-baut es den Kameraschnitt:
+getrennt auf diesem Rechner oder aus den Spuren gegeneinander gemessen.
+Beides steht in [Spracherkennung und Sprechertrennung](speech.de.md).
+Daraus baut es den Kameraschnitt:
 
-* Wer allein spricht, bekommt seine Kamera, mit Vorlauf.
-* Ein kurzes „ja" nicht: unter **Redet mindestens** bleibt das Bild, wo
+* Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
+* Ein kurzes „ja“ nicht: unter **Redet mindestens** bleibt das Bild, wo
   es ist.
-* Ist es still, läuft der Weitwinkel.
-* Steht eine Einstellung lange, kommt der Weitwinkel an einer
+* Bei Stille läuft der Weitwinkel: die Kamera, der kein Sprecher
+  zugeordnet ist.
+* Nach einer langen Einstellung kommt der Weitwinkel an einer
   Satzgrenze.
 
-**Reden mehrere gleichzeitig**, gewinnt eine Kamera, die genau diese
-Sprecher zeigt — eine auf beide Moderatoren etwa. Passt keine genau, wird
+**Bei mehreren gleichzeitig** gewinnt eine Kamera, die genau diese
+Sprecher zeigt, eine auf beide Moderatoren etwa. Passt keine genau, wird
 die kleinste genommen, auf der alle Redenden vorkommen. Erst wenn keine
-Kamera sie abdeckt, kommt der Weitwinkel. Wer auf welcher Kamera zu sehen
-ist, steht in der Zuordnung: zwei Sprecher bei derselben Kamera heißt,
+Kamera sie abdeckt, kommt der Weitwinkel. Die Zuordnung sagt, wer auf
+welcher Kamera zu sehen ist: zwei Sprecher bei derselben Kamera heißt,
 sie zeigt beide.
 
 Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
@@ -29,11 +31,11 @@ und `_cameracut.edl`. Die Köpfe sind
 `Shot,Camera,Start TC,End TC,Duration s`, die EDL-Titel `Speakers` und
 `Camera cut`.
 
-### Die Stellschrauben
+### Die Stellschrauben einstellen
 
-Bei Multitrack lassen sich alle Werte in der Oberfläche eintragen: auf
-dem Reiter **Resolve-Schnitt**, im Kasten **Kameraschnitt**, je Wert
-ein Feld, daneben die Einheit und eine kurze Zeile.
+Bei Multitrack nimmt die Oberfläche alle Werte entgegen: auf dem Reiter
+**Resolve-Schnitt**, im Kasten **Kameraschnitt**. Je Wert ein Feld,
+daneben die Einheit und eine kurze Zeile.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
@@ -41,39 +43,41 @@ ein Feld, daneben die Einheit und eine kurze Zeile.
 
 Vier Felder formen den Schnitt selbst:
 
-* **Mindestschnittdauer** -- 3 s, so lange steht eine Einstellung
+* **Mindestschnittdauer**: 3 s, so lange steht eine Einstellung
   mindestens (auf der Kommandozeile `--min-edit-duration`)
-* **Redet mindestens** -- 1,5 s, darunter folgt die Kamera nicht (auf
+* **Redet mindestens**: 1,5 s, darunter folgt die Kamera nicht (auf
   der Kommandozeile `--min-speech-to-switch`)
-* **Edit Change Delay** -- 0,3 s, so viel später als der Ton wechselt
-  das Bild (auf der Kommandozeile `--edit-change-delay`)
-* **Reaktionsschnitt früher** -- 1,5 s, so viel früher steht nach einer
+* **Edit Change Delay**: 0,3 s, so viel später als der Ton wechselt
+  das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
+  Kommandozeile `--edit-change-delay`)
+* **Reaktionsschnitt früher**: 1,5 s, so viel früher steht nach einer
   Frage die Antwort im Bild (auf der Kommandozeile `--reaction-lead`)
 
 Vier weitere formen den Weitwinkel:
 
-* **Weitwinkel nach** -- 40 s, ab dieser Standzeit ein Blick in den
-  Weitwinkel (auf der Kommandozeile `--wide-after`)
-* **Weitwinkel steht** -- 5 s, so lange steht der eingeschobene
+* **Weitwinkel nach**: 40 s, ab dieser Standzeit ein Blick in den
+  Weitwinkel; 0 schaltet ihn ab (auf der Kommandozeile `--wide-after`)
+* **Weitwinkel steht**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
-* **Weitwinkel höchstens** -- 15 s, und so lange höchstens (auf der
+* **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der
   Kommandozeile `--wide-most`)
-* **Weitwinkel spätestens** -- 120 s, Obergrenze für eine Kamera am
+* **Weitwinkel spätestens**: 120 s, Obergrenze für eine Kamera am
   Stück (auf der Kommandozeile `--wide-latest`)
 
-Darunter stehen vier Auswahlfelder. Sie sagen, was zu sehen ist, wenn
-die Sprache nicht sagt, wer zu zeigen ist:
+Darunter stehen vier Auswahlfelder. Sie sagen, was läuft, wenn die
+Sprache nicht sagt, wer zu zeigen ist:
 
-* **Langer Monolog** -- **Abwechselnd** (auf der Kommandozeile
+* **Langer Monolog**: **Abwechselnd** (auf der Kommandozeile
   `--on-monologue`)
-* **Mehrere reden zugleich** -- **Weitwinkel** (auf der Kommandozeile
+* **Mehrere reden zugleich**: **Weitwinkel** (auf der Kommandozeile
   `--on-together`)
-* **Erkennung unsicher** -- **Weitwinkel** (auf der Kommandozeile
+* **Erkennung unsicher**: **Weitwinkel** (auf der Kommandozeile
   `--on-uncertain`)
-* **Frage** -- **Antwortender** (auf der Kommandozeile `--on-question`)
+* **Frage**: **Antwortender** (auf der Kommandozeile `--on-question`)
 
-Die ersten drei nehmen außerdem **Zuhörer**, **Abwechselnd** und **Kein
-Kamerawechsel**; **Frage** nimmt außerdem **aus** und **Zuhörer**.
+Die ersten drei nehmen dieselben vier Werte: **Weitwinkel**,
+**Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Frage** nimmt
+**aus**, **Antwortender** und **Zuhörer**.
 
 Unter den Feldern hält das Häkchen **Weitwinkel für Begrüßung am Anfang
 und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel (auf der
@@ -81,7 +85,7 @@ Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel am Anfang
 hält, bis das Wort wirklich übergeben wird, nicht bis zum ersten längeren
 Block einer Nebenstimme.
 
-**Redet mindestens** erledigt kurze Einwürfe („mhm", „ja genau"). Eine
+**Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
 in die vorherige.
 
@@ -89,55 +93,66 @@ in die vorherige.
 
 Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
 
-* **Langer Monolog** -- einer hat über **Weitwinkel nach** hinaus das
+* **Langer Monolog**: einer hat über **Weitwinkel nach** hinaus das
   Wort. **Abwechselnd** merkt sich, was die letzte Unterbrechung zeigte.
-* **Mehrere reden zugleich** -- und keine Kamera zeigt genau sie.
-* **Erkennung unsicher** -- die Erkennung zerfasert über eine Passage,
+* **Mehrere reden zugleich**: und keine Kamera zeigt genau sie.
+* **Erkennung unsicher**: die Erkennung zerfasert über eine Passage,
   oder von einem Namen bleiben nur Schnipsel.
-* **Frage** -- das Bild geht zur Antwort, bevor sie anfängt. Nur nach
+* **Frage**: das Bild geht zur Antwort, bevor sie anfängt. Nur nach
   einer Frage, die nicht vom Vielredner kommt, wenn sofort ein anderer
   übernimmt und das Wort behält.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
-Kamera in den letzten 20 Sekunden jemand zu hören war. Sonst der
+Kamera in den letzten 20 Sekunden jemand zu hören war; sonst der
 Weitwinkel.
 
 **Zuhörer** und **Abwechselnd** zeigen einen Menschen, von dem das
-Programm nur weiß, dass er kurz vorher zu hören war. Ob er zusieht, weiß
-es nicht -- es sieht das Bild nicht. Der Weitwinkel ist das ehrlichere.
+Programm nur weiß, dass er kurz vorher zu hören war. Es sieht das Bild
+nicht. **Weitwinkel** einstellen, wo ein falsches Gesicht im Bild teurer
+ist als ein ruhiges.
 
 Zwei Sprecher auf einer Kamera zählen für diese Regeln als einer: ein
 Sprecherwechsel zwischen ihnen ändert das Bild nicht.
 
-### Vorschau und Sprecher
+### Was Vorschau und Sprecherkasten zeigen
 
-Rechts steht der Kasten **Kameraschnitt -- Vorschau**; er trägt die Länge
-im Titel und darunter eine Zeile Zahlen: Einstellungen, mittlere
-Standzeit, kürzeste Einstellung, längste Standzeit einer Kamera, dazu die
-Redezeit, geteilt in eigene Kamera, Weitwinkel und fremde Kamera. Die
-letzte Zahl steht in der Warnfarbe.
+Der Kasten **Kameraschnitt -- Vorschau** trägt die Länge im Titel und
+darunter eine Zeile Zahlen:
 
-Links, unter den Stellschrauben, der Kasten **Sprecher**: je Sprecher
-Redezeit, Anteil, Zahl der Blöcke und deren mittlere Länge, dazu eine
-Zeile Stille. Die Überschrift nennt die Quelle: **Sprecher, nach Stimmen
-getrennt** oder **Sprecher, selbst aus den Spuren gemessen**. Wo zwei
-gleichzeitig reden, zählt die Zeit doppelt, bei der Stille nicht —
-deshalb ergeben die Zeilen zusammen mehr als die Laufzeit.
+* Einstellungen
+* mittlere Standzeit
+* kürzeste Einstellung
+* längste Standzeit einer Kamera
+* die Redezeit, geteilt in eigene Kamera, Weitwinkel und fremde Kamera
 
-Beides wird aus der Übergabedatei des letzten Laufs gerechnet, bei jeder
-Änderung neu und immer für das gewählte Zeitfenster. Geschrieben oder
-hochgeladen wird nichts.
+Die letzte Zahl steht in der Warnfarbe.
 
-Sind keine Sprecher bekannt, sagt der Kasten das und bietet den Knopf
-**Sprecher jetzt messen**; geht die Rechnung schief, steht an seiner
+Der Kasten **Sprecher** zeigt je Sprecher:
+
+* Redezeit und Anteil
+* Zahl der Blöcke und deren mittlere Länge
+* eine Zeile Stille
+
+Die Überschrift nennt die Quelle: **Sprecher, nach Stimmen getrennt**
+oder **Sprecher, selbst aus den Spuren gemessen**. Bei zwei gleichzeitig
+Redenden zählt die Zeit doppelt, bei der Stille nicht. Deshalb ergeben
+die Zeilen zusammen mehr als die Laufzeit.
+
+Beides rechnet das Programm aus der Übergabedatei
+`<Produktion>_resolve.json` des letzten Laufs, bei jeder Änderung neu
+und immer für das gewählte Zeitfenster. Schreiben und Hochladen gehören
+zum Lauf, nicht zur Vorschau.
+
+Ohne bekannte Sprecher sagt der Kasten das und bietet den Knopf
+**Sprecher jetzt messen**; wenn die Rechnung schiefgeht, steht an seiner
 Stelle der Grund. Sprecher, die später auftauchen, starten die Vorschau
 von selbst.
 
-### Schnittband und Legende
+### Schnittband und Legende lesen
 
-Im Vorschau-Kasten sitzt unter dem Player das **Schnittband**, an Stelle
-der Positionsleiste: der gerechnete Schnitt über die ganze Länge, je
-Einstellung ein Balken in der Farbe seiner Kamera. Die Skala trägt
+Im Kasten **Kameraschnitt -- Vorschau** sitzt das **Schnittband**, an
+Stelle der Positionsleiste: der gerechnete Schnitt über die ganze Länge,
+je Einstellung ein Balken in der Farbe seiner Kamera. Die Skala trägt
 Minuten über das Ganze und Sekunden im Hineingezoomten. Zeigen nennt
 Kamera, Von-bis und Dauer, Klicken setzt die Stelle für den Player.
 Darunter die **Legende**: je Kamera ein Farbtupfer und
@@ -151,31 +166,31 @@ Grund aufgehellt, Beige auf hellem abgedunkelt.
 Das Band lässt sich zoomen. **+** zeigt halb so viel um die aktuelle
 Stelle, **−** doppelt so viel, der dritte Knopf wieder die ganze Länge;
 das Mausrad über dem Band tut dasselbe, ebenso die Tasten Plus, Minus
-und 0. Hineingezoomt sieht und hört man, ob ein Schnitt in einer Pause
-oder mitten im Wort sitzt. Beim Abspielen folgt der Ausschnitt der
+und 0. Hineinzoomen, um zu sehen und zu hören, ob ein Schnitt in einer
+Pause oder mitten im Wort sitzt. Beim Abspielen folgt der Ausschnitt der
 Position, damit er nicht aus dem Bild läuft.
 
-### Die Vorschau-Player
+### Wie die Vorschau-Player Datei und Ton wählen
 
 Zwei Player zeigen das Material, und beide suchen sich ihre Datei
 selbst.
 
-**Auf dem Reiter Zuordnung & Zeitfenster** gilt diese Rangfolge:
+Auf dem Reiter **Zuordnung & Zeitfenster** gilt diese Rangfolge:
 
 1. eine Datei, die **In-Punkt und Out-Punkt enthält**, sonst laufen die
    Sprungknöpfe ins Leere
 2. sonst eine mit wenigstens einer der Grenzen
 3. unter gleich guten die Kamera ohne **zugeordneten Sprecher**
 4. darunter die längste
-5. nie eine Datei auf „Video ignorieren", nie Vorspann oder Abspann
+5. nie eine Datei auf „Video ignorieren“, nie Vorspann oder Abspann
 
 Die Projektdatei merkt sich, welche Datei zuletzt im Player stand, und
-nimmt sie wieder — solange sie die Grenzen genauso gut abdeckt wie die
-beste Alternative. Ohne Timecode oder gemessene Zeitachse wird über die
-Grenzen nichts behauptet; steht die Achse später da, sieht der Player
-noch einmal nach. **zu In-Punkt** und **zu Out-Punkt** holen sich ihre
-Datei selbst; gibt es gar keine, steht eine Zeile da, warum nichts
-passiert ist.
+nimmt sie wieder, solange sie die Grenzen genauso gut abdeckt wie die
+beste Alternative. Ohne Timecode oder gemessene Zeitachse behauptet das
+Programm nichts über die Grenzen; sobald die Achse da ist, sieht der
+Player noch einmal nach. **zu In-Punkt** und **zu Out-Punkt** holen sich
+ihre Datei selbst; wenn es gar keine gibt, steht eine Zeile da, warum
+nichts passiert ist.
 
 Mit **zugeordneten Ton hören** läuft zum Bild der Ton, der zu dieser
 Kamera gehört:
@@ -183,129 +198,128 @@ Kamera gehört:
 * die **aufbereitete Spur** von auphonic.com (`final_<Name>_<TC>.wav`),
   auf −16 LUFS und mit BWF-Timecode
 * sonst die **Rohaufnahme** des zugeordneten Sprechers
-* ist kein Sprecher zugeordnet — der Weitwinkel —, der **Full-Mix**,
-  sofern er vorliegt
+* beim Weitwinkel, der Kamera ohne zugeordneten Sprecher, der
+  **Full-Mix**, sofern er vorliegt
 
 Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
 machen kann die Oberfläche sie nicht. Der Tooltip nennt, was läuft und
 in welcher Fassung.
 
-**Auf dem Reiter Resolve-Schnitt** zeigt der Player im
-Vorschau-Kasten immer etwas: gibt es einen Schnitt, spielt er ihn und
-schaltet an jeder Kante die Kamera um, sonst die Datei ohne zugeordneten
-Sprecher. Gerendert wird nichts.
+Auf dem Reiter **Resolve-Schnitt** zeigt der Player im Vorschau-Kasten
+immer etwas: wenn ein Schnitt da ist, spielt er ihn und schaltet an jeder
+Kante die Kamera um, sonst die Datei ohne zugeordneten Sprecher.
 
 Der Ton kommt durchgehend aus einer Datei, am liebsten aus dem
 **Full-Mix**, der auf Sendepegel liegt und auch in die Schnitt-Timeline
-geht. Gibt es ihn noch nicht, bleibt die Kameradatei, die den Mix als
-erste Tonspur trägt — dieselbe Wahl wie für Perspektive 1 des
-Multicam-Clips, und deutlich leiser.
+geht. Solange es ihn nicht gibt, nimmt das Programm die Kameradatei, die
+den Mix als erste Tonspur trägt — dieselbe Wahl wie für Perspektive 1
+des Multicam-Clips, und deutlich leiser.
 
-`start_s` ist die Uhrzeit, zu der die Programmzeit null ist: der früheste
-Tonanfang, der wirklich bekannt ist, eigener Timecode oder gemessene
-Lage; fehlt der, der früheste Kamera-Timecode; fehlt auch der, steht dort
-nichts. In-Punkt und Out-Punkt verschieben den Nullpunkt mit. Die Stelle
-in jeder Kameradatei ist Programmzeit minus Versatz, derselbe Versatz,
-mit dem auch die Schnitt-Timeline gebaut wird.
+`start_s` ist die Uhrzeit, zu der die Programmzeit null ist. Es ist der
+früheste Tonanfang, der wirklich bekannt ist, eigener Timecode oder
+gemessene Lage; sonst der früheste Kamera-Timecode; sonst nichts.
+In-Punkt und Out-Punkt verschieben den Nullpunkt mit. Die Stelle in jeder
+Kameradatei ist Programmzeit minus Versatz, derselbe Versatz, mit dem
+auch die Schnitt-Timeline gebaut wird.
 
-Jede Stelle wird nachgesetzt, bis sie sitzt; wie oft und wie lange, steht
-in [Inside the script](../development/internals.md) (englisch).
+Das Programm setzt jede Stelle nach, bis sie sitzt;
+[Inside the script](../development/internals.md) (englisch) nennt, wie
+oft und wie lange.
 
-### Sprecher ohne Auphonic
+### Sprecher ohne Auphonic messen
 
-Auf dem Reiter **Zuordnung & Zeitfenster**, im Kasten **Aufbereitung
-bei auphonic.com (optional)**, trägt die Preset-Liste den Eintrag **ohne
-Auphonic arbeiten** (auf der Kommandozeile `--without-auphonic`). Der
-Lauf bleibt dann lokal, und wer wann redet, wird aus den Spuren gemessen.
-Im Protokoll steht dieser Abschnitt unter der Überschrift `SPRECHER --
-HIER GEMESSEN`.
+Ohne Auphonic bleibt der Lauf lokal, und das Script misst aus den Spuren,
+wer wann redet. Der Weg dahin steht in [Aufbereitung über
+auphonic.com](auphonic.de.md) (auf der Kommandozeile
+`--without-auphonic`). Im Protokoll steht dieser Abschnitt unter der
+Überschrift `SPRECHER -- HIER GEMESSEN`.
 
-So werden die Spuren gelesen:
+So liest das Script die Spuren:
 
-* Jede Spur wird in Blöcke von 100 Millisekunden zerlegt.
-* Jeder Block wird gegen den eigenen Grundpegel der Spur gemessen, das
+* Es zerlegt jede Spur in Blöcke von 100 Millisekunden.
+* Es misst jeden Block gegen den eigenen Grundpegel der Spur, das
   leiseste Fünftel ihrer Blöcke; 10 dB darüber gilt als Sprache.
 * Pausen unter 0,35 Sekunden sind kein Sprecherwechsel.
 * Passagen unter 0,4 Sekunden zählen nicht.
 
-Davor wird das **Übersprechen aus der Messung herausgerechnet**, nicht
-aus dem Ton. An den Stellen, an denen genau eine Person spricht — diese
-höchstens 10 dB unter ihrem eigenen Sprachpegel, die anderen mindestens
-6 dB unter ihrem —, misst das Script, wie laut diese Stimme in den
-anderen Mikrofonen ankommt, und rechnet den eigenen Anteil aus jeder Spur
-zurück.
+Davor rechnet das Script das **Übersprechen aus der Messung** heraus,
+nicht aus dem Ton. Es sucht die Stellen, an denen genau eine Person
+spricht: diese höchstens 10 dB unter ihrem eigenen Sprachpegel, die
+anderen mindestens 6 dB unter ihrem. Dort misst es, wie laut diese
+Stimme in den anderen Mikrofonen ankommt, und rechnet den eigenen Anteil
+aus jeder Spur zurück.
 
-Die Kopplung wird gemessen, nicht angenommen, also geht es auch bei
-Mikrofonen, die enger stehen, als die 3:1-Regel will. Für ein Paar ohne
-mindestens drei solche Stellen wird nichts abgezogen. Lässt sie sich
-nicht auflösen — Mikrofone nebeneinander, Spuren zu ähnlich —, bleiben
-die Pegel, wie gemessen, und das Protokoll sagt warum und nennt das
-schlechteste Paar.
+Es geht auch bei Mikrofonen, die enger stehen, als die 3:1-Regel will.
+Für ein Paar ohne mindestens drei solche Stellen zieht es nichts ab. Bei
+Mikrofonen nebeneinander oder zu ähnlichen Spuren lässt es sich nicht
+auflösen: die Pegel bleiben, wie gemessen, und das Protokoll sagt warum
+und nennt das schlechteste Paar.
 
 Bis 5 dB Trennung hinunter arbeitet die Erkennung exakt, deutlich unter
 den 9,5 dB, die die 3:1-Regel verlangt; die Messreihe dahinter steht in
 [What was measured](../development/measurements.md) (englisch).
 
 Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
-Sprecher Redezeit und Zahl der Abschnitte. War nichts zu hören, gibt es
-keinen Kameraschnitt.
+Sprecher Redezeit und Zahl der Abschnitte. Wenn nichts zu hören war,
+gibt es keinen Kameraschnitt.
 
 Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, schon
 vor dem ersten Lauf: gröber als die Trennung nach Stimmen, aber genug, um
 den Schnitt einzustellen. Nach Stimmen getrennte Sprecher haben Vorrang,
 sobald es sie gibt, und die Überschrift über der Tabelle sagt, was gilt.
 
-### Eine Kamera für alle
+### Schneiden, wenn eine Kamera alle zeigt
 
-Sitzen mehrere Sprecher auf einer Kamera, wird am Sprecherwechsel
-geschnitten: jede Einstellung kommt aus demselben Clip und trägt den
-Namen dessen, der spricht. Am Bild ändert sich nichts. Resolve bekommt
-eine Spur, die an den richtigen Stellen schon getrennt ist, und dort
-lässt sich jedes Stück gruppieren, einfärben und heranzoomen, so dass aus
-dem Weitwinkel der Sprecher wird.
+Bei mehreren Sprechern auf einer Kamera schneidet das Programm am
+Sprecherwechsel: jede Einstellung kommt aus demselben Clip, zeigt also
+denselben Bildausschnitt, und trägt den Namen dessen, der spricht.
+Resolve bekommt eine Spur, die an den richtigen Stellen schon getrennt
+ist, und dort lässt sich jedes Stück gruppieren, einfärben und
+heranzoomen, so dass aus dem Weitwinkel der Sprecher wird.
 
 Die Schnittliste sagt es mit: `_cameracut.csv` hat eine Spalte Sprecher,
-und wo eine Kamera alle zeigt, trägt die EDL den Sprechernamen.
+und bei einer Kamera für alle trägt die EDL den Sprechernamen.
 
-### Projektdatei
+### Was die Projektdatei behält
 
 `videopodcast-magic_<Produktion>.json` im Ausgabeordner enthält alles,
-was man von Hand eingestellt hat und nicht wieder erraten kann: die
-Dateiliste, Name und Ablageort der Produktion, das Zeitfenster, alle
+was man von Hand eingestellt hat und nicht wieder erraten kann. Das sind
+die Dateiliste, Name und Ablageort der Produktion, das Zeitfenster, alle
 Werte des Kameraschnitts, wer zu welcher Kamera gehört, das
-Auphonic-Preset, die Stereo-Häkchen und die gemessene Lage jeder Datei.
-Der API Key steht **nicht** darin.
+Auphonic-Preset, die Stereo-Häkchen und die gemessene Lage jeder Datei;
+der API Key steht **nicht** darin.
 
-Beim Öffnen wird das Format der Datei geprüft; eine Datei in einem
-anderen Format wird abgewiesen. Ältere Projektdateien lassen sich nicht
-mehr öffnen.
+Beim Öffnen prüft das Programm das Format der Datei und weist eine Datei
+in einem anderen Format ab. Ältere Projektdateien kann es nicht mehr
+öffnen.
 
-Sie entsteht schon, sobald die Zeitachse gemessen ist — dann noch neben
-dem Material, weil es den Ausgabeordner noch nicht gibt. Wird er später
-gewählt oder die Produktion umbenannt, **wandert sie mit**. Es gibt immer
-genau eine.
+Sie entsteht schon, sobald das Programm die Zeitachse gemessen hat, dann
+noch neben dem Material, weil es den Ausgabeordner noch nicht gibt. Wenn
+er später gewählt oder die Produktion umbenannt wird, **wandert sie
+mit**. Es gibt immer genau eine.
 
-**Projekt öffnen ...** oben links holt sie zurück; greift man daneben,
-wird im selben Ordner nach `videopodcast-magic*.json` gesucht. Daneben
-liegt die Übergabedatei `<Produktion>_resolve.json` — daraus rechnet die
-Vorschau, und daraus baut der Resolve-Teil.
+**Projekt öffnen ...** auf der Ablegefläche holt sie zurück, solange
+keine Dateien in der Liste stehen; bei einem Fehlgriff sucht das Programm
+im selben Ordner nach `videopodcast-magic*.json`. Daneben liegt die
+Übergabedatei `<Produktion>_resolve.json`. Daraus rechnet die Vorschau,
+und daraus baut der Resolve-Teil.
 
-### Wie der Weitwinkel gesetzt wird
+### Wie das Programm den Weitwinkel setzt
 
 Ein Weitwinkel kommt nicht nach der Uhr. Er steigt an einer Satzgrenze
 nahe der gewünschten Stelle ein, und den genauen Punkt liefert der Ton:
-die Senke im Pegel um diese Satzgrenze. Gewürfelt wird nichts — dasselbe
-Material gibt denselben Schnitt.
+die Senke im Pegel um diese Satzgrenze. Beides ist gemessen, also gibt
+dasselbe Material denselben Schnitt.
 
-Er steht mindestens **Weitwinkel steht**, dann bis zum Satzende. Liegt
-dieses Ende jenseits von **Weitwinkel höchstens**, beendet ihn die letzte
-Teilsatzgrenze davor. Mitten im Satz endet er nie.
+Er steht mindestens **Weitwinkel steht**, dann bis zum Satzende. Wenn
+dieses Ende jenseits von **Weitwinkel höchstens** liegt, beendet ihn die
+letzte Teilsatzgrenze davor.
 
-`--wide-latest` ist die Reißleine: findet sich keine Satzgrenze, wird
-trotzdem geschnitten. Ohne Transkript geht der Weitwinkel an die längste
+`--wide-latest` ist die Reißleine: ohne Satzgrenze wird trotzdem
+geschnitten. Ohne Transkript geht der Weitwinkel an die längste
 Sprechpause in der Nähe und steht die eingestellte Mindestzeit.
 
-## Kennzahlen und Farbvergleich
+### Was Kennzahlen und Farbvergleich messen
 
 Am Ende jedes Laufs entsteht `<Produktion>_metrics.csv`; das Protokoll
 wird beim nächsten Lauf überschrieben, diese Datei nicht. Über Monate
@@ -313,17 +327,17 @@ sieht man daran, was in einem einzelnen Lauf nicht auffällt: dass ein
 Recorder langsamer wird, dass eine Kamera zunehmend anders aussieht als
 die übrigen, dass das Übersprechen mit einem neuen Aufbau zugenommen hat.
 
-Aufgebaut ist sie als `Area,Metric,Before,After,Unit` — durch Komma
-getrennt, mit Punkt als Dezimalzeichen. `Area` und `Metric` bleiben in
-jeder Sprache englisch, damit zwei Läufe vergleichbar bleiben. Vorher ist
-die Spur, wie sie hereinkam, nachher, wie sie herausgeht, beides mit
+Die Spalten sind `Area,Metric,Before,After,Unit`, durch Komma getrennt,
+mit Punkt als Dezimalzeichen. `Area` und `Metric` bleiben in jeder
+Sprache englisch, damit zwei Läufe vergleichbar bleiben. Vorher ist die
+Spur, wie sie hereinkam, nachher, wie sie herausgeht, beides mit
 demselben Verfahren gemessen.
 
 Auf einem deutschen System kostet das Komma einen Schritt: Excel öffnet
 eine CSV per Doppelklick mit dem Semikolon und legt die ganze Zeile in
-eine Spalte. Der Weg hinein ist `Daten > Aus Text/CSV`, dort werden
-Trennzeichen und die Sprache der Zahlen von Hand gesetzt. LibreOffice
-fragt beides von selbst.
+eine Spalte. Der Weg hinein ist `Daten > Aus Text/CSV`; dort Trennzeichen
+und die Sprache der Zahlen von Hand setzen. LibreOffice fragt beides von
+selbst.
 
 | Bereich | Was drinsteht |
 |---|---|
@@ -336,10 +350,33 @@ fragt beides von selbst.
 **Der Farbvergleich** misst an fünf Stellen jeder Kameradatei Helligkeit
 und Farblage, verglichen gegen den Mittelwert aller Kameras statt gegen
 eine Vorgabe. Ab etwa zwölf Stufen steht eine Warnung dabei. Beide
-Messungen zusammen dauern bei langen Aufnahmen ein paar Minuten — die
+Messungen zusammen dauern bei langen Aufnahmen ein paar Minuten: die
 Lautheitsmessung läuft je Spur zweimal durch.
 
-## Weitere Optionen über die Kommandozeile
+### Wenn etwas klemmt
+
+* **Der Kasten Sprecher sagt, dass keine Sprecher bekannt sind.**
+  **Sprecher jetzt messen** drücken. Der Grund steht an Stelle der
+  Tabelle, wenn die Rechnung schiefgeht.
+* **Es kommt kein Kameraschnitt heraus.** Auf den Spuren war nichts zu
+  hören. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN`.
+* **Das Bild steht, obwohl der Sprecher wechselt.** Beide Sprecher
+  sitzen auf einer Kamera, oder der Block ist kürzer als **Redet
+  mindestens**.
+* **Die Vorschau zeigt viel Zeit auf einer fremden Kamera.** Auf dem
+  Reiter **Zuordnung & Zeitfenster** nachsehen, wer welcher Kamera
+  zugeordnet ist.
+* **Der Player ist sehr leise.** Den Full-Mix gibt es noch nicht, also
+  trägt eine Kameradatei den Ton. Lauter machen kann die Oberfläche ihn
+  nicht.
+* **Der Schnitt ist unruhig.** **Mindestschnittdauer** oder **Redet
+  mindestens** heraufsetzen.
+
+Der Schnitt steht jetzt: eine Einstellungsliste, zwei EDLs und eine
+Vorschau, in der er zu prüfen ist. Was Resolve daraus macht, steht in
+[DaVinci Resolve](resolve.de.md).
+
+### Weitere Optionen über die Kommandozeile
 
 Im Fenster gibt es dafür keine Entsprechung.
 

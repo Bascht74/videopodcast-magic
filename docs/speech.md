@@ -1,8 +1,9 @@
 # Speech recognition and speaker separation
 
-*Auf Deutsch: [speech.de.md](speech.de.md). Back to the [contents](README.md).*
+*Auf Deutsch: [speech.de.md](speech.de.md). Back to the
+[contents](README.md).*
 
-## Speech recognition and speaker separation
+## The line in the player box
 
 The program writes down what is spoken, and it tells the voices on a
 recording apart. Both run on this machine, without an account and
@@ -10,95 +11,126 @@ without an upload, and before anything goes to auphonic.com.
 
 ### Separating the speakers
 
-On tab **Assignment & time window**, in the box **Preview player**, a
-line under the measured time axis says whether the voices in a recording
-can be told apart here, and how far that has got: ready, running,
-finished, or switched off for this project. Where there is nothing to
-separate the line stays empty.
+On the **Assignment & time window** tab, in the box **Preview player**,
+a line stands under the measured time axis. It says whether the voices
+in a recording can be told apart here. It also says how far that has
+got: ready, running, finished, or switched off for this project. The
+line stays empty when nothing needs separating.
 
 The button **Separate speakers** starts it, **Break off** stops a run
 that is going. On a machine that is not a Mac, **Not on this machine**
-stands beside them the first time; the answer is kept in the project. On
-a Mac the separation starts by itself as soon as the files are there.
+stands beside them the first time. The project keeps the answer, and
+**Separate speakers** goes with it: a project that has said no does
+not ask again. On a Mac the separation starts by itself as soon as the
+files are there.
 
 Separation is the way for **one common recording** that everybody is
-audible on. Where each person has their own microphone the tracks are
+audible on. If each person has their own microphone, the tracks are
 the truth and the line stays away.
 
-The setup fetches about 218 MB the first time. The model itself comes
-with the program.
+The setup fetches about 218 MB the first time, the model about 33 MB
+after it. [What it needs](requirements.md#getting-the-program) says
+where the model comes from, and the measurements behind the 218 MB are
+in [What was measured](../development/measurements.md).
+
+Over the whole file the separation hears the run-up before the show as
+well. The conversion cuts to the time window, but the number of
+speakers in the table is the one of the uncut run. A conversation in
+the run-up puts one voice more in the table than the episode holds.
 
 ### Naming the voices
 
 On the same tab a table stands under the assignment tables: **Voice**,
 **Speaker name**, **belongs to**, **Listen**. It has one row per voice
-found, filled in as Speaker 1,
-Speaker 2 and so on by speaking time, the longest first. Every name can
-be overwritten.
+found, filled in as Speaker 1, Speaker 2 and so on by speaking time,
+the longest first.
 
-**Listen** plays the longest stretch that voice speaks. Under the table
-the button **One more speaker in `<file>`** goes through the same
-recording again, with one speaker more than was found.
+1. Press **Separate speakers**. On a Mac it has already run.
+2. Press **Listen** in a row. The button plays the longest stretch that
+   voice speaks.
+3. Overwrite **Speaker name** with the name of the person.
+4. If a voice is missing, press **One more speaker in `<file>`**
+   under the table. The button goes through the same recording again,
+   with one speaker more than the last run found. Then back to step 2.
+   With more than one recording the name moves off the button into a
+   chooser beside it.
+
+A given count sharpens the separation. A wrong count quadruples the
+picture time on the wrong person. Set it only when the number is known.
+The measurements are in [What was
+measured](../development/measurements.md).
 
 ![The voices of one recording](images/voices.png)
 
 *Tab Assignment & time window: the voice table under the assignment,
 and the state of the separation beside the player.*
 
-### When it is worked out again
+### When the program separates again
 
-The separation is worked out again only where the source file is
-exchanged, where it changes, or where a speaker count is set by hand. A
-moved time window, a new In point, a changed offset or a renamed speaker
-cost nothing. What the window separated travels with the run and is only
-converted onto its time axis.
+The program works the separation out again only when the source file is
+exchanged, when it changes, or when somebody sets a speaker count by
+hand. A moved time window, a new In point, a changed offset or a
+renamed speaker carry on with the separation already there. The
+separation from the window travels with the run, and the program only
+converts it onto that time axis.
 
 ### Where the speakers came from
 
 The log says it. Two marks to search for: `SPEAKERS -- SEPARATED BY
-VOICE` and `SPEAKERS -- MEASURED HERE`. Where more than one source is
-there, the local separation counts first, then the measurement from the
-tracks. Where the separation does not fit the run, the log says why, the
-tracks are measured, and the run carries on.
+VOICE` and `SPEAKERS -- MEASURED HERE`. With more than one source the
+local separation counts first, then the measurement from the tracks. If
+the separation does not fit the run, the log says why, the program
+measures the tracks, and the run carries on.
 
-### What is spoken
+### How the program writes the text down
 
 Recognition takes one of two ways, and the difference shows on the clock
 alone.
 
-* **macOS 26 brings it along.** Nothing to install, no account, no
-  network; an hour of audio in a good 20 seconds. It needs the Command
-  Line Developer Tools.
-* **Everywhere else faster-whisper.** 144 MB of packages and a model of
-  1.5 GB are fetched the first time. On an ordinary Windows machine
-  recognition is the most expensive step of the whole chain.
+* **macOS 26 brings it along.** Recognition sits in the operating
+  system; an hour of audio in a good 20 seconds. It asks for the
+  Command Line Developer Tools.
+* **Everywhere else faster-whisper.** The program fetches 144 MB of
+  packages and a model of 1.5 GB the first time. On an ordinary Windows
+  machine recognition is the most expensive step of the whole chain.
 
-The program looks for which way is there and says in the log which one
-it took. Recognition takes the language setting of the run; where that is
+The measurements behind these times are in [What was
+measured](../development/measurements.md).
+
+The program looks for the way it has and says in the log which one it
+took. Recognition takes the language setting of the run. If that is
 empty, macOS works with the system language and Whisper guesses it from
 the audio. The run writes the text down alongside the camera cut, not
 ahead of it.
+
+Recognition runs on the finished mix, not on the single tracks. A quiet
+recording can be enough for the speaker separation and still not carry
+the text.
 
 ### What the text is for
 
 The text gives the sentence and clause boundaries for the camera cut,
 described in [Speaker statistics, camera cut, EDL](camera-cut.md).
 Without recognition the program still cuts, only without sentence
-boundaries: the wide shot then looks for the longest pause in speech
-nearby.
+boundaries; the same chapter says what the wide shot does then.
 
-### Two limits
+### When something goes wrong
 
-* Where the separation runs over the whole file, it hears the run-up
-  before the show as well. The conversion cuts to the time window, but
-  the number of speakers in the table is the one of the uncut run.
-  Whoever talked to somebody in the run-up sees one voice more than the
-  episode holds.
-* Recognition runs on the finished mix, not on the single tracks. A
-  quiet recording can be enough for the speaker separation and still not
-  carry the text.
+* **The line says the separation is not set up.** It fetches what it
+  needs on the first run. If that fails, the run carries on and the
+  speakers come from the tracks.
+* **The separation breaks off with a message.** The log says what
+  happened, the program measures the tracks instead, and the cut still
+  comes.
+* **On a Mac recognition takes the slow way.** The Command Line
+  Developer Tools are missing. `xcode-select --install` fetches them;
+  after that the run takes the fast way.
 
-## Further options on the command line
+The voices now have names, and the program has written the text down.
+What the cut makes of both is in [Speaker statistics, camera cut,
+EDL](camera-cut.md).
+
+### Further options on the command line
 
 These options are not in the window.
 
@@ -106,7 +138,8 @@ These options are not in the window.
   machine and cuts by the result.
 * `--speakers-from <FILE>` takes a finished separation out of a project
   or assignment file instead of working one out.
-* `--speakers-count <NUMBER>` says how many people are to be found.
+* `--speakers-count <NUMBER>` says how many people are to be found;
+  without it the program works the count out.
 * `--no-speakers-local` takes no recording apart by voice in this run,
   whatever else asks for it.
 * `--no-speech-recognition` leaves the text out.

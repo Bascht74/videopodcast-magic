@@ -5,7 +5,7 @@
 ![Das Hauptfenster: die Dateien einer Produktion](docs/images/files.de.png)
 
 *Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
-zusammenpasst -- bevor irgendetwas geschrieben wird.*
+zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 **Fassung 2.5.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
@@ -13,7 +13,7 @@ fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
 halb gelesen.
 
-`videopodcast-magic.py` -- aufbereiteten Ton als erste Tonspur in
+`videopodcast-magic.py` — aufbereiteten Ton als erste Tonspur in
 Videodateien legen und daraus alles bauen, was der Schnitt danach braucht:
 die Kameras auf einer Zeitachse, einen ersten Schnitt nach Sprecher und ein
 DaVinci-Resolve-Projekt.
@@ -37,9 +37,9 @@ sie schätzen müsste — also macht es die Maschine, und die Stunde geht
 in den Schnitt.
 
 Geschrieben wurde es für einen Podcast, und dort tut es diese Arbeit
-jede Woche. Was es nicht tut, ist entscheiden: der Kameraschnitt ist ein
-Vorschlag, der Schnitt bleibt deiner. Die Geschichte eines Laufs, von
-den Dateien auf der Platte bis zum fertigen Resolve-Projekt, steht in
+jede Woche. Es entscheidet nicht: der Kameraschnitt ist ein Vorschlag,
+der Schnitt bleibt deiner. Die Geschichte eines Laufs, von den Dateien
+auf der Platte bis zum fertigen Resolve-Projekt, steht in
 **[docs/overview.de.md](docs/overview.de.md)**.
 
 ## Installieren
@@ -64,7 +64,7 @@ die Sprechertrennung samt Modell beim ersten Trennen.
 Programm — ohne Konto, ohne Zugangsschlüssel, und nach dem einen
 Download ohne Netz. Das Programm holt es aus seinem eigenen
 Repository, hält jede Datei gegen ihre Prüfsumme und legt es dorthin.
-Wer es schon hat, holt es nie wieder.
+Es holt das Modell nur beim ersten Mal.
 
 ## Loslegen
 
@@ -91,9 +91,9 @@ wird.*
 ## Was gebraucht wird
 
 Python 3.10 oder neuer, `ffmpeg` und `ffprobe` im Suchpfad und zwei Pakete
-— `PySide6` für das Fenster, `numpy` für die Messungen. Was fehlt, wird
-beim Start über pip nachinstalliert. Benutzt wird das Ganze auf macOS und
-Windows; Linux läuft mit zwei Einschränkungen.
+— `PySide6` für das Fenster, `numpy` für die Messungen. Das Programm
+installiert Fehlendes beim Start über pip nach. Benutzt wird das Ganze
+auf macOS und Windows; Linux läuft mit zwei Einschränkungen.
 
 Die Einzelheiten, samt empfohlener Python-Fassung und den Unterschieden je
 Plattform, stehen in
@@ -101,17 +101,30 @@ Plattform, stehen in
 
 ## Das Handbuch
 
-* **[Was gebraucht wird](docs/requirements.de.md)** -- Python, ffmpeg, die beiden Pakete, und was sich je Plattform unterscheidet.
-* **[Die Oberfläche](docs/interface.de.md)** -- Das Fenster, Reiter für Reiter — und was zu tun ist, wenn es keinen Timecode gibt.
-* **[Vorflug](docs/preflight.de.md)** -- Was vor einem Lauf geprüft wird, und was jede Beanstandung bedeutet.
-* **[Kanäle: eine Spur oder zwei?](docs/channels.de.md)** -- Wie ein Stereopaar von zwei einzelnen Mikrofonen unterschieden wird. Gemessen, nicht geraten.
-* **[Der einfache Fall](docs/simple-path.de.md)** -- Eine Tondatei, eine Kamera: der kürzeste Weg hindurch.
-* **[Aufbereitung über auphonic.com](docs/auphonic.de.md)** -- Pegeln, Übersprechen, Transkription — und wo der Schlüssel liegt.
-* **[Multitrack: mehrere Sprecher, mehrere Kameras](docs/multitrack.de.md)** -- Eine Spur je Sprecher, mehrere Kameras, eine Zeitachse.
-* **[Spracherkennung und Sprechertrennung](docs/speech.de.md)** -- Was gesagt wird und wer es sagt, auf dieser Maschine ausgerechnet.
-* **[Sprecherstatistik, Kameraschnitt, EDL](docs/camera-cut.de.md)** -- Wie der erste Schnitt vorgeschlagen wird, und die Zahlen, an denen er gemessen wird.
-* **[DaVinci Resolve](docs/resolve.de.md)** -- Das Projekt, das herauskommt: Timelines, Spuren, Farbe, Ausgabe.
-* **[Alle Schalter](docs/command-line.de.md)** -- Jeder Schalter der Befehlszeile, mit dem, was er tut.
+* **[Was gebraucht wird](docs/requirements.de.md)**: Python, ffmpeg, die
+  beiden Pakete, und was sich je Plattform unterscheidet.
+* **[Die Oberfläche](docs/interface.de.md)**: das Fenster, Reiter für
+  Reiter — und was zu tun ist, wenn es keinen Timecode gibt.
+* **[Vorflug](docs/preflight.de.md)**: was vor einem Lauf geprüft wird,
+  und was jede Beanstandung bedeutet.
+* **[Kanäle: eine Spur oder zwei?](docs/channels.de.md)**: wie ein
+  Stereopaar von zwei einzelnen Mikrofonen unterschieden wird. Gemessen,
+  nicht geraten.
+* **[Der einfache Weg](docs/simple-path.de.md)**: eine Tondatei, eine
+  Kamera — der kürzeste Weg hindurch.
+* **[Aufbereitung über auphonic.com](docs/auphonic.de.md)**: Pegeln,
+  Übersprechen, Transkription — und wo der Schlüssel liegt.
+* **[Multitrack: mehrere Sprecher, mehrere Kameras](docs/multitrack.de.md)**:
+  eine Spur je Sprecher, mehrere Kameras, eine Zeitachse.
+* **[Spracherkennung und Sprechertrennung](docs/speech.de.md)**: was
+  gesagt wird und wer es sagt, auf diesem Rechner ermittelt.
+* **[Sprecherstatistik, Kameraschnitt, EDL](docs/camera-cut.de.md)**: wie
+  der erste Schnitt vorgeschlagen wird, und die Zahlen, an denen er
+  gemessen wird.
+* **[DaVinci Resolve](docs/resolve.de.md)**: das Projekt, das herauskommt
+  — Timelines, Spuren, Farbe, Ausgabe.
+* **[Alle Schalter](docs/command-line.de.md)**: jeder Schalter der
+  Kommandozeile, mit dem, was er tut.
 
 Das ganze Verzeichnis: **[docs/README.de.md](docs/README.de.md)**.
 

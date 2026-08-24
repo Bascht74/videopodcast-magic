@@ -1,0 +1,328 @@
+# -*- coding: utf-8 -*-
+"""The index has to point at sections that are really there.
+
+Counted on 24.8.2026: one style round replaced 103 of the 164 headings
+of the twelve chapters. An index that names chapter and section would
+have been wrong in most of its entries after that single round, in both
+languages, and nothing anywhere would have turned red. That is what
+this file is for: the coupling gets checked instead of promised.
+
+The index earns those section names. The chapter list leads to 64 of
+its 79 keywords not at all, and six of them it sends to the wrong
+chapter. The price is that every renamed heading reaches into it, so
+this file looks up every entry: the chapter file has to exist, and the
+title has to stand in it as a heading, in the language of the entry. A
+miss names the entry, the chapter and the title that was looked for --
+a test that only says "red" costs the same afternoon a second time.
+
+Nothing else in the suite reads the index, so the cheap questions live
+here too: do both languages hold the same number of keywords and point
+into each chapter equally often, does a keyword stand twice, does a
+cross reference lead anywhere, is the list still in order, is every
+chapter reachable through it.
+
+The two sides are not counted line for line. A cross reference is a
+matter of the language -- the German index needs one where the German
+word puts the keyword last -- so the sides are held to the same number
+of keywords and to the same number of pointers into each chapter.
+
+While there is no index yet, this checks nothing and says so.
+"""
+import collections
+import io
+import os
+import re
+import sys
+
+# The titles being reported are German on one side. The suite runs
+# under LC_ALL=C, and a report that cannot print its own finding would
+# be a traceback instead of a message.
+try:
+    sys.stdout.reconfigure(encoding="utf-8", errors="replace")
+except (AttributeError, ValueError):
+    pass
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+ROOT = os.path.dirname(HERE)
+DOCS = os.path.join(ROOT, "docs")
+LINE_MAX = 79
+MOST_PLACES = 3
+
+bad = []
+
+
+def check(what, ok, detail=""):
+    print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
+                            "" if ok else "   " + detail))
+    if not ok:
+        bad.append(what)
+
+
+# Two places the index may stand: beside the chapter list in the
+# manual's README, or in a file of its own. The first one holding
+# entries is the one that gets read.
+PLACES = {"en": ["README.md", "register.md", "index.md"],
+          "de": ["README.de.md", "register.de.md", "index.de.md"]}
+# How a chapter name inside an entry becomes a file name.
+SUFFIX = {"en": ".md", "de": ".de.md"}
+# An entry: the keyword in bold, a colon, then where it points. Rule 25
+# asks for the colon, and every other value list of the manual has it.
+# The dashes are read as well, so an index that falls back to one turns
+# red below instead of parsing as nothing and skipping the whole file.
+ENTRY = re.compile(r"^\*\s+\*\*(.+?)\*\*\s*(:|\u2014|\u2013|--)\s+(\S.*)$")
+# One place: the chapter in code font, a comma, the heading in quotes.
+# German quotes below, English ones after them.
+TARGET = [("\u201e",
+           re.compile(r"^`([^`]+)`\s*,\s*\u201e(.+)\u201c$")),
+          ("\"", re.compile(r"^`([^`]+)`\s*,\s*\"(.+)\"$"))]
+# An entry that carries no place of its own and hands on to another.
+SEE = re.compile(r"^(?:see|siehe)\s+(\S.*)$", re.I)
+# Umlauts fold onto their base letter for sorting, the way an index is
+# ordered in German.
+FOLD = {"\u00e4": "a", "\u00f6": "o", "\u00fc": "u", "\u00df": "ss",
+        "\u00c4": "a", "\u00d6": "o", "\u00dc": "u"}
+
+
+def normal(text):
+    """A heading or a title, down to what a rename would change."""
+    text = text.replace("\u2026", "...")
+    text = re.sub(r"\[([^\]]*)\]\([^)]*\)", r"\1", text)
+    text = re.sub(r"[`*_]", "", text)
+    text = text.strip().strip("#").strip()
+    return " ".join(text.split()).lower()
+
+
+def sort_key(word):
+    """How an index is ordered: no case, no markup, umlauts folded."""
+    word = re.sub(r"[`*_]", "", word).lower()
+    word = "".join(FOLD.get(c, c) for c in word)
+    return re.sub(r"^[^0-9a-z]+", "", word)
+
+
+def places_of(tail):
+    """The chapter and title pairs of one entry, None if it is none."""
+    out = []
+    for piece in tail.split(";"):
+        piece = piece.strip()
+        for quote, pattern in TARGET:
+            hit = pattern.match(piece)
+            if hit:
+                out.append((hit.group(1), hit.group(2), quote))
+                break
+        else:
+            return None
+    return out or None
+
+
+def entry_of(line):
+    """The match of one list item, if it reads as an index entry."""
+    hit = ENTRY.match(line)
+    if hit and (places_of(hit.group(3)) or SEE.match(hit.group(3))):
+        return hit
+    return None
+
+
+def list_items(text):
+    """The list items of a document, each folded onto one line."""
+    out, live = [], False
+    for number, raw in enumerate(text.splitlines(), 1):
+        if raw.startswith("* "):
+            out.append([number, raw.strip()])
+            live = True
+        elif live and raw.startswith("  ") and raw.strip():
+            out[-1][1] += " " + raw.strip()
+        else:
+            live = False
+    return out
+
+
+def read_index(lang):
+    """The index of one language: its file, its lines, its entries."""
+    for name in PLACES[lang]:
+        path = os.path.join(DOCS, name)
+        if not os.path.exists(path):
+            continue
+        text = io.open(path, encoding="utf-8").read()
+        items = list_items(text)
+        entries = []
+        for number, line in items:
+            hit = entry_of(line)
+            if hit:
+                entries.append((number, hit))
+        # Five is enough to tell an index from a stray list item and
+        # low enough to catch one that is only half written.
+        if len(entries) >= 5:
+            return path, text.splitlines(), items, entries
+    return None, [], [], []
+
+
+HEADINGS = {}
+
+
+def headings_of(path):
+    """Every heading of one chapter, normalised."""
+    if path not in HEADINGS:
+        found = set()
+        for line in io.open(path, encoding="utf-8"):
+            if line.startswith("#"):
+                found.add(normal(line))
+        HEADINGS[path] = found
+    return HEADINGS[path]
+
+
+print("1. Where the index stands")
+books = {}
+for lang in ("en", "de"):
+    books[lang] = read_index(lang)
+    path, lines, items, entries = books[lang]
+    print("  %-4s %s" % (lang, "%s, %d entries" % (
+        os.path.relpath(path, ROOT), len(entries)) if path else "none yet"))
+
+if not books["en"][0] and not books["de"][0]:
+    print("SKIPPED: no index in %s yet, so nothing was checked."
+          % ", ".join(PLACES["en"] + PLACES["de"]))
+    sys.exit(0)
+
+check("the index stands in both languages",
+      bool(books["en"][0]) and bool(books["de"][0]),
+      "missing: %s" % [lang for lang in ("en", "de") if not books[lang][0]])
+
+counted, pointers, into = {}, {}, {}
+for lang in ("en", "de"):
+    path, lines, items, entries = books[lang]
+    if not path:
+        continue
+    print("\n2%s. The %s index, %s" % (
+        "ab"[lang == "de"], lang, os.path.relpath(path, ROOT)))
+    first, last = entries[0][0], entries[-1][0]
+    keys = [hit.group(1) for _, hit in entries]
+
+    # A list item between the first and the last entry that does not
+    # read as an entry is a broken one. Nothing else is looked at, so
+    # the chapter list in the same file stays out of this.
+    broken = [(n, line[:52]) for n, line in items
+              if first <= n <= last and not entry_of(line)]
+    check("%s: every line of the index reads as an entry" % lang,
+          not broken, "%d, first at line %s" % (
+              len(broken), broken[0][0] if broken else "-"))
+    for number, line in broken[:6]:
+        print("      line %d: %s" % (number, line))
+
+    wanted = []
+    for number, hit in entries:
+        for chapter, title, quote in places_of(hit.group(3)) or []:
+            wanted.append((number, hit.group(1), chapter, title, quote))
+
+    pointers[lang] = sum(1 for _, hit in entries
+                         if SEE.match(hit.group(3)))
+    counted[lang] = len(keys) - pointers[lang]
+    into[lang] = collections.Counter(c for _, _, c, _, _ in wanted)
+
+    absent = [(n, key, chapter) for n, key, chapter, _, _ in wanted
+              if not os.path.exists(
+                  os.path.join(DOCS, chapter + SUFFIX[lang]))]
+    check("%s: every entry names a chapter that is there" % lang,
+          not absent, "%d, first: %s -> %s" % (
+              len(absent), absent[0][1] if absent else "-",
+              absent[0][2] if absent else "-"))
+    for number, key, chapter in absent[:6]:
+        print("      line %d: %s -> no chapter %s%s"
+              % (number, key, chapter, SUFFIX[lang]))
+
+    misses = []
+    for number, key, chapter, title, _ in wanted:
+        chapter_file = os.path.join(DOCS, chapter + SUFFIX[lang])
+        if not os.path.exists(chapter_file):
+            continue
+        if normal(title) not in headings_of(chapter_file):
+            misses.append((number, key, chapter, title))
+    check("%s: every entry names a heading that is there" % lang,
+          not misses, "%d of %d places, first: %s -> %s, \"%s\"" % (
+              len(misses), len(wanted),
+              misses[0][1] if misses else "-",
+              misses[0][2] if misses else "-",
+              misses[0][3] if misses else "-"))
+    for number, key, chapter, title in misses[:10]:
+        print("      line %d: %s -> %s%s has no heading \"%s\""
+              % (number, key, chapter, SUFFIX[lang], title))
+
+    seen, twice = set(), []
+    for key in keys:
+        if sort_key(key) in seen:
+            twice.append(key)
+        seen.add(sort_key(key))
+    check("%s: no keyword stands twice" % lang, not twice, str(twice[:3]))
+
+    # Two orderings, one with the spaces and one without: a pair is
+    # only out of order when it is out of order under both.
+    tumbles = [(a, b) for a, b in zip(keys, keys[1:])
+               if sort_key(a) > sort_key(b)
+               and sort_key(a).replace(" ", "") > sort_key(b).replace(" ", "")]
+    check("%s: the keywords are in order" % lang, not tumbles,
+          "%d, first: %s before %s" % (
+              len(tumbles), tumbles[0][0] if tumbles else "-",
+              tumbles[0][1] if tumbles else "-"))
+
+    known = [sort_key(k) for k in keys]
+    lost = []
+    for number, hit in entries:
+        pointer = SEE.match(hit.group(3))
+        if pointer and not any(
+                k.startswith(sort_key(pointer.group(1))) for k in known):
+            lost.append((number, hit.group(1), pointer.group(1)))
+    check("%s: every cross reference leads to a keyword" % lang,
+          not lost, str(lost[:2]))
+
+    crowded = [hit.group(1) for _, hit in entries
+               if len(places_of(hit.group(3)) or []) > MOST_PLACES]
+    check("%s: no entry names more than %d places" % (lang, MOST_PLACES),
+          not crowded, str(crowded[:3]))
+
+    marks = sorted(set(hit.group(2) for _, hit in entries))
+    check("%s: a colon separates keyword and place" % lang,
+          marks == [":"], str(marks))
+    quotes = sorted(set(quote for _, _, _, _, quote in wanted))
+    check("%s: one quote form throughout" % lang, len(quotes) < 2,
+          str(quotes))
+
+    over = [n for n in range(first, last + 1)
+            if len(lines[n - 1]) > LINE_MAX]
+    check("%s: no line of the index over %d characters" % (lang, LINE_MAX),
+          not over, "%d, first at line %s" % (
+              len(over), over[0] if over else "-"))
+
+    # A chapter nobody can reach through the index is a hole in it.
+    # What the index itself may stand in is no chapter.
+    chapters = set(name[:-len(SUFFIX[lang])] for name in os.listdir(DOCS)
+                   if name.endswith(SUFFIX[lang])
+                   and name not in PLACES[lang]
+                   and (lang == "de" or not name.endswith(".de.md")))
+    reached = set(chapter for _, _, chapter, _, _ in wanted)
+    check("%s: every chapter is reachable through the index" % lang,
+          not chapters - reached, str(sorted(chapters - reached)))
+
+print("\n3. The two indexes beside each other")
+print("  keywords %s, cross references %s"
+      % (sorted(counted.items()), sorted(pointers.items())))
+check("both languages hold the same number of keywords",
+      len(counted) == 2 and len(set(counted.values())) == 1,
+      str(sorted(counted.items())))
+
+# The titles differ by language, the chapters do not. A keyword that
+# fell out of one side shows up here as a chapter that side points at
+# less often -- and it shows up even when a cross reference on the
+# other side makes the two counts above come out even.
+apart = []
+if len(into) == 2:
+    for chapter in sorted(set(into["en"]) | set(into["de"])):
+        if into["en"][chapter] != into["de"][chapter]:
+            apart.append("%s: en %d, de %d" % (
+                chapter, into["en"][chapter], into["de"][chapter]))
+check("both point into each chapter equally often",
+      len(into) == 2 and not apart, str(apart[:3]))
+
+print()
+if bad:
+    print("FAIL: %d of the checks" % len(bad))
+    sys.exit(1)
+print("All good.")

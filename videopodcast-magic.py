@@ -453,9 +453,13 @@ def _pip_install(*packages):
                     'around the system package manager. A virtual '
                     'environment would avoid this.'))
         try:
-            # stdout stays visible -- PySide6 is a 100 MB download and
-            # silence looks like a hang. stderr is captured because a
-            # rejected attempt is followed by the next one.
+            # stdout stays visible -- PySide6 is a 247 MB download on
+            # Windows, 256 on Linux and 444 on macOS, where the wheel
+            # carries both processor architectures. Measured 24.8.2026,
+            # 6.11.2, four wheels, the addons two thirds of them.
+            # Silence for that long looks like a hang. stderr is
+            # captured because a rejected attempt is followed by the
+            # next one.
             p = subprocess.run([sys.executable, "-m", "pip", "install"]
                                + extra_text + list(packages),
                                stderr=subprocess.PIPE, env=clean)
@@ -17083,19 +17087,24 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
         hints += discarded
     # Sort by name so the order of selection does not matter: giving only the
     # first block or all three in any order yields the same list. A row
-    # forced together by hand is the one thing that keeps its order --
+    # forced together by hand is the one thing that keeps its order.
     # --together promises "these files are one recording, in this
     # order", and sorting the row by name would break that promise on
-    # every name that is not already alphabetical. The row travels as
-    # one block, and it lands where its first-named member would.
+    # every name that is not already alphabetical.
+    #
+    # The row travels as one block, and the block sorts under the
+    # alphabetically smallest name in it. Not under the name given
+    # first: the whole point of sorting here is that the order of
+    # selection makes no difference, and a block that moved with the
+    # order it was typed in would put that difference straight back.
     rank = {}
     for row in together_chains(together):
         row = [x for x in row if x not in apart]
         if not row:
             continue
-        first = min(os.path.basename(x).lower() for x in row)
+        smallest = min(os.path.basename(x).lower() for x in row)
         for k, x in enumerate(row):
-            rank[x] = (first, k)
+            rank[x] = (smallest, k)
     out.sort(key=lambda x: rank.get(os.path.abspath(x),
                                     (os.path.basename(x).lower(), 0)))
     return out, hints
@@ -19358,6 +19367,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             # buttons in here.
             self.cut_bar = QtWidgets.QHBoxLayout()
             position.addLayout(self.cut_bar)
+            # A line of its own for the checkbox. It used to stand in the
+            # row above, between the four cut buttons: in English the
+            # five fit, in German they do not, and the label came out
+            # cut off after two thirds. Measured: the four German
+            # buttons and the checkbox want 548 px in a row about 480 px
+            # wide. Made
+            # unshrinkable it stopped being cut off and started sitting
+            # on top of the next button instead -- which is why it now
+            # has a line to itself in both languages rather than one
+            # language having a layout of its own.
+            self.under_cut = QtWidgets.QHBoxLayout()
+            position.addLayout(self.under_cut)
             # Left where the file starts, right where it ends, in the middle
             # where we are.
             time_row = QtWidgets.QHBoxLayout()
@@ -19445,6 +19466,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             # The checkbox sits a line lower with the cut buttons: there is
             # room there, and it belongs to the same handle.
             self.track_checkbox = QtWidgets.QCheckBox(T('hear assigned audio'))
+            self.under_cut.addWidget(self.track_checkbox)
+            self.under_cut.addStretch(1)
             self.track_checkbox.setChecked(True)
             self.track_checkbox.toggled.connect(lambda *_: self.track_adjust())
             self.track_checkbox.setToolTip(T('The recording assigned to this '
@@ -20053,6 +20076,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             position.addWidget(m)
             self.cut_bar = QtWidgets.QHBoxLayout()
             position.addLayout(self.cut_bar)
+            self.under_cut = QtWidgets.QHBoxLayout()
+            position.addLayout(self.under_cut)
             self.heading = None
             self.title = m
             self.file_path = None
@@ -22182,9 +22207,6 @@ def gui():
     _to_in_point = QtWidgets.QPushButton(T('to In point'))
     _to_in_point.clicked.connect(lambda: to_limit(start_var.get(), "In point"))
     set_line.addWidget(hint(_to_in_point, T('Jumps to the start of the window.')))
-    set_line.addStretch(1)
-    if getattr(player, "track_checkbox", None) is not None:
-        set_line.addWidget(player.track_checkbox)
     set_line.addStretch(1)
     _to_out_point = QtWidgets.QPushButton(T('to Out point'))
     _to_out_point.clicked.connect(lambda: to_limit(end_var.get(), "Out point"))
@@ -26276,7 +26298,7 @@ def gui():
 
     view_menu = menu.addMenu(T('&View'))
     for number in range(3):
-        act(view_menu, T('%d. sheet') % (number + 1),
+        act(view_menu, T('%d. tab') % (number + 1),
             lambda i=number: tabs.setCurrentIndex(i),
             "Ctrl+%d" % (number + 1))
 
@@ -26690,7 +26712,7 @@ CATALOGUE["de"] = {
         '&Wiedergabe',
     '&Help':
         '&Hilfe',
-    '%d. sheet':
+    '%d. tab':
         '%d. Reiter',
     'Play and pause':
         'Abspielen und anhalten',
@@ -26888,7 +26910,7 @@ CATALOGUE["de"] = {
         'erste',
     'from %s':
         'ab %s',
-    'join with Channel %d': 'mit Channel %d zusammenlegen',
+    'join with Channel %d': 'mit Kanal %d zusammenlegen',
     'last':
         'letzte',
     'rejected':
@@ -29229,11 +29251,11 @@ CATALOGUE["de"] = {
     'Channel %d is silent -- unused input':
         'Kanal %d ist still -- unbelegter Eingang',
     'On makes one stereo track out of this channel and the next.\nThe next one then has no tick of its own -- it is spoken for.\nWhat was measured is in the line beside it.':
-        'An macht aus diesem und dem nächsten Channel eine Stereospur.\nDer nächste hat dann kein eigenes Häkchen mehr -- er ist vergeben.\nWas gemessen wurde, steht in der Zeile daneben.',
+        'An macht aus diesem und dem nächsten Kanal eine Stereospur.\nDer nächste hat dann kein eigenes Häkchen mehr -- er ist vergeben.\nWas gemessen wurde, steht in der Zeile daneben.',
     'a track of its own':
         'eigene Spur',
     'with Channel %d one stereo track':
-        'mit Channel %d eine Stereospur',
+        'mit Kanal %d eine Stereospur',
     'already in another recording':
         'gehört schon zu einer anderen Aufnahme',
     'not found':
