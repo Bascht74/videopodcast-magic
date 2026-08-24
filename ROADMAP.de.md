@@ -168,6 +168,13 @@ Der nützlichste Abschnitt dieser Seite, weil er dir das Fragen spart.
 Ein Wunsch, der auf dieser Seite fehlt, ist etwas anderes: er ist
 nicht abgelehnt, er ist nur noch nicht aufgekommen.
 
+* **Eine Produktion bei auphonic.com ohne Preset.** Deren eigene
+  Seite lässt das zu, und bei uns wäre es der dritte Eintrag in der
+  Liste. Er kommt nicht: eine Produktion ohne Preset trägt keine
+  Einstellungen, und die hier anzubieten hieße, deren Oberfläche ein
+  zweites Mal zu bauen. Das Preset wird dort gewählt und hier
+  ausgesucht.
+
 * **Die Folge schneiden.** Der Kameraschnitt ist ein Vorschlag, der
   Schnitt bleibt deiner. Das Programm misst und übergibt; Entscheiden
   ist keine spätere Stufe davon.
