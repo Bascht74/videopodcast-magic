@@ -1,0 +1,644 @@
+name: release
+
+# What a release has to be, asked of the release itself.
+#
+# The program keeps itself up to date: it asks github.com for the
+# newest release, fetches one file from a tag, and starts again from
+# it. Three addresses carry that, and all three are written into the
+# program rather than into this file:
+#
+#   newer_release()   asks RELEASES for the tag of the newest release
+#   fetch_new_self()  fetches RAW_FILE % tag, the one file
+#   fetch_model()     fetches MODEL_BASE % model_reference(), the model
+#
+# So this workflow does not restate them. It imports the program at
+# that tag and uses its own constants and its own version_key(). What
+# it adds is the half no test on a disc can see: whether those
+# addresses answer, and whether the release the program asks about
+# looks the way the program expects.
+#
+# tests/release_test.py holds the working tree against itself -- one
+# version number in the program, the changelog and both READMEs. It
+# runs here too, against the files as they are at the tag, and this
+# workflow does not check any of it a second time.
+
+on:
+  push:
+    tags:
+      - 'v*'
+  # The tag is pushed first and the release made a moment later, so
+  # the run on the tag can only see half of it. This is the other half.
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Which tag to hold the release against.'
+        required: false
+        default: ''
+
+# Runs queue rather than cancel each other: two events belong to one
+# release, and the answer of the first is not made pointless by the
+# second.
+concurrency:
+  group: release-${{ inputs.tag || github.event.release.tag_name
+                     || github.ref_name }}
+  cancel-in-progress: false
+
+permissions:
+  contents: read
+
+jobs:
+
+  contract:
+    name: the contract
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      TAG: ${{ inputs.tag || github.event.release.tag_name
+               || github.ref_name }}
+
+    steps:
+      - name: which release this is about
+        run: |
+          echo "event:      $GITHUB_EVENT_NAME"
+          echo "repository: $GITHUB_REPOSITORY"
+          echo "tag:        $TAG"
+          case "$TAG" in
+            v*) ;;
+            *)  echo "FAIL: '$TAG' is not a tag name. Start this on a"
+                echo "      tag, or name one under Run workflow."
+                exit 1 ;;
+          esac
+
+      - uses: actions/checkout@v5
+        with:
+          ref: ${{ inputs.tag || github.event.release.tag_name
+                   || github.ref_name }}
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: '3.14'
+
+      # Not read out of the text and not written down here: the program
+      # is imported and asked. --version in argv is what tells it that
+      # nothing is going to run, so it does not reach for numpy.
+      - name: what the program itself says the addresses are
+        run: |
+          python - <<'PY' >> "$GITHUB_ENV"
+          import importlib.util, sys
+          sys.argv = ["videopodcast-magic.py", "--version"]
+          spec = importlib.util.spec_from_file_location(
+              "vpm", "videopodcast-magic.py")
+          vpm = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(vpm)
+          for name in ("VERSION", "RELEASES", "RAW_FILE", "MODEL_BASE",
+                       "SPEAKER_MODEL_NAME"):
+              print("%s=%s" % (name, getattr(vpm, name)))
+          PY
+          cat "$GITHUB_ENV"
+
+      - name: one number, and the tag is it
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
+        run: |
+          fails=0
+          check() {
+            if [ "$2" = "1" ]; then
+              printf '  %-52s ok   %s\n' "$1" "${3:-}"
+            else
+              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
+              fails=$((fails + 1))
+            fi
+          }
+
+          echo "1. The tag, and what the program calls itself"
+          # model_reference() builds the model address out of VERSION as
+          # "v" + VERSION. A tag that is named anything else sends a
+          # fresh installation to an address that is not there.
+          [ "$TAG" = "v$VERSION" ] && ok=1 || ok=0
+          check "the tag is v plus the version in the program" "$ok" \
+            "tag $TAG, program $VERSION"
+
+          echo
+          echo "2. The addresses point at this repository"
+          want="https://api.github.com/repos/$GITHUB_REPOSITORY"
+          want="$want/releases/latest"
+          [ "$RELEASES" = "$want" ] && ok=1 || ok=0
+          check "newer_release asks about this repository" "$ok" \
+            "$RELEASES"
+          want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
+          want="$want/%s/videopodcast-magic.py"
+          [ "$RAW_FILE" = "$want" ] && ok=1 || ok=0
+          check "fetch_new_self fetches from this repository" "$ok" \
+            "$RAW_FILE"
+          want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
+          want="$want/%s/models/$SPEAKER_MODEL_NAME/"
+          [ "$MODEL_BASE" = "$want" ] && ok=1 || ok=0
+          check "fetch_model fetches from this repository" "$ok" \
+            "$MODEL_BASE"
+
+          echo
+          echo "3. The files at this tag, held against each other"
+          # release_test.py is the test that does this. It is run, not
+          # copied: two lists of the same rule drift apart.
+          set +e
+          python tests/release_test.py
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] && ok=1 || ok=0
+          check "tests/release_test.py at this tag" "$ok" \
+            "returned $rc"
+
+          echo
+          [ "$fails" = "0" ] && echo "All good." \
+            || { echo "FAIL: $fails of these"; exit 1; }
+
+      - name: the one file, from the address the program uses
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
+        run: |
+          fails=0
+          check() {
+            if [ "$2" = "1" ]; then
+              printf '  %-52s ok   %s\n' "$1" "${3:-}"
+            else
+              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
+              fails=$((fails + 1))
+            fi
+          }
+          # A tag is not on raw.githubusercontent.com the second it is
+          # pushed. Five tries over fifty seconds, so a cache that has
+          # not caught up is a wait and not a red run.
+          fetch() {
+            for try in 1 2 3 4 5; do
+              curl -fsSL --retry 2 -o "$2" "$1" && return 0
+              echo "  ... no answer yet from $1 (try $try of 5)"
+              sleep 10
+            done
+            return 1
+          }
+
+          url=$(printf "$RAW_FILE" "$TAG")
+          echo "1. $url"
+          fetch "$url" /tmp/came-down.py && ok=1 || ok=0
+          check "the file the program fetches is there" "$ok" "$url"
+          if [ "$ok" = "0" ]; then
+            echo "FAIL: nothing came down, so nothing else can be asked"
+            exit 1
+          fi
+          echo "   $(wc -c < /tmp/came-down.py) bytes"
+
+          echo
+          echo "2. The three questions self_checked() asks of it"
+          set +e
+          python - /tmp/came-down.py <<'PY'
+          import sys
+          raw = open(sys.argv[1], "rb").read()
+          bad = 0
+          def check(name, ok, extra=""):
+              global bad
+              print("  %-52s %s %s"
+                    % (name, "ok  " if ok else "FAIL", extra))
+              bad += 0 if ok else 1
+          try:
+              text = raw.decode("utf-8")
+          except UnicodeDecodeError as e:
+              check("it is readable text", False, str(e))
+              sys.exit(1)
+          check("it is readable text", True, "%d bytes" % len(raw))
+          check("it is this program, not an error page",
+                "VERSION = " in text and "CATALOGUE" in text)
+          try:
+              compile(text, "videopodcast-magic.py", "exec")
+              check("it compiles", True)
+          except SyntaxError as e:
+              check("it compiles", False, "line %s" % e.lineno)
+          sys.exit(1 if bad else 0)
+          PY
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] && ok=1 || ok=0
+          check "what came down passes self_checked()" "$ok"
+
+          echo
+          echo "3. It is the file that was tagged"
+          cmp -s /tmp/came-down.py videopodcast-magic.py && ok=1 || ok=0
+          a=$(shasum -a 256 /tmp/came-down.py | cut -c1-16)
+          b=$(shasum -a 256 videopodcast-magic.py | cut -c1-16)
+          check "byte for byte the file at this tag" "$ok" \
+            "$a... came down, $b... was tagged"
+          said=$(sed -n 's/^VERSION = "\(.*\)"$/\1/p' /tmp/came-down.py \
+                 | head -1)
+          [ "$said" = "$VERSION" ] && ok=1 || ok=0
+          check "it carries the version of this tag" "$ok" \
+            "it says $said"
+
+          echo
+          [ "$fails" = "0" ] && echo "All good." \
+            || { echo "FAIL: $fails of these"; exit 1; }
+
+      - name: the model, from the address the program builds
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
+        run: |
+          fails=0
+          check() {
+            if [ "$2" = "1" ]; then
+              printf '  %-52s ok   %s\n' "$1" "${3:-}"
+            else
+              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
+              fails=$((fails + 1))
+            fi
+          }
+          fetch() {
+            for try in 1 2 3 4 5; do
+              curl -fsSL --retry 2 -o "$2" "$1" && return 0
+              echo "  ... no answer yet from $1 (try $try of 5)"
+              sleep 10
+            done
+            return 1
+          }
+
+          # model_reference() says "v" + VERSION, not the tag. Where the
+          # two differ the check above has already said so, and this one
+          # goes to the address the program really builds.
+          base=$(printf "$MODEL_BASE" "v$VERSION")
+          echo "1. $base"
+          fetch "${base}SHA256SUMS.txt" /tmp/sums.txt && ok=1 || ok=0
+          check "the manifest is there" "$ok"
+          if [ "$ok" = "0" ]; then
+            echo "FAIL: without it fetch_model() falls back to main,"
+            echo "      and program and model are then a version apart."
+            exit 1
+          fi
+
+          # The program's own reading of the file: a line with a
+          # 64-character first field, comments skipped.
+          awk 'length($1) == 64 && $1 !~ /^#/ {print $1, $NF}' \
+            /tmp/sums.txt > /tmp/pairs.txt
+          n=$(wc -l < /tmp/pairs.txt | tr -d ' ')
+          [ "$n" -gt 0 ] && ok=1 || ok=0
+          check "the manifest names files" "$ok" "$n of them"
+          [ "$ok" = "0" ] && exit 1
+
+          echo
+          echo "2. Every file it names, held against its sum"
+          while read -r want name; do
+            if ! fetch "$base$name" /tmp/piece; then
+              check "$name" 0 "it is not there"
+              continue
+            fi
+            got=$(shasum -a 256 /tmp/piece | awk '{print $1}')
+            [ "$got" = "$want" ] && ok=1 || ok=0
+            check "$name" "$ok" \
+              "$(wc -c < /tmp/piece | tr -d ' ') bytes, ${got:0:16}..."
+          done < /tmp/pairs.txt
+
+          echo
+          echo "3. What travels with it (fetch_model does not fail on"
+          echo "   these, so neither does this)"
+          for name in LICENSE-CC-BY-4.0.txt MODEL_CARD.md NOTICE.md; do
+            if curl -fsSL -o /dev/null "$base$name"; then
+              echo "  $name: there"
+            else
+              echo "  $name: NOT there"
+            fi
+          done
+
+          echo
+          [ "$fails" = "0" ] && echo "All good." \
+            || { echo "FAIL: $fails of these"; exit 1; }
+
+      # Fetched once into two files, and every check below reads those
+      # files. That way the answer everybody is judging is the one
+      # answer github.com gave, and it can be read afterwards.
+      - name: what github.com says about this release
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
+        run: |
+          set +e
+          gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" \
+            > /tmp/release.json 2> /tmp/release.err
+          echo "release/tags/$TAG: $?"
+          gh api "repos/$GITHUB_REPOSITORY/releases/latest" \
+            > /tmp/latest.json 2> /tmp/latest.err
+          echo "releases/latest:   $?"
+          gh api "repos/$GITHUB_REPOSITORY/releases?per_page=100" \
+            > /tmp/all.json 2> /tmp/all.err
+          echo "releases:          $?"
+          set -e
+          head -c 400 /tmp/release.err || true
+          for f in release latest all; do
+            python -c "import json,sys; json.load(open('/tmp/$f.json'))" \
+              2>/dev/null || echo "[]" > "/tmp/$f.json"
+          done
+          python - <<'PY'
+          import json
+          r = json.load(open("/tmp/release.json"))
+          if isinstance(r, dict) and r.get("tag_name"):
+              print("  tag        ", r.get("tag_name"))
+              print("  name       ", r.get("name"))
+              print("  draft      ", r.get("draft"))
+              print("  prerelease ", r.get("prerelease"))
+              print("  body       ", len(r.get("body") or ""), "characters")
+              print("  assets     ", [a["name"] for a in r.get("assets", [])])
+          else:
+              print("  there is no release for this tag")
+          PY
+
+      - name: the release, as the program expects to find it
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
+        run: |
+          fails=0
+          check() {
+            if [ "$2" = "1" ]; then
+              printf '  %-52s ok   %s\n' "$1" "${3:-}"
+            else
+              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
+              fails=$((fails + 1))
+            fi
+          }
+
+          there=$(python -c "import json; r = json.load( \
+            open('/tmp/release.json')); \
+            print(1 if isinstance(r, dict) and r.get('tag_name') else 0)")
+          if [ "$there" = "0" ] && [ "$GITHUB_EVENT_NAME" = "push" ]; then
+            # The documented way round is tag first, release a moment
+            # later. Ninety seconds covers that; longer than that is
+            # not a broken release, it is one that is not made yet, and
+            # the run on release: published asks all of this again.
+            for try in 1 2 3 4 5 6; do
+              echo "  ... no release for $TAG yet (try $try of 6)"
+              sleep 15
+              gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" \
+                > /tmp/release.json 2>/dev/null && { there=1; break; }
+            done
+          fi
+          if [ "$there" = "0" ]; then
+            if [ "$GITHUB_EVENT_NAME" = "push" ]; then
+              echo "  The tag is there and the release is not. Nothing"
+              echo "  here is red for that: this half is asked again"
+              echo "  when the release is published."
+              exit 0
+            fi
+            check "there is a release for this tag" 0 "$TAG"
+            echo
+            echo "FAIL: 1 of these"
+            exit 1
+          fi
+          check "there is a release for this tag" 1 "$TAG"
+
+          python - <<'PY' > /tmp/said.txt
+          import json, shlex
+          r = json.load(open("/tmp/release.json"))
+          latest = json.load(open("/tmp/latest.json"))
+          if not isinstance(latest, dict):
+              latest = {}
+          names = [a["name"] for a in r.get("assets", [])]
+          one = [a for a in r.get("assets", [])
+                 if a["name"] == "videopodcast-magic.py"]
+          for name, value in (
+                  ("draft", 1 if r.get("draft") else 0),
+                  ("pre", 1 if r.get("prerelease") else 0),
+                  ("body", len(r.get("body") or "")),
+                  ("latest", latest.get("tag_name") or ""),
+                  ("assets", ",".join(names)),
+                  ("file", one[0]["browser_download_url"] if one else "")):
+              print("%s=%s" % (name, shlex.quote(str(value))))
+          PY
+          . /tmp/said.txt
+          cat /tmp/said.txt | sed 's/^/  /'
+
+          echo
+          echo "1. It is a release, and it is the newest one"
+          # newer_release(): "A pre-release is never the answer: GitHub
+          # only calls one release the latest, and it is never one put
+          # out for trying." And Sebastian, 22.8.2026 16:35: the
+          # pre-release tick stays off, or the sidebar shows tags
+          # instead of versions.
+          [ "$draft" = "0" ] && ok=1 || ok=0
+          check "it is not a draft" "$ok"
+          [ "$pre" = "0" ] && ok=1 || ok=0
+          check "it is not a pre-release" "$ok"
+          [ "$latest" = "$TAG" ] && ok=1 || ok=0
+          check "releases/latest names this tag" "$ok" \
+            "it names ${latest:-nothing}"
+
+          # newer_release() offers nothing unless version_key(tag) is
+          # greater than the version_key of what is running. A release
+          # that sorts older than one already out is one nobody is ever
+          # offered. Asked with the program's own version_key.
+          set +e
+          python - <<'PY'
+          import importlib.util, json, sys
+          sys.argv = ["videopodcast-magic.py", "--version"]
+          spec = importlib.util.spec_from_file_location(
+              "vpm", "videopodcast-magic.py")
+          vpm = importlib.util.module_from_spec(spec)
+          spec.loader.exec_module(vpm)
+          mine = json.load(open("/tmp/release.json"))["tag_name"]
+          out = json.load(open("/tmp/all.json"))
+          older = []
+          for other in (out if isinstance(out, list) else []):
+              tag = other.get("tag_name") or ""
+              if tag == mine or other.get("draft"):
+                  continue
+              if vpm.version_key(tag) >= vpm.version_key(mine):
+                  older.append(tag)
+          print("  %-52s %s %s"
+                % ("nothing already out sorts newer",
+                   "ok  " if not older else "FAIL", ",".join(older[:4])))
+          sys.exit(1 if older else 0)
+          PY
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] || fails=$((fails + 1))
+
+          echo
+          echo "2. What somebody is asked to install is said"
+          # newer_release() brings the body down with the tag, and
+          # update_offer() shows it: "An address alone asks somebody to
+          # open a browser to find out what they are about to install,
+          # and most will not."
+          [ "$body" -gt 0 ] && ok=1 || ok=0
+          check "the release says what changed" "$ok" \
+            "$body characters"
+
+          # And it is the changelog section itself, not a summary of
+          # it: claude_intern.md, Sebastian's rule of 22.8.2026. The
+          # release is made with awk over CHANGELOG.md, and a pattern
+          # that misses puts an empty or a wrong section there. Only
+          # the count of characters would notice a wrong one.
+          # Measured 24.8.2026 against the eight releases that are
+          # out: v2.5.0-beta matches its section line for line.
+          set +e
+          python - "$VERSION" <<'PY'
+          import json, re, sys
+          want = sys.argv[1]
+          body = json.load(open("/tmp/release.json")).get("body") or ""
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          head = re.search(r"^## \[%s\][^\n]*\n" % re.escape(want),
+                           text, re.M)
+          section = ""
+          if head:
+              rest = text[head.end():]
+              stop = re.search(r"^## ", rest, re.M)
+              section = rest[:stop.start()] if stop else rest
+
+          def lines(s):
+              return [l.rstrip() for l
+                      in s.replace("\r\n", "\n").strip().splitlines()]
+
+          same = bool(section) and lines(section) == lines(body)
+          print("  %-52s %s %s"
+                % ("the release text is the changelog section",
+                   "ok  " if same else "FAIL",
+                   "%d lines on github.com, %d in the file"
+                   % (len(lines(body)), len(lines(section)))))
+          sys.exit(0 if same else 1)
+          PY
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] || fails=$((fails + 1))
+
+          echo
+          echo "3. The one file hangs on the release"
+          # github_moeglichkeiten.md, 24.8.2026: the release page offers
+          # Source code (zip), 63 735 119 bytes, and the file the README
+          # tells people to download, 1 308 045 bytes, is not on it.
+          case ",$assets," in
+            *,videopodcast-magic.py,*) ok=1 ;;
+            *) ok=0 ;;
+          esac
+          check "videopodcast-magic.py hangs on the release" "$ok" \
+            "it carries: ${assets:-nothing}"
+          if [ "$ok" = "1" ]; then
+            curl -fsSL -o /tmp/asset.py "$file"
+            cmp -s /tmp/asset.py videopodcast-magic.py && ok=1 || ok=0
+            check "and it is the file at this tag" "$ok" \
+              "$(wc -c < /tmp/asset.py | tr -d ' ') bytes"
+          else
+            check "and it is the file at this tag" 0 \
+              "no file to hold against it"
+          fi
+
+          echo
+          [ "$fails" = "0" ] && echo "All good." \
+            || { echo "FAIL: $fails of these"; exit 1; }
+
+      - name: what this run found
+        if: always()
+        run: |
+          {
+            echo "## $TAG"
+            echo
+            echo "Asked of ${GITHUB_REPOSITORY} on"\
+                 "\`$GITHUB_EVENT_NAME\`."
+            echo
+            echo "* the file: \`$(printf "$RAW_FILE" "$TAG")\`"
+            echo "* the model: \`$(printf "$MODEL_BASE" "v$VERSION")\`"
+            echo "* the release: \`$RELEASES\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+  starts:
+    name: it starts (${{ matrix.os }} / py${{ matrix.python }})
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 15
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: ubuntu-latest
+            python: '3.14'
+          - os: windows-latest
+            python: '3.14'
+          - os: macos-latest
+            python: '3.14'
+          # The floor the program names for itself: NEEDS_PYTHON is
+          # (3, 10), and it says so in a line it prints before
+          # anything else. Somebody who has a Python at all mostly
+          # has the one that came with the machine.
+          - os: ubuntu-latest
+            python: '3.10'
+    env:
+      TAG: ${{ inputs.tag || github.event.release.tag_name
+               || github.ref_name }}
+      VPM_NO_UPDATE_CHECK: '1'
+      # Windows hands Python a cp1252 stdout, and the switch list has
+      # characters in it that cp1252 has no room for.
+      PYTHONUTF8: '1'
+
+    steps:
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      # No checkout and no packages: what is asked here is what somebody
+      # gets who has nothing but this one file, which is what an update
+      # leaves behind. --version and --help are the two ways in that
+      # the program itself promises to answer without numpy.
+      - name: fetch what an update fetches, and start it
+        shell: bash
+        run: |
+          fails=0
+          check() {
+            if [ "$2" = "1" ]; then
+              printf '  %-52s ok   %s\n' "$1" "${3:-}"
+            else
+              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
+              fails=$((fails + 1))
+            fi
+          }
+
+          url="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
+          url="$url/$TAG/videopodcast-magic.py"
+          echo "$url"
+          ok=0
+          for try in 1 2 3 4 5; do
+            curl -fsSL --retry 2 -o vpm.py "$url" && { ok=1; break; }
+            echo "  ... no answer yet (try $try of 5)"
+            sleep 10
+          done
+          check "it came down" "$ok" "$url"
+          [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
+
+          echo
+          set +e
+          said=$(python vpm.py --version 2>&1)
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] && ok=1 || ok=0
+          check "--version answers" "$ok" "returned $rc: $said"
+          case "$said" in
+            *"${TAG#v}"*) ok=1 ;;
+            *) ok=0 ;;
+          esac
+          check "--version names ${TAG#v}" "$ok" "$said"
+
+          set +e
+          python vpm.py --help > /tmp/help.txt 2>&1
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] && ok=1 || ok=0
+          check "--help answers" "$ok" "returned $rc"
+          head -1 /tmp/help.txt | grep -q '^usage:' && ok=1 || ok=0
+          check "--help begins with a usage line" "$ok" \
+            "$(head -1 /tmp/help.txt)"
+          echo "  $(wc -l < /tmp/help.txt | tr -d ' ') lines of switches"
+
+          echo
+          [ "$fails" = "0" ] && echo "All good." \
+            || { echo "FAIL: $fails of these"; exit 1; }
