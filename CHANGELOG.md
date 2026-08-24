@@ -9,6 +9,30 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.6.1-beta] - 2026-08-24
+
+### Fixed
+
+- Saving the key in the Keychain hung the window, and it had never
+  worked. Two faults sat on top of each other, both measured at the
+  window that had stopped responding. "security" asks for the word on
+  the terminal rather than on the input it is handed, because it opens
+  /dev/tty: started from a shell, the question landed in that shell
+  behind the window, where nobody looks, and Sebastian's console sat at
+  "password data for new item:" while the window waited for good. It
+  now runs without a controlling terminal, so it cannot ask and reads
+  the input instead. And the key is sent twice, because "security" asks
+  once for the word and once to retype it. Sending it once left the
+  second answer empty and stored an empty string while still returning
+  0, so the read-back failed and every save since this was written fell
+  through to the argument form -- which puts the key in the process
+  list, the one thing that branch exists to avoid. The safe path had
+  never once been taken.
+- Connect could sit at "checking ..." for good. No call to auphonic.com
+  had a time limit of any kind. The short calls give up after sixty
+  seconds and fifteen on the connection; the long ones, where an upload
+  may take as long as it takes, limit only the connection.
+
 ## [2.6.0-beta] - 2026-08-24
 
 ### Added
@@ -1210,6 +1234,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.6.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.0-beta...v2.6.1-beta
 [2.6.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.5.0-beta...v2.6.0-beta
 [2.5.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.4.0-beta...v2.5.0-beta
 [2.4.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.3.0-beta...v2.4.0-beta

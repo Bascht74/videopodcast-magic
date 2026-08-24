@@ -367,20 +367,42 @@ def store_api_key(key):
     "security" over its input first, and the result is read back rather
     than believed. Only where that leaves the wrong key behind is the
     argument form used -- with a key stored wrongly, nothing works at all.
+
+    Two things about that input, both measured on 24.8.2026 at a window
+    that had stopped responding.
+
+    Without a session of its own, "security" asks for the word on the
+    terminal and not on the input it is handed: it opens /dev/tty.
+    Started from a shell, the question lands in that shell, behind the
+    window, where nobody sees it. Sebastian's console sat at "password
+    data for new item:" while the window waited for good.
+
+    And it is sent twice, because "security" asks once for the word and
+    once to retype it. Sending it once left the second answer empty and
+    stored an empty string, still returning 0. The read-back then
+    failed, so every save since this was written fell through to the
+    argument form below -- the one thing this branch exists to avoid.
     """
     if sys.platform == "darwin":
         where = ["-s", "videopodcast-magic", "-a", "auphonic"]
         try:
             p = subprocess.run(["security", "add-generic-password", "-U"]
                                + where + ["-w"],
-                               input=(key + "\n").encode("utf-8"),
-                               capture_output=True)
-            if p.returncode == 0 and load_api_key() == key:
-                return True
+                               input=(key + "\n" + key + "\n").encode("utf-8"),
+                               capture_output=True, timeout=20,
+                               start_new_session=True)
+            asked_well = p.returncode == 0
         except OSError:
-            return False
+            return False              # no "security" on this machine
+        except subprocess.TimeoutExpired:
+            # A question nobody can answer would hold the window for
+            # good. The argument form below still works.
+            asked_well = False
+        if asked_well and load_api_key() == key:
+            return True
         p = subprocess.run(["security", "add-generic-password", "-U"]
-                           + where + ["-w", key], capture_output=True)
+                           + where + ["-w", key], capture_output=True,
+                           timeout=20)
         return p.returncode == 0
     if os.name == "nt":
         try:
@@ -544,7 +566,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.6.0-beta"
+VERSION = "2.6.1-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -1338,7 +1360,13 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
             leftovers.append(body)
             answer_file = open(body, "wb")
             closing.append(answer_file)
-            proc = subprocess.Popen(["curl", "-S", "-L", "--config", conf]
+            # Only the connection is limited here, never the
+            # transfer: an upload of several gigabytes may take as long
+            # as it takes, but a server that never answers at all must
+            # not hold the run.
+            proc = subprocess.Popen(["curl", "-S", "-L",
+                                     "--connect-timeout", "15",
+                                     "--config", conf]
                                     + arguments,
                                     stdout=answer_file,
                                     stderr=subprocess.PIPE)
@@ -1385,7 +1413,15 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                 proc.args, proc.returncode, off,
                 "\n".join(said[-20:]).encode("utf-8", "replace"))
         else:
-            p = subprocess.run(["curl", "-sS", "-L", "--config", conf] + arguments,
+            # A limit, because there was none. On 24.8.2026 the Connect
+            # button sat at "checking ..." for good: nothing had told
+            # curl when to give up. Sixty seconds is long for a call
+            # that fetches a list of presets and short enough that
+            # somebody still believes the window is alive.
+            p = subprocess.run(["curl", "-sS", "-L",
+                                "--connect-timeout", "15",
+                                "--max-time", "60",
+                                "--config", conf] + arguments,
                                capture_output=True)
     finally:
         # A transfer that was broken off leaves curl writing into a file
