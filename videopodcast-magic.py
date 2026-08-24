@@ -25435,20 +25435,15 @@ def gui():
         The mode is shown in brackets so nobody has to guess why a preset is
         missing.
         """
-        matching = [(n, u) for n, u, m in state["presets"]
-                   if m == multitrack.get()]
-        # The first entry is not one of the presets but the statement that this
-        # run goes without auphonic.com. It is always there, including without
-        # a checked key, because then it applies anyway.
-        entries = [(PRESET_NONE, label_of(PRESET_NONE))] + [
-            (n, "%s  (%s)" % (n, "Multitrack" if multitrack.get()
-                              else "normal"))
-            for n, _ in matching]
+        entries = preset_entries(state["presets"], multitrack.get(),
+                                 label_of(PRESET_NONE), PRESET_NONE)
         before_value = preset_box.currentData() or ""
         preset_box.blockSignals(True)
         preset_box.clear()
-        for value, text in entries:
+        for value, text, pickable in entries:
             preset_box.addItem(text, value)
+            if not pickable:
+                preset_box.model().item(preset_box.count() - 1).setEnabled(False)
         # Without auphonic.com stays selected until somebody picks a
         # preset. Connecting fetches the list, and jumping to the first
         # entry of it would mean the next Start spends credit because a
@@ -26779,6 +26774,32 @@ def preset_box_widget(QtWidgets, state, fetch):
     return PresetBox
 
 
+def preset_entries(presets, multitrack_on, none_label, none_value):
+    """The rows of the preset list: (value, text, can be picked).
+
+    The first row is not a preset but the decision to run without
+    auphonic.com. It is always there, including without a checked key,
+    because then it applies anyway.
+
+    Where the account holds presets but none of the kind in use, a grey
+    row says so in the list itself. Sebastian asked for it on
+    24.8.2026: the list used to come back with its single row and
+    nothing to explain it, which reads like a key that was refused. A
+    row that cannot be picked answers the question where it is asked.
+    """
+    # Both read the same in German today, and they still go through the
+    # catalogue: a word that skips it is a word the next language never
+    # finds.
+    kind = T('Multitrack mode') if multitrack_on else T('ordinary mode')
+    rows = [(none_value, none_label, True)]
+    fitting = [n for n, _u, mt in (presets or []) if mt == multitrack_on]
+    for name in fitting:
+        rows.append((name, "%s  (%s)" % (name, kind), True))
+    if presets and not fitting:
+        rows.append(("", T('no %s preset in this account') % kind, False))
+    return rows
+
+
 def preset_mode_note(preset_list, multitrack_on):
     """What to say where the list came back and shows nothing.
 
@@ -26985,6 +27006,12 @@ CATALOGUE["de"] = {
     'running now stays beside it as videopodcast-magic.py.old.':
         'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
         'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
+    'no %s preset in this account':
+        'kein %s-Preset in diesem Konto',
+    'Multitrack mode':
+        'Multitrack',
+    'ordinary mode':
+        'normal',
     'fetching from auphonic.com ...':
         'wird von auphonic.com geholt ...',
     'The key is good. Of the %d presets in the account none is a %s one, '
