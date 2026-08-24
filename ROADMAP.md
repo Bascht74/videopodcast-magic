@@ -161,6 +161,12 @@ The most useful section on this page, because it saves you asking. A
 wish that is missing from this page is a different matter: it has not
 been refused, it has only not come up yet.
 
+* **A production at auphonic.com without a preset.** Their own page
+  allows it, and it would be the third entry in our list. It stays out:
+  a production without a preset carries no settings, and offering the
+  settings here would mean building their interface a second time. Pick
+  the preset there, choose it here.
+
 * **Cut the episode.** The camera cut is a proposal and the edit stays
   yours. The program measures and hands over; deciding is not a later
   stage of that.
