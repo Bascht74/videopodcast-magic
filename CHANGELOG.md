@@ -9,6 +9,95 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.6.0-beta] - 2026-08-24
+
+### Added
+
+- The window can be run on Windows and Linux, and now somebody checks
+  that. A workflow runs the whole suite on Linux, Windows and macOS at
+  every push, on Python 3.14.7 and on 3.10. Until now every one of the
+  98 tests had only ever run on one Mac, and the lower bound of 3.10
+  was a claim rather than a measurement. It is measured now.
+- Three checks for faults that only the eye had caught: a caption wider
+  than the field carrying it, in both languages; an English word left
+  on the German side of the catalogue where the same catalogue
+  translates it elsewhere; a sentence glued together from translated
+  fragments, which is how German ends up with the wrong article.
+- Five checks that hold a list in the manual against a table in the
+  source. All thirteen untruths found in the manual on 24 August were
+  questions of truth, and every documentation test until now asked
+  about form.
+- A test that runs the speaker separation for real, on speech this
+  machine generates itself, so the interface of a dependency cannot
+  change under us unnoticed again.
+- An index of 79 keywords in both READMEs, and a test that keeps every
+  entry pointing at a section that exists. The style pass of 24 August
+  renamed 103 of 164 headings on its own, and an index would have
+  rotted in silence.
+- Every chapter of the manual carries a picture now, four of them
+  newly taken. One needed an eight-channel fixture that did not exist,
+  and one is a terminal showing the call and the start of a run,
+  because the picture run can only grab our own window.
+- A roadmap, in both languages, saying what comes next and what this
+  program will not become.
+
+### Changed
+
+- The box that said "no newer version found" now shows what is in the
+  version that is running. The release text comes down with the same
+  answer that was asked for the version number and used to be thrown
+  away.
+
+### Fixed
+
+- A stereo recording made with a coincident pair was not recognised as
+  stereo. The gate that decides which places are loud enough to measure
+  hung on the peak of the whole file, and a handful of samples at full
+  scale -- 0.0000 per cent of them -- pinned that peak at 0 dBFS while
+  99 per cent of the windows sat below -33 dBFS. Of 120 places, 119
+  were dropped as too quiet and none for the reason the message gave.
+  The gate now hangs on the ninth decile of the window levels. Measured
+  on the recording that showed it: the share in the zero window went
+  from nothing at all to 0.939 against a threshold of 0.50, and the
+  spacing to 0.0 m, which is what a coincident pair is.
+- Every Windows clone carried a broken speaker model. Git for Windows
+  rewrites line endings while checking out, the model is held against a
+  SHA-256 sum, and one changed line was enough for the program to
+  declare its own model damaged.
+- 62 captions did not fit their field on Windows, the worst short by
+  136 px. At a nominally identical font the text runs 1.89 times wider
+  there than on macOS, and five fixed pixel widths measured for the Mac
+  font caused all 62. The fields now compute their width. Nothing
+  changed on the Mac, where the layout is measured, balanced and held
+  in eleven manual pictures.
+- The speaker separation stopped with an AttributeError on the newest
+  pyannote. Version 4 hands back a different object and keeps the
+  annotation in a field of it. The worker now asks the object what it
+  is, so both versions run, and where neither shape fits it names the
+  class it got.
+- The ratchets counted offences instead of holding them. Swap one for
+  another and the count stays and the test stays green. They now hold
+  the findings themselves, keyed on the function they sit in.
+- A run against a snapshot could pull a ratchet down for good. The
+  suite is meant to be run against snapshots, so this had been open
+  every time anybody followed the instructions.
+- The player menu killed the window on a Qt without multimedia.
+
+### Documentation
+
+- The manual went through a style pass, and the complaint behind it was
+  measured before it was acted on: against the DaVinci Resolve manual,
+  903,627 words of running text, and against GIMP, LibreOffice,
+  Kdenlive and man ffmpeg. Appended dashes fell from 199 to 38, "Where"
+  as a condition from 51 to 0, fronted clauses from 105 to 26. Nothing
+  was cut to get there: the manual came out longer, 28,993 words to
+  29,962.
+- Thirteen places where the manual said something the program does not
+  do are corrected, and the command line table now matches the parser
+  switch for switch, 68 against 68.
+- Eleven chapters gained a section on what to do when it goes wrong.
+  None of the four style guides asks for one.
+
 ## [2.5.0-beta] - 2026-08-24
 
 ### Added
@@ -1121,6 +1210,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.6.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.5.0-beta...v2.6.0-beta
 [2.5.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.4.0-beta...v2.5.0-beta
 [2.4.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.3.0-beta...v2.4.0-beta
 [2.3.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.2.0-beta...v2.3.0-beta
