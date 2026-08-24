@@ -23,10 +23,12 @@ What the simple path does just like multitrack:
 - **Preview player.** On the **Assignment & time window** tab, with the
   same buttons.
 - **Resolve project.** Several cameras give one timeline with all of them
-  side by side, ready for multicam; one camera a straight one.
+  side by side, ready for multicam. One camera gives a straight timeline,
+  or a cut one as soon as the speakers are told apart.
 
-Camera cut, speaking times and cut forecast are missing: they need one
-track per speaker.
+One track per speaker is not part of it. The mix reaches auphonic.com as
+a single track, and without separate tracks the de-bleed has nothing to
+take apart.
 
 What comes out depends on the material:
 
@@ -36,6 +38,30 @@ What comes out depends on the material:
   video file.
 - **One video only.** The program takes its own audio, left and right
   kept apart.
+
+### Telling the speakers apart on one track
+
+One recording everybody is audible on is enough for the cut. The camera
+carrying that sound needs the tick. On the **Assignment & time window**
+tab, in the lower table, tick **as a track** in the column **own audio**.
+The line under the time axis then offers **Separate speakers**
+([Speech recognition and speaker separation](speech.md)).
+
+With one camera nothing is switched over: there is nothing to switch to.
+What comes of it is a cut at every change of speaker, so Resolve gets one
+section per person instead of one long take. Each section can be grouped,
+coloured and given a framing of its own there, which on a 360 degree
+camera is the whole point. The passages sit on that timeline as markers,
+a colour per person, so it is visible who speaks where.
+
+The log says `FIRST CUT BY SPEAKER` instead of `CAMERA CUT`, and the box
+in the window carries the same name. Speaking times, cut forecast, the
+settings of the cut and the four cut lists come with it
+([Speaker statistics, camera cut, EDL](camera-cut.md)).
+
+One voice found is not a fault. Nobody hands over, so there is no cut.
+Resolve gets the camera in one piece with the mix under it, and the
+passages are marked there too.
 
 ### What goes into the video beside the mix
 
@@ -119,6 +145,8 @@ exist.
 
 ### When something goes wrong
 
+- **The line under the time axis stays empty.** The camera's sound is
+  not a track yet: tick **as a track** for it.
 - **The continuation files are missing from the recording.** The names
   give the search nothing to go on: put them together by hand with
   **belongs to**.
@@ -138,5 +166,6 @@ These options are not in the window.
 
 - `--no-single-tracks` leaves the single tracks out of the video.
 - `--no-camera-audio` leaves the camera's own track out of the new file.
-- `--help` marks each switch with `[simple path only]` or
-  `[multitrack only]`. Both markers stay English, even with `--lang de`.
+- `--help` puts `[simple path only]` or `[multitrack only]` on a switch
+  that works on one path only. Both markers stay English, even with
+  `--lang de`.

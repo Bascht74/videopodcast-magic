@@ -354,3 +354,85 @@ needs. It imports QtWidgets, QtGui, QtCore, QtMultimedia and
 QtMultimediaWidgets. Whether those live in essentials alone was not
 checked. If they do, the download would be about a third of the
 figures above. The unpacked size was measured on macOS only.
+
+## Why one recording does not become four tracks
+
+Could the program build one audio track per speaker out of a single
+recording -- each speaker's own segments kept, the rest of the track
+silenced -- so that one recording could be run as an Auphonic
+Multitrack production? Measured on 24 and 25.8.2026 on one real
+interview. The answer is no.
+
+The material is one room recording from a Zoom,
+`Gesamtaudio-016_Zoom.wav`: 5216.71 s = 1:26:56, 48 kHz, stereo, one
+signal that holds everybody. The separation is the cached pyannote run,
+so these are the numbers the program itself would cut the tracks from.
+
+| what | measured |
+|---|---|
+| labels | 4, over 1257 raw segments |
+| the loudest of them | 68.0 % of the speaking time, 736 segments |
+| the quietest | 219 s in 181 segments, mean 1.21 s |
+| two at once, raw | 98.0 s = 1.88 % of the recording, 189 events |
+| two at once, polished | 224.5 s = 4.30 % |
+| three at once | never |
+| nobody speaking | 12.15 % of the recording |
+| four gated tracks | 652 audible blocks, 1304 fade edges |
+| the same, unpolished | 2514 edges |
+
+Polished is the program's own `speaker_segments_polish`: edges widened
+by `SPEAKER_MARGIN_S` = 0.2 s, gaps up to `SPEAKER_GAP_S` = 0.25 s
+closed. It more than doubles the overlap. That is no fault of the step
+-- a picture cut wants the wider edge -- but it is the shape the audio
+tracks would inherit. Per speaker, the quiet participants have 19 to
+32 % of their own speaking time overlapped by somebody else.
+
+* **De-Bleed has nothing to correlate.** Auphonic's crosstalk removal
+  looks for the same signal on two tracks while somebody is speaking.
+  In synthesised tracks exactly one track is non-zero at any instant,
+  so there is no correlation to find. In the 1.88 to 4.30 % where two
+  tracks are non-zero together they are bit-identical at zero delay,
+  which is the same sample twice and not bleed.
+* **The boundaries are not cut points.** Only 34.3 % of the 2501
+  segment boundaries fall into a real pause in the speech, and the
+  median distance from a boundary to the nearest pause is 0.20 s. The
+  dip in the audio hits a real pause 97 to 99 % on the same material.
+  `docs/notes/pyannote4.md` says it already: whoever takes a segment
+  boundary for a cut point has the number against him. A track that
+  starts in the middle of a word sounds worse than no track, and there
+  would be 1304 places to do it.
+* **The fourth label is not a person.** 219 s in 181 segments, mean
+  1.21 s: 4.2 % of the recording, 4.7 % of the speaking time added up
+  over the four labels. The program's own `stray_labels` rule calls
+  that a heap and not a speaker. The smallest voice that is a person
+  reaches 57.3 % precision.
+* **The project refused this input once already, for this reason.**
+  `docs/notes/debleed_and_cleanup.md` says the Zoom room track "does
+  not belong in the multitrack production as a track -- it contains
+  every speaker, and Remove Mic Bleed then cannot tell what belongs to
+  whom". Building four tracks out of it does not change what is in it.
+* **The cheaper way is already there.** A singletrack production of the
+  same recording gets the same Auphonic algorithms -- leveler, denoise,
+  loudness -- over the whole file, for a quarter of the cost, and cuts
+  nothing.
+
+The cost of the way not taken: about 87 minutes of reading and writing
+per track, four times about 1 GB of WAV, to arrive at four tracks that
+De-Bleed cannot use.
+
+**What the same numbers do support.** The separation is good enough to
+say who is speaking and where the speaker changes, which is what the
+camera cut has always used it for and what the figures further up were
+measured for. It is only not good enough to be used as a knife on the
+audio itself. A tenth of a second out moves a picture cut, and nobody
+sees it; the same tenth of a second cuts a word in half, and everybody
+hears it.
+
+Measured are all the counts, times and shares above: they come from the
+separation of that one file and can be counted again from the cache.
+Extrapolated are the two cost figures, from the size of the file and
+the decode rate measured on this machine -- no four tracks were ever
+written. One recording, one room, four voices; how the shares fall in
+another room was not measured. The first reason does not depend on the
+material at all: it follows from tracks that are zero wherever their
+person is not speaking, whatever was recorded.

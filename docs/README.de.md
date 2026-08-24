@@ -42,6 +42,8 @@ Programm für sie ist.
 Jeder Eintrag nennt sein Kapitel und den Abschnitt darin. Der Abschnitt,
 der das Wort erklärt, steht vorn.
 
+* **360-Grad-Kamera**: `resolve`, „Eine Kamera“; `simple-path`, „Die
+  Sprecher auf einer Spur auseinanderhalten“
 * **3:1-Regel**: `preflight`, „Wie der Bericht das Übersprechen gegen die
   3:1-Regel misst“
 * **Abspann**: `resolve`, „Vorspann und Abspann setzen“; `multitrack`, „Die
@@ -65,9 +67,13 @@ der das Wort erklärt, steht vorn.
 * **Drop-Frame**: `resolve`, „Der Knopf und die beiden Timelines“
 * **Edit Change Delay**: `camera-cut`, „Die Stellschrauben einstellen“
 * **EDL**: `camera-cut`, „Wie der Schnitt entsteht“
+* **Eingangsspur**: `multitrack`, „Die Zuordnung setzen“; `interface`, „Die
+  vier Reiter“
 * **Einstellungen ...**: `interface`, „Was hinter Einstellungen ... steht“
 * **Entfernen (Knopf)**: `simple-path`, „Blöcke von Hand zusammenlegen“;
   `multitrack`, „Mehrere Dateien gleichzeitig laufen lassen“
+* **Erster Schnitt nach Sprechern (Kasten)**: `camera-cut`, „Wie der Schnitt
+  entsteht“; `interface`, „Die vier Reiter“
 * **Farbgruppe**: `resolve`, „Eine ganze Kamera auf einmal korrigieren“
 * **Farbvergleich**: `camera-cut`, „Was Kennzahlen und Farbvergleich messen“
 * **faster-whisper**: `speech`, „Wie das Programm den Text mitschreibt“
@@ -87,6 +93,8 @@ der das Wort erklärt, steht vorn.
   Dateien gleichzeitig laufen lassen“
 * **In-Punkt**: `multitrack`, „Das Zeitfenster setzen“; `interface`, „Die
   vier Reiter“
+* **Kamera, nur eine**: `resolve`, „Eine Kamera“; `camera-cut`, „Schneiden,
+  wenn eine Kamera alle zeigt“
 * **Kameraton**: `multitrack`, „Kameraton zur Spur machen“; `simple-path`,
   „Was je Videodatei zurückkommt“
 * **Kanal, belegt oder nicht**: `channels`, „Welche Kanäle überhaupt eine
@@ -99,6 +107,8 @@ der das Wort erklärt, steht vorn.
 * **Legende**: `camera-cut`, „Schnittband und Legende lesen“
 * **Leveler**: `preflight`, „Welches Lautheitsziel gilt“; `auphonic`, „Ohne
   Auphonic arbeiten“
+* **Marker**: `resolve`, „Eine Kamera“; `resolve`, „Der Knopf und die beiden
+  Timelines“
 * **Mindestschnittdauer**: `camera-cut`, „Die Stellschrauben einstellen“
 * **Modell (Sprechertrennung)**: `requirements`, „Das Programm holen“;
   `speech`, „Die Sprecher trennen“
@@ -138,7 +148,8 @@ der das Wort erklärt, steht vorn.
   messen“
 * **Sprechername**: `multitrack`, „Die Zuordnung setzen“; `speech`, „Die
   Stimmen benennen“
-* **Sprechertrennung**: `speech`, „Die Sprecher trennen“
+* **Sprechertrennung**: `speech`, „Die Sprecher trennen“; `simple-path`,
+  „Die Sprecher auf einer Spur auseinanderhalten“
 * **`start_s`**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton
   wählen“
 * **static-ffmpeg**: `requirements`, „Woher ffmpeg, PySide6 und numpy

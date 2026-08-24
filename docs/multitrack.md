@@ -9,8 +9,9 @@ Several people at a table, each with a microphone that hears everyone.
 Taking that bleed out of the audio is the one thing only auphonic.com
 does.
 
-Multitrack is the way for one track per person. If everybody is on one
-common recording, the speaker separation takes over
+Multitrack is the way for one track per person. Everybody on one
+recording stays one track. The speaker separation tells the voices in it
+apart and gives the cut, not a track each
 ([Speech recognition and speaker separation](speech.md)).
 
 Everything else runs locally. [Processing at auphonic.com](auphonic.md)
@@ -44,9 +45,16 @@ the measured time axis stand in red, here as in the file list.
 
 Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
-Multitrack wants two separate recordings, and a camera counts as one as
-soon as it has the **as a track** tick. The count is the same on the
-command line (`--multitrack`).
+The count is the same on the command line (`--multitrack`).
+
+Multitrack needs two input tracks. Three things count as a track:
+
+- a recording of its own,
+- a channel of a multichannel recorder,
+- the audio of a camera with the **as a track** tick.
+
+The program counts the rows of the upper table, minus those on **ignore
+this audio**. The camera cut does not need this tick.
 
 ![The two tables of the assignment](images/assignment.png)
 
@@ -57,8 +65,9 @@ tick and the box for auphonic.com.*
 ### Making camera sound a track
 
 With cameras only, their own sound becomes the tracks, one per camera.
-That takes at least two cameras. Without Multitrack the run has nothing
-to put into cameras-only material and stops.
+That takes at least two cameras. Without Multitrack the run stops on
+several cameras. A single camera runs without the tick
+([The simple path](simple-path.md)).
 
 A single camera can contribute its sound as well: the tick **as a track**
 in the column **own audio**. It then has a row in the upper table, with
@@ -147,8 +156,9 @@ bext chunk, and iXML comes along for Premiere and Media Composer.
   with **Remove**.
 - **Mark In and Mark Out stay locked.** The common time axis is not
   there yet. Wait for the bar under the tables.
-- **The run stops on cameras-only material.** Multitrack is off. Set the
-  **Multitrack** tick; each camera then becomes a track of its own.
+- **The run stops on several cameras without an audio recording.**
+  Multitrack is off. Set the **Multitrack** tick; each camera then
+  becomes a track of its own.
 - **A speaker is missing from the Full-Mix.** That row has **ignore this
   audio** in the column **belongs to**.
 

@@ -48,28 +48,56 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   eigenen Tabelle unter der Zuordnungstabelle
   ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
+  Jede Stimme bekommt eine Zeile: die Aufnahme, in der sie gehört wurde,
+  wie lange sie insgesamt redet, und wo ihre längste Stelle beginnt.
+  Daneben stehen der Name, die zugehörige Kamera und **Anhören**, das
+  die Aufnahme an dieser längsten Stelle in den Player holt.
+
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
   *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
   jeder Kamera wird.*
 - **Resolve-Schnitt**: eine Zeile, die sagt, ob Resolve antwortet, mit
-  dem Weg zu den Einstellungen daneben. Dann das Zeitfenster, die Werte
-  für den Kameraschnitt und der Kasten **Sprecher**, dessen Überschrift
-  die Quelle der Sprecher nennt. Zuletzt der Kasten
+  dem Weg zu den Einstellungen daneben. Dann das Zeitfenster, der Kasten
+  mit den Werten für den Schnitt und der Kasten **Sprecher**, dessen
+  Überschrift die Quelle der Sprecher nennt. Zuletzt der Kasten
   **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer
   Vorschau.
 
+  Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
+  auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
+  **Erster Schnitt nach Sprechern**. Dort wird nichts gewechselt: der
+  Schnitt fällt bei jedem Sprecherwechsel, und Resolve bekommt je Person
+  einen Clip. Mit gesetztem **Multitrack** bleibt der Name
+  **Kameraschnitt**.
+
+  Der Kasten erscheint, sobald **Multitrack** gesetzt ist oder zwei
+  Stimmen aus **Sprecher trennen** einen Namen und eine Kamera tragen.
+  Bis dahin steht an der Stelle von Kasten und Vorschau eine Zeile, die
+  sagt, was fehlt. Ein Resolve-Projekt entsteht trotzdem, mit jeder
+  Kamera an ihrem gemessenen Platz.
+
   Beide hinteren Reiter stehen mit und ohne getrennte Spuren da. Ohne sie
-  zeigt die Zuordnungsspalte grau „in alle Kameras“, und Regler und
-  Vorschau für den Kameraschnitt weichen einer Zeile, die das sagt.
+  zeigt die Zuordnungsspalte grau „in alle Kameras“.
 - **Ausgabe**: erscheint, sobald etwas läuft, in denselben Farben wie
   das Terminal, mit den Knöpfen **Ergebnis-Ordner öffnen** und
   **Resolve-Projekt anlegen**.
 
-**Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile über dem
-Auphonic-Kasten. Eine Spur je Sprecher ist die Grundlage für den
-Kameraschnitt, mit auphonic.com oder ohne; nach dem API Key fragt das
-Programm erst auf dem Weg über auphonic.com.
+**Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
+Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
+und ohne; nach dem API Key fragt das Programm erst auf dem Weg über
+auphonic.com. Der Kameraschnitt braucht das Häkchen nicht.
+
+Multitrack braucht zwei Eingangsspuren. Eine Eingangsspur ist eine
+eigene Aufnahme, ein Kanal eines mehrkanaligen Aufnahmegeräts oder der
+Ton einer Kamera, bei der **als Spur** gesetzt ist. Mehrere Blöcke
+derselben Aufnahme zählen als eine Spur, eine beiseitegelegte Spur gar
+nicht.
+
+Das Häkchen bleibt anklickbar, was auch immer im Projekt liegt. Bei nur
+einer Spur sagt das eine graue Zeile daneben, und sie nennt den Weg zur
+zweiten: **als Spur** bei einer Kamera. Wenn jede Kamera ihren Ton schon
+hergibt, sagt diese Zeile, dass keiner mehr übrig ist.
 
 **Sprache** neben dem Produktionsnamen ist die in der Aufnahme gesprochene
 Sprache, vorbelegt aus der Systemsprache. Sie wird zur Kennzeichnung der
@@ -83,7 +111,7 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 
 - keine Dateien,
 - kein Produktionsname,
-- weniger als zwei Aufnahmen für Multitrack,
+- weniger als zwei Spuren in der Zuordnungstabelle für Multitrack,
 - eine Aufnahme ohne Sprechernamen,
 - alle Aufnahmen unter demselben Namen,
 - zwei Kameras mit derselben Ausgabedatei.

@@ -25,8 +25,12 @@ not ask again. On a Mac the separation starts by itself as soon as the
 files are there.
 
 Separation is the way for **one common recording** that everybody is
-audible on. If each person has their own microphone, the tracks are
-the truth and the line stays away.
+audible on. It does not need the tick **Multitrack (one track per
+speaker)**: the line and the button stand there on both paths, with a
+single camera as well. If each person has their own microphone, the
+tracks are the truth and the line stays away. The separation says who
+speaks when; it does not make one track per speaker out of one
+recording.
 
 The setup fetches about 218 MB the first time, the model about 33 MB
 after it. [What it needs](requirements.md#getting-the-program) says
@@ -38,12 +42,17 @@ well. The conversion cuts to the time window, but the number of
 speakers in the table is the one of the uncut run. A conversation in
 the run-up puts one voice more in the table than the episode holds.
 
+One voice in the table means no cut: nobody hands over, so there is
+nothing to cut at. The passages go into the handover file, and the run
+carries on to the end.
+
 ### Naming the voices
 
 On the same tab a table stands under the assignment tables: **Voice**,
 **Speaker name**, **belongs to**, **Listen**. It has one row per voice
 found, filled in as Speaker 1, Speaker 2 and so on by speaking time,
-the longest first.
+the longest first. The **Voice** cell names the recording, how long
+that voice speaks in it, and where its longest passage begins.
 
 1. Press **Separate speakers**. On a Mac it has already run.
 2. Press **Listen** in a row. The button plays the longest stretch that
@@ -77,10 +86,11 @@ converts it onto that time axis.
 ### Where the speakers came from
 
 The log says it. Two marks to search for: `SPEAKERS -- SEPARATED BY
-VOICE` and `SPEAKERS -- MEASURED HERE`. With more than one source the
-local separation counts first, then the measurement from the tracks. If
-the separation does not fit the run, the log says why, the program
-measures the tracks, and the run carries on.
+VOICE` and `SPEAKERS -- MEASURED HERE`. The separation on this machine
+counts first. The measurement under the second mark needs a track per
+person. If the separation does not fit the run, the log says why and
+the run carries on -- with the measurement from the tracks, or without
+a cut by speaker.
 
 ### How the program writes the text down
 
@@ -117,11 +127,13 @@ boundaries; the same chapter says what the wide shot does then.
 ### When something goes wrong
 
 * **The line says the separation is not set up.** It fetches what it
-  needs on the first run. If that fails, the run carries on and the
-  speakers come from the tracks.
+  needs on the first run. If that fails, the run carries on: with a
+  track per person the speakers come from the tracks, otherwise the cut
+  stays out.
 * **The separation breaks off with a message.** The log says what
-  happened, the program measures the tracks instead, and the cut still
-  comes.
+  happened. With a track per person the program measures the tracks
+  instead and the cut still comes; on one common recording there is
+  none.
 * **On a Mac recognition takes the slow way.** The Command Line
   Developer Tools are missing. `xcode-select --install` fetches them;
   after that the run takes the fast way.
