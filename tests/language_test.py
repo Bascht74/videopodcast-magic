@@ -4,33 +4,13 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import ast, importlib.util, io, json, re, sys, tokenize
+import ast, importlib.util, io, re, sys, tokenize
+sys.path.insert(0, HERE)
+import ratchet
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 STATE = os.path.join(HERE, "state", "language_state.json")
-
-def state_is_ours():
-    """Whether this run may move the ratchet.
-
-    A ratchet is only worth something while it stands for the file in
-    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
-    and every ratchet here writes itself down as soon as a count comes
-    out lower -- so one run against an older or shorter copy pulls the
-    ratchet down for good, to a number the real file may never reach
-    again. Found on 24.8.2026, after a day of running the suite against
-    snapshots in /tmp.
-
-    So: measure whatever VPM_SCRIPT points at, but write the state down
-    only where that is the file this repository ships.
-    """
-    named = os.environ.get("VPM_SCRIPT")
-    if not named:
-        return True
-    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
-    try:
-        return os.path.samefile(named, here)
-    except OSError:
-        return False
+state = ratchet.Ratchet(STATE)
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
@@ -41,27 +21,7 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
-if not os.path.exists(STATE):
-    # No baseline means every counter is seeded from what is there now, so
-    # the ratchet cannot fail on this run. Say so -- a lost state file must
-    # not look like a clean bill of health.
-    print("  NOTE: %s is missing. The counters below are being set from\n"
-          "        the source as it stands; nothing is being held to\n"
-          "        account this run." % os.path.basename(STATE))
-
-def remember_state(key, value):
-    """Ratchet: the counter may only get smaller."""
-    d = {}
-    if os.path.exists(STATE):
-        try:
-            d = json.load(io.open(STATE, encoding="utf-8"))
-        except Exception:
-            d = {}
-    old = d.get(key)
-    d[key] = value if old is None else min(old, value)
-    if state_is_ours():
-        json.dump(d, io.open(STATE, "w", encoding="utf-8"))
-    return old if old is not None else value
+state.announce()
 
 print("1. Which languages there are")
 check("English is the source", vpm.SOURCE_LANG == "en")
@@ -231,7 +191,7 @@ for node in ast.walk(tree):
             and head == head.upper() and re.search(r"[A-Z]", head) \
             and not head.startswith("%"):
         unmarked.append((node.lineno, first[:60]))
-old = remember_state("uncoloured", len(unmarked))
+old = state.number("uncoloured", len(unmarked))
 check("headings without a marker: %d (ratchet %d)" % (len(unmarked), old),
         len(unmarked) <= old, str(unmarked[:3]))
 
@@ -409,7 +369,7 @@ for _t in tokenize.generate_tokens(io.StringIO(source).readline):
             _found.append((_t.start[0], _w))
 check("a dictionary is installed", _is_german is not None,
         "" if _is_german else "pip install pyspellchecker")
-_limit = remember_state("german_words", len(_found))
+_limit = state.number("german_words", len(_found))
 check("German words: %d (ratchet %d)" % (len(_found), _limit),
         len(_found) <= _limit, str(sorted(set(w for _z, w in _found))[:6]))
 
@@ -522,14 +482,17 @@ _forgotten.sort()
 if _english is None:
     check("no dictionary -- the German side is not read", True)
 else:
-    _limit = remember_state("english_words", len(_forgotten))
+    # The fingerprint is the word plus the English entry it was left in,
+    # never the line: the catalogue is one long dictionary at the end of
+    # the file and every entry above shifts the ones below it. The entry
+    # text is what the find really is, and it moves with it.
+    _held = state.places("english_words", ratchet.tally(
+        [("%s in %r" % (_w, _key[:48]), _line)
+         for _line, _w, _key in _forgotten]))
     check("English words on the German side: %d (ratchet %d)"
-            % (len(_forgotten), _limit), len(_forgotten) <= _limit,
+            % (len(_forgotten), _held.limit), _held.ok,
             str(sorted(set(w for _z, w, _y in _forgotten))))
-    if len(_forgotten) > _limit:
-        # Red is worth nothing without the place, so name every one.
-        for _line, _w, _key in _forgotten:
-            print("      line %-6d %-10s %r" % (_line, _w, _key[:56]))
+    _held.report()
 
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")

@@ -1,1 +1,24 @@
-{"article_fragments": 20}
+{
+ "article_fragments": {
+  "' -- an In or Out point saves the upload' into 'Missing audio %s filled with silence%s'": [1, 7466],
+  "' and ' into '    Careful: %s. There is no picture there;'": [1, 7151],
+  "' and ' into 'No speakers known yet -- nothing measured, n'": [1, 3960],
+  "' and ' into 'The existing result is unusable: %s is missi'": [1, 4900],
+  "' at high frame rates' into '    %-22s %s kbit/s  (YouTube recommendation'": [1, 9456],
+  "' of %d embedded channel' into '      --> interpreted as %s audio track%s'": [1, 10276],
+  "' of %d embedded channels' into '      --> interpreted as %s audio track%s'": [1, 10276],
+  "', no audio' into '    %-10s from %s, %s long%s'": [1, 10755],
+  "'The kept version' into '%s takes the place of %s, and the file kept '": [1, 26733],
+  "'no text' into '  Camera atoms:    %s added -- %s'": [1, 8187],
+  "'off' into '    No setting for the versions found -- ple'": [1, 8637],
+  "'off' into '    Settings not listable -- please set by h'": [1, 8630],
+  "'on' into '    No setting for the versions found -- ple'": [1, 8637],
+  "'on' into '    Settings not listable -- please set by h'": [1, 8630],
+  "'one Timeline' into '  This produces the project, the import and '": [1, 11543],
+  "'the default device' into '  Player: audio output switches to %s'": [1, 18880],
+  "'the source folder' into 'Target: %s'": [1, 26131],
+  "'the source folder' into 'This makes %d video file, about %s. Target: '": [1, 26124],
+  "'unnamed' into '  %d audio track stays: %s'": [1, 9956],
+  "'unnamed' into '  Audio track %d:   %-18s %s, %s, language %'": [1, 17915]
+ }
+}
