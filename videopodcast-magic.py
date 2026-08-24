@@ -1488,17 +1488,42 @@ def key_complaint(key):
 
 
 def list_presets(key):
-    """Fetch the stored presets."""
-    d = _parse_json(_curl_call(key, [AUPHONIC + "/api/presets.json?limit=100"]))
+    """Fetch the stored presets: (name, uuid, Multitrack or None).
+
+    ``minimal_data=1`` for two reasons, both out of the documented
+    interface. Without it the answer is capped at ten presets whatever
+    the limit says, so a preset made a while ago simply is not in it --
+    which is what a list that shows nothing looks like from outside.
+    And it is the form whose printed example carries ``is_multitrack``,
+    the one field that tells the two kinds apart.
+
+    A preset the answer does not classify comes back as None: unknown,
+    not ordinary. Guessing "no" there is what threw a Multitrack preset
+    out of a list it belonged in.
+    """
+    d = _parse_json(_curl_call(key, [
+        AUPHONIC + "/api/presets.json?minimal_data=1&limit=100"]))
     if d.get("status_code") not in (200, None):
         raise RuntimeError(T('Auphonic reports %s: %s')
                            % (d.get("status_code"), d.get("error_message")))
     items = []
     for p in (d.get("data") or []):
+        mark = p.get("is_multitrack")
         items.append((p.get("preset_name") or p.get("name") or T('unnamed'),
                       p.get("uuid") or "",
-                      bool(p.get("is_multitrack"))))
+                      None if mark is None else bool(mark)))
     return items
+
+
+def preset_fits_mode(mark, multitrack):
+    """Does a preset belong in the list for this mode?
+
+    Only a preset we can place is ever thrown out. Where the answer
+    carried no mark the kind is unknown, and something unknown is
+    shown rather than dropped: a list that hides a preset somebody can
+    see on auphonic.com is worse than one entry too many.
+    """
+    return mark is None or bool(mark) == bool(multitrack)
 
 
 def presets_for_mode(key, multitrack):
@@ -1508,14 +1533,15 @@ def presets_for_mode(key, multitrack):
     produces a production Auphonic refuses to start, so mismatched presets
     are never offered.
     """
-    return [(n, u, m) for n, u, m in list_presets(key) if m == multitrack]
+    return [(n, u, m) for n, u, m in list_presets(key)
+            if preset_fits_mode(m, multitrack)]
 
 
 def print_presets(key, multitrack=False):
     items = presets_for_mode(key, multitrack)
     if not items:
-        print(T('No %s preset found in the account.')
-              % (T('multitrack') if multitrack else T('ordinary')))
+        print(T('No Multitrack preset found in the account.') if multitrack
+              else T('No Singletrack preset found in the account.'))
         return 0
     print("Presets:")
     for i, (name, _, _) in enumerate(items, 1):
@@ -1535,9 +1561,10 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         every = list_presets(key)
         if every:
             raise RuntimeError(
-                T('No %s preset in the account. Only these: %s')
-                % (T('multitrack') if multitrack else T('ordinary'),
-                   ", ".join(n for n, _, _ in every)))
+                (T('No Multitrack preset in the account. Only these: %s')
+                 if multitrack else
+                 T('No Singletrack preset in the account. Only these: %s'))
+                % ", ".join(n for n, _, _ in every))
         raise RuntimeError(T('No presets stored in the account. One can be '
                              'created in the web interface.'))
     def done(uuid, name):
@@ -1552,12 +1579,13 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         for name, uuid, _ in items:
             if wanted.lower() in (name.lower(), uuid.lower()):
                 return done(uuid, name)
-        for name, uuid, m in list_presets(key):
+        for name, uuid, _m in list_presets(key):
             if wanted.lower() in (name.lower(), uuid.lower()):
                 raise RuntimeError(
-                    T('%r: %s preset, but %s is needed.')
-                    % (name, T('multitrack') if m else T('ordinary'),
-                       T('multitrack') if multitrack else T('an ordinary one')))
+                    (T('%r is a Singletrack preset, and a Multitrack one '
+                       'is needed.') if multitrack else
+                     T('%r is a Multitrack preset, and a Singletrack one '
+                       'is needed.')) % name)
         print(T('No preset is called %r.') % wanted)
     print(T('Which Auphonic preset should process this file?'))
     for i, (name, uuid, _) in enumerate(items, 1):
@@ -5889,6 +5917,17 @@ PAIR_AT_ZERO = 0.5
 # be small. A pair measured 4 m apart is not a stereo pair, whatever the
 # share says; that was the plainest contradiction in the log.
 PAIR_APART_METRES = 0.3
+# And it may only be formed where it stands on something. The delay is
+# read off the places whose peak missed the zero window, and that used
+# to be any number of them, down to one. Measured on 24.8.2026 on an
+# iPhone 16 Pro Max: 120 usable places, 119 of them with the peak
+# inside the window, one outside -- and that one place put the pair at
+# 1.56 m and threw a plain stereo track away. Where a spacing is real
+# it turns up nearly everywhere: two clip-on microphones and the
+# fixture's lavalier pairs put 96 to 100 percent of their places
+# outside, a built pair 3.6 m apart 100 percent. A quarter sits in the
+# middle of the gap between 0.8 and 96 percent.
+PAIR_APART_SHARE = 0.25
 
 # Second leg: a pair has to stand out from the two pairs that share a
 # channel with it. On that recording the offset pairs -- the ones that
@@ -5952,69 +5991,181 @@ def channel_rate(file_path, channels, want=16000):
 
 
 # Peak level has to be this close to the top before counting starts.
-# "Peak count" counts samples sitting on the highest value in the file,
-# wherever that is -- on a quiet recording that is the loudest word, not
-# a fault.
 CLIP_NEAR_TOP_DB = -0.1
-# How many samples on the stop before it is worth saying. One is a
-# coincidence of rounding; a run is a converter that was asked for more
-# than it has.
-CLIP_ENOUGH_SAMPLES = 8
+# How many samples in a row on the stop make one event. One is
+# rounding, two is rounding twice; three in a row is a crest the
+# converter could not follow, and that is what is heard. Sebastian's
+# question of 24.8.2026 -- "one or two samples are not bad and I would
+# rather not see them" -- and the sister project counts it the same
+# way, see docs/notes/audiorecorder.md 3.4.
+#
+# Measured on 24.8.2026 against a clean sine whose peak sits exactly on
+# the top code: above about 50 Hz nothing reaches three in a row, at 20
+# to 40 Hz runs of three to five appear without anything being clipped.
+# So three holds for speech and music and not for rumble, and that is
+# the material this runs on.
+CLIP_RUN_SAMPLES = 3
 
 
-def clipping_facts(file_path, stream=0):
-    """Count the samples that sit on the stop, per channel.
+def clipping_facts(file_path, stream=0, least=CLIP_RUN_SAMPLES):
+    """Count the runs of samples sitting on the stop, per channel.
 
-    Only for integer formats, and that is the whole point of the check.
-    Measured on the same clipped source written three ways: 16 bit and
-    24 bit come out identical -- flat factor 31.15, 63520 samples on the
-    top, peak 0.00 dBFS -- and 32 bit float peaks at +5.94 dBFS with a
-    flat factor of 0 and nothing clipped at all. The line is not 16
-    against 24 bit, it is integer against float: an integer format has a
-    stop at full scale, float has none, and 0 dBFS there is a mark, not
-    a wall. Warning about float would be warning about nothing.
+    Counted here rather than asked of ffmpeg, and the difference is the
+    whole point. ``astats`` answers with "Peak count", and that is the
+    number of samples equal to the loudest value *in this file* plus
+    the number equal to the quietest -- wherever those two happen to
+    lie. Measured on 24.8.2026: two files with twenty samples on the
+    stop each, twenty single ones in the first and four runs of five in
+    the second, both came back with the same 3020. And Sebastian's
+    interview, which the program said had 78 samples against the stop,
+    turns out never to reach full scale at all: 27 samples on its own
+    maximum plus 51 on its own minimum, one code short of the top.
 
-    A hint, never a reason to stop: an overdriven recording is sometimes
-    the only recording there is.
+    So the samples are counted where they are. One sample on the stop
+    is rounding and says nothing; ``least`` in a row is a crest that was
+    cut off. Only integer formats: an integer format has a stop at full
+    scale, float has none, and 0 dBFS there is a mark and not a wall.
 
-    Returns {channel index: (peak dBFS, samples on the stop)} for the
-    channels that are actually against the stop, empty otherwise.
+    A hint, never a reason to stop: an overdriven recording is
+    sometimes the only recording there is.
+
+    Returns {channel: (runs, longest run, longest in ms, first at s)}
+    for the channels that really are against the stop, empty otherwise.
     """
-    if pcm_kind(file_path, stream) == "pcm_f32le":
+    if np is None or pcm_kind(file_path, stream) == "pcm_f32le":
         return {}
     try:
-        p = subprocess.run(
-            ["ffmpeg", "-v", "info", "-i", file_path,
-             "-map", "0:a:%d" % stream,
-             "-af", "astats=measure_overall=none:"
-                    "measure_perchannel=Peak_level+Peak_count",
-             "-f", "null", "-"],
-            stdout=subprocess.DEVNULL, stderr=subprocess.PIPE)
+        a = next((x for x in ffprobe_json(file_path).get("streams", [])
+                  if x.get("codec_type") == "audio"), {})
+        rate = int(a.get("sample_rate") or 0)
+        n = int(a.get("channels") or 0)
+    except Exception:
+        return {}
+    if not rate or not n:
+        return {}
+    return clipping_runs_count(file_path, stream, rate, n, least)
+
+
+def clipping_runs_count(file_path, stream, rate, n, least):
+    """Stream the audio at its own rate and count the runs.
+
+    At the full rate and not at the 16 kHz the levels are measured at:
+    a run of three samples does not survive being resampled, and it is
+    the run that is being looked for. Read block by block, because an
+    hour of stereo is a gigabyte and does not belong in memory at once.
+
+    Through s16le on purpose. 16 and 24 bit files come out with exactly
+    the same count that way -- measured, byte for byte -- because the
+    top code maps to the top code and ffmpeg adds no dither. s32le
+    would need a threshold that depends on the depth of the original:
+    a 16 bit 32767 becomes 32767 << 16 there, which is not the top of
+    the range, and half the count disappears.
+    """
+    top, bottom, width = 32767, -32768, 2
+    try:
+        p = subprocess.Popen(
+            ["ffmpeg", "-v", "error", "-i", file_path,
+             "-map", "0:a:%d" % stream, "-c:a", "pcm_s16le",
+             "-f", "s16le", "-"],
+            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
     except OSError:
         return {}
-    out, channel, peak = {}, None, None
-    for line in (p.stderr or b"").decode("utf-8", "replace").splitlines():
-        line = line.split("] ")[-1].strip()
-        if line.startswith("Channel:"):
-            try:
-                channel, peak = int(line.split(":")[1]) - 1, None
-            except ValueError:
-                channel, peak = None, None
-        elif line.startswith("Peak level dB:"):
-            try:
-                peak = float(line.split(":")[1])
-            except ValueError:
-                peak = None
-        elif line.startswith("Peak count:") and channel is not None:
-            try:
-                count = int(float(line.split(":")[1]))
-            except ValueError:
-                continue
-            if (peak is not None and peak >= CLIP_NEAR_TOP_DB
-                    and count >= CLIP_ENOUGH_SAMPLES):
-                out[channel] = (peak, count)
-    return out
+    frame = width * n
+    want = max(frame, (8 << 20) // frame * frame)
+    total = np.zeros(n, dtype=np.int64)
+    runs = np.zeros(n, dtype=np.int64)
+    longest = np.zeros(n, dtype=np.int64)
+    first = np.full(n, -1, dtype=np.int64)
+    open_len = np.zeros(n, dtype=np.int64)
+    open_at = np.zeros(n, dtype=np.int64)
 
+    def close(k, how_long, where):
+        """A run that has ended: count it if it is long enough."""
+        if how_long >= least:
+            runs[k] += 1
+            if first[k] < 0:
+                first[k] = where
+        if how_long > longest[k]:
+            longest[k] = how_long
+
+    rest, base = b"", 0
+    try:
+        while True:
+            raw = p.stdout.read(want)
+            if not raw:
+                break
+            raw = rest + raw
+            keep = len(raw) - (len(raw) % frame)
+            rest = raw[keep:]
+            if not keep:
+                continue
+            block = np.frombuffer(raw[:keep], dtype=np.int16).reshape(-1, n)
+            here = block.shape[0]
+            # Two comparisons and not one on the absolute value: int16
+            # has no room for the absolute of its own lowest number.
+            hit = (block >= top) | (block <= bottom)
+            columns = ([int(k) for k in np.flatnonzero(hit.any(axis=0))]
+                       if hit.any() else [])
+            if columns:
+                total += hit.sum(axis=0)
+            standing = set(columns)
+            for k in np.flatnonzero(open_len):
+                k = int(k)
+                if k not in standing:
+                    close(k, open_len[k], open_at[k])
+                    open_len[k] = 0
+            for k in columns:
+                edge = np.ascontiguousarray(hit[:, k]).view(np.int8)
+                step = np.diff(edge, prepend=np.int8(0), append=np.int8(0))
+                on = np.flatnonzero(step == 1)
+                off = np.flatnonzero(step == -1)
+                length = (off - on).astype(np.int64)
+                start = base + on.astype(np.int64)
+                if open_len[k]:
+                    if on[0] == 0:
+                        length[0] += open_len[k]
+                        start[0] = open_at[k]
+                    else:
+                        # It ended exactly on the block boundary while
+                        # this block has a hit further along. Without
+                        # this the run would be dropped: the loop above
+                        # skipped the column, and the join does not
+                        # apply either.
+                        close(k, open_len[k], open_at[k])
+                    open_len[k] = 0
+                if off[-1] == here:
+                    open_len[k] = length[-1]
+                    open_at[k] = start[-1]
+                    length, start = length[:-1], start[:-1]
+                if length.size:
+                    longest[k] = max(longest[k], int(length.max()))
+                    enough = np.flatnonzero(length >= least)
+                    if enough.size:
+                        runs[k] += enough.size
+                        if first[k] < 0:
+                            first[k] = start[enough[0]]
+            base += here
+    finally:
+        # Closed rather than guarded: a pipe being read to its end
+        # closes without complaint, and a reader that stopped early
+        # would leave ffmpeg writing into a pipe nobody empties.
+        p.stdout.close()
+        try:
+            p.wait(timeout=20)
+        except Exception:
+            p.kill()
+            p.wait()
+    if p.returncode:
+        # Half a file read is worse than none: the answer would be
+        # given on the part that arrived.
+        return {}
+    for k in range(n):
+        if open_len[k]:
+            close(k, open_len[k], open_at[k])
+    return {k: (int(runs[k]), int(longest[k]),
+                float(1000.0 * longest[k] / rate),
+                float(first[k]) / float(rate))
+            for k in range(n) if runs[k]}
 
 
 def channel_levels(file_path, rate=16000, stream=0):
@@ -6096,25 +6247,30 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
     the level difference. So the question is not how alike the channels
     are but *when* what they have in common arrives.
 
-    Returns (share, places, apart). *share* is the height of the
-    correlation inside the zero window against its highest point
-    anywhere, taken as the median over the places measured. 1.0 means
-    everything shared arrives together, near 0 means the strongest
-    thing they share is delayed. *places* says how many were usable;
-    below PAIR_ENOUGH_PLACES the figure means nothing. *apart* is the
-    delay in milliseconds the late arrivals agree on, which is what
-    says how far apart the two microphones stand -- see pair_spacing.
+    Returns (share, places, apart, agreed). *share* is the height of
+    the correlation inside the zero window against its highest point
+    anywhere, as the median over the places measured: 1.0 means
+    everything shared arrives together. *places* says how many were
+    usable; below PAIR_ENOUGH_PLACES the figure means nothing. *apart*
+    is the delay in milliseconds the late arrivals agree on, which is
+    the spacing of the two microphones, and *agreed* how many places
+    settled on it -- see pair_spacing.
 
-    A place is worth measuring when it carries sound, and which level
-    that is has to be measured over the file -- see the gate below.
+    A place is worth measuring when it carries sound; the gate
+    below says which level that is.
 
     Plain correlation, not PHAT: with speech both channels fall silent
     together, and dividing by the magnitude turns those moments into a
     spike at zero delay that swamps the real peak.
     """
+    # Both legs come off the same places, and only one of them off all
+    # of them: the share is the median over every usable place, the
+    # distance only over the places whose peak missed the window. Where
+    # those are a handful, one of them speaks for the file -- see
+    # pair_spacing.
     width = min(len(first), len(second))
     if width < window * 2:
-        return 0.0, 0, 0.0
+        return 0.0, 0, 0.0, 0
     reach = max(4, int(0.020 * rate))
     close = max(1, int(PAIR_DELAY_MS * rate / 1000.0))
     spots = np.linspace(0, width - window - 1, most).astype(int)
@@ -6140,7 +6296,7 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
                         math.sqrt(float((b ** 2).mean())))
     loud = float(np.percentile(strong, PAIR_LOUD_PERCENTILE))
     if loud <= 0:
-        return 0.0, 0, 0.0
+        return 0.0, 0, 0.0, 0
     gate = loud * 10 ** (-PAIR_GATE_UNDER_DB / 20.0)
     n = 1 << int(math.ceil(math.log(window * 2, 2)))
     # Below this the two channels share nothing worth reading a delay
@@ -6169,12 +6325,13 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
         if abs(where) > close:
             away.append(abs(where) * 1000.0 / float(rate))
     if len(out) < PAIR_ENOUGH_PLACES:
-        return 0.0, len(out), 0.0
-    return float(np.median(out)), len(out), pair_spacing(away)
+        return 0.0, len(out), 0.0, 0
+    apart, agreed = pair_spacing(away, len(out))
+    return float(np.median(out)), len(out), apart, agreed
 
 
-def pair_spacing(away):
-    """The one delay the late arrivals agree on, in milliseconds.
+def pair_spacing(away, places=0):
+    """The one delay the late arrivals agree on, and how many agree.
 
     *away* is how late the strongest shared sound was at every place
     where it missed the zero window. A spacing between two microphones
@@ -6187,21 +6344,24 @@ def pair_spacing(away):
     spread.
 
     So the median counts only when more than half the late arrivals sit
-    within one PAIR_DELAY_MS window of it; otherwise there is no
-    spacing to report and the answer is zero.
+    within one PAIR_DELAY_MS window of it. Measured: two clip-ons at
+    0.5, 1.0 and 2.0 m and the mixer's two lavalier pairs put 92 to 100
+    percent of their late arrivals inside that window, while an hour of
+    X-Y puts 37 percent there and would have been read as two
+    microphones 0.7 m apart.
 
-    Measured. Every built case with a real spacing agrees: two clip-ons
-    at 0.5, 1.0 and 2.0 m and the mixer fixture's two lavalier pairs
-    put 92 to 100 percent of their late arrivals inside that window.
-    Sebastian's hour of X-Y puts 37 percent there, and its median of
-    2.1 ms would have been read as two microphones 0.7 m apart. There
-    is no such pair: its loudest places all arrive together.
+    That test asks whether the late arrivals agree among themselves,
+    and one of them agrees with itself. So a second one asks how much
+    of the recording they are: below PAIR_APART_SHARE of the usable
+    places there is no spacing to report, however tidy the few are.
     """
-    if not away:
-        return 0.0
+    if not away or len(away) < PAIR_APART_SHARE * max(0, places):
+        return 0.0, 0
     middle = float(np.median(away))
     near = [x for x in away if abs(x - middle) <= PAIR_DELAY_MS / 2.0]
-    return middle if len(near) * 2 > len(away) else 0.0
+    if len(near) * 2 > len(away):
+        return middle, len(near)
+    return 0.0, 0
 
 
 def channel_hush(level):
@@ -6273,7 +6433,7 @@ def channel_facts(file_path, rate=None, stream=0):
     if not n or width < rate // 4:
         return {"channels": n, "level": [], "silent": [], "pair_same": [],
                 "pair_zero": [], "pair_apart": [], "pair_places": [],
-                "readable": False}
+                "pair_agreed": [], "readable": False}
     rows = [x[:width] for x in rows]
     level = []
     for x in rows:
@@ -6281,7 +6441,8 @@ def channel_facts(file_path, rate=None, stream=0):
         level.append(20.0 * math.log10(top) if top > 0 else float("-inf"))
     highest = max(level)
     silent, why = channel_hush(level)
-    pair_same, pair_zero, pair_apart, pair_places = [], [], [], []
+    pair_same, pair_zero, pair_apart = [], [], []
+    pair_places, pair_agreed = [], []
     for a in range(0, n - 1):
         b = a + 1
         if silent[a] or silent[b]:
@@ -6289,19 +6450,22 @@ def channel_facts(file_path, rate=None, stream=0):
             pair_zero.append(None)
             pair_apart.append(None)
             pair_places.append(None)
+            pair_agreed.append(None)
             continue
         with np.errstate(invalid="ignore"):
             r = np.corrcoef(rows[a], rows[b])[0, 1]
         pair_same.append(float(r) if np.isfinite(r) else None)
-        share, places, apart = channel_at_zero(rows[a], rows[b], rate)
+        share, places, apart, agreed = channel_at_zero(
+            rows[a], rows[b], rate)
         enough = places >= PAIR_ENOUGH_PLACES
         pair_zero.append(share if enough else None)
         pair_apart.append(apart if enough else None)
         pair_places.append(places)
+        pair_agreed.append(agreed)
     return {"channels": n, "level": level, "silent": silent,
             "pair_same": pair_same, "pair_zero": pair_zero,
             "pair_apart": pair_apart, "pair_places": pair_places,
-            "readable": True}
+            "pair_agreed": pair_agreed, "readable": True}
 
 
 def hush_reason(which, why):
@@ -6324,7 +6488,36 @@ def hush_reason(which, why):
 
 
 
-def channel_joins(facts):
+def kind_makes_stereo(kind, channels):
+    """Is a two-channel file stereo because of what it is?
+
+    An intro or an outro is a finished stereo mix, not two
+    microphones. With two channels there is nothing to decide there,
+    and the measurement is at its weakest on exactly that material:
+    music has no speech pauses, a jingle is short, and a stereo effect
+    laid on afterwards can produce any correlation at all.
+
+    Sebastian's rule of 24.8.2026, and it holds for two channels only.
+    With three or more his sentence does not apply and the measurement
+    decides again.
+    """
+    return (kind in (TYPE_INTRO, TYPE_OUTRO)
+            and int(channels or 0) == 2)
+
+
+def apart_places(agreed, places):
+    """How many places the spacing rests on, as a piece of the line.
+
+    Empty where there is nothing to say. The line used to give a
+    distance and keep quiet about what it stood on -- 1.6 m out of one
+    place of 120 read exactly like 1.6 m out of all of them.
+    """
+    if not agreed or not places:
+        return ""
+    return T(', agreed at %d of %d places') % (agreed, places)
+
+
+def channel_joins(facts, kind=None):
     """Judge every pair of neighbours: could these two be one stereo track?
 
     One rule for any channel count, and every neighbour is asked, not
@@ -6352,18 +6545,28 @@ def channel_joins(facts):
     n = int(facts.get("channels") or 0)
     if not facts.get("readable") or n <= 1:
         return []
+    if kind_makes_stereo(kind, n):
+        return [(0, True, True,
+                 T('an intro or outro with two channels is a stereo '
+                   'mix -- not measured'))]
     silent = list(facts.get("silent") or [False] * n)
     _, why = channel_hush(list(facts.get("level") or []))
     same = list(facts.get("pair_same") or [])
     zero = list(facts.get("pair_zero") or [])
     apart = list(facts.get("pair_apart") or [])
     counted = list(facts.get("pair_places") or [])
+    from_agreed = list(facts.get("pair_agreed") or [])
     out = []
     for k in range(n - 1):
         r = same[k] if k < len(same) else None
         at_zero = zero[k] if k < len(zero) else None
         late = apart[k] if k < len(apart) else None
         places = counted[k] if k < len(counted) else None
+        # How many places the spacing was read from, against how many
+        # were usable at all. A distance is only worth naming when it
+        # turns up over and over -- see pair_spacing.
+        stood_on = apart_places(
+            from_agreed[k] if k < len(from_agreed) else None, places)
         # What belongs on a row in the file list is the answer, not the
         # arithmetic behind it. What was measured is in channel_at_zero.
         if silent[k] or silent[k + 1]:
@@ -6378,8 +6581,8 @@ def channel_joins(facts):
             # metres is what lets anyone check the answer against the
             # room the recording was made in.
             out.append((k, False, True,
-                        T('probably two microphones -- about %.1f m apart')
-                        % ((late or 0.0) * 0.343)))
+                        T('probably two microphones -- about %.1f m '
+                          'apart%s') % ((late or 0.0) * 0.343, stood_on)))
         elif at_zero is not None and at_zero >= PAIR_AT_ZERO:
             # The share is high enough. Two more questions before this
             # is called a pair, because the share alone answers "yes"
@@ -6393,7 +6596,7 @@ def channel_joins(facts):
                 # it is the same finding, reached the long way round.
                 out.append((k, False, True,
                             T('probably two microphones -- about %.1f m '
-                              'apart') % metres))
+                              'apart%s') % (metres, stood_on)))
             elif beside and at_zero - max(beside) < PAIR_STANDS_OUT:
                 out.append((k, False, False,
                             T('not recognisable -- these two agree no '
@@ -6419,7 +6622,7 @@ def channel_joins(facts):
     return out
 
 
-def joined_channels(facts, choice=None):
+def joined_channels(facts, choice=None, kind=None):
     """Which neighbours are actually joined, after the ticks.
 
     A channel belongs to at most one pair, so the answer has to be a set
@@ -6429,7 +6632,8 @@ def joined_channels(facts, choice=None):
 
     Returns {left channel: True} for every pair that is joined.
     """
-    judged = {k: stereo for k, stereo, _sure, _why in channel_joins(facts)}
+    judged = {k: stereo
+              for k, stereo, _sure, _why in channel_joins(facts, kind)}
     picked = dict(choice or {})
     n = int(facts.get("channels") or 0)
     silent = list(facts.get("silent") or [])
@@ -6734,7 +6938,7 @@ def blocks_facts(paths):
     if not rows:
         return {"channels": 0, "level": [], "silent": [], "pair_same": [],
                 "pair_zero": [], "pair_apart": [], "pair_places": [],
-                "readable": False}
+                "pair_agreed": [], "readable": False}
     if len(rows) == 1:
         return channel_facts_cached(rows[0])
     return blocks_facts_from([channel_facts_cached(x) for x in rows])
@@ -6751,7 +6955,7 @@ def blocks_facts_from(every):
     if not every:
         return {"channels": 0, "level": [], "silent": [], "pair_same": [],
                 "pair_zero": [], "pair_apart": [], "pair_places": [],
-                "readable": False}
+                "pair_agreed": [], "readable": False}
     usable = [f for f in every if f.get("readable")]
     if not usable:
         return every[0]
@@ -6763,6 +6967,7 @@ def blocks_facts_from(every):
         level.append(max(seen) if seen else float("-inf"))
     silent, why = channel_hush(level)
     same, zero, apart, counted = [], [], [], []
+    agreed = []
     for i, a in enumerate(range(0, n - 1)):
         b = a + 1
         if silent[a] or silent[b]:
@@ -6795,6 +7000,7 @@ def blocks_facts_from(every):
         same.append(of("pair_same"))
         zero.append(of("pair_zero"))
         apart.append(of("pair_apart"))
+        agreed.append(of("pair_agreed"))
         # The place count comes from the block the answer comes from.
         # Where no block could measure the pair there is no such block,
         # and the number to report is the one the best of them reached
@@ -6808,7 +7014,8 @@ def blocks_facts_from(every):
             counted.append(max(reached) if reached else None)
     return {"channels": n, "level": level, "silent": silent,
             "pair_same": same, "pair_zero": zero, "pair_apart": apart,
-            "pair_places": counted, "readable": True}
+            "pair_places": counted, "pair_agreed": agreed,
+            "readable": True}
 
 
 def channel_facts_cached(file_path):
@@ -10586,6 +10793,62 @@ def colours_pick(dark):
     COLOURS.clear()
     COLOURS.update(COLOURS_DARK if dark else COLOURS_LIGHT)
     ON_DARK[0] = bool(dark)
+
+
+def sheet_recoloured(sheet, dark):
+    """Return one style sheet with the colours of the other set in it.
+
+    The two palettes carry the same roles under the same names, so a
+    colour is found by looking up which role holds that value in the
+    set being left and putting the value the same role holds in the
+    set being entered. No two roles share a value and no value occurs
+    in both sets, so a swap cannot be applied twice.
+
+    A colour that stands in neither set is left where it is: the black
+    behind a video is not a role, it is the colour a picture is shown
+    against, and it is that in both schemes.
+    """
+    leaving = COLOURS_LIGHT if dark else COLOURS_DARK
+    entering = COLOURS_DARK if dark else COLOURS_LIGHT
+    for role, value in leaving.items():
+        if value in sheet:
+            sheet = sheet.replace(value, entering[role])
+    return sheet
+
+
+def styles_follow_scheme(app, dark):
+    """Recolour every widget that styled itself, and say how many.
+
+    What a widget wrote into its own style sheet when it was built is
+    out of reach of the style sheet of the whole program: setting that
+    again leaves those rows in the colours of the scheme they were
+    born in. Measured on 24.8.2026 with the interview project open: 58
+    widgets carry a style sheet of their own, every one of them names
+    a colour, and a desktop switched to dark left 50 of them light.
+
+    Which ones they are does not have to be remembered, because Qt
+    knows: a widget with a style sheet of its own is one whose
+    ``styleSheet()`` is not empty. So nothing has to be marked while
+    the interface is built, and a place that writes a colour without
+    telling anybody is reached as well.
+    """
+    changed = 0
+    for widget in app.allWidgets():
+        try:
+            sheet = widget.styleSheet()
+        except RuntimeError:
+            continue                  # gone while we were walking
+        if not sheet:
+            continue
+        fresh = sheet_recoloured(sheet, dark)
+        if fresh == sheet:
+            continue
+        try:
+            widget.setStyleSheet(fresh)
+        except RuntimeError:
+            continue
+        changed += 1
+    return changed
 
 
 def clip_colour_rgb(name):
@@ -16664,17 +16927,22 @@ def check_audio_file(file_path):
     # lapel microphone that was against the stop all evening comes out
     # looking clean. A hint, never a stop -- an overdriven recording is
     # sometimes the only recording there is.
-    for channel, (peak, count) in sorted(clipping_facts(file_path).items()):
+    for channel, facts_ in sorted(clipping_facts(file_path).items()):
+        runs, longest, milliseconds, first = facts_
         out.append(Finding(
             "hint", "",
-            T('Channel %d is against the stop: %s samples at %+.2f dBFS.')
-            % (channel + 1, group_text(count), peak),
-            T('Counted, not guessed: how many samples sit on the highest '
-              'value an integer format can hold. What is cut off there is '
-              'gone and no processing brings it back -- but the recording '
-              'is still the recording, and this holds nothing up. Only '
-              'integer formats are counted. 32 bit float has no stop at '
-              'full scale, so there is nothing there to count.'),
+            T('Channel %d is against the stop: %s times three samples or '
+              'more in a row, the longest %s (%.1f ms), the first at %s.')
+            % (channel + 1, group_text(runs), group_text(longest),
+               milliseconds, as_hms(first)),
+            T('Counted here, sample by sample, at the rate the file was '
+              'recorded at: a run of three or more samples on the highest '
+              'value an integer format can hold. One or two are rounding '
+              'and are not reported. What is cut off there is gone and no '
+              'processing brings it back -- but the recording is still the '
+              'recording, and this holds nothing up. Only integer formats '
+              'are counted. 32 bit float has no stop at full scale, so '
+              'there is nothing there to count.'),
             os.path.abspath(file_path)))
     return out, {"name": name, "duration": duration, "rate": rate,
                   "channel_count": channels, "path": os.path.abspath(file_path),
@@ -18351,6 +18619,52 @@ def fix_table_width(t, weights=None):
     t.setFixedHeight(height)
 
 
+def table_build(columns):
+    """A table where the row is the file.
+
+    Clicking the row brings it into view, so the whole row is selected
+    rather than the single cell.
+    """
+    import PySide6.QtWidgets as _qw
+    t = _qw.QTableWidget(0, len(columns))
+    t.setHorizontalHeaderLabels(columns)
+    t.verticalHeader().setVisible(False)
+    t.setSelectionBehavior(_qw.QAbstractItemView.SelectRows)
+    t.setSelectionMode(_qw.QAbstractItemView.SingleSelection)
+    t.setEditTriggers(_qw.QAbstractItemView.NoEditTriggers)
+    t.setShowGrid(False)
+    t.setAlternatingRowColors(True)
+    t.setSizePolicy(_qw.QSizePolicy.Expanding, _qw.QSizePolicy.Fixed)
+    return t
+
+
+def table_rows_fit(t, most=120):
+    """Give a table rows as tall as their content, and no taller.
+
+    The columns are measured before the rows, and that order is the
+    whole point. A table wraps the text in a cell, so while the
+    columns still stand at the width Qt hands out, a caption that does
+    not fit is laid over two or three lines and the row is measured at
+    that height. Widening the columns afterwards does not measure the
+    row again -- it keeps the height it was given. Measured on
+    24.8.2026 in the voices table: 45 px a row where the content needs
+    28, three lines for a caption that fits on one.
+
+    The rest shares the room between the tables: what fits in half of
+    it needs no scroll bar, what does not scrolls itself.
+    """
+    import PySide6.QtCore as _qc
+    import PySide6.QtWidgets as _qw
+    t.resizeColumnsToContents()
+    t.resizeRowsToContents()
+    height = t.horizontalHeader().height() + 2 * t.frameWidth() + 2
+    for i in range(t.rowCount()):
+        height += t.rowHeight(i)
+    t.setMinimumHeight(min(height, most))
+    t.setVerticalScrollBarPolicy(_qc.Qt.ScrollBarAsNeeded)
+    t.setSizePolicy(_qw.QSizePolicy.Expanding, _qw.QSizePolicy.Expanding)
+
+
 # The same nine point font runs about twice as wide on Windows as it
 # does on macOS -- 1.89 times, measured on GitHub's runners over both
 # languages on 24.8.2026, with 62 captions standing cut off in fields
@@ -18713,9 +19027,16 @@ def hushed(on):
 
 
 def audio_sink(QtMultimedia, parent):
-    """A player's audio output, silent from the start where asked."""
+    """A player's audio output, silent from the start where asked.
+
+    Full and not four fifths. Measured on 24.8.2026: Qt takes nothing
+    above 1.0 -- setVolume(1.5) reads back as 1.0 and no change is
+    signalled -- so 0.8 was giving away 1.94 dB against a ceiling that
+    cannot be raised. On a recording that sits 18 dB below the
+    delivery target, that is 1.94 dB nobody had to lose.
+    """
     out = QtMultimedia.QAudioOutput(parent)
-    out.setVolume(loud(0.8))
+    out.setVolume(loud(1.0))
     out.setMuted(hushed(False))
     return out
 
@@ -18990,12 +19311,14 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                                      self.toggle_mute)
             self.loud = QtWidgets.QSlider(Qt.Horizontal)
             self.loud.setRange(0, 100)
-            self.loud.setValue(80)
+            self.loud.setValue(100)
             self.loud.setMinimumWidth(72)
             self.loud.valueChanged.connect(
                 lambda v: self.audio_out.setVolume(loud(v / 100.0)))
-            bar.addWidget(hint(wide(self.loud), T('Volume.')), 2)
-            self.audio_out.setVolume(loud(0.8))
+            bar.addWidget(hint(wide(self.loud),
+                               T('Volume. 100 is as loud as it goes -- '
+                                 'Qt takes nothing above that.')), 2)
+            self.audio_out.setVolume(loud(1.0))
             self._muted = False
             self.clock = QtCore.QTimer(self)
             self.clock.setInterval(40)
@@ -19705,10 +20028,12 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                                      self.toggle_mute)
             self.loud = QtWidgets.QSlider(Qt.Horizontal)
             self.loud.setRange(0, 100)
-            self.loud.setValue(80)
+            self.loud.setValue(100)
             self.loud.setMinimumWidth(72)
             self.loud.valueChanged.connect(lambda *_: self.audio_adjust())
-            bar.addWidget(hint(wide(self.loud), T('Volume.')), 2)
+            bar.addWidget(hint(wide(self.loud),
+                               T('Volume. 100 is as loud as it goes -- '
+                                 'Qt takes nothing above that.')), 2)
             # The checkbox sits a line lower with the cut buttons: there is
             # room there, and it belongs to the same handle.
             self.track_checkbox = QtWidgets.QCheckBox(T('hear assigned audio'))
@@ -20978,7 +21303,7 @@ def gui():
         window.setWindowIcon(symbol)
 
     files = []                      # [(path, "audio"|"video")]
-    state = {"running": False, "results": [], "presets": [],
+    state = {"running": False, "results": [], "presets": None,
                "resolve_json": None, "result_folder": None,
                "camera_audio": False, "waiting": False, "without_tc": False,
                "reference": "", "assignment_content": None, "statistics": False,
@@ -21441,9 +21766,16 @@ def gui():
         facts = blocks_facts(row)
         silent = list(facts.get("silent") or [])
         picked = channel_choice.get(api_key) or {}
-        joined = joined_channels(facts, picked)
+        # What the file is decides before the measurement does, and only
+        # for a two channel intro or outro -- see kind_makes_stereo. The
+        # run never gets here: an intro is used as it lies and is never
+        # cut into tracks, so this is the one place that has to know.
+        of_kind = clip_kind_values.get(api_key)
+        kind = (of_kind.get() if of_kind is not None
+                else remembered.get("kind:" + api_key))
+        joined = joined_channels(facts, picked, kind)
         judged = {k: (stereo, sure, why)
-                  for k, stereo, sure, why in channel_joins(facts)}
+                  for k, stereo, sure, why in channel_joins(facts, kind)}
         # One row per channel, and the tick on it says "this one and the
         # next make one stereo track". Fixed pairs would be an assumption
         # of their own: on a mixer, channels 2 and 3 can be the pair.
@@ -23794,39 +24126,6 @@ def gui():
         except Exception:
             pass
 
-    def table_build(columns):
-        """A table where the row is the file.
-
-        Clicking the row brings it into view, so the whole row is selected
-        rather than the single cell.
-        """
-        t = QtWidgets.QTableWidget(0, len(columns))
-        t.setHorizontalHeaderLabels(columns)
-        t.verticalHeader().setVisible(False)
-        t.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
-        t.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
-        t.setEditTriggers(QtWidgets.QAbstractItemView.NoEditTriggers)
-        t.setShowGrid(False)
-        t.setAlternatingRowColors(True)
-        t.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
-                        QtWidgets.QSizePolicy.Fixed)
-        return t
-
-    def table_height(t):
-        """Both tables share the area equally.
-
-        If the content fits in half there is no scroll bar; if it does not, the
-        table scrolls itself, with a bar and with the mouse wheel.
-        """
-        t.resizeRowsToContents()
-        h = t.horizontalHeader().height() + 2 * t.frameWidth() + 2
-        for r in range(t.rowCount()):
-            h += t.rowHeight(r)
-        t.setMinimumHeight(min(h, 120))
-        t.setVerticalScrollBarPolicy(Qt.ScrollBarAsNeeded)
-        t.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
-                        QtWidgets.QSizePolicy.Expanding)
-
     def cell(t, line, column, text, colour=None):
         p = QtWidgets.QTableWidgetItem(text)
         if colour:
@@ -23918,36 +24217,26 @@ def gui():
         return None
 
     def voice_play(label_name):
-        """Play a moment of that voice.
+        """Hand that voice to the player on the right.
 
-        Without hearing it, a name is a guess.
+        Without hearing it a name is a guess, and hearing it once is
+        rarely enough. A player of its own played eight seconds and
+        stopped, with no way back. The one on the right has the rail,
+        the pause, the ten second jumps and the In and Out points, and
+        it plays a recording as it lies: an audio file shows its name
+        where the picture would be.
+
+        It jumps into the middle of the longest stretch and not to its
+        start, because the first moment of a passage is often the tail
+        of somebody else's word.
         """
         source = state.get("speakers_source") or ""
         stretch = voice_longest(label_name)
         if not source or not stretch:
             return
-        from PySide6 import QtMultimedia
         length = min(8.0, stretch[1] - stretch[0])
         begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
-        fd, sample = tempfile.mkstemp(prefix="vpm_voice_", suffix=".wav")
-        os.close(fd)
-        try:
-            subprocess.run(["ffmpeg", "-v", "error", "-ss", "%.3f" % begin,
-                            "-t", "%.3f" % length, "-i", source,
-                            "-ac", "1", "-y", sample], check=True)
-        except (OSError, subprocess.CalledProcessError):
-            return
-        # The player is kept: one made inside this function would be
-        # collected while it is still playing, and nothing is heard.
-        if not state.get("voice_player"):
-            out = audio_sink(QtMultimedia, window)
-            state["voice_player"] = (QtMultimedia.QMediaPlayer(window),
-                                     out)
-            state["voice_player"][0].setAudioOutput(out)
-        player_here = state["voice_player"][0]
-        player_here.stop()
-        player_here.setSource(QtCore.QUrl.fromLocalFile(sample))
-        player_here.play()
+        player.load(source, seconds=begin, running=True)
 
     def voice_add(source):
         """Say there is one more voice on that recording than was found.
@@ -24003,8 +24292,9 @@ def gui():
                 table.setCellWidget(i, 2, box)
                 listen = QtWidgets.QPushButton(T('Listen'))
                 speaks_as(listen, T('Listen'), voice_caption)
-                hint(listen, T('Plays the longest stretch this voice '
-                               'speaks, out of the recording itself.'))
+                hint(listen, T('Puts the recording into the player on '
+                               'the right and jumps to the longest '
+                               'stretch this voice speaks.'))
                 listen.clicked.connect(
                     lambda *_, k=label: voice_play(k))
                 table.setCellWidget(i, 3, listen)
@@ -24013,7 +24303,7 @@ def gui():
                 camera_value.listen(lambda *_: QtCore.QTimer.singleShot(
                     0, voices_remember))
                 voice_lines.append((label, name_value, camera_value))
-            table_height(table)
+            table_rows_fit(table)
             table.resizeColumnsToContents()
             table.setColumnWidth(1, max(160, table.columnWidth(1)))
         # Every recording can be listened to again, whether anything
@@ -24254,7 +24544,7 @@ def gui():
         state["audio_reason"] = audio_reason
         state["tc_table"] = (table_audio, list(audio_file_list))
         tc_column_show()
-        table_height(table_audio)
+        table_rows_fit(table_audio)
         state["tables"] = [(table_audio, list(audio_file_list))]
         table_audio.itemSelectionChanged.connect(
             lambda t=table_audio, d=audio_file_list: line_show(t, d))
@@ -24366,7 +24656,7 @@ def gui():
             video_fields.append(name_entry)
             name_value.listen(lambda *_: QtCore.QTimer.singleShot(
                 0, assignment_check))
-        table_height(table_video)
+        table_rows_fit(table_video)
         state["tables"].append((table_video, list(videos)))
         table_video.itemSelectionChanged.connect(
             lambda t=table_video, d=list(videos): line_show(t, d))
@@ -24553,7 +24843,8 @@ def gui():
     second_line.addWidget(label(T('Preset:')))
     preset_box = preset_box_widget(QtWidgets, state,
                                    lambda: presets_load(asked=False))()
-    preset_box.setMinimumWidth(320)
+    preset_box.setMinimumWidth(caption_room(preset_box, 320,
+                                            preset_missing_rows()))
     # While no key is checked there is only the one entry, and it describes
     # exactly what happens then.
     preset_box.addItem(label_of(PRESET_NONE), PRESET_NONE)
@@ -25516,7 +25807,7 @@ def gui():
         # a list jump open under their hands.
         open_after = state.pop("presets_open_after", False) and preset_list
         if preset_list is None:
-            state["presets"] = []
+            state["presets"] = None
             button_green(False)
             presets_filter()
             # Whole and unshortened either way: what auphonic.com said
@@ -25551,7 +25842,7 @@ def gui():
         Multitrack is not touched: it works without auphonic.com too, so a
         key being retyped is no reason to switch it off.
         """
-        state["presets"] = []
+        state["presets"] = None
         button_green(False)
         # The complaint was about the key that stood there before, and
         # it must not be read as being about the one now being typed.
@@ -26594,14 +26885,15 @@ def gui():
         sheet of the whole program, the stripes and marks of the file
         list, the rails of the players, and the clip colours, which
         the preview works out again. What a single widget baked into
-        its own style sheet when it was built is not reached from here
-        -- those rows keep their colour until they are drawn again.
+        its own style sheet when it was built is swapped over role by
+        role, so those rows follow as well.
         """
         dark = desktop_is_dark(QtWidgets, QtGui)
         if dark == ON_DARK[0]:
             return
         colours_pick(dark)
         app_style_set()
+        styles_follow_scheme(app, dark)
         stripes_pick()
         marks_pick()
         for rail in window.findChildren(WindowSlider):
@@ -26781,23 +27073,58 @@ def preset_entries(presets, multitrack_on, none_label, none_value):
     auphonic.com. It is always there, including without a checked key,
     because then it applies anyway.
 
-    Where the account holds presets but none of the kind in use, a grey
-    row says so in the list itself. Sebastian asked for it on
+    Where the list came back and holds nothing to pick, a grey row says
+    so where the question is asked. Sebastian asked for it on
     24.8.2026: the list used to come back with its single row and
-    nothing to explain it, which reads like a key that was refused. A
-    row that cannot be picked answers the question where it is asked.
+    nothing to explain it, which reads like a key that was refused.
+
+    Three states, and they are not the same thing. *presets* is None
+    while nobody has looked yet -- then nothing is said, because
+    nothing is known. An empty list is an account that carries no
+    preset of its own. A full list with nothing fitting is an account
+    that carries presets, none of them for this mode.
+
+    "Of your own" and not "in the account": auphonic.com has presets of
+    its own, and the interface does not hand them out. We only ever
+    see what somebody made there, and that is all we may claim.
     """
-    # Both read the same in German today, and they still go through the
-    # catalogue: a word that skips it is a word the next language never
-    # finds.
-    kind = T('Multitrack mode') if multitrack_on else T('ordinary mode')
+    kind = (T('Multitrack mode') if multitrack_on
+            else T('Singletrack mode'))
     rows = [(none_value, none_label, True)]
-    fitting = [n for n, _u, mt in (presets or []) if mt == multitrack_on]
-    for name in fitting:
-        rows.append((name, "%s  (%s)" % (name, kind), True))
-    if presets and not fitting:
-        rows.append(("", T('no %s preset in this account') % kind, False))
+    fitting = [(n, mt) for n, _u, mt in (presets or [])
+               if preset_fits_mode(mt, multitrack_on)]
+    for name, mark in fitting:
+        # The bracket names the mode, so it may only stand where the
+        # mode is known. A preset auphonic.com did not classify is
+        # offered under its own name and nothing more.
+        rows.append((name, "%s  (%s)" % (name, kind) if mark is not None
+                     else name, True))
+    if presets is None or fitting:
+        return rows
+    if presets:
+        none_yet, no_multi, no_single = preset_missing_rows()
+        rows.append(("", no_multi if multitrack_on else no_single, False))
+    else:
+        rows.append(("", preset_missing_rows()[0], False))
     return rows
+
+
+def preset_missing_rows():
+    """The three sentences a list with nothing to pick can carry.
+
+    In one place because two callers need them: the list puts one of
+    them in, and the field they stand in has to be wide enough for the
+    widest. Order: no preset at all, no Multitrack one, no Singletrack
+    one.
+
+    They say "of your own" and not "in the account". auphonic.com has
+    presets of its own and the interface does not hand them out, so
+    all we ever see is what somebody made there -- and that is all we
+    may claim.
+    """
+    return (T('No preset of your own -- create one on auphonic.com'),
+            T('No Multitrack preset of your own -- create one'),
+            T('No Singletrack preset of your own -- create one'))
 
 
 def preset_mode_note(preset_list, multitrack_on):
@@ -26811,14 +27138,16 @@ def preset_mode_note(preset_list, multitrack_on):
 
     Returns (sentence or "", the presets that fit).
     """
-    fitting = [n for n, _u, mt in (preset_list or []) if mt == multitrack_on]
+    fitting = [n for n, _u, mt in (preset_list or [])
+               if preset_fits_mode(mt, multitrack_on)]
     if not preset_list or fitting:
         return "", fitting
-    return (T('The key is good. Of the %d presets in the account none is '
-              'a %s one, so the list stays empty.')
-            % (len(preset_list),
-               T('multitrack') if multitrack_on else T('ordinary')),
-            fitting)
+    return ((T('The key is good. Of the %d presets in the account none '
+               'is a Multitrack one, so the list stays empty.')
+             if multitrack_on else
+             T('The key is good. Of the %d presets in the account none '
+               'is a Singletrack one, so the list stays empty.'))
+            % len(preset_list), fitting)
 
 
 def update_offer(window, asked=False):
@@ -27006,18 +27335,43 @@ CATALOGUE["de"] = {
     'running now stays beside it as videopodcast-magic.py.old.':
         'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
         'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
-    'no %s preset in this account':
-        'kein %s-Preset in diesem Konto',
+    'an intro or outro with two channels is a stereo mix -- not measured':
+        'ein Vorspann oder Nachspann mit zwei Kanälen ist eine '
+        'Stereomischung -- nicht gemessen',
     'Multitrack mode':
         'Multitrack',
-    'ordinary mode':
-        'normal',
+    'Singletrack mode':
+        'Singletrack',
+    'No Multitrack preset of your own -- create one':
+        'Kein eigenes Multitrack-Preset -- eines anlegen',
+    'No Singletrack preset of your own -- create one':
+        'Kein eigenes Singletrack-Preset -- eines anlegen',
+    'No preset of your own -- create one on auphonic.com':
+        'Kein eigenes Preset -- auf auphonic.com anlegen',
+    'No Multitrack preset found in the account.':
+        'Kein Multitrack-Preset im Konto gefunden.',
+    'No Singletrack preset found in the account.':
+        'Kein Singletrack-Preset im Konto gefunden.',
+    'No Multitrack preset in the account. Only these: %s':
+        'Kein Multitrack-Preset im Konto. Vorhanden nur: %s',
+    'No Singletrack preset in the account. Only these: %s':
+        'Kein Singletrack-Preset im Konto. Vorhanden nur: %s',
+    '%r is a Singletrack preset, and a Multitrack one is needed.':
+        '%r ist ein Singletrack-Preset, gebraucht wird ein '
+        'Multitrack-Preset.',
+    '%r is a Multitrack preset, and a Singletrack one is needed.':
+        '%r ist ein Multitrack-Preset, gebraucht wird ein '
+        'Singletrack-Preset.',
+    'The key is good. Of the %d presets in the account none is a '
+    'Multitrack one, so the list stays empty.':
+        'Der Schlüssel ist gut. Von den %d Presets im Konto ist keines '
+        'ein Multitrack-Preset, die Liste bleibt also leer.',
+    'The key is good. Of the %d presets in the account none is a '
+    'Singletrack one, so the list stays empty.':
+        'Der Schlüssel ist gut. Von den %d Presets im Konto ist keines '
+        'ein Singletrack-Preset, die Liste bleibt also leer.',
     'fetching from auphonic.com ...':
         'wird von auphonic.com geholt ...',
-    'The key is good. Of the %d presets in the account none is a %s one, '
-    'so the list stays empty.':
-        'Der Schlüssel ist gut. Von den %d Presets im Konto passt keines '
-        'zur Betriebsart %s, die Liste bleibt also leer.',
     'What is in %s:':
         'Was in %s steckt:',
     'What changed in %s:':
@@ -27220,10 +27574,10 @@ CATALOGUE["de"] = {
     'Speaker %d': 'Sprecher %d',
     'heard in %s -- %s': 'gehört in %s -- %s',
     'Listen': 'Anhören',
-    'Plays the longest stretch this voice speaks, out of the '
-    'recording itself.':
-        'Spielt die längste Strecke ab, die diese Stimme spricht, aus '
-        'der Aufnahme selbst.',
+    'Puts the recording into the player on the right and jumps to the '
+    'longest stretch this voice speaks.':
+        'Legt die Aufnahme in den Player rechts und springt an die '
+        'längste Strecke, die diese Stimme spricht.',
     'One more speaker in %s': 'Ein Sprecher mehr in %s',
     'One more speaker in': 'Ein Sprecher mehr in',
     'Listens to that recording again, looking for one speaker more '
@@ -28396,10 +28750,6 @@ CATALOGUE["de"] = {
         'KEINE TONDATEI -- ICH NEHME DEN KAMERATON',
     'NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO':
         'KEINE GETRENNTEN TONAUFNAHMEN -- ICH NEHME DEN KAMERATON',
-    'No %s preset found in the account.':
-        'Kein %s Preset im Konto gefunden.',
-    'multitrack':
-        'Multitrack-',
     'PROCESSING AT AUPHONIC.COM (MULTITRACK):':
         'AUFBEREITUNG BEI AUPHONIC.COM (MULTITRACK):',
     'PROCESSING AT AUPHONIC.COM:':
@@ -28534,8 +28884,6 @@ CATALOGUE["de"] = {
         '%r ist kein Multitrack-Preset',
     '%r is not a number.':
         '%r ist keine Zahl.',
-    '%r: %s preset, but %s is needed.':
-        '%r ist ein %s Preset, gebraucht wird ein %ses.',
     '%s   --   does not fit the other files':
         '%s   --   passt nicht zu den anderen Dateien',
     '%s   --   the app does not know this format':
@@ -28850,8 +29198,6 @@ CATALOGUE["de"] = {
         'Sprecher eine. Mehrere Blöcke derselben Aufnahme zählen als eine, '
         'ignorierte gar nicht. Ohne eigene Tonaufnahmen gehen auch zwei '
         'Kameras.',
-    'No %s preset in the account. Only these: %s':
-        'Kein %s Preset im Konto. Vorhanden nur: %s',
     'No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have '
     'it remembered once in the interface. The key is in the Auphonic '
     'account settings.':
@@ -29272,8 +29618,9 @@ CATALOGUE["de"] = {
     'Video Podcast Magic %s -- raw material becomes an edited podcast':
         'Video Podcast Magic %s -- aus Rohmaterial wird ein geschnittener '
         'Podcast',
-    'Volume.':
-        'Lautstärke.',
+    'Volume. 100 is as loud as it goes -- Qt takes nothing above that.':
+        'Lautstärke. 100 ist so laut, wie es geht -- mehr nimmt Qt '
+        'nicht an.',
     'Where two speak at once, the time above counts twice; for silence it '
     'does not.':
         'Wo zwei gleichzeitig reden, zählt die Zeit oben doppelt, bei der '
@@ -29315,8 +29662,6 @@ CATALOGUE["de"] = {
         'so lange darf eine Kamera höchstens stehen',
     'after the device change':
         'nach dem Gerätewechsel',
-    'an ordinary one':
-        'gewöhnlich',
     'as a track':
         'als Spur',
     'auphonic.com does not accept the key: %s':
@@ -29363,21 +29708,25 @@ CATALOGUE["de"] = {
         'Mitternacht fast einen Tag von der davor entfernt. Wurde hier '
         'wirklich an verschiedenen Tagen aufgenommen, ist die Zuordnung '
         'falsch, und es gilt der gemessene Versatz.',
-    'Channel %d is against the stop: %s samples at %+.2f dBFS.':
-        'Kanal %d liegt am Anschlag: %s Abtastwerte bei %+.2f dBFS.',
-    'Counted, not guessed: how many samples sit on the highest value an '
-    'integer format can hold. What is cut off there is gone and no '
-    'processing brings it back -- but the recording is still the '
-    'recording, and this holds nothing up. Only integer formats are '
-    'counted. 32 bit float has no stop at full scale, so there is nothing '
-    'there to count.':
-        'Gezählt, nicht geraten: wie viele Abtastwerte auf dem '
-        'höchsten Wert liegen, den ein Ganzzahlformat fassen kann. Was '
-        'dort abgeschnitten ist, ist weg, und keine Bearbeitung holt es '
-        'zurück -- aber die Aufnahme bleibt die Aufnahme, und '
-        'aufgehalten wird hier nichts. Gezählt wird nur bei '
-        'Ganzzahlformaten. 32-Bit-Gleitkomma hat bei Vollausschlag keinen '
-        'Anschlag, dort gibt es nichts zu zählen.',
+    'Channel %d is against the stop: %s times three samples or more in a '
+    'row, the longest %s (%.1f ms), the first at %s.':
+        'Kanal %d liegt am Anschlag: %s mal drei Abtastwerte oder mehr '
+        'hintereinander, der längste %s (%.1f ms), der erste bei %s.',
+    'Counted here, sample by sample, at the rate the file was recorded '
+    'at: a run of three or more samples on the highest value an integer '
+    'format can hold. One or two are rounding and are not reported. What '
+    'is cut off there is gone and no processing brings it back -- but the '
+    'recording is still the recording, and this holds nothing up. Only '
+    'integer formats are counted. 32 bit float has no stop at full scale, '
+    'so there is nothing there to count.':
+        'Hier gezählt, Abtastwert für Abtastwert, in der Abtastrate der '
+        'Aufnahme: ein Lauf von drei oder mehr Abtastwerten auf dem '
+        'höchsten Wert, den ein Ganzzahlformat fassen kann. Ein oder zwei '
+        'sind Rundung und werden nicht gemeldet. Was dort abgeschnitten '
+        'ist, ist weg, und keine Bearbeitung holt es zurück -- aber die '
+        'Aufnahme bleibt die Aufnahme, und aufgehalten wird hier nichts. '
+        'Gezählt wird nur bei Ganzzahlformaten. 32-Bit-Gleitkomma hat bei '
+        'Vollausschlag keinen Anschlag, dort gibt es nichts zu zählen.',
     'boxes no longer readable':
         'keine Boxen mehr lesbar',
     'bring up to date -- both Timelines are deleted and\n       rebuilt, '
@@ -29496,8 +29845,6 @@ CATALOGUE["de"] = {
         'eine Timeline',
     'only %s long, the longest recording has %s.':
         'nur %s lang, die längste Aufnahme hat %s.',
-    'ordinary':
-        'gewöhnliches',
     'overlap of %s per timecode':
         'Überlappung von %s laut Timecode',
     'own audio':
@@ -30180,8 +30527,10 @@ CATALOGUE["de"] = {
         'Sprache',
     'both channels identical -- mono laid on both sides':
         'beide Kanäle identisch -- Mono auf beide Seiten gelegt',
-    'probably two microphones -- about %.1f m apart':
-        'vermutlich zwei Mikrofone -- etwa %.1f m auseinander',
+    'probably two microphones -- about %.1f m apart%s':
+        'vermutlich zwei Mikrofone -- etwa %.1f m auseinander%s',
+    ', agreed at %d of %d places':
+        ', an %d von %d Stellen übereinstimmend',
     'probably one stereo track -- both microphones in the same place':
         'vermutlich eine Stereospur -- beide Mikrofone am selben Ort',
     'not recognisable -- only %d of %d places where both channels '
