@@ -30,17 +30,44 @@ QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 
 seen = {}
-def fake_thread(target=None, args=(), daemon=None):
+import subprocess
+import threading
+real = threading.Thread
+
+
+def fake_thread(target=None, args=(), daemon=None, **rest):
+    """Hold back the program's own threads, let subprocess keep its.
+
+    On Windows subprocess reads a child's output in threads of its own
+    (`Popen._readerthread`), and this stub swallowed those too: it has
+    no join, so CPython tripped over it as soon as the window asked
+    ffprobe something while it was opening a project. On macOS and
+    Linux the same call goes through selectors and no thread is made,
+    which is why it stayed hidden until 25.8.2026. Those threads are
+    not ours to hold back.
+    """
+    if isinstance(getattr(target, "__self__", None), subprocess.Popen):
+        return real(target=target, args=args, daemon=daemon, **rest)
+
     class T(object):
+        daemon = False
+
         def start(self_):
             # Measuring the files starts threads with an argument list of
             # their own, so what is kept here is the last list started,
             # and the run is the one that comes after the click.
             if args:
                 seen["argv"] = list(args[0])
+
+        def join(self_, timeout=None):
+            pass
+
+        def is_alive(self_):
+            return False
+
     return T()
-import threading
-real = threading.Thread
+
+
 threading.Thread = fake_thread
 
 error = []
