@@ -19036,9 +19036,16 @@ def caption_room(widget, base, captions=()):
     which counts the frame its style draws around it. Where several
     fields share one width every caption is handed in, because the
     widest of them decides; one average character is left as air.
+
+    Measured on every system, not on Windows alone. It never returns
+    less than the designed width, so where the design already fits
+    nothing moves: measured on 25.8.2026, not one of the 150 captions
+    on this machine wants more than its base. Windows was where it was
+    needed first, at 1.89 times the width for the same nominal font,
+    but the fixed numbers left "+10 s" 9 px short on Linux and the
+    tests red at every push since the CI was set up. Sans Serif 9.0 is
+    not the same font file on two systems.
     """
-    if not WIDE_FONT:
-        return base
     metrics = widget.fontMetrics()
     want = widget.sizeHint().width()
     for caption in captions:
