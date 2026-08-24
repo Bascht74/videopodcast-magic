@@ -100,6 +100,10 @@ jobs:
           cat "$GITHUB_ENV"
 
       - name: one number, and the tag is it
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
         run: |
           fails=0
           check() {
@@ -154,6 +158,10 @@ jobs:
             || { echo "FAIL: $fails of these"; exit 1; }
 
       - name: the one file, from the address the program uses
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
         run: |
           fails=0
           check() {
@@ -236,6 +244,10 @@ jobs:
             || { echo "FAIL: $fails of these"; exit 1; }
 
       - name: the model, from the address the program builds
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
         run: |
           fails=0
           check() {
@@ -309,6 +321,10 @@ jobs:
       # files. That way the answer everybody is judging is the one
       # answer github.com gave, and it can be read afterwards.
       - name: what github.com says about this release
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
         run: |
           set +e
           gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" \
@@ -341,6 +357,10 @@ jobs:
           PY
 
       - name: the release, as the program expects to find it
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
         run: |
           fails=0
           check() {
