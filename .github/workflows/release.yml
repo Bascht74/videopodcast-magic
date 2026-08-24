@@ -477,6 +477,43 @@ jobs:
           check "the release says what changed" "$ok" \
             "$body characters"
 
+          # And it is the changelog section itself, not a summary of
+          # it: claude_intern.md, Sebastian's rule of 22.8.2026. The
+          # release is made with awk over CHANGELOG.md, and a pattern
+          # that misses puts an empty or a wrong section there. Only
+          # the count of characters would notice a wrong one.
+          # Measured 24.8.2026 against the eight releases that are
+          # out: v2.5.0-beta matches its section line for line.
+          set +e
+          python - "$VERSION" <<'PY'
+          import json, re, sys
+          want = sys.argv[1]
+          body = json.load(open("/tmp/release.json")).get("body") or ""
+          text = open("CHANGELOG.md", encoding="utf-8").read()
+          head = re.search(r"^## \[%s\][^\n]*\n" % re.escape(want),
+                           text, re.M)
+          section = ""
+          if head:
+              rest = text[head.end():]
+              stop = re.search(r"^## ", rest, re.M)
+              section = rest[:stop.start()] if stop else rest
+
+          def lines(s):
+              return [l.rstrip() for l
+                      in s.replace("\r\n", "\n").strip().splitlines()]
+
+          same = bool(section) and lines(section) == lines(body)
+          print("  %-52s %s %s"
+                % ("the release text is the changelog section",
+                   "ok  " if same else "FAIL",
+                   "%d lines on github.com, %d in the file"
+                   % (len(lines(body)), len(lines(section)))))
+          sys.exit(0 if same else 1)
+          PY
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] || fails=$((fails + 1))
+
           echo
           echo "3. The one file hangs on the release"
           # github_moeglichkeiten.md, 24.8.2026: the release page offers
@@ -517,13 +554,25 @@ jobs:
           } >> "$GITHUB_STEP_SUMMARY"
 
   starts:
-    name: it starts (${{ matrix.os }})
+    name: it starts (${{ matrix.os }} / py${{ matrix.python }})
     runs-on: ${{ matrix.os }}
     timeout-minutes: 15
     strategy:
       fail-fast: false
       matrix:
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        include:
+          - os: ubuntu-latest
+            python: '3.14'
+          - os: windows-latest
+            python: '3.14'
+          - os: macos-latest
+            python: '3.14'
+          # The floor the program names for itself: NEEDS_PYTHON is
+          # (3, 10), and it says so in a line it prints before
+          # anything else. Somebody who has a Python at all mostly
+          # has the one that came with the machine.
+          - os: ubuntu-latest
+            python: '3.10'
     env:
       TAG: ${{ inputs.tag || github.event.release.tag_name
                || github.ref_name }}
@@ -535,7 +584,7 @@ jobs:
     steps:
       - uses: actions/setup-python@v6
         with:
-          python-version: '3.14'
+          python-version: ${{ matrix.python }}
 
       # No checkout and no packages: what is asked here is what somebody
       # gets who has nothing but this one file, which is what an update
