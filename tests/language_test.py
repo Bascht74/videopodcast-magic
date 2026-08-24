@@ -8,6 +8,29 @@ import ast, importlib.util, io, json, re, sys, tokenize
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 STATE = os.path.join(HERE, "state", "language_state.json")
+
+def state_is_ours():
+    """Whether this run may move the ratchet.
+
+    A ratchet is only worth something while it stands for the file in
+    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
+    and every ratchet here writes itself down as soon as a count comes
+    out lower -- so one run against an older or shorter copy pulls the
+    ratchet down for good, to a number the real file may never reach
+    again. Found on 24.8.2026, after a day of running the suite against
+    snapshots in /tmp.
+
+    So: measure whatever VPM_SCRIPT points at, but write the state down
+    only where that is the file this repository ships.
+    """
+    named = os.environ.get("VPM_SCRIPT")
+    if not named:
+        return True
+    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
+    try:
+        return os.path.samefile(named, here)
+    except OSError:
+        return False
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
@@ -36,7 +59,8 @@ def remember_state(key, value):
             d = {}
     old = d.get(key)
     d[key] = value if old is None else min(old, value)
-    json.dump(d, io.open(STATE, "w", encoding="utf-8"))
+    if state_is_ours():
+        json.dump(d, io.open(STATE, "w", encoding="utf-8"))
     return old if old is not None else value
 
 print("1. Which languages there are")

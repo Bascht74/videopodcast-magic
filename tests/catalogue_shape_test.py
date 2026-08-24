@@ -44,6 +44,29 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     ROOT, "videopodcast-magic.py")
 STATE = os.path.join(HERE, "state", "catalogue_shape_state.json")
 
+def state_is_ours():
+    """Whether this run may move the ratchet.
+
+    A ratchet is only worth something while it stands for the file in
+    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
+    and every ratchet here writes itself down as soon as a count comes
+    out lower -- so one run against an older or shorter copy pulls the
+    ratchet down for good, to a number the real file may never reach
+    again. Found on 24.8.2026, after a day of running the suite against
+    snapshots in /tmp.
+
+    So: measure whatever VPM_SCRIPT points at, but write the state down
+    only where that is the file this repository ships.
+    """
+    named = os.environ.get("VPM_SCRIPT")
+    if not named:
+        return True
+    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
+    try:
+        return os.path.samefile(named, here)
+    except OSError:
+        return False
+
 bad = []
 
 
@@ -220,7 +243,8 @@ check("translated pieces with an article: %d (ratchet %d)"
 if len(inserted) < limit or "article_fragments" not in old:
     kept = dict(old)
     kept["article_fragments"] = len(inserted)
-    json.dump(kept, open(STATE, "w"))
+    if state_is_ours():
+        json.dump(kept, open(STATE, "w"))
     if len(inserted) < limit:
         print("      ratchet tightened: %d -> %d" % (limit, len(inserted)))
 for line, text, host in sorted(inserted)[:6]:
