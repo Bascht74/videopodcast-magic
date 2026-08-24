@@ -1,1 +1,19 @@
-{"write_only": 10, "mute_tests": 3}
+{
+ "mute_tests": {
+  "multicam_test.py": [1, 0],
+  "render_hdr_test.py": [1, 0],
+  "render_test.py": [1, 0]
+ },
+ "write_only": {
+  "abort": [1, 21191],
+  "block": [1, 21157],
+  "created_by": [1, 11127],
+  "cut_numbers": [1, 25260],
+  "fixed": [1, 29778],
+  "group": [1, 21154],
+  "hint": [1, 21190],
+  "reference": [1, 20834],
+  "stripe": [1, 633],
+  "type": [1, 2885]
+ }
+}

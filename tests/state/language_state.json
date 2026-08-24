@@ -1,1 +1,15 @@
-{"uncoloured": 0, "german_words": 0, "english_words": 9}
+{
+ "english_words": {
+  "audio in 'gets audio from'": [1, 29174],
+  "audio in 'ignore this audio'": [1, 27122],
+  "frame in 'One frame back.'": [1, 28696],
+  "frame in 'One frame forward.'": [1, 29622],
+  "frame in 'under half a frame'": [1, 29732],
+  "output in '    %-22s stays at \"Same as Project\" -- the proj'": [1, 27246],
+  "output in '    Caution: the project stands at %s, the mater'": [1, 27291],
+  "settings in 'Without it every player has to guess, and all gu'": [1, 29052],
+  "upload in 'Files are missing there -- without a new upload '": [1, 28525]
+ },
+ "german_words": 0,
+ "uncoloured": 0
+}

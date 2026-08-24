@@ -5866,6 +5866,35 @@ PAIR_STANDS_OUT = 0.15
 # time while somebody waits for the file list.
 PAIR_PLACES = 120
 
+# Below this many usable places the median means nothing, and the row
+# says so with the number instead of claiming anything.
+PAIR_ENOUGH_PLACES = 8
+
+# Which level counts as "the loud part of this file". The gate below
+# hangs on it, so it has to be a level the recording really reaches and
+# has to survive a single loud moment. The ninth decile of the places
+# does both: with 120 places, twelve of them sit at or above it, so one
+# bang cannot move it. Measured on a built X-Y case, recorded quietly,
+# once as it is and once with a 0.15 s burst in it: the ninth decile
+# reads -53.20 dBFS against -53.19, while the file's peak jumps from
+# -40.4 to +3.0 dBFS. The old gate hung on that peak, moved 43.4 dB
+# with the burst, and turned the same recording from "one stereo
+# track" into "not recognisable".
+PAIR_LOUD_PERCENTILE = 90.0
+
+# And the gate sits this far under it. Not a threshold for silence --
+# that job belongs to the correlation height further down, which was
+# measured to do it: two channels of independent noise reach 0.057 to
+# 0.103 with a median of 0.072, so one place in 120 crosses the 0.10
+# the measurement asks for. What this gate does is hold a recording's
+# own pauses out of the median. Measured on a built pair whose room is
+# quiet 95 percent of the time: at 20 dB under, twelve places survive
+# and they are the twelve with speech in them; at 30 dB under all 120
+# do and the answer is read from room tone. On Sebastian's hour of
+# X-Y, where the whole recording sits low, 109 of 120 places survive
+# at 20 dB under and 1 survived the old gate.
+PAIR_GATE_UNDER_DB = 20.0
+
 
 def channel_rate(file_path, channels, want=16000):
     """Pick a working rate that fits the file in memory.
@@ -6036,9 +6065,12 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
     anywhere, taken as the median over the places measured. 1.0 means
     everything shared arrives together, near 0 means the strongest
     thing they share is delayed. *places* says how many were usable;
-    below a handful the figure means nothing. *apart* is the median
-    delay in milliseconds where the peak lies outside the window, which
-    is what says how far apart the two microphones stand.
+    below PAIR_ENOUGH_PLACES the figure means nothing. *apart* is the
+    delay in milliseconds the late arrivals agree on, which is what
+    says how far apart the two microphones stand -- see pair_spacing.
+
+    A place is worth measuring when it carries sound, and which level
+    that is has to be measured over the file -- see the gate below.
 
     Plain correlation, not PHAT: with speech both channels fall silent
     together, and dividing by the magnitude turns those moments into a
@@ -6049,22 +6081,42 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
         return 0.0, 0, 0.0
     reach = max(4, int(0.020 * rate))
     close = max(1, int(PAIR_DELAY_MS * rate / 1000.0))
-    top = max(float(np.abs(first).max()), float(np.abs(second).max()))
-    if top <= 0:
+    spots = np.linspace(0, width - window - 1, most).astype(int)
+    # How loud each place is, all of them before any is judged: the
+    # gate is a level of this file and cannot be known one place at a
+    # time. Cheap next to what follows -- 120 windows of 2048 samples
+    # against 120 transforms.
+    #
+    # A peak is not a level, which is why the gate hangs on the places
+    # and not on the loudest sample. Speech sits twelve to eighteen
+    # decibels under its own peaks, and one overdriven moment puts the
+    # peak at full scale however quiet the rest is. On Sebastian's hour
+    # of X-Y the peak reads +0.8 dBFS while 99 percent of the file lies
+    # under -33.1 dBFS: a gate 30 dB under that peak stands at
+    # -29.2 dBFS, one place of 120 clears it, and eight are needed.
+    # Hung on the ninth decile of the places instead, the gate stands
+    # at -63.4 dBFS and 109 places clear it.
+    strong = np.zeros(len(spots))
+    for j, i in enumerate(spots):
+        a = first[i:i + window].astype(np.float64)
+        b = second[i:i + window].astype(np.float64)
+        strong[j] = max(math.sqrt(float((a ** 2).mean())),
+                        math.sqrt(float((b ** 2).mean())))
+    loud = float(np.percentile(strong, PAIR_LOUD_PERCENTILE))
+    if loud <= 0:
         return 0.0, 0, 0.0
-    gate = top * 10 ** (-30.0 / 20.0)
+    gate = loud * 10 ** (-PAIR_GATE_UNDER_DB / 20.0)
     n = 1 << int(math.ceil(math.log(window * 2, 2)))
     # Below this the two channels share nothing worth reading a delay
     # out of, and the highest point of the correlation is wherever the
     # noise happens to be tallest.
     shared_enough = 0.10
     out, away = [], []
-    for i in np.linspace(0, width - window - 1, most).astype(int):
+    for j, i in enumerate(spots):
+        if strong[j] < gate:
+            continue
         a = first[i:i + window]
         b = second[i:i + window]
-        if max(float(np.sqrt((a ** 2).mean())),
-               float(np.sqrt((b ** 2).mean()))) < gate:
-            continue
         a = a.astype(np.float64) - float(a.mean())
         b = b.astype(np.float64) - float(b.mean())
         size = math.sqrt(float((a ** 2).sum()) * float((b ** 2).sum()))
@@ -6080,10 +6132,40 @@ def channel_at_zero(first, second, rate, most=PAIR_PLACES, window=2048):
         where = int(np.argmax(band)) - reach
         if abs(where) > close:
             away.append(abs(where) * 1000.0 / float(rate))
-    if len(out) < 8:
+    if len(out) < PAIR_ENOUGH_PLACES:
         return 0.0, len(out), 0.0
-    return (float(np.median(out)), len(out),
-            float(np.median(away)) if away else 0.0)
+    return float(np.median(out)), len(out), pair_spacing(away)
+
+
+def pair_spacing(away):
+    """The one delay the late arrivals agree on, in milliseconds.
+
+    *away* is how late the strongest shared sound was at every place
+    where it missed the zero window. A spacing between two microphones
+    is a fixed length of air, so it turns up as the same delay again
+    and again. Where the delays scatter instead, there is no spacing --
+    there is a correlation wandering about in a room, and its highest
+    point lands wherever the reverberation happens to be tallest that
+    moment. Reading a distance out of that is reading a distance out of
+    noise, and the old code did: it took the median whatever the
+    spread.
+
+    So the median counts only when more than half the late arrivals sit
+    within one PAIR_DELAY_MS window of it; otherwise there is no
+    spacing to report and the answer is zero.
+
+    Measured. Every built case with a real spacing agrees: two clip-ons
+    at 0.5, 1.0 and 2.0 m and the mixer fixture's two lavalier pairs
+    put 92 to 100 percent of their late arrivals inside that window.
+    Sebastian's hour of X-Y puts 37 percent there, and its median of
+    2.1 ms would have been read as two microphones 0.7 m apart. There
+    is no such pair: its loudest places all arrive together.
+    """
+    if not away:
+        return 0.0
+    middle = float(np.median(away))
+    near = [x for x in away if abs(x - middle) <= PAIR_DELAY_MS / 2.0]
+    return middle if len(near) * 2 > len(away) else 0.0
 
 
 def channel_hush(level):
@@ -6140,7 +6222,9 @@ def channel_facts(file_path, rate=None, stream=0):
     k+1, and the lists are one shorter than the channel count.
     *pair_same* is the waveform correlation, *pair_zero* how much of what
     the two share arrives at the same time. Those two are what
-    channel_joins judges on.
+    channel_joins judges on. *pair_places* is how many places of the
+    file could be measured at all, so that a pair nobody could measure
+    says on its row how close it came instead of guessing why.
     """
     if rate is None:
         rate = channel_rate(file_path, channel_count(file_path))
@@ -6152,7 +6236,8 @@ def channel_facts(file_path, rate=None, stream=0):
     width = min((len(x) for x in rows), default=0)
     if not n or width < rate // 4:
         return {"channels": n, "level": [], "silent": [], "pair_same": [],
-                "pair_zero": [], "pair_apart": [], "readable": False}
+                "pair_zero": [], "pair_apart": [], "pair_places": [],
+                "readable": False}
     rows = [x[:width] for x in rows]
     level = []
     for x in rows:
@@ -6160,23 +6245,27 @@ def channel_facts(file_path, rate=None, stream=0):
         level.append(20.0 * math.log10(top) if top > 0 else float("-inf"))
     highest = max(level)
     silent, why = channel_hush(level)
-    pair_same, pair_zero, pair_apart = [], [], []
+    pair_same, pair_zero, pair_apart, pair_places = [], [], [], []
     for a in range(0, n - 1):
         b = a + 1
         if silent[a] or silent[b]:
             pair_same.append(None)
             pair_zero.append(None)
             pair_apart.append(None)
+            pair_places.append(None)
             continue
         with np.errstate(invalid="ignore"):
             r = np.corrcoef(rows[a], rows[b])[0, 1]
         pair_same.append(float(r) if np.isfinite(r) else None)
         share, places, apart = channel_at_zero(rows[a], rows[b], rate)
-        pair_zero.append(share if places >= 8 else None)
-        pair_apart.append(apart if places >= 8 else None)
+        enough = places >= PAIR_ENOUGH_PLACES
+        pair_zero.append(share if enough else None)
+        pair_apart.append(apart if enough else None)
+        pair_places.append(places)
     return {"channels": n, "level": level, "silent": silent,
             "pair_same": pair_same, "pair_zero": pair_zero,
-            "pair_apart": pair_apart, "readable": True}
+            "pair_apart": pair_apart, "pair_places": pair_places,
+            "readable": True}
 
 
 def hush_reason(which, why):
@@ -6232,11 +6321,13 @@ def channel_joins(facts):
     same = list(facts.get("pair_same") or [])
     zero = list(facts.get("pair_zero") or [])
     apart = list(facts.get("pair_apart") or [])
+    counted = list(facts.get("pair_places") or [])
     out = []
     for k in range(n - 1):
         r = same[k] if k < len(same) else None
         at_zero = zero[k] if k < len(zero) else None
         late = apart[k] if k < len(apart) else None
+        places = counted[k] if k < len(counted) else None
         # What belongs on a row in the file list is the answer, not the
         # arithmetic behind it. What was measured is in channel_at_zero.
         if silent[k] or silent[k + 1]:
@@ -6277,9 +6368,18 @@ def channel_joins(facts):
                             T('probably one stereo track -- both '
                               'microphones in the same place')))
         else:
+            # Nothing was measured here, so nothing is said about what
+            # the two channels have in common: the old line claimed
+            # they had too little of it, and on Sebastian's X-Y that
+            # was a guess about a measurement that never ran. The
+            # number is what tells a quiet recording from two channels
+            # that really share nothing, the same way the crosstalk
+            # line names its seconds.
             out.append((k, False, False,
-                        T('not recognisable -- the two channels have too '
-                          'little in common')))
+                        T('not recognisable -- only %d of %d places '
+                          'where both channels carry sound, %d needed')
+                        % (places or 0, PAIR_PLACES,
+                           PAIR_ENOUGH_PLACES)))
     return out
 
 
@@ -6597,7 +6697,8 @@ def blocks_facts(paths):
     rows = [x for x in (paths or []) if x]
     if not rows:
         return {"channels": 0, "level": [], "silent": [], "pair_same": [],
-                "pair_zero": [], "pair_apart": [], "readable": False}
+                "pair_zero": [], "pair_apart": [], "pair_places": [],
+                "readable": False}
     if len(rows) == 1:
         return channel_facts_cached(rows[0])
     return blocks_facts_from([channel_facts_cached(x) for x in rows])
@@ -6613,7 +6714,8 @@ def blocks_facts_from(every):
     every = [f for f in (every or []) if isinstance(f, dict)]
     if not every:
         return {"channels": 0, "level": [], "silent": [], "pair_same": [],
-                "pair_zero": [], "pair_apart": [], "readable": False}
+                "pair_zero": [], "pair_apart": [], "pair_places": [],
+                "readable": False}
     usable = [f for f in every if f.get("readable")]
     if not usable:
         return every[0]
@@ -6624,11 +6726,12 @@ def blocks_facts_from(every):
         seen = [f["level"][k] for f in usable if k < len(f.get("level") or [])]
         level.append(max(seen) if seen else float("-inf"))
     silent, why = channel_hush(level)
-    same, zero, apart = [], [], []
+    same, zero, apart, counted = [], [], [], []
     for i, a in enumerate(range(0, n - 1)):
         b = a + 1
         if silent[a] or silent[b]:
             same.append(None), zero.append(None), apart.append(None)
+            counted.append(None)
             continue
         # The block where this pair is loudest: judging a pair on the
         # block where it is silent measures the converter's noise.
@@ -6656,9 +6759,20 @@ def blocks_facts_from(every):
         same.append(of("pair_same"))
         zero.append(of("pair_zero"))
         apart.append(of("pair_apart"))
+        # The place count comes from the block the answer comes from.
+        # Where no block could measure the pair there is no such block,
+        # and the number to report is the one the best of them reached
+        # -- the row says how close it came, not zero.
+        if best is not None:
+            counted.append(of("pair_places"))
+        else:
+            reached = [(f.get("pair_places") or [])[i] for f in usable
+                       if i < len(f.get("pair_places") or [])]
+            reached = [x for x in reached if x is not None]
+            counted.append(max(reached) if reached else None)
     return {"channels": n, "level": level, "silent": silent,
             "pair_same": same, "pair_zero": zero, "pair_apart": apart,
-            "readable": True}
+            "pair_places": counted, "readable": True}
 
 
 def channel_facts_cached(file_path):
@@ -29949,8 +30063,10 @@ CATALOGUE["de"] = {
         'vermutlich zwei Mikrofone -- etwa %.1f m auseinander',
     'probably one stereo track -- both microphones in the same place':
         'vermutlich eine Stereospur -- beide Mikrofone am selben Ort',
-    'not recognisable -- the two channels have too little in common':
-        'nicht erkennbar -- die beiden Kanäle haben zu wenig gemeinsam',
+    'not recognisable -- only %d of %d places where both channels '
+    'carry sound, %d needed':
+        'nicht erkennbar -- nur %d von %d Stellen, an denen beide Kanäle '
+        'Ton tragen, %d nötig',
     'not recognisable -- these two agree no better than each does with '
     'the channel beside it':
         'nicht erkennbar -- die beiden stimmen nicht besser überein als '

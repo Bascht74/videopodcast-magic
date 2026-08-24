@@ -13,35 +13,15 @@ import ast
 import builtins
 import collections
 import io
-import json
 import re
 import sys
 import symtable
 
+sys.path.insert(0, HERE)
+import ratchet
+
 STATE = os.path.join(HERE, "state", "consistency_state.json")
-
-def state_is_ours():
-    """Whether this run may move the ratchet.
-
-    A ratchet is only worth something while it stands for the file in
-    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
-    and every ratchet here writes itself down as soon as a count comes
-    out lower -- so one run against an older or shorter copy pulls the
-    ratchet down for good, to a number the real file may never reach
-    again. Found on 24.8.2026, after a day of running the suite against
-    snapshots in /tmp.
-
-    So: measure whatever VPM_SCRIPT points at, but write the state down
-    only where that is the file this repository ships.
-    """
-    named = os.environ.get("VPM_SCRIPT")
-    if not named:
-        return True
-    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
-    try:
-        return os.path.samefile(named, here)
-    except OSError:
-        return False
+state = ratchet.Ratchet(STATE)
 src = io.open(SCRIPT, encoding="utf-8").read()
 tree = ast.parse(src)
 lines = src.split("\n")
@@ -55,26 +35,7 @@ def check(name, ok, extra=""):
         error.append(name)
 
 
-if not os.path.exists(STATE):
-    # No baseline means every counter is seeded from what is there now, so
-    # the ratchet cannot fail on this run. Say so -- a lost state file must
-    # not look like a clean bill of health.
-    print("  NOTE: %s is missing. The counters below are being set from\n"
-          "        the source as it stands; nothing is being held to\n"
-          "        account this run." % os.path.basename(STATE))
-
-def remember_state(key, value):
-    d = {}
-    if os.path.exists(STATE):
-        try:
-            d = json.load(io.open(STATE, encoding="utf-8"))
-        except Exception:
-            d = {}
-    old = d.get(key)
-    d[key] = value if old is None else min(old, value)
-    if state_is_ours():
-        json.dump(d, io.open(STATE, "w", encoding="utf-8"))
-    return old if old is not None else value
+state.announce()
 
 
 print("1. Every name that is read is also set")
@@ -183,16 +144,19 @@ print("\n3. Dictionary keys are both written and read")
 # common leftover.
 writes = collections.Counter()
 reads = collections.Counter()
+first = {}
 for node in ast.walk(tree):
     if isinstance(node, ast.Dict):
         for x in node.keys:
             if isinstance(x, ast.Constant) and isinstance(x.value, str):
                 writes[x.value] += 1
+                first.setdefault(x.value, x.lineno)
     elif isinstance(node, ast.Subscript) \
             and isinstance(node.slice, ast.Constant) \
             and isinstance(node.slice.value, str):
         if isinstance(node.ctx, ast.Store):
             writes[node.slice.value] += 1
+            first.setdefault(node.slice.value, node.lineno)
         else:
             reads[node.slice.value] += 1
     elif isinstance(node, ast.Call) \
@@ -208,10 +172,15 @@ FOREIGN = re.compile(r"^[a-z_]+$")
 write_only = sorted(k for k in writes
                     if k not in reads and FOREIGN.match(k)
                     and writes[k] > 1)
-old = remember_state("write_only", len(write_only))
+# The key itself is the fingerprint. Nothing better exists and nothing
+# better is needed: the key is written in a dozen places, it has no one
+# line, and the name is exactly what has to stop turning up.
+held = state.places("write_only",
+                    dict((k, (1, first.get(k, 0))) for k in write_only))
 check("keys nobody reads: %d (ratchet %d)"
-      % (len(write_only), old), len(write_only) <= old,
+      % (len(write_only), held.limit), held.ok,
       str(write_only[:5]))
+held.report()
 
 print("\n4. Qt signals and slots match up")
 signals = set()
@@ -308,16 +277,12 @@ for name in sorted(os.listdir(HERE)):
         for k in ast.walk(t))
     if not speaks:
         mute.append(name)
-limit_m = 11
-if os.path.exists(STATE):
-    try:
-        limit_m = json.load(io.open(STATE, encoding="utf-8")).get(
-            "mute_tests", len(mute))
-    except Exception:
-        limit_m = len(mute)
+# Here the file name is the fingerprint, and it is the one counter whose
+# finds are spread over many files rather than sitting in the program.
+held = state.places("mute_tests", dict((n, (1, 0)) for n in mute))
 check("tests without a single check: %d (ratchet %d)"
-      % (len(mute), limit_m), len(mute) <= limit_m)
-remember_state("mute_tests", len(mute))
+      % (len(mute), held.limit), held.ok)
+held.report()
 for name in mute:
     print("      %s" % name)
 

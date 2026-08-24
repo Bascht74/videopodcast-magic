@@ -36,36 +36,17 @@ looks at, in three grades of severity:
    these exist, all of them list joiners or setting values; they are
    named below with the reason each one is allowed.
 """
-import ast, io, json, os, re, sys
+import ast, io, os, re, sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     ROOT, "videopodcast-magic.py")
+sys.path.insert(0, HERE)
+import ratchet
+
 STATE = os.path.join(HERE, "state", "catalogue_shape_state.json")
-
-def state_is_ours():
-    """Whether this run may move the ratchet.
-
-    A ratchet is only worth something while it stands for the file in
-    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
-    and every ratchet here writes itself down as soon as a count comes
-    out lower -- so one run against an older or shorter copy pulls the
-    ratchet down for good, to a number the real file may never reach
-    again. Found on 24.8.2026, after a day of running the suite against
-    snapshots in /tmp.
-
-    So: measure whatever VPM_SCRIPT points at, but write the state down
-    only where that is the file this repository ships.
-    """
-    named = os.environ.get("VPM_SCRIPT")
-    if not named:
-        return True
-    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
-    try:
-        return os.path.samefile(named, here)
-    except OSError:
-        return False
+state = ratchet.Ratchet(STATE)
 
 bad = []
 
@@ -228,25 +209,20 @@ for node in ast.walk(tree):
                 inserted.append((node.lineno, text,
                                  (host[0] if host else "")[:44]))
 
-old = {}
-if os.path.exists(STATE):
-    old = json.load(open(STATE))
-else:
-    # A lost state file must not read as a clean bill of health.
-    print("  NOTE: %s is missing. The count below is being taken from the\n"
-          "        source as it stands; nothing is held to account this run."
-          % os.path.basename(STATE))
-limit = old.get("article_fragments", len(inserted))
+state.announce()
+# The fingerprint is the piece and the sentence it goes into, both in
+# English, and no line number: these two texts are what the find is, and
+# they stay themselves wherever in the file they end up standing.
+held = state.places("article_fragments", ratchet.tally(
+    [("%r into %r" % (text[:40], host), line)
+     for line, text, host in inserted]))
 check("translated pieces with an article: %d (ratchet %d)"
-      % (len(inserted), limit), len(inserted) <= limit,
-      "there are more now")
-if len(inserted) < limit or "article_fragments" not in old:
-    kept = dict(old)
-    kept["article_fragments"] = len(inserted)
-    if state_is_ours():
-        json.dump(kept, open(STATE, "w"))
-    if len(inserted) < limit:
-        print("      ratchet tightened: %d -> %d" % (limit, len(inserted)))
+      % (len(inserted), held.limit), held.ok,
+      "one of them is not in the state")
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d"
+          % (held.limit, len(inserted)))
 for line, text, host in sorted(inserted)[:6]:
     print("      line %-6d %-26r into %r" % (line, text[:24], host))
 

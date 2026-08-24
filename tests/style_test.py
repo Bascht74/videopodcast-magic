@@ -14,32 +14,12 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import ast, io, json, re, sys, tokenize
+import ast, io, re, sys, tokenize
+sys.path.insert(0, HERE)
+import ratchet
 
 STATE = os.path.join(HERE, "state", "style_state.json")
-
-def state_is_ours():
-    """Whether this run may move the ratchet.
-
-    A ratchet is only worth something while it stands for the file in
-    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
-    and every ratchet here writes itself down as soon as a count comes
-    out lower -- so one run against an older or shorter copy pulls the
-    ratchet down for good, to a number the real file may never reach
-    again. Found on 24.8.2026, after a day of running the suite against
-    snapshots in /tmp.
-
-    So: measure whatever VPM_SCRIPT points at, but write the state down
-    only where that is the file this repository ships.
-    """
-    named = os.environ.get("VPM_SCRIPT")
-    if not named:
-        return True
-    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
-    try:
-        return os.path.samefile(named, here)
-    except OSError:
-        return False
+state = ratchet.Ratchet(STATE)
 LINE_MAX = 79
 BLOCK_MAX = 14          # comment lines in a row
 DOCSTRING_MAX = 23      # lines
@@ -107,33 +87,13 @@ def german_spots():
     return out
 
 german = german_spots()
-if not os.path.exists(STATE):
-    # No baseline means every counter is seeded from what is there now, so
-    # the ratchet cannot fail on this run. Say so -- a lost state file must
-    # not look like a clean bill of health.
-    print("  NOTE: %s is missing. The counters below are being set from\n"
-          "        the source as it stands; nothing is being held to\n"
-          "        account this run." % os.path.basename(STATE))
+state.announce()
 
-old = {}
-if os.path.exists(STATE):
-    old = json.load(open(STATE))
-
-def remember_state(key, value):
-    """Pull along this one value only -- the others stay put."""
-    d = json.load(open(STATE)) if os.path.exists(STATE) else {}
-    d[key] = value
-    if state_is_ours():
-        json.dump(d, open(STATE, "w"))
-limit = old.get("german", len(german))
+limit = state.number("german", len(german))
 check("German passages: %d (ratchet %d)" % (len(german), limit),
         len(german) <= limit,
         "" if len(german) <= limit else "there are more now")
-if len(german) < limit or "german" not in old:
-    remember_state("german", len(german))
-    if len(german) < limit:
-        print("      ratchet tightened: %d -> %d"
-              % (limit, len(german)))
+state.note(limit, len(german))
 
 # --------------------------------------------------------------- Narrating
 NARRATING = [
@@ -165,12 +125,10 @@ for pattern, reason in NARRATING:
                              "%s: %s" % (name, t.strip()[:50])))
 # This too is a ratchet while the changeover runs; in the end it has to
 # stand at zero.
-limit_n = old.get("narrating", len(hits))
+limit_n = state.number("narrating", len(hits))
 check("narrating: %d spots (ratchet %d)" % (len(hits), limit_n),
         len(hits) <= limit_n,
         "" if len(hits) <= limit_n else "there are more now")
-if len(hits) < limit_n or "narrating" not in old:
-    remember_state("narrating", len(hits))
 for line, reason, text in hits[:10]:
     print("      line %-6d %-32s %s" % (line, reason, text))
 
@@ -181,12 +139,10 @@ for _n, first, _t, last in docs:
     text_lines.update(range(first, last + 1))
 too_long = [(i + 1, len(line)) for i, line in enumerate(lines)
             if len(line) > LINE_MAX and (i + 1) in text_lines]
-limit_l = old.get("long_lines", len(too_long))
+limit_l = state.number("long_lines", len(too_long))
 check("text lines over %d characters: %d (ratchet %d)"
         % (LINE_MAX, len(too_long), limit_l), len(too_long) <= limit_l,
         "" if len(too_long) <= limit_l else "there are more now")
-if len(too_long) < limit_l or "long_lines" not in old:
-    remember_state("long_lines", len(too_long))
 for line, length in too_long[:5]:
     print("      line %d: %d characters -- %s"
           % (line, length, lines[line-1].strip()[:50]))
@@ -218,11 +174,9 @@ for name, line, text, _e in docs:
     elif len(text.splitlines()) > 1 and text.splitlines()[1].strip():
         bad_head.append((name, "no blank line after the first"))
 # While the changeover runs, a ratchet here as well.
-limit_h = old.get("heading", len(bad_head))
+limit_h = state.number("heading", len(bad_head))
 check("docstring headings: %d defects (ratchet %d)"
         % (len(bad_head), limit_h), len(bad_head) <= limit_h)
-if len(bad_head) < limit_h or "heading" not in old:
-    remember_state("heading", len(bad_head))
 for n, w in bad_head[:8]:
     print("      %-30s %s" % (n, w))
 
@@ -237,13 +191,10 @@ for node in ast.walk(ast.parse(source)):
         if re.search(r"[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df]{3,}"
                      r"\((?:s|n|e|en)\)", node.value):
             lazy.append((node.lineno, node.value.strip()[:58]))
-limit_p = old.get("lazy_plural", len(lazy))
+limit_p = state.number("lazy_plural", len(lazy))
 check("lazy plurals: %d (ratchet %d)" % (len(lazy), limit_p),
         len(lazy) <= limit_p)
-if len(lazy) < limit_p or "lazy_plural" not in old:
-    remember_state("lazy_plural", len(lazy))
-    if len(lazy) < limit_p:
-        print("      ratchet tightened: %d -> %d" % (limit_p, len(lazy)))
+state.note(limit_p, len(lazy))
 for line, text in lazy[:8]:
     print("      line %-6d %s" % (line, text))
 
@@ -262,39 +213,61 @@ for line, text in lazy[:8]:
 # closures over shared variables and a week of new defects for no new
 # ability -- its own decision, for its own day. This is the cheap step
 # that stops the bleeding.
+#
+# The state keeps one entry per oversized function, by name, so the
+# counter cannot be paid off in the wrong currency: a function dropping
+# under the limit no longer buys room for another to climb over it.
+#
+# The entry is the name and nothing else. Holding each function to its
+# own size as well was tried and measured over the last ten commits that
+# touched the program: it would have turned the suite red on six of
+# them, every time because a function already over the limit grew by a
+# few lines, and never because a new one had joined. Five reds is what
+# the bare counts did over the same ten. A ratchet that doubles the reds
+# without finding anything new gets switched off rather than obeyed, so
+# the size is printed every run and only the biggest one is held.
 tree = ast.parse(source)
+seen = ratchet.owners(tree)
 sizes = []
 for node in ast.walk(tree):
     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
         end = getattr(node, "end_lineno", None)
         if end:
-            sizes.append((end - node.lineno + 1, node.name, node.lineno))
+            sizes.append((end - node.lineno + 1,
+                          ratchet.qualified(seen, node), node.lineno))
 sizes.sort(reverse=True)
 big = [s for s in sizes if s[0] > 300]
 
-limit_b = old.get("over_300", len(big))
-check("functions over 300 lines: %d (ratchet %d)" % (len(big), limit_b),
-        len(big) <= limit_b)
-if len(big) < limit_b or "over_300" not in old:
-    remember_state("over_300", len(big))
-    if len(big) < limit_b:
-        print("      ratchet tightened: %d -> %d" % (limit_b, len(big)))
+held = state.places("over_300",
+                    dict((name, (1, line)) for _size, name, line in big))
+check("functions over 300 lines: %d (ratchet %d)" % (len(big), held.limit),
+        held.ok)
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d" % (held.limit, len(big)))
 for size, name, line in big[:8]:
-    print("      %-28s %5d lines, from line %d" % (name, size, line))
+    print("      %-28s %5d lines, from line %d" % (name[:28], size, line))
 
 largest = sizes[0][0] if sizes else 0
-limit_l = old.get("largest_function", largest)
+# This one stays a bare number on purpose: it measures a single thing,
+# the biggest function there is, and a single measurement has nothing to
+# swap against. What it could not see -- a smaller function ballooning
+# while the biggest shrinks -- the entry list above now sees.
+limit_l = state.number("largest_function", largest)
 check("largest function: %d lines (ratchet %d)" % (largest, limit_l),
         largest <= limit_l,
         sizes[0][1] if sizes else "")
-if largest < limit_l or "largest_function" not in old:
-    remember_state("largest_function", largest)
-    if largest < limit_l:
-        print("      ratchet tightened: %d -> %d" % (limit_l, largest))
+state.note(limit_l, largest)
 
 # ------------------------------------------------- Exceptions swallowed
 # An except that does nothing hides the reason something did not work.
-# Counted the same way and held the same way: it may fall, never rise.
+# Held on the function each one sits in, so moving one from here to there
+# is not a free trade: the old place gets one fewer and the new place has
+# one the state does not cover, which is what turns this red.
+#
+# The exception type is deliberately not part of the fingerprint. Turning
+# `except Exception` into `except OSError` makes the handler better, and
+# a ratchet that goes red on an improvement gets switched off.
 silent = []
 for node in ast.walk(tree):
     if not isinstance(node, ast.ExceptHandler):
@@ -304,14 +277,13 @@ for node in ast.walk(tree):
                     and isinstance(b.value, ast.Constant)
                     and isinstance(b.value.value, str))]
     if len(body) == 1 and isinstance(body[0], ast.Pass):
-        silent.append(node.lineno)
-limit_s = old.get("silent_except", len(silent))
+        silent.append((seen.get(id(node), "<module>"), node.lineno))
+held = state.places("silent_except", ratchet.tally(silent))
 check("except branches that only pass: %d (ratchet %d)"
-      % (len(silent), limit_s), len(silent) <= limit_s)
-if len(silent) < limit_s or "silent_except" not in old:
-    remember_state("silent_except", len(silent))
-    if len(silent) < limit_s:
-        print("      ratchet tightened: %d -> %d" % (limit_s, len(silent)))
+      % (len(silent), held.limit), held.ok)
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d" % (held.limit, len(silent)))
 
 print("\n%s" % ("All good." if not error
                 else "FAIL: %s" % ", ".join(error)))
