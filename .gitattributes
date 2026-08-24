@@ -1,0 +1,16 @@
+# Git for Windows sets core.autocrlf=true, and then it rewrites every
+# file it takes for text while checking it out. The speaker model is
+# held against a SHA-256 sum, so one changed line ending is enough:
+# config.yaml came out as f2e36f30... instead of 5ce2bfa9..., and the
+# program declared its own model broken. Measured on 24.8.2026 on a
+# GitHub Windows runner, and proved by setting core.autocrlf false --
+# the sum was right again and the test went green.
+#
+# Every Windows user who cloned this repository got that model.
+models/** -text
+
+# The same reasoning for anything else held against a checksum or read
+# byte for byte.
+*.png -text
+*.wav -text
+*.mov -text

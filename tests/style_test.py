@@ -17,6 +17,29 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
 import ast, io, json, re, sys, tokenize
 
 STATE = os.path.join(HERE, "state", "style_state.json")
+
+def state_is_ours():
+    """Whether this run may move the ratchet.
+
+    A ratchet is only worth something while it stands for the file in
+    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
+    and every ratchet here writes itself down as soon as a count comes
+    out lower -- so one run against an older or shorter copy pulls the
+    ratchet down for good, to a number the real file may never reach
+    again. Found on 24.8.2026, after a day of running the suite against
+    snapshots in /tmp.
+
+    So: measure whatever VPM_SCRIPT points at, but write the state down
+    only where that is the file this repository ships.
+    """
+    named = os.environ.get("VPM_SCRIPT")
+    if not named:
+        return True
+    here = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
+    try:
+        return os.path.samefile(named, here)
+    except OSError:
+        return False
 LINE_MAX = 79
 BLOCK_MAX = 14          # comment lines in a row
 DOCSTRING_MAX = 23      # lines
@@ -100,7 +123,8 @@ def remember_state(key, value):
     """Pull along this one value only -- the others stay put."""
     d = json.load(open(STATE)) if os.path.exists(STATE) else {}
     d[key] = value
-    json.dump(d, open(STATE, "w"))
+    if state_is_ours():
+        json.dump(d, open(STATE, "w"))
 limit = old.get("german", len(german))
 check("German passages: %d (ratchet %d)" % (len(german), limit),
         len(german) <= limit,
