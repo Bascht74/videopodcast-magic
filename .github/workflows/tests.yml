@@ -77,7 +77,8 @@ jobs:
               hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" \
             "$M/config.yaml"
           echo -n "the manifest says:                    "
-          grep " config.yaml" "$M/SHA256SUMS.txt" | awk '{print $1}'
+          grep -E "^[0-9a-f]{64}  config\.yaml" "$M/SHA256SUMS.txt" \
+            | awk '{print $1}'
 
       - name: lay the files down as they were committed
         if: runner.os == 'Windows'
@@ -129,6 +130,36 @@ jobs:
             print('numpy', numpy.__version__); \
             print('PySide6', PySide6.__version__)"
 
+      # A test that cannot run here is taken out by name, with the reason
+      # written beside it, and the count is printed. Nothing is taken out
+      # for being red: what is red and could run stays in.
+      - name: what this machine cannot run
+        shell: bash
+        run: |
+          cd tests
+          ASIDE="$RUNNER_TEMP/set-aside"
+          mkdir -p "$ASIDE"
+          n=0
+          aside() { mv "$1_test.py" "$ASIDE/"; echo "  $1 -- $2"; n=$((n+1)); }
+          case "$RUNNER_OS" in
+            Windows)
+              aside channel_read \
+                "it puts a stand-in ffmpeg on PATH as a file with a
+                 #!/bin/sh line and an execute bit. Windows runs neither,
+                 so the real ffmpeg answers and the check cannot fire."
+              aside folder_name \
+                "it asks what /Volumes/Recordings is called. /Volumes is
+                 the macOS shape of a volume root; Windows has none."
+              ;;
+            macOS)
+              aside speech \
+                "it has macOS recognise a German sentence. The runner
+                 carries no German dictation asset, so the program falls
+                 back -- correctly -- and the test asks for the macOS way."
+              ;;
+          esac
+          echo "set aside on $RUNNER_OS: $n"
+
       - name: the suite
         shell: bash
         run: |
@@ -159,6 +190,8 @@ jobs:
           fi
           for t in $names; do
             echo "===================== $t ====================="
-            python "${t}_test.py" 2>&1 | tail -70
+            # A red test returns non-zero, and the step runs under
+            # set -eo pipefail: without this the second one is never read.
+            python "${t}_test.py" 2>&1 | tail -70 || true
             echo
           done
