@@ -14591,7 +14591,14 @@ def newer_release(asked=False):
         return "", "", ""      # no network, no answer, no complaint
     tag = str(found.get("tag_name") or "")
     if not tag or version_key(tag) <= version_key(VERSION):
-        return "", "", ""
+        # Nothing newer. The answer already carries the text of the
+        # release that is running, and throwing it away means asking
+        # somebody to open a browser to read what they already have.
+        # It comes back with an empty tag, so callers that only want a
+        # newer version are unaffected.
+        same = version_key(tag) == version_key(VERSION) if tag else False
+        return ("", str(found.get("html_url") or "") if same else "",
+                str(found.get("body") or "").strip() if same else "")
     return (tag, str(found.get("html_url") or ""),
             str(found.get("body") or "").strip())
 
@@ -15550,8 +15557,22 @@ def main():
     out = pipeline({"waveform": piece,
                     "sample_rate": int(head["sample_rate"])},
                    hook=hook, **asked)
+    # pyannote 4 hands back a DiarizeOutput and keeps the annotation in
+    # its speaker_diarization field; up to 3 the pipeline returned the
+    # annotation itself. Measured on 4.0.7, where the object carries
+    # speaker_diarization, exclusive_speaker_diarization and
+    # speaker_embeddings. Asking beats pinning a version: the worker
+    # installs whatever pip offers that day, and a program that dies on
+    # the newest release of its own dependency is a program that dies
+    # in a year.
+    turns = out if hasattr(out, "itertracks") else getattr(
+        out, "speaker_diarization", None)
+    if turns is None or not hasattr(turns, "itertracks"):
+        raise RuntimeError(
+            "pyannote returned %s, and nothing in it answers to "
+            "itertracks" % type(out).__name__)
     segments = []
-    for turn, _track, label in out.itertracks(yield_label=True):
+    for turn, _track, label in turns.itertracks(yield_label=True):
         segments.append([str(label), round(float(turn.start), 3),
                          round(float(turn.end), 3)])
     print(json.dumps({"segments": segments}))
@@ -26521,6 +26542,62 @@ def about_show(window):
     box.exec()
 
 
+def newest_shown(window, page, changed):
+    """Say that this is the newest, and show what is in it.
+
+    Sebastian on 24.8.2026, at the box that only said "no newer
+    version found": show the last changelog here as well. The release
+    text comes down with the same answer that was asked for the
+    version number, so it costs nothing, and whoever just asked has
+    earned more than a full stop.
+
+    Without the text this stays what it was: one line and a button.
+    """
+    QtWidgets = _qt_widgets()
+    from PySide6 import QtCore
+    said = T('No newer version found. This one is %s.') % VERSION
+    if not changed:
+        QtWidgets.QMessageBox.information(
+            window, T('Look for a newer version now'), said)
+        return
+    box = QtWidgets.QDialog(window)
+    box.setWindowTitle(T('Look for a newer version now'))
+    box.resize(680, 520)
+    rows = QtWidgets.QVBoxLayout(box)
+    head = QtWidgets.QLabel(said)
+    font = head.font()
+    font.setBold(True)
+    head.setFont(font)
+    head.setWordWrap(True)
+    rows.addWidget(head)
+    rows.addWidget(QtWidgets.QLabel(T('What is in %s:') % VERSION))
+    story = QtWidgets.QPlainTextEdit(changed)
+    story.setReadOnly(True)
+    # The bar stands there whether it is needed or not, as in the
+    # update dialog: a text that scrolls without one looks like a text
+    # that ends where the frame does.
+    story.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
+    story.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
+    story.setAccessibleName(T('What is in %s:') % VERSION)
+    rows.addWidget(story, 1)
+    if page:
+        where = QtWidgets.QLabel(page)
+        where.setStyleSheet("color: %s;" % COLOURS["quiet"])
+        where.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
+        rows.addWidget(where)
+    feet = QtWidgets.QHBoxLayout()
+    rows.addLayout(feet)
+    feet.addStretch(1)
+    # Qt translates its own standard buttons, so this one does not go
+    # through the catalogue: an entry that reads the same in both
+    # languages looks like English somebody forgot.
+    fine = QtWidgets.QDialogButtonBox(
+        QtWidgets.QDialogButtonBox.Ok, parent=box)
+    fine.accepted.connect(box.accept)
+    feet.addWidget(fine)
+    box.exec()
+
+
 def update_offer(window, asked=False):
     """Ask about looking for updates, look, and offer the new one.
 
@@ -26538,12 +26615,13 @@ def update_offer(window, asked=False):
         if asked:
             # Switched off means nothing was looked at, and calling
             # this the newest version would then be a guess.
-            said = (T('The check for new versions is switched off here.')
-                    if UPDATE_OFF
-                    else T('No newer version found. This one is %s.')
-                    % VERSION)
-            QtWidgets.QMessageBox.information(
-                window, T('Look for a newer version now'), said)
+            if UPDATE_OFF:
+                QtWidgets.QMessageBox.information(
+                    window, T('Look for a newer version now'),
+                    T('The check for new versions is switched off '
+                      'here.'))
+            else:
+                newest_shown(window, page, changed)
         return
     # A dialog of its own rather than a QMessageBox: the box hides what
     # changed behind a "Show Details" button of its own making, which
@@ -26705,6 +26783,8 @@ CATALOGUE["de"] = {
     'running now stays beside it as videopodcast-magic.py.old.':
         'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
         'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
+    'What is in %s:':
+        'Was in %s steckt:',
     'What changed in %s:':
         'Was sich in %s geändert hat:',
     'Do not ask again':
