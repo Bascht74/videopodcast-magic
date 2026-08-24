@@ -5,6 +5,12 @@
 
 `--help` gibt diese Liste auch aus, immer auf Englisch. Vorgaben in Klammern.
 
+![Der Anfang eines Laufs im Terminal](images/terminal.de.png)
+
+*`--multitrack --lufs -16 --dry-run` am Ende des Aufrufs, darunter die
+Fassung und das Python, dann der Vorflug mit sieben Prüfungen und zwei
+Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
+
 ## Grundlagen
 
 | Schalter | Wirkung |
@@ -125,6 +131,9 @@ führt die Kapitel auf.
 * **Ein Wert mit einem Leerzeichen darin.** In Anführungszeichen
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.
+* **`--multitrack` ohne Schlüssel.** Der Lauf hält nach dem Vorflug an.
+  Dem Programm einen Schlüssel geben, oder `--without-auphonic` auf
+  diesem Rechner ausrichten, mischen und schneiden lassen.
 * **Die Liste ist auch in einem deutschen Lauf englisch.** `--help` und
   die Namen der Schalter folgen `--lang` nicht; der Schalter setzt die
   Sprache der Meldungen.

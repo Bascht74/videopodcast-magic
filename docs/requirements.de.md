@@ -51,6 +51,12 @@ wenn es eine andere ist: `Python 3.11.15  (recommended version 3.14.7)`.
 `--help` und `--version` antworten ohne `numpy`, `PySide6` und
 `ffmpeg`.
 
+![Ein Lauf im Terminal](images/terminal.de.png)
+
+*Die erste Zeile nennt Fassung und Python, darunter steht der Pfad der
+laufenden Datei. Dieses Python ist das empfohlene, also folgt keine
+Klammer.*
+
 ## Woher ffmpeg, PySide6 und numpy kommen
 
 Das Programm sucht `ffmpeg` und `ffprobe` zuerst im Suchpfad, dann

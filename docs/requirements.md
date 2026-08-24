@@ -48,6 +48,12 @@ which Python is running. They name the recommended one when it is
 another: `Python 3.11.15  (recommended version 3.14.7)`. `--help` and
 `--version` answer without `numpy`, `PySide6` and `ffmpeg`.
 
+![A run in the terminal](images/terminal.png)
+
+*The first line names version and Python, below it stands the path of
+the running file. This Python is the recommended one, so no bracket
+follows.*
+
 ## Where ffmpeg, PySide6 and numpy come from
 
 The program looks for `ffmpeg` and `ffprobe` first on the search path,

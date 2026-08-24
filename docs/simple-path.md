@@ -84,6 +84,11 @@ together by hand:
    recording's row.
 2. In the selector **belongs to**, choose the recording it belongs to.
 
+![The blocks of one recording](images/blocks.png)
+
+*The expanded row: the selector belongs to, set to a recording of its
+own, and under it the three blocks with size and runtime.*
+
 The recording goes into that one with every block it has. The program
 offers the selector only when another recording is available to join. It
 leaves the selector out on a recording that is itself joining into

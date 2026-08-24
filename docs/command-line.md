@@ -5,6 +5,12 @@
 
 `--help` prints this list too, always in English. Defaults in brackets.
 
+![The start of a run in the terminal](images/terminal.png)
+
+*`--multitrack --lufs -16 --dry-run` at the end of the call, the version
+and the Python underneath, then the preflight with seven checks and two
+hints. Without a key the multitrack run stops there.*
+
 ## Basics
 
 | Switch | Does |
@@ -125,6 +131,9 @@ chapters.
 * **A value with a space in it.** Put it in quotes:
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.
+* **`--multitrack` without a key.** The run stops after the preflight.
+  Give the program a key, or let `--without-auphonic` align, mix and cut
+  on this machine.
 * **The list is English in a German run.** `--help` and the names of
   the switches do not follow `--lang`; that switch sets the language of
   the messages.

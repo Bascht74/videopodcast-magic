@@ -83,6 +83,11 @@ Hand zusammen:
    der Aufnahme aufklappen.
 2. Im Auswahlfeld **gehört zu** die Aufnahme wählen, zu der sie gehört.
 
+![Die Blöcke einer Aufnahme](images/blocks.de.png)
+
+*Die aufgeklappte Zeile: das Auswahlfeld gehört zu, auf eine eigene
+Aufnahme gestellt, und darunter die drei Blöcke mit Größe und Laufzeit.*
+
 Die Aufnahme geht mit allen Blöcken, die sie hat, in die andere. Das
 Auswahlfeld wird nur angeboten, wenn es eine andere Aufnahme zum Anlegen
 gibt. Nicht angeboten wird es auf einer Aufnahme, die selbst in eine
