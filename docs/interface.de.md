@@ -43,15 +43,26 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 - **Zuordnung & Zeitfenster**: links die Tabellen, rechts der Player.
   Erscheint mit den Dateien.
 
-  Neben dem Player ermittelt der Knopf **Sprecher trennen**, wer wann
-  spricht, auf diesem Rechner. Die Stimmen stehen danach in einer
-  eigenen Tabelle unter der Zuordnungstabelle
-  ([Spracherkennung und Sprechertrennung](speech.de.md)).
+  Die fünfte Spalte der Zuordnungstabelle heißt **Sprecher**. Dort
+  trägt jede Aufnahme den Knopf **Sprecher trennen**, und der ermittelt
+  auf diesem Rechner, wer wann in genau dieser Aufnahme spricht. Während
+  er läuft, heißt der Knopf in dieser Zeile **Abbrechen**, und die
+  übrigen Zeilen haben keinen: es läuft immer nur eine. Eine getrennte
+  Aufnahme zeigt in derselben Zelle **Getrennt: 4 Sprecher** statt des
+  Knopfes.
 
-  Jede Stimme bekommt eine Zeile: die Aufnahme, in der sie gehört wurde,
-  wie lange sie insgesamt redet, und wo ihre längste Stelle beginnt.
-  Daneben stehen der Name, die zugehörige Kamera und **Anhören**, das
-  die Aufnahme an dieser längsten Stelle in den Player holt.
+  Bei mehr als einer Tonaufnahme läuft nichts von selbst; der Knopf in
+  der Zeile startet es. Unter der Tabelle steht **Auf diesem Rechner
+  nicht**: das schaltet die Trennung für das ganze Projekt ab.
+
+  Die Stimmen stehen in einer eigenen Tabelle unter der
+  Zuordnungstabelle
+  ([Spracherkennung und Sprechertrennung](speech.de.md)). Jede Stimme
+  bekommt eine Zeile: die Aufnahme, in der sie gehört wurde, wie lange
+  sie insgesamt redet, und wo ihre längste Stelle beginnt. Daneben
+  stehen der Name, die zugehörige Kamera und **Anhören**, das die
+  Aufnahme an dieser längsten Stelle in den Player holt. Ein Klick auf
+  die Zeile der Stimme tut dasselbe.
 
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
@@ -128,9 +139,10 @@ Der Player hat Abspielen und Pause, sekunden- und frameweise vor und
 zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
 dem In-Punkt gezählt.
 
-- Ein Klick auf eine Tabellenzeile holt die Datei an dieselbe Stelle im
-  Geschehen, so lassen sich zwei Kameras vergleichen. Gespielt wird die
-  zugeordnete Aufnahme, nicht der Kameraton.
+- Ein Klick auf eine Zeile der Zuordnungs- oder der Kameratabelle holt
+  die Datei an dieselbe Stelle im Geschehen, so lassen sich zwei Kameras
+  vergleichen. Gespielt wird die zugeordnete Aufnahme, nicht der
+  Kameraton.
 - In-Punkt und Out-Punkt nehmen die Stelle aus dem Bild, ein blauer
   Streifen zeigt das Fenster, und beim Ziehen laufen nur die Zahlen mit.
   Solange die Zeitachse fehlt, sind sie gesperrt.

@@ -39,15 +39,24 @@ Four tabs, in the order they are needed.
 - **Assignment & time window**: tables on the left, player on the right.
   Appears with the files.
 
-  Beside the player the button **Separate speakers** works out who
-  speaks when, on this machine. The voices then stand in a table of
-  their own under the assignment table
-  ([Speech recognition and speaker separation](speech.md)).
+  The fifth column of the assignment table is **Speakers**. Every
+  recording carries **Separate speakers** there, and it works out who
+  speaks when in that one recording, on this machine. While it runs the
+  button in that row reads **Break off** and the other rows have none:
+  only one runs at a time. A recording that has been separated says
+  **Separated: 4 speakers** in the same cell, in place of the button.
 
-  Each voice gets a row: the recording it was heard in, how long it
-  speaks altogether, and where its longest passage begins. Beside those
-  stand the name, the camera it belongs to and **Listen**, which puts
-  the recording into the player at that longest passage.
+  With more than one audio recording nothing starts by itself; the
+  button in the row starts it. Under the table stands **Not on this
+  machine**: it switches the separation off for the whole project.
+
+  The voices stand in a table of their own under the assignment table
+  ([Speech recognition and speaker separation](speech.md)). Each voice
+  gets a row: the recording it was heard in, how long it speaks
+  altogether, and where its longest passage begins. Beside those stand
+  the name, the camera it belongs to and **Listen**, which puts the
+  recording into the player at that longest passage. A click on the
+  voice's row does the same.
 
   ![Assignment table and player](images/assignment.png)
 
@@ -121,9 +130,9 @@ The player has play and pause, seconds and frames forward and back,
 volume and speed; timecode on the left, position on the right, counted
 from the In point.
 
-- A click on a table row brings that file in at the same point in what is
-  happening, so two cameras can be compared. It plays the assigned
-  recording, not the camera sound.
+- A click on a row of the assignment or camera table brings that file in
+  at the same point in what is happening, so two cameras can be
+  compared. It plays the assigned recording, not the camera sound.
 - In point and Out point take the spot from the picture, a blue stripe
   shows the window, and dragging the rail moves only the numbers. Until
   the time axis stands they are locked.

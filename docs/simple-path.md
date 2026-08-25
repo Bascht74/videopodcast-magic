@@ -44,8 +44,10 @@ What comes out depends on the material:
 One recording everybody is audible on is enough for the cut. The camera
 carrying that sound needs the tick. On the **Assignment & time window**
 tab, in the lower table, tick **as a track** in the column **own audio**.
-The line under the time axis then offers **Separate speakers**
-([Speech recognition and speaker separation](speech.md)).
+The camera then has a row in the assignment table, with **Separate
+speakers** in the column **Speakers** ([Speech recognition and speaker
+separation](speech.md)). The button takes that one recording. Once it
+has run, the number of speakers found stands in its place.
 
 With one camera nothing is switched over: there is nothing to switch to.
 What comes of it is a cut at every change of speaker, so Resolve gets one
@@ -145,8 +147,8 @@ exist.
 
 ### When something goes wrong
 
-- **The line under the time axis stays empty.** The camera's sound is
-  not a track yet: tick **as a track** for it.
+- **The camera's row is missing from the assignment table.** Its sound
+  is not a track yet: tick **as a track** for it.
 - **The continuation files are missing from the recording.** The names
   give the search nothing to go on: put them together by hand with
   **belongs to**.

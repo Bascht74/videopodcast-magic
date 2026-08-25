@@ -3,7 +3,7 @@
 *Auf Deutsch: [speech.de.md](speech.de.md). Back to the
 [contents](README.md).*
 
-## The line in the player box
+## What runs on this machine
 
 The program writes down what is spoken, and it tells the voices on a
 recording apart. Both run on this machine, without an account and
@@ -11,26 +11,32 @@ without an upload, and before anything goes to auphonic.com.
 
 ### Separating the speakers
 
-On the **Assignment & time window** tab, in the box **Preview player**,
-a line stands under the measured time axis. It says whether the voices
-in a recording can be told apart here. It also says how far that has
-got: ready, running, finished, or switched off for this project. The
-line stays empty when nothing needs separating.
+On the **Assignment & time window** tab the assignment table has a
+column **Speakers**. Every recording carries a button **Separate
+speakers** in its own row, and that button takes that one recording
+apart. While a run is going its button says **Break off** and the other
+rows carry none: one recording is separated at a time.
 
-The button **Separate speakers** starts it, **Break off** stops a run
-that is going. On a machine that is not a Mac, **Not on this machine**
-stands beside them the first time. The project keeps the answer, and
-**Separate speakers** goes with it: a project that has said no does
-not ask again. On a Mac the separation starts by itself as soon as the
-files are there.
+Once a recording has been separated, **Separated: 4 speakers** stands
+in that cell instead of the button. The program keeps one separation.
+Separating a second recording puts its result in place of the first.
+
+Under the tables one line says whether this machine works the
+separation out at all. On a machine that is not a Mac, **Not on this
+machine** stands beside it the first time. The project keeps the
+answer: a project that has said no does not ask again, and the buttons
+in the rows go with it.
+
+On a Mac with one recording the separation starts by itself as soon as
+the files are there. With more than one recording nothing starts on its
+own; the button in the row starts it.
 
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
-speaker)**: the line and the button stand there on both paths, with a
-single camera as well. If each person has their own microphone, the
-tracks are the truth and the line stays away. The separation says who
-speaks when; it does not make one track per speaker out of one
-recording.
+speaker)**: the column stands there on both paths, with a single camera
+as well. If each person has their own microphone, the tracks are the
+truth and nothing has to be separated. The separation says who speaks
+when; it does not make one track per speaker out of one recording.
 
 The setup fetches about 218 MB the first time, the model about 33 MB
 after it. [What it needs](requirements.md#getting-the-program) says
@@ -54,9 +60,10 @@ found, filled in as Speaker 1, Speaker 2 and so on by speaking time,
 the longest first. The **Voice** cell names the recording, how long
 that voice speaks in it, and where its longest passage begins.
 
-1. Press **Separate speakers**. On a Mac it has already run.
-2. Press **Listen** in a row. The button plays the longest stretch that
-   voice speaks.
+1. Press **Separate speakers** in the row of the recording. On a Mac
+   with one recording it has already run.
+2. Press a row of the voice table, or **Listen** in it. Both play the
+   longest stretch that voice speaks.
 3. Overwrite **Speaker name** with the name of the person.
 4. If a voice is missing, press **One more speaker in `<file>`**
    under the table. The button goes through the same recording again,
@@ -71,8 +78,8 @@ measured](../development/measurements.md).
 
 ![The voices of one recording](images/voices.png)
 
-*Tab Assignment & time window: the voice table under the assignment,
-and the state of the separation beside the player.*
+*Tab Assignment & time window: the voice table under the assignment
+tables.*
 
 ### When the program separates again
 
@@ -82,6 +89,9 @@ hand. A moved time window, a new In point, a changed offset or a
 renamed speaker carry on with the separation already there. The
 separation from the window travels with the run, and the program only
 converts it onto that time axis.
+
+A speaker count set by hand belongs to the recording it was set for.
+The button in another row drops it and counts afresh.
 
 ### Where the speakers came from
 
@@ -126,7 +136,7 @@ boundaries; the same chapter says what the wide shot does then.
 
 ### When something goes wrong
 
-* **The line says the separation is not set up.** It fetches what it
+* **The row says the separation is not set up.** It fetches what it
   needs on the first run. If that fails, the run carries on: with a
   track per person the speakers come from the tracks, otherwise the cut
   stays out.
@@ -155,5 +165,5 @@ These options are not in the window.
 * `--no-speakers-local` takes no recording apart by voice in this run,
   whatever else asks for it.
 * `--no-speech-recognition` leaves the text out.
-* `VPM_NO_SPEAKER_SPLIT=1` in front of the call: the separation never
-  starts by itself. The button still starts it.
+* `VPM_NO_SPEAKER_SPLIT=1` in front of the call: no column
+  **Speakers**, no button, and the separation never starts by itself.
