@@ -1,7 +1,7 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5668,
+ "largest_function": 5657,
  "lazy_plural": 0,
  "long_lines": 0,
  "narrating": 0,
@@ -49,7 +49,6 @@
   "gui.bridge_emit": [1, 20872],
   "gui.camera_start": [1, 25090],
   "gui.clean_up": [1, 26334],
-  "gui.finished_tracks_deeper": [1, 24476],
   "gui.mode_toggled": [1, 24858],
   "gui.preview_compute": [1, 25253],
   "gui.prework_audio_fetch": [1, 22562],
