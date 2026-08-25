@@ -247,13 +247,23 @@ def look(case):
                 return b
         return None
 
-    def voices(window):
-        """The table of voices: the one whose first heading is "Voice"."""
-        for t in window.findChildren(QtWidgets.QTableWidget):
-            head = t.horizontalHeaderItem(0)
-            if head is not None and head.text() == vpm.T('Voice'):
-                return t
-        return None
+    def voice_rows(window):
+        """How many voice rows there are, whatever holds them.
+
+        This used to look for a second table headed "Voice". On
+        25.8.2026 the two tables became one, the voices moved under
+        their recording, and the heading went with them -- so the old
+        way found nothing and read it as "no voices". Furniture again.
+        A voice row is now what its own fields say it is: the program
+        marks them with objectName "voice".
+        """
+        seen = set()
+        for w in window.findChildren(QtWidgets.QWidget):
+            if w.objectName() != "voice":
+                continue
+            name = w.accessibleName() or ""
+            seen.add(name.split(" -- ", 1)[-1] if " -- " in name else id(w))
+        return seen
 
     resolve = drawn(vpm.T('Resolve cut')).split()[0]
     result = {"case": case}
@@ -284,14 +294,14 @@ def look(case):
             # that never gets there gives up rather than hangs.
             rows = any(t.rowCount() for t in
                        window.findChildren(QtWidgets.QTableWidget))
-            table = voices(window)
-            if not (rows and (case != "separated" or table is not None)) \
+            heard = voice_rows(window)
+            if not (rows and (case != "separated" or heard)) \
                     and waited[0] < 160:
                 waited[0] += 1
                 QtCore.QTimer.singleShot(250, go)
                 return
             result["filled"] = bool(rows)
-            result["voices"] = 0 if table is None else table.rowCount()
+            result["voices"] = len(heard)
             box = tick(window)
             result["tick"] = None if box is None else bool(box.isChecked())
             result["sheet"] = sheet(window, resolve)
