@@ -21463,6 +21463,150 @@ def speaks_as(widget, what, row_name=""):
                              if row_name else what)
     return widget
 
+def split_cell_build(path, on_click):
+    """The Speakers cell of one recording: a button and a state.
+
+    Separating the speakers is an action on one named file, so it is
+    offered in the line that shows that file, and what came of it is
+    said in the same place. Returns the cell, the button and the label,
+    because both have to be written to again while a run is going on.
+    """
+    from PySide6 import QtWidgets as _qw
+    box = _qw.QWidget()
+    row = _qw.QHBoxLayout(box)
+    row.setContentsMargins(0, 0, 0, 0)
+    row.setSpacing(6)
+    button = _qw.QPushButton(T('Separate speakers'))
+    hint(button, T('Works out who speaks when from one recording everybody '
+                   'is audible on -- on this machine, without an upload. '
+                   'About one minute for half an hour of audio.'))
+    speaks_as(button, T('Separate speakers'), os.path.basename(path))
+    button.clicked.connect(lambda *_, x=path: on_click(x))
+    mark = label("", COLOURS["quiet"])
+    # Word wrap, because the text changes after the column was sized:
+    # "Separated: 4 speakers" is wider than the empty label the column
+    # was measured on, and a second line is better than a cut one.
+    mark.setWordWrap(True)
+    row.addWidget(button)
+    row.addWidget(mark, 1)
+    return box, button, mark
+
+
+def more_speakers_row(audio_file_list, on_pick):
+    """The row that asks for one speaker more than was found.
+
+    Every recording can be listened to again, whether anything was
+    found in it or not: whoever hears a fourth person knows it before
+    the program does. One button per recording put the player on the
+    right over the edge of the window from three recordings on, and
+    there can be seven -- so with more than one recording the name
+    moves off the button and into a chooser beside it, and the row
+    stays the same width whatever the material.
+    """
+    from PySide6 import QtWidgets as _qw
+    if not audio_file_list:
+        return None
+    more = _qw.QWidget()
+    more_row = _qw.QHBoxLayout(more)
+    more_row.setContentsMargins(0, 0, 0, 0)
+    if len(audio_file_list) == 1:
+        only = audio_file_list[0]
+        button = _qw.QPushButton()
+        # The whole name first, at the ordinary size. Only if that is
+        # too wide does the type get smaller, and only then is the
+        # name shortened -- the elision has to be measured in the font
+        # the button really draws with.
+        button.setText(T('One more speaker in %s') % os.path.basename(only))
+        font_smaller_if_wide(button, 2, ROW_ROOM)
+        if button.sizeHint().width() > ROW_ROOM:
+            button.setText(T('One more speaker in %s')
+                           % short_name(button, os.path.basename(only),
+                                        NAME_ROOM))
+        button.clicked.connect(lambda *_, x=only: on_pick(x))
+        more_row.addWidget(button)
+    else:
+        which = _qw.QComboBox()
+        for path in audio_file_list:
+            which.addItem(os.path.basename(path), path)
+        # Without this the box would be as wide as the longest file
+        # name in it; the name is elided instead, and the whole one
+        # stands in the list when it is opened.
+        which.setSizeAdjustPolicy(
+            _qw.QComboBox.AdjustToMinimumContentsLengthWithIcon)
+        which.setMinimumContentsLength(12)
+        which.setMaximumWidth(NAME_ROOM)
+        button = _qw.QPushButton(T('One more speaker in'))
+        # Button and chooser together have to fit; measured as a pair,
+        # and shrunk as a pair or not at all -- two different sizes
+        # side by side look like a mistake.
+        if (button.sizeHint().width()
+                + min(which.sizeHint().width(), NAME_ROOM) > ROW_ROOM):
+            font_smaller(button, 2)
+            font_smaller(which, 2)
+        button.clicked.connect(lambda *_, b=which: on_pick(b.currentData()))
+        more_row.addWidget(button)
+        more_row.addWidget(which)
+    hint(button, T('Listens to that recording again, looking for one '
+                   'speaker more than was found.'))
+    more_row.addStretch(1)
+    return more
+
+
+def label(text, colour=None, bold=False, large=0):
+    """A piece of text on the screen, in the colour it belongs in."""
+    from PySide6 import QtWidgets as _qw
+    widget = _qw.QLabel(text)
+    style = []
+    if colour:
+        style.append("color: %s" % colour)
+    if bold:
+        style.append("font-weight: bold")
+    if large:
+        style.append("font-size: %dpx" % large)
+    if style:
+        widget.setStyleSheet(";".join(style))
+    return widget
+
+def font_smaller(widget, less=1):
+    """Set a widget's font that many points below the application's.
+
+    Through the font and not through a style sheet: a fixed size in
+    a style sheet ignores whatever the system font is set to, and
+    then reads as tiny on one machine and as normal on the next.
+    """
+    from PySide6 import QtWidgets as _qw
+    f = _qw.QApplication.font()
+    if f.pointSizeF() > 0:
+        f.setPointSizeF(max(6.0, f.pointSizeF() - less))
+    else:
+        f.setPixelSize(max(8, f.pixelSize() - less))
+    widget.setFont(f)
+    return widget
+
+def font_smaller_if_wide(widget, less, room):
+    """Shrink the type only where the widget is wider than *room*.
+
+    Smaller type is a cost, not a free win: it is harder to read,
+    and on a machine whose system font was turned up it undoes
+    exactly what somebody set it for. So it is taken where the row
+    would otherwise push the sheet wider than the player leaves
+    it, and nowhere else.
+    """
+    if widget.sizeHint().width() <= room:
+        return widget
+    return font_smaller(widget, less)
+
+def short_name(widget, text, room):
+    """Shorten a file name to the room there is, from the middle.
+
+    Both ends of a file name carry what tells two of them apart --
+    the take at the front, the channel at the back -- so what goes
+    is the middle. The width is measured in the font the widget
+    actually draws with.
+    """
+    from PySide6 import QtCore as _qc
+    return widget.fontMetrics().elidedText(text, _qc.Qt.ElideMiddle, room)
+
 def field_bind(field, value, width=None):
     """Bind an input field and a value so each follows the other."""
     field.setText(str(value.get()))
@@ -21757,57 +21901,6 @@ def gui():
             signal.emit(*values)
         except RuntimeError:
             pass
-
-    def label(text, colour=None, bold=False, large=0):
-        widget = QtWidgets.QLabel(text)
-        style = []
-        if colour:
-            style.append("color: %s" % colour)
-        if bold:
-            style.append("font-weight: bold")
-        if large:
-            style.append("font-size: %dpx" % large)
-        if style:
-            widget.setStyleSheet(";".join(style))
-        return widget
-
-    def font_smaller(widget, less=1):
-        """Set a widget's font that many points below the application's.
-
-        Through the font and not through a style sheet: a fixed size in
-        a style sheet ignores whatever the system font is set to, and
-        then reads as tiny on one machine and as normal on the next.
-        """
-        f = QtWidgets.QApplication.font()
-        if f.pointSizeF() > 0:
-            f.setPointSizeF(max(6.0, f.pointSizeF() - less))
-        else:
-            f.setPixelSize(max(8, f.pixelSize() - less))
-        widget.setFont(f)
-        return widget
-
-    def font_smaller_if_wide(widget, less, room):
-        """Shrink the type only where the widget is wider than *room*.
-
-        Smaller type is a cost, not a free win: it is harder to read,
-        and on a machine whose system font was turned up it undoes
-        exactly what somebody set it for. So it is taken where the row
-        would otherwise push the sheet wider than the player leaves
-        it, and nowhere else.
-        """
-        if widget.sizeHint().width() <= room:
-            return widget
-        return font_smaller(widget, less)
-
-    def short_name(widget, text, room):
-        """Shorten a file name to the room there is, from the middle.
-
-        Both ends of a file name carry what tells two of them apart --
-        the take at the front, the channel at the back -- so what goes
-        is the middle. The width is measured in the font the widget
-        actually draws with.
-        """
-        return widget.fontMetrics().elidedText(text, Qt.ElideMiddle, room)
 
     def report(title, text):
         """Show a message with a button that says what it does."""
@@ -23214,27 +23307,23 @@ def gui():
     view_position.addWidget(window_hint)
     view_position.addWidget(axis_label)
 
-    # Under the time axis, because that is the other thing computed
-    # while the files are being looked at: who speaks when. One line
-    # for the state, one button that starts it or breaks it off.
+    # Under the assignment table: separating the speakers is an action
+    # on one named recording, and every recording carries the button
+    # for it in its own row. What stands here is the one question that
+    # is about the project and not about a file -- whether this machine
+    # works it out at all -- said once, beside the rows it applies to.
     split_line = QtWidgets.QWidget()
     _split_row = QtWidgets.QHBoxLayout(split_line)
     _split_row.setContentsMargins(0, 0, 0, 0)
     split_label = label("", COLOURS["quiet"])
     split_label.setWordWrap(True)
     _split_row.addWidget(split_label, 1)
-    split_button = QtWidgets.QPushButton(T('Separate speakers'))
-    hint(split_button,
-         T('Works out who speaks when from one recording everybody is '
-           'audible on -- on this machine, without an upload. About one '
-           'minute for half an hour of audio.'))
-    _split_row.addWidget(split_button)
     split_never = QtWidgets.QPushButton(T('Not on this machine'))
     hint(split_never, T('Leaves the separation switched off for this '
                         'project. The cut then comes from the tracks or '
                         'from auphonic.com, as before.'))
     _split_row.addWidget(split_never)
-    view_position.addWidget(split_line)
+    assign_position.insertWidget(1, split_line)
     split_line.setVisible(False)
 
     def window_ready():
@@ -23971,51 +24060,84 @@ def gui():
             camera_audio=bool(state.get("camera_audio")),
             weak=state.get("weak") or ())
 
-    def speaker_split_show(text="", colour=None):
-        """The one line under the time axis: what is happening."""
-        source, why = speaker_split_source()
+    def speaker_split_show(text="", colour=None, where=""):
+        """Say where the separation stands: in the row of its file.
+
+        What is happening to a recording belongs in the line that shows
+        that recording, so the state goes into the Speakers cell of the
+        row. Only the one question that is about the project and not
+        about a file stays below the table: whether this machine works
+        it out at all. *where* names the recording a message belongs to.
+        """
         wanted = speaker_split_wanted(state.get("speakers_wanted"))
         busy = split_run["busy"]
+        state["split_note"] = ((os.path.abspath(where) if where else "",
+                                text, colour or COLOURS["quiet"])
+                               if text else None)
         if SPEAKER_SPLIT_OFF:
             split_line.setVisible(False)
-            return
-        split_line.setVisible(bool(files) and why != "several microphones")
-        split_button.setText(T('Break off') if busy
-                             else T('Separate speakers'))
-        split_button.setVisible(bool(source) and (busy or wanted is not False))
-        split_never.setVisible(wanted is None and not busy and bool(source))
-        if text:
-            split_label.setText(text)
-            split_label.setStyleSheet("color: %s"
-                                      % (colour or COLOURS["quiet"]))
-            return
-        if not source:
-            split_label.setText("")
-        elif busy:
-            split_label.setText(T('Separating speakers in %s ...')
-                                % os.path.basename(source))
-        elif state.get("speakers_local"):
-            split_label.setText(TN(len(state["speakers_local"]),
-                                   'Separated: %d speaker in %s',
-                                   'Separated: %d speakers in %s')
-                                % (len(state["speakers_local"]),
-                                   os.path.basename(
-                                       state.get("speakers_source") or "")))
-            split_label.setStyleSheet("color: %s" % COLOURS["good"])
-            return
-        elif wanted is False:
-            split_label.setText(T('Speaker separation is switched off for '
-                                  'this project.'))
         else:
-            split_label.setText(T('Who speaks when can be worked out from '
-                                  '%s on this machine.')
-                                % os.path.basename(source))
-        split_label.setStyleSheet("color: %s" % COLOURS["quiet"])
+            split_line.setVisible(bool(files))
+            split_never.setVisible(wanted is None and not busy)
+            split_label.setText(
+                T('Speaker separation is switched off for this project.')
+                if wanted is False else
+                T('Who speaks when can be worked out on this machine, '
+                  'from any one recording everybody is audible on.'))
+        split_cells_show()
+
+    def split_cells_show():
+        """Write the state of the separation into every file's row.
+
+        One run at a time: while one recording is being listened to the
+        other buttons go, or a second run would fight the first for the
+        graphics unit and neither would finish sooner.
+        """
+        if SPEAKER_SPLIT_OFF:
+            return
+        off = speaker_split_wanted(state.get("speakers_wanted")) is False
+        busy = split_run["busy"]
+        running = os.path.abspath(state.get("speakers_running") or "") \
+            if state.get("speakers_running") else ""
+        found = state.get("speakers_local") or []
+        heard_in = os.path.abspath(state.get("speakers_source") or "") \
+            if state.get("speakers_source") else ""
+        note = state.get("split_note")
+        for path, button, mark in list(state.get("split_cells") or ()):
+            here = os.path.abspath(path)
+            mine = busy and here == running
+            done = bool(found) and here == heard_in and not busy
+            try:
+                button.setText(T('Break off') if mine
+                               else T('Separate speakers'))
+                # A recording that has been listened to keeps the
+                # answer where the button was: asking again is what
+                # "One more speaker in ..." under the table is for, and
+                # two widgets in one cell take the room the name field
+                # needs.
+                button.setVisible(not off and not done
+                                  and (mine or not busy))
+                if note and note[0] == here:
+                    mark.setText(note[1])
+                    mark.setStyleSheet("color: %s" % note[2])
+                elif mine:
+                    mark.setText(T('Separating speakers ...'))
+                    mark.setStyleSheet("color: %s" % COLOURS["quiet"])
+                elif done:
+                    mark.setText(TN(len(found), 'Separated: %d speaker',
+                                    'Separated: %d speakers') % len(found))
+                    mark.setStyleSheet("color: %s" % COLOURS["good"])
+                else:
+                    mark.setText("")
+            except RuntimeError:
+                # The table was built again; its cells are gone with it.
+                state["split_cells"] = []
+                return
 
     def speaker_split_note(text, share):
-        """Runs in the window thread: the line and the bar together."""
-        speaker_split_show(text)
+        """Runs in the window thread: the row and the bar together."""
         source = state.get("speakers_running") or ""
+        speaker_split_show(text, where=source)
         if source:
             plan.report("speakers:" + source, share)
 
@@ -24028,7 +24150,7 @@ def gui():
         plan.done("speakers:" + source)
         state["speakers_running"] = ""
         if trouble:
-            speaker_split_show(trouble[:200], COLOURS["error"])
+            speaker_split_show(trouble[:200], COLOURS["error"], where=source)
             return
         if not segments:
             speaker_split_show("", COLOURS["quiet"])
@@ -24111,12 +24233,24 @@ def gui():
         threading.Thread(target=speaker_split_work_loop,
                          args=(source, count), daemon=True).start()
 
-    def speaker_split_button():
-        """The button: start it, or break off what is running."""
+    def split_pick(source):
+        """The button in a row: listen to that recording, and no other.
+
+        Which file to take is said by whoever clicks, rather than
+        worked out from how many there are. With several recordings
+        nothing starts on its own -- 28 times real time is too much to
+        spend on a guess -- but naming one is a click.
+        """
         if split_run["busy"]:
             split_run["stop"] = True
-            speaker_split_show(T('Breaking off ...'))
+            speaker_split_show(T('Breaking off ...'),
+                               where=state.get("speakers_running") or "")
             return
+        if state.get("speakers_source_chosen") != source:
+            # A number of speakers set by hand belongs to the recording
+            # it was set for, not to the next one.
+            state["speakers_count"] = 0
+        state["speakers_source_chosen"] = source
         speaker_split_kick_off(fresh=True)
 
     def speaker_split_never():
@@ -24125,7 +24259,6 @@ def gui():
         axis_store(state.get("axis") or {})
         speaker_split_show()
 
-    split_button.clicked.connect(speaker_split_button)
     split_never.clicked.connect(speaker_split_never)
 
     def tc_column_show():
@@ -24651,6 +24784,12 @@ def gui():
         begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
         player.load(source, seconds=begin, running=True)
 
+    def voice_row_play(table):
+        """A clicked voice row means: hear that voice."""
+        row = table.currentRow()
+        if 0 <= row < len(voice_lines):
+            voice_play(voice_lines[row][0])
+
     def voice_add(source):
         """Say there is one more voice on that recording than was found.
 
@@ -24713,65 +24852,16 @@ def gui():
                 camera_value.listen(lambda *_: QtCore.QTimer.singleShot(
                     0, voices_remember))
                 voice_lines.append((label, name_value, camera_value))
+            # The row itself plays too, the way a file row opens its
+            # file: clicking the line that shows a voice is the
+            # shortest way to hear it, and it needs no button.
+            table.itemSelectionChanged.connect(
+                lambda t=table: voice_row_play(t))
             table_rows_fit(table)
             table.resizeColumnsToContents()
             table.setColumnWidth(1, max(160, table.columnWidth(1)))
-        # Every recording can be listened to again, whether anything
-        # was found in it or not: whoever hears a fourth person knows
-        # it before the program does. One button per recording put the
-        # player on the right over the edge of the window from three
-        # recordings on, and there can be seven -- so with more than
-        # one recording the name moves off the button and into a
-        # chooser beside it, and the row stays the same width whatever
-        # the material.
-        if audio_file_list:
-            more = QtWidgets.QWidget()
-            more_row = QtWidgets.QHBoxLayout(more)
-            more_row.setContentsMargins(0, 0, 0, 0)
-            if len(audio_file_list) == 1:
-                only = audio_file_list[0]
-                button = QtWidgets.QPushButton()
-                # The whole name first, at the ordinary size. Only if
-                # that is too wide does the type get smaller, and only
-                # then is the name shortened -- the elision has to be
-                # measured in the font the button really draws with.
-                whole = T('One more speaker in %s') % os.path.basename(only)
-                button.setText(whole)
-                font_smaller_if_wide(button, 2, ROW_ROOM)
-                if button.sizeHint().width() > ROW_ROOM:
-                    button.setText(T('One more speaker in %s')
-                                   % short_name(button,
-                                                os.path.basename(only),
-                                                NAME_ROOM))
-                button.clicked.connect(lambda *_, x=only: voice_add(x))
-                more_row.addWidget(button)
-            else:
-                which = QtWidgets.QComboBox()
-                for path in audio_file_list:
-                    which.addItem(os.path.basename(path), path)
-                # Without this the box would be as wide as the longest
-                # file name in it; the name is elided instead, and the
-                # whole one stands in the list when it is opened.
-                which.setSizeAdjustPolicy(
-                    QtWidgets.QComboBox.AdjustToMinimumContentsLengthWithIcon)
-                which.setMinimumContentsLength(12)
-                which.setMaximumWidth(NAME_ROOM)
-                button = QtWidgets.QPushButton(T('One more speaker in'))
-                # Button and chooser together have to fit; measured as
-                # a pair, and shrunk as a pair or not at all -- two
-                # different sizes side by side look like a mistake.
-                if (button.sizeHint().width()
-                        + min(which.sizeHint().width(), NAME_ROOM)
-                        > ROW_ROOM):
-                    font_smaller(button, 2)
-                    font_smaller(which, 2)
-                button.clicked.connect(
-                    lambda *_, b=which: voice_add(b.currentData()))
-                more_row.addWidget(button)
-                more_row.addWidget(which)
-            hint(button, T('Listens to that recording again, looking '
-                           'for one speaker more than was found.'))
-            more_row.addStretch(1)
+        more = more_speakers_row(audio_file_list, voice_add)
+        if more is not None:
             column.addWidget(more)
 
     def voices_remember():
@@ -24813,6 +24903,7 @@ def gui():
         # has just gone, and a row that no longer exists must not
         # still be able to say which camera it is on.
         voice_lines[:] = []
+        state["split_cells"] = []
         audio_fields[:] = []
         video_fields[:] = []
         audio_files = [p for p, a in files if a == "audio"]
@@ -24851,8 +24942,13 @@ def gui():
         head = (T('Camera') if state["camera_audio"] else T('Audio recording'))
         belongs_head = (T('Camera audio') if state["camera_audio"]
                         else T('belongs to'))
-        table_audio = table_build([head, T('Speaker name'),
-                                 belongs_head, "Timecode"])
+        # The column for the separation is only there where there is a
+        # separation to have: with it switched off it would be a column
+        # of empty cells offering something the program cannot do.
+        columns = [head, T('Speaker name'), belongs_head, "Timecode"]
+        if not SPEAKER_SPLIT_OFF:
+            columns.append(T('Speakers'))
+        table_audio = table_build(columns)
         column_layout.addWidget(table_audio, 1)
         audio_file_list = []
         # Without timecode a position cannot be converted onto the common axis.
@@ -24895,6 +24991,13 @@ def gui():
             name_field = field_bind(QtWidgets.QLineEdit(), name_value)
             speaks_as(name_field, T('Speaker name'), caption)
             table_audio.setCellWidget(i, 1, name_field)
+            # Before the branch below, so that a row without a selector
+            # carries the button too: whether a recording is spread over
+            # every camera has nothing to do with who is heard on it.
+            if not SPEAKER_SPLIT_OFF:
+                box_, button_, mark_ = split_cell_build(first, split_pick)
+                table_audio.setCellWidget(i, 4, box_)
+                state["split_cells"].append((first, button_, mark_))
             # Without multitrack there is nothing to distribute: the same audio
             # goes into every camera. That is what it says, rather than a
             # selector that does nothing.
@@ -25084,6 +25187,17 @@ def gui():
         table_video.horizontalHeader().setSectionResizeMode(
             2, QtWidgets.QHeaderView.Stretch)
         table_audio.horizontalHeader().setStretchLastSection(True)
+        if not SPEAKER_SPLIT_OFF:
+            # The last column carries a button, and a button that is
+            # squeezed shows half its caption. So the room left over
+            # goes to the name field instead, which scrolls its content
+            # rather than cutting it.
+            audio_head = table_audio.horizontalHeader()
+            audio_head.setStretchLastSection(False)
+            audio_head.setSectionResizeMode(
+                4, QtWidgets.QHeaderView.ResizeToContents)
+            audio_head.setSectionResizeMode(
+                1, QtWidgets.QHeaderView.Stretch)
         # The camera list now stands, so queue what can be prepared: the
         # envelope for every camera, plus the camera audio for those
         # contributing it.
@@ -27916,11 +28030,9 @@ CATALOGUE["de"] = {
     'Separate speakers': 'Sprecher trennen',
     'Separating speakers': 'Sprecher werden getrennt',
     'Separating speakers ...': 'Sprecher werden getrennt ...',
-    'Separating speakers in %s ...':
-        'Sprecher werden getrennt in %s ...',
     '  From %s: %d voice.': '  Aus %s: %d Stimme.',
-    'Separated: %d speaker in %s': 'Getrennt: %d Sprecher in %s',
-    'Separated: %d speakers in %s': 'Getrennt: %d Sprecher in %s',
+    'Separated: %d speaker': 'Getrennt: %d Sprecher',
+    'Separated: %d speakers': 'Getrennt: %d Sprecher',
     'Break off': 'Abbrechen',
     'Breaking off ...': 'Wird abgebrochen ...',
     'Not on this machine': 'Auf diesem Rechner nicht',
@@ -27931,9 +28043,10 @@ CATALOGUE["de"] = {
         'Die Sprechertrennung wird eingerichtet (rund %d MB) ...',
     'Speaker separation is switched off for this project.':
         'Die Sprechertrennung ist für dieses Projekt abgeschaltet.',
-    'Who speaks when can be worked out from %s on this machine.':
-        'Wer wann spricht, lässt sich auf diesem Rechner aus %s '
-        'ermitteln.',
+    'Who speaks when can be worked out on this machine, from any one '
+    'recording everybody is audible on.':
+        'Wer wann spricht, lässt sich auf diesem Rechner ermitteln -- '
+        'aus einer Aufnahme, auf der alle zu hören sind.',
     'Works out who speaks when from one recording everybody is '
     'audible on -- on this machine, without an upload. About one '
     'minute for half an hour of audio.':
@@ -27977,6 +28090,7 @@ CATALOGUE["de"] = {
         'diese Fassung bietet keinen Weg, das abzuschalten -- die '
         'Trennung wurde nicht gestartet.',
     'Voice': 'Stimme',
+    'Speakers': 'Sprecher',
     'Speaker %d': 'Sprecher %d',
     'in %s -- speaks %s, longest passage at %s':
         'in %s -- redet %s, längste Stelle bei %s',

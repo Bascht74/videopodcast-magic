@@ -126,6 +126,30 @@ audio of a camera with **as a track** ticked. The count is read from
 the assignment file. A two channel file that was never split carries no
 extra mark.
 
+## Which way a camera's audio goes
+
+A camera's audio takes one of two ways, and they behave differently.
+This is written down because reading only one of them leads to the
+wrong conclusion about the other.
+
+| Way | What happens to more than two channels |
+|---|---|
+| **as a track** ticked | `camera_audio_tracks` cuts it into tracks, by the same measurement as a recorder file |
+| the simple path, no tick | `extract_audio_from_video` keeps every channel, and the file goes on whole |
+
+On the first way a camera is not automatically one track: two clip-on
+microphones on one channel each are two people, while a real stereo
+pair stays one two channel track. The audio is extracted with every
+channel it has and folded afterwards, never before -- folding four
+channels to one and then asking what is on them would always answer
+"one voice".
+
+The second way has one track by definition, so nothing is cut there.
+`kept_channels` answers 2 for two channels and 1 for anything else,
+which means a four channel file is treated as mono. Nothing then
+happens to it, and the four channels survive by accident rather than by
+design.
+
 ## How the time axis is measured
 
 The time axis is measured with sample points over the whole runtime, a
