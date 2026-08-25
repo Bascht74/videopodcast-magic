@@ -46,7 +46,6 @@ explains the word comes first.
 * **API key**: `auphonic`, "The key and the preset"; `interface`, "What
   Settings ... holds"
 * **Apple Log**: `resolve`, "How Apple Log survives the rewrite"
-* **as a track (tick)**: `multitrack`, "Making camera sound a track"
 * **assignment**: see belongs to
 * **belongs to (selector)**: `multitrack`, "Setting the assignment";
   `simple-path`, "Putting blocks together by hand"
@@ -55,7 +54,8 @@ explains the word comes first.
 * **block**: `simple-path`, "What goes into the video beside the mix";
   `simple-path`, "Putting blocks together by hand"
 * **camera audio**: `multitrack`, "Making camera sound a track";
-  `simple-path`, "What comes back for each video file"
+  `simple-path`, "What comes back for each video file";
+  `interface`, "The four tabs"
 * **camera, only one**: `resolve`, "One camera"; `camera-cut`, "Cutting when
   one camera shows everybody"
 * **channel, used or not**: `channels`, "Which channels become tracks at

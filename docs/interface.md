@@ -20,6 +20,26 @@ Four tabs, in the order they are needed.
   **Open project ...** sits on the drop area only. An open project takes
   new files at any time.
 
+  Every video file carries **Camera audio** in the list. It reads
+  **do not use the audio** until somebody sets it to **use the audio**.
+  Set, that sound goes the same way as a recording that was read in:
+  channels measured, one track or two decided, empty channels left out,
+  cut into tracks. Synchronising takes that sound either way; the field
+  does not decide it.
+
+  Where there is nothing to decide the field sets itself, greys out and
+  carries the reason beside it:
+
+  - the file has no audio track,
+  - the file stays out entirely,
+  - the file is an intro or an outro,
+  - one video file carries sound and no audio recording stands beside
+    it. That sound is the only one there is, and the field stands on
+    **use the audio**. Adding a recording gives the choice back.
+
+  The same field stands at the camera on **Assignment & time window**,
+  on the same value: change one and the other follows at once.
+
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
   on the first row and, beside it, what was measured. The program names
@@ -58,6 +78,11 @@ Four tabs, in the order they are needed.
   recording into the player at that longest passage. A click on the
   voice's row does the same.
 
+  The camera table under it carries **Camera audio** again, at every
+  camera, on the value from the file list. A camera set to
+  **use the audio** gets a row in the assignment table above, like a
+  recording of its own.
+
   ![Assignment table and player](images/assignment.png)
 
   *Above which recording belongs to which camera, below what becomes
@@ -92,14 +117,15 @@ without; the program asks for the API key only on the way over
 auphonic.com. The camera cut does not need the tick.
 
 Multitrack needs two input tracks. An input track is a recording of its
-own, a channel of a multichannel recorder, or the audio of a camera with
-**as a track** ticked for it. Several blocks of one recording count as
-one track, and a track set aside counts as none.
+own, a channel of a multichannel recorder, or the audio of a video file
+set to **use the audio**. Several blocks of one recording count as one
+track, and a track set aside counts as none.
 
 The tick stays clickable whatever the material. With one track only a
-grey line beside it says so, and it names the way to a second: **as a
-track** at a camera. If every camera already gives its audio away, that
-line says there is none left to take.
+grey line beside it says so, and it names the way to a second:
+**Camera audio** at a camera, set to **use the audio**. If every camera
+already gives its audio away, that line says there is none left to
+take.
 
 **Language** beside the production name is the language spoken in the
 recording, preset from the system language. It becomes the tag of the
@@ -108,10 +134,12 @@ transcribing. "not set" leaves the track untagged and lets the
 recognition work the language out for itself.
 
 **Dry run** is the run that measures and reports but writes nothing. It
-and **Start** stay locked while something is outstanding, and **they say
-what**:
+and **Start** stay locked while something is outstanding, and **what it
+is stands under the buttons**, with the tab it is on:
 
 - no files,
+- no sound in use: no audio recording, and no video file set to
+  **use the audio**,
 - no production name,
 - fewer than two tracks in the assignment table for multitrack,
 - a recording without a speaker name,
@@ -119,7 +147,7 @@ what**:
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means
-nothing on it is outstanding.
+nothing on it is outstanding. No window opens for any of this.
 
 Then a summary: how many cameras and audio tracks, how long, which
 preset, how many files this makes, how much room they need and how much
@@ -132,7 +160,8 @@ from the In point.
 
 - A click on a row of the assignment or camera table brings that file in
   at the same point in what is happening, so two cameras can be
-  compared. It plays the assigned recording, not the camera sound.
+  compared. The tick **hear assigned audio** plays the recording
+  assigned to that camera; without it the camera's own sound is heard.
 - In point and Out point take the spot from the picture, a blue stripe
   shows the window, and dragging the rail moves only the numbers. Until
   the time axis stands they are locked.
@@ -270,9 +299,9 @@ fit it show red. More about the project file stands in
 
 ## When something goes wrong
 
-- **Start** stays locked: the line beside it names what is missing, and
-  the field or the row it means turns red. Fill that in and the button
-  frees itself.
+- **Start** stays locked: the line under the buttons names what is
+  missing, and the field or the row it means turns red. Fill that in
+  and the button frees itself.
 - **The player shows no picture**: a button takes its place and hands the
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring

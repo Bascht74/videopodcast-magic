@@ -270,7 +270,29 @@ def measure(language):
             hint = w.sizeHint()
             if hint.isValid() and w.width() < hint.width():
                 w.resize(hint)
-        app.processEvents()
+        settle()
+
+
+    def settle():
+        """Let the layout finish before anything is measured.
+
+        One round of processEvents is enough on an idle machine and not
+        enough on a busy one: Qt lays out over several passes, and a
+        caption measured between two of them looks too narrow. On
+        25.8.2026 this file went red on the Windows runner inside the
+        parallel suite and green standalone in the same job, seconds
+        apart, with the same script and the same window size -- the
+        machine was the difference, not the program. So: keep going
+        until the widths stop moving, and give up after ten rounds
+        rather than hang.
+        """
+        was = None
+        for _ in range(10):
+            app.processEvents()
+            now = sum(w.width() for w in app.allWidgets() if w.isVisible())
+            if now == was:
+                return
+            was = now
 
     def sweep():
         """Every widget on the screen right now, measured once."""

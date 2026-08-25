@@ -22,6 +22,27 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   **Projekt öffnen ...** steht nur auf der Ablegefläche. Ein geöffnetes
   Projekt nimmt jederzeit neue Dateien auf.
 
+  Jede Videodatei trägt in der Liste das Feld **Kameraton**. Es steht
+  auf **Ton nicht verwenden**, bis jemand es auf **Ton verwenden**
+  stellt. Dann geht dieser Ton denselben Weg wie eine eingelesene
+  Aufnahme: Kanäle gemessen, eine Spur oder zwei entschieden, leere
+  Kanäle bleiben draußen, in Spuren zerlegt. Zum Synchronisieren wird
+  dieser Ton ohnehin genommen; darüber entscheidet das Feld nicht.
+
+  Wo nichts zu entscheiden ist, setzt sich das Feld selbst, ist
+  ausgegraut und trägt den Grund daneben:
+
+  - die Datei hat keine Tonspur,
+  - die Datei bleibt ganz draußen,
+  - die Datei ist ein Intro oder ein Outro,
+  - eine einzige Videodatei trägt Ton, und keine Tonaufnahme steht
+    daneben. Dieser Ton ist dann der einzige, den es gibt, und das Feld
+    steht auf **Ton verwenden**. Kommt eine Tonaufnahme dazu, ist die
+    Wahl wieder frei.
+
+  Dasselbe Feld steht auf **Zuordnung & Zeitfenster** bei der Kamera,
+  auf demselben Wert: ändert man eines, folgt das andere sofort.
+
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile
   **mit Channel 2 zusammenlegen** anbietet, und daneben, was gemessen
@@ -64,6 +85,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Aufnahme an dieser längsten Stelle in den Player holt. Ein Klick auf
   die Zeile der Stimme tut dasselbe.
 
+  Die Kameratabelle darunter trägt noch einmal **Kameraton**, bei jeder
+  Kamera, auf dem Wert aus der Dateiliste. Eine Kamera auf
+  **Ton verwenden** bekommt eine Zeile in der Zuordnungstabelle
+  darüber, wie eine eigene Aufnahme.
+
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
   *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
@@ -101,14 +127,15 @@ auphonic.com. Der Kameraschnitt braucht das Häkchen nicht.
 
 Multitrack braucht zwei Eingangsspuren. Eine Eingangsspur ist eine
 eigene Aufnahme, ein Kanal eines mehrkanaligen Aufnahmegeräts oder der
-Ton einer Kamera, bei der **als Spur** gesetzt ist. Mehrere Blöcke
+Ton einer Videodatei, die auf **Ton verwenden** steht. Mehrere Blöcke
 derselben Aufnahme zählen als eine Spur, eine beiseitegelegte Spur gar
 nicht.
 
 Das Häkchen bleibt anklickbar, was auch immer im Projekt liegt. Bei nur
 einer Spur sagt das eine graue Zeile daneben, und sie nennt den Weg zur
-zweiten: **als Spur** bei einer Kamera. Wenn jede Kamera ihren Ton schon
-hergibt, sagt diese Zeile, dass keiner mehr übrig ist.
+zweiten: **Kameraton** bei einer Kamera, gestellt auf
+**Ton verwenden**. Wenn jede Kamera ihren Ton schon hergibt, sagt diese
+Zeile, dass keiner mehr übrig ist.
 
 **Sprache** neben dem Produktionsnamen ist die in der Aufnahme gesprochene
 Sprache, vorbelegt aus der Systemsprache. Sie wird zur Kennzeichnung der
@@ -118,9 +145,11 @@ erwarten soll. „nicht gesetzt“ lässt die Spur ungekennzeichnet und
 
 **Probelauf** ist der Lauf, der misst und berichtet, aber nichts schreibt.
 Er und **Start** bleiben gesperrt, solange etwas offen ist, und
-**daneben steht, was**:
+**unter den Knöpfen steht, was**, mitsamt dem Reiter, auf dem es steht:
 
 - keine Dateien,
+- kein Ton in Verwendung: keine Tonaufnahme, und keine Videodatei auf
+  **Ton verwenden**,
 - kein Produktionsname,
 - weniger als zwei Spuren in der Zuordnungstabelle für Multitrack,
 - eine Aufnahme ohne Sprechernamen,
@@ -128,7 +157,8 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
-einem Reiter heißt: dort ist nichts mehr offen.
+einem Reiter heißt: dort ist nichts mehr offen. Kein Fenster geht dafür
+auf.
 
 Dann eine Zusammenfassung: wie viele Kameras und Tonspuren, wie lang, welches
 Preset, wie viele Dateien entstehen, wieviel Platz sie brauchen und wieviel
@@ -141,8 +171,9 @@ dem In-Punkt gezählt.
 
 - Ein Klick auf eine Zeile der Zuordnungs- oder der Kameratabelle holt
   die Datei an dieselbe Stelle im Geschehen, so lassen sich zwei Kameras
-  vergleichen. Gespielt wird die zugeordnete Aufnahme, nicht der
-  Kameraton.
+  vergleichen. Das Häkchen **zugeordneten Ton hören** spielt die dieser
+  Kamera zugeordnete Aufnahme; ohne das Häkchen ist der Kameraton zu
+  hören.
 - In-Punkt und Out-Punkt nehmen die Stelle aus dem Bild, ein blauer
   Streifen zeigt das Fenster, und beim Ziehen laufen nur die Zahlen mit.
   Solange die Zeitachse fehlt, sind sie gesperrt.
@@ -285,9 +316,9 @@ passen, erscheinen rot. Mehr über die Projektdatei steht in
 
 ## Wenn etwas klemmt
 
-- **Start** bleibt gesperrt: die Zeile daneben nennt, was fehlt, und das
-  gemeinte Feld oder die gemeinte Zeile wird rot. Ist das nachgetragen,
-  gibt der Knopf sich frei.
+- **Start** bleibt gesperrt: die Zeile unter den Knöpfen nennt, was
+  fehlt, und das gemeinte Feld oder die gemeinte Zeile wird rot. Ist
+  das nachgetragen, gibt der Knopf sich frei.
 - **Der Player zeigt kein Bild**: an seine Stelle tritt ein Knopf, der
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die

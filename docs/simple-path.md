@@ -41,13 +41,20 @@ What comes out depends on the material:
 
 ### Telling the speakers apart on one track
 
-One recording everybody is audible on is enough for the cut. The camera
-carrying that sound needs the tick. On the **Assignment & time window**
-tab, in the lower table, tick **as a track** in the column **own audio**.
-The camera then has a row in the assignment table, with **Separate
-speakers** in the column **Speakers** ([Speech recognition and speaker
-separation](speech.md)). The button takes that one recording. Once it
-has run, the number of speakers found stands in its place.
+One recording everybody is audible on is enough for the cut. The video
+file carrying that sound has to be set to contribute it: in the file
+list on the **Files & production** tab, in that file's row, put **Camera
+audio** on **use the audio**. It then has a row in the assignment table,
+with **Separate speakers** in the column **Speakers** ([Speech
+recognition and speaker separation](speech.md)). The button takes that
+one recording. Once it has run, the number of speakers found stands in
+its place.
+
+With exactly one video file with sound and no audio recording beside it
+nobody has to set anything: that sound is the only sound there is, so
+the field sets itself and says why, greyed out. Add an audio recording
+and it is a question again ([Multitrack](multitrack.md), section "Making
+camera sound a track").
 
 With one camera nothing is switched over: there is nothing to switch to.
 What comes of it is a cut at every change of speaker, so Resolve gets one
@@ -148,7 +155,8 @@ exist.
 ### When something goes wrong
 
 - **The camera's row is missing from the assignment table.** Its sound
-  is not a track yet: tick **as a track** for it.
+  is not in use yet: put **Camera audio** on **use the audio** in the
+  file list.
 - **The continuation files are missing from the recording.** The names
   give the search nothing to go on: put them together by hand with
   **belongs to**.
