@@ -573,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.7.1-beta"
+VERSION = "2.8.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -581,6 +581,10 @@ PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 FILE_FORMAT = 3
 CEILING_DBTP = -1.0                     # true-peak ceiling of the result
 LIMIT_MAX_DB = 6.0        # most the limiter may take off
+# What the multitrack path answers when its plan turned out to hold one
+# track: not an error code but a mark, so the ordinary path can be taken
+# with the tracks that were measured.
+SINGLE_TRACK = "single track"
 
 # Values that are stored and shown at the same time. The value is fixed so
 # a project file keeps its meaning in any language; what appears on screen
@@ -7604,6 +7608,27 @@ def sort_by_time(paths):
     return sorted(paths, key=api_key)
 
 
+def one_track_left(plan):
+    """What to do when the camera audio holds fewer than two tracks.
+
+    Not a reason to stop since 2.7.0-beta: one track is a whole result.
+    The voices in it are told apart on this machine and the first cut is
+    made from that, so what falls away is Multitrack, not the run. The
+    tracks that were found are handed back for the ordinary path.
+
+    Nothing at all is the one case that cannot go on: no camera had a
+    microphone, and there is no sound to work with.
+    """
+    tracks = [e["audio"] for e in plan if e.get("audio")]
+    if not tracks:
+        print(as_bad(T('No sound in the cameras -- nothing to work with.')))
+        return 1
+    print(T('  One track only. Multitrack needs two, so this runs the '
+            'ordinary way:\n  the voices in it are told apart and the cut '
+            'is made from that.'))
+    return (SINGLE_TRACK, tracks)
+
+
 def show_multitrack_plan(args, audio_paths, video_paths):
     """Show the detected plan without doing anything yet.
 
@@ -7650,14 +7675,14 @@ def show_multitrack_plan(args, audio_paths, video_paths):
         atexit.register(shutil.rmtree, args._camera_audio, True)
         plan = extract_audio_for_plan(plan, args._camera_audio)
         if len(plan) < 2:
-            return 1
+            return one_track_left(plan)
     elif not plan:
         # Only video files on the command line: guess the names ourselves.
         args._camera_audio = tempfile.mkdtemp(prefix="vpm_camaudio_")
         atexit.register(shutil.rmtree, args._camera_audio, True)
         plan = plan_from_camera_audio(video_paths, args._camera_audio, cameras, title)
         if len(plan) < 2:
-            return 1
+            return one_track_left(plan)
         if not cameras:
             # One entry per camera, not per track: a camera whose two
             # channels carry two microphones is still one camera and
@@ -7699,6 +7724,22 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             for idx, what in enumerate(track_order_for_camera(own, every), 1):
                 print(T('        Track %d: %s') % (idx, what))
     return build_common_timebase(args, plan, cameras, video_paths, title)
+
+
+def multitrack_or_single(args, ap, audio_paths, video_paths):
+    """Take the multitrack path, or the ordinary one where one track is left.
+
+    How many tracks there are is not how many files there are: a camera
+    carrying two clip-on microphones is two tracks, a camera with one
+    microphone is one. That is measured while the plan is built, so the
+    decision falls here, after the plan, and not on a file count before
+    anybody has looked.
+    """
+    outcome = show_multitrack_plan(args, audio_paths, video_paths)
+    if not (isinstance(outcome, tuple) and outcome[0] == SINGLE_TRACK):
+        return outcome
+    args.multitrack = False
+    return run_single_track_path(args, ap, list(outcome[1]), video_paths)
 
 
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
@@ -13029,6 +13070,24 @@ def pending_prework(paths, having_audio=(), has_audio=lambda p: False,
     return out
 
 
+def every_audio_block(files, blocks_of):
+    """Every audio file a run would touch, blocks included.
+
+    *files* is the selection as (path, kind) pairs, *blocks_of* what the
+    search found for each recording. The selection holds what somebody
+    picked; a recording made of blocks was found in the folder, and its
+    continuations are not in the list. They still have to be measured
+    and cut, or the tracks of a multi-part recording would come from the
+    first block only.
+    """
+    out = [os.path.abspath(p) for p, a in files if a == "audio"]
+    for row in blocks_of.values():
+        for x in row:
+            if x not in out:
+                out.append(x)
+    return out
+
+
 def window_suggestion(entries, fps=30.0):
     """Suggest the In point and the Out point from what the cameras offer.
 
@@ -13053,6 +13112,48 @@ def window_suggestion(entries, fps=30.0):
     # Whole seconds are enough here, and the mark depends on the
     # language, so it is asked for explicitly.
     return "+0:00", "+%s" % as_hms(max(lengths), ".").split(".")[0], False
+
+
+def has_sound(file_path):
+    """Whether this file carries an audio stream at all.
+
+    Asked of a camera before its audio is made into a track by itself:
+    a camera nobody plugged a microphone into is no answer to the
+    question where the sound comes from.
+    """
+    try:
+        return any(s.get("codec_type") == "audio"
+                   for s in ffprobe_json(file_path).get("streams") or [])
+    except Exception:
+        return False
+
+
+def cameras_with_own_audio(videos, audio_files, ticked=(), sound_of=None):
+    """Which cameras contribute their audio as a track, and which by rule.
+
+    A tick set by hand decides, and nothing else -- with one exception,
+    the case where there is nothing to decide: a single video file that
+    carries sound, and not one audio recording beside it. Then that
+    sound is the only sound there is, and a run without it would have
+    nothing at all to work on. Two cameras are a choice again, and a
+    choice belongs to the person, not to the program.
+
+    Derived, never stored. As soon as an audio recording joins the
+    selection the exception no longer holds and the tick is gone by
+    itself, so no forgotten automatic tick is left behind.
+
+    *sound_of* answers whether a video carries audio; without it every
+    video counts as carrying some.
+
+    Returns (cameras, forced), *forced* being the ones nobody ticked.
+    """
+    wanted = {os.path.abspath(b) for b in (ticked or ())}
+    by_hand = [b for b in videos if os.path.abspath(b) in wanted]
+    if by_hand or audio_files or len(videos) != 1:
+        return by_hand, []
+    if sound_of is not None and not sound_of(videos[0]):
+        return [], []
+    return list(videos), list(videos)
 
 
 def assignment_rows(audio_files, videos, own_flag_cameras=(),
@@ -18879,13 +18980,12 @@ def main():
     if run_preflight(args, audio_paths, video_paths):
         return 1
     if args.multitrack and not audio_paths:
-        # Cameras only: their own audio becomes the track, checked later.
-        if len(video_paths) < 2:
-            print(T('Multitrack needs at least two tracks -- with one '
-                    'camera there is nothing\nto unmix. Without '
-                    '--multitrack its audio is processed as usual.'))
-            return 1
-        return show_multitrack_plan(args, audio_paths, video_paths)
+        # Cameras only: their own audio becomes the track. How many
+        # tracks that is has to be measured, not counted -- one camera
+        # with two clip-on microphones is two of them. So the plan is
+        # built first and the decision falls behind it; a camera with
+        # one microphone drops into the ordinary path there.
+        return multitrack_or_single(args, ap, audio_paths, video_paths)
     if not audio_paths:
         # Picture only, no multitrack: the camera audio becomes the track.
         if len(video_paths) > 1:
@@ -18906,12 +19006,40 @@ def main():
         print(missing)
         return 1
     if args.multitrack:
-        return show_multitrack_plan(args, audio_paths, video_paths)
+        return multitrack_or_single(args, ap, audio_paths, video_paths)
 
     return run_single_track_path(args, ap, audio_paths, video_paths)
 
 
 #-------------------------------------------------------------- Interface
+
+def own_audio_checkbox(box, locked_why=""):
+    """Finish the "as a track" tick: room for its text, and the lock.
+
+    The macOS style reports a checkbox narrower than its own text, and
+    the column then takes that number: "as a track" came out clipped.
+    Measured on 23.8.2026 -- hint 74 px for text that needs more. So the
+    text is measured here, and the room around it comes from the style
+    rather than from a number somebody liked.
+
+    *locked_why* is given where there is nothing left to choose: one
+    video with sound and no audio recording beside it. The tick then
+    sits and cannot be moved. The reason travels back out to be put
+    next to it -- greyed out without a reason is the dead end this
+    project took out of the preset list on 24.8.2026.
+    """
+    import PySide6.QtWidgets as _qw
+    style = box.style()
+    room = (style.pixelMetric(_qw.QStyle.PM_IndicatorWidth)
+            + style.pixelMetric(_qw.QStyle.PM_CheckBoxLabelSpacing)
+            + box.fontMetrics().horizontalAdvance(box.text()) + 8)
+    if box.sizeHint().width() < room:
+        box.setMinimumWidth(room)
+    if locked_why:
+        box.setChecked(True)
+        box.setEnabled(False)
+    return locked_why
+
 
 def fix_table_width(t, weights=None):
     """Stretch the table over the full width, as tall as its content.
@@ -22395,7 +22523,10 @@ def gui():
                 channel_node.pop(api_key, None)
         # Now that the channels are known, what has to be cut out of
         # the file is known too.
-        prework_kick_off(every_audio_block())
+        # The cameras belong in it too, or a camera carrying two clip-on
+        # microphones would be measured and never cut.
+        prework_kick_off(every_audio_block(files, blocks_of)
+                         + list(state.get("own_cameras") or ()))
 
     bridge.channels_done.connect(channels_arrived)
 
@@ -22483,6 +22614,13 @@ def gui():
                 if len(set(names)) < 2:
                     pending[22] = (T('All recordings carry the same name '
                                      '-- that makes a single track.'))
+        # No sound at all: a camera without the tick contributes none, and
+        # a run with nothing to listen to has no first step. Said here
+        # rather than in a dialog, like everything else that is missing --
+        # and after the Multitrack line, because it is the closer reason.
+        if files and not assign_lines:
+            pending[22] = T('No sound to work with -- tick "as a track" at '
+                            'a camera, or add an audio recording.')
         outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
         duplicate = sorted(set(n for n in outputs if n and outputs.count(n) > 1))
         if duplicate:
@@ -22801,21 +22939,6 @@ def gui():
                                frozenset(no_join),
                                tuple(tuple(g) for g in together_now())),
                          daemon=True).start()
-
-    def every_audio_block():
-        """Every audio file a run would touch, blocks included.
-
-        The list holds what was selected; a recording made of blocks was
-        found in the folder, and its continuations are not in the list.
-        They still have to be measured and cut, or the tracks of a
-        multi-part recording would come from the first block only.
-        """
-        out = [os.path.abspath(p) for p, a in files if a == "audio"]
-        for row in blocks_of.values():
-            for x in row:
-                if x not in out:
-                    out.append(x)
-        return out
 
     def join_row_show(node, path, heads):
         """Offer to put this recording into another one.
@@ -24643,7 +24766,12 @@ def gui():
             remembered["audio:" + row[0]] = (nv.get(), camera)
         for file_path, nv, own_box, own_name_box in camera_lines:
             remembered["video:" + file_path] = nv.get()
-            remembered["own:" + file_path] = own_box.get()
+            # Only what somebody clicked themselves is stored. A tick that
+            # follows from "one camera, no audio recording" is derived
+            # afresh every time, so it disappears by itself as soon as an
+            # audio recording joins and leaves nothing behind.
+            if file_path not in (state.get("forced_own") or ()):
+                remembered["own:" + file_path] = own_box.get()
             remembered["ownname:" + file_path] = own_name_box.get()
         for file_path, value in clip_kind_values.items():
             remembered["kind:" + file_path] = value.get()
@@ -24920,14 +25048,18 @@ def gui():
         for _src, _pieces in split_files.items():
             for _path, _label in _pieces or []:
                 piece_label[os.path.abspath(_path)] = _label
+        own_now, forced = cameras_with_own_audio(
+            videos, audio_files,
+            [b for b in videos if remembered.get("own:" + b)], has_sound)
         chains, camera_audio, own = assignment_rows(
-            audio_files, videos,
-            [b for b in videos if remembered.get("own:" + b)],
+            audio_files, videos, own_now,
             split_of=lambda x: [t[0] for t in
                                 split_files.get(os.path.abspath(x)) or []],
             apart=no_join, together=together_now())
         state["camera_audio"] = camera_audio
         state["own_audio_rows"] = own
+        state["own_cameras"] = list(own_now)
+        state["forced_own"] = list(forced)
         if not chains:
             column_layout.addWidget(label(T('No audio files selected yet '
                                             '-- or at least two cameras, '
@@ -25119,7 +25251,7 @@ def gui():
             # the room microphone, say, or where somebody has no recording of
             # their own. It is then a track like any other: with a speaker
             # name, it goes up, gets processed and is in the mix.
-            own_audio = Value(bool(remembered.get("own:" + b)))
+            own_audio = Value(b in forced or bool(remembered.get("own:" + b)))
             # One camera can give more than one track: two clip-on
             # microphones on two channels are two speakers, and both names
             # belong in the file name of that camera.
@@ -25146,26 +25278,16 @@ def gui():
             own_row.setContentsMargins(0, 0, 0, 0)
             checkbox = checkbox_bind(
                 QtWidgets.QCheckBox(T('as a track')), own_audio)
-            # The macOS style reports a checkbox narrower than its own
-            # text, and the column then takes that number: "as a track"
-            # came out clipped. Measured on 23.8.2026 -- hint 74 px for
-            # text that needs more. So the text is measured here, and
-            # the room around it comes from the style rather than from
-            # a number somebody liked.
-            _style = checkbox.style()
-            _room = (_style.pixelMetric(QtWidgets.QStyle.PM_IndicatorWidth)
-                     + _style.pixelMetric(
-                         QtWidgets.QStyle.PM_CheckBoxLabelSpacing)
-                     + checkbox.fontMetrics().horizontalAdvance(
-                         checkbox.text()) + 8)
-            if checkbox.sizeHint().width() < _room:
-                checkbox.setMinimumWidth(_room)
+            why = own_audio_checkbox(
+                checkbox, T('the only sound there is') if b in forced else "")
             speaks_as(checkbox, T('own audio'), short)
             hint(checkbox, T('This camera contributes its audio as its own '
                              'track -- it appears at the top of the table.'))
             checkbox.toggled.connect(
                 lambda *_: QtCore.QTimer.singleShot(0, refresh_names))
             own_row.addWidget(checkbox)
+            if why:
+                own_row.addWidget(label(why, COLOURS["quiet"]))
             own_row.addStretch(1)
             table_video.setCellWidget(row, 4, own_flag)
             camera_lines.append((b, name_value, own_audio, own_audio_name))
@@ -28959,16 +29081,18 @@ CATALOGUE["de"] = {
         'Zuordnung als Spur markiert ist. Ohne zwei davon gibt es\n  nichts '
         'zu entkoppeln, und dieselbe Datei läuft als gewöhnliche\n  '
         'Produktion durch.',
-    'Multitrack needs at least two tracks -- with one camera there is '
-    'nothing\nto unmix. Without --multitrack its audio is processed as '
-    'usual.':
-        'Multitrack braucht mindestens zwei Spuren -- mit einer Kamera '
-        'gibt es\nnichts zu entmischen. Ohne --multitrack wird ihr Ton '
-        'normal aufbereitet.',
     'No preset is called %r.':
         'Kein Preset heißt %r.',
     'No preset selected: %s':
         'Kein Preset gewählt: %s',
+    'No sound in the cameras -- nothing to work with.':
+        'Kein Ton in den Kameras -- nichts, womit sich arbeiten ließe.',
+    '  One track only. Multitrack needs two, so this runs the ordinary '
+    'way:\n  the voices in it are told apart and the cut is made from '
+    'that.':
+        '  Nur eine Spur. Multitrack braucht zwei, also läuft es '
+        'gewöhnlich:\n  die Stimmen darin werden getrennt, und daraus '
+        'entsteht der Schnitt.',
     'Only one audio file and no picture -- nothing to do.':
         'Nur eine Tondatei und kein Bild -- nichts zu tun.',
     'PROJECT OPENED\n  All entries are back, nothing has been computed in '
@@ -30733,6 +30857,12 @@ CATALOGUE["de"] = {
         'setzen.',
     'One track only, and no camera audio left to take.':
         'Nur eine Spur, und es ist kein Kameraton mehr übrig.',
+    'the only sound there is':
+        'der einzige Ton, den es gibt',
+    'No sound to work with -- tick "as a track" at a camera, or add an '
+    'audio recording.':
+        'Kein Ton, mit dem sich arbeiten ließe -- bei einer Kamera "als '
+        'Spur" setzen, oder eine Tondatei dazunehmen.',
     'Multitrack needs several tracks':
         'Multitrack braucht mehrere Spuren',
     'Mute.':

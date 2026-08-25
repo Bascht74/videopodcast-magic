@@ -9,6 +9,67 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.8.0-beta] - 2026-08-25
+
+### Added
+
+- Every recording carries its own **Separate speakers** button, in a
+  fifth column of the assignment table. Until now one button sat in the
+  player box on the right and the program picked the file itself. Which
+  recording gets taken apart is now a choice.
+- More than one recording no longer blocks the separation. It returned
+  "several microphones" and hid the whole line, so somebody with two
+  audio files -- one of them a stereo bed with quiet music -- had no
+  separation at all. Nothing starts by itself there, which is right at
+  a measured 28 times real time, but the button in the row starts it.
+- A camera's audio can be a track where there is only one camera. The
+  window built no camera row at all for a single video without an audio
+  recording, so the tick did not exist and there was nothing to set.
+- Exactly one video carrying sound and no audio recording beside it:
+  the tick sits by itself, greyed out, with "the only sound there is"
+  next to it. It is derived, never stored, so adding a recording makes
+  it vanish with nothing left behind. Greyed out without a reason was
+  the dead end taken out of the preset list on 24.8.
+
+### Changed
+
+- The state line "Separated: 4 speakers" stands in the row of the file
+  it belongs to, where the button was. Not beside it: with both in one
+  cell the name field shrinks from 210 to 86 px.
+- "Not on this machine" moved with it, once, under the tick. It is the
+  one question that belongs to the project rather than to a file.
+- A click on a voice row plays it, not only the Listen button.
+
+### Fixed
+
+- Multitrack counted video files where it should have counted tracks.
+  A single camera carrying two clip-on microphones holds two tracks,
+  and it was turned away before anybody looked: `main()` refused
+  cameras-only runs at fewer than two video files. The plan is built
+  first now -- audio pulled, channels measured, tracks cut -- and
+  counted afterwards. Measured on the same file: the old version exits
+  1, the new one exits 0 and writes a .mov with four audio streams,
+  every segment boundary inside the 0.4 s pause, largest deviation
+  0.263 s.
+- One track is a valid result, and two places still treated it as too
+  few. They now say why Multitrack falls away and hand the measured
+  tracks to the ordinary path, which since 2.7.0-beta separates
+  speakers and cuts by them. Only "no sound in any camera" still stops.
+- The channel split never ran for video files. `channels_arrived`
+  handed on a list that held audio files alone, so a camera with two
+  microphones stayed one row for good.
+- Start is blocked, with the reason under the button, where no sound is
+  left at all -- rather than a dialog, or an abort at the end.
+
+### Documentation
+
+- Four chapter pairs followed the button: interface, speech,
+  simple-path and multitrack, both languages. Corrected with them:
+  the line does not stay away when everybody has a microphone, a Mac
+  starts by itself only with one recording, and with
+  VPM_NO_SPEAKER_SPLIT the column is not built at all rather than
+  shown empty and clickable.
+
 ## [2.7.1-beta] - 2026-08-25
 
 ### Fixed
@@ -1349,6 +1410,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.8.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.1-beta...v2.8.0-beta
 [2.7.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.0-beta...v2.7.1-beta
 [2.7.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.1-beta...v2.7.0-beta
 [2.6.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.0-beta...v2.6.1-beta
