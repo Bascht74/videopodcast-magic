@@ -85,8 +85,31 @@ exactly one person speaks. The report says so and the run goes on.
 ### Which loudness target holds
 
 The target holds for both: normalising the tracks, and the target level of
-the loudness display in the Resolve project. Without an entry it is
--16 LUFS.
+the loudness display in the Resolve project. It comes from **Loudness** in
+the **Production** box on the first page of the window, or from `--lufs`
+on the command line. The window offers five entries:
+
+- **-16 LUFS (Podcast directories, stereo)**
+- **-19 LUFS (Podcast directories, mono)**
+- **-14 LUFS (YouTube -- turns down only, never up)**
+- **-23 LUFS (EBU R128, broadcast)**
+- **Take from source files**
+
+A new project starts on -16 LUFS. The window remembers the entry last
+chosen and starts the next new project on it, and a loaded project file
+beats that memory: a project saved at -23 LUFS opens at -23 LUFS, even
+where the machine had remembered **Take from source files**.
+
+**Without a target nothing is adjusted.** No `--lufs` on the command
+line, or **Take from source files** in the window, and the sound leaves
+exactly as it came in: no gain on any track and no limiter. auphonic.com
+goes on doing what its preset says. The sum is measured all the same and
+the measurement goes into the log, under `Not adjusted:` -- taken from
+the source files, no gain on any track and no limiter. The preflight says
+the same in its Loudness row: taken from the source files, no `--lufs`
+given, nothing is adjusted. In the Resolve project the loudness display
+still needs a scale, so it is set to -16 LUFS, and the line above it in
+the log says that this is only what the meter measures against.
 
 **The mix is two-channel, and so is the measurement.** The single tracks
 keep the channels their source has ([Channels](channels.md)). Every *mix*
@@ -150,13 +173,3 @@ The window does not offer these.
 
 `--anyway` runs despite a stop, `--no-preflight` skips the check entirely,
 `--preflight-again` measures everything again instead of only what changed.
-
-`--lufs` sets the target loudness as a number (default -16, nearer to
-zero is louder), `--platform` by purpose:
-
-| Value | Target | What for |
-|---|---|---|
-| `podcast` | -16 LUFS | podcast directories, stereo |
-| `podcast-mono` | -19 LUFS | podcast directories, mono |
-| `youtube` | -14 LUFS | YouTube turns down only, never up |
-| `broadcast` | -23 LUFS | EBU R128 |

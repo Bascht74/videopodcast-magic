@@ -29,16 +29,39 @@ Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** stehen links zwei Tabellen.
 Die obere hat je Tonaufnahme eine Zeile: **Tonaufnahme**,
-**Sprechername**, **gehört zu**, Timecode, **Sprecher**. In der letzten
-Spalte sitzt der Knopf **Sprecher trennen**, und ist diese Aufnahme
-getrennt, steht dort statt seiner die Zahl der gefundenen Sprecher
-([Spracherkennung und Sprechertrennung](speech.de.md)). Das Auswahlfeld
-**gehört zu** listet die Kameras, danach zwei Sonderfälle:
+**Sprechername**, **gehört zu**, Timecode, **Sprecher**. Ein in
+**Sprechername** getippter Name sagt, dass die Aufnahme diese eine
+Person ist; der eine Eintrag, den man stattdessen wählen kann,
+**mehrere Sprecher**, sagt, dass es mehrere sind, und die gefundenen
+Stimmen hängen danach als eingerückte eigene Zeilen unter dieser Zeile.
+Erst eine gegebene Antwort zeigt sie: eine Aufnahme, deren Trennung
+schon gespeichert ist und für die niemand geantwortet hat, behält ein
+leeres Feld und keine Stimmzeilen. Das Gemessene geht dabei nicht
+verloren -- die Stimmen bleiben im Projekt und im Ablageordner, und
+wählt man später **mehrere Sprecher**, stehen sie sofort da, mit ihren
+Namen und Kameras und ohne neue Rechnung. Die letzte Spalte sagt, wie
+weit das gekommen ist, und bietet währenddessen **Abbrechen**
+([Spracherkennung und Sprechertrennung](speech.de.md)). Sie trägt noch
+eine Zeile, *Nur ein Sprecher -- Spur auftrennen?*, in jeder Zeile, die
+einen Namen hat und nicht auf **mehrere Sprecher** steht; ein Klick
+setzt das Feld auf **mehrere Sprecher**, und die Stimmen erscheinen.
+Sind schon Stimmen gespeichert, bietet dieselbe Zeile stattdessen an,
+sie zu zeigen. Das Auswahlfeld **gehört zu** listet die Kameras, danach
+zwei Sonderfälle:
 
 - **nur in den Mix**: im Full-Mix, aber bei niemandem die erste Spur. Für
   jemanden, der zu hören, aber nicht zu sehen ist.
 - **Audio ignorieren**: bleibt ganz außen vor, der Sprechername wird
   grau. Für eine Aufnahme, deren Video noch fehlt.
+
+**Sprechername** startet leer, mit dem aus dem Dateinamen geratenen
+Namen grau daneben. Tippt man nichts, gilt der Vorschlag -- aber nur,
+wenn er mit einem Buchstaben beginnt, in irgendeinem Alphabet, nicht
+nur in a bis z. Ein Vorschlag wie `0008A` tut das nicht, das Feld
+bleibt leer, und bei Multitrack bleibt **Start** gesperrt, bis ein Name
+da ist: der Name wird bei auphonic.com zur Bezeichnung dieser Spur und
+dort von Leuten gelesen, die die Datei nie gesehen haben. Ein
+getippter Name gilt so, wie er getippt wurde.
 
 Die untere Tabelle hat je Kamera eine Zeile: **Kamera**, **neue Datei
 heißt**, **bekommt Audio von** und **Kameraton**. Was eine Datei ist --
@@ -171,7 +194,10 @@ Erste Tonspur jeder Kameradatei ist der Mix genau der Sprecher in diesem
 Bild: `Mix <A> + <B>`. Bei nur einem Sprecher ist es sein Name. Danach
 dieselben Sprecher einzeln, dann `Full-Mix (…)`, zuletzt
 `Camera Original`. Die Lautheit wird über die Summe bestimmt und auf
-alle Spuren gleich angewendet, damit die Verhältnisse bleiben.
+alle Spuren gleich angewendet, damit die Verhältnisse bleiben. Welches
+Ziel gilt, kommt aus **Lautheit** in der Gruppe **Produktion** oder von
+`--lufs`; ohne beides wird der Ton aus den Quelldateien übernommen und
+nichts angepasst ([Vorflug](preflight.de.md)).
 
 Die Spuren werden außerdem als Dateien abgelegt, in `auphonic-tracks/`
 als `final_<Name>_<Timecode>.wav`. Der Timecode steht im Namen und im
@@ -201,13 +227,10 @@ trägt ihren eigenen Mix. Als Nächstes kommt die Frage, wer was sagt:
 
 ### Weitere Optionen über die Kommandozeile
 
-Diese Optionen gibt es im Fenster nicht.
+Diese Option gibt es im Fenster nicht.
 
 - `--parallel COUNT` legt fest, wie viele Kameradateien gleichzeitig
   laufen: `0` ist die Vorgabe und entscheidet selbst, `1` nimmt eine
   Datei nach der anderen. Mehr Dateien, als die Liste hält, laufen auch
   bei einer höheren Zahl nicht. Die geschriebenen Dateien sind in beiden
   Fällen byteweise identisch.
-- `--lufs` setzt die Lautheit, auf die die Summe gebracht wird,
-  voreingestellt −16. Die üblichen Zielwerte je Plattform stehen im
-  [Vorflug](preflight.de.md).

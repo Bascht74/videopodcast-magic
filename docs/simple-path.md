@@ -44,11 +44,23 @@ What comes out depends on the material:
 One recording everybody is audible on is enough for the cut. The video
 file carrying that sound has to be set to contribute it: in the file
 list on the **Files & production** tab, in that file's row, put **Camera
-audio** on **use the audio**. It then has a row in the assignment table,
-with **Separate speakers** in the column **Speakers** ([Speech
-recognition and speaker separation](speech.md)). The button takes that
-one recording. Once it has run, the number of speakers found stands in
-its place.
+audio** on **use the audio**. It then has a row in the assignment table.
+Answer its **Speaker name** with **several speakers**, the one entry
+that field offers to pick, and the voices on that one recording are told
+apart ([Speech recognition and speaker separation](speech.md)). The
+column **Speakers** says how far that got; the voices themselves come up
+as indented rows under the recording.
+
+The field never answers itself from a separation already stored. A
+recording that was separated once, but that nobody answered for, shows
+an empty field and no voice rows. Picking **several speakers** later
+puts the voices there at once, with their names and cameras, without
+computing anything again.
+
+Where a row carries a name and is not on **several speakers**, the
+column **Speakers** offers *Only one speaker -- separate the track?* as
+a flat text button. A click sets the field to **several speakers**, and
+the voices appear.
 
 With exactly one video file with sound and no audio recording beside it
 nobody has to set anything: that sound is the only sound there is, so
@@ -63,14 +75,28 @@ coloured and given a framing of its own there, which on a 360 degree
 camera is the whole point. The passages sit on that timeline as markers,
 a colour per person, so it is visible who speaks where.
 
-The log says `FIRST CUT BY SPEAKER` instead of `CAMERA CUT`, and the box
-in the window carries the same name. Speaking times, cut forecast, the
-settings of the cut and the four cut lists come with it
+The log says `FIRST CUT BY SPEAKER` instead of `CAMERA CUT` as soon as
+all the speakers sit on the same camera; the heading follows nothing
+else. The box in the window is named by a rule of its own and does not
+always agree with it. Speaking times, cut forecast, the settings of the
+cut and the four cut lists come with it
 ([Speaker statistics, camera cut, EDL](camera-cut.md)).
 
-One voice found is not a fault. Nobody hands over, so there is no cut.
-Resolve gets the camera in one piece with the mix under it, and the
-passages are marked there too.
+One voice found is not a fault. What comes of it depends on how many
+cameras there are:
+
+- **One camera.** Nobody hands over and there is nothing to switch to,
+  so there is no cut. Resolve gets the camera in one piece with the mix
+  under it, and the passages are marked there too. The box in the
+  window is called **First cut by speaker**.
+- **Two cameras or more.** The program takes the first camera nobody is
+  assigned to, calls it the wide shot and cuts it in. The box is called
+  **Cut with the wide shot**. The log still says
+  `FIRST CUT BY SPEAKER`, because all the speakers sit on the same
+  camera.
+
+With two speakers on cameras of their own it stays a camera cut, in the
+log and in the window.
 
 ### What goes into the video beside the mix
 

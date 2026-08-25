@@ -70,6 +70,7 @@ explains the word comes first.
 * **`colr`**: `resolve`, "Keeping the colour of the source"
 * **credit**: `auphonic`, "When the production already exists"
 * **cut band**: `camera-cut`, "Reading the cut band and the legend"
+* **Cut with the wide shot (box)**: `camera-cut`, "How the cut comes about"
 * **de-bleed**: `auphonic`, "Working without Auphonic"; `preflight`, "How
   the report measures bleed against the 3:1 rule"
 * **drop frame**: `resolve`, "The button and the two timelines"
@@ -108,7 +109,8 @@ explains the word comes first.
   "Working without Auphonic"
 * **log (`videopodcast-magic.log`)**: `interface`, "The four tabs"
 * **loudness range**: `preflight`, "Which loudness target holds"
-* **loudness target (LUFS)**: `preflight`, "Which loudness target holds";
+* **loudness target (LUFS)**: `interface`, "The four tabs"; `preflight`,
+  "Which loudness target holds";
   `command-line`, "Basics"
 * **marker**: `resolve`, "One camera"; `resolve`, "The button and the two
   timelines"

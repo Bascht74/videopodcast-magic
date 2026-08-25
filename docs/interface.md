@@ -59,24 +59,35 @@ Four tabs, in the order they are needed.
 - **Assignment & time window**: tables on the left, player on the right.
   Appears with the files.
 
-  The fifth column of the assignment table is **Speakers**. Every
-  recording carries **Separate speakers** there, and it works out who
-  speaks when in that one recording, on this machine. While it runs the
-  button in that row reads **Break off** and the other rows have none:
-  only one runs at a time. A recording that has been separated says
-  **Separated: 4 speakers** in the same cell, in place of the button.
+  The recordings are a tree. Its second column is the **Speaker
+  name**. It starts empty, with the name the file name suggests
+  standing in it in grey: a name typed in says the recording is that
+  one person, and the entry **several speakers**, which can be picked
+  instead, sets the program to work out who speaks when in that one
+  recording, on this machine. Only that answer shows the voices. A
+  separation nobody has answered for leaves the field empty and the
+  rows hidden, and answering later brings them up at once, with the
+  names and cameras they already had. The fifth column, **Speakers**,
+  says how that stands -- **Break off** while it runs, in that row and
+  no other, then **Separated: 4 speakers**, and beside it the offer
+  **Only one speaker -- separate the track?** wherever a name stands in
+  the field.
 
   With more than one audio recording nothing starts by itself; the
-  button in the row starts it. Under the table stands **Not on this
-  machine**: it switches the separation off for the whole project.
+  answer in the row starts it. Under the recordings stands **Not on
+  this machine**: it switches the separation off for the whole project.
 
-  The voices stand in a table of their own under the assignment table
-  ([Speech recognition and speaker separation](speech.md)). Each voice
-  gets a row: the recording it was heard in, how long it speaks
-  altogether, and where its longest passage begins. Beside those stand
-  the name, the camera it belongs to and **Listen**, which puts the
-  recording into the player at that longest passage. A click on the
-  voice's row does the same.
+  The voices are the rows under the recording they were heard in
+  ([Speech recognition and speaker separation](speech.md)), indented
+  and open to begin with. Each says **Voice** in the first column, so
+  that the step down can be seen, and carries the name and the camera
+  it belongs to. Folded away, the recording says under **belongs to**
+  what folding takes off the screen -- the cameras: **on 2 cameras**,
+  or **on 1 camera, 1 without** where a voice has none yet; open, that
+  cell of its own stays empty, so the assignment is never on two levels
+  at once. A click on a voice takes the player to where that voice
+  speaks longest and plays it. Recordings that show no voices are a
+  flat list, without triangles.
 
   The camera table under it carries **Camera audio** again, at every
   camera, on the value from the file list. A camera set to
@@ -97,11 +108,16 @@ Four tabs, in the order they are needed.
   sit on two cameras or more. On one camera for everybody it is called
   **First cut by speaker**. Nothing is switched there: the cut falls at
   every change of speaker, and Resolve gets one clip per person. With
-  **Multitrack** ticked the name stays **Camera cut**.
+  one person and a second camera nobody is on it is called **Cut with
+  the wide shot**: that person's camera stands, and the wide shot breaks
+  it up. With **Multitrack** ticked the name stays **Camera cut**.
 
   The box appears as soon as **Multitrack** is ticked, or as soon as two
-  voices from **Separate speakers** carry a name and a camera. Until then
-  a line stands in place of box and preview and says what is missing. A
+  people carry a name and a camera -- the voices under a separated
+  recording, or the rows of the assignment table. One person is enough
+  where there are two cameras or more. One person on a single camera
+  gets no box, and rightly: there is nowhere to cut to. Until then a
+  line stands in place of box and preview and says what is missing. A
   Resolve project is written anyway, with every camera at its measured
   place.
 
@@ -133,6 +149,26 @@ written audio track and tells auphonic.com what to expect when
 transcribing. "not set" leaves the track untagged and lets the
 recognition work the language out for itself.
 
+**Loudness** in the **Production** box on the first page sets how loud
+the finished episode is made; the same gain goes on every track, so the
+balance between the speakers is kept. Five entries:
+
+- **-16 LUFS (Podcast directories, stereo)**
+- **-19 LUFS (Podcast directories, mono)**
+- **-14 LUFS (YouTube -- turns down only, never up)**
+- **-23 LUFS (EBU R128, broadcast)**
+- **Take from source files**
+
+A new project starts on -16 LUFS. The window remembers the entry last
+chosen, and a loaded project file beats that memory.
+**Take from source files** adjusts nothing at all: auphonic.com goes on
+doing what its preset says, and without auphonic.com the sound stays as
+it is in the source files -- the file comes out byte for byte the same.
+
+[Which loudness target holds](preflight.md#which-loudness-target-holds)
+says what else hangs on the target: normalising the tracks, the meter in
+the Resolve project, and what the log records.
+
 **Dry run** is the run that measures and reports but writes nothing. It
 and **Start** stay locked while something is outstanding, and **what it
 is stands under the buttons**, with the tab it is on:
@@ -142,8 +178,10 @@ is stands under the buttons**, with the tab it is on:
   **use the audio**,
 - no production name,
 - fewer than two tracks in the assignment table for multitrack,
-- a recording without a speaker name,
-- all recordings under the same name,
+- with multitrack, a recording with no name at all: none typed, and
+  none the file name suggests -- the grey suggestion counts as the name
+  wherever nothing is typed over it,
+- with multitrack, all recordings under the same name,
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means
@@ -160,8 +198,10 @@ from the In point.
 
 - A click on a row of the assignment or camera table brings that file in
   at the same point in what is happening, so two cameras can be
-  compared. The tick **hear assigned audio** plays the recording
-  assigned to that camera; without it the camera's own sound is heard.
+  compared. A click on a voice under a recording opens that recording
+  where the voice speaks longest and plays at once. The tick **hear
+  assigned audio** plays the recording assigned to that camera; without
+  it the camera's own sound is heard.
 - In point and Out point take the spot from the picture, a blue stripe
   shows the window, and dragging the rail moves only the numbers. Until
   the time axis stands they are locked.

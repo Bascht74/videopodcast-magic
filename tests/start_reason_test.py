@@ -10,6 +10,13 @@ tabs rather than from a second list beside them.
 
 The fourth is the intro: two files set to intro would both be written
 into the same switch, so the second choice frees the first.
+
+The fifth is the wide shot nobody marked. A camera no speaker is
+assigned to shows "Wide shot" greyed in its Kind field, with the reason
+beside it, while "content" goes on being stored. Shown and stored are
+two answers to two questions here, so this test asks the value behind
+the field wherever it means the value, and holds the two apart in a
+check of their own.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -25,6 +32,24 @@ vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
+
+# What a Kind field stores, as against what it shows. Reading
+# currentData() answers the second question, and since 25.8.2026 the
+# two can differ: a camera nobody is assigned to shows "Wide shot"
+# while "content" stays stored. clip_kind_bind is the one place where
+# the field and the value behind it meet -- one value per file, two
+# fields onto it -- so the value is taken there rather than guessed
+# from the label. Not a copy: the object the window itself reads.
+stored_kind = {}
+_clip_kind_bind = vpm.clip_kind_bind
+
+
+def clip_kind_bind(box, value, after=None):
+    stored_kind[box.accessibleName()] = value
+    return _clip_kind_bind(box, value, after=after)
+
+
+vpm.clip_kind_bind = clip_kind_bind
 
 error = []
 
@@ -138,10 +163,37 @@ def kind_boxes():
     return out
 
 
+def stored_kinds():
+    """What the Kind fields store, in the order the fields stand in.
+
+    The answer to "what is this file", which is not always what the
+    field shows: the wide shot the program works out for itself is
+    shown and not stored.
+    """
+    return [stored_kind[b.accessibleName()].get() for b in kind_boxes()]
+
+
+def kind_reason(box):
+    """The grey line beside a Kind field, empty where there is none."""
+    cell = box.parentWidget()
+    return " ".join(w.text().strip() for w in
+                    cell.findChildren(QtWidgets.QLabel) if w.text().strip())
+
+
 def pick(box, value):
+    """Choose an entry the way somebody at the screen chooses it.
+
+    Both signals, because Qt sends both and they say different things.
+    currentIndexChanged stays quiet when the entry is already the
+    current one, and that is exactly the case here: a field showing a
+    derived wide shot has that entry selected already, so choosing it
+    is the act that turns the derivation into a stored answer. Only
+    activated says it happened.
+    """
     for i in range(box.count()):
         if box.itemData(i) == value:
             box.setCurrentIndex(i)
+            box.activated.emit(i)
             app.processEvents()
             return True
     return False
@@ -229,19 +281,54 @@ def step():
             return
         elif i == 2:
             boxes = kind_boxes()
-            kinds = [b.currentData() for b in boxes]
+            kinds = stored_kinds()
             check("the first one is the intro",
-                  kinds.count(vpm.TYPE_INTRO) == 1, str(kinds))
+                  kinds[0] == vpm.TYPE_INTRO
+                  and kinds.count(vpm.TYPE_INTRO) == 1, str(kinds))
             pick(boxes[1], vpm.TYPE_INTRO)
             n[0] = 3
             QtCore.QTimer.singleShot(1500, step)
             return
         elif i == 3:
-            kinds = [b.currentData() for b in kind_boxes()]
+            kinds = stored_kinds()
             check("the second choice frees the first",
-                  kinds.count(vpm.TYPE_INTRO) == 1, str(kinds))
+                  kinds[1] == vpm.TYPE_INTRO
+                  and kinds.count(vpm.TYPE_INTRO) == 1, str(kinds))
             check("and the first one is content again",
                   kinds[0] == vpm.TYPE_CONTENT, str(kinds))
+            print("\n6. The wide shot nobody marked: shown, not stored")
+            # Nobody is assigned to a camera here, so the first file is
+            # the wide shot the program works out for itself. Sebastian
+            # asked for that to be readable: "at least we should show
+            # which cameras are wide shots instead of content."
+            free = kind_boxes()[0]
+            check("the value stored stays content",
+                  stored_kinds()[0] == vpm.TYPE_CONTENT,
+                  str(stored_kinds()))
+            check("the field shows the wide shot instead",
+                  free.currentData() == vpm.TYPE_WIDE,
+                  repr(free.currentText()))
+            check("greyed, so a derivation cannot pass for an answer",
+                  "color" in (free.styleSheet() or ""),
+                  repr(free.styleSheet()))
+            check("and the reason stands beside it",
+                  bool(kind_reason(free)), repr(kind_reason(free)))
+            check("the field stays operable all the same",
+                  free.isEnabled())
+            print("\n7. Choosing what is shown makes it an answer")
+            pick(free, vpm.TYPE_WIDE)
+            n[0] = 4
+            QtCore.QTimer.singleShot(1500, step)
+            return
+        elif i == 4:
+            free = kind_boxes()[0]
+            check("now the wide shot is stored, not worked out",
+                  stored_kinds()[0] == vpm.TYPE_WIDE, str(stored_kinds()))
+            check("so the field is no longer grey",
+                  "color" not in (free.styleSheet() or ""),
+                  repr(free.styleSheet()))
+            check("and needs no reason beside it any more",
+                  not kind_reason(free), repr(kind_reason(free)))
             print("\n%s" % ("ALL OK" if not error
                             else "FAIL: " + ", ".join(error)))
             app.quit(); return

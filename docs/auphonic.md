@@ -86,9 +86,10 @@ cut and Resolve project come out as usual. Missing is only what the
 service does: de-bleed, leveler, noise removal. The bleed stays in the
 audio.
 
-`--lufs` sets the target loudness, -16 by default; a lower number is
-quieter. The same gain goes on every track, which keeps the balance
-between the speakers.
+`--lufs` sets the target loudness; a lower number is quieter. The same
+gain goes on every track, which keeps the balance between the speakers.
+Without it, and with **Take from source files** in the window, nothing
+is adjusted at all: the sound stays as it is in the source files.
 
 The local speaker separation says who speaks when ([Speech recognition
 and speaker separation](speech.md)). Without it, the program measures it

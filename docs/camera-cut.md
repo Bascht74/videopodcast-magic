@@ -5,11 +5,13 @@
 
 ## How the cut comes about
 
-The cut needs two people, each with a name and a camera. Separate
-recordings give that, and so do the voices from **Separate speakers**;
-the **Multitrack** tick is no part of it. Both ways are in [Speech
-recognition and speaker separation](speech.md). With that the script
-knows who speaks when, and builds the cut from it:
+The cut needs two people, each with a name and a camera. One person is
+enough as well, as long as a second camera is there that nobody is on.
+Separate recordings give two people, and so do the voices told apart on
+one recording whose **Speaker name** was answered with **several
+speakers**; the **Multitrack** tick is no part of it. Both ways are in
+[Speech recognition and speaker separation](speech.md). With that the
+script knows who speaks when, and builds the cut from it:
 
 * One speaker alone gets their camera, with a lead-in.
 * A short "yes" does not: below **Speaks at least** the picture stays
@@ -27,8 +29,10 @@ one camera means it shows both.
 switched; on one camera it is not. What comes out there is a first cut
 at every change of speaker. The run puts `CAMERA CUT` over its section
 with two cameras or more and `FIRST CUT BY SPEAKER` with one. The box in
-the window carries the same two names; before anything is separated it
-is called **Camera cut**.
+the window carries those two names and a third: with one person named
+and two cameras or more it is called **Cut with the wide shot**, because
+their camera stands and only the wide shot breaks it up. Before anything
+is separated the box is called **Camera cut**.
 
 The output folder gets `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 and `_cameracut.edl`, whatever the cut is called. The heads are
@@ -40,8 +44,9 @@ and `_cameracut.edl`, whatever the cut is called. The heads are
 
 The interface takes every value on the **Resolve cut** tab, in the box
 **Camera cut**. One field per value, with the unit and a short line
-beside it. The box is there once the cut has its two people; until then
-a line stands in its place and says what is missing.
+beside it. The box is there once the cut has its people -- two of them,
+or one with a second camera nobody is on; until then a line stands in
+its place and says what is missing.
 
 ![The knobs for the camera cut](images/resolve-cut.png)
 
@@ -83,8 +88,10 @@ does not say whom to show:
   `--on-question`)
 
 The first three take the same four values: **Wide shot**, **Listener**,
-**Alternating** and **No camera change**. **Question** takes **off**,
-**Answering speaker** and **Listener**.
+**Alternating** and **No camera change**. **Question** takes **do not go
+early**, **Answering speaker** and **Listener**; **do not go early**
+means no early camera change, the picture follows the sound here as it
+does everywhere else.
 
 Under the fields the tick **Wide shot for greeting at the start and
 farewell at the end** keeps beginning and end on the wide shot (on the
@@ -160,8 +167,30 @@ the position rail: the computed cut over the full length, one bar per
 shot in the colour of its camera. The scale carries minutes over the
 whole thing and seconds once zoomed in. Hovering names camera, from-to
 and duration; clicking sets the spot for the player. Below it the
-**legend**: per camera a dot of colour and
-`62 × Candidate  77 %  (48:19 min)`.
+**legend**: one entry per camera in the cut, a square in its colour and
+then how often, who, the share and the time --
+`129 × Candidate  50 %  (29:48 min)`.
+
+**An entry is named after the people, not after the file.** A file name
+says nothing that is not known already; the assignment does. So an
+entry carries:
+
+* the speaker on that camera, by name;
+* every name joined with a plus where several share one camera --
+  `41 × Speaker 1 + Speaker 2  14 %  (9:37 min)`; none is dropped and
+  none is shortened;
+* **Wide shot** for the camera serving as that;
+* the camera's short name where nobody is assigned to it and it is not
+  the wide shot, because calling it the wide shot would be a claim and
+  not a reading;
+* the camera beside the name where two of them come out with the same
+  one -- one speaker filmed twice -- or the bars could not be told
+  apart.
+
+The legend wraps. On a narrow window it stands on two lines instead of
+one, and nothing is shortened or left out to make it fit: a line breaks
+between two entries and at a plus, never inside a name and never inside
+a number.
 
 These are the colours of the clips in Resolve, with one exception: the
 wide shot is shown in a pale sage. In Resolve that clip is still called
@@ -200,7 +229,8 @@ With **hear assigned audio** the picture runs with the sound belonging to
 that camera:
 
 * the **processed track** from auphonic.com (`final_<Name>_<TC>.wav`), at
-  -16 LUFS and with a BWF timecode
+  the target chosen under **Loudness**, or that of the preset where
+  nothing was chosen, and with a BWF timecode
 * failing that the **raw recording** of the assigned speaker
 * for the wide shot, the camera with no speaker assigned, the
   **Full-Mix**, if it is there
@@ -283,11 +313,17 @@ The cut list says so too: with one camera for everybody the EDL carries
 the speaker name in place of the camera name. The Speaker column of
 `_cameracut.csv` is there in any case.
 
-**A single voice gives no cut.** Nobody hands over, so there is nothing
-to cut at, and neither a cut list nor an EDL is written. The passages go
-into the handover file, and Resolve sets them as markers on the timeline
-it builds. That is one camera in one piece with the mix below, or the
-timeline for the multicam clip with several.
+**A single voice on one camera gives no cut.** Nobody hands over, so
+there is nothing to cut at, and neither a cut list nor an EDL is
+written. The passages go into the handover file, and Resolve sets them
+as markers on the timeline it builds, the one camera in one piece with
+the mix below.
+
+**With a second camera a single voice does give a cut.** Nobody is on
+that camera, so the speaker's camera stands and the wide shot breaks it
+up; the box is then called **Cut with the wide shot**. Five minutes on
+two cameras gave 15 shots, 7 of them wide, against 1 shot on a single
+camera.
 
 ### What the project file keeps
 
@@ -364,11 +400,13 @@ loudness measurement runs through each track twice.
   speakers now**. The reason stands in place of the table if the
   computation fails.
 * **No cut comes out.** Nothing was audible on the tracks, or the
-  separation found a single voice. The log says so, under
-  `SPEAKERS -- MEASURED HERE` or `SPEAKERS -- SEPARATED BY VOICE`.
-* **No box for the cut on the Resolve cut tab.** Fewer than two people
-  carry a name and a camera. On the **Assignment & time window** tab
-  give each voice a name and a camera.
+  separation found a single voice and there is only one camera. The log
+  says so, under `SPEAKERS -- MEASURED HERE` or
+  `SPEAKERS -- SEPARATED BY VOICE`.
+* **No box for the cut on the Resolve cut tab.** Nobody carries a name
+  and a camera, or one person does and there is no second camera. On
+  the **Assignment & time window** tab give each voice a name and a
+  camera.
 * **The picture stands still although the speaker changes.** Both
   speakers sit on one camera, or the block is shorter than **Speaks at
   least**.

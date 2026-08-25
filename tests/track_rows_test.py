@@ -98,15 +98,22 @@ def win():
 
 
 def audio_rows():
-    """The first column of the upper assignment table."""
-    for t in win().findChildren(QtWidgets.QTableWidget):
-        if not t.isVisible() or t.columnCount() < 4:
+    """The first column of the upper assignment tree, its top rows only.
+
+    The assignment is a QTreeView over a model, and the tree is found the
+    way the table was: the visible one whose fourth column is headed
+    "Timecode". Children of a row are voices inside one recording, not
+    recordings, so only the top level is read. Nothing found means no
+    rows -- the caller waits for the window to fill and gives up loudly.
+    """
+    for t in win().findChildren(QtWidgets.QTreeView):
+        m = t.model()
+        if not t.isVisible() or m is None or m.columnCount() < 4:
             continue
-        head = t.horizontalHeaderItem(3)
-        if head is None or head.text() != "Timecode":
+        if m.headerData(3, QtCore.Qt.Horizontal) != "Timecode":
             continue
-        return [t.item(r, 0).text() if t.item(r, 0) else ""
-                for r in range(t.rowCount())]
+        return [m.index(r, 0).data() or ""
+                for r in range(m.rowCount())]
     return []
 
 

@@ -29,16 +29,36 @@ stopped in between comes back in one piece.
 
 The **Assignment & time window** tab holds two tables on the left. The
 upper one has a row per audio recording: **Audio recording**, **Speaker
-name**, **belongs to**, Timecode, **Speakers**. The last column holds
-the button **Separate speakers**, and once that recording is separated
-the count of the speakers found stands there instead ([Speech
-recognition and speaker separation](speech.md)). The selector **belongs
-to** lists the cameras, then two special cases:
+name**, **belongs to**, Timecode, **Speakers**. A name typed into
+**Speaker name** says the recording is that one person; the one entry
+that can be picked instead, **several speakers**, says there are
+several, and the voices found then hang under that row as indented rows
+of their own. Only an answer given shows them: a recording whose
+separation is stored already and that nobody has answered for keeps an
+empty field and no voice rows. Nothing measured is lost -- the voices
+stay in the project and in the cache folder, and picking **several
+speakers** later brings them up at once, with their names and cameras
+and without computing again. The last column says how far that got and
+offers **Break off** while it runs ([Speech recognition and speaker
+separation](speech.md)). It carries one more line, *Only one speaker --
+separate the track?*, in every row that has a name and does not stand
+on **several speakers**; a click sets the field to **several speakers**
+and the voices appear. Where voices are stored already, the same line
+offers to show them instead. The selector **belongs to** lists the
+cameras, then two special cases:
 
 - **into the mix only**: in the Full-Mix, but nobody's first track. For
   someone heard but not seen.
 - **ignore this audio**: out entirely, and the speaker name goes grey.
   For a recording whose video is still missing.
+
+**Speaker name** starts empty, with the name guessed from the file name
+beside it in grey. Type nothing and the guess counts -- but only if it
+begins with a letter, in any alphabet, not just in a to z. A guess like
+`0008A` does not, the field stays empty, and with Multitrack **Start**
+stays locked until a name is there: the name becomes that track's label
+at auphonic.com, read there by people who never saw the file. A typed
+name counts as typed.
 
 The lower table has a row per camera: **Camera**, **new file name**,
 **gets audio from** and **Camera audio**. What a file is -- content,
@@ -165,7 +185,10 @@ The first audio track of each camera file is the mix of exactly the
 speakers in that picture: `Mix <A> + <B>`. With only one speaker it
 carries their name. Then those speakers singly, then `Full-Mix (…)`,
 last `Camera Original`. The program measures loudness over the sum and
-applies it to every track alike, so their balance stays.
+applies it to every track alike, so their balance stays. Which target it
+uses comes from **Loudness** in the **Production** box, or from `--lufs`;
+without either, the sound is taken from the source files and nothing is
+adjusted ([Preflight](preflight.md)).
 
 The program also writes the tracks as files, into `auphonic-tracks/` as
 `final_<name>_<timecode>.wav`. The timecode is in the name and in the
@@ -193,11 +216,9 @@ carries its own mix. Next comes the question of who says what:
 
 ### Further options on the command line
 
-These options are not in the window.
+This option is not in the window.
 
 - `--parallel COUNT` sets how many camera files run at once: `0` is the
   default and decides for you, `1` takes one file after another. A
   higher count never runs more files than the list holds. The written
   files are byte-identical either way.
-- `--lufs` sets the loudness the sum is brought to, default −16. The
-  usual targets per platform are in [Preflight](preflight.md).

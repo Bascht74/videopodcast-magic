@@ -44,15 +44,17 @@ der Knopf in die Schnittliste nimmt.*
 | Fall | Schnitt-Timeline | Multicam-Timeline |
 |---|---|---|
 | mehrere Kameras, Sprecher getrennt | Bild aus dem Kameraschnitt, Ton am Stück | alle Kameras nebeneinander |
-| mehrere Kameras, keine Trennung | keine | alle Kameras nebeneinander |
+| mehrere Kameras, ein Sprecher mit Kamera | seine Kamera, vom Weitwinkel unterbrochen | alle Kameras nebeneinander |
+| mehrere Kameras, niemand mit Namen und Kamera | keine | alle Kameras nebeneinander |
 | eine Kamera, Sprecher getrennt | je Sprecherwechsel ein Schnitt, der Mix darunter | keine |
 | eine Kamera, eine Stimme oder keine Trennung | die Kamera am Stück, der Mix darunter | keine |
 
 Über die Schnitt-Timeline entscheidet die Sprechertrennung, nicht der
 Weg. Zwei Leute mit Namen und Kamera ergeben einen Kameraschnitt, auch
-auf dem einfachen Weg. Ohne sie bleibt nur die Multicam-Timeline: alle
-Kameras an ihren gemessenen Stellen, und Resolve macht daraus den
-Multicam-Clip.
+auf dem einfachen Weg, und ebenso eine Person, sobald es eine zweite
+Kamera gibt, auf der niemand ist: ihre Kamera steht, und der Weitwinkel
+unterbricht sie. Sonst bleibt nur die Multicam-Timeline: alle Kameras an
+ihren gemessenen Stellen, und Resolve macht daraus den Multicam-Clip.
 
 Das Programm bringt die Bildrate auf eine, die Resolve kennt: ffprobe
 misst bei manchen Dateien 29,994 oder 30,001. Das Protokoll sagt, welche

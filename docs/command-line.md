@@ -42,8 +42,7 @@ hints. Without a key the multitrack run stops there.*
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
 | `--fps NUMBER` | frame rate to assume, if ffprobe reports a wrong one (from the video file) |
-| `--lufs NUMBER` | loudness target in LUFS for the sum of the speaker tracks; lower is quieter, the platforms lie between -23 and -14 (-16) |
-| `--platform NAME` | that target by platform: `broadcast` -23, `podcast` -16, `podcast-mono` -19, `youtube` -14 |
+| `--lufs NUMBER` | loudness target in LUFS for the sum of the speaker tracks; lower is quieter, the usual targets lie between -23 and -14. Without it nothing is adjusted: the sound is taken from the source files as it is (none) |
 | `--speech-language CODE` | language tag of the audio tracks, ISO 639-2/B: `ger`, `eng`. Careful, ffmpeg drops `deu` silently (none) |
 | `--speech-language-camera CODE` | the same for the camera track (none: that is what tells the two apart in the QuickTime audio menu) |
 | `--speakers-local FILE` | take that recording apart by voice on this machine, and cut by the result (the recording the run picks itself) |
@@ -87,6 +86,7 @@ hints. Without a key the multitrack run stops there.*
 | `--on-together VALUE` | several speak at once and no camera shows exactly them: the same four values (wide) |
 | `--on-uncertain VALUE` | the recognition is uncertain: the same four values (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
+| `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots |
 | `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (40) |
 | `--wide-length SECONDS` | how long the interposed shot stands at least; it then runs to the end of the sentence (5) |
 | `--wide-most SECONDS` | how long it stands at most; if the end of the sentence lies beyond it, the last clause break before it ends the shot (15) |

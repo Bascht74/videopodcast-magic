@@ -11,27 +11,43 @@ ohne Hochladen, und bevor irgendetwas zu auphonic.com geht.
 
 ### Die Sprecher trennen
 
-Auf dem Reiter **Zuordnung & Zeitfenster** hat die Zuordnungstabelle
-eine Spalte **Sprecher**. Jede Aufnahme trägt in ihrer eigenen Zeile
-einen Knopf **Sprecher trennen**, und der nimmt genau diese Aufnahme
-auseinander. Während ein Durchgang läuft, heißt sein Knopf
-**Abbrechen**, und die übrigen Zeilen tragen keinen: es wird eine
-Aufnahme nach der anderen getrennt.
+Auf dem Reiter **Zuordnung & Zeitfenster** trägt jede Aufnahme einen
+**Sprechernamen** und eine Spalte **Sprecher**. Ein in das Namensfeld
+getippter Name sagt, dass die Aufnahme diese eine Person ist. Der eine
+Eintrag, den man stattdessen wählen kann, **mehrere Sprecher**, sagt,
+dass es mehrere sind, und das Programm ermittelt daraufhin, wer wann in
+genau dieser Aufnahme spricht. Während ein Durchgang läuft, bietet die
+Zelle **Sprecher** dieser Zeile **Abbrechen** an, und die übrigen
+Zeilen bieten nichts: es wird eine Aufnahme nach der anderen getrennt.
 
-Ist eine Aufnahme getrennt, steht in derselben Zelle **Getrennt: 4
-Sprecher** statt des Knopfes. Das Programm behält eine Trennung. Wird
-eine zweite Aufnahme getrennt, tritt deren Ergebnis an die Stelle der
+Das Feld startet leer, mit dem Namen, den der Dateiname nahelegt, grau
+darin. Sonst füllt es niemand. Eine Aufnahme, die eine Trennung trägt,
+für die niemand geantwortet hat, zeigt ein leeres Feld und keine
+Stimmen: erst eine Antwort holt sie hoch. Sie holt sie sofort hoch, mit
+den Namen und Kameras, die sie schon hatten, und gerechnet wird nichts
+zweimal -- ein Fehlklick kostet also keine Zeit.
+
+Steht ein Name im Feld, bietet die Zelle **Sprecher** an, es sich
+anders zu überlegen: **Nur ein Sprecher -- Spur auftrennen?**, oder,
+wenn die Stimmen schon da sind, sie zu zeigen. Ein Klick, und sie
+stehen in ihren Zeilen. Einem Feld, das niemand beantwortet hat, wird
+nichts angeboten.
+
+Ist eine Aufnahme getrennt, steht **Getrennt: 4 Sprecher** in ihrer
+Zelle **Sprecher**. Das Programm behält eine Trennung. Wird eine
+zweite Aufnahme getrennt, tritt deren Ergebnis an die Stelle der
 ersten.
 
-Unter den Tabellen sagt eine Zeile, ob dieser Rechner die Trennung
-überhaupt rechnet. Auf einem Rechner, der kein Mac ist, steht beim
-ersten Mal **Auf diesem Rechner nicht** daneben. Das Projekt merkt sich
-die Antwort: ein Projekt, das nein gesagt hat, fragt nicht wieder, und
-die Knöpfe in den Zeilen verschwinden mit ihr.
+Unter den Aufnahmen bietet eine Zeile die Trennung an, und nur dort,
+wo sie gebraucht wird. Ein Mac rechnet sie von selbst und bekommt gar
+keine Zeile. Überall sonst steht sie beim ersten Mal da, mit **Auf
+diesem Rechner nicht** daneben. Das Projekt merkt sich die Antwort: ein
+Projekt, das nein gesagt hat, liest es auf dieser Zeile und wird nicht
+wieder gefragt.
 
 Auf einem Mac läuft die Trennung bei einer Aufnahme von selbst, sobald
 die Dateien da sind. Bei mehr als einer Aufnahme läuft von selbst
-nichts; der Knopf in der Zeile startet sie.
+nichts; die Antwort **mehrere Sprecher** in der Zeile startet sie.
 
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
@@ -52,29 +68,50 @@ Sprecherzahl in der Tabelle ist die des ungeschnittenen Laufs. Ein
 Gespräch im Vorlauf bringt eine Stimme mehr in die Tabelle, als in der
 Folge vorkommt.
 
-Eine Stimme in der Tabelle heißt kein Schnitt: niemand übergibt, also
-gibt es keinen Wechsel, an dem geschnitten wird. Die Passagen gehen in
-die Übergabedatei, und der Lauf geht bis zum Ende durch.
+Eine Stimme in der Tabelle und eine Kamera heißt kein Schnitt: niemand
+übergibt, und es gibt keine Stelle, wohin das Bild sonst ginge. Die
+Passagen gehen in die Übergabedatei, und der Lauf geht bis zum Ende
+durch. Bei einer zweiten Kamera gibt es eine solche Stelle: diese eine
+Kamera steht, und der Weitwinkel bricht sie auf. Am 25.8.2026 gemessen
+ergaben fünf Minuten auf zwei Kameras 15 Einstellungen, davon 7 im
+Weitwinkel; dieselben fünf Minuten auf einer Kamera ergaben 1.
 
 ### Die Stimmen benennen
 
-Auf demselben Reiter steht unter den Zuordnungstabellen eine Tabelle:
-**Stimme**, **Sprechername**, **gehört zu**, **Anhören**. Sie hat je
-erkannter Stimme eine Zeile, vorbelegt mit Sprecher 1, Sprecher 2 und
-so fort nach Sprechzeit, die längste zuerst. Die Zelle **Stimme** nennt
-die Aufnahme, wie lange diese Stimme darin redet und wo ihre längste
-Stelle anfängt.
+Die Stimmen haben keine eigene Tabelle. Sie hängen unter der Aufnahme,
+in der sie gehört wurden, als eingerückte Zeilen derselben Liste: in
+der ersten Spalte steht **Stimme**, damit die Stufe überhaupt zu sehen
+ist, daneben stehen der **Sprechername** und unter **gehört zu** die
+Kamera. Die Namen sind mit Sprecher 1, Sprecher 2 und so fort vorbelegt,
+nach Sprechzeit, die längste zuerst. Keine Zeit steht in der Zeile: um
+welche Aufnahme es geht, sagt die Zeile darüber, und wie lange jemand
+redet, entscheidet hier niemand.
 
-1. In der Zeile der Aufnahme **Sprecher trennen** drücken. Auf einem
-   Mac ist das bei einer Aufnahme schon gelaufen.
-2. Eine Zeile der Stimmentabelle drücken oder darin **Anhören**.
-   Beides spielt die längste Strecke ab, die diese Stimme spricht.
-3. **Sprechername** mit dem Namen der Person überschreiben.
-4. Bei einer fehlenden Stimme unter der Tabelle **Ein Sprecher mehr in
-   `<Datei>`** drücken. Der Knopf hört dieselbe Aufnahme noch einmal
-   ab, mit einem Sprecher mehr, als der letzte Durchgang gefunden hat.
-   Dann zurück zu Schritt 2. Bei mehr als einer Aufnahme wandert der
-   Name vom Knopf in ein Auswahlfeld daneben.
+Eine Aufnahme, die Stimmen zeigt, kommt aufgeklappt hoch, mit einem
+Dreieck davor, das sie zuklappt. Aufgeklappt bleibt ihr eigenes
+**gehört zu** leer, und die Zeilen darunter tragen die Zuordnung;
+zugeklappt steht dort, was das Zuklappen vom Schirm nimmt -- die
+Kameras: **auf 2 Kameras**, und **auf 1 Kamera, 1 ohne**, wenn eine
+Stimme noch keine hat. Die Zahl der Stimmen steht dort nicht noch
+einmal, denn die Zelle **Sprecher** derselben Zeile sagt sie schon. Die
+Zuordnung steht immer auf genau einer Ebene, nie auf zweien. Aufnahmen,
+die keine Stimmen zeigen, sind eine flache Liste, ohne Dreiecke.
+
+1. Den **Sprechernamen** der Aufnahme mit **mehrere Sprecher**
+   beantworten, dem einen Eintrag, den das Feld zur Wahl stellt. Auf
+   einem Mac ist die Trennung bei einer Aufnahme schon gelaufen, und
+   die Antwort holt die Stimmen nur noch auf den Schirm.
+2. Die Zeile einer Stimme anklicken. Der Player rechts öffnet die
+   Aufnahme dort, wo diese Stimme am längsten redet, und spielt sofort.
+   Anklicken ist der Weg, eine Stimme zu hören; einen Knopf gibt es
+   dafür nicht.
+3. Den **Sprechernamen** in dieser Zeile mit dem Namen der Person
+   überschreiben.
+4. Bei einer fehlenden Stimme unter den Aufnahmen **Ein Sprecher mehr
+   in `<Datei>`** drücken. Der Knopf hört dieselbe Aufnahme noch
+   einmal ab, mit einem Sprecher mehr, als der letzte Durchgang
+   gefunden hat. Dann zurück zu Schritt 2. Bei mehr als einer Aufnahme
+   wandert der Name vom Knopf in ein Auswahlfeld daneben.
 
 Eine gesetzte Zahl schärft die Trennung. Eine falsche Zahl vervierfacht
 die Bildzeit auf der falschen Person. Deshalb wird sie nur gesetzt,
@@ -83,8 +120,8 @@ measured](../development/measurements.md) (englisch).
 
 ![Die Stimmen einer Aufnahme](images/voices.de.png)
 
-*Reiter Zuordnung & Zeitfenster: die Stimmentabelle unter den
-Zuordnungstabellen.*
+*Reiter Zuordnung & Zeitfenster: die Stimmen unter der Aufnahme, in
+der sie gehört wurden.*
 
 ### Wann das Programm neu rechnet
 
