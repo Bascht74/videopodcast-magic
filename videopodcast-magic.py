@@ -573,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.9.0-beta"
+VERSION = "2.10.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -591,6 +591,12 @@ SINGLE_TRACK = "single track"
 # comes from CHOICE_LABELS and goes through T().
 MIX_ONLY = "mix-only"            # audio track without a camera of its own
 IGNORE_AUDIO = "ignore-audio"    # audio track stays out entirely
+# The answer "I do not know, go and measure" to the one question a
+# recording's name field asks: who is to be heard on it. Typed in, the
+# name says it is that one person; picked, this says there are several
+# and the machine is to tell them apart. It is a stored value like the
+# two above, so a project written here reads the same anywhere.
+SEVERAL_SPEAKERS = "several-speakers"
 PRESET_NONE = "no-auphonic"      # list entry, not a preset name
 TYPE_CONTENT, TYPE_INTRO, TYPE_OUTRO = "content", "intro", "outro"
 TYPE_IGNORED = "ignore-video"    # video file stays out entirely
@@ -617,6 +623,7 @@ AUDIO_USE = (AUDIO_UNUSED, AUDIO_MATERIAL)
 # written down with the other naming decisions in the working notes.
 CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
                  IGNORE_AUDIO: "do not use",
+                 SEVERAL_SPEAKERS: "several speakers",
                  PRESET_NONE: "work without Auphonic",
                  TYPE_CONTENT: "Content", TYPE_INTRO: "Intro",
                  TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video",
@@ -13238,6 +13245,35 @@ def preselected_camera(old, targets, speaker, videos, own_camera=""):
     return os.path.basename(hit) if hit else MIX_ONLY
 
 
+def without_own_camera(rows, voices, multitrack_on, voiced=()):
+    """Who goes into the mix but gets no shot of their own.
+
+    Read off the assignment as it stands, for the sentence shown when
+    Start is pressed. It is information and not a complaint: whoever
+    set somebody to "no camera of its own" wanted it that way. What
+    they could not see until now is the list of them all in one place,
+    before three hours of computing rather than after.
+
+    Two kinds of row are passed over, because neither is anybody being
+    left out of the picture: a recording whose separated voices stand
+    under it does not answer for itself -- the voices carry the
+    cameras -- and without multitrack every recording goes into every
+    camera anyway. A name nobody typed is passed over as well; an
+    empty entry in the list would say nothing.
+
+    *rows* are (blocks, name, camera), *voices* are (name, camera).
+    """
+    voiced = set(voiced or ())
+    pairs = [(name, camera) for blocks, name, camera in rows
+             if multitrack_on and os.path.abspath(blocks[0]) not in voiced]
+    out = []
+    for name, camera in pairs + list(voices):
+        name = (name or "").strip()
+        if camera == MIX_ONLY and name and name not in out:
+            out.append(name)
+    return out
+
+
 def camera_output_name(production, camera, speaker=()):
     """Build the name of the new video file.
 
@@ -16755,21 +16791,210 @@ def speaker_split_wanted(asked):
     return True if sys.platform == "darwin" else None
 
 
-def voice_caption_of(source, parts):
-    """What one voice's row says: where heard, how much, and where.
+def split_line_write(line, words, never, wanted, busy, any_files):
+    """The line under the assignment table -- and mostly nothing at all.
 
-    Two numbers, and they were one until 24.8.2026: the sum of the
-    speaking time stood alone behind a dash and was read as a place in
-    the recording -- by Sebastian and by me. A duration and a position
-    are not the same kind of thing, so each is now said as what it is.
+    It used to carry an offer: "who speaks when can be worked out on
+    this machine". On a machine that works it out by itself that was
+    an offer for something long since done -- Sebastian read it on
+    25.8.2026 while the table beside it already said "Separated: 4
+    speakers". The sentence is left over from the time when the button
+    sat down there and this was the state line; the state has stood in
+    each recording's own row since that day.
+
+    So the line speaks only where this machine does not work it out on
+    its own: where somebody said no for this project, and where nobody
+    has been asked yet -- there the question and its button are the
+    whole point of the line. Where the answer is yes, it says nothing.
     """
-    spoken = sum(b - a for a, b in parts or ())
-    best = max(parts, key=lambda x: x[1] - x[0]) if parts else None
-    if best:
-        return T('in %s -- speaks %s, longest passage at %s') % (
-            os.path.basename(source), as_hms(spoken), as_hms(best[0]))
-    return T('in %s -- speaks %s') % (os.path.basename(source),
-                                      as_hms(spoken))
+    if SPEAKER_SPLIT_OFF or wanted is True:
+        line.setVisible(False)
+        return
+    line.setVisible(bool(any_files))
+    never.setVisible(wanted is None and not busy)
+    words.setText(T('Speaker separation is switched off for this project.')
+                  if wanted is False else
+                  T('Who speaks when can be worked out on this machine, '
+                    'from any one recording everybody is audible on.'))
+
+
+# What a voice's row used to say, and no longer does. It carried one
+# number that looked like a timestamp and was in truth the sum of that
+# voice's speaking time; on 25.8.2026 the two were pulled apart into a
+# duration and a position, which was the right answer to the wrong
+# question. Sebastian, reading the result: the times matter for jumping
+# to the right place, not for the person looking at the table, and the
+# table grows too wide for them. So neither is written down any more.
+# The longest passage is still worked out below -- it is where a click
+# on the row takes the player.
+
+
+def tc_column_write(table, per_row, real_tc, axis, absolute):
+    """Fill the timecode column of the assignment table.
+
+    Without a timecode of its own, what the measurement produced is
+    used there: the file then has a wall clock time like any other,
+    just a computed one.
+
+    *per_row* has one entry per row of the table and not one per file:
+    a voice row carries no file, and it stands between the recordings
+    rather than after them. Its entry is empty and it is passed over --
+    a timecode belongs to a recording, and a voice has none.
+
+    Returns False where the table is gone, which happens whenever it
+    has been built again while this was on its way.
+    """
+    import PySide6.QtGui as _qg
+    for row, p in enumerate(per_row):
+        if not p:
+            continue
+        t, kind = real_tc(p), ""
+        if t is None:
+            t = (axis or {}).get(os.path.abspath(p))
+            kind = T(' computed') if absolute else T(' virtual')
+        if t is None:
+            text, colour = T('no timecode'), COLOURS["quiet"]
+        else:
+            text = timecode_string(t) + kind
+            colour = COLOURS["value"] if not kind else COLOURS["heading"]
+        try:
+            item = table.item(row, 3)
+            if item is not None:
+                item.setText(text)
+                item.setForeground(_qg.QBrush(_qg.QColor(colour)))
+        except RuntimeError:
+            return False
+    return True
+
+
+def weak_nodes_mark(nodes, weak):
+    """Mark the rows of the file list that do not fit the time axis.
+
+    Usually those files were picked by mistake and belong to another
+    recording. Returns the ones whose row is gone, for the caller to
+    forget.
+    """
+    import PySide6.QtGui as _qg
+    red = _qg.QBrush(_qg.QColor(COLOURS["error"]))
+    black = _qg.QBrush(_qg.QColor(COLOURS["text"]))
+    lost = []
+    for p, item in list(nodes.items()):
+        odd = p in weak
+        try:
+            # Column 1 stays with the check mark, or one overwrites the
+            # green and red of the other depending on which ran last.
+            for column in (0, 2):
+                item.setForeground(column, red if odd else black)
+            if odd:
+                item.setText(2, T('%s   --   does not fit the other files')
+                             % os.path.dirname(p))
+        except RuntimeError:
+            lost.append(p)
+    return lost
+
+
+def weak_rows_mark(tables, weak):
+    """The same mark in the assignment tables, row by row.
+
+    *tables* are (table, one entry per row). A voice row has no file:
+    whether a recording fits the others is a question about the
+    recording, asked once in its own row.
+    """
+    import PySide6.QtCore as _qc
+    import PySide6.QtGui as _qg
+    red = _qg.QBrush(_qg.QColor(COLOURS["error"]))
+    black = _qg.QBrush(_qg.QColor(COLOURS["text"]))
+    for table, per_row in tables:
+        try:
+            for row, p in enumerate(per_row):
+                if not p:
+                    continue
+                odd = os.path.abspath(p) in weak
+                for column in range(table.columnCount()):
+                    item = table.item(row, column)
+                    if item is not None:
+                        item.setForeground(red if odd else black)
+                # Colour carries nothing to anybody who cannot see it,
+                # so the first cell says it in words too -- the same
+                # words the first sheet uses. The plain caption is kept
+                # on the cell, or the second pass would write the
+                # sentence into the sentence.
+                head = table.item(row, 0)
+                if head is None:
+                    continue
+                plain = head.data(_qc.Qt.UserRole)
+                if plain is None:
+                    plain = head.text()
+                    head.setData(_qc.Qt.UserRole, plain)
+                said = plain
+                if odd:
+                    said = (T('%s   --   does not fit the other files')
+                            % plain)
+                head.setText(said)
+                # The column can be narrower than the sentence.
+                head.setToolTip(said if odd else "")
+        except RuntimeError:
+            # That table has been built again and its cells went with
+            # it. The next one is still worth marking.
+            continue
+
+
+def split_cells_write(cells, busy, running, found, heard_in, note):
+    """Say in every recording's row how its separation stands.
+
+    Only the recording being listened to offers a way out: the others
+    have nothing to break off, and asking for one is answered in the
+    name field of the row rather than by a button here.
+
+    Returns False where the cells are gone, which happens whenever the
+    table has been built again while this was on its way.
+    """
+    running = os.path.abspath(running) if running else ""
+    heard_in = os.path.abspath(heard_in) if heard_in else ""
+    for path, button, mark in list(cells or ()):
+        here = os.path.abspath(path)
+        mine = busy and here == running
+        done = bool(found) and here == heard_in and not busy
+        try:
+            button.setVisible(mine)
+            if note and note[0] == here:
+                mark.setText(note[1])
+                mark.setStyleSheet("color: %s" % note[2])
+            elif mine:
+                mark.setText(T('Separating speakers ...'))
+                mark.setStyleSheet("color: %s" % COLOURS["quiet"])
+            elif done:
+                mark.setText(TN(len(found), 'Separated: %d speaker',
+                                'Separated: %d speakers') % len(found))
+                mark.setStyleSheet("color: %s" % COLOURS["good"])
+            else:
+                mark.setText("")
+        except RuntimeError:
+            return False
+    return True
+
+
+def voices_under(path, said, source, found):
+    """The voices to show under one recording, and none where not.
+
+    *said* is the answer stored for this recording: True for several
+    speakers, False for a single name, None where nobody has answered
+    yet. Where nobody has, what was measured decides, and one voice
+    found is not several -- a recording with one person on it keeps its
+    name field and gets no row underneath it.
+
+    Whether this machine may run a separation has no bearing on this. A
+    result that is already stored is shown either way: switching the
+    separation off says "do not compute", not "do not look".
+    """
+    found = list(found or ())
+    if not found or not source:
+        return []
+    if os.path.abspath(source) != os.path.abspath(path):
+        return []
+    if said is None:
+        return found if len(found) > 1 else []
+    return found if said else []
 
 
 def longest_stretch(segments, label_name):
@@ -16809,17 +17034,27 @@ def camera_start_of(file_path):
 
 
 def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
-                        camera_audio=False, weak=(), length_of=None):
+                        camera_audio=False, weak=(), length_of=None,
+                        alone=False):
     """Say which file the separation should listen to.
 
     The separation is the way for one recording everybody is audible
     on. Where every person has a microphone of their own, measuring
     the tracks themselves is the better answer and this stays out.
 
+    *alone* is the difference between being asked and deciding by
+    oneself. Somebody who asks for a separation has said which
+    recording they mean, or there is only one it can be; a run nobody
+    asked for may only start where the choice is not a guess. Several
+    cameras carrying sound are several candidates, and which of them
+    holds the conversation and which the music cannot be read off a
+    file. At the measured 28 times real time that is three minutes per
+    wrong guess, so unasked it waits to be told instead.
+
     Returns (path, why), why being one of: "chosen" a setting made by
-    hand, "one recording", "camera track", "several microphones" --
-    then the path is empty because the tracks are the truth -- or
-    "nothing".
+    hand, "one recording", "camera track", "several microphones" or
+    "several cameras" -- then the path is empty because nothing here
+    can pick between them -- or "nothing".
     """
     weak = set(os.path.abspath(p) for p in (weak or ()))
 
@@ -16836,6 +17071,8 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
         return "", "several microphones"
     cameras = [p for p in (list(videos) if camera_audio
                            else list(own_cameras or ())) if usable(p)]
+    if alone and len(cameras) > 1:
+        return "", "several cameras"
     if cameras:
         how_long = length_of or media_seconds
         # The longest of them, because it covers the most of the
@@ -19230,10 +19467,10 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
                 'other -- it appears in the table above.\nThe same field '
                 'stands in the file list; both show the one answer.')
          if beside_player else
-         T('Used, the sound of this file goes the same way as a '
-           'recorded one: channels measured, stereo judged, cut into '
-           'tracks.\nSynchronising uses it either way -- that is not '
-           'this question.'))
+         T('Used, the channels measured under this file are cut into '
+           'tracks, the way a recording is.\nMeasuring happens either '
+           'way: that verdict is what this is decided on, and '
+           'synchronising takes the sound regardless.'))
     return cell, box
 
 
@@ -19276,6 +19513,21 @@ def audio_use_bind(box, value, why=""):
         lambda i: value.set(box.itemData(i) == AUDIO_MATERIAL))
     value.listen(lambda: pick_choice(
         box, AUDIO_MATERIAL if value.get() else AUDIO_UNUSED))
+    return box
+
+
+def clip_kind_bind(box, value):
+    """Tie one Kind drop-down to what its video file is.
+
+    The same pattern as audio_use_bind, and for the same reason: that a
+    clip is in truth an outro is noticed while watching it, and the
+    player stands on the assignment tab. So the field is offered there
+    as well as in the file list. Not a doubling -- two values that can
+    drift apart would be one; one value seen from two places is not.
+    """
+    box.currentIndexChanged.connect(
+        lambda i: value.set(box.itemData(i)))
+    value.listen(lambda: pick_choice(box, value.get()))
     return box
 
 
@@ -21829,33 +22081,138 @@ def speaks_as(widget, what, row_name=""):
                              if row_name else what)
     return widget
 
-def split_cell_build(path, on_click):
-    """The Speakers cell of one recording: a button and a state.
+def split_cell_build(path, on_stop):
+    """The Speakers cell of one recording: its state, and a way out.
 
-    Separating the speakers is an action on one named file, so it is
-    offered in the line that shows that file, and what came of it is
-    said in the same place. Returns the cell, the button and the label,
-    because both have to be written to again while a run is going on.
+    There is no button to start with any more. Asking for the voices to
+    be told apart is an answer in the name field of the same row --
+    "several speakers" instead of a name -- so this cell only says what
+    came of it. Breaking off is a different matter: it exists only
+    while that recording is being listened to, and there has to be a
+    way to stop three minutes of computing that was started by
+    mistake. Returns the cell, the button and the label, because both
+    are written to again while a run is going on.
     """
     from PySide6 import QtWidgets as _qw
     box = _qw.QWidget()
     row = _qw.QHBoxLayout(box)
     row.setContentsMargins(0, 0, 0, 0)
     row.setSpacing(6)
-    button = _qw.QPushButton(T('Separate speakers'))
-    hint(button, T('Works out who speaks when from one recording everybody '
-                   'is audible on -- on this machine, without an upload. '
-                   'About one minute for half an hour of audio.'))
-    speaks_as(button, T('Separate speakers'), os.path.basename(path))
-    button.clicked.connect(lambda *_, x=path: on_click(x))
+    button = _qw.QPushButton(T('Break off'))
+    speaks_as(button, T('Break off'), os.path.basename(path))
+    button.clicked.connect(lambda *_, x=path: on_stop(x))
+    button.setVisible(False)
     mark = label("", COLOURS["quiet"])
     # Word wrap, because the text changes after the column was sized:
     # "Separated: 4 speakers" is wider than the empty label the column
     # was measured on, and a second line is better than a cut one.
     mark.setWordWrap(True)
-    row.addWidget(button)
     row.addWidget(mark, 1)
+    row.addWidget(button)
     return box, button, mark
+
+
+def speaker_name_cell(name_value, several_value, short):
+    """The name field of one recording: a name, or "several speakers".
+
+    One question -- who is to be heard on this recording? -- with three
+    answers rather than a field beside a button. A name typed in says
+    the recording is that one person. The one entry that can be picked
+    instead says there are several, and the machine goes and tells them
+    apart; the names then belong in the rows underneath.
+
+    Picking a name again is allowed and costs nothing: the voices are
+    hidden, not thrown away. A separation of 87 minutes takes three of
+    them, and a mis-click must not be that expensive.
+    """
+    from PySide6 import QtWidgets as _qw
+    box = _qw.QComboBox()
+    box.setEditable(True)
+    box.setInsertPolicy(_qw.QComboBox.NoInsert)
+    box.addItem(label_of(SEVERAL_SPEAKERS), SEVERAL_SPEAKERS)
+    speaks_as(box, T('Speaker name'), short)
+    hint(box, T('Who is to be heard on this recording. A name means it '
+                'is that one person.\n"several speakers" works out who '
+                'speaks when, on this machine and without an upload -- '
+                'about one minute for half an hour of audio. The names '
+                'then go in the rows underneath.'))
+
+    def show_now():
+        if several_value.get():
+            box.setCurrentIndex(0)
+        else:
+            box.setCurrentIndex(-1)
+            box.setEditText(str(name_value.get()))
+
+    def picked(_i=0):
+        several_value.set(box.currentData() == SEVERAL_SPEAKERS)
+
+    def typed(text):
+        # textEdited and not textChanged: the second one fires when the
+        # picked entry writes its own caption into the field, and the
+        # answer would undo itself in the same breath.
+        several_value.set(False)
+        name_value.set(text)
+
+    show_now()
+    box.activated.connect(picked)
+    box.lineEdit().textEdited.connect(typed)
+    name_value.listen(show_now)
+    several_value.listen(show_now)
+    return box
+
+
+def voice_row_cells(name_value, camera_value, targets, caption):
+    """One voice's two fields: what it is called and where it goes.
+
+    The row stands under the recording it was heard in, so it repeats
+    neither the file name nor the two times. Those times were pulled
+    apart on 25.8.2026 -- how long the voice speaks and where its
+    longest passage lies had been one number that read like a
+    timestamp -- and that was the right answer to the wrong question:
+    neither belongs on screen. The longest passage is still worked out,
+    because it is where a click on the row takes the player. It is
+    simply not written down, and the column stays narrow.
+
+    Returns (name field, camera chooser).
+    """
+    from PySide6 import QtWidgets as _qw
+    field = field_bind(_qw.QLineEdit(), name_value)
+    speaks_as(field, T('Speaker name'), caption)
+    box = _qw.QComboBox()
+    speaks_as(box, T('belongs to'), caption)
+    fill_choices(box, targets, camera_value.get())
+    box.currentIndexChanged.connect(
+        lambda *_: camera_value.set(box.currentData()))
+
+    def name_useful():
+        """Grey the name out where it cannot do anything.
+
+        A voice set to "do not use" is out of the mix and out of the
+        transcript, so a name for it is an entry without effect. It is
+        greyed, not emptied: switching back must not cost the typing.
+
+        Only "do not use" does this. "No camera of its own" means the
+        person is in the mix and in the transcript, and there the name
+        works -- greying it there would take away a setting that has
+        an effect.
+
+        The row stays selectable, which is what plays the voice: a
+        disabled field lets the click through to the view under it,
+        and that is the very tool somebody decides with. And the
+        greying needs no reason written beside it, because the reason
+        stands two fields along in the same row.
+        """
+        field.setEnabled(camera_value.get() != IGNORE_AUDIO)
+
+    camera_value.listen(name_useful)
+    name_useful()
+    # So that nothing has to tell a voice from its recording by the
+    # wording of a caption: whoever reads these rows can ask the field
+    # itself which of the two levels it belongs to.
+    for w in (field, box):
+        w.setObjectName("voice")
+    return field, box
 
 
 def more_speakers_row(audio_file_list, on_pick):
@@ -24435,7 +24792,7 @@ def gui():
     # and deliberately no place in the prework count: axis_work_loop
     # waits in "while prework_busy()", and three minutes there would
     # hold up the time axis and the playhead with it.
-    def speaker_split_source():
+    def speaker_split_source(alone=False):
         """Which file the separation listens to, and why that one."""
         audio_files = [p for p, a in files if a == "audio"]
         videos = [p for p, a in files if a == "video"]
@@ -24445,81 +24802,36 @@ def gui():
         return speaker_source_pick(
             audio_files, videos, state.get("own_cameras") or (),
             chosen=state.get("speakers_source_chosen") or "",
-            weak=state.get("weak") or ())
+            weak=state.get("weak") or (), alone=alone)
 
     def speaker_split_show(text="", colour=None, where=""):
         """Say where the separation stands: in the row of its file.
 
         What is happening to a recording belongs in the line that shows
         that recording, so the state goes into the Speakers cell of the
-        row. Only the one question that is about the project and not
-        about a file stays below the table: whether this machine works
-        it out at all. *where* names the recording a message belongs to.
+        row. Below the table only the one question about the project is
+        left, and split_line_write says how rarely it speaks at all.
+        *where* names the recording a message belongs to.
         """
-        wanted = speaker_split_wanted(state.get("speakers_wanted"))
-        busy = split_run["busy"]
         state["split_note"] = ((os.path.abspath(where) if where else "",
                                 text, colour or COLOURS["quiet"])
                                if text else None)
-        if SPEAKER_SPLIT_OFF:
-            split_line.setVisible(False)
-        else:
-            split_line.setVisible(bool(files))
-            split_never.setVisible(wanted is None and not busy)
-            split_label.setText(
-                T('Speaker separation is switched off for this project.')
-                if wanted is False else
-                T('Who speaks when can be worked out on this machine, '
-                  'from any one recording everybody is audible on.'))
+        split_line_write(split_line, split_label, split_never,
+                         speaker_split_wanted(state.get("speakers_wanted")),
+                         split_run["busy"], bool(files))
         split_cells_show()
 
     def split_cells_show():
-        """Write the state of the separation into every file's row.
-
-        One run at a time: while one recording is being listened to the
-        other buttons go, or a second run would fight the first for the
-        graphics unit and neither would finish sooner.
-        """
+        """Write the state of the separation into every file's row."""
         if SPEAKER_SPLIT_OFF:
             return
-        off = speaker_split_wanted(state.get("speakers_wanted")) is False
-        busy = split_run["busy"]
-        running = os.path.abspath(state.get("speakers_running") or "") \
-            if state.get("speakers_running") else ""
-        found = state.get("speakers_local") or []
-        heard_in = os.path.abspath(state.get("speakers_source") or "") \
-            if state.get("speakers_source") else ""
-        note = state.get("split_note")
-        for path, button, mark in list(state.get("split_cells") or ()):
-            here = os.path.abspath(path)
-            mine = busy and here == running
-            done = bool(found) and here == heard_in and not busy
-            try:
-                button.setText(T('Break off') if mine
-                               else T('Separate speakers'))
-                # A recording that has been listened to keeps the
-                # answer where the button was: asking again is what
-                # "One more speaker in ..." under the table is for, and
-                # two widgets in one cell take the room the name field
-                # needs.
-                button.setVisible(not off and not done
-                                  and (mine or not busy))
-                if note and note[0] == here:
-                    mark.setText(note[1])
-                    mark.setStyleSheet("color: %s" % note[2])
-                elif mine:
-                    mark.setText(T('Separating speakers ...'))
-                    mark.setStyleSheet("color: %s" % COLOURS["quiet"])
-                elif done:
-                    mark.setText(TN(len(found), 'Separated: %d speaker',
-                                    'Separated: %d speakers') % len(found))
-                    mark.setStyleSheet("color: %s" % COLOURS["good"])
-                else:
-                    mark.setText("")
-            except RuntimeError:
-                # The table was built again; its cells are gone with it.
-                state["split_cells"] = []
-                return
+        if not split_cells_write(state.get("split_cells") or (),
+                                 split_run["busy"],
+                                 state.get("speakers_running") or "",
+                                 state.get("speakers_local") or [],
+                                 state.get("speakers_source") or "",
+                                 state.get("split_note")):
+            state["split_cells"] = []
 
     def speaker_split_note(text, share):
         """Runs in the window thread: the row and the bar together."""
@@ -24590,10 +24902,13 @@ def gui():
         stored. A different source file, a changed source file or a
         number of speakers set by hand are inputs to the measurement,
         and only they start it over.
+
+        Without *fresh* nobody asked, so the source has to be the only
+        one it can be; speaker_source_pick says what that means.
         """
         if split_run["busy"] or not files:
             return
-        source, _why = speaker_split_source()
+        source, _why = speaker_split_source(alone=not fresh)
         if not source:
             speaker_split_show()
             return
@@ -24620,25 +24935,43 @@ def gui():
         threading.Thread(target=speaker_split_work_loop,
                          args=(source, count), daemon=True).start()
 
-    def split_pick(source):
-        """The button in a row: listen to that recording, and no other.
-
-        Which file to take is said by whoever clicks, rather than
-        worked out from how many there are. With several recordings
-        nothing starts on its own -- 28 times real time is too much to
-        spend on a guess -- but naming one is a click.
-        """
-        if split_run["busy"]:
-            split_run["stop"] = True
-            speaker_split_show(T('Breaking off ...'),
-                               where=state.get("speakers_running") or "")
+    def split_stop(_source=""):
+        """The one button left in a row: stop listening to it."""
+        if not split_run["busy"]:
             return
-        if state.get("speakers_source_chosen") != source:
-            # A number of speakers set by hand belongs to the recording
-            # it was set for, not to the next one.
-            state["speakers_count"] = 0
-        state["speakers_source_chosen"] = source
-        speaker_split_kick_off(fresh=True)
+        split_run["stop"] = True
+        speaker_split_show(T('Breaking off ...'),
+                           where=state.get("speakers_running") or "")
+
+    def voices_stored_for(path):
+        """Whether a separation of this very recording is already here."""
+        return bool(voices_under(path, True, state.get("speakers_source"),
+                                 state.get("speakers_local")))
+
+    def voices_of(path):
+        """The voices to show under this recording, if any."""
+        return voices_under(path, remembered.get("several:" + path),
+                            state.get("speakers_source"),
+                            state.get("speakers_local"))
+
+    def several_set(path, on):
+        """The name field was answered: several speakers, or one again.
+
+        Switching back hides the rows underneath; it throws nothing
+        away. What was measured stays in the project and in the cache,
+        so switching forward again is instant and the names and cameras
+        given to the voices are still there.
+        """
+        remembered["several:" + path] = bool(on)
+        if on and not voices_stored_for(path) and not SPEAKER_SPLIT_OFF:
+            if state.get("speakers_source_chosen") != path:
+                # A number of speakers set by hand belongs to the
+                # recording it was set for, not to the next one.
+                state["speakers_count"] = 0
+            state["speakers_source_chosen"] = path
+            QtCore.QTimer.singleShot(
+                0, lambda: speaker_split_kick_off(fresh=True))
+        QtCore.QTimer.singleShot(0, assignment_fresh)
 
     def speaker_split_never():
         """The other button: not on this machine, and remember it."""
@@ -24649,86 +24982,18 @@ def gui():
     split_never.clicked.connect(speaker_split_never)
 
     def tc_column_show():
-        """Fill the timecode column, real or computed.
-
-        Without a timecode of its own, what the measurement produced is used
-        there: the file then has a wall clock time like any other, just a
-        computed one.
-        """
+        """Fill the timecode column, real or computed."""
         entries = state.get("tc_table")
-        if not entries:
-            return
-        table, files_ = entries
-        for row, p in enumerate(files_):
-            t, kind = real_tc(p), ""
-            if t is None:
-                t = state["axis"].get(os.path.abspath(p))
-                kind = (T(' computed') if state.get("axis_absolute")
-                        else T(' virtual'))
-            if t is None:
-                text, colour = T('no timecode'), COLOURS["quiet"]
-            else:
-                text = timecode_string(t) + kind
-                colour = COLOURS["value"] if not kind else COLOURS["heading"]
-            try:
-                item_ = table.item(row, 3)
-                if item_ is not None:
-                    item_.setText(text)
-                    item_.setForeground(QtGui.QBrush(QtGui.QColor(colour)))
-            except RuntimeError:
-                state["tc_table"] = None
-                return
+        if entries and not tc_column_write(
+                entries[0], entries[1], real_tc, state["axis"],
+                state.get("axis_absolute")):
+            state["tc_table"] = None
 
     def show_weak():
-        """Mark files red that do not fit the common axis.
-
-        Usually they were picked by mistake and do not belong to this
-        recording. It shows where they were selected and where they are
-        assigned.
-        """
-        red = QtGui.QBrush(QtGui.QColor(COLOURS["error"]))
-        black = QtGui.QBrush(QtGui.QColor(COLOURS["text"]))
-        for p, item_ in list(lines_node.items()):
-            odd = p in state["weak"]
-            try:
-                # Column 1 stays with the check mark, or one overwrites the
-                # green and red of the other depending on which ran last.
-                for column in (0, 2):
-                    item_.setForeground(column, red if odd else black)
-                if odd:
-                    item_.setText(2, T('%s   --   does not fit the other files')
-                                    % os.path.dirname(p))
-            except RuntimeError:
-                lines_node.pop(p, None)
-        for table, file_list in state["tables"]:
-            try:
-                for row, p in enumerate(file_list):
-                    odd = os.path.abspath(p) in state["weak"]
-                    for column in range(table.columnCount()):
-                        item_ = table.item(row, column)
-                        if item_ is not None:
-                            item_.setForeground(red if odd else black)
-                    # Colour carries nothing to anybody who cannot see
-                    # it, so the first cell says it in words too -- the
-                    # same words the first sheet uses. The plain
-                    # caption is kept on the cell, or the second pass
-                    # would write the sentence into the sentence.
-                    head = table.item(row, 0)
-                    if head is None:
-                        continue
-                    plain = head.data(Qt.UserRole)
-                    if plain is None:
-                        plain = head.text()
-                        head.setData(Qt.UserRole, plain)
-                    said = plain
-                    if odd:
-                        said = (T('%s   --   does not fit the other files')
-                                % plain)
-                    head.setText(said)
-                    # The column can be narrower than the sentence.
-                    head.setToolTip(said if odd else "")
-            except RuntimeError:
-                pass
+        """Mark files red that do not fit the common axis."""
+        for p in weak_nodes_mark(lines_node, state["weak"]):
+            lines_node.pop(p, None)
+        weak_rows_mark(state["tables"], state["weak"])
 
     def prework_clean_up(gone):
         """What left the list needs no audio either."""
@@ -24821,9 +25086,14 @@ def gui():
         return None
 
     def line_show(table, file_list):
-        """A clicked row means: put that file in the player."""
+        """A clicked row means: put that file in the player.
+
+        One entry per row, and a row that shows no file has none: in
+        the assignment table the voices stand between the recordings,
+        and they are answered by assignment_row_show instead.
+        """
         row = table.currentRow()
-        if 0 <= row < len(file_list):
+        if 0 <= row < len(file_list) and file_list[row]:
             player_load(file_list[row])
 
     def player_load(file_path, seconds=None):
@@ -25025,10 +25295,14 @@ def gui():
         for row, nv, cv in assign_lines:
             # Without multitrack the row holds no selector but "into every
             # camera", and the fallback value must not overwrite an assignment
-            # that was once made.
+            # that was once made. The same where the voices stand
+            # underneath: the recording has no camera of its own then,
+            # and switching back to one name must find the old one.
             old = remembered.get("audio:" + row[0])
             camera = cv.get()
-            if camera == MIX_ONLY and not multitrack.get() and old:
+            quiet_row = (not multitrack.get() or os.path.abspath(row[0])
+                         in (state.get("voiced") or ()))
+            if camera == MIX_ONLY and quiet_row and old:
                 camera = old[1]
             remembered["audio:" + row[0]] = (nv.get(), camera)
         for file_path, nv, own_box, own_name_box in camera_lines:
@@ -25068,9 +25342,14 @@ def gui():
         cameras with the same output name, where the second would overwrite the
         first.
         """
-        used = [(f, v) for f, (_r, v, cv) in zip(audio_fields, assign_lines)
-                   if cv.get() != IGNORE_AUDIO] if len(audio_fields) == len(
-                       assign_lines) else []
+        # A recording showing its voices is left out of the comparison:
+        # its field says "several speakers" and not a name, and two of
+        # them saying the same thing is not a clash but the truth.
+        voiced = state.get("voiced") or set()
+        used = [(f, v) for f, (r, v, cv) in zip(audio_fields, assign_lines)
+                   if cv.get() != IGNORE_AUDIO
+                   and os.path.abspath(r[0]) not in voiced] \
+            if len(audio_fields) == len(assign_lines) else []
         names = [v.get().strip() for _f, v in used]
         duplicate = set(n for n in names if n and names.count(n) > 1)
         for field, value in used:
@@ -25116,10 +25395,16 @@ def gui():
                     video_reason.setVisible(False)
         buttons_check()
 
-    # One row per voice the separation heard. Not rows of the table
-    # above: a voice has no file, no timecode and no channels. It has a
-    # name, a camera and a place to listen to it.
+    # One row per voice the separation heard, under the recording it
+    # was heard in. Two tables one above the other said the same thing
+    # twice -- both carried a speaker name and a camera, and only their
+    # heading said which level was meant. One table with the voices
+    # under their file says it by where the row stands.
     voice_lines = []        # (label, name Value, camera Value)
+    # What each row of the assignment table is: a recording, or a voice
+    # heard in the one above it. One entry per row, and never both.
+    row_file = []           # row -> recording, "" for a voice row
+    row_voice = []          # row -> voice label, "" for a recording
 
     def assignment_state_show():
         """What the material allows: the cut box, and the tick's line.
@@ -25179,11 +25464,22 @@ def gui():
         begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
         player.load(source, seconds=begin, running=True)
 
-    def voice_row_play(table):
-        """A clicked voice row means: hear that voice."""
+    def assignment_row_show(table):
+        """A clicked row in the assignment table, whichever level it is.
+
+        The recording goes into the player like any other file. A voice
+        has no file of its own, so the player opens the recording it
+        was heard in and jumps to where that voice speaks longest. That
+        is the whole of what a Listen button in the row would offer, so
+        there is none.
+        """
         row = table.currentRow()
-        if 0 <= row < len(voice_lines):
-            voice_play(voice_lines[row][0])
+        if not 0 <= row < len(row_voice):
+            return
+        if row_voice[row]:
+            voice_play(row_voice[row])
+        elif row_file[row]:
+            player_load(row_file[row])
 
     def voice_add(source):
         """Say there is one more voice on that recording than was found.
@@ -25199,68 +25495,50 @@ def gui():
         state["speakers_count"] = found + 1
         speaker_split_kick_off(fresh=True)
 
-    def voices_build(column, audio_file_list, videos, targets):
-        """The voices heard in one recording, under the recordings.
+    def voices_build(table, line, path, videos, targets):
+        """The voices heard in one recording, in the rows under it.
 
         Everything here counts per camera and not per speaker: two
         voices set to the same camera are one condition, and what one
         of them did counts for both. Which is why the camera sits on
         the voice and not on the file.
+
+        Returns the number of rows added, so the caller keeps count:
+        the row a recording sits in is no longer its place in the file
+        list once voices stand between them.
         """
-        voice_lines[:] = []
-        segments = state.get("speakers_local") or []
-        source = state.get("speakers_source") or ""
+        found = voices_of(path)
         called = dict(state.get("speakers_named") or {})
-        if segments and source:
-            table = table_build([T('Voice'), T('Speaker name'),
-                                 T('belongs to'), T('Listen')])
-            column.addWidget(table)
-            for i, (label, parts) in enumerate(segments):
-                table.insertRow(i)
-                voice_caption = voice_caption_of(source, parts)
-                cell(table, i, 0, voice_caption)
-                name_value = Value(called.get(label)
-                                   or T('Speaker %d') % (i + 1))
-                table.setCellWidget(
-                    i, 1, speaks_as(field_bind(QtWidgets.QLineEdit(),
-                                               name_value),
-                                    T('Speaker name'), voice_caption))
-                camera_value = Value(preselected_camera(
-                    remembered.get("voice:" + label), targets,
-                    name_value.get(), videos))
-                box = QtWidgets.QComboBox()
-                speaks_as(box, T('belongs to'), voice_caption)
-                fill_choices(box, targets, camera_value.get())
-                box.currentIndexChanged.connect(
-                    lambda *_, b=box, v=camera_value: v.set(b.currentData()))
-                table.setCellWidget(i, 2, box)
-                listen = QtWidgets.QPushButton(T('Listen'))
-                speaks_as(listen, T('Listen'), voice_caption)
-                hint(listen, T('Puts the recording into the player on '
-                               'the right and jumps to the longest '
-                               'stretch this voice speaks.'))
-                listen.clicked.connect(
-                    lambda *_, k=label: voice_play(k))
-                table.setCellWidget(i, 3, listen)
-                name_value.listen(lambda *_: QtCore.QTimer.singleShot(
-                    0, voices_remember))
-                camera_value.listen(lambda *_: QtCore.QTimer.singleShot(
-                    0, voices_remember))
-                voice_lines.append((label, name_value, camera_value))
-            # The row itself plays too, the way a file row opens its
-            # file: clicking the line that shows a voice is the
-            # shortest way to hear it, and it needs no button.
-            table.itemSelectionChanged.connect(
-                lambda t=table: voice_row_play(t))
-            table_rows_fit(table)
-            table.resizeColumnsToContents()
-            table.setColumnWidth(1, max(160, table.columnWidth(1)))
-        more = more_speakers_row(audio_file_list, voice_add)
-        if more is not None:
-            column.addWidget(more)
+        for label, _parts in found:
+            i = len(voice_lines) + 1
+            name_value = Value(called.get(label) or T('Speaker %d') % i)
+            camera_value = Value(preselected_camera(
+                remembered.get("voice:" + label), targets,
+                name_value.get(), videos))
+            table.insertRow(line)
+            # No caption in the first column: the file it belongs to is
+            # the row above, and the name is in the field beside it.
+            field, box = voice_row_cells(name_value, camera_value,
+                                         targets, name_value.get())
+            table.setCellWidget(line, 1, field)
+            table.setCellWidget(line, 2, box)
+            name_value.listen(lambda *_: QtCore.QTimer.singleShot(
+                0, voices_remember))
+            camera_value.listen(lambda *_: QtCore.QTimer.singleShot(
+                0, voices_remember))
+            voice_lines.append((label, name_value, camera_value))
+            row_file.append("")
+            row_voice.append(label)
+            line += 1
+        return len(found)
 
     def voices_remember():
         """Keep the names and cameras given to the voices."""
+        if not voice_lines:
+            # Switched back to a single name: the rows are hidden, and
+            # what was measured and named must survive that -- three
+            # minutes of computing are not undone by a mis-click.
+            return
         state["speakers_named"] = {k: nv.get().strip()
                                    for k, nv, _cv in voice_lines
                                    if nv.get().strip()}
@@ -25298,7 +25576,10 @@ def gui():
         # has just gone, and a row that no longer exists must not
         # still be able to say which camera it is on.
         voice_lines[:] = []
+        row_file[:] = []
+        row_voice[:] = []
         state["split_cells"] = []
+        state["voiced"] = set()
         audio_fields[:] = []
         video_fields[:] = []
         audio_files = [p for p, a in files if a == "audio"]
@@ -25354,6 +25635,9 @@ def gui():
         # The column for the separation is only there where there is a
         # separation to have: with it switched off it would be a column
         # of empty cells offering something the program cannot do.
+        # It no longer holds a button -- asking for the voices to be
+        # told apart is an answer in the name field of the same row --
+        # only what came of it, and a way to break off while it runs.
         columns = [head, T('Speaker name'), belongs_head, "Timecode"]
         if not SPEAKER_SPLIT_OFF:
             columns.append(T('Speakers'))
@@ -25374,7 +25658,13 @@ def gui():
             state["tc_there"] = True
         state["reference"] = (os.path.basename(chains[0][0][0]) if without_tc
                             else "")
-        for i, (row, _) in enumerate(chains):
+        # The row a recording sits in is no longer its place in the file
+        # list: where a recording holds several speakers, their rows
+        # stand between it and the next one. So the rows are counted as
+        # they are made.
+        i = -1
+        for (row, _) in chains:
+            i += 1
             first = row[0]
             camera_track = os.path.abspath(first) in state["own_audio_rows"]
             from_camera = state["own_audio_rows"].get(os.path.abspath(first)) \
@@ -25393,31 +25683,56 @@ def gui():
                 caption += "  (+%d)" % (len(row) - 1)
             table_audio.insertRow(i)
             audio_file_list.append(first)
+            row_file.append(first)
+            row_voice.append("")
             cell(table_audio, i, 0, caption)
             old_name, old_camera = remembered.get("audio:" + first, (None, None))
             name_value = Value(old_name or stem)
-            name_field = field_bind(QtWidgets.QLineEdit(), name_value)
-            speaks_as(name_field, T('Speaker name'), caption)
+            # The voices this recording is showing. Where there are any,
+            # the assignment belongs to them and not here: two answers
+            # one above the other could contradict each other, and the
+            # rule is that the assignment has exactly one level.
+            kids = voices_of(first)
+            if kids:
+                state["voiced"].add(os.path.abspath(first))
+            if SPEAKER_SPLIT_OFF:
+                # Nothing can be told apart on this machine, so there is
+                # only one answer to give and a plain field to give it in.
+                name_field = field_bind(QtWidgets.QLineEdit(), name_value)
+                speaks_as(name_field, T('Speaker name'), caption)
+            else:
+                said = remembered.get("several:" + first)
+                several_value = Value(bool(said) if said is not None
+                                      else bool(kids))
+                several_value.listen(
+                    lambda *_, p=first, v=several_value: several_set(
+                        p, v.get()))
+                name_field = speaker_name_cell(name_value, several_value,
+                                               caption)
             table_audio.setCellWidget(i, 1, name_field)
             # Before the branch below, so that a row without a selector
-            # carries the button too: whether a recording is spread over
-            # every camera has nothing to do with who is heard on it.
+            # says how its separation stands too: whether a recording is
+            # spread over every camera has nothing to do with who is
+            # heard on it.
             if not SPEAKER_SPLIT_OFF:
-                box_, button_, mark_ = split_cell_build(first, split_pick)
+                box_, button_, mark_ = split_cell_build(first, split_stop)
                 table_audio.setCellWidget(i, 4, box_)
                 state["split_cells"].append((first, button_, mark_))
             # Without multitrack there is nothing to distribute: the same audio
             # goes into every camera. That is what it says, rather than a
-            # selector that does nothing.
-            if not multitrack.get() and not camera_track:
-                cell(table_audio, i, 2,
-                      T('into every camera') if len(videos) > 1
-                      else (os.path.basename(videos[0]) if videos
-                            else label_of(MIX_ONLY)), COLOURS["quiet"])
+            # selector that does nothing. The same holds where the voices
+            # stand underneath -- there the rows below carry the cameras.
+            if kids or (not multitrack.get() and not camera_track):
+                cell(table_audio, i, 2, "" if kids else
+                      (T('into every camera') if len(videos) > 1
+                       else (os.path.basename(videos[0]) if videos
+                             else label_of(MIX_ONLY))), COLOURS["quiet"])
                 cell(table_audio, i, 3, "")
                 # MIX_ONLY is the truth here: no track belongs to one camera
                 # alone.
                 assign_lines.append((row, name_value, Value(MIX_ONLY)))
+                i += voices_build(table_audio, i + 1, first, videos,
+                                  targets)
                 continue
             # Camera rows get the full selector too. A clip-on microphone
             # plugged into one camera does not mean the person is filmed by
@@ -25454,22 +25769,29 @@ def gui():
             audio_fields.append(name_field)
             name_value.listen(lambda *_: QtCore.QTimer.singleShot(
                 0, assignment_check))
-        # Under the recordings, not inside them: a voice heard on one
-        # recording is a different kind of row. It has no file, no
-        # timecode and no channels -- it has a name, a camera and a
-        # place to listen to.
-        voices_build(column_layout, audio_file_list, videos, targets)
+            i += voices_build(table_audio, i + 1, first, videos, targets)
+        # A voice the separation missed is still asked for below the
+        # table: it is not a row of the table but the input to another
+        # separation, and it belongs to no one recording in particular.
+        more = more_speakers_row(audio_file_list, voice_add)
+        if more is not None:
+            column_layout.addWidget(more)
         audio_reason = label("", COLOURS["error"])
         audio_reason.setWordWrap(True)
         audio_reason.setVisible(False)
         column_layout.addWidget(audio_reason)
         state["audio_reason"] = audio_reason
-        state["tc_table"] = (table_audio, list(audio_file_list))
+        # Per row and not per file: the voices stand between the
+        # recordings, so a row number is no longer a place in the file
+        # list. Their entry is empty, and both passes step over it.
+        state["tc_table"] = (table_audio, list(row_file))
         tc_column_show()
-        table_rows_fit(table_audio)
-        state["tables"] = [(table_audio, list(audio_file_list))]
+        # One table where there were two, so it may be as tall as both
+        # of them were: 120 each, and the heading the second one had.
+        table_rows_fit(table_audio, 266)
+        state["tables"] = [(table_audio, list(row_file))]
         table_audio.itemSelectionChanged.connect(
-            lambda t=table_audio, d=audio_file_list: line_show(t, d))
+            lambda t=table_audio: assignment_row_show(t))
 
         window_position_show()
 
@@ -25477,10 +25799,13 @@ def gui():
         if not production_var.get():
             production_var.set(guess_production_name(chains[0][0][0]))
         camera_lines[:] = []
-        # What comes out, not what went in: what a file is stands in
-        # the file list, with the material.
+        # What comes out, and the two decisions that can only be made
+        # after watching: what the clip is, and whether its sound is
+        # material. Both stand in the file list as well, on the same
+        # value -- that a clip is in truth an outro is noticed in the
+        # player, and the player is here.
         table_video = table_build([T('Camera'), T('new file name'),
-                                   T('gets audio from'),
+                                   T('gets audio from'), T('Kind'),
                                    T('Camera audio')])
         column_layout.addWidget(table_video, 1)
         video_reason = label("", COLOURS["error"])
@@ -25497,24 +25822,40 @@ def gui():
             cell(table_video, row, 0, short)
             clip_kind = clip_kind_values.setdefault(
                 b, Value(remembered.get("kind:" + b) or TYPE_CONTENT))
+            kind_cell, kind_box = clip_kind_cell(short, clip_kind.get())
+            clip_kind_bind(kind_box, clip_kind)
+            kind_box.currentIndexChanged.connect(
+                lambda *_, p=b: single_edge_clip(p))
+            kind_box.currentIndexChanged.connect(
+                lambda *_: QtCore.QTimer.singleShot(0, items_fresh))
+            kind_box.currentIndexChanged.connect(
+                lambda *_: QtCore.QTimer.singleShot(0, assignment_fresh))
+            table_video.setCellWidget(row, 3, kind_cell)
+            own_audio = audio_use_value(b)
+            used, why = audio_use_settled(b, own_now, forced,
+                                          has_sound(b), clip_kind.get())
             if clip_kind.get() != TYPE_CONTENT:
                 # A finished clip has nothing to assign and gets no new name --
                 # it is used directly. Rather than offering empty fields that
-                # do nothing, a sentence is there instead.
+                # do nothing, a sentence is there instead. Its Camera audio
+                # is built all the same, greyed out with the reason beside
+                # it: "a finished clip -- only placed, not processed" is
+                # the answer to the question the field raises, and a blank
+                # cell answers nothing.
                 cell(table_video, row, 1,
                       T('stays out') if clip_kind.get() == TYPE_IGNORED
                       else T('used directly'),
                       COLOURS["quiet"])
                 cell(table_video, row, 2, "")
-                cell(table_video, row, 3, "")
+                sound_off, sound_off_box = camera_audio_cell(
+                    short, used, why, COLOURS["quiet"], True)
+                audio_use_bind(sound_off_box, own_audio, why)
+                table_video.setCellWidget(row, 4, sound_off)
                 continue
             # A camera can contribute its own audio too -- the wide shot with
             # the room microphone, say, or where somebody has no recording of
             # their own. It is then a track like any other: with a speaker
             # name, it goes up, gets processed and is in the mix.
-            own_audio = audio_use_value(b)
-            used, why = audio_use_settled(b, own_now, forced,
-                                          has_sound(b), clip_kind.get())
             # One camera can give more than one track: two clip-on
             # microphones on two channels are two speakers, and both names
             # belong in the file name of that camera.
@@ -25541,7 +25882,7 @@ def gui():
             sound, sound_box = camera_audio_cell(short, used, why,
                                                  COLOURS["quiet"], True)
             audio_use_bind(sound_box, own_audio, why)
-            table_video.setCellWidget(row, 3, sound)
+            table_video.setCellWidget(row, 4, sound)
             camera_lines.append((b, name_value, own_audio, own_audio_name))
             video_fields.append(name_entry)
             name_value.listen(lambda *_: QtCore.QTimer.singleShot(
@@ -26336,7 +26677,14 @@ def gui():
                 segment_list = measured["segments"]
                 length = measured["length"]
         where_to = {}
+        voiced = state.get("voiced") or set()
         for _chain, name_value, camera_value in assign_lines:
+            # The assignment has exactly one level. Where the voices of
+            # a recording stand under it, they carry it and the
+            # recording does not -- two answers one above the other
+            # could say different things about the same camera.
+            if os.path.abspath(_chain[0]) in voiced:
+                continue
             n = name_value.get().strip()
             if n and camera_value.get() != IGNORE_AUDIO:
                 where_to[n] = camera_value.get()
@@ -27418,6 +27766,12 @@ def gui():
                      ", " + duration if duration else "")]
         for kind, name in edge:
             lines.append("%s: %s" % (label_of(kind), name))
+        who = without_own_camera(
+            [(row, nv.get(), cv.get()) for row, nv, cv in assign_lines],
+            [(nv.get(), cv.get()) for _k, nv, cv in voice_lines],
+            bool(multitrack.get()), state.get("voiced") or ())
+        if who:
+            lines.append(T('No camera of their own: %s') % ", ".join(who))
         if without_auphonic() or not state.get("presets"):
             lines.append(T('Without processing at auphonic.com'))
         else:
@@ -27609,8 +27963,7 @@ def gui():
         state["running"] = True
         run_plan_build()
         result_button_check()
-        if not only_look:
-            project_write(argv)
+        project_write(argv)      # the dry run too: same hand work
         threading.Thread(target=work_loop, args=(argv,), daemon=True).start()
         output_timer.start()
 
@@ -27624,9 +27977,10 @@ def gui():
     window.move(screen.left(), screen.top())
 
     def clean_up():
-        """Start nothing more while closing."""
+        """Write first -- closing used to save nothing. Then stop."""
         state["closing"] = True
         try:
+            axis_store(state.get("axis") or {})
             watchdog.stop()
             total_clock.stop()
             output_timer.stop()
@@ -28204,7 +28558,7 @@ CATALOGUE["de"] = {
         'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
         'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
     'an intro or outro with two channels is a stereo mix -- not measured':
-        'ein Vorspann oder Nachspann mit zwei Kanälen ist eine '
+        'ein Vorspann oder Abspann mit zwei Kanälen ist eine '
         'Stereomischung -- nicht gemessen',
     'Multitrack mode':
         'Multitrack',
@@ -28376,7 +28730,6 @@ CATALOGUE["de"] = {
         '  Spracherkennung (%s): %s Wörter in %.1f s',
     '  Speaker separation (%s): %d speakers out of %s of audio':
         '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
-    'Separate speakers': 'Sprecher trennen',
     'Separating speakers': 'Sprecher werden getrennt',
     'Separating speakers ...': 'Sprecher werden getrennt ...',
     '  From %s: %d voice.': '  Aus %s: %d Stimme.',
@@ -28396,12 +28749,6 @@ CATALOGUE["de"] = {
     'recording everybody is audible on.':
         'Wer wann spricht, lässt sich auf diesem Rechner ermitteln -- '
         'aus einer Aufnahme, auf der alle zu hören sind.',
-    'Works out who speaks when from one recording everybody is '
-    'audible on -- on this machine, without an upload. About one '
-    'minute for half an hour of audio.':
-        'Ermittelt aus einer Aufnahme, auf der alle zu hören sind, wer '
-        'wann spricht -- auf diesem Rechner, ohne Hochladen. Rund eine '
-        'Minute je halbe Stunde Ton.',
     'Leaves the separation switched off for this project. The cut '
     'then comes from the tracks or from auphonic.com, as before.':
         'Lässt die Sprechertrennung für dieses Projekt aus. Der '
@@ -28438,17 +28785,17 @@ CATALOGUE["de"] = {
         'pyannote schickt bei jedem Lauf eine Spur nach Hause, und '
         'diese Fassung bietet keinen Weg, das abzuschalten -- die '
         'Trennung wurde nicht gestartet.',
-    'Voice': 'Stimme',
     'Speakers': 'Sprecher',
+    'Who is to be heard on this recording. A name means it is that '
+    'one person.\n"several speakers" works out who speaks when, on '
+    'this machine and without an upload -- about one minute for half '
+    'an hour of audio. The names then go in the rows underneath.':
+        'Wer auf dieser Aufnahme zu hören ist. Ein Name heißt: diese '
+        'eine Person.\n"mehrere Sprecher" ermittelt auf diesem Rechner '
+        'und ohne Hochladen, wer wann spricht -- rund eine Minute je '
+        'halbe Stunde Ton. Die Namen kommen dann in die Zeilen '
+        'darunter.',
     'Speaker %d': 'Sprecher %d',
-    'in %s -- speaks %s, longest passage at %s':
-        'in %s -- redet %s, längste Stelle bei %s',
-    'in %s -- speaks %s': 'in %s -- redet %s',
-    'Listen': 'Anhören',
-    'Puts the recording into the player on the right and jumps to the '
-    'longest stretch this voice speaks.':
-        'Legt die Aufnahme in den Player rechts und springt an die '
-        'längste Strecke, die diese Stimme spricht.',
     'One more speaker in %s': 'Ein Sprecher mehr in %s',
     'One more speaker in': 'Ein Sprecher mehr in',
     'Listens to that recording again, looking for one speaker more '
@@ -28579,7 +28926,10 @@ CATALOGUE["de"] = {
     'Length':
         'Länge',
     "no camera of its own": "ohne eigene Kamera",
+    'No camera of their own: %s':
+        'Ohne eigene Kamera: %s',
     "do not use": "nicht verwenden",
+    "several speakers": "mehrere Sprecher",
     'this window': 'dieses Fenster',
     'two file names for the same moment -- neither of them is taken':
         'zwei Dateinamen für denselben Moment -- keiner von beiden wird genommen',
@@ -31087,13 +31437,14 @@ CATALOGUE["de"] = {
         'diese Datei bleibt ganz draußen',
     'a finished clip -- only placed, not processed':
         'fertiger Clip -- wird nur platziert, nicht verarbeitet',
-    'Used, the sound of this file goes the same way as a recorded one: '
-    'channels measured, stereo judged, cut into tracks.\nSynchronising '
-    'uses it either way -- that is not this question.':
-        'Wird er verwendet, geht der Ton dieser Datei denselben Weg wie '
-        'eine Tonaufnahme: Kanäle gemessen, Stereo beurteilt, in Spuren '
-        'zerlegt.\nZum Synchronisieren wird er ohnehin genommen -- '
-        'darum geht es hier nicht.',
+    'Used, the channels measured under this file are cut into tracks, '
+    'the way a recording is.\nMeasuring happens either way: that '
+    'verdict is what this is decided on, and synchronising takes the '
+    'sound regardless.':
+        'Wird er verwendet, werden die unter der Datei gemessenen Kanäle '
+        'in Spuren zerlegt, wie bei einer Tonaufnahme.\nGemessen wird '
+        'ohnehin: dieses Urteil ist die Grundlage der Entscheidung, und '
+        'zum Synchronisieren wird der Ton so oder so genommen.',
     'Used, the sound of this file becomes a track like any other -- it '
     'appears in the table above.\nThe same field stands in the file list; '
     'both show the one answer.':

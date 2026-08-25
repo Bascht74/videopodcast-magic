@@ -1,7 +1,7 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5657,
+ "largest_function": 5654,
  "lazy_plural": 0,
  "long_lines": 0,
  "narrating": 0,
@@ -56,7 +56,6 @@
   "gui.project_collect": [1, 22875],
   "gui.project_open": [1, 25791],
   "gui.settings_extend": [1, 22933],
-  "gui.show_weak": [1, 23331],
   "gui.start.discard": [1, 26262],
   "gui.work_loop": [1, 26059],
   "insert_intro_and_outro": [1, 10742],

@@ -9,6 +9,66 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.10.0-beta] - 2026-08-25
+
+### Changed
+
+- The assignment tab carries one table where it carried two. A
+  recording is a row, and the voices heard in it are rows directly
+  underneath it. Where a recording shows voices, its own **belongs to**
+  cell is empty: the assignment has exactly one level, and the rows
+  below carry it. Two tables meant the same two columns twice, and a
+  file could say "into every camera" while the voices under it said
+  "into the mix only" -- two truths above each other.
+- The button **Separate speakers** is gone. It is an answer in the name
+  field now: type a name, or pick **several speakers**. One question --
+  who is to be heard on this recording -- with answers instead of a
+  field beside a button.
+- Picked back is picked back: setting a name again hides the voice
+  rows, and picking **several speakers** brings them straight back,
+  with the names and cameras that were given and without computing
+  anything. A separation costs three minutes on real material, and
+  a mis-click must not undo it.
+- The **Listen** button is gone; a click on the row does the same, and
+  lands in the middle of that voice's longest passage.
+- The voice row no longer prints how long somebody speaks and where
+  their longest passage is. Both are still worked out -- the longest
+  passage is where the click takes the player -- but the row stood at
+  three times the width it needed. It had carried one number before
+  that looked like a timestamp and was a sum; splitting it in two was
+  right and answered the wrong question.
+- **Kind** stands on both tabs, one value: what is known at import is
+  said in the file list, what is only noticed while watching can be
+  changed beside the player.
+- Where a voice is set to **do not use**, its name field is greyed --
+  a name without effect. The name is kept, and the row still plays, so
+  the tool for deciding stays.
+- The separation starts by itself only where there is exactly one
+  candidate. With two cameras released it used to start on a guess --
+  the longer of them -- and spend three minutes unasked.
+- The line under the table said "who speaks when can be worked out on
+  this machine" while the table already said "Separated: 4 speakers".
+  It only speaks now where this machine does not do the separation at
+  all.
+- Before a run, the box says who gets no camera of their own.
+
+### Fixed
+
+- Closing the window saved nothing. The project was written after the
+  time axis, after a separation, at "Not on this machine" and at Start
+  -- and closing was none of those. Measured: two names typed, two
+  cameras picked, window closed, file unmoved. A separation costs three
+  minutes and the names are given by hand.
+- The dry run did not write either, which is the trap with the longest
+  fall: the same hand work stands before it.
+- One German word: an intro or **Abspann** with two channels, not
+  Nachspann. The selector had said Abspann all along.
+
+### Documentation
+
+- The pictures are stale and are taken again before the next release,
+  not after every change: the interface moves several times a day now.
+
 ## [2.9.0-beta] - 2026-08-25
 
 ### Changed
@@ -1467,6 +1527,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.10.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.9.0-beta...v2.10.0-beta
 [2.9.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.8.0-beta...v2.9.0-beta
 [2.8.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.1-beta...v2.8.0-beta
 [2.7.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.0-beta...v2.7.1-beta

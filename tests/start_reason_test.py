@@ -116,12 +116,25 @@ def tab_titles():
 
 
 def kind_boxes():
-    """The type selectors in the camera table -- one per video file."""
-    out = []
+    """The type selectors, one per video file.
+
+    Since 25.8.2026 the same value has a field on both tabs -- the file
+    list and the camera table -- so the window holds two selectors per
+    file and one answer. Counting widgets would say four where there
+    are two files. They are told apart by what they are for, which
+    stands in the accessible name as "Kind -- <file>": one entry per
+    file, whichever of the two fields is met first.
+    """
+    out, seen = [], set()
     for box in win().findChildren(QtWidgets.QComboBox):
         values = [box.itemData(i) for i in range(box.count())]
-        if vpm.TYPE_INTRO in values:
-            out.append(box)
+        if vpm.TYPE_INTRO not in values:
+            continue
+        who = box.accessibleName() or str(id(box))
+        if who in seen:
+            continue
+        seen.add(who)
+        out.append(box)
     return out
 
 
