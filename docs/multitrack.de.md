@@ -29,8 +29,11 @@ Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** stehen links zwei Tabellen.
 Die obere hat je Tonaufnahme eine Zeile: **Tonaufnahme**,
-**Sprechername**, **gehört zu**, Timecode. Das Auswahlfeld **gehört zu**
-listet die Kameras, danach zwei Sonderfälle:
+**Sprechername**, **gehört zu**, Timecode, **Sprecher**. In der letzten
+Spalte sitzt der Knopf **Sprecher trennen**, und ist diese Aufnahme
+getrennt, steht dort statt seiner die Zahl der gefundenen Sprecher
+([Spracherkennung und Sprechertrennung](speech.de.md)). Das Auswahlfeld
+**gehört zu** listet die Kameras, danach zwei Sonderfälle:
 
 - **nur in den Mix**: im Full-Mix, aber bei niemandem die erste Spur. Für
   jemanden, der zu hören, aber nicht zu sehen ist.

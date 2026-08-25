@@ -29,8 +29,11 @@ stopped in between comes back in one piece.
 
 The **Assignment & time window** tab holds two tables on the left. The
 upper one has a row per audio recording: **Audio recording**, **Speaker
-name**, **belongs to**, Timecode. The selector **belongs to** lists the
-cameras, then two special cases:
+name**, **belongs to**, Timecode, **Speakers**. The last column holds
+the button **Separate speakers**, and once that recording is separated
+the count of the speakers found stands there instead ([Speech
+recognition and speaker separation](speech.md)). The selector **belongs
+to** lists the cameras, then two special cases:
 
 - **into the mix only**: in the Full-Mix, but nobody's first track. For
   someone heard but not seen.

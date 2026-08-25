@@ -42,9 +42,12 @@ Was herauskommt, hängt am Material:
 Eine gemeinsame Aufnahme, auf der alle zu hören sind, genügt für den
 Schnitt. Die Kamera mit diesem Ton braucht das Häkchen. Auf dem Reiter
 **Zuordnung & Zeitfenster**, in der unteren Tabelle, in der Spalte
-**eigener Ton** das Häkchen **als Spur** setzen. Die Zeile unter der
-Zeitachse bietet dann **Sprecher trennen** an
-([Spracherkennung und Sprechertrennung](speech.de.md)).
+**eigener Ton** das Häkchen **als Spur** setzen. Die Kamera bekommt dann
+eine Zeile in der Zuordnungstabelle, mit **Sprecher trennen** in der
+Spalte **Sprecher** ([Spracherkennung und
+Sprechertrennung](speech.de.md)). Der Knopf nimmt sich genau diese
+Aufnahme vor. Nach dem Lauf steht an seiner Stelle, wie viele Sprecher
+gefunden wurden.
 
 Bei einer Kamera wird nichts umgeschnitten: es gibt nichts zu wechseln.
 Es entsteht ein Schnitt an jedem Sprecherwechsel, damit Resolve je Person
@@ -148,7 +151,7 @@ nicht.
 
 ### Wenn etwas klemmt
 
-- **Die Zeile unter der Zeitachse bleibt leer.** Der Ton der Kamera ist
+- **Die Zeile der Kamera fehlt in der Zuordnungstabelle.** Ihr Ton ist
   noch keine Spur: bei ihr **als Spur** setzen.
 - **Die Fortsetzungsdateien fehlen in der Aufnahme.** Die Namen geben
   der Suche nichts her: mit **gehört zu** von Hand zusammenlegen.

@@ -3,7 +3,7 @@
 *In English: [speech.md](speech.md). Zurück zum
 [Inhalt](README.de.md).*
 
-## Die Zeile im Player-Kasten
+## Was auf diesem Rechner läuft
 
 Das Programm schreibt mit, was gesprochen wird, und es trennt die
 Stimmen einer Aufnahme. Beides läuft auf diesem Rechner, ohne Konto und
@@ -11,25 +11,34 @@ ohne Hochladen, und bevor irgendetwas zu auphonic.com geht.
 
 ### Die Sprecher trennen
 
-Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten **Vorschau
-Player** eine Zeile unter der gemessenen Zeitachse. Sie sagt, ob sich
-die Stimmen einer Aufnahme hier trennen lassen. Sie sagt außerdem, wie
-weit das gediehen ist: bereit, läuft, fertig oder für dieses Projekt
-abgeschaltet. Die Zeile bleibt leer, wenn nichts zu trennen ist.
+Auf dem Reiter **Zuordnung & Zeitfenster** hat die Zuordnungstabelle
+eine Spalte **Sprecher**. Jede Aufnahme trägt in ihrer eigenen Zeile
+einen Knopf **Sprecher trennen**, und der nimmt genau diese Aufnahme
+auseinander. Während ein Durchgang läuft, heißt sein Knopf
+**Abbrechen**, und die übrigen Zeilen tragen keinen: es wird eine
+Aufnahme nach der anderen getrennt.
 
-Der Knopf **Sprecher trennen** startet die Trennung, **Abbrechen**
-hält einen laufenden Durchgang an. Auf einem Rechner, der kein Mac ist,
-steht beim ersten Mal **Auf diesem Rechner nicht** daneben. Das Projekt
-merkt sich die Antwort, und **Sprecher trennen** verschwindet mit ihr:
-ein Projekt, das nein gesagt hat, fragt nicht wieder. Auf einem Mac
-läuft die Trennung von selbst, sobald die Dateien da sind.
+Ist eine Aufnahme getrennt, steht in derselben Zelle **Getrennt: 4
+Sprecher** statt des Knopfes. Das Programm behält eine Trennung. Wird
+eine zweite Aufnahme getrennt, tritt deren Ergebnis an die Stelle der
+ersten.
+
+Unter den Tabellen sagt eine Zeile, ob dieser Rechner die Trennung
+überhaupt rechnet. Auf einem Rechner, der kein Mac ist, steht beim
+ersten Mal **Auf diesem Rechner nicht** daneben. Das Projekt merkt sich
+die Antwort: ein Projekt, das nein gesagt hat, fragt nicht wieder, und
+die Knöpfe in den Zeilen verschwinden mit ihr.
+
+Auf einem Mac läuft die Trennung bei einer Aufnahme von selbst, sobald
+die Dateien da sind. Bei mehr als einer Aufnahme läuft von selbst
+nichts; der Knopf in der Zeile startet sie.
 
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
-Spur)** nicht: Zeile und Knopf stehen auf beiden Wegen da, auch bei
-einer einzigen Kamera. Mit einem eigenen Mikrofon je Person sind die
-Spuren die Wahrheit, und die Zeile bleibt weg. Die Trennung sagt, wer
-wann spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
+Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer
+einzigen Kamera. Mit einem eigenen Mikrofon je Person sind die Spuren
+die Wahrheit, und es muss nichts getrennt werden. Die Trennung sagt,
+wer wann spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
 
 Die Einrichtung lädt beim ersten Mal rund 218 MB, das Modell danach
 etwa 33 MB. [Was gebraucht wird](requirements.de.md#das-programm-holen)
@@ -56,9 +65,10 @@ so fort nach Sprechzeit, die längste zuerst. Die Zelle **Stimme** nennt
 die Aufnahme, wie lange diese Stimme darin redet und wo ihre längste
 Stelle anfängt.
 
-1. **Sprecher trennen** drücken. Auf einem Mac ist das schon gelaufen.
-2. In einer Zeile **Anhören** drücken. Der Knopf spielt die längste
-   Strecke ab, die diese Stimme spricht.
+1. In der Zeile der Aufnahme **Sprecher trennen** drücken. Auf einem
+   Mac ist das bei einer Aufnahme schon gelaufen.
+2. Eine Zeile der Stimmentabelle drücken oder darin **Anhören**.
+   Beides spielt die längste Strecke ab, die diese Stimme spricht.
 3. **Sprechername** mit dem Namen der Person überschreiben.
 4. Bei einer fehlenden Stimme unter der Tabelle **Ein Sprecher mehr in
    `<Datei>`** drücken. Der Knopf hört dieselbe Aufnahme noch einmal
@@ -73,8 +83,8 @@ measured](../development/measurements.md) (englisch).
 
 ![Die Stimmen einer Aufnahme](images/voices.de.png)
 
-*Reiter Zuordnung & Zeitfenster: die Stimmentabelle unter der
-Zuordnung, und der Stand der Trennung neben dem Player.*
+*Reiter Zuordnung & Zeitfenster: die Stimmentabelle unter den
+Zuordnungstabellen.*
 
 ### Wann das Programm neu rechnet
 
@@ -84,6 +94,10 @@ Ein verschobenes Zeitfenster, ein neuer In-Punkt, ein geänderter Versatz
 oder ein umbenannter Sprecher laufen mit der vorhandenen Trennung
 weiter. Die Trennung aus dem Fenster reist mit dem Lauf mit, und das
 Programm rechnet sie nur noch auf dessen Zeitachse um.
+
+Eine von Hand gesetzte Sprecherzahl gehört zu der Aufnahme, für die sie
+gesetzt wurde. Der Knopf in einer anderen Zeile verwirft sie und zählt
+neu.
 
 ### Woher die Sprecher kamen
 
@@ -129,10 +143,10 @@ dasselbe Kapitel sagt, was der Weitwinkel dann tut.
 
 ### Wenn etwas klemmt
 
-* **Die Zeile sagt, die Trennung ist nicht eingerichtet.** Beim ersten
-  Lauf holt sie sich, was sie braucht. Misslingt das, geht der Lauf
-  weiter: mit je Person einer Spur kommen die Sprecher aus den Spuren,
-  sonst bleibt der Schnitt aus.
+* **Die Zeile der Aufnahme sagt, die Trennung ist nicht eingerichtet.**
+  Beim ersten Lauf holt sie sich, was sie braucht. Misslingt das, geht
+  der Lauf weiter: mit je Person einer Spur kommen die Sprecher aus den
+  Spuren, sonst bleibt der Schnitt aus.
 * **Die Trennung bricht mit einer Meldung ab.** Das Protokoll sagt, was
   war. Mit je Person einer Spur misst das Programm stattdessen aus den
   Spuren, und der Schnitt kommt trotzdem; auf einer gemeinsamen Aufnahme
@@ -158,5 +172,5 @@ Diese Optionen gibt es im Fenster nicht.
 * `--no-speakers-local` nimmt in diesem Lauf keine Aufnahme nach Stimmen
   auseinander, gleich was sonst danach verlangt.
 * `--no-speech-recognition` lässt den Text weg.
-* `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: die Trennung startet nie von
-  selbst. Der Knopf startet sie weiterhin.
+* `VPM_NO_SPEAKER_SPLIT=1` vor dem Aufruf: keine Spalte **Sprecher**,
+  kein Knopf, und die Trennung startet nie von selbst.
