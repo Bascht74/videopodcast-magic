@@ -40,12 +40,12 @@ getrennt, steht dort statt seiner die Zahl der gefundenen Sprecher
 - **Audio ignorieren**: bleibt ganz außen vor, der Sprechername wird
   grau. Für eine Aufnahme, deren Video noch fehlt.
 
-Die untere Tabelle hat je Kamera eine Zeile: **Typ** (**Inhalt**,
-**Vorspann**, **Abspann**, **Video ignorieren**), **neue Datei heißt**
-und **bekommt Audio von**. Die letzte Spalte ist **eigener Ton**, mit
-dem Häkchen **als Spur**. Ein Klick auf eine Zeile holt die Datei in den
-Player. Dateien, die nicht zur gemessenen Zeitachse passen, stehen in
-Rot, hier wie in der Dateiliste.
+Die untere Tabelle hat je Kamera eine Zeile: **Kamera**, **neue Datei
+heißt**, **bekommt Audio von** und **Kameraton**. Was eine Datei ist --
+Inhalt, Vorspann, Abspann oder ignoriert -- wird jetzt in der Dateiliste
+gefragt, in der Spalte **Typ**, beim Material, um das es geht. Ein Klick
+auf eine Zeile holt die Datei in den Player. Dateien, die nicht zur
+gemessenen Zeitachse passen, stehen in Rot, hier wie in der Dateiliste.
 
 Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
 ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
@@ -55,43 +55,63 @@ Multitrack braucht zwei Eingangsspuren. Drei Dinge zählen als Spur:
 
 - eine eigene Aufnahme,
 - ein Kanal eines mehrkanaligen Aufnahmegeräts,
-- der Ton einer Kamera mit dem Häkchen **als Spur**.
+- der Ton einer Videodatei, deren **Kameraton** auf **Ton verwenden**
+  steht.
 
 Das Programm zählt die Zeilen der oberen Tabelle, ohne die auf **Audio
-ignorieren**. Der Kameraschnitt braucht dieses Häkchen nicht.
+ignorieren**. Der Kameraschnitt braucht dieses Feld nicht.
 
 ![Die beiden Tabellen der Zuordnung](images/assignment.de.png)
 
 *Reiter Zuordnung & Zeitfenster: die Aufnahmen mit ihrer Kamera, die
-Kameras mit der Spalte eigener Ton, und unter beiden Tabellen das
+Kameras mit der Spalte Kameraton, und unter beiden Tabellen das
 Häkchen Multitrack und der Kasten für auphonic.com.*
 
 ### Kameraton zur Spur machen
 
-Bei reinem Kameramaterial wird der eigene Ton der Kameras zur Spur, je
-Kamera eine. Dafür braucht es mindestens zwei Kameras. Ohne Multitrack
-bricht der Lauf bei mehreren Kameras ab. Eine einzelne Kamera läuft ohne
-das Häkchen ([Der einfache Weg](simple-path.de.md)).
+Ob eine Kamera ihren Ton beisteuert, wird bei der Datei gefragt: in der
+Dateiliste auf dem Reiter **Dateien & Produktion**, in der Spalte
+**Kameraton**. Sie steht auf **Ton nicht verwenden**, bis jemand etwas
+anderes sagt, bei jeder Kamera und bei wie vielen auch immer. Messen
+lässt sich diese Antwort nicht -- zwei Funkmikrofone, direkt in die
+Videospur aufgenommen, sehen genauso aus wie das eigene Mikrofon der
+Kamera im Raum; das weiß nur, wer dabei war.
 
-Eine einzelne Kamera kann ihren Ton ebenso beisteuern: Häkchen **als
-Spur** in der Spalte **eigener Ton**. Sie bekommt dann eine Zeile in der
+Dasselbe Feld steht in der Kameratabelle neben dem Player, auf demselben
+Wert: ändert man eines, zeigen beide es. Was vorher bekannt ist, steht
+beim Material; was erst beim Hören auffällt, wird dort geändert, wo es
+zu hören ist.
+
+Ein Fall entscheidet sich selbst: genau eine Videodatei mit Ton und
+keine Tonaufnahme daneben. Dann ist dieser Ton der einzige, den es gibt,
+und das Feld steht auf **Ton verwenden**, ausgegraut, mit der Begründung
+daneben. Es ist hergeleitet, nicht gespeichert -- kommt eine Tonaufnahme
+dazu, ist es wieder eine Frage ([Der einfache Weg](simple-path.de.md)).
+
+Auf **Ton verwenden** gestellt, bekommt die Kamera eine Zeile in der
 oberen Tabelle, mit ihrem Sprechernamen. Sie zählt wie jede andere Spur:
 aufbereitet, im Full-Mix, in der Sprechzeit für den Kameraschnitt
 mitgezählt und als erste Tonspur ihrer eigenen Kamera.
 
-„Wie jede andere Spur“ schließt die Kanäle ein. Das Häkchen bewahrt nur
+„Wie jede andere Spur“ schließt die Kanäle ein. Das Feld bewahrt nur
 den Ton; dieselbe Messung wie bei einer Recorder-Datei entscheidet, was
 daraus wird.
 
 - **Zwei Ansteckmikrofone auf den zwei Kanälen** ergeben zwei Zeilen mit
   zwei Sprechernamen. Das Programm beurteilt und schneidet sie wie eine
-  zweikanalige Recorder-Datei.
+  zweikanalige Recorder-Datei. Diese eine Kamera ist dann zwei
+  Eingangsspuren.
 - **Ein echtes Stereopaar** bleibt eine zweikanalige Spur.
 
 Das Auswahlfeld **gehört zu** bestimmt, zu welcher Kamera so eine Spur
 gehört; die Kamera, aus der der Ton kommt, ist nur die Vorauswahl. Ein
 Ansteckmikrofon, das in einer Kamera steckt, heißt nicht, dass diese
 Kamera die Person filmt.
+
+Setzt niemand das Feld und gibt es auch keine Tonaufnahme, ist nichts zu
+hören: **Start** bleibt gesperrt und sagt es darunter. Das Ausrichten
+hängt nicht daran -- die Zeitachse wird über die Hüllkurve jeder Datei
+gemessen, gleich wie das Feld steht.
 
 ### Was das Programm im Hintergrund liest
 
@@ -161,13 +181,17 @@ bext-Block, dazu iXML für Premiere und Media Composer.
 
 - **Eine Zeile steht in Rot.** Der Ton dieser Datei passt nicht zu dem
   der anderen, sie bekommt also keinen Platz auf der gemeinsamen
-  Zeitachse. In der Spalte **Typ** den Eintrag **Video ignorieren**
-  wählen oder die Datei mit **Entfernen** aus der Liste nehmen.
+  Zeitachse. In der Spalte **Typ** der Dateiliste den Eintrag **Video
+  ignorieren** wählen oder die Datei mit **Entfernen** aus der Liste
+  nehmen.
 - **In markieren und Out markieren bleiben gesperrt.** Die gemeinsame
   Zeitachse steht noch nicht. Den Balken unter den Tabellen abwarten.
-- **Der Lauf bricht bei mehreren Kameras ohne Tonaufnahme ab.**
-  Multitrack ist aus. Das Häkchen **Multitrack** setzen; dann wird jede
-  Kamera zu einer eigenen Spur.
+- **Mehrere Kameras, keine Tonaufnahme, und Start bleibt gesperrt.**
+  Keine Kamera steuert ihren Ton bei. Bei jeder Kamera, die zu hören
+  sein soll, **Kameraton** auf **Ton verwenden** stellen; dann ist jede
+  eine Spur. Von selbst werden sie es nicht mehr: einer Kamera, die eine
+  brauchbare Spur aufnimmt, sieht man das nicht an -- sie kann ebenso
+  nur im selben Raum filmen.
 - **Ein Sprecher fehlt im Full-Mix.** Bei dieser Zeile steht in der
   Spalte **gehört zu** der Eintrag **Audio ignorieren**.
 

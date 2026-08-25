@@ -50,7 +50,6 @@ der das Wort erklärt, steht vorn.
   Zuordnung setzen“
 * **Abtastwerte am Anschlag**: `preflight`, „Wie der Bericht die Abtastwerte
   am Anschlag zählt“
-* **als Spur (Häkchen)**: `multitrack`, „Kameraton zur Spur machen“
 * **Anschlag**: siehe Abtastwerte am Anschlag
 * **Ansteckmikrofon**: `channels`, „Eine Spur oder zwei“; `multitrack`,
   „Kameraton zur Spur machen“
@@ -96,7 +95,7 @@ der das Wort erklärt, steht vorn.
 * **Kamera, nur eine**: `resolve`, „Eine Kamera“; `camera-cut`, „Schneiden,
   wenn eine Kamera alle zeigt“
 * **Kameraton**: `multitrack`, „Kameraton zur Spur machen“; `simple-path`,
-  „Was je Videodatei zurückkommt“
+  „Was je Videodatei zurückkommt“; `interface`, „Die vier Reiter“
 * **Kanal, belegt oder nicht**: `channels`, „Welche Kanäle überhaupt eine
   Spur werden“
 * **Kennzahlen (`_metrics.csv`)**: `camera-cut`, „Was Kennzahlen und

@@ -13427,10 +13427,10 @@ def recording_family(file_path):
 def cameras_as_tracks(args):
     """How many cameras contribute their own audio as a track.
 
-    Not a property of the command line but of the assignment: the tick
-    "as a track" sits next to each camera there. So the count is read from
-    the assignment file. Without one nothing is marked and the answer is
-    none.
+    Not a property of the command line but of the material: Camera
+    audio is set to "use the audio" at the file, and the answer travels
+    in the assignment file. Without one nothing is set and the answer
+    is none.
     """
     path = getattr(args, "assign", None)
     if not path or not os.path.exists(path):
@@ -13469,8 +13469,8 @@ def check_mode_fits_input(audio_paths, args):
             T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
               'needed, and only %d was found.\n  A track is a recording of '
               'its own, a channel of a multichannel\n  recorder, or the '
-              'audio of a camera -- that counts as soon as it\n  is marked '
-              'as a track in the assignment. Without two of them there\n  '
+              'audio of a camera -- that counts as soon as its\n  Camera '
+              'audio says "use the audio". Without two of them there\n  '
               'is nothing to decouple, and the same file runs through as an\n'
               '  ordinary production.')
             % chains)
@@ -13592,8 +13592,8 @@ def multitrack_state_note(tracks, cameras_left):
     if not tracks:
         return ""
     if cameras_left:
-        return T('One track only -- tick "as a track" at a camera for a '
-                 'second one.')
+        return T('One track only -- set a camera\'s Camera audio to '
+                 '"use the audio" for a second.')
     return T('One track only, and no camera audio left to take.')
 
 
@@ -25638,7 +25638,7 @@ def gui():
     #
     # Under the assignment table, not beside the production name: what
     # Multitrack needs is decided in that table. Two input tracks, and a
-    # camera counts as one as soon as "as a track" is ticked for it.
+    # camera counts as one as soon as its Camera audio is used.
     # A tick on the sheet before would ask the question before the answer
     # can exist.
     multitrack_value = multitrack
@@ -29298,14 +29298,14 @@ CATALOGUE["de"] = {
     'MULTITRACK NOT POSSIBLE\n  At least two input tracks are needed, and '
     'only %d was found.\n  A track is a recording of its own, a channel of '
     'a multichannel\n  recorder, or the audio of a camera -- that counts as '
-    'soon as it\n  is marked as a track in the assignment. Without two of '
+    'soon as its\n  Camera audio says "use the audio". Without two of '
     'them there\n  is nothing to decouple, and the same file runs through '
     'as an\n  ordinary production.':
         'MULTITRACK NICHT MOEGLICH\n  Nötig sind mindestens zwei '
         'Eingangsspuren, gefunden wurde nur %d.\n  Eine Spur ist eine '
         'eigene Aufnahme, ein Kanal eines mehrkanaligen\n  Aufnahmegeräts '
-        'oder der Ton einer Kamera -- der zählt mit, sobald\n  er in der '
-        'Zuordnung als Spur markiert ist. Ohne zwei davon gibt es\n  nichts '
+        'oder der Ton einer Kamera -- der zählt mit, sobald\n  sein '
+        'Kameraton "Ton verwenden" sagt. Ohne zwei davon gibt es\n  nichts '
         'zu entkoppeln, und dieselbe Datei läuft als gewöhnliche\n  '
         'Produktion durch.',
     'No preset is called %r.':
@@ -31069,9 +31069,10 @@ CATALOGUE["de"] = {
         'Multitrack braucht zwei Spuren in der Tabelle darüber -- eine '
         'Kamera zählt mit, sobald ihr Kameraton auf "Ton verwenden" '
         'steht.',
-    'One track only -- tick "as a track" at a camera for a second one.':
-        'Nur eine Spur -- für eine zweite bei einer Kamera "als Spur" '
-        'setzen.',
+    'One track only -- set a camera\'s Camera audio to "use the '
+    'audio" for a second.':
+        'Nur eine Spur -- für eine zweite den Kameraton einer Kamera '
+        'auf "Ton verwenden" stellen.',
     'One track only, and no camera audio left to take.':
         'Nur eine Spur, und es ist kein Kameraton mehr übrig.',
     'the only sound there is':

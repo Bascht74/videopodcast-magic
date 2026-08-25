@@ -55,8 +55,16 @@ survives.
 
 ### Documentation
 
-- The manual still describes the tick on the assignment tab. It follows
-  in the next version; the pictures with it.
+- `interface`, `multitrack` and `simple-path` follow the decision to
+  the file sheet, both languages. Two things came out of writing them
+  that the order had wrong: the field settles itself in four cases, not
+  one -- no audio track in the file, a file set aside, a finished clip,
+  and the single video with sound -- and the channel measurement never
+  hung on the field at all; it runs for every multichannel video, and
+  the field only decides whether the tracks become rows.
+- Four places in the program still named the tick "as a track", the
+  line beside the Multitrack tick among them. The pictures are stale
+  and follow in the next version.
 
 ## [2.8.0-beta] - 2026-08-25
 

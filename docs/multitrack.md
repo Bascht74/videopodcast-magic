@@ -40,11 +40,12 @@ to** lists the cameras, then two special cases:
 - **ignore this audio**: out entirely, and the speaker name goes grey.
   For a recording whose video is still missing.
 
-The lower table has a row per camera: **Kind** (**Content**, **Intro**,
-**Outro**, **ignore this video**), **new file name** and **gets audio
-from**. The last column is **own audio**, with the tick **as a track**.
-A click on a row fetches that file into the player. Files that do not fit
-the measured time axis stand in red, here as in the file list.
+The lower table has a row per camera: **Camera**, **new file name**,
+**gets audio from** and **Camera audio**. What a file is -- content,
+intro, outro or ignored -- is asked in the file list now, in the column
+**Kind**, with the material it is about. A click on a row fetches that
+file into the player. Files that do not fit the measured time axis stand
+in red, here as in the file list.
 
 Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
@@ -54,43 +55,62 @@ Multitrack needs two input tracks. Three things count as a track:
 
 - a recording of its own,
 - a channel of a multichannel recorder,
-- the audio of a camera with the **as a track** tick.
+- the audio of a video file whose **Camera audio** stands on **use the
+  audio**.
 
 The program counts the rows of the upper table, minus those on **ignore
-this audio**. The camera cut does not need this tick.
+this audio**. The camera cut does not need this field.
 
 ![The two tables of the assignment](images/assignment.png)
 
 *Tab Assignment & time window: the recordings with their camera, the
-cameras with the column own audio, and under both tables the Multitrack
-tick and the box for auphonic.com.*
+cameras with the column Camera audio, and under both tables the
+Multitrack tick and the box for auphonic.com.*
 
 ### Making camera sound a track
 
-With cameras only, their own sound becomes the tracks, one per camera.
-That takes at least two cameras. Without Multitrack the run stops on
-several cameras. A single camera runs without the tick
-([The simple path](simple-path.md)).
+Whether a camera contributes its sound is asked at the file: in the file
+list on the **Files & production** tab, in the column **Camera audio**.
+It stands on **do not use the audio** until somebody says otherwise, at
+every camera and however many there are. Nothing can measure that
+answer -- two radio microphones recorded straight into the video track
+look exactly like the camera's own microphone in the room, so only
+whoever was there knows.
 
-A single camera can contribute its sound as well: the tick **as a track**
-in the column **own audio**. It then has a row in the upper table, with
+The same field stands in the camera table beside the player, on the same
+value: change either and both show it. What is known up front is said
+with the material; what is only heard later is changed where it can be
+heard.
+
+One case settles itself: exactly one video file with sound and no audio
+recording beside it. That sound is then the only sound there is, and the
+field stands on **use the audio**, greyed out, with the reason beside it.
+It is derived, not stored -- an audio recording added takes it back to a
+question ([The simple path](simple-path.md)).
+
+Set to **use the audio**, the camera gets a row in the upper table, with
 its speaker name. It counts like any other track: processed, in the
 Full-Mix, counted in the speaking time for the camera cut, and the first
 audio track of its own camera.
 
-"Like any other track" includes the channels. The tick only keeps the
+"Like any other track" includes the channels. The field only keeps the
 audio; the same measurement as for a recorder file decides what it
 becomes.
 
 - **Two clip-on microphones on the two channels** give two rows with two
   speaker names. The program judges and cuts them like a two channel
-  recorder file.
+  recorder file. That one camera is two input tracks.
 - **A real stereo pair** stays one two channel track.
 
 The selector **belongs to** sets which camera such a track belongs to;
 the camera the audio came out of is only the preselection. A clip-on
 microphone plugged into one camera does not mean that camera films the
 person.
+
+Where nobody sets the field and there is no audio recording either, there
+is nothing to listen to: **Start** stays locked and says so underneath.
+Synchronising is not part of this question -- the time axis is measured
+over the envelope of every file, whatever the field says.
 
 ### What the program reads in the background
 
@@ -155,13 +175,15 @@ bext chunk, and iXML comes along for Premiere and Media Composer.
 
 - **A row stands in red.** That file's sound does not line up with the
   others, so it gets no place on the common time axis. Pick **ignore
-  this video** in the column **Kind**, or take the file out of the list
-  with **Remove**.
+  this video** in the column **Kind** of the file list, or take the file
+  out of the list with **Remove**.
 - **Mark In and Mark Out stay locked.** The common time axis is not
   there yet. Wait for the bar under the tables.
-- **The run stops on several cameras without an audio recording.**
-  Multitrack is off. Set the **Multitrack** tick; each camera then
-  becomes a track of its own.
+- **Several cameras, no audio recording, and Start stays locked.** No
+  camera is contributing its sound. Set **Camera audio** to **use the
+  audio** at every camera that is to be heard; each one is then a track.
+  They no longer become tracks by themselves: a camera recording a
+  usable track cannot be told from one merely filming in the same room.
 - **A speaker is missing from the Full-Mix.** That row has **ignore this
   audio** in the column **belongs to**.
 
