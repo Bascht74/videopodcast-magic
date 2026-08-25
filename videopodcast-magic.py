@@ -573,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.10.0-beta"
+VERSION = "2.10.1-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -1324,6 +1324,81 @@ def unwrap_day(value, near):
         return value
     return value - DAY_S * round((value - near) / float(DAY_S))
 
+
+def clocks_apart(spans):
+    """Which of these time windows share their time with no other.
+
+    *spans* is [(start, length, key), ...] read off the timecode.
+    Material from one recording runs simultaneously, so its windows
+    overlap. A window overlapping with none of the others came off a
+    clock that was never set -- typical for a recorder starting at
+    00:00:00 while the cameras write time of day.
+
+    A shoot running across midnight would land here too, and with the
+    wrong answer: at 00:10 the timecode has started over, so the file
+    overlaps nothing. All windows are therefore brought onto one axis
+    first, around the middle of the material, and what had to be moved
+    is said out loud: past twelve hours there is no telling a night
+    that crossed midnight from two days genuinely a day apart.
+
+    Fewer than three windows say nothing: with two there is no telling
+    which of the two is the odd one out.
+
+    Returns (apart, moved, placed) -- the keys standing alone, the keys
+    moved across midnight, and [(start, length, key)] after the moving.
+    This is the one place the question is answered: the first tab's
+    hint and the zero point of the cut both ask here.
+    """
+    spans = [(float(a), max(1.0, float(n or 0.0)), k) for a, n, k in spans]
+    if len(spans) < 3:
+        return set(), [], spans
+
+    def alone(mine, start, wide, among):
+        return not any(i != mine and start < b + m and b < start + wide
+                       for i, (b, m, _k) in enumerate(among))
+
+    middle = sorted(a for a, _n, _k in spans)[len(spans) // 2]
+    moved, placed = [], []
+    for i, (a, n, k) in enumerate(spans):
+        shifted = unwrap_day(a, middle)
+        # A file starting at 00:00:00 is not a recording that began in
+        # the first second after midnight, it is a recorder whose clock
+        # was never set -- and unwrapping it would drop it neatly among
+        # the cameras and hide exactly the fault this is here for.
+        if a < 1.0:
+            shifted = a
+        # Moving a file a whole day is a claim, and the claim is only
+        # worth making if the file then lands among the others. A
+        # recorder left at 03:00 while the cameras write 23:50 also
+        # moves under plain arithmetic -- and still overlaps nothing
+        # afterwards, so the move is taken back and the clock counts as
+        # what it always was: not set.
+        if shifted != a and not alone(i, shifted, n, spans):
+            moved.append(k)
+            placed.append((shifted, n, k))
+        else:
+            placed.append((a, n, k))
+    return (set(k for i, (a, n, k) in enumerate(placed)
+                if alone(i, a, n, placed)), moved, placed)
+
+
+def clocks_not_set(paths):
+    """Which of these files carry a timecode from a clock never set.
+
+    The same question the first tab asks, the same answer, through the
+    same clocks_apart: the file whose timecode window overlaps none of
+    the others. A file without a timecode is not in the result -- there
+    is nothing there to distrust. Returns a set of absolute paths.
+    """
+    spans = []
+    for p in paths:
+        try:
+            t = file_timecode(p)
+        except (OSError, ValueError, RuntimeError):
+            t = None
+        if t is not None:
+            spans.append((float(t), media_seconds(p), os.path.abspath(p)))
+    return clocks_apart(spans)[0]
 
 
 def file_timecode(path, fps=30.0):
@@ -4041,18 +4116,46 @@ def project_files(d):
     return present, missing
 
 
-def choose_zero_point(audio_origin=(), camera_origin=()):
+def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
     """Return where programme time starts on the clock.
 
     Speaker segments count from the start of the material that was
     processed, and that is the audio recordings, not the cameras. Nothing is
     guessed: without a known audio start the earliest camera start applies,
     and without that either the result is None.
+
+    An origin off a clock that was never set is no origin. Every one of
+    them is a window *length* seconds wide on the same clock, and
+    clocks_apart -- the rule the first tab already prints as "this
+    clock was not set" -- names those sharing their time with none of
+    the others. Measured on 25.8.2026 against a real take: audio at
+    48.0 s against cameras at 62053.4, 62065.9 and 62078.9 s, on
+    5216.968 s of material, so the audio window closes 56788 s before
+    the earliest camera opens. Taken as the zero point it put an In
+    point of 62053.4 s some 62005 s into an 87 minute recording, and
+    no cut came out at all.
+
+    Without a length there are no windows and the check stays out: a
+    caller who cannot say how long the material is has measured
+    nothing to hold the clocks against.
     """
     audio_files = [float(t) for t in audio_origin if t is not None]
+    videos = [float(t) for t in camera_origin if t is not None]
+    if length and (audio_files or videos):
+        apart = clocks_apart(
+            [(t, length, ("audio", i)) for i, t in enumerate(audio_files)]
+            + [(t, length, ("camera", i))
+               for i, t in enumerate(videos)])[0]
+        audio_files = [t for i, t in enumerate(audio_files)
+                       if ("audio", i) not in apart]
+        # The cameras are the fallback, and a fallback that is gone is
+        # no help: where every one of them stands alone there is no
+        # shared time here to be had, and the earliest start is still
+        # the best answer there is.
+        videos = [t for i, t in enumerate(videos)
+                  if ("camera", i) not in apart] or videos
     if audio_files:
         return min(audio_files)
-    videos = [float(t) for t in camera_origin if t is not None]
     return min(videos) if videos else None
 
 
@@ -4097,7 +4200,8 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                            "sections": [list(x) for x in segs]}
                           for n, segs in segment_list],
              "cameras": out, "length_s": length,
-             "start_s": choose_zero_point(audio_origin, camera_origin)}, "")
+             "start_s": choose_zero_point(audio_origin, camera_origin,
+                                          length)}, "")
 
 
 def apply_time_window(d, in_point, out_point):
@@ -4142,9 +4246,23 @@ def apply_time_window(d, in_point, out_point):
         return d, T('In point or Out point cannot be read here.')
     if from_s is None or until is None:
         return d, T('In point or Out point cannot be read here.')
+    # Trimmed to the material first, judged afterwards. The other way
+    # round, a window of 62005.4 s to 66146.1 s passed as 4140.8 s long
+    # and the trimming turned it into a length of -56788.4 s -- handed
+    # back with an empty complaint, so nothing downstream knew anything
+    # was wrong. cut_statistics reads a length of 0 or less as material
+    # that is not there and answers None, and the window says nothing.
+    # Measured on 25.8.2026 against a real take of 5216.968 s.
+    asked_from, asked_until = from_s, until
+    from_s, until = max(0.0, from_s), min(length, until)
+    if length > 0 and (asked_from >= length or asked_until <= 0):
+        return d, (T('The time window lies outside the material: In '
+                     'point at %s, Out point at %s, and the material '
+                     'runs %s.')
+                   % (as_hms(asked_from), as_hms(asked_until),
+                      as_hms(length)))
     if until - from_s < 5:
         return d, T('Out point lies less than 5 seconds after In point.')
-    from_s, until = max(0.0, from_s), min(length, until)
     fresh = dict(d)
     fresh["length_s"] = round(until - from_s, 3)
     # The origin moves along. start_s means "where programme time starts
@@ -4535,6 +4653,41 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3, after=40.0,
         "speech_time_s": speech_time * step,
         "shortest_block": blocks[0] if blocks else 0.0,
     }
+
+
+def why_no_cut(d):
+    """Say why these statistics produce no camera cut.
+
+    cut_statistics answers None for four different reasons, and the
+    window named only one of them -- the wrong one at that. "The file
+    holds no speaker statistics" was shown where there is no file at
+    all, only what was assigned in the window, and where the statistics
+    were complete: 1257 segments and four named speakers, and an orange
+    line saying they were missing. What somebody can do about it
+    differs from reason to reason, so each of them gets its own
+    sentence.
+    """
+    tracks = d.get("speakers") or []
+    if not tracks:
+        return T('No speaker is known here -- without who speaks when '
+                 'there is nothing to cut between.')
+    if not (d.get("cameras") or []):
+        return T('No camera is assigned, so there is nothing to cut '
+                 'between.')
+    length = float(d.get("length_s") or 0.0)
+    if length <= 0:
+        length = max((b for s in tracks
+                      for _a, b in (s.get("sections") or [])), default=0.0)
+    if length <= 0:
+        return T('The programme is %s long here -- nothing can be laid '
+                 'out in that. In point and Out point are what set it.') \
+            % as_hms(float(d.get("length_s") or 0.0))
+    if not any(cam.get("speakers") for cam in d["cameras"]):
+        return T('No voice has a camera yet -- with that every shot '
+                 'would be the same one.')
+    return T('The cut rules leave no shot standing in these %s. A '
+             'shorter shortest shot, or less wide shot, gives one '
+             'again.') % as_hms(length)
 
 
 def build_camera_cut(tracks, length, camera_of, wide_shot,
@@ -17010,14 +17163,39 @@ def longest_stretch(segments, label_name):
     return None
 
 
-def audio_start_of(file_path, axis):
-    """Where an audio file starts: its timecode, else the measurement."""
-    try:
-        t = file_timecode(file_path)
-    except (OSError, ValueError, RuntimeError):
-        t = None
-    if t is not None:
-        return float(t)
+def audio_start_of(file_path, axis, unset=None):
+    """Where an audio file starts: its timecode, else the measurement.
+
+    A real timecode goes before the measurement, and rightly so: it is
+    set on the device, not read off an envelope. A clock that was never
+    set is no timecode at all, though, and clocks_not_set names those
+    -- the file whose timecode window overlaps none of the others,
+    which is what the first tab has been printing all along.
+
+    Measured on 25.8.2026 against a real take: the recorder's bext
+    chunk said 48.0 s, dated 1.1.2008, while three cameras and the
+    measured axis agreed on 62053 to 62079 s of the same day. That is
+    61080 s away, on a recording 5216.968 s long, so the two cannot be
+    the same clock. Believing the bext put the In point 62005 s into
+    that recording and the preview stayed empty.
+
+    Where a timecode does not hold, the measurement carries. It is on
+    the clock as well: measure_time_axis ties the axis to the median of
+    the timecodes it was given, so one wrong clock is outvoted by the
+    others rather than dragging the axis along.
+
+    *unset* is that set of paths, worked out from the axis where it is
+    not passed in.
+    """
+    if unset is None:
+        unset = clocks_not_set(list(axis or ()))
+    if os.path.abspath(file_path) not in unset:
+        try:
+            t = file_timecode(file_path)
+        except (OSError, ValueError, RuntimeError):
+            t = None
+        if t is not None:
+            return float(t)
     a = (axis or {}).get(os.path.abspath(file_path))
     return float(a) if a is not None else None
 
@@ -17763,70 +17941,39 @@ def timecode_comparison(data):
     typical for a recorder starting at 00:00:00 while the cameras write time
     of day.
 
-    A shoot that runs across midnight would land here too, and with the
-    wrong answer: at 00:10 the timecode has started over, so the file
-    overlaps nothing and reads as an unset clock. All windows are
-    therefore brought onto one axis first, around the middle of the
-    material. Anything that had to be moved gets said out loud -- past
-    twelve hours there is no telling a night that crossed midnight from
-    two days that really are a day apart, and a silent guess at that is
-    worse than a sentence.
+    The rule itself is clocks_apart, and only there: what is decided
+    here also decides the zero point of the cut, so the two must not
+    be able to disagree about the same clock.
     """
-    window = [(d["tc"], d["tc"] + max(1.0, d.get("duration") or 0.0),
-                d.get("name") or "?", d.get("path") or "")
-               for d in data if d.get("tc") is not None]
-    if len(window) < 3:
-        return []      # with two there is no telling which one is off
+    rows = [d for d in data if d.get("tc") is not None]
+    apart, moved, placed = clocks_apart(
+        [(d["tc"], max(1.0, d.get("duration") or 0.0), i)
+         for i, d in enumerate(rows)])
     out = []
-    # Unwrapped only where it helps. Moving a file a whole day is a
-    # claim, and the claim is only worth making if the file then lands
-    # among the others. A recorder left at 03:00 while the cameras write
-    # 23:50 also moves under plain arithmetic -- and still overlaps
-    # nothing afterwards, so the move is taken back and the line below
-    # says what it always said: this clock was not set.
-    middle = sorted(a0 for a0, _a1, _n, _p in window)[len(window) // 2]
-    moved, unwrapped = [], []
-    for a0, a1, name, file_path in window:
-        shifted = unwrap_day(a0, middle)
-        # A file starting at 00:00:00 is not a recording that began in
-        # the first second after midnight, it is a recorder whose clock
-        # was never set -- and unwrapping it would drop it neatly among
-        # the cameras and hide exactly the fault this function is for.
-        if a0 < 1.0:
-            shifted = a0
-        if shifted != a0 and any(
-                p != file_path and shifted < b1 and b0 < shifted + (a1 - a0)
-                for b0, b1, _n, p in window):
-            moved.append(name)
-            unwrapped.append((shifted, shifted + (a1 - a0), name, file_path))
-        else:
-            unwrapped.append((a0, a1, name, file_path))
-    window = unwrapped
     if moved:
         out.append(Finding(
             "hint", T('Midnight'),
             T('%s carries a timecode from the other side of midnight -- '
               'counted as one night, not as a day apart.')
-            % ", ".join(sorted(moved)[:3]),
+            % ", ".join(sorted(rows[i].get("name") or "?"
+                               for i in moved)[:3]),
             T('A timecode counts from midnight and starts over there. '
               'The files are put on one axis before anything is '
               'subtracted, otherwise the recording after midnight looks '
               'almost a day away from the one before. If these really '
               'were recorded on different days, the alignment is wrong '
               'and the measured offset is the one to trust.')))
-    for a0, a1, name, file_path in window:
-        neighbours = sum(1 for b0, b1, _n, p in window
-                       if p != file_path and a0 < b1 and b0 < a1)
-        if neighbours:
+    for a0, _n, i in placed:
+        if i not in apart:
             continue
-        other = sorted(b0 for b0, _b1, _n, p in window if p != file_path)
+        other = sorted(b0 for b0, _m, j in placed if j != i)
         out.append(Finding(
-            "hint", name[:17],
+            "hint", (rows[i].get("name") or "?")[:17],
             T('Timecode %s, the other files are at %s -- this clock was '
               'not set.')
             % (timecode_string(a0), timecode_string(other[len(other) // 2])),
             T('Alignment goes by the measured offset; the timecode is only '
-              'the cross-check.'), file_path))
+              'the cross-check.'), rows[i].get("path") or ""))
     return out
 
 
@@ -26714,16 +26861,15 @@ def gui():
         return d
 
     def audio_start(file_path):
-        """Return where this recording starts on the common time axis."""
-        t = None
-        try:
-            t = file_timecode(file_path)
-        except Exception:
-            t = None
-        if t is not None:
-            return float(t)
-        a = (state.get("axis") or {}).get(os.path.abspath(file_path))
-        return float(a) if a is not None else 0.0
+        """Return where this recording starts on the common time axis.
+
+        The same road as audio_start_of, because it is the same
+        question: two places answering it apart is how a clock that was
+        never set got believed here while the first tab said out loud
+        that it could not be right.
+        """
+        t = audio_start_of(file_path, state.get("axis") or {})
+        return 0.0 if t is None else float(t)
 
     def camera_start(file_path):
         """Return where this file starts on the common time axis.
@@ -26890,8 +27036,7 @@ def gui():
                             COLOURS["warning"])
             return
         if not numbers:
-            preview_set(T('The file holds no speaker statistics.'),
-                            COLOURS["warning"])
+            preview_set(why_no_cut(d), COLOURS["warning"])
             return
         preview_label.setStyleSheet("")
         preview_label.setToolTip("")
@@ -30453,6 +30598,9 @@ CATALOGUE["de"] = {
         'verwenden" stellen.',
     'No audio tracks are assigned.':
         'Keine Tonspuren zugeordnet.',
+    'No camera is assigned, so there is nothing to cut between.':
+        'Es ist keine Kamera zugeordnet, also ist nichts da, wozwischen '
+        'geschnitten werden könnte.',
     'No cameras assigned yet -- switch Multitrack on to do that.':
         'Noch keine Kameras zugeordnet -- dazu Multitrack einschalten.',
     'No connection to Resolve.\n  Is the program running? Is external '
@@ -30477,6 +30625,14 @@ CATALOGUE["de"] = {
     'interface.':
         'Keine Presets im Konto gespeichert. Eines lässt sich in der '
         'Weboberfläche anlegen.',
+    'No speaker is known here -- without who speaks when there is '
+    'nothing to cut between.':
+        'Hier ist kein Sprecher bekannt -- ohne wer wann spricht ist '
+        'nichts da, wozwischen geschnitten werden könnte.',
+    'No voice has a camera yet -- with that every shot would be the '
+    'same one.':
+        'Noch hat keine Stimme eine Kamera -- damit wäre jede '
+        'Einstellung dieselbe.',
     'No speakers known yet -- nothing measured, nothing separated, and '
     'no handover file of an earlier run in %s or its subfolders.':
         'Noch keine Sprecher bekannt -- nichts gemessen, nichts getrennt, '
@@ -30682,8 +30838,19 @@ CATALOGUE["de"] = {
     'anything.':
         'Das vorhandene Ergebnis taugt nicht: dort fehlt %s. Mit '
         '--auphonic-resume rerun neu rechnen, ohne etwas hochzuladen.',
-    'The file holds no speaker statistics.':
-        'In der Datei steht keine Sprecherstatistik.',
+    'The cut rules leave no shot standing in these %s. A shorter '
+    'shortest shot, or less wide shot, gives one again.':
+        'Die Schnittregeln lassen in diesen %s keine Einstellung stehen. '
+        'Eine kürzere kürzeste Einstellung oder weniger Totale bringt '
+        'wieder eine.',
+    'The programme is %s long here -- nothing can be laid out in that. '
+    'In point and Out point are what set it.':
+        'Das Programm ist hier %s lang -- darin lässt sich nichts '
+        'anlegen. In-Punkt und Out-Punkt legen das fest.',
+    'The time window lies outside the material: In point at %s, Out '
+    'point at %s, and the material runs %s.':
+        'Das Zeitfenster liegt außerhalb des Materials: In-Punkt bei %s, '
+        'Out-Punkt bei %s, und das Material läuft %s.',
     'The first preset track sets the settings for all our tracks. '
     'Otherwise they come back unprocessed. Create a track in the preset in '
     'the web interface.':
