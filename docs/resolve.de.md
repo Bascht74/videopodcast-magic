@@ -197,10 +197,13 @@ Empfehlung für Stereo wären. Bei HDR nennt es auch die Prüfung
 
 ### Vorspann und Abspann setzen
 
-In der Kameratabelle auf dem Reiter **Zuordnung & Zeitfenster** hat jede
-Zeile eine Spalte **Typ**: *Inhalt*, *Vorspann*, *Abspann* oder
-*Video ignorieren*. Vorspann und Abspann sind freiwillig. Eine Datei, die
-kein Inhalt ist, richtet das Programm nicht aus, bereitet sie nicht auf
+Jede Videodatei trägt einen **Typ**: *Inhalt*, *Vorspann*, *Abspann* oder
+*Video ignorieren*. Er wird an der Datei gesetzt, in der Dateiliste auf dem
+Reiter **Dateien & Produktion**. Andere Stellen im Programm zeigen
+denselben Wert.
+
+Vorspann und Abspann sind freiwillig. Eine Datei, die auf Vorspann oder
+Abspann steht, richtet das Programm nicht aus, bereitet sie nicht auf
 und kopiert sie nicht um. Sie ist ein fertiger Clip und kommt nur in die
 Timeline (auf der Kommandozeile `--intro DATEI` und `--outro DATEI`).
 Beide landen auf der **zweiten** Bild- und Tonspur, über dem Inhalt

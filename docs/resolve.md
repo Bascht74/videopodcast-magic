@@ -186,10 +186,13 @@ file*).
 
 ### Setting intro and outro
 
-In the camera table on the **Assignment & time window** tab every row has
-a column **Kind**: *Content*, *Intro*, *Outro* or *ignore this video*.
+Every video file carries a **Kind**: *Content*, *Intro*, *Outro* or
+*ignore this video*. Set it at the file, in the file list on the
+**Files & production** tab. Other places in the program show the same
+value.
+
 Intro and outro are optional. The program does not align, process or copy
-a file that is not content. It is a finished clip and only goes into the
+a file set to intro or outro. It is a finished clip and only goes into the
 timeline (on the command line `--intro FILE` and `--outro FILE`). Both
 land on the **second** video and audio track, over the content
 (`Intro / Outro` and `Audio Intro / Outro`).
