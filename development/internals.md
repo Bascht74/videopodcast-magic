@@ -122,9 +122,11 @@ two clip-on microphones on them give two rows with two speaker names.
 On the command line (`--multitrack`) the count works the same way as in
 the window, and it is a count of input tracks rather than of files: a
 recording of its own, a channel of a multichannel recorder, or the
-audio of a camera with **as a track** ticked. The count is read from
-the assignment file. A two channel file that was never split carries no
-extra mark.
+audio of a camera whose **Camera audio** stands on **use the audio**.
+The count is read from the assignment file: `cameras_as_tracks` counts
+the rows of `tracks_of` that carry `own_audio`, `camera_audio` or
+`from_camera`. A two channel file that was never split carries no extra
+mark.
 
 ## Which way a camera's audio goes
 
@@ -132,10 +134,19 @@ A camera's audio takes one of two ways, and they behave differently.
 This is written down because reading only one of them leads to the
 wrong conclusion about the other.
 
+What decides is the **Camera audio** field at the video file: in the
+file list on **Files & production**, and again in the camera table
+beside the player on **Assignment & time window**, on the same value
+both times (`audio_use_value`, `audio_use_bind`). It stands on **do not
+use the audio** until somebody says otherwise, and there the sound is
+not material at all and takes neither way. Synchronising is not part of
+the question: the time axis is measured over the envelope of every
+file, whatever the field says.
+
 | Way | What happens to more than two channels |
 |---|---|
-| **as a track** ticked | `camera_audio_tracks` cuts it into tracks, by the same measurement as a recorder file |
-| the simple path, no tick | `extract_audio_from_video` keeps every channel, and the file goes on whole |
+| **use the audio**, with Multitrack | `camera_audio_tracks` cuts it into tracks, by the same measurement as a recorder file |
+| the simple path: one video, no audio recording | `extract_audio_from_video` keeps every channel, and the file goes on whole |
 
 On the first way a camera is not automatically one track: two clip-on
 microphones on one channel each are two people, while a real stereo
@@ -144,9 +155,12 @@ channel it has and folded afterwards, never before -- folding four
 channels to one and then asking what is on them would always answer
 "one voice".
 
-The second way has one track by definition, so nothing is cut there.
-`kept_channels` answers 2 for two channels and 1 for anything else,
-which means a four channel file is treated as mono. Nothing then
+On the second way the field has nothing to decide: one video with sound
+and no audio recording beside it is the only sound there is, so
+`audio_use_settled` returns it as used with that reason, greyed out and
+never stored. The way has one track by definition, so nothing is cut
+there. `kept_channels` answers 2 for two channels and 1 for anything
+else, which means a four channel file is treated as mono. Nothing then
 happens to it, and the four channels survive by accident rather than by
 design.
 
@@ -343,7 +357,7 @@ On any mismatch the old `moov` comes back byte for byte.
 | `multitrack` | the tick, and with it the later tabs |
 | `in_point`, `out_point` | the time window |
 | `camera_cut`, `wide_at_edges` | every value of the camera cut |
-| `assignment` | who belongs to which camera, what the new files are called, "own audio", and the last file in the player (`player_file`, `player_spot`) |
+| `assignment` | what is remembered per row and per file, each key by its prefix: `audio:` speaker name and camera, `video:` the name of the new video file, `own:` whether **Camera audio** is in use, `ownname:` the name that camera's track carries, `kind:` content, intro, outro or ignored, `voice:` the camera a separated voice sits on -- and `player_file`, `player_spot`, where the player stood |
 | `preset` | the chosen Auphonic preset, or `no-auphonic` |
 | `transcript`, `speech_language` | the transcript tick and the language tag |
 | `apart`, `together` | blocks taken out by hand, and put together by hand |
@@ -351,8 +365,10 @@ On any mismatch the old `moov` comes back byte for byte.
 | `timeline`, `timeline_absolute` | the measured position of every file |
 | `call` | the command line of the last run |
 
-The `assignment` cannot be guessed. The `timeline` saves the measurement
-at the next start.
+The `assignment` cannot be guessed. `own:` holds only what somebody set
+themselves; a **Camera audio** field that settled itself is derived
+again at every start and leaves nothing behind. The `timeline` saves the
+measurement at the next start.
 
 ## How a spot for the wide shot is scored
 
