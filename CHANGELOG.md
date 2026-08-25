@@ -9,6 +9,34 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.10.1-beta] - 2026-08-25
+
+### Fixed
+
+- No cut at all, and a message that named a file there was none of.
+  A Zoom H4n writes a BWF time reference of 2304000 samples -- 48
+  seconds, dated 1 January 2008, a clock that was never set. The
+  program says so on the first tab ("this clock was not set") and then
+  used that timecode anyway: the zero point became 48 s where the
+  measured axis said 61128.6, an In point 62053 s into the day landed
+  62005 s into a recording of 5217 s, the time window came back with a
+  length of minus 56788 seconds and no complaint at all, and the
+  preview said the file held no speaker statistics -- with no file
+  anywhere in it. Measured on the real material, before and after:
+  zero point 48.0 -> 61128.619, window -56788.399 -> 4140.767, cut
+  none -> 218 shots.
+- The under-five-seconds guard on the time window sat before the
+  trimming, so a window outside the material passed it and the trimming
+  then made the length negative. It sits behind now, and a window that
+  cannot work says where it lies and how long the material runs.
+- The rule about an unset clock was written down four times. It lives
+  once now, in `clocks_apart`, and the hint on the first tab, the audio
+  origin and the zero point all ask it. The hint comes out byte for
+  byte as before.
+- Where no cut comes out, the reason is given -- no speaker, no camera,
+  no length, no voice with a camera, or no shot left standing after the
+  rules.
+
 ## [2.10.0-beta] - 2026-08-25
 
 ### Changed
@@ -1527,6 +1555,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.10.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.0-beta...v2.10.1-beta
 [2.10.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.9.0-beta...v2.10.0-beta
 [2.9.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.8.0-beta...v2.9.0-beta
 [2.8.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.1-beta...v2.8.0-beta
