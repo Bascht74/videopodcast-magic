@@ -9,6 +9,39 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.7.1-beta] - 2026-08-25
+
+### Fixed
+
+- Captions were measured on Windows alone. Everywhere else they kept
+  the width they were designed with, and on Linux that left the
+  "+10 s" button of the preview player 9 px short of its own text.
+  `caption_room` returned the designed number unchanged wherever
+  `sys.platform` was not `win32`, although its own comment says a
+  surcharge in pixels fits one font and misses the next. It measures
+  on every system now, and it never returns less than the designed
+  width, so nothing moves where the design fits: measured on macOS,
+  not one of the 150 captions wants more than its base. "Sans Serif
+  9.0" is not the same font file on macOS and on Ubuntu.
+- The test suite ran green on every push and the CI did not, at every
+  push since it was set up, always on that one button. A light that is
+  always red is a light nobody looks at, and it hid a second fault:
+  `start_button_test` replaces `threading.Thread` for the whole
+  process, and the replacement could only `start()`. On Windows that
+  is not enough -- subprocess reads a child's output in threads of its
+  own and calls `join()` on them -- so the first time the window asked
+  ffprobe for a timecode while opening a project, the test died. macOS
+  and Linux wait with selectors and make no thread at all. All four
+  runners are green for the first time.
+
+### Documentation
+
+- The manual's pictures were taken again, all ten that changed. They
+  now show the voice row saying how long somebody speaks and where the
+  longest passage is, the line beside the Multitrack tick, and the two
+  renamed choices. `files`, `blocks` and `settings` came out
+  byte-identical, which says the run is repeatable.
+
 ## [2.7.0-beta] - 2026-08-25
 
 ### Added
@@ -79,14 +112,6 @@ survives.
 - The preview box stayed "Camera cut -- preview" beside a box called
   "First cut by speaker". The two names were worked out in two places;
   now in one.
-- Captions were measured on Windows alone. Everywhere else they kept
-  the width they were designed with, and on Linux that left the
-  "+10 s" button of the preview player 9 px short of its own text --
-  the tests had been red at every push since the CI was set up, which
-  is a signal nobody reads any more. The measurement runs on every
-  system now. It never returns less than the designed width, so
-  nothing moves where the design fits: measured on macOS, not one of
-  the 150 captions wants more than its base.
 
 ### Documentation
 
@@ -1324,6 +1349,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.7.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.0-beta...v2.7.1-beta
 [2.7.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.1-beta...v2.7.0-beta
 [2.6.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.0-beta...v2.6.1-beta
 [2.6.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.5.0-beta...v2.6.0-beta
