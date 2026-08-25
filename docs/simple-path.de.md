@@ -43,11 +43,24 @@ Eine gemeinsame Aufnahme, auf der alle zu hören sind, genügt für den
 Schnitt. Die Videodatei mit diesem Ton muss auf Beisteuern gestellt
 werden: in der Dateiliste auf dem Reiter **Dateien & Produktion**, in
 der Zeile dieser Datei, **Kameraton** auf **Ton verwenden**. Sie bekommt
-dann eine Zeile in der Zuordnungstabelle, mit **Sprecher trennen** in
-der Spalte **Sprecher** ([Spracherkennung und
-Sprechertrennung](speech.de.md)). Der Knopf nimmt sich genau diese
-Aufnahme vor. Nach dem Lauf steht an seiner Stelle, wie viele Sprecher
-gefunden wurden.
+dann eine Zeile in der Zuordnungstabelle. Deren **Sprechername** mit
+**mehrere Sprecher** beantworten, dem einen Eintrag, den das Feld zur
+Wahl stellt, und die Stimmen auf genau dieser Aufnahme werden
+auseinandergehalten ([Spracherkennung und
+Sprechertrennung](speech.de.md)). Die Spalte **Sprecher** sagt, wie weit
+das gekommen ist; die Stimmen selbst kommen als eingerückte Zeilen unter
+der Aufnahme.
+
+Das Feld beantwortet sich nicht selbst aus einer schon gespeicherten
+Trennung. Eine Aufnahme, die einmal getrennt wurde, für die aber
+niemand geantwortet hat, zeigt ein leeres Feld und keine Stimmzeilen.
+Wählt man später **mehrere Sprecher**, stehen die Stimmen sofort da,
+mit ihren Namen und Kameras, ohne neue Rechnung.
+
+Wo eine Zeile einen Namen trägt und nicht auf **mehrere Sprecher**
+steht, bietet die Spalte **Sprecher** *Nur ein Sprecher -- Spur
+auftrennen?* als flachen Textknopf an. Ein Klick setzt das Feld auf
+**mehrere Sprecher**, und die Stimmen erscheinen.
 
 Bei genau einer Videodatei mit Ton und keiner Tonaufnahme daneben muss
 niemand etwas setzen: dieser Ton ist der einzige, den es gibt, also
@@ -64,14 +77,29 @@ liegen als Marker auf dieser Timeline, je Person eine Farbe, damit
 sichtbar ist, wer wo redet.
 
 Im Protokoll steht `ERSTER SCHNITT NACH SPRECHERN` statt
-`KAMERASCHNITT`, und der Kasten im Fenster heißt genauso. Sprechzeiten,
-Schnittprognose, die Einstellwerte des Schnitts und die vier
-Schnittlisten kommen mit
+`KAMERASCHNITT`, sobald alle Sprecher auf derselben Kamera sitzen; nach
+mehr richtet sich die Überschrift nicht. Der Kasten im Fenster wird nach
+einer eigenen Regel benannt und stimmt nicht immer damit überein.
+Sprechzeiten, Schnittprognose, die Einstellwerte des Schnitts und die
+vier Schnittlisten kommen mit
 ([Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md)).
 
-Eine einzige gefundene Stimme ist kein Fehler. Niemand übergibt, also gibt
-es keinen Schnitt. Resolve bekommt die Kamera in einem Stück und den Mix
-darunter, und die Passagen sind auch dort markiert.
+Eine einzige gefundene Stimme ist kein Fehler. Was daraus wird, hängt
+an der Zahl der Kameras:
+
+- **Eine Kamera.** Niemand übergibt, und es gibt nichts zu wechseln,
+  also gibt es keinen Schnitt. Resolve bekommt die Kamera in einem
+  Stück und den Mix darunter, und die Passagen sind auch dort
+  markiert. Der Kasten im Fenster heißt **Erster Schnitt nach
+  Sprechern**.
+- **Zwei Kameras oder mehr.** Das Programm nimmt die erste Kamera, der
+  niemand zugeordnet ist, nennt sie Weitwinkel und schneidet sie ein.
+  Der Kasten heißt **Schnitt mit dem Weitwinkel**. Im Protokoll steht
+  weiter `ERSTER SCHNITT NACH SPRECHERN`, weil alle Sprecher auf
+  derselben Kamera sitzen.
+
+Bei zwei Sprechern auf eigenen Kameras bleibt es ein Kameraschnitt, im
+Protokoll wie im Fenster.
 
 ### Was neben dem Mix ins Video kommt
 
@@ -181,5 +209,5 @@ Diese Optionen gibt es im Fenster nicht.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
 - `--help` setzt `[simple path only]` oder `[multitrack only]` an einen
-  Schalter, der nur auf einem Weg wirkt. Beide Kennzeichnungen bleiben englisch,
-  auch bei `--lang de`.
+  Schalter, der nur auf einem Weg wirkt. Beide Kennzeichnungen bleiben
+  englisch, auch bei `--lang de`.

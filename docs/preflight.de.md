@@ -89,8 +89,34 @@ der genau einer spricht. Der Bericht sagt es, und der Lauf geht weiter.
 ### Welches Lautheitsziel gilt
 
 Der Wert gilt für beides: für die Normalisierung der Spuren und für den
-Zielpegel der Lautheitsanzeige im Resolve-Projekt. Ohne Angabe sind es
-−16 LUFS.
+Zielpegel der Lautheitsanzeige im Resolve-Projekt. Er kommt aus
+**Lautheit** in der Gruppe **Produktion** auf der ersten Seite des
+Fensters oder von `--lufs` auf der Kommandozeile. Das Fenster bietet
+fünf Einträge:
+
+- **-16 LUFS (Podcast-Verzeichnisse, stereo)**
+- **-19 LUFS (Podcast-Verzeichnisse, mono)**
+- **-14 LUFS (YouTube -- regelt nur herunter, nie herauf)**
+- **-23 LUFS (EBU R128, Rundfunk)**
+- **Aus Quelldateien übernehmen**
+
+Ein neues Projekt beginnt bei −16 LUFS. Das Fenster merkt sich den
+zuletzt gewählten Eintrag und beginnt das nächste neue Projekt damit,
+und eine geladene Projektdatei sticht diese Erinnerung: ein mit −23 LUFS
+gespeichertes Projekt öffnet auf −23 LUFS, auch wenn der Rechner sich
+**Aus Quelldateien übernehmen** gemerkt hatte.
+
+**Ohne Ziel wird nichts angepasst.** Kein `--lufs` auf der Kommandozeile
+oder **Aus Quelldateien übernehmen** im Fenster, und der Ton geht genau
+so hinaus, wie er hereinkam: kein Gewinn auf einer Spur und kein
+Limiter. auphonic.com macht weiter, was in seinem Preset steht. Die
+Summe wird trotzdem gemessen, und die Messung steht im Protokoll, unter
+`Nicht angepasst:` -- aus den Quelldateien übernommen, kein Gewinn und
+kein Limiter. Der Vorflug sagt in seiner Zeile Lautheit dasselbe: aus
+den Quelldateien übernommen, kein `--lufs` angegeben, es wird nichts
+angepasst. Im Resolve-Projekt braucht die Lautheitsanzeige trotzdem eine
+Skala, sie wird auf −16 LUFS gesetzt, und die Zeile darüber im Protokoll
+sagt, dass das nur der Bezug der Anzeige ist.
 
 **Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten
 die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jeder *Mix* dagegen,
@@ -158,13 +184,3 @@ Im Fenster gibt es diese Optionen nicht.
 
 `--anyway` läuft trotz eines Abbruchs, `--no-preflight` überspringt die
 Prüfung ganz, `--preflight-again` misst alles neu statt nur das Geänderte.
-
-`--lufs` setzt das Ziel als Zahl (Vorgabe −16, näher an null ist lauter),
-`--platform` nach Zweck:
-
-| Angabe | Ziel | Wofür |
-|---|---|---|
-| `podcast` | −16 LUFS | Podcast-Verzeichnisse, stereo |
-| `podcast-mono` | −19 LUFS | Podcast-Verzeichnisse, mono |
-| `youtube` | −14 LUFS | YouTube regelt nur herunter, nie herauf |
-| `broadcast` | −23 LUFS | EBU R128 |

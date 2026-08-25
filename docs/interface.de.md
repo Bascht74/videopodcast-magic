@@ -64,26 +64,37 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 - **Zuordnung & Zeitfenster**: links die Tabellen, rechts der Player.
   Erscheint mit den Dateien.
 
-  Die fünfte Spalte der Zuordnungstabelle heißt **Sprecher**. Dort
-  trägt jede Aufnahme den Knopf **Sprecher trennen**, und der ermittelt
-  auf diesem Rechner, wer wann in genau dieser Aufnahme spricht. Während
-  er läuft, heißt der Knopf in dieser Zeile **Abbrechen**, und die
-  übrigen Zeilen haben keinen: es läuft immer nur eine. Eine getrennte
-  Aufnahme zeigt in derselben Zelle **Getrennt: 4 Sprecher** statt des
-  Knopfes.
+  Die Aufnahmen sind ein Baum. Seine zweite Spalte ist der
+  **Sprechername**. Sie startet leer, mit dem Namen, den der Dateiname
+  nahelegt, grau darin: ein eingetippter Name sagt, dass die Aufnahme
+  diese eine Person ist, und der Eintrag **mehrere Sprecher**, den man
+  stattdessen wählen kann, setzt das Programm daran, auf diesem Rechner
+  zu ermitteln, wer wann in genau dieser Aufnahme spricht. Erst diese
+  Antwort zeigt die Stimmen. Eine Trennung, die niemand beantwortet
+  hat, lässt das Feld leer und die Zeilen verborgen, und eine spätere
+  Antwort holt sie sofort hoch, mit den Namen und Kameras, die sie
+  schon hatten. Die fünfte Spalte, **Sprecher**, sagt, wie es darum
+  steht -- **Abbrechen**, solange es läuft, in dieser Zeile und in
+  keiner anderen, danach **Getrennt: 4 Sprecher**, und daneben das
+  Angebot **Nur ein Sprecher -- Spur auftrennen?**, wo immer ein Name
+  im Feld steht.
 
-  Bei mehr als einer Tonaufnahme läuft nichts von selbst; der Knopf in
-  der Zeile startet es. Unter der Tabelle steht **Auf diesem Rechner
+  Bei mehr als einer Tonaufnahme läuft nichts von selbst; die Antwort in
+  der Zeile startet es. Unter den Aufnahmen steht **Auf diesem Rechner
   nicht**: das schaltet die Trennung für das ganze Projekt ab.
 
-  Die Stimmen stehen in einer eigenen Tabelle unter der
-  Zuordnungstabelle
-  ([Spracherkennung und Sprechertrennung](speech.de.md)). Jede Stimme
-  bekommt eine Zeile: die Aufnahme, in der sie gehört wurde, wie lange
-  sie insgesamt redet, und wo ihre längste Stelle beginnt. Daneben
-  stehen der Name, die zugehörige Kamera und **Anhören**, das die
-  Aufnahme an dieser längsten Stelle in den Player holt. Ein Klick auf
-  die Zeile der Stimme tut dasselbe.
+  Die Stimmen sind die Zeilen unter der Aufnahme, in der sie gehört
+  wurden ([Spracherkennung und Sprechertrennung](speech.de.md)),
+  eingerückt und zunächst aufgeklappt. Jede sagt in der ersten Spalte
+  **Stimme**, damit die Stufe zu sehen ist, und trägt den Namen und die
+  zugehörige Kamera. Zugeklappt sagt die Aufnahme unter **gehört zu**,
+  was das Zuklappen vom Schirm nimmt -- die Kameras: **auf 2 Kameras**,
+  oder **auf 1 Kamera, 1 ohne**, wenn eine Stimme noch keine hat;
+  aufgeklappt bleibt diese eigene Zelle leer, damit die Zuordnung nie
+  auf zwei Ebenen zugleich steht. Ein Klick auf eine Stimme holt den
+  Player an die Stelle, wo diese Stimme am längsten redet, und spielt
+  sie ab. Aufnahmen, die keine Stimmen zeigen, sind eine flache Liste,
+  ohne Dreiecke.
 
   Die Kameratabelle darunter trägt noch einmal **Kameraton**, bei jeder
   Kamera, auf dem Wert aus der Dateiliste. Eine Kamera auf
@@ -105,14 +116,20 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
   **Erster Schnitt nach Sprechern**. Dort wird nichts gewechselt: der
   Schnitt fällt bei jedem Sprecherwechsel, und Resolve bekommt je Person
-  einen Clip. Mit gesetztem **Multitrack** bleibt der Name
-  **Kameraschnitt**.
+  einen Clip. Bei einer Person und einer zweiten Kamera, auf der niemand
+  ist, heißt er **Schnitt mit dem Weitwinkel**: die Kamera dieser Person
+  steht, und der Weitwinkel bricht sie auf. Mit gesetztem **Multitrack**
+  bleibt der Name **Kameraschnitt**.
 
   Der Kasten erscheint, sobald **Multitrack** gesetzt ist oder zwei
-  Stimmen aus **Sprecher trennen** einen Namen und eine Kamera tragen.
-  Bis dahin steht an der Stelle von Kasten und Vorschau eine Zeile, die
-  sagt, was fehlt. Ein Resolve-Projekt entsteht trotzdem, mit jeder
-  Kamera an ihrem gemessenen Platz.
+  Personen einen Namen und eine Kamera tragen -- die Stimmen unter einer
+  getrennten Aufnahme oder die Zeilen der Zuordnungstabelle. Eine Person
+  genügt, wo es zwei oder mehr Kameras gibt. Eine Person auf einer
+  einzigen Kamera bekommt keinen Kasten, und das ist richtig: es gibt
+  nichts, wohin geschnitten werden könnte. Bis dahin steht an der
+  Stelle von Kasten und Vorschau eine Zeile, die sagt, was fehlt. Ein
+  Resolve-Projekt entsteht trotzdem, mit jeder Kamera am gemessenen
+  Platz.
 
   Beide hinteren Reiter stehen mit und ohne getrennte Spuren da. Ohne sie
   zeigt die Zuordnungsspalte grau „in alle Kameras“.
@@ -143,6 +160,26 @@ geschriebenen Tonspur und sagt auphonic.com, was es beim Transkribieren
 erwarten soll. „nicht gesetzt“ lässt die Spur ungekennzeichnet und
 überlässt der Erkennung die Sprache.
 
+**Lautheit** in der Gruppe **Produktion** auf der ersten Seite legt fest,
+wie laut die fertige Folge gemacht wird; derselbe Gewinn geht auf jede
+Spur, so bleibt das Verhältnis der Sprecher erhalten. Fünf Einträge:
+
+- **-16 LUFS (Podcast-Verzeichnisse, stereo)**
+- **-19 LUFS (Podcast-Verzeichnisse, mono)**
+- **-14 LUFS (YouTube -- regelt nur herunter, nie herauf)**
+- **-23 LUFS (EBU R128, Rundfunk)**
+- **Aus Quelldateien übernehmen**
+
+Ein neues Projekt beginnt bei −16 LUFS. Das Fenster merkt sich den zuletzt
+gewählten Eintrag, und eine geladene Projektdatei sticht diese Erinnerung.
+**Aus Quelldateien übernehmen** passt gar nichts an: auphonic.com macht
+weiter, was in seinem Preset steht, und ohne auphonic.com bleibt der Ton
+wie in den Quelldateien -- die Datei kommt Byte für Byte gleich heraus.
+
+[Welches Lautheitsziel gilt](preflight.de.md#welches-lautheitsziel-gilt)
+sagt, was sonst noch am Ziel hängt: die Normalisierung der Spuren, die
+Anzeige im Resolve-Projekt und was im Protokoll steht.
+
 **Probelauf** ist der Lauf, der misst und berichtet, aber nichts schreibt.
 Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 **unter den Knöpfen steht, was**, mitsamt dem Reiter, auf dem es steht:
@@ -152,18 +189,20 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
   **Ton verwenden**,
 - kein Produktionsname,
 - weniger als zwei Spuren in der Zuordnungstabelle für Multitrack,
-- eine Aufnahme ohne Sprechernamen,
-- alle Aufnahmen unter demselben Namen,
+- bei Multitrack eine Aufnahme ganz ohne Namen: keiner getippt, und
+  keiner, den der Dateiname nahelegt -- der graue Vorschlag gilt als
+  Name, wo nichts darüber getippt wird,
+- bei Multitrack alle Aufnahmen unter demselben Namen,
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
 einem Reiter heißt: dort ist nichts mehr offen. Kein Fenster geht dafür
 auf.
 
-Dann eine Zusammenfassung: wie viele Kameras und Tonspuren, wie lang, welches
-Preset, wie viele Dateien entstehen, wieviel Platz sie brauchen und wieviel
-frei ist. Wenn der Lauf bestehende Dateien überschreiben würde, zeigt ein
-Fenster erst, welche.
+Dann eine Zusammenfassung: wie viele Kameras und Tonspuren, wie
+lang, welches Preset, wie viele Dateien entstehen, wieviel Platz sie
+brauchen und wieviel frei ist. Wenn der Lauf bestehende Dateien
+überschreiben würde, zeigt ein Fenster erst, welche.
 
 Der Player hat Abspielen und Pause, sekunden- und frameweise vor und
 zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
@@ -171,7 +210,9 @@ dem In-Punkt gezählt.
 
 - Ein Klick auf eine Zeile der Zuordnungs- oder der Kameratabelle holt
   die Datei an dieselbe Stelle im Geschehen, so lassen sich zwei Kameras
-  vergleichen. Das Häkchen **zugeordneten Ton hören** spielt die dieser
+  vergleichen. Ein Klick auf eine Stimme unter einer Aufnahme öffnet
+  diese Aufnahme dort, wo die Stimme am längsten redet, und spielt
+  sofort. Das Häkchen **zugeordneten Ton hören** spielt die dieser
   Kamera zugeordnete Aufnahme; ohne das Häkchen ist der Kameraton zu
   hören.
 - In-Punkt und Out-Punkt nehmen die Stelle aus dem Bild, ein blauer
@@ -180,10 +221,11 @@ dem In-Punkt gezählt.
 - Formate, die der Rechner nicht abspielen kann (MXF, R3D, manche
   ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
-Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem Script,
-mit Fassung, Zeit und Rechner in der Kopfzeile und einer Trennlinie je Lauf;
-vom vorletzten Lauf bleibt `videopodcast-magic_1.log`. Auch was Qt und ffmpeg
-an Python vorbei ausgeben, steht darin.
+Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem
+Script, mit Fassung, Zeit und Rechner in der Kopfzeile und einer
+Trennlinie je Lauf; vom vorletzten Lauf bleibt
+`videopodcast-magic_1.log`. Auch was Qt und ffmpeg an Python vorbei
+ausgeben, steht darin.
 
 Neben **Start** läuft **ein Balken für alles Ausstehende**, mit einer
 Zeile daneben, woran gerade gearbeitet wird; er läuft immer nur vorwärts.

@@ -1,7 +1,7 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5652,
+ "largest_function": 5527,
  "lazy_plural": 0,
  "long_lines": 0,
  "narrating": 0,
@@ -67,7 +67,6 @@
   "mark_red": [1, 20639],
   "match_zip_entries_to_tracks": [1, 5042],
   "measure_loudness": [1, 5164],
-  "normalise_loudness": [1, 5513],
   "parallel_map": [1, 5776],
   "prework_fetch": [1, 20696],
   "probe_warm.one": [1, 5807],

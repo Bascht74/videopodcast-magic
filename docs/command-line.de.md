@@ -42,8 +42,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |
 | `--fps ZAHL` | anzunehmende Bildrate, wenn ffprobe eine falsche meldet (aus der Videodatei) |
-| `--lufs ZAHL` | Lautheitsziel in LUFS für die Summe der Sprecherspuren; tiefer ist leiser, die Plattformen liegen zwischen -23 und -14 (-16) |
-| `--platform NAME` | dieses Ziel nach Plattform: `broadcast` -23, `podcast` -16, `podcast-mono` -19, `youtube` -14 |
+| `--lufs ZAHL` | Lautheitsziel in LUFS für die Summe der Sprecherspuren; tiefer ist leiser, die üblichen Ziele liegen zwischen -23 und -14. Ohne ihn wird nichts angepasst: der Ton wird aus den Quelldateien übernommen, wie er ist (keine) |
 | `--speech-language CODE` | Sprachkennung der Tonspuren, ISO 639-2/B: `ger`, `eng`. Vorsicht, `deu` wirft ffmpeg stillschweigend weg (keine) |
 | `--speech-language-camera CODE` | dasselbe für die Kameraspur (keine: nur so unterscheidet der QuickTime-Player die beiden Einträge im Tonmenü) |
 | `--speakers-local DATEI` | diese Aufnahme auf diesem Rechner nach Stimmen trennen und danach schneiden (die Aufnahme, die der Lauf selbst wählt) |
@@ -87,6 +86,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: dieselben vier Werte (wide) |
 | `--on-uncertain WERT` | die Erkennung ist unsicher: dieselben vier Werte (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
+| `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher |
 | `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (40) |
 | `--wide-length SEKUNDEN` | wie lange die eingeschobene Einstellung mindestens steht; danach läuft sie bis zum Satzende (5) |
 | `--wide-most SEKUNDEN` | wie lange sie höchstens steht; wenn das Satzende darüber liegt, beendet die letzte Teilsatzgrenze davor die Einstellung (15) |

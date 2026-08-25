@@ -93,9 +93,10 @@ Kameraschnitt und Resolve-Projekt entstehen wie sonst. Es fehlt nur,
 was der Dienst tut: De-Bleed, Leveler, Rauschentfernung. Das
 Übersprechen bleibt im Ton.
 
-Die Ziellautheit setzt `--lufs`, voreingestellt -16; eine kleinere Zahl
-ist leiser. Auf jede Spur kommt dieselbe Anhebung, so bleibt das
-Verhältnis der Sprecher erhalten.
+Die Ziellautheit setzt `--lufs`; eine kleinere Zahl ist leiser. Auf jede
+Spur kommt dieselbe Anhebung, so bleibt das Verhältnis der Sprecher
+erhalten. Ohne ihn, und mit **Aus Quelldateien übernehmen** im Fenster,
+wird gar nichts angepasst: der Ton bleibt, wie er in den Quelldateien ist.
 
 Die örtliche Sprechertrennung sagt, wer wann spricht ([Spracherkennung
 und Sprechertrennung](speech.de.md)). Ohne sie misst das Programm es aus

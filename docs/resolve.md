@@ -42,14 +42,17 @@ button takes into the cut list.*
 | Case | Cut timeline | Multicam timeline |
 |---|---|---|
 | several cameras, speakers separated | picture from the camera cut, audio in one piece | all cameras side by side |
-| several cameras, no separation | none | all cameras side by side |
+| several cameras, one speaker with a camera | their camera, broken up by the wide shot | all cameras side by side |
+| several cameras, nobody with a name and a camera | none | all cameras side by side |
 | one camera, speakers separated | one shot per change of speaker, the mix below | none |
 | one camera, one voice or no separation | the camera in one piece, the mix below | none |
 
 The speaker separation decides the cut timeline, not the path. Two
 people with a name and a camera give a camera cut, on the simple path as
-well. Without them the multicam timeline stands alone: all cameras at
-their measured places, and Resolve makes the multicam clip from it.
+well, and so does one person as soon as a second camera is there that
+nobody is on: their camera stands and the wide shot breaks it up.
+Without that the multicam timeline stands alone: all cameras at their
+measured places, and Resolve makes the multicam clip from it.
 
 The program rounds the frame rate to one Resolve knows: ffprobe
 measures 29.994 or 30.001 for some files. The log says which rate it

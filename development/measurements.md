@@ -436,3 +436,156 @@ written. One recording, one room, four voices; how the shares fall in
 another room was not measured. The first reason does not depend on the
 material at all: it follows from tracks that are zero wherever their
 person is not speaking, whatever was recorded.
+
+## Two clocks in the timecode, and why they do not reach this machine
+
+Measured on 25.8.2026 against v2.10.1-beta, offscreen, on the real
+module.
+
+The program turns seconds into a timecode two ways. `timecode_string`
+(line 1084) builds `HH:MM:SS` from `int(seconds)` and only the frames
+from the rate; the Resolve side goes through the frame count and the
+timecode clock, which at the 1000/1001 rates runs slower than the wall
+clock. Measured, path A against path B:
+
+| fps | 1 min | 1 hour | 1.5 hours | difference |
+|---|---|---|---|---|
+| 25 | identical | identical | identical | 0 |
+| 30 | identical | identical | identical | 0 |
+| 29.97 | 00:01:00:00 / 00:00:59:28 | 01:00:00:00 / 00:59:56:12 | 01:30:00:00 / 01:29:54:18 | up to 5.4 s |
+| 23.976 | -- | 01:00:00:00 / 00:59:56:10 | 01:30:00:00 / 01:29:54:14 | up to 5.4 s |
+| 59.94 | -- | 01:00:00:00 / 00:59:56:24 | 01:30:00:00 / 01:29:54:36 | up to 5.4 s |
+
+**It cannot reach Sebastian's material, and not for the reason one
+would guess.** His cameras measure 29.9936, 29.9935 and 30.0010 -- none
+of them a 1000/1001 rate. `write_cut_list` really does hand the raw
+measured rate to `timecode_string`, not the snapped one. But the
+seconds field comes out of `int(seconds)` and does not depend on the
+rate at all: over 90 minutes at 540000 sample points,
+`timecode_string(t, 29.9936)` and `timecode_string(t, 30.0)` differ in
+the seconds field **zero times** -- only 33878 single-frame differences
+in the frames field, and those do not accumulate. `nearest_known_frame_
+rate` answers 30.0 for all three of his rates, and the Resolve handover
+writes that, at which the two clocks are one clock.
+
+**Verdict: a tidying job for whoever else uses the program, not a fault
+here.** Written down so nobody measures it a third time.
+
+**And the load-bearing warning, measured:** today a timecode survives
+every trip through the program -- `timecode_string` to `parse_timecode`
+and back, and the handover's `start_tc`, written on one path and read
+on the other -- with an error under half a frame at every rate, 29.97
+included. It survives **because both directions share the same wrong
+assumption.** Changing one direction alone breaks the handover origin,
+the displays in the window and `--head`/`--tail`. The scope is 27
+`timecode_string` call sites, 20 `parse_timecode` and 17
+`file_timecode`, each needing a decision about which clock it sits on.
+
+## Why the Resolve sheet was wider than the window
+
+Measured on 25.8.2026, offscreen, with the Mac font
+`.AppleSystemUIFont` forced to 13 px. Offscreen reckons at 96 dpi where
+the screen has 72, so every width below comes out about 4 % more
+generous than it will be on a real Mac; the heights are exact to the
+pixel. **Every width here is a lower bound. On a real Mac each of them
+falls out larger.**
+
+| | Sheet | Window needed |
+|---|---|---|
+| as it was | 1838 px | 1864 px |
+| legend hidden (as a yardstick only) | 1283 | 1309 |
+| legend wrapping, everything still there | 1283 | 1309 |
+
+The two lower rows carry the answer: they are the same number. Letting
+the legend wrap costs the sheet exactly what throwing the legend away
+costs it, which is nothing.
+
+Where the 1838 comes from: 744 (cut column) + 16 (gap) + 1058
+(preview) + 20 (margin).
+
+The legend line on its own is 1038 px at three cameras -- texts of 340,
+316 and 274, three colour squares of 12, three spacers of 14. Those
+parts account for 1008 of the 1038; the remaining 30 px were not broken
+out. The widest row on the left is "Recognition uncertain" at 693 px:
+caption 145 + drop-down 150 + explanatory text 368, which likewise
+accounts for 663 of the 693.
+
+**What is not the cause. Each of these was measured, not argued away:**
+
+* The statistics line wraps, and sets a floor of 88 px.
+* The fixed minimum widths do not bind. The largest of them is the
+  video picture at 320 px.
+* The 50:50 split of the two columns is not it either. Set to `0`/`1`
+  and measured again at six window widths, **every number came out
+  identical**.
+
+And one thing that would be worse rather than better:
+`ScrollBarAlwaysOff` on the horizontal. The content stays 1271 px wide,
+so 287 px of it become **unreachable** instead of scrollable.
+
+Sebastian's MacBook is 1512 x 982 points, of which 1512 x 890 are
+available. Vertically the same run reported 16 px of air at three
+speakers, and a speaker table growing by 30 px per speaker with nothing
+holding it, which puts the threshold at four speakers and a window
+904 px high.
+
+The width is what was being chased here. One machine, one font size,
+three cameras -- and the camera names are what the length of the legend
+is made of, so other names give another number. Nothing was measured on
+a window that was actually on screen; the offscreen figures are the
+floor under the real ones, not the real ones.
+
+## What one speaker with two cameras still cuts
+
+Five minutes, one speaker, two cameras: **15 shots, 7 of them wide.**
+The same speaker on one camera: **1 shot.**
+
+So the cut has work to do without a second voice. Two cameras on one
+person alternate; one camera on one person is the single long take it
+has to be.
+
+What the numbers do not say: this is five minutes of one recording, and
+it is a count, not a verdict. That 15 shots exist says nothing about
+whether they fall in the right places, and nothing about how the same
+rate looks over a full hour.
+
+## What an In point does to the camera offsets
+
+Measured on 25.8.2026 on a written handover: zero point 10.0 s, In
+point `00:01:10:00`, so a removed head of 60 s.
+
+Before, the camera offsets `{Wide: -5.0, Anna: 0.0, Bert: 12.5,
+Cam4: -33.25}` stayed exactly as they were while the zero point, the
+sections and the words all moved by 60. The distance between picture
+and sound was then **60.0 s per camera**. Afterwards the offsets are
+`{-65.0, -60.0, -47.5, -93.25}` and the distance is **0.0 s**.
+
+The counter-test is a run without an In point: identical before and
+after. Whoever sets no window is untouched by the change.
+
+One handover, four cameras, one In point a minute in. The offsets
+themselves are not the measurement -- the 60.0 s against 0.0 s is. The
+size of the error is the length of the removed head, so a longer head
+would show a larger number and mean the same fault.
+
+## What depth the camera sound is unpacked at
+
+Hard-wired in four places, and wrong in both directions. Measured on
+25.8.2026 as the size in bytes of the unpacked WAV:
+
+| Source | was written as | is written as | bytes |
+|---|---|---|---|
+| 24 bit camera | `pcm_s16le` / 16 | `pcm_s24le` / 24 | 576114 -> 864138 |
+| 16 bit camera | `pcm_s24le` / 24 | `pcm_s16le` / 16 | 864748 -> 576724 |
+
+Floating point is capped at 24 bit. Ordinary camera sound is AAC and
+AAC probes as `sample_fmt fltp`, so unpacking it as float cost a third
+more room for nothing that was ever in the file: **384092 bytes as
+float against 288102 as 24 bit, for the same two seconds** -- out of a
+lossy encoder that never had 32 bits of anything to give.
+
+What these figures are is a check that the depth written is the depth
+asked for, and nothing was listened to. They say the copy is as deep as
+the original and no deeper. They do not say what a listener would hear
+if it were not, and the float row says only what the room costs, not
+what the extra bits would have held.

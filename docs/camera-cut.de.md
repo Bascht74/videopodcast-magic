@@ -6,9 +6,12 @@
 ## Wie der Schnitt entsteht
 
 Der Schnitt braucht zwei Personen mit je einem Namen und einer Kamera.
-Getrennte Aufnahmen leisten das, und die Stimmen aus **Sprecher
-trennen** ebenso; das Häkchen **Multitrack** gehört nicht dazu. Beide
-Wege stehen in [Spracherkennung und Sprechertrennung](speech.de.md).
+Eine Person genügt auch, solange es eine zweite Kamera gibt, auf der
+niemand ist. Zwei Personen liefern getrennte Aufnahmen, und ebenso die
+Stimmen, die auf einer Aufnahme auseinandergehalten wurden, deren
+**Sprechername** mit **mehrere Sprecher** beantwortet ist; das Häkchen
+**Multitrack** gehört nicht dazu. Beide Wege stehen in [Spracherkennung
+und Sprechertrennung](speech.de.md).
 Damit weiß das Script, wann wer redet, und baut daraus den Schnitt:
 
 * Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
@@ -30,8 +33,11 @@ sie zeigt beide.
 wechselt das Bild, auf einer Kamera nicht. Dort entsteht ein erster
 Schnitt an jedem Sprecherwechsel. Der Lauf stellt `KAMERASCHNITT` über
 seinen Abschnitt bei zwei Kameras und mehr, bei einer
-`ERSTER SCHNITT NACH SPRECHERN`. Der Kasten im Fenster trägt dieselben
-zwei Namen; bevor etwas getrennt ist, heißt er **Kameraschnitt**.
+`ERSTER SCHNITT NACH SPRECHERN`. Der Kasten im Fenster trägt diese
+beiden Namen und einen dritten: bei einer benannten Person und zwei
+Kameras oder mehr heißt er **Schnitt mit dem Weitwinkel**, weil ihre
+Kamera steht und nur der Weitwinkel sie unterbricht. Bevor etwas
+getrennt ist, heißt der Kasten **Kameraschnitt**.
 
 Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
@@ -44,8 +50,9 @@ und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
 Die Oberfläche nimmt alle Werte entgegen: auf dem Reiter
 **Resolve-Schnitt**, im Kasten **Kameraschnitt**. Je Wert ein Feld,
 daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald der
-Schnitt seine zwei Personen hat; vorher steht an seiner Stelle eine
-Zeile und sagt, was fehlt.
+Schnitt seine Personen hat — zwei davon, oder eine mit einer zweiten
+Kamera, auf der niemand ist; vorher steht an seiner Stelle eine Zeile
+und sagt, was fehlt.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
@@ -87,7 +94,9 @@ Sprache nicht sagt, wer zu zeigen ist:
 
 Die ersten drei nehmen dieselben vier Werte: **Weitwinkel**,
 **Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Frage** nimmt
-**aus**, **Antwortender** und **Zuhörer**.
+**nicht vorziehen**, **Antwortender** und **Zuhörer**; **nicht
+vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild folgt dem
+Ton hier wie überall sonst.
 
 Unter den Feldern hält das Häkchen **Weitwinkel für Begrüßung am Anfang
 und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel (auf der
@@ -165,8 +174,30 @@ Stelle der Positionsleiste: der gerechnete Schnitt über die ganze Länge,
 je Einstellung ein Balken in der Farbe seiner Kamera. Die Skala trägt
 Minuten über das Ganze und Sekunden im Hineingezoomten. Zeigen nennt
 Kamera, Von-bis und Dauer, Klicken setzt die Stelle für den Player.
-Darunter die **Legende**: je Kamera ein Farbtupfer und
-`62 × Kandidat  77 %  (48:19 Min)`.
+Darunter die **Legende**: je Kamera im Schnitt ein Eintrag, ein Kästchen
+in ihrer Farbe und dann wie oft, wer, Anteil und Zeit —
+`129 × Kandidat  50 %  (29:48 Min)`.
+
+**Ein Eintrag ist nach den Personen benannt, nicht nach der Datei.** Ein
+Dateiname sagt nichts, was nicht schon bekannt wäre; die Zuordnung sagt
+es. Also trägt ein Eintrag:
+
+* den Sprecher dieser Kamera, mit Namen;
+* alle Namen mit Pluszeichen verbunden, wenn mehrere auf derselben
+  Kamera sind — `41 × Sprecher 1 + Sprecher 2  14 %  (9:37 Min)`;
+  keiner fällt weg und keiner wird gekürzt;
+* **Weitwinkel** für die Kamera, die als solcher dient;
+* den Kurznamen der Kamera, wenn ihr niemand zugeordnet ist und sie
+  nicht der Weitwinkel ist, denn sie Weitwinkel zu nennen wäre eine
+  Behauptung und keine Ablesung;
+* die Kamera neben dem Namen, wenn zwei denselben Namen ergeben — ein
+  Sprecher zweimal gefilmt —, sonst wären die Balken nicht
+  auseinanderzuhalten.
+
+Die Legende bricht um. In einem schmalen Fenster steht sie auf zwei
+Zeilen statt auf einer, und nichts wird gekürzt oder weggelassen, damit
+es passt: Die Zeile bricht zwischen zwei Einträgen und an einem Plus,
+nie mitten in einem Namen und nie mitten in einer Zahl.
 
 Es sind die Farben der Clips in Resolve, mit einer Ausnahme: der
 Weitwinkel wird in blassem Salbeiton angezeigt. In Resolve heißt der Clip
@@ -206,14 +237,15 @@ Mit **zugeordneten Ton hören** läuft zum Bild der Ton, der zu dieser
 Kamera gehört:
 
 * die **aufbereitete Spur** von auphonic.com (`final_<Name>_<TC>.wav`),
-  auf −16 LUFS und mit BWF-Timecode
+  auf dem unter **Lautheit** gewählten Ziel, oder auf dem des Presets,
+  wo nichts gewählt wurde, und mit BWF-Timecode
 * sonst die **Rohaufnahme** des zugeordneten Sprechers
 * beim Weitwinkel, der Kamera ohne zugeordneten Sprecher, der
   **Full-Mix**, sofern er vorliegt
 
 Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
-machen kann die Oberfläche sie nicht. Der Tooltip nennt, was läuft und
-in welcher Fassung.
+machen kann die Oberfläche sie nicht. Der Kurzhinweis nennt, was läuft
+und in welcher Fassung.
 
 Auf dem Reiter **Resolve-Schnitt** zeigt der Player im Vorschau-Kasten
 immer etwas: wenn ein Schnitt da ist, spielt er ihn und schaltet an jeder
@@ -291,11 +323,18 @@ Die Schnittliste sagt es mit: bei einer Kamera für alle trägt die EDL
 den Sprechernamen an Stelle des Kameranamens. Die Spalte Sprecher in
 `_cameracut.csv` steht in jedem Fall da.
 
-**Eine einzige Stimme gibt keinen Schnitt.** Niemand übergibt, also gibt
-es nichts zu schneiden, und weder Schnittliste noch EDL entstehen. Die
-Passagen gehen in die Übergabedatei, und Resolve setzt sie als Marker
-auf die Timeline, die es baut. Das ist eine Kamera am Stück mit dem Mix
-darunter, bei mehreren die Timeline für den Multicam-Clip.
+**Eine einzige Stimme auf einer Kamera gibt keinen Schnitt.** Niemand
+übergibt, also gibt es nichts zu schneiden, und weder Schnittliste noch
+EDL entstehen. Die Passagen gehen in die Übergabedatei, und Resolve
+setzt sie als Marker auf die Timeline, die es baut: die eine Kamera am
+Stück mit dem Mix darunter.
+
+**Mit einer zweiten Kamera gibt eine einzige Stimme sehr wohl einen
+Schnitt.** Auf dieser Kamera ist niemand, also steht die Kamera des
+Sprechers, und der Weitwinkel unterbricht sie; der Kasten heißt dann
+**Schnitt mit dem Weitwinkel**. Fünf Minuten auf zwei Kameras ergaben
+15 Einstellungen, davon 7 Weitwinkel, gegen 1 Einstellung auf einer
+einzigen Kamera.
 
 ### Was die Projektdatei behält
 
@@ -376,13 +415,13 @@ Lautheitsmessung läuft je Spur zweimal durch.
   **Sprecher jetzt messen** drücken. Der Grund steht an Stelle der
   Tabelle, wenn die Rechnung schiefgeht.
 * **Es kommt kein Schnitt heraus.** Auf den Spuren war nichts zu hören,
-  oder die Trennung hat nur eine Stimme gefunden. Das Protokoll sagt es
-  unter `SPRECHER -- HIER GEMESSEN` oder
+  oder die Trennung hat nur eine Stimme gefunden und es gibt nur eine
+  Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder
   `SPRECHER -- NACH STIMMEN GETRENNT`.
 * **Auf dem Reiter Resolve-Schnitt fehlt der Kasten für den Schnitt.**
-  Weniger als zwei Personen tragen Namen und Kamera. Auf dem Reiter
-  **Zuordnung & Zeitfenster** jeder Stimme einen Namen und eine Kamera
-  geben.
+  Niemand trägt Namen und Kamera, oder eine Person tut es und es gibt
+  keine zweite Kamera. Auf dem Reiter **Zuordnung & Zeitfenster** jeder
+  Stimme einen Namen und eine Kamera geben.
 * **Das Bild steht, obwohl der Sprecher wechselt.** Beide Sprecher
   sitzen auf einer Kamera, oder der Block ist kürzer als **Redet
   mindestens**.

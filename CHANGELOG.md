@@ -9,6 +9,137 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.11.0-beta] - 2026-08-26
+
+### Added
+
+- One speaker is enough for a cut; it took two before. Where one
+  person is named and two or more cameras are released, the box says
+  **Cut with the wide shot**: their own camera stands and the wide one
+  breaks it up. Measured: five minutes give 15 shots, 7 of them the
+  wide one. With one camera it stays at "no cut" -- there is nowhere
+  to cut to.
+- The wide shot can be said out loud. **Kind** carries **Wide shot**
+  as a value, in the file list and beside the player, and
+  `--wide-shot` says the same on the command line. A camera marked
+  that way takes no speaker: whoever stood on it is put aside and
+  comes back the moment the mark falls. Where nobody marks one, the
+  camera the program derives for itself shows **Wide shot** greyed
+  out with the reason beside it, instead of doing it silently.
+- The loudness of the finished episode is set in the window. Five
+  entries in the **Production** box: the four targets, each with what
+  it is the standard for, and **Take from source files**, which
+  adjusts nothing. It starts at -16 LUFS, the last choice is
+  remembered for the next new project, and a project file carrying
+  its own value beats it. Until now nothing in the window was bound
+  to the loudness at all, and every episode came out at -16 whatever
+  it was for.
+
+### Changed
+
+- The assignment is a tree. A recording is a row with a triangle, and
+  the voices found in it are the rows folded in under it. Folded up,
+  the recording carries what disappears -- `on 2 cameras`, or
+  `on 1 camera, 1 without`; folded open, its own cell stays empty. The
+  assignment stands on exactly one level, never on two at once. A
+  click on a voice row plays that voice at its longest passage.
+- The name field no longer picks **several speakers** by itself. It
+  used to jump there as soon as the separation found more than one
+  voice; it carries a given answer now and nothing else. What was
+  measured stays: picking **several speakers** puts the voices there
+  at once, with the names and cameras they had, without computing
+  anything again. Where one speaker is all there is, the offer stands
+  beside it -- "Only one speaker -- separate the track?".
+- Picking a camera for a voice makes that row the current one, so
+  whoever picks hears what they are picking: opening the camera list
+  and clicking into the name field both move the player.
+- The **Question** rule is answered with **do not go early** where it
+  used to say **off**: what does not happen, instead of a switch
+  position. The stored value stays `off`, and command lines and
+  project files are unchanged.
+- The camera table on the assignment tab drops the hints and the red.
+  The file list on the first tab still says all of it, at full length,
+  where the files come in.
+- The legend under the cut band says who is in the picture, not which
+  file it came out of. A camera with one speaker carries that name,
+  several speakers all of them joined with a plus, and the camera
+  nobody is on is called **Wide shot**. It wraps instead of running
+  off the edge of the window: the Resolve sheet fell from 1838 to
+  1206 px, so on a 1512 px window there is nothing to scroll,
+  sideways or downwards. Nothing was shortened or left out to get
+  there.
+- The speaker table has a lid. From the fourth speaker on it scrolls
+  inside itself instead of stretching the whole sheet taller.
+- A guessed speaker name counts where nobody typed one -- but only
+  where it begins with a letter. `Kandidat_0008A.wav` gives
+  `Kandidat`; `0008A.wav` gives nothing, the field stays empty and
+  Multitrack refuses to start. With Multitrack the name becomes the
+  label of that track at auphonic.com, where it is read by people who
+  never saw the file, and a card number there looks like a fault
+  rather than like a person.
+- The log entry about the reaction cut says how many questions stood
+  in the transcript, how many became a cut, and why the rest did not.
+
+### Removed
+
+- **`--platform` is gone with nothing in its place, and without
+  `--lufs` nothing is adjusted any more.** It used to be -16 whatever
+  the material was. This breaks a stored call: a command line that
+  leaned on the default now comes out at the loudness of its source
+  files, and `--lufs -16` is what asks for the old behaviour. In the
+  window the same question is the **Loudness** list, and with **Take
+  from source files** the file comes out byte for byte as it went in
+  -- measured.
+
+### Fixed
+
+- The name field could not be typed into at all. Where it read
+  "several speakers", the first keystroke tore down the very field
+  that was being typed into, and the speaker was called `A`
+  afterwards. The rebuild waits for the end of the typing now. The
+  same corner had a second fault: with the caption showing, Qt wrote
+  the letters into it instead of replacing it --
+  `sevAnnaeral speakers`.
+- The **Resolve cut** tab did not reach the run. In point, Out point,
+  the eight cut numbers, the four choice fields and the wide-shot tick
+  stayed lying in the window whenever neither Multitrack was ticked
+  nor a separation had run: the run cut with the default values while
+  the preview beside it stood on the numbers that had been typed in.
+  They reach the run on every path now.
+- An In point set afterwards moved everything except the cameras.
+  Measured: the zero point and the speaker passages travelled with it,
+  the camera offsets stayed where they were, and picture and sound
+  stood 60 seconds apart. Now 0.0, and the counter-check without an In
+  point comes out unchanged.
+- Camera sound was unpacked at a fixed bit depth, in four places and
+  wrong in both directions: a 24-bit camera squeezed into 16, a 16-bit
+  camera blown up to 24. The depth follows the source now.
+- Where there is no wide shot at all, its four numbers and its tick
+  still did something. The program fell back on a camera somebody is
+  sitting in front of, so "Wide shot after 40 s" broke one person's
+  monologue with a look at somebody else's camera. Measured with
+  three speakers on three cameras: 15 shots instead of 11 in the run,
+  12 instead of 8 in the preview. They do nothing now, and the window
+  greys them out with the reason underneath.
+- The camera assignment was lost when a project was opened.
+  Recordings that carried no typed name came back without a camera.
+- The output tab kept the colours it had started with. Started light
+  and put on dark, the running text stood at a contrast of 1.00 -- it
+  was invisible; the other way round the same. The lines already
+  written follow the appearance now.
+- A camera whose speaker name is only guessed was played with the raw
+  recording while its prepared track lay ready, and nothing said
+  which of the two was heard. The guess counts here as well now.
+
+### Documentation
+
+- The manual was pulled through the day's work, both languages: the
+  assignment as a tree instead of a voice table of its own, the
+  **Separate speakers** button that is gone, **do not go early** in
+  place of **off**, the cut that needs only one speaker,
+  `--wide-shot`, the loudness field, and the `--platform` line, which
+  was struck.
+
 ## [2.10.1-beta] - 2026-08-25
 
 ### Fixed
@@ -1555,6 +1686,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.11.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.1-beta...v2.11.0-beta
 [2.10.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.0-beta...v2.10.1-beta
 [2.10.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.9.0-beta...v2.10.0-beta
 [2.9.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.8.0-beta...v2.9.0-beta

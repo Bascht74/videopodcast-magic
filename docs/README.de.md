@@ -101,7 +101,8 @@ der das Wort erklärt, steht vorn.
 * **Kennzahlen (`_metrics.csv`)**: `camera-cut`, „Was Kennzahlen und
   Farbvergleich messen“
 * **Lautheitsumfang**: `preflight`, „Welches Lautheitsziel gilt“
-* **Lautheitsziel (LUFS)**: `preflight`, „Welches Lautheitsziel gilt“;
+* **Lautheitsziel (LUFS)**: `interface`, „Die vier Reiter“; `preflight`,
+  „Welches Lautheitsziel gilt“;
   `command-line`, „Grundlagen“
 * **Legende**: `camera-cut`, „Schnittband und Legende lesen“
 * **Leveler**: `preflight`, „Welches Lautheitsziel gilt“; `auphonic`, „Ohne
@@ -141,6 +142,8 @@ der das Wort erklärt, steht vorn.
   `speech`, „Wofür der Text gebraucht wird“
 * **Schlüsselbund**: `auphonic`, „Der Schlüssel und das Preset“;
   `requirements`, „Was sich je Plattform unterscheidet“
+* **Schnitt mit dem Weitwinkel (Kasten)**: `camera-cut`, „Wie der
+  Schnitt entsteht“
 * **Schnittband**: `camera-cut`, „Schnittband und Legende lesen“
 * **Source Audio Channels**: `resolve`, „Den Multicam-Ton wählen“
 * **Sprecher jetzt messen (Knopf)**: `camera-cut`, „Sprecher ohne Auphonic
