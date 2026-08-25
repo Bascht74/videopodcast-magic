@@ -9,6 +9,55 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.9.0-beta] - 2026-08-25
+
+### Changed
+
+- Whether a video file's audio is used is decided on the file sheet
+  now, at every video, as a drop-down reading "do not use the audio"
+  until somebody says otherwise. It sat on the assignment tab as a tick
+  named "as a track", one tab after the question it answers.
+
+  It cannot be measured, only asked. Two speakers on Rode microphones
+  as their own files and two on DJI radio mics recorded straight into
+  the video track look identical from outside -- two channels, 48 kHz,
+  clean levels. Only whoever was in the room knows whether that is a
+  usable recording or the camera's own microphone in a room.
+
+  Once it is set, the audio goes through the same machinery as a
+  recording that was read in: channels measured, the stereo verdict,
+  silent channels dropped, cut into tracks. Not a second path that
+  looks similar.
+- The field stands on the assignment tab as well, showing the same
+  value both ways -- because judging a track means listening to it, and
+  the player is there. What is known up front is said on the file
+  sheet; what is only noticed later can be changed beside the player.
+- Exactly one video carrying sound and no audio recording beside it:
+  the field sets itself, is greyed out, and carries its reason next to
+  it. Derived, never stored, so adding a recording takes it away again
+  with nothing left behind.
+
+### Fixed
+
+- Taking the last sound away left the Start button live and the reason
+  line empty. A window that opened without sound refused correctly, but
+  only by accident -- the button had never been enabled there.
+  assignment_fresh() left early when there was nothing to show, and the
+  check that greys the button sits at the far end of it. Twelve seconds
+  were watched; it never corrected itself. Found by the test that was
+  asked to write down the rule and refused, because the rule was wrong.
+- The update box showed the newest release only. Somebody two versions
+  behind saw one section and had to guess at the rest; the sections in
+  between come down as well now, and the heading says what it means --
+  what changed since the version that is running.
+- A folder that cannot be read while looking for finished tracks now
+  answers like an empty one instead of swallowing the error.
+
+### Documentation
+
+- The manual still describes the tick on the assignment tab. It follows
+  in the next version; the pictures with it.
+
 ## [2.8.0-beta] - 2026-08-25
 
 ### Added
@@ -1410,6 +1459,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.9.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.8.0-beta...v2.9.0-beta
 [2.8.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.1-beta...v2.8.0-beta
 [2.7.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.7.0-beta...v2.7.1-beta
 [2.7.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.6.1-beta...v2.7.0-beta

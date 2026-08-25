@@ -1,16 +1,27 @@
 # -*- coding: utf-8 -*-
-"""A camera ticked "as a track" is an audio candidate like any other.
+"""A camera whose audio is in use is an audio file like any other.
 
-The tick says no more than "do not throw this audio away". What the audio
-becomes is then decided by the same measurement as for a recorder file: a
-camera whose two channels carry two clip-on microphones -- a DJI Osmo does
-that -- gives two tracks with two speaker names, and one carrying a real
-stereo pair keeps it as one two channel track.
+The field on the video file says no more than "use the audio". What that
+audio then becomes is decided by the same measurement as for a recorder
+file: a camera whose two channels carry two clip-on microphones -- a DJI
+Osmo does that -- gives two tracks with two speaker names, and one
+carrying a real stereo pair keeps it as one two channel track.
 
-Which camera such a track belongs to is a separate question. A microphone
-plugged into one camera may well be on a person another camera is
-filming, so the camera the audio came out of is the preselection and
-nothing more.
+The version before this one also wrote down the rule that was retired on
+25.8.2026: with nothing ticked, it said, every camera becomes a track of
+its own. That was the program deciding by itself where the sound comes
+from, and Sebastian's rule is the opposite -- no choice, no audio. So
+the empty case is asked the other way round here. And "like an audio
+file" is no longer taken on trust: the same sound is offered twice, once
+inside the camera and once as a recording beside it, and the two have to
+come out with the same verdict and the same tracks. Nothing below counts
+a row in a table, reads a column or looks at the source as text, so the
+interface can be rebuilt without turning this red.
+
+Which camera such a track belongs to stays a separate question. A
+microphone plugged into one camera may well be on a person another
+camera is filming, so the camera the audio came out of is the
+preselection and nothing more.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -55,7 +66,17 @@ def camera(name, seconds=6.0, rate=44100):
     return path
 
 
+def sound_out_of(video, name, channels=2):
+    """The audio of that video, on its own, as a recording would be."""
+    path = os.path.join(WORK, name)
+    subprocess.run(["ffmpeg", "-v", "error", "-i", video, "-map", "0:a:0",
+                    "-ac", str(channels), "-ar", str(SR), "-c:a",
+                    "pcm_s16le", "-y", path], check=True)
+    return path
+
+
 cam = camera("Camera1.mov")
+other = camera("Camera2.mov")
 check("the camera has two channels", vpm.channel_count(cam) == 2,
       str(vpm.channel_count(cam)))
 check("and records at 44.1 kHz", vpm.audio_shape(cam)[1] == 44100,
@@ -70,6 +91,27 @@ check("two separate tones are not read as one stereo track",
       pairs[0][1] is False, str(pairs[0]))
 want = vpm.tracks_to_split(cam, facts)
 check("so the camera is cut into two tracks", len(want) == 2, str(want))
+
+#------------------------- the same sound as a recording is judged the same
+# The point of the whole rule, measured rather than asserted: the audio
+# out of the camera and the audio in a file beside it are one and the
+# same signal, so every step has to answer the same about both. Where
+# these two ever part company, "treated like a normal audio file" has
+# stopped being true and this is where it shows.
+recorded = sound_out_of(cam, "Osmo_recording.wav")
+facts_rec = vpm.channel_facts_cached(recorded)
+check("the recording of it can be measured too",
+      facts_rec["readable"] is True)
+pairs_rec = vpm.channel_joins(facts_rec)
+check("and its pair is judged the same way",
+      len(pairs_rec) == len(pairs) and pairs_rec[0][1] == pairs[0][1],
+      str(pairs_rec))
+want_rec = vpm.tracks_to_split(recorded, facts_rec)
+check("camera and recording give the same number of tracks",
+      len(want_rec) == len(want), "%d vs %d" % (len(want_rec), len(want)))
+check("and cut at the same channels",
+      [chs for chs, _l in want_rec] == [chs for chs, _l in want],
+      str([chs for chs, _l in want_rec]))
 
 #------------------------------------------------- cutting brings the rate over
 pieces = []
@@ -102,38 +144,112 @@ check("the first piece is the first channel",
 check("the second the other one",
       has_tone(pieces[1][0], 900) > 0.9 and has_tone(pieces[1][0], 500) < 0.1)
 
-#------------------------------------------------- and they become two rows
-other = camera("Camera2.mov")
-rows, camera_audio, own = vpm.assignment_rows(
+#--------------------------------------- no choice made: no sound from a camera
+# Sebastian's rule, in the only place that can answer it: with nothing
+# chosen the cameras are not in the table at all. Two cameras, three
+# cameras and a camera beside a recording are asked separately, because
+# the retired rule turned on exactly those numbers -- it made every
+# camera a track as soon as there were two of them and no recording.
+def cut_into(plan):
+    """A split_of that cuts the named files and nothing else."""
+    wanted = {os.path.abspath(k): v for k, v in plan.items()}
+    return lambda x: wanted.get(os.path.abspath(x), [])
+
+
+def uncut(_x):
+    """A split_of that cuts nothing at all."""
+    return []
+
+
+def named(rows):
+    """The file each row starts with, by name, in order."""
+    return [os.path.basename(row[0]) for row, _discarded in rows]
+
+
+rows, _flag, own = vpm.assignment_rows([], [cam, other], split_of=uncut)
+check("two cameras, no recording, no choice -> no rows",
+      rows == [] and own == {}, str(rows))
+third = camera("Camera3.mov")
+rows, _flag, own = vpm.assignment_rows([], [cam, other, third],
+                                       split_of=uncut)
+check("three of them make no difference", rows == [] and own == {},
+      str(rows))
+rows, _flag, own = vpm.assignment_rows([recorded], [cam, other],
+                                       split_of=uncut)
+check("a recording beside them is the only row",
+      named(rows) == [os.path.basename(recorded)], str(named(rows)))
+check("and no camera is noted as contributing", own == {}, str(own))
+
+#------------------------- the choice made: the camera goes the recording's way
+rows, _flag, own = vpm.assignment_rows(
     [], [cam, other], own_flag_cameras=[cam],
-    split_of=lambda x: [p for p, _l in pieces]
-    if os.path.abspath(x) == os.path.abspath(cam) else [])
-check("ticking one camera ends the cameras-only case",
-      camera_audio is False)
-check("a camera cut in two gives two rows", len(rows) == 2, str(len(rows)))
+    split_of=cut_into({cam: [p for p, _l in pieces]}))
+check("the chosen camera brings its pieces as rows",
+      sorted(named(rows))
+      == sorted(os.path.basename(p) for p, _l in pieces),
+      str(named(rows)))
 check("both point back at the camera they came from",
       set(own.values()) == {os.path.abspath(cam)}, str(own))
-check("and the rows are the pieces, not the video",
-      sorted(os.path.basename(r[0][0]) for r in rows)
-      == sorted(os.path.basename(p) for p, _l in pieces),
-      str([os.path.basename(r[0][0]) for r in rows]))
+check("and the camera nobody chose stays out",
+      os.path.abspath(other) not in own.values(), str(own))
+
+# One recording and one camera, both cut in two, in one call: a camera in
+# use is not a special row appended somewhere but goes through the same
+# splitting as the recording, so four tracks come out of two files.
+rec_pieces = []
+for chs, _label in want_rec:
+    target = vpm.split_target(recorded, chs, WORK)
+    vpm.split_channels(recorded, chs, target, rate=SR)
+    rec_pieces.append(target)
+rows, _flag, own = vpm.assignment_rows(
+    [recorded], [cam], own_flag_cameras=[cam],
+    split_of=cut_into({cam: [p for p, _l in pieces],
+                       recorded: rec_pieces}))
+check("recording and camera are cut by the same rule",
+      len(rows) == 4, "%d rows" % len(rows))
+check("and only the camera's rows point at a camera",
+      sorted(os.path.basename(k) for k in own)
+      == sorted(os.path.basename(p) for p, _l in pieces), str(own))
 
 #------------------------------------------- a camera that stays one track
-rows2, _c2, own2 = vpm.assignment_rows(
-    [], [cam, other], own_flag_cameras=[other], split_of=lambda x: [])
-check("a camera that is not cut gives one row", len(rows2) == 1)
+rows, _flag, own = vpm.assignment_rows([], [cam, other],
+                                       own_flag_cameras=[other],
+                                       split_of=uncut)
+check("a camera that is not cut gives one row", len(rows) == 1,
+      str(named(rows)))
 check("and points at itself",
-      own2 == {os.path.abspath(other): os.path.abspath(other)}, str(own2))
+      own == {os.path.abspath(other): os.path.abspath(other)}, str(own))
+
+#-------------------------------- the one case nobody has to decide
+# One video with sound and not one recording beside it: that sound is
+# the only sound there is, so it is in use without being chosen and the
+# field says why. As soon as a second camera or a recording joins, the
+# question is a real one again and the answer falls back to no.
+alone, forced = vpm.cameras_with_own_audio([cam], [], sound_of=vpm.has_sound)
+check("one camera with sound and nothing else -> in use by itself",
+      [os.path.abspath(b) for b in alone] == [os.path.abspath(cam)],
+      str(alone))
+check("and it is marked as settled, not as chosen",
+      [os.path.abspath(b) for b in forced] == [os.path.abspath(cam)],
+      str(forced))
+used, why = vpm.audio_use_settled(cam, alone, forced)
+check("so the field shows it in use and says why", used is True and why,
+      "%s / %r" % (used, why))
+check("two cameras are a question again",
+      vpm.cameras_with_own_audio([cam, other], [],
+                                 sound_of=vpm.has_sound) == ([], []))
+check("and so is one camera beside a recording",
+      vpm.cameras_with_own_audio([cam], [recorded],
+                                 sound_of=vpm.has_sound) == ([], []))
+check("a camera without any sound is not the exception",
+      vpm.cameras_with_own_audio([cam], [], sound_of=lambda p: False)
+      == ([], []))
+free_used, free_why = vpm.audio_use_settled(cam, [], [])
+check("where there is a choice the field is not settled",
+      free_used is False and free_why == "", repr(free_why))
 
 #------------------------------------------------- the camera is a preselection
 targets = [os.path.basename(cam), os.path.basename(other), vpm.MIX_ONLY]
-#------------------------------------------- nothing ticked: every camera
-rows3, camera_audio3, own3 = vpm.assignment_rows(
-    [], [cam, other], own_flag_cameras=[], split_of=lambda x: [])
-check("with nothing ticked every camera is a track",
-      camera_audio3 is True and len(rows3) == 2, str(len(rows3)))
-check("and each points at itself", len(own3) == 2, str(own3))
-
 check("without a setting the track starts on its own camera",
       vpm.preselected_camera(None, targets, "Guest", [cam, other],
                              own_camera=os.path.basename(cam))
@@ -148,25 +264,19 @@ check("but it can be moved to the other one",
 # The interface cuts the camera in the background; a run started from the
 # command line has to do it for itself, or the DJI case would work in one
 # place and not in the other.
-sound = os.path.join(WORK, "cameraaudio_Osmo.wav")
-subprocess.run(["ffmpeg", "-v", "error", "-i", cam, "-map", "0:a:0",
-                "-ac", "2", "-ar", str(SR), "-c:a", "pcm_s16le", "-y",
-                sound], check=True)
-pieces = vpm.camera_audio_tracks(sound, "Osmo", WORK)
+sound = sound_out_of(cam, "cameraaudio_Osmo.wav")
+made = vpm.camera_audio_tracks(sound, "Osmo", WORK)
 check("the camera gives two tracks on the command line as well",
-      len(pieces) == 2, str(pieces))
+      len(made) == 2, str(made))
 check("named after the camera, not after the temporary file",
-      [n for _p, n in pieces] == ["Osmo Channel 1", "Osmo Channel 2"],
-      str([n for _p, n in pieces]))
+      [n for _p, n in made] == ["Osmo Channel 1", "Osmo Channel 2"],
+      str([n for _p, n in made]))
 check("each piece is one channel and at the run's rate",
       all(vpm.channel_count(p) == 1 and vpm.audio_shape(p)[1] == SR
-          for p, _n in pieces),
-      str([vpm.audio_shape(p) for p, _n in pieces]))
+          for p, _n in made),
+      str([vpm.audio_shape(p) for p, _n in made]))
 
-mono_cam = os.path.join(WORK, "cameraaudio_Wide.wav")
-subprocess.run(["ffmpeg", "-v", "error", "-i", other, "-map", "0:a:0",
-                "-ac", "1", "-ar", str(SR), "-c:a", "pcm_s16le", "-y",
-                mono_cam], check=True)
+mono_cam = sound_out_of(other, "cameraaudio_Wide.wav", channels=1)
 one = vpm.camera_audio_tracks(mono_cam, "Wide", WORK)
 check("a camera with one channel stays one track", len(one) == 1)
 check("and keeps its own name", one[0][1] == "Wide", str(one))

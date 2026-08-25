@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Fassung für Fassung. Diese Seite ist
-zuletzt für 2.8.0-beta durchgegangen worden.
+zuletzt für 2.9.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Fassung 2.8.0-beta.** Es läuft jede Woche, an echtem Material.
+**Fassung 2.9.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse

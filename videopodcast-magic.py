@@ -573,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.8.0-beta"
+VERSION = "2.9.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -595,6 +595,18 @@ PRESET_NONE = "no-auphonic"      # list entry, not a preset name
 TYPE_CONTENT, TYPE_INTRO, TYPE_OUTRO = "content", "intro", "outro"
 TYPE_IGNORED = "ignore-video"    # video file stays out entirely
 CLIP_TYPES = (TYPE_CONTENT, TYPE_INTRO, TYPE_OUTRO, TYPE_IGNORED)
+# Whether a video file's sound is material for the run. It cannot be
+# measured: a radio microphone recorded straight into the video track
+# looks exactly like a room microphone -- two channels, 48 kHz, clean
+# levels. Only whoever was there knows which of the two it is, so it is
+# asked, where it is said which files play a part at all.
+# Synchronising is untouched by it. The time axis measures over the
+# envelope of every file it is given, camera or recorder; this decides
+# only whether the sound counts as content -- mix, speaker separation,
+# tracks.
+AUDIO_UNUSED = "audio-unused"
+AUDIO_MATERIAL = "audio-material"
+AUDIO_USE = (AUDIO_UNUSED, AUDIO_MATERIAL)
 # Two names decided on 24.8.2026, after Sebastian read one and meant
 # the other: "ignore this audio" sounded like "skip in the cut" and
 # meant "leave out entirely", so somebody who only wanted a person off
@@ -607,7 +619,9 @@ CHOICE_LABELS = {MIX_ONLY: "no camera of its own",
                  IGNORE_AUDIO: "do not use",
                  PRESET_NONE: "work without Auphonic",
                  TYPE_CONTENT: "Content", TYPE_INTRO: "Intro",
-                 TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video"}
+                 TYPE_OUTRO: "Outro", TYPE_IGNORED: "ignore this video",
+                 AUDIO_UNUSED: "do not use the audio",
+                 AUDIO_MATERIAL: "use the audio"}
 
 
 def label_of(value):
@@ -13070,8 +13084,8 @@ def pending_prework(paths, having_audio=(), has_audio=lambda p: False,
     return out
 
 
-def every_audio_block(files, blocks_of):
-    """Every audio file a run would touch, blocks included.
+def every_audio_block(files, blocks_of, using_audio=()):
+    """Every file a run would listen to, blocks included.
 
     *files* is the selection as (path, kind) pairs, *blocks_of* what the
     search found for each recording. The selection holds what somebody
@@ -13079,8 +13093,16 @@ def every_audio_block(files, blocks_of):
     continuations are not in the list. They still have to be measured
     and cut, or the tracks of a multi-part recording would come from the
     first block only.
+
+    *using_audio* are the video files whose sound was set to "use". They
+    belong in the same list and not in a second one beside it: this list
+    used to hold audio files alone, which is why the channel splitting
+    never started for a camera carrying two clip-on microphones.
     """
     out = [os.path.abspath(p) for p, a in files if a == "audio"]
+    for p in using_audio:
+        if os.path.abspath(p) not in out:
+            out.append(os.path.abspath(p))
     for row in blocks_of.values():
         for x in row:
             if x not in out:
@@ -13131,7 +13153,7 @@ def has_sound(file_path):
 def cameras_with_own_audio(videos, audio_files, ticked=(), sound_of=None):
     """Which cameras contribute their audio as a track, and which by rule.
 
-    A tick set by hand decides, and nothing else -- with one exception,
+    A field set by hand decides, and nothing else -- with one exception,
     the case where there is nothing to decide: a single video file that
     carries sound, and not one audio recording beside it. Then that
     sound is the only sound there is, and a run without it would have
@@ -13168,33 +13190,30 @@ def assignment_rows(audio_files, videos, own_flag_cameras=(),
     "Like any other" includes the channels. A camera whose two channels
     carry two clip-on microphones -- a DJI Osmo does that -- gives two
     rows, judged and cut by exactly the same rule as a recorder file. The
-    tick on the camera says nothing more than "do not throw this audio
+    field on the camera says nothing more than "do not throw this audio
     away"; what it becomes is decided by the same measurement.
 
-    The special case: with no audio recording at all but at least two
-    cameras, every camera's audio becomes a track -- that is the only
-    reading left. Ticking one camera by hand ends the special case: then
-    exactly the ticked ones are tracks, and the others stay picture.
+    There is no special case any more. Until 25.8.2026 two or more
+    cameras and no audio recording made every camera a track by itself.
+    Nothing can tell a radio microphone in the video track from a room
+    microphone, so it is asked per file: *own_flag_cameras* is the whole
+    answer.
 
-    Returns (chains, camera_audio, own_audio_tracks), the last one
-    {track: the camera it came out of}. Empty where no camera contributes.
+    Returns (chains, camera_audio, own_audio_tracks). *camera_audio* is
+    the retired special case and now always False. The last one is
+    {track: the camera it came out of}, empty where none contributes.
     """
     chains = (list(group_recording_parts(audio_files, apart=apart,
                                          together=together))
               if audio_files else [])
     if split_of:
         chains = expand_chains_to_tracks(chains, split_of)
-    camera_audio = (not chains and len(videos) > 1
-                    and not list(own_flag_cameras or ()))
-    taking = list(videos) if camera_audio else list(own_flag_cameras)
     rows, own = [], {}
-    for b in taking:
+    for b in list(own_flag_cameras or ()):
         pieces = [x for x in (split_of(b) or ())] if split_of else []
         for piece in (pieces or [b]):
             rows.append(([piece], []))
             own[os.path.abspath(piece)] = os.path.abspath(b)
-    if camera_audio:
-        return rows, True, own
     return chains + rows, False, own
 
 
@@ -13493,6 +13512,27 @@ def cut_has_people(pairs):
                 if (n or "").strip()
                 and c not in (IGNORE_AUDIO, MIX_ONLY))
     return len(named) >= 2
+
+
+def finished_tracks_deeper(base):
+    """Look in the subfolders too, "Result" for instance.
+
+    A folder that cannot be read answers like an empty one: whoever
+    asks wants finished tracks, and there are none either way.
+    """
+    if not base or not os.path.isdir(base):
+        return None
+    try:
+        names = sorted(os.listdir(base))
+    except OSError:
+        return None
+    for name in names:
+        below = os.path.join(base, name)
+        if os.path.isdir(below) and not name.startswith("."):
+            hit = finished_tracks_find(below)
+            if hit:
+                return hit
+    return None
 
 
 def cut_title_of(voice_rows, multitrack_on):
@@ -19057,32 +19097,186 @@ def main():
 
 #-------------------------------------------------------------- Interface
 
-def own_audio_checkbox(box, locked_why=""):
-    """Finish the "as a track" tick: room for its text, and the lock.
+def audio_use_settled(video, chosen, forced, has_sound=True,
+                      kind=TYPE_CONTENT):
+    """What the audio field of one video file shows, and why.
 
-    The macOS style reports a checkbox narrower than its own text, and
-    the column then takes that number: "as a track" came out clipped.
-    Measured on 23.8.2026 -- hint 74 px for text that needs more. So the
-    text is measured here, and the room around it comes from the style
-    rather than from a number somebody liked.
+    Returns (used, why). An empty *why* means there is a choice to
+    make. Where there is none the reason is said beside the greyed out
+    field -- greyed out without a reason is the dead end this project
+    took out of the preset list on 24.8.2026.
 
-    *locked_why* is given where there is nothing left to choose: one
-    video with sound and no audio recording beside it. The tick then
-    sits and cannot be moved. The reason travels back out to be put
-    next to it -- greyed out without a reason is the dead end this
-    project took out of the preset list on 24.8.2026.
+    Three things settle it without asking: a file with no audio track
+    at all, a file that stays out entirely, and an intro or outro,
+    which is placed as it lies and never processed. The fourth is the
+    exception Sebastian laid down: one video with sound and no audio
+    recording beside it is the only sound there is.
     """
-    import PySide6.QtWidgets as _qw
-    style = box.style()
-    room = (style.pixelMetric(_qw.QStyle.PM_IndicatorWidth)
-            + style.pixelMetric(_qw.QStyle.PM_CheckBoxLabelSpacing)
-            + box.fontMetrics().horizontalAdvance(box.text()) + 8)
-    if box.sizeHint().width() < room:
-        box.setMinimumWidth(room)
-    if locked_why:
-        box.setChecked(True)
+    a = os.path.abspath(video)
+    if not has_sound:
+        return False, T('no audio track in this file')
+    if kind == TYPE_IGNORED:
+        return False, T('this file stays out entirely')
+    if kind in (TYPE_INTRO, TYPE_OUTRO):
+        return False, T('a finished clip -- only placed, not processed')
+    if a in set(os.path.abspath(p) for p in forced):
+        return True, T('the only sound there is')
+    return a in set(os.path.abspath(p) for p in chosen), ""
+
+
+def choice_cell(values, chosen, why="", quiet=""):
+    """One drop-down for a row of a list, with its reason beside it.
+
+    A drop-down and not a tick: closed it reads "do not use the audio"
+    and says its own state, where "as a track" needed a tooltip to say
+    what it meant. It also leaves room for a third case later without
+    rebuilding anything.
+
+    A *why* greys the field and stands next to it. Returns (cell, box).
+    """
+    from PySide6 import QtWidgets as _qw
+    cell = _qw.QWidget()
+    row = _qw.QHBoxLayout(cell)
+    row.setContentsMargins(0, 0, 0, 0)
+    row.setSpacing(6)
+    box = _qw.QComboBox()
+    fill_choices(box, values, chosen)
+    row.addWidget(box)
+    if why:
         box.setEnabled(False)
-    return locked_why
+        note = _qw.QLabel(why)
+        note.setStyleSheet("color: %s" % quiet)
+        row.addWidget(note)
+    row.addStretch(1)
+    return cell, box
+
+
+def missing_conditions(files, production, multitrack, assign_lines,
+                       camera_lines):
+    """Report what is still missing, and where it is missing.
+
+    Returns {key: reason}. Empty means everything is there. The reasons
+    are in plain words so they can be written under the start button: a
+    greyed out button without a reason is a dead end.
+
+    The keys say which sheet the reason belongs on -- 1 and 11 the file
+    tab, 21 the production strip on it, 22 the assignment tab. 1 is the
+    empty start and nothing else, so the footer can greet it quietly
+    instead of warning about it.
+    """
+    pending = {}
+    if not files:
+        pending[1] = T('No files selected yet.')
+    if not production.strip():
+        pending[21] = T('The production has no name yet.')
+    if multitrack:
+        used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
+        if len(used) < 2:
+            pending[22] = (T('Multitrack needs two tracks in the table '
+                             'above -- a camera counts as one once its '
+                             'Camera audio is set to "use the audio".'))
+        elif not all(v.get().strip() for _r, v, _k in used):
+            pending[22] = T('One audio recording has no speaker name yet.')
+        else:
+            names = [v.get().strip() for _r, v, _k in used]
+            if len(set(names)) < 2:
+                pending[22] = (T('All recordings carry the same name '
+                                 '-- that makes a single track.'))
+    # No sound at all: a video file whose Camera audio is not in use
+    # contributes none, and a run with nothing to listen to has no first
+    # step. Said here rather than in a dialog, like everything else that
+    # is missing, and on the tab that carries the field.
+    if files and not assign_lines:
+        pending[11] = T('No sound to work with -- set a video file\'s '
+                        'Camera audio to "use the audio", or add an '
+                        'audio recording.')
+    outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
+    duplicate = sorted(set(n for n in outputs if n and outputs.count(n) > 1))
+    if duplicate:
+        pending[22] = (T('Two cameras would produce the same file: %s')
+                     % ", ".join(duplicate))
+    return pending
+
+
+def clip_kind_cell(short, kind):
+    """The Kind field of one video file: what this file is.
+
+    It stands with the material and not in the assignment table:
+    "ignore this video" is literally the question the file tab answers,
+    and an intro is placed as it lies rather than assigned to anybody.
+    """
+    cell, box = choice_cell(CLIP_TYPES, kind)
+    speaks_as(box, T('Kind'), short)
+    hint(box, T('Content: a camera like any other.\nIntro and outro '
+                'are finished clips -- not aligned, not processed, '
+                'only placed in the Timeline.\nIgnore video: the file '
+                'stays out entirely.'))
+    return cell, box
+
+
+def camera_audio_cell(short, used, why, quiet, beside_player=False):
+    """The Camera audio field of one video file, built and named.
+
+    Two places show it: the file list, where it is said which files
+    play a part at all, and the camera table beside the player, where
+    it can be heard whether that sound is usable. The wording differs,
+    the field and the value behind it do not.
+    """
+    cell, box = choice_cell(AUDIO_USE,
+                            AUDIO_MATERIAL if used else AUDIO_UNUSED,
+                            why, quiet)
+    speaks_as(box, T('Camera audio'), short)
+    hint(box, T('Used, the sound of this file becomes a track like any '
+                'other -- it appears in the table above.\nThe same field '
+                'stands in the file list; both show the one answer.')
+         if beside_player else
+         T('Used, the sound of this file goes the same way as a '
+           'recorded one: channels measured, stereo judged, cut into '
+           'tracks.\nSynchronising uses it either way -- that is not '
+           'this question.'))
+    return cell, box
+
+
+def cameras_using_audio(files, kinds, uses, sound_of=None):
+    """Which video files contribute their sound, and which by rule.
+
+    Derived in one place for both tabs: two derivations of one answer
+    drift apart, and then one tab offers a choice the other refuses.
+    Only content files are asked -- an intro is placed as it lies and
+    never listened to.
+
+    *kinds* and *uses* are {path: Value}; a path missing from either
+    counts as content and as not in use.
+    """
+    videos = [p for p, a in files if a == "video"]
+    content = [p for p in videos
+               if (kinds[p].get() if p in kinds else TYPE_CONTENT)
+               == TYPE_CONTENT]
+    return cameras_with_own_audio(
+        content, [p for p, a in files if a == "audio"],
+        [p for p in content if p in uses and uses[p].get()], sound_of)
+
+
+def audio_use_bind(box, value, why=""):
+    """Tie one drop-down to the audio decision of one video file.
+
+    The same value stands in two places: in the file list, where it is
+    said which files play a part, and beside the player on the
+    assignment tab, where it can be *heard* whether that sound is
+    usable at all -- and heard is the only way to tell. One value, two
+    windows onto it; change either and the other follows at once.
+
+    A settled field is inert: it is neither read back nor listened to,
+    so the derivation cannot be turned into a stored answer by the act
+    of showing it.
+    """
+    if why:
+        return box
+    box.currentIndexChanged.connect(
+        lambda i: value.set(box.itemData(i) == AUDIO_MATERIAL))
+    value.listen(lambda: pick_choice(
+        box, AUDIO_MATERIAL if value.get() else AUDIO_UNUSED))
+    return box
 
 
 def fix_table_width(t, weights=None):
@@ -21388,8 +21582,8 @@ def run_argv(values, assignment_file_path=""):
                 T('Multitrack needs several tracks'),
                 T('Multitrack needs at least two input tracks. A track is '
                   'a recording of its own, a channel of a multichannel '
-                  'recorder, or the audio of a camera with "as a track" '
-                  'ticked. Several blocks of the same recording count as '
+                  'recorder, or the audio of a video file set to "use the '
+                  'audio". Several blocks of the same recording count as '
                   'one, tracks set aside not at all.'))
         names = [(r.get("speakers") or "").strip() for r in lines]
         if not all(names):
@@ -22252,15 +22446,25 @@ def gui():
     sheet1_position.addWidget(drop_area, 1)
 
     items = QtWidgets.QTreeWidget()
-    items.setColumnCount(3)
+    items.setColumnCount(5)
     # Column 0 carries the file name and the tree structure, column 1 the check
     # mark, column 2 the value. The mark cannot go in column 0: indentation and
     # the expand arrow sit in front of it there.
-    items.setHeaderLabels([T('File'), "", ""])
-    items.setUniformRowHeights(True)
+    # Columns 3 and 4 are the two decisions a video file carries: what it
+    # is, and whether its sound is material. Both are about the material
+    # itself, so they stand where the material is listed.
+    items.setHeaderLabels([T('File'), "", "", T('Kind'), T('Camera audio')])
+    # Not uniform: those two hold drop-downs, and a drop-down is taller
+    # than a line of text. Uniform gives every row the first row's height
+    # and the fields come out squashed.
+    items.setUniformRowHeights(False)
     items.header().setSectionResizeMode(0, QtWidgets.QHeaderView.Interactive)
     items.header().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
-    items.header().setStretchLastSection(True)
+    items.header().setStretchLastSection(False)
+    for _c, _how in ((2, QtWidgets.QHeaderView.Stretch),
+                     (3, QtWidgets.QHeaderView.ResizeToContents),
+                     (4, QtWidgets.QHeaderView.ResizeToContents)):
+        items.header().setSectionResizeMode(_c, _how)
     items.setColumnWidth(0, 420)
     items.setColumnWidth(1, 26)
     items.setAcceptDrops(True)
@@ -22316,7 +22520,7 @@ def gui():
 
     def line_colourise(item, kind, bold=False):
         brush = QtGui.QBrush(SHADES[kind])
-        for column in (0, 1, 2):
+        for column in range(items.columnCount()):
             item.setBackground(column, brush)
             if bold:
                 s = item.font(column)
@@ -22569,8 +22773,8 @@ def gui():
         # the file is known too.
         # The cameras belong in it too, or a camera carrying two clip-on
         # microphones would be measured and never cut.
-        prework_kick_off(every_audio_block(files, blocks_of)
-                         + list(state.get("own_cameras") or ()))
+        prework_kick_off(every_audio_block(files, blocks_of,
+                                          state.get("own_cameras") or ()))
 
     bridge.channels_done.connect(channels_arrived)
 
@@ -22634,43 +22838,10 @@ def gui():
     late = {}
 
     def what_missing():
-        """Report what is still missing on which tab.
-
-        Returns {tab number: reason}. Empty means everything is there. The
-        reasons are in plain words so they can be written under the start
-        button: a greyed out button without a reason is a dead end.
-        """
-        pending = {}
-        if not files:
-            pending[1] = T('No files selected yet.')
-        if not production_var.get().strip():
-            pending[21] = T('The production has no name yet.')
-        if multitrack.get():
-            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
-            if len(used) < 2:
-                pending[22] = (T('Multitrack needs two tracks in the table '
-                                 'above -- a camera counts as one once '
-                                 '"as a track" is ticked for it.'))
-            elif not all(v.get().strip() for _r, v, _k in used):
-                pending[22] = T('One audio recording has no speaker name yet.')
-            else:
-                names = [v.get().strip() for _r, v, _k in used]
-                if len(set(names)) < 2:
-                    pending[22] = (T('All recordings carry the same name '
-                                     '-- that makes a single track.'))
-        # No sound at all: a camera without the tick contributes none, and
-        # a run with nothing to listen to has no first step. Said here
-        # rather than in a dialog, like everything else that is missing --
-        # and after the Multitrack line, because it is the closer reason.
-        if files and not assign_lines:
-            pending[22] = T('No sound to work with -- tick "as a track" at '
-                            'a camera, or add an audio recording.')
-        outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
-        duplicate = sorted(set(n for n in outputs if n and outputs.count(n) > 1))
-        if duplicate:
-            pending[22] = (T('Two cameras would produce the same file: %s')
-                         % ", ".join(duplicate))
-        return pending
+        """What is still missing, in plain words, keyed by tab."""
+        return missing_conditions(files, production_var.get(),
+                                  multitrack.get(), assign_lines,
+                                  camera_lines)
 
     def tab_named(sheet):
         """What the tab holding this sheet is called at the moment.
@@ -22688,7 +22859,7 @@ def gui():
         pending = what_missing()
         # The first tab now carries both, files and production, so what is
         # missing on it can come from either.
-        first = 1 in pending or 21 in pending
+        first = bool({1, 11, 21} & set(pending))
         # Only the two tabs that can hold something outstanding. Nothing on
         # the Resolve tab keeps a run from starting, so a tick there would
         # always be on, and a mark that is always on says nothing.
@@ -22718,7 +22889,8 @@ def gui():
             # The names come from the tabs themselves. A second list of
             # names kept beside them drifts apart from them with every
             # rename, and then points at pages nobody can find.
-            on_tab = {1: sheet1, 21: sheet1, 22: tab2}
+            on_tab = {1: sheet1, 11: sheet1, 21: sheet1,
+                      22: tab2}
             lines = [T('Not ready yet:')]
             for index_number in sorted(pending):
                 lines.append("  %s -- %s" % (tab_named(on_tab.get(index_number)),
@@ -23030,6 +23202,48 @@ def gui():
         # and column one is only as wide as a checkbox.
         items.setItemWidget(kid, 2, box)
 
+    def audio_use_value(path):
+        """Whether this video file's sound is material -- one per file.
+
+        One value for both places that show it, its listener added once
+        here: a rebuilt table would pile up more of them otherwise.
+        """
+        v = audio_use_values.get(path)
+        if v is None:
+            v = audio_use_values[path] = Value(
+                bool(remembered.get("own:" + path)))
+            v.listen(lambda: QtCore.QTimer.singleShot(0, refresh_names))
+        return v
+
+    def audio_use_now():
+        """The one derivation both tabs read; the values made on the way."""
+        for p, a in files:
+            if a == "video":
+                clip_kind_values.setdefault(
+                    p, Value(remembered.get("kind:" + p) or TYPE_CONTENT))
+                audio_use_value(p)
+        return cameras_using_audio(files, clip_kind_values,
+                                   audio_use_values, has_sound)
+
+    def video_choices_show(node, path, chosen, forced):
+        """The two decisions a video file carries, in its own row."""
+        short = os.path.basename(path)
+        kind = clip_kind_values[path]
+        cell, box = clip_kind_cell(short, kind.get())
+        box.currentIndexChanged.connect(
+            lambda *_, b=box, v=kind: v.set(b.currentData()))
+        box.currentIndexChanged.connect(
+            lambda *_, p=path: single_edge_clip(p))
+        box.currentIndexChanged.connect(
+            lambda *_: QtCore.QTimer.singleShot(0, items_fresh))
+        items.setItemWidget(node, 3, cell)
+        used, why = audio_use_settled(path, chosen, forced,
+                                      has_sound(path), kind.get())
+        sound, sound_box = camera_audio_cell(short, used, why,
+                                             COLOURS["quiet"])
+        audio_use_bind(sound_box, audio_use_value(path), why)
+        items.setItemWidget(node, 4, sound)
+
     def items_fresh():
         probe_warm([p for p, _ in files])
         items.clear()
@@ -23044,6 +23258,10 @@ def gui():
         blocks_of.clear()
         recording_of.clear()
         remove_button.setEnabled(False)
+        # Once for the whole list: the rule looks at every file at once.
+        own_now, forced_now = audio_use_now()
+        state["own_cameras"] = list(own_now)
+        state["forced_own"] = list(forced_now)
         for kind, title in (("audio", T('AUDIO')), ("video", "VIDEO")):
             own = [p for p, a in files if a == kind]
             if not own:
@@ -23096,6 +23314,7 @@ def gui():
                                 os.path.dirname(p), "video", files_for_it=[p])
                 prework_node[os.path.abspath(p)] = (node, os.path.dirname(p))
                 lines_node[os.path.abspath(p)] = node
+                video_choices_show(node, p, own_now, forced_now)
                 channel_rows_show(node, p)
                 try:
                     lines = video_summary(p, video_facts(p))
@@ -24220,11 +24439,12 @@ def gui():
         """Which file the separation listens to, and why that one."""
         audio_files = [p for p, a in files if a == "audio"]
         videos = [p for p, a in files if a == "video"]
-        own = [b for b in videos if remembered.get("own:" + b)]
+        # The one derived answer, not the stored one: a camera whose
+        # sound is the only sound there is was never clicked, so nothing
+        # about it stands in the store.
         return speaker_source_pick(
-            audio_files, videos, own,
+            audio_files, videos, state.get("own_cameras") or (),
             chosen=state.get("speakers_source_chosen") or "",
-            camera_audio=bool(state.get("camera_audio")),
             weak=state.get("weak") or ())
 
     def speaker_split_show(text="", colour=None, where=""):
@@ -24782,6 +25002,9 @@ def gui():
                 player.jump(int(where_to * 1000))
 
     clip_kind_values = {}
+    # One value per video file, shown twice -- file list and player. Not
+    # a second store: the same object both times.
+    audio_use_values = {}
 
     def single_edge_clip(file_path):
         """Intro and outro exist once: a second choice frees the first.
@@ -25092,9 +25315,9 @@ def gui():
         for _src, _pieces in split_files.items():
             for _path, _label in _pieces or []:
                 piece_label[os.path.abspath(_path)] = _label
-        own_now, forced = cameras_with_own_audio(
-            videos, audio_files,
-            [b for b in videos if remembered.get("own:" + b)], has_sound)
+        # The file list's own derivation, called and not copied: both
+        # tabs show one value and must not disagree about it.
+        own_now, forced = audio_use_now()
         chains, camera_audio, own = assignment_rows(
             audio_files, videos, own_now,
             split_of=lambda x: [t[0] for t in
@@ -25105,9 +25328,20 @@ def gui():
         state["own_cameras"] = list(own_now)
         state["forced_own"] = list(forced)
         if not chains:
-            column_layout.addWidget(label(T('No audio files selected yet '
-                                            '-- or at least two cameras, '
-                                            'then their own audio is used.'), COLOURS["quiet"]))
+            column_layout.addWidget(label(
+                T('No sound in use yet -- add an audio recording, or set '
+                  'a video file\'s Camera audio to "use the audio" in the '
+                  'file list.'), COLOURS["quiet"]))
+            # Before the exit, not after the table: the time axis is
+            # measured over the envelope of every file and is needed
+            # whether or not any sound is in use. Leaving here first
+            # would take a project its time axis.
+            if videos:
+                prework_kick_off(list(videos))
+            # And the button, for the same reason: the way in here is
+            # also taking the last sound away, and then it stood
+            # enabled with an empty reason beside it.
+            assignment_check()
             return
         # The cameras first, then the two special cases. MIX_ONLY means the
         # track is processed and in the mix but is not the first track on any
@@ -25115,9 +25349,8 @@ def gui():
         # matching video is still missing.
         targets = ([os.path.basename(b) for b in videos]
                  + [MIX_ONLY, IGNORE_AUDIO])
-        head = (T('Camera') if state["camera_audio"] else T('Audio recording'))
-        belongs_head = (T('Camera audio') if state["camera_audio"]
-                        else T('belongs to'))
+        head = T('Audio recording')
+        belongs_head = T('belongs to')
         # The column for the separation is only there where there is a
         # separation to have: with it switched off it would be a column
         # of empty cells offering something the program cannot do.
@@ -25147,8 +25380,7 @@ def gui():
             from_camera = state["own_audio_rows"].get(os.path.abspath(first)) \
                 if isinstance(state["own_audio_rows"], dict) else None
             stem = (guess_camera_name(from_camera or first)
-                     if state["camera_audio"] or camera_track
-                     else guess_speaker_name(first))
+                     if camera_track else guess_speaker_name(first))
             # So the two rows of one camera can be told apart.
             if piece_label.get(os.path.abspath(first)):
                 stem = piece_label[os.path.abspath(first)]
@@ -25177,8 +25409,7 @@ def gui():
             # Without multitrack there is nothing to distribute: the same audio
             # goes into every camera. That is what it says, rather than a
             # selector that does nothing.
-            if not multitrack.get() and not state["camera_audio"]\
-                    and not camera_track:
+            if not multitrack.get() and not camera_track:
                 cell(table_audio, i, 2,
                       T('into every camera') if len(videos) > 1
                       else (os.path.basename(videos[0]) if videos
@@ -25197,8 +25428,7 @@ def gui():
             camera_value = Value(preselected_camera(
                 old_camera, targets, name_value.get(), videos,
                 own_camera=(os.path.basename(from_camera or first)
-                            if state["camera_audio"] or camera_track
-                            else "")))
+                            if camera_track else "")))
             if True:
                 box = QtWidgets.QComboBox()
                 speaks_as(box, belongs_head, caption)
@@ -25247,9 +25477,11 @@ def gui():
         if not production_var.get():
             production_var.set(guess_production_name(chains[0][0][0]))
         camera_lines[:] = []
-        table_video = table_build([T('Camera'), T('Kind'),
-                                   T('new file name'),
-                                  T('gets audio from'), T('own audio')])
+        # What comes out, not what went in: what a file is stands in
+        # the file list, with the material.
+        table_video = table_build([T('Camera'), T('new file name'),
+                                   T('gets audio from'),
+                                   T('Camera audio')])
         column_layout.addWidget(table_video, 1)
         video_reason = label("", COLOURS["error"])
         video_reason.setWordWrap(True)
@@ -25265,37 +25497,24 @@ def gui():
             cell(table_video, row, 0, short)
             clip_kind = clip_kind_values.setdefault(
                 b, Value(remembered.get("kind:" + b) or TYPE_CONTENT))
-            clip_kind_box = QtWidgets.QComboBox()
-            speaks_as(clip_kind_box, T('Kind'), short)
-            fill_choices(clip_kind_box, CLIP_TYPES, clip_kind.get())
-            clip_kind_box.currentIndexChanged.connect(
-                lambda *_, b=clip_kind_box, value=clip_kind: value.set(b.currentData()))
-            clip_kind_box.currentIndexChanged.connect(
-                lambda *_, path=b: single_edge_clip(path))
-            clip_kind_box.currentIndexChanged.connect(
-                lambda *_: QtCore.QTimer.singleShot(0, assignment_fresh))
-            hint(clip_kind_box,
-                    T('Content: a camera like any other.\nIntro and outro '
-                      'are finished clips -- not aligned, not processed, '
-                      'only placed in the Timeline.\nIgnore video: the file '
-                      'stays out entirely.'))
-            table_video.setCellWidget(row, 1, clip_kind_box)
             if clip_kind.get() != TYPE_CONTENT:
                 # A finished clip has nothing to assign and gets no new name --
                 # it is used directly. Rather than offering empty fields that
                 # do nothing, a sentence is there instead.
-                cell(table_video, row, 2,
+                cell(table_video, row, 1,
                       T('stays out') if clip_kind.get() == TYPE_IGNORED
                       else T('used directly'),
                       COLOURS["quiet"])
+                cell(table_video, row, 2, "")
                 cell(table_video, row, 3, "")
-                cell(table_video, row, 4, "")
                 continue
             # A camera can contribute its own audio too -- the wide shot with
             # the room microphone, say, or where somebody has no recording of
             # their own. It is then a track like any other: with a speaker
             # name, it goes up, gets processed and is in the mix.
-            own_audio = Value(b in forced or bool(remembered.get("own:" + b)))
+            own_audio = audio_use_value(b)
+            used, why = audio_use_settled(b, own_now, forced,
+                                          has_sound(b), clip_kind.get())
             # One camera can give more than one track: two clip-on
             # microphones on two channels are two speakers, and both names
             # belong in the file name of that camera.
@@ -25304,7 +25523,7 @@ def gui():
             own_audio_name = mine[0] if mine else Value(
                 remembered.get("ownname:" + b) or guess_camera_name(b))
             own = list(taken.get(short) or [])
-            if own_audio.get():
+            if used:
                 own += mine or [own_audio_name]
             names = [v.get().strip() for v in own if v.get().strip()]
             suggestion = camera_output_name(
@@ -25313,27 +25532,16 @@ def gui():
             name_value = Value(remembered.get("video:" + b) or suggestion)
             name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
             speaks_as(name_entry, T('new file name'), short)
-            table_video.setCellWidget(row, 2, name_entry)
+            table_video.setCellWidget(row, 1, name_entry)
             who = (", ".join(v.get().strip() or "?" for v in own)
                    if own else T('the mix of all tracks'))
-            cell(table_video, row, 3, who, COLOURS["quiet"])
-            own_flag = QtWidgets.QWidget()
-            own_row = QtWidgets.QHBoxLayout(own_flag)
-            own_row.setContentsMargins(0, 0, 0, 0)
-            checkbox = checkbox_bind(
-                QtWidgets.QCheckBox(T('as a track')), own_audio)
-            why = own_audio_checkbox(
-                checkbox, T('the only sound there is') if b in forced else "")
-            speaks_as(checkbox, T('own audio'), short)
-            hint(checkbox, T('This camera contributes its audio as its own '
-                             'track -- it appears at the top of the table.'))
-            checkbox.toggled.connect(
-                lambda *_: QtCore.QTimer.singleShot(0, refresh_names))
-            own_row.addWidget(checkbox)
-            if why:
-                own_row.addWidget(label(why, COLOURS["quiet"]))
-            own_row.addStretch(1)
-            table_video.setCellWidget(row, 4, own_flag)
+            cell(table_video, row, 2, who, COLOURS["quiet"])
+            # The file list's field again, on the same value: it stands
+            # here because the player does, and usable sound is heard.
+            sound, sound_box = camera_audio_cell(short, used, why,
+                                                 COLOURS["quiet"], True)
+            audio_use_bind(sound_box, own_audio, why)
+            table_video.setCellWidget(row, 3, sound)
             camera_lines.append((b, name_value, own_audio, own_audio_name))
             video_fields.append(name_entry)
             name_value.listen(lambda *_: QtCore.QTimer.singleShot(
@@ -25351,7 +25559,7 @@ def gui():
         # The new file name is long, so it gets whatever is left.
         table_video.horizontalHeader().setStretchLastSection(False)
         table_video.horizontalHeader().setSectionResizeMode(
-            2, QtWidgets.QHeaderView.Stretch)
+            1, QtWidgets.QHeaderView.Stretch)
         table_audio.horizontalHeader().setStretchLastSection(True)
         if not SPEAKER_SPLIT_OFF:
             # The last column carries a button, and a button that is
@@ -25372,9 +25580,10 @@ def gui():
         show_weak()
         main_track_show()
         every_cameras = [p for p, _n, _k, _own_name in camera_lines]
-        having_audio = [p for p, _n, own_box, _own_name in camera_lines if own_box.get()]
-        if state["camera_audio"]:
-            having_audio = every_cameras
+        # Every camera goes in either way -- the time axis lives on those
+        # envelopes. Only the second task, fetching the sound itself, is
+        # for the ones whose audio was set to "use".
+        having_audio = [p for p in every_cameras if p in own_now]
         # The audio recordings belong in it: the time axis needs their
         # envelopes just as much, and the bar should show that they are being
         # worked on.
@@ -25442,8 +25651,8 @@ def gui():
                         'then without de-bleed and leveler.\nIt needs two '
                         'input tracks: a recording of its own, a channel '
                         'of a\nmultichannel recorder, or the audio of a '
-                        'camera once "as a track"\nis ticked for it above. '
-                        'The camera cut does not need this tick.')))
+                        'video file set to "use\nthe audio". The camera '
+                        'cut does not need this tick.')))
     # Why it is not on offer. The tick stays clickable either way.
     multitrack_note = label("", COLOURS["quiet"])
     multitrack_row.addSpacing(10)
@@ -25585,21 +25794,6 @@ def gui():
         buttons_check()
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
-
-    def finished_tracks_deeper(base):
-        """Look in the subfolders too, "Result" for instance."""
-        if not base or not os.path.isdir(base):
-            return None
-        try:
-            for name in sorted(os.listdir(base)):
-                below = os.path.join(base, name)
-                if os.path.isdir(below) and not name.startswith("."):
-                    hit = finished_tracks_find(below)
-                    if hit:
-                        return hit
-        except OSError:
-            pass
-        return None
 
     def finished_tracks_check():
         """Check whether processed tracks are already in the output folder."""
@@ -27261,7 +27455,7 @@ def gui():
             return
         # Where the camera audio is needed and not quite there yet, wait for it
         # -- but without freezing the window.
-        if multitrack.get() and state["camera_audio"] and prework_busy():
+        if multitrack.get() and state.get("own_cameras") and prework_busy():
             if state["waiting"]:
                 return          # a wait loop is already running
             state["waiting"] = True
@@ -27285,21 +27479,10 @@ def gui():
         state["confirmed"] = False
         start_run.setText(T('Start'))
         buttons_check()
-        # Cameras only and Multitrack off: the run would stop with "several
-        # cameras but no audio file". Rather than saying afterwards what
-        # the tick would have done, it is offered here.
-        if state.get("camera_audio") and not multitrack.get():
-            how_many = len([p for p, a in files if a == "video"])
-            if not ask(T('Cameras only'),
-                       T('There are no separate audio recordings, only %d '
-                         'cameras. Without Multitrack the run has nothing '
-                         'to put into them and stops.\n\nWith it, each '
-                         'camera becomes a track of its own: the bleed is '
-                         'removed, the speakers are measured and the camera '
-                         'cut is built from that.') % how_many,
-                       T('Switch Multitrack on')):
-                return
-            multitrack.set(True)
+        # The "Cameras only" question stood here until 25.8.2026: it
+        # fired on the rule that made every camera a track by itself, and
+        # that rule is gone. A selection with no sound in use never gets
+        # this far now -- what_missing holds the button and says why.
         # The prework is done, and its display has no business in the file list
         # any more.
         for file_path, (node, original) in list(prework_node.items()):
@@ -29882,25 +30065,25 @@ CATALOGUE["de"] = {
     'One audio track per person, kept apart all the way to auphonic.com.'
     '\nWorks without it as well -- then without de-bleed and leveler.\nIt '
     'needs two input tracks: a recording of its own, a channel of a\n'
-    'multichannel recorder, or the audio of a camera once "as a track"\nis '
-    'ticked for it above. The camera cut does not need this tick.':
+    'multichannel recorder, or the audio of a video file set to "use\nthe '
+    'audio". The camera cut does not need this tick.':
         'Eine Tonspur je Person, bis zu auphonic.com getrennt gehalten.'
         '\nGeht auch ohne -- dann ohne De-Bleed und Leveler.\nNötig sind '
         'zwei Eingangsspuren: eine eigene Aufnahme, ein Kanal\neines '
-        'mehrkanaligen Aufnahmegeräts oder der Ton einer Kamera,\nsobald '
-        'bei ihr "als Spur" gesetzt ist. Der Kameraschnitt braucht das '
+        'mehrkanaligen Aufnahmegeräts oder der Ton einer Videodatei,\ndie '
+        'auf "Ton verwenden" steht. Der Kameraschnitt braucht das '
         'Häkchen nicht.',
     'Multitrack (one track per speaker)':
         'Multitrack (je Sprecher eine Spur)',
     'Multitrack needs at least two input tracks. A track is a recording '
     'of its own, a channel of a multichannel recorder, or the audio of a '
-    'camera with "as a track" ticked. Several blocks of the same '
+    'video file set to "use the audio". Several blocks of the same '
     'recording count as one, tracks set aside not at all.':
         'Multitrack braucht mindestens zwei Eingangsspuren. Eine Spur ist '
         'eine eigene Aufnahme, ein Kanal eines mehrkanaligen '
-        'Aufnahmegeräts oder der Ton einer Kamera, bei der "als Spur" '
-        'gesetzt ist. Mehrere Blöcke derselben Aufnahme zählen als eine, '
-        'beiseitegelegte Spuren gar nicht.',
+        'Aufnahmegeräts oder der Ton einer Videodatei, die auf "Ton '
+        'verwenden" steht. Mehrere Blöcke derselben Aufnahme zählen als '
+        'eine, beiseitegelegte Spuren gar nicht.',
     'No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have '
     'it remembered once in the interface. The key is in the Auphonic '
     'account settings.':
@@ -29913,10 +30096,11 @@ CATALOGUE["de"] = {
         'Keine Tondatei trägt einen Timecode. In-Punkt und Out-Punkt zählen ab '
         'dem Anfang des Materials -- die Lage der Dateien zueinander ist '
         'gemessen.',
-    'No audio files selected yet -- or at least two cameras, then their '
-    'own audio is used.':
-        'Noch keine Tondateien gewählt -- oder mindestens zwei Kameras, '
-        'dann wird deren eigener Ton genommen.',
+    'No sound in use yet -- add an audio recording, or set a video '
+    'file\'s Camera audio to "use the audio" in the file list.':
+        'Noch kein Ton in Verwendung -- eine Tondatei dazunehmen, oder '
+        'in der Dateiliste bei einer Videodatei den Kameraton auf "Ton '
+        'verwenden" stellen.',
     'No audio tracks are assigned.':
         'Keine Tonspuren zugeordnet.',
     'No cameras assigned yet -- switch Multitrack on to do that.':
@@ -30241,10 +30425,6 @@ CATALOGUE["de"] = {
         'Diese Spuren bekamen keine Datei: %s',
     'This Resolve project already exists':
         'Dieses Resolve-Projekt gibt es schon',
-    'This camera contributes its audio as its own track -- it appears at '
-    'the top of the table.':
-        'Diese Kamera steuert ihren Ton als eigene Spur bei -- sie steht '
-        'oben in der Tabelle.',
     'This comes from the recording, not afterwards: the microphones sit '
     'too close together or too far from the mouth.':
         'Entsteht bei der Aufnahme, nicht danach: die Mikrofone stehen zu '
@@ -30371,8 +30551,6 @@ CATALOGUE["de"] = {
         'so lange darf eine Kamera höchstens stehen',
     'after the device change':
         'nach dem Gerätewechsel',
-    'as a track':
-        'als Spur',
     'auphonic.com does not accept the key: %s':
         'auphonic.com nimmt den Schlüssel nicht an: %s',
     'average':
@@ -30556,8 +30734,6 @@ CATALOGUE["de"] = {
         'nur %s lang, die längste Aufnahme hat %s.',
     'overlap of %s per timecode':
         'Überlappung von %s laut Timecode',
-    'own audio':
-        'eigener Ton',
     'per track':
         'je Spur',
     'preset does not fit the run':
@@ -30680,10 +30856,6 @@ CATALOGUE["de"] = {
         'Kameraton',
     'Camera audio %s':
         'Kameraton %s',
-    'Switch Multitrack on':
-        'Multitrack einschalten',
-    'There are no separate audio recordings, only %d cameras. Without Multitrack the run has nothing to put into them and stops.\n\nWith it, each camera becomes a track of its own: the bleed is removed, the speakers are measured and the camera cut is built from that.':
-        'Es gibt keine getrennten Tonaufnahmen, nur %d Kameras. Ohne Multitrack hat der Lauf nichts, was er hineinlegen könnte, und bricht ab.\n\nMit Multitrack wird jede Kamera eine eigene Spur: das Übersprechen wird herausgerechnet, die Sprecher werden gemessen und daraus der Kameraschnitt gebaut.',
     '%d channels against %d':
         '%d Kanäle gegen %d',
     '%d Hz against %d Hz':
@@ -30893,9 +31065,10 @@ CATALOGUE["de"] = {
     'Mixing %s':
         'Mische %s',
     'Multitrack needs two tracks in the table above -- a camera counts '
-    'as one once "as a track" is ticked for it.':
+    'as one once its Camera audio is set to "use the audio".':
         'Multitrack braucht zwei Spuren in der Tabelle darüber -- eine '
-        'Kamera zählt mit, sobald bei ihr "als Spur" gesetzt ist.',
+        'Kamera zählt mit, sobald ihr Kameraton auf "Ton verwenden" '
+        'steht.',
     'One track only -- tick "as a track" at a camera for a second one.':
         'Nur eine Spur -- für eine zweite bei einer Kamera "als Spur" '
         'setzen.',
@@ -30903,10 +31076,34 @@ CATALOGUE["de"] = {
         'Nur eine Spur, und es ist kein Kameraton mehr übrig.',
     'the only sound there is':
         'der einzige Ton, den es gibt',
-    'No sound to work with -- tick "as a track" at a camera, or add an '
-    'audio recording.':
-        'Kein Ton, mit dem sich arbeiten ließe -- bei einer Kamera "als '
-        'Spur" setzen, oder eine Tondatei dazunehmen.',
+    'do not use the audio':
+        'Ton nicht verwenden',
+    'use the audio':
+        'Ton verwenden',
+    'no audio track in this file':
+        'keine Tonspur in dieser Datei',
+    'this file stays out entirely':
+        'diese Datei bleibt ganz draußen',
+    'a finished clip -- only placed, not processed':
+        'fertiger Clip -- wird nur platziert, nicht verarbeitet',
+    'Used, the sound of this file goes the same way as a recorded one: '
+    'channels measured, stereo judged, cut into tracks.\nSynchronising '
+    'uses it either way -- that is not this question.':
+        'Wird er verwendet, geht der Ton dieser Datei denselben Weg wie '
+        'eine Tonaufnahme: Kanäle gemessen, Stereo beurteilt, in Spuren '
+        'zerlegt.\nZum Synchronisieren wird er ohnehin genommen -- '
+        'darum geht es hier nicht.',
+    'Used, the sound of this file becomes a track like any other -- it '
+    'appears in the table above.\nThe same field stands in the file list; '
+    'both show the one answer.':
+        'Wird er verwendet, wird der Ton dieser Datei eine Spur wie jede '
+        'andere -- er erscheint in der Tabelle darüber.\nDasselbe Feld '
+        'steht in der Dateiliste; beide zeigen dieselbe Antwort.',
+    'No sound to work with -- set a video file\'s Camera audio to "use '
+    'the audio", or add an audio recording.':
+        'Kein Ton, mit dem sich arbeiten ließe -- bei einer Videodatei '
+        'den Kameraton auf "Ton verwenden" stellen, oder eine Tondatei '
+        'dazunehmen.',
     'Multitrack needs several tracks':
         'Multitrack braucht mehrere Spuren',
     'Mute.':
