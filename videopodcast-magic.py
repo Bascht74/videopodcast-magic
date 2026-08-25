@@ -15271,6 +15271,10 @@ def certificate_file():
 
 RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
             "/releases/latest")
+# The whole list, for the versions in between. Whoever skipped two
+# releases wants to read all three, not only the newest.
+RELEASE_LIST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
+                "/releases?per_page=30")
 RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
             "/videopodcast-magic/%s/videopodcast-magic.py")
 # Off for a test run: a suite must not reach for the network, and it
@@ -15334,6 +15338,43 @@ def version_key(text):
     return (tuple(numbers), 1 if not pre else 0, pre)
 
 
+def releases_in_between(newest, running):
+    """The release texts from *running* up to *newest*, newest first.
+
+    Somebody who skipped two versions was shown the newest text alone
+    and had to guess at the rest. GitHub answers with the whole list,
+    so the versions in between cost one more request and no thought.
+
+    Returns "" where the list cannot be had. The caller then keeps the
+    single text it already has, which is what was shown before -- a
+    failure here must never be worse than not asking.
+    """
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RELEASE_LIST, context=https_context(),
+                                    timeout=20) as answer:
+            found = json.load(answer)
+    except Exception:
+        return ""
+    if not isinstance(found, list):
+        return ""
+    want = []
+    for one in found:
+        if not isinstance(one, dict) or one.get("draft"):
+            continue
+        tag = str(one.get("tag_name") or "")
+        if not tag:
+            continue
+        # Strictly between: the newest is already in hand, and the
+        # running one is what somebody has.
+        if version_key(running) < version_key(tag) <= version_key(newest):
+            want.append((version_key(tag), tag,
+                         str(one.get("body") or "").strip()))
+    want.sort(reverse=True)
+    return "\n\n".join("## %s\n\n%s" % (tag, body)
+                        for _k, tag, body in want if body)
+
+
 def newer_release(asked=False):
     """(tag, page, what changed) of a newer release, or "", "", "".
 
@@ -15369,8 +15410,11 @@ def newer_release(asked=False):
         same = version_key(tag) == version_key(VERSION) if tag else False
         return ("", str(found.get("html_url") or "") if same else "",
                 str(found.get("body") or "").strip() if same else "")
-    return (tag, str(found.get("html_url") or ""),
-            str(found.get("body") or "").strip())
+    text = str(found.get("body") or "").strip()
+    # Two versions may lie between what runs here and what is out.
+    # Showing only the newest hides what somebody is also getting.
+    whole = releases_in_between(tag, VERSION)
+    return (tag, str(found.get("html_url") or ""), whole or text)
 
 
 def self_checked(raw):
@@ -27839,7 +27883,7 @@ def update_offer(window, asked=False):
     rows.addWidget(said)
 
     if changed:
-        rows.addWidget(QtWidgets.QLabel(T('What changed in %s:') % tag))
+        rows.addWidget(QtWidgets.QLabel(T('What changed since %s:') % VERSION))
         story = QtWidgets.QPlainTextEdit(changed)
         story.setReadOnly(True)
         # The bar stands there whether it is needed or not: a text that
@@ -27848,7 +27892,7 @@ def update_offer(window, asked=False):
         story.setVerticalScrollBarPolicy(
             QtCore.Qt.ScrollBarAlwaysOn)
         story.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
-        story.setAccessibleName(T('What changed in %s:') % tag)
+        story.setAccessibleName(T('What changed since %s:') % VERSION)
         rows.addWidget(story, 1)
     if page:
         where = QtWidgets.QLabel(page)
@@ -28015,8 +28059,8 @@ CATALOGUE["de"] = {
         'wird von auphonic.com geholt ...',
     'What is in %s:':
         'Was in %s steckt:',
-    'What changed in %s:':
-        'Was sich in %s geändert hat:',
+    'What changed since %s:':
+        'Was sich seit %s geändert hat:',
     'Do not ask again':
         'Nicht mehr nachfragen',
     'The program then stops looking by itself. Help > Look for a newer '

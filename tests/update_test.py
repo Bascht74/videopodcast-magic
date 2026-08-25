@@ -37,6 +37,17 @@ check("a version does not beat itself",
       not vpm.version_key("2.0.0") < vpm.version_key("2.0.0"))
 
 print("\n2. Only a newer release counts")
+# The remembered answer belongs to whoever runs the test, not to the
+# test. On 25.8.2026 this file went red on Sebastian's machine because
+# he had ticked "Do not ask again" in the program: update_wanted() read
+# ~/Library/Caches/videopodcast-magic/update_check and said no. A test
+# that reads the environment of the person running it measures that
+# person, so it gets a folder of its own here.
+ANSWERS = tempfile.mkdtemp(prefix="vpm_update_")
+# Over cache_folder and not over update_answer_file: section 3 takes
+# the same lever, and two different ones would leave the answer in one
+# folder while the test looks in the other.
+vpm.cache_folder = lambda sub="": ANSWERS
 def with_tag(tag, asked=False):
     """Answer the question with this tag, without a network."""
     class Answer(object):
@@ -58,6 +69,18 @@ vpm.VERSION = "2.0.0-beta"
 check("a newer tag is offered", with_tag("v2.1.0")[0] == "v2.1.0")
 check("the same tag is not", with_tag("v2.0.0-beta")[0] == "")
 check("an older tag is not", with_tag("v1.9.0")[0] == "")
+
+# And the remembered answer itself, now that the file is ours: a no
+# holds back the unasked look and gives way to a direct question.
+vpm.set_update_wanted(False)
+check("a remembered no switches the unasked look off",
+      not vpm.update_wanted())
+check("a remembered no holds back the unasked look",
+      with_tag("v2.1.0")[0] == "")
+check("but a direct question is still answered",
+      with_tag("v2.1.0", asked=True)[0] == "v2.1.0")
+vpm.set_update_wanted(True)
+check("and a yes brings it back", with_tag("v2.1.0")[0] == "v2.1.0")
 check("the finished version beats the pre-release",
       with_tag("v2.0.0")[0] == "v2.0.0")
 check("an unreadable tag is not offered", with_tag("nightly")[0] == "")
