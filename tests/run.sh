@@ -244,10 +244,20 @@ run_one() {
       # reader with a bare return code.
       [ -z "$lines" ] && lines=$(echo "$out" | grep -v "^[[:space:]]*\$" | tail -6)
       [ -z "$lines" ] && lines="(the test printed nothing)"
+      # A crash report is one block and must not be sampled. Where the
+      # ground gave way, Python names every thread and the lines it was
+      # on -- and picking single lines out of that by pattern keeps the
+      # one thread that has no Python in it and drops the one that does.
+      # Measured 29.8.2026: three runs showed "access violation" and
+      # "<no Python frame>" and nothing else, while the frames that
+      # would have said where were in the same output all along.
+      crash=$(echo "$out" | sed -n "/Fatal Python error\|fatal exception/,\$p")
+      SHOW=12
+      [ -n "$crash" ] && { lines="$crash"; SHOW=44; }
       # Twelve, not four. A red test prints one line per failed check and
       # one summing them up, and four leaves no room beside a traceback.
-      echo "$lines" | head -12 | sed 's/^/      /'
-      rest=$(( $(echo "$lines" | wc -l) - 12 ))
+      echo "$lines" | head -"${SHOW:-12}" | sed 's/^/      /'
+      rest=$(( $(echo "$lines" | wc -l) - ${SHOW:-12} ))
       if [ "$rest" -gt 0 ]; then
         echo "      ($rest more such lines -- run this test on its own)"
       fi
