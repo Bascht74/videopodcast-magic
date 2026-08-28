@@ -24907,7 +24907,9 @@ def not_on_the_axis(path, kinds, remembered):
     17:14 to 18:23.
 
     Content and the wide shot stay usable. Everything else -- intro,
-    outro, and a file marked not to be used -- is not on the axis.
+    outro, and a file marked not to be used -- is not on the axis. What
+    comes back is the reason, because greying the buttons out without
+    one beside them reads as a fault in the program.
     """
     held = (kinds or {}).get(path)
     kind = (held.get() if held is not None
@@ -26357,7 +26359,6 @@ def gui():
         on = window_ready() and not away
         for widget in window_switch:
             widget.setEnabled(on)
-        # Greyed out without a reason beside it looks like a fault.
         window_hint.setText(away or ("" if on else T(
             'In point and Out point are available once the time axis is '
             'set -- from the timecode or measured.')))
@@ -27381,7 +27382,8 @@ def gui():
         """
         remembered["player_file"] = file_path
         player.load(file_path, seconds, running=False)
-        window_enable()   # what is in it decides whether a boundary can be set
+        if not state.get("closing"):
+            window_enable()      # it decides whether a boundary can be set
 
     def player_spot_wanted(file_path):
         """Return where the player should start in this file.
