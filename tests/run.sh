@@ -98,6 +98,14 @@ export VPM_NO_SPEAKER_SPLIT=1
 # it certainly never lets the program swap the file under test. The one
 # test about updating unsets this itself and answers with a table.
 export VPM_NO_UPDATE_CHECK=1
+
+# A test that dies of a segmentation fault leaves nothing behind: no
+# traceback, no line, only rc=139. With this, Python prints where it
+# was when the ground gave way -- to stderr, which is kept with the
+# rest of the test's output. Measured 29.8.2026: block_remove died
+# this way on Windows with Python 3.10 and was green on 3.14 of the
+# same machine, three runs in a row, and there was nothing to read.
+export PYTHONFAULTHANDLER=1
 # As many at a time as the machine has cores, and one more: most of a
 # test is Python starting up and ffmpeg waiting on the disc, so there is
 # room beside the processors. Measured on a two-core box: 2 workers
