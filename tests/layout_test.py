@@ -503,8 +503,16 @@ for language, process in started:
     if not report.get("settings"):
         print("  the settings window was not reached -- not measured.")
     found = sorted(report["found"], key=lambda f: -f["short"])
+    # The findings go on the line that fails, not only under it. A build
+    # machine's log keeps the lines that say FAIL and drops the rest, so
+    # a caption that is too narrow on Windows and nowhere else would be
+    # reported as a number and nothing more -- and the one machine that
+    # could name it is the one nobody here can run. Measured 28.8.2026.
     check("%s: every caption fits its field" % language, not found,
-          "%d cut off" % len(found))
+          "%d cut off%s" % (len(found), "".join(
+              "; %s short by %d px in %s: %r"
+              % (f["kind"][:14], f["short"], f["box"][:30], f["text"][:60])
+              for f in found)))
     for f in found:
         print("    %-14s short by %4d px  in %-30s  %r"
               % (f["kind"][:14], f["short"], f["box"][:30], f["text"][:60]))
