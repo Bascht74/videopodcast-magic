@@ -12974,29 +12974,40 @@ def widest_frame(sizes):
     return max(sizes, key=lambda wh: (wh[0] * wh[1], wh[0]))
 
 
-def camera_place(file, zero, measured, fps=30.0):
-    """Where a rendered camera file sits against programme time.
+def camera_place(files, zero, measured, fps=30.0):
+    """Where a camera's picture sits against programme time.
 
     "Position in the file is programme time minus this." The file
     carries the camera's own timecode and the camera's own picture, so
-    the answer is the timecode minus the zero of the axis. Where the
-    file has no timecode, or no zero is known, the measured shift is
-    all there is and it is kept.
+    the answer is the timecode minus the zero of the axis.
+
+    *files* are asked in turn, the rendered file first: a window cuts a
+    head off it and moves its timecode with it, and that moved one is
+    the truth for whoever plays it. But not every ffmpeg carries a
+    timecode track through a render -- Windows with ffmpeg 9 does not,
+    measured 28.8.2026, while macOS with the same 9 and Ubuntu with 6
+    do. Asking it alone therefore fell back to the measured shift on
+    one system in three, silently, and put the cameras where the
+    measurement saw them rather than where their clocks say they are.
+    Only where no file in the row has one is the measurement kept.
 
     *fps* is the measured frame rate, and it has to be passed: the
     frames of a timecode are frames, so reading 10:00:01:12 at 30
     instead of at 25 puts the camera 0.08 s out, and at the far end
     of a second that grows to four frames.
     """
-    if zero is None or not file:
-        return float(measured or 0.0)
-    try:
-        stamp = file_timecode(file, max(1.0, float(fps or 30.0)))
-    except Exception:
-        stamp = None
-    if stamp is None:
-        return float(measured or 0.0)
-    return float(stamp) - float(zero)
+    if isinstance(files, str):
+        files = (files,)
+    for file in files:
+        if zero is None or not file:
+            continue
+        try:
+            stamp = file_timecode(file, max(1.0, float(fps or 30.0)))
+        except Exception:
+            stamp = None
+        if stamp is not None:
+            return float(stamp) - float(zero)
+    return float(measured or 0.0)
 
 
 def write_handover(args, tracks, cameras, videos, folder, tc_start,
@@ -13071,7 +13082,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # programme time minus this. The rendered file carries the
             # camera's own timecode and its untouched picture, so
             # camera_place reads it off that.
-            "offset": round(camera_place(file, tc_start, shift, fps), 4),
+            "offset": round(camera_place((file, v), tc_start, shift, fps), 4),
             # Not the camera's place: where the shared sound sits
             # against this camera's picture, with its sign turned round.
             # Kept because it is what the alignment measured, and named
@@ -22104,15 +22115,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self._seeking = True
             _say(T('--- jump to %s programme time%s ---')
                    % (as_hms(t), T(' (playing)') if self._playing else T(' (paused)')))
-            for p in self.videos:
-                try:
-                    p.pause()
-                except Exception:
-                    pass
-            try:
-                self.audio.pause()
-            except Exception:
-                pass
+            pause_if_running(QtMultimedia, self.audio, *self.videos)
             self.audio_seek.seek_to(
                 (t - self.audio_offset) * 1000, T('Audio at programme time'))
             self.now = None
@@ -22192,12 +22195,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             if self._playing and not self._seeking:
                 self._t = self._time()
             self._playing = False
-            try:
-                self.audio.pause()
-                for p in self.videos:
-                    p.pause()
-            except Exception:
-                pass
+            pause_if_running(QtMultimedia, self.audio, *self.videos)
             self._icon()
             if not self._seeking and not VERBOSE:
                 self.clock.stop()
@@ -22342,10 +22340,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 self.seekers[slot].forget()
             if self._playing and not self._seeking:
                 self._play_when_ready(slot)
-            try:
-                self.videos[1 - slot].pause()
-            except Exception:
-                pass
+            pause_if_running(QtMultimedia, self.videos[1 - slot])
 
         def _load(self, slot, j):
             """Load a shot's file into a surface."""
@@ -22779,7 +22774,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """
             old_one_position = self.position()
             old_one_spot = self.spot_s()
-            self.player.pause()
+            pause_if_running(QtMultimedia, self.player)
             self.speed_set(1.0)
             self.file_path = os.path.abspath(file_path)
             self.failed = (file_path, seconds)
@@ -22963,8 +22958,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if self.file_path is None:
                 return
             self._should_play = False
-            self.player.pause()
-            self.track.pause()
+            pause_if_running(QtMultimedia, self.player, self.track)
             self.speed_set(1.0)
             QtCore.QTimer.singleShot(60, self.expect_frame)
             self.set_mark()
@@ -23177,7 +23171,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if self._should_play:
                 self.track.play()
             else:
-                self.track.pause()
+                pause_if_running(QtMultimedia, self.track)
 
         def toggle_mute(self):
             self._muted = not self._muted
@@ -24834,6 +24828,34 @@ def hush_when_running(who, mark):
             hold()
 
     return quiet
+
+
+def pause_if_running(QtMultimedia, *players):
+    """Stop the players that are running, and leave the others alone.
+
+    QMediaPlayer.pause() is not free on a player that never started.
+    What lies behind it is built when it is first needed, and building
+    it connects objects -- which waits for a lock that another player's
+    decoding threads hold while they are starting up. The window then
+    does not come back at all.
+
+    Measured 28.8.2026 on two tests of this project, both stopped for
+    good in QMediaPlayer::pause, and one of them with a single window
+    open -- so this is not a thing only a test can reach.
+
+    A player that is not playing has nothing to pause, so the question
+    is asked first: playbackState only reads what is already noted and
+    builds nothing.
+    """
+    for one in players:
+        try:
+            if (one.playbackState()
+                    == QtMultimedia.QMediaPlayer.PlayingState):
+                one.pause()
+        except Exception:
+            # A player already taken down answers nothing, and the
+            # window is going anyway.
+            pass
 
 
 def question_dialog(f, window, QtWidgets, label):

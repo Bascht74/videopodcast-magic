@@ -16,7 +16,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, io, sys, tempfile
+import importlib.util, io, sys, tempfile, subprocess
 import contextlib
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -432,6 +432,70 @@ moved, _c = refreshed(["--in-point", "19:00:00:00",
                       window=("18:55:30:00", "18:59:00:00"))
 check("a window that really moved is still refused", bool(moved),
       str(moved))
+
+# ----------------------------------------------------------------------
+# Where the timecode is read, when the rendered file has none
+#
+# A camera's place in the handover is its own timecode minus the zero of
+# the axis, and it was read off the rendered file alone. Not every
+# ffmpeg carries a timecode track through a render: Windows with
+# ffmpeg 9 does not, macOS with the same 9 and Ubuntu with 6 do. So on
+# one system in three the read came back empty and the place fell back
+# to the measured shift -- without a word, and the cameras stood where
+# the measurement saw them instead of where their own clocks say they
+# are. That is the fault the first section of this file is about,
+# returning through a back door on a system nobody here can run.
+#
+# Checked without Windows by handing camera_place a file that carries no
+# timecode, which is exactly what Windows hands it.
+print("\n8. Where the timecode is read")
+
+
+def little_camera(name, stamp):
+    """A second of picture, with a timecode or without one."""
+    out = os.path.join(WORK, name)
+    call = ["ffmpeg", "-v", "error", "-f", "lavfi",
+            "-i", "testsrc=size=64x36:rate=25:duration=1",
+            "-c:v", "libx264", "-preset", "ultrafast",
+            "-pix_fmt", "yuv420p"]
+    if stamp:
+        call += ["-timecode", stamp]
+    subprocess.run(call + [out, "-y"], check=True)
+    return out
+
+
+stamped = little_camera("with_timecode.mov", "18:55:04:00")
+blank = little_camera("without_timecode.mov", None)
+zero = vpm.file_timecode(stamped, 25.0)
+check("the built file carries a timecode", zero is not None, str(zero))
+check("and the one built without one carries none",
+      vpm.file_timecode(blank, 25.0) is None,
+      str(vpm.file_timecode(blank, 25.0)))
+# A number nobody could mistake for a timecode: where it turns up in an
+# answer, the fall-back was taken.
+WRONG = -99.5
+check("a rendered file without one falls through to the source",
+      abs(vpm.camera_place((blank, stamped), 0.0, WRONG, 25.0) - zero)
+      < 0.001, str(vpm.camera_place((blank, stamped), 0.0, WRONG, 25.0)))
+check("the rendered file still wins where it has one",
+      abs(vpm.camera_place((stamped, blank), 0.0, WRONG, 25.0) - zero)
+      < 0.001, str(vpm.camera_place((stamped, blank), 0.0, WRONG, 25.0)))
+check("and with no timecode anywhere the measurement is kept",
+      abs(vpm.camera_place((blank, blank), 0.0, WRONG, 25.0) - WRONG)
+      < 0.001, str(vpm.camera_place((blank, blank), 0.0, WRONG, 25.0)))
+# One name on its own still works: a string is a row of characters, not
+# a row of files, and taking it for one would ask after "W", "i", "t".
+check("one file may still be passed on its own",
+      abs(vpm.camera_place(stamped, 0.0, WRONG, 25.0) - zero) < 0.001,
+      str(vpm.camera_place(stamped, 0.0, WRONG, 25.0)))
+# The rate is the material's own here, and a wrong one would show: at
+# 30 the four seconds of 18:55:04:00 stay four, so the frames have to
+# carry it -- 18:55:04:12 at 25 is 0.48 s, at 30 it is 0.40 s.
+twelve = little_camera("twelve_frames.mov", "18:55:04:12")
+check("the frames of a timecode are read at the file's rate",
+      abs(vpm.file_timecode(twelve) - vpm.file_timecode(stamped) - 0.48)
+      < 0.001, str(vpm.file_timecode(twelve)))
+
 
 print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
 sys.exit(1 if bad else 0)
