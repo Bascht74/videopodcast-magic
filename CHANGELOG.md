@@ -9,6 +9,102 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [2.11.1-beta] - 2026-08-28
+
+### Added
+
+- Where a camera's timecode and the measured alignment disagree by
+  more than one frame, the log says so and names both numbers. The
+  timecode still decides where the camera sits -- what changed is that
+  the measurement is no longer dropped without a word. On the
+  reference camera the two are the same number, so a camera standing
+  in the wrong place had nowhere to show itself.
+
+### Changed
+
+- The window length in the preview player stands on a line of its own,
+  under the In point and the Out point it spans. Beside them there was
+  no room for it in German: the addition that says this file begins
+  later than the window, or ends earlier, or lies outside it
+  altogether, fitted in none of its three versions -- measured 16 to
+  40 px too wide. Nobody had seen it, because the addition only
+  appears where the material carries a timecode, and until now the
+  test material carried none.
+- The two players stop each other. Starting one pauses the other: two
+  pictures running at once are two moments at once, and neither can be
+  judged.
+- An answer given in the window reaches the preview without a run.
+  Which camera is the wide shot is an answer, not a measurement, and
+  the file the preview reads can be older than it -- marking a camera,
+  or giving a voice a camera, now moves the band underneath at once.
+
+### Fixed
+
+- The Resolve project put the cameras where the alignment measurement
+  had them, not where the preview had shown them. Two of three cameras
+  stood 37 s and 78 s away from the cut that had just been approved --
+  what landed on the timeline was not what had been judged. A camera's
+  place in the handover file now comes from its own timecode, the same
+  number the preview reads, and the measurement stands beside it under
+  a name of its own.
+- The timecode is read at the frame rate of the material, not at a
+  fixed 30 frames. At 25 fps it was up to 0.160 s out -- four frames;
+  at 30 fps nothing changes. The three places that turn the value back
+  into characters follow it: the file list, the two lines that say the
+  time window back, and the hint about a clock that was never set.
+  Those two lines were printing at 30 already while the value they
+  printed had been read at the material's own rate, and it was never
+  noticed, because everywhere else a value read wrong and printed
+  wrong the same way came out looking right again.
+- A time window set by hand stopped the Resolve project from being
+  made at all. The check before that step held the In point against
+  the zero of the axis -- the earliest camera, which lies before any
+  In point anybody sets -- so every window that did not begin at the
+  first camera was turned away as belonging to older files. A run
+  writes down the window it was made with now, and the check asks
+  that.
+- The handover file did not carry which speaker sits at which camera.
+  Every camera therefore counted as the wide shot, and the whole
+  episode fell together into one single shot.
+- The camera table said **Wide shot** for a camera a speaker had been
+  given: two columns of the same table, one naming the speaker and the
+  next saying nobody sits there. Both tables are built before anybody
+  is assigned, and the wide shot is derived from exactly that
+  assignment. They are drawn again now the moment a voice is given a
+  name or a camera -- the file list on the first tab with them, which
+  went on calling every camera the wide shot.
+- Speaker names and the answer **several speakers** stay in the
+  project file and survive the window being closed. Saved at any
+  moment other than the one the answer was picked in, a project came
+  back with everybody called "Speaker 1" although the voices were
+  right there.
+- Switching the Kind of a file no longer makes the assignment sheet
+  flash. Between the old table going and the new one arriving is a
+  moment with nothing in it, and Qt painted it.
+
+### Tests
+
+- The suite reported green where it had checked nothing. A test that
+  left out the part its machine cannot do, went on with the part it
+  can and fell over that was written down as skipped -- the failure
+  was neither shown nor counted, and skipping never reached the return
+  code at all. The CI, for its part, did not write down which ffmpeg
+  it ran against, did not hold the model against the checksums shipped
+  beside it, and had no time limit on macOS.
+- The gate test builds three windows at a time instead of six, and a
+  child that has said nothing for a hundred seconds is killed, built
+  once more on its own, and said out loud in the log. Six windows at
+  once, each holding three players, walked into a lock inside Qt --
+  at worst every second run, until the program stopped making the
+  window for a picture while its players were starting up and stopped
+  telling a player to pause that was not playing.
+- Four new checks over the time axes: that a window shifts nothing
+  against anything else, that In and Out points counted from the ends
+  give a length that makes sense, that every camera sits where its own
+  timecode puts it and not only the reference does, and that an answer
+  given in the window reaches the cut without taking anybody's
+  speakers away.
+
 ## [2.11.0-beta] - 2026-08-26
 
 ### Added
@@ -1686,6 +1782,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.11.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.11.0-beta...v2.11.1-beta
 [2.11.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.1-beta...v2.11.0-beta
 [2.10.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.0-beta...v2.10.1-beta
 [2.10.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.9.0-beta...v2.10.0-beta

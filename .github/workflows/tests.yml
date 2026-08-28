@@ -3,11 +3,21 @@ name: tests
 on:
   push:
   pull_request:
+  # Nothing here is pinned: requirements.txt names numpy and PySide6
+  # without a version, ffmpeg is whatever the package service has that
+  # day, and the Python patch levels move under setup-python. So a green
+  # main can go bad without anybody pushing anything. Once a week it is
+  # asked again. Monday morning, and not on the hour: that is when the
+  # whole world's cron jobs start at once and the runners queue.
+  schedule:
+    - cron: '17 5 * * 1'
   workflow_dispatch:
 
 # A second push to the same branch makes the first run pointless.
+# The event is part of the group, or the weekly run would be cancelled
+# by the first push of the week -- which is the one week it is there for.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 permissions:
@@ -21,6 +31,18 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
+        # Two versions on all three systems. 3.14 is the one the suite
+        # runs on at home; 3.10 is the floor the program names for
+        # itself in NEEDS_PYTHON, and a floor that is only ever walked
+        # on Linux is not a floor. What breaks between 3.10 and 3.14
+        # -- a path, an encoding, a Qt plugin -- breaks on Windows and
+        # macOS, so that is where it has to be walked.
+        #
+        # On Windows and macOS '3.10' comes out as 3.10.11: that is the
+        # last 3.10 CPython released as a binary, and setup-python
+        # builds newer ones from source for Linux only. Linux therefore
+        # runs a later 3.10 than the other two. That is the truth of the
+        # matter for anyone out there on 3.10 as well.
         include:
           - os: ubuntu-latest
             python: '3.14'
@@ -28,16 +50,39 @@ jobs:
             python: '3.10'
           - os: windows-latest
             python: '3.14'
+          - os: windows-latest
+            python: '3.10'
           - os: macos-latest
             python: '3.14'
+          - os: macos-latest
+            python: '3.10'
 
     env:
       VPM_PYTHON: python
       QT_QPA_PLATFORM: offscreen
       VPM_FIXTURES: /tmp/vpm-fixtures-ci
+      # The same folder again, and it has to stay the same: run.sh would
+      # work this out for itself, but saying it here means the suite and
+      # the step that repeats a red test read it from one place.
+      VPM_MEDIA: /tmp/vpm-fixtures-ci/interview
       # Windows hands Python a cp1252 stdout, and a caption with a box
       # or a tick in it then stops the test that prints it.
       PYTHONUTF8: '1'
+
+      # The conditions the suite runs under, in one place. run.sh exports
+      # the same six itself, with the same values, so the suite is
+      # unchanged by their standing here -- but now every other step in
+      # the job inherits them too, and "the red ones, in full" no longer
+      # keeps a second list of its own that can fall behind. English is
+      # the source language of the program and LANGUAGE is the first name
+      # it looks at; the rest keep the suite from making noise, fetching
+      # a 218 MB model, or asking github.com about updates.
+      LANG: C
+      LC_ALL: C
+      LANGUAGE: en
+      VPM_SILENT: '1'
+      VPM_NO_SPEAKER_SPLIT: '1'
+      VPM_NO_UPDATE_CHECK: '1'
 
     steps:
       - uses: actions/checkout@v5
@@ -47,22 +92,6 @@ jobs:
           python-version: ${{ matrix.python }}
           cache: pip
           cache-dependency-path: requirements-dev.txt
-
-      - name: what is on this machine
-        shell: bash
-        run: |
-          echo "runner:  $RUNNER_OS $RUNNER_ARCH"
-          echo "python:  $(python -VV)"
-          echo "cores:   $(getconf _NPROCESSORS_ONLN 2>/dev/null || echo '?')"
-          echo "bash:    $BASH_VERSION"
-          echo "id -u:   $(id -u 2>&1 || echo '?')"
-          for t in ffmpeg ffprobe timeout gtimeout; do
-            if command -v "$t" > /dev/null 2>&1; then
-              echo "$t: $(command -v $t)"
-            else
-              echo "$t: NOT THERE"
-            fi
-          done
 
       # Git for Windows rewrites text files to CRLF on checkout. The model
       # beside the program carries a manifest of SHA-256 sums, and one of
@@ -93,16 +122,66 @@ jobs:
               hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" \
             "$M/config.yaml"
 
+      # The two steps above print a hash and throw it away. Here the
+      # manifest is actually held against the files -- all five it names,
+      # not only the one that is text -- and a difference stops the job.
+      # After the Windows repair, so what is judged is what the suite
+      # will read.
+      - name: the model is the one the manifest names
+        shell: bash
+        run: |
+          python - <<'PY'
+          import hashlib, os, re, sys
+          M = "models/speaker-diarization-community-1"
+          manifest = os.path.join(M, "SHA256SUMS.txt")
+          # Text mode, so a CRLF the checkout may have left behind does
+          # not end up inside the file name.
+          with open(manifest, encoding="utf-8") as f:
+              want = re.findall(r"(?m)^([0-9a-f]{64})  (\S.*)$", f.read())
+          if not want:
+              sys.exit("FAIL: %s names no file at all" % manifest)
+          bad = 0
+          for digest, name in want:
+              path = os.path.join(M, name)
+              if not os.path.exists(path):
+                  print("  %-30s FAIL not there" % name)
+                  bad += 1
+                  continue
+              h = hashlib.sha256()
+              with open(path, "rb") as f:
+                  for chunk in iter(lambda: f.read(1 << 20), b""):
+                      h.update(chunk)
+              if h.hexdigest() == digest:
+                  print("  %-30s ok   %d bytes" % (name, os.path.getsize(path)))
+              else:
+                  print("  %-30s FAIL %s" % (name, h.hexdigest()))
+                  bad += 1
+          print("%d files named, %d wrong" % (len(want), bad))
+          sys.exit(1 if bad else 0)
+          PY
+
       - name: ffmpeg (Linux)
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
 
-      - name: ffmpeg (macOS)
+      - name: ffmpeg, and something to stop a hung test with (macOS)
         if: runner.os == 'macOS'
         run: |
           command -v ffmpeg > /dev/null 2>&1 || brew install ffmpeg
+          # macOS brings no timeout(1), and run.sh says so and then runs
+          # the tests unguarded. One test that hangs there sits until the
+          # job's thirty minutes are up and leaves nothing behind. GNU
+          # coreutils installs the same program under the name gtimeout,
+          # which is the second name run.sh looks for.
+          command -v gtimeout > /dev/null 2>&1 || brew install coreutils
+          if ! command -v gtimeout > /dev/null 2>&1; then
+            echo "coreutils is installed but gtimeout is not on PATH --"
+            echo "without it the suite runs here with no time limit, so"
+            echo "this stops now rather than later. brew link coreutils."
+            exit 1
+          fi
 
       - name: ffmpeg (Windows)
         if: runner.os == 'Windows'
@@ -120,6 +199,33 @@ jobs:
             libxcb-randr0 libxcb-render-util0 libxcb-image0 libxcb-sync1 \
             libxcb-xfixes0 libxcb-xkb1 libxcb-xinerama0 \
             libfontconfig1 libfreetype6
+
+      # Here, and not before the installations. Asked before them, this
+      # step answered "ffmpeg: NOT THERE" in every job that has ever run
+      # here -- true, and of no use to anybody. What is wanted is the
+      # ffmpeg the suite is about to run against. A defect that hangs on
+      # an ffmpeg version leaves no trace otherwise, and this house has
+      # had one: the colour tags in ffmpeg 9.
+      - name: what is on this machine
+        shell: bash
+        run: |
+          echo "runner:  $RUNNER_OS $RUNNER_ARCH"
+          echo "python:  $(python -VV)"
+          echo "cores:   $(getconf _NPROCESSORS_ONLN 2>/dev/null || echo '?')"
+          echo "bash:    $BASH_VERSION"
+          echo "id -u:   $(id -u 2>&1 || echo '?')"
+          for t in ffmpeg ffprobe timeout gtimeout; do
+            if command -v "$t" > /dev/null 2>&1; then
+              echo "$t: $(command -v $t)"
+            else
+              echo "$t: NOT THERE"
+            fi
+          done
+          # sed rather than head: head closes the pipe early, and under
+          # pipefail that turns a good ffmpeg into a failed step.
+          ffmpeg -version 2>&1 | sed -n 1p > "$RUNNER_TEMP/ffmpeg.txt"
+          cat "$RUNNER_TEMP/ffmpeg.txt"
+          ffprobe -version 2>&1 | sed -n 1p
 
       - name: the packages
         shell: bash
@@ -177,47 +283,96 @@ jobs:
           echo "the suite took $(( SECONDS - start )) s"
           exit $rc
 
-      # What a reader wants at a glance: how many ran, how many were taken
-      # out and which, and what is red.
+      # What a reader wants at a glance: which ffmpeg, how many ran, how
+      # many were taken out and which, how many checked nothing, and what
+      # is red.
       - name: the run in five lines
         if: always()
         shell: bash
         run: |
           S="$RUNNER_TEMP/suite.log"
+          # The number is counted here, not written down: a number that
+          # is kept by hand is wrong again with the next new test. The
+          # ones set aside were moved out of tests/, so what is still in
+          # the folder is what ran, and the two added together are all
+          # there are. run.sh picks its tests up out of the same folder
+          # with the same pattern, so this counts what it ran.
+          #
+          # Counted by the shell itself. find(1) would be shorter, but
+          # on Windows the name reaches Windows' own find, which is a
+          # different program.
+          ran=0
+          for f in tests/*_test.py; do
+            if [ -e "$f" ]; then ran=$((ran + 1)); fi
+          done
+          out=0
+          if [ -s "$RUNNER_TEMP/aside.txt" ]; then
+            out=$(wc -l < "$RUNNER_TEMP/aside.txt" | tr -d ' ')
+          fi
           {
             echo "## ${{ matrix.os }} / Python ${{ matrix.python }}"
             echo
             echo '```'
             python -VV
+            cat "$RUNNER_TEMP/ffmpeg.txt" 2>/dev/null || echo "ffmpeg:"\
+              "the run did not get as far as saying"
             grep -E "^green:" "$S" 2>/dev/null || echo "the suite did not"\
               "get as far as a summary"
+            # The barrier on tests that checked nothing is run.sh's: it
+            # knows the tests, it counts them, and it already returns
+            # non-zero when the number rises. Nothing is counted or held
+            # again here -- the line is only lifted where a reader will
+            # see it without opening the log.
+            grep -E "^skips:" "$S" 2>/dev/null || true
             echo '```'
-            if [ -s "$RUNNER_TEMP/aside.txt" ]; then
-              echo "Taken out, because this machine cannot run them"\
-                "($(wc -l < "$RUNNER_TEMP/aside.txt" | tr -d ' ')):"
+            if [ "$out" -gt 0 ]; then
+              echo "Of $((ran + out)) tests, $ran ran. Taken out, because"\
+                "this machine cannot run them ($out):"
               echo
               while read -r l; do echo "* $l"; done \
                 < "$RUNNER_TEMP/aside.txt"
             else
-              echo "Nothing was taken out: all 98 tests ran."
+              echo "Nothing was taken out: all $ran tests ran."
             fi
           } >> "$GITHUB_STEP_SUMMARY"
 
-      # run.sh prints four lines per red test. The whole output of a red
-      # test says which caption, which channel, which file -- and that is
-      # what somebody reading this from another machine needs.
+      # run.sh prints up to twelve lines per red test, ranked so the line
+      # that sums the test up comes first. That is a good deal, and still
+      # a selection. The whole output says which caption, which channel,
+      # which file -- and that is what somebody reading this from another
+      # machine needs.
       - name: the red ones, in full
         if: failure()
         shell: bash
         run: |
           cd tests
-          export LANG=C LC_ALL=C LANGUAGE=en
-          export VPM_SILENT=1 VPM_NO_SPEAKER_SPLIT=1 VPM_NO_UPDATE_CHECK=1
-          export VPM_MEDIA="$VPM_FIXTURES/interview"
+          # The conditions come from the job's env: block above and reach
+          # this step by themselves. They used to be typed out again here,
+          # and the copy had already fallen behind by two -- so a red test
+          # repeated here ran under conditions the suite never had.
+          #
+          # Two cannot be inherited: run.sh makes a cache folder and a
+          # temporary folder of its own for each run and deletes both when
+          # it exits, so by now they are gone. They are made again here the
+          # same way rather than left pointing at nothing.
+          export VPM_CACHE="$RUNNER_TEMP/again-cache"
+          export TMPDIR="$RUNNER_TEMP/again-temp"
+          mkdir -p "$VPM_CACHE" "$TMPDIR"
+          echo "under: LANGUAGE=$LANGUAGE VPM_SILENT=$VPM_SILENT" \
+            "VPM_NO_SPEAKER_SPLIT=$VPM_NO_SPEAKER_SPLIT" \
+            "VPM_NO_UPDATE_CHECK=$VPM_NO_UPDATE_CHECK"
+          echo "       VPM_MEDIA=$VPM_MEDIA"
           names=$(sed -n 's/^green:.*red: [0-9]*//p' "$RUNNER_TEMP/suite.log")
+          # Unquoted on purpose: word splitting collapses the run of
+          # blanks that line ends in. Since run.sh began going red for
+          # more skips than it allows, the suite can fail with "red: 0"
+          # and no name at all -- and blanks are not empty, so without
+          # this the step below printed nothing and said nothing.
+          names=$(echo $names)
           if [ -z "$names" ]; then
-            echo "no red test names in the summary -- the suite itself"
-            echo "stopped before it got that far."
+            echo "no red test names in the summary. Either the suite"
+            echo "stopped before it got that far, or it went red without"
+            echo "a red test -- the skips line in the summary says so."
             exit 0
           fi
           for t in $names; do

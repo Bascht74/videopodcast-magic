@@ -30,9 +30,48 @@ vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 source = io.open(SCRIPT, encoding="utf-8").read()
 bad = []
+ran = [0]
+
+#--------------------------------------------------- how much of it really ran
+# This test used to leave three of its sections out without a word louder
+# than two spaces of indent: no pyspellchecker, a document that is not
+# there, no material to run the program on. Each of the three takes away
+# the biggest check it stands in front of, and the last line still read
+# "All good." -- a sentence about eight sections, said after five.
+#
+# So every section registers itself here, everything it could not do is
+# written down beside it, and the end says how many of the eight ran. Two
+# kinds of omission are told apart, because they want opposite answers:
+#
+#   the machine's -- no dictionary installed, no material to run on.
+#     The repository is fine and the test genuinely cannot do that part.
+#     It is written down here and shows up at the left margin as
+#     SKIPPED:, which is the word run.sh counts.
+#   the repository's -- a document this test names is not there, docs/
+#     is gone. That is not an omission at all, that is the defect this
+#     test exists to find. Those are checks now, and they go red.
+SECTIONS = []       # the titles, in the order they are reached
+LEFT_OUT = []       # (number, title, what was not done, why)
+
+
+def section(title):
+    """Begin a numbered section and count it."""
+    SECTIONS.append(title)
+    print("%s%d. %s" % ("" if len(SECTIONS) == 1 else "\n",
+                        len(SECTIONS), title))
+
+
+def left_out(what, why):
+    """Write down a piece this machine could not do, and say so at once.
+
+    `what` is "all of it" when the whole section falls away.
+    """
+    LEFT_OUT.append((len(SECTIONS), SECTIONS[-1], what, why))
+    print("  LEFT OUT (%s): %s" % (what, why))
 
 
 def check(what, ok, detail=""):
+    ran[0] += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -49,7 +88,7 @@ for node in tree.body:
                     and isinstance(target.value, ast.Name) \
                     and target.value.id == "CATALOGUE":
                 catalogue_node = node
-print("1. The catalogue as data")
+section("The catalogue as data")
 check("the catalogue is one assignment at the end",
       catalogue_node is not None)
 inside = {id(n) for n in ast.walk(catalogue_node)} if catalogue_node else set()
@@ -108,10 +147,16 @@ check("nothing was left in English by accident", not untranslated,
       str([repr(x)[:40] for x in untranslated[:3]]))
 
 #------------------------------------------------------ umlauts where none belong
-print("\n2. Umlauts and eszett only where German lives")
+section("Umlauts and eszett only where German lives")
 GERMAN_LETTERS = re.compile(r"[äöüÄÖÜß]")
 border = source.find('CATALOGUE["de"] = {')
-head = source[:border]
+# Everything below rests on this one number. Found nowhere, find() gives
+# -1, "the program above the catalogue" becomes the whole file, and the
+# next two sections report every German word in the catalogue as a
+# defect. Said here, so the report names the cause and not the flood.
+check("the line the catalogue starts at was found", border > 0,
+      "CATALOGUE[\"de\"] = { is not in %s" % os.path.basename(SCRIPT))
+head = source[:border] if border > 0 else ""
 hits = []
 for i, line in enumerate(head.splitlines(), 1):
     if GERMAN_LETTERS.search(line):
@@ -124,7 +169,7 @@ check("no umlaut in an English catalogue key", not key_hits,
       str([repr(x)[:40] for x in key_hits[:3]]))
 
 #---------------------------------------------------------- abbreviations
-print("\n3. German abbreviations")
+section("German abbreviations")
 SHORTHAND = (r"\b(?:z\s?\.?\s?B|bzw|ggf|u\s?\.?\s?a|d\s?\.?\s?h|usw|evtl"
              r"|inkl|bspw|vgl|sog|bzgl|i\s?\.?\s?d\s?\.?\s?R|z\s?\.?\s?T"
              r"|o\s?\.?\s?ä|Abb|Nr|ca)\.")
@@ -140,26 +185,52 @@ check("none in an English catalogue key", not in_keys,
       str([repr(x)[:40] for x in in_keys[:3]]))
 
 #------------------------------------------------------------- the manual
-print("\n4. The English documents carry no German")
+section("The English documents carry no German")
 # The manual used to be one file with an English half and a German half.
 # It is now one file per chapter and per language: README.md beside
 # docs/*.md in English, README.de.md beside docs/*.de.md in German. Every
 # English one is scanned; a chapter added without its translation is
 # caught by the pairing check further down.
-BOOKS = [os.path.join(ROOT, "README.md")]
+NAMED = [os.path.join(ROOT, "README.md")]
 DOCS = os.path.join(ROOT, "docs")
 # What is not a chapter is not in docs/ any more: the three documents
 # for whoever changes the program stand beside it, in development/, and
 # they are English only.
 DEV = os.path.join(ROOT, "development")
+# Five documents are written into this file by hand rather than found by
+# looking in a folder, so a rename anywhere else takes them out of the
+# scan without a word. That is what used to happen: the list was filtered
+# by os.path.exists and simply got shorter, and one of them printed an
+# indented SKIPPED nobody counted. A document of the manual that is not
+# there is the defect this test is for, not a reason to check less -- so
+# they are asked after first, by name, and the answer is red.
+NAMED += [os.path.join(DEV, "internals.md"),
+          os.path.join(DEV, "measurements.md"),
+          os.path.join(DEV, "coding_guidelines.md"),
+          os.path.join(HERE, "README.md")]
+absent_named = [os.path.relpath(p, ROOT) for p in NAMED
+                if not os.path.exists(p)]
+check("every document this test names by hand is there", not absent_named,
+      str(absent_named))
+# And the folder the chapters are found in. Gone, the two lists below
+# come back holding four documents instead of thirty and everything
+# after them passes on the strength of what is missing.
+check("docs/ is where the chapters are", os.path.isdir(DOCS), DOCS)
+
+BOOKS = [os.path.join(ROOT, "README.md")]
 if os.path.isdir(DOCS):
     BOOKS += [os.path.join(DOCS, n) for n in sorted(os.listdir(DOCS))
               if n.endswith(".md") and not n.endswith(".de.md")]
-# Two of the three are scanned for German words like a chapter. The
-# coding guidelines are left out here: they talk about the German
-# catalogue, and they are checked for umlauts further down instead.
+# Two of the three in development/ are scanned for German words like a
+# chapter. The coding guidelines are left out here: they talk about the
+# German catalogue, and they are checked for umlauts further down.
 BOOKS += [os.path.join(DEV, "internals.md"),
           os.path.join(DEV, "measurements.md")]
+# A chapter deleted together with its German twin is invisible to the
+# pairing check below, and it simply stops being scanned here. That does
+# not go unnoticed: every chapter is linked from README.md and
+# docs_truth_test.py turns a link that leads nowhere red. What this test
+# owes the reader is the number, and the closing lines print it.
 BOOKS = [b for b in BOOKS if os.path.exists(b)]
 check("the English documents are there", len(BOOKS) > 5, str(len(BOOKS)))
 
@@ -215,7 +286,12 @@ try:
 except ImportError:
     de = en = None
 if de is None:
-    print("  SKIPPED: pyspellchecker is not installed")
+    # The machine's doing, not the repository's: pyspellchecker is in
+    # requirements-dev.txt. Without it the widest check in this file --
+    # every word of the English manual through a German dictionary --
+    # falls away, and the rest of the section goes on.
+    left_out("the German dictionary over the whole manual",
+             "pyspellchecker is not installed")
 else:
     # Words the English manual uses that only German knows. Names of
     # things stay out -- they are the same in both languages.
@@ -239,7 +315,7 @@ else:
           str(sorted(strange.items())[:4]))
 
 #-------------------------------------------------------------- the tests
-print("\n5. The other documents")
+section("The other documents")
 # coding_guidelines.md and the test README are English. The notes under
 # docs/notes/ are German on purpose and are not delivered.
 # BOOKS from above are the English manual: README.md and the chapters
@@ -253,7 +329,11 @@ for path in ENGLISH_ONLY:
     # these are called README.md and the report has to say which.
     name = os.path.relpath(path, ROOT)
     if not os.path.exists(path):
-        print("  SKIPPED: %s is not there" % name)
+        # Not an omission. A document of the manual that is not there is
+        # the thing this test is for, and it used to be excused with two
+        # spaces of indent while the last line still said "All good."
+        check("%s: no umlaut and no abbreviation" % name, False,
+              "the file is not there at all")
         continue
     body = re.sub(r"`[^`]*`", "", io.open(path, encoding="utf-8").read())
     marks = [i for i, line in enumerate(body.splitlines(), 1)
@@ -261,13 +341,16 @@ for path in ENGLISH_ONLY:
     check("%s: no umlaut and no abbreviation" % name, not marks,
           str(marks[:4]))
 
-print("\n6. The tests are English too")
+section("The tests are English too")
 # The detectors themselves have to carry the words they look for -- this
 # file and the two that read the program for German are the exception,
 # and they are the only ones.
 DETECTORS = {"german_hunt_test.py", "style_test.py", "language_test.py"}
 mine = sorted(f for f in os.listdir(HERE)
               if f.endswith(".py") and f not in DETECTORS)
+# An empty list finds nothing and passes. Said out loud, so this cannot
+# come back green from a folder the run never reached.
+check("there are tests to read at all", len(mine) > 20, "%d files" % len(mine))
 spotted = []
 for f in mine:
     body = io.open(os.path.join(HERE, f), encoding="utf-8").read()
@@ -277,7 +360,7 @@ for f in mine:
 check("no umlaut and no abbreviation in a test", not spotted,
       str(spotted[:4]))
 
-print("\n7. The program run in German, read back")
+section("The program run in German, read back")
 # The strongest check of all, because it needs no list: run the thing and
 # look at what comes out. A line that never went through T() stays
 # English, and English function words in a German run are the giveaway.
@@ -286,7 +369,12 @@ media = os.environ.get("VPM_MEDIA") or fixture("interview")
 job = sorted(f for f in (os.listdir(media) if os.path.isdir(media) else [])
              if f.lower().endswith((".wav", ".mov")))
 if len(job) < 2:
-    print("  SKIPPED: no material under %s" % media)
+    # The machine's doing again: run.sh builds this folder before it
+    # starts and points VPM_MEDIA at it, so under the suite it is there.
+    # Where it is not, the whole section falls away -- and with it the
+    # only check in this file that reads what the program actually says.
+    left_out("all of it", "no material under %s (%d files of the right "
+             "kind, two are needed)" % (media, len(job)))
 else:
     # Two runs, so both paths are read: the simple one and multitrack.
     out = ""
@@ -314,7 +402,7 @@ else:
             left.append((m.group(0), bare.strip()[:60]))
     check("and no English sentence is left in it", not left, str(left[:3]))
 
-print("\n8. What the German manual quotes in English stays English")
+section("What the German manual quotes in English stays English")
 # A trap somebody walks into exactly once. python_note() does not go
 # through T(): it returns "Python 3.11.15  (recommended version 3.14.7)"
 # in both languages, and requirements.de.md quotes it that way, which
@@ -353,14 +441,19 @@ if os.path.isdir(DOCS):
 GERMAN_BOOKS = [b for b in GERMAN_BOOKS if os.path.exists(b)]
 
 german_quotes = []
+unread = []
 for path in GERMAN_BOOKS:
     try:
         text = io.open(path, encoding="utf-8").read()
-    except OSError:
+    except OSError as why:
+        # A chapter that cannot be opened used to drop out of the scan
+        # in silence, and the section went on as if it had read it.
+        unread.append("%s (%s)" % (os.path.relpath(path, ROOT), why))
         continue
     for span in QUOTED.findall(text):
         german_quotes.append((os.path.basename(path), span))
 
+check("every German chapter could be opened", not unread, str(unread[:3]))
 check("the German chapters are readable at all", bool(german_quotes),
       "%d quoted spans" % len(german_quotes))
 
@@ -384,8 +477,45 @@ check("and it is not in the catalogue, which is why that is right",
       not any(skeleton(x) in keys for x in version_line),
       str(version_line[:1]))
 
+#--------------------------------------------------------- how much was done
+# "All good." on its own is a claim about eight sections. Said after five,
+# it is the same lie as a green tick over a test that checked nothing --
+# only quieter, because nothing looks wrong. So the size of the claim is
+# printed with it: how many sections ran, how many documents were read.
 print()
+state = {}
+for number, title, what, why in LEFT_OUT:
+    if what == "all of it":
+        state[number] = "not at all"
+    else:
+        state.setdefault(number, "in part")
+nowhere = sum(1 for v in state.values() if v == "not at all")
+partly = sum(1 for v in state.values() if v == "in part")
+fully = len(SECTIONS) - len(state)
+print("%d sections, %d checks: %d ran whole, %d in part, %d not at all."
+      % (len(SECTIONS), ran[0], fully, partly, nowhere))
+print("%d English documents read, %d German ones."
+      % (len(BOOKS), len(GERMAN_BOOKS)))
+for number, title, what, why in LEFT_OUT:
+    print("  %d. %s -- %s: %s" % (number, title, what, why))
+
+# run.sh knows two verdicts for a whole test: it ran, or it left itself
+# out. A test that did seven sections of eight is neither, and there is
+# no third word to give it. Of the two wrong answers the loud one is the
+# right one to pick: called green, the omission is invisible and the
+# reader believes the whole manual was read; called skipped, run.sh
+# prints this line under the name and the ratchet in tests.yml makes
+# somebody look. The line itself carries the fraction, so nobody reads
+# "skipped" as "checked nothing" when seven sections did run.
+if LEFT_OUT:
+    print("SKIPPED: %d of %d sections ran in full; %s"
+          % (fully, len(SECTIONS),
+             "; ".join("%d. %s" % (n, why) for n, t, w, why in LEFT_OUT)))
 if bad:
     print("FAIL: %d of the checks" % len(bad))
     sys.exit(1)
-print("All good.")
+# The last line no longer says more than was done. "All good." belongs to
+# a run that did all eight sections; anything less gets a sentence that
+# says so, and the two lines above say how much less.
+print("All good." if not LEFT_OUT else
+      "Good as far as it went -- %d of %d sections." % (fully, len(SECTIONS)))

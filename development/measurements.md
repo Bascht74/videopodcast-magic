@@ -589,3 +589,54 @@ asked for, and nothing was listened to. They say the copy is as deep as
 the original and no deeper. They do not say what a listener would hear
 if it were not, and the float row says only what the room costs, not
 what the extra bits would have held.
+
+## The window that never came back: two players and one lock
+
+Since the Resolve tab really shows a cut, the window it opens holds
+three media players, and each of them decodes pictures in fifteen
+threads of its own. The gate test builds six such windows at once, and
+that is where it showed: **runs that never ended.** Not slow -- stopped,
+in a lock inside Qt, with the machine idle at 1 % of one core.
+
+Measured on 28.8.2026, every figure from the same test on the same
+machine, the whole test from start to report:
+
+| what stood in the program | runs that never ended |
+|---|---|
+| as it came out of the night | **2 of 4** |
+| the picture's window made before any player has a file | 1 of 8 |
+| ... and a player only stopped while it is running | 1 of 14 |
+
+The two places were read off the stopped process itself, not guessed.
+The first stood in `QWidget::createWinId` -- the window for the picture
+was being made at the moment the players were starting up. The second
+stood in `QMediaPlayer::pause`: one player stops the other when it
+starts, and told to stop while it is still starting up, the media
+player connects its own objects at that moment and waits for a lock
+another thread holds.
+
+Both are now avoided rather than survived: the picture's windows are
+made while nothing has a file, and the other player is asked -- on the
+Python side, because asking Qt is the thing that blocks -- whether it
+is running at all before it is told to stop.
+
+**What is left is not repaired.** One run in thirty still stopped, and
+the third stack would be a third place: this is six windows at once on
+a machine that has fourteen cores, and a build machine has fewer. So
+the test builds three at a time now, and whoever is watching sits
+outside the child: after 100 seconds without a word the parent kills
+it, builds that one case again on its own, and prints a line saying it
+did -- a repeat nobody sees is a green that was bought.
+
+**A watchdog inside the child was tried first and does not work.** Not
+a timer, which was expected -- the event loop is held. But not a thread
+either: where this stops, Qt holds the interpreter's lock while it
+waits, so no Python in that process runs at all. A thread whose whole
+task was to sleep 100 seconds and print one line never printed it. That
+is worth knowing beyond this test: in a window that has stopped, no
+part of the program can report it. Only something outside can.
+
+The previous version passed this test in three seconds. That is not
+health: its Resolve tab loaded nothing at all, so no player ever
+started, and there was nothing for the lock to be held by. The test got
+harder because the program got further.

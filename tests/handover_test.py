@@ -186,6 +186,116 @@ check("with the total appended",
 check("an empty total appends nothing",
         vpm.speech_heading(False, "").endswith("by voice"))
 
+print("\n12. The window's answer reaches the cut, and nobody loses "
+      "their speakers")
+# In the night of 26.8.2026 wide_marks_applied compared cameras by
+# their track. But a run writes the speakers joined together there --
+# "Moderator + Moderatorin" -- and that never matches a file name. So
+# every camera came back with nobody in front of it, every camera
+# counted as the wide shot, and 192 shots became 1: one single shot
+# over the whole episode. The comparison goes by the file now, and
+# these checks measure the effect and not the form -- the count of
+# shots is what would have caught it.
+
+
+def sections_every(first, apart, holds, how_many):
+    """Sections one after another, so the cut has something to do."""
+    return [[round(first + i * apart, 1),
+             round(first + i * apart + holds, 1)]
+            for i in range(how_many)]
+
+
+# Shaped the way a run writes it: the speakers joined into the track,
+# the rendered file under "file", the camera it was shot in under
+# "source". One camera with two speakers, one with one, one with none.
+RUN = {"length_s": 600.0, "start_s": 61200.0,
+       "speakers": [
+           {"name": "Moderator",
+            "sections": sections_every(2.0, 30.0, 11.0, 20)},
+           {"name": "Moderatorin",
+            "sections": sections_every(14.0, 30.0, 8.0, 20)},
+           {"name": "Gast",
+            "sections": sections_every(23.0, 30.0, 6.0, 20)}],
+       "cameras": [
+           {"track": "Moderator + Moderatorin",
+            "file": "/r/A001_video.mov", "source": "/cam/A001.MP4",
+            "camera": "A001", "speakers": ["Moderator", "Moderatorin"],
+            "wide_marked": False, "wide": False},
+           {"track": "Gast", "file": "/r/B002_video.mov",
+            "source": "/cam/B002.MP4", "camera": "B002",
+            "speakers": ["Gast"], "wide_marked": False, "wide": False},
+           {"track": "Totale", "file": "/r/C003_video.mov",
+            "source": "/cam/C003.MP4", "camera": "Totale",
+            "speakers": [], "wide_marked": False, "wide": True}]}
+# What the window holds: file names, the way the choice fields show them.
+ON = {"Moderator": "A001.MP4", "Moderatorin": "A001.MP4",
+      "Gast": "B002.MP4"}
+
+before = vpm.cut_statistics(RUN)
+fresh = vpm.wide_marks_applied(RUN, ["C003.MP4"], ON, False)
+who_at = {cam["track"]: cam["speakers"] for cam in fresh["cameras"]}
+check("the two on one camera keep their names",
+        who_at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"],
+        str(who_at))
+check("the single speaker keeps his", who_at["Gast"] == ["Gast"],
+        str(who_at))
+check("the camera nobody sits at stays empty",
+        who_at["Totale"] == [], str(who_at))
+check("only the free camera counts as the wide shot",
+        [cam["wide"] for cam in fresh["cameras"]] == [False, False, True],
+        str([cam["wide"] for cam in fresh["cameras"]]))
+
+after = vpm.cut_statistics(fresh)
+check("the number of shots survives the window's answer",
+        after["shots"] == before["shots"],
+        "%s -> %s" % (before["shots"], after["shots"]))
+check("and it stays a cut, not one shot over the whole episode",
+        after["shots"] > 1, str(after["shots"]))
+check("the wide shot is still the one nobody sits at",
+        after["wide"] == "Totale", str(after["wide"]))
+
+# A mark in the Kind field is an answer, not a derivation: it has to
+# reach the cut through "wide_marked". Marking a camera somebody sits
+# at is what tells the two apart -- the derivation would never pick it.
+marked = vpm.wide_marks_applied(RUN, ["A001.MP4"], ON, True)
+check("the marked camera carries wide_marked",
+        [cam.get("wide_marked") for cam in marked["cameras"]]
+        == [True, False, False],
+        str([cam.get("wide_marked") for cam in marked["cameras"]]))
+said = vpm.cut_statistics(marked)
+check("and the cut holds it for the wide shot",
+        said["wide_shots"] == ["Moderator + Moderatorin"],
+        str(said["wide_shots"]))
+check("so the mark beats the derivation",
+        said["wide"] != before["wide"],
+        "%s vs %s" % (said["wide"], before["wide"]))
+
+# The sheet may not be built yet. An empty assignment says nothing, not
+# "nobody" -- otherwise the file's own answer is wiped every time.
+for nothing, called in (({}, "{}"), (None, "None")):
+    kept = vpm.wide_marks_applied(RUN, ["C003.MP4"], nothing, False)
+    at = {cam["track"]: cam["speakers"] for cam in kept["cameras"]}
+    check("nothing answered yet (%s) -> the file's answer stands" % called,
+            at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
+            and at["Gast"] == ["Gast"] and at["Totale"] == [], str(at))
+    check("and the cut stays what it was (%s)" % called,
+            vpm.cut_statistics(kept)["shots"] == before["shots"],
+            "%s -> %s" % (before["shots"],
+                          vpm.cut_statistics(kept)["shots"]))
+
+# The preview builds its handover without a rendered file: there is only
+# "file", and it names the camera itself. That is the fallback.
+PREVIEW = dict(RUN, cameras=[
+    {"track": cam["track"], "file": "/cam/%s.MP4" % cam["camera"],
+     "speakers": cam["speakers"], "start_s": 61100.0,
+     "wide_marked": False, "wide": not cam["speakers"]}
+    for cam in RUN["cameras"]])
+seen = vpm.wide_marks_applied(PREVIEW, ["C003.MP4"], ON, False)
+at = {cam["track"]: cam["speakers"] for cam in seen["cameras"]}
+check("without a source the file answers",
+        at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
+        and at["Gast"] == ["Gast"], str(at))
+
 print("\n%s" % ("all good" if not error
                 else "FAIL: %s" % ", ".join(error)))
 sys.exit(1 if error else 0)

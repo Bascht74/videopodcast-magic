@@ -85,13 +85,22 @@ CAM_TYPED = "Moderatoren_08141855_C005.mov"
 CAM_GUESSED = "Kandidat_08141858_C009.mov"
 CAM_WIDE = "Totale_08141855_C003.mov"
 TYPED_NAME = "Moderator"
-# One clock for everything, cameras and recordings alike. The shared
-# fixture carries no timecode: it is measured, and a player only keeps
-# a track it can place beside the picture -- so a test reading the
-# player while the measurement is still running would see it drop the
-# very track it had just chosen. The clock is written into the material
-# here instead, which is what a real shoot delivers and what the
-# prepared tracks carry as a BWF marker anyway.
+# One clock for everything, cameras and recordings alike, and it is
+# written in here rather than taken as it comes. Since 28.8.2026 the
+# three shared cameras carry three different timecodes -- 18:55:00:00,
+# 18:55:04:00 and 18:55:17:12, which is what a real shoot delivers --
+# and the recordings beside them carry none at all. Neither suits this
+# test. A recording without a clock has to be measured, and a player
+# only keeps a track it can place beside the picture, so a test reading
+# the player while the measurement is still running would see it drop
+# the very track it had just chosen; and three cameras on three clocks
+# would put the one prepared mix beside only one of them. So the
+# cameras are stamped again on the way in, all three to the same value
+# -- measured 28.8.2026: "-c copy -timecode" writes over the tag on the
+# video stream and the timecode stream alike and leaves nothing of the
+# old value -- and the recordings are given the BWF marker the prepared
+# tracks carry anyway. What the distances between the fixture's own
+# three timecodes are for is asked elsewhere.
 CLOCK = 19 * 3600 + 4 * 60             # 19:04:00:00
 TAIL = "19-04-00-00"                   # the timecode in the file name
 WINDOW = (1400, 950)
@@ -659,8 +668,49 @@ def cut_look():
           "%s, wanted %s" % (off, CUT_OFFSET))
 
 
+def let_go_of(what):
+    """Make every player let go of what it has open there.
+
+    A player that has a file open holds it. Under macOS and Linux a held
+    file can still be moved, under Windows it cannot -- which is why the
+    two moves below were green on two systems and red on the third, with
+    nothing to show for it but a permission error out of shutil.move.
+    So nothing is moved here before the players have let go of it.
+
+    Measured with lsof on 28.8.2026: at the second move the process has
+    exactly one file of the folder open, the prepared overall mix, and
+    it is the cut player on the Resolve sheet that holds it -- the
+    preview player had gone over to the raw recording a step earlier and
+    let the mix go with it. Asked of every player in the window all the
+    same, and by what it has open rather than by which player it is, so
+    that a second holder does not go unnoticed. Returns what was let go.
+    """
+    what = os.path.realpath(what)
+    let_go = []
+    for x in win().findChildren(QtCore.QObject):
+        if not (hasattr(x, "setSource") and hasattr(x, "source")):
+            continue
+        where = x.source()
+        if not isinstance(where, QtCore.QUrl):
+            continue
+        where = where.toLocalFile()
+        if not where:
+            continue
+        held = os.path.realpath(where)
+        if held != what and not held.startswith(what + os.sep):
+            continue
+        if hasattr(x, "stop"):
+            x.stop()
+        x.setSource(QtCore.QUrl())
+        let_go.append(os.path.basename(where))
+    app.processEvents()
+    return sorted(let_go)
+
+
 def take_his_track_away():
     """Only his prepared track goes; the folder and the rest stay."""
+    print("  let go of %s"
+          % (", ".join(let_go_of(FINAL[TYPED_NAME])) or "nothing"))
     shutil.move(FINAL[TYPED_NAME], os.path.join(aside, "his.wav"))
 
 
@@ -683,6 +733,8 @@ def take_the_folder_away():
     below that, so moving it aside within any of them would still find
     it.
     """
+    print("  let go of %s"
+          % (", ".join(let_go_of(done_folder)) or "nothing"))
     shutil.move(done_folder, os.path.join(aside, "auphonic-tracks"))
 
 

@@ -63,6 +63,15 @@ VPM_CUT_GATE_DUMP=1 prints what the children said.
 """
 import os, sys, json, subprocess, tempfile
 
+# Three children at a time, not all six. Each builds a window holding
+# three players, and every player decodes pictures in fifteen threads
+# of its own; six of those at once is where the runs began to stop
+# altogether. And a child that has said nothing for this long has
+# stopped, not slowed: it needs three seconds here, and the slowest
+# build machine is nowhere near a hundred times slower.
+AT_ONCE = 3
+PATIENCE = 100
+
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
@@ -523,6 +532,13 @@ def look(case):
     # A window that never comes up must not hold the suite -- and must
     # not pass either: the report is empty then, and the parent says so.
     QtCore.QTimer.singleShot(240000, app.quit)
+
+    # No watchdog in here. Where this stops it stops inside Qt, and Qt
+    # holds the interpreter's lock while it waits -- so no thread of
+    # this process runs any more, a watching one no more than a timer.
+    # Measured 28.8.2026: a thread that only had to sleep 100 s and
+    # print never printed. Whoever watches this has to be outside it,
+    # and that is the parent below.
     vpm.gui()
     print("CUTGATE " + json.dumps(result))
 
@@ -552,27 +568,28 @@ if missing:
           % (material, ", ".join(missing)))
     raise SystemExit(0)
 
-started = []
-for case in CASES:
+def build(case):
+    """Start one child on one case."""
     env = dict(os.environ, VPM_CUT_GATE_CASE=case,
                QT_QPA_PLATFORM="offscreen", VPM_SILENT="1",
                VPM_NO_SPEAKER_SPLIT="1", VPM_NO_UPDATE_CHECK="1",
                LANG="C", LC_ALL="C", LANGUAGE="en")
-    started.append((case, subprocess.Popen(
+    return subprocess.Popen(
         [sys.executable, os.path.abspath(__file__)],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
-        env=env, cwd=HERE)))
+        env=env, cwd=HERE)
 
-report = {}
-for case, process in started:
+
+def listen(case, process):
+    """Wait for one child and read its last word."""
+    stopped = False
     try:
-        out, _ = process.communicate(timeout=900)
+        out, _ = process.communicate(timeout=PATIENCE)
     except subprocess.TimeoutExpired:
         process.kill()
         process.communicate()
-        out = "the window never came back"
+        out, stopped = "the window never came back", True
     said = [x for x in out.split("\n") if x.startswith("CUTGATE ")]
-    report[case] = json.loads(said[-1][8:]) if said else {}
     # The child does the building, so the child does the talking. Its
     # output is kept out of the way while it says nothing new -- but a
     # child that never reported is shown whole, or its traceback would
@@ -581,6 +598,26 @@ for case, process in started:
         for x in out.split("\n"):
             if x and not x.startswith("CUTGATE "):
                 print("  | %s" % x)
+    if said:
+        return json.loads(said[-1][8:])
+    return {"error": "stopped inside Qt"} if stopped else {}
+
+
+report = {}
+for first in range(0, len(CASES), AT_ONCE):
+    wave = [(c, build(c)) for c in CASES[first:first + AT_ONCE]]
+    for case, process in wave:
+        report[case] = listen(case, process)
+
+# Where Qt stopped rather than the program being wrong, once more on a
+# quiet machine -- and said out loud, because a repeat nobody sees is a
+# green that was bought. What is behind it is in
+# development/measurements.md: six windows at once, and a lock inside
+# Qt that one run in thirty still walks into.
+for case in CASES:
+    if "stopped inside Qt" in str((report.get(case) or {}).get("error")):
+        print("  | %s stopped inside Qt; once more, on its own" % case)
+        report[case] = listen(case, build(case))
 
 for case in CASES:
     d = report.get(case) or {}
