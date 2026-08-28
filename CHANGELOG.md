@@ -40,6 +40,18 @@ survives.
 
 ### Fixed
 
+- The window could stop for good, and then nothing in it answered any
+  more. It happened where a player was told to stop that had never
+  started: what lies behind such a player is built at that moment, and
+  building it waits for a lock that another player holds while it is
+  starting up. Six places did that without asking -- on a jump, on the
+  transport, on the picture that is not showing, and before a new file
+  was loaded. They ask first now, and a player that is not playing has
+  nothing to pause anyway. Found because two tests of this project
+  stopped in the same place, one of them with a single window open;
+  the suite went from three and a half minutes to twenty-six seconds
+  with it, so the same waiting had been slowing down everything that
+  opens a window.
 - The Resolve project put the cameras where the alignment measurement
   had them, not where the preview had shown them. Two of three cameras
   stood 37 s and 78 s away from the cut that had just been approved --

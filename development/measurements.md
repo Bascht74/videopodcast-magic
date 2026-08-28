@@ -620,6 +620,16 @@ made while nothing has a file, and the other player is asked -- on the
 Python side, because asking Qt is the thing that blocks -- whether it
 is running at all before it is told to stop.
 
+**And it is not the six windows.** The same stack turned up in
+`run_bar_test`, which opens **one** window and starts a dry run --
+stopped for good in `QMediaPlayer::pause`, 15 minutes into a limit of
+15. That moved the finding: the load only makes it likelier, and what
+it is about is pausing a player that has not started. Every place that
+paused without asking now asks first, six of them: on a jump, on the
+transport, on the surface that is not showing, and before a new file
+is loaded. A player that is not playing has nothing to pause, so
+nothing is lost by asking.
+
 **What is left is not repaired.** One run in thirty still stopped, and
 the third stack would be a third place: this is six windows at once on
 a machine that has fourteen cores, and a build machine has fewer. So
