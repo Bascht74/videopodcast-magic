@@ -23,6 +23,12 @@ survives.
   began, and on the built material the window even began 0.180 s before
   its own zero. Whoever wants the wider stretch sets an In point of
   their own, which is untouched by this.
+- The line beside the progress bar is shortened in the middle where it
+  is too wide for its field, and carries the whole of itself as a
+  tooltip. It holds a file name, so how wide it turns out is decided by
+  the material: with a camera file of 29 characters the German stood
+  20 px past its field while the English of the same moment fitted. A
+  shorter wording would only have held until the next longer name.
 - No In point or Out point while an intro, an outro or a file marked
   not to be used is in the player. The four buttons are greyed out and
   say why: such a file is set in front of the material or after it, not

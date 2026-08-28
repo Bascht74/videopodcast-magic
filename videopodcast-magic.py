@@ -24922,6 +24922,30 @@ def not_on_the_axis(path, kinds, remembered):
              'point belong to what lies between.') % os.path.basename(path)
 
 
+def fitted(Qt, label, text):
+    """Put text into a label, shortened in the middle where it is too wide.
+
+    The line beside the progress bar carries a file name, so how wide it
+    turns out is decided by the material and not by the wording. Measured
+    29.8.2026: with a camera file of 29 characters, while its envelope
+    was being worked out, the German of this line stood 20 px past its
+    field where the English of the same moment fitted -- and a shorter
+    wording would only hold until the next longer file name.
+
+    Shortened in the middle, because both ends carry meaning: the name
+    at the front and how many are still running at the back. The whole
+    line stays readable as a tooltip.
+    """
+    room = max(0, label.width() - 4)
+    metrics = label.fontMetrics()
+    if not room or metrics.horizontalAdvance(text) <= room:
+        label.setToolTip("")
+        label.setText(text)
+        return
+    label.setToolTip(text)
+    label.setText(metrics.elidedText(text, Qt.ElideMiddle, room))
+
+
 def question_dialog(f, window, QtWidgets, label):
     """Ask the window's user what to do while a worker thread waits.
 
@@ -29647,7 +29671,7 @@ def gui():
             total_state["full_since"] = 0.0
             plan.creep(0.2)
             total_bar.setValue(int(round(1000 * plan.total())))
-            total_line.setText(plan.line())
+            fitted(Qt, total_line, plan.line())
             total_bar.show()
             total_line.show()
             return
