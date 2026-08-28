@@ -9,6 +9,34 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Changed
+
+- The window a run works out for itself is the stretch **every** camera
+  saw, not the one any of them saw. It begins where the last camera
+  came on and ends where the first one stopped, and the log names both
+  of them. Wider than that, there is a stretch at the start where a cut
+  to the camera that came on late finds no picture, and the episode
+  comes out shorter than the window promised -- measured over the test
+  interview: the beginning lay 12.567 s before one of three cameras
+  began, and on the built material the window even began 0.180 s before
+  its own zero. Whoever wants the wider stretch sets an In point of
+  their own, which is untouched by this.
+- The line saying how much sound was cut off at the back says what it
+  was cut back to. Two lines stand close together there, both saying
+  "back", and their numbers were sixteen minutes apart: the first is
+  the sound that has no picture, the second everything past the Out
+  point. Both were right, and both were read as the same thing.
+
+### Tests
+
+- The window a run works out had no test at all: the whole suite stayed
+  green while the meaning of that window turned round, because nothing
+  asked. The arithmetic stands on its own now and is held against
+  numbers -- three cameras that do not begin together, one camera
+  alone, cameras that do begin together, and two that never overlap.
+
 ## [2.11.1-beta] - 2026-08-28
 
 ### Added

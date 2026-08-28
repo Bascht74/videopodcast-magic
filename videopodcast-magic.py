@@ -8686,14 +8686,15 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 'is not worth it.'))
         return 1
 
-    # Window: whatever any camera saw, limited to what there is audio for.
+    # Window: what every camera saw, limited to what there is audio for.
     # Anything outside would be uploaded silence.
     camera_areas = []
     for v, info in videos:
         if v not in position:
             continue
         a, b, _ = position[v]
-        camera_areas.append(((0.0 - a) / b, (info["duration"] - a) / b))
+        camera_areas.append(((0.0 - a) / b, (info["duration"] - a) / b,
+                             os.path.basename(v)))
     audio_areas = []
     for track in tracks:
         n = sample_count(track["source"]) / float(SR)
@@ -8702,8 +8703,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     # The window comes from the cameras alone: what has no picture needs no
     # audio. Where audio is missing it is padded with silence -- a silent
     # stretch beats a shifted one.
-    t0 = min(x for x, _ in camera_areas)
-    t1 = max(y for _, y in camera_areas)
+    t0, late, t1, early = common_window(camera_areas)
     for track, (b0, b1) in zip(tracks, audio_areas):
         missing_front, missing_back = max(0.0, b0 - t0), max(0.0, t1 - b1)
         # Report only what is really missing inside the chosen window: a camera
@@ -8717,6 +8717,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         return 1
     print(T('  Common window:       %s to %s (%s)')
           % (as_hms(t0), as_hms(t1), as_hms(t1 - t0)))
+    # Name the two cameras that decide it. Without this the window is a
+    # number nobody can check, and the question "why is my episode
+    # shorter than the material" has no answer in the log.
+    print(T('    it begins with %s and ends with %s -- the stretch every '
+            'camera saw')
+          % (late, early))
     # Remember the measured window: already processed tracks come from a run
     # without In point and Out point and are therefore exactly that long.
     full0, full1 = t0, t1
@@ -20339,7 +20345,14 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             if window_foot is not None:
                 k1 = min(k1, int(round((window_foot + a_raw) * SR)))
             head_s, tail_s = max(0, k0), max(0, n_audio_here - k1)
-            print(T('  Audio trimmed:   front %s, back %s')
+            # Which "back" this is, said in the line itself: two lines
+            # stand close together here, both saying "back", and their
+            # numbers are sixteen minutes apart. The one above is the
+            # sound that has no picture, this one is everything past the
+            # Out point. Both were right and both were read as the same
+            # thing -- 26.8.2026, on a run over the test interview.
+            print(T('  Audio trimmed:   front %s, back %s'
+                    ' -- to the time window')
                   % (as_hms(head_s / float(SR)), as_hms(tail_s / float(SR))))
         outdir = os.path.abspath(args.out) if args.out else os.path.dirname(v)
         os.makedirs(outdir, exist_ok=True)
@@ -24856,6 +24869,31 @@ def pause_if_running(QtMultimedia, *players):
             # A player already taken down answers nothing, and the
             # window is going anyway.
             pass
+
+
+def common_window(camera_areas):
+    """The stretch every camera saw, and the two that decide it.
+
+    *camera_areas* is (from, to, name) per camera, in reference camera
+    time. Returns (t0, begins_with, t1, ends_with).
+
+    Every camera, not any camera. A window wider than a camera reaches
+    has a stretch where a cut to that camera finds no picture, and the
+    episode then comes out shorter than the window said it would.
+    Measured on 26.8.2026 over the test interview: the beginning lay
+    12.567 s before one of three cameras began, and on the fixture the
+    window even began at -0.180 s -- before its own zero. Whoever wants
+    that stretch anyway sets an In point of their own; what is derived
+    is a window every camera can fill. Decided by Sebastian on
+    29.8.2026.
+
+    Sitting out here rather than inside the run because it is
+    arithmetic and nothing else, and arithmetic can be held against
+    numbers without building a window and an hour of sound first.
+    """
+    t0, begins_with = max((x, name) for x, _y, name in camera_areas)
+    t1, ends_with = min((y, name) for _x, y, name in camera_areas)
+    return t0, begins_with, t1, ends_with
 
 
 def question_dialog(f, window, QtWidgets, label):
@@ -32199,12 +32237,15 @@ CATALOGUE["de"] = {
         '  Ausrichtung fehlgeschlagen: %s\n',
     '  Audio track %d:   %s':
         '  Tonspur %d:       %s',
-    '  Audio trimmed:   front %s, back %s':
-        '  Ton beschnitten: vorne %s, hinten %s',
+    '  Audio trimmed:   front %s, back %s -- to the time window':
+        '  Ton beschnitten: vorne %s, hinten %s -- auf das Zeitfenster',
     '  Camera atoms:    %s added -- %s':
         '  Kameraatome:     %s nachgetragen -- %s',
     '  Clock drift:     %+.2f ppm (+/- %.2f), residual spread %.1f ms':
         '  Uhrengang:       %+.2f ppm (+/- %.2f), Reststreuung %.1f ms',
+    '    it begins with %s and ends with %s -- the stretch every camera saw':
+        '    beginnt mit %s und endet mit %s -- der Abschnitt, den jede '
+        'Kamera gesehen hat',
     '  Common window:       %s to %s (%s)':
         '  Gemeinsames Fenster: %s bis %s (%s)',
     '  Created:     %s':
