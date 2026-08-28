@@ -150,6 +150,12 @@ def step():
     waited[0] = 0
     was[0] = None
     i = n[0]; n[0] += 1
+    # Which step it was on, said before the step runs and flushed at
+    # once. A test killed by an access violation in a Qt thread leaves
+    # no Python frame behind -- three runs on Windows with Python 3.10
+    # said "<no Python frame>" and nothing else, 29.8.2026 -- so the
+    # last line that got out is all there is to place it by.
+    print("   step %d" % i, flush=True)
     try:
         if i == 0:
             win().show(); win().resize(1300, 800); app.processEvents()
