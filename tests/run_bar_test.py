@@ -108,9 +108,19 @@ def look():
         watch["values"].append(b.value())
     elif watch["was_up"]:
         watch["gone"] = True
+    # The tooltip counts as much as the text. A line too wide for its
+    # field is shortened in the middle and keeps the whole of itself as
+    # a tooltip, so on a narrow window the name of the stage is there
+    # but no longer in text(). Measured 29.8.2026: this went red on
+    # both Windows builders and nowhere else, because only there was
+    # the field too narrow for the name.
+    stages = [vpm.T(x) for x in STAGES]
     for lb in win().findChildren(QtWidgets.QLabel):
-        if lb.isVisible() and lb.text() in [vpm.T(x) for x in STAGES]:
-            watch["captions"].add(lb.text())
+        if not lb.isVisible():
+            continue
+        for said in (lb.text(), lb.toolTip()):
+            if said in stages:
+                watch["captions"].add(said)
 
 n = [0]
 waited = [0]
