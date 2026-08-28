@@ -570,8 +570,17 @@ jobs:
           # The floor the program names for itself: NEEDS_PYTHON is
           # (3, 10), and it says so in a line it prints before
           # anything else. Somebody who has a Python at all mostly
-          # has the one that came with the machine.
+          # has the one that came with the machine -- and that machine
+          # is as often a Windows or a Mac as it is a Linux, so the
+          # floor is walked on all three. This job fetches one file and
+          # installs nothing, so the two extra runs cost about a minute
+          # each. On Windows and macOS '3.10' comes out as 3.10.11, the
+          # last one CPython released as a binary.
           - os: ubuntu-latest
+            python: '3.10'
+          - os: windows-latest
+            python: '3.10'
+          - os: macos-latest
             python: '3.10'
     env:
       TAG: ${{ inputs.tag || github.event.release.tag_name

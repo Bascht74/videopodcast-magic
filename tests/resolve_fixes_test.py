@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Seven defects a review of the Resolve part turned up.
+"""Defects of the Resolve part, each with the check that would have caught it.
+
+Blocks 1 to 5 come from a review; blocks 6 to 8 from the night of
+26 August 2026, when eight faults went in at once and rode through the
+whole suite. Two of them were one sentence: the offset of a camera is
+its timecode minus the zero point, and it holds for every camera, not
+only for the reference -- there the wrong number and the right one are
+the same number.
 
 Each block says what went wrong before, because that is what the check
 is guarding. What needs a running Resolve is not here: those three are
@@ -203,6 +210,228 @@ check("an unmeasured camera is named", "Guest" in said, repr(said[:70]))
 check("the handover frame is a real one",
       (written["width"], written["height"]) in ((1920, 1080), (1080, 1920)),
       "%sx%s" % (written["width"], written["height"]))
+
+
+print("\n6. Where a camera sits comes from its timecode, not from the sound")
+# The night of 26 August: the offset was written from the alignment
+# measurement instead of from the file's own timecode. On the reference
+# camera the two agree to the millisecond, so it read right -- the other
+# two were 37.34 s and 77.51 s out, and the sound ran against the wrong
+# picture. What the handover file promises is one sentence:
+#
+#     "Position in the file is programme time minus offset."
+#
+# So for every camera, and not for the reference alone:
+#
+#     file_timecode(camera["file"]) - d["start_s"] == camera["offset"]
+import struct
+
+
+def stamped(path, seconds):
+    """Write a file that carries *seconds* as its own start time.
+
+    A bext chunk, which is where file_timecode looks first -- so this
+    costs no ffprobe and no camera.
+    """
+    body = (b"\0" * 338 + struct.pack("<Q", int(round(seconds * vpm.SR)))
+            + b"\0" * 8)
+    with open(path, "wb") as f:
+        f.write(b"RIFF" + struct.pack("<I", 4 + 8 + len(body)) + b"WAVE")
+        f.write(b"bext" + struct.pack("<I", len(body)) + body)
+    return path
+
+
+ZERO = 68100.0                                   # 18:55:00:00, the wide shot
+# Per camera: its timecode, and what the alignment measured. The
+# reference agrees to the millisecond; the other two carry exactly the
+# two errors of that night.
+NIGHT = [("Wide", 68100.0, 0.0),
+         ("Hosts", 68104.0, 4.0 - 37.34),
+         ("Guest", 68117.4, 17.4 - 77.51)]
+
+night = os.path.join(WORK, "night")
+os.makedirs(night)
+n_cameras, n_videos, n_results, n_offsets = [], [], [], {}
+for name, tc, measured in NIGHT:
+    src = os.path.join(WORK, name + "_source.mov")
+    open(src, "w").write("x")
+    rendered = stamped(os.path.join(WORK, name + ".wav"), tc)
+    n_cameras.append({"name": name, "video": src})
+    n_videos.append((src, {"fps": 30.0, "width": 1920, "height": 1080,
+                           "duration": 300.0,
+                           "tc": vpm.timecode_string(tc, 30.0)}))
+    n_results.append(rendered)
+    n_offsets[os.path.abspath(rendered)] = measured
+
+_out, said = spoken(vpm.write_handover, Args(), [], n_cameras, n_videos,
+                    night, ZERO, (n_cameras[0]["video"], n_videos[0][1]),
+                    n_results, None, None, 300.0, None, None, n_offsets)
+written = json.load(io.open(os.path.join(night, "Test_resolve.json"),
+                            encoding="utf-8"))
+check("the zero point is written down as it was passed",
+      written["start_s"] == ZERO, str(written["start_s"]))
+a_frame = 1.0 / max(1.0, float(written["fps_measured"]))
+for cam in written["cameras"]:
+    stamp = vpm.file_timecode(cam["file"])
+    check("%s: timecode minus zero point is the offset" % cam["camera"],
+          stamp is not None
+          and abs((stamp - written["start_s"]) - cam["offset"]) <= a_frame,
+          "%s - %s != %s" % (stamp, written["start_s"], cam["offset"]))
+# Why one camera is not enough: on the reference the wrong number and
+# the right one are the same number.
+wrong = [cam["camera"] for cam in written["cameras"]
+         if abs(cam["offset"] - cam["sound_against_picture"]) > a_frame]
+check("the reference alone would have shown nothing",
+      wrong == ["Hosts", "Guest"], str(wrong))
+check("the measurement is kept, under its own name",
+      [cam["sound_against_picture"] for cam in written["cameras"]]
+      == [0.0, -33.34, -60.11],
+      str([cam["sound_against_picture"] for cam in written["cameras"]]))
+check("no camera was left unmeasured", "offset" not in said.lower(),
+      said.strip()[:60])
+
+# camera_place is the one place that answers this, so it is asked
+# directly too -- including the fallback, which is what a file without a
+# timecode is allowed to do.
+check("a stamped file: the timecode, not the measurement",
+      vpm.camera_place(n_results[1], ZERO, -33.34, 30.0) == 4.0,
+      str(vpm.camera_place(n_results[1], ZERO, -33.34, 30.0)))
+plain = os.path.join(WORK, "no_timecode.wav")
+open(plain, "w").write("x")
+check("a file without a timecode keeps the measurement",
+      vpm.camera_place(plain, ZERO, -7.25, 30.0) == -7.25)
+check("no zero point, so the measurement again",
+      vpm.camera_place(n_results[1], None, -7.25, 30.0) == -7.25)
+check("no file at all, likewise",
+      vpm.camera_place("", ZERO, -7.25, 30.0) == -7.25)
+
+# The frames of a timecode are frames, so the rate decides what they are
+# worth. Read through ffprobe, because that is where a camera's timecode
+# track comes from.
+real_probe = vpm.ffprobe_json
+vpm.ffprobe_json = lambda path: {
+    "format": {"tags": {"timecode": "18:55:00:12"}}, "streams": []}
+try:
+    at30 = vpm.camera_place("/nowhere/Cam.mov", ZERO, -99.0, 30.0)
+    at25 = vpm.camera_place("/nowhere/Cam.mov", ZERO, -99.0, 25.0)
+finally:
+    vpm.ffprobe_json = real_probe
+check("12 frames at 30 fps are 0.400 s", abs(at30 - 0.4) < 1e-6, str(at30))
+check("the same 12 frames at 25 fps are 0.480 s", abs(at25 - 0.48) < 1e-6,
+      str(at25))
+
+
+print("\n7. The preview and the Resolve build read the same number")
+# Both take the offset out of this one file: the player through
+# camera_offset, the Resolve build by putting cam["offset"] straight into
+# recordFrame. In the night they came apart by those same 37.34 s -- and
+# only away from the reference camera, where nobody looks first.
+for_player, said = spoken(vpm.camera_offset, written["cameras"],
+                          written["start_s"], written["fps_measured"])
+for_resolve = dict((cam["track"], cam["offset"])
+                   for cam in written["cameras"])
+check("both know the same tracks",
+      sorted(for_player) == sorted(for_resolve),
+      "%s / %s" % (sorted(for_player), sorted(for_resolve)))
+for track in sorted(for_resolve):
+    check("%s: player and Resolve agree" % track,
+          abs(for_player[track] - for_resolve[track]) <= a_frame,
+          "%.4f against %.4f" % (for_player[track], for_resolve[track]))
+check("and there was nothing to put right", not said.strip(),
+      said.strip()[:70])
+
+# A file that does carry the night's numbers -- an old handover, or one
+# edited by hand. The timecode keeps the precedence, and both numbers go
+# into the log rather than one of them being dropped in silence.
+poisoned = [dict(cam, offset=cam["sound_against_picture"])
+            for cam in written["cameras"]]
+after, said = spoken(vpm.camera_offset, poisoned, written["start_s"],
+                     written["fps_measured"])
+check("the timecode wins over a stored measurement",
+      all(abs(after[t] - for_resolve[t]) <= a_frame for t in for_resolve),
+      str(after))
+check("and both numbers are said out loud",
+      "+4.000" in said and "-33.340" in said, repr(said[:90]))
+
+
+print("\n8. A handover without a window builds the cut list again")
+# In the night the button returned at once and left the cut of the last
+# run standing: 81 shots where the turned setting gives 47. What tripped
+# it was a test that held the In point against start_s -- but start_s is
+# the zero of the axis, the earliest camera, and it is earlier than any
+# In point anybody sets, so every window was refused. A handover without
+# a window is the normal case: every run without --in-point writes one.
+speaker_a, speaker_b, at = [], [], 0.0
+while at < 300.0:
+    speaker_a.append([round(at, 3), round(at + 5.0, 3)])
+    speaker_b.append([round(at + 5.0, 3), round(at + 10.0, 3)])
+    at += 10.0
+STALE = [{"start": 0.0, "end": 300.0, "camera": "Wide"}]
+cut_folder = os.path.join(WORK, "cut")
+os.makedirs(cut_folder)
+for who in ("Wide", "A", "B"):
+    open(os.path.join(cut_folder, who + ".mov"), "w").write("x")
+
+
+def a_handover(window=None):
+    """A handover file as a run writes it -- by default without a window."""
+    cams = []
+    for who, speaks in (("Wide", []), ("A", ["A"]), ("B", ["B"])):
+        path = os.path.join(cut_folder, who + ".mov")
+        cams.append({"camera": who, "source": path, "file": path,
+                     "track": who, "speakers": speaks, "offset": 0.0})
+    return {"production": "Test", "start_s": ZERO, "fps": 30,
+            "fps_measured": 30.0, "start_tc": "18:55:00:00",
+            "length_s": 300.0,
+            "in_point": (window or (None, None))[0],
+            "out_point": (window or (None, None))[1],
+            "speakers": [{"name": "A", "sections": speaker_a},
+                         {"name": "B", "sections": speaker_b}],
+            "cameras": cams, "cut": list(STALE)}
+
+
+def refreshed(call, window=None):
+    """Put the settings in the project file and press the button."""
+    with open(os.path.join(cut_folder, "videopodcast-magic_Test.json"),
+              "w", encoding="utf-8") as f:
+        json.dump({"production": "Test", "call": call}, f)
+    d = a_handover(window)
+    path = os.path.join(cut_folder, "Test_resolve.json")
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(d, f)
+    kept, sys.argv[1:] = sys.argv[1:], []
+    try:
+        reason, _said = spoken(vpm.refresh_cut_list, d, path)
+    finally:
+        sys.argv[1:] = kept
+    return reason, d.get("cut") or []
+
+
+short, short_cut = refreshed(["--min-edit-duration", "3"])
+check("without a window it does not refuse", short is None, str(short))
+check("and the cut of the last run is gone", short_cut != STALE,
+      str(short_cut[:2]))
+long_r, long_cut = refreshed(["--min-edit-duration", "12"])
+check("the turned setting does not refuse either", long_r is None,
+      str(long_r))
+check("and it really builds again: another number of shots",
+      len(long_cut) != len(short_cut),
+      "%d and %d" % (len(long_cut), len(short_cut)))
+# The In point of the interface against a handover that has none: this
+# is the pair that was refused.
+with_in, in_cut = refreshed(["--in-point", "18:55:30:00",
+                             "--min-edit-duration", "12"])
+check("an In point beside a handover without one does not refuse",
+      with_in is None, str(with_in))
+check("and gives the same cut as without it", in_cut == long_cut,
+      "%d against %d" % (len(in_cut), len(long_cut)))
+# And what may still be refused, so that the repair did not take the
+# guard with it: the window really did move since the files were made.
+moved, _c = refreshed(["--in-point", "19:00:00:00",
+                       "--min-edit-duration", "12"],
+                      window=("18:55:30:00", "18:59:00:00"))
+check("a window that really moved is still refused", bool(moved),
+      str(moved))
 
 print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
 sys.exit(1 if bad else 0)

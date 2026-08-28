@@ -29,8 +29,22 @@ mkdir -p "$FIX"
 export VPM_FIXTURES="$FIX"
 
 MARK=.built
-have() { [ -f "$1/$MARK" ] && [ "$force" != force ]; }
-done_with() { touch "$1/$MARK"; }
+# The marker may also carry a word for the recipe that wrote the folder.
+# Without one, a folder built by an older version of this script is there,
+# looks finished, and is taken for current for ever: the day the cameras
+# below were given a timecode, every machine that had already built the
+# fixture went on using material without one, and the tests that ask
+# about the timecode would have gone red for want of a rebuild rather
+# than for want of a program. A block that hands a word to have and
+# done_with rebuilds its folder as soon as that word changes; a block
+# that hands none keeps the old behaviour, marker there is enough, so
+# the folders that did not change are not rebuilt either.
+have() {
+  [ -f "$1/$MARK" ] || return 1
+  [ "$force" != force ] || return 1
+  [ -z "$2" ] || [ "$(cat "$1/$MARK" 2> /dev/null)" = "$2" ]
+}
+done_with() { printf '%s' "$2" > "$1/$MARK"; }
 FF="ffmpeg -v error"
 
 # ---- "$FIX/foreign": everything that is not a camera file ----
@@ -111,24 +125,62 @@ fi
 # a project file pointing at them. Tests that want a whole job used to be
 # skipped for want of material, and a skipped test says nothing while
 # looking harmless. Set VPM_MEDIA to point at real material instead.
-if have "$FIX/interview"; then
+#
+# The cameras carry a timecode, and it is the point of this folder as
+# much as the pictures are. A job has three clocks -- the time of the
+# programme, the time inside each file, and the window somebody asks
+# for -- and the only bridge between them is the timecode a camera
+# writes beside its pictures. Until 28.8.2026 not one file here had
+# one, so no test could look at that bridge at all, and an error of 37
+# and of 77 seconds walked through the whole suite unseen.
+#
+# Three different values with three different distances, because "all
+# the same" and "correctly converted" look alike when every distance is
+# zero, and two equal distances hide which of the two was taken:
+#
+#   Totale_08141855_C003.mov       18:55:00:00   68100.00 s
+#   Moderatoren_08141855_C005.mov  18:55:04:00   68104.00 s   +4.00 s
+#   Kandidat_08141858_C009.mov     18:55:17:12   68117.48 s  +17.48 s
+#
+# The wide shot rolls first, which is what a wide shot does. The last
+# one holds 12 frames, so one distance is not a whole number of
+# seconds and a conversion that throws the frames away is off by
+# 0.48 s rather than by nothing at all.
+#
+# The pictures are 25 frames a second, so a frame is 0.04 s and the
+# twelve are 0.48 s. Measured on ffmpeg 9.0.1: file_timecode reads the
+# string off the video stream tag, not off the format tag -- a MOV
+# keeps it there -- and its own default is 30 frames a second, under
+# which the same string comes out as 68117.43. That gap is not a fault
+# of the material; it is the thing the material now lets a test see.
+#
+# The distances are seconds and not the minutes the file names suggest,
+# because the files are two minutes long and three cameras that do not
+# overlap are not a job. And the pictures themselves are the same
+# testsrc in all three, so the measured offset between them stays zero
+# while the timecodes say otherwise: an axis over this folder is
+# absolute and lands on the middle timecode. What can be checked here
+# is the conversion for one file, not the alignment of three.
+INTERVIEW_BUILD=timecode-1
+if have "$FIX/interview" "$INTERVIEW_BUILD"; then
   echo "  "$FIX/interview"    already there"
 else
   rm -rf "$FIX/interview" && mkdir -p "$FIX/interview"/Ergebnis
   cd "$FIX/interview"
   mic() { $FF -f lavfi -i "sine=frequency=$2:duration=$3" -ac 1 -ar 48000 \
             -c:a pcm_s16le "$1" -y; }
+  # cam <file> <seconds> <sine Hz> <timecode>
   cam() { $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=$2" \
             -f lavfi -i "sine=frequency=$3:duration=$2" \
             -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
-            -shortest "$1" -y; }
+            -timecode "$4" -shortest "$1" -y; }
   mic Kandidat_0008A_Timecode.wav 220 120
   for i in 00009 00010 00011; do mic "Moderator_REC$i.wav" 330 40; done
   for i in 00008 00009 00010; do mic "Moderatorin_REC$i.wav" 440 40; done
-  cam Kandidat_08141858_C009.mov    120 220
-  cam Moderatoren_08141855_C005.mov 120 330
-  cam Totale_08141855_C003.mov      120 550
-  done_with "$FIX/interview"
+  cam Kandidat_08141858_C009.mov    120 220 18:55:17:12
+  cam Moderatoren_08141855_C005.mov 120 330 18:55:04:00
+  cam Totale_08141855_C003.mov      120 550 18:55:00:00
+  done_with "$FIX/interview" "$INTERVIEW_BUILD"
   echo "  "$FIX/interview"    built"
 fi
 # Opening a project moves the project file into the output folder, so

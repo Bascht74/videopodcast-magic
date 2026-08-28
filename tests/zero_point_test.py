@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, inspect, importlib.util
+import copy, sys, inspect, importlib.util
 # A test must never play sound at somebody working next to it. The
 # program reads the variable with bool(), so every value silences the
 # player, "0" as well; only an unset variable lets it be heard.
@@ -105,6 +105,157 @@ n, complaint = vpm.apply_time_window(dict(D), "+0:00:00", "+0:00:03")
 check("under five seconds too", bool(complaint), complaint)
 n, complaint = vpm.apply_time_window(dict(D), "", "")
 check("no window, no complaint", not complaint, complaint)
+
+print("\n10. A window shifts nothing against anything else")
+# The sentence that broke in the night of 26.8.2026: take a section
+# start t and a camera; the spot in that camera's file is
+# t - offset(camera). A window cuts something off the front and off the
+# back, but it must not move the two against each other -- that spot
+# has to come out the same before and after. Back then one conversion
+# applied the window to the speech a second time and not to the
+# cameras, and picture and sound ran 215.600 s apart.
+INSIDE = {"start_s": AUDIO0, "length_s": 3600.0, "fps": 30.0,
+          "speakers": [{"name": "A", "sections": [[700.0, 760.0],
+                                                    [1500.0, 1560.0]]},
+                       {"name": "B", "sections": [[2400.0, 2460.0]]}],
+          "words": [[705.0, 705.4, "so"], [2405.0, 2405.6, "then"]],
+          "cameras": [
+              {"track": "Wide", "start_s": 61100.0, "file": "W.mov"},
+              {"track": "Guest", "start_s": 61500.0, "file": "G.mov"}]}
+# The other shape a camera comes in: a measured offset instead of a
+# wall clock start. The window has to leave both standing the same way,
+# and the two shapes describe the same setting, so they must agree.
+INSIDE_OFF = copy.deepcopy(INSIDE)
+INSIDE_OFF["cameras"] = [
+    {"track": "Wide", "offset": -100.0, "file": "W.mov"},
+    {"track": "Guest", "offset": 300.0, "file": "G.mov"}]
+SHAPES = (("wall clock start", INSIDE), ("measured offset", INSIDE_OFF))
+# Both windows name the same piece: 17:10:00 is ten minutes into the
+# material, 17:55:00 is five minutes before its end.
+WINDOWS = (("relative", "+0:10:00", "-0:05:00"),
+           ("absolute", "17:10:00:00", "17:55:00:00"))
+
+
+def spots(h):
+    """Where every section and word sits inside each camera file."""
+    off = camera_offset(h.get("cameras") or [], h.get("start_s"))
+    out = {}
+    for sp in (h.get("speakers") or []):
+        for i, seg in enumerate(sp.get("sections") or []):
+            for track in sorted(off):
+                out["%s#%d in %s" % (sp.get("name"), i, track)] = \
+                    seg[0] - off[track]
+    for i, w in enumerate(h.get("words") or []):
+        for track in sorted(off):
+            out["word%d in %s" % (i, track)] = w[0] - off[track]
+    return out
+
+
+def same_spots(name, before, after):
+    """Compare two spot tables and say how far the worst one wandered."""
+    lost = [k for k in before if k not in after]
+    moved = dict((k, after[k] - before[k]) for k in before
+                 if k in after and abs(after[k] - before[k]) > 0.001)
+    worst = max(moved.values(), key=abs) if moved else 0.0
+    check(name, not lost and not moved,
+          "%d lost, %d moved, worst %+.3f s" % (len(lost), len(moved), worst))
+
+
+check("both camera shapes describe the same setting",
+        camera_offset(INSIDE["cameras"], AUDIO0) ==
+        camera_offset(INSIDE_OFF["cameras"], AUDIO0),
+        str(camera_offset(INSIDE_OFF["cameras"], AUDIO0)))
+for shape, source in SHAPES:
+    before = spots(source)
+    for kind, in_p, out_p in WINDOWS:
+        n, complaint = vpm.apply_time_window(copy.deepcopy(source),
+                                             in_p, out_p)
+        check("%s, %s: no complaint" % (shape, kind), not complaint,
+                complaint)
+        kept = [len(s["sections"]) for s in n["speakers"]]
+        check("%s, %s: no section fell out of the window"
+                % (shape, kind), kept == [2, 1], str(kept))
+        check("%s, %s: no word fell out either" % (shape, kind),
+                len(n.get("words") or []) == 2,
+                str(len(n.get("words") or [])))
+        same_spots("%s, %s: the spot in the file is unchanged"
+                   % (shape, kind), before, spots(n))
+
+print("\n11. The window does not act a second time")
+# Applied twice, the second pass must find nothing left to do: In point
+# already sits at the zero point, so from there it is a window of
+# nothing. A number that moves here is a shift that would happen once
+# more on every further pass.
+for shape, source in SHAPES:
+    once, _complaint = vpm.apply_time_window(copy.deepcopy(source),
+                                             "17:10:00:00", "17:55:00:00")
+    again, complaint = vpm.apply_time_window(copy.deepcopy(once),
+                                             "17:10:00:00", "17:55:00:00")
+    check("%s: no complaint on the second pass" % shape, not complaint,
+            complaint)
+    check("%s: the zero point stays put" % shape,
+            abs(float(again["start_s"]) - float(once["start_s"])) < 0.001,
+            "%s -> %s" % (once["start_s"], again["start_s"]))
+    check("%s: the length stays" % shape,
+            abs(again["length_s"] - once["length_s"]) < 0.001,
+            "%.3f -> %.3f" % (once["length_s"], again["length_s"]))
+    check("%s: the sections stay" % shape,
+            [s["sections"] for s in again["speakers"]] ==
+            [s["sections"] for s in once["speakers"]],
+            str([s["sections"] for s in again["speakers"]]))
+    check("%s: the camera offsets stay" % shape,
+            camera_offset(again["cameras"], again["start_s"]) ==
+            camera_offset(once["cameras"], once["start_s"]),
+            str(camera_offset(again["cameras"], again["start_s"])))
+    same_spots("%s: and the spot in the file stays" % shape,
+               spots(once), spots(again))
+# The quiet way a window comes to act twice: the handover handed in is
+# changed under the caller's hands, and whoever holds it next works on
+# something already trimmed without knowing.
+for shape, source in SHAPES:
+    handed = copy.deepcopy(source)
+    vpm.apply_time_window(handed, "+0:10:00", "-0:05:00")
+    check("%s: the handover handed in is left alone" % shape,
+            handed == source, "changed" if handed != source else "")
+
+print("\n12. Relative In and Out points give a length that makes sense")
+# In the night this pair came out as 18 hours once and as zero the
+# other time; both went on unnoticed.
+n, complaint = vpm.apply_time_window(copy.deepcopy(INSIDE),
+                                     "+0:10:00", "-0:05:00")
+check("no complaint", not complaint, complaint)
+check("2700 s -- ten minutes off the front, five off the back",
+        abs(n["length_s"] - 2700.0) < 0.001, "%.3f" % n["length_s"])
+check("neither zero nor longer than the material",
+        0.0 < n["length_s"] <= 3600.0, "%.3f" % n["length_s"])
+check("the zero point moved by the head only",
+        abs(n["start_s"] - 61800.0) < 0.001, str(n["start_s"]))
+absolute, _complaint = vpm.apply_time_window(copy.deepcopy(INSIDE),
+                                             "17:10:00:00", "17:55:00:00")
+check("and it says the same as the absolute window", n == absolute)
+n, complaint = vpm.apply_time_window(copy.deepcopy(INSIDE), "", "-0:05:00")
+check("Out point alone: 3300 s", abs(n["length_s"] - 3300.0) < 0.001,
+        "%.3f" % n["length_s"])
+check("Out point alone leaves the zero point where it was",
+        abs(n["start_s"] - AUDIO0) < 0.001, str(n["start_s"]))
+n, complaint = vpm.apply_time_window(copy.deepcopy(INSIDE), "+0:10:00", "")
+check("In point alone: 3000 s", abs(n["length_s"] - 3000.0) < 0.001,
+        "%.3f" % n["length_s"])
+n, complaint = vpm.apply_time_window(copy.deepcopy(INSIDE), "+60", "+120")
+check("bare seconds are seconds: a minute",
+        abs(n["length_s"] - 60.0) < 0.001, "%.3f" % n["length_s"])
+
+print("\n13. No window is a case of its own")
+for shape, source in SHAPES:
+    for text in ("", None, "   "):
+        n, complaint = vpm.apply_time_window(copy.deepcopy(source),
+                                             text, text)
+        check("%s, %r: no complaint" % (shape, text), not complaint,
+                complaint)
+        check("%s, %r: nothing changed" % (shape, text), n == source,
+                "changed" if n != source else "")
+        same_spots("%s, %r: the spot in the file stays" % (shape, text),
+                   spots(source), spots(n))
 
 print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
 sys.exit(1 if error else 0)

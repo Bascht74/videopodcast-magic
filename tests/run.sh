@@ -17,6 +17,11 @@ fi
 export VPM_PYTHON="$PY"
 export PY
 echo "Python: $("$PY" -V 2>&1)"
+# And which file was measured. VPM_SCRIPT sends a run against a snapshot
+# in /tmp, which is how the suite runs while the working file is being
+# written on. Unsaid, the two runs look exactly alike in the log, and a
+# result gets read against the wrong file. Said, it costs one line.
+echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast-magic.py}"
 # Without ffmpeg most of the suite goes red, and none of those reds say
 # anything about the program: they say the machine has no ffmpeg. One
 # sentence beats thirty-eight of them. static-ffmpeg is named because it
@@ -47,9 +52,23 @@ done
 # neither is there the tests run unguarded, and that is said out loud
 # rather than passed over: a hung test would otherwise stop the suite
 # with nothing to show for it.
+#
+# And the name is not asked, the program is. On Windows the name finds
+# C:\Windows\System32\timeout.exe, which is a different program: it
+# waits for a number of seconds, it does not put a limit on anything.
+# The suite would then run every test through a pause. The CI names the
+# same trap for find(1); this is the same trap one door along. So each
+# candidate is made to do the thing itself -- run "true" under a limit --
+# and only the one that comes back happy is used.
 LIMIT=""
 for candidate in timeout gtimeout; do
-  if command -v "$candidate" > /dev/null 2>&1; then LIMIT="$candidate 900"; break; fi
+  command -v "$candidate" > /dev/null 2>&1 || continue
+  if "$candidate" 5 true > /dev/null 2>&1 < /dev/null; then
+    LIMIT="$candidate 900"; break
+  fi
+  echo "$candidate is on the search path, but it does not limit a run to"
+  echo "  a number of seconds -- on Windows that is the system's own"
+  echo "  timeout.exe, which only waits. Looking for another one."
 done
 if [ -z "$LIMIT" ]; then
   echo "No timeout(1) and no gtimeout -- the tests run without a time limit."
@@ -107,21 +126,58 @@ fi
 # named. Without this they skip, and a skipped test looks harmless.
 export VPM_MEDIA="${VPM_MEDIA:-$VPM_FIXTURES/interview}"
 
+# How many tests may leave themselves out. A ratchet, like the counts in
+# style_test.py: it may fall, it may not rise. Checked at the bottom,
+# where it decides the return code along with the red ones.
+#
+# Measured, twice, because the two machines do not agree:
+#
+#   1 is what the CI reported -- all four jobs of run 32875834901 on
+#     25 Aug 2026, on every system and both Python versions, every one
+#     of them speakers_for_real. That figure is read off the workflow,
+#     not measured here.
+#   0 is what this suite reported on the machine it was written on, on
+#     28 Aug 2026: speakers_for_real ran through. Measured by running
+#     the eight tests that can leave themselves out at all.
+#
+# The difference is one folder and not a defect: that test wants the
+# separation environment, 218 MB, which a test must not fetch. Where
+# somebody set it up the test runs, everywhere else it stands aside. So
+# the barrier is the figure that holds on both, and it comes down to 0
+# the day every machine reports 0 -- not on the strength of one.
+#
+# A machine that cannot run a test for good reason takes it out of the
+# folder, the way the CI does; it does not let it skip.
+SKIPS_ALLOWED=1
+
 # Every test builds its own material with tempfile.mkdtemp and most of them
 # never clean up. Python puts those folders under TMPDIR, so one folder per
 # run collects the lot and goes at the end -- a full suite is gigabytes.
 # KEEP_TEMP=1 leaves it in place for looking at afterwards.
 RUN_TEMP=$(mktemp -d "${TMPDIR:-/tmp}/vpm_run_XXXXXX")
+# One line per test, written by the worker and read back by the summary.
+# Made here rather than further down, because from here on the trap knows
+# it: a Ctrl-C used to leave /tmp/suite_XXXXXX behind for good, and a
+# machine that runs the suite twenty times a day collects twenty of them.
+OUT=$(mktemp -d "${TMPDIR:-/tmp}/suite_XXXXXX")
 export TMPDIR="$RUN_TEMP"
 clean_up() {
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
     echo "cache of this run kept in $RUN_TEMP_CACHE"
+    echo "what each test reported kept in $OUT"
   else
-    rm -rf "$RUN_TEMP" "$RUN_TEMP_CACHE"
+    rm -rf "$RUN_TEMP" "$RUN_TEMP_CACHE" "$OUT"
   fi
 }
 trap clean_up EXIT
+# And a Ctrl-C is an exit too. Without this the suite dies where it
+# stands and clean_up never runs: gigabytes of test material, a cache
+# and the report folder stay behind, and a machine that starts the suite
+# and stops it twenty times a day collects twenty of each. Exiting rather
+# than cleaning up in here keeps it to one place -- the exit runs the
+# trap above. 130 is the number a shell gives for "stopped by Ctrl-C".
+trap 'exit 130' INT TERM
 # Every *_test.py in this folder, so a new test is picked up by being
 # there. Sorted, so the order does not depend on the file system.
 TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
@@ -130,21 +186,78 @@ if [ -z "$TESTS" ]; then
   exit 2
 fi
 
-OUT=$(mktemp -d /tmp/suite_XXXXXX)
 run_one() {
   t="$1"
   out=$($LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
-  if [ $rc -eq 0 ] && echo "$out" | grep -q "^SKIPPED:"; then
+  # A failure beats a skip, always. Both can be in one run: a test leaves
+  # out the part this machine cannot do, goes on with the part it can and
+  # falls over that. Asking after the skip first made such a test read
+  # "skipped" -- the failure was not shown at all and did not count. That
+  # is the same lie as calling it green, one room further along. So the
+  # failure is asked after first, and where both are true both are said.
+  if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
+    { echo "RED (rc=$rc)"
+      # 124 is what the time limit returns when it kills a test, 137 when
+      # a polite TERM was not enough and it had to go further. On its own
+      # that number says nothing, and working out what it means once cost
+      # ten minutes. It is one line.
+      if [ -n "$LIMIT" ] && { [ $rc -eq 124 ] || [ $rc -eq 137 ]; }; then
+        echo "      killed by the ${LIMIT##* } s time limit -- it never finished"
+      fi
+      # What the report shows, best first. A test sums itself up in its
+      # last line, "FAIL: a, b" hard against the left margin -- that one
+      # goes first, or twenty failed checks push it out of the way. Then
+      # the checks themselves, "  check name   FAIL extra", and the first
+      # and last line of a traceback. Then a real error message, the kind
+      # with a colon after it. Only then a bare "Error" from the middle of
+      # ffmpeg's chatter.
+      #
+      # It used to be one grep for "^Traceback|FAIL|Error" and the first
+      # four lines of that. On Windows the first four were four harmless
+      # ffmpeg lines that happened to carry the word "Error", and the FAIL
+      # line below them was cut off: a red test that did not say what it
+      # was red about. The rank now decides, not the position in the log.
+      #
+      # Each rank leaves out what a rank above it already took, so no line
+      # is printed twice and within a rank the log keeps its own order.
+      # grep alone does it: this went wrong on a Windows machine, and a
+      # Git-Bash there is a thinner set of tools than a Mac's.
+      sums="^FAIL"
+      says="FAIL|^Traceback|^[A-Za-z_.]*(Error|Exception|Interrupt)(:|\$)"
+      real="[Ee]rror:"
+      lines=$( { echo "$out" | grep -E "$sums"
+                 echo "$out" | grep -E "$says" | grep -vE "$sums"
+                 echo "$out" | grep -E "$real" | grep -vE "$says"
+                 echo "$out" | grep -E "[Ee]rror" | grep -vE "$says|$real"
+               } | grep -v "^[[:space:]]*\$" )
+      # A test can be red and never say FAIL: killed by the time limit,
+      # or exiting non-zero after a sentence of its own. Then the end of
+      # its output is all there is, and printing nothing would leave the
+      # reader with a bare return code.
+      [ -z "$lines" ] && lines=$(echo "$out" | grep -v "^[[:space:]]*\$" | tail -6)
+      [ -z "$lines" ] && lines="(the test printed nothing)"
+      # Twelve, not four. A red test prints one line per failed check and
+      # one summing them up, and four leaves no room beside a traceback.
+      echo "$lines" | head -12 | sed 's/^/      /'
+      rest=$(( $(echo "$lines" | wc -l) - 12 ))
+      if [ "$rest" -gt 0 ]; then
+        echo "      ($rest more such lines -- run this test on its own)"
+      fi
+      # Red and skipped at once. Said out loud, or the reader wonders
+      # why the count of skips further down does not add up, and the
+      # part that was left out stays invisible behind the part that fell.
+      if echo "$out" | grep -q "^SKIPPED:"; then
+        echo "$out" | grep "^SKIPPED:" | head -1 \
+          | sed 's/^SKIPPED: /      and it also left something out: /'
+      fi
+    } > "$OUT/$t"
+  elif echo "$out" | grep -q "^SKIPPED:"; then
     # Nothing was checked. Green would be a lie.
     { echo "skipped"
       echo "$out" | grep "^SKIPPED:" | head -1 | sed 's/^SKIPPED: /      /'
     } > "$OUT/$t"
-  elif [ $rc -eq 0 ] && ! echo "$out" | grep -qE "^Traceback|FAIL"; then
-    echo "ok" > "$OUT/$t"
   else
-    { echo "RED (rc=$rc)"
-      echo "$out" | grep -E "^Traceback|FAIL|Error" | head -4 | sed 's/^/      /'
-    } > "$OUT/$t"
+    echo "ok" > "$OUT/$t"
   fi
 }
 export -f run_one
@@ -153,24 +266,41 @@ export OUT HERE LIMIT
 echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$' \
   | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
 
-good=0; bad=0; past=0; names=""
+good=0; bad=0; past=0; names=""; left_out=""
 for t in $TESTS; do
   first=$(head -1 "$OUT/$t")
   case "$first" in
     ok)      good=$((good+1)); printf "  %-24s ok\n" "$t" ;;
-    skipped) past=$((past+1)); printf "  %-24s skipped\n" "$t"
+    skipped) past=$((past+1)); left_out="$left_out $t"
+             printf "  %-24s skipped\n" "$t"
              tail -n +2 "$OUT/$t" ;;
     *)       bad=$((bad+1)); names="$names $t"
              printf "  %-24s %s\n" "$t" "$first"
              tail -n +2 "$OUT/$t" ;;
   esac
 done
-rm -rf "$OUT"
 echo "----"
 if [ $past -gt 0 ]; then
   echo "green: $good   skipped: $past   red: $bad  $names"
 else
   echo "green: $good   red: $bad  $names"
+fi
+# The barrier on what may be left out, and it is a ratchet like the counts
+# in style_test.py: it may fall, it may not rise. A skipped test checked
+# nothing, and nothing that a suite does not check can turn it red -- so
+# without this line a machine where every test skips returns 0 and the CI
+# goes green having proved nothing at all.
+#
+# Written for reading from outside as well: the CI reads this line, it
+# does not count for itself. One place holds the number, and it is here.
+if [ $past -gt "$SKIPS_ALLOWED" ]; then
+  echo "skips: $past of at most $SKIPS_ALLOWED allowed -- risen, so the suite"\
+       "checked less than it did when the number was measured: $left_out"
+elif [ $past -lt "$SKIPS_ALLOWED" ]; then
+  echo "skips: $past of at most $SKIPS_ALLOWED allowed -- fewer here; the"\
+       "number comes down when every machine reports $past"
+else
+  echo "skips: $past of at most $SKIPS_ALLOWED allowed"
 fi
 # A note to whoever started this and is now watching it: a full run takes
 # five minutes, and watching it is five minutes of nothing. Start it in
@@ -178,4 +308,8 @@ fi
 # review, the next defect. Only the file under test must stay untouched
 # while it runs; a snapshot in /tmp makes even that free.
 echo "(started in the background? then do the next thing while it runs.)"
-exit $([ $bad -eq 0 ] && echo 0 || echo 1)
+# Red if anything failed, and red if more was left out than the barrier
+# allows. The second one is a failure too: it means this run proved less
+# than the last one did.
+if [ $bad -eq 0 ] && [ $past -le "$SKIPS_ALLOWED" ]; then exit 0; fi
+exit 1
