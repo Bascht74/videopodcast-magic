@@ -9,7 +9,7 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.12.0-beta] - 2026-08-29
 
 ### Changed
 
@@ -23,6 +23,13 @@ survives.
   began, and on the built material the window even began 0.180 s before
   its own zero. Whoever wants the wider stretch sets an In point of
   their own, which is untouched by this.
+- No In point or Out point while an intro, an outro or a file marked
+  not to be used is in the player. The four buttons are greyed out and
+  say why: such a file is set in front of the material or after it, not
+  cut into it, so no point inside one is a boundary of the episode.
+  Marking there put the window somewhere that had nothing to do with
+  the interview -- an 18-second jingle in the player, and above it a
+  window from 17:14 to 18:23.
 - The line saying how much sound was cut off at the back says what it
   was cut back to. Two lines stand close together there, both saying
   "back", and their numbers were sixteen minutes apart: the first is
@@ -1822,6 +1829,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.12.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.11.1-beta...v2.12.0-beta
 [2.11.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.11.0-beta...v2.11.1-beta
 [2.11.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.1-beta...v2.11.0-beta
 [2.10.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.0-beta...v2.10.1-beta

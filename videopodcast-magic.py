@@ -573,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.11.1-beta"
+VERSION = "2.12.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -24896,6 +24896,30 @@ def common_window(camera_areas):
     return t0, begins_with, t1, ends_with
 
 
+def not_on_the_axis(path, kinds, remembered):
+    """Why the file in the player carries no window boundary, or "".
+
+    A boundary is a point on the axis of the episode. An intro is not
+    on that axis: it is set in front, not cut in. A point marked inside
+    one would put the window of the episode somewhere that has nothing
+    to do with the interview -- Sebastian, 26.8.2026, with a picture of
+    an 18-second jingle in the player while the window above it said
+    17:14 to 18:23.
+
+    Content and the wide shot stay usable. Everything else -- intro,
+    outro, and a file marked not to be used -- is not on the axis.
+    """
+    held = (kinds or {}).get(path)
+    kind = (held.get() if held is not None
+            else (remembered or {}).get("kind:" + (path or ""))
+            or TYPE_CONTENT)
+    if not path or kind in CAMERA_TYPES:
+        return ""
+    return T('%s is not on the axis of the episode: it is set in front of '
+             'the material or after it, not cut into it. In point and Out '
+             'point belong to what lies between.') % os.path.basename(path)
+
+
 def question_dialog(f, window, QtWidgets, label):
     """Ask the window's user what to do while a worker thread waits.
 
@@ -26328,17 +26352,16 @@ def gui():
         window_label.show()
 
     def window_enable():
-        on = window_ready()
+        away = not_on_the_axis(getattr(player, "file_path", None),
+                               clip_kind_values, remembered)
+        on = window_ready() and not away
         for widget in window_switch:
             widget.setEnabled(on)
-        if on:
-            window_hint.setText("")
-            window_hint.hide()
-        else:
-            window_hint.setText(
-                T('In point and Out point are available once the time axis is '
-                  'set -- from the timecode or measured.'))
-            window_hint.show()
+        # Greyed out without a reason beside it looks like a fault.
+        window_hint.setText(away or ("" if on else T(
+            'In point and Out point are available once the time axis is '
+            'set -- from the timecode or measured.')))
+        window_hint.setVisible(not on)
 
     def window_length():
         """Return the length of the window, empty if none is set."""
@@ -27358,6 +27381,7 @@ def gui():
         """
         remembered["player_file"] = file_path
         player.load(file_path, seconds, running=False)
+        window_enable()   # what is in it decides whether a boundary can be set
 
     def player_spot_wanted(file_path):
         """Return where the player should start in this file.
@@ -32494,6 +32518,12 @@ CATALOGUE["de"] = {
         '%s im Mikrofon von %s: %.1f dB leiser als im eigenen.',
     '%s is in %s -- the file is now in the player.':
         '%s liegt in %s -- die Datei ist jetzt im Player.',
+    '%s is not on the axis of the episode: it is set in front of the '
+    'material or after it, not cut into it. In point and Out point belong '
+    'to what lies between.':
+        '%s liegt nicht auf der Zeitachse der Folge: es wird davor oder '
+        'dahinter gesetzt, nicht hineingeschnitten. In-Punkt und Out-Punkt '
+        'gehören zu dem, was dazwischen liegt.',
     '%s is in none of the video files. Is there a timecode that fits the '
     'material?':
         '%s liegt in keiner Videodatei. Steht dort ein Timecode, der zum '
