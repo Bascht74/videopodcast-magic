@@ -118,6 +118,27 @@ if any(v is None for v in stamp.values()):
     sys.exit(0)
 
 ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
+
+
+def stamp_of(cam):
+    """A camera's timecode, asked of the same row the run asks.
+
+    The rendered file first and the source behind it. Not every ffmpeg
+    carries a timecode track through a render -- Windows with ffmpeg 9
+    does not -- so there the rendered file has none and only the source
+    answers. A test that asks the rendered file alone measures the
+    ffmpeg it happens to run on rather than the program: it went red on
+    Windows while the place written in the handover was right.
+    """
+    for path in (cam.get("file"), cam.get("source")):
+        if not path:
+            continue
+        got = stamp.get(path)
+        if got is None:
+            got = vpm.file_timecode(path, FPS)
+        if got is not None:
+            return got
+    return None
 ZERO_TC = vpm.timecode_string(ZERO, FPS)
 LENGTH = 60.0
 KEEP = []
@@ -334,7 +355,7 @@ class Run(object):
         cam = self.by_camera.get(camera)
         if cam is None or offset is None:
             return None
-        tc = stamp.get(cam.get("file") or cam.get("source"))
+        tc = stamp_of(cam)
         if tc is None:
             return None
         return tc + (t - offset)
@@ -390,9 +411,16 @@ def agree(tag, heading, ways):
     for n, v in sorted(have, key=lambda x: x[1]):
         near = [k for k in groups if abs(k - v) <= FRAME * 1.001]
         groups.setdefault(near[0] if near else v, []).append((n, v))
+    # The line that fails carries its own evidence. The lines under it
+    # say the same and more, but a build machine's log keeps only the
+    # ones that say FAIL -- and a failure whose numbers stayed behind on
+    # a machine nobody here can run is a failure nobody can read.
+    # Measured 28.8.2026 on Windows: three runs went by before this.
     check("%s: %d ways, all on one frame" % (tag, len(have)), ok,
-          "" if ok else "%.3f s apart, %d different answers"
-          % (high - low, len(groups)))
+          "" if ok else "%.3f s apart, %d different answers: %s"
+          % (high - low, len(groups),
+             " | ".join("%s = %.3f" % (n, v)
+                        for n, v in sorted(have, key=lambda x: x[1]))))
     for key in sorted(groups):
         names = groups[key]
         print("      %s  (%s)"
@@ -433,7 +461,7 @@ def walk_every_way(r):
              None if x is None else float(x["recordFrame"]) / r.fps_r),
             ("Resolve startFrame in the file",
              None if x is None else
-             (stamp.get(r.by_camera[camera]["file"]) or 0.0)
+             (stamp_of(r.by_camera[camera]) or 0.0)
              + float(x["startFrame"]) / r.fps_r),
         ]
         agree("%s: the shot on %s at %.3f s" % (r.name, camera, t),
@@ -471,7 +499,7 @@ def walk_every_way(r):
 
     print("\n  THE BRIDGE BETWEEN THE AXES")
     for c in d["cameras"]:
-        got = stamp.get(c["file"])
+        got = stamp_of(c)
         check("  %s: timecode - start_s == offset" % c["camera"],
               got is not None
               and abs((got - r.start_s) - float(c["offset"])) <= r.frame,
