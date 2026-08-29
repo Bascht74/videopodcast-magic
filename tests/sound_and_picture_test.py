@@ -43,8 +43,18 @@ the jump prints inside itself, unless the cut it is holding does not
 reach that far. While the window rebuilds its preview the player is
 handed an empty cut, and a jump landing in that gap is answered with
 silence. Every jump here therefore asks again until a line comes out,
-and the last two steps make the gap on purpose and then wait it out --
-without them the waiting would be a story rather than a measurement.
+and two steps make that gap on purpose and then wait it out -- without
+them the waiting would be a story rather than a measurement.
+
+And the numbers do not travel in the log. The window's media backend
+writes to the error output while it opens a file, both go into one
+pipe, and a fragment of it that ends without a newline takes the line
+behind it along. The line is then printed, correct, and unreadable,
+and whoever reads the log believes the player said nothing. That cost
+three build machines a red run over a line that was there. So the
+child reads its own lines as it prints them and leaves the numbers in
+a file; the log is for people. One step writes such a fragment on
+purpose, and the checks on it are what hold that arrangement in place.
 
 Where this check stops: the timecode of a file is the ground it
 stands on, so a timecode read wrongly in the first place would move
@@ -109,20 +119,21 @@ SAID = re.compile(
     r"\(offset\s+(-?[0-9.]+)\)\s*$")
 MARK = "SOUNDPICTURE-STEP "
 REPORT = "SOUNDPICTURE "
+OUT = "VPM_SOUND_PICTURE_OUT"
+# What a media backend says when it opens a file, and the thing that
+# matters about it: no newline at the end. It goes to the error output,
+# which shares one pipe with the log, so it takes the line printed next
+# along with it. One step below writes this on purpose.
+NOISE = b"[mov,mp4 @ 0x7f] Could not open media. FFmpeg error: "
 
 
-def lines_of(text):
-    """Every player line of one section, as numbers."""
-    out = []
-    for row in text.split("\n"):
-        got = SAID.match(row)
-        if got:
-            out.append({"t": float(got.group(1)), "who": got.group(2),
-                        "picture": float(got.group(3)),
-                        "picture_offset": float(got.group(4)),
-                        "sound": float(got.group(5)),
-                        "sound_offset": float(got.group(6))})
-    return out
+def numbers_of(got):
+    """The six numbers of one player line."""
+    return {"t": float(got.group(1)), "who": got.group(2),
+            "picture": float(got.group(3)),
+            "picture_offset": float(got.group(4)),
+            "sound": float(got.group(5)),
+            "sound_offset": float(got.group(6))}
 
 
 # --------------------------------------------------------------- material
@@ -298,17 +309,24 @@ def look(case):
                 return w
         return None
 
-    heard = {"lines": 0}
+    seen = {"now": None, "lines": {}, "total": 0}
 
     class Tee(object):
-        """Pass everything on, and count the player's lines going past.
+        """Pass everything on, and keep the player's lines going past.
 
-        The player prints inside the jump, so whether a line came out
-        is a thing this process can see for itself the moment it asked
-        for one. Without that the only way to go on would be to wait a
-        length of time and hope -- which is what turned this test red
-        on a slower machine while nothing at all was wrong with the
-        program.
+        The player prints inside the jump, so this process can read its
+        own answer the moment it asked for one -- both whether a line
+        came at all, which is what the waiting hangs on, and the six
+        numbers in it, which are the measurement.
+
+        Kept here rather than read back out of the log because the log
+        is not a channel a measurement can travel through: the media
+        backend writes to the error output at the same time, the two
+        arrive in one pipe, and a fragment of its chatter that ends
+        without a newline takes the next line with it. Reproduced with
+        four lines of Python. The line is then printed, correct, and
+        unreadable -- and the reader is left thinking the player said
+        nothing.
         """
 
         def __init__(self, stream):
@@ -319,8 +337,14 @@ def look(case):
             self.rest += text
             while "\n" in self.rest:
                 row, self.rest = self.rest.split("\n", 1)
-                if SAID.match(row):
-                    heard["lines"] += 1
+                got = SAID.match(row)
+                if not got:
+                    continue
+                # Counted whether or not a step is running, so that the
+                # log can be held against it afterwards.
+                seen["total"] += 1
+                if seen["now"]:
+                    seen["lines"][seen["now"]].append(numbers_of(got))
             return len(text)
 
         def flush(self):
@@ -335,9 +359,19 @@ def look(case):
     sys.stdout = Tee(sys.stdout)
 
     def step(name):
-        """Say which step the lines below belong to."""
+        """Begin a step: the lines from here on belong to it.
+
+        The mark goes into the log as well, so a person reading the log
+        can still see where they are. Nothing reads it back.
+        """
+        seen["now"] = name
+        seen["lines"][name] = []
         print(MARK + name)
         sys.stdout.flush()
+
+    def said_in(name):
+        """The player lines of that step, as this process saw them."""
+        return seen["lines"].get(name) or []
 
     result = {"case": case, "measured": measured, "start_s": CUT_START,
               "window_in": WINDOW_IN if case == "window" else 0.0}
@@ -391,7 +425,7 @@ def look(case):
         """
         return p is not None and any(a <= t < b for a, b, _w in p.cut)
 
-    def go_to(tag, t):
+    def go_to(tag, t, noise=False):
         """One step: jump to that moment and see a line come out of it.
 
         Waits for the state that makes a line rather than for a length
@@ -401,14 +435,25 @@ def look(case):
         "the window was in the middle of something".
         """
         tries = [0]
+        # Every shape the player's cut took while this step waited. One
+        # of them means it stood still; several mean the window was
+        # working and only needed longer. That is the difference
+        # between "wait longer" and "it is never coming", and it has to
+        # be in the line that reports the failure.
+        shapes = []
 
         def once():
             p = cut_ready()
+            shape = [[a, b, w] for a, b, w in (p.cut if p else [])]
+            if not shapes or shapes[-1] != shape:
+                shapes.append(shape)
             if covers(p, t):
-                was = heard["lines"]
                 step(tag)
+                if noise:
+                    os.write(2, NOISE)
                 p.jump(t)
-                if heard["lines"] > was:
+                sys.stdout.flush()
+                if said_in(tag):
                     result.setdefault("tries", {})[tag] = tries[0]
                     return
             if tries[0] < TRIES:
@@ -416,7 +461,8 @@ def look(case):
                 return "again"
             result.setdefault("silent", []).append(
                 {"step": tag, "covered": covers(p, t),
-                 "cut": [[a, b, w] for a, b, w in (p.cut if p else [])]})
+                 "waited_ms": tries[0] * 200, "cuts_seen": len(shapes),
+                 "moved": len(shapes) > 1, "last_cut": shapes[-1][:6]})
         return once
 
     plan = []
@@ -474,6 +520,13 @@ def look(case):
         b = result["cut"][result["edge"]][1]
         for t in (round(b - 0.25, 3), round(b + 0.25, 3)):
             plan.append(go_to("edge %.3f" % t, t))
+        if case == "plain":
+            # The same jump again, with the backend chattering into the
+            # log at the moment the player prints. This is the state
+            # that called a green run red on three build machines, and
+            # it has to pass now: the numbers no longer travel that way.
+            plan.append(go_to("chatter %.3f" % result["spots"][0],
+                              result["spots"][0], noise=True))
         plan.extend(after_the_edge)
 
     def play_over_the_edge():
@@ -487,7 +540,8 @@ def look(case):
                 state["ready"] += 1
                 return "again"
             result.setdefault("silent", []).append(
-                {"step": "playing over", "covered": False})
+                {"step": "playing over", "covered": False,
+                 "waited_ms": state["ready"] * 200})
             return
         step("playing over %.3f" % b)
         p.jump(start)
@@ -601,9 +655,30 @@ def look(case):
 
     done = [False]
 
+    def hand_over(why=""):
+        """Write the report where the parent will read it.
+
+        Into a file, and not down the log. The log is shared with
+        whatever the media backend has to say, and a measurement does
+        not travel through a channel somebody else is writing in.
+        Written whole and then moved into place, so a half-written file
+        is never read as a report.
+        """
+        where = os.environ.get(OUT)
+        if not where:
+            return
+        result["steps"] = seen["lines"]
+        result["printed"] = seen["total"]
+        if why:
+            result["error"] = why
+        with open(where + ".part", "w", encoding="utf-8") as f:
+            json.dump(result, f)
+        os.replace(where + ".part", where)
+
     def stop_now():
         done[0] = True
-        print(REPORT + json.dumps(result))
+        hand_over()
+        print(REPORT + "report written")
         sys.stdout.flush()
         app.quit()
 
@@ -633,7 +708,7 @@ def look(case):
     QtCore.QTimer.singleShot(200000, app.quit)
     vpm.gui()
     if not done[0]:
-        print(REPORT + json.dumps(dict(result, error="never got there")))
+        hand_over("the window never got as far as the steps")
 
 
 if os.environ.get("VPM_SOUND_PICTURE_CASE"):
@@ -662,12 +737,16 @@ if missing:
     raise SystemExit(0)
 
 
+posted = tempfile.mkdtemp(prefix="vpm_soundpicture_said_")
+
+
 def build(case):
-    """Start one child on one case."""
+    """Start one child on one case, and say where to put its report."""
     env = dict(os.environ, VPM_SOUND_PICTURE_CASE=case,
                QT_QPA_PLATFORM="offscreen", VPM_SILENT="1",
                VPM_NO_SPEAKER_SPLIT="1", VPM_NO_UPDATE_CHECK="1",
                VPM_PLAYER_LOG="1", LANG="C", LC_ALL="C", LANGUAGE="en")
+    env[OUT] = os.path.join(posted, "%s.json" % case)
     return subprocess.Popen(
         [sys.executable, os.path.abspath(__file__)],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT, text=True,
@@ -675,31 +754,39 @@ def build(case):
 
 
 def listen(case, process):
-    """Wait for one child, and take the report and the steps apart."""
+    """Wait for one child and read the report it left behind.
+
+    Off the disc and not out of the log. The child's log carries the
+    media backend's chatter as well -- the two share one pipe -- and a
+    fragment of it that ends without a newline takes the line behind it
+    with it. That line is then printed and correct and unreadable, and
+    the reader is left believing the player said nothing. Which is what
+    happened: three build machines called a green run red over a line
+    that was there.
+    """
     try:
         out, _ = process.communicate(timeout=PATIENCE)
     except subprocess.TimeoutExpired:
         process.kill()
         process.communicate()
         out = ""
-    said = [x for x in out.split("\n") if x.startswith(REPORT)]
-    if DUMP or not said:
+    where = os.path.join(posted, "%s.json" % case)
+    left = os.path.exists(where)
+    # The log is for reading, and it is shown whole where there is
+    # nothing else to go on.
+    if DUMP or not left:
         for x in out.split("\n"):
-            if x and not x.startswith(REPORT):
+            if x:
                 print("  | %s" % x)
-    if not said:
-        return {"error": "the window never came back"}, {}
-    report = json.loads(said[-1][len(REPORT):])
-    steps, name = {}, None
-    for row in out.split("\n"):
-        if row.startswith(MARK):
-            name = row[len(MARK):].strip()
-            steps[name] = []
-            continue
-        got = SAID.match(row)
-        if got and name:
-            steps[name] = steps[name] + lines_of(row)
-    return report, steps
+    if not left:
+        return {"error": "the child left no report"}, {}
+    with open(where, encoding="utf-8") as f:
+        d = json.load(f)
+    # How many of the player's lines are still readable in the log,
+    # against how many the child printed. The difference is what the
+    # error output ate, and it is what this test used to be reading.
+    d["in_the_log"] = sum(1 for r in out.split("\n") if SAID.match(r))
+    return d, d.get("steps") or {}
 
 
 report = {}
@@ -881,6 +968,26 @@ for case in CASES:
     check("  a jump into an empty cut prints nothing, which is the gap",
           "an empty cut" in steps and not steps["an empty cut"],
           "%d line(s)" % len(steps.get("an empty cut") or []))
+
+    # ---- and the reason the numbers do not travel in the log any more
+    # One step wrote what a media backend writes while it opens a file:
+    # a fragment on the error output with no newline at the end. Both
+    # go into one pipe, so it swallows the line the player prints next.
+    # The step still has to arrive with its numbers, and the log has to
+    # be short of at least that one line -- which is the proof that the
+    # hazard is real and that this test no longer walks into it.
+    noisy = sorted(k for k in steps if k.startswith("chatter"))
+    asked = float(noisy[0].split()[1]) if noisy else None
+    check("  a line printed while the backend chatters still arrives",
+          bool(noisy) and any(abs(x["t"] - asked) <= frame
+                              for x in steps[noisy[0]]),
+          "lines at %s" % (json.dumps([x["t"] for x in steps[noisy[0]]])
+                           if noisy else "-"))
+    lost = (d.get("printed") or 0) - (d.get("in_the_log") or 0)
+    check("  and the log is short of it, which is why it is not read",
+          lost >= 1,
+          "the child printed %s, the log still carries %s"
+          % (d.get("printed"), d.get("in_the_log")))
     # And the other half: asked for a moment the player does not hold
     # yet, the step waits for the cut to come back and gets its line.
     # A step written against a length of time fails this one.
