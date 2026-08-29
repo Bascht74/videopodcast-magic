@@ -9,6 +9,17 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Added
+
+- Where the wide shot is set to hold less time than the shortest shot
+  allows, the preview says so. Both are free fields and nothing stopped
+  them contradicting each other; set that way, every wide shot put into
+  a long monologue is merged away again, so nothing wrong reaches the
+  timeline but the wide shot somebody asked for is simply not there.
+  Now it is said before, instead of repaired after.
+
 ## [2.13.0-beta] - 2026-08-30
 
 ### Added

@@ -25137,6 +25137,31 @@ def break_off_arm(button):
     button.setVisible(True)
 
 
+def wide_too_short(number):
+    """A line for where the wide shot lasts less than the shortest shot.
+
+    Both are free fields and nothing stops them contradicting each
+    other. Set that way, every wide shot put into a long monologue
+    arrives under the number the shortest-shot field promises, and the
+    cut merges it away again -- so nothing wrong reaches the timeline,
+    but the wide shot somebody asked for is simply not there, and no
+    line said why.
+
+    Better said before than repaired after. Sebastian, 29.8.2026:
+    "could we not check that the wide shot length may then not be
+    shorter than the shortest shot?"
+
+    Returns the line, or "" where the two agree.
+    """
+    holds = float(number.get("wide-length") or 0.0)
+    least = float(number.get("min-edit-duration") or 0.0)
+    if holds <= 0 or least <= 0 or holds >= least:
+        return ""
+    return T('The wide shot holds %g s, less than the shortest shot of '
+             '%g s -- so it is merged away again and never appears.\n') % (
+                 holds, least)
+
+
 def question_dialog(f, window, QtWidgets, label):
     """Ask the window's user what to do while a worker thread waits.
 
@@ -29538,12 +29563,12 @@ def gui():
         # Where the segments come from belongs with them: self-measured is
         # coarser than what auphonic.com delivers.
         speech_title.setText(speech_heading(
-            state.get("stat_measured"),
-            state.get("speech_time_total") or ""))
+            state.get("stat_measured"), state.get("speech_time_total") or ""))
         state["cut_numbers"] = numbers
         state["cut_data"] = d
         band_show(numbers)
-        preview_label.setText(metrics_sentence(numbers, COLOURS, as_minutes))
+        preview_label.setText(wide_too_short(number)
+                              + metrics_sentence(numbers, COLOURS, as_minutes))
 
     state["preview_compute"] = preview_compute
 
@@ -32470,6 +32495,8 @@ CATALOGUE["de"] = {
         'Kamera gesehen hat',
     '\nBreaking off. The run stops as soon as it can do so without leaving a file half written -- one moment.\n':
         '\nWird abgebrochen. Der Lauf hört auf, sobald er es kann, ohne eine Datei halb geschrieben liegen zu lassen -- einen Moment.\n',
+    'The wide shot holds %g s, less than the shortest shot of %g s -- so it is merged away again and never appears.\n':
+        'Die Totale hält %g s, weniger als die kürzeste Einstellung von %g s -- sie wird deshalb wieder zusammengelegt und erscheint nie.\n',
     '\nBroken off during: %s':
         '\nAbgebrochen bei: %s',
     '%d file was finished before that and is whole: %s':
