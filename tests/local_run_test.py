@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""#80: a multitrack run that never touches auphonic.com."""
+"""#80: a whole multitrack run that finishes on this machine alone.
+
+Measure the time axis, take the bleed out of the speech detection, mix,
+cut by speaker, write the files and the handover for Resolve -- all of
+it here, with nothing leaving the house. The run is started with
+--without-auphonic, and the test holds the program to that: the log has
+to say what is missing, and nothing may be uploaded.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -24,12 +31,23 @@ def check(name, ok, extra=""):
         error.append(name)
 
 
-D = fixture("withoutauphonic")
+D = fixture("localrun")
 shutil.rmtree(D, ignore_errors=True)
 os.makedirs(D)
-RATE, LENGTH = 48000, 40.0
-TURNS = {"Host": [(1, 8), (17, 24), (33, 39)],
-         "Guest": [(9, 16), (25, 32)]}
+# How long the material is, and why it is not shorter. The program stops
+# with "the common range of sound and picture is only ... long" below 30
+# seconds, and the second camera starts 1.5 s late, so the window is
+# LENGTH - 1.5. At 34 the window is 32.5 s: 2.5 s over the barrier.
+# It used to be 40 s, which cost the run a sixth more of everything it
+# decodes without proving anything the 34 do not.
+RATE, LENGTH = 48000, 34.0
+# Five turns, each at least 5 s. The camera cut merges anything under
+# MIN_EDIT_DURATION_S = 3 s into the shot that follows, so a turn near
+# that length would cost the "more than two shots" check its meaning.
+# Measured with this material: shortest shot 5.8 s, so the margin is
+# nearly a factor of two.
+TURNS = {"Host": [(1, 7), (14, 20), (27, 33)],
+         "Guest": [(8, 13), (21, 26)]}
 
 
 def voice(turns, seed):
@@ -54,12 +72,22 @@ noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
 write(D + "/Host.wav", host + bleed * guest + noise)
 write(D + "/Guest.wav", guest + bleed * host + noise)
 write(D + "/room.wav", 0.6 * host + 0.6 * guest + noise)
+# Colour bars and the fastest encoder setting, on purpose. The run never
+# decodes a single video frame -- it reads the packet times to check the
+# frame rate and copies the picture through with -c:v copy. Measured by
+# logging every ffmpeg call of one run: not one of the 62 decodes video.
+# So the picture only has to exist, and building it was the most
+# expensive thing in this test: testsrc at the default preset cost 0.90 s
+# of processor time per file, colour bars at ultrafast cost 0.22 s.
+# Resolution and frame rate stay as they were -- a camera file with an
+# odd frame rate would be a different test.
 for name, late in (("CamHost", 0.0), ("CamGuest", 1.5)):
     subprocess.run(
         ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
-         "testsrc=size=320x180:rate=25:duration=%.1f" % (LENGTH - late),
+         "smptebars=size=320x180:rate=25:duration=%.1f" % (LENGTH - late),
          "-ss", "%.2f" % late, "-i", D + "/room.wav",
          "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
+         "-preset", "ultrafast",
          "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
          D + "/%s.mov" % name], check=True)
 
@@ -110,9 +138,11 @@ for line in rows:
     found[part[0]] = found.get(part[0], 0.0) + float(part[4])
 print("   ", {k: round(v) for k, v in found.items()})
 check("both speakers appear", set(found) == {"Host", "Guest"}, str(set(found)))
-check("Host about 20 s", 15 <= found.get("Host", 0) <= 25,
+# 18 s of Host and 10 s of Guest are in the material; the bands are as
+# wide, relative to that, as they were for the 40 s version.
+check("Host about 18 s", 14 <= found.get("Host", 0) <= 22,
         str(round(found.get("Host", 0))))
-check("Guest about 14 s", 10 <= found.get("Guest", 0) <= 19,
+check("Guest about 10 s", 7 <= found.get("Guest", 0) <= 13,
         str(round(found.get("Guest", 0))))
 
 print("\n4. And the cut alternates")
