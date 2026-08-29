@@ -96,7 +96,7 @@ jobs:
       # Git for Windows rewrites text files to CRLF on checkout. The model
       # beside the program carries a manifest of SHA-256 sums, and one of
       # the five files it names is text.
-      - name: what the checkout did to the model
+      - name: "Check out: verify the speaker model survived it"
         shell: bash
         run: |
           M=models/speaker-diarization-community-1
@@ -109,7 +109,7 @@ jobs:
           grep -E "^[0-9a-f]{64}  config\.yaml" "$M/SHA256SUMS.txt" \
             | awk '{print $1}'
 
-      - name: lay the files down as they were committed
+      - name: "Check out: restore the model files byte for byte"
         if: runner.os == 'Windows'
         shell: bash
         run: |
@@ -127,7 +127,7 @@ jobs:
       # not only the one that is text -- and a difference stops the job.
       # After the Windows repair, so what is judged is what the suite
       # will read.
-      - name: the model is the one the manifest names
+      - name: "Check out: hold the model against its manifest"
         shell: bash
         run: |
           python - <<'PY'
@@ -160,13 +160,13 @@ jobs:
           sys.exit(1 if bad else 0)
           PY
 
-      - name: ffmpeg (Linux)
+      - name: "Install: ffmpeg (Linux)"
         if: runner.os == 'Linux'
         run: |
           sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
 
-      - name: ffmpeg, and something to stop a hung test with (macOS)
+      - name: "Install: ffmpeg and a time limit (macOS)"
         if: runner.os == 'macOS'
         run: |
           command -v ffmpeg > /dev/null 2>&1 || brew install ffmpeg
@@ -183,14 +183,14 @@ jobs:
             exit 1
           fi
 
-      - name: ffmpeg (Windows)
+      - name: "Install: ffmpeg (Windows)"
         if: runner.os == 'Windows'
         shell: bash
         run: |
           command -v ffmpeg > /dev/null 2>&1 \
             || choco install ffmpeg -y --no-progress
 
-      - name: what Qt needs on a machine without a screen (Linux)
+      - name: "Install: what Qt needs without a screen (Linux)"
         if: runner.os == 'Linux'
         run: |
           sudo apt-get install -y -qq \
@@ -206,7 +206,7 @@ jobs:
       # ffmpeg the suite is about to run against. A defect that hangs on
       # an ffmpeg version leaves no trace otherwise, and this house has
       # had one: the colour tags in ffmpeg 9.
-      - name: what is on this machine
+      - name: "Record: the versions this run used"
         shell: bash
         run: |
           echo "runner:  $RUNNER_OS $RUNNER_ARCH"
@@ -227,7 +227,7 @@ jobs:
           cat "$RUNNER_TEMP/ffmpeg.txt"
           ffprobe -version 2>&1 | sed -n 1p
 
-      - name: the packages
+      - name: "Install: the Python packages"
         shell: bash
         run: |
           python -m pip install --upgrade pip
@@ -239,7 +239,7 @@ jobs:
       # A test that cannot run here is taken out by name, with the reason
       # written beside it, and the count is printed. Nothing is taken out
       # for being red: what is red and could run stays in.
-      - name: what this machine cannot run
+      - name: "Set aside: the tests this machine cannot run"
         shell: bash
         run: |
           cd tests
@@ -282,7 +282,7 @@ jobs:
           esac
           echo "set aside on $RUNNER_OS: $n"
 
-      - name: the suite
+      - name: "Run: the test suite"
         shell: bash
         run: |
           cd tests
@@ -309,7 +309,7 @@ jobs:
       # What a reader wants at a glance: which ffmpeg, how many ran, how
       # many were taken out and which, how many checked nothing, and what
       # is red.
-      - name: the run in five lines
+      - name: "Report: the run in five lines"
         if: always()
         shell: bash
         run: |
@@ -364,7 +364,7 @@ jobs:
       # a selection. The whole output says which caption, which channel,
       # which file -- and that is what somebody reading this from another
       # machine needs.
-      - name: the red ones, in full
+      - name: "Report: every failed test, in full"
         if: failure()
         shell: bash
         run: |
