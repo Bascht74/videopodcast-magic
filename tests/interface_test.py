@@ -155,7 +155,16 @@ for language, row in started:
             note = hung or "return code %s" % p.returncode
             if serious:
                 note += " -- " + serious[0][:60]
-        check("%s runs through" % os.path.basename(s), good, note[:90])
+            else:
+                # Where it stopped, in this line and not only in the
+                # block below it: a builder's log keeps the lines that
+                # say FAIL and drops the rest, so "return code 1" was
+                # all that ever came back from the one machine that
+                # could say more. Measured 29.8.2026, twice.
+                said = [x for x in out.rstrip().split("\n") if x.strip()]
+                if said:
+                    note += " -- last words: " + said[-1].strip()[:70]
+        check("%s runs through" % os.path.basename(s), good, note[:160])
         if not good:
             # The one line above says a window did not build; it does
             # not say why. Under load this happens rarely, and a rare

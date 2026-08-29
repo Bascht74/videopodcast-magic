@@ -305,7 +305,7 @@ def look(case):
         return p
 
     def spots(p):
-        """Three points, each in a shot of a different camera.
+        """One point in a shot of each camera, three at the most.
 
         Read off the cut the window worked out rather than written down
         here: what the cut looks like is the cut's business, and a test
@@ -364,8 +364,10 @@ def look(case):
         result["edge"] = edge(p)
 
     def jumps():
-        """Jump to each of the three points, one line each."""
+        """Jump to each of the points, one line each."""
         p = cut_ready()
+        if p is None:
+            return
         for t in result["spots"]:
             step("jump %.3f" % t)
             p.jump(t)
@@ -377,8 +379,10 @@ def look(case):
         if i is None:
             result["error"] = "the cut never changes camera"
             return
-        b = result["cut"][i][1]
         p = cut_ready()
+        if p is None:
+            return
+        b = result["cut"][i][1]
         for t in (round(b - 0.25, 3), round(b + 0.25, 3)):
             step("edge %.3f" % t)
             p.jump(t)
@@ -412,7 +416,11 @@ def look(case):
             state["played"] += 1
             return "again"
         result["switched"] = (p.now == i + 1)
+        # How far it got, for the line that has to say so where it never
+        # got there. The player's own clock, because that is the thing
+        # that is meant to be running.
         result["ran_to"] = round(p._time(), 3)
+        result["waited_ms"] = state["played"] * 200
         # It did start, so it may be stopped: a player that never ran
         # is a different matter, and pausing one of those is what left
         # a window standing.
@@ -681,8 +689,9 @@ for case in CASES:
     check("  running into the cut, the camera changed by itself",
           bool(d.get("switched"))
           and len(set(x["who"] for x in ran)) > 1,
-          "reached programme %s over %s"
-          % (d.get("ran_to"), json.dumps([x["who"] for x in ran])))
+          "reached programme %s after %s ms, over %s"
+          % (d.get("ran_to"), d.get("waited_ms"),
+             json.dumps([x["who"] for x in ran])))
 
     # ---- the counter-check: the same checks over reversed offsets
     turned = sorted(k for k in steps if k.startswith("reversed"))
