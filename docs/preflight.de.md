@@ -26,7 +26,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Bild | Nennrate gegen tatsächliche Rate, Schwankung der Bildabstände | siehe unten |
 | Bild | Bildraten der Kameras untereinander | welche Rate die Timeline bekommt |
 | Bild | mehrteilige Kameras: Lücke zwischen den Blöcken | wo Bild fehlt |
-| Ton | Abtastrate, Bittiefe, Kanäle, Länge | 44,1 kHz wird umgerechnet, das steht dann da |
+| Ton | Abtastrate, Bittiefe, Kanäle, Länge | wird auf 48 kHz gebracht, das steht dann da |
 | Ton | Spuren, die deutlich kürzer sind als die längste | Hinweis |
 | Ton | Abtastwerte am Anschlag, je Kanal | Hinweis, nur Ganzzahlformate |
 | Timecode | die Uhren der Dateien gegeneinander | Hinweis, wo eine Uhr nicht gestellt war |
@@ -72,12 +72,16 @@ Datei wandert.
 
 Bei mehreren Sprechern in einem Raum steht jede Stimme leise auch in den
 anderen Mikrofonen. Der Bericht misst, wieviel leiser. Dazu nimmt er
-fünf Fenster über die gemeinsame Zeit, jeweils dort, wo genau einer
-redet.
+fünf Fenster über die gemeinsame Zeit, je zwanzig Sekunden lang, und
+misst darin dort, wo genau einer redet. Fünf und zwanzig stehen fest,
+kein Schalter setzt sie. Bei kurzem Material werden die Fenster kürzer,
+statt dass die Messung aufgegeben wird.
 
 Der Maßstab ist die 3:1-Regel. Steht das fremde Mikrofon dreimal so weit
 vom Sprecher weg wie sein eigenes, ist die Nachbarstimme rund 9,5 dB
-leiser. Das sagt etwas über den Aufbau im Raum. Es setzt zugleich eine
+leiser. Auch diese Marke steht fest, kein Schalter verschiebt sie: je
+weiter ein Paar darunter liegt, desto mehr vom Nachbarn bleibt in der
+Spur. Das sagt etwas über den Aufbau im Raum. Es setzt zugleich eine
 Grenze für das, was danach kommt: je weniger die Mikrofone getrennt
 sind, desto vorsichtiger kann De-Bleed auf auphonic.com arbeiten. Ändern
 lässt es sich nur beim nächsten Mal, deshalb hält es den Lauf nicht an.
@@ -129,18 +133,21 @@ daneben.
 
 Beim Normalisieren steht auch der **Lautheitsumfang** im Protokoll, der
 Abstand zwischen leisen und lauten Stellen. Bei Sprache sind 3 bis 7 LU
-üblich; unter 2 LU sagt das Protokoll es ausdrücklich. Dann wurde
-plattgedrückt, und zwar vom Leveler, nicht vom Limiter, der nur Spitzen
-abfängt und höchstens 6 dB wegnehmen darf.
+üblich; unter 2 LU sagt das Protokoll es ausdrücklich, und je tiefer der
+Wert, desto flacher das Ergebnis. Dann wurde plattgedrückt, und zwar vom
+Leveler, nicht vom Limiter, der nur Spitzen abfängt und höchstens 6 dB
+wegnehmen darf. Diese drei Zahlen stehen fest, kein Schalter setzt sie,
+und der Leveler wird auf auphonic.com eingestellt.
 
 ### Wie der Bericht die Abtastwerte am Anschlag zählt
 
 Das Programm zählt je Kanal, wie viele Abtastwerte auf dem höchsten Wert
-liegen, den das Format fassen kann. Der Hinweis nennt den Kanal, die
-Zahl und den Spitzenpegel. Er erscheint ab acht Abtastwerten und nur
-dann, wenn die Spitze bis auf 0,1 dB an den Vollausschlag reicht. Der
-Hinweis hält nichts auf: eine übersteuerte Aufnahme ist manchmal die
-einzige, die es gibt.
+liegen, den das Format fassen kann. Drei hintereinander ergeben einen
+Fall; einer oder zwei sind Rundung und werden nicht gemeldet. Diese Drei
+steht fest, kein Schalter setzt sie. Der Hinweis nennt den Kanal, wie
+viele solcher Reihen es gibt, die längste davon in Abtastwerten und in
+Millisekunden und wo die erste liegt. Der Hinweis hält nichts auf: eine
+übersteuerte Aufnahme ist manchmal die einzige, die es gibt.
 
 Das Programm zählt nur bei Ganzzahlformaten. Ein Ganzzahlformat hat bei
 Vollausschlag einen Anschlag, und was darüber lag, ist nie in die Datei

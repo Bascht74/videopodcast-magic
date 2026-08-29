@@ -650,3 +650,183 @@ The previous version passed this test in three seconds. That is not
 health: its Resolve tab loaded nothing at all, so no player ever
 started, and there was nothing for the lock to be held by. The test got
 harder because the program got further.
+
+## Where a sound starts counting as speech
+
+`speakers_from_tracks` throws away every block of sound shorter than
+0.4 s before anything else looks at it. `find_pauses` reads exactly that
+segmentation and `insert_wide_shots` reads `find_pauses`, so a short
+"mhm" is not a quiet moment in the cut -- it is not there at all, and
+the stretch it sits in reads as silence. The number has stood since the
+first version and had never been measured. On 24.8.2026 it was read off
+the source and noted as "with an honest 0.1 s, 22 pauses of 1.5 s and
+over remain instead of the 64 the 0.4 s reading reports" -- read, not
+measured, and on a different interview.
+
+Measured on 29.8.2026 on the Testinterview: one hour and 27 minutes,
+three cameras, four voices. The threshold was not changed.
+
+**Two readings, and they are not the same material read twice.** Every
+table below says which one it comes from.
+
+* **The voices.** The 1257 speech blocks the separation of this very
+  production found, out of its project file. Real speech, and every
+  block carries a name. This production ran through the separation, and
+  the separation has no such threshold, so nothing here was thrown away
+  in the real run: the 0 s row is the cut Sebastian has. The other rows
+  are what the same hour becomes when a threshold is put in front of
+  it, applied the way `speakers_from_tracks` applies it -- gaps up to
+  0.35 s closed first, then what is still shorter thrown away.
+* **The tracks.** The sound of the camera files themselves, decoded at
+  8000 Hz and put through `speakers_from_tracks` itself. That is the
+  path the threshold really stands in.
+
+### How many pauses the threshold invents
+
+On the voices. A pause is false when a block the threshold threw away
+lies inside it -- somebody is speaking there.
+
+| threshold | blocks kept | thrown away | speech lost | pauses from 1.5 s | of them false |
+|---|---|---|---|---|---|
+| 0 s | 822 | 0 | 0.0 s | 69 | 0 |
+| 0.05 s | 795 | 27 | 0.6 s | 68 | 8 |
+| 0.1 s | 782 | 40 | 1.5 s | 66 | 10 |
+| 0.2 s | 770 | 52 | 3.4 s | 66 | 13 |
+| 0.3 s | 748 | 74 | 8.9 s | 70 | 21 |
+| **0.4 s** | **697** | **125** | **26.9 s** | **74** | **27** |
+| 0.6 s | 651 | 171 | 48.2 s | 81 | 38 |
+| 1.0 s | 599 | 223 | 90.6 s | 97 | 63 |
+
+**27 of the 74 pauses the program believes in at 0.4 s are not pauses.**
+Of the 125 blocks it throws away, 64 fall while somebody else is
+speaking -- that is the short answer thrown in, not a false start. Their
+median is 0.25 s and the longest is 0.39 s.
+
+On the tracks the same movement is much larger, because the level
+detector cuts speech into far more pieces than the separation does:
+
+| threshold | blocks | pauses from 1.5 s |
+|---|---|---|
+| 0.05 s | 4829 | 199 |
+| 0.1 s | 3827 | 305 |
+| 0.2 s | 3010 | 412 |
+| 0.3 s | 2565 | 489 |
+| **0.4 s** | **2275** | **527** |
+| 0.6 s | 1558 | 582 |
+
+The direction of the note from 24.8.2026 holds: an honest lower
+threshold leaves fewer pauses, not more. The size does not. There it
+was two thirds of the pauses; here it is 42 % on the tracks and 11 % on
+the voices.
+
+### What it does to the cut
+
+On the voices, with the settings of this production: shortest shot
+3.0 s, minimum speaking time 1.5 s, wide shot after 40 s for 5 s, long
+monologue alternating. No transcript, so `insert_wide_shots` had only
+the pause list to go on -- which is the case the threshold decides.
+
+| threshold | shots | wide shots | put in by the break rule | of those on speech | any wide shot on speech |
+|---|---|---|---|---|---|
+| 0 s | 338 | 121 | 74 | 0 | 0 |
+| 0.05 s | 338 | 123 | 76 | 0 | 8 |
+| 0.1 s | 338 | 123 | 76 | 0 | 12 |
+| 0.2 s | 338 | 123 | 76 | 0 | 13 |
+| 0.3 s | 338 | 124 | 77 | 1 | 17 |
+| **0.4 s** | **336** | **125** | **78** | **6** | **22** |
+| 0.6 s | 336 | 125 | 78 | 9 | 31 |
+| 1.0 s | 342 | 128 | 80 | 15 | 49 |
+
+**This is the number that counts. Six times in this hour the break rule
+puts a wide shot on top of somebody who is speaking**, and it does so
+because the threshold hid them. It is not a near miss: the wide shot
+begins and the sound arrives within a third of a second.
+
+| the wide shot starts | who is speaking there | how long |
+|---|---|---|
+| 649.2 s | Moderator at 649.8 s | 0.25 s |
+| 1782.6 s | Kandidat at 1782.9 s | 0.39 s |
+| 2367.4 s | Moderator at 2367.1 s | 0.32 s |
+| 3924.8 s | Kandidat at 3925.0 s | 0.35 s |
+| 4602.1 s | Moderator at 4606.7 s | 0.30 s |
+| 4781.7 s | Kandidat at 4782.0 s | 0.37 s |
+
+At 0.2 s and below the column is empty: **not one inserted wide shot
+lands on a thrown-away block any more.** The last column falls more
+slowly, because it also counts the long wide shots that stand over
+silence anyway; those are a smaller fault, since nothing was cut there
+on the strength of a wrong pause.
+
+### What a lower threshold costs
+
+The number of shots does not move. 3.86 to 3.93 shots a minute over
+every threshold from 0 s to 1.0 s, and 338 shots at 0.1 s against 336
+at 0.4 s. **The cut does not become restless.** The shortest shot of
+3.0 s and the minimum speaking time of 1.5 s absorb the extra blocks
+before they can reach the picture.
+
+The segmentation does grow, on the tracks, and that is the price. Going
+from 0.4 s to 0.2 s adds 32 % more blocks, from 0.2 s to 0.1 s another
+27 %, and from 0.1 s to 0.05 s another 26 %. The blocks that come in
+last are the marginal ones. Every block was measured against its own
+track's noise floor, and the detector lets through what stands 10 dB
+above it:
+
+| block length | the hosts' camera | the candidate's camera | the wide camera |
+|---|---|---|---|
+| 0.1 to 0.2 s | 431 blocks, 11.5 dB | 783 blocks, 10.8 dB | 312 blocks, 11.6 dB |
+| 0.2 to 0.4 s | 372 blocks, 12.9 dB | 461 blocks, 12.2 dB | 339 blocks, 13.6 dB |
+| 0.4 to 1.0 s | 745 blocks, 13.6 dB | 533 blocks, 12.6 dB | 703 blocks, 14.5 dB |
+| over 1.0 s | 794 blocks, 14.4 dB | 200 blocks, 14.1 dB | 874 blocks, 16.6 dB |
+
+The figure is the median level over that track's noise floor. The whole
+usable range is small -- on the candidate's camera the speech level
+itself stands only 11.0 dB over the floor -- and the band from 0.1 to
+0.2 s
+sits at the bar: its lowest tenth is at 10.2 dB against a bar of 10.0.
+**Below 0.2 s the blocks that come in are the ones that only just got
+over the threshold of loudness, so a lower length threshold is buying
+them by the thousand.** From 0.4 s down to 0.2 s the blocks that arrive
+are 2 to 3 dB over the bar, which is the same place the blocks over
+0.4 s sit.
+
+### What was not measured
+
+* **Whether the short blocks are speech.** They were not listened to,
+  and the check against the separation could not be made: the
+  separation ran on the recorder file and the blocks here come off the
+  cameras, and the two time axes could not be brought together. The
+  cross-correlation of the two speech indicators has no peak at all --
+  the best shift agrees on 4805 blocks of 0.1 s and the best shift
+  elsewhere on 4790, a ratio of 1.00. With one voice holding 64.6 % of
+  the hour, any shift agrees about that well. So the levels above are
+  what stands in place of a truth, and they say how loud a block is,
+  not what it is.
+* **The tracks path was not read for who speaks.** On this material it
+  cannot be: the program's own bleed measurement reports the candidate
+  only 1.7 dB quieter in the moderators' camera than in his own, well
+  under the 5 dB where the separation starts to slip. Three cameras in
+  one room with their built-in microphones are not three tracks. The
+  block counts and pause counts from the tracks stand; who those blocks
+  belong to does not.
+* **With a transcript.** Every run here had no words and no dip levels,
+  so the break rule fell back on the pause list. With a transcript the
+  break goes to a sentence boundary and the pause list matters less. How
+  much less was not measured.
+* **Any other recording.** One interview, one room, one set of settings.
+  The note from 24.8.2026 came from another interview and gave a much
+  larger figure for the same movement, which is a reason to expect the
+  size to travel badly even where the direction does not.
+* **The built fixtures say nothing here.** `interview` under the
+  fixtures folder holds continuous sine tones, not speech: one tone per
+  microphone for the whole two minutes. There are no short blocks in it
+  to keep or throw away.
+
+### What the numbers say
+
+0.2 s. It takes every inserted wide shot off the back of somebody
+speaking (6 to 0), halves the false pauses (27 to 13), and costs 32 %
+more blocks on the tracks. Going further down to 0.1 s buys almost
+nothing on top of that -- 13 false pauses become 10 -- and costs another
+27 % in blocks, all of them from the band that only just clears the
+loudness bar. The decision is not made here.

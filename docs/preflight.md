@@ -25,7 +25,7 @@ The report holds for both modes.
 | Picture | nominal rate against actual rate, spread of the frame spacing | see below |
 | Picture | frame rates of the cameras against each other | which rate the timeline gets |
 | Picture | multi-part cameras: gap between the blocks | where picture is missing |
-| Sound | sample rate, bit depth, channels, length | 44.1 kHz is converted, and it says so |
+| Sound | sample rate, bit depth, channels, length | brought to 48 kHz, and it says so |
 | Sound | tracks much shorter than the longest | note |
 | Sound | samples on the stop, per channel | note, integer formats only |
 | Timecode | the clocks of the files against each other | note where a clock was not set |
@@ -68,12 +68,16 @@ spread.
 
 With several speakers in one room, every voice stands quietly in the
 other microphones too. The report measures how much quieter. It takes
-five windows over the shared time, each at a spot where exactly one
-person is talking.
+five windows over the shared time, twenty seconds each, and measures
+inside them where exactly one person is talking. Five and twenty are
+fixed; no switch sets them. On short material the windows get shorter
+rather than the measurement being given up.
 
 The yardstick is the 3:1 rule. With the other microphone three times as
 far from the speaker as their own, the neighbouring voice is about 9.5 dB
-quieter. That says something about the setup in the room. It also sets a
+quieter. That mark is fixed too, and no switch moves it: the further a
+pair falls below it, the more of the neighbour is left in the track.
+That says something about the setup in the room. It also sets a
 limit on what comes after: the less the microphones are separated, the
 more cautiously De-Bleed at auphonic.com can work. It can only be changed
 next time, so it does not halt the run.
@@ -122,16 +126,21 @@ deliver on two and you are off by that much.
 
 Normalising also puts the **loudness range** in the log, the distance
 between quiet and loud passages. For speech 3 to 7 LU is usual; below
-2 LU the log says so plainly. Then something was squashed by the leveler,
-not by the limiter, which only catches peaks and takes off 6 dB at most.
+2 LU the log says so plainly, and the lower it goes the flatter the
+result. Then something was squashed by the leveler, not by the limiter,
+which only catches peaks and takes off 6 dB at most. Those three
+figures are fixed; no switch sets them, and the leveler is set at
+auphonic.com.
 
 ### How the report counts the samples on the stop
 
 The program counts, per channel, how many samples sit on the highest
-value the format can hold. The hint names the channel, the count and the
-peak level. It appears from eight samples on, and only when the peak
-stands within 0.1 dB of full scale. The hint holds nothing up: an
-overdriven recording is sometimes the only recording there is.
+value the format can hold. Three in a row make one event; one or two are
+rounding and are not reported. That three is fixed and no switch sets
+it. The hint names the channel, how many such runs there are, the
+longest of them in samples and in milliseconds, and where the first one
+sits. The hint holds nothing up: an overdriven recording is sometimes
+the only recording there is.
 
 The program counts in integer formats only. An integer format has a stop
 at full scale, and nothing above it ever reached the file. Float has no

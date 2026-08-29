@@ -170,7 +170,10 @@ If the project settings say otherwise, the project wins.
 
 At high frame rates of 48, 50 and 60 the higher values apply: 68,000 and
 85,000 kbit/s at 2160p, correspondingly below. They are YouTube's upload
-recommendation, each the upper end of the range given there.
+recommendation, each the upper end of the range given there. These values
+are fixed, and no switch of the program sets them. Picture height, frame
+rate and SDR or HDR pick the value. Set another rate in Resolve at the
+render job itself.
 
 A warning goes into the log if this Resolve offers no H.265. Another goes
 in if it will not take the profile Main10, and the script then sets the
@@ -183,8 +186,9 @@ the render job sets for that.
 These stay fixed: one file instead of one per clip, target the output
 folder, file name the production name, `.mp4`. The audio is AAC at 48 kHz,
 16 bit, two channels. Resolve's scripting interface has no key for the
-audio bitrate; the log notes that 384 kbit/s would be the recommendation
-for stereo. For HDR it names the check too (*HDR: what has to be in the
+audio bitrate, so the program cannot set it. Set it in Resolve at the
+render job. The log notes that 384 kbit/s would be the recommendation for
+stereo. For HDR the log names the check too (*HDR: what has to be in the
 file*).
 
 ### Setting intro and outro
@@ -209,7 +213,9 @@ place shifts, and that follows the **sound**, not the file length:
 
 - **Intro**: the *end of its audible sound* meets the first word. That means
   the jingle, not the file. The threshold is 40 dB below the loudest point of
-  the file itself.
+  the file itself. It is fixed, and no switch sets it. A jingle that fades
+  out quietly reaches the threshold before its sound stops. The rest of the
+  fade then lies over the first words.
 - **Outro**: the *start of its sound* meets the end of the last word.
 - The speaker sections in the handover file say where the words lie.
 - A clip without sound uses its end for the intro, its start for the outro.

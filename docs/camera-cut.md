@@ -52,12 +52,20 @@ its place and says what is missing.
 
 *Tab Resolve cut: the values on the left, the preview on the right.*
 
+All eight fields take seconds, and the number in each line is the
+default. An empty field means the default, a comma counts as the decimal
+mark, and there is no upper limit. A negative value is only meant for
+**Edit Change Delay**; the other fields take one but nothing good comes
+of it.
+
 Four fields shape the cut itself:
 
-* **Minimum Edit Duration**: 3 s, this long a shot stands at least
-  (on the command line `--min-edit-duration`)
-* **Speaks at least**: 1.5 s, below this the camera does not follow
-  (on the command line `--min-speech-to-switch`)
+* **Minimum Edit Duration**: 3 s, this long a shot stands at least;
+  higher makes the cut calmer (on the command line
+  `--min-edit-duration`)
+* **Speaks at least**: 1.5 s, below this the camera does not follow;
+  higher and it follows less often (on the command line
+  `--min-speech-to-switch`)
 * **Edit Change Delay**: 0.3 s, this much later than the sound the
   picture cuts; a negative value makes the picture lead (on the
   command line `--edit-change-delay`)
@@ -67,13 +75,15 @@ Four fields shape the cut itself:
 Four more shape the wide shot:
 
 * **Wide shot after**: 40 s, from this hold time on, a look at the
-  wide shot; 0 turns it off (on the command line `--wide-after`)
+  wide shot; smaller gives more wide shots, 0 turns it off (on the
+  command line `--wide-after`)
 * **Wide shot holds**: 5 s, the inserted wide shot stands at least
   this long (on the command line `--wide-length`)
 * **Wide shot at most**: 15 s, and at most this long (on the command
   line `--wide-most`)
 * **Wide shot at the latest**: 120 s, upper limit for one camera in
-  one piece (on the command line `--wide-latest`)
+  one piece; smaller breaks it up sooner (on the command line
+  `--wide-latest`)
 
 Under them stand four selectors. They say what runs when the speech
 does not say whom to show:
@@ -117,7 +127,8 @@ Four cases, and what each of the four selectors decides:
   takes over at once and keeps the floor.
 
 **Listener** means whoever speaks next, and only if somebody on that
-camera was heard in the last 20 seconds; otherwise the wide shot.
+camera was heard in the last 20 seconds; otherwise the wide shot. The
+20 seconds are fixed; no field and no switch sets them.
 
 **Listener** and **Alternating** show a person the program only knows
 was audible shortly before. It does not see the picture. Set **Wide
@@ -280,7 +291,8 @@ out of the audio. It looks for the moments where exactly one person
 speaks: that one at most 10 dB below their own speech level, the others
 at least 6 dB below theirs. There it measures how loudly that voice
 arrives in the other microphones, and it takes each speaker's own share
-back out of every track.
+back out of every track. None of these values can be set; there is no
+field and no switch for them.
 
 It also works with microphones standing closer than the 3:1 rule wants.
 For a pair without at least three such moments it subtracts nothing.
@@ -426,9 +438,10 @@ What Resolve makes of it is in [DaVinci Resolve](resolve.md).
 These have no counterpart in the window.
 
 * `--reaction-gap` how soon the answer has to follow the question for
-  the reaction cut to fire (3 s)
+  the reaction cut to fire (3 s); larger and it fires more often
 * `--reaction-hold` how much of the ten seconds after the question the
-  answering speaker has to hold, as a share between 0 and 1 (0.7)
+  answering speaker has to hold, as a share between 0 and 1 (0.7);
+  higher and it fires less often
 * `--no-metrics` leaves out the metrics file and the colour comparison
 * `VPM_PLAYER_DEBUG=1` in front of the call puts clock, position and
   wanted value of all three players under the picture, and every attempt
