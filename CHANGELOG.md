@@ -9,6 +9,17 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Tests
+
+- The suite says where it is while it runs: the time, the place in the
+  queue and the verdict, one line per test as it finishes, instead of
+  two silent minutes and then everything at once. Several finish at the
+  same moment, so the same number can appear twice -- it is a place in
+  the queue, not an accounting, and a lock would cost more than it is
+  worth here.
+
 ## [2.14.0-beta] - 2026-08-30
 
 ### Added
