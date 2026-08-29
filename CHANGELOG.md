@@ -59,6 +59,15 @@ survives.
 
 ### Tests
 
+- The rule that a handover counts only for the window that wrote it is
+  held by a counter-check, not by a memory. A usable but foreign
+  handover lies in the result folder throughout -- three cameras of its
+  own in a folder that does not exist, ten minutes long, 600 s beside
+  the programme. Against the version before the rule the cut really
+  does run on those three; against this one it runs on the project's
+  own. The distinguishing mark had to be the material, not the zero
+  point: the window trims any handover to its own beginning, so a
+  foreign one arrives on the same zero.
 - The two functions that put a whole production together had no test at
   all -- not one line of either had ever been run. They have 70 checks
   now, in a quarter of a second, against a stand-in for auphonic.com
