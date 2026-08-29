@@ -13,6 +13,15 @@ survives.
 
 ### Tests
 
+- The crosstalk test builds its material with numpy instead of a Python
+  loop over every sample, and it stopped working out the same two
+  voices forty-eight times over. It had been spending five times as
+  long making material as it did measuring it: 8.4 seconds became 1.05,
+  and in the suite 19 became 4. The thirteen checks and their
+  tolerances are word for word the ones they were, and five
+  deliberately broken copies of the program were each caught -- every
+  one of them also held against the old test, which goes red on exactly
+  the same checks. The faster test finds no less than the slow one did.
 - The long tests start first, and the suite works out which they are
   by timing itself. xargs hands the list out in the order it is given,
   so a slow test named late in the alphabet started last and its whole
