@@ -25,6 +25,15 @@ survives.
 
 ### Changed
 
+- The progress bar neither falls back nor stands still. Pressing Start
+  while the measuring that follows opening a project was still going
+  added the run's stages to what was already there. A bar that never
+  falls had been put in the way of that, and it hid the other half:
+  instead of going backwards it stood still -- two whole stages of the
+  run went by while it held the figure the measuring had left it, and
+  over a long run that bar is the only thing saying whether anything is
+  moving at all. The plan is thrown away now whether it had finished or
+  not.
 - In the camera table nothing stands behind the answer any more,
   neither at Kind nor at Camera audio. Instead, where no speaker is
   assigned to a camera, the one entry **Content** is barred and says

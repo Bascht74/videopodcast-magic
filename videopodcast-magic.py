@@ -29796,23 +29796,22 @@ def gui():
         of the next stage when the last one ends jumps backwards at every
         boundary and tells nobody anything.
 
-        A finished plan is thrown away first. When the project was opened
-        the measuring filled the bar, and it stays full for a moment so
-        the end is seen. Pressing start inside that moment used to add
-        the run's stages to the plan that was already done: the finished
-        steps still counted, so the bar opened at nine tenths and then
-        fell back to where the run really was. Nothing was lost, but a
-        bar that goes backwards reads as a fault.
+        The plan before it is thrown away, finished or still going.
+        Pressing start while the measuring after a project still ran
+        added the run to what was there; the bar then stood still for
+        two stages at 0.500, because it never falls and the truth had
+        to climb back to it. Standing still says the wrong thing as
+        surely as falling back. Safe, because report() puts an unknown
+        step back -- see tests/progress_plan_test.py.
         """
-        if not plan.busy():
-            plan.clear()
-            total_state["full_since"] = 0.0
-            # Clearing the plan is not enough: the widget goes on showing
-            # the figure it was last given until the timer draws again.
-            # A run that opens on the last one's 100 per cent and then
-            # falls back reads as a fault, so it is put to nothing here.
-            total_bar.setValue(0)
-            total_line.setText("")
+        plan.clear()
+        total_state["full_since"] = 0.0
+        # Clearing the plan is not enough: the widget goes on showing the
+        # figure it was last given until the timer draws again. A run
+        # that opens on the last one's 100 per cent and then falls back
+        # reads as a fault, so it is put to nothing here.
+        total_bar.setValue(0)
+        total_line.setText("")
         cameras = len([1 for p, a in files if a == "video"])
         stages = run_stages(bool(multitrack.get()), cameras,
                             not without_auphonic(),
