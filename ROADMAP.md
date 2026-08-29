@@ -64,47 +64,46 @@ it: on Windows the key is kept in the registry, and no test anywhere
 touches that. It is the one place where a mistake would leave a key
 somewhere it does not belong.
 
-**3. Multitrack names its own voices.** With one microphone per person
-the program knows who talks when, and it knows which microphone is
-which. Holding the two against each other should say by itself that
-"Speaker 2" is the microphone of the person asking the questions, so
-nobody has to name the voices by hand. The same comparison is a check:
-if separation and microphone disagree, something is wrong. The data is
-all there and the match has not been measured.
-
-**7. The wide shot gets a calmer rhythm.** The interval after which
-the wide shot returns is the one setting that decides how restless the
-cut feels, and it changes nothing about how well speakers are
-recognised. Raising it gives fewer and longer wide shots at the same
-hit rate. How long an episode may run without a wide shot is a matter
-of taste, so the number stays a switch.
-
-**8. The two ways to auphonic.com get run against the service.**
+**3. The two ways to auphonic.com get run against the service.**
 Transcription of a single track, and a multitrack production carrying
 one stereo track, are both built and neither has been sent for real.
 Whether the service hands a stereo track back with both channels is
 open. Until it has run, the manual describes those two ways from the
 source instead of from a run.
 
+**4. The wide shot gets a calmer rhythm.** The interval after which
+the wide shot returns is the one setting that decides how restless the
+cut feels, and the measurement says it is free: the wrong picture time
+comes out the same to a tenth of a second at 45, 60, 75, 90 and 120
+seconds. At 75 seconds instead of 45 there are 141 wide shots instead
+of 208 and the median gap between them grows from 38 to 64 seconds, at
+the same hit rate. The default stands at 40 seconds, below everything
+that was measured. What is left is a decision and not a measurement:
+how long an episode may run without a wide shot is a matter of taste,
+so the number stays a switch.
+
+**5. Multitrack names its own voices.** With one microphone per person
+the program knows who talks when, and it knows which microphone is
+which. Holding the two against each other should say by itself that
+"Speaker 2" is the microphone of the person asking the questions, so
+nobody has to name the voices by hand. The same comparison is a check:
+if separation and microphone disagree, something is wrong. Today the
+two never meet: the crosstalk arithmetic compares microphones with
+each other, and the voices of a separation are named by the order they
+talk in until somebody types over them. The data is all there and the
+match has not been measured.
+
 ## What comes later
 
 Coarser, and in no fixed order.
 
-* **Cutting exactly between two words.** The reaction cut lands where
-  the sound is quietest, which is a real speech pause almost every
-  time. Placing it between two words needs the word times Whisper
-  gives. The recogniser macOS brings is far faster and reports on a
-  60 ms grid, and it leaves no gap between words at all, so on its
-  numbers "between two words" cannot be told from "inside a word".
-  Speed against precision, and it will end as a switch rather than as
-  a decision.
-
 * **A "mhm" stops counting as silence.** Sounds under four tenths of a
   second are dropped before the pause search runs, so a short reaction
   reads as a pause and a wide shot can land on top of somebody
-  answering. Correcting the threshold changes how many pauses the
-  program believes in, which is why it is a measurement and not a
-  one-line fix.
+  answering. The threshold has stood unchanged since the first
+  version and has never been measured. Correcting it changes how many
+  pauses the program believes in, which is why it is a measurement and
+  not a one-line fix.
 
 * **Defaults that carry evidence.** A few numbers come from a single
   reference edit rather than from a measurement. `--wide-latest` is
@@ -122,17 +121,19 @@ Coarser, and in no fixed order.
   clips landed there. A stand-in stands in for Resolve in the tests,
   so only a real project can confirm it.
 
-* **The edges of the program get tests.** Measured coverage is about
-  two thirds. What the suite does not touch is the whole run as a run,
-  the single-file path, the way to auphonic.com, the separation and
-  the self-update. Coverage gets measured now and then and never
-  becomes a target.
+* **The edges of the program get tests.** Measured coverage is 71 per
+  cent of the statements. The separation, the self-update and a run
+  without auphonic.com are walked through now; what no test enters are
+  the two functions that assemble a whole production with
+  auphonic.com in it, the first upload of a new production, half of
+  the single-file path, and the way back after an update that went
+  wrong. Coverage gets measured now and then and never becomes a
+  target.
 
-* **The manual gets what it still lacks.** Every number with its
-  range, default and direction. One screenshot that shows the wrong
-  tab. A picture for the channel chapter. A keyword index beside the
-  chapter list. A published address for the manual, once somebody
-  needs one to hand out.
+* **The manual gets what it still lacks.** About a dozen numbers still
+  stand without their default and the direction they pull in. And a
+  published address for the manual, once somebody needs one to hand
+  out.
 
 * **Smaller commits.** A commit whose subject needs an "and" is two
   commits. It costs nothing, and it makes `git bisect` and `git blame`
@@ -153,6 +154,14 @@ been refused, it has only not come up yet.
 * **Cut the episode.** The camera cut is a proposal and the edit stays
   yours. The program measures and hands over; deciding is not a later
   stage of that.
+
+* **Placing a cut on a word boundary instead of on the sound.** It
+  stood under what comes later, and the measurement has answered it
+  the other way round: the quietest point lands in a real
+  speech pause 97 to 99 times in a hundred, the word boundary of the
+  recognition 42 to 46. The text still says roughly where -- sentence
+  and clause ends come from the word times -- and the sound says
+  exactly where. Swapping that round would make the cut worse.
 
 * **Pull requests as a review gate, required reviews, CODEOWNERS.**
   All three assume a second person. A maintainer who approves his own
@@ -178,7 +187,7 @@ been refused, it has only not come up yet.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** All four want
   a package with a `pyproject.toml`. Here they would be four new
-  dependencies for one file whose 98 tests run as plain scripts in
+  dependencies for one file whose 103 tests run as plain scripts in
   half a minute. A thin pytest layer that starts those same scripts
   unchanged is a different thing, and that one may come.
 
@@ -215,9 +224,10 @@ been refused, it has only not come up yet.
 Discussions are off on purpose. A question, a fault and a wish all go
 to the same place, and none of them needs a template.
 
-**No item above carries an issue number.** The tracker is empty so
-far, and an item gets an issue the day somebody besides the author
-needs to follow it. Asking after one is a fair use of the tracker.
+**No item above carries an issue number.** The tracker holds one
+issue, and it points at this page. An item gets an issue of its own
+the day somebody besides the author needs to follow it. Asking after
+one is a fair use of the tracker.
 
 **What makes a report usable:** what you started, what came out, and
 what you expected instead. The log names the version and which copy of

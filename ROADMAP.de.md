@@ -44,64 +44,29 @@ die es bricht, hebt die erste Stelle der Fassungsnummer.
 
 ## Was als Nächstes kommt
 
-Nach Nutzen gegen Aufwand geordnet. Die ersten drei sind klein und
-überfällig, dahinter liegt die Arbeit.
+Nach Nutzen gegen Aufwand geordnet. Die ersten zwei sind klein, die
+zwei danach warten auf einen Lauf und auf eine Entscheidung, und im
+letzten liegt die Arbeit.
 
-**1. Die Release-Seite bietet die Datei an, die wirklich geholt
-wird.** Ein Release bietet heute ein Quellarchiv von rund 60 MB, und
-die eine Datei, die der README zum Herunterladen nennt, liegt nicht
-dort, wo jemand sie sucht. `videopodcast-magic.py` samt SHA-256-Summe
-anzuhängen legt sie dorthin und lässt den Leser prüfen, was angekommen
-ist. Jede Modelldatei prüft das Programm längst gegen eine Prüfsumme,
-sich selbst noch nicht.
+**1. Die Fortschrittsanzeige springt nicht mehr zurück.** Unter Last
+kann der Balken zurückfallen, während am Lauf selbst nichts fehlt. Die
+Stelle ist gelesen und die Ursache benannt: der alte Plan wird nur
+weggeworfen, wenn gerade nichts läuft. Wer startet, während das
+Vermessen nach dem Öffnen des Projekts noch läuft, hängt die Stufen
+des Laufs an einen Plan, der schon halb abgearbeitet ist, und der
+Anteil am Ganzen fällt in dem Moment, in dem der Nenner wächst. Das
+ist im Quelltext gelesen und unter Last nicht gemessen. In einem Lauf
+über viele Minuten ist dieser Balken das Einzige, was sagt, ob sich
+noch etwas bewegt. Eine Anzeige, die lügt, ist schlechter als keine.
 
-**2. Ein Klon schleppt 32 MB weniger mit.** Der Arbeitsordner eines
-Testlaufs ist versehentlich im Repository gelandet und enthält das
-Sprechertrennungsmodell ein zweites Mal und eine veraltete Kopie des
-Programms. Jeder, der klont, zieht das mit. Herausnehmen kostet einen
-Commit, und die Vorgeschichte bleibt, wie sie ist: sie umzuschreiben
-würde die Tags verschieben, von denen installierte Programme ihr
-Modell holen.
+**2. Der Auphonic-Schlüssel unter Windows bekommt einen Test.** Die
+Suite läuft bei jedem Push unter Windows, Linux und macOS, und ein Weg
+ist draußen geblieben: unter Windows liegt der Schlüssel in der
+Registry, und diesen Weg rührt kein einziger Test an. Es ist die eine
+Stelle, an der ein Fehler einen Schlüssel dorthin legt, wo er nicht
+hingehört.
 
-**3. Die Fortschrittsanzeige springt nicht mehr zurück.** Unter Last
-kann der Balken zurückfallen, während am Lauf selbst nichts fehlt. In
-einem Lauf über viele Minuten ist dieser Balken das Einzige, was sagt,
-ob sich noch etwas bewegt. Eine Anzeige, die lügt, ist schlechter als
-keine.
-
-**4. Windows und Linux bekommen einen eigenen Lauf.** Das Programm
-wird unter Windows benutzt, und die Suite ist dort noch nie gelaufen.
-Ein Ablauf, der sie auf einem fremden Läufer startet, wird gerade
-erprobt, und die offene Frage ist, ob sie unter Windows oder unter
-Linux überhaupt grün wird. Eine Lücke bleibt, wie der Lauf auch
-ausgeht: den Auphonic-Schlüssel legt das Programm unter Windows in die
-Registry, und diesen Weg rührt kein einziger Test an.
-
-**5. Das Handbuch entfernt sich nicht mehr stillschweigend vom
-Programm.** Fünf Listen im Handbuch schreiben eine Liste aus dem
-Quelltext ab: die Schaltertabelle, die Menüleiste, die Schnittregeln,
-die Zahlvorgaben und die Verweise zwischen den Kapiteln. Rund 140
-Zeilen Test halten Menge gegen Menge und werden rot, sobald eine Seite
-sich bewegt. Verglichen werden Mengen, nie Sätze. Ein Test, der bei
-jeder Umformulierung rot wird, ist nach einer Woche abgeschaltet und
-bewacht danach nichts mehr.
-
-**6. Multitrack benennt seine Stimmen selbst.** Bei einem Mikrofon je
-Person weiß das Programm, wer wann spricht, und es weiß, welches
-Mikrofon welches ist. Beides gegeneinander zu halten müsste von selbst
-ergeben, dass „Stimme 2“ das Mikrofon dessen ist, der die Fragen
-stellt. Dann fällt das Benennen von Hand weg. Derselbe Vergleich ist
-eine Absicherung: wo Trennung und Mikrofon sich widersprechen, ist
-etwas faul. Die Daten liegen vor, gemessen ist es nicht.
-
-**7. Die Totale bekommt einen ruhigeren Takt.** Der Abstand, nach dem
-die Totale wiederkommt, entscheidet als einziger Wert darüber, wie
-unruhig der Schnitt wirkt, und an der Erkennung ändert er nichts. Ein
-größerer Abstand bringt weniger und längere Totalen bei gleicher
-Trefferquote. Wie lange eine Folge ohne eine Totale auskommt, ist
-Geschmackssache, deshalb bleibt die Zahl ein Schalter.
-
-**8. Die zwei Wege zu auphonic.com laufen einmal gegen den echten
+**3. Die zwei Wege zu auphonic.com laufen einmal gegen den echten
 Dienst.** Das Transkript einer einzelnen Spur und eine
 Multitrack-Produktion mit einer Stereospur sind beide gebaut, und
 keiner der beiden ist je wirklich hochgeladen worden. Ob der Dienst
@@ -109,25 +74,41 @@ eine Stereospur zweikanalig zurückgibt, ist offen. Bis dahin
 beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt aus
 einem Lauf.
 
+**4. Die Totale bekommt einen ruhigeren Takt.** Der Abstand, nach dem
+die Totale wiederkommt, entscheidet als einziger Wert darüber, wie
+unruhig der Schnitt wirkt, und die Messung sagt, dass er frei ist: die
+falsche Bildzeit kommt bei 45, 60, 75, 90 und 120 Sekunden auf die
+Zehntelsekunde gleich heraus. Bei 75 statt 45 Sekunden sind es 141
+Totalen statt 208, und der mittlere Abstand zwischen ihnen wächst von
+38 auf 64 Sekunden, bei gleicher Trefferquote. Der Vorgabewert steht
+auf 40 Sekunden, unterhalb von allem, was gemessen wurde. Was bleibt,
+ist eine Entscheidung und keine Messung: wie lange eine Folge ohne
+eine Totale auskommt, ist Geschmackssache, deshalb bleibt die Zahl ein
+Schalter.
+
+**5. Multitrack benennt seine Stimmen selbst.** Bei einem Mikrofon je
+Person weiß das Programm, wer wann spricht, und es weiß, welches
+Mikrofon welches ist. Beides gegeneinander zu halten müsste von selbst
+ergeben, dass „Stimme 2“ das Mikrofon dessen ist, der die Fragen
+stellt. Dann fällt das Benennen von Hand weg. Derselbe Vergleich ist
+eine Absicherung: wo Trennung und Mikrofon sich widersprechen, ist
+etwas faul. Heute treffen die beiden nie aufeinander: die
+Übersprech-Rechnung vergleicht Mikrofone untereinander, und die
+Stimmen einer Trennung heißen nach der Reihenfolge, in der sie reden,
+bis jemand darüberschreibt. Die Daten liegen vor, gemessen ist es
+nicht.
+
 ## Was später kommt
 
 Gröber, und in keiner festen Reihenfolge.
 
-* **Genau zwischen zwei Wörtern schneiden.** Der Reaktionsschnitt
-  landet dort, wo der Ton am leisesten ist, und das ist fast immer
-  eine echte Sprechpause. Ihn zwischen zwei Wörter zu setzen braucht
-  die Wortzeiten von Whisper. Die Erkennung, die macOS mitbringt, ist
-  weit schneller, liefert aber ein Raster von 60 ms und lässt zwischen
-  zwei Wörtern gar keine Lücke. Auf ihren Zahlen ist „zwischen zwei
-  Wörtern“ von „mitten im Wort“ nicht zu unterscheiden. Tempo gegen
-  Genauigkeit, und es wird ein Schalter statt einer Entscheidung.
-
 * **Ein „mhm“ zählt nicht mehr als Stille.** Lautblöcke unter vier
   Zehntelsekunden fliegen weg, bevor die Pausensuche läuft. Eine kurze
   Reaktion sieht danach aus wie eine Pause, und eine Totale kann
-  jemandem über die Antwort fallen. Die Grenze zu berichtigen ändert,
-  an wie viele Pausen das Programm glaubt, deshalb ist es eine Messung
-  und keine Zeile.
+  jemandem über die Antwort fallen. Die Grenze steht seit der ersten
+  Fassung unverändert da und ist nie gemessen worden. Sie zu
+  berichtigen ändert, an wie viele Pausen das Programm glaubt, deshalb
+  ist es eine Messung und keine Zeile.
 
 * **Vorgaben, die einen Beleg tragen.** Ein paar Zahlen stammen aus
   einem einzelnen Referenzschnitt statt aus einer Messung.
@@ -146,17 +127,20 @@ Gröber, und in keiner festen Reihenfolge.
   Clips dort liegen. In den Tests steht eine Attrappe für Resolve,
   bestätigen kann es also nur ein echtes Projekt.
 
-* **Die Ränder des Programms bekommen Tests.** Gemessen sind rund zwei
-  Drittel abgedeckt. Was die Suite nicht anrührt, ist der ganze Lauf
-  als Lauf, der Einzeldateiweg, der Weg zu auphonic.com, die Trennung
-  und das Selbst-Aktualisieren. Die Abdeckung wird gelegentlich
-  gemessen und nie zum Ziel.
+* **Die Ränder des Programms bekommen Tests.** Gemessen sind 71
+  Prozent der Anweisungen abgedeckt. Die Trennung, das
+  Selbst-Aktualisieren und ein Lauf ohne auphonic.com werden inzwischen
+  durchgefahren; was kein Test betritt, sind die zwei Funktionen, die
+  eine ganze Produktion mit auphonic.com darin zusammensetzen, das
+  erste Hochladen einer neuen Produktion, die Hälfte des
+  Einzeldateiwegs und der Rückweg nach einer misslungenen
+  Selbst-Aktualisierung. Die
+  Abdeckung wird gelegentlich gemessen und nie zum Ziel.
 
-* **Das Handbuch bekommt, was ihm fehlt.** Jede Zahl mit Spanne,
-  Vorgabe und Richtung. Ein Bildschirmfoto, das den falschen Reiter
-  zeigt. Ein Bild für das Kanalkapitel. Ein Stichwortverzeichnis neben
-  der Kapitelliste. Eine veröffentlichte Adresse, sobald jemand eine
-  zum Weitergeben braucht.
+* **Das Handbuch bekommt, was ihm fehlt.** Rund ein Dutzend Zahlen
+  stehen noch ohne ihre Vorgabe und ohne die Richtung, in die sie
+  ziehen. Und eine veröffentlichte Adresse, sobald jemand eine zum
+  Weitergeben braucht.
 
 * **Kleinere Commits.** Ein Commit, dessen Betreff ein „und“ braucht,
   sind zwei Commits. Das kostet nichts, und `git bisect` und
@@ -179,6 +163,14 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 * **Die Folge schneiden.** Der Kameraschnitt ist ein Vorschlag, der
   Schnitt bleibt deiner. Das Programm misst und übergibt; Entscheiden
   ist keine spätere Stufe davon.
+
+* **Einen Schnitt auf eine Wortgrenze legen statt auf den Ton.** Das
+  stand unter „Was später kommt“, und die Messung hat es andersherum
+  beantwortet: die leiseste Stelle landet 97 bis 99 mal
+  von hundert in einer echten Sprechpause, die Wortgrenze der
+  Erkennung 42 bis 46 mal. Der Text sagt weiterhin ungefähr wo --
+  Satz- und Teilsatzenden kommen aus den Wortzeiten --, und der Ton
+  sagt genau wo. Das zu tauschen machte den Schnitt schlechter.
 
 * **Pull Requests als Prüfstelle, Pflichtdurchsichten, CODEOWNERS.**
   Alle drei setzen einen zweiten Menschen voraus. Wer sich selbst
@@ -204,7 +196,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Alle vier
   wollen ein Paket mit `pyproject.toml`. Hier wären es vier neue
-  Abhängigkeiten für eine Datei, deren 98 Tests als schlichte Scripts
+  Abhängigkeiten für eine Datei, deren 103 Tests als schlichte Scripts
   in einer halben Minute durchlaufen. Eine dünne pytest-Schicht, die
   genau diese Scripts unverändert startet, ist etwas anderes und kann
   kommen.
@@ -244,9 +236,10 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 Discussions sind mit Absicht aus. Eine Frage, ein Fehler und ein Wunsch
 gehen an dieselbe Stelle, und keines davon braucht eine Vorlage.
 
-**Kein Punkt oben trägt eine Issue-Nummer.** Die Liste ist bisher
-leer, und ein Punkt bekommt sein Issue an dem Tag, an dem jemand außer
-dem Autor ihn verfolgen will. Danach zu fragen ist ein guter Anlass.
+**Kein Punkt oben trägt eine Issue-Nummer.** Die Liste hält ein
+einziges Issue, und das zeigt auf diese Seite. Ein Punkt bekommt sein
+eigenes Issue an dem Tag, an dem jemand außer dem Autor ihn verfolgen
+will. Danach zu fragen ist ein guter Anlass.
 
 **Was eine Meldung brauchbar macht:** was du gestartet hast, was
 herauskam und was du stattdessen erwartet hast. Das Log nennt die
