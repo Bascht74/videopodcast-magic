@@ -63,13 +63,17 @@ VPM_CUT_GATE_DUMP=1 prints what the children said.
 """
 import os, sys, json, subprocess, tempfile
 
-# Three children at a time, not all six. Each builds a window holding
-# three players, and every player decodes pictures in fifteen threads
-# of its own; six of those at once is where the runs began to stop
-# altogether. And a child that has said nothing for this long has
-# stopped, not slowed: it needs three seconds here, and the slowest
-# build machine is nowhere near a hundred times slower.
-AT_ONCE = 3
+# All six at once again. Three at a time was the answer on 29.8.2026,
+# when six of them made two runs in four stop altogether -- but the
+# cause turned out to be elsewhere: a player that had never started was
+# being told to stop, and that walked into a lock inside Qt. Since the
+# program asks first, twelve runs of six went through with the repeat
+# below never once needed. The repeat stays: it costs nothing where it
+# never fires, and it is the only thing that would tell us if this came
+# back. A child that has said nothing for this long has stopped, not
+# slowed -- it needs three seconds here, and no build machine is a
+# hundred times slower.
+AT_ONCE = 6
 PATIENCE = 100
 
 HERE = os.path.dirname(os.path.abspath(__file__))
