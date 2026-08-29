@@ -47,7 +47,7 @@ log_atom 1
 loudness 2
 metrics 1
 multicam 0
-offset 2
+offset 3
 offset_player 0
 one_camera_cut 1
 one_moment 1
@@ -64,10 +64,10 @@ preset_default 3
 preset_none 0
 prework 0
 probe_cache 1
-progress 0
-progress_plan 0
-refresh 0
-refresh_run 0
+progress 1
+progress_plan 1
+refresh 1
+refresh_run 1
 register 0
 release 0
 remote_grades 1
@@ -75,13 +75,13 @@ render 1
 render_hdr 0
 resolve_fixes 1
 reuse_production 0
-review_fixes 0
+review_fixes 1
 run_bar 8
 set_aside 2
 settings_window 4
-simple 0
+simple 1
 sound_and_picture 8
-speaker_gate 0
+speaker_gate 1
 speaker_split 1
 speakers 0
 speakers_for_real 12
@@ -105,5 +105,5 @@ wide_edges 1
 window 1
 window_wiring 15
 without_auphonic 7
-zero_point 1
+zero_point 2
 zoom_band 1

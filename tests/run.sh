@@ -315,8 +315,14 @@ run_one() {
   # Counted by what is already written: several tests finish at once,
   # so two may report the same number. It is a place in the queue, not
   # an accounting.
-  printf '  %s  %3d/%s  %-24s %s\n' "$(date '+%H:%M:%S')" \
-    "$(ls "$OUT" | grep -vc '\.took$')" "$TOTAL" "$t" "$(head -1 "$OUT/$t")"
+  # The time it took stands in the line as well. From the clock alone
+  # you cannot read it: several run side by side, so the gap to the
+  # line before says nothing about either of them. With the seconds
+  # there, a slow run explains itself out of its own log, and nobody
+  # has to open state/longest to find out what held it up.
+  printf '  %s  %3d/%s  %-24s %-8s %3d s\n' "$(date '+%H:%M:%S')" \
+    "$(ls "$OUT" | grep -vc '\.took$')" "$TOTAL" "$t" \
+    "$(head -1 "$OUT/$t")" "$((SECONDS - began))"
 }
 export -f run_one
 export OUT HERE LIMIT TOTAL
