@@ -288,16 +288,19 @@ jobs:
           cd tests
           start=$SECONDS
           set +e
-          # One at a time on Windows. Five windows built at once there
-          # ended in an access violation inside Qt -- no Python frame in
-          # it, a different test each time, five of seven runs. On the
-          # same Windows with the same Qt and the same Python 3.10, one
-          # test at a time came through five times out of five
-          # (29.8.2026, measured on a machine of Sebastian's). So it is
-          # the load on this builder, not the version and not the test.
-          # Whether the same holds for the program itself is written
-          # down as open; a person opens one window, not five.
-          [ "$RUNNER_OS" = "Windows" ] && export WORKERS=1
+          # Windows ran one test at a time from 29.8.2026, because five
+          # windows at once there ended in an access violation inside
+          # Qt -- no Python frame in it, a different test each time,
+          # five of seven runs.
+          #
+          # Taken off again the same day, as a measurement: four of the
+          # window tests were deleting a camera file while three players
+          # still had it open, and one of the four is block_remove,
+          # which is where the access violation showed most. They let go
+          # first now. If that was the cause, Windows comes through
+          # beside the others again -- and it costs a minute instead of
+          # five. If the crash returns, this line comes back and the
+          # suspicion is wrong.
           bash run.sh 2>&1 | tee "$RUNNER_TEMP/suite.log"
           rc=${PIPESTATUS[0]}
           echo "the suite took $(( SECONDS - start )) s"
