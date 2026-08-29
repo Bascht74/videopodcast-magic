@@ -4302,6 +4302,28 @@ def choose_zero_point(audio_origin=(), camera_origin=(), length=0.0):
     return min(videos) if videos else None
 
 
+def cameras_frame_rate(cameras):
+    """The rate the cut has to be read at, measured on a camera.
+
+    The frames of a timecode are frames: 18:55:17:12 is 68117.48 s at
+    25 and 68117.40 at 30. A handover written by a run carries the
+    rate; one built in the window did not, so the player fell back on
+    30 -- two frames, 80 ms, and the picture ran ahead of the sound on
+    every camera whose timecode has a frame part in it. Cameras ending
+    :00 were exact, which is why it could sit there unseen.
+
+    Measured 30.8.2026, and only reachable at all since the window
+    stopped believing a handover an earlier run had left behind.
+    """
+    for cam in cameras or ():
+        path = cam.get("file") or ""
+        if path and os.path.exists(path):
+            rate = picture_rate(ffprobe_json(path))
+            if rate:
+                return float(rate)
+    return 0.0
+
+
 def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                     camera_origin=(), places=()):
     """Build the handover from segments and the assignment.
@@ -4347,6 +4369,7 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
                            "sections": [list(x) for x in segs]}
                           for n, segs in segment_list],
              "cameras": out, "length_s": length,
+             "fps": cameras_frame_rate(cameras),
              "start_s": choose_zero_point(audio_origin, camera_origin,
                                           length)}, "")
 
@@ -25162,6 +25185,42 @@ def wide_too_short(number):
                  holds, least)
 
 
+def run_done_text(dry):
+    """What to say when a run has ended well.
+
+    A dry run measures and writes nothing, so pointing at a result
+    folder and offering to build a Resolve project out of it points at
+    whatever an earlier run happened to leave there. Measured
+    30.8.2026 on Sebastian's interview: a dry run said "if all is
+    right, Create Resolve project builds the project from it" while the
+    newest handover in that folder was four days old, from another
+    window and another measurement.
+    """
+    if dry:
+        return T('\nMeasured. Nothing was written -- a dry run leaves the '
+                 'result folder as it was.\n')
+    return T('\nDone. Below, "Open result folder" shows the result.\nIf '
+             'all is right, "Create Resolve project" builds the project '
+             'from it.\n')
+
+
+def resolve_ours(state):
+    """The handover this window's own run wrote, or nothing.
+
+    A file lying in the result folder may be days old, from another
+    measurement and another time window, and a cut built out of it
+    looks exactly like a fresh one. Measured 30.8.2026 on the test
+    interview: a dry run offered a Resolve project and showed a cut,
+    both out of a handover from four days earlier.
+
+    Sebastian settled it the same day: the handover is a help for the
+    instance that made it. After a restart it is worked out again
+    rather than believed, and the program does not trust what an
+    earlier one of itself left behind.
+    """
+    return state.get("resolve_json")
+
+
 def question_dialog(f, window, QtWidgets, label):
     """Ask the window's user what to do while a worker thread waits.
 
@@ -25535,8 +25594,7 @@ def gui():
         question drift apart the moment one of them is refreshed.
         """
         SHADES.clear()
-        SHADES.update(
-            {"group": QtGui.QColor("#2f3b49"),
+        SHADES.update({"group": QtGui.QColor("#2f3b49"),
              "audio": QtGui.QColor("#28313c"),
              "video": QtGui.QColor("#332f27"),
              "block": QtGui.QColor("#262b31")}
@@ -25772,8 +25830,8 @@ def gui():
                     note.setText(T('Cannot start yet: %s') % "   ".join(
                         "%s -- %s" % (tab_named(on_tab.get(k)), pending[k])
                         for k in sorted(pending)))
-                    note.setStyleSheet(
-                        "color: %s;" % COLOURS["warning"])
+                    note.setStyleSheet("color: %s;"
+                                       % COLOURS["warning"])
                 note.setVisible(True)
         else:
             start_run_env_curve.setToolTip(T('Measure, align, process, '
@@ -26253,8 +26311,7 @@ def gui():
             if not affected:
                 return
             how = T('audio file') if kind == "audio" else T('video file')
-            if not ask(
-                    T('Remove all'),
+            if not ask(T('Remove all'),
                     T('Remove all %d %ss from the list?\n\n%s')
                     % (len(affected), how,
                        "\n".join("  " + os.path.basename(p)
@@ -27388,8 +27445,7 @@ def gui():
             if not trouble:
                 segments = speaker_cache_read(key) or []
             if not trouble and not segments:
-                segments, trouble = speaker_split_run(
-                    source, count,
+                segments, trouble = speaker_split_run(source, count,
                     report=lambda t, s: bridge_emit(
                         bridge.speakers_split_note, t, s),
                     stopping=lambda: split_run["stop"])
@@ -27866,13 +27922,18 @@ def gui():
     audio_fields, video_fields = [], []
 
     def assignment_check():
-        """Mark the trouble spots red, in the row rather than at startup.
+        """Mark the trouble spots red, and let the preview hear the name.
 
         Two things can be caught here before they do damage: two recordings
         with the same speaker name, which would become a single track, and two
         cameras with the same output name, where the second would overwrite the
         first.
         """
+        # A typed name is an answer like any other; without this the
+        # preview went on showing the old name at the old camera until
+        # something unrelated was touched. Found 30.8.2026.
+        if state.get("preview_soon"):
+            state["preview_soon"]()
         # A recording showing its voices is left out of the comparison:
         # its field says "several speakers" and not a name, and two of
         # them saying the same thing is not a clash but the truth.
@@ -28382,8 +28443,7 @@ def gui():
             # came from is only the preselection.
             own_camera = (os.path.basename(from_camera or first)
                           if camera_track else "")
-            was = camera_after_a_mark(
-                "audio:" + first, old_camera, wide,
+            was = camera_after_a_mark("audio:" + first, old_camera, wide,
                 speaker_name_of(name_value) or os.path.basename(first))
             picked = preselected_camera(
                 was, wide["pickable"], name_value.get(), videos,
@@ -28723,8 +28783,7 @@ def gui():
     name_bar.insertWidget(name_bar.count() - 1,
                           label(T('Language'), COLOURS["quiet"]))
     name_bar.insertSpacing(name_bar.count() - 1, 6)
-    name_bar.insertWidget(name_bar.count() - 1, hint(
-        language_box,
+    name_bar.insertWidget(name_bar.count() - 1, hint(language_box,
         T('The language spoken in the recording. It becomes the tag of '
           'the\nwritten audio track, and auphonic.com uses it for the '
           'transcript.\nPreset from the system language. "%s" leaves the '
@@ -28789,8 +28848,7 @@ def gui():
     # While no key is checked there is only the one entry, and it describes
     # exactly what happens then.
     preset_box.addItem(label_of(PRESET_NONE), PRESET_NONE)
-    second_line.addWidget(hint(
-        preset_box,
+    second_line.addWidget(hint(preset_box,
         T('Determines how auphonic.com processes the audio.\n\n"%s" leaves '
           'the key in place and still does not go there.\nThe audio is then '
           'only merged and normalised, not unmixed --\nand without separate '
@@ -28802,8 +28860,7 @@ def gui():
     transcript_on = Value(True)
     transcript_button = QtWidgets.QCheckBox(T('Fetch transcript'))
     checkbox_bind(transcript_button, transcript_on)
-    second_line.addWidget(hint(
-        transcript_button,
+    second_line.addWidget(hint(transcript_button,
         T('auphonic.com writes down what is said and delivers three '
           'files:\n  a json with times, an srt for subtitles, a txt to '
           'read.\nIts own Whisper is used, so no account anywhere '
@@ -29256,8 +29313,7 @@ def gui():
         d = state.get("cut_data")
         if numbers and numbers.get("cut") and d:
             cameras = [x for x in (d.get("cameras") or []) if x.get("file")]
-            offset = camera_offset(
-                cameras, d.get("start_s"),
+            offset = camera_offset(cameras, d.get("start_s"),
                 max(1.0, float(d.get("fps_measured") or d.get("fps") or 30.0)))
             files_per_track = {x["track"]: x["file"] for x in cameras}
             if files_per_track:
@@ -29329,8 +29385,7 @@ def gui():
                                        state.get("voiced") or set())
         axis = state.get("axis") or {}
 
-        d, reason = build_handover(
-            segment_list, length, where_to,
+        d, reason = build_handover(segment_list, length, where_to,
             [{"track": guess_camera_name(b), "file": b,
               "start_s": camera_start(b),      # the mark, or the preview
               "wide_marked": clip_kind_value(b).get() == TYPE_WIDE}
@@ -29461,8 +29516,8 @@ def gui():
         # set above; those are there before the first Resolve run.
         d = None
         state["reason"] = ""
-        js = state.get("resolve_json") or find_handover_file(
-            out_folder.get(), commonest_folder(), deeper=True)
+        # Only what this window's own run wrote -- see resolve_ours().
+        js = state.get("resolve_json")
         if js:
             try:
                 with open(js, encoding="utf-8") as f:
@@ -29532,8 +29587,7 @@ def gui():
         speech_show(d)
         window_info_show()
         try:
-            numbers = cut_statistics(
-                d, number["min-edit-duration"],
+            numbers = cut_statistics(d, number["min-edit-duration"],
                 number["edit-change-delay"], number["wide-after"],
                 number["wide-length"], number["wide-latest"],
                 bool(edge_on.get()), cut_rules(
@@ -29596,7 +29650,7 @@ def gui():
     def check_for_a_cut():
         if state["statistics"] or state["running"] or not multitrack.get():
             return
-        if find_handover_file(out_folder.get(), commonest_folder()):
+        if state.get("resolve_json"):
             preview_compute()
 
     watchdog.timeout.connect(check_for_a_cut)
@@ -30154,12 +30208,14 @@ def gui():
             reason_set(only_resolve_env_curve, only_resolve, False,
                          T('The run is still going.'), "")
             return
-        js = state.get("resolve_json") or find_handover_file(
-            out_folder.get(), commonest_folder(), deeper=True)
-        what_for = T('Without recomputing anything. Resolve must be running.')
+        js = state.get("resolve_json")
+        what_for = T('Cut, EDL, CSV and the handover are worked out '
+                     'again from the numbers above. Resolve must be '
+                     'running.')
         if js and resolve_installed():
             state["resolve_json"] = js
-            reason_set(only_resolve_env_curve, only_resolve, True, "", what_for)
+            reason_set(only_resolve_env_curve, only_resolve, True, "",
+                       what_for)
             only_resolve.setText(T('Create Resolve project'))
         else:
             reason_set(only_resolve_env_curve, only_resolve, False,
@@ -30285,9 +30341,7 @@ def gui():
         for name in list(run_step_order):
             bridge_emit(bridge.run_step, name, 1.0)
         if code == 0:
-            write(as_good(T('\nDone. Below, "Open result folder" shows the '
-                            'result.\nIf all is right, "Create Resolve '
-                            'project" builds the project from it.\n')))
+            write(as_good(run_done_text(state.get("dry_run"))))
         else:
             write(as_bad(T('\nFinished with errors.\n')))
         for file_path in state["results"]:
@@ -30515,7 +30569,7 @@ def gui():
         preview_button.setEnabled(False)
         only_resolve.setEnabled(False)
         start_run.setText(T('Preview running ...') if only_look else T('running ...'))
-        state["running"] = True
+        state["running"], state["dry_run"] = True, bool(only_look)
         break_off_arm(break_off)
         run_plan_build()
         result_button_check()
@@ -32497,6 +32551,8 @@ CATALOGUE["de"] = {
         '\nWird abgebrochen. Der Lauf hört auf, sobald er es kann, ohne eine Datei halb geschrieben liegen zu lassen -- einen Moment.\n',
     'The wide shot holds %g s, less than the shortest shot of %g s -- so it is merged away again and never appears.\n':
         'Die Totale hält %g s, weniger als die kürzeste Einstellung von %g s -- sie wird deshalb wieder zusammengelegt und erscheint nie.\n',
+    '\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n':
+        '\nGemessen. Es wurde nichts geschrieben -- ein Probelauf lässt den Ergebnis-Ordner, wie er war.\n',
     '\nBroken off during: %s':
         '\nAbgebrochen bei: %s',
     '%d file was finished before that and is whole: %s':
@@ -34238,8 +34294,8 @@ CATALOGUE["de"] = {
         'Was soll damit geschehen?',
     'Window %s%s':
         'Fenster %s%s',
-    'Without recomputing anything. Resolve must be running.':
-        'Ohne etwas neu zu rechnen. Resolve muss laufen.',
+    'Cut, EDL, CSV and the handover are worked out again from the numbers above. Resolve must be running.':
+        'Schnitt, EDL, CSV und die Übergabedatei werden aus den Zahlen oben neu gerechnet. Resolve muss laufen.',
     'Without these two nothing works. Is Resolve installed?':
         'Ohne diese beiden geht nichts. Ist Resolve installiert?',
     'audio file':

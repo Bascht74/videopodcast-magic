@@ -24,6 +24,20 @@ one; and the start of the programme plus programme time is a third.
 Three roads, measured with ffprobe here and not taken from the player,
 and all three have to arrive at the same instant.
 
+Where the cut comes from is the window's own arithmetic, because that
+is where a person's comes from too. Until 30.8.2026 the window would
+pick up any handover file lying in the result folder, and one of them
+was four days old: another time window, another measurement, and the
+sound sat off the picture. Since then it uses only what its own run
+wrote, and where there is nothing it works the cut out of what it
+knows -- the separation, who sits in front of which camera, and the
+timecodes of the files. So this test hands the window a project and no
+run: the separation travels in the project the way a saved one does,
+the cameras carry their timecodes, and the cut is the window's answer.
+A handover file from an older measurement lies in the result folder on
+purpose, with a start an hour away, and one check is that programme
+time did not land on it.
+
 Five cases, in two windows built offscreen:
 
   * every line the player prints, at a standstill and while running
@@ -84,8 +98,10 @@ sys.path.insert(0, HERE)
 WIDE = "Totale_08141855_C003.mov"
 HOST = "Moderatoren_08141855_C005.mov"
 GUEST = "Kandidat_08141858_C009.mov"
-CAMERAS = ((WIDE, "Wide", []), (HOST, "Host", ["Host"]),
-           (GUEST, "Guest", ["Guest"]))
+# What each one is called on the cut is not settled here: the window
+# gives every camera a track name of its own, and the timecodes below
+# are measured under those names, off the very files it opened.
+CAMERAS = (WIDE, HOST, GUEST)
 
 # Where programme time starts on the wall clock: half a minute after
 # the earliest camera. Every offset is then a number and not a zero --
@@ -97,6 +113,18 @@ CUT_LENGTH = 60.0
 MIX_START = CUT_START - 10.0
 MIX_LENGTH = 90.0
 TAIL = "18-55-20-00"                  # the timecode in its file name
+# Who spoke when, in the time of the one recording all of them are on.
+# This is what a separation leaves behind and what a saved project
+# carries, and it is the whole of what the window needs to work a cut
+# out: ten seconds each, turn and turn about, so the cut changes camera
+# five times and every shot is long enough to jump into.
+SEPARATION = (("SPEAKER_00", ((0.0, 10.0), (20.0, 30.0), (40.0, 50.0))),
+              ("SPEAKER_01", ((10.0, 20.0), (30.0, 40.0), (50.0, 60.0))))
+NAMED = {"SPEAKER_00": "Host", "SPEAKER_01": "Guest"}
+# An older handover in the result folder, an hour away from the truth.
+# It must not be read: that is the fault of 30.8.2026, kept here as a
+# counter-check rather than as the source of the cut.
+STALE_AWAY = 3600.0
 # How far the window case pushes the start of the programme.
 WINDOW_IN = 20.0
 WINDOW = (1400, 950)
@@ -167,14 +195,24 @@ def silent_wav(path, seconds, start):
 
 
 def own_project(case, vpm, fixture):
-    """Material, project and handover for one case.
+    """Material and project for one case, and no run.
 
-    The cameras are only linked to: opening a project moves the project
-    file into its output folder and would leave the next test with
-    nothing to open. What a run leaves behind is written here by hand --
-    the handover file with the cameras and who spoke when, and the
-    prepared overall mix in the folder the run puts it in. Returns
-    (project file, out folder, what was measured about the cameras).
+    The cameras are copied: opening a project moves the project file
+    into its output folder and would leave the next test with nothing
+    to open. Nothing here pretends a run has happened. What the window
+    is given is what a person has before the first run: three cameras
+    with their timecodes, one recording everybody is on with a
+    separation stored beside it, who sits in front of which camera, and
+    the prepared overall mix in the folder a run puts it in. The cut is
+    then the window's own arithmetic.
+
+    The one file that does claim a run is the handover in the result
+    folder, and it is wrong on purpose -- an hour away, one camera, one
+    speaker. Since 30.8.2026 the window does not touch a handover its
+    own run did not write, and that file is how this test says so.
+
+    Returns (project file, out folder, what was measured about the
+    material).
     """
     source = fixture("interview")
     own = tempfile.mkdtemp(prefix="vpm_soundpicture_")
@@ -182,28 +220,55 @@ def own_project(case, vpm, fixture):
     done = os.path.join(result, "auphonic-tracks")
     os.makedirs(done)
     here = {}
-    for name, _track, _who in CAMERAS:
+    for name in CAMERAS:
         copy = os.path.join(own, name)
         # Copied and not linked to: three megabytes each, and a link is
         # a privilege on Windows rather than a file operation.
         shutil.copyfile(os.path.join(source, name), copy)
         here[name] = copy
-    # The frame rate is measured, because the frames of a timecode are
-    # frames: read at 30 what was shot at 25, 18:55:17:12 lands 80 ms
-    # out, which is two frames and would swallow exactly the kind of
-    # error this test is for.
+    # The frame rate is measured, and every timecode here is read at
+    # it, because the frames of a timecode are frames: read at 30 what
+    # was shot at 25, 18:55:17:12 lands 80 ms out. That is two frames,
+    # and it is exactly the size of error this test is for. It also
+    # sets how close the three roads have to come: one frame.
     fps = float(vpm.video_facts(here[WIDE]).get("fps") or 30.0)
-    tc = {track: float(vpm.file_timecode(here[name], fps))
-          for name, track, _who in CAMERAS}
     mix = os.path.join(done, "final_Full-Mix_%s.wav" % TAIL)
     silent_wav(mix, MIX_LENGTH, MIX_START)
+    # The one recording everybody is on. Its timecode is what tells the
+    # window where programme time starts: the speech was measured on
+    # this file, so the zero point of the segments is its beginning.
+    voices = os.path.join(own, "Everyone_0001.wav")
+    silent_wav(voices, CUT_LENGTH, CUT_START)
 
     project = os.path.join(own, "videopodcast-magic_Sound_picture.json")
     with open(project, "w", encoding="utf-8") as f:
         json.dump({
             "format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
             "call": [], "preset": "", "production": "Sound picture",
-            "multitrack": False, "out_folder": result, "assignment": {},
+            # Several cameras, or there is no camera cut to look at.
+            "multitrack": True, "out_folder": result,
+            "assignment": {
+                # "several speakers" on that recording, which is what
+                # puts the separated voices under it as rows of their
+                # own. Without that answer the window shows none, and
+                # then nobody is in front of a camera.
+                "several:" + voices: True,
+                "voice:SPEAKER_00": HOST,
+                "voice:SPEAKER_01": GUEST,
+                # Said out loud rather than derived, so the wide shot
+                # is the one meant and not whichever camera happens to
+                # have nobody in front of it.
+                "kind:" + here[WIDE]: vpm.TYPE_WIDE,
+            },
+            # The separation as a saved project carries it: raw, in the
+            # time of its own file, with the fingerprint that says it
+            # still belongs to it.
+            "speakers": vpm.speakers_for_project(
+                voices, [(label, [tuple(x) for x in parts])
+                         for label, parts in SEPARATION],
+                len(SEPARATION), dict(NAMED)),
+            "speakers_source": voices,
+            "speakers_local": True,
             # The In point travels in the project file. There is no
             # field to type it into -- the window takes it off the
             # picture -- so this is the door a test has.
@@ -211,42 +276,39 @@ def own_project(case, vpm, fixture):
                         if case == "window" else "",
             "out_point": "",
             "files": [{"path": here[n], "kind": "video"}
-                      for n, _t, _w in CAMERAS],
+                      for n in CAMERAS]
+                     + [{"path": voices, "kind": "audio"}],
         }, f, ensure_ascii=False, indent=1)
 
-    with open(os.path.join(result, "Sound_picture_resolve.json"), "w",
-              encoding="utf-8") as f:
+    # The handover of an older run, left lying in the result folder. An
+    # hour off, one camera, one speaker -- so that a window reading it
+    # cannot be mistaken for a window that did the arithmetic itself.
+    stale = os.path.join(result, "Sound_picture_resolve.json")
+    with open(stale, "w", encoding="utf-8") as f:
         json.dump({
-            "format": vpm.FILE_FORMAT, "created_by": "test",
+            "format": vpm.FILE_FORMAT, "created_by": "an earlier run",
             "production": "Sound picture", "fps": int(round(fps)),
             "fps_measured": fps, "drop_frame": False,
             "width": 320, "height": 180,
-            "start_tc": vpm.timecode_string(CUT_START, fps),
-            "start_s": CUT_START, "length_s": CUT_LENGTH, "lufs": -16.0,
-            "intro": None, "outro": None,
+            "start_tc": vpm.timecode_string(CUT_START - STALE_AWAY, fps),
+            "start_s": CUT_START - STALE_AWAY, "length_s": CUT_LENGTH,
+            "lufs": -16.0, "intro": None, "outro": None,
             "cameras": [
-                {"file": here[name], "source": here[name],
-                 "camera": name, "track": track, "speakers": list(who),
-                 "audio_tracks": ["Full-Mix"] if not who else list(who),
-                 # The measured offset beside the timecode, and the
-                 # same value: where the two disagree the program takes
-                 # the timecode and says so, which is a different
-                 # question from this one.
-                 "offset": round(tc[track] - CUT_START, 4),
-                 "duration": CUT_LENGTH, "wide": not who}
-                for name, track, who in CAMERAS],
+                {"file": here[WIDE], "source": here[WIDE],
+                 "camera": WIDE, "track": "Wide", "speakers": ["Nobody"],
+                 "audio_tracks": ["Full-Mix"], "offset": 0.0,
+                 "duration": CUT_LENGTH, "wide": False}],
             "cut": [],
-            "speakers": [
-                {"name": "Host",
-                 "sections": [[0.0, 10.0], [20.0, 30.0], [40.0, 50.0]]},
-                {"name": "Guest",
-                 "sections": [[10.0, 20.0], [30.0, 40.0],
-                              [50.0, 60.0]]}],
+            "speakers": [{"name": "Nobody",
+                          "sections": [[0.0, CUT_LENGTH]]}],
             "audio_files": {}, "words": [],
         }, f, ensure_ascii=False, indent=1)
-    return project, result, {"fps": fps, "tc": tc,
-                             "files": {t: here[n] for n, t, _w in CAMERAS},
-                             "mix": mix, "mix_tc": MIX_START}
+    # "tc" and "files" stay empty until the player says which files it
+    # opened and what it calls them; they are filled in wait_for_cut.
+    return project, result, {"fps": fps, "tc": {}, "files": {},
+                             "mix": mix, "mix_tc": MIX_START,
+                             "voices": voices, "stale": stale,
+                             "stale_start": CUT_START - STALE_AWAY}
 
 
 # ------------------------------------------------------------- the child
@@ -480,7 +542,8 @@ def look(case):
     def wait_for_cut():
         """Wait for the cut, not for the clock.
 
-        The window builds it out of the handover once every file has
+        The window works it out itself, out of the separation in the
+        project and the timecodes of the files, once every file has
         been looked at. What must be there is known before the window
         opens: a cut over at least two cameras, with a sound file under
         it.
@@ -493,6 +556,18 @@ def look(case):
             result["error"] = "no cut came up"
             return "stop"
         result["cut"] = [[a, b, w] for a, b, w in p.cut]
+        # The timecodes, measured now and off the very files the player
+        # opened, under the names it calls them by. Written down here
+        # rather than beside the material because what a camera is
+        # called on the cut is the window's answer and not this test's:
+        # a timecode filed under a name nobody uses checks nothing.
+        measured["files"] = {t: os.path.basename(x)
+                             for t, x in p.files.items()}
+        measured["tc"] = {}
+        for track, path in p.files.items():
+            stamp = vpm.file_timecode(path, measured["fps"])
+            if stamp is not None:
+                measured["tc"][track] = float(stamp)
         # What the player was holding, kept as it is: the last two steps
         # take it away and put it back to show that the waiting works.
         keep.update(cut=[(a, b, w) for a, b, w in p.cut],
@@ -729,7 +804,7 @@ def check(name, ok, extra=""):
 from fixture_root import fixture              # noqa: E402  after the child
 
 material = fixture("interview")
-missing = [n for n, _t, _w in CAMERAS
+missing = [n for n in CAMERAS
            if not os.path.exists(os.path.join(material, n))]
 if missing:
     print("SKIPPED: no material under %s -- missing %s"
@@ -838,11 +913,11 @@ def agree(step_lines, measured, tc0, frame):
 
 for case in CASES:
     d, steps = report[case]
-    print("%s:" % ("the cut as the run left it" if case == "plain"
+    print("%s:" % ("the cut the window worked out" if case == "plain"
                    else "the same cut with a time window set"))
     measured = d.get("measured") or {}
     frame = 1.0 / max(1.0, float(measured.get("fps") or 30.0))
-    check("  the window brought a cut over two cameras up",
+    check("  the window worked a cut over two cameras out by itself",
           bool(d.get("cut")) and len(set(w for _a, _b, w in d["cut"])) > 1,
           json.dumps(d.get("error") or "")[:160])
     if not d.get("cut"):
@@ -851,10 +926,21 @@ for case in CASES:
           d.get("audio") == os.path.basename(measured.get("mix") or ""),
           str(d.get("audio")))
     tc0 = d.get("tc0")
-    check("  programme time starts where the handover says",
-          tc0 is not None and abs(
-              tc0 - (d["start_s"] + d["window_in"])) < 0.001,
-          "%s, wanted %s" % (tc0, d["start_s"] + d["window_in"]))
+    want_tc0 = d["start_s"] + d["window_in"]
+    check("  programme time starts where the recording's clock says",
+          tc0 is not None and abs(tc0 - want_tc0) < 0.001,
+          "%s, wanted %s" % (tc0, want_tc0))
+    # The counter-check to that one, and the reason this test was
+    # rewritten: a handover of an older run lies in the result folder,
+    # an hour away and on one camera. A window reading it would land on
+    # its start and show one shot; both are visible from here.
+    stale = measured.get("stale_start")
+    check("  and not where the older handover in the folder says",
+          tc0 is not None and stale is not None
+          and abs(tc0 - (stale + d["window_in"])) > 1.0
+          and len(set(w for _a, _b, w in d["cut"])) > 1,
+          "programme starts at %s, that file says %s, %d camera(s) in "
+          "the cut" % (tc0, stale, len(set(w for _a, _b, w in d["cut"]))))
     if tc0 is None:
         continue
 
@@ -949,15 +1035,23 @@ for case in CASES:
           len(real) >= 1 and len(real) == len(seen),
           "%d of %d lines, offsets %s"
           % (len(real), len(seen), json.dumps(d.get("reversed"))))
-    off = []
+    off, nameless = [], []
     for line in real:
         m = moments(line, measured, tc0)
+        # A camera nobody measured a timecode for is not a small gap,
+        # it is no measurement at all, and it must not be counted as
+        # one -- least of all here, where a large gap is the pass.
+        if m is None:
+            nameless.append(line["who"])
+            continue
         off.append(max(abs(m["picture"] - m["clock"]),
                        abs(m["sound"] - m["clock"])))
     check("  and every one of them is caught by the same check",
-          bool(off) and min(off) > frame,
-          "smallest gap %.3f s, a frame is %.3f s"
-          % (min(off) if off else 0.0, frame))
+          bool(off) and not nameless and min(off) > frame,
+          "smallest gap %.3f s, a frame is %.3f s%s"
+          % (min(off) if off else 0.0, frame,
+             (", no timecode measured for %s"
+              % json.dumps(sorted(set(nameless)))) if nameless else ""))
 
     # ---- why the waiting above is written the way it is
     # A jump prints unless the player's cut holds that moment. The

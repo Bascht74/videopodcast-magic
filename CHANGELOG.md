@@ -11,12 +11,6 @@ survives.
 
 ## [Unreleased]
 
-### Changed
-
-- The line saying why the run cannot start stands above the buttons
-  instead of under them. Below the bottom row it read like a footnote
-  to the window rather than the answer to "why can I not press this".
-
 ### Added
 
 - Where the wide shot is set to hold less time than the shortest shot
@@ -26,6 +20,53 @@ survives.
   timeline but the wide shot somebody asked for is simply not there.
   Now it is said before, instead of repaired after.
 
+### Changed
+
+- The handover file counts only for the window that wrote it. One
+  lying in the result folder may be days old, from another measurement
+  and another time window, and a cut built out of it looks exactly like
+  a fresh one -- measured on the test interview, where a dry run showed
+  a cut from four days earlier and offered to build a Resolve project
+  from it. After a restart the cut is worked out again from the
+  project: the separation, the names and who sits at which camera are
+  all in there.
+- A dry run no longer says a result is there. It measures and writes
+  nothing, so "Open result folder" and "Create Resolve project" pointed
+  at whatever an earlier run had left behind -- measured on the test
+  interview: the dry run offered to build a project while the newest
+  handover in that folder was four days old, from another measurement
+  and another time window. The offer to build one now says which run
+  its cut comes from, with the date.
+- The line saying why the run cannot start stands above the buttons
+  instead of under them. Below the bottom row it read like a footnote
+  to the window rather than the answer to "why can I not press this".
+
+### Fixed
+
+- The picture ran 80 ms ahead of the sound wherever the cut was built
+  in the window rather than by a run. The frames of a timecode are
+  frames: 18:55:17:12 is 68117.48 s at 25 and 68117.40 at 30, and a cut
+  the window put together carried no rate at all, so the player fell
+  back on 30. Two frames, and only on cameras whose timecode has a
+  frame part -- one ending :00 was exact, which is how it sat there
+  unseen. The rate is measured on a camera now and travels with the
+  cut.
+- A typed speaker name did not reach the preview. Twelve seconds after
+  the last keystroke nothing had been worked out again: the name field
+  told the assignment check and nobody else, so the preview went on
+  showing the old name at the old camera until something unrelated was
+  touched.
+
+### Tests
+
+- The two functions that put a whole production together had no test at
+  all -- not one line of either had ever been run. They have 70 checks
+  now, in a quarter of a second, against a stand-in for auphonic.com
+  that answers from a table and writes down what it was asked: that a
+  dry run sends nothing at all, that nothing is started before the
+  tracks are up, that the key stands in no argument list, that every
+  voice gets the file carrying its name. Nine faults were built into
+  the program on purpose to see the checks fail; all nine came out red.
 ## [2.13.0-beta] - 2026-08-30
 
 ### Added

@@ -145,6 +145,7 @@ class Auphonic(object):
         self.create_answer = None
         self.broken_urls = set()
         self.uuid = "PRODUUID"
+        self.pending = 0         # how often it answers "still running"
 
     # -- what a production looks like from outside --------------------
     def output_files(self):
@@ -225,6 +226,11 @@ class Auphonic(object):
             return {"status_code": 200, "data": self.production()}
         if path.endswith("/start.json"):
             return {"status_code": 200, "data": self.production()}
+        if method == "GET" and self.pending:
+            self.pending -= 1
+            return {"status_code": 200,
+                    "data": dict(self.production(), status=1,
+                                 status_string="Audio Processing")}
         return {"status_code": 200, "data": self.production()}
 
 
@@ -236,6 +242,24 @@ def with_server(server, what):
         return what()
     finally:
         vpm._curl_call = old
+
+
+def without_waiting(what):
+    """Run *what* with the pause between two polls taken out.
+
+    The wait for a production is a poll loop with a second between the
+    tries. A test must not spend that second, and it must not skip the
+    loop either -- that is where a run sits for minutes, and a mistake
+    in it means the finished episode is never fetched. So the clock is
+    taken away and the condition stays.
+    """
+    slept = []
+    old = vpm.time.sleep
+    vpm.time.sleep = lambda s: slept.append(s)
+    try:
+        return what(), slept
+    finally:
+        vpm.time.sleep = old
 
 
 def fresh(tag):
@@ -575,7 +599,40 @@ said = raises(lambda: single(server, folder, mono, wait_s=0), "Time limit")
 check("the time limit ends the wait and says where to look",
       bool(said) and "PRODUUID" in said, said[:70])
 
-print("\n12. Lossless before lossy, whatever order they arrive in")
+print("\n12. A production that is not finished yet is waited for")
+server, folder = fresh("waiting")
+server.pending = 2
+(result, slept) = without_waiting(lambda: multitrack(server, folder))
+asked = [p for m, p in server.calls
+         if m == "GET" and p == "/api/production/PRODUUID.json"]
+check("it asked again instead of giving up", len(asked) == 3,
+      "%d times" % len(asked))
+check("it paused between the tries", len(slept) >= 5,
+      "%d pauses of %s" % (len(slept), sorted(set(slept))))
+check("and the tracks came back all the same",
+      sorted(result) == sorted(NAMES), repr(sorted(result)))
+
+server, folder = fresh("waitingsingle")
+server.pending = 1
+(got, slept) = without_waiting(lambda: single(server, folder, mono))
+asked = [p for m, p in server.calls
+         if m == "GET" and p == "/api/production/PRODUUID.json"]
+check("the single file is waited for too", len(asked) == 2,
+      "%d times" % len(asked))
+check("and its result came back", bool(got) and os.path.exists(got),
+      repr(got))
+
+# The counter-check: one that never finishes must not be waited for for
+# ever. Without the pause the loop is bounded by the time limit alone,
+# so the limit is what has to end it.
+server, folder = fresh("never")
+server.pending = 10 ** 6
+said = raises(lambda: without_waiting(
+    lambda: multitrack(server, folder, wait_s=0)), "Time limit")
+check("one that never finishes ends at the time limit", bool(said),
+      said[:60])
+
+print("\n13. Lossless before lossy, whatever order they arrive in")
 server, folder = fresh("pick")
 server.outputs = [
     {"filename": "Episode.mp3", "format": "mp3",
