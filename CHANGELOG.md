@@ -13,6 +13,31 @@ survives.
 
 ### Tests
 
+- `without_auphonic_test.py` is now `local_run_test.py`. The old name
+  said what the run does not do; the test proves something positive --
+  a whole multitrack episode measured, mixed, cut and written on this
+  machine alone, with nothing leaving the house. The switch it passes
+  is still `--without-auphonic`, and it still holds the program to
+  saying what is missing and uploading nothing.
+- That test costs a third less processor time, with all nineteen checks
+  and their tolerances unchanged. Where the time went was measured by
+  logging every ffmpeg and ffprobe call of one run: 62 calls, 4.69
+  seconds of processor time, and the two biggest were the test's own --
+  1.80 s building the two camera files. It built them from `testsrc` at
+  the encoder's default setting, and the run never decodes a single
+  video frame: it reads the packet times and copies the picture through.
+  Colour bars at `-preset ultrafast` cost 0.45 s for both. The material
+  also came down from 40 to 34 seconds -- the floor is the program's
+  own, which stops below a 30-second common window of sound and
+  picture, and the second camera starts 1.5 s late, so 34 leaves 2.5 s
+  of margin. Together, over five runs each: 5.31 s of processor time
+  became 3.79, and 2.65 seconds of clock became 2.26. On a builder,
+  where three tests share two processors, it is the processor time that
+  decides. Four deliberately broken copies of the
+  program were each caught -- the de-bleed switched off, the shortest
+  shot raised until the cut stopped alternating, a shot dropped from the
+  Resolve handover, and the speech threshold lowered until the
+  neighbour's voice counted as speech.
 - The crosstalk test builds its material with numpy instead of a Python
   loop over every sample, and it stopped working out the same two
   voices forty-eight times over. It had been spending five times as
