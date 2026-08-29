@@ -277,10 +277,20 @@ run_one() {
   else
     echo "ok" > "$OUT/$t"
   fi
+  # Say it as it happens, not only at the end. A suite that prints
+  # nothing for two minutes and then everything at once cannot be
+  # followed -- neither by the person waiting nor by whoever reads a
+  # builder's log afterwards and wants to know where it stopped.
+  # Counted by what is already written: several tests finish at once,
+  # so two may report the same number. It is a place in the queue, not
+  # an accounting.
+  printf '  %s  %3d/%s  %-24s %s\n' "$(date '+%H:%M:%S')" \
+    "$(ls "$OUT" | wc -l | tr -d ' ')" "$TOTAL" "$t" "$(head -1 "$OUT/$t")"
 }
 export -f run_one
-export OUT HERE LIMIT
+export OUT HERE LIMIT TOTAL
 
+TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
 echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$' \
   | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
 
