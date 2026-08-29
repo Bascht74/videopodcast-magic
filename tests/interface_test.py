@@ -161,9 +161,17 @@ for language, row in started:
                 # say FAIL and drops the rest, so "return code 1" was
                 # all that ever came back from the one machine that
                 # could say more. Measured 29.8.2026, twice.
-                said = [x for x in out.rstrip().split("\n") if x.strip()]
+                # Qt's own grumbling is not the script's last word. It
+                # comes out of the offscreen platform and stands after
+                # everything the script said, so taking the last line
+                # literally gave "This plugin does not support raise()"
+                # and nothing else -- measured 29.8.2026 on the builder.
+                said = [x.strip() for x in out.rstrip().split("\n")
+                        if x.strip() and "This plugin does not" not in x
+                        and not x.startswith("qt.")]
                 if said:
-                    note += " -- last words: " + said[-1].strip()[:70]
+                    note += " -- last words: " + " | ".join(
+                        w[:45] for w in said[-3:])
         check("%s runs through" % os.path.basename(s), good, note[:160])
         if not good:
             # The one line above says a window did not build; it does
