@@ -200,23 +200,24 @@ TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 #
 # 45 seconds of a 154-second run, one test alone. It is called
 # "without_auphonic", so the alphabet put it last; on this Mac it takes
-# 2 seconds and nothing about it looked slow.
+# 2 seconds and nothing about it ever looked slow. A hand-written list
+# of the slow ones would have gone stale and would have been a guess
+# besides, so the suite measures itself instead.
 #
-# Longest first is the oldest scheduling rule there is, and the only
-# thing it needs is a list. This one is measured, not guessed -- the
-# times behind the names are what they took, here (h) and on the
-# builder (b) -- and it goes stale by itself: a name that is no longer
-# slow only costs its own place, and a new slow test shows up as a gap
-# in the progress lines.
-SLOW="without_auphonic player window_wiring interface voice_rows prepared layout"
-REST=""
-for t in $TESTS; do
-  case " $SLOW " in
-    *" $t "*) ;;
-    *) REST="$REST $t" ;;
-  esac
-done
-TESTS="$SLOW$REST"
+# state/longest holds the longest each test has ever taken, on any
+# machine: the builder is slower than this Mac and the order has to
+# hold for the slower one. It only ever rises, like the other counters
+# here, which is what makes it settle instead of churning. A test that
+# becomes quick keeps its old place until somebody clears the line --
+# that costs nothing but a place in the queue.
+LONGEST="$HERE/state/longest"
+TESTS=$(
+  for t in $TESTS; do
+    # A test nobody has timed yet goes first: unknown may be slow, and
+    # being wrong about that costs a place in the queue and nothing else.
+    took=$(awk -v k="$t" '$1 == k { print $2 }' "$LONGEST" 2>/dev/null)
+    printf '%09d %s\n' "${took:-999999}" "$t"
+  done | sort -rn | cut -d' ' -f2)
 if [ -z "$TESTS" ]; then
   echo "no tests found in $HERE" >&2
   exit 2
@@ -224,7 +225,9 @@ fi
 
 run_one() {
   t="$1"
+  began=$SECONDS
   out=$($LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
+  echo "$t $((SECONDS - began))" > "$OUT/$t.took"
   # A failure beats a skip, always. Both can be in one run: a test leaves
   # out the part this machine cannot do, goes on with the part it can and
   # falls over that. Asking after the skip first made such a test read
@@ -313,7 +316,7 @@ run_one() {
   # so two may report the same number. It is a place in the queue, not
   # an accounting.
   printf '  %s  %3d/%s  %-24s %s\n' "$(date '+%H:%M:%S')" \
-    "$(ls "$OUT" | wc -l | tr -d ' ')" "$TOTAL" "$t" "$(head -1 "$OUT/$t")"
+    "$(ls "$OUT" | grep -vc '\.took$')" "$TOTAL" "$t" "$(head -1 "$OUT/$t")"
 }
 export -f run_one
 export OUT HERE LIMIT TOTAL
@@ -357,6 +360,18 @@ elif [ $past -lt "$SKIPS_ALLOWED" ]; then
        "number comes down when every machine reports $past"
 else
   echo "skips: $past of at most $SKIPS_ALLOWED allowed"
+fi
+# What each test took, kept as the longest it has ever taken anywhere.
+# Only from a run against the project's own file: a snapshot in /tmp
+# may be an older version, and its times would order the next run
+# wrongly for ever. Rises only, which is why it settles.
+if [ -z "$VPM_SCRIPT" ] || [ "$VPM_SCRIPT" = "$(dirname "$HERE")/videopodcast-magic.py" ]; then
+  { [ -f "$LONGEST" ] && cat "$LONGEST" || true
+    cat "$OUT"/*.took 2>/dev/null || true
+  } | awk '{ if ($2 > seen[$1]) seen[$1] = $2 }
+           END { for (n in seen) printf "%s %d\n", n, seen[n] }' \
+    | sort > "$LONGEST.new" 2>/dev/null \
+    && mv "$LONGEST.new" "$LONGEST" 2>/dev/null || true
 fi
 # A note to whoever started this and is now watching it: a full run takes
 # five minutes, and watching it is five minutes of nothing. Start it in
