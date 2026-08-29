@@ -52,10 +52,11 @@ itself.
 
 So the cut is waited for here rather than laid out: the speakers are
 measured in the window, by its own button, and what the player then has
-is read off it. And a handover with numbers that could not be right
-lies in the result folder the whole time. What happens to it is a check
-of its own -- without that, the rule could quietly fall back tomorrow
-and every other line here would stay green.
+is read off it. And a handover of a stranger lies in the result folder
+the whole time, naming three cameras that are not these and putting
+them 600 s off. What happens to it is a check of its own -- without
+that, the rule could quietly fall back tomorrow and every other line
+here would stay green.
 
 The cameras are the shared interview fixture, copied into a folder of
 their own and stamped with one clock -- see CLOCK below for why. The
@@ -542,11 +543,15 @@ def cut_places():
     return getattr(p, "tc0", None), dict(getattr(p, "offset", None) or {})
 
 
+def cut_shots():
+    """The shots the cut player holds: (from, to, camera) each."""
+    p = cut_player()
+    return list(getattr(p, "cut", None) or []) if p else []
+
+
 def cut_cameras():
     """The cameras the cut player switches between, by their names."""
-    p = cut_player()
-    return sorted({who for _a, _b, who
-                   in (getattr(p, "cut", None) or [])}) if p else []
+    return sorted({who for _a, _b, who in cut_shots()})
 
 
 def cut_files():
@@ -841,20 +846,32 @@ def cut_look():
     assignment after a timer of its own -- so what is waited for is the
     cut, never a number of seconds.
 
-    The cut is there when the player switches between cameras. Not when
-    it merely has a file: with nothing to cut, the player shows the one
-    camera nobody is assigned to, and that single entry is what this
-    check used to mistake for an answer.
+    A cut is there when the sound under it is a track of its own. With
+    nothing to cut the player shows the one camera nobody is assigned
+    to, from beginning to end, with that same camera's own sound under
+    it -- and that state is what this check used to mistake for an
+    answer.
+
+    Not "more than one shot", and not "more than one camera" either.
+    Both were tried on 30.8.2026 and both stop too early: a cut off the
+    wrong material can be a single shot on a single camera, and this
+    line then blames the waiting and gives up before the lines that say
+    what is really wrong. Sound of its own is what tells a cut from no
+    cut; whether it is the right cut is the next step's question.
     """
-    switches = cut_cameras()
-    if len(switches) < 2 and cut_waited[0] < 200:
+    shots, files = cut_shots(), cut_files()
+    name, _off = cut_audio()
+    there = bool(shots) and bool(name) and name not in [
+        os.path.basename(x) for x in files]
+    if not there and cut_waited[0] < 200:
         cut_waited[0] += 1
         return AGAIN
-    check("the window worked a cut out on its own, from no file",
-          len(switches) >= 2, "%d cameras (%s) after %d rounds -- %s"
-          % (len(switches), ", ".join(switches) or "none", cut_waited[0],
+    check("the window worked a cut out on its own, from no file", there,
+          "%d shots on %d cameras (%s), sound %s, after %d rounds -- %s"
+          % (len(shots), len(cut_cameras()),
+             ", ".join(cut_cameras()) or "none", name, cut_waited[0],
              measure_note()))
-    if len(switches) < 2:
+    if not there:
         return STOP
     name, off = cut_audio()
     check("the cut player was given an audio file", name is not None,
@@ -884,10 +901,11 @@ def bait_look():
     files = cut_files()
     check("the cut runs on the cameras of this project",
           bool(files) and not set(files) - set(OWN_CAMERAS),
-          "%s -- the file beside it names %s in %s"
+          "%s -- not this project's: %s; the strange file names its "
+          "cameras in %s"
           % (sorted(os.path.basename(x) for x in files),
              sorted(os.path.basename(x) for x in set(files)
-                    - set(OWN_CAMERAS)) or "none of its own",
+                    - set(OWN_CAMERAS)) or "none",
              FOREIGN_FOLDER))
     check("and every one of them where its own timecode puts it",
           bool(places) and all(abs(v - OWN_CAMERA_SHIFT) < 0.001
