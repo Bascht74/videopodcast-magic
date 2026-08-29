@@ -9,7 +9,7 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.13.0-beta] - 2026-08-29
 
 ### Added
 
@@ -61,6 +61,17 @@ survives.
   fault: three speakers on three cameras gave 15 shots in the run
   against 12 in the preview. It goes by name now, not by position, so
   two lists built in different places cannot drift apart again.
+
+### Tests
+
+- Eight window tests deleted their folder while the window still stood,
+  and four of them were really holding something: three players each,
+  all on the same camera file. On a Mac an open handle survives that,
+  on Windows it does not, and ignore_errors had been swallowing the
+  difference. They let go first now and wait for the release rather
+  than for the clock -- and the waiting is itself the measurement: the
+  line says whether the folder went after a fraction of a second or
+  stayed held after ten.
 
 ### Documentation
 
@@ -1911,6 +1922,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.13.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.12.0-beta...v2.13.0-beta
 [2.12.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.11.1-beta...v2.12.0-beta
 [2.11.1-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.11.0-beta...v2.11.1-beta
 [2.11.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.10.1-beta...v2.11.0-beta
