@@ -4705,6 +4705,16 @@ def camera_cut(tracks, length, camera_of, wide_shot,
     if after > 0:
         cut = insert_wide_shots(cut, tracks, wide_shot, after, holds,
                                 min_len, at_latest, camera_of, rules)
+        # And again after them, which is what merge_short_shots asks for
+        # in as many words: an inserted wide shot is as short as the
+        # wide shot length says, and where somebody has asked for a
+        # longer shortest shot than that, it arrives under the number
+        # they set. Measured 29.8.2026 on a monologue of 240 s with the
+        # shortest shot at 8 s and the wide shot length left at 5:
+        # five shots of exactly 5.00 s reached the cut, three seconds
+        # under what the field promises. The two defaults are the safe
+        # way round, so this was in nobody's ordinary episode.
+        cut = merge_short_shots(cut, min_len)
     return cut
 
 
