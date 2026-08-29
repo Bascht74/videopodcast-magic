@@ -24,6 +24,15 @@ survives.
 
 ### Fixed
 
+- A shot could arrive under the "shortest shot" the window promises.
+  The rule that merges shots below that number ran after the wide shot
+  at the edges but not after the wide shots put into a long monologue,
+  although it says itself it has to run after every step. Measured on a
+  monologue of 240 s with the shortest shot at 8 s and the wide shot
+  length left at 5: five shots of exactly 5.00 s reached the cut, three
+  seconds under the number that was set. It only happened where
+  somebody asked for a longer shortest shot than the wide shot lasts;
+  the two defaults are the safe way round.
 - Where no camera is a wide shot, the preview and the run reach for the
   same stand-in. They took different ones -- the preview the first of
   its own list, the run the reference clip -- and in a real shoot both
@@ -67,6 +76,17 @@ survives.
 
 ### Tests
 
+- The cut itself is held against numbers now: 64 checks in a hundredth
+  of a second over a conversation built for the purpose, so the right
+  answer is known before the cut is computed. Whoever speaks is on
+  their own camera -- 207 samples of 207 -- a silence goes to the wide
+  shot, and every setting that is a number is read back out of the
+  finished cut: the shortest shot, the delay to a speech boundary, how
+  long before a wide shot comes and how long it holds, how late it may
+  still arrive, how much of the whole it may take, and how early an
+  answer appears. Each rule is also run switched off, and the readings
+  were held against four deliberately broken copies of the program --
+  all four came out red. That is how the fault above was found.
 - The window a run works out had no test at all: the whole suite stayed
   green while the meaning of that window turned round, because nothing
   asked. The arithmetic stands on its own now and is held against
