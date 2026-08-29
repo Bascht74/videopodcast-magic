@@ -38,6 +38,14 @@ only holds them together holds nothing. Reversing the sign of every
 offset is the fault that was suspected, and the same checks over the
 same player have to see it.
 
+What the player prints on is a condition and not a moment in time:
+the jump prints inside itself, unless the cut it is holding does not
+reach that far. While the window rebuilds its preview the player is
+handed an empty cut, and a jump landing in that gap is answered with
+silence. Every jump here therefore asks again until a line comes out,
+and the last two steps make the gap on purpose and then wait it out --
+without them the waiting would be a story rather than a measurement.
+
 Where this check stops: the timecode of a file is the ground it
 stands on, so a timecode read wrongly in the first place would move
 all three roads together and go unseen here. That question belongs to
@@ -85,7 +93,12 @@ WINDOW = (1400, 950)
 CASES = ("plain", "window")
 
 # A child that has said nothing for this long has stopped, not slowed.
-PATIENCE = 240
+PATIENCE = 300
+# How often one step may ask again before it gives up, at 200 ms each.
+# Eight seconds for a window to finish one rebuild: it takes a single
+# turn of the event loop on the machine this was written on, and a
+# build machine three times as slow is nowhere near forty times.
+TRIES = 40
 DUMP = bool(os.environ.get("VPM_SOUND_PICTURE_DUMP"))
 
 # The line the player prints. Written by print() and not through the
@@ -285,6 +298,42 @@ def look(case):
                 return w
         return None
 
+    heard = {"lines": 0}
+
+    class Tee(object):
+        """Pass everything on, and count the player's lines going past.
+
+        The player prints inside the jump, so whether a line came out
+        is a thing this process can see for itself the moment it asked
+        for one. Without that the only way to go on would be to wait a
+        length of time and hope -- which is what turned this test red
+        on a slower machine while nothing at all was wrong with the
+        program.
+        """
+
+        def __init__(self, stream):
+            self.stream, self.rest = stream, ""
+
+        def write(self, text):
+            self.stream.write(text)
+            self.rest += text
+            while "\n" in self.rest:
+                row, self.rest = self.rest.split("\n", 1)
+                if SAID.match(row):
+                    heard["lines"] += 1
+            return len(text)
+
+        def flush(self):
+            self.stream.flush()
+
+        def isatty(self):
+            return False
+
+        def __getattr__(self, name):
+            return getattr(self.stream, name)
+
+    sys.stdout = Tee(sys.stdout)
+
     def step(name):
         """Say which step the lines below belong to."""
         print(MARK + name)
@@ -292,7 +341,8 @@ def look(case):
 
     result = {"case": case, "measured": measured, "start_s": CUT_START,
               "window_in": WINDOW_IN if case == "window" else 0.0}
-    state = {"waited": 0, "played": 0}
+    state = {"waited": 0, "played": 0, "ready": 0}
+    keep = {}
 
     def cut_ready():
         p = cut_player()
@@ -326,6 +376,49 @@ def look(case):
                 return i
         return None
 
+    def covers(p, t):
+        """Report whether the player's cut holds that moment right now.
+
+        This is the whole condition for a line: the jump asks the
+        player which shot the moment belongs to, and prints inside the
+        answer. Where no shot holds it, the jump returns without a
+        word. That is not a rare state -- while the window rebuilds its
+        preview the player is handed an empty cut, and a test that read
+        its points off one cut and jumped into another asks for a line
+        that cannot come. Seen on slower machines: of four jumps in one
+        window, one came back silent while the same run was green on a
+        quick one. The last two steps make that state on purpose.
+        """
+        return p is not None and any(a <= t < b for a, b, _w in p.cut)
+
+    def go_to(tag, t):
+        """One step: jump to that moment and see a line come out of it.
+
+        Waits for the state that makes a line rather than for a length
+        of time, and asks again where the player is between cuts. Where
+        it never gets one it says what the player was holding instead,
+        which is the difference between "the program went quiet" and
+        "the window was in the middle of something".
+        """
+        tries = [0]
+
+        def once():
+            p = cut_ready()
+            if covers(p, t):
+                was = heard["lines"]
+                step(tag)
+                p.jump(t)
+                if heard["lines"] > was:
+                    result.setdefault("tries", {})[tag] = tries[0]
+                    return
+            if tries[0] < TRIES:
+                tries[0] += 1
+                return "again"
+            result.setdefault("silent", []).append(
+                {"step": tag, "covered": covers(p, t),
+                 "cut": [[a, b, w] for a, b, w in (p.cut if p else [])]})
+        return once
+
     plan = []
 
     def open_project():
@@ -354,6 +447,13 @@ def look(case):
             result["error"] = "no cut came up"
             return "stop"
         result["cut"] = [[a, b, w] for a, b, w in p.cut]
+        # What the player was holding, kept as it is: the last two steps
+        # take it away and put it back to show that the waiting works.
+        keep.update(cut=[(a, b, w) for a, b, w in p.cut],
+                    files=dict(p.files), offset=dict(p.offset),
+                    audio=p.audio.source().toLocalFile(),
+                    audio_offset=p.audio_offset, begins=p.begins,
+                    until=p.until, tc0=p.tc0)
         result["tc0"] = p.tc0
         result["begins"], result["until"] = p.begins, p.until
         result["audio"] = os.path.basename(
@@ -362,42 +462,35 @@ def look(case):
         result["audio_offset"] = p.audio_offset
         result["spots"] = spots(p)
         result["edge"] = edge(p)
-
-    def jumps():
-        """Jump to each of the points, one line each."""
-        p = cut_ready()
-        if p is None:
-            return
+        # One step per jump, built now that the cut is known. Each is a
+        # step of its own so that the event loop turns between them:
+        # two jumps in one breath give the window no chance to finish
+        # whatever it was doing, and the second lands in the gap.
         for t in result["spots"]:
-            step("jump %.3f" % t)
-            p.jump(t)
-            app.processEvents()
-
-    def around_the_edge():
-        """A quarter of a second either side of a camera change."""
-        i = result.get("edge")
-        if i is None:
+            plan.append(go_to("jump %.3f" % t, t))
+        if result["edge"] is None:
             result["error"] = "the cut never changes camera"
             return
-        p = cut_ready()
-        if p is None:
-            return
-        b = result["cut"][i][1]
+        b = result["cut"][result["edge"]][1]
         for t in (round(b - 0.25, 3), round(b + 0.25, 3)):
-            step("edge %.3f" % t)
-            p.jump(t)
-            app.processEvents()
+            plan.append(go_to("edge %.3f" % t, t))
+        plan.extend(after_the_edge)
 
     def play_over_the_edge():
         """Let it run into the camera change, the way a person does."""
         i = result.get("edge")
         p = cut_ready()
-        if i is None or p is None:
+        b = result["cut"][i][1] if i is not None else 0.0
+        start = max(p.begins, b - 1.2) if p is not None else 0.0
+        if not covers(p, start):
+            if state["ready"] < TRIES:
+                state["ready"] += 1
+                return "again"
+            result.setdefault("silent", []).append(
+                {"step": "playing over", "covered": False})
             return
-        b = result["cut"][i][1]
         step("playing over %.3f" % b)
-        p.jump(max(p.begins, b - 1.2))
-        app.processEvents()
+        p.jump(start)
         p.play()
 
     def wait_for_the_switch():
@@ -446,15 +539,65 @@ def look(case):
         p.set([(a, b, w) for a, b, w in p.cut], dict(p.files), turned,
               p.audio.source().toLocalFile(), -p.audio_offset,
               p.begins, p.until, p.tc0)
-        app.processEvents()
+        # No turn of the event loop in here, and no waiting either. The
+        # jump prints before it returns, and letting the window run in
+        # between would let it lay its own cut over this one -- the
+        # counter-check would then be reading the honest offsets and
+        # calling the checks toothless.
         for t in result["spots"]:
             step("reversed %.3f" % t)
             p.jump(t)
-            app.processEvents()
+        result["reversed_seen"] = dict(p.offset)
+        result["reversed_sound"] = p.audio_offset
 
-    plan[:] = [open_project, wait_for_cut, jumps, around_the_edge]
+    def empty_cut():
+        """The state the slower machine was caught in, on purpose.
+
+        A jump prints unless the player's cut holds that moment, and
+        between two loads it holds nothing at all. Reproduced here so
+        that the waiting above rests on a measurement rather than on a
+        story: the same jump, the same player, an empty cut, and not a
+        word out of it.
+        """
+        p = cut_player()
+        if p is None:
+            return
+        step("an empty cut")
+        p.set([], {}, {}, None, 0.0)
+        p.jump(result["spots"][0])
+
+    def hand_it_back():
+        """Give the player its cut again, a moment later.
+
+        Says so first: handing over a cut puts the player back to the
+        start and that prints a line of its own, which belongs to this
+        and not to the step waiting beside it.
+        """
+        p = cut_player()
+        if p is not None and keep:
+            step("the cut comes back")
+            p.set(keep["cut"], keep["files"], keep["offset"],
+                  keep["audio"], keep["audio_offset"], keep["begins"],
+                  keep["until"], keep["tc0"])
+
+    def late_cut():
+        """Ask for a moment the player does not hold yet.
+
+        The counter-check to the waiting itself. The step before left
+        the player with an empty cut; the cut comes back in a moment,
+        and the jump has to arrive at a line all the same. Written
+        against a length of time this step is red, and that is the
+        whole reason it is here.
+        """
+        QtCore.QTimer.singleShot(800, hand_it_back)
+        plan.append(go_to("late %.3f" % result["spots"][0],
+                          result["spots"][0]))
+
+    after_the_edge = []
     if case == "plain":
-        plan += [play_over_the_edge, wait_for_the_switch, reversed_offsets]
+        after_the_edge[:] = [play_over_the_edge, wait_for_the_switch,
+                             reversed_offsets, empty_cut, late_cut]
+    plan[:] = [open_project, wait_for_cut]
 
     done = [False]
 
@@ -629,10 +772,14 @@ for case in CASES:
         continue
 
     # ---- the core: every line the player printed, at every step
-    honest = [k for k in steps if not k.startswith("reversed")]
+    # The empty cut is the one step that must stay quiet; it is the
+    # state a slower machine caught this test in, reproduced on purpose.
+    honest = [k for k in steps
+              if not k.startswith("reversed") and k != "an empty cut"]
     check("  the player printed a line at every step",
           len(honest) >= 4 and all(steps[k] for k in honest),
-          json.dumps({k: len(steps[k]) for k in sorted(steps)}))
+          "%s %s" % (json.dumps({k: len(steps[k]) for k in sorted(steps)}),
+                     json.dumps(d.get("silent") or [])[:220]))
     for name in sorted(honest):
         worst, said = agree(steps[name], measured, tc0, frame)
         check("  %s: sound and picture mean one moment" % name,
@@ -696,6 +843,19 @@ for case in CASES:
     # ---- the counter-check: the same checks over reversed offsets
     turned = sorted(k for k in steps if k.startswith("reversed"))
     seen = [line for k in turned for line in steps[k]]
+    # That the reversal reached the player at all, and was still there
+    # when it printed. A rebuild passing through would put the honest
+    # cut back, and the checks below would then be reading the right
+    # numbers and calling themselves toothless.
+    want = d.get("reversed") or {}
+    check("  the player was still holding the reversed offsets",
+          bool(want) and d.get("reversed_seen") == want
+          and all(abs(x["picture_offset"] - want.get(x["who"], 0.0))
+                  < 0.001 for x in seen),
+          "%s, printed %s" % (json.dumps(d.get("reversed_seen")),
+                              json.dumps(sorted(set(
+                                  (x["who"], x["picture_offset"])
+                                  for x in seen)))))
     real = [line for line in seen
             if abs((d.get("reversed") or {}).get(line["who"], 0.0)) > frame]
     check("  the reversed run printed lines with a real offset in them",
@@ -711,6 +871,28 @@ for case in CASES:
           bool(off) and min(off) > frame,
           "smallest gap %.3f s, a frame is %.3f s"
           % (min(off) if off else 0.0, frame))
+
+    # ---- why the waiting above is written the way it is
+    # A jump prints unless the player's cut holds that moment. The
+    # state where it holds none is a real one -- the window hands the
+    # player an empty cut while it rebuilds -- and it is what a slower
+    # machine caught this test in. Here it is made on purpose, so that
+    # the retry is answering something measured.
+    check("  a jump into an empty cut prints nothing, which is the gap",
+          "an empty cut" in steps and not steps["an empty cut"],
+          "%d line(s)" % len(steps.get("an empty cut") or []))
+    # And the other half: asked for a moment the player does not hold
+    # yet, the step waits for the cut to come back and gets its line.
+    # A step written against a length of time fails this one.
+    late = sorted(k for k in steps if k.startswith("late"))
+    want = float(late[0].split()[1]) if late else None
+    tries = (d.get("tries") or {}).get(late[0] if late else "", 0)
+    check("  and one that has to wait for the cut still gets its line",
+          bool(late) and tries >= 1
+          and any(abs(x["t"] - want) <= frame for x in steps[late[0]]),
+          "asked again %s time(s), lines at %s"
+          % (tries, json.dumps([x["t"] for x in steps[late[0]]])
+             if late else "-"))
 
 # ---- what the time window did to the picture, seen from outside
 plain, _s = report["plain"]
