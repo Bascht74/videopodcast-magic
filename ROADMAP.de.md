@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Fassung für Fassung. Diese Seite ist
-zuletzt für 2.12.0-beta durchgegangen worden.
+zuletzt für 2.13.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Fassung 2.12.0-beta.** Es läuft jede Woche, an echtem Material.
+**Fassung 2.13.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -48,25 +48,7 @@ Nach Nutzen gegen Aufwand geordnet. Die ersten zwei sind klein, die
 zwei danach warten auf einen Lauf und auf eine Entscheidung, und im
 letzten liegt die Arbeit.
 
-**1. Die Fortschrittsanzeige springt nicht mehr zurück.** Unter Last
-kann der Balken zurückfallen, während am Lauf selbst nichts fehlt. Die
-Stelle ist gelesen und die Ursache benannt: der alte Plan wird nur
-weggeworfen, wenn gerade nichts läuft. Wer startet, während das
-Vermessen nach dem Öffnen des Projekts noch läuft, hängt die Stufen
-des Laufs an einen Plan, der schon halb abgearbeitet ist, und der
-Anteil am Ganzen fällt in dem Moment, in dem der Nenner wächst. Das
-ist im Quelltext gelesen und unter Last nicht gemessen. In einem Lauf
-über viele Minuten ist dieser Balken das Einzige, was sagt, ob sich
-noch etwas bewegt. Eine Anzeige, die lügt, ist schlechter als keine.
-
-**2. Der Auphonic-Schlüssel unter Windows bekommt einen Test.** Die
-Suite läuft bei jedem Push unter Windows, Linux und macOS, und ein Weg
-ist draußen geblieben: unter Windows liegt der Schlüssel in der
-Registry, und diesen Weg rührt kein einziger Test an. Es ist die eine
-Stelle, an der ein Fehler einen Schlüssel dorthin legt, wo er nicht
-hingehört.
-
-**3. Die zwei Wege zu auphonic.com laufen einmal gegen den echten
+**1. Die zwei Wege zu auphonic.com laufen einmal gegen den echten
 Dienst.** Das Transkript einer einzelnen Spur und eine
 Multitrack-Produktion mit einer Stereospur sind beide gebaut, und
 keiner der beiden ist je wirklich hochgeladen worden. Ob der Dienst
@@ -74,7 +56,7 @@ eine Stereospur zweikanalig zurückgibt, ist offen. Bis dahin
 beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt aus
 einem Lauf.
 
-**4. Die Totale bekommt einen ruhigeren Takt.** Der Abstand, nach dem
+**2. Die Totale bekommt einen ruhigeren Takt.** Der Abstand, nach dem
 die Totale wiederkommt, entscheidet als einziger Wert darüber, wie
 unruhig der Schnitt wirkt, und die Messung sagt, dass er frei ist: die
 falsche Bildzeit kommt bei 45, 60, 75, 90 und 120 Sekunden auf die
@@ -86,7 +68,7 @@ ist eine Entscheidung und keine Messung: wie lange eine Folge ohne
 eine Totale auskommt, ist Geschmackssache, deshalb bleibt die Zahl ein
 Schalter.
 
-**5. Multitrack benennt seine Stimmen selbst.** Bei einem Mikrofon je
+**3. Multitrack benennt seine Stimmen selbst.** Bei einem Mikrofon je
 Person weiß das Programm, wer wann spricht, und es weiß, welches
 Mikrofon welches ist. Beides gegeneinander zu halten müsste von selbst
 ergeben, dass „Stimme 2“ das Mikrofon dessen ist, der die Fragen

@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 2.12.0-beta.
+gone through for 2.13.0-beta.
 
 ## Where the program stands today
 
-**Version 2.12.0-beta.** It runs every week, on real material.
+**Version 2.13.0-beta.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -47,31 +47,14 @@ Ordered by what each one gives against what it costs. The first two
 are small; the two after them wait on a run and on a decision, and the
 last is where the work sits.
 
-**1. The progress bar stops jumping backwards.** Under load the bar
-can fall back while the run itself is fine. The place has been read
-and the cause named: the old plan is thrown away only where nothing is
-running, so a run started while the measuring that follows opening a
-project is still going adds its stages to a plan already half worked
-off, and the share of the whole falls the moment the denominator
-grows. That is read in the source and not measured under load. During
-a run of many minutes that bar is the only thing saying whether
-anything is still moving, so a display that lies is worse than no
-display.
-
-**2. The Auphonic key on Windows gets a test.** The suite runs on
-Windows, Linux and macOS at every push, and one path stayed outside
-it: on Windows the key is kept in the registry, and no test anywhere
-touches that. It is the one place where a mistake would leave a key
-somewhere it does not belong.
-
-**3. The two ways to auphonic.com get run against the service.**
+**1. The two ways to auphonic.com get run against the service.**
 Transcription of a single track, and a multitrack production carrying
 one stereo track, are both built and neither has been sent for real.
 Whether the service hands a stereo track back with both channels is
 open. Until it has run, the manual describes those two ways from the
 source instead of from a run.
 
-**4. The wide shot gets a calmer rhythm.** The interval after which
+**2. The wide shot gets a calmer rhythm.** The interval after which
 the wide shot returns is the one setting that decides how restless the
 cut feels, and the measurement says it is free: the wrong picture time
 comes out the same to a tenth of a second at 45, 60, 75, 90 and 120
@@ -82,7 +65,7 @@ that was measured. What is left is a decision and not a measurement:
 how long an episode may run without a wide shot is a matter of taste,
 so the number stays a switch.
 
-**5. Multitrack names its own voices.** With one microphone per person
+**3. Multitrack names its own voices.** With one microphone per person
 the program knows who talks when, and it knows which microphone is
 which. Holding the two against each other should say by itself that
 "Speaker 2" is the microphone of the person asking the questions, so

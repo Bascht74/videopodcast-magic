@@ -9,7 +9,7 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [2.13.0-beta] - 2026-08-29
+## [2.13.0-beta] - 2026-08-30
 
 ### Added
 
