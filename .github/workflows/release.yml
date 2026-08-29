@@ -51,7 +51,7 @@ permissions:
 jobs:
 
   contract:
-    name: the contract
+    name: "Contract: what a release must hold"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
@@ -60,7 +60,7 @@ jobs:
                || github.ref_name }}
 
     steps:
-      - name: which release this is about
+      - name: "Contract: which release this is about"
         run: |
           echo "event:      $GITHUB_EVENT_NAME"
           echo "repository: $GITHUB_REPOSITORY"
@@ -84,7 +84,7 @@ jobs:
       # Not read out of the text and not written down here: the program
       # is imported and asked. --version in argv is what tells it that
       # nothing is going to run, so it does not reach for numpy.
-      - name: what the program itself says the addresses are
+      - name: "Contract: the addresses the program itself uses"
         run: |
           python - <<'PY' >> "$GITHUB_ENV"
           import importlib.util, sys
@@ -99,7 +99,7 @@ jobs:
           PY
           cat "$GITHUB_ENV"
 
-      - name: one number, and the tag is it
+      - name: "Contract: version, changelog and tag say one number"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -157,7 +157,7 @@ jobs:
           [ "$fails" = "0" ] && echo "All good." \
             || { echo "FAIL: $fails of these"; exit 1; }
 
-      - name: the one file, from the address the program uses
+      - name: "Contract: fetch the program from the address it updates from"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -243,7 +243,7 @@ jobs:
           [ "$fails" = "0" ] && echo "All good." \
             || { echo "FAIL: $fails of these"; exit 1; }
 
-      - name: the model, from the address the program builds
+      - name: "Contract: fetch the model from the address it builds"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -320,7 +320,7 @@ jobs:
       # Fetched once into two files, and every check below reads those
       # files. That way the answer everybody is judging is the one
       # answer github.com gave, and it can be read afterwards.
-      - name: what github.com says about this release
+      - name: "Contract: what github.com says about this release"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -356,7 +356,7 @@ jobs:
               print("  there is no release for this tag")
           PY
 
-      - name: the release, as the program expects to find it
+      - name: "Contract: the release as the program expects to find it"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -539,7 +539,7 @@ jobs:
           [ "$fails" = "0" ] && echo "All good." \
             || { echo "FAIL: $fails of these"; exit 1; }
 
-      - name: what this run found
+      - name: "Contract: what this run found"
         if: always()
         run: |
           {
@@ -599,7 +599,7 @@ jobs:
       # gets who has nothing but this one file, which is what an update
       # leaves behind. --version and --help are the two ways in that
       # the program itself promises to answer without numpy.
-      - name: fetch what an update fetches, and start it
+      - name: "Start: fetch as an update does, then run it"
         shell: bash
         run: |
           fails=0

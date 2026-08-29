@@ -18,7 +18,7 @@ channel_rows 4
 channels 2
 clock_blocks 1
 clock_drift 10
-colour_distance 0
+colour_distance 1
 colours 1
 common_window 1
 consistency 3
@@ -26,9 +26,9 @@ crosstalk 19
 cut_band 1
 cut_gate 4
 cut_rules 1
-cut_timeline 0
+cut_timeline 1
 cut_truth 1
-docs_truth 0
+docs_truth 1
 dualmono 4
 finding_row 9
 folder_name 1
@@ -36,7 +36,7 @@ footer_bar 10
 foreign_files 2
 format 3
 german_hunt 13
-handover 0
+handover 1
 hdr 1
 interface 39
 intro 0
@@ -58,7 +58,7 @@ place_on_axis 5
 player 18
 player_choice 1
 preflight 1
-prepared 10
+prepared 11
 preset 0
 preset_default 3
 preset_none 0
