@@ -357,7 +357,71 @@ def step():
 
 QtCore.QTimer.singleShot(700, step)
 QtCore.QTimer.singleShot(180000, app.quit)
+def let_go_of(what):
+    """Make every player let go of what it has open in there.
+
+    A player holds the file it has open. Under macOS and Linux the
+    folder can be deleted anyway, under Windows it cannot -- and with
+    ignore_errors nobody hears of it: the folder simply stays behind on
+    every run. Every player under every window is asked, and by what it
+    has open rather than by which player it is, so that a second holder
+    cannot slip through. Returns the names that were let go.
+
+    A player that never started is not stopped. What lies behind stop()
+    is built on first use, and building it waits for a lock another
+    player holds while it is starting up -- the window then never comes
+    back. playbackState only reads what is already noted.
+    """
+    what = os.path.realpath(what)
+    let_go = []
+    for top in app.topLevelWidgets():
+        for x in top.findChildren(QtCore.QObject):
+            if not (hasattr(x, "setSource") and hasattr(x, "source")):
+                continue
+            where = x.source()
+            if not isinstance(where, QtCore.QUrl):
+                continue
+            where = where.toLocalFile()
+            if not where:
+                continue
+            held = os.path.realpath(where)
+            if held != what and not held.startswith(what + os.sep):
+                continue
+            state = getattr(x, "playbackState", None)
+            state = state() if state is not None else None
+            if state is not None and state != type(state).StoppedState:
+                x.stop()
+            x.setSource(QtCore.QUrl())
+            let_go.append(os.path.basename(where))
+    app.processEvents()
+    return sorted(let_go)
+
+
+def clean_up(what):
+    """Close the window, then delete the folder and say what stayed.
+
+    gui() comes back with the window still standing, so the folder used
+    to go while players still held files in it. Let go, close, delete --
+    in that order. And no ignore_errors: it would swallow the one thing
+    that can go wrong here, a folder that stays because something still
+    holds it, which is what this is about.
+    """
+    print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
+    for top in app.topLevelWidgets():
+        top.close()
+    app.processEvents()
+    left = []
+    try:
+        shutil.rmtree(what)
+    except OSError:
+        for here, _, files in os.walk(what):
+            left += [os.path.join(here, f) for f in files]
+        left = left or ([what] if os.path.exists(what) else [])
+    check("the folder went away with the window", not left,
+          "%d left, first %s" % (len(left), left[0]) if left else "")
+
+
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
-shutil.rmtree(folder, ignore_errors=True)
+clean_up(folder)
 sys.exit(1 if error else 0)

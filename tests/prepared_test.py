@@ -681,30 +681,63 @@ def let_go_of(what):
     exactly one file of the folder open, the prepared overall mix, and
     it is the cut player on the Resolve sheet that holds it -- the
     preview player had gone over to the raw recording a step earlier and
-    let the mix go with it. Asked of every player in the window all the
-    same, and by what it has open rather than by which player it is, so
-    that a second holder does not go unnoticed. Returns what was let go.
+    let the mix go with it. Asked of every player under every window all
+    the same, and by what it has open rather than by which player it is,
+    so that a second holder does not go unnoticed. Returns what was let
+    go.
+
+    A player that never started is not stopped. What lies behind stop()
+    is built on first use, and building it waits for a lock another
+    player holds while it is starting up -- the window then never comes
+    back. playbackState only reads what is already noted.
     """
     what = os.path.realpath(what)
     let_go = []
-    for x in win().findChildren(QtCore.QObject):
-        if not (hasattr(x, "setSource") and hasattr(x, "source")):
-            continue
-        where = x.source()
-        if not isinstance(where, QtCore.QUrl):
-            continue
-        where = where.toLocalFile()
-        if not where:
-            continue
-        held = os.path.realpath(where)
-        if held != what and not held.startswith(what + os.sep):
-            continue
-        if hasattr(x, "stop"):
-            x.stop()
-        x.setSource(QtCore.QUrl())
-        let_go.append(os.path.basename(where))
+    for top in app.topLevelWidgets():
+        for x in top.findChildren(QtCore.QObject):
+            if not (hasattr(x, "setSource") and hasattr(x, "source")):
+                continue
+            where = x.source()
+            if not isinstance(where, QtCore.QUrl):
+                continue
+            where = where.toLocalFile()
+            if not where:
+                continue
+            held = os.path.realpath(where)
+            if held != what and not held.startswith(what + os.sep):
+                continue
+            state = getattr(x, "playbackState", None)
+            state = state() if state is not None else None
+            if state is not None and state != type(state).StoppedState:
+                x.stop()
+            x.setSource(QtCore.QUrl())
+            let_go.append(os.path.basename(where))
     app.processEvents()
     return sorted(let_go)
+
+
+def clean_up(what):
+    """Close the window, then delete the folder and say what stayed.
+
+    gui() comes back with the window still standing, so the folder used
+    to go while players still held files in it. Let go, close, delete --
+    in that order. And no ignore_errors: it would swallow the one thing
+    that can go wrong here, a folder that stays because something still
+    holds it, which is what this is about.
+    """
+    print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
+    for top in app.topLevelWidgets():
+        top.close()
+    app.processEvents()
+    left = []
+    try:
+        shutil.rmtree(what)
+    except OSError:
+        for here, _, files in os.walk(what):
+            left += [os.path.join(here, f) for f in files]
+        left = left or ([what] if os.path.exists(what) else [])
+    check("the folder went away with the window", not left,
+          "%d left, first %s" % (len(left), left[0]) if left else "")
 
 
 def take_his_track_away():
@@ -789,5 +822,5 @@ vpm.gui()
 if not done[0]:
     print("  the window never got as far as the checks   FAIL")
     error.append("no answer")
-shutil.rmtree(aside, ignore_errors=True)
+clean_up(aside)
 sys.exit(1 if error else 0)

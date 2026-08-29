@@ -411,6 +411,69 @@ def look(media):
         check("and the reason is under the button once more",
               fixes_it in (start_reason() or ""))
 
+    def let_go_of(what):
+        """Make every player let go of what it has open in there.
+
+        A player holds the file it has open. Under macOS and Linux the
+        folder can be deleted anyway, under Windows it cannot -- and with
+        ignore_errors nobody hears of it: the folder simply stays behind on
+        every run. Every player under every window is asked, and by what it
+        has open rather than by which player it is, so that a second holder
+        cannot slip through. Returns the names that were let go.
+
+        A player that never started is not stopped. What lies behind stop()
+        is built on first use, and building it waits for a lock another
+        player holds while it is starting up -- the window then never comes
+        back. playbackState only reads what is already noted.
+        """
+        what = os.path.realpath(what)
+        let_go = []
+        for top in app.topLevelWidgets():
+            for x in top.findChildren(QtCore.QObject):
+                if not (hasattr(x, "setSource") and hasattr(x, "source")):
+                    continue
+                where = x.source()
+                if not isinstance(where, QtCore.QUrl):
+                    continue
+                where = where.toLocalFile()
+                if not where:
+                    continue
+                held = os.path.realpath(where)
+                if held != what and not held.startswith(what + os.sep):
+                    continue
+                state = getattr(x, "playbackState", None)
+                state = state() if state is not None else None
+                if state is not None and state != type(state).StoppedState:
+                    x.stop()
+                x.setSource(QtCore.QUrl())
+                let_go.append(os.path.basename(where))
+        app.processEvents()
+        return sorted(let_go)
+
+
+    def clean_up(what):
+        """Close the window, then delete the folder and say what stayed.
+
+        gui() comes back with the window still standing, so the folder used
+        to go while players still held files in it. Let go, close, delete --
+        in that order. And no ignore_errors: it would swallow the one thing
+        that can go wrong here, a folder that stays because something still
+        holds it, which is what this is about.
+        """
+        print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
+        for top in app.topLevelWidgets():
+            top.close()
+        app.processEvents()
+        left = []
+        try:
+            shutil.rmtree(what)
+        except OSError:
+            for here, _, files in os.walk(what):
+                left += [os.path.join(here, f) for f in files]
+            left = left or ([what] if os.path.exists(what) else [])
+        check("the folder went away with the window", not left,
+              "%d left, first %s" % (len(left), left[0]) if left else "")
+
     QtCore.QTimer.singleShot(300, step)
     # A window that never gets there must not hold the suite -- there is
     # no timeout(1) on this machine -- and must not pass either.
@@ -419,7 +482,7 @@ def look(media):
     if not done[0]:
         print("  the window never got as far as the checks   FAIL")
         error.append("no answer")
-    shutil.rmtree(folder, ignore_errors=True)
+    clean_up(folder)
     return 1 if error else 0
 
 
@@ -565,6 +628,9 @@ for cam, spk, want in REAL:
     have = f("Interview Example Town 2", cam, spk)
     check("as delivered: %s" % cam.split("_")[0], have == want, have)
 
+# No window ever saw this folder: it holds sixteen-byte dummies for the
+# naming checks, and nothing above keeps one open. So there is nothing
+# here for ignore_errors to swallow.
 shutil.rmtree(D, ignore_errors=True)
 
 
@@ -609,6 +675,10 @@ for line in (out or "").rstrip().split("\n"):
     print(line[:160])
 if child.returncode != 0:
     error.append("the window")
+# The window that played these files was a process of its own and has
+# ended, so nothing here holds them any more. What can still hold a
+# file on Windows at this point is a virus scanner passing over it, and
+# that says nothing about the program -- hence ignore_errors.
 shutil.rmtree(media, ignore_errors=True)
 
 print("\n%s" % ("All good." if not error
