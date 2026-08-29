@@ -189,6 +189,34 @@ trap 'exit 130' INT TERM
 # Every *_test.py in this folder, so a new test is picked up by being
 # there. Sorted, so the order does not depend on the file system.
 TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
+
+# The long ones first. xargs hands the list out in the order it is
+# given, so a slow test named late in the alphabet starts last and its
+# whole length is added to the end of the run, with every other worker
+# idle beside it. Measured on the builder, 30.8.2026:
+#
+#   23:11:27  106/107  window_wiring     ok
+#   23:12:12  107/107  without_auphonic  ok
+#
+# 45 seconds of a 154-second run, one test alone. It is called
+# "without_auphonic", so the alphabet put it last; on this Mac it takes
+# 2 seconds and nothing about it looked slow.
+#
+# Longest first is the oldest scheduling rule there is, and the only
+# thing it needs is a list. This one is measured, not guessed -- the
+# times behind the names are what they took, here (h) and on the
+# builder (b) -- and it goes stale by itself: a name that is no longer
+# slow only costs its own place, and a new slow test shows up as a gap
+# in the progress lines.
+SLOW="without_auphonic player window_wiring interface voice_rows prepared layout"
+REST=""
+for t in $TESTS; do
+  case " $SLOW " in
+    *" $t "*) ;;
+    *) REST="$REST $t" ;;
+  esac
+done
+TESTS="$SLOW$REST"
 if [ -z "$TESTS" ]; then
   echo "no tests found in $HERE" >&2
   exit 2
