@@ -13,6 +13,13 @@ survives.
 
 ### Tests
 
+- The long tests start first. xargs hands the list out in the order it
+  is given, so a slow test named late in the alphabet started last and
+  its whole length was added to the end of the run with every other
+  worker idle beside it: on the builder, 45 seconds of a 154-second run
+  were one test alone, called "without_auphonic" and therefore last in
+  the alphabet. On this machine it takes two seconds and nothing about
+  it looked slow. The suite went from 28 to 23 seconds here.
 - The suite says where it is while it runs: the time, the place in the
   queue and the verdict, one line per test as it finishes, instead of
   two silent minutes and then everything at once. Several finish at the
