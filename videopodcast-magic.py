@@ -25863,39 +25863,6 @@ def gui():
         d.raise_()
         d.activateWindow()
 
-    def guess_result_folder():
-        """Adopt output folder and name from an earlier run.
-
-        With a results subfolder next to the raw material both are already
-        known, so nobody has to type them again. Only suggested, never
-        overwritten.
-        """
-        if out_folder.get():
-            return
-        js = find_handover_file(commonest_folder(), deeper=True)
-        name = ""
-        folder = ""
-        if js:
-            folder = os.path.dirname(js)
-            try:
-                with open(js, encoding="utf-8") as f:
-                    name = (json.load(f) or {}).get("production") or ""
-            except (OSError, ValueError):
-                name = ""
-            if not name:
-                name = os.path.basename(js)[:-len("_resolve.json")]
-        else:
-            tracks = (finished_tracks_find(commonest_folder())
-                      or finished_tracks_deeper(commonest_folder()))
-            if tracks:
-                folder = os.path.dirname(tracks)
-        if not folder or not os.path.isdir(folder):
-            return
-        out_folder.set(folder)
-        folder_show()
-        if name and not production_var.get().strip():
-            production_var.set(name.replace("_", " ").strip())
-
     def append_findings(node, its_findings):
         """List the hints for a file as lines below it.
 
@@ -26247,11 +26214,13 @@ def gui():
             preflight_fill_in(state["preflight_findings"])
         preflight_kick_off()
         bar_env_curve.setVisible(bool(files))
-        # An earlier run in a subfolder already knows the output folder and the
-        # name; otherwise the name is guessed from the folder the material came
-        # from.
-        if files:
-            guess_result_folder()
+        # The name comes from the material. The output folder comes from
+        # nobody: a handover file in a subfolder belongs to the run that
+        # wrote it, may be days old and from another measurement, and a
+        # setting taken out of it looks exactly like an answer somebody
+        # gave here. Sebastian on 30.8.2026: the project file has to be
+        # enough, everything else is made again. So the folder stays
+        # empty until it is chosen.
         if files and not production_var.get().strip():
             production_var.set(guess_production_name(files[0][0]))
         show_weak()
