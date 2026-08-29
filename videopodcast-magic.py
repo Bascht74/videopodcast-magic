@@ -5148,11 +5148,8 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3, after=40.0,
                           set(camera_of.values()),
                           [cam.get("track") for cam in cameras
                            if cam.get("wide_marked")])
-    # With no wide shot at all the cut still needs something to show in
-    # a silence, so the first camera stands in there -- but only there.
-    # Everything the wide shot settings do is switched off below, so
-    # the stand-in cannot be mistaken for a wide shot.
-    wide_shot = wides[0] if wides else cameras[0].get("track")
+    wide_shot = wides[0] if wides else stand_in_camera(
+        [cam.get("track") for cam in cameras])[0]
     length = float(d.get("length_s") or 0.0)
     if length <= 0:
         length = max((b for _, segs in tracks for _, b in segs), default=0.0)
@@ -13266,12 +13263,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             if os.path.abspath(v) in taken),
         [camera_name_of(v) for v, _ in videos
          if os.path.abspath(v) in marked_wide])
-    # Something has to stand in front of a silence even where no camera
-    # is a wide shot. What it must not do is act as one: everything the
-    # wide shot settings ask for is switched off below.
-    wide_shot = wides[0] if wides else (
-        output_name.get(os.path.abspath(ref_clip[0]))
-        if ref_clip else "Wide")
+    wide_shot = wides[0] if wides else stand_in_camera(
+        [camera_name_of(v) for v, _ in videos])[0]
 
     stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     lines = sorted((a, b, n) for n, segs in segment_list for a, b in segs)
@@ -20680,11 +20673,11 @@ def choice_cell(values, chosen, why="", quiet="", alive=False, dim=False):
     box = _qw.QComboBox()
     fill_choices(box, values, chosen)
     row.addWidget(box)
+    if dim:
+        box.setStyleSheet("color: %s" % quiet)
     if why:
         if not alive:
             box.setEnabled(False)
-        if dim:
-            box.setStyleSheet("color: %s" % quiet)
         note = _qw.QLabel(why)
         note.setStyleSheet("color: %s" % quiet)
         note.setWordWrap(True)
@@ -20891,18 +20884,26 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False):
     "ignore this video" is literally the question the file tab answers,
     and an intro is placed as it lies rather than assigned to anybody.
 
-    A *why* stands beside the field, and the field stays open whatever
-    it says: every value here is an answer somebody may want to take
-    back, so this one is never dead.
+    Nothing stands behind the field. This table is the one place where
+    a reason beside the answer is not wanted, and Sebastian has said so
+    twice about this same table -- "these hints and the red colour here
+    away ... nothing at all", and on 26.8.2026 again. The rule that
+    grey is never without a reason holds everywhere else.
 
     With *derived* the value on show is not the stored one -- it is
     what the program worked out, greyed so it can be told from an
-    answer somebody gave. That is the wide shot nobody marked: it used
-    to be worked out in silence, and the person at the screen could not
-    see which camera it was.
+    answer somebody gave. That is the wide shot nobody marked.
+
+    Then *why* bars the one entry it is about, and says itself there:
+    a camera nobody sits in front of cannot be content while that is
+    so. The other entries stay open -- an intro, an outro or a file to
+    leave out are answers about the file itself and have nothing to do
+    with who was assigned where. Greying the whole list took those
+    away for no reason.
     """
-    cell, box = choice_cell(CLIP_TYPES, kind, why, quiet,
+    cell, box = choice_cell(CLIP_TYPES, kind, "", quiet,
                             alive=True, dim=derived)
+    choices_shut(box, [TYPE_CONTENT] if derived else [], why, quiet)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
                 'camera nobody sits in front of -- it takes no '
@@ -20921,10 +20922,17 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
     play a part at all, and the camera table beside the player, where
     it can be heard whether that sound is usable. The wording differs,
     the field and the value behind it do not.
+
+    Nothing stands behind the field, for the reason given at the Kind
+    field above: in this table Sebastian wants the answer and nothing
+    else. Where the field is settled it is closed, and *why* says so
+    from the field itself rather than from a sentence beside it.
     """
     cell, box = choice_cell(AUDIO_USE,
                             AUDIO_MATERIAL if used else AUDIO_UNUSED,
-                            why, quiet)
+                            "", quiet)
+    if why:
+        box.setEnabled(False)
     speaks_as(box, T('Camera audio'), short)
     hint(box, T('Used, the sound of this file becomes a track like any '
                 'other -- it appears in the table above.\nThe same field '
@@ -24944,6 +24952,27 @@ def fitted(Qt, label, text):
         return
     label.setToolTip(text)
     label.setText(metrics.elidedText(text, Qt.ElideMiddle, room))
+
+
+def stand_in_camera(names):
+    """What stands in front of a silence where no camera is a wide shot.
+
+    Not a wide shot, and it must not act as one: everything the wide
+    shot settings ask for is switched off wherever this is used.
+
+    All that matters here is that the preview and the run reach for the
+    same camera -- and they did not. The preview took the first of its
+    own list, the run took the reference clip, and in a real shoot both
+    are real cameras, so it showed as two different cuts rather than as
+    a fault. Found 25.8.2026, and only reachable at all since a camera
+    with a speaker stopped counting as a wide shot.
+
+    By name, not by position: the two lists are built in different
+    places and nothing says they are sorted alike, so a rule that hangs
+    on the order would let them drift again on the day one of them is
+    built differently.
+    """
+    return sorted(n for n in names if n)[:1] or ["Wide"]
 
 
 def question_dialog(f, window, QtWidgets, label):

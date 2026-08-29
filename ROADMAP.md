@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 2.10.1-beta.
+gone through for 2.12.0-beta.
 
 ## Where the program stands today
 
-**Version 2.10.1-beta.** It runs every week, on real material.
+**Version 2.12.0-beta.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -32,8 +32,8 @@ program uploads only when somebody asks it to.
 It is one Python file of about 30000 lines, with no package and no
 build step. Python 3.10 or newer has to be there, and the two packages
 it needs it installs itself. macOS and Windows are what it is used on,
-and Linux works with two limits. A suite of 98 tests runs in about
-half a minute.
+and Linux works with two limits. A suite of 103 tests runs in about
+half a minute, on all three systems at every push.
 
 **Why it is still beta.** The format of the project file may still
 change. An older file is refused with a clear message rather than half
@@ -43,45 +43,28 @@ the major number.
 
 ## What comes next
 
-Ordered by what each one gives against what it costs. The first three
-are small and overdue; the rest is where the work sits.
+Ordered by what each one gives against what it costs. The first two
+are small; the two after them wait on a run and on a decision, and the
+last is where the work sits.
 
-**1. The release page offers the file people actually download.** A
-release today offers a source archive of about 60 MB, and the one file
-the README tells anybody to fetch is not where they look for it.
-Attaching `videopodcast-magic.py` and its SHA-256 sum puts it there
-and lets a reader check what arrived. The program holds every model
-file against a checksum already; it does not yet hold itself against
-one.
+**1. The progress bar stops jumping backwards.** Under load the bar
+can fall back while the run itself is fine. The place has been read
+and the cause named: the old plan is thrown away only where nothing is
+running, so a run started while the measuring that follows opening a
+project is still going adds its stages to a plan already half worked
+off, and the share of the whole falls the moment the denominator
+grows. That is read in the source and not measured under load. During
+a run of many minutes that bar is the only thing saying whether
+anything is still moving, so a display that lies is worse than no
+display.
 
-**2. A clone stops carrying 32 MB it does not need.** The working
-folder of a test run reached the repository by accident and holds a
-second copy of the separation model and an outdated copy of the
-program. Everybody who clones pulls it along. Taking it out costs one
-commit, and the history stays as it is: rewriting it would move the
-tags that installed copies fetch their model from.
+**2. The Auphonic key on Windows gets a test.** The suite runs on
+Windows, Linux and macOS at every push, and one path stayed outside
+it: on Windows the key is kept in the registry, and no test anywhere
+touches that. It is the one place where a mistake would leave a key
+somewhere it does not belong.
 
-**3. The progress bar stops jumping backwards.** Under load the bar
-can fall back while the run itself is fine. During a run of many
-minutes that bar is the only thing saying whether anything is still
-moving, so a display that lies is worse than no display.
-
-**4. Windows and Linux get a run of their own.** The program is used
-on Windows, and the suite has never run there. A workflow that starts
-it on a hosted runner is being tried out, and whether the suite goes
-green on Windows or on Linux at all is the open question. One gap
-stays open whatever that run says: the program keeps the Auphonic key
-on Windows in the registry, and no test anywhere touches that path.
-
-**5. The manual stops drifting from the program in silence.** Five
-lists in the manual copy a list out of the source: the switch table,
-the menu bar, the cut rules, the numeric defaults, and the links
-between chapters. About 140 lines of test hold set against set and go
-red when one side moves. They compare sets, never sentences. A test
-that goes red on every rewording is switched off within a week, and
-after that it guards nothing.
-
-**6. Multitrack names its own voices.** With one microphone per person
+**3. Multitrack names its own voices.** With one microphone per person
 the program knows who talks when, and it knows which microphone is
 which. Holding the two against each other should say by itself that
 "Speaker 2" is the microphone of the person asking the questions, so
