@@ -11,6 +11,18 @@ survives.
 
 ## [Unreleased]
 
+### Changed
+
+- Adding material no longer takes the output folder and the production
+  name out of a handover file lying in a subfolder. That file belongs
+  to the run that wrote it -- days old, another window, another
+  measurement -- and two settings taken out of it looked exactly like
+  answers somebody had given here. The name still comes from the folder
+  the material lies in; the output folder stays empty until it is
+  chosen. Opening a project was never affected: it clears what the
+  window remembers, the Kind of every file and the wide-shot marks
+  before it applies what the file says.
+
 ### Tests
 
 - `without_auphonic_test.py` is now `local_run_test.py`. The old name

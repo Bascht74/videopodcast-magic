@@ -196,10 +196,10 @@ TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 # idle beside it. Measured on the builder, 30.8.2026:
 #
 #   23:11:27  106/107  window_wiring     ok
-#   23:12:12  107/107  without_auphonic  ok
+#   23:12:12  107/107  local_run  ok
 #
 # 45 seconds of a 154-second run, one test alone. It is called
-# "without_auphonic", so the alphabet put it last; on this Mac it takes
+# "local_run", so the alphabet put it last; on this Mac it takes
 # 2 seconds and nothing about it ever looked slow. A hand-written list
 # of the slow ones would have gone stale and would have been a guess
 # besides, so the suite measures itself instead.
