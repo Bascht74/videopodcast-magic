@@ -60,7 +60,8 @@ Two limits, both named on the row. The program reads a pair spaced wider
 than about 30 cm as two microphones. And a file whose two channels were
 laid on a common time axis before being joined looks like a pair. If the
 two channels share too little sound to tell, the row claims nothing and
-proposes the split.
+proposes the split. That spacing is built in; no switch sets it. Where
+the measurement is off, the tick on the row overrides it.
 
 Every track that comes out of this is a track like any other: a row in
 the assignment, a name, a camera. It can be listened to on its own.
@@ -76,6 +77,9 @@ enough:
   anything into.
 * Absolute: below −70 dBFS only the noise floor of the converter
   remains.
+
+Both numbers are built in; no switch sets them. A channel above both
+marks becomes a track, a channel below either one stays out of the run.
 
 The absolute rule only applies if at least one channel is above it. A
 recording that is quiet throughout is still judged by the relative rule.

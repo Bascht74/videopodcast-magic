@@ -11,6 +11,18 @@ survives.
 
 ## [Unreleased]
 
+### Added
+
+- A run can be broken off. The button stands beside Start while a run
+  is going and can be pressed at any moment -- but the run stops only
+  where stopping leaves nothing half written, so between the press and
+  the end there is a wait, and the log says so rather than leaving the
+  button looking broken. What was written before the break is whole;
+  what comes after it is missing, and the run says which files are
+  finished and that the folder holds a part of a run, not a result.
+  Whatever ffmpeg was doing at that moment is ended with it -- a child
+  nobody tells goes on writing long after the window says it stopped.
+
 ### Changed
 
 - In the camera table nothing stands behind the answer any more,
@@ -40,6 +52,18 @@ survives.
   fault: three speakers on three cameras gave 15 shots in the run
   against 12 in the preview. It goes by name now, not by position, so
   two lists built in different places cannot drift apart again.
+
+### Documentation
+
+- Nineteen numbers in the manual say what they are: whether they are a
+  default, which switch sets them, and what a larger or smaller value
+  does. Two were wrong. The report of samples at the ceiling was said
+  to appear from eight samples on, where the program says three -- and
+  it was said to need the peak within 0.1 dB of full scale, a
+  condition that does not exist: the constant for it is defined and
+  used nowhere. Whoever looked for a channel with four samples at the
+  ceiling would have found the manual and the program disagreeing, and
+  had no way to tell which was right.
 
 ## [2.12.0-beta] - 2026-08-29
 

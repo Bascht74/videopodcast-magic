@@ -6660,6 +6660,8 @@ def parallel_map(items, work, workers=None):
 
     def work_loop():
         while True:
+            if stop_wanted():
+                return
             try:
                 i = todo.pop()
             except IndexError:
@@ -19509,12 +19511,22 @@ def run_ffmpeg_with_progress(cmd, duration, text):
     try:
         with open(log, "wb") as fh:
             proc = subprocess.Popen(cmd, stdout=subprocess.PIPE, stderr=fh)
-            show_progress(text, 0.0)
-            for line in proc.stdout:
-                share = progress_from_line(line, duration)
-                if share is not None:
-                    show_progress(text, share)
-            proc.wait()
+            # This is where a run spends its minutes, so this is where
+            # breaking off has to reach. The child says it is here; the
+            # window ends it, and the loop below falls out of itself.
+            RUN_STOP["children"].add(proc)
+            try:
+                show_progress(text, 0.0)
+                for line in proc.stdout:
+                    share = progress_from_line(line, duration)
+                    if share is not None:
+                        show_progress(text, share)
+                proc.wait()
+            finally:
+                RUN_STOP["children"].discard(proc)
+        if stop_wanted():
+            # Ended by us, so the error it left behind says nothing.
+            raise Stopped(RUN_STOP["at"] or text)
         show_progress(text, 1.0)
         if THREAD_SHARE.get(threading.get_ident()) is None:
             if OUTPUT_SINK:
@@ -24985,6 +24997,146 @@ def stand_in_camera(names):
     return sorted(n for n in names if n)[:1] or ["Wide"]
 
 
+class Stopped(Exception):
+    """The run was broken off from the window."""
+
+
+# What is running right now, so that breaking off can end it. A flag on
+# its own would not do: the run spends most of its minutes waiting for
+# ffmpeg, and a child nobody tells goes on writing long after the window
+# says it has stopped.
+RUN_STOP = {"wanted": False, "children": set(), "at": ""}
+
+
+def stop_asked_for(where=""):
+    """Ask the run to stop, and end what it has running at this moment."""
+    RUN_STOP["wanted"] = True
+    RUN_STOP["at"] = where
+    for child in list(RUN_STOP["children"]):
+        try:
+            child.terminate()
+        except Exception:
+            # It ended by itself between the two lines. Nothing to do.
+            pass
+
+
+def stop_forget():
+    """Forget a request, before the next run starts."""
+    RUN_STOP["wanted"] = False
+    RUN_STOP["at"] = ""
+    RUN_STOP["children"].clear()
+
+
+def stop_wanted():
+    """Whether somebody has asked for the run to stop."""
+    return bool(RUN_STOP["wanted"])
+
+
+def stop_here(what=""):
+    """Break off, where a run may be broken off -- and nowhere else.
+
+    Called between steps, never in the middle of writing one file. A
+    file half written is worse than a run that takes a few seconds
+    longer to notice it should stop: the half file looks finished from
+    the outside, and the next run finds it and believes it.
+    """
+    if RUN_STOP["wanted"]:
+        # What the window said is the better answer: it knows which step
+        # was on the screen, while this only knows where the run got to
+        # before it looked.
+        raise Stopped(RUN_STOP["at"] or what)
+
+
+class Redirect(object):
+    """Send the run output to the window and to the log file.
+
+    The window is gone once it is closed; the file stays. Only that way
+    can a run be read back afterwards.
+
+    *show* is where the window wants it, *having* the open log file.
+    Out here rather than inside gui(), because it needs one thing from
+    the window and nothing else, and gui() has no room to spare.
+    """
+
+    # Says: leave the kind markers in, the window needs them.
+    keeps_marks = True
+
+    def __init__(self, having=None, show=None):
+        self.having = having
+        self.show = show
+
+    def write(self, text):
+        if self.show is not None:
+            self.show(text)
+        if self.having is not None:
+            try:
+                self.having.write(strip_marks(text))
+                self.having.flush()
+            except Exception:
+                pass
+
+    def flush(self):
+        pass
+
+
+def broken_off_report(where, results):
+    """What to say after a run was broken off, in as many words.
+
+    Not only that it ended. What was written before the break is
+    whole -- a run is only ever broken off between steps, never in the
+    middle of writing one file -- but the steps after it did not
+    happen. So the folder holds a part of a run, and from the outside
+    it looks like a result. Whoever reads this has to be able to tell
+    the two apart tomorrow.
+    """
+    done = [os.path.basename(x) for x in (results or [])]
+    return "\n".join([
+        T('\nBroken off during: %s') % (where or "?"),
+        TN(len(done),
+           '%d file was finished before that and is whole: %s',
+           '%d files were finished before that and are whole: %s')
+        % (len(done), ", ".join(done) or "-"),
+        T('Everything after that step is missing. The folder holds a '
+          'part of a run, not a result.')])
+
+
+def break_off_button(QtWidgets, state, say):
+    """The button that stops a run, and what it says while it does.
+
+    Away while nothing runs: a button that does nothing is a question
+    nobody asked. It can be pressed at any moment, in the middle of
+    writing a file as much as between two steps -- but the run stops
+    only where stopping leaves nothing half written, so between the
+    press and the end there is a wait. That wait is said out loud, or
+    the button looks broken and gets pressed again and again.
+
+    *state* is the window's own note of what is going on, and *say*
+    writes a line where the run writes.
+    """
+    button = QtWidgets.QPushButton(T('Break off'))
+    button.setVisible(False)
+
+    def pressed():
+        if not state.get("running"):
+            return
+        button.setEnabled(False)
+        button.setText(T('Breaking off ...'))
+        say(T('\nBreaking off. The run stops as soon as it can do so '
+              'without leaving a file half written -- one moment.\n'))
+        stop_asked_for(state.get("run_step") or "")
+
+    button.clicked.connect(pressed)
+    return button
+
+
+def break_off_arm(button):
+    """Put the button back the way it was, for the run about to start."""
+    stop_forget()
+    button.setEnabled(True)
+    button.setText(T('Break off'))
+    button.setVisible(True)
+
+
 def question_dialog(f, window, QtWidgets, label):
     """Ask the window's user what to do while a worker thread waits.
 
@@ -29747,6 +29899,8 @@ def gui():
     hint(preview_button,
             T('Measure only -- nothing is written or uploaded.'))
     foot.addWidget(preview_button)
+    break_off = break_off_button(QtWidgets, state, lambda t: write(t))
+    foot.addWidget(break_off)
     # The two run buttons are one pair and switch off the same way: both
     # keep their shape and fade into the same muted blue. The rank stays
     # readable -- the main action is filled, the dry run only outlined --
@@ -30051,6 +30205,7 @@ def gui():
             # written between the two is still waiting here.
             drain()
             output_timer.stop()
+            break_off.setVisible(False)
             start_run.setText(T('Start'))
             buttons_check()
             result_button_check()
@@ -30058,31 +30213,6 @@ def gui():
             preview_compute()
 
     output_timer.timeout.connect(clear)
-
-    class Redirect(object):
-        """Send the run output to the window and to the log file.
-
-        The window is gone once it is closed; the file stays. Only that way can
-        a run be read back afterwards.
-        """
-
-        # Says: leave the kind markers in, the window needs them.
-        keeps_marks = True
-
-        def __init__(self, having=None):
-            self.having = having
-
-        def write(self, text):
-            write(text)
-            if self.having is not None:
-                try:
-                    self.having.write(strip_marks(text))
-                    self.having.flush()
-                except Exception:
-                    pass
-
-        def flush(self):
-            pass
 
     # Runs in the window thread while the worker thread waits.
     bridge.question.connect(
@@ -30112,13 +30242,16 @@ def gui():
             old_out.flush()
         except Exception:
             pass
-        sys.stdout = sys.stderr = Redirect(old_out)
+        sys.stdout = sys.stderr = Redirect(old_out, write)
         code = 1
         try:
             sys.argv = argv
             code = main()
         except SystemExit as e:
             code = e.code if isinstance(e.code, int) else 1
+        except Stopped as e:
+            code = 2
+            print(as_bad(broken_off_report(e, state.get("results"))))
         except Exception as e:
             print(as_bad(T('\nStopped: %s') % e))
         finally:
@@ -30359,6 +30492,7 @@ def gui():
         only_resolve.setEnabled(False)
         start_run.setText(T('Preview running ...') if only_look else T('running ...'))
         state["running"] = True
+        break_off_arm(break_off)
         run_plan_build()
         result_button_check()
         project_write(argv)      # the dry run too: same hand work
@@ -32335,6 +32469,16 @@ CATALOGUE["de"] = {
     '    it begins with %s and ends with %s -- the stretch every camera saw':
         '    beginnt mit %s und endet mit %s -- der Abschnitt, den jede '
         'Kamera gesehen hat',
+    '\nBreaking off. The run stops as soon as it can do so without leaving a file half written -- one moment.\n':
+        '\nWird abgebrochen. Der Lauf hört auf, sobald er es kann, ohne eine Datei halb geschrieben liegen zu lassen -- einen Moment.\n',
+    '\nBroken off during: %s':
+        '\nAbgebrochen bei: %s',
+    '%d file was finished before that and is whole: %s':
+        '%d Datei war davor fertig und ist vollständig: %s',
+    '%d files were finished before that and are whole: %s':
+        '%d Dateien waren davor fertig und sind vollständig: %s',
+    'Everything after that step is missing. The folder holds a part of a run, not a result.':
+        'Alles nach diesem Schritt fehlt. Im Ordner liegt ein Teil eines Laufs, kein Ergebnis.',
     '  Common window:       %s to %s (%s)':
         '  Gemeinsames Fenster: %s bis %s (%s)',
     '  Created:     %s':

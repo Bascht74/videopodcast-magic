@@ -254,6 +254,12 @@ jobs:
             n=$((n+1))
           }
           case "$RUNNER_OS" in
+            Linux)
+              aside key_store \
+                "it writes into the Windows registry under
+                 HKEY_CURRENT_USER. Linux has no registry, so there is
+                 nothing here for it to walk."
+              ;;
             Windows)
               aside channel_read \
                 "it puts a stand-in ffmpeg on PATH as a file with a
@@ -268,6 +274,10 @@ jobs:
                 "it has macOS recognise a German sentence. The runner
                  carries no German dictation asset, so the program falls
                  back -- correctly -- and the test asks for the macOS way."
+              aside key_store \
+                "it walks the Windows registry. On a Mac those same
+                 three functions go to the keychain, and the keychain
+                 holds the real Auphonic key -- no test goes there."
               ;;
           esac
           echo "set aside on $RUNNER_OS: $n"

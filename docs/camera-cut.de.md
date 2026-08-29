@@ -58,12 +58,20 @@ und sagt, was fehlt.
 
 *Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau.*
 
+Alle acht Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
+Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als
+Dezimalzeichen, und eine Obergrenze gibt es nicht. Ein negativer Wert
+ist nur für **Edit Change Delay** gedacht; die anderen Felder nehmen
+ihn an, aber es kommt nichts Gutes dabei heraus.
+
 Vier Felder formen den Schnitt selbst:
 
 * **Mindestschnittdauer**: 3 s, so lange steht eine Einstellung
-  mindestens (auf der Kommandozeile `--min-edit-duration`)
-* **Redet mindestens**: 1,5 s, darunter folgt die Kamera nicht (auf
-  der Kommandozeile `--min-speech-to-switch`)
+  mindestens; höher macht den Schnitt ruhiger (auf der Kommandozeile
+  `--min-edit-duration`)
+* **Redet mindestens**: 1,5 s, darunter folgt die Kamera nicht; höher
+  und sie folgt seltener (auf der Kommandozeile
+  `--min-speech-to-switch`)
 * **Edit Change Delay**: 0,3 s, so viel später als der Ton wechselt
   das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
   Kommandozeile `--edit-change-delay`)
@@ -73,13 +81,15 @@ Vier Felder formen den Schnitt selbst:
 Vier weitere formen den Weitwinkel:
 
 * **Weitwinkel nach**: 40 s, ab dieser Standzeit ein Blick in den
-  Weitwinkel; 0 schaltet ihn ab (auf der Kommandozeile `--wide-after`)
+  Weitwinkel; kleiner gibt mehr Weitwinkel, 0 schaltet ihn ab (auf der
+  Kommandozeile `--wide-after`)
 * **Weitwinkel steht**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
 * **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der
   Kommandozeile `--wide-most`)
 * **Weitwinkel spätestens**: 120 s, Obergrenze für eine Kamera am
-  Stück (auf der Kommandozeile `--wide-latest`)
+  Stück; kleiner unterbricht sie früher (auf der Kommandozeile
+  `--wide-latest`)
 
 Darunter stehen vier Auswahlfelder. Sie sagen, was läuft, wenn die
 Sprache nicht sagt, wer zu zeigen ist:
@@ -123,7 +133,8 @@ Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
 Kamera in den letzten 20 Sekunden jemand zu hören war; sonst der
-Weitwinkel.
+Weitwinkel. Die 20 Sekunden stehen fest; kein Feld und kein Schalter
+setzt sie.
 
 **Zuhörer** und **Abwechselnd** zeigen einen Menschen, von dem das
 Programm nur weiß, dass er kurz vorher zu hören war. Es sieht das Bild
@@ -289,7 +300,8 @@ nicht aus dem Ton. Es sucht die Stellen, an denen genau eine Person
 spricht: diese höchstens 10 dB unter ihrem eigenen Sprachpegel, die
 anderen mindestens 6 dB unter ihrem. Dort misst es, wie laut diese
 Stimme in den anderen Mikrofonen ankommt, und rechnet den eigenen Anteil
-aus jeder Spur zurück.
+aus jeder Spur zurück. Keiner dieser Werte lässt sich einstellen; es
+gibt kein Feld und keinen Schalter dafür.
 
 Es geht auch bei Mikrofonen, die enger stehen, als die 3:1-Regel will.
 Für ein Paar ohne mindestens drei solche Stellen zieht es nichts ab. Bei
@@ -443,9 +455,10 @@ Vorschau, in der er zu prüfen ist. Was Resolve daraus macht, steht in
 Im Fenster gibt es dafür keine Entsprechung.
 
 * `--reaction-gap` wie schnell die Antwort auf die Frage folgen muss,
-  damit der Reaktionsschnitt greift (3 s)
+  damit der Reaktionsschnitt greift (3 s); größer und er greift öfter
 * `--reaction-hold` welchen Anteil der zehn Sekunden nach der Frage der
-  Antwortende halten muss, zwischen 0 und 1 (0,7)
+  Antwortende halten muss, zwischen 0 und 1 (0,7); höher und er greift
+  seltener
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
   aller drei Player unter das Bild und jeden Versuch auf die Konsole

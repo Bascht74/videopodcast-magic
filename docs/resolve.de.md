@@ -180,7 +180,9 @@ Projekteinstellungen etwas anderes, sticht das Projekt.
 Bei hohen Bildraten von 48, 50 und 60 gelten die höheren Werte: 68.000
 bzw. 85.000 kbit/s bei 2160p, entsprechend darunter. Es sind die
 Empfehlungen von YouTube für den Upload, jeweils der obere Wert des
-Bereichs.
+Bereichs. Diese Werte sind fest, und kein Schalter des Programms setzt
+sie. Bildhöhe, Bildrate und SDR oder HDR wählen den Wert aus. Eine
+andere Rate stellt man in Resolve am Renderauftrag selbst ein.
 
 Eine Warnung steht im Protokoll, falls dieses Resolve kein H.265
 anbietet. Eine zweite steht dort, falls es das Profil Main10 nicht
@@ -193,9 +195,10 @@ Datei stehen muss* nennt, was der Renderauftrag dafür setzt.
 Fest bleiben: eine Datei statt eine je Clip, Ziel ist der Ausgabeordner,
 Dateiname der Produktionsname, `.mp4`. Der Ton ist AAC bei 48 kHz, 16 Bit,
 zwei Kanäle. Die Tonbitrate kennt die Scripting-Schnittstelle von Resolve
-nicht als Schlüssel; das Protokoll schreibt hin, dass 384 kbit/s die
-Empfehlung für Stereo wären. Bei HDR nennt es auch die Prüfung
-(*HDR: was in der Datei stehen muss*).
+nicht als Schlüssel, das Programm kann sie also nicht setzen. Man stellt
+sie in Resolve am Renderauftrag selbst ein. Das Protokoll schreibt hin,
+dass 384 kbit/s die Empfehlung für Stereo wären. Bei HDR nennt das
+Protokoll auch die Prüfung (*HDR: was in der Datei stehen muss*).
 
 ### Vorspann und Abspann setzen
 
@@ -221,7 +224,9 @@ nicht nach der Dateilänge:
 
 - **Vorspann**: das *Ende seines hörbaren Tons* trifft auf das erste Wort.
   Gemeint ist der Jingle, nicht die Datei. Die Schwelle liegt 40 dB unter der
-  lautesten Stelle der Datei selbst.
+  lautesten Stelle der Datei selbst. Sie liegt fest, und kein Schalter setzt
+  sie. Ein Jingle, der leise ausklingt, erreicht die Schwelle vor dem Ende
+  seines Tons. Der Rest des Ausklangs liegt dann über den ersten Worten.
 - **Abspann**: der *Anfang seines Tons* trifft auf das Ende des letzten Worts.
 - Die Sprecherabschnitte der Übergabedatei sagen, wo die Worte liegen.
 - Bei einem Clip ohne Ton gilt für den Vorspann sein Ende und für den

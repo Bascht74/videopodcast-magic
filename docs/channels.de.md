@@ -61,7 +61,8 @@ mit mehr als etwa 30 cm Abstand als zwei Mikrofone. Und eine Datei,
 deren beide Kanäle vor dem Zusammenlegen auf eine gemeinsame Zeitachse
 gebracht wurden, sieht aus wie ein Paar. Die Zeile behauptet nichts und
 schlägt die Trennung vor, wenn die beiden Kanäle zu wenig gemeinsamen
-Ton haben.
+Ton haben. Dieser Abstand ist fest eingebaut; kein Schalter setzt ihn.
+Liegt die Messung daneben, übersteuert das Häkchen in der Zeile sie.
 
 Jede Spur, die dabei herauskommt, ist eine Spur wie jede andere: eine
 Zeile in der Zuordnung, ein Name, eine Kamera. Sie ist einzeln anhörbar.
@@ -76,6 +77,10 @@ Zwei Regeln entscheiden, ob ein Kanal als belegt gilt, und eine genügt:
   niemand etwas gesteckt hat.
 * Absolut: unter −70 dBFS liegt nur noch der Rauschteppich des
   Wandlers.
+
+Beide Zahlen sind fest eingebaut; kein Schalter setzt sie. Ein Kanal
+über beiden Marken wird eine Spur, ein Kanal unter einer der beiden
+bleibt draußen.
 
 Die absolute Regel greift nur, wenn wenigstens ein Kanal darüber liegt.
 Eine durchweg leise Aufnahme wird weiter nach der relativen Regel
