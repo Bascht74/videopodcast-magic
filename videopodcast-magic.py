@@ -29787,6 +29787,11 @@ def gui():
     # ------------------------------------------------------------------
     # Footer
     # ------------------------------------------------------------------
+    # Above the buttons, not under them: a line below the bottom row
+    # reads like a footnote to the window rather than the answer to
+    # "why can I not press this". Sebastian, 30.8.2026.
+    start_note = label("", COLOURS["quiet"])
+    vertical.addWidget(start_note)
     foot = QtWidgets.QHBoxLayout()
     vertical.addLayout(foot)
     total_bar = QtWidgets.QProgressBar()
@@ -29958,11 +29963,7 @@ def gui():
     foot.addSpacing(18)
     foot.addWidget(settings_button)
 
-    # The bottom row of the window, and the last thing added to it: why
-    # the start button is grey, in full and in view. A tooltip is out of
-    # reach for the keyboard and is not read out reliably, so it cannot
-    # be the only place the reason stands.
-    start_note = label("", COLOURS["quiet"])
+    # In full and in view: a tooltip is out of reach for the keyboard.
     start_note.setWordWrap(True)
     start_note.setVisible(False)
     # Named so it can be found: the test looks for this line, and a
@@ -29970,7 +29971,6 @@ def gui():
     start_note.setObjectName("start_note")
     start_note.setAccessibleName(T('Why the run cannot start'))
     late["start_note"] = start_note
-    vertical.addWidget(start_note)
 
     # ------------------------------------------------------------------
     # Project file

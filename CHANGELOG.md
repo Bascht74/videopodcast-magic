@@ -11,6 +11,12 @@ survives.
 
 ## [Unreleased]
 
+### Changed
+
+- The line saying why the run cannot start stands above the buttons
+  instead of under them. Below the bottom row it read like a footnote
+  to the window rather than the answer to "why can I not press this".
+
 ### Added
 
 - Where the wide shot is set to hold less time than the shortest shot
