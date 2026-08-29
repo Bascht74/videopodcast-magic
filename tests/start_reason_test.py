@@ -311,8 +311,25 @@ def step():
             check("greyed, so a derivation cannot pass for an answer",
                   "color" in (free.styleSheet() or ""),
                   repr(free.styleSheet()))
-            check("and the reason stands beside it",
-                  bool(kind_reason(free)), repr(kind_reason(free)))
+            # Not beside it any more, on the entry it is about.
+            # Sebastian on 26.8.2026: only Content is to be barred, and
+            # the text behind the choice is to go. So the reason sits
+            # where the question is asked -- on the entry somebody
+            # would have picked -- and the row stays short enough to
+            # read.
+            check("nothing stands beside it any more",
+                  not kind_reason(free), repr(kind_reason(free)))
+            check("and Content is the one entry barred",
+                  not free.model().item(
+                      free.findData(vpm.TYPE_CONTENT)).isEnabled())
+            check("with the reason on that entry",
+                  bool(free.itemData(free.findData(vpm.TYPE_CONTENT),
+                                     QtCore.Qt.ToolTipRole)),
+                  repr(free.itemData(free.findData(vpm.TYPE_CONTENT),
+                                     QtCore.Qt.ToolTipRole)))
+            check("and an intro is still free to choose",
+                  free.model().item(
+                      free.findData(vpm.TYPE_INTRO)).isEnabled())
             check("the field stays operable all the same",
                   free.isEnabled())
             print("\n7. Choosing what is shown makes it an answer")

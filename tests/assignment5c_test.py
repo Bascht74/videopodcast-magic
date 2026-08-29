@@ -119,9 +119,16 @@ def look(media):
     check("the settled field shows the audio in use",
           box3.currentData() == vpm.AUDIO_MATERIAL)
     check("and cannot be changed", not box3.isEnabled())
-    check("and the reason stands beside it, not in a tooltip",
-          any(w.text() == why
-              for w in cell3.findChildren(QtWidgets.QLabel)), why)
+    # Nothing stands beside it any more. Sebastian on 26.8.2026, about
+    # this same table and for the second time: "the text that comes
+    # behind the choice should go." A closed field says by being closed
+    # that there is nothing to answer, and the sentence beside it was
+    # making the row too long to read. The rule that grey is never
+    # without a reason holds everywhere else in the window.
+    check("and nothing stands beside it any more",
+          not [w for w in cell3.findChildren(QtWidgets.QLabel)
+               if w.text().strip()],
+          repr([w.text() for w in cell3.findChildren(QtWidgets.QLabel)]))
     box3.setCurrentIndex(box3.findData(vpm.AUDIO_UNUSED))
     check("and showing it stores nothing", settled.get() is False)
 

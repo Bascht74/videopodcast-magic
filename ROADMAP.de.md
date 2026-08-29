@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Fassung für Fassung. Diese Seite ist
-zuletzt für 2.10.1-beta durchgegangen worden.
+zuletzt für 2.12.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Fassung 2.10.1-beta.** Es läuft jede Woche, an echtem Material.
+**Fassung 2.12.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -32,8 +32,9 @@ wird.
 Es ist eine Python-Datei mit rund 30000 Zeilen, ohne Paket und ohne
 Bauschritt. Python 3.10 oder neuer muss da sein, die zwei Pakete
 installiert es selbst. Benutzt wird es unter macOS und Windows, unter
-Linux läuft es mit zwei Einschränkungen. Eine Suite aus 98 Tests
-braucht rund eine halbe Minute.
+Linux läuft es mit zwei Einschränkungen. Eine Suite aus 103 Tests
+braucht rund eine halbe Minute und läuft bei jedem Push auf allen drei
+Systemen.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung

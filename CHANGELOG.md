@@ -9,6 +9,29 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Changed
+
+- In the camera table nothing stands behind the answer any more,
+  neither at Kind nor at Camera audio. Instead, where no speaker is
+  assigned to a camera, the one entry **Content** is barred and says
+  on itself why -- intro, outro and "ignore this video" stay open,
+  because those are answers about the file and have nothing to do with
+  who was assigned where. Greying the whole list took them away for no
+  reason, and the sentence beside the field made the row too long to
+  read.
+
+### Fixed
+
+- Where no camera is a wide shot, the preview and the run reach for the
+  same stand-in. They took different ones -- the preview the first of
+  its own list, the run the reference clip -- and in a real shoot both
+  are real cameras, so it showed as two different cuts rather than as a
+  fault: three speakers on three cameras gave 15 shots in the run
+  against 12 in the preview. It goes by name now, not by position, so
+  two lists built in different places cannot drift apart again.
+
 ## [2.12.0-beta] - 2026-08-29
 
 ### Changed
