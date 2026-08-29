@@ -71,8 +71,14 @@ for block in blocks[:3]:                      # the newest three
     check("%s: every group once" % name,
           len(groups) == len(set(groups)), str(groups))
     rank = [ORDER.index(g) for g in groups if g in ORDER]
+    # What it should be, not only what it is. A line that says
+    # ['Tests', 'Added', 'Changed'] leaves the reader to work out the
+    # order for themselves and to look it up somewhere else -- and this
+    # went red on all six builders on 30.8.2026 for exactly that, twice
+    # in one evening.
     check("%s: groups in order, Documentation last" % name,
-          rank == sorted(rank), str(groups))
+          rank == sorted(rank),
+          "%s -- wanted %s" % (groups, [g for g in ORDER if g in groups]))
 
 print("\n3. Every picture is there, and every picture is used")
 images = os.path.join(ROOT, "docs", "images")
