@@ -16698,9 +16698,14 @@ def without_outliers(tv, dt):
 
 def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=20.0,
                        distance_s=120.0, points_off="video"):
-    """The same on ready-made envelopes: reference = a + b * base time.
+    """The same on ready-made envelopes.
 
-    *points_from* decides which of the two curves the sample points are
+    Which way round: the second curve's time = a + b * the first
+    curve's time. Said without the word "reference" on purpose --
+    align_cameras calls the *first* of its two the reference, and
+    reading this line with that meaning turns the pair round.
+
+    *points_off* decides which of the two curves the sample points are
     picked on; the first by default. For a de-bled speaker track it has to
     be the second: only one speaker is left there, and only where they speak
     is there anything to compare. Picking the spots on the camera track
@@ -21326,8 +21331,16 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
                 print(T('  Picture range:   the whole audio, nothing to trim'))
 
         # A manual time window applies here too. It moves nothing in the
-        # picture -- the video file stays whole -- but trims the audio to the
-        # window and places it there. The multitrack path does the same.
+        # picture -- the video file stays whole -- but trims the audio to
+        # the window and places it there.
+        #
+        # It does not mean what it means on the multitrack path, and the
+        # comment that said it did was wrong. Here a point is read in
+        # *this* camera's picture time; there it is one point on the
+        # common axis, the same moment for every camera. Measured
+        # 30.8.2026 with two cameras five seconds apart: --in-point +8
+        # took recording second 12 out of the one and second 17 out of
+        # the other. Bringing the two together is what makes them one.
         window_head = window_foot = None
         if (getattr(args, "in_point", None) or getattr(args, "out_point", None)):
             v_tc = parse_timecode(info["tc"], fps) if info.get("tc") else None
@@ -21335,8 +21348,10 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             def _window(value_text, from_the_end=False):
                 """Convert a time value into picture time.
 
-                Handles all four notations, like clip_to_time_window does for
-                the multitrack path.
+                The four notations are the ones clip_to_time_window
+                reads for the multitrack path. What they are counted
+                from is not: there the zero is the common axis, here it
+                is this camera's own picture.
                 """
                 value, absolute = parse_time_point(value_text, fps)
                 if value is None:
@@ -21374,9 +21389,12 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
 
         try:
             a, b, st = align_audio_to_video(audio, v, head_s)
-            # audio time = a + b * video time, and the alignment looked
-            # at the audio from head_s on -- so the mix as a whole
-            # begins at a + head_s in this camera's time.
+            # What is kept is the pair of "audio time = a_raw + b *
+            # this camera's picture time". The alignment was given the
+            # audio from head_s on, so its own a counts from there and
+            # the head has to be added back to get the whole recording's
+            # place. places_on_camera_axis reads the pair this way round
+            # and is the one place that says so in full.
             simple_axis[os.path.abspath(v)] = (a + head_s / float(SR), b)
         except Exception as e:
             print(as_bad(T('  Alignment failed: %s\n') % e))
@@ -21478,12 +21496,13 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             print()
             continue
         if window_head is not None or window_foot is not None:
-            # audio time = a + picture time. The window lies in picture time;
-            # what is before and after falls away and the rest moves into its
-            # place. The writer puts audio time t at picture time t - head/SR -
-            # a. For the window to land in its place, everything up to (window
-            # start + a) is cut off in front and the rest delayed by the window
-            # start.
+            # The window lies in picture time; what is before and after
+            # falls away and the rest moves into its place. The writer
+            # puts audio time t at picture time t - head/SR - a, so the
+            # whole offset between the two is a_raw, computed just
+            # below. The line that used to stand here said "audio time =
+            # a + picture time" and left the head out -- the same
+            # mistake the code under it had, and it outlived the fix.
             n_audio_here = sample_count(audio)
             # The whole offset, not half of it. The writer puts audio
             # time t at picture time t - head/SR - a, so audio time is
@@ -21596,15 +21615,20 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             tc2 = tc2 or (x.get("tags", {}) or {}).get("timecode")
         print(T('  Timecode:        %s') % (tc2 or T('none')))
         results.append(target)
-        # What this camera's audio tracks are called, and where the
-        # shared sound sits against this picture -- which is all that a
-        # is. The zero of the shared window is the reference camera's
-        # timecode, not the moment the sound begins, so -a is not a
-        # place. Where the camera sits comes from camera_place.
+        # Where this camera begins on the axis. Not -a: the alignment
+        # here looked at the recording from head_s on, so a is zero by
+        # construction and every camera came out in the same place --
+        # measured 30.8.2026, two cameras five seconds apart, both
+        # written as 0.0 while the axis three screens above held 4.0
+        # and 9.0. The axis is what the whole run has been computing;
+        # it is what goes into the handover. Multitrack writes the
+        # same quantity: a camera beginning four seconds after the zero
+        # of the axis is written as -3.0 where the zero is at seven.
         simple_cameras.append({"video": os.path.abspath(v),
                                 "name": os.path.splitext(
                                     os.path.basename(target))[0]})
-        simple_sound_at[target] = -a
+        simple_sound_at[target] = simple_axis.get(
+            os.path.abspath(v), (-a, 1.0))[0]
         names = [args.name]
         if not args.no_camera_audio:
             n_own_audio = len(info["audio"])
@@ -21699,9 +21723,14 @@ def main():
     # stays is what really needs several tracks -- the words come out of
     # auphonic.com's per-track transcript, and the simple path calls
     # write_cut_list with words=().
-    ONLY_MULTITRACK = ("auphonic_done", "parallel",
+    # no_metrics and auphonic_resume are read in one place each, and
+    # both of those places are on the multitrack path: the metrics table
+    # is written there and nowhere else, and resuming an upload belongs
+    # to the per-track upload. On the simple path they were accepted and
+    # did nothing, which is exactly what this list exists to prevent.
+    ONLY_MULTITRACK = ("auphonic_done", "auphonic_resume", "parallel",
                        "no_speech_recognition", "no_transcript_file",
-                       "assign", "multitrack")
+                       "no_metrics", "assign", "multitrack")
     # Not "suffix": finish_without_auphonic names the mixed file with it
     # on the multitrack path as well.
     ONLY_SIMPLE = ("no_trim", "head", "tail", "name", "no_single_tracks")
