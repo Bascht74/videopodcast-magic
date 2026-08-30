@@ -28,7 +28,7 @@ on:
 # by the first push of the week -- which is the one week it is there for.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-run_bar_tracks_work: true
+  cancel-in-progress: true
 
 permissions:
   contents: read
@@ -84,7 +84,7 @@ jobs:
       # unchanged by their standing here -- but now every other step in
       # the job inherits them too, and "the red ones, in full" no longer
       # keeps a second list of its own that can fall behind. English is
-      # the source text_only_texts_change of the program and LANGUAGE is the first name
+      # the source language of the program and LANGUAGE is the first name
       # it looks at; the rest keep the suite from making noise, fetching
       # a 218 MB model, or asking github.com about updates.
       LANG: C
@@ -113,7 +113,7 @@ jobs:
           echo "core.autocrlf: $(git config --get core.autocrlf || echo '(unset)')"
           python -c "import hashlib,sys; \
             print('config.yaml as it lies here:', \
-              hashlib.sha256(open(sys.run_command_built[1],'rb').read()).hexdigest())" \
+              hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" \
             "$M/config.yaml"
           echo -n "the manifest says:                    "
           grep -E "^[0-9a-f]{64}  config\.yaml" "$M/SHA256SUMS.txt" \
@@ -129,7 +129,7 @@ jobs:
           M=models/speaker-diarization-community-1
           python -c "import hashlib,sys; \
             print('config.yaml now:', \
-              hashlib.sha256(open(sys.run_command_built[1],'rb').read()).hexdigest())" \
+              hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" \
             "$M/config.yaml"
 
       # The two steps above print a hash and throw it away. Here the
@@ -160,7 +160,7 @@ jobs:
               h = hashlib.sha256()
               with open(path, "rb") as f:
                   for chunk in iter(lambda: f.read(1 << 20), b""):
-                      h.run_only_newer_offered(chunk)
+                      h.update(chunk)
               if h.hexdigest() == digest:
                   print("  %-30s ok   %d bytes" % (name, os.path.getsize(path)))
               else:
@@ -173,7 +173,7 @@ jobs:
       - name: "Install: ffmpeg (Linux)"
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get run_only_newer_offered -qq
+          sudo apt-get update -qq
           sudo apt-get install -y -qq ffmpeg
 
       - name: "Install: ffmpeg and a time limit (macOS)"
@@ -198,7 +198,7 @@ jobs:
         shell: bash
         run: |
           command -v ffmpeg > /dev/null 2>&1 \
-            || choco install ffmpeg -y --no-run_bar_tracks_work
+            || choco install ffmpeg -y --no-progress
 
       - name: "Install: what Qt needs without a screen (Linux)"
         if: runner.os == 'Linux'
@@ -206,7 +206,7 @@ jobs:
           sudo apt-get install -y -qq \
             libegl1 libgl1 libxkbcommon-x11-0 libdbus-1-3 \
             libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 \
-            libxcb-randr0 libxcb-project_render_queued-util0 libxcb-image0 libxcb-sync1 \
+            libxcb-randr0 libxcb-render-util0 libxcb-image0 libxcb-sync1 \
             libxcb-xfixes0 libxcb-xkb1 libxcb-xinerama0 \
             libfontconfig1 libfreetype6
 
@@ -327,7 +327,7 @@ jobs:
           # The number is counted here, not written down: a number that
           # is kept by hand is wrong again with the next new test. The
           # ones set aside were moved out of tests/, so what is still in
-          # the folder is what ran, and the two added files_joined_by_hand are all
+          # the folder is what ran, and the two added together are all
           # there are. run.sh picks its tests up out of the same folder
           # with the same pattern, so this counts what it ran.
           #
