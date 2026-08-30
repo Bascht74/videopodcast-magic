@@ -207,9 +207,23 @@ check("the model comes out of a folder, never off a server",
 
 print("\n10. The model that travels with the program")
 model = vpm.speaker_model_folder()
-if not model:
-    print("  (no model folder beside the program -- not checked here)")
-else:
+SHIPPED = os.path.join(os.path.dirname(HERE), "models",
+                       vpm.SPEAKER_MODEL_NAME)
+if not model and os.path.isfile(os.path.join(SHIPPED, "config.yaml")):
+    # A suite is often run against a snapshot of the program in a
+    # temporary folder. The model is data and does not travel with a
+    # copy of the script, so the checkout's own is read instead --
+    # without this the whole section fell away and said so to nobody.
+    model = SHIPPED
+    print("  the script under test stands alone in %s,"
+          % os.path.dirname(SCRIPT))
+    print("  so the model read here is the checkout's own")
+# Red rather than passed over: the model ships with the program, every
+# checkout carries it, and a machine that has none has a broken one.
+check("the model is where a checkout puts it", bool(model),
+      os.path.basename(model) if model else
+      "no config.yaml beside %s and none in %s" % (SCRIPT, SHIPPED))
+if model:
     check("every weight matches its checksum",
           vpm.speaker_model_checked(model) == "",
           vpm.speaker_model_checked(model))

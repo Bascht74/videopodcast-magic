@@ -75,14 +75,24 @@ KAND = os.path.join(FIX, "Kandidat_08141858_C009.mov")
 FPS = 25.0
 FRAME = 1.0 / FPS
 
-if not all(os.path.exists(p) for p in (WIDE, MOD, KAND)):
-    print("SKIPPED: no interview fixture -- run tests/fixtures.sh")
+# Two ways out, and they are not the same news: a machine nobody set
+# up, or a fixture that changed under everybody. One line each --
+# run.sh lifts only the first SKIPPED line into the summary, so a
+# reason spread over two lines arrives there halved.
+missing = [os.path.basename(p) for p in (WIDE, MOD, KAND)
+           if not os.path.exists(p)]
+if missing:
+    print("SKIPPED: no interview fixture under %s (%s) -- "
+          "run tests/fixtures.sh" % (FIX, ", ".join(missing)))
     sys.exit(0)
 
 stamp = {p: vpm.file_timecode(p, FPS) for p in (WIDE, MOD, KAND)}
-if any(v is None for v in stamp.values()):
-    print("SKIPPED: the fixture cameras carry no timecode -- rebuild the")
-    print("  interview folder with tests/fixtures.sh (INTERVIEW_BUILD)")
+blank = sorted(os.path.basename(p) for p, v in stamp.items() if v is None)
+if blank:
+    print("SKIPPED: the interview fixture is there but carries no "
+          "timecode on %s, and every clock here is measured from one -- "
+          "rebuild %s with tests/fixtures.sh (INTERVIEW_BUILD)"
+          % (", ".join(blank), FIX))
     sys.exit(0)
 
 ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
@@ -829,9 +839,15 @@ made = subprocess.run(
      "-write_bext", "1", "-metadata",
      "time_reference=%d" % int(round(ZERO * vpm.SR)),
      "-y", MIXFILE], capture_output=True)
+left_out = []
 if made.returncode or not os.path.exists(MIXFILE):
-    print("  no Full-Mix could be built (%s) -- the mix checks are left out"
-          % (made.stderr.decode("utf-8", "replace")[:120] or "ffmpeg failed"))
+    # Not the SKIPPED marker: that counts the whole test as skipped and
+    # the suite allows one. Written down instead, and read out at the end.
+    said = " ".join(made.stderr.decode("utf-8", "replace").split())
+    left_out.append(
+        "the Full-Mix on the axis -- this ffmpeg wrote no bext stamp (%s)"
+        % (said[:120] or "ffmpeg failed"))
+    print("  LEFT OUT: %s" % left_out[-1])
 else:
     got = vpm.file_timecode(MIXFILE, FPS)
     check("a mix stamped the way the run stamps it reads back as start_s",
@@ -929,4 +945,8 @@ print()
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)
-print("All good.")
+# "All good." belongs to a whole run. Where a part fell away it is
+# named again here, so the last line of the test cannot read as more
+# than was done.
+print("All good." if not left_out else
+      "Good as far as it went -- left out: %s" % "; ".join(left_out))

@@ -1,9 +1,5 @@
 {
- "mute_tests": {
-  "multicam_test.py": [1, 0],
-  "render_hdr_test.py": [1, 0],
-  "render_test.py": [1, 0]
- },
+ "mute_tests": {},
  "write_only": {
   "abort": [1, 21191],
   "block": [1, 21157],

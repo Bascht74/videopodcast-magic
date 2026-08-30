@@ -222,6 +222,24 @@ their work being merged by hand afterwards.
 Say what was measured and what was assumed. Never claim a test passed
 without running it.
 
+**Every check owes a counter-proof, and it is written down.** A check
+that has never been seen red is not known to check anything -- in one
+day seventeen were found that had been green for months while testing
+nothing, and two more where the fault was in the stand-in rather than
+the check. So: break the thing the check is about, run it, and keep the
+red line verbatim. `tests/state/counterproof` holds one entry per test;
+`counterproof_test.py` is a ratchet over the tests still missing one,
+and that number may fall, never rise. **No change to a test and no new
+test is finished until its entry is in that file.**
+
+And when a counter-proof will not go red, ask which of the two is at
+fault: the check, or the stand-in it runs against. A stand-in that
+allows more than the real thing makes every check above it worthless,
+and everything stays green while it does.
+
+`development/test_guidelines.md` says how a test is built, named,
+documented and counter-proved, and carries the checklist to run through.
+
 Explain a change in plain words, not in terms of the code: what it does
 and why. **Short**, in a commit message as in a comment: a heading and a
 handful of lines, a list where several things changed. The road that led

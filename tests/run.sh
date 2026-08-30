@@ -314,7 +314,19 @@ run_one() {
       echo "$fell_text" | sed 's/^/        /'
     } > "$OUT/$t"
   else
-    echo "ok" > "$OUT/$t"
+    # A green test may still have left a piece out -- no network, no
+    # model, an ffmpeg without the option it needed. The line saying so
+    # was the only trace of it, and throwing a green test's output away
+    # threw that away too. Its own first word, so the summary does not
+    # take it for a test that crashed and came back.
+    left=$(echo "$out" | grep -E '^ *(LEFT OUT|Left out)' | head -3)
+    if [ -n "$left" ]; then
+      { echo "partial"
+        echo "$left" | sed 's/^ *//; s/^/      /'
+      } > "$OUT/$t"
+    else
+      echo "ok" > "$OUT/$t"
+    fi
   fi
   # Said as it happens, not only at the end: a suite that prints nothing
   # for minutes and then everything at once cannot be followed. The
@@ -377,6 +389,7 @@ if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
 fi
 
 good=0; bad=0; past=0; shaky=0; names=""; left_out=""; unsteady=""
+half=0; halved=""
 for t in $TESTS; do
   first=$(head -1 "$OUT/$t")
   case "$first" in
@@ -385,6 +398,9 @@ for t in $TESTS; do
                shaky=$((shaky+1)); unsteady="$unsteady $t"
                tail -n +2 "$OUT/$t"
              fi ;;
+    partial) good=$((good+1)); half=$((half+1)); halved="$halved $t"
+             printf "  %-24s ok, but left a piece out\n" "$t"
+             tail -n +2 "$OUT/$t" ;;
     skipped) past=$((past+1)); left_out="$left_out $t"
              printf "  %-24s skipped\n" "$t"
              tail -n +2 "$OUT/$t" ;;
@@ -415,6 +431,12 @@ fi
 if [ $shaky -gt 0 ]; then
   echo "unsteady: $shaky --$unsteady   (green on a second go; the line"\
        "under each one says whether it crashed or only fell beside others)"
+fi
+# Counted green, because what they did check held. Named all the same:
+# a piece nobody sees left out is a piece nobody knows is missing.
+if [ $half -gt 0 ]; then
+  echo "left a piece out: $half --$halved   (the line under each one"\
+       "says which piece, and why it could not be checked here)"
 fi
 # The barrier on what may be left out. A skipped test checked nothing,
 # so without this line a machine where every test skips returns 0 and

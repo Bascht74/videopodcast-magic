@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import re, sys, importlib.util
+import re, sys, time, importlib.util
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
 from PySide6 import QtWidgets, QtCore, QtGui
@@ -243,47 +243,100 @@ def shot(name, w=None):
 
 
 n = [0]
-waited = [0]
 before = [None]
 holding = [None]
+# What a wait has to show for itself when it gives up: how much
+# standstill it has eaten, how often the window moved, how long it took.
+watch = {"sign": None, "idle": 0, "moved": 0, "tries": 0,
+         "began": 0.0, "since": 0.0}
+NOTHING = object()              # no life sign read yet
 
-# What each step may spend waiting: milliseconds between tries, and how
-# many tries. The clock at the bottom is their sum, so it can no longer
-# end the run before the step it is guarding has said which condition
-# never came true -- which is the whole point of these waits.
+# What each step may spend standing still: milliseconds between tries,
+# and how many of them in a row may pass without the window moving.
+# Time in which it moves is not counted, so a slow machine only takes
+# longer while one that is stuck still gives up.
 WAITS = {"the window": (100, 120),
          "the Open project button": (150, 200),
          "the Multitrack tick": (150, 200),
          "the Resolve cut sheet": (150, 200),
          "the speaker box and the preview box": (150, 250)}
-# Ten seconds on top of the waits: between them the steps hop 50 ms
-# apart and do their own work -- loading, drawing, grabbing pictures.
-DEADLINE = sum(ms * tries for ms, tries in WAITS.values()) + 10000
+# The backstop, and not the wait: it ends a run whose steps have stopped
+# coming back at all. Every step starts it again, so it can never cut
+# short a wait that is still working -- a wait says for itself when it
+# gives up, and it always does.
+IDLE = max(ms * tries for ms, tries in WAITS.values()) + 10000
+clock = QtCore.QTimer()
+clock.setSingleShot(True)
+clock.timeout.connect(app.quit)
 
 
-def hold(ok, what):
-    """Wait for a condition instead of waiting for the clock.
+def alive():
+    """The run is still going: the backstop begins again from here."""
+    clock.start(IDLE)
 
-    The step comes back every few milliseconds until <ok> is true, as
-    often as WAITS allows, so a slow machine only takes longer while an
-    interface that never gets there gives up. Giving up is a defect and
-    says so: carrying on as though the wait had worked photographs the
-    sheet anyway and comes back green.
+
+def stirring():
+    """A cheap reading of everything the window has written so far.
+
+    The rows and the lines beside the bars come out of real reports and
+    stand still when the work does. The bars themselves are left out:
+    one of them creeps forward on a timer of its own and would call a
+    window that hangs alive.
+    """
+    if win() is None:
+        return None
+    return (reading(),
+            tuple(w.text() for w in win().findChildren(QtWidgets.QLabel)
+                  if w.isVisible()))
+
+
+def gave_up(what, ms, limit, life):
+    """Why a wait ended, in numbers: only this line reaches another machine."""
+    took = time.monotonic() - watch["began"]
+    if life is None:
+        return ("waited %.1f s for %s, and it never came -- %d tries in "
+                "%.1f s, and nothing here that would say whether the "
+                "window was still moving"
+                % (limit * ms / 1000.0, what, watch["tries"], took))
+    return ("gave up on %s: nothing moved for %.1f s, %d tries in a row "
+            "-- %d changes before that, %.1f s altogether"
+            % (what, time.monotonic() - watch["since"], limit,
+               watch["moved"], took))
+
+
+def hold(ok, what, life=None):
+    """Wait for the window to get there, and give up at a standstill.
+
+    The step comes back every few milliseconds until <ok> is true. What
+    runs out is not time but standstill: <life> reads something cheap
+    that changes while the window is still filling, and every change
+    fills the budget up again. A wait with no such reading spends it on
+    the clock, as it always did. Giving up is a defect and says so, or
+    the shot is of whatever was on the screen.
     """
     ms, limit = WAITS[what]
     if ok:
-        waited[0] = 0
         holding[0] = None
         return False
-    if waited[0] >= limit:
-        waited[0] = 0
+    if holding[0] != what:
+        holding[0] = what
+        watch.update(sign=NOTHING, idle=0, moved=0, tries=0,
+                     began=time.monotonic(), since=time.monotonic())
+    watch["tries"] += 1
+    now = life() if life is not None else NOTHING
+    if now is not NOTHING and now != watch["sign"]:
+        if watch["sign"] is not NOTHING:
+            watch["moved"] += 1
+            watch["since"] = time.monotonic()
+        watch["sign"] = now
+        watch["idle"] = 0
+    else:
+        watch["idle"] += 1
+    if watch["idle"] >= limit:
+        fail(gave_up(what, ms, limit, life))
         holding[0] = None
-        fail("waited %.1f s for %s, and it never came"
-             % (limit * ms / 1000.0, what))
         app.quit()
         return True
-    waited[0] += 1
-    holding[0] = what
     n[0] -= 1
     QtCore.QTimer.singleShot(ms, step)
     return True
@@ -344,6 +397,7 @@ def ready():
 
 
 def step():
+    alive()
     i = n[0]; n[0] += 1
     try:
         if i == 0:
@@ -359,16 +413,17 @@ def step():
             ticks = [cb for cb in win().findChildren(QtWidgets.QCheckBox)
                      if cb.text().startswith(multitrack)]
             if hold(any(cb.isEnabled() for cb in ticks),
-                    "the Multitrack tick"): return
+                    "the Multitrack tick", stirring): return
             for cb in ticks:
                 print("Multitrack:", cb.isEnabled(), cb.isChecked())
                 if cb.isEnabled() and not cb.isChecked():
                     cb.setChecked(True)
         elif i == 3:
-            if hold(built(), "the Resolve cut sheet"): return
+            if hold(built(), "the Resolve cut sheet", stirring): return
             if not tab(vpm.T('Resolve cut')): return
         elif i == 4:
-            if hold(ready(), "the speaker box and the preview box"): return
+            if hold(ready(), "the speaker box and the preview box",
+                    stirring): return
             shot("A_tab")
             # The name of the picture stays English, the lookup does
             # not: the window carries the translated title, and the
@@ -411,15 +466,19 @@ def step():
     QtCore.QTimer.singleShot(50, step)
 
 QtCore.QTimer.singleShot(50, step)
-QtCore.QTimer.singleShot(DEADLINE, app.quit)
+alive()
 sys.argv = ["videopodcast-magic.py"]
+BEGAN = time.monotonic()
 code = vpm.gui()
 if not through[0] and not bad:
     # Naming the step and what it was waiting for: on another machine
     # only what stands in this line exists.
-    doing = ("waiting for %s" % holding[0]) if holding[0] else "at work"
-    fail("the run was stopped after %.0f s at step %d, %s"
-         % (DEADLINE / 1000.0, n[0], doing))
+    doing = ("waiting for %s -- %d tries, %d of them with the window "
+             "moving" % (holding[0], watch["tries"], watch["moved"])
+             ) if holding[0] else "between two steps"
+    fail("the steps stopped coming: nothing at all for %.0f s at step "
+         "%d, %s (%.1f s altogether)"
+         % (IDLE / 1000.0, n[0], doing, time.monotonic() - BEGAN))
 if bad:
     print("\n%d thing(s) went wrong:" % len(bad))
     for line in bad:

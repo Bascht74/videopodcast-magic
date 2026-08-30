@@ -35,8 +35,18 @@ print("1. To start with, everything is on show")
 b = band()
 check("the window is the whole length", b.window() == (0.0, LENGTH),
       str(b.window()))
-check("and nothing is said about a section", b.zoom_text() == "",
-      repr(b.zoom_text()))
+# Unzoomed the section on show is the whole material, and that is what
+# the reading says. Empty it left a hole beside the zoom buttons, and
+# nobody could tell what the third one restores.
+WHOLE = "0:00:00 -- 1:00:00"
+check("and the reading says the whole length", b.zoom_text() == WHOLE,
+      "%r, wanted %r" % (b.zoom_text(), WHOLE))
+
+# A band with nothing in it yet reads zero to zero. That is what an
+# empty band shows, and the line keeps its shape.
+check("an empty band reads zero to zero",
+      CutBand().zoom_text() == "0:00:00 -- 0:00:00",
+      repr(CutBand().zoom_text()))
 
 print("\n2. In by a factor of two, around where we are")
 b = band()
@@ -73,7 +83,8 @@ for _ in range(9):
     b.zoom(2.0)
 check("out far enough is everything again", b.window() == (0.0, LENGTH),
       str(b.window()))
-check("and then it says nothing again", b.zoom_text() == "")
+check("and it says the whole length again", b.zoom_text() == WHOLE,
+      "%r, wanted %r" % (b.zoom_text(), WHOLE))
 
 b = band()
 b.label_set(LENGTH - 30.0)

@@ -292,10 +292,6 @@ print("\n6. The file hangs on the releases that are out")
 # offers a source archive instead, and nothing in the working tree can
 # see that -- so this section asks github.com.
 ASSET = "videopodcast-magic.py"
-# The first release the file was attached to. What went out before it
-# is left as it is: attaching a file to an old release changes what was
-# published, and nobody installs from that far back.
-FIRST_WITH_FILE = "v2.6.0-beta"
 left_out = []
 
 
@@ -346,12 +342,10 @@ if not isinstance(releases, list):
     print("  (%s -- this section asked nothing)"
           % (left_out[0] if left_out else "no address to ask"))
 else:
-    # The list comes newest first, so the boundary is a place in it.
-    # Where it has dropped off the end, everything answered is newer.
-    published = [r for r in releases if not r.get("draft")]
-    tags = [r.get("tag_name") or "" for r in published]
-    want = published[:tags.index(FIRST_WITH_FILE) + 1
-                     if FIRST_WITH_FILE in tags else len(tags)]
+    # Every one of them, with no earliest. The oldest eight were fitted
+    # with the file afterwards, out of their own tags, so a boundary
+    # here would only say from when somebody had last looked.
+    want = [r for r in releases if not r.get("draft")]
     without = []
     for one in want:
         names = [a.get("name") for a in one.get("assets", [])]
@@ -359,7 +353,7 @@ else:
             without.append("%s carries %s"
                            % (one.get("tag_name"), ", ".join(names)
                               or "nothing but the source archive"))
-    check("every release since %s carries the file" % FIRST_WITH_FILE,
+    check("every release carries the file",
           not without,
           "%d of %d carry %s; %s" % (len(want) - len(without), len(want),
                                      ASSET, "; ".join(without[:3])

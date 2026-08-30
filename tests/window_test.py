@@ -1,12 +1,18 @@
-"""Does the window show its length -- even if the file starts later?"""
+"""The window shows its own length, and only content bounds an episode.
+
+Two independent claims. The length counts from the In point to the Out
+point and not from where the file starts; the older file-relative
+arithmetic stands beside it to show how far the two differ. And an
+intro, an outro or an ignored file can carry no boundary, with a reason
+that names the file, because a barred button without one reads as a
+fault. A file nobody has classified yet counts as content."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import sys, importlib.util
-os.environ["QT_QPA_PLATFORM"] = "offscreen"
-from PySide6 import QtWidgets, QtCore, QtGui
-app = QtWidgets.QApplication(sys.argv[:1])
+# No Qt here: the four functions this asks after live at module
+# level, and building an application for them doubled the run.
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 m = importlib.util.module_from_spec(spec); sys.modules["vpm"] = m
@@ -70,11 +76,15 @@ for name, kind, barred in CASES:
 assert not error
 # Nothing in the player bars nothing: the four buttons are then held by
 # the axis alone, which is the older rule and still the one that counts.
-assert m.not_on_the_axis(None, {}, {}) == ""
-assert m.not_on_the_axis("", {}, {}) == ""
+for nothing in (None, ""):
+    said = m.not_on_the_axis(nothing, {}, {})
+    assert said == "", "%r in the player should bar nothing, said %r" % (
+        nothing, said)
 # A file nobody has answered for counts as content, or opening a project
 # would bar the buttons until every Kind has been looked at once.
-assert m.not_on_the_axis("/tmp/unanswered.mov", {}, {}) == ""
+said = m.not_on_the_axis("/tmp/unanswered.mov", {}, {})
+assert said == "", ("an unclassified file should count as content, "
+                    "said %r" % said)
 print("  a file nobody answered for counts as content     ok")
 
 print("\nall good")
