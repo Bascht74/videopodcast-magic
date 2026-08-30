@@ -22,6 +22,20 @@ def check(name, ok, extra=""):
         error.append(name)
 
 folder = tempfile.mkdtemp(prefix="vpm_probe_")
+# A cache of its own. What ffprobe said is kept on disk between runs
+# now, and the suite hands every test the same cache folder -- so
+# without this the count below would depend on which test ran first.
+os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_probe_cache_")
+
+
+def forget_kept():
+    """Empty what was kept on disk, so a count means what it says."""
+    kept = vpm.cache_folder("probes")
+    for name in (os.listdir(kept) if kept and os.path.isdir(kept) else []):
+        try:
+            os.unlink(os.path.join(kept, name))
+        except OSError:
+            continue
 
 def tone(name, seconds=1.0, rate=48000):
     path = os.path.join(folder, name)
@@ -53,6 +67,7 @@ def probes(work):
 # ------------------------------------------------------- One file, asked twice
 print("1. The same question twice")
 vpm._PROBE.clear()
+forget_kept()
 first = probes(lambda: vpm.ffprobe_json(a))
 again = probes(lambda: vpm.ffprobe_json(a))
 check("the first call measures", first == 1, first)
@@ -86,13 +101,48 @@ check("the next caller gets it whole",
 
 print("\n5. Warming up beforehand")
 vpm._PROBE.clear()
+forget_kept()
 warm = probes(lambda: vpm.probe_warm([a, b, c]))
 later = probes(lambda: [vpm.ffprobe_json(p) or vpm.channel_count(p)
                         or vpm.sample_count(p) for p in (a, b, c)])
 check("three files, measured once each", warm >= 3, warm)
 check("nothing left to ask afterwards", later == 0, later)
 
-print("\n6. What cannot be measured must not stop anything")
+print("\n6. What ffprobe said outlives the run")
+# The answer is a few kilobytes of text about a file that has not
+# changed, and asking for it again costs a process. That is cheap here
+# and dear on a Windows builder, where one test spent most of its 107
+# seconds starting processes.
+vpm._PROBE.clear()
+forget_kept()
+first = probes(lambda: vpm.ffprobe_json(a))
+vpm._PROBE.clear()
+second = probes(lambda: vpm.ffprobe_json(a))
+check("the first run measures", first == 1, first)
+check("a later one with no memory of it does not", second == 0, second)
+check("and the answer is the same",
+      vpm.ffprobe_json(a).get("format", {}).get("duration") is not None,
+      str(vpm.ffprobe_json(a))[:60])
+
+# Changed on disk means measured again, or the store would answer for a
+# file that is no longer the one it was asked about.
+with open(a, "r+b") as f:
+    f.seek(0, 2)
+    f.write(b"\0" * 64)
+vpm._PROBE.clear()
+again = probes(lambda: vpm.ffprobe_json(a))
+check("a changed file is measured again even so", again == 1, again)
+
+# A half-written file is not an answer. This is what a run broken off
+# in the middle of writing would leave behind.
+vpm._PROBE.clear()
+kept = vpm.probe_cache_path(("ffprobe",) + vpm.file_stamp(a))
+open(kept, "wb").close()
+empty = probes(lambda: vpm.ffprobe_json(a))
+check("an empty kept file is measured again, not believed", empty == 1,
+      empty)
+
+print("\n7. What cannot be measured must not stop anything")
 vpm._PROBE.clear()
 missing = os.path.join(folder, "not-there.wav")
 try:

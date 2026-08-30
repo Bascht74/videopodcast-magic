@@ -173,6 +173,14 @@ RUN_TEMP=$(mktemp -d "${TMPDIR:-/tmp}/vpm_run_XXXXXX")
 # it: a Ctrl-C used to leave /tmp/suite_XXXXXX behind for good, and a
 # machine that runs the suite twenty times a day collects twenty of them.
 OUT=$(mktemp -d "${TMPDIR:-/tmp}/suite_XXXXXX")
+# One file per test, counting the processes it starts. Starting a
+# process is what the Windows builder charges for -- one test made 62 of
+# them and took 126 seconds there against two on a Mac -- and a number
+# nobody sees does not stay down. Kept out of $OUT, which is counted by
+# how many files are in it.
+STARTS="$RUN_TEMP/starts"
+mkdir -p "$STARTS"
+export STARTS
 export TMPDIR="$RUN_TEMP"
 clean_up() {
   if [ -n "$KEEP_TEMP" ]; then
@@ -269,7 +277,8 @@ run_one() {
   fell_text=""
   fell_count=0
   while :; do
-    out=$($LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
+    out=$(VPM_COUNT_STARTS="$STARTS/$t" \
+          $LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
     fell=0
     if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
       fell=1
@@ -391,9 +400,13 @@ run_one() {
   # line before says nothing about either of them. With the seconds
   # there, a slow run explains itself out of its own log, and nobody
   # has to open state/longest to find out what held it up.
-  printf '  %s  %3d/%s  %-24s %-8s %3d s\n' "$(date '+%H:%M:%S')" \
+  # The seconds and the processes started, side by side. The seconds
+  # say what it cost on this machine; the processes say what it will
+  # cost on the builder, where the two do not agree at all.
+  printf '  %s  %3d/%s  %-24s %-8s %3d s  %3d p\n' "$(date '+%H:%M:%S')" \
     "$(ls "$OUT" | wc -l | tr -d ' ')" "$TOTAL" "$t" \
-    "$(head -1 "$OUT/$t")" "$((SECONDS - began))"
+    "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
+    "$(wc -l < "$STARTS/$t" 2>/dev/null | tr -d ' ' || echo 0)"
 }
 export -f run_one crash_block
 export OUT HERE LIMIT TOTAL TRIES PY
@@ -419,6 +432,17 @@ for t in $TESTS; do
              tail -n +2 "$OUT/$t" ;;
   esac
 done
+# The whole run's processes, and the five that start most of them.
+# Read together with state/longest: a test that is slow here and a test
+# that is slow on the builder are not the same test, and this is the
+# number that travels.
+started=$(cat "$STARTS"/* 2>/dev/null | wc -l | tr -d ' ')
+echo "----"
+echo "processes started: ${started:-0}   most of them:"
+for f in "$STARTS"/*; do
+  [ -f "$f" ] && printf '%6d %s\n' "$(wc -l < "$f" | tr -d ' ')" \
+    "$(basename "$f")"
+done 2>/dev/null | sort -rn | head -5 | sed 's/^/  /'
 echo "----"
 if [ $past -gt 0 ]; then
   echo "green: $good   skipped: $past   red: $bad  $names"
