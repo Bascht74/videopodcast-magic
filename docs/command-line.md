@@ -21,7 +21,6 @@ hints. Without a key the multitrack run stops there.*
 | `--lang {de,en}` | language of the messages (system language) |
 | `--out FOLDER` | where the results go (next to each video) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
-| `--name TEXT` | name of the new audio track (`Full-Mix`)  `[simple path only]` |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0)  `[multitrack only]` |
 | `--dry-run` | only measure and report, write nothing |
@@ -38,7 +37,6 @@ hints. Without a key the multitrack run stops there.*
 | `--together FILE ...` | these files are one recording, in this order; repeatable. The run sorts the other files by name and leaves the group untouched: one block at the first of its names |
 | `--apart FILE` | this block stands on its own, whatever its name says; repeatable |
 | `--transcript` | have auphonic.com write down what is said: json, srt and txt |
-| `--no-trim` | audio at full length instead of trimmed to the picture  `[simple path only]` |
 | `--no-single-tracks` | only the mix into the video, not the recordings beside it  `[simple path only]` |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |

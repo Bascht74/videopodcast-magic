@@ -18,7 +18,6 @@
   "'the default device' into '  Player: audio output switches to %s'": [1, 18880],
   "'the source folder' into 'Target: %s'": [1, 26131],
   "'the source folder' into 'This makes %d video file, about %s. Target: '": [1, 26124],
-  "'unnamed' into '  %d audio track stays: %s'": [1, 9956],
-  "'unnamed' into '  Audio track %d:   %-18s %s, %s, language %'": [1, 17915]
+  "'unnamed' into '  %d audio track stays: %s'": [1, 9956]
  }
 }
