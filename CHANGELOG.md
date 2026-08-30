@@ -40,6 +40,15 @@ nicht.
 - A run with a single mono recording wrote its finished sound track
   with two channels. The track now has as many channels as the
   recording has.
+- The update window showed the release notes in English to somebody
+  running the program in German. It was the half that comes first, and
+  only the window in the Help menu cut the text. Both show one language
+  now, the one the program is running in.
+- A loudness target given with "--lufs" was applied on a run with a
+  picture and only reported on a run without one. It is applied on every
+  run now, and the joined file keeps the clock of its source.
+- What auphonic.com sends back on a run with no picture was never held
+  against what went up. It is checked now, as on any other run.
 
 ---
 
@@ -56,6 +65,17 @@ nicht.
 - Ein Lauf mit einer einzelnen Mono-Aufnahme schrieb die fertige
   Tonspur mit zwei Kanälen. Die Spur hat jetzt so viele Kanäle wie die
   Aufnahme.
+- Das Update-Fenster zeigte die Versionshinweise auf Englisch, obwohl
+  das Programm auf Deutsch lief. Es ist die Hälfte, die oben steht, und
+  nur das Fenster im Hilfe-Menü schnitt den Text zu. Jetzt zeigen beide
+  eine Sprache, die des laufenden Programms.
+- Ein Lautheitsziel aus „--lufs" wurde bei einem Lauf mit Bild
+  angewendet und bei einem ohne nur gemeldet. Jetzt wird es auf jedem
+  Lauf angewendet, und die zusammengefügte Datei behält die Uhr ihrer
+  Quelle.
+- Was auphonic.com bei einem Lauf ohne Bild zurückschickte, wurde nie
+  gegen das Hochgeladene gehalten. Jetzt wird es geprüft wie auf jedem
+  anderen Lauf.
 
 ## [2.21.0-beta] - 2026-08-30
 

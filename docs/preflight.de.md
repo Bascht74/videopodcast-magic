@@ -122,13 +122,11 @@ angepasst. Im Resolve-Projekt braucht die Lautheitsanzeige trotzdem eine
 Skala, sie wird auf −16 LUFS gesetzt, und die Zeile darüber im Protokoll
 sagt, dass das nur der Bezug der Anzeige ist.
 
-**Der einfache Weg wird gemessen und angepasst wie jeder andere Lauf.**
-Ein Lauf ohne Multitrack ([Der einfache Weg](simple-path.de.md)) wendet
-das Ziel an wie jeder andere: Im Protokoll stehen `Ziel:` und
-`Ergebnis:`, und ohne Ziel wird nichts angepasst. Aufnahmen ganz ohne
-Bild sind die eine Ausnahme: Ohne Schlüssel für auphonic.com sagt das
-Protokoll, dass `--lufs` auf diesem Weg noch nicht angewendet wird, und
-der Ton wird so geschrieben, wie er aufgenommen wurde.
+**Jeder Lauf wird gemessen und angepasst, und zwar gleich.** Ein Lauf
+ohne Multitrack ([Der einfache Weg](simple-path.de.md)) wendet das Ziel
+an wie jeder andere, und ein Lauf ganz ohne Bild auch, bei dem die
+Blöcke einer Aufnahme zu einer Datei zusammengefügt werden. Im Protokoll
+stehen `Ziel:` und `Ergebnis:`; ohne Ziel wird nichts angepasst.
 
 **Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten
 die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jeder *Mix* dagegen,
