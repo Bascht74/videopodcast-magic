@@ -95,14 +95,17 @@ goes onto the time axis, through the loudness measurement, into its own
 audio track on the camera file, and into the mix. A two channel file that
 was never split behaves exactly the same way.
 
-The mix has two channels anyway, so a stereo track goes into it as it
-is. [Preflight](preflight.md) says what a stereo track means for the
-loudness measurement. The program copies mono tracks to both sides
-before the sum, not after.
+Where there is more than one track the mix has two channels anyway, so
+a stereo track goes into it as it is. One recording on its own is the
+exception: there is nothing to mix, so a single mono recording gives a
+mix of one channel, while a stereo source raises it to two by itself.
+[Preflight](preflight.md) says what a stereo track means for the
+loudness measurement. Where the mix has two channels, the program
+copies mono tracks to both sides before the sum, not after.
 
 The program asks auphonic.com for the finished mixdown in two channels
-as soon as one track is stereo. On the simple path it switches the mono
-fold off for every output the preset asks for.
+as soon as one track is stereo. In a production made of a single track
+it switches the mono fold off for every output the preset asks for.
 
 What auphonic.com does with a stereo track inside a multitrack
 production has not been measured against the real service. If a track

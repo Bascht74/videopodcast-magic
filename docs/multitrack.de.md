@@ -9,10 +9,16 @@ Mehrere Leute am Tisch, jeder mit einem Mikrofon, auf dem alle zu hören
 sind. Dieses Übersprechen aus dem Ton zu nehmen ist das Einzige, was nur
 auphonic.com kann.
 
-Multitrack ist der Weg für eine Spur je Person. Alle auf einer Aufnahme
-bleiben eine Spur. Die Sprechertrennung hält die Stimmen darin
+Multitrack ist das Häkchen für eine Spur je Person. Alle auf einer
+Aufnahme bleiben eine Spur. Die Sprechertrennung hält die Stimmen darin
 auseinander und liefert den Schnitt, nicht je eine Spur
 ([Spracherkennung und Sprechertrennung](speech.de.md)).
+
+Das Häkchen entscheidet, wie die Aufnahmen zusammengefasst werden, und
+sonst nichts: mit Häkchen bekommt jede Person eine eigene Spur, mit
+Namen und Kamera; ohne Häkchen laufen alle zusammen in den Full-Mix.
+Die gemeinsame Zeitachse, der Kameraschnitt und die Dateien am Ende
+sind mit Häkchen dieselben wie ohne.
 
 Alles andere läuft lokal. [Aufbereitung über auphonic.com](auphonic.de.md)
 beschreibt den Weg dahin (auf der Kommandozeile `--without-auphonic`). Das

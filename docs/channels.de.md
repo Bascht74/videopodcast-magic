@@ -97,14 +97,19 @@ gesetzt hat. Es geht auf die Zeitachse, durch die Lautheitsmessung, als
 eigene Tonspur in die Kameradatei und in den Mix. Eine zweikanalige
 Datei, die gar nicht getrennt wurde, verhält sich genauso.
 
-Der Mix ist ohnehin zweikanalig, eine Stereospur geht also unverändert
-hinein. Der [Vorflug](preflight.de.md) sagt, was eine Stereospur für die
-Lautheitsmessung heißt. Das Programm kopiert Monospuren vor der Summe
-auf beide Seiten, nicht danach.
+Wo mehr als eine Spur da ist, ist der Mix ohnehin zweikanalig, eine
+Stereospur geht also unverändert hinein. Eine einzelne Aufnahme ist die
+Ausnahme: es gibt nichts zu mischen, eine einzelne Monoaufnahme ergibt
+also einen einkanaligen Mix, während eine Stereoquelle ihn von allein
+auf zwei Kanäle hebt. Der [Vorflug](preflight.de.md) sagt, was eine
+Stereospur für die Lautheitsmessung heißt. Wo der Mix zwei Kanäle hat,
+kopiert das Programm Monospuren vor der Summe auf beide Seiten, nicht
+danach.
 
 Das Programm fordert den fertigen Mixdown bei auphonic.com zweikanalig
-an, sobald eine Spur Stereo ist. Auf dem einfachen Weg schaltet es die
-Mono-Faltung bei jeder Ausgabe ab, die das Preset verlangt.
+an, sobald eine Spur Stereo ist. Bei einer Produktion aus einer
+einzelnen Spur schaltet es die Mono-Faltung bei jeder Ausgabe ab, die
+das Preset verlangt.
 
 Was auphonic.com mit einer Stereospur innerhalb einer
 Multitrack-Produktion macht, wurde am echten Dienst nicht gemessen. Wenn

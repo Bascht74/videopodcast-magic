@@ -61,10 +61,16 @@ Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
 Das Programm baut die Produktion aus dem Preset neu.
 
 Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
-Auphonic-Kasten und braucht keinen Schlüssel. Ohne Multitrack macht das
-Programm keine getrennten Spuren und keinen Kameraschnitt, mit Dienst
-wie ohne. Es fügt den Ton zusammen und legt ihn so ins Video, wie er
-aufgenommen wurde; die Lautheit setzt nur Auphonic.
+Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob
+jede Person eine eigene Spur behält: nur getrennte Spuren kann
+auphonic.com einzeln aufbereiten und vom Übersprechen der anderen
+befreien. Wo alle in einer Spur stehen, gibt es nichts, was der De-Bleed
+auseinandernehmen könnte.
+
+Über die Art der Produktion entscheidet die Zahl der Spuren. Eine
+einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
+Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
+für die eine, ein Multitrack-Preset für die anderen.
 
 ### Transkription holen
 
@@ -77,12 +83,13 @@ Dateien zurück:
 * ein txt zum Lesen
 
 Die Arbeit macht Auphonics eigenes Whisper: kein Konto anderswo, keine
-Zusatzkosten, eine längere Produktion. Bei Multitrack trägt die
-Transkription die Sprechernamen.
+Zusatzkosten, eine längere Produktion. Gehen mehrere Spuren hoch, trägt
+die Transkription die Sprechernamen: jede Spur ist eine Person, und
+auphonic.com weiß, welche welche ist.
 
 ### Ohne Auphonic arbeiten
 
-Multitrack braucht den Dienst nicht. Der erste Eintrag der Presetliste,
+Jeder Lauf kommt ohne den Dienst aus. Der erste Eintrag der Presetliste,
 **ohne Auphonic arbeiten**, hält diesen Lauf hier (auf der
 Kommandozeile `--without-auphonic`). Er ist kein Preset. Der Schlüssel
 bleibt im Feld, gemerkt und geprüft, nur nicht weitergereicht.
@@ -166,8 +173,8 @@ Im Fenster gibt es diese Optionen nicht.
 * `--auphonic-preset` ohne Namen: das Programm fragt die vorhandenen
   Presets nummeriert ab, der Schlüssel ohne Dateien listet sie auf.
 * `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die
-  Frage nach einer schon vorhandenen Produktion im Voraus. Nur mit
-  Multitrack: ohne es gibt es keinen Upload je Spur, den man wieder
-  aufnehmen könnte.
+  Frage nach einer schon vorhandenen Produktion im Voraus. Er erreicht
+  nur einen Lauf, der mehrere Spuren hochlädt; bei einer einzelnen Spur
+  gibt es keinen Upload je Spur, den man wieder aufnehmen könnte.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
-  liegenden Spuren, benannt nach den Sprechern. Nur mit Multitrack.
+  liegenden Spuren, benannt nach den Sprechern.

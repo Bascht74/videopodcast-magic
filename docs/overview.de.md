@@ -47,7 +47,7 @@ gerechnet. Darin liegt der gute Ton als erste Tonspur, das
 Kameramikrofon als zweite, beide mit Namen. Im Schnittprogramm sagt man
 „Ton von Spur eins“ und ist fertig. Danach misst das Programm nach, wie
 weit die beiden Spuren auseinanderliegen, und schreibt es hin. Bei einem
-Recorder und einer Kamera ist das der ganze Lauf: [der einfache
+Recorder und einer Kamera ist das der einfachste Fall: [der einfache
 Weg](simple-path.de.md).
 
 Vor dem ersten langen Schritt sieht das Programm das Material durch;

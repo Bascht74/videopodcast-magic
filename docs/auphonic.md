@@ -55,10 +55,15 @@ auphonic.com (optional)** holds what this run does.
 The program rebuilds the production from the preset.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
-box and needs no key. Without multitrack the program makes no separate
-tracks and no camera cut, with the service or without. It then joins the
-audio and lays it into the video as recorded; only Auphonic sets the
-loudness.
+box and needs no key. What it decides here is whether every person keeps
+a track of their own: only separate tracks can auphonic.com work on one
+by one and free of the bleed from the others. Where everybody stands in
+one track there is nothing for the de-bleed to take apart.
+
+The number of tracks decides the kind of production. A single track goes
+up as an ordinary production, two or more as a multitrack production,
+and the preset has to match: an ordinary preset for the one, a
+multitrack preset for the others.
 
 ### Fetch transcript
 
@@ -70,12 +75,13 @@ command line `--transcript`). Three files come back beside the audio:
 * a txt to read
 
 Auphonic's own Whisper does the work: no account anywhere else, no extra
-fee, a longer production. With multitrack the transcript carries the
-speaker names.
+fee, a longer production. Where several tracks go up, the transcript
+carries the speaker names: each track is one person, and auphonic.com
+knows which is which.
 
 ### Working without Auphonic
 
-Multitrack does not need the service. The first entry of the preset
+Every run can do without the service. The first entry of the preset
 list, **work without Auphonic**, keeps this run here (on the command
 line `--without-auphonic`). It is not a preset. The key stays in the
 field, remembered and checked, only not passed on.
@@ -158,7 +164,8 @@ The window does not offer these.
   presets with numbers and asks for one, and a key without files lists
   them too.
 * `--auphonic-resume result|rerun|adopt|upload|abort` answers the
-  question about a production that already exists in advance. Only with
-  Multitrack: without it there is no per-track upload to take up again.
+  question about a production that already exists in advance. It
+  reaches only a run that uploads several tracks; a single track has no
+  per-track upload to take up again.
 * `--auphonic-done FOLDER` fetches nothing and takes the tracks lying
-  there, named after the speakers. Only with Multitrack.
+  there, named after the speakers.

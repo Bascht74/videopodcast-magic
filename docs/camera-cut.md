@@ -386,8 +386,7 @@ speech pause nearby and stands the set minimum.
 
 ### What the metrics and the colour comparison measure
 
-At the end of every Multitrack run `<Production>_metrics.csv` appears;
-the log is
+At the end of every run `<Production>_metrics.csv` appears; the log is
 overwritten by the next run, this file is not. Over months it shows what
 a single run hides: a recorder going slow, a camera drifting away from
 the rest, bleed rising with a new setup.
@@ -453,7 +452,6 @@ These have no counterpart in the window.
   answering speaker has to hold, as a share between 0 and 1 (0.7);
   higher and it fires less often
 * `--no-metrics` leaves out the metrics file and the colour comparison
-  (Multitrack only; a run without Multitrack writes neither anyway)
 * `VPM_PLAYER_DEBUG=1` in front of the call puts clock, position and
   wanted value of all three players under the picture, and every attempt
   on the console
