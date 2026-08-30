@@ -8,10 +8,10 @@ WORKERS=1 bash run.sh    # one after another, easier to read
 python3 voice_turns_found_test.py # a single one
 ```
 
-A test started by hand stays silent: every test that builds a cut_player_jump_lands
+A test started by hand stays silent: every test that builds a player
 sets `VPM_SILENT` itself, so it plays nothing at whoever is working
 next to it, and `run.sh` sets the variable for the whole run anyway.
-The program reads it with `bool()`, so any value silences the cut_player_jump_lands,
+The program reads it with `bool()`, so any value silences the player,
 `0` included, and `env -u VPM_SILENT` does not help -- the test would
 set it again. Sound comes back with an empty value:
 `VPM_SILENT= python3 cut_player_jump_lands_test.py`.
@@ -23,7 +23,7 @@ green for a test that checked nothing.
 
 Needed: `python3`, `ffmpeg`, `ffprobe`, `numpy`, `PySide6` and
 `pyspellchecker` (with its German and English word lists -- without it
-`text_only_texts_change_test.py` turns red rather than skipping). The time_length_is_in_to_out tests run
+`text_only_texts_change_test.py` turns red rather than skipping). The window tests run
 offscreen (`QT_QPA_PLATFORM=offscreen`), so no display is required.
 
 ## Fixtures and temporary material
@@ -54,7 +54,7 @@ force` rebuilds regardless.
 |---|---|
 | `VPM_SCRIPT` | which script is tested (default: the one in the folder above) |
 | `VPM_MEDIA` | folder with a project to open (default: `/tmp/interview`, which `fixtures.sh` builds) |
-| `VPM_SHOTS` | where the time_length_is_in_to_out screenshots go (default: `tests/shots/`) |
+| `VPM_SHOTS` | where the window screenshots go (default: `tests/shots/`) |
 | `WORKERS` | how many tests at once (default: processors + 1, at most 12) |
 | `KEEP_TEMP` | keep the run's temporary folder and its cache |
 | `VPM_CACHE` | where the program keeps what it computes between runs. `run.sh` points it at one folder per run and throws it away at the end, so a suite leaves nothing in the cache of whoever started it |
@@ -124,7 +124,7 @@ same machine may need it.
 
 Three of them -- `project_render_queued`, `project_hdr_follows`, `project_cameras_land` -- print their result
 and compare it to nothing. They catch a crash, not a wrong number, and
-they will stay that way: what they build is a project_render_queued job or a project_cameras_land
+they will stay that way: what they build is a render job or a multicam
 clip for DaVinci Resolve, and only Resolve can say whether it is right.
 Each of the three says so in its docstring rather than leaving the reader
 to find out.
