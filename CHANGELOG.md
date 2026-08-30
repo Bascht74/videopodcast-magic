@@ -9,7 +9,7 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.19.0-beta] - 2026-08-31
 
 ### Added
 
@@ -110,6 +110,24 @@ survives.
   to do -- with measurements now kept between runs the third warm run
   was instant and the bar never appeared. The bar was right; the test
   was tied to slowness.
+- A test that comes back red is run once more by itself, and one that
+  is green alone lands under "unsteady" with what it said the first
+  time -- not counted red, and not quietly counted green either. It is
+  the difference between a fault and a crowd, and it answers that
+  question for every test rather than for one.
+- Every window script prints one last line, always: whether it reached
+  its last step, how many things it found wanting, and what the event
+  loop gave back. A window on the Linux builder had been failing about
+  half the time and saying nothing at all -- no traceback, no failure
+  of its own, no missed step -- through four rounds of improving the
+  report, because there was nothing in it to improve. If that line is
+  missing, the process never got that far, which is itself the first
+  finding.
+- Each of those windows gets a runtime folder of its own. Six Qt
+  processes start at the same moment and share the one Qt keeps lock
+  files and shared memory in. Not proved to be the cause; it is the
+  cheapest thing that could explain a failure with nothing in it, and
+  the retry above says whether it helped.
 - `gui()` gave up 170 lines, from 5396 to 5226, without any change of
   behaviour. Five blocks that decide nothing moved out: filling the
   speech table, building the preflight sentence, reading what a project
@@ -2435,6 +2453,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.19.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.18.0-beta...v2.19.0-beta
 [2.18.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.17.0-beta...v2.18.0-beta
 [2.17.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.16.0-beta...v2.17.0-beta
 [2.16.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.15.0-beta...v2.16.0-beta
