@@ -8848,12 +8848,18 @@ def align_cameras(videos):
     compared with each other -- the same computation as audio against video,
     just with two envelopes that are in memory anyway.
 
+    A camera that matches nothing and carries no timecode is left out
+    rather than placed. There is no third way of finding it, and a
+    camera laid down at a guess is worse than one that is missing: the
+    missing one is named in the log, the guessed one looks right.
+
     Returns (reference, {path: (a, b, count)}) with
     camera time = a + b * reference time.
     """
     ref_clip = max(videos, key=lambda v: v[1]["duration"])
     position = {ref_clip[0]: (0.0, 1.0, {"points": 0, "reference": True})}
     env_ref = video_envelope(ref_clip[0])
+    clocks = dict((v, timecode_seconds(i)) for v, i in videos)
     for v, info in videos:
         if v == ref_clip[0]:
             continue
@@ -8870,6 +8876,15 @@ def align_cameras(videos):
         except Exception as e:
             print(T('  %s cannot be classified: %s')
                   % (os.path.basename(v), e))
+            continue
+        # There is no phase way between two cameras, so the envelopes
+        # are the whole measurement here: below the floor nothing more
+        # is coming.
+        if st.get("quality", 0.0) < WEAK_MATCH:
+            st["unplaceable"] = True
+        if cannot_be_placed(st, clocks.get(v),
+                            [t for w, t in clocks.items() if w != v]):
+            print(as_bad("  " + no_place_message(os.path.basename(v))))
             continue
         position[v] = (a, b, st)
     return ref_clip, position
@@ -14759,7 +14774,13 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     instead of an invented one.
 
     Returns (result, text). The result is {} or
-    {"axis", "absolute", "weak"}.
+    {"axis", "absolute", "weak", "unplaceable"}.
+
+    "weak" and "unplaceable" are not the same list. Weak is a file
+    that fits badly; unplaceable is one that has no place at all --
+    under the floor, and with no timecode to fall back on. The second
+    is a subset of the first, and only it is worth proposing to leave
+    a file out over.
     """
     # Every file at once: each envelope is read and computed on its
     # own, and over hours of 4K this is the longest part of the
@@ -14777,8 +14798,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     if len(envelopes) < 2:
         return ({}, "" if envelopes else T('time axis not measurable'))
     reference = max(envelopes, key=lambda p: len(envelopes[p]))
-    axis, weak = {reference: 0.0}, []
+    axis, weak, lost = {reference: 0.0}, [], []
     others = [p for p in envelopes if p != reference]
+    clocks = dict((p, tc_of(p)) for p in paths)
 
     def against_reference(file_path):
         try:
@@ -14796,10 +14818,17 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         a_s, g = answer
         if abs(g) < 0.15:
             weak.append(p)
+            if cannot_be_placed({"unplaceable": g < WEAK_MATCH}, clocks.get(p),
+                                [t for q, t in clocks.items() if q != p]):
+                lost.append(p)
             continue
         axis[p] = -a_s
     if len(axis) < 2:
-        return {}, T('time axis not measurable')
+        # No axis, but the measurement did happen and knows which files
+        # it could not place. Thrown away here, the one file that fits
+        # nothing would come out of a two-file production unmarked.
+        return ({"axis": {}, "absolute": False, "weak": weak,
+                 "unplaceable": lost}, T('time axis not measurable'))
     origin = min(axis.values())
     for p in axis:
         axis[p] -= origin
@@ -14817,7 +14846,7 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         text += TN(len(weak), ', %d file does not fit',
                    ', %d files do not fit') % len(weak)
     return {"axis": axis, "absolute": absolute,
-            "weak": weak}, text
+            "weak": weak, "unplaceable": lost}, text
 
 
 def file_fingerprint(file_path):
@@ -16545,6 +16574,11 @@ def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0
         # factor stays 1.0 and the report says the drift is unknown
         # rather than pretending it is zero.
         return where, 1.0, st
+    # Both ways came up empty. The numbers still travel back, because
+    # the log prints them, but they are marked for what they are: not
+    # an alignment, a guess. Whoever asked has to decide what to do
+    # with a file that has no place -- see cannot_be_placed.
+    st["unplaceable"] = True
     return a, b, st
 
 
@@ -16560,6 +16594,58 @@ def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0
 # material that belongs together, 0.13 on a camera track against a
 # finished mix of the same room.
 WEAK_MATCH = 0.05
+
+
+def timecode_places_it(own, others):
+    """Report whether a timecode can put this file among the others.
+
+    A timecode alone places nothing. It is a reading of a clock, and a
+    reading only says something next to a second one: the file has to
+    carry one and so has something else in the material. Where a
+    single file has a timecode and no other does, it is as unplaced as
+    if it had none.
+    """
+    return own is not None and any(t is not None for t in others)
+
+
+def cannot_be_placed(st, own_tc, other_tcs):
+    """Report whether an alignment left a file with no place at all.
+
+    Two ways lead to a place, and either one is enough. The timecode
+    is the first, and where it answers the sound is not asked at all:
+    a camera whose microphone heard nothing of the room is still
+    placed to the frame by its clock, and refusing it because of its
+    sound would throw away a file that is in fact known to the
+    millisecond. The measurement is the second way, and *st* carries
+    its verdict: "unplaceable" stands there when every way of
+    measuring came up empty.
+
+    Only where neither answers is there nothing left. Then the file is
+    refused rather than laid down somewhere, because laid down
+    somewhere it looks exactly like a file that fits.
+    """
+    if not (st or {}).get("unplaceable"):
+        return False
+    return not timecode_places_it(own_tc, other_tcs)
+
+
+def no_place_message(name):
+    """Say that a file cannot be placed, and what would fix it."""
+    return T('%s cannot be placed: its sound has nothing in common '
+             'with the rest of the material, and the file carries no '
+             'timecode. It needs one that fits the other recordings, '
+             'and that has to be set with another program.') % name
+
+
+def timecode_seconds(info):
+    """The timecode in a video's facts, in seconds, or nothing."""
+    if not (info or {}).get("tc"):
+        return None
+    try:
+        return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
+    except (ValueError, TypeError):
+        return None
+
 
 OUTLIER_SIGMA = 3.0
 OUTLIER_FLOOR_S = 0.020
@@ -19135,9 +19221,7 @@ def camera_start_of(file_path):
         info = video_facts(file_path)
     except (OSError, ValueError, RuntimeError):
         return None
-    if not info.get("tc"):
-        return None
-    return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
+    return timecode_seconds(info)
 
 
 def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
@@ -21298,6 +21382,15 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             print(as_bad(T('  Alignment failed: %s\n') % e))
             error += 1
             continue
+        # Neither the envelopes nor the phase found this camera in the
+        # recording, and no clock says where it belongs either. Written
+        # anyway it would carry a sound track from somewhere else in the
+        # recording, and nothing in the file would say so.
+        if cannot_be_placed(st, timecode_seconds(info), [audio_start]):
+            print(as_bad("  " + no_place_message(os.path.basename(v)) + "\n"))
+            simple_axis.pop(os.path.abspath(v), None)
+            error += 1
+            continue
         # What was thrown away, before the number that decides is
         # shown. A run that cleans itself up in silence and then calls
         # the result close enough has traded a loud fault for a quiet
@@ -22104,15 +22197,70 @@ def clip_kind_bind(box, value, after=None):
         if after is not None:
             after()
 
+    def by_hand(i):
+        """The same, and it was a person who did it.
+
+        activated fires for a person and never for the program, so the
+        note lives here and nowhere else. It is kept on the value,
+        which outlives every widget: the tables are thrown away and
+        built again on each change, and a note that went with them
+        would let a proposal write over an answer on the next redraw.
+        """
+        value.chosen_by_hand = True
+        chosen(i)
+
     box.currentIndexChanged.connect(chosen)
     # And the same on activated, which is the signal for "somebody
     # picked this", changed or not. It is the only one that fires where
     # the box shows a derived wide shot: the entry is already the
     # current one, so no index changes, and choosing it is exactly how
     # a derivation is turned into an answer.
-    box.activated.connect(chosen)
+    box.activated.connect(by_hand)
     value.listen(lambda: pick_choice(box, value.get()))
     return box
+
+
+def kind_proposal_apply(values, unplaceable):
+    """Propose "ignore this video" for every file with no place.
+
+    A proposal like the ones for the voices, and under the same rule:
+    it fills only what still carries the program's own answer, and
+    never touches a Kind somebody picked. Whether somebody picked is
+    not read off the text -- setting a file back to content by hand is
+    an answer too -- but off chosen_by_hand, which clip_kind_bind sets
+    from the one Qt signal that fires for a person and not for the
+    program.
+
+    *unplaceable* are the files nothing could place; None means no
+    measurement happened, and then nothing changes in either
+    direction. A file that can be placed again gets its old Kind back,
+    but only where the proposal is what stands there -- a measurement
+    that did not run must not quietly put a file back into the run.
+
+    Returns the paths whose Kind changed.
+    """
+    if unplaceable is None:
+        return []
+    lost = set(os.path.abspath(p) for p in unplaceable)
+    moved = []
+    for path, value in list(values.items()):
+        if getattr(value, "born_as", None) is None:
+            value.born_as = value.get()
+        if getattr(value, "chosen_by_hand", False):
+            continue
+        now, was = value.get(), value.born_as
+        said = getattr(value, "kind_said", None)
+        if os.path.abspath(path) in lost:
+            if now == TYPE_IGNORED or now != (said or was):
+                continue
+            value.kind_said = TYPE_IGNORED
+            value.set(TYPE_IGNORED)
+            moved.append(path)
+        elif now == TYPE_IGNORED and said == TYPE_IGNORED:
+            value.kind_said = None
+            value.set(was or TYPE_CONTENT)
+            moved.append(path)
+    return moved
 
 
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
@@ -28808,17 +28956,7 @@ def gui():
         for row, _nv, _cv in assign_lines:
             if row[0] not in every:
                 every.append(row[0])
-        without = []
-        for p in every:
-            try:
-                if os.path.splitext(p)[1].lower() in AUDIO_SUFFIXES:
-                    tc = file_timecode(p)
-                else:
-                    tc = (video_facts(p) or {}).get("tc")
-            except Exception:
-                tc = None
-            if not tc:
-                without.append(p)
+        without = [p for p in every if real_tc(p) is None]
         if not without or len(every) < 2:
             return
         remembered = axis_read(every)
@@ -28846,6 +28984,13 @@ def gui():
         if axis and remember:
             axis_store(axis)
         show_weak()
+        # A file nothing could place is proposed for "ignore this
+        # video": it would otherwise go into the run and be laid down
+        # at a guess. A proposal, so it stops at anything answered.
+        for p in kind_proposal_apply(state.get("clip_kinds") or {},
+                                     (data or {}).get("unplaceable")):
+            print(no_place_message(os.path.basename(p)))
+            kind_answered(p)
         axis_label.setText(text)
         axis_label.setStyleSheet("color: %s" % (COLOURS["good"] if axis
                                                  else COLOURS["warning"]))
@@ -29345,6 +29490,9 @@ def gui():
     # One value per video file, shown twice -- file list and player. Not
     # a second store: the same object both times.
     audio_use_values = {}
+
+    # The time axis is measured elsewhere and proposes a Kind from there.
+    state["clip_kinds"] = clip_kind_values
 
     def clip_kind_value(path):
         """One video file's Kind -- one value, and two places show it."""
@@ -34345,6 +34493,14 @@ CATALOGUE["de"] = {
         '%s Kanal',
     '%s channels':
         '%s Kanäle',
+    '%s cannot be placed: its sound has nothing in common with the rest '
+    'of the material, and the file carries no timecode. It needs one '
+    'that fits the other recordings, and that has to be set with '
+    'another program.':
+        '%s lässt sich nicht einordnen: Der Ton hat mit dem übrigen '
+        'Material nichts gemeinsam, und die Datei trägt keinen Timecode. '
+        'Sie braucht einen, der zum übrigen Material passt, und der muss '
+        'mit einem anderen Programm gesetzt werden.',
     '%s could not be installed.\nBy hand:  %s -m pip install %s':
         '%s ließ sich nicht nachinstallieren.\nVon Hand:  %s -m pip install %s',
     '%s has no audio track.':
