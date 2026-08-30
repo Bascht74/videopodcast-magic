@@ -34,6 +34,27 @@ cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
 
+**Before every release, fetch the builder's times and look at them.**
+
+```bash
+cd tests && bash builder_times.sh      # the newest green run on main
+```
+
+The suite runs the long tests first so nobody waits, and it takes the
+order from `tests/state/longest`. This Mac must not decide that order:
+it has cores to spare and finishes in half a minute, while the builder
+takes two to four minutes, and the two disagree badly. `crosstalk` was
+four seconds here and 118 on the builder -- thirtieth in the queue, and
+the longest test there was.
+
+So the order comes from one machine, the slowest of the six, currently
+`windows-latest / py3.10`. The script writes its numbers into
+`state/longest`, replacing what stood there, and prints the ten that
+will go first. Read those ten and ask whether the top two or three can
+be made cheaper; that is where a minute of the builder's time is. What
+was made faster shows up in the next run's numbers, which is the point
+of replacing rather than only ever rising.
+
 ## The rules that are not negotiable
 
 **The Auphonic API key never goes into a file, a script, a document or a
