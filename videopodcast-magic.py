@@ -1049,6 +1049,19 @@ def shell_quote(cmd):
 _PROBE = {}
 
 
+def path_key(path):
+    """The one shape a path takes when two of them are compared.
+
+    abspath settles the folder and nothing else: on Windows the same
+    file reached two ways keeps the case and the separator it was typed
+    with, and compares unequal. normcase settles both, and on a Mac it
+    changes nothing. Every comparison and every path used as a key goes
+    through here, so the fault where one side is put into shape and the
+    other is not cannot be written.
+    """
+    return os.path.normcase(os.path.abspath(path))
+
+
 def file_stamp(path):
     """Identify a file by what changes when it is written to.
 
@@ -20920,7 +20933,7 @@ def wide_shot_barred(path, value, placeless):
     """
     if not placeless or getattr(value, "chosen_by_hand", False):
         return ""
-    if os.path.abspath(path) not in set(placeless):
+    if path_key(path) not in set(path_key(p) for p in placeless):
         return ""
     return T('It fits nowhere in the material: no timecode, and its '
              'sound has nothing in common with the rest. The wide shot '
