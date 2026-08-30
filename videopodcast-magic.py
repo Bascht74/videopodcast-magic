@@ -4056,6 +4056,202 @@ def voice_names_report(order):
     return out
 
 
+def voice_window_order(tracks, words, offset, origin,
+                       in_point="", out_point="", fps=30.0):
+    """Who does the asking, worked out inside the time window alone.
+
+    *tracks* are the voices on the shared axis under their labels,
+    *words* the recognition of the recording they were taken out of,
+    still counted in that recording's own time; *offset* moves the
+    words onto the same axis. In point and Out point are read through
+    apply_time_window, the road the preview takes, so the two can
+    never disagree about where the window lies.
+
+    The window is not an extra here. Measured on an interview of
+    31.8.2026: over the whole recording a voice the separation
+    invented looks like a speaker -- 217 s, 4.6 per cent of the talk,
+    longest passage 11.1 s -- and inside the window it is 29 s and
+    falls under ROLE_MIN_SENTENCES. No measure without the window told
+    the two apart.
+
+    Returns what who_asks returns, [] where nothing can be said.
+    """
+    if not tracks or not words:
+        return []
+    length = max((b for _n, parts in tracks for _a, b in parts), default=0.0)
+    if length <= 0:
+        return []
+    handover = {
+        "speakers": [{"name": name, "sections": [list(p) for p in parts]}
+                     for name, parts in tracks],
+        "words": [[w["start"] + offset, w["end"] + offset, w["word"]]
+                  for w in words],
+        "length_s": length, "start_s": origin, "fps": fps}
+    cut, complaint = apply_time_window(handover, in_point, out_point)
+    if complaint:
+        return []
+    return who_asks(
+        [(s["name"], s["sections"]) for s in cut["speakers"]],
+        [speech_word(a, b, text) for a, b, text in cut["words"]])
+
+
+def voice_proposals(order, labels):
+    """The two proposals that follow from that ranking.
+
+    A name for every voice that reached the ranking, and "do not use"
+    for every one that did not: a voice which hardly speaks inside the
+    window never gathers the sentences who_asks needs, and being left
+    out there is the whole rule. There is no second threshold, because
+    no second one was measured.
+
+    Where the ranking says nothing this says nothing either.
+
+    Returns ({label: proposed name}, [labels that hardly speak]).
+    """
+    if not order:
+        return {}, []
+    ranked = set(row[0] for row in order)
+    return (voice_role_names(order),
+            [label for label in labels if label not in ranked])
+
+
+def voice_marks_of(state):
+    """What the window remembers about its voice rows.
+
+    Made on first use and kept over a rebuild of the table: the rows
+    are thrown away and built again on every change, and a mark that
+    went with them would let the program write over an answer.
+    """
+    marks = state.get("voice_marks")
+    if marks is None:
+        marks = {"typed": set(), "said": {}, "name": {}, "camera": {}}
+        state["voice_marks"] = marks
+    return marks
+
+
+def voice_row_marks(state, label, name_value, camera_value, field, box):
+    """Note what a voice row was born with, and who answers in it.
+
+    The two starting values are what the proposals are allowed to
+    write over. Whether a person has answered is asked of textEdited
+    and activated, and of nothing else: those two fire for a person
+    and never for the program, so a name somebody types back to the
+    stand-in counts as an answer just as much as any other.
+
+    Set once per voice and kept over a rebuild of the table.
+    """
+    marks = voice_marks_of(state)
+    marks["name"].setdefault(label, name_value.get())
+    marks["camera"].setdefault(label, camera_value.get())
+    field.textEdited.connect(lambda *_: marks["typed"].add(label))
+    box.activated.connect(lambda *_: marks["typed"].add(label))
+
+
+def voice_proposal_apply(voice_lines, named, silent, marks):
+    """Fill the fields that still carry what the program put there.
+
+    *marks* is voice_marks_of: "typed" the labels somebody wrote in or
+    picked for, "said" the last name proposed for each, "name" and
+    "camera" what the row was born with. A field belongs to the
+    program while it holds either of those or the last proposal, and
+    it stops belonging the moment somebody answers in that row --
+    typing the stand-in name back by hand is an answer as well, which
+    is why the mark decides and not the text.
+
+    The camera is only touched on a voice nobody has named: naming a
+    voice is considering it, and a considered voice does not get
+    switched off by arithmetic. It goes both ways -- a wider window
+    brings a voice back to the camera it was picked for.
+
+    Returns the labels that changed.
+    """
+    typed = marks.get("typed") or set()
+    said = marks.setdefault("said", {})
+    born = marks.get("name") or {}
+    first = marks.get("camera") or {}
+    moved = []
+    for label, name_value, camera_value in voice_lines:
+        if label in typed:
+            continue
+        text = name_value.get().strip()
+        if not (is_stand_in_name(text) or text == said.get(label)):
+            continue
+        want = named.get(label) or born.get(label) or text
+        if want != text:
+            if named.get(label):
+                said[label] = want
+            else:
+                said.pop(label, None)
+            name_value.set(want)
+            moved.append(label)
+        picked, was = camera_value.get(), first.get(label)
+        if label in silent:
+            if picked == was and picked != IGNORE_AUDIO:
+                camera_value.set(IGNORE_AUDIO)
+                print(T('  %s hardly speaks inside the time window -- '
+                        'proposed: do not use.') % label)
+                moved.append(label)
+        elif picked == IGNORE_AUDIO and was not in (None, IGNORE_AUDIO):
+            camera_value.set(was)
+            moved.append(label)
+    return moved
+
+
+def voice_axis_offset(state, assign_lines):
+    """Where the separated recording lies on the shared axis.
+
+    The separation and the words are both stored in the raw time of
+    that one recording, so both have the same distance to travel.
+    """
+    axis = state.get("axis") or {}
+    starts = [audio_start_of(row[0], axis) or 0.0
+              for row, _nv, cv in assign_lines
+              if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
+    source = state.get("speakers_source") or ""
+    return (audio_start_of(source, axis) or 0.0) - min(starts or [0.0])
+
+
+def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
+                        in_point, out_point, language="", heard=None):
+    """One round of the proposals, on the wait the preview runs on.
+
+    A moved In point, a renamed voice and a changed camera all reach
+    it, and none of them costs a measurement. The recognition happens
+    once per recording -- the words do not move when the window does.
+    What is left is a pass over passages and words, and the whole
+    camera cut over 69 minutes was measured at 27 ms.
+
+    A voice somebody set to "do not use" by hand stays out of the
+    ranking for good. One the program put there does not: a window
+    that widens again may well reach back over it, and then it belongs
+    in again.
+
+    Returns the labels that changed.
+    """
+    if not (state.get("speakers_local") and state.get("speakers_source")):
+        return []
+    if state.get("speakers_words_of") != state.get("speakers_source"):
+        speech_words_kick_off(state, language, heard)
+        return []
+    marks = voice_marks_of(state)
+    by_hand = set(k for k, _nv, cv in voice_lines
+                  if cv.get() == IGNORE_AUDIO and k in marks["typed"])
+    offset = voice_axis_offset(state, assign_lines)
+    tracks, length = speakers_on_window_axis(
+        voices_in_use(state["speakers_local"], by_hand), offset)
+    if not tracks:
+        return []
+    origin = choose_zero_point(
+        [audio_start_of(row[0], state.get("axis") or {})
+         for row, _nv, cv in assign_lines
+         if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])],
+        [camera_start_of(b) for b, _n, _own, _flag in camera_lines], length)
+    order = voice_window_order(tracks, state.get("speakers_words") or [],
+                              offset, origin, in_point, out_point)
+    named, silent = voice_proposals(order, [k for k, _p in tracks])
+    return voice_proposal_apply(voice_lines, named, silent, marks)
+
+
 # When two microphones can still be told apart at all: the share of the
 # shorter one's speech that also falls inside the longer one. Measured
 # 30.8.2026. Built material with turns and interjections stays under
@@ -17716,6 +17912,73 @@ def recognise_speech(audio_path, language="", way=""):
     return words, took
 
 
+def words_at_hand(audio_path, language=""):
+    """Write the words down with what the machine already has.
+
+    The run may install faster-whisper and fetch a model of 1.5 GB,
+    because somebody started the run and is watching it. The window
+    may not: nobody asked for a download by adding files to a list.
+    So this takes the recognition macOS brings with it, and
+    faster-whisper only where the package is already installed -- and
+    it is only ever installed because a run put it there, which is the
+    same run that fetched the model.
+
+    Returns the words, [] where this machine cannot listen.
+    """
+    started = time.time()
+    words = macos_words(audio_path, language)
+    took = "macOS"
+    if words is None:
+        words = whisper_words(audio_path, language, install=False)
+        took = WHISPER_MODEL
+    if words is None:
+        return []
+    print(T('  Speech recognition (%s): %s words in %.1f s')
+          % (took, group_text(len(words)), time.time() - started))
+    return words
+
+
+def speech_words_work(source, language, done):
+    """One recognition of one recording, in a thread of its own."""
+    try:
+        words = words_at_hand(source, language)
+    except Exception as e:
+        print(T('  The speech recognition reports: %s') % str(e)[:140])
+        words = []
+    done((source, words))
+
+
+def speech_words_kick_off(state, language="", done=None):
+    """Write down what is said in the recording that was separated.
+
+    Behind the separation and not behind adding files. The separation
+    is the long computation somebody either started or was asked
+    about, and it is the step that says which single recording carries
+    every voice; the recognition wants exactly that file, so it comes
+    after it and inherits its consent. On its own it installs nothing
+    and fetches nothing -- words_at_hand says why.
+
+    Once per recording: the words do not change when the time window
+    moves, and everything the window does with them is arithmetic.
+    """
+    source = state.get("speakers_source") or ""
+    if not source or not done or state.get("speakers_words_of") == source:
+        return
+    state["speakers_words_of"] = source
+    state["speakers_words"] = []
+    threading.Thread(target=speech_words_work,
+                     args=(source, language, done), daemon=True).start()
+
+
+def speech_words_done(state, result, wake):
+    """The words came back; keep them where they still belong."""
+    source, words = result
+    if source != (state.get("speakers_source") or ""):
+        return
+    state["speakers_words"] = words or []
+    wake()
+
+
 # =====================================================================
 #  Local speaker separation
 #  ------------------------
@@ -18935,6 +19198,32 @@ def speaker_cache_write(key, segments):
         os.replace(beside, file_path)
     except OSError:
         pass
+
+
+def speaker_split_work(source, count, note, stopping, done):
+    """One separation of one recording, in a thread of its own.
+
+    Out here rather than inside the window because it decides nothing
+    and touches no widget: a file goes in, the passages come out, and
+    the three callbacks are the only way it says anything -- *note*
+    for how far it has got, *stopping* for whether somebody pressed
+    the button, *done* for the result.
+    """
+    segments, trouble = [], ""
+    try:
+        if not speaker_split_available():
+            trouble = speaker_split_setup(note)
+        key = speaker_cache_key(source, speaker_model_mark(), count)
+        if not trouble:
+            segments = speaker_cache_read(key) or []
+        if not trouble and not segments:
+            segments, trouble = speaker_split_run(
+                source, count, report=note, stopping=stopping)
+            if segments:
+                speaker_cache_write(key, segments)
+    except Exception as e:
+        trouble = T('The speaker separation reports: %s') % str(e)[:140]
+    done((source, count, segments, trouble))
 
 
 def speakers_for_project(source, segments, num_speakers=0, called=None):
@@ -26179,6 +26468,32 @@ def break_off_button(QtWidgets, state, say):
     return button
 
 
+def row_same_height(buttons):
+    """Give a row of buttons the height of the tallest among them.
+
+    A flat button asks for less room than a framed one. Measured
+    offscreen on 31.8.2026 at 1600x1000: Start and Dry run stood 29
+    pixels high from 961 to 990, "Settings ..." 25 from 963 to 988 --
+    centred between them, so it lined up with neither edge.
+
+    No fixed number: how tall a button wants to be is the system font
+    talking, and a number written down here would be wrong on the next
+    machine. It is asked of the buttons themselves, and the wish is
+    there whether the button is on screen or not, so one that is
+    hidden while nothing runs comes out the same height as the rest.
+
+    A button inside a wrapper is given the height itself, not the
+    wrapper: the wrapper carries a tooltip for a disabled button and
+    hugs whatever is in it.
+
+    Returns the height that was set.
+    """
+    tallest = max([b.sizeHint().height() for b in buttons] or [0])
+    for b in buttons:
+        b.setMinimumHeight(tallest)
+    return tallest
+
+
 def break_off_arm(button):
     """Put the button back the way it was, for the run about to start."""
     stop_forget()
@@ -26588,6 +26903,7 @@ def gui():
         speaker_note = QtCore.Signal(str)
         speakers_split = QtCore.Signal(object)
         speakers_split_note = QtCore.Signal(str, float)
+        speakers_heard = QtCore.Signal(object)
 
     bridge = Bridge()
 
@@ -28549,29 +28865,16 @@ def gui():
         preview_kick_off()
 
     bridge.speakers_split.connect(speaker_split_done)
+    bridge.speakers_heard.connect(
+        lambda r: speech_words_done(state, r, preview_kick_off))
 
     def speaker_split_work_loop(source, count):
-        """One separation, in a thread of its own."""
-        segments, trouble = [], ""
-        try:
-            if not speaker_split_available():
-                trouble = speaker_split_setup(
-                    lambda t, s: bridge_emit(bridge.speakers_split_note,
-                                             t, s))
-            key = speaker_cache_key(source, speaker_model_mark(), count)
-            if not trouble:
-                segments = speaker_cache_read(key) or []
-            if not trouble and not segments:
-                segments, trouble = speaker_split_run(source, count,
-                    report=lambda t, s: bridge_emit(
-                        bridge.speakers_split_note, t, s),
-                    stopping=lambda: split_run["stop"])
-                if segments:
-                    speaker_cache_write(key, segments)
-        except Exception as e:
-            trouble = T('The speaker separation reports: %s') % str(e)[:140]
-        bridge_emit(bridge.speakers_split, (source, count, segments,
-                                            trouble))
+        """The separation, with the window's own way of answering."""
+        speaker_split_work(
+            source, count,
+            lambda t, s: bridge_emit(bridge.speakers_split_note, t, s),
+            lambda: split_run["stop"],
+            lambda r: bridge_emit(bridge.speakers_split, r))
 
     def speaker_split_kick_off(fresh=False):
         """Start the separation where there is something to separate.
@@ -29224,6 +29527,8 @@ def gui():
             tree_field(tree, kid, 1, field)
             tree_field(tree, kid, 2, box)
             row_picker_watch(state["row_picker"], field, box)
+            voice_row_marks(state, label, name_value, camera_value,
+                            field, box)
             def voice_answered(*_):
                 """Store it, and say the Kind column again.
 
@@ -30670,6 +30975,10 @@ def gui():
     preview_timer = QtCore.QTimer(window)
     preview_timer.setSingleShot(True)
     preview_timer.setInterval(400)
+    preview_timer.timeout.connect(lambda: voice_suggest_round(
+        state, voice_lines, assign_lines, camera_lines,
+        start_var.get(), end_var.get(), speech_language.get(),
+        lambda r: bridge_emit(bridge.speakers_heard, r)))
     preview_timer.timeout.connect(preview_compute)
 
     def preview_kick_off():
@@ -31035,6 +31344,7 @@ def gui():
     settings_button.clicked.connect(lambda: settings_open())
     foot.addSpacing(18)
     foot.addWidget(settings_button)
+    row_same_height([start_run, preview_button, break_off, settings_button])
 
     # In full and in view: a tooltip is out of reach for the keyboard.
     start_note.setWordWrap(True)
@@ -31118,7 +31428,11 @@ def gui():
         channel_choice.clear()
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
-                     "result_folder", "resolve_json"):
+                     "result_folder", "resolve_json",
+                     # The words of the old recording, and what was
+                     # answered about its voices. Carried over, the
+                     # next production would be named after this one.
+                     "speakers_words", "speakers_words_of", "voice_marks"):
             state.pop(name, None)
         # Emptied, not taken away: the time axis is read by name in
         # several places, and a missing key there is a KeyError rather
@@ -33350,6 +33664,8 @@ CATALOGUE["de"] = {
         '\nWIE DIE STIMMEN HEISSEN KÖNNTEN -- ein Vorschlag',
     '  %-20s could be called %s':
         '  %-20s könnte %s heißen',
+    '  %s hardly speaks inside the time window -- proposed: do not use.':
+        '  %s spricht im Zeitfenster kaum -- Vorschlag: nicht verwenden.',
     'Guest': 'Gast',
     'Host': 'Moderation',
     'Host %d': 'Moderation %d',
