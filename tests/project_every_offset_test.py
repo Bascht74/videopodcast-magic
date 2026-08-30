@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-"""Every camera reaches the handover with the offset measured for it.
+"""Every camera reaches the handover with its offset -- and only a camera.
 
 The offsets are kept under the rendered file. A camera without one had
-no key, and 0.0 as a fallback put it at the start of the axis.
+no key, and 0.0 as a fallback put it at the start of the axis. A file
+the run refused altogether is not handed over at all: it has no place
+on the axis, and nobody is assigned to it, which is what the handover
+reads as the wide shot.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -84,5 +87,33 @@ check("the handover frame is a real one",
       (written["width"], written["height"]) in ((1920, 1080), (1080, 1920)),
       "%sx%s" % (written["width"], written["height"]))
 
-print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
+# A file the run refused: no render, and no offset under either name.
+# Handing it over would make it the wide shot, because "wide" is true for
+# whoever has no speaker -- and nobody is assigned to a file that fits
+# nowhere. A real run handed over an 18-second jingle that way, with an
+# empty file name and "wide": true.
+jingle = os.path.join(WORK, "Jingle.mov")
+open(jingle, "w").write("x")
+three = cameras + [{"name": "Jingle", "video": jingle}]
+more = videos + [(jingle, {"fps": 30.0, "width": 1920, "height": 1080,
+                           "duration": 18.0, "tc": None})]
+out, said = spoken(vpm.write_handover, Args(), [], three, more, hand,
+                   0.0, (wide, videos[0][1]), [rendered], None, None,
+                   0.0, None, None, offsets, unplaceable=[jingle])
+after = json.load(io.open(os.path.join(hand, "Test_resolve.json"),
+                          encoding="utf-8"))
+names = [c["camera"] for c in after["cameras"]]
+check("a file the run could not place is no camera in the handover",
+      "Jingle" not in names, "the handover names %s" % names)
+check("and it reaches no entry marked as the wide shot",
+      not [c for c in after["cameras"]
+           if c["camera"] == "Jingle" and c.get("wide")],
+      "wide flags: %s" % [(c["camera"], c.get("wide"))
+                          for c in after["cameras"]])
+check("the run says which file it left out and why",
+      "Jingle" in said and "place" in said.lower(), repr(said[:90]))
+check("the two it could place are still there",
+      sorted(names) == ["Guest", "Wide"], "handed over: %s" % sorted(names))
+
+print("\n%s" % ("ALL OK" if not bad else "FAIL: " + " | ".join(bad)))
 sys.exit(1 if bad else 0)
