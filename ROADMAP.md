@@ -15,7 +15,7 @@ gone through for 2.14.0-beta.
 
 ## Where the program stands today
 
-**Version 2.14.0-beta.** It runs every week, on real material.
+**Version 2.20.0-beta.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -29,10 +29,10 @@ and after the one download no network. Levelling, de-bleed, noise
 removal and transcription at auphonic.com are optional, and the
 program uploads only when somebody asks it to.
 
-It is one Python file of about 30000 lines, with no package and no
+It is one Python file of about 36000 lines, with no package and no
 build step. Python 3.10 or newer has to be there, and the two packages
 it needs it installs itself. macOS and Windows are what it is used on,
-and Linux works with two limits. A suite of 103 tests runs in about
+and Linux works with two limits. A suite of 119 tests runs in about
 half a minute, on all three systems at every push.
 
 **Why it is still beta.** The format of the project file may still
@@ -43,9 +43,8 @@ the major number.
 
 ## What comes next
 
-Ordered by what each one gives against what it costs. The first two
-are small; the two after them wait on a run and on a decision, and the
-last is where the work sits.
+Ordered by what each one gives against what it costs. The first waits
+on a run, the second is where the work sits, and the third follows it.
 
 **1. The two ways to auphonic.com get run against the service.**
 Transcription of a single track, and a multitrack production carrying
@@ -54,42 +53,30 @@ Whether the service hands a stereo track back with both channels is
 open. Until it has run, the manual describes those two ways from the
 source instead of from a run.
 
-**2. The wide shot gets a calmer rhythm.** The interval after which
-the wide shot returns is the one setting that decides how restless the
-cut feels, and the measurement says it is free: the wrong picture time
-comes out the same to a tenth of a second at 45, 60, 75, 90 and 120
-seconds. At 75 seconds instead of 45 there are 141 wide shots instead
-of 208 and the median gap between them grows from 38 to 64 seconds, at
-the same hit rate. The default stands at 40 seconds, below everything
-that was measured. What is left is a decision and not a measurement:
-how long an episode may run without a wide shot is a matter of taste,
-so the number stays a switch.
+**2. One time axis instead of two.** Every run has to lay pictures and
+sound on one common time line. There are two separate pieces of code
+doing that today -- one for multitrack, one for the ordinary run -- and
+they do not agree. On the ordinary path two cameras were handed to
+Resolve on top of each other, and a time window means a different
+moment for each camera where multitrack means one moment for all.
 
-**3. Multitrack names its own voices.** With one microphone per person
-the program knows who talks when, and it knows which microphone is
-which. Holding the two against each other should say by itself that
-"Speaker 2" is the microphone of the person asking the questions, so
-nobody has to name the voices by hand. The same comparison is a check:
-if separation and microphone disagree, something is wrong. Today the
-two never meet: the crosstalk arithmetic compares microphones with
-each other, and the voices of a separation are named by the order they
-talk in until somebody types over them. The data is all there and the
-match has not been measured.
+The ordinary run is to become a special case of the multitrack one.
+Measured: nothing in the arithmetic prevents it. Five changed lines are
+enough to send an ordinary run through the common machinery, and on
+real material it places three cameras against their own clocks to the
+frame. What is left is a switch to throw, and one decision -- where the
+zero of the axis sits when several cameras start at different moments.
 
-Half of it now has been. Who asks the questions and who answers can be
-read out of a transcript: question marks, and the share of the talking.
-Measured on a real episode, the two agree, and the questions are the
-stronger of the two -- they survive the long opening where one person
-speaks for minutes without asking anything, and the speaking share does
-not. It would carry as an order, not as a threshold, which means it can
-propose a role but must never decide one on its own. Whether to build
-it as a proposal is a decision, not a measurement.
+Everything so far has been groundwork, done and shipped: both paths now
+name their files and their tracks alike, both check the colour and
+carry the camera's own keys, both measure the loudness, and both say
+which stage a run is in.
 
-That decision was taken, and the proposal is built: after a run the log
-names who does the asking, with the sentences and the questions behind
-it, and nothing is set from it. What is still missing is the other half
--- holding the separation against the microphones, so that "Speaker 2"
-gets its name without anybody typing it.
+**3. Multitrack without a camera.** Several recordings and no picture
+is refused today, and the reason is sound: the tracks are laid against
+the cameras. But the tracks could be laid against each other instead --
+equally long, one start point, ready for auphonic. It waits until there
+is one axis, so it is not built twice.
 
 ## What comes later
 

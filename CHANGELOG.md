@@ -25,7 +25,7 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
-## [Unreleased]
+## [2.20.0-beta] - 2026-08-30
 
 **English**
 
@@ -33,6 +33,9 @@ nicht.
 
 - "What changed in this version" in the Help menu shows the text in a
   window. It used to open the project's whole changelog in a browser.
+- The loudness of the sound is now measured on the single-track path
+  too and named in the log. The level is not changed there, and
+  "--lufs" says so instead of keeping quiet about it.
 
 ### Changed
 
@@ -41,6 +44,15 @@ nicht.
 - The tick in the update window, "Do not ask again", used to stop the
   search for new versions for good. It is now called "Skip this
   version", and later versions are reported again.
+- The audio track is called "Full-Mix" on both paths. The single-track
+  path called it "Processed audio"; that name reaches Resolve, which
+  names its audio track after it.
+
+### Removed
+
+- The switches "--head" and "--tail", which cut a fixed amount off the
+  front and the back of a recording by hand, are gone. What carries no
+  picture is still measured and cut.
 
 ### Fixed
 
@@ -54,6 +66,32 @@ nicht.
 - The line "Check: new track against the camera track" gave a number
   even where the two could not be compared at all. It now says that no
   comparison is possible.
+- A video whose sound has nothing in common with the recording and
+  carries no timecode was laid down at a guess. It is now refused, and
+  the window proposes it for "ignore this video".
+- Two cameras on the single-track path were handed to Resolve at the
+  same spot and had to be pulled apart by hand. Each now stands where
+  the alignment measured it.
+- A recording taken through the single-track path lost the marker that
+  tells Resolve which curve it was shot on, Apple Log among them.
+  Colour and metadata are checked there now as well.
+- The progress bar reported not one stage on the single-track path and
+  crept from end to end over a run of many minutes. It now names the
+  same six stages the other path names.
+- A run without an assignment file wrote camera files under the name of
+  the source and no handover for Resolve at all. Each video is now a
+  camera of its own, and the handover is written.
+- A fourteen-second jingle among three cameras stopped the whole run. A
+  file that cannot be placed against the others is now named and left
+  out, and the run goes through.
+- Multitrack without a single video complained about files that were
+  never given. It now says instead that the tracks are laid against the
+  cameras, and that there are none to lay them on.
+
+### Documentation
+
+- Every version in this changelog, back to 0.1.0, now stands in English
+  and in German, with the same points in the same order.
 
 ---
 
@@ -64,6 +102,9 @@ nicht.
 - „Was sich in dieser Version geändert hat" im Hilfe-Menü zeigt den
   Text in einem Fenster. Bisher öffnete es den ganzen Änderungsbericht
   des Projekts im Browser.
+- Die Lautheit des Tons wird jetzt auch auf dem Einspur-Weg gemessen
+  und im Protokoll genannt. Der Pegel wird dort nicht verändert, und
+  „--lufs" sagt das jetzt, statt zu schweigen.
 
 ### Geändert
 
@@ -72,6 +113,15 @@ nicht.
 - Der Haken „Nicht mehr nachfragen" im Update-Fenster stellte die Suche
   nach neuen Versionen für immer ab. Er heißt jetzt „Diese Version
   überspringen" und meldet spätere Versionen wieder.
+- Die Tonspur heißt auf beiden Wegen „Full-Mix". Der Einspur-Weg nannte
+  sie „Processed audio"; dieser Name reicht bis Resolve, das seine
+  Tonspur danach benennt.
+
+### Entfernt
+
+- Die Schalter „--head" und „--tail", die von Hand ein festes Stück vom
+  Anfang und vom Ende einer Aufnahme abschnitten, sind entfernt. Was
+  kein Bild trägt, wird weiter gemessen und geschnitten.
 
 ### Behoben
 
@@ -86,8 +136,35 @@ nicht.
 - Die Zeile „Prüfung: neue Spur gegen den Kameraton" nannte auch dann
   eine Zahl, wenn sich die beiden gar nicht vergleichen ließen. Jetzt
   sagt sie, dass kein Vergleich möglich ist.
+- Ein Video, dessen Ton nichts mit der Aufnahme gemein hat und keinen
+  Timecode trägt, wurde auf Verdacht abgelegt. Es wird jetzt abgelehnt,
+  und das Fenster schlägt „dieses Video ignorieren" vor.
+- Zwei Kameras lagen auf dem Einspur-Weg in der Resolve-Übergabe an
+  derselben Stelle und mussten von Hand auseinandergezogen werden.
+  Jetzt steht jede dort, wo sie gemessen wurde.
+- Eine Aufnahme über den Einspur-Weg verlor die Marke, die Resolve
+  sagt, auf welche Kurve gedreht wurde, Apple Log darunter. Farbe und
+  Metadaten werden dort jetzt ebenso geprüft.
+- Der Fortschrittsbalken meldete auf dem Einspur-Weg keine einzige
+  Stufe und kroch minutenlang von Anfang bis Ende. Er nennt jetzt
+  dieselben sechs Stufen wie der andere Weg.
+- Ein Lauf ohne Zuordnungsdatei schrieb Kameradateien unter dem Namen
+  der Quelle und gar keine Übergabe für Resolve. Jedes Video wird
+  jetzt eine eigene Kamera, und die Übergabe wird geschrieben.
+- Ein vierzehn Sekunden langer Jingle unter drei Kameras brachte den
+  ganzen Lauf zu Fall. Eine Datei, die sich nicht einordnen lässt, wird
+  jetzt benannt und ausgelassen.
+- Mehrspur ohne ein einziges Video beklagte Dateien, die nie übergeben
+  wurden. Jetzt sagt es stattdessen, dass die Spuren an die Kameras
+  gelegt werden und keine Kamera da ist.
 
-## [2.19.0-beta] - 2026-08-31
+### Dokumentation
+
+- Jede Version in diesem Änderungsbericht, zurück bis 0.1.0, steht
+  jetzt auf Englisch und auf Deutsch, mit denselben Punkten in
+  derselben Reihenfolge.
+
+## [2.19.0-beta] - 2026-08-30
 
 **English**
 
@@ -217,7 +294,7 @@ nicht.
   Stimme für „nicht verwenden" vorgeschlagen wird und wo das
   Niederschreiben der Worte läuft und was es kostet.
 
-## [2.18.0-beta] - 2026-08-31
+## [2.18.0-beta] - 2026-08-30
 
 **English**
 
@@ -271,7 +348,7 @@ nicht.
 - Ein Test baut seine zwei Kameradateien in einem ffmpeg-Aufruf statt in
   zweien, ein Prozessstart weniger.
 
-## [2.17.0-beta] - 2026-08-31
+## [2.17.0-beta] - 2026-08-30
 
 **English**
 
@@ -3472,6 +3549,7 @@ haben. Jede Behebung unten hat einen Test.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.20.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.19.0-beta...v2.20.0-beta
 [2.19.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.18.0-beta...v2.19.0-beta
 [2.18.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.17.0-beta...v2.18.0-beta
 [2.17.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.16.0-beta...v2.17.0-beta
