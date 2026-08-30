@@ -37,8 +37,6 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--transcript` | auphonic.com schreibt mit, was gesagt wird: json, srt und txt |
 | `--no-trim` | Ton in voller Länge statt auf das Bild beschnitten |
 | `--no-single-tracks` | nur den Mix ins Video, nicht die Aufnahmen daneben |
-| `--head ZEIT` | so viel vorne abschneiden: Sekunden, MM:SS, HH:MM:SS (gemessen) |
-| `--tail ZEIT` | dasselbe für das Ende (gemessen) |
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |
 | `--fps ZAHL` | anzunehmende Bildrate, wenn ffprobe eine falsche meldet (aus der Videodatei) |
