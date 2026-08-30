@@ -13816,154 +13816,6 @@ def voices_on_cameras(segment_list, videos, wanted=None, fallback=""):
     return out
 
 
-def handover_for_single_track(args, videos, results, cameras, offsets,
-                    track_names, folder, audio, axis=None, sources=()):
-    """Prepare a Resolve handover for the simple path too.
-
-    What comes of it depends on the material: with several cameras a
-    timeline holding all of them side by side, ready to become a
-    multicam clip, with speaker and picture analysis then running in
-    Resolve. With a single camera a straight timeline of picture and
-    audio.
-
-    Since 24.8.2026 the speakers are told apart here as well. They used
-    to be the multitrack path's alone, and the sentence that stood here
-    -- there can be no camera cut without the speaker statistics -- was
-    only ever true because nothing on this path asked for them. One
-    recording taken apart by voice answers the same question, and with
-    a single camera what comes of it is not a camera cut but a first
-    cut at every change of speaker, which is what write_cut_list has
-    always done where one camera carries everybody.
-
-    *axis* says where the mix sits in each camera's own time, *sources*
-    are the recordings it was made of.
-    """
-    if not cameras:
-        return
-    if not getattr(args, "production", None):
-        args.production = guess_production_name(cameras[0]["video"])
-    # The longest recording is the reference; the axis hangs off its timecode.
-    reference = max(videos, key=lambda x: x[1].get("duration") or 0.0)
-    fps = max(1.0, float(reference[1].get("fps") or 30.0))
-    tc_start = (parse_timecode(reference[1]["tc"], fps) if reference[1].get("tc") else None)
-    # Refer all offsets to the reference so it sits at zero itself.
-    reference_target = None
-    for cam in cameras:
-        if os.path.abspath(cam["video"]) == os.path.abspath(reference[0]):
-            for path in results:
-                if os.path.splitext(os.path.basename(path))[0] == cam["name"]:
-                    reference_target = path
-    origin = offsets.get(reference_target, 0.0) if reference_target else 0.0
-    offsets = dict((name, round(value - origin, 4)) for name, value in offsets.items())
-    length = max((float(e.get("duration") or 0.0) for _, e in videos), default=0.0)
-    # Telling the voices apart is its own stage on the other path, and
-    # it is the same work here -- one recording taken apart by voice.
-    step_begin("speakers")
-    cut, segment_list = speaker_cut_on_one_track(
-        args, videos, cameras, reference, folder, tc_start, length,
-        audio, axis or {}, sources)
-    # The handover reads out of the tracks which camera a voice sits on.
-    # An empty list left every camera without a speaker, so every one of
-    # them counted as the wide shot, the preview showed a single shot
-    # over the whole episode, and Resolve got a cut nobody asked for.
-    #
-    # The fallback is empty on purpose, unlike the one the cut uses: a
-    # voice nobody placed has to leave its camera free, or the reference
-    # camera would carry everybody and no camera could be the wide shot.
-    wanted = (voices_of_file(args.speakers_from)
-              if getattr(args, "speakers_from", None) else {})
-    voices = voices_on_cameras(segment_list, videos, wanted, "")
-    write_handover(args, voices, cameras, videos, folder, tc_start,
-                      reference, results, cut, segment_list, length,
-                      track_names,
-                      {MIX_TRACK_NAME: os.path.abspath(audio)}, offsets)
-
-
-def places_on_camera_axis(axis, reference):
-    """Where every file sits in the reference camera's own time.
-
-    *axis* holds, per camera, the (a, b) of the alignment: audio time =
-    a + b * that camera's time. The axis of this path is the reference
-    camera, so the mix is placed by its pair, and any other camera by
-    the two pairs together -- a file taken apart by voice may well be a
-    camera and not the mix, which is exactly the case of one camera
-    with a microphone built in.
-
-    Returns {file: (a, b)} in the form separation_on_axis reads.
-    """
-    home = axis.get(os.path.abspath(reference))
-    if not home or not home[1]:
-        return {}
-    out = {os.path.abspath(reference): (0.0, 1.0)}
-    for path, pair in axis.items():
-        if not pair or not pair[1]:
-            continue
-        out[path] = ((home[0] - pair[0]) / pair[1], home[1] / pair[1])
-    return out
-
-
-def speaker_cut_on_one_track(args, videos, cameras, reference, folder,
-                             tc_start, length, audio, axis, sources=()):
-    """Tell the speakers apart on the one track, and cut by them.
-
-    The axis of this path is the reference camera's own time, and the
-    alignment already measured where everything sits in it, so nothing
-    is measured twice here. The places are handed to the same
-    arithmetic the multitrack path uses, which is why a separation made
-    in the window fits without being redone.
-
-    Returns (cut, speakers). Both empty where nothing was heard, where
-    the separation was switched off, or where only one voice was found
-    -- one person hands over to nobody, so there is nothing to cut at.
-    """
-    place = (axis or {}).get(os.path.abspath(reference[0]))
-    if not place or not place[1]:
-        return [], []
-    stand_in = [{"name": getattr(args, "name", "") or "Mix",
-                 "source": audio, "blocks": [audio],
-                 "a": place[0], "b": place[1]}]
-    where = places_on_camera_axis(axis, reference[0])
-    where.update(dict((p, place)
-                      for p in [audio] + [x for x in (sources or ())]))
-    segments, where_from = separation_for_run(
-        args, stand_in, where, 0.0, length, [v for v, _e in videos])
-    if not segments:
-        return [], []
-    print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
-    print(TN(len(segments), '  From %s: %d voice.', '  From %s: %d voices.')
-          % (where_from, len(segments)))
-    for name, segs in segments:
-        print(T('  %-20s %s in %d passages')
-              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
-    if len(segments) < 2 and len(videos) < 2:
-        # Not a fault, and it must not read as one: a room microphone
-        # in front of one person is a perfectly ordinary recording.
-        # The passages still travel, as markers.
-        #
-        # "Nobody hands over" was the whole reason until 25.8.2026, and
-        # it was half of one: with a second camera the picture still
-        # has somewhere to go -- their camera stands and the wide shot
-        # cuts in. Measured: one speaker over five minutes on two
-        # cameras gives 15 shots, 7 of them wide; on their camera alone
-        # it gives one shot over the whole length, which is no cut. So
-        # the number of cameras decides the way out.
-        print(T('  Only one voice -- nobody hands over, so there is no '
-                'cut. The passages go into the handover as markers.'))
-        return [], segments
-    wanted = (voices_of_file(args.speakers_from)
-              if getattr(args, "speakers_from", None) else {})
-    # The fallback here is the reference camera, unlike the empty one
-    # the handover uses: the cut has to show a picture at every moment,
-    # and a voice nobody placed has to be somewhere. The handover asks a
-    # different question -- which camera is free to be the wide shot --
-    # and there the same fallback would take the last one away.
-    return write_cut_list(args, segments,
-                          voices_on_cameras(segments, videos, wanted,
-                                            reference[0]),
-                          cameras, videos, folder, tc_start, reference,
-                          length)
-
-
 def widest_frame(sizes):
     """Pick the largest frame that a camera really recorded.
 
@@ -20826,23 +20678,6 @@ def run_preflight(args, audio_paths, video_paths):
     findings += check_loudness_target(args)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
-def write_single_track_file(video, audio, target, info, a, b, head_s, tail_s,
-                            drift_on, args, beside=()):
-    """The simple path: the mix into the video file, single tracks beside it.
-
-    Uses the same writer as the multitrack path, so the colr box and the
-    camera's QuickTime keys survive and Resolve still recognises Apple Log.
-
-    *beside* holds the recordings the mix was made from, each on the same
-    axis and of the same length. They go in after the mix as tracks of their
-    own, so the edit can reach for one voice. Unprocessed: this path sends
-    only the mix to auphonic.com.
-    """
-    items = [(args.name, audio)] + [(name, path) for name, path in beside]
-    write_camera_file(video, info, items, target, a, b, drift_on, args,
-                 head_s=head_s, tail_s=tail_s)
-
-
 def run_ffmpeg_with_progress(cmd, duration, text):
     """Run ffmpeg and show its progress.
 
@@ -32814,7 +32649,6 @@ CATALOGUE["de"] = {
         '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
     'Separating speakers': 'Sprecher werden getrennt',
     'Separating speakers ...': 'Sprecher werden getrennt ...',
-    '  From %s: %d voice.': '  Aus %s: %d Stimme.',
     'Separated: %d speaker': 'Getrennt: %d Sprecher',
     'Separated: %d speakers': 'Getrennt: %d Sprecher',
     'Voice': 'Stimme',
@@ -35871,10 +35705,6 @@ CATALOGUE["de"] = {
         'Faltung wird nur für Stereo abgeschaltet.\n  Wo die Kanäle '
         'getrennt bleiben sollen, die Datei vorher in Spuren schneiden.',
     'First cut by speaker': 'Erster Schnitt nach Sprechern',
-    '  Only one voice -- nobody hands over, so there is no cut. The '
-    'passages go into the handover as markers.':
-        '  Nur eine Stimme -- niemand übergibt, also gibt es keinen '
-        'Schnitt. Die Passagen gehen als Marker in die Übergabe.',
     '\nTRANSCRIPT': '\nTRANSKRIPT',
     '  %s words: %.1f %% to one voice, %.1f %% to two, %.1f %% in a gap':
         '  %s Wörter: %.1f %% auf eine Stimme, %.1f %% auf zwei, '
