@@ -604,6 +604,14 @@ def material(folder):
 
     One channel on purpose: two uncorrelated channels would be cut into
     two tracks, which is sound_camera_judged_too_test.py's subject, not this one's.
+
+    The same tremolo on both, and that is not decoration: two cameras
+    filming one room hear that room, and the program takes the shape of
+    the sound as the proof that they belong together. Two plain tones
+    scored 0.3807 against each other -- measured, and below the floor a
+    camera has to clear -- so one of them was set aside as fitting
+    nowhere and the field this test is about had nothing left to
+    choose between. With the shape shared the pair reads 0.9999.
     """
     for name, hz in zip(CAMERAS, (300, 700)):
         subprocess.run(
@@ -611,6 +619,7 @@ def material(folder):
              "testsrc=size=160x90:rate=25:duration=6",
              "-f", "lavfi", "-i",
              "sine=frequency=%d:duration=6" % hz,
+             "-af", "tremolo=f=4:d=0.9",
              "-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt",
              "yuv420p", "-c:a", "aac", "-ac", "1", "-shortest", "-y",
              os.path.join(folder, name)],

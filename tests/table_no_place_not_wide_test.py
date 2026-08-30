@@ -88,20 +88,20 @@ check("the sentence names both halves of what it is missing",
 lost_cell, box = vpm.clip_kind_cell(os.path.basename(LOST),
                                     kind.get(), "", QUIET, False,
                                     why_wide)
-check("the wide shot is the one entry that cannot be chosen",
-      barred(box) == [vpm.TYPE_WIDE],
+check("neither the wide shot nor content can be chosen",
+      sorted(barred(box)) == sorted([vpm.TYPE_WIDE, vpm.TYPE_CONTENT]),
       "barred: %s of %s" % (barred(box), list(vpm.CLIP_TYPES)))
-check("and the one entry greyed in the list", grey(box) == [vpm.TYPE_WIDE],
+check("and those two are the entries greyed in the list",
+      sorted(grey(box)) == sorted([vpm.TYPE_WIDE, vpm.TYPE_CONTENT]),
       "greyed: %s of %s" % (grey(box), list(vpm.CLIP_TYPES)))
-check("the reason stands on that entry and nowhere else",
+check("each of the two carries its own reason",
       says_at(box, vpm.TYPE_WIDE) == why_wide
-      and says_at(box, vpm.TYPE_CONTENT) == "",
+      and "cut into the episode" in says_at(box, vpm.TYPE_CONTENT),
       "the wide shot says %r, Content says %r"
       % (says_at(box, vpm.TYPE_WIDE), says_at(box, vpm.TYPE_CONTENT)))
-check("content, intro, outro and ignore stay open",
+check("intro, outro and ignore stay open",
       set(v for v, shut, _i in entries(box) if not shut)
-      == {vpm.TYPE_CONTENT, vpm.TYPE_INTRO, vpm.TYPE_OUTRO,
-          vpm.TYPE_IGNORED},
+      == {vpm.TYPE_INTRO, vpm.TYPE_OUTRO, vpm.TYPE_IGNORED},
       "open: %s" % [v for v, shut, _i in entries(box) if not shut])
 check("and the field itself can still be answered", box.isEnabled(),
       "the field is %s" % ("open" if box.isEnabled() else "dead"))
@@ -134,9 +134,9 @@ check("without a measurement nothing is barred",
          vpm.wide_shot_barred(LOST, vpm.Value(vpm.TYPE_CONTENT), set())))
 by_hand = vpm.Value(vpm.TYPE_WIDE)
 by_hand.chosen_by_hand = True
-check("a Kind somebody picked is never barred",
-      vpm.wide_shot_barred(LOST, by_hand, NOWHERE) == "",
-      "the answer %r was barred with %r"
+check("a Kind somebody picked is barred too where nothing places the file",
+      vpm.wide_shot_barred(LOST, by_hand, NOWHERE) != "",
+      "the answer %r came back with %r, wanted a reason"
       % (by_hand.get(), vpm.wide_shot_barred(LOST, by_hand, NOWHERE)))
 
 print("\n4. The derivation stops at the same file")
@@ -188,6 +188,31 @@ check("every table asks the one place for its Kind field",
       "clip_kind_cell stands %d times (its own def and one call), "
       "kind_cell_for %d (its own def and %d tables)"
       % (built, one_place, one_place - 1))
+
+print("\nA Kind out of a project file is corrected too")
+# The greyed entry stops a hand in the window. A project file does not
+# go through the window, and neither does a switch, so the same rule
+# stands once more where the measurement meets the answers.
+by_file = dict((p, vpm.Value(vpm.TYPE_CONTENT)) for p in (LOST, GOOD))
+by_file[LOST].chosen_by_hand = True
+moved = vpm.kinds_off_the_axis(by_file, NOWHERE)
+check("a file with no place is taken off content whoever set it",
+      moved == [LOST] and by_file[LOST].get() == vpm.TYPE_INTRO,
+      "moved %s, the file now says %r"
+      % ([os.path.basename(p) for p in moved], by_file[LOST].get()))
+check("a file the measurement placed is left where it was",
+      by_file[GOOD].get() == vpm.TYPE_CONTENT, by_file[GOOD].get())
+wide_by_file = {LOST: vpm.Value(vpm.TYPE_WIDE)}
+vpm.kinds_off_the_axis(wide_by_file, NOWHERE)
+check("and off the wide shot in the same way",
+      wide_by_file[LOST].get() == vpm.TYPE_INTRO, wide_by_file[LOST].get())
+outro = {LOST: vpm.Value(vpm.TYPE_OUTRO)}
+check("an outro it already carries is not turned into an intro",
+      vpm.kinds_off_the_axis(outro, NOWHERE) == []
+      and outro[LOST].get() == vpm.TYPE_OUTRO, outro[LOST].get())
+check("without a measurement nothing is moved",
+      vpm.kinds_off_the_axis({LOST: vpm.Value(vpm.TYPE_CONTENT)}, ()) == [],
+      "with no list of placeless files, something moved")
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
