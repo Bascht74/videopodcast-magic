@@ -224,6 +224,16 @@ why, on the limits of the method, and on what it returns.
 What has no place in a docstring: a list of the parameters that only
 repeats the signature.
 
+**A note saying a step is red goes out in the commit that makes it
+green.** Not in the next clean-up pass. A test written while the fault
+still stands describes the fault; if the fix lands in the same commit,
+the sentence is untrue the moment it is written, and it stays untrue
+for as long as nobody rereads it. Whoever comes next believes it and
+leaves a working check alone.
+
+And a note that is gone is no proof the check under it still bites.
+That proof is a broken copy and a red line naming the fault.
+
 ## 7. Measure instead of assume
 
 If a number is needed, it gets measured. A timecode can be set

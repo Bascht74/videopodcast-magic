@@ -7,7 +7,11 @@ name: tests
 run-name: "suite #${{ github.run_number }} on ${{ github.ref_name }}"
 
 on:
+  # Branches only. A tag points at a commit the suite has already
+  # answered for, and a second run of it says nothing new.
   push:
+    branches:
+      - '**'
   pull_request:
   # Nothing here is pinned: requirements.txt names numpy and PySide6
   # without a version, ffmpeg is whatever the package service has that

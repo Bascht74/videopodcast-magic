@@ -1,6 +1,6 @@
 # The test suite
 
-90 tests against `../videopodcast-magic.py`.
+121 tests against `../videopodcast-magic.py`.
 
 ```bash
 bash run.sh              # all of them, several at a time
