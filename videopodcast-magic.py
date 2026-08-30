@@ -2247,6 +2247,7 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
     Transcript, subtitles, chapter marks: paid for with the production
     either way, and useless if they stay on the server.
     """
+    fetched = set()
     for f in files or []:
         if f is skip:
             continue
@@ -2256,6 +2257,13 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
             continue
         if not name.lower().endswith(TRANSCRIPT_SUFFIXES):
             continue
+        # Two outputs of the same name land in the same file, so the
+        # second download overwrites the first and both were paid for.
+        # It happens where a production carries the same format twice.
+        if name in fetched:
+            print(T('  %s is there already -- not fetched twice') % name)
+            continue
+        fetched.add(name)
         target = os.path.join(target_folder, name)
         try:
             _curl_call(key, ["-o", target, url],
@@ -17313,6 +17321,46 @@ def set_update_wanted(yes):
         pass
 
 
+def update_skip_file():
+    """Where the version somebody chose to pass over is kept."""
+    folder = cache_folder()
+    return os.path.join(folder, "update_skip") if folder else ""
+
+
+def update_skipped():
+    """The version somebody chose to pass over, or "" for none."""
+    where = update_skip_file()
+    if not where or not os.path.exists(where):
+        return ""
+    try:
+        with open(where, encoding="utf-8") as f:
+            return f.read().strip()
+    except OSError:
+        return ""
+
+
+def set_update_skipped(tag):
+    """Pass over this one version. The next one asks again.
+
+    This took the place of "do not ask again", which stopped the
+    looking for good. Sebastian, 31.8.2026: *"I would rather turn that
+    into: skip this version."* He is right, and the source already
+    said so about the other half of the same trap -- a no that cannot
+    be taken back caught him once before, in August, and nothing
+    anywhere said why the program had gone quiet.
+
+    One version passed over is not an answer about all of them.
+    """
+    where = update_skip_file()
+    if not where:
+        return
+    try:
+        with open(where, "w", encoding="utf-8") as f:
+            f.write(str(tag or ""))
+    except OSError:
+        return
+
+
 def version_key(text):
     """A version as something that can be compared.
 
@@ -17387,6 +17435,7 @@ def newer_release(asked=False):
     """
     if UPDATE_OFF or not (asked or update_wanted()):
         return "", "", ""
+    passed_over = "" if asked else update_skipped()
     try:
         import urllib.request
         with urllib.request.urlopen(RELEASES, context=https_context(),
@@ -17395,6 +17444,11 @@ def newer_release(asked=False):
     except Exception:
         return "", "", ""      # no network, no answer, no complaint
     tag = str(found.get("tag_name") or "")
+    if passed_over and tag == passed_over:
+        # Passed over once, so it is not offered again by itself. The
+        # next release has another name and asks, and the menu asks
+        # whenever somebody wants it to.
+        return "", "", ""
     if not tag or version_key(tag) <= version_key(VERSION):
         # Nothing newer. The answer already carries the text of the
         # release that is running, and throwing it away means asking
@@ -30892,9 +30946,9 @@ def gui():
                 # the sections count from. Doing it here as well would
                 # move them a second time.
             except RuntimeError:
-                # A widget went while we asked it. The rebuild that took
-                # it away brings its own answer.
-                d = d
+                # A widget went while we asked it. The rebuild that
+                # took it away brings its own answer, so this one goes.
+                d = None
         if d is None:
             state["statistics"] = False
             speech_show(None)
@@ -32343,11 +32397,10 @@ def update_offer(window, asked=False):
         where.setTextInteractionFlags(QtCore.Qt.TextSelectableByMouse)
         rows.addWidget(where)
 
-    quiet = QtWidgets.QCheckBox(T('Do not ask again'))
-    quiet.setToolTip(T('The program then stops looking by itself. Help '
-                       '> Look for a newer version now still asks, and '
-                       '--update-check on the command line brings the '
-                       'question back.'))
+    quiet = QtWidgets.QCheckBox(T('Skip this version'))
+    quiet.setToolTip(T('Only this one. The next release asks again, and '
+                       'Help > Look for a newer version now asks at any '
+                       'time.'))
     rows.addWidget(quiet)
 
     feet = QtWidgets.QHBoxLayout()
@@ -32363,9 +32416,10 @@ def update_offer(window, asked=False):
 
     answered = box.exec()
     if quiet.isChecked():
-        # Remembered whichever button was pressed: somebody who ticks
-        # this and then updates still means it for the next time.
-        set_update_wanted(False)
+        # Only this one version, and remembered whichever button was
+        # pressed: somebody who ticks it and then updates anyway still
+        # meant it about this one.
+        set_update_skipped(tag)
     if answered != QtWidgets.QDialog.Accepted:
         return
     text, trouble = fetch_new_self(tag)
@@ -32414,9 +32468,9 @@ def restore_offer(window):
           'is used up. Forward again means fetching %s over the '
           'network. The program starts again straight '
           'away.\n\nThe next start offers %s once more: "%s" puts that '
-          'off, "%s" stops it for good.')
+          'off, "%s" passes over that one version.')
         % (back or T('The kept version'), VERSION, VERSION, VERSION,
-           T('Later'), T('Do not ask again')))
+           T('Later'), T('Skip this version')))
     said.setWordWrap(True)
     rows.addWidget(said)
     feet = QtWidgets.QHBoxLayout()
@@ -32522,14 +32576,6 @@ CATALOGUE["de"] = {
         'Was in %s steckt:',
     'What changed since %s:':
         'Was sich seit %s geändert hat:',
-    'Do not ask again':
-        'Nicht mehr nachfragen',
-    'The program then stops looking by itself. Help > Look for a newer '
-    'version now still asks, and --update-check on the command line '
-    'brings the question back.':
-        'Das Programm sieht dann nicht mehr von selbst nach. Über '
-        'Hilfe > Nach Update suchen ... geht es weiterhin, und '
-        '--update-check auf der Kommandozeile holt die Frage zurück.',
     'Update':
         'Aktualisieren',
     'Later':
@@ -32552,15 +32598,6 @@ CATALOGUE["de"] = {
         'Die aufbewahrte Fassung',
     'Go back':
         'Zurückgehen',
-    '%s takes the place of %s, and the file kept beside this one is '
-    'used up. Forward again means fetching %s over the network. The '
-    'program starts again straight away.\n\nThe next start offers %s '
-    'once more: "%s" puts that off, "%s" stops it for good.':
-        '%s tritt an die Stelle von %s, und die daneben aufbewahrte '
-        'Datei ist damit aufgebraucht. Vorwärts geht es wieder über '
-        'das Netz, indem %s geholt wird. Das Programm startet gleich '
-        'danach neu.\n\nBeim nächsten Start wird %s wieder angeboten: '
-        '„%s“ schiebt das auf, „%s“ stellt es ganz ab.',
     'There is no version kept beside this one.':
         'Neben dieser Fassung liegt keine aufbewahrte.',
     'The kept version could not be read: %s':
@@ -33678,6 +33715,22 @@ CATALOGUE["de"] = {
         'werden daran abgelesen, wer fragt und wer antwortet; das gilt für '
         'ein Gespräch mit einem Gast und ist ein Vorschlag, keine '
         'Einstellung.',
+    'Skip this version':
+        'Diese Fassung überspringen',
+    'Only this one. The next release asks again, and Help > Look for a newer '
+    'version now asks at any time.':
+        'Nur diese eine. Die nächste Fassung fragt wieder, und Hilfe > Nach '
+        'Update suchen fragt jederzeit.',
+    '%s takes the place of %s, and the file kept beside this one is used up. '
+    'Forward again means fetching %s over the network. The program starts '
+    'again straight away.\n\nThe next start offers %s once more: "%s" puts '
+    'that off, "%s" passes over that one version.':
+        '%s tritt an die Stelle von %s, und die daneben aufbewahrte Datei ist '
+        'aufgebraucht. Wieder vorwärts heißt %s über das Netz holen. Das '
+        'Programm startet sofort neu.\n\nDer nächste Start bietet %s erneut '
+        'an: „%s" verschiebt das, „%s" übergeht diese eine Fassung.',
+    '  %s is there already -- not fetched twice':
+        '  %s ist schon da -- nicht zweimal geholt',
     'Project found':
         'Projekt gefunden',
     'Open the project':
