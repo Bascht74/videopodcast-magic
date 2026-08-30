@@ -120,12 +120,6 @@ nicht.
   leading to it. A folder reachable by two names had every file in it
   measured twice.
 
-### Fixed
-
-- The count of processes a test starts stood about 1.7 times too high:
-  every run of the program was counted twice. Each one is now counted
-  once.
-
 ### Tests
 
 - Reading a file that is not there put 54 error lines into the error
@@ -190,12 +184,6 @@ nicht.
 - Was an einer Datei gemessen wurde, wird unter jedem anderen Weg dahin
   wiedergefunden. War ein Ordner über zwei Namen erreichbar, wurde jede
   Datei darin zweimal gemessen.
-
-### Behoben
-
-- Die Zahl der Prozesse, die ein Test startet, stand etwa 1,7-mal zu
-  hoch: Jeder Lauf des Programms wurde doppelt gezählt. Jetzt zählt
-  jeder einmal.
 
 ### Tests
 
