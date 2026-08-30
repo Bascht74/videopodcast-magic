@@ -166,6 +166,8 @@ Im Fenster gibt es diese Optionen nicht.
 * `--auphonic-preset` ohne Namen: das Programm fragt die vorhandenen
   Presets nummeriert ab, der Schlüssel ohne Dateien listet sie auf.
 * `--auphonic-resume result|rerun|adopt|upload|abort` beantwortet die
-  Frage nach einer schon vorhandenen Produktion im Voraus.
+  Frage nach einer schon vorhandenen Produktion im Voraus. Nur mit
+  Multitrack: ohne es gibt es keinen Upload je Spur, den man wieder
+  aufnehmen könnte.
 * `--auphonic-done ORDNER` holt nichts, sondern nimmt die dort
-  liegenden Spuren, benannt nach den Sprechern.
+  liegenden Spuren, benannt nach den Sprechern. Nur mit Multitrack.

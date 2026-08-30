@@ -81,7 +81,8 @@ der das Wort erklärt, steht vorn.
 * **Fortsetzungsdatei**: `simple-path`, „Was neben dem Mix ins Video kommt“;
   `interface`, „Die vier Reiter“
 * **Full-Mix**: `multitrack`, „Was in die Kameradateien kommt“; `resolve`,
-  „Der Knopf und die beiden Timelines“
+  „Der Knopf und die beiden Timelines“; `simple-path`, „Was je Videodatei
+  zurückkommt“
 * **gehört zu (Auswahlfeld)**: `multitrack`, „Die Zuordnung setzen“;
   `simple-path`, „Blöcke von Hand zusammenlegen“
 * **Guthaben**: `auphonic`, „Wenn es die Produktion schon gibt“
@@ -159,6 +160,8 @@ der das Wort erklärt, steht vorn.
 * **Stereospur**: `channels`, „Stereo bleibt Stereo“; `preflight`, „Welches
   Lautheitsziel gilt“
 * **Stimme**: `speech`, „Die Stimmen benennen“
+* **Stufen eines Laufs (Balken neben Start)**: `interface`, „Die vier
+  Reiter“
 * **Tasten**: `interface`, „Alles über Menü oder Taste erreichen“
 * **Timecode, virtueller**: `interface`, „Wie die Zeitachse ohne Timecode
   entsteht“
@@ -173,6 +176,9 @@ der das Wort erklärt, steht vorn.
 * **Update**: `interface`, „Sich selbst aktuell halten“
 * **Versatz**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton wählen“;
   `simple-path`, „Was neben dem Mix ins Video kommt“
+* **Video ignorieren**: `interface`, „Wie die Zeitachse ohne Timecode
+  entsteht“; `multitrack`, „Wenn etwas klemmt“; `simple-path`, „Wenn etwas
+  klemmt“
 * **Vorflug**: `preflight`, „Was geprüft wird“
 * **Vorspann**: `resolve`, „Vorspann und Abspann setzen“
 * **Weitwinkel**: `camera-cut`, „Wie das Programm den Weitwinkel setzt“;

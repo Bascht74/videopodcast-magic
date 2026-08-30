@@ -89,12 +89,16 @@ explains the word comes first.
 * **frame rate, variable**: `preflight`, "What the report says about a
   variable frame rate"
 * **Full-Mix**: `multitrack`, "What goes into the camera files"; `resolve`,
-  "The button and the two timelines"
+  "The button and the two timelines"; `simple-path`, "What comes back for
+  each video file"
 * **handover file (`_resolve.json`)**: `camera-cut`, "What the project file
   keeps"
 * **HDR**: `resolve`, "HDR: what has to be in the file"; `resolve`, "What
   the render job sets"
 * **`--hdr-check`**: `resolve`, "HDR: what has to be in the file"
+* **ignore this video**: `interface`, "How the time axis is built without
+  timecode"; `multitrack`, "When something goes wrong"; `simple-path`, "When
+  something goes wrong"
 * **In point**: `multitrack`, "Setting the time window"; `interface`, "The
   four tabs"
 * **input track**: `multitrack`, "Setting the assignment"; `interface`, "The
@@ -159,6 +163,7 @@ explains the word comes first.
 * **speaker separation**: `speech`, "Separating the speakers";
   `simple-path`, "Telling the speakers apart on one track"
 * **Speaks at least**: `camera-cut`, "Setting the knobs"
+* **stages of a run (bar beside Start)**: `interface`, "The four tabs"
 * **`start_s`**: `camera-cut`, "How the preview players choose file and
   sound"
 * **static-ffmpeg**: `requirements`, "Where ffmpeg, PySide6 and numpy come

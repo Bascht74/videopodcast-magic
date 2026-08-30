@@ -68,7 +68,9 @@ heißt**, **bekommt Audio von** und **Kameraton**. Was eine Datei ist --
 Inhalt, Vorspann, Abspann oder ignoriert -- wird jetzt in der Dateiliste
 gefragt, in der Spalte **Typ**, beim Material, um das es geht. Ein Klick
 auf eine Zeile holt die Datei in den Player. Dateien, die nicht zur
-gemessenen Zeitachse passen, stehen in Rot, hier wie in der Dateiliste.
+gemessenen Zeitachse passen, stehen in Rot, hier wie in der Dateiliste;
+eine Datei, die überhaupt keinen Platz hat, schlägt das Programm zum
+Weglassen vor.
 
 Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
 ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
@@ -205,11 +207,21 @@ bext-Block, dazu iXML für Premiere und Media Composer.
 
 ### Wenn etwas klemmt
 
-- **Eine Zeile steht in Rot.** Der Ton dieser Datei passt nicht zu dem
-  der anderen, sie bekommt also keinen Platz auf der gemeinsamen
-  Zeitachse. In der Spalte **Typ** der Dateiliste den Eintrag **Video
-  ignorieren** wählen oder die Datei mit **Entfernen** aus der Liste
-  nehmen.
+- **Eine Zeile steht in Rot.** Der Ton dieser Datei passt zu schlecht
+  zu dem der anderen, um sie einzuordnen, sie bekommt also keinen Platz
+  auf der gemeinsamen Zeitachse. In der Spalte **Typ** der Dateiliste
+  den Eintrag **Video ignorieren** wählen oder die Datei mit
+  **Entfernen** aus der Liste nehmen.
+- **Eine Zeile steht von selbst auf Video ignorieren.** Diese Datei hat
+  überhaupt keinen Platz: Ihr Ton hat mit dem übrigen Material nichts
+  gemeinsam, und einen Timecode trägt sie auch nicht. Das Programm
+  schlägt vor, sie wegzulassen, statt sie auf gut Glück irgendwohin zu
+  legen; das Protokoll nennt die Datei. Sie braucht einen Timecode, der
+  zu den anderen Aufnahmen passt -- den muss ein anderes Programm setzen
+  --, oder der Vorschlag bleibt stehen. Eine von Hand gegebene Antwort
+  entscheidet die Zeile endgültig; lässt sich die Datei wieder
+  einordnen, bekommt sie ihren alten **Typ** zurück
+  ([Die Oberfläche](interface.de.md)).
 - **In markieren und Out markieren bleiben gesperrt.** Die gemeinsame
   Zeitachse steht noch nicht. Den Balken unter den Tabellen abwarten.
 - **Mehrere Kameras, keine Tonaufnahme, und Start bleibt gesperrt.**

@@ -238,6 +238,22 @@ of a track.
 A step that reports a real percentage takes the bar with it. A step that
 reports nothing lets the bar creep on slowly and stop short of the end.
 
+For the run itself the line names the stage, by the same names on both
+paths, with Multitrack and without:
+
+- **Reading the plan**
+- **Audio out of the cameras**: only with Multitrack. Without it the run
+  aligns against the cameras and leaves them alone.
+- **Common time axis**
+- **Processing at auphonic.com**, or **Loudness and levels** without a key
+- **Who speaks when**
+- **Writing the camera files**
+- **Handover and result**
+
+A stage that will not happen is not in the list at all, so the bar holds
+no share back for it. If a run stops, the line says which stage it
+stopped in.
+
 ### What Settings ... holds
 
 The button **Settings ...** sits in the footer, next to **Start**. Behind
@@ -365,6 +381,15 @@ every file, and the next start takes it up again. Files that no longer
 fit it show red. More about the project file stands in
 [camera-cut.md](camera-cut.md).
 
+The measurement tells two verdicts apart. A file whose sound fits the
+others badly shows red. A file with no place at all -- its sound has
+nothing in common with the rest of the material, and no timecode puts it
+among the others -- is set to **ignore this video** in the column
+**Kind**, and the log says why. That is a proposal, like the ones for the
+voices: it only ever fills a **Kind** that still carries the program's own
+answer, never one somebody picked, and a file that a later measurement can
+place again gets its old entry back.
+
 ## When something goes wrong
 
 - **Start** stays locked: the line under the buttons names what is
@@ -374,6 +399,10 @@ fit it show red. More about the project file stands in
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring
   the time axis. The bar beside **Start** says what is running.
+- **A file suddenly stands on "ignore this video"**: the measurement
+  found no place for it. Give it a timecode that fits the other
+  recordings -- that has to be set with another program -- or pick a
+  **Kind** by hand, which settles it for good.
 - **The update did not go through**: the file that works stays where it
   is, and the window says what was wrong. **Help > Look for a newer
   version now** tries again.

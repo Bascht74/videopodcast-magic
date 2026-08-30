@@ -20879,8 +20879,12 @@ def build_argument_parser():
     ap.add_argument("--suffix", default="_audio",
                     help="added to the file name (default: _audio)")
     ap.add_argument("--name", default=MIX_TRACK_NAME,
-                    help="name of the new audio track "
-                         "(default: Processed audio)")
+                    # The name itself, not a copy of it written out: a
+                    # help text saying "Processed audio" outlived the
+                    # move to Full-Mix by a day, and --help told
+                    # everybody the wrong default.
+                    help="name of the new audio track (default: %s)"
+                         % MIX_TRACK_NAME)
     ap.add_argument("--name-camera", dest="name_camera",
                     default="Camera Original",
                     help="name of the camera track (default: Camera Original)")

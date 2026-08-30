@@ -65,7 +65,8 @@ The lower table has a row per camera: **Camera**, **new file name**,
 intro, outro or ignored -- is asked in the file list now, in the column
 **Kind**, with the material it is about. A click on a row fetches that
 file into the player. Files that do not fit the measured time axis stand
-in red, here as in the file list.
+in red, here as in the file list; a file that has no place at all the
+program proposes to leave out.
 
 Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
@@ -196,10 +197,18 @@ bext chunk, and iXML comes along for Premiere and Media Composer.
 
 ### When something goes wrong
 
-- **A row stands in red.** That file's sound does not line up with the
-  others, so it gets no place on the common time axis. Pick **ignore
-  this video** in the column **Kind** of the file list, or take the file
-  out of the list with **Remove**.
+- **A row stands in red.** That file's sound fits the others too badly
+  to place it, so it gets no place on the common time axis. Pick
+  **ignore this video** in the column **Kind** of the file list, or take
+  the file out of the list with **Remove**.
+- **A row went to ignore this video by itself.** That file has no place
+  at all: nothing in its sound matches the rest of the material, and it
+  carries no timecode either. The program proposes leaving it out
+  rather than laying it down at a guess, and the log names the file.
+  Give it a timecode that fits the other recordings -- another program
+  has to set that -- or let the proposal stand. An answer given by hand
+  settles the row for good; a file that can be placed again gets its old
+  **Kind** back ([The interface](interface.md)).
 - **Mark In and Mark Out stay locked.** The common time axis is not
   there yet. Wait for the bar under the tables.
 - **Several cameras, no audio recording, and Start stays locked.** No
