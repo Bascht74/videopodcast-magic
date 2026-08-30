@@ -29,7 +29,7 @@ QtWidgets.QFileDialog.getOpenFileNames = staticmethod(
 
 def win():
     for x in app.topLevelWidgets():
-        if x.windowTitle().startswith("Video Podcast"): return x
+        if "Video Podcast Magic" in x.windowTitle(): return x
 def button(t):
     for w in win().findChildren(QtWidgets.QPushButton):
         if w.text().strip().startswith(t): return w

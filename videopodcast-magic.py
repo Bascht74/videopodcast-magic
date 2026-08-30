@@ -21178,6 +21178,72 @@ def clip_kind_bind(box, value, after=None):
     return box
 
 
+def window_title(project=""):
+    """What stands in the title bar, with the open project named in it.
+
+    A window with a project open and one without looked exactly alike,
+    and after a few productions in a row there was no telling which one
+    this was.
+
+    The name goes in front, which is what a document window does
+    everywhere else: Word writes "Report.docx - Word", and on a Mac the
+    document names the window. It takes the place of the tag line,
+    which nobody needs once the work has begun.
+    """
+    said = T('Video Podcast Magic %s -- raw material becomes an edited '
+             'podcast') % VERSION
+    if not project:
+        return said
+    return "%s -- %s" % (os.path.basename(project), said.split(" -- ")[0])
+
+
+def from_the_front(entry):
+    """Show a name from its beginning, and the whole of it on hovering.
+
+    The column is narrower than the names are: they begin with the
+    production and end with the camera, so a field that shows its end
+    reads "ll-Mix_08141714_C003" and a field that shows its beginning
+    reads "Testinterview_Kanditat_...". The second is the one that says
+    which row this is. Measured on Sebastian's window, 30.8.2026: the
+    column stood at 185 pixels and the name needed about 300.
+
+    A field keeps its caret where it was left, so this is done once on
+    building and never again -- typing must not jump back to the front.
+    """
+    entry.setCursorPosition(0)
+    entry.setToolTip(entry.text())
+    entry.textChanged.connect(entry.setToolTip)
+
+
+def widget_width(w):
+    """How wide a widget in a cell has to be to show what it holds.
+
+    resizeColumnsToContents measures the text of items, and a cell with
+    a widget in it has no item text. A column of input fields or drop
+    downs was therefore measured as empty and came out at its minimum:
+    on Sebastian's window, 30.8.2026, the name column stood at 114
+    pixels with "Testinterview_Jingle_Audio-Full-Mix" in it, and the
+    drop down beside it showed the last half of its word.
+
+    The widget's own sizeHint does not help for a line edit -- it is the
+    same whatever the text says -- so the text itself is measured. For a
+    drop down every entry is measured, not only the one showing: the
+    column must not jump about when somebody picks another one.
+    """
+    import PySide6.QtWidgets as _qw
+    want = w.sizeHint().width()
+    letters = w.fontMetrics()
+    if isinstance(w, _qw.QLineEdit):
+        # Room for the frame and the caret beside the text.
+        want = max(want, letters.horizontalAdvance(w.text()) + 26)
+    elif isinstance(w, _qw.QComboBox):
+        widest = max([letters.horizontalAdvance(w.itemText(i))
+                      for i in range(w.count())] or [0])
+        # And for the arrow, which sits inside the box.
+        want = max(want, widest + 44)
+    return want
+
+
 def fix_table_width(t, weights=None, most_rows=0):
     """Stretch the table over the full width, as tall as its content.
 
@@ -21214,7 +21280,14 @@ def fix_table_width(t, weights=None, most_rows=0):
             title.setTextAlignment(
                 (_qc.Qt.AlignLeft if i == 0 else _qc.Qt.AlignRight)
                 | _qc.Qt.AlignVCenter)
-    content = [t.columnWidth(i) + 14 for i in range(n)]
+    content = []
+    for i in range(n):
+        want = t.columnWidth(i)
+        for r in range(t.rowCount()):
+            cell = t.cellWidget(r, i)
+            if cell is not None:
+                want = max(want, widget_width(cell))
+        content.append(want + 14)
     shares = list(weights) if weights else [3] + [1] * (n - 1)
 
     def distribute_width():
@@ -25552,8 +25625,7 @@ def gui():
     app_style_set(app)
 
     window = QtWidgets.QWidget()
-    window.setWindowTitle(T('Video Podcast Magic %s -- raw material '
-                            'becomes an edited podcast') % VERSION)
+    window.setWindowTitle(window_title())
     symbol = app_icon(QtGui)
     if symbol is not None:
         # On the Mac the dock icon belongs to the application, not to the
@@ -28784,6 +28856,7 @@ def gui():
             name_value = Value(remembered.get("video:" + b) or suggestion)
             name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
             speaks_as(name_entry, T('new file name'), short)
+            from_the_front(name_entry)
             table_video.setCellWidget(row, 1, name_entry)
             cell(table_video, row, 2, camera_gets_from(short, wide, own),
                  COLOURS["quiet"])
@@ -30112,15 +30185,12 @@ def gui():
         stutters or one that stands still for a minute at a time.
         """
         try:
-            total_draw()
+            total_paint(Qt, plan, total_state, total_bar, total_line)
         except RuntimeError:
             # The window is closing and the widgets are already gone.
             # A timer still firing into them must not turn into a
             # traceback on the way out.
             total_clock.stop()
-
-    def total_draw():
-        total_paint(Qt, plan, total_state, total_bar, total_line)
 
     total_clock = QtCore.QTimer(window)
     total_clock.timeout.connect(total_show)
@@ -30256,6 +30326,7 @@ def gui():
         except Exception:
             pass
         state["results"], state["project_from"] = [], file_path
+        window.setWindowTitle(window_title(file_path))
         present, missing = project_files(d)
         files[:] = present
         # Before anything is drawn: every file measured once, in

@@ -432,7 +432,7 @@ QtWidgets.QDialog.show = offstage
 # --------------------------------------------------- reading the window
 def win():
     for x in app.topLevelWidgets():
-        if x.windowTitle().startswith("Video Podcast"):
+        if "Video Podcast Magic" in x.windowTitle():
             return x
 
 
