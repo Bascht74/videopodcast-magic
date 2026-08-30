@@ -654,6 +654,11 @@ def look(case):
         # that is meant to be running.
         result["ran_to"] = round(p._time(), 3)
         result["waited_ms"] = state["played"] * 200
+        # Whether it left the mark at all. A player that never started
+        # and one that started and stopped short of the change fail the
+        # same way from outside, and they are not the same fault.
+        result["started"] = p._time() > state["from"]
+        result["from_at"] = round(state["from"], 3)
         # It did start, so it may be stopped: a player that never ran
         # is a different matter, and pausing one of those is what left
         # a window standing.
@@ -1029,11 +1034,15 @@ for case in CASES:
     # ---- running into the cut, rather than jumping over it
     playing = sorted(k for k in steps if k.startswith("playing"))
     ran = steps[playing[0]] if playing else []
+    check("  running into the cut, the player ran at all",
+          bool(d.get("started")),
+          "clock %s -> %s after %s ms"
+          % (d.get("from_at"), d.get("ran_to"), d.get("waited_ms")))
     check("  running into the cut, the camera changed by itself",
           bool(d.get("switched"))
           and len(set(x["who"] for x in ran)) > 1,
-          "reached programme %s after %s ms, over %s"
-          % (d.get("ran_to"), d.get("waited_ms"),
+          "ran %s to %s in %s ms, over %s"
+          % (d.get("from_at"), d.get("ran_to"), d.get("waited_ms"),
              json.dumps([x["who"] for x in ran])))
 
     # ---- the counter-check: the same checks over reversed offsets
