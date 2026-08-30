@@ -219,15 +219,32 @@ if newest_german.strip():
             out.append(now)
         return out
 
+    # Measured against the section itself rather than against a number
+    # written down here. A fixed limit goes stale the moment the style
+    # moves; the middle of what was just written does not. Sebastian
+    # asked for it this way: take a quantile and shorten what stands
+    # above it, so the outliers go and nobody argues about the limit.
+    #
+    # Twice the middle, with a floor of 200 characters. Twice, because
+    # an outlier is what stands out and not what is merely longest --
+    # without that every section would report its own longest point for
+    # ever. The floor keeps a section of one-line points from
+    # complaining about a two-line one. Over the section this was built
+    # on: middle 137 characters, the one that stood out 360.
     long_ones = []
     for part in (newest, newest_german):
-        for one in points_of(part):
-            text = " ".join(x.strip() for x in one)[2:]
-            said = len([x for x in re.split(r"(?<=[.!?]) ", text) if x.strip()])
-            if len(one) > 4 or said > 3 or len(text) > 260:
-                long_ones.append("%d lines, %d sentences, %d characters: %s"
-                                 % (len(one), said, len(text), text[:40]))
-    check("no point runs long", not long_ones,
+        said = [" ".join(x.strip() for x in one)[2:]
+                for one in points_of(part)]
+        if len(said) < 3:
+            continue
+        middle = sorted(len(x) for x in said)[len(said) // 2]
+        room = max(2 * middle, 200)
+        for text in said:
+            if len(text) > room:
+                long_ones.append(
+                    "%d characters against a middle of %d: %s"
+                    % (len(text), middle, text[:40]))
+    check("no point stands out by its length", not long_ones,
           long_ones[0] if long_ones else "")
 
 print("""
