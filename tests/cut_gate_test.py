@@ -1,35 +1,22 @@
 # -*- coding: utf-8 -*-
 """When a camera cut is offered, and what the box over it is called.
 
-The cut reads who speaks when out of one list of speakers. It makes no
-difference to that list whether the people were told apart by having a
-microphone each or by the separation taking a single recording apart:
-the voices found in one recording carry a camera of their own, and the
-cut reads them along with the tracks.
-
-The window used to ask a different question. The cut box, its preview
-and the sentence standing in their place were switched by the
-Multitrack tick alone, so whoever had one recording with four voices
-told apart in it got an empty Resolve sheet and a line saying it
-cannot be done.
-
-Since 25.8.2026 the gate stands one step wider, and this test guards
-the wider one as closely as it guarded the narrow one:
+The cut reads who speaks out of one list of speakers, and it makes no
+difference to that list whether the people were told apart by a
+microphone each or by the separation. The gate used to be the
+Multitrack tick alone, so one recording with several voices told apart
+in it got an empty Resolve sheet and a line saying a cut cannot be
+done. It stands one step wider now:
 
   * One person with a name and a camera is a cut too, as long as a
-    second camera exists. Their camera stands and the wide shot cuts
-    in every "Wide shot after" seconds, so the box is called "Cut with
-    the wide shot" and not "Camera cut" -- nothing changes hands.
-  * With their own camera and no other there is nothing to cut to, and
-    the box stays away. That is the edge of the gate, and an edge is
-    checked from both sides: the same one person, once with two
-    cameras and once with one.
-  * And a separation that is stored but that nobody answered for shows
-    no voices at all. Only an answer in the name field brings them up
-    -- what was measured no longer answers the program's own question.
+    second camera exists, and the box is then called "Cut with the
+    wide shot". With one camera there is nothing to cut to and the box
+    stays away: that is the edge, checked from both sides.
+  * A separation that is stored but that nobody answered for shows no
+    voices at all: only an answer in the name field brings them up.
 
-Six windows are built for real, one per case, offscreen and kept off
-the desktop, each with a project of its own opened in it:
+Six windows are built for real, one per case, offscreen, each with a
+project of its own opened in it:
 
   several recordings, the tick set     cut there   "Camera cut"
   one recording, the voices separated  cut there   "Camera cut"
@@ -38,41 +25,19 @@ the desktop, each with a project of its own opened in it:
   a separation nobody answered for     cut away    the sentence instead
   one recording, nothing separated     cut away    the sentence instead
 
-Read in each of them: the cut box, its preview and the sentence in
-their place; what the cut box is called and whether the preview says
-the same; how many recordings the assignment sheet holds and how many
-voices hang under them; what each voice is called and which camera it
-is on; and what stands in the recording's own name field.
-
-Nothing is measured here. The separation does not run: its result
-travels in the project file the way it always does, and the material
-is the shared interview fixture, linked to rather than copied.
-
-Neither the assignment sheet nor the camera sheet is looked for by the
-class of widget it happens to be. The assignment sheet was a pair of
-QTableWidgets, then one QTreeView over a QStandardItemModel, and a
-test that waits for "some QTableWidget with rows" does not go red when
-that changes -- it goes green having checked nothing, because the
-window it is looking at is the empty one it would also see before any
-project was opened, and an empty window shows no cut box either, which
-is what half these cases expect. So both sheets are found by what
-their columns are called, through QAbstractItemModel, which every view
-answers; and a sheet that is not found is said out loud and fails.
+Neither sheet is looked for by the class of widget it happens to be: a
+test that names the class goes green having checked nothing the day
+the class changes, because the empty window it then sees is what half
+these cases already expect. Both are found by their column names.
 
 VPM_CUT_GATE_DUMP=1 prints what the children said.
 """
 import os, sys, json, subprocess, tempfile
 
-# All six at once again. Three at a time was the answer on 29.8.2026,
-# when six of them made two runs in four stop altogether -- but the
-# cause turned out to be elsewhere: a player that had never started was
-# being told to stop, and that walked into a lock inside Qt. Since the
-# program asks first, twelve runs of six went through with the repeat
-# below never once needed. The repeat stays: it costs nothing where it
-# never fires, and it is the only thing that would tell us if this came
-# back. A child that has said nothing for this long has stopped, not
-# slowed -- it needs three seconds here, and no build machine is a
-# hundred times slower.
+# All six at once. The repeat below is for a lock inside Qt that runs
+# used to walk into; it costs nothing where it never fires, and it is
+# the only thing that would say if that came back. A child that has
+# said nothing for this long has stopped, not slowed.
 AT_ONCE = 6
 PATIENCE = 100
 
@@ -92,8 +57,8 @@ VOICES = (("V0", "Host"), ("V1", "Guest"))
 SEGMENTS = [["V0", 1.0, 4.0], ["V0", 9.0, 11.5], ["V1", 5.0, 8.0]]
 
 # Every case in one place, so that what is built and what is expected
-# cannot drift apart: the child builds the project from this and the
-# parent checks against the same lines.
+# cannot drift apart: the child builds from this, the parent checks
+# against it.
 #
 #   tracks    the audio recordings in the project
 #   cameras   how many of CAMERAS go in
@@ -139,8 +104,7 @@ CASES = ("multitrack", "separated", "one_voice", "one_camera",
          "unanswered", "plain")
 
 # The size the pictures for the manual are taken at. Fixed rather than
-# taken from the desktop: there is no desktop offscreen, and a window
-# left at its smallest could hide a box for the wrong reason.
+# taken from the desktop: a window at its smallest could hide a box.
 WINDOW = (1400, 950)
 DUMP = bool(os.environ.get("VPM_CUT_GATE_DUMP"))
 
@@ -148,15 +112,10 @@ DUMP = bool(os.environ.get("VPM_CUT_GATE_DUMP"))
 def own_project(case, vpm):
     """A project of its own for one case, built out of the fixture.
 
-    Opening a project moves the project file into its output folder
-    and deletes copies lying elsewhere. On the shared fixture that
-    would leave the next test with nothing to open, so the material is
-    only linked to and the project file is written afresh -- the same
-    way layout_test.py does it.
-
-    Everything the six cases differ in stands in PLAN: the recordings,
-    how many cameras go in, the Multitrack tick, and what the stored
-    separation holds and whether anybody answered for it.
+    Opening a project moves the project file away and deletes copies
+    lying elsewhere, which on the shared fixture would leave the next
+    test with nothing to open, so the material is only linked to.
+    Everything the six cases differ in stands in PLAN.
     """
     from fixture_root import fixture
     plan = PLAN[case]
@@ -181,13 +140,10 @@ def own_project(case, vpm):
          "multitrack": bool(plan["tick"]),
          "assignment": assignment, "preset": ""}
     if plan["stored"]:
-        # What the separation would have found, stored the way the
-        # program stores it: raw, in the time of the recording, with
-        # the fingerprint of the file it was heard in -- a stored
-        # result whose source has changed is thrown away, and this one
-        # must survive that test. The cameras are given by hand: the
-        # preselection guesses from the name, and a guess would make
-        # the case depend on how well two names happen to match.
+        # Stored the way the program stores it, with the fingerprint of
+        # the file: a stored result whose source has changed is thrown
+        # away, and this one must survive that test. The cameras are
+        # given by hand, so no case hangs on a guess from a name.
         one = here[ONE_TRACK]
         st = os.stat(one)
         voices = list(VOICES[:plan["stored"]])
@@ -202,8 +158,6 @@ def own_project(case, vpm):
             assignment["voice:" + label] = cameras[min(i, len(cameras) - 1)]
         if plan["answered"]:
             # The answer, and only the answer, brings the voices up.
-            # It travels in the assignment like every other thing
-            # somebody decided by hand.
             assignment["several:" + one] = True
     os.makedirs(d["out_folder"], exist_ok=True)
     path = os.path.join(own, "videopodcast-magic_Cut_gate.json")
@@ -221,7 +175,7 @@ def look(case):
     os.environ["VPM_SILENT"] = "1"
     os.environ["VPM_NO_UPDATE_CHECK"] = "1"
     # The separation never starts here: what it would have found is in
-    # the project file already, and a run would fetch a model.
+    # the project file, and a run would fetch a model.
     os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
     import importlib.util
     from PySide6 import QtCore, QtWidgets
@@ -230,8 +184,7 @@ def look(case):
     vpm = importlib.util.module_from_spec(spec)
     sys.modules["vpm"] = vpm
     spec.loader.exec_module(vpm)
-    # Nothing here may reach the network or the keychain: what is
-    # wanted is the window, not a run.
+    # Nothing here may reach the network or the keychain.
     vpm.list_presets = lambda key: []
     vpm.load_api_key = lambda: ""
     vpm.update_offer = lambda *a, **k: None
@@ -247,10 +200,9 @@ def look(case):
     QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 
     # Off the desktop, on the way in: the attribute has to be set
-    # before the window is shown, and gui() shows it itself. Somebody
-    # is sitting at this machine while the suite runs. The window still
-    # goes through the whole layout machinery, which is what makes
-    # isVisible worth reading at all.
+    # before the window is shown, and gui() shows it itself. The window
+    # still goes through the whole layout machinery, which is what
+    # makes isVisible worth reading at all.
     _show = QtWidgets.QWidget.show
 
     def offstage(self):
@@ -274,22 +226,15 @@ def look(case):
     def by_columns(window, *wanted):
         """The view whose columns are called these, whatever class it is.
 
-        Not "the first QTableWidget with rows". The assignment was two
-        QTableWidgets, then one QTreeView over a QStandardItemModel,
-        and the widget the cameras stand in may go the same way. A
-        test that names the class stops finding the sheet the day the
-        class changes, and finding nothing looks exactly like a
-        project that has not opened yet -- which is a state half these
-        cases already expect, so it would pass without checking.
-
-        The columns are what a person reads off the sheet, and every
-        view answers for them through QAbstractItemModel. Returns
-        (view, model, the column names) or (None, None, []).
+        Not "the first QTableWidget with rows": a test that names the
+        class stops finding the sheet the day the class changes, and
+        finding nothing looks exactly like a project that has not
+        opened yet -- a state half these cases expect, so it would
+        pass without checking. Returns (view, model, column names).
         """
         for view in window.findChildren(QtWidgets.QAbstractItemView):
-            # A header is a view too, hanging inside the view it belongs
-            # to and answering out of the very same model. It would pass
-            # every question below and hold none of the fields.
+            # A header is a view too, over the very same model, and it
+            # holds none of the fields.
             if isinstance(view, QtWidgets.QHeaderView):
                 continue
             model = view.model()
@@ -304,10 +249,9 @@ def look(case):
     def in_cell(view, index):
         """What one cell says, whether it is text or a field.
 
-        The rows of the assignment carry input fields and choosers,
-        so the cell's own text is empty and the answer is in the
-        widget standing in it. A chooser is asked for the value it
-        stores, not the label it draws: the value is the camera.
+        The rows carry fields and choosers, so the cell's own text is
+        empty, and a chooser is asked for the value it stores, not the
+        label it draws: the value is the camera.
         """
         widget = view.indexWidget(index)
         if isinstance(widget, QtWidgets.QComboBox):
@@ -329,10 +273,8 @@ def look(case):
     def assignment_of(window):
         """The assignment sheet read off its model: rows, and rows under them.
 
-        A recording is a top row, a voice a row hanging under it. That
-        is the whole shape of the sheet, and it is read with
-        index(row, column) and rowCount(parent) -- nothing that knows
-        what the sheet is made of.
+        A recording is a top row, a voice a row hanging under it, and
+        it is read off the model alone.
         """
         view, model, titles = by_columns(
             window, drawn(vpm.T('Audio recording')),
@@ -369,11 +311,8 @@ def look(case):
     def marked_voices(window):
         """The voice fields, counted the second way: their own mark.
 
-        The program marks the fields of a voice row with objectName
-        "voice" so that nothing has to tell a voice from its recording
-        by the wording of a caption. Read here beside the count that
-        comes out of the model: two ways of counting the same thing
-        that disagree mean one of them is looking at furniture.
+        The program marks a voice row's fields with objectName "voice";
+        two counts that disagree mean one is looking at furniture.
         """
         return len([w for w in window.findChildren(QtWidgets.QLineEdit)
                     if w.objectName() == "voice"])
@@ -382,21 +321,10 @@ def look(case):
         """The cut box, its preview, and the sentence in their place.
 
         The cut box is found by what is inside it and not by its
-        heading: the heading is the very thing that changes -- "Camera
-        cut", "First cut by speaker", "Cut with the wide shot" -- and
-        a test that looked it up by name would lose the box on the day
-        the name is right to change. The wide-shot tick lives in that
-        box and nowhere else, so the box is the group it sits in.
-
-        The preview is the group whose heading carries the "--
-        preview" tail, which is built here out of the same format the
-        program fills in, so it is not written down twice.
-
-        The sentence is found by where it stands and not by what it
-        says: it is the widget directly above the cut box in the same
-        column. Its wording is going to be rewritten, and a test that
-        looked for the words would go green by losing sight of it. The
-        wording is the fallback, not the way in.
+        heading: the heading is the very thing that changes, and the
+        wide-shot tick lives in that box alone. The preview is the
+        group whose heading carries the "-- preview" tail. The sentence
+        is the widget above the cut box, its wording only a fallback.
         """
         edge = drawn(vpm.T('Wide shot for greeting at the start and '
                            'farewell at the end'))
@@ -470,12 +398,9 @@ def look(case):
     def ready(window):
         """Everything this case's project brings must stand in the sheets.
 
-        Not "some rows somewhere": the number of recordings, the
-        number of voices under them and the number of cameras are all
-        known before the window opens, so they are what is waited
-        for. A sheet that never turns up leaves this False, and what
-        was seen instead is reported and fails -- silence is the one
-        answer a gate test must not accept.
+        Not "some rows somewhere": the recordings, the voices and the
+        cameras are known before the window opens, so they are waited
+        for. Silence is the one answer a gate test must not accept.
         """
         got = assignment_of(window)
         cams = cameras_of(window)
@@ -507,8 +432,7 @@ def look(case):
         if step[0] == 1:
             # Waiting for the sheets rather than for the clock: they
             # are built once the project has been read and every file
-            # looked at. A slow machine takes longer, and an interface
-            # that never gets there gives up rather than hangs.
+            # looked at, and a slow machine takes longer.
             if not ready(window) and waited[0] < 160:
                 waited[0] += 1
                 QtCore.QTimer.singleShot(250, go)
@@ -523,10 +447,8 @@ def look(case):
             step[0] = 2
             QtCore.QTimer.singleShot(700, go)
             return
-        # Read a second time, a moment later. A box that has just been
-        # shown or hidden stands the other way for one turn of the
-        # event loop, and a test that is red every third run gets
-        # switched off rather than looked at.
+        # Read a second time, a moment later: a box just shown or
+        # hidden stands the other way for one turn of the event loop.
         sheet(window, resolve)
         result["shown"] = reading(window)
         result["settled"] = result["shown"] == result.get("first")
@@ -538,11 +460,8 @@ def look(case):
     QtCore.QTimer.singleShot(240000, app.quit)
 
     # No watchdog in here. Where this stops it stops inside Qt, and Qt
-    # holds the interpreter's lock while it waits -- so no thread of
-    # this process runs any more, a watching one no more than a timer.
-    # Measured 28.8.2026: a thread that only had to sleep 100 s and
-    # print never printed. Whoever watches this has to be outside it,
-    # and that is the parent below.
+    # holds the interpreter's lock while it waits, so no thread of this
+    # process runs any more. Whoever watches this is the parent below.
     vpm.gui()
     print("CUTGATE " + json.dumps(result))
 
@@ -594,10 +513,9 @@ def listen(case, process):
         process.communicate()
         out, stopped = "the window never came back", True
     said = [x for x in out.split("\n") if x.startswith("CUTGATE ")]
-    # The child does the building, so the child does the talking. Its
-    # output is kept out of the way while it says nothing new -- but a
-    # child that never reported is shown whole, or its traceback would
-    # go into the pipe and no further.
+    # Its output is kept out of the way while it says nothing new, but
+    # a child that never reported is shown whole, or its traceback
+    # would go into the pipe and no further.
     if DUMP or not said:
         for x in out.split("\n"):
             if x and not x.startswith("CUTGATE "):
@@ -614,10 +532,8 @@ for first in range(0, len(CASES), AT_ONCE):
         report[case] = listen(case, process)
 
 # Where Qt stopped rather than the program being wrong, once more on a
-# quiet machine -- and said out loud, because a repeat nobody sees is a
-# green that was bought. What is behind it is in
-# development/measurements.md: six windows at once, and a lock inside
-# Qt that one run in thirty still walks into.
+# quiet machine -- and said out loud, because a repeat nobody sees is
+# a green that was bought.
 for case in CASES:
     if "stopped inside Qt" in str((report.get(case) or {}).get("error")):
         print("  | %s stopped inside Qt; once more, on its own" % case)
@@ -629,11 +545,9 @@ for case in CASES:
     print("%s:" % plan["say"])
     got = d.get("assignment")
     cams = d.get("cameras")
-    # First of all that there is a sheet at all, and that it is the
-    # assignment sheet -- read off its column names, not off the class
-    # of the widget. Everything below hangs on this, so a miss here
-    # says so in as many words instead of quietly agreeing with a case
-    # that expects nothing to be shown.
+    # Everything below hangs on there being a sheet at all, so a miss
+    # here says so instead of quietly agreeing with a case that expects
+    # nothing to be shown.
     check("  the assignment sheet answers for its columns", bool(got),
           "" if got else json.dumps(d.get("error") or d)[:160])
     if not got or not cams:
@@ -673,9 +587,8 @@ for case in CASES:
               [(v["name"], v["camera"]) for v in voices] == want,
               json.dumps([(v["name"], v["camera"]) for v in voices]))
     # The recording's own name field is never filled in by the program:
-    # what the file name suggests stands beside it in grey. Since
-    # 25.8.2026 a stored separation does not write "several speakers"
-    # into it either -- only an answer does.
+    # what the file name suggests stands beside it in grey, and a
+    # stored separation writes nothing into it either -- only an answer.
     check("  the recording's name field is empty",
           all(r["name"] == "" for r in got["rows"]),
           json.dumps([r["name"] for r in got["rows"]]))
@@ -698,10 +611,8 @@ for case in CASES:
     if plan["title"]:
         check("  the box is called %r" % plan["title"],
               shown["title"] == plan["title"], repr(shown["title"]))
-        # The preview stands beside it and has to say the same. The two
-        # names are worked out in two places, and they read "Camera cut
-        # -- preview" next to a box called "First cut by speaker" until
-        # 2.7.0-beta.
+        # The two names are worked out in two places, so the preview
+        # beside the box has to be held against it.
         check("  the preview says the same name",
               shown["ahead"].startswith(shown["title"] + " -- "),
               repr(shown["ahead"]))

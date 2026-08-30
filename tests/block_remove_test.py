@@ -106,10 +106,7 @@ was = [None]
 
 
 def shape():
-    """The list as it stands: every recording with its blocks.
-
-    None while the window is not up yet.
-    """
+    """Every recording with its blocks, None while the window is down."""
     if win() is None or tree() is None:
         return None
     return [(r[0], tuple(r[1])) for r in audio_rows()]
@@ -133,14 +130,10 @@ def drop_a_recording():
 
 
 def step():
-    # Every step below clicks something that builds the list anew, and
-    # the step after it reads that list. So the wait is for the list to
-    # look different from the way it stood before the click, not for a
-    # fixed second and a half. Six fixed waits were nine of the ten
-    # seconds this test took, and the list was ready long before any of
-    # them was over. The limit is the more patient one of the two: ten
-    # seconds per step instead of one and a half, so a rebuild that
-    # really does take its time is still waited for.
+    # Every step clicks something that builds the list anew and the next
+    # step reads it, so the wait is for the list to differ from the way
+    # it stood before the click, not for a fixed span. The limit is the
+    # patient one, ten seconds, so a slow rebuild is still waited for.
     now = shape()
     if now is None or (was[0] is not None and now == was[0]):
         if waited[0] < 400:
@@ -150,11 +143,9 @@ def step():
     waited[0] = 0
     was[0] = None
     i = n[0]; n[0] += 1
-    # Which step it was on, said before the step runs and flushed at
-    # once. A test killed by an access violation in a Qt thread leaves
-    # no Python frame behind -- three runs on Windows with Python 3.10
-    # said "<no Python frame>" and nothing else, 29.8.2026 -- so the
-    # last line that got out is all there is to place it by.
+    # Said before the step runs and flushed at once: a test killed by an
+    # access violation in a Qt thread leaves no Python frame behind, so
+    # the last line that got out is all there is to place the crash by.
     print("   step %d" % i, flush=True)
     try:
         if i == 0:
@@ -205,9 +196,8 @@ def step():
             check("and the others are still two blocks",
                   any(len(r[1]) == 2 for r in rows),
                   str([(r[0], len(r[1])) for r in rows]))
-            # Now the whole recording goes, single block and all. One
-            # per step: removing rebuilds the list, and the rows of the
-            # old one are gone with it.
+            # One removal per step: it rebuilds the list, and the rows
+            # of the old one go with it.
             drop_a_recording()
         elif i == 4:
             drop_a_recording()
@@ -236,17 +226,11 @@ QtCore.QTimer.singleShot(120000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    A held file cannot be deleted under Windows, so every player is
+    asked, by what it has open rather than by which player it is.
+    Returns the names let go. A player that never started is not
+    stopped: what lies behind stop() is built on first use, and building
+    it waits on a lock another starting player holds.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -276,27 +260,12 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    Let go, close, delete, in that order, and no ignore_errors: it would
+    swallow the one thing that can go wrong, a folder that stays because
+    something still holds it. The media backend closes handles in a
+    thread of its own, so setSource() comes back before the file is
+    free. What is still held after ten seconds is named rather than
+    turned red: a test red on every run gets switched off, not read.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():

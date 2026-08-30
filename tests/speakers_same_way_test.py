@@ -1,19 +1,13 @@
 # -*- coding: utf-8 -*-
 """The window and the command line separate the same way.
 
-The same folder has to give the same cut on both ways. The window
-picks the recording it listens to with speaker_source_pick and starts
-the separation on its own; a run in the terminal used to need
---speakers-local for the same thing, so the same material gave two
-different cuts.
+The same folder has to give the same cut either way: both pick the same
+recording, both refuse in the same places, the switches hold, and the
+segments lead to the same cut list.
 
-Checked here: both ways pick the same file, both refuse in the same
-places, the switches still hold, and the segments that come out lead
-to the same cut list.
-
-Nothing here separates anything. The separation is replaced by one
-that answers out of a table and writes down that it was called -- what
-is measured is which way asks for it, not what the model hears.
+The separation itself is a stand-in that answers out of a table and
+notes that it was called. What is measured is which way asks for it,
+not what a model hears.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))

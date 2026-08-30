@@ -1,23 +1,12 @@
 # -*- coding: utf-8 -*-
 """Everything that can be set is set, saved, opened again, and asked after.
 
-Sebastian, 30.8.2026, looking at a project he had just opened: *"But the
-speakers are not there and everything says wide shot, although the
-project file was loaded? Is there no test that saves as many options as
-possible and then opens it again and checks whether everything is
-there?"*
-
-There was not. Every setting had its own test at the place where it is
-made, and the project file had a test for its shape -- but nothing ever
-took the whole window round the circle: set it, write it, open it,
-compare. A setting that never reaches the file looks exactly like a
-setting that was never made, and from inside the window neither is
-visible.
-
-So this walks the circle. Each answer is set through the widget a
-person would use, the file is written the way the program writes it,
-a second reading takes it back, and every single answer is asked after
-by name. What cannot come back is named in the failure, not counted.
+Every setting had a test where it is made and the project file had one
+for its shape, but nothing took the whole window round the circle: set
+it through the widget a person would use, write it, open it, compare. A
+setting that never reaches the file looks exactly like one that was
+never made, and from inside the window neither is visible. What cannot
+come back is named in the failure, not counted.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -28,9 +17,9 @@ import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
 app = QtWidgets.QApplication(sys.argv[:1])
-# The window is closed on purpose further down -- that is how the
-# program writes the project file -- and the last window closing would
-# otherwise take the application with it before anything was read back.
+# The window is closed further down, which is how the program writes the
+# project file; the last window closing would otherwise take the
+# application with it before anything is read back.
 app.setQuitOnLastWindowClosed(False)
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -133,8 +122,8 @@ def entry(label_text):
             return w
 
 
-# What is set, and what has to come back. Each one is a (name, set, read)
-# so the failure can say which answer was lost, not that "something" was.
+# What is set, and what has to come back, held by name so the failure can
+# say which answer was lost and not that "something" was.
 WANTED = {"production": "Rundlauf",
           "camera_name": "Rundlauf_Weit_eigener_Name",
           "kind": None,           # filled in once the box is known
@@ -153,11 +142,10 @@ class NotYet(Exception):
 def needed(what, thing):
     """Give the thing back, or say it is not there yet.
 
-    Fixed waits are what makes a window test flap. This machine is fast
-    and every step was ready inside a second; the builder is not, and a
-    step that simply failed there would be a red run that means nothing.
-    So a step that does not find what it needs is run again, up to
-    twenty times, and only then called red.
+    Fixed waits are what makes a window test flap: fast here, slow on
+    the builder, and a step that simply failed there would be a red run
+    that means nothing. So a step that does not find what it needs is
+    run again, up to twenty times, before it is called red.
     """
     if thing is None or thing is False:
         raise NotYet(what)
@@ -172,9 +160,8 @@ def step():
             win().show(); win().resize(1400, 900); app.processEvents()
             needed("the Add files button", button("Add files")).click()
         elif i == 1:
-            # The output folder is not guessed any more, and without one
-            # there is nowhere for the project file to go. Chosen here
-            # the way a person chooses it.
+            # Without an output folder there is nowhere for the project
+            # file to go, so it is chosen the way a person chooses it.
             needed("the output folder button",
                    button("Output folder")).click()
         elif i == 2:
@@ -187,8 +174,8 @@ def step():
                 box.setText(WANTED["production"])
                 box.editingFinished.emit()
                 app.processEvents()
-                # Asked back at once. A test that cannot set a field must
-                # say so, or it reports the program for its own mistake.
+                # A test that cannot set a field must say so, or it
+                # reports the program for its own mistake.
                 check("the production name went in",
                       box.text() == WANTED["production"], repr(box.text()))
                 found["production_widget"] = box
@@ -197,10 +184,9 @@ def step():
             check("the camera table stands", t is not None and t.rowCount() == 2,
                   "" if t is None else str(t.rowCount()))
             if t is not None:
-                # The name on one row, the intro on the other. A clip
-                # that becomes the intro leaves the camera table, and
-                # with it the name that had been typed into it -- which
-                # is right, and which cost this test a run to see.
+                # The name on one row, the intro on the other: a clip
+                # that becomes the intro leaves the camera table, taking
+                # the name typed into it with it.
                 name = t.cellWidget(1, 1)
                 check("the new file name is a field", name is not None)
                 if name is not None:
@@ -218,13 +204,10 @@ def step():
                     b = boxes[0]
                     print("   Typen:", [b.itemText(k)
                                         for k in range(b.count())])
-                    # Not "Content": that is what an unanswered file
-                    # holds anyway, so choosing it proves nothing. And
-                    # not the wide shot, which the program derives for a
-                    # camera nobody sits in front of. What is wanted is
-                    # the answer only a person can give -- this clip is
-                    # the intro -- which is the one Sebastian's jingle
-                    # needs and the one that was not coming back.
+                    # Not "Content", which an unanswered file holds
+                    # anyway, and not the wide shot, which the program
+                    # derives on its own. Wanted is the answer only a
+                    # person can give: this clip is the intro.
                     for k in range(b.count()):
                         word = b.itemText(k)
                         if ("ntro" in word or "orspann" in word):
@@ -234,10 +217,8 @@ def step():
                     check("there is an Intro to choose",
                           WANTED["kind"] is not None,
                           str([b.itemText(k) for k in range(b.count())]))
-            # The name of the voice on the recording. This is the one
-            # Sebastian missed: his file carried "Sprecher 1" to "4", the
-            # names nobody had given, and there was no test that a name
-            # given by hand ever reaches the file at all.
+            # Nothing tested that a speaker name given by hand ever
+            # reaches the file; the made-up names stood there instead.
             said = entry("Speaker name")
             check("there is a speaker name field", said is not None)
             if said is not None:
@@ -250,22 +231,18 @@ def step():
             if tick is not None and tick.isChecked() != WANTED["transcript"]:
                 tick.setChecked(WANTED["transcript"])
         elif i == 4:
-            # Is there one already? The axis is measured as soon as the
-            # files are in, and that writes the file -- long before
-            # anybody has typed anything. If closing does not write it
-            # again, everything typed since is lost, and the file looks
-            # like a saved project while holding none of the answers.
+            # The file is written once as soon as the axis is measured,
+            # before anybody has typed anything. If closing does not
+            # write it again, everything typed since is lost.
             early = [f for f in os.listdir(out_folder)
                      if f.startswith(vpm.PROJECT_PREFIX)]
             found["early"] = early
             if early:
                 found["early_text"] = open(
                     os.path.join(out_folder, early[0])).read()
-            # Written the way the program writes it. The window's close
-            # is not the route: the program hangs its writing on the
-            # application quitting, and this test has to stay alive to
-            # read the file back, so it says the same thing the program
-            # says rather than the thing that looks like it.
+            # The program hangs its writing on the application quitting,
+            # and this test has to stay alive to read the file back, so
+            # it emits that signal instead of really quitting.
             win().close()
             app.aboutToQuit.emit()
             app.processEvents()
@@ -360,9 +337,8 @@ QtCore.QTimer.singleShot(60000, app.quit)
 vpm.gui()
 
 print("\n2. Open it again, in a window that knows nothing")
-# A second window, built from nothing. Reading the file back is not the
-# same question as getting the answers back into the window: a value can
-# stand in the file and never reach the field that shows it.
+# A second window, built from nothing: a value can stand in the file and
+# never reach the field that shows it.
 m = [0]
 
 
@@ -379,8 +355,8 @@ def again():
             check("the production name is back",
                   box is not None and box.text() == WANTED["production"],
                   repr(box.text()) if box is not None else "no field")
-            # The View menu used to say "1. tab, 2. tab, 3. tab", which
-            # tells nobody anything. It says what the tabs say now.
+            # The View menu names the tabs; a numbered entry tells
+            # nobody which tab it is.
             check("the View menu names the tabs, not their numbers",
                   menu_action("Files") is not None
                   and menu_action("1. tab") is None,
@@ -416,10 +392,8 @@ def again():
                   tick is not None and tick.isChecked() == WANTED["transcript"],
                   "" if tick is None else str(tick.isChecked()))
         elif i == 3:
-            # Closing the project must leave nothing of it behind. Until
-            # this existed the only way to a second production was to
-            # quit the program, and anything left standing here would be
-            # carried into the next one.
+            # Closing must leave nothing of the project behind: what
+            # stands here is carried into the next production.
             needed("the Close project entry",
                    menu_action("Close project")).trigger()
         elif i == 4:

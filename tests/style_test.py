@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 """Style check for comments and docstrings.
 
-Two things must not come back when more gets written later: German
-comments (the interface stays German, the code does not) and narrating
-comments. A comment explains the code, it does not report what stood
-there before or how much trouble it was.
-
-The language check runs as a ratchet: the number of German passages
-lives in style_state.json and may only fall. While the changeover is
-running, that holds the progress without turning the test red.
+Two things must not come back as more gets written: German comments (the
+interface stays German, the code does not) and narrating comments that
+report what stood there before. Both are counted as ratchets, so the
+numbers may fall and never rise.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -23,11 +19,9 @@ state = ratchet.Ratchet(STATE)
 LINE_MAX = 79
 BLOCK_MAX = 14          # comment lines in a row -- the hard limit
 DOCSTRING_MAX = 23      # lines -- the hard limit
-# What the guidelines ask for, which is a good deal shorter than what the
-# file holds today. Neither is a limit yet: they are counted, and the
-# count may fall but never rise. A comment that reaches these is one
-# thought; past them it is either saying what the code says, telling a
-# story, or two comments written as one.
+# What the guidelines ask for, shorter than what the file holds today.
+# Counted rather than enforced: a comment past these is either saying
+# what the code says, telling a story, or two comments written as one.
 BLOCK_WANTED = 4
 DOCSTRING_WANTED = 8
 HEAD_MAX = 79           # first docstring line
@@ -63,9 +57,9 @@ docs = list(docstring_nodes())
 print("%d comment lines, %d docstrings" % (len(comments), len(docs)))
 
 # ---------------------------------------------------------------- Language
-# German words that do not exist in English and are common enough to serve
-# as proof. This list is the evidence, so it stays German. Umlauts alone
-# will not do: message names and file names carry them for good reason.
+# German words that do not exist in English. This list is the evidence,
+# so it stays German. Umlauts alone will not do: message names and file
+# names carry them for good reason.
 GERMAN = re.compile(
     r"(?i)(?<![a-z])(der|die|das|dem|den|des|ein|eine|einen|einem|eines|"
     r"und|oder|nicht|noch|schon|dann|sonst|wenn|weil|damit|dass|aber|"
@@ -130,8 +124,7 @@ for pattern, reason in NARRATING:
             if r.search(t):
                 hits.append((line, reason,
                              "%s: %s" % (name, t.strip()[:50])))
-# This too is a ratchet while the changeover runs; in the end it has to
-# stand at zero.
+# A ratchet while the changeover runs; in the end this stands at zero.
 limit_n = state.number("narrating", len(hits))
 check("narrating: %d spots (ratchet %d)" % (len(hits), limit_n),
         len(hits) <= limit_n,
@@ -201,7 +194,6 @@ for name, line, text, _e in docs:
         bad_head.append((name, "first line without a mark"))
     elif len(text.splitlines()) > 1 and text.splitlines()[1].strip():
         bad_head.append((name, "no blank line after the first"))
-# While the changeover runs, a ratchet here as well.
 limit_h = state.number("heading", len(bad_head))
 check("docstring headings: %d defects (ratchet %d)"
         % (len(bad_head), limit_h), len(bad_head) <= limit_h)
@@ -210,9 +202,8 @@ for n, w in bad_head[:8]:
 
 # ------------------------------------------------------------ Lazy plural
 # "1 file(s)" is neither singular nor plural, and German cannot glue a
-# suffix on in brackets either. TN(count, one, many) exists for this: both
-# wordings are separate texts and both get translated. A ratchet, so the
-# ones still there cannot breed.
+# suffix on in brackets either. TN(count, one, many) exists for this:
+# both wordings are separate texts and both get translated.
 lazy = []
 for node in ast.walk(ast.parse(source)):
     if isinstance(node, ast.Constant) and isinstance(node.value, str):
@@ -227,33 +218,10 @@ for line, text in lazy[:8]:
     print("      line %-6d %s" % (line, text))
 
 # ------------------------------------------------- How big a function got
-# coding_guidelines.md sets 300 lines. Counted on 23.8.2026: eight
-# functions are over it and the largest is gui() at 5939 -- twenty times
-# the rule this project wrote for itself. Freezing that number would be
-# a decision that it is acceptable, and it is not.
-#
-# So three counters, and the second one is the point. It does not freeze
-# anything: it prints the largest function in every single run, so the
-# number cannot quietly leave anybody's head, and the moment somebody
-# takes a hundred lines out of gui() the ratchet holds the gain.
-#
-# Splitting gui() is not what this asks for. That is hundreds of
-# closures over shared variables and a week of new defects for no new
-# ability -- its own decision, for its own day. This is the cheap step
-# that stops the bleeding.
-#
-# The state keeps one entry per oversized function, by name, so the
-# counter cannot be paid off in the wrong currency: a function dropping
-# under the limit no longer buys room for another to climb over it.
-#
-# The entry is the name and nothing else. Holding each function to its
-# own size as well was tried and measured over the last ten commits that
-# touched the program: it would have turned the suite red on six of
-# them, every time because a function already over the limit grew by a
-# few lines, and never because a new one had joined. Five reds is what
-# the bare counts did over the same ten. A ratchet that doubles the reds
-# without finding anything new gets switched off rather than obeyed, so
-# the size is printed every run and only the biggest one is held.
+# coding_guidelines.md sets 300 lines and several functions are far over
+# it; freezing that number would say it is acceptable. The state holds
+# one entry per oversized function, by name: one dropping under the
+# limit does not buy room for another to climb over it.
 tree = ast.parse(source)
 seen = ratchet.owners(tree)
 sizes = []
@@ -277,10 +245,10 @@ for size, name, line in big[:8]:
     print("      %-28s %5d lines, from line %d" % (name[:28], size, line))
 
 largest = sizes[0][0] if sizes else 0
-# This one stays a bare number on purpose: it measures a single thing,
-# the biggest function there is, and a single measurement has nothing to
-# swap against. What it could not see -- a smaller function ballooning
-# while the biggest shrinks -- the entry list above now sees.
+# Only the biggest is held, as a bare number that has nothing to swap
+# against: holding every function to its own size goes red whenever an
+# oversized one grows, which finds nothing new. A smaller one ballooning
+# while the biggest shrinks is what the entry list above sees.
 limit_l = state.number("largest_function", largest)
 check("largest function: %d lines (ratchet %d)" % (largest, limit_l),
         largest <= limit_l,
@@ -289,13 +257,9 @@ state.note(limit_l, largest)
 
 # ------------------------------------------------- Exceptions swallowed
 # An except that does nothing hides the reason something did not work.
-# Held on the function each one sits in, so moving one from here to there
-# is not a free trade: the old place gets one fewer and the new place has
-# one the state does not cover, which is what turns this red.
-#
-# The exception type is deliberately not part of the fingerprint. Turning
-# `except Exception` into `except OSError` makes the handler better, and
-# a ratchet that goes red on an improvement gets switched off.
+# Held on the function each one sits in, so moving one is not a free
+# trade. The exception type is deliberately not part of the fingerprint:
+# narrowing `except Exception` improves the handler and must not go red.
 silent = []
 for node in ast.walk(tree):
     if not isinstance(node, ast.ExceptHandler):

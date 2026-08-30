@@ -1,14 +1,10 @@
 """Hand out a private copy of the fixture project.
 
-Opening a project does two things to its surroundings: it moves the
-project file into the output folder, and it deletes copies of it lying
-anywhere else. Both are right for a real job and fatal for a shared
-fixture -- the second test then finds nothing to open, and finds it
-quietly, because an empty window draws just as well as a full one.
-
-So every caller gets a folder of its own: the material linked in, a
-project file pointing at those links, and an output folder beside it.
-The material itself is only ever read and stays where it is.
+Opening a project moves its file into the output folder and deletes
+copies lying elsewhere. On a shared fixture that leaves the next test
+nothing to open, and it fails quietly: an empty window draws as well as
+a full one. So every caller gets a folder of its own, with the material
+linked in and only ever read.
 """
 import json, os, tempfile
 

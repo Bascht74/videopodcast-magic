@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""#38 Stage 5c: the time axis is measured without a window."""
+"""The common time axis, measured out of the sound and without a window."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -34,9 +34,8 @@ def build_material():
     r, n = 48000, 45 * 48000
     rng = np.random.default_rng(7)
     x = (rng.standard_normal(n) * 0.004).astype(np.float32)
-    # Irregular events: they make the envelope unambiguous. With an even
-    # pattern the cross correlation finds many equally good places and
-    # takes any one of them.
+    # Irregular events make the envelope unambiguous: with an even
+    # pattern the cross correlation finds many equally good places.
     t = 0.3
     while t < 44.0:
         length = float(rng.uniform(0.15, 0.9))
@@ -59,8 +58,8 @@ def build_material():
     write(FOREIGN, 0.3 * np.sin(2 * np.pi * 200 * tt))
 
 build_material()
-# A from 0 s, B from 5 s, C from 8 s of the same event: whoever starts
-# later sits further along the common axis.
+# A, B and C start 0, 5 and 8 s in: whoever starts later sits further
+# along the common axis.
 print("1. Three recordings of the same event")
 d, text = vpm.measure_time_axis([A, B, C])
 check("an axis comes out", bool(d), text)

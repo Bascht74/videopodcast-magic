@@ -1,24 +1,12 @@
 # -*- coding: utf-8 -*-
 """Who is asking the questions, as a proposal and never as a verdict.
 
-Sebastian asked on 29.8.2026 whether the roles could be read off the
-recognition. Measured over four episodes out of two productions, and
-the answer had three parts:
-
-* It carries as an ORDER, not as a threshold. In all four the guest
-  asks the fewest questions per sentence and speaks the longest, and
-  that order never turns round. The distance does: 20 to 27 percentage
-  points in one production and 6.9 in the other, so any fixed line
-  would have been wrong in the second.
-* The QUESTIONS BEAT the speaking share. One episode opens with a long
-  build-up in which the host talks, and the share points at the wrong
-  person for 23 minutes while the share of questions is right from
-  minute six.
-* Switching after a question carries nothing: at four of eight host
-  lines the question made no difference at all.
-
-So this file holds the order, holds the questions above the share, and
-holds the silence where there is too little to say anything from.
+The roles can be read off the recognition only as an ORDER: the guest
+asks the fewest questions per sentence and speaks the longest, but the
+distance varies too much for a fixed threshold. Questions beat the
+share of talking, because a long opening by the host points at the
+wrong person for minutes. So this file holds the order, holds the
+questions above the share, and stays quiet where there is too little.
 """
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -63,9 +51,8 @@ def episode(plan):
 
 
 print("1. The one asking comes first")
-# A host who asks in most of their sentences, a guest who answers at
-# length. This is the plain case, and it is the one that must never
-# come out the other way round.
+# The plain case: a host who mostly asks, a guest who answers at
+# length. It must never come out the other way round.
 words, tracks = episode([("Host", 30, 22, 4), ("Guest", 30, 1, 12)])
 order = vpm.who_asks(tracks, words)
 check("both speakers are ranked", len(order) == 2, str(order))
@@ -78,10 +65,9 @@ check("and the guest speaks the longer of the two",
       str([(r[0], round(r[3], 1)) for r in order]))
 
 print("\n2. The questions beat the speaking share")
-# The measured trap. The host holds the floor for a long opening, so
-# the share of the talking points at the host as the guest -- while the
-# questions point the right way from early on. Whoever ranks by time
-# gets this episode wrong for 23 minutes.
+# The trap: a long opening by the host makes the share of the talking
+# point at the host as the guest, while the questions point the right
+# way. Whoever ranks by time gets such an episode wrong.
 words, tracks = episode([("Host", 25, 20, 30), ("Guest", 25, 0, 4)])
 order = vpm.who_asks(tracks, words)
 held = {n: t for n, _s, _q, t in order}
@@ -92,9 +78,8 @@ check("and is still named as the one asking",
       order and order[0][0] == "Host", str([r[0] for r in order]))
 
 print("\n3. Where nobody asks, the shorter turn decides")
-# Neither asks anything. Then the order falls back on the time, and the
-# one who talks less is the one more likely to be asking -- but nothing
-# beyond that is claimed, which is what a ranking is for.
+# With no questions the order falls back on the time: the one who
+# talks less is the likelier asker, and nothing beyond that is claimed.
 words, tracks = episode([("Host", 25, 0, 4), ("Guest", 25, 0, 12)])
 order = vpm.who_asks(tracks, words)
 check("the shorter speaker comes first", order and order[0][0] == "Host",
@@ -117,8 +102,8 @@ check("one track alone: nothing is claimed",
       vpm.who_asks(tracks, words) == [], str(vpm.who_asks(tracks, words)))
 
 print("\n5. Three speakers keep their order")
-# Two hosts and a guest, which is what Sebastian records. The guest
-# must come last, and the one asking most must come first.
+# The usual recording. The guest must come last, and the one asking
+# most must come first.
 words, tracks = episode([("HostA", 25, 20, 4), ("HostB", 25, 10, 5),
                          ("Guest", 30, 0, 14)])
 order = vpm.who_asks(tracks, words)
@@ -129,8 +114,8 @@ check("and the one asking most comes first",
       order and order[0][0] == "HostA", str([r[0] for r in order]))
 
 print("\n6. A question is what the rest of the program calls one")
-# Closing marks are stripped before the mark is read, or a quoted
-# question would not count.
+# Closing marks are stripped first, or a quoted question would not
+# count.
 quoted, _at = sentence(0.0, 3, False)
 quoted[-1]["word"] = 'wort?"'
 plain, _at = sentence(10.0, 3, False)

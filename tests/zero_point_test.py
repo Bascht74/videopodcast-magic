@@ -6,8 +6,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import copy, sys, inspect, importlib.util
 # A test must never play sound at somebody working next to it. The
-# program reads the variable with bool(), so every value silences the
-# player, "0" as well; only an unset variable lets it be heard.
+# program reads the variable with bool(), so even "0" silences it.
 os.environ.setdefault("VPM_SILENT", "1")
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
@@ -20,8 +19,8 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
-# Setting: audio runs from 17:00:00 (61200 s), In point at 17:10:00 (61800 s).
-# So the statistics count from 61200; the window starts 600 s later.
+# Audio runs from 17:00:00 (61200 s); the In point below is ten minutes
+# later.
 AUDIO0 = 61200.0
 D = {"start_s": AUDIO0, "length_s": 3600.0, "fps": 30.0,
      "speakers": [{"name": "A", "sections": [[0.0, 30.0], [600.0, 660.0],
@@ -48,7 +47,6 @@ check("the section at 1200 sits at 600 now",
         abs(segs[1][0] - 600.0) < 0.01, str(segs[1]))
 
 print("\n3. The camera offset counts against the zero point")
-# The function itself; it used to be cut out of gui() and exec-ed.
 camera_offset = vpm.camera_offset
 
 off = camera_offset(D["cameras"], n["start_s"])
@@ -73,8 +71,6 @@ check("the zero point is ignored where an offset stands",
         off == {"Wide": -534.2, "Guest": -331.7}, str(off))
 
 print("\n6. The place in the file is right in the example")
-# Programme time 100 s after the In point -> in Wide 800 s after the
-# file start.
 t = 100.0
 off = camera_offset(D["cameras"], 61800.0)
 spot = t - off["Wide"]
@@ -107,13 +103,9 @@ n, complaint = vpm.apply_time_window(dict(D), "", "")
 check("no window, no complaint", not complaint, complaint)
 
 print("\n10. A window shifts nothing against anything else")
-# The sentence that broke in the night of 26.8.2026: take a section
-# start t and a camera; the spot in that camera's file is
-# t - offset(camera). A window cuts something off the front and off the
-# back, but it must not move the two against each other -- that spot
-# has to come out the same before and after. Back then one conversion
-# applied the window to the speech a second time and not to the
-# cameras, and picture and sound ran 215.600 s apart.
+# The invariant: the spot in a camera file is the section start minus
+# that camera's offset. A window cuts off front and back but must not
+# move the two against each other, so every spot comes out unchanged.
 INSIDE = {"start_s": AUDIO0, "length_s": 3600.0, "fps": 30.0,
           "speakers": [{"name": "A", "sections": [[700.0, 760.0],
                                                     [1500.0, 1560.0]]},
@@ -123,15 +115,13 @@ INSIDE = {"start_s": AUDIO0, "length_s": 3600.0, "fps": 30.0,
               {"track": "Wide", "start_s": 61100.0, "file": "W.mov"},
               {"track": "Guest", "start_s": 61500.0, "file": "G.mov"}]}
 # The other shape a camera comes in: a measured offset instead of a
-# wall clock start. The window has to leave both standing the same way,
-# and the two shapes describe the same setting, so they must agree.
+# wall clock start. Both describe the same setting and must agree.
 INSIDE_OFF = copy.deepcopy(INSIDE)
 INSIDE_OFF["cameras"] = [
     {"track": "Wide", "offset": -100.0, "file": "W.mov"},
     {"track": "Guest", "offset": 300.0, "file": "G.mov"}]
 SHAPES = (("wall clock start", INSIDE), ("measured offset", INSIDE_OFF))
-# Both windows name the same piece: 17:10:00 is ten minutes into the
-# material, 17:55:00 is five minutes before its end.
+# Both windows name the same piece, once relatively and once on the clock.
 WINDOWS = (("relative", "+0:10:00", "-0:05:00"),
            ("absolute", "17:10:00:00", "17:55:00:00"))
 
@@ -182,10 +172,8 @@ for shape, source in SHAPES:
                    % (shape, kind), before, spots(n))
 
 print("\n11. The window does not act a second time")
-# Applied twice, the second pass must find nothing left to do: In point
-# already sits at the zero point, so from there it is a window of
-# nothing. A number that moves here is a shift that would happen once
-# more on every further pass.
+# The second pass must find nothing to do: a number that moves here
+# would move again on every further pass.
 for shape, source in SHAPES:
     once, _complaint = vpm.apply_time_window(copy.deepcopy(source),
                                              "17:10:00:00", "17:55:00:00")
@@ -209,9 +197,8 @@ for shape, source in SHAPES:
             str(camera_offset(again["cameras"], again["start_s"])))
     same_spots("%s: and the spot in the file stays" % shape,
                spots(once), spots(again))
-# The quiet way a window comes to act twice: the handover handed in is
-# changed under the caller's hands, and whoever holds it next works on
-# something already trimmed without knowing.
+# The quiet way a window acts twice: the handover is changed under the
+# caller's hands and the next holder works on something already trimmed.
 for shape, source in SHAPES:
     handed = copy.deepcopy(source)
     vpm.apply_time_window(handed, "+0:10:00", "-0:05:00")
@@ -219,8 +206,7 @@ for shape, source in SHAPES:
             handed == source, "changed" if handed != source else "")
 
 print("\n12. Relative In and Out points give a length that makes sense")
-# In the night this pair came out as 18 hours once and as zero the
-# other time; both went on unnoticed.
+# This pair once came out as 18 hours and once as zero, both unnoticed.
 n, complaint = vpm.apply_time_window(copy.deepcopy(INSIDE),
                                      "+0:10:00", "-0:05:00")
 check("no complaint", not complaint, complaint)

@@ -1,47 +1,20 @@
 # -*- coding: utf-8 -*-
 """A separation stored in the project becomes rows -- once somebody says so.
 
-The model does not run here: the project file already carries what the
-separation found. What is checked is the way from there to the screen,
-and it is checked as behaviour rather than as furniture.
+The model does not run here: the project file carries what the
+separation found, and the way from there to the screen is what is
+checked. Only an answer given by somebody shows the voices, and the
+silence must throw nothing away -- bringing them back may not separate
+anything again, so every door into a separation is counted.
 
-Until 25.8.2026 that way was automatic: a stored separation of three
-voices put three rows on the screen by itself and wrote "several
-speakers" into the field above them, so as not to contradict them --
-the program answering its own question. Only an answer given by
-somebody shows them now, and a project nobody answered for shows an
-empty field and no rows.
+A voice row is found by what it does: its fields carry a name a screen
+reader can say, "belongs to -- Room.wav", and of the rows so named the
+ones that put somebody on a camera and are not named after a file came
+from the separation. The view itself is asked through
+QAbstractItemModel, so a change of widget class does not rewrite it.
 
-Which makes the promise that goes with it the thing to check: the
-silence throws nothing away. Saying "several speakers" later has to
-bring the voices back *without separating anything again* -- three
-minutes of computing must not be the price of a mis-click. So every
-door into a separation is counted here rather than assumed shut, and
-the count stays at nought while the voices appear, go and come back.
-
-One window follows all three states: nobody answered; "several
-speakers" picked in the field; a name typed instead, which hides the
-voices and survives the rebuild that answer causes, and then the offer
-in the Speakers cell, which brings them back as they were left.
-
-A voice row is looked for by what it does, not by where it sits. Every
-field the program puts into a row carries a name a screen reader can
-say, "belongs to -- Room.wav", and the part behind the first dash names
-the row; fields sharing it are one row, in a table or under a parent in
-a tree alike. Of those rows, the ones that put somebody on a camera and
-are not named after a file are the ones the separation produced. Where
-the view itself is asked something -- what its columns are called, what
-hangs under the recording -- it is asked through QAbstractItemModel,
-headerData and index(row, column, parent): the assignment was a
-QTableWidget until 25.8.2026 and is a QTreeView now, and a test naming
-either would have to be rewritten the next time somebody is right about
-that question.
-
-Two windows, one after the other, because the number of rows is the
-point: three voices carried are three rows once they are asked for, and
-a project carrying none has none however it is asked. Both are arranged
-so that no separation can start -- setting one up fetches 218 MB and a
-run takes minutes.
+Two windows: a project carrying three voices and one carrying none,
+both arranged so that no separation can start.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -51,27 +24,20 @@ import json, re, subprocess, sys, tempfile, wave
 
 RATE = 48000
 SEC = 12
-# What the separation found, as the project file carries it: raw, in
-# the time of the recording itself. Three voices and not two, so that
-# the number of rows cannot be mistaken for the number of files or for
-# a constant somebody wrote down. They are told apart by how much they
-# speak -- 5.5 s, 3.0 s, 0.6 s -- so the order of the rows is a
-# statement and not an accident, and their longest passages do not
-# overlap, so a position handed to the player names one voice and no
-# other.
+# What the separation found, as the project file carries it. Three
+# voices and not two, so the number of rows cannot pass for the number
+# of files; told apart by how much each speaks, so the order of the
+# rows is a statement, and their longest passages do not overlap.
 FOUND = [("SPEAKER_00", [(1.0, 4.0), (9.0, 11.5)]),
          ("SPEAKER_01", [(5.0, 8.0)]),
          ("SPEAKER_02", [(8.2, 8.8)])]
 LONGEST = [max(parts, key=lambda p: p[1] - p[0]) for _k, parts in FOUND]
 CASES = (("found", "a project carrying a separation of three voices"),
          ("none", "a project carrying no separation"))
-# The names and cameras given to the three voices. They are given
-# once, before the voices are hidden, and looked for again after they
-# have been brought back: what was typed has to outlive the rows it
-# was typed into.
+# Given once, before the voices are hidden, and looked for again after
+# they have been brought back: what was typed has to outlive the rows.
 NAMES = ["Anna", "Bo", "Cem"]
-# The one name given to the recording itself, which is the answer
-# "one person" -- the answer that hides the voices again.
+# The one name given to the recording itself, which hides the voices.
 ALONE = "Ida"
 
 
@@ -81,12 +47,9 @@ def look(case, media):
     os.environ["QT_QPA_PLATFORM"] = "offscreen"
     os.environ.setdefault("VPM_SILENT", "1")
     os.environ.setdefault("VPM_NO_UPDATE_CHECK", "1")
-    # The suite switches the separation off so that no test fetches the
-    # model or computes for minutes. This test needs the way from a
-    # stored result to the screen, and nothing is measured again for a
-    # result that is stored -- so it is switched back on here, the two
-    # projects below leave it nothing to do, and every way to it is
-    # counted rather than assumed shut.
+    # The suite switches the separation off; this test needs the way from
+    # a stored result to the screen, so it is switched back on here and
+    # every way into it is counted rather than assumed shut.
     os.environ.pop("VPM_NO_SPEAKER_SPLIT", None)
     import importlib.util
     from PySide6 import QtCore, QtWidgets
@@ -97,11 +60,8 @@ def look(case, media):
     vpm = importlib.util.module_from_spec(spec)
     sys.modules["vpm"] = vpm
     spec.loader.exec_module(vpm)
-    # Every caption below is asked for through the catalogue, so the
-    # language does not decide the outcome -- but it is settled all the
-    # same, or a standalone run on a German machine would compare
-    # English keys with a German window. The suite sets the same thing
-    # in the environment; this says it once more where it is read.
+    # The language is settled here too, or a standalone run on a German
+    # machine would compare English keys with a German window.
     vpm.set_language("en")
     # Nothing may reach the network or the keychain: what is wanted is
     # the window, not a run.
@@ -109,13 +69,9 @@ def look(case, media):
     vpm.load_api_key = lambda: ""
     vpm.update_offer = lambda *a, **k: None
 
-    # Every attempt to take a recording apart, whichever of the three
-    # doors it goes through: fetching the model, reading what an
-    # earlier run left in the cache, and the separation itself. The
-    # whole promise of this change is that showing stored voices costs
-    # none of them, and a promise is worth what it is counted at -- so
-    # they are counted here rather than switched off and taken on
-    # trust. That the list stays empty is a check of its own below.
+    # Every door into taking a recording apart: fetching the model,
+    # reading the cache, and the separation itself. Showing stored voices
+    # has to cost none of them, so they are counted, not taken on trust.
     separations = []
 
     def no_setup(*a, **k):
@@ -140,15 +96,9 @@ def look(case, media):
     def player_widgets(*a):
         """The real player, with every load written down.
 
-        Where the player is asked to play, and from which second, is
-        the only thing "a click plays this voice" can be read off from
-        the outside -- the playhead itself needs a file to be decoded
-        first and would answer late.
-
-        The seventh argument is the ffplay fallback, which opens a
-        window of its own. Nothing here may put a window on the screen
-        somebody is sitting in front of, so it is taken out on the way
-        in.
+        Where and from which second it is asked to play is the only sign
+        from outside that a click plays this voice; the ffplay fallback
+        in the seventh argument would open a real window, so it goes.
         """
         a = list(a)
         a[6] = lambda *x, **k: None
@@ -171,11 +121,9 @@ def look(case, media):
     def no_run(values, assignment_file_path=""):
         """What the run would be told -- and then no run.
 
-        Everything the window has to say is collected in one dict and
-        turned into a command line here, so this is where "it arrives
-        at the run" can be read. Handing back no command line is the
-        program's own way of saying "not this time": start() gives the
-        temporary file back and returns.
+        Everything the window has to say is turned into a command line
+        here, so this is where "it arrives at the run" can be read. No
+        command line makes start() give the file back and return.
         """
         handed.append(values)
         return None, None, []
@@ -188,9 +136,7 @@ def look(case, media):
     room = os.path.basename(recording)
     # One recording and one camera, and the Multitrack tick off: with
     # one track there is nothing to distribute, and the program refuses
-    # to start while the tick says otherwise. That refusal would stop
-    # the last check below before it began -- and one recording taken
-    # apart into voices is the case the voice rows exist for anyway.
+    # to start while the tick says otherwise.
     d = {"format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
          "call": [], "assignment": {}, "preset": "",
          "files": [{"path": recording, "kind": "audio"},
@@ -209,8 +155,8 @@ def look(case, media):
                                       for a, b in parts]}
     else:
         # A no that was given once and is stored: with it the program
-        # separates nothing by itself, which is what makes this case
-        # safe to open at all.
+        # separates nothing by itself, which makes this case safe to
+        # open at all.
         d["speakers_local"] = False
     project = os.path.join(folder, "videopodcast-magic_Voices.json")
     with open(project, "w", encoding="utf-8") as f:
@@ -223,11 +169,9 @@ def look(case, media):
     # the test until somebody kills it.
     QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
     QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
-    # Off the desktop on the way in. The offscreen platform keeps the
-    # window out of the window server; this keeps it off the screen on
-    # any platform, and the layout machinery still runs -- without that
-    # every widget would sit at Qt's untouched 100 by 30 and selecting
-    # a row by where it is would measure air.
+    # Off the desktop on the way in, on any platform. The layout
+    # machinery still has to run: without it every widget sits at Qt's
+    # untouched 100 by 30 and selecting a row by where it is measures air.
     _show = QtWidgets.QWidget.show
 
     def offstage(self):
@@ -270,13 +214,10 @@ def look(case, media):
     def rows_named(sheet):
         """Every row on that sheet, by the name its fields are given.
 
-        A field in a table cell is read out as its kind and nothing
-        else -- "combo box", "edit field" -- so the program says the
-        column and the row in the accessible name, "belongs to --
-        Room.wav". The part behind the first dash is the row. That is
-        true of a cell in a table and of a cell under a parent in a
-        tree alike, which is why the rows are counted here and not out
-        of rowCount().
+        A field in a table cell is read out as its kind alone, so the
+        program puts the column and the row into the accessible name,
+        "belongs to -- Room.wav". That holds in a table and in a tree
+        alike, which is why rows are counted from it, not rowCount().
         """
         rows = {}
         for w in sheet.findChildren(QtWidgets.QWidget):
@@ -290,9 +231,7 @@ def look(case, media):
     def camera_chooser(widgets):
         """The chooser that puts somebody on a camera, or None.
 
-        Recognised by what can be picked in it and not by which column
-        it stands in: a camera, and the two answers that are not a
-        camera.
+        Recognised by what can be picked in it, not by its column.
         """
         for w in widgets:
             if not isinstance(w, QtWidgets.QComboBox):
@@ -306,11 +245,9 @@ def look(case, media):
         """The rows the separation produced, top to bottom.
 
         A row that puts somebody on a camera and is not named after one
-        of the files is one of them. With the recordings that is the
-        whole difference, and it holds whether the voices stand in a
-        table of their own, as they once did, or under their recording
-        in a tree. Ordered by where they are on the sheet, so that "the
-        first row" means the first one somebody sees.
+        of the files is one of them, in a table of their own or under
+        their recording in a tree alike. Ordered by where they sit, so
+        that "the first row" is the first one somebody sees.
         """
         out = []
         for said, widgets in rows_named(sheet).items():
@@ -330,9 +267,7 @@ def look(case, media):
         """The field the name of that row is answered in.
 
         Which kind of widget it is depends on whether this machine can
-        tell voices apart at all -- a chooser with one entry to pick
-        where it can, a plain field where it cannot -- so it is found
-        by what it is for and read through text_of below.
+        tell voices apart at all, so it is found by what it is for.
         """
         for w in rows_named(sheet).get(said, []):
             if w.accessibleName().startswith(vpm.T('Speaker name')):
@@ -351,10 +286,9 @@ def look(case, media):
     def type_into(w, text):
         """Type a name in, letter by letter, and be done with it.
 
-        Letter by letter and not setText: the program tells typing
-        from picking, and only the end of the typing counts as the
-        answer "this recording is one person". Return is what ends it,
-        the same as clicking elsewhere.
+        Letter by letter and not setText: the program tells typing from
+        picking, and only the end of the typing counts as the answer.
+        Return ends it, the same as clicking elsewhere.
         """
         inner = getattr(w, "lineEdit", None)
         inner = inner() if callable(inner) else w
@@ -365,9 +299,8 @@ def look(case, media):
     def pick_several(w):
         """Pick the one entry the name field offers: several speakers.
 
-        With the keyboard, because that is a pick like any other -- it
-        goes through the same signal a click on the open list sends,
-        and it needs no popup window on a machine that has no screen.
+        With the keyboard: it sends the same signal a click on the open
+        list does and needs no popup on a machine that has no screen.
         """
         QTest.keyClick(w, QtCore.Qt.Key_Down)
         app.processEvents()
@@ -405,9 +338,8 @@ def look(case, media):
     def row_pick(box):
         """Select the row that chooser sits in, the way a click does.
 
-        Which view carries it is asked of the widget rather than known
-        in advance, and which row it is of the view is asked of the
-        view -- a table answers that and so does a tree.
+        Which view carries it and which row of the view it is are both
+        asked rather than known: a table answers that and so does a tree.
         """
         view = view_of(box)
         if view is None:
@@ -423,14 +355,11 @@ def look(case, media):
         return True
 
     file_names = {os.path.basename(recording), os.path.basename(video)}
-    # "Separated: " in whatever language the window is speaking, so a
-    # run outside the suite reads the same as one inside it.
+    # "Separated: " in whatever language the window is speaking.
     separated = vpm.TN(1, 'Separated: %d speaker',
                        'Separated: %d speakers').split("%d")[0]
-    # The words every offer in the Speakers cell begins with, in
-    # whatever language: "Only one speaker -- ...". What follows the
-    # dash depends on what that recording already carries, and is
-    # written down where it is checked.
+    # The words every offer in the Speakers cell begins with; what
+    # follows the dash is written down where it is checked.
     one_speaker = vpm.T(
         'Only one speaker -- separate the track?').split(" -- ")[0]
     several = vpm.label_of(vpm.SEVERAL_SPEAKERS)
@@ -446,9 +375,9 @@ def look(case, media):
         return str([b.text() for b in offer_list])
 
     # ------------------------------------------------------ the steps
-    # One thing at a time, each a moment of its own: answering rebuilds
-    # the whole sheet, and a check that reads the sheet in the same
-    # breath as the answer reads the sheet that is about to go.
+    # One thing at a time: answering rebuilds the whole sheet, and a
+    # check that reads it in the same breath reads the sheet that is
+    # about to go.
     AGAIN, STOP = "again", "stop"
     waited = [0]
     sheet_now = [None]
@@ -466,10 +395,9 @@ def look(case, media):
     def wait_for_sheet():
         """Wait for the recording's own row, not for a number of seconds.
 
-        The sheet is built out of a thread and a fixed pause would be
-        wrong on both sides. The voices are built in the same breath as
-        the recordings, so once that row is there the voice rows are
-        there too -- or they are not, and that is the answer.
+        The sheet is built out of a thread, so a fixed pause is wrong on
+        both sides. The voices come in the same breath as the recordings:
+        once that row is there the voice rows are there too, or not.
         """
         sheet = sheet_of(vpm.T('Assignment && time window')[:8])
         there = sheet is not None and room in rows_named(sheet)
@@ -496,9 +424,8 @@ def look(case, media):
         check("and the name field of the recording is empty",
               text_of(name_field_of(sheet(), room)) == "",
               repr(text_of(name_field_of(sheet(), room))))
-        # Asked of the model rather than of the widgets: whether the
-        # voices are on the screen is one question, and whether the
-        # tree carries them under their recording is another.
+        # Asked of the model rather than of the widgets: on the screen
+        # and in the tree are two questions.
         check("and the tree hangs nothing under the recording",
               under(tree(), row_of(tree(), room)) == [],
               str(under(tree(), row_of(tree(), room))))
@@ -506,8 +433,8 @@ def look(case, media):
               vpm.T('Speaker name') in headings_of(tree())
               and vpm.T('Speakers') in headings_of(tree()),
               str(headings_of(tree())))
-        # What was measured is kept and shown: the silence is about
-        # the answer, not about the measurement.
+        # What was measured is kept and shown: the silence is about the
+        # answer.
         mark = vpm.TN(len(FOUND), 'Separated: %d speaker',
                       'Separated: %d speakers') % len(FOUND)
         check("the row says all the same what was separated",
@@ -526,9 +453,8 @@ def look(case, media):
         rows = voice_rows(sheet(), file_names)
         check("a row for every voice the separation found",
               len(rows) == len(FOUND), "%d rows" % len(rows))
-        # The core of the change: what was measured once is shown
-        # again for nothing. Counted, not assumed -- every way into a
-        # separation is stubbed and writes itself down.
+        # The core of it: what was measured once is shown again for
+        # nothing, and that is counted rather than assumed.
         check("and showing them separated nothing again",
               not separations, str(separations))
         check("and the field now says several speakers",
@@ -549,11 +475,9 @@ def look(case, media):
         check("and a chooser offering the camera itself",
               all(box.findData(os.path.basename(video)) >= 0
                   for _t, _s, _w, box in rows))
-        # Every voice is asked for in turn, and the answer has to be
-        # that voice's longest passage. The three do not overlap, so a
-        # position says which voice was meant -- and the first row
-        # having to answer with the longest-speaking voice is what says
-        # the rows stand in the order of how much each is heard.
+        # Every voice is asked for in turn and has to answer with its
+        # own longest passage. The three do not overlap, so a position
+        # says which voice was meant, and the first row says the order.
         aimed = []
         for _t, _s, _w, box in rows:
             before = len(played)
@@ -594,8 +518,7 @@ def look(case, media):
         check("one name given, and the voice rows are gone", not rows,
               str([r[1] for r in rows]))
         # Answering rebuilds the whole sheet, the field being typed in
-        # included. That the name is still there afterwards is not a
-        # given: it lived in the widget that was thrown away.
+        # included: the name lived in the widget that was thrown away.
         check("the name survives the rebuild the answer causes",
               text_of(name_field_of(sheet(), room)) == ALONE,
               repr(text_of(name_field_of(sheet(), room))))
@@ -604,10 +527,9 @@ def look(case, media):
               str(under(tree(), row_of(tree(), room))))
         check("and saying one name separated nothing", not separations,
               str(separations))
-        # The way back, in the cell that already says how the
-        # separation stands. Its exact words are printed beside the
-        # check: what they may say depends on what the recording
-        # carries, and both forms begin here.
+        # The way back, in the cell that says how the separation stands.
+        # Its words are printed beside the check: what they say depends
+        # on what the recording carries.
         check("the row offers the way back to several speakers",
               len(offers()) == 1, said_by(offers()))
         if offers():
@@ -626,10 +548,8 @@ def look(case, media):
               repr(text_of(name_field_of(sheet(), room))))
         if len(rows) != len(FOUND):
             return STOP
-        # What was typed into a row that has since been thrown away
-        # and built again. The names live on the voice, not on the
-        # widget, or three minutes of naming would go with one
-        # mis-click.
+        # What was typed into a row that has since been thrown away and
+        # built again: the names live on the voice, not on the widget.
         got_names = [text_of(w) for _t, _s, widgets, _b in rows
                      for w in widgets
                      if isinstance(w, QtWidgets.QLineEdit)]
@@ -652,9 +572,8 @@ def look(case, media):
             for v in values.get("voices") or []:
                 pairs.append((str(v.get("name") or "").strip(),
                               str(v.get("camera") or "")))
-            # Read from both lists on purpose: which of them carries a
-            # voice is a question of how the sheet is built, and the
-            # run is told the same thing either way.
+            # Both lists on purpose: which one carries a voice depends
+            # on how the sheet is built.
             for r in values.get("rows") or []:
                 pairs.append((str(r.get("speakers") or "").strip(),
                               str(r.get("camera_choice") or "")))
@@ -695,11 +614,10 @@ def look(case, media):
     def asked_look():
         """A name given where nothing was ever listened to.
 
-        The offer here is the other one: there is nothing stored to
-        show, so it offers to go and look. It is not clicked -- that
-        would fetch 218 MB and compute for minutes -- so what is
-        checked is that it stands there, says so, and has started
-        nothing by standing there.
+        The offer here is the other one: nothing is stored to show, so
+        it offers to go and look. It is not clicked -- that would fetch
+        the model and compute for minutes -- so what is checked is that
+        it stands there and has started nothing.
         """
         check("the name given is what the field says",
               text_of(name_field_of(sheet(), room)) == ALONE,
@@ -746,8 +664,8 @@ def look(case, media):
         QtCore.QTimer.singleShot(250 if answer == AGAIN else 400, step)
 
     QtCore.QTimer.singleShot(300, step)
-    # A window that never gets there must not hold the suite -- there
-    # is no timeout(1) on this machine -- and must not pass either.
+    # A window that never gets there must not hold the suite -- there is
+    # no timeout(1) on this machine -- and must not pass either.
     QtCore.QTimer.singleShot(150000, app.quit)
     vpm.gui()
     if not done[0]:
@@ -788,8 +706,7 @@ if os.environ.get("VPM_VOICES_CASE"):
                           os.environ["VPM_VOICES_MEDIA"]))
 
 # One window per case, one process per window: a second gui() in one
-# process would be a second interface standing on the first, and the
-# question here is what a whole window makes of a whole project.
+# process would be a second interface standing on the first.
 media = tempfile.mkdtemp(prefix="vpm_voices_")
 material(media)
 bad = []

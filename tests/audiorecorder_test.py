@@ -1,25 +1,12 @@
 # -*- coding: utf-8 -*-
 """What came back from reading the AudioRecorder project.
 
-Six things were built out of that comparison, and each one is here with
-the case it was built for:
-
-* the run says which copy of the script it is (several runnable copies
-  of one version are the normal case here, and they share a log file),
-* clipping is counted per channel -- and only where an integer format
-  gives it a stop to count against,
-* a failed measurement says how close it came instead of "not
-  measurable",
-* a channel that carries nothing says which of the two rules caught it,
-  and by how much,
-* the fit hands back what it could not explain instead of dropping it,
-* a recording that crosses midnight is one night, not a day apart.
-
-The clipping numbers here were measured, not assumed: the same
-overdriven sine written three ways gives 120,720 samples on the stop in
-16 bit and the same 120,720 in 24 bit, while the 32 bit float copy
-peaks at +11.94 dBFS with nothing clipped at all. The line is integer
-against float, not 16 against 24 bit.
+Six things were built out of that comparison, each with the case it
+was built for: the run says which copy of the script it is, clipping
+is counted per channel and only where an integer format gives it a
+stop, a failed measurement says how close it came, an empty channel
+says which rule caught it and by how much, the fit hands back what it
+could not explain, and midnight is one night, not a day apart.
 """
 import os
 import subprocess
@@ -82,9 +69,8 @@ else:
     check("24 bit counts exactly the same",
           bool(a24) and a24[0][1] == a16[0][1],
           "%s vs %s" % (a24.get(0), a16.get(0)))
-    # This is the whole point of the check. Float has no stop at full
-    # scale, so a peak above 0 dBFS is loud, not damaged, and warning
-    # about it would be warning about nothing.
+    # Float has no stop at full scale, so a peak above 0 dBFS is loud,
+    # not damaged, and a warning would be a warning about nothing.
     check("32 bit float is not counted at all", a32 == {}, str(a32))
     check("and a quiet recording is left alone", quiet == {}, str(quiet))
     found, _ = vpm.check_audio_file(hot16)
@@ -97,9 +83,9 @@ else:
           bool(hints) and any(c.isdigit() for c in hints[0].text))
 
 print("3. A failed measurement says how close it came")
-# Both branches carry their number now. Without it the two faults --
-# everybody talking at once against bleed too weak to read -- look the
-# same in the log, and they need different remedies.
+# Without the number the two faults -- everybody talking at once, and
+# bleed too weak to read -- look the same in the log, and they need
+# different remedies.
 check("three is the floor for a fit, and it is named",
       vpm.ENOUGH_WINDOWS == 3, str(vpm.ENOUGH_WINDOWS))
 check("so is the sharpness a second has to reach",
@@ -126,15 +112,13 @@ silent, why = vpm.channel_hush([-75.0, -71.0])
 check("all quiet is judged on the relative rule alone",
       silent == [False, False], str(silent))
 # The absolute rule only gets a turn where the relative one does not
-# fire first: 31 dB down is not an unplugged input, but -71 dBFS is
-# still nothing but the converter talking to itself.
+# fire: 31 dB down is not an unplugged input, but -71 dBFS is nothing
+# but the converter talking to itself.
 silent, why = vpm.channel_hush([-40.0, -71.0])
 check("a channel under -70 dBFS is converter noise",
       silent == [False, True] and why[1][0] == "quiet", str(why[1]))
 check("and that line says the level",
       "-71" in vpm.hush_reason(2, why), vpm.hush_reason(2, why))
-# It used to stand twice, word for word, in two functions 400 lines
-# apart. Now it stands once and both call it.
 source = open(SCRIPT, encoding="utf-8").read()
 check("one rule, not the same rule typed twice",
       source.count("def channel_hush(") == 1
@@ -187,9 +171,9 @@ check("a recording after midnight is not an unset clock",
 check("the same evening says nothing at all",
       about(23 * 3600 + 55 * 60) == [])
 found = about(3 * 3600)
-# The unwrap is only kept where it puts the file among the others. At
-# 03:00 against cameras at 23:50 it does not, so the move is taken back
-# and the old finding stands -- which is the right one.
+# The unwrap is only kept where it puts the file among the others.
+# Here it does not, so the move is taken back and the old finding
+# stands.
 check("a clock set to the wrong hour is still an unset clock",
       len(found) == 1 and "Timecode" in found[0].text,
       "; ".join(b.text[:40] for b in found))

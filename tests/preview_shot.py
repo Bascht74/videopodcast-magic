@@ -13,9 +13,8 @@ spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
-# No network and no real key for a screenshot: the two functions the
-# interface would call for that are stubbed out. (list_presets returns
-# (name, uuid, multitrack) triples; load_api_key returns the stored key.)
+# No network and no real key for a screenshot. list_presets returns
+# (name, uuid, multitrack) triples; load_api_key returns the stored key.
 vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True),
                                 ("Podcast_Zoom", "u2", False)]
 vpm.load_api_key = lambda: "not-a-real-key"
@@ -33,13 +32,10 @@ QtWidgets.QFileDialog.getOpenFileName = staticmethod(
 
 # What went wrong, collected rather than raised: an exception inside a
 # timer callback leaves the event loop half way and the return code is
-# whatever Qt makes of it. Every complaint lands here, the loop is
-# stopped, and the code is set once at the bottom. This script ran for
-# 39 seconds and came back green while writing one of its two pictures.
+# whatever Qt makes of it. The code is set once at the bottom instead.
 bad = []
-# Whether the last step was reached. The clock at the bottom stops the
-# window after a minute whatever happens, and without this that looked
-# like a run that had finished.
+# Whether the last step was reached: the clock at the bottom stops the
+# window whatever happens, which without this looks like a finished run.
 through = [False]
 
 
@@ -74,9 +70,8 @@ def group(title):
 def like(template):
     """A test for a title the program builds out of a template.
 
-    The pieces around the %s are the same in every case and in both
-    languages, because the template comes out of the catalogue; only
-    what is put in changes.
+    The pieces around the %s come out of the catalogue and are the same
+    in both languages; only what is put in changes.
     """
     return re.compile("^" + "(.*)".join(
         re.escape(p) for p in template.split("%s")) + "$")
@@ -85,26 +80,11 @@ def like(template):
 def preview_box():
     """The box holding the preview, found by the shape of its name.
 
-    It was looked for under "Camera cut -- preview" until now. No box
-    has carried that name since 2.7.0-beta: the box says what kind of
-    cut this is, and that is one of three -- camera cut, cut with the
-    wide shot, first cut by speaker -- and once the cut is computed the
-    length is on the end as well.
-
-    It went on working in English all the same, and that is why nobody
-    saw it: there is no catalogue entry for "Camera cut -- preview", so
-    in English the lookup handed the phrase back and it happens to be
-    the beginning of "Camera cut -- preview  (length ...)". Measured on
-    25.8.2026: the English run took 3.1 seconds and wrote the picture,
-    the German run took 38.8 seconds, wrote no picture and came back
-    with 0. Whoever ran it in German kept the English picture from
-    somebody else's run, looking new. And the two cases the English
-    title does not begin that way -- the wide shot and the first cut by
-    speaker -- were blind in both languages.
-
-    Not one of the three names then, and not a guess: the two
-    templates the window itself builds the title from, with the part
-    that changes left open.
+    Not by a fixed title: the box says which of the three kinds of cut
+    this is, and once the cut is computed the length is on the end. A
+    fixed English title even goes on matching, because a phrase with no
+    catalogue entry is handed back unchanged, so a stale lookup fails in
+    German only.
     """
     shapes = [like(vpm.T('%s -- preview  (length %s)')),
               like(vpm.T('%s -- preview'))]
@@ -134,11 +114,8 @@ def sheet_names():
 def tab(s):
     """Switch to the sheet whose title contains *s*.
 
-    It used to return in silence where nothing matched, and the script
-    then carried on photographing the wrong sheet -- with a return code
-    of 0, so nothing anywhere went red. When the tab names lost their
-    numbers on 23.8.2026 that is exactly what happened. A lookup that
-    finds nothing is a defect, and says so.
+    A lookup that finds nothing is a defect and says so: in silence the
+    script photographs the wrong sheet and comes back with a 0.
     """
     tw, k = sheet_of(s)
     if tw is None:
@@ -153,15 +130,9 @@ def lists(under=None, shown=True):
     """The lists of the window, or of one sheet, whatever they are made of.
 
     Asked of the view and its model, not of one widget class: a lookup
-    for QTableWidget found nothing on this sheet and printed nothing at
-    all, and it asked the header for an item of its own, which is not
-    there in a list built over a model.
-
-    Two kinds are left out. Header rows are views in their own right
-    and answer out of the same model, so they would say everything a
-    second time. And every drop-down keeps a list of its own in a
-    popup: that is not a list on the sheet, and which window a view
-    belongs to says which of the two it is.
+    for QTableWidget finds nothing on a list built over a model. Header
+    rows answer out of the same model and would say everything twice,
+    and a drop-down's popup is not a list on the sheet, so both go.
     """
     root = under if under is not None else win()
     out = []
@@ -175,17 +146,15 @@ def lists(under=None, shown=True):
 
 
 def views():
-    """The lists on the screen."""
     return lists()
 
 
 def widget_text(w):
     """What a widget standing in a cell says, asked rather than recognised.
 
-    Nothing is recognised here: whatever can be asked for its text is
-    asked, and a widget built out of others is asked of the parts it is
-    built from -- a cell that used to be a bare drop-down and is a
-    drop-down with a note beside it now reads either way.
+    Whatever can be asked for its text is asked, and a widget built out
+    of others is asked of its parts, so a cell that grew a note beside
+    its drop-down still reads.
     """
     for ask in ("currentText", "text", "toPlainText"):
         answer = getattr(w, ask, None)
@@ -204,9 +173,8 @@ def widget_text(w):
 def head_of(view):
     """The column names of a view, out of its model.
 
-    Out of the model and not out of a header item: a list built over a
-    model has no items of its own, and asking one for its text is the
-    kind of thing that goes bang on the day it turns up.
+    A list built over a model has no header items of its own, and asking
+    one for its text goes bang on the day such a list turns up.
     """
     model = view.model()
     if model is None:
@@ -256,10 +224,9 @@ def blank(picture):
 def shot(name, w=None):
     """Take one picture -- and where there is nothing on it, do not keep it.
 
-    A picture nobody wrote this run is worse than no picture: the file
-    from the last run lies there looking current, and that is what
-    B_Camera.png did for as long as the box could not be found. So a
-    grab with nothing on it takes the old file with it and says so.
+    A picture nobody wrote this run is worse than none: the file from
+    the last run lies there looking current. So a grab with nothing on
+    it takes the old file with it and says so.
     """
     path = os.path.join(OUT, name + ".png")
     f = win(); f.resize(1600, 1150); app.processEvents()
@@ -284,13 +251,10 @@ def hold(ok, what, ms=150, limit=200):
     """Wait for a condition instead of waiting for the clock.
 
     The step comes back every <ms> milliseconds until <ok> is true, at
-    most <limit> times -- more than ten times the pause that stood here
-    before, so a slow machine only takes longer and is not called red,
-    while an interface that never gets there still gives up.
-
-    Giving up is a defect and says so. It used to let the step carry on
-    as though the wait had worked: the run then sat out 37.5 seconds,
-    photographed the sheet anyway and came back green.
+    most <limit> times, so a slow machine only takes longer while an
+    interface that never gets there gives up. Giving up is a defect and
+    says so: carrying on as though the wait had worked photographs the
+    sheet anyway and comes back green.
     """
     if ok:
         waited[0] = 0
@@ -316,10 +280,9 @@ def showing(text):
 def built():
     """The project is in, so the sheet it fills is there.
 
-    Asked of the window, which puts that sheet in once there are files
-    and takes it out again when there are none. It used to be asked of
-    the rows of a table, which tied this script to the assignment being
-    made of tables -- and it stopped being made of tables.
+    Asked of the window, which puts that sheet in once there are files.
+    Asking the rows of a table would tie this script to the assignment
+    being made of tables.
     """
     return sheet_of(vpm.T('Resolve cut'))[0] is not None
 
@@ -327,8 +290,8 @@ def built():
 def fetching():
     """A still out of a video file is on its way.
 
-    The player fetches the picture it shows in a thread. Taking the
-    shot before it arrives would photograph the picture from before.
+    The player fetches it in a thread, and a shot taken before it lands
+    photographs the picture from before.
     """
     return any(getattr(w, "_still_running", False)
                for w in win().findChildren(QtWidgets.QWidget))
@@ -338,10 +301,8 @@ def working():
     """A bar in the window says something is still running.
 
     The prework bar stands there while the envelopes are read, the
-    footer bar while anything runs -- and after that it stays full for
-    another second and a half so that the end is seen, before it goes
-    away by itself. Both are in the picture, so the shot waits until
-    they have gone.
+    footer bar while anything runs and for a moment after. Both are in
+    the picture, so the shot waits for them.
     """
     return any(b.isVisible()
                for b in win().findChildren(QtWidgets.QProgressBar))
@@ -350,10 +311,9 @@ def working():
 def ready():
     """Everything the pictures and the printout need is done.
 
-    Both boxes stand on the screen, the time axis is measured -- it
-    runs in a thread and moves the player when it lands -- no still is
-    on its way, and boxes and lists read the same twice in a row, so
-    the layout has come to rest.
+    Both boxes stand on the screen, the time axis is measured -- it runs
+    in a thread and moves the player when it lands -- no still is on its
+    way, and boxes and lists read the same twice.
     """
     two = [speaker_box(), preview_box()]
     now = ([(b.isVisible(), b.height(), b.width()) if b else None
@@ -376,8 +336,7 @@ def step():
             if hold(k is not None, "the Open project button"): return
             print("Load button:", bool(k)); k.click()
         elif i == 2:
-            # The tick only wakes up once the project is loaded: that is
-            # what the pause here used to sit out.
+            # The tick only wakes up once the project is loaded.
             multitrack = vpm.T('Multitrack (one track per speaker)')
             ticks = [cb for cb in win().findChildren(QtWidgets.QCheckBox)
                      if cb.text().startswith(multitrack)]
@@ -406,11 +365,10 @@ def step():
                 print("%s box %r" % (name, gb.title()))
                 shot("B_" + name, gb)
                 print(name, "height", gb.height(), "width", gb.width())
-            # Every list this sheet holds, the hidden ones as well. The
-            # speaker table is hidden while no speakers are known --
-            # that is the window saying so, and printing nothing at all
-            # cannot be told apart from a script that stopped finding
-            # it. Gone altogether is the defect, and that is what fails.
+            # Every list this sheet holds, the hidden ones as well: the
+            # speaker table is hidden while no speakers are known, and
+            # that is the window saying so. Gone altogether is the
+            # defect, and that is what fails.
             tw, k = sheet_of(vpm.T('Resolve cut'))
             page = tw.widget(k) if tw is not None else None
             here = lists(page, shown=False)
@@ -445,19 +403,15 @@ if bad:
     print("\n%d thing(s) went wrong:" % len(bad))
     for line in bad:
         print("  -", line)
-# The same as in assignment_shot.py: what gui() gives back is Qt's
-# event loop, not a statement about the pictures. The checks decide,
-# and the number is said rather than obeyed.
+# What gui() gives back is Qt's event loop, not a statement about the
+# pictures. The checks decide, and the number is said, not obeyed.
 if code and through[0] and not bad:
     print("NOTE: the window returned %s although every step was reached "
           "and nothing was found wanting." % code)
-# The last line, whatever happens. On the Linux builder this script
-# came back with a 1 and said nothing at all -- no traceback, no FAIL
-# of its own, no line about a step it missed -- and three rounds of
-# improving the report brought nothing out, because there was nothing
-# in it. If this line is missing from the output, the process did not
-# get here: it was killed or it left through a door nobody knows about.
-# If it is there, the numbers on it say which.
+# The last line, whatever happens. A run that comes back with a 1 and
+# says nothing at all -- no traceback, no FAIL, no missing step -- leaves
+# no report to improve. If this line is missing, the process did not get
+# here; if it is there, the numbers on it say what went wrong.
 print("END: through=%s bad=%d loop=%s" % (through[0], len(bad), code),
       flush=True)
 raise SystemExit(1 if bad or not through[0] else 0)

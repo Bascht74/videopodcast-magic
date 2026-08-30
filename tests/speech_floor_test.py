@@ -1,27 +1,12 @@
 # -*- coding: utf-8 -*-
 """A short reaction is speech, not a hole in the conversation.
 
-Sounds under a floor are dropped before the pause search runs. The
-floor stood at four tenths of a second from the first version and had
-never been measured -- and an "mhm" is shorter than that, so a reaction
-read as a pause and a wide shot could land on top of somebody
-answering.
-
-Measured 31.8.2026 on 31 minutes of real three-microphone material:
-
-  0.40 s   2710 passages   5643 s speech   115 pauses over 2 s, 21 over 5
-  0.20 s   3105 passages   5759 s speech    94 pauses over 2 s, 13 over 5
-  0.15 s   3214 passages   5781 s speech
-
-From 0.4 to 0.2, 395 passages come back for 116 seconds -- 0.29 s each,
-the length of an "mhm". Twenty-one pauses over two seconds and eight
-over five turn out never to have been pauses. Below 0.2 the gain
-flattens: 109 more passages for 22 seconds, 0.2 s each, which is breath.
-
-This file holds the floor there. It builds the case the measurement
-describes -- two turns with a short reaction between them -- and asks
-whether the reaction is speech and whether the pause is one pause or
-two.
+Sounds under a floor are dropped before the pause search runs. At four
+tenths of a second an "mhm" falls under it, so a reaction reads as a
+pause and a wide shot can land on top of somebody answering. On real
+material the floor belongs at 0.2 s: down to there whole reactions
+come back, and below it the gain is breath. The case built here is two
+turns with a short reaction between them.
 """
 import os, sys, wave, shutil, tempfile
 import numpy as np
@@ -85,10 +70,9 @@ check("and the measurement uses it, not a number of its own",
       str(sign.parameters["min_len"].default))
 
 print("\n2. One asks, the other says 'mhm', the first goes on")
-# The shape the measurement describes: a turn, a short reaction on the
-# other microphone, then the answer. Between the two turns there is
-# nearly three seconds of quiet on one track -- and that is exactly the
-# stretch a wide shot would be put into.
+# A turn, a short reaction on the other microphone, then the answer.
+# Between the turns lies nearly three seconds of quiet on one track --
+# exactly the stretch a wide shot would be put into.
 asks = track("asks.wav", [(0.5, 4.0, 130.0), (8.0, 4.0, 130.0)])
 answers = track("answers.wav", [(6.0, 0.28, 190.0)])
 pair = [("Asks", asks, 0.0), ("Answers", answers, 0.0)]
@@ -102,9 +86,8 @@ if short:
     check("and it is about as long as it was built", 0.15 < b - a < 0.6,
           "%.2f s" % (b - a))
 
-# What it is worth: the quiet between the two turns is no longer one
-# unbroken stretch. That is the whole point -- an unbroken one invites
-# a wide shot, and there is somebody answering in the middle of it.
+# What it is worth: an unbroken stretch of quiet invites a wide shot,
+# and here somebody is answering in the middle of it.
 
 
 def longest_quiet(min_len):
@@ -128,9 +111,8 @@ check("the new floor cuts it in two", now < was - 1.0,
       "%.2f s instead of %.2f s" % (now, was))
 
 print("\n3. Breath is not an answer")
-# Below the floor nothing is claimed. A tenth of a second is what a
-# breath or a click measures, and calling that speech would put a cut
-# on somebody who never spoke.
+# A tenth of a second is a breath or a click, and calling that speech
+# would put a cut on somebody who never spoke.
 answers_short = track("breath.wav", [(6.0, 0.10, 190.0)])
 found = dict(vpm.speakers_from_tracks(
     [("Asks", asks, 0.0), ("Answers", answers_short, 0.0)], separate=False))

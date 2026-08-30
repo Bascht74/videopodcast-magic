@@ -1,27 +1,12 @@
 # -*- coding: utf-8 -*-
 """A camera whose audio is in use is an audio file like any other.
 
-The field on the video file says no more than "use the audio". What that
-audio then becomes is decided by the same measurement as for a recorder
-file: a camera whose two channels carry two clip-on microphones -- a DJI
-Osmo does that -- gives two tracks with two speaker names, and one
-carrying a real stereo pair keeps it as one two channel track.
-
-The version before this one also wrote down the rule that was retired on
-25.8.2026: with nothing ticked, it said, every camera becomes a track of
-its own. That was the program deciding by itself where the sound comes
-from, and Sebastian's rule is the opposite -- no choice, no audio. So
-the empty case is asked the other way round here. And "like an audio
-file" is no longer taken on trust: the same sound is offered twice, once
-inside the camera and once as a recording beside it, and the two have to
-come out with the same verdict and the same tracks. Nothing below counts
-a row in a table, reads a column or looks at the source as text, so the
-interface can be rebuilt without turning this red.
-
-Which camera such a track belongs to stays a separate question. A
-microphone plugged into one camera may well be on a person another
-camera is filming, so the camera the audio came out of is the
-preselection and nothing more.
+The field on the video file says no more than "use the audio"; what
+that audio becomes is decided by the same measurement as for a recorder
+file. So the same sound is offered twice, once inside the camera and
+once as a recording beside it, and both have to come out with the same
+verdict and the same tracks. With nothing chosen there is no audio from
+a camera at all, and nothing here reads the interface.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -93,11 +78,10 @@ want = vpm.tracks_to_split(cam, facts)
 check("so the camera is cut into two tracks", len(want) == 2, str(want))
 
 #------------------------- the same sound as a recording is judged the same
-# The point of the whole rule, measured rather than asserted: the audio
-# out of the camera and the audio in a file beside it are one and the
-# same signal, so every step has to answer the same about both. Where
-# these two ever part company, "treated like a normal audio file" has
-# stopped being true and this is where it shows.
+# The audio out of the camera and the audio in a file beside it are one
+# and the same signal, so every step has to answer the same about both.
+# Where they part company, "treated like a normal audio file" has
+# stopped being true.
 recorded = sound_out_of(cam, "Osmo_recording.wav")
 facts_rec = vpm.channel_facts_cached(recorded)
 check("the recording of it can be measured too",
@@ -145,11 +129,9 @@ check("the second the other one",
       has_tone(pieces[1][0], 900) > 0.9 and has_tone(pieces[1][0], 500) < 0.1)
 
 #--------------------------------------- no choice made: no sound from a camera
-# Sebastian's rule, in the only place that can answer it: with nothing
-# chosen the cameras are not in the table at all. Two cameras, three
-# cameras and a camera beside a recording are asked separately, because
-# the retired rule turned on exactly those numbers -- it made every
-# camera a track as soon as there were two of them and no recording.
+# With nothing chosen the cameras are not in the table at all. Two
+# cameras, three of them and a camera beside a recording are asked
+# separately: a program deciding by itself turns on those numbers.
 def cut_into(plan):
     """A split_of that cuts the named files and nothing else."""
     wanted = {os.path.abspath(k): v for k, v in plan.items()}
@@ -193,9 +175,8 @@ check("both point back at the camera they came from",
 check("and the camera nobody chose stays out",
       os.path.abspath(other) not in own.values(), str(own))
 
-# One recording and one camera, both cut in two, in one call: a camera in
-# use is not a special row appended somewhere but goes through the same
-# splitting as the recording, so four tracks come out of two files.
+# A camera in use is not a special row appended somewhere: it goes
+# through the same splitting as the recording, so two files give four.
 rec_pieces = []
 for chs, _label in want_rec:
     target = vpm.split_target(recorded, chs, WORK)
@@ -221,10 +202,9 @@ check("and points at itself",
       own == {os.path.abspath(other): os.path.abspath(other)}, str(own))
 
 #-------------------------------- the one case nobody has to decide
-# One video with sound and not one recording beside it: that sound is
-# the only sound there is, so it is in use without being chosen and the
-# field says why. As soon as a second camera or a recording joins, the
-# question is a real one again and the answer falls back to no.
+# One video with sound and no recording beside it: that sound is the
+# only sound there is, so it is in use without being chosen. As soon as
+# a second camera or a recording joins, the answer falls back to no.
 alone, forced = vpm.cameras_with_own_audio([cam], [], sound_of=vpm.has_sound)
 check("one camera with sound and nothing else -> in use by itself",
       [os.path.abspath(b) for b in alone] == [os.path.abspath(cam)],
@@ -249,6 +229,8 @@ check("where there is a choice the field is not settled",
       free_used is False and free_why == "", repr(free_why))
 
 #------------------------------------------------- the camera is a preselection
+# A microphone plugged into one camera may be on a person another camera
+# is filming, so the camera the audio came out of is a starting point.
 targets = [os.path.basename(cam), os.path.basename(other), vpm.MIX_ONLY]
 check("without a setting the track starts on its own camera",
       vpm.preselected_camera(None, targets, "Guest", [cam, other],
@@ -261,9 +243,8 @@ check("but it can be moved to the other one",
       == os.path.basename(other))
 
 #--------------------------------------------- and on the command line too
-# The interface cuts the camera in the background; a run started from the
-# command line has to do it for itself, or the DJI case would work in one
-# place and not in the other.
+# The interface cuts the camera in the background; a run started from
+# the command line has to do it itself, or the two ways would disagree.
 sound = sound_out_of(cam, "cameraaudio_Osmo.wav")
 made = vpm.camera_audio_tracks(sound, "Osmo", WORK)
 check("the camera gives two tracks on the command line as well",

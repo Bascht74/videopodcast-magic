@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Putting files into one recording by hand.
 
-The counterpart to --apart. Where the file names give the search nothing
-to go on -- no counter, no clock -- the blocks have to be named. Each name
-brings the blocks that already belong to it, so naming the first block of
-a three block recording brings all three.
+The counterpart to --apart, for names that give the search nothing to go
+on: no counter, no clock. Each name brings the blocks already found for
+it, so naming one block of a chain brings the whole chain.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -96,10 +95,9 @@ check("collecting one file brings what was joined to it",
       str([os.path.basename(x) for x in out]))
 
 #------------------------------------------------- a block belongs to one row
-# Each named file brings the blocks already found for it, so two groups
-# naming two blocks of one numbered chain both reach for the whole chain.
-# The first to claim it keeps it -- a block in two recordings would be
-# decoded and mixed into two productions.
+# Two groups naming two blocks of one chain both reach for the whole
+# chain. The first to claim it keeps it: a block in two recordings would
+# be decoded and mixed into two productions.
 row = vpm.group_recording_parts([a1, a2, one, three],
                                 together=[[a1, one], [a2, three]])
 flat = [x for r, _d in row for x in r]

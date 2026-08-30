@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """Stereo stays stereo: on the axis, in the single track, in the mix.
 
-A stereo track is stereo because two microphones stand apart. Every step
-that folds it to one channel throws that away for good, so every step is
-measured here rather than trusted: the channel count, and whether the two
-sides still differ afterwards.
-
-Levels are checked too. A mono track going into a two channel mix must not
-lose 3 dB on the way -- that is what ffmpeg's own conversion would do, and
-the difference is inaudible in a single listen but wrong in every meter.
+Every step that folds a stereo track to one channel throws the two
+microphones away for good, so each step is measured rather than
+trusted: the channel count, and whether the sides still differ. Levels
+too -- ffmpeg's own mono to stereo conversion loses 3 dB, inaudible in
+one listen and wrong in every meter.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -114,10 +111,9 @@ subprocess.run(["ffmpeg", "-v", "error", "-i", both, "-af",
 gap = peak_db(read(narrowed)) - peak_db(read(both))
 check("two channels to one keeps the level", abs(gap) < 0.05,
       "%.2f dB off" % gap)
-# In float -- which is what a filter graph runs in -- ffmpeg's own
-# conversion adds 3 dB here. Writing integers it scales the matrix down so
-# the sum cannot clip, and then the level happens to come out right. Same
-# call, two answers, depending on the output format.
+# In float -- what a filter graph runs in -- ffmpeg's own conversion
+# adds 3 dB here; writing integers it scales the matrix down so the sum
+# cannot clip and the level comes out right. Same call, two answers.
 plain1 = os.path.join(WORK, "plain1.wav")
 subprocess.run(["ffmpeg", "-v", "error", "-i", both, "-ac", "1",
                 "-c:a", "pcm_f32le", "-y", plain1], check=True)
@@ -185,8 +181,8 @@ if curve:
     check("a mono track under a two channel curve stays mono",
           c.shape[1] == 1, "got %d" % c.shape[1])
     quiet = peak_db(read(axis_mono)) - peak_db(c)
-    # The curve only ever takes away, never adds; more than the limiter
-    # itself found would mean a channel conversion crept in.
+    # The curve only takes away; more than the limiter itself found
+    # would mean a channel conversion crept in.
     check("and loses no more than the limiter asked for",
           -0.05 <= quiet <= gone + 0.05,
           "%.2f dB against at most %.2f" % (quiet, gone))

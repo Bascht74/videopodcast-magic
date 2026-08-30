@@ -2,21 +2,17 @@
 """Is the cut true: the right camera, and every time rule kept?
 
 The speech is built here rather than measured, so who ought to be on
-screen at any moment is known before the cut is computed. Three
-questions:
+screen at any moment is known before the cut is computed.
 
   1  Whoever speaks is on their own camera, silence is on the wide
      shot, and no shot names a camera that does not exist.
-  2  Every setting that is a number holds in the result: the shortest
-     shot, the delay, the four wide shot numbers, the minimum speaking
-     time and the reaction lead.
-  3  Where no camera is a wide shot at all, the stand-in is the same
-     one wherever the question is asked, and it does not act as a wide
-     shot.
+  2  Every setting that is a number holds in the result.
+  3  Where no camera is a wide shot, the stand-in is the same one
+     wherever the question is asked and does not act as a wide shot.
 
-Every check that confirms something has a counter-check beside it: the
-same reading run against a list doctored to break the rule, or the
-same setting turned off. A check nobody can make fail proves nothing.
+Every check has a counter-check beside it, the same reading run against
+a doctored list or with the setting turned off: a check nobody can make
+fail proves nothing.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -36,8 +32,7 @@ def check(name, ok, extra=""):
     """Print one check. What failed carries its numbers on its own line.
 
     On a build machine only the failing line survives into the report,
-    so whatever is needed to place the failure goes into *extra* and
-    into the summary at the bottom, never into a line beside them.
+    so whatever places the failure belongs in *extra*.
     """
     global done
     done += 1
@@ -47,9 +42,8 @@ def check(name, ok, extra=""):
 
 
 #--------------------------------------------------------------- readings
-# What a cut is read for. The same functions serve the checks and the
-# counter-checks, so a doctored list has to be caught by the very
-# reading that passed the real one.
+# The same functions serve the checks and the counter-checks, so a
+# doctored list has to be caught by the reading that passed the real one.
 
 def gaps_in(cut):
     """Where one shot does not begin where the one before it ends."""
@@ -85,9 +79,8 @@ def shown_at(cut, t):
 def inserted_wides(cut, wide):
     """The wide shots put into a long shot, not the ones a silence made.
 
-    An interposed shot has the same camera on both sides of it; a wide
-    shot that a pause in the speech produced has two different ones,
-    or stands at an edge.
+    An interposed shot has the same camera on both sides of it; one a
+    pause produced has two different ones, or stands at an edge.
     """
     return [cut[i] for i in range(1, len(cut) - 1)
             if cut[i][2] == wide and cut[i - 1][2] != wide
@@ -97,9 +90,9 @@ def inserted_wides(cut, wide):
 def wrong_camera(cut, tracks, camera_of, delay, margin=0.5):
     """Sample every speech block and report where the wrong camera is up.
 
-    Sampled from the block's start plus the delay, because the picture
-    is meant to arrive that much after the sound, and stopped *margin*
-    before the block ends so a boundary is never the thing measured.
+    Sampling starts at the block plus the delay, because the picture is
+    meant to arrive that much after the sound, and stops *margin* short
+    of the end so a boundary is never the thing measured.
     """
     seen = []
     for name, segs in tracks:
@@ -145,9 +138,7 @@ NAMES = ["Host", "Guest", "Third"]
 CAMERA_OF = {"Host": "CamA", "Guest": "CamB", "Third": "CamC"}
 KNOWN = ["CamA", "CamB", "CamC", "Wide"]
 
-# A busy conversation: blocks from half a second to twenty-five, and
-# pauses from a twentieth of a second to three. Seeded, so the same
-# material comes up on every machine.
+# A busy conversation, seeded so every machine sees the same material.
 random.seed(11)
 busy = {n: [] for n in NAMES}
 _t = 0.0
@@ -193,8 +184,8 @@ check("a shot that does not run forwards is found",
       bool(backwards(turned)), str(backwards(turned)))
 
 print("\n2. THE RIGHT CAMERA")
-# Clean turn taking, the wide shot settings out of the way, so nothing
-# but the assignment can decide what is on screen.
+# The wide shot settings are out of the way, so nothing but the
+# assignment can decide what is on screen.
 turns = taking_turns(300.0, 12.0, 1.0, NAMES)
 plain = vpm.camera_cut(turns, 300.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0,
                        5.0, 120.0, False, vpm.cut_rules())
@@ -202,8 +193,7 @@ missed = wrong_camera(plain, turns, CAMERA_OF, 0.3)
 check("whoever speaks is on their own camera", not missed,
       "%d of %d samples wrong, first %s"
       % (len(missed), 9 * sum(len(s) for _n, s in turns), missed[:2]))
-# Counter-check: hold the cut and move the truth. Every speaker now
-# belongs to the next camera along, so the same sampling has to fail.
+# Counter-check: hold the cut, move the truth one camera along.
 moved = {"Host": "CamB", "Guest": "CamC", "Third": "CamA"}
 astray = wrong_camera(plain, turns, moved, 0.3)
 check("moved one camera along, the same reading catches it",
@@ -232,8 +222,8 @@ pair = vpm.camera_cut(both, 60.0,
 check("two at once: the camera showing both comes up",
       shown_at(pair, 15.0) == "Hosts", str(pair))
 
-# The same question asked of the preview, which counts it in tenths of
-# a second over the whole programme rather than by sampling.
+# The same question of the preview, which counts in tenths of a second
+# over the whole programme rather than sampling.
 sheet = {"speakers": [{"name": n, "sections": s} for n, s in turns],
          "cameras": [{"track": "CamA", "speakers": ["Host"]},
                      {"track": "CamB", "speakers": ["Guest"]},
@@ -245,7 +235,7 @@ check("the preview counts no speech on a wrong camera",
       numbers["off_camera_s"] < 0.05,
       "%.1f s off camera of %.1f s of speech"
       % (numbers["off_camera_s"], numbers["speech_time_s"]))
-# Counter-check: three seconds of delay hold the speaker before on
+# Counter-check: three seconds of delay hold the previous speaker on
 # screen well into the next turn, and the preview has to say so.
 late = vpm.cut_statistics(sheet, 3.0, 3.0, 0.0, 5.0, 120.0, False)
 check("and it does count it when the delay is three seconds",
@@ -289,9 +279,8 @@ check("negative lets the picture lead: 20 s becomes 19.5 s",
       abs(back[0][1] - 19.5) < 1e-6, str(back))
 
 print("\n5. MINIMUM SPEAKING TIME (--min-speech-to-switch)")
-# The guest holds the floor properly later on, or the recognition
-# would call a single short block a heap of scraps and the wide shot
-# would answer instead of this rule.
+# The guest has to hold the floor properly later on, or a single short
+# block counts as scraps and the wide shot answers instead of this rule.
 brief = [("Host", [(0.0, 20.0), (22.0, 40.0)]),
          ("Guest", [(20.2, 21.0), (45.0, 80.0)])]
 early = lambda cut: [w for a, _b, w in cut if a < 40.0]
@@ -311,8 +300,7 @@ check("a 3.5 s answer does move it", "CamB" in early(over),
       str(over[:4]))
 
 print("\n6. THE FOUR WIDE SHOT NUMBERS")
-# One long stretch on one camera, with a sentence boundary every five
-# seconds, so the break has somewhere to go.
+# A sentence boundary every five seconds gives the break somewhere to go.
 talk = [("Host", [(0.0, 240.0)]), ("Guest", [(245.0, 280.0)])]
 paper = sentences_every(5.0, 240.0)
 for after, holds, most in ((40.0, 5.0, 15.0), (30.0, 8.0, 12.0)):
@@ -359,13 +347,11 @@ check("without the limit the same stretch stands unbroken",
       % max(b - a for a, b, w in free_run if w != "Wide"))
 
 print("\n6b. Where the shortest shot and the interposed shot disagree")
-# An open fault, measured 29.8.2026 on this file: merge_short_shots is
-# the last word everywhere except after the wide shots are put in, so an
-# interposed shot arrives at its own length and nobody holds it against
-# the minimum. Set the shortest shot above the wide shot length -- both
-# are free fields in the window -- and shots below the minimum reach the
-# edit. In a finished episode that is a flash of the wide shot where the
-# setting promised none.
+# An open fault: merge_short_shots is the last word everywhere except
+# after the wide shots are put in, so an interposed shot arrives at its
+# own length and nobody holds it against the minimum. Set the shortest
+# shot above the wide shot length -- both are free fields in the window
+# -- and a flash of the wide shot reaches the edit.
 rules = vpm.cut_rules(words=paper, wide_holds=5.0, wide_most=15.0)
 clash = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"},
                        "Wide", 8.0, 0.3, 40.0, 5.0, 120.0, False, rules)
@@ -386,7 +372,7 @@ check("with the minimum below the wide length nothing is short",
       not under(sane, 3.0), str(under(sane, 3.0)[:2]))
 
 print("\n7. REACTION LEAD (--reaction-lead)")
-# One question, answered 21 s in by somebody on another camera.
+# A question, answered by somebody on another camera.
 asked = [vpm.speech_word(t, t + 0.8, "word") for t in range(19)]
 asked[-1]["word"] = "word?"
 asked += [vpm.speech_word(21.0 + i, 21.8 + i, "word") for i in range(38)]
@@ -428,10 +414,8 @@ check("and it answers where the list is empty",
       "%s and %s" % (vpm.stand_in_camera([]),
                      vpm.stand_in_camera([None, ""])))
 
-# Three speakers on three cameras and nothing else: every camera carries
-# somebody, none was marked, so there is no wide shot. Blocks of 60 s,
-# a sentence every five, and a silence of 29 s in the middle -- the one
-# place a stand-in camera can be seen at all.
+# Every camera carries somebody and none was marked, so there is no wide
+# shot; the long silence is the one place a stand-in can be seen at all.
 blocks = {"Host": [(0.0, 60.0), (211.0, 271.0)],
           "Guest": [(61.0, 121.0), (272.0, 332.0)],
           "Third": [(122.0, 182.0), (333.0, 393.0)]}
@@ -464,9 +448,8 @@ check("the silence shows the same camera either way",
 check("the preview says out loud that there is no wide shot",
       one_way["wide"] == "" and one_way["wide_shots"] == [],
       "%r, %s" % (one_way["wide"], one_way["wide_shots"]))
-# The expensive part: with the stand-in acting as a wide shot the cut
-# would break a 60 s block after 40 and drop into somebody else's
-# camera. It must not.
+# The expensive part: a stand-in acting as a wide shot would break a
+# speaker's block and drop into somebody else's camera.
 check("the wide shot settings do nothing without a wide shot",
       not inserted_wides(one_way["cut"], "CamA")
       and one_way["longest"] > 55.0,
@@ -479,8 +462,7 @@ check("nobody is held on the stand-in while they speak",
       str(wrong_camera(one_way["cut"],
                        [(n, blocks[n]) for n in NAMES],
                        CAMERA_OF, 0.3)[:2]))
-# Counter-check: one camera nobody sits in front of, and every one of
-# those settings starts working again.
+# Counter-check: one camera nobody sits in front of.
 with_wide = preview(mine + [{"track": "Wide", "speakers": []}])
 on_speaker = max(b - a for a, b, w in with_wide["cut"] if w != "Wide")
 check("a real wide shot brings the breaks back",

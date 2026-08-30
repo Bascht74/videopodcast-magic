@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """Where the shared fixture folders live.
 
-Four folders are built once by fixtures.sh and read by several tests, so
-they cannot go under the per-run TMPDIR that run.sh throws away at the
-end. They used to be /tmp/foreign and friends -- fixed paths in a
-directory everybody can write to, each one preceded by an rm -rf. On a
-machine with two users, or a CI with two jobs, the second run deletes
-the first one's material out from under it.
-
-The root now carries the user id, and VPM_FIXTURES overrides it.
+Built once and read by several tests, so they cannot go under the
+per-run TMPDIR that is thrown away at the end. A fixed path in a
+directory everybody may write to is worse: with two users, or two jobs
+on one builder, the second run deletes the first one's material. The
+root therefore carries the user id, and VPM_FIXTURES overrides it.
 """
 import os
 

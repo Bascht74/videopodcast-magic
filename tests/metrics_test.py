@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """The metrics CSV: does it hold what it should, and are the numbers right?
 
-The file is what stays behind after a run, and the only place where
-before and after stand side by side. So it is not enough that it is
-written -- the figures in it have to be the figures that were measured.
-The two tracks here are built at a known level, so what the loudness rows
-must say is arithmetic, not opinion.
+The file is what stays behind after a run, and the only place where before
+and after stand side by side. The two tracks here are built at a known
+level, so what the loudness rows must say is arithmetic, not opinion.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -35,8 +33,7 @@ def track(name, hz, loud):
     return path
 
 
-# Anna is lifted by a factor of ten, Bert by 0.5/0.08. Both are exact, so
-# the difference between the Before and After rows is known in advance.
+# Both lifts are exact, so the difference between Before and After is known.
 ANNA_LIFT = 20.0 * math.log10(0.5 / 0.05)
 BERT_LIFT = 20.0 * math.log10(0.5 / 0.08)
 tracks = [

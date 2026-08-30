@@ -1,32 +1,11 @@
 # -*- coding: utf-8 -*-
 """The two proposals that fill a field nobody has answered.
 
-The names of the voices, and the voice that hardly speaks being set to
-"do not use". Both are proposals: they write into a field that still
-carries what the program put there, and they never touch an answer.
-
-Three things are checked, and the third is the one that matters.
-
-The window decides. Measured on a real interview of 31.8.2026: the
-separation found four voices where three people sat, and over the whole
-recording the fourth looks like a speaker -- 217 s, 4.6 per cent, a
-longest passage of 11.1 s. Inside the time window it is 29 s. So the
-material here is built the same way round: a voice that talks through a
-long run-up and says almost nothing after the In point. Without the
-window it is ranked and named; with the window it falls out and is
-proposed for "do not use". A check that passed both ways would be
-saying nothing.
-
-Nothing is set over an answer. A name somebody typed, a camera somebody
-picked, and a name typed back to exactly the stand-in the program hands
-out: all three stay. The last one is why the mark decides and not the
-text -- "Speaker 2" written by a person looks exactly like "Speaker 2"
-written by the program.
-
-And the footer: the three buttons of one row stand equally high. Held
-against each other and never against a pixel count, because the system
-font decides how tall a button is and a number written down here would
-be wrong on the next machine.
+A name for each voice, and "do not use" for the voice that hardly
+speaks. The material is built around the time window: a voice heard
+only in the run-up is ranked without the window and falls out with it,
+so a check that passed both ways would say nothing. Neither proposal
+ever writes over an answer, and the mark decides that, not the text.
 """
 import os
 import sys
@@ -56,9 +35,8 @@ def check(what, ok, detail=""):
 
 # --------------------------------------------------------------- material
 # Three people talking in turn from second 1000 on, and a fourth voice
-# that only speaks in the run-up before the In point. The fourth gets
-# enough turns to be ranked over the whole recording -- otherwise the
-# window would have nothing to prove.
+# only in the run-up before the In point. The fourth gets enough turns
+# to be ranked over the whole recording, or the window proves nothing.
 PEOPLE = ["SPEAKER_00", "SPEAKER_01", "SPEAKER_02"]
 IN_POINT = 995.0
 

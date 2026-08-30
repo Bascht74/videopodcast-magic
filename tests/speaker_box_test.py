@@ -1,31 +1,12 @@
 # -*- coding: utf-8 -*-
 """The chooser beside "One more speaker in" has to show which file.
 
-With more than one recording the name moves off the button and into a
-chooser beside it, and that chooser is the only thing in the row that
-says which recording will be listened to again. A chooser too narrow
-for its name says nothing: Qt cuts what does not fit off the end, and
-the recordings of one session differ at the end -- Kandidat_0008A_...
-against Kandidat_0008B_... -- so three of them read alike.
-
-Measured on 31.8.2026 in the assignment sheet of a real window, at this
-Mac's system font: the box gave its text 229 px where the name wanted
-244, and the reader saw a name broken off after its nineteenth letter.
-
-So two things are checked, and both of them against the box's own
-measurements rather than against a pixel count written down here -- the
-font decides how wide a name is, and six machines run this suite:
-
-  a name that can be shown is shown whole, and the box is wide enough
-  to draw it without Qt taking anything off;
-
-  a name that cannot be shown is shortened in the middle, so that both
-  ends still tell it from its neighbours, and the whole name stands in
-  a tooltip.
-
-What the button hands on is checked besides. The shortened name is what
-the reader sees; what the program acts on is the path, and shortening
-the one must not touch the other.
+That chooser is the only thing in the row saying which recording will
+be listened to again. Qt cuts what does not fit off the end, and the
+recordings of one session differ at the end, so several read alike. A
+name that fits is shown whole; one that does not is shortened in the
+middle and kept whole in a tooltip; the button hands on the untouched
+path. Widths are asked of the box itself, because the font decides.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -47,9 +28,8 @@ spec.loader.exec_module(vpm)
 vpm.set_language("en")
 
 error = []
-# The holders are kept for the whole run: a window that goes out of
-# scope takes its children with it, and a row measured after that is a
-# row that no longer exists.
+# A window that goes out of scope takes its children with it, so the
+# holders are kept for the whole run.
 kept = []
 
 
@@ -84,7 +64,6 @@ def text_room(which):
     return field.width()
 
 
-# ------------------------------------------- one recording, no chooser
 print("\n1. One recording keeps the name on the button")
 row, paths, picked = row_of(["Room.wav"])
 button = row.findChild(QtWidgets.QPushButton)
@@ -93,7 +72,6 @@ check("the name stands on the button",
 check("and there is no chooser beside it",
       row.findChild(QtWidgets.QComboBox) is None)
 
-# --------------------------------------- names that fit, shown in full
 print("\n2. Names the row has room for are shown whole")
 SHORT = ["Room.wav", "Host_REC00009.wav", "Guest_REC00010.wav"]
 row, paths, picked = row_of(SHORT)
@@ -108,7 +86,6 @@ check("and the chooser is wide enough to draw the widest of them",
 check("the chooser carries no tooltip it does not need",
       not which.toolTip(), repr(which.toolTip()))
 
-# ------------------------------- a name too long: middle, not the end
 print("\n3. A name the row has no room for is shortened in the middle")
 LONG = ["Kandidat_0008A_a_recording_name_far_too_long_for_the_row_"
         "take_17_channel_3.wav",
@@ -137,7 +114,6 @@ app.processEvents()
 check("and it follows what is chosen",
       which.toolTip() == LONG[1], repr(which.toolTip()))
 
-# ------------------------------------ shortening the name, not the job
 print("\n4. What the button hands on is the path, whole")
 button = row.findChild(QtWidgets.QPushButton)
 button.click()

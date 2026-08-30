@@ -1,17 +1,11 @@
 # -*- coding: utf-8 -*-
 """Speech recognition: the words, their times and their punctuation.
 
-Three things are checked here. That a word's punctuation is read the
-same way every time -- sentence ends and clause boundaries are what
-the cut hangs on later. That the words survive the handover file
-unchanged. And that the two recognisers keep the rules that were
-measured: the voice activity filter on Whisper, without which it
-writes words into silence, and the correction each recogniser gets on
-its own -- one for both would be a shared axis, and neither of them
-is the truth.
-
-The macOS part runs the real recogniser on a file this test speaks
-itself, so it needs neither network nor material.
+Three things are checked: that punctuation is read the same way every
+time, because the cut hangs on sentence ends and clause boundaries;
+that the words survive the handover file unchanged; and that each
+recogniser keeps its own measured rules -- the filter without which
+Whisper writes words into silence, and a correction of its own.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -175,6 +169,8 @@ if bundle:
           vpm.use_certificates() == bundle
           and os.environ.get("SSL_CERT_FILE") == bundle)
 
+# The real recogniser runs on a file this test speaks itself, so this
+# part needs neither network nor material.
 print("\n8. The recognition macOS brings with it")
 if not vpm.macos_recognition_ready():
     print("  no recogniser on this machine -- the rest is for macOS 26")

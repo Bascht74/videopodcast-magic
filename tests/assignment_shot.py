@@ -24,12 +24,10 @@ QtWidgets.QFileDialog.getOpenFileName = staticmethod(
 
 # What went wrong, collected rather than raised: an exception inside a
 # timer callback leaves the event loop half way and the return code is
-# whatever Qt makes of it. Every complaint lands here, the loop is
-# stopped, and the code is set once at the bottom.
+# whatever Qt makes of it. The code is set once at the bottom.
 bad = []
 # Whether the last step was reached. The clock at the bottom stops the
-# window after a minute whatever happens, and without this that looked
-# like a run that had finished.
+# window after a minute, which otherwise reads as a finished run.
 through = [False]
 
 
@@ -65,8 +63,7 @@ def sheet_names():
 def tab(s):
     """Switch to the sheet whose title contains *s*, or stop.
 
-    Silence here would mean photographing the wrong sheet with a return
-    code of 0 -- see the same function in preview_shot.py.
+    Silence would mean photographing the wrong sheet and returning 0.
     """
     tw, k = sheet_of(s)
     if tw is None:
@@ -80,17 +77,11 @@ def tab(s):
 def views():
     """Every list on the screen, whatever furniture it is made of.
 
-    Asked of the view and its model, not of one widget class: the
-    assignment became a tree over a model where two tables stood, and a
-    lookup for QTableWidget went on finding the camera table, printed
-    that alone, and said nothing at all about the tree this script is
-    named after. It was not red -- it was silent.
-
-    Two kinds are left out. Header rows are views in their own right
-    and answer out of the same model, so they would say everything a
-    second time. And every drop-down keeps a list of its own in a
-    popup: that is not a list on the sheet, and which window a view
-    belongs to says which of the two it is.
+    Asked of the view and its model, not of one widget class: a lookup
+    for QTableWidget found the camera table and said nothing at all
+    about the tree this script is named after. Header rows answer out
+    of the same model, and a drop-down's popup is not a list on the
+    sheet, so both are left out.
     """
     return [v for v in win().findChildren(QtWidgets.QAbstractItemView)
             if v.isVisible() and not isinstance(v, QtWidgets.QHeaderView)
@@ -100,12 +91,10 @@ def views():
 def widget_text(w):
     """What a widget standing in a cell says, asked rather than recognised.
 
-    A cell used to hold a bare drop-down; it holds a drop-down with the
-    reason beside it now, and the test that recognised the drop-down
-    came away with an empty string for the Kind and Camera audio
-    columns. So nothing is recognised here: whatever can be asked for
-    its text is asked, and a widget built out of others is asked of the
-    parts it is built from.
+    A cell may hold more than the bare drop-down a test recognised, and
+    the reading then came away with an empty string. So whatever can be
+    asked for its text is asked, and a widget built out of others is
+    asked of the parts it is built from.
     """
     for ask in ("currentText", "text", "toPlainText"):
         answer = getattr(w, ask, None)
@@ -134,7 +123,7 @@ def rows_of(view, under=None, depth=0):
     """Every row of a view and everything hanging under it, cell by cell.
 
     A flat list is a tree with nothing under its rows, so one reading
-    serves both and the voices under a recording are not lost.
+    serves both.
     """
     model = view.model()
     if model is None:
@@ -179,9 +168,8 @@ def blank(picture):
 def keep(picture, name):
     """Write a picture out -- and where there is nothing on it, do not.
 
-    A picture nobody wrote this run is worse than no picture: the file
-    from the last run lies there looking current. So an empty grab
-    takes the old file with it and says so.
+    A picture nobody wrote this run is worse than none: the file from
+    the last run lies there looking current.
     """
     path = os.path.join(OUT, name + ".png")
     if blank(picture):
@@ -204,13 +192,9 @@ def hold(ok, what, ms=150, limit=120):
     """Wait for a condition instead of waiting for the clock.
 
     The step comes back every <ms> milliseconds until <ok> is true, at
-    most <limit> times -- more than ten times the pause that stood here
-    before, so a slow machine only takes longer and is not called red,
-    while an interface that never gets there still gives up.
-
-    Giving up is a defect and says so. It used to let the step carry on
-    as though the wait had worked, and the shot was then taken of
-    whatever happened to be on the screen.
+    most <limit> times, so a slow machine only takes longer while an
+    interface that never gets there still gives up. Giving up is a
+    defect and says so, or the shot is of whatever was on the screen.
     """
     if ok:
         waited[0] = 0
@@ -236,10 +220,9 @@ def showing(text):
 def built():
     """The project is in, so the sheet it fills is there.
 
-    Asked of the window, which puts that sheet in once there are files
-    and takes it out again when there are none. It used to be asked of
-    the rows of a table -- and the file list on the sheet in front has
-    rows too, so it was already true while page one was still on top.
+    Asked of the window, which puts that sheet in once there are files:
+    the file list on the sheet in front has rows too, so asking a table
+    for rows was already true while page one was still on top.
     """
     return sheet_of(vpm.T('Assignment && time window')[:9])[0] is not None
 
@@ -247,11 +230,9 @@ def built():
 def working():
     """A bar in the window says something is still running.
 
-    The prework bar stands there while the envelopes are read, the
-    footer bar while anything runs -- and after that it stays full for
-    another second and a half so that the end is seen, before it goes
-    away by itself. Both are in the picture, so the shot waits until
-    they have gone.
+    The prework bar stands while the envelopes are read, the footer bar
+    while anything runs and for a moment after, so that the end is
+    seen. Both are in the picture, so the shot waits until they go.
     """
     return any(b.isVisible()
                for b in win().findChildren(QtWidgets.QProgressBar))
@@ -264,12 +245,10 @@ CAMERAS = lambda: vpm.T('Camera')
 def ready():
     """Everything the picture and the printout need is done.
 
-    Both lists this sheet is about are on the screen and hold rows --
-    the tree of recordings, found by its first column, and the camera
-    table by its own; nothing runs in the background any more, because
-    the time axis is measured in a thread and only its end writes the
-    Timecode column; and everything reads the same twice in a row, so
-    nothing arrives late.
+    Both lists this sheet is about hold rows, nothing runs in the
+    background any more -- the time axis is measured in a thread and
+    only its end writes the Timecode column -- and everything reads the
+    same twice in a row, so nothing arrives late.
     """
     now = reading()
     was, before[0] = before[0], now
@@ -299,8 +278,7 @@ def step():
                     "the Open project button"): return
             button(vpm.T('Open project ...')[:8]).click()
         elif i == 2:
-            # The tick only wakes up once the project is loaded: that is
-            # what the pause here used to sit out.
+            # The tick only wakes up once the project is loaded.
             multitrack = vpm.T('Multitrack (one track per speaker)')
             boxes = [cb for cb in win().findChildren(QtWidgets.QCheckBox)
                      if cb.text().startswith(multitrack)]
@@ -336,9 +314,9 @@ def step():
             else:
                 head, rows = cameras
                 show(head, rows, "Cameras")
-                # The two columns that came out empty while a bare
-                # drop-down was what the reading looked for. Counted,
-                # not eyeballed: an empty column is the whole defect.
+                # The two columns that came out empty once the cell held
+                # more than a bare drop-down. An empty column is the
+                # whole defect, so it is counted, not eyeballed.
                 for column in (vpm.T('Kind'), vpm.T('Camera audio')):
                     if column not in head:
                         fail("the camera table has no %r column" % column)
@@ -367,22 +345,16 @@ if bad:
     for line in bad:
         print("  -", line)
 # What gui() gives back is what Qt's event loop gave back, and that is
-# not a statement about the pictures. On the Linux builder it came back
-# as 1 while every step here had been reached and no check had failed --
-# twice on 31.8.2026, once on each Python -- and the run then went red
-# without a single line saying why, because this script had nothing to
-# complain about. So the checks decide, and the number is said out loud
-# rather than obeyed.
+# not a statement about the pictures: it has come back as 1 with every
+# step reached and no check failed. So the checks decide, and the
+# number is said out loud rather than obeyed.
 if code and through[0] and not bad:
     print("NOTE: the window returned %s although every step was reached "
           "and nothing was found wanting." % code)
-# The last line, whatever happens. On the Linux builder this script
-# came back with a 1 and said nothing at all -- no traceback, no FAIL
-# of its own, no line about a step it missed -- and three rounds of
-# improving the report brought nothing out, because there was nothing
-# in it. If this line is missing from the output, the process did not
-# get here: it was killed or it left through a door nobody knows about.
-# If it is there, the numbers on it say which.
+# The last line, whatever happens. This script has come back with a 1
+# and no traceback, no FAIL of its own and no line about a step it
+# missed. If this line is missing, the process did not get here: it was
+# killed or left through a door nobody knows about.
 print("END: through=%s bad=%d loop=%s" % (through[0], len(bad), code),
       flush=True)
 raise SystemExit(1 if bad or not through[0] else 0)

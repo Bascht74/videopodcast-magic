@@ -1,10 +1,9 @@
 """Every file is measured once, not once per question.
 
-Building the file list asks the same things about the same file over and
-over: length, timecode, channel count, frame rate. Each of those used to
-be its own ffprobe process, and on an external volume the window stood
-still while they ran. The answers are kept now, keyed on size and
-modification time. This test counts the processes.
+Building the file list asks the same things about the same file over
+and over -- length, timecode, channel count, frame rate -- and each
+answer costs a process. The answers are kept, keyed on size and
+modification time; this test counts the processes.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -22,9 +21,8 @@ def check(name, ok, extra=""):
         error.append(name)
 
 folder = tempfile.mkdtemp(prefix="vpm_probe_")
-# A cache of its own. What ffprobe said is kept on disk between runs
-# now, and the suite hands every test the same cache folder -- so
-# without this the count below would depend on which test ran first.
+# A cache of its own: the suite hands every test the same folder, so
+# without this the counts below would depend on which test ran first.
 os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_probe_cache_")
 
 
@@ -109,10 +107,8 @@ check("three files, measured once each", warm >= 3, warm)
 check("nothing left to ask afterwards", later == 0, later)
 
 print("\n6. What ffprobe said outlives the run")
-# The answer is a few kilobytes of text about a file that has not
-# changed, and asking for it again costs a process. That is cheap here
-# and dear on a Windows builder, where one test spent most of its 107
-# seconds starting processes.
+# Asking again costs a process: cheap here, dear on a builder where
+# starting processes is most of what a test spends its time on.
 vpm._PROBE.clear()
 forget_kept()
 first = probes(lambda: vpm.ffprobe_json(a))
@@ -124,8 +120,7 @@ check("and the answer is the same",
       vpm.ffprobe_json(a).get("format", {}).get("duration") is not None,
       str(vpm.ffprobe_json(a))[:60])
 
-# Changed on disk means measured again, or the store would answer for a
-# file that is no longer the one it was asked about.
+# Changed on disk means measured again, not answered from the store.
 with open(a, "r+b") as f:
     f.seek(0, 2)
     f.write(b"\0" * 64)
@@ -133,8 +128,7 @@ vpm._PROBE.clear()
 again = probes(lambda: vpm.ffprobe_json(a))
 check("a changed file is measured again even so", again == 1, again)
 
-# A half-written file is not an answer. This is what a run broken off
-# in the middle of writing would leave behind.
+# A half-written file is what a run broken off in the middle leaves.
 vpm._PROBE.clear()
 kept = vpm.probe_cache_path(("ffprobe",) + vpm.file_stamp(a))
 open(kept, "wb").close()

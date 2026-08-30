@@ -26,15 +26,11 @@ def win():
             return x
 
 def group(title):
-    """The box of this name, wherever it hangs.
+    """The box of this name, over every widget rather than one window.
 
-    Over every widget, not only over the window's children: the box for
-    auphonic.com sits under the assignment table, and that sheet is put
-    into the window only once files are loaded. Before that the box
-    exists but hangs off no window -- exactly as for the Multitrack tick
-    further down. Searching the window alone found nothing, and the
-    script then left quietly with a return code of 0, so the whole shot
-    counted as passed while not one of its three steps had run.
+    A box on the assignment sheet hangs off no window until files are
+    loaded. Searching the window alone finds nothing, and a shot that
+    finds nothing leaves quietly and counts as passed.
     """
     for w in win().findChildren(QtWidgets.QGroupBox):
         if w.title().startswith(title):
@@ -96,10 +92,8 @@ def step():
             b.setCurrentText(vpm.label_of(vpm.PRESET_NONE))
             app.processEvents()
             multitrack = vpm.T('Multitrack (one track per speaker)')
-            # The tick lives under the assignment table, and that sheet is
-            # only put into the window once files are loaded. Without them
-            # the widget exists but hangs off no window, so the search goes
-            # over every widget rather than over the window's children.
+            # Without files the assignment sheet is in no window yet, so
+            # the tick is found over every widget rather than over one.
             multi = [w for w in app.allWidgets()
                      if isinstance(w, QtWidgets.QCheckBox)
                      and w.text().startswith(multitrack)][0]

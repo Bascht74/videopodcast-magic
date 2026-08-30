@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
 """The opening wide shot must not depend on how finely a source cuts.
 
-The rule holds the wide shot until the floor changes hands. A
-recogniser that chops one long introduction into ten blocks used to
-read as ten handovers, and the opening ended after the first of them.
+The wide shot holds until the floor changes hands. A recogniser that
+chops one long turn into many blocks must not read as many handovers.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -27,9 +26,8 @@ GUEST = [(100.0 + 30 * i, 125.0 + 30 * i) for i in range(15)]
 CLOSING = [(560.0, 585.0)]
 CAMERA_OF = {"Guest": "CamGuest", "Host": "CamHost", "Ghost": "CamHost"}
 
-# The introduction, once as one block and once chopped into pieces of
-# four to eight seconds with gaps of a fifth of a second to one and a
-# half. Both are the same ninety-two seconds of one person talking.
+# The same introduction twice: as one block, and chopped into short
+# pieces with small gaps. One person is talking either way.
 PIECES = [(0.0, 6.4), (7.1, 12.6), (13.5, 18.0), (19.4, 24.6),
           (25.3, 32.0), (32.6, 38.1), (39.0, 46.2), (47.0, 51.9),
           (53.1, 58.8), (59.3, 66.5), (67.2, 72.4), (73.9, 79.1),
@@ -63,7 +61,7 @@ check("the opening ends at the pause", 0.0 < early < 30.0, "%.1f s" % early)
 
 print("\n3. One block of the introduction under a wrong name")
 # The separation gives two blocks of the introduction a label of their
-# own. That used to end the opening after the first of them.
+# own. A label that changes and comes back is not a handover.
 mislabel = [("Host", PIECES[:4] + PIECES[6:] + CLOSING),
             ("Ghost", [PIECES[4], PIECES[5]]), ("Guest", GUEST)]
 wrong_name = opening_until(mislabel)

@@ -6,12 +6,9 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import importlib.util, sys, tempfile
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
-# A cache of its own, and an empty one. This test asks whether the bar
-# comes, rises and goes -- and there is nothing to show where there is
-# nothing to do. Once what was measured of these files is kept between
-# runs, the second run over the same material is instant and the bar
-# never appears: green on 31.8.2026 cold, red on the third warm run.
-# The bar was right both times; the test was tied to slowness.
+# A cache of its own, and an empty one. There is nothing to show where
+# there is nothing to do: with what was measured kept between runs, a
+# second run over the same material is instant and the bar never comes.
 os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_footer_cache_")
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
@@ -44,8 +41,7 @@ def win():
 def bar():
     """The footer bar: the only one that counts in thousandths.
 
-    Told apart by its range, not by its size. Height and width are
-    looks, and looks change; 0..1000 is what this bar is.
+    Told apart by its range, not its size: looks change, 0..1000 does not.
     """
     for w in win().findChildren(QtWidgets.QProgressBar):
         if w.maximum() == 1000:

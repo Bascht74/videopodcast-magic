@@ -1,36 +1,11 @@
 # -*- coding: utf-8 -*-
 """A video nothing can place is refused, not laid down at a guess.
 
-Until now a camera whose sound had nothing to do with the recording was
-aligned all the same: the envelopes found no match, the phase way found
-none either, and the numbers from the failed attempt were handed back
-and used. The file landed somewhere and the log said nothing about it.
-
-The rule is that such a file is refused and the run says what would fix
-it -- a timecode that fits the rest of the material, set with another
-program. And the condition without which the rule would be wrong: it
-only applies where there is no usable timecode. A camera with one is
-placed by its clock and its sound is never asked, so refusing it
-because the sound does not correlate would throw away a file that is in
-fact known to the frame.
-
-So this test has to show three things, and the middle one is the one
-that costs the most when it is wrong:
-
-  a camera with no timecode and a foreign sound is refused,
-  a camera with a timecode and the same foreign sound is not,
-  a camera that fits is untouched.
-
-The material is built here so all three are measurable rather than
-believable. The foreign sound is steady noise -- the case the program
-itself names: no edges, nothing to align on. Measured over five seeds
-at 40 s against the recording, the envelope agreement came out between
-0.025 and 0.033 against a floor of 0.05, and the phase way between 5.6
-and 6.1 against the 8.0 it has to beat. Both ways fail with room to
-spare, and neither is a coin toss.
-
-Nothing leaves the house: no key is given, and --without-auphonic says
-so out loud.
+Without the refusal the numbers of a failed alignment are handed back
+and used. The rule holds only where there is no usable timecode: a
+camera with a clock is placed by it, and refusing that for an
+uncorrelated sound throws away a known file. Three cases: no timecode
+and a foreign sound, a timecode and the same sound, one that fits.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -62,14 +37,11 @@ def check(name, ok, extra=""):
 #------------------------------------------------------------- Material
 
 RATE = 48000
-# The recording, and how much of it the cameras saw. 60 and 40 seconds
-# because the envelope needs length: the same steady noise measured
-# against a 26 s camera came out at 0.053, just over the floor, and the
-# refusal would then depend on the seed rather than on the material.
+# The envelope needs length: against too short a camera the same steady
+# noise lands just over the floor, and the refusal would then depend on
+# the seed rather than on the material.
 LENGTH, CAM_LEN, CAM_LATE = 60.0, 40.0, 4.0
-# Where the recording says it starts, and the cameras with it. Both
-# cameras that have a clock carry the same one, which is what a
-# timecode is for; the third has none.
+# Both cameras that have a clock carry the same one; the third has none.
 REC_TC = "10:00:00:00"
 CAM_TC = "10:00:04:00"
 
@@ -77,9 +49,9 @@ CAM_TC = "10:00:04:00"
 def bursts(seconds, seed):
     """Speech-like turns: noise in irregular pieces with pauses between.
 
-    The alignment lives on the pauses. Irregular lengths and gaps are
-    what make the cross correlation unambiguous -- an even pattern
-    fits itself at many places and the peak is then a coin toss.
+    Irregular lengths and gaps make the cross correlation unambiguous;
+    an even pattern fits itself at many places and the peak is then a
+    coin toss.
     """
     rng = np.random.default_rng(seed)
     n = int(seconds * RATE)
@@ -123,18 +95,16 @@ os.makedirs(D)
 whole = (bursts(LENGTH, 1)
          + np.random.default_rng(9).normal(0, 0.0004, int(LENGTH * RATE)))
 write(D + "/plain.wav", whole)
-# The foreign sound: steady noise at one level. No turns, no pauses --
-# the case the program describes itself, where there is nothing to
-# align on. One file, used by both cameras that carry it, so the two
-# differ in their timecode and in nothing else.
+# The foreign sound: steady noise, the case the program names itself --
+# no edges, nothing to align on. One file for both cameras that carry
+# it, so the two differ in their timecode and in nothing else.
 write(D + "/foreign.wav",
       np.random.default_rng(2).normal(0, 0.2, int(CAM_LEN * RATE)))
 
-# Two ffmpeg calls for everything, because a process start is what the
-# Windows builder charges for. The first gives the recording its
-# timecode -- wave cannot write a bext chunk. The second writes all
-# three cameras: colour bars at ultrafast, since the run never decodes
-# a frame and the picture only has to exist.
+# Two ffmpeg calls for everything: a process start is what the Windows
+# builder charges for. The first gives the recording its timecode --
+# wave cannot write a bext chunk. The second writes all three cameras,
+# colour bars at ultrafast, since no frame is ever decoded.
 subprocess.run(
     ["ffmpeg", "-v", "error", "-y", "-i", D + "/plain.wav",
      "-write_bext", "1", "-metadata",
@@ -196,8 +166,6 @@ for v in (LOST, CLOCK):
           and st["phase_sharp"] < vpm.PHASE_SHARP_ENOUGH,
           "%.1f against %.1f" % (st.get("phase_sharp") or 0.0,
                                  vpm.PHASE_SHARP_ENOUGH))
-    # This is the thing that was missing: the numbers came back and
-    # nothing in them said they were worthless.
     check("%s: and it says so, instead of handing back a guess" % short,
           bool(st.get("unplaceable")))
 
@@ -244,8 +212,6 @@ check("no traceback", "Traceback" not in log,
       log[log.find("Traceback"):][:90])
 check("nothing was sent to auphonic.com",
       "auphonic.com/api" not in log and "Uploading" not in log)
-# A refused camera is a camera that did not get written, and the run
-# says so the way it says every other skip: with its exit code.
 check("the run ends non-zero, because one camera was left out",
       p.returncode == 1, str(p.returncode))
 said = [line.strip() for line in log.splitlines()
@@ -254,8 +220,8 @@ print("   %s" % (said[0][:150] if said else "-- nothing said --"))
 check("the run says one file cannot be placed", len(said) == 1,
       "%d lines" % len(said))
 check("and names the one that cannot", bool(said) and "Lost.mov" in said[0])
-# Not only "no": what to do about it, and that it is not this program's
-# job. Without those two the message is a dead end.
+# Without a way out, and without saying whose job it is, the message is
+# a dead end.
 check("the message asks for a timecode",
       bool(said) and "timecode" in said[0].lower())
 check("and says it has to be set elsewhere",
@@ -314,8 +280,7 @@ check("without a measurement nothing moves in either direction",
 check("but a measurement that can place it takes the proposal back",
       vpm.kind_proposal_apply(kinds, []) == [LOST]
       and kinds[LOST].get() == vpm.TYPE_CONTENT)
-# And the window really goes this way, rather than a second copy of the
-# rule living in gui().
+# The window has to go this way, not through a second copy of the rule.
 source = open(SCRIPT, encoding="utf-8").read()
 check("the window calls the proposal", "kind_proposal_apply(" in source
       and source.count("def kind_proposal_apply") == 1)

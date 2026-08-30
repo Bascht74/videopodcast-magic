@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """Reading the channels: one pass has to say what one pass per channel said.
 
-Asking ffmpeg for channel k with a pan filter decodes the whole file
-again for every channel -- a 32 channel recording was read 32 times
-over, which on a mixer file is most of the waiting. Everything now comes
-out of one pass and is taken apart afterwards. That is only allowed if
-the numbers do not move, so this test reads the same file both ways and
-holds them against each other.
+A pan filter per channel decodes the whole file once per channel, which
+on a mixer file is most of the waiting. One pass, taken apart afterwards,
+is only allowed if the numbers do not move -- so the same file is read
+both ways and the two are held against each other.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -103,11 +101,9 @@ except Exception as e:
     check("no rows with anything in them", False, repr(e))
 
 print("\n4b. An ffmpeg that dies is not taken for one that finished")
-# Half a file read is worse than none: the judgement would be made on
-# the part that arrived, and channel_facts_cached stores it under the
-# file's size and time, so it would never be measured again. A stand-in
-# ffmpeg that writes a little and then fails proves the return code is
-# looked at.
+# Half a file read is worse than none: the judgement is made on the part
+# that arrived and cached under the file's size and time, so it is never
+# measured again. The return code has to be looked at.
 fake = os.path.join(WORK, "bin")
 os.makedirs(fake, exist_ok=True)
 with open(os.path.join(fake, "ffmpeg"), "w") as f:

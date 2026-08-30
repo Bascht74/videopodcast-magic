@@ -26,20 +26,15 @@ CASES = {
                           "multi_input_files": [{"id": "A",
                                                  "algorithms": {}}]},
 }
-# What each case has to lead to, and why. The run asks for -16 LUFS and
-# for multitrack.
+# What each case has to lead to. The run asks for -16 LUFS and multitrack.
 WANTED = {
     # Everything the run needs is in the preset: nothing to say.
     "fits": False,
-    # The preset would deliver -23. Going ahead would mean the whole
-    # production comes back at the wrong loudness, and that is only
-    # noticed at the end.
+    # -23 instead of -16 is the wrong loudness, and only noticed at the end.
     "other loudness": True,
-    # Without a track in the preset our tracks come back unprocessed --
-    # the one thing multitrack is for.
+    # Without a track in the preset our tracks come back unprocessed.
     "no track template": True,
-    # A track is there but nothing is switched on. That is a choice
-    # somebody may have made, so it is said and not stopped.
+    # A track that is switched off may be intended, so it is only said.
     "empty track template": False,
 }
 

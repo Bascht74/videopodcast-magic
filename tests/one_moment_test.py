@@ -9,17 +9,10 @@ Three clocks run through this program and none of them says its name:
                    minus this"
   window time      zero is the In point
 
-Every consumer worked its own conversion out for itself: the player,
-the band under it, the cut list, the handover file, the Resolve build,
-the EDL and the CSV. None of them wrote down which clock it was
-standing in. That is why a repair in one place could break another,
-three times in a row on one day, without anything looking wrong in
-between.
-
-So this test does not check a number. It takes a moment it knows the
-place of -- the start of a shot, and the start of a speech section --
-and walks it out to an absolute wall clock time over every way that
-exists:
+No consumer writes down which clock it is standing in, so a repair in
+one place can break another without anything looking wrong in between.
+So this test checks no number of its own: it takes a moment it knows
+the place of and walks it out to a wall clock time every way there is:
 
     start_s plus programme time                   (handover)
     start_tc plus programme time                  (handover, the other field)
@@ -32,47 +25,22 @@ exists:
     recordFrame / fps out of build_cut_timeline   (Resolve, on the timeline)
     the camera timecode plus its startFrame       (Resolve, into the file)
 
-All of them have to name the same wall clock time, within one frame.
-Where two do not, both numbers and both ways are printed -- a test that
-only says "red" does not help the next time.
+All have to name the same time within one frame, and where two do not,
+both numbers and both ways are printed. It runs twice, wide open and
+with a window set: applied twice a window moves everything under it, an
+absolute In point applied again must move nothing more, a relative one
+must move by one more In point, and "+0:10:00" must mean ten minutes
+from the window start, not eighteen hours.
 
-And the whole of it twice: once with the window wide open, once with an
-In point and an Out point set. The third clock is where the expensive
-mistakes were made, and the worst of them moved every speech section by
-215.600 s because the window was applied twice. So four things are held
-about it:
+Then the five files of one run against each other, because where they
+part company Resolve gets something other than the preview shows. Then
+the cut cut_statistics() computes again, against the written one, and
+with it the two name spaces: the cut list names a camera by the
+camera's name, the player by the track name, and they agree only where
+no camera carries a speaker.
 
-  * with a window set, all the ways still land on one frame;
-  * the window moves nothing against anything else -- for one real
-    moment the position in the camera file is the same before and after
-    it is set. What a window changes is what falls away, not what slides
-    where;
-  * applying an absolute In point a second time moves nothing more, and
-    a relative one moves by exactly one more In point and never two;
-  * "+0:10:00" means ten minutes from the window start and "-0:05:00"
-    five minutes back from its end -- not eighteen hours, and not zero.
-
-The second half holds the five files one run writes against each other:
-_resolve.json, _cameracut.edl, _cameracut.csv, _speakers.edl and
-_speakers.csv. The same cuts, the same times, the same length, written
-five ways. Where they part company, Resolve gets something other than
-the preview shows, and no Resolve is needed to see it.
-
-The third: the preview does not read the cut out of the handover file,
-it computes it again with cut_statistics(). Two computations of one
-thing drift. So the recomputed cut is held against the written one --
-and with it the two name spaces, because the cut list names cameras by
-the camera's name while the player keys on the track name, and they are
-the same string only where no camera carries a speaker. A consumer that
-confuses them loses every shot without a word.
-
-The material is built here, out of the shared interview fixture, whose
-three cameras carry real timecodes (Totale 18:55:00:00, Moderatoren
-18:55:04:00, Kandidat 18:55:17:12) but all the same test picture. So
-what is checked here is the conversion of one file against the axis --
-not the alignment of three, which cannot be measured off equal
-pictures. The offsets are therefore not measured but read off the
-timecodes, which is what the program does too.
+The shared interview fixture carries real timecodes but the same
+picture, so one file is checked against the axis, not three aligned.
 
 VPM_ONE_MOMENT_KEEP=1 leaves the written files in place for looking at.
 """
@@ -123,12 +91,9 @@ ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
 def stamp_of(cam):
     """A camera's timecode, asked of the same row the run asks.
 
-    The rendered file first and the source behind it. Not every ffmpeg
-    carries a timecode track through a render -- Windows with ffmpeg 9
-    does not -- so there the rendered file has none and only the source
-    answers. A test that asks the rendered file alone measures the
-    ffmpeg it happens to run on rather than the program: it went red on
-    Windows while the place written in the handover was right.
+    The rendered file first and the source behind it: not every ffmpeg
+    carries a timecode track through a render, and asking the rendered
+    file alone measures the ffmpeg rather than the program.
     """
     for path in (cam.get("file"), cam.get("source")):
         if not path:
@@ -156,11 +121,9 @@ tracks = [{"name": "Moderator", "camera": MOD},
           {"name": "Kandidat", "camera": KAND}]
 ref_clip = (WIDE, videos[0][1])
 
-# The moments this test knows the place of, as wall clock times. Chosen
-# so that every shot falls inside the time all three cameras are
-# rolling: the Kandidat camera starts 17.48 s after the axis begins, and
-# a shot before that has no picture at all -- which is a different fault
-# from a wrong conversion and must not stand in for it here.
+# The moments this test knows the place of. Chosen so that every shot
+# falls inside the time all three cameras are rolling: a shot before
+# that has no picture, which is another fault entirely.
 SPEECH = [("Moderator", [(22.0, 34.0), (46.0, 58.0)]),
           ("Kandidat", [(36.0, 44.0)])]
 
@@ -182,9 +145,8 @@ EDL_ROW = re.compile(r"^(\d{3})\s+\S+\s+\S+\s+\S+\s+"
 def read_edl(path, fps):
     """(start s, end s, clip name) per entry, in file order.
 
-    *fps* has to be the rate the file was written at: a timecode read at
-    the wrong rate is out by up to a frame per frame number, which is
-    exactly the mistake this test exists to catch.
+    *fps* has to be the rate the file was written at, or the timecode is
+    out by up to a frame per frame number.
     """
     rate = float(fps)
 
@@ -325,12 +287,8 @@ class Run(object):
         self.placed = [x for x in self.pool.sent if x.get("mediaType") == 1]
         self.audio = [x for x in self.pool.sent if x.get("mediaType") == 2]
         # Which placed clip belongs to which cut entry: by position while
-        # the build took every one of them, which is exact and shows a
-        # shifted recordFrame as a wrong number. Where it dropped a shot
-        # the positions no longer line up, and pairing them anyway would
-        # blame the wrong entry -- then each is looked for by the place it
-        # landed on, and an entry that has none is said to be out of reach
-        # rather than given a number belonging to its neighbour.
+        # the build took all of them, and where it dropped a shot by the
+        # place each landed on, so none is blamed for its neighbour.
         if len(self.placed) == len(d["cut"]):
             self._pairs = list(zip([float(e["start"]) for e in d["cut"]],
                                    self.placed))
@@ -383,11 +341,9 @@ def agree(tag, heading, ways):
     """Every way has to name the same wall clock time, within a frame.
 
     *ways* is a list of (name, seconds or None). None means the way could
-    not be walked at all, which is said rather than passed over.
-
-    *tag* is what the failing line says at the bottom of the run, where
-    run.sh reads it: "9 ways on one frame" five times over says nothing
-    about which moment came apart.
+    not be walked at all, which is said rather than passed over. *tag* is
+    what the failing line says where run.sh reads it, so that five
+    failures do not read alike.
     """
     print("\n%s" % heading)
     gone = [n for n, v in ways if v is None]
@@ -399,23 +355,19 @@ def agree(tag, heading, ways):
               "%d of %d" % (len(have), len(ways)))
         return
     # The whole spread, not neighbour against neighbour: three ways a
-    # frame apart each are two frames apart at the ends, and the pair
-    # that matters is the outer one.
+    # frame apart each are two frames apart at the ends.
     low = min(v for _n, v in have)
     high = max(v for _n, v in have)
     ok = (high - low) <= FRAME * 1.001
     # Grouped only for the report, so a divergence names both sides.
-    # Ways a single frame apart go into one line: that is rounding, not
-    # a disagreement, and three lines a frame apart would read like one.
+    # A single frame apart is rounding, not a disagreement.
     groups = {}
     for n, v in sorted(have, key=lambda x: x[1]):
         near = [k for k in groups if abs(k - v) <= FRAME * 1.001]
         groups.setdefault(near[0] if near else v, []).append((n, v))
-    # The line that fails carries its own evidence. The lines under it
-    # say the same and more, but a build machine's log keeps only the
-    # ones that say FAIL -- and a failure whose numbers stayed behind on
-    # a machine nobody here can run is a failure nobody can read.
-    # Measured 28.8.2026 on Windows: three runs went by before this.
+    # The line that fails carries its own evidence: a build machine's log
+    # keeps only the lines that say FAIL, and numbers left behind on a
+    # machine nobody here can run cannot be read.
     check("%s: %d ways, all on one frame" % (tag, len(have)), ok,
           "" if ok else "%.3f s apart, %d different answers: %s"
           % (high - low, len(groups),
@@ -529,9 +481,8 @@ def five_files(r):
     check("and ends where the cut does", not bad,
           "" if not bad else "entry %d: %.3f vs %.3f" % bad[0])
 
-    # The CSV is the finer of the two: it splits a shot again where the
-    # speaker changes inside it. So it is the camera changes that have to
-    # line up, not the row count.
+    # The CSV is the finer of the two: it splits a shot where the speaker
+    # changes inside it, so the camera changes line up, not the rows.
     edges = []
     for row in r.cut_csv:
         if not edges or edges[-1][2] != row["Camera"]:
@@ -577,10 +528,8 @@ def five_files(r):
            in enumerate(zip(r.spk_csv, r.spk_edl)) if row["Speaker"] != n]
     check("and the same names", not bad,
           "" if not bad else "row %d: %r vs %r" % bad[0])
-    # "Time from start" is the window column: it counts from the axis, not
-    # from midnight, and that is the one place the two clocks meet in a
-    # file. With an In point set it counts from the In point, which is
-    # what start_s then is.
+    # "Time from start" is the window column: it counts from the axis and
+    # not from midnight, the one place the two clocks meet in a file.
     bad = []
     for row in r.spk_csv:
         h, m, s = row["Time from start"].split(":")
@@ -660,9 +609,8 @@ preview_cut(open_run)
 print("\n" + "=" * 66)
 print("THE WINDOW: WHAT THE FOUR NOTATIONS MEAN")
 print("=" * 66)
-# In the night "+0:10:00" came out as eighteen hours and "-0:05:00" as
-# zero, because the sign was read off after the colons were counted. So
-# the four notations are read here one by one, before anything uses them.
+# Read the sign after counting the colons and "+0:10:00" becomes
+# eighteen hours, so the four notations are read one by one first.
 for text, want_value, want_absolute in [
         ("+0:10:00", 600.0, False),
         ("0:10:00", 600.0, True),         # no sign: a wall clock time
@@ -724,11 +672,9 @@ preview_cut(win_run)
 print("\n" + "=" * 66)
 print("THE WINDOW MOVES NOTHING AGAINST ANYTHING ELSE")
 print("=" * 66)
-# The point of a window is that something falls away, not that something
-# slides. So one real wall clock moment is taken and asked of both runs:
-# where in this camera's file does it sit? The two answers have to be
-# the same number, or the sound runs against the wrong picture as soon
-# as somebody sets an In point.
+# A window makes something fall away, it does not make things slide. So
+# one real moment is asked of both runs: the two answers must be the
+# same, or sound runs against the wrong picture.
 check("the window moved the axis by the In point",
       abs((win_run.start_s - open_run.start_s) - NEW0) <= FRAME,
       "%.3f vs %.3f" % (win_run.start_s - open_run.start_s, NEW0))
@@ -757,13 +703,10 @@ for real in (ZERO + 22.0, ZERO + 36.0, ZERO + 50.0):
 print("\n" + "=" * 66)
 print("APPLYING THE WINDOW A SECOND TIME")
 print("=" * 66)
-# This is the mistake that cost the night: the window was applied once
-# where the speakers were read and once again below, and every section
-# moved by 215.600 s. An absolute In point cannot do that -- after the
-# first application start_s IS the In point, so the second finds nothing
-# to remove. A relative one is a different promise: "ten seconds from
-# where the window now starts", so it moves ten seconds each time and
-# never twenty. Both are held, because a defect could break either.
+# A window applied twice moves every section by double. An absolute In
+# point cannot: after the first application start_s IS the In point. A
+# relative one promises "from where the window now starts" and moves
+# once more, never twice. Both are held.
 base = json.load(open(open_run.files["handover"], encoding="utf-8"))
 
 
@@ -779,10 +722,9 @@ check("an absolute In point is read without complaint", not (c1 or c2),
 check("an absolute In point moved the axis by ten seconds",
       abs((float(once["start_s"]) - float(base["start_s"])) - 10.0) <= FRAME,
       "%.3f" % (float(once["start_s"]) - float(base["start_s"])))
-# By ten seconds, once. This is the check the night needed: a window
-# applied twice leaves start_s right and moves everything under it by
-# twice as much, so a test that only asks whether the second application
-# changes anything sees nothing wrong.
+# By ten seconds, once: applied twice a window leaves start_s right and
+# moves everything under it double, so asking only whether the second
+# application changes anything sees nothing wrong.
 want = [round(a - 10.0, 3) for a in section_starts(base) if a >= 10.0]
 check("every speech section moved by the In point, once",
       section_starts(once) == want,
@@ -814,10 +756,9 @@ r_twice, _ = vpm.apply_time_window(r_once, "+0:00:10", "")
 step = float(r_twice["start_s"]) - float(r_once["start_s"])
 check("a relative In point applied twice moves by one In point, not two",
       abs(step - 10.0) <= FRAME, "%.3f s the second time" % step)
-# The windowed handover goes to the player and the band, never to
-# timeline_origin: apply_time_window moves start_s and leaves start_tc
-# where it was, so the two no longer name one instant. Held here so that
-# nobody hands this dict to the Resolve build without noticing.
+# apply_time_window moves start_s and leaves start_tc, so the two no
+# longer name one instant: a windowed handover goes to the player and
+# the band, never to timeline_origin.
 check("apply_time_window leaves start_tc behind -- so a windowed "
       "handover must not reach timeline_origin",
       abs(open_run.clock(once["start_tc"]) - float(once["start_s"])) > FRAME,
@@ -836,12 +777,9 @@ print("\n" + "=" * 66)
 print("THE TWO NAME SPACES FOR ONE CAMERA")
 print("=" * 66)
 # The cut list, the EDL, the CSV and the Resolve build name a camera by
-# cameras[].camera. The player, the band and camera_offset key on
-# cameras[].track, which is the speakers' names joined where anybody is
-# assigned and the camera's own name only where nobody is. The two are
-# the same string only in a production where no camera carries a
-# speaker -- and a consumer that takes one for the other finds no file,
-# drops every shot and says nothing at all. So both directions are held.
+# cameras[].camera; the player, the band and camera_offset key on
+# cameras[].track. They agree only where no camera carries a speaker,
+# and a consumer that confuses them drops every shot without a word.
 d = open_run.d
 names = [c["camera"] for c in d["cameras"]]
 track_names = [c["track"] for c in d["cameras"]]
@@ -861,9 +799,8 @@ check("no cut entry names a track by mistake",
 check("camera_offset() is keyed on tracks, not on camera names",
       set(open_run.player_offset) == set(track_names),
       str(sorted(open_run.player_offset)))
-# What the window does with them: files_per_track is built on tracks and
-# the cut it feeds the player comes from cut_statistics, which is also
-# on tracks. Fed the handover's own cut instead, nothing would match.
+# files_per_track is built on tracks, and so is the cut cut_statistics
+# feeds the player. Fed the handover's own cut instead, nothing matches.
 in_cut = {e["camera"] for e in d["cut"]}
 lost = in_cut - set(track_names)
 check("feeding the handover's cut to the player loses every camera "
@@ -878,13 +815,9 @@ check("and what survives is only the camera nobody is assigned to",
 print("\n" + "=" * 66)
 print("THE FULL-MIX ON THE AXIS")
 print("=" * 66)
-# The mix is the third thing the window touches: the player runs it under
-# the cut, and audio_for_cut works its offset out as "timecode of the
-# mix minus start_s", the same rule as for a camera. That function is
-# nested inside gui() and closes over prepared_tracks(), so it cannot be
-# called from here at all -- what can be checked is the ground it stands
-# on: a mix stamped the way the run stamps it reads back as start_s, so
-# its offset is zero, and the Resolve build lays it down at the axis.
+# The player runs the mix under the cut, and audio_for_cut works its
+# offset out as "timecode of the mix minus start_s". It is nested inside
+# gui(), so only the ground it stands on can be checked.
 MIXDIR = tempfile.mkdtemp(prefix="onemoment_mix_")
 KEEP.append(MIXDIR)
 MIXFILE = os.path.join(MIXDIR, "final_Full-Mix.wav")

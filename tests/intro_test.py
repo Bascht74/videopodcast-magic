@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """Intro and outro: where they sit, and how far the content moves.
 
-A jingle is laid over the beginning, not in front of it: it sits on the
-second picture track and its sound carries on under the first words. So
-the content has to move back far enough that the jingle has finished
-speaking before anybody says anything -- but no further, or the timeline
-starts with a hole.
-
-Where the first word comes late enough on its own, nothing moves at all
-and the jingle is placed inside the run-up instead.
+A jingle lies over the beginning rather than in front of it, on the
+second picture track, its sound carrying under the first words. The
+content moves back far enough for the jingle to finish speaking and no
+further, or the timeline starts with a hole. Where the first word comes
+late enough by itself, nothing moves and the jingle goes into the run-up.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -140,9 +137,8 @@ check("nothing moves -- there is room already", abs(lead) < 0.01,
 check("the jingle sits inside the run-up instead",
       abs(at(where, 2, "video", "i") - 17.0) < 0.01,
       str(at(where, 2, "video", "i")))
-# Its sound ends at 8 s into the clip, so 17 + 8 = 25: exactly where the
-# first word begins. The picture is allowed to run on -- that overlap is
-# where the dissolve goes.
+# The jingle's sound has to end where the first word begins. Its picture
+# may run on past that; the overlap is where the dissolve goes.
 check("and its sound stops exactly at the first word",
       abs((at(where, 2, "audio", "i") + 8.0) - 25.0) < 0.01,
       "%.2f s" % (at(where, 2, "audio", "i") + 8.0))

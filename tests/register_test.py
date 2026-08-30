@@ -1,32 +1,12 @@
 # -*- coding: utf-8 -*-
 """The index has to point at sections that are really there.
 
-Counted on 24.8.2026: one style round replaced 103 of the 164 headings
-of the twelve chapters. An index that names chapter and section would
-have been wrong in most of its entries after that single round, in both
-languages, and nothing anywhere would have turned red. That is what
-this file is for: the coupling gets checked instead of promised.
-
-The index earns those section names. The chapter list leads to 64 of
-its 79 keywords not at all, and six of them it sends to the wrong
-chapter. The price is that every renamed heading reaches into it, so
-this file looks up every entry: the chapter file has to exist, and the
-title has to stand in it as a heading, in the language of the entry. A
-miss names the entry, the chapter and the title that was looked for --
-a test that only says "red" costs the same afternoon a second time.
-
-Nothing else in the suite reads the index, so the cheap questions live
-here too: do both languages hold the same number of keywords and point
-into each chapter equally often, does a keyword stand twice, does a
-cross reference lead anywhere, is the list still in order, is every
-chapter reachable through it.
-
-The two sides are not counted line for line. A cross reference is a
-matter of the language -- the German index needs one where the German
-word puts the keyword last -- so the sides are held to the same number
-of keywords and to the same number of pointers into each chapter.
-
-While there is no index yet, this checks nothing and says so.
+A single style round can rename most of the headings of a chapter, in
+both languages, and leave an index that names chapter and section
+wrong in most of its entries with nothing turning red. So every entry
+is looked up here: the chapter has to exist and the title has to stand
+in it as a heading. The cheap questions live here too, because nothing
+else reads the index. While there is no index, this checks nothing.
 """
 import collections
 import io
@@ -34,9 +14,8 @@ import os
 import re
 import sys
 
-# The titles being reported are German on one side. The suite runs
-# under LC_ALL=C, and a report that cannot print its own finding would
-# be a traceback instead of a message.
+# The titles reported are German on one side, and the suite runs under
+# LC_ALL=C, where a finding that cannot be printed is a traceback.
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except (AttributeError, ValueError):
@@ -59,26 +38,22 @@ def check(what, ok, detail=""):
 
 
 # Two places the index may stand: beside the chapter list in the
-# manual's README, or in a file of its own. The first one holding
-# entries is the one that gets read.
+# manual's README, or in a file of its own. The first with entries wins.
 PLACES = {"en": ["README.md", "register.md", "index.md"],
           "de": ["README.de.md", "register.de.md", "index.de.md"]}
 # How a chapter name inside an entry becomes a file name.
 SUFFIX = {"en": ".md", "de": ".de.md"}
-# An entry: the keyword in bold, a colon, then where it points. Rule 25
-# asks for the colon, and every other value list of the manual has it.
-# The dashes are read as well, so an index that falls back to one turns
-# red below instead of parsing as nothing and skipping the whole file.
+# An entry: the keyword in bold, a colon, then where it points. The
+# dashes are read as well, so an index that falls back to one turns red
+# below instead of parsing as nothing and skipping the whole file.
 ENTRY = re.compile(r"^\*\s+\*\*(.+?)\*\*\s*(:|\u2014|\u2013|--)\s+(\S.*)$")
 # One place: the chapter in code font, a comma, the heading in quotes.
-# German quotes below, English ones after them.
 TARGET = [("\u201e",
            re.compile(r"^`([^`]+)`\s*,\s*\u201e(.+)\u201c$")),
           ("\"", re.compile(r"^`([^`]+)`\s*,\s*\"(.+)\"$"))]
 # An entry that carries no place of its own and hands on to another.
 SEE = re.compile(r"^(?:see|siehe)\s+(\S.*)$", re.I)
-# Umlauts fold onto their base letter for sorting, the way an index is
-# ordered in German.
+# Umlauts fold onto their base letter, the way German orders an index.
 FOLD = {"\u00e4": "a", "\u00f6": "o", "\u00fc": "u", "\u00df": "ss",
         "\u00c4": "a", "\u00d6": "o", "\u00dc": "u"}
 
@@ -149,8 +124,8 @@ def read_index(lang):
             hit = entry_of(line)
             if hit:
                 entries.append((number, hit))
-        # Five is enough to tell an index from a stray list item and
-        # low enough to catch one that is only half written.
+        # Five tells an index from a stray list item and still catches
+        # one that is only half written.
         if len(entries) >= 5:
             return path, text.splitlines(), items, entries
     return None, [], [], []
@@ -198,8 +173,8 @@ for lang in ("en", "de"):
     keys = [hit.group(1) for _, hit in entries]
 
     # A list item between the first and the last entry that does not
-    # read as an entry is a broken one. Nothing else is looked at, so
-    # the chapter list in the same file stays out of this.
+    # read as one is broken. Nothing outside that span is looked at, so
+    # the chapter list in the same file stays out.
     broken = [(n, line[:52]) for n, line in items
               if first <= n <= last and not entry_of(line)]
     check("%s: every line of the index reads as an entry" % lang,
@@ -291,8 +266,8 @@ for lang in ("en", "de"):
           not over, "%d, first at line %s" % (
               len(over), over[0] if over else "-"))
 
-    # A chapter nobody can reach through the index is a hole in it.
-    # What the index itself may stand in is no chapter.
+    # A chapter nobody can reach through the index is a hole in it, and
+    # what the index itself may stand in is no chapter.
     chapters = set(name[:-len(SUFFIX[lang])] for name in os.listdir(DOCS)
                    if name.endswith(SUFFIX[lang])
                    and name not in PLACES[lang]
@@ -309,9 +284,9 @@ check("both languages hold the same number of keywords",
       str(sorted(counted.items())))
 
 # The titles differ by language, the chapters do not. A keyword that
-# fell out of one side shows up here as a chapter that side points at
-# less often -- and it shows up even when a cross reference on the
-# other side makes the two counts above come out even.
+# fell out of one side shows up as a chapter that side points at less
+# often, even where a cross reference makes the counts above come out
+# even. That is why the sides are not compared line for line.
 apart = []
 if len(into) == 2:
     for chapter in sorted(set(into["en"]) | set(into["de"])):

@@ -1,14 +1,10 @@
 # -*- coding: utf-8 -*-
 """The two channel mix: same signal on both sides, and the right loudness.
 
-A mix is delivered in two channels, and that is also the form its loudness
-has to be measured in: the same material read as one channel comes out
-about three decibels quieter. Measuring in one and delivering in two is
-wrong by exactly that, every time, and nobody notices because the file
-sounds fine.
-
-Both channels have to carry the same signal, sample for sample. If they
-did not, the mix would be a stereo image nobody asked for.
+Loudness has to be measured in the form the mix is delivered in: the same
+material read as one channel comes out about three decibels quieter, and
+nothing about the file gives that away. Both channels have to carry the
+same signal, or the mix is a stereo image nobody asked for.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))

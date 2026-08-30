@@ -1,50 +1,16 @@
 # -*- coding: utf-8 -*-
 """Does every visible caption fit the field that carries it?
 
-Both languages, because that is where this goes wrong. The tick in the
-player was called "hear assigned audio" in English and "zugeordneten Ton
-hoeren" in German, and only the German one stood in the picture as
-"zugeordneten To". The row it sat in was about 480 px wide; the four cut
-buttons and the tick wanted 548. Nothing in the program misbehaved, so
-no test that runs the program noticed: the fault was in the layout, and
-only a screenshot showed it.
+Both languages, because that is where this goes wrong: a caption cut off
+in German only ever stood in a screenshot, and nothing in the program
+misbehaved, so no test that runs the program noticed.
 
-Qt can answer this without a screenshot. The window is built for real --
-offscreen, kept off the desktop, with the fixture project in it so the
-tables and the player are there at all -- and every widget carrying text
-is asked two things: how wide is that text in the font it is drawn with,
-and how much room is there for it. Text wider than room is a caption
-somebody will see cut off.
-
-How much room there is depends on the widget: a button has a frame, a
-tick has its box, a group box has the gap its heading is drawn into.
-That surcharge is not guessed. For every widget a second one of the same
-class is built beside it -- same parent, same font, same style sheet --
-given a long text and asked for its size hint. Hint minus text width is
-the surcharge, measured in the style that is really drawing.
-
-Left out on purpose: word wrap (it breaks the line instead of cutting
-it), widgets without text, widgets with an icon (the twin has none), and
-the fields somebody types into -- a line edit scrolls its content, which
-is not a fault but the point of it.
-
-Two things the offscreen platform does differently from a real one, both
-worked around here: a window it shows is not sized to its size hint but
-left at its minimum, and there is no desktop to take a size from. So
-every window the program did not size itself is resized to its hint, and
-the main window is set to the size the manual's pictures are taken at.
-
-Everything is measured twice with a moment in between, and only a
-caption short both times is reported: a text that has just been
-rewritten stands in its old field for one turn of the event loop, and
-that alone would make the report differ from run to run.
-
-The measurement is only as steady as the font, and the font comes from
-the machine. A few pixels of rounding lie between a size hint and the
-sum of its characters, so SLACK is what a caption may fall short by
-before it counts. The case above fell short by far more -- 12 px with
-the platform-less font, 51 px with the Mac's own -- and a run prints the
-pixels beside every finding.
+Every widget carrying text in the window -- built for real, offscreen,
+with the fixture project in it -- is asked how wide its text is and how
+much room it has. The room is not guessed: a twin of the same class,
+parent, font and style sheet is given a long text, and its size hint
+minus the text width is what the frame costs. Word wrap, widgets with no
+text or with an icon, and fields somebody types into are left out.
 """
 import os, sys, json, subprocess
 
@@ -55,25 +21,21 @@ sys.path.insert(0, HERE)
 
 LANGUAGES = ("en", "de")
 # Rounding, nothing else: a size hint is not the sum of the character
-# widths, and both are whole pixels. Measured over both languages: with
-# the platform-less font every caption in today's window comes out at
-# most 4 px short, with the Mac's own font at most 2 -- while the fault
-# this test was written for comes out 12 px short offscreen and 51 px
-# short on the Mac. Six is above the one and well below the other.
+# widths, and both are whole pixels. Above what rounding costs in either
+# language, well below the width a caption is really cut off by.
 SLACK = 6
-# The size the pictures for the manual are taken at, and the size the
-# fault above was seen at. Fixed rather than taken from the desktop:
-# there is no desktop offscreen, and a measurement that depends on the
-# screen somebody happens to have is not a measurement.
+# The size the pictures for the manual are taken at. Fixed rather than
+# taken from the desktop: there is no desktop offscreen, and a
+# measurement that depends on somebody's screen is not a measurement.
 WINDOW = (1400, 950)
 # Widgets that draw their whole text and cut it off when there is no
-# room. A line edit and a combo box are not among them: their content
-# scrolls or is elided on purpose, and it is not a caption.
+# room. A line edit and a combo box scroll or elide on purpose, and
+# their content is not a caption.
 KINDS = ("QLabel", "QPushButton", "QCheckBox", "QRadioButton",
          "QToolButton", "QGroupBox")
 NAME = "videopodcast-magic_Interview_2.json"
-# VPM_LAYOUT_DUMP=1 prints every caption with its numbers. Nothing in
-# the run depends on it; it is how a finding gets looked into.
+# VPM_LAYOUT_DUMP=1 prints every caption with its numbers; nothing in
+# the run depends on it.
 DUMP = bool(os.environ.get("VPM_LAYOUT_DUMP"))
 
 
@@ -81,9 +43,8 @@ def own_project():
     """A private copy of the fixture project, or None.
 
     Opening a project moves the project file into its output folder and
-    deletes copies lying elsewhere. On the shared fixture that would
-    leave the next test with nothing to open, so the material is only
-    linked to and the project file is written afresh.
+    deletes copies lying elsewhere, which on the shared fixture would
+    leave the next test with nothing to open.
     """
     import json as _json, tempfile
     from fixture_root import fixture
@@ -107,10 +68,9 @@ def own_project():
 
 
 # --------------------------------------------------------------- the child
-# One process per language. The language reaches the program through the
-# environment as well as through set_language, because parts of it read
-# the locale for themselves; and a second gui() in one process would be
-# a second interface standing on the first.
+# One process per language: parts of the program read the locale for
+# themselves, so the language has to reach it through the environment
+# too, and a second gui() would stand on the first.
 def measure(language):
     """Build the window in that language and report every caption."""
     os.environ["QT_QPA_PLATFORM"] = "offscreen"
@@ -123,8 +83,8 @@ def measure(language):
     vpm = importlib.util.module_from_spec(spec)
     sys.modules["vpm"] = vpm
     spec.loader.exec_module(vpm)
-    # Nothing here may reach the network or the keychain: what is wanted
-    # is the window, not a run.
+    # Nothing may reach the network or the keychain: what is wanted is
+    # the window, not a run.
     vpm.list_presets = lambda key: []
     vpm.load_api_key = lambda: ""
     vpm.update_offer = lambda *a, **k: None
@@ -134,15 +94,15 @@ def measure(language):
     if project:
         QtWidgets.QFileDialog.getOpenFileName = staticmethod(
             lambda *a, **k: (project, ""))
-    # Nothing may sit and wait for a click: a modal window would hold
-    # the test until the suite kills it.
+    # Nothing may wait for a click: a modal window holds the test until
+    # the suite kills it.
     QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
     QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 
     # Off the desktop, on the way in: the attribute has to be set before
-    # the window is shown, and gui() shows it itself. The window still
-    # goes through the whole layout machinery -- without that every
-    # width would be Qt's untouched 100 and this would measure air.
+    # the window is shown, and gui() shows it itself. It still goes
+    # through the whole layout machinery -- without that every width
+    # would be Qt's untouched 100.
     _show = QtWidgets.QWidget.show
 
     def offstage(self):
@@ -183,14 +143,10 @@ def measure(language):
 
         The twin gets a long text on purpose: a button has a smallest
         width of its own, and a short text would measure that instead of
-        the frame. The smallest hint and not the wanted one, because a
-        group box without content has no wanted width at all -- for
-        everything else the two are the same number.
-
-        A group box comes out short: the heading of one is pushed to the
-        right by the program's own style sheet, and Qt's hint does not
-        count that in. It is the safe direction -- a heading has to be
-        further over the edge before it is called one.
+        the frame. The smallest hint, because a group box without content
+        has no wanted width at all. A group box still comes out short,
+        since the style sheet pushes its heading right and Qt's hint does
+        not count that in -- the safe direction.
         """
         key = (type(w).__name__, w.objectName(), w.styleSheet(),
                w.isEnabled(), id(w.parentWidget()))
@@ -203,9 +159,9 @@ def measure(language):
             twin.setObjectName(w.objectName())
             twin.setStyleSheet(w.styleSheet())
             twin.setFont(w.font())
-            # The state as well, not only the style sheet: a rule for
-            # QPushButton:disabled takes the border off, and a twin that
-            # is switched on would count a border that is not drawn.
+            # The state as well: a rule for QPushButton:disabled takes
+            # the border off, and a twin that is switched on would count
+            # a border that is not drawn.
             twin.setEnabled(w.isEnabled())
             for reader, writer in (("isFlat", "setFlat"),
                                    ("autoRaise", "setAutoRaise"),
@@ -247,11 +203,9 @@ def measure(language):
             parent = parent.parentWidget()
         return ""
 
-    # Two rounds, and only what is short in both counts. A caption that
-    # has just been rewritten -- "Resolve answers", the file counter --
-    # stands in its old field for one turn of the event loop, and that
-    # alone would put a finding in the report on some runs and not on
-    # others. A test that is red every third time gets switched off.
+    # Two rounds, and only what is short in both counts: a caption just
+    # rewritten stands in its old field for one turn of the event loop,
+    # which alone would make the report differ from run to run.
     rounds = [{}, {}]
     round_now = [rounds[0]]
     seen = [0]
@@ -261,8 +215,7 @@ def measure(language):
 
         The offscreen platform leaves a window it shows at its smallest
         allowed width instead of the width it asked for, and every
-        caption in it would then look cut off. A real platform sizes it
-        to the hint, and so does this.
+        caption in it would then look cut off.
         """
         for w in app.topLevelWidgets():
             if not w.isVisible() or w.windowTitle().startswith("Video Pod"):
@@ -276,15 +229,10 @@ def measure(language):
     def settle():
         """Let the layout finish before anything is measured.
 
-        One round of processEvents is enough on an idle machine and not
-        enough on a busy one: Qt lays out over several passes, and a
-        caption measured between two of them looks too narrow. On
-        25.8.2026 this file went red on the Windows runner inside the
-        parallel suite and green standalone in the same job, seconds
-        apart, with the same script and the same window size -- the
-        machine was the difference, not the program. So: keep going
-        until the widths stop moving, and give up after ten rounds
-        rather than hang.
+        Qt lays out over several passes, and a caption measured between
+        two of them looks too narrow, so one round of processEvents is
+        enough on an idle machine and not on a busy one. Keep going until
+        the widths stop moving, and give up rather than hang.
         """
         was = None
         for _ in range(10):
@@ -335,9 +283,9 @@ def measure(language):
                 bar.setCurrentIndex(k)
                 app.processEvents()
                 sweep()
-                # The sheet's own tab. Its room is the tab Qt drew, its
+                # The sheet's own tab: its room is the tab Qt drew, its
                 # surcharge the difference between what the bar asked
-                # for that tab and the text in it.
+                # for and the text in it.
                 text = bar.tabText(k)
                 if not text.strip():
                     continue
@@ -396,10 +344,10 @@ def measure(language):
             QtCore.QTimer.singleShot(400, look)
             return
         if step[0] == 1:
-            # The tables are only built once the project is read, and
-            # reading it means looking at every file. Waiting for the
-            # rows rather than for the clock: a slow machine takes
-            # longer, an interface that never gets there gives up.
+            # The tables are only built once the project is read.
+            # Waiting for the rows rather than for the clock: a slow
+            # machine takes longer, an interface that never gets there
+            # gives up.
             filled = any(t.rowCount() for t in
                          window.findChildren(QtWidgets.QTableWidget))
             if project and not filled and waited[0] < 100:
@@ -421,10 +369,9 @@ def measure(language):
         settings_sweep(window)
         result["font"] = "%s %.1f" % (app.font().family(),
                                       app.font().pointSizeF())
-        # The platform, not the style: the program lays a style sheet
-        # over the style, and what is then in app.style() carries no
-        # name any more. The platform is what decides the font, and the
-        # font is what this whole measurement rests on.
+        # The platform, not the style: a style sheet is laid over the
+        # style, and what is in app.style() then carries no name. The
+        # platform decides the font, and the font is what this rests on.
         result["style"] = app.platformName()
         result["size"] = "%dx%d" % (window.width(), window.height())
         result["seen"] = seen[0]
@@ -473,9 +420,8 @@ for language, process in started:
         process.kill()
         process.communicate()
         out = "the window never came back"
-    # The measuring happens in the child, so the dump is written there.
-    # Without this it went into the pipe and no further, and the switch
-    # below looked as if it did nothing.
+    # The measuring happens in the child, so its dump would otherwise go
+    # into the pipe and no further.
     if DUMP:
         for x in out.split("\n"):
             if x and not x.startswith("LAYOUT "):
@@ -503,11 +449,10 @@ for language, process in started:
     if not report.get("settings"):
         print("  the settings window was not reached -- not measured.")
     found = sorted(report["found"], key=lambda f: -f["short"])
-    # The findings go on the line that fails, not only under it. A build
-    # machine's log keeps the lines that say FAIL and drops the rest, so
-    # a caption that is too narrow on Windows and nowhere else would be
-    # reported as a number and nothing more -- and the one machine that
-    # could name it is the one nobody here can run. Measured 28.8.2026.
+    # The findings go on the line that fails, not only under it: a build
+    # machine's log keeps the lines that say FAIL and drops the rest, and
+    # the machine that could name a caption too narrow on Windows is the
+    # one nobody here can run.
     check("%s: every caption fits its field" % language, not found,
           "%d cut off%s" % (len(found), "".join(
               "; %s short by %d px in %s: %r"

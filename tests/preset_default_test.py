@@ -29,11 +29,9 @@ def win():
 def preset_box():
     """The preset list, wherever it currently hangs.
 
-    Since the preset moved next to the Multitrack tick it lives on the
-    assignment sheet, and a tab widget only adopts a page once that page
-    is inserted -- which happens when there are files. This test is about
-    what the list is set to, not about where it hangs, so it looks at
-    every widget the application knows rather than only at the window.
+    A tab widget adopts a page only once that page is inserted, which
+    happens when there are files. What matters here is what the list is
+    set to, not where it hangs.
     """
     for b in app.allWidgets():
         if not isinstance(b, QtWidgets.QComboBox):
@@ -48,16 +46,14 @@ def look():
     if b is None:
         check("preset list found", False)
         app.quit(); return
-    # Since 23.8.2026 nothing is fetched at start-up: opening the list
-    # is what asks auphonic.com, and that is the whole point -- a start
-    # must not speak to a third party about a key it was only asked to
-    # keep. So the list is opened here, the way somebody would.
+    # Opening the list is what asks the service: a start must not speak
+    # to a third party about a key it was only asked to keep. So the
+    # list is opened here, the way somebody would.
     b.showPopup()
     b.hidePopup()
-    # The fetch runs in a thread of its own, so the list is not full the
-    # moment the popup closes. Waited for, not slept through: under a
-    # whole suite the machine is busy and a fixed pause is either too
-    # short or wasted.
+    # The fetch runs in a thread, so the list is not full the moment the
+    # popup closes. Waited for, not slept through: on a busy machine a
+    # fixed pause is either too short or wasted.
     import time
     until = time.time() + 20.0
     while b.count() < 2 and time.time() < until:

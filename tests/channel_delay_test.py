@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """One pair of microphones, or two of them?
 
-Sound needs three milliseconds to travel a metre. One pair hears
-everything at the same moment; two clip-on microphones on two people
-hear each other late. These cases are built with the delay put in on
-purpose, so the answer is known before it is measured.
+Sound needs three milliseconds to travel a metre: one pair hears everything
+at the same moment, two clip-on microphones on two people hear each other
+late. The delay is built in on purpose, so the answer is known beforehand.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))

@@ -1,23 +1,11 @@
 # -*- coding: utf-8 -*-
 """A project file lying with the material is offered, not read behind a back.
 
-Sebastian, 29.8.2026, after dragging in the video files of a production
-he had already worked on: *"I just added the video files. We wanted to
-load a project file ourselves if there is one, no? And otherwise we
-should not do it partly, or ask, for instance when several project
-files were found."*
-
-What happened before: nothing was offered. What did come back was worse
-than nothing -- the output folder and the production name were read out
-of an old handover file lying next to the material, so half a project
-arrived without anybody asking for it, from a run that may have had
-nothing to do with this one. That reading is gone.
-
-In its place: the folders are looked at when material comes in. One
-project file found, and it is offered once. Several, and they are shown
-with the date they were written. None, and nothing happens at all. What
-is opened is opened whole -- names, separation, assignment, types, the
-time window -- because half a project is what caused this.
+Half a project used to arrive unasked: the output folder and the
+production name were read out of any handover file beside the material,
+possibly from an unrelated run. Now the folders are looked at when
+material comes in, one file found is offered once, several are shown
+with their dates, and what is opened is opened whole.
 """
 import os, sys, time, shutil, tempfile
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -52,9 +40,8 @@ root = tempfile.mkdtemp(prefix="vpm-offer-")
 NAME = vpm.PROJECT_PREFIX + "%s.json"
 
 print("1. Where a project file is looked for")
-# The recordings in one folder, the output folder below it -- which is
-# where the program writes the project file, so that is where it has to
-# be found.
+# The program writes its project file into the output folder below the
+# material, so both places have to be searched.
 material = os.path.join(root, "Recording")
 write(os.path.join(material, "Kamera1.mp4"))
 here = write(os.path.join(material, NAME % "beside"), when=1000)
@@ -141,7 +128,7 @@ check("and it was still only asked once", len(asked) == 1)
 
 print("\n3. Asked once, and once per folder")
 # One window, one state: adding more from the same folder must not ask
-# again. That was the point of "asks once".
+# again.
 state = {}
 asked, loaded, _ = offer([os.path.join(one, "Kamera1.mp4")], state=state)
 check("the first time asks", len(asked) == 1)
@@ -161,11 +148,9 @@ asked, loaded, _ = offer([os.path.join(one, "Kamera1.mp4"),
 check("a project in a folder not asked about yet is offered",
       len(asked) == 1 and loaded == [other], "%s %s" % (asked, loaded))
 
-# Material arrives through the same door after a project is open: taking
-# a block out of a recording and putting it back goes that way. Offering
-# there undid by hand what somebody had just done by hand -- the whole
-# project came back over the change. Measured 30.8.2026 as a red
-# block_remove.
+# Material arrives through the same door after a project is open --
+# taking a block out of a recording and putting it back goes that way.
+# Offering there would undo by hand what somebody had just done by hand.
 after = {"project_from": os.path.join(one, "project.json")}
 asked, loaded, dialog = offer([os.path.join(one, "Kamera1.mp4")],
                               state=after)
@@ -195,9 +180,8 @@ check("the date stands beside each one",
           for line in dialog.shown[0]), str(dialog.shown[0]))
 check("the chosen one is opened", loaded == [new], str(loaded))
 
-# The second entry, to be sure the list and the paths line up. Picking
-# the newest proves nothing here: it is also the one that would come
-# back from a list that had lost its order.
+# The second entry, to be sure list and paths line up: picking the
+# newest also succeeds on a list that has lost its order.
 picked, lines_seen = [], []
 
 
@@ -235,9 +219,8 @@ check("no project file: no list", dialog.shown == [])
 check("no project file: nothing opened", loaded == [])
 
 print("\n6. The output folder is no longer guessed from an old run")
-# What this replaces. guess_result_folder read an old handover file
-# beside the material and set the output folder and the production name
-# from it -- a run that may have been another production entirely.
+# guess_result_folder set the output folder and the production name
+# from an old handover file, possibly from another production.
 check("the guessing is gone", not hasattr(vpm, "guess_result_folder"))
 check("the offer is there in its place", hasattr(vpm, "project_offer"))
 

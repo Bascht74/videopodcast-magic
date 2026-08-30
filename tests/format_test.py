@@ -32,8 +32,7 @@ check("not a dict: its own complaint",
         == "This is not a file of this program.")
 
 print("\n2. The complaint speaks the language of the run")
-# The German wording is the point of this check: the complaint has to
-# come out of the catalogue, not out of the code.
+# The complaint has to come out of the catalogue, not out of the code.
 vpm.set_language("de")
 check("German", "Bitte den Lauf neu einrichten." in
         vpm.format_complaint({"format": 1}))
@@ -46,9 +45,8 @@ vpm.set_language("en")
 print("\n3. Nothing is converted")
 source = io.open(SCRIPT,
                  encoding="utf-8").read()
-# The old words may only stand as a label in the catalogue -- nowhere as
-# a comparison value and nowhere as a fallback. They stay German here:
-# German is what is searched for.
+# The old words may stand only as a label in the catalogue, never as a
+# comparison value. They stay German here because German is searched for.
 without_catalogue = source.split('CATALOGUE["de"] = {')[0]
 for label in ("Inhalt", "nur in den Mix", "Audio ignorieren",
              "ohne Auphonic arbeiten", "Vorspann", "Abspann"):

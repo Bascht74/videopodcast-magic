@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """The channels are judged over the whole recording, not over one block.
 
-Measured on a real pair of five minute blocks from a 32 channel mixer:
-the first block was the soundcheck and read as one used channel pair, the
-second was the show and read as ten tracks. Judging the first block alone
-would have thrown nine tracks away.
-
-So each block is measured on its own -- they do not all fit in memory at
-once -- and the answers are combined: a channel counts as used where it
-carries something in any block, and the pair judgement comes from the
-block where that pair is loudest.
+A soundcheck block can read as one used channel pair where the show
+reads as ten tracks, so judging one block alone throws tracks away.
+Each block is measured on its own -- they do not all fit in memory --
+and a channel counts as used where it carries anything in any block,
+the pair judgement coming from the block where the pair is loudest.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -68,12 +64,11 @@ a = voice(11, n)
 b = voice(22, n)
 hush = np.zeros(n)
 
-# Block one: four channels, and only the first two carry anything at all
-# -- and those two so quietly that they are under the absolute floor.
+# Block one: only channels 1 and 2 carry anything, and under the floor.
 one = write(os.path.join(WORK, "Mix_01.wav"),
             [a * 0.00002, b * 0.00002, hush, hush])
-# Block two: the same four channels, now with the recording on them. One
-# and two are two microphones a good way apart, three and four a pair.
+# Block two: the same channels with the recording on them. One and two
+# are microphones far apart, three and four a pair.
 def late(x, ms):
     d = int(round(ms / 1000.0 * SR))
     y = np.zeros_like(x)
@@ -81,10 +76,9 @@ def late(x, ms):
     return y
 
 
-# Three and four stand together somewhere else in the room, so both
-# hear both voices -- and both hear them equally late. That delay is
-# what tells them apart from their neighbour: channel three shares
-# plenty with channel two, but not at the same moment.
+# Three and four stand together elsewhere in the room, so both hear
+# both voices, and equally late. That delay is what tells them apart
+# from their neighbour: three shares plenty with two, but not in time.
 two = write(os.path.join(WORK, "Mix_02.wav"),
             [a + 0.05 * late(b, 6.0),
              b + 0.05 * late(a, 6.0),
@@ -120,9 +114,8 @@ check("so the recording gives three tracks",
       str([t[1] for t in tracks if not t[2]]))
 
 #---------------------------------- the pair is judged where it was audible
-# A block in which one of the two channels is silent measures nothing for
-# that pair. Taking its answer because it happens to be the loudest block
-# overall would mean taking no answer at all.
+# A block where one of the two channels is silent measures nothing for
+# that pair, so the loudest block overall may hold no answer at all.
 def facts(level, zero):
     n = len(level)
     highest = max(level)

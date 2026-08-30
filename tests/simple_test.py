@@ -13,9 +13,7 @@ T = tempfile.mkdtemp(prefix="simple_")
 video = os.path.join(T, "camera.mov")
 # Two passes on purpose: ffmpeg 9 no longer carries -color_primaries and
 # -color_trc into the file. The encoder's own parameters put them in the
-# bitstream, and repacking with -c:v copy is what gets them into the colr
-# box of the container. Measured on ffmpeg 9.0.1; older ffmpeg is happy
-# with it as well.
+# bitstream, and repacking with -c:v copy gets them into the colr box.
 raw = os.path.join(T, "raw.mov")
 subprocess.run(["ffmpeg","-v","error","-y",
                 "-f","lavfi",
@@ -41,9 +39,7 @@ args.speech_language = ""; args.speech_language_camera = ""
 args.no_camera_audio = False
 info = vpm.video_facts(video)
 target = os.path.join(T, "done.mov")
-# The writer both paths use. It used to be reached through a wrapper of
-# the ordinary path's own; that path no longer has one, and the wrapper
-# was three lines of passing the arguments through.
+# The writer that both paths use.
 vpm.write_camera_file(video, info, [(args.name, audio)], target,
                       0.0, 1.0, False, args)
 

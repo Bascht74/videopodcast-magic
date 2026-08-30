@@ -108,9 +108,9 @@ def tree():
 def rows_under(name):
     """The channel rows of one file, as (text, value, checkbox).
 
-    One row per channel now, and the tick sits in the wide column inside
-    a small widget beside its reason -- in the narrow one the word next
-    to the box was cut off after its first letter.
+    The tick sits inside a small widget in the wide column beside its
+    reason; in the narrow column the word next to the box is cut off
+    after its first letter.
     """
     out = []
     t = tree()
@@ -149,17 +149,10 @@ def step():
                 if w.text().strip().startswith("Open project"):
                     w.click()
         elif i == 1:
-            # Both files, not just the first: they are measured in
-            # parallel and the second can still be running.
-            # What "ready" means, exactly: both files have their two
-            # rows, neither still says it is measuring, and the first
-            # channel of each carries the tick. Asking for a tick on
-            # *every* row waits for something that never comes -- the
-            # last channel has nothing after it to join to and gets
-            # none, which is what this test checks further down. That
-            # wait ran into its limit every single time and cost the
-            # suite two minutes: it took as long as all the other
-            # tests together.
+            # Both files, because they are measured in parallel. Ready
+            # means two rows each, neither still measuring, and a tick
+            # on the first channel of each. Waiting for a tick on every
+            # row waits for what never comes: the last channel gets none.
             two_now = rows_under("A_two_mics.wav")
             pair_now = rows_under("B_one_pair.wav")
             said = [r[1] for r in two_now + pair_now]
@@ -177,9 +170,6 @@ def step():
             cam = rows_under("D_camera.mov")
             print("   two mics:", [(r[0], r[1][:40]) for r in two])
             print("   one pair:", [(r[0], r[1][:40]) for r in pair])
-            # One row per channel: two channels give two rows, and only
-            # the first carries a tick -- the last channel has nothing
-            # after it to join to.
             check("the two-microphone file gets a row per channel",
                   len(two) == 2, str(len(two)))
             check("and a tick to change it with",
@@ -222,17 +212,11 @@ QtCore.QTimer.singleShot(180000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    Windows cannot delete a held file, and ignore_errors would hide the
+    folder staying behind. Players are found by what they hold, not by
+    which player they are, so a second holder cannot slip through. One
+    that never started is not stopped: building what lies behind stop()
+    waits for a lock a starting player holds. Returns what was let go.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -262,27 +246,12 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    Let go, close, delete, in that order, and no ignore_errors: it would
+    swallow the one thing that can go wrong, a folder that stays because
+    something still holds it. The media backend closes the handle in a
+    thread of its own, so the wait is on the handle and not on a fixed
+    pause: up to ten seconds, after which what is left is named and does
+    not turn the test red.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():
