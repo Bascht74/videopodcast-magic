@@ -3,6 +3,8 @@ name: ffmpeg probe
 # By hand only. The suite already runs on every push, and this asks the
 # same six machines for another few minutes each. It is started when a
 # number in the suite has moved and nobody knows why.
+run-name: "ffmpeg probe #${{ github.run_number }}"
+
 on:
   workflow_dispatch:
 

@@ -1,4 +1,5 @@
 name: release
+run-name: "release ${{ inputs.tag || github.ref_name }}"
 
 # What a release has to be, asked of the release itself.
 #
