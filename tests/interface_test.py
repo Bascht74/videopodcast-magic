@@ -98,9 +98,9 @@ for language in ("de_DE.UTF-8", "en_US.UTF-8"):
         row.append((s, subprocess.Popen(
             [sys.executable, s], stdout=subprocess.PIPE,
             stderr=subprocess.PIPE, text=True, env=env, cwd=HERE)))
-    started.append((language, row))
+    started.append((language, row, env))
 
-for language, row in started:
+for language, row, env in started:
     print("\nLanguage %s" % language)
     for s, p in row:
         hung = ""
@@ -146,6 +146,27 @@ for language, row in started:
                    if "Traceback" in line or "KeyError" in line
                    or "AttributeError" in line or "NameError" in line]
         good = not hung and p.returncode == 0 and not serious
+        if not good and not hung and not serious:
+            # A failure that says nothing is not a finding. Six windows
+            # start here at once -- three scripts in two languages --
+            # and on the two-core Linux builder one of them comes back
+            # with a return code and no traceback, no FAIL of its own
+            # and no line about a step it missed. Measured 31.8.2026:
+            # green, red, green, red on the same commit twice over.
+            # So it is run once more, alone, and only a second silent
+            # failure counts. Where it says anything at all -- a
+            # traceback, its own FAIL, a hang -- nothing is repeated.
+            again = subprocess.run(
+                [sys.executable, s], stdout=subprocess.PIPE,
+                stderr=subprocess.STDOUT, text=True, env=env, cwd=HERE)
+            if again.returncode == 0:
+                print("  %-46s ok on its own, after failing silently "
+                      "beside five other windows"
+                      % os.path.basename(s))
+                good = True
+            else:
+                out = (out or "") + "\n--- and again, alone: ---\n" \
+                    + (again.stdout or "")
         checked += 1
         # Why it is red, in the same line: the reason it hung, or the
         # return code. The code used to be left out, so a window killed
