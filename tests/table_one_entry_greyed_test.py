@@ -186,10 +186,13 @@ check("and that is what the run really cuts to",
                         []) == ["Camera1.mov"],
       str(vpm.wide_shots_of(["Camera1.mov", "Camera2.mov"],
                             {"Camera2.mov"}, [])))
-# The other bar, on the same value: here the hand-picked Kind does win.
-check("the wide shot bar, by contrast, lets the answer through",
+# The other bar, on the same value, and it does not step back for an
+# answer: a file with no timecode whose sound has nothing in common with
+# the rest cannot be cut into the episode however firmly anybody says
+# otherwise. Sebastian, 31.8.2026 -- it can only be a jingle.
+check("the wide shot bar holds against a hand-picked Kind as well",
       vpm.wide_shot_barred("/m/Camera1.mov", BY_HAND,
-                           ["/m/Camera1.mov"]) == "",
+                           ["/m/Camera1.mov"]) != "",
       repr(vpm.wide_shot_barred("/m/Camera1.mov", BY_HAND,
                                 ["/m/Camera1.mov"])[:60]))
 check("and bars the same file where nobody answered",

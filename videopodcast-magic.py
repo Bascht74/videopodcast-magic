@@ -1434,7 +1434,9 @@ def clocks_not_set(paths):
 
     The same question the first tab asks, through the same clocks_apart:
     the file whose timecode window overlaps none of the others. A file
-    without a timecode is not in the result. Returns absolute paths.
+    without a timecode is not in the result. Returns path_key names, so
+    the answer can be held against the time axis without either side
+    having to know which spelling the other was given.
     """
     spans = []
     for p in paths:
@@ -1443,7 +1445,7 @@ def clocks_not_set(paths):
         except (OSError, ValueError, RuntimeError):
             t = None
         if t is not None:
-            spans.append((float(t), media_seconds(p), os.path.abspath(p)))
+            spans.append((float(t), media_seconds(p), path_key(p)))
     return clocks_apart(spans)[0]
 
 
@@ -14090,6 +14092,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
 
     Returns (result, text). The result is {} or
     {"axis", "absolute", "weak", "unplaceable", "brief", "no_place"}.
+    The axis is keyed by path_key, as axis_still_valid keys the one it
+    reads out of the project file; the four lists keep the names they
+    came in with, because those are shown.
 
     Four lists, narrowing. "weak" is a file that fits badly. "no_place"
     are the weak ones no timecode places either -- those sit nowhere,
@@ -14132,13 +14137,30 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         if answer is None:
             continue
         a_s, g = answer
-        if abs(g) < 0.15:
+        if abs(g) < SOUND_MATCH_ENOUGH:
             weak.append(p)
             if cannot_be_placed({"unplaceable": g < WEAK_MATCH}, clocks.get(p),
                                 [t for q, t in clocks.items() if q != p]):
                 lost.append(p)
             continue
         axis[p] = -a_s
+    # Held against a camera as well: against a sound recording a jingle
+    # and a camera read too close together to tell apart
+    # (measurements.md, 31.8.2026). The run used this floor all along.
+    cameras = [p for p in envelopes if p.lower().endswith(VIDEO_SUFFIXES)]
+    if len(cameras) > 1:
+        camera_ref = max(cameras, key=lambda p: len(envelopes[p]))
+        for p in cameras:
+            if p == camera_ref or p in weak:
+                continue
+            try:
+                _a, _b, st = align_envelopes(envelopes[camera_ref],
+                                             envelopes[p], HOP)
+            except Exception:
+                continue
+            if st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH:
+                weak.append(p)
+                axis.pop(p, None)
     # A file that fits nothing and is far shorter than everything around
     # it is a jingle rather than a camera. A clock that places it beats
     # the sound here as everywhere. The lengths are here anyway: an
@@ -14171,6 +14193,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     if weak:
         text += TN(len(weak), ', %d file does not fit',
                    ', %d files do not fit') % len(weak)
+    # Not before here: everything above reads the file itself, and the
+    # timecode is asked for under the name that was passed in.
+    axis = dict((path_key(p), t) for p, t in axis.items())
     return {"axis": axis, "absolute": absolute, "weak": weak,
             "unplaceable": lost, "brief": brief,
             "no_place": nowhere}, text
@@ -14197,18 +14222,20 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     axis is a statement about their relationship. A half valid axis would be
     worse than none, because it would look right.
 
-    Returns {"axis", "weak", "absolute"} or None.
-    """
+    Returns {"axis", "weak", "absolute"} or None, keyed by path_key like
+    the measured one, and the stored name is shaped as it is read."""
     known = {}
     for e in ((d or {}).get("timeline") or []):
-        known[e.get("path")] = e
+        stored = e.get("path")
+        if stored:
+            known[path_key(stored)] = e
     axis = {}
     for file_path in paths:
         k = fingerprint(file_path)
-        e = known.get(k[0]) if k else None
+        e = known.get(path_key(k[0])) if k else None
         if not e or e.get("mtime") != k[1] or e.get("size") != k[2]:
             return None
-        axis[k[0]] = float(e.get("start_s") or 0.0)
+        axis[path_key(k[0])] = float(e.get("start_s") or 0.0)
     if not axis:
         return None
     return {"axis": axis, "weak": [],
@@ -14437,6 +14464,30 @@ def preselected_camera(old, targets, speaker, videos, own_camera=""):
         return own_camera
     hit = camera_for_speaker(speaker, videos)
     return os.path.basename(hit) if hit else MIX_ONLY
+
+
+def camera_to_remember(camera, derived, keep=None):
+    """What of an audio row's camera is written into the project.
+
+    Only a real override. One the program worked out itself goes back
+    as nothing, so the next rebuild works it out again -- stored, a
+    name changed afterwards no longer moves the camera. *keep* is what
+    a quiet row falls back on: there the mix is the absence of a
+    choice, not one.
+    """
+    if camera == MIX_ONLY and keep:
+        return keep
+    return None if camera == derived else camera
+
+
+def camera_row_cameras(old, targets, speaker, videos, own_camera=""):
+    """The camera a row shows, and the one the program would give alone.
+
+    Two answers to one question: the second is asked with nothing
+    remembered, and only a camera that differs from it is written down.
+    """
+    return (preselected_camera(old, targets, speaker, videos, own_camera),
+            preselected_camera(None, targets, speaker, videos, own_camera))
 
 
 def without_own_camera(rows, voices, multitrack_on, voiced=()):
@@ -15515,7 +15566,7 @@ def envelope_cache_path(path, hop_ms, rate):
     except OSError:
         return None
     import hashlib
-    fingerprint = "%s|%d|%d|%.3f|%d" % (os.path.abspath(path), int(st.st_mtime),
+    fingerprint = "%s|%d|%d|%.3f|%d" % (path_key(path), int(st.st_mtime),
                                     st.st_size, hop_ms, rate)
     return os.path.join(folder,
                         hashlib.sha1(fingerprint.encode("utf-8")).hexdigest()
@@ -15527,8 +15578,11 @@ def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
 
     The cache survives the whole run. The interface warms it while the user
     is still typing, so by the time the run starts the curve is there.
-    """
-    api_key = (path, hop_ms, rate)
+    Kept under path_key: the prework warms it under the absolute path
+    and the time axis asks under the name the file dialog gave, and
+    where those differ the file was read twice. It is opened by the
+    path as it came in."""
+    api_key = (path_key(path), hop_ms, rate)
     if api_key not in _ENV:
         # Reading an hour of 4K takes minutes; twice is unnecessary.
         cache = envelope_cache_path(path, hop_ms, rate)
@@ -16007,6 +16061,10 @@ AXIS_MIN_WINDOW_S = 10.0
 # 0.21 to 0.27 the same day. A real match sits above 0.8, unrelated
 # material with structure near 0.25, and half is the middle of the gap.
 CAMERA_MATCH_ENOUGH = 0.5
+# Against a sound recording a real match reads far lower, so this floor
+# only tells a measurement from noise. It stood as a bare 0.15 in the
+# middle of the axis measurement until 31.8.2026.
+SOUND_MATCH_ENOUGH = 0.15
 # Not the count of sample points: they are set 30 seconds apart, so
 # shorter material has none at all -- the 21-second camera above had
 # none and was placed exactly right.
@@ -18469,7 +18527,7 @@ def tc_column_write(rows, real_tc, axis, absolute):
             continue
         t, kind = real_tc(p), ""
         if t is None:
-            t = (axis or {}).get(os.path.abspath(p))
+            t = (axis or {}).get(path_key(p))
             kind = T(' computed') if absolute else T(' virtual')
         if t is None:
             text, colour = T('no timecode'), COLOURS["quiet"]
@@ -18496,7 +18554,7 @@ def weak_nodes_mark(nodes, weak):
     black = _qg.QBrush(_qg.QColor(COLOURS["text"]))
     lost = []
     for p, item in list(nodes.items()):
-        odd = p in weak
+        odd = path_key(p) in weak
         try:
             # Column 1 stays with the check mark, or one overwrites the
             # green and red of the other depending on which ran last.
@@ -18531,7 +18589,7 @@ def weak_rows_mark(rows, weak):
     for row, p, plain in rows:
         if not p:
             continue
-        odd = os.path.abspath(p) in weak
+        odd = path_key(p) in weak
         try:
             for cell in row:
                 cell.setForeground(red if odd else black)
@@ -18651,14 +18709,14 @@ def audio_start_of(file_path, axis, unset=None):
     """
     if unset is None:
         unset = clocks_not_set(list(axis or ()))
-    if os.path.abspath(file_path) not in unset:
+    if path_key(file_path) not in unset:
         try:
             t = file_timecode(file_path)
         except (OSError, ValueError, RuntimeError):
             t = None
         if t is not None:
             return float(t)
-    a = (axis or {}).get(os.path.abspath(file_path))
+    a = (axis or {}).get(path_key(file_path))
     return float(a) if a is not None else None
 
 
@@ -18694,11 +18752,11 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
     "several cameras" -- then the path is empty because nothing here
     can pick between them -- or "nothing".
     """
-    weak = set(os.path.abspath(p) for p in (weak or ()))
+    weak = set(path_key(p) for p in (weak or ()))
 
     def usable(p):
         return (p and os.path.exists(p)
-                and os.path.abspath(p) not in weak)
+                and path_key(p) not in weak)
 
     if chosen and usable(chosen):
         return chosen, "chosen"
@@ -20925,13 +20983,13 @@ def chain_fill_in(group, row, discarded, selected,
 def wide_shot_barred(path, value, placeless):
     """Why this file cannot be the wide shot, or "" where it can be one.
 
-    The wide shot is the camera that runs through and steps in wherever
-    no other one fits, so it has to lie on the time axis. *placeless*
-    are the paths the measurement placed nowhere; empty or None means
-    no measurement has said so and nothing is barred. A Kind somebody
-    picked is left alone, the same rule the proposal follows.
+    The wide shot is what the cut falls back on, so it has to lie on
+    the time axis. *placeless* are the paths the measurement placed
+    nowhere; empty or None bars nothing. A Kind somebody picked is
+    barred as well: this states a fact about the material rather than
+    suggesting one -- a file nothing places can only be a jingle.
     """
-    if not placeless or getattr(value, "chosen_by_hand", False):
+    if not placeless:
         return ""
     if path_key(path) not in set(path_key(p) for p in placeless):
         return ""
@@ -20974,6 +21032,12 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
         noted[TYPE_WIDE] = why
     if no_wide:
         barred[TYPE_WIDE] = no_wide
+        # Nor content: content is cut into the episode, and this file
+        # has no place to be cut into -- as content it becomes the wide
+        # shot by derivation. Intro, outro and "leave out" stay open.
+        barred.setdefault(TYPE_CONTENT, T(
+            'It fits nowhere in the material, so it cannot be cut into '
+            'the episode. It can be set in front of it or after it.'))
     choices_shut(box, barred, why, quiet, noted)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
@@ -21187,6 +21251,24 @@ def kind_proposal_apply(values, unplaceable, brief=()):
     return moved
 
 
+def kinds_off_the_axis(values, no_place):
+    """Move every file with no place off content and the wide shot.
+
+    Not a proposal but a fact: a file with no timecode whose sound has
+    nothing in common with the rest cannot be cut into the episode, so
+    content and the wide shot are not answers it can carry -- however
+    they got there, by hand or out of a project file. Intro is where it
+    lands; outro and "leave out" stay one click away.
+    """
+    lost = set(path_key(p) for p in (no_place or ()))
+    moved = []
+    for path, value in list(values.items()):
+        if path_key(path) in lost and value.get() in CAMERA_TYPES:
+            value.set(TYPE_INTRO)
+            moved.append(path)
+    return moved
+
+
 def kind_proposal_say(values, data):
     """Apply the proposal from a finished measurement and say what moved.
 
@@ -21196,6 +21278,13 @@ def kind_proposal_say(values, data):
     """
     moved = kind_proposal_apply(values, (data or {}).get("unplaceable"),
                                 (data or {}).get("brief"))
+    # The proposal first, the fact after it: the proposal steps back
+    # from an answer somebody gave, and what it leaves behind on content
+    # or the wide shot is exactly what cannot be true.
+    forced = kinds_off_the_axis(values, (data or {}).get("no_place"))
+    for path in forced:
+        print(T('%s fits nothing in the material, so it cannot be cut '
+                'into the episode: set to Intro.') % os.path.basename(path))
     for path in moved:
         name, kind = os.path.basename(path), values[path].get()
         if kind == TYPE_INTRO:
@@ -21206,7 +21295,7 @@ def kind_proposal_say(values, data):
             print(no_place_message(name))
         else:
             print(T('%s can be placed again and is back in the run.') % name)
-    return moved
+    return moved + [p for p in forced if p not in moved]
 
 
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
@@ -21527,7 +21616,7 @@ def file_span(file_path, axis):
         tc0 = None
     return {"duration": float(info.get("duration") or 0.0), "fps": fps,
             "tc0": tc0,
-            "axis": (axis or {}).get(os.path.abspath(file_path))}
+            "axis": (axis or {}).get(path_key(file_path))}
 
 
 def tree_build(columns):
@@ -23541,7 +23630,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             t = real_tc(self.track_path)
             if t is not None:
                 return t
-            return state["axis"].get(os.path.abspath(self.track_path))
+            return state["axis"].get(path_key(self.track_path))
 
         def track_follow_up(self):
             """Move the audio track to the same point in the events."""
@@ -23677,7 +23766,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
         def axis_s(self):
             """Return where this file starts on the measured axis."""
-            return state["axis"].get(self.file_path)
+            p = self.file_path   # nothing loaded is nowhere on the axis
+            return state["axis"].get(path_key(p)) if p else None
 
         def axis_spot(self):
             """Return the position in the events, from the axis."""
@@ -27415,7 +27505,7 @@ def gui():
                 continue
             if t0 is None:
                 # Without a timecode of its own, the measured position counts.
-                t0 = state["axis"].get(os.path.abspath(b))
+                t0 = state["axis"].get(path_key(b))
             entries.append((t0, duration))
         from_s, until, absolute = window_suggestion(entries, fps)
         if not from_s:
@@ -27477,7 +27567,7 @@ def gui():
         thread cannot be broken off mid-write and goes on reporting,
         and every such report would put it back on the bar.
         """
-        if file_path in prework_discarded:
+        if path_key(file_path) in prework_discarded:
             return
         if task:
             prework_shares[(file_path, task)] = max(0.0, min(1.0, share))
@@ -27565,7 +27655,7 @@ def gui():
             return False
         # Where the file left the list meanwhile, the work was wasted; clear it
         # away right there rather than leaving it lying about.
-        if os.path.abspath(file_path) in prework_discarded:
+        if path_key(file_path) in prework_discarded:
             try:
                 os.unlink(target)
             except OSError:
@@ -27576,7 +27666,7 @@ def gui():
 
     def prework_env_curve_build(file_path):
         """Precompute the envelope so the run finds it ready."""
-        if (file_path, 5.0, 4000) in _ENV:
+        if (path_key(file_path), 5.0, 4000) in _ENV:
             prework_report(file_path, "", 1.0, "envelope")
             return True
         prework_report(file_path, T('Envelope'), 0.0, "envelope")
@@ -27690,7 +27780,7 @@ def gui():
                     prework_active.add(entry)
                 file_path, task = entry
                 try:
-                    if os.path.abspath(file_path) in prework_discarded:
+                    if path_key(file_path) in prework_discarded:
                         prework_drop(entry)
                         continue
                     try:
@@ -27728,7 +27818,7 @@ def gui():
     def prework_kick_off(paths, having_audio=()):
         """Queue the prework: envelopes for all, audio for some."""
         for p in paths:
-            prework_discarded.discard(os.path.abspath(p))
+            prework_discarded.discard(path_key(p))
 
         def audio_present(a):
             """Report whether the processed audio is already there.
@@ -27741,7 +27831,7 @@ def gui():
                 return None
 
         fresh = pending_prework(paths, having_audio, audio_present,
-                              lambda a: (a, 5.0, 4000) in _ENV,
+                              lambda a: (path_key(a), 5.0, 4000) in _ENV,
                               lambda a: probe_has("channelfacts", a),
                               lambda a: os.path.abspath(a) in split_files)
         with prework_lock:
@@ -28021,9 +28111,8 @@ def gui():
         axis = (data or {}).get("axis") or {}
         state["axis"] = axis
         state["axis_absolute"] = bool((data or {}).get("absolute"))
-        state["weak"] = set(os.path.abspath(p)
-                                 for p in ((data or {}).get("weak") or []))
-        state["no_place"] = set(os.path.abspath(p)
+        state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
+        state["no_place"] = set(path_key(p)
                                 for p in ((data or {}).get("no_place") or []))
         if axis and remember:
             axis_store(axis)
@@ -28277,13 +28366,14 @@ def gui():
     def prework_clean_up(gone):
         """What left the list needs no audio either."""
         gone = set(os.path.abspath(p) for p in gone)
+        keys = set(path_key(p) for p in gone)      # what the cache is keyed by
         with prework_lock:
             dropped = [(p, a) for p, a in prework_queue if p in gone]
             prework_queue[:] = [(p, a) for p, a in prework_queue
                                 if p not in gone]
             # What is being extracted cannot be aborted mid-write -- the thread
             # clears it away itself once it is finished.
-            prework_discarded.update(gone)
+            prework_discarded.update(keys)
         for api_key in [k for k in prework_done if k[0] in gone]:
             file = prework_done.pop(api_key, None)
             if file and os.path.exists(file):
@@ -28304,8 +28394,8 @@ def gui():
         for p in gone:
             prework_node.pop(p, None)
             prework_pending.pop(p, None)
-            for api_key in [k for k in _ENV if k[0] == p]:
-                _ENV.pop(api_key, None)
+        for api_key in [k for k in _ENV if k[0] in keys]:  # 5.8 MB an hour
+            _ENV.pop(api_key, None)
 
     def prepared_tracks():
         """Return the finished tracks from auphonic.com: name -> file.
@@ -28601,12 +28691,11 @@ def gui():
             # underneath: the recording has no camera of its own then,
             # and switching back to one name must find the old one.
             old = remembered.get("audio:" + row[0])
-            camera = cv.get()
             quiet_row = (not multitrack.get() or os.path.abspath(row[0])
                          in (state.get("voiced") or ()))
-            if camera == MIX_ONLY and quiet_row and old:
-                camera = old[1]
-            remembered["audio:" + row[0]] = (nv.get(), camera)
+            remembered["audio:" + row[0]] = (nv.get(), camera_to_remember(
+                cv.get(), getattr(cv, "derived", None),
+                old[1] if (quiet_row and old) else None))
         for file_path, nv, own_box, own_name_box in camera_lines:
             remembered["video:" + file_path] = nv.get()
             # Only what somebody clicked themselves is stored. A tick that
@@ -29108,10 +29197,11 @@ def gui():
                           if camera_track else "")
             was = camera_after_a_mark("audio:" + first, old_camera, wide,
                 speaker_name_of(name_value) or os.path.basename(first))
-            picked = preselected_camera(
+            picked, worked_out = camera_row_cameras(
                 was, wide["pickable"], name_value.get(), videos,
                 own_camera="" if own_camera in barred else own_camera)
             camera_value = Value(MIX_ONLY if picked in barred else picked)
+            camera_value.derived = worked_out
             box = QtWidgets.QComboBox()
             speaks_as(box, belongs_head, caption)
             fill_choices(box, targets, camera_value.get())
@@ -30062,7 +30152,7 @@ def gui():
                 return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
         except Exception:
             pass
-        a = (state.get("axis") or {}).get(os.path.abspath(file_path))
+        a = (state.get("axis") or {}).get(path_key(file_path))
         return float(a) if a is not None else 0.0
 
     def forecast_empty(empty):
@@ -33811,6 +33901,14 @@ CATALOGUE["de"] = {
         'Sie passt nirgends ins Material: kein Timecode, und ihr Ton hat '
         'mit dem Rest nichts gemeinsam. Auf den Weitwinkel fällt der '
         'Schnitt zurück, also muss er auf der Zeitachse liegen.',
+    'It fits nowhere in the material, so it cannot be cut into '
+    'the episode. It can be set in front of it or after it.':
+        'Sie passt nirgends ins Material und kann darum nicht in die '
+        'Folge hineingeschnitten werden. Davor oder danach setzen geht.',
+    '%s fits nothing in the material, so it cannot be cut into the '
+    'episode: set to Intro.':
+        '%s passt zu nichts im Material und kann darum nicht in die Folge '
+        'hineingeschnitten werden: auf Vorspann gesetzt.',
     'It is in the logs atom of the picture description -- that is how '
     'Resolve recognises the input colour space. Different curves mean '
     'different input colour spaces.':
