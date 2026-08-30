@@ -487,7 +487,7 @@ def look(case):
         """
         return p is not None and any(a <= t < b for a, b, _w in p.cut)
 
-    def go_to(tag, t, noise=False):
+    def go_to(tag, t, noise=False, on_retry=None):
         """One step: jump to that moment and see a line come out of it.
 
         Waits for the state that makes a line rather than for a length
@@ -520,6 +520,8 @@ def look(case):
                     return
             if tries[0] < TRIES:
                 tries[0] += 1
+                if on_retry is not None and tries[0] == 1:
+                    on_retry()
                 return "again"
             result.setdefault("silent", []).append(
                 {"step": tag, "covered": covers(p, t),
@@ -712,15 +714,18 @@ def look(case):
     def late_cut():
         """Ask for a moment the player does not hold yet.
 
-        The counter-check to the waiting itself. The step before left
-        the player with an empty cut; the cut comes back in a moment,
-        and the jump has to arrive at a line all the same. Written
-        against a length of time this step is red, and that is the
-        whole reason it is here.
+        The counter-check to the waiting itself: the step before left
+        the player with an empty cut, the cut comes back, and the jump
+        has to arrive at a line all the same.
+
+        The cut comes back on the step's own first retry, not after a
+        length of time. A clock racing the plan decides differently on
+        a loaded machine than on an idle one: the cut was back before
+        the step ever asked, and the line it prints landed on whatever
+        step was current.
         """
-        QtCore.QTimer.singleShot(800, hand_it_back)
         plan.append(go_to("late %.3f" % result["spots"][0],
-                          result["spots"][0]))
+                          result["spots"][0], on_retry=hand_it_back))
 
     after_the_edge = []
     if case == "plain":
