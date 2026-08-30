@@ -34,6 +34,31 @@ cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
 
+## What a release is
+
+A version is not a tag. Five things belong to it, and the tag comes
+last:
+
+1. **The tests are green on all six builder jobs.** Evidence before the
+   mark: a tag whose attachment does not match what was tested is worse
+   than no tag.
+2. **`CHANGELOG.md` says what changed**, in the groups Keep a Changelog
+   wants and in their order -- Added, Changed, Removed, Fixed, Tests,
+   Documentation. The release notes are cut from that section.
+3. **The manual is true again.** Anything a person can see or feel is a
+   chapter, in both languages. A default that moved, a new answer in a
+   field, a computation that costs their processor: all of that.
+4. **The pictures show the program as it is now.** `docs/notes/` says
+   how they are taken. Not every release moves them; a release that
+   changed the window does.
+5. **The list and the issue are brought up to date** -- `docs/notes/`
+   for what is open, and the roadmap issue for whoever reads from
+   outside.
+
+Sebastian asked for this to be written down on 31.8.2026, after the
+fourth release in two days where the manual and the list were caught up
+afterwards rather than as part of the work.
+
 **Before every release, fetch the builder's times and look at them.**
 
 ```bash
