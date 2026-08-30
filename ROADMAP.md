@@ -76,6 +76,15 @@ each other, and the voices of a separation are named by the order they
 talk in until somebody types over them. The data is all there and the
 match has not been measured.
 
+Half of it now has been. Who asks the questions and who answers can be
+read out of a transcript: question marks, and the share of the talking.
+Measured on a real episode, the two agree, and the questions are the
+stronger of the two -- they survive the long opening where one person
+speaks for minutes without asking anything, and the speaking share does
+not. It would carry as an order, not as a threshold, which means it can
+propose a role but must never decide one on its own. Whether to build
+it as a proposal is a decision, not a measurement.
+
 ## What comes later
 
 Coarser, and in no fixed order.

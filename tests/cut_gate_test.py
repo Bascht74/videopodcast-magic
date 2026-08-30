@@ -267,7 +267,7 @@ def look(case):
 
     def window_of():
         for x in app.topLevelWidgets():
-            if x.windowTitle().startswith("Video Podcast"):
+            if "Video Podcast Magic" in x.windowTitle():
                 return x
 
     # ----------------------------------------------- reading the sheets

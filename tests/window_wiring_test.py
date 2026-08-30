@@ -283,7 +283,7 @@ vpm.cut_statistics = stat_spy
 # ------------------------------------------------------- reading the window
 def window_of():
     for x in app.topLevelWidgets():
-        if x.windowTitle().startswith("Video Podcast"):
+        if "Video Podcast Magic" in x.windowTitle():
             return x
     return None
 
