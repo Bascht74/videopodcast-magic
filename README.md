@@ -7,7 +7,7 @@
 *The main window. What was found, what belongs together, and what does
 not fit -- before anything is written.*
 
-**Version 2.16.0-beta.** It does the work it was written for, every
+**Version 2.17.0-beta.** It does the work it was written for, every
 week, on real material. It is called beta because it is not finished
 being tested: the format of the project file may still change, and an
 older file is refused with a clear message rather than half read.

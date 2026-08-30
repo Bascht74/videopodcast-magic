@@ -9,7 +9,7 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.17.0-beta] - 2026-08-31
 
 ### Added
 
@@ -2285,6 +2285,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.17.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.16.0-beta...v2.17.0-beta
 [2.16.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.15.0-beta...v2.16.0-beta
 [2.15.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.14.0-beta...v2.15.0-beta
 [2.14.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.13.0-beta...v2.14.0-beta
