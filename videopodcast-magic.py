@@ -8909,8 +8909,16 @@ def align_cameras(videos):
             continue
         # There is no phase way between two cameras, so the envelopes
         # are the whole measurement here: below the floor nothing more
-        # is coming.
-        if st.get("quality", 0.0) < WEAK_MATCH:
+        # is coming. And no sample point means nothing was measured --
+        # the coarse correlation still answers, it always answers, but
+        # a fourteen-second jingle held against an hour of camera has
+        # nowhere to put a sample point. Measured 30.8.2026 on real
+        # material: "0 of 240 points", placed at +7.245 s, and since
+        # the common window is what every file has in common, fourteen
+        # seconds of jingle shrank it to nothing and the run stopped.
+        #
+        # The sample-point half only here: see cannot_be_placed.
+        if st.get("quality", 0.0) < WEAK_MATCH or not st.get("points"):
             st["unplaceable"] = True
         if cannot_be_placed(st, clocks.get(v),
                             [t for w, t in clocks.items() if w != v]):
