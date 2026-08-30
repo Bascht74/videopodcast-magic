@@ -89,6 +89,12 @@ Es trüge als Rangfolge, nicht als Schwelle: es darf eine Rolle
 vorschlagen, aber nie allein entscheiden. Ob es als Vorschlag gebaut
 wird, ist eine Entscheidung und keine Messung.
 
+Die Entscheidung ist gefallen, und der Vorschlag steht: nach einem Lauf
+nennt das Protokoll, wer fragt, mit den Sätzen und den Fragen dahinter,
+und es wird nichts daraus gesetzt. Was fehlt, ist die andere Hälfte —
+die Trennung gegen die Mikrofone zu halten, damit „Stimme 2“ ihren Namen
+bekommt, ohne dass jemand ihn tippt.
+
 ## Was später kommt
 
 Gröber, und in keiner festen Reihenfolge.
