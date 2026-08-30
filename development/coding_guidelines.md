@@ -140,6 +140,11 @@ about a fifth. The rest comes from deleting what the code already says,
 what happened once, and what was measured where. That part is read line
 by line; no rule finds it.
 
+**A commit message follows the same rules.** A heading and a handful of
+lines: what changed and why, not the road that led there. Where several
+things changed, a list of one line each beats a paragraph apiece. The
+measurements and the wrong turns belong in `docs/notes/`.
+
 **No anecdotes.** No reference to a particular recording, no names of
 people, no drive paths. Whatever one example taught is written down in
 general terms:

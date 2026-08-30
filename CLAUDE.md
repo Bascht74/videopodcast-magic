@@ -180,7 +180,9 @@ Say what was measured and what was assumed. Never claim a test passed
 without running it.
 
 Explain a change in plain words, not in terms of the code: what it does
-and why.
+and why. **Short**, in a commit message as in a comment: a heading and a
+handful of lines, a list where several things changed. The road that led
+there goes in `docs/notes/`, not into the message.
 
 ## The working notes are not in this repository
 
