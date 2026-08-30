@@ -10,6 +10,7 @@ program is not checked here -- only that what it names exists.
 """
 import io
 import os
+import overview
 import re
 import sys
 import time
@@ -55,6 +56,12 @@ check("every skill has a SKILL.md with a name and a description",
           for t in texts.values()),
       "%d skills: %s" % (len(texts), ", ".join(sorted(texts))))
 
+# The repository, not the folder: the builder moves the tests a machine
+# cannot run out of tests/ before the suite starts, so a test a skill
+# names would read as a dead file on the jobs that set it aside. Both
+# sections below ask this set instead of what happens to lie in tests/.
+SUITE = set(overview.test_sources(HERE))
+
 print("\n2. Every path a skill points at is there")
 # Only what really looks like a path: a folder in front of it, or an
 # ending this repository uses. `check(...)`, `abspath` and the like are
@@ -81,10 +88,21 @@ for name, text in sorted(texts.items()):
             # skill may point at them; it may not depend on them.
             if path.startswith("docs/notes") or path in NOT_SHIPPED:
                 continue
-            if os.path.exists(os.path.join(ROOT, path)):
+            # A test is asked of the suite, and it makes no difference
+            # whether the skill writes tests/ in front of the name: the
+            # one set aside is still one of ours, and a skill naming it
+            # is not naming a dead file.
+            base = os.path.basename(path)
+            if base.endswith("_test.py") and path in (base, "tests/" + base):
+                if base[:-len("_test.py")] in SUITE:
+                    continue
+            # Everything else goes over the folder, not over git: nothing
+            # moves these, and the folder answers for uncommitted work as
+            # readily as for the rest. A bare name may also live in
+            # tests/ or beside the program.
+            elif os.path.exists(os.path.join(ROOT, path)):
                 continue
-            # A bare file name may live in tests/ or beside the program.
-            if "/" not in path and any(
+            elif "/" not in path and any(
                     os.path.exists(os.path.join(ROOT, d, path))
                     for d in ("", "tests", "docs", "development")):
                 continue
@@ -93,17 +111,15 @@ check("every path a skill names resolves", not missing,
       "%d dead: %s" % (len(missing), "; ".join(missing[:4])))
 
 print("\n3. Every test a skill names is there")
-there = set(n[:-len("_test.py")] for n in os.listdir(HERE)
-            if n.endswith("_test.py"))
 NAMES_A_TEST = re.compile(r"`([a-z][a-z0-9_]*)_test\.py`|`([a-z][a-z0-9_]{4,})`")
 gone = []
 for name, text in sorted(texts.items()):
     for i, line in enumerate(text.splitlines(), 1):
         for full, bare in NAMES_A_TEST.findall(line):
-            if full and full not in there:
+            if full and full not in SUITE:
                 gone.append("%s:%d %s_test.py" % (name, i, full))
             elif bare and bare.endswith("_test") \
-                    and bare[:-len("_test")] not in there:
+                    and bare[:-len("_test")] not in SUITE:
                 gone.append("%s:%d %s" % (name, i, bare))
 check("every test a skill names is in the folder", not gone,
       "%d dead: %s" % (len(gone), "; ".join(gone[:4])))
