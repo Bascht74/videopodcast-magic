@@ -8728,6 +8728,22 @@ def channel_tracks(facts, name="Track", choice=None):
     return out
 
 
+def mix_width(tracks):
+    """How many channels a mix of these tracks is delivered in.
+
+    Two where there are several: a mix is what is listened to and what
+    is measured, and two channels is the form it is delivered in. One
+    recording is the exception -- there is nothing to mix, so nothing is
+    widened, and a mono recording stays one channel exactly as it did
+    when a single recording had a path of its own. A stereo source
+    raises the count on its own either way.
+    """
+    if len(tracks) > 1:
+        return 2
+    return max(1, widest_track([track.get("ready") or track.get("axis")
+                                for track in tracks])) if tracks else 1
+
+
 def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
     """Sum several equally long tracks into one.
 
@@ -8908,17 +8924,13 @@ def align_cameras(videos):
                   % (os.path.basename(v), e))
             continue
         # There is no phase way between two cameras, so the envelopes
-        # are the whole measurement here: below the floor nothing more
-        # is coming. And no sample point means nothing was measured --
-        # the coarse correlation still answers, it always answers, but
-        # a fourteen-second jingle held against an hour of camera has
-        # nowhere to put a sample point. Measured 30.8.2026 on real
-        # material: "0 of 240 points", placed at +7.245 s, and since
-        # the common window is what every file has in common, fourteen
-        # seconds of jingle shrank it to nothing and the run stopped.
-        #
-        # The sample-point half only here: see cannot_be_placed.
-        if st.get("quality", 0.0) < WEAK_MATCH or not st.get("points"):
+        # are the whole measurement here, and the floor is higher than
+        # anywhere else: see CAMERA_MATCH_ENOUGH for the three pairs it
+        # was measured on. An eighteen-second jingle answers 0.210
+        # against an hour of camera and gets a number all the same;
+        # laid on the axis it shrank the window every file has in
+        # common to nothing and stopped the whole run.
+        if st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH:
             st["unplaceable"] = True
         if cannot_be_placed(st, clocks.get(v),
                             [t for w, t in clocks.items() if w != v]):
@@ -9289,22 +9301,20 @@ def sort_by_time(paths):
 def one_track_left(plan):
     """What to do when the camera audio holds fewer than two tracks.
 
-    Not a reason to stop since 2.7.0-beta: one track is a whole result.
-    The voices in it are told apart on this machine and the first cut is
-    made from that, so what falls away is Multitrack, not the run. The
-    tracks that were found are handed back for the ordinary path.
+    Nothing, since the two paths became one. A single recording is a
+    special case of several, not a different kind of job: it goes on the
+    same axis, through the same writer, into the same handover. What
+    falls away is only the multitrack production at auphonic.com, and
+    that is decided where the upload happens.
 
-    Nothing at all is the one case that cannot go on: no camera had a
-    microphone, and there is no sound to work with.
+    Returns 1 for the one case that cannot go on -- no camera had a
+    microphone and there is no sound at all -- and None otherwise, which
+    means "carry on".
     """
-    tracks = [e["audio"] for e in plan if e.get("audio")]
-    if not tracks:
+    if not [e["audio"] for e in plan if e.get("audio")]:
         print(as_bad(T('No sound in the cameras -- nothing to work with.')))
         return 1
-    print(T('  One track only. Multitrack needs two, so this runs the '
-            'ordinary way:\n  the voices in it are told apart and the cut '
-            'is made from that.'))
-    return (SINGLE_TRACK, tracks)
+    return None
 
 
 def show_multitrack_plan(args, audio_paths, video_paths):
@@ -9353,14 +9363,18 @@ def show_multitrack_plan(args, audio_paths, video_paths):
         atexit.register(shutil.rmtree, args._camera_audio, True)
         plan = extract_audio_for_plan(plan, args._camera_audio)
         if len(plan) < 2:
-            return one_track_left(plan)
+            stop = one_track_left(plan)
+            if stop is not None:
+                return stop
     elif not plan:
         # Only video files on the command line: guess the names ourselves.
         args._camera_audio = tempfile.mkdtemp(prefix="vpm_camaudio_")
         atexit.register(shutil.rmtree, args._camera_audio, True)
         plan = plan_from_camera_audio(video_paths, args._camera_audio, cameras, title)
         if len(plan) < 2:
-            return one_track_left(plan)
+            stop = one_track_left(plan)
+            if stop is not None:
+                return stop
         if not cameras:
             # One entry per camera, not per track: a camera whose two
             # channels carry two microphones is still one camera and
@@ -9552,9 +9566,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                  st.get("spread_ms", 0.0), st.get("points", 0),
                  st.get("candidates", 0),
                  "  [" + hint + "]" if hint else ""))
-    if len(tracks) < 2:
-        print(T('\nFewer than two audio tracks can be aligned -- Multitrack '
-                'is not worth it.'))
+    if not tracks:
+        print(T('\nNo audio track could be aligned -- there is nothing to '
+                'put on the axis.'))
         return 1
 
     # Window: what every camera saw, limited to what there is audio for.
@@ -9581,10 +9595,30 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         # running before the recorder was switched on is the normal case and
         # irrelevant to the cut.
         track["missing_head"], track["missing_tail"] = missing_front, missing_back
+        # And the other way round: what the recording has outside the
+        # window and therefore loses. Not the same question, and it is
+        # the one somebody asks when the episode comes out shorter than
+        # the recording.
+        track["dropped_head"], track["dropped_tail"] = (max(0.0, t0 - b0),
+                                                        max(0.0, b1 - t1))
 
-    if t1 - t0 < 30:
-        print(T('\nThe common range of sound and picture is only %s long -- '
-                'something is wrong.') % as_hms(max(0, t1 - t0)))
+    # Not thirty seconds. That number was never measured, and it turned
+    # away material the tests prove is placed to the sample: the ordinary
+    # path's own test material is 26 seconds of picture and comes out
+    # exact. What decides is how much the alignment could see -- it takes
+    # a sample point every couple of seconds, and a window holding none
+    # of them was not measured, it was guessed at.
+    #
+    # Sebastian set the rule on 30.8.2026: one rule for both paths, and
+    # it counts sample points rather than seconds or per cent, "and the
+    # number goes into the message, so it can be checked".
+    seen = min([st.get("points", 0) for v, (_a, _b, st) in position.items()
+                if v != ref_clip[0]] or [0])
+    if t1 - t0 <= 0 or (seen == 0 and t1 - t0 < AXIS_MIN_WINDOW_S):
+        print(T('\nSound and picture have only %s in common, and the '
+                'alignment found %d sample points in it. That is too '
+                'little to place anything on.')
+              % (as_hms(max(0, t1 - t0)), seen))
         return 1
     print(T('  Common window:       %s to %s (%s)')
           % (as_hms(t0), as_hms(t1), as_hms(t1 - t0)))
@@ -9594,6 +9628,18 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     print(T('    it begins with %s and ends with %s -- the stretch every '
             'camera saw')
           % (late, early))
+    # What falls away, said out loud. The numbers were computed above and
+    # printed nowhere, so a run that dropped eight seconds off a
+    # recording looked exactly like one that dropped nothing. The
+    # ordinary path said it as long as it had a path of its own, and it
+    # is the answer to "why is my episode shorter than my recording".
+    for track in tracks:
+        front, back = track["dropped_head"], track["dropped_tail"]
+        if front <= 0.25 and back <= 0.25:
+            continue
+        print(T('    %s: %s at the front and %s at the back have no '
+                'picture and are left out')
+              % (track["name"], as_hms(front), as_hms(back)))
     # Remember the measured window: already processed tracks come from a run
     # without In point and Out point and are therefore exactly that long.
     full0, full1 = t0, t1
@@ -9743,7 +9789,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         gain, curve = normalise_loudness(
             tracks, args.lufs, tmpdir,
             find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
-            channels=2)
+            channels=mix_width(tracks))
         return distribute_tracks_to_cameras(
             args, tracks, cameras, videos, tmpdir, gain, position, t0,
             ref_clip, t1, curve)
@@ -9752,9 +9798,16 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print(T('\n  (measuring only: without an API key it stops here)'))
         return 0
     key = api_key_from_anywhere(args)
+    # The one place where a single recording really needs something
+    # else. Everything before this line and everything after it is the
+    # same for one track as for four; only auphonic.com has two kinds of
+    # production, and a multitrack preset holding one track is not what
+    # anybody wants. So the preset follows the count, and so does the
+    # production.
+    alone = len(tracks) < 2
     try:
         preset, presetname = choose_preset(
-            key, args.auphonic_preset, True, lufs=args.lufs,
+            key, args.auphonic_preset, not alone, lufs=args.lufs,
             anyway=getattr(args, "anyway", False))
     except Exception as e:
         print(T('\nNo preset chosen: %s') % e)
@@ -9763,11 +9816,19 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         os.path.abspath(video_paths[0]))
     print()
     try:
-        done = run_multitrack_production(
-            key, preset, title or 'Production', tracks, folder,
-            args.auphonic_wait, args.dry_run, args.auphonic_resume,
-            bool(getattr(args, "transcript", False)),
-            speech_language_code(getattr(args, "speech_language", "")))
+        if alone:
+            one = run_single_production(
+                tracks[0]["axis"], preset, presetname, key, folder,
+                args.auphonic_wait, args.dry_run, title or 'Production',
+                bool(getattr(args, "transcript", False)),
+                speech_language_code(getattr(args, "speech_language", "")))
+            done = {tracks[0]["name"]: one} if one else {}
+        else:
+            done = run_multitrack_production(
+                key, preset, title or 'Production', tracks, folder,
+                args.auphonic_wait, args.dry_run, args.auphonic_resume,
+                bool(getattr(args, "transcript", False)),
+                speech_language_code(getattr(args, "speech_language", "")))
     except Exception as e:
         print(as_bad(T('Processing failed: %s') % e))
         return 1
@@ -10204,7 +10265,7 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(videos[0][0]))
     gain, curve = normalise_loudness(tracks, args.lufs, tmpdir, None,
-                                     channels=2)
+                                     channels=mix_width(tracks))
     return distribute_tracks_to_cameras(
         args, tracks, cameras, videos, tmpdir, gain, position, t0,
         ref_clip, t1, curve, segment_list=segment_list)
@@ -10232,14 +10293,23 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     track_names = {}          # output file -> names of its audio tracks
     offsets = {}          # output file -> measured offset in seconds
     print(as_head(T('\nMIXING')))
-    # Mixes go out in two channels, single tracks in as many as they were
-    # recorded with: the mix is what is delivered and measured, the single
-    # track is what is worked with in the edit. A stereo track therefore
-    # stays stereo on its own line and puts its sides into the mix.
+    # Mixes of several tracks go out in two channels, single tracks in as
+    # many as they were recorded with: the mix is what is delivered and
+    # measured, the single track is what is worked with in the edit. A
+    # stereo track therefore stays stereo on its own line and puts its
+    # sides into the mix.
+    #
+    # One track is the exception, and it is the whole point of one
+    # recording being a special case of several rather than a different
+    # job: there is nothing to mix, so nothing is widened. A mono
+    # recording came out of the ordinary path as one channel for as long
+    # as that path existed, and it still does.
+    wide = mix_width(tracks)
     full_mix = mix_tracks([track["ready"] for track in tracks],
                         os.path.join(tmpdir, "mix_full.wav"), gain,
-                        curve, channels=2)
-    print(T('  Full-Mix from %d tracks, two channels') % len(tracks))
+                        curve, channels=wide)
+    print(TN(wide, '  Full-Mix from %d tracks, %d channel',
+             '  Full-Mix from %d tracks, %d channels') % (len(tracks), wide))
 
     # What is said and when, out of the finished mix. It runs beside
     # the cameras rather than in front of them: on a machine where the
@@ -10283,8 +10353,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             [track["ready"] for track in own],
             os.path.join(tmpdir, "mix_%s.wav"
                          % safe_filename(os.path.basename(file_path))), gain,
-            curve, channels=2)
-        print(T('  %s: %s mixed together, two channels')
+            curve, channels=mix_width(own))
+        print(T('  %s: %s mixed together')
               % (os.path.basename(file_path),
                  " + ".join(track["name"] for track in own)))
 
@@ -16708,6 +16778,32 @@ def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0
 # finished mix of the same room.
 WEAK_MATCH = 0.05
 
+# The shortest stretch of shared sound and picture that a run will work
+# with when the alignment could not place a single sample point in it.
+# Where it did place points, the length does not matter -- what was
+# measured was measured. Ten seconds because the alignment's own spacing
+# is a couple of seconds and a handful of them is the least that says
+# anything; the thirty that stood here before was a round number nobody
+# had measured, and it refused 26 seconds of picture that come out exact.
+AXIS_MIN_WINDOW_S = 10.0
+
+# What one camera has to match another by before it is laid on the axis.
+# Far above WEAK_MATCH: between two cameras there is no phase way to fall
+# back on, so the envelopes are the whole measurement, and the floor for
+# "nothing at all" is not the number for "these two heard the same room".
+#
+#   camera against camera, 21 s against 26 s      0.837   right
+#   camera against camera, 68 min against 68 min  0.811   right
+#   an 18-second jingle against 68 min of camera  0.210   nonsense
+#
+# Measured 30.8.2026; two recordings of different conversations came to
+# 0.21 to 0.27 the same day. A real match sits above 0.8, unrelated
+# material with structure near 0.25, and half is the middle of the gap.
+CAMERA_MATCH_ENOUGH = 0.5
+# Not the count of sample points: they are set 30 seconds apart, so
+# shorter material has none at all -- the 21-second camera above had
+# none and was placed exactly right.
+
 
 def timecode_places_it(own, others):
     """Report whether a timecode can put this file among the others.
@@ -21964,10 +22060,11 @@ def main():
     if missing:
         print(missing)
         return 1
-    if args.multitrack:
-        return multitrack_or_single(args, ap, audio_paths, video_paths)
-
-    return run_single_track_path(args, ap, audio_paths, video_paths)
+    # One way in, whatever --multitrack says. The switch decides how the
+    # recordings are grouped, and nothing else -- not which time axis is
+    # built, not which arithmetic places the window, not which code
+    # writes the files. One axis for one job.
+    return multitrack_or_single(args, ap, audio_paths, video_paths)
 
 
 #-------------------------------------------------------------- Interface
@@ -33378,9 +33475,6 @@ CATALOGUE["de"] = {
         '\nFertig. Unten zeigt "Ergebnis-Ordner öffnen" das '
         'Ergebnis.\nStimmt alles, legt "Resolve-Projekt anlegen" daraus das '
         'Projekt an.\n',
-    '\nFewer than two audio tracks can be aligned -- Multitrack is not '
-    'worth it.':
-        '\nWeniger als zwei ausrichtbare Tonspuren -- Multitrack lohnt nicht.',
     '\nHDR CHECK  %s':
         '\nHDR-PRUEFUNG  %s',
     '\nNo preset chosen: %s':
@@ -33388,10 +33482,6 @@ CATALOGUE["de"] = {
     '\nStopped before the first long step. With --anyway it runs regardless.':
         '\nAbbruch vor dem ersten langen Schritt. Mit --anyway läuft es '
         'dennoch.',
-    '\nThe common range of sound and picture is only %s long -- something '
-    'is wrong.':
-        '\nGemeinsamer Bereich von Ton und Bild ist nur %s lang -- da '
-        'stimmt etwas nicht.',
     '                   Resolve may then not recognise the input colour space.':
         '                   Resolve erkennt den Eingabefarbraum dann '
         'vielleicht nicht.',
@@ -33764,8 +33854,6 @@ CATALOGUE["de"] = {
         'beginnt nicht dort, wo der Block davor endet',
     'ends before the next block starts':
         'endet vor dem Beginn des nächsten Blocks',
-    '  Full-Mix from %d tracks, two channels':
-        '  Full-Mix aus %d Spuren, zweikanalig',
     '  %s stays in two channels':
         '  %s bleibt zweikanalig',
     '  %s stay in two channels':
@@ -34084,12 +34172,6 @@ CATALOGUE["de"] = {
         'Kein Preset gewählt: %s',
     'No sound in the cameras -- nothing to work with.':
         'Kein Ton in den Kameras -- nichts, womit sich arbeiten ließe.',
-    '  One track only. Multitrack needs two, so this runs the ordinary '
-    'way:\n  the voices in it are told apart and the cut is made from '
-    'that.':
-        '  Nur eine Spur. Multitrack braucht zwei, also läuft es '
-        'gewöhnlich:\n  die Stimmen darin werden getrennt, und daraus '
-        'entsteht der Schnitt.',
     'Only one audio file and no picture -- nothing to do.':
         'Nur eine Tondatei und kein Bild -- nichts zu tun.',
     'Open project ...':
@@ -34309,6 +34391,21 @@ CATALOGUE["de"] = {
         '\nMultitrack braucht Bilder: Die Spuren werden an die Kameras '
         'gelegt, und hier sind keine. Mehrere Aufnahmen ohne Bild sind '
         'mehrere Aufnahmen -- es gibt nichts, worauf man sie legen könnte.',
+    '\nNo audio track could be aligned -- there is nothing to put on the '
+    'axis.':
+        '\nKeine Tonspur ließ sich ausrichten -- es gibt nichts, was auf die '
+        'Achse käme.',
+    '\nSound and picture have only %s in common, and the alignment found %d '
+    'sample points in it. That is too little to place anything on.':
+        '\nTon und Bild haben nur %s gemeinsam, und die Ausrichtung hat darin '
+        '%d Stützpunkte gefunden. Das ist zu wenig, um etwas darauf zu '
+        'legen.',
+    '  %s: %s mixed together':
+        '  %s: %s zusammengemischt',
+    '  Full-Mix from %d tracks, %d channel':
+        '  Full-Mix aus %d Spuren, %d Kanal',
+    '  Full-Mix from %d tracks, %d channels':
+        '  Full-Mix aus %d Spuren, %d Kanäle',
     '\nNo usable video file -- without camera audio there is no common time '
     'axis.':
         '\nKeine brauchbare Videodatei -- ohne Kameraton keine gemeinsame '
@@ -34401,8 +34498,6 @@ CATALOGUE["de"] = {
         '  %d Bildspuren, %d Tonspuren angelegt (%s)',
     '  %s gets %d tracks mixed together: %s':
         '  %s bekommt %d Spuren zusammengemischt: %s',
-    '  %s: %s mixed together, two channels':
-        '  %s: %s zusammengemischt, zweikanalig',
     '  Alignment failed: %s\n':
         '  Ausrichtung fehlgeschlagen: %s\n',
     '  Audio track %d:   %s':
@@ -34413,6 +34508,10 @@ CATALOGUE["de"] = {
         '  Kameraatome:     %s nachgetragen -- %s',
     '  Clock drift:     %+.2f ppm (+/- %.2f), residual spread %.1f ms':
         '  Uhrengang:       %+.2f ppm (+/- %.2f), Reststreuung %.1f ms',
+    '    %s: %s at the front and %s at the back have no picture and are '
+    'left out':
+        '    %s: %s am Anfang und %s am Ende haben kein Bild und bleiben '
+        'weg',
     '    it begins with %s and ends with %s -- the stretch every camera saw':
         '    beginnt mit %s und endet mit %s -- der Abschnitt, den jede '
         'Kamera gesehen hat',

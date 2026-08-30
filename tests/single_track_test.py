@@ -289,10 +289,20 @@ check("and it sits on the camera's own sound",
       abs(begins_at(cam, mix)) < 0.04,
       "%+.0f ms against the camera track" % (begins_at(cam, mix) * 1000))
 # What is thrown away has to be said, or a run that quietly dropped
-# eight seconds looks exactly like one that did the right thing.
-check("the run says what it trimmed and why",
-      "Picture range" in log1 and "Trimmed" in log1,
-      "" if "Trimmed" in log1 else "no trim line, log ends: " + tail(log1))
+# eight seconds looks exactly like one that did the right thing. And the
+# amount, not only the fact: the recording runs CAM_LATE before the
+# picture starts and LENGTH - CAM_LATE - CAM_LEN past its end, and both
+# of those leave the run.
+left_out = [line for line in log1.splitlines() if "left out" in line]
+check("the run says what it leaves out", bool(left_out),
+      "" if left_out else "not in the log, which ends: " + tail(log1))
+if left_out:
+    said = left_out[0]
+    want_front = "0:00:%02d" % CAM_LATE
+    want_back = "0:00:%02d" % (LENGTH - CAM_LATE - CAM_LEN)
+    check("and how much, at both ends",
+          want_front in said and want_back in said,
+          "%s -- wanted %s and %s" % (said.strip(), want_front, want_back))
 check("the offset it measured is in the log", "Offset:" in log1,
       "" if "Offset:" in log1 else tail(log1))
 
@@ -353,7 +363,7 @@ check("a video it calls a result has sound in it",
 print("\n5. What the path does when something is missing")
 check("a camera without sound is refused, not written",
       rc4 != 0 and not os.path.exists(D + "/mute" + MADE), str(rc4))
-said = "no camera audio" in log4
+said = "no camera sound" in log4
 check("and it says why", said,
       "" if said else "not in the log, which ends: " + tail(log4))
 check("a recording without a camera ends without work",
