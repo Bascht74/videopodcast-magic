@@ -21,9 +21,9 @@ dabei, was es tut:
 * Die Umgebung, in der die Sprechertrennung läuft, etwa 218 MB, beim
   ersten Trennen.
 * Das Modell für die Trennung, etwa 33 MB, gleich danach.
-* Die Nummer der neuesten Fassung, von github.com, kurz nachdem das
+* Die Nummer der neuesten Version, von github.com, kurz nachdem das
   Fenster steht. Das Programm sendet dabei nichts und holt diese
-  Fassung erst, wenn jemand es verlangt.
+  Version erst, wenn jemand es verlangt.
   [Die Oberfläche](interface.de.md#sich-selbst-aktuell-halten) sagt,
   was dann kommt.
 
@@ -41,19 +41,19 @@ ersten Mal.
 
 3.10 oder neuer, darunter sagt das Programm es und hört auf. Die
 Untergrenze ist das, was die Oberfläche braucht: PySide6 baut
-unterhalb von 3.10 nicht. Die Testsuite läuft auf 3.14.7, der Fassung,
+unterhalb von 3.10 nicht. Die Testsuite läuft auf 3.14.7, der Version,
 die hier täglich benutzt wird. Sie deckt nur 3.14.7 ab; was zwischen
 3.10 und 3.14.7 liegt, ist nicht gemessen.
 
 `--version`, die Kopfzeile des Protokolls und die erste Zeile jedes
-Laufs sagen, welches Python läuft. Sie nennen die empfohlene Fassung,
+Laufs sagen, welches Python läuft. Sie nennen die empfohlene Version,
 wenn es eine andere ist: `Python 3.11.15  (recommended version 3.14.7)`.
 `--help` und `--version` antworten ohne `numpy`, `PySide6` und
 `ffmpeg`.
 
 ![Ein Lauf im Terminal](images/terminal.de.png)
 
-*Die erste Zeile nennt Fassung und Python, darunter steht der Pfad der
+*Die erste Zeile nennt Version und Python, darunter steht der Pfad der
 laufenden Datei. Dieses Python ist das empfohlene, also folgt keine
 Klammer.*
 
@@ -70,7 +70,7 @@ Maschine und fragt, bevor es sie ausführt:
   das Programm an, ffmpeg.org zu öffnen. Der Ordner mit `ffmpeg.exe`
   gehört danach in PATH oder die Dateien neben das Programm.
 * **Wenn nichts installiert wird:** `static-ffmpeg` ist der letzte
-  Ausweg, eine Fassung in diesem Python. Das Programm holt es, wenn
+  Ausweg, eine Version in diesem Python. Das Programm holt es, wenn
   diese Maschine keine Paketverwaltung hat und wenn die vorhandene
   nichts liefert. Die Frage mit nein zu beantworten zählt dazu. Es
   zieht sechzehn Pakete hinter sich her, und seine 50 MB kommen aus
@@ -99,7 +99,7 @@ es ebenfalls, mit zwei Einschränkungen:
 
 ## Wenn etwas klemmt
 
-* **Das Programm hört auf und nennt die Python-Fassung.** Dieses
+* **Das Programm hört auf und nennt die Python-Version.** Dieses
   Python ist älter als 3.10. Eine neuere installieren und neu starten.
 * **pip bekommt `numpy` oder `PySide6` nicht installiert.** Die
   letzten Zeilen von pip sagen, woran es liegt. Beide selbst

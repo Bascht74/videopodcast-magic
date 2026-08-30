@@ -238,7 +238,7 @@ dem In-Punkt gezählt.
   ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
 Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem
-Script, mit Fassung, Zeit und Rechner in der Kopfzeile und einer
+Script, mit Version, Zeit und Rechner in der Kopfzeile und einer
 Trennlinie je Lauf; vom vorletzten Lauf bleibt
 `videopodcast-magic_1.log`. Auch was Qt und ffmpeg an Python vorbei
 ausgeben, steht darin.
@@ -269,7 +269,7 @@ Das Fenster hinter dem Knopf hat zwei Kästen.
   das ihn behält (**Im Schlüsselbund speichern** auf dem Mac, **In der
   Registry speichern** unter Windows). **Verbinden** prüft den Schlüssel
   und holt die Presets.
-- **Verbindung zu Resolve**: ob Resolve antwortet, mit Fassung, wenn ja,
+- **Verbindung zu Resolve**: ob Resolve antwortet, mit Version, wenn ja,
   und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal, das
   Öffnen des Fensters ebenso.
   [DaVinci Resolve](resolve.de.md) sagt, was ein Nein bedeutet.
@@ -295,7 +295,7 @@ etwas laufen zu lassen.
 
 **Ansicht** nennt die Reiter beim Namen, statt sie zu nummerieren.
 **Hilfe** enthält den Weg in dieses Handbuch, **Was sich in dieser
-Fassung geändert hat**, **Nach Update suchen ...** und **Über Video
+Version geändert hat**, **Nach Update suchen ...** und **Über Video
 Podcast Magic**.
 
 Auf dem Mac sitzt die Menüleiste oben am Bildschirmrand, sonst oben im
@@ -341,15 +341,15 @@ die die Schnittprogramme gemeinsam haben.
 ## Sich selbst aktuell halten
 
 Kurz nachdem das Fenster steht, fragt das Programm github.com, ob es eine
-neuere Fassung gibt. Es sieht nur dann nach, nicht während eines Laufs.
+neuere Version gibt. Es sieht nur dann nach, nicht während eines Laufs.
 Das ist eine Frage nach einer Nummer.
 
-Wenn es eine gibt, nennt ein Fenster sie und die Fassung, die hier läuft.
-Es zeigt, was sich in der neuen Fassung geändert hat, in ihren eigenen
+Wenn es eine gibt, nennt ein Fenster sie und die Version, die hier läuft.
+Es zeigt, was sich in der neuen Version geändert hat, in ihren eigenen
 Worten, und darunter die Adresse. Zwei Knöpfe:
 
-- **Später** lässt die laufende Fassung an ihrem Platz.
-- **Aktualisieren** holt die neue Fassung, setzt sie an die Stelle der
+- **Später** lässt die laufende Version an ihrem Platz.
+- **Aktualisieren** holt die neue Version, setzt sie an die Stelle der
   Datei und startet das Programm neu.
 
 Das Programm liest, was herunterkommt, bevor es das benutzt: es muss
@@ -358,7 +358,7 @@ sich übersetzen lassen. Wenn eine der drei Prüfungen fehlschlägt, bleibt
 die Datei liegen, die funktioniert, und das Fenster sagt, was nicht
 stimmte.
 
-Die Fassung, die lief, bleibt als `videopodcast-magic.py.old` neben der
+Die Version, die lief, bleibt als `videopodcast-magic.py.old` neben der
 neuen liegen. **Hilfe > Zurück auf 2.3.0-beta** setzt sie wieder ein;
 der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
 solange die Datei da ist.
@@ -399,7 +399,7 @@ passen, erscheinen rot. Mehr über die Projektdatei steht in
 - **Das Update ging nicht durch**: die Datei, die funktioniert, bleibt
   liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach Update
   suchen ...** versucht es noch einmal.
-- **Beim Nachfragen mitschicken**: die Fassung aus `--version`, das
+- **Beim Nachfragen mitschicken**: die Version aus `--version`, das
   Betriebssystem, `videopodcast-magic.log` und was man vorhatte, vor
   den Einzelheiten des Fehlers.
 

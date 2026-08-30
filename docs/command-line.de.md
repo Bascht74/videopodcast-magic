@@ -8,7 +8,7 @@
 ![Der Anfang eines Laufs im Terminal](images/terminal.de.png)
 
 *`--multitrack --lufs -16 --dry-run` am Ende des Aufrufs, darunter die
-Fassung und das Python, dann der Vorflug mit sieben Prüfungen und zwei
+Version und das Python, dann der Vorflug mit sieben Prüfungen und zwei
 Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 
 ## Grundlagen
@@ -22,8 +22,8 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0) |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
-| `--version` | Nummer der Fassung, und auf welchem Python das läuft |
-| `--no-update-check` | nicht mehr nachsehen, ob eine neuere Fassung da ist; die Antwort wird behalten (es sieht nach) |
+| `--version` | Nummer der Version, und auf welchem Python das läuft |
+| `--no-update-check` | nicht mehr nachsehen, ob eine neuere Version da ist; die Antwort wird behalten (es sieht nach) |
 | `--update-check` | wieder nachsehen, nachdem `--no-update-check` einmal gegeben wurde |
 
 ## Was mit Ton und Bild geschieht

@@ -260,7 +260,7 @@ Kamera gehört:
 
 Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
 machen kann die Oberfläche sie nicht. Der Kurzhinweis nennt, was läuft
-und in welcher Fassung.
+und in welcher Version.
 
 Auf dem Reiter **Resolve-Schnitt** zeigt der Player im Vorschau-Kasten
 immer etwas: wenn ein Schnitt da ist, spielt er ihn und schaltet an jeder

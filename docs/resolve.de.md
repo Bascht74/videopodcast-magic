@@ -22,15 +22,15 @@ von selbst nach, im Hintergrund, ob Resolve antwortet. Der Reiter sagt
 die Antwort in einer Zeile, und daneben steht der Weg zum Fenster
 **Einstellungen ...**, in dem die Prüfung selbst sitzt.
 
-In dessen Kasten **Verbindung zu Resolve** stehen Produkt und Fassung,
+In dessen Kasten **Verbindung zu Resolve** stehen Produkt und Version,
 wenn die Verbindung steht. Wenn nicht, stehen dort die beiden Pfade,
 nach denen das Programm gesucht hat, und was im Weg sein kann:
 
 - Resolve läuft nicht.
 - Das externe Scripting steht auf „None“ statt „Local“, unter
   Preferences > System > General.
-- Es ist die freie Fassung. Für sie wird berichtet, dass externes
-  Scripting seit Fassung 19.1 der Studio-Fassung vorbehalten ist. Eine
+- Es ist die freie Version. Für sie wird berichtet, dass externes
+  Scripting seit Version 19.1 der Studio-Version vorbehalten ist. Eine
   offizielle Aussage dazu gibt es nicht.
 
 **Erneut prüfen** und der Rest dieses Fensters stehen in [Die
@@ -327,7 +327,7 @@ Ausgabefarbraum aus den Projekteinstellungen. Wenn er PQ oder HLG nennt,
 setzt es `ColorSpaceTag`, `GammaTag` und `EncodingProfile` = `Main10`: PQ
 bekommt Rec.2020 / ST.2084, HLG bekommt Rec.2020 / HLG.
 
-Nirgends steht, welche Schreibweise diese Resolve-Fassung annimmt, also
+Nirgends steht, welche Schreibweise diese Resolve-Version annimmt, also
 probiert das Script mehrere und schreibt die angenommene ins Protokoll.
 Wenn das Projekt keine HDR-Kurve nennt, bleibt es bei „Same as Project“.
 Das Protokoll nennt dann die Stelle: Project Settings > Color Management >

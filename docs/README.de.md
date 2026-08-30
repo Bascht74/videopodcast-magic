@@ -195,7 +195,7 @@ Zahlen: Trefferquoten, Laufzeiten, Verteilungen, Vergleiche. [Coding
 guidelines](../development/coding_guidelines.md) sagt, wie der Code
 geschrieben ist, und warum.
 
-[CHANGELOG.md](../CHANGELOG.md) sagt, was sich in jeder Fassung geändert
+[CHANGELOG.md](../CHANGELOG.md) sagt, was sich in jeder Version geändert
 hat, von 0.1.0 an. [THIRD-PARTY.md](../THIRD-PARTY.md) führt auf, worauf
 sich das Programm zur Laufzeit stützt und unter welchen Bedingungen,
 samt dem mitgelieferten Sprechermodell. [CLAUDE.md](../CLAUDE.md) hält
