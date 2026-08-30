@@ -14,6 +14,7 @@ already in it are worked off one at a time.
 import ast
 import hashlib
 import io
+import overview
 import os
 import re
 import sys
@@ -127,12 +128,11 @@ twice = sorted(set(m for m in marks if marks.count(m) > 1))
 check("no test in the register twice", not twice, str(twice[:3]))
 
 print("\n3. Every row belongs to a test that is here")
-tests = {}
-for name in sorted(os.listdir(HERE)):
-    if not name.endswith("_test.py"):
-        continue
-    source = io.open(os.path.join(HERE, name), encoding="utf-8").read()
-    tests[name[:-len("_test.py")]] = mark_of(judgements(source))
+# The repository, not the folder: the builder moves the tests a machine
+# cannot run out of the way before the suite starts, so counting what
+# lies about would make every such machine red for what is not a fault.
+tests = dict((name, mark_of(judgements(source)))
+             for name, source in overview.test_sources(HERE).items())
 by_mark = dict((mark, name) for name, mark in tests.items())
 
 # A row whose fingerprint is still somewhere in the folder belongs to

@@ -16,6 +16,7 @@ quietly stale.
 import ast
 import io
 import os
+import subprocess
 import re
 import sys
 
@@ -55,17 +56,13 @@ NO_PREFIX_HEAD = "### Under none of the twelve"
 COUNT_READ = re.compile(r"(?<![0-9])([0-9]+) tests(?![A-Za-z])")
 
 
-def first_line(path):
-    """The first line of a file's module docstring, or a stand-in.
+def first_line_of(text):
+    """The first line of a source's module docstring, or a stand-in.
 
     A test without one is a defect, not a reason to leave a row out:
     the row is written with the fault in it so it is seen in the README
     and in the red line of the test that guards it.
     """
-    try:
-        text = io.open(path, encoding="utf-8").read()
-    except OSError as why:
-        return "(unreadable: %s)" % why
     try:
         doc = ast.get_docstring(ast.parse(text), clean=False)
     except SyntaxError as why:
@@ -75,19 +72,63 @@ def first_line(path):
     return doc.split("\n")[0].strip()
 
 
+def test_sources(folder=HERE):
+    """Every test of this repository, by name, with its text.
+
+    The repository is asked, not the folder. The builder moves the tests
+    a machine cannot run out of the way before the suite starts -- the
+    Windows key store on a Mac, the speech model where there is none --
+    so the folder there is never the whole suite. Counting what lies
+    about would make every such machine red for a reason that is not a
+    fault.
+
+    A file that is there is read from there, so uncommitted work counts;
+    only one that was moved aside is read out of the last commit.
+    Without git, the folder is all there is and has to do.
+    """
+    here = {}
+    for name in os.listdir(folder):
+        if name.endswith("_test.py"):
+            here[name] = None
+
+    def git(*args):
+        try:
+            out = subprocess.run(("git", "-C", folder) + args,
+                                 stdout=subprocess.PIPE,
+                                 stderr=subprocess.DEVNULL)
+        except OSError:
+            return None
+        return out.stdout.decode("utf-8") if out.returncode == 0 else None
+
+    listed = git("ls-files", "--", "*_test.py")
+    if listed is not None:
+        for line in listed.splitlines():
+            name = os.path.basename(line.strip())
+            if name.endswith("_test.py"):
+                here.setdefault(name, None)
+
+    out = {}
+    for name in sorted(here):
+        path = os.path.join(folder, name)
+        if os.path.exists(path):
+            out[name[:-len("_test.py")]] = io.open(
+                path, encoding="utf-8").read()
+        else:
+            text = git("show", "HEAD:./" + name)
+            if text is not None:
+                out[name[:-len("_test.py")]] = text
+    return out
+
+
 def statements(folder=HERE):
-    """Every test in the folder: its name, and what green means.
+    """Every test: its name, and what green means.
 
     The name is the one run.sh prints and the one a red line carries,
     so `_test.py` comes off; that is what somebody grepping the README
     after a failure has in front of them.
     """
-    out = {}
-    for name in sorted(os.listdir(folder)):
-        if name.endswith("_test.py"):
-            out[name[:-len("_test.py")]] = first_line(
-                os.path.join(folder, name))
-    return out
+    return dict((name, first_line_of(text))
+                for name, text in test_sources(folder).items())
 
 
 def grouped(rows):
