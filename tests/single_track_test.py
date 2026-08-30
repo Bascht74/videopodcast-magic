@@ -68,6 +68,11 @@ LENGTH = 34.0
 # This is the whole point of the fixture: picture time t is recording
 # time t + CAM_LATE, and every number below is checked against that.
 CAM_LATE, CAM_LEN = 4.0, 26.0
+# A second camera, for the one question a single camera cannot ask: are
+# two of them put down in the right places relative to each other? It
+# starts five seconds after the first and stops with it, so it is the
+# shorter of the two and the first one stays the reference.
+CAM2_LATE, CAM2_LEN = 9.0, 21.0
 # A window inside the picture, in picture time.
 WIN_IN, WIN_OUT = 8.0, 18.0
 # The recorder that stopped early: ten seconds out of the middle of the
@@ -158,7 +163,13 @@ subprocess.run(
      "ultrafast", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le",
      D + "/Cam.mov",
      "-t", "3", "-map", "0:v", "-c:v", "libx264", "-preset", "ultrafast",
-     "-pix_fmt", "yuv420p", D + "/Mute.mov"], check=True)
+     "-pix_fmt", "yuv420p", D + "/Mute.mov",
+     # The third output is the second camera: the same picture and the
+     # same recording, five seconds later into both.
+     "-ss", "%.2f" % CAM2_LATE, "-t", "%.2f" % CAM2_LEN,
+     "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset",
+     "ultrafast", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le",
+     D + "/Cam2.mov"], check=True)
 
 
 def run(*extra):
@@ -185,6 +196,8 @@ rc3, _ = run("--out", D + "/beyond", "--in-point", "+%d" % (LENGTH + 6),
 rc4, log4 = run("--out", D + "/mute", D + "/Rec.wav", D + "/Mute.mov")
 rc5, log5 = run("--out", D + "/alone", D + "/Rec.wav")
 rc6, _ = run("--out", D + "/short", D + "/Short.wav", D + "/Cam.mov")
+rc7, log7 = run("--out", D + "/two", D + "/Rec.wav", D + "/Cam.mov",
+                D + "/Cam2.mov")
 
 MADE = "/Cam_audio.mov"
 WANTED = [("plain", 0), ("plain", 1), ("window", 0), ("beyond", 0),
@@ -342,6 +355,37 @@ heard = loud(short)
 check("the rest of the picture is silent, not padded with noise",
       bool(heard) and max(heard) < SHORT_FROM - CAM_LATE + SHORT_LEN + 1,
       str(heard))
+
+print("\n7. Two cameras, and where the handover puts them")
+# Until 30.8.2026 every camera on this path was written into the
+# handover as 0.0, whatever the alignment had measured: the number taken
+# was the offset left over after the recording had been cut to the
+# camera's start, and that is zero by construction. With one camera
+# nothing showed, because the only camera is the zero of the axis. With
+# two, both sat on top of each other in Resolve.
+check("the two-camera run goes through", rc7 == 0,
+      str(rc7) + " " + tail(log7))
+book2 = D + "/two/singletrack_resolve.json"
+check("a handover is there", os.path.exists(book2),
+      str(sorted(os.listdir(D + "/two")) if os.path.isdir(D + "/two")
+          else "no folder"))
+if os.path.exists(book2):
+    cams = json.load(open(book2, encoding="utf-8")).get("cameras") or []
+    where = dict((c.get("camera") or "", c.get("offset")) for c in cams)
+    check("both cameras are in it", len(cams) == 2, str(sorted(where)))
+    # What the handover promises: position in the file is programme time
+    # minus this. So the camera that starts later in the recording has
+    # to stand later on the axis, by exactly the difference of the two
+    # starts -- the same quantity multitrack writes.
+    two = sorted(where.values(), key=lambda x: (x is None, x))
+    apart = (two[1] - two[0]) if len(two) == 2 and None not in two else None
+    check("they stand apart by what separates their starts",
+          apart is not None and abs(apart - (CAM2_LATE - CAM_LATE)) < 0.05,
+          "%s apart, wanted %.1f s -- %s"
+          % (("%.3f s" % apart) if apart is not None else "nothing",
+             CAM2_LATE - CAM_LATE, where))
+    check("neither of them was written as an unmeasured zero",
+          len([x for x in two if x == 0.0]) <= 1, str(where))
 
 print()
 if error:
