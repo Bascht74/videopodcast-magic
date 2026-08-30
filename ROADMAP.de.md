@@ -80,6 +80,15 @@ Stimmen einer Trennung heißen nach der Reihenfolge, in der sie reden,
 bis jemand darüberschreibt. Die Daten liegen vor, gemessen ist es
 nicht.
 
+Die Hälfte davon ist es inzwischen. Wer fragt und wer antwortet, lässt
+sich aus einem Transkript lesen: Fragezeichen und der Redeanteil. An
+einer echten Folge gemessen stimmen beide überein, und die Fragen sind
+das stärkere der zwei Zeichen — sie überstehen den langen Anfang, in
+dem einer minutenlang spricht, ohne zu fragen, und der Redeanteil nicht.
+Es trüge als Rangfolge, nicht als Schwelle: es darf eine Rolle
+vorschlagen, aber nie allein entscheiden. Ob es als Vorschlag gebaut
+wird, ist eine Entscheidung und keine Messung.
+
 ## Was später kommt
 
 Gröber, und in keiner festen Reihenfolge.
