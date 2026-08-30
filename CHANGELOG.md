@@ -23,15 +23,6 @@ survives.
   it in the source, and 40 is still one number away for whoever wants
   the old restlessness.
 
-### Tests
-
-- `local_run` builds its two camera files in one ffmpeg call instead of
-  two: the second camera is the first from 1.5 seconds on, so one
-  process reads the room sound once and writes both. 50 process starts
-  became 49 and 1.75 seconds became 1.68. Checked equivalent by the
-  audio checksum of both files, and all five deliberately broken copies
-  of the program are still caught.
-
 ### Fixed
 
 - The count of processes a test starts stood about 1.7 times too high.
@@ -51,6 +42,15 @@ survives.
   saw it because Qt falls back to a narrower font offscreen than the
   window really draws with, so the new test asks the box's own metrics
   and never a pixel count.
+
+### Tests
+
+- `local_run` builds its two camera files in one ffmpeg call instead of
+  two: the second camera is the first from 1.5 seconds on, so one
+  process reads the room sound once and writes both. 50 process starts
+  became 49 and 1.75 seconds became 1.68. Checked equivalent by the
+  audio checksum of both files, and all five deliberately broken copies
+  of the program are still caught.
 
 ## [2.17.0-beta] - 2026-08-31
 
