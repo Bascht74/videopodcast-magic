@@ -87,6 +87,39 @@ nach Sprechzeit, die längste zuerst. Keine Zeit steht in der Zeile: um
 welche Aufnahme es geht, sagt die Zeile darüber, und wie lange jemand
 redet, entscheidet hier niemand.
 
+Sobald die Worte aufgeschrieben sind, werden aus diesen Namen
+Vorschläge, die etwas sagen. Wer fragt und wer antwortet, lässt sich am
+Gesprochenen ablesen: das Programm zählt für jede Stimme im Zeitfenster,
+wie viele ihrer Sätze auf ein Fragezeichen enden, und schlägt **Gast**
+für den vor, der am wenigsten fragt und am längsten redet, **Moderation**
+für die übrigen. Vorgeschlagen wird nur über einen Namen, den das
+Programm selbst vergeben hat — ein getippter wird nie angerührt, auch
+keiner, der aussieht wie einer des Programms.
+
+Dieselbe Zählung sagt, wann eine Stimme keine Sprecherin ist. Eine, die
+im Zeitfenster zu wenige Sätze zusammenbringt, wird für **nicht
+verwenden** vorgeschlagen, mit einer Zeile im Protokoll, welche und
+warum. Das trifft den Fall, dass eine Trennung jemanden in zwei teilt,
+und den, dass eine Stimme aus den Minuten vor dem Interview stammt.
+Verschiebt man den In-Punkt, folgt der Vorschlag sofort: wird das
+Fenster breiter, kommt die Stimme an ihre Kamera zurück und bekommt
+ihren Namen aus der neuen Rangfolge.
+
+**Nicht verwenden** heißt bei einer Stimme, dass es sie nicht gibt.
+Keine Kamera, keine Spur, kein Sprecher bei auphonic.com, keine Zeile im
+Transkript und keine bei den Redeanteilen; wo sie sprach, spricht
+niemand, und das Bild bleibt bei dem, bei dem es war, bis die nächste
+zählende Stimme kommt. Was getrennt wurde, bleibt trotzdem in der
+Projektdatei — die Stimme wieder einzuschalten kostet also kein Rechnen.
+
+Das Aufschreiben kostet für anderthalb Stunden Aufnahme etwa eine halbe
+Minute. Es läuft einmal, im Hintergrund, sobald eine Trennung vorliegt —
+die lange Rechnung, die jemand entweder angestoßen hat oder nach der
+gefragt wurde — und nie beim bloßen Hinzufügen von Dateien. Es
+installiert nichts und lädt nichts herunter: es nimmt die Erkennung, die
+macOS mitbringt, und den anderen Weg nur dort, wo ein Lauf ihn schon
+gelegt hat.
+
 Eine Aufnahme, die Stimmen zeigt, kommt aufgeklappt hoch, mit einem
 Dreieck davor, das sie zuklappt. Aufgeklappt bleibt ihr eigenes
 **gehört zu** leer, und die Zeilen darunter tragen die Zuordnung;
