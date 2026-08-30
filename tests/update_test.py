@@ -166,5 +166,65 @@ check("the new one is in place",
 check("the old one is beside it",
       open(mine + ".old", encoding="utf-8").read() == "the one that works\n")
 
+print("\nPassing over one version")
+# "Do not ask again" stopped the looking for good, and a no that cannot
+# be taken back is a trap: it caught Sebastian in August, the program
+# went quiet, and nothing anywhere said why. His own answer, 31.8.2026:
+# turn it into "skip this version". One version passed over is not an
+# answer about all of them.
+import tempfile as _tf
+os.environ["VPM_CACHE"] = _tf.mkdtemp(prefix="vpm_update_cache_")
+
+
+def what_github_says(tag):
+    """Answer every look with that one release, as github would."""
+    class Answer(object):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            return False
+
+        def read(self):
+            return json.dumps({
+                "tag_name": tag, "html_url": "https://example/%s" % tag,
+                "body": "what changed"}).encode("utf-8")
+    return lambda *a, **k: Answer()
+
+
+import json, urllib.request
+was_open = urllib.request.urlopen
+# The suite switches the looking off for every test, which is right --
+# nothing here may reach for the network. This one does not either: it
+# answers every look itself. So the switch is lifted for the length of
+# these checks, or newer_release would turn back at the door and every
+# one of them would pass without asking anything.
+vpm.UPDATE_OFF = False
+vpm.VERSION = "2.15.0-beta"
+try:
+    urllib.request.urlopen = what_github_says("v2.19.0-beta")
+    tag, _page, _text = vpm.newer_release()
+    check("a newer version is offered", tag == "v2.19.0-beta", tag)
+
+    vpm.set_update_skipped(tag)
+    check("what was passed over is what was shown",
+          vpm.update_skipped() == "v2.19.0-beta", vpm.update_skipped())
+    tag, _p, _t = vpm.newer_release()
+    check("and it is not offered again by itself", tag == "", tag)
+
+    # The whole point of the change: the next one asks again.
+    urllib.request.urlopen = what_github_says("v2.20.0-beta")
+    tag, _p, _t = vpm.newer_release()
+    check("but the next version is offered", tag == "v2.20.0-beta", tag)
+
+    # Asking from the menu is a person wanting to know, and what was
+    # passed over does not stand against that.
+    urllib.request.urlopen = what_github_says("v2.19.0-beta")
+    tag, _p, _t = vpm.newer_release(asked=True)
+    check("and asking from the menu shows it anyway",
+          tag == "v2.19.0-beta", tag)
+finally:
+    urllib.request.urlopen = was_open
+
 print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
 sys.exit(1 if error else 0)
