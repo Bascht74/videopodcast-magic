@@ -9443,18 +9443,72 @@ def multitrack_or_single(args, ap, audio_paths, video_paths):
     decision falls here, after the plan, and not on a file count before
     anybody has looked.
     """
-    if not video_paths and not args.multitrack:
-        # Recordings and no picture, and nobody asked for multitrack:
-        # these are blocks of one recording, and joining them into one
-        # file is a whole job that needs no camera at all.
-        #
-        # Only without --multitrack. With it the files are separate
-        # voices, and joining them glues two people into one track --
-        # measured 30.8.2026 with two speaker tracks and no picture,
-        # which came out as a single Guest_joined.wav. Blocks of one
-        # recording and tracks of two people look alike from outside.
-        return run_single_track_path(args, ap, audio_paths, video_paths)
     return show_multitrack_plan(args, audio_paths, video_paths)
+
+
+def join_the_plan(plan, tmpdir):
+    """Join the blocks of every track. No camera is needed for that."""
+    made = []
+    for e in plan:
+        blocks = e.get("blocks") or [e["audio"]]
+        name = e.get("speakers") or os.path.basename(blocks[0])
+        if len(blocks) > 1:
+            source, join_info = join_with_report(
+                blocks, os.path.join(tmpdir,
+                                     "raw_%s.wav" % safe_filename(name)))
+            hint = T('%d blocks') % join_info["blocks"]
+        else:
+            source, hint = blocks[0], ""
+        made.append({"name": name, "source": source, "hint": hint,
+                     "blocks": list(blocks), "camera": e.get("camera") or ""})
+    return made
+
+
+def join_only(args, tracks, title=""):
+    """Join the blocks and stop: there is no picture to lay them on.
+
+    An axis is cameras held against sound, so without cameras there is
+    none. Joining the blocks of a recording needs no camera, and one
+    file out of several is a whole result.
+    """
+    first = tracks[0]["blocks"][0]
+    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
+        os.path.abspath(first))
+    if args.auphonic_key:
+        key = api_key_from_anywhere(args)
+        preset, presetname = choose_preset(
+            key, args.auphonic_preset, len(tracks) > 1, lufs=args.lufs,
+            anyway=getattr(args, "anyway", False))
+        for track in tracks:
+            run_single_production(
+                track["source"], preset, presetname, key, folder,
+                args.auphonic_wait, args.dry_run, title or track["name"],
+                bool(getattr(args, "transcript", False)),
+                speech_language_code(getattr(args, "speech_language", "")))
+        return 0
+    if len(tracks) == 1 and len(tracks[0]["blocks"]) < 2:
+        print(T('Only one audio file and no picture -- nothing to do.'))
+        return 0
+    os.makedirs(folder, exist_ok=True)
+    written = []
+    for track in tracks:
+        stem = os.path.splitext(os.path.basename(track["blocks"][0]))[0]
+        counted = TRAILING_NUMBER.match(stem)
+        if counted:
+            stem = counted.group(1).rstrip("_-. ")
+        target = os.path.join(folder, stem + "_joined.wav")
+        if args.dry_run:
+            print(T('Would write: %s') % target)
+            continue
+        shell_quote(["ffmpeg", "-v", "error", "-i", track["source"],
+                     "-c:a", "copy", "-y", target])
+        written.append(target)
+    if written:
+        print(as_head(T('RESULT')))
+        for target in written:
+            print("  %s  (%s)"
+                  % (target, as_hms(sample_count(target) / float(SR))))
+    return 0
 
 
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
@@ -9486,19 +9540,24 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         # the first one's place.
         args.production = guess_production_name(videos[0][0])
     if not videos:
-        # Two different situations wore the same sentence, and only one
-        # of them was about camera audio. Where no picture was given at
-        # all, saying "no usable video file" reads as a complaint about
-        # the files rather than as an answer to what was asked.
-        if not video_paths:
+        if video_paths:
+            print(T('\nNo usable video file -- without camera audio there '
+                    'is no common time axis.'))
+            return 1
+        if args.multitrack:
+            # Several separate voices and no picture. Joining them would
+            # glue two people into one file, and there is nothing to lay
+            # them against.
             print(T('\nMultitrack needs pictures: the tracks are laid '
                     'against the cameras, and there are none here. '
                     'Several recordings without a picture are several '
                     'recordings -- there is nothing to put them on.'))
-        else:
-            print(T('\nNo usable video file -- without camera audio there '
-                    'is no common time axis.'))
-        return 1
+            return 1
+        # No picture and nobody asked for multitrack: the blocks of one
+        # recording become one file, and that is the whole job.
+        tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
+        atexit.register(shutil.rmtree, tmpdir, True)
+        return join_only(args, join_the_plan(plan, tmpdir), title)
 
     # The nominal rates from the container are compared. The measured ones
     # differ by a few ten-thousandths on every camera; no editor goes by that,
@@ -9538,16 +9597,11 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     # A dozen paths leave this function before the folder is removed at the
     # end; without this a failed run keeps gigabytes of WAV.
     atexit.register(shutil.rmtree, tmpdir, True)
+    joined = join_the_plan(plan, tmpdir)
     tracks = []
-    for e in plan:
-        blocks = e.get("blocks") or [e["audio"]]
-        name = e.get("speakers") or os.path.basename(blocks[0])
-        if len(blocks) > 1:
-            source, join_info = join_with_report(
-                blocks, os.path.join(tmpdir, "raw_%s.wav" % safe_filename(name)))
-            hint = T('%d blocks') % join_info["blocks"]
-        else:
-            source, hint = blocks[0], ""
+    for e, made in zip(plan, joined):
+        blocks, name = made["blocks"], made["name"]
+        source, hint = made["source"], made["hint"]
         try:
             a, b, st = align_audio_to_video(source, ref_clip[0], 0,
                                   sample_points=int(max(20, min(120,
@@ -21171,194 +21225,6 @@ def build_argument_parser():
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
-
-def run_single_track_path(args, ap, audio_paths, video_paths):
-    """Put one overall audio track into the video files.
-
-    The path for the case where there are no separate speaker tracks:
-    process, align, write.
-    """
-    # The stages have the same names on this path as on the multitrack
-    # one, because one bar draws both and one crash report reads both.
-    # Until 30.8.2026 this path announced no stage at all: the bar in
-    # the window had nothing to report and crept from beginning to end,
-    # and a crash could be placed only by reading the log.
-    step_begin("plan")
-    #------------------------------------------------- 1. Choose the preset
-    key = preset = presetname = None
-    if args.auphonic_key:
-        try:
-            key = api_key_from_anywhere(args)
-            preset, presetname = choose_preset(
-                key, args.auphonic_preset, args.multitrack, lufs=args.lufs,
-                anyway=getattr(args, "anyway", False))
-        except Exception as e:
-            print(T('No preset selected: %s') % e)
-            return 1
-        if not GUI_RUNNING:
-            print()
-
-    #--------------------------------------------------- 2. Audio
-    audio_paths, hints = collect_with_continuations(
-        audio_paths, args.no_follow_ups, getattr(args, "apart", ()),
-        getattr(args, "together", ()))
-    # Name for the Auphonic production: that of the first block without its
-    # number. Otherwise the result would be named after the trimmed file in the
-    # temp folder.
-    auphonic_title = os.path.splitext(os.path.basename(audio_paths[0]))[0]
-    if len(audio_paths) > 1:
-        # Several blocks of one recording: drop the sequence number, or the
-        # production would be named after the first block. A single file
-        # keeps its whole name -- a number at its end is not a block count.
-        _m = TRAILING_NUMBER.match(auphonic_title)
-        if _m:
-            auphonic_title = _m.group(1).rstrip("_-. ")
-    auphonic_title += "_auphonic"
-    if len(auphonic_title) > 100:
-        auphonic_title = auphonic_title[:91].rstrip("_-. ") + "_auphonic"
-    if len(audio_paths) > 1:
-        print(as_head(T('AUDIO: %d blocks') % len(audio_paths)))
-        for p in audio_paths:
-            print("  Block:     %s (%s)" % (os.path.basename(p),
-                                            as_data_size(size_in_mb(p))))
-    for nm, reason in hints:
-        print(T('  %s is not part of it: %s') % (nm, reason))
-
-    tmpdir = None
-    if len(audio_paths) > 1:
-        tmpdir = tempfile.mkdtemp(prefix="vpm_")
-        # Several paths leave this function before the folder is removed at
-        # the end; without this a failed run keeps the joined WAV lying about.
-        atexit.register(shutil.rmtree, tmpdir, True)
-        audio, join_info = join_with_report(
-            audio_paths, os.path.join(tmpdir, "joined.wav"),
-            keep_parts=not getattr(args, "no_single_tracks", False))
-    else:
-        audio = audio_paths[0]
-        join_info = {"blocks": 1, "parts": []}
-    if not GUI_RUNNING or len(audio_paths) > 1:
-        print(T('%sAUDIO: %s (%s)') % ("" if len(audio_paths) == 1 else "  -> ",
-                                   os.path.basename(audio),
-                                   as_data_size(size_in_mb(audio))))
-        if not GUI_RUNNING:
-            print_audio_details(audio)
-        print()
-    audio_start = file_timecode(audio)
-    n_audio_raw = sample_count(audio)
-
-    # No picture at all -- that is the only way in here now. The
-    # section that measured the cameras stood here and is gone with
-    # them; areas is what it left behind, and it is empty by
-    # definition when there are no cameras to cover anything.
-    areas = []
-
-    #------------------------------------------------------- 4. Processing
-    step_begin("auphonic" if args.auphonic_key else "loudness")
-    if args.auphonic_key and areas:
-        # Only upload what will be needed later. A recorder running for two
-        # hours while the camera ran for half an hour would otherwise cost four
-        # times the compute.
-        edge = 10 * SR
-        u0 = max(0, min(x for x, _ in areas) - edge)
-        u1 = min(n_audio_raw, max(y for _, y in areas) + edge)
-        saved = n_audio_raw - (u1 - u0)
-        if u1 > u0 and saved > 60 * SR and saved > 0.1 * n_audio_raw:
-            if tmpdir is None:
-                tmpdir = tempfile.mkdtemp(prefix="vpm_")
-                atexit.register(shutil.rmtree, tmpdir, True)
-            short = os.path.join(tmpdir, auphonic_title + ".wav")
-            command = ["ffmpeg", "-v", "error", "-i", audio, "-af",
-                      "atrim=start_sample=%d:end_sample=%d,asetpts=N/SR/TB"
-                      % (u0, u1), "-c:a", "pcm_s24le"]
-            if audio_start is not None:
-                command += ["-write_bext", "1", "-metadata",
-                           "time_reference=%d" % int(round(audio_start * SR) + u0)]
-            shell_quote(command + ["-y", short])
-            print(as_head(T('SHORTENED BEFORE PROCESSING')))
-            print(T('  Only %s of %s is needed -- the rest has no match in '
-                    'the picture') % (as_hms((u1 - u0) / float(SR)),
-                                            as_hms(n_audio_raw / float(SR))))
-            print(T('  The upload shrinks accordingly (%.0f %% saved)\n')
-                  % (100.0 * saved / n_audio_raw))
-            audio = short
-            if audio_start is not None:
-                audio_start += u0 / float(SR)
-            n_audio_raw = sample_count(audio)
-
-    auphonic_file = None
-    if args.auphonic_key:
-        folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-            os.path.abspath(audio_paths[0]))
-        try:
-            done = run_single_production(audio, preset, presetname, key, folder,
-                                   args.auphonic_wait, args.dry_run,
-                                   auphonic_title,
-                                   bool(getattr(args, "transcript", False)),
-                                   speech_language_code(
-                                       getattr(args, "speech_language", "")))
-        except Exception as e:
-            print(as_bad(T('Processing failed: %s') % e))
-            return 1
-        if done:
-            audio = done
-            auphonic_file = done
-            n_audio_raw = sample_count(audio)
-
-    # The loudness, measured on this path too. Multitrack has always run
-    # this and said what it found; here the one number a listener notices
-    # first stood in no log at all.
-    #
-    # Measured only, not adjusted, and that is deliberate for now: the
-    # gain is applied by mix_tracks, and mix_tracks writes no bext block,
-    # so the recording would come out of it without its timecode -- and
-    # the timecode is what places a camera when the sound cannot (see
-    # cannot_be_placed). The adjustment belongs where the mix goes
-    # through the same seam as the multitrack one, and the timecode is
-    # written once for both.
-    if tmpdir is None:
-        tmpdir = tempfile.mkdtemp(prefix="vpm_")
-        atexit.register(shutil.rmtree, tmpdir, True)
-    try:
-        gain, curve = normalise_loudness(
-            [{"name": MIX_TRACK_NAME, "axis": audio, "ready": audio}],
-            None, tmpdir, None, channels=channel_count(audio))
-    except Exception as e:
-        gain, curve = 0.0, None
-        print(T('  Loudness not measurable: %s') % str(e)[:60])
-    if args.lufs is not None and not args.auphonic_key:
-        # Said out loud rather than passed over. A switch that is taken
-        # and does nothing is the thing this run should never do.
-        print(as_warn(T('  --lufs is not applied on this path yet: the '
-                        'sound is written as it was recorded.')))
-
-    n_audio = sample_count(audio)
-
-    # ---------------------------------------------------------- 5. audio only
-    if not video_paths:
-        if len(audio_paths) == 1 and not args.auphonic_key:
-            print(T('Only one audio file and no picture -- nothing to do.'))
-            return 0
-        if args.auphonic_key:
-            if tmpdir:
-                shutil.rmtree(tmpdir, ignore_errors=True)
-            return 0
-        stem = os.path.splitext(os.path.basename(audio_paths[0]))[0]
-        m = TRAILING_NUMBER.match(stem)
-        if m:
-            stem = m.group(1).rstrip("_-. ")
-        outdir = os.path.abspath(args.out) if args.out else os.path.dirname(
-            os.path.abspath(audio_paths[0]))
-        os.makedirs(outdir, exist_ok=True)
-        target = os.path.join(outdir, stem + "_joined.wav")
-        if args.dry_run:
-            print(T('Would write: %s') % target)
-        else:
-            shell_quote(["ffmpeg", "-v", "error", "-i", audio, "-c:a", "copy", "-y", target])
-            print(as_head(T('RESULT')))
-            print("  %s  (%s)" % (target, as_hms(sample_count(target) / float(SR))))
-        if tmpdir:
-            shutil.rmtree(tmpdir, ignore_errors=True)
-        return 0
 
 def main():
     force_utf8_output()
@@ -33168,8 +33034,6 @@ CATALOGUE["de"] = {
         '  %s hat keinen Kameraton -- ohne den lässt sich nichts ausrichten',
     '  %s is in the production twice -- fetched once.':
         '  %s gibt es zweimal in der Produktion -- einmal geholt.',
-    '  %s is not part of it: %s':
-        '  %s gehört nicht dazu: %s',
     '  %s is ready -- with --resolve-json it can be done later.':
         '  %s liegt bereit -- mit --resolve-json lässt es sich nachholen.',
     '  %s: %s, skipped':
@@ -33314,12 +33178,6 @@ CATALOGUE["de"] = {
     '  Limiter:           at most %.1f dB, the same curve on every track%s':
         '  Limiter:           höchstens %.1f dB, dieselbe Kurve auf jeder '
         'Spur%s',
-    '  --lufs is not applied on this path yet: the sound is written as '
-    'it was recorded.':
-        '  --lufs wird auf diesem Weg noch nicht angewendet: Der Ton wird '
-        'so geschrieben, wie er aufgenommen wurde.',
-    '  Loudness not measurable: %s':
-        '  Lautheit nicht messbar: %s',
     '  Loudness not measurable -- it stays as it is.':
         '  Lautheit nicht messbar -- es bleibt, wie es ist.',
     '  Metrics not writable: %s':
@@ -33362,9 +33220,6 @@ CATALOGUE["de"] = {
         '  Versatz:         %s   (aus dem Kameravergleich)',
     '  Only %d of %d shots are on the Timeline.':
         '  Nur %d von %d Einstellungen liegen auf der Timeline.',
-    '  Only %s of %s is needed -- the rest has no match in the picture':
-        '  Gebraucht wird nur %s von %s -- der Rest hat keine Entsprechung '
-        'im Bild',
     '  Peaks:             %+.1f dB above %.1f dBTP -- the limiter catches them':
         '  Spitzen:           %+.1f dB über %.1f dBTP -- der Limiter fängt '
         'sie ab',
@@ -33462,8 +33317,6 @@ CATALOGUE["de"] = {
         '  Der Medienpool bleibt, wie er ist.',
     '  The names from there are adopted:':
         '  Die Namen von dort werden übernommen:',
-    '  The upload shrinks accordingly (%.0f %% saved)\n':
-        '  Hochgeladen wird entsprechend weniger (%.0f %% gespart)\n',
     '  There are %d tracks there and %d here -- that does not match.':
         '  Dort sind es %d Spuren, hier %d -- das passt nicht zusammen.',
     '  This camera could not be placed -- skipped':
@@ -33543,8 +33396,6 @@ CATALOGUE["de"] = {
         ', %d nicht (kein freies Bild)',
     ', audio on A2':
         ', Ton auf A2',
-    'AUDIO: %d blocks':
-        'TON: %d Blöcke',
     'Assignment file not readable: %s':
         'Zuordnungsdatei nicht lesbar: %s',
     'Camera audio not usable: %s':
@@ -33564,8 +33415,6 @@ CATALOGUE["de"] = {
         'Produktion durch.',
     'No preset is called %r.':
         'Kein Preset heißt %r.',
-    'No preset selected: %s':
-        'Kein Preset gewählt: %s',
     'No sound in the cameras -- nothing to work with.':
         'Kein Ton in den Kameras -- nichts, womit sich arbeiten ließe.',
     'Only one audio file and no picture -- nothing to do.':
@@ -33973,8 +33822,6 @@ CATALOGUE["de"] = {
         '%s  Versatz gemessen:               %s',
     '%s  Offset per timecode:            %s':
         '%s  Versatz laut Timecode:          %s',
-    '%sAUDIO: %s (%s)':
-        '%sTON: %s (%s)',
     'Abort: %s':
         'Abbruch: %s',
     'EXTRACTING CAMERA AUDIO':
@@ -33997,8 +33844,6 @@ CATALOGUE["de"] = {
         'ERGEBNIS',
     'Resolve part stopped: %s':
         'Resolve-Teil abgebrochen: %s',
-    'SHORTENED BEFORE PROCESSING':
-        'VOR DER AUFBEREITUNG GEKUERZT',
     'Stopped: %s':
         'Abgebrochen: %s',
     '\n  To convert: in the media pool right-click "%s Multicam" >\n  '
