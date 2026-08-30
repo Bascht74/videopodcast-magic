@@ -9,7 +9,7 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.18.0-beta] - 2026-08-31
 
 ### Changed
 
@@ -22,6 +22,15 @@ survives.
   about rhythm and not about correctness. The measurement stands beside
   it in the source, and 40 is still one number away for whoever wants
   the old restlessness.
+
+### Tests
+
+- `local_run` builds its two camera files in one ffmpeg call instead of
+  two: the second camera is the first from 1.5 seconds on, so one
+  process reads the room sound once and writes both. 50 process starts
+  became 49 and 1.75 seconds became 1.68. Checked equivalent by the
+  audio checksum of both files, and all five deliberately broken copies
+  of the program are still caught.
 
 ### Fixed
 
@@ -2319,6 +2328,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.18.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.17.0-beta...v2.18.0-beta
 [2.17.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.16.0-beta...v2.17.0-beta
 [2.16.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.15.0-beta...v2.16.0-beta
 [2.15.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.14.0-beta...v2.15.0-beta
