@@ -237,7 +237,32 @@ def track(folder, stream=0):
 
 #----------------------------------------------------------- The answers
 
-print("1. The ordinary run: recording plus camera")
+print("0. The material is still there")
+# First, because every check below reads these files: one of them gone
+# shows up as a traceback in a later part rather than as a finding here.
+#
+# The run reads the recording and the cameras and writes beside them. It
+# must never write over them or take one away. This is here because it
+# nearly went wrong on 30.8.2026: measuring the loudness makes a sum file
+# and deletes it again at the end, and a short cut that let "the sum"
+# mean "the recording itself" where there is only one track turned that
+# clean-up into the deletion of the material. Seven runs have used these
+# files by the time this line is reached.
+for name, want in (("Rec.wav", LENGTH), ("Short.wav", SHORT_LEN),
+                   ("Cam.mov", None), ("Cam2.mov", None),
+                   ("Mute.mov", None)):
+    there = os.path.exists(D + "/" + name)
+    check("%s is still there" % name, there)
+    if there and want is not None:
+        held = len(read(D + "/" + name)) / float(RATE)
+        check("and %s is as long as it was" % name, abs(held - want) < 0.02,
+              "%.3f s, was %.3f" % (held, want))
+if error:
+    # No point measuring sound against material that is not there.
+    print("\nFAIL: " + ", ".join(error))
+    sys.exit(1)
+
+print("\n1. The ordinary run: recording plus camera")
 check("it goes through", rc1 == 0, str(rc1))
 check("no traceback", "Traceback" not in log1,
       log1[log1.find("Traceback"):][:90])
