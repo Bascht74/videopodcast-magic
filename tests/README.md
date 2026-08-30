@@ -415,6 +415,7 @@ it is green.
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
+| `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
 | `run_switch_has_effect` | A switch that is taken and does nothing is worse than no switch. |
 | `run_threads_keep_order` | Doing several things at once: in order, complete, and honest about errors. |
