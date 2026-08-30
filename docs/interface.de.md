@@ -19,8 +19,24 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Unter der Liste steht das Ergebnis in einem Satz;
   [Vorflug](preflight.de.md) sagt, was jedes Prüfzeichen bedeutet.
 
-  **Projekt öffnen ...** steht nur auf der Ablegefläche. Ein geöffnetes
-  Projekt nimmt jederzeit neue Dateien auf.
+  **Projekt öffnen ...** steht auf der Ablegefläche und unter **Datei**.
+  Ein geöffnetes Projekt nimmt jederzeit neue Dateien auf, und sein Name
+  steht in der Titelzeile — ein Fenster mit geöffnetem Projekt und eines
+  ohne sind so nicht dasselbe Bild.
+
+  Liegt beim Material eine Projektdatei, bietet das Programm sie an,
+  während die Dateien hereinkommen: findet es eine, fragt es einmal und
+  nennt sie mit dem Tag, an dem sie geschrieben wurde; findet es
+  mehrere, zeigt es sie zur Auswahl; findet es keine, geschieht nichts.
+  Teilweise wird nie geladen — das Projekt kommt ganz zurück, mit den
+  Namen, der Trennung, wer vor welcher Kamera sitzt, den Typen und dem
+  Zeitfenster, oder es wird gar nicht geöffnet. Ist ein Projekt offen,
+  wird nichts mehr angeboten.
+
+  Der Ausgabeordner wird nicht geraten. Er bleibt leer, bis er gewählt
+  wird oder bis ein Projekt sagt, wohin es geht. Der Produktionsname
+  wird aus dem Ordner vorgeschlagen, in dem das Material liegt, und
+  lässt sich überschreiben.
 
   Jede Videodatei trägt in der Liste das Feld **Kameraton**. Es steht
   auf **Ton nicht verwenden**, bis jemand es auf **Ton verwenden**
@@ -266,9 +282,21 @@ Resolve antwortet.*
 ## Alles über Menü oder Taste erreichen
 
 Die Menüleiste trägt vier Menüs: **Datei**, **Ansicht**, **Wiedergabe**
-und **Hilfe**. **Hilfe** enthält den Weg in dieses Handbuch, **Was sich
-in dieser Fassung geändert hat**, **Nach Update suchen ...** und **Über
-Video Podcast Magic**.
+und **Hilfe**.
+
+**Datei** steht in der Reihenfolge, in der die Arbeit geht. Zuerst das
+Projekt — **Projekt öffnen ...**, **Projekt speichern**, **Projekt
+schließen** —, dann das Material, dann der Lauf. **Projekt schließen**
+räumt das Fenster leer, bis es aussieht wie nach dem Start, und lässt
+die Datei unberührt, aus der es kam; das ist der Weg zu einer zweiten
+Produktion, ohne das Programm zu beenden. **Projekt speichern**
+schreibt die Projektdatei dorthin, wohin der Ausgabeordner zeigt, ohne
+etwas laufen zu lassen.
+
+**Ansicht** nennt die Reiter beim Namen, statt sie zu nummerieren.
+**Hilfe** enthält den Weg in dieses Handbuch, **Was sich in dieser
+Fassung geändert hat**, **Nach Update suchen ...** und **Über Video
+Podcast Magic**.
 
 Auf dem Mac sitzt die Menüleiste oben am Bildschirmrand, sonst oben im
 Fenster. **Einstellungen ...** wandert dort ins Programmmenü und steht
@@ -280,6 +308,9 @@ Fokus hat.
 
 | Taste | Was sie tut |
 |---|---|
+| `Cmd+P` | Projekt öffnen |
+| `Cmd+S` | Projekt speichern |
+| `Cmd+W` | Projekt schließen |
 | `Cmd+O` | Dateien hinzufügen |
 | `Cmd+Rückschritt` | Das Ausgewählte entfernen |
 | `Cmd+Umschalt+O` | Ausgabeordner wählen |

@@ -17,8 +17,23 @@ Four tabs, in the order they are needed.
   fault, ! a note, ✕ this will not work. Below the list the result stands
   in one sentence; [Preflight](preflight.md) says what each mark means.
 
-  **Open project ...** sits on the drop area only. An open project takes
-  new files at any time.
+  **Open project ...** stands on the drop area and under **File**. An
+  open project takes new files at any time, and its name stands in the
+  title bar, so a window with a project open and one without are not
+  the same picture.
+
+  Where a project file lies with the material, the program offers it as
+  the files come in: one found and it asks once, naming it and the day
+  it was written; several and it shows them to choose between; none and
+  nothing happens. Nothing is ever taken in part -- the project comes
+  back whole, with the names, the separation, who sits at which camera,
+  the types and the time window, or it is not opened at all. Once a
+  project is open nothing more is offered.
+
+  The output folder is not guessed. It stays empty until it is chosen,
+  or until a project says where it goes. The production name is
+  suggested from the folder the material lies in, and can be typed
+  over.
 
   Every video file carries **Camera audio** in the list. It reads
   **do not use the audio** until somebody sets it to **use the audio**.
@@ -249,9 +264,19 @@ answers.*
 ## Reaching everything by menu or key
 
 The menu bar carries four menus: **File**, **View**, **Player** and
-**Help**. **Help** holds the way into this manual, **What changed in this
-version**, **Look for a newer version now** and **About Video Podcast
-Magic**.
+**Help**.
+
+**File** goes in the order the work goes. The project first -- **Open
+project ...**, **Save project**, **Close project** -- then the material,
+then the run. **Close project** empties the window down to what a fresh
+start looks like and leaves the file it came from untouched; it is the
+way to a second production without quitting the program. **Save
+project** writes the project file where the output folder points,
+without running anything.
+
+**View** names the tabs rather than numbering them. **Help** holds the
+way into this manual, **What changed in this version**, **Look for a
+newer version now** and **About Video Podcast Magic**.
 
 On a Mac the menu bar sits at the top of the screen, everywhere else at
 the top of the window. **Settings ...** moves into the application menu
@@ -263,6 +288,9 @@ the focus.
 
 | Key | What it does |
 |---|---|
+| `Ctrl+P` | Open project |
+| `Ctrl+S` | Save project |
+| `Ctrl+W` | Close project |
 | `Ctrl+O` | Add files |
 | `Ctrl+Backspace` | Remove what is selected |
 | `Ctrl+Shift+O` | Choose the output folder |
