@@ -283,6 +283,37 @@ newer version is out. **Where a connection has to be checked, the place
 that opens it is replaced** — the check is then about what the program
 does with the answer, and the weather is no longer part of the result.
 
+## 8b. What the tree looks like where it runs
+
+**Never take the folder for the whole of what exists.** Three red runs in
+one day came from that one assumption, each in a different disguise:
+
+* **The builder sets tests aside.** The tests a machine cannot run are
+  moved out of `tests/` before the suite starts, so counting what lies
+  there answers 143 on Windows and 145 here. **Ask the repository, not
+  the folder** -- `git ls-files` knows what belongs to the suite whatever
+  was moved; a file that is there is read from there, so uncommitted work
+  still counts, and only a file that was set aside is read out of the
+  last commit.
+* **The working notes are not shipped.** `docs/notes/` is in
+  `.gitignore` on purpose, so it is present here and absent on every
+  clone. A check that resolved paths against it was green here and red on
+  all six.
+* **A snapshot has nothing beside it.** Under `VPM_SCRIPT` the program
+  is a copy in `/tmp`, and what the program looks for next to itself --
+  the speaker model, the log, the project file -- is not there. Two tests
+  sat out silently for months on that.
+
+**The proof is a clone, and it costs one command:**
+
+```bash
+git archive HEAD | tar -x -C "$(mktemp -d)"
+```
+
+Run the test in that tree. What is green there is green on the builder;
+what needs the notes, a snapshot's neighbours or a full folder shows
+itself at once, here, instead of four minutes later on six machines.
+
 ## 9. Visible texts
 
 **What a user sees goes through `T()`, and the German lives in
@@ -443,9 +474,13 @@ rather than claiming everything was checked? Does the skip count stay
 under `SKIPS_ALLOWED`? What can run on no machine is removed rather than
 skipped.
 
-**11. It cleans up.** A temporary folder rather than a fixed path,
-nothing left standing afterwards, and nothing deleted or altered that
-the test did not create itself.
+**11. It cleans up, and it does not take the folder for the world.** A
+temporary folder rather than a fixed path, nothing left standing
+afterwards, nothing deleted or altered that the test did not create
+itself. And what it reads out of the tree: would it still be there in a
+clone, on a machine that set some tests aside, beside a snapshot? The
+proof is `git archive HEAD | tar -x` into an empty folder and a run in
+there.
 
 **12. The head has been reread.** Does it still describe what the test
 builds today? Is there no number in it that would have to travel? Has a

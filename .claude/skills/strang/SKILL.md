@@ -133,3 +133,16 @@ expensive finding if it is right, and the cheapest if it arrives early.
 itself.** It goes into `docs/notes/`, or it becomes a strand of its
 own. A finding nobody writes down has been found twice and kept once
 too few.
+
+## Working on a skill itself
+
+**The body is read fresh every time it is called.** Write, call, look,
+write again -- an edit costs nothing and shows at once.
+
+**The `description` line is not.** It is taken when the session starts,
+and it is the only part loaded into every session -- so it is what
+decides whether a skill is found at the right moment. A new skill, or a
+changed description, needs the session restarted once before anybody can
+call it. Measured: nine skills written in one session stayed documents
+for the rest of it, and their bodies were readable the whole time --
+nobody could find them.
