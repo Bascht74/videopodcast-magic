@@ -64,8 +64,8 @@ if [ -z "$LIMIT" ]; then
   echo "No timeout(1) and no gtimeout -- the tests run without a time limit."
 fi
 export LIMIT
-# English is the source text_only_texts_change of the program, so the tests run in it;
-# the two tests about German set the text_only_texts_change themselves. LANG=C alone
+# English is the source language of the program, so the tests run in it;
+# the two tests about German set the language themselves. LANG=C alone
 # does not say it: the program skips "C" on purpose and asks the system,
 # which on a German Mac answers de_DE. LANGUAGE settles the question.
 export LANG=C LC_ALL=C LANGUAGE=en
