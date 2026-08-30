@@ -59,7 +59,8 @@ check("and from there it says the truth at every step",
 
 print("\n2. What it did before, kept as a number")
 # The counter-proof, read out rather than remembered: without the
-# clearing the bar stands still through two of the four stages.
+# clearing the bar stands still through the stage left over from the
+# measuring and the first of the four that follow it.
 plan = measuring_still_going()
 # Asking is what sets the high mark: total() keeps the largest figure
 # it has ever been asked for. A test that does not ask measures
@@ -107,7 +108,7 @@ check("and it is counted in the whole", abs(plan.total() - 0.5) < 1e-9,
 # One bar draws both paths, so both must call their stages the same. A
 # stage announced but never listed lowers every share already reported;
 # one listed but never announced is skipped in a jump.
-print("\n4. The stages have one set of names")
+print("\n5. The stages have one set of names")
 import re
 source = open(SCRIPT, encoding="utf-8").read()
 said = set(re.findall(r'step_begin\(\s*"([^"]+)"', source))

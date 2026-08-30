@@ -163,8 +163,10 @@ check("and nothing was noted as offered either",
 print("\n4. Several files are shown, not guessed between")
 many = os.path.join(root, "Many")
 write(os.path.join(many, "Kamera1.mp4"))
+# Whole years apart, so a line showing the other file's date is visible
+# as such; a few seconds apart they print the same day and minute.
 old = write(os.path.join(many, NAME % "older"), when=1000)
-new = write(os.path.join(many, NAME % "newer"), when=5000)
+new = write(os.path.join(many, NAME % "newer"), when=1000000000)
 
 dialog = Dialog()
 asked, loaded, dialog = offer([os.path.join(many, "Kamera1.mp4")],
@@ -175,9 +177,15 @@ check("both files stand in it", len(dialog.shown[0]) == 2,
       str(dialog.shown))
 check("the newest stands first", os.path.basename(new) in dialog.shown[0][0],
       dialog.shown[0][0])
-check("the date stands beside each one",
-      all(time.strftime("%Y", time.localtime(1000)) in line
-          for line in dialog.shown[0]), str(dialog.shown[0]))
+stamps = {os.path.basename(old): 1000, os.path.basename(new): 1000000000}
+askew = [line for line in dialog.shown[0]
+         if not any(name in line
+                    and time.strftime("%Y-%m-%d", time.localtime(when)) in line
+                    for name, when in stamps.items())]
+check("each file's own date stands beside it", not askew,
+      "%s, wanted %s" % (askew, sorted(
+          time.strftime("%Y-%m-%d", time.localtime(w))
+          for w in stamps.values())))
 check("the chosen one is opened", loaded == [new], str(loaded))
 
 # The second entry, to be sure list and paths line up: picking the

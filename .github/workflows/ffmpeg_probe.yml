@@ -1,0 +1,466 @@
+name: ffmpeg probe
+
+# By hand only. The suite already runs on every push, and this asks the
+# same six machines for another few minutes each. It is started when a
+# number in the suite has moved and nobody knows why.
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  probe:
+    name: ${{ matrix.os }} / py${{ matrix.python }}
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        # The same six the suite runs on, so a time from here can be laid
+        # beside a time from there.
+        include:
+          - os: ubuntu-latest
+            python: '3.14'
+          - os: ubuntu-latest
+            python: '3.10'
+          - os: windows-latest
+            python: '3.14'
+          - os: windows-latest
+            python: '3.10'
+          - os: macos-latest
+            python: '3.14'
+          - os: macos-latest
+            python: '3.10'
+
+    env:
+      PYTHONUTF8: '1'
+
+    steps:
+      # No checkout. Nothing of the program is measured here, only ffmpeg
+      # and the disk under it, and every clip is made on the spot.
+      - uses: actions/setup-python@v6
+        with:
+          python-version: ${{ matrix.python }}
+
+      - name: "Install: ffmpeg (Linux)"
+        if: runner.os == 'Linux'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y -qq ffmpeg
+
+      - name: "Install: ffmpeg (macOS)"
+        if: runner.os == 'macOS'
+        run: command -v ffmpeg > /dev/null 2>&1 || brew install ffmpeg
+
+      - name: "Install: ffmpeg (Windows)"
+        if: runner.os == 'Windows'
+        shell: bash
+        run: |
+          command -v ffmpeg > /dev/null 2>&1 \
+            || choco install ffmpeg -y --no-progress
+
+      - name: "Record: the room the measurement runs in"
+        shell: bash
+        run: |
+          echo "runner:  $RUNNER_OS $RUNNER_ARCH"
+          echo "python:  $(python -VV)"
+          echo "cores:   $(getconf _NPROCESSORS_ONLN 2>/dev/null || echo '?')"
+          echo "ffmpeg:  $(command -v ffmpeg || echo 'NOT THERE')"
+          df -h . 2>/dev/null || true
+
+      # The measurement is one Python file rather than shell, because the
+      # three systems do not share a shell and a difference between shells
+      # would land in the numbers.
+      - name: "Write: the measurement"
+        shell: bash
+        run: |
+          cat > "$RUNNER_TEMP/probe.py" <<'PROBE'
+          """Time the same ffmpeg work on every runner, one task at a time.
+
+          Every clip is made with -f lavfi, so the numbers of six machines can be
+          laid beside each other and nothing from a production is touched. What is
+          wanted is not one total but the shape of the difference: which task is
+          slow where, and whether the time goes into computing or into writing.
+          """
+
+          import json
+          import os
+          import statistics
+          import subprocess
+          import sys
+          import time
+
+          WORK = os.path.join(os.environ.get("RUNNER_TEMP") or os.getcwd(), "ffmpeg-probe")
+          os.makedirs(WORK, exist_ok=True)
+
+          SR = 48000
+          VIDEO_SECONDS = 30
+          AUDIO_SECONDS = 60
+          VIDEO_SAMPLES = VIDEO_SECONDS * SR
+
+          # A task is run at least three times and the median counts, so a cold
+          # first run cannot decide anything. A task that is cheap keeps going
+          # until it has spent this many seconds, because with a short task the
+          # cost of starting a process is a large part of what is being timed.
+          REPEATS_LEAST = 3
+          REPEATS_MOST = 7
+          BUDGET_S = 4.0
+
+          DISK_CHUNK = 1 << 23
+          DISK_CHUNKS = 32
+
+
+          def here(name):
+              return os.path.join(WORK, name)
+
+
+          def ffmpeg(args):
+              return ["ffmpeg", "-hide_banner", "-v", "error", "-nostats", "-y"] + args
+
+
+          def once(cmd, drain=False):
+              """Run one command and return how long it took, and what it handed back.
+
+              A task that writes to a pipe is read out here in the same way the
+              program reads it, so the bytes counted are bytes that arrived.
+              """
+              moved = None
+              start = time.perf_counter()
+              if drain:
+                  p = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                       stderr=subprocess.PIPE)
+                  moved = 0
+                  while True:
+                      chunk = p.stdout.read(1 << 20)
+                      if not chunk:
+                          break
+                      moved += len(chunk)
+                  p.stdout.close()
+                  err = p.stderr.read()
+                  p.stderr.close()
+                  rc = p.wait()
+              else:
+                  p = subprocess.run(cmd, stdout=subprocess.DEVNULL,
+                                     stderr=subprocess.PIPE)
+                  rc, err = p.returncode, p.stderr
+              spent = time.perf_counter() - start
+              if rc != 0:
+                  sys.stderr.write(err.decode("utf-8", "replace"))
+                  raise RuntimeError("FAIL: %s came back %d" % (cmd[0], rc))
+              return spent, moved
+
+
+          ROWS = []
+          HEAD = "%-36s %4s %9s %9s %9s %10s %9s" % (
+              "task", "runs", "median", "min", "max", "MB", "MB/s")
+
+
+          def keep(name, times, moved):
+              middle = statistics.median(times)
+              mb = (moved or 0) / 1e6
+              rate = "%9.2f" % (mb / middle) if moved and middle > 0 else "%9s" % "-"
+              line = "%-36s %4d %9.2f %9.2f %9.2f %10.2f %s" % (
+                  name, len(times), middle, min(times), max(times), mb, rate)
+              print(line, flush=True)
+              ROWS.append({"task": name, "runs": len(times), "median": round(middle, 2),
+                           "min": round(min(times), 2), "max": round(max(times), 2),
+                           "bytes": moved or 0})
+              return middle
+
+
+          def measure(name, cmd, produces=None, drain=False):
+              times, moved, spent = [], None, 0.0
+              while len(times) < REPEATS_MOST:
+                  dt, got = once(cmd, drain)
+                  times.append(dt)
+                  spent += dt
+                  if got is not None:
+                      moved = got
+                  if len(times) >= REPEATS_LEAST and spent >= BUDGET_S:
+                      break
+              if produces:
+                  moved = os.path.getsize(here(produces))
+              return keep(name, times, moved)
+
+
+          def bars(size, rate, noisy=False):
+              """The video side of every clip: colour bars, optionally stirred.
+
+              Still bars compress to almost nothing, so a task on them says what the
+              encoder computes and nothing about what the disk writes. The stirred
+              variant makes every frame different and the file large, and the pair
+              separates the two.
+              """
+              chain = "smptebars=size=%s:rate=%d" % (size, rate)
+              if noisy:
+                  chain += ",noise=alls=48:allf=t+u"
+              return ["-f", "lavfi", "-t", str(VIDEO_SECONDS), "-i", chain]
+
+
+          X264 = ["-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p"]
+
+
+          def tone(seconds, channels, codec, target):
+              return ffmpeg(["-f", "lavfi", "-t", str(seconds),
+                             "-i", "sine=frequency=440:sample_rate=%d" % SR,
+                             "-ac", str(channels), "-c:a", codec, here(target)])
+
+
+          def camera_file(source, target):
+              """The shape the program writes a camera file in.
+
+              Video copied through, several tracks written new as 24 bit, each one
+              padded to the length of the video and given a name. The filter chain
+              and the flags follow write_camera_file; the colour tags do not, they
+              come from a real camera file and lavfi carries none.
+              """
+              cmd = ["-i", here(source)]
+              chains, maps = [], ["-map", "0:v"]
+              for i in range(3):
+                  cmd += ["-i", here("track%d.wav" % i)]
+                  chains.append("[%d:a]atrim=start_sample=4800,asetpts=N/SR/TB,"
+                                "apad=whole_len=%d,atrim=end_sample=%d,"
+                                "asetpts=N/SR/TB[t%d]"
+                                % (i + 1, VIDEO_SAMPLES, VIDEO_SAMPLES, i))
+                  maps += ["-map", "[t%d]" % i]
+              cmd += ["-filter_complex", ";".join(chains)] + maps
+              cmd += ["-c:v", "copy", "-map_metadata", "0",
+                      "-movflags", "+write_colr+use_metadata_tags"]
+              for i in range(3):
+                  cmd += ["-c:a:%d" % i, "pcm_s24le",
+                          "-metadata:s:a:%d" % i, "title=Track %d" % (i + 1),
+                          "-metadata:s:a:%d" % i, "handler_name=Track %d" % (i + 1),
+                          "-disposition:a:%d" % i, "default" if i == 0 else "0"]
+              return ffmpeg(cmd + [here(target)])
+
+
+          def drop(*names):
+              """Delete a file once its size has been read off it.
+
+              Stirred colour bars at ultrafast carry an enormous bitrate, which is
+              the point of them, and a runner does not have room for all of it at
+              once.
+              """
+              for name in names:
+                  try:
+                      os.remove(here(name))
+                  except OSError:
+                      pass
+
+
+          def disk_probe():
+              """Write and read a block of bytes without ffmpeg in the way.
+
+              If a runner is slow at writing rather than at computing, it shows here
+              with no codec to hide behind. The read is likely to be served from the
+              cache and is the upper bound, not the disk.
+              """
+              payload = os.urandom(DISK_CHUNK)
+              target = here("block.bin")
+              writes, reads = [], []
+              for _ in range(3):
+                  start = time.perf_counter()
+                  with open(target, "wb") as f:
+                      for _ in range(DISK_CHUNKS):
+                          f.write(payload)
+                      f.flush()
+                      os.fsync(f.fileno())
+                  writes.append(time.perf_counter() - start)
+                  start = time.perf_counter()
+                  with open(target, "rb") as f:
+                      while f.read(1 << 20):
+                          pass
+                  reads.append(time.perf_counter() - start)
+              size = DISK_CHUNK * DISK_CHUNKS
+              keep("disk_write_256mb_fsync", writes, size)
+              keep("disk_read_256mb", reads, size)
+              os.remove(target)
+
+
+          def versions():
+              p = subprocess.run(["ffmpeg", "-version"], stdout=subprocess.PIPE,
+                                 stderr=subprocess.STDOUT)
+              lines = p.stdout.decode("utf-8", "replace").splitlines()
+              first = lines[0] if lines else "ffmpeg said nothing"
+              config = next((s for s in lines if s.startswith("configuration:")), "")
+              return first, config
+
+
+          def main():
+              first, config = versions()
+              print("system:  %s %s" % (os.environ.get("RUNNER_OS", sys.platform),
+                                        os.environ.get("RUNNER_ARCH", "?")))
+              print("python:  %s" % sys.version.split()[0])
+              print("cores:   %s" % (os.cpu_count() or "?"))
+              print("ffmpeg:  %s" % first)
+              print("built:   %s" % config)
+              print()
+              print(HEAD, flush=True)
+
+              measure("enc_320x180_30fps_bars",
+                      ffmpeg(bars("320x180", 30) + X264 + [here("small30.mp4")]),
+                      produces="small30.mp4")
+              measure("enc_320x180_15fps_bars",
+                      ffmpeg(bars("320x180", 15) + X264 + [here("small15.mp4")]),
+                      produces="small15.mp4")
+              measure("enc_1920x1080_30fps_bars",
+                      ffmpeg(bars("1920x1080", 30) + X264 + [here("big30.mp4")]),
+                      produces="big30.mp4")
+              measure("enc_1920x1080_15fps_bars",
+                      ffmpeg(bars("1920x1080", 15) + X264 + [here("big15.mp4")]),
+                      produces="big15.mp4")
+              measure("enc_1920x1080_30fps_noise",
+                      ffmpeg(bars("1920x1080", 30, True) + X264
+                             + [here("noise30.mp4")]),
+                      produces="noise30.mp4")
+              measure("enc_1920x1080_15fps_noise",
+                      ffmpeg(bars("1920x1080", 15, True) + X264
+                             + [here("noise15.mp4")]),
+                      produces="noise15.mp4")
+              measure("enc_1920x1080_30fps_noise_null",
+                      ffmpeg(bars("1920x1080", 30, True) + X264 + ["-f", "null", "-"]))
+
+              measure("copy_320x180_30fps_bars",
+                      ffmpeg(["-i", here("small30.mp4"), "-c:v", "copy",
+                              here("small30copy.mp4")]),
+                      produces="small30copy.mp4")
+              measure("copy_1920x1080_30fps_bars",
+                      ffmpeg(["-i", here("big30.mp4"), "-c:v", "copy",
+                              here("big30copy.mp4")]),
+                      produces="big30copy.mp4")
+              measure("copy_1920x1080_30fps_noise",
+                      ffmpeg(["-i", here("noise30.mp4"), "-c:v", "copy",
+                              here("noise30copy.mp4")]),
+                      produces="noise30copy.mp4")
+              measure("copy_1920x1080_15fps_noise",
+                      ffmpeg(["-i", here("noise15.mp4"), "-c:v", "copy",
+                              here("noise15copy.mp4")]),
+                      produces="noise15copy.mp4")
+              measure("copy_1920x1080_30fps_noise_null",
+                      ffmpeg(["-i", here("noise30.mp4"), "-c:v", "copy",
+                              "-f", "null", "-"]))
+              drop("small30copy.mp4", "big30copy.mp4", "noise30copy.mp4",
+                   "noise15copy.mp4")
+
+              measure("wav_s16le_1ch_60s", tone(AUDIO_SECONDS, 1, "pcm_s16le",
+                                                "a16m.wav"), produces="a16m.wav")
+              measure("wav_s16le_2ch_60s", tone(AUDIO_SECONDS, 2, "pcm_s16le",
+                                                "a16s.wav"), produces="a16s.wav")
+              measure("wav_s24le_1ch_60s", tone(AUDIO_SECONDS, 1, "pcm_s24le",
+                                                "a24m.wav"), produces="a24m.wav")
+              measure("wav_s24le_2ch_60s", tone(AUDIO_SECONDS, 2, "pcm_s24le",
+                                                "a24s.wav"), produces="a24s.wav")
+
+              measure("dec_s16le_pipe_48k",
+                      ffmpeg(["-i", here("a24s.wav"), "-ac", "1", "-ar", str(SR),
+                              "-f", "s16le", "-"]), drain=True)
+              measure("dec_f32le_pipe_16k",
+                      ffmpeg(["-i", here("a24s.wav"), "-ac", "1", "-ar", "16000",
+                              "-f", "f32le", "-"]), drain=True)
+              measure("dec_s16le_file_48k",
+                      ffmpeg(["-i", here("a24s.wav"), "-ac", "1", "-ar", str(SR),
+                              "-f", "s16le", here("a.raw")]), produces="a.raw")
+
+              for i in range(3):
+                  subprocess.run(tone(VIDEO_SECONDS, 1, "pcm_s24le", "track%d.wav" % i),
+                                 check=True)
+              measure("mov_copy_3x_s24le_30fps",
+                      camera_file("noise30.mp4", "camera30.mov"),
+                      produces="camera30.mov")
+              measure("mov_copy_3x_s24le_15fps",
+                      camera_file("noise15.mp4", "camera15.mov"),
+                      produces="camera15.mov")
+              drop("camera30.mov", "camera15.mov", "noise30.mp4", "noise15.mp4",
+                   "big30.mp4", "big15.mp4", "small30.mp4", "small15.mp4", "a.raw")
+
+              measure("ffmpeg_version_only", ["ffmpeg", "-hide_banner", "-version"])
+              disk_probe()
+
+              report(first, config)
+
+
+          def at(name):
+              for row in ROWS:
+                  if row["task"] == name:
+                      return row
+              return None
+
+
+          def pair(heavy, light, what):
+              a, b = at(heavy), at(light)
+              if not a or not b:
+                  return None
+              return "%-26s %6.2f s of %6.2f s" % (what, a["median"] - b["median"],
+                                                   a["median"])
+
+
+          def report(first, config):
+              """The short version, so a reader does not have to scroll the log."""
+              total = sum(r["median"] for r in ROWS)
+              dear = sorted(ROWS, key=lambda r: -r["median"])[:3]
+              lines = ["all tasks together:      %6.2f s" % total,
+                       "the three most costly:   "
+                       + ", ".join("%s %.2f s" % (r["task"], r["median"]) for r in dear),
+                       ""]
+              written = [pair("enc_1920x1080_30fps_noise",
+                              "enc_1920x1080_30fps_noise_null", "encoding, writing:"),
+                         pair("copy_1920x1080_30fps_noise",
+                              "copy_1920x1080_30fps_noise_null", "copying, writing:"),
+                         pair("dec_s16le_file_48k", "dec_s16le_pipe_48k",
+                              "decoding, writing:")]
+              lines += [s for s in written if s]
+              lines.append("")
+              lines.append("Writing is the same task once to a file and once to a")
+              lines.append("null muxer; the difference is what the writing cost.")
+              text = "\n".join(lines)
+              print()
+              print(text, flush=True)
+
+              out = os.environ.get("GITHUB_STEP_SUMMARY")
+              if not out:
+                  return
+              with open(out, "a", encoding="utf-8") as f:
+                  f.write("## %s / Python %s\n\n```\n"
+                          % (os.environ.get("RUNNER_OS", "?"), sys.version.split()[0]))
+                  f.write("%s\n%s\n\n" % (first, config))
+                  f.write(text + "\n\n")
+                  f.write(HEAD + "\n")
+                  for r in ROWS:
+                      mb = r["bytes"] / 1e6
+                      rate = ("%9.2f" % (mb / r["median"])) if r["bytes"] else "%9s" % "-"
+                      f.write("%-36s %4d %9.2f %9.2f %9.2f %10.2f %s\n"
+                              % (r["task"], r["runs"], r["median"], r["min"], r["max"],
+                                 mb, rate))
+                  f.write("```\n")
+
+
+          if __name__ == "__main__":
+              main()
+              where = os.environ.get("RUNNER_TEMP") or os.getcwd()
+              with open(os.path.join(where, "ffmpeg-probe.json"), "w",
+                        encoding="utf-8") as f:
+                  json.dump({"os": os.environ.get("RUNNER_OS", sys.platform),
+                             "python": sys.version.split()[0],
+                             "ffmpeg": versions()[0], "tasks": ROWS}, f, indent=1)
+          PROBE
+          python -c "import ast,sys; ast.parse(open(sys.argv[1]).read())" \
+            "$RUNNER_TEMP/probe.py"
+          echo "the measurement parses"
+
+      - name: "Measure: the same ffmpeg work on this system"
+        shell: bash
+        run: |
+          start=$SECONDS
+          python "$RUNNER_TEMP/probe.py"
+          echo "the probe took $(( SECONDS - start )) s"
+
+      # The six jobs each leave their numbers behind, so they can be read
+      # into one table afterwards instead of by eye out of six logs.
+      - name: "Keep: the numbers of this system"
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ffmpeg-probe-${{ matrix.os }}-py${{ matrix.python }}
+          path: ${{ runner.temp }}/ffmpeg-probe.json
+          if-no-files-found: warn

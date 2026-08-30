@@ -196,6 +196,11 @@ def step():
                     check("the new file name went in",
                           name.text() == WANTED["camera_name"],
                           repr(name.text()))
+                # Which file the Intro is given to, so the project file
+                # can be asked what that one file holds instead of
+                # whether some entry begins with "kind:".
+                found["kind_file"] = (t.item(0, 0).text()
+                                      if t.item(0, 0) else "")
                 kind = t.cellWidget(0, 3)
                 boxes = (kind.findChildren(QtWidgets.QComboBox)
                          if kind is not None else [])
@@ -212,6 +217,9 @@ def step():
                         word = b.itemText(k)
                         if ("ntro" in word or "orspann" in word):
                             WANTED["kind"] = word
+                            # The box shows the label and stores the
+                            # value; the project file holds the value.
+                            found["kind_value"] = b.itemData(k)
                             b.setCurrentIndex(k)
                             break
                     check("there is an Intro to choose",
@@ -280,10 +288,16 @@ def step():
             check("it names the new file",
                   WANTED["camera_name"] in json.dumps(d),
                   "not anywhere in the file")
+            kinds = dict(
+                (os.path.basename(str(k).split(":", 1)[1]), v)
+                for k, v in (d.get("assignment") or {}).items()
+                if str(k).startswith("kind:"))
             check("it keeps the Kind that was chosen",
-                  any(str(k).startswith("kind:") for k in
-                      (d.get("assignment") or {})),
-                  str(sorted(d.get("assignment") or {})[:6]))
+                  kinds.get(found.get("kind_file")) == found.get("kind_value"),
+                  "%s holds %r, chosen was %r; all of them: %s"
+                  % (found.get("kind_file"),
+                     kinds.get(found.get("kind_file")),
+                     found.get("kind_value"), kinds))
             check("it keeps the transcript answer", "transcript" in d,
                   str(sorted(d)))
             check("it keeps the speaker name",

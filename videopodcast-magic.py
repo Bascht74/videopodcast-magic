@@ -34392,8 +34392,6 @@ CATALOGUE["de"] = {
         'Nur ein Sprecher',
     'Open json project file':
         'json-Projektdatei öffnen',
-    'Open project ...':
-        'Projekt öffnen ...',
     'Open result folder':
         'Ergebnis-Ordner öffnen',
     'Open the settings, where the key is.':
@@ -35226,8 +35224,6 @@ CATALOGUE["de"] = {
         'Kontrolle: Kameraspur',
     'Codec profile':
         'Codecprofil',
-    'Colour space':
-        'Farbraum',
     'Colour tag':
         'Farbkennung',
     'Connect':

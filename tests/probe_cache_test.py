@@ -101,10 +101,17 @@ print("\n5. Warming up beforehand")
 vpm._PROBE.clear()
 forget_kept()
 warm = probes(lambda: vpm.probe_warm([a, b, c]))
-later = probes(lambda: [vpm.ffprobe_json(p) or vpm.channel_count(p)
-                        or vpm.sample_count(p) for p in (a, b, c)])
 check("three files, measured once each", warm >= 3, warm)
-check("nothing left to ask afterwards", later == 0, later)
+# One line per question. Chained with "or" the first answer is truthy
+# and the other two questions are never asked, so a cache that had
+# warmed nothing but the whole description still read as green.
+for what, ask in (("the whole description", vpm.ffprobe_json),
+                  ("the channel count", vpm.channel_count),
+                  ("the length in samples", vpm.sample_count)):
+    cost = dict((p, probes(lambda p=p: ask(p))) for p in (a, b, c))
+    check("%s costs nothing afterwards" % what,
+          set(cost.values()) == set([0]),
+          str(dict((os.path.basename(p), n) for p, n in cost.items())))
 
 print("\n6. What ffprobe said outlives the run")
 # Asking again costs a process: cheap here, dear on a builder where

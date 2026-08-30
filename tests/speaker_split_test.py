@@ -70,9 +70,10 @@ check("and what is left is counted from the In point",
 gone = vpm.speaker_segments_on_axis(grouped, 0.0, 100.0, 200.0)
 check("a voice with nothing left in the window is left out",
       gone == [], str(gone))
+twice = vpm.speaker_segments_on_axis(
+    vpm.speaker_segments_on_axis(grouped, 900.0), 24.6)
 check("moving a second time gives the same as moving once",
-      vpm.speaker_segments_on_axis(grouped, 924.6)
-      == vpm.speaker_segments_on_axis(grouped, 924.6))
+      twice == moved, "%s against %s" % (twice, moved))
 
 print("\n4. Naming the voices")
 names = dict(vpm.speaker_label_names(grouped))
@@ -177,7 +178,16 @@ check("nothing stored is nothing read", vpm.speakers_from_project({}) [1]
       == [])
 
 print("\n9. The three rules of the worker process")
-worker = ast.parse(vpm.SPEAKER_SPLIT_WORKER)
+try:
+    worker = ast.parse(vpm.SPEAKER_SPLIT_WORKER)
+    compile(vpm.SPEAKER_SPLIT_WORKER, "worker", "exec")
+    broken = ""
+except SyntaxError as e:
+    worker, broken = None, "line %s: %s" % (e.lineno, e.msg)
+check("the worker is a program in its own right", not broken, broken)
+if worker is None:
+    print("\nFAIL: " + ", ".join(error))
+    sys.exit(1)
 body = [n for n in worker.body if isinstance(n, ast.FunctionDef)]
 first = [n for n in body if n.name == "main"][0].body[0]
 check("the first thing main does is switch the telemetry off",
@@ -194,8 +204,6 @@ check("a number of speakers is passed only when it was asked for",
       'if int(head.get("speakers") or 0) > 0:' in vpm.SPEAKER_SPLIT_WORKER)
 check("the model comes out of a folder, never off a server",
       'Pipeline.from_pretrained(head["model"])' in vpm.SPEAKER_SPLIT_WORKER)
-check("the worker is a program in its own right",
-      compile(vpm.SPEAKER_SPLIT_WORKER, "worker", "exec") is not None)
 
 print("\n10. The model that travels with the program")
 model = vpm.speaker_model_folder()

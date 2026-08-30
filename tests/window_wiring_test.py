@@ -19,11 +19,10 @@ that is green whatever the answer is has checked nothing:
   the eight cut numbers    two sets, every number read back
   the In point             marked twice from two positions
 
-One of these does not hold and is left red rather than taken out: a
-name typed into a track reaches the calculation, but not by itself.
-The preview computes again for a chooser, a number and a mark, not for
-a name, so it goes on showing the old speaker at the old camera until
-something unrelated is touched.
+A name is asked twice over: that it reaches the calculation, and that
+it sets the calculation going by itself. Those are two wirings, and
+the first can pass on the second's behalf, because the step that
+types a name moves a chooser as well.
 """
 import os
 import sys
@@ -732,7 +731,6 @@ def rename_alone(_rec, _all):
     """
     fresh = seen["stat"][mark["stat"]:]
     early = seen["window"][mark["window"]:]
-    kept["rename_alone"] = bool(fresh)
     # Both counters, so the answer says which happened: the preview
     # never ran, or it ran and stopped before the cut.
     check("a typed name alone makes the preview compute again",

@@ -8,6 +8,7 @@ nobody shipped. A rule that only a person enforces holds until that
 person is busy, so every check here is the mechanical half of a rule
 written out in docs/notes/claude_intern.md.
 """
+import ast
 import io
 import os
 import re
@@ -128,8 +129,57 @@ check("no line writes the key into a file", not into_file,
 check("the key is taken out before pip runs",
       source.count('clean.pop("AUPHONIC_TOKEN", None)') >= 3,
       "%d places" % source.count('clean.pop("AUPHONIC_TOKEN", None)'))
-check("the project file strips the switch",
-      "--auphonic-api-key" in source and "strip" in source.lower())
+
+
+# The switch is dropped inside project_write, which sits in gui() and
+# cannot be called from here. So its own filter is cut out of the source
+# and run over a command line carrying a key: the lines themselves
+# answer, instead of the word "strip" standing somewhere in the file.
+def project_write_body():
+    """The source of project_write, dedented to the left margin."""
+    lines = source.split("\n")
+    at = [i for i, x in enumerate(lines)
+          if x.strip().startswith("def project_write(")]
+    if not at:
+        return ""
+    room = len(lines[at[0]]) - len(lines[at[0]].lstrip())
+    out = [lines[at[0]][room:]]
+    for x in lines[at[0] + 1:]:
+        if x.strip() and len(x) - len(x.lstrip()) <= room:
+            break
+        out.append(x[room:])
+    return "\n".join(out)
+
+
+# The filter is one assignment and the loop that follows it.
+lifted = []
+for one in (ast.parse(project_write_body() or "def project_write(argv): pass")
+            .body[0].body):
+    if isinstance(one, ast.Assign) and "clean" in ast.dump(one.targets[0]):
+        lifted = [one]
+    elif lifted and isinstance(one, ast.For):
+        lifted.append(one)
+        break
+
+
+def key_dropped(argv):
+    """What project_write's filter leaves of a command line."""
+    if len(lifted) != 2:
+        return None
+    room = {"argv": argv}
+    exec(compile(ast.Module(body=lifted, type_ignores=[]),
+                 "project_write", "exec"), room)
+    return room.get("clean")
+
+
+KEY = "not-a-real-key-000"
+left = key_dropped(["videopodcast-magic.py", "--out", "somewhere",
+                    "--auphonic-api-key", KEY, "--auphonic-preset", "podcast"])
+check("the project file drops the switch and its key",
+      left is not None and "--auphonic-api-key" not in left
+      and KEY not in left and "--auphonic-preset" in left
+      and "podcast" in left,
+      "the call it would write: %s" % (left,))
 
 print("\n3. Both languages, and each in its own")
 # A machine cannot say whether a sentence is good, but it can say
@@ -221,17 +271,14 @@ if newest_german.strip():
            "Behoben": ("jetzt", "nicht mehr", "stattdessen")}
     half_told = []
     for part in (newest, newest_german):
-        heading = None
         for chunk in part.split("### "):
             name = chunk.split("\n")[0].strip()
             if name not in NOW:
                 continue
-            heading = name
             for one in points_of("### " + chunk):
                 text = " ".join(x.strip() for x in one)[2:]
                 if not any(w in text.lower() for w in NOW[name]):
                     half_told.append("%s: %s" % (name, text[:60]))
-        del heading
     check("every fixed point says how it is now", not half_told,
           "%d of them, first: %s" % (len(half_told), half_told[0])
           if half_told else "")

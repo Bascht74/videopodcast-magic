@@ -239,6 +239,10 @@ check("no call with the wrong number of values", not bad_calls,
 
 print("\n6. What the catalogue promises does exist")
 catalogue = {}
+# The pairs as they stand in the source. A dict keeps one value per key,
+# so a key written twice with two translations loses one of them without
+# a sound; only the list before the dict is made still shows both.
+pairs = []
 for node in ast.walk(tree):
     if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict) \
             and isinstance(node.targets[0], ast.Subscript) \
@@ -247,12 +251,19 @@ for node in ast.walk(tree):
             if isinstance(key, ast.Constant) \
                     and isinstance(value, ast.Constant):
                 catalogue[key.value] = value.value
+                pairs.append((key.value, value.value, key.lineno))
 P = re.compile(r"%[-+ #0-9.*]*[a-zA-Z%]")
 mismatched = [k for k, v in catalogue.items()
               if P.findall(k) != P.findall(v)]
 check("placeholders the same in both languages", not mismatched,
       str(mismatched[:3]))
-duplicates = []   # a dict cannot carry the same key twice
+meanings = collections.defaultdict(dict)
+for key, value, where in pairs:
+    meanings[key].setdefault(value, where)
+duplicates = ["line %d: %r means %r and %r"
+              % (sorted(said.values())[1], key[:40],
+                 sorted(said)[0][:40], sorted(said)[1][:40])
+              for key, said in meanings.items() if len(said) > 1]
 check("no two meanings per key", not duplicates, str(duplicates[:3]))
 
 print("\n7. Tests that check something")
