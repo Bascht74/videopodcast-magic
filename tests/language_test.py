@@ -304,8 +304,12 @@ print("\n17. No German word outside the catalogue")
 # German side of the catalogue uses but the English side does not. What
 # is left over after the two lists below is a real find.
 GERMAN_KEEP = set("""
-bilder dokumente filme musik schreibtisch
+bilder dokumente filme musik schreibtisch deutsch
 """.split())          # folder names on a German system, on purpose
+# "deutsch" is the last of those and stands apart: it is the word that
+# marks the German half of a release text. A German reader on the
+# release page looks for that word and no other, so it has to be the
+# German one -- it is a label for readers, not prose in the source.
 NOT_GERMAN = set("""
 also alt ansi antialiasing api ascii backend byte codec codecs cpu ctrl
 eng ext frontend gbr html installation iso lang man marker mpeg multi

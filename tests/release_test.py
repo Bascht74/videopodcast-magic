@@ -61,9 +61,30 @@ print("\n2. The changelog keeps its shape")
 # Documentation, and Documentation last. Decided 23.8.2026.
 ORDER = ["Added", "Changed", "Deprecated", "Removed", "Fixed",
          "Security", "Tests", "Documentation"]
+# From 2.20.0-beta on a version says everything twice, in two blocks:
+# the English one first, then a line reading **Deutsch**, then the same
+# in German. Both belong on the release page, where a reader jumps to
+# the language they want; the program shows only the one it runs in.
+# The shape below is judged on the English half, and the German half is
+# judged against it -- same number of points, and each in its own
+# language.
+MARK_DE = "**Deutsch**"
+
+
+def two_halves(block):
+    """The English and the German part of one version's section."""
+    at = [i for i, x in enumerate(block.split("\n"))
+          if x.strip() == MARK_DE]
+    lines = block.split("\n")
+    if not at:
+        return block, ""
+    return "\n".join(lines[:at[0]]), "\n".join(lines[at[0] + 1:])
+
+
 blocks = re.split(r"^## \[", changelog, flags=re.M)[1:]
 for block in blocks[:3]:                      # the newest three
     name = block.split("]")[0]
+    block, german = two_halves(block)
     groups = re.findall(r"^### (\w+)", block, re.M)
     unknown = [g for g in groups if g not in ORDER]
     check("%s: only groups that are allowed" % name, not unknown,
@@ -129,6 +150,50 @@ check("the project file strips the switch",
 # being part of the work. Sebastian, 31.8.2026: make it a rule you
 # cannot overlook. A rule in a document can be overlooked; a block on
 # the screen at the moment of the deed is harder.
+print("\n3. Both languages, and each in its own")
+# Sebastian, 31.8.2026: check the changelog in both languages and check
+# yourself with it. A machine cannot say whether a sentence is good; it
+# can say whether a sentence is in the language it claims to be.
+# Function words give it away -- the same trick german_hunt_test uses
+# on the manual.
+GERMAN_WORDS = re.compile(
+    r"(?<![A-Za-z\u00c0-\u024f])(und|oder|nicht|wird|wurde|werden|steht|"
+    r"kann|eine|einen|einem|einer|dass|weil|damit|schon|noch|dann|"
+    r"zwischen|jetzt)(?![A-Za-z\u00c0-\u024f])", re.I)
+ENGLISH_WORDS = re.compile(
+    r"(?<![A-Za-z])(the|and|with|from|into|which|would|there|their|"
+    r"because|before|after|between|without|instead|about)(?![A-Za-z])",
+    re.I)
+
+
+def prose(text):
+    """The words of a section, without headings, marks and addresses."""
+    out = []
+    for line in text.split("\n"):
+        bare = line.strip()
+        if not bare or bare.startswith(("#", "[", "---", "**")):
+            continue
+        out.append(re.sub(r"`[^`]*`|https?://\S+|\S+\.(md|py|json)", "",
+                          bare))
+    return " ".join(out)
+
+
+newest, newest_german = two_halves(blocks[0])
+check("the newest version says everything in both languages",
+      bool(newest_german.strip()),
+      "no %s line under %s" % (MARK_DE, blocks[0].split("]")[0]))
+if newest_german.strip():
+    same = (len(re.findall(r"^- ", newest, re.M)),
+            len(re.findall(r"^- ", newest_german, re.M)))
+    check("the same number of points on both sides", same[0] == same[1],
+          "%d English, %d German" % same)
+    over = sorted(set(m.group(0).lower()
+                      for m in GERMAN_WORDS.finditer(prose(newest))))
+    check("no German words on the English side", not over, str(over[:5]))
+    over = sorted(set(m.group(0).lower()
+                      for m in ENGLISH_WORDS.finditer(prose(newest_german))))
+    check("no English words on the German side", not over, str(over[:5]))
+
 print("""
 Before the tag -- five things, and the tag comes last:
 
