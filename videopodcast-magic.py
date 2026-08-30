@@ -18650,34 +18650,50 @@ def sample_frame_intervals(file_path, duration, spots=5, window_s=2.0):
         points = [0.0]
     else:
         points = [duration * k / float(spots) for k in range(spots)]
-    out = []
-    for t0 in points:
-        try:
-            p = subprocess.run(
-                ["ffprobe", "-v", "error", "-select_streams", "v:0",
-                 "-show_entries", "packet=pts_time", "-of", "csv=p=0",
-                 "-read_intervals", "%.3f%%+%.1f" % (t0, window_s), file_path],
-                capture_output=True, timeout=60)
-        except Exception:
+    # All the points in one call. ffprobe takes a comma separated list of
+    # intervals, and every call is a process: five per file cost nothing
+    # here and 1.8 seconds each on the Windows builder, where starting a
+    # process is the expensive part. Measured 30.8.2026: this test made
+    # 62 of them and took two seconds on this Mac and 126 on the builder.
+    reading = ",".join("%.3f%%+%.1f" % (t0, window_s) for t0 in points)
+    try:
+        p = subprocess.run(
+            ["ffprobe", "-v", "error", "-select_streams", "v:0",
+             "-show_entries", "packet=pts_time", "-of", "csv=p=0",
+             "-read_intervals", reading, file_path],
+            capture_output=True, timeout=60)
+    except Exception:
+        return []
+    times = []
+    for line in p.stdout.decode("utf-8", "replace").splitlines():
+        line = line.strip().rstrip(",")
+        if not line or line == "N/A":
             continue
-        times = []
-        for line in p.stdout.decode("utf-8", "replace").splitlines():
-            line = line.strip().rstrip(",")
-            if not line or line == "N/A":
-                continue
-            try:
-                times.append(float(line))
-            except ValueError:
-                pass
-        # Packets arrive in decoding order, and with H.264 B-frames that is not
-        # display order: the timestamps then jump back and forth. Sort first,
-        # or one measures the codec's picture structure and takes it for a
-        # variable frame rate.
-        times.sort()
-        intervals = [b - a for a, b in zip(times, times[1:])
-                     if 0 < b - a < 0.25]
-        if len(intervals) >= 8:
-            out.append(intervals)
+        try:
+            times.append(float(line))
+        except ValueError:
+            pass
+    # Packets arrive in decoding order, and with H.264 B-frames that is not
+    # display order: the timestamps then jump back and forth. Sort first,
+    # or one measures the codec's picture structure and takes it for a
+    # variable frame rate.
+    #
+    # Sorting also puts the windows back in order, since they do not
+    # overlap: what separates them is a gap of seconds, and the same
+    # test that throws away an interval too long to be one frame is what
+    # cuts one window from the next.
+    times.sort()
+    out, window = [], []
+    for a, b in zip(times, times[1:]):
+        step = b - a
+        if 0 < step < 0.25:
+            window.append(step)
+            continue
+        if len(window) >= 8:
+            out.append(window)
+        window = []
+    if len(window) >= 8:
+        out.append(window)
     return out
 
 
@@ -19085,6 +19101,15 @@ def timecode_comparison(data):
     return out
 
 
+# How far into a recording the bleed windows may reach before it is
+# cheaper to read the whole thing once than to seek into it five times.
+# Five minutes at 16 kHz mono is 19 MB; a two-hour interview would be
+# 460, which is the reason the sampling exists at all. What this buys is
+# process starts, and those are what a Windows builder charges for:
+# local_run made 62 of them and took two seconds here and 126 there.
+WHOLE_READ_S = 300.0
+
+
 def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
                           min_len_long=4.0):
     """Measure how loudly each voice appears in the others' microphones.
@@ -19134,7 +19159,24 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
     data = []
     for i, p in enumerate(audio_paths):
         pieces = []
-        for row in offset:
+        # Five windows of 5.7 seconds out of a 34-second recording is the
+        # whole file read in five processes, and the pieces are joined
+        # again on the next line anyway. Where the windows reach no
+        # further than a few minutes in, it is read once and cut up
+        # here. Not for a two-hour interview: at this rate the whole of
+        # one is 460 MB, which is what the sampling is for.
+        reach = max(max(0.0, row[i]) for row in offset) + long
+        if reach <= WHOLE_READ_S:
+            try:
+                whole = decode_audio(p, rate=rate)
+                for row in offset:
+                    at = int(max(0.0, row[i]) * rate)
+                    piece = whole[at:at + int(long * rate)]
+                    if len(piece):
+                        pieces.append(piece)
+            except Exception:
+                pieces = []
+        for row in (offset if not pieces else ()):
             try:
                 pieces.append(decode_audio(p, rate=rate, ss=max(0.0, row[i]),
                                           duration=long))
