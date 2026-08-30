@@ -1,9 +1,8 @@
 # -*- coding: utf-8 -*-
-"""Six defects an adversarial review turned up, each nailed down here.
+"""Defects an adversarial review turned up, each nailed down here.
 
-They share nothing but their origin, so the file is grouped by defect
-rather than by subject. Each block says what went wrong before, because
-that is what the check is guarding.
+They share only their origin, so the file is grouped by defect; each
+block says what went wrong before, which is what the check guards.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -36,9 +35,8 @@ def facts(channels, level, pair_zero, pair_same=None, pair_apart=None):
 
 
 print("1. blocks_facts keeps the answer of the loudest block")
-# The inner loop reused the name of the list it was filling, so from the
-# first measured pair on, the answers were appended to that block's own
-# list -- and the block that was loudest was thrown away.
+# The inner loop reused the name of the list it was filling, so the
+# answers landed in the block's own list and the loudest was lost.
 show = facts(2, [-6.0, -6.0], [0.90])
 runout = facts(2, [-40.0, -40.0], [0.10])
 out = vpm.blocks_facts_from([show, runout])
@@ -60,9 +58,8 @@ check("a block of pure silence does not erase the show",
       out4["pair_zero"] == [0.95, 0.08, 0.93], str(out4["pair_zero"]))
 
 print("\n2. Split pieces are recognised by the name they carry today")
-# which() looked for "_ch", the name from before 0.4.0. The pieces are
-# called "_Channel1" now, so nothing matched, the whole stem was compared,
-# and a recording of several blocks never came apart into tracks.
+# Matching the piece names against an older spelling found nothing, and
+# a recording of several blocks then never came apart into tracks.
 one = vpm.split_target("/card1/REC0001.WAV", (0,), "/out")
 two = vpm.split_target("/card1/REC0002.WAV", (0,), "/out")
 pair1 = vpm.split_target("/card1/REC0001.WAV", (1, 2), "/out")
@@ -110,8 +107,7 @@ vpm.join_audio_parts([first, second], target)
 def loudest_hz(path, from_s, to_s):
     """The strongest frequency in this stretch, read through ffmpeg.
 
-    The joined file is 24 bit and extensible, which the wave module of
-    Python refuses -- ffmpeg reads anything and hands over plain 16 bit.
+    Python's wave module refuses the joined file, 24 bit extensible.
     """
     out = subprocess.run(
         ["ffmpeg", "-v", "error", "-ss", "%.3f" % from_s, "-t",
@@ -129,9 +125,8 @@ check("the first named file is first", abs(a - 440.0) < 20.0, "%.0f Hz" % a)
 check("the second one second", abs(b - 1500.0) < 20.0, "%.0f Hz" % b)
 
 print("\n4. An unused input is never one side of a stereo track")
-# The interface offers no tick where the neighbour is silent, but a tick
-# made earlier outlives the measurement: take a block away and a channel
-# that carried something may not any more.
+# A tick made earlier outlives the measurement: take a block away and a
+# channel that carried something may be silent now.
 f = {"channels": 3, "silent": [False, False, True], "readable": True,
      "level": [-20.0, -20.0, -120.0],
      "pair_same": [0.0, None], "pair_zero": [0.1, None],
@@ -159,9 +154,8 @@ said = " ".join(why for _row, discarded in rows
 check("the missing file is named", "nope.wav" in said, said[:160])
 
 print("\n6. Two file names for the same moment say why nothing was joined")
-# Five minutes apart, so the trailing number cannot stand in for the
-# clock: 140000 and 140500 are not two consecutive counts, and only the
-# clock rule can join them.
+# Five minutes apart, so the trailing number cannot pass for a counter
+# and only the clock rule could join the two.
 
 
 def long_silence(name, seconds):
@@ -189,9 +183,8 @@ check("naming both files",
       str(discarded))
 
 print("\n7. A mono mixdown is not taken for a stereo one")
-# On resume the existing outputs are read back. The answer names the file
-# but not always its channel count; where it does, that count decides,
-# or a stereo run would keep the one-channel yardstick from before.
+# On resume the existing outputs are read back; the answer names the
+# file but not always its channel count, and where it does it decides.
 mono_there = [{"format": "wav", "filename": "Show_master.wav",
                "mono_mixdown": True}]
 want_stereo = [{"format": "wav", "suffix": "_master", "mono_mixdown": False}]
@@ -205,17 +198,15 @@ unsaid = [{"format": "wav", "filename": "Show_master.wav"}]
 check("where the answer says nothing, nothing is sent twice",
       vpm.missing_outputs(unsaid, want_stereo) == [],
       str(vpm.missing_outputs(unsaid, want_stereo)))
-# An empty channel count is not a channel count of one. Read as "mono:
-# no", it made every resume of a mono production send the master a
-# second time -- and auphonic.com appends rather than replaces, so it
-# would be computed and billed twice.
+# An empty channel count is no answer: taken for one, a resume sends
+# the master again, and auphonic.com appends rather than replaces, so
+# it is computed and billed twice.
 empty = [{"format": "wav", "filename": "Show_master.wav",
           "mono_mixdown": None}]
 check("an empty channel count counts as no answer",
       vpm.missing_outputs(empty, want_stereo) == [],
       str(vpm.missing_outputs(empty, want_stereo)))
-# An output that is configured but never rendered has no file name to
-# read a suffix from. It carries its own.
+# Configured but never rendered: no file name to read a suffix from.
 planned = [{"format": "wav", "suffix": "_master", "mono_mixdown": False}]
 check("a configured output is found by its own suffix",
       vpm.missing_outputs(planned, want_stereo) == [],

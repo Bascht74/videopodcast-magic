@@ -1,18 +1,11 @@
 # -*- coding: utf-8 -*-
 """One sample point in the wrong place must not tip the whole line.
 
-The alignment measures the offset at several places over the runtime
-and lays a line through them; the slope of that line is the clock
-drift. The search window is +/- 2 s, so on periodic material -- a
-jingle, a beat -- it finds the neighbouring beat as easily as the right
-one, and a single such point used to drag the line with it.
-
-Measured before this test was written (nine points, one hour, real
-drift 10 ppm): one point 500 ms out in the middle moved the offset by
-56 ms; at the start of the recording by 189 ms, and it turned +10 ppm
-into -64 ppm -- the wrong sign, so the drift would have been corrected
-the wrong way. A point at the edge pulls harder than one in the middle,
-which is where the jingle sits.
+The alignment lays a line through offsets measured at several places;
+its slope is the clock drift. The search window is +/- 2 s, so on
+periodic material it can find the neighbouring beat as easily as the
+right one, and one such point used to drag the line with it. A point at
+the edge pulls hardest, and that is where an opening jingle sits.
 """
 import os
 import sys
@@ -50,9 +43,8 @@ check("offset stays at zero", abs(off) < 0.1, "%.3f ms" % off)
 check("drift stays at 10 ppm", abs(ppm - 10.0) < 0.01, "%.2f ppm" % ppm)
 
 print("\n2. One point out of place, and where it sits")
-# The three places a wrong point can sit. The edges are the dangerous
-# ones: a point at the end of a line pulls harder than one in the
-# middle, and that is exactly where an opening jingle lies.
+# The three places a wrong point can sit; the edges are the dangerous
+# ones, because they pull hardest on the line.
 for where, name in ((0, "at the start"), (4, "in the middle"),
                     (8, "at the end")):
     bent = CLEAN.copy()
@@ -68,9 +60,8 @@ for where, name in ((0, "at the start"), (4, "in the middle"),
           "%.2f ppm before, %.2f ppm after" % (was_ppm, now_ppm))
 
 print("\n3. What it refuses to do")
-# Two points always fit a line perfectly. Cleaning down to two would
-# turn a broken measurement into a confident one, which is worse than
-# the measurement it started from.
+# Two points always fit a line perfectly, so cleaning down to two would
+# turn a broken measurement into a confident one.
 scattered = CLEAN + np.array([0, .4, -.4, .5, -.5, .45, -.45, .4, -.4])
 tv, dt, gone = vpm.without_outliers(TIMES, scattered)
 check("a set that is scattered all over keeps at least three",
@@ -81,8 +72,7 @@ check("three points are never cut down further", len(tv) == 3,
       "%d left" % len(tv))
 
 print("\n4. The raw scatter is not lost")
-# Cleaning up and then calling the result good would trade a loud fault
-# for a quiet one. What was thrown away has to reach the report.
+# Cleaning silently would trade a loud fault for a quiet one.
 bent = CLEAN.copy()
 bent[4] += 0.500
 tv, dt, gone = vpm.without_outliers(TIMES, bent)

@@ -1,19 +1,11 @@
 # -*- coding: utf-8 -*-
 """The two functions that assemble a whole production at auphonic.com.
 
-Measured before this test was written: `run_multitrack_production` had
-46 of its 47 statements untouched by the suite, `run_single_production`
-73 of 74. Both spend money and both are the last step before an episode
-is delivered, so a mistake in them costs a production, not a run.
-
-auphonic.com is never spoken to. `_curl_call` is the one place where
-this program reaches the network, and it is replaced here by a stand-in
-that answers from a table and writes down what it was asked. That makes
-three things checkable that no live run makes checkable at all: what
-exactly is sent, in what order, and what is *not* sent.
-
-Every claim has its counter-check: the same run with an input that is
-deliberately wrong, which has to be noticed.
+Both spend money and are the last step before an episode is delivered,
+and the suite reached almost none of their statements. auphonic.com is
+never spoken to: `_curl_call` is replaced by a stand-in that answers
+from a table, which makes checkable what is sent, in what order, and
+what is not. Every claim has its counter-check with a wrong input.
 """
 import io
 import json
@@ -84,14 +76,12 @@ TRACKS = [{"name": n, "axis": wav_file(n + ".wav")} for n in NAMES]
 KEY = "not-a-real-key-0123456789"
 TITLE = "Episode 12: Hosts & Guests"
 
-# What the ZIP from auphonic.com holds. The names are theirs, not ours --
-# the program is told nowhere what they will be called, so it matches by
-# similarity, and this is the case where that works.
+# What the ZIP holds. The names are auphonic.com's and unknown to the
+# program, which matches by similarity; here that works.
 GOOD_ZIP = {"Episode_12_Hosts___Guests_Host.wav": wav_bytes(),
             "Episode_12_Hosts___Guests_Guest.wav": wav_bytes(),
             "Episode_12_Hosts___Guests_Third.wav": wav_bytes()}
-# And the case where it cannot work: three files whose names have nothing
-# to do with the speakers.
+# And where it cannot: names with nothing to do with the speakers.
 BAD_ZIP = {"aaa.wav": wav_bytes(), "bbb.wav": wav_bytes(),
            "ccc.wav": wav_bytes()}
 
@@ -130,9 +120,9 @@ class Auphonic(object):
 
     def __init__(self):
         self.calls = []          # (method, path), in the order they came
-        self.arguments = []      # every argument list, as curl would see
-        self.bodies = []         # the JSON that was posted
-        self.downloads = []      # every file that was fetched
+        self.arguments = []
+        self.bodies = []
+        self.downloads = []
         self.preset = dict(PRESET)
         self.listed = []         # what /api/productions.json answers
         self.status = 3
@@ -247,11 +237,10 @@ def with_server(server, what):
 def without_waiting(what):
     """Run *what* with the pause between two polls taken out.
 
-    The wait for a production is a poll loop with a second between the
-    tries. A test must not spend that second, and it must not skip the
-    loop either -- that is where a run sits for minutes, and a mistake
-    in it means the finished episode is never fetched. So the clock is
-    taken away and the condition stays.
+    The wait is a poll loop with a second between tries. The loop must
+    not be skipped -- that is where a run sits for minutes, and a
+    mistake in it means the episode is never fetched -- so the clock
+    goes and the condition stays.
     """
     slept = []
     old = vpm.time.sleep
@@ -294,8 +283,8 @@ done = single(server, folder, mono, dry_run=True)
 check("single dry run: no call whatsoever", not server.calls,
       "%d calls: %s" % (len(server.calls), server.calls[:3]))
 check("single dry run: nothing came back", done is None, repr(done))
-# The counter-check to all four: without dry_run the very same call does
-# speak, so the silence above is the switch and not a broken stand-in.
+# The counter-check: without dry_run the same call does speak, so the
+# silence above is the switch and not a broken stand-in.
 server, folder = fresh("wet")
 result = multitrack(server, folder)
 check("without dry run it does speak", len(server.calls) > 4,
@@ -357,8 +346,8 @@ print("\n4. The key stays out of everything curl is handed")
 in_argv = [a for a in server.arguments
            if any(KEY in str(x) for x in a)]
 check("the key is in no argument list", not in_argv, repr(in_argv[:1]))
-# The counter-check: the same search does find a key that is there, so a
-# green line above is a measurement and not a search that never matches.
+# The counter-check: the same search finds a key that is there, so the
+# line above is a measurement and not a search that never matches.
 check("and the search would have found one",
       bool([a for a in [["-H", "bearer " + KEY]]
             if any(KEY in str(x) for x in a)]))
@@ -500,9 +489,8 @@ check("and it is a real file", got and os.path.getsize(got) > 1000,
 
 print("\n10. Stereo and transcript need the second call")
 stereo = wav_file("single_stereo.wav", channels=2)
-# The preset folds its mixdown to one channel. That is the state the
-# clearing has to be visible against -- an output without the key at all
-# would let a program that does nothing pass.
+# The preset folds its mixdown to one channel: without that state an
+# output that clears nothing would pass.
 FOLDED = [{"filename": "Episode.wav", "format": "wav",
            "mono_mixdown": True,
            "download_url": "https://auphonic.com/dl/Episode.wav"}]
@@ -525,8 +513,7 @@ check("and the fold to one channel is cleared",
       bool(wished) and wished[0].get("mono_mixdown") is False,
       repr(wished))
 
-# The other direction: a mono recording with a transcript goes through
-# the same call, and there the fold stays exactly as the preset set it.
+# The other direction: on mono the fold stays as the preset set it.
 server, folder = fresh("simplefold")
 server.outputs = [dict(f) for f in FOLDED]
 single(server, folder, mono, transcript=True)
@@ -622,9 +609,8 @@ check("the single file is waited for too", len(asked) == 2,
 check("and its result came back", bool(got) and os.path.exists(got),
       repr(got))
 
-# The counter-check: one that never finishes must not be waited for for
-# ever. Without the pause the loop is bounded by the time limit alone,
-# so the limit is what has to end it.
+# The counter-check: without the pause the loop is bounded by the time
+# limit alone, so the limit is what has to end it.
 server, folder = fresh("never")
 server.pending = 10 ** 6
 said = raises(lambda: without_waiting(

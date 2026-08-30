@@ -39,15 +39,13 @@ state.announce()
 
 
 print("1. Every name that is read is also set")
-# symtable knows which block binds a name. A name bound nowhere that is
-# not a piece of Python itself can only be a typo or a half-finished
-# rename.
+# A name bound nowhere and not a piece of Python itself can only be a
+# typo or a half-finished rename.
 table = symtable.symtable(src, "vpm", "exec")
 module_names = set(table.get_identifiers())
-# The last two are put there by the compiler, not by anybody writing
-# code: Python 3.14 builds an __annotate__ function for every scope that
-# could carry annotations, and __classdict__ for a class body. They are
-# read without ever being written in the source, which is exactly what
+# The last two come from the compiler: __annotate__ for every scope
+# that could carry annotations, __classdict__ for a class body. Both
+# are read without ever being written in the source, which is what
 # this check looks for, so they are named here rather than reported.
 builtin_names = set(dir(builtins)) | {"__file__", "__name__",
                                       "__doc__", "__spec__",
@@ -172,9 +170,8 @@ FOREIGN = re.compile(r"^[a-z_]+$")
 write_only = sorted(k for k in writes
                     if k not in reads and FOREIGN.match(k)
                     and writes[k] > 1)
-# The key itself is the fingerprint. Nothing better exists and nothing
-# better is needed: the key is written in a dozen places, it has no one
-# line, and the name is exactly what has to stop turning up.
+# The key is the fingerprint: it is written in a dozen places, so it
+# has no one line, and the name is what has to stop turning up.
 held = state.places("write_only",
                     dict((k, (1, first.get(k, 0))) for k in write_only))
 check("keys nobody reads: %d (ratchet %d)"
@@ -185,8 +182,8 @@ held.report()
 print("\n4. Qt signals and slots match up")
 signals = set()
 for node in ast.walk(tree):
-    # Both spellings: Signal(...) and QtCore.Signal(...). The program uses
-    # the second, so looking only for the first found nothing at all.
+    # Both spellings: Signal(...) and QtCore.Signal(...). Looking only
+    # for the first finds nothing at all.
     if not (isinstance(node, ast.Assign) and isinstance(node.value, ast.Call)):
         continue
     f = node.value.func
@@ -259,9 +256,9 @@ duplicates = []   # a dict cannot carry the same key twice
 check("no two meanings per key", not duplicates, str(duplicates[:3]))
 
 print("\n7. Tests that check something")
-# A test that only prints catches a crash and nothing else. A ratchet, so
-# the ones still like that can be turned into real checks one at a time
-# and no new one joins them.
+# A test that only prints catches a crash and nothing else. A ratchet,
+# so the ones still like that can be mended one at a time and no new
+# one joins them.
 mute = []
 for name in sorted(os.listdir(HERE)):
     if not name.endswith("_test.py"):
@@ -277,8 +274,8 @@ for name in sorted(os.listdir(HERE)):
         for k in ast.walk(t))
     if not speaks:
         mute.append(name)
-# Here the file name is the fingerprint, and it is the one counter whose
-# finds are spread over many files rather than sitting in the program.
+# Here the file name is the fingerprint; the finds are spread over many
+# files rather than sitting in the program.
 held = state.places("mute_tests", dict((n, (1, 0)) for n in mute))
 check("tests without a single check: %d (ratchet %d)"
       % (len(mute), held.limit), held.ok)

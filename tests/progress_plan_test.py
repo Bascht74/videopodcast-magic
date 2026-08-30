@@ -1,20 +1,11 @@
 # -*- coding: utf-8 -*-
 """The bar neither falls back nor stands still.
 
-Sebastian, on a run of many minutes: that bar is the only thing saying
-whether anything is moving at all. Two ways for it to say the wrong
-thing, and the second one was hiding behind the fix for the first.
-
-Opening a project fills the bar with the measuring that follows. Press
-Start inside that moment and the run's stages used to be added to what
-was already there, so the bar opened high and fell back to where the
-run really was. A bar that never falls was put in the way of that --
-and then it stood still instead, holding the figure the measuring had
-left it until the truth had climbed back up to it. Measured 29.8.2026:
-two whole stages of the run went by at 0.500.
-
-Nothing here builds a window. This is arithmetic, and arithmetic can be
-held against numbers.
+On a long run the bar is the only sign that anything moves. Opening a
+project fills it with the measuring; pressing Start in that moment used
+to add the run's stages on top, so the bar opened high and fell back. A
+bar that never falls then made it stand still instead. This is
+arithmetic, and can be held against numbers without a window.
 """
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -52,7 +43,6 @@ print("1. Start pressed while the measuring is still going")
 plan = measuring_still_going()
 check("the bar stands where the measuring left it",
       abs(plan.total() - 0.5) < 1e-9, "%.3f" % plan.total())
-# What the run does now, and the whole point of it.
 plan.clear()
 for name in RUN:
     plan.add(name, 1.0)
@@ -68,13 +58,12 @@ check("and from there it says the truth at every step",
       "; ".join("%.3f vs %.3f" % (a, b) for a, b in seen))
 
 print("\n2. What it did before, kept as a number")
-# The counter-proof: without the clearing the bar holds 0.500 through
-# two of the four stages. Not a memory -- the figures are read out here,
-# so a change back to the old way turns this red.
+# The counter-proof, read out rather than remembered: without the
+# clearing the bar stands still through two of the four stages.
 plan = measuring_still_going()
-# The window asks every tick, and asking is what sets the high mark --
-# total() keeps the largest figure it has ever been asked for. A test
-# that does not ask sees no mark and measures something else.
+# Asking is what sets the high mark: total() keeps the largest figure
+# it has ever been asked for. A test that does not ask measures
+# something else.
 plan.total()
 for name in RUN:
     plan.add(name, 1.0)
@@ -104,9 +93,8 @@ check("nor does work announced later",
       plan.total() >= was - 1e-9, "%.3f after %.3f" % (plan.total(), was))
 
 print("\n4. A step nobody announced still counts")
-# This is what makes the clearing safe: the measuring that was thrown
-# away puts itself back when it reports, so nothing is lost that is
-# still going to speak.
+# What makes the clearing safe: a step that was thrown away puts
+# itself back when it reports, so nothing still to come is lost.
 plan = vpm.ProgressPlan()
 plan.add("one", 1.0)
 plan.done("stranger")
@@ -116,12 +104,9 @@ check("and it is counted in the whole", abs(plan.total() - 0.5) < 1e-9,
       "%.3f" % plan.total())
 
 # --------------------------------------------- The names on both paths
-# One bar draws both paths, so both have to call their stages the same
-# thing. A stage the run announces but the plan never listed is added
-# while the run goes, which lowers every share already reported; a stage
-# the plan lists but nobody announces is skipped in one jump when the
-# next one begins. Until 30.8.2026 the simple path announced nothing at
-# all and the bar crept from beginning to end.
+# One bar draws both paths, so both must call their stages the same. A
+# stage announced but never listed lowers every share already reported;
+# one listed but never announced is skipped in a jump.
 print("\n4. The stages have one set of names")
 import re
 source = open(SCRIPT, encoding="utf-8").read()
@@ -135,13 +120,12 @@ for multitrack in (False, True):
                     multitrack, cameras, auphonic, speakers))
 check("every stage the run announces is one the plan knows",
       said <= planned, str(sorted(said - planned)))
-# The other way round is not an error in general -- "result" is reached
-# without a mark on one path -- but a stage nobody ever announces would
-# be dead weight in the bar.
+# The other way round is not an error in general, but a stage nobody
+# ever announces would be dead weight in the bar.
 check("and the plan lists nothing nobody ever reaches",
       planned <= said, str(sorted(planned - said)))
-# The simple path aligns against the cameras; it does not pull their
-# audio out. Listing that stage for it held back a fifth of the bar.
+# The simple path aligns against the cameras but does not pull their
+# audio out, so listing that stage for it would hold the bar back.
 check("no camera-audio stage on the simple path",
       "camera audio" not in [n for n, _w, _c in
                              vpm.run_stages(False, 2, False, False)],

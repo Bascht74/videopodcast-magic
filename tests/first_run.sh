@@ -49,8 +49,8 @@ REPO="$(dirname "$HERE")"
 PY="${VPM_PYTHON:-python3}"
 
 # The same rule cache_folder() follows in the program, without importing
-# it: importing would run the part that installs what is missing, and
-# this script is here to take that away.
+# it: importing would run the part that installs what is missing, which
+# is the very thing this script takes away.
 CACHE=$("$PY" - <<'EOF'
 import os, sys
 if sys.platform == "darwin":
@@ -74,15 +74,14 @@ fi
 # go out with it: pip removes what was asked for, not what came along.
 MODULES="numpy PySide6 PySide6_Addons PySide6_Essentials shiboken6 \
 certifi faster-whisper static-ffmpeg"
-# Only with these gone does the environment really cost 218 MB: it is
+# Only with these gone does the environment cost what it costs: it is
 # built with --system-site-packages and borrows whatever is already
-# here. torchvision, torchinfo and rotary-embedding-torch are not on the
-# list -- the program never installs them and the environment never asks
-# for them, so taking them away would test nothing.
+# here. What the program never installs is not on the list, because
+# taking it away would test nothing.
 TORCH="torch torchaudio"
 
 # The bash on a Mac is 3.2 and has no named arrays, so the groups left
-# out are a string with a space on either side of every name.
+# out are one string with a space on either side of every name.
 FOR_REAL=0
 THEN_INSTALL=0
 FROM_HERE=0
@@ -193,8 +192,7 @@ fi
 # --- 5. The model the program fetches for itself -----------------------
 # Only that one. The store is shared with everything else on the machine
 # that speaks to Hugging Face, and a reset for this program has no
-# business in another one's models. The separation model is not here at
-# all -- it travels beside the program.
+# business in another one's models.
 if wanted models; then
     echo "5. The speech model in the Hugging Face store"
     if [ -d "$HF" ]; then
@@ -282,11 +280,10 @@ if [ -n "$FOUND$FOUND_TORCH" ]; then
     echo " uninstalling:$FOUND$FOUND_TORCH"
     "$PY" -m pip uninstall -y $FOUND $FOUND_TORCH 2>&1 \
         | grep -i "success\|not installed" | sed 's/^/   /'
-    # pip leaves the __pycache__ folder of a package behind. Python
-    # then reads that folder as a namespace package: the import goes
-    # through and the module is hollow, so the program would take the
-    # shell for the package and never install it. That is a state no
-    # fresh machine is ever in, and it has to go with the rest.
+    # pip leaves the __pycache__ folder of a package behind, and Python
+    # reads that folder as a namespace package: the import goes through
+    # and the module is hollow, so the program takes the shell for the
+    # package and never installs it. No fresh machine is in that state.
     "$PY" - <<'EOF' 
 import os, shutil, site, sys
 
@@ -334,13 +331,12 @@ if [ $THEN_INSTALL -eq 1 ]; then
     echo "-------------------------------------------------------------------"
     mkdir -p "$INTO" || { echo " $INTO cannot be made."; exit 1; }
     if [ $FROM_HERE -eq 1 ]; then
-        # Out of this checkout: for trying a change before it is pushed.
         cp "$REPO/videopodcast-magic.py" "$INTO/" || exit 1
         echo " taken from $REPO"
     else
         # What the manual tells a stranger to do: fetch the one file and
         # start it. There is nothing else to install -- the program
-        # brings numpy, PySide6 and its own model when it needs them.
+        # brings what it needs when it needs it.
         URL="https://raw.githubusercontent.com/Bascht74"
         URL="$URL/videopodcast-magic/main/videopodcast-magic.py"
         if ! "$PY" -c "import urllib.request as u, sys; \

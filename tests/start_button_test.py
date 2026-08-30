@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The start button must still build a command line after the rebuild."""
+"""The start button must build a command line and start a run."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -38,13 +38,9 @@ real = threading.Thread
 def fake_thread(target=None, args=(), daemon=None, **rest):
     """Hold back the program's own threads, let subprocess keep its.
 
-    On Windows subprocess reads a child's output in threads of its own
-    (`Popen._readerthread`), and this stub swallowed those too: it has
-    no join, so CPython tripped over it as soon as the window asked
-    ffprobe something while it was opening a project. On macOS and
-    Linux the same call goes through selectors and no thread is made,
-    which is why it stayed hidden until 25.8.2026. Those threads are
-    not ours to hold back.
+    On Windows subprocess reads a child's output in threads of its own,
+    and a stub without a join makes CPython trip over them. Only macOS
+    and Linux go through selectors instead, so this stays hidden there.
     """
     if isinstance(getattr(target, "__self__", None), subprocess.Popen):
         return real(target=target, args=args, daemon=daemon, **rest)
@@ -53,9 +49,7 @@ def fake_thread(target=None, args=(), daemon=None, **rest):
         daemon = False
 
         def start(self_):
-            # Measuring the files starts threads with an argument list of
-            # their own, so what is kept here is the last list started,
-            # and the run is the one that comes after the click.
+            # Other threads carry arguments too; keep the last started.
             if args:
                 seen["argv"] = list(args[0])
 
@@ -94,9 +88,8 @@ def carry_on():
     i = n[0]; n[0] += 1
     try:
         if i == 0:
-            # Waited for rather than slept past: the window is built in
-            # the first turns of the event loop, and how long that takes
-            # depends on the machine.
+            # Waited for, not slept past: how long the window takes to
+            # build depends on the machine.
             if (win() is None or button("Open project") is None) \
                     and tries[0] < 500:
                 tries[0] += 1
@@ -108,9 +101,8 @@ def carry_on():
             button("Open project").click()
         elif i == 2:
             k = button("Dry run")
-            # Waited for rather than slept past: opening the project
-            # measures files, and how long that takes depends on the
-            # machine and on what else the suite is running at the time.
+            # Waited for, not slept past: opening the project measures
+            # files, and that takes as long as the machine allows.
             if not since[0]:
                 since[0] = time.time()
             waited[0] = int(time.time() - since[0])
@@ -121,23 +113,21 @@ def carry_on():
             print("   dry-run button:", bool(k),
                   k.isEnabled() if k else "-", "after %d s" % waited[0])
             if k is not None and not k.isEnabled():
-                # A disabled button without its reason is the hardest
-                # kind of failure to chase. The interface knows why.
+                # A disabled button without its reason is hard to chase,
+                # and the interface knows the reason.
                 for w in win().findChildren(QtWidgets.QWidget):
                     tip = w.toolTip()
                     if tip.startswith(vpm.T('Not ready yet:')):
                         print("   " + tip.replace("\n", "\n   "))
                         break
             if k and k.isEnabled():
-                # Measuring the files starts threads carrying arguments
-                # too, so the run is known by the argument list being a
-                # new one, not by there being one at all.
+                # The run is known by the argument list being a new one,
+                # not by there being one at all.
                 was[0] = seen.get("argv")
                 clicked[0] = True
                 k.click()
         elif i == 3:
-            # Waited for rather than slept past: the click returns
-            # before the thread it starts has its arguments in.
+            # The click returns before its thread has the arguments in.
             if not since[1]:
                 since[1] = time.time()
             if (clicked[0] and seen.get("argv") is was[0]

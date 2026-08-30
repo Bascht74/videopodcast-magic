@@ -1,40 +1,11 @@
 # -*- coding: utf-8 -*-
 """No sentence may be glued together out of translated pieces.
 
-On 23.8.2026 the settings window said, in German, "Der Schluessel geht
-nie in eine Datei". Every piece of it was translated correctly on its
-own. The sentence was wrong all the same, because German settles the
-article and the case at the front of a phrase, and a piece that gets
-dropped into a slot cannot know what governs it. "a file" is "eine
-Datei" standing alone and "einer Datei" after a preposition that takes
-the dative, and the piece has no way of telling which one it is in.
-
-The fix was to put the whole sentence into the catalogue, with the one
-thing that really varies left as a placeholder at the end. That entry
-is still there and reads
-
-    'Both are asked once and then stay. The key goes into the %s,
-     never into a file.'
-
-No run of the program can find this class of defect: the pieces exist
-and the placeholders match, so nothing raises and nothing looks wrong
-from the inside. Only a reader of the finished screen sees it. What a
-test can see is the shape that produces it, and that is what this file
-looks at, in three grades of severity:
-
-1. Two translated pieces joined with "+" into one sentence. This is
-   the shape of the original defect and it is held at zero.
-2. A translated piece that carries a German article or preposition,
-   substituted into a translated sentence with "%". Same risk, but
-   twenty of these stand in the program today and all of them read
-   correctly, several because the gender happens to be neuter rather
-   than because anybody chose it -- "das voreingestellte Geraet" is
-   the same in the nominative and the accusative, a masculine one
-   would not have been. A ratchet, so the count may fall and never
-   rise.
-3. A translated text that is nothing but a function word. Five of
-   these exist, all of them list joiners or setting values; they are
-   named below with the reason each one is allowed.
+German settles the article and the case at the front of a phrase, so a
+piece dropped into a slot cannot know what governs it: every piece is
+right and the sentence is wrong. No run finds this. Visible is only the
+shape that produces it, in three grades: pieces joined with "+", a piece
+carrying an article substituted with "%", and a bare function word.
 """
 import ast, io, os, re, sys
 
@@ -61,9 +32,9 @@ def check(what, ok, detail=""):
 source = io.open(SCRIPT, encoding="utf-8").read()
 tree = ast.parse(source)
 
-# The German side is read out of the syntax tree instead of importing the
-# program: the catalogue is a plain dictionary of literals, so it can be
-# evaluated without running anything, and nothing here can open a window.
+# The German side is read out of the syntax tree instead of importing
+# the program: a dictionary of literals evaluates without running
+# anything, so nothing here can open a window.
 catalogue = {}
 for node in tree.body:
     if not isinstance(node, ast.Assign):
@@ -95,8 +66,8 @@ def texts_of(node):
 def translated(node):
     """The texts an expression puts on screen, or None if it is not one.
 
-    A bare T() call counts, and so does T('... %s ...') % something: the
-    text still comes from the catalogue, the arguments only fill it in.
+    A bare T() counts, and so does T('... %s ...') % something: the
+    text still comes from the catalogue.
     """
     if is_call(node):
         return texts_of(node)
@@ -149,9 +120,8 @@ for chain in chains:
     parts = flatten(chain)
     spots = [i for i, p in enumerate(parts) if translated(p) is not None]
     for first, second in zip(spots, spots[1:]):
-        # Whatever stands between the two pieces. A line break means they
-        # are two lines and not one sentence, and so does a full stop:
-        # German grammar does not reach across either of them.
+        # German grammar reaches across neither a line break nor a full
+        # stop, so what stands between the two pieces decides.
         glue = "".join(p.value for p in parts[first + 1:second]
                        if isinstance(p, ast.Constant)
                        and isinstance(p.value, str))
@@ -177,11 +147,10 @@ for line, why, left, right in glued[:8]:
 
 # ------------------------------- 2. dropped into a slot with a percent sign
 print("\n2. No translated piece carrying an article put into a sentence")
-# The words German decides a case with. A translated piece that begins
-# with one of these has settled its own case before it knows the slot it
-# is going into, which is exactly how the sentence of 23.8.2026 came out
-# wrong. Three of them are spelled with escapes so this file stays free
-# of German letters -- german_hunt_test.py checks the tests for that.
+# The words German decides a case with. A piece beginning with one has
+# settled its own case before it knows the slot it goes into. Three are
+# spelled with escapes so this file stays free of German letters --
+# german_hunt_test.py checks the tests for that.
 GOVERNING = [
     "der", "die", "das", "den", "dem", "des",
     "ein", "eine", "einen", "einem", "eines", "einer",
@@ -211,8 +180,8 @@ for node in ast.walk(tree):
 
 state.announce()
 # The fingerprint is the piece and the sentence it goes into, both in
-# English, and no line number: these two texts are what the find is, and
-# they stay themselves wherever in the file they end up standing.
+# English and without a line number, so a find stays itself wherever in
+# the file it ends up standing.
 held = state.places("article_fragments", ratchet.tally(
     [("%r into %r" % (text[:40], host), line)
      for line, text, host in inserted]))
@@ -231,15 +200,10 @@ print("\n3. No translated text that is nothing but a function word")
 FUNCTION_WORD = re.compile(
     r"^\W*(?:the|a|an|and|or|but|of|in|on|off|at|to|for|with|from|by"
     r"|into|onto|over|under|as|than|then)\W*$", re.IGNORECASE)
-# Allowed, and why. Keyed by the text, so a new place that uses the same
-# word for the same purpose is allowed too.
-#
-#   ' and '   joins the last two items of a list -- "A, B and C". It
-#             stands between whole items, never inside one, so no case
-#             of any item depends on it.
-#   'on'      the value of a Resolve setting, printed at the end of a
-#   'off'     sentence as the state a switch is in. A value, not a word
-#             taken out of a sentence.
+# Allowed, keyed by the text so the same word for the same purpose is
+# allowed again. ' and ' stands between whole items of a list, never
+# inside one, so no case depends on it; 'on' and 'off' are the values of
+# a Resolve setting, not words taken out of a sentence.
 ALLOWED = {" and ", "on", "off"}
 
 bare = set()

@@ -1,10 +1,9 @@
 # -*- coding: utf-8 -*-
 """Without Multitrack: the mix, and the recordings beside it.
 
-Several microphones running at once are mixed into one track on the simple
-path. Until now that was all the video got, and the separation was gone.
-Now each recording also goes in on its own -- but only where they really
-did run at the same time. Blocks laid end to end are one recording, and a
+The simple path mixes microphones running at once into one track, and
+each recording also goes in on its own -- but only where they really did
+run at the same time. Blocks laid end to end are one recording, and a
 track per block would be silence with one block in it.
 """
 import os

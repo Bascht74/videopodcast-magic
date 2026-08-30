@@ -198,7 +198,7 @@ check("headings without a marker: %d (ratchet %d)" % (len(unmarked), old),
 print("\n11. The old word detection is really gone")
 source = io.open(SCRIPT, encoding="utf-8").read()
 check("no log_line_kind any more", "log_line_kind" not in source)
-# These were the words the old guesser read the colour off.
+# The words the old guesser read the colour off.
 for label in ("DONE", "failed\" in", "Finished with errors\" in"):
     check("colour no longer hangs on %r" % label, label not in source)
 
@@ -286,8 +286,8 @@ print("\n16. Numbers in files do not hang on the language")
 check("the metrics CSV writes with a dot",
         'return "" if x is None else "%.*f" % (spots, x)' in source)
 check("the speakers CSV too", 'as_hms(a, ".")' in source)
-# The headers are written through csv_line() as tuples, so the check looks
-# for the tuple rather than for a finished line.
+# The headers go through csv_line() as tuples, so the check looks for the
+# tuple rather than for a finished line.
 for head in ('("Area", "Metric", "Before", "After",',
              '("Speaker", "Start TC", "End TC",',
              '("Shot", "Camera", "Speaker", "Start TC",'):
@@ -299,17 +299,15 @@ check("no semicolon separator left",
         not in source)
 
 print("\n17. No German word outside the catalogue")
-# Two dictionaries decide, and the catalogue acts as a third: a word that
+# Two dictionaries decide, and the catalogue acts as a third: a word
 # German knows and English does not is German, and so is every word the
-# German side of the catalogue uses but the English side does not. What
-# is left over after the two lists below is a real find.
+# German side of the catalogue uses and the English side does not.
 GERMAN_KEEP = set("""
 bilder dokumente filme musik schreibtisch deutsch
 """.split())          # folder names on a German system, on purpose
-# "deutsch" is the last of those and stands apart: it is the word that
-# marks the German half of a release text. A German reader on the
-# release page looks for that word and no other, so it has to be the
-# German one -- it is a label for readers, not prose in the source.
+# "deutsch" stands apart: it marks the German half of a release text and
+# a German reader looks for that word and no other, so it has to be the
+# German one. A label for readers, not prose in the source.
 NOT_GERMAN = set("""
 also alt ansi antialiasing api ascii backend byte codec codecs cpu ctrl
 eng ext frontend gbr html installation iso lang man marker mpeg multi
@@ -378,52 +376,11 @@ check("German words: %d (ratchet %d)" % (len(_found), _limit),
         len(_found) <= _limit, str(sorted(set(w for _z, w in _found))[:6]))
 
 print("\n18. No English word forgotten on the German side")
-# Section 17 looks one way -- German in the English source. This is the
-# other way round: English left standing in the German catalogue. It was
-# written after 'join with Channel %d' was found reading 'mit Channel %d
-# zusammenlegen' on a screenshot on 24.8.2026, while the window beside it
-# said 'Kanal'. Two more entries had the same word left in them.
-#
-# Most English words in the German catalogue are meant to stay: Timecode,
-# Preset, Multitrack, Player, Resolve, Timeline, Leveler. docs/notes/
-# begriffe.md lists them and says why. Two ways were measured against the
-# three real entries:
-#
-#   the list from begriffe.md, everything else a find -- 147 entries
-#     flagged today, the three real ones among them. Two per cent signal,
-#     and the list has to be kept up by hand. Switched off on day one.
-#   the same catalogue translates the word elsewhere -- 10 entries today,
-#     13 with the three put back. This needs no list: what the catalogue
-#     itself translates is what the project has decided to translate, and
-#     where the word stands untranslated it was forgotten.
-#
-# The second one is used. Where a word is kept and where it is dropped is
-# decided by counting, the way begriffe.md decides ("Spur to Track, 88 to
-# 1"): a word has to be translated at least three times, and at least
-# three times as often as it is kept, before the places where it stands
-# count as forgotten. Quotations, switch names, placeholder names, file
-# names and all-caps names are cut out of both sides first -- a quoted
-# menu path is not a translation.
-#
-# The weak spot, said out loud: a word nobody ever translated has no
-# counter-evidence and does not show up. The check reads the catalogue,
-# not a dictionary of what things ought to be called.
-#
-# The ten that stand today, and why they stand:
-#   audio (2)     'ignore this audio', 'gets audio from' -- the loan word
-#                 is what the tick and the line really say; the rest of
-#                 the catalogue uses the German word.
-#   frame (3)     'One frame back.', 'One frame forward.', 'under half a
-#                 frame' -- decided in begriffe.md: Frame is the unit of
-#                 time, the picture itself has a German name.
-#   output (2)    'Output Color Space' -- the name of a setting in
-#                 Resolve, quoted without quotation marks.
-#   settings (1)  'Deliver > Advanced Settings' -- a menu path in Resolve.
-#   upload (1)    the loan word, as with audio.
-#   channels (1)  '  %s: how many channels it has cannot be determined'
-#                 -- a real one, the same kind as the three from 24.8.,
-#                 and still open. Whoever fixes it takes the ratchet down
-#                 to nine.
+# The mirror of section 17: English left standing in the German
+# catalogue. What the catalogue translates elsewhere the project decided
+# to translate, so an untranslated place was forgotten -- at least three
+# translations, and three times as many as the places kept. A word
+# nobody ever translated cannot show up here.
 NAMES = re.compile(u"\"[^\"]*\"|„[^“]*“"   # what is quoted
                    u"|<[^>]*>"                            # markup
                    u"|--[a-z][a-z-]*"                     # a switch
@@ -486,10 +443,9 @@ _forgotten.sort()
 if _english is None:
     check("no dictionary -- the German side is not read", True)
 else:
-    # The fingerprint is the word plus the English entry it was left in,
-    # never the line: the catalogue is one long dictionary at the end of
-    # the file and every entry above shifts the ones below it. The entry
-    # text is what the find really is, and it moves with it.
+    # The fingerprint is the word plus the entry it was left in, never
+    # the line: the catalogue sits at the end of the file and every entry
+    # above shifts the ones below it.
     _held = state.places("english_words", ratchet.tally(
         [("%s in %r" % (_w, _key[:48]), _line)
          for _line, _w, _key in _forgotten]))

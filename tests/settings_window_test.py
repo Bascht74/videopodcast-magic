@@ -1,13 +1,10 @@
 # -*- coding: utf-8 -*-
 """What is set up once, and what is decided every time.
 
-Two sorts of setting used to stand in one box on the first sheet: the
-key for auphonic.com, which is entered once in a lifetime, and the
-preset, which belongs to the production being made. Choosing a preset
-therefore meant paging back from the table where the decision is
-actually made. They are apart now -- the key and the Resolve check
-behind "Settings ...", the preset under the assignment table -- and this
-test holds them to it.
+The key for auphonic.com and the preset used to stand in one box on the
+first sheet, so choosing a preset meant paging away from the table where
+that choice belongs. They are apart now -- key and Resolve check behind
+"Settings ...", preset under the assignment table.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -170,17 +167,11 @@ QtCore.QTimer.singleShot(120000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    Under Windows a folder holding an open file cannot be deleted, and
+    ignore_errors would hide that it stays behind. Players are found by
+    what they hold, so a second holder cannot slip through. One that
+    never started is not stopped: what lies behind stop() is built on
+    first use and waits for a lock another player holds.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -210,27 +201,12 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    gui() comes back with the window still standing. Let go, close,
+    delete -- in that order, and without ignore_errors, which would
+    swallow the one thing that can go wrong: a folder that stays.
+    Letting go returns before the system has closed the handle, so the
+    delete is retried against the event loop for up to ten seconds.
+    What is left after that is named, but does not turn the test red.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():

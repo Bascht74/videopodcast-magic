@@ -100,11 +100,9 @@ def win():
 def audio_rows():
     """The first column of the upper assignment tree, its top rows only.
 
-    The assignment is a QTreeView over a model, and the tree is found the
-    way the table was: the visible one whose fourth column is headed
+    The tree is the visible one whose fourth column is headed
     "Timecode". Children of a row are voices inside one recording, not
-    recordings, so only the top level is read. Nothing found means no
-    rows -- the caller waits for the window to fill and gives up loudly.
+    recordings, so only the top level is read.
     """
     for t in win().findChildren(QtWidgets.QTreeView):
         m = t.model()
@@ -174,17 +172,11 @@ QtCore.QTimer.singleShot(200000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    Under Windows a folder holding an open file cannot be deleted, and
+    ignore_errors would hide that it stays behind. Players are found by
+    what they hold, so a second holder cannot slip through. One that
+    never started is not stopped: what lies behind stop() is built on
+    first use and waits for a lock another player holds.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -214,27 +206,12 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    gui() comes back with the window still standing. Let go, close,
+    delete -- in that order, and without ignore_errors, which would
+    swallow the one thing that can go wrong: a folder that stays.
+    Letting go returns before the system has closed the handle, so the
+    delete is retried against the event loop for up to ten seconds.
+    What is left after that is named, but does not turn the test red.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():

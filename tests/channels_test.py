@@ -24,15 +24,11 @@ def check(name, ok, extra=""):
 def build(name, parts, video=False):
     """Build a file whose channels are exactly what the parts say.
 
-    A part is a frequency, or 0 for a channel that was never plugged in,
-    or "=" to repeat the channel before it -- that is mono panned to two
-    sides.
-
-    The samples are written here rather than fetched from ffmpeg: its
-    join filter reorders the channels into the canonical order of the
-    named layout, so input three does not come out as channel three.
-    Written directly, the channel order is beyond doubt, and that is the
-    one thing this test is about.
+    A part is a frequency, 0 for a channel never plugged in, or "=" to
+    repeat the one before it, which is mono on two sides. The samples
+    are written here rather than fetched from ffmpeg, whose join filter
+    reorders channels into the canonical layout, and channel order is
+    the one thing this test is about.
     """
     import wave
     import numpy as np
@@ -121,9 +117,9 @@ check("a pair with an empty channel is not stereo",
 print("\n6. Eight channels: every neighbour is asked")
 f, pairs, tracks = judge(build("eight.wav",
                                [300, "=", 500, 900, 1100, "=", 1500, 1900]))
-# Seven neighbours, not four pairs: on a mixer, channels 2 and 3 can be
-# the pair just as well as 1 and 2, so every neighbour is measured and
-# the non-overlapping set is picked afterwards.
+# Seven neighbours, not four pairs: 2 and 3 can be the pair just as
+# well as 1 and 2, so every neighbour is measured and the
+# non-overlapping set is picked afterwards.
 check("seven neighbours judged", len(pairs) == 7, str(len(pairs)))
 check("channels 1 and 2 are one", pairs[0][1] is True, str(pairs[0]))
 check("2 and 3 are not -- 2 is already spoken for anyway",
@@ -160,9 +156,8 @@ check("named accordingly",
       tracks[1][1] == "X Channel 2+3", str(tracks[1][1]))
 
 print("\n7c. Ticking one channel takes the tick from the next")
-# Channels 1, 2 and 3 all carry the same thing, so 1+2 and 2+3 both look
-# like a pair. They cannot both be one -- channel 2 would be in two
-# tracks -- so the left one wins and channel 3 stands alone.
+# Channels 1, 2 and 3 carry the same thing, so 1+2 and 2+3 both look
+# like a pair. They cannot both be one, so the left one wins.
 f = vpm.channel_facts(build("middle2.wav", [300, "=", "=", 1500]))
 check("without a hand the left pair wins",
       vpm.joined_channels(f) == {0: True}, str(vpm.joined_channels(f)))
@@ -175,12 +170,9 @@ check("so 1 and 4 stand alone",
       str([t[0] for t in vpm.channel_tracks(f, "X", {0: False, 1: True})]))
 
 print("\n7d. A hand corrects the proposal, it does not restart it")
-# Six channels in three pairs: inside a pair the two hear the same thing
-# at the same moment, across a pair boundary they do not. The
-# measurement proposes 1+2, 3+4, 5+6. Taking one of those apart used to
-# free a channel, and the proposal was then rerun over it -- so undoing
-# the pair 3+4 created the pair 4+5. One click, two changes, and the
-# second one unasked.
+# Six channels, proposed as the pairs 1+2, 3+4, 5+6. Taking one apart
+# must not rerun the proposal over the freed channels: undoing 3+4
+# would then create 4+5, one click and a second change nobody asked for.
 alike = {"channels": 6, "readable": True, "silent": [False] * 6,
          "level": [-20.0] * 6, "pair_same": [0.99] * 5,
          "pair_zero": [0.9, 0.1, 0.9, 0.1, 0.9],

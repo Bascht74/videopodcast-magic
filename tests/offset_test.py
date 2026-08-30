@@ -20,9 +20,8 @@ n = int(DURATION * SR)
 def voice(seed):
     """Speech-like: noise in changing bands, chopped into syllables.
 
-    A plain stack of overtones will not do -- that repeats every few
-    milliseconds, and then any run-time measurement can be off by a
-    whole period.
+    A stack of overtones repeats every few milliseconds, and a run-time
+    measurement can then be off by a whole period.
     """
     r = np.random.default_rng(seed)
     x = np.zeros(n); t = 0

@@ -1,12 +1,10 @@
 # -*- coding: utf-8 -*-
 """A recording of several blocks must not wait for ever to be judged.
 
-The channel rows of a recording are drawn from the measurement over all
-its blocks, and the row hangs on the first one. Each finished block asked
-for a redraw of its own row -- which only the first block has. So the
-last block to finish redrew nothing, and a recording of two blocks said
-"measurement running ..." for as long as the window stayed open, and
-work was long done and the bar had gone.
+The channel rows come from the measurement over all the blocks and hang
+on the row of the first one. A redraw asked for by any other block
+therefore reached nothing, and the recording said "measurement running
+..." with the work long done.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -124,10 +122,9 @@ def step():
                   sum(1 for r in rows if "unused" in r[1]) == CH - 4,
                   str(len([1 for r in rows if "unused" in r[1]])))
             print("\n2. A tick does not throw the list back to the top")
-            # Ticking a channel halfway down replaces every row under the
-            # file. The list would otherwise jump to the top at every
-            # click, and on a mixer file that means hunting for the place
-            # again each time.
+            # Ticking a channel replaces every row under the file. The
+            # list would otherwise jump to the top at every click, and
+            # on a mixer file that means hunting for the place again.
             tree = win().findChildren(QtWidgets.QTreeWidget)[0]
             tree.expandAll()
             # Small enough that two dozen channels do not fit: without a
@@ -161,17 +158,11 @@ QtCore.QTimer.singleShot(150000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    Windows cannot delete a held file, and ignore_errors would hide the
+    folder staying behind. Players are found by what they hold, not by
+    which player they are, so a second holder cannot slip through. One
+    that never started is not stopped: building what lies behind stop()
+    waits for a lock a starting player holds. Returns what was let go.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -201,27 +192,12 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    Let go, close, delete, in that order, and no ignore_errors: it would
+    swallow the one thing that can go wrong, a folder that stays because
+    something still holds it. The media backend closes the handle in a
+    thread of its own, so the wait is on the handle and not on a fixed
+    pause: up to ten seconds, after which what is left is named and does
+    not turn the test red.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():

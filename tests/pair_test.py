@@ -17,13 +17,11 @@ def check(name, ok, extra=""):
 
 
 def show(title, tracks, camera_of, length=30.0):
-    """Print the cut and hold it to what a cut must always be.
+    """Print the cut and check the shape every cut must have.
 
-    Which camera is right where is a judgement about the material, and
-    this test does not make it -- the numbers are here to be read. What
-    can be settled without judgement is the shape: a cut is a run of
-    segments, in order, without gap or overlap, from 0 to the end, and
-    every one of them names a camera that exists.
+    Which camera belongs where is a judgement this test does not make.
+    The shape is not: segments in order, without gap or overlap, from 0
+    to the end, and every one of them names a camera that exists.
     """
     print("\n== %s" % title)
     s = vpm.build_camera_cut(tracks, length, camera_of, "Wide",
@@ -43,7 +41,6 @@ def show(title, tracks, camera_of, length=30.0):
     strangers = sorted({w for _a, _b, w in s} - known)
     check("only cameras that exist", not strangers, str(strangers))
 
-# Case 1: both hosts on ONE camera, the guest on a camera of their own
 cameras = {"Host": "Hosts", "Co-host": "Hosts",
            "Guest": "Guest"}
 tracks = [("Host",    [(0, 5), (10, 15)]),
@@ -51,12 +48,11 @@ tracks = [("Host",    [(0, 5), (10, 15)]),
           ("Guest",   [(5, 10), (22, 25)])]
 show("hosts share one camera", tracks, cameras)
 
-# Case 2: everyone has their own camera -> no two-shot exists
+# Everyone on a camera of their own, so no two-shot exists.
 cameras2 = {"Host": "Host", "Co-host": "Co-host",
             "Guest": "Guest"}
 show("everyone has their own camera", tracks, cameras2)
 
-# Case 3: a three-shot camera covers them all
 cameras3 = {"Host": "Hosts", "Co-host": "Hosts",
             "Guest": "All"}
 tracks3 = [("Host", [(0, 10)]), ("Co-host", [(5, 10)]),

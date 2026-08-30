@@ -2,25 +2,16 @@
 """The simple path: one recording into the video files.
 
 run_single_track_path is what runs when there are no separate speaker
-tracks -- one overall recording, processed, aligned and written into the
-camera files. It is one of the longest runs in the program and until now
-nothing tested it, so everything that went wrong there was found on real
-material, late and expensively.
+tracks: one overall recording, aligned and written into the camera
+files. It asks the question that costs the most when the answer is
+wrong -- does the sound still sit against the picture it was recorded
+with? The camera's sound is a known piece of the recording, so the
+written track is held against the original and the offset comes out in
+samples rather than impressions.
 
-The question this test asks is the one that costs the most when the
-answer is wrong: does the sound still sit against the picture it was
-recorded with? Everything here is built so that question has an exact
-answer -- the camera's sound is a known piece of the recording, so the
-written track can be held against the original and the offset comes out
-in samples, not in impressions.
-
-Beside that it asks what the path does when the material is not the
-ordinary case: a time window, a window that lies outside the material,
-a camera without sound, a recording without a camera, and a recorder
-that stopped before the camera did.
-
-Nothing leaves the house: no key is given, so nothing is sent to
-auphonic.com, and --without-auphonic says the same thing out loud.
+Beside that: a time window, a window outside the material, a camera
+without sound, a recording without a camera, and a recorder that
+stopped early. No key is given, so nothing is sent to auphonic.com.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -31,12 +22,10 @@ import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
-# The same environment the suite gives every test, so that running this
-# file by hand measures the same run. The speaker separation is the one
-# that matters here: run.sh switches it off for the whole suite, and
-# with it on a run of this material took 4.6 s instead of 0.7 s and
-# wanted a machine-learning environment besides. What it would separate
-# is not what this test is about.
+# The same environment the suite gives every test, so running this file
+# by hand measures the same run. Speaker separation is off: with it on
+# the run takes several times as long, wants a machine-learning
+# environment, and separates something this test does not ask about.
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
@@ -59,30 +48,24 @@ def tail(text, n=2):
 #------------------------------------------------------------- Material
 
 RATE = 48000
-# The recording. 34 s because the camera has to be able to start late
-# and stop early and still leave a piece long enough to align on: the
-# alignment takes sample points every two seconds and needs a handful of
-# them with signal in both.
+# Long enough that the camera can start late and stop early and still
+# leave a piece to align on: the alignment samples every two seconds and
+# needs a handful of points with signal in both.
 LENGTH = 34.0
-# Where the camera starts inside the recording, and how long it runs.
-# This is the whole point of the fixture: picture time t is recording
-# time t + CAM_LATE, and every number below is checked against that.
+# The whole point of the fixture: picture time t is recording time
+# t + CAM_LATE, and every number below is checked against that.
 CAM_LATE, CAM_LEN = 4.0, 26.0
-# A second camera, for the one question a single camera cannot ask: are
-# two of them put down in the right places relative to each other? It
-# starts five seconds after the first and stops with it, so it is the
-# shorter of the two and the first one stays the reference.
+# For the one question a single camera cannot ask: are two of them put
+# down in the right places relative to each other? The second starts
+# after the first and stops with it, so the first is the reference.
 CAM2_LATE, CAM2_LEN = 9.0, 21.0
 # A window inside the picture, in picture time.
 WIN_IN, WIN_OUT = 8.0, 18.0
-# The recorder that stopped early: ten seconds out of the middle of the
-# recording, which is picture time 2.0 to 12.0.
+# The recorder that stopped early: a piece from the middle.
 SHORT_FROM, SHORT_LEN = 6.0, 10.0
-# Turns of two voices with pauses between them. Speech-like, because the
-# alignment lives on speech pauses -- a steady tone has no envelope to
-# match and would align by luck. The pauses are also what makes the
-# window checks readable: a silent second in the written file means the
-# window cut there, not that the material happened to be quiet.
+# Speech-like, because the alignment lives on speech pauses: a steady
+# tone has no envelope to match and would align by luck. The pauses also
+# make the window checks readable -- a silent second means it cut there.
 TURNS = {"A": [(1, 6), (12, 17), (25, 30)], "B": [(7.5, 10.5), (19, 24)]}
 
 
@@ -112,8 +95,7 @@ def begins_at(reference, track):
     """Where in *reference* the first sample of *track* was taken from.
 
     Both are the same material, so the cross correlation has one clear
-    peak and the answer is exact to the sample. A positive number means
-    the track starts that far into the reference; a negative one means
+    peak and the answer is exact to the sample. A negative number means
     the track starts before the reference does, which is the case where
     a recorder stopped early and silence was written in front of it.
     """
@@ -144,16 +126,13 @@ write(D + "/Short.wav", whole[int(SHORT_FROM * RATE):
 # written tracks are held against.
 rec = read(D + "/Rec.wav")
 
-# One ffmpeg call for both video files, because a process start is what
-# the Windows builder charges for. Colour bars at ultrafast: the run
-# never decodes a video frame, it reads the packet times and copies the
-# picture through, so the picture only has to exist.
+# One ffmpeg call for all the video files, because a process start is
+# what the Windows builder charges for. The run never decodes a frame,
+# so the picture only has to exist.
 #
-# The -ss and -t in front of the first output are output options and cut
-# that file alone: its picture and its sound both begin CAM_LATE into
-# the recording, which is what makes picture time t equal recording time
-# t + CAM_LATE. The second output takes the picture only -- a camera
-# with no audio track at all, which the path has to refuse.
+# The -ss and -t in front of an output cut that file alone, which is what
+# makes the first camera begin CAM_LATE into the recording. The second
+# takes the picture only -- a camera with no audio track at all.
 subprocess.run(
     ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
      "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
@@ -164,8 +143,7 @@ subprocess.run(
      D + "/Cam.mov",
      "-t", "3", "-map", "0:v", "-c:v", "libx264", "-preset", "ultrafast",
      "-pix_fmt", "yuv420p", D + "/Mute.mov",
-     # The third output is the second camera: the same picture and the
-     # same recording, five seconds later into both.
+     # The third output is the second camera, later into both.
      "-ss", "%.2f" % CAM2_LATE, "-t", "%.2f" % CAM2_LEN,
      "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset",
      "ultrafast", "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le",
@@ -183,9 +161,8 @@ def run(*extra):
 
 #-------------------------------------------------------------- The runs
 
-# All six runs first, then one ffmpeg to decode everything they wrote.
-# Decoding after each run would be easier to read and would cost four
-# more process starts, which is what the Windows builder charges for.
+# All six runs first, then one ffmpeg to decode everything they wrote:
+# decoding after each run costs more process starts.
 rc1, log1 = run("--out", D + "/plain", D + "/Rec.wav", D + "/Cam.mov")
 rc2, log2 = run("--out", D + "/window", "--in-point", "+%d" % WIN_IN,
                 "--out-point", "+%d" % WIN_OUT, D + "/Rec.wav",
@@ -202,10 +179,8 @@ rc7, log7 = run("--out", D + "/two", D + "/Rec.wav", D + "/Cam.mov",
 MADE = "/Cam_audio.mov"
 WANTED = [("plain", 0), ("plain", 1), ("window", 0), ("beyond", 0),
           ("short", 0)]
-# One call for everything the runs wrote, because a process start is the
-# expensive thing on the builder. Files that are not there are left out
-# of it rather than taking the whole call down -- part 4 and part 5 both
-# have cases where no file is the right answer.
+# Files that are not there are left out rather than taking the call
+# down: parts 4 and 5 have cases where no file is the right answer.
 here = [f for f in ("plain", "window", "beyond", "short")
         if os.path.exists(D + "/" + f + MADE)]
 want = [(f, s) for f, s in WANTED if f in here]
@@ -218,10 +193,9 @@ for i, (folder, stream) in enumerate(want):
     call += ["-map", "%d:a:%d" % (here.index(folder), stream),
              "-c:a", "pcm_s16le", "-ar", str(RATE), tracks[(folder, stream)]]
 if want and subprocess.run(call, capture_output=True).returncode:
-    # A file with fewer audio tracks than it should have makes the one
-    # call fail as a whole, and then every check would go down with it
-    # saying nothing about which file was wrong. So that run pays for
-    # one call per track and each check fails on its own account.
+    # A file with fewer audio tracks than it should have takes the whole
+    # call down, and every check with it, saying nothing about which file
+    # was wrong. So that run pays for one call per track.
     for folder, stream in want:
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i",
                         D + "/" + folder + MADE, "-map", "0:a:%d" % stream,
@@ -240,14 +214,9 @@ def track(folder, stream=0):
 print("0. The material is still there")
 # First, because every check below reads these files: one of them gone
 # shows up as a traceback in a later part rather than as a finding here.
-#
-# The run reads the recording and the cameras and writes beside them. It
-# must never write over them or take one away. This is here because it
-# nearly went wrong on 30.8.2026: measuring the loudness makes a sum file
-# and deletes it again at the end, and a short cut that let "the sum"
-# mean "the recording itself" where there is only one track turned that
-# clean-up into the deletion of the material. Seven runs have used these
-# files by the time this line is reached.
+# The run writes beside the material and must never write over it or take
+# it away -- measuring the loudness makes a sum file and deletes it again,
+# and a short cut that lets "the sum" mean the recording deletes that.
 for name, want in (("Rec.wav", LENGTH), ("Short.wav", SHORT_LEN),
                    ("Cam.mov", None), ("Cam2.mov", None),
                    ("Mute.mov", None)):
@@ -289,10 +258,8 @@ check("and it sits on the camera's own sound",
       abs(begins_at(cam, mix)) < 0.04,
       "%+.0f ms against the camera track" % (begins_at(cam, mix) * 1000))
 # What is thrown away has to be said, or a run that quietly dropped
-# eight seconds looks exactly like one that did the right thing. And the
-# amount, not only the fact: the recording runs CAM_LATE before the
-# picture starts and LENGTH - CAM_LATE - CAM_LEN past its end, and both
-# of those leave the run.
+# seconds of material looks like one that did the right thing -- and the
+# amount, not only the fact.
 left_out = [line for line in log1.splitlines() if "left out" in line]
 check("the run says what it leaves out", bool(left_out),
       "" if left_out else "not in the log, which ends: " + tail(log1))
@@ -333,10 +300,8 @@ check("nothing sounds before the In point",
 check("nothing sounds after the Out point",
       all(i < WIN_OUT for i in heard), str(heard[-4:]))
 check("there is sound inside the window", len(heard) >= 5, str(len(heard)))
-# The window moves the sound to another place in the picture, and that
-# is where it can lose the picture. The piece that lands at picture time
-# WIN_IN has to be the piece that was recorded then -- the same rule as
-# in part 1, only with the window's offset added.
+# The window moves the sound, and that is where it can lose the picture:
+# what lands at picture time WIN_IN has to be what was recorded then.
 at = begins_at(rec, win)
 check("the sound in the window still belongs to the picture",
       abs(at - CAM_LATE) < 0.04,
@@ -348,12 +313,9 @@ check("the run says it trimmed to the window", said,
 
 print("\n4. A time window that lies outside the material")
 beyond = track("beyond")
-# The multitrack path refuses a window it cannot reach: "Out point is
-# ... after the last frame", "that cannot be intended". What this path
-# does instead is its own business -- refuse, clamp the window, write
-# nothing. Only one outcome is no answer at all: a run that returns 0
-# and names a video file under RESULT which has not a sample of sound
-# in it.
+# Refuse, clamp the window, write nothing: what this path does is its
+# own business. Only one outcome is no answer at all -- a run that
+# returns 0 and names a video file with no sound in it.
 made = os.path.exists(D + "/beyond" + MADE)
 check("a video it calls a result has sound in it",
       rc3 != 0 or not made or len(loud(beyond)) > 0,
@@ -392,12 +354,10 @@ check("the rest of the picture is silent, not padded with noise",
       str(heard))
 
 print("\n7. Two cameras, and where the handover puts them")
-# Until 30.8.2026 every camera on this path was written into the
-# handover as 0.0, whatever the alignment had measured: the number taken
-# was the offset left over after the recording had been cut to the
-# camera's start, and that is zero by construction. With one camera
-# nothing showed, because the only camera is the zero of the axis. With
-# two, both sat on top of each other in Resolve.
+# With one camera an unmeasured 0.0 looks right, since the only camera
+# is the zero of the axis. A handover that writes the offset left over
+# after the cut to the camera's start -- zero by construction -- shows
+# only here, with the two on top of each other.
 check("the two-camera run goes through", rc7 == 0,
       str(rc7) + " " + tail(log7))
 book2 = D + "/two/singletrack_resolve.json"
@@ -409,9 +369,8 @@ if os.path.exists(book2):
     where = dict((c.get("camera") or "", c.get("offset")) for c in cams)
     check("both cameras are in it", len(cams) == 2, str(sorted(where)))
     # What the handover promises: position in the file is programme time
-    # minus this. So the camera that starts later in the recording has
-    # to stand later on the axis, by exactly the difference of the two
-    # starts -- the same quantity multitrack writes.
+    # minus this. So the camera that starts later in the recording stands
+    # later on the axis, by exactly the difference of the two starts.
     two = sorted(where.values(), key=lambda x: (x is None, x))
     apart = (two[1] - two[0]) if len(two) == 2 and None not in two else None
     check("they stand apart by what separates their starts",

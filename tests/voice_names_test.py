@@ -1,18 +1,10 @@
 # -*- coding: utf-8 -*-
 """Where the names of the voices could come from, instead of by hand.
 
-Two ways, and both are proposals that set nothing. The microphones: the
-separation says when a voice speaks and calls it SPEAKER_00, the tracks
-say when a microphone carries sound and already have the names a person
-typed, and held against each other the two name the voices. The roles:
-who asks and who answers says which of them is the guest.
-
-The first only works while the microphones can be told apart, and on
-real material they often cannot -- measured 30.8.2026 on one interview
-with a clip-on microphone each, the tracks share 81 to 95 per cent of
-their speech and every voice then fits every microphone equally well. So
-most of this test is about the cases where nothing may be said at all: a
-wrong answer here would put the wrong name on a whole episode.
+Two ways, both proposals that set nothing: the separation against the
+microphone tracks, and who asks against who answers. Real microphones
+often cannot be told apart, so most of this test asks where nothing
+may be said at all -- a wrong name would stand over a whole episode.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -135,9 +127,7 @@ check("no tracks at all", vpm.which_microphone(VOICES, []) == [], "")
 check("a track without any speech says nothing",
       vpm.which_microphone(VOICES, [(MICS[0][0], []), MICS[1]]) == [], "")
 
-# Two microphones one person is on both of: the second is the first with
-# every passage kept. That is the shape of the real material above, where
-# each microphone hears everybody.
+# The shape of real material: both microphones carry the same person.
 union = []
 for a, b in sorted(list(MICS[0][1]) + list(MICS[1][1])):
     if union and a <= union[-1][1]:
@@ -153,8 +143,8 @@ check("and then nothing at all is claimed",
       vpm.which_microphone(VOICES, both) == [],
       str(vpm.which_microphone(VOICES, both)))
 
-# The separation ten seconds off the axis. The shares stay high -- speech
-# is everywhere -- so only the distance between first and second catches it.
+# Off the axis the shares stay high -- speech is everywhere -- so only
+# the distance between first and second catches it.
 moved = [(n, [(a + 10.0, b + 10.0) for a, b in segs]) for n, segs in VOICES]
 check("a separation ten seconds off the axis is not named",
       vpm.which_microphone(moved, MICS) == [],
@@ -183,8 +173,7 @@ check("and it is not named", "SPEAKER_09" not in named(rows),
       str(named(rows)))
 check("while the two that spoke enough are", len(rows) == 2, str(named(rows)))
 
-# The separation cut one person in two. Both halves point at the same
-# microphone, and then neither of them is the answer.
+# The separation cut one person in two, both halves on one microphone.
 half = len(TRUTH["Anna"]) // 2
 split = [("SPEAKER_10", TRUTH["Anna"][:half]),
          ("SPEAKER_11", TRUTH["Anna"][half:]), VOICES[1], VOICES[2]]
@@ -211,9 +200,8 @@ check("empty against anything is zero",
       vpm.shared_seconds([], [(1.0, 2.0)]) == 0.0, "")
 
 # ----------------------------------------- the roles, out of who asks
-# Twelve rounds of a conversation: two people asking, one only ever
-# answering and speaking twice as long. That is the shape the ranking
-# was measured on, and the guest is the one at the end of it.
+# Two people asking, one only ever answering and twice as long: the
+# shape the ranking was made for, with the guest at the end of it.
 print("\nThe roles, read off who asks and who answers")
 vpm.set_language("en")
 PLAN = [("Speaker 1", True), ("Speaker 3", False), ("Speaker 2", True),
@@ -253,9 +241,8 @@ check("one voice alone is no ranking", vpm.voice_role_names(ORDER[:1]) == {},
 check("nothing in, nothing out", vpm.voice_role_names([]) == {}, "")
 
 print("\nA voice that hardly speaks in the window gets no role")
-# The fourth voice says two sentences and is gone -- the person behind
-# the camera. Under ROLE_MIN_SENTENCES who_asks leaves it out by itself,
-# and the proposal must not put it back in.
+# A voice under ROLE_MIN_SENTENCES -- the person behind the camera --
+# is left out by who_asks, and the proposal must not put it back in.
 spoke4, said4 = conversation(rounds=1, plan=[("Speaker 4", False)])
 spoke_all, said_all = conversation()
 spoke_all = spoke_all + [("Speaker 4", [(a + 1000.0, b + 1000.0)

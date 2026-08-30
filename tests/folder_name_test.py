@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """Which folder name is a production, and which one says nothing.
 
-The name of the folder the files sit in becomes the name of the
-production. That is wrong for the handful of folders every home
-directory has -- a file on the desktop would make a production called
-"Desktop". Which names those are is not a fixed list of languages:
-macOS and Windows keep the English name on disk and only show the
-translated one, while Linux really renames them and writes the names it
-chose into user-dirs.dirs. So the list is read there rather than
-guessed.
+The folder the files sit in names the production, which is wrong for
+the handful of folders every home directory has. Which names those are
+cannot be guessed: macOS and Windows keep the English name on disk and
+only show the translated one, while Linux really renames them and
+writes its choice into user-dirs.dirs, so the list is read from there.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -63,9 +60,8 @@ check("the root of a volume",
       name_for("/Volumes/Recordings").startswith(made_up))
 
 print("\n4. Translated names are read, not guessed")
-# Without the file, a German folder name is a name like any other: on a
-# Mac the desktop is called Desktop on disk whatever the system speaks,
-# so "Schreibtisch" there is a folder somebody made and named.
+# On a Mac the desktop is called Desktop on disk whatever the system
+# speaks, so without the file "Schreibtisch" is a folder somebody named.
 home = tempfile.mkdtemp(prefix="foldername_")
 os.environ["XDG_CONFIG_HOME"] = os.path.join(home, "empty")
 fresh()

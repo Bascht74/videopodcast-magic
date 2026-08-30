@@ -1,23 +1,11 @@
 # -*- coding: utf-8 -*-
 """#38 Stage 5c: what decides that a camera's sound is material.
 
-Two things the version before this one wrote down have gone. It demanded
-that no audio recording and three cameras give camera audio by itself --
-the rule Sebastian retired on 25.8.2026, whose replacement is "no tick,
-no audio" -- and its last section opened this file and searched the
-source for the literal text "suggestion = camera_output_name(". The
-second is the worse of the two: reformatting a call turned it red while
-the program did exactly what it did before, and a test that answers a
-question about layout when it was asked about behaviour teaches people
-to stop reading it.
-
-So the rows are asked of the function that builds them, and the interface
-is asked of a real window instead of of the file it is written in. The
-audio decision is found by what can be picked in it -- the two answers
-the program knows -- and by the file its accessible name mentions, never
-by a column number, a heading or a row count. It stands in two places at
-once, on the file sheet and beside the player, and the checks below walk
-it from one to the other and back.
+The rows are asked of the function that builds them and the interface of
+a real window, never of the source text, so that reformatting a call
+cannot turn this red. The audio decision is found by what can be picked
+in it, never by a column number, and it stands in two places at once --
+on the file sheet and beside the player -- which the checks walk between.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -49,13 +37,10 @@ def look(media):
 
     app = QtWidgets.QApplication(sys.argv[:1])
     vpm = load()
-    # Every caption below is asked for through the catalogue, so the
-    # language does not decide the outcome -- but it is settled all the
-    # same, or a standalone run on a German machine would compare
+    # Settled, or a standalone run on a German machine would compare
     # English keys with a German window.
     vpm.set_language("en")
-    # Nothing may reach the network or the keychain: what is wanted is
-    # the window, not a run.
+    # Nothing may reach the network or the keychain, only the window.
     vpm.list_presets = lambda key: []
     vpm.load_api_key = lambda: ""
     vpm.update_offer = lambda *a, **k: None
@@ -77,17 +62,15 @@ def look(media):
          "files": [{"path": p, "kind": "video"} for p in videos],
          "out_folder": os.path.join(folder, "Result"),
          "production": PRODUCTION, "multitrack": False,
-         # A no that was given once and is stored, so nothing separates
-         # anything by itself.
+         # A no given once and stored, so nothing separates by itself.
          "speakers_local": False}
     with open(project, "w", encoding="utf-8") as f:
         json.dump(d, f, ensure_ascii=False, indent=1)
     os.makedirs(d["out_folder"], exist_ok=True)
 
     #------------------------------------ the field on its own, no window
-    # Cheap and exact, and it says what the window afterwards can only
-    # show in the large: one value, two fields, and a settled field that
-    # is inert.
+    # Cheap and exact, where the window afterwards shows it only in the
+    # large.
     print("\n5. The audio decision as a field")
     quiet = vpm.COLOURS["quiet"]
     value = vpm.Value(False)
@@ -119,12 +102,8 @@ def look(media):
     check("the settled field shows the audio in use",
           box3.currentData() == vpm.AUDIO_MATERIAL)
     check("and cannot be changed", not box3.isEnabled())
-    # Nothing stands beside it any more. Sebastian on 26.8.2026, about
-    # this same table and for the second time: "the text that comes
-    # behind the choice should go." A closed field says by being closed
-    # that there is nothing to answer, and the sentence beside it was
-    # making the row too long to read. The rule that grey is never
-    # without a reason holds everywhere else in the window.
+    # A closed field says by being closed that there is nothing to
+    # answer, and a sentence beside it made the row too long to read.
     check("and nothing stands beside it any more",
           not [w for w in cell3.findChildren(QtWidgets.QLabel)
                if w.text().strip()],
@@ -139,9 +118,8 @@ def look(media):
     # the test until somebody kills it.
     QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
     QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
-    # Off the desktop on the way in. The offscreen platform keeps the
-    # window out of the window server; this keeps it off the screen on
-    # any platform, and the layout machinery still runs.
+    # Off the desktop on any platform, not only under the offscreen
+    # plugin, and the layout machinery still runs.
     _show = QtWidgets.QWidget.show
 
     def offstage(self):
@@ -167,10 +145,9 @@ def look(media):
     def rows_named(sheet):
         """Every row on that sheet, by the name its fields are given.
 
-        A field in a table cell is read out as its kind and nothing
-        else -- "combo box", "edit field" -- so the program says the
-        column and the row in the accessible name, "Camera audio --
-        Wide_C003.mov". The part behind the first dash is the row.
+        A field in a table cell is read out as its kind alone, so the
+        program puts column and row into the accessible name, either
+        side of a double dash. The part behind it is the row.
         """
         rows = {}
         if sheet is None:
@@ -194,11 +171,7 @@ def look(media):
         return None
 
     def audio_box(sheet, short):
-        """The audio decision of that file on that sheet.
-
-        Recognised by what can be picked in it -- the two answers the
-        program knows -- and not by which column it stands in.
-        """
+        """The audio decision of that file, by what can be picked in it."""
         for said, widgets in rows_named(sheet).items():
             if not said.startswith(short):
                 continue
@@ -210,9 +183,8 @@ def look(media):
     def track_rows(sheet):
         """The rows of the recordings table, by the name they carry.
 
-        A row that puts somebody on a camera is an input track. Which
-        field says so is read off what can be picked in it: a camera,
-        and the two answers that are not a camera.
+        Which field marks an input track is read off what can be picked
+        in it: a camera, and the two answers that are not a camera.
         """
         out = {}
         for said, widgets in rows_named(sheet).items():
@@ -246,9 +218,8 @@ def look(media):
     files_word = vpm.T('Files && production')[:8]
     assign_word = vpm.T('Assignment && time window')[:8]
     shorts = [os.path.basename(p) for p in videos]
-    # What the reason has to name if it is to be of any use: the answer
-    # that would fix it. Asked of the catalogue, so a reworded label
-    # moves both sides at once.
+    # The reason has to name the answer that would fix it. Asked of the
+    # catalogue, so a reworded label moves both sides at once.
     fixes_it = vpm.label_of(vpm.AUDIO_MATERIAL)
     n = [0]
     waited = [0]
@@ -267,9 +238,8 @@ def look(media):
                             vpm.T('Open project ...')[:8]):
                         w.click()
             elif i == 1:
-                # Waiting for the fields rather than for a number of
-                # seconds: the list is built out of a thread and a fixed
-                # pause would be wrong on both sides.
+                # Waiting for the fields, not for a number of seconds:
+                # the list is built out of a thread.
                 sheet = sheet_of(files_word)
                 there = all(audio_box(sheet, s) is not None
                             for s in shorts)
@@ -374,9 +344,8 @@ def look(media):
                   str(rows[mine[0]].currentData()))
         check("nothing else moved into the table",
               len(rows) == len(mine), str(list(rows)))
-        # The name the run would write. Asked of the same function the
-        # program uses, so a changed rule changes both sides -- and a
-        # reformatted call changes neither.
+        # Asked of the same function the program uses, so a changed rule
+        # changes both sides and a reformatted call changes neither.
         check("the untouched camera is named as the full mix",
               written(sheet, shorts[1])
               == vpm.camera_output_name(PRODUCTION, shorts[1],
@@ -398,14 +367,9 @@ def look(media):
         check("with a line in its place saying what would fill it",
               any(fixes_it in w.text()
                   for w in sheet.findChildren(QtWidgets.QLabel)))
-        # These two were found by being missing. Measured on 25.8.2026:
-        # taking the last sound away left the Start button live and the
-        # reason line empty, while a window that *opened* without sound
-        # refused correctly -- the button had simply never been enabled
-        # there. assignment_fresh() left early when there was nothing to
-        # show, and assignment_check(), which ends in buttons_check(),
-        # sits at the far end of it. The way in matters, so both ways
-        # are asked.
+        # The way in matters, so both are asked: a window that opens
+        # without sound refuses because the button was never enabled
+        # there, which says nothing about taking the last sound away.
         check("no sound left, so the run cannot start again",
               not start_button().isEnabled())
         check("and the reason is under the button once more",
@@ -414,17 +378,11 @@ def look(media):
     def let_go_of(what):
         """Make every player let go of what it has open in there.
 
-        A player holds the file it has open. Under macOS and Linux the
-        folder can be deleted anyway, under Windows it cannot -- and with
-        ignore_errors nobody hears of it: the folder simply stays behind on
-        every run. Every player under every window is asked, and by what it
-        has open rather than by which player it is, so that a second holder
-        cannot slip through. Returns the names that were let go.
-
-        A player that never started is not stopped. What lies behind stop()
-        is built on first use, and building it waits for a lock another
-        player holds while it is starting up -- the window then never comes
-        back. playbackState only reads what is already noted.
+        A held file cannot be deleted under Windows, so every player is
+        asked, by what it has open rather than by which player it is. A
+        player that never started is not stopped: what lies behind stop()
+        is built on first use and waits for a lock another player holds
+        while starting up. Returns the names that were let go.
         """
         what = os.path.realpath(what)
         let_go = []
@@ -454,27 +412,11 @@ def look(media):
     def clean_up(what):
         """Close the window, then delete the folder, waiting for the grip.
 
-        gui() comes back with the window still standing, so the folder used
-        to go while players still held files in it. Let go, close, delete --
-        in that order. And no ignore_errors: it would swallow the one thing
-        that can go wrong here, a folder that stays because something still
-        holds it.
-
-        Letting go returns before the file is free. The media backend closes
-        the handle in a thread of its own, so setSource() comes back while
-        the system still has the file open. Under macOS and Linux that never
-        shows, because a held file can be deleted there anyway. On Windows
-        it does: measured on the build machine, five of these tests left
-        four to seven files behind on the first attempt. So what is waited
-        for is the handle, not a number of milliseconds -- delete, run the
-        event loop, delete again, up to ten seconds. Ten because it is far
-        above a thread closing a file, and still short enough that a folder
-        which will never go does not hold the suite.
-
-        What is left after that is a finding, not a failure: it is named,
-        with how long it was waited on, and it does not turn the test red.
-        A test that is red on one system on every run gets switched off
-        rather than looked at, and then it says nothing at all.
+        gui() comes back with the window standing, so: let go, close,
+        delete, in that order, and no ignore_errors -- it would swallow a
+        folder that stays because something still holds it. Letting go
+        returns before the file is free, so the wait is on the handle and
+        bounded; what is left over is named, not counted as a failure.
         """
         print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
         for top in app.topLevelWidgets():
@@ -554,9 +496,8 @@ check("it sits at the back", rows[-1][0] == [b1])
 check("and is noted as coming out of that camera",
         own == {os.path.abspath(b1): os.path.abspath(b1)})
 
-# Until 25.8.2026 this case gave one row per camera by itself. Sebastian
-# retired it: nothing can tell a radio microphone in the video track from
-# a room microphone, so the program stopped guessing.
+# Nothing can tell a radio microphone in the video track from a room
+# microphone, so the program does not guess a row per camera.
 rows, cam_audio, own = vpm.assignment_rows([], [b1, b2, b3])
 check("no recording and nothing chosen -> no rows at all",
         rows == [] and own == {}, str(rows))
@@ -590,8 +531,7 @@ check("no match -> mix only",
 check("empty name -> mix only",
         vpm.preselected_camera(None, TARGETS, "", VIDEOS) == vpm.MIX_ONLY)
 # The camera the audio came out of is where a row starts, but only until
-# somebody says otherwise: a clip-on microphone in one camera may belong
-# to a person another camera is filming.
+# somebody says otherwise: the microphone may belong to another person.
 check("own camera is the preselection",
         vpm.preselected_camera(None, TARGETS, "Guest", VIDEOS,
                            own_camera="Wide_C003.mov")
@@ -642,8 +582,7 @@ check("no crash without a speaker list",
         isinstance(f("I", "Camera_C001.mov"), str))
 
 print("\n4. What comes out in the same order as before")
-# The three cameras of a real two-part interview, in the shape they
-# were delivered in: a production name with spaces and a number.
+# Names in the shape they are delivered in, spaces and a number and all.
 REAL = [("Wide_08141855_C003.mov", ["Audio-Full-Mix"],
          "Interview Example Town 2_Wide_Audio-Full-Mix_08141855_C003"),
         ("Guest_08141858_C009.mov", ["Guest"],
@@ -655,9 +594,8 @@ for cam, spk, want in REAL:
     have = f("Interview Example Town 2", cam, spk)
     check("as delivered: %s" % cam.split("_")[0], have == want, have)
 
-# No window ever saw this folder: it holds sixteen-byte dummies for the
-# naming checks, and nothing above keeps one open. So there is nothing
-# here for ignore_errors to swallow.
+# No window ever saw this folder and nothing above keeps a file in it
+# open, so there is nothing here for ignore_errors to swallow.
 shutil.rmtree(D, ignore_errors=True)
 
 
@@ -665,8 +603,7 @@ def material(folder):
     """Two cameras, six seconds each, one channel of sound apiece.
 
     One channel on purpose: two uncorrelated channels would be cut into
-    two tracks, and how many tracks a camera gives is the subject of
-    camera_channels_test.py, not of this one.
+    two tracks, which is camera_channels_test.py's subject, not this one's.
     """
     for name, hz in zip(CAMERAS, (300, 700)):
         subprocess.run(
@@ -681,9 +618,8 @@ def material(folder):
             stderr=subprocess.DEVNULL)
 
 
-# One window in a process of its own: a second gui() standing on the
-# first is not what a whole window makes of a whole project, and a
-# window that hangs must not take the checks above down with it.
+# One window in a process of its own: a second gui() on top of the first
+# is a different thing, and a window that hangs must not take the rest.
 print("\n5./6. The window itself")
 media = tempfile.mkdtemp(prefix="vpm_a5c_media_")
 material(media)
@@ -702,10 +638,8 @@ for line in (out or "").rstrip().split("\n"):
     print(line[:160])
 if child.returncode != 0:
     error.append("the window")
-# The window that played these files was a process of its own and has
-# ended, so nothing here holds them any more. What can still hold a
-# file on Windows at this point is a virus scanner passing over it, and
-# that says nothing about the program -- hence ignore_errors.
+# The process that played these files has ended; what can still hold one
+# on Windows is a virus scanner, which says nothing about the program.
 shutil.rmtree(media, ignore_errors=True)
 
 print("\n%s" % ("All good." if not error

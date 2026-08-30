@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 """Local speaker separation: the arithmetic around the model.
 
-The model itself is not run here -- it needs an environment of its own
-and minutes of computing. What is checked is everything around it, and
-that is where the mistakes would be: that the segments are stored raw
-and in the time of their own file, that widening and moving them is
-arithmetic rather than a second measurement, that a file which starts
-minutes early does not smuggle speech into the episode, that two
-speakers on one camera become one condition, and that the worker keeps
-the three rules that were measured -- telemetry off first of all, the
-waveform rather than the path, and no number of speakers unless
-somebody asked for one.
+The model itself is not run here -- it needs its own environment and
+minutes of computing. Checked is everything around it, where the
+mistakes would be: that segments are stored raw in the time of their
+own file, that widening and moving them is arithmetic and not a second
+measurement, and that the worker keeps the rules that were measured.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -61,8 +56,8 @@ check("and the stored measurement is untouched",
       grouped[0][1] == [(1.0, 4.0), (4.1, 6.0)])
 
 print("\n3. From the time of the file onto the common axis")
-# A recording that started 924.6 s before the episode: everything it
-# heard in that lead-in has to fall out, not be carried along.
+# Whatever a recording heard before the episode began has to fall out,
+# not be carried along.
 moved = vpm.speaker_segments_on_axis(grouped, 924.6)
 check("the offset is added on",
       moved[0][1][0] == (925.6, 928.6), str(moved[0][1][0]))

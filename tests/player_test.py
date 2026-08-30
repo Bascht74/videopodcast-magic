@@ -49,10 +49,7 @@ plan = []
 def arrived():
     """The player's own report that every seek has landed.
 
-    It is the same moment the debug line calls "point set": audio and
-    both panes have reached what they were told to reach, or have given
-    up on it -- in which case the check below sees the wrong position and
-    says FAIL, exactly as before.
+    A seek given up on leaves the wrong position for the check to find.
     """
     return (not s._seeking and not s.audio_seek.pending()
             and not any(seeker.pending() for seeker in s.seekers))
@@ -60,12 +57,10 @@ def arrived():
 def wait(ms, until=None, steady=400):
     """Sit out ms -- or stop earlier, once `until` has held for `steady` ms.
 
-    Waiting by the clock is waiting for the worst case. Measured, a seek
-    while paused lands in under 0.2 s and nothing moves afterwards, so
-    the remaining 2.3 s of every such wait measured nothing at all.
-    `steady` keeps the shortcut honest: the tick after a landed seek is
-    the one that loads the coming shot into the other pane, so the
-    condition has to hold for a while before it counts.
+    A seek while paused lands quickly and nothing moves after it, so
+    waiting out the full time measures nothing. `steady` guards the
+    shortcut: the tick after a landed seek is the one that loads the
+    coming shot into the other pane.
     """
     end = QtCore.QElapsedTimer(); end.start()
     held = QtCore.QElapsedTimer(); held.start()
@@ -78,12 +73,10 @@ def wait(ms, until=None, steady=400):
         QtCore.QThread.msleep(5)
 
 def check(name, want, tolerance=0.6):
-    # While playing the 2.5 s are the measurement itself: the picture has
-    # to keep step with the clock over that stretch. While paused nothing
-    # moves once the seek has landed, so there the player is asked.
+    # While playing the 2.5 s are the measurement itself; while paused
+    # nothing moves once the seek has landed, so the player is asked.
     wait(2500, None if s.is_running() else arrived)
-    # While playing, time has moved on -- the comparison goes against the
-    # programme clock, not against the place jumped to.
+    # While playing time moves on: the comparison goes against the clock.
     want = s._time() if s.is_running() else want
     slot = s.stack.currentIndex()
     video = s.videos[slot].position() / 1000.0
@@ -141,8 +134,8 @@ if "(+" not in text and "(-" not in text:
     error.append("no deviation in brackets")
 import re as _re
 numbers = [float(x) for x in _re.findall(r"\(([+-]\d+\.\d+)\)", text)]
-# Three brackets: pane 1, pane 2, audio. The hidden pane may run ahead --
-# what is checked is the visible one and the audio.
+# Three brackets: pane 1, pane 2, audio. The hidden pane may run ahead,
+# so only the visible one and the audio are checked.
 slot = s.stack.currentIndex()
 print("  deviations:", numbers, " visible is pane", slot + 1)
 if len(numbers) != 3:

@@ -43,12 +43,8 @@ assert m.as_hms(old) == "1:16:38.467", m.as_hms(old)
 # ----------------------------------------------------------------------
 # No boundary inside a jingle
 #
-# Sebastian, 26.8.2026, with a picture: an 18-second intro was in the
-# player, the four window buttons were live, and above them stood the
-# window of the interview -- 17:14 to 18:23. Whoever had marked there
-# would have put the window of the episode at a point inside the
-# jingle. An intro is set in front of the material, not cut into it,
-# so no point in it is a boundary.
+# An intro is set in front of the material, not cut into it, so no point
+# inside it can be a boundary of the episode.
 print("\n  no boundary inside what is not on the axis")
 CASES = [
     ("Interview_C002.mov", m.TYPE_CONTENT, False),

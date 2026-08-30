@@ -1,12 +1,9 @@
 # -*- coding: utf-8 -*-
 """How much of each speaker sits in the other microphone.
 
-The 3:1 rule of thumb says a clip-on microphone should be three times
-closer to its own speaker than to the next one, which puts the neighbour
-about 10 dB down. The preflight measures that so it can be said before the
-run rather than heard after it.
-
-The material here is built with a known amount of bleed, so the figure the
+The 3:1 rule of thumb puts the neighbour about 10 dB down: a clip-on
+microphone three times closer to its own speaker than to the next. The
+material here is built with a known amount of bleed, so the figure the
 report gives is either that amount or a fault.
 """
 import os
@@ -18,17 +15,12 @@ import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
-# check_crosstalk decodes everything down to 16 kHz before it measures, so
-# a 48 kHz file only buys a resampling step. Measured 30.8.2026: 48 kHz and
-# 16 kHz report the same separation to two decimal places for all three
-# amounts of bleed, and the voices here reach 570 Hz at most.
+# check_crosstalk decodes down to 16 kHz before it measures, so a higher
+# rate only buys a resampling step; the voices here reach 570 Hz at most.
 SR = 16000
-# The program takes five windows of at least 4 s each, and refuses when the
-# shortest recording is under twice one window. Measured 30.8.2026: at 7 s
-# it answers "too little to measure", at 8 s it measures exactly. 16 s is
-# twice that floor and holds eight whole turns, so no window ever cuts one
-# in half -- at 9 s, where the last turn is a half, the reading drifts to
-# 14.9 dB.
+# Five windows of at least 4 s each, and under twice one window the
+# program refuses. 16 s holds eight whole turns, so no window cuts one
+# in half; a half turn drags the reading down.
 DURATION, TURN = 16, 2
 WORK = tempfile.mkdtemp(prefix="bleed_")
 bad, done = [], []
@@ -51,8 +43,7 @@ def voice(seconds, base_hz):
                     + 0.3 * np.sin(2 * np.pi * 3 * base_hz * t)) / 1.8
 
 
-# Both turns are the same signal every time, so they are built once rather
-# than once per turn and per amount of bleed.
+# The same two turns every time, so they are built once, not per pair.
 TURN_A, TURN_B = voice(TURN, 130), voice(TURN, 190)
 
 
@@ -74,10 +65,10 @@ def pair(bleed_db, folder):
     for k in range(DURATION // TURN):
         start = k * step
         piece = TURN_A if k % 2 == 0 else TURN_B
-        if k % 2 == 0:                           # A is talking
+        if k % 2 == 0:
             a[start:start + step] = piece
             b[start:start + step] = piece * quieter
-        else:                                    # B is talking
+        else:
             b[start:start + step] = piece
             a[start:start + step] = piece * quieter
     # A little noise, so nothing is digitally silent.
@@ -95,9 +86,8 @@ NUMBER = re.compile(r"(-?\d+(?:\.\d+)?)\s*dB")
 def measured(findings):
     """Return {who: how many dB down} out of the report.
 
-    Only the rows about one speaker in another's microphone. The report
-    also carries a summary line, and that one counts comparisons rather
-    than decibels.
+    Only the rows about one speaker in another's microphone; the
+    summary line counts comparisons rather than decibels.
     """
     out = {}
     for f in findings:
@@ -131,8 +121,7 @@ for wanted in (-15.0, -25.0, -6.0):
         check("  6 dB is too close, and the report says so",
               "hint" in kinds or "abort" in kinds, str(kinds))
 
-# One microphone out of the pair built above. A fourth pair of its own
-# would be the same material once more.
+# One microphone out of the pair above; a new pair adds nothing.
 print("\nOne microphone alone")
 alone = vpm.check_crosstalk([first_pair[0]])
 check("nothing to compare, nothing claimed", alone == [], str(alone))

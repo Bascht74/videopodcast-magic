@@ -1,26 +1,16 @@
 # -*- coding: utf-8 -*-
 """What the window is told is what the calculation gets.
 
-handover_test.py hands `wide_marks_applied` and `cut_statistics` a
-dictionary it built itself. That checks the arithmetic. It does not
-check the piece in front of it: the window reading its own fields and
-handing the answers over. Between the answer on the screen and the
-call there is a wiring nobody watched, and that is where the faults of
-this week sat -- the camera table not listening to the voices, the
-preview reading a stale handover file, the numbers on the third tab
-never reaching the run.
+handover_test.py checks the arithmetic on a dictionary it builds
+itself; the wiring in front of it, where the window reads its own
+fields and hands the answers over, is what nobody watched. So both
+functions are wrapped and the window is driven from the outside: an
+answer is given the way somebody at the screen gives it, and read off
+what arrived at the calculation -- never a value written into a
+variable by hand, which would check the variable and not the wiring.
 
-So the two functions are wrapped here and the window is driven from
-the outside: an answer is given the way somebody at the screen would
-give it -- a name typed key by key, an entry picked in a chooser, a
-button pressed -- and then it is read off what arrived at the
-calculation. Never a value written into a variable by hand: that would
-check the variable, not the wiring.
-
-Six wirings, each with a counter-check. A check that is green whatever
-the answer is has not checked the wiring, so every one of them is run
-twice with different answers and the two readings are held against
-each other:
+Six wirings, each run twice with different answers, because a check
+that is green whatever the answer is has checked nothing:
 
   the Kind of a file       content, wide shot, intro, ignore
   the wide shot mark       which camera, and whether anybody said so
@@ -29,19 +19,11 @@ each other:
   the eight cut numbers    two sets, every number read back
   the In point             marked twice from two positions
 
-The material is the shared interview fixture, linked to rather than
-copied, with a separation stored in the project the way the program
-stores one -- the same road cut_gate_test.py takes. Nothing is
-measured and nothing is uploaded.
-
-One of these does not hold, and it is left red rather than taken out.
-A name typed into a track does reach the calculation -- but not by
-itself: the preview computes again for a chooser, for a number and
-for a mark, and not for a name. Measured on 29.8.2026: twelve seconds
-after the last keystroke, neither the trimming nor the cut had run
-once, and the new name arrived the moment anything else asked for the
-cut. So the preview goes on showing the old speaker at the old camera
-until something unrelated is touched.
+One of these does not hold and is left red rather than taken out: a
+name typed into a track reaches the calculation, but not by itself.
+The preview computes again for a chooser, a number and a mark, not for
+a name, so it goes on showing the old speaker at the old camera until
+something unrelated is touched.
 """
 import os
 import sys
@@ -55,7 +37,7 @@ os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_SILENT"] = "1"
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 # The separation never runs here: what it would have found is in the
-# project file already, and a run would fetch a model.
+# project file, and a run would fetch a model.
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 
 import importlib.util
@@ -78,15 +60,13 @@ vpm.load_api_key = lambda: ""
 vpm.update_offer = lambda *a, **k: None
 vpm.set_language("en")
 
-# How long one answer may take to reach the calculation. The preview
-# waits 400 ms after the last keystroke before it computes, so this is
-# fifty times what the machine here needs -- and a wiring that never
-# fires must not hold the suite either.
+# How long one answer may take to reach the calculation. Far above the
+# preview's own wait after the last keystroke, and short enough that a
+# wiring which never fires does not hold the suite.
 PATIENCE = 60
 POLL = 200
 WINDOW = (1400, 950)
-# VPM_WIRING_DUMP=1 writes down every reading, not only the ones a
-# check asks about.
+# VPM_WIRING_DUMP=1 writes down every reading, not only the checked.
 DUMP = bool(os.environ.get("VPM_WIRING_DUMP"))
 
 SPLIT = "Moderator_REC00009.wav"          # the recording with the voices
@@ -100,9 +80,8 @@ VOICES = (("V0", "Host"), ("V1", "Guest"))
 # seconds in still leaves material behind.
 SEGMENTS = [["V0", 0.5, 12.0], ["V1", 13.0, 24.0],
             ["V0", 25.0, 33.0], ["V1", 34.0, 39.0]]
-# How far the player is dragged before the In point is marked a second
-# time. Far enough that the two marks cannot be read as one, and far
-# short of the material, which is under forty seconds long.
+# How far the player is dragged before the second In point: far enough
+# that the two marks cannot be read as one, well short of the material.
 MOVED_TO = 6.0
 
 error = []
@@ -130,10 +109,8 @@ def stem_of(name):
 def own_project():
     """A project of its own, built out of the shared fixture.
 
-    Opening a project moves the project file into its output folder and
-    deletes copies lying elsewhere, so the fixture is only linked to and
-    the project file is written afresh -- the same way cut_gate_test.py
-    does it.
+    Opening a project moves the project file away and deletes copies
+    lying elsewhere, so the fixture is only linked to.
     """
     source = fixture("interview")
     own = tempfile.mkdtemp(prefix="vpm_wiring_")
@@ -143,9 +120,8 @@ def own_project():
         if not os.path.exists(link):
             os.symlink(os.path.join(source, name), link)
         here[name] = link
-    # The voices carry a camera each from the start. The preselection
-    # guesses from the file name, and a guess would make every reading
-    # below depend on how well two names happen to match.
+    # A camera per voice from the start: the preselection guesses from
+    # the file name, and every reading below would hang on that guess.
     assignment = {"voice:V0": HOSTS, "voice:V1": GUESTS}
     one = here[SPLIT]
     st = os.stat(one)
@@ -157,10 +133,9 @@ def own_project():
          "out_folder": os.path.join(own, "Result"),
          "production": "Wiring", "multitrack": True,
          "assignment": assignment, "preset": "",
-         # Stored the way the program stores it: raw, in the time of the
-         # recording, with the fingerprint of the file it was heard in.
-         # A stored result whose source has changed is thrown away, and
-         # this one has to survive that test.
+         # Stored the way the program stores it, with the fingerprint
+         # of the file: a stored result whose source has changed is
+         # thrown away, and this one has to survive that test.
          "speakers": {"source": os.path.abspath(one),
                       "mtime": int(st.st_mtime), "size": st.st_size,
                       "model": vpm.SPEAKER_MODEL_NAME, "model_mark": "",
@@ -184,9 +159,7 @@ QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 
 # Off the desktop on the way in: somebody may be sitting at this
-# machine while the suite runs. The window still goes through the whole
-# layout machinery, which is what makes what is read below worth
-# reading.
+# machine. The window still goes through the whole layout machinery.
 _show = QtWidgets.QWidget.show
 
 
@@ -201,9 +174,7 @@ QtWidgets.QDialog.show = offstage
 
 # ------------------------------------------------------------- the spies
 # The window looks both functions up in the module when it calls them,
-# so replacing them here puts a reader between the window and the
-# calculation. Everything is passed through unchanged: what is wanted
-# is the real cut, only written down on the way.
+# so replacing them here reads what passes -- unchanged -- on the way.
 seen = {"stat": [], "window": []}
 last_wide = {}
 last_window = {}
@@ -251,9 +222,8 @@ def stat_spy(d, *rest, **named):
     seen["stat"].append({
         "wide": dict(last_wide), "window": dict(last_window),
         "d": picture_of(d),
-        # The five numbers that travel as arguments, and the three that
-        # travel inside the rules. Named here the way the fields on the
-        # screen are named, so a reading can be held against a field.
+        # Named here the way the fields on the screen are named, so a
+        # reading can be held against a field.
         "number": {"min-edit-duration": rest[0] if rest else None,
                    "edit-change-delay": rest[1] if len(rest) > 1 else None,
                    "wide-after": rest[2] if len(rest) > 2 else None,
@@ -265,9 +235,8 @@ def stat_spy(d, *rest, **named):
         "edge": rest[5] if len(rest) > 5 else None,
         "out": None if not out else {
             "shots": out.get("shots"), "median": out.get("median"),
-            # The cut itself, not only how many shots it has: two sets
-            # of numbers can produce the same count of shots at other
-            # seconds, and then a check on the count says nothing.
+            # The cut itself, not only how many shots: two sets of
+            # numbers can give the same count at other seconds.
             "cut": [(round(a, 3), round(b, 3), who)
                     for a, b, who in (out.get("cut") or [])]}})
     if DUMP:
@@ -291,19 +260,15 @@ def window_of():
 def by_columns(*wanted):
     """The view whose columns are called these, whatever class it is.
 
-    Not "the first table with rows". The assignment was two tables and
-    is now one tree over a model, and a test that names the class stops
-    finding the sheet the day the class changes -- and finding nothing
-    looks exactly like a project that has not opened yet. The column
-    names are what a person reads off the sheet, and every view answers
-    for them through QAbstractItemModel.
+    Not "the first table with rows": a test that names the class stops
+    finding the sheet the day the class changes, and finding nothing
+    looks exactly like a project that has not opened yet.
     """
     top = window_of()
     if top is None:
         return None, None
     for view in top.findChildren(QtWidgets.QAbstractItemView):
-        # A header is a view too, hanging inside the view it belongs to
-        # and answering out of the very same model.
+        # A header is a view too, over the very same model.
         if isinstance(view, QtWidgets.QHeaderView):
             continue
         model = view.model()
@@ -400,8 +365,7 @@ def camera_box_of(row, voice=None):
 def number_fields():
     """The eight cut numbers, by the name of the switch they carry.
 
-    Found by what a screen reader says of them, which is what the
-    program itself writes on them -- not by their place in a grid.
+    Found by what a screen reader says of them, not by their place.
     """
     top = window_of()
     out = {}
@@ -430,12 +394,10 @@ def button_named(text):
 def in_point_shown():
     """What the player writes as the In point -- the answer on screen.
 
-    Inside the preview player and nowhere else. Three places in this
-    window say "In point": the player, the line under the cut strip,
-    and the cut player on the Resolve tab -- and the last one converts
-    the position into the timecode of the clip it holds. Only the
-    player's own line shows the answer itself, and the answer is what
-    travels on.
+    Three places in this window say "In point", and the cut player on
+    the Resolve tab converts the position into the timecode of its
+    clip. Only the preview player's own line shows the answer itself,
+    and the answer is what travels on.
     """
     p = preview_player()
     head = drawn(vpm.T('In point %s')).replace("%s", "").strip()
@@ -451,9 +413,8 @@ def in_point_shown():
 def preview_player():
     """The player the In point buttons sit in, found from the button.
 
-    Not by class and not by name: it is the widget that owns the "Mark
-    In" button, which is the only thing that makes it the right one of
-    the two players in this window.
+    Not by class and not by name: owning the "Mark In" button is the
+    only thing that tells it from the other player in this window.
     """
     b = button_named(drawn(vpm.T('Mark In')))
     up = None if b is None else b.parentWidget()
@@ -479,12 +440,10 @@ def tab_to(word):
 def pick(box, value):
     """Pick the entry that stands for this value, the way a click does.
 
-    setCurrentIndex alone is not enough where the entry is already the
-    current one: no index changes then, and a derived wide shot is
-    turned into an answer by choosing exactly the entry that is
-    already showing. "activated" is the signal a click raises whether
-    the index moves or not, so both are given, and the program's own
-    guard keeps the answer from being taken twice.
+    setCurrentIndex alone changes nothing where the entry is already
+    the current one, and a derived wide shot is turned into an answer
+    by choosing exactly that entry. "activated" is the signal a click
+    raises whether the index moves or not, so both are given.
     """
     if box is None:
         return False
@@ -500,10 +459,10 @@ def pick(box, value):
 def type_in(field, text):
     """Type a text into a field, letter by letter.
 
-    Not setText. The name field listens on textEdited and not on
-    textChanged -- the entry it offers writes its own caption into the
-    field, and an answer that came of that would undo itself in the
-    same breath. Only a real keystroke tells the two apart.
+    Not setText. The name field listens on textEdited: the entry it
+    offers writes its own caption into the field, and an answer that
+    came of that would undo itself. Only a real keystroke tells the
+    two apart.
     """
     if field is None:
         return False
@@ -513,8 +472,7 @@ def type_in(field, text):
     line.setFocus()
     line.selectAll()
     QTest.keyClicks(line, text)
-    # Enter is what somebody presses when the word is finished, and it
-    # is what tells the field the typing is over.
+    # Enter is what tells the field the typing is over.
     QTest.keyClick(line, QtCore.Qt.Key_Return)
     app.processEvents()
     return True
@@ -530,9 +488,8 @@ mark = {"stat": 0, "window": 0}
 def step(say, do, then, watch="stat", until=None):
     """One answer given, and what must have arrived because of it.
 
-    *watch* names the call that is waited for -- the calculation itself
-    or the trimming in front of it. None means the answer changes
-    nothing downstream and only *until* is waited for.
+    *watch* names the call waited for, the calculation itself or the
+    trimming in front of it; None waits for *until* alone.
     """
     plan.append({"say": say, "do": do, "then": then, "watch": watch,
                  "until": until or (lambda: True), "begun": False})
@@ -564,9 +521,8 @@ def drive():
         return
     watch = job["watch"]
     fresh = [] if watch is None else seen[watch][mark[watch]:]
-    # Waiting for a fresh call and not for the clock: the preview
-    # computes 400 ms after the last keystroke, and a machine under
-    # load takes longer.
+    # Waiting for a fresh call and not for the clock: the preview waits
+    # after the last keystroke, and a machine under load takes longer.
     settled = (watch is None or fresh)
     try:
         settled = settled and job["until"]()
@@ -606,10 +562,8 @@ kept = {}
 def open_project():
     """Open the project the way somebody would: with the button.
 
-    Reading the project runs to its end inside the click, the first
-    computation of the preview with it. So the click stands in the
-    step and not in front of the driver -- what happened before the
-    step began cannot be read afterwards.
+    Reading the project runs to its end inside the click, so the click
+    stands in the step: what happened before it cannot be read.
     """
     top = window_of()
     for b in top.findChildren(QtWidgets.QPushButton):
@@ -773,17 +727,14 @@ def rename_the_plain_track():
 def rename_alone(_rec, _all):
     """Does a name on its own make the preview compute again?
 
-    Read apart from whether the name arrives, because the two are not
-    the same question and the answers differ. The step before changed
-    a chooser as well, and a chooser rebuilds the sheet; a name is
-    typed into a field that nothing else follows.
+    Read apart from whether the name arrives: the step before changed
+    a chooser as well, and a chooser rebuilds the sheet.
     """
     fresh = seen["stat"][mark["stat"]:]
     early = seen["window"][mark["window"]:]
     kept["rename_alone"] = bool(fresh)
-    # Both counters, so the answer says which of the two happened: the
-    # preview never ran, or it ran and stopped before the cut. The
-    # trimming sits in front of the cut in the same function.
+    # Both counters, so the answer says which happened: the preview
+    # never ran, or it ran and stopped before the cut.
     check("a typed name alone makes the preview compute again",
           bool(fresh),
           "%.1f s, %d cut calls, %d window calls"
@@ -811,9 +762,8 @@ FIRST = {"min-edit-duration": "2.5", "min-speech-to-switch": "1.1",
          "edit-change-delay": "0.7", "reaction-lead": "2.2",
          "wide-after": "31", "wide-length": "6.5",
          "wide-most": "17", "wide-latest": "95"}
-# The second minimum edit duration is longer than any block in the
-# material, so the shots have to fall into one another: two sets of
-# numbers that leave the same cut behind would prove nothing.
+# The second minimum edit duration is longer than any block here: two
+# sets of numbers leaving the same cut behind would prove nothing.
 SECOND = {"min-edit-duration": "15", "min-speech-to-switch": "0.4",
           "edit-change-delay": "0.2", "reaction-lead": "3.3",
           "wide-after": "9", "wide-length": "5.5",
@@ -869,9 +819,8 @@ def numbers_moved(_rec, _all):
 def player_ready():
     """Has the player a file with a length, so a spot can be marked?
 
-    On a Qt without multimedia the player is a stand-in that plays
-    nothing; it has no length either, so this stays False and the step
-    says what it saw instead of marking a spot that is not there.
+    On a Qt without multimedia the player is a stand-in with no length,
+    so this stays False and the step says what it saw instead.
     """
     p = preview_player()
     try:
@@ -930,8 +879,7 @@ def mark_in_later():
     if p is None:
         check("the player can be moved", False, "no player")
         return
-    # Dragging the position slider is what somebody at the screen does;
-    # letting go is what makes the player follow.
+    # Letting go of the position slider is what makes the player follow.
     p.slider.setValue(int(MOVED_TO * 1000))
     p.released()
     app.processEvents()
@@ -985,10 +933,8 @@ def start():
 def sheets_filled():
     """Everything the project brings has to stand in the sheets.
 
-    Not "some rows somewhere": two recordings, two voices under one of
-    them and three cameras are all known before the window opens, so
-    they are what is waited for. A sheet that never turns up leaves
-    this False and the step says what it saw instead.
+    Not "some rows somewhere": two recordings, two voices and three
+    cameras are known before the window opens, so they are waited for.
     """
     rows = track_rows()
     _view, model = cameras_view()
@@ -1040,23 +986,11 @@ QtCore.QTimer.singleShot(420000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
-
-    The material here is linked to and not copied, so a file is asked
-    for under both its names: the path the player was given, and where
-    that path really leads. Following the link alone lands in the
-    shared fixture, which is not the folder that is about to go, and
-    every player would look like somebody else's.
+    Under Windows a folder with an open file cannot be deleted, so
+    every player is asked, by what it has open and under both its
+    names: the material is linked to, and the link alone lands in the
+    shared fixture. A player that never started is not stopped -- what
+    lies behind stop() waits for a lock another player holds.
     """
     roots = [os.path.abspath(what), os.path.realpath(what)]
     let_go = []
@@ -1091,24 +1025,11 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does, so what is waited for is the handle, not a number of
-    milliseconds -- delete, run the event loop, delete again, up to ten
-    seconds. Ten because it is far above a thread closing a file, and
-    still short enough that a folder which will never go does not hold
-    the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
+    Let go, close, delete, in that order, and no ignore_errors: it
+    would swallow the one thing that can go wrong here, a folder that
+    stays because something still holds it. Letting go returns before
+    the file is free, so what is waited for is the handle and not a
+    number of milliseconds. What stays is named and does not fail.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():

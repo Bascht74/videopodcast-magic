@@ -1,17 +1,12 @@
 # -*- coding: utf-8 -*-
 """What a release has to have, checked instead of remembered.
 
-Four things went wrong in this project because they were on a list
-somebody had to read rather than in a test that turns red:
-
-  * a version number set in one place and not the other,
-  * a changelog section written in the wrong shape,
-  * screenshots that showed a window which no longer existed,
-  * a picture referred to from the manual that was not there.
-
-A rule that only a person enforces is a rule that holds until that
-person is busy. Every check here is the mechanical half of a rule that
-is written out in docs/notes/claude_intern.md.
+Four releases went out with a version number set in one place and not
+the other, a changelog section in the wrong shape, screenshots of a
+window that no longer existed, or a picture the manual points at and
+nobody shipped. A rule that only a person enforces holds until that
+person is busy, so every check here is the mechanical half of a rule
+written out in docs/notes/claude_intern.md.
 """
 import io
 import os
@@ -42,8 +37,8 @@ changelog = text_of(os.path.join(ROOT, "CHANGELOG.md"))
 sections = re.findall(r"^## \[([^\]]+)\]", changelog, re.M)
 check("the changelog has sections", bool(sections),
       str(sections[:3]))
-# UNRELEASED is what a strand writes before the number is decided; it
-# is allowed to stand at the top while work is going on.
+# UNRELEASED is what a strand writes before the number is decided, and
+# may stand at the top while work is going on.
 newest = next((s for s in sections if s.upper() != "UNRELEASED"), "")
 check("the newest numbered section is this version", newest == version,
       "%r in the changelog, %r in the program" % (newest, version))
@@ -58,16 +53,12 @@ for name, pattern in (("README.md", r"\*\*Version ([0-9][^.]*\.[^*]*)\.\*\*"),
 
 print("\n2. The changelog keeps its shape")
 # Keep a Changelog, plus the two groups this project added: Tests and
-# Documentation, and Documentation last. Decided 23.8.2026.
+# Documentation, Documentation last.
 ORDER = ["Added", "Changed", "Deprecated", "Removed", "Fixed",
          "Security", "Tests", "Documentation"]
-# From 2.20.0-beta on a version says everything twice, in two blocks:
-# the English one first, then a line reading **Deutsch**, then the same
-# in German. Both belong on the release page, where a reader jumps to
-# the language they want; the program shows only the one it runs in.
-# The shape below is judged on the English half, and the German half is
-# judged against it -- same number of points, and each in its own
-# language.
+# A version says everything twice: the English half first, then a line
+# reading **Deutsch**, then the same in German. The shape is judged on
+# the English half and the German half is judged against it.
 MARK_DE = "**Deutsch**"
 
 
@@ -92,11 +83,9 @@ for block in blocks[:3]:                      # the newest three
     check("%s: every group once" % name,
           len(groups) == len(set(groups)), str(groups))
     rank = [ORDER.index(g) for g in groups if g in ORDER]
-    # What it should be, not only what it is. A line that says
-    # ['Tests', 'Added', 'Changed'] leaves the reader to work out the
-    # order for themselves and to look it up somewhere else -- and this
-    # went red on all six builders on 30.8.2026 for exactly that, twice
-    # in one evening.
+    # The report names the wanted order as well as the one found: a
+    # line that only lists the groups leaves the reader to look the
+    # order up somewhere else.
     check("%s: groups in order, Documentation last" % name,
           rank == sorted(rank),
           "%s -- wanted %s" % (groups, [g for g in ORDER if g in groups]))
@@ -129,9 +118,8 @@ check("every picture has both languages",
                  and n.replace(".png", ".de.png") not in on_disc)))
 
 print("\n4. The key never reaches a file")
-# The rule that must not break, in the two ways it could: written out
-# with the other settings, or handed to a subprocess in the
-# environment. Both are how it would happen by accident.
+# The two ways the key could reach a file by accident: written out with
+# the other settings, or handed to a subprocess in the environment.
 into_file = re.findall(r"^\s*(?:f\.write|json\.dump)\(.*"
                        r"(?:api_key|token|auphonic_key)", source,
                        re.M | re.I)
@@ -143,19 +131,10 @@ check("the key is taken out before pip runs",
 check("the project file strips the switch",
       "--auphonic-api-key" in source and "strip" in source.lower())
 
-# The five things a release is, printed where somebody stands right
-# before setting the tag. Three of them a test can look at and does,
-# above; two only a person can answer, and those are the two that were
-# forgotten four releases running -- caught up afterwards instead of
-# being part of the work. Sebastian, 31.8.2026: make it a rule you
-# cannot overlook. A rule in a document can be overlooked; a block on
-# the screen at the moment of the deed is harder.
 print("\n3. Both languages, and each in its own")
-# Sebastian, 31.8.2026: check the changelog in both languages and check
-# yourself with it. A machine cannot say whether a sentence is good; it
-# can say whether a sentence is in the language it claims to be.
-# Function words give it away -- the same trick german_hunt_test uses
-# on the manual.
+# A machine cannot say whether a sentence is good, but it can say
+# whether a sentence is in the language it claims to be. Function words
+# give it away, the same trick german_hunt_test uses on the manual.
 GERMAN_WORDS = re.compile(
     r"(?<![A-Za-z\u00c0-\u024f])(und|oder|nicht|wird|wurde|werden|steht|"
     r"kann|eine|einen|einem|einer|dass|weil|damit|schon|noch|dann|"
@@ -194,14 +173,9 @@ if newest_german.strip():
                       for m in ENGLISH_WORDS.finditer(prose(newest_german))))
     check("no English words on the German side", not over, str(over[:5]))
 
-    # Short, and one thing at a time. Sebastian rewrote a point of mine
-    # on 31.8.2026, five lines down to three, and asked for the rule to
-    # be derived from it: name the thing as it stands on the screen,
-    # say what it was, what it is now, what follows -- and leave the
-    # reasoning to the commit message. A machine cannot judge the
-    # writing, but it can hold the length. Measured over the section
-    # written under that rule: two to three lines, two to three
-    # sentences, 102 to 204 characters. The limits sit just above that.
+    # A point names the thing, says what it was and what it is now, and
+    # leaves the reasoning to the commit message. A machine cannot judge
+    # the writing, but it can hold the length.
     def points_of(part):
         """Every point of a section, each as one string."""
         out, now = [], None
@@ -219,19 +193,10 @@ if newest_german.strip():
             out.append(now)
         return out
 
-    # Measured against the section itself rather than against a number
-    # written down here. A fixed limit goes stale the moment the style
-    # moves; the middle of what was just written does not. Sebastian
-    # asked for it this way: take a quantile and shorten what stands
-    # above it, so the outliers go and nobody argues about the limit.
-    #
-    # Half again as long as the middle, with a floor of 200 characters.
-    # Half and not double: Sebastian set it there, and it is the
-    # difference between catching the one that ran away and catching
-    # the one that merely says a little more. The floor keeps a section
-    # of one-line points from complaining about a two-line one. Over
-    # the section this was built on: middle 137 characters, the one
-    # that stood out 360.
+    # Measured against the section itself, because a fixed limit goes
+    # stale the moment the style moves. Half again the middle catches
+    # the point that ran away and not the one that says a little more,
+    # and the floor keeps a section of one-line points quiet.
     long_ones = []
     for part in (newest, newest_german):
         said = [" ".join(x.strip() for x in one)[2:]
@@ -248,18 +213,10 @@ if newest_german.strip():
     check("no point stands out by its length", not long_ones,
           long_ones[0] if long_ones else "")
 
-    # Under Fixed, half a point is not a point. Sebastian struck two on
-    # 30.8.2026 that said what had been wrong and stopped there -- "a
-    # time window took the sound off the picture, and the shift was as
-    # large as the gap between the start of the recording and the start
-    # of the picture." And then? A reader needs the second half: what
-    # happens now. A machine cannot judge the sentence, but it can see
-    # whether the word that carries that half is there at all.
-    #
-    # Only Fixed, and only there. Added says what is new -- it is all
-    # "now" by nature. Changed carries the old state along in its own
-    # wording. Fixed is the one where a point can be written entirely
-    # in the past and read as finished when it is not.
+    # Under Fixed a point can be written entirely in the past and read
+    # as finished when it is not, so the word carrying the second half
+    # -- what happens now -- has to be there. Only Fixed: Added is all
+    # "now" by nature, and Changed carries the old state in its wording.
     NOW = {"Fixed": ("now", "no longer", "instead"),
            "Behoben": ("jetzt", "nicht mehr", "stattdessen")}
     half_told = []

@@ -2,21 +2,11 @@
 """Why the start button is grey, and where that is said.
 
 A greyed button with no reason is the commonest dead end in an
-interface. Three things are checked here: the reason stands in the
-footer where it can be read without hovering, the missing production
-name is marked red in its own field like every other faulty entry, and
-the reason names the tabs by the names they actually carry, read off the
-tabs rather than from a second list beside them.
-
-The fourth is the intro: two files set to intro would both be written
-into the same switch, so the second choice frees the first.
-
-The fifth is the wide shot nobody marked. A camera no speaker is
-assigned to shows "Wide shot" greyed in its Kind field, with the reason
-beside it, while "content" goes on being stored. Shown and stored are
-two answers to two questions here, so this test asks the value behind
-the field wherever it means the value, and holds the two apart in a
-check of their own.
+interface. The reason has to stand in the footer, not in a tooltip; the
+faulty field has to be marked red; the tabs have to be named as they
+are labelled; and of two files set to intro the second frees the first.
+A camera nobody is assigned to shows a wide shot it never stored, so
+this test asks the value behind a field, not its label.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -33,13 +23,10 @@ spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 
-# What a Kind field stores, as against what it shows. Reading
-# currentData() answers the second question, and since 25.8.2026 the
-# two can differ: a camera nobody is assigned to shows "Wide shot"
-# while "content" stays stored. clip_kind_bind is the one place where
-# the field and the value behind it meet -- one value per file, two
-# fields onto it -- so the value is taken there rather than guessed
-# from the label. Not a copy: the object the window itself reads.
+# What a Kind field stores, as against what it shows: currentData()
+# answers the second question, and the two can differ. clip_kind_bind
+# is the one place where the field and the value behind it meet, so
+# the value is taken there. Not a copy: the object the window reads.
 stored_kind = {}
 _clip_kind_bind = vpm.clip_kind_bind
 
@@ -143,12 +130,9 @@ def tab_titles():
 def kind_boxes():
     """The type selectors, one per video file.
 
-    Since 25.8.2026 the same value has a field on both tabs -- the file
-    list and the camera table -- so the window holds two selectors per
-    file and one answer. Counting widgets would say four where there
-    are two files. They are told apart by what they are for, which
-    stands in the accessible name as "Kind -- <file>": one entry per
-    file, whichever of the two fields is met first.
+    The same value has a field on both tabs, so counting widgets would
+    say four where there are two files. They are told apart by the
+    accessible name: one entry per file, whichever field is met first.
     """
     out, seen = [], set()
     for box in win().findChildren(QtWidgets.QComboBox):
@@ -166,9 +150,8 @@ def kind_boxes():
 def stored_kinds():
     """What the Kind fields store, in the order the fields stand in.
 
-    The answer to "what is this file", which is not always what the
-    field shows: the wide shot the program works out for itself is
-    shown and not stored.
+    Not always what the field shows: the wide shot the program works
+    out for itself is shown and not stored.
     """
     return [stored_kind[b.accessibleName()].get() for b in kind_boxes()]
 
@@ -183,12 +166,10 @@ def kind_reason(box):
 def pick(box, value):
     """Choose an entry the way somebody at the screen chooses it.
 
-    Both signals, because Qt sends both and they say different things.
-    currentIndexChanged stays quiet when the entry is already the
-    current one, and that is exactly the case here: a field showing a
-    derived wide shot has that entry selected already, so choosing it
-    is the act that turns the derivation into a stored answer. Only
-    activated says it happened.
+    Both signals, because currentIndexChanged stays quiet when the
+    entry is already the current one, and that is the case here: a
+    field showing a derived wide shot has that entry selected already,
+    so choosing it is what turns the derivation into a stored answer.
     """
     for i in range(box.count()):
         if box.itemData(i) == value:
@@ -229,10 +210,9 @@ def step():
             check("the reason stands in the footer, not only in a hint",
                   note.isVisible() and bool(note.text().strip()),
                   repr(note.text()))
-            # The state line names the reason itself. It used to point
-            # at the tooltip of the start button, and that was the
-            # defect: a tooltip cannot be reached with the keyboard and
-            # is not read out reliably.
+            # The state line has to name the reason itself: a tooltip
+            # cannot be reached with the keyboard and is not read out
+            # reliably.
             check("and it names the reason rather than pointing at one",
                   "tooltip" not in note.text().lower()
                   and len(note.text()) > 20, repr(note.text()))
@@ -298,9 +278,7 @@ def step():
                   kinds[0] == vpm.TYPE_CONTENT, str(kinds))
             print("\n6. The wide shot nobody marked: shown, not stored")
             # Nobody is assigned to a camera here, so the first file is
-            # the wide shot the program works out for itself. Sebastian
-            # asked for that to be readable: "at least we should show
-            # which cameras are wide shots instead of content."
+            # the wide shot the program works out for itself.
             free = kind_boxes()[0]
             check("the value stored stays content",
                   stored_kinds()[0] == vpm.TYPE_CONTENT,
@@ -311,12 +289,9 @@ def step():
             check("greyed, so a derivation cannot pass for an answer",
                   "color" in (free.styleSheet() or ""),
                   repr(free.styleSheet()))
-            # Not beside it any more, on the entry it is about.
-            # Sebastian on 26.8.2026: only Content is to be barred, and
-            # the text behind the choice is to go. So the reason sits
-            # where the question is asked -- on the entry somebody
-            # would have picked -- and the row stays short enough to
-            # read.
+            # The reason sits on the entry it is about, not beside the
+            # field: only Content is barred, and the row stays short
+            # enough to read.
             check("nothing stands beside it any more",
                   not kind_reason(free), repr(kind_reason(free)))
             check("and Content is the one entry barred",
@@ -360,17 +335,12 @@ QtCore.QTimer.singleShot(180000, app.quit)
 def let_go_of(what):
     """Make every player let go of what it has open in there.
 
-    A player holds the file it has open. Under macOS and Linux the
-    folder can be deleted anyway, under Windows it cannot -- and with
-    ignore_errors nobody hears of it: the folder simply stays behind on
-    every run. Every player under every window is asked, and by what it
-    has open rather than by which player it is, so that a second holder
-    cannot slip through. Returns the names that were let go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    Under Windows a folder cannot be deleted while a player holds a
+    file in it, so every player under every window is asked, by what it
+    has open rather than by which player it is. One that never started
+    is not stopped: what lies behind stop() is built on first use, and
+    that build waits for a lock another player holds while starting up.
+    Returns the names that were let go.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -400,27 +370,14 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    gui() comes back with the window still standing: let go, close,
+    delete, in that order, and no ignore_errors, which would swallow a
+    folder that stays because something still holds it. Letting go
+    returns before the file is free -- the media backend closes the
+    handle in a thread of its own -- so what is waited for is the
+    handle and not a number of milliseconds. What is left after ten
+    seconds is named as a finding, not a failure: a test red on one
+    system on every run gets switched off rather than looked at.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():

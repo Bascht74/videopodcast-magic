@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 """Keeping itself up to date must not surprise anybody.
 
-Nothing here touches the network. The one thing that does -- asking
-github.com for a version number -- is replaced by a table, so the test
-says something about the arithmetic rather than about the weather.
+Nothing here touches the network: asking github.com for a version
+number is answered from a table, so this says something about the
+arithmetic rather than about the weather.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -38,15 +38,11 @@ check("a version does not beat itself",
 
 print("\n2. Only a newer release counts")
 # The remembered answer belongs to whoever runs the test, not to the
-# test. On 25.8.2026 this file went red on Sebastian's machine because
-# he had ticked "Do not ask again" in the program: update_wanted() read
-# ~/Library/Caches/videopodcast-magic/update_check and said no. A test
-# that reads the environment of the person running it measures that
-# person, so it gets a folder of its own here.
+# test: somebody who ticked "Do not ask again" in the program would
+# turn this file red. So it gets a folder of its own.
 ANSWERS = tempfile.mkdtemp(prefix="vpm_update_")
-# Over cache_folder and not over update_answer_file: section 3 takes
-# the same lever, and two different ones would leave the answer in one
-# folder while the test looks in the other.
+# Over cache_folder, not update_answer_file: section 3 takes the same
+# lever, and two would leave the answer where the test does not look.
 vpm.cache_folder = lambda sub="": ANSWERS
 def with_tag(tag, asked=False):
     """Answer the question with this tag, without a network."""
@@ -70,8 +66,6 @@ check("a newer tag is offered", with_tag("v2.1.0")[0] == "v2.1.0")
 check("the same tag is not", with_tag("v2.0.0-beta")[0] == "")
 check("an older tag is not", with_tag("v1.9.0")[0] == "")
 
-# And the remembered answer itself, now that the file is ours: a no
-# holds back the unasked look and gives way to a direct question.
 vpm.set_update_wanted(False)
 check("a remembered no switches the unasked look off",
       not vpm.update_wanted())
@@ -97,9 +91,8 @@ os.unlink(os.path.join(folder, "update_check"))
 check("without an answer it looks", vpm.update_wanted() is True)
 
 print("\n3b. A no can be taken back")
-# The trap this closes: on 23.8.2026 --no-update-check had been given
-# once in passing, and the program never looked again. Nothing said so,
-# and there was no switch to undo it.
+# The trap this closes: --no-update-check given once in passing kept
+# the program from ever looking again, with no switch to undo it.
 import io as _io
 source = _io.open(SCRIPT, encoding="utf-8").read()
 check("there is a switch that takes it back",
@@ -137,10 +130,9 @@ text, trouble = with_body(good)
 check("a whole program is taken", text and not trouble)
 text, trouble = with_body(b'<html>404</html>')
 check("an error page is refused", not text and trouble)
-# The wording is checked nowhere here: the message goes through T()
-# and is German in a German run. What matters is that it is refused,
-# that something is said, and that a broken file and an error page do
-# not get the same answer.
+# The wording is not checked: the message goes through T() and is
+# German in a German run. What matters is that it is refused and that
+# a broken file and an error page do not get the same answer.
 text, trouble = with_body(b'VERSION = "9"\nCATALOGUE = {\n')
 _, other = with_body(b'<html>404</html>')
 check("something that does not compile is refused",
@@ -167,11 +159,9 @@ check("the old one is beside it",
       open(mine + ".old", encoding="utf-8").read() == "the one that works\n")
 
 print("\nPassing over one version")
-# "Do not ask again" stopped the looking for good, and a no that cannot
-# be taken back is a trap: it caught Sebastian in August, the program
-# went quiet, and nothing anywhere said why. His own answer, 31.8.2026:
-# turn it into "skip this version". One version passed over is not an
-# answer about all of them.
+# "Do not ask again" stopped the looking for good, and a no that
+# cannot be taken back is a trap. It is now "skip this version": one
+# version passed over is not an answer about all of them.
 import tempfile as _tf
 os.environ["VPM_CACHE"] = _tf.mkdtemp(prefix="vpm_update_cache_")
 
@@ -194,11 +184,9 @@ def what_github_says(tag):
 
 import json, urllib.request
 was_open = urllib.request.urlopen
-# The suite switches the looking off for every test, which is right --
-# nothing here may reach for the network. This one does not either: it
-# answers every look itself. So the switch is lifted for the length of
-# these checks, or newer_release would turn back at the door and every
-# one of them would pass without asking anything.
+# The suite switches the looking off for every test. This one answers
+# every look itself, so the switch is lifted here -- otherwise
+# newer_release turns back at the door and every check passes blind.
 vpm.UPDATE_OFF = False
 vpm.VERSION = "2.15.0-beta"
 try:

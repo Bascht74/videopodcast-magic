@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""#80: a whole multitrack run that finishes on this machine alone.
+"""A whole multitrack run that finishes on this machine alone.
 
 Measure the time axis, take the bleed out of the speech detection, mix,
 cut by speaker, write the files and the handover for Resolve -- all of
@@ -34,35 +34,16 @@ def check(name, ok, extra=""):
 D = fixture("localrun")
 shutil.rmtree(D, ignore_errors=True)
 os.makedirs(D)
-# How long the material is, and why it is not shorter. The program stops
-# with "the common range of sound and picture is only ... long" below 30
+# The program refuses a common range of sound and picture under 30
 # seconds, and the second camera starts CAM_LATE late, so the window is
-# LENGTH - CAM_LATE. At 34 the window is 32.5 s: 2.5 s over the barrier.
-# It used to be 40 s, which cost the run a sixth more of everything it
-# decodes without proving anything the 34 do not.
+# LENGTH - CAM_LATE: at 34 that is 2.5 s over the barrier.
 RATE, LENGTH, CAM_LATE = 48000, 34.0, 1.5
-# Five turns of 5 s, with a gap of at least 1 s around each of them: 25 s
-# of speech and 9 s of quiet, a quarter of the material.
-#
-# That quarter is what lets this test see the separation at all. The
-# speech detection takes each track's noise floor from the quietest fifth
-# of its blocks. Where less than a fifth of the material is quiet, that
-# floor lands inside the neighbour's bleed, and then the threshold throws
-# the bleed out by itself -- the separation has nothing left to do, and a
-# program that has lost it looks exactly like one that has not. Measured
-# 30.8.2026 with the turns this test used to have, 18 s and 10 s of
-# speech back to back and only 17.6 % quiet: a build with the separation
-# taken out still reported 17 s for the Host and went through green. With
-# the gaps below the same build reports 25.5 s for both, which is every
-# turn in the recording, and is caught.
-#
-# The camera cut merges anything under MIN_EDIT_DURATION_S = 3 s into the
-# shot that follows, so a turn near that length would cost the "more than
-# two shots" check its meaning. 5 s leaves that margin.
-#
-# Nothing begins before CAM_LATE: the common window of sound and picture
-# starts there, and a turn that reached back over it would be counted
-# short and make the two numbers below awkward for no gain.
+# Five turns of 5 s with at least 1 s of quiet around each, so a quarter
+# of the material is quiet. Under a fifth quiet, each track's noise floor
+# lands inside the neighbour's bleed and the threshold throws the bleed
+# out by itself -- a build with the separation taken out then passes.
+# 5 s also stays clear of MIN_EDIT_DURATION_S, under which a shot is
+# merged away; nothing starts before CAM_LATE, where the window begins.
 TURNS = {"Host": [(2, 7), (15, 20), (28, 33)],
          "Guest": [(8.5, 13.5), (21.5, 26.5)]}
 
@@ -89,33 +70,11 @@ noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
 write(D + "/Host.wav", host + bleed * guest + noise)
 write(D + "/Guest.wav", guest + bleed * host + noise)
 write(D + "/room.wav", 0.6 * host + 0.6 * guest + noise)
-# Colour bars and the fastest encoder setting, on purpose. The run never
-# decodes a single video frame -- it reads the packet times to check the
-# frame rate and copies the picture through with -c:v copy. Measured by
-# logging every ffmpeg call of one run: not one of the 62 decodes video.
-# So the picture only has to exist, and building it was the most
-# expensive thing in this test: testsrc at the default preset cost 0.90 s
-# of processor time per file, colour bars at ultrafast cost 0.22 s.
-# Resolution and frame rate stay as they were -- a camera file with an
-# odd frame rate would be a different test.
-#
-# One call, two files. The second camera is the first from CAM_LATE on,
-# so one ffmpeg reads the room sound once and writes both outputs: the
-# -ss in front of the second file is an output option and cuts that
-# file alone. This is why it may be done in one call at all -- the two
-# files differ in nothing but where they begin. Both come out byte for
-# byte as the two calls made them in the sound, to the second in
-# length, and one frame shorter in the picture, which nothing here
-# reads. Measured: 0.135 s for the two calls, 0.077 s for the one, and
-# one process start fewer -- and a process start is what the builder
-# charges for. The count the suite prints went 87 -> 85 with it, which
-# is two because that counter sees a subprocess.run once as a run and
-# once again as the Popen inside it.
-#
-# That is all the building is worth, and it is worth writing down: of
-# the 50 processes this test really starts, the material is one. The
-# other 49 belong to the run, and no flag can take them away without
-# taking a stage of the run with them.
+# Colour bars at the fastest preset: the run never decodes a video
+# frame, it reads packet times and copies the picture through, so the
+# picture only has to exist. One call writes both cameras -- the second
+# is the first from CAM_LATE on, and the -ss in front of it is an output
+# option that cuts that file alone.
 subprocess.run(
     ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
      "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
@@ -177,18 +136,15 @@ for line in rows:
     found[part[0]] = found.get(part[0], 0.0) + float(part[4])
 print("   ", {k: round(v) for k, v in found.items()})
 check("both speakers appear", set(found) == {"Host", "Guest"}, str(set(found)))
-# 15 s of Host and 10 s of Guest are in the material; the bands are as
-# wide, relative to that, as they have been since the 40 s version.
+# 15 s of Host and 10 s of Guest are in the material.
 check("Host about 15 s", 12 <= found.get("Host", 0) <= 18,
         str(round(found.get("Host", 0))))
 check("Guest about 10 s", 7 <= found.get("Guest", 0) <= 13,
         str(round(found.get("Guest", 0))))
-# The durations alone would let a lot through. What the separation is
-# for is that no microphone reports its neighbour, so that is checked
-# where it happens: how much of each speaker's reported speech falls in
-# the other one's turns. Measured 30.8.2026: 0.0 s for both with the
-# separation, 10.0 and 14.5 s without it. The csv counts from the common
-# start, which begins CAM_LATE into the material.
+# Durations alone let a lot through. What the separation is for is that
+# no microphone reports its neighbour, so how much of each speaker's
+# reported speech falls in the other one's turns is measured. The csv
+# counts from the common start, CAM_LATE into the material.
 NEXT_TO = {"Host": "Guest", "Guest": "Host"}
 foreign = {"Host": 0.0, "Guest": 0.0}
 for line in rows:
@@ -217,8 +173,7 @@ d = json.load(open(OUT + "/WA_resolve.json", encoding="utf-8"))
 check("format stamped", d.get("format") == vpm.FILE_FORMAT)
 check("cut in the file", len(d.get("cut") or []) == len(cut),
         "%d/%d" % (len(d.get("cut") or []), len(cut)))
-# The track name is the speaker where one is assigned; the camera name
-# stands beside it.
+# The track name is the speaker; the camera name stands beside it.
 check("both cameras in the file",
         {cam.get("camera") for cam in (d.get("cameras") or [])}
         == {"CamHost", "CamGuest"},

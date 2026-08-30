@@ -5,9 +5,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import sys, importlib.util, inspect, re
-# A test must never play sound at somebody working next to it. The
-# program reads the variable with bool(), so every value silences the
-# player, "0" as well; only an unset variable lets it be heard.
+# A test must never play sound at somebody working next to it. The program
+# reads the variable with bool(), so any value silences it, "0" as well.
 os.environ.setdefault("VPM_SILENT", "1")
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
@@ -20,13 +19,9 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
-# The function itself, not a copy of it. It used to be cut out of the
-# source of gui() by string search and exec-ed, which held whatever the
-# text looked like on the day rather than what the program runs. Since
-# 23.8.2026 it stands at module level, because it reaches into nothing.
+# The function itself, not a copy cut out of the source of gui().
 camera_offset = vpm.camera_offset
-# Three checks further down read the text of gui() itself, so it is
-# still needed -- but as a whole, not cut into pieces.
+# Three checks further down read the text of gui(), so it is still needed.
 source = inspect.getsource(vpm.gui) + inspect.getsource(vpm.camera_offset)
 
 print("1. Handover file of a run -- the offset is taken")

@@ -1,22 +1,12 @@
 # -*- coding: utf-8 -*-
 """Where the manual copies a list out of the program, it has to match.
 
-A reading of the twelve chapters on 24.8.2026 found thirteen places
-where the manual claimed something the program does not do: the menu
-bar carries four menus and the chapter said three, the default of
---speakers-local was given wrongly, --no-transcript-file was missing
-from the list that calls itself complete. None of the three tests that
-read the manual saw any of it. They check its form -- both languages
-there, no German word on the English side, every index entry pointing
-at a heading that exists -- and a wrong fact is a question of truth,
-not of form.
-
-Eight of the thirteen were whole sentences of prose. A test that
-judges those is a test that turns red at every rewording, and a test
-like that gets switched off rather than fixed. The five that remain
-are all the same shape, and that shape is the only one this file
-touches: the program keeps a list, and the manual writes the same list
-down. Sets get compared, never sentences.
+A reading of the chapters found a dozen places where the manual claimed
+something the program does not do, and none of the tests that read the
+manual saw any of it: they check its form, and a wrong fact is a
+question of truth. Only one shape can be judged by a machine, and it is
+the only one this file touches -- the program keeps a list, the manual
+writes the same list down. Sets get compared, never sentences.
 
   1. every switch of build_argument_parser stands in the table of
      docs/command-line.md, and every row of the table is a switch
@@ -28,32 +18,15 @@ down. Sets get compared, never sentences.
   5. links between the shipped .md files that lead nowhere
 
 Both languages everywhere, and where the manual writes a label rather
-than the raw value -- "Alternating" for alternate -- the way across is
-SHOT_NAMES and the catalogue, so a renamed label moves both sides at
-once.
+than the raw value the way across is SHOT_NAMES and the catalogue, so a
+renamed label moves both sides at once.
 
-What is deliberately left out, so that a red line here always means a
-real defect:
-
-  * Defaults the manual writes in words because the program works the
-    value out at run time: --head and --tail say "measured", --tc and
-    --fps say "from the video file", --speakers-local names the
-    recording the run picks itself, --auphonic-preset and
-    --auphonic-resume say the program asks. The parser holds None for
-    all of them. What the manual writes there is the better answer,
-    not a wrong one, and comparing it against None would only teach
-    the manual to say less. Measured on 24.8.2026: 21 of 68 rows,
-    every one of them a false alarm.
-  * Every bold label of a chapter looked up in the program. Measured:
-    8 of 38 in interface.md are not labels at all but bold
-    subheadings. The narrower case, the menu bar, is check 4.
-  * Screenshots. Whether a picture still shows today's window is a
-    question no test answers without a reference image per system;
-    shoot_screenshots.py makes them all again before a release.
-
-Where a chapter no longer names a number of menus at all, check 4 says
-so in its own line instead of turning red: the names are the check
-that bites, the count is the one that reads well.
+Left out on purpose, so a red line here always means a real defect:
+defaults the manual writes in words because the program works the value
+out at run time, where the parser holds None and the manual is the
+better answer; the bold labels of a chapter, most of which are
+subheadings rather than labels; and screenshots, which no test judges
+without a reference image per system.
 """
 import importlib.util
 import io
@@ -61,9 +34,8 @@ import os
 import re
 import sys
 
-# Menu names and labels are German on one side, and the suite runs
-# under LC_ALL=C. A report that cannot print its own finding would be
-# a traceback instead of a message.
+# Menu names are German on one side and the suite runs under LC_ALL=C:
+# without this a report of a finding would be a traceback instead.
 try:
     sys.stdout.reconfigure(encoding="utf-8", errors="replace")
 except (AttributeError, ValueError):
@@ -95,8 +67,8 @@ def check(what, ok, detail=""):
 def found(what, cases):
     """One check, and under it one line per case that went wrong.
 
-    A count is not enough to act on. Every line names what the program
-    holds, what the manual says and which file and line it says it in.
+    A count is not enough to act on, so every line names what the
+    program holds, what the manual says, and where it says it.
     """
     check(what, not cases, "%d, first: %s" % (len(cases), cases[0])
           if cases else "")
@@ -108,9 +80,8 @@ def text_of(chapter):
     return io.open(os.path.join(DOCS, chapter), encoding="utf-8").read()
 
 
-# A row of a switch table: | `--switch VALUE` | what it does |
+# A row of a switch table: | `--switch VALUE` | what it does (default) |
 ROW = re.compile(r"\|\s*`(--[a-z0-9-]+)[^`]*`\s*\|\s*(.*?)\s*\|\s*$")
-# What the row names as the default, in brackets at the very end.
 TAIL = re.compile(r"\(([^()]{1,60})\)\s*$")
 NUMBER = re.compile(r"^-?\d+(?:[.,]\d+)?$")
 
@@ -127,8 +98,8 @@ def rows_of(chapter):
 
 CHAPTERS = (("command-line.md", False), ("command-line.de.md", True))
 
-# --help is argparse's own, and the chapter names it in the sentence
-# above the tables rather than in a row of its own.
+# --help is argparse's own and the chapter names it in the sentence
+# above the tables, not in a row.
 SILENT = {"--help"}
 
 print("1. Every switch in the table, every row a switch")
@@ -209,7 +180,7 @@ for chapter, german in CHAPTERS:
         seen += 1
         values = list(rule[3])
         # A row either counts the values up or points at the row above
-        # it ("the same four values"); only the counted ones compare.
+        # it; only a row that counts them can be compared.
         named = [word for word in re.findall(r"`([^`]+)`", says)
                  if not word.startswith("--")]
         if named and sorted(named) != sorted(values):
@@ -270,11 +241,10 @@ MENUS = re.compile(r"addMenu\(T\((['\"])(&?[^'\"]+)\1\)\)")
 menus = [hit.group(2) for hit in MENUS.finditer(source)]
 check("the program builds a menu bar", len(menus) > 1,
       "%d menus" % len(menus))
-# Both chapters write the count as a word. Four and five are the ones
-# that matter; the rest are there so a sentence about a window with
-# fewer or more menus still gets read instead of passed over.
-# german_hunt_test.py holds every test to English letters, so the one
-# German word with an umlaut in it is written as an escape.
+# Both chapters write the count as a word, and the neighbours of the
+# real count are listed so a sentence keeps being read when a menu is
+# added. german_hunt_test.py holds every test to English letters, so
+# the German word with an umlaut is written as an escape.
 NUMBER_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
                 "six": 6, "seven": 7, "ein": 1, "zwei": 2, "drei": 3,
                 "vier": 4, "f\u00fcnf": 5, "sechs": 6, "sieben": 7}
@@ -290,8 +260,8 @@ for chapter, german in (("interface.md", False),
              for name in names if ("**%s**" % name) not in text]
     found("%s: every menu of the window stands in the chapter" % chapter,
           wrong)
-    # "The menu bar carries four menus", "Die Menueleiste traegt vier
-    # Menues" -- the same sentence, and the number in it is a fact.
+    # "The menu bar carries four menus" -- the number in that sentence
+    # is a fact about the window.
     bar = re.compile(r"Men\w+leiste") if german else re.compile("menu bar")
     counter = re.compile(r"(\w+)\s+Men\w{0,2}s\b") if german \
         else re.compile(r"(\w+)\s+menus\b")
@@ -311,11 +281,10 @@ for chapter, german in (("interface.md", False),
            if how_many != len(menus)])
 
 print("\n5. Links between the chapters")
-# Only the files that are shipped, and only links inside the repository.
-# An outside address needs the network and is made red by other
-# people's servers -- the wrong kind of test for a suite.
-# The text of a link may be broken over two lines, so the whole file
-# is searched at once and the line worked out from where the hit sits.
+# Only links inside the repository: an outside address needs the
+# network and is turned red by other people's servers. The text of a
+# link may break over two lines, so the whole file is searched at once
+# and the line worked out from where the hit sits.
 LINK = re.compile(r"\[[^\]]*\]\(([^)]+)\)", re.S)
 pages = []
 for folder in (ROOT, DOCS, os.path.join(ROOT, "development")):

@@ -37,14 +37,12 @@ for n in ("a.wav","b.wav"):
     print("%-7s I=%.1f LUFS  Peak=%.1f dBTP  Range=%s LU" % (n, i, p, lra))
 
 print("\n1. The measurement itself")
-# Both files are the same tone at the same level; the second one is
-# pulled down by 16 dB for half of every ten seconds.
+# The second file is the same tone, pulled down 16 dB half the time.
 check("both are measured", all(v[0] is not None for v in seen.values()),
       str(seen))
 # EBU R128 gates: material more than 10 LU under the ungated level does
-# not count towards the integrated loudness. So the quiet halves drop
-# out and both files come to the same figure. That is the point of the
-# gate -- a pause must not make a recording seem quieter.
+# not count, so the quiet halves drop out and both files come to the
+# same figure -- a pause must not make a recording seem quieter.
 check("the gate keeps the quiet halves out of the integrated value",
       abs(seen["a.wav"][0] - seen["b.wav"][0]) < 1.0,
       "%.1f against %.1f" % (seen["a.wav"][0], seen["b.wav"][0]))
@@ -66,9 +64,8 @@ tracks = [{"ready": os.path.join(T,"a.wav"), "name":"A"},
           {"ready": os.path.join(T,"b.wav"), "name":"B"}]
 v, curve = vpm.normalise_loudness(tracks, -16.0, T)
 print("Gain: %+.2f dB, curve: %s" % (v, "yes" if curve else "none"))
-# The sum of the two tracks is what is brought to the target, and the
-# same gain goes on every track -- otherwise the single tracks would no
-# longer add up to the mix.
+# The sum of the tracks is brought to the target and every track gets
+# the same gain, or the single tracks no longer add up to the mix.
 mix = os.path.join(T, "mix.wav")
 vpm.mix_tracks([t["ready"] for t in tracks], mix, v, curve)
 after = vpm.measure_loudness(mix)[0]

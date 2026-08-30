@@ -3,18 +3,14 @@
 
 A ratchet that holds a bare count lets one violation be swapped for
 another: shorten a long line here, write a new one there, and the count
-has not moved. So the state keeps the places. ESLint's bulk suppressions
-keep a count per file and rule, detekt's baseline keeps a signature per
-find, Betterer keeps a hash per find and rewrites the file only when the
-run got better. This is the same idea with one file to look at.
+has not moved. So the state keeps the places.
 
-The fingerprint may not carry a line number. A line number moves as soon
-as anybody inserts a line above it, and a state that compares line
-numbers goes red on every change and is switched off a week later. What
-the fingerprint carries instead is what the find is: the function it
-sits in, the wording it has, the name it goes by. The line is written
-down beside it, and never compared -- it is a hint for whoever reads a
-diff of the state, taken when that entry was last written.
+The fingerprint may not carry a line number. A line moves as soon as
+anybody inserts one above it, and a state that compares line numbers
+goes red on every change and is switched off a week later. It carries
+what the find is instead: the function it sits in, the wording it has,
+the name it goes by. The line is written down beside it as a hint for
+whoever reads a diff of the state, and never compared.
 
 Two shapes of counter live here. `number()` holds a plain count, for the
 ones standing at zero, where there is nothing to swap. `places()` holds
@@ -33,16 +29,11 @@ IN_TREE = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
 def state_is_ours():
     """Whether this run may move the ratchet.
 
-    A ratchet is only worth something while it stands for the file in
-    the working tree. VPM_SCRIPT lets a run measure a snapshot instead,
-    and every ratchet here writes itself down as soon as a count comes
-    out lower -- so one run against an older or shorter copy pulls the
-    ratchet down for good, to a number the real file may never reach
-    again. Found on 24.8.2026, after a day of running the suite against
-    snapshots in /tmp.
-
-    So: measure whatever VPM_SCRIPT points at, but write the state down
-    only where that is the file this repository ships.
+    A ratchet counts only while it stands for the file in the working
+    tree, and every ratchet here writes itself down as soon as a count
+    comes out lower. So measure whatever VPM_SCRIPT names -- a snapshot
+    would pull the ratchet down for good -- but write the state only
+    where that is the file this repository ships.
     """
     named = os.environ.get("VPM_SCRIPT")
     if not named:
@@ -57,8 +48,7 @@ def dumps(data):
     """The state as text: one find to a line, sorted.
 
     json.dump on its own writes the whole thing as a single line, and a
-    diff of that says nothing about which find came or went. Sorted keys
-    and one entry per line make the diff the report.
+    diff of that says nothing about which find came or went.
     """
     out = []
     for key in sorted(data):
@@ -88,10 +78,9 @@ class Held(object):
     def report(self):
         """Name every place the state does not cover.
 
-        Red without a place is worth nothing: it says a number rose and
-        leaves the reader to find out where. So every find that is not
-        covered gets its line, its fingerprint and what the state allows
-        at that spot.
+        Red without a place says a number rose and leaves the reader to
+        find out where. So every find the state does not cover gets its
+        line, its fingerprint and what is allowed at that spot.
         """
         for mark, measure, allowed, line in self.worse:
             if allowed:
@@ -135,10 +124,7 @@ class Ratchet(object):
 
         A run against a snapshot measures but is not allowed to write,
         so a line saying the ratchet tightened would send whoever reads
-        the log looking for a change that is not in the file. Measured
-        on 24.8.2026: a snapshot with one silent except taken out
-        printed "98 -> 97" while style_state.json stayed byte for byte
-        the same.
+        the log looking for a change that is not in the file.
         """
         if now < limit and state_is_ours():
             print("      ratchet tightened: %d -> %d" % (limit, now))
@@ -172,10 +158,10 @@ class Ratchet(object):
             allowed = dict((mark, entry[0]) for mark, entry in old.items())
             limit = sum(allowed.values())
         elif isinstance(old, int):
-            # The state still holds the bare count from before the
-            # changeover. Hold the run to that count first, and write the
-            # places down only once it holds -- so nothing slips through
-            # on the one run that does the migration.
+            # The state still holds a bare count from before the
+            # changeover. Hold the run to that count first and write the
+            # places down only once it holds, so nothing slips through
+            # on the run that does the migration.
             limit = old
         now = sum(m for m, _l in found.values())
 
@@ -200,9 +186,9 @@ class Ratchet(object):
         for mark in found:
             measure, line = found[mark]
             was = old.get(mark) if isinstance(old, dict) else None
-            # An entry whose measure has not moved keeps its old line as
-            # well, so the diff of this file shows what really changed
-            # and not every line number that shifted underneath it.
+            # An entry whose measure has not moved keeps its old line,
+            # so the diff shows what changed and not every line number
+            # that shifted underneath it.
             kept[mark] = was if was and was[0] == measure else [measure,
                                                                 line]
         tightened = False
@@ -216,9 +202,9 @@ class Ratchet(object):
 def owners(tree):
     """For every node, the dotted name of the function it sits in.
 
-    A find anchored to a function survives every insertion above it, and
-    that is the whole point of the fingerprint. Class bodies count
-    towards the name as well, so two methods called `run` stay apart.
+    A find anchored to a function survives every insertion above it,
+    which is the point of the fingerprint. Class bodies count towards
+    the name as well, so two methods called `run` stay apart.
     """
     seen = {}
 
@@ -245,10 +231,9 @@ def qualified(seen, node):
 def tally(finds):
     """Count finds by fingerprint: {mark: (how many, first line)}.
 
-    Two finds with the same fingerprint are not told apart -- the same
+    Two finds with the same fingerprint are not told apart: the same
     kind of violation, in the same place, is one entry with a count of
-    two. That is where ESLint's suppressions stop as well, and going
-    finer would mean reaching for the line number again.
+    two. Going finer would mean reaching for the line number again.
     """
     out = {}
     for mark, line in finds:

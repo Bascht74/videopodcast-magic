@@ -1,15 +1,11 @@
 # -*- coding: utf-8 -*-
 """The words on the speakers, and the three files that come of it.
 
-The rule is measured, so this test holds the measured rule and not an
-idea of it: a word goes to whoever covers most of it, a word in a gap
-to the nearest voice, and a sentence agrees on one voice only while
-the other voices hold less than a fifth of it.
-
-The three files are the ones auphonic.com delivers. What we write has
-to be readable by the reader that exists for those, so the json goes
-around the loop: written here, read back with read_speech_json, and
-held against the words that went in.
+The rule is measured, so the measured rule stands here: a word goes to
+whoever covers most of it, a word in a gap to the nearest voice, and a
+sentence agrees on one voice while the others hold under a fifth of
+it. The three files are the ones auphonic.com delivers, so our json
+goes through their reader and back against the words that went in.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -79,8 +75,8 @@ check("behind everything the last voice takes it",
       put[0]["speaker"] == "Anna", put[0].get("speaker"))
 
 print("\n4. The majority of a sentence, and its limit")
-# Five words of one voice and one of the other: the minority holds a
-# sixth, which is under the fifth, so the sentence agrees.
+# One voice in six holds a sixth, under the fifth, so the sentence
+# agrees on the majority.
 MIXED = words((0.0, 0.4, "Eins"), (0.4, 0.8, "zwei"), (0.8, 1.2, "drei"),
               (1.2, 1.6, "vier"), (1.6, 2.0, "fuenf"),
               (2.0, 2.4, "sechs."))

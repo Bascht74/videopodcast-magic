@@ -1,12 +1,11 @@
 # -*- coding: utf-8 -*-
 """Clip colours: one per angle, and the same one every time.
 
-In Resolve the colour is what tells the cutter at a glance which camera a
-clip comes from, so two things have to hold: every clip of one camera
-carries the same colour, and two cameras never share one while there are
-colours left. Resolve accepts only its own sixteen names -- anything else
-is silently refused -- so the run has to find out which ones this
-installation takes rather than trust a list.
+The colour tells the cutter at a glance which camera a clip comes
+from, so every clip of one camera carries the same colour and two
+cameras never share one while colours are left. Resolve accepts only
+its own sixteen names and refuses anything else silently, so the run
+finds out which ones an installation takes rather than trusting a list.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))

@@ -1,11 +1,9 @@
 # -*- coding: utf-8 -*-
 """A camera counts as a track once the assignment says so.
 
-Whether Multitrack is possible was decided from the audio files alone. But
-a camera with its own microphone is a track like any other, and that is
-settled in the assignment, not on the command line. One microphone plus two
-cameras with sound is three tracks, and the run should say so rather than
-refuse.
+A camera with its own microphone is a track like any other, and that is
+settled in the assignment, not on the command line: one microphone plus two
+cameras with sound is three tracks, and Multitrack has to be allowed.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))

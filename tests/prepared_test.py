@@ -1,71 +1,20 @@
 # -*- coding: utf-8 -*-
 """Which recording a camera is heard with in the preview.
 
-A camera in the preview player does not play its own audio. It plays
-the recording assigned to it, and preferably the prepared one: the
-track that came back from auphonic.com, "final_<name>_<timecode>.wav",
-at delivery level. The raw recording sits 16 to 36 dB below that, so
-switching between the two players sounds like a fault -- which is why
-the tick over the picture says which of the two is playing.
+A camera plays the recording assigned to it, preferably the prepared
+one from auphonic.com, "final_<name>_<timecode>.wav"; the raw
+recording sits 16 to 36 dB below that, so switching sounds like a
+fault. Four steps are checked through a real window: the prepared
+track of the person on that camera, failing that their raw recording,
+for a camera nobody is assigned to the prepared overall mix, and with
+no prepared folder at all nothing at all.
 
-The rule has four steps, and all four are checked here through a real
-window: the prepared track of the person on that camera, failing that
-their raw recording, for a camera nobody is assigned to the prepared
-overall mix, and where there is no prepared folder at all, nothing --
-a wide shot then stays silent rather than playing a voice.
-
-Until 25.8.2026 this test took audio_for_camera out of gui() with
-inspect.getsource, exec'd it and handed it a dictionary of names
-written out by hand. That list is a second interface, kept up to date
-by nobody: the day the function was to call speaker_name_of, the test
-died with NameError, and the change was taken back rather than the
-test's private list extended. So there is no list any more. The window
-is built for real, offscreen and off the desktop, a project is opened
-in it, and the question is asked the way a person asks it -- click the
-camera in the camera sheet, read what the player says it is playing.
-
-What the player plays is read off the player itself: which file it has
-under the picture, and what the tick over it says about that file. Not
-which lines of gui() ran.
-
-The fourth case is the new one and it is the reason for the rebuild.
-Since 25.8.2026 a speaker name may be *guessed*: the field starts empty
-with what the file name suggests standing in it in grey, and
-speaker_name_of says that guess counts as the name where nothing was
-typed. The prepared track is looked up by that name -- so a camera
-whose speaker is only guessed must find its prepared track just like
-one whose speaker was typed in. It does not yet: audio_for_camera
-reads the field alone, finds nothing, and quietly hands out the raw
-recording. The check for it is written here as it must come out, and
-it is red until that is put right.
-
-The cut on the Resolve sheet is asked the same question, because it
-buys from the same shop: it takes the prepared overall mix and places
-it by its timecode. Until 30.8.2026 it was asked through the handover
-file a run leaves behind, and this test put one in the result folder to
-open that door. It is shut. A handover lying about may be days old --
-another time window, another measurement -- and the cut built out of it
-looks exactly like a fresh one; Sebastian was offered a Resolve project
-out of a file four days old, with the sound under the wrong pictures.
-Since then the window builds its cut only out of what it worked out
-itself.
-
-So the cut is waited for here rather than laid out: the speakers are
-measured in the window, by its own button, and what the player then has
-is read off it. And a handover of a stranger lies in the result folder
-the whole time, naming three cameras that are not these and putting
-them 600 s off. What happens to it is a check of its own -- without
-that, the rule could quietly fall back tomorrow and every other line
-here would stay green.
-
-The cameras are the shared interview fixture, copied into a folder of
-their own and stamped with one clock -- see CLOCK below for why. The
-prepared tracks are silent one-second WAVs written here: what is
-checked is which file is chosen, not what is on it. The two recordings
-are written here as well, and they do have to hold something, since
-30.8.2026: the window measures who speaks when out of them, and every
-recording in the fixture is one unbroken sine tone with nobody in it.
-See voice_wav.
+The question is asked the way a person asks it -- click the camera,
+read what the player says it is playing -- and a guessed speaker name
+must find its prepared track just like a typed one. The cut on the
+Resolve sheet buys from the same shop, and it must build itself only
+out of what the window measured; a stranger's handover lies in the
+result folder the whole time and must have no effect.
 """
 import math
 import os
@@ -84,60 +33,39 @@ import wave
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
-# No window on anybody's desktop, and no sound at somebody sitting
-# next to it. The program reads VPM_SILENT with bool(), so every value
-# silences the player, "0" as well.
+# No window on anybody's desktop, and no sound next to it. The program
+# reads VPM_SILENT with bool(), so every value silences the player,
+# "0" as well.
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")
 os.environ.setdefault("VPM_NO_UPDATE_CHECK", "1")
-# Nothing is to be taken apart into voices here: a separation fetches
-# 218 MB and runs for minutes, and the question is a different one.
+# Nothing is taken apart into voices here: a separation fetches
+# hundreds of megabytes and runs for minutes.
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 
-# Three cameras out of the shared fixture, and two recordings written
-# here under the names the fixture uses. The first speaker is typed in,
-# the second is left to the guess the file name gives -- that is the
-# whole difference between the two, and the prepared track has to be
-# found either way.
+# The first speaker is typed in, the second is left to the guess the
+# file name gives -- the prepared track has to be found either way.
 TYPED = "Moderator_REC00009.wav"
 GUESSED = "Kandidat_0008A_Timecode.wav"
 CAM_TYPED = "Moderatoren_08141855_C005.mov"
 CAM_GUESSED = "Kandidat_08141858_C009.mov"
 CAM_WIDE = "Totale_08141855_C003.mov"
 TYPED_NAME = "Moderator"
-# One clock for everything, cameras and recordings alike, and it is
-# written in here rather than taken as it comes. Since 28.8.2026 the
-# three shared cameras carry three different timecodes -- 18:55:00:00,
-# 18:55:04:00 and 18:55:17:12, which is what a real shoot delivers --
-# and the recordings beside them carry none at all. Neither suits this
-# test. A recording without a clock has to be measured, and a player
-# only keeps a track it can place beside the picture, so a test reading
-# the player while the measurement is still running would see it drop
-# the very track it had just chosen; and three cameras on three clocks
-# would put the one prepared mix beside only one of them. So the
-# cameras are stamped again on the way in, all three to the same value
-# -- measured 28.8.2026: "-c copy -timecode" writes over the tag on the
-# video stream and the timecode stream alike and leaves nothing of the
-# old value -- and the recordings are given the BWF marker the prepared
-# tracks carry anyway. What the distances between the fixture's own
-# three timecodes are for is asked elsewhere.
+# One clock for everything, written in here rather than taken as it
+# comes: a recording without a clock has to be measured and the player
+# drops a track it cannot yet place, and three cameras on three
+# timecodes would put the one prepared mix beside only one of them.
 CLOCK = 19 * 3600 + 4 * 60             # 19:04:00:00, the material
-# The tracks that come back from auphonic.com are trimmed to the time
-# window that was asked for, so they begin later than the material they
-# were made from. Half a minute later here, and that half minute is the
-# point of the check on the cut player: it has to place the mix by the
-# mix's own timecode against programme time, and programme time begins
-# where the earliest recording begins. Were everything on one clock the
-# shift would be nought -- and nought is also what a player shows that
-# places nothing at all, so the check would prove nothing.
+# The tracks from auphonic.com are trimmed to the window asked for, so
+# they begin later than the material. Were the shift nought, the check
+# would prove nothing: nought is also what a player shows that places
+# nothing at all.
 MIX_LEAD = 30.0
 MIX_CLOCK = CLOCK + MIX_LEAD           # 19:04:30:00, the prepared tracks
 TAIL = "19-04-30-00"                   # the timecode in the file name
 WINDOW = (1400, 950)
-# Who has the turn when, in the two recordings written below. Two
-# minutes, six turns of twenty seconds, the length of the cameras. The
-# window measures this for itself, so it is the only place where it is
-# written down -- nothing hands the answer to the program.
+# Who has the turn when, in the two recordings written below. The
+# window measures this for itself; nothing hands it the answer.
 LENGTH = 120
 TURNS = {TYPED: [(0, 20), (40, 60), (80, 100)],
          GUESSED: [(20, 40), (60, 80), (100, 120)]}
@@ -152,10 +80,8 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
-# Every caption below is asked for through the catalogue, so the
-# language does not decide the outcome -- but it is settled all the
-# same, or a run on a German machine would compare English keys with a
-# German window.
+# The language is settled, or a run on a German machine would compare
+# English keys against a German window.
 vpm.set_language("en")
 # Nothing may reach the network or the keychain: what is wanted is the
 # window, not a run.
@@ -172,12 +98,9 @@ def check(name, ok, extra=""):
         error.append(name)
 
 
-# The name the program itself guesses out of the second file name, and
-# the name its prepared track therefore carries. Worked out with the
-# program's own two functions rather than written down: whoever changes
-# how a name is guessed changes the material of this test with it, and
-# the grey suggestion in the window is checked against the same value
-# below.
+# Worked out with the program's own functions rather than written
+# down: whoever changes how a name is guessed changes the material of
+# this test with it.
 GUESSED_NAME = vpm.guess_worth_using(vpm.guess_speaker_name(GUESSED))
 
 material = fixture("interview")
@@ -193,9 +116,8 @@ if missing or not GUESSED_NAME:
 def timecode_in(path, seconds):
     """Put a BWF marker into a WAV that has none.
 
-    The bext chunk goes in front of the ones already there and the RIFF
-    length is corrected -- the same thing a recorder writes, and it is
-    where the program looks for the start time of a recording.
+    The bext chunk goes in front of the others and the RIFF length is
+    corrected; that is where the program looks for the start time.
     """
     raw = open(path, "rb").read()
     if raw[:4] != b"RIFF" or raw[8:12] != b"WAVE":
@@ -226,37 +148,21 @@ def one_second(amplitude, hz=500.0, rate=48000):
 
 
 LOUD = one_second(0.5)
-# The room between the turns, and it is seven blocks and not one. Why
-# is in voice_wav: 46 to 34 dB under the speech, and never twice the
-# same in a row.
+# The room between the turns, seven blocks and never twice the same in
+# a row; why is in voice_wav.
 FLOOR = [one_second(0.002 * (1.35 ** k)) for k in range(7)]
 
 
 def voice_wav(path, turns, seconds=LENGTH):
     """One person's recording: loud on their turn, the room between.
 
-    Since 30.8.2026 the window works out who speaks when by measuring
-    the recordings, and there is nobody to find in the shared fixture:
-    every recording in it is one unbroken sine tone, and a tone that
-    never stops is its own noise floor. So the two recordings are
-    written here, out of second-long blocks laid end to end.
-
-    Two things about them are not decoration, and both were measured on
-    30.8.2026 against the program's own speakers_from_tracks:
-
-    A block of digital silence between the turns finds nobody. Blocks
-    at exactly nought are left out of the noise floor, so the floor
-    becomes the speech itself and nothing stands 10 dB over it.
-
-    A quiet block that is always the same finds nobody either, and that
-    one is less obvious. The bleed between two microphones is measured
-    where one person speaks alone -- the level of the other track
-    against theirs -- and where that ratio never varies it is exact:
-    the subtraction leaves nought behind, and nought is the case
-    above. So the room here breathes, seven levels in turn between 46
-    and 34 dB under the speech. Then the ratio has a spread, the
-    subtraction leaves a floor standing, and both people come out with
-    their turns to the tenth of a second.
+    The window measures who speaks when out of the recordings, and the
+    shared fixture holds only unbroken sine tones. Two traps shape the
+    room between the turns: blocks at exactly nought are left out of
+    the noise floor, so the floor becomes the speech itself, and a
+    quiet block that never varies makes the bleed between the
+    microphones exact, which leaves nothing standing either. So the
+    room breathes, seven levels in turn, 46 to 34 dB under the speech.
     """
     with wave.open(path, "wb") as f:
         f.setnchannels(1)
@@ -278,8 +184,8 @@ for name in (TYPED, GUESSED, CAM_TYPED, CAM_GUESSED, CAM_WIDE):
     copy = os.path.join(own, name)
     here[name] = copy
     if name.endswith(".mov"):
-        # Only stamped, not re-encoded: the pictures are copied through
-        # and the clock is written beside them.
+        # Only stamped, not re-encoded: the clock is written beside
+        # the pictures as they are copied through.
         subprocess.run(["ffmpeg", "-v", "error", "-i",
                         os.path.join(material, name), "-c", "copy",
                         "-timecode", "19:04:00:00", "-y", copy],
@@ -294,26 +200,19 @@ FINAL = {n: os.path.join(done_folder, "final_%s_%s.wav" % (n, TAIL))
 for path in FINAL.values():
     silent_wav(path, clock=MIX_CLOCK)
 # What else comes back from a run and must never be played: the raw
-# return, which is neither trimmed nor placed on the axis, the assembled
-# master and the statistics beside it. They are in the folder rather
-# than described in a comment -- a rule nothing tries to break is not
-# checked.
+# return, which is neither trimmed nor on the axis, the master and the
+# statistics. They lie in the folder rather than in a comment -- a rule
+# nothing tries to break is not checked.
 for name in ("%s.wav" % TYPED_NAME, "Full-Mix.wav", "Interview_master.wav"):
     silent_wav(os.path.join(done_folder, name), clock=MIX_CLOCK)
 with open(os.path.join(done_folder, "Interview_statistics.json"), "w",
           encoding="utf-8") as f:
     json.dump({}, f)
 
-# The project. Multitrack, because only then does a recording belong to
-# one camera: without the tick every recording goes into every camera
-# and no camera has a speaker of its own.
-#
-# Who sits in front of which camera is not written in here. It is
-# picked in the sheet below, the way a person picks it -- opening a
-# multitrack project clears the stored camera assignment on purpose
-# ("without multitrack there was no choice") and works it out again
-# from the speaker names, so a recording with no name typed in would
-# arrive with no camera and the test would be measuring that instead.
+# Multitrack, because only then does a recording belong to one camera.
+# Who sits in front of which is picked in the sheet below: opening a
+# multitrack project clears the stored assignment on purpose and works
+# it out again from the speaker names.
 project = os.path.join(own, "videopodcast-magic_Prepared.json")
 with open(project, "w", encoding="utf-8") as f:
     json.dump({
@@ -326,31 +225,12 @@ with open(project, "w", encoding="utf-8") as f:
                             CAM_WIDE)],
     }, f, ensure_ascii=False, indent=1)
 
-# The bait, and it stays there to the end. A handover file of the right
-# format under the right name -- "<production>_resolve.json" in the
-# result folder -- written by somebody else, at some other time, off
-# some other measurement. Until 30.8.2026 the window read whatever
-# handover it found there, and that is exactly how Sebastian came to be
-# shown a cut out of a four-day-old file. Since then it reads only what
-# its own run wrote, so this file must have no effect at all.
-#
-# It is built to be *usable*, which took two goes and is the point of
-# this comment. A file that the window would throw out anyway proves
-# nothing: the first one here began ten minutes before the material,
-# and the old program did not build a wrong cut out of it, it built
-# none, because the In point of this window then fell past the end of
-# that programme. So this one covers the window: it begins two minutes
-# early and runs ten minutes, and the old program does make a cut of
-# it.
-#
-# What it is wrong about is the material. It names three cameras that
-# are not the three lying here -- files of a run whose folder is long
-# gone -- and it puts them 600 s off programme time. That is what the
-# counter-check reads, and it has to be that: the zero point and the
-# shift of the mix do *not* tell the two apart, because the window
-# trims every handover to its own In point and thereby pulls a strange
-# one onto the same zero. Which cameras the cut runs on, and where they
-# sit, nothing pulls straight.
+# The bait, and it stays there to the end: a stranger's handover in
+# the right format under the right name. It has to be usable, or the
+# window throws it out and it proves nothing -- so it covers the whole
+# window. Only the material is wrong: other cameras, 600 s off. The
+# zero point and the mix shift do not tell the two apart, because every
+# handover is trimmed to the window's own In point.
 FOREIGN_START = CLOCK - 120.0
 FOREIGN_LENGTH = 600.0
 FOREIGN_OFFSET = 600.0
@@ -399,10 +279,9 @@ with open(foreign_handover, "w", encoding="utf-8") as f:
         "audio_files": {}, "words": [],
     }, f, ensure_ascii=False, indent=1)
 
-# What the window has to arrive at by itself. Programme time starts
-# where the earliest recording starts, and everything here carries the
-# one clock, so that is CLOCK: the cameras then sit at nought, and the
-# mix at the half minute it was trimmed to.
+# What the window has to arrive at by itself: programme time starts
+# where the earliest recording starts, so the cameras sit at nought and
+# the mix at the half minute it was trimmed to.
 OWN_ZERO = CLOCK
 OWN_MIX_SHIFT = MIX_LEAD
 OWN_CAMERA_SHIFT = 0.0
@@ -414,9 +293,8 @@ QtWidgets.QFileDialog.getOpenFileName = staticmethod(
 # suite until somebody kills it.
 QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
-# Off the desktop on the way in. The offscreen platform keeps the
-# window out of the window server; this keeps it off the screen on any
-# platform, and the layout machinery still runs.
+# Off the desktop on the way in: the offscreen platform keeps the
+# window out of the window server, this keeps it off any screen.
 _show = QtWidgets.QWidget.show
 
 
@@ -439,14 +317,12 @@ def win():
 def by_columns(*wanted):
     """The view whose columns are called these, whatever class it is.
 
-    Not "the first table with rows": the assignment was two
-    QTableWidgets and is a QTreeView now, and the camera sheet may go
-    the same way. Every view answers for its column names through
-    QAbstractItemModel, and that is what a person reads off it.
+    Not "the first table with rows": these views have changed class
+    before and may again. Every view answers for its column names
+    through QAbstractItemModel, and that is what a person reads.
     """
     for view in win().findChildren(QtWidgets.QAbstractItemView):
-        # A header is a view too, hanging inside the view it belongs to
-        # and answering out of the very same model.
+        # A header is a view too, and answers out of the same model.
         if isinstance(view, QtWidgets.QHeaderView):
             continue
         model = view.model()
@@ -470,9 +346,8 @@ def assignment_view():
 def player():
     """The preview player: the widget the tick over the picture sits in.
 
-    Found through the tick and not by class -- the tick is what a
-    person sees and clicks, and it is the same widget whether the
-    player is the built-in one or a stand-in.
+    Found through the tick and not by class: it is the same widget
+    whether the player is the built-in one or a stand-in.
     """
     said = vpm.T('hear assigned audio')
     for box in win().findChildren(QtWidgets.QCheckBox):
@@ -504,10 +379,9 @@ def playing():
 def cut_player():
     """The player that runs the camera cut on the Resolve sheet.
 
-    Found by what it must have to do that and by nothing else: an
-    audio file of its own and a shift between programme time and that
-    file. The preview player has no such shift -- it follows the
-    picture -- so the two cannot be confused.
+    Found by what it must have to do that: an audio file of its own and
+    a shift between programme time and that file. The preview player
+    has no such shift, so the two cannot be confused.
     """
     for w in win().findChildren(QtWidgets.QWidget):
         if hasattr(w, "audio_offset") and hasattr(w, "audio"):
@@ -519,8 +393,7 @@ def cut_audio():
     """What the cut player was given: the file, and its shift.
 
     Nothing on the sheet writes the file name out, so it is read off
-    the player. It is the whole answer to "what runs under the cut":
-    which file, and where in it programme time nought lies.
+    the player.
     """
     p = cut_player()
     if p is None:
@@ -532,10 +405,8 @@ def cut_audio():
 def cut_places():
     """Where the cut player puts things: zero point and camera shifts.
 
-    The zero point is the clock time programme time nought lies at, and
-    the shift of each camera is how far its file sits from that. Both
-    are read off the player, because both are what a wrong handover
-    would move: it brings its own zero, and every camera hangs off it.
+    Both are what a wrong handover would move: it brings its own zero,
+    and every camera hangs off it.
     """
     p = cut_player()
     if p is None:
@@ -564,8 +435,7 @@ def measure_note():
     """The sentence beside the measure button, for a FAIL line.
 
     Nothing is decided by it. It is the only place the window says why
-    a measurement brought nothing, and a failure here is otherwise a
-    cut that never appears and no reason anywhere.
+    a measurement brought nothing.
     """
     said = (vpm.T('Measure speakers now'), vpm.T('measuring ...'))
     for w in win().findChildren(QtWidgets.QPushButton):
@@ -582,8 +452,7 @@ def pick_camera(name):
     """Click that camera in the camera sheet, the way a person does.
 
     Selecting a row is what loads a file into the preview player. The
-    row is looked up by the file name standing in it, so the order the
-    project happens to list the cameras in decides nothing.
+    row is looked up by the file name in it, not by its position.
     """
     view = cameras_view()
     if view is None:
@@ -604,8 +473,8 @@ def ask_again():
     """Make the player work the question out afresh.
 
     Nothing watches the folder: which file belongs to the camera is
-    decided when the tick is set. Taking it off and putting it back is
-    the gesture that asks again, and it is one a person makes.
+    decided when the tick is set, so taking it off and putting it back
+    is the gesture that asks again.
     """
     tick().setChecked(False)
     app.processEvents()
@@ -616,10 +485,9 @@ def ask_again():
 def field_of(recording, column):
     """The field of that recording's row in that column.
 
-    The row is found by the name its fields are given for a screen
-    reader, "Speaker name -- Kandidat_0008A_Timecode.wav": the part
-    behind the first dash names the row, in a table and in a tree
-    alike.
+    The row is found by the name its fields carry for a screen reader,
+    "<column> -- <recording>": the part behind the first dash names the
+    row, in a table and in a tree alike.
     """
     view = assignment_view()
     if view is None:
@@ -672,9 +540,8 @@ def put_on_camera(recording, camera):
 def type_name(recording, text):
     """Type a speaker name in, letter by letter, and be done with it.
 
-    Letter by letter and not setText: what is typed is the answer to
-    the question the row asks, and Return is what ends it -- the same
-    as clicking elsewhere.
+    Letter by letter and not setText, and Return is what ends it --
+    the same as clicking elsewhere.
     """
     w = field_of(recording, vpm.T('Speaker name'))
     if w is None:
@@ -702,9 +569,9 @@ def says_raw(name):
 
 
 # ------------------------------------------------------------ the steps
-# One thing at a time, each a moment of its own: loading a file into the
-# player runs through ffprobe and the media layer, and a check made in
-# the same breath reads the state that is about to go.
+# One thing at a time, each a moment of its own: loading a file runs
+# through ffprobe and the media layer, and a check made in the same
+# breath reads the state that is about to go.
 AGAIN, STOP = "again", "stop"
 waited = [0]
 done = [False]
@@ -721,12 +588,11 @@ def open_project():
 
 
 def wait_for_sheets():
-    """Wait for the sheets the project brings, not for a number of seconds.
+    """Wait for the sheets the project brings, not for a set time.
 
     They are built out of a thread once every file has been looked at,
     and a fixed pause would be wrong on both sides. What has to be
-    there is known before the window opens: two recordings and three
-    cameras.
+    there is known beforehand: two recordings and three cameras.
     """
     cams, rows = cameras_view(), assignment_view()
     there = (cams is not None and rows is not None
@@ -773,8 +639,7 @@ def typed_name_look():
     check("and it plays the track prepared for him",
           got == os.path.basename(FINAL[TYPED_NAME]), str(got))
     # The raw return from auphonic.com is called "<name>.wav" and lies
-    # in the same folder. It is neither trimmed nor on the axis, and
-    # taking it would sound right and be wrong.
+    # in the same folder: taking it would sound right and be wrong.
     check("not the raw return of the same name, nor the master",
           got not in ("%s.wav" % TYPED_NAME, "Interview_master.wav"),
           str(got))
@@ -785,11 +650,10 @@ def typed_name_look():
 def guessed_name_look():
     """The speaker is only guessed: the same has to happen.
 
-    Since 25.8.2026 the name field starts empty with the guess from the
-    file name in grey, and that guess is the name the recording works
-    under. The prepared track is looked up by the name -- so it has to
-    be found here as well. This is the check that is red until
-    audio_for_camera asks speaker_name_of instead of reading the field.
+    The name field starts empty with the guess from the file name in
+    grey, and that guess is the name the recording works under. The
+    prepared track is looked up by the name, so it has to be found
+    here as well.
     """
     check("nothing is typed in this field", name_in(GUESSED) == "",
           repr(name_in(GUESSED)))
@@ -821,11 +685,9 @@ cut_waited = [0]
 def start_measuring():
     """Have the window work out who speaks when, here and now.
 
-    This is the step that replaces the handover file. Nothing on disk
-    tells the window where the speakers are any more, so it is asked
-    the way a person asks: the button under the preview that measures
-    the tracks. It runs in a thread of its own; what comes of it is
-    waited for below.
+    Nothing on disk tells the window where the speakers are, so it is
+    asked the way a person asks: the button under the preview. It runs
+    in a thread of its own, and what comes of it is waited for below.
     """
     for w in win().findChildren(QtWidgets.QPushButton):
         if w.text().strip() == vpm.T('Measure speakers now'):
@@ -841,23 +703,13 @@ def start_measuring():
 def cut_look():
     """The cut on the Resolve sheet runs on the prepared mix too.
 
-    It is not read from a file. The window measured the speakers a step
-    ago, in a thread, and works the cut out of that together with the
-    assignment after a timer of its own -- so what is waited for is the
-    cut, never a number of seconds.
-
-    A cut is there when the sound under it is a track of its own. With
-    nothing to cut the player shows the one camera nobody is assigned
-    to, from beginning to end, with that same camera's own sound under
-    it -- and that state is what this check used to mistake for an
-    answer.
-
-    Not "more than one shot", and not "more than one camera" either.
-    Both were tried on 30.8.2026 and both stop too early: a cut off the
-    wrong material can be a single shot on a single camera, and this
-    line then blames the waiting and gives up before the lines that say
-    what is really wrong. Sound of its own is what tells a cut from no
-    cut; whether it is the right cut is the next step's question.
+    The window works the cut out of its own measurement after a timer
+    of its own, so what is waited for is the cut, never a set time. A
+    cut is there when the sound under it is a track of its own -- not
+    "more than one shot" and not "more than one camera", because a cut
+    off the wrong material can be a single shot on a single camera,
+    and this line would then blame the waiting and give up before the
+    lines that say what is really wrong.
     """
     shots, files = cut_shots(), cut_files()
     name, _off = cut_audio()
@@ -886,16 +738,11 @@ def cut_look():
 def bait_look():
     """The strange handover lies right there, and nothing reads it.
 
-    Without this the rule could fall back tomorrow and every other line
-    here would stay green: there would be a cut, the prepared mix would
-    be under it, and only the material would be somebody else's -- the
-    fault Sebastian was shown, exactly.
-
-    So the cut is held against the material rather than against the
-    clock: which camera files it runs on, and where they sit. The bait
-    names three cameras of an older run, in a folder that is not here,
-    600 s off programme time. Neither can be mistaken for what lies in
-    this project.
+    Without this the rule could fall back and every other line here
+    would stay green: there would be a cut, the prepared mix would be
+    under it, and only the material would be somebody else's. So the
+    cut is held against the material rather than against the clock:
+    which camera files it runs on, and where they sit.
     """
     zero, places = cut_places()
     files = cut_files()
@@ -922,25 +769,13 @@ def bait_look():
 def let_go_of(what):
     """Make every player let go of what it has open there.
 
-    A player that has a file open holds it. Under macOS and Linux a held
-    file can still be moved, under Windows it cannot -- which is why the
-    two moves below were green on two systems and red on the third, with
-    nothing to show for it but a permission error out of shutil.move.
-    So nothing is moved here before the players have let go of it.
-
-    Measured with lsof on 28.8.2026: at the second move the process has
-    exactly one file of the folder open, the prepared overall mix, and
-    it is the cut player on the Resolve sheet that holds it -- the
-    preview player had gone over to the raw recording a step earlier and
-    let the mix go with it. Asked of every player under every window all
-    the same, and by what it has open rather than by which player it is,
-    so that a second holder does not go unnoticed. Returns what was let
-    go.
-
-    A player that never started is not stopped. What lies behind stop()
-    is built on first use, and building it waits for a lock another
-    player holds while it is starting up -- the window then never comes
-    back. playbackState only reads what is already noted.
+    A held file can still be moved under macOS and Linux, under Windows
+    it cannot, so nothing is moved before the players have let go.
+    Asked of every player by what it has open rather than by which one
+    it is, so a second holder does not go unnoticed. A player that
+    never started is not stopped: what lies behind stop() is built on
+    first use, and that building waits for a lock another player holds
+    while starting up, so the window never comes back.
     """
     what = os.path.realpath(what)
     let_go = []
@@ -970,27 +805,13 @@ def let_go_of(what):
 def clean_up(what):
     """Close the window, then delete the folder, waiting for the grip.
 
-    gui() comes back with the window still standing, so the folder used
-    to go while players still held files in it. Let go, close, delete --
-    in that order. And no ignore_errors: it would swallow the one thing
-    that can go wrong here, a folder that stays because something still
-    holds it.
-
-    Letting go returns before the file is free. The media backend closes
-    the handle in a thread of its own, so setSource() comes back while
-    the system still has the file open. Under macOS and Linux that never
-    shows, because a held file can be deleted there anyway. On Windows
-    it does: measured on the build machine, five of these tests left
-    four to seven files behind on the first attempt. So what is waited
-    for is the handle, not a number of milliseconds -- delete, run the
-    event loop, delete again, up to ten seconds. Ten because it is far
-    above a thread closing a file, and still short enough that a folder
-    which will never go does not hold the suite.
-
-    What is left after that is a finding, not a failure: it is named,
-    with how long it was waited on, and it does not turn the test red.
-    A test that is red on one system on every run gets switched off
-    rather than looked at, and then it says nothing at all.
+    gui() comes back with the window still standing: let go, close,
+    delete, in that order, and no ignore_errors -- it would swallow the
+    one thing that can go wrong here. Letting go returns before the file
+    is free, the backend closes the handle in a thread of its own, and
+    on Windows a held file cannot be deleted, so the handle is waited
+    for up to ten seconds. What is left after that is named rather than
+    turned red.
     """
     print("  let go of %s" % (", ".join(let_go_of(what)) or "nothing"))
     for top in app.topLevelWidgets():
@@ -1039,10 +860,9 @@ def raw_look():
 def take_the_folder_away():
     """The whole folder of prepared tracks, out of every reach.
 
-    Out of the temporary folder altogether: the program looks in the
-    output folder, in the folder the material comes from, and one level
-    below that, so moving it aside within any of them would still find
-    it.
+    The program looks in the output folder, in the folder the material
+    comes from and one level below, so moving it aside within any of
+    them would still find it.
     """
     print("  let go of %s"
           % (", ".join(let_go_of(done_folder)) or "nothing"))

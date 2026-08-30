@@ -3,31 +3,10 @@
 
 The simple path had exactly that fault: with an In and an Out point the
 written sound slid against the picture by the distance between the start
-of the recording and the start of the picture. In the material that
-found it, four seconds; in a real recording that distance is never zero,
-so the fault was never invisible -- it was only never looked for.
-
-Multitrack is the path Sebastian actually runs, so the same question has
-to be answered there, and answered by measurement rather than by reading
-the code. It is built differently: the window is applied in seconds on
-the common time axis, where every file already knows where it sits,
-instead of each track being trimmed by a head count of its own. That
-reads as safe. This test says whether it is.
-
-The material is built so the question has an exact answer. Each camera
-carries the room mix from its own LATE seconds into the recording
-onwards -- four for one, seven for the other -- so its picture time t is
-recording time t + LATE, and both speaker tracks begin well before
-either picture does. That distance is the whole point of the fixture:
-were the picture to begin with the recording, the fault being looked for
-would be zero by construction and a green run would prove nothing.
-
-Two runs are made on it, one without a window and one with an In and an
-Out point, and the sound written into the camera files is held against
-the original by cross correlation. The answer comes out in samples.
-
-Nothing leaves the house: no key is given, --without-auphonic says so
-out loud, and the test holds the run to it.
+of the recording and the start of the picture. Multitrack applies the
+window on the common time axis instead, which reads as safe. Two runs,
+one without a window and one with, hold the sound written into the
+camera files against the original by cross correlation.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -39,8 +18,8 @@ sys.path.insert(0, HERE)
 from fixture_root import fixture
 
 # The same environment the suite gives every test, so a run by hand
-# measures the same thing. The speaker separation is switched off: it
-# fetches a machine-learning environment and is not what is asked here.
+# measures the same thing. Speaker separation is off: it fetches a
+# machine-learning environment and is not the question here.
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
@@ -63,40 +42,27 @@ def tail(text, n=2):
 #------------------------------------------------------------- Material
 
 RATE = 48000
-# 39 s, and not less. The run stops below a common window of 30 s; the
-# window here is LENGTH minus the later of the two camera starts, so at
-# 39 it is 32 s -- two over the barrier.
+# 39 s, and not less: the run stops below a common window of 30 s, and
+# the window here is LENGTH minus the later of the two camera starts.
 LENGTH = 39.0
-# Where each camera's picture starts inside the recording. This is the
-# number the whole test hangs on: for a camera that starts LATE late,
-# picture time t is recording time t + LATE.
-#
-# The two are deliberately different, and neither is zero. The offset
-# the program writes into a camera file is built out of two parts --
-# where the camera sits against the reference camera, and where the
-# common window begins. With both cameras starting together, both parts
-# would be zero and the arithmetic would be tested against nothing. As
-# it is, the reference camera is CamHost (it is the longer one), CamGuest
-# sits 3 s behind it, and the common window begins 3 s into the
-# reference -- so every part of the sum carries a number even in the run
-# that asks for no window at all.
+# Where each camera's picture starts inside the recording: picture time
+# t is recording time t + LATE. The two are deliberately different and
+# neither is zero -- with both cameras starting together, every part of
+# the offset the program computes would be zero and test nothing.
 LATE = {"CamHost": 4.0, "CamGuest": 7.0}
 CAM_LEN = dict((cam, LENGTH - late) for cam, late in LATE.items())
 # Where the common window begins in recording time: with the later
 # camera, because that is the first moment every camera saw.
 COMMON = max(LATE.values())
-# The window, given as a relative In and Out point, which count from the
-# start of the common window. In recording time that is COMMON + 8 to
-# COMMON + 20; each camera sees it at its own picture time, which is
-# that minus its own LATE. Both speakers have a turn inside it and both
-# have turns outside it, so a window that did nothing would be caught as
-# surely as one that cut in the wrong place.
+# The window, given as a relative In and Out point counting from the
+# start of the common window; each camera sees it at that time minus its
+# own LATE. Both speakers have a turn inside it and turns outside it, so
+# a window that did nothing is caught as surely as one that cut wrong.
 WIN_IN, WIN_OUT = 8.0, 20.0
 # Turns in recording time, with a pause of at least a second around
 # each. Speech-like noise, because the alignment lives on the envelope
-# of speech; a steady tone would align by luck. Fifteen of the 39 s are
-# quiet, which is what keeps the speech detection's noise floor out of
-# the neighbour's bleed.
+# of speech and a steady tone would align by luck. The quiet keeps the
+# speech detection's noise floor out of the neighbour's bleed.
 TURNS = {"Host": [(5, 10), (17, 22), (29, 34)],
          "Guest": [(11, 15.5), (23.5, 28)]}
 
@@ -127,7 +93,7 @@ def begins_at(reference, track):
     """Where in *reference* the first sample of *track* was taken from.
 
     Both hold the same material, so the cross correlation has one clear
-    peak and the answer is exact to the sample.
+    peak.
     """
     n = 1 << int(np.ceil(np.log2(len(reference) + len(track))))
     c = np.fft.irfft(np.fft.rfft(reference, n)
@@ -152,19 +118,14 @@ noise = np.random.default_rng(9).normal(0, 0.0004, len(host))
 write(D + "/Host.wav", host + bleed * guest + noise)
 write(D + "/Guest.wav", guest + bleed * host + noise)
 write(D + "/room.wav", 0.6 * host + 0.6 * guest + noise)
-# What the program was given is what the written tracks are held
-# against, so the sources are read back rather than kept in memory.
+# The written tracks are held against what the program was given, so
+# the sources are read back rather than kept in memory.
 src = {"Host": read(D + "/Host.wav"), "Guest": read(D + "/Guest.wav")}
 
 # One ffmpeg call for both cameras, because a process start is what the
-# Windows builder charges for. Colour bars at ultrafast: the run never
-# decodes a video frame, it reads the packet times and copies the
-# picture through, so the picture only has to exist.
-#
-# The -ss in front of each output is an output option and cuts that file
-# alone: picture and sound of each camera begin its own LATE into the
-# recording. That is what makes picture time t equal recording time
-# t + LATE, and it is the one thing this fixture may not lose.
+# Windows builder charges for. The -ss in front of each output is an
+# output option and cuts that file alone, so picture and sound of each
+# camera begin its own LATE in -- what this fixture may not lose.
 build = ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
         "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
         "-i", D + "/room.wav"]
@@ -176,8 +137,8 @@ for cam in ("CamHost", "CamGuest"):
 subprocess.run(build, check=True)
 
 # The file format number is read out of the program rather than the
-# program imported for it: importing 36000 lines to learn one integer
-# costs a second and pulls a window toolkit in with it.
+# program imported for it: importing it to learn one integer costs a
+# second and pulls a window toolkit in with it.
 form = re.search(r"^FILE_FORMAT = (\d+)", open(SCRIPT, encoding="utf-8").read(),
                  re.M)
 plan = {"format": int(form.group(1)) if form else 3, "created_by": "test",
@@ -209,17 +170,15 @@ def run(out, *extra):
 
 #-------------------------------------------------------------- The runs
 
-# The run without a window is the reference point: it says where the
-# sound sits when nothing was asked of it. The second run asks for a
-# window and nothing else, so any difference between the two belongs to
-# the window.
+# The run without a window is the reference point; the second asks for
+# a window and nothing else, so any difference belongs to the window.
 rc1, log1 = run(D + "/plain")
 rc2, log2 = run(D + "/window", "--in-point", "+%d" % WIN_IN,
                 "--out-point", "+%d" % WIN_OUT)
 
 # One ffmpeg for everything the two runs wrote, because a process start
-# is the expensive thing on the builder. Stream a:0 of each camera file
-# is the speaker who was assigned to it.
+# is the expensive thing on the builder. Stream a:0 of a camera file is
+# the speaker assigned to it.
 WANT = [(folder, cam) for folder in ("plain", "window")
         for cam in ("CamHost", "CamGuest")]
 here = [(f, c) for f, c in WANT if os.path.exists(D + "/" + f + "/" + c + ".mov")]
@@ -229,15 +188,15 @@ for i, (folder, cam) in enumerate(here):
     tracks[(folder, cam)] = D + "/t_%s_%s.wav" % (folder, cam)
     call += ["-i", D + "/" + folder + "/" + cam + ".mov"]
 for i, (folder, cam) in enumerate(here):
-    # -ac 1: the written speaker tracks are stereo, and read back as
-    # mono samples a stereo file is twice as long and correlates
-    # against nothing.
+    # -ac 1: the written speaker tracks are stereo, and read as mono
+    # samples a stereo file is twice as long and correlates against
+    # nothing.
     call += ["-map", "%d:a:0" % i, "-c:a", "pcm_s16le", "-ar", str(RATE),
              "-ac", "1", tracks[(folder, cam)]]
 if here and subprocess.run(call, capture_output=True).returncode:
     # A file with fewer audio tracks than it should have would take the
-    # one call down as a whole and every check with it. Then each track
-    # pays for its own call and each check fails on its own account.
+    # one call down and every check with it, so each track then pays
+    # for its own call and each check fails on its own account.
     for folder, cam in here:
         subprocess.run(["ffmpeg", "-v", "error", "-y", "-i",
                         D + "/" + folder + "/" + cam + ".mov", "-map", "0:a:0",
@@ -284,12 +243,10 @@ for cam in ("CamHost", "CamGuest"):
           % (plain_at[cam], LATE[cam]))
 
 print("\n3. With a window it still sits on its picture")
-# This is the question the whole file exists for. The window moves the
-# sound to another place in the picture; the piece that lands at the In
-# point has to be the piece that was recorded then. It is measured twice
-# over: against where the recording says it belongs, and against the run
-# without a window -- so no constant of the processing can hide inside
-# the answer.
+# This is the question the whole file exists for: the piece that lands
+# at the In point has to be the piece that was recorded then. It is
+# measured twice over, against where the recording says it belongs and
+# against the run without a window, so no constant can hide in it.
 for cam in ("CamHost", "CamGuest"):
     check("%s was written" % cam,
           os.path.exists(D + "/window/" + cam + ".mov"))
@@ -309,11 +266,9 @@ for cam in ("CamHost", "CamGuest"):
 
 print("\n4. And the window really is a window")
 # Without this a run that ignored the In and Out point altogether would
-# pass part 3 with the best numbers in the file. The window lies at
-# recording time COMMON + WIN_IN to COMMON + WIN_OUT; each camera sees it
-# that much minus its own start. One second of slack on the In side,
-# because a whole second is called loud as soon as part of it carries
-# sound.
+# pass part 3 with the best numbers in the file. One second of slack on
+# the In side, because a whole second is called loud as soon as part of
+# it carries sound.
 for cam in ("CamHost", "CamGuest"):
     first, last = COMMON + WIN_IN - LATE[cam], COMMON + WIN_OUT - LATE[cam]
     heard = loud(track("window", cam))

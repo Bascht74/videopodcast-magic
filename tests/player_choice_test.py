@@ -20,11 +20,8 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
-# Four files on the time axis:
-#   Wide     17:00:00:00 .. 18:00:00 (3600 s)
-#   Guest    17:10:00:00 .. 17:40:00 (1800 s)
-#   Short    17:50:00:00 .. 17:51:00 (60 s)
-#   Jingle   -- intro, never comes into question
+# Four files on one time axis: a wide shot over the whole hour, a guest
+# inside it, a short one late, and an intro that never comes into question.
 SPANS = {
     "/x/Wide.mov":   {"duration": 3600.0, "fps": 30.0,
                       "tc0": 17 * 3600.0, "axis": 0.0},
@@ -129,7 +126,6 @@ check("Wide", player_suggestion() == "/x/Wide.mov",
 print("\n3. In/Out point only inside the guest -- that beats the wide shot")
 start_var.set("17:15:00:00"); end_var.set("17:35:00:00")
 check("both inside the wide shot?", covers("/x/Wide.mov", "17:15:00:00"))
-# Both cover it -- so the one with no speaker wins.
 check("Wide (both cover it, Wide has no speaker)",
         player_suggestion() == "/x/Wide.mov", str(player_suggestion()))
 
@@ -167,7 +163,7 @@ check("no longer Short", player_suggestion() != "/x/Short.mov",
 remembered.pop("player_file")
 
 print("\n9. Relative values need the time axis")
-start_var.set("+0:15:00")     # 900 s from the start of the material -> Wide
+start_var.set("+0:15:00")
 end_var.set("")
 check("Wide covers it", covers("/x/Wide.mov", "+0:15:00") is True)
 check("Short does not cover it", covers("/x/Short.mov", "+0:15:00") is False)

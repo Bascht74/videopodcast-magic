@@ -32,7 +32,6 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
-# ------------------------------------------------ what a run is made of
 print("1. The stages of a run and what they are worth")
 plain = vpm.run_stages(False, 0, False)
 check("without cameras there is no camera work",
@@ -54,7 +53,6 @@ check("with auphonic it is not",
 check("every stage says what it is",
       all(c for _n, _w, c in with_cams))
 
-# ------------------------------------------------ the seam to the bar
 print("\n2. The run reaches the bar")
 seen = []
 vpm.PROGRESS_SINK = lambda name, share: seen.append((name, share))
@@ -72,7 +70,6 @@ check("and the shared bar of a parallel batch too",
       any(n == "time base" and s not in (None, 0.5, 0.75) for n, s in seen),
       str(seen))
 
-# ------------------------------------------------ end to end
 print("\n3. A dry run, watched from the footer")
 
 def win():
@@ -108,12 +105,9 @@ def look():
         watch["values"].append(b.value())
     elif watch["was_up"]:
         watch["gone"] = True
-    # The tooltip counts as much as the text. A line too wide for its
-    # field is shortened in the middle and keeps the whole of itself as
-    # a tooltip, so on a narrow window the name of the stage is there
-    # but no longer in text(). Measured 29.8.2026: this went red on
-    # both Windows builders and nowhere else, because only there was
-    # the field too narrow for the name.
+    # The tooltip counts as much as the text: a line too wide for its
+    # field is shortened in the middle and keeps the whole of itself
+    # only as a tooltip, so a narrow window has no name in text().
     stages = [vpm.T(x) for x in STAGES]
     for lb in win().findChildren(QtWidgets.QLabel):
         if not lb.isVisible():
@@ -145,8 +139,7 @@ def step():
             check("the dry run can be started", bool(k and k.isEnabled()))
             if not (k and k.isEnabled()):
                 app.quit(); return
-            # Only from here on is the bar the run's: what came before it
-            # belongs to the measuring after the project was opened.
+            # Only from here on is the bar the run's, not the opening's.
             watch["on"] = True
             k.click()
         elif i >= 3 and (watch["gone"] or waited[0] + i > 100):

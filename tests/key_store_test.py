@@ -1,25 +1,11 @@
 # -*- coding: utf-8 -*-
 """The Windows way to the key store, walked for real.
 
-The API key lives in the macOS keychain or in the Windows registry.
-Every other test in this folder replaces load_api_key with a lambda, so
-the three functions that do the storing have never been run by the
-suite at all. On a Windows runner there is a real registry, so the real
-path can be walked instead of imagined.
-
-What is stored here is never the real key, and the real place is never
-touched. REG_PATH is pointed at a throwaway key of its own -- one
-random name per run, under HKEY_CURRENT_USER, beside the program's key
-and never inside it -- and the values are made-up strings that begin
-with "not-a-key-". The throwaway key goes again in a finally, and
-afterwards the neighbourhood is read back to see that nothing of this
-run is left standing.
-
-Nothing that comes back out of the store is ever printed. Not because
-these values are worth hiding, but because a redirect that failed would
-print the real key, and a test must not be one bug away from that.
-
-Everywhere but Windows this checks nothing and says so.
+Every other test replaces load_api_key with a lambda, so the storing
+functions are never run, and only a Windows runner has a registry to
+run them on; elsewhere this checks nothing and says so. REG_PATH goes
+to a throwaway key with made-up values, and nothing read back is ever
+printed: a failed redirect would print the real key.
 """
 import os
 import sys
@@ -28,9 +14,8 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 
-# The registry exists on Windows and nowhere else. On a Mac the same
-# functions talk to the keychain, and that is the one store this file
-# must not go near: it holds the real key.
+# On a Mac the same functions talk to the keychain, and that is the one
+# store this file must not go near: it holds the real key.
 if os.name != "nt":
     print("SKIPPED: no registry here -- this walks the Windows way to "
           "the key store, and os.name is %r on this machine." % os.name)
@@ -64,9 +49,8 @@ def check(name, ok, extra=""):
 def where_apart(got, want):
     """First place two strings differ, or -1 when they do not.
 
-    The report says how long each side was and where they parted. It
-    never says what either side held: this is the one number a reader
-    needs, and the text is the thing that must not be written down.
+    The report says how long each side was and where they parted, never
+    what either side held.
     """
     for i in range(min(len(got), len(want))):
         if got[i] != want[i]:
@@ -87,16 +71,14 @@ def same(got, want):
 # --------------------------------------------------- where this may write
 REAL = r"Software\videopodcast-magic"
 STEM = REAL + "-test-"
-# Two names, both thrown away at the end. MINE is written to; NEVER is
-# never written to at all and stands for a name that is not there.
+# Both thrown away at the end; NEVER is never written to at all.
 MINE = STEM + uuid.uuid4().hex[:12]
 NEVER = STEM + uuid.uuid4().hex[:12]
 # Values that could not be mistaken for a key, by anybody, at any point.
 TAG = uuid.uuid4().hex[:8]
 PLAIN = "not-a-key-" + TAG
 # Written as escapes: german_hunt_test.py holds every test in this
-# folder to English letters, and these are here as material, not as
-# words. They are the German letters an interface carries.
+# folder to English letters, and these are material, not words.
 UMLAUTS = ("not-a-key-" + "\u00e4\u00f6\u00fc"
            + "-\u00c4\u00d6\u00dc-\u00df-" + TAG)
 SPACED = "not a key with blanks in the middle " + TAG
@@ -106,8 +88,8 @@ LONG = "not-a-key-" + "x" * 4000
 def scrub():
     """Take the throwaway keys out again, whatever happened before.
 
-    Both the value and the key itself: delete_api_key only takes the
-    value out, so an empty key would stay behind for good.
+    delete_api_key only takes the value out, so an empty key would stay
+    behind for good.
     """
     for path in (MINE, NEVER):
         try:
@@ -125,8 +107,8 @@ def scrub():
 def leftovers():
     """Names under HKCU\\Software that this file or an earlier run left.
 
-    Only the names of the keys are read, never a value in any of them,
-    so the program's own key is counted and never opened.
+    Only key names are read, never a value, so the program's own key is
+    counted and never opened.
     """
     out = []
     try:
@@ -156,15 +138,11 @@ check("and neither reaches into the program's key",
       and not MINE.startswith(REAL + "\\")
       and not NEVER.startswith(REAL + "\\"),
       "%d chars, %d of them the shared stem" % (len(MINE), len(STEM)))
-# A Mac would send the same three functions to the keychain, where the
-# real key is. Nothing below may run there, not even by accident.
 check("this machine goes to the registry, not a keychain",
       sys.platform != "darwin" and os.name == "nt",
       "platform %r, os.name %r" % (sys.platform, os.name))
-# A run that was killed halfway leaves a key of its own behind. That is
-# taken out here rather than turned red: the name says it is this file's
-# and nobody else's, and a machine must not stay red over it. The one
-# that has to come out clean is this run, and section 7 says so.
+# A run killed halfway leaves a key behind. Taking it out beats staying
+# red over a name that is this file's own; section 7 is the clean one.
 stale = leftovers()
 for name in stale:
     try:
@@ -223,11 +201,8 @@ try:
           "%d chars came back" % len(after))
 
     print("\n5. Awkward values survive the trip")
-    # Blanks at the edges are taken off on the way out, on purpose: a
-    # key pasted out of a mail carries a newline more often than not.
-    # So the material has its blanks in the middle, and the stripping
-    # is checked as the intention it is rather than left to look like
-    # a loss.
+    # Blanks at the edges are taken off on purpose: a pasted key carries
+    # a newline more often than not, so the material has them inside.
     for name, value in (("umlauts and eszett", UMLAUTS),
                         ("blanks in the middle", SPACED),
                         ("4010 characters", LONG)):
@@ -241,10 +216,8 @@ try:
           same(got, PLAIN), apart_says(got, PLAIN))
 
     print("\n6. The other way round: the checks do fire")
-    # Without this section every check above would still be green if
-    # the store wrote nowhere and the read gave back what it was
-    # handed. Each line here is one of those checks, put in front of
-    # something wrong on purpose.
+    # Without this section every check above would still be green if the
+    # store wrote nowhere and the read gave back what it was handed.
     check("the comparison calls two different values different",
           not same(PLAIN, PLAIN + "x"),
           apart_says(PLAIN, PLAIN + "x"))

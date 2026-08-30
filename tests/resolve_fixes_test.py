@@ -1,16 +1,12 @@
 # -*- coding: utf-8 -*-
 """Defects of the Resolve part, each with the check that would have caught it.
 
-Blocks 1 to 5 come from a review; blocks 6 to 8 from the night of
-26 August 2026, when eight faults went in at once and rode through the
-whole suite. Two of them were one sentence: the offset of a camera is
-its timecode minus the zero point, and it holds for every camera, not
-only for the reference -- there the wrong number and the right one are
-the same number.
-
 Each block says what went wrong before, because that is what the check
-is guarding. What needs a running Resolve is not here: those three are
-marked in the handover note and belong to a real run.
+is guarding. Several of the faults were one sentence: the offset of a
+camera is its timecode minus the zero point, and it holds for every
+camera, not only for the reference -- there the wrong number and the
+right one are the same number. What needs a running Resolve is not
+here.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -213,17 +209,10 @@ check("the handover frame is a real one",
 
 
 print("\n6. Where a camera sits comes from its timecode, not from the sound")
-# The night of 26 August: the offset was written from the alignment
-# measurement instead of from the file's own timecode. On the reference
-# camera the two agree to the millisecond, so it read right -- the other
-# two were 37.34 s and 77.51 s out, and the sound ran against the wrong
-# picture. What the handover file promises is one sentence:
-#
-#     "Position in the file is programme time minus offset."
-#
-# So for every camera, and not for the reference alone:
-#
-#     file_timecode(camera["file"]) - d["start_s"] == camera["offset"]
+# The offset was once written from the alignment measurement instead of
+# the file's own timecode. On the reference camera the two agree, so it
+# read right while the others ran against the wrong picture. For every
+# camera: file_timecode(camera["file"]) - start_s == camera["offset"].
 import struct
 
 
@@ -243,8 +232,7 @@ def stamped(path, seconds):
 
 ZERO = 68100.0                                   # 18:55:00:00, the wide shot
 # Per camera: its timecode, and what the alignment measured. The
-# reference agrees to the millisecond; the other two carry exactly the
-# two errors of that night.
+# reference agrees, the other two carry the errors this guards against.
 NIGHT = [("Wide", 68100.0, 0.0),
          ("Hosts", 68104.0, 4.0 - 37.34),
          ("Guest", 68117.4, 17.4 - 77.51)]
@@ -291,8 +279,7 @@ check("no camera was left unmeasured", "offset" not in said.lower(),
       said.strip()[:60])
 
 # camera_place is the one place that answers this, so it is asked
-# directly too -- including the fallback, which is what a file without a
-# timecode is allowed to do.
+# directly too, including the fallback a file without a timecode takes.
 check("a stamped file: the timecode, not the measurement",
       vpm.camera_place(n_results[1], ZERO, -33.34, 30.0) == 4.0,
       str(vpm.camera_place(n_results[1], ZERO, -33.34, 30.0)))
@@ -305,9 +292,8 @@ check("no zero point, so the measurement again",
 check("no file at all, likewise",
       vpm.camera_place("", ZERO, -7.25, 30.0) == -7.25)
 
-# The frames of a timecode are frames, so the rate decides what they are
-# worth. Read through ffprobe, because that is where a camera's timecode
-# track comes from.
+# The frames of a timecode are frames, so the rate decides what they
+# are worth. Through ffprobe, where a camera's timecode track comes from.
 real_probe = vpm.ffprobe_json
 vpm.ffprobe_json = lambda path: {
     "format": {"tags": {"timecode": "18:55:00:12"}}, "streams": []}
@@ -323,9 +309,8 @@ check("the same 12 frames at 25 fps are 0.480 s", abs(at25 - 0.48) < 1e-6,
 
 print("\n7. The preview and the Resolve build read the same number")
 # Both take the offset out of this one file: the player through
-# camera_offset, the Resolve build by putting cam["offset"] straight into
-# recordFrame. In the night they came apart by those same 37.34 s -- and
-# only away from the reference camera, where nobody looks first.
+# camera_offset, the Resolve build by putting cam["offset"] into
+# recordFrame. They once came apart away from the reference camera.
 for_player, said = spoken(vpm.camera_offset, written["cameras"],
                           written["start_s"], written["fps_measured"])
 for_resolve = dict((cam["track"], cam["offset"])
@@ -340,9 +325,8 @@ for track in sorted(for_resolve):
 check("and there was nothing to put right", not said.strip(),
       said.strip()[:70])
 
-# A file that does carry the night's numbers -- an old handover, or one
-# edited by hand. The timecode keeps the precedence, and both numbers go
-# into the log rather than one of them being dropped in silence.
+# An old handover, or one edited by hand, carrying the wrong numbers.
+# The timecode keeps precedence, and both numbers go into the log.
 poisoned = [dict(cam, offset=cam["sound_against_picture"])
             for cam in written["cameras"]]
 after, said = spoken(vpm.camera_offset, poisoned, written["start_s"],
@@ -355,12 +339,10 @@ check("and both numbers are said out loud",
 
 
 print("\n8. A handover without a window builds the cut list again")
-# In the night the button returned at once and left the cut of the last
-# run standing: 81 shots where the turned setting gives 47. What tripped
-# it was a test that held the In point against start_s -- but start_s is
-# the zero of the axis, the earliest camera, and it is earlier than any
-# In point anybody sets, so every window was refused. A handover without
-# a window is the normal case: every run without --in-point writes one.
+# The button once returned at once and left the cut of the last run
+# standing. A test held the In point against start_s -- but start_s is
+# the zero of the axis, earlier than any In point anybody sets, so
+# every window was refused, and a window is the exception, not the rule.
 speaker_a, speaker_b, at = [], [], 0.0
 while at < 300.0:
     speaker_a.append([round(at, 3), round(at + 5.0, 3)])
@@ -417,8 +399,8 @@ check("the turned setting does not refuse either", long_r is None,
 check("and it really builds again: another number of shots",
       len(long_cut) != len(short_cut),
       "%d and %d" % (len(long_cut), len(short_cut)))
-# The In point of the interface against a handover that has none: this
-# is the pair that was refused.
+# The In point of the interface against a handover that has none: the
+# pair that was refused.
 with_in, in_cut = refreshed(["--in-point", "18:55:30:00",
                              "--min-edit-duration", "12"])
 check("an In point beside a handover without one does not refuse",
@@ -433,21 +415,10 @@ moved, _c = refreshed(["--in-point", "19:00:00:00",
 check("a window that really moved is still refused", bool(moved),
       str(moved))
 
-# ----------------------------------------------------------------------
-# Where the timecode is read, when the rendered file has none
-#
-# A camera's place in the handover is its own timecode minus the zero of
-# the axis, and it was read off the rendered file alone. Not every
-# ffmpeg carries a timecode track through a render: Windows with
-# ffmpeg 9 does not, macOS with the same 9 and Ubuntu with 6 do. So on
-# one system in three the read came back empty and the place fell back
-# to the measured shift -- without a word, and the cameras stood where
-# the measurement saw them instead of where their own clocks say they
-# are. That is the fault the first section of this file is about,
-# returning through a back door on a system nobody here can run.
-#
-# Checked without Windows by handing camera_place a file that carries no
-# timecode, which is exactly what Windows hands it.
+# A camera's place was read off the rendered file alone, and not every
+# ffmpeg carries a timecode track through a render. Where the read came
+# back empty the place fell back to the measured shift without a word.
+# Checked by handing camera_place a file that carries no timecode.
 print("\n8. Where the timecode is read")
 
 
@@ -488,9 +459,8 @@ check("and with no timecode anywhere the measurement is kept",
 check("one file may still be passed on its own",
       abs(vpm.camera_place(stamped, 0.0, WRONG, 25.0) - zero) < 0.001,
       str(vpm.camera_place(stamped, 0.0, WRONG, 25.0)))
-# The rate is the material's own here, and a wrong one would show: at
-# 30 the four seconds of 18:55:04:00 stay four, so the frames have to
-# carry it -- 18:55:04:12 at 25 is 0.48 s, at 30 it is 0.40 s.
+# The rate is the material's own here, and a wrong one would show only
+# in the frames: twelve of them are 0.48 s at 25 and 0.40 s at 30.
 twelve = little_camera("twelve_frames.mov", "18:55:04:12")
 check("the frames of a timecode are read at the file's rate",
       abs(vpm.file_timecode(twelve) - vpm.file_timecode(stamped) - 0.48)

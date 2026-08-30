@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""#38 Stage 5b: the handover is built without a window."""
+"""The handover is built from data alone, without a window."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -79,8 +79,7 @@ print("\n5. The time window carries on from there")
 d, _r = vpm.build_handover(SEG, 300.0, ASSIGN, CAM, audio_origin=[61200.0])
 w, _complaint = vpm.apply_time_window(dict(d), "17:01:00:00", "")
 check("the zero point moves along", w["start_s"] == 61260.0, str(w["start_s"]))
-# The In point sits 60 s behind the zero point: 10-60 drops out, 120-200
-# becomes 60-140.
+# The In point sits 60 s behind the zero point, so early sections go.
 check("sections move along and are trimmed",
         w["speakers"][0]["sections"] == [[60.0, 140.0]],
         str(w["speakers"][0]["sections"]))
@@ -188,14 +187,8 @@ check("an empty total appends nothing",
 
 print("\n12. The window's answer reaches the cut, and nobody loses "
       "their speakers")
-# In the night of 26.8.2026 wide_marks_applied compared cameras by
-# their track. But a run writes the speakers joined together there --
-# "Moderator + Moderatorin" -- and that never matches a file name. So
-# every camera came back with nobody in front of it, every camera
-# counted as the wide shot, and 192 shots became 1: one single shot
-# over the whole episode. The comparison goes by the file now, and
-# these checks measure the effect and not the form -- the count of
-# shots is what would have caught it.
+# Cameras are compared by file, not by track: a run joins the speakers
+# into the track name, and comparing by track made the episode one shot.
 
 
 def sections_every(first, apart, holds, how_many):
@@ -206,8 +199,7 @@ def sections_every(first, apart, holds, how_many):
 
 
 # Shaped the way a run writes it: the speakers joined into the track,
-# the rendered file under "file", the camera it was shot in under
-# "source". One camera with two speakers, one with one, one with none.
+# the rendered file under "file", the camera it came from under "source".
 RUN = {"length_s": 600.0, "start_s": 61200.0,
        "speakers": [
            {"name": "Moderator",
@@ -227,7 +219,7 @@ RUN = {"length_s": 600.0, "start_s": 61200.0,
            {"track": "Totale", "file": "/r/C003_video.mov",
             "source": "/cam/C003.MP4", "camera": "Totale",
             "speakers": [], "wide_marked": False, "wide": True}]}
-# What the window holds: file names, the way the choice fields show them.
+# What the window holds: file names, as the choice fields show them.
 ON = {"Moderator": "A001.MP4", "Moderatorin": "A001.MP4",
       "Gast": "B002.MP4"}
 
@@ -254,9 +246,8 @@ check("and it stays a cut, not one shot over the whole episode",
 check("the wide shot is still the one nobody sits at",
         after["wide"] == "Totale", str(after["wide"]))
 
-# A mark in the Kind field is an answer, not a derivation: it has to
-# reach the cut through "wide_marked". Marking a camera somebody sits
-# at is what tells the two apart -- the derivation would never pick it.
+# A mark in the Kind field is an answer, not a derivation. Marking a
+# camera somebody sits at is what tells the two apart.
 marked = vpm.wide_marks_applied(RUN, ["A001.MP4"], ON, True)
 check("the marked camera carries wide_marked",
         [cam.get("wide_marked") for cam in marked["cameras"]]
@@ -270,8 +261,8 @@ check("so the mark beats the derivation",
         said["wide"] != before["wide"],
         "%s vs %s" % (said["wide"], before["wide"]))
 
-# The sheet may not be built yet. An empty assignment says nothing, not
-# "nobody" -- otherwise the file's own answer is wiped every time.
+# An empty assignment says nothing, not "nobody": the sheet may not be
+# built yet, and the file's own answer would be wiped every time.
 for nothing, called in (({}, "{}"), (None, "None")):
     kept = vpm.wide_marks_applied(RUN, ["C003.MP4"], nothing, False)
     at = {cam["track"]: cam["speakers"] for cam in kept["cameras"]}
@@ -283,8 +274,7 @@ for nothing, called in (({}, "{}"), (None, "None")):
             "%s -> %s" % (before["shots"],
                           vpm.cut_statistics(kept)["shots"]))
 
-# The preview builds its handover without a rendered file: there is only
-# "file", and it names the camera itself. That is the fallback.
+# The preview has no rendered file: "file" names the camera itself.
 PREVIEW = dict(RUN, cameras=[
     {"track": cam["track"], "file": "/cam/%s.MP4" % cam["camera"],
      "speakers": cam["speakers"], "start_s": 61100.0,

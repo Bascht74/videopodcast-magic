@@ -2,10 +2,9 @@
 """Blocks that carry a clock in the name instead of a counter.
 
 A recorder numbers its files and the next block is the next number. A
-mixer often writes the date and the time of day instead -- 18:56:28 and
-19:01:28 are not two consecutive numbers, they are five minutes apart, and
-five minutes is exactly how long the first block is. That is the rule
-here: the clock of the next block has to sit where the previous one ends.
+mixer often writes the date and the time of day instead, which are not
+consecutive numbers. The rule here: the clock of the next block has to
+sit where the previous one ends.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -96,9 +95,8 @@ check("a block that starts too late is not appended",
 check("and the reason is given", bool(discarded5), str(discarded5))
 
 #--------------------------------- two names spelling the same moment
-# "260808" and "20260808" are the same day. Which of the two files is
-# meant cannot be decided, so neither is taken rather than letting the
-# folder listing decide.
+# "260808" and "20260808" are the same day, and which file is meant
+# cannot be decided -- so neither is taken.
 same_a = wav("v_260808_140000.wav", 300.0)
 same_b = wav("v_20260808_140000.wav", 300.0)
 after_both = wav("v_260808_140500.wav", 300.0)
@@ -119,9 +117,8 @@ check("where every block carries the same clock the counter still works",
       str(names(row6)))
 
 #------------------------------- a counter that reads as a time of day
-# "000001" is a valid time -- one second past midnight -- so the clock
-# rule fires and finds nothing. The counter rule has to get its turn
-# afterwards, or three blocks of one recording stay three recordings.
+# "000001" is a valid time, so the clock rule fires and finds nothing.
+# The counter rule has to get its turn afterwards.
 f1 = wav("w_260808_000001.wav", 300.0)
 f2 = wav("w_260808_000002.wav", 300.0)
 f3 = wav("w_260808_000003.wav", 300.0)

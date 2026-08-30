@@ -28,7 +28,6 @@ D = fixture("speakergate")
 os.makedirs(D, exist_ok=True)
 RATE = 8000
 LENGTH = 60.0
-# Host speaks 0-10, 20-30, 40-50; Guest 10-20, 30-40, 50-60.
 TURNS = {"Host": [(0, 10), (20, 30), (40, 50)],
          "Guest": [(10, 20), (30, 40), (50, 60)]}
 
@@ -86,8 +85,7 @@ print("   without separation:", speech_seconds(plain),
 print("   with separation:   ", speech_seconds(apart),
       " wrong %.0f %%" % wrong_share(apart))
 # Without separation both microphones carry speech almost the whole time,
-# so the noise floor sits at speech level and the threshold rejects
-# everything. Either way the result is unusable -- the test says so.
+# so the noise floor sits at speech level and the threshold rejects it all.
 plain_s = speech_seconds(plain)
 check("without separation the result is unusable",
         abs(plain_s["Host"] - 30.0) > 10.0
