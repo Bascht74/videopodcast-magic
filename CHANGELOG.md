@@ -9,9 +9,41 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.15.0-beta] - 2026-08-30
+
+### Added
+
+
+- A project file lying with the material is offered when files are
+  added. Dragging in the recordings of a production that had been
+  worked on before brought nothing back: the names, the separation,
+  who sits at which camera, the types and the time window all stood in
+  the project file next to them, and nothing looked. Now the folder the
+  material is in and one folder below it are looked at -- that is where
+  the output folder is, and the project file with it. One found, and it
+  is offered once, with the date it was written. Several, and they are
+  shown with their dates to choose between. None, and nothing happens.
+  Nothing is ever taken in part: the project is opened whole or not at
+  all, which is what half a project taken out of a handover file had
+  been doing wrong. Once a project is open nothing more is offered --
+  material still arrives through that door when a block is taken out of
+  a recording and put back, and a second offer there would undo by hand
+  what somebody had just done by hand.
+- The times the tests take on the builder can be fetched into the
+  order of the queue: `cd tests && bash builder_times.sh`. The suite
+  measures itself and starts the long tests first, but this Mac was
+  deciding that order and it is the wrong machine to ask -- it has
+  cores to spare and finishes in half a minute, while the builder takes
+  two to four. The two disagree badly: `crosstalk` is four seconds here
+  and 118 on the builder, and it was standing thirtieth in a queue it
+  should have led. The numbers come out of the run's own log, from one
+  job -- the slowest of the six, currently Windows with Python 3.10,
+  measured at 208 seconds against 101 for the fastest. One job and not
+  a largest-of-six: mixing them would order one test by Windows and the
+  next by Linux, which is two rulers and therefore no order at all.
 
 ### Changed
+
 
 - Adding material no longer takes the output folder and the production
   name out of a handover file lying in a subfolder. That file belongs
@@ -22,8 +54,22 @@ survives.
   chosen. Opening a project was never affected: it clears what the
   window remembers, the Kind of every file and the wide-shot marks
   before it applies what the file says.
+- On a Mac the first menu carries the program's name instead of
+  "Python". That name does not come from Qt: it is read out of the
+  bundle around the running executable, and a script started with
+  python3 borrows the one Python lives in. It is written now, before
+  the menu bar is built. Qt's own words in that menu -- "Preferences",
+  "Quit", "Services", and the buttons in the file dialog -- also come
+  in the chosen language now. They are Qt's texts and not ours, so they
+  had stayed English in a German window however much of our own text
+  was translated; Qt brings them translated and only had to be told.
+- "Fetch transcript" is grey while the preset is "work without
+  auphonic". The transcript is fetched from auphonic.com, and without a
+  preset nothing is sent there, so the tick stood offering a file that
+  could not arrive.
 
 ### Tests
+
 
 - `without_auphonic_test.py` is now `local_run_test.py`. The old name
   said what the run does not do; the test proves something positive --
@@ -70,13 +116,24 @@ survives.
   first and was beaten by the measurement within one run -- three of
   the six longest were not on it. What is kept is the longest each test
   has ever taken on any machine, because the order has to hold for the
-  slower one; it only rises, which is what makes it settle.
+  slower one. What that store holds is now replaced by the builder's
+  numbers rather than only ever rising: a rule that only rises cannot
+  show a test that was made faster, and the one that was 118 seconds
+  would have kept that number for ever.
 - The suite says where it is while it runs: the time, the place in the
   queue and the verdict, one line per test as it finishes, instead of
   two silent minutes and then everything at once. Several finish at the
   same moment, so the same number can appear twice -- it is a place in
   the queue, not an accounting, and a lock would cost more than it is
   worth here.
+
+- `project_offer_test.py`: 33 checks over where a project file is
+  looked for, what is offered for one and for several, that nothing is
+  said when there is none, and that an open project silences the offer.
+  That last one is there because building this broke `block_remove`:
+  putting a block back into a recording goes through the same door as
+  adding material, the offer went up in the middle of the test and
+  loaded the whole project back over the change.
 
 ## [2.14.0-beta] - 2026-08-30
 
@@ -2058,6 +2115,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.15.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.14.0-beta...v2.15.0-beta
 [2.14.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.13.0-beta...v2.14.0-beta
 [2.13.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.12.0-beta...v2.13.0-beta
 [2.12.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.11.1-beta...v2.12.0-beta
