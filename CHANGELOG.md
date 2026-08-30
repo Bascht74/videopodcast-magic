@@ -41,6 +41,15 @@ survives.
   even where the two could not be compared, and warned about it. It now
   says when it cannot compare them.
 
+### Tests
+
+- The multitrack path was measured for the fault the simple path had,
+  because that is the path most work goes through. It does not have it:
+  with two cameras whose pictures start 4.0 and 7.0 seconds into the
+  recording, the sound sits at 4.000 and 7.000 seconds with a window
+  and without one, exact to the sample. Three deliberately broken
+  copies were each caught.
+
 ---
 
 **Deutsch**
@@ -73,6 +82,15 @@ survives.
 - Die Zeile **Prüfung: neue Spur gegen den Kameraton** nannte eine Zahl
   auch dort, wo sich die beiden gar nicht vergleichen ließen, und
   warnte davor. Sie sagt jetzt, wenn sie nicht vergleichen kann.
+
+### Tests
+
+- Der Multitrack-Weg wurde auf den Fehler des Einspur-Wegs hin
+  gemessen, weil die meiste Arbeit dort durchgeht. Er hat ihn nicht:
+  bei zwei Kameras, deren Bild 4,0 und 7,0 Sekunden nach dem
+  Aufnahmebeginn einsetzt, sitzt der Ton mit Fenster wie ohne bei
+  4,000 und 7,000 Sekunden, auf das Sample genau. Drei absichtlich
+  beschädigte Kopien wurden alle gefangen.
 
 ## [2.19.0-beta] - 2026-08-31
 

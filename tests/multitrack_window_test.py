@@ -14,13 +14,13 @@ the common time axis, where every file already knows where it sits,
 instead of each track being trimmed by a head count of its own. That
 reads as safe. This test says whether it is.
 
-The material is built so the question has an exact answer. The cameras
-carry the room mix from CAM_LATE seconds into the recording onwards, so
-picture time t is recording time t + CAM_LATE, and every speaker track
-begins CAM_LATE before its own picture does. That distance is the whole
-point of the fixture: were the picture to begin with the recording, the
-fault being looked for would be zero by construction and a green run
-would prove nothing.
+The material is built so the question has an exact answer. Each camera
+carries the room mix from its own LATE seconds into the recording
+onwards -- four for one, seven for the other -- so its picture time t is
+recording time t + LATE, and both speaker tracks begin well before
+either picture does. That distance is the whole point of the fixture:
+were the picture to begin with the recording, the fault being looked for
+would be zero by construction and a green run would prove nothing.
 
 Two runs are made on it, one without a window and one with an In and an
 Out point, and the sound written into the camera files is held against
@@ -63,23 +63,38 @@ def tail(text, n=2):
 #------------------------------------------------------------- Material
 
 RATE = 48000
-# 36 s, and not less. The run stops below a common window of 30 s, and
-# the cameras start CAM_LATE late, so the window is LENGTH - CAM_LATE.
-# At 36 that is 32 s: two over the barrier.
-LENGTH = 36.0
-# Where the picture starts inside the recording. This is the number the
-# whole test hangs on: picture time t is recording time t + CAM_LATE.
-CAM_LATE = 4.0
-CAM_LEN = LENGTH - CAM_LATE
-# The window, in picture time, given as a relative In and Out point --
-# the common window begins at picture time 0, so +8 and +20 are picture
-# seconds 8 and 20. Both speakers have a turn inside it and both have
-# turns outside it, so a window that did nothing would be caught as
+# 39 s, and not less. The run stops below a common window of 30 s; the
+# window here is LENGTH minus the later of the two camera starts, so at
+# 39 it is 32 s -- two over the barrier.
+LENGTH = 39.0
+# Where each camera's picture starts inside the recording. This is the
+# number the whole test hangs on: for a camera that starts LATE late,
+# picture time t is recording time t + LATE.
+#
+# The two are deliberately different, and neither is zero. The offset
+# the program writes into a camera file is built out of two parts --
+# where the camera sits against the reference camera, and where the
+# common window begins. With both cameras starting together, both parts
+# would be zero and the arithmetic would be tested against nothing. As
+# it is, the reference camera is CamHost (it is the longer one), CamGuest
+# sits 3 s behind it, and the common window begins 3 s into the
+# reference -- so every part of the sum carries a number even in the run
+# that asks for no window at all.
+LATE = {"CamHost": 4.0, "CamGuest": 7.0}
+CAM_LEN = dict((cam, LENGTH - late) for cam, late in LATE.items())
+# Where the common window begins in recording time: with the later
+# camera, because that is the first moment every camera saw.
+COMMON = max(LATE.values())
+# The window, given as a relative In and Out point, which count from the
+# start of the common window. In recording time that is COMMON + 8 to
+# COMMON + 20; each camera sees it at its own picture time, which is
+# that minus its own LATE. Both speakers have a turn inside it and both
+# have turns outside it, so a window that did nothing would be caught as
 # surely as one that cut in the wrong place.
 WIN_IN, WIN_OUT = 8.0, 20.0
 # Turns in recording time, with a pause of at least a second around
 # each. Speech-like noise, because the alignment lives on the envelope
-# of speech; a steady tone would align by luck. Twelve of the 36 s are
+# of speech; a steady tone would align by luck. Fifteen of the 39 s are
 # quiet, which is what keeps the speech detection's noise floor out of
 # the neighbour's bleed.
 TURNS = {"Host": [(5, 10), (17, 22), (29, 34)],
@@ -147,21 +162,18 @@ src = {"Host": read(D + "/Host.wav"), "Guest": read(D + "/Guest.wav")}
 # picture through, so the picture only has to exist.
 #
 # The -ss in front of each output is an output option and cuts that file
-# alone: picture and sound of both cameras begin CAM_LATE into the
+# alone: picture and sound of each camera begin its own LATE into the
 # recording. That is what makes picture time t equal recording time
-# t + CAM_LATE, and it is the one thing this fixture may not lose.
-subprocess.run(
-    ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
-     "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
-     "-i", D + "/room.wav",
-     "-ss", "%.2f" % CAM_LATE,
-     "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "ultrafast",
-     "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
-     D + "/CamHost.mov",
-     "-ss", "%.2f" % CAM_LATE,
-     "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "ultrafast",
-     "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
-     D + "/CamGuest.mov"], check=True)
+# t + LATE, and it is the one thing this fixture may not lose.
+build = ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+        "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
+        "-i", D + "/room.wav"]
+for cam in ("CamHost", "CamGuest"):
+    build += ["-ss", "%.2f" % LATE[cam],
+             "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
+             "-preset", "ultrafast", "-pix_fmt", "yuv420p",
+             "-c:a", "pcm_s16le", "-shortest", D + "/" + cam + ".mov"]
+subprocess.run(build, check=True)
 
 # The file format number is read out of the program rather than the
 # program imported for it: importing 36000 lines to learn one integer
@@ -184,6 +196,7 @@ with open(D + "/assign.json", "w", encoding="utf-8") as f:
 
 
 def run(out, *extra):
+    """One Multitrack run on this material, and what it printed."""
     p = subprocess.run(
         [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
          "--assign", D + "/assign.json", "--out", out, "--no-metrics",
@@ -262,33 +275,33 @@ for cam in ("CamHost", "CamGuest"):
           os.path.exists(D + "/plain/" + cam + ".mov"))
     x = track("plain", cam)
     check("%s keeps the whole picture" % cam,
-          abs(len(x) / float(RATE) - CAM_LEN) < 0.05,
-          "%.3f s of %.1f" % (len(x) / float(RATE), CAM_LEN))
+          abs(len(x) / float(RATE) - CAM_LEN[cam]) < 0.05,
+          "%.3f s of %.1f" % (len(x) / float(RATE), CAM_LEN[cam]))
     plain_at[cam] = begins_at(src[SPEAKER[cam]], x)
     check("%s: the sound starts where the picture starts" % cam,
-          abs(plain_at[cam] - CAM_LATE) < FRAME,
+          abs(plain_at[cam] - LATE[cam]) < FRAME,
           "begins at %.3f s of the recording, wanted %.3f"
-          % (plain_at[cam], CAM_LATE))
+          % (plain_at[cam], LATE[cam]))
 
 print("\n3. With a window it still sits on its picture")
 # This is the question the whole file exists for. The window moves the
-# sound to another place in the picture; the piece that lands at picture
-# time WIN_IN has to be the piece that was recorded then. Measured
-# against the run without a window, so the answer is a difference
-# between two measurements of the same material and no constant of the
-# processing can hide inside it.
+# sound to another place in the picture; the piece that lands at the In
+# point has to be the piece that was recorded then. It is measured twice
+# over: against where the recording says it belongs, and against the run
+# without a window -- so no constant of the processing can hide inside
+# the answer.
 for cam in ("CamHost", "CamGuest"):
     check("%s was written" % cam,
           os.path.exists(D + "/window/" + cam + ".mov"))
     x = track("window", cam)
     check("%s keeps the whole picture" % cam,
-          abs(len(x) / float(RATE) - CAM_LEN) < 0.05,
-          "%.3f s of %.1f" % (len(x) / float(RATE), CAM_LEN))
+          abs(len(x) / float(RATE) - CAM_LEN[cam]) < 0.05,
+          "%.3f s of %.1f" % (len(x) / float(RATE), CAM_LEN[cam]))
     at = begins_at(src[SPEAKER[cam]], x)
     check("%s: the sound still belongs to the picture" % cam,
-          abs(at - CAM_LATE) < FRAME,
+          abs(at - LATE[cam]) < FRAME,
           "the written track begins at %.3f s of the recording, wanted "
-          "%.3f -- %+.0f ms out" % (at, CAM_LATE, (at - CAM_LATE) * 1000))
+          "%.3f -- %+.0f ms out" % (at, LATE[cam], (at - LATE[cam]) * 1000))
     check("%s: the window moved nothing against the run without one" % cam,
           abs(at - plain_at[cam]) < FRAME,
           "%+.0f ms against the run without a window"
@@ -296,19 +309,26 @@ for cam in ("CamHost", "CamGuest"):
 
 print("\n4. And the window really is a window")
 # Without this a run that ignored the In and Out point altogether would
-# pass part 3 with the best numbers in the file.
+# pass part 3 with the best numbers in the file. The window lies at
+# recording time COMMON + WIN_IN to COMMON + WIN_OUT; each camera sees it
+# that much minus its own start. One second of slack on the In side,
+# because a whole second is called loud as soon as part of it carries
+# sound.
 for cam in ("CamHost", "CamGuest"):
+    first, last = COMMON + WIN_IN - LATE[cam], COMMON + WIN_OUT - LATE[cam]
     heard = loud(track("window", cam))
     check("%s: nothing sounds before the In point" % cam,
-          all(i >= WIN_IN - 1 for i in heard), str(heard[:4]))
+          all(i >= first - 1 for i in heard),
+          "%s, In point at picture time %.1f" % (heard[:4], first))
     check("%s: nothing sounds after the Out point" % cam,
-          all(i < WIN_OUT for i in heard), str(heard[-4:]))
+          all(i < last for i in heard),
+          "%s, Out point at picture time %.1f" % (heard[-4:], last))
     check("%s: there is sound inside the window" % cam,
           len(heard) >= 3, str(len(heard)))
     outside = loud(track("plain", cam))
     check("%s: and outside it there was sound before" % cam,
-          any(i < WIN_IN - 1 for i in outside)
-          or any(i >= WIN_OUT for i in outside), str(outside[:6]))
+          any(i < first - 1 for i in outside) or any(i >= last for i in outside),
+          str(outside[:6]))
 
 print()
 if error:
