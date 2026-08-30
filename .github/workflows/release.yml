@@ -1,5 +1,5 @@
 name: release
-run-name: "release ${{ inputs.tag || github.ref_name }}"
+run-name: "release #${{ github.run_number }} of ${{ inputs.tag || github.ref_name }} (${{ github.event_name }})"
 
 # What a release has to be, asked of the release itself.
 #
@@ -24,11 +24,10 @@ run-name: "release ${{ inputs.tag || github.ref_name }}"
 # workflow does not check any of it a second time.
 
 on:
-  push:
-    tags:
-      - 'v*'
-  # The tag is pushed first and the release made a moment later, so
-  # the run on the tag can only see half of it. This is the other half.
+  # Only once the release is published. The tag is pushed first and the
+  # release made a moment later, so a run on the tag alone asks after
+  # something that is not there yet and goes red for it. A check that is
+  # red by design is a check nobody reads.
   release:
     types: [published]
   workflow_dispatch:
