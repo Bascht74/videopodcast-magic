@@ -74,15 +74,6 @@ survives.
   `/private/tmp`. Seven microseconds of `realpath` against a saved
   process start.
 
-### Documentation
-
-- The chapter on speech says what the names now propose, when a voice
-  is proposed for "do not use", what that answer does, and where the
-  writing down of the words runs and where it does not. That last one
-  is worth reading before a long recording: about half a minute for an
-  hour and a half, once, in the background, and never on merely adding
-  files.
-
 ### Fixed
 
 - The count of processes a test starts stood about 1.7 times too high.
@@ -142,6 +133,15 @@ survives.
   speech table, building the preflight sentence, reading what a project
   folder holds, marking the assignment fields, and catching a run's
   output.
+
+### Documentation
+
+- The chapter on speech says what the names now propose, when a voice
+  is proposed for "do not use", what that answer does, and where the
+  writing down of the words runs and where it does not. That last one
+  is worth reading before a long recording: about half a minute for an
+  hour and a half, once, in the background, and never on merely adding
+  files.
 
 ## [2.18.0-beta] - 2026-08-31
 
