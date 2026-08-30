@@ -75,14 +75,18 @@ check("the whole file, no channel picked", tracks[0][0] == (), str(tracks[0]))
 print("\n2. Two channels carrying the same signal are one stereo track")
 f, pairs, tracks = judge(build("dual.wav", [300, "="]))
 check("judged stereo", pairs[0][1] is True, str(pairs[0]))
-check("and that is measured, not guessed", pairs[0][1] is True)
+# The third field says the verdict rests on a measurement. A pair the
+# program could not measure comes back False there and reads "not
+# recognisable", and that is the answer this line keeps out.
+check("and that is measured, not guessed", pairs[0][2] is True,
+      "certain %r, reason %r" % (pairs[0][2], pairs[0][3]))
 check("one track out of it", len(tracks) == 1, str(tracks))
 check("it holds both channels", tracks[0][0] == (0, 1), str(tracks[0][0]))
 
 print("\n3. Two different channels are proposed as two tracks")
 f, pairs, tracks = judge(build("two.wav", [300, 900]))
+apart_verdict = pairs[0][1:3]           # section 8 holds a video against it
 check("judged separate", pairs[0][1] is False, str(pairs[0][1]))
-check("and only proposed", pairs[0][1] is False)
 check("the reason says why in plain words",
       "%" not in pairs[0][3] and len(pairs[0][3].split()) >= 4,
       pairs[0][3])
@@ -200,7 +204,8 @@ f, pairs, tracks = judge(build("cam.mov", [300, 900], video=True))
 check("two channels found in the video", f["channels"] == 2,
       str(f["channels"]))
 check("same judgement as for the audio file",
-      pairs[0][1] is False and pairs[0][1] is False, str(pairs[0]))
+      pairs[0][1:3] == apart_verdict,
+      "video %s, audio %s" % (pairs[0][1:3], apart_verdict))
 check("two tracks", len(tracks) == 2, str([t[1] for t in tracks]))
 
 print("\n9. An unreadable file says so instead of inventing channels")

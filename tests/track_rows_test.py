@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A stereo file with two people on it becomes two tracks everywhere."""
+"""A stereo file with two people on it becomes two rows to assign."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -148,7 +148,12 @@ def step():
             check("the stereo file became two rows, the mono one stays one",
                   len(rows) == 3, str(len(rows)))
             cut = [r for r in rows if "_Channel" in r]
-            check("both come from the stereo file", len(cut) == 2, str(cut))
+            # By name, not by counting: two split rows carrying some
+            # other file's name would pass a count and would mean the
+            # wrong recording had been taken apart.
+            check("both come from the stereo file",
+                  len(cut) == 2 and all(r.startswith("A_pair") for r in cut),
+                  str(cut))
             check("and they are different channels",
                   len(set(cut)) == 2, str(cut))
             check("the mono file is untouched",

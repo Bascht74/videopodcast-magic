@@ -245,27 +245,45 @@ def shot(name, w=None):
 n = [0]
 waited = [0]
 before = [None]
+holding = [None]
+
+# What each step may spend waiting: milliseconds between tries, and how
+# many tries. The clock at the bottom is their sum, so it can no longer
+# end the run before the step it is guarding has said which condition
+# never came true -- which is the whole point of these waits.
+WAITS = {"the window": (100, 120),
+         "the Open project button": (150, 200),
+         "the Multitrack tick": (150, 200),
+         "the Resolve cut sheet": (150, 200),
+         "the speaker box and the preview box": (150, 250)}
+# Ten seconds on top of the waits: between them the steps hop 50 ms
+# apart and do their own work -- loading, drawing, grabbing pictures.
+DEADLINE = sum(ms * tries for ms, tries in WAITS.values()) + 10000
 
 
-def hold(ok, what, ms=150, limit=200):
+def hold(ok, what):
     """Wait for a condition instead of waiting for the clock.
 
-    The step comes back every <ms> milliseconds until <ok> is true, at
-    most <limit> times, so a slow machine only takes longer while an
+    The step comes back every few milliseconds until <ok> is true, as
+    often as WAITS allows, so a slow machine only takes longer while an
     interface that never gets there gives up. Giving up is a defect and
     says so: carrying on as though the wait had worked photographs the
     sheet anyway and comes back green.
     """
+    ms, limit = WAITS[what]
     if ok:
         waited[0] = 0
+        holding[0] = None
         return False
     if waited[0] >= limit:
         waited[0] = 0
+        holding[0] = None
         fail("waited %.1f s for %s, and it never came"
              % (limit * ms / 1000.0, what))
         app.quit()
         return True
     waited[0] += 1
+    holding[0] = what
     n[0] -= 1
     QtCore.QTimer.singleShot(ms, step)
     return True
@@ -329,7 +347,7 @@ def step():
     i = n[0]; n[0] += 1
     try:
         if i == 0:
-            if hold(win() is not None, "the window", 100, 120): return
+            if hold(win() is not None, "the window"): return
             win().show(); app.processEvents()
         elif i == 1:
             k = button(vpm.T('Open project ...')[:8])
@@ -350,8 +368,7 @@ def step():
             if hold(built(), "the Resolve cut sheet"): return
             if not tab(vpm.T('Resolve cut')): return
         elif i == 4:
-            if hold(ready(), "the speaker box and the preview box",
-                    150, 250): return
+            if hold(ready(), "the speaker box and the preview box"): return
             shot("A_tab")
             # The name of the picture stays English, the lookup does
             # not: the window carries the translated title, and the
@@ -394,11 +411,15 @@ def step():
     QtCore.QTimer.singleShot(50, step)
 
 QtCore.QTimer.singleShot(50, step)
-QtCore.QTimer.singleShot(60000, app.quit)
+QtCore.QTimer.singleShot(DEADLINE, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 code = vpm.gui()
 if not through[0] and not bad:
-    fail("the window closed before the last step -- the minute ran out")
+    # Naming the step and what it was waiting for: on another machine
+    # only what stands in this line exists.
+    doing = ("waiting for %s" % holding[0]) if holding[0] else "at work"
+    fail("the run was stopped after %.0f s at step %d, %s"
+         % (DEADLINE / 1000.0, n[0], doing))
 if bad:
     print("\n%d thing(s) went wrong:" % len(bad))
     for line in bad:

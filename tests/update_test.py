@@ -96,7 +96,7 @@ print("\n3b. A no can be taken back")
 import io as _io
 source = _io.open(SCRIPT, encoding="utf-8").read()
 check("there is a switch that takes it back",
-      '"--update-check"' in source and "--update-check" in source)
+      '"--update-check"' in source)
 check("and it writes the yes",
       'if "--update-check" in rest:\n        set_update_wanted(True)'
       in source)
@@ -105,8 +105,9 @@ check("a no still holds for the unasked look", vpm.update_wanted() is False)
 check("but a direct question is answered anyway",
       with_tag("v9.9.9", asked=True)[0] == "v9.9.9")
 vpm.set_update_wanted(True)
+offered = with_tag("v9.9.9")[0]
 check("and the yes brings the unasked look back",
-      vpm.update_wanted() is True)
+      offered == "v9.9.9", "offered %r" % offered)
 
 print("\n4. What comes back is read before it is believed")
 def with_body(body):

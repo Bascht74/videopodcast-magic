@@ -30,16 +30,23 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
+def num(v):
+    """A number for the log, and the word None where none came back."""
+    return "%.1f" % v if isinstance(v, (int, float)) else str(v)
+
 seen = {}
 for n in ("a.wav","b.wav"):
-    i, p, lra = vpm.measure_loudness(os.path.join(T,n))
-    seen[n] = (i, p, lra)
-    print("%-7s I=%.1f LUFS  Peak=%.1f dBTP  Range=%s LU" % (n, i, p, lra))
+    seen[n] = vpm.measure_loudness(os.path.join(T,n))
+    print("%-7s I=%s LUFS  Peak=%s dBTP  Range=%s LU"
+          % (n, num(seen[n][0]), num(seen[n][1]), seen[n][2]))
 
 print("\n1. The measurement itself")
 # The second file is the same tone, pulled down 16 dB half the time.
 check("both are measured", all(v[0] is not None for v in seen.values()),
       str(seen))
+if error:
+    print("\nFAIL: " + ", ".join(error))
+    sys.exit(1)
 # EBU R128 gates: material more than 10 LU under the ungated level does
 # not count, so the quiet halves drop out and both files come to the
 # same figure -- a pause must not make a recording seem quieter.
@@ -71,8 +78,7 @@ vpm.mix_tracks([t["ready"] for t in tracks], mix, v, curve)
 after = vpm.measure_loudness(mix)[0]
 check("the mix lands on the target", abs(after + 16.0) <= 0.6,
       "%.2f LUFS" % after)
-check("the gain is the one that gets it there",
-      abs(v) < 30.0 and v == v, "%+.2f dB" % v)
+check("the gain stays in a plausible range", abs(v) < 30.0, "%+.2f dB" % v)
 
 # Twice as loud a target means six decibels more gain, near enough.
 harder, _c = vpm.normalise_loudness(tracks, -10.0, T)

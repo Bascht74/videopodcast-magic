@@ -114,9 +114,14 @@ for language, row, env in started:
                      out.split("SKIPPED:")[1].split("\n")[0][:44]))
             skipped += 1
             continue
+        # What the run said about itself. A script's own FAIL line counts
+        # for as much as a traceback: a window that named what it could
+        # not find has not failed silently, so it is neither run again
+        # below nor allowed through on a return code of nought.
         serious = [line for line in out.split("\n")
-                   if "Traceback" in line or "KeyError" in line
-                   or "AttributeError" in line or "NameError" in line]
+                   if line.startswith("FAIL") or "Traceback" in line
+                   or "KeyError" in line or "AttributeError" in line
+                   or "NameError" in line]
         good = not hung and p.returncode == 0 and not serious
         if not good and not hung and not serious:
             # A failure that says nothing is not a finding: on a busy

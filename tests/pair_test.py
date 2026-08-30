@@ -16,12 +16,17 @@ def check(name, ok, extra=""):
         error.append(name)
 
 
-def show(title, tracks, camera_of, length=30.0):
-    """Print the cut and check the shape every cut must have.
+def at(cut, t):
+    """The camera on screen at that moment."""
+    return next((w for a, b, w in cut if a <= t < b), "nothing")
 
-    Which camera belongs where is a judgement this test does not make.
-    The shape is not: segments in order, without gap or overlap, from 0
-    to the end, and every one of them names a camera that exists.
+
+def show(title, tracks, camera_of, length=30.0):
+    """Print the cut, check the shape every cut must have, hand it back.
+
+    Which camera belongs where is judged by the caller. The shape is
+    not: segments in order, without gap or overlap, from 0 to the end,
+    and every one of them names a camera that exists.
     """
     print("\n== %s" % title)
     s = vpm.build_camera_cut(tracks, length, camera_of, "Wide",
@@ -30,7 +35,9 @@ def show(title, tracks, camera_of, length=30.0):
         print("   %5.1f - %5.1f s   %s" % (a, b, who))
     known = set(camera_of.values()) | {"Wide"}
     check("segments, and they run forwards",
-          bool(s) and all(b > a for a, b, _w in s))
+          bool(s) and all(b > a for a, b, _w in s),
+          "%d segments, backwards: %s" % (
+              len(s), [(a, b) for a, b, _w in s if b <= a][:2]))
     check("no gap and no overlap",
           all(abs(s[i][1] - s[i + 1][0]) < 1e-6 for i in range(len(s) - 1)),
           str([(round(x[1], 2), round(y[0], 2))
@@ -40,25 +47,38 @@ def show(title, tracks, camera_of, length=30.0):
           "%.2f .. %.2f of %.1f" % (s[0][0], s[-1][1], length))
     strangers = sorted({w for _a, _b, w in s} - known)
     check("only cameras that exist", not strangers, str(strangers))
+    return s
 
 cameras = {"Host": "Hosts", "Co-host": "Hosts",
            "Guest": "Guest"}
 tracks = [("Host",    [(0, 5), (10, 15)]),
           ("Co-host", [(12, 15), (20, 25)]),
           ("Guest",   [(5, 10), (22, 25)])]
-show("hosts share one camera", tracks, cameras)
+shared = show("hosts share one camera", tracks, cameras)
 
 # Everyone on a camera of their own, so no two-shot exists.
 cameras2 = {"Host": "Host", "Co-host": "Co-host",
             "Guest": "Guest"}
-show("everyone has their own camera", tracks, cameras2)
+apart = show("everyone has their own camera", tracks, cameras2)
 
-cameras3 = {"Host": "Hosts", "Co-host": "Hosts",
-            "Guest": "All"}
+# The question the file is here for, asked both ways round: the hosts
+# talk over each other from 12 to 15 s.
+check("both hosts at once: the camera showing both comes up",
+      at(shared, 13.0) == "Hosts", at(shared, 13.0))
+check("and where no camera shows both, the wide shot does",
+      at(apart, 13.0) == "Wide", at(apart, 13.0))
+
 tracks3 = [("Host", [(0, 10)]), ("Co-host", [(5, 10)]),
            ("Guest", [(8, 10)])]
 show("three talk, only one camera covers all", tracks3,
      {"Host": "All", "Co-host": "All", "Guest": "All"}, 12.0)
+
+# The only place where all three speak at once and no camera shows them
+# all: the cut has to fall back on the wide shot there. The cases above
+# overlap in pairs only.
+cameras3 = {"Host": "Hosts", "Co-host": "Hosts",
+            "Guest": "Guest"}
+show("all three at once, no camera covers them", tracks3, cameras3, 12.0)
 
 print()
 if error:

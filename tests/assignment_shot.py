@@ -27,7 +27,7 @@ QtWidgets.QFileDialog.getOpenFileName = staticmethod(
 # whatever Qt makes of it. The code is set once at the bottom.
 bad = []
 # Whether the last step was reached. The clock at the bottom stops the
-# window after a minute, which otherwise reads as a finished run.
+# window in the end, which otherwise reads as a finished run.
 through = [False]
 
 
@@ -186,26 +186,44 @@ def keep(picture, name):
 n = [0]
 waited = [0]
 before = [None]
+holding = [None]
+
+# What each step may spend waiting: milliseconds between tries, and how
+# many tries. The clock at the bottom is their sum, so it can no longer
+# end the run before the step it is guarding has said which condition
+# never came true -- which is the whole point of these waits.
+WAITS = {"the window": (100, 100),
+         "the Open project button": (150, 120),
+         "the Multitrack tick": (150, 120),
+         "the assignment sheet": (150, 120),
+         "the two lists of the assignment sheet": (150, 240)}
+# Ten seconds on top of the waits: between them the steps hop 50 ms
+# apart and do their own work -- loading, drawing, grabbing a picture.
+DEADLINE = sum(ms * tries for ms, tries in WAITS.values()) + 10000
 
 
-def hold(ok, what, ms=150, limit=120):
+def hold(ok, what):
     """Wait for a condition instead of waiting for the clock.
 
-    The step comes back every <ms> milliseconds until <ok> is true, at
-    most <limit> times, so a slow machine only takes longer while an
+    The step comes back every few milliseconds until <ok> is true, as
+    often as WAITS allows, so a slow machine only takes longer while an
     interface that never gets there still gives up. Giving up is a
     defect and says so, or the shot is of whatever was on the screen.
     """
+    ms, limit = WAITS[what]
     if ok:
         waited[0] = 0
+        holding[0] = None
         return False
     if waited[0] >= limit:
         waited[0] = 0
+        holding[0] = None
         fail("waited %.1f s for %s, and it never came"
              % (limit * ms / 1000.0, what))
         app.quit()
         return True
     waited[0] += 1
+    holding[0] = what
     n[0] -= 1
     QtCore.QTimer.singleShot(ms, step)
     return True
@@ -271,7 +289,7 @@ def step():
     i = n[0]; n[0] += 1
     try:
         if i == 0:
-            if hold(win() is not None, "the window", 100, 100): return
+            if hold(win() is not None, "the window"): return
             win().show(); win().resize(1500, 1050); app.processEvents()
         elif i == 1:
             if hold(button(vpm.T('Open project ...')[:8]) is not None,
@@ -291,8 +309,7 @@ def step():
             if hold(built(), "the assignment sheet"): return
             if not tab(vpm.T('Assignment && time window')[:9]): return
         elif i == 4:
-            if hold(ready(), "the two lists of the assignment sheet",
-                    150, 240): return
+            if hold(ready(), "the two lists of the assignment sheet"): return
             app.processEvents()
             keep(win().grab(), "assignment")
             lists = reading()
@@ -335,11 +352,15 @@ def step():
     QtCore.QTimer.singleShot(50, step)
 
 QtCore.QTimer.singleShot(50, step)
-QtCore.QTimer.singleShot(60000, app.quit)
+QtCore.QTimer.singleShot(DEADLINE, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 code = vpm.gui()
 if not through[0] and not bad:
-    fail("the window closed before the last step -- the minute ran out")
+    # Naming the step and what it was waiting for: on another machine
+    # only what stands in this line exists.
+    doing = ("waiting for %s" % holding[0]) if holding[0] else "at work"
+    fail("the run was stopped after %.0f s at step %d, %s"
+         % (DEADLINE / 1000.0, n[0], doing))
 if bad:
     print("\n%d thing(s) went wrong:" % len(bad))
     for line in bad:

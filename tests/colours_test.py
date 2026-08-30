@@ -138,11 +138,14 @@ check("three colours for five angles, so two repeat",
 
 print("\n4. Nothing to colour")
 REAL_COLOURS = {"Blue"}
-empty = TL([])
-vpm.colour_clips_by_camera(empty, [{"camera": "A", "track": "A",
-                                    "file": "A.mov", "source": "A.mov",
-                                    "wide": False}])
-check("an empty timeline does not raise", True)
+raised = ""
+try:
+    vpm.colour_clips_by_camera(TL([]), [{"camera": "A", "track": "A",
+                                         "file": "A.mov", "source": "A.mov",
+                                         "wide": False}])
+except Exception as e:
+    raised = "%s: %s" % (type(e).__name__, e)
+check("an empty timeline does not raise", not raised, raised)
 
 print()
 if bad:

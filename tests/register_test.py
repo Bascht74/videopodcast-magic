@@ -256,9 +256,11 @@ for lang in ("en", "de"):
     marks = sorted(set(hit.group(2) for _, hit in entries))
     check("%s: a colon separates keyword and place" % lang,
           marks == [":"], str(marks))
+    # Exactly one, not "at most one": an index whose entries all hand on
+    # to another keyword has no place in it at all, and no quote form.
     quotes = sorted(set(quote for _, _, _, _, quote in wanted))
-    check("%s: one quote form throughout" % lang, len(quotes) < 2,
-          str(quotes))
+    check("%s: one quote form throughout" % lang, len(quotes) == 1,
+          "%d forms %s over %d places" % (len(quotes), quotes, len(wanted)))
 
     over = [n for n in range(first, last + 1)
             if len(lines[n - 1]) > LINE_MAX]
