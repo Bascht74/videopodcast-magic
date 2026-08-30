@@ -573,7 +573,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.14.0-beta"
+VERSION = "2.15.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -4208,6 +4208,120 @@ def format_complaint(d):
              "writes format %d. The names inside have changed since, so it "
              "cannot be read. Please set the run up again.",
              d.get("version") or "?", present, FILE_FORMAT)
+
+
+def project_opened_note(target):
+    """The note in the log after a project was opened, and what to do next."""
+    return T('PROJECT OPENED\n  All entries are back, nothing has been '
+             'computed in this session.\n  The output folder holds the '
+             'files of the last run:\n  %s\n\n  Three ways from here:\n   '
+             ' • below "Open result folder" -- look at the files from '
+             'that run,\n    • below "Create Resolve project" -- from '
+             "that run's handover file,\n      without computing "
+             'anything again,\n    • above "Start" -- compute '
+             'everything again and overwrite the files.\n') % target
+
+
+def projects_beside(paths, deep=40):
+    """The project files lying with this material, newest first.
+
+    Looked for in the folders the material is in and one level below
+    them: the project file goes into the output folder, and that is
+    usually a folder beside the recordings. Not deeper. The cost is one
+    directory listing each, and a search that walked the whole disk
+    would stand in the way of adding a file.
+
+    Gives (path, when) pairs, newest first, each path once.
+    """
+    folders = []
+    for one in paths:
+        folder = os.path.dirname(os.path.abspath(one))
+        if folder not in folders:
+            folders.append(folder)
+    look = list(folders)
+    for folder in folders:
+        # Counted by folders, not by names: a recording folder holds
+        # hundreds of files, and the output folder among them may be
+        # anywhere in that list.
+        count = 0
+        try:
+            names = sorted(os.listdir(folder))
+        except OSError:
+            continue
+        for name in names:
+            full = os.path.join(folder, name)
+            if full in look or not os.path.isdir(full):
+                continue
+            look.append(full)
+            count += 1
+            if count >= deep:
+                break
+    found = {}
+    for folder in look:
+        # One attempt for the whole folder, not one per file. A folder
+        # that cannot be read and a file that went away between the
+        # listing and the question are the same answer here: it is not
+        # a project file anybody can open, so it is not offered.
+        try:
+            for name in os.listdir(folder):
+                if (name.startswith(PROJECT_PREFIX)
+                        and name.lower().endswith(".json")):
+                    full = os.path.join(folder, name)
+                    found[full] = os.path.getmtime(full)
+        except OSError:
+            continue
+    return sorted(found.items(), key=lambda pair: -pair[1])
+
+
+def when_written(when):
+    """When a file was written, short enough to stand in a list."""
+    return time.strftime("%Y-%m-%d %H:%M", time.localtime(when))
+
+
+def project_offer(QtWidgets, window, state, paths, ask, load):
+    """Offer a project file lying with the material; never load it silently.
+
+    Asked when material comes in, and asked once per file found: adding
+    a second recording from another folder offers that folder's project,
+    while adding more from the same one does not ask again.
+
+    Nothing is taken in part. Either the project is opened whole -- names,
+    separation, assignment, types, the time window -- or it is not opened,
+    and the list of files stands as it was.
+
+    Once a project is open nothing more is offered. Material still arrives
+    through this door afterwards -- taking a block out of a recording and
+    putting it back goes the same way -- and a second offer there would
+    undo by hand what the person had just done by hand.
+    """
+    if state.get("project_from"):
+        return
+    seen = state.setdefault("projects_offered", set())
+    found = [(one, when) for one, when in projects_beside(paths)
+             if one not in seen]
+    if not found:
+        return
+    seen.update(one for one, _ in found)
+    whole = T('Everything comes back from it: names, separation, assignment, '
+              'types, the time window. The list of files is replaced by the '
+              'one the project holds.')
+    if len(found) == 1:
+        one, when = found[0]
+        if ask(T('Project found'),
+               T('A project file lies with this material:\n\n  %s\n  '
+                 'written %s\n\n%s')
+               % (os.path.basename(one), when_written(when), whole),
+               T('Open the project')):
+            load(one)
+        return
+    lines = ["%s   (%s)" % (os.path.basename(one), when_written(when))
+             for one, when in found]
+    picked, chosen = QtWidgets.QInputDialog.getItem(
+        window, T('Project found'),
+        T('Several project files lie with this material. Which one?\n\n%s')
+        % whole, lines, 0, False)
+    if chosen and picked in lines:
+        load(found[lines.index(picked)][0])
 
 
 def find_project_file(file_path):
@@ -24369,6 +24483,139 @@ def more_speakers_row(audio_file_list, on_pick):
     return more
 
 
+QT_WORDS = []   # Qt's own translator, kept alive for as long as the window is
+
+
+def mac_menu_name(name):
+    """Put the program's name in the macOS menu bar; report whether it took.
+
+    The first menu on a Mac carries the name of the running program, and
+    that name does not come from Qt. It comes from CFBundleName in the
+    bundle around the executable -- and a script started with python3
+    has no bundle of its own, so it borrows the one Python lives in.
+    Measured on this Mac, 30.8.2026: the entry read "Python", and every
+    menu said so.
+
+    setApplicationName does not reach it; only the bundle does. So the
+    entry is written, through the Objective-C runtime, before the
+    application is built -- afterwards the menu is already drawn.
+    """
+    if sys.platform != "darwin":
+        return False
+    try:
+        import ctypes, ctypes.util
+        objc = ctypes.cdll.LoadLibrary(ctypes.util.find_library("objc"))
+        objc.objc_getClass.restype = ctypes.c_void_p
+        objc.sel_registerName.restype = ctypes.c_void_p
+
+        def send(obj, what, *args, types=()):
+            call = ctypes.cast(objc.objc_msgSend, ctypes.CFUNCTYPE(
+                ctypes.c_void_p, ctypes.c_void_p, ctypes.c_void_p, *types))
+            return call(obj, objc.sel_registerName(what.encode()), *args)
+
+        strings = ctypes.c_void_p(objc.objc_getClass(b"NSString"))
+
+        def text_of(value):
+            return ctypes.c_void_p(send(strings, "stringWithUTF8String:",
+                                        value.encode(),
+                                        types=(ctypes.c_char_p,)))
+
+        bundle = ctypes.c_void_p(objc.objc_getClass(b"NSBundle"))
+        info = ctypes.c_void_p(send(ctypes.c_void_p(
+            send(bundle, "mainBundle")), "infoDictionary"))
+        send(info, "setObject:forKey:", text_of(name),
+             text_of("CFBundleName"),
+             types=(ctypes.c_void_p, ctypes.c_void_p))
+        return True
+    except Exception:
+        # An older macOS, a bundled build that already carries its name,
+        # or a runtime that will not be talked to. The menu then says
+        # what it said before, and nothing else is worse for it.
+        return False
+
+
+def total_paint(Qt, plan, total_state, total_bar, total_line):
+    """Draw the whole run's progress bar, or take it away when it is over.
+
+    Outside gui() because it reaches into nothing of its own: the plan it
+    reads and the two widgets it writes to come in as arguments.
+    """
+    if plan.busy():
+        total_state["full_since"] = 0.0
+        plan.creep(0.2)
+        total_bar.setValue(int(round(1000 * plan.total())))
+        fitted(Qt, total_line, plan.line())
+        total_bar.show()
+        total_line.show()
+        return
+    if not plan.order:
+        return
+    # Finished: full for a moment, so the end is seen, then away.
+    total_bar.setValue(1000)
+    total_line.setText(T('done'))
+    if not total_state["full_since"]:
+        total_state["full_since"] = time.time()
+    elif time.time() - total_state["full_since"] > 1.5:
+        plan.clear()
+        total_bar.hide()
+        total_line.hide()
+
+
+def qt_own_words(QtCore, app):
+    """Give Qt its own texts in the chosen language.
+
+    "Preferences", "Quit", "Services" and the buttons in the file dialog
+    are Qt's words, not ours, so they stay English however much of our
+    own text is translated -- on a Mac the whole first menu was English
+    in a German window. Qt brings them translated and only has to be
+    told to use them. Kept in a list afterwards: Qt holds no reference,
+    so a translator that goes out of scope changes nothing.
+    """
+    words = QtCore.QTranslator()
+    if words.load("qtbase_" + LANG, QtCore.QLibraryInfo.path(
+            QtCore.QLibraryInfo.LibraryPath.TranslationsPath)):
+        app.installTranslator(words)
+        QT_WORDS.append(words)
+        return True
+    return False
+
+
+def say_dialog(QtWidgets, window, title, text, do_text="", no_text=""):
+    """One message box, with one button or with two.
+
+    With do_text it is a question and gives back whether the action was
+    chosen; without it, a message with nothing to decide. The buttons
+    carry the action rather than yes and no, so nobody has to read the
+    question backwards to know what will happen.
+    """
+    d = QtWidgets.QDialog(window)
+    d.setWindowTitle(title)
+    d.setMinimumWidth(720 if do_text else 620)
+    position = QtWidgets.QVBoxLayout(d)
+    position.setContentsMargins(18, 16, 18, 14)
+    position.setSpacing(14)
+    position.addWidget(label(title, COLOURS["heading"], True, 15))
+    m = label(text)
+    m.setWordWrap(True)
+    m.setMinimumWidth(660 if do_text else 560)
+    position.addWidget(m)
+    bar = QtWidgets.QHBoxLayout()
+    position.addLayout(bar)
+    # Both buttons to the right, the action outermost and preselected --
+    # the way the system does it.
+    bar.addStretch(1)
+    if do_text:
+        no_button = QtWidgets.QPushButton(no_text)
+        no_button.clicked.connect(d.reject)
+        bar.addWidget(no_button)
+    yes_button = QtWidgets.QPushButton(do_text or T('Close'))
+    yes_button.clicked.connect(d.accept)
+    yes_button.setDefault(True)
+    yes_button.setAutoDefault(True)
+    bar.addWidget(yes_button)
+    return d.exec() == QtWidgets.QDialog.Accepted
+
+
 def label(text, colour=None, bold=False, large=0):
     """A piece of text on the screen, in the colour it belongs in."""
     from PySide6 import QtWidgets as _qw
@@ -25285,11 +25532,13 @@ def gui():
     # the console for every file loaded.
     os.environ.setdefault("QT_LOGGING_RULES",
                           "qt.multimedia.ffmpeg*=false;qt.multimedia*=false")
+    mac_menu_name("Video Podcast Magic")   # before the menu bar is built
     app = QtWidgets.QApplication.instance()
     if app is None:
         app = QtWidgets.QApplication(sys.argv[:1])
     app.setApplicationName("Video Podcast Magic")
     app.setApplicationDisplayName("Video Podcast Magic")
+    qt_own_words(QtCore, app)
 
     # With the system in dark mode the same roles get dark shades. Otherwise a
     # white box would stand in a dark window, and the lists Qt draws itself
@@ -25359,58 +25608,11 @@ def gui():
 
     def report(title, text):
         """Show a message with a button that says what it does."""
-        d = QtWidgets.QDialog(window)
-        d.setWindowTitle(title)
-        d.setMinimumWidth(620)
-        position = QtWidgets.QVBoxLayout(d)
-        position.setContentsMargins(18, 16, 18, 14)
-        position.setSpacing(14)
-        header = label(title, COLOURS["heading"], True, 15)
-        position.addWidget(header)
-        m = label(text)
-        m.setWordWrap(True)
-        m.setMinimumWidth(560)
-        position.addWidget(m)
-        bar = QtWidgets.QHBoxLayout()
-        position.addLayout(bar)
-        bar.addStretch(1)
-        button = QtWidgets.QPushButton(T('Close'))
-        button.clicked.connect(d.accept)
-        button.setDefault(True)
-        bar.addWidget(button)
-        d.exec()
+        say_dialog(QtWidgets, window, title, text)
 
     def ask(title, text, do_text, no_text=T('Cancel')):
-        """Ask a question and report whether the action was chosen.
-
-        The buttons carry the action rather than yes and no, so nobody has
-        to read the question backwards to know what will happen.
-        """
-        d = QtWidgets.QDialog(window)
-        d.setWindowTitle(title)
-        d.setMinimumWidth(720)
-        position = QtWidgets.QVBoxLayout(d)
-        position.setContentsMargins(18, 16, 18, 14)
-        position.setSpacing(14)
-        position.addWidget(label(title, COLOURS["heading"], True, 15))
-        m = label(text)
-        m.setWordWrap(True)
-        m.setMinimumWidth(660)
-        position.addWidget(m)
-        bar = QtWidgets.QHBoxLayout()
-        position.addLayout(bar)
-        # Both buttons to the right, the action outermost and preselected --
-        # the way the system does it.
-        bar.addStretch(1)
-        no_button = QtWidgets.QPushButton(no_text)
-        no_button.clicked.connect(d.reject)
-        bar.addWidget(no_button)
-        yes_button = QtWidgets.QPushButton(do_text)
-        yes_button.clicked.connect(d.accept)
-        yes_button.setDefault(True)
-        yes_button.setAutoDefault(True)
-        bar.addWidget(yes_button)
-        return d.exec() == QtWidgets.QDialog.Accepted
+        """Ask a question and report whether the action was chosen."""
+        return say_dialog(QtWidgets, window, title, text, do_text, no_text)
 
     # ------------------------------------------------------------------
     # Play it -- Qt brings a player along
@@ -26258,6 +26460,8 @@ def gui():
                    T('These files are neither audio nor video and stay '
                      'out:\n\n  %s') % "\n  ".join(unknown[:12]))
         items_fresh()
+        project_offer(QtWidgets, window, state, [x for x, _ in files],
+                      ask, project_open)
 
     def add_files():
         pattern = (T('Audio and video (%s);;All files (*)')
@@ -28854,9 +29058,15 @@ def gui():
         available; only the preset behind it changes what happens.
         """
         multi_button.setEnabled(True)
+        # The transcript is fetched from auphonic.com. Without a preset
+        # nothing is sent there, so there is nothing to fetch and the
+        # tick goes grey instead of standing there promising a file.
+        transcript_button.setEnabled(not without_auphonic())
         buttons_check()
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
+    # Only the tick: buttons_check() reaches a button not built yet.
+    transcript_button.setEnabled(not without_auphonic())
 
     def finished_tracks_check():
         """Check whether processed tracks are already in the output folder."""
@@ -29910,25 +30120,7 @@ def gui():
             total_clock.stop()
 
     def total_draw():
-        if plan.busy():
-            total_state["full_since"] = 0.0
-            plan.creep(0.2)
-            total_bar.setValue(int(round(1000 * plan.total())))
-            fitted(Qt, total_line, plan.line())
-            total_bar.show()
-            total_line.show()
-            return
-        if not plan.order:
-            return
-        # Finished: full for a moment, so the end is seen, then away.
-        total_bar.setValue(1000)
-        total_line.setText(T('done'))
-        if not total_state["full_since"]:
-            total_state["full_since"] = time.time()
-        elif time.time() - total_state["full_since"] > 1.5:
-            plan.clear()
-            total_bar.hide()
-            total_line.hide()
+        total_paint(Qt, plan, total_state, total_bar, total_line)
 
     total_clock = QtCore.QTimer(window)
     total_clock.timeout.connect(total_show)
@@ -30036,12 +30228,12 @@ def gui():
         write(as_head(T('PROJECT SAVED\n  %s\n  This run can be opened again '
                         'later -- top left\n  "Open project ..."\n\n') % file_path))
 
-    def project_open():
-        file_path, _ = QtWidgets.QFileDialog.getOpenFileName(
+    def project_open(file_path=""):
+        file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
             window, T('Open json project file'),
             out_folder.get() or commonest_folder() or "",
             T('Video Podcast Magic (%s*.json);;JSON files (*.json);;All '
-              'files (*)') % PROJECT_PREFIX)
+              'files (*)') % PROJECT_PREFIX)[0]
         if not file_path:
             return
         d, file_path = find_project_file(file_path)
@@ -30063,7 +30255,7 @@ def gui():
             log.clear()
         except Exception:
             pass
-        state["results"] = []
+        state["results"], state["project_from"] = [], file_path
         present, missing = project_files(d)
         files[:] = present
         # Before anything is drawn: every file measured once, in
@@ -30147,15 +30339,7 @@ def gui():
             # things stand.
             state["result_folder"] = target
             output_show(False)
-            log.append_text(as_head(
-                T('PROJECT OPENED\n  All entries are back, nothing has been '
-                  'computed in this session.\n  The output folder holds the '
-                  'files of the last run:\n  %s\n\n  Three ways from here:\n   '
-                  ' • below "Open result folder" -- look at the files from '
-                  'that run,\n    • below "Create Resolve project" -- from '
-                  "that run's handover file,\n      without computing "
-                  'anything again,\n    • above "Start" -- compute '
-                  'everything again and overwrite the files.\n') % target))
+            log.append_text(as_head(project_opened_note(target)))
         else:
             state["result_folder"] = None
         resolve_button_check()
@@ -32299,6 +32483,20 @@ CATALOGUE["de"] = {
         'entsteht der Schnitt.',
     'Only one audio file and no picture -- nothing to do.':
         'Nur eine Tondatei und kein Bild -- nichts zu tun.',
+    'Project found':
+        'Projekt gefunden',
+    'Open the project':
+        'Projekt öffnen',
+    'Everything comes back from it: names, separation, assignment, types, '
+    'the time window. The list of files is replaced by the one the project '
+    'holds.':
+        'Alles kommt daraus zurück: Namen, Trennung, Zuordnung, Typen, das '
+        'Zeitfenster. Die Dateiliste wird durch die des Projekts ersetzt.',
+    'A project file lies with this material:\n\n  %s\n  written %s\n\n%s':
+        'Zu diesem Material liegt eine Projektdatei:\n\n  %s\n  '
+        'geschrieben %s\n\n%s',
+    'Several project files lie with this material. Which one?\n\n%s':
+        'Zu diesem Material liegen mehrere Projektdateien. Welche?\n\n%s',
     'PROJECT OPENED\n  All entries are back, nothing has been computed in '
     'this session.\n  The output folder holds the files of the last run:\n  '
     '%s\n\n  Three ways from here:\n    • below "Open result folder" -- look '
