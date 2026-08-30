@@ -1,10 +1,17 @@
 # -*- coding: utf-8 -*-
-"""The language machinery: catalogue, detection, switch, log colours."""
+"""The language machinery: catalogue, detection, switch, log colours.
+
+And the seam itself: every line the program prints goes through the
+catalogue, or it comes out English in a German run.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import ast, importlib.util, io, re, sys, tokenize
+import ast, importlib.util, io, re, sys, time, tokenize
+
+began = time.time()
+
 sys.path.insert(0, HERE)
 import ratchet
 
@@ -15,8 +22,11 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -452,10 +462,73 @@ else:
             str(sorted(set(w for _z, w, _y in _forgotten))))
     _held.report()
 
+print("\n19. Every printed line goes through the catalogue")
+# A print() whose own words never reach T() comes out English in a
+# German run, and nothing else here sees it: the words stand in the
+# source, so section 17 finds no German in them, and they are not in
+# the catalogue, so section 18 has nothing to hold them against.
+_WORDY = re.compile(r"[A-Za-z]{3,}")
+
+
+def _shown(node):
+    """The text an expression puts on screen, ignoring what it fills in.
+
+    A plain function -- as_head, as_bad -- hands its argument on to the
+    screen, so the text inside it counts. A method call does not:
+    state.get("results") names a key nobody ever reads, and following
+    it made the check report a dictionary as an untranslated line.
+    """
+    if isinstance(node, ast.Constant) and isinstance(node.value, str):
+        return [node.value]
+    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mod):
+        return _shown(node.left)
+    if isinstance(node, ast.JoinedStr):
+        return [v.value for v in node.values
+                if isinstance(v, ast.Constant) and isinstance(v.value, str)]
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name):
+        if node.func.id in ("T", "TN"):
+            return []
+        out = []
+        for a in node.args:
+            out += _shown(a)
+        return out
+    return []
+
+
+_whole = ast.parse(source)
+_where = ratchet.owners(_whole)
+_prints, _raw = 0, []
+for _node in ast.walk(_whole):
+    if not (isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name)
+            and _node.func.id == "print" and _node.args):
+        continue
+    _prints += 1
+    if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+           and n.func.id in ("T", "TN") for n in ast.walk(_node.args[0])):
+        continue
+    for _text in _shown(_node.args[0]):
+        if _WORDY.search(_text):
+            _raw.append(("%s prints %r"
+                         % (_where.get(id(_node), "<module>"), _text[:44]),
+                         _node.lineno))
+# The count before the judgement: a detector that reads no print at all
+# would report nothing left in English and look like the best news of
+# the run.
+check("the print calls were read at all", _prints > 200,
+        "%d found, wanted over 200" % _prints)
+_held = state.places("untranslated_prints", ratchet.tally(_raw))
+check("printed lines outside the catalogue: %d (ratchet %d)"
+        % (len(_raw), _held.limit), _held.ok,
+        "" if _held.ok else "a printed line that used to go through T() "
+        "no longer does, or a new one never did")
+_held.report()
+if _held.tightened:
+    print("      ratchet tightened to %d" % len(_raw))
+
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)

@@ -16,9 +16,12 @@ import io
 import re
 import sys
 import symtable
+import time
 
 sys.path.insert(0, HERE)
 import ratchet
+
+began = time.time()
 
 STATE = os.path.join(HERE, "state", "consistency_state.json")
 state = ratchet.Ratchet(STATE)
@@ -26,10 +29,13 @@ src = io.open(SCRIPT, encoding="utf-8").read()
 tree = ast.parse(src)
 lines = src.split("\n")
 
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -294,7 +300,7 @@ held.report()
 for name in mute:
     print("      %s" % name)
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)

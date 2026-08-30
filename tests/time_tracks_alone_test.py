@@ -7,6 +7,9 @@ of the tracks themselves, with the longest one as the reference, and
 writes equally long files with the same start point -- what a multitrack
 production needs. Without --multitrack nothing changes: the blocks of
 one recording are joined and nothing is aligned.
+
+And the log says one thing about --lufs on this path, not two: the
+preflight used to name a target that the run then said does nothing.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -219,6 +222,48 @@ check("the longest one is the reference and sits at zero",
 check("the later one is found where it was switched on",
       abs(-by_name["Guest"]["a"] - LATE) < 0.1,
       "%.3f s against %.1f" % (-by_name["Guest"]["a"], LATE))
+
+#--------------------------- 4. One answer about --lufs, not two
+
+# The preflight named a loudness target and eleven lines later the run
+# said the target does nothing here, and both stood in one log. On this
+# path the tracks leave as they were recorded -- a gain per track would
+# put the voices out of balance, which is what the path exists to keep
+# -- so the number only does something when it travels to auphonic.com.
+print("\n4. With --lufs the log says one thing about it, not two")
+p = subprocess.run(CALL + ["--multitrack", "--lufs", "-16",
+                           "--out", D + "/loud",
+                           D + "/Host.wav", D + "/Guest.wav"],
+                   capture_output=True, text=True, env=ENV)
+loud = (p.stdout or "") + (p.stderr or "")
+check("the run ends green", p.returncode == 0, str(p.returncode))
+target = [line.strip() for line in loud.splitlines()
+          if line.strip().startswith("Loudness")]
+does_nothing = [line.strip() for line in loud.splitlines()
+                if "--lufs does nothing here" in line]
+print("   preflight: %s" % (target[0][:100] if target else "-- nothing --"))
+check("the preflight says what the target is", len(target) == 1,
+      "%d lines beginning Loudness" % len(target))
+check("the run says the number does nothing here",
+      len(does_nothing) == 1, str(does_nothing[:2]))
+check("and the preflight says so too rather than the opposite",
+      bool(target) and "nothing is adjusted here" in target[0],
+      "the run says the number does nothing, the preflight says %r"
+      % (target[0][:70] if target else None))
+check("the number itself still stands in the line",
+      bool(target) and "-16 LUFS" in target[0],
+      repr(target[0][:70]) if target else "no Loudness line at all")
+# The other side of the rule: with a key the number reaches
+# auphonic.com and is in force, so neither line may appear.
+check("without --lufs neither line is printed",
+      "--lufs does nothing here" not in log
+      and not [x for x in log.splitlines()
+               if "nothing is adjusted here" in x],
+      "the run says the number does nothing while none was given")
+check("and the one predicate governs both messages",
+      vpm.lufs_does_nothing(vpm.build_argument_parser().parse_args(
+          ["--multitrack", "--lufs", "-16", "x.wav"]), ()) is True,
+      "lufs_does_nothing said no on the very path that prints it")
 
 print("\n%s" % ("All good." if not error
                 else "FAIL: %s" % ", ".join(error)))

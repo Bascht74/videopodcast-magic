@@ -4,15 +4,21 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util
+import sys, importlib.util, time
+
+began = time.time()
+
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -145,6 +151,7 @@ check("no QCheckBox 'this time without'",
 check("PRESET_NONE is used in the interface",
         source.count("PRESET_NONE") >= 5, str(source.count("PRESET_NONE")))
 
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("\n%s" % ("all good" if not error
                 else "FAIL: %s" % ", ".join(error)))
 sys.exit(1 if error else 0)

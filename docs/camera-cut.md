@@ -213,11 +213,16 @@ Tan. Brown, Chocolate, Cocoa, Navy and Teal are lightened on dark, Beige
 is darkened on light.
 
 The band can be zoomed. **+** shows half as much around the current
-position, **−** twice as much, and the third button the whole length
-again; the mouse wheel over the band does the same, as do the keys plus,
-minus and 0. Zoom in to see and hear whether a cut sits in a pause or in
-the middle of a word. While playing, the section follows the position,
-so it does not run out of the picture.
+position, **−** twice as much, and **▭** the whole length again; the
+mouse wheel over the band does the same, and so do the keys plus, minus
+and 0 after a click on the band. Zoom in to see and hear whether a cut
+sits in a pause or in the middle of a word. While playing, the section
+follows the position, so it does not run out of the picture.
+
+At the end of the row stand the first and the last moment on show ([The
+interface](interface.md)). Once the zoom is close enough to judge a
+single cut, the bars no longer say which part of the episode is in front
+of you; those two times do.
 
 ### How the preview players choose file and sound
 

@@ -4,7 +4,9 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
+began = time.time()
+
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -38,8 +40,11 @@ WANTED = {
     "empty track template": False,
 }
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -63,7 +68,7 @@ for name, wanted in WANTED.items():
 check("every case was tried", set(verdict) == set(WANTED),
       str(sorted(set(WANTED) ^ set(verdict))))
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)

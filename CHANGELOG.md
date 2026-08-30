@@ -25,6 +25,104 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.23.0-beta] - 2026-08-30
+
+**English**
+
+### Added
+
+- A run with "--multitrack" and no video file was turned away. The
+  recordings are laid against each other now -- equally long, one
+  starting point, the longest as the reference -- and each becomes
+  `<name>_aligned.wav`.
+- With an Auphonic key those aligned recordings go up together as one
+  multitrack production, the way the tracks of a shoot with cameras do.
+- "--lufs" adjusts nothing on that path, and says so where no Auphonic
+  preset is in play. The recordings go out as they were taken, so the
+  balance between the voices is the one the room had; the loudness is
+  set where they are mixed.
+
+### Changed
+
+- A file that fits nothing in the material was proposed for "ignore
+  this video". One that is far shorter than the rest is proposed as
+  "Intro": a jingle is meant to be used, put at the front rather than
+  measured.
+- The "Kind" field offered "Wide shot" for a file the run cannot place
+  in the material at all. That entry is barred now, with the reason on
+  it: the wide shot is the camera that runs through and steps in when
+  no other fits, which a file nobody can place in time cannot be.
+- A project file lying with the material was offered only after
+  everything had been measured, and opening it replaced the list, so
+  the measuring had been for nothing. It is offered as the files come
+  in.
+
+### Fixed
+
+- "Close project" emptied the file list but left the measuring running,
+  so the bar went on naming files that had gone. It now calls off the
+  prework, the time axis and the speaker separation.
+- The stretch on show beside the cut band stayed empty until somebody
+  pressed "+" or "−". It stands there from the start now, in typewriter
+  digits, so the columns hold still as it counts.
+- In the "Kind" field a camera the program had made the wide shot
+  showed all its words in grey, as if nothing could be answered. Only
+  the barred entry "Content" is grey now, and the field stands in black.
+- Resolve refusing "one file per delivery" left the render writing one
+  file per clip, and the log said nothing. The refusal stands in the log
+  now, so a folder full of single shots has a reason beside it.
+
+---
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Ein Lauf mit „--multitrack" ohne Videodatei wurde abgewiesen. Die
+  Aufnahmen werden jetzt gegeneinander ausgerichtet -- gleich lang, ein
+  Anfang für alle, die längste als Bezug -- und aus jeder wird
+  `<Name>_aligned.wav`.
+- Mit Auphonic-Schlüssel gehen diese ausgerichteten Aufnahmen zusammen
+  als eine Multitrack-Produktion hoch, so wie die Spuren eines Drehs
+  mit Kameras.
+- „--lufs" steuert auf diesem Weg nichts aus und sagt das auch, wo
+  keine Auphonic-Voreinstellung im Spiel ist. Die Aufnahmen gehen so
+  heraus, wie sie aufgenommen wurden — das Verhältnis der Stimmen ist
+  also das des Raumes; die Lautheit wird beim Mischen gesetzt.
+
+### Geändert
+
+- Eine Datei, die zu nichts im Material passt, wurde als „Video
+  ignorieren" vorgeschlagen. Ist sie zugleich viel kürzer als der Rest,
+  lautet der Vorschlag „Vorspann": Ein Jingle soll benutzt und vorne
+  angelegt werden.
+- Das Feld „Typ" bot „Weitwinkel" auch für eine Datei an, die sich im
+  Material nirgends einordnen lässt. Dieser Eintrag ist jetzt gesperrt,
+  mit dem Grund daran: Der Weitwinkel ist die Kamera, die durchläuft
+  und einspringt, wenn keine andere passt -- das kann eine Datei nicht
+  sein, von der niemand weiß, wann sie liegt.
+- Eine Projektdatei neben dem Material wurde erst nach dem Vermessen
+  angeboten, und beim Öffnen ersetzte ihre Dateiliste die gerade
+  vermessene -- das Vermessen war umsonst. Angeboten wird sie jetzt,
+  sobald die Dateien hereinkommen.
+
+### Behoben
+
+- „Projekt schließen" leerte die Dateiliste, ließ die Messungen aber
+  weiterlaufen; der Balken nannte Dateien, die es im Fenster nicht mehr
+  gab. Jetzt brechen Vorarbeit, Zeitachse und Sprechertrennung ab.
+- Die Zeitspanne neben dem Schnittband blieb leer, bis jemand „+" oder
+  „−" drückte. Sie steht jetzt von Anfang an da, in
+  Schreibmaschinenziffern, damit die Spalten beim Zählen ruhig stehen.
+- Im Feld „Typ" zeigte eine Kamera, die das Programm zum Weitwinkel
+  gemacht hatte, alle Wörter grau, als gäbe es nichts zu beantworten.
+  Grau ist jetzt nur der gesperrte Eintrag „Inhalt", das Feld selbst
+  steht in Schwarz.
+- Lehnte Resolve „eine Datei je Ausgabe" ab, entstand still eine Datei
+  je Clip, und im Protokoll stand nichts. Die Ablehnung wird jetzt
+  gemeldet, damit ein Ordner voller Einzelclips einen Grund neben sich
+  hat.
+
 ## [2.22.0-beta] - 2026-08-30
 
 **English**
@@ -3702,6 +3800,7 @@ haben. Jede Behebung unten hat einen Test.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.23.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.22.0-beta...v2.23.0-beta
 [2.22.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.21.0-beta...v2.22.0-beta
 [2.21.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.20.0-beta...v2.21.0-beta
 [2.20.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.19.0-beta...v2.20.0-beta

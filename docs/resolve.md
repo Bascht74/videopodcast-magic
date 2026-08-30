@@ -191,11 +191,22 @@ render job. The log notes that 384 kbit/s would be the recommendation for
 stereo. For HDR the log names the check too (*HDR: what has to be in the
 file*).
 
+One file instead of one per clip is asked for, and Resolve is free to
+refuse it. Where it does, the log says so under **Render job**: *One file
+per delivery was refused; Resolve will write one file per clip.* If the
+question could not even be put, the log says that instead, with the
+reason. Either way the job goes into the queue as usual -- but **Render
+All** then writes one file per shot into the output folder, and somebody
+looking for one episode finds a folder full of them. Set the delivery
+back to a single file in Resolve at the render job, the same place the
+audio bitrate and another frame rate are set, before pressing **Render
+All**. No such line in the log means nothing was refused.
+
 ### Setting intro and outro
 
-Every video file carries a **Kind**: *Content*, *Intro*, *Outro* or
-*ignore this video*. Set it at the file, in the file list on the
-**Files & production** tab. Other places in the program show the same
+Every video file carries a **Kind**: *Content*, *Wide shot*, *Intro*,
+*Outro* or *ignore this video*. Set it at the file, in the file list on
+the **Files & production** tab. Other places in the program show the same
 value.
 
 Intro and outro are optional. The program does not align, process or copy
@@ -388,6 +399,10 @@ backup copy.
 - **A timeline of an earlier run is still there, and the new one carries
   an addition in its name.** Resolve did not delete it. Delete it by
   hand and press the button again.
+- **The output folder holds one file per shot instead of one episode.**
+  Resolve refused one file per delivery, and the log says so under
+  **Render job**. Set the delivery back to a single file at the render
+  job in Resolve and render again.
 - **The finished file plays as SDR.** Run
   `videopodcast-magic.py --hdr-check <file>` and do what it names.
 - **An angle brings the wrong sound.** The conversion ran with a setting

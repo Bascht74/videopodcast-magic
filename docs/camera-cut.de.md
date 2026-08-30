@@ -220,11 +220,16 @@ weiterhin Tan. Brown, Chocolate, Cocoa, Navy und Teal werden auf dunklem
 Grund aufgehellt, Beige auf hellem abgedunkelt.
 
 Das Band lässt sich zoomen. **+** zeigt halb so viel um die aktuelle
-Stelle, **−** doppelt so viel, der dritte Knopf wieder die ganze Länge;
-das Mausrad über dem Band tut dasselbe, ebenso die Tasten Plus, Minus
-und 0. Hineinzoomen, um zu sehen und zu hören, ob ein Schnitt in einer
-Pause oder mitten im Wort sitzt. Beim Abspielen folgt der Ausschnitt der
-Position, damit er nicht aus dem Bild läuft.
+Stelle, **−** doppelt so viel, **▭** wieder die ganze Länge; das Mausrad
+über dem Band tut dasselbe, ebenso die Tasten Plus, Minus und 0 nach
+einem Klick auf das Band. Hineinzoomen, um zu sehen und zu hören, ob ein
+Schnitt in einer Pause oder mitten im Wort sitzt. Beim Abspielen folgt
+der Ausschnitt der Position, damit er nicht aus dem Bild läuft.
+
+Am Ende der Zeile stehen der erste und der letzte gezeigte Augenblick
+([Die Oberfläche](interface.de.md)). Sobald der Zoom nah genug ist, um
+einen einzelnen Schnitt zu beurteilen, sagen die Balken nicht mehr,
+welcher Teil der Folge vor einem liegt; die beiden Zeiten sagen es.
 
 ### Wie die Vorschau-Player Datei und Ton wählen
 

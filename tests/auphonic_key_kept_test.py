@@ -9,7 +9,9 @@ printed: a failed redirect would print the real key.
 """
 import os
 import sys
+import time
 
+began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
@@ -37,10 +39,13 @@ vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+done = 0
 bad = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         bad.append(name)
@@ -153,7 +158,7 @@ print("  %d throwaway keys left by an earlier run, taken out"
       % len(stale))
 
 if bad:
-    print()
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
     print("FAIL: " + ", ".join(bad))
     sys.exit(1)
 
@@ -249,7 +254,7 @@ finally:
         check("key %d of 2 cannot be opened any more" % number,
               not there, "%d still there: %s" % (int(there), path))
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:
     print("FAIL: " + ", ".join(bad))
     sys.exit(1)

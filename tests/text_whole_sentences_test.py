@@ -7,7 +7,9 @@ right and the sentence is wrong. No run finds this. Visible is only the
 shape that produces it, in three grades: pieces joined with "+", a piece
 carrying an article substituted with "%", and a bare function word.
 """
-import ast, io, os, re, sys
+import ast, io, os, re, sys, time
+
+began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
@@ -19,10 +21,13 @@ import ratchet
 STATE = os.path.join(HERE, "state", "catalogue_shape_state.json")
 state = ratchet.Ratchet(STATE)
 
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -218,7 +223,7 @@ for line, text in sorted(bare)[:8]:
     print("      line %-6d %r -> %r"
           % (line, text, catalogue.get(text, text)))
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:
     print("FAIL: %d of the checks" % len(bad))
     sys.exit(1)
