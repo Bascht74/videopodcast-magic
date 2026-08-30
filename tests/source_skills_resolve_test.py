@@ -62,6 +62,11 @@ print("\n2. Every path a skill points at is there")
 LOOKS_LIKE = re.compile(
     r"`((?:tests|docs|development|\.github|\.claude)/[A-Za-z0-9_./-]+"
     r"|[A-Za-z][A-Za-z0-9_-]*\.(?:py|sh|md|json|yml))`")
+# Named one by one, so a new name under docs/notes has to be thought
+# about rather than slipping in: these are files of the notes folder
+# that the skills mention without their folder in front of them.
+NOT_SHIPPED = {"shoot_terminal.py", "shoot_screenshots.py", "bilder.md",
+               "aufgaben.md", "claude_intern.md"}
 missing = []
 for name, text in sorted(texts.items()):
     for i, line in enumerate(text.splitlines(), 1):
@@ -71,13 +76,17 @@ for name, text in sorted(texts.items()):
             # `docs/images/NAME.png` stands in a command as a pattern.
             if any(part.isupper() for part in re.split(r"[/.]", path)):
                 continue
+            # The working notes are deliberately not shipped, so on a
+            # clone they are absent by design and not by mistake. A
+            # skill may point at them; it may not depend on them.
+            if path.startswith("docs/notes") or path in NOT_SHIPPED:
+                continue
             if os.path.exists(os.path.join(ROOT, path)):
                 continue
             # A bare file name may live in tests/ or beside the program.
             if "/" not in path and any(
                     os.path.exists(os.path.join(ROOT, d, path))
-                    for d in ("", "tests", "docs", "development",
-                              os.path.join("docs", "notes"))):
+                    for d in ("", "tests", "docs", "development")):
                 continue
             missing.append("%s:%d %s" % (name, i, path))
 check("every path a skill names resolves", not missing,
