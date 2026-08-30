@@ -160,6 +160,7 @@ def run(out, *extra):
     """One Multitrack run on this material, and what it printed."""
     p = subprocess.run(
         [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
+         "--no-speech-recognition", "--no-transcript-file",
          "--assign", D + "/assign.json", "--out", out, "--no-metrics",
          "--no-wide-edges"] + [str(x) for x in extra]
         + [D + "/Host.wav", D + "/Guest.wav",

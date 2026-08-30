@@ -153,7 +153,8 @@ subprocess.run(
 def run(*extra):
     """One run of the program on the simple path, and what it printed."""
     p = subprocess.run(
-        [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics"]
+        [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
+         "--no-speech-recognition", "--no-transcript-file"]
         + [str(x) for x in extra],
         capture_output=True, text=True, timeout=900, env=ENV)
     return p.returncode, (p.stdout or "") + (p.stderr or "")

@@ -144,13 +144,27 @@ takes two to four minutes, and the two disagree badly. `crosstalk` was
 four seconds here and 118 on the builder -- thirtieth in the queue, and
 the longest test there was.
 
-So the order comes from one machine, the slowest of the six, currently
-`windows-latest / py3.10`. The script writes its numbers into
-`state/longest`, replacing what stood there, and prints the ten that
-will go first. Read those ten and ask whether the top two or three can
-be made cheaper; that is where a minute of the builder's time is. What
-was made faster shows up in the next run's numbers, which is the point
-of replacing rather than only ever rising.
+So the order comes from one machine, the slowest of the six -- and
+**which one that is, the script asks the run.** It was
+`windows-latest / py3.10` for weeks and then it was not: the macOS
+runners went from the middle of the field to twice the slowest of the
+others, and a queue ordered by yesterday's slowest machine orders
+nothing. The script says which job it took and how long that job ran.
+
+It writes its numbers into `state/longest`, replacing what stood there,
+and prints the ten that will go first. Read those ten and ask whether
+the top two or three can be made cheaper; that is where a minute of the
+builder's time is. What was made faster shows up in the next run's
+numbers, which is the point of replacing rather than only ever rising.
+
+**What you wait for is the longest job, not the sum.** The six run side
+by side. The sum is what the builder is billed; the longest is what
+stands between a push and an answer, and it is the number to watch.
+
+**And read the same commit twice before believing a jump.** The macOS
+runners have come back 950 and 1091 seconds on identical code, and once
+651 against 1088 -- so a single reading says almost nothing there. Two
+runs of one commit, or a steadier machine, or both.
 
 ## The rules that are not negotiable
 
