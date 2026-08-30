@@ -205,6 +205,7 @@ check("the one with a timecode still is", CLOCK in position)
 print("\n4. A whole run: recording plus three cameras")
 p = subprocess.run(
     [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
+     "--no-speech-recognition", "--no-transcript-file",
      "--out", D + "/run", REC, GOOD, LOST, CLOCK],
     capture_output=True, text=True, timeout=900, env=ENV)
 log = (p.stdout or "") + (p.stderr or "")

@@ -123,6 +123,7 @@ def run(out, *extra):
     """One run on this material, and what it printed."""
     p = subprocess.run(
         [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
+         "--no-speech-recognition", "--no-transcript-file",
          "--no-wide-edges", "--out", D + "/" + out]
         + [str(x) for x in extra],
         capture_output=True, text=True, timeout=1800, env=ENV)

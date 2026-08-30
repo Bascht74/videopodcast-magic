@@ -32,14 +32,19 @@
 # three times faster keeps its old number for ever and no work on it
 # can ever be shown. Tests the run did not measure keep what they had.
 #
+# Which job is the slowest is asked of the run, not written down here.
+# It was windows-latest / py3.10 for weeks and then it was not: the
+# macOS runners went from the middle of the field to twice the slowest
+# of the others, and a queue ordered by yesterday's slowest machine
+# orders nothing.
+#
 #   bash builder_times.sh                     the newest green run on main
 #   bash builder_times.sh <run id>            a named run
-#   JOB='macos-latest / py3.10' bash ...      a different machine
+#   JOB='macos-latest / py3.10' bash ...      one named machine
 #
 HERE=$(cd "$(dirname "$0")" && pwd)
 LONGEST="$HERE/state/longest"
 RUN="$1"
-JOB="${JOB:-windows-latest / py3.10}"
 
 if ! command -v gh >/dev/null 2>&1; then
   echo "needs the gh command line, and it is not installed" >&2
@@ -51,6 +56,23 @@ if [ -z "$RUN" ]; then
 fi
 if [ -z "$RUN" ]; then
   echo "no green run found on main" >&2
+  exit 2
+fi
+
+# The slowest job of this run, by wall clock, unless one was named.
+if [ -z "$JOB" ]; then
+  JOB=$(gh run view "$RUN" --json jobs --jq '
+    [.jobs[] | select(.name | contains("/"))
+     | {name, s: ((.completedAt | fromdate) - (.startedAt | fromdate))}]
+    | sort_by(-.s) | .[0] | "\(.name)\t\(.s)"' 2>/dev/null)
+  said=${JOB#*$'\t'}
+  JOB=${JOB%%$'\t'*}
+  if [ -n "$JOB" ]; then
+    echo "slowest job of this run: '$JOB' at ${said} s"
+  fi
+fi
+if [ -z "$JOB" ]; then
+  echo "could not tell which job was the slowest" >&2
   exit 2
 fi
 
