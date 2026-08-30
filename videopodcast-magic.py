@@ -21392,14 +21392,33 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             # start + a) is cut off in front and the rest delayed by the window
             # start.
             n_audio_here = sample_count(audio)
-            a_raw = a
+            # The whole offset, not half of it. The writer puts audio
+            # time t at picture time t - head/SR - a, so audio time is
+            # picture time plus a AND plus the head that was already
+            # cut off. Leaving the head out moved the sound by exactly
+            # the gap between the start of the recording and the start
+            # of the picture -- four seconds in the material this was
+            # measured on, and never zero in a real one. Found on
+            # 31.8.2026 by the first test this path ever had.
+            a_raw = a + head_s / float(SR)
             k0, k1 = head_s, n_audio_here - tail_s
             if window_head is not None and window_head > 0:
                 k0 = max(head_s, int(round((window_head + a_raw) * SR)))
-                a = a_raw - window_head
+                a = -window_head
             if window_foot is not None:
                 k1 = min(k1, int(round((window_foot + a_raw) * SR)))
             head_s, tail_s = max(0, k0), max(0, n_audio_here - k1)
+            # A window that meets none of the recording leaves nothing
+            # to write, and what came out then was a video with a track
+            # of pure silence in it, reported as a result with a return
+            # code of nought. The multitrack path has refused this for a
+            # while; this one wrote the file. Found 31.8.2026: In point
+            # at 40 s and Out point at 50 s over 34 seconds of material
+            # gave 26 seconds of digital silence.
+            if k1 <= k0:
+                print(T('The time window meets none of %s. Nothing was '
+                        'written.') % os.path.basename(audio))
+                return 1
             # Which "back" this is, said in the line itself: two lines
             # stand close together here, both saying "back", and their
             # numbers are sixteen minutes apart. The one above is the
@@ -22179,8 +22198,7 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
         lambda: open_page("https://github.com/Bascht74/"
                           "videopodcast-magic#readme"))
     act(help_menu, T('What changed in this version'),
-        lambda: open_page("https://github.com/Bascht74/"
-                          "videopodcast-magic/blob/main/CHANGELOG.md"))
+        lambda: changes_shown(window))
     help_menu.addSeparator()
     act(help_menu, T('Look for a newer version now'),
         lambda: update_offer(window, asked=True))
@@ -32159,43 +32177,94 @@ def about_show(window):
     box.exec()
 
 
-def newest_shown(window, page, changed):
-    """Say that this is the newest, and show what is in it.
+RELEASE_BY_TAG = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
+                  "/releases/tags/%s")
 
-    Sebastian on 24.8.2026, at the box that only said "no newer
-    version found": show the last changelog here as well. The release
-    text comes down with the same answer that was asked for the
-    version number, so it costs nothing, and whoever just asked has
-    earned more than a full stop.
 
-    Without the text this stays what it was: one line and a button.
+def release_text_of(tag):
+    """What the release with that tag says about itself, or "".
+
+    Asked for by name, because "what changed in this version" is about
+    the one running here and not about the newest one there. One
+    question for a text, nothing sent.
+    """
+    if UPDATE_OFF or not tag:
+        return ""
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RELEASE_BY_TAG % tag,
+                                    context=https_context(),
+                                    timeout=20) as answer:
+            return str(json.load(answer).get("body") or "").strip()
+    except Exception:
+        return ""
+
+
+# What separates the two halves of a release text. Each version says
+# everything twice: the English part first, the German part under this
+# line. Two strings in one place -- the changelog writes them, the
+# window looks for them, and the release test insists on them.
+MARK_EN = "**English**"
+MARK_DE = "**Deutsch**"
+
+
+def release_text_in(text, language=None):
+    """Keep the half of a release text that is in this language.
+
+    From 2.20.0-beta on a release says everything twice, in two blocks
+    one under the other: English first, German under a line of its own.
+    Both belong on the release page, where anybody may read and jump to
+    the language they want. In the window only one is wanted -- two
+    languages in a box are twice as long and half as readable.
+
+    Given away only where the mark is really there. A text from before
+    this, or one where the mark was forgotten, comes back whole: half a
+    text is worse than one in the wrong language.
+    """
+    lines = str(text or "").split("\n")
+    at = [i for i, x in enumerate(lines) if x.strip() == MARK_DE]
+    if not at:
+        return text
+    if (language or LANG) == "de":
+        kept = lines[at[0] + 1:]
+    else:
+        kept = lines[:at[0]]
+        # The rule that draws the line between them goes with it.
+        while kept and kept[-1].strip() in ("", "---", "***", "___"):
+            kept.pop()
+    return "\n".join(x for x in kept
+                      if x.strip() not in (MARK_EN, MARK_DE)).strip()
+
+
+def story_window(window, title, said, changed, page=""):
+    """One window with a heading, a text that scrolls, and a way out.
+
+    Two places show a release text and they used to build the same
+    dialog twice. *page* is left out where there is nothing to look up
+    -- a link under a text somebody is already reading is an offer to
+    read it somewhere else.
     """
     QtWidgets = _qt_widgets()
     from PySide6 import QtCore
-    said = T('No newer version found. This one is %s.') % VERSION
-    if not changed:
-        QtWidgets.QMessageBox.information(
-            window, T('Look for a newer version now'), said)
-        return
     box = QtWidgets.QDialog(window)
-    box.setWindowTitle(T('Look for a newer version now'))
+    box.setWindowTitle(title)
     box.resize(680, 520)
     rows = QtWidgets.QVBoxLayout(box)
-    head = QtWidgets.QLabel(said)
-    font = head.font()
-    font.setBold(True)
-    head.setFont(font)
-    head.setWordWrap(True)
-    rows.addWidget(head)
-    rows.addWidget(QtWidgets.QLabel(T('What is in %s:') % VERSION))
-    story = QtWidgets.QPlainTextEdit(changed)
+    if said:
+        head = QtWidgets.QLabel(said)
+        font = head.font()
+        font.setBold(True)
+        head.setFont(font)
+        head.setWordWrap(True)
+        rows.addWidget(head)
+    story = QtWidgets.QPlainTextEdit(release_text_in(changed))
     story.setReadOnly(True)
     # The bar stands there whether it is needed or not, as in the
     # update dialog: a text that scrolls without one looks like a text
     # that ends where the frame does.
     story.setVerticalScrollBarPolicy(QtCore.Qt.ScrollBarAlwaysOn)
     story.setLineWrapMode(QtWidgets.QPlainTextEdit.WidgetWidth)
-    story.setAccessibleName(T('What is in %s:') % VERSION)
+    story.setAccessibleName(title)
     rows.addWidget(story, 1)
     if page:
         where = QtWidgets.QLabel(page)
@@ -32213,6 +32282,46 @@ def newest_shown(window, page, changed):
     fine.accepted.connect(box.accept)
     feet.addWidget(fine)
     box.exec()
+
+
+def changes_shown(window):
+    """Show what changed in the version running here.
+
+    It used to open a browser at the changelog of the whole project,
+    where somebody then looked for their own version among all the
+    others. Sebastian, 31.8.2026: show the text here, the way the
+    update window does -- without its buttons, and about this version
+    rather than the new one.
+    """
+    QtWidgets = _qt_widgets()
+    changed = release_text_of("v" + VERSION) or release_text_of(VERSION)
+    if not changed:
+        QtWidgets.QMessageBox.information(
+            window, T('What changed in this version'),
+            T('The text for %s could not be fetched.') % VERSION)
+        return
+    story_window(window, T('What changed in this version'), "", changed)
+
+
+def newest_shown(window, page, changed):
+    """Say that this is the newest, and show what is in it.
+
+    Sebastian on 24.8.2026, at the box that only said "no newer
+    version found": show the last changelog here as well. The release
+    text comes down with the same answer that was asked for the
+    version number, so it costs nothing, and whoever just asked has
+    earned more than a full stop.
+
+    Without the text this stays what it was: one line and a button.
+    """
+    QtWidgets = _qt_widgets()
+    said = T('No newer version found. This one is %s.') % VERSION
+    if not changed:
+        QtWidgets.QMessageBox.information(
+            window, T('Look for a newer version now'), said)
+        return
+    story_window(window, T('Look for a newer version now'), said, changed,
+                 page)
 
 
 def preset_box_widget(QtWidgets, state, fetch):
@@ -32572,8 +32681,6 @@ CATALOGUE["de"] = {
         'ein Singletrack-Preset, die Liste bleibt also leer.',
     'fetching from auphonic.com ...':
         'wird von auphonic.com geholt ...',
-    'What is in %s:':
-        'Was in %s steckt:',
     'What changed since %s:':
         'Was sich seit %s geändert hat:',
     'Update':
@@ -33731,6 +33838,11 @@ CATALOGUE["de"] = {
         'an: „%s" verschiebt das, „%s" übergeht diese eine Fassung.',
     '  %s is there already -- not fetched twice':
         '  %s ist schon da -- nicht zweimal geholt',
+    'The text for %s could not be fetched.':
+        'Der Text zu %s ließ sich nicht holen.',
+    'The time window meets none of %s. Nothing was written.':
+        'Das Zeitfenster trifft nichts von %s. Es wurde nichts '
+        'geschrieben.',
     'Project found':
         'Projekt gefunden',
     'Open the project':

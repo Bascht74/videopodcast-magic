@@ -45,6 +45,43 @@ last:
 2. **`CHANGELOG.md` says what changed**, in the groups Keep a Changelog
    wants and in their order -- Added, Changed, Removed, Fixed, Tests,
    Documentation. The release notes are cut from that section.
+
+   **Written for somebody who was not there.** Every version says
+   everything twice: the English part first, then a line reading
+   `**Deutsch**`, then the same in German. Both go on the release page,
+   where anybody can jump to their language; the program shows only the
+   one it is running in.
+
+   A point has to say three things to a stranger: what the thing is,
+   what changed about it, and why that matters to them. Short is
+   second. Sebastian, 31.8.2026, on "The ranking of who asks becomes
+   names to propose -- Guest, Host, Host 1 to n -- and only ever over a
+   name the program made up itself": *"Is that actually good English?
+   And does a third party understand what this is about?"* It is not,
+   and they do not. It was written for somebody who had watched it
+   being built.
+
+   **The shape of a point**, taken from a rewrite Sebastian did of one
+   of mine on 31.8.2026, five lines cut to three:
+
+   * Name the thing as it stands on the screen, in quotation marks, so
+     a reader can find it.
+   * What it was, what it is now, what follows for them. In that order,
+     and rarely more than three sentences.
+   * One point says one thing. A second fact gets a point of its own,
+     or none.
+   * No justifying the old state. Why it was wrong belongs in the
+     commit message, where whoever wants the reasoning will look.
+
+   And: no allusions to the day's work, no idiom that only makes sense
+   with the commit beside it, and the sentence has to parse for a
+   native reader. Where a measurement is the point, the number goes in
+   -- a number is understood without context. Where it is not, leave it
+   out.
+
+   `release_test.py` checks what a machine can: that both halves are
+   there, that they hold the same number of points, and that neither is
+   written in the other's language.
 3. **The manual is true again.** Anything a person can see or feel is a
    chapter, in both languages. A default that moved, a new answer in a
    field, a computation that costs their processor: all of that.

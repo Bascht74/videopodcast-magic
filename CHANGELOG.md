@@ -9,6 +9,61 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+**English**
+
+### Added
+
+- **What changed in this version** in the Help menu shows the text in a
+  window. It used to open the project's whole changelog in a browser.
+
+### Changed
+
+- Release notes are written in English and German. Both stand on the
+  release page; the program shows the language it runs in.
+- The tick in the update window, "Do not ask again", used to stop the
+  search for new versions for good. It is now called "Skip this
+  version". Later versions are reported again.
+
+### Fixed
+
+- Two outputs of one name were both downloaded into one file, so the
+  second overwrote the first. Only one is fetched now.
+- A time window moved the sound out of step on the simple path. The
+  shift was as large as the gap between the start of a recording and
+  the start of its picture, so it was never nothing.
+- A time window that meets none of the material wrote a video of pure
+  silence and reported it as a result. It stops and says so.
+
+---
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Was sich in dieser Fassung geändert hat** im Hilfe-Menü zeigt den
+  Text in einem Fenster. Bisher öffnete es den ganzen Änderungsbericht
+  des Projekts im Browser.
+
+### Geändert
+
+- Versionshinweise stehen auf Englisch und Deutsch. Beides steht auf
+  der Freigabeseite; das Programm zeigt die Sprache, in der es läuft.
+- Der Haken im Update-Fenster „Nicht mehr nachfragen" stellte bislang
+  die Suche nach neuen Fassungen für immer ab. Er heißt jetzt „Diese
+  Version überspringen". Nachfolgende Versionen werden wieder gemeldet.
+
+### Behoben
+
+- Zwei Ausgaben gleichen Namens wurden beide in dieselbe Datei geholt,
+  die zweite überschrieb die erste. Es wird nur noch eine geholt.
+- Ein Zeitfenster brachte auf dem Einspur-Weg den Ton aus dem Bild. Die
+  Verschiebung war so groß wie der Abstand vom Beginn der Aufnahme zum
+  Beginn des Bildes, also nie null.
+- Ein Zeitfenster, das kein Material trifft, schrieb ein Video aus
+  reiner Stille und meldete es als Ergebnis. Es hält an und sagt es.
+
 ## [2.19.0-beta] - 2026-08-31
 
 ### Added
