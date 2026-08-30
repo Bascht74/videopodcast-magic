@@ -21436,7 +21436,7 @@ def main():
         except Exception as e:
             print(T('Resolve part stopped: %s') % e)
             return 1
-    for long in ("no_camera_audio", "no_follow_ups", "no_trim", "no_drift",
+    for long in ("no_camera_audio", "no_follow_ups", "no_drift",
                  "dry_run", "multitrack", "resolve"):
         setattr(args, long, getattr(args, long, False))
     args.name_camera = getattr(args, "name_camera", "Camera Original")
