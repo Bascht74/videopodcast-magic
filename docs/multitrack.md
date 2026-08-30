@@ -26,8 +26,9 @@ program then aligns the audio, mixes it, sets the loudness and builds the
 camera cut. It leaves out de-bleed, leveler and noise removal.
 
 Everything lands on one common time axis, clock drift and all. The
-window comes from the cameras alone; the program fills gaps inside it
-with silence. Rows with the same speaker name become one track. The
+window comes from the cameras alone, and where there is no camera at all
+from the tracks themselves; the program fills gaps inside it with
+silence. Rows with the same speaker name become one track. The
 program lays them end to end by their timecode. A recording that was
 stopped in between comes back in one piece.
 
@@ -201,8 +202,56 @@ The program also writes the tracks as files, into `auphonic-tracks/` as
 `final_<name>_<timecode>.wav`. The timecode is in the name and in the
 bext chunk, and iXML comes along for Premiere and Media Composer.
 
+### Multitrack with no camera at all
+
+Sometimes there is no picture: several microphones on one table, and
+nothing filming. A run with the tick and no video file used to be turned
+away for want of a time axis. It now builds the axis out of the tracks
+themselves -- they are laid against each other instead of against a
+camera.
+
+The longest recording is the reference, for the same reason the longest
+camera is: it overlaps most with the others. Every other track is
+measured against it, offset and clock drift in one go, and the log names
+the reference with its running time and each track with what was found.
+A track that cannot be placed is named and stays out.
+
+The window holds everything any track heard. A recording switched on
+late gets silence in front of it, one switched off early silence behind,
+and the log says how much of each and on which track. A silent edge
+costs less than a recording cut short.
+
+What comes out is one file per voice in the output folder, called
+`<Speaker name>_aligned.wav`: all of the same length, all beginning at
+the same moment, which is what the processing of the sound wants. With
+no output folder set they land beside the first recording. With a key
+the same tracks go up to auphonic.com as **one** multitrack production
+as well, and what comes back is held against what went up; without a
+key, or with `--without-auphonic`, they stay on this machine.
+
+In point and Out point hold here too (`--in-point`, `--out-point`), but
+only as a value counting from the start of the window -- `+12:30`, `90`,
+`-30`. A clock time has nothing to be converted through, because there
+is no camera whose timecode the axis hangs on, and the run says so and
+stops.
+
+**A loudness target does nothing to the sound on this path.** A gain per
+track would pull the voices out of the very balance this path exists to
+keep, so the tracks leave as they were recorded and the loudness is set
+where they are mixed. Given `--lufs` and no key, the run says that in
+one line; given a key, the value is still held against what the preset
+masters to ([Preflight](preflight.md)).
+
 ### When something goes wrong
 
+- **Multitrack, no picture, and the run stops straight away.** Once the
+  blocks are grouped only one track is left, and Multitrack means one
+  track per voice. Rather than glue two people into one file the run
+  stops before it joins anything. Where two people were taken for one
+  recording, `--apart` keeps a block out of the grouping.
+- **Only one track found a place.** The others could not be measured
+  against the reference, and one track on its own has nothing left to
+  lie against. The lines above name each one and why it was dropped.
 - **A row stands in red.** That file's sound fits the others too badly
   to place it, so it gets no place on the common time axis. Pick
   **ignore this video** in the column **Kind** of the file list, or take

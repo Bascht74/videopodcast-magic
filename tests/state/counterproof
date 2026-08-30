@@ -36,147 +36,148 @@
 # way, and its row is reported as belonging to nothing. That is the one
 # case where a hand has to put the register right, and it is a line.
 
-catalogue_shape	2026-08-30	ed51428162fd	two translated pieces glued into one sentence again	no translated piece glued onto another                   FAIL   2
-channels	2026-08-30	d2e440c0b316	a copy that called a stereo pair certain when it was not	and that is measured, not guessed                      FAIL certain False, reason 'both channels identical -- mono laid on both sides'
-colours	2026-08-30	343add919965	a copy whose colour groups walked off the end of an empty timeline	an empty timeline does not raise                       FAIL   StopIteration:
-consistency	2026-08-30	6e4cf5c43221	a dictionary key left in the program that nobody ever reads	keys nobody reads: 10 (ratchet 9)                      FAIL ['abort', 'block', 'created_by', 'cut_numbers', 'fixed']
+text_whole_sentences	2026-08-30	ed51428162fd	two translated pieces glued into one sentence again	no translated piece glued onto another                   FAIL   2
+sound_any_count_judged	2026-08-30	d2e440c0b316	a copy that called a stereo pair certain when it was not	and that is measured, not guessed                      FAIL certain False, reason 'both channels identical -- mono laid on both sides'
+cut_colour_per_camera	2026-08-30	343add919965	a copy whose colour groups walked off the end of an empty timeline	an empty timeline does not raise                       FAIL   StopIteration:
+source_no_loose_ends	2026-08-30	6e4cf5c43221	a dictionary key left in the program that nobody ever reads	keys nobody reads: 10 (ratchet 9)                      FAIL ['abort', 'block', 'created_by', 'cut_numbers', 'fixed']
 counterproof	2026-08-30	d2e5f2a564d4	a test with no row put in the folder	every test owing one is in the register: 105 owing, 1 new FAIL ['brandnew']
-crosstalk	2026-08-30	fe81715f4946	a copy with the crosstalk judgement turned round: close pairs called good, distant ones warned	6 dB is too close, and the report says so            FAIL   {'good'}
-cut_band	2026-08-30	b6a6deb07097	the band handed a shuffled order of speakers, the checks keeping the true cut	every shot at its own time in its own colour         FAIL 13 of 41; first miss Wide at 33.3 s, x=66 is #3f7fbf not #c8b088
-cut_built_again	2026-08-30	414f34f79a8c	the refusal of an In point beside a handover without one taken out	an In point beside a handover without one does not refuse  FAIL   In point is now elsewhere -- press Start above again.
-cut_rules	2026-08-30	5ce7b8dc8b89	the switched-off rule given the same value as the switched-on one	switched off, the same block does reach the picture  FAIL 4 against 4
-finding_row	2026-08-30	fb3c65e8de9b	a copy in which a finding lands in the row of another block	the note on the third block is in that row           FAIL ['note on the first block']
-german_hunt	2026-08-30	6ec00c5015ee	an English wording put into the German catalogue	nothing was left in English by accident                  FAIL   ["'  Player: %s'"]
-intro_proposal	2026-08-30	2ed2dd45a6f9	INTRO_SHORT_ENOUGH moved from 0.1 to 10.0, so every file counted as short; and for the list of files with no place, files_with_no_place made to hand back nothing, and a second copy made to hand back one name too many	and both of them sit nowhere any clock could place them    FAIL ['Dead.mov', 'Jingle.mov', 'nowhere.mov']
-table_check_no_place_not_wide	2026-08-30	2a648782c373	seventeen copies, one per check: wide_shot_barred made to give no reason, to give one for every file, and to stop reading chosen_by_hand; choices_shut made to leave entries enabled, to set no grey, to drop the per-entry reasons, and never to open an entry again; clip_kind_cell made to bar every entry, to shut the whole field, to bar the wide shot with no reason, and to let the wide shot's bar overwrite the one on Content; the derivation made to ignore which files have no place, to take marked cameras only, and to drop a marked file with the rest; kind_on_show made to ignore the list of wide shots	a mark stands even there, because a mark is an answer      FAIL ['CamB.mov'], marked True
-language	2026-08-30	d015848c575f	a German word put into an English text	German words: 1 (ratchet 0)                            FAIL ['moderatoren']
-local_run	2026-08-30	55ea329ce5cc	copies with one shot only, the cut cut short and the notice removed	more than two shots                                    FAIL 1
-log_atom	2026-08-30	4b27eeb4b2f2	copies that never insert the logs atom, keep it in the source, or truncate it	the atom is back in the new file                     FAIL nothing
-loudness	2026-08-30	a1b9be78e431	the loudness target handed to the writer as None	a target is applied, not only reported               FAIL no target line in the log
-multicam	2026-08-30	afa124890316	every camera inserted one video track too high (trackIndex i became i + 1)	no camera is missing from the picture                FAIL on the timeline: ['G.mov', 'W.mov']
-pair	2026-08-30	0b4329182b72	a copy that offered a camera which is not in the material	only cameras that exist                          FAIL ['Everyone']
-preflight	2026-08-30	7cb098bb70a2	a copy that reports nothing at all about the four files	one file of the four is reported                     FAIL 0 reported: []
-prepared	2026-08-30	5eff95ddb317	the test's own stand-in weakened: the copy is no longer re-stamped, so it carries no timecode	placed by its own timecode against programme time        FAIL 0.0, wanted -30.0
-prework	2026-08-30	fd462b87e577	the header line built in a second place outside the catalogue	the header line is built in one place only             FAIL 2 places outside the catalogue build it, wanted 1
-project_offer	2026-08-30	1bd4138910fe	the file's own date dropped from the line offering it	each file's own date stands beside it                      FAIL   ['videopodcast-magic_older.json   (2001-09-09 03:46)'], wanted ['1970-01-01', '2001-09-09']
+sound_bleed_reported	2026-08-30	fe81715f4946	a copy with the crosstalk judgement turned round: close pairs called good, distant ones warned	6 dB is too close, and the report says so            FAIL   {'good'}
+window_cut_colours	2026-08-30	b6a6deb07097	the band handed a shuffled order of speakers, the checks keeping the true cut	every shot at its own time in its own colour         FAIL 13 of 41; first miss Wide at 33.3 s, x=66 is #3f7fbf not #c8b088
+cut_list_rebuilt	2026-08-30	414f34f79a8c	the refusal of an In point beside a handover without one taken out	an In point beside a handover without one does not refuse  FAIL   In point is now elsewhere -- press Start above again.
+cut_rules_hold	2026-08-30	5ce7b8dc8b89	the switched-off rule given the same value as the switched-on one	switched off, the same block does reach the picture  FAIL 4 against 4
+table_notes_in_one_row	2026-08-30	fb3c65e8de9b	a copy in which a finding lands in the row of another block	the note on the third block is in that row           FAIL ['note on the first block']
+text_no_german_left	2026-08-30	6ec00c5015ee	an English wording put into the German catalogue	nothing was left in English by accident                  FAIL   ["'  Player: %s'"]
+files_intro_proposed	2026-08-30	2ed2dd45a6f9	INTRO_SHORT_ENOUGH moved from 0.1 to 10.0, so every file counted as short; and for the list of files with no place, files_with_no_place made to hand back nothing, and a second copy made to hand back one name too many	and both of them sit nowhere any clock could place them    FAIL ['Dead.mov', 'Jingle.mov', 'nowhere.mov']
+table_no_place_not_wide	2026-08-30	dcbf0e08ca4d	eighteen copies, one per check: wide_shot_barred made to give no reason, to give one for every file, and to stop reading chosen_by_hand; choices_shut made to leave entries enabled, to set no grey, to drop the per-entry reasons, and never to open an entry again; clip_kind_cell made to bar every entry, to shut the whole field, to bar the wide shot with no reason, and to let the wide shot's bar overwrite the one on Content; the derivation made to ignore which files have no place, to take marked cameras only, and to drop a marked file with the rest; kind_on_show made to ignore the list of wide shots; and the camera table made to build its own Kind field again, past kind_cell_for	a mark stands even there, because a mark is an answer      FAIL ['CamB.mov'], marked True
+text_only_texts_change	2026-08-30	d015848c575f	a German word put into an English text	German words: 1 (ratchet 0)                            FAIL ['moderatoren']
+run_stays_local	2026-08-30	55ea329ce5cc	copies with one shot only, the cut cut short and the notice removed	more than two shots                                    FAIL 1
+files_atom_travels	2026-08-30	4b27eeb4b2f2	copies that never insert the logs atom, keep it in the source, or truncate it	the atom is back in the new file                     FAIL nothing
+sound_mix_hits_target	2026-08-30	a1b9be78e431	the loudness target handed to the writer as None	a target is applied, not only reported               FAIL no target line in the log
+project_cameras_land	2026-08-30	afa124890316	every camera inserted one video track too high (trackIndex i became i + 1)	no camera is missing from the picture                FAIL on the timeline: ['G.mov', 'W.mov']
+cut_both_are_shown	2026-08-30	0b4329182b72	a copy that offered a camera which is not in the material	only cameras that exist                          FAIL ['Everyone']
+run_odd_clock_named	2026-08-30	7cb098bb70a2	a copy that reports nothing at all about the four files	one file of the four is reported                     FAIL 0 reported: []
+cut_player_prepared_used	2026-08-30	5eff95ddb317	the test's own stand-in weakened: the copy is no longer re-stamped, so it carries no timecode	placed by its own timecode against programme time        FAIL 0.0, wanted -30.0
+run_prework_listed	2026-08-30	fd462b87e577	the header line built in a second place outside the catalogue	the header line is built in one place only             FAIL 2 places outside the catalogue build it, wanted 1
+files_project_offered	2026-08-30	1bd4138910fe	the file's own date dropped from the line offering it	each file's own date stands beside it                      FAIL   ['videopodcast-magic_older.json   (2001-09-09 03:46)'], wanted ['1970-01-01', '2001-09-09']
 project_same_offset	2026-08-30	e4267971dfac	camera_place returning the measurement instead of the timecode	the timecode wins over a stored measurement                FAIL   {'Wide': 0.0, 'Hosts': 4.0, 'Guest': 17.4}
-release	2026-08-30	74a6683845c1	one changelog point stretched to 360 characters	no point stands out by its length                    FAIL 360 characters against a middle of 137: The multitrack path was measured for the
-render_hdr	2026-08-30	590da2459cb5	the `if hdr` dropped, so H.265 and Main10 were asked for on SDR material too	project SDR beats HDR material: format and codec     FAIL wanted ('mp4', 'H264'), got ('mp4', 'H265')
-simple	2026-08-30	25f17ab0ecf3	copies with the QuickTime key stripped, the colour tags wrong, and one audio track instead of two	the QuickTime key came along                         FAIL com.apple.proapps.testkey='hello' -> None
-single_track	2026-08-30	7ad9101a71c1	the offset arithmetic in the writer changed, so the sound sat elsewhere than the picture	the sound in the window still belongs to the picture     FAIL the written track begins at 0.000 s of the recording, wanted 4.000 -- -4.0 s out
-sound_and_picture	2026-08-30	ae461965ee62	TRIES set to 0, so nothing was ever waited for	and one that has to wait for the cut still gets its line FAIL asked again 0 time(s), lines at -
+text_release_ready	2026-08-30	74a6683845c1	one changelog point stretched to 360 characters	no point stands out by its length                    FAIL 360 characters against a middle of 137: The multitrack path was measured for the
+project_hdr_follows	2026-08-30	590da2459cb5	the `if hdr` dropped, so H.265 and Main10 were asked for on SDR material too	project SDR beats HDR material: format and codec     FAIL wanted ('mp4', 'H264'), got ('mp4', 'H265')
+files_colour_carried	2026-08-30	25f17ab0ecf3	copies with the QuickTime key stripped, the colour tags wrong, and one audio track instead of two	the QuickTime key came along                         FAIL com.apple.proapps.testkey='hello' -> None
+time_one_track_aligned	2026-08-30	7ad9101a71c1	the offset arithmetic in the writer changed, so the sound sat elsewhere than the picture	the sound in the window still belongs to the picture     FAIL the written track begins at 0.000 s of the recording, wanted 4.000 -- -4.0 s out
+cut_player_in_sync	2026-08-30	ae461965ee62	TRIES set to 0, so nothing was ever waited for	and one that has to wait for the cut still gets its line FAIL asked again 0 time(s), lines at -
 sound_hush_reason	2026-08-30	9ef7af9886b2	the one rule for a hushed channel renamed, so the second reader no longer found it	a channel under -70 dBFS is converter noise          FAIL ('under', 68.0)
-speaker_split	2026-08-30	0aff0d1c0c33	the separation worker left with a syntax error, so it is no longer a program of its own	the worker is a program in its own right                 FAIL line 41: invalid syntax
-start_reason	2026-08-30	2607cb152296	the reason put back beside a field that needs none	nothing stands beside it any more                      FAIL 'because no speaker is assigned to it'
-style	2026-08-30	9e47faeff01c	gui() grew thirteen lines past the level it was held to	largest function: 5717 lines (ratchet 5704)          FAIL gui
-time_camera_place	2026-08-30	6b85aaae691e	camera_place returning the measurement instead of the timecode	a stamped file: the timecode, not the measurement          FAIL   -33.34
-track_rows	2026-08-30	7abd5db3079a	a copy that did not split a stereo file into two rows	the stereo file became two rows, the mono one stays one FAIL 0
-tracks_alone	2026-08-30	887ee0a4f7b8	every track laid down from 0.0 to 1.0 instead of where it was recorded	the two tracks agree with each other at both ends          FAIL 3000.00 ms apart, allowed 20
-update	2026-08-30	c89539241239	the release text no longer cut to one language before it is shown	two releases, and still one language                 FAIL found the English half 2 time(s)
-voice_rows	2026-08-30	1352ea89cf18	the guard against an empty answer dropped, so voice rows appeared with nobody named	nobody answered, so there are no voice rows              FAIL ['Speaker 1', 'Speaker 2', 'Speaker 3']
-window_wiring	2026-08-30	2c87150b3efb	a copy in which a typed name never reaches the calculation	a typed name alone makes the preview compute again     FAIL 12.0 s, 0 cut calls, 0 window calls
-zoom_band	2026-08-30	b7d6334a0a25	the new reading of the section run against the program from before the change	and the reading says the whole length                FAIL '', wanted '0:00:00 -- 1:00:00'
+voice_raw_times_kept	2026-08-30	0aff0d1c0c33	the separation worker left with a syntax error, so it is no longer a program of its own	the worker is a program in its own right                 FAIL line 41: invalid syntax
+window_grey_says_why	2026-08-30	2607cb152296	the reason put back beside a field that needs none	nothing stands beside it any more                      FAIL 'because no speaker is assigned to it'
+source_limits_hold	2026-08-30	9e47faeff01c	gui() grew thirteen lines past the level it was held to	largest function: 5717 lines (ratchet 5704)          FAIL gui
+time_camera_by_clock	2026-08-30	6b85aaae691e	camera_place returning the measurement instead of the timecode	a stamped file: the timecode, not the measurement          FAIL   -33.34
+table_stereo_splits	2026-08-30	7abd5db3079a	a copy that did not split a stereo file into two rows	the stereo file became two rows, the mono one stays one FAIL 0
+time_tracks_alone	2026-08-30	887ee0a4f7b8	every track laid down from 0.0 to 1.0 instead of where it was recorded	the two tracks agree with each other at both ends          FAIL 3000.00 ms apart, allowed 20
+run_only_newer_offered	2026-08-30	c89539241239	the release text no longer cut to one language before it is shown	two releases, and still one language                 FAIL found the English half 2 time(s)
+table_row_per_voice	2026-08-30	1352ea89cf18	the guard against an empty answer dropped, so voice rows appeared with nobody named	nobody answered, so there are no voice rows              FAIL ['Speaker 1', 'Speaker 2', 'Speaker 3']
+window_answers_arrive	2026-08-30	2c87150b3efb	a copy in which a typed name never reaches the calculation	a typed name alone makes the preview compute again     FAIL 12.0 s, 0 cut calls, 0 window calls
+window_zoom_stays_in	2026-08-30	b7d6334a0a25	the new reading of the section run against the program from before the change	and the reading says the whole length                FAIL '', wanted '0:00:00 -- 1:00:00'
 
-open	apart_blocks	b7d392ed68b2
-open	argv	3f80044c8da4
-open	assignment5c	6d88134e4a58
-open	assignment_hint	64a498b66f7d
-open	auphonic_mono_master	605085f29c99
-open	auphonic_quiet	7afd204515c1
-open	beside_mix	a5dfa483c2ef
-open	block_remove	4cacaad36b0d
-open	blocks_facts	7ecc7248a08a
-open	blocks_rows	4dd36611957f
-open	camera_channels	e87436d85509
-open	camera_track_mode	40d1033726b7
-open	chain_length	9bf2db739dee
-open	channel_delay	4e76eb6310dc
-open	channel_read	f3244043243e
-open	channel_rows	c4b6be75de62
-open	clock_blocks	ba2f4e4186f2
-open	clock_drift	b5a27b940f02
-open	colour_distance	ec7b5b8eb3f8
-open	common_window	7effb4115d72
-open	cut_gate	6556181593a2
-open	cut_timeline	075353c3c7b4
-open	cut_truth	da941228ab10
-open	docs_truth	88ee23a27514
-open	dualmono	16e693a89847
-open	files_split_names	02fe01bfd78e
-open	files_together_order	f2b97a89a116
-open	files_why_not_joined	7cfb9d0b55f8
-open	folder_name	e8d988672815
-open	footer_bar	bbdebf697bc1
-open	foreign_files	11895edcd312
-open	format	9a2065454a78
-open	handover	0dde36387e95
-open	hdr	27c388fe409c
-open	interface	b9300d026ec5
-open	intro	cf6b05526628
-open	key_store	83cef0cae987
-open	kind_field	bd8d06c16095
-open	layout	5015d2291124
-open	metrics	a8321bf24877
-open	multitrack_window	0cabe2ec6a0b
-open	no_place	4bc063370260
-open	offset	abcbe892bc50
-open	offset_player	ff103b80d852
-open	one_camera_cut	4407b33b109a
-open	one_moment	24abc956c292
-open	outliers	e38b79f8e594
-open	parallel	469bda994088
-open	place_on_axis	cb7a273fa5fb
-open	player	1b5465d93b4a
-open	player_choice	94afb0efb3b9
-open	preset	be5ba8988451
-open	preset_default	ca2a45dc6d12
-open	preset_none	2f304835774e
-open	probe_cache	9bc8fb9fec15
-open	progress	5bf23beb5edf
-open	progress_plan	acb5f9d00a23
+open	files_block_stays_apart	b7d392ed68b2
+open	run_command_built	3f80044c8da4
+open	table_audio_asked_for	6d88134e4a58
+open	table_camera_proposed	64a498b66f7d
+open	auphonic_mono_not_stereo	605085f29c99
+open	auphonic_stays_quiet	7afd204515c1
+open	sound_each_gets_a_track	a5dfa483c2ef
+open	files_block_out_and_back	4cacaad36b0d
+open	sound_all_blocks_count	7ecc7248a08a
+open	table_blocks_judged	4dd36611957f
+open	sound_camera_judged_too	e87436d85509
+open	sound_camera_counts	40d1033726b7
+open	files_lengths_summed	9bf2db739dee
+open	sound_delay_decides	4e76eb6310dc
+open	sound_one_pass_agrees	f3244043243e
+open	table_row_per_channel	c4b6be75de62
+open	files_clock_links_blocks	ba2f4e4186f2
+open	time_drift_taken_out	b5a27b940f02
+open	cut_wide_colour_apart	ec7b5b8eb3f8
+open	time_window_is_shared	7effb4115d72
+open	cut_offer_needs_two	6556181593a2
+open	cut_all_shots_land	075353c3c7b4
+open	cut_right_camera	da941228ab10
+open	text_lists_match	88ee23a27514
+open	sound_both_sides_alike	16e693a89847
+open	files_split_found_again	02fe01bfd78e
+open	files_order_kept	f2b97a89a116
+open	files_left_out_named	7cfb9d0b55f8
+open	files_named_by_folder	e8d988672815
+open	window_idle_bar_hidden	bbdebf697bc1
+open	files_foreign_untouched	11895edcd312
+open	files_old_file_refused	9a2065454a78
+open	project_handover_built	0dde36387e95
+open	files_hdr_complete	27c388fe409c
+open	window_all_come_up	b9300d026ec5
+open	cut_jingle_over_start	cf6b05526628
+open	auphonic_key_kept	83cef0cae987
+open	table_one_entry_greyed	bd8d06c16095
+open	window_captions_fit	5015d2291124
+open	run_metrics_add_up	a8321bf24877
+open	time_sound_stays_put	0cabe2ec6a0b
+open	time_guess_refused	4bc063370260
+open	time_offset_found	abcbe892bc50
+open	cut_player_offset_used	ff103b80d852
+open	cut_one_camera_marks	4407b33b109a
+open	time_all_ways_agree	24abc956c292
+open	time_bad_point_dropped	e38b79f8e594
+open	run_threads_keep_order	469bda994088
+open	time_tracks_sit_together	cb7a273fa5fb
+open	cut_player_jump_lands	1b5465d93b4a
+open	cut_player_right_file	94afb0efb3b9
+open	auphonic_preset_fits	be5ba8988451
+open	auphonic_none_chosen	ca2a45dc6d12
+open	auphonic_may_be_skipped	2f304835774e
+open	files_probed_once	9bc8fb9fec15
+open	run_bar_tracks_work	5bf23beb5edf
+open	run_bar_never_falls	acb5f9d00a23
 open	project_every_offset	9f74c62d7010
-open	project_first	30df3068b877
+open	files_project_first	30df3068b877
 open	project_real_frame	917b1b2a546b
-open	project_render_name	407a41bc4a80
-open	project_two_cameras	26ce435e777d
-open	refresh	b3dc11efda6c
-open	refresh_run	4bd753cc2eea
-open	register	ff0ec596b48d
-open	remote_grades	d85321c8969d
-open	render	54036eb92cef
-open	reuse_production	e60407581f8d
-open	round_trip	b1dce3caa275
-open	run_bar	31bab7f34dcd
+open	project_render_kept	407a41bc4a80
+open	project_two_stay_two	26ce435e777d
+open	project_two_timelines_go	b3dc11efda6c
+open	project_rerun_updates	4bd753cc2eea
+open	text_index_targets_exist	ff0ec596b48d
+open	project_grades_stay_off	d85321c8969d
+open	project_render_queued	54036eb92cef
+open	project_each_track_set	e60407581f8d
+open	project_settings_return	b1dce3caa275
+open	window_stages_named	31bab7f34dcd
 open	run_which_script	94af371600c3
-open	set_aside	fa7c43b78ae8
-open	settings_window	f0f7f6d441e8
-open	sound_clipping_count	e55ad14d1f03
+open	files_set_aside_skipped	fa7c43b78ae8
+open	window_setup_kept_apart	f0f7f6d441e8
+open	sound_clipping_counted	e55ad14d1f03
 open	sound_join_order	49ba2bfde8ae
 open	sound_loudest_block	403bce1fc969
 open	sound_silent_no_pair	fa321be974ec
-open	speaker_box	3a79823ddf74
-open	speaker_gate	3867eab11983
-open	speakers	32122c23555e
-open	speakers_for_real	e3155ceabb71
-open	speakers_same_way	8c908940a77a
-open	speakers_source	b03d00f30b70
-open	speech	fbec1b4e103f
-open	speech_floor	9bfe364768b1
-open	split_tracks	57de597cdf93
-open	start_button	b29feffe7b2c
-open	stereo_mix	dcb417ef6c83
-open	switch_effect	3b06c2a62fca
-open	time_axis	b7180ce5fb1d
-open	time_fit_quality	6eb5bca7652c
+open	table_recording_shown	3a79823ddf74
+open	voice_bleed_gone_first	3867eab11983
+open	voice_turns_found	32122c23555e
+open	voice_split_hears_two	e3155ceabb71
+open	voice_both_ways_agree	8c908940a77a
+open	voice_source_travels	b03d00f30b70
+open	voice_words_intact	fbec1b4e103f
+open	voice_mhm_is_speech	9bfe364768b1
+open	sound_channels_split	57de597cdf93
+open	window_start_runs	b29feffe7b2c
+open	sound_stereo_kept	dcb417ef6c83
+open	run_switch_has_effect	3b06c2a62fca
+open	time_axis_measured	b7180ce5fb1d
+open	time_fit_reports	6eb5bca7652c
 open	time_over_midnight	8f1e0efdc44c
-open	together	d1aa992520d4
-open	tracks_in_file	5aa99c8688c0
-open	transcript	aa6a413fdf6b
-open	voice_names	a99489accec2
-open	voice_proposal	cbc3d4877838
-open	who_asks	b476ea56e16f
-open	who_said_it	124d2ae54044
-open	whole_run	f802c79b3b06
-open	wide_edges	a2146e39c4e2
-open	window	fb8effaa8e98
-open	zero_point	2e99cac832d6
+open	files_joined_by_hand	d1aa992520d4
+open	sound_tracks_written	5aa99c8688c0
+open	auphonic_speech_read	aa6a413fdf6b
+open	voice_names_when_sure	a99489accec2
+open	voice_answer_kept	cbc3d4877838
+open	voice_questions_rank	b476ea56e16f
+open	voice_every_word_placed	124d2ae54044
+open	auphonic_run_delivers	f802c79b3b06
+open	cut_opening_wide_holds	a2146e39c4e2
+open	time_length_is_in_to_out	fb8effaa8e98
+open	time_zero_at_in_point	2e99cac832d6
+project_tag_reason_fits	2026-08-30	3f34e24687f0	eight copies, one per check: SDR_TAGS emptied to ((), ()); the brackets put back unconditionally; "hdr and" dropped from the condition; "elif not hdr:" narrowed to "elif not hdr and not kind:" and widened to "else:"; "ST.2084" misspelt in HDR_TAGS["pq"]; and the whole conditional replaced by ""	  an SDR delivery borrows no reason from its project     FAIL wanted nothing after the tags, got '(colorSpaceOutput = Rec.2100 ST2084)' in '    Tagging                Rec.709 / Rec.709  (colorSpaceOutput = Rec.2100 ST2084)'

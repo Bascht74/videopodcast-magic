@@ -23,12 +23,21 @@ Four tabs, in the order they are needed.
   the same picture.
 
   Where a project file lies with the material, the program offers it as
-  the files come in: one found and it asks once, naming it and the day
-  it was written; several and it shows them to choose between; none and
-  nothing happens. Nothing is ever taken in part -- the project comes
-  back whole, with the names, the separation, who sits at which camera,
-  the types and the time window, or it is not opened at all. Once a
-  project is open nothing more is offered.
+  the files come in, and before it measures any of them: one found and
+  it asks once, naming it and the day it was written; several and it
+  shows them to choose between; none and nothing happens. Nothing is
+  ever taken in part -- the project comes back whole, with the names,
+  the separation, who sits at which camera, the types and the time
+  window, or it is not opened at all.
+
+  **No** leaves the files that came in exactly where they are. The list
+  is built from them and measured the usual way, once, and that project
+  file is not offered a second time. **Yes** puts the project's own
+  files into the list in place of them, and because the question came
+  first, nothing was measured that the answer then throws away. Material
+  from another folder offers that folder's project; more material from a
+  folder already asked about does not ask again. Once a project is open
+  nothing more is offered.
 
   The output folder is not guessed. It stays empty until it is chosen,
   or until a project says where it goes. The production name is
@@ -54,6 +63,29 @@ Four tabs, in the order they are needed.
 
   The same field stands at the camera on **Assignment & time window**,
   on the same value: change one and the other follows at once.
+
+  Every video file also carries **Kind** in the list: **Content**,
+  **Wide shot**, **Intro**, **Outro** or **ignore this video**. Resting
+  on the field says what each of the five means. The field itself is
+  never greyed as a whole -- grey over the whole box would read as
+  "nothing to be done here", and there always is.
+
+  What can be barred is one entry of the list, greyed and not pickable,
+  and the reason stands on that entry: rest on it and it says why. Two
+  entries can be barred that way, each with its own sentence.
+
+  - A camera nobody is assigned to shows **Wide shot** although nobody
+    marked it. **Content** is the barred entry while that lasts, because
+    no speaker is assigned to it. Give that camera a speaker, or set the
+    **Kind** yourself, and the entry frees itself.
+  - A file the measurement could place nowhere cannot serve as the wide
+    shot: the cut falls back on the wide shot, so it has to lie on the
+    time axis. **Wide shot** is the barred entry then, with that as its
+    reason.
+
+  Intro, outro and leaving the file out are never barred. They are
+  answers about the file itself and have nothing to do with who sits in
+  front of which camera.
 
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
@@ -118,6 +150,16 @@ Four tabs, in the order they are needed.
   values and the box **Speaker**, whose heading names where the speakers
   came from. Last the box **Camera cut -- preview**, with the cut band
   and a picture that plays.
+
+  The band shares its row with three zoom buttons and, at the end of the
+  row, the stretch of time on show, in typewriter digits:
+  `0:00:00 -- 0:42:13`. **−** shows twice as much, **+** half as much
+  around the current position, and the third one the whole length again.
+  The reading stands there from the first moment, before anybody has
+  zoomed: unzoomed it is the whole material, and while the band holds
+  nothing it reads `0:00:00 -- 0:00:00`. Its width is fixed, so the
+  three buttons stay under the pointer as the numbers change.
+  [The camera cut](camera-cut.md) says how the band itself is read.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -289,6 +331,15 @@ start looks like and leaves the file it came from untouched; it is the
 way to a second production without quitting the program. **Save
 project** writes the project file where the output folder points,
 without running anything.
+
+**Close project** also calls off the work that was running on the old
+material. The envelopes and the camera audio stop being taken out, the
+channels and the check stop, the common time axis stops being measured,
+the speaker separation stops, and the bar beside **Start** goes away in
+the same moment. A piece of work already under way in the background may
+still run to its end, but its answer is thrown away: it does not put
+itself back on the bar and it does not drop files into the emptied list.
+An empty window is an idle one.
 
 **View** names the tabs rather than numbering them. **Help** holds the
 way into this manual, **What changed in this version**, **Look for a

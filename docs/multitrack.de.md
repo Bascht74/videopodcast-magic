@@ -26,8 +26,8 @@ Programm richtet dann den Ton aus, mischt ihn, setzt die Lautheit und baut
 den Kameraschnitt. Es lässt De-Bleed, Leveler und Rauschentfernung aus.
 
 Alles kommt auf eine gemeinsame Zeitachse, Uhrengang eingerechnet. Das
-Fenster kommt allein aus den Kameras; Lücken darin füllt das Programm
-mit Stille. Zeilen mit demselben Sprechernamen werden zu einer Spur
+Fenster kommt allein aus den Kameras, und wo es gar keine gibt, aus den
+Spuren selbst; Lücken darin füllt das Programm mit Stille. Zeilen mit demselben Sprechernamen werden zu einer Spur
 zusammengefasst und über ihren Timecode hintereinandergelegt. Eine
 Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
 
