@@ -108,6 +108,8 @@ explains the word comes first.
 * **Keychain**: `auphonic`, "The key and the preset"; `requirements`, "What
   differs per platform"
 * **keys**: `interface`, "Reaching everything by menu or key"
+* **Kind (column)**: `interface`, "The four tabs"; `camera-cut`, "How the
+  program places the wide shot"
 * **legend**: `camera-cut`, "Reading the cut band and the legend"
 * **leveler**: `preflight`, "Which loudness target holds"; `auphonic`,
   "Working without Auphonic"

@@ -66,9 +66,9 @@ Four tabs, in the order they are needed.
 
   Every video file also carries **Kind** in the list: **Content**,
   **Wide shot**, **Intro**, **Outro** or **ignore this video**. Resting
-  on the field says what each of the five means. The field itself is
-  never greyed as a whole -- grey over the whole box would read as
-  "nothing to be done here", and there always is.
+  on the field says what the entries mean. The field itself is never
+  greyed as a whole -- grey over the whole box would read as "nothing to
+  be done here", and there always is.
 
   What can be barred is one entry of the list, greyed and not pickable,
   and the reason stands on that entry: rest on it and it says why. Two
@@ -79,13 +79,29 @@ Four tabs, in the order they are needed.
     no speaker is assigned to it. Give that camera a speaker, or set the
     **Kind** yourself, and the entry frees itself.
   - A file the measurement could place nowhere cannot serve as the wide
-    shot: the cut falls back on the wide shot, so it has to lie on the
-    time axis. **Wide shot** is the barred entry then, with that as its
-    reason.
+    shot: the wide shot is the camera that runs through and steps in
+    wherever no other one fits, so it has to lie on the time axis.
+    **Wide shot** is the barred entry then, with that as its reason.
+
+    Two things have to hold together for that bar, and neither of them
+    alone. The sound of the file has to fit the rest badly -- such a
+    file stands red in the list -- **and** no timecode may place it
+    among the others, which takes a timecode on the file and one on
+    something else in the material; a clock read once says nothing. A
+    jingle is both at once: no timecode, and nothing in its sound that
+    the room also has. A camera whose microphone heard nothing of the
+    room is only the first, and its own timecode still sets it to the
+    frame, so it keeps the choice.
 
   Intro, outro and leaving the file out are never barred. They are
   answers about the file itself and have nothing to do with who sits in
   front of which camera.
+
+  The bar on **Wide shot** never falls on a **Kind** somebody picked: a
+  picked answer stands, whatever the measurement says. And both bars
+  come off again by themselves -- a file a later measurement can place
+  gets the wide shot back, and a camera that is given a speaker gets
+  **Content** back.
 
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
@@ -334,12 +350,12 @@ without running anything.
 
 **Close project** also calls off the work that was running on the old
 material. The envelopes and the camera audio stop being taken out, the
-channels and the check stop, the common time axis stops being measured,
-the speaker separation stops, and the bar beside **Start** goes away in
-the same moment. A piece of work already under way in the background may
-still run to its end, but its answer is thrown away: it does not put
-itself back on the bar and it does not drop files into the emptied list.
-An empty window is an idle one.
+channel measurement and the check stop, the common time axis stops being
+measured, the speaker separation stops, and the bar beside **Start**
+goes away in the same moment. A piece of work already under way in the
+background may still run to its end, but its answer is thrown away: it
+does not put itself back on the bar and it does not drop files into the
+emptied list. An empty window is an idle one.
 
 **View** names the tabs rather than numbering them. **Help** holds the
 way into this manual, **What changed in this version**, **Look for a

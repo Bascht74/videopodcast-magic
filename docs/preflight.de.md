@@ -128,6 +128,12 @@ an wie jeder andere, und ein Lauf ganz ohne Bild auch, bei dem die
 Blöcke einer Aufnahme zu einer Datei zusammengefügt werden. Im Protokoll
 stehen `Ziel:` und `Ergebnis:`; ohne Ziel wird nichts angepasst.
 
+Ein Weg ist die Ausnahme: Multitrack ganz ohne Bild, wo die Spuren
+gegeneinander gelegt werden. Dort wird nichts ausgesteuert -- ein Gewinn
+je Spur brächte die Stimmen um das Gleichgewicht, für das dieser Weg da
+ist --, und der Lauf sagt es in einer Zeile
+([Multitrack](multitrack.de.md)).
+
 **Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten
 die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jeder *Mix* dagegen,
 der `Full-Mix` wie der Mix einer einzelnen Kamera, bekommt dasselbe
@@ -169,8 +175,43 @@ misst den Master als Summe, und der Limiter zieht ihn unter −1 dBTP. Ein
 Ansteckmikrofon, das den ganzen Abend am Anschlag lag, sieht dadurch
 sauber aus.
 
+### Wann eine sehr kurze Datei als Vorspann vorgeschlagen wird
+
+Während das Material durchgesehen wird, misst das Fenster auch, wie die
+Dateien zueinander liegen ([Die Oberfläche](interface.de.md)). Eine
+Datei, die dabei zu nichts passt, wird in der Spalte **Typ** zum
+Eintrag **Video ignorieren** vorgeschlagen. Das ist richtig für eine
+Kamera, deren Mikrofon nichts vom Raum gehört hat, und falsch für einen
+Jingle: Ein Jingle passt zu nichts, weil er keine Kamera ist, und er
+soll benutzt werden, nicht weggelassen.
+
+Auseinander hält die beiden die Länge. Von den Dateien, die zu nichts
+passen und die auch kein Timecode einordnet, wird die kürzeste als
+**Vorspann** vorgeschlagen -- aber nur, wenn sie höchstens ein Zehntel
+so lang ist wie die mittlere Länge des übrigen Materials. Maßstab ist
+der Dreh selbst und keine aufgeschriebene Länge: Ein Jingle liegt um
+Größenordnungen unter dem, wozwischen er steht, während eine Datei, die
+zum Dreh gehört und bloß zu nichts passt, ungefähr so lang ist wie alles
+andere.
+
+**Vorspann** heißt, dass die Datei an den Anfang gelegt und nie
+vermessen wird ([DaVinci Resolve](resolve.de.md)), und davon gibt es
+einen. Der Vorschlag trifft deshalb nur eine Datei, die kürzeste, und
+gar keine, wenn in der Liste schon irgendwo ein Vorspann steht.
+
+Es ist ein Vorschlag wie die anderen. Er füllt nur einen **Typ**, in dem
+noch die eigene Antwort des Programms steht, nie einen, den jemand
+gewählt hat, und eine Datei, die eine spätere Messung wieder einordnen
+kann, bekommt ihren alten Eintrag zurück. Ein Timecode entscheidet die
+Sache schon vorher, sofern noch eine andere Datei einen trägt: Dann hat
+die Datei einen Platz, und es wird nichts vorgeschlagen.
+
 ### Wenn etwas klemmt
 
+- **Eine sehr kurze Datei steht plötzlich auf Vorspann.** Sie passt zu
+  nichts im Material und ist viel kürzer als alles um sie herum, also
+  hält das Programm sie für einen Jingle. Einen **Typ** von Hand wählen
+  entscheidet die Zeile endgültig.
 - **Der Plattenplatz reicht nicht.** Platz schaffen oder im Streifen
   unter der Dateiliste einen anderen Ausgabeordner setzen. Die
   Zwischendateien des Laufs liegen im temporären Ordner des Systems,

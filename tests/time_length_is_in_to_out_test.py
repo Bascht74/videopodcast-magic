@@ -1,11 +1,14 @@
 """The window shows its own length, and only content bounds an episode.
 
-Two independent claims. The length counts from the In point to the Out
-point and not from where the file starts; the older file-relative
-arithmetic stands beside it to show how far the two differ. And an
-intro, an outro or an ignored file can carry no boundary, with a reason
-that names the file, because a barred button without one reads as a
-fault. A file nobody has classified yet counts as content."""
+Three independent claims. The length counts from the In point to the
+Out point and not from where the file starts; the older file-relative
+arithmetic stands beside it to show how far the two differ. An intro,
+an outro or an ignored file can carry no boundary, with a reason that
+names the file, because a barred button without one reads as a fault; a
+file nobody has classified yet counts as content. And where a Timecode
+is refused, the refusal names the situation it is really in: without a
+picture there is no reference camera to name, and the message used to
+name one anyway."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -87,4 +90,71 @@ assert said == "", ("an unclassified file should count as content, "
                     "said %r" % said)
 print("  a file nobody answered for counts as content     ok")
 
+# ----------------------------------------------------------------------
+# A Timecode that cannot be counted from
+#
+# Two situations, and one message for both named a reference camera on
+# the path that has none: with no picture the file was printed as "?".
+import io as _io
+import contextlib as _cl
+
+bad = []
+
+
+def check(what, ok, detail=""):
+    print("  %-52s %s%s" % (what, "ok" if ok else "FAIL",
+                            "" if ok else "   " + detail))
+    if not ok:
+        bad.append(what)
+
+
+class Call(object):
+    """The switches clip_to_time_window reads, and nothing else."""
+
+    def __init__(self, in_point=None, out_point=None):
+        self.in_point = in_point
+        self.out_point = out_point
+
+
+def refused(args, ref_clip):
+    """What the run says when it will not take the point. One line."""
+    out = _io.StringIO()
+    with _cl.redirect_stdout(out):
+        window = m.clip_to_time_window(args, 0.0, 600.0, ref_clip)
+    return window, " ".join(out.getvalue().split())
+
+
+print("\n  a Timecode where nothing can count it")
+ABSOLUTE = Call(in_point="17:20:14")
+window, said = refused(ABSOLUTE, None)
+check("without a picture the point is refused", window == (None, None),
+      str(window))
+check("and no camera is named that is not there", "camera ?" not in said,
+      said[:110])
+check("the message says there is no picture", "no picture" in said,
+      said[:110])
+check("and it says what does work instead", "+12:30" in said, said[:110])
+
+# The other direction: a camera that is there and carries no clock is
+# still named, or nobody knows which file to look at.
+window, said = refused(ABSOLUTE, ("/m/Camera1.mov", {"fps": 25.0}))
+check("a camera without a timecode is refused too", window == (None, None),
+      str(window))
+check("and that message names the file", "Camera1.mov" in said, said[:110])
+
+# A relative point needs no camera at all, so the same call goes through.
+window, said = refused(Call(in_point="+00:10"), None)
+check("a point counted from the window start goes through",
+      window == (10.0, 600.0), str(window))
+check("and the block that says so is translated",
+      "In point" in said and said.count("In point") == 1, said[:110])
+m.set_language("de")
+_window, said = refused(Call(in_point="+00:10"), None)
+m.set_language("en")
+check("the German run says In-Punkt, not In point",
+      "In-Punkt" in said and "In point" not in said, said[:110])
+
+if bad:
+    print("\nFAIL: " + ", ".join(bad))
+    sys.exit(1)
 print("\nall good")

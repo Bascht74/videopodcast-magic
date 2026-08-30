@@ -11,6 +11,22 @@ much room it has. The room is not guessed: a twin of the same class,
 parent, font and style sheet is given a long text, and its size hint
 minus the text width is what the frame costs. Word wrap, widgets with no
 text or with an icon, and fields somebody types into are left out.
+
+The reading beside the zoom buttons is asked further things: that it
+holds its place, that it says something before anybody clicks, that the
+face it is really drawn in has a fixed width and one width for every
+digit, and that the width it is pinned to holds the widest reading. The
+last two hang together: the pin is measured for a reading of noughts, so
+that is the widest reading there is only while every digit is as wide as
+a nought.
+
+Windowless, Qt answers a request for the system's typewriter face with
+the Linux alias "monospace" whatever the machine, so which face the
+system itself would name cannot be judged there. That piece is left out
+by name, with the numbers beside it, and what is drawn is judged all the
+same. Where the platform knows no fixed-width family at all -- windowless
+Windows is the reported case -- both font checks are left out, because a
+red line would then name the platform and not the program.
 """
 import os, sys, json, subprocess
 
@@ -41,6 +57,17 @@ WIDEST_READING = "00:00:00 -- 00:00:00"
 # VPM_LAYOUT_DUMP=1 prints every caption with its numbers; nothing in
 # the run depends on it.
 DUMP = bool(os.environ.get("VPM_LAYOUT_DUMP"))
+# Offscreen, because that is what the builder has and what runs here
+# without a window. VPM_LAYOUT_PLATFORM=cocoa (or windows, or xcb) runs
+# the same measurement on the platform a user actually sees -- which is
+# the only way to judge the face the system itself calls its typewriter
+# face. The window stays off the screen either way: every show() sets
+# WA_DontShowOnScreen first.
+PLATFORM = os.environ.get("VPM_LAYOUT_PLATFORM") or "offscreen"
+# How far apart two digits may measure and still count as one width.
+# Well under a tenth of a pixel: the faces that fail this are out by two
+# pixels, and a face that is really fixed width is out by nothing at all.
+SAME_WIDTH = 0.05
 
 
 def own_project():
@@ -77,7 +104,7 @@ def own_project():
 # too, and a second gui() would stand on the first.
 def measure(language):
     """Build the window in that language and report every caption."""
-    os.environ["QT_QPA_PLATFORM"] = "offscreen"
+    os.environ["QT_QPA_PLATFORM"] = PLATFORM
     os.environ["VPM_SILENT"] = "1"
     import importlib.util
     from PySide6 import QtCore, QtGui, QtWidgets
@@ -314,18 +341,42 @@ def measure(language):
         span.setText("0:00:00 -- 1:49:36")
         full = spots()
         span.setText(was)
-        # What the font was set to, not what the platform made of it:
-        # offscreen has no typewriter face and hands back the interface
-        # font, so asking the drawn font would say "proportional" on a
-        # machine where the program is right.
+        # The face that is drawn, not the name that was asked for. The
+        # name is the program's own wish and comparing it with itself is
+        # true however the text comes out: windowless, Qt answers the
+        # request with the Linux alias "monospace" on every platform,
+        # and both sides of that comparison then read "monospace" while
+        # the interface face is what appears. QFontInfo answers for the
+        # face Qt really found, so it is the one that can be wrong.
+        # Both are reported, because the difference between them is the
+        # finding.
         wanted = QtGui.QFontDatabase.systemFont(QtGui.QFontDatabase.FixedFont)
         drawn_in = QtGui.QFontInfo(span.font())
+        # Fractions, not whole pixels: rounded, two digits three
+        # quarters of a pixel apart look alike.
+        fine = QtGui.QFontMetricsF(span.font())
+        digits = [fine.horizontalAdvance(d) for d in "0123456789"]
+        # What this platform could do at all. A face that is not fixed
+        # width has two possible doors, and they are not the same: the
+        # program asked for the wrong thing, or the platform has nothing
+        # of the kind to give. Counted rather than assumed -- windowless
+        # Windows is reported to see no system fonts whatever.
+        families = QtGui.QFontDatabase.families()
+        fixed_here = [f for f in families
+                      if QtGui.QFontDatabase.isFixedPitch(f)]
         return {"found": 3, "label": True, "empty": empty, "full": full,
                 "moved": [a - b for a, b in zip(full, empty)],
                 "text": was, "family": span.font().family(),
                 "fixed_family": wanted.family(),
                 "drawn": drawn_in.family(),
                 "fixed_pitch": bool(drawn_in.fixedPitch()),
+                # Whether the platform's answer names a family that is
+                # really here. Windowless it does not, and then nothing
+                # can be said about the face the system itself would use.
+                "known": wanted.family() in families,
+                "families": len(families), "any_fixed": len(fixed_here),
+                "some_fixed": fixed_here[:3],
+                "digits": [min(digits), max(digits)],
                 "width": span.minimumWidth(),
                 "widest": WIDEST_READING,
                 "needs": span.fontMetrics().horizontalAdvance(
@@ -459,12 +510,16 @@ def check(name, ok, extra=""):
         error.append(name)
 
 
+# Pieces this machine could not judge, said once rather than once per
+# language: they are about the platform, not about the words in it.
+said = []
+
 started = []
 for language in LANGUAGES:
     locale = "%s_%s.UTF-8" % (language, language.upper())
     env = dict(os.environ, VPM_LAYOUT_LANG=language, LANG=locale,
                LC_ALL=locale, LANGUAGE=language,
-               QT_QPA_PLATFORM="offscreen")
+               QT_QPA_PLATFORM=PLATFORM)
     started.append((language, subprocess.Popen(
         [sys.executable, os.path.abspath(__file__)], stdout=subprocess.PIPE,
         stderr=subprocess.STDOUT, text=True, env=env, cwd=HERE)))
@@ -516,12 +571,62 @@ for language, process in started:
         check("%s: the reading stands there before anybody zooms" % language,
               bool((row.get("text") or "").strip()),
               "with no click at all it reads %r" % (row.get("text"),))
-        check("%s: the reading is in the system's typewriter font" % language,
-              row.get("family") == row.get("fixed_family"),
-              "it asks for %r; the system's fixed font is %r "
-              "(drawn as %r, fixed pitch %s)"
-              % (row.get("family"), row.get("fixed_family"),
-                 row.get("drawn"), row.get("fixed_pitch")))
+        # The evidence for the two font checks, and it is printed
+        # whether they pass or not: which face was asked for, which one
+        # is drawn, whether that one has a fixed width, and what this
+        # platform had to offer. Windowless Linux and Windows cannot be
+        # measured here at all, so the builder's own log is the only
+        # place the answer can come from.
+        low, high = row.get("digits") or [0.0, 0.0]
+        evidence = ("it asks for %r and draws %r, fixed pitch %s; its "
+                    "digits measure %.2f to %.2f px. This platform "
+                    "knows %d font families, %d of them fixed width%s"
+                    % (row.get("family"), row.get("drawn"),
+                       row.get("fixed_pitch"), low, high,
+                       row.get("families", 0), row.get("any_fixed", 0),
+                       (" (%s)" % ", ".join(row.get("some_fixed") or []))
+                       if row.get("some_fixed") else ""))
+        if not row.get("known") and "system face" not in said:
+            # Said once, not once per language: it is one piece, and it
+            # is about the platform rather than about the words in the
+            # window. run.sh reads a line beginning LEFT OUT and reports
+            # the test as green with a piece missing, which is what this
+            # is -- the face drawn is still judged below.
+            said.append("system face")
+            print("  LEFT OUT (the system's own typewriter face): this "
+                  "platform answers %r, which is not a family it knows, "
+                  "so whether the program picks up the face the system "
+                  "itself would use cannot be judged here -- only that "
+                  "what is drawn has a fixed width. %s. A run on the "
+                  "platform a user sees judges it: "
+                  "VPM_LAYOUT_PLATFORM=cocoa (or windows, or xcb)."
+                  % (row.get("fixed_family"), evidence))
+        if not row.get("any_fixed"):
+            # No family of fixed width anywhere on this platform, so
+            # nothing the program could ask for would be drawn with one.
+            # Red here would name the platform and not the program, and
+            # silence would hide that the piece was never checked.
+            if "any face" not in said:
+                said.append("any face")
+                print("  LEFT OUT (the width of the face): this "
+                      "platform's Qt knows no fixed-width font family "
+                      "at all, so nothing the program asks for can be "
+                      "drawn with one and neither font check says "
+                      "anything about the program. %s. Windowless "
+                      "Windows is the known case, QTBUG-142818; "
+                      "QT_QPA_FONTDIR pointing at the system's font "
+                      "folder is what would bring the fonts back."
+                      % evidence)
+        else:
+            check("%s: the reading is drawn with a fixed width" % language,
+                  bool(row.get("fixed_pitch")), evidence)
+            check("%s: every digit in the reading is one width" % language,
+                  high - low < SAME_WIDTH,
+                  "drawn in %r, the digits measure %.2f to %.2f px; the "
+                  "field is pinned to the width of %r, and that is the "
+                  "widest reading there is only while every digit is as "
+                  "wide as a nought"
+                  % (row.get("drawn"), low, high, row.get("widest")))
         check("%s: the pinned width holds the widest reading" % language,
               row.get("width", 0) >= row.get("needs", 0),
               "pinned to %d px, but %r needs %d px in the font it is "

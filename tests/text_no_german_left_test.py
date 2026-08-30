@@ -5,10 +5,14 @@ text_only_texts_change reads the program through a German dictionary;
 covers what that cannot: umlauts and eszett where only English belongs,
 German abbreviations, German words on the English side of the manual,
 and the catalogue as data. A German text missing a %s raises at run
-time, and only for people running in German.
+time, and only for people running in German. And one thing has one
+German word: a value the interface offers is called the same in every
+German text about it, or the log and the field are two names for one
+thing.
 """
-import ast, io, os, re, sys
+import ast, io, os, re, sys, time
 
+began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -21,8 +25,8 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 source = io.open(SCRIPT, encoding="utf-8").read()
+done = 0
 bad = []
-ran = [0]
 
 #--------------------------------------------------- how much of it really ran
 # Every section registers itself here, so the closing lines can say how
@@ -50,7 +54,8 @@ def left_out(what, why):
 
 
 def check(what, ok, detail=""):
-    ran[0] += 1
+    global done
+    done += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -123,6 +128,32 @@ untranslated = [k for k, v in catalogue.items()
 check("nothing was left in English by accident", not untranslated,
       str([repr(x)[:40] for x in untranslated[:3]]))
 
+# One thing, one German word. A value the interface offers carries the
+# word the field shows for it, and every German text that names that
+# value has to use the same word. Otherwise the log calls the wide shot
+# something the field never says, and the reader has to work out that
+# the two mean one thing. The English side cannot show this: there the
+# field and the text carry the same word already.
+offered = sorted(set(vpm.CHOICE_LABELS.values()))
+missing = [w for w in offered if w not in catalogue]
+check("every value the interface offers has a German word", not missing,
+      str(missing))
+apart = []
+for _english in offered:
+    if _english in missing:
+        continue
+    _german = catalogue[_english]
+    named = re.compile(r"(?<![\w-])%s(?![\w-])" % re.escape(_english), re.I)
+    spoken = re.compile(r"(?<![\w-])%s" % re.escape(_german), re.I)
+    for key, value in catalogue.items():
+        # A label entry is the word itself, not a text about it.
+        if key in offered or not named.search(key):
+            continue
+        if not spoken.search(value):
+            apart.append("%r wants %r: %r" % (_english, _german, key[:44]))
+check("and every German text about it uses that word", not apart,
+      "%d: %s" % (len(apart), apart[:2]))
+
 #------------------------------------------------------ umlauts where none belong
 section("Umlauts and eszett only where German lives")
 GERMAN_LETTERS = re.compile(r"[äöüÄÖÜß]")
@@ -175,6 +206,7 @@ DEV = os.path.join(ROOT, "development")
 NAMED += [os.path.join(DEV, "internals.md"),
           os.path.join(DEV, "measurements.md"),
           os.path.join(DEV, "coding_guidelines.md"),
+          os.path.join(DEV, "test_guidelines.md"),
           os.path.join(HERE, "README.md")]
 absent_named = [os.path.relpath(p, ROOT) for p in NAMED
                 if not os.path.exists(p)]
@@ -191,7 +223,8 @@ if os.path.isdir(DOCS):
 # The coding guidelines are left out here: they talk about the German
 # catalogue. They are checked for umlauts further down.
 BOOKS += [os.path.join(DEV, "internals.md"),
-          os.path.join(DEV, "measurements.md")]
+          os.path.join(DEV, "measurements.md"),
+          os.path.join(DEV, "test_guidelines.md")]
 # A chapter deleted with its German twin passes the pairing check and
 # stops being scanned here; text_lists_match catches it by the link.
 BOOKS = [b for b in BOOKS if os.path.exists(b)]
@@ -278,6 +311,7 @@ section("The other documents")
 # The English manual is scanned for German words above and for umlauts
 # here -- an umlaut is the cheapest sign that a translation slipped in.
 ENGLISH_ONLY = BOOKS + [os.path.join(DEV, "coding_guidelines.md"),
+                        os.path.join(DEV, "test_guidelines.md"),
                         os.path.join(HERE, "README.md")]
 for path in ENGLISH_ONLY:
     # The path from the project root, not just the file name: three of
@@ -417,7 +451,7 @@ check("and it is not in the catalogue, which is why that is right",
 #--------------------------------------------------------- how much was done
 # "All good." is a claim about every section, and a lie when only some
 # of them ran, so the size of the claim is printed with it.
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 state = {}
 for number, title, what, why in LEFT_OUT:
     if what == "all of it":
@@ -427,8 +461,8 @@ for number, title, what, why in LEFT_OUT:
 nowhere = sum(1 for v in state.values() if v == "not at all")
 partly = sum(1 for v in state.values() if v == "in part")
 fully = len(SECTIONS) - len(state)
-print("%d sections, %d checks: %d ran whole, %d in part, %d not at all."
-      % (len(SECTIONS), ran[0], fully, partly, nowhere))
+print("%d sections: %d ran whole, %d in part, %d not at all."
+      % (len(SECTIONS), fully, partly, nowhere))
 print("%d English documents read, %d German ones."
       % (len(BOOKS), len(GERMAN_BOOKS)))
 for number, title, what, why in LEFT_OUT:

@@ -211,8 +211,61 @@ Die Spuren werden außerdem als Dateien abgelegt, in `auphonic-tracks/`
 als `final_<Name>_<Timecode>.wav`. Der Timecode steht im Namen und im
 bext-Block, dazu iXML für Premiere und Media Composer.
 
+### Multitrack ganz ohne Kamera
+
+Manchmal gibt es gar kein Bild: mehrere Mikrofone an einem Tisch, und
+nichts filmt. Ein Lauf mit dem Häkchen und ohne Videodatei wurde früher
+abgewiesen, weil die Zeitachse fehlte. Jetzt baut das Programm die Achse
+aus den Spuren selbst -- sie werden gegeneinander gelegt statt gegen
+eine Kamera.
+
+Referenz ist die längste Aufnahme, aus demselben Grund wie sonst die
+längste Kamera: sie überschneidet sich am meisten mit den übrigen. Jede
+andere Spur wird dagegen gemessen, Versatz und Uhrengang in einem Zug,
+und das Protokoll nennt die Referenz mit ihrer Laufzeit und jede Spur
+mit dem, was gefunden wurde. Eine Spur, die keinen Platz bekommt, wird
+genannt und bleibt draußen.
+
+Das Fenster fasst alles, was irgendeine Spur gehört hat. Eine Aufnahme,
+die später eingeschaltet wurde, bekommt Stille davor, eine früher
+ausgeschaltete Stille dahinter, und das Protokoll sagt, wieviel und bei
+welcher Spur. Ein stiller Rand kostet weniger als eine abgeschnittene
+Aufnahme.
+
+Heraus kommt je Stimme eine Datei im Ausgabeordner, sie heißt
+`<Sprechername>_aligned.wav`: alle gleich lang, alle am selben Punkt
+beginnend, wie die Tonaufbereitung es braucht. Ist kein Ausgabeordner
+gesetzt, landen sie neben der ersten Aufnahme. Mit Schlüssel gehen
+dieselben Spuren außerdem als **eine** Multitrack-Produktion zu
+auphonic.com, und was zurückkommt, wird gegen das gehalten, was
+hochgegangen ist; ohne Schlüssel oder mit `--without-auphonic` bleiben
+sie auf diesem Rechner.
+
+In-Punkt und Out-Punkt gelten auch hier (`--in-point`, `--out-point`),
+aber nur als Angabe ab Fensteranfang -- `+12:30`, `90`, `-30`. Eine
+Uhrzeit hat nichts, worüber sie umgerechnet werden könnte, denn es gibt
+keine Kamera, an deren Timecode die Achse hängt; das Programm sagt es
+und hält an.
+
+**Ein Lautheitsziel tut dem Ton auf diesem Weg nichts.** Ein Gewinn je
+Spur brächte die Stimmen genau um das Gleichgewicht, für das dieser Weg
+da ist; die Spuren gehen also so heraus, wie sie aufgenommen wurden, und
+die Lautheit wird dort gesetzt, wo sie gemischt werden. Mit `--lufs` und
+ohne Schlüssel sagt der Lauf das in einer Zeile; mit Schlüssel wird der
+Wert weiterhin gegen das gehalten, worauf das Preset mastert
+([Vorflug](preflight.de.md)).
+
 ### Wenn etwas klemmt
 
+- **Multitrack, kein Bild, und der Lauf hält sofort an.** Nach dem
+  Zusammenfassen bleibt nur eine Spur übrig, und Multitrack heißt eine
+  Spur je Stimme. Statt zwei Menschen in eine Datei zu kleben, hält der
+  Lauf an, bevor er etwas zusammenfügt. Wo zwei Menschen für eine
+  Aufnahme genommen wurden, hält `--apart` einen Block heraus.
+- **Nur eine Spur hat einen Platz gefunden.** Die übrigen ließen sich
+  nicht gegen die Referenz messen, und eine Spur allein hat nichts mehr,
+  wogegen sie liegen könnte. Die Zeilen darüber nennen jede einzelne und
+  den Grund.
 - **Eine Zeile steht in Rot.** Der Ton dieser Datei passt zu schlecht
   zu dem der anderen, um sie einzuordnen, sie bekommt also keinen Platz
   auf der gemeinsamen Zeitachse. In der Spalte **Typ** der Dateiliste

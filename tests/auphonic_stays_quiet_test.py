@@ -11,6 +11,9 @@ import os
 import re
 import io
 import sys
+import time
+
+began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -21,8 +24,11 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -68,5 +74,6 @@ check("the unasked fetch has a quiet path", bool(quiet))
 check("and that path opens no box",
       bool(quiet) and "report(" not in quiet.group(1))
 
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
 sys.exit(1 if error else 0)

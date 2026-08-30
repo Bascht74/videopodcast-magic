@@ -33,6 +33,9 @@ import io
 import os
 import re
 import sys
+import time
+
+began = time.time()
 
 # Menu names are German on one side and the suite runs under LC_ALL=C:
 # without this a report of a finding would be a traceback instead.
@@ -54,10 +57,13 @@ spec.loader.exec_module(vpm)
 source = io.open(SCRIPT, encoding="utf-8").read()
 GERMAN = vpm.CATALOGUE["de"]
 
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -335,7 +341,7 @@ check("the chapters link to each other at all", links > 20,
 found("%d links and %d anchors, all of them lead somewhere"
       % (links, anchors), dead)
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:
     print("FAIL: %d of the checks" % len(bad))
     sys.exit(1)

@@ -587,7 +587,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.22.0-beta"
+VERSION = "2.23.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -5247,15 +5247,20 @@ def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
 def kind_on_show(kind, short, wides, said):
     """What the Kind field shows, why, and whether it is derived.
 
-    Three cases. A camera somebody marked shows the mark; where several
-    are marked, the ones after the first are told which the cut uses,
-    since no rule picks between them. A camera the derivation makes the
-    wide shot shows "Wide shot" greyed with the reason. Everything else
-    shows what is stored. Returns (value, reason, derived).
+    A mark is shown as it stands, and where several are marked the ones
+    after the first are told which the cut uses. A camera nobody is
+    assigned to is shown as the wide shot with the reason, whoever
+    answered the field last: that is the camera the run cuts to, and a
+    field saying "Content" would disagree with the episode. Everything
+    else shows what is stored. Returns (value, reason, derived).
     """
     second = bool(wides) and len(wides) > 1 and wides[0] != short
     if kind == TYPE_WIDE:
         return kind, (T('the cut uses %s') % wides[0] if second else ""), False
+    # chosen_by_hand is deliberately not asked here, where
+    # wide_shot_barred does ask. That a file sits nowhere on the axis is
+    # a measurement, and an answer may overrule a measurement; that no
+    # speaker is assigned is the assignment itself, and the run goes by it.
     if kind == TYPE_CONTENT and not said and short in wides:
         if second:
             return TYPE_WIDE, T('no speaker is assigned to it, but the '
@@ -8297,12 +8302,21 @@ def clip_to_time_window(args, t0, t1, ref_clip):
         if value is None:
             return None
         if absolute:
+            # Two different situations, and one message for both used to
+            # name a reference camera that does not exist on the path
+            # without a picture.
+            if tc_ref is None and not ref_clip:
+                raise RuntimeError(
+                    T('%r is a Timecode, but there is no picture here and '
+                      'so no camera to count it from. Then only a value '
+                      'from the window start works, such as +12:30.')
+                    % value_text)
             if tc_ref is None:
                 raise RuntimeError(
                     T('%r is a Timecode, but reference camera %s has none. '
                       'Then only a value from the window start works, such '
-                      'as +12:30.') % (value_text, os.path.basename(ref_clip[0])
-                                      if ref_clip else "?"))
+                      'as +12:30.') % (value_text,
+                                       os.path.basename(ref_clip[0])))
             return value - tc_ref
         if value < 0:
             if not from_the_end:
@@ -8323,12 +8337,13 @@ def clip_to_time_window(args, t0, t1, ref_clip):
         # The reference camera's rate, the same one tc_ref was read at:
         # the two lines say back what was typed in, and at 25 a line
         # printed at 30 would name a different frame.
-        print("    In point   %s   (Timecode %s)"
+        print(T('    In point   %s   (Timecode %s)')
               % (as_hms(new0), timecode_string(tc_ref + new0, fps)))
-        print("    Out point  %s   (Timecode %s)"
+        print(T('    Out point  %s   (Timecode %s)')
               % (as_hms(new1), timecode_string(tc_ref + new1, fps)))
     else:
-        print("    In point   %s\n    Out point  %s" % (as_hms(new0), as_hms(new1)))
+        print(T('    In point   %s\n    Out point  %s')
+              % (as_hms(new0), as_hms(new1)))
     if new1 <= new0:
         print(T('    Out point lies before In point -- that does not work.'))
         return None, None
@@ -8709,9 +8724,7 @@ def align_tracks_only(args, tracks, tmpdir, title=""):
         return 1
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(placed[0]["blocks"][0]))
-    if args.lufs is not None and not args.auphonic_key:
-        # A gain per track would put the voices out of balance with each
-        # other, which is the one thing this path exists to keep.
+    if lufs_does_nothing(args, ()):
         print(T('  --lufs does nothing here: the tracks leave as they '
                 'were recorded, and the loudness is set where they are '
                 'mixed.'))
@@ -19816,22 +19829,44 @@ def loudness_field_build(into, value):
     return box
 
 
-def check_loudness_target(args):
+def lufs_does_nothing(args, videos):
+    """Whether --lufs changes anything on the path this run takes.
+
+    Several voices and no picture: the tracks leave as they were
+    recorded, because a gain per track would put the voices out of
+    balance with each other, and that balance is the one thing that
+    path exists to keep. The number still travels to auphonic.com,
+    which masters the mix, so a key puts it back in force. One place,
+    because the preflight and the run both say it.
+    """
+    return (not videos and bool(getattr(args, "multitrack", False))
+            and getattr(args, "lufs", None) is not None
+            and not getattr(args, "auphonic_key", None))
+
+
+def check_loudness_target(args, videos=()):
     """Report the loudness target in force. It only reports.
 
     It used to set args.lufs from --platform on the side, and a check
     that quietly changes what it is checking was the cause of the old
     fault: the report and the run could come apart. --platform is gone;
-    the four numbers are a list in the window now.
+    the four numbers are a list in the window now. Where the number
+    does nothing the report says so, or the log names a target that is
+    then contradicted further down.
     """
     if getattr(args, "lufs", None) is None:
-        return [Finding("good", 'Loudness',
+        return [Finding("good", T('Loudness'),
                        T('taken from the source files, no --lufs given -- '
                          'nothing is adjusted'))]
     near = [n for n, (lufs, _) in PLATFORMS.items() if abs(lufs - args.lufs) < 0.05]
-    return [Finding("good", 'Loudness', "%.0f LUFS%s"
-                   % (args.lufs,
-                      "  (%s)" % T(PLATFORMS[near[0]][1]) if near else ""))]
+    text = "%.0f LUFS%s" % (args.lufs,
+                            "  (%s)" % T(PLATFORMS[near[0]][1]) if near else "")
+    if lufs_does_nothing(args, videos):
+        return [Finding("good", T('Loudness'),
+                       T('%s is set, and nothing is adjusted here: the '
+                         'tracks leave as they were recorded, and the '
+                         'loudness is set where they are mixed.') % text)]
+    return [Finding("good", T('Loudness'), text)]
 
 
 def check_preset(key, uuid, presetname, lufs, multitrack):
@@ -19863,12 +19898,12 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
         # no verdict to give.
         if target is not None:
             out.append(Finding(
-                "good", 'Loudness',
+                "good", T('Loudness'),
                 T('the preset masters to %.0f LUFS -- that stands, nothing '
                   'of ours adjusts.') % target))
     elif target is not None and abs(target - float(lufs)) > 0.05:
         out.append(Finding(
-            "abort", 'Loudness',
+            "abort", T('Loudness'),
             T('the preset masters to %.0f LUFS, the calculation uses %.0f.')
             % (target, lufs),
             T('Both at once does not work: the returning tracks would go '
@@ -20023,9 +20058,11 @@ def run_preflight(args, audio_paths, video_paths):
     # they are determined afresh every time.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
                              bool(getattr(args, "multitrack", False)))
-    findings += check_loudness_target(args)
+    findings += check_loudness_target(args, video_paths)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
+
+
 def run_ffmpeg_with_progress(cmd, duration, text):
     """Run ffmpeg and show its progress.
 
@@ -20670,7 +20707,7 @@ def choice_cell(values, chosen, why="", quiet="", alive=False):
     return cell, box
 
 
-def choices_shut(box, shut, why, quiet):
+def choices_shut(box, shut, why, quiet, noted=None):
     """Grey out the entries of a drop-down that cannot be chosen.
 
     *shut* are the stored values that are barred, *why* says why. Where
@@ -20680,6 +20717,10 @@ def choices_shut(box, shut, why, quiet):
     them out would leave somebody wondering where the camera went, and
     the answer to "why can I not pick this" has to stand where the
     question is asked.
+
+    *noted* is {value: sentence} for an entry that carries a sentence
+    and stays open: which of two marked wide shots the cut takes
+    explains something without taking the choice away.
 
     Every entry is set either way round, not only the barred ones. A
     function that can shut but not open again would leave a camera
@@ -20695,6 +20736,7 @@ def choices_shut(box, shut, why, quiet):
     model = box.model()
     reasons = (dict(shut) if isinstance(shut, dict)
                else dict((value, why) for value in (shut or ())))
+    notes = dict(noted or {})
     for i in range(box.count()):
         value = box.itemData(i)
         barred = value in reasons
@@ -20704,7 +20746,7 @@ def choices_shut(box, shut, why, quiet):
             return box
         box.setItemData(i, _qg.QBrush(_qg.QColor(quiet)) if barred else None,
                         _qt.ForegroundRole)
-        box.setItemData(i, reasons[value] if barred else "",
+        box.setItemData(i, reasons[value] if barred else notes.get(value, ""),
                         _qt.ToolTipRole)
     return box
 
@@ -20893,30 +20935,33 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
     "ignore this video" is literally the question the file tab answers,
     and an intro is placed as it lies rather than assigned to anybody.
 
-    Nothing stands behind the field: this table is the one place where
-    a reason beside the answer is not wanted. The rule that grey is
-    never without a reason holds everywhere else.
+    Nothing stands beside the field: a reason goes on the entry it is
+    about, never next to the answer. The rule that grey is never
+    without a reason holds everywhere else.
 
     With *derived* the value on show is not the stored one -- it is
     what the program worked out. That is the wide shot nobody marked.
-
-    Then *why* bars the one entry it is about, and says itself there:
+    Then *why* bars the one entry it is about and says itself there:
     a camera nobody sits in front of cannot be content while that is
-    so. The other entries stay open -- an intro, an outro or a file to
-    leave out are answers about the file itself and have nothing to do
-    with who was assigned where. Only that one entry is greyed, and the
-    field itself stands in black, the way a field somebody answered
-    does: grey over the whole box reads as "nothing to be done here",
-    which is the opposite of what it is. *no_wide* bars the wide shot
-    the same way, with its own sentence on that entry.
+    so. Intro, outro and "leave out" stay open -- they are answers
+    about the file itself. Only that one entry is greyed, and the
+    field itself stands in black: grey over the whole box reads as
+    "nothing to be done here", which is the opposite of what it is.
+    *no_wide* bars the wide shot the same way, with its own sentence.
+
+    Without *derived* a *why* explains rather than refuses -- which of
+    several marked wide shots the cut takes -- and it stands on the
+    wide shot entry without greying it.
     """
     cell, box = choice_cell(CLIP_TYPES, kind, "", quiet, alive=True)
-    barred = {}
+    barred, noted = {}, {}
     if derived:
         barred[TYPE_CONTENT] = why
+    elif why:
+        noted[TYPE_WIDE] = why
     if no_wide:
         barred[TYPE_WIDE] = no_wide
-    choices_shut(box, barred, why, quiet)
+    choices_shut(box, barred, why, quiet, noted)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
                 'camera nobody sits in front of -- it takes no '
@@ -24738,6 +24783,11 @@ def digits_font(QtGui, widget):
     """
     font = QtGui.QFontDatabase.systemFont(QtGui.QFontDatabase.FixedFont)
     font.setPointSize(max(9, widget.font().pointSize()))
+    # The hint, because the name is not always one this machine knows:
+    # a windowless Qt answers the Linux alias "monospace" everywhere,
+    # and without the hint the text falls back to the interface face --
+    # which is not fixed width, and measures 12 per cent narrower.
+    font.setStyleHint(QtGui.QFont.Monospace)
     return font
 
 
@@ -32340,6 +32390,12 @@ CATALOGUE["de"] = {
         '    Gegenprobe nicht möglich: %s',
     '    Cross-check: not measurable':
         '    Gegenprobe: nicht messbar',
+    '    In point   %s   (Timecode %s)':
+        '    In-Punkt   %s   (Timecode %s)',
+    '    In point   %s\n    Out point  %s':
+        '    In-Punkt   %s\n    Out-Punkt  %s',
+    '    Out point  %s   (Timecode %s)':
+        '    Out-Punkt  %s   (Timecode %s)',
     '    Out point lies before In point -- that does not work.':
         '    Out-Punkt liegt vor In-Punkt -- so geht es nicht.',
     '    For checking -- Timeline starts at frame %d (%s):':
@@ -33200,7 +33256,7 @@ CATALOGUE["de"] = {
     '\nBreaking off. The run stops as soon as it can do so without leaving a file half written -- one moment.\n':
         '\nWird abgebrochen. Der Lauf hört auf, sobald er es kann, ohne eine Datei halb geschrieben liegen zu lassen -- einen Moment.\n',
     'The wide shot holds %g s, less than the shortest shot of %g s -- so it is merged away again and never appears.\n':
-        'Die Totale hält %g s, weniger als die kürzeste Einstellung von %g s -- sie wird deshalb wieder zusammengelegt und erscheint nie.\n',
+        'Der Weitwinkel hält %g s, weniger als die kürzeste Einstellung von %g s -- er wird deshalb wieder zusammengelegt und erscheint nie.\n',
     '\nMeasured. Nothing was written -- a dry run leaves the result folder as it was.\n':
         '\nGemessen. Es wurde nichts geschrieben -- ein Probelauf lässt den Ergebnis-Ordner, wie er war.\n',
     '\nBroken off during: %s':
@@ -33396,6 +33452,12 @@ CATALOGUE["de"] = {
         '%d Spur, %s, %s Hz, %s',
     '%d tracks, %s, %s Hz, %s':
         '%d Spuren, %s, %s Hz, %s',
+    '%r is a Timecode, but there is no picture here and so no camera to '
+    'count it from. Then only a value from the window start works, such '
+    'as +12:30.':
+        '%r ist ein Timecode, aber hier gibt es kein Bild und damit keine '
+        'Kamera, von der aus er zählen könnte. Dann geht nur eine Angabe '
+        'ab Fensteranfang, etwa +12:30.',
     '%r is a Timecode, but reference camera %s has none. Then only a value '
     'from the window start works, such as +12:30.':
         '%r ist ein Timecode, aber die Referenzkamera %s hat keinen. Dann '
@@ -33427,8 +33489,13 @@ CATALOGUE["de"] = {
     'proposed as the intro, which is put at the front and never '
     'measured.':
         '%s passt zu nichts im Material und ist viel kürzer als der Rest: '
-        'als Intro vorgeschlagen, das an den Anfang gelegt und nie '
+        'als Vorspann vorgeschlagen, der an den Anfang gelegt und nie '
         'vermessen wird.',
+    '%s is set, and nothing is adjusted here: the tracks leave as they '
+    'were recorded, and the loudness is set where they are mixed.':
+        '%s ist eingestellt, und hier wird nichts angepasst: die Spuren '
+        'gehen so heraus, wie sie aufgenommen wurden, und die Lautheit '
+        'wird dort gesetzt, wo sie gemischt werden.',
     '%s can be placed again and is back in the run.':
         '%s lässt sich wieder einordnen und ist wieder im Lauf.',
     '%s could not be installed.\nBy hand:  %s -m pip install %s':
@@ -33607,7 +33674,7 @@ CATALOGUE["de"] = {
     'the cut uses %s':
         'der Schnitt nimmt %s',
     'this is the wide shot -- %s moved to "no camera of its own"':
-        'das ist der Weitwinkel -- %s ist auf "keine eigene Kamera" '
+        'das ist der Weitwinkel -- %s ist auf "ohne eigene Kamera" '
         'gewechselt',
     'Curve and colour space are missing from the file':
         'Kurve und Farbraum fehlen in der Datei',
@@ -33729,8 +33796,8 @@ CATALOGUE["de"] = {
     'nothing in common with the rest. The wide shot is what the cut '
     'falls back on, so it has to lie on the time axis.':
         'Sie passt nirgends ins Material: kein Timecode, und ihr Ton hat '
-        'mit dem Rest nichts gemeinsam. Auf die Totale fällt der Schnitt '
-        'zurück, also muss sie auf der Zeitachse liegen.',
+        'mit dem Rest nichts gemeinsam. Auf den Weitwinkel fällt der '
+        'Schnitt zurück, also muss er auf der Zeitachse liegen.',
     'It is in the logs atom of the picture description -- that is how '
     'Resolve recognises the input colour space. Different curves mean '
     'different input colour spaces.':
@@ -34045,7 +34112,7 @@ CATALOGUE["de"] = {
     'The cut rules leave no shot standing in these %s. A shorter '
     'shortest shot, or less wide shot, gives one again.':
         'Die Schnittregeln lassen in diesen %s keine Einstellung stehen. '
-        'Eine kürzere kürzeste Einstellung oder weniger Totale bringt '
+        'Eine kürzere kürzeste Einstellung oder weniger Weitwinkel bringt '
         'wieder eine.',
     'The programme is %s long here -- nothing can be laid out in that. '
     'In point and Out point are what set it.':

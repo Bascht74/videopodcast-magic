@@ -13,8 +13,11 @@ import os
 import shutil
 import sys
 import tempfile
+import time
 import wave
 import zipfile
+
+began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -27,11 +30,14 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
     """One line per claim; the numbers travel into the FAIL line too."""
+    global done
+    done += 1
     print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name + ((" " + str(extra)) if extra else ""))
@@ -273,16 +279,16 @@ def single(server, folder, audio, **rest):
 
 print("1. A dry run reaches auphonic.com not at all")
 server, folder = fresh("dry")
-done = multitrack(server, folder, dry_run=True)
+came = multitrack(server, folder, dry_run=True)
 check("multitrack dry run: no call whatsoever", not server.calls,
       "%d calls: %s" % (len(server.calls), server.calls[:3]))
-check("multitrack dry run: nothing came back", done == {}, repr(done))
+check("multitrack dry run: nothing came back", came == {}, repr(came))
 mono = wav_file("single_mono.wav")
 server, folder = fresh("drysingle")
-done = single(server, folder, mono, dry_run=True)
+came = single(server, folder, mono, dry_run=True)
 check("single dry run: no call whatsoever", not server.calls,
       "%d calls: %s" % (len(server.calls), server.calls[:3]))
-check("single dry run: nothing came back", done is None, repr(done))
+check("single dry run: nothing came back", came is None, repr(came))
 # The counter-check: without dry_run the same call does speak, so the
 # silence above is the switch and not a broken stand-in.
 server, folder = fresh("wet")
@@ -637,7 +643,7 @@ check("with only an MP3 that one is taken",
       got and got.endswith("Episode.mp3"), repr(got))
 
 shutil.rmtree(D, ignore_errors=True)
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)

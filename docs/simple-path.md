@@ -34,10 +34,11 @@ What the simple path does just like multitrack:
   same buttons.
 - **Loudness measured.** The sum is measured and the figure goes into the
   log, under `NORMALISE` as **Sum of tracks**, with LUFS, peak and range.
-  With cameras in the material `--lufs` takes effect here too and moves
-  every track by the same amount. Only the run entirely without picture
-  leaves the switch unapplied and says so
-  ([Preflight](preflight.md), section "Which loudness target holds").
+  The target comes from **Loudness** in the **Production** box (on the
+  command line `--lufs`). With cameras in the material one gain moves
+  every track by the same amount, so the speakers keep their balance.
+  Without a target nothing is adjusted ([Preflight](preflight.md),
+  section "Which loudness target holds").
 - **Resolve project.** Several cameras give one timeline with all of them
   side by side, ready for multicam. One camera gives a straight timeline,
   or a cut one as soon as the speakers are told apart.
@@ -50,7 +51,9 @@ What comes out depends on the material:
 
 - **Audio only.** This is the one case with a path of its own. The
   program joins the blocks into one file `<name>_joined.wav`, or sends a
-  single recording on its own to auphonic.com.
+  single recording on its own to auphonic.com. The target holds here as
+  well, one gain per recording. The level between two of them then comes
+  from the target, not from the recording.
 - **Audio and video.** The program aligns the audio and lays it into the
   video file.
 - **One video only.** The program takes its own audio, left and right

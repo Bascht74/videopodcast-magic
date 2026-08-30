@@ -200,24 +200,12 @@ time, never written into the code.
 
 **Parallelise, and account for it.** Before the first edit of any task
 that touches more than one file, split the work by file and start the
-strands. The same before the first edit of any task that has more than
-two pieces which do not depend on each other. One file, one strand,
-never two strands in one file. Say which file each one owns.
-
-Working alone is allowed. Saying nothing is not: **if you do not split,
-write one sentence saying why** ("one file", "three lines", "the second
-piece needs the first"). That sentence is the point of the rule. An
-exhortation to parallelise gets skipped once you are deep in a task; a
-sentence that has to be written does not.
-
-**A file another strand owns is not a reason to wait. Prepare instead.**
-The second strand reads that file now and lays down its changes as
-verbatim old-text/new-text pairs -- never line numbers, which the first
-strand invalidates as it works -- and they are applied the moment the
-file comes free. Every pair has to match exactly once in the file as it
-stands; a pair that matches twice or not at all is thrown away, not
-guessed at. What must not happen is two strands editing one file and
-their work being merged by hand afterwards.
+strands. One file, one strand, never two strands in one file. Say which
+file each one owns. Working alone is allowed; saying nothing is not, so
+**if you do not split, write one sentence saying why**. A file another
+strand owns is not a reason to wait either -- prepare instead. The skill
+`strang` says how an order is cut, and how work is prepared against a
+file somebody else is holding.
 
 Say what was measured and what was assumed. Never claim a test passed
 without running it.
@@ -225,20 +213,16 @@ without running it.
 **Every check owes a counter-proof, and it is written down.** A check
 that has never been seen red is not known to check anything -- in one
 day seventeen were found that had been green for months while testing
-nothing, and two more where the fault was in the stand-in rather than
-the check. So: break the thing the check is about, run it, and keep the
-red line verbatim. `tests/state/counterproof` holds one entry per test;
-`counterproof_test.py` is a ratchet over the tests still missing one,
-and that number may fall, never rise. **No change to a test and no new
-test is finished until its entry is in that file.**
+nothing. **No change to a test and no new test is finished until its
+entry is in `tests/state/counterproof`**, and `counterproof_test.py` is
+a ratchet over the tests still missing one. The skill `gegenbeweis` says
+how it is done, including the question to ask when a counter-proof
+refuses to go red.
 
-And when a counter-proof will not go red, ask which of the two is at
-fault: the check, or the stand-in it runs against. A stand-in that
-allows more than the real thing makes every check above it worthless,
-and everything stays green while it does.
-
-`development/test_guidelines.md` says how a test is built, named,
-documented and counter-proved, and carries the checklist to run through.
+The other skills: `test-neu` for writing a test, `test-rot` for taking a
+red or wobbling one apart, `changelog`, `handbuch`, `bilder`, and
+`freigabe` for a release. `development/test_guidelines.md` says why the
+rules about tests are what they are.
 
 Explain a change in plain words, not in terms of the code: what it does
 and why. **Short**, in a commit message as in a comment: a heading and a

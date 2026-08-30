@@ -15,14 +15,20 @@ import os
 import re
 import subprocess
 import sys
+import time
+
+began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     ROOT, "videopodcast-magic.py")
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -410,6 +416,8 @@ Before the tag -- five things, and the tag comes last:
 
 And before all of them: green on all six builder jobs, and the times
 fetched with builder_times.sh and looked at.""")
+
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 
 # Said, not passed over. Not the SKIPPED marker: that one counts the
 # whole test as skipped, and run.sh allows one skip in the suite, which

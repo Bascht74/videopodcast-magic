@@ -167,6 +167,8 @@ der das Wort erklärt, steht vorn.
   entsteht“
 * **Transkription**: `auphonic`, „Transkription holen“; `speech`, „Wie das
   Programm den Text mitschreibt“
+* **Typ (Spalte)**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie das
+  Programm den Weitwinkel setzt“
 * **Übergabedatei (`_resolve.json`)**: `camera-cut`, „Was die Projektdatei
   behält“
 * **Übersprechen**: `preflight`, „Wie der Bericht das Übersprechen gegen die

@@ -36,10 +36,12 @@ Was der einfache Weg genauso kann wie Multitrack:
   denselben Knöpfen.
 - **Lautheit gemessen.** Die Summe wird gemessen, und die Zahl steht im
   Protokoll, unter `NORMALISIEREN` als **Summe der Spuren**, mit LUFS,
-  Spitze und Umfang. Sind Kameras im Material, wirkt `--lufs` auch hier
-  und verschiebt jede Spur um denselben Betrag. Nur der Lauf ganz ohne
-  Bild wendet den Schalter nicht an und sagt es
-  ([Vorflug](preflight.de.md), Abschnitt „Welches Lautheitsziel gilt“).
+  Spitze und Umfang. Das Ziel kommt aus **Lautheit** in der Gruppe
+  **Produktion** (auf der Kommandozeile `--lufs`). Sind Kameras im
+  Material, verschiebt ein einziger Gewinn jede Spur um denselben Betrag,
+  und die Sprecher behalten ihr Verhältnis zueinander. Ohne Ziel wird
+  nichts angepasst ([Vorflug](preflight.de.md), Abschnitt „Welches
+  Lautheitsziel gilt“).
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
   nebeneinander, fertig für Multicam. Eine Kamera gibt eine gerade
   Timeline, oder eine geschnittene, sobald die Sprecher getrennt sind.
@@ -52,7 +54,9 @@ Was herauskommt, hängt am Material:
 
 - **Nur Ton.** Das ist der eine Fall mit einem eigenen Weg. Die Blöcke
   werden zu einer Datei `<Name>_joined.wav` zusammengelegt, oder eine
-  einzelne Aufnahme geht allein zu auphonic.com.
+  einzelne Aufnahme geht allein zu auphonic.com. Das Ziel gilt auch
+  hier, ein Gewinn je Aufnahme. Was zwischen zwei Aufnahmen an Pegel
+  steht, kommt dann vom Ziel und nicht von der Aufnahme.
 - **Ton und Bild.** Der Ton wird ausgerichtet und in die Videodatei gelegt.
 - **Nur ein Video.** Dessen eigener Ton, links und rechts getrennt.
 

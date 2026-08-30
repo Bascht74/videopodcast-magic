@@ -1,739 +1,562 @@
-# Testrichtlinien
+# Test guidelines
 
-Für `tests/`. Sie sind an dieser Suite entstanden: was hier steht, hat
-sich beim Bauen bewährt oder ist durch einen Fehler gelernt worden.
+For `tests/`. These grew out of this suite. What is written here either
+proved right while building it, or was learned by getting it wrong.
 
-Der Anlaß in einem Satz. Beim Lesen aller Testköpfe fielen an einem Tag
-siebzehn Tests auf, die weniger prüfen als ihr Kopf verspricht. Keiner
-war rot. Gefunden hat sie das Lesen, nicht die Suite — **und darum muß
-alles, was hier steht, beim Schreiben auffallen und nicht erst beim
-Lesen.** Die Liste am Ende ist der eigentliche Ertrag; die Abschnitte
-davor sagen, warum ihre Punkte draufstehen.
+**This file says why the rules are what they are. It does not say how to
+follow them.** Three skills do that, and they hold the commands, the
+order of the steps and the list that is ticked off at the end:
 
-Diese Suite hat kein Rahmenwerk, keine Klassen, keine Testbibliothek.
-Ein Test ist ein Skript, das ein Urteil je Zeile druckt und einen
-Rückgabewert setzt. Was aus der Literatur übernommen ist, steht mit dem
-Grund dabei, warum es auf diese Form paßt; was nicht paßt, steht in
-Abschnitt 9.
+- `test-neu` — writing or changing a check.
+- `gegenbeweis` — showing that a check goes red when the thing it is
+  about is broken, and writing that proof into the register.
+- `test-rot` — a test that is red, wobbling, or green and not to be
+  trusted.
+
+Whoever is about to write a test reads the skill. Whoever wants to know
+why the tests here look the way they do reads this.
+
+**Where these rules come from, as a pattern.** Reading every test
+heading in one pass turned up seventeen tests that checked less than
+their heading promised. Not one of them was red. Reading found them, the
+suite did not — and that is the standard everything below is held to: **a
+rule is worth having only if it bites while a test is being written, not
+when somebody happens to read it again.**
+
+This suite has no framework, no classes, no test library. A test is a
+script that prints one judgement per line and sets an exit code. What is
+taken from the literature is taken because it fits that shape; what does
+not fit is in section 9, with the reason. Section 10 names the sources.
 
 ---
 
-## 1. Wie ein Test gebaut wird
+## 1. A test that asserts nothing is not a test
 
-**Ein Test, der nichts zusichert, ist kein Test.** Ruft er eine
-Funktion, druckt das Ergebnis und endet, dann heißt grün dort
-ausschließlich „ist nicht abgestürzt" — und von außen sieht das genau
-aus wie ein Test, der besteht. Das ist der Fehler, aus dem alle
-anderen dieser Liste folgen.
+If it calls a function, prints the result and ends, then green there
+means "did not crash" — and from outside that looks exactly like a test
+that passed. Every other fault in this file follows from that one.
 
-Die Literatur führt das unter der selbstprüfenden Eigenschaft, dem S
-der FIRST-Merksätze: *„Tests are pass-fail. No agency must examine the
-results to determine if they are valid and reasonable."* Ein Test ohne
-Zusicherung entzieht sich dieser Unterscheidung; der Katalog der
-Testgerüche nennt ihn den Test, der nie fällt — *„If a test won't fail
-even when the code to implement the functionality doesn't exist, how
-useful is it?"*
+The literature files it under the self-validating property, the S of
+FIRST: *"Tests are pass-fail. No agency must examine the results to
+determine if they are valid and reasonable."* A test without an
+assertion escapes that distinction; the catalogue of test smells calls
+it the test that never fails — *"If a test won't fail even when the code
+to implement the functionality doesn't exist, how useful is it?"*
 
-Und er ist nicht selten. In einer Erhebung über 656 quelloffene
-Programme trug fast die Hälfte mindestens einen Test ohne jede
-Zusicherung, und jede dritte Testdatei. Befragt, nannten die Autoren
-solcher Tests es durchweg ein Versehen. Es ist die häufigste Art, wie
-eine Suite größer wird, ohne mehr zu prüfen.
+And it is not rare. Across 656 open-source Android projects, nearly half
+carried at least one test with no assertion at all, and one test file in
+three. Asked about them, the authors called them oversights throughout.
+It is the commonest way for a suite to grow without checking more.
 
-**Das Urteil fällt `check`, nie ein nacktes `assert`.** Vier Gründe,
-und jeder einzelne reicht:
+**The judgement is printed, never asserted.** A bare `assert` throws a
+traceback instead of a readable line, carries no numbers, and ends the
+run at the first failure, so a test with four faults reports one and
+conceals three. Above all nothing is counted — and without a count
+nobody notices a test that passes no judgement at all.
 
-* `assert` wirft eine Rückverfolgung statt einer lesbaren Zeile.
-* Der erste Fehlschlag bricht ab; alles dahinter läuft nicht mehr und
-  wird auch nicht als ungeprüft gemeldet. Ein Test mit vier Blöcken
-  meldet dann einen Fehler und verschweigt drei.
-* Eine Zusicherung trägt keine Zahlen. Was erwartet war und was da
-  war, steht nirgends.
-* Es wird nichts gezählt, und ohne Zählung fällt niemandem auf, daß
-  ein Test null Urteile fällt.
+**The printed count is the second safeguard.** It stands there in every
+run. Whoever reads it sees a zero, and sees three where the heading
+promises twelve. No assertion finds that; a number beside an expectation
+finds it at a glance.
 
-Die Form, in der es hier steht:
+**Every path through a test has to pass the line that counts.** A test
+whose assertions sat in one branch of a timer chain, while a second
+timer ended the program on a deadline of its own, exited 0 although it
+had crashed at the first step. It passed for months.
 
-```python
-def check(name, ok, extra=""):
-    global done
-    done += 1
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
-        bad.append("%s [%s]" % (name, extra or "no numbers"))
-```
+**Set the situation up once, then ask it many questions.** Arrange-Act-
+Assert wants one action per test, and its strictest reading one
+assertion per test. That is written for tests costing milliseconds; here
+the situation costs an ffmpeg run. So it is built once and questioned
+twenty times — but every question with its own name on its own line,
+which is the separation AAA is actually after. That is no special
+pleading: whoever named the pattern does not keep to the single
+assertion either, and the common softening is not one assertion per test
+but **one concept per test**. The boundary is not the number of checks,
+it is the point where a test claims two different things. Then it is two
+tests.
 
-**Der Rückgabewert kommt aus der Zahl der Fehlschläge, nicht aus dem
-Ende des Programms.** Die Schlußzeilen sind immer dieselben:
+**No logic in a test.** A loop that computes the expectation usually
+computes it as wrongly as the program does.
 
-```python
-print("\n%d checks in %.2f s" % (done, time.time() - began))
-print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
-sys.exit(1 if bad else 0)
-```
+**A test that can genuinely only catch a crash says so** in its heading
+and in its closing line, and claims no count it does not have. Three
+here are of that kind and stay: what they build can only be judged by
+another program. That is an exception with a reason, not a pattern.
 
-**Jeder Weg durch den Test führt an dieser Stelle vorbei.** Ein Test,
-dessen Zusicherungen in einem Zweig einer Zeitgeberkette stehen,
-während ein zweiter Zeitgeber das Programm nach einer Frist unabhängig
-davon beendet, geht mit 0 hinaus, obwohl er beim ersten Schritt
-abgestürzt ist. Er gilt monatelang als bestanden. Wo nebenläufig
-gearbeitet wird, endet der Test an einer Stelle, und diese Stelle
-fragt die Zählung.
+## 2. The docstring is the contract
 
-**Die gedruckte Zahl der Urteile ist die zweite Sicherung.** Sie steht
-in jedem Lauf da. Wer sie liest, sieht eine Null, und er sieht drei,
-wo der Kopf zwölf verspricht. Keine Zusicherung findet das; eine Zahl
-neben der Erwartung findet es beim Hinsehen.
+**Its first line says what holds when the test is green** — not what the
+test does. One sentence about the program, so that from it alone one
+could decide whether a red run is any of one's business.
 
-**Eine Lage herstellen, viele Dinge daran prüfen.** Arrange-Act-Assert
-verlangt eine Handlung je Test, und die schärfste Lesart eine
-Zusicherung je Test. Das ist für Tests geschrieben, die Millisekunden
-kosten; hier kostet die Lage einen ffmpeg-Vorlauf. Also wird sie einmal
-hergestellt und dann zwanzigmal befragt — aber jede Frage mit eigenem
-Namen auf eigener Zeile, damit die Trennung erhalten bleibt, die AAA
-meint.
+**Whatever stands in the heading has a check, and whatever a check tests
+stands in the heading.** Both directions. A heading that promises more
+than the test holds has a name in the literature: the liar — *"a test
+that runs, but does not test what it claims to test … Liars give a false
+sense of security."* Both directions get broken here. One test ended on
+"colour tags and camera audio came through" and checked exactly one
+colour tag. Another checked the rejections in all twelve of its sections
+while its heading asked only about the result that was built. The second
+is the milder case and still a fault: what the heading does not mention
+is what the next rebuild clears away.
 
-Das ist kein Sonderweg: schon wer das Muster benannt hat, hält sich
-nicht an die eine Zusicherung, und die verbreitete Abschwächung lautet
-nicht eine Zusicherung je Test, sondern **ein Begriff je Test.** Die
-Grenze verläuft also nicht bei der Zahl der Prüfungen, sondern dort, wo
-ein Test zwei verschiedene Dinge behauptet. Dann sind es zwei Tests.
+**The heading is reread on every change.** One that describes a set-up
+the test stopped building two rebuilds ago sends every reader in the
+wrong direction, and it is the likeliest reason a hole goes unnoticed
+for years.
 
-**Keine Logik im Test.** Eine Schleife, die die Erwartung ausrechnet,
-rechnet meist genauso falsch wie das Programm. Was der Test erwartet,
-steht als Wert da, und wo es berechnet werden muß, dann auf einem
-anderen Weg als im Programm.
+**No number in a heading that would have to travel with the code.** Six
+things over seven blocks, a block numbered 8 twice and none 9, a stage
+number out of last week's plan. A number in a heading is a second place
+that wants maintaining, and it always loses.
 
-**Wo ein Test wirklich nur einen Absturz fangen kann**, sagt er das im
-Kopf **und** in seiner Schlußzeile, und er behauptet keine Zählung, die
-er nicht hat. Diese Suite hat drei solche Fälle, und sie bleiben es:
-was sie bauen, kann nur ein fremdes Programm beurteilen. Das ist eine
-Ausnahme mit Grund, kein Muster.
+**A note saying a step is red goes out with the repair**, not in the
+next clean-up. Otherwise the sentence is untrue the moment it is
+written, and stays untrue. Whoever comes next believes it and leaves a
+working check alone.
 
-## 2. Wie er dokumentiert wird
+## 3. The name is a claim
 
-**Die erste Zeile sagt, was gilt, wenn der Test grün ist.** Nicht, was
-er tut. Eine Aussage über das Programm, in einem Satz, so daß man aus
-ihr allein entscheiden könnte, ob einen der rote Lauf angeht.
+**The prefix says where the fault would sit, not what the material is
+about.** That is the rule which settles every borderline case. A test
+about channels whose failure would show in the table belongs under
+`table_`, however much sound it is made of. A name taken from the
+material — from the recording, from the path, from the folder — forces
+everyone who sees the red line to open the file before they know which
+part of the program is broken.
 
-**Was im Kopf steht, hat ein `check`. Was ein `check` prüft, steht im
-Kopf.** Beide Richtungen. Der Kopf ist der Vertrag, und ein Kopf, der
-mehr verspricht als der Test hält, hat in der Literatur einen Namen:
-der Lügner — *„a test that runs, but does not test what it claims to
-test … Liars give a false sense of security."* Beide Seiten werden
-gebrochen: ein Test endet mit „Farbmarken und Kameraton kamen
-mit", geprüft wird genau eine Farbmarke — und ein anderer prüft in
-allen zwölf Abschnitten auch die Zurückweisungen, obwohl sein Kopf nur
-nach dem gebauten Ergebnis fragt. Der zweite Fall ist der harmlosere
-und trotzdem ein Fehler: was im Kopf nicht steht, wird beim nächsten
-Umbau weggeräumt.
+**The second half is a claim, not a thing:** `atom_travels`, not
+`log_atom`. A thing in the name leaves open what is supposed to hold,
+and so covers every check that has anything to do with that thing —
+including one that measures something else entirely. That is how a
+heading comes about promising "shows the cut correctly" while what is
+mostly counted is pixel colours.
 
-**Der Kopf wird bei jeder Änderung mitgelesen.** Ein Kopf, der von
-einem Aufbau redet, den der Test seit einem Umbau nicht mehr baut,
-schickt jeden Leser in die falsche Richtung — und er ist die
-wahrscheinlichste Ursache dafür, daß ein Loch jahrelang niemandem
-auffällt.
+**The cap is what forces the claim to be one claim.** After the prefix,
+two or three words are left. Whoever cannot get the claim into three
+words is usually claiming two things; then the test is split, and the
+name is not shortened back to a thing.
 
-**Keine Zahl im Kopf, die mitwandern müßte.** „Sechs Dinge" über sieben
-Blöcken, ein Block „8" zweimal und keiner 9, eine Stufennummer aus
-einem Plan von vorgestern. Eine Zahl im Kopf ist eine zweite Stelle,
-die gepflegt werden will, und sie verliert immer. Die Blöcke tragen
-Namen, nicht Nummern; wo doch numeriert wird, ist die Numerierung das,
-was der Test druckt, und wird von dort abgeschrieben.
+**The same holds for every single check.** Its name is the sentence that
+lands in the report, and it is read when nothing else is left.
 
-**Ein Vermerk „dieser Schritt ist rot" geht mit der Reparatur hinaus,
-nicht im nächsten Aufräumen.** Sonst ist der Satz in dem Moment
-unwahr, in dem er geschrieben wird, und bleibt es. Wer danach kommt,
-glaubt ihm und läßt eine arbeitende Prüfung in Ruhe.
+### The known objections
 
-**Länge: acht Zeilen**, wie für jeden Docstring. Was hineingehört:
-die Aussage, danach die Abschnitte in der Reihenfolge, in der sie
-kommen, und ein Satz über die Grenze der Methode, wenn es eine gibt.
-Was nicht hineingehört: ein Datum, ein Name, ein Pfad, der Weg, der
-dorthin geführt hat, und eine Zahl aus einem einzelnen Lauf. Das alles
-altert, und keiner Zeile hilft es.
+A rule with its objections beside it lasts longer than one that pretends
+there are none. Of the parts of this scheme, two are unattested and one
+is contested.
 
-## 3. Wie er heißt
+**The file carries twenty claims and is named after one.** There is no
+literature on this: everything written assumes the file is named after
+its subject and the claims live in the names of the individual checks.
+The one source that governs file names at all names them by area and
+sub-area — after a thing. Our scheme lifts the claim one level up. That
+is unattested, and also uncontradicted.
 
-**`<gegenstand>_check_<behauptung>_test.py`**, höchstens dreißig
-Zeichen vor `_test.py`, Kleinbuchstaben, Englisch.
+**The risk is that nineteen claims are invisible in the name.** The
+countermeasure is section 2 and the checklist point that enforces it:
+the heading carries them all, checked in both directions. Without that
+point the scheme would be dangerous, because it makes the name a promise
+about the file of which the file keeps a twentieth.
 
-**Zwölf feste Präfixe für den Gegenstand:** `files_`, `sound_`,
-`time_`, `voice_`, `cut_`, `project_`, `auphonic_`, `window_`,
-`table_`, `run_`, `text_`, `source_`.
+**The scenario is missing from the name.** The common schemes have three
+parts — subject, scenario, expectation — ours has two, and the scenario
+stands in the heading below. The loss is spelled out in the literature:
+the name is often the only thing visible in a failure report, and one
+has to be able to understand what is broken **without reading the test's
+source.**
 
-**Das Präfix sagt, wo der Fehler säße, nicht wovon die Daten
-handeln.** Das ist die Regel, die alle Grenzfälle entscheidet. Ein Test
-über Kanäle, dessen Fehler in der Tabelle sichtbar würde, heißt
-`table_check_channel_rows`. Ein Name nach dem Material — nach der
-Aufnahme, nach dem Weg, nach dem Ordner — zwingt jeden, der die rote
-Zeile sieht, die Datei zu öffnen, um zu wissen, welcher Teil des
-Programms kaputt ist.
+**The answer is where our failure report begins.** What is visible there
+is not the file name but the check line that fell, and that carries
+scenario and expectation because section 4 demands it. The demand is
+met, one level lower than it was meant. Besides, a file with twenty
+scenarios cannot name one without concealing the other nineteen. What
+the literature backs without reservation is brevity, and the character
+cap is the best-attested rule of the whole scheme.
 
-**Die zweite Hälfte ist eine Behauptung, kein Ding**: `atom_travels`,
-nicht `log_atom`. Ein Ding im Namen läßt offen, was gelten soll, und
-deckt darum jede Prüfung, die irgendwie mit dem Ding zu tun hat — auch
-eine, die etwas ganz anderes mißt. Genau so kommt ein Kopf zustande,
-der „zeigt den Schnitt richtig" verspricht, während überwiegend
-Bildpunktfarben gezählt werden.
+**Twelve prefixes by part of the program: the sources are split.** One
+side warns against ordering tests by the structure of the program — test
+behaviour, not source, and a one-to-one mirror ties the tests to the
+build. The other side orders explicitly by area of the program, with our
+intention exactly: find a test quickly, place a failure quickly. What
+makes both compatible is that **a coarse area is not a mirror.** Twelve
+prefixes over a hundred and forty tests reproduce no part of the
+program; they make a register.
 
-**Die erste Docstring-Zeile ist die Langform derselben Behauptung**,
-höchstens 79 Zeichen: was gilt, wenn der Test grün ist.
+**The literature gives no number for too coarse or too fine.** The
+usable test is a different one: **does every prefix actually separate?**
+A prefix with one member is not a category, one with sixty is not
+information. By that measure twelve is well chosen: before the rename
+the tests carried ninety-two different first words, which is no
+classification at all. If one prefix grows past a quarter of the stock,
+or shrinks to a single test, the classification is redrawn — the test is
+not bent to fit.
 
-**Dasselbe gilt für jedes einzelne `check`.** Sein Name ist der Satz,
-der im Bericht steht, und er wird gelesen, wenn nichts anderes mehr da
-ist:
+**And a word every name carries separates nothing.** An earlier form of
+this scheme put `check` between the two halves, to force the reader to
+take what followed as a statement. Four sources argue against a filler
+word common to all names and none for it, and it cost a fifth of the
+character budget. It is gone. The objections had been written down
+before it went, which is why they were there to decide the question.
 
-```python
-# richtig
-check("a marked camera is the wide shot even with a speaker on it", ...)
+## 4. The failure line has to carry its evidence
 
-# falsch
-check("wide shot", ...)
-```
-
-**Paßt die Behauptung nicht in den Namen, hält der Test zwei.** Nach
-dem Präfix und `check_` bleiben fünfzehn bis zwanzig Zeichen, also zwei
-oder drei Wörter. Das ist knapp, und die Enge ist nützlich: wer die
-Behauptung nicht in drei Wörter bekommt, behauptet meistens zwei
-Dinge. Dann wird geteilt — und nicht der Name zu einem Ding
-zurückgekürzt.
-
-### Die bekannten Einwände
-
-Eine Regel, deren Einwände danebenstehen, hält länger als eine, die
-so tut, als gäbe es keine. Von den vier Teilen des Schemas ist einer
-schwach belegt, zwei sind offen, einer ist geteilt.
-
-**Das Wort `check` unterscheidet nichts, und die Literatur ist
-dagegen.** Sie warnt vor Füllwörtern und vor einem Vorsatz, den alle
-Namen tragen, weil er dann nichts trennt. Ein Stilhandbuch, das genau
-diesen Fall regelt — Testdateien statt Testmethoden —, sagt es
-ausdrücklich: die Testmarkierung gehört an das Suffix und in den
-Ordner, nicht ein zweites Mal in den Namen. Und `_check_` kostet sechs
-der dreißig Zeichen, ein Fünftel des Budgets. Ein Beleg dafür, ein
-bedeutungsloses, überall gleich lautendes Wort zu führen, ist nicht zu
-finden.
-
-**Es steht trotzdem da**, aus einem Grund, den die Literatur nicht
-kennt: ohne Verb liest sich der Name als Ding, und ein Ding zu lesen,
-wo eine Behauptung stehen soll, ist genau der Fehler, den das Schema
-verhindern will. `files_log_atom` wurde prompt als Ding verstanden.
-Das Wort ist die Fuge, die den Leser zwingt, den Rest als Aussage zu
-lesen. **Das ist der schwächste Punkt des Schemas**, und wenn sich
-zeigt, daß die Behauptungen auch ohne die Fuge als Behauptungen gelesen
-werden, kann das Wort gehen und sechs Zeichen mitnehmen.
-
-**Die Datei trägt zwanzig Behauptungen und heißt nach einer.** Dazu
-gibt es keine Literatur: alles Geschriebene setzt voraus, daß die Datei
-nach dem Gegenstand heißt und die Behauptungen in den Namen der
-einzelnen Prüfungen stehen. Die eine Quelle, die Dateinamen überhaupt
-regelt, benennt sie nach Bereich und Teilbereich — nach einem Ding.
-Unser Schema hebt die Behauptung eine Ebene höher; das ist unbelegt,
-aber auch unwidersprochen.
-
-**Das Risiko ist benannt:** neunzehn Behauptungen sind im Namen
-unsichtbar. Die Gegenmaßnahme ist Abschnitt 2 und Punkt 2 der
-Checkliste — der Kopf führt sie alle, in beide Richtungen geprüft.
-Ohne diesen Punkt wäre das Schema gefährlich, denn es macht den Namen
-zu einem Versprechen über die Datei, von dem sie ein Zwanzigstel
-einlöst.
-
-**Die Lage fehlt im Namen.** Die verbreiteten Schemata haben drei
-Teile — Gegenstand, Lage, Erwartung —, unseres hat zwei; die Lage
-steht im Kopf darunter. Der Verlust ist in der Literatur ausdrücklich
-benannt: der Name sei oft das einzige, was in einem Fehlerbericht
-sichtbar ist, und man müsse verstehen können, was kaputt ist, **ohne
-den Testquelltext zu lesen.**
-
-**Die Antwort darauf ist, wo bei uns der Fehlerbericht anfängt.**
-Sichtbar wird dort nicht der Dateiname, sondern die gefallene
-`check`-Zeile — und die trägt Lage und Erwartung, weil Abschnitt 4 es
-verlangt. Die Forderung der Literatur ist also erfüllt, nur eine Ebene
-tiefer, als sie es meint. Dazu kommt: eine Datei mit zwanzig Lagen
-kann keine davon im Namen nennen, ohne die anderen neunzehn zu
-verschweigen. Wofür die Literatur uneingeschränkt einsteht, ist die
-Kürze — und der Dreißig-Zeichen-Deckel ist die Regel des Schemas, die
-am besten belegt ist.
-
-**Zwölf Präfixe nach Programmteil: die Quellen sind geteilt.** Die eine
-Seite warnt davor, Tests nach der Programmstruktur zu ordnen — man
-prüfe Verhalten, nicht Quelltext, und eine Spiegelung Eins-zu-Eins
-bindet die Tests an die Bauweise. Die andere Seite ordnet ausdrücklich
-nach dem Bereich des Programms, mit derselben Absicht wie wir: einen
-Test schnell finden und einen Fehlschlag schnell einordnen. Der
-Unterschied, der beides verträglich macht: **ein grobes Gebiet ist
-keine Spiegelung.** Zwölf Präfixe auf 141 Tests bilden
-keinen Programmteil ab, sie machen ein Register.
-
-**Ein Zahlenmaß für zu grob oder zu fein gibt die Literatur nicht
-her.** Der brauchbare Prüfstein ist ein anderer: **trennt jedes Präfix
-wirklich?** Ein Präfix mit einem einzigen Mitglied ist keine Kategorie,
-eines mit sechzig ist keine Auskunft. Daran gemessen ist zwölf gut
-gewählt: heute tragen die 141 Tests zweiundneunzig verschiedene
-erste Wörter, also praktisch keine Einteilung; zwölf ergeben im Schnitt
-ein Dutzend je Präfix. Wächst eines über ein Viertel des Bestands oder
-schrumpft eines auf einen Test, ist die Einteilung nachzuziehen — nicht
-der Test umzubiegen.
-
-## 4. Wie die Fehlerzeile aussehen muß
-
-**Auf fremden Rechnern existiert nur, was in der Zeile selbst steht.**
-Sechs Baurechner-Jobs, und aus der ganzen Ausgabe eines Tests sucht
-der Bericht die Zeilen heraus, die nach einem Fehler aussehen. Alles,
-was vorher gedruckt wurde, ist dann weg. Wer die Zahl daneben braucht,
-muß den Lauf wiederholen — auf einer Maschine, die er nicht hat.
-
-Das ist die eine Eigenschaft, unter der alle anderen dieses Abschnitts
-stehen: **ein Fehlschlag muß handlungsfähig machen.** *„When a test
+**On somebody else's machine, only what stands in the line itself
+exists.** Six builder jobs, and out of a test's whole output the report
+picks the lines that look like a failure. Everything printed before is
+gone, and whoever needs the number beside it has to repeat the run on a
+machine they do not have. That is the property the rest of this section
+hangs from: **a failure has to make you able to act.** *"When a test
 fails, you should be able to begin investigation with nothing more than
 the test's name and its failure messages — no need to add more
-information and rerun the test."* Name und Zeile, sonst nichts.
-
-**Jede Fehlerzeile trägt, was erwartet war und was da war.** Dafür ist
-das dritte Argument da, und es ist nicht wahlfrei:
-
-```python
-# richtig
-check("the shot does not fall below the minimum",
-      shortest >= limit,
-      "shortest %.2f s against a minimum of %.2f s" % (shortest, limit))
-
-# falsch
-check("the shot does not fall below the minimum", shortest >= limit)
-```
-
-**Zahlen, keine Eigenschaftswörter.** „zu kurz" sagt nichts, was man
-nachrechnen könnte. „0,31 s gegen 0,80 s" sagt alles.
-
-Das ist die Antwort auf einen Geruch mit eigenem Namen, das
-Zusicherungs-Roulette: mehrere gleichartige Zusicherungen in einem
-Test, und die rote Meldung sagt nicht, welche gefallen ist. Die
-Faustregel dagegen — jeder Zusicherung eine eigene Meldung, sobald es
-mehr als eine gleicher Art gibt — nennt ausdrücklich den Fall, in dem
-sie am meisten zählt: einen Testlauf auf der Befehlszeile, wo keine
-Entwicklungsumgebung die gefallene Zeile hervorhebt. Das ist unsere
-Lage, in jedem Lauf.
-
-Und es wird selten befolgt. In zwanzig quelloffenen Vorhaben trugen
-etwa fünf Prozent der Zusicherungen überhaupt eine Meldung, während in
-einer Befragung sechs von zehn Entwicklern angaben, immer oder sehr oft
-eine mitzugeben. Es ist nichts, was man von selbst tut, sondern etwas,
-das auf einer Liste stehen muß.
-
-**Und sie muß den richtigen Fehler nennen.** Eine Zeile behauptete,
-die Kamera habe nicht gewechselt, während in Wahrheit der Abspieler
-nie gelaufen war. Wo eine Behauptung auf einer Voraussetzung ruht,
-wird die Voraussetzung eine eigene Prüfung und steht davor. Dann nennt
-die rote Zeile das erste, was nicht stimmte, statt das letzte.
-
-**Eine Zeile je Urteil, und die Schlußzeile faßt zusammen.** Der
-Bericht zeigt die Zusammenfassung zuerst; sie muß darum alle
-gefallenen Prüfungen nennen, nicht nur die Zahl.
-
-## 5. Wie gegengeprüft wird
-
-**Das ist der wichtigste Abschnitt dieser Datei.**
-
-**Eine Prüfung, die niemand rot bekommt, ist nichts wert.** Grün sagt
-über das Programm nichts, solange nicht gezeigt ist, daß dieselbe
-Prüfung rot wird, wenn die geprüfte Sache falsch ist. In dieser Suite
-standen zwölf Prüfungen, die überhaupt nicht fallen konnten: eine
-verglich einen Aufruf mit sich selbst, eine war zufrieden, sobald ein
-Wort irgendwo im Quelltext stand, eine lief über eine Liste, die sich
-nie füllen konnte, eine sicherte zweimal dasselbe zu, eine fragte, ob
-ein Schlüssel mit einem Vorsatz beginnt, statt mit welchem, eine ging
-bei null durch. Alle zwölf waren grün, jahrelang, und keine Suite der
-Welt hätte das gemeldet.
-
-**Wie er geht.** Eine Kopie des Programms, in der genau die geprüfte
-Sache wirklich falsch ist, und der Test dagegen:
-
-```bash
-cp videopodcast-magic.py /tmp/broken.py
-# genau die eine Sache kaputtmachen, die die Prüfung behauptet
-VPM_SCRIPT=/tmp/broken.py python3 tests/<name>_test.py
-```
-
-Prüft der Test nicht das Programm, sondern eine Rechnung über Daten,
-dann liegt die verfälschte Fassung im Test selbst, neben der Prüfung:
-dieselbe Ablesung über eine gefälschte Liste, mit abgeschaltetem
-Schalter, mit einem umgedrehten Versatz. Ein Test dieser Suite macht
-das durchgehend und sagt es in seinem Kopf: *„a check nobody can make
-fail proves nothing."*
-
-**Kaputt heißt: genau die eine Sache, und klein.** Wer das Programm
-insgesamt zerlegt, bekommt alles rot und hat über diese Prüfung nichts
-gelernt. Ein umgedrehtes Vorzeichen, eine Grenze um eins verschoben,
-ein weggelassener Aufruf reichen: die Untersuchungen zum
-Mutationstesten haben gemessen, daß Testdaten, die die kleinen
-Abweichungen fangen, über 99 Prozent der zusammengesetzten mitfangen.
-Ein aufwendig nachgebauter, lebensechter Fehler bringt also nichts,
-was das umgedrehte Vorzeichen nicht auch bringt.
-
-Umgekehrt gilt: bleiben beim Gegenbeweis andere Prüfungen grün, die
-denselben Fehler hätten fangen müssen, ist das ein zweiter Fund.
-
-**Was nur der Gegenbeweis fängt.** Eine Prüfung suchte das Wort
-*offset* in allem Gedruckten. Sie war immer grün, weil das Programm
-seinen eigenen absoluten Pfad druckt und der Arbeitsordner so heißt.
-Kein Lesen findet das, keine Ratsche, keine Abdeckungszahl: die Zeile
-wird ausgeführt, die Bedingung ist wahr, alles sieht richtig aus. Eine
-kaputte Fassung, in der das Wort nie gedruckt wird, findet es beim
-ersten Versuch.
-
-### Die Attrappe
-
-**Wird der Gegenbeweis nicht rot, ist die erste Frage: liegt es an der
-Prüfung oder an der Attrappe?** Wer diese Frage nicht stellt, hält eine
-großzügige Attrappe für eine bestandene Prüfung.
-
-**Eine Attrappe, die mehr erlaubt als das Echte, macht jede Prüfung
-darüber wertlos — und zwar unsichtbar, weil alles grün bleibt.** Sie
-muß in jedem Punkt, den die Prüfung berührt, **mindestens so streng
-sein wie das Nachgebildete**: verweigern, was jenes verweigert, und die
-Verfahren haben, deren Fehlen jenes bemerkbar machen würde.
-
-Beide Hälften sind einzeln aufgetreten. Eine nachgebaute Medienablage
-erfand jede Spur, nach der gefragt wurde; die Prüfung „nur eine
-Videospur angelegt" war deshalb grün, während Dinge auf Spuren lagen,
-die es nicht gab — das Echte verweigert das stillschweigend, und genau
-deswegen schafft das Programm vorher Platz. Und einer nachgebauten
-Zeitachse fehlte das Verfahren zum Löschen einer Spur. Die Funktion,
-die leere Spuren entfernt, lief also in eine verschluckte Ausnahme,
-und zehn leere Spuren überlebten jeden Lauf.
-
-**Ein verschlucktes `except` in der Attrappe ist der gefährlichste
-Fall**, weil dann nicht einmal eine Rückverfolgung erscheint: das
-Programm fragt nach etwas, das die Attrappe nicht hat, und der Test
-sieht davon nichts.
-
-**Damit prüft der Gegenbeweis nicht nur die Prüfung, sondern auch das
-Gerüst darunter.** Das ist sein zweiter Ertrag, und ohne ihn wäre
-keiner der beiden Fälle je aufgefallen.
-
-### Wieviel genügt
-
-**Je Prüfung, nicht je Datei.** Eine Datei mit fünfundsechzig
-Prüfungen braucht fünfundsechzig Gegenbeweise, nicht einen. Das ist
-nicht Buchstabentreue, sondern folgt aus dem, was ein Gegenbeweis
-zeigt: er zeigt, daß **diese eine** Prüfung fällt, wenn **diese eine**
-Sache falsch ist. Über die vierundsechzig daneben sagt er nichts. Die
-zwölf Prüfungen, die überhaupt nicht fallen konnten, standen genau
-dort: in Dateien voller Prüfungen, die taten, was sie sollten.
-
-Und es ist billiger, als es aussieht. Die Kopie wird einmal angelegt,
-die kaputte Stelle wandert von Prüfung zu Prüfung, und der Lauf ist
-derselbe. Was Zeit kostet, ist das Nachdenken darüber, was genau
-kaputtzumachen wäre — und dieses Nachdenken ist der Ertrag: es zwingt
-dazu, die Prüfung als Behauptung über das Programm zu lesen statt als
-Zeile Quelltext.
-
-**Wo es unverhältnismäßig wird**, und dann steht der Grund im Eintrag:
-wenn die geprüfte Sache nur außerhalb dieses Programms falsch sein
-kann — bei einem fremden Werkzeug, das man nicht kaputtmachen kann,
-ohne es zu ersetzen. Dann ist eine strengere Attrappe der Gegenbeweis,
-oder es ist ein Rauchtest, und der sagt es im Kopf (Abschnitt 1). Was
-nicht als Grund zählt: es sind viele.
-
-**Für jede geänderte Prüfung, nicht nur für neue.** Eine Umbenennung
-ist eine Änderung. Wer zehn Prüfungen anfaßt, führt zehn Gegenbeweise.
-
-### Der Nachweis
-
-**Ein Gegenbeweis, den niemand nachlesen kann, ist keiner.** Er wird
-darum aufgeschrieben, in `tests/state/counterproof`, ein Eintrag je
-Test. `counterproof_test.py` ist die Ratsche über die Tests ohne
-Eintrag: die Zahl darf fallen, nie steigen. Ein neuer Test ohne
-Gegenbeweis macht sie sofort rot; der Bestand wird nach und nach
-abgearbeitet, ohne daß die Suite stehenbleibt.
-
-**Keine Änderung an einem Test und kein neuer Test ist fertig, bevor
-sein Eintrag darin steht.**
-
-Was der Eintrag trägt, damit er in einem halben Jahr noch etwas wert
-ist:
-
-* **Welche Prüfung**, beim Namen, mit dem sie sich druckt.
-* **Wie kaputtgemacht wurde** — die eine Stelle und die eine Änderung,
-  so genau, daß jemand sie ohne Nachdenken wiederholen kann.
-* **Die rote Zeile im Wortlaut.** Sie ist der Beleg. Ohne sie ist der
-  Eintrag eine Behauptung, und Behauptungen sind genau das, wogegen
-  dieser Abschnitt geschrieben ist.
-* **Wogegen**, wenn es nicht das Programm war: die verfälschten Daten,
-  die strengere Attrappe.
-
-Die rote Zeile ist auch das, was den Eintrag prüfbar macht: nennt sie
-etwas anderes als die kaputtgemachte Sache, dann hat die Prüfung nicht
-das gefangen, was sie fangen sollte, und der Eintrag verrät es beim
-Lesen.
-
-**Ein Gegenbeweis von gestern sagt nichts über eine Prüfung, die heute
-umgeschrieben wurde.** Das ist die unangenehme Frage, und sie läßt
-sich nicht sauber lösen: eine Maschine kann nicht entscheiden, ob eine
-geänderte Zeile dieselbe Behauptung noch aufstellt. Die Faustregel:
-
-> Ändert sich, **was** die Prüfung behauptet, ist der Eintrag
-> ungültig und wird neu erbracht. Ändert sich nur, **wie** sie es
-> nachsieht, bleibt er gültig — und das Wie zu ändern, ohne das Was zu
-> ändern, ist selten, also im Zweifel neu erbringen.
-
-Umbenennen, umstellen, aufteilen: das Was bleibt. Eine Grenze
-verschieben, einen Vergleich umdrehen, ein Feld gegen ein anderes
-tauschen: das Was ändert sich. Der Eintrag trägt die Prüfung beim
-Namen, damit man die Frage überhaupt stellen kann.
-
-Die Herkunft: Mutationstesten. Man ändert das Programm an einer Stelle
-und sieht nach, ob ein Test rot wird; wird er es nicht, prüft er dort
-nichts. Das Werkzeug dieser Schule sagt selbst, wogegen es antritt:
-*„Traditional test coverage measures only which code is executed by
-your tests. It does not check that your tests are actually able to
-detect faults in the executed code."* Genau das ist der Unterschied
-zwischen einer Zeile, die gelaufen ist, und einer Zeile, über die
-etwas behauptet wurde.
-
-Im Großen ist das zu teuer — ein Mutant kostet einen Suitenlauf, und
-für alle Stellen dieses Programms wären es Tage. Auf die geänderten
-Zeilen beschränkt ist es bezahlbar, und genau so wird es hier von Hand
-gemacht: eine kaputte Fassung je geänderter Prüfung. Ein Werkzeug dafür
-braucht es nicht.
-
-## 6. Wie mit Warten umgegangen wird
-
-**Auf eine Bedingung warten, nie auf die Uhr.** Eine feste Pause
-kostet Zeit in jedem Lauf für immer, und sie läßt den Test in beide
-Richtungen lügen: zu kurz, und er fällt auf einer belasteten Maschine;
-zu lang, und niemand merkt, daß er auf etwas wartet, das nie eintritt.
-Ein Test dieser Suite verbrachte 121 von 123 Sekunden mit dem Warten
-auf ein Ereignis, das an dieser Stelle nie kommt, und meldete danach
-grün. Nach der richtigen Bedingung gefragt, brauchte er drei Sekunden.
-
-Die Form ist immer dieselbe: ein kurzer Abstand, die Bedingung, und
-eine obere Schranke, damit eine langsame Maschine nicht rot wird.
-
-**Der Abstand ist kurz, die Schranke darf großzügig sein.** Die beiden
-Zahlen kosten Verschiedenes: der Abstand ist die Zeit, die im Normalfall
-verlorengeht, die Schranke wird im Normalfall nie erreicht. Eine hohe
-Schranke ist deshalb umsonst zu haben, solange kurz nachgefragt wird —
-und sie ist es, die den Baurechner grün hält. Wer statt dessen an der
-festen Pause dreht, macht jeden Lauf teurer und schiebt den Fehler nur
-bis zur nächsten, langsameren Maschine.
-
-**Aufgeben, wenn nichts mehr vorangeht — nicht, wenn eine Frist
-abläuft.** Der Baurechner ist bis zu dreimal langsamer als der
-Arbeitsplatz. Eine Frist, die hier großzügig ist, ist dort zu knapp,
-und der Test wird rot, während das Fenster die ganze Zeit gearbeitet
-hat. Gemessen wird deshalb der Stillstand: seit wann hat sich nichts
-mehr geändert. Das trifft die Maschine nicht mit, und es fängt den
-Fall, den eine Frist gar nicht sieht — daß etwas hängt, obwohl noch
-Zeit übrig wäre.
-
-Die Fließbandwerkzeuge kennen das als Abbruch nach Ausgabestille, mit
-einer eigenen Einstellung neben der Wanduhr-Frist. **Unser Baurechner
-hat sie nicht** — er kennt nur eine Frist auf die Wanduhr. Der
-Stillstandszähler muß deshalb im Test selbst stehen; niemand nimmt ihn
-uns ab. Und das ist auch der Grund, warum er sich lohnt: eine
-Wanduhr-Frist über sechs verschieden schnelle Jobs kann nur falsch
-eingestellt sein, ein Stillstandszähler nicht.
-
-**Und grün auf dieser Maschine beweist nichts über den Baurechner.**
-In einer Untersuchung an fünf großen Vorhaben ließen sich 86 Prozent
-der Tests, die auf dem Fließband flatterten, auf einem gewöhnlichen
-Arbeitsplatz nicht zum Flattern bringen — auch nicht in hundert
-Läufen. Wer eine Wartestelle anfaßt, prüft sie auf dem Baurechner nach
-und nicht hier.
-
-**Ein taugliches Lebenszeichen ändert sich, weil das Programm
-arbeitet.** Ein Fortschrittsbalken, der von allein weiterkriecht, ist
-keines: er bewegt sich, ob etwas geschieht oder nicht. „Das Fenster
-steht noch" ist keines. Tauglich sind ein Wert, den der Schritt selbst
-schreibt, eine Datei, die entsteht, eine Zahl, die steigt, ein
-Zustand, den das Programm ausdrücklich meldet.
-
-**Erschöpfte Geduld ist rot, nicht grün.** Daß die Frist abgelaufen
-ist und daß die Bedingung eingetreten ist, dürfen von außen nicht
-gleich aussehen. Wo beides denselben Wert zurückgibt, läuft der Test
-weiter und mißt etwas Halbfertiges. Die Zeile sagt, wie lange gewartet
-wurde und was nie kam.
-
-**Die Fristen der Schritte bleiben unter der des Ganzen.** Addieren
-sich die Wartezeiten der einzelnen Schritte über die Frist des ganzen
-Laufs, dann erfährt eine langsame Maschine, die Gesamtzeit sei um —
-und nicht, welcher Schritt nie kam.
-
-**Eine feste Pause ist erlaubt, während ein Test geschrieben wird, und
-sonst nirgends.** Was die Bedingung sein muß, ist es wert, gemessen zu
-werden: eine Sonde auf eine Kopie und nachsehen, wann die Sache
-wirklich geschieht, statt eine Zahl zu raten, die sicher aussieht.
-
-Die Herkunft: in der größten Aufstellung über flatterhafte Tests — 201
-Reparaturen aus 51 Vorhaben — ist das Warten auf eine feste Zeit mit
-Abstand die größte Ursachengruppe, 45 Prozent, vor der Nebenläufigkeit.
-Der Rat ist dort als Verbot formuliert: *„Never use bare sleeps to wait
-for asynchronous responses: use a callback or polling."* Und Flattern
-ist kein Verschleiß: 78 Prozent der flatterhaften Tests flatterten
-schon, als sie geschrieben wurden. Es wird eingebaut — darum steht
-diese Regel hier und nicht in einem Aufräumplan.
-
-## 7. Wie Überspringen aussehen darf
-
-**Ein übersprungener Test ist nicht grün.** Er druckt `SKIPPED:` auf
-einer eigenen Zeile, der Lauf zählt ihn getrennt, und die
-Zusammenfassung nennt ihn — `green: 50 skipped: 1`, nie grün für einen
-Test, der nichts geprüft hat.
-
-**Kein `sys.exit(0)` im Vorbeigehen.** Wer aussteigt, weil sein
-Material fehlt, und dabei 0 zurückgibt, ist von einem Test, der alles
-geprüft hat, nicht zu unterscheiden.
-
-**Der Grund steht in der Zeile:** was fehlt, und was es zurückbrächte.
-„kein Testprojekt" ist kein Grund; „kein Testprojekt — `VPM_MEDIA` auf
-einen Ordner mit … zeigen lassen" ist einer.
-
-**Auch ein teilweise übersprungener Test sagt es.** Ein Schritt, der
-stillschweigend ausgelassen wird, weil ein Ordner fehlt, fehlt auf dem
-Baurechner vermutlich immer. Die Schlußzeile darf dann nicht behaupten,
-alles sei geprüft worden: sie sagt, wie viele von wie vielen
-Abschnitten in voller Länge liefen.
-
-**Rot schlägt übersprungen.** Beides kann in einem Lauf zutreffen — ein
-Test läßt aus, was diese Maschine nicht kann, und fällt über den Rest.
-Wird zuerst nach dem Überspringen gefragt, liest sich das als
-„übersprungen", der Fehlschlag wird nicht gezeigt und nicht gezählt,
-und das ist dieselbe Lüge wie grün.
-
-**Wieviel übersprungen werden darf, ist eine Ratsche.** Sie darf
-fallen, nicht steigen.
-
-**Und was auf keiner Maschine läuft, wird nicht übersprungen, sondern
-entfernt.** Ein Test, der Dateien sucht, die es nicht gibt, und
-zufrieden hinausgeht, steht als vollwertiger in der Liste und ist
-schlechter als gar keiner: er belegt den Platz, an dem jemand einen
-richtigen vermuten würde.
-
-## 8. Wie ein Test aufräumt
-
-**Ein temporärer Ordner, kein fester Pfad.** `tempfile.mkdtemp()`
-legt unter `TMPDIR` an, und der Lauf zeigt `TMPDIR` auf einen Ordner
-je Lauf und wirft ihn am Ende weg. Ein fester Pfad kollidiert, sobald
-zwei Tests nebeneinander laufen, er überlebt den Lauf, und er läßt das
-Ergebnis eines Laufs vom vorigen abhängen.
-
-Die geteilten Vorlagenordner sind die Ausnahme: sie werden einmal vor
-dem Auffächern gebaut und danach nur gelesen. Wer dort hineinschreibt,
-macht sie zur gemeinsamen veränderlichen Sache und damit zur Ursache
-des nächsten Flatterns.
-
-**Nichts stehenlassen, was ein zweiter Lauf findet.** Auch nicht im
-Zwischenspeicher, auch nicht in der Voreinstellungsablage, auch nicht
-im Schlüsselbund. Was der Test setzt, setzt er zurück.
-
-**Nie eine Datei löschen, die er nicht selbst angelegt hat.** Nicht
-`tests/state/`, nicht den Zwischenspeicher dessen, der ihn gestartet
-hat, nicht das Material im Projektordner. Was vorher da war, gehört
-dem, der es hingelegt hat.
-
-**Und nichts nach draußen.** Kein Netz, kein Hochladen, keine
-Prüfung, ob es eine neuere Fassung gibt. Wo eine Verbindung geprüft
-werden muß, wird die Stelle ausgetauscht, die sie öffnet.
-
-## 9. Was hier nicht übernommen wird
-
-Der Vollständigkeit halber, damit es nicht dreimal neu erwogen wird.
-
-**Ein Rahmenwerk.** Was es gibt — Auffinden, Nebenläufigkeit,
-Trennung, Überspringen, Zeitgrenze — hat der Lauf schon. Der Preis
-wäre das Umschreiben der ganzen Mappe, und aus jeder gedruckten Zeile
-mit ihrem Meßwert daneben würde ein `assert`. Genau diese Zeile ist
-das, woran man den Fall wiedererkennt.
-
-**Ein Abdeckungsziel.** Wird eine Abdeckung zum Ziel gemacht, wird sie
-erreicht, und die Suite wird davon nicht besser. Die Zahl taugt als
-Suchhilfe für ungeprüfte Wege und für nichts sonst.
-
-**Die Testpyramide.** Sie verlangt viele kleine Tests. Klein ist dabei
-nicht über den Umfang des Geprüften bestimmt, sondern über die
-erlaubten Betriebsmittel: ein Prozeß, ein Faden, kein Netz, keine
-Platte, **kein Schlafen**. Nach diesem Maß ist hier kein einziger Test
-klein, weil das Programm aus Dateien, ffmpeg und einem Fenster besteht.
-Klein bekäme man sie nur mit einem ffmpeg-Ersatz, und dann prüft der
-Test den Ersatz — eine Attrappe dieser Größe wäre nach Abschnitt 5
-ohnehin nicht zu verantworten. Dafür gehen unsere Tests den Weg, den
-ein Benutzer geht, und je ähnlicher ein Test der wirklichen Benutzung
-ist, desto mehr Vertrauen trägt er.
-
-**Der Preis wird aber bezahlt und nicht weggeredet.** Große Tests
-flattern mehr, fast linear mit ihrer Größe; das ist gemessen. Genau
-das, was kleinen Tests verboten ist — schlafen, blockieren, warten —,
-tun unsere unvermeidlich. Deshalb ist Abschnitt 6 keine Feinheit,
-sondern das, was die Bauform tragbar macht. Und deshalb ist die
-Flatterquote eine Zahl, die man kennt: sie verliert ihren Wert, wenn
-sie sich einem Prozent nähert.
-
-**Eine Handlung je Test.** Siehe Abschnitt 1: dafür ist die Lage hier
-zu teuer.
-
----
-
-## Die Checkliste
-
-Für jeden neuen Test und für jede geänderte Prüfung. Zwölf Punkte, und
-sie werden einzeln beantwortet, nicht überflogen.
-
-**1. Zusichern.** Fällt der Test überhaupt ein Urteil — mit `check`,
-nicht mit einem nackten `assert`? Wie viele? Und wenn keins: steht das
-im Kopf **und** in der Schlußzeile?
-
-**2. Kopf und Prüfungen decken sich.** Hat jede Behauptung der ersten
-Zeile ein `check`? Und steht jedes `check` im Kopf? Beide Richtungen.
-
-**3. Der Schluß wird immer erreicht.** Führt jeder Weg durch den Test
-— auch der abgestürzte, auch der nebenläufige — an der Zeile vorbei,
-die zählt und den Rückgabewert setzt? Wird die Zahl der Urteile
-gedruckt, und stimmt sie mit dem überein, was der Kopf verspricht?
-
-**4. Der Name ist eine Behauptung.** Sagt das Präfix, welcher Teil des
-Programms kaputt wäre — und nicht, wovon das Material handelt? Ist die
-zweite Hälfte eine Behauptung und kein Ding? Gilt das auch für jedes
-einzelne `check`?
-
-**5. Die Fehlerzeile trägt ihre Belege.** Steht in jeder — erwartet und
-tatsächlich, als Zahl? Und nennt sie den ersten Umstand, der nicht
-stimmte, statt eines Folgefehlers: ist jede Voraussetzung eine eigene
-Prüfung davor?
-
-**6. Der Gegenbeweis ist geführt — für jede Prüfung einzeln.** Eine
-Fassung, in der genau diese eine Sache falsch ist, der Test dagegen
-gelaufen, die rote Zeile gelesen. Nicht eine je Datei, sondern eine je
-Prüfung. Ohne das zählt die Prüfung nicht.
-
-**7. Und er steht in `tests/state/counterproof`.** Prüfung beim Namen,
-wie kaputtgemacht wurde, die rote Zeile im Wortlaut. Dieser Punkt ist
-nicht abzuhaken, ohne daß der Eintrag geschrieben ist — und wo eine
-Prüfung umgeschrieben wurde, ist der alte Eintrag zu ersetzen, sobald
-sich geändert hat, *was* sie behauptet.
-
-**8. Und wenn er nicht rot wurde: Prüfung oder Attrappe?** Erlaubt die
-Attrappe irgendwo mehr als das Echte — erfindet sie, was jenes
-verweigert; fehlt ihr ein Verfahren, dessen Fehlen jenes bemerkbar
-machen würde? Verschluckt irgendwo ein `except` die Antwort darauf?
-
-**9. Gewartet wird auf eine Bedingung.** Keine feste Pause. Bricht der
-Test bei Stillstand ab und nicht beim Ablauf einer Frist? Ist das
-Lebenszeichen etwas, das sich nur bewegt, weil das Programm arbeitet?
-Bleiben die Fristen der Schritte unter der des Ganzen? Ist erschöpfte
-Geduld rot?
-
-**10. Übersprungen wird sichtbar.** `SKIPPED:` mit Grund und mit dem
-Weg zurück, kein stiller `sys.exit(0)`, kein stillschweigend
-ausgelassener Schritt — und die Schlußzeile behauptet nichts, was
-nicht geprüft wurde. Was auf keiner Maschine laufen kann, wird
-entfernt statt übersprungen.
-
-**11. Aufgeräumt wird.** Temporärer Ordner statt festem Pfad, nichts
-steht hinterher noch da, und nichts wurde gelöscht oder verändert, was
-der Test nicht selbst angelegt hat.
-
-**12. Der Kopf ist nachgelesen.** Beschreibt er noch, was der Test
-heute baut? Steht keine Zahl darin, die mitwandern müßte? Ist ein
-Vermerk „dieser Schritt ist rot" mit der Reparatur hinausgegangen?
+information and rerun the test."*
+
+**Numbers, not adjectives.** "Too short" says nothing anybody can
+recompute. "0.31 s against 0.80 s" says everything.
+
+That is the answer to a smell with a name of its own, assertion
+roulette: several assertions of the same kind in one test, and the red
+message does not say which one fell. The rule against it names the case
+where it counts most — a test run on the command line, where no
+development environment highlights the line that failed. That is our
+situation in every run.
+
+And it is rarely followed. Across twenty open-source projects about five
+percent of assertions carried a message at all, while in a survey six
+developers in ten said they always or very often supplied one. It is not
+something one does by oneself. It is something that has to stand on a
+list.
+
+**And it has to name the right fault.** One line claimed the camera had
+not changed when in truth the player had never started. Where a claim
+rests on a precondition, the precondition becomes a check of its own and
+comes first, so that the red line names the first thing that was untrue
+rather than the last.
+
+## 5. Green proves nothing until the check has been seen red
+
+**This is the most important section of this file.**
+
+**A check nobody can make fail is worth nothing.** Twelve checks here
+could not fall at all: one compared a call with itself, one was
+satisfied as soon as a word appeared anywhere in the source, one looped
+over a list that could never fill, one asserted the same thing twice,
+one asked whether a key began with a prefix instead of which one, one
+passed at zero. All twelve were green for years, and no suite in the
+world would have reported it.
+
+**What only the counter-proof catches.** One check looked for the word
+*offset* in everything printed. It was always green, because the program
+prints its own absolute path and the working folder was named that. No
+reading finds that, no ratchet, no coverage figure: the line runs, the
+condition is true, everything looks right. A broken copy in which the
+word is never printed finds it on the first attempt.
+
+**Broken means exactly one thing, and small.** Take the program apart
+wholesale and everything goes red and nothing has been learned about
+this check. The mutation-testing work measured that test data catching
+the small deviations catches over 99 percent of the compound ones as
+well, so an elaborately staged, lifelike fault buys nothing that a
+turned-round sign does not. And if other checks that should have caught
+the same fault stay green, that is a second finding.
+
+### The stand-in
+
+**When the counter-proof will not go red, the first question is: the
+check, or the stand-in?** Whoever does not ask it takes a generous
+stand-in for a check that passed.
+
+**A stand-in that allows more than the real thing makes every check
+above it worthless — invisibly, because everything stays green.** In
+every point the check touches it has to be at least as strict as the
+thing it stands for: refuse what that refuses, and have the methods
+whose absence that would make felt. Both halves have occurred here. A
+stand-in media pool invented every track it was asked for, so the check
+"only one video track was made" was green while things sat on tracks
+that did not exist — the real thing refuses that silently, which is
+exactly why the program clears space first. And a stand-in timeline had
+no way to delete a track, so the function that removes empty ones ran
+into a swallowed exception and ten empty tracks survived every run.
+
+**A swallowed `except` in the stand-in is the dangerous case**, because
+then not even a traceback appears: the program asks for something the
+stand-in does not have, and the test sees none of it.
+
+**So the counter-proof tests not only the check but the scaffolding
+under it.** That is its second return, and without it neither of those
+two faults would have come to light.
+
+### One per check, not one per file
+
+**A file with sixty-five checks owes sixty-five counter-proofs.** This is
+not pedantry, it follows from what a counter-proof shows: that **this
+one** check falls when **this one** thing is false. About the sixty-four
+beside it, it says nothing. The twelve checks that could not fall at all
+stood exactly there — in files full of checks that did what they should.
+
+And it is cheaper than it looks. The copy is made once, the broken spot
+travels from check to check, the run is the same. What costs time is
+working out what would have to be broken, and that thinking is the
+return: it forces the check to be read as a claim about the program
+rather than as a line of source.
+
+### What the register can carry, and what it cannot
+
+**The debt is per check; the bookkeeping is per file.** Both are true
+from their own side, and a reader who meets only one of them gets it
+wrong. `tests/state/counterproof` holds one row per test, with one field
+for what was broken and one red line. A file with sixty-five checks
+therefore owes sixty-five counter-proofs and has room to show the
+evidence for one.
+
+**The bookkeeping is the weaker of the two, and it is the part that
+would have to grow.** A row per check, tied to that check's own wording,
+would let the ratchet count what is actually owed; today its number
+counts files without an entry and so understates the debt by whatever a
+proved file's other checks amount to. Until then the rule stands as
+written — every check gets its counter-proof, and the entry documents
+the one that was hardest to break — and the gap is named here rather
+than quietly closed by lowering the rule to what the file format can
+hold.
+
+**Whether an old proof still holds is half a machine question.** The
+register ties a row to the wording of the judgements in the file, not to
+the file name. So renaming the **file** costs nothing: the row follows
+it, and the register writes the new name in. Reordering costs nothing
+either, because the wordings are compared as a set. But rewording a
+judgement, adding one or splitting one changes the fingerprint, and the
+register then reports the test as rewritten since its counter-proof —
+whatever the change meant. That is stricter than the rule of thumb
+below, and on purpose: the wording is the only handle a machine has on a
+claim.
+
+**The other half no machine sees, and it is the dangerous one.** A check
+that keeps its wording while its condition changes — a limit moved, a
+comparison turned round, one field swapped for another — stays green
+with an entry that no longer proves anything. Only whoever makes the
+change catches that. Hence the rule of thumb:
+
+> If **what** the check claims changes, the entry is void and a fresh
+> one is owed. If only **how** it looks changes, it stands — and
+> changing the how without changing the what is rare, so when in doubt,
+> prove it again.
+
+**The origin is mutation testing.** One changes the program in one place
+and looks whether a test goes red; if none does, none of them is
+checking there. The tool of that school says what it is up against:
+*"Traditional test coverage measures only which code is executed by your
+tests. It does not check that your tests are actually able to detect
+faults in the executed code."* That is the difference between a line
+that ran and a line something was claimed about. At scale it is too
+expensive — one mutant costs a suite run — but restricted to the lines
+that changed it is affordable, and that is what is done here by hand.
+
+## 6. Waiting is on a condition, never on the clock
+
+A fixed pause costs time in every run for ever, and it makes the test lie
+in both directions: too short and it fails on a busy machine, too long
+and nobody notices it is waiting for something that never comes. One test
+here spent 121 of its 123 seconds waiting for an event that never
+arrives at that point, and reported green afterwards. Asked for the right
+condition, it took three seconds.
+
+**The interval is short, the ceiling may be generous.** The two numbers
+cost different things: the interval is time lost in the normal case, the
+ceiling is never reached in the normal case. A high ceiling is therefore
+free as long as the question is asked often, and it is what keeps the
+builder green. Turning up a fixed pause instead makes every run dearer
+and defers the failure to the next, slower machine.
+
+**Give up on standstill, not on a deadline.** The builder is up to three
+times slower than the workstation, so a deadline that is generous here is
+tight there and the test goes red while the window was working the whole
+time. What is measured is therefore how long since anything last
+changed. That does not scale with the machine, and it catches the case a
+deadline cannot see at all — that something is stuck although there is
+time left. The pipeline tools know this as a no-output timeout, a
+setting of its own beside the wall-clock deadline; **our builder does not
+have it**, so the standstill counter has to live in the test. That is
+also why it pays: a wall-clock deadline across six jobs of different
+speeds can only be set wrongly, a standstill counter cannot.
+
+**Green on this machine proves nothing about the builder.** In a study of
+five large projects, 86 percent of the tests that flaked on the pipeline
+could not be made to flake on an ordinary workstation, not even in a
+hundred runs. Whoever touches a waiting place checks it on the builder.
+
+**Exhausted patience is red, not green**, and a sign of life has to
+change because the program is working. A bar that creeps on by itself
+moves whether anything happens or not, so waiting on it measures the
+bar. What the condition should be is worth measuring rather than
+guessing: put a probe on a copy and see when the thing really happens.
+
+The origin: in the largest survey of flaky tests — 201 repairs from 51
+projects — waiting on a fixed time is by a distance the biggest group of
+causes, 45 percent, ahead of concurrency. The advice is put there as a
+prohibition: *"Never use bare sleeps to wait for asynchronous responses:
+use a callback or polling."* And flakiness is not wear: 78 percent of
+flaky tests were already flaky when they were written. It is built in,
+which is why this stands in the rules and not in a clean-up plan.
+
+## 7. A skipped test is not a green one
+
+**Skipping has to be visible or it is a lie.** A test that bows out
+because its material is missing and returns 0 is indistinguishable from
+one that checked everything. The same holds for a single step left out
+because a folder was not there: what is missing here is probably missing
+on the builder always, so a closing line claiming that everything was
+checked is false exactly where it matters. And a reason is only a reason
+if it says what would bring the material back.
+
+**Red beats skipped.** Both can be true in one run — a test leaves out
+what this machine cannot do and fails over the rest. Ask about the
+skipping first and it reads as skipped, the failure is neither shown nor
+counted, and that is the same lie as green.
+
+**What runs on no machine is removed, not skipped.** A test that looks
+for files which do not exist and bows out satisfied stands in the list
+as a full member and is worse than none: it holds the place where
+somebody would expect a real one. How much may be skipped is therefore a
+ratchet like the others — it may fall, never rise.
+
+## 8. A test cleans up after itself
+
+**A fixed path makes one run's result depend on the last one's.** It
+collides as soon as two tests run side by side, and it survives the run.
+One test with a fixed folder poisoned itself: the program writes its
+project file beside the material, and every run after the first walked
+into a question nobody answered. The shared fixture folders are the one
+exception, and only because they are built before the fan-out and read
+afterwards; writing into them turns them into shared mutable state and
+into the cause of the next flake.
+
+**What was there before belongs to whoever put it there.** A test
+deletes what it created and nothing else, and leaves nothing behind that
+a second run could find — not in the cache, not in the preferences, not
+in the keychain. Otherwise the suite stops being repeatable, and the
+first symptom is a test that passes only in the order it was written in.
+
+**And nothing goes outside.** No network, no upload, no checking for a
+newer version. A test that reaches the network makes the weather part of
+the result.
+
+## 9. What is deliberately not taken over
+
+For completeness, so that it is not weighed up a third time.
+
+**A framework.** What one gives — discovery, concurrency, isolation,
+skipping, a time limit — the run already has. The price would be
+rewriting the whole folder, and every printed line with its measurement
+beside it would become an `assert`. That line is what makes a case
+recognisable.
+
+**A coverage target.** Make a coverage figure a target and it will be
+reached, and the suite is no better for it. The number serves as a way
+of searching for unchecked paths and for nothing else.
+
+**A mutation-testing tool.** The idea yes, the tool no: one mutant costs
+a suite run, and for every site in this program that is days. By hand
+and restricted to the check that changed, it is affordable, which is
+section 5.
+
+**The test pyramid.** It wants many small tests, and small is defined
+not by the size of what is checked but by the resources allowed: one
+process, one thread, no network, no disk, **no sleeping**. By that
+measure not one test here is small, because the program consists of
+files, ffmpeg and a window. Small would only be had with a stand-in for
+ffmpeg, and then the test checks the stand-in — a stand-in that size
+could not be answered for under section 5 anyway. In exchange our tests
+go the way a user goes, and the more a test resembles real use, the more
+confidence it carries.
+
+**The price is paid, though, not argued away.** Large tests flake more,
+almost linearly with their size; that is measured. Exactly what small
+tests are forbidden — sleeping, blocking, waiting — ours do unavoidably.
+That is why section 6 is not a refinement but the thing that makes this
+shape bearable, and why the flake rate is a number worth knowing: it
+loses its value as it approaches one percent.
+
+**One action per test.** See section 1: the situation is too expensive
+here.
+
+**Given/When/Then as a name form.** The criticism of it — names one has
+to scroll to read, repeated parts that make finding harder — weighs
+heavier under a character cap than what it gives.
+
+**7±2 as a measure for the number of prefixes.** In the taxonomy
+literature it is applied and never justified, and in the interface
+literature it is contested. In its place a test that can be measured:
+does every prefix actually separate?
+
+**Time limits per test size.** Not attestable from a primary source, so
+not adopted.
+
+## 10. The sources
+
+What was taken from each, so that a rule can be traced to its ground.
+
+**F.I.R.S.T., Ottinger and Schuchert, 2009, and *Clean Code* ch. 9.**
+Self-validating: tests are pass-fail. Section 1.
+
+**Meszaros, *xUnit Test Patterns*, 2007.** The never-fail test, section
+1. Assertion roulette and the missing assertion message, section 4 —
+including the point that it counts most with a command-line runner,
+which is our case in every run.
+
+**Peruma et al., CASCON 2019**, over 656 open-source Android projects.
+47 percent of projects and 34 percent of test files hold a test with no
+assertion at all. Section 1, the figure that shows it is not a one-off.
+
+**Carr, TDD anti-patterns, 2006.** The liar: a test that runs but does
+not test what it claims to. Section 2.
+
+**Winters, Google Testing Blog, 2024.** Begin the investigation with
+nothing but the test's name and its failure message. Section 4.
+
+**Takebayashi and Peruma et al., 2023 and 2024.** Five percent of
+assertions carry a message, while 62 percent of developers say they add
+one. Section 4, why it has to stand on a list rather than be left to
+habit.
+
+**Luo et al., FSE 2014**, 201 repairs from 51 projects. Async wait is 45
+percent of all causes of flakiness, and 78 percent of flaky tests were
+flaky when written. Section 6.
+
+**Fowler, *Eradicating Non-Determinism in Tests*.** Never bare sleeps,
+use a callback or polling; a short interval with a high ceiling costs
+nothing. Section 6.
+
+**Lam et al., ISSTA 2019.** 86 percent of the tests that flaked on the
+pipeline could not be made to flake on a workstation. Section 6.
+
+**The no-output timeout of the pipeline tools**, and the standing request
+for one on ours. Aborting on output silence is an established idea, and
+our builder does not have it. Section 6, why the standstill counter has
+to live in the test.
+
+**PIT, pitest.org.** Coverage measures which code ran, not whether the
+tests could detect a fault in it. Section 5.
+
+**Jia and Harman, TSE 2011**, the coupling effect. Test data that
+catches the small mutants catches over 99 percent of the compound ones.
+Section 5, why broken means small.
+
+**Google, *Software Engineering at Google*, ch. 11.** Test sizes are
+defined by the resources allowed, no sleeping among them, and flakiness
+loses its value as it approaches one percent. Section 9.
+
+**Google Testing Blog, 2017.** Flakiness rises almost linearly with the
+size of a test. Section 9, the price of our shape.
+
+**Dodds, the testing trophy.** The more a test resembles the way the
+software is used, the more confidence it gives. Section 9.
+
+**Wake on Arrange-Act-Assert, and *Clean Code* on a single concept per
+test.** Not one assertion per test but one concept per test. Section 1.
+
+**The KUnit style guide, *Clean Code* ch. 2, Zilberfeld, Osherove,
+Google ch. 12, Reid, Khorikov and INNOQ.** The objections in section 3:
+against a filler word that every name carries, for brevity, for the
+scenario in the name, and the split verdict on ordering tests by part of
+the program.

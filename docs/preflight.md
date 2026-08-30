@@ -121,6 +121,12 @@ any other does, and so does a run with no picture at all, where the
 blocks of a recording are joined into one file. The log gives `Target:`
 and `Result:`; without a target nothing is adjusted.
 
+One path is the exception: Multitrack with no picture at all, where the
+tracks are laid against each other. Nothing is levelled there -- a gain
+per track would pull the voices out of the balance that path exists to
+keep -- and the run says so in one line
+([Multitrack](multitrack.md)).
+
 **The mix is two-channel, and so is the measurement.** The single tracks
 keep the channels their source has ([Channels](channels.md)). Every *mix*
 though, the `Full-Mix` as much as one camera's mix, carries the same
@@ -162,8 +168,42 @@ measures the master as a sum, and the limiter pulls it under -1 dBTP. A
 lapel microphone that stood against the stop all evening therefore comes
 out looking clean.
 
+### When a very short file is proposed as the intro
+
+While the material is being looked over, the window also measures where
+the files sit relative to each other ([The interface](interface.md)). A
+file that fits nothing there is proposed for **ignore this video** in
+the column **Kind**. That is right for a camera whose microphone heard
+nothing of the room, and wrong for a jingle: a jingle fits nothing
+because it is not a camera, and it is meant to be used rather than left
+out.
+
+Length tells the two apart. Of the files that fit nothing and that no
+timecode places either, the shortest is proposed as **Intro** -- but
+only where it is at most a tenth as long as the middle of the rest of
+the material. The yardstick is the shoot itself, not a length written
+down: a jingle is orders below what it sits among, while a file that
+belongs to the shoot and merely fits nothing is about as long as
+everything else.
+
+**Intro** means the file is put at the front and never measured
+([DaVinci Resolve](resolve.md)), and there is one of those. So the
+proposal falls on one file only, the shortest of them, and on none at
+all where an intro already stands somewhere in the list.
+
+It is a proposal like the others. It fills only a **Kind** that still
+carries the program's own answer, never one somebody picked, and a file
+that a later measurement can place again gets its old entry back. A
+timecode settles the matter before any of this, as long as one other
+file carries one too: the file then has a place, and nothing is proposed
+for it.
+
 ### When something goes wrong
 
+- **A very short file suddenly stands on Intro.** It fits nothing in the
+  material and is far shorter than everything around it, so the program
+  takes it for a jingle. Pick a **Kind** by hand and that settles the
+  row for good.
 - **Disk space short.** Free space on the target drive, or set another
   output folder in the strip under the file list. The temporary files of
   the run go into the system temp folder, somewhere else again.

@@ -6,6 +6,15 @@ so, and "Content" is barred while that holds: the file cannot be
 content and have no speaker. The bar belongs on that one entry, with
 the reason on it.
 
+Not every sentence is a refusal. Where two cameras are marked as the
+wide shot, the second is told which of them the cut takes; that entry
+carries the sentence and stays open, because it can still be chosen.
+
+And the derivation does not ask who answered the field last. A camera
+without a speaker is the wide shot in the cut whatever the field says,
+so it is shown as one even where somebody set it to "Content" by hand
+-- unlike the wide shot bar, which a hand-picked Kind does lift.
+
 The field itself was greyed as well, so every camera serving as the
 wide shot carried grey words in a shut box while a camera showing
 "Content" stood in black. Sebastian, on the picture: "Here you wanted
@@ -63,6 +72,11 @@ def grey(box):
     return [value for value, _shut, ink in entries(box) if ink]
 
 
+def note(box, value):
+    """The sentence standing on one entry of the list."""
+    return box.itemData(list(vpm.CLIP_TYPES).index(value), Qt.ToolTipRole)
+
+
 print("1. A wide shot the program worked out itself")
 # What the file list and the camera table both show for a camera
 # nobody is assigned to: "Wide shot", with the reason on the entry it
@@ -86,11 +100,8 @@ check("the field itself carries no colour of its own",
 check("the field can still be answered", box.isEnabled(),
       "the field is dead")
 check("and the reason stands on the barred entry",
-      box.itemData(list(vpm.CLIP_TYPES).index(vpm.TYPE_CONTENT),
-                   Qt.ToolTipRole) == why,
-      "the entry says %r, wanted %r"
-      % (box.itemData(list(vpm.CLIP_TYPES).index(vpm.TYPE_CONTENT),
-                      Qt.ToolTipRole), why))
+      note(box, vpm.TYPE_CONTENT) == why,
+      "the entry says %r, wanted %r" % (note(box, vpm.TYPE_CONTENT), why))
 
 print("\n2. A wide shot somebody marked")
 # The other direction: a mark is an answer, nothing is derived, and
@@ -114,7 +125,79 @@ check("nothing is barred", barred(box) == [], str(barred(box)))
 check("and the field carries no colour of its own",
       "color" not in box.styleSheet(), repr(box.styleSheet()))
 
-print("\n4. What the bar leaves alone")
+print("\n4. Two cameras marked, and only one of them is cut to")
+# No rule picks between two marked wide shots: the cut takes the first
+# in the list. The others are told so. That is an explanation and not a
+# refusal, so the entry it sits on stays open and stays black.
+BOTH = ["Camera1.mov", "Camera2.mov"]
+value, why, derived = vpm.kind_on_show(vpm.TYPE_WIDE, "Camera2.mov",
+                                       BOTH, True)
+check("the second one still shows the wide shot", value == vpm.TYPE_WIDE,
+      "shows %r" % value)
+check("nothing is derived about it", derived is False, str(derived))
+check("and it is told which camera the cut takes",
+      why == "the cut uses Camera1.mov", repr(why))
+_cell, box = vpm.clip_kind_cell("Camera2.mov", value, why, QUIET, derived)
+check("the sentence stands on the wide shot entry",
+      note(box, vpm.TYPE_WIDE) == why,
+      "the entry says %r, wanted %r" % (note(box, vpm.TYPE_WIDE), why))
+check("that entry can still be chosen", barred(box) == [], str(barred(box)))
+check("and it is not greyed", grey(box) == [], str(grey(box)))
+check("no other entry carries the sentence",
+      [v for v in vpm.CLIP_TYPES if note(box, v)] == [vpm.TYPE_WIDE],
+      str([v for v in vpm.CLIP_TYPES if note(box, v)]))
+# The first of the two has nothing to be told: it is the one cut to.
+value, why, derived = vpm.kind_on_show(vpm.TYPE_WIDE, "Camera1.mov",
+                                       BOTH, True)
+check("the first of the two is told nothing", why == "", repr(why))
+_cell, box = vpm.clip_kind_cell("Camera1.mov", value, why, QUIET, derived)
+check("and no entry of its list carries a sentence",
+      not [v for v in vpm.CLIP_TYPES if note(box, v)],
+      str([v for v in vpm.CLIP_TYPES if note(box, v)]))
+
+print("\n5. A hand-picked Kind does not lift the derivation")
+# Deliberate, and the two bars differ on purpose. That a file sits
+# nowhere on the time axis is a measurement, and an answer overrules a
+# measurement: wide_shot_barred lets a hand-picked Kind through. That no
+# speaker is assigned is the assignment itself, and the run goes by it
+# -- wide_shots_of makes such a camera the wide shot whatever the field
+# says, so a field reading "Content" would disagree with the episode.
+
+
+# The program's own Value, not a stand-in for it, with the note
+# clip_kind_bind puts on it when a person picks an entry.
+BY_HAND = vpm.Value(vpm.TYPE_CONTENT)
+BY_HAND.chosen_by_hand = True
+UNTOUCHED = vpm.Value(vpm.TYPE_CONTENT)
+value, why, derived = vpm.kind_on_show(BY_HAND.get(), "Camera1.mov",
+                                       ["Camera1.mov"], False)
+check("it is still shown as the wide shot", value == vpm.TYPE_WIDE,
+      "shows %r" % value)
+check("and still as derived", derived is True, str(derived))
+check("with the reason naming the missing speaker",
+      why == "because no speaker is assigned to it", repr(why))
+_cell, box = vpm.clip_kind_cell("Camera1.mov", value, why, QUIET, derived,
+                                vpm.wide_shot_barred("/m/Camera1.mov",
+                                                     BY_HAND, ()))
+check("Content stays barred all the same",
+      barred(box) == [vpm.TYPE_CONTENT], str(barred(box)))
+check("and that is what the run really cuts to",
+      vpm.wide_shots_of(["Camera1.mov", "Camera2.mov"], {"Camera2.mov"},
+                        []) == ["Camera1.mov"],
+      str(vpm.wide_shots_of(["Camera1.mov", "Camera2.mov"],
+                            {"Camera2.mov"}, [])))
+# The other bar, on the same value: here the hand-picked Kind does win.
+check("the wide shot bar, by contrast, lets the answer through",
+      vpm.wide_shot_barred("/m/Camera1.mov", BY_HAND,
+                           ["/m/Camera1.mov"]) == "",
+      repr(vpm.wide_shot_barred("/m/Camera1.mov", BY_HAND,
+                                ["/m/Camera1.mov"])[:60]))
+check("and bars the same file where nobody answered",
+      bool(vpm.wide_shot_barred("/m/Camera1.mov", UNTOUCHED,
+                                ["/m/Camera1.mov"])),
+      "a file that sits nowhere on the axis is offered as the wide shot")
+
+print("\n6. What the bar leaves alone")
 # Intro, outro and "ignore this video" are answers about the file
 # itself and have nothing to do with who is assigned where.
 value, why, derived = vpm.kind_on_show(vpm.TYPE_CONTENT, "Camera1.mov",

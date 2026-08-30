@@ -15,6 +15,9 @@ import io
 import os
 import re
 import sys
+import time
+
+began = time.time()
 
 # The titles reported are German on one side, and the suite runs under
 # LC_ALL=C, where a finding that cannot be printed is a traceback.
@@ -29,10 +32,13 @@ DOCS = os.path.join(ROOT, "docs")
 LINE_MAX = 79
 MOST_PLACES = 3
 
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -303,7 +309,7 @@ if len(into) == 2:
 check("both point into each chapter equally often",
       len(into) == 2 and not apart, str(apart[:3]))
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:
     print("FAIL: %d of the checks" % len(bad))
     sys.exit(1)

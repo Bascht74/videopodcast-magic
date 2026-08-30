@@ -10,9 +10,11 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import ast, io, re, sys, tokenize
+import ast, io, re, sys, time, tokenize
 sys.path.insert(0, HERE)
 import ratchet
+
+began = time.time()
 
 STATE = os.path.join(HERE, "state", "style_state.json")
 state = ratchet.Ratchet(STATE)
@@ -26,8 +28,11 @@ BLOCK_WANTED = 4
 DOCSTRING_WANTED = 8
 HEAD_MAX = 79           # first docstring line
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -277,6 +282,7 @@ held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(silent)))
 
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("\n%s" % ("All good." if not error
                 else "FAIL: %s" % ", ".join(error)))
 sys.exit(1 if error else 0)

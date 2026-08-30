@@ -200,12 +200,24 @@ sie in Resolve am Renderauftrag selbst ein. Das Protokoll schreibt hin,
 dass 384 kbit/s die Empfehlung für Stereo wären. Bei HDR nennt das
 Protokoll auch die Prüfung (*HDR: was in der Datei stehen muss*).
 
+Eine Datei statt eine je Clip wird angefordert, und Resolve darf das
+ablehnen. Tut es das, steht es im Protokoll unter **Renderauftrag**:
+*Eine Datei je Ausgabe wurde abgelehnt; Resolve schreibt eine Datei je
+Clip.* Ließ sich die Frage gar nicht erst stellen, steht das dort
+stattdessen, mitsamt Grund. So oder so kommt der Auftrag wie sonst in die
+Warteschlange — aber **Render All** schreibt dann je Einstellung eine
+Datei in den Ausgabeordner, und wer eine Folge sucht, findet einen Ordner
+voller Einstellungen. Man stellt die Ausgabe in Resolve am Renderauftrag
+wieder auf eine einzige Datei, an derselben Stelle wie Tonbitrate und
+eine andere Bildrate, bevor man **Render All** drückt. Steht keine solche
+Zeile im Protokoll, wurde nichts abgelehnt.
+
 ### Vorspann und Abspann setzen
 
-Jede Videodatei trägt einen **Typ**: *Inhalt*, *Vorspann*, *Abspann* oder
-*Video ignorieren*. Er wird an der Datei gesetzt, in der Dateiliste auf dem
-Reiter **Dateien & Produktion**. Andere Stellen im Programm zeigen
-denselben Wert.
+Jede Videodatei trägt einen **Typ**: *Inhalt*, *Weitwinkel*, *Vorspann*,
+*Abspann* oder *Video ignorieren*. Er wird an der Datei gesetzt, in der
+Dateiliste auf dem Reiter **Dateien & Produktion**. Andere Stellen im
+Programm zeigen denselben Wert.
 
 Vorspann und Abspann sind freiwillig. Eine Datei, die auf Vorspann oder
 Abspann steht, richtet das Programm nicht aus, bereitet sie nicht auf
@@ -406,6 +418,11 @@ keine Sicherungskopie an.
 - **Eine Timeline aus einem früheren Lauf steht noch da, und die neue
   trägt einen Zusatz im Namen.** Resolve hat sie nicht gelöscht. Von Hand
   löschen und den Knopf noch einmal drücken.
+- **Im Ausgabeordner liegt je Einstellung eine Datei statt einer
+  Folge.** Resolve hat eine Datei je Ausgabe abgelehnt, und das
+  Protokoll sagt es unter **Renderauftrag**. Die Ausgabe in Resolve am
+  Renderauftrag wieder auf eine einzige Datei stellen und noch einmal
+  rendern.
 - **Die fertige Datei läuft als SDR.**
   `videopodcast-magic.py --hdr-check DATEI` aufrufen und tun, was dort
   steht.

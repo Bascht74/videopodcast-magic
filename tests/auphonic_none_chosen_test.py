@@ -4,7 +4,9 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
+began = time.time()
+
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
@@ -15,8 +17,11 @@ vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True),
                                 ("Podcast_Zoom", "u2", False)]
 vpm.load_api_key = lambda: "not-a-real-key"
 
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -89,5 +94,6 @@ def look():
 QtCore.QTimer.singleShot(2500, look)
 QtCore.QTimer.singleShot(40000, app.quit)
 vpm.gui()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("\n%s" % ("All good." if not error else "FAIL: " + ", ".join(error)))
 sys.exit(1 if error else 0)

@@ -71,8 +71,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Jede Videodatei trägt in der Liste außerdem das Feld **Typ**:
   **Inhalt**, **Weitwinkel**, **Vorspann**, **Abspann** oder
   **Video ignorieren**. Wer auf dem Feld stehen bleibt, erfährt, was die
-  fünf bedeuten. Das Feld selbst wird nie im Ganzen ausgegraut — Grau
-  über dem ganzen Kasten hieße „hier ist nichts zu machen“, und zu
+  Einträge bedeuten. Das Feld selbst wird nie im Ganzen ausgegraut —
+  Grau über dem ganzen Kasten hieße „hier ist nichts zu machen“, und zu
   machen ist immer etwas.
 
   Gesperrt wird höchstens ein Eintrag der Liste: er steht grau da und
@@ -86,13 +86,31 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
     wieder frei.
   - Eine Datei, für die die Messung keinen Platz gefunden hat, kann
-    nicht der Weitwinkel sein: auf den Weitwinkel fällt der Schnitt
-    zurück, also muss er auf der Zeitachse liegen. Gesperrt ist dann
-    **Weitwinkel**, mit eben diesem Grund.
+    nicht der Weitwinkel sein: der Weitwinkel ist die Kamera, die
+    durchläuft und einspringt, wo keine andere passt, also muss er auf
+    der Zeitachse liegen. Gesperrt ist dann **Weitwinkel**, mit eben
+    diesem Grund.
 
-  Vorspann, Abspann und die Datei ganz herauszulassen werden nie
+    Für diese Sperre muss zweierlei zugleich zutreffen, keines davon
+    allein. Der Ton der Datei muss schlecht zum Rest passen — eine
+    solche Datei steht rot in der Liste — **und** kein Timecode darf sie
+    zwischen die anderen einordnen, wozu ein Timecode auf der Datei
+    gehört und einer auf etwas anderem im Material; eine einmal
+    abgelesene Uhr sagt nichts. Ein Jingle ist beides auf einmal: kein
+    Timecode, und im Ton nichts, was der Raum auch hat. Eine Kamera,
+    deren Mikrofon vom Raum nichts gehört hat, ist nur das erste, und
+    ihr eigener Timecode setzt sie weiterhin framegenau — sie behält
+    also die Wahl.
+
+  **Vorspann**, **Abspann** und **Video ignorieren** werden nie
   gesperrt. Das sind Antworten über die Datei selbst und haben nichts
   damit zu tun, wer vor welcher Kamera sitzt.
+
+  Die Sperre auf **Weitwinkel** fällt nie auf einen **Typ**, den jemand
+  gewählt hat: eine gewählte Antwort steht, was die Messung auch sagt.
+  Und beide Sperren gehen von selbst wieder weg — eine Datei, die eine
+  spätere Messung einordnen kann, bekommt den Weitwinkel zurück, und
+  eine Kamera, die einen Sprecher bekommt, bekommt **Inhalt** zurück.
 
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile
@@ -162,6 +180,17 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Überschrift die Quelle der Sprecher nennt. Zuletzt der Kasten
   **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer
   Vorschau.
+
+  Das Band teilt sich seine Zeile mit drei Zoom-Knöpfen und, ganz am
+  Ende der Zeile, der gezeigten Zeitspanne in Schreibmaschinenziffern:
+  `0:00:00 -- 0:42:13`. **−** zeigt doppelt so viel, **+** halb so viel
+  um die aktuelle Stelle, der dritte wieder die ganze Länge. Die Anzeige
+  steht vom ersten Augenblick an da, bevor jemand gezoomt hat:
+  ungezoomt ist es das ganze Material, und solange nichts im Band steht,
+  liest sie `0:00:00 -- 0:00:00`. Ihre Breite liegt fest, damit die drei
+  Knöpfe unter dem Zeiger stehen bleiben, während die Zahlen wechseln.
+  [Der Kameraschnitt](camera-cut.de.md) sagt, wie das Band selbst zu
+  lesen ist.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -343,6 +372,16 @@ die Datei unberührt, aus der es kam; das ist der Weg zu einer zweiten
 Produktion, ohne das Programm zu beenden. **Projekt speichern**
 schreibt die Projektdatei dorthin, wohin der Ausgabeordner zeigt, ohne
 etwas laufen zu lassen.
+
+**Projekt schließen** ruft außerdem zurück, was am alten Material noch
+lief. Hüllkurven und Kameraton werden nicht weiter herausgeholt, die
+Kanalmessung und die Prüfung hören auf, die gemeinsame Zeitachse wird
+nicht weiter gemessen, die Sprechertrennung hört auf, und der Balken
+neben **Start** verschwindet im selben Augenblick. Ein Stück Arbeit, das
+im Hintergrund schon läuft, läuft womöglich noch zu Ende, aber seine
+Antwort wird weggeworfen: sie setzt sich nicht wieder auf den Balken,
+und sie wirft keine Dateien in die geleerte Liste. Ein leeres Fenster
+ist ein untätiges.
 
 **Ansicht** nennt die Reiter beim Namen, statt sie zu nummerieren.
 **Hilfe** enthält den Weg in dieses Handbuch, **Was sich in dieser

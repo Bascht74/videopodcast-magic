@@ -9,14 +9,19 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
+began = time.time()
+
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -60,7 +65,7 @@ check("and a stated one channel still asks for the two channel one",
             "mono_mixdown": True}],
           [dict(want_stereo[0], mono_mixdown=False)]) != [])
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:
     print("FAIL: %d of the checks" % len(bad))
     sys.exit(1)
