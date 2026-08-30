@@ -134,6 +134,13 @@ survives.
   putting a block back into a recording goes through the same door as
   adding material, the offer went up in the middle of the test and
   loaded the whole project back over the change.
+- Only the builder writes to the order of the queue now. A run on this
+  Mac used to write its own times in, and they only ever rose -- so a
+  small number from a fast machine could not be pushed down by a large
+  one, but it could be put there in the first place, and then it stuck.
+  `local_run` sat last in the builder's queue with two seconds against
+  its name, and took 47 there. A test nobody has timed on the builder
+  goes first instead, which is the safe way round to be wrong.
 
 ## [2.14.0-beta] - 2026-08-30
 
