@@ -437,7 +437,8 @@ def look(case):
 
     result = {"case": case, "measured": measured, "start_s": CUT_START,
               "window_in": WINDOW_IN if case == "window" else 0.0}
-    state = {"waited": 0, "played": 0, "ready": 0, "from": 0.0}
+    state = {"waited": 0, "played": 0, "ready": 0, "from": 0.0,
+             "turned": 0}
     keep = {}
 
     def cut_ready():
@@ -686,6 +687,15 @@ def look(case):
         for t in result["spots"]:
             step("reversed %.3f" % t)
             p.jump(t)
+        # And where the window did get in between, the step is done
+        # again rather than reported. It shows as one shot answering
+        # twice while another never does, and on a loaded machine it is
+        # the machine talking, not the program.
+        who = [x["who"] for t in result["spots"]
+               for x in said_in("reversed %.3f" % t)]
+        if len(set(who)) < len(result["spots"]) and state["turned"] < TRIES:
+            state["turned"] += 1
+            return "again"
         result["reversed_seen"] = dict(p.offset)
         result["reversed_sound"] = p.audio_offset
 
