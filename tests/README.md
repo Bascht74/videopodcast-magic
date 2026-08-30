@@ -436,7 +436,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
-| `source_checks_proved` | Which tests have been seen red, and which have not. |
+| `source_checks_proved` | Which checks have been seen red, and which have not. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
