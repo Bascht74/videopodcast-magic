@@ -655,7 +655,6 @@ LIMIT_MAX_DB = 6.0        # most the limiter may take off
 # What the multitrack path answers when its plan turned out to hold one
 # track: not an error code but a mark, so the ordinary path can be taken
 # with the tracks that were measured.
-SINGLE_TRACK = "single track"
 
 # Values that are stored and shown at the same time. The value is fixed so
 # a project file keeps its meaning in any language; what appears on screen
@@ -9451,11 +9450,7 @@ def multitrack_or_single(args, ap, audio_paths, video_paths):
         # which came out as a single Guest_joined.wav. Blocks of one
         # recording and tracks of two people look alike from outside.
         return run_single_track_path(args, ap, audio_paths, video_paths)
-    outcome = show_multitrack_plan(args, audio_paths, video_paths)
-    if not (isinstance(outcome, tuple) and outcome[0] == SINGLE_TRACK):
-        return outcome
-    args.multitrack = False
-    return run_single_track_path(args, ap, list(outcome[1]), video_paths)
+    return show_multitrack_plan(args, audio_paths, video_paths)
 
 
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
@@ -10578,6 +10573,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         for path in stored:
             print("  %s" % path)
 
+    # The last stage: the cut list, the handover, the result. The bar
+    # listed it and nobody announced it once the ordinary path's own
+    # writer was gone -- it used to say it there.
+    step_begin("result")
     cut, segment_list = write_cut_list(
         args, segment_list, tracks, cameras, videos, folder, tc_start,
         ref_clip, t1 - t0 if t1 is not None else 0,
@@ -21382,49 +21381,11 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
     audio_start = file_timecode(audio)
     n_audio_raw = sample_count(audio)
 
-    # ---------------------------------------------- 3. picture and analysis
-    # "time base" on the other path too: this is where the pictures are
-    # laid against the sound, whether one axis is built for all of them
-    # or one alignment per camera.
-    step_begin("time base")
-    videos, areas = [], []
-    for v in video_paths:
-        v = os.path.abspath(v)
-        try:
-            info = video_facts(v, args.fps, args.tc)
-        except Exception as e:
-            print(as_head(T('VIDEO: %s -- %s, skipped') % (os.path.basename(v), e)))
-            continue
-        if not GUI_RUNNING:
-            print(as_head("VIDEO: %s (%s)" % (os.path.basename(v),
-                                              as_data_size(size_in_mb(v)))))
-            print_video_details(v, info)
-        if not info["audio"]:
-            print(as_head(T('VIDEO: %s -- no camera audio, nothing to '
-                            'align to, skipped\n') % os.path.basename(v)))
-            continue
-        if not GUI_RUNNING:
-            print()
-        if GUI_RUNNING:
-            print(as_head(T('ANALYSIS: %s') % os.path.basename(v)))
-        else:
-            print(as_head(T('ANALYSIS:')))
-        try:
-            a_raw, b_raw, st_raw = align_audio_to_video(audio, v, 0)
-            print(T('  Offset audio to picture: %s') % as_hms(a_raw))
-            report_timecode_check(audio_start, info, a_raw, "  ")
-        except Exception as e:
-            print(T('  Alignment not possible: %s') % e)
-        try:
-            s0, s1, note = audio_range_covered_by_video(audio, v)
-            if "reason" not in note and s1 > s0:
-                areas.append((s0, s1))
-        except Exception:
-            pass
-        videos.append((v, info))
-        print()
-    if not videos and video_paths:
-        return 1
+    # No picture at all -- that is the only way in here now. The
+    # section that measured the cameras stood here and is gone with
+    # them; areas is what it left behind, and it is empty by
+    # definition when there are no cameras to cover anything.
+    areas = []
 
     #------------------------------------------------------- 4. Processing
     step_begin("auphonic" if args.auphonic_key else "loudness")
@@ -21533,375 +21494,6 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
         if tmpdir:
             shutil.rmtree(tmpdir, ignore_errors=True)
         return 0
-
-    # Recorded for the Resolve part of the simple path.
-    simple_cameras, simple_sound_at, simple_tracks = [], {}, {}
-    simple_folder = [None]
-    # Where the mix sits in each camera's own time, so the separation
-    # can be put on the axis afterwards without measuring anything a
-    # second time.
-    simple_axis = {}
-
-    #-------------------------------------------------- 6. Insertion
-    step_begin("cameras")
-    error = 0
-    written = set()
-    results = []
-    for v, info in videos:
-        print(as_head(T('PROCESSING: %s') % os.path.basename(v)))
-        fps = max(1.0, info["fps"])
-        # How much of the recording has no picture is measured, never
-        # given. --head and --tail used to say it by hand, and they went
-        # on 30.8.2026: where the measurement finds nothing, the material
-        # is too poor for the run, and a hand-set number written over it
-        # only hides that. The multitrack path never had them, so this is
-        # one switch fewer to carry into the two paths becoming one.
-        head_s = tail_s = 0
-        if not args.no_trim:
-            try:
-                s0, s1, note = audio_range_covered_by_video(audio, v)
-            except Exception as e:
-                s0, s1, note = 0, n_audio, {"reason": str(e)}
-            n_video = int(round(info["duration"] * SR))
-            coverage = (s1 - s0) / max(1, min(n_audio, n_video))
-            if "reason" not in note and coverage < 0.3:
-                print(T('  Only %.0f %% of the audio has a match in the '
-                        'picture -- probably they do not belong together. '
-                        'Skipped.\n')
-                      % (100 * coverage))
-                error += 1
-                continue
-            if "reason" in note:
-                print(T('  Range check not possible (%s), nothing is trimmed') % note["reason"])
-            elif s0 > SR // 4 or n_audio - s1 > SR // 4:
-                head_s, tail_s = s0, n_audio - s1
-                print(T('  Picture range:   %s to %s') % (as_hms(s0 / float(SR)),
-                                                        as_hms(s1 / float(SR))))
-                print(T('  Trimmed:         %s at the front, %s at the '
-                        'back -- audio without picture (service intro, '
-                        'run-up and run-out of the recording)')
-                      % (as_hms(head_s / float(SR)), as_hms(tail_s / float(SR))))
-            else:
-                print(T('  Picture range:   the whole audio, nothing to trim'))
-
-        # A manual time window applies here too. It moves nothing in the
-        # picture -- the video file stays whole -- but trims the audio to
-        # the window and places it there.
-        #
-        # It does not mean what it means on the multitrack path, and the
-        # comment that said it did was wrong. Here a point is read in
-        # *this* camera's picture time; there it is one point on the
-        # common axis, the same moment for every camera. Measured
-        # 30.8.2026 with two cameras five seconds apart: --in-point +8
-        # took recording second 12 out of the one and second 17 out of
-        # the other. Bringing the two together is what makes them one.
-        window_head = window_foot = None
-        if (getattr(args, "in_point", None) or getattr(args, "out_point", None)):
-            v_tc = parse_timecode(info["tc"], fps) if info.get("tc") else None
-
-            def _window(value_text, from_the_end=False):
-                """Convert a time value into picture time.
-
-                The four notations are the ones clip_to_time_window
-                reads for the multitrack path. What they are counted
-                from is not: there the zero is the common axis, here it
-                is this camera's own picture.
-                """
-                value, absolute = parse_time_point(value_text, fps)
-                if value is None:
-                    return None
-                if absolute:
-                    if v_tc is None:
-                        raise RuntimeError(
-                            T('%r is a Timecode, but this file carries '
-                              'none. Then only a value from the start '
-                              'works, such as +12:30.') % value_text)
-                    return value - v_tc
-                if value < 0:
-                    if not from_the_end:
-                        raise RuntimeError(
-                            T('%r counts from the end -- that only works '
-                              'for Out point.')
-                            % value_text)
-                    return info["duration"] + value
-                return value
-
-            try:
-                if args.in_point:
-                    window_head = _window(args.in_point)
-                if args.out_point:
-                    window_foot = _window(args.out_point, True)
-            except RuntimeError as e:
-                print(T('  Time window skipped: %s') % e)
-                window_head = window_foot = None
-            if window_head is not None or window_foot is not None:
-                print(T('  Time window:     %s to %s (picture time %s to %s)')
-                      % (args.in_point or T('Beginning'), args.out_point or T('End'),
-                         as_hms(window_head or 0.0),
-                         as_hms(window_foot) if window_foot is not None
-                         else T('End')))
-
-        try:
-            a, b, st = align_audio_to_video(audio, v, head_s)
-            # What is kept is the pair of "audio time = a_raw + b *
-            # this camera's picture time". The alignment was given the
-            # audio from head_s on, so its own a counts from there and
-            # the head has to be added back to get the whole recording's
-            # place. places_on_camera_axis reads the pair this way round
-            # and is the one place that says so in full.
-            simple_axis[os.path.abspath(v)] = (a + head_s / float(SR), b)
-        except Exception as e:
-            print(as_bad(T('  Alignment failed: %s\n') % e))
-            error += 1
-            continue
-        # Neither the envelopes nor the phase found this camera in the
-        # recording, and no clock says where it belongs either. Written
-        # anyway it would carry a sound track from somewhere else in the
-        # recording, and nothing in the file would say so.
-        if cannot_be_placed(st, timecode_seconds(info), [audio_start]):
-            print(as_bad("  " + no_place_message(os.path.basename(v)) + "\n"))
-            simple_axis.pop(os.path.abspath(v), None)
-            error += 1
-            continue
-        # What was thrown away, before the number that decides is
-        # shown. A run that cleans itself up in silence and then calls
-        # the result close enough has traded a loud fault for a quiet
-        # one, and the quiet one is the worse of the two.
-        for when, off in (st.get("dropped") or []):
-            print(T('  Sample point at %s thrown out: %+.0f ms off the '
-                    'others.') % (as_hms(when), off))
-        # The second way, and whether it was taken. Both numbers go into
-        # the log either way: where it was tried and failed, the sharpness
-        # says how close it came, and that is the only thing that tells a
-        # recording with no common sound from one this way cannot read.
-        if st.get("phase_sharp") is not None:
-            print(T('  Envelopes found nothing (%.2f) -- tried by phase: '
-                    'offset %s, sharpness %.1f of %.0f needed.%s')
-                  % (st.get("quality", 0.0), as_hms(st.get("phase_s", 0.0)),
-                     st.get("phase_sharp", 0.0), PHASE_SHARP_ENOUGH,
-                     T('  Taken.') if st.get("from_phase")
-                     else T('  Not taken.')))
-            if st.get("music_like"):
-                print(T('  The audio looks like music: little going on in '
-                        'the syllable band. Envelopes live on speech '
-                        'pauses, and music has none.'))
-            if st.get("from_phase"):
-                print(as_warn(T('  Offset by phase alone -- the clock '
-                                'drift is unknown, not zero, and no drift '
-                                'is taken out.')))
-        if st.get("dropped"):
-            print(T('  Spread before: %.0f ms, after: %.0f ms.')
-                  % (st.get("raw_spread_ms", 0.0), st.get("spread_ms", 0.0)))
-        # The cleaned spread may only speak for the whole recording
-        # where the surviving points still cover it. Cleaned down to
-        # one corner, a torn recording looks tidy.
-        thin = (st.get("spans_share", 1.0) < 0.5
-                or st.get("points", 0) < 5)
-        if thin and st.get("dropped"):
-            print(as_warn(T('  The remaining sample points cover %.0f %% '
-                            'of the runtime -- the spread below speaks '
-                            'for that part, not for the whole.')
-                          % (st.get("spans_share", 0.0) * 100)))
-        decides = (st.get("raw_spread_ms", 0.0) if thin
-                   else st.get("spread_ms", 0))
-        if decides > 250:
-            print(T('  The sample points spread by %.0f ms. Audio and '
-                    'picture do not fit closely enough. Skipped.\n') % decides)
-            error += 1
-            continue
-        if decides > 60:
-            print(as_warn(T('  WARNING: the sample points spread by %.0f ms.')
-                          % decides))
-
-        drift_on = False
-        if "ppm" in st:
-            total = (b - 1.0) * info["duration"]
-            uncertainty = st["ppm_error"] / 1e6 * info["duration"]
-            threshold = max(0.010, 0.5 / fps)
-            certain = (abs(total) > 4 * uncertainty and abs(total) > threshold
-                         and abs(st["ppm"]) < 500 and info["duration"] >= 120)
-            drift_on = (not args.no_drift) and certain
-            if args.no_drift:
-                how = T('not removed (--no-drift)')
-            elif drift_on:
-                how = T('is actively removed')
-            else:
-                reason = (T('runtime under two minutes') if info["duration"] < 120 else
-                         T('under half a frame') if abs(total) <= threshold else
-                         T('indistinguishable from the spread')
-                         if abs(total) <= 4 * uncertainty else T('implausibly large'))
-                how = T('is left in, %s') % reason
-            print(T('  Offset:          %s') % as_hms(a))
-            print(T('  Sample points:  %d of %d used (%d without usable '
-                    'audio, %d without a match)')
-                  % (st["points"], st["candidates"],
-                     st["candidates"] - st["with_signal"],
-                     st["with_signal"] - st["points"]))
-            print(T('  Clock drift:     %+.2f ppm (+/- %.2f), residual '
-                    'spread %.1f ms')
-                  % (st["ppm"], st["ppm_error"], st["spread_ms"]))
-            print(T('  Drift over the running time: %+.3f s = %.1f frames  '
-                    '-->  %s') % (total, abs(total) * fps, how))
-        else:
-            print(T('  Offset:          %s (too few sample points for a '
-                    'drift measurement)') % as_hms(a))
-
-        if args.dry_run:
-            print()
-            continue
-        if window_head is not None or window_foot is not None:
-            # The window lies in picture time; what is before and after
-            # falls away and the rest moves into its place. The writer
-            # puts audio time t at picture time t - head/SR - a, so the
-            # whole offset between the two is a_raw, computed just
-            # below. The line that used to stand here said "audio time =
-            # a + picture time" and left the head out -- the same
-            # mistake the code under it had, and it outlived the fix.
-            n_audio_here = sample_count(audio)
-            # The whole offset, not half of it. The writer puts audio
-            # time t at picture time t - head/SR - a, so audio time is
-            # picture time plus a AND plus the head that was already
-            # cut off. Leaving the head out moved the sound by exactly
-            # the gap between the start of the recording and the start
-            # of the picture -- four seconds in the material this was
-            # measured on, and never zero in a real one. Found on
-            # 31.8.2026 by the first test this path ever had.
-            a_raw = a + head_s / float(SR)
-            k0, k1 = head_s, n_audio_here - tail_s
-            if window_head is not None and window_head > 0:
-                k0 = max(head_s, int(round((window_head + a_raw) * SR)))
-                a = -window_head
-            if window_foot is not None:
-                k1 = min(k1, int(round((window_foot + a_raw) * SR)))
-            head_s, tail_s = max(0, k0), max(0, n_audio_here - k1)
-            # A window that meets none of the recording leaves nothing
-            # to write, and what came out then was a video with a track
-            # of pure silence in it, reported as a result with a return
-            # code of nought. The multitrack path has refused this for a
-            # while; this one wrote the file. Found 31.8.2026: In point
-            # at 40 s and Out point at 50 s over 34 seconds of material
-            # gave 26 seconds of digital silence.
-            if k1 <= k0:
-                print(T('The time window meets none of %s. Nothing was '
-                        'written.') % os.path.basename(audio))
-                return 1
-            # Which "back" this is, said in the line itself: two lines
-            # stand close together here, both saying "back", and their
-            # numbers are sixteen minutes apart. The one above is the
-            # sound that has no picture, this one is everything past the
-            # Out point. Both were right and both were read as the same
-            # thing -- 26.8.2026, on a run over the test interview.
-            print(T('  Audio trimmed:   front %s, back %s'
-                    ' -- to the time window')
-                  % (as_hms(head_s / float(SR)), as_hms(tail_s / float(SR))))
-        outdir = os.path.abspath(args.out) if args.out else os.path.dirname(v)
-        os.makedirs(outdir, exist_ok=True)
-        stem, ext = os.path.splitext(os.path.basename(v))
-        # Always MOV: only there can several uncompressed audio tracks be
-        # stored together with timecode and the QuickTime keys of the camera.
-        target_ext = ".mov"
-        target = os.path.join(outdir, stem + args.suffix + target_ext)
-        if target in written:
-            target = os.path.join(outdir, "%s_%s%s%s"
-                                % (stem, ext.lstrip("."), args.suffix, target_ext))
-        written.add(target)
-
-        # The single tracks only go in while they still match the mix. If
-        # auphonic.com prepended a jingle, the mix is longer than they are
-        # and the same offset would put them in the wrong place.
-        beside = [(name, path) for name, path in join_info.get("parts") or ()
-                  if os.path.exists(path)
-                  and sample_count(path) == sample_count(audio)]
-        if (join_info.get("parts") and not beside
-                and not getattr(write_single_track_file, "said", False)):
-            write_single_track_file.said = True
-            print(T('  The single tracks no longer match the mix -- only '
-                    'the mix goes in.'))
-        try:
-            write_single_track_file(v, audio, target, info, a, b, head_s,
-                                    tail_s, drift_on, args, beside)
-        except Exception as e:
-            print(as_bad(T('  Error while writing: %s\n') % e))
-            error += 1
-            continue
-        d2 = ffprobe_json(target)
-        tracks = [x for x in d2.get("streams", []) if x.get("codec_type") == "audio"]
-        for i, x in enumerate(tracks):
-            t = x.get("tags", {}) or {}
-            label = (T(' -- default')
-                     if (x.get("disposition") or {}).get("default") else "")
-            count = x.get("channels")
-            print(T('  Audio track %d:   %-18s %s, %s, language %s%s')
-                  % (i + 1, t.get("title") or t.get("handler_name") or T('unnamed'),
-                     x.get("codec_name"),
-                     TN(count, '%s channel', '%s channels') % count,
-                     t.get("language") or T('no tag'), label))
-        # The same four things the multitrack path does, and the same
-        # call. This path used to make the last of them -- the check --
-        # with its own arithmetic beside the shared one, comparing
-        # stream 0 against stream 1 by hand, and made the other three
-        # not at all.
-        finish_camera_file(v, info, target, [(args.name, audio)] + beside,
-                           args, fps)
-        tc2 = (d2.get("format", {}).get("tags", {}) or {}).get("timecode")
-        for x in d2.get("streams", []):
-            tc2 = tc2 or (x.get("tags", {}) or {}).get("timecode")
-        print(T('  Timecode:        %s') % (tc2 or T('none')))
-        results.append(target)
-        # Where this camera begins on the axis. Not -a: the alignment
-        # here looked at the recording from head_s on, so a is zero by
-        # construction and every camera came out in the same place --
-        # measured 30.8.2026, two cameras five seconds apart, both
-        # written as 0.0 while the axis three screens above held 4.0
-        # and 9.0. The axis is what the whole run has been computing;
-        # it is what goes into the handover. Multitrack writes the
-        # same quantity: a camera beginning four seconds after the zero
-        # of the axis is written as -3.0 where the zero is at seven.
-        simple_cameras.append({"video": os.path.abspath(v),
-                                "name": os.path.splitext(
-                                    os.path.basename(target))[0]})
-        simple_sound_at[target] = simple_axis.get(
-            os.path.abspath(v), (-a, 1.0))[0]
-        names = [args.name]
-        if not args.no_camera_audio:
-            n_own_audio = len(info["audio"])
-            names += [args.name_camera if n_own_audio == 1
-                      else "%s %d" % (args.name_camera, i + 1)
-                      for i in range(n_own_audio)]
-        simple_tracks[target] = names
-        simple_folder[0] = outdir
-        print()
-
-    if results and simple_cameras and not args.dry_run:
-        step_begin("result")
-        handover_for_single_track(args, videos, results, simple_cameras,
-                        simple_sound_at, simple_tracks,
-                        simple_folder[0] or os.path.dirname(results[0]),
-                        audio, simple_axis, audio_paths)
-
-    if results:
-        print(as_head(T('RESULT')))
-        for path in results:
-            print("  %s" % path)
-    # The processed audio is now inside every written video file and the
-    # production stays retrievable at Auphonic, so the intermediate file is no
-    # longer needed. It is left behind only if something failed.
-    if auphonic_file and os.path.exists(auphonic_file):
-        if error or not results:
-            print(T('  %s is kept because not everything was written')
-                  % os.path.basename(auphonic_file))
-        else:
-            try:
-                os.unlink(auphonic_file)
-                print(T('  (%s deleted -- now in the video files and still '
-                        'at auphonic.com)')
-                      % os.path.basename(auphonic_file))
-            except OSError as e:
-                print(T('  %s could not be deleted: %s')
-                      % (os.path.basename(auphonic_file), e))
-    if tmpdir:
-        shutil.rmtree(tmpdir, ignore_errors=True)
-    return 1 if error else 0
 
 def main():
     force_utf8_output()
@@ -33380,8 +32972,6 @@ CATALOGUE["de"] = {
         'Redezeit',
     'Share':
         'Anteil',
-    'no tag':
-        'keine',
     'Beginning':
         'Anfang',
     'the whole material':
@@ -33718,8 +33308,6 @@ CATALOGUE["de"] = {
         '  %s steht zweimal mit verschiedenen Kameras -- genommen wird %s',
     '  %s cannot be classified: %s':
         '  %s lässt sich nicht einordnen: %s',
-    '  %s could not be deleted: %s':
-        '  %s ließ sich nicht löschen: %s',
     '  %s could not be fetched: %s':
         '  %s ließ sich nicht holen: %s',
     '  %s could not be rewritten: %s':
@@ -33732,8 +33320,6 @@ CATALOGUE["de"] = {
         '  %s hat keinen Kameraton -- ohne den lässt sich nichts ausrichten',
     '  %s is in the production twice -- fetched once.':
         '  %s gibt es zweimal in der Produktion -- einmal geholt.',
-    '  %s is kept because not everything was written':
-        '  %s bleibt liegen, weil nicht alles geschrieben wurde',
     '  %s is not part of it: %s':
         '  %s gehört nicht dazu: %s',
     '  %s is ready -- with --resolve-json it can be done later.':
@@ -33743,9 +33329,6 @@ CATALOGUE["de"] = {
     '  %s: how many channels it has cannot be determined (%s) -- it is not measured':
         '  %s: wie viele Kanäle sie hat, ist nicht feststellbar (%s) '
         '-- sie wird nicht gemessen',
-    '  (%s deleted -- now in the video files and still at auphonic.com)':
-        '  (%s gelöscht -- steckt jetzt in den Videodateien und liegt '
-        'weiter bei auphonic.com)',
     '  (measuring only: nothing uploaded)\n':
         '  (nur messen: nichts hochgeladen)\n',
     '  A Timeline %r existed already -- the new one is called %r.':
@@ -33756,14 +33339,10 @@ CATALOGUE["de"] = {
         '  Ergänzt werden: %s',
     '  Adding atoms taken back -- %s. %s':
         '  Atome nachtragen zurückgenommen -- %s. %s',
-    '  Alignment not possible: %s':
-        '  Ausrichtung nicht möglich: %s',
     '  All needed output files already exist.':
         '  Alle gebrauchten Ausgabedateien sind schon angelegt.',
     '  Atom %s skipped: %d bytes are too much for it.':
         '  Atom %s übersprungen: %d Byte sind zu viel dafür.',
-    '  Audio track %d:   %-18s %s, %s, language %s%s':
-        '  Tonspur %d:       %-18s %s, %s, Sprache %s%s',
     '  Audio: Full-Mix in one piece on A1 (%s).':
         '  Ton: Full-Mix am Stück auf A1 (%s).',
     '  Caution: %.0f steps of brightness difference -- visible when switching.':
@@ -33877,9 +33456,6 @@ CATALOGUE["de"] = {
         '  Jede geht zusätzlich als eigene Spur ins Video: %s',
     '  Only the mix goes into the video (--no-single-tracks).':
         '  Nur der Mix geht ins Video (--no-single-tracks).',
-    '  The single tracks no longer match the mix -- only the mix goes in.':
-        '  Die Einzelspuren passen nicht mehr zum Mix -- es geht nur der Mix '
-        'hinein.',
     '  It already exists, with the same cameras in the same order -- it '
     'stays\n  untouched. Whoever wants a new one deletes it in Resolve.':
         '  Es gibt sie schon, mit denselben Kameras in derselben '
@@ -33936,12 +33512,6 @@ CATALOGUE["de"] = {
         '  Für den Ton ohne Belang.',
     '  Offset:          %s   (from the camera comparison)':
         '  Versatz:         %s   (aus dem Kameravergleich)',
-    '  Offset:          %s (too few sample points for a drift measurement)':
-        '  Versatz:         %s (zu wenig Stützstellen für eine Driftmessung)',
-    '  Only %.0f %% of the audio has a match in the picture -- probably '
-    'they do not belong together. Skipped.\n':
-        '  Nur %.0f %% des Tons haben eine Entsprechung im Bild -- gehören '
-        'vermutlich nicht zusammen. Übersprungen.\n',
     '  Only %d of %d shots are on the Timeline.':
         '  Nur %d von %d Einstellungen liegen auf der Timeline.',
     '  Only %s of %s is needed -- the rest has no match in the picture':
@@ -33950,10 +33520,6 @@ CATALOGUE["de"] = {
     '  Peaks:             %+.1f dB above %.1f dBTP -- the limiter catches them':
         '  Spitzen:           %+.1f dB über %.1f dBTP -- der Limiter fängt '
         'sie ab',
-    '  Picture range:   %s to %s':
-        '  Bezug zum Bild:  %s bis %s',
-    '  Picture range:   the whole audio, nothing to trim':
-        '  Bezug zum Bild:  der ganze Ton, nichts abzuschneiden',
     '  Player: %s reports an error -- %s':
         '  Player: %s meldet einen Fehler -- %s',
     '  Player: %s stays at %s instead of %s -- given up after %d attempts (%s)':
@@ -33975,8 +33541,6 @@ CATALOGUE["de"] = {
         '  Projektdatei ließ sich nicht schreiben: %s',
     '  Project file not writable (%s)\n':
         '  Projektdatei nicht schreibbar (%s)\n',
-    '  Range check not possible (%s), nothing is trimmed':
-        '  Bereichsprüfung nicht möglich (%s), nichts wird abgeschnitten',
     '  Range:             %.1f LU (speech is usually 3 to 7 LU)':
         '  Umfang:            %.1f LU (bei Sprache sind 3 bis 7 LU üblich)',
     '  Reference: %s (%s, longest running time)':
@@ -33991,10 +33555,6 @@ CATALOGUE["de"] = {
         '  wird nichts weiter darauf gebaut.',
     '  Result: %s (%s) -- stays next to the video file\n':
         '  Ergebnis: %s (%s) -- bleibt neben der Videodatei liegen\n',
-    '  Sample points:  %d of %d used (%d without usable audio, %d without '
-    'a match)':
-        '  Stützstellen:   %d von %d verwendet (%d ohne brauchbaren Ton, '
-        '%d ohne Übereinstimmung)',
     '  Not used:  %s.':
         '  Nicht genutzt: %s.',
     '  Question: %d in the transcript, %d became a reaction cut.':
@@ -34054,18 +33614,12 @@ CATALOGUE["de"] = {
         '  Der Medienpool bleibt, wie er ist.',
     '  The names from there are adopted:':
         '  Die Namen von dort werden übernommen:',
-    '  The sample points spread by %.0f ms. Audio and picture do not fit '
-    'closely enough. Skipped.\n':
-        '  Die Stützstellen streuen um %.0f ms. Ton und Bild passen nicht '
-        'gut genug zusammen. Übersprungen.\n',
     '  The upload shrinks accordingly (%.0f %% saved)\n':
         '  Hochgeladen wird entsprechend weniger (%.0f %% gespart)\n',
     '  There are %d tracks there and %d here -- that does not match.':
         '  Dort sind es %d Spuren, hier %d -- das passt nicht zusammen.',
     '  This camera could not be placed -- skipped':
         '  Kamera ließ sich nicht einordnen -- übersprungen',
-    '  Time window skipped: %s':
-        '  Zeitfenster übersprungen: %s',
     '  Timecode %s written as bext and iXML (reference: %s)':
         '  Timecode %s als bext und iXML eingetragen (Bezug: %s)',
     '  Too much:          the limiter would have to take %.1f dB away. '
@@ -34076,12 +33630,6 @@ CATALOGUE["de"] = {
         'weniger Verstärkung.',
     '  Transcript not possible (%s) -- it runs anyway.':
         '  Mitschrift nicht möglich (%s) -- es läuft trotzdem.',
-    '  Trimmed:         %s at the front, %s at the back -- audio without '
-    'picture (service intro, run-up and run-out of the recording)':
-        '  Abgeschnitten:   vorne %s, hinten %s -- Ton ohne Bild (Vorspann '
-        'des Dienstes, Vor- und Nachlauf der Aufnahme)',
-    '  WARNING: the sample points spread by %.0f ms.':
-        '  WARNUNG: die Stützstellen streuen um %.0f ms.',
     '  Wide shot at the edges: skipped -- the first or last announcement\n  '
     'would be too long for a greeting.':
         '  Weitwinkel am Rand: übersprungen -- die erste oder letzte Ansage\n  '
@@ -34253,9 +33801,6 @@ CATALOGUE["de"] = {
         '  %s ist schon da -- nicht zweimal geholt',
     'The text for %s could not be fetched.':
         'Der Text zu %s ließ sich nicht holen.',
-    'The time window meets none of %s. Nothing was written.':
-        'Das Zeitfenster trifft nichts von %s. Es wurde nichts '
-        'geschrieben.',
     '  Check:           the two tracks cannot be compared (match %.2f, '
     '%.2f is the floor). This says nothing about the timing.':
         '  Prüfung:         die beiden Spuren lassen sich nicht '
@@ -34311,10 +33856,6 @@ CATALOGUE["de"] = {
         'Die Datei ist als HDR gekennzeichnet.',
     'Unknown extension, skipped: %s':
         'Unbekannte Endung, übersprungen: %s',
-    'VIDEO: %s -- %s, skipped':
-        'VIDEO: %s -- %s, übersprungen',
-    'VIDEO: %s -- no camera audio, nothing to align to, skipped\n':
-        'VIDEO: %s -- ohne Kameraton keine Ausrichtung, übersprungen\n',
     'Which Auphonic preset should process this file?':
         'Mit welchem Auphonic-Preset soll die Datei bearbeitet werden?',
     'Would write: %s':
@@ -34498,16 +34039,10 @@ CATALOGUE["de"] = {
         '  %d Bildspuren, %d Tonspuren angelegt (%s)',
     '  %s gets %d tracks mixed together: %s':
         '  %s bekommt %d Spuren zusammengemischt: %s',
-    '  Alignment failed: %s\n':
-        '  Ausrichtung fehlgeschlagen: %s\n',
     '  Audio track %d:   %s':
         '  Tonspur %d:       %s',
-    '  Audio trimmed:   front %s, back %s -- to the time window':
-        '  Ton beschnitten: vorne %s, hinten %s -- auf das Zeitfenster',
     '  Camera atoms:    %s added -- %s':
         '  Kameraatome:     %s nachgetragen -- %s',
-    '  Clock drift:     %+.2f ppm (+/- %.2f), residual spread %.1f ms':
-        '  Uhrengang:       %+.2f ppm (+/- %.2f), Reststreuung %.1f ms',
     '    %s: %s at the front and %s at the back have no picture and are '
     'left out':
         '    %s: %s am Anfang und %s am Ende haben kein Bild und bleiben '
@@ -34535,8 +34070,6 @@ CATALOGUE["de"] = {
         '  Angelegt:    %s',
     '  Error while writing: %s':
         '  Fehler beim Schreiben: %s',
-    '  Error while writing: %s\n':
-        '  Fehler beim Schreiben: %s\n',
     '  File:    %s (%s, %s)':
         '  Datei:   %s (%s, %s)',
     '  Two channels requested -- the recording is stereo':
@@ -34549,10 +34082,6 @@ CATALOGUE["de"] = {
         '  Im Archiv: %s',
     '  Missing:     %s':
         '  Dort fehlt:  %s',
-    '  Offset audio to picture: %s':
-        '  Versatz Ton gegen Bild:  %s',
-    '  Offset:          %s':
-        '  Versatz:         %s',
     '  Player: %s':
         '  Player: %s',
     '  Production:  %s':
@@ -34572,8 +34101,6 @@ CATALOGUE["de"] = {
         'nichts.',
     '  Time limit: %s':
         '  Zeitgrenze: %s',
-    '  Time window:     %s to %s (picture time %s to %s)':
-        '  Zeitfenster:     %s bis %s (Bildzeit %s bis %s)',
     '  To upload:   %s':
         '  Hochzuladen: %s',
     '  Tracks:      %s':
@@ -34598,10 +34125,6 @@ CATALOGUE["de"] = {
         '%s  Versatz laut Timecode:          %s',
     '%sAUDIO: %s (%s)':
         '%sTON: %s (%s)',
-    'ANALYSIS:':
-        'ANALYSE:',
-    'ANALYSIS: %s':
-        'ANALYSE: %s',
     'Abort: %s':
         'Abbruch: %s',
     'EXTRACTING CAMERA AUDIO':
@@ -34620,8 +34143,6 @@ CATALOGUE["de"] = {
         'AUFBEREITUNG BEI AUPHONIC.COM (MULTITRACK):',
     'PROCESSING AT AUPHONIC.COM:':
         'AUFBEREITUNG BEI AUPHONIC.COM:',
-    'PROCESSING: %s':
-        'VERARBEITUNG: %s',
     'Processing failed: %s':
         'Aufbereitung fehlgeschlagen: %s',
     'RESULT':
@@ -34738,10 +34259,6 @@ CATALOGUE["de"] = {
     'from the window start works, such as +12:30.':
         '%r ist ein Timecode, aber die Referenzkamera %s hat keinen. Dann '
         'geht nur eine Angabe ab Fensteranfang, etwa +12:30.',
-    '%r is a Timecode, but this file carries none. Then only a value from '
-    'the start works, such as +12:30.':
-        '%r ist ein Timecode, diese Datei trägt aber keinen. Dann geht nur '
-        'eine Angabe ab Anfang, etwa +12:30.',
     '%r is not a Multitrack preset':
         '%r ist kein Multitrack-Preset',
     '%r is not a number.':
@@ -34757,10 +34274,6 @@ CATALOGUE["de"] = {
         'Protokoll.',
     '%s Hz instead of %s Hz -- converted during processing.':
         '%s Hz statt %s Hz -- wird beim Aufbereiten umgerechnet.',
-    '%s channel':
-        '%s Kanal',
-    '%s channels':
-        '%s Kanäle',
     '%s cannot be placed: its sound has nothing in common with the rest '
     'of the material, and the file carries no timecode. It needs one '
     'that fits the other recordings, and that has to be set with '
@@ -35620,23 +35133,6 @@ CATALOGUE["de"] = {
     'needed':
         'Übersprechen zu undeutlich: %d von %d Sekunden brauchbar, '
         'schärfste %.1f von %.0f nötig',
-    '  Envelopes found nothing (%.2f) -- tried by phase: offset %s, '
-    'sharpness %.1f of %.0f needed.%s':
-        '  Die Hüllkurven fanden nichts (%.2f) -- über die Phase '
-        'versucht: Versatz %s, Schärfe %.1f von %.0f nötig.%s',
-    '  Taken.':
-        '  Genommen.',
-    '  Not taken.':
-        '  Nicht genommen.',
-    '  The audio looks like music: little going on in the syllable band. '
-    'Envelopes live on speech pauses, and music has none.':
-        '  Der Ton sieht nach Musik aus: im Silbenband ist wenig los. '
-        'Hüllkurven leben von Sprechpausen, und Musik hat keine.',
-    '  Offset by phase alone -- the clock drift is unknown, not zero, and '
-    'no drift is taken out.':
-        '  Versatz allein über die Phase -- der Gang der Uhren ist '
-        'unbekannt, nicht etwa gleich schnell, und es wird kein Gang '
-        'herausgerechnet.',
     'Midnight':
         'Mitternacht',
     '%s carries a timecode from the other side of midnight -- counted as '
@@ -35705,12 +35201,6 @@ CATALOGUE["de"] = {
         'bekommt Audio von',
     'hear assigned audio':
         'zugeordneten Ton hören',
-    'implausibly large':
-        'unplausibel groß',
-    'indistinguishable from the spread':
-        'nicht von der Streuung zu unterscheiden',
-    'is actively removed':
-        'wird aktiv herausgerechnet',
     'keep our names and upload everything again -- this costs\n       credit':
         'unsere Namen behalten und alles neu hochladen -- das kostet\n      '
         ' Guthaben',
@@ -35779,8 +35269,6 @@ CATALOGUE["de"] = {
         'nicht lesbar (%s) -- ungeprüft.',
     'not readable: %s':
         'nicht lesbar: %s',
-    'not removed (--no-drift)':
-        'nicht herausgerechnet (--no-drift)',
     'nothing loaded yet':
         'noch nichts geladen',
     'nothing selected':
@@ -36286,8 +35774,6 @@ CATALOGUE["de"] = {
         'voller Bereich',
     'is left in':
         'bleibt stehen',
-    'is left in, %s':
-        'bleibt stehen, %s',
     'limited (Video/TV)':
         'beschnitten (Video/TV)',
     'measuring ...':
@@ -36298,8 +35784,6 @@ CATALOGUE["de"] = {
         'nichts zu tun',
     'reserved':
         'reserviert',
-    'runtime under two minutes':
-        'Laufzeit unter zwei Minuten',
     'system store':
         'Ablageort des Systems',
     'to In point':
@@ -36310,8 +35794,6 @@ CATALOGUE["de"] = {
         'zu kurz',
     'two Timelines':
         'zwei Timelines',
-    'under half a frame':
-        'unter einem halben Frame',
     'unknown':
         'unbekannt',
     'up to %s':
@@ -36372,8 +35854,6 @@ CATALOGUE["de"] = {
         'Schnitt aus liegt weniger als 5 Sekunden nach Schnitt an.',
     'About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder.':
         'Etwa %s fehlen. Platz schaffen oder mit --out einen anderen Ordner wählen. Die Zwischendateien während des Laufs liegen noch einmal woanders, im Temp-Ordner des Systems.',
-    ' -- default':
-        ' -- Standard',
     '\nSPEAKERS -- MEASURED HERE':
         '\nSPRECHER -- HIER GEMESSEN',
     '\nSPEAKERS -- SEPARATED BY VOICE':
@@ -36459,14 +35939,6 @@ CATALOGUE["de"] = {
         '  --without-auphonic und --auphonic-done wurden beide '
         'angegeben. Die fertigen Spuren gewinnen: es ist ohnehin '
         'nichts mehr zu verschicken.',
-    '  Sample point at %s thrown out: %+.0f ms off the others.':
-        '  Messpunkt bei %s verworfen: %+.0f ms neben den anderen.',
-    '  Spread before: %.0f ms, after: %.0f ms.':
-        '  Streuung vorher: %.0f ms, danach: %.0f ms.',
-    '  The remaining sample points cover %.0f %% of the runtime -- the '
-    'spread below speaks for that part, not for the whole.':
-        '  Die übrigen Messpunkte decken %.0f %% der Laufzeit ab -- die '
-        'Streuung unten gilt für diesen Teil, nicht für das Ganze.',
     'MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send '
     'to auphonic.com.\n  With --without-auphonic it runs locally instead: '
     'aligned,\n  mixed and cut, but without de-bleed and leveler.':
