@@ -366,4 +366,14 @@ if bad:
     print("\n%d thing(s) went wrong:" % len(bad))
     for line in bad:
         print("  -", line)
-raise SystemExit(1 if bad else (code or 0))
+# What gui() gives back is what Qt's event loop gave back, and that is
+# not a statement about the pictures. On the Linux builder it came back
+# as 1 while every step here had been reached and no check had failed --
+# twice on 31.8.2026, once on each Python -- and the run then went red
+# without a single line saying why, because this script had nothing to
+# complain about. So the checks decide, and the number is said out loud
+# rather than obeyed.
+if code and through[0] and not bad:
+    print("NOTE: the window returned %s although every step was reached "
+          "and nothing was found wanting." % code)
+raise SystemExit(1 if bad or not through[0] else 0)

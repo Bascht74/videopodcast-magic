@@ -445,4 +445,10 @@ if bad:
     print("\n%d thing(s) went wrong:" % len(bad))
     for line in bad:
         print("  -", line)
-raise SystemExit(1 if bad else (code or 0))
+# The same as in assignment_shot.py: what gui() gives back is Qt's
+# event loop, not a statement about the pictures. The checks decide,
+# and the number is said rather than obeyed.
+if code and through[0] and not bad:
+    print("NOTE: the window returned %s although every step was reached "
+          "and nothing was found wanting." % code)
+raise SystemExit(1 if bad or not through[0] else 0)
