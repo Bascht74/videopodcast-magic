@@ -25,6 +25,21 @@ survives.
 
 ### Changed
 
+- A short reaction is speech, not a hole in the conversation. Sounds
+  under a floor are dropped before the pause search runs, and that floor
+  had stood at four tenths of a second since the first version without
+  ever being measured -- an "mhm" is shorter than that, so a reply read
+  as a pause and a wide shot could land on top of somebody answering.
+
+  Measured on 31 minutes of real three-microphone material. From 0.4 to
+  0.2 seconds, 395 passages come back for 116 seconds of speech, an
+  average of 0.29 s each, which is the length of an "mhm". Twenty-one
+  pauses over two seconds and eight over five turn out never to have
+  been pauses at all. Below 0.2 the gain flattens -- 109 more passages
+  for 22 seconds, 0.2 s each, which is breath and not speech. So the
+  floor stands at 0.2, where the two curves cross, and the number
+  carries its measurement beside it in the source.
+
 - What ffprobe said about a file is kept between runs, keyed on the
   file's size and modification time. Opening the same project twice, or
   running twice over the same material, asked the same question about

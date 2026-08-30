@@ -284,7 +284,12 @@ How the script reads the tracks:
 * It measures each block against that track's own noise floor, the
   quietest fifth of its blocks; 10 dB above that counts as speech.
 * Pauses under 0.35 seconds are not speaker changes.
-* Passages under 0.4 seconds do not count.
+* Passages under 0.2 seconds do not count. Measured on 31 minutes
+  of three-microphone material: below that the passages that come
+  back average two tenths of a second, which is breath rather than
+  speech. Above it, at four tenths, a short "mhm" was dropped and
+  the reply read as a pause -- 21 pauses over two seconds in that
+  half hour were never pauses at all.
 
 Before that the script takes the **bleed out of the measurement**, not
 out of the audio. It looks for the moments where exactly one person

@@ -93,14 +93,6 @@ wird, ist eine Entscheidung und keine Messung.
 
 Gröber, und in keiner festen Reihenfolge.
 
-* **Ein „mhm“ zählt nicht mehr als Stille.** Lautblöcke unter vier
-  Zehntelsekunden fliegen weg, bevor die Pausensuche läuft. Eine kurze
-  Reaktion sieht danach aus wie eine Pause, und eine Totale kann
-  jemandem über die Antwort fallen. Die Grenze steht seit der ersten
-  Fassung unverändert da und ist nie gemessen worden. Sie zu
-  berichtigen ändert, an wie viele Pausen das Programm glaubt, deshalb
-  ist es eine Messung und keine Zeile.
-
 * **Vorgaben, die einen Beleg tragen.** Ein paar Zahlen stammen aus
   einem einzelnen Referenzschnitt statt aus einer Messung.
   `--wide-latest` ist der deutlichste Fall. Jede von ihnen wird
