@@ -50,7 +50,7 @@ check("the newest numbered section is this version", newest == version,
 
 for name, pattern in (("README.md", r"\*\*Version ([0-9][^.]*\.[^*]*)\.\*\*"),
                       ("README.de.md",
-                       r"\*\*Fassung ([0-9][^.]*\.[^*]*)\.\*\*")):
+                       r"\*\*Version ([0-9][^.]*\.[^*]*)\.\*\*")):
     said = re.search(pattern, text_of(os.path.join(ROOT, name)))
     check("%s names this version" % name,
           bool(said) and said.group(1) == version,

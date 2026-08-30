@@ -20,6 +20,8 @@ survives.
 
 ### Changed
 
+- The German texts say "Version" where they said "Fassung". Nobody says
+  "Fassung" in German for a piece of software.
 - Release notes are written in English and German. Both stand on the
   release page; the program shows the language it runs in.
 - The tick in the update window, "Do not ask again", used to stop the
@@ -35,6 +37,9 @@ survives.
   the start of its picture, so it was never nothing.
 - A time window that meets none of the material wrote a video of pure
   silence and reported it as a result. It stops and says so.
+- The line **Check: new track against the camera track** gave a number
+  even where the two could not be compared, and warned about it. It now
+  says when it cannot compare them.
 
 ---
 
@@ -48,6 +53,8 @@ survives.
 
 ### Geändert
 
+- Die deutschen Texte sagen „Version", wo sie „Fassung" sagten. „Fassung"
+  sagt für ein Programm niemand.
 - Versionshinweise stehen auf Englisch und Deutsch. Beides steht auf
   der Freigabeseite; das Programm zeigt die Sprache, in der es läuft.
 - Der Haken im Update-Fenster „Nicht mehr nachfragen" stellte bislang
@@ -63,6 +70,9 @@ survives.
   Beginn des Bildes, also nie null.
 - Ein Zeitfenster, das kein Material trifft, schrieb ein Video aus
   reiner Stille und meldete es als Ergebnis. Es hält an und sagt es.
+- Die Zeile **Prüfung: neue Spur gegen den Kameraton** nannte eine Zahl
+  auch dort, wo sich die beiden gar nicht vergleichen ließen, und
+  warnte davor. Sie sagt jetzt, wenn sie nicht vergleichen kann.
 
 ## [2.19.0-beta] - 2026-08-31
 

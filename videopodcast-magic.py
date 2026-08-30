@@ -21476,12 +21476,26 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
                 env1 = envelope(decode_audio(target, rate=rate, stream=0), HOP, rate)
                 env2 = envelope(decode_audio(target, rate=rate, stream=1), HOP, rate)
                 k, g = cross_correlate(env2, env1)
-                off = abs(k * HOP) > 1000.0 / fps
-                line = (T('  Check:           new track against the camera '
-                          'track %+.0f ms (match %.2f)%s')
-                        % (k * HOP, g,
-                           T('   Caution: more than one frame') if off else ""))
-                print(as_warn(line) if off else line)
+                # The quality of the match decides whether the number
+                # means anything. Where the new track is mostly silence
+                # there is nothing to line up against, and the
+                # arithmetic still answers -- it reported -6000 ms and
+                # -13005 ms on two runs measured as exact to the
+                # sample, 31.8.2026. A check that cries wolf is worse
+                # than none: it is read as evidence.
+                if g < WEAK_MATCH:
+                    print(T('  Check:           the two tracks cannot be '
+                            'compared (match %.2f, %.2f is the floor). '
+                            'This says nothing about the timing.')
+                          % (g, WEAK_MATCH))
+                else:
+                    off = abs(k * HOP) > 1000.0 / fps
+                    line = (T('  Check:           new track against the '
+                              'camera track %+.0f ms (match %.2f)%s')
+                            % (k * HOP, g,
+                               T('   Caution: more than one frame')
+                               if off else ""))
+                    print(as_warn(line) if off else line)
             except Exception as e:
                 print(T('  Check not possible: %s') % e)
         tc2 = (d2.get("format", {}).get("tags", {}) or {}).get("timecode")
@@ -32637,13 +32651,13 @@ CATALOGUE["de"] = {
     '  %d words came back without a time and were left out.':
         '  %d Wörter kamen ohne Zeit zurück und blieben weg.',
     'A newer version is out':
-        'Es gibt eine neuere Fassung',
+        'Es gibt eine neuere Version',
     '%s is out. This is %s.':
         '%s ist da. Hier läuft %s.',
     'Update? The run then begins from the new version. The one '
     'running now stays beside it as videopodcast-magic.py.old.':
-        'Aktualisieren? Danach läuft die neue Fassung. Die aktuelle '
-        'Fassung bleibt als videopodcast-magic.py.old daneben liegen.',
+        'Aktualisieren? Danach läuft die neue Version. Die aktuelle '
+        'Version bleibt als videopodcast-magic.py.old daneben liegen.',
     'an intro or outro with two channels is a stereo mix -- not measured':
         'ein Vorspann oder Abspann mit zwei Kanälen ist eine '
         'Stereomischung -- nicht gemessen',
@@ -32688,7 +32702,7 @@ CATALOGUE["de"] = {
     'Later':
         'Später',
     'The new version could not be fetched: %s':
-        'Die neue Fassung ließ sich nicht holen: %s',
+        'Die neue Version ließ sich nicht holen: %s',
     'That file is not readable text.':
         'Diese Datei ist kein lesbarer Text.',
     'That file is not this program.':
@@ -32696,33 +32710,33 @@ CATALOGUE["de"] = {
     'That file does not compile: line %s.':
         'Diese Datei lässt sich nicht übersetzen: Zeile %s.',
     'The new version could not be written: %s':
-        'Die neue Fassung ließ sich nicht schreiben: %s',
+        'Die neue Version ließ sich nicht schreiben: %s',
     'Back to %s':
         'Zurück auf %s',
     'Back to the kept version':
-        'Zurück auf die aufbewahrte Fassung',
+        'Zurück auf die aufbewahrte Version',
     'The kept version':
-        'Die aufbewahrte Fassung',
+        'Die aufbewahrte Version',
     'Go back':
         'Zurückgehen',
     'There is no version kept beside this one.':
-        'Neben dieser Fassung liegt keine aufbewahrte.',
+        'Neben dieser Version liegt keine aufbewahrte.',
     'The kept version could not be read: %s':
-        'Die aufbewahrte Fassung ließ sich nicht lesen: %s',
+        'Die aufbewahrte Version ließ sich nicht lesen: %s',
     'The kept copy could not be removed: %s\n  It holds what is '
     'running now. %s can go.':
         'Die aufbewahrte Kopie ließ sich nicht entfernen: %s\n  Sie '
         'enthält, was jetzt läuft. %s kann weg.',
     'The kept version could not be put in place: %s':
-        'Die aufbewahrte Fassung ließ sich nicht einsetzen: %s',
+        'Die aufbewahrte Version ließ sich nicht einsetzen: %s',
     'Starting again did not work: %s':
         'Der Neustart hat nicht geklappt: %s',
     'Start it by hand: %s %s':
         'Von Hand starten: %s %s',
     'No newer version found. This one is %s.':
-        'Keine neuere Fassung gefunden. Hier läuft %s.',
+        'Keine neuere Version gefunden. Hier läuft %s.',
     'The check for new versions is switched off here.':
-        'Die Suche nach neuen Fassungen ist hier abgeschaltet.',
+        'Die Suche nach neuen Versionen ist hier abgeschaltet.',
     'About Video Podcast Magic':
         'Über Video Podcast Magic',
     'Raw material from a video podcast becomes an edited episode: the '
@@ -32774,7 +32788,7 @@ CATALOGUE["de"] = {
     'The manual':
         'Das Handbuch',
     'What changed in this version':
-        'Was sich in dieser Fassung geändert hat',
+        'Was sich in dieser Version geändert hat',
     'Look for a newer version now':
         'Nach Update suchen ...',
     '  No certificate bundle found -- an HTTPS download may fail.':
@@ -32850,7 +32864,7 @@ CATALOGUE["de"] = {
     'pyannote sends a trace home on every run and this version offers '
     'no way to switch it off, so the separation was not started.':
         'pyannote schickt bei jedem Lauf eine Spur nach Hause, und '
-        'diese Fassung bietet keinen Weg, das abzuschalten -- die '
+        'diese Version bietet keinen Weg, das abzuschalten -- die '
         'Trennung wurde nicht gestartet.',
     'Speakers': 'Sprecher',
     'Who is to be heard on this recording. A name means it is that '
@@ -33010,8 +33024,8 @@ CATALOGUE["de"] = {
     "This file was written by version %s in format %d; this one writes "
     "format %d. The names inside have changed since, so it cannot be read. "
     "Please set the run up again.":
-        "Diese Datei stammt aus Fassung %s und ist im Format %d "
-        "geschrieben; diese Fassung schreibt Format %d. Die Namen darin "
+        "Diese Datei stammt aus Version %s und ist im Format %d "
+        "geschrieben; diese Version schreibt Format %d. Die Namen darin "
         "heißen seither anders, deshalb lässt sie sich nicht lesen. Bitte "
         "den Lauf neu einrichten.",
     '\n  (measuring only: nothing written)':
@@ -33707,12 +33721,12 @@ CATALOGUE["de"] = {
     '  Fetching static-ffmpeg instead: a build inside this Python. It '
     'brings sixteen packages with it and loads its programs from a '
     'private repository, unchecked.':
-        '  Statt dessen static-ffmpeg: eine Fassung in diesem Python. Es '
+        '  Statt dessen static-ffmpeg: eine Version in diesem Python. Es '
         'bringt sechzehn Pakete mit und lädt seine Programme ungeprüft '
         'aus einem privaten Repository.',
     '  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then '
     'has to go into PATH, or the files next to this program.':
-        '  Auf ffmpeg.org gibt es Fassungen für Windows. Der Ordner mit '
+        '  Auf ffmpeg.org gibt es Versionen für Windows. Der Ordner mit '
         'ffmpeg.exe muss dann in den Suchpfad, oder die Dateien neben '
         'dieses Programm.',
     '  Open the page? [Y/n] ':
@@ -33823,10 +33837,10 @@ CATALOGUE["de"] = {
         'ein Gespräch mit einem Gast und ist ein Vorschlag, keine '
         'Einstellung.',
     'Skip this version':
-        'Diese Fassung überspringen',
+        'Diese Version überspringen',
     'Only this one. The next release asks again, and Help > Look for a newer '
     'version now asks at any time.':
-        'Nur diese eine. Die nächste Fassung fragt wieder, und Hilfe > Nach '
+        'Nur diese eine. Die nächste Version fragt wieder, und Hilfe > Nach '
         'Update suchen fragt jederzeit.',
     '%s takes the place of %s, and the file kept beside this one is used up. '
     'Forward again means fetching %s over the network. The program starts '
@@ -33835,7 +33849,7 @@ CATALOGUE["de"] = {
         '%s tritt an die Stelle von %s, und die daneben aufbewahrte Datei ist '
         'aufgebraucht. Wieder vorwärts heißt %s über das Netz holen. Das '
         'Programm startet sofort neu.\n\nDer nächste Start bietet %s erneut '
-        'an: „%s" verschiebt das, „%s" übergeht diese eine Fassung.',
+        'an: „%s" verschiebt das, „%s" übergeht diese eine Version.',
     '  %s is there already -- not fetched twice':
         '  %s ist schon da -- nicht zweimal geholt',
     'The text for %s could not be fetched.':
@@ -33843,6 +33857,11 @@ CATALOGUE["de"] = {
     'The time window meets none of %s. Nothing was written.':
         'Das Zeitfenster trifft nichts von %s. Es wurde nichts '
         'geschrieben.',
+    '  Check:           the two tracks cannot be compared (match %.2f, '
+    '%.2f is the floor). This says nothing about the timing.':
+        '  Prüfung:         die beiden Spuren lassen sich nicht '
+        'vergleichen (Übereinstimmung %.2f, die Grenze ist %.2f). Das '
+        'sagt nichts über die Zeitlage.',
     'Project found':
         'Projekt gefunden',
     'Open the project':
@@ -34817,8 +34836,8 @@ CATALOGUE["de"] = {
         'Mögliche Gründe:\n  1. Resolve läuft nicht -- die Schnittstelle '
         'antwortet nur bei laufendem Programm.\n  2. Einstellungen > System '
         '> Allgemein: externes Scripting steht auf „None“ statt „Local“.\n  '
-        '3. Kostenlose Ausgabe: externes Scripting soll seit Fassung 19.1 '
-        'der Studio-Fassung vorbehalten sein. Eine offizielle Aussage dazu '
+        '3. Kostenlose Ausgabe: externes Scripting soll seit Version 19.1 '
+        'der Studio-Version vorbehalten sein. Eine offizielle Aussage dazu '
         'habe ich nicht gefunden -- die Prüfung hier misst es, statt es zu '
         'behaupten.',
     'Prepare pane %d for %s':

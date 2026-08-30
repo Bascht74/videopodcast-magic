@@ -7,7 +7,7 @@
 *Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
 zusammenpasst — bevor irgendetwas geschrieben wird.*
 
-**Fassung 2.19.0-beta.** Es macht die Arbeit, für die es geschrieben
+**Version 2.19.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
@@ -95,7 +95,7 @@ Python 3.10 oder neuer, `ffmpeg` und `ffprobe` im Suchpfad und zwei Pakete
 installiert Fehlendes beim Start über pip nach. Benutzt wird das Ganze
 auf macOS und Windows; Linux läuft mit zwei Einschränkungen.
 
-Die Einzelheiten, samt empfohlener Python-Fassung und den Unterschieden je
+Die Einzelheiten, samt empfohlener Python-Version und den Unterschieden je
 Plattform, stehen in
 **[docs/requirements.de.md](docs/requirements.de.md)**.
 
@@ -140,7 +140,7 @@ Zahlen: Trefferquoten, Laufzeiten, Verteilungen, Vergleiche. **[Coding
 guidelines](development/coding_guidelines.md)** sagt, wie der Code
 geschrieben ist, und warum. Alle drei liegen in `development/`.
 
-**[CHANGELOG.md](CHANGELOG.md)** sagt, was sich in jeder Fassung
+**[CHANGELOG.md](CHANGELOG.md)** sagt, was sich in jeder Version
 geändert hat, von 0.1.0 an. **[THIRD-PARTY.md](THIRD-PARTY.md)** führt
 auf, worauf sich das Programm zur Laufzeit stützt und unter welchen
 Bedingungen, samt dem mitgelieferten Sprechermodell.
