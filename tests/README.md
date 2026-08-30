@@ -1,6 +1,6 @@
 # The test suite
 
-146 tests against `../videopodcast-magic.py`. Every one of them stands
+148 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -229,7 +229,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-146 tests. The name is the one a red line carries, and beside it the
+148 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -242,6 +242,7 @@ it is green.
 | `files_block_stays_apart` | A block taken out of a recording by hand stays out. |
 | `files_clock_links_blocks` | Blocks that carry a clock in the name instead of a counter. |
 | `files_colour_carried` | Colour tags, QuickTime keys and named audio tracks reach the result. |
+| `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |
 | `files_foreign_untouched` | Copying atoms over onto everything that is not a camera file. |
 | `files_hdr_complete` | #65: Does a finished file carry everything that marks it as HDR? |
 | `files_intro_proposed` | A jingle is proposed as the intro, not for "ignore this video". |
@@ -285,6 +286,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `time_all_ways_agree` | One moment, and every way to it has to land on the same second. |
+| `time_axis_keys_agree` | A measured time axis answers to the same name as a remembered one. |
 | `time_axis_measured` | The common time axis, measured out of the sound and without a window. |
 | `time_bad_point_dropped` | One sample point in the wrong place must not tip the whole line. |
 | `time_camera_by_clock` | A camera sits where its timecode says, not where the sound was measured. |

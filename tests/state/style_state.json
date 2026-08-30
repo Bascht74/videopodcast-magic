@@ -9,7 +9,6 @@
  "narrating": 0,
  "one_sided_paths": {
   "assignment_marks_show": [1, 25989],
-  "audio_start_of": [1, 18657],
   "by_recording": [1, 19419],
   "cameras_with_a_speaker": [1, 5251],
   "cameras_with_own_audio": [1, 14377],
@@ -22,14 +21,10 @@
   "gui.assignment_fresh": [1, 29016],
   "gui.assignment_remember": [1, 28608],
   "gui.join_row_show": [1, 26790],
-  "gui.prework_audio_fetch": [1, 27571],
   "gui.prework_kick_off": [1, 27749],
-  "gui.prework_work_loop": [1, 27696],
   "gui.remove": [1, 27064],
   "gui.start": [1, 31133],
-  "speaker_source_pick.usable": [1, 18704],
   "speakers_to_cameras": [1, 24263],
-  "weak_rows_mark": [1, 18537],
   "without_own_camera": [1, 14465]
  },
  "over_300": {

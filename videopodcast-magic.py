@@ -1434,7 +1434,9 @@ def clocks_not_set(paths):
 
     The same question the first tab asks, through the same clocks_apart:
     the file whose timecode window overlaps none of the others. A file
-    without a timecode is not in the result. Returns absolute paths.
+    without a timecode is not in the result. Returns path_key names, so
+    the answer can be held against the time axis without either side
+    having to know which spelling the other was given.
     """
     spans = []
     for p in paths:
@@ -1443,7 +1445,7 @@ def clocks_not_set(paths):
         except (OSError, ValueError, RuntimeError):
             t = None
         if t is not None:
-            spans.append((float(t), media_seconds(p), os.path.abspath(p)))
+            spans.append((float(t), media_seconds(p), path_key(p)))
     return clocks_apart(spans)[0]
 
 
@@ -14090,6 +14092,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
 
     Returns (result, text). The result is {} or
     {"axis", "absolute", "weak", "unplaceable", "brief", "no_place"}.
+    The axis is keyed by path_key, as axis_still_valid keys the one it
+    reads out of the project file; the four lists keep the names they
+    came in with, because those are shown.
 
     Four lists, narrowing. "weak" is a file that fits badly. "no_place"
     are the weak ones no timecode places either -- those sit nowhere,
@@ -14171,6 +14176,9 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     if weak:
         text += TN(len(weak), ', %d file does not fit',
                    ', %d files do not fit') % len(weak)
+    # Not before here: everything above reads the file itself, and the
+    # timecode is asked for under the name that was passed in.
+    axis = dict((path_key(p), t) for p, t in axis.items())
     return {"axis": axis, "absolute": absolute, "weak": weak,
             "unplaceable": lost, "brief": brief,
             "no_place": nowhere}, text
@@ -14197,18 +14205,20 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     axis is a statement about their relationship. A half valid axis would be
     worse than none, because it would look right.
 
-    Returns {"axis", "weak", "absolute"} or None.
-    """
+    Returns {"axis", "weak", "absolute"} or None, keyed by path_key like
+    the measured one, and the stored name is shaped as it is read."""
     known = {}
     for e in ((d or {}).get("timeline") or []):
-        known[e.get("path")] = e
+        stored = e.get("path")
+        if stored:
+            known[path_key(stored)] = e
     axis = {}
     for file_path in paths:
         k = fingerprint(file_path)
-        e = known.get(k[0]) if k else None
+        e = known.get(path_key(k[0])) if k else None
         if not e or e.get("mtime") != k[1] or e.get("size") != k[2]:
             return None
-        axis[k[0]] = float(e.get("start_s") or 0.0)
+        axis[path_key(k[0])] = float(e.get("start_s") or 0.0)
     if not axis:
         return None
     return {"axis": axis, "weak": [],
@@ -15515,7 +15525,7 @@ def envelope_cache_path(path, hop_ms, rate):
     except OSError:
         return None
     import hashlib
-    fingerprint = "%s|%d|%d|%.3f|%d" % (os.path.abspath(path), int(st.st_mtime),
+    fingerprint = "%s|%d|%d|%.3f|%d" % (path_key(path), int(st.st_mtime),
                                     st.st_size, hop_ms, rate)
     return os.path.join(folder,
                         hashlib.sha1(fingerprint.encode("utf-8")).hexdigest()
@@ -15527,8 +15537,11 @@ def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
 
     The cache survives the whole run. The interface warms it while the user
     is still typing, so by the time the run starts the curve is there.
-    """
-    api_key = (path, hop_ms, rate)
+    Kept under path_key: the prework warms it under the absolute path
+    and the time axis asks under the name the file dialog gave, and
+    where those differ the file was read twice. It is opened by the
+    path as it came in."""
+    api_key = (path_key(path), hop_ms, rate)
     if api_key not in _ENV:
         # Reading an hour of 4K takes minutes; twice is unnecessary.
         cache = envelope_cache_path(path, hop_ms, rate)
@@ -18469,7 +18482,7 @@ def tc_column_write(rows, real_tc, axis, absolute):
             continue
         t, kind = real_tc(p), ""
         if t is None:
-            t = (axis or {}).get(os.path.abspath(p))
+            t = (axis or {}).get(path_key(p))
             kind = T(' computed') if absolute else T(' virtual')
         if t is None:
             text, colour = T('no timecode'), COLOURS["quiet"]
@@ -18496,7 +18509,7 @@ def weak_nodes_mark(nodes, weak):
     black = _qg.QBrush(_qg.QColor(COLOURS["text"]))
     lost = []
     for p, item in list(nodes.items()):
-        odd = p in weak
+        odd = path_key(p) in weak
         try:
             # Column 1 stays with the check mark, or one overwrites the
             # green and red of the other depending on which ran last.
@@ -18531,7 +18544,7 @@ def weak_rows_mark(rows, weak):
     for row, p, plain in rows:
         if not p:
             continue
-        odd = os.path.abspath(p) in weak
+        odd = path_key(p) in weak
         try:
             for cell in row:
                 cell.setForeground(red if odd else black)
@@ -18651,14 +18664,14 @@ def audio_start_of(file_path, axis, unset=None):
     """
     if unset is None:
         unset = clocks_not_set(list(axis or ()))
-    if os.path.abspath(file_path) not in unset:
+    if path_key(file_path) not in unset:
         try:
             t = file_timecode(file_path)
         except (OSError, ValueError, RuntimeError):
             t = None
         if t is not None:
             return float(t)
-    a = (axis or {}).get(os.path.abspath(file_path))
+    a = (axis or {}).get(path_key(file_path))
     return float(a) if a is not None else None
 
 
@@ -18694,11 +18707,11 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
     "several cameras" -- then the path is empty because nothing here
     can pick between them -- or "nothing".
     """
-    weak = set(os.path.abspath(p) for p in (weak or ()))
+    weak = set(path_key(p) for p in (weak or ()))
 
     def usable(p):
         return (p and os.path.exists(p)
-                and os.path.abspath(p) not in weak)
+                and path_key(p) not in weak)
 
     if chosen and usable(chosen):
         return chosen, "chosen"
@@ -21527,7 +21540,7 @@ def file_span(file_path, axis):
         tc0 = None
     return {"duration": float(info.get("duration") or 0.0), "fps": fps,
             "tc0": tc0,
-            "axis": (axis or {}).get(os.path.abspath(file_path))}
+            "axis": (axis or {}).get(path_key(file_path))}
 
 
 def tree_build(columns):
@@ -23541,7 +23554,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             t = real_tc(self.track_path)
             if t is not None:
                 return t
-            return state["axis"].get(os.path.abspath(self.track_path))
+            return state["axis"].get(path_key(self.track_path))
 
         def track_follow_up(self):
             """Move the audio track to the same point in the events."""
@@ -23677,7 +23690,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
         def axis_s(self):
             """Return where this file starts on the measured axis."""
-            return state["axis"].get(self.file_path)
+            p = self.file_path   # nothing loaded is nowhere on the axis
+            return state["axis"].get(path_key(p)) if p else None
 
         def axis_spot(self):
             """Return the position in the events, from the axis."""
@@ -27415,7 +27429,7 @@ def gui():
                 continue
             if t0 is None:
                 # Without a timecode of its own, the measured position counts.
-                t0 = state["axis"].get(os.path.abspath(b))
+                t0 = state["axis"].get(path_key(b))
             entries.append((t0, duration))
         from_s, until, absolute = window_suggestion(entries, fps)
         if not from_s:
@@ -27477,7 +27491,7 @@ def gui():
         thread cannot be broken off mid-write and goes on reporting,
         and every such report would put it back on the bar.
         """
-        if file_path in prework_discarded:
+        if path_key(file_path) in prework_discarded:
             return
         if task:
             prework_shares[(file_path, task)] = max(0.0, min(1.0, share))
@@ -27565,7 +27579,7 @@ def gui():
             return False
         # Where the file left the list meanwhile, the work was wasted; clear it
         # away right there rather than leaving it lying about.
-        if os.path.abspath(file_path) in prework_discarded:
+        if path_key(file_path) in prework_discarded:
             try:
                 os.unlink(target)
             except OSError:
@@ -27576,7 +27590,7 @@ def gui():
 
     def prework_env_curve_build(file_path):
         """Precompute the envelope so the run finds it ready."""
-        if (file_path, 5.0, 4000) in _ENV:
+        if (path_key(file_path), 5.0, 4000) in _ENV:
             prework_report(file_path, "", 1.0, "envelope")
             return True
         prework_report(file_path, T('Envelope'), 0.0, "envelope")
@@ -27690,7 +27704,7 @@ def gui():
                     prework_active.add(entry)
                 file_path, task = entry
                 try:
-                    if os.path.abspath(file_path) in prework_discarded:
+                    if path_key(file_path) in prework_discarded:
                         prework_drop(entry)
                         continue
                     try:
@@ -27728,7 +27742,7 @@ def gui():
     def prework_kick_off(paths, having_audio=()):
         """Queue the prework: envelopes for all, audio for some."""
         for p in paths:
-            prework_discarded.discard(os.path.abspath(p))
+            prework_discarded.discard(path_key(p))
 
         def audio_present(a):
             """Report whether the processed audio is already there.
@@ -27741,7 +27755,7 @@ def gui():
                 return None
 
         fresh = pending_prework(paths, having_audio, audio_present,
-                              lambda a: (a, 5.0, 4000) in _ENV,
+                              lambda a: (path_key(a), 5.0, 4000) in _ENV,
                               lambda a: probe_has("channelfacts", a),
                               lambda a: os.path.abspath(a) in split_files)
         with prework_lock:
@@ -28021,9 +28035,8 @@ def gui():
         axis = (data or {}).get("axis") or {}
         state["axis"] = axis
         state["axis_absolute"] = bool((data or {}).get("absolute"))
-        state["weak"] = set(os.path.abspath(p)
-                                 for p in ((data or {}).get("weak") or []))
-        state["no_place"] = set(os.path.abspath(p)
+        state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
+        state["no_place"] = set(path_key(p)
                                 for p in ((data or {}).get("no_place") or []))
         if axis and remember:
             axis_store(axis)
@@ -28277,13 +28290,14 @@ def gui():
     def prework_clean_up(gone):
         """What left the list needs no audio either."""
         gone = set(os.path.abspath(p) for p in gone)
+        keys = set(path_key(p) for p in gone)      # what the cache is keyed by
         with prework_lock:
             dropped = [(p, a) for p, a in prework_queue if p in gone]
             prework_queue[:] = [(p, a) for p, a in prework_queue
                                 if p not in gone]
             # What is being extracted cannot be aborted mid-write -- the thread
             # clears it away itself once it is finished.
-            prework_discarded.update(gone)
+            prework_discarded.update(keys)
         for api_key in [k for k in prework_done if k[0] in gone]:
             file = prework_done.pop(api_key, None)
             if file and os.path.exists(file):
@@ -28304,8 +28318,8 @@ def gui():
         for p in gone:
             prework_node.pop(p, None)
             prework_pending.pop(p, None)
-            for api_key in [k for k in _ENV if k[0] == p]:
-                _ENV.pop(api_key, None)
+        for api_key in [k for k in _ENV if k[0] in keys]:  # 5.8 MB an hour
+            _ENV.pop(api_key, None)
 
     def prepared_tracks():
         """Return the finished tracks from auphonic.com: name -> file.
@@ -30062,7 +30076,7 @@ def gui():
                 return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
         except Exception:
             pass
-        a = (state.get("axis") or {}).get(os.path.abspath(file_path))
+        a = (state.get("axis") or {}).get(path_key(file_path))
         return float(a) if a is not None else 0.0
 
     def forecast_empty(empty):
