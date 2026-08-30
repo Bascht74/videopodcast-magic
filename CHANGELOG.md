@@ -9,6 +9,83 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Added
+
+- A voice can be held against the microphones. With one microphone per
+  person the separation says when a voice speaks and the tracks say
+  when a microphone has sound, and holding the two together says which
+  is whose. Measured on built material: with microphones overlapping up
+  to 29 per cent it is right three times out of three at a distance of
+  73 to 100 points; with the separation five seconds off the axis it is
+  right none out of three at 17 to 28, and a person with no microphone
+  of their own scores nothing. It stays silent wherever two tracks
+  share more than 40 per cent of the shorter one's speech -- and on a
+  real interview that is exactly what happens: three lapel microphones
+  sharing 81 to 95 per cent, the best one ahead by 4 to 10 points. An
+  assignment there would be a coin toss, so it says nothing.
+- The ranking of who asks becomes names to propose -- Guest, Host,
+  Host 1 to n -- and only ever over a name the program made up itself.
+
+### Changed
+
+- "Do not use" on a voice now means it. It took the camera away and
+  greyed the name, and stopped there: the voice still became a track, a
+  speaker at auphonic.com, a line in the transcript and one in the
+  speaking shares. Its passages are now left out of what the run and
+  the cut are handed, so nobody is speaking there and the picture holds
+  whoever it was on. The project file keeps the separation whole --
+  switching the voice back on must not cost the computing again.
+- What was measured of a file is recognised under any path to it.
+  `file_stamp` keyed on the absolute path, which does not follow a
+  link. Measured over a suite run: 11541 calls, 318 keys for 264 real
+  files, and 11539 of the calls had the two differ, `/tmp` against
+  `/private/tmp`. Seven microseconds of `realpath` against a saved
+  process start.
+
+### Fixed
+
+- The count of processes a test starts stood about 1.7 times too high.
+  It wrapped `subprocess.run` and `subprocess.Popen` both, and `run`
+  builds a `Popen` itself, so every run was counted twice.
+
+### Tests
+
+- The order of the queue was measured against eight builder runs, and
+  it earns its keep: perfect foreknowledge 140.2 seconds, one earlier
+  run -- what is done -- 140.4, the alphabet 159.4, shortest first
+  207.9. The noise costs 0.1 seconds, so a median over several runs
+  would be no better. The worry that started this, that the seconds are
+  inflated by tests running side by side, is answered: the factor is
+  the worker count, five, and a constant factor moves nothing up or
+  down a queue.
+- Two silent faults that measuring turned up. `wc -l < missing
+  2>/dev/null` does not stay quiet -- the shell fails the redirection
+  before `wc` starts -- so 54 "No such file" lines went into every
+  run's stderr on every machine. And the name pattern in
+  `builder_times.sh` had no digits, so `assignment5c` was dropped from
+  every reading and kept a stale number for ever.
+- A test that prints its own diagnosis keeps it. The ranking of a
+  failure report keeps the lines that match a pattern and drops the
+  rest, and a test's own words match no pattern: `interface_test`
+  prints twenty-five lines about a window that did not build, and not
+  one of them reached the builder's log.
+- The picture scripts judge by their own checks instead of by the exit
+  code of Qt's event loop. On Linux that came back as 1 while every
+  step had been reached and nothing was found wanting, and the run went
+  red with no line saying why.
+- `footer_bar` gets a cache of its own. It asks whether the bar comes,
+  rises and goes, and there is nothing to show where there is nothing
+  to do -- with measurements now kept between runs the third warm run
+  was instant and the bar never appeared. The bar was right; the test
+  was tied to slowness.
+- `gui()` gave up 170 lines, from 5396 to 5226, without any change of
+  behaviour. Five blocks that decide nothing moved out: filling the
+  speech table, building the preflight sentence, reading what a project
+  folder holds, marking the assignment fields, and catching a run's
+  output.
+
 ## [2.18.0-beta] - 2026-08-31
 
 ### Changed
