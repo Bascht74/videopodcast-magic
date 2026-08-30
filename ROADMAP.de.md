@@ -39,7 +39,7 @@ wird.
 Es ist eine Python-Datei mit rund 35000 Zeilen, ohne Paket und ohne
 Bauschritt. Python 3.10 oder neuer muss da sein, die zwei Pakete
 installiert es selbst. Benutzt wird es unter macOS und Windows, unter
-Linux läuft es mit zwei Einschränkungen. Eine Suite aus 146 Tests läuft
+Linux läuft es mit zwei Einschränkungen. Eine Suite aus 148 Tests läuft
 bei jedem Push: sechs Läufe nebeneinander, drei Systeme und zwei
 Python-Versionen, und der langsamste davon ist in unter fünf Minuten
 fertig.
@@ -52,7 +52,8 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Ein Punkt steht hier, und er wartet auf einen Lauf, nicht auf Arbeit.
+Drei Punkte stehen hier, und jeder wartet auf einen Lauf, nicht auf
+Arbeit.
 
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Das Transkript einer einzelnen Spur und eine
@@ -61,6 +62,17 @@ keiner ist je wirklich hinausgegangen. Ob der Dienst eine Stereospur
 mit beiden Kanälen zurückgibt, ist offen. Bis das gelaufen ist,
 beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt aus
 einem Lauf.
+
+**Der Reaktionsschnitt wird gesichtet, bevor er scharf bleibt.** Er
+greift ein paar Dutzend Mal in einer Folge und ist voreingestellt an,
+und niemand hat bisher jede Stelle angesehen. Zwei Fälle, in denen er
+falsch liegt, sind bekannt: die rhetorische Frage und das technische
+Vorgeplänkel, wo Blicke zu Geräten fliegen statt zu Gesichtern.
+
+**Der Vorspann wird in einem echten Resolve-Projekt geprüft.** Das
+Programm legt ihn auf die zweite Videospur und liest nach, wie viele
+Clips dort liegen. In den Tests steht eine Attrappe für Resolve,
+bestätigen kann es also nur ein echtes Projekt.
 
 ## Was später kommt
 
@@ -71,27 +83,19 @@ Gröber, und in keiner festen Reihenfolge.
   `--wide-latest` ist der deutlichste Fall. Jede von ihnen wird
   gemessen oder kleiner.
 
-* **Der Reaktionsschnitt wird gesichtet, bevor er scharf bleibt.** Er
-  greift ein paar Dutzend Mal in einer Folge und ist voreingestellt
-  an, und niemand hat bisher jede Stelle angesehen. Zwei Fälle, in
-  denen er falsch liegt, sind bekannt: die rhetorische Frage und das
-  technische Vorgeplänkel, wo Blicke zu Geräten fliegen statt zu
-  Gesichtern.
-
-* **Der Vorspann wird in einem echten Resolve-Projekt geprüft.** Das
-  Programm legt ihn auf die zweite Videospur und liest nach, wie viele
-  Clips dort liegen. In den Tests steht eine Attrappe für Resolve,
-  bestätigen kann es also nur ein echtes Projekt.
-
-* **Die Ränder des Programms bekommen Tests.** Gemessen sind 71
-  Prozent der Anweisungen abgedeckt. Die Trennung, das
-  Selbst-Aktualisieren und ein Lauf ohne auphonic.com werden inzwischen
-  durchgefahren; was kein Test betritt, sind die zwei Funktionen, die
-  eine ganze Produktion mit auphonic.com darin zusammensetzen, das
-  erste Hochladen einer neuen Produktion, die Hälfte des
-  Einzeldateiwegs und der Rückweg nach einer misslungenen
-  Selbst-Aktualisierung. Die
-  Abdeckung wird gelegentlich gemessen und nie zum Ziel.
+* **Die Ränder des Programms bekommen Tests.** Wie weit die Tests
+  reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit
+  gesetztem `COVERAGE_PROCESS_START`, damit die Läufe mitzählen, die
+  die Tests selbst starten. Grün sind es rund drei Viertel der
+  Anweisungen -- gelesen als Spanne und nie als Ziel. Kein Test
+  betritt: den Lauf, der den Ton aus den Kameras nimmt, die
+  Fehlerausgänge von `main()`, die Datei, in die der
+  Auphonic-Schlüssel geschrieben wird, die Vorwahl der Voreinstellung,
+  ein Resolve, das sich weigert, die Fenster hinter dem Menü und den
+  Rückweg nach einer misslungenen Selbst-Aktualisierung. Und mehrere
+  Schalter werden genommen, ohne dass jemand prüft, was sie tun:
+  `--apart` wird einen Schritt später wieder zusammengefügt, und kein
+  Test merkt es.
 
 * **Das Handbuch bekommt, was ihm fehlt.** Rund ein Dutzend Zahlen
   stehen noch ohne ihre Vorgabe und ohne die Richtung, in die sie
@@ -152,7 +156,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Alle vier
   wollen ein Paket mit `pyproject.toml`. Hier wären es vier neue
-  Abhängigkeiten für eine Datei, deren 146 Tests als schlichte Scripts
+  Abhängigkeiten für eine Datei, deren 148 Tests als schlichte Scripts
   durchlaufen. Eine dünne pytest-Schicht, die genau diese Scripts
   unverändert startet, ist etwas anderes und kann kommen.
 
