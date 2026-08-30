@@ -166,10 +166,14 @@ been refused, it has only not come up yet.
   will be met. The list of functions no test ever calls is worth
   having; the percentage is not.
 
-* **Splitting the test run over several machines, retrying flaky
-  tests, triage bots.** The suite is half a minute, no test has
-  flapped yet, and there is no queue of reports. All of that answers a
-  volume this project does not have.
+* **Splitting the test run over several machines, and triage bots.**
+  The six runs answer in under five minutes, and there is no queue of
+  reports. Both would answer a volume this project does not have.
+  Running a test a second time is a different matter, and that one is
+  built: a test that crashed gets another go, one that came back red
+  beside the others is run once more alone, and either way the run
+  calls it unsteady rather than counting it green. A test that flaps is
+  a fault to be found, not noise to be retried away.
 
 * **Installers, signed packages, notarising, PyPI.** It is one file on
   purpose: fetch it and run it.
