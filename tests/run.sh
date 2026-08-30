@@ -335,9 +335,21 @@ run_one() {
 export -f run_one crash_block
 export OUT HERE LIMIT TOTAL TRIES PY
 
+# A test that measures real time cannot share the machine. Playing a
+# second of sound takes a second; beside eleven others it took sixteen
+# and reached a fifth of a second, and no waiting fixes that. These run
+# by themselves, at the end, when everything else is done.
+ALONE_ONLY="sound_and_picture"
+CROWD=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$')
+for t in $ALONE_ONLY; do
+  CROWD=$(echo "$CROWD" | grep -vx "$t" || true)
+done
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
-echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$' \
+echo "$CROWD" | grep -v '^$' \
   | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
+for t in $ALONE_ONLY; do
+  echo "$TESTS" | tr ' \n' '\n\n' | grep -qx "$t" && run_one "$t"
+done
 
 # Whatever came back red is run once more, alone: it is the difference
 # between a fault and a crowd. A test that is red beside eleven others

@@ -644,7 +644,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.21.0-beta"
+VERSION = "2.22.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -9433,7 +9433,7 @@ def join_the_plan(plan, tmpdir):
     return made
 
 
-def join_only(args, tracks, title=""):
+def join_only(args, tracks, tmpdir, title=""):
     """Join the blocks and stop: there is no picture to lay them on.
 
     An axis is cameras held against sound, so without cameras there is
@@ -9443,6 +9443,19 @@ def join_only(args, tracks, title=""):
     first = tracks[0]["blocks"][0]
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(first))
+    # Measured and said, the same as on any other run: the one number a
+    # listener notices first belongs in the log.
+    for track in tracks:
+        try:
+            normalise_loudness([{"name": track["name"], "axis": track["source"],
+                                 "ready": track["source"]}],
+                               None, tmpdir, None,
+                               channels=channel_count(track["source"]))
+        except Exception as e:
+            print(T('  Loudness not measurable: %s') % str(e)[:60])
+    if args.lufs is not None and not args.auphonic_key:
+        print(as_warn(T('  --lufs is not applied on this path yet: the '
+                        'sound is written as it was recorded.')))
     if args.auphonic_key:
         key = api_key_from_anywhere(args)
         preset, presetname = choose_preset(
@@ -9526,7 +9539,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         # recording become one file, and that is the whole job.
         tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
         atexit.register(shutil.rmtree, tmpdir, True)
-        return join_only(args, join_the_plan(plan, tmpdir), title)
+        return join_only(args, join_the_plan(plan, tmpdir), tmpdir, title)
 
     # The nominal rates from the container are compared. The measured ones
     # differ by a few ten-thousandths on every camera; no editor goes by that,
@@ -17653,7 +17666,11 @@ def releases_in_between(newest, running):
             want.append((version_key(tag), tag,
                          str(one.get("body") or "").strip()))
     want.sort(reverse=True)
-    return "\n\n".join("## %s\n\n%s" % (tag, body)
+    # Each one cut to the language this is running in, here rather than
+    # where it is shown: two windows show this text, and only one of
+    # them was cutting. The other handed a German reader the English
+    # half, which is the half that comes first.
+    return "\n\n".join("## %s\n\n%s" % (tag, release_text_in(body))
                         for _k, tag, body in want if body)
 
 
@@ -33147,6 +33164,12 @@ CATALOGUE["de"] = {
     '  Limiter:           at most %.1f dB, the same curve on every track%s':
         '  Limiter:           höchstens %.1f dB, dieselbe Kurve auf jeder '
         'Spur%s',
+    '  --lufs is not applied on this path yet: the sound is written as '
+    'it was recorded.':
+        '  --lufs wird auf diesem Weg noch nicht angewendet: Der Ton wird '
+        'so geschrieben, wie er aufgenommen wurde.',
+    '  Loudness not measurable: %s':
+        '  Lautheit nicht messbar: %s',
     '  Loudness not measurable -- it stays as it is.':
         '  Lautheit nicht messbar -- es bleibt, wie es ist.',
     '  Metrics not writable: %s':

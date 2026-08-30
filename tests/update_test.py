@@ -215,5 +215,63 @@ try:
 finally:
     urllib.request.urlopen = was_open
 
+# ---------------------------------------------------- one language, not two
+# A release says everything twice, English first and German under a rule.
+# The window shows one of them. Two windows show this text and only one
+# was cutting, so a German reader was handed the English half -- and it
+# is the half that comes first.
+print("\n5. The window shows one language")
+TWO = ("**English**\n\n### Changed\n\n- the English point\n\n---\n\n"
+       "**Deutsch**\n\n### Ge\u00e4ndert\n\n- der deutsche Punkt")
+
+
+def between(language, releases):
+    """What the collector hands a window, in that language."""
+    class Answer(object):
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            return False
+
+        def read(self):
+            return json.dumps(releases).encode("utf-8")
+
+    was, was_open = vpm.LANG, urllib.request.urlopen
+    vpm.set_language(language)
+    urllib.request.urlopen = lambda *a, **k: Answer()
+    try:
+        return vpm.releases_in_between("v3.0.0-beta", "v1.0.0-beta")
+    finally:
+        urllib.request.urlopen = was_open
+        vpm.set_language(was)
+
+
+one = [{"tag_name": "v2.0.0-beta", "body": TWO}]
+for language, wanted, unwanted in (("de", "der deutsche Punkt", "the English point"),
+                                   ("en", "the English point", "der deutsche Punkt")):
+    text = between(language, one)
+    check("%s: its own half is there" % language, wanted in text, text[:60])
+    check("and the other one is not", unwanted not in text,
+          "" if unwanted not in text else "both halves in the box")
+
+# The collector joins several releases into one text, and each one has
+# to be cut before they are joined -- otherwise the second brings the
+# other language back in.
+two = [{"tag_name": "v2.0.0-beta", "body": TWO},
+       {"tag_name": "v2.1.0-beta", "body": TWO}]
+text = between("de", two)
+check("two releases, and still one language", "the English point" not in text,
+      "found the English half %d time(s)" % text.count("the English point"))
+check("and both of them are in it", text.count("der deutsche Punkt") == 2,
+      "%d German points" % text.count("der deutsche Punkt"))
+
+# A release from before the two halves comes back whole: half a text is
+# worse than one in the wrong language.
+older = [{"tag_name": "v2.0.0-beta", "body": "just one language here"}]
+text = between("de", older)
+check("a release without the two halves is kept whole",
+      "just one language here" in text, text[:60])
+
 print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
 sys.exit(1 if error else 0)

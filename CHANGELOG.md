@@ -25,6 +25,38 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.22.0-beta] - 2026-08-30
+
+**English**
+
+### Fixed
+
+- The buttons "−", "+" and "▭" under the cut band moved 104 pixels at
+  the first press, so a second press landed beside the button. The
+  reading beside them is now held at its widest, and they stay put.
+- Several recordings and no picture were joined into one file, one
+  voice after the other. Each recording now becomes a file of its own,
+  named after itself.
+- A run with a single mono recording wrote its finished sound track
+  with two channels. The track now has as many channels as the
+  recording has.
+
+---
+
+**Deutsch**
+
+### Behoben
+
+- Die Schalter „−", „+" und „▭" unter dem Schnittband rückten beim
+  ersten Druck um 104 Pixel weiter, der zweite Druck traf daneben. Die
+  Anzeige daneben hat jetzt feste Breite, die Schalter bleiben stehen.
+- Mehrere Aufnahmen ohne Bild wurden zu einer Datei zusammengefügt,
+  eine Stimme nach der anderen. Jetzt entsteht aus jeder Aufnahme eine
+  eigene Datei, nach ihr benannt.
+- Ein Lauf mit einer einzelnen Mono-Aufnahme schrieb die fertige
+  Tonspur mit zwei Kanälen. Die Spur hat jetzt so viele Kanäle wie die
+  Aufnahme.
+
 ## [2.21.0-beta] - 2026-08-30
 
 **English**
@@ -3650,6 +3682,7 @@ haben. Jede Behebung unten hat einen Test.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.22.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.21.0-beta...v2.22.0-beta
 [2.21.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.20.0-beta...v2.21.0-beta
 [2.20.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.19.0-beta...v2.20.0-beta
 [2.19.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.18.0-beta...v2.19.0-beta

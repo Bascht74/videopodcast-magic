@@ -437,7 +437,7 @@ def look(case):
 
     result = {"case": case, "measured": measured, "start_s": CUT_START,
               "window_in": WINDOW_IN if case == "window" else 0.0}
-    state = {"waited": 0, "played": 0, "ready": 0}
+    state = {"waited": 0, "played": 0, "ready": 0, "from": 0.0}
     keep = {}
 
     def cut_ready():
@@ -622,20 +622,28 @@ def look(case):
             return
         step("playing over %.3f" % b)
         p.jump(start)
+        # Where the clock stood before it was asked to run, so that
+        # "it never started" can be told from "it never got there".
+        state["from"] = p._time()
         p.play()
 
     def wait_for_the_switch():
         """Wait for the shot to change, not for a number of seconds.
 
-        Programme time in the player runs on a clock of its own, so the
-        change comes whether or not the pictures decode. A seek that
-        never takes is given up on after five seconds inside the
-        player, which is the longest this can honestly wait for.
+        A play that lands before the file is loaded is dropped, and
+        beside a loaded machine that is the usual case: the clock then
+        never leaves the start and the shot never changes. So the ask is
+        repeated until the clock moves, which is asking again for the
+        cause rather than waiting longer for the effect.
         """
         p = cut_ready()
         i = result.get("edge")
         if p is None or i is None:
             return
+        if p._time() <= state["from"] and state["played"] < 80:
+            state["played"] += 1
+            p.play()
+            return "again"
         if p.now != i + 1 and state["played"] < 80:
             state["played"] += 1
             return "again"
