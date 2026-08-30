@@ -112,6 +112,11 @@ export PYTHONFAULTHANDLER=1
 # 2:31, 4 workers 1:57, 8 workers 1:48.
 CORES=$(getconf _NPROCESSORS_ONLN 2>/dev/null || sysctl -n hw.ncpu 2>/dev/null || echo 4)
 WORKERS=${WORKERS:-$(( CORES + 1 > 12 ? 12 : CORES + 1 ))}
+# How many goes a crashed test gets. Three, because the Windows access
+# violation showed up once in three on the same machine and once in ten
+# on Sebastian's; one go would call the whole run red for it, and a
+# fourth would only add minutes. TRIES=1 turns it off.
+TRIES=${TRIES:-3}
 
 # Where the shared fixture folders live. Worked out here and handed down,
 # so fixtures.sh, the tests and VPM_MEDIA below all name the same place.
@@ -189,6 +194,12 @@ trap 'exit 130' INT TERM
 # Every *_test.py in this folder, so a new test is picked up by being
 # there. Sorted, so the order does not depend on the file system.
 TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
+# Named on the command line: only those, through the same machinery --
+# the same retry, the same report, the same progress line. One red test
+# is looked at on its own far more often than all of them are, and
+# "bash run.sh block_remove" is the way to do it without waiting for a
+# hundred and nine others.
+[ $# -gt 0 ] && TESTS="$*"
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -226,10 +237,59 @@ if [ -z "$TESTS" ]; then
   exit 2
 fi
 
+crash_block() {
+  # Everything from where the ground gave way to the end of the output.
+  #
+  # Not sed. The pattern needs an "or" in it, and a BSD sed -- which is
+  # the one on a Mac -- has no \| in its basic expressions: it matched
+  # nothing at all, silently, so on this machine the crash report was
+  # never recognised and the sampled lines went out instead. That is the
+  # exact fault the whole block was meant to cure. grep knows -E and is
+  # the same tool everywhere.
+  at=$(echo "$1" | grep -n -E -m1 "Fatal Python error|fatal exception" \
+       | cut -d: -f1)
+  [ -n "$at" ] && echo "$1" | tail -n +"$at"
+}
+
 run_one() {
   t="$1"
   began=$SECONDS
-  out=$($LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
+  # A test that crashed is run again before the whole run is called red.
+  # Repeating the run to find out cost a quarter of an hour every time,
+  # and it repeated a hundred and nine tests to learn about one.
+  #
+  # Only a crash, though. A check that said FAIL will say it again, and
+  # hearing it three times costs the builder minutes and tells nobody
+  # anything. A signal does come and go: Windows returns 139 for an
+  # access violation, and on 29.8.2026 the same test was red once and
+  # green twice on one machine. The time limit is left out of it too --
+  # a test that ran out of time will run out of time again.
+  try=1
+  fell_first=""
+  fell_text=""
+  fell_count=0
+  while :; do
+    out=$($LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
+    fell=0
+    if [ $rc -ne 0 ] || echo "$out" | grep -qE "^Traceback|FAIL"; then
+      fell=1
+    fi
+    if [ $fell -eq 0 ] || [ "$try" -ge "$TRIES" ] || [ $rc -le 128 ] \
+       || [ $rc -eq 137 ] || echo "$out" | grep -q "^FAIL"; then
+      break
+    fi
+    if [ -z "$fell_first" ]; then
+      # Kept, not just counted. Whoever reads the log has to be able to
+      # decide whether this was the known access violation or something
+      # new, and a bare "it crashed once" decides nothing.
+      fell_first="rc=$rc"
+      fell_text=$(crash_block "$out" | head -30)
+      [ -z "$fell_text" ] && fell_text=$(echo "$out" \
+        | grep -v "^[[:space:]]*\$" | tail -6)
+    fi
+    fell_count=$((fell_count + 1))
+    try=$((try + 1))
+  done
   # A failure beats a skip, always. Both can be in one run: a test leaves
   # out the part this machine cannot do, goes on with the part it can and
   # falls over that. Asking after the skip first made such a test read
@@ -284,7 +344,7 @@ run_one() {
       # Measured 29.8.2026: three runs showed "access violation" and
       # "<no Python frame>" and nothing else, while the frames that
       # would have said where were in the same output all along.
-      crash=$(echo "$out" | sed -n "/Fatal Python error\|fatal exception/,\$p")
+      crash=$(crash_block "$out")
       SHOW=12
       [ -n "$crash" ] && { lines="$crash"; SHOW=44; }
       # Twelve, not four. A red test prints one line per failed check and
@@ -307,6 +367,15 @@ run_one() {
     { echo "skipped"
       echo "$out" | grep "^SKIPPED:" | head -1 | sed 's/^SKIPPED: /      /'
     } > "$OUT/$t"
+  elif [ -n "$fell_first" ]; then
+    # Green now, but it fell first. Not said quietly: an unsteady test
+    # is a defect that happens to be asleep, and a run that swallowed
+    # it would be the same lie as a green run that checked nothing.
+    { echo "ok"
+      echo "      unsteady: $fell_count of $try goes crashed ($fell_first),"\
+           "green on go $try -- what the first one said:"
+      echo "$fell_text" | sed 's/^/        /'
+    } > "$OUT/$t"
   else
     echo "ok" > "$OUT/$t"
   fi
@@ -326,18 +395,22 @@ run_one() {
     "$(ls "$OUT" | wc -l | tr -d ' ')" "$TOTAL" "$t" \
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))"
 }
-export -f run_one
-export OUT HERE LIMIT TOTAL
+export -f run_one crash_block
+export OUT HERE LIMIT TOTAL TRIES PY
 
 TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
 echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$' \
   | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
 
-good=0; bad=0; past=0; names=""; left_out=""
+good=0; bad=0; past=0; shaky=0; names=""; left_out=""; unsteady=""
 for t in $TESTS; do
   first=$(head -1 "$OUT/$t")
   case "$first" in
-    ok)      good=$((good+1)); printf "  %-24s ok\n" "$t" ;;
+    ok)      good=$((good+1)); printf "  %-24s ok\n" "$t"
+             if [ "$(wc -l < "$OUT/$t")" -gt 1 ]; then
+               shaky=$((shaky+1)); unsteady="$unsteady $t"
+               tail -n +2 "$OUT/$t"
+             fi ;;
     skipped) past=$((past+1)); left_out="$left_out $t"
              printf "  %-24s skipped\n" "$t"
              tail -n +2 "$OUT/$t" ;;
@@ -351,6 +424,12 @@ if [ $past -gt 0 ]; then
   echo "green: $good   skipped: $past   red: $bad  $names"
 else
   echo "green: $good   red: $bad  $names"
+fi
+# Named on its own line, not folded into the green count. Whoever reads
+# this needs to see that something crashed and then did not, or the
+# next person to meet it starts from nothing.
+if [ $shaky -gt 0 ]; then
+  echo "unsteady: $shaky --$unsteady   (crashed, then green when run again)"
 fi
 # The barrier on what may be left out, and it is a ratchet like the counts
 # in style_test.py: it may fall, it may not rise. A skipped test checked
