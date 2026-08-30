@@ -9,6 +9,31 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Tests
+
+- A test that crashed is run again before the whole run is called red,
+  up to three goes. Only a crash: a check that said FAIL will say it
+  again, and hearing it three times costs the builder minutes and tells
+  nobody anything, while a signal comes and goes -- Windows returns 139
+  for an access violation, and the same test was red once and green
+  twice on one machine. Finding that out used to mean repeating a
+  hundred and nine tests to learn about one.
+- A test that crashed and then went green is not folded into the green
+  count. It is named on a line of its own, with how many goes fell and
+  what the first one said, so whoever reads the log can tell the known
+  access violation from something new and decide for themselves.
+- `bash run.sh <name> ...` runs only the tests named, through the same
+  machinery. One red test is looked at on its own far more often than
+  all of them are.
+- The crash report is found on a Mac now. It was looked for with a sed
+  expression using `\|` for "or", which a BSD sed does not know: it
+  matched nothing, silently, so on this machine a crashed test always
+  fell back to sampled lines -- the exact fault that keeping the whole
+  block was meant to cure. grep knows `-E` and is the same tool
+  everywhere.
+
 ## [2.15.0-beta] - 2026-08-30
 
 ### Added
