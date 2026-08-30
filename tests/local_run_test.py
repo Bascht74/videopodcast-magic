@@ -107,6 +107,7 @@ print("1. The run goes through without a key")
 p = subprocess.run(
     [sys.executable, SCRIPT, "--multitrack", "--without-auphonic",
      "--assign", D + "/assign.json", "--out", OUT, "--no-metrics",
+     "--no-speech-recognition", "--no-transcript-file",
      "--no-wide-edges", D + "/Host.wav", D + "/Guest.wav",
      D + "/CamHost.mov", D + "/CamGuest.mov"],
     capture_output=True, text=True, timeout=900,
