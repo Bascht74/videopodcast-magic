@@ -9739,6 +9739,18 @@ def check_written_file(target, items, n_camera, args, fps):
     except Exception as e:
         print(T('  Check:           not possible (%s)') % e)
         return
+    # Whether the number means anything at all. Where the new track is
+    # mostly silence there is nothing to line up against, and the
+    # arithmetic answers all the same -- it reported -6000 ms and -13005
+    # ms on two runs measured as exact to the sample, 31.8.2026. A check
+    # that cries wolf is worse than none, because it is read as
+    # evidence. The simple path had this guard and the shared one did
+    # not; now both do.
+    if g < WEAK_MATCH:
+        print(T('  Check:           the two tracks cannot be compared '
+                '(match %.2f, %.2f is the floor). This says nothing '
+                'about the timing.') % (g, WEAK_MATCH))
+        return
     ms = k * HOP
     off = abs(ms) > 1000.0 / fps
     line = (T('  Check:           %s against the camera track %+.0f ms '
@@ -9746,6 +9758,33 @@ def check_written_file(target, items, n_camera, args, fps):
             % (items[index_number][0], ms, g,
                T('   Caution: more than one frame') if off else ""))
     print(as_warn(line) if off else line)
+
+
+def finish_camera_file(source, info, target, items, args, fps):
+    """Everything that happens to a camera file once it is written.
+
+    The colour, the camera's own QuickTime keys, its metadata, and the
+    measurement of whether the new audio really sits on the picture. Four
+    things in a fixed order, and neither path has a reason to do them
+    differently -- but until 30.8.2026 only the multitrack path did them
+    at all. On the simple path an Apple Log recording quietly lost the
+    atom that tells Resolve what curve it was shot on.
+    """
+    check_colour_survived(source, target)
+    # ffmpeg drops what it does not know. For iPhone recordings "logs"
+    # holds the recording curve, which is how Resolve recognises Apple
+    # Log. It is copied byte for byte from the source.
+    try:
+        after = copy_mov_atoms(source, target)
+    except Exception as e:
+        after = []
+        print(T('  Camera atoms:    cannot be added (%s)') % str(e)[:60])
+    if after:
+        print(T('  Camera atoms:    %s added -- %s')
+              % (", ".join(after),
+                 log_curve_from_atom(_logs_atom_text(target)) or T('no text')))
+    check_camera_metadata(source, target)
+    check_written_file(target, items, len(info["audio"]), args, fps)
 
 
 def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
@@ -10287,21 +10326,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         if info["tc"]:
             print("  Timecode:        %s" % info["tc"])
         share.segment(0.85, 1.0)
-        check_colour_survived(v, target)
-        # ffmpeg drops what it does not know. For iPhone recordings "logs"
-        # holds the recording curve, which is how Resolve recognises Apple Log.
-        # It is copied byte for byte from the source.
-        try:
-            after = copy_mov_atoms(v, target)
-        except Exception as e:
-            after = []
-            print(T('  Camera atoms:    cannot be added (%s)') % str(e)[:60])
-        if after:
-            print(T('  Camera atoms:    %s added -- %s')
-                  % (", ".join(after),
-                     log_curve_from_atom(_logs_atom_text(target)) or T('no text')))
-        check_camera_metadata(v, target)
-        check_written_file(target, items, len(info["audio"]), args, fps)
+        finish_camera_file(v, info, target, items, args, fps)
         return target, track_names, a
 
     # The expensive part is the cross-check, and that only computes. ffmpeg
@@ -21582,34 +21607,13 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
                      x.get("codec_name"),
                      TN(count, '%s channel', '%s channels') % count,
                      t.get("language") or T('no tag'), label))
-        if len(tracks) > 1:
-            try:
-                HOP, rate = 5.0, 4000
-                env1 = envelope(decode_audio(target, rate=rate, stream=0), HOP, rate)
-                env2 = envelope(decode_audio(target, rate=rate, stream=1), HOP, rate)
-                k, g = cross_correlate(env2, env1)
-                # The quality of the match decides whether the number
-                # means anything. Where the new track is mostly silence
-                # there is nothing to line up against, and the
-                # arithmetic still answers -- it reported -6000 ms and
-                # -13005 ms on two runs measured as exact to the
-                # sample, 31.8.2026. A check that cries wolf is worse
-                # than none: it is read as evidence.
-                if g < WEAK_MATCH:
-                    print(T('  Check:           the two tracks cannot be '
-                            'compared (match %.2f, %.2f is the floor). '
-                            'This says nothing about the timing.')
-                          % (g, WEAK_MATCH))
-                else:
-                    off = abs(k * HOP) > 1000.0 / fps
-                    line = (T('  Check:           new track against the '
-                              'camera track %+.0f ms (match %.2f)%s')
-                            % (k * HOP, g,
-                               T('   Caution: more than one frame')
-                               if off else ""))
-                    print(as_warn(line) if off else line)
-            except Exception as e:
-                print(T('  Check not possible: %s') % e)
+        # The same four things the multitrack path does, and the same
+        # call. This path used to make the last of them -- the check --
+        # with its own arithmetic beside the shared one, comparing
+        # stream 0 against stream 1 by hand, and made the other three
+        # not at all.
+        finish_camera_file(v, info, target, [(args.name, audio)] + beside,
+                           args, fps)
         tc2 = (d2.get("format", {}).get("tags", {}) or {}).get("timecode")
         for x in d2.get("streams", []):
             tc2 = tc2 or (x.get("tags", {}) or {}).get("timecode")
@@ -33587,8 +33591,6 @@ CATALOGUE["de"] = {
         '  Atome nachtragen geht nicht: moov liegt nicht am Ende.',
     '  Cannot add atoms: the source is %s, the target %s.':
         '  Atome nachtragen geht nicht: die Quelle ist %s, das Ziel %s.',
-    '  Check not possible: %s':
-        '  Kontrolle nicht möglich: %s',
     '  Check:           not possible (%s)':
         '  Kontrolle:       nicht möglich (%s)',
     '  Clock drift:     %+.2f ppm (+/- %.2f), residual spread %.1f ms, %d '
@@ -34429,10 +34431,6 @@ CATALOGUE["de"] = {
     '  Check:           %s against the camera track %+.0f ms (match %.2f)%s':
         '  Kontrolle:       %s gegen Kameraspur %+.0f ms (Übereinstimmung '
         '%.2f)%s',
-    '  Check:           new track against the camera track %+.0f ms (match '
-    '%.2f)%s':
-        '  Kontrolle:       neue Spur gegen Kameraspur %+.0f ms '
-        '(Übereinstimmung %.2f)%s',
     '  Create it with "Create Resolve project" in the interface. Resolve '
     'must be running.':
         '  Anlegen über "Resolve-Projekt anlegen" in der Oberfläche. '
