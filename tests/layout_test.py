@@ -276,6 +276,34 @@ def measure(language):
                     kind += " " + w.objectName()
                 round_now[0][(text, kind, where(w))] = short
 
+    def zoom_row_holds(window):
+        """Do the zoom buttons stay put when the reading beside them changes?
+
+        The reading sits after them and the band before them takes what
+        is left, so a text that grows pushes the whole row along. Pressing
+        + once moved them out from under the pointer.
+        """
+        buttons = [b for b in window.findChildren(QtWidgets.QToolButton)
+                   if b.text() in ("\u2212", "+", "\u25ad")]
+        if len(buttons) != 3:
+            return {"found": len(buttons)}
+        beside = buttons[-1].parent().findChildren(QtWidgets.QLabel)
+        span = beside[-1] if beside else None
+        if span is None:
+            return {"found": 3, "label": False}
+
+        def spots():
+            app.processEvents()
+            return [b.mapTo(window, QtCore.QPoint(0, 0)).x() for b in buttons]
+
+        was = span.text()
+        empty = spots()
+        span.setText("0:00:00 -- 1:49:36")
+        full = spots()
+        span.setText(was)
+        return {"found": 3, "label": True, "empty": empty, "full": full,
+                "moved": [a - b for a, b in zip(full, empty)]}
+
     def tabs_sweep(window):
         """Sheet by sheet: only what lies on top is on the screen."""
         for bar in window.findChildren(QtWidgets.QTabBar):
@@ -375,6 +403,7 @@ def measure(language):
         result["style"] = app.platformName()
         result["size"] = "%dx%d" % (window.width(), window.height())
         result["seen"] = seen[0]
+        result["zoom_row"] = zoom_row_holds(window)
         result["found"] = [dict(text=t, kind=k, box=b, short=s)
                            for (t, k, b), s in rounds[1].items()
                            if (t, k, b) in rounds[0]]
@@ -448,6 +477,16 @@ for language, process in started:
         print("  the project did not come in -- the tables stayed empty.")
     if not report.get("settings"):
         print("  the settings window was not reached -- not measured.")
+    # The zoom row. A button that walks away as it is pressed cannot be
+    # pressed twice, and the reading beside it is what pushed it.
+    row = report.get("zoom_row") or {}
+    if row.get("found") != 3 or not row.get("label"):
+        print("  the zoom buttons were not on screen -- not measured.")
+    else:
+        check("%s: the zoom buttons hold their place" % language,
+              not any(row["moved"]),
+              "moved by %s pixels when the reading appeared" % row["moved"])
+
     found = sorted(report["found"], key=lambda f: -f["short"])
     # The findings go on the line that fails, not only under it: a build
     # machine's log keeps the lines that say FAIL and drops the rest, and
