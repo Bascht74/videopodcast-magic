@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 2.14.0-beta.
+gone through for 2.23.0-beta.
 
 ## Where the program stands today
 
-**Version 2.22.0-beta.** It runs every week, on real material.
+**Version 2.23.0-beta.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -23,17 +23,25 @@ cameras onto one time axis, tells the speakers apart from the sound
 alone, proposes a first cut by speaker, and writes a DaVinci Resolve
 project.
 
+Every run goes the same way. `--multitrack` says how the recordings are
+grouped into productions and nothing else: the time axis, the place of
+each camera and the files that come out are the same with the switch
+and without it. Several recordings with no camera among them are laid
+against each other instead -- equally long, one starting point -- rather
+than turned away.
+
 Separation and speech recognition run on the machine in front of you.
 The model sits in a folder beside the program: no account, no token,
 and after the one download no network. Levelling, de-bleed, noise
 removal and transcription at auphonic.com are optional, and the
 program uploads only when somebody asks it to.
 
-It is one Python file of about 36000 lines, with no package and no
+It is one Python file of about 35000 lines, with no package and no
 build step. Python 3.10 or newer has to be there, and the two packages
 it needs it installs itself. macOS and Windows are what it is used on,
-and Linux works with two limits. A suite of 119 tests runs in about
-half a minute, on all three systems at every push.
+and Linux works with two limits. A suite of 146 tests runs at every
+push: six runs side by side, three systems and two versions of Python,
+and the slowest of them is done in under five minutes.
 
 **Why it is still beta.** The format of the project file may still
 change. An older file is refused with a clear message rather than half
@@ -43,40 +51,14 @@ the major number.
 
 ## What comes next
 
-Ordered by what each one gives against what it costs. The first waits
-on a run, the second is where the work sits, and the third follows it.
+One item stands here, and it waits on a run rather than on work.
 
-**1. The two ways to auphonic.com get run against the service.**
+**The two ways to auphonic.com get run against the service.**
 Transcription of a single track, and a multitrack production carrying
 one stereo track, are both built and neither has been sent for real.
 Whether the service hands a stereo track back with both channels is
 open. Until it has run, the manual describes those two ways from the
 source instead of from a run.
-
-**2. One time axis instead of two.** Every run has to lay pictures and
-sound on one common time line. There are two separate pieces of code
-doing that today -- one for multitrack, one for the ordinary run -- and
-they do not agree. On the ordinary path two cameras were handed to
-Resolve on top of each other, and a time window means a different
-moment for each camera where multitrack means one moment for all.
-
-The ordinary run is to become a special case of the multitrack one.
-Measured: nothing in the arithmetic prevents it. Five changed lines are
-enough to send an ordinary run through the common machinery, and on
-real material it places three cameras against their own clocks to the
-frame. What is left is a switch to throw, and one decision -- where the
-zero of the axis sits when several cameras start at different moments.
-
-Everything so far has been groundwork, done and shipped: both paths now
-name their files and their tracks alike, both check the colour and
-carry the camera's own keys, both measure the loudness, and both say
-which stage a run is in.
-
-**3. Multitrack without a camera.** Several recordings and no picture
-is refused today, and the reason is sound: the tracks are laid against
-the cameras. But the tracks could be laid against each other instead --
-equally long, one start point, ready for auphonic. It waits until there
-is one axis, so it is not built twice.
 
 ## What comes later
 
@@ -164,9 +146,9 @@ been refused, it has only not come up yet.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** All four want
   a package with a `pyproject.toml`. Here they would be four new
-  dependencies for one file whose 103 tests run as plain scripts in
-  half a minute. A thin pytest layer that starts those same scripts
-  unchanged is a different thing, and that one may come.
+  dependencies for one file whose 146 tests run as plain scripts. A
+  thin pytest layer that starts those same scripts unchanged is a
+  different thing, and that one may come.
 
 * **Screenshot comparison in the test suite.** The manual's pictures
   are taken in the real window style, which needs a screen somebody is
