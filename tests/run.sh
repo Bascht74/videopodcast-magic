@@ -233,13 +233,36 @@ TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 # A test nobody has timed there yet goes first, which is the safe way
 # round to be wrong.
 LONGEST="$HERE/state/longest"
+# VPM_ORDER=reverse turns the queue round, shortest first. It is not a
+# way of running the suite, it is the way of asking what the order is
+# worth: run it both ways and compare the two wall clocks. Without it
+# the only way to ask is to edit state/longest, and that is state -- it
+# gets left behind wrong, and then the queue is ordered by an experiment
+# somebody forgot to undo.
+#
+# What it answered, on the builder's own numbers from eight green runs
+# of 30.8.2026 -- the 108 tests all eight have in common, handed to its
+# five workers: longest first 140 s, alphabetical 159 s, shortest first
+# 208 s. So the order is worth about 19 s of 140, and having it
+# backwards costs 68.
+#
+# Not measured here, because this Mac cannot answer the question. It
+# runs twelve at a time, and 40 s of its 46-second run are one test:
+# finding_row reported 40 s inside that run, while all 114 tests
+# together came to 230 s, which is twelve workers idle five-eighths of
+# the time. When one test is nearly the whole wall clock, no order
+# can shorten it. Run forwards and backwards four times each on
+# 30.8.2026 the suite came out 49 s against 46 s -- backwards the
+# faster of the two, which is how you can tell it is noise.
+QUEUE="-rn"
+[ "$VPM_ORDER" = reverse ] && QUEUE="-n"
 TESTS=$(
   for t in $TESTS; do
     # A test nobody has timed yet goes first: unknown may be slow, and
     # being wrong about that costs a place in the queue and nothing else.
     took=$(awk -v k="$t" '$1 == k { print $2 }' "$LONGEST" 2>/dev/null)
     printf '%09d %s\n' "${took:-999999}" "$t"
-  done | sort -rn | cut -d' ' -f2)
+  done | sort $QUEUE | cut -d' ' -f2)
 if [ -z "$TESTS" ]; then
   echo "no tests found in $HERE" >&2
   exit 2
@@ -403,10 +426,19 @@ run_one() {
   # The seconds and the processes started, side by side. The seconds
   # say what it cost on this machine; the processes say what it will
   # cost on the builder, where the two do not agree at all.
+  #
+  # The file is asked after before it is read. A test that starts no
+  # process at all never has one -- about half of them, 54 of the 115
+  # in this run on 30.8.2026 -- and "wc -l < missing 2>/dev/null" does
+  # not keep quiet about it: the shell fails the redirection before wc
+  # is ever reached, so that 2>/dev/null belongs to a command which
+  # never started. Every one of those tests put a "No such file or
+  # directory" line into the run's stderr, fifty-four per run, in every
+  # log anybody has ever read, saying nothing.
   printf '  %s  %3d/%s  %-24s %-8s %3d s  %3d p\n' "$(date '+%H:%M:%S')" \
     "$(ls "$OUT" | wc -l | tr -d ' ')" "$TOTAL" "$t" \
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))" \
-    "$(wc -l < "$STARTS/$t" 2>/dev/null | tr -d ' ' || echo 0)"
+    "$( [ -s "$STARTS/$t" ] && wc -l < "$STARTS/$t" | tr -d ' ' || echo 0)"
 }
 export -f run_one crash_block
 export OUT HERE LIMIT TOTAL TRIES PY
