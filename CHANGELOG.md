@@ -30,6 +30,36 @@ survives.
 
 ### Changed
 
+- The window proposes the names of the voices. They read "Speaker 1" to
+  "Speaker n", which says nothing, while the program has what it takes
+  to say more: it writes down the speech of the recording the
+  separation came out of, ranks the voices by who does the asking, and
+  proposes Guest, Host, Host 1 to n. Only ever over a name the program
+  made up itself.
+- And a voice that gathers too few sentences inside the time window is
+  proposed for "do not use". That is the same omission the ranking
+  already makes, not a second threshold -- none was measured. Both ways
+  round: widen the window and the voice comes back to its camera and
+  takes its name from the new ranking. Measured on a real interview
+  where the separation found four voices and three people sat: over the
+  whole recording the fourth has 217 seconds and looks like a speaker,
+  inside the time window it has 29.
+- Where the expensive part runs, and where it does not. The recognition
+  costs 26 seconds for 87 minutes and runs once per recording, in a
+  thread of its own, after a separation exists -- the long computation
+  somebody either started or was asked about, and the step that says
+  which single recording carries every voice. Everything derived from
+  it hangs on the same 400 ms wait the preview already uses, which the
+  In and Out points already feed, so a moved In point changes the
+  proposal at once rather than on the next visit to another tab. The
+  window installs nothing and downloads nothing: it takes the
+  recognition macOS brings with it, and faster-whisper only where a run
+  already put it there.
+- The three buttons of the footer row stand at the same height.
+  Settings was four pixels shorter than Start and Dry run and centred,
+  so neither its top nor its bottom lined up. All four -- the break-off
+  button as well -- now take the tallest of their own size hints, not a
+  fixed number.
 - "Do not use" on a voice now means it. It took the camera away and
   greyed the name, and stopped there: the voice still became a track, a
   speaker at auphonic.com, a line in the transcript and one in the
