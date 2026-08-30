@@ -10,12 +10,12 @@ hier eine Schätzung, die wie eine Zusage aussieht.
 Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
-in [CHANGELOG.md](CHANGELOG.md), Fassung für Fassung. Diese Seite ist
+in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
 zuletzt für 2.14.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Fassung 2.14.0-beta.** Es läuft jede Woche, an echtem Material.
+**Version 2.20.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -29,10 +29,10 @@ De-Bleed, Rauschunterdrückung und Transkript bei auphonic.com sind
 freiwillig, und das Programm lädt erst hoch, wenn es dazu aufgefordert
 wird.
 
-Es ist eine Python-Datei mit rund 30000 Zeilen, ohne Paket und ohne
+Es ist eine Python-Datei mit rund 36000 Zeilen, ohne Paket und ohne
 Bauschritt. Python 3.10 oder neuer muss da sein, die zwei Pakete
 installiert es selbst. Benutzt wird es unter macOS und Windows, unter
-Linux läuft es mit zwei Einschränkungen. Eine Suite aus 103 Tests
+Linux läuft es mit zwei Einschränkungen. Eine Suite aus 119 Tests
 braucht rund eine halbe Minute und läuft bei jedem Push auf allen drei
 Systemen.
 
@@ -40,60 +40,47 @@ Systemen.
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
 abgewiesen statt halb gelesen. Wer Projekte über Monate aufhebt, sollte
 das wissen. Beta endet, sobald das Format stillhält, und eine Änderung,
-die es bricht, hebt die erste Stelle der Fassungsnummer.
+die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Nach Nutzen gegen Aufwand geordnet. Die ersten zwei sind klein, die
-zwei danach warten auf einen Lauf und auf eine Entscheidung, und im
-letzten liegt die Arbeit.
+Nach Nutzen gegen Aufwand geordnet. Der erste wartet auf einen Lauf, im
+zweiten liegt die Arbeit, der dritte folgt darauf.
 
-**1. Die zwei Wege zu auphonic.com laufen einmal gegen den echten
-Dienst.** Das Transkript einer einzelnen Spur und eine
+**1. Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
+gelaufen.** Das Transkript einer einzelnen Spur und eine
 Multitrack-Produktion mit einer Stereospur sind beide gebaut, und
-keiner der beiden ist je wirklich hochgeladen worden. Ob der Dienst
-eine Stereospur zweikanalig zurückgibt, ist offen. Bis dahin
+keiner ist je wirklich hinausgegangen. Ob der Dienst eine Stereospur
+mit beiden Kanälen zurückgibt, ist offen. Bis das gelaufen ist,
 beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt aus
 einem Lauf.
 
-**2. Die Totale bekommt einen ruhigeren Takt.** Der Abstand, nach dem
-die Totale wiederkommt, entscheidet als einziger Wert darüber, wie
-unruhig der Schnitt wirkt, und die Messung sagt, dass er frei ist: die
-falsche Bildzeit kommt bei 45, 60, 75, 90 und 120 Sekunden auf die
-Zehntelsekunde gleich heraus. Bei 75 statt 45 Sekunden sind es 141
-Totalen statt 208, und der mittlere Abstand zwischen ihnen wächst von
-38 auf 64 Sekunden, bei gleicher Trefferquote. Der Vorgabewert steht
-auf 40 Sekunden, unterhalb von allem, was gemessen wurde. Was bleibt,
-ist eine Entscheidung und keine Messung: wie lange eine Folge ohne
-eine Totale auskommt, ist Geschmackssache, deshalb bleibt die Zahl ein
-Schalter.
+**2. Eine Zeitachse statt zwei.** Jeder Lauf muss Bilder und Ton auf
+eine gemeinsame Zeitlinie legen. Dafür gibt es heute zwei getrennte
+Stücke Code — eins für Multitrack, eins für den gewöhnlichen Lauf —,
+und sie sind sich nicht einig. Auf dem gewöhnlichen Weg wurden zwei
+Kameras übereinander an Resolve übergeben, und ein Zeitfenster meint
+dort für jede Kamera einen anderen Moment, während Multitrack einen
+Moment für alle meint.
 
-**3. Multitrack benennt seine Stimmen selbst.** Bei einem Mikrofon je
-Person weiß das Programm, wer wann spricht, und es weiß, welches
-Mikrofon welches ist. Beides gegeneinander zu halten müsste von selbst
-ergeben, dass „Stimme 2“ das Mikrofon dessen ist, der die Fragen
-stellt. Dann fällt das Benennen von Hand weg. Derselbe Vergleich ist
-eine Absicherung: wo Trennung und Mikrofon sich widersprechen, ist
-etwas faul. Heute treffen die beiden nie aufeinander: die
-Übersprech-Rechnung vergleicht Mikrofone untereinander, und die
-Stimmen einer Trennung heißen nach der Reihenfolge, in der sie reden,
-bis jemand darüberschreibt. Die Daten liegen vor, gemessen ist es
-nicht.
+Der gewöhnliche Lauf soll ein Sonderfall des Multitrack-Laufs werden.
+Gemessen: an der Rechnung hindert nichts. Fünf geänderte Zeilen
+genügen, um einen gewöhnlichen Lauf durch die gemeinsame Maschine zu
+schicken, und an echtem Material legt sie drei Kameras auf das
+Einzelbild genau an ihre eigenen Uhren. Es fehlen eine Weiche und eine
+Entscheidung: wo der Nullpunkt der Achse liegt, wenn mehrere Kameras zu
+verschiedenen Zeiten anfangen.
 
-Die Hälfte davon ist es inzwischen. Wer fragt und wer antwortet, lässt
-sich aus einem Transkript lesen: Fragezeichen und der Redeanteil. An
-einer echten Folge gemessen stimmen beide überein, und die Fragen sind
-das stärkere der zwei Zeichen — sie überstehen den langen Anfang, in
-dem einer minutenlang spricht, ohne zu fragen, und der Redeanteil nicht.
-Es trüge als Rangfolge, nicht als Schwelle: es darf eine Rolle
-vorschlagen, aber nie allein entscheiden. Ob es als Vorschlag gebaut
-wird, ist eine Entscheidung und keine Messung.
+Alles bisherige war Vorarbeit, fertig und veröffentlicht: beide Wege
+benennen ihre Dateien und Spuren jetzt gleich, beide prüfen die Farbe
+und übernehmen die Schlüssel der Kamera, beide messen die Lautheit, und
+beide sagen, in welcher Stufe ein Lauf gerade ist.
 
-Die Entscheidung ist gefallen, und der Vorschlag steht: nach einem Lauf
-nennt das Protokoll, wer fragt, mit den Sätzen und den Fragen dahinter,
-und es wird nichts daraus gesetzt. Was fehlt, ist die andere Hälfte —
-die Trennung gegen die Mikrofone zu halten, damit „Stimme 2“ ihren Namen
-bekommt, ohne dass jemand ihn tippt.
+**3. Multitrack ohne Kamera.** Mehrere Aufnahmen und kein Bild wird
+heute abgelehnt, und der Grund ist richtig: die Spuren werden an die
+Kameras gelegt. Man könnte sie aber gegeneinander legen — gleich lang,
+ein Startpunkt, fertig für auphonic. Das wartet, bis es eine Achse
+gibt, damit es nicht zweimal gebaut wird.
 
 ## Was später kommt
 
@@ -171,7 +158,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 
 * **Ein Wiki.** Das Handbuch steht in `docs/`, in zwei Sprachen, und
   ein Test hält die beiden Seiten gegeneinander. Ein Wiki wäre eine
-  zweite Fassung, die nichts prüft.
+  zweite Version, die nichts prüft.
 
 * **Verhaltensregeln, Beitragsanleitung, Vorlagen für Issues und Pull
   Requests.** Sie heben eine Prozentzahl auf einer GitHub-Seite,
@@ -179,7 +166,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   wirklich jemand etwas meldet.
 
 * **Conventional Commits.** Ihr Zweck ist ein erzeugter Changelog und
-  eine erzeugte Fassungsnummer. Dieser Changelog ist von Hand
+  eine erzeugte Versionsnummer. Dieser Changelog ist von Hand
   geschrieben und trägt in fast jedem Punkt einen Messwert; ein
   Generator machte daraus eine Liste von Betreffzeilen.
 
@@ -232,8 +219,8 @@ will. Danach zu fragen ist ein guter Anlass.
 
 **Was eine Meldung brauchbar macht:** was du gestartet hast, was
 herauskam und was du stattdessen erwartet hast. Das Log nennt die
-Fassung und welche Kopie des Scripts gelaufen ist. Diese Zeile lohnt
-sich mitzuschicken: mehrere lauffähige Kopien einer Fassung sind hier
+Version und welche Kopie des Scripts gelaufen ist. Diese Zeile lohnt
+sich mitzuschicken: mehrere lauffähige Kopien einer Version sind hier
 normal, und ohne diese Zeile ist später nicht zu sagen, warum zwei
 Läufe verschieden ausgingen.
 
