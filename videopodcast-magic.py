@@ -607,8 +607,13 @@ def count_process_starts(where):
     append per start. Wrapped here rather than counted at each call
     site, because there are eighty of those and one of them would be
     forgotten.
+
+    Only Popen is wrapped, because that is where a process is really
+    started: subprocess.run builds one itself. Wrapping both counted
+    every run twice, and the numbers in the suite and on the builder
+    stood about 1.7 times too high until 31.8.2026.
     """
-    was_run, was_popen = subprocess.run, subprocess.Popen
+    was_popen = subprocess.Popen
 
     def note(argv):
         first = argv if isinstance(argv, str) else (argv[0] if argv else "?")
@@ -618,16 +623,11 @@ def count_process_starts(where):
         except OSError:
             return
 
-    def run(*a, **k):
-        note(a[0] if a else k.get("args") or [])
-        return was_run(*a, **k)
-
     class Popen(was_popen):
         def __init__(self, *a, **k):
             note(a[0] if a else k.get("args") or [])
             was_popen.__init__(self, *a, **k)
 
-    subprocess.run = run
     subprocess.Popen = Popen
 
 
@@ -1081,7 +1081,7 @@ CUT_FIELDS = (
      'after a question the answer is on screen this much earlier',
      ('Applies only where "Question" asks for it. The point comes from '
       'the sound, and the Edit Change Delay is not added again.')),
-    ("wide-after", 'Wide shot after', "40", "s",
+    ("wide-after", 'Wide shot after', "70", "s",
      'from this hold time on, a look at the wide shot',
      'Placed on a sentence boundary, not by the clock. 0 turns it off.'),
     ("wide-length", 'Wide shot holds', "5", "s",
@@ -4152,7 +4152,29 @@ def rules_from_settings(args):
         **picked)
 
 
-def insert_wide_shots(cut, tracks, wide_shot, after=40.0, duration=5.0,
+# How long one camera may hold before the picture looks away for a
+# while. The number decides how restless the cut feels, and it stood at
+# 40 seconds from a single reference edit until it was measured.
+#
+# Measured 31.8.2026 over 87 minutes of real interview, one guest who
+# holds the floor for 59 of them:
+#
+#   40 s   312 shots   25.9 % wide   the guest is left 77 times, every 39 s
+#   60 s   246 shots   21.8 % wide                     46 times, every 80 s
+#   70 s   228 shots   21.1 % wide                     37 times, every 104 s
+#   90 s   212 shots   19.2 % wide                     29 times, every 135 s
+
+# Every one of those places the wide shot on a sentence boundary, and
+# none of them leaves anybody mid-word. So the number is not about
+# correctness but about rhythm, and Sebastian chose 70: it halves the
+# interruptions of a long answer against 40 and still looks away twice
+# a minute. What it costs is set out above; whoever wants the old
+# restlessness sets 40 again.
+WIDE_AFTER_S = 70.0
+
+
+def insert_wide_shots(cut, tracks, wide_shot, after=WIDE_AFTER_S,
+                      duration=5.0,
                       min_len=1.2, at_latest=120.0, camera_of=None,
                       rules=None):
     """Break up long shots by leaving the speaker for a while.
@@ -5045,7 +5067,8 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
 
 def camera_cut(tracks, length, camera_of, wide_shot,
                min_len=MIN_EDIT_DURATION_S,
-               delay=0.3, after=40.0, holds=5.0, at_latest=120.0,
+               delay=0.3, after=WIDE_AFTER_S, holds=5.0,
+               at_latest=120.0,
                edge=True, rules=None, faint=True):
     """Build the whole camera cut, in the order the rules apply.
 
@@ -5492,7 +5515,8 @@ def wide_marks_applied(d, wide_names, speakers_on=None, marked=False):
     return dict(d, cameras=fresh)
 
 
-def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3, after=40.0,
+def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
+                   after=WIDE_AFTER_S,
                        holds=5.0, at_latest=120.0, edge=True,
                        rules=None):
     """Compute the camera cut without writing anything.
@@ -20204,11 +20228,11 @@ def build_argument_parser():
                              "it: %s. (default: %s)"
                              % (", ".join(values), default_value))
     ap.add_argument("--wide-after", dest="wide_after", type=float,
-                    default=40.0, metavar="SECONDS",
+                    default=WIDE_AFTER_S, metavar="SECONDS",
                     help="from this hold time on, a shot is broken up by "
                          "leaving the speaker for a while -- placed on a "
                          "sentence boundary nearby, not by the clock. "
-                         "0 turns it off. (default: 40)")
+                         "0 turns it off. (default: 70)")
     ap.add_argument("--wide-length", dest="wide_length", type=float,
                     default=5.0, metavar="SECONDS",
                     help="how long such an interposed shot stands at "

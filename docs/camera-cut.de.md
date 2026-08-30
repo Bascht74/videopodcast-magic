@@ -80,9 +80,13 @@ Vier Felder formen den Schnitt selbst:
 
 Vier weitere formen den Weitwinkel:
 
-* **Weitwinkel nach**: 40 s, ab dieser Standzeit ein Blick in den
+* **Weitwinkel nach**: 70 s, ab dieser Standzeit ein Blick in den
   Weitwinkel; kleiner gibt mehr Weitwinkel, 0 schaltet ihn ab (auf der
-  Kommandozeile `--wide-after`)
+  Kommandozeile `--wide-after`). An 87 Minuten Interview gemessen, in
+  denen einer 59 Minuten redet: bei 40 Sekunden verlässt ihn das Bild
+  77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104. Beide setzen
+  den Schnitt auf eine Satzgrenze — es geht also um Rhythmus, nicht um
+  Richtigkeit.
 * **Weitwinkel steht**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
 * **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der

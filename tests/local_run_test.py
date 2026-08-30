@@ -36,11 +36,11 @@ shutil.rmtree(D, ignore_errors=True)
 os.makedirs(D)
 # How long the material is, and why it is not shorter. The program stops
 # with "the common range of sound and picture is only ... long" below 30
-# seconds, and the second camera starts 1.5 s late, so the window is
-# LENGTH - 1.5. At 34 the window is 32.5 s: 2.5 s over the barrier.
+# seconds, and the second camera starts CAM_LATE late, so the window is
+# LENGTH - CAM_LATE. At 34 the window is 32.5 s: 2.5 s over the barrier.
 # It used to be 40 s, which cost the run a sixth more of everything it
 # decodes without proving anything the 34 do not.
-RATE, LENGTH = 48000, 34.0
+RATE, LENGTH, CAM_LATE = 48000, 34.0, 1.5
 # Five turns, each at least 5 s. The camera cut merges anything under
 # MIN_EDIT_DURATION_S = 3 s into the shot that follows, so a turn near
 # that length would cost the "more than two shots" check its meaning.
@@ -81,15 +81,37 @@ write(D + "/room.wav", 0.6 * host + 0.6 * guest + noise)
 # of processor time per file, colour bars at ultrafast cost 0.22 s.
 # Resolution and frame rate stay as they were -- a camera file with an
 # odd frame rate would be a different test.
-for name, late in (("CamHost", 0.0), ("CamGuest", 1.5)):
-    subprocess.run(
-        ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
-         "smptebars=size=320x180:rate=25:duration=%.1f" % (LENGTH - late),
-         "-ss", "%.2f" % late, "-i", D + "/room.wav",
-         "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
-         "-preset", "ultrafast",
-         "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
-         D + "/%s.mov" % name], check=True)
+#
+# One call, two files. The second camera is the first from CAM_LATE on,
+# so one ffmpeg reads the room sound once and writes both outputs: the
+# -ss in front of the second file is an output option and cuts that
+# file alone. This is why it may be done in one call at all -- the two
+# files differ in nothing but where they begin. Both come out byte for
+# byte as the two calls made them in the sound, to the second in
+# length, and one frame shorter in the picture, which nothing here
+# reads. Measured: 0.135 s for the two calls, 0.077 s for the one, and
+# one process start fewer -- and a process start is what the builder
+# charges for. The count the suite prints went 87 -> 85 with it, which
+# is two because that counter sees a subprocess.run once as a run and
+# once again as the Popen inside it.
+#
+# That is all the building is worth, and it is worth writing down: of
+# the 50 processes this test really starts, the material is one. The
+# other 49 belong to the run, and no flag can take them away without
+# taking a stage of the run with them.
+subprocess.run(
+    ["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+     "smptebars=size=320x180:rate=25:duration=%.1f" % LENGTH,
+     "-i", D + "/room.wav",
+     "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
+     "-preset", "ultrafast",
+     "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
+     D + "/CamHost.mov",
+     "-ss", "%.2f" % CAM_LATE,
+     "-map", "0:v", "-map", "1:a", "-c:v", "libx264",
+     "-preset", "ultrafast",
+     "-pix_fmt", "yuv420p", "-c:a", "pcm_s16le", "-shortest",
+     D + "/CamGuest.mov"], check=True)
 
 plan = {"format": vpm.FILE_FORMAT, "created_by": "test", "production": "WA",
         "tracks_of": [
