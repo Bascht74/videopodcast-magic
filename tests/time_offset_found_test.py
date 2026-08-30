@@ -1,11 +1,22 @@
 # -*- coding: utf-8 -*-
-"""Three microphones, a known sound path, a known error -- is it found?"""
+"""Sound path and a track's own offset are told apart out of the bleed.
+
+Three synthetic voices talk in turn into three microphones; each one
+carries the others faintly and later -- the sound path between the
+seats, with two echoes behind it -- and every track is then shifted by
+an offset of its own. In order: that every pair came back measured in
+both directions, the sound path of each pair, and the offset of each
+track that has one. The material is built here, so both numbers are
+known exactly, and the tolerances stay far under the echo: a
+measurement that took an echo for the direct path falls.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, struct, sys, tempfile
+import importlib.util, struct, sys, tempfile, time
 import numpy as np
+began = time.time()
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -13,6 +24,18 @@ spec.loader.exec_module(vpm)
 SR = vpm.SR
 T = tempfile.mkdtemp(prefix="offset_")
 rng = np.random.default_rng(7)
+
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
 
 DURATION = 180.0
 n = int(DURATION * SR)
@@ -79,19 +102,46 @@ for i in range(3):
     tracks.append({"name": "Track%d" % i, "axis": file_path,
                    "source": file_path, "a": 0.0, "b": 1.0, "drift": False})
 
+PAIRS = ((0, 1), (0, 2), (1, 2))
+# How far a measurement may sit from what was built in. Both stay far
+# under the 15 ms echo, so a pair whose direct path was mistaken for an
+# echo falls here.
+PATH_ALLOWED = 0.30      # ms
+OFFSET_ALLOWED = 1.00    # ms
+
 measured, lines = vpm.measure_offsets_by_crosstalk(tracks)
+for a, b, why in lines:
+    print("  not measured  %-8s -> %-8s %s" % (a, b, why))
 solution = {}
-for (i, j) in ((0,1),(0,2),(1,2)):
+for (i, j) in PAIRS:
     solution[(i, j)] = vpm.solve_pair_offsets(measured, i, j)
-print("Sound paths, expected %s:" % PATH)
-for (i, j) in ((0,1),(0,2),(1,2)):
-    print("   %d<->%d  %+5.2f ms   (built in %.1f)"
-          % (i, j, solution[(i,j)][0], PATH[(i,j)]))
-print("\nOffset per track (reference track 0):")
-for i in range(3):
-    have = 0.0 if i == 0 else solution[(0, i)][1]
-    want = ERROR[i]-ERROR[0]
-    print("   Track%d  measured %+6.2f ms   built in %+6.2f  %s"
-          % (i, have, want, "ok" if abs(have-want) < 1.0 else "OFF"))
-    assert abs(have-want) < 1.0
-print("\nOK: sound path and error cleanly told apart.")
+
+# Before the numbers: a pair the measurement gave up on comes back as
+# nothing at all, and every line below would then report a wrong path
+# where in truth nothing was ever measured.
+solved = sum(1 for pair in PAIRS if solution[pair] is not None)
+check("every pair of microphones came back measured both ways",
+      solved == 3,
+      "%d of %d pairs solved, %d directions the measurement gave up on"
+      % (solved, len(PAIRS), len(lines)))
+
+for (i, j) in PAIRS:
+    got = solution[(i, j)][0] if solution[(i, j)] else float("nan")
+    check("the sound path between microphone %d and %d is found" % (i, j),
+          abs(got - PATH[(i, j)]) <= PATH_ALLOWED,
+          "%+.3f ms measured against %+.2f ms built in, %.2f ms allowed"
+          % (got, PATH[(i, j)], PATH_ALLOWED))
+
+# Track 0 is the reference, its offset is zero by definition, and a
+# check on it could never fall. It is left out on purpose.
+for i in (1, 2):
+    have = solution[(0, i)][1] if solution[(0, i)] else float("nan")
+    want = ERROR[i] - ERROR[0]
+    check("the offset built into track %d is found" % i,
+          abs(have - want) <= OFFSET_ALLOWED,
+          "%+.2f ms measured against %+.2f ms built in, %.2f ms allowed"
+          % (have, want, OFFSET_ALLOWED))
+
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

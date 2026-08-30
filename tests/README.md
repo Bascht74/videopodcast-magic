@@ -1,6 +1,6 @@
 # The test suite
 
-148 tests against `../videopodcast-magic.py`. Every one of them stands
+149 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -229,7 +229,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-148 tests. The name is the one a red line carries, and beside it the
+149 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -294,12 +294,12 @@ it is green.
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
 | `time_guess_refused` | A video nothing can place is refused, not laid down at a guess. |
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
-| `time_offset_found` | Three microphones, a known sound path, a known error -- is it found? |
+| `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
 | `time_over_midnight` | Midnight is one night, not a day apart. |
 | `time_sound_stays_put` | Does a time window move the sound against the picture in Multitrack? |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
-| `time_tracks_sit_together` | The whole way: measure, place on the axis, measure again. |
+| `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
 | `time_window_is_shared` | The window is the stretch EVERY camera saw, not the one any saw. |
 | `time_zero_at_in_point` | #66: Where does programme time start on the clock, and what hangs on it? |
 
@@ -317,7 +317,7 @@ it is green.
 | `voice_raw_times_kept` | Local speaker separation: the arithmetic around the model. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
 | `voice_split_hears_two` | Let the speaker separation really run, on two voices we spoke. |
-| `voice_turns_found` | Does speakers_from_tracks() find the speech sections again? |
+| `voice_turns_found` | Speech is found back where it was put, offset and all. |
 | `voice_words_intact` | Speech recognition: the words, their times and their punctuation. |
 
 ### `cut_` -- the cut by speaker, and the player over it
