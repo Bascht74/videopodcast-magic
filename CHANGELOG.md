@@ -9,6 +9,24 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Changed
+
+- Two places that started a process five times now start one. The frame
+  timing of a video is sampled at five points, and ffprobe takes all
+  five intervals in a single call; the bleed between microphones is
+  sampled in five windows, and where those reach no further than a few
+  minutes in, the recording is read once and cut up in memory instead.
+  Not for a long interview: at 16 kHz the whole of a two-hour one is
+  460 MB, which is why the sampling exists.
+- What that is worth depends entirely on the machine. On this Mac
+  `local_run` went from 2.26 seconds to 1.73 and from 3.79 seconds of
+  processor time to 3.13. On the Windows builder the same test takes
+  126 seconds, and the reason is process starts: it made 62 of them,
+  and it now makes 46. That test is the longest on the builder by a
+  factor of two, so it is where a minute of everyone's waiting sits.
+
 ## [2.16.0-beta] - 2026-08-30
 
 ### Added
