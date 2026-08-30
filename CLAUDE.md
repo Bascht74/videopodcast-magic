@@ -210,6 +210,15 @@ piece needs the first"). That sentence is the point of the rule. An
 exhortation to parallelise gets skipped once you are deep in a task; a
 sentence that has to be written does not.
 
+**A file another strand owns is not a reason to wait. Prepare instead.**
+The second strand reads that file now and lays down its changes as
+verbatim old-text/new-text pairs -- never line numbers, which the first
+strand invalidates as it works -- and they are applied the moment the
+file comes free. Every pair has to match exactly once in the file as it
+stands; a pair that matches twice or not at all is thrown away, not
+guessed at. What must not happen is two strands editing one file and
+their work being merged by hand afterwards.
+
 Say what was measured and what was assumed. Never claim a test passed
 without running it.
 

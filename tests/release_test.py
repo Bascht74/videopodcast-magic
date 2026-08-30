@@ -10,8 +10,10 @@ written out in docs/notes/claude_intern.md.
 """
 import ast
 import io
+import json
 import os
 import re
+import subprocess
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -181,7 +183,7 @@ check("the project file drops the switch and its key",
       and "podcast" in left,
       "the call it would write: %s" % (left,))
 
-print("\n3. Both languages, and each in its own")
+print("\n5. Both languages, and each in its own")
 # A machine cannot say whether a sentence is good, but it can say
 # whether a sentence is in the language it claims to be. Function words
 # give it away, the same trick german_hunt_test uses on the manual.
@@ -210,6 +212,7 @@ def prose(text):
 newest, newest_german = two_halves(blocks[0])
 check("the newest version says everything in both languages",
       bool(newest_german.strip()),
+      "" if newest_german.strip() else
       "no %s line under %s" % (MARK_DE, blocks[0].split("]")[0]))
 if newest_german.strip():
     same = (len(re.findall(r"^- ", newest, re.M)),
@@ -283,12 +286,126 @@ if newest_german.strip():
           "%d of them, first: %s" % (len(half_told), half_told[0])
           if half_told else "")
 
+print("\n6. The file hangs on the releases that are out")
+# Whoever has no copy yet gets one from the release page, and the
+# program's own update reads that page too. A release without the file
+# offers a source archive instead, and nothing in the working tree can
+# see that -- so this section asks github.com.
+ASSET = "videopodcast-magic.py"
+# The first release the file was attached to. What went out before it
+# is left as it is: attaching a file to an old release changes what was
+# published, and nobody installs from that far back.
+FIRST_WITH_FILE = "v2.6.0-beta"
+left_out = []
+
+
+def from_github(url, first_bytes=0):
+    """What an address answers, or None where nothing answered.
+
+    Over curl rather than urllib: a Python from python.org verifies
+    against a certificate store it does not have, and a machine that
+    lacks only that must not turn this red. Every reason there is no
+    answer -- no network, no name, no permission, a spent rate limit
+    -- is written down and leaves the section unasked.
+    """
+    # -L, because an attachment is handed on to the storage it lies in.
+    call = ["curl", "-fsSL", "--max-time", "20",
+            "-H", "Accept: application/vnd.github+json"]
+    if first_bytes:
+        call += ["-r", "0-%d" % (first_bytes - 1)]
+    try:
+        got = subprocess.run(call + [url], stdout=subprocess.PIPE,
+                             stderr=subprocess.PIPE)
+    except OSError as why:
+        left_out.append("curl did not run: %s" % why)
+        return None
+    if got.returncode:
+        left_out.append(
+            "%s answered nothing (curl %d: %s)"
+            % (url.split("/")[2], got.returncode,
+               got.stderr.decode("utf-8", "replace").strip()[:60]))
+        return None
+    return got.stdout
+
+
+# The address is the program's own, so a repository that moves takes
+# this with it. RELEASE_LIST is written as two pieces of one string.
+named = re.search(r'^RELEASE_LIST = \(([^)]+)\)', source, re.M)
+listing = "".join(re.findall(r'"([^"]*)"', named.group(1))) if named else ""
+check("the program says where its releases are listed", bool(listing),
+      listing or "no RELEASE_LIST in the program")
+
+answered = from_github(listing) if listing else None
+try:
+    releases = json.loads(answered.decode("utf-8")) if answered else None
+except ValueError as why:
+    left_out.append("what came back is not the list: %s" % why)
+    releases = None
+
+if not isinstance(releases, list):
+    print("  (%s -- this section asked nothing)"
+          % (left_out[0] if left_out else "no address to ask"))
+else:
+    # The list comes newest first, so the boundary is a place in it.
+    # Where it has dropped off the end, everything answered is newer.
+    published = [r for r in releases if not r.get("draft")]
+    tags = [r.get("tag_name") or "" for r in published]
+    want = published[:tags.index(FIRST_WITH_FILE) + 1
+                     if FIRST_WITH_FILE in tags else len(tags)]
+    without = []
+    for one in want:
+        names = [a.get("name") for a in one.get("assets", [])]
+        if ASSET not in names:
+            without.append("%s carries %s"
+                           % (one.get("tag_name"), ", ".join(names)
+                              or "nothing but the source archive"))
+    check("every release since %s carries the file" % FIRST_WITH_FILE,
+          not without,
+          "%d of %d carry %s; %s" % (len(want) - len(without), len(want),
+                                     ASSET, "; ".join(without[:3])
+                                     or "none is missing it"))
+
+    # A wrong or half-written attachment is short, and the size comes
+    # with the list, so nothing has to be fetched to see it. The file
+    # only ever grows, so half of the one in the working tree is under
+    # every release that was ever made.
+    floor = os.path.getsize(SCRIPT) // 2
+    stubs = ["%s: %d bytes" % (one.get("tag_name"), a.get("size") or 0)
+             for one in want for a in one.get("assets", [])
+             if a.get("name") == ASSET and (a.get("size") or 0) < floor]
+    check("none of them is a stub", not stubs,
+          "under %d bytes: %s" % (floor, "; ".join(stubs[:3])
+                                  or "none of them"))
+
+    newest = want[0] if want else {}
+    address = [a.get("browser_download_url")
+               for a in newest.get("assets", [])
+               if a.get("name") == ASSET]
+    # The version stands near the top, so the first pages of the file
+    # answer for the file's version without fetching a megabyte and a
+    # half. The window follows the line as the program grows.
+    window = max(32768, source.find('VERSION = "') + 8192)
+    head = from_github(address[0], window) if address else None
+    if head is not None:
+        text = head.decode("utf-8", "replace")
+        said = re.search(r'^VERSION = "([^"]+)"', text, re.M)
+        tag = newest.get("tag_name") or ""
+        check("what hangs on %s is the program" % tag,
+              text.startswith("#!") and bool(said),
+              "%d bytes, %r" % (len(head), text[:20]))
+        check("and it carries the version of its tag",
+              bool(said) and "v" + said.group(1) == tag,
+              "the file says %s, the tag says %s"
+              % (said.group(1) if said else "nothing", tag))
+
 print("""
 Before the tag -- five things, and the tag comes last:
 
   checked here   the changelog names this version, in the right groups
   checked here   the READMEs name this version
   checked here   the manual's defaults match the parser (docs_truth)
+  checked here   the file hangs on every release github.com lists,
+                 where github.com answers at all
   ONLY A PERSON  the manual says what a person can now see or feel,
                  in both languages -- a moved default, a new answer in
                  a field, a computation that costs their processor
@@ -300,5 +417,13 @@ Before the tag -- five things, and the tag comes last:
 And before all of them: green on all six builder jobs, and the times
 fetched with builder_times.sh and looked at.""")
 
-print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
+# Said, not passed over. Not the SKIPPED marker: that one counts the
+# whole test as skipped, and run.sh allows one skip in the suite, which
+# a machine without a registry already takes. A machine without a
+# network would then be red for the weather.
+if left_out:
+    print("\nLeft out: %s" % left_out[0])
+print("\nFAIL: %s" % ", ".join(error) if error else
+      "\nAll good." if not left_out else
+      "\nGood as far as it went -- github.com was not asked.")
 sys.exit(1 if error else 0)

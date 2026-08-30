@@ -1,0 +1,8 @@
+# run	finished	job	test	how
+33325385986	2026-08-30	ubuntu-latest / py3.14	interface	beside rc=1
+33325385986	2026-08-30	macos-latest / py3.14	sound_and_picture	beside rc=1
+33324797043	2026-08-30	macos-latest / py3.10	sound_and_picture	beside rc=1
+33324285308	2026-08-30	ubuntu-latest / py3.10	interface	beside rc=1
+33324285308	2026-08-30	macos-latest / py3.10	sound_and_picture	beside rc=1
+33324285308	2026-08-30	macos-latest / py3.14	sound_and_picture	beside rc=1
+33323745147	2026-08-30	macos-latest / py3.14	sound_and_picture	beside rc=1
