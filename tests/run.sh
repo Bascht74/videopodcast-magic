@@ -460,6 +460,38 @@ TOTAL=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -cv '^$')
 echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$' \
   | xargs -P "$WORKERS" -I{} bash -c 'run_one {}'
 
+# Whatever came back red is run once more, alone. Sebastian, 31.8.2026,
+# on a window test that fell on the Linux builder about half the time
+# and said nothing at all: "Failed tests we could repeat individually
+# at the end. If they are green then, it is the parallelism."
+#
+# It is the difference between a fault and a crowd. A test that is red
+# beside eleven others and green by itself has not found anything --
+# but it has not proved anything either, and it is not counted green
+# without saying so: it lands under "unsteady" with the reason, the way
+# a crashed-then-green one does. Only one more go, and only where the
+# whole run was quick enough that the answer is worth the wait.
+ALONE=${ALONE:-1}
+if [ "$ALONE" = 1 ] && [ "$WORKERS" -gt 1 ]; then
+  for t in $TESTS; do
+    case "$(head -1 "$OUT/$t")" in RED*) ;; *) continue ;; esac
+    was=$(cat "$OUT/$t")
+    began=$SECONDS
+    printf '  %s  again, alone: %-24s' "$(date '+%H:%M:%S')" "$t"
+    run_one "$t" > /dev/null 2>&1
+    if [ "$(head -1 "$OUT/$t")" = "ok" ]; then
+      { echo "ok"
+        echo "      unsteady: red beside the others, green alone after"\
+             "$((SECONDS - began)) s -- what it said the first time:"
+        echo "$was" | tail -n +2
+      } > "$OUT/$t"
+      echo " green"
+    else
+      echo " red again"
+    fi
+  done
+fi
+
 good=0; bad=0; past=0; shaky=0; names=""; left_out=""; unsteady=""
 for t in $TESTS; do
   first=$(head -1 "$OUT/$t")
@@ -498,7 +530,8 @@ fi
 # this needs to see that something crashed and then did not, or the
 # next person to meet it starts from nothing.
 if [ $shaky -gt 0 ]; then
-  echo "unsteady: $shaky --$unsteady   (crashed, then green when run again)"
+  echo "unsteady: $shaky --$unsteady   (green on a second go; the line"\
+       "under each one says whether it crashed or only fell beside others)"
 fi
 # The barrier on what may be left out, and it is a ratchet like the counts
 # in style_test.py: it may fall, it may not rise. A skipped test checked

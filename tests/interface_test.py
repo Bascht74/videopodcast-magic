@@ -95,9 +95,21 @@ for language in ("de_DE.UTF-8", "en_US.UTF-8"):
         env["VPM_SHOTS"] = tempfile.mkdtemp(prefix="vpm_shots_")
     row = []
     for s in present:
+        # A runtime folder of its own for every window. Six Qt
+        # processes start here at the same moment -- three scripts in
+        # two languages -- and Qt puts lock files and shared memory
+        # under the one folder they would otherwise share. Whether that
+        # is what makes the Linux builder fail silently is not proved;
+        # the failure says nothing at all, and this is the cheapest
+        # thing that could explain it. The line the retry prints below
+        # says whether it helped: if a window still fails on its own
+        # beside five others, it was not this.
+        alone = tempfile.mkdtemp(prefix="vpm_runtime_")
+        os.chmod(alone, 0o700)
+        mine = dict(env, XDG_RUNTIME_DIR=alone)
         row.append((s, subprocess.Popen(
             [sys.executable, s], stdout=subprocess.PIPE,
-            stderr=subprocess.PIPE, text=True, env=env, cwd=HERE)))
+            stderr=subprocess.PIPE, text=True, env=mine, cwd=HERE)))
     started.append((language, row, env))
 
 for language, row, env in started:
