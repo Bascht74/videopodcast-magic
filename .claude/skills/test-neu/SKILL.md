@@ -17,7 +17,9 @@ starting Python, importing a megabyte and a half of program, bringing Qt
 up, letting ffmpeg build a piece of material. Whoever has already built
 that ground can ask it a twentieth question for nothing.
 
-Look at what is there first. The second line of every file is its claim:
+Look at what is there first. The second line of every file is its claim,
+and all of them together stand in the table at the end of
+`tests/README.md`, sorted under the twelve prefixes. In the terminal:
 
 ```bash
 cd tests && for f in *_test.py; do
@@ -40,6 +42,13 @@ done
 twice. One file, one claim beats the saving: a file that claims two
 things has a name that conceals one of them, and at the next rebuild
 somebody clears the concealed one away.
+
+**A new file owes a row in that table, and the row is not written by
+hand.** `python3 overview.py` writes the whole table out of the
+docstrings; `text_tests_listed_test.py` holds it against the folder, so
+a list that was not written back turns the suite red instead of going
+quietly stale. Renaming a test and rewording its first line need the
+same step.
 
 ## 2. What it is called
 
@@ -74,8 +83,13 @@ line alone decides whether a red run concerns the reader.
 Under it, in eight lines: the sections in the order they come, and a
 sentence about the limit of the method where there is one. **No number
 that would have to travel** — "six things" over seven blocks is a second
-place wanting maintenance, and it always loses. No date, no name, no
-path.
+place wanting maintenance, and it always loses. **So the blocks carry
+names, not numbers**; and where they are numbered after all, the
+numbering is the one the test itself prints, copied from there.
+
+What else does not belong in it: a date, a name, a path, the road that
+led there, and a number out of a single run. All of that ages, and no
+line is helped by it.
 
 **What stands in the docstring has a `check`. What a `check` tests
 stands in the docstring.** Both directions, and it is looked up, not
@@ -115,6 +129,11 @@ program — and then the comment beside it says that is what it is.
 read when nothing else is left: `check("a marked camera is the wide shot
 even with a speaker on it", …)`, not `check("wide shot", …)`.
 
+**No logic in a test.** A loop that computes the expectation usually
+computes it as wrongly as the program does. **So what the test expects
+stands there as a value** — and where it really has to be computed, then
+by a different route than the program takes.
+
 **The closing lines are always the same, and every path leads past
 them:**
 
@@ -123,6 +142,11 @@ print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)
 ```
+
+**One line per judgement, and the closing line sums them up.** The
+report shows that summary first, so it has to name every check that
+fell and not only how many — which is what collecting them in `bad`
+is for.
 
 Where anything runs concurrently — a timer, a window — the test ends in
 **one** place, and that place asks the count. A second timer that stops
@@ -188,7 +212,54 @@ value, the test carries on and measures something half-finished.
 **A step's deadlines stay under the whole run's**, or a slow machine
 learns only that the total time is up, and not which step never came.
 
-## 7. Cleaning up
+**A fixed pause is allowed while a test is being written, and nowhere
+else.** What the condition has to be is worth measuring rather than
+guessing a number that looks safe: put a probe on a copy and see when
+the thing really happens. Then the pause goes out again.
+
+## 7. Leaving something out
+
+**A skipped test is not a green one.** It prints `SKIPPED:` on a line of
+its own, `run.sh` counts it apart, and the summary names it — `green: 50
+skipped: 1`, never green for a test that checked nothing. A
+`sys.exit(0)` in passing is the same lie: a test that bows out because
+its material is missing and returns 0 cannot be told from one that
+checked everything.
+
+**The reason stands in that line: what is missing, and what would bring
+it back.** "no test project" is not a reason; "no test project — point
+`VPM_MEDIA` at a folder with …" is one.
+
+**A test that left a section out says so too, and its closing line says
+how many of how many sections ran in full.** It must not claim that
+everything was checked. There are two ways to say it and they are
+counted differently:
+
+* **`SKIPPED:` is the loud one, and it carries the fraction.**
+  `tests/text_no_german_left_test.py` prints `SKIPPED: %d of %d sections
+  ran in full` and ends on `Good as far as it went -- %d of %d
+  sections.` in place of `All good.` The run then counts that test as
+  skipped, so it goes against the ratchet below.
+* **A line beginning `LEFT OUT` is the quiet one.** `run.sh` keeps the
+  test green, prints `ok, but left a piece out`, and repeats the line
+  underneath — so the piece is named without the whole test being
+  written off.
+
+**How much may be left out is a ratchet.** `SKIPS_ALLOWED` in `run.sh`
+holds the number; it may fall, never rise. A run that skips more returns
+1 **although every check in it was green**, because it then proved less
+than the run that set the number. So a new skip is never free.
+
+**What no machine can run is removed; what one machine cannot run is
+set aside by name.** The tests a single builder job cannot run are
+listed in `.github/workflows/tests.yml` — a Windows registry on Linux, a
+`#!/bin/sh` stand-in on Windows, a German dictation asset the macOS
+runner does not carry. That step moves them out of `tests/` before the
+suite starts, with the reason beside each and the count printed, so they
+never reach the skip ratchet. A test that cannot run here is taken out
+of the folder; it is not left to skip.
+
+## 8. Cleaning up
 
 **`tempfile.mkdtemp()`, never a fixed path.** The run points `TMPDIR` at
 one folder per run and throws it away at the end.
@@ -208,20 +279,22 @@ project folder. The fixture folders are built once before the fan-out and
 only read afterwards; writing into them builds the next wobble.
 
 **And nothing goes outside.** No network, no upload, no asking whether a
-newer version is out.
+newer version is out. **Where a connection has to be checked, the place
+that opens it is replaced** — the check is then about what the program
+does with the answer, and the weather is no longer part of the result.
 
-## 8. Visible texts
+## 9. Visible texts
 
 **What a user sees goes through `T()`, and the German lives in
 `CATALOGUE["de"]`.** If the check brings a new string into the program,
-both sides change, or `german_hunt_test.py` turns red.
+both sides change, or `text_no_german_left_test.py` turns red.
 
 **A text is never written out literally in a test.** A button is found
 through `vpm.T('Add files ...')`, and the test sets `vpm.set_language(
 "en")` at the top. A literal ties the check to one language and one
 wording.
 
-## 9. Running it
+## 10. Running it
 
 **Always through `run.sh`, a single test included:**
 
@@ -237,7 +310,13 @@ environment and not about the program.
 A test is green when it returns 0 and prints neither a traceback nor
 `FAIL`. **Never claim it is green without having run it.**
 
-## 10. The counter-proof
+**A test that measures real time cannot share the machine.** Playing a
+second of sound takes a second; beside eleven others it took sixteen,
+and no amount of waiting fixes that. Such a test goes into `ALONE_ONLY`
+in `run.sh` by name and runs by itself at the end, when everything else
+is done.
+
+## 11. The counter-proof
 
 **Without it the check does not count.** Green says nothing about the
 program until the same check has been shown to go red when the thing it
@@ -247,7 +326,7 @@ entry in `tests/state/counterproof`.
 How both are done is in the **`gegenbeweis`** skill. Call it; do not
 copy it out.
 
-## 10b. When no judgement changes
+## 11b. When no judgement changes
 
 A closing line, a diagnosis, a reason beside a skip, a tidier temporary
 folder: none of these touch what the test claims, so the entry in
@@ -276,7 +355,7 @@ The line tells a person who looks; it becomes a check the day the number
 is held against a floor, and then it owes a counter-proof like any
 other.
 
-## 11. When an existing test is changed
+## 12. When an existing test is changed
 
 **Read the docstring again, every time.** Does its first line still
 describe what the test claims today? Does it talk about a setup some
@@ -288,10 +367,20 @@ for years.
 the next tidy-up.
 
 **And the old counter-proof entry is replaced as soon as *what* is
-checked has changed.** Renaming, reordering, splitting: the what stays,
-the entry holds. Moving a limit, turning a comparison round, swapping one
-field for another: the what changes, and the entry is earned again.
-Changing only the how is rare — so when in doubt, earn it again.
+checked has changed.** Moving a limit, turning a comparison round,
+swapping one field for another: the what changes, and the entry is
+earned again. Changing only the how is rare — so when in doubt, earn it
+again.
+
+**The register draws that line for itself, and it draws it over the
+wordings.** `source_checks_proved_test.py` fingerprints the first
+argument of every `check(...)` in the file, as a sorted set. So renaming
+the **file** costs nothing — the row is found by its fingerprint, not by
+the name — and reordering the checks costs nothing either. But rewording
+a judgement, adding one, or **splitting one in two** moves the
+fingerprint, and the register then reports the test as rewritten since
+its counter-proof, whatever the change was meant to be. A split earns
+its entry again.
 
 ---
 
@@ -333,8 +422,9 @@ does not count.
 
 **7. And it stands in `tests/state/counterproof`.** The check by name,
 how it was broken, the red line verbatim. This point cannot be ticked
-without the entry written -- and where a check was reworded, the old
-entry is replaced as soon as **what** it claims has changed.
+without the entry written -- and rewording a check, adding one or
+splitting one voids the old entry by itself, because the register's
+fingerprint moves with the wordings.
 
 **8. And if it would not go red: the check, or the stand-in?** Does the
 stand-in allow more anywhere than the real thing -- inventing what the
@@ -347,9 +437,11 @@ something that only moves because the program is working? Do the steps'
 deadlines stay under the whole run's? Is exhausted patience red?
 
 **10. Skipping is visible.** `SKIPPED:` with a reason and the way back,
-no silent `sys.exit(0)`, no step quietly left out -- and the closing line
-claims nothing that was not checked. What can run on no machine is
-removed rather than skipped.
+no silent `sys.exit(0)`, no step quietly left out -- and where one was,
+does the closing line say how many of how many sections ran in full,
+rather than claiming everything was checked? Does the skip count stay
+under `SKIPS_ALLOWED`? What can run on no machine is removed rather than
+skipped.
 
 **11. It cleans up.** A temporary folder rather than a fixed path,
 nothing left standing afterwards, and nothing deleted or altered that
