@@ -9928,10 +9928,14 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             tracks, cut, segment_list, cameras, args, colours, gain)
         if target:
             print("  %s" % target)
+    placed_cameras = {path_key(k) for k in (position or {})}
     write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results, cut, segment_list,
                       t1 - t0 if t1 is not None else 0, track_names,
-                      single_files, offsets, words=heard_words())
+                      single_files, offsets, words=heard_words(),
+                      unplaceable=[cam["video"] for cam in cameras
+                                   if path_key(cam["video"])
+                                   not in placed_cameras])
     shutil.rmtree(tmpdir, ignore_errors=True)
     return 1 if error else 0
 
@@ -13175,8 +13179,17 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     _hdr_flag = hdr_from_sources([cam["video"] for cam in cameras])
     items = []
     unmeasured = []
+    left_out = []
+    nowhere = {path_key(x) for x in (unplaceable or ())}
     for cam in cameras:
         v = os.path.abspath(cam["video"])
+        if path_key(v) in nowhere:
+            # Refused by the run, so it is no camera of this episode.
+            # Handed over it becomes the wide shot: "wide" below is true
+            # for whoever has no speaker, and nobody is assigned to a
+            # file that fits nowhere.
+            left_out.append(cam["name"])
+            continue
         who = speaker_of.get(v) or []
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
@@ -13221,6 +13234,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # Kind field, and that is what the cut goes by.
             "wide_marked": path_key(v) in marked_wide,
             "wide": path_key(v) in marked_wide or not who})
+    if left_out:
+        print(as_warn(T('  Not handed over: the run could not place %s, so '
+                        'it is no camera of this episode.')
+                      % ", ".join(left_out)))
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))
@@ -32796,6 +32813,8 @@ CATALOGUE["de"] = {
         '  Keine Clips für Farbgruppen gefunden.',
     '  No cut left -- the Timeline stays empty.':
         '  Kein Schnitt übrig -- Timeline bleibt leer.',
+    '  Not handed over: the run could not place %s, so it is no camera of this episode.':
+        '  Nicht übergeben: der Lauf konnte %s nicht platzieren, also ist es keine Kamera dieser Folge.',
     '  No measured offset for %s -- placed at the start of the axis.':
         '  Kein gemessener Versatz für %s -- liegt am Anfang der Achse.',
     '  %s: the timecode puts it at %+.3f s, the measurement at %+.3f s '

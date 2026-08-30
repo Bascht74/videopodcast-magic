@@ -347,7 +347,7 @@ it is green.
 |---|---|
 | `project_cameras_land` | Every camera reaches the timeline on picture and sound tracks of its own. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
-| `project_every_offset` | Every camera reaches the handover with the offset measured for it. |
+| `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
 | `project_grades_stay_off` | Remote grades: off by default, and always set -- old projects too. |
 | `project_handover_built` | The handover is built from data alone, without a window. |
 | `project_hdr_follows` | The render job carries the codec, profile and tags of its range. |
