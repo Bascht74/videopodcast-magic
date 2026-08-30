@@ -7110,12 +7110,27 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
     fc = ";".join(chains) + ";" + "".join(markers) +\
         "amix=inputs=%d:normalize=0[out]" % len(markers)
     duration = sample_count(tracks[0]["ready"]) / float(SR)
-    run_ffmpeg_with_progress(
-        ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le"]
-            + wav_safe(total_sum) + ["-y", total_sum],
-        duration, T('Building the sum'))
-    have, peak, lra_range = measure_loudness(total_sum, duration, T('Measuring loudness'))
+    # One track, and nothing to do to its channels: the sum of it is
+    # itself. Summing it anyway copied the whole recording through ffmpeg
+    # to arrive at the same samples -- a process and a pass over hours of
+    # audio, for nothing. It only ever happens on the simple path;
+    # multitrack never has fewer than two.
+    #
+    # *ours* says whether this run made that file, and only a file of our
+    # own is ever deleted below. Letting total_sum point at the recording
+    # instead cost the material its life: the two clean-ups further down
+    # delete what they are given. Caught in the suite on 30.8.2026,
+    # before it ever saw a real recording.
+    ours = not (len(ready) == 1 and "anull" in chains[0])
+    measured_on = total_sum if ours else ready[0]
+    if ours:
+        run_ffmpeg_with_progress(
+            ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
+             "-map", "[out]", "-c:a", "pcm_s24le"]
+                + wav_safe(total_sum) + ["-y", total_sum],
+            duration, T('Building the sum'))
+    have, peak, lra_range = measure_loudness(measured_on, duration,
+                                            T('Measuring loudness'))
     if have is None:
         print(T('  Loudness not measurable -- it stays as it is.'))
         return 0.0, None
@@ -7127,7 +7142,8 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
         print(T('  Not adjusted:      taken from the source files -- no gain '
                 'on any track and no\n                     limiter. The '
                 'sound leaves exactly as it came in.'))
-        remove_quietly(total_sum)
+        if ours:
+            remove_quietly(total_sum)
         return 0.0, None
     gain = target_lufs - have
     print(T('  Sum of tracks:     %.1f LUFS, peak %.1f dBTP%s')
@@ -7146,7 +7162,7 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
     # is computed. Taking off more than a handful of decibels means not that
     # the peak does not fit the target but that the target does not fit the
     # material; then quieter beats squashed.
-    curve, gone = limiter_curve(total_sum, tmpdir, gain)
+    curve, gone = limiter_curve(measured_on, tmpdir, gain)
     # With the finished mixdown from auphonic.com beside it the question is
     # answered: that is how much limiting auphonic.com itself needed to reach
     # this loudness from the same tracks, so nothing needs capping.
@@ -7157,7 +7173,7 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
                 'dB away. More than %.0f dB\n                     sounds '
                 'squashed -- %.1f dB less gain.') % (gone, limit, back))
         gain -= back
-        curve, gone = limiter_curve(total_sum, tmpdir, gain)
+        curve, gone = limiter_curve(measured_on, tmpdir, gain)
         print(T('  Remains:           %+.1f dB on every track, that is '
                 '%.1f LUFS instead of %.1f') % (gain, have + gain,
                                    target_lufs))
@@ -7186,7 +7202,8 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
         else:
             print(T('  Range:             %.1f LU (speech is usually 3 to '
                     '7 LU)') % lra_range)
-    remove_quietly(total_sum)
+    if ours:
+        remove_quietly(total_sum)
     return gain, curve
 
 
@@ -21296,6 +21313,33 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
             auphonic_file = done
             n_audio_raw = sample_count(audio)
 
+    # The loudness, measured on this path too. Multitrack has always run
+    # this and said what it found; here the one number a listener notices
+    # first stood in no log at all.
+    #
+    # Measured only, not adjusted, and that is deliberate for now: the
+    # gain is applied by mix_tracks, and mix_tracks writes no bext block,
+    # so the recording would come out of it without its timecode -- and
+    # the timecode is what places a camera when the sound cannot (see
+    # cannot_be_placed). The adjustment belongs where the mix goes
+    # through the same seam as the multitrack one, and the timecode is
+    # written once for both.
+    if tmpdir is None:
+        tmpdir = tempfile.mkdtemp(prefix="vpm_")
+        atexit.register(shutil.rmtree, tmpdir, True)
+    try:
+        gain, curve = normalise_loudness(
+            [{"name": args.name, "axis": audio, "ready": audio}],
+            None, tmpdir, None, channels=channel_count(audio))
+    except Exception as e:
+        gain, curve = 0.0, None
+        print(T('  Loudness not measurable: %s') % str(e)[:60])
+    if args.lufs is not None and not args.auphonic_key:
+        # Said out loud rather than passed over. A switch that is taken
+        # and does nothing is the thing this run should never do.
+        print(as_warn(T('  --lufs is not applied on this path yet: the '
+                        'sound is written as it was recorded.')))
+
     n_audio = sample_count(audio)
     default_value = args.head is not None or args.tail is not None
 
@@ -33691,6 +33735,12 @@ CATALOGUE["de"] = {
     '  Limiter:           at most %.1f dB, the same curve on every track%s':
         '  Limiter:           höchstens %.1f dB, dieselbe Kurve auf jeder '
         'Spur%s',
+    '  --lufs is not applied on this path yet: the sound is written as '
+    'it was recorded.':
+        '  --lufs wird auf diesem Weg noch nicht angewendet: Der Ton wird '
+        'so geschrieben, wie er aufgenommen wurde.',
+    '  Loudness not measurable: %s':
+        '  Lautheit nicht messbar: %s',
     '  Loudness not measurable -- it stays as it is.':
         '  Lautheit nicht messbar -- es bleibt, wie es ist.',
     '  Metrics not writable: %s':
