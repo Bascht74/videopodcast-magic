@@ -432,10 +432,15 @@ def forget_api_key():
 
 def load_api_key():
     """Read the stored API key, or "" if there is none."""
-    if "key" in _API_KEY:
-        return _API_KEY["key"]
-    _API_KEY["key"] = _ask_key_store()
-    return _API_KEY["key"]
+    # Keyed on the place it is kept, not just on the machine. The place
+    # is fixed in a run, but not in a test: key_store_test points the
+    # registry path at a throwaway name and asks again, and a store that
+    # answered with the old key there would be a store that answers with
+    # the old key anywhere.
+    where = (sys.platform, REG_PATH)
+    if where not in _API_KEY:
+        _API_KEY[where] = _ask_key_store()
+    return _API_KEY[where]
 
 
 def _ask_key_store():
