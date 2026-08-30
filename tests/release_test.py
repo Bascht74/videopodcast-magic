@@ -194,6 +194,42 @@ if newest_german.strip():
                       for m in ENGLISH_WORDS.finditer(prose(newest_german))))
     check("no English words on the German side", not over, str(over[:5]))
 
+    # Short, and one thing at a time. Sebastian rewrote a point of mine
+    # on 31.8.2026, five lines down to three, and asked for the rule to
+    # be derived from it: name the thing as it stands on the screen,
+    # say what it was, what it is now, what follows -- and leave the
+    # reasoning to the commit message. A machine cannot judge the
+    # writing, but it can hold the length. Measured over the section
+    # written under that rule: two to three lines, two to three
+    # sentences, 102 to 204 characters. The limits sit just above that.
+    def points_of(part):
+        """Every point of a section, each as one string."""
+        out, now = [], None
+        for line in part.split("\n"):
+            if line.startswith("- "):
+                if now:
+                    out.append(now)
+                now = [line]
+            elif now is not None and line.startswith("  "):
+                now.append(line)
+            elif now:
+                out.append(now)
+                now = None
+        if now:
+            out.append(now)
+        return out
+
+    long_ones = []
+    for part in (newest, newest_german):
+        for one in points_of(part):
+            text = " ".join(x.strip() for x in one)[2:]
+            said = len([x for x in re.split(r"(?<=[.!?]) ", text) if x.strip()])
+            if len(one) > 4 or said > 3 or len(text) > 260:
+                long_ones.append("%d lines, %d sentences, %d characters: %s"
+                                 % (len(one), said, len(text), text[:40]))
+    check("no point runs long", not long_ones,
+          long_ones[0] if long_ones else "")
+
 print("""
 Before the tag -- five things, and the tag comes last:
 
