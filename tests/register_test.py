@@ -6,7 +6,9 @@ both languages, and leave an index that names chapter and section
 wrong in most of its entries with nothing turning red. So every entry
 is looked up here: the chapter has to exist and the title has to stand
 in it as a heading. The cheap questions live here too, because nothing
-else reads the index. While there is no index, this checks nothing.
+else reads the index. The index itself is a section of the manual's
+README, not a file of its own, and it ships with every checkout: so
+its absence is a defect here and not a machine that cannot check it.
 """
 import collections
 import io
@@ -153,10 +155,13 @@ for lang in ("en", "de"):
     print("  %-4s %s" % (lang, "%s, %d entries" % (
         os.path.relpath(path, ROOT), len(entries)) if path else "none yet"))
 
-if not books["en"][0] and not books["de"][0]:
-    print("SKIPPED: no index in %s yet, so nothing was checked."
-          % ", ".join(PLACES["en"] + PLACES["de"]))
-    sys.exit(0)
+# Red, not a skip. A skip says "this machine could not"; the index is
+# a shipped part of the manual, so gone it is a defect, and a skip
+# would also spend the one the suite allows.
+check("an index was found at all",
+      bool(books["en"][0]) or bool(books["de"][0]),
+      "none of %s holds five entries" % ", ".join(
+          PLACES["en"] + PLACES["de"]))
 
 check("the index stands in both languages",
       bool(books["en"][0]) and bool(books["de"][0]),
@@ -302,4 +307,8 @@ print()
 if bad:
     print("FAIL: %d of the checks" % len(bad))
     sys.exit(1)
-print("All good.")
+# What was read, not only that it went well: an index that shrank to
+# four entries would otherwise report the same "All good." as a whole one.
+print("All good -- %s entries read."
+      % ", ".join("%s %d" % (lang, len(books[lang][3]))
+                  for lang in ("en", "de")))

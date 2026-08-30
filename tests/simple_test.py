@@ -1,4 +1,11 @@
-"""The simple path: does it now carry colour and metadata along?"""
+# -*- coding: utf-8 -*-
+"""Colour tags, QuickTime keys and named audio tracks reach the result.
+
+The simple path writes its camera file with write_camera_file. What the
+source carries has to come out the other side: the three colour tags,
+the QuickTime key, the camera's own audio beside the track that was
+added, and each track under the name it was given.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -8,6 +15,16 @@ spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+
+error = []
+
+
+def check(name, ok, extra=""):
+    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        error.append(name)
+
+
 T = tempfile.mkdtemp(prefix="simple_")
 # A video with colour tags and one QuickTime key
 video = os.path.join(T, "camera.mov")
@@ -33,6 +50,7 @@ audio = os.path.join(T, "audio.wav")
 subprocess.run(["ffmpeg","-v","error","-y","-f","lavfi",
                 "-i","sine=frequency=800:duration=5",
                 "-ac","1","-c:a","pcm_s24le", audio], check=True)
+KEY = "com.apple.proapps.testkey"
 class Args: pass
 args = Args(); args.name = "Audio"; args.name_camera = "Camera Original"
 args.speech_language = ""; args.speech_language_camera = ""
@@ -43,13 +61,32 @@ target = os.path.join(T, "done.mov")
 vpm.write_camera_file(video, info, [(args.name, audio)], target,
                       0.0, 1.0, False, args)
 
-def show(p, what):
+
+def parts(p):
+    """The video stream, the audio streams and the container's tags."""
     d = json.loads(subprocess.run(
         ["ffprobe","-v","error","-show_streams","-show_format",
          "-of","json",p],capture_output=True,text=True).stdout)
     vs = [s for s in d["streams"] if s["codec_type"]=="video"][0]
-    audio = [s for s in d["streams"] if s["codec_type"]=="audio"]
-    tags = d.get("format",{}).get("tags",{})
+    tracks = [s for s in d["streams"] if s["codec_type"]=="audio"]
+    return vs, tracks, d.get("format",{}).get("tags",{})
+
+
+def track_name(stream):
+    """The name a player shows for one audio track.
+
+    A MOV keeps it in the track's own name box rather than in a title
+    tag, so ffprobe hands it back under "name" or as the handler name.
+    """
+    tags = stream.get("tags", {})
+    for key in ("title", "name", "handler_name"):
+        if tags.get(key):
+            return tags[key]
+    return None
+
+
+def show(p, what):
+    vs, audio, tags = parts(p)
     print("%-10s primaries=%s trc=%s space=%s  audio tracks=%d"
           "  apple keys=%s"
           % (what, vs.get("color_primaries"), vs.get("color_transfer"),
@@ -57,12 +94,40 @@ def show(p, what):
              [k for k in tags if "apple" in k.lower()] or "none"))
 show(video, "Source")
 show(target, "Result")
-d = json.loads(subprocess.run(
-    ["ffprobe","-v","error","-show_streams","-of","json",target],
-    capture_output=True,text=True).stdout)
-audio_streams = [s for s in d["streams"] if s["codec_type"]=="audio"]
-print("Track names:",
-      [s.get("tags",{}).get("title") for s in audio_streams])
-vs = [s for s in d["streams"] if s["codec_type"]=="video"][0]
-assert vs.get("color_transfer") == "arib-std-b67", "colour tags lost!"
-print("\nOK: colour tags and camera audio came along.")
+
+source_video, source_audio, source_tags = parts(video)
+result_video, result_audio, result_tags = parts(target)
+names = [track_name(s) for s in result_audio]
+print("Track names:", names)
+print()
+
+# The source is asked first and the result is held against it: a value
+# written into the test would go stale the day ffmpeg names it
+# differently, and then the test would be about ffmpeg's spelling.
+carried = ("color_transfer", "color_primaries", "color_space")
+check("the source itself carries the three colour tags",
+      all(source_video.get(k) for k in carried),
+      " ".join("%s=%s" % (k, source_video.get(k)) for k in carried))
+for tag, what in (("color_transfer", "transfer characteristics"),
+                  ("color_primaries", "primaries"),
+                  ("color_space", "matrix")):
+    check("colour %s as in the source" % what,
+          result_video.get(tag) == source_video.get(tag),
+          "%s -> %s" % (source_video.get(tag), result_video.get(tag)))
+was, now = source_tags.get(KEY), result_tags.get(KEY)
+check("the QuickTime key came along",
+      was is not None and now == was,
+      "%s=%r -> %r" % (KEY, was, now))
+expected = len(source_audio) + 1
+check("the camera's audio and the added one",
+      len(result_audio) == expected,
+      "%d found, %d expected" % (len(result_audio), expected))
+check("both tracks under the name they were given",
+      names == [args.name, args.name_camera],
+      "%r, expected %r" % (names, [args.name, args.name_camera]))
+
+print()
+if error:
+    print("FAIL: " + ", ".join(error))
+    sys.exit(1)
+print("All good.")

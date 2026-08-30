@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""Stage 5a: does run_argv() build the same command line as by hand?"""
+"""run_argv() builds the command line and the plan, or says why not.
+
+Three independent claims. The command line is the one that would be
+written by hand; the plan beside it carries what no switch can, the
+cameras and the tracks; and what cannot be run is refused with a title
+a person can read, while a merely doubtful case becomes a question.
+The last sections hold gui() to calling this and keeping no assembly
+of its own, since two builders of one command line drift apart."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(

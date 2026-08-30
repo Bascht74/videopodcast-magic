@@ -7,8 +7,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
 import sys, importlib.util
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
-from PySide6 import QtWidgets, QtCore
-app = QtWidgets.QApplication(sys.argv[:1])
+# No window is built here, so no application either.
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm

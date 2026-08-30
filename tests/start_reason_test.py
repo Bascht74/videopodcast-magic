@@ -286,9 +286,16 @@ def step():
             check("the field shows the wide shot instead",
                   free.currentData() == vpm.TYPE_WIDE,
                   repr(free.currentText()))
-            check("greyed, so a derivation cannot pass for an answer",
-                  "color" in (free.styleSheet() or ""),
+            # Colouring the whole field greyed every word in it, so a
+            # marked wide shot looked like a derived one. What keeps a
+            # derivation from passing for an answer is the barred entry.
+            shut = [free.model().item(i).text() for i in range(free.count())
+                    if not free.model().item(i).isEnabled()]
+            check("the field itself carries no colour of its own",
+                  "color" not in (free.styleSheet() or ""),
                   repr(free.styleSheet()))
+            check("but an entry is barred, so a derivation is no answer",
+                  bool(shut), "barred: %s" % shut)
             # The reason sits on the entry it is about, not beside the
             # field: only Content is barred, and the row stays short
             # enough to read.

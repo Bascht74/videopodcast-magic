@@ -34,6 +34,10 @@ WINDOW = (1400, 950)
 KINDS = ("QLabel", "QPushButton", "QCheckBox", "QRadioButton",
          "QToolButton", "QGroupBox")
 NAME = "videopodcast-magic_Interview_2.json"
+# The longest the reading beside the zoom buttons can get: two hours or
+# more on both sides. The field is pinned to this, so the pin and the
+# check have to mean the same string.
+WIDEST_READING = "00:00:00 -- 00:00:00"
 # VPM_LAYOUT_DUMP=1 prints every caption with its numbers; nothing in
 # the run depends on it.
 DUMP = bool(os.environ.get("VPM_LAYOUT_DUMP"))
@@ -277,11 +281,20 @@ def measure(language):
                 round_now[0][(text, kind, where(w))] = short
 
     def zoom_row_holds(window):
-        """Do the zoom buttons stay put when the reading beside them changes?
+        """The reading beside the zoom buttons: does it hold its place?
 
-        The reading sits after them and the band before them takes what
-        is left, so a text that grows pushes the whole row along. Pressing
-        + once moved them out from under the pointer.
+        Three things about it, and the last two were added after it was
+        found empty on a screenshot. It sits after the buttons and the
+        band before them takes what is left, so a text that grows pushes
+        the whole row along -- pressing + once moved the buttons out from
+        under the pointer. It says times, so it is written in typewriter
+        digits like the times under it. And it is pinned to the width of
+        the widest reading, which has to be measured in the font that
+        draws it: measured in one font and drawn in another, the reading
+        is cut off instead.
+
+        The text is read before anything is clicked, because that is
+        where it was empty.
         """
         buttons = [b for b in window.findChildren(QtWidgets.QToolButton)
                    if b.text() in ("\u2212", "+", "\u25ad")]
@@ -301,8 +314,22 @@ def measure(language):
         span.setText("0:00:00 -- 1:49:36")
         full = spots()
         span.setText(was)
+        # What the font was set to, not what the platform made of it:
+        # offscreen has no typewriter face and hands back the interface
+        # font, so asking the drawn font would say "proportional" on a
+        # machine where the program is right.
+        wanted = QtGui.QFontDatabase.systemFont(QtGui.QFontDatabase.FixedFont)
+        drawn_in = QtGui.QFontInfo(span.font())
         return {"found": 3, "label": True, "empty": empty, "full": full,
-                "moved": [a - b for a, b in zip(full, empty)]}
+                "moved": [a - b for a, b in zip(full, empty)],
+                "text": was, "family": span.font().family(),
+                "fixed_family": wanted.family(),
+                "drawn": drawn_in.family(),
+                "fixed_pitch": bool(drawn_in.fixedPitch()),
+                "width": span.minimumWidth(),
+                "widest": WIDEST_READING,
+                "needs": span.fontMetrics().horizontalAdvance(
+                    WIDEST_READING)}
 
     def tabs_sweep(window):
         """Sheet by sheet: only what lies on top is on the screen."""
@@ -486,6 +513,21 @@ for language, process in started:
         check("%s: the zoom buttons hold their place" % language,
               not any(row["moved"]),
               "moved by %s pixels when the reading appeared" % row["moved"])
+        check("%s: the reading stands there before anybody zooms" % language,
+              bool((row.get("text") or "").strip()),
+              "with no click at all it reads %r" % (row.get("text"),))
+        check("%s: the reading is in the system's typewriter font" % language,
+              row.get("family") == row.get("fixed_family"),
+              "it asks for %r; the system's fixed font is %r "
+              "(drawn as %r, fixed pitch %s)"
+              % (row.get("family"), row.get("fixed_family"),
+                 row.get("drawn"), row.get("fixed_pitch")))
+        check("%s: the pinned width holds the widest reading" % language,
+              row.get("width", 0) >= row.get("needs", 0),
+              "pinned to %d px, but %r needs %d px in the font it is "
+              "drawn in (%s)"
+              % (row.get("width", 0), row.get("widest"), row.get("needs", 0),
+                 row.get("drawn")))
 
     found = sorted(report["found"], key=lambda f: -f["short"])
     # The findings go on the line that fails, not only under it: a build

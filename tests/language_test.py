@@ -119,16 +119,14 @@ w.write("  Done without a marker\n")
 check("without a marker no colour", "\033[" not in f.text, repr(f.text))
 
 print("\n8. The log window colours the same way")
-try:
-    from PySide6 import QtWidgets, QtGui
-    app = QtWidgets.QApplication.instance() or QtWidgets.QApplication([])
-    source = io.open(SCRIPT, encoding="utf-8").read()
-    check("the log reads the marker",
-            "split_kind(part)" in source and "self._kind" in source)
-    check("the file gets the text without the marker",
-            "self.having.write(strip_marks(text))" in source)
-except ImportError:
-    check("PySide6 missing -- window not checked", True)
+# The source is read as text, so no window and no Qt: an application
+# built here bought nothing and cost half the run. The branch that
+# stood in for a missing PySide6 asserted True and could not fail.
+source = io.open(SCRIPT, encoding="utf-8").read()
+check("the log reads the marker",
+        "split_kind(part)" in source and "self._kind" in source)
+check("the file gets the text without the marker",
+        "self.having.write(strip_marks(text))" in source)
 
 print("\n9. Every T() text is in the catalogue")
 tree = ast.parse(io.open(SCRIPT, encoding="utf-8").read())

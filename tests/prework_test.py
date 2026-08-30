@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""#38 Stage 5d: header line, prework and time window without a window."""
+"""Header line, prework, window suggestion and axis reuse all hold.
+
+Four computations behind the file list, taken on their own so that no
+interface has to be built. A file prework cannot get an answer for
+drops out entirely instead of being guessed at, and a measured axis is
+reused only where path, time and size match for every file, one
+changed file discarding all of it: a partly stale axis is worse than
+measuring again. The last section holds the program to these four."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -149,9 +156,14 @@ for call in ("header_value = recordings_text(",
              "from_s, until, absolute = window_suggestion(",
              "return axis_still_valid(d, paths)"):
     check("calls %s" % call.split("=")[-1].strip()[:20], call in source)
-check("the old header computation is gone",
-        '"%d recordings from %d files"\n' not in source
-        or source.count("recordings from") == 1)
+# Only the code half, so the catalogue's own entry does not count as a
+# second place that builds the line. The "or" this replaces passed as
+# soon as either half held, which is to say always.
+code_only = source.split('CATALOGUE["de"] = {', 1)[0]
+check("the header line is built in one place only",
+      code_only.count("recordings from") == 1,
+      "%d places outside the catalogue build it, wanted 1"
+      % code_only.count("recordings from"))
 check("the old window computation is gone",
         'start_var.set(timecode_string(min(starts), fps))' not in source)
 
