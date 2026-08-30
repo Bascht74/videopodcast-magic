@@ -26288,6 +26288,226 @@ def question_dialog(f, window, QtWidgets, label):
     f.event.set()
 
 
+def speech_table_fill(Qt, QtGui, QtWidgets, table, sum_label, d):
+    """Write the speaker statistics into the table.
+
+    Outside gui() because it reaches into nothing: the table, the line
+    under it and the three Qt names it builds cells with come in as
+    arguments. Returns the total speech time as a sentence, empty
+    where no speaker is known.
+    """
+    lines, total, silence, length = (speaker_statistics(d) if d
+                                      else ([], 0.0, 0.0, 0.0))
+    table.setRowCount(len(lines) + (1 if length > 0 else 0))
+    for i, e in enumerate(lines):
+        for column, text in ((0, e["name"]),
+                             (1, as_minutes(e["seconds"])),
+                             (2, "%.1f %%" % e["share"]),
+                             (3, "%d" % e["blocks"]),
+                             (4, "%.1f s" % e["mean"])):
+            p = QtWidgets.QTableWidgetItem(text)
+            if column:
+                p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            table.setItem(i, column, p)
+    if length > 0:
+        i = len(lines)
+        for column, text in ((0, T('Silence')), (1, as_minutes(silence)),
+                             (2, "%.1f %%" % (100.0 * silence / length)),
+                             (3, ""), (4, "")):
+            p = QtWidgets.QTableWidgetItem(text)
+            p.setForeground(QtGui.QBrush(QtGui.QColor(COLOURS["quiet"])))
+            if column:
+                p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
+            table.setItem(i, column, p)
+    fix_table_width(table, most_rows=SPEAKER_ROWS_SHOWN)
+    sum_label.setText(
+        T('Where two speak at once, the time above counts twice; for '
+          'silence it does not.') if lines else "")
+    return (T('%s speech time') % as_minutes(total) if lines else "")
+
+
+def preflight_sentence(findings, audio_file_list, recordings, videos_n):
+    """The line under the file list: what is there, and what is wrong.
+
+    Outside gui() because it reaches into nothing: the findings and the
+    three counts come in as arguments. Returns the line and the colour
+    it is written in.
+    """
+    recordings = recordings or audio_file_list
+    parts = []
+    if audio_file_list:
+        parts.append("%s%s" % (
+            TN(recordings, '%d audio recording', '%d audio recordings')
+            % recordings,
+            "" if recordings == audio_file_list
+            else T(' from %d files') % audio_file_list))
+    if videos_n:
+        parts.append(TN(videos_n, '%d video file', '%d video files')
+                     % videos_n)
+    sentence = ", ".join(parts) if parts else T('nothing selected')
+    # What belongs to a file that does not take part is shown on its row,
+    # not in the balance below.
+    counts = [b for b in findings if not b.set_aside]
+    serious = [b for b in counts if b.kind == "abort"]
+    hints = [b for b in counts if b.kind == "hint"]
+    if serious:
+        return sentence + " -- %s" % serious[0].text, COLOURS["error"]
+    if len(hints) == 1:
+        return (sentence + T(' -- 1 note: %s') % hints[0].text[:110],
+                COLOURS["warning"])
+    if hints:
+        return (sentence + T(' -- %d notes') % len(hints),
+                COLOURS["warning"])
+    return sentence + T(' -- nothing to fault.'), COLOURS["quiet"]
+
+
+def project_state_read(file_path, elsewhere):
+    """Read what is already there and clear leftovers elsewhere.
+
+    Outside gui() because it reaches into nothing: the place the file
+    belongs and the places an earlier run may have put it come in as
+    arguments. Returns the contents of the file at the current location
+    or, if there is none yet, of an earlier one, and beside it the
+    places the caller is to clear so that only the one is left.
+    """
+    found, gone = {}, []
+    places = [file_path]
+    name = os.path.basename(file_path)
+    for place in elsewhere:
+        if not place:
+            continue
+        p = (place if place.lower().endswith(".json")
+             else os.path.join(place, name))
+        if p not in places:
+            places.append(p)
+    for p in places:
+        try:
+            if not os.path.isfile(p):
+                continue
+            with open(p, encoding="utf-8") as f:
+                content = json.load(f) or {}
+        except (OSError, ValueError):
+            continue
+        if not found:
+            found = content
+        elif isinstance(content, dict):
+            # Only extend older state, never overwrite it.
+            for s, value in content.items():
+                found.setdefault(s, value)
+        if os.path.abspath(p) != os.path.abspath(file_path):
+            gone.append(p)
+    return (found if isinstance(found, dict) else {}), gone
+
+
+def assignment_marks_show(audio_fields, assign_lines, video_fields,
+                          camera_lines, multitrack_on, voiced,
+                          audio_reason, video_reason):
+    """Mark the trouble spots red, and say beside the tables what they are.
+
+    Outside gui() because it reaches into nothing: the fields, the rows
+    behind them and the two lines that carry the reason come in as
+    arguments. Two things are caught here before they do damage: two
+    recordings with the same speaker name, which would become a single
+    track, and two cameras with the same output name, where the second
+    would overwrite the first.
+    """
+    # A recording showing its voices is left out of the comparison:
+    # its field says "several speakers" and not a name, and two of
+    # them saying the same thing is not a clash but the truth.
+    used = [(f, v) for f, (r, v, cv) in zip(audio_fields, assign_lines)
+               if cv.get() != IGNORE_AUDIO
+               and os.path.abspath(r[0]) not in voiced] \
+        if len(audio_fields) == len(assign_lines) else []
+    names = [speaker_name_of(v) for _f, v in used]
+    duplicate = set(n for n in names if n and names.count(n) > 1)
+    for field, value in used:
+        n = speaker_name_of(value)
+        mark_red(field, bool(n) and n in duplicate,
+                    T('This name occurs more than once. The recordings '
+                      'would become one track -- for Multitrack '
+                      'auphonic.com needs at least two different ones.'))
+    if audio_reason is not None:
+        if duplicate and multitrack_on and len(set(names)) < 2:
+            audio_reason.setText(
+                T('✕  All recordings carry the same name. That makes '
+                  'one track -- Multitrack needs at least two.'))
+            audio_reason.setVisible(True)
+        elif duplicate:
+            audio_reason.setText(
+                T('✕  %s occurs more than once. These recordings are '
+                  'merged into one track and placed in sequence by '
+                  'their timecode -- correct if recording was stopped '
+                  'in between.') % ", ".join(sorted(duplicate)))
+            audio_reason.setVisible(True)
+        else:
+            audio_reason.setVisible(False)
+
+    if len(video_fields) == len(camera_lines):
+        outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
+        duplicate_video = set(n for n in outputs
+                              if n and outputs.count(n) > 1)
+        for field, (_p, value, _k, _n) in zip(video_fields, camera_lines):
+            n = value.get().strip()
+            mark_red(field, bool(n) and n in duplicate_video,
+                        T('Two cameras would produce the same file. '
+                          'The second would overwrite the first.'))
+        if video_reason is not None:
+            if duplicate_video:
+                video_reason.setText(
+                    T('✕  Two cameras would produce the same file '
+                      '(%s). The second would overwrite the first.')
+                    % ", ".join(sorted(duplicate_video)))
+                video_reason.setVisible(True)
+            else:
+                video_reason.setVisible(False)
+
+
+def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
+                 run_step_order):
+    """Do the actual run in a worker thread and catch what it says.
+
+    Outside gui() because it reaches into nothing: the command line,
+    the two sinks the window offers and the bridge the progress goes
+    over come in as arguments.
+    """
+    global OUTPUT_SINK, ASK_SINK, PROGRESS_SINK
+    old_out, old_err, OUTPUT_SINK = sys.stdout, sys.stderr, write
+    ASK_SINK = ask_user
+    # -1 stands for "this stage is beginning": a Qt signal carries no
+    # None, and a share of nothing is not a share.
+    PROGRESS_SINK = lambda name, share: bridge_emit(
+        bridge.run_step, name,
+        -1.0 if share is None else float(share))
+    sys.stdout = sys.stderr = Redirect(old_out, write)
+    code = 1
+    try:
+        sys.argv = argv
+        code = main()
+    except SystemExit as e:
+        code = e.code if isinstance(e.code, int) else 1
+    except Stopped as e:
+        code = 2
+        print(as_bad(broken_off_report(e, state.get("results"))))
+    except Exception as e:
+        print(as_bad(T('\nStopped: %s') % e))
+    finally:
+        sys.stdout, sys.stderr, OUTPUT_SINK = old_out, old_err, None
+        ASK_SINK = PROGRESS_SINK = None
+    # However it ended, nothing of it is still running.
+    for name in list(run_step_order):
+        bridge_emit(bridge.run_step, name, 1.0)
+    if code == 0:
+        write(as_good(run_done_text(state.get("dry_run"))))
+    else:
+        write(as_bad(T('\nFinished with errors.\n')))
+    for file_path in state["results"]:
+        if file_path.lower().endswith("_resolve.json"):
+            state["resolve_json"] = file_path
+    if state["results"]:
+        state["result_folder"] = os.path.dirname(
+            state["results"][-1])
+    state["running"] = False
+
 def gui():
     """Build the Qt interface.
 
@@ -26919,37 +27139,10 @@ def gui():
         show_overall(general)
         # The sentence below: what is there, and whether anything speaks
         # against it.
-        audio_file_list = len([1 for _p, a in files if a == "audio"])
-        recordings = state.get("audio_recordings") or audio_file_list
-        videos_n = len([1 for _p, a in files if a == "video"])
-        parts = []
-        if audio_file_list:
-            parts.append("%s%s" % (
-                TN(recordings, '%d audio recording', '%d audio recordings')
-                % recordings,
-                "" if recordings == audio_file_list
-                else T(' from %d files') % audio_file_list))
-        if videos_n:
-            parts.append(TN(videos_n, '%d video file', '%d video files')
-                         % videos_n)
-        sentence = ", ".join(parts) if parts else T('nothing selected')
-        # What belongs to a file that does not take part is shown on its row,
-        # not in the balance below.
-        counts = [b for b in findings if not b.set_aside]
-        serious = [b for b in counts if b.kind == "abort"]
-        hints = [b for b in counts if b.kind == "hint"]
-        if serious:
-            sentence += " -- %s" % serious[0].text
-            colour_line = COLOURS["error"]
-        elif len(hints) == 1:
-            sentence += T(' -- 1 note: %s') % hints[0].text[:110]
-            colour_line = COLOURS["warning"]
-        elif hints:
-            sentence += T(' -- %d notes') % len(hints)
-            colour_line = COLOURS["warning"]
-        else:
-            sentence += T(' -- nothing to fault.')
-            colour_line = COLOURS["quiet"]
+        sentence, colour_line = preflight_sentence(
+            findings, len([1 for _p, a in files if a == "audio"]),
+            state.get("audio_recordings"),
+            len([1 for _p, a in files if a == "video"]))
         preflight_line.setText(sentence)
         preflight_line.setStyleSheet("color: %s;" % colour_line)
 
@@ -28074,45 +28267,17 @@ def gui():
         state["project_last"] = fresh
 
     def project_collect(file_path):
-        """Read what is already there and clear leftovers elsewhere.
-
-        Returns the contents of the file at the current location or, if there
-        is none yet, of an earlier one. Afterwards there is only the one.
-        """
-        found, gone = {}, []
-        places = [file_path]
-        name = os.path.basename(file_path)
-        for place in (out_folder.get(), commonest_folder(),
-                    state.get("project_last")):
-            if not place:
-                continue
-            p = (place if place.lower().endswith(".json")
-                 else os.path.join(place, name))
-            if p not in places:
-                places.append(p)
-        for p in places:
-            try:
-                if not os.path.isfile(p):
-                    continue
-                with open(p, encoding="utf-8") as f:
-                    content = json.load(f) or {}
-            except (OSError, ValueError):
-                continue
-            if not found:
-                found = content
-            elif isinstance(content, dict):
-                # Only extend older state, never overwrite it.
-                for s, value in content.items():
-                    found.setdefault(s, value)
-            if os.path.abspath(p) != os.path.abspath(file_path):
-                gone.append(p)
+        """Read the project file, earlier locations included."""
+        found, gone = project_state_read(file_path, (
+            out_folder.get(), commonest_folder(),
+            state.get("project_last")))
         for p in gone:
             try:
                 os.unlink(p)
             except OSError:
                 pass
         state["project_last"] = file_path
-        return found if isinstance(found, dict) else {}
+        return found
 
     # Renaming the production or changing the output folder moves the file
     # along at once, or a second one would appear beside it on the next write.
@@ -28874,69 +29039,16 @@ def gui():
     audio_fields, video_fields = [], []
 
     def assignment_check():
-        """Mark the trouble spots red, and let the preview hear the name.
-
-        Two things can be caught here before they do damage: two recordings
-        with the same speaker name, which would become a single track, and two
-        cameras with the same output name, where the second would overwrite the
-        first.
-        """
+        """Mark the trouble spots red, and let the preview hear the name."""
         # A typed name is an answer like any other; without this the
         # preview went on showing the old name at the old camera until
         # something unrelated was touched. Found 30.8.2026.
         if state.get("preview_soon"):
             state["preview_soon"]()
-        # A recording showing its voices is left out of the comparison:
-        # its field says "several speakers" and not a name, and two of
-        # them saying the same thing is not a clash but the truth.
-        voiced = state.get("voiced") or set()
-        used = [(f, v) for f, (r, v, cv) in zip(audio_fields, assign_lines)
-                   if cv.get() != IGNORE_AUDIO
-                   and os.path.abspath(r[0]) not in voiced] \
-            if len(audio_fields) == len(assign_lines) else []
-        names = [speaker_name_of(v) for _f, v in used]
-        duplicate = set(n for n in names if n and names.count(n) > 1)
-        for field, value in used:
-            n = speaker_name_of(value)
-            mark_red(field, bool(n) and n in duplicate,
-                        T('This name occurs more than once. The recordings '
-                          'would become one track -- for Multitrack '
-                          'auphonic.com needs at least two different ones.'))
-        audio_reason = state.get("audio_reason")
-        video_reason = state.get("video_reason")
-        if audio_reason is not None:
-            if duplicate and multitrack.get() and len(set(names)) < 2:
-                audio_reason.setText(
-                    T('✕  All recordings carry the same name. That makes '
-                      'one track -- Multitrack needs at least two.'))
-                audio_reason.setVisible(True)
-            elif duplicate:
-                audio_reason.setText(
-                    T('✕  %s occurs more than once. These recordings are '
-                      'merged into one track and placed in sequence by '
-                      'their timecode -- correct if recording was stopped '
-                      'in between.') % ", ".join(sorted(duplicate)))
-                audio_reason.setVisible(True)
-            else:
-                audio_reason.setVisible(False)
-
-        if len(video_fields) == len(camera_lines):
-            outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
-            duplicate_video = set(n for n in outputs if n and outputs.count(n) > 1)
-            for field, (_p, value, _k, _n) in zip(video_fields, camera_lines):
-                n = value.get().strip()
-                mark_red(field, bool(n) and n in duplicate_video,
-                            T('Two cameras would produce the same file. '
-                              'The second would overwrite the first.'))
-            if video_reason is not None:
-                if duplicate_video:
-                    video_reason.setText(
-                        T('✕  Two cameras would produce the same file '
-                          '(%s). The second would overwrite the first.')
-                        % ", ".join(sorted(duplicate_video)))
-                    video_reason.setVisible(True)
-                else:
-                    video_reason.setVisible(False)
+        assignment_marks_show(
+            audio_fields, assign_lines, video_fields, camera_lines,
+            bool(multitrack.get()), state.get("voiced") or set(),
+            state.get("audio_reason"), state.get("video_reason"))
         buttons_check()
 
     # One row per voice the separation heard, hanging under the
@@ -30075,35 +30187,8 @@ def gui():
 
     def speech_show(d):
         """Write the speaker statistics into the table."""
-        lines, total, silence, length = (speaker_statistics(d) if d
-                                          else ([], 0.0, 0.0, 0.0))
-        speech_table.setRowCount(len(lines) + (1 if length > 0 else 0))
-        for i, e in enumerate(lines):
-            for column, text in ((0, e["name"]),
-                                 (1, as_minutes(e["seconds"])),
-                                 (2, "%.1f %%" % e["share"]),
-                                 (3, "%d" % e["blocks"]),
-                                 (4, "%.1f s" % e["mean"])):
-                p = QtWidgets.QTableWidgetItem(text)
-                if column:
-                    p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
-                speech_table.setItem(i, column, p)
-        if length > 0:
-            i = len(lines)
-            for column, text in ((0, T('Silence')), (1, as_minutes(silence)),
-                                 (2, "%.1f %%" % (100.0 * silence / length)),
-                                 (3, ""), (4, "")):
-                p = QtWidgets.QTableWidgetItem(text)
-                p.setForeground(QtGui.QBrush(QtGui.QColor(COLOURS["quiet"])))
-                if column:
-                    p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
-                speech_table.setItem(i, column, p)
-        fix_table_width(speech_table, most_rows=SPEAKER_ROWS_SHOWN)
-        state["speech_time_total"] = (T('%s speech time') % as_minutes(total)
-                                     if lines else "")
-        speech_total_sum.setText(
-            T('Where two speak at once, the time above counts twice; for '
-              'silence it does not.') if lines else "")
+        state["speech_time_total"] = speech_table_fill(
+            Qt, QtGui, QtWidgets, speech_table, speech_total_sum, d)
 
     speech_table.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
                                 QtWidgets.QSizePolicy.Fixed)
@@ -31304,51 +31389,16 @@ def gui():
         return f.choice
 
     def work_loop(argv):
-        global OUTPUT_SINK, ASK_SINK, PROGRESS_SINK
-        old_out, old_err, OUTPUT_SINK = sys.stdout, sys.stderr, write
-        ASK_SINK = ask_user
-        # -1 stands for "this stage is beginning": a Qt signal carries no
-        # None, and a share of nothing is not a share.
-        PROGRESS_SINK = lambda name, share: bridge_emit(
-            bridge.run_step, name,
-            -1.0 if share is None else float(share))
-        # A separator, so several runs of one session can be told apart in the
-        # log.
+        # A separator, so several runs of one session can be told apart
+        # in the log.
         try:
-            old_out.write(T('\n=== Run %s ===\n\n')
-                          % time.strftime("%Y-%m-%d %H:%M:%S"))
-            old_out.flush()
+            sys.stdout.write(T('\n=== Run %s ===\n\n')
+                             % time.strftime("%Y-%m-%d %H:%M:%S"))
+            sys.stdout.flush()
         except Exception:
             pass
-        sys.stdout = sys.stderr = Redirect(old_out, write)
-        code = 1
-        try:
-            sys.argv = argv
-            code = main()
-        except SystemExit as e:
-            code = e.code if isinstance(e.code, int) else 1
-        except Stopped as e:
-            code = 2
-            print(as_bad(broken_off_report(e, state.get("results"))))
-        except Exception as e:
-            print(as_bad(T('\nStopped: %s') % e))
-        finally:
-            sys.stdout, sys.stderr, OUTPUT_SINK = old_out, old_err, None
-            ASK_SINK = PROGRESS_SINK = None
-        # However it ended, nothing of it is still running.
-        for name in list(run_step_order):
-            bridge_emit(bridge.run_step, name, 1.0)
-        if code == 0:
-            write(as_good(run_done_text(state.get("dry_run"))))
-        else:
-            write(as_bad(T('\nFinished with errors.\n')))
-        for file_path in state["results"]:
-            if file_path.lower().endswith("_resolve.json"):
-                state["resolve_json"] = file_path
-        if state["results"]:
-            state["result_folder"] = os.path.dirname(
-                state["results"][-1])
-        state["running"] = False
+        gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
+                     run_step_order)
 
     def summary_show(only_look):
         """Before the long run: what is about to happen, one line each.
