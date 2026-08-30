@@ -2193,40 +2193,9 @@ def run_single_production(audio, preset, presetname, key, target_folder, wait_s=
     last, horizon = None, 150.0        # a guess: two and a half minutes,
                                        # doubling from there
     end = started + wait_s
-    print(T('  Time limit: %s') % as_hms(wait_s))
-    while time.time() < end:
-        d = _parse_json(_curl_call(key, [AUPHONIC + "/api/production/%s.json" % uuid]))
-        p = d.get("data") or {}
-        status, text = p.get("status"), p.get("status_string") or "?"
-        if status == 3:
-            break
-        if status == 2:
-            sys.stdout.write("\r" + " " * 78 + "\r")
-            raise RuntimeError(T('Auphonic reports an error: %s')
-                               % (p.get("error_message") or text))
-        for _ in range(5):
-            elapsed = time.time() - started
-            # An expired estimate is doubled, so the bar drops back to half
-            # instead of sticking at 100 %.
-            while elapsed >= horizon:
-                horizon *= 2
-            share = min(0.99, elapsed / horizon)
-            progress_bar = "#" * int(share * 30)
-            sys.stdout.write("\r  [%-30s] %3.0f %%  %s  %s        "
-                             % (progress_bar, share * 100, as_hms(elapsed), text))
-            sys.stdout.flush()
-            if time.time() >= end:
-                break
-            time.sleep(1)
-        last = text
-    else:
-        sys.stdout.write("\r" + " " * 78 + "\r")
-        raise RuntimeError(T('Time limit of %s reached, production still '
-                             'running. Fetch the result later by hand: '
-                             '%s/engine/status/%s')
-                           % (as_hms(wait_s), AUPHONIC, uuid))
-    sys.stdout.write(T('\r  [%-30s] 100 %%  %s  done%s\n')
-                     % ("#" * 30, as_hms(time.time() - started), " " * 20))
+    # The same waiting the multitrack production does, and the same
+    # function: one production is watched like several.
+    p = wait_for_production(key, uuid, wait_s)
 
     files = p.get("output_files") or []
     if not files:
@@ -9901,7 +9870,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     gain, curve = normalise_loudness(
         tracks, args.lufs, tmpdir,
         find_master_file(folder, args.out, os.path.dirname(video_paths[0])),
-        channels=2)
+        channels=mix_width(tracks))
     return distribute_tracks_to_cameras(
         args, tracks, cameras, videos, tmpdir, gain, position, t0, ref_clip,
         t1, curve=curve)
@@ -34711,10 +34680,6 @@ CATALOGUE["de"] = {
         'Diese Produktion gibt es schon',
     'This production has no result yet.':
         'Diese Produktion hat noch kein Ergebnis.',
-    'Time limit of %s reached, production still running. Fetch the result '
-    'later by hand: %s/engine/status/%s':
-        'Zeitgrenze von %s erreicht, Produktion läuft noch. Ergebnis '
-        'später von Hand holen: %s/engine/status/%s',
     'Time limit of %s reached, production still running: %s/engine/status/%s':
         'Zeitgrenze von %s erreicht, Produktion läuft noch: '
         '%s/engine/status/%s',
