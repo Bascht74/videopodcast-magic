@@ -82,6 +82,37 @@ the longest first. No time is written in the row: which recording it is
 stands in the row above, and how long somebody speaks is nothing anyone
 decides here.
 
+Once the words are written down, those names become a proposal that
+says something. Who asks the questions and who answers can be read out
+of the speech: the program counts, for every voice inside the time
+window, how many of its sentences end in a question mark, and proposes
+**Guest** for the one who asks least and talks longest, **Host** for
+the others. It proposes only over a name it made up itself -- a name
+somebody typed is never touched, not even one that reads like the
+program's own.
+
+The same counting says when a voice is not a speaker. One that gathers
+too few sentences inside the time window is proposed for **do not use**,
+with a line in the log saying which and why. That happens where a
+separation splits somebody in two, or where a voice belongs to the
+minutes before the interview began. Move the In point and the proposal
+follows at once: widen the window and the voice comes back to its
+camera and takes its name from the new ranking.
+
+**Do not use** on a voice means it is not there. No camera, no track,
+no speaker at auphonic.com, no line in the transcript and none in the
+speaking shares; where it spoke, nobody is speaking, and the picture
+stays on whoever it was on until the next voice that counts. What was
+separated is kept in the project file all the same, so switching the
+voice back on costs no computing.
+
+The writing down costs about half a minute for an hour and a half of
+recording. It runs once, in the background, after a separation exists
+-- the long computation somebody either started or was asked about --
+and never on merely adding files. It installs nothing and downloads
+nothing: it takes the recognition macOS brings with it, and the other
+way only where a run has already put it there.
+
 A recording that shows voices comes up open, with a triangle in front
 of it that folds it away. Open, its own **belongs to** stays empty and
 the rows underneath carry the assignment; folded away, it says there
