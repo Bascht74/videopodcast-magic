@@ -21,7 +21,6 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--lang {de,en}` | Sprache der Meldungen (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
-| `--name TEXT` | Name der neuen Tonspur (`Full-Mix`)  `[simple path only]` |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0)  `[multitrack only]` |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
@@ -38,7 +37,6 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--together DATEI ...` | diese Dateien sind eine Aufnahme, in dieser Reihenfolge; wiederholbar. Der Lauf sortiert sonst nach Namen, die Gruppe nicht: ein Block beim ersten ihrer Namen |
 | `--apart DATEI` | dieser Block steht für sich, was immer sein Name sagt; wiederholbar |
 | `--transcript` | auphonic.com schreibt mit, was gesagt wird: json, srt und txt |
-| `--no-trim` | Ton in voller Länge statt auf das Bild beschnitten  `[simple path only]` |
 | `--no-single-tracks` | nur den Mix ins Video, nicht die Aufnahmen daneben  `[simple path only]` |
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |

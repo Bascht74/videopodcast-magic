@@ -21,8 +21,15 @@ import ratchet
 STATE = os.path.join(HERE, "state", "style_state.json")
 state = ratchet.Ratchet(STATE)
 LINE_MAX = 79
-BLOCK_MAX = 14          # comment lines in a row
-DOCSTRING_MAX = 23      # lines
+BLOCK_MAX = 14          # comment lines in a row -- the hard limit
+DOCSTRING_MAX = 23      # lines -- the hard limit
+# What the guidelines ask for, which is a good deal shorter than what the
+# file holds today. Neither is a limit yet: they are counted, and the
+# count may fall but never rise. A comment that reaches these is one
+# thought; past them it is either saying what the code says, telling a
+# story, or two comments written as one.
+BLOCK_WANTED = 4
+DOCSTRING_WANTED = 8
 HEAD_MAX = 79           # first docstring line
 
 error = []
@@ -158,10 +165,31 @@ for i, line in enumerate(lines, 1):
 check("no comment block over %d lines" % BLOCK_MAX, not blocks,
         str(blocks[:4]))
 
+runs, run = [], 0
+for line in lines:
+    if line.strip().startswith("#"):
+        run += 1
+    else:
+        if run: runs.append(run)
+        run = 0
+if run: runs.append(run)
+over_b = [r for r in runs if r > BLOCK_WANTED]
+limit_b = state.number("long_blocks", len(over_b))
+check("comment blocks over %d lines: %d (ratchet %d)"
+        % (BLOCK_WANTED, len(over_b), limit_b), len(over_b) <= limit_b,
+        "" if len(over_b) <= limit_b else "there are more now")
+
 long_docs = [(n, len(t.splitlines())) for n, _z, t, _e in docs
              if len(t.splitlines()) > DOCSTRING_MAX]
 check("no docstring over %d lines" % DOCSTRING_MAX, not long_docs,
         str(long_docs[:4]))
+
+over_d = [n for n, _z, t, _e in docs
+          if len(t.splitlines()) > DOCSTRING_WANTED]
+limit_d = state.number("long_docstrings", len(over_d))
+check("docstrings over %d lines: %d (ratchet %d)"
+        % (DOCSTRING_WANTED, len(over_d), limit_d), len(over_d) <= limit_d,
+        "" if len(over_d) <= limit_d else "there are more now")
 
 # ----------------------------------------------------------------- Heading
 bad_head = []

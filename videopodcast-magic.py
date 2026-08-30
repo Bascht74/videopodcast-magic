@@ -668,6 +668,10 @@ LIMIT_MAX_DB = 6.0        # most the limiter may take off
 # that stays.
 MIX_TRACK_NAME = "Full-Mix"
 
+# The switches that need several recordings. Everything else works on any
+# run since the two paths became one.
+ONLY_MULTITRACK = ("auphonic_resume", "assign", "multitrack")
+
 MIX_ONLY = "mix-only"            # audio track without a camera of its own
 IGNORE_AUDIO = "ignore-audio"    # audio track stays out entirely
 # The answer "I do not know, go and measure" to the one question a
@@ -9345,7 +9349,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             args.production = title
         else:
             plan = d
-    print(as_head(T('MULTITRACK -- RECOGNISED PLAN')))
+    print(as_head(T('RECOGNISED PLAN')))
     if title:
         print(T('  Production at auphonic.com:   %s') % title)
     if not plan and audio_paths:
@@ -10399,6 +10403,17 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                 items.append((MIX_TRACK_NAME, full_mix))
         else:
             items.append((MIX_TRACK_NAME, full_mix))
+            # And the recordings the mix was made of, each on a line of
+            # its own, so the edit can reach for one voice without
+            # importing anything beside the video. This is what a run
+            # without an assignment always gave, and it has to go on
+            # giving it.
+            #
+            # Not where there is only one recording: the mix is that
+            # recording, and a second copy of it says nothing.
+            if len(tracks) > 1 and not getattr(args, "no_single_tracks", False):
+                for track in tracks:
+                    items.append((track["name"], single[track["name"]]))
         # Where the camera sits on the axis is already known: building the time
         # axis measured every camera against the reference, with the
         # microphones and hundreds of sample points. Repeating that against a
@@ -20847,13 +20862,6 @@ def build_argument_parser():
                     help="how long to wait for Auphonic (default: 7200)")
     ap.add_argument("--suffix", default="_audio",
                     help="added to the file name (default: _audio)")
-    ap.add_argument("--name", default=MIX_TRACK_NAME,
-                    # The name itself, not a copy of it written out: a
-                    # help text saying "Processed audio" outlived the
-                    # move to Full-Mix by a day, and --help told
-                    # everybody the wrong default.
-                    help="name of the new audio track (default: %s)"
-                         % MIX_TRACK_NAME)
     ap.add_argument("--name-camera", dest="name_camera",
                     default="Camera Original",
                     help="name of the camera track (default: Camera Original)")
@@ -20870,9 +20878,6 @@ def build_argument_parser():
                          "continuation. May be given several times. The "
                          "interface sets it when a single block is taken "
                          "out of a recording by hand.")
-    ap.add_argument("--no-trim", dest="no_trim", action="store_true",
-                    help="cut nothing off, audio at full length (default: "
-                         "trimmed to where the picture runs)")
     ap.add_argument("--no-drift", dest="no_drift", action="store_true",
                     help="measure and report clock drift, but do not take "
                          "it out")
@@ -21154,6 +21159,13 @@ def build_argument_parser():
                          "Without this it asks.")
     ap.add_argument("--dry-run", action="store_true",
                     help="only measure and report, write nothing")
+    # A switch that needs several recordings says so, or it would be
+    # taken and do nothing. Marked here rather than at the call site:
+    # --help builds its own parser and never reached the old place, so
+    # the mark was set and shown to nobody.
+    for entry in ap._actions:
+        if entry.dest in ONLY_MULTITRACK:
+            entry.help = (entry.help or "") + "  [multitrack only]"
     return ap
 
 def run_single_track_path(args, ap, audio_paths, video_paths):
@@ -21238,7 +21250,7 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
 
     #------------------------------------------------------- 4. Processing
     step_begin("auphonic" if args.auphonic_key else "loudness")
-    if args.auphonic_key and areas and not args.no_trim:
+    if args.auphonic_key and areas:
         # Only upload what will be needed later. A recorder running for two
         # hours while the camera ran for half an hour would otherwise cost four
         # times the compute.
@@ -21304,7 +21316,7 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
         atexit.register(shutil.rmtree, tmpdir, True)
     try:
         gain, curve = normalise_loudness(
-            [{"name": args.name, "axis": audio, "ready": audio}],
+            [{"name": MIX_TRACK_NAME, "axis": audio, "ready": audio}],
             None, tmpdir, None, channels=channel_count(audio))
     except Exception as e:
         gain, curve = 0.0, None
@@ -21390,30 +21402,6 @@ def main():
             pass
         redirect_console()
         return gui()
-    # Not every switch works in both modes, so the help text says which.
-    # Otherwise a switch is accepted in the wrong path and does nothing.
-    # Everything that shapes the cut left this list in 2.7.0-beta: the
-    # simple path hands the whole of args to write_cut_list now, so the
-    # sliders, the wide shot and the four cut rules work there too. What
-    # stays is what really needs several tracks -- the words come out of
-    # auphonic.com's per-track transcript, and the simple path calls
-    # write_cut_list with words=().
-    # no_metrics and auphonic_resume are read in one place each, and
-    # both of those places are on the multitrack path: the metrics table
-    # is written there and nowhere else, and resuming an upload belongs
-    # to the per-track upload. On the simple path they were accepted and
-    # did nothing, which is exactly what this list exists to prevent.
-    ONLY_MULTITRACK = ("auphonic_done", "auphonic_resume", "parallel",
-                       "no_speech_recognition", "no_transcript_file",
-                       "no_metrics", "assign", "multitrack")
-    # Not "suffix": finish_without_auphonic names the mixed file with it
-    # on the multitrack path as well.
-    ONLY_SIMPLE = ("no_trim", "name", "no_single_tracks")
-    for entry in ap._actions:
-        if entry.dest in ONLY_MULTITRACK:
-            entry.help = (entry.help or "") + "  [multitrack only]"
-        elif entry.dest in ONLY_SIMPLE:
-            entry.help = (entry.help or "") + "  [simple path only]"
     args = ap.parse_args()
     if args.lang:
         set_language(args.lang)
@@ -33780,6 +33768,8 @@ CATALOGUE["de"] = {
         '\nMultitrack braucht Bilder: Die Spuren werden an die Kameras '
         'gelegt, und hier sind keine. Mehrere Aufnahmen ohne Bild sind '
         'mehrere Aufnahmen -- es gibt nichts, worauf man sie legen könnte.',
+    'RECOGNISED PLAN':
+        'ERKANNTER PLAN',
     '\nNo audio track could be aligned -- there is nothing to put on the '
     'axis.':
         '\nKeine Tonspur ließ sich ausrichten -- es gibt nichts, was auf die '
@@ -33979,8 +33969,6 @@ CATALOGUE["de"] = {
         'KAMERATON HERAUSZIEHEN',
     'FOR RESOLVE':
         'FUER RESOLVE',
-    'MULTITRACK -- RECOGNISED PLAN':
-        'MULTITRACK -- ERKANNTER PLAN',
     'Messages of this run: %s':
         'Meldungen dieses Laufs: %s',
     'NO AUDIO FILE -- USING THE CAMERA AUDIO':

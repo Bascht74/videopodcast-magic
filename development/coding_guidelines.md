@@ -111,13 +111,34 @@ timestamps.sort()
 timestamps.sort()
 ```
 
-**Every number that is not obvious gets a sentence.** Why 9.5 dB and not
-10? Why 40 dB below the peak? Whoever reads it in a year should not have
-to work the number out again.
+**Every number that is not obvious gets a sentence** -- why this
+threshold and not a rounder one. The sentence is general: the reason,
+not the run it came out of. The measurement itself lives in
+`docs/notes/`.
 
-**What once went wrong stays in as a comment.** Not as an anecdote but
-as a warning. "This looks redundant but is not, because …" is the most
-valuable comment there is.
+**What once went wrong stays in as a warning, not as a history.** "This
+looks redundant but is not, because …" is the most valuable comment
+there is. "This was tried on such a date and reverted" is not: that
+belongs in the commit message and in `docs/notes/`.
+
+**Nothing dated, nothing named, nothing worked out as an example.** No
+date, no person, no file, no measured figure. All of it ages, and none
+of it helps somebody reading the line. Say the rule the measurement
+produced.
+
+**How long.** A comment block: **four lines.** A docstring: **eight**,
+counted with its first line and its blank lines. Above that, either it
+is saying what the code says, or it is telling a story, or two comments
+have been written as one.
+
+The exception is a section heading that teaches a reader how to do
+something -- how a language is added, how a file format is laid out.
+That is documentation and may be as long as it has to be.
+
+**Half of it is not in the length.** Capping the two limits above cuts
+about a fifth. The rest comes from deleting what the code already says,
+what happened once, and what was measured where. That part is read line
+by line; no rule finds it.
 
 **No anecdotes.** No reference to a particular recording, no names of
 people, no drive paths. Whatever one example taught is written down in

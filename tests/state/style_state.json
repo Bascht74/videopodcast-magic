@@ -3,6 +3,8 @@
  "heading": 0,
  "largest_function": 5223,
  "lazy_plural": 0,
+ "long_blocks": 191,
+ "long_docstrings": 238,
  "long_lines": 0,
  "narrating": 0,
  "over_300": {
@@ -12,8 +14,7 @@
   "gui": [1, 25141],
   "gui.assignment_fresh": [1, 28100],
   "make_player_widgets": [1, 22424],
-  "qt_cut_player": [1, 21755],
-  "run_single_track_path": [1, 19942]
+  "qt_cut_player": [1, 21755]
  },
  "silent_except": {
   "Redirect.write": [1, 25072],
@@ -79,7 +80,6 @@
   "refresh_resolve_timelines": [2, 11023],
   "remove_empty_audio_tracks": [1, 11428],
   "run_ffmpeg_with_progress": [1, 19542],
-  "run_single_track_path": [1, 20068],
   "sample_frame_intervals": [1, 18533],
   "set_update_wanted": [1, 16516],
   "speaker_cache_write": [1, 18290],
