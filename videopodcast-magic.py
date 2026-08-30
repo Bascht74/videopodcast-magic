@@ -13143,7 +13143,7 @@ def camera_place(files, zero, measured, fps=30.0):
 def write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results=None, cut=None, segment_list=None,
                       length=0.0, track_names=None, single_files=None,
-                      offsets=None, words=()):
+                      offsets=None, words=(), unplaceable=()):
     """Write everything Resolve needs: the handover file and instructions.
 
     The Resolve scripting interface has no multicam: the word does not
@@ -19714,6 +19714,25 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
     return out
 
 
+# What the room has to be over the estimate before the run is called
+# safe. The estimate is a rough one and says so, and a rough estimate
+# passed by one per cent is not a pass: a real run cleared the old check
+# by 1.1 GB of 96.6 and died at 88 per cent.
+SPACE_MARGIN = 1.15
+
+
+def on_one_disk(one, other):
+    """Whether two folders live on the same disk.
+
+    Unknown counts as no: a wrong yes would double an estimate that is
+    already erring upward, and refuse a run that would have fitted.
+    """
+    try:
+        return os.stat(one).st_dev == os.stat(other).st_dev
+    except Exception:
+        return False
+
+
 def check_disk_space(target_folder, audio_paths, video_paths, multitrack):
     """Report whether there is enough disk space for what will be created.
 
@@ -19756,13 +19775,27 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack):
     added = longest * per_second * per_camera * max(1, len(video_paths))
     # The processed tracks come back and are mixed once more.
     needed = video_mb * 1.05 + added + audio_mb * (3.0 if multitrack else 2.0)
-    kind = "abort" if free < needed else "good"
+    # The temporary files go into the system temp folder, and where that
+    # sits on the same disk as the output they eat the same space twice.
+    # Counted once the check passed a real run by 1.1 GB and the run
+    # died at 88 per cent with nothing said (31.8.2026).
+    if on_one_disk(tempfile.gettempdir(), folder or "."):
+        needed += added
+    # "hint", not "abort": the numbers do fit, and the estimate errs
+    # upward, so refusing the run would be wrong. But an estimate that
+    # calls itself rough, cleared by one per cent, is not room enough --
+    # a real run passed that way and died at 88 per cent.
+    kind = ("abort" if free < needed
+            else "hint" if free < needed * SPACE_MARGIN else "good")
     advice = ""
     if kind == "abort":
         advice = (T('About %s missing. Free up space or choose another folder '
                  'with --out. The temporary files during the run go '
                  'somewhere else again, into the system temp folder.')
                % as_data_size(needed - free))
+    elif kind == "hint":
+        advice = T('The estimate is rough, so this is not room enough. Free '
+                   'up space or choose another folder with --out.')
     return [Finding(kind, T('Disk space'),
                    T('free %s, about %s needed (%s)')
                    % (as_data_size(free), as_data_size(needed), folder), advice)]
@@ -35208,6 +35241,8 @@ CATALOGUE["de"] = {
         'Schnitt aus liegt weniger als 5 Sekunden nach Schnitt an.',
     'About %s missing. Free up space or choose another folder with --out. The temporary files during the run go somewhere else again, into the system temp folder.':
         'Etwa %s fehlen. Platz schaffen oder mit --out einen anderen Ordner wählen. Die Zwischendateien während des Laufs liegen noch einmal woanders, im Temp-Ordner des Systems.',
+    'The estimate is rough, so this is not room enough. Free up space or choose another folder with --out.':
+        'Die Schätzung ist grob, also ist das nicht genug Platz. Schaffen Sie Platz oder wählen Sie mit --out einen anderen Ordner.',
     '\nSPEAKERS -- MEASURED HERE':
         '\nSPRECHER -- HIER GEMESSEN',
     '\nSPEAKERS -- SEPARATED BY VOICE':
