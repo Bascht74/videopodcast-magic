@@ -644,7 +644,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.20.0-beta"
+VERSION = "2.21.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -9539,7 +9539,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         blocks = e.get("blocks") or [e["audio"]]
         name = e.get("speakers") or os.path.basename(blocks[0])
         if len(blocks) > 1:
-            source, join_info = join_audio_parts(
+            source, join_info = join_with_report(
                 blocks, os.path.join(tmpdir, "raw_%s.wav" % safe_filename(name)))
             hint = T('%d blocks') % join_info["blocks"]
         else:
@@ -16357,6 +16357,45 @@ def cross_correlate(a, b):
     return k, float(cc[k % nf] / label_text) if label_text else 0.0
 
 
+def join_with_report(paths, target, keep_parts=False):
+    """Join the blocks of one recording and say what was found.
+
+    The joining was shared; the reporting was not. The ordinary path
+    said how many blocks went together, where the gaps were and whether
+    two of them overlapped instead of following each other. The
+    multitrack path did the same work in silence, so a recording with a
+    ten-second hole in it went through without a word.
+    """
+    source, join_info = join_audio_parts(paths, target, keep_parts=keep_parts)
+    if join_info.get("tc"):
+        print(T('  %d blocks joined via timecode, start %s')
+              % (join_info["blocks"],
+                 timecode_string(join_info["start"] / float(SR))))
+        for at_s, g in join_info.get("gaps_found", []):
+            if g > 0:
+                print(T('  Gap of %s at %s -- filled with silence')
+                      % (as_hms(g / float(SR)), as_hms(at_s / float(SR))))
+            else:
+                # A negative gap is an overlap. Nothing is filled there;
+                # the two sound at the same time.
+                print(T('  Overlap of %s at %s -- both sound there')
+                      % (as_hms(-g / float(SR)), as_hms(at_s / float(SR))))
+        if join_info.get("side_by_side"):
+            print(T('  They overlap -- several microphones at once, not '
+                    'blocks in a row.'))
+            if join_info.get("parts"):
+                print(T('  Each one also goes into the video as a track of '
+                        'its own: %s')
+                      % ", ".join(n for n, _p in join_info["parts"]))
+            else:
+                print(T('  Only the mix goes into the video '
+                        '(--no-single-tracks).'))
+    else:
+        print(T('  %d blocks joined in name order (no timecode -- gaps '
+                'would not be recognisable)') % join_info["blocks"])
+    return source, join_info
+
+
 def join_audio_parts(paths, target, keep_parts=False):
     """Join several audio files into one.
 
@@ -21175,34 +21214,9 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
         # Several paths leave this function before the folder is removed at
         # the end; without this a failed run keeps the joined WAV lying about.
         atexit.register(shutil.rmtree, tmpdir, True)
-        audio, join_info = join_audio_parts(
+        audio, join_info = join_with_report(
             audio_paths, os.path.join(tmpdir, "joined.wav"),
             keep_parts=not getattr(args, "no_single_tracks", False))
-        if join_info.get("tc"):
-            print(T('  %d blocks joined via timecode, start %s')
-                  % (join_info["blocks"], timecode_string(join_info["start"] / float(SR))))
-            for at_s, g in join_info.get("gaps_found", []):
-                if g > 0:
-                    print(T('  Gap of %s at %s -- filled with silence')
-                          % (as_hms(g / float(SR)), as_hms(at_s / float(SR))))
-                else:
-                    # A negative gap is an overlap. Nothing is filled there;
-                    # the two simply sound at the same time.
-                    print(T('  Overlap of %s at %s -- both sound there')
-                          % (as_hms(-g / float(SR)), as_hms(at_s / float(SR))))
-            if join_info.get("side_by_side"):
-                print(T('  They overlap -- several microphones at once, '
-                        'not blocks in a row.'))
-                if join_info.get("parts"):
-                    print(T('  Each one also goes into the video as a track '
-                            'of its own: %s')
-                          % ", ".join(n for n, _p in join_info["parts"]))
-                else:
-                    print(T('  Only the mix goes into the video '
-                            '(--no-single-tracks).'))
-        else:
-            print(T('  %d blocks joined in name order (no timecode -- gaps '
-                    'would not be recognisable)') % join_info["blocks"])
     else:
         audio = audio_paths[0]
         join_info = {"blocks": 1, "parts": []}
