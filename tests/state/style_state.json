@@ -1,344 +1,95 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5396,
+ "largest_function": 5226,
  "lazy_plural": 0,
  "long_lines": 0,
  "narrating": 0,
  "over_300": {
-  "build_argument_parser": [
-   1,
-   19603
-  ],
-  "build_common_timebase": [
-   1,
-   8602
-  ],
-  "distribute_tracks_to_cameras": [
-   1,
-   9291
-  ],
-  "gui": [
-   1,
-   25141
-  ],
-  "gui.assignment_fresh": [
-   1,
-   28100
-  ],
-  "make_player_widgets": [
-   1,
-   22424
-  ],
-  "qt_cut_player": [
-   1,
-   21755
-  ],
-  "run_single_track_path": [
-   1,
-   19942
-  ]
+  "build_argument_parser": [1, 19603],
+  "build_common_timebase": [1, 8602],
+  "distribute_tracks_to_cameras": [1, 9291],
+  "gui": [1, 25141],
+  "gui.assignment_fresh": [1, 28100],
+  "make_player_widgets": [1, 22424],
+  "qt_cut_player": [1, 21755],
+  "run_single_track_path": [1, 19942]
  },
  "silent_except": {
-  "Redirect.write": [
-   1,
-   25072
-  ],
-  "SharedProgressBar.show": [
-   1,
-   14897
-  ],
-  "ThreadOutput.flush": [
-   1,
-   15157
-  ],
-  "Value.set": [
-   1,
-   954
-  ],
-  "_curl_call": [
-   4,
-   1593
-  ],
-  "_logs_atom_text": [
-   1,
-   2580
-  ],
-  "_sample_count": [
-   1,
-   1309
-  ],
-  "_sliders_from_command_line": [
-   1,
-   12438
-  ],
-  "_speaker_split_talk": [
-   1,
-   17720
-  ],
-  "audio_track_count": [
-   1,
-   11120
-  ],
-  "bit_depth": [
-   1,
-   10057
-  ],
-  "channel_levels": [
-   1,
-   7064
-  ],
-  "check_crosstalk": [
-   1,
-   19004
-  ],
-  "check_disk_space": [
-   1,
-   19092
-  ],
-  "create_colour_groups": [
-   2,
-   11980
-  ],
-  "decode_audio_long": [
-   1,
-   15204
-  ],
-  "desktop_is_dark": [
-   1,
-   779
-  ],
-  "extract_audio_from_video": [
-   1,
-   8159
-  ],
-  "fetch_model": [
-   1,
-   17295
-  ],
-  "file_timecode": [
-   1,
-   1490
-  ],
-  "find_handover_file": [
-   2,
-   11505
-  ],
-  "find_project_file": [
-   1,
-   4231
-  ],
-  "find_required_tools": [
-   1,
-   193
-  ],
-  "force_utf8_output": [
-   1,
-   897
-  ],
-  "general_folder_names": [
-   1,
-   13930
-  ],
-  "gui": [
-   1,
-   30658
-  ],
-  "gui.assignment_remember": [
-   1,
-   27792
-  ],
-  "gui.band_spot_chosen": [
-   1,
-   29129
-  ],
-  "gui.bridge_emit": [
-   1,
-   25234
-  ],
-  "gui.camera_start": [
-   1,
-   29306
-  ],
-  "gui.clean_up": [
-   1,
-   30509
-  ],
-  "gui.mode_toggled": [
-   1,
-   28604
-  ],
-  "gui.preview_compute": [
-   1,
-   29497
-  ],
-  "gui.prework_audio_fetch": [
-   1,
-   26726
-  ],
-  "gui.prework_clean_up": [
-   1,
-   27465
-  ],
-  "gui.project_collect": [
-   1,
-   27039
-  ],
-  "gui.settings_extend": [
-   1,
-   27101
-  ],
-  "gui.start.discard": [
-   1,
-   30436
-  ],
-  "gui.work_loop": [
-   1,
-   30230
-  ],
-  "insert_intro_and_outro": [
-   1,
-   12159
-  ],
-  "limiter_curve": [
-   2,
-   6508
-  ],
-  "macos_words": [
-   1,
-   17017
-  ],
-  "main": [
-   1,
-   20523
-  ],
-  "make_player_widgets.Player._still_loop": [
-   1,
-   23121
-  ],
-  "make_player_widgets.Player.load": [
-   1,
-   22834
-  ],
-  "mark_red": [
-   1,
-   24544
-  ],
-  "match_zip_entries_to_tracks": [
-   1,
-   5919
-  ],
-  "measure_loudness": [
-   1,
-   6041
-  ],
-  "parallel_map": [
-   1,
-   6685
-  ],
-  "pause_if_running": [
-   1,
-   24898
-  ],
-  "prework_fetch": [
-   1,
-   24607
-  ],
-  "probe_warm.one": [
-   1,
-   6716
-  ],
-  "project_colour_to_material": [
-   1,
-   10594
-  ],
-  "qt_cut_player.CutPlayer._follow_device": [
-   1,
-   22081
-  ],
-  "qt_cut_player.CutPlayer._recheck_audio": [
-   1,
-   22221
-  ],
-  "qt_cut_player.CutPlayer._start_playing": [
-   1,
-   22203
-  ],
-  "queue_render_job": [
-   2,
-   10615
-  ],
-  "recogniser_program": [
-   2,
-   16957
-  ],
-  "redirect_console": [
-   1,
-   15275
-  ],
-  "refresh_cut_list": [
-   1,
-   12586
-  ],
-  "refresh_resolve_timelines": [
-   2,
-   11023
-  ],
-  "remove_empty_audio_tracks": [
-   1,
-   11428
-  ],
-  "run_ffmpeg_with_progress": [
-   1,
-   19542
-  ],
-  "run_single_track_path": [
-   1,
-   20068
-  ],
-  "sample_frame_intervals": [
-   1,
-   18533
-  ],
-  "set_update_wanted": [
-   1,
-   16516
-  ],
-  "speaker_cache_write": [
-   1,
-   18290
-  ],
-  "speaker_split_setup": [
-   1,
-   17478
-  ],
-  "step_begin": [
-   1,
-   14964
-  ],
-  "step_report": [
-   1,
-   14973
-  ],
-  "stop_asked_for": [
-   1,
-   25018
-  ],
-  "system_locale": [
-   2,
-   85
-  ],
-  "usable_clip_colours": [
-   2,
-   11874
-  ],
-  "video_envelope": [
-   3,
-   15355
-  ],
-  "write_handover": [
-   1,
-   13177
-  ]
+  "Redirect.write": [1, 25072],
+  "SharedProgressBar.show": [1, 14897],
+  "ThreadOutput.flush": [1, 15157],
+  "Value.set": [1, 954],
+  "_curl_call": [4, 1593],
+  "_logs_atom_text": [1, 2580],
+  "_sample_count": [1, 1309],
+  "_sliders_from_command_line": [1, 12438],
+  "_speaker_split_talk": [1, 17720],
+  "audio_track_count": [1, 11120],
+  "bit_depth": [1, 10057],
+  "channel_levels": [1, 7064],
+  "check_crosstalk": [1, 19004],
+  "check_disk_space": [1, 19092],
+  "create_colour_groups": [2, 11980],
+  "decode_audio_long": [1, 15204],
+  "desktop_is_dark": [1, 779],
+  "extract_audio_from_video": [1, 8159],
+  "fetch_model": [1, 17295],
+  "file_timecode": [1, 1490],
+  "find_handover_file": [2, 11505],
+  "find_project_file": [1, 4231],
+  "find_required_tools": [1, 193],
+  "force_utf8_output": [1, 897],
+  "general_folder_names": [1, 13930],
+  "gui": [1, 30658],
+  "gui.assignment_remember": [1, 27792],
+  "gui.band_spot_chosen": [1, 29129],
+  "gui.bridge_emit": [1, 25234],
+  "gui.camera_start": [1, 29306],
+  "gui.clean_up": [1, 30509],
+  "gui.mode_toggled": [1, 28604],
+  "gui.preview_compute": [1, 29497],
+  "gui.prework_audio_fetch": [1, 26726],
+  "gui.prework_clean_up": [1, 27465],
+  "gui.project_collect": [1, 27039],
+  "gui.settings_extend": [1, 27101],
+  "gui.start.discard": [1, 30436],
+  "gui.work_loop": [1, 30230],
+  "insert_intro_and_outro": [1, 12159],
+  "limiter_curve": [2, 6508],
+  "macos_words": [1, 17017],
+  "main": [1, 20523],
+  "make_player_widgets.Player._still_loop": [1, 23121],
+  "make_player_widgets.Player.load": [1, 22834],
+  "mark_red": [1, 24544],
+  "match_zip_entries_to_tracks": [1, 5919],
+  "measure_loudness": [1, 6041],
+  "parallel_map": [1, 6685],
+  "pause_if_running": [1, 24898],
+  "prework_fetch": [1, 24607],
+  "probe_warm.one": [1, 6716],
+  "project_colour_to_material": [1, 10594],
+  "qt_cut_player.CutPlayer._follow_device": [1, 22081],
+  "qt_cut_player.CutPlayer._recheck_audio": [1, 22221],
+  "qt_cut_player.CutPlayer._start_playing": [1, 22203],
+  "queue_render_job": [2, 10615],
+  "recogniser_program": [2, 16957],
+  "redirect_console": [1, 15275],
+  "refresh_cut_list": [1, 12586],
+  "refresh_resolve_timelines": [2, 11023],
+  "remove_empty_audio_tracks": [1, 11428],
+  "run_ffmpeg_with_progress": [1, 19542],
+  "run_single_track_path": [1, 20068],
+  "sample_frame_intervals": [1, 18533],
+  "set_update_wanted": [1, 16516],
+  "speaker_cache_write": [1, 18290],
+  "speaker_split_setup": [1, 17478],
+  "step_begin": [1, 14964],
+  "step_report": [1, 14973],
+  "stop_asked_for": [1, 25018],
+  "system_locale": [2, 85],
+  "usable_clip_colours": [2, 11874],
+  "video_envelope": [3, 15355],
+  "write_handover": [1, 13177]
  }
 }
