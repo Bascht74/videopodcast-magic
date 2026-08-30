@@ -41,13 +41,30 @@ os.makedirs(D)
 # It used to be 40 s, which cost the run a sixth more of everything it
 # decodes without proving anything the 34 do not.
 RATE, LENGTH, CAM_LATE = 48000, 34.0, 1.5
-# Five turns, each at least 5 s. The camera cut merges anything under
-# MIN_EDIT_DURATION_S = 3 s into the shot that follows, so a turn near
-# that length would cost the "more than two shots" check its meaning.
-# Measured with this material: shortest shot 5.8 s, so the margin is
-# nearly a factor of two.
-TURNS = {"Host": [(1, 7), (14, 20), (27, 33)],
-         "Guest": [(8, 13), (21, 26)]}
+# Five turns of 5 s, with a gap of at least 1 s around each of them: 25 s
+# of speech and 9 s of quiet, a quarter of the material.
+#
+# That quarter is what lets this test see the separation at all. The
+# speech detection takes each track's noise floor from the quietest fifth
+# of its blocks. Where less than a fifth of the material is quiet, that
+# floor lands inside the neighbour's bleed, and then the threshold throws
+# the bleed out by itself -- the separation has nothing left to do, and a
+# program that has lost it looks exactly like one that has not. Measured
+# 30.8.2026 with the turns this test used to have, 18 s and 10 s of
+# speech back to back and only 17.6 % quiet: a build with the separation
+# taken out still reported 17 s for the Host and went through green. With
+# the gaps below the same build reports 25.5 s for both, which is every
+# turn in the recording, and is caught.
+#
+# The camera cut merges anything under MIN_EDIT_DURATION_S = 3 s into the
+# shot that follows, so a turn near that length would cost the "more than
+# two shots" check its meaning. 5 s leaves that margin.
+#
+# Nothing begins before CAM_LATE: the common window of sound and picture
+# starts there, and a turn that reached back over it would be counted
+# short and make the two numbers below awkward for no gain.
+TURNS = {"Host": [(2, 7), (15, 20), (28, 33)],
+         "Guest": [(8.5, 13.5), (21.5, 26.5)]}
 
 
 def voice(turns, seed):
@@ -160,12 +177,32 @@ for line in rows:
     found[part[0]] = found.get(part[0], 0.0) + float(part[4])
 print("   ", {k: round(v) for k, v in found.items()})
 check("both speakers appear", set(found) == {"Host", "Guest"}, str(set(found)))
-# 18 s of Host and 10 s of Guest are in the material; the bands are as
-# wide, relative to that, as they were for the 40 s version.
-check("Host about 18 s", 14 <= found.get("Host", 0) <= 22,
+# 15 s of Host and 10 s of Guest are in the material; the bands are as
+# wide, relative to that, as they have been since the 40 s version.
+check("Host about 15 s", 12 <= found.get("Host", 0) <= 18,
         str(round(found.get("Host", 0))))
 check("Guest about 10 s", 7 <= found.get("Guest", 0) <= 13,
         str(round(found.get("Guest", 0))))
+# The durations alone would let a lot through. What the separation is
+# for is that no microphone reports its neighbour, so that is checked
+# where it happens: how much of each speaker's reported speech falls in
+# the other one's turns. Measured 30.8.2026: 0.0 s for both with the
+# separation, 10.0 and 14.5 s without it. The csv counts from the common
+# start, which begins CAM_LATE into the material.
+NEXT_TO = {"Host": "Guest", "Guest": "Host"}
+foreign = {"Host": 0.0, "Guest": 0.0}
+for line in rows:
+    part = line.split(",")
+    hour, minute, second = part[3].split(":")
+    a = int(hour) * 3600 + int(minute) * 60 + float(second)
+    b = a + float(part[4])
+    for c, d in TURNS.get(NEXT_TO.get(part[0], ""), []):
+        foreign[part[0]] = foreign.get(part[0], 0.0) + max(
+            0.0, min(b, d - CAM_LATE) - max(a, c - CAM_LATE))
+print("   ", {k: round(v, 1) for k, v in foreign.items()}, "of the other's turns")
+check("neither track claims the other's turns",
+        max(foreign.values()) <= 1.5,
+        str({k: round(v, 1) for k, v in foreign.items()}))
 
 print("\n4. And the cut alternates")
 cut = open(OUT + "/WA_cameracut.csv", encoding="utf-8").read().splitlines()[1:]
