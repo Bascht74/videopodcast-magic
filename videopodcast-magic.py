@@ -8766,9 +8766,18 @@ def mix_tracks(sources, target, gain=0.0, curve=None, channels=1):
         fc += "[gm][gc]amultiply[out]"
     else:
         fc += "[out]"
+    # The clock of the first source goes with the mix. Without it a
+    # levelled file came out with no timecode at all, and a recording
+    # with no clock cannot be placed against anything afterwards -- so
+    # the level was left alone wherever the clock still mattered.
+    clock = []
+    start = bext_time_reference(sources[0])
+    if start is not None:
+        clock = ["-write_bext", "1", "-metadata",
+                 "time_reference=%d" % int(round(start))]
     run_ffmpeg_with_progress(
         ["ffmpeg", "-v", "error"] + parts + ["-filter_complex", fc,
-         "-map", "[out]", "-c:a", "pcm_s24le"]
+         "-map", "[out]", "-c:a", "pcm_s24le"] + clock
         + wav_safe(target) + ["-y", target],
         sample_count(sources[0]) / float(SR),
         T('Mixing %s') % (os.path.splitext(os.path.basename(target))[0]
@@ -9443,31 +9452,44 @@ def join_only(args, tracks, tmpdir, title=""):
     first = tracks[0]["blocks"][0]
     folder = os.path.abspath(args.out) if args.out else os.path.dirname(
         os.path.abspath(first))
-    # Measured and said, the same as on any other run: the one number a
-    # listener notices first belongs in the log.
+    # Measured, said, and adjusted where a target was given -- the same
+    # as on any run with a picture. One gain per recording, because
+    # without a picture they are not laid against each other and there
+    # is no balance between them to keep.
     for track in tracks:
         try:
-            normalise_loudness([{"name": track["name"], "axis": track["source"],
-                                 "ready": track["source"]}],
-                               None, tmpdir, None,
-                               channels=channel_count(track["source"]))
+            gain, curve = normalise_loudness(
+                [{"name": track["name"], "axis": track["source"],
+                  "ready": track["source"]}], args.lufs, tmpdir, None,
+                channels=channel_count(track["source"]))
         except Exception as e:
+            gain, curve = 0.0, None
             print(T('  Loudness not measurable: %s') % str(e)[:60])
-    if args.lufs is not None and not args.auphonic_key:
-        print(as_warn(T('  --lufs is not applied on this path yet: the '
-                        'sound is written as it was recorded.')))
+        if gain or curve:
+            track["source"] = mix_tracks(
+                [track["source"]],
+                os.path.join(tmpdir, "level_%s.wav"
+                             % safe_filename(track["name"])),
+                gain, curve, channels=channel_count(track["source"]))
     if args.auphonic_key:
         key = api_key_from_anywhere(args)
         preset, presetname = choose_preset(
             key, args.auphonic_preset, len(tracks) > 1, lufs=args.lufs,
             anyway=getattr(args, "anyway", False))
         for track in tracks:
-            run_single_production(
+            track["axis"] = track["source"]
+            track["done"] = run_single_production(
                 track["source"], preset, presetname, key, folder,
                 args.auphonic_wait, args.dry_run, title or track["name"],
                 bool(getattr(args, "transcript", False)),
                 speech_language_code(getattr(args, "speech_language", "")))
-        return 0
+        if args.dry_run:
+            return 0
+        # What came back is held against what went up, the same as on a
+        # run with a picture. The service can prepend material and
+        # change the length, and nothing else here would notice.
+        longest = max(sample_count(t["source"]) for t in tracks) / float(SR)
+        return 0 if verify_returned_tracks(tracks, longest, tmpdir) else 1
     if len(tracks) == 1 and len(tracks[0]["blocks"]) < 2:
         print(T('Only one audio file and no picture -- nothing to do.'))
         return 0
@@ -33164,10 +33186,6 @@ CATALOGUE["de"] = {
     '  Limiter:           at most %.1f dB, the same curve on every track%s':
         '  Limiter:           höchstens %.1f dB, dieselbe Kurve auf jeder '
         'Spur%s',
-    '  --lufs is not applied on this path yet: the sound is written as '
-    'it was recorded.':
-        '  --lufs wird auf diesem Weg noch nicht angewendet: Der Ton wird '
-        'so geschrieben, wie er aufgenommen wurde.',
     '  Loudness not measurable: %s':
         '  Lautheit nicht messbar: %s',
     '  Loudness not measurable -- it stays as it is.':

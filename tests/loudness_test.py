@@ -85,6 +85,61 @@ harder, _c = vpm.normalise_loudness(tracks, -10.0, T)
 check("a target six louder asks for about six more",
       abs((harder - v) - 6.0) < 0.5, "%+.2f against %+.2f" % (harder, v))
 
+# ------------------------------------------- the same rule without a picture
+# A run with no picture joins the blocks and stops. It measures and
+# levels like any other: what one way can do, the other can. The target
+# went missing here once, between two versions, because the path that
+# used to carry it was taken out.
+print("\n5. A run with no picture levels too")
+import subprocess
+D = os.path.join(T, "nopicture")
+os.makedirs(D, exist_ok=True)
+blocks = []
+for i, seconds in enumerate((4, 4)):
+    b = os.path.join(D, "Take_%02d.wav" % (i + 1))
+    subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                    "sine=frequency=%d:duration=%d" % (300 + 60 * i, seconds),
+                    "-ac", "1", "-c:a", "pcm_s24le", b], check=True)
+    blocks.append(b)
+
+
+def joined_at(target):
+    """Run with no picture and read back what the log said and wrote."""
+    out = os.path.join(D, "out_%s" % (target or "none"))
+    call = [sys.executable, SCRIPT, "--without-auphonic", "--out", out]
+    if target is not None:
+        call += ["--lufs", str(target)]
+    p = subprocess.run(call + blocks, capture_output=True, text=True,
+                       env=dict(os.environ, LANG="C", LC_ALL="C",
+                                LANGUAGE="en", VPM_SILENT="1",
+                                VPM_NO_UPDATE_CHECK="1"))
+    made = [os.path.join(out, f) for f in sorted(os.listdir(out))
+            if f.endswith(".wav")] if os.path.isdir(out) else []
+    return (p.stdout or "") + (p.stderr or ""), made
+
+
+said, made = joined_at(None)
+check("it says what it measured", "Sum of tracks" in said,
+      "" if "Sum of tracks" in said else said.strip().splitlines()[-1][:70])
+check("and writes the joined file", len(made) == 1,
+      str([os.path.basename(x) for x in made]))
+plain = vpm.measure_loudness(made[0])[0] if made else None
+
+said, made = joined_at(-16.0)
+check("a target is applied, not only reported", "Target:" in said,
+      "" if "Target:" in said else "no target line in the log")
+if made and plain is not None:
+    now = vpm.measure_loudness(made[0])[0]
+    check("and the file really lands on it", abs(now + 16.0) <= 1.0,
+          "%.2f LUFS, before %.2f" % (now, plain))
+    # The clock has to survive the levelling, or the joined file cannot
+    # be placed against anything afterwards.
+    check("the joined file keeps its timecode where it had one",
+          vpm.bext_time_reference(blocks[0]) is None
+          or vpm.bext_time_reference(made[0]) is not None,
+          "source %s, result %s" % (vpm.bext_time_reference(blocks[0]),
+                                    vpm.bext_time_reference(made[0])))
+
 print()
 if error:
     print("FAIL: " + ", ".join(error))

@@ -131,6 +131,13 @@ Sebastian asked for this to be written down on 31.8.2026, after the
 fourth release in two days where the manual and the list were caught up
 afterwards rather than as part of the work.
 
+**Every workflow says what it is, in the same shape every time.** GitHub
+names a run after the commit subject unless it is told otherwise, so a
+list of runs reads as a heap of unrelated sentences and nothing can be
+found in it. Each workflow carries a `run-name:` of its own -- what it
+is, and the number the list is ordered by. A new workflow without one is
+not finished.
+
 **Before every release, fetch the builder's times and look at them.**
 
 ```bash

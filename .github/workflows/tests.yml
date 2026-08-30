@@ -1,5 +1,11 @@
 name: tests
 
+# The commit subject is what GitHub calls a run by default, so the list
+# of runs reads as a heap of unrelated sentences. A run is one thing --
+# the suite, on a commit -- and it says so, in the same shape every
+# time, with the number the list is ordered by.
+run-name: "suite #${{ github.run_number }} on ${{ github.ref_name }}"
+
 on:
   push:
   pull_request:
