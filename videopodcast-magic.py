@@ -8386,15 +8386,17 @@ def merge_plan_entries(plan):
     """Merge plan rows that share a speaker name into one track.
 
     Stopping the recording in between leaves several files for the same
-    person; their timecodes place the blocks anyway. As one track it
-    stays one person at Auphonic and is not counted twice.
+    person; their timecodes place them anyway, and as one track it stays
+    one person at Auphonic. A row marked "apart" stays put and is no
+    target either: two blocks of one recorder guess the same name, so
+    without that mark this undid what --apart had separated.
     """
     combined = []
     after_name = {}
     for e in plan:
         name = (e.get("speakers") or "").strip()
         blocks = list(e.get("blocks") or [e["audio"]])
-        if name and name in after_name:
+        if name and name in after_name and not e.get("apart"):
             old = after_name[name]
             old["blocks"] += blocks
             if not old.get("camera") and e.get("camera"):
@@ -8410,7 +8412,7 @@ def merge_plan_entries(plan):
         fresh["blocks"] = blocks
         fresh["speakers"] = name
         combined.append(fresh)
-        if name:
+        if name and not fresh.get("apart"):
             after_name[name] = fresh
     for e in combined:
         e["blocks"] = sort_by_time(e["blocks"])
@@ -8479,12 +8481,20 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     if title:
         print(T('  Production at auphonic.com:   %s') % title)
     if not plan and audio_paths:
+        # A block taken out by hand is carried as such into the plan.
+        # Grouping alone was not enough: the rows are merged by speaker
+        # name further down, and two blocks of one recorder guess the
+        # same name, so what was separated here was joined again there.
+        kept_apart = {path_key(x)
+                      for x in (getattr(args, "apart", ()) or ())}
         for row, _ in group_recording_parts(audio_paths,
                                             args.no_follow_ups,
                                             getattr(args, "apart", ()),
                                             getattr(args, "together", ())):
             plan.append({"audio": row[0], "blocks": row,
-                         "speakers": guess_speaker_name(row[0]), "camera": ""})
+                         "speakers": guess_speaker_name(row[0]), "camera": "",
+                         "apart": any(path_key(b) in kept_apart
+                                      for b in row)})
     if any(e.get("camera_audio") for e in plan):
         # The interface sent cameras rather than audio recordings: names and
         # assignment are settled, only the audio is extracted now.
