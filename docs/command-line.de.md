@@ -18,7 +18,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--lang {de,en}` | Sprache der Meldungen (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
-| `--name TEXT` | Name der neuen Tonspur (`Processed audio`) |
+| `--name TEXT` | Name der neuen Tonspur (`Full-Mix`) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0) |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
