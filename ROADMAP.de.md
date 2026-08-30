@@ -11,16 +11,23 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 2.14.0-beta durchgegangen worden.
+zuletzt für 2.23.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 2.22.0-beta.** Es läuft jede Woche, an echtem Material.
+**Version 2.23.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
 bringen, die Sprecher allein aus dem Ton trennen, einen ersten Schnitt
 nach Sprecher vorschlagen und ein DaVinci-Resolve-Projekt schreiben.
+
+Jeder Lauf geht denselben Weg. `--multitrack` sagt nur noch, wie die
+Aufnahmen zu Produktionen zusammengefasst werden: Die Zeitachse, die
+Lage jeder Kamera und die Dateien am Ende sind mit dem Schalter
+dieselben wie ohne ihn. Mehrere Aufnahmen, unter denen keine Kamera
+ist, werden stattdessen gegeneinander gelegt — gleich lang, ein Anfang
+für alle — statt abgewiesen.
 
 Sprechertrennung und Spracherkennung laufen auf der Maschine, vor der
 du sitzt. Das Modell liegt in einem Ordner neben dem Programm: kein
@@ -29,12 +36,13 @@ De-Bleed, Rauschunterdrückung und Transkript bei auphonic.com sind
 freiwillig, und das Programm lädt erst hoch, wenn es dazu aufgefordert
 wird.
 
-Es ist eine Python-Datei mit rund 36000 Zeilen, ohne Paket und ohne
+Es ist eine Python-Datei mit rund 35000 Zeilen, ohne Paket und ohne
 Bauschritt. Python 3.10 oder neuer muss da sein, die zwei Pakete
 installiert es selbst. Benutzt wird es unter macOS und Windows, unter
-Linux läuft es mit zwei Einschränkungen. Eine Suite aus 119 Tests
-braucht rund eine halbe Minute und läuft bei jedem Push auf allen drei
-Systemen.
+Linux läuft es mit zwei Einschränkungen. Eine Suite aus 146 Tests läuft
+bei jedem Push: sechs Läufe nebeneinander, drei Systeme und zwei
+Python-Versionen, und der langsamste davon ist in unter fünf Minuten
+fertig.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
@@ -44,43 +52,15 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Nach Nutzen gegen Aufwand geordnet. Der erste wartet auf einen Lauf, im
-zweiten liegt die Arbeit, der dritte folgt darauf.
+Ein Punkt steht hier, und er wartet auf einen Lauf, nicht auf Arbeit.
 
-**1. Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
+**Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Das Transkript einer einzelnen Spur und eine
 Multitrack-Produktion mit einer Stereospur sind beide gebaut, und
 keiner ist je wirklich hinausgegangen. Ob der Dienst eine Stereospur
 mit beiden Kanälen zurückgibt, ist offen. Bis das gelaufen ist,
 beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt aus
 einem Lauf.
-
-**2. Eine Zeitachse statt zwei.** Jeder Lauf muss Bilder und Ton auf
-eine gemeinsame Zeitlinie legen. Dafür gibt es heute zwei getrennte
-Stücke Code — eins für Multitrack, eins für den gewöhnlichen Lauf —,
-und sie sind sich nicht einig. Auf dem gewöhnlichen Weg wurden zwei
-Kameras übereinander an Resolve übergeben, und ein Zeitfenster meint
-dort für jede Kamera einen anderen Moment, während Multitrack einen
-Moment für alle meint.
-
-Der gewöhnliche Lauf soll ein Sonderfall des Multitrack-Laufs werden.
-Gemessen: an der Rechnung hindert nichts. Fünf geänderte Zeilen
-genügen, um einen gewöhnlichen Lauf durch die gemeinsame Maschine zu
-schicken, und an echtem Material legt sie drei Kameras auf das
-Einzelbild genau an ihre eigenen Uhren. Es fehlen eine Weiche und eine
-Entscheidung: wo der Nullpunkt der Achse liegt, wenn mehrere Kameras zu
-verschiedenen Zeiten anfangen.
-
-Alles bisherige war Vorarbeit, fertig und veröffentlicht: beide Wege
-benennen ihre Dateien und Spuren jetzt gleich, beide prüfen die Farbe
-und übernehmen die Schlüssel der Kamera, beide messen die Lautheit, und
-beide sagen, in welcher Stufe ein Lauf gerade ist.
-
-**3. Multitrack ohne Kamera.** Mehrere Aufnahmen und kein Bild wird
-heute abgelehnt, und der Grund ist richtig: die Spuren werden an die
-Kameras gelegt. Man könnte sie aber gegeneinander legen — gleich lang,
-ein Startpunkt, fertig für auphonic. Das wartet, bis es eine Achse
-gibt, damit es nicht zweimal gebaut wird.
 
 ## Was später kommt
 
@@ -172,10 +152,9 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Alle vier
   wollen ein Paket mit `pyproject.toml`. Hier wären es vier neue
-  Abhängigkeiten für eine Datei, deren 103 Tests als schlichte Scripts
-  in einer halben Minute durchlaufen. Eine dünne pytest-Schicht, die
-  genau diese Scripts unverändert startet, ist etwas anderes und kann
-  kommen.
+  Abhängigkeiten für eine Datei, deren 146 Tests als schlichte Scripts
+  durchlaufen. Eine dünne pytest-Schicht, die genau diese Scripts
+  unverändert startet, ist etwas anderes und kann kommen.
 
 * **Bildvergleich der Handbuchbilder in der Suite.** Die Bilder
   entstehen im echten Fensterstil, dafür braucht es einen Bildschirm
