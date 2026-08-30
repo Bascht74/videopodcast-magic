@@ -282,6 +282,64 @@ held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(silent)))
 
+# ------------------------------------------- One shape for a path
+# A path put into shape on one side of a comparison and left raw on the
+# other holds on a Mac, where the two are the same string, and parts on
+# Windows, where the case and the separator differ. Nothing in the line
+# says whether the collection on the other side was built the same way,
+# so the reader cannot tell a sound comparison from a broken one --
+# which is the fault itself, not its symptom. path_key() is the one
+# shape; a comparison that goes through it counts as settled.
+IN_SHAPE = {"abspath", "realpath", "normpath", "normcase", "expanduser"}
+
+
+def brings_into_shape(node):
+    """True where a whole path is shaped, "key" where path_key does it."""
+    for inner in ast.walk(node):
+        if not isinstance(inner, ast.Call):
+            continue
+        called = inner.func
+        if isinstance(called, ast.Name) and called.id == "path_key":
+            return "key"
+        if isinstance(called, ast.Attribute) and called.attr in IN_SHAPE:
+            return True
+    return False
+
+
+lopsided = []
+for node in ast.walk(tree):
+    if not isinstance(node, ast.Compare):
+        continue
+    sides = [brings_into_shape(s)
+             for s in [node.left] + list(node.comparators)]
+    if any(s is True for s in sides) and not all(sides):
+        lopsided.append((seen.get(id(node), "<module>"), node.lineno))
+held = state.places("one_sided_paths", ratchet.tally(lopsided))
+check("paths shaped on one side of a comparison: %d (ratchet %d)"
+      % (len(lopsided), held.limit), held.ok)
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d" % (held.limit, len(lopsided)))
+
+# The one shape has to be one shape. abspath alone leaves the case and
+# the separator, so two names for one file still compare unequal.
+key = [n for n in ast.walk(tree)
+       if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
+       and n.name == "path_key"]
+# The calls it makes, not the words it uses: a docstring naming normcase
+# is not the same as a body calling it, and reading the dump of the
+# whole function reads the docstring too.
+does = set()
+if key:
+    for inner in ast.walk(key[0]):
+        if isinstance(inner, ast.Call) and isinstance(inner.func,
+                                                      ast.Attribute):
+            does.add(inner.func.attr)
+check("path_key settles the case as well as the folder",
+      {"normcase", "abspath"} <= does,
+      "it calls %s" % (sorted(does) or "nothing") if key
+      else "no path_key in the program")
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("\n%s" % ("All good." if not error
                 else "FAIL: %s" % ", ".join(error)))
