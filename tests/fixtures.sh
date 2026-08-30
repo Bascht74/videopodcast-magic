@@ -161,22 +161,101 @@ fi
 # while the timecodes say otherwise: an axis over this folder is
 # absolute and lands on the middle timecode. What can be checked here
 # is the conversion for one file, not the alignment of three.
-INTERVIEW_BUILD=timecode-1
+#
+# The microphones speak, and until 30.8.2026 they did not: each was one
+# unbroken sine tone. Speech is found in blocks standing over a track's
+# own noise floor, and a constant tone is its own floor, so
+# speakers_from_tracks returned nothing at all on this folder -- in every
+# version since 2.5.0. Without speech there is no speaker statistic, no
+# cut, and no manual picture of the Resolve sheet.
+#
+# Now every microphone carries filtered noise in bursts, one speaker to a
+# track, and the three take turns (seconds of the programme):
+#
+#   Moderatorin    1.0-5.5   28.5-32.5   57.0-61.0   82.0-86.5
+#                111.5-117.5
+#   Kandidat       7.5-13.5   21.0-26.5   34.0-38.5   48.5-55.0
+#                 63.0-69.5   88.5-95.0  103.0-109.5
+#   Moderator     15.5-19.5   42.0-46.5   71.5-77.5   97.0-101.0
+#
+# They never overlap, and at least 1.5 s lies between two turns. That is
+# a decision, not an accident. The bleed measurement needs moments where
+# exactly one person speaks; the camera cut needs one speaker at a time
+# to have anything to cut to; a turn under MIN_EDIT_DURATION_S = 3 s
+# would be merged into the shot after it, so the shortest is 4 s; and the
+# quiet has to be more than a fifth of each track, because that is where
+# the noise floor is taken from. Overlapping speech belongs in a test
+# about overlapping speech, not in the folder everything else reads.
+#
+# No bleed either. Each microphone hears its own speaker and its own room
+# noise, 31 dB under it, and nothing of the other two. Bleed loud enough
+# to be worth measuring also passes a threshold that sits 10 dB over the
+# floor, so with bleed this folder would only ever be as good as the
+# separation on the day. local_run_test.py and "$FIX/mixer" are where
+# bleed is measured.
+#
+# The two three-block recordings are one programme cut in three: block 1
+# is second 0 to 40, block 2 is 40 to 80, block 3 is 80 to 120. Put back
+# together they lie on the candidate's single file.
+#
+# Measured 30.8.2026, over the candidate's file and the first block of
+# each of the other two: 7, 1 and 2 segments, every one of them a turn of
+# that speaker and nothing else. Over the whole recordings: 7, 4 and 5.
+# Peak -17.8 dBFS, speech 31.5 dB over the room noise. The one call costs
+# 0.5 s, which is what the three sine tones cost too.
+INTERVIEW_BUILD=voices-1
 if have "$FIX/interview" "$INTERVIEW_BUILD"; then
   echo "  "$FIX/interview"    already there"
 else
   rm -rf "$FIX/interview" && mkdir -p "$FIX/interview"/Ergebnis
   cd "$FIX/interview"
-  mic() { $FF -f lavfi -i "sine=frequency=$2:duration=$3" -ac 1 -ar 48000 \
-            -c:a pcm_s16le "$1" -y; }
   # cam <file> <seconds> <sine Hz> <timecode>
   cam() { $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=$2" \
             -f lavfi -i "sine=frequency=$3:duration=$2" \
             -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
             -timecode "$4" -shortest "$1" -y; }
-  mic Kandidat_0008A_Timecode.wav 220 120
-  for i in 00009 00010 00011; do mic "Moderator_REC$i.wav" 330 40; done
-  for i in 00008 00009 00010; do mic "Moderatorin_REC$i.wav" 440 40; done
+  # When each turn speaks, as an expression the volume filter can read.
+  # The turns of one person do not overlap, so the sum is 0 or 1.
+  KAND="between(t,7.5,13.5)+between(t,21,26.5)+between(t,34,38.5)"
+  KAND="$KAND+between(t,48.5,55)+between(t,63,69.5)+between(t,88.5,95)"
+  KAND="$KAND+between(t,103,109.5)"
+  MODR="between(t,15.5,19.5)+between(t,42,46.5)+between(t,71.5,77.5)"
+  MODR="$MODR+between(t,97,101)"
+  MODN="between(t,1,5.5)+between(t,28.5,32.5)+between(t,57,61)"
+  MODN="$MODN+between(t,82,86.5)+between(t,111.5,117.5)"
+  # Three voices and three room noises, seven files, one ffmpeg. The
+  # seeds are written down because six build machines have to hear the
+  # same recording; tremolo is what makes a burst sound spoken rather
+  # than switched on, and the band is the one a voice lives in.
+  $FF -filter_complex "
+    anoisesrc=c=white:r=48000:d=120:a=0.9:seed=1101,
+      highpass=f=120,lowpass=f=4600,tremolo=f=5.5:d=0.55,
+      volume=eval=frame:volume='$KAND',volume=0.15[kand];
+    anoisesrc=c=white:r=48000:d=120:a=0.9:seed=2202,
+      highpass=f=150,lowpass=f=5200,tremolo=f=4.7:d=0.55,
+      volume=eval=frame:volume='$MODR',volume=0.15[modr];
+    anoisesrc=c=white:r=48000:d=120:a=0.9:seed=3303,
+      highpass=f=180,lowpass=f=6000,tremolo=f=6.1:d=0.55,
+      volume=eval=frame:volume='$MODN',volume=0.15[modn];
+    anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=4404,volume=0.004[room1];
+    anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=5505,volume=0.004[room2];
+    anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=6606,volume=0.004[room3];
+    [kand][room1]amix=inputs=2:normalize=0[k];
+    [modr][room2]amix=inputs=2:normalize=0,asplit=3[r1][r2][r3];
+    [modn][room3]amix=inputs=2:normalize=0,asplit=3[n1][n2][n3];
+    [r1]atrim=0:40,asetpts=PTS-STARTPTS[ra];
+    [r2]atrim=40:80,asetpts=PTS-STARTPTS[rb];
+    [r3]atrim=80:120,asetpts=PTS-STARTPTS[rc];
+    [n1]atrim=0:40,asetpts=PTS-STARTPTS[na];
+    [n2]atrim=40:80,asetpts=PTS-STARTPTS[nb];
+    [n3]atrim=80:120,asetpts=PTS-STARTPTS[nc]" \
+    -map "[k]"  -ac 1 -ar 48000 -c:a pcm_s16le Kandidat_0008A_Timecode.wav \
+    -map "[ra]" -ac 1 -ar 48000 -c:a pcm_s16le Moderator_REC00009.wav \
+    -map "[rb]" -ac 1 -ar 48000 -c:a pcm_s16le Moderator_REC00010.wav \
+    -map "[rc]" -ac 1 -ar 48000 -c:a pcm_s16le Moderator_REC00011.wav \
+    -map "[na]" -ac 1 -ar 48000 -c:a pcm_s16le Moderatorin_REC00008.wav \
+    -map "[nb]" -ac 1 -ar 48000 -c:a pcm_s16le Moderatorin_REC00009.wav \
+    -map "[nc]" -ac 1 -ar 48000 -c:a pcm_s16le Moderatorin_REC00010.wav -y
   cam Kandidat_08141858_C009.mov    120 220 18:55:17:12
   cam Moderatoren_08141855_C005.mov 120 330 18:55:04:00
   cam Totale_08141855_C003.mov      120 550 18:55:00:00
