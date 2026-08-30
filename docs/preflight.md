@@ -115,13 +115,11 @@ given, nothing is adjusted. In the Resolve project the loudness display
 still needs a scale, so it is set to -16 LUFS, and the line above it in
 the log says that this is only what the meter measures against.
 
-**The simple path is measured and adjusted like every other run.** A run
-without Multitrack ([The simple path](simple-path.md)) applies the target
-just as any other does: the log gives `Target:` and `Result:`, and
-without a target nothing is adjusted. Recordings with no picture at all
-are the one exception: without a key for auphonic.com the log says that
-`--lufs` is not applied on this path yet, and the sound is written as it
-was recorded.
+**Every run is measured and adjusted the same way.** A run without
+Multitrack ([The simple path](simple-path.md)) applies the target just as
+any other does, and so does a run with no picture at all, where the
+blocks of a recording are joined into one file. The log gives `Target:`
+and `Result:`; without a target nothing is adjusted.
 
 **The mix is two-channel, and so is the measurement.** The single tracks
 keep the channels their source has ([Channels](channels.md)). Every *mix*
