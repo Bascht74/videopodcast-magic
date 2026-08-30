@@ -43,7 +43,6 @@ intro 0
 key_store 0
 language 15
 layout 9
-local_run 4
 log_atom 2
 loudness 9
 metrics 4

@@ -204,12 +204,15 @@ TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 # of the slow ones would have gone stale and would have been a guess
 # besides, so the suite measures itself instead.
 #
-# state/longest holds the longest each test has ever taken, on any
-# machine: the builder is slower than this Mac and the order has to
-# hold for the slower one. It only ever rises, like the other counters
-# here, which is what makes it settle instead of churning. A test that
-# becomes quick keeps its old place until somebody clears the line --
-# that costs nothing but a place in the queue.
+# state/longest holds what each test took on the builder, and nothing
+# else writes to it. Nobody waits for this Mac -- it has cores to spare
+# and is through in half a minute -- so its numbers have no business
+# deciding the order. They did, and it showed: local_run takes two
+# seconds here and 47 on the builder, and those two seconds put it last
+# in the queue, where its whole length is added to the end of the run.
+# The numbers come in with builder_times.sh, from a green run's own log.
+# A test nobody has timed there yet goes first, which is the safe way
+# round to be wrong.
 LONGEST="$HERE/state/longest"
 TESTS=$(
   for t in $TESTS; do
@@ -227,7 +230,6 @@ run_one() {
   t="$1"
   began=$SECONDS
   out=$($LIMIT "$PY" "$HERE/${t}_test.py" 2>&1); rc=$?
-  echo "$t $((SECONDS - began))" > "$OUT/$t.took"
   # A failure beats a skip, always. Both can be in one run: a test leaves
   # out the part this machine cannot do, goes on with the part it can and
   # falls over that. Asking after the skip first made such a test read
@@ -321,7 +323,7 @@ run_one() {
   # there, a slow run explains itself out of its own log, and nobody
   # has to open state/longest to find out what held it up.
   printf '  %s  %3d/%s  %-24s %-8s %3d s\n' "$(date '+%H:%M:%S')" \
-    "$(ls "$OUT" | grep -vc '\.took$')" "$TOTAL" "$t" \
+    "$(ls "$OUT" | wc -l | tr -d ' ')" "$TOTAL" "$t" \
     "$(head -1 "$OUT/$t")" "$((SECONDS - began))"
 }
 export -f run_one
@@ -367,18 +369,12 @@ elif [ $past -lt "$SKIPS_ALLOWED" ]; then
 else
   echo "skips: $past of at most $SKIPS_ALLOWED allowed"
 fi
-# What each test took, kept as the longest it has ever taken anywhere.
-# Only from a run against the project's own file: a snapshot in /tmp
-# may be an older version, and its times would order the next run
-# wrongly for ever. Rises only, which is why it settles.
-if [ -z "$VPM_SCRIPT" ] || [ "$VPM_SCRIPT" = "$(dirname "$HERE")/videopodcast-magic.py" ]; then
-  { [ -f "$LONGEST" ] && cat "$LONGEST" || true
-    cat "$OUT"/*.took 2>/dev/null || true
-  } | awk '{ if ($2 > seen[$1]) seen[$1] = $2 }
-           END { for (n in seen) printf "%s %d\n", n, seen[n] }' \
-    | sort > "$LONGEST.new" 2>/dev/null \
-    && mv "$LONGEST.new" "$LONGEST" 2>/dev/null || true
-fi
+# Nothing is written to state/longest here. What this machine takes is
+# in the progress line above, which is where it is useful; the order of
+# the queue belongs to the builder, and builder_times.sh is what fills
+# it. A run here used to write its own times in, and that is how a test
+# that takes 47 seconds on the builder came to sit last in the queue
+# with two seconds against its name.
 # A note to whoever started this and is now watching it: a full run takes
 # five minutes, and watching it is five minutes of nothing. Start it in
 # the background and do the next thing meanwhile -- documentation, a
