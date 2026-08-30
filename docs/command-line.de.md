@@ -87,7 +87,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--on-uncertain WERT` | die Erkennung ist unsicher: dieselben vier Werte (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher |
-| `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (40) |
+| `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (70) |
 | `--wide-length SEKUNDEN` | wie lange die eingeschobene Einstellung mindestens steht; danach läuft sie bis zum Satzende (5) |
 | `--wide-most SEKUNDEN` | wie lange sie höchstens steht; wenn das Satzende darüber liegt, beendet die letzte Teilsatzgrenze davor die Einstellung (15) |
 | `--wide-latest SEKUNDEN` | wie lange eine Kamera höchstens ohne Schnitt stehen darf (120) |

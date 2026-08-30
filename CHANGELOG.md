@@ -9,6 +9,40 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
+## [Unreleased]
+
+### Changed
+
+- The wide shot comes after 70 seconds of one camera instead of 40.
+  Measured over 87 minutes of real interview in which one guest holds
+  the floor for 59 of them: at 40 seconds the picture leaves that guest
+  77 times, every 39 seconds; at 60, 46 times; at 70, 37 times, every
+  104 seconds; at 90, 29 times. Every one of them places the shot on a
+  sentence boundary and none leaves anybody mid-word, so the number is
+  about rhythm and not about correctness. The measurement stands beside
+  it in the source, and 40 is still one number away for whoever wants
+  the old restlessness.
+
+### Fixed
+
+- The count of processes a test starts stood about 1.7 times too high.
+  It wrapped `subprocess.run` and `subprocess.Popen` both, and `run`
+  builds a `Popen` itself, so every run was counted twice. Only `Popen`
+  is wrapped now: `local_run` reports 49 starts instead of 85. Every
+  number printed by the suite since this was built, and every one that
+  reached the builder's log, was inflated by that factor.
+- The chooser of recordings beside "One more speaker in" shows which
+  recording it is. Its width hung on a count of twelve characters;
+  measured at this Mac's system font, the box gives its text 229 pixels
+  and the name wants 244. It now asks for what its widest entry needs,
+  up to the room the row has, and where that is not enough the name is
+  shortened in the middle rather than at the end -- the recordings of
+  one session differ at the end, and cut there three of them read
+  alike. The whole name stays reachable as a tooltip. The suite never
+  saw it because Qt falls back to a narrower font offscreen than the
+  window really draws with, so the new test asks the box's own metrics
+  and never a pixel count.
+
 ## [2.17.0-beta] - 2026-08-31
 
 ### Added

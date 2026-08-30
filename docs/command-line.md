@@ -87,7 +87,7 @@ hints. Without a key the multitrack run stops there.*
 | `--on-uncertain VALUE` | the recognition is uncertain: the same four values (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots |
-| `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (40) |
+| `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (70) |
 | `--wide-length SECONDS` | how long the interposed shot stands at least; it then runs to the end of the sentence (5) |
 | `--wide-most SECONDS` | how long it stands at most; if the end of the sentence lies beyond it, the last clause break before it ends the shot (15) |
 | `--wide-latest SECONDS` | longest one camera may stand without a cut (120) |
