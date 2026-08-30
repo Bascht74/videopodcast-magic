@@ -154,7 +154,7 @@ outside the repository, run the test against that, keep the red line.
 red line word for word -- and a census row for every test that has not
 had one yet.
 
-`counterproof_test.py` is the ratchet over the rest: a new test with no
+`source_checks_proved_test.py` is the ratchet over the rest: a new test with no
 row turns the suite red at once, and the census may shrink but never
 grow. Its closing line says how many have their proof and how many are
 still owed, so the figure is read out of the run rather than out of
