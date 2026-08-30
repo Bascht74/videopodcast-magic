@@ -383,6 +383,7 @@ def store_api_key(key):
     failed, so every save since this was written fell through to the
     argument form below -- the one thing this branch exists to avoid.
     """
+    forget_api_key()   # or the old one would still answer
     if sys.platform == "darwin":
         where = ["-s", "videopodcast-magic", "-a", "auphonic"]
         try:
@@ -415,8 +416,30 @@ def store_api_key(key):
     return False
 
 
+# What the key store last said, so it is asked once and not fourteen
+# times. Every ask is a process -- "security" on a Mac -- and a window
+# that draws its settings sheet asks several times over. The key is in
+# memory the moment it is read at all, so keeping it here puts it
+# nowhere it was not already; it goes into no file and onto no command
+# line, and storing or deleting it empties this again.
+_API_KEY = {}
+
+
+def forget_api_key():
+    """Ask the key store again next time."""
+    _API_KEY.clear()
+
+
 def load_api_key():
     """Read the stored API key, or "" if there is none."""
+    if "key" in _API_KEY:
+        return _API_KEY["key"]
+    _API_KEY["key"] = _ask_key_store()
+    return _API_KEY["key"]
+
+
+def _ask_key_store():
+    """Go to the keychain or the registry, whatever this machine has."""
     if sys.platform == "darwin":
         try:
             # A limit for the same reason the write has one: a locked
@@ -442,6 +465,7 @@ def load_api_key():
 
 
 def delete_api_key():
+    forget_api_key()
     if sys.platform == "darwin":
         p = subprocess.run(["security", "delete-generic-password",
                             "-s", "videopodcast-magic", "-a", "auphonic"],
@@ -563,6 +587,48 @@ if sys.version_info < NEEDS_PYTHON:
 # ffmpeg. Both are answered before anything is fetched.
 ONLY_READING = any(a in ("-h", "--help", "--version") for a in sys.argv[1:])
 np = None            # set below, unless this run is only reading
+
+def count_process_starts(where):
+    """Write one line per process this program starts, into a file.
+
+    Starting a process is what the Windows builder charges for: one test
+    made 62 of them and took 126 seconds there against two on a Mac.
+    A number nobody sees does not stay down, so the suite counts them
+    per test and prints the count beside the verdict -- then a change
+    that costs ten more starts is visible on the run that introduced it,
+    not three releases later.
+
+    Off unless VPM_COUNT_STARTS names a file, and then it costs one
+    append per start. Wrapped here rather than counted at each call
+    site, because there are eighty of those and one of them would be
+    forgotten.
+    """
+    was_run, was_popen = subprocess.run, subprocess.Popen
+
+    def note(argv):
+        first = argv if isinstance(argv, str) else (argv[0] if argv else "?")
+        try:
+            with open(where, "a", encoding="utf-8") as f:
+                f.write("%s\n" % os.path.basename(str(first)))
+        except OSError:
+            return
+
+    def run(*a, **k):
+        note(a[0] if a else k.get("args") or [])
+        return was_run(*a, **k)
+
+    class Popen(was_popen):
+        def __init__(self, *a, **k):
+            note(a[0] if a else k.get("args") or [])
+            was_popen.__init__(self, *a, **k)
+
+    subprocess.run = run
+    subprocess.Popen = Popen
+
+
+if os.environ.get("VPM_COUNT_STARTS"):
+    count_process_starts(os.environ["VPM_COUNT_STARTS"])
+
 
 SR = 48000
 OUTPUT_SINK = None   # set by the GUI: callable that receives raw log text
@@ -1080,22 +1146,70 @@ def file_stamp(path):
     return (os.path.abspath(path), int(s.st_mtime_ns), int(s.st_size))
 
 
-def probe_remember(name, path, work):
+def probe_cache_path(api_key):
+    """Where a measurement of a file is kept between runs, or None."""
+    folder = cache_folder("probes")
+    if not folder:
+        return None
+    mark = hashlib.sha1(repr(api_key).encode("utf-8")).hexdigest()[:32]
+    return os.path.join(folder, mark + ".bin")
+
+
+def probe_kept(api_key):
+    """What was measured of this file before, or None to measure again."""
+    file_path = probe_cache_path(api_key)
+    if not file_path:
+        return None
+    try:
+        with open(file_path, "rb") as f:
+            got = f.read()
+    except OSError:
+        return None
+    # An empty file is a write that was cut off, not a measurement.
+    return got or None
+
+
+def probe_keep(api_key, got):
+    """Keep a measurement for the next run."""
+    if got:
+        write_beside_then_move(probe_cache_path(api_key), got)
+
+
+def clean_probe_cache(days=30):
+    """Discard stale probes; once per run is enough."""
+    clean_old_files(cache_folder("probes"), days)
+
+
+def probe_remember(name, path, work, keep=False):
     """Return a measured property of a file, asking only once.
 
     Keyed on size and modification time: a file that has changed is
     measured again, an unchanged one is answered from memory. A file
     that cannot even be stat'ed is measured every time, because there
     is nothing to key on.
+
+    With *keep* the answer outlives the run. Only ffprobe asks for that,
+    and only because the answer is a few kilobytes of text about a file
+    that has not changed: opening the same project twice, or a second
+    run over the same material, asked the same question of the same
+    unchanged file again. It is worth most where starting a process is
+    the expensive part -- measured on the Windows builder, 30.8.2026,
+    where one test spent most of its 107 seconds on process starts.
     """
     stamp = file_stamp(path)
     if stamp is None:
         return work()
     api_key = (name,) + stamp
-    if api_key not in _PROBE:
-        if len(_PROBE) > 4000:
-            _PROBE.clear()
-        _PROBE[api_key] = work()
+    if api_key in _PROBE:
+        return _PROBE[api_key]
+    got = probe_kept(api_key) if keep else None
+    if got is None:
+        got = work()
+        if keep:
+            probe_keep(api_key, got)
+    if len(_PROBE) > 4000:
+        _PROBE.clear()
+    _PROBE[api_key] = got
     return _PROBE[api_key]
 
 
@@ -1117,7 +1231,8 @@ def ffprobe_json(path):
     Parsed afresh from the remembered text each time, so a caller that
     changes the dictionary cannot affect the next one.
     """
-    out = probe_remember("ffprobe", path, lambda: _ffprobe_text(path))
+    out = probe_remember("ffprobe", path, lambda: _ffprobe_text(path),
+                         keep=True)
     return json.loads(out or b"{}")
 
 
@@ -15440,22 +15555,31 @@ def envelope_cache_folder():
     return cache_folder("envelopes")
 
 
-def clean_envelope_cache(days=30):
-    """Discard stale envelopes; once per run is enough."""
-    folder = envelope_cache_folder()
+def clean_old_files(folder, days=30):
+    """Discard what has lain in this folder untouched for that long.
+
+    One reader for both stores. A cache folder that only ever grows is
+    a folder somebody finds one day and does not dare to delete.
+    """
     if not folder:
         return
     limit = time.time() - days * 86400
     try:
-        for name in os.listdir(folder):
-            p = os.path.join(folder, name)
-            try:
-                if os.path.getmtime(p) < limit:
-                    os.unlink(p)
-            except OSError:
-                pass
+        names = os.listdir(folder)
     except OSError:
-        pass
+        return
+    for name in names:
+        one = os.path.join(folder, name)
+        try:
+            if os.path.getmtime(one) < limit:
+                os.unlink(one)
+        except OSError:
+            continue
+
+
+def clean_envelope_cache(days=30):
+    """Discard stale envelopes; once per run is enough."""
+    clean_old_files(envelope_cache_folder(), days)
 
 
 def envelope_cache_path(path, hop_ms, rate):
@@ -18576,25 +18700,34 @@ def cache_read(fingerprint):
     return d
 
 
-def cache_write(fingerprint, content):
-    """Store a measurement so the next run need not repeat it."""
-    file_path = cache_path(fingerprint)
+def write_beside_then_move(file_path, data):
+    """Write bytes so that no half-written file is ever read.
+
+    Beside it and then moved into place: a run broken off halfway would
+    otherwise leave half a file behind, and these files are read as
+    measurements on every later start. Two runs writing the same one at
+    the same moment is fine as well -- one of them wins whole.
+    """
     if not file_path:
         return
+    try:
+        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
+                                      prefix=".vpm_", suffix=".part")
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+        os.replace(beside, file_path)
+    except OSError:
+        return
+
+
+def cache_write(fingerprint, content):
+    """Store a measurement so the next run need not repeat it."""
     d = dict(content)
     d["version"] = VERSION
     d.setdefault("when", time.time())
-    # Written beside it and then moved into place: a run broken off
-    # halfway would otherwise leave half a json behind, and that file
-    # is read as a measurement on every later start.
-    try:
-        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
-                                      prefix=".vpm_", suffix=".json")
-        with os.fdopen(fd, "w", encoding="utf-8") as f:
-            json.dump(d, f, ensure_ascii=False)
-        os.replace(beside, file_path)
-    except OSError:
-        pass
+    write_beside_then_move(
+        cache_path(fingerprint),
+        json.dumps(d, ensure_ascii=False).encode("utf-8"))
 
 
 def _findings_to_json(findings):
@@ -20667,6 +20800,7 @@ def main():
     find_required_tools()
     ap = build_argument_parser()
     clean_envelope_cache()
+    clean_probe_cache()
     # --lang alone is not a job: it only picks the language, so the window
     # still opens. Anything else on the command line means a run.
     # --no-update-check is the same kind of thing: it settles a question

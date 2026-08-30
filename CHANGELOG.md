@@ -11,7 +11,31 @@ survives.
 
 ## [Unreleased]
 
+### Added
+
+- The suite counts the processes each test starts and prints the number
+  beside the verdict, with the whole run's total and the five that start
+  most of them. Starting a process is what the Windows builder charges
+  for -- one test made 62 of them and took 126 seconds there against two
+  on a Mac -- and a number nobody sees does not stay down. Counted in
+  the program itself rather than at eighty call sites, one of which
+  would have been forgotten: with VPM_COUNT_STARTS set, every process it
+  starts is noted, ffmpeg and the script itself alike. The whole suite
+  starts 2436 of them, and `interface` alone starts 302.
+
 ### Changed
+
+- What ffprobe said about a file is kept between runs, keyed on the
+  file's size and modification time. Opening the same project twice, or
+  running twice over the same material, asked the same question about
+  the same unchanged file again, and each asking is a process. A file
+  that changed is measured again, and a half-written store is measured
+  again rather than believed.
+- The key store is asked once per run instead of once per question. Each
+  ask is a process -- "security" on a Mac -- and drawing the settings
+  sheet asked several times over. Storing or deleting the key empties
+  what was remembered, so nothing can answer with the old one. The key
+  goes into no file and onto no command line, as before.
 
 - Two places that started a process five times now start one. The frame
   timing of a video is sampled at five points, and ffprobe takes all
