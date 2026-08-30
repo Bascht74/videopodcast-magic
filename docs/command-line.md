@@ -4,6 +4,9 @@
 [contents](README.md).*
 
 `--help` prints this list too, always in English. Defaults in brackets.
+A switch that works on one path only carries `[multitrack only]` or
+`[simple path only]`, here and in `--help`; both markers stay English
+whatever the language of the run.
 
 ![The start of a run in the terminal](images/terminal.png)
 
@@ -18,9 +21,9 @@ hints. Without a key the multitrack run stops there.*
 | `--lang {de,en}` | language of the messages (system language) |
 | `--out FOLDER` | where the results go (next to each video) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
-| `--name TEXT` | name of the new audio track (`Full-Mix`) |
+| `--name TEXT` | name of the new audio track (`Full-Mix`)  `[simple path only]` |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
-| `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0) |
+| `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0)  `[multitrack only]` |
 | `--dry-run` | only measure and report, write nothing |
 | `--version` | version number, and the Python this runs on |
 | `--no-update-check` | stop looking whether a newer version is out; the answer is remembered (it looks) |
@@ -35,8 +38,8 @@ hints. Without a key the multitrack run stops there.*
 | `--together FILE ...` | these files are one recording, in this order; repeatable. The run sorts the other files by name and leaves the group untouched: one block at the first of its names |
 | `--apart FILE` | this block stands on its own, whatever its name says; repeatable |
 | `--transcript` | have auphonic.com write down what is said: json, srt and txt |
-| `--no-trim` | audio at full length instead of trimmed to the picture |
-| `--no-single-tracks` | only the mix into the video, not the recordings beside it |
+| `--no-trim` | audio at full length instead of trimmed to the picture  `[simple path only]` |
+| `--no-single-tracks` | only the mix into the video, not the recordings beside it  `[simple path only]` |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
 | `--fps NUMBER` | frame rate to assume, if ffprobe reports a wrong one (from the video file) |
@@ -47,8 +50,8 @@ hints. Without a key the multitrack run stops there.*
 | `--speakers-from FILE` | take a finished separation out of a project or assignment file instead of computing one (none) |
 | `--speakers-count NUMBER` | how many people `--speakers-local` should find (work it out) |
 | `--no-speakers-local` | never take a recording apart by voice in this run (off) |
-| `--no-speech-recognition` | do not write down what is said; the cut then has no sentence boundaries (off) |
-| `--no-transcript-file` | write no transcript beside the result; the words that were heard normally go into the output folder as json, srt and txt (off) |
+| `--no-speech-recognition` | do not write down what is said; the cut then has no sentence boundaries (off)  `[multitrack only]` |
+| `--no-transcript-file` | write no transcript beside the result; the words that were heard normally go into the output folder as json, srt and txt (off)  `[multitrack only]` |
 
 ## Processing at auphonic.com
 
@@ -57,10 +60,10 @@ hints. Without a key the multitrack run stops there.*
 | `--auphonic-api-key KEY` | key from the account settings; turns processing on. Without files it only lists the presets |
 | `--auphonic-preset NAME` | preset name or id (the program asks) |
 | `--auphonic-wait SECONDS` | how long to wait (7200) |
-| `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks) |
-| `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit |
+| `--auphonic-resume WHAT` | production already there: `result`, `rerun`, `adopt`, `upload`, `abort` (the program asks)  `[multitrack only]` |
+| `--auphonic-done FOLDER` | tracks already processed, named after the speakers. The run takes them from there instead of uploading them, and the account keeps its credit  `[multitrack only]` |
 | `--multitrack` | every audio file as its own track, so auphonic.com can take the bleed out. Needs a multitrack preset |
-| `--assign FILE` | JSON saying which audio belongs to which camera; the interface writes it |
+| `--assign FILE` | JSON saying which audio belongs to which camera; the interface writes it  `[multitrack only]` |
 | `--without-auphonic` | align, mix and write locally, camera cut from our own speech detection |
 
 ## Setting the time window
@@ -98,7 +101,7 @@ hints. Without a key the multitrack run stops there.*
 | `--no-preflight` | skip the check before the first long step |
 | `--preflight-again` | measure again instead of taking the stored measurement |
 | `--anyway` | run even if the preflight found a reason to stop |
-| `--no-metrics` | no metrics and no colour comparison at the end |
+| `--no-metrics` | no metrics and no colour comparison at the end  `[multitrack only]` |
 
 ## Adding intro and outro
 

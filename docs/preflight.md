@@ -115,6 +115,20 @@ given, nothing is adjusted. In the Resolve project the loudness display
 still needs a scale, so it is set to -16 LUFS, and the line above it in
 the log says that this is only what the meter measures against.
 
+**On the simple path nothing is adjusted either, target or no target.** A
+run without Multitrack ([The simple path](simple-path.md)) measures the
+sound the same way -- one track is its own sum, so nothing is built
+first -- and the figures go into the log under `NORMALISE`: sum of tracks
+in LUFS, peak in dBTP, loudness range, then `Not adjusted:`. No gain goes
+on, whatever the target says, and the sound is written as it was
+recorded. With a key for auphonic.com the mix is mastered there to the
+preset, and the target is checked against the preset as on the other
+path. Without a key, and with `--lufs` given all the same, the run says
+out loud that it is not applied on this path yet rather than taking the
+switch and doing nothing with it. The gain is put on by the mixer, and
+the mixer writes no timecode block: the recording would come out of it
+without the clock that places a camera when the sound cannot.
+
 **The mix is two-channel, and so is the measurement.** The single tracks
 keep the channels their source has ([Channels](channels.md)). Every *mix*
 though, the `Full-Mix` as much as one camera's mix, carries the same

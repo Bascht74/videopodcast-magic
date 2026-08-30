@@ -254,6 +254,22 @@ Ein Abschnitt, der echte Prozente meldet, nimmt den Balken mit. Bei einem
 Abschnitt, der nichts meldet, kriecht er langsam weiter und bleibt vor
 dem Ende stehen.
 
+Für den Lauf selbst nennt die Zeile den Abschnitt, auf beiden Wegen mit
+denselben Namen, mit Multitrack und ohne:
+
+- **Plan wird gelesen**
+- **Ton aus den Kameras**: nur mit Multitrack. Ohne richtet der Lauf sich
+  an den Kameras aus und lässt sie in Ruhe.
+- **Gemeinsame Zeitachse**
+- **Aufbereitung bei auphonic.com**, ohne Schlüssel **Lautheit und Pegel**
+- **Wer wann spricht**
+- **Kameradateien werden geschrieben**
+- **Übergabe und Ergebnis**
+
+Ein Abschnitt, der gar nicht vorkommt, steht auch nicht in der Liste; der
+Balken hält also keinen Anteil für ihn zurück. Bleibt ein Lauf stehen,
+sagt die Zeile, in welchem Abschnitt.
+
 ### Was hinter Einstellungen ... steht
 
 Der Knopf **Einstellungen ...** sitzt im Fußbereich, neben **Start**.
@@ -387,6 +403,16 @@ Datei, und der nächste Start übernimmt sie. Dateien, die nicht dazu
 passen, erscheinen rot. Mehr über die Projektdatei steht in
 [camera-cut.de.md](camera-cut.de.md).
 
+Die Messung unterscheidet zwei Urteile. Eine Datei, deren Ton schlecht zu
+den anderen passt, steht in Rot. Eine Datei, die überhaupt keinen Platz
+hat -- ihr Ton hat mit dem übrigen Material nichts gemeinsam, und kein
+Timecode ordnet sie zwischen die anderen ein --, wird in der Spalte
+**Typ** auf **Video ignorieren** gesetzt, und das Protokoll sagt, warum.
+Das ist ein Vorschlag wie die für die Stimmen: Er füllt nur einen **Typ**,
+in dem noch die eigene Antwort des Programms steht, nie einen, den jemand
+gewählt hat, und eine Datei, die eine spätere Messung wieder einordnen
+kann, bekommt ihren alten Eintrag zurück.
+
 ## Wenn etwas klemmt
 
 - **Start** bleibt gesperrt: die Zeile unter den Knöpfen nennt, was
@@ -396,6 +422,11 @@ passen, erscheinen rot. Mehr über die Projektdatei steht in
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die
   Zeitachse noch. Der Balken neben **Start** sagt, was gerade läuft.
+- **Eine Datei steht plötzlich auf „Video ignorieren“**: die Messung hat
+  keinen Platz für sie gefunden. Ihr einen Timecode geben, der zum
+  übrigen Material passt -- der muss mit einem anderen Programm gesetzt
+  werden --, oder von Hand einen **Typ** wählen, was die Sache endgültig
+  entscheidet.
 - **Das Update ging nicht durch**: die Datei, die funktioniert, bleibt
   liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach Update
   suchen ...** versucht es noch einmal.

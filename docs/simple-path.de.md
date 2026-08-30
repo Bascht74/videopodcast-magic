@@ -23,6 +23,12 @@ Was der einfache Weg genauso kann wie Multitrack:
   wird der Ton; das Bild bleibt ganz und behält seinen Timecode.
 - **Vorschau Player.** Auf dem Reiter **Zuordnung & Zeitfenster**, mit
   denselben Knöpfen.
+- **Lautheit gemessen.** Die Summe wird gemessen, und die Zahl steht im
+  Protokoll, unter `NORMALISIEREN` als **Summe der Spuren**, mit LUFS,
+  Spitze und Umfang. Angepasst wird hier nichts: ohne Schlüssel für
+  auphonic.com geht der Ton genau so hinaus, wie er hereinkam, und
+  `--lufs` sagt das ausdrücklich ([Vorflug](preflight.de.md), Abschnitt
+  „Welches Lautheitsziel gilt“).
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
   nebeneinander, fertig für Multicam. Eine Kamera gibt eine gerade
   Timeline, oder eine geschnittene, sobald die Sprecher getrennt sind.
@@ -129,6 +135,17 @@ Der Versatz wird immer gemessen, auch wenn beide Seiten Timecode tragen.
 Wenn der Timecode beidseitig vorliegt, sagt der Lauf am Ende, wie weit er
 vom gemessenen Wert abweicht.
 
+Ein Video, das der Lauf gar nicht einordnen kann, bleibt draußen. Wo
+weder die Form des Tons noch seine Phase die Kamera in der Aufnahme
+findet und die Datei auch keinen Timecode trägt, der zum übrigen Material
+passt, nennt der Lauf die Datei und geht ohne sie weiter, statt sie
+dorthin zu legen, wohin die beste von mehreren schlechten Zahlen zeigt.
+Die Zeile sagt, was helfen würde: ein Timecode, der zu den übrigen
+Aufnahmen passt, mit einem anderen Programm gesetzt. Eine Datei, deren
+Timecode passt, wird nach dieser Uhr eingeordnet und nach ihrem Ton gar
+nicht gefragt; ein einzelner Timecode unter Dateien ohne Timecode ist
+keine Einordnung.
+
 ### Wie der Lauf eine Uhrzeit statt eines Zählers liest
 
 Namen mit Datum und Uhrzeit gelten ebenso als Blöcke:
@@ -176,6 +193,13 @@ Jede Videodatei kommt zurück mit unverändertem Bild (`-c:v copy`), dem
 neuen Ton als erster Spur und der Kameraspur dahinter. Das Programm
 benennt beide Spuren und behält den Timecode.
 
+Die neue Spur heißt `Full-Mix`, die eigene der Kamera `Camera Original`;
+bringt eine Kamera mehrere eigene mit, werden sie als
+`Camera Original 1`, `Camera Original 2` und so fort durchnummeriert.
+`--name` und `--name-camera` setzen die beiden Namen. Der erste ist nicht
+bloß eine Beschriftung: Mit ihm wird die Übergabe an Resolve geschrieben,
+und Resolve benennt seine Tonspur danach.
+
 ### Warum das Ziel immer MOV ist
 
 Ziel ist immer MOV, auch bei MP4-Quellen; das Programm kopiert Bild und
@@ -196,6 +220,13 @@ nicht.
 - **Die Einzelspuren fehlen im Video.** Der Mix kam von auphonic.com in
   anderer Länge zurück als die Aufnahmen; der Lauf sagt es. Der Mix
   selbst steht im Video.
+- **Eine Videodatei fehlt im Ergebnis.** Der Lauf konnte sie nicht
+  einordnen: Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
+  sie trägt keinen Timecode. Ihr mit einem anderen Programm einen geben,
+  der zu den übrigen Aufnahmen passt, oder sie in der Spalte **Typ** der
+  Dateiliste auf **Video ignorieren** setzen, damit sie nicht mitläuft.
+  Im Fenster schlägt das Programm das von selbst vor ([Die
+  Oberfläche](interface.de.md)).
 
 Im Video steht jetzt der fertige Mix und daneben die Aufnahmen, die
 gleichzeitig liefen. Was auphonic.com mit dem Mix macht, steht in

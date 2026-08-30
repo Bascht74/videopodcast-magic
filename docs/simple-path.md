@@ -22,6 +22,11 @@ What the simple path does just like multitrack:
   keeps its timecode.
 - **Preview player.** On the **Assignment & time window** tab, with the
   same buttons.
+- **Loudness measured.** The sum is measured and the figure goes into the
+  log, under `NORMALISE` as **Sum of tracks**, with LUFS, peak and range.
+  Nothing is adjusted here: without a key for auphonic.com the sound is
+  written exactly as it came in, and `--lufs` says so out loud
+  ([Preflight](preflight.md), section "Which loudness target holds").
 - **Resolve project.** Several cameras give one timeline with all of them
   side by side, ready for multicam. One camera gives a straight timeline,
   or a cut one as soon as the speakers are told apart.
@@ -125,6 +130,15 @@ The program always measures the offset, even when both sides carry
 timecode. If timecode is on both sides, the run ends by saying how far it
 lies from the measured value.
 
+A video the run cannot place at all stays out. Where neither the shape of
+the sound nor its phase finds the camera in the recording, and the file
+carries no timecode fitting the rest of the material either, the run
+names the file and goes on without it instead of laying it down where the
+best of several bad numbers points. The line says what would help: a
+timecode that fits the other recordings, set with another program. A file
+whose timecode does fit is placed by that clock and never asked about its
+sound; a single timecode among files that carry none is not a place.
+
 ### How the run reads a clock instead of a counter
 
 Names with date and time of day count as blocks too:
@@ -171,6 +185,13 @@ Each video file comes back with the picture untouched (`-c:v copy`), the
 new audio as the first track and the camera's own track behind it. The
 program names both tracks and keeps the timecode.
 
+The new track is called `Full-Mix`, the camera's own `Camera Original`;
+a camera bringing several of its own gets them numbered
+`Camera Original 1`, `Camera Original 2` and so on. `--name` and
+`--name-camera` set the two names. The first is not merely a label: the
+handover for Resolve is written with it, and Resolve names its audio
+track after it.
+
 ### Why the target is always MOV
 
 The target is always MOV, for MP4 sources too; the program copies picture
@@ -191,6 +212,12 @@ exist.
 - **The single tracks are not in the video.** The mix came back from
   auphonic.com at a different length than the recordings; the run says
   so. The mix itself is in the video.
+- **A video file is missing from the result.** The run could not place
+  it: its sound has nothing in common with the rest of the material and
+  it carries no timecode. Give it one that fits the other recordings,
+  with another program, or set it to **ignore this video** in the column
+  **Kind** of the file list so it does not take part. In the window the
+  program proposes that by itself ([The interface](interface.md)).
 
 The video now holds the finished mix and, beside it, the recordings that
 ran at the same time. What auphonic.com does to the mix is in

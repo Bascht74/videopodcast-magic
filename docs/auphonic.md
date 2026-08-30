@@ -158,6 +158,7 @@ The window does not offer these.
   presets with numbers and asks for one, and a key without files lists
   them too.
 * `--auphonic-resume result|rerun|adopt|upload|abort` answers the
-  question about a production that already exists in advance.
+  question about a production that already exists in advance. Only with
+  Multitrack: without it there is no per-track upload to take up again.
 * `--auphonic-done FOLDER` fetches nothing and takes the tracks lying
-  there, named after the speakers.
+  there, named after the speakers. Only with Multitrack.

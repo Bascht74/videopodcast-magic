@@ -4,6 +4,9 @@
 [Inhalt](README.de.md).*
 
 `--help` gibt diese Liste auch aus, immer auf Englisch. Vorgaben in Klammern.
+Ein Schalter, der nur auf einem Weg wirkt, trägt `[multitrack only]`
+oder `[simple path only]`, hier wie in `--help`; beide Marken bleiben
+englisch, in welcher Sprache der Lauf auch läuft.
 
 ![Der Anfang eines Laufs im Terminal](images/terminal.de.png)
 
@@ -18,9 +21,9 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--lang {de,en}` | Sprache der Meldungen (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
-| `--name TEXT` | Name der neuen Tonspur (`Full-Mix`) |
+| `--name TEXT` | Name der neuen Tonspur (`Full-Mix`)  `[simple path only]` |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
-| `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0) |
+| `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0)  `[multitrack only]` |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
 | `--version` | Nummer der Version, und auf welchem Python das läuft |
 | `--no-update-check` | nicht mehr nachsehen, ob eine neuere Version da ist; die Antwort wird behalten (es sieht nach) |
@@ -35,8 +38,8 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--together DATEI ...` | diese Dateien sind eine Aufnahme, in dieser Reihenfolge; wiederholbar. Der Lauf sortiert sonst nach Namen, die Gruppe nicht: ein Block beim ersten ihrer Namen |
 | `--apart DATEI` | dieser Block steht für sich, was immer sein Name sagt; wiederholbar |
 | `--transcript` | auphonic.com schreibt mit, was gesagt wird: json, srt und txt |
-| `--no-trim` | Ton in voller Länge statt auf das Bild beschnitten |
-| `--no-single-tracks` | nur den Mix ins Video, nicht die Aufnahmen daneben |
+| `--no-trim` | Ton in voller Länge statt auf das Bild beschnitten  `[simple path only]` |
+| `--no-single-tracks` | nur den Mix ins Video, nicht die Aufnahmen daneben  `[simple path only]` |
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |
 | `--fps ZAHL` | anzunehmende Bildrate, wenn ffprobe eine falsche meldet (aus der Videodatei) |
@@ -47,8 +50,8 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--speakers-from DATEI` | eine fertige Trennung aus einer Projekt- oder Zuordnungsdatei übernehmen, statt zu rechnen (keine) |
 | `--speakers-count ZAHL` | wie viele Personen `--speakers-local` suchen soll (selbst herausfinden) |
 | `--no-speakers-local` | in diesem Lauf nie eine Aufnahme nach Stimmen trennen (aus) |
-| `--no-speech-recognition` | nicht mitschreiben, was gesprochen wird; der Schnitt hat dann keine Satzgrenzen (aus) |
-| `--no-transcript-file` | kein Transkript neben das Ergebnis schreiben; sonst kommen die gehörten Wörter als json, srt und txt in den Ausgabeordner (aus) |
+| `--no-speech-recognition` | nicht mitschreiben, was gesprochen wird; der Schnitt hat dann keine Satzgrenzen (aus)  `[multitrack only]` |
+| `--no-transcript-file` | kein Transkript neben das Ergebnis schreiben; sonst kommen die gehörten Wörter als json, srt und txt in den Ausgabeordner (aus)  `[multitrack only]` |
 
 ## Bei auphonic.com aufbereiten
 
@@ -57,10 +60,10 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--auphonic-api-key SCHLÜSSEL` | Schlüssel aus den Kontoeinstellungen, schaltet die Aufbereitung ein. Ohne Dateien listet er nur die Presets |
 | `--auphonic-preset NAME` | Name oder Kennung des Presets (das Programm fragt) |
 | `--auphonic-wait SEKUNDEN` | wie lange gewartet wird (7200) |
-| `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt) |
-| `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet |
+| `--auphonic-resume WAS` | Produktion ist schon da: `result`, `rerun`, `adopt`, `upload`, `abort` (das Programm fragt)  `[multitrack only]` |
+| `--auphonic-done ORDNER` | schon aufbereitete Spuren, nach den Sprechern benannt. Der Lauf nimmt sie von dort, statt sie hochzuladen, und das Guthaben bleibt unangetastet  `[multitrack only]` |
 | `--multitrack` | jede Tondatei als eigene Spur, damit auphonic.com das Übersprechen herausnehmen kann. Braucht ein Multitrack-Preset |
-| `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört; die Oberfläche schreibt es |
+| `--assign DATEI` | JSON, welcher Ton zu welcher Kamera gehört; die Oberfläche schreibt es  `[multitrack only]` |
 | `--without-auphonic` | auf diesem Rechner ausrichten, mischen und schreiben, Kameraschnitt aus eigener Spracherkennung |
 
 ## Das Zeitfenster setzen
@@ -98,7 +101,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--no-preflight` | die Prüfung vor dem ersten langen Schritt überspringen |
 | `--preflight-again` | neu messen statt die gespeicherte Messung zu nehmen |
 | `--anyway` | auch laufen, wenn der Vorflug einen Grund zum Anhalten gefunden hat |
-| `--no-metrics` | am Ende keine Kennzahlen und keinen Farbvergleich |
+| `--no-metrics` | am Ende keine Kennzahlen und keinen Farbvergleich  `[multitrack only]` |
 
 ## Vorspann und Abspann hinzufügen
 

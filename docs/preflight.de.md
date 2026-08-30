@@ -122,6 +122,22 @@ angepasst. Im Resolve-Projekt braucht die Lautheitsanzeige trotzdem eine
 Skala, sie wird auf −16 LUFS gesetzt, und die Zeile darüber im Protokoll
 sagt, dass das nur der Bezug der Anzeige ist.
 
+**Auf dem einfachen Weg wird ebenso wenig angepasst, mit Ziel wie ohne.**
+Ein Lauf ohne Multitrack ([Der einfache Weg](simple-path.de.md)) misst den
+Ton genauso -- eine einzelne Spur ist ihre eigene Summe, es wird also
+nichts erst gebaut --, und die Zahlen stehen im Protokoll unter
+`NORMALISIEREN`: Summe der Spuren in LUFS, Spitze in dBTP,
+Lautheitsumfang, danach `Nicht angepasst:`. Ein Gewinn kommt nicht darauf,
+was das Ziel auch sagt, und der Ton wird geschrieben, wie er aufgenommen
+wurde. Mit einem Schlüssel für auphonic.com mastert auphonic.com den Mix
+auf sein Preset, und das Ziel wird gegen das Preset geprüft wie auf dem
+anderen Weg. Ohne Schlüssel und mit trotzdem gesetztem `--lufs` sagt der
+Lauf ausdrücklich, dass er ihn auf diesem Weg noch nicht anwendet, statt
+den Schalter zu nehmen und nichts damit zu tun. Den Gewinn legt der
+Mischer auf, und der Mischer schreibt keinen Timecode-Block: Die Aufnahme
+käme ohne die Uhr aus ihm heraus, die eine Kamera einordnet, wenn der Ton
+es nicht kann.
+
 **Gemischt wird zweikanalig, gemessen auch.** Die Einzelspuren behalten
 die Kanäle ihrer Quelle ([Kanäle](channels.de.md)). Jeder *Mix* dagegen,
 der `Full-Mix` wie der Mix einer einzelnen Kamera, bekommt dasselbe
