@@ -225,12 +225,13 @@ if newest_german.strip():
     # asked for it this way: take a quantile and shorten what stands
     # above it, so the outliers go and nobody argues about the limit.
     #
-    # Twice the middle, with a floor of 200 characters. Twice, because
-    # an outlier is what stands out and not what is merely longest --
-    # without that every section would report its own longest point for
-    # ever. The floor keeps a section of one-line points from
-    # complaining about a two-line one. Over the section this was built
-    # on: middle 137 characters, the one that stood out 360.
+    # Half again as long as the middle, with a floor of 200 characters.
+    # Half and not double: Sebastian set it there, and it is the
+    # difference between catching the one that ran away and catching
+    # the one that merely says a little more. The floor keeps a section
+    # of one-line points from complaining about a two-line one. Over
+    # the section this was built on: middle 137 characters, the one
+    # that stood out 360.
     long_ones = []
     for part in (newest, newest_german):
         said = [" ".join(x.strip() for x in one)[2:]
@@ -238,7 +239,7 @@ if newest_german.strip():
         if len(said) < 3:
             continue
         middle = sorted(len(x) for x in said)[len(said) // 2]
-        room = max(2 * middle, 200)
+        room = max(1.5 * middle, 200)
         for text in said:
             if len(text) > room:
                 long_ones.append(
