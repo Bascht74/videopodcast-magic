@@ -13707,6 +13707,9 @@ def handover_for_single_track(args, videos, results, cameras, offsets,
     origin = offsets.get(reference_target, 0.0) if reference_target else 0.0
     offsets = dict((name, round(value - origin, 4)) for name, value in offsets.items())
     length = max((float(e.get("duration") or 0.0) for _, e in videos), default=0.0)
+    # Telling the voices apart is its own stage on the other path, and
+    # it is the same work here -- one recording taken apart by voice.
+    step_begin("speakers")
     cut, segment_list = speaker_cut_on_one_track(
         args, videos, cameras, reference, folder, tc_start, length,
         audio, axis or {}, sources)
@@ -15834,7 +15837,12 @@ def run_stages(multitrack, cameras, auphonic, speakers=None):
     """
     cameras = max(0, int(cameras))
     out = [("plan", 1.0, T('Reading the plan'))]
-    if cameras:
+    # Only the multitrack path pulls the audio out of the cameras; the
+    # simple path aligns against them and leaves them alone. Listed for
+    # both, the bar held a fifth of itself for a stage that never
+    # reported, and then jumped that fifth in one go when the next one
+    # began.
+    if cameras and multitrack:
         out.append(("camera audio", 5.0 * cameras,
                     T('Audio out of the cameras')))
     out.append(("time base", 4.0, T('Common time axis')))
@@ -21099,6 +21107,12 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
     The path for the case where there are no separate speaker tracks:
     process, align, write.
     """
+    # The stages have the same names on this path as on the multitrack
+    # one, because one bar draws both and one crash report reads both.
+    # Until 30.8.2026 this path announced no stage at all: the bar in
+    # the window had nothing to report and crept from beginning to end,
+    # and a crash could be placed only by reading the log.
+    step_begin("plan")
     #------------------------------------------------- 1. Choose the preset
     key = preset = presetname = None
     if args.auphonic_key:
@@ -21187,6 +21201,10 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
     n_audio_raw = sample_count(audio)
 
     # ---------------------------------------------- 3. picture and analysis
+    # "time base" on the other path too: this is where the pictures are
+    # laid against the sound, whether one axis is built for all of them
+    # or one alignment per camera.
+    step_begin("time base")
     videos, areas = [], []
     for v in video_paths:
         v = os.path.abspath(v)
@@ -21227,6 +21245,7 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
         return 1
 
     #------------------------------------------------------- 4. Processing
+    step_begin("auphonic" if args.auphonic_key else "loudness")
     if args.auphonic_key and areas and not args.no_trim:
         # Only upload what will be needed later. A recorder running for two
         # hours while the camera ran for half an hour would otherwise cost four
@@ -21316,6 +21335,7 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
     simple_axis = {}
 
     #-------------------------------------------------- 6. Insertion
+    step_begin("cameras")
     error = 0
     written = set()
     results = []
@@ -21644,6 +21664,7 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
         print()
 
     if results and simple_cameras and not args.dry_run:
+        step_begin("result")
         handover_for_single_track(args, videos, results, simple_cameras,
                         simple_sound_at, simple_tracks,
                         simple_folder[0] or os.path.dirname(results[0]),
