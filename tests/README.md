@@ -395,7 +395,7 @@ it is green.
 |---|---|
 | `table_audio_asked_for` | #38 Stage 5c: what decides that a camera's sound is material. |
 | `table_blocks_judged` | A recording of several blocks must not wait for ever to be judged. |
-| `table_camera_proposed` | Does the suggestion find the right camera for the speaker? |
+| `table_camera_proposed` | The suggestion finds the speaker's camera, and never freezes it. |
 | `table_no_place_not_wide` | A file that sits nowhere is not offered as the wide shot. |
 | `table_notes_in_one_row` | Do all findings of a multi-part recording land in its row? |
 | `table_one_entry_greyed` | The Kind field greys one entry, not the whole field. |

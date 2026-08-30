@@ -14466,6 +14466,30 @@ def preselected_camera(old, targets, speaker, videos, own_camera=""):
     return os.path.basename(hit) if hit else MIX_ONLY
 
 
+def camera_to_remember(camera, derived, keep=None):
+    """What of an audio row's camera is written into the project.
+
+    Only a real override. One the program worked out itself goes back
+    as nothing, so the next rebuild works it out again -- stored, a
+    name changed afterwards no longer moves the camera. *keep* is what
+    a quiet row falls back on: there the mix is the absence of a
+    choice, not one.
+    """
+    if camera == MIX_ONLY and keep:
+        return keep
+    return None if camera == derived else camera
+
+
+def camera_row_cameras(old, targets, speaker, videos, own_camera=""):
+    """The camera a row shows, and the one the program would give alone.
+
+    Two answers to one question: the second is asked with nothing
+    remembered, and only a camera that differs from it is written down.
+    """
+    return (preselected_camera(old, targets, speaker, videos, own_camera),
+            preselected_camera(None, targets, speaker, videos, own_camera))
+
+
 def without_own_camera(rows, voices, multitrack_on, voiced=()):
     """Who goes into the mix but gets no shot of their own.
 
@@ -28667,12 +28691,11 @@ def gui():
             # underneath: the recording has no camera of its own then,
             # and switching back to one name must find the old one.
             old = remembered.get("audio:" + row[0])
-            camera = cv.get()
             quiet_row = (not multitrack.get() or os.path.abspath(row[0])
                          in (state.get("voiced") or ()))
-            if camera == MIX_ONLY and quiet_row and old:
-                camera = old[1]
-            remembered["audio:" + row[0]] = (nv.get(), camera)
+            remembered["audio:" + row[0]] = (nv.get(), camera_to_remember(
+                cv.get(), getattr(cv, "derived", None),
+                old[1] if (quiet_row and old) else None))
         for file_path, nv, own_box, own_name_box in camera_lines:
             remembered["video:" + file_path] = nv.get()
             # Only what somebody clicked themselves is stored. A tick that
@@ -29174,10 +29197,11 @@ def gui():
                           if camera_track else "")
             was = camera_after_a_mark("audio:" + first, old_camera, wide,
                 speaker_name_of(name_value) or os.path.basename(first))
-            picked = preselected_camera(
+            picked, worked_out = camera_row_cameras(
                 was, wide["pickable"], name_value.get(), videos,
                 own_camera="" if own_camera in barred else own_camera)
             camera_value = Value(MIX_ONLY if picked in barred else picked)
+            camera_value.derived = worked_out
             box = QtWidgets.QComboBox()
             speaks_as(box, belongs_head, caption)
             fill_choices(box, targets, camera_value.get())
