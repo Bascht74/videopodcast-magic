@@ -1077,3 +1077,35 @@ needs twenty-three because of what stands in front of it. Four
 episodes out of two productions is enough to say the direction holds;
 it is not enough to put a number on how often the ranking would be
 wrong. The decision is not made here.
+
+## What a jingle reads against a camera, and against a microphone
+
+31.8.2026, on the test interview: three cameras of 1:08, one 18-second
+jingle with no timecode, and a Zoom recording of 1:26 -- the longest
+file, so the axis measurement takes it as the reference.
+
+Against that reference, `align_envelopes` gives:
+
+| file | quality | sample points |
+|---|---|---|
+| the guest's camera | 0.3440 | 68 |
+| the presenters' camera | 0.3616 | 68 |
+| the wide camera | 0.3764 | 69 |
+| the jingle | 0.2003 | 0 |
+
+Camera against camera, from the same day and beside
+`CAMERA_MATCH_ENOUGH`: a real match reads 0.81 to 0.84, the same jingle
+0.21.
+
+**So the floor cannot be one number.** Against a microphone standing
+somewhere else a camera reads 0.35, and a floor high enough to refuse
+the jingle at 0.20 would refuse all three cameras with it. Against
+another camera the gap is wide and 0.5 sits in the middle of it.
+
+That is why a camera is measured against a camera as well, even where
+the reference is a sound recording. Until this was added the run
+refused to place the jingle (0.5, at the camera) while the measurement
+called it placed (0.15, against the recorder) -- so nothing downstream
+learned that the file sits nowhere, and the derivation made an
+18-second jingle the wide shot of an hour-long interview: 42 shots,
+5:15 of screen time.

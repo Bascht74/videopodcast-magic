@@ -14137,13 +14137,30 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         if answer is None:
             continue
         a_s, g = answer
-        if abs(g) < 0.15:
+        if abs(g) < SOUND_MATCH_ENOUGH:
             weak.append(p)
             if cannot_be_placed({"unplaceable": g < WEAK_MATCH}, clocks.get(p),
                                 [t for q, t in clocks.items() if q != p]):
                 lost.append(p)
             continue
         axis[p] = -a_s
+    # Held against a camera as well: against a sound recording a jingle
+    # and a camera read too close together to tell apart
+    # (measurements.md, 31.8.2026). The run used this floor all along.
+    cameras = [p for p in envelopes if p.lower().endswith(VIDEO_SUFFIXES)]
+    if len(cameras) > 1:
+        camera_ref = max(cameras, key=lambda p: len(envelopes[p]))
+        for p in cameras:
+            if p == camera_ref or p in weak:
+                continue
+            try:
+                _a, _b, st = align_envelopes(envelopes[camera_ref],
+                                             envelopes[p], HOP)
+            except Exception:
+                continue
+            if st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH:
+                weak.append(p)
+                axis.pop(p, None)
     # A file that fits nothing and is far shorter than everything around
     # it is a jingle rather than a camera. A clock that places it beats
     # the sound here as everywhere. The lengths are here anyway: an
@@ -16020,6 +16037,10 @@ AXIS_MIN_WINDOW_S = 10.0
 # 0.21 to 0.27 the same day. A real match sits above 0.8, unrelated
 # material with structure near 0.25, and half is the middle of the gap.
 CAMERA_MATCH_ENOUGH = 0.5
+# Against a sound recording a real match reads far lower, so this floor
+# only tells a measurement from noise. It stood as a bare 0.15 in the
+# middle of the axis measurement until 31.8.2026.
+SOUND_MATCH_ENOUGH = 0.15
 # Not the count of sample points: they are set 30 seconds apart, so
 # shorter material has none at all -- the 21-second camera above had
 # none and was placed exactly right.
@@ -20938,13 +20959,13 @@ def chain_fill_in(group, row, discarded, selected,
 def wide_shot_barred(path, value, placeless):
     """Why this file cannot be the wide shot, or "" where it can be one.
 
-    The wide shot is the camera that runs through and steps in wherever
-    no other one fits, so it has to lie on the time axis. *placeless*
-    are the paths the measurement placed nowhere; empty or None means
-    no measurement has said so and nothing is barred. A Kind somebody
-    picked is left alone, the same rule the proposal follows.
+    The wide shot is what the cut falls back on, so it has to lie on
+    the time axis. *placeless* are the paths the measurement placed
+    nowhere; empty or None bars nothing. A Kind somebody picked is
+    barred as well: this states a fact about the material rather than
+    suggesting one -- a file nothing places can only be a jingle.
     """
-    if not placeless or getattr(value, "chosen_by_hand", False):
+    if not placeless:
         return ""
     if path_key(path) not in set(path_key(p) for p in placeless):
         return ""
@@ -20987,6 +21008,12 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
         noted[TYPE_WIDE] = why
     if no_wide:
         barred[TYPE_WIDE] = no_wide
+        # Nor content: content is cut into the episode, and this file
+        # has no place to be cut into -- as content it becomes the wide
+        # shot by derivation. Intro, outro and "leave out" stay open.
+        barred.setdefault(TYPE_CONTENT, T(
+            'It fits nowhere in the material, so it cannot be cut into '
+            'the episode. It can be set in front of it or after it.'))
     choices_shut(box, barred, why, quiet, noted)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
@@ -21200,6 +21227,24 @@ def kind_proposal_apply(values, unplaceable, brief=()):
     return moved
 
 
+def kinds_off_the_axis(values, no_place):
+    """Move every file with no place off content and the wide shot.
+
+    Not a proposal but a fact: a file with no timecode whose sound has
+    nothing in common with the rest cannot be cut into the episode, so
+    content and the wide shot are not answers it can carry -- however
+    they got there, by hand or out of a project file. Intro is where it
+    lands; outro and "leave out" stay one click away.
+    """
+    lost = set(path_key(p) for p in (no_place or ()))
+    moved = []
+    for path, value in list(values.items()):
+        if path_key(path) in lost and value.get() in CAMERA_TYPES:
+            value.set(TYPE_INTRO)
+            moved.append(path)
+    return moved
+
+
 def kind_proposal_say(values, data):
     """Apply the proposal from a finished measurement and say what moved.
 
@@ -21209,6 +21254,13 @@ def kind_proposal_say(values, data):
     """
     moved = kind_proposal_apply(values, (data or {}).get("unplaceable"),
                                 (data or {}).get("brief"))
+    # The proposal first, the fact after it: the proposal steps back
+    # from an answer somebody gave, and what it leaves behind on content
+    # or the wide shot is exactly what cannot be true.
+    forced = kinds_off_the_axis(values, (data or {}).get("no_place"))
+    for path in forced:
+        print(T('%s fits nothing in the material, so it cannot be cut '
+                'into the episode: set to Intro.') % os.path.basename(path))
     for path in moved:
         name, kind = os.path.basename(path), values[path].get()
         if kind == TYPE_INTRO:
@@ -21219,7 +21271,7 @@ def kind_proposal_say(values, data):
             print(no_place_message(name))
         else:
             print(T('%s can be placed again and is back in the run.') % name)
-    return moved
+    return moved + [p for p in forced if p not in moved]
 
 
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
@@ -33825,6 +33877,14 @@ CATALOGUE["de"] = {
         'Sie passt nirgends ins Material: kein Timecode, und ihr Ton hat '
         'mit dem Rest nichts gemeinsam. Auf den Weitwinkel fällt der '
         'Schnitt zurück, also muss er auf der Zeitachse liegen.',
+    'It fits nowhere in the material, so it cannot be cut into '
+    'the episode. It can be set in front of it or after it.':
+        'Sie passt nirgends ins Material und kann darum nicht in die '
+        'Folge hineingeschnitten werden. Davor oder danach setzen geht.',
+    '%s fits nothing in the material, so it cannot be cut into the '
+    'episode: set to Intro.':
+        '%s passt zu nichts im Material und kann darum nicht in die Folge '
+        'hineingeschnitten werden: auf Vorspann gesetzt.',
     'It is in the logs atom of the picture description -- that is how '
     'Resolve recognises the input colour space. Different curves mean '
     'different input colour spaces.':
