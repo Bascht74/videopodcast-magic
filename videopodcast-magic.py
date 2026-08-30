@@ -21178,6 +21178,115 @@ def clip_kind_bind(box, value, after=None):
     return box
 
 
+def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
+    """The whole menu bar, from a table of what each entry does.
+
+    Outside gui() because it decides nothing. Every entry is a name, a
+    key and something to call, and all three come in; what is left here
+    is the order they stand in, and where the lines between them go.
+    """
+
+    def act(where, text, doing, keys="", inside=None):
+        """One menu entry, with its key.
+
+        *inside* scopes the key to a widget: the player keys are bare
+        ones -- Space, I, O, the arrows -- and a bare key must not fire
+        while somebody is typing a name into a field. Attached to the
+        player, they work when the player has the focus and nowhere
+        else, and the menu still shows them.
+        """
+        action = QtGui.QAction(text, window)
+        action.triggered.connect(lambda _=False: doing())
+        if keys:
+            action.setShortcut(QtGui.QKeySequence(keys))
+            if inside is not None:
+                action.setShortcutContext(
+                    QtCore.Qt.WidgetWithChildrenShortcut)
+                inside.addAction(action)
+        where.addAction(action)
+        return action
+
+    menu = QtWidgets.QMenuBar()
+
+    # Three groups, in the order the work goes: the project first,
+    # because a session begins by opening one or starting a new one;
+    # then the material; then the run. Before this the project was not
+    # in the menu at all -- the only way to a second production was to
+    # quit the program and start it again.
+    file_menu = menu.addMenu(T('&File'))
+    act(file_menu, T('Open project ...'), does["open project"], "Ctrl+P")
+    act(file_menu, T('Save project'), does["save project"], "Ctrl+S")
+    act(file_menu, T('Close project'), does["close project"], "Ctrl+W")
+    file_menu.addSeparator()
+    act(file_menu, T('Add files ...'), does["add files"], "Ctrl+O")
+    act(file_menu, T('Remove'), does["remove"], "Ctrl+Backspace")
+    act(file_menu, T('Output folder ...'), does["output folder"],
+        "Ctrl+Shift+O")
+    file_menu.addSeparator()
+    act(file_menu, T('Start'), does["start"], "Ctrl+R")
+    act(file_menu, T('Dry run'), does["dry run"], "Ctrl+Shift+R")
+    file_menu.addSeparator()
+    # Qt moves anything it recognises as settings into the application
+    # menu on a Mac, which is where people look for it.
+    settings_action = act(file_menu, T('Settings ...'), does["settings"],
+                          "Ctrl+,")
+    settings_action.setMenuRole(QtGui.QAction.PreferencesRole)
+
+    # The tabs by their own names, not "1. tab, 2. tab, 3. tab". The
+    # name is read off the tab, so the menu says what the tab says; the
+    # tick a finished tab carries is left out, since it comes and goes
+    # and a menu entry that changes under the hand is worse than none.
+    view_menu = menu.addMenu(T('&View'))
+    for number in range(tabs.count()):
+        named = tabs.tabText(number).replace("&&", "&")
+        act(view_menu, named.replace("\u2713", "").strip(),
+            lambda i=number: tabs.setCurrentIndex(i),
+            "Ctrl+%d" % (number + 1))
+
+    play_menu = player_menu(menu, player)
+    act(play_menu, T('Play and pause'), player.toggle, "Space", player)
+    # L and K as in every editing program: L runs forward, K holds. J is
+    # missing on purpose: backwards the ffmpeg backend under Qt reports
+    # a rate of 0.00 and stands still, and a key that does nothing is
+    # worse than none. K holds and never starts -- that is what it does
+    # in an editing program, and the space bar is there for the other
+    # half.
+    act(play_menu, T('Play forward, faster on every press'),
+        player.faster, "L", player)
+    act(play_menu, T('Pause'), player.pause, "K", player)
+    play_menu.addSeparator()
+    for text, keys, seconds in (
+            (T('One frame back'), "Left", -1.0 / 30.0),
+            (T('One frame forward'), "Right", 1.0 / 30.0),
+            (T('One second back'), "Shift+Left", -1.0),
+            (T('One second forward'), "Shift+Right", 1.0),
+            (T('Ten seconds back'), "Alt+Left", -10.0),
+            (T('Ten seconds forward'), "Alt+Right", 10.0)):
+        act(play_menu, text, lambda s=seconds: player.nudge(s), keys,
+            player)
+    play_menu.addSeparator()
+    act(play_menu, T('Mark In'), does["mark in"], "I", player)
+    act(play_menu, T('Mark Out'), does["mark out"], "O", player)
+    act(play_menu, T('to In point'), does["to in"], "Shift+I", player)
+    act(play_menu, T('to Out point'), does["to out"], "Shift+O", player)
+
+    help_menu = menu.addMenu(T('&Help'))
+    act(help_menu, T('The manual'),
+        lambda: open_page("https://github.com/Bascht74/"
+                          "videopodcast-magic#readme"))
+    act(help_menu, T('What changed in this version'),
+        lambda: open_page("https://github.com/Bascht74/"
+                          "videopodcast-magic/blob/main/CHANGELOG.md"))
+    help_menu.addSeparator()
+    act(help_menu, T('Look for a newer version now'),
+        lambda: update_offer(window, asked=True))
+    restore_entry(act, help_menu, window)
+    about = act(help_menu, T('About Video Podcast Magic'),
+                lambda: about_show(window))
+    about.setMenuRole(QtGui.QAction.AboutRole)
+    return menu
+
+
 def window_title(project=""):
     """What stands in the title bar, with the open project named in it.
 
@@ -30298,6 +30407,85 @@ def gui():
         write(as_head(T('PROJECT SAVED\n  %s\n  This run can be opened again '
                         'later -- top left\n  "Open project ..."\n\n') % file_path))
 
+    def project_new():
+        """Empty the window, the way a new production starts.
+
+        Until now the only way to a second production was to quit the
+        program and start it again: Sebastian, 30.8.2026, *"I would
+        like a close project or new project -- at least in the menu.
+        At the moment I always have to restart."*
+
+        This is also the list of what belongs to a project and what does
+        not, and it is the only such list: opening a project runs it
+        first and then puts the file's answers on top, so the two cannot
+        drift apart. Anything left standing here would be carried from
+        one production into the next, which is the fault that took the
+        output folder out of an old handover file.
+        """
+        state["closing"] = False
+        tab_gone(sheet2)
+        log.clear()
+        state["results"] = []
+        state["project_from"] = ""
+        window.setWindowTitle(window_title())
+        files[:] = []
+        out_folder.set("")
+        production_var.set("")
+        start_var.set("")
+        end_var.set("")
+        clip_kind_values.clear()
+        no_join.clear()
+        join_to.clear()
+        channel_choice.clear()
+        for name in ("wide_set_aside", "voiced", "projects_offered",
+                     "speakers_source_chosen", "forced_own",
+                     "result_folder", "resolve_json"):
+            state.pop(name, None)
+        # Emptied, not taken away: the time axis is read by name in
+        # several places, and a missing key there is a KeyError rather
+        # than an empty axis.
+        state["axis"] = {}
+        state["axis_absolute"] = False
+        state["speakers_local"] = {}
+        state["speakers_source"] = ""
+        state["speakers_named"] = {}
+        state["speakers_count"] = 0
+        state["speakers_wanted"] = None
+        state["preset_wanted"] = ""
+        # Back to what they hold when the program has just started, so a
+        # second production begins the way the first one did.
+        transcript_on.set(True)
+        speech_language.set(language_of_system())
+        lufs_value.set(loudness_last())
+        edge_on.set(True)
+        multitrack.set(False)
+        items_fresh()
+        folder_show()
+        resolve_button_check()
+        result_button_check()
+        preview_compute()
+
+    def project_save():
+        """Write the project file now, without running anything.
+
+        It was written at the start of a run and when the program was
+        quitted, and nowhere else -- so a session that set up a
+        production and then went away for the night had it, and a
+        session that wanted it on paper first had no way to ask.
+        """
+        if not out_folder.get():
+            folder_pick()
+        if not out_folder.get():
+            report(T('Save project'),
+                   T('The project file goes into the output folder, and '
+                     'none is chosen yet.'))
+            return
+        axis_store(state.get("axis") or {})
+        where = axis_file()
+        report(T('Save project'),
+               T('Written:\n\n  %s') % where if where
+               else T('Nothing was written -- there is no material yet.'))
+
     def project_open(file_path=""):
         file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
             window, T('Open json project file'),
@@ -30319,27 +30507,24 @@ def gui():
             report('Project', "%s\n\n%s" % (os.path.basename(file_path),
                                              complaint))
             return
-        # An opened project has produced nothing yet.
-        tab_gone(sheet2)
-        try:
-            log.clear()
-        except Exception:
-            pass
-        state["results"], state["project_from"] = [], file_path
+        # Emptied first, by the one list of what belongs to a project,
+        # and the file's answers put on top. Two clearing lists would
+        # drift, and what one of them forgot would travel from the last
+        # production into this one.
+        project_new()
+        state["project_from"] = file_path
         window.setWindowTitle(window_title(file_path))
         present, missing = project_files(d)
         files[:] = present
         # Before anything is drawn: every file measured once, in
         # parallel. What follows then asks its questions of memory.
         probe_warm([x for x, _ in present])
-        if d.get("out_folder"):
-            out_folder.set(d["out_folder"])
-            folder_show()
-        if d.get("production"):
-            production_var.set(d["production"])
         for s, value in (d.get("camera_cut") or {}).items():
             if s in cut_var:
                 cut_var[s].set(value)
+        out_folder.set(d.get("out_folder") or "")
+        folder_show()
+        production_var.set(d.get("production") or "")
         edge_on.set(bool(d.get("wide_at_edges", True)))
         # Set before the tables are built: the window prefill leaves standing
         # whatever is already there.
@@ -30355,8 +30540,6 @@ def gui():
         # project has to take them with it: a file that was the intro there
         # would otherwise still be the intro here, and two of them stop the
         # run.
-        clip_kind_values.clear()
-        state.pop("wide_set_aside", None)   # it names cameras of that one
         if "transcript" in d:
             transcript_on.set(bool(d.get("transcript")))
         if d.get("speech_language"):
@@ -30376,11 +30559,8 @@ def gui():
             ((d.get("speakers") or {}).get("num_speakers")) or 0)
         state["speakers_wanted"] = (bool(d["speakers_local"])
                                     if "speakers_local" in d else None)
-        no_join.clear()
         no_join.update(d.get("apart") or [])
-        join_to.clear()
         join_to.update(d.get("together") or {})
-        channel_choice.clear()
         for p, choice in (d.get("channels") or {}).items():
             channel_choice[p] = {int(k): bool(v) for k, v in choice.items()}
         state["preset_wanted"] = d.get("preset") or ""
@@ -30845,96 +31025,19 @@ def gui():
     # Settings and Help are expected in places the window itself has no
     # say over. QLayout.setMenuBar hands it to the system menu bar on a
     # Mac and puts it at the top of the window everywhere else.
-    def act(where, text, doing, keys="", inside=None):
-        """One menu entry, with its key.
-
-        *inside* scopes the key to a widget: the player keys are bare
-        ones -- Space, I, O, the arrows -- and a bare key must not fire
-        while somebody is typing a name into a field. Attached to the
-        player, they work when the player has the focus and nowhere
-        else, and the menu still shows them.
-        """
-        action = QtGui.QAction(text, window)
-        action.triggered.connect(lambda _=False: doing())
-        if keys:
-            action.setShortcut(QtGui.QKeySequence(keys))
-            if inside is not None:
-                action.setShortcutContext(
-                    QtCore.Qt.WidgetWithChildrenShortcut)
-                inside.addAction(action)
-        where.addAction(action)
-        return action
-
-    menu = QtWidgets.QMenuBar()
+    menu = build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, {
+        "add files": add_files, "remove": remove,
+        "output folder": folder_pick,
+        "start": lambda: start_run.click(),
+        "dry run": lambda: preview_button.click(),
+        "settings": lambda: settings_open(),
+        "open project": lambda: project_open(),
+        "save project": project_save, "close project": project_new,
+        "mark in": lambda: limit_set(start_var),
+        "mark out": lambda: limit_set(end_var),
+        "to in": lambda: to_limit(start_var.get(), "In point"),
+        "to out": lambda: to_limit(end_var.get(), "Out point")})
     vertical.setMenuBar(menu)
-
-    file_menu = menu.addMenu(T('&File'))
-    act(file_menu, T('Add files ...'), add_files, "Ctrl+O")
-    act(file_menu, T('Remove'), remove, "Ctrl+Backspace")
-    file_menu.addSeparator()
-    act(file_menu, T('Output folder ...'), folder_pick, "Ctrl+Shift+O")
-    file_menu.addSeparator()
-    act(file_menu, T('Start'), lambda: start_run.click(), "Ctrl+R")
-    act(file_menu, T('Dry run'),
-        lambda: preview_button.click(), "Ctrl+Shift+R")
-    file_menu.addSeparator()
-    # Qt moves anything it recognises as settings into the application
-    # menu on a Mac, which is where people look for it.
-    settings_action = act(file_menu, T('Settings ...'),
-                          lambda: settings_open(), "Ctrl+,")
-    settings_action.setMenuRole(QtGui.QAction.PreferencesRole)
-
-    view_menu = menu.addMenu(T('&View'))
-    for number in range(3):
-        act(view_menu, T('%d. tab') % (number + 1),
-            lambda i=number: tabs.setCurrentIndex(i),
-            "Ctrl+%d" % (number + 1))
-
-    play_menu = player_menu(menu, player)
-    act(play_menu, T('Play and pause'), player.toggle, "Space", player)
-    # L and K as in every editing program: L runs forward, K holds. J is
-    # missing on purpose: backwards the ffmpeg backend under Qt reports
-    # a rate of 0.00 and stands still, and a key that does nothing is
-    # worse than none. K holds and never starts -- that is what it does
-    # in an editing program, and the space bar is there for the other
-    # half.
-    act(play_menu, T('Play forward, faster on every press'),
-        player.faster, "L", player)
-    act(play_menu, T('Pause'), player.pause, "K", player)
-    play_menu.addSeparator()
-    for text, keys, seconds in (
-            (T('One frame back'), "Left", -1.0 / 30.0),
-            (T('One frame forward'), "Right", 1.0 / 30.0),
-            (T('One second back'), "Shift+Left", -1.0),
-            (T('One second forward'), "Shift+Right", 1.0),
-            (T('Ten seconds back'), "Alt+Left", -10.0),
-            (T('Ten seconds forward'), "Alt+Right", 10.0)):
-        act(play_menu, text, lambda s=seconds: player.nudge(s), keys,
-            player)
-    play_menu.addSeparator()
-    act(play_menu, T('Mark In'), lambda: limit_set(start_var), "I",
-        player)
-    act(play_menu, T('Mark Out'), lambda: limit_set(end_var), "O",
-        player)
-    act(play_menu, T('to In point'),
-        lambda: to_limit(start_var.get(), "In point"), "Shift+I", player)
-    act(play_menu, T('to Out point'),
-        lambda: to_limit(end_var.get(), "Out point"), "Shift+O", player)
-
-    help_menu = menu.addMenu(T('&Help'))
-    act(help_menu, T('The manual'),
-        lambda: open_page("https://github.com/Bascht74/"
-                          "videopodcast-magic#readme"))
-    act(help_menu, T('What changed in this version'),
-        lambda: open_page("https://github.com/Bascht74/"
-                          "videopodcast-magic/blob/main/CHANGELOG.md"))
-    help_menu.addSeparator()
-    act(help_menu, T('Look for a newer version now'),
-        lambda: update_offer(window, asked=True))
-    restore_entry(act, help_menu, window)
-    about = act(help_menu, T('About Video Podcast Magic'),
-                lambda: about_show(window))
-    about.setMenuRole(QtGui.QAction.AboutRole)
 
     def scheme_changed(*_):
         """Follow a desktop switched between light and dark while running.
@@ -31537,8 +31640,6 @@ CATALOGUE["de"] = {
         '&Wiedergabe',
     '&Help':
         '&Hilfe',
-    '%d. tab':
-        '%d. Reiter',
     'Play and pause':
         'Abspielen und anhalten',
     'Fast forward':
@@ -32554,6 +32655,19 @@ CATALOGUE["de"] = {
         'entsteht der Schnitt.',
     'Only one audio file and no picture -- nothing to do.':
         'Nur eine Tondatei und kein Bild -- nichts zu tun.',
+    'Open project ...':
+        'Projekt öffnen ...',
+    'Save project':
+        'Projekt speichern',
+    'Close project':
+        'Projekt schließen',
+    'The project file goes into the output folder, and none is chosen yet.':
+        'Die Projektdatei kommt in den Ausgabeordner, und der ist noch '
+        'nicht gewählt.',
+    'Written:\n\n  %s':
+        'Geschrieben:\n\n  %s',
+    'Nothing was written -- there is no material yet.':
+        'Es wurde nichts geschrieben -- es liegt noch kein Material vor.',
     'Project found':
         'Projekt gefunden',
     'Open the project':

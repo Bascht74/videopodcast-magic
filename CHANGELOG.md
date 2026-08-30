@@ -13,6 +13,24 @@ survives.
 
 ### Added
 
+- A project can be opened, saved and closed from the File menu, and the
+  menu is grouped: the project first, then the material, then the run.
+  Until now the only way to a second production was to quit the program
+  and start it again -- Sebastian, 30.8.2026: *"I would like a close
+  project or new project, at least in the menu. At the moment I always
+  have to restart."* Closing empties the window down to what a fresh
+  start looks like, and it is the same list that opening a project runs
+  before it puts the file's answers on top -- two clearing lists would
+  drift, and what one of them forgot would travel from the last
+  production into the next.
+- Saving a project no longer waits for a run. The file was written when
+  a run started and when the program was quitted, and nowhere else, so
+  a session that had set a production up and then went away had it, and
+  one that wanted it on paper first had no way to ask.
+- The View menu names the tabs instead of numbering them. "1. tab, 2.
+  tab, 3. tab" told nobody anything; the names are read off the tabs
+  themselves, without the tick a finished tab carries, which comes and
+  goes.
 - The title bar names the open project, in front, the way a document
   window does everywhere else. A window with a project open and one
   without looked exactly alike, and after a few productions in a row
@@ -50,8 +68,9 @@ survives.
   writes it, a second window that knows nothing opens it, and every
   answer is asked after by name -- the production, the new file name,
   the Kind, the speaker's name, the transcript, and the title bar.
-  Sebastian asked for it after a project came back without its speaker
-  names: *"Is there no test that saves as many options as possible and
+  It also walks the second circle: closing the project empties the
+  window, and the file it came from is untouched. Sebastian asked for
+  it after a project came back without its speaker names: *"Is there no test that saves as many options as possible and
   then opens it again and checks whether everything is there?"* There
   was not. Every setting had a test where it is made, and the file had
   one for its shape, but nothing took the window round the circle -- and
