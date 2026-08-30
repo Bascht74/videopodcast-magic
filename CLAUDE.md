@@ -80,8 +80,12 @@ last:
    out.
 
    `release_test.py` checks what a machine can: that both halves are
-   there, that they hold the same number of points, and that neither is
-   written in the other's language.
+   there, that they hold the same number of points, that neither is
+   written in the other's language, and that no point stands out by its
+   length. The last one measures against the middle of the section
+   itself -- twice that, with a floor -- rather than against a number
+   written down, because a number goes stale the moment the style moves
+   and the middle of what was just written does not.
 3. **The manual is true again.** Anything a person can see or feel is a
    chapter, in both languages. A default that moved, a new answer in a
    field, a computation that costs their processor: all of that.
