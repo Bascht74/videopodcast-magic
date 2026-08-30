@@ -660,6 +660,15 @@ SINGLE_TRACK = "single track"
 # Values that are stored and shown at the same time. The value is fixed so
 # a project file keeps its meaning in any language; what appears on screen
 # comes from CHOICE_LABELS and goes through T().
+# What the mixed track is called. One name for both paths, decided on
+# 30.8.2026: the two of them are to name their files and their tracks
+# alike. It is not only a label -- the handover file is written with it,
+# Resolve names its audio track after it, and reading an existing
+# handover back looks it up by this word. So the name that had to give
+# way was the simple path's own "Processed audio", and this is the one
+# that stays.
+MIX_TRACK_NAME = "Full-Mix"
+
 MIX_ONLY = "mix-only"            # audio track without a camera of its own
 IGNORE_AUDIO = "ignore-audio"    # audio track stays out entirely
 # The answer "I do not know, go and measure" to the one question a
@@ -9352,6 +9361,19 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                         % (safe_filename(title or 'Production'),
                            "+".join(names))}
                        for v, names in who.items()]
+    if not cameras and video_paths:
+        # No assignment file and no names from the plan: one entry per
+        # video file, named after the file plus the suffix. Without this
+        # the run wrote camera files carrying the source's own name and
+        # no handover for Resolve at all -- measured 30.8.2026 with two
+        # recordings, two cameras and no --assign: CamHost.mov and
+        # CamGuest.mov beside the originals, and not one _resolve.json.
+        # The handover is what the whole run is for, and it is written
+        # only where there are cameras to write about.
+        cameras = [{"video": os.path.abspath(path),
+                    "name": os.path.splitext(os.path.basename(path))[0]
+                            + (args.suffix or "_audio")}
+                   for path in video_paths]
     plan = merge_plan_entries(plan)
     for e in plan:
         blocks = e.get("blocks") or [e["audio"]]
@@ -9742,7 +9764,7 @@ def check_written_file(target, items, n_camera, args, fps):
     if args.no_camera_audio or not n_camera:
         return
     index_number = next((i for i, (name, _) in enumerate(items)
-                   if name.startswith("Full-Mix")), 0)
+                   if name.startswith(MIX_TRACK_NAME)), 0)
     try:
         HOP, rate = 5.0, 4000
         duration = float(ffprobe_json(target).get("format", {}).get("duration") or 0)
@@ -10269,9 +10291,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                 for track in own:
                     items.append((track["name"], single[track["name"]]))
             if set(track["name"] for track in own) != set(names_every):
-                items.append(("Full-Mix", full_mix))
+                items.append((MIX_TRACK_NAME, full_mix))
         else:
-            items.append(("Full-Mix", full_mix))
+            items.append((MIX_TRACK_NAME, full_mix))
         # Where the camera sits on the axis is already known: building the time
         # axis measured every camera against the reference, with the
         # microphones and hundreds of sample points. Repeating that against a
@@ -10289,7 +10311,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         # microphone. Where the two routes disagree something is wrong, and
         # that should show here rather than on playback.
         share.segment(0.0, 0.30)
-        check = next((p for n, p in items if n.startswith("Full-Mix")),
+        check = next((p for n, p in items
+                      if n.startswith(MIX_TRACK_NAME)),
                      items[0][1])
         try:
             HOP, rate = 5.0, 4000
@@ -10409,7 +10432,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     tc_name = ("_" + timecode_string(tc_start, tc_fps).replace(":", "-"))\
         if tc_start is not None else ""
     for name, source in ([(track["name"], single[track["name"]]) for track in tracks]
-                         + [("Full-Mix", full_mix)]):
+                         + [(MIX_TRACK_NAME, full_mix)]):
         target = os.path.join(cache,
                             "final_%s%s.wav" % (safe_filename(name), tc_name))
         show_progress(T('Saving %s') % name, 0.0)
@@ -10448,7 +10471,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     cut, segment_list = write_cut_list(
         args, segment_list, tracks, cameras, videos, folder, tc_start,
         ref_clip, t1 - t0 if t1 is not None else 0,
-        words=heard_words(), sound_source=single_files.get("Full-Mix", ""))
+        words=heard_words(), sound_source=single_files.get(MIX_TRACK_NAME, ""))
     # Who does the asking. Said, not acted on: the order is what the
     # measurement supports, and a name in the interface is a person's
     # decision.
@@ -13744,7 +13767,7 @@ def handover_for_single_track(args, videos, results, cameras, offsets,
     write_handover(args, voices, cameras, videos, folder, tc_start,
                       reference, results, cut, segment_list, length,
                       track_names,
-                      {"Full-Mix": os.path.abspath(audio)}, offsets)
+                      {MIX_TRACK_NAME: os.path.abspath(audio)}, offsets)
 
 
 def places_on_camera_axis(axis, reference):
@@ -20807,7 +20830,7 @@ def build_argument_parser():
                     help="how long to wait for Auphonic (default: 7200)")
     ap.add_argument("--suffix", default="_audio",
                     help="added to the file name (default: _audio)")
-    ap.add_argument("--name", default="Processed audio",
+    ap.add_argument("--name", default=MIX_TRACK_NAME,
                     help="name of the new audio track "
                          "(default: Processed audio)")
     ap.add_argument("--name-camera", dest="name_camera",

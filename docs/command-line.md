@@ -18,7 +18,7 @@ hints. Without a key the multitrack run stops there.*
 | `--lang {de,en}` | language of the messages (system language) |
 | `--out FOLDER` | where the results go (next to each video) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
-| `--name TEXT` | name of the new audio track (`Processed audio`) |
+| `--name TEXT` | name of the new audio track (`Full-Mix`) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0) |
 | `--dry-run` | only measure and report, write nothing |
