@@ -107,6 +107,19 @@ last:
 3. **The manual is true again.** Anything a person can see or feel is a
    chapter, in both languages. A default that moved, a new answer in a
    field, a computation that costs their processor: all of that.
+
+   **And what writing it turns up becomes a test.** Writing the manual
+   is the one pass that reads the program as a user, and it finds what
+   the tests do not: a switch that is taken and does nothing, a track
+   that used to be in the file and is not, a message naming a mode
+   nobody asked for. Every such finding gets a test before the tag.
+   Where the test is genuinely larger than the fix, it goes into
+   `docs/notes/aufgaben.md` with its shape written out, and it is the
+   first thing in the next round -- not a note saying "test this".
+
+   Sebastian asked for this on 30.8.2026, after seven manual chapters
+   turned up five faults that 118 green tests had passed over, one of
+   them a function the merge had silently removed.
 4. **The pictures show the program as it is now.** `docs/notes/` says
    how they are taken. Not every release moves them; a release that
    changed the window does.
