@@ -89,14 +89,6 @@ it as a proposal is a decision, not a measurement.
 
 Coarser, and in no fixed order.
 
-* **A "mhm" stops counting as silence.** Sounds under four tenths of a
-  second are dropped before the pause search runs, so a short reaction
-  reads as a pause and a wide shot can land on top of somebody
-  answering. The threshold has stood unchanged since the first
-  version and has never been measured. Correcting it changes how many
-  pauses the program believes in, which is why it is a measurement and
-  not a one-line fix.
-
 * **Defaults that carry evidence.** A few numbers come from a single
   reference edit rather than from a measurement. `--wide-latest` is
   the clearest case. Each of them gets measured or gets smaller.

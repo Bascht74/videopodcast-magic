@@ -293,7 +293,12 @@ So liest das Script die Spuren:
 * Es misst jeden Block gegen den eigenen Grundpegel der Spur, das
   leiseste Fünftel ihrer Blöcke; 10 dB darüber gilt als Sprache.
 * Pausen unter 0,35 Sekunden sind kein Sprecherwechsel.
-* Passagen unter 0,4 Sekunden zählen nicht.
+* Passagen unter 0,2 Sekunden zählen nicht. An 31 Minuten
+  Dreimikrofon-Material gemessen: darunter sind die Passagen, die
+  hinzukommen, im Mittel zwei Zehntelsekunden lang — das ist Atem
+  und keine Sprache. Darüber, bei vier Zehnteln, fiel ein kurzes
+  „mhm“ weg und die Antwort las sich als Pause: 21 Pausen über zwei
+  Sekunden waren in der halben Stunde gar keine.
 
 Davor rechnet das Script das **Übersprechen aus der Messung** heraus,
 nicht aus dem Ton. Es sucht die Stellen, an denen genau eine Person

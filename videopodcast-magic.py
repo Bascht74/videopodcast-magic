@@ -4810,8 +4810,29 @@ def unmix_levels(power, c, at_most=30.0):
     return np.maximum(own, 0.0), ""
 
 
+# The shortest sound that still counts as speech: below this a block is
+# dropped before the pause search runs, so a short reaction reads as a
+# pause. Measured 31.8.2026 on 31 minutes of real three-microphone
+# material -- the two hosts and the guest of one interview, a
+# microphone each:
+#
+#   0.40 s   2710 passages   5643 s speech   115 pauses over 2 s, 21 over 5
+#   0.20 s   3105 passages   5759 s speech    94 pauses over 2 s, 13 over 5
+#   0.15 s   3214 passages   5781 s speech
+
+# From 0.4 to 0.2, 395 passages come back for 116 seconds -- an average
+# of 0.29 s each, which is the length of an "mhm". Twenty-one pauses
+# over two seconds and eight over five turn out never to have been
+# pauses at all: somebody was answering in the middle of them, and that
+# is where a wide shot used to land on top of them. Below 0.2 the gain
+# flattens -- another 109 passages for 22 seconds, 0.2 s each, which is
+# breath and not speech. So the floor is where the two curves cross.
+SPEECH_MIN_LEN_S = 0.2
+
+
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
-                        gap=0.35, min_len=0.4, report=None, separate=True,
+                        gap=0.35, min_len=SPEECH_MIN_LEN_S,
+                        report=None, separate=True,
                         note=None):
     """Derive speech segments from the separate tracks.
 
