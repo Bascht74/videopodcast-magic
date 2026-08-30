@@ -248,6 +248,37 @@ if newest_german.strip():
     check("no point stands out by its length", not long_ones,
           long_ones[0] if long_ones else "")
 
+    # Under Fixed, half a point is not a point. Sebastian struck two on
+    # 30.8.2026 that said what had been wrong and stopped there -- "a
+    # time window took the sound off the picture, and the shift was as
+    # large as the gap between the start of the recording and the start
+    # of the picture." And then? A reader needs the second half: what
+    # happens now. A machine cannot judge the sentence, but it can see
+    # whether the word that carries that half is there at all.
+    #
+    # Only Fixed, and only there. Added says what is new -- it is all
+    # "now" by nature. Changed carries the old state along in its own
+    # wording. Fixed is the one where a point can be written entirely
+    # in the past and read as finished when it is not.
+    NOW = {"Fixed": ("now", "no longer", "instead"),
+           "Behoben": ("jetzt", "nicht mehr", "stattdessen")}
+    half_told = []
+    for part in (newest, newest_german):
+        heading = None
+        for chunk in part.split("### "):
+            name = chunk.split("\n")[0].strip()
+            if name not in NOW:
+                continue
+            heading = name
+            for one in points_of("### " + chunk):
+                text = " ".join(x.strip() for x in one)[2:]
+                if not any(w in text.lower() for w in NOW[name]):
+                    half_told.append("%s: %s" % (name, text[:60]))
+        del heading
+    check("every fixed point says how it is now", not half_told,
+          "%d of them, first: %s" % (len(half_told), half_told[0])
+          if half_told else "")
+
 print("""
 Before the tag -- five things, and the tag comes last:
 

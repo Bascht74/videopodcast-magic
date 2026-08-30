@@ -8883,7 +8883,11 @@ def align_cameras(videos):
     camera time = a + b * reference time.
     """
     ref_clip = max(videos, key=lambda v: v[1]["duration"])
-    position = {ref_clip[0]: (0.0, 1.0, {"points": 0, "reference": True})}
+    # The reference sits at zero against itself, and nothing was
+    # measured to find that out. It carried a "reference": True beside
+    # the zero for a while; nobody ever read it, and the run already
+    # says which camera is the reference in the line above.
+    position = {ref_clip[0]: (0.0, 1.0, {"points": 0})}
     env_ref = video_envelope(ref_clip[0])
     clocks = dict((v, timecode_seconds(i)) for v, i in videos)
     for v, info in videos:
@@ -9414,6 +9418,17 @@ def multitrack_or_single(args, ap, audio_paths, video_paths):
     decision falls here, after the plan, and not on a file count before
     anybody has looked.
     """
+    if not video_paths and not args.multitrack:
+        # Recordings and no picture, and nobody asked for multitrack:
+        # these are blocks of one recording, and joining them into one
+        # file is a whole job that needs no camera at all.
+        #
+        # Only without --multitrack. With it the files are separate
+        # voices, and joining them glues two people into one track --
+        # measured 30.8.2026 with two speaker tracks and no picture,
+        # which came out as a single Guest_joined.wav. Blocks of one
+        # recording and tracks of two people look alike from outside.
+        return run_single_track_path(args, ap, audio_paths, video_paths)
     outcome = show_multitrack_plan(args, audio_paths, video_paths)
     if not (isinstance(outcome, tuple) and outcome[0] == SINGLE_TRACK):
         return outcome
@@ -9442,6 +9457,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                     'aligned') % os.path.basename(v))
             continue
         videos.append((v, info))
+    if videos and not getattr(args, "production", ""):
+        # The same name the ordinary path gives a production: the folder
+        # the material sits in. Without it every run that had no
+        # assignment file called itself "Production", so two jobs from
+        # two shoots wrote Production_resolve.json and the second took
+        # the first one's place.
+        args.production = guess_production_name(videos[0][0])
     if not videos:
         # Two different situations wore the same sentence, and only one
         # of them was about camera audio. Where no picture was given at
@@ -16706,6 +16728,14 @@ def cannot_be_placed(st, own_tc, other_tcs):
     Only where neither answers is there nothing left. Then the file is
     refused rather than laid down somewhere, because laid down
     somewhere it looks exactly like a file that fits.
+
+    Not by the count of sample points, though that was tried on
+    30.8.2026 and reverted the same hour: on the ordinary path a
+    measurement with no sample points is still a measurement -- the
+    offset comes from the cross correlation and only the clock drift is
+    missing, which is what "too few sample points for a drift
+    measurement" says. Reading that as "no place" refused material the
+    tests prove is placed to the sample.
     """
     if not (st or {}).get("unplaceable"):
         return False
@@ -27238,7 +27268,7 @@ def gui():
     state = {"running": False, "results": [], "presets": None,
                "resolve_json": None, "result_folder": None,
                "camera_audio": False, "waiting": False, "without_tc": False,
-               "reference": "", "assignment_content": None, "statistics": False,
+               "assignment_content": None, "statistics": False,
                "in_point": "", "out_point": "", "axis": {}, "tc_there": False,
                "weak": set(), "tables": [], "axis_absolute": False}
     post = queue.Queue()
@@ -30067,8 +30097,6 @@ def gui():
         state["without_tc"] = without_tc
         if not without_tc:
             state["tc_there"] = True
-        state["reference"] = (os.path.basename(chains[0][0][0]) if without_tc
-                            else "")
         for (row, _) in chains:
             first = row[0]
             camera_track = os.path.abspath(first) in state["own_audio_rows"]
