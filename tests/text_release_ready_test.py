@@ -186,7 +186,7 @@ check("the project file drops the switch and its key",
 print("\n5. Both languages, and each in its own")
 # A machine cannot say whether a sentence is good, but it can say
 # whether a sentence is in the language it claims to be. Function words
-# give it away, the same trick german_hunt_test uses on the manual.
+# give it away, the same trick text_no_german_left_test uses on the manual.
 GERMAN_WORDS = re.compile(
     r"(?<![A-Za-z\u00c0-\u024f])(und|oder|nicht|wird|wurde|werden|steht|"
     r"kann|eine|einen|einem|einer|dass|weil|damit|schon|noch|dann|"

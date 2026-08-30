@@ -603,7 +603,7 @@ def material(folder):
     """Two cameras, six seconds each, one channel of sound apiece.
 
     One channel on purpose: two uncorrelated channels would be cut into
-    two tracks, which is camera_channels_test.py's subject, not this one's.
+    two tracks, which is sound_camera_judged_too_test.py's subject, not this one's.
     """
     for name, hz in zip(CAMERAS, (300, 700)):
         subprocess.run(

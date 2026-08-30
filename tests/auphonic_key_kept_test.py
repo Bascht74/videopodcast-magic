@@ -77,7 +77,7 @@ NEVER = STEM + uuid.uuid4().hex[:12]
 # Values that could not be mistaken for a key, by anybody, at any point.
 TAG = uuid.uuid4().hex[:8]
 PLAIN = "not-a-key-" + TAG
-# Written as escapes: german_hunt_test.py holds every test in this
+# Written as escapes: text_no_german_left_test.py holds every test in this
 # folder to English letters, and these are material, not words.
 UMLAUTS = ("not-a-key-" + "\u00e4\u00f6\u00fc"
            + "-\u00c4\u00d6\u00dc-\u00df-" + TAG)

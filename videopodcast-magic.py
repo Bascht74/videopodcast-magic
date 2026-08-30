@@ -5127,23 +5127,42 @@ def wide_settings_grey(parts, tick, note, there, quiet):
     note.setVisible(not there)
 
 
-def wide_cameras_of(files, kinds, remembered, taken):
+def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
     """The wide shots among these files, and whether anybody said so.
 
     *files* are the window's (path, kind) pairs, *kinds* the
     {path: Value} it holds, *remembered* the fallback for a file no
-    table has built a value for yet. Returns (file names, marked).
+    table has built a value for yet. *placeless* are the absolute paths
+    the measurement placed nowhere: they are left out of the
+    derivation, because a file that sits on no time axis cannot be the
+    camera the cut falls back on. A mark stands all the same -- that is
+    an answer, and answers are not derived over.
+
+    Returns (file names, marked).
     """
     videos = sorted([p for p, a in files if a == "video"],
                     key=lambda x: os.path.basename(x).lower())
+    lost = set(placeless or ())
 
     def kind_of(path):
         return (kinds[path].get() if path in kinds
                 else remembered.get("kind:" + path) or TYPE_CONTENT)
 
+    def a_camera(path):
+        """A camera the derivation may take: one with a place on the axis.
+
+        A mark comes through either way, and not only because an answer
+        stands: dropped here it would fall out of the marked list too,
+        and the caller would say a wide shot was marked while handing
+        back a derived one.
+        """
+        kind = kind_of(path)
+        return kind in CAMERA_TYPES and (
+            kind == TYPE_WIDE or os.path.abspath(path) not in lost)
+
     marked = [os.path.basename(p) for p in videos if kind_of(p) == TYPE_WIDE]
     return (wide_shots_of([os.path.basename(p) for p in videos
-                           if kind_of(p) in CAMERA_TYPES], taken, marked),
+                           if a_camera(p)], taken, marked),
             bool(marked))
 
 
@@ -10944,9 +10963,14 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
                                 else T('Main10 rejected -- the default stays')))
     if tag_pairs:
         if "ColorSpaceTag" in accepted:
-            print("    %-22s %s / %s  (%s)"
+            # The reason names the HDR curve the project outputs, so it
+            # belongs to the HDR tags alone. An SDR delivery has none:
+            # beside Rec.709 the setting would explain a curve that was
+            # not applied, and empty brackets read as a failed lookup.
+            print("    %-22s %s / %s%s"
                   % (T('Tagging'), accepted["ColorSpaceTag"],
-                     accepted["GammaTag"], kind_reason))
+                     accepted["GammaTag"],
+                     "  (%s)" % kind_reason if hdr and kind_reason else ""))
         else:
             print(T('    %-22s rejected -- no spelling was accepted.\n%sSet '
                     'by hand in Resolve under Deliver > '
@@ -14043,14 +14067,14 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     instead of an invented one.
 
     Returns (result, text). The result is {} or
-    {"axis", "absolute", "weak", "unplaceable", "brief"}.
+    {"axis", "absolute", "weak", "unplaceable", "brief", "no_place"}.
 
-    "weak" and "unplaceable" are not the same list. Weak is a file
-    that fits badly; unplaceable is one that has no place at all --
-    under the floor, and with no timecode to fall back on. The second
-    is a subset of the first, and only it is worth proposing to leave
-    a file out over. "brief" are the weak ones that are far shorter
-    than the material around them, shortest first.
+    Four lists, narrowing. "weak" is a file that fits badly. "no_place"
+    are the weak ones no timecode places either -- those sit nowhere,
+    and that is what bars the wide shot. "unplaceable" is narrower
+    still: under the floor as well, which is what a file has to be
+    before it is proposed for leaving out. "brief" are the ones with
+    no place that are far shorter than the material around them.
     """
     # Every file at once: each envelope is read and computed on its
     # own, and over hours of 4K this is the longest part of the
@@ -14097,17 +14121,17 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     # it is a jingle rather than a camera. A clock that places it beats
     # the sound here as everywhere. The lengths are here anyway: an
     # envelope holds one value every HOP milliseconds.
+    nowhere = files_with_no_place(weak, clocks)
     brief = files_far_shorter(
-        [p for p in weak
-         if not timecode_places_it(clocks.get(p),
-                                   [t for q, t in clocks.items() if q != p])],
+        nowhere,
         dict((p, len(e) * HOP / 1000.0) for p, e in envelopes.items()))
     if len(axis) < 2:
         # No axis, but the measurement did happen and knows which files
         # it could not place. Thrown away here, the one file that fits
         # nothing would come out of a two-file production unmarked.
         return ({"axis": {}, "absolute": False, "weak": weak,
-                 "unplaceable": lost, "brief": brief},
+                 "unplaceable": lost, "brief": brief,
+                 "no_place": nowhere},
                 T('time axis not measurable'))
     origin = min(axis.values())
     for p in axis:
@@ -14126,7 +14150,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         text += TN(len(weak), ', %d file does not fit',
                    ', %d files do not fit') % len(weak)
     return {"axis": axis, "absolute": absolute, "weak": weak,
-            "unplaceable": lost, "brief": brief}, text
+            "unplaceable": lost, "brief": brief,
+            "no_place": nowhere}, text
 
 
 def file_fingerprint(file_path):
@@ -15975,6 +16000,20 @@ def timecode_places_it(own, others):
     if it had none.
     """
     return own is not None and any(t is not None for t in others)
+
+
+def files_with_no_place(weak, clocks):
+    """Which of the badly fitting files no clock places either.
+
+    The one reading of "it fits nowhere": the intro proposal and the
+    bar on the wide shot both ask here. Weak alone is not it -- a
+    camera whose sound says nothing is still placed by its timecode --
+    and below the floor is not it either, because that is measured
+    against nothing at all and a jingle lands above it.
+    """
+    return [p for p in weak
+            if not timecode_places_it(
+                clocks.get(p), [t for q, t in clocks.items() if q != p])]
 
 
 def cannot_be_placed(st, own_tc, other_tcs):
@@ -20638,10 +20677,13 @@ def choice_cell(values, chosen, why="", quiet="", alive=False):
 def choices_shut(box, shut, why, quiet):
     """Grey out the entries of a drop-down that cannot be chosen.
 
-    *shut* are the stored values that are barred, *why* says why. The
-    entries stay in the list: taking them out would leave somebody
-    wondering where the camera went, and the answer to "why can I not
-    pick this" has to stand where the question is asked.
+    *shut* are the stored values that are barred, *why* says why. Where
+    two entries are barred for different reasons, *shut* is a
+    {value: why} instead and each carries its own; one sentence over
+    both would explain neither. The entries stay in the list: taking
+    them out would leave somebody wondering where the camera went, and
+    the answer to "why can I not pick this" has to stand where the
+    question is asked.
 
     Every entry is set either way round, not only the barred ones. A
     function that can shut but not open again would leave a camera
@@ -20655,16 +20697,19 @@ def choices_shut(box, shut, why, quiet):
     from PySide6 import QtGui as _qg
     from PySide6.QtCore import Qt as _qt
     model = box.model()
-    shut = set(shut or ())
+    reasons = (dict(shut) if isinstance(shut, dict)
+               else dict((value, why) for value in (shut or ())))
     for i in range(box.count()):
-        barred = box.itemData(i) in shut
+        value = box.itemData(i)
+        barred = value in reasons
         try:
             model.item(i).setEnabled(not barred)
         except AttributeError:
             return box
         box.setItemData(i, _qg.QBrush(_qg.QColor(quiet)) if barred else None,
                         _qt.ForegroundRole)
-        box.setItemData(i, why if barred else "", _qt.ToolTipRole)
+        box.setItemData(i, reasons[value] if barred else "",
+                        _qt.ToolTipRole)
     return box
 
 
@@ -20826,7 +20871,29 @@ def chain_fill_in(group, row, discarded, selected,
     return node
 
 
-def clip_kind_cell(short, kind, why="", quiet="", derived=False):
+def wide_shot_barred(path, value, placeless):
+    """Why this file cannot be the wide shot, or "" where it can be one.
+
+    The wide shot is the camera that runs through and steps in wherever
+    no other one fits. A file that sits nowhere on the time axis cannot
+    do that, so the entry is barred rather than offered.
+
+    *placeless* are the absolute paths the measurement placed nowhere;
+    empty or None means no measurement has said so and nothing is
+    barred. A Kind somebody picked is left alone, the same rule the
+    proposal follows.
+    """
+    if not placeless or getattr(value, "chosen_by_hand", False):
+        return ""
+    if os.path.abspath(path) not in set(placeless):
+        return ""
+    return T('It fits nowhere in the material: no timecode, and its '
+             'sound has nothing in common with the rest. The wide shot '
+             'is what the cut falls back on, so it has to lie on the '
+             'time axis.')
+
+
+def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
     """The Kind field of one video file: what this file is.
 
     It stands with the material and not in the assignment table:
@@ -20850,9 +20917,18 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False):
     field itself stands in black, the way a field somebody answered
     does: grey over the whole box read as "nothing to be done here",
     which is the opposite of what it is.
+
+    *no_wide* bars the wide shot the same way and says so on that
+    entry: a file that sits nowhere on the time axis is no camera the
+    cut can fall back on.
     """
     cell, box = choice_cell(CLIP_TYPES, kind, "", quiet, alive=True)
-    choices_shut(box, [TYPE_CONTENT] if derived else [], why, quiet)
+    barred = {}
+    if derived:
+        barred[TYPE_CONTENT] = why
+    if no_wide:
+        barred[TYPE_WIDE] = no_wide
+    choices_shut(box, barred, why, quiet)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
                 'camera nobody sits in front of -- it takes no '
@@ -26701,7 +26777,9 @@ def gui():
         shown, why_kind, derived = kind_on_show(
             kind.get(), short, *wide_cameras_now())
         cell, box = clip_kind_cell(short, shown, why_kind,
-                                   COLOURS["quiet"], derived)
+                                   COLOURS["quiet"], derived,
+                                   wide_shot_barred(path, kind,
+                                                    state.get("no_place")))
         clip_kind_bind(box, kind, after=lambda p=path: kind_answered(p))
         items.setItemWidget(node, 3, cell)
         used, why = audio_use_settled(path, chosen, forced,
@@ -27870,6 +27948,8 @@ def gui():
         state["axis_absolute"] = bool((data or {}).get("absolute"))
         state["weak"] = set(os.path.abspath(p)
                                  for p in ((data or {}).get("weak") or []))
+        state["no_place"] = set(os.path.abspath(p)
+                                for p in ((data or {}).get("no_place") or []))
         if axis and remember:
             axis_store(axis)
         show_weak()
@@ -27878,6 +27958,13 @@ def gui():
         # A proposal, so it stops at anything answered.
         for p in kind_proposal_say(state.get("clip_kinds") or {}, data):
             kind_answered(p)
+        # And the Kind fields are said again even where no proposal
+        # moved one: which files sit nowhere is known only now, and it
+        # is what bars the wide shot on them.
+        if state.get("kinds_refresh"):
+            state["kinds_refresh"]()
+        else:
+            video_kinds_again(video_kind_again)
         axis_label.setText(text)
         axis_label.setStyleSheet("color: %s" % (COLOURS["good"] if axis
                                                  else COLOURS["warning"]))
@@ -28409,7 +28496,8 @@ def gui():
         return wide_cameras_of(files, clip_kind_values, remembered,
                                cameras_with_a_speaker(
                                    assign_lines, voice_lines,
-                                   state.get("voiced") or ()))
+                                   state.get("voiced") or ()),
+                               state.get("no_place") or ())
 
     state["wide_cameras_now"] = wide_cameras_now
 
@@ -29051,8 +29139,10 @@ def gui():
                     value = clip_kind_value(path)
                     show, why, derived = kind_on_show(value.get(), name,
                                                       fresh, marked)
-                    box_cell, box = clip_kind_cell(name, show, why,
-                                                   COLOURS["quiet"], derived)
+                    box_cell, box = clip_kind_cell(
+                        name, show, why, COLOURS["quiet"], derived,
+                        wide_shot_barred(path, value,
+                                         state.get("no_place")))
                     clip_kind_bind(box, value,
                                    after=lambda q=path: kind_answered(q))
                     table_video.setCellWidget(i, 3, box_cell)
@@ -29069,7 +29159,8 @@ def gui():
             shown, why_kind, derived = kind_on_show(
                 clip_kind.get(), short, wides, said)
             kind_cell, kind_box = clip_kind_cell(
-                short, shown, why_kind, COLOURS["quiet"], derived)
+                short, shown, why_kind, COLOURS["quiet"], derived,
+                wide_shot_barred(b, clip_kind, state.get("no_place")))
             clip_kind_bind(kind_box, clip_kind,
                            after=lambda p=b: kind_answered(p))
             table_video.setCellWidget(row, 3, kind_cell)
@@ -33636,6 +33727,12 @@ CATALOGUE["de"] = {
         'vorsichtiger, je weniger die Mikrofone getrennt sind. Für das '
         'nächste Mal: zum Nachbarmikrofon dreimal so weit wie zum eigenen '
         'Mund, dann liegt die Nachbarstimme rund %.1f dB tiefer.',
+    'It fits nowhere in the material: no timecode, and its sound has '
+    'nothing in common with the rest. The wide shot is what the cut '
+    'falls back on, so it has to lie on the time axis.':
+        'Sie passt nirgends ins Material: kein Timecode, und ihr Ton hat '
+        'mit dem Rest nichts gemeinsam. Auf die Totale fällt der Schnitt '
+        'zurück, also muss sie auf der Zeitachse liegen.',
     'It is in the logs atom of the picture description -- that is how '
     'Resolve recognises the input colour space. Different curves mean '
     'different input colour spaces.':

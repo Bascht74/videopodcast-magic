@@ -34,7 +34,7 @@ for key in TURNED_AWAY:
     check("turned away: %r" % key, bool(vpm.key_complaint(key)))
 # Any length and any character set gets through: what a real key looks
 # like is written down nowhere. The last one carries a letter outside
-# ASCII, written as an escape because german_hunt_test.py hunts for
+# ASCII, written as an escape because text_no_german_left_test.py hunts for
 # German letters in the test files.
 LET_THROUGH = ["a", "abcdef", "x" * 200, "AbC-123_xyz", "0123456789",
                "schl\u00fcssel-1234"]

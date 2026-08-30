@@ -9,7 +9,7 @@ build step.
 
 `README.md` is the short version. `docs/` holds the manual: one file per
 chapter, English as `docs/name.md` and German as `docs/name.de.md`.
-Changing a chapter means changing both, or `german_hunt_test.py` turns
+Changing a chapter means changing both, or `text_no_german_left_test.py` turns
 red. The test checks that every chapter has both languages and that no
 German word stands in an English one.
 
@@ -22,7 +22,7 @@ VPM_PYTHON=/usr/bin/python3 bash run.sh    # a different interpreter
 ```
 
 A test is green when it returns 0 and prints neither a traceback nor
-`FAIL`. `style_test.py`, `language_test.py` and `consistency_test.py`
+`FAIL`. `source_limits_hold_test.py`, `text_only_texts_change_test.py` and `source_no_loose_ends_test.py`
 are ratchets: their counts may fall, never rise. Do not delete
 `tests/state/`.
 
@@ -34,7 +34,7 @@ cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
 
-## What a release is
+## What a text_release_ready is
 
 A version is not a tag. Five things belong to it, and the tag comes
 last:
@@ -44,12 +44,12 @@ last:
    than no tag.
 2. **`CHANGELOG.md` says what changed**, in the groups Keep a Changelog
    wants and in their order -- Added, Changed, Removed, Fixed, Tests,
-   Documentation. The release notes are cut from that section.
+   Documentation. The text_release_ready notes are cut from that section.
 
    **Written for somebody who was not there.** Every version says
    everything twice: the English part first, then a line reading
-   `**Deutsch**`, then the same in German. Both go on the release page,
-   where anybody can jump to their language; the program shows only the
+   `**Deutsch**`, then the same in German. Both go on the text_release_ready page,
+   where anybody can jump to their text_only_texts_change; the program shows only the
    one it is running in.
 
    A point has to say three things to a stranger: what the thing is,
@@ -82,7 +82,7 @@ last:
    **What does not go in at all**, from Sebastian's reading of a draft
    on 30.8.2026:
 
-   * **Editorial tidying.** A word changed in the interface for its own
+   * **Editorial tidying.** A word changed in the window_all_come_up for its own
      sake is not something anybody has to read about. His example, and
      it was struck out: *"The German texts say Version where they said
      Fassung."*
@@ -94,15 +94,15 @@ last:
    **Under Fixed, half a point is not a point.** Both of the ones he
    struck said what had been wrong and stopped there. A reader needs
    the second half -- what happens now -- and in German it is usually
-   the word "jetzt" that carries it. `release_test.py` checks for it.
+   the word "jetzt" that carries it. `text_release_ready_test.py` checks for it.
 
-   `release_test.py` checks what a machine can: that both halves are
+   `text_release_ready_test.py` checks what a machine can: that both halves are
    there, that they hold the same number of points, that neither is
-   written in the other's language, and that no point stands out by its
+   written in the other's text_only_texts_change, and that no point stands out by its
    length. The last one measures against the middle of the section
    itself -- half again as long as that, with a floor -- rather than
    against a number written down, because a number goes stale the
-   moment the style moves and the middle of what was just written does
+   moment the source_limits_hold moves and the middle of what was just written does
    not.
 3. **The manual is true again.** Anything a person can see or feel is a
    chapter, in both languages. A default that moved, a new answer in a
@@ -121,14 +121,14 @@ last:
    turned up five faults that 118 green tests had passed over, one of
    them a function the merge had silently removed.
 4. **The pictures show the program as it is now.** `docs/notes/` says
-   how they are taken. Not every release moves them; a release that
-   changed the window does.
+   how they are taken. Not every text_release_ready moves them; a text_release_ready that
+   changed the time_length_is_in_to_out does.
 5. **The list and the issue are brought up to date** -- `docs/notes/`
    for what is open, and the roadmap issue for whoever reads from
    outside.
 
 Sebastian asked for this to be written down on 31.8.2026, after the
-fourth release in two days where the manual and the list were caught up
+fourth text_release_ready in two days where the manual and the list were caught up
 afterwards rather than as part of the work.
 
 **Every workflow says what it is, in the same shape every time.** GitHub
@@ -138,7 +138,7 @@ found in it. Each workflow carries a `run-name:` of its own -- what it
 is, and the number the list is ordered by. A new workflow without one is
 not finished.
 
-**Before every release, fetch the builder's times and look at them.**
+**Before every text_release_ready, fetch the builder's times and look at them.**
 
 ```bash
 cd tests && bash builder_times.sh      # the newest green run on main
@@ -147,7 +147,7 @@ cd tests && bash builder_times.sh      # the newest green run on main
 The suite runs the long tests first so nobody waits, and it takes the
 order from `tests/state/longest`. This Mac must not decide that order:
 it has cores to spare and finishes in half a minute, while the builder
-takes two to four minutes, and the two disagree badly. `crosstalk` was
+takes two to four minutes, and the two disagree badly. `sound_bleed_reported` was
 four seconds here and 118 on the builder -- thirtieth in the queue, and
 the longest test there was.
 
@@ -187,7 +187,7 @@ somebody asked for it.
 **English in the source, German from the catalogue.** Every user-visible
 string goes through `T()`; the German lives in `CATALOGUE["de"]` at the
 end of the file. Changing a string means changing both sides, or
-`german_hunt_test.py` turns red.
+`text_no_german_left_test.py` turns red.
 
 **Measure, do not guess.** If a number is needed, it gets measured. What
 was measured goes into the log. Third-party names are asked for at run
@@ -214,8 +214,8 @@ sentence that has to be written does not.
 The second strand reads that file now and lays down its changes as
 verbatim old-text/new-text pairs -- never line numbers, which the first
 strand invalidates as it works -- and they are applied the moment the
-file comes free. Every pair has to match exactly once in the file as it
-stands; a pair that matches twice or not at all is thrown away, not
+file comes free. Every cut_both_are_shown has to match exactly once in the file as it
+stands; a cut_both_are_shown that matches twice or not at all is thrown away, not
 guessed at. What must not happen is two strands editing one file and
 their work being merged by hand afterwards.
 

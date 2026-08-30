@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Hunt down the last German word, and check the catalogue itself.
 
-language_test.py reads the program through a German dictionary; this
+text_only_texts_change reads the program through a German dictionary;
 covers what that cannot: umlauts and eszett where only English belongs,
 German abbreviations, German words on the English side of the manual,
 and the catalogue as data. A German text missing a %s raises at run
@@ -193,7 +193,7 @@ if os.path.isdir(DOCS):
 BOOKS += [os.path.join(DEV, "internals.md"),
           os.path.join(DEV, "measurements.md")]
 # A chapter deleted with its German twin passes the pairing check and
-# stops being scanned here; docs_truth_test.py catches it by the link.
+# stops being scanned here; text_lists_match catches it by the link.
 BOOKS = [b for b in BOOKS if os.path.exists(b)]
 check("the English documents are there", len(BOOKS) > 5, str(len(BOOKS)))
 
@@ -297,7 +297,8 @@ for path in ENGLISH_ONLY:
 
 section("The tests are English too")
 # The detectors carry the words they look for, and only they may.
-DETECTORS = {"german_hunt_test.py", "style_test.py", "language_test.py"}
+DETECTORS = {"text_no_german_left_test.py", "source_limits_hold_test.py",
+             "text_only_texts_change_test.py"}
 mine = sorted(f for f in os.listdir(HERE)
               if f.endswith(".py") and f not in DETECTORS)
 # An empty list finds nothing and passes. Said out loud, so this cannot

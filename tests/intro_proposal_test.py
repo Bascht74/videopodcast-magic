@@ -6,13 +6,14 @@ it was. That is right for a camera whose microphone heard nothing of the
 room, and wrong for a jingle: a jingle fits nothing because it is not a
 camera, and it is meant to be used -- set at the front rather than
 measured. The two are told apart by length, against the middle of the
-material around them.
+material around them, and both stand in the list of files with no
+place, which is what everything else asks.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, subprocess, sys, wave
+import importlib.util, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -22,13 +23,17 @@ vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 #------------------------------------------------------------- Material
@@ -107,12 +112,18 @@ def short(row):
     return sorted(os.path.basename(p) for p in (row or []))
 
 
-print("   weak: %s   unplaceable: %s   brief: %s"
-      % (short(data.get("weak")), short(data.get("unplaceable")),
-         short(data.get("brief"))))
+print("   weak: %s   no place: %s   unplaceable: %s   brief: %s"
+      % (short(data.get("weak")), short(data.get("no_place")),
+         short(data.get("unplaceable")), short(data.get("brief"))))
 check("both files that fit nothing are named",
       short(data.get("weak")) == ["Dead.mov", "Jingle.mov"],
       str(short(data.get("weak"))))
+# The jingle is weak and not unplaceable: 0.068 against a floor of
+# 0.05. So the list that bars the wide shot has to be this one, and a
+# bar hung on "unplaceable" would let a jingle be the wide shot.
+check("and both of them sit nowhere any clock could place them",
+      short(data.get("no_place")) == ["Dead.mov", "Jingle.mov"],
+      str(short(data.get("no_place"))))
 check("only the long one has no place at all",
       short(data.get("unplaceable")) == ["Dead.mov"],
       str(short(data.get("unplaceable"))))
@@ -209,6 +220,6 @@ check("the window goes through the proposal and not past it",
       "kind_proposal_say(state.get(\"clip_kinds\")" in source
       and source.count("def kind_proposal_apply") == 1)
 
-print("\n%s" % ("All good." if not error
-                else "FAIL: %s" % ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "All good.")
 sys.exit(1 if error else 0)

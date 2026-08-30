@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """What the window is told is what the calculation gets.
 
-handover_test.py checks the arithmetic on a dictionary it builds
+project_handover_built_test.py checks the arithmetic on a dictionary it builds
 itself; the wiring in front of it, where the window reads its own
 fields and hands the answers over, is what nobody watched. So both
 functions are wrapped and the window is driven from the outside: an

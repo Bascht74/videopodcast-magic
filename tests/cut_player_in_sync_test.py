@@ -73,7 +73,7 @@ purpose, and the checks on it are what hold that arrangement in place.
 Where this check stops: the timecode of a file is the ground it
 stands on, so a timecode read wrongly in the first place would move
 all three roads together and go unseen here. That question belongs to
-one_moment_test.py, which holds one moment against nine ways of
+time_all_ways_agree_test.py, which holds one moment against nine ways of
 reaching a picture.
 """
 import os

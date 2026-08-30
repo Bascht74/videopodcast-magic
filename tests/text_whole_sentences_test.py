@@ -150,7 +150,7 @@ print("\n2. No translated piece carrying an article put into a sentence")
 # The words German decides a case with. A piece beginning with one has
 # settled its own case before it knows the slot it goes into. Three are
 # spelled with escapes so this file stays free of German letters --
-# german_hunt_test.py checks the tests for that.
+# text_no_german_left_test.py checks the tests for that.
 GOVERNING = [
     "der", "die", "das", "den", "dem", "des",
     "ein", "eine", "einen", "einem", "eines", "einer",
