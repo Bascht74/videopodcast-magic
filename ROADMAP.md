@@ -39,7 +39,7 @@ program uploads only when somebody asks it to.
 It is one Python file of about 35000 lines, with no package and no
 build step. Python 3.10 or newer has to be there, and the two packages
 it needs it installs itself. macOS and Windows are what it is used on,
-and Linux works with two limits. A suite of 146 tests runs at every
+and Linux works with two limits. A suite of 148 tests runs at every
 push: six runs side by side, three systems and two versions of Python,
 and the slowest of them is done in under five minutes.
 
@@ -51,7 +51,7 @@ the major number.
 
 ## What comes next
 
-One item stands here, and it waits on a run rather than on work.
+Three items stand here, and each waits on a run rather than on work.
 
 **The two ways to auphonic.com get run against the service.**
 Transcription of a single track, and a multitrack production carrying
@@ -59,6 +59,18 @@ one stereo track, are both built and neither has been sent for real.
 Whether the service hands a stereo track back with both channels is
 open. Until it has run, the manual describes those two ways from the
 source instead of from a run.
+
+**The reaction cut is watched before it stays on.** It fires a few
+dozen times in an episode and it is on by default, and nobody has yet
+sat through every place it fires. Two cases it must not fire on are
+known: a rhetorical question, and the technical talk before the
+recording proper, where people look at equipment rather than at each
+other.
+
+**The opening title is checked in a real Resolve project.** The program
+puts it on the second video track and reads back how many clips landed
+there. A stand-in stands in for Resolve in the tests, so only a real
+project can confirm it.
 
 ## What comes later
 
@@ -68,26 +80,17 @@ Coarser, and in no fixed order.
   reference edit rather than from a measurement. `--wide-latest` is
   the clearest case. Each of them gets measured or gets smaller.
 
-* **The reaction cut is watched before it stays on.** It fires a few
-  dozen times in an episode and it is on by default, and nobody has
-  yet sat through every place it fires. Two cases it must not fire on
-  are known: a rhetorical question, and the technical talk before the
-  recording proper, where people look at equipment rather than at each
-  other.
-
-* **The opening title is checked in a real Resolve project.** The
-  program puts it on the second video track and reads back how many
-  clips landed there. A stand-in stands in for Resolve in the tests,
-  so only a real project can confirm it.
-
-* **The edges of the program get tests.** Measured coverage is 71 per
-  cent of the statements. The separation, the self-update and a run
-  without auphonic.com are walked through now; what no test enters are
-  the two functions that assemble a whole production with
-  auphonic.com in it, the first upload of a new production, half of
-  the single-file path, and the way back after an update that went
-  wrong. Coverage gets measured now and then and never becomes a
-  target.
+* **The edges of the program get tests.** What the coverage is, a run
+  says: coverage.py over `bash run.sh`, with `COVERAGE_PROCESS_START`
+  set so the runs the tests start are counted too. On a green run it
+  stands at about three quarters of the statements; it is read as a
+  band, and never as a target. What no test enters: the run that takes
+  its sound from the cameras, the failure exits of `main()`, the file
+  the Auphonic key is written into, the preset preflight, a Resolve
+  that refuses, the dialogs behind the menu, and the way back after an
+  update that went wrong. And several switches are taken with nothing
+  checking what they do -- `--apart` is joined back together one step
+  later, and no test notices.
 
 * **The manual gets what it still lacks.** About a dozen numbers still
   stand without their default and the direction they pull in. And a
@@ -146,7 +149,7 @@ been refused, it has only not come up yet.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** All four want
   a package with a `pyproject.toml`. Here they would be four new
-  dependencies for one file whose 146 tests run as plain scripts. A
+  dependencies for one file whose 148 tests run as plain scripts. A
   thin pytest layer that starts those same scripts unchanged is a
   different thing, and that one may come.
 
