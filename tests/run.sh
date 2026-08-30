@@ -142,6 +142,13 @@ OUT=$(mktemp -d "${TMPDIR:-/tmp}/suite_XXXXXX")
 STARTS="$RUN_TEMP/starts"
 mkdir -p "$STARTS"
 export STARTS
+# One file per test again, holding the number of judgements it printed.
+# The summary reads them back and carries state/checks forward, and a
+# worker cannot hand a number up any other way: it runs in a shell of
+# its own.
+COUNTS="$RUN_TEMP/counts"
+mkdir -p "$COUNTS"
+export COUNTS
 export TMPDIR="$RUN_TEMP"
 clean_up() {
   if [ -n "$KEEP_TEMP" ]; then
@@ -164,7 +171,12 @@ TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 # Named on the command line: only those, through the same machinery --
 # the same retry, the same report, the same progress line. One red test
 # is looked at on its own far more often than all of them are.
-[ $# -gt 0 ] && TESTS="$*"
+# WHOLE says whether this run saw the whole folder. A baseline may only
+# be set by one that did: a run of three tests that wrote state/checks
+# would leave the file no longer empty, and every test it never saw
+# would then be red for never having been counted.
+WHOLE=1
+[ $# -gt 0 ] && { TESTS="$*"; WHOLE=0; }
 
 # The long ones first. xargs hands the list out in the order it is
 # given, so a slow test named late in the alphabet starts last and its
@@ -196,6 +208,52 @@ if [ -z "$TESTS" ]; then
   echo "no tests found in $HERE" >&2
   exit 2
 fi
+
+# What each test judged when it last ran. Every test ends on a line of
+# its own -- "21 checks in 0.05 s" -- and until now nobody read it: a
+# test whose checking part dies without throwing prints "0 checks in
+# 2.74 s", then "All good.", and leaves green, and that line was the
+# only thing in the whole run saying nothing had been checked. Held to a
+# floor here, per test, so it is the run that notices and not a person
+# reading.
+#
+# Both kinds of row go into one string apiece rather than being looked
+# up in the file 146 times over. The lookup in run_one is then a shell
+# expansion and costs no process at all, which is what a step taken once
+# per test can afford.
+CHECKS="$HERE/state/checks"
+FLOORS="|"
+SILENT="|"
+# Asked after before it is read. A redirection that cannot be opened is
+# the shell's own complaint, not the loop's, so a 2>/dev/null on the
+# loop never silences it -- and a missing state file would print a line
+# that looks like a fault in the suite.
+if [ -f "$CHECKS" ]; then
+  while read -r what which rest; do
+    case "$what" in ""|"#"*) continue ;; esac
+    if [ "$what" = silent ]; then
+      SILENT="$SILENT$which|"
+    else
+      FLOORS="$FLOORS$what=$which|"
+    fi
+  done < "$CHECKS"
+fi
+# Nothing to hold anything to. Said out loud and then measured, the way
+# ratchet.py answers a state file that is not there: a run that silently
+# held nothing would look exactly like a run that held everything.
+CHECKS_FRESH=0
+if [ "$FLOORS$SILENT" = "||" ]; then
+  CHECKS_FRESH=1
+  if [ "$WHOLE" = 1 ]; then
+    echo "NOTE: state/checks holds no floors yet. They are being taken"
+    echo "      from this run, and no test is held to a count in it."
+  else
+    echo "NOTE: state/checks holds no floors yet, and this run is only"
+    echo "      part of the folder. Nothing is held and nothing written."
+    echo "      One run of the whole suite sets them."
+  fi
+fi
+export CHECKS FLOORS SILENT CHECKS_FRESH
 
 crash_block() {
   # Everything from where the ground gave way to the end of the output.
@@ -240,6 +298,44 @@ run_one() {
     fell_count=$((fell_count + 1))
     try=$((try + 1))
   done
+  # How many judgements the test says it reached. The last such line it
+  # printed: three tests have a short way out that prints the same
+  # closing line early, and every one of those ways ends in FAIL anyway.
+  judged=$(printf '%s\n' "$out" \
+    | awk '/^[0-9]+ checks in /{ n = $1 } END { if (n != "") print n }')
+  printf '%s\n' "$judged" > "$COUNTS/$t"
+  floor=""
+  case "$FLOORS" in
+    *"|$t="*) floor=${FLOORS#*"|$t="}; floor=${floor%%|*} ;;
+  esac
+  # Only asked of a test that claims to have run. Red is red already,
+  # and a test that printed SKIPPED: is not counted green anyway -- it
+  # has named the piece it could not do, and fewer judgements follow
+  # from that rather than from anything being wrong.
+  if [ "$rc" -eq 0 ] \
+     && ! printf '%s\n' "$out" | grep -qE "^Traceback|FAIL|^SKIPPED:"; then
+    short=""
+    if [ -n "$floor" ] && [ -z "$judged" ]; then
+      short="FAIL the test got as far as its closing line -- it printed no count of judgements, where $floor were counted last time"
+    elif [ -n "$floor" ] && [ "$judged" -eq 0 ]; then
+      short="FAIL the test judged anything at all -- 0 judgements against $floor last time"
+    elif [ -n "$floor" ] && [ "$judged" -lt "$floor" ] \
+         && ! printf '%s\n' "$out" | grep -qE '^ *(LEFT OUT|Left out)'; then
+      short="FAIL the test reached all of its judgements -- $judged against $floor last time, and it left no piece out"
+    elif [ -z "$floor" ] && [ -z "$judged" ] && [ "$CHECKS_FRESH" != 1 ]; then
+      case "$SILENT" in
+        *"|$t|"*) ;;
+        *) short="FAIL the test says how much it judged -- it printed no count, and state/checks holds neither a floor nor a silent row for it" ;;
+      esac
+    fi
+    # Written into the test's own output rather than kept beside it, so
+    # everything below -- the verdict, the ranking that puts a summing-up
+    # line first, the retry alone -- treats it as the test's own FAIL.
+    if [ -n "$short" ]; then
+      out="$out
+$short"
+    fi
+  fi
   # A failure beats a skip, always. Both can be true in one run: a test
   # leaves out the part this machine cannot do and falls over the rest.
   # Asking after the skip first makes such a test read "skipped", with
@@ -450,6 +546,90 @@ elif [ $past -lt "$SKIPS_ALLOWED" ]; then
        "number comes down when every machine reports $past"
 else
   echo "skips: $past of at most $SKIPS_ALLOWED allowed"
+fi
+# state/checks carried forward. The count of judgements rises with every
+# check anybody adds, so a floor kept by hand would be behind within the
+# day and then be raised in a hurry, which is how a floor stops meaning
+# anything. A green test that judged more than its floor writes the new
+# number down itself.
+#
+# Upwards only, and only out of a test that came back green. A count
+# that fell is red above, and a red test's number is never written back,
+# so a floor cannot come down except through somebody's edit -- where a
+# diff shows it, and the test is named beside the number.
+counting=0
+nocount=0
+raised=""
+census=""
+for t in $TESTS; do
+  judged=$(cat "$COUNTS/$t" 2> /dev/null)
+  if [ -z "$judged" ]; then
+    nocount=$((nocount + 1))
+    # The first run writes the census too. A floor of nought would be a
+    # lie about these: they report nothing, so nothing holds them, and
+    # that is what the row says. Only on the first run -- afterwards a
+    # test that stops counting is red rather than quietly enrolled.
+    # Whatever the verdict was: a test that is red today still reports
+    # no count, and leaving it out here would make it red tomorrow for
+    # a reason that has nothing to do with it.
+    [ "$CHECKS_FRESH" = 1 ] && census="$census $t"
+    continue
+  fi
+  case "$(head -1 "$OUT/$t")" in ok|partial) ;; *) continue ;; esac
+  counting=$((counting + 1))
+  floor=""
+  case "$FLOORS" in
+    *"|$t="*) floor=${FLOORS#*"|$t="}; floor=${floor%%|*} ;;
+  esac
+  if [ -z "$floor" ] || [ "$judged" -gt "$floor" ]; then
+    raised="$raised $t=$judged"
+  fi
+done
+# A baseline set by half a run is worse than none: see WHOLE above.
+if [ "$CHECKS_FRESH" = 1 ] && [ "$WHOLE" != 1 ]; then
+  raised=""
+  census=""
+fi
+# This net reaches as far as the tests that report a count, and no
+# further. The rest is a hole with a number written on it rather than a
+# hole nobody sees. Both numbers come out of this run and not out of the
+# file: a test that this very run promoted out of the census would
+# otherwise still be counted among the silent ones.
+echo "judgements: $counting tests reported a count and were held to it,"\
+     "$nocount report none (state/checks)"
+if [ -n "$raised$census" ] && "$PY" -c \
+     'import ratchet, sys; sys.exit(0 if ratchet.state_is_ours() else 1)' \
+     2> /dev/null; then
+  # The file as it stands, then this run's rows, then one row per test.
+  # Sorting alone is not enough: several suites run side by side here,
+  # and two of them writing the census at once wrote it twice over --
+  # 248 rows where there are 124 tests. So the rows are folded by name,
+  # which also makes writing the file twice change nothing the second
+  # time.
+  { grep '^#' "$CHECKS" 2> /dev/null
+    { grep -v '^#' "$CHECKS" 2> /dev/null
+      for r in $raised; do printf '%s\t%s\n' "${r%%=*}" "${r#*=}"; done
+      for t in $census; do printf 'silent\t%s\n' "$t"; done
+    } | awk -F'\t' '
+        NF < 2 { next }
+        $1 == "silent" { quiet[$2] = 1; next }
+        # Of two numbers for one test the larger stands. Two runs
+        # writing at once can then lose a raise, never a floor.
+        { if (!($1 in floor) || $2 + 0 > floor[$1] + 0) floor[$1] = $2 + 0 }
+        END {
+          # A test that reports a number is out of the census by that
+          # fact, wherever its rows stood in the file.
+          for (k in floor) printf "%s\t%d\n", k, floor[k]
+          for (k in quiet) if (!(k in floor)) printf "silent\t%s\n", k
+        }' | sort
+  # A name of its own, not a fixed one: several suites run side by side
+  # here, and two of them writing state/checks.new at once wrote into
+  # one file and lost the head of it. The move is what makes the change
+  # visible, and a move is one step.
+  } > "$CHECKS.$$" && mv "$CHECKS.$$" "$CHECKS"
+  [ -n "$raised" ] && echo "state/checks: raised --$raised"
+  [ -n "$census" ] && echo "state/checks: written from this run --"\
+    "$(echo $census | wc -w | tr -d ' ') tests report no count"
 fi
 # Nothing is written to state/longest here. What this machine takes
 # stands in the progress line above, which is where it is useful; the

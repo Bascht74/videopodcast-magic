@@ -1,0 +1,181 @@
+# How many judgements each test reached, and which tests say nothing.
+#
+# Every test ends on a line of its own -- "21 checks in 0.05 s". Until
+# this file existed nobody read it: a test whose checking part dies
+# without throwing prints "0 checks in 2.74 s", then "All good.", and
+# leaves green. run.sh holds the number here, per test.
+#
+# Two kinds of row, tab-separated, the same shape as state/counterproof:
+#
+#   <test>   <judgements>   the floor. Fewer than this and the test is
+#                           red, however green every judgement in it
+#                           was. It rises by itself: a green test that
+#                           judged more writes the new number down at
+#                           the end of the run. It comes down only
+#                           through somebody's edit, where a diff shows
+#                           it -- a count that fell is red, and a red
+#                           test's number is never written back.
+#
+#   silent   <test>         prints no count at all, so nothing here can
+#                           hold it. These are the census of what this
+#                           net does not cover, and the census may
+#                           shrink and never grow: a test that neither
+#                           counts nor stands here is red, so a new one
+#                           cannot join them quietly. A test that starts
+#                           printing a count moves out of the census by
+#                           itself, on its first green run.
+#
+# A test that says SKIPPED: or LEFT OUT is not held to its floor for
+# that run: it has named the piece it could not do, and fewer
+# judgements follow from that. Nought judgements is red even then.
+#
+# Written by run.sh, only from a run against the file this repository
+# ships -- a run under VPM_SCRIPT measures and writes nothing.
+auphonic_may_be_skipped	23
+auphonic_mono_not_stereo	7
+auphonic_none_chosen	4
+auphonic_preset_fits	5
+auphonic_run_delivers	72
+auphonic_speech_read	39
+auphonic_stays_quiet	30
+cut_right_camera	64
+files_curve_kept_once	12
+files_intro_proposed	21
+project_tag_reason_fits	8
+silent	auphonic_key_kept
+silent	cut_all_shots_land
+silent	cut_both_are_shown
+silent	cut_colour_per_camera
+silent	cut_jingle_over_start
+silent	cut_list_rebuilt
+silent	cut_offer_needs_two
+silent	cut_one_camera_marks
+silent	cut_opening_wide_holds
+silent	cut_player_in_sync
+silent	cut_player_jump_lands
+silent	cut_player_offset_used
+silent	cut_player_prepared_used
+silent	cut_player_right_file
+silent	cut_rules_hold
+silent	cut_wide_colour_apart
+silent	files_atom_travels
+silent	files_block_out_and_back
+silent	files_block_stays_apart
+silent	files_clock_links_blocks
+silent	files_colour_carried
+silent	files_foreign_untouched
+silent	files_hdr_complete
+silent	files_joined_by_hand
+silent	files_left_out_named
+silent	files_lengths_summed
+silent	files_named_by_folder
+silent	files_old_file_refused
+silent	files_order_kept
+silent	files_probed_once
+silent	files_project_first
+silent	files_project_offered
+silent	files_set_aside_skipped
+silent	files_split_found_again
+silent	project_cameras_land
+silent	project_each_track_set
+silent	project_every_offset
+silent	project_grades_stay_off
+silent	project_handover_built
+silent	project_hdr_follows
+silent	project_real_frame
+silent	project_render_kept
+silent	project_render_queued
+silent	project_rerun_updates
+silent	project_same_offset
+silent	project_settings_return
+silent	project_two_stay_two
+silent	project_two_timelines_go
+silent	run_bar_never_falls
+silent	run_bar_tracks_work
+silent	run_command_built
+silent	run_metrics_add_up
+silent	run_odd_clock_named
+silent	run_only_newer_offered
+silent	run_prework_listed
+silent	run_stays_local
+silent	run_switch_has_effect
+silent	run_threads_keep_order
+silent	run_which_script
+silent	sound_all_blocks_count
+silent	sound_any_count_judged
+silent	sound_bleed_reported
+silent	sound_both_sides_alike
+silent	sound_camera_counts
+silent	sound_camera_judged_too
+silent	sound_channels_split
+silent	sound_clipping_counted
+silent	sound_delay_decides
+silent	sound_each_gets_a_track
+silent	sound_hush_reason
+silent	sound_join_order
+silent	sound_loudest_block
+silent	sound_mix_hits_target
+silent	sound_one_pass_agrees
+silent	sound_silent_no_pair
+silent	sound_stereo_kept
+silent	sound_tracks_written
+silent	table_audio_asked_for
+silent	table_blocks_judged
+silent	table_notes_in_one_row
+silent	table_one_entry_greyed
+silent	table_recording_shown
+silent	table_row_per_channel
+silent	table_row_per_voice
+silent	table_stereo_splits
+silent	time_all_ways_agree
+silent	time_axis_measured
+silent	time_bad_point_dropped
+silent	time_camera_by_clock
+silent	time_drift_taken_out
+silent	time_fit_reports
+silent	time_guess_refused
+silent	time_length_is_in_to_out
+silent	time_offset_found
+silent	time_one_track_aligned
+silent	time_over_midnight
+silent	time_sound_stays_put
+silent	time_tracks_alone
+silent	time_tracks_sit_together
+silent	time_window_is_shared
+silent	time_zero_at_in_point
+silent	voice_answer_kept
+silent	voice_bleed_gone_first
+silent	voice_both_ways_agree
+silent	voice_every_word_placed
+silent	voice_mhm_is_speech
+silent	voice_names_when_sure
+silent	voice_questions_rank
+silent	voice_raw_times_kept
+silent	voice_source_travels
+silent	voice_split_hears_two
+silent	voice_turns_found
+silent	voice_words_intact
+silent	window_all_come_up
+silent	window_answers_arrive
+silent	window_captions_fit
+silent	window_cut_colours
+silent	window_grey_says_why
+silent	window_idle_bar_hidden
+silent	window_setup_kept_apart
+silent	window_stages_named
+silent	window_start_runs
+silent	window_zoom_stays_in
+source_checks_proved	10
+source_limits_hold	14
+source_no_loose_ends	9
+source_skills_resolve	5
+table_camera_proposed	16
+table_no_place_not_wide	23
+text_index_targets_exist	26
+text_lists_match	25
+text_no_german_left	49
+text_only_texts_change	76
+text_release_ready	31
+text_tests_listed	9
+text_whole_sentences	4
+time_axis_keys_agree	13

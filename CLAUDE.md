@@ -107,8 +107,9 @@ without running it.
 that has never been seen red is not known to check anything -- in one
 day seventeen were found that had been green for months while testing
 nothing. **No change to a test and no new test is finished until its
-entry is in `tests/state/counterproof`**, and `counterproof_test.py` is
-a ratchet over the tests still missing one. The skill `gegenbeweis` says
+entry is in `tests/state/counterproof`**, and
+`source_checks_proved_test.py` is a ratchet over the tests still missing
+one. The skill `gegenbeweis` says
 how it is done, including the question to ask when a counter-proof
 refuses to go red.
 

@@ -58,6 +58,10 @@ def build_material():
     write(FOREIGN, 0.3 * np.sin(2 * np.pi * 200 * tt))
 
 build_material()
+# The axis names its files the way path_key does: on a Mac that is the
+# path itself, on Windows the case and the separator are settled with
+# it, and a plain string would find nothing there.
+KA, KB, KC = vpm.path_key(A), vpm.path_key(B), vpm.path_key(C)
 # A, B and C start 0, 5 and 8 s in: whoever starts later sits further
 # along the common axis.
 print("1. Three recordings of the same event")
@@ -67,10 +71,10 @@ if d:
     a = d["axis"]
     print("   %s" % {k.rsplit("/", 1)[-1]: round(v, 2) for k, v in a.items()})
     check("all three in it", len(a) == 3)
-    check("B lies 5 s from A", abs(abs(a[B]-a[A]) - 5.0) < 0.2,
-            "%.2f" % abs(a[B]-a[A]))
-    check("C lies 8 s from A", abs(abs(a[C]-a[A]) - 8.0) < 0.2,
-            "%.2f" % abs(a[C]-a[A]))
+    check("B lies 5 s from A", abs(abs(a[KB]-a[KA]) - 5.0) < 0.2,
+            "%.2f" % abs(a[KB]-a[KA]))
+    check("C lies 8 s from A", abs(abs(a[KC]-a[KA]) - 8.0) < 0.2,
+            "%.2f" % abs(a[KC]-a[KA]))
     check("zero point is 0", abs(min(a.values())) < 1e-6)
     check("without a timecode not absolute", d["absolute"] is False)
     check("none weak", d["weak"] == [])
@@ -87,18 +91,18 @@ print("\n3. With a timecode the axis hangs off the clock")
 d, text = vpm.measure_time_axis(
     [A, B, C], tc_of=lambda p: 61200.0 if p == A else None)
 check("absolute", d["absolute"] is True)
-check("A sits on its timecode", abs(d["axis"][A] - 61200.0) < 0.01,
-        "%.2f" % d["axis"][A])
+check("A sits on its timecode", abs(d["axis"][KA] - 61200.0) < 0.01,
+        "%.2f" % d["axis"][KA])
 check("the distances stay",
-        abs(abs(d["axis"][B]-d["axis"][A]) - 5.0) < 0.2)
+        abs(abs(d["axis"][KB]-d["axis"][KA]) - 5.0) < 0.2)
 check("the text says so", "tied to the timecode" in text, text)
 
 print("\n4. One outlier in the timecode does not skew everything")
 # Two matching entries, one grossly wrong -- the median wins.
 tc = {A: 61200.0, B: 61205.0, C: 99999.0}
 d, _t = vpm.measure_time_axis([A, B, C], tc_of=lambda p: tc.get(p))
-check("A stays on its timecode", abs(d["axis"][A] - 61200.0) < 1.0,
-        "%.1f" % d["axis"][A])
+check("A stays on its timecode", abs(d["axis"][KA] - 61200.0) < 1.0,
+        "%.1f" % d["axis"][KA])
 
 print("\n5. When it does not work")
 d, text = vpm.measure_time_axis([])

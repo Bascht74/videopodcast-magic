@@ -129,7 +129,11 @@ D_OK = {"timeline": [entry(X, 0.0), entry(Y, 5.0)],
         "timeline_absolute": True}
 r = vpm.axis_still_valid(D_OK, [X, Y])
 check("unchanged -> applies", r is not None and len(r["axis"]) == 2)
-check("the values come along", r and r["axis"][os.path.abspath(Y)] == 5.0)
+# Looked up by path_key, the one shape a path takes when two are
+# compared. On a Mac that is the absolute path; on Windows it is that
+# with the case and the separator settled as well, and the axis a
+# measurement hands back is keyed the same way.
+check("the values come along", r and r["axis"][vpm.path_key(Y)] == 5.0)
 check("absolute is carried over", r and r["absolute"] is True)
 check("weak is empty", r and r["weak"] == [])
 
