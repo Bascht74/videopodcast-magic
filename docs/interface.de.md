@@ -25,13 +25,22 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   ohne sind so nicht dasselbe Bild.
 
   Liegt beim Material eine Projektdatei, bietet das Programm sie an,
-  während die Dateien hereinkommen: findet es eine, fragt es einmal und
-  nennt sie mit dem Tag, an dem sie geschrieben wurde; findet es
-  mehrere, zeigt es sie zur Auswahl; findet es keine, geschieht nichts.
-  Teilweise wird nie geladen — das Projekt kommt ganz zurück, mit den
-  Namen, der Trennung, wer vor welcher Kamera sitzt, den Typen und dem
-  Zeitfenster, oder es wird gar nicht geöffnet. Ist ein Projekt offen,
-  wird nichts mehr angeboten.
+  während die Dateien hereinkommen, und bevor eine davon vermessen wird:
+  findet es eine, fragt es einmal und nennt sie mit dem Tag, an dem sie
+  geschrieben wurde; findet es mehrere, zeigt es sie zur Auswahl; findet
+  es keine, geschieht nichts. Teilweise wird nie geladen — das Projekt
+  kommt ganz zurück, mit den Namen, der Trennung, wer vor welcher Kamera
+  sitzt, den Typen und dem Zeitfenster, oder es wird gar nicht geöffnet.
+
+  Ein **Nein** lässt die hereingekommenen Dateien genau dort, wo sie
+  sind. Die Liste entsteht aus ihnen und wird vermessen wie sonst auch,
+  einmal, und dieselbe Projektdatei wird kein zweites Mal angeboten. Ein
+  **Ja** setzt die Dateien des Projekts an ihre Stelle, und weil die
+  Frage zuerst kam, wurde nichts vermessen, was die Antwort gleich
+  darauf wegwirft. Material aus einem anderen Ordner bietet das Projekt
+  dieses Ordners an; weiteres Material aus einem Ordner, nach dem schon
+  gefragt wurde, fragt nicht noch einmal. Ist ein Projekt offen, wird
+  nichts mehr angeboten.
 
   Der Ausgabeordner wird nicht geraten. Er bleibt leer, bis er gewählt
   wird oder bis ein Projekt sagt, wohin es geht. Der Produktionsname
@@ -58,6 +67,32 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   Dasselbe Feld steht auf **Zuordnung & Zeitfenster** bei der Kamera,
   auf demselben Wert: ändert man eines, folgt das andere sofort.
+
+  Jede Videodatei trägt in der Liste außerdem das Feld **Typ**:
+  **Inhalt**, **Weitwinkel**, **Vorspann**, **Abspann** oder
+  **Video ignorieren**. Wer auf dem Feld stehen bleibt, erfährt, was die
+  fünf bedeuten. Das Feld selbst wird nie im Ganzen ausgegraut — Grau
+  über dem ganzen Kasten hieße „hier ist nichts zu machen“, und zu
+  machen ist immer etwas.
+
+  Gesperrt wird höchstens ein Eintrag der Liste: er steht grau da und
+  lässt sich nicht wählen, und der Grund steht an ihm — wer darauf
+  stehen bleibt, liest ihn. Zwei Einträge können so gesperrt sein, jeder
+  mit seinem eigenen Satz.
+
+  - Eine Kamera, der niemand zugeordnet ist, zeigt **Weitwinkel**,
+    obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
+    **Inhalt**, weil ihr kein Sprecher zugeordnet ist. Gibt man dieser
+    Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
+    wieder frei.
+  - Eine Datei, für die die Messung keinen Platz gefunden hat, kann
+    nicht der Weitwinkel sein: auf den Weitwinkel fällt der Schnitt
+    zurück, also muss er auf der Zeitachse liegen. Gesperrt ist dann
+    **Weitwinkel**, mit eben diesem Grund.
+
+  Vorspann, Abspann und die Datei ganz herauszulassen werden nie
+  gesperrt. Das sind Antworten über die Datei selbst und haben nichts
+  damit zu tun, wer vor welcher Kamera sitzt.
 
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile

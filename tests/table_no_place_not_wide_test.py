@@ -3,11 +3,13 @@
 
 The wide shot is the camera that runs through and steps in wherever no
 other one fits, so it has to lie on the time axis. A jingle does not:
-no timecode, and no sound in common with the rest. Four blocks: the
-barred entry with its reason on it, the file that has a place and keeps
-the choice, what a hand and a missing measurement leave alone, and the
-derivation, which stops picking such a file as the wide shot.
+no timecode, and no sound in common with the rest. In order: the barred
+entry with its reason on it, the file that has a place and keeps the
+choice, what a hand and a missing measurement leave alone, the
+derivation, which stops picking such a file, and last that every table
+builds the field in the one place where the bar is hung.
 """
+import io
 import os
 import sys
 import time
@@ -174,6 +176,18 @@ check("two barred entries each keep their own reason",
       "barred %s; the wide shot says %r, Content says %r"
       % (sorted(barred(two)), says_at(two, vpm.TYPE_WIDE),
          says_at(two, vpm.TYPE_CONTENT)))
+
+# The three tables that show a Kind ask one function for the cell, and
+# that is where the bar is hung. A table building its own would offer
+# the wide shot again while everything here stayed green.
+source = io.open(SCRIPT, encoding="utf-8").read()
+built, one_place = (source.count("clip_kind_cell("),
+                    source.count("kind_cell_for("))
+check("every table asks the one place for its Kind field",
+      built == 2 and one_place >= 4,
+      "clip_kind_cell stands %d times (its own def and one call), "
+      "kind_cell_for %d (its own def and %d tables)"
+      % (built, one_place, one_place - 1))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

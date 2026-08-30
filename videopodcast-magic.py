@@ -5132,13 +5132,8 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
 
     *files* are the window's (path, kind) pairs, *kinds* the
     {path: Value} it holds, *remembered* the fallback for a file no
-    table has built a value for yet. *placeless* are the absolute paths
-    the measurement placed nowhere: they are left out of the
-    derivation, because a file that sits on no time axis cannot be the
-    camera the cut falls back on. A mark stands all the same -- that is
-    an answer, and answers are not derived over.
-
-    Returns (file names, marked).
+    table has built a value for yet, *placeless* the absolute paths the
+    measurement placed nowhere. Returns (file names, marked).
     """
     videos = sorted([p for p, a in files if a == "video"],
                     key=lambda x: os.path.basename(x).lower())
@@ -5151,10 +5146,11 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
     def a_camera(path):
         """A camera the derivation may take: one with a place on the axis.
 
-        A mark comes through either way, and not only because an answer
-        stands: dropped here it would fall out of the marked list too,
-        and the caller would say a wide shot was marked while handing
-        back a derived one.
+        A file that sits on no axis cannot be the one the cut falls
+        back on. A mark comes through either way, and not only because
+        an answer stands: dropped here it would fall out of the marked
+        list too, and the caller would then say a wide shot was marked
+        while handing back a derived one.
         """
         kind = kind_of(path)
         return kind in CAMERA_TYPES and (
@@ -20875,13 +20871,10 @@ def wide_shot_barred(path, value, placeless):
     """Why this file cannot be the wide shot, or "" where it can be one.
 
     The wide shot is the camera that runs through and steps in wherever
-    no other one fits. A file that sits nowhere on the time axis cannot
-    do that, so the entry is barred rather than offered.
-
-    *placeless* are the absolute paths the measurement placed nowhere;
-    empty or None means no measurement has said so and nothing is
-    barred. A Kind somebody picked is left alone, the same rule the
-    proposal follows.
+    no other one fits, so it has to lie on the time axis. *placeless*
+    are the paths the measurement placed nowhere; empty or None means
+    no measurement has said so and nothing is barred. A Kind somebody
+    picked is left alone, the same rule the proposal follows.
     """
     if not placeless or getattr(value, "chosen_by_hand", False):
         return ""
@@ -20900,11 +20893,9 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
     "ignore this video" is literally the question the file tab answers,
     and an intro is placed as it lies rather than assigned to anybody.
 
-    Nothing stands behind the field. This table is the one place where
-    a reason beside the answer is not wanted, and Sebastian has said so
-    twice about this same table -- "these hints and the red colour here
-    away ... nothing at all", and on 26.8.2026 again. The rule that
-    grey is never without a reason holds everywhere else.
+    Nothing stands behind the field: this table is the one place where
+    a reason beside the answer is not wanted. The rule that grey is
+    never without a reason holds everywhere else.
 
     With *derived* the value on show is not the stored one -- it is
     what the program worked out. That is the wide shot nobody marked.
@@ -20913,14 +20904,11 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
     a camera nobody sits in front of cannot be content while that is
     so. The other entries stay open -- an intro, an outro or a file to
     leave out are answers about the file itself and have nothing to do
-    with who was assigned where. Only that one entry is greyed. The
+    with who was assigned where. Only that one entry is greyed, and the
     field itself stands in black, the way a field somebody answered
-    does: grey over the whole box read as "nothing to be done here",
-    which is the opposite of what it is.
-
-    *no_wide* bars the wide shot the same way and says so on that
-    entry: a file that sits nowhere on the time axis is no camera the
-    cut can fall back on.
+    does: grey over the whole box reads as "nothing to be done here",
+    which is the opposite of what it is. *no_wide* bars the wide shot
+    the same way, with its own sentence on that entry.
     """
     cell, box = choice_cell(CLIP_TYPES, kind, "", quiet, alive=True)
     barred = {}
@@ -21011,6 +20999,34 @@ def audio_use_bind(box, value, why=""):
     value.listen(lambda: pick_choice(
         box, AUDIO_MATERIAL if value.get() else AUDIO_UNUSED))
     return box
+
+
+def kinds_said_again(state, rows):
+    """Draw the Kind fields of both tables again.
+
+    Only the assignment tab knows how to say its own; before it stands,
+    the file list is all there is.
+    """
+    if state.get("kinds_refresh"):
+        state["kinds_refresh"]()
+    else:
+        video_kinds_again(rows)
+
+
+def kind_cell_for(path, value, wides, said, placeless, quiet, after=None):
+    """The Kind field of one video file, built and tied to its value.
+
+    Three tables show a Kind, and all three ask here: what is derived,
+    what is barred and what the field answers into are decided once.
+    Two derivations of one answer drift apart, and then one table
+    offers what another refuses. Returns (cell, box).
+    """
+    short = os.path.basename(path)
+    shown, why, derived = kind_on_show(value.get(), short, wides, said)
+    cell, box = clip_kind_cell(short, shown, why, quiet, derived,
+                               wide_shot_barred(path, value, placeless))
+    clip_kind_bind(box, value, after=after)
+    return cell, box
 
 
 def clip_kind_bind(box, value, after=None):
@@ -26774,13 +26790,9 @@ def gui():
         kind = clip_kind_values[path]
         video_kind_again[path] = lambda: video_choices_show(
             node, path, chosen, forced)
-        shown, why_kind, derived = kind_on_show(
-            kind.get(), short, *wide_cameras_now())
-        cell, box = clip_kind_cell(short, shown, why_kind,
-                                   COLOURS["quiet"], derived,
-                                   wide_shot_barred(path, kind,
-                                                    state.get("no_place")))
-        clip_kind_bind(box, kind, after=lambda p=path: kind_answered(p))
+        cell, box = kind_cell_for(path, kind, *wide_cameras_now(),
+                                  state.get("no_place"), COLOURS["quiet"],
+                                  lambda p=path: kind_answered(p))
         items.setItemWidget(node, 3, cell)
         used, why = audio_use_settled(path, chosen, forced,
                                       has_sound(path), kind.get())
@@ -27959,12 +27971,8 @@ def gui():
         for p in kind_proposal_say(state.get("clip_kinds") or {}, data):
             kind_answered(p)
         # And the Kind fields are said again even where no proposal
-        # moved one: which files sit nowhere is known only now, and it
-        # is what bars the wide shot on them.
-        if state.get("kinds_refresh"):
-            state["kinds_refresh"]()
-        else:
-            video_kinds_again(video_kind_again)
+        # moved one: which files sit nowhere is known only now.
+        kinds_said_again(state, video_kind_again)
         axis_label.setText(text)
         axis_label.setStyleSheet("color: %s" % (COLOURS["good"] if axis
                                                  else COLOURS["warning"]))
@@ -29135,16 +29143,10 @@ def gui():
                 for i, path in enumerate(videos):
                     if i >= table_video.rowCount():
                         break
-                    name = os.path.basename(path)
-                    value = clip_kind_value(path)
-                    show, why, derived = kind_on_show(value.get(), name,
-                                                      fresh, marked)
-                    box_cell, box = clip_kind_cell(
-                        name, show, why, COLOURS["quiet"], derived,
-                        wide_shot_barred(path, value,
-                                         state.get("no_place")))
-                    clip_kind_bind(box, value,
-                                   after=lambda q=path: kind_answered(q))
+                    box_cell, _box = kind_cell_for(
+                        path, clip_kind_value(path), fresh, marked,
+                        state.get("no_place"), COLOURS["quiet"],
+                        lambda q=path: kind_answered(q))
                     table_video.setCellWidget(i, 3, box_cell)
             except RuntimeError:
                 # The table was rebuilt under us; the new one is right.
@@ -29156,13 +29158,9 @@ def gui():
             table_video.insertRow(row)
             cell(table_video, row, 0, short)
             clip_kind = clip_kind_value(b)
-            shown, why_kind, derived = kind_on_show(
-                clip_kind.get(), short, wides, said)
-            kind_cell, kind_box = clip_kind_cell(
-                short, shown, why_kind, COLOURS["quiet"], derived,
-                wide_shot_barred(b, clip_kind, state.get("no_place")))
-            clip_kind_bind(kind_box, clip_kind,
-                           after=lambda p=b: kind_answered(p))
+            kind_cell, _kind_box = kind_cell_for(
+                b, clip_kind, wides, said, state.get("no_place"),
+                COLOURS["quiet"], lambda p=b: kind_answered(p))
             table_video.setCellWidget(row, 3, kind_cell)
             own_audio = audio_use_value(b)
             used, why = audio_use_settled(b, own_now, forced,
