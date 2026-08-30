@@ -25130,6 +25130,17 @@ def restore_entry(act, where, window):
 # cutting them out of the source and exec-ing a copy, which
 # is what two of them used to need.
 
+def zoom_button(QtWidgets, text, tip, does):
+    """One of the small buttons that zoom the band."""
+    b = QtWidgets.QToolButton()
+    b.setText(text)
+    b.setAutoRaise(True)
+    b.setFixedWidth(caption_room(b, 24))
+    hint(b, tip)
+    b.clicked.connect(does)
+    return b
+
+
 def hint(widget, text):
     widget.setToolTip(text)
     return widget
@@ -30482,28 +30493,25 @@ def gui():
     band_line.addWidget(cut_band, 1)
     zoom_span = label("", COLOURS["quiet"])
 
-    def zoom_button(text, tip, does):
-        b = QtWidgets.QToolButton()
-        b.setText(text)
-        b.setAutoRaise(True)
-        b.setFixedWidth(caption_room(b, 24))
-        hint(b, tip)
-        b.clicked.connect(does)
-        return b
+    # Pinned: the reading sits after the buttons and the band before
+    # them takes what is left, so a text that grows pushes the whole row
+    # along -- 104 pixels at the first zoom, and the button walks out
+    # from under the pointer.
+    zoom_span.setFixedWidth(caption_room(zoom_span, 0,
+                                         ["00:00:00 -- 00:00:00"]))
 
     def zoom_show():
-        """What is on show, beside the buttons."""
         zoom_span.setText(cut_band.zoom_text())
 
     band_line.addWidget(zoom_button(
-        "\u2212", T('Show twice as much (minus key, or the wheel over '
+        QtWidgets, "\u2212", T('Show twice as much (minus key, or the wheel over '
                     'the band)'), lambda: cut_band.zoom(2.0)))
     band_line.addWidget(zoom_button(
-        "+", T('Show half as much, around the current position (plus '
+        QtWidgets, "+", T('Show half as much, around the current position (plus '
                'key, or the wheel over the band)'),
         lambda: cut_band.zoom(0.5)))
     band_line.addWidget(zoom_button(
-        "\u25ad", T('The whole length again (0 key)'),
+        QtWidgets, "\u25ad", T('The whole length again (0 key)'),
         lambda: cut_band.zoom_all()))
     band_line.addWidget(zoom_span)
     cut_band.zoomed.connect(zoom_show)
