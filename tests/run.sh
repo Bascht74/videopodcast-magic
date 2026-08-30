@@ -386,6 +386,19 @@ run_one() {
       if [ "$rest" -gt 0 ]; then
         echo "      ($rest more such lines -- run this test on its own)"
       fi
+      # And the end of what it printed, whatever it looked like. The
+      # ranking above keeps the lines that match a pattern and drops
+      # everything else -- so a test that prints its own diagnosis
+      # loses it on the way to the builder. interface_test says "what
+      # assignment_shot.py printed" and follows it with 25 lines; on
+      # ubuntu 31.8.2026 not one of them reached the log, and the only
+      # thing that came back was "last words" of ffmpeg metadata.
+      # Left out where the whole output is short enough to be already
+      # above, and where the block is a crash report, which is whole.
+      if [ -z "$crash" ] && [ "$(echo "$out" | wc -l)" -gt 14 ]; then
+        echo "      -- and the last lines it printed:"
+        echo "$out" | tail -14 | sed 's/^/        /'
+      fi
       # Red and skipped at once. Said out loud, or the reader wonders
       # why the count of skips further down does not add up, and the
       # part that was left out stays invisible behind the part that fell.
