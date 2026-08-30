@@ -596,9 +596,6 @@ FILE_FORMAT = 3
 CEILING_DBTP = -1.0                     # true-peak ceiling of the result
 LIMIT_MAX_DB = 6.0        # most the limiter may take off
 
-# Values that are stored and shown at the same time. The value is fixed so
-# a project file keeps its meaning in any language; what appears on screen
-# comes from CHOICE_LABELS and goes through T().
 # What the mixed track is called, one name for both paths. Not only a
 # label: the handover file is written with it, Resolve names its audio
 # track after it, and reading a handover back looks it up by this word.
@@ -608,6 +605,9 @@ MIX_TRACK_NAME = "Full-Mix"
 # run since the two paths became one.
 ONLY_MULTITRACK = ("auphonic_resume", "assign", "multitrack")
 
+# Values that are stored and shown at the same time. The value is fixed so
+# a project file keeps its meaning in any language; what appears on screen
+# comes from CHOICE_LABELS and goes through T().
 MIX_ONLY = "mix-only"            # audio track without a camera of its own
 IGNORE_AUDIO = "ignore-audio"    # audio track stays out entirely
 # The answer "I do not know, go and measure" to the name field's
@@ -10869,9 +10869,14 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
         print(T('    Format and codec could not be set: %s') % e)
         return False
     try:
-        p.SetCurrentRenderMode(1)      # 1 = one file, not one per clip
-    except Exception:
-        pass
+        # Said out loud when it does not take: refused, the delivery
+        # quietly becomes one file per clip, and somebody looking for
+        # one episode finds a folder full of shots instead.
+        if p.SetCurrentRenderMode(1) is False:   # 1 = one file, not per clip
+            print(T('    One file per delivery was refused; Resolve will '
+                    'write one file per clip.'))
+    except Exception as e:
+        print(T('    One file per delivery could not be asked for: %s') % e)
     height = int(d.get("height") or 1080)
     width = int(d.get("width") or 1920)
     fps = float(d.get("fps") or 30.0)
@@ -11606,7 +11611,10 @@ def remove_empty_audio_tracks(tl):
     """Remove audio tracks while they are empty.
 
     A new timeline brings one along, and that too would become an angle on
-    conversion.
+    conversion. Sound only: a file carries several audio tracks and only
+    some of them are taken, so an empty one is the ordinary case. An empty
+    video track is not -- a camera is missing, and the run says so loudly
+    rather than tidying the evidence away.
     """
     gone = 0
     for i in range(tl.GetTrackCount("audio"), 0, -1):
@@ -32253,6 +32261,12 @@ CATALOGUE["de"] = {
         '    Format und Codec ließen sich nicht setzen: %s',
     '    Format list not readable: %s':
         '    Formatliste nicht lesbar: %s',
+    '    One file per delivery was refused; Resolve will write one file '
+    'per clip.':
+        '    Eine Datei je Ausgabe wurde abgelehnt; Resolve schreibt eine '
+        'Datei je Clip.',
+    '    One file per delivery could not be asked for: %s':
+        '    Eine Datei je Ausgabe ließ sich nicht anfordern: %s',
     '    Length  %s  (instead of %s)':
         '    Länge   %s  (statt %s)',
     '    Local versions: in the node editor "Group Pre-Clip" applies to '

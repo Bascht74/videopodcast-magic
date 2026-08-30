@@ -12,7 +12,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys, tempfile
+import importlib.util, sys, tempfile, io, contextlib
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -35,9 +35,9 @@ class P(object):
     """A Resolve project that writes down what was asked of it."""
 
     def __init__(self, formats, codecs, accepts=True, settings_ok=True,
-                 job=True):
+                 job=True, mode_ok=True):
         self.formats, self.codecs, self.accepts = formats, codecs, accepts
-        self.settings_ok, self.job = settings_ok, job
+        self.settings_ok, self.job, self.mode_ok = settings_ok, job, mode_ok
         self.applied = None; self.jobs = 0; self.mode = None
         self.fc = None; self.timeline = None; self.tries = 0
 
@@ -50,7 +50,9 @@ class P(object):
     def SetCurrentRenderFormatAndCodec(self, f, c):
         self.fc = (f, c); return self.accepts
 
-    def SetCurrentRenderMode(self, m): self.mode = m; return True
+    # Resolve can refuse this, and a stand-in that never does would
+    # let the silence that follows a refusal go unnoticed.
+    def SetCurrentRenderMode(self, m): self.mode = m; return self.mode_ok
 
     def SetRenderSettings(self, e):
         self.tries += 1
@@ -182,6 +184,18 @@ check("without H.264 it says no", queued is False,
       "returned %r" % (queued,))
 check("and nothing was queued", p.jobs == 0 and p.applied is None,
       "%d jobs, settings %r" % (p.jobs, p.applied))
+
+print("\n== one file per delivery is refused")
+buf = io.StringIO()
+with contextlib.redirect_stdout(buf):
+    p, queued = queue(WORK, name="Y", mode_ok=False)
+said = buf.getvalue()
+spoke = [l.strip() for l in said.splitlines() if "one file per clip" in l]
+check("a refused one-file mode is said out loud", bool(spoke),
+      "said %r" % (spoke[0] if spoke else
+                   "nothing about it in %d lines" % len(said.splitlines()),))
+check("and the delivery is queued all the same", queued is not False
+      and p.jobs == 1, "returned %r, %d jobs" % (queued, p.jobs))
 
 print("\n== the format is refused")
 p, queued = queue(WORK, name="X", accepts=False)
