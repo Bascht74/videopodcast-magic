@@ -5,8 +5,8 @@ description: Something a user can see or feel has changed in the program and the
 
 # The manual
 
-`docs/` holds it, one chapter per file: English as `docs/name.md`,
-German as `docs/name.de.md`.
+`docs/` holds it, one chapter per file: English as `docs/<name>.md`,
+German as `docs/<name>.de.md`.
 
 **Changing a chapter means changing both.** Otherwise
 `text_no_german_left_test.py` turns red. The test asks two things: that

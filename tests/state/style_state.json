@@ -10,13 +10,10 @@
  "one_sided_paths": {
   "assignment_marks_show": [1, 25989],
   "audio_start_of": [1, 18657],
-  "audio_use_settled": [2, 20682],
   "by_recording": [1, 19419],
   "cameras_with_a_speaker": [1, 5251],
   "cameras_with_own_audio": [1, 14377],
   "chain_fill_in": [1, 20913],
-  "collect_findings": [4, 20018],
-  "collect_findings.counts_not": [1, 20005],
   "collect_with_continuations": [6, 20144],
   "distribute_tracks_to_cameras": [1, 9832],
   "every_audio_block": [1, 14308],
@@ -33,9 +30,7 @@
   "speaker_source_pick.usable": [1, 18704],
   "speakers_to_cameras": [1, 24263],
   "weak_rows_mark": [1, 18537],
-  "wide_cameras_of.a_camera": [1, 5173],
-  "without_own_camera": [1, 14465],
-  "write_cut_list": [2, 13377]
+  "without_own_camera": [1, 14465]
  },
  "over_300": {
   "build_argument_parser": [1, 19603],

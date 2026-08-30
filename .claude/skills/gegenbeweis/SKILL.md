@@ -90,7 +90,7 @@ open    test    checks
 
 The five fields of an entry:
 
-1. **The test name without `_test.py`.**
+1. **The test name with the `_test.py` cut off.**
 2. **The date as `YYYY-MM-DD`.** Anything else is refused.
 3. **The fingerprint**, twelve characters, taken over **the first
    argument of every `check(...)` in the file** and nothing else. That
@@ -112,7 +112,7 @@ ratchet: the number may fall, never rise. **So a new test gets a
 finished entry, not an `open` row** — an `open` row would raise it.
 
 **Delete that test's `open` row in the same edit that adds its entry.**
-With both rows carrying the same fingerprint, `counterproof_test.py`
+With both rows carrying the same fingerprint, `source_checks_proved_test.py`
 reports the test as being in the register twice.
 
 ### The suite works out the fingerprint, not the hand
@@ -123,14 +123,14 @@ renamed and dies when a check is reworded.
 
 * **If the test already stands as `open`**, the suite keeps its
   fingerprint written straight. After one run of
-  `python3 tests/counterproof_test.py` the current one is in the file.
+  `python3 tests/source_checks_proved_test.py` the current one is in the file.
 * **If the test is new**, put an `open` row in with its name and any
-  twelve characters, and run `counterproof_test.py`. It prints
+  twelve characters, and run `source_checks_proved_test.py`. It prints
   `written straight: open <name> … -> open <name> <right>` and writes
   it in. Then replace the `open` row with the finished entry.
 
 Both only happen when nothing else in that run is red. And
-`counterproof_test.py` writes the file back itself — do not edit it by
+`source_checks_proved_test.py` writes the file back itself — do not edit it by
 hand while a run is going.
 
 ### When an old entry has to be replaced
@@ -141,7 +141,7 @@ limit, turning a comparison round, swapping one field for another: the
 what changes.
 
 The machine sees one half of this. Reword a judgement and the
-fingerprint no longer matches, and `counterproof_test.py` reports the
+fingerprint no longer matches, and `source_checks_proved_test.py` reports the
 test as rewritten since its counter-proof. **The other half it cannot
 see:** a check that keeps its wording and changes its claim stays green
 with an entry that no longer proves anything. That one is caught only

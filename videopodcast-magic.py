@@ -5089,7 +5089,7 @@ def marked_wide_shots(args):
     One switch may stand several times: several wide shots are allowed,
     and the window can mark as many as it likes.
     """
-    return set(os.path.abspath(p)
+    return set(path_key(p)
                for p in (getattr(args, "wide_shot", None) or ()) if p)
 
 
@@ -5150,7 +5150,7 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
     """
     videos = sorted([p for p, a in files if a == "video"],
                     key=lambda x: os.path.basename(x).lower())
-    lost = set(placeless or ())
+    lost = set(path_key(p) for p in (placeless or ()))
 
     def kind_of(path):
         return (kinds[path].get() if path in kinds
@@ -5167,7 +5167,7 @@ def wide_cameras_of(files, kinds, remembered, taken, placeless=()):
         """
         kind = kind_of(path)
         return kind in CAMERA_TYPES and (
-            kind == TYPE_WIDE or os.path.abspath(path) not in lost)
+            kind == TYPE_WIDE or path_key(path) not in lost)
 
     marked = [os.path.basename(p) for p in videos if kind_of(p) == TYPE_WIDE]
     return (wide_shots_of([os.path.basename(p) for p in videos
@@ -13207,8 +13207,8 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # what the colour and the mix source read: nobody is
             # assigned here. "wide_marked" is what somebody said in the
             # Kind field, and that is what the cut goes by.
-            "wide_marked": v in marked_wide,
-            "wide": v in marked_wide or not who})
+            "wide_marked": path_key(v) in marked_wide,
+            "wide": path_key(v) in marked_wide or not who})
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))
@@ -13361,7 +13361,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             v = os.path.abspath(track["camera"])
             camera_of[track["name"]] = output_name.get(v,
                                                      os.path.basename(v))
-            taken.add(v)
+            taken.add(path_key(track["camera"]))
     marked_wide = marked_wide_shots(args)
 
     def camera_name_of(video):
@@ -13371,9 +13371,9 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     wides = wide_shots_of(
         [camera_name_of(v) for v, _ in videos],
         set(camera_name_of(v) for v, _ in videos
-            if os.path.abspath(v) in taken),
+            if path_key(v) in taken),
         [camera_name_of(v) for v, _ in videos
-         if os.path.abspath(v) in marked_wide])
+         if path_key(v) in marked_wide])
     wide_shot = wides[0] if wides else stand_in_camera(
         [camera_name_of(v) for v, _ in videos])[0]
 
@@ -19996,10 +19996,10 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
     mark, but they stay out of the comparisons. A colour chart has different
     dimensions from the cameras, and turning that into a hint helps nobody.
     """
-    set_aside = {os.path.abspath(x) for x in (set_aside or ())}
+    set_aside = {path_key(x) for x in (set_aside or ())}
 
     def counts_not(findings_, file_path):
-        if os.path.abspath(file_path) in set_aside:
+        if path_key(file_path) in set_aside:
             for b in findings_:
                 b.set_aside = True
         return findings_
@@ -20012,22 +20012,22 @@ def collect_findings(audio_paths, video_paths, fresh=False, crosstalk=True,
             video_paths,
             lambda x: measure_cached(x, "video", check_camera_file, fresh))):
         findings += counts_not(b, p)
-        if d and os.path.abspath(p) not in set_aside:
+        if d and path_key(p) not in set_aside:
             video_data.append(d)
     findings += compare_cameras(video_data)
-    having_video = [p for p in video_paths if os.path.abspath(p) not in set_aside]
+    having_video = [p for p in video_paths if path_key(p) not in set_aside]
     if having_video:
         findings += find_camera_gaps(having_video)
     for p, (b, d) in zip(audio_paths, parallel_map(
             audio_paths,
             lambda x: measure_cached(x, "audio", check_audio_file, fresh))):
         findings += counts_not(b, p)
-        if d and os.path.abspath(p) not in set_aside:
+        if d and path_key(p) not in set_aside:
             audio_data.append(d)
     # Everything comparing audio recordings works with recordings, not with
     # blocks: two blocks of the same recording run one after another, are
     # individually shorter and never overlap.
-    audio_paths = [p for p in audio_paths if os.path.abspath(p) not in set_aside]
+    audio_paths = [p for p in audio_paths if path_key(p) not in set_aside]
     chains = (group_recording_parts(audio_paths, apart=apart,
                                     together=together)
               if audio_paths else [])
@@ -20669,16 +20669,16 @@ def audio_use_settled(video, chosen, forced, has_sound=True,
     exception Sebastian laid down: one video with sound and no audio
     recording beside it is the only sound there is.
     """
-    a = os.path.abspath(video)
+    a = path_key(video)
     if not has_sound:
         return False, T('no audio track in this file')
     if kind == TYPE_IGNORED:
         return False, T('this file stays out entirely')
     if kind in (TYPE_INTRO, TYPE_OUTRO):
         return False, T('a finished clip -- only placed, not processed')
-    if a in set(os.path.abspath(p) for p in forced):
+    if a in set(path_key(p) for p in forced):
         return True, T('the only sound there is')
-    return a in set(os.path.abspath(p) for p in chosen), ""
+    return a in set(path_key(p) for p in chosen), ""
 
 
 def choice_cell(values, chosen, why="", quiet="", alive=False):
@@ -26749,10 +26749,10 @@ def gui():
         gone = set()
         for row, _nv, cv in assign_lines:
             if cv.get() == IGNORE_AUDIO:
-                gone.update(os.path.abspath(x) for x in row)
+                gone.update(path_key(x) for x in row)
         for file_path, value in clip_kind_values.items():
             if value.get() == TYPE_IGNORED:
-                gone.add(os.path.abspath(file_path))
+                gone.add(path_key(file_path))
         audio_files = [p for p, a in files if a == "audio"]
         videos_p = [p for p, a in files if a == "video"]
         label_run = state.get("preflight_run", 0) + 1
