@@ -13,6 +13,25 @@ survives.
 
 ### Added
 
+- After a run the log says who does the asking, with the sentences and
+  the questions behind it. Sebastian asked on 29.8.2026 whether the
+  roles could be read off the recognition; measured over four episodes
+  out of two productions, and the answer had three parts. It carries as
+  an order and never as a threshold: in all four the guest asks the
+  fewest questions per sentence and speaks the longest, and that order
+  never turns round, while the distance between first and last changes
+  fourfold between productions -- 20 to 27 percentage points in one and
+  6.9 in the other. The questions beat the speaking share: one episode
+  opens with a long build-up in which the host talks, so the share
+  points at the wrong person for 23 minutes while the questions are
+  right from minute six. And it takes one voice per track, which is not
+  always true -- where two people share a microphone it says nothing
+  useful, and it says so.
+
+  Nothing is set from it. A name in the interface is a person's
+  decision, and a ranking that proposes is as far as the measurement
+  reaches.
+
 - The suite counts the processes each test starts and prints the number
   beside the verdict, with the whole run's total and the five that start
   most of them. Starting a process is what the Windows builder charges

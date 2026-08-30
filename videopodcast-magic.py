@@ -3899,6 +3899,85 @@ def sound_levels_for(d):
     return []
 
 
+# How many sentences a track must carry before its share of questions
+# says anything. Measured 29.8.2026 over four episodes: the smallest
+# number of sentences any one speaker had was 44, and the share was
+# already steady well below that. Under twenty it is arithmetic on
+# nothing.
+ROLE_MIN_SENTENCES = 20
+
+
+def who_asks(tracks, words):
+    """Rank the speakers by who does the asking -- a proposal, never more.
+
+    Sebastian asked on 29.8.2026 whether the roles could be read off the
+    recognition. Measured over four episodes out of two productions: in
+    all four the guest asks the fewest questions per sentence and speaks
+    the longest, and that order never turns round. The distance between
+    them does: 20 to 27 percentage points in one production and 6.9 in
+    the other, so a fixed threshold would be wrong in the second. It
+    carries as an order and not as a threshold, which is why this gives
+    a ranking and no verdict.
+
+    The questions beat the speaking share, and that is the finding. One
+    episode opens with a long build-up in which the host talks: the
+    share points at the wrong person for 23 minutes, while the share of
+    questions is right from minute six. So the questions rank first and
+    the speaking time only separates a tie.
+
+    A question is what the reaction cut calls one, so the two count the
+    same things.
+
+    Gives [(name, sentences, questions, speech_s)], the one doing most
+    of the asking first, and [] where nothing can be said.
+    """
+    if not words or not tracks or len(tracks) < 2:
+        return []
+    held = {name: sum(b - a for a, b in segs) for name, segs in tracks}
+
+    def talking_at(t):
+        for name, segs in tracks:
+            for a, b in segs:
+                if a <= t < b:
+                    return name
+        return None
+
+    said = {name: [0, 0] for name in held}
+    for group in sentences_of(words):
+        who = talking_at((group[0]["start"] + group[-1]["end"]) / 2.0)
+        if who is None or who not in said:
+            continue
+        said[who][0] += 1
+        text = (group[-1].get("word") or "").strip().rstrip(CLOSING_MARKS)
+        if text.endswith("?"):
+            said[who][1] += 1
+    # Nothing is claimed about a track that hardly said anything.
+    enough = [n for n in said if said[n][0] >= ROLE_MIN_SENTENCES]
+    if len(enough) < 2:
+        return []
+    # Most questions per sentence first; the shorter speaking time
+    # breaks a tie, because the one asking is the one talking less.
+    return sorted(
+        [(n, said[n][0], said[n][1], held[n]) for n in enough],
+        key=lambda r: (-(r[2] / float(r[1])), r[3]))
+
+
+def roles_report(order):
+    """The proposal in words, or nothing where there is nothing to say."""
+    if not order:
+        return []
+    out = [as_head(T('\nWHO ASKS -- a proposal, and nothing is set from it'))]
+    for name, sentences, questions, held in order:
+        out.append(T('  %-20s %s speaking, %d of %d sentences a question')
+                   % (name, as_hms(held), questions, sentences))
+    out.append(T('  The order carries, the distance between them does not: '
+                 'measured over four episodes it never turned round, while '
+                 'the distance between first and last changed fourfold. It '
+                 'takes one voice per track; where two people share a '
+                 'microphone it says nothing useful.'))
+    return out
+
+
 def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
                   over=10.0, tally=None):
     """Return {when the answer begins: who answers} for every question.
@@ -9876,6 +9955,11 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         args, segment_list, tracks, cameras, videos, folder, tc_start,
         ref_clip, t1 - t0 if t1 is not None else 0,
         words=heard_words(), sound_source=single_files.get("Full-Mix", ""))
+    # Who does the asking. Said, not acted on: the order is what the
+    # measurement supports, and a name in the interface is a person's
+    # decision.
+    for line in roles_report(who_asks(segment_list, heard_words())):
+        print(line)
     if not getattr(args, "no_transcript_file", False) and heard_words():
         print(as_head(T('\nTRANSCRIPT')))
         for path in write_transcript_files(
@@ -32865,6 +32949,19 @@ CATALOGUE["de"] = {
         'Geschrieben:\n\n  %s',
     'Nothing was written -- there is no material yet.':
         'Es wurde nichts geschrieben -- es liegt noch kein Material vor.',
+    '\nWHO ASKS -- a proposal, and nothing is set from it':
+        '\nWER FRAGT -- ein Vorschlag, und es wird nichts daraus gesetzt',
+    '  %-20s %s speaking, %d of %d sentences a question':
+        '  %-20s %s Redezeit, %d von %d Sätzen eine Frage',
+    '  The order carries, the distance between them does not: measured over '
+    'four episodes it never turned round, while the distance between first '
+    'and last changed fourfold. It takes one voice per track; where two '
+    'people share a microphone it says nothing useful.':
+        '  Die Reihenfolge trägt, der Abstand nicht: über vier Folgen '
+        'gemessen hat sie sich nie gedreht, während der Abstand zwischen '
+        'erstem und letztem um das Vierfache schwankte. Es setzt eine '
+        'Stimme je Spur voraus; wo sich zwei ein Mikrofon teilen, sagt es '
+        'nichts Brauchbares.',
     'Project found':
         'Projekt gefunden',
     'Open the project':

@@ -85,6 +85,12 @@ not. It would carry as an order, not as a threshold, which means it can
 propose a role but must never decide one on its own. Whether to build
 it as a proposal is a decision, not a measurement.
 
+That decision was taken, and the proposal is built: after a run the log
+names who does the asking, with the sentences and the questions behind
+it, and nothing is set from it. What is still missing is the other half
+-- holding the separation against the microphones, so that "Speaker 2"
+gets its name without anybody typing it.
+
 ## What comes later
 
 Coarser, and in no fixed order.
