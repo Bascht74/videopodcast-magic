@@ -7,7 +7,7 @@
 *Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
 zusammenpasst — bevor irgendetwas geschrieben wird.*
 
-**Version 2.21.0-beta.** Es macht die Arbeit, für die es geschrieben
+**Version 2.22.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
