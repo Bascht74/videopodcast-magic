@@ -24,8 +24,10 @@ survives.
   `local_run` went from 2.26 seconds to 1.73 and from 3.79 seconds of
   processor time to 3.13. On the Windows builder the same test takes
   126 seconds, and the reason is process starts: it made 62 of them,
-  and it now makes 46. That test is the longest on the builder by a
-  factor of two, so it is where a minute of everyone's waiting sits.
+  and it now makes 46. Measured on the builder afterwards: 126 seconds
+  became 107, and the whole suite on that job went from 208 to 161. It
+  is still the longest test there by a factor of two, so it is still
+  where a minute of everyone's waiting sits.
 
 ## [2.16.0-beta] - 2026-08-30
 
