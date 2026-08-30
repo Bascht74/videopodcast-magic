@@ -1,7 +1,7 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5402,
+ "largest_function": 5396,
  "lazy_plural": 0,
  "long_lines": 0,
  "narrating": 0,
@@ -54,7 +54,6 @@
   "gui.prework_audio_fetch": [1, 26726],
   "gui.prework_clean_up": [1, 27465],
   "gui.project_collect": [1, 27039],
-  "gui.project_open": [1, 29979],
   "gui.settings_extend": [1, 27101],
   "gui.start.discard": [1, 30436],
   "gui.work_loop": [1, 30230],

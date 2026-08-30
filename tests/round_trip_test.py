@@ -104,6 +104,14 @@ def button(text):
             return w
 
 
+def menu_action(text):
+    """A menu entry by its wording, wherever in the bar it sits."""
+    from PySide6 import QtGui
+    for a in win().findChildren(QtGui.QAction):
+        if a.text().replace("&", "").strip().startswith(text):
+            return a
+
+
 def tables():
     return win().findChildren(QtWidgets.QTableWidget)
 
@@ -371,6 +379,12 @@ def again():
             check("the production name is back",
                   box is not None and box.text() == WANTED["production"],
                   repr(box.text()) if box is not None else "no field")
+            # The View menu used to say "1. tab, 2. tab, 3. tab", which
+            # tells nobody anything. It says what the tabs say now.
+            check("the View menu names the tabs, not their numbers",
+                  menu_action("Files") is not None
+                  and menu_action("1. tab") is None,
+                  "no entry starting with the first tab's name")
             check("the title bar names the project",
                   os.path.basename(project_path[0]) in win().windowTitle(),
                   win().windowTitle())
@@ -401,6 +415,29 @@ def again():
             check("the transcript answer is back",
                   tick is not None and tick.isChecked() == WANTED["transcript"],
                   "" if tick is None else str(tick.isChecked()))
+        elif i == 3:
+            # Closing the project must leave nothing of it behind. Until
+            # this existed the only way to a second production was to
+            # quit the program, and anything left standing here would be
+            # carried into the next one.
+            needed("the Close project entry",
+                   menu_action("Close project")).trigger()
+        elif i == 4:
+            check("closing empties the file list", not vpm_files(),
+                  str(vpm_files()))
+            box = production_field()
+            check("closing empties the production name",
+                  box is None or box.text() == "",
+                  repr(box.text()) if box is not None else "")
+            check("closing takes the project out of the title bar",
+                  os.path.basename(project_path[0]) not in win().windowTitle(),
+                  win().windowTitle())
+            t = camera_table()
+            check("the camera table is gone or empty",
+                  t is None or t.rowCount() == 0,
+                  "" if t is None else str(t.rowCount()))
+            check("the project file itself is untouched",
+                  os.path.exists(project_path[0]))
         else:
             app.quit()
             return
