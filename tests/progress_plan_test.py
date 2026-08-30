@@ -115,5 +115,40 @@ check("reporting an unknown step adds it", "stranger" in plan.order,
 check("and it is counted in the whole", abs(plan.total() - 0.5) < 1e-9,
       "%.3f" % plan.total())
 
+# --------------------------------------------- The names on both paths
+# One bar draws both paths, so both have to call their stages the same
+# thing. A stage the run announces but the plan never listed is added
+# while the run goes, which lowers every share already reported; a stage
+# the plan lists but nobody announces is skipped in one jump when the
+# next one begins. Until 30.8.2026 the simple path announced nothing at
+# all and the bar crept from beginning to end.
+print("\n4. The stages have one set of names")
+import re
+source = open(SCRIPT, encoding="utf-8").read()
+said = set(re.findall(r'step_begin\(\s*"([^"]+)"', source))
+planned = set()
+for multitrack in (False, True):
+    for cameras in (0, 2):
+        for auphonic in (False, True):
+            for speakers in (False, True):
+                planned |= set(name for name, _w, _c in vpm.run_stages(
+                    multitrack, cameras, auphonic, speakers))
+check("every stage the run announces is one the plan knows",
+      said <= planned, str(sorted(said - planned)))
+# The other way round is not an error in general -- "result" is reached
+# without a mark on one path -- but a stage nobody ever announces would
+# be dead weight in the bar.
+check("and the plan lists nothing nobody ever reaches",
+      planned <= said, str(sorted(planned - said)))
+# The simple path aligns against the cameras; it does not pull their
+# audio out. Listing that stage for it held back a fifth of the bar.
+check("no camera-audio stage on the simple path",
+      "camera audio" not in [n for n, _w, _c in
+                             vpm.run_stages(False, 2, False, False)],
+      str([n for n, _w, _c in vpm.run_stages(False, 2, False, False)]))
+check("but there is one on the multitrack path",
+      "camera audio" in [n for n, _w, _c in
+                         vpm.run_stages(True, 2, False, False)])
+
 print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
 sys.exit(1 if bad else 0)
