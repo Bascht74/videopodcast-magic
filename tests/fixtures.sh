@@ -191,7 +191,7 @@ fi
 # noise, 31 dB under it, and nothing of the other two. Bleed loud enough
 # to be worth measuring also passes a threshold that sits 10 dB over the
 # floor, so with bleed this folder would only ever be as good as the
-# separation on the day. local_run_test.py and "$FIX/mixer" are where
+# separation on the day. run_stays_local_test.py and "$FIX/mixer" are where
 # bleed is measured.
 #
 # The two three-block recordings are one programme cut in three: block 1
@@ -361,7 +361,7 @@ fi
 # it is spoken: macOS brings say(1), and two of its voices reading one
 # sentence each in turn give a recording whose truth is exact -- the
 # length of every turn is the length of the file that voice wrote, so
-# every boundary is known to the millisecond. speakers_for_real_test.py
+# every boundary is known to the millisecond. voice_split_hears_two_test.py
 # runs the real separation over it.
 #
 # Measured on 24 August 2026, Apple M4 Pro, macOS 26.6.1: the build

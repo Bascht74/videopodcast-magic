@@ -64,12 +64,12 @@ if [ -z "$LIMIT" ]; then
   echo "No timeout(1) and no gtimeout -- the tests run without a time limit."
 fi
 export LIMIT
-# English is the source language of the program, so the tests run in it;
-# the two tests about German set the language themselves. LANG=C alone
+# English is the source text_only_texts_change of the program, so the tests run in it;
+# the two tests about German set the text_only_texts_change themselves. LANG=C alone
 # does not say it: the program skips "C" on purpose and asks the system,
 # which on a German Mac answers de_DE. LANGUAGE settles the question.
 export LANG=C LC_ALL=C LANGUAGE=en
-# The player tests play real files, and without this the machine beeps
+# The cut_player_jump_lands tests play real files, and without this the machine beeps
 # its way through every run. It forces volume and mute and nothing else
 # -- where the playhead lands, which is what the tests measure, is
 # untouched.
@@ -121,7 +121,7 @@ fi
 export VPM_MEDIA="${VPM_MEDIA:-$VPM_FIXTURES/interview}"
 
 # How many tests may leave themselves out. A ratchet, like the counts in
-# style_test.py: it may fall, it may not rise, and it is the figure that
+# source_limits_hold_test.py: it may fall, it may not rise, and it is the figure that
 # holds on every machine. A machine that cannot run a test for good
 # reason takes it out of the folder; it does not let it skip.
 SKIPS_ALLOWED=1
@@ -162,7 +162,7 @@ trap 'exit 130' INT TERM
 # there. Sorted, so the order does not depend on the file system.
 TESTS=$(cd "$HERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 # Named on the command line: only those, through the same machinery --
-# the same retry, the same report, the same progress line. One red test
+# the same retry, the same report, the same run_bar_tracks_work line. One red test
 # is looked at on its own far more often than all of them are.
 [ $# -gt 0 ] && TESTS="$*"
 
@@ -351,7 +351,7 @@ export OUT HERE LIMIT TOTAL TRIES PY
 # second of sound takes a second; beside eleven others it took sixteen
 # and reached a fifth of a second, and no waiting fixes that. These run
 # by themselves, at the end, when everything else is done.
-ALONE_ONLY="sound_and_picture"
+ALONE_ONLY="cut_player_in_sync"
 CROWD=$(echo "$TESTS" | tr ' \n' '\n\n' | grep -v '^$')
 for t in $ALONE_ONLY; do
   CROWD=$(echo "$CROWD" | grep -vx "$t" || true)
@@ -410,7 +410,7 @@ for t in $TESTS; do
   esac
 done
 # The whole run's processes, and the five that start most of them. Read
-# together with state/longest: a test that is slow here and one that is
+# files_joined_by_hand with state/longest: a test that is slow here and one that is
 # slow on the builder are not the same test, and this is the number
 # that travels.
 started=$(cat "$STARTS"/* 2>/dev/null | wc -l | tr -d ' ')
@@ -452,7 +452,7 @@ else
   echo "skips: $past of at most $SKIPS_ALLOWED allowed"
 fi
 # Nothing is written to state/longest here. What this machine takes
-# stands in the progress line above, which is where it is useful; the
+# stands in the run_bar_tracks_work line above, which is where it is useful; the
 # order of the queue belongs to the builder, and builder_times.sh fills
 # it. Times written here put a test that is slow there last in the
 # queue on the strength of how fast it is on this machine.

@@ -287,7 +287,7 @@ on every run for ever. Worse, it makes the test lie in both directions.
 Too short and it fails on a busy machine; too long and nobody notices
 that it is waiting for something that will never happen.
 
-Measured on this suite: `channel_rows_test.py` spent 121 of its 123
+Measured on this suite: `table_row_per_channel_test.py` spent 121 of its 123
 seconds waiting for a tick on a row that never gets one. It ran into
 its own limit every single time and reported green afterwards. Asking
 for the right condition brought it to 3 seconds. Three more tests were
@@ -319,7 +319,7 @@ files side by side on one screen are worth more than long lines.
 ## 12. The one exception: `gui()`
 
 `gui()` is 5753 lines long -- nineteen times the rule above. Measured
-on 23 August 2026. `style_test.py` prints the figure of the day on
+on 23 August 2026. `source_limits_hold_test.py` prints the figure of the day on
 every run, so the current number is read there and not here. This is a
 decision, not an oversight, and this is where the reasons live.
 
@@ -370,7 +370,7 @@ It is not a licence.
 - **A helper inside `gui()` that captures nothing is in the wrong
   place.** Whether it captures anything has an exact answer:
   `co_freevars` of the compiled function, not a search through the text.
-- **The number goes down, never up.** `style_test.py` prints the largest
+- **The number goes down, never up.** `source_limits_hold_test.py` prints the largest
   function on every run, and a ratchet holds whatever comes off. Nothing
   here freezes 5753 as acceptable.
 

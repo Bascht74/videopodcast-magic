@@ -1,21 +1,21 @@
-name: release
-run-name: "release #${{ github.run_number }} of ${{ inputs.tag || github.ref_name }} (${{ github.event_name }})"
+name: text_release_ready
+run-name: "text_release_ready #${{ github.run_number }} of ${{ inputs.tag || github.ref_name }} (${{ github.event_name }})"
 
-# What a release has to be, asked of the release itself.
+# What a text_release_ready has to be, asked of the text_release_ready itself.
 #
 # The program keeps itself up to date: it asks github.com for the
-# newest release, fetches one file from a tag, and starts again from
+# newest text_release_ready, fetches one file from a tag, and starts again from
 # it. Three addresses carry that, and all three are written into the
 # program rather than into this file:
 #
-#   newer_release()   asks RELEASES for the tag of the newest release
+#   newer_release()   asks RELEASES for the tag of the newest text_release_ready
 #   fetch_new_self()  fetches RAW_FILE % tag, the one file
 #   fetch_model()     fetches MODEL_BASE % model_reference(), the model
 #
 # So this workflow does not restate them. It imports the program at
 # that tag and uses its own constants and its own version_key(). What
 # it adds is the half no test on a disc can see: whether those
-# addresses answer, and whether the release the program asks about
+# addresses answer, and whether the text_release_ready the program asks about
 # looks the way the program expects.
 #
 # tests/release_test.py holds the working tree against itself -- one
@@ -24,26 +24,26 @@ run-name: "release #${{ github.run_number }} of ${{ inputs.tag || github.ref_nam
 # workflow does not check any of it a second time.
 
 on:
-  # Only once the release is published. The tag is pushed first and the
-  # release made a moment later, so a run on the tag alone asks after
+  # Only once the text_release_ready is published. The tag is pushed first and the
+  # text_release_ready made a moment later, so a run on the tag alone asks after
   # something that is not there yet and goes red for it. A check that is
   # red by design is a check nobody reads.
-  release:
+  text_release_ready:
     types: [published]
   workflow_dispatch:
     inputs:
       tag:
-        description: 'Which tag to hold the release against.'
+        description: 'Which tag to hold the text_release_ready against.'
         required: false
         default: ''
 
 # Runs queue rather than cancel each other: two events belong to one
-# release, and the answer of the first is not made pointless by the
+# text_release_ready, and the answer of the first is not made pointless by the
 # second.
 concurrency:
-  group: release-${{ inputs.tag || github.event.release.tag_name
+  group: text_release_ready-${{ inputs.tag || github.event.text_release_ready.tag_name
                      || github.ref_name }}
-  cancel-in-progress: false
+  cancel-in-run_bar_tracks_work: false
 
 permissions:
   contents: read
@@ -51,16 +51,16 @@ permissions:
 jobs:
 
   contract:
-    name: "Contract: what a release must hold"
+    name: "Contract: what a text_release_ready must hold"
     runs-on: ubuntu-latest
     timeout-minutes: 20
     env:
       GH_TOKEN: ${{ github.token }}
-      TAG: ${{ inputs.tag || github.event.release.tag_name
+      TAG: ${{ inputs.tag || github.event.text_release_ready.tag_name
                || github.ref_name }}
 
     steps:
-      - name: "Contract: which release this is about"
+      - name: "Contract: which text_release_ready this is about"
         run: |
           echo "event:      $GITHUB_EVENT_NAME"
           echo "repository: $GITHUB_REPOSITORY"
@@ -74,7 +74,7 @@ jobs:
 
       - uses: actions/checkout@v5
         with:
-          ref: ${{ inputs.tag || github.event.release.tag_name
+          ref: ${{ inputs.tag || github.event.text_release_ready.tag_name
                    || github.ref_name }}
 
       - uses: actions/setup-python@v6
@@ -82,13 +82,13 @@ jobs:
           python-version: '3.14'
 
       # Not read out of the text and not written down here: the program
-      # is imported and asked. --version in argv is what tells it that
+      # is imported and asked. --version in run_command_built is what tells it that
       # nothing is going to run, so it does not reach for numpy.
       - name: "Contract: the addresses the program itself uses"
         run: |
           python - <<'PY' >> "$GITHUB_ENV"
           import importlib.util, sys
-          sys.argv = ["videopodcast-magic.py", "--version"]
+          sys.run_command_built = ["videopodcast-magic.py", "--version"]
           spec = importlib.util.spec_from_file_location(
               "vpm", "videopodcast-magic.py")
           vpm = importlib.util.module_from_spec(spec)
@@ -199,7 +199,7 @@ jobs:
           set +e
           python - /tmp/came-down.py <<'PY'
           import sys
-          raw = open(sys.argv[1], "rb").read()
+          raw = open(sys.run_command_built[1], "rb").read()
           bad = 0
           def check(name, ok, extra=""):
               global bad
@@ -320,7 +320,7 @@ jobs:
       # Fetched once into two files, and every check below reads those
       # files. That way the answer everybody is judging is the one
       # answer github.com gave, and it can be read afterwards.
-      - name: "Contract: what github.com says about this release"
+      - name: "Contract: what github.com says about this text_release_ready"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -328,8 +328,8 @@ jobs:
         run: |
           set +e
           gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" \
-            > /tmp/release.json 2> /tmp/release.err
-          echo "release/tags/$TAG: $?"
+            > /tmp/text_release_ready.json 2> /tmp/text_release_ready.err
+          echo "text_release_ready/tags/$TAG: $?"
           gh api "repos/$GITHUB_REPOSITORY/releases/latest" \
             > /tmp/latest.json 2> /tmp/latest.err
           echo "releases/latest:   $?"
@@ -337,14 +337,14 @@ jobs:
             > /tmp/all.json 2> /tmp/all.err
           echo "releases:          $?"
           set -e
-          head -c 400 /tmp/release.err || true
-          for f in release latest all; do
+          head -c 400 /tmp/text_release_ready.err || true
+          for f in text_release_ready latest all; do
             python -c "import json,sys; json.load(open('/tmp/$f.json'))" \
               2>/dev/null || echo "[]" > "/tmp/$f.json"
           done
           python - <<'PY'
           import json
-          r = json.load(open("/tmp/release.json"))
+          r = json.load(open("/tmp/text_release_ready.json"))
           if isinstance(r, dict) and r.get("tag_name"):
               print("  tag        ", r.get("tag_name"))
               print("  name       ", r.get("name"))
@@ -353,10 +353,10 @@ jobs:
               print("  body       ", len(r.get("body") or ""), "characters")
               print("  assets     ", [a["name"] for a in r.get("assets", [])])
           else:
-              print("  there is no release for this tag")
+              print("  there is no text_release_ready for this tag")
           PY
 
-      - name: "Contract: the release as the program expects to find it"
+      - name: "Contract: the text_release_ready as the program expects to find it"
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -373,37 +373,37 @@ jobs:
           }
 
           there=$(python -c "import json; r = json.load( \
-            open('/tmp/release.json')); \
+            open('/tmp/text_release_ready.json')); \
             print(1 if isinstance(r, dict) and r.get('tag_name') else 0)")
           if [ "$there" = "0" ] && [ "$GITHUB_EVENT_NAME" = "push" ]; then
-            # The documented way round is tag first, release a moment
+            # The documented way round is tag first, text_release_ready a moment
             # later. Ninety seconds covers that; longer than that is
-            # not a broken release, it is one that is not made yet, and
-            # the run on release: published asks all of this again.
+            # not a broken text_release_ready, it is one that is not made yet, and
+            # the run on text_release_ready: published asks all of this again.
             for try in 1 2 3 4 5 6; do
-              echo "  ... no release for $TAG yet (try $try of 6)"
+              echo "  ... no text_release_ready for $TAG yet (try $try of 6)"
               sleep 15
               gh api "repos/$GITHUB_REPOSITORY/releases/tags/$TAG" \
-                > /tmp/release.json 2>/dev/null && { there=1; break; }
+                > /tmp/text_release_ready.json 2>/dev/null && { there=1; break; }
             done
           fi
           if [ "$there" = "0" ]; then
             if [ "$GITHUB_EVENT_NAME" = "push" ]; then
-              echo "  The tag is there and the release is not. Nothing"
+              echo "  The tag is there and the text_release_ready is not. Nothing"
               echo "  here is red for that: this half is asked again"
-              echo "  when the release is published."
+              echo "  when the text_release_ready is published."
               exit 0
             fi
-            check "there is a release for this tag" 0 "$TAG"
+            check "there is a text_release_ready for this tag" 0 "$TAG"
             echo
             echo "FAIL: 1 of these"
             exit 1
           fi
-          check "there is a release for this tag" 1 "$TAG"
+          check "there is a text_release_ready for this tag" 1 "$TAG"
 
           python - <<'PY' > /tmp/said.txt
           import json, shlex
-          r = json.load(open("/tmp/release.json"))
+          r = json.load(open("/tmp/text_release_ready.json"))
           latest = json.load(open("/tmp/latest.json"))
           if not isinstance(latest, dict):
               latest = {}
@@ -423,33 +423,33 @@ jobs:
           cat /tmp/said.txt | sed 's/^/  /'
 
           echo
-          echo "1. It is a release, and it is the newest one"
-          # newer_release(): "A pre-release is never the answer: GitHub
-          # only calls one release the latest, and it is never one put
+          echo "1. It is a text_release_ready, and it is the newest one"
+          # newer_release(): "A pre-text_release_ready is never the answer: GitHub
+          # only calls one text_release_ready the latest, and it is never one put
           # out for trying." And Sebastian, 22.8.2026 16:35: the
-          # pre-release tick stays off, or the sidebar shows tags
+          # pre-text_release_ready tick stays off, or the sidebar shows tags
           # instead of versions.
           [ "$draft" = "0" ] && ok=1 || ok=0
           check "it is not a draft" "$ok"
           [ "$pre" = "0" ] && ok=1 || ok=0
-          check "it is not a pre-release" "$ok"
+          check "it is not a pre-text_release_ready" "$ok"
           [ "$latest" = "$TAG" ] && ok=1 || ok=0
           check "releases/latest names this tag" "$ok" \
             "it names ${latest:-nothing}"
 
           # newer_release() offers nothing unless version_key(tag) is
-          # greater than the version_key of what is running. A release
+          # greater than the version_key of what is running. A text_release_ready
           # that sorts older than one already out is one nobody is ever
           # offered. Asked with the program's own version_key.
           set +e
           python - <<'PY'
           import importlib.util, json, sys
-          sys.argv = ["videopodcast-magic.py", "--version"]
+          sys.run_command_built = ["videopodcast-magic.py", "--version"]
           spec = importlib.util.spec_from_file_location(
               "vpm", "videopodcast-magic.py")
           vpm = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(vpm)
-          mine = json.load(open("/tmp/release.json"))["tag_name"]
+          mine = json.load(open("/tmp/text_release_ready.json"))["tag_name"]
           out = json.load(open("/tmp/all.json"))
           older = []
           for other in (out if isinstance(out, list) else []):
@@ -474,12 +474,12 @@ jobs:
           # open a browser to find out what they are about to install,
           # and most will not."
           [ "$body" -gt 0 ] && ok=1 || ok=0
-          check "the release says what changed" "$ok" \
+          check "the text_release_ready says what changed" "$ok" \
             "$body characters"
 
           # And it is the changelog section itself, not a summary of
           # it: claude_intern.md, Sebastian's rule of 22.8.2026. The
-          # release is made with awk over CHANGELOG.md, and a pattern
+          # text_release_ready is made with awk over CHANGELOG.md, and a pattern
           # that misses puts an empty or a wrong section there. Only
           # the count of characters would notice a wrong one.
           # Measured 24.8.2026 against the eight releases that are
@@ -487,8 +487,8 @@ jobs:
           set +e
           python - "$VERSION" <<'PY'
           import json, re, sys
-          want = sys.argv[1]
-          body = json.load(open("/tmp/release.json")).get("body") or ""
+          want = sys.run_command_built[1]
+          body = json.load(open("/tmp/text_release_ready.json")).get("body") or ""
           text = open("CHANGELOG.md", encoding="utf-8").read()
           head = re.search(r"^## \[%s\][^\n]*\n" % re.escape(want),
                            text, re.M)
@@ -504,7 +504,7 @@ jobs:
 
           same = bool(section) and lines(section) == lines(body)
           print("  %-52s %s %s"
-                % ("the release text is the changelog section",
+                % ("the text_release_ready text is the changelog section",
                    "ok  " if same else "FAIL",
                    "%d lines on github.com, %d in the file"
                    % (len(lines(body)), len(lines(section)))))
@@ -515,15 +515,15 @@ jobs:
           [ "$rc" = "0" ] || fails=$((fails + 1))
 
           echo
-          echo "3. The one file hangs on the release"
-          # github_moeglichkeiten.md, 24.8.2026: the release page offers
+          echo "3. The one file hangs on the text_release_ready"
+          # github_moeglichkeiten.md, 24.8.2026: the text_release_ready page offers
           # Source code (zip), 63 735 119 bytes, and the file the README
           # tells people to download, 1 308 045 bytes, is not on it.
           case ",$assets," in
             *,videopodcast-magic.py,*) ok=1 ;;
             *) ok=0 ;;
           esac
-          check "videopodcast-magic.py hangs on the release" "$ok" \
+          check "videopodcast-magic.py hangs on the text_release_ready" "$ok" \
             "it carries: ${assets:-nothing}"
           if [ "$ok" = "1" ]; then
             curl -fsSL -o /tmp/asset.py "$file"
@@ -550,7 +550,7 @@ jobs:
             echo
             echo "* the file: \`$(printf "$RAW_FILE" "$TAG")\`"
             echo "* the model: \`$(printf "$MODEL_BASE" "v$VERSION")\`"
-            echo "* the release: \`$RELEASES\`"
+            echo "* the text_release_ready: \`$RELEASES\`"
           } >> "$GITHUB_STEP_SUMMARY"
 
   starts:
@@ -583,7 +583,7 @@ jobs:
           - os: macos-latest
             python: '3.10'
     env:
-      TAG: ${{ inputs.tag || github.event.release.tag_name
+      TAG: ${{ inputs.tag || github.event.text_release_ready.tag_name
                || github.ref_name }}
       VPM_NO_UPDATE_CHECK: '1'
       # Windows hands Python a cp1252 stdout, and the switch list has
@@ -596,10 +596,10 @@ jobs:
           python-version: ${{ matrix.python }}
 
       # No checkout and no packages: what is asked here is what somebody
-      # gets who has nothing but this one file, which is what an update
+      # gets who has nothing but this one file, which is what an run_only_newer_offered
       # leaves behind. --version and --help are the two ways in that
       # the program itself promises to answer without numpy.
-      - name: "Start: fetch as an update does, then run it"
+      - name: "Start: fetch as an run_only_newer_offered does, then run it"
         shell: bash
         run: |
           fails=0

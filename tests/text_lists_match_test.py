@@ -243,7 +243,7 @@ check("the program builds a menu bar", len(menus) > 1,
       "%d menus" % len(menus))
 # Both chapters write the count as a word, and the neighbours of the
 # real count are listed so a sentence keeps being read when a menu is
-# added. german_hunt_test.py holds every test to English letters, so
+# added. text_no_german_left_test.py holds every test to English letters, so
 # the German word with an umlaut is written as an escape.
 NUMBER_WORDS = {"one": 1, "two": 2, "three": 3, "four": 4, "five": 5,
                 "six": 6, "seven": 7, "ein": 1, "zwei": 2, "drei": 3,

@@ -48,7 +48,7 @@ over a hundred places and decide nothing.
 `run_argv` shows no dialogs. It returns a list of `(kind, title, text,
 button)` in the order intended. `"error"` means show and abort,
 `"question"` means ask and abort on no. So the order of the queries can
-be tested: `argv_test.py` goes through eighteen cases.
+be tested: `run_command_built_test.py` goes through eighteen cases.
 
 ## How speech is detected without Auphonic
 
@@ -516,7 +516,7 @@ give it the new two-letter code, translate the right-hand sides.
 `--lang` offers it afterwards, and a system set to it picks it up by
 itself.
 
-The test suite is English throughout. `style_test.py` watches the
+The test suite is English throughout. `source_limits_hold_test.py` watches the
 source: German comments, narrating comments, text lines over 79
 characters, over-long blocks, docstring headings without a full stop.
 Every counter is at zero.

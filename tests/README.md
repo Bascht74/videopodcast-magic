@@ -5,16 +5,16 @@
 ```bash
 bash run.sh              # all of them, several at a time
 WORKERS=1 bash run.sh    # one after another, easier to read
-python3 speakers_test.py # a single one
+python3 voice_turns_found_test.py # a single one
 ```
 
-A test started by hand stays silent: every test that builds a player
+A test started by hand stays silent: every test that builds a cut_player_jump_lands
 sets `VPM_SILENT` itself, so it plays nothing at whoever is working
 next to it, and `run.sh` sets the variable for the whole run anyway.
-The program reads it with `bool()`, so any value silences the player,
+The program reads it with `bool()`, so any value silences the cut_player_jump_lands,
 `0` included, and `env -u VPM_SILENT` does not help -- the test would
 set it again. Sound comes back with an empty value:
-`VPM_SILENT= python3 player_test.py`.
+`VPM_SILENT= python3 cut_player_jump_lands_test.py`.
 
 A test counts as green when it returns 0 and prints neither a traceback
 nor `FAIL`. A test that finds nothing to work on prints `SKIPPED:` and is
@@ -23,7 +23,7 @@ green for a test that checked nothing.
 
 Needed: `python3`, `ffmpeg`, `ffprobe`, `numpy`, `PySide6` and
 `pyspellchecker` (with its German and English word lists -- without it
-`language_test.py` turns red rather than skipping). The window tests run
+`text_only_texts_change_test.py` turns red rather than skipping). The time_length_is_in_to_out tests run
 offscreen (`QT_QPA_PLATFORM=offscreen`), so no display is required.
 
 ## Fixtures and temporary material
@@ -34,8 +34,8 @@ after themselves, and a whole run is several gigabytes. `KEEP_TEMP=1 bash
 run.sh` leaves it in place for looking at.
 
 Four folders are shared and read-only, so `fixtures.sh` builds them once
-before the tests fan out -- otherwise `hdr_test.py` and
-`foreign_files_test.py` would race for `/tmp/foreign`:
+before the tests fan out -- otherwise `files_hdr_complete_test.py` and
+`files_foreign_untouched_test.py` would race for `/tmp/foreign`:
 
 | Folder | Holds |
 |---|---|
@@ -54,7 +54,7 @@ force` rebuilds regardless.
 |---|---|
 | `VPM_SCRIPT` | which script is tested (default: the one in the folder above) |
 | `VPM_MEDIA` | folder with a project to open (default: `/tmp/interview`, which `fixtures.sh` builds) |
-| `VPM_SHOTS` | where the window screenshots go (default: `tests/shots/`) |
+| `VPM_SHOTS` | where the time_length_is_in_to_out screenshots go (default: `tests/shots/`) |
 | `WORKERS` | how many tests at once (default: processors + 1, at most 12) |
 | `KEEP_TEMP` | keep the run's temporary folder and its cache |
 | `VPM_CACHE` | where the program keeps what it computes between runs. `run.sh` points it at one folder per run and throws it away at the end, so a suite leaves nothing in the cache of whoever started it |
@@ -62,8 +62,8 @@ force` rebuilds regardless.
 | `VPM_INSTALL_TOOLS` | answer the ffmpeg question with yes before it is asked, so a run with nobody in front of it installs it over the package manager instead of stopping |
 
 Five tests need a folder holding `videopodcast-magic_Interview_2.json` and
-the files it points at: `start_button_test.py`, `footer_bar_test.py`,
-`run_bar_test.py` and the two screenshot scripts `preview_shot.py` and
+the files it points at: `window_start_runs_test.py`, `window_idle_bar_hidden_test.py`,
+`window_stages_named_test.py` and the two screenshot scripts `preview_shot.py` and
 `assignment_shot.py`, which `run.sh` does not collect. `fixtures.sh` builds
 a synthetic one in `/tmp/interview`, so they run from a fresh checkout.
 Point `VPM_MEDIA` at real recordings to run them against those instead;
@@ -71,7 +71,7 @@ where neither is there they print `SKIPPED:` and are counted apart.
 
 ## The ratchets
 
-`style_test.py`, `language_test.py` and `consistency_test.py` count things
+`source_limits_hold_test.py`, `text_only_texts_change_test.py` and `source_no_loose_ends_test.py` count things
 that are meant to go to zero and keep the count in `state/`. A count may
 fall, never rise. Today:
 
@@ -122,12 +122,12 @@ same machine may need it.
 
 ## What these tests do not do
 
-Three of them -- `render`, `render_hdr`, `multicam` -- print their result
+Three of them -- `project_render_queued`, `project_hdr_follows`, `project_cameras_land` -- print their result
 and compare it to nothing. They catch a crash, not a wrong number, and
-they will stay that way: what they build is a render job or a multicam
+they will stay that way: what they build is a project_render_queued job or a project_cameras_land
 clip for DaVinci Resolve, and only Resolve can say whether it is right.
 Each of the three says so in its docstring rather than leaving the reader
 to find out.
 
-The other five that used to be silent -- `colours`, `metrics`,
-`dualmono`, `crosstalk`, `intro` -- now measure what they print.
+The other five that used to be silent -- `cut_colour_per_camera`, `run_metrics_add_up`,
+`sound_both_sides_alike`, `sound_bleed_reported`, `cut_jingle_over_start` -- now measure what they print.

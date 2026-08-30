@@ -187,7 +187,7 @@ already given up.
 
 ## What one bad point does to the drift
 
-Measured in `tests/outliers_test.py`, 19 checks, on a built series of
+Measured in `tests/time_bad_point_dropped_test.py`, 19 checks, on a built series of
 points: the true answer is known, so the error is known exactly too.
 
 A single wrong point **at the start** moves the offset by 188.9 ms and
@@ -621,7 +621,7 @@ Python side, because asking Qt is the thing that blocks -- whether it
 is running at all before it is told to stop.
 
 **And it is not the six windows.** The same stack turned up in
-`run_bar_test`, which opens **one** window and starts a dry run --
+`window_stages_named_test`, which opens **one** window and starts a dry run --
 stopped for good in `QMediaPlayer::pause`, 15 minutes into a limit of
 15. That moved the finding: the load only makes it likelier, and what
 it is about is pausing a player that has not started. Every place that
