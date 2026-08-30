@@ -20852,12 +20852,6 @@ def build_argument_parser():
     ap.add_argument("--no-trim", dest="no_trim", action="store_true",
                     help="cut nothing off, audio at full length (default: "
                          "trimmed to where the picture runs)")
-    ap.add_argument("--head", default=None, metavar="TIME",
-                    help="cut this much off the front: seconds, MM:SS or "
-                         "HH:MM:SS (default: measured)")
-    ap.add_argument("--tail", default=None, metavar="TIME",
-                    help="cut this much off the end, same notation "
-                         "(default: measured)")
     ap.add_argument("--no-drift", dest="no_drift", action="store_true",
                     help="measure and report clock drift, but do not take "
                          "it out")
@@ -21364,7 +21358,6 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
                         'sound is written as it was recorded.')))
 
     n_audio = sample_count(audio)
-    default_value = args.head is not None or args.tail is not None
 
     # ---------------------------------------------------------- 5. audio only
     if not video_paths:
@@ -21409,13 +21402,14 @@ def run_single_track_path(args, ap, audio_paths, video_paths):
     for v, info in videos:
         print(as_head(T('PROCESSING: %s') % os.path.basename(v)))
         fps = max(1.0, info["fps"])
+        # How much of the recording has no picture is measured, never
+        # given. --head and --tail used to say it by hand, and they went
+        # on 30.8.2026: where the measurement finds nothing, the material
+        # is too poor for the run, and a hand-set number written over it
+        # only hides that. The multitrack path never had them, so this is
+        # one switch fewer to carry into the two paths becoming one.
         head_s = tail_s = 0
-        if default_value:
-            head_s = int(round(parse_timecode(args.head, fps) * SR)) if args.head else 0
-            tail_s = int(round(parse_timecode(args.tail, fps) * SR)) if args.tail else 0
-            print(T('  Given: trim front %s, back %s')
-                  % (as_hms(head_s / float(SR)), as_hms(tail_s / float(SR))))
-        elif not args.no_trim:
+        if not args.no_trim:
             try:
                 s0, s1, note = audio_range_covered_by_video(audio, v)
             except Exception as e:
@@ -21825,7 +21819,7 @@ def main():
                        "no_metrics", "assign", "multitrack")
     # Not "suffix": finish_without_auphonic names the mixed file with it
     # on the multitrack path as well.
-    ONLY_SIMPLE = ("no_trim", "head", "tail", "name", "no_single_tracks")
+    ONLY_SIMPLE = ("no_trim", "name", "no_single_tracks")
     for entry in ap._actions:
         if entry.dest in ONLY_MULTITRACK:
             entry.help = (entry.help or "") + "  [multitrack only]"
@@ -34394,8 +34388,6 @@ CATALOGUE["de"] = {
         '  Zwei Kanäle angefordert -- die Aufnahme ist Stereo',
     '  From %s':
         '  Aus %s',
-    '  Given: trim front %s, back %s':
-        '  Vorgegeben: vorne %s, hinten %s abschneiden',
     '  In summary: %s':
         '  Zusammengefasst: %s',
     '  In the archive: %s':

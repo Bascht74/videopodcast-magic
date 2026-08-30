@@ -37,8 +37,6 @@ hints. Without a key the multitrack run stops there.*
 | `--transcript` | have auphonic.com write down what is said: json, srt and txt |
 | `--no-trim` | audio at full length instead of trimmed to the picture |
 | `--no-single-tracks` | only the mix into the video, not the recordings beside it |
-| `--head TIME` | cut this much off the front: seconds, MM:SS, HH:MM:SS (measured) |
-| `--tail TIME` | the same for the end (measured) |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
 | `--fps NUMBER` | frame rate to assume, if ffprobe reports a wrong one (from the video file) |
