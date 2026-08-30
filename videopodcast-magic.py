@@ -24927,13 +24927,7 @@ def more_speakers_row(audio_file_list, on_pick):
         which = _qw.QComboBox()
         for path in audio_file_list:
             which.addItem(os.path.basename(path), path)
-        # Without this the box would be as wide as the longest file
-        # name in it; the name is elided instead, and the whole one
-        # stands in the list when it is opened.
-        which.setSizeAdjustPolicy(
-            _qw.QComboBox.AdjustToMinimumContentsLengthWithIcon)
-        which.setMinimumContentsLength(12)
-        which.setMaximumWidth(NAME_ROOM)
+        which.setSizeAdjustPolicy(_qw.QComboBox.AdjustToContents)
         button = _qw.QPushButton(T('One more speaker in'))
         # Button and chooser together have to fit; measured as a pair,
         # and shrunk as a pair or not at all -- two different sizes
@@ -24942,6 +24936,13 @@ def more_speakers_row(audio_file_list, on_pick):
                 + min(which.sizeHint().width(), NAME_ROOM) > ROW_ROOM):
             font_smaller(button, 2)
             font_smaller(which, 2)
+        # The width comes after the type is settled, in the font the
+        # box really draws with, and it comes from the names rather
+        # than from a count of characters. Measured offscreen at this
+        # Mac's system font, 31.8.2026: a name of 27 letters wants 288
+        # px and the box can give its text 216, so that one is
+        # shortened and shorter names beside it are not.
+        box_names_fit(which, NAME_ROOM)
         button.clicked.connect(lambda *_, b=which: on_pick(b.currentData()))
         more_row.addWidget(button)
         more_row.addWidget(which)
@@ -25138,6 +25139,42 @@ def short_name(widget, text, room):
     """
     from PySide6 import QtCore as _qc
     return widget.fontMetrics().elidedText(text, _qc.Qt.ElideMiddle, room)
+
+def box_names_fit(box, room):
+    """Give a chooser of file names the width it needs, up to *room*.
+
+    A chooser asks for as much as its widest entry needs and no more
+    than *room*; what it cannot get, it takes off the name. Qt takes it
+    off the end, and the recordings of one session differ at the end --
+    cut there, three of them read alike. So where the room is not
+    enough, every entry is shortened in the middle instead, and the
+    whole name stays reachable as a tooltip: on the entry in the open
+    list, and on the box itself for the one that is chosen.
+
+    Nothing is shortened while the room is enough. An unshortened name
+    is worth more than a uniform look.
+    """
+    from PySide6 import QtCore as _qc
+    want = widget_width(box)
+    box.setMinimumWidth(min(want, room))
+    box.setMaximumWidth(room)
+    if want <= room:
+        return box
+    whole = [box.itemText(i) for i in range(box.count())]
+    for i, name in enumerate(whole):
+        # The arrow sits inside the box and takes room off the text;
+        # the same allowance widget_width measures with.
+        box.setItemText(i, short_name(box, name, room - 44))
+        box.setItemData(i, name, _qc.Qt.ToolTipRole)
+
+    def whole_name(*_):
+        """Put the chosen name, unshortened, on the box."""
+        i = box.currentIndex()
+        box.setToolTip(whole[i] if 0 <= i < len(whole) else "")
+
+    box.currentIndexChanged.connect(whole_name)
+    whole_name()
+    return box
 
 def field_bind(field, value, width=None):
     """Bind an input field and a value so each follows the other."""
