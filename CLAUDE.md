@@ -79,6 +79,23 @@ last:
    -- a number is understood without context. Where it is not, leave it
    out.
 
+   **What does not go in at all**, from Sebastian's reading of a draft
+   on 30.8.2026:
+
+   * **Editorial tidying.** A word changed in the interface for its own
+     sake is not something anybody has to read about. His example, and
+     it was struck out: *"The German texts say Version where they said
+     Fassung."*
+   * **Findings from measuring.** A test that showed the other path was
+     fine changed nothing for anybody. It belongs in the notes, not
+     here. His words: *"That sort of thing does not go in the
+     changelog, does it?"*
+
+   **Under Fixed, half a point is not a point.** Both of the ones he
+   struck said what had been wrong and stopped there. A reader needs
+   the second half -- what happens now -- and in German it is usually
+   the word "jetzt" that carries it. `release_test.py` checks for it.
+
    `release_test.py` checks what a machine can: that both halves are
    there, that they hold the same number of points, that neither is
    written in the other's language, and that no point stands out by its

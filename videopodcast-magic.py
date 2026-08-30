@@ -9443,8 +9443,18 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             continue
         videos.append((v, info))
     if not videos:
-        print(T('\nNo usable video file -- without camera audio there is no '
-                'common time axis.'))
+        # Two different situations wore the same sentence, and only one
+        # of them was about camera audio. Where no picture was given at
+        # all, saying "no usable video file" reads as a complaint about
+        # the files rather than as an answer to what was asked.
+        if not video_paths:
+            print(T('\nMultitrack needs pictures: the tracks are laid '
+                    'against the cameras, and there are none here. '
+                    'Several recordings without a picture are several '
+                    'recordings -- there is nothing to put them on.'))
+        else:
+            print(T('\nNo usable video file -- without camera audio there '
+                    'is no common time axis.'))
         return 1
 
     # The nominal rates from the container are compared. The measured ones
@@ -34253,6 +34263,12 @@ CATALOGUE["de"] = {
         '\nMISCHEN',
     '\nNORMALISE':
         '\nNORMALISIEREN',
+    '\nMultitrack needs pictures: the tracks are laid against the cameras, '
+    'and there are none here. Several recordings without a picture are '
+    'several recordings -- there is nothing to put them on.':
+        '\nMultitrack braucht Bilder: Die Spuren werden an die Kameras '
+        'gelegt, und hier sind keine. Mehrere Aufnahmen ohne Bild sind '
+        'mehrere Aufnahmen -- es gibt nichts, worauf man sie legen könnte.',
     '\nNo usable video file -- without camera audio there is no common time '
     'axis.':
         '\nKeine brauchbare Videodatei -- ohne Kameraton keine gemeinsame '
