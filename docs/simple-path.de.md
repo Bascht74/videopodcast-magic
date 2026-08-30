@@ -10,25 +10,36 @@ eine Spur)**. Das Häkchen steht auf dem Reiter **Zuordnung &
 Zeitfenster** über dem Kasten **Aufbereitung bei auphonic.com
 (optional)**.
 
+Das Häkchen entscheidet, wie die Aufnahmen gruppiert werden, nicht
+welchen Weg der Lauf nimmt. Mit ihm bekommt jede Person eine eigene
+Spur, unter ihrem Namen und einer Kamera zugeordnet. Ohne es wird aller
+Ton ein Mix. Alles Weitere ist dieselbe Maschine: eine gemeinsame
+Zeitachse, ein Schreiber.
+
 Beide Wege schreiben dieselbe Art Datei: MOV, Bild umkopiert, Ton
 unkomprimiert, die `colr`-Angabe und die QuickTime-Schlüssel der Kamera
 mitgenommen.
 
 Was der einfache Weg genauso kann wie Multitrack:
 
+- **Dieselben Dateien.** Kennzahlen, Transkript, die vier Schnittlisten,
+  die Tonspuren als Dateien in `auphonic-tracks/` und die Übergabe an
+  Resolve werden auch hier geschrieben.
 - **Zeitfenster.** Die Knöpfe **In markieren** und **Out markieren**
   wirken auch hier (auf der Kommandozeile `--in-point` und
   `--out-point`). Sie nehmen die Schreibweisen aus
-  [Multitrack](multitrack.de.md), Abschnitt „Zeitfenster“. Beschnitten
-  wird der Ton; das Bild bleibt ganz und behält seinen Timecode.
+  [Multitrack](multitrack.de.md), Abschnitt „Zeitfenster“. Der Punkt
+  liegt auf der gemeinsamen Zeitachse und meint für jede Kamera denselben
+  Moment. Beschnitten wird der Ton; das Bild bleibt ganz und behält
+  seinen Timecode.
 - **Vorschau Player.** Auf dem Reiter **Zuordnung & Zeitfenster**, mit
   denselben Knöpfen.
 - **Lautheit gemessen.** Die Summe wird gemessen, und die Zahl steht im
   Protokoll, unter `NORMALISIEREN` als **Summe der Spuren**, mit LUFS,
-  Spitze und Umfang. Angepasst wird hier nichts: ohne Schlüssel für
-  auphonic.com geht der Ton genau so hinaus, wie er hereinkam, und
-  `--lufs` sagt das ausdrücklich ([Vorflug](preflight.de.md), Abschnitt
-  „Welches Lautheitsziel gilt“).
+  Spitze und Umfang. Sind Kameras im Material, wirkt `--lufs` auch hier
+  und verschiebt jede Spur um denselben Betrag. Nur der Lauf ganz ohne
+  Bild wendet den Schalter nicht an und sagt es
+  ([Vorflug](preflight.de.md), Abschnitt „Welches Lautheitsziel gilt“).
 - **Resolve-Projekt.** Mehrere Kameras geben eine Timeline mit allen
   nebeneinander, fertig für Multicam. Eine Kamera gibt eine gerade
   Timeline, oder eine geschnittene, sobald die Sprecher getrennt sind.
@@ -39,7 +50,9 @@ auseinanderzunehmen.
 
 Was herauskommt, hängt am Material:
 
-- **Nur Ton.** Fortsetzungsdateien werden zusammengesetzt und geschrieben.
+- **Nur Ton.** Das ist der eine Fall mit einem eigenen Weg. Die Blöcke
+  werden zu einer Datei `<Name>_joined.wav` zusammengelegt, oder eine
+  einzelne Aufnahme geht allein zu auphonic.com.
 - **Ton und Bild.** Der Ton wird ausgerichtet und in die Videodatei gelegt.
 - **Nur ein Video.** Dessen eigener Ton, links und rechts getrennt.
 
@@ -109,22 +122,24 @@ Protokoll wie im Fenster.
 
 ### Was neben dem Mix ins Video kommt
 
-Ohne Multitrack geht aller Ton in eine Spur. Wenn mehrere Aufnahmen
-gleichzeitig liefen, geht jede davon zusätzlich als eigene Spur ins
-Video, hinter dem Mix. Sie liegt auf derselben Achse und hat dieselbe
-Länge.
+Ohne Multitrack geht aller Ton in einen Mix. Die Videodatei bekommt zwei
+Tonspuren und nicht mehr: Spur 1 den `Full-Mix`, Spur 2
+`Camera Original`, den eigenen Ton der Kamera.
 
-Der Lauf liest am Timecode ab, ob sie gleichzeitig liefen. Aufnahmen, die
-sich überlappen, waren mehrere Mikrofone gleichzeitig. Das Programm nennt
-jede Datei einer zerlegten Aufnahme einen Block. Blöcke, die aufeinander
-folgen, sind eine Aufnahme und bekommen keine zusätzlichen Spuren.
+Die einzelnen Aufnahmen stehen nicht im Video. Sie liegen daneben im
+Ordner `auphonic-tracks/` als `final_<Name>.wav`, mit dem Timecode im
+Namen, wenn das Material einen trägt, im bext-Block und als iXML für
+Premiere und Media Composer.
 
-Die Einzelspuren sind unbearbeitet: nur der Mix geht zu auphonic.com,
-also kein De-Bleed und kein Leveler auf ihnen. Sie kosten rund 520 MB je
-Spur und Stunde. Wenn der Mix von auphonic.com in anderer Länge
-zurückkommt, als die Aufnahmen haben, fallen die Einzelspuren von selbst
-weg. Im Gratis-Tarif macht das ein vorangestellter Jingle. Der Lauf sagt
-es.
+Bei einer einzigen Aufnahme behält der Mix deren Kanalzahl: eine
+Mono-Aufnahme ergibt im Protokoll `Full-Mix aus 1 Spuren, 1 Kanal`, zwei
+Aufnahmen ergeben `Full-Mix aus 2 Spuren, 2 Kanäle`. Eine Stereo-Quelle
+hebt die Zahl von allein auf zwei.
+
+Der Lauf liest am Timecode ab, welche Aufnahmen gleichzeitig liefen.
+Aufnahmen, die sich überlappen, waren mehrere Mikrofone gleichzeitig. Das
+Programm nennt jede Datei einer zerlegten Aufnahme einen Block. Blöcke,
+die aufeinander folgen, sind eine Aufnahme.
 
 Fortsetzungsdateien findet das Script selbst; der erste nummerierte Block
 genügt. Als Fortsetzung gilt nur, was lückenlos anschließt, geprüft am
@@ -134,6 +149,16 @@ Namensform wird nicht angehängt.
 Der Versatz wird immer gemessen, auch wenn beide Seiten Timecode tragen.
 Wenn der Timecode beidseitig vorliegt, sagt der Lauf am Ende, wie weit er
 vom gemessenen Wert abweicht.
+
+Wo eine Aufnahme über das Bild hinausreicht, bleibt dieser Teil weg. Das
+Protokoll sagt es je Spur, eine Zeile für jede:
+
+```
+    Rec: 0:00:04,000 am Anfang und 0:00:04,000 am Ende haben kein Bild und bleiben weg
+```
+
+Die Zeile kommt nur, wo vorne oder hinten mehr als eine Viertelsekunde
+wegfällt.
 
 Ein Video, das der Lauf gar nicht einordnen kann, bleibt draußen. Wo
 weder die Form des Tons noch seine Phase die Kamera in der Aufnahme
@@ -193,12 +218,10 @@ Jede Videodatei kommt zurück mit unverändertem Bild (`-c:v copy`), dem
 neuen Ton als erster Spur und der Kameraspur dahinter. Das Programm
 benennt beide Spuren und behält den Timecode.
 
-Die neue Spur heißt `Full-Mix`, die eigene der Kamera `Camera Original`;
-bringt eine Kamera mehrere eigene mit, werden sie als
+Die neue Spur heißt immer `Full-Mix`. Die eigene der Kamera heißt
+`Camera Original`; bringt eine Kamera mehrere eigene mit, werden sie als
 `Camera Original 1`, `Camera Original 2` und so fort durchnummeriert.
-`--name` und `--name-camera` setzen die beiden Namen. Der erste ist nicht
-bloß eine Beschriftung: Mit ihm wird die Übergabe an Resolve geschrieben,
-und Resolve benennt seine Tonspur danach.
+`--name-camera` setzt diesen zweiten Namen.
 
 ### Warum das Ziel immer MOV ist
 
@@ -217,9 +240,9 @@ nicht.
 - **Eine Datei wurde in eine Aufnahme genommen, in die sie nicht
   gehört.** Ihre Zeile auswählen und **Entfernen** drücken; sie bleibt
   von da an draußen.
-- **Die Einzelspuren fehlen im Video.** Der Mix kam von auphonic.com in
-  anderer Länge zurück als die Aufnahmen; der Lauf sagt es. Der Mix
-  selbst steht im Video.
+- **Eine Aufnahme fehlt im Video.** Hinein gehen nur der Mix und der
+  eigene Ton der Kamera. Die Aufnahmen selbst stehen in
+  `auphonic-tracks/`, je eine Datei.
 - **Eine Videodatei fehlt im Ergebnis.** Der Lauf konnte sie nicht
   einordnen: Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
   sie trägt keinen Timecode. Ihr mit einem anderen Programm einen geben,
@@ -228,15 +251,18 @@ nicht.
   Im Fenster schlägt das Programm das von selbst vor ([Die
   Oberfläche](interface.de.md)).
 
-Im Video steht jetzt der fertige Mix und daneben die Aufnahmen, die
-gleichzeitig liefen. Was auphonic.com mit dem Mix macht, steht in
+Im Video steht jetzt der fertige Mix und der eigene Ton der Kamera, und
+die Aufnahmen liegen als Dateien daneben. Was auphonic.com mit dem Mix
+macht, steht in
 [Aufbereitung über auphonic.com](auphonic.de.md).
 
 ### Weitere Optionen über die Kommandozeile
 
 Diese Optionen gibt es im Fenster nicht.
 
-- `--no-single-tracks` lässt die Einzelspuren aus dem Video weg.
+- `--no-single-tracks` gilt für den Lauf ganz ohne Bild: dort entscheidet
+  er, ob die Blöcke einzeln erhalten bleiben. Wo Bild dabei ist, ändert
+  er nichts, denn das Video trägt keine Einzelspuren.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
 - `--help` setzt `[simple path only]` oder `[multitrack only]` an einen

@@ -9,10 +9,16 @@ Several people at a table, each with a microphone that hears everyone.
 Taking that bleed out of the audio is the one thing only auphonic.com
 does.
 
-Multitrack is the way for one track per person. Everybody on one
+Multitrack is the tick for one track per person. Everybody on one
 recording stays one track. The speaker separation tells the voices in it
 apart and gives the cut, not a track each
 ([Speech recognition and speaker separation](speech.md)).
+
+The tick decides how the recordings are grouped, and nothing else: with
+it every person gets a track of their own, with a name and a camera;
+without it they all run into the Full-Mix together. The common time
+axis, the camera cut and the files that come out are the same with the
+tick and without it.
 
 Everything else runs locally. [Processing at auphonic.com](auphonic.md)
 describes the way there (on the command line `--without-auphonic`). The

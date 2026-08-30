@@ -398,8 +398,7 @@ Sprechpause in der Nähe und steht die eingestellte Mindestzeit.
 
 ### Was Kennzahlen und Farbvergleich messen
 
-Am Ende jedes Multitrack-Laufs entsteht `<Produktion>_metrics.csv`; das
-Protokoll
+Am Ende jedes Laufs entsteht `<Produktion>_metrics.csv`; das Protokoll
 wird beim nächsten Lauf überschrieben, diese Datei nicht. Über Monate
 sieht man daran, was in einem einzelnen Lauf nicht auffällt: dass ein
 Recorder langsamer wird, dass eine Kamera zunehmend anders aussieht als
@@ -470,7 +469,5 @@ Im Fenster gibt es dafür keine Entsprechung.
   Antwortende halten muss, zwischen 0 und 1 (0,7); höher und er greift
   seltener
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
-  (nur Multitrack; ein Lauf ohne Multitrack schreibt ohnehin keines von
-  beiden)
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
   aller drei Player unter das Bild und jeden Versuch auf die Konsole

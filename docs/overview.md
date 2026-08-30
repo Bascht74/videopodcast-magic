@@ -47,7 +47,7 @@ re-encoding it. Inside it the good audio sits as the first audio track,
 the camera microphone as the second, both named. In the edit you say
 "audio from track one" and you are done. Afterwards the program measures
 the two tracks against each other and writes down how far apart they are.
-With one recorder and one camera that is the whole run: [the simple
+With one recorder and one camera that is the simplest case: [the simple
 path](simple-path.md).
 
 Before the first long step the program looks the material over; it calls
