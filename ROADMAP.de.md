@@ -15,7 +15,7 @@ zuletzt für 2.14.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 2.20.0-beta.** Es läuft jede Woche, an echtem Material.
+**Version 2.21.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
