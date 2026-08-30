@@ -122,5 +122,29 @@ check("the key is taken out before pip runs",
 check("the project file strips the switch",
       "--auphonic-api-key" in source and "strip" in source.lower())
 
+# The five things a release is, printed where somebody stands right
+# before setting the tag. Three of them a test can look at and does,
+# above; two only a person can answer, and those are the two that were
+# forgotten four releases running -- caught up afterwards instead of
+# being part of the work. Sebastian, 31.8.2026: make it a rule you
+# cannot overlook. A rule in a document can be overlooked; a block on
+# the screen at the moment of the deed is harder.
+print("""
+Before the tag -- five things, and the tag comes last:
+
+  checked here   the changelog names this version, in the right groups
+  checked here   the READMEs name this version
+  checked here   the manual's defaults match the parser (docs_truth)
+  ONLY A PERSON  the manual says what a person can now see or feel,
+                 in both languages -- a moved default, a new answer in
+                 a field, a computation that costs their processor
+  ONLY A PERSON  the pictures show the program as it is now, where the
+                 window changed (docs/notes says how they are taken)
+  ONLY A PERSON  the open list and the roadmap issue are brought up to
+                 date, not caught up afterwards
+
+And before all of them: green on all six builder jobs, and the times
+fetched with builder_times.sh and looked at.""")
+
 print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
 sys.exit(1 if error else 0)
