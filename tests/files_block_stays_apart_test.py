@@ -4,17 +4,23 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, sys, tempfile, wave
+import importlib.util, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 RATE = 48000
 folder = tempfile.mkdtemp(prefix="vpm_apart_")
@@ -81,9 +87,45 @@ check("an empty mark is the same as none",
 check("and a mark on a file nobody has changes nothing",
       len(vpm.group_recording_parts(every, apart=["/nowhere.wav"])) == 2)
 
+print("\n6. And the plan keeps it apart")
+# The five sections above ask the grouping function, and they were green
+# for months while the switch did nothing: the plan rows are merged by
+# speaker name one step later, and two blocks of one recorder guess the
+# same name. So this one asks a whole run instead of a function.
+ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
+           VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
+
+
+def recorder_rows(*more):
+    """How many plan rows a dry run gives the recorder called REC."""
+    p = subprocess.run(
+        [sys.executable, SCRIPT, "--dry-run", "--without-auphonic",
+         "--no-preflight", "--out", os.path.join(folder, "out")]
+        + list(more) + every,
+        capture_output=True, text=True, env=ENV)
+    rows, keep = [], False
+    for line in (p.stdout or "").splitlines():
+        if "RECOGNISED PLAN" in line:
+            keep = True
+            continue
+        if keep and line.startswith("  ") and ".wav" in line:
+            rows.append(" ".join(line.split()))
+        elif keep and line.strip() and not line.startswith(" "):
+            break
+    return [r for r in rows if r.split()[0] == "REC"]
+
+
+joined = recorder_rows()
+apart_rows = recorder_rows("--apart", two)
+check("without the switch the two blocks stand in one row",
+      len(joined) == 1, "%d rows: %s" % (len(joined), joined))
+check("with the switch they stand in two",
+      len(apart_rows) == 2, "%d rows: %s" % (len(apart_rows), apart_rows))
+check("so the switch changes the plan at all",
+      joined != apart_rows,
+      "with and without came out the same: %s" % joined)
+
 shutil.rmtree(folder, ignore_errors=True)
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)
