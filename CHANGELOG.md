@@ -9,7 +9,28 @@ Only the two releases of 2026-08-22 carry a date. The versions below
 them were numbered after the fact, and no reliable release date for them
 survives.
 
-## [Unreleased]
+## [2.16.0-beta] - 2026-08-30
+
+### Added
+
+- The title bar names the open project, in front, the way a document
+  window does everywhere else. A window with a project open and one
+  without looked exactly alike, and after a few productions in a row
+  there was no telling which one this was.
+
+### Changed
+
+- A name that is too long for its column is shown from the front. The
+  new file names begin with the production and end with the camera, and
+  a field shows its end, so the half that says which row this is was
+  the half cut off: measured on Sebastian's window, the column stands
+  at 185 pixels and "Testinterview_Jingle_Audio-Full-Mix" needs about
+  300. The whole name is on the field as a tooltip.
+- Columns holding a widget are measured by what the widget holds.
+  resizeColumnsToContents reads the text of items, and a cell with a
+  line edit or a drop down in it has no item text, so such a column was
+  measured as empty and came out at its minimum -- the drop down beside
+  the name showed the last half of its word.
 
 ### Tests
 
@@ -24,6 +45,26 @@ survives.
   count. It is named on a line of its own, with how many goes fell and
   what the first one said, so whoever reads the log can tell the known
   access violation from something new and decide for themselves.
+- `round_trip_test.py`: everything that can be set is set through the
+  widget a person would use, the file is written the way the program
+  writes it, a second window that knows nothing opens it, and every
+  answer is asked after by name -- the production, the new file name,
+  the Kind, the speaker's name, the transcript, and the title bar.
+  Sebastian asked for it after a project came back without its speaker
+  names: *"Is there no test that saves as many options as possible and
+  then opens it again and checks whether everything is there?"* There
+  was not. Every setting had a test where it is made, and the file had
+  one for its shape, but nothing took the window round the circle -- and
+  a setting that never reaches the file looks exactly like one that was
+  never made.
+- Writing that test found what it was built to find, twice, and both
+  times the fault was the test's: naming a clip and then making it the
+  intro loses the name, because an intro is no longer a camera; and
+  choosing "Content" by hand cannot be told from choosing nothing,
+  because that is what an unanswered file holds. The second one is
+  worth knowing at the window as well: a camera nobody sits in front of
+  is shown as the wide shot whatever was chosen, which is why four
+  cameras all read "wide shot" in a project that had answers in it.
 - `bash run.sh <name> ...` runs only the tests named, through the same
   machinery. One red test is looked at on its own far more often than
   all of them are.
@@ -2147,6 +2188,7 @@ describes the program. What they found is below.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.16.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.15.0-beta...v2.16.0-beta
 [2.15.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.14.0-beta...v2.15.0-beta
 [2.14.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.13.0-beta...v2.14.0-beta
 [2.13.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.12.0-beta...v2.13.0-beta
