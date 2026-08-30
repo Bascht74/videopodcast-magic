@@ -10405,13 +10405,17 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             items.append((MIX_TRACK_NAME, full_mix))
             # And the recordings the mix was made of, each on a line of
             # its own, so the edit can reach for one voice without
-            # importing anything beside the video. This is what a run
-            # without an assignment always gave, and it has to go on
-            # giving it.
+            # importing anything beside the video. That is what a run
+            # with no assignment always gave.
             #
-            # Not where there is only one recording: the mix is that
-            # recording, and a second copy of it says nothing.
-            if len(tracks) > 1 and not getattr(args, "no_single_tracks", False):
+            # Only where no track has a camera at all. Where an
+            # assignment exists, a camera nobody was assigned to is the
+            # wide shot, and it got the mix and nothing else -- putting
+            # every voice into it as well would change what a multitrack
+            # run writes. And not where there is one recording: the mix
+            # is that recording.
+            if (not after_camera and len(tracks) > 1
+                    and not getattr(args, "no_single_tracks", False)):
                 for track in tracks:
                     items.append((track["name"], single[track["name"]]))
         # Where the camera sits on the axis is already known: building the time
