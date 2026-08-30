@@ -1143,12 +1143,21 @@ _PROBE = {}
 
 
 def file_stamp(path):
-    """Identify a file by what changes when it is written to."""
+    """Identify a file by what changes when it is written to.
+
+    By the real path, not the one the caller typed. On macOS /tmp is a
+    link to /private/tmp, and a folder somebody linked into their
+    working directory is the everyday version of the same thing: the
+    same file then carries two names and is measured twice. Nothing
+    reads the path back out of this -- it is a key and nothing else --
+    so following the link costs the 7 microseconds measured against
+    abspath and saves an ffprobe process start, which is thousands.
+    """
     try:
         s = os.stat(path)
     except OSError:
         return None
-    return (os.path.abspath(path), int(s.st_mtime_ns), int(s.st_size))
+    return (os.path.realpath(path), int(s.st_mtime_ns), int(s.st_size))
 
 
 def probe_cache_path(api_key):
@@ -3980,6 +3989,180 @@ def roles_report(order):
                  'the distance between first and last changed fourfold. It '
                  'takes one voice per track; where two people share a '
                  'microphone it says nothing useful.'))
+    return out
+
+
+def is_stand_in_name(name):
+    """Report whether this is a name the program made up itself.
+
+    Either the label the separation hands out, SPEAKER_00 upwards, or
+    the numbered stand-in the window puts in the field. That one is
+    written in whatever language the window was in at the time, so
+    every translation of it counts and not only the one running now.
+    """
+    text = (name or "").strip()
+    if re.match(r"^SPEAKER_\d+$", text):
+        return True
+    forms = ["Speaker %d"] + [c.get("Speaker %d") for c in CATALOGUE.values()]
+    for form in forms:
+        if form and re.match(
+                "^" + re.escape(form).replace("%d", r"\d+") + "$", text):
+            return True
+    return False
+
+
+def voice_role_names(order):
+    """Propose a name for each voice out of the ranking of who asks.
+
+    who_asks puts the one asking most first and the one asking least
+    last, and over four episodes out of two productions that order
+    never turned round: the one who answers asks the fewest questions
+    and speaks the longest. So the last of them is the guest and the
+    others are named after asking, in the order in which they ask.
+
+    The words have to carry in any conversation format, which is why
+    they are guest and host and not the name of one kind of programme.
+    Where who_asks says nothing this says nothing either: a voice with
+    too few sentences inside the window never reaches the ranking, and
+    that is the whole guard -- there is no second one here.
+
+    Returns {name in the ranking: proposed name}, empty for nothing.
+    """
+    if len(order or ()) < 2:
+        return {}
+    asking = [row[0] for row in order[:-1]]
+    out = {order[-1][0]: T('Guest')}
+    for i, name in enumerate(asking):
+        out[name] = T('Host') if len(asking) == 1 else T('Host %d') % (i + 1)
+    return out
+
+
+def voice_names_report(order):
+    """The proposed names in words, or nothing where there is nothing."""
+    named = dict((n, v) for n, v in voice_role_names(order).items()
+                 if is_stand_in_name(n))
+    if not named:
+        return []
+    out = [as_head(T('\nWHAT THE VOICES COULD BE CALLED -- a proposal'))]
+    for row in order:
+        if row[0] in named:
+            out.append(T('  %-20s could be called %s')
+                       % (row[0], named[row[0]]))
+    out.append(T('  Only for voices still carrying the name the program gave '
+                 'them; one somebody typed is never touched. The roles are '
+                 'read off who asks and who answers, which holds for a '
+                 'conversation with one guest and is a proposal, not a '
+                 'setting.'))
+    return out
+
+
+# When two microphones can still be told apart at all: the share of the
+# shorter one's speech that also falls inside the longer one. Measured
+# 30.8.2026. Built material with turns and interjections stays under
+# 29 % even where everybody speaks into every turn, and four separated
+# voices out of a real recording overlap by at most 6.6 %. The other end
+# was measured on the same day: the raw clip-on microphones of one
+# interview share 81 to 95 % of their speech, and there every voice fits
+# every microphone about equally well. A second production was found on
+# 29.8.2026 at 60 to 72 %. So 40 % lies above what speaking at the same
+# time produces and below what a shared microphone produces.
+VOICE_TRACK_TOGETHER = 0.40
+
+# How far the best microphone has to be ahead of the second, counted in
+# share of the voice's own speech. Measured 30.8.2026 on built material:
+# where the match is right the distance is 57 to 100 points, even with
+# the passage boundaries a second out and a third of them thrown away.
+# Where it is wrong -- the separation five or ten seconds off the axis,
+# a person without a microphone of their own, the entangled clip-on
+# microphones above -- it is 0 to 28 points. 40 lies between them.
+VOICE_TRACK_MARGIN = 0.40
+
+# Under this much speech a voice says nothing about a microphone. Out of
+# 400 draws of 20 s at random from one speaker the distance stayed above
+# 66 points, at 5 s it fell to 50 and at 2 s to 0.
+VOICE_MIN_SPEECH_S = 20.0
+
+
+def shared_seconds(one, other):
+    """How long both of these lists of passages are running at once."""
+    out, j = 0.0, 0
+    other = sorted(other)
+    for a, b in sorted(one):
+        while j < len(other) and other[j][1] <= a:
+            j += 1
+        k = j
+        while k < len(other) and other[k][0] < b:
+            out += max(0.0, min(b, other[k][1]) - max(a, other[k][0]))
+            k += 1
+    return out
+
+
+def which_microphone(voices, tracks):
+    """Match each separated voice to the microphone it was speaking into.
+
+    The separation says when a voice speaks, the tracks say when a
+    microphone carries sound, and a microphone already has the name a
+    person gave it. Held against each other the two say whose voice is
+    whose, and the naming by hand falls away.
+
+    Where the microphones can be told apart, that is. On one interview
+    with a clip-on microphone each, the tracks share 81 to 95 % of their
+    speech, because every microphone hears the others as well; then
+    every voice fits every microphone about equally and the match lands
+    on whichever is loudest. So the microphones are held against each
+    other first, and where they are not far enough apart this says
+    nothing at all.
+
+    *voices* and *tracks* are both [(name, [(a, b), ...])] on one time
+    axis. Returns [(voice, track, share, distance)], empty for nothing.
+    """
+    if len(voices or ()) < 2 or len(tracks or ()) < 2:
+        return []
+    held = {name: sum(b - a for a, b in segs) for name, segs in tracks}
+    if min(held.values()) <= 0:
+        return []
+    for i, (_a, one) in enumerate(tracks):
+        for _b, other in tracks[i + 1:]:
+            floor = min(sum(b - a for a, b in one),
+                        sum(b - a for a, b in other))
+            if shared_seconds(one, other) > VOICE_TRACK_TOGETHER * floor:
+                return []
+    picked = []
+    for name, segs in voices:
+        spoken = sum(b - a for a, b in segs)
+        if spoken < VOICE_MIN_SPEECH_S:
+            continue
+        share = sorted(((shared_seconds(segs, t) / spoken, m)
+                        for m, t in tracks), reverse=True)
+        if share[0][0] - share[1][0] < VOICE_TRACK_MARGIN:
+            continue
+        picked.append((name, share[0][1], share[0][0],
+                       share[0][0] - share[1][0]))
+    # One microphone, one person: where two voices point at the same one,
+    # neither of them is the answer. Either the separation cut one person
+    # in two or two people are sitting on one microphone, and both mean
+    # that this cannot name them.
+    twice = set(t for i, (_, t, _s, _d) in enumerate(picked)
+                for _n, u, _s2, _d2 in picked[i + 1:] if t == u)
+    return [row for row in picked if row[1] not in twice]
+
+
+def microphones_report(rows):
+    """The proposal in words, or nothing where there is nothing to say."""
+    if not rows:
+        return []
+    out = [as_head(T('\nWHICH MICROPHONE -- a proposal, and nothing is set '
+                     'from it'))]
+    for voice, track, share, distance in rows:
+        out.append(T('  %-20s sounds like %-20s %d %% of it inside that '
+                     'track, %d points ahead of the next')
+                   % (voice, track, round(100 * share),
+                      round(100 * distance)))
+    out.append(T('  It holds under one assumption: one microphone per '
+                 'person, and each of them carrying only that person. '
+                 'Where the tracks overlap too much to be told apart, or '
+                 'two voices point at the same microphone, nothing is said '
+                 'at all rather than something uncertain.'))
     return out
 
 
@@ -9630,7 +9813,28 @@ def speakers_for_the_cut(args, tracks):
     if not any(segs for _, segs in segments):
         print(T('  Nothing was audible in the tracks -- no camera cut from '
                 'this.'))
+    if where_from and len(tracks) > 1:
+        for line in name_the_voices(segments, tracks):
+            print(line)
     return segments
+
+
+def name_the_voices(segments, tracks):
+    """What the microphones say about voices that came out unnamed.
+
+    Only worth a second measurement where the two are different things:
+    a separation named the voices SPEAKER_00 upwards, and beside it
+    there are tracks a person has named. Measured 30.8.2026 on 31
+    minutes of three-microphone material, it costs 2.1 seconds.
+    """
+    try:
+        mics = speakers_from_tracks(
+            [(track["name"], track.get("ready") or track["axis"], 0.0)
+             for track in tracks], note=None)
+    except Exception as e:
+        return [T('  The microphones were not measured against the '
+                  'separation: %s') % e]
+    return microphones_report(which_microphone(segments, mics))
 
 
 def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
@@ -9987,7 +10191,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # Who does the asking. Said, not acted on: the order is what the
     # measurement supports, and a name in the interface is a person's
     # decision.
-    for line in roles_report(who_asks(segment_list, heard_words())):
+    asking = who_asks(segment_list, heard_words())
+    for line in roles_report(asking) + voice_names_report(asking):
         print(line)
     if not getattr(args, "no_transcript_file", False) and heard_words():
         print(as_head(T('\nTRANSCRIPT')))
@@ -18200,6 +18405,52 @@ def speaker_segments_polish(segments, margin=SPEAKER_MARGIN_S,
                 joined.append((a, b))
         out.append((label, [(round(a, 3), round(b, 3))
                             for a, b in joined]))
+    return out
+
+
+def voices_in_use(segments, ignored=()):
+    """The voices minus the ones somebody set to "do not use".
+
+    That answer took the camera away and greyed the name, and there it
+    stopped: the voice still became a track, a speaker at auphonic.com,
+    a line in the transcript and one in the speaking shares. Sebastian,
+    31.8.2026, on a fourth voice a separation found where three people
+    sat: he wanted setting it to "do not use" to make it as good as not
+    there.
+
+    Taken out of the passages, not only of the names. With the passages
+    gone nobody is speaking there, so the picture holds whoever it was
+    on until the next voice that counts -- which is what he asked for.
+
+    The separation itself stays whole in the project file: switching
+    the voice back on must not cost the three minutes of computing
+    again.
+    """
+    ignored = set(ignored or ())
+    if not ignored:
+        return list(segments)
+    return [(label, parts) for label, parts in segments
+            if label not in ignored]
+
+
+def voices_ignored_of(voice_lines):
+    """The voices somebody set to "do not use", by their label."""
+    return set(label for label, _nv, cv in voice_lines
+               if cv.get() == IGNORE_AUDIO)
+
+
+def voice_names_of(named, voice_lines):
+    """The names of the voices in use, with what was just typed in.
+
+    A voice set to "do not use" has no name here: the name is what
+    becomes a track and a speaker at auphonic.com, so leaving it out is
+    half of leaving the voice out.
+    """
+    ignored = voices_ignored_of(voice_lines)
+    out = {k: v for k, v in dict(named or {}).items() if k not in ignored}
+    for label, name_value, _cv in voice_lines:
+        if label not in ignored and name_value.get().strip():
+            out[label] = name_value.get().strip()
     return out
 
 
@@ -28732,12 +28983,8 @@ def gui():
                                if not own.get())))
 
     def voice_names_now():
-        """The names of the voices, including what was just typed in."""
-        named = dict(state.get("speakers_named") or {})
-        for label, name_value, _cv in voice_lines:
-            if name_value.get().strip():
-                named[label] = name_value.get().strip()
-        return named
+        """The names of the voices that are in use."""
+        return voice_names_of(state.get("speakers_named"), voice_lines)
 
     def voice_play(label_name):
         """Hand that voice to the player on the right.
@@ -30066,9 +30313,9 @@ def gui():
         begin = min([audio_start(row[0]) for row, _n, cv in assign_lines
                      if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
                     or [0.0])
-        return speakers_on_window_axis(segments,
-                                       audio_start(source) - begin,
-                                       voice_names_now())
+        return speakers_on_window_axis(
+            voices_in_use(segments, voices_ignored_of(voice_lines)),
+            audio_start(source) - begin, voice_names_now())
 
     def off_speakers():
         """Build a handover from who speaks when and the assignment.
@@ -31239,9 +31486,13 @@ def gui():
             "wide_at_edges": bool(edge_on.get()),
             # The voices this machine has already taken apart. They
             # travel with the run so it need not separate them again.
+            # Whole in the project file, but not here: what the run is
+            # handed leaves out the voices set to "do not use", so they
+            # become no track and no speaker at auphonic.com.
             "speakers_of": (speakers_for_project(
                 state.get("speakers_source") or "",
-                state.get("speakers_local") or [],
+                voices_in_use(state.get("speakers_local") or [],
+                              voices_ignored_of(voice_lines)),
                 state.get("speakers_count") or 0,
                 voice_names_now())
                 if state.get("speakers_local")
@@ -33028,6 +33279,39 @@ CATALOGUE["de"] = {
         'erstem und letztem um das Vierfache schwankte. Es setzt eine '
         'Stimme je Spur voraus; wo sich zwei ein Mikrofon teilen, sagt es '
         'nichts Brauchbares.',
+    '\nWHICH MICROPHONE -- a proposal, and nothing is set from it':
+        '\nWELCHES MIKROFON -- ein Vorschlag, und es wird nichts daraus '
+        'gesetzt',
+    '  %-20s sounds like %-20s %d %% of it inside that track, %d points '
+    'ahead of the next':
+        '  %-20s klingt nach %-20s %d %% davon in dieser Spur, %d Punkte '
+        'vor der nächsten',
+    '  It holds under one assumption: one microphone per person, and each '
+    'of them carrying only that person. Where the tracks overlap too much '
+    'to be told apart, or two voices point at the same microphone, nothing '
+    'is said at all rather than something uncertain.':
+        '  Es gilt unter einer Annahme: ein Mikrofon je Person, und jedes '
+        'trägt nur diese eine. Wo die Spuren einander zu weit überlappen, '
+        'um unterscheidbar zu sein, oder zwei Stimmen auf dasselbe Mikrofon '
+        'zeigen, wird lieber gar nichts gesagt als etwas Unsicheres.',
+    '  The microphones were not measured against the separation: %s':
+        '  Die Mikrofone wurden nicht gegen die Trennung gehalten: %s',
+    '\nWHAT THE VOICES COULD BE CALLED -- a proposal':
+        '\nWIE DIE STIMMEN HEISSEN KÖNNTEN -- ein Vorschlag',
+    '  %-20s could be called %s':
+        '  %-20s könnte %s heißen',
+    'Guest': 'Gast',
+    'Host': 'Moderation',
+    'Host %d': 'Moderation %d',
+    '  Only for voices still carrying the name the program gave them; one '
+    'somebody typed is never touched. The roles are read off who asks and '
+    'who answers, which holds for a conversation with one guest and is a '
+    'proposal, not a setting.':
+        '  Nur für Stimmen, die noch den Namen tragen, den das Programm '
+        'vergeben hat; einen selbst getippten rührt es nie an. Die Rollen '
+        'werden daran abgelesen, wer fragt und wer antwortet; das gilt für '
+        'ein Gespräch mit einem Gast und ist ein Vorschlag, keine '
+        'Einstellung.',
     'Project found':
         'Projekt gefunden',
     'Open the project':
