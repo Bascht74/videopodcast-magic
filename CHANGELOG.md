@@ -25,6 +25,107 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.21.0-beta] - 2026-08-30
+
+**English**
+
+### Changed
+
+- A run without "--multitrack" now writes what a multitrack run
+  writes: the metrics, the transcript, the cut lists, the saved tracks
+  and the project file. On the same material: two files before, eleven
+  now.
+- "--multitrack" now says only how the recordings are grouped into
+  productions. The time axis, the placing of the cameras and the files
+  that come out are the same with the switch and without it.
+- Five switches did nothing on a run without "--multitrack":
+  "--parallel", "--no-metrics", "--no-transcript-file",
+  "--no-speech-recognition" and "--auphonic-done". They work on every
+  run now.
+
+### Removed
+
+- The switch "--name", which gave the new audio track a name of its
+  own, is gone. The track is called "Full-Mix" everywhere: that name
+  reaches Resolve, and an older handover is found again by it.
+- The switch "--no-trim", which kept the sound at its full length, is
+  gone. What falls away follows from the window every camera saw, so
+  there is nothing left to switch off.
+
+### Fixed
+
+- A time window set with "--in-point" and "--out-point" meant a
+  different moment for each camera on a run without "--multitrack". It
+  now means one moment for all of them, as it did with the switch.
+- Sound and picture with less than thirty seconds in common stopped
+  the run, and 26 seconds of picture that come out exact were turned
+  away. What counts now is how many sample points the alignment found
+  in the window, and the message names the number.
+- A camera was refused where the alignment could set no sample point
+  inside it: they stand thirty seconds apart, so a 21-second camera
+  had none. What counts now is how alike the two recordings sound.
+- What a recording loses to the time window is now written in the log,
+  at the front and at the back. A run that quietly cut seconds off a
+  recording looked exactly like one that cut nothing.
+- A recording that comes in several blocks was joined without a word
+  under "--multitrack", so a ten-second hole in it went through
+  unmentioned. Both ways now say how many blocks were joined, where
+  the gaps are and whether two of them overlap.
+- "--multitrack" stopped where only one recording could be aligned and
+  said multitrack was not worth it. That recording now goes through
+  like any other, and only a run that can align nothing stops.
+
+---
+
+**Deutsch**
+
+### Geändert
+
+- Ein Lauf ohne „--multitrack" schreibt jetzt dasselbe wie ein
+  Multitrack-Lauf: die Kennzahlen, das Transkript, die Schnittlisten,
+  die gesicherten Tonspuren und die Projektdatei. Am selben Material:
+  vorher zwei Dateien, jetzt elf.
+- „--multitrack" sagt jetzt nur noch, wie die Aufnahmen zu Produktionen
+  zusammengefasst werden. Die Zeitachse, die Lage der Kameras und die
+  Dateien am Ende sind mit dem Schalter dieselben wie ohne ihn.
+- Fünf Schalter taten ohne „--multitrack" gar nichts: „--parallel",
+  „--no-metrics", „--no-transcript-file", „--no-speech-recognition" und
+  „--auphonic-done". Sie wirken jetzt auf jedem Lauf.
+
+### Entfernt
+
+- Der Schalter „--name", der die neue Tonspur eigens benannte, ist
+  entfernt. Die Spur heißt überall „Full-Mix": dieser Name reicht bis
+  Resolve, und eine ältere Übergabe wird darüber wiedergefunden.
+- Der Schalter „--no-trim", der den Ton in voller Länge ließ, ist
+  entfernt. Was wegfällt, ergibt sich aus dem Fenster, das jede Kamera
+  gesehen hat, es gibt also nichts mehr abzuschalten.
+
+### Behoben
+
+- Ein Zeitfenster aus „--in-point" und „--out-point" meinte ohne
+  „--multitrack" für jede Kamera einen anderen Moment. Jetzt meint es
+  für alle denselben, so wie mit dem Schalter.
+- Hatten Ton und Bild weniger als dreißig Sekunden gemeinsam, hielt der
+  Lauf an, und 26 Sekunden Bild, die exakt liegen, wurden abgewiesen.
+  Jetzt zählt, wie viele Stützpunkte die Ausrichtung im Fenster
+  gefunden hat, und die Meldung nennt die Zahl.
+- Eine Kamera wurde abgewiesen, wenn die Ausrichtung darin keinen
+  Stützpunkt setzen konnte: sie liegen dreißig Sekunden auseinander,
+  eine 21 Sekunden lange Kamera hatte also keinen. Jetzt zählt, wie
+  ähnlich die beiden Aufnahmen klingen.
+- Was eine Aufnahme durch das Zeitfenster verliert, steht jetzt im
+  Protokoll, vorne wie hinten. Ein Lauf, der stillschweigend Sekunden
+  abschnitt, sah aus wie einer, der nichts abschnitt.
+- Eine Aufnahme aus mehreren Blöcken wurde unter „--multitrack"
+  stillschweigend zusammengefügt, ein zehn Sekunden langes Loch darin
+  fiel niemandem auf. Jetzt sagen beide Wege, wie viele Blöcke
+  zusammenkamen, wo die Lücken liegen und ob zwei sich überlappen.
+- „--multitrack" hielt an, wenn sich nur eine Aufnahme ausrichten ließ,
+  und sagte, Multitrack lohne nicht. Diese Aufnahme läuft jetzt durch
+  wie jede andere, und nur ein Lauf, der nichts ausrichten kann, hält
+  an.
+
 ## [2.20.0-beta] - 2026-08-30
 
 **English**
@@ -3549,6 +3650,7 @@ haben. Jede Behebung unten hat einen Test.
 
 [kac]: https://keepachangelog.com/en/1.1.0/
 [semver]: https://semver.org/spec/v2.0.0.html
+[2.21.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.20.0-beta...v2.21.0-beta
 [2.20.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.19.0-beta...v2.20.0-beta
 [2.19.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.18.0-beta...v2.19.0-beta
 [2.18.0-beta]: https://github.com/Bascht74/videopodcast-magic/compare/v2.17.0-beta...v2.18.0-beta
