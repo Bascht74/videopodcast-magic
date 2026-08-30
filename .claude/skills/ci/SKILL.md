@@ -13,8 +13,15 @@ repair was built on top of a commit that was red.
 So it is waited for, not asked after. Straight after the push:
 
 ```bash
-(cd tests && bash await_ci.sh &)
+cd tests && bash await_ci.sh
 ```
+
+**and started as a background command that the harness keeps hold of --
+`run_in_background`, not a detached `&` in the shell.** That difference
+is the whole point: a detached shell runs and finishes and nobody is
+told, so the waiting has been done and the answer is still fetched by
+asking. A background command the harness tracks wakes whoever started
+it when it exits, with the verdict already in its output.
 
 It finds the run for HEAD -- waiting for it to appear, because a push
 and its run are seconds apart and "the newest run" answers with the one
