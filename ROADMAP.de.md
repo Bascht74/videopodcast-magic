@@ -173,11 +173,15 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   bekommt die Zahl. Die Liste der Funktionen, die kein Test je aufruft,
   ist etwas wert; der Prozentsatz nicht.
 
-* **Den Testlauf auf mehrere Rechner verteilen, flatterhafte Tests
-  wiederholen, Bots für die Triage.** Die Suite braucht eine halbe
-  Minute, bisher hat kein Test geflattert, und es gibt keine Schlange
-  von Meldungen. All das beantwortet eine Menge, die es hier nicht
-  gibt.
+* **Den Testlauf auf mehrere Rechner verteilen, Bots für die Triage.**
+  Die sechs Läufe antworten in unter fünf Minuten, und es gibt keine
+  Schlange von Meldungen. Beides beantwortet eine Menge, die es hier
+  nicht gibt. Einen Test ein zweites Mal laufen zu lassen ist etwas
+  anderes, und das ist gebaut: Ein abgestürzter Test bekommt einen
+  weiteren Anlauf, ein neben den anderen roter läuft noch einmal
+  allein, und in beiden Fällen heißt er danach unstet, statt grün
+  gezählt zu werden. Ein flatternder Test ist ein Fehler, den man
+  sucht, kein Rauschen, das man durch Wiederholen loswird.
 
 * **Installationsprogramme, signierte Pakete, Notarisierung, PyPI.**
   Es ist mit Absicht eine Datei: holen und starten.
