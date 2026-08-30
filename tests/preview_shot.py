@@ -451,4 +451,13 @@ if bad:
 if code and through[0] and not bad:
     print("NOTE: the window returned %s although every step was reached "
           "and nothing was found wanting." % code)
+# The last line, whatever happens. On the Linux builder this script
+# came back with a 1 and said nothing at all -- no traceback, no FAIL
+# of its own, no line about a step it missed -- and three rounds of
+# improving the report brought nothing out, because there was nothing
+# in it. If this line is missing from the output, the process did not
+# get here: it was killed or it left through a door nobody knows about.
+# If it is there, the numbers on it say which.
+print("END: through=%s bad=%d loop=%s" % (through[0], len(bad), code),
+      flush=True)
 raise SystemExit(1 if bad or not through[0] else 0)
