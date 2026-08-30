@@ -234,7 +234,10 @@ open	auphonic_stays_quiet	presets_load is called from the button and the list on
 open	auphonic_stays_quiet	the list fetches itself when it is opened
 open	auphonic_stays_quiet	the unasked fetch has a quiet path
 open	auphonic_stays_quiet	turned away: %r
-open	cut_all_shots_land	assert len(video) == len(cut) and not wrong and not gaps and not overlaps
+cut_all_shots_land	2026-08-31	every shot lands at the length the cut asks for	/private/tmp/vpm_cut_break2b.py -- in build_cut_timeline Zeile 12494 `length = b - a` zu `length = b - a - (1 if e is cut[-1] else 0)` (genau ein Schnitt einen Frame zu kurz)	every shot lands at the length the cut asks for FAIL 1 of 331 shots off; first at shot 330: 476 frames instead of 477
+cut_all_shots_land	2026-08-31	every shot of the cut lands on the timeline	/private/tmp/vpm_cut_break1.py -- in build_cut_timeline Zeile 12490 `for e in cut:` zu `for e in cut[:-1]:` (der letzte Schnitt wird nie platziert)	every shot of the cut lands on the timeline FAIL 330 shots on the track against 331 in the cut
+cut_all_shots_land	2026-08-31	no gap opens between two shots	/private/tmp/vpm_cut_break3.py -- in build_cut_timeline Zeile 12511 `"recordFrame": origin + lead_in + a` zu `origin + lead_in + a + (1 if a else 0)` (jeder Schnitt ausser dem ersten einen Frame zu spaet gesetzt, Laengen unberuehrt)	no gap opens between two shots FAIL 1 gaps in 330 joins; first before shot 1: 1 frames
+cut_all_shots_land	2026-08-31	no shot overlaps the one before it	/private/tmp/vpm_cut_break4.py -- in build_cut_timeline Zeile 12511 `"recordFrame": origin + lead_in + a` zu `origin + lead_in + a - (1 if a else 0)` (jeder Schnitt ausser dem ersten einen Frame zu frueh gesetzt, Laengen unberuehrt)	no shot overlaps the one before it FAIL 1 overlaps in 330 joins; first before shot 1: 1 frames
 open	cut_both_are_shown	and where no camera shows both, the wide shot does
 open	cut_both_are_shown	both hosts at once: the camera showing both comes up
 open	cut_both_are_shown	covers 0 to the end
@@ -514,6 +517,8 @@ open	files_atom_travels	ffprobe reads the prepared source
 files_atom_travels	2026-08-30	the atom is back in the new file	copies that never insert the logs atom, keep it in the source, or truncate it	the atom is back in the new file                     FAIL nothing
 open	files_atom_travels	the file is still decodable
 open	files_atom_travels	the file is still readable
+files_atom_travels	2026-08-31	the reader finds a moov box at the end of the source	In der Kopie /private/tmp/vpm_cp_atom/break_moov.py in _top_level_boxes (Zeile 2337) das Schluss-return von "return out" auf "return out[:-1]" geaendert -- der Leser laesst die letzte Box oben fallen, also gerade das moov am Dateiende.	the reader finds a moov box at the end of the source FAIL 3 top-level boxes, last of them mdat, wanted moov
+files_atom_travels	2026-08-31	the reader reaches the video sample description	In der Kopie /private/tmp/vpm_cp_atom/break_chain.py in _video_track_chain (Zeile 2293) den Vergleich der hdlr-Kennung von != b"vide" auf != b"vidz" geaendert -- keine Spur wird mehr als Videospur erkannt, die Funktion gibt None zurueck.	the reader reaches the video sample description FAIL 0 boxes down from moov, wanted 7
 open	files_atom_travels	the source carries the logs atom
 open	files_block_out_and_back	all three back means one recording again
 open	files_block_out_and_back	and Remove offers itself for it
@@ -532,11 +537,14 @@ open	files_block_stays_apart	and it works from any block
 open	files_block_stays_apart	and one of them has three blocks
 open	files_block_stays_apart	and so does the run
 open	files_block_stays_apart	and the rest stays together
+files_block_stays_apart	2026-08-31	so the switch changes the plan at all	the version before the repair, where merge_plan_entries joined the rows back by speaker name one step after --apart had separated them	so the switch changes the plan at all FAIL with and without came out the same: ['REC REC0001.wav (+2) 0:00:12.000 -> no camera of its own']
 open	files_block_stays_apart	the marked one is alone
 open	files_block_stays_apart	the other recording is not in it
 open	files_block_stays_apart	the search skips the marked block
 open	files_block_stays_apart	three recordings now
 open	files_block_stays_apart	two recordings out of four files
+files_block_stays_apart	2026-08-31	with the switch they stand in two	the version before the repair, where merge_plan_entries joined the rows back by speaker name one step after --apart had separated them	with the switch they stand in two FAIL 1 rows: ['REC REC0001.wav (+2) 0:00:12.000 -> no camera of its own']
+files_block_stays_apart	2026-08-31	without the switch the two blocks stand in one row	both ways broken in a copy at once -- group_recording_parts made to group nothing and merge_plan_entries to merge nothing; either one alone still leaves the row joined, which is why this check needs both	without the switch the two blocks stand in one row FAIL 3 rows: ['REC REC0001.wav 0:00:04.000 -> no camera of its own', 'REC REC0002.wav 0:00:04.000 -> no camera of its own', ...]
 open	files_clock_links_blocks	a block that starts too late is not appended
 open	files_clock_links_blocks	a counter is not a clock
 open	files_clock_links_blocks	a date and a time are read
@@ -652,12 +660,12 @@ open	files_left_out_named	and the reason is given
 open	files_left_out_named	naming both files
 open	files_left_out_named	neither of the two is taken
 open	files_left_out_named	the missing file is named
-open	files_lengths_summed	assert abs(by_name["Co-host"] - 40) < 1.0, by_name
-open	files_lengths_summed	assert abs(by_name["Guest"] - 31) < 1.0, by_name
-open	files_lengths_summed	assert abs(by_name["Host"] - 28) < 1.0, by_name
-open	files_lengths_summed	assert len(recordings) == 3
-open	files_lengths_summed	assert not out, "no recording is shorter than half the longest"
-open	files_lengths_summed	assert old, "the old way would have complained here"
+files_lengths_summed	2026-08-31	a recording of four blocks is as long as the four together	In by_recording: "head["duration"] = sum(t.get("duration") or 0.0 for t in parts)" geändert zu "... for t in parts[:3])" -- die Summe nach drei Blöcken abgeschnitten. Trifft nur die Aufnahme mit vier Blöcken; die anderen fünf checks blieben grün.	a recording of four blocks is as long as the four together FAIL Co-host: wanted 40.00 s from blocks 10+10+10+10, found 30.00 s
+files_lengths_summed	2026-08-31	a recording of one block is as long as that block	In by_recording: "head["duration"] = sum(t.get("duration") or 0.0 for t in parts)" geändert zu "head["duration"] = sum(t.get("duration") or 0.0 for t in parts) - (6.0 if len(parts) == 1 else 0.0)" -- einer Aufnahme aus nur einem Block sechs Sekunden abgezogen.	a recording of one block is as long as that block FAIL Guest: wanted 31.00 s from one block of 31, found 25.00 s
+files_lengths_summed	2026-08-31	a recording of three blocks is as long as the three together	In by_recording: "head["duration"] = sum(t.get("duration") or 0.0 for t in parts)" geändert zu "... for t in parts[:2])" -- die Summe nach zwei Blöcken abgeschnitten.	a recording of three blocks is as long as the three together FAIL Host: wanted 28.00 s from blocks 10+10+8, found 20.00 s
+files_lengths_summed	2026-08-31	eight blocks are grouped into three recordings	In group_recording_parts, in der Schleife über pending: die Zeile " row, discarded = find_continuation_files(a)" ersetzt durch " row, discarded = [a], []" -- die Fortsetzungssuche weggenommen, jeder Block steht dann für sich.	eight blocks are grouped into three recordings FAIL wanted 3 recordings out of 8 blocks, 8 chains grouped, found 8
+files_lengths_summed	2026-08-31	no recording is reported short against the longest	In compare_audio_tracks: "if longer > 0 and d < 0.5 * longer:" geändert zu "if longer > 0 and d < 0.9 * longer:" -- die Schranke von der Hälfte auf neun Zehntel angehoben.	no recording is reported short against the longest FAIL wanted 0 reports over 3 recordings of 28.0, 40.0 and 31.0 s, found 2: ['Guest_REC00005.wa', 'Host_REC00005.wav']
+files_lengths_summed	2026-08-31	the same comparison over single blocks does report them short	In compare_audio_tracks: "if longer > 0 and d < 0.5 * longer:" geändert zu "if longer > 0 and d < 0.2 * longer:" -- die Schranke von der Hälfte auf ein Fünftel gesenkt, dann fällt auch der kürzeste Block nicht mehr darunter.	the same comparison over single blocks does report them short FAIL wanted at least 1 report over 8 blocks, the shortest 8.0 s against a longest of 31.0 s, found 0
 open	files_named_by_folder	%-10s -> date and time
 open	files_named_by_folder	Schreibtisch without the file is a production
 open	files_named_by_folder	a production folder
@@ -778,13 +786,20 @@ open	project_cameras_land	the same for the third camera
 open	project_cameras_land	the start was set at all
 open	project_cameras_land	the video tracks carry the speakers' names
 open	project_cameras_land	unlinked first, or deleting takes the picture along
-open	project_each_track_set	assert "multi_input_files" not in body, \
-open	project_each_track_set	assert all(t["algorithms"] == NEW
+project_each_track_set	2026-08-31	each track is addressed once through its own URL	Kopie: in update_all_tracks "for entry in wanted:" zu "for entry in wanted[:1]:" gemacht -- nur die erste Spur wird angesprochen	each track is addressed once through its own URL FAIL 3 wanted (Guest, Host, Co-host), 1 addressed (Guest)
+project_each_track_set	2026-08-31	every track carries the preset settings afterwards	Kopie: in update_track im gesendeten Rumpf "algorithms" um den Schlüssel deverbamount gekürzt -- eine Einstellung weggenommen, die Aufrufe bleiben alle	every track carries the preset settings afterwards FAIL 3 wanted, 0 of 3 carry them, off: Guest, Host, Co-host
+project_each_track_set	2026-08-31	nothing is uploaded a second time	Kopie: in reuse_production "if upload_again:" vor dem Hochladen zu "if True:" gemacht -- die Bedingung weggenommen	nothing is uploaded a second time FAIL 0 wanted, 1 uploads out of 7 calls
+project_each_track_set	2026-08-31	the reuse comes through without an error	Kopie von videopodcast-magic.py: in reuse_production die Schranke nach dem Nachlesen der Produktion von "if len(now) > len(existing.get(\"multi_input_files\") or []):" auf ">=" gesetzt -- ein Zeichen	the reuse comes through without an error FAIL 0 wanted, 1: RuntimeError Tracks were added while changing (now 3). That makes the mix wrong. Please delete the tracks with
+project_each_track_set	2026-08-31	the track list does not go to the production as a whole	Kopie: in reuse_production die Zeile change.pop("multi_input_files", None) entfernt -- ein Aufruf weggenommen	the track list does not go to the production as a whole FAIL 0 wanted, 1 of 1 bodies to the production carry it
+project_every_offset	2026-08-31	a file the run could not place is no camera in the handover	the list of refused files ignored, the way it was before the repair	a file the run could not place is no camera in the handover FAIL the handover names ['Wide', 'Guest', 'Jingle']
 open	project_every_offset	an unmeasured camera is named
+project_every_offset	2026-08-31	and it reaches no entry marked as the wide shot	the list of refused files ignored, the way it was before the repair	and it reaches no entry marked as the wide shot FAIL wide flags: [('Wide', True), ('Guest', True), ('Jingle', True)]
 open	project_every_offset	nothing to complain about
 open	project_every_offset	the camera with a render keeps its offset
 open	project_every_offset	the camera without one is found by its source
 open	project_every_offset	the handover frame is a real one
+project_every_offset	2026-08-31	the run says which file it left out and why	left out without a word about it	the run says which file it left out and why FAIL '\n\x01hFOR RESOLVE\n\n Test_resolve.json\n\n This produces the project, the import and one Timel'
+project_every_offset	2026-08-31	the two it could place are still there	the list of refused files ignored, the way it was before the repair	the two it could place are still there FAIL handed over: ['Guest', 'Jingle', 'Wide']
 open	project_grades_stay_off	local without an argument
 open	project_grades_stay_off	reported as set
 open	project_grades_stay_off	returns False
@@ -1206,6 +1221,16 @@ open	run_prework_listed	up to the longest
 open	run_prework_listed	weak is empty
 open	run_prework_listed	without an absolute flag it counts as relative
 open	run_prework_listed	without having_audio, has_audio is not asked
+run_space_has_margin	2026-08-31	a folder is on the same disk as itself	two folders never called the same disk	a folder is on the same disk as itself FAIL said False
+run_space_has_margin	2026-08-31	a folder that is not there counts as another disk	a folder that is not there called the same disk	a folder that is not there counts as another disk FAIL said True
+run_space_has_margin	2026-08-31	and it is not called an abort either -- it may still fit	everything called an abort, whatever is free	and it is not called an abort either -- it may still fit FAIL 1 % over the estimate was called 'abort'
+run_space_has_margin	2026-08-31	and the sentence says how much is missing	nothing ever called an abort	and the sentence says how much is missing FAIL the advice reads ''
+run_space_has_margin	2026-08-31	far too little is called an abort	nothing ever called an abort	far too little is called an abort FAIL the verdict is 'good'
+run_space_has_margin	2026-08-31	plenty of room is called good	everything called an abort, whatever is free	plenty of room is called good FAIL the verdict is 'abort'
+run_space_has_margin	2026-08-31	room that only just covers the estimate is not called good	nothing ever called an abort	room that only just covers the estimate is not called good FAIL 1 % over the estimate was called 'good'
+run_space_has_margin	2026-08-31	the estimate is at least as big as the material	the estimate itself thrown away, so nothing is ever too little	the estimate is at least as big as the material FAIL the estimate came to 0.000 MB against 0.233 MB of material
+run_space_has_margin	2026-08-31	the temporary files on the same disk raise what is needed	the temporary files on the same disk not counted	the temporary files on the same disk raise what is needed FAIL with the temp folder elsewhere 'free 1000000.0 GB, about 2 MB needed (/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_y22s5u/vpm_space_z18est7c)', on the same disk 'free 1000000.0 GB, about 2 MB needed (/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_y22s5u/vpm_space_z18est7c)'
+run_space_has_margin	2026-08-31	well over the estimate is called good	everything called an abort, whatever is free	well over the estimate is called good FAIL twice the estimate was called 'abort'
 open	run_stays_local	%s written
 open	run_stays_local	Guest about 10 s
 open	run_stays_local	Host about 15 s
@@ -1686,20 +1711,21 @@ table_one_entry_greyed	2026-08-30	the sentence stands on the wide shot entry	two
 table_one_entry_greyed	2026-08-31	the wide shot bar holds against a hand-picked Kind as well	the bar stepping back for a hand-picked Kind again, the rule before 31.8.2026	the wide shot bar holds against a hand-picked Kind as well FAIL ''
 open	table_one_entry_greyed	with the reason naming the missing speaker
 open	table_one_entry_greyed	without anybody having said so
-open	table_recording_shown	and it follows what is chosen
-open	table_recording_shown	and the chooser is wide enough to draw the widest of them
-open	table_recording_shown	and there is no chooser beside it
-open	table_recording_shown	and what is left fits, so Qt takes nothing off besides
-open	table_recording_shown	but not at the end -- both ends of the name survive
-open	table_recording_shown	every name stands in it unshortened
-open	table_recording_shown	more than one recording brings a chooser
-open	table_recording_shown	so the two of them are still told apart
-open	table_recording_shown	the button hands on the path of the chosen recording
-open	table_recording_shown	the chooser carries no tooltip it does not need
-open	table_recording_shown	the chooser never grows past the room the row has
-open	table_recording_shown	the name stands on the button
-open	table_recording_shown	the names are shortened
-open	table_recording_shown	the whole name stands in the chooser's tooltip
+table_recording_shown	2026-08-31	a long name brings a chooser too	in more_speakers_row the branch condition `if len(audio_file_list) == 1:` turned into `if len(audio_file_list) != 3:`, so two recordings take the single-recording branch and get no chooser	a long name brings a chooser too FAIL 2 recordings, wanted 1 chooser in the row, found 0
+table_recording_shown	2026-08-31	and it follows what is chosen	in box_names_fit the connection taken away: the line `box.currentIndexChanged.connect(whole_name)` deleted, the first `whole_name()` left standing	and it follows what is chosen FAIL chose entry 1, wanted 'Kandidat_0008B_a_recording_name_far_too_long_for_the_row_take_18_channel_4.wav', got 'Kandidat_0008A_a_recording_name_far_too_long_for_the_row_take_17_channel_3.wav'
+table_recording_shown	2026-08-31	and the chooser is wide enough to draw the widest of them	in box_names_fit a `box.setFixedWidth(60)` added in front of the early way out, so a chooser whose names all fit is nailed to 60 px	and the chooser is wide enough to draw the widest of them FAIL widest 128 px, room 29 px
+table_recording_shown	2026-08-31	and there is no chooser beside it	in more_speakers_row a `more_row.addWidget(_qw.QComboBox())` added to the single-recording branch, right after `more_row.addWidget(button)`	and there is no chooser beside it FAIL 1 recording, wanted 0 choosers in the row, found 1
+table_recording_shown	2026-08-31	and what is left fits, so Qt takes nothing off besides	in box_names_fit the allowance for the arrow turned round: `short_name(box, name, room - 44)` turned into `short_name(box, name, room + 44)`	and what is left fits, so Qt takes nothing off besides FAIL widest 297 px, room 229 px
+table_recording_shown	2026-08-31	but not at the end -- both ends of the name survive	in short_name the cut moved to the end: `elidedText(text, _qc.Qt.ElideMiddle, room)` turned into `elidedText(text, _qc.Qt.ElideRight, room)`	but not at the end -- both ends of the name survive FAIL wanted the 8 first and 8 last characters of ['Kandidat..el_3.wav', 'Kandidat..el_4.wav'], got ['Kandidat.._far_to…', 'Kandidat.._far_to…']
+table_recording_shown	2026-08-31	every name stands in it unshortened	in box_names_fit the early way out for names that fit turned into a shortening: `if want <= room:` / `return box` became `if want <= room:` / `room = 60`	every name stands in it unshortened FAIL wanted 3 names ['Room.wav', 'Host_REC00009.wav', 'Guest_REC00010.wav'], got 3 names ['…', '…', '…']
+table_recording_shown	2026-08-31	more than one recording brings a chooser	in more_speakers_row the branch condition `if len(audio_file_list) == 1:` turned into `if len(audio_file_list) != 2:`, so three recordings take the single-recording branch and get no chooser	more than one recording brings a chooser FAIL 3 recordings, wanted 1 chooser in the row, found 0
+table_recording_shown	2026-08-31	so the two of them are still told apart	in box_names_fit the room for the name cut to nothing: `short_name(box, name, room - 44)` turned into `short_name(box, name, 40)`, so both names shorten to the same five characters	so the two of them are still told apart FAIL wanted 2 different names, got 1: ['Ka…av', 'Ka…av']
+table_recording_shown	2026-08-31	the button hands on the path of the chosen recording	in more_speakers_row the button hands on the shown name instead of the path: `lambda *_, b=which: on_pick(b.currentData())` turned into `on_pick(b.currentText())`	the button hands on the path of the chosen recording FAIL wanted 1 path '/tmp/nowhere/Kandidat_0008B_a_recording_name_far_too_long_for_the_row_take_18_channel_4.wav', got 1: ['Kandidat_0008B_a_re…ke_18_channel_4.wav']
+table_recording_shown	2026-08-31	the chooser carries no tooltip it does not need	in box_names_fit the limit moved: `if want <= room:` turned into `if want <= room - 300:`, so the tooltip is hung on a chooser that needed no shortening	the chooser carries no tooltip it does not need FAIL wanted 0 characters of tooltip, got 8: 'Room.wav'
+table_recording_shown	2026-08-31	the chooser never grows past the room the row has	in box_names_fit the cap replaced by four times the room: `box.setMaximumWidth(room)` turned into `box.setFixedWidth(room * 4)`	the chooser never grows past the room the row has FAIL 1040 px against 260
+table_recording_shown	2026-08-31	the name stands on the button	in more_speakers_row the label of the single-recording button built without the name: `T('One more speaker in %s') % os.path.basename(only)` turned into `T('One more speaker in %s') % ""`	the name stands on the button FAIL wanted 'Room' in the label, 1 button says 'One more speaker in '
+table_recording_shown	2026-08-31	the names are shortened	in box_names_fit the shortening taken out of the loop: `box.setItemText(i, short_name(box, name, room - 44))` turned into `box.setItemText(i, name)`	the names are shortened FAIL wanted fewer than 78 characters, the first shows 78: ['Kandidat_0008A_a_recording_name_far_too_long_for_the_row_take_17_channel_3.wav']
+table_recording_shown	2026-08-31	the whole name stands in the chooser's tooltip	in box_names_fit the first call taken away: the bare `whole_name()` between `box.currentIndexChanged.connect(whole_name)` and `return box` deleted	the whole name stands in the chooser's tooltip FAIL wanted 78 characters 'Kandidat_0008A_a_recording_name_far_too_long_for_the_row_take_17_channel_3.wav', got 0 characters ''
 open	table_row_per_channel	a mono camera gets none too
 open	table_row_per_channel	a single channel file gets none
 open	table_row_per_channel	and a tick to change it with
@@ -2040,7 +2066,10 @@ open	time_camera_by_clock	the reference alone would have shown nothing
 open	time_camera_by_clock	the rendered file still wins where it has one
 open	time_camera_by_clock	the same 12 frames at 25 fps are 0.480 s
 open	time_camera_by_clock	the zero point is written down as it was passed
-open	time_drift_taken_out	assert abs(a * 1000) < 12 and abs((b - 1) * 1e6) < 15, "not straight enough"
+time_drift_taken_out	2026-08-31	a straightened file takes the place of the returned one	In der Kopie /private/tmp/drift_cp/vpm_b.py in verify_returned_tracks Zeile 6448 `track["ready"] = target` zu `track["ready"] = done` geaendert: die geradegezogene Datei wird geschrieben, aber die zurueckgekommene wird weitergereicht.	a straightened file takes the place of the returned one FAIL handed back done.wav of 36472478 bytes, the return was done.wav of 36472478 bytes
+time_drift_taken_out	2026-08-31	the clock drift is out of the straightened track	In der Kopie /private/tmp/drift_cp/vpm_d.py in verify_returned_tracks die Schranke in Zeile 6421 verschoben: `if (abs(slope) * 1e6 > 2.0` zu `> 2000.0`, so dass der Gangfehler nicht mehr erkannt und nicht herausgerechnet wird.	the clock drift is out of the straightened track FAIL -209.2 ppm left against a limit of 15.0 ppm, from a built-in +200.0 ppm
+time_drift_taken_out	2026-08-31	the offset is out of the straightened track	In der Kopie /private/tmp/drift_cp/vpm_e.py in verify_returned_tracks das Vorzeichen in Zeile 6425 umgedreht: `a_corr = -axis / (1.0 + slope)` zu `a_corr = axis / (1.0 + slope)`. Der Gangfehler wird weiter richtig herausgerechnet, nur der Versatz geht in die falsche Richtung.	the offset is out of the straightened track FAIL +80000.0 ms left against a limit of 12.0 ms
+time_drift_taken_out	2026-08-31	the return is accepted as matching the upload	In der Kopie /private/tmp/drift_cp/vpm_a.py in verify_returned_tracks die Schranke in Zeile 6453 verschoben: `uncertain = st.get("points", 0) < 5 or spread > 150.0` zu `... or spread > 0.0`, so dass jede Messung als unbrauchbar gilt und die Funktion False zurueckgibt.	the return is accepted as matching the upload FAIL the answer was False, spread 1.3 ms against the 150.0 ms above which a measurement counts as unusable
 open	time_fit_reports	a line that fits exactly leaves nothing over
 open	time_fit_reports	and a point out of line shows up in it
 open	time_fit_reports	and so does the indistinct-bleed line
@@ -2086,15 +2115,31 @@ open	time_guess_refused	the run says one file cannot be placed
 open	time_guess_refused	the window calls the proposal
 open	time_guess_refused	without a measurement nothing moves in either direction
 open	time_length_is_in_to_out	a camera without a timecode is refused too
+time_length_is_in_to_out	2026-08-31	a file marked not to be used is barred too, and named	videopodcast-magic.py Zeile 25658, not_on_the_axis: kind in CAMERA_TYPES -> kind in CAMERA_TYPES + (TYPE_IGNORED,)	a file marked not to be used is barred too, and named FAIL wanted a reason naming Fehlstart.mov, got ''
+time_length_is_in_to_out	2026-08-31	a file nobody answered for counts as content	videopodcast-magic.py Zeile 25657, not_on_the_axis, Voreinstellung der Art: or TYPE_CONTENT) -> or TYPE_INTRO)	a file nobody answered for counts as content FAIL wanted no reason, got 'unanswered.mov is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between.'
 open	time_length_is_in_to_out	a point counted from the window start goes through
+time_length_is_in_to_out	2026-08-31	a second pair gives its own length, under the hour	videopodcast-magic.py Zeile 1323, as_hms: s // 3600, -> max(1, s // 3600),	a second pair gives its own length, under the hour FAIL 17:20:56:16 to 18:17:06:15 wanted 0:56:09.967, got 1:56:09.967
+time_length_is_in_to_out	2026-08-31	an Out point before the In point gives no length	videopodcast-magic.py Zeile 1199, parse_timecode, Vier-Teile-Zweig: float(p[0]) * 3600 -> float(p[0]) * -3600	an Out point before the In point gives no length FAIL 18:00:00:00 to 17:00:00:00 wanted an empty length, got 1:00:00.000
+time_length_is_in_to_out	2026-08-31	an intro is barred, and the reason names the file	videopodcast-magic.py Zeile 25658, not_on_the_axis: kind in CAMERA_TYPES -> kind in CAMERA_TYPES + (TYPE_INTRO,)	an intro is barred, and the reason names the file FAIL wanted a reason naming Jingle.mp4, got ''
+time_length_is_in_to_out	2026-08-31	an outro is barred, and the reason names the file	videopodcast-magic.py Zeile 25658, not_on_the_axis: kind in CAMERA_TYPES -> kind in CAMERA_TYPES + (TYPE_OUTRO,)	an outro is barred, and the reason names the file FAIL wanted a reason naming Abspann.mp4, got ''
+time_length_is_in_to_out	2026-08-31	and an empty path bars nothing either	videopodcast-magic.py Zeile 25659, not_on_the_axis, frueher Ausgang: return "" -> return "barred"	and an empty path bars nothing either FAIL wanted no reason, got 'barred'
 open	time_length_is_in_to_out	and it says what does work instead
 time_length_is_in_to_out	2026-08-30	and no camera is named that is not there	a copy with the two refusals folded back into one message, the one that named a reference camera as "?" where there is none	and no camera is named that is not there             FAIL   '17:20:14' is a Timecode, but reference camera ? has none. Then only a value from the window start works, such
 open	time_length_is_in_to_out	and that message names the file
 open	time_length_is_in_to_out	and the block that says so is translated
+time_length_is_in_to_out	2026-08-31	content is not barred from carrying a boundary	videopodcast-magic.py Zeile 25658, not_on_the_axis: kind in CAMERA_TYPES -> kind in (TYPE_WIDE,)	content is not barred from carrying a boundary FAIL wanted no reason, got 'Interview_C002.mov is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between.'
+time_length_is_in_to_out	2026-08-31	counting from the file start comes out shorter	videopodcast-magic.py Zeile 1199, parse_timecode, Vier-Teile-Zweig: float(p[1]) * 60 -> float(p[1]) * 61	counting from the file start comes out shorter FAIL wanted 1:16:38.467, got 1:16:55.467, against 1:20:57.567 from In to Out
 open	time_length_is_in_to_out	the German run says In-Punkt, not In point
 time_length_is_in_to_out	2026-08-30	the message says there is no picture	a copy with the two refusals folded back into one message, the one that named a reference camera as "?" where there is none	the message says there is no picture                 FAIL   '17:20:14' is a Timecode, but reference camera ? has none. Then only a value from the window start works, such
+time_length_is_in_to_out	2026-08-31	the wide shot is not barred either	videopodcast-magic.py Zeile 25658, not_on_the_axis: kind in CAMERA_TYPES -> kind in (TYPE_CONTENT,)	the wide shot is not barred either FAIL wanted no reason, got 'Totale_C003.mov is not on the axis of the episode: it is set in front of the material or after it, not cut into it. In point and Out point belong to what lies between.'
+time_length_is_in_to_out	2026-08-31	two Timecodes give the stretch between them	videopodcast-magic.py Zeile 1199, parse_timecode, Vier-Teile-Zweig: float(p[3]) / fps -> float(p[3]) / (fps + 1.0)	two Timecodes give the stretch between them FAIL 17:02:16:17 to 18:23:14:04 wanted 1:20:57.567, got 1:20:57.581
+time_length_is_in_to_out	2026-08-31	two points counted from the window start give their difference	videopodcast-magic.py Zeile 1201, parse_timecode, Drei-Teile-Zweig: float(p[1]) * 60 -> float(p[1]) * 61	two points counted from the window start give their difference FAIL +0:00:10.000 to +0:01:10.000 wanted 0:01:00.000, got 0:01:01.000
+time_length_is_in_to_out	2026-08-31	with no In point there is no length	videopodcast-magic.py Zeile 1298, parse_time_point: return None, False -> return 0.0, True	with no In point there is no length FAIL wanted an empty length, got 18:00:00.000
+time_length_is_in_to_out	2026-08-31	with no file in the player nothing is barred	videopodcast-magic.py Zeile 25659, not_on_the_axis, frueher Ausgang: return "" -> return "barred"	with no file in the player nothing is barred FAIL wanted no reason, got 'barred'
 open	time_length_is_in_to_out	without a picture the point is refused
-open	time_offset_found	assert abs(have-want) < 1.0
+time_offset_found	2026-08-31	every pair of microphones came back measured both ways	In der Kopie ENOUGH_WINDOWS von 3 auf 99 gesetzt (eine Zeile, Modulkonstante vor measure_offsets_by_crosstalk), so dass keine einzige Richtung genug Fenster hat und measure_offsets_by_crosstalk nichts zurueckgibt.	every pair of microphones came back measured both ways FAIL 0 of 3 pairs solved, 6 directions the measurement gave up on
+time_offset_found	2026-08-31	the offset built into track %d is found	In solve_pair_offsets die Zeile 'gone, d0 = float(solution[0]), float(solution[1])' zu 'gone, d0 = float(solution[0]), float(solution[1]) + 2.0' geaendert -- zwei Millisekunden auf den Versatz, der Schallweg unberuehrt.	the offset built into track 1 is found FAIL +20.00 ms measured against +18.00 ms built in, 1.00 ms allowed
+time_offset_found	2026-08-31	the sound path between microphone %d and %d is found	In solve_pair_offsets die Zeile 'gone, d0 = float(solution[0]), float(solution[1])' zu 'gone, d0 = float(solution[0]) + 1.0, float(solution[1])' geaendert -- eine Millisekunde auf den Schallweg, der Versatz unberuehrt.	the sound path between microphone 0 and 1 is found FAIL +4.293 ms measured against +3.30 ms built in, 0.30 ms allowed
 open	time_one_track_aligned	%s is still there
 open	time_one_track_aligned	a camera without sound is refused, not written
 open	time_one_track_aligned	a handover for Resolve is there
@@ -2178,7 +2223,10 @@ open	time_tracks_alone	the run ends green
 open	time_tracks_alone	the run says the number does nothing here
 open	time_tracks_alone	the two tracks agree with each other at both ends
 open	time_tracks_alone	without --lufs neither line is printed
-open	time_tracks_sit_together	assert all(abs(v[0]) < 1.5 for v in remaining.values()), "not straight"
+time_tracks_sit_together	2026-08-31	every pair can still be measured against the bleed	Konstante ENOUGH_WINDOWS von 3 auf 10000 gesetzt -- kein Fenster reicht mehr, measure_offsets_by_crosstalk liefert nichts.	every pair can still be measured against the bleed FAIL 0 of 3 pairs came back with a number
+time_tracks_sit_together	2026-08-31	every track lands on the axis as a file of the full window	In place_track_on_axis: af.append("atrim=end_sample=%d" % n_window) zu af.append("atrim=end_sample=%d" % (n_window - SR)) -- jede Achsdatei eine Sekunde zu kurz.	every track lands on the axis as a file of the full window FAIL shortest 179.00 s, longest 179.00 s against a window of 180.00 s
+time_tracks_sit_together	2026-08-31	no clock drift is left running between two tracks	In solve_pair_offsets: k = float(solution[2]) * 1000.0 if with_slope else 0.0 zu k = float(solution[2]) * 1000.0 + 2.0 if with_slope else 0.0 -- ein Gangfehler von 2 ppm erfunden.	no clock drift is left running between two tracks FAIL largest drift left 2.01 ppm against a limit of 0.50 ppm, over 3 pairs
+time_tracks_sit_together	2026-08-31	no pair is left further apart than the limit allows	In verify_alignment das Vorzeichen der Korrektur umgedreht: track["a"] = track["a"] + (d0 / 1000.0) * track.get("b", 1.0) zu ... - (d0 / 1000.0) * ...	no pair is left further apart than the limit allows FAIL furthest apart 50.00 ms against a limit of 1.50 ms, over 3 pairs
 open	time_window_is_shared	and by 11.0 s at the back
 open	time_window_is_shared	and it is what the union would have given too
 open	time_window_is_shared	and it names the camera that decides the start
@@ -2469,9 +2517,12 @@ open	voice_split_hears_two	one stretch per turn: %d
 open	voice_split_hears_two	something came out of it
 open	voice_split_hears_two	the run comes back without a complaint
 open	voice_split_hears_two	the shape the rest of the program reads
-open	voice_turns_found	assert abs(v[0][1][0][0] - 101.0) < 0.3
-open	voice_turns_found	assert len(segs) == len(want[name]), "%s: %d sections instead of %d" % (
-open	voice_turns_found	assert not error, "%d edges off" % error
+voice_turns_found	2026-08-31	a track handed in with an offset still comes back as three sections	Dieselbe Kopie wie bei Pruefung 2 (/private/tmp/vtf/cp2.py): in der Signatur von speakers_from_tracks `min_len=SPEECH_MIN_LEN_S` zu `min_len=2.2`; auch der Einspur-Lauf mit Versatz verliert damit den 2,0 s langen Abschnitt.	a track handed in with an offset still comes back as three sections FAIL 2 sections against 3 put in
+voice_turns_found	2026-08-31	both tracks come back, each with a row of its own	In speakers_from_tracks (Kopie /private/tmp/vtf/cp1.py): die Ausgabeschleife `for i, name in enumerate(names):` zu `for i, name in enumerate(names[:1]):` geaendert, so dass nur die erste Spur eine Zeile bekommt.	both tracks come back, each with a row of its own FAIL 1 rows ['A'] against 2 wanted ['A', 'B']
+voice_turns_found	2026-08-31	every edge sits within a third of a second of where it was put	In speakers_from_tracks (Kopie /private/tmp/vtf/cp4.py): `shift = begin * block` zu `shift = begin * block + 0.5` geaendert, so dass jede Kante eine halbe Sekunde spaeter liegt.	every edge sits within a third of a second of where it was put FAIL worst 0.50 s against 0.30 s allowed, over 12 edges of 12 -- B begins at 5.50 s instead of 5.00 s
+voice_turns_found	2026-08-31	every section is moved by the offset the track was handed in with	In speakers_from_tracks (Kopie /private/tmp/vtf/cp7.py): `shifts.append(int(round(offset / block)))` zu `int(round(offset * block))` geaendert -- der Versatz wird falsch in Bloecke umgerechnet; der Lauf ohne Versatz bleibt unberuehrt.	every section is moved by the offset the track was handed in with FAIL worst 99.00 s against 0.30 s allowed, over 6 edges of 6 -- A begins at 2.00 s instead of 101.00 s
+voice_turns_found	2026-08-31	track A comes back as the three sections it was made from	In der Signatur von speakers_from_tracks (Kopie /private/tmp/vtf/cp2.py): `min_len=SPEECH_MIN_LEN_S` zu `min_len=2.2` geaendert, so dass der 2,0 s lange dritte Abschnitt von A herausfaellt.	track A comes back as the three sections it was made from FAIL 2 sections against 3 put in
+voice_turns_found	2026-08-31	track B comes back as the three sections it was made from	In der Signatur von speakers_from_tracks (Kopie /private/tmp/vtf/cp3.py): `gap=0.35` zu `gap=4.6` geaendert, so dass die Pausen zwischen den Abschnitten als Sprechpausen zusammengezogen werden.	track B comes back as the three sections it was made from FAIL 1 sections against 3 put in
 open	voice_words_intact	Whisper pulls the start forward and lets the end run
 open	voice_words_intact	a certificate bundle is found
 open	voice_words_intact	a comma breaks a clause
