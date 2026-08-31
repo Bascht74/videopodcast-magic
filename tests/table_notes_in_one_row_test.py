@@ -9,7 +9,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import gc, importlib.util, shutil, sys, tempfile, wave
+import gc, importlib.util, shutil, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -20,11 +20,17 @@ spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 RATE, SEC = 48000, 3
@@ -230,7 +236,7 @@ if not got_there:
         print("\nFAIL: the checks never ran -- step %d of 3 never came "
               "back; when the window closed: %s"
               % (n[0] - 1, how_it_stands()))
-    error.append("the checks never ran")
+    bad.append("the checks never ran")
 
 for top in app.topLevelWidgets():
     top.close()
@@ -240,5 +246,6 @@ shutil.rmtree(folder, ignore_errors=True)
 # a test red on every Windows run gets switched off, not read.
 if os.path.exists(folder):
     print("  the folder stayed: %s" % folder)
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

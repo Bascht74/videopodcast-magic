@@ -44,7 +44,7 @@ picture, so one file is checked against the axis, not three aligned.
 
 VPM_ONE_MOMENT_KEEP=1 leaves the written files in place for looking at.
 """
-import os, sys, csv, json, re, shutil, subprocess, tempfile, types
+import os, sys, csv, json, re, shutil, subprocess, tempfile, time, types
 import importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -59,9 +59,16 @@ sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
 error = []
+began = time.time()
+# Not "bad": that name is taken further down by the lists of entries
+# that did not line up, and a counter under it would end this file in a
+# traceback where a verdict should stand.
+done = 0
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -84,6 +91,10 @@ missing = [os.path.basename(p) for p in (WIDE, MOD, KAND)
 if missing:
     print("SKIPPED: no interview fixture under %s (%s) -- "
           "run tests/fixtures.sh" % (FIX, ", ".join(missing)))
+    # The count on the way out as well: no way out of this file is
+    # silent about how much it judged. The SKIPPED line stays the
+    # verdict here -- nothing behind it may read as "all good".
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
     sys.exit(0)
 
 stamp = {p: vpm.file_timecode(p, FPS) for p in (WIDE, MOD, KAND)}
@@ -93,6 +104,7 @@ if blank:
           "timecode on %s, and every clock here is measured from one -- "
           "rebuild %s with tests/fixtures.sh (INTERVIEW_BUILD)"
           % (", ".join(blank), FIX))
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
     sys.exit(0)
 
 ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
@@ -255,7 +267,9 @@ class Run(object):
             "speakers.csv": self.stem + "_speakers.csv"}
         gone = [n for n, p in self.files.items() if not os.path.exists(p)]
         if gone:
-            print("FAIL: the run %r wrote no %s" % (name, ", ".join(gone)))
+            error.append("the run %r wrote no %s" % (name, ", ".join(gone)))
+            print("\n%d checks in %.2f s" % (done, time.time() - began))
+            print("FAIL: " + ", ".join(error))
             sys.exit(1)
         self.d = json.load(open(self.files["handover"], encoding="utf-8"))
         d = self.d
@@ -658,7 +672,8 @@ if NEW0 is None or NEW1 is None:
     # in a stack trace with no summing-up line for run.sh to show.
     check("the window %r .. %r can be read at all" % (IN_TEXT, OUT_TEXT),
           False, "clip_to_time_window returned nothing")
-    print("\nFAIL: " + ", ".join(error))
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + ", ".join(error))
     sys.exit(1)
 # The run measures the speech on the trimmed material, so the sections
 # count from the In point. The same real moments, on the new axis.
@@ -941,7 +956,7 @@ if not os.environ.get("VPM_ONE_MOMENT_KEEP"):
 else:
     print("\n  kept: %s" % ", ".join(KEEP))
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)

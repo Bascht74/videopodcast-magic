@@ -28,6 +28,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import time
 import wave
 
 sys.path.insert(0, HERE)
@@ -89,13 +90,19 @@ vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 vpm.update_offer = lambda *a, **k: None
 
+# The counter is called "counted" and not "done": "done" is the flag
+# below that says the plan got to its end.
+began = time.time()
+counted = 0
 error = []
 
 
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global counted
+    counted += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 # Worked out with the program's own functions rather than written
@@ -109,7 +116,12 @@ missing = [n for n in (CAM_TYPED, CAM_GUESSED, CAM_WIDE)
 if missing or not GUESSED_NAME:
     print("SKIPPED: no material under %s -- missing %s"
           % (material, ", ".join(missing) or "a guessable name"))
-    raise SystemExit(0)
+    # Out through the same lines as every other way out: the run reads
+    # the count off the last of them, and a way out that prints none
+    # leaves the number unsaid rather than saying nought.
+    print("\n%d checks in %.2f s" % (counted, time.time() - began))
+    print("FAIL: " + " | ".join(error) if error else "ALL OK")
+    sys.exit(1 if error else 0)
 
 
 # ------------------------------------------------------------- material
@@ -888,7 +900,9 @@ plan = [open_project, wait_for_sheets, put_them_on_cameras, type_one_name,
 
 
 def stop_now():
-    print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+    # The verdict is said in one place, at the foot of the file: the
+    # window can also go out through the timer below, and a count
+    # printed only here would leave that way out reporting nothing.
     done[0] = True
     app.quit()
 
@@ -922,4 +936,6 @@ if not done[0]:
     print("  the window never got as far as the checks   FAIL")
     error.append("no answer")
 clean_up(aside)
+print("\n%d checks in %.2f s" % (counted, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

@@ -84,6 +84,7 @@ import shutil
 import struct
 import subprocess
 import tempfile
+import time
 import wave
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -820,13 +821,20 @@ if os.environ.get("VPM_SOUND_PICTURE_CASE"):
 
 
 # ------------------------------------------------------------ the parent
-error = []
+# The counter is not called "done" here: the child above uses that name
+# for two things of its own, and one name for three things is how a
+# closing line ends in a traceback instead of a verdict.
+began = time.time()
+judged = 0
+bad = []
 
 
 def check(name, ok, extra=""):
+    global judged
+    judged += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 from fixture_root import fixture              # noqa: E402  after the child
@@ -837,7 +845,9 @@ missing = [n for n in CAMERAS
 if missing:
     print("SKIPPED: no material under %s -- missing %s"
           % (material, ", ".join(missing)))
-    raise SystemExit(0)
+    print("\n%d checks in %.2f s" % (judged, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 
 
 posted = tempfile.mkdtemp(prefix="vpm_soundpicture_said_")
@@ -1143,8 +1153,6 @@ if plain.get("offset") and shifted.get("offset"):
           "%s against %s" % (plain.get("audio_offset"),
                              shifted.get("audio_offset")))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (judged, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

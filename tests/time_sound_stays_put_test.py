@@ -12,7 +12,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import json, re, shutil, subprocess, sys, wave
+import json, re, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -25,10 +25,14 @@ ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
            QT_QPA_PLATFORM="offscreen")
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -286,8 +290,6 @@ for cam in ("CamHost", "CamGuest"):
           any(i < first - 1 for i in outside) or any(i >= last for i in outside),
           str(outside[:6]))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

@@ -11,16 +11,22 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 # The suite sets this, and the module reads it while it is loading.
 os.environ.pop("VPM_NO_UPDATE_CHECK", None)
-import importlib.util, sys, tempfile
+import importlib.util, sys, tempfile, time
+began = time.time()
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 print("1. Which version is newer")
 # Semantic Versioning: a finished release beats its own pre-release,
@@ -273,5 +279,6 @@ text = between("de", older)
 check("a release without the two halves is kept whole",
       "just one language here" in text, text[:60])
 
-print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

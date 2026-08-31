@@ -4,17 +4,26 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util
+import sys, importlib.util, time
+began = time.time()
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+# The failures collect in "error", not in "bad": further down
+# slider_numbers() hands the field it could not read back under
+# that name, and a check reads it there.
+done = 0
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 SEG = [("Guest", [(10.0, 60.0), (120.0, 200.0)]),
        ("Co-host", [(60.0, 120.0)])]
@@ -286,6 +295,6 @@ check("without a source the file answers",
         at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
         and at["Gast"] == ["Gast"], str(at))
 
-print("\n%s" % ("all good" if not error
-                else "FAIL: %s" % ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

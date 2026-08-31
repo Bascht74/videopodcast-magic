@@ -8,17 +8,25 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, subprocess, sys, tempfile
+import importlib.util, subprocess, sys, tempfile, time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
 T = tempfile.mkdtemp(prefix="channels_")
+began = time.time()
+done = 0
+# Not "bad": section 9 needs that name for the file that is not a wav,
+# and a counter overwritten by a path ends the run in a traceback.
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def build(name, parts, video=False):
@@ -217,5 +225,6 @@ check("no pairs judged", vpm.channel_joins(f) == [], str(vpm.channel_joins(f)))
 check("one track, so the file does not vanish",
       len(vpm.channel_tracks(f, "X")) == 1)
 
-print("\n%s" % ("All good." if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

@@ -16,20 +16,23 @@ import json
 import subprocess
 import sys
 import tempfile
+import time
 import types
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
-checked = [0]
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    checked[0] += 1
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 print("1. What a word closes")
@@ -173,7 +176,11 @@ if bundle:
 # part needs neither network nor material.
 print("\n8. The recognition macOS brings with it")
 if not vpm.macos_recognition_ready():
-    print("  no recogniser on this machine -- the rest is for macOS 26")
+    # run.sh reads a line beginning LEFT OUT, keeps the test green and
+    # repeats it, so the section is named instead of the count simply
+    # falling short of what a machine with the recogniser reached.
+    print("  LEFT OUT: no recogniser on this machine -- "
+          "the rest is for macOS 26")
 else:
     program = vpm.recogniser_program()
     check("the recogniser is built and kept", bool(program), str(program))
@@ -185,7 +192,8 @@ else:
          "Guten Tag, das ist ein Versuch."],
         stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
     if said.returncode != 0 or not os.path.exists(spoken):
-        print("  no German voice installed -- nothing to recognise")
+        print("  LEFT OUT: no German voice installed -- "
+              "nothing to recognise")
     else:
         words, way = vpm.recognise_speech(spoken, "de")
         check("the way it took is the one macOS brings", way == "macOS")
@@ -199,5 +207,6 @@ else:
         check("and the comma too",
               len(vpm.clause_break_times(words)) == 1)
 
-print("\n%d checks, %d failed" % (checked[0], len(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

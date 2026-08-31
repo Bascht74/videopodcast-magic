@@ -16,14 +16,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
-    print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (what, "ok" if ok else "FAIL", detail))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (what, detail or "no numbers"))
 
 
 def write(path, when=None):
@@ -233,8 +236,6 @@ check("the guessing is gone", not hasattr(vpm, "guess_result_folder"))
 check("the offer is there in its place", hasattr(vpm, "project_offer"))
 
 shutil.rmtree(root, ignore_errors=True)
-print("\n----")
-if bad:
-    print("FAIL %d of them: %s" % (len(bad), "; ".join(bad)))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

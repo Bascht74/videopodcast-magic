@@ -11,21 +11,24 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, struct, sys, tempfile
+import importlib.util, struct, sys, tempfile, time
 import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 SR = vpm.SR
 WORK = tempfile.mkdtemp(prefix="blocksfacts_")
+began = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("%-58s %s%s" % (what, "ok" if ok else "FAIL",
-                          "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def voice(seed, n):
@@ -160,8 +163,6 @@ fits, why = vpm.shapes_match(one, mono)
 check("a different channel count does not", not fits, why)
 check("and the reason names both counts", "4" in why and "1" in why, why)
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("all checks passed")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

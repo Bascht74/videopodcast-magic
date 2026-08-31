@@ -12,7 +12,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile, wave
+import importlib.util, json, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -38,13 +38,17 @@ def clip_kind_bind(box, value, after=None):
 
 vpm.clip_kind_bind = clip_kind_bind
 
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 RATE, SEC = 48000, 4
@@ -328,12 +332,10 @@ def step():
                   repr(free.styleSheet()))
             check("and needs no reason beside it any more",
                   not kind_reason(free), repr(kind_reason(free)))
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc()
-        error.append("crash"); app.quit(); return
+        bad.append("crash"); app.quit(); return
     QtCore.QTimer.singleShot(1200, step)
 
 
@@ -415,4 +417,6 @@ def clean_up(what):
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 clean_up(folder)
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

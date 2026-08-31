@@ -17,7 +17,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import json, shutil, subprocess, sys, wave
+import json, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -30,10 +30,14 @@ os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -229,7 +233,8 @@ for name, want in (("Rec.wav", LENGTH), ("Short.wav", SHORT_LEN),
               "%.3f s, was %.3f" % (held, want))
 if error:
     # No point measuring sound against material that is not there.
-    print("\nFAIL: " + ", ".join(error))
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(error))
     sys.exit(1)
 
 print("\n1. The ordinary run: recording plus camera")
@@ -382,8 +387,6 @@ if os.path.exists(book2):
     check("neither of them was written as an unmeasured zero",
           len([x for x in two if x == 0.0]) <= 1, str(where))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

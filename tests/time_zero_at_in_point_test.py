@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import copy, sys, inspect, importlib.util
+import copy, sys, inspect, importlib.util, time
 # A test must never play sound at somebody working next to it. The
 # program reads the variable with bool(), so even "0" silences it.
 os.environ.setdefault("VPM_SILENT", "1")
@@ -13,8 +13,12 @@ spec = importlib.util.spec_from_file_location(
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -243,5 +247,6 @@ for shape, source in SHAPES:
         same_spots("%s, %r: the spot in the file stays" % (shape, text),
                    spots(source), spots(n))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

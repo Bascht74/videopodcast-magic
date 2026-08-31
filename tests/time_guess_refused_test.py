@@ -11,7 +11,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, subprocess, sys, wave
+import importlib.util, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -25,10 +25,14 @@ os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -288,6 +292,6 @@ check("the window calls the proposal", "kind_proposal_apply(" in source
 check("the refusal is written down once", source.count("unplaceable\"] = True")
       == 2 and source.count("def cannot_be_placed") == 1)
 
-print("\n%s" % ("All good." if not error
-                else "FAIL: %s" % ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

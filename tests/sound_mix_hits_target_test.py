@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys, subprocess, tempfile
+import importlib.util, sys, subprocess, tempfile, time
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -24,11 +24,17 @@ subprocess.run(["ffmpeg","-v","error","-y","-f","lavfi",
                 "-ac","1","-ar","48000","-c:a","pcm_s24le",
                 os.path.join(T,"b.wav")], check=True)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 def num(v):
     """A number for the log, and the word None where none came back."""
@@ -44,9 +50,13 @@ print("\n1. The measurement itself")
 # The second file is the same tone, pulled down 16 dB half the time.
 check("both are measured", all(v[0] is not None for v in seen.values()),
       str(seen))
-if error:
-    print("\nFAIL: " + ", ".join(error))
-    sys.exit(1)
+if bad:
+    # Nothing below can be measured without a measurement, so this way
+    # out is taken -- and it goes past the closing lines like every
+    # other, or the count would be missing exactly where it is needed.
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 # EBU R128 gates: material more than 10 LU under the ungated level does
 # not count, so the quiet halves drop out and both files come to the
 # same figure -- a pause must not make a recording seem quieter.
@@ -140,8 +150,6 @@ if made and plain is not None:
           "source %s, result %s" % (vpm.bext_time_reference(blocks[0]),
                                     vpm.bext_time_reference(made[0])))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

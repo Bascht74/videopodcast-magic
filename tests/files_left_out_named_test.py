@@ -9,21 +9,24 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, struct, sys, tempfile, wave
+import importlib.util, struct, sys, tempfile, time, wave
 import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 WORK = tempfile.mkdtemp(prefix="whynotjoined_")
+began = time.time()
+done = 0
 bad = []
 RATE = 48000
 
 
 def check(what, ok, detail=""):
-    print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (what, "ok" if ok else "FAIL", detail))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (what, detail or "no numbers"))
 
 
 def tone(name, hz, seconds=1.0):
@@ -73,8 +76,6 @@ check("naming both files",
       len([1 for name, _why in discarded if name.startswith("v_")]) >= 2,
       str(discarded))
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("all checks passed")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

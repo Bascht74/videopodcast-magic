@@ -8,7 +8,7 @@ share of talking, because a long opening by the host points at the
 wrong person for minutes. So this file holds the order, holds the
 questions above the share, and stays quiet where there is too little.
 """
-import os, sys
+import os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
@@ -17,14 +17,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+started = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def sentence(at, words, asking):
@@ -145,8 +148,6 @@ check("it says it takes one voice per track",
 check("nothing to report is nothing printed",
       vpm.roles_report([]) == [])
 
-print("\n----")
-if bad:
-    print("FAIL %d of them: %s" % (len(bad), "; ".join(bad)))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - started))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)
