@@ -371,7 +371,7 @@ it is green.
 | `auphonic_none_chosen` | Connecting to auphonic.com must not by itself arm a paid run. |
 | `auphonic_preset_fits` | Preflight for the preset: does it hold what the run needs? |
 | `auphonic_run_delivers` | The two functions that assemble a whole production at auphonic.com. |
-| `auphonic_speech_read` | The transcript from auphonic.com: asked for, and fetched. |
+| `auphonic_speech_read` | What a production writes about the audio, and in which language. |
 | `auphonic_stays_quiet` | The program says nothing to auphonic.com unless somebody asks it to. |
 
 ### `window_` -- the interface

@@ -15,6 +15,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import importlib.util
 import tempfile
+import time
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_voiceprop_cache_")
@@ -23,10 +24,14 @@ vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -257,5 +262,6 @@ clock.start(500)
 QtCore.QTimer.singleShot(30000, app.quit)
 vpm.gui()
 
-print("\n%s" % ("FAIL: %d of them" % len(bad) if bad else "All good."))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

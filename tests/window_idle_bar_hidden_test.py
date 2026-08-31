@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys, tempfile
+import importlib.util, sys, tempfile, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 # A cache of its own, and an empty one. There is nothing to show where
 # there is nothing to do: with what was measured kept between runs, a
@@ -19,19 +19,28 @@ vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True)]
 vpm.load_api_key = lambda: ""
 sys.path.insert(0, HERE)
 from fixture_project import fixture_project
+began = time.time()
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
 PROJECT, MEDIA = fixture_project("footerbar")
 if PROJECT is None:
     print("SKIPPED: no test project -- point VPM_MEDIA at a folder "
           "holding videopodcast-magic_Interview_2.json (looked in %s)" % MEDIA)
-    sys.exit(0)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (PROJECT, ""))
-
-error = []
-def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
-        error.append(name)
 
 def win():
     for x in app.topLevelWidgets():
@@ -90,8 +99,6 @@ def step():
                   max(values or [0]))
             check("it reached the end", max(values or [0]) >= 1000,
                   max(values or [0]))
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -108,4 +115,6 @@ QtCore.QTimer.singleShot(600, step)
 QtCore.QTimer.singleShot(120000, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

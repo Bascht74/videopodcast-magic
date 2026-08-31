@@ -16,17 +16,22 @@ import importlib.util
 import json
 import sys
 import tempfile
+import time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 RAW = [["SPEAKER_01", 10.0, 12.0], ["SPEAKER_00", 1.0, 4.0],
@@ -186,8 +191,9 @@ except SyntaxError as e:
     worker, broken = None, "line %s: %s" % (e.lineno, e.msg)
 check("the worker is a program in its own right", not broken, broken)
 if worker is None:
-    print("\nFAIL: " + ", ".join(error))
-    sys.exit(1)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 body = [n for n in worker.body if isinstance(n, ast.FunctionDef)]
 first = [n for n in body if n.name == "main"][0].body[0]
 check("the first thing main does is switch the telemetry off",
@@ -244,5 +250,6 @@ vpm.SPEAKER_SPLIT_TURN.release()
 check("from four processors up everything runs at once",
       vpm.SPEAKER_SPLIT_TOGETHER_CORES == 4)
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

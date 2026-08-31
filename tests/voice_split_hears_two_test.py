@@ -36,18 +36,22 @@ spec.loader.exec_module(vpm)
 # would move a cut into the wrong sentence.
 TOLERANCE_S = 0.30
 
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-52s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def leave(why):
     """Say nothing was checked and why. run.sh counts these apart."""
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
     print("SKIPPED: " + why)
     sys.exit(0)
 
@@ -101,7 +105,9 @@ if trouble or not segments:
     # is the whole finding and gets a line of its own.
     print("\nFAIL: the separation did not run -- %s"
           % (trouble or "no segments came back"))
-    sys.exit(1)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 shape = all(
     isinstance(label, str) and parts
     and all(isinstance(a, float) and isinstance(b, float) and b > a
@@ -152,8 +158,6 @@ if len(runs) == len(truth):
     check("no boundary further out than %.2f s" % TOLERANCE_S,
           worst <= TOLERANCE_S, "%.3f s, %s" % (worst, where))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

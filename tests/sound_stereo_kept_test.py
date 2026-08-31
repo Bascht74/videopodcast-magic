@@ -11,7 +11,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, struct, subprocess, sys, tempfile
+import importlib.util, struct, subprocess, sys, tempfile, time
 import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
@@ -20,6 +20,8 @@ SR = vpm.SR
 WORK = tempfile.mkdtemp(prefix="stereomix_")
 DURATION = 6.0
 n = int(DURATION * SR)
+began = time.time()
+done = 0
 bad = []
 
 
@@ -51,11 +53,12 @@ def peak_db(x):
     return 20.0 * np.log10(top) if top > 0 else -120.0
 
 
-def check(what, ok, detail=""):
-    print("%-58s %s%s" % (what, "ok" if ok else "FAIL",
-                          "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 t = np.arange(n) / float(SR)
@@ -202,8 +205,6 @@ try:
 finally:
     vpm.find_output_format = old
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("all checks passed")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

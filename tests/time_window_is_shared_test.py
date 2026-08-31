@@ -7,7 +7,7 @@ output comes out shorter than the window promised. The intersection is
 the answer, and nothing asked this before: the suite stayed green while
 the meaning of the window turned round.
 """
-import os, sys
+import os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
@@ -16,10 +16,14 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -77,5 +81,6 @@ t0, _l, t1, _e = vpm.common_window(APART)
 check("the window comes out negative rather than pretending",
       t1 - t0 < 0, "%.3f to %.3f" % (t0, t1))
 
-print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

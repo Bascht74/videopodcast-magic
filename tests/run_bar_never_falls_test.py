@@ -7,7 +7,7 @@ to add the run's stages on top, so the bar opened high and fell back. A
 bar that never falls then made it stand still instead. This is
 arithmetic, and can be held against numbers without a window.
 """
-import os, sys
+import os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
@@ -16,14 +16,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def measuring_still_going():
@@ -135,5 +138,6 @@ check("but there is one on the multitrack path",
       "camera audio" in [n for n, _w, _c in
                          vpm.run_stages(True, 2, False, False)])
 
-print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

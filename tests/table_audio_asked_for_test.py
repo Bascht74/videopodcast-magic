@@ -11,7 +11,11 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile
+import importlib.util, json, shutil, subprocess, sys, tempfile, time
+
+# One clock for both processes: the child runs this file from the top
+# as well, and stops in look() before the parent's own part.
+began = time.time()
 
 PRODUCTION = "Two cameras"
 CAMERAS = ("Wide_C003.mov", "Guest_C009.mov")
@@ -47,12 +51,17 @@ def look(media):
     vpm.speaker_split_setup = lambda *a, **k: "not in a test"
     vpm.speaker_split_run = lambda *a, **k: ([], "not in a test")
 
-    error = []
+    bad = []
+    # A list, not a plain number: the checks are made in nested steps,
+    # and "done" is taken here by the flag that says the window got
+    # through them.
+    judged = [0]
 
     def check(name, ok, extra=""):
-        print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+        judged[0] += 1
+        print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
         if not ok:
-            error.append(name)
+            bad.append("%s [%s]" % (name, extra or "no numbers"))
 
     videos = [os.path.join(media, n) for n in CAMERAS]
     folder = tempfile.mkdtemp(prefix="vpm_a5c_")
@@ -287,15 +296,13 @@ def look(media):
                 return
             elif i == 5:
                 taken_back_look()
-                print("\n%s" % ("ALL OK" if not error
-                                else "FAIL: " + ", ".join(error)))
                 done[0] = True
                 app.quit()
                 return
         except Exception:
             import traceback
             traceback.print_exc()
-            error.append("crash")
+            bad.append("crash")
             done[0] = True
             app.quit()
             return
@@ -450,9 +457,11 @@ def look(media):
     vpm.gui()
     if not done[0]:
         print("  the window never got as far as the checks   FAIL")
-        error.append("no answer")
+        bad.append("no answer")
     clean_up(folder)
-    return 1 if error else 0
+    print("\n%d checks in %.2f s" % (judged[0], time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    return 1 if bad else 0
 
 
 if os.environ.get("VPM_A5C_MEDIA"):
@@ -462,13 +471,16 @@ if os.environ.get("VPM_A5C_MEDIA"):
 # -------------------------------------------------------- the parent
 vpm = load()
 
-error = []
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 D = tempfile.mkdtemp(prefix="assignment5c_")
@@ -645,12 +657,19 @@ except subprocess.TimeoutExpired:
     out = (out or "") + "\nFAIL: the window never came back"
 for line in (out or "").rstrip().split("\n"):
     print(line[:160])
+    # The window's judgements are made in the other process, and its
+    # count is carried up here: held to this test's floor, they are
+    # covered too, and a window that stops judging brings the number
+    # down instead of passing.
+    head = line.split(" checks in ")[0]
+    if " checks in " in line and head.isdigit():
+        done += int(head)
 if child.returncode != 0:
-    error.append("the window")
+    bad.append("the window")
 # The process that played these files has ended; what can still hold one
 # on Windows is a virus scanner, which says nothing about the program.
 shutil.rmtree(media, ignore_errors=True)
 
-print("\n%s" % ("All good." if not error
-                else "FAIL: %s" % ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

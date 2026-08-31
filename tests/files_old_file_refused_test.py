@@ -4,17 +4,23 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, io, json, sys, tempfile
+import importlib.util, io, json, sys, tempfile, time
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
+# The failed checks. Not called "bad": section 6 below uses that name
+# for the placeholders it finds, and one of the two would be lost.
 error = []
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 print("1. What the check says")
 vpm.set_language("en")
@@ -129,8 +135,6 @@ for k in ast.walk(tree):
 check("no placeholder without an entry", not bad, str(bad[:3]))
 
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

@@ -4,17 +4,25 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import math, sys, importlib.util
+import math, sys, time, importlib.util
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+# The list is called "error" and not "bad": every section below uses
+# "bad" for the colours it found too close together.
+began = time.time()
+done = 0
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 def lab(h):
     r, g, b = (int(h[i:i+2], 16) / 255.0 for i in (1, 3, 5))
@@ -95,5 +103,6 @@ check("no voice gets the same one",
 check("nothing twice", duplicate == 0)
 
 vpm.ON_DARK[0] = False
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

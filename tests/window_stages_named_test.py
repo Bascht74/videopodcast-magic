@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
@@ -15,22 +15,31 @@ vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 sys.path.insert(0, HERE)
 from fixture_project import fixture_project
+began = time.time()
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
 PROJECT, MEDIA = fixture_project("runbar")
 if PROJECT is None:
     print("SKIPPED: no test project -- point VPM_MEDIA at a folder "
           "holding videopodcast-magic_Interview_2.json (looked in %s)" % MEDIA)
-    sys.exit(0)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (PROJECT, ""))
 # Offscreen nobody answers a dialog, and the run asks before it starts.
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
-
-error = []
-def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
-        error.append(name)
 
 print("1. The stages of a run and what they are worth")
 plain = vpm.run_stages(False, 0, False)
@@ -156,8 +165,6 @@ def step():
             check("it named a stage of the run by name",
                   len(watch["captions"]) >= 1,
                   str(sorted(watch["captions"])))
-            print("\n%s" % ("ALL OK" if not error
-                             else "FAIL: " + ", ".join(error)))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -169,4 +176,6 @@ QtCore.QTimer.singleShot(600, step)
 QtCore.QTimer.singleShot(180000, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

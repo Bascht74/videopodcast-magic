@@ -59,14 +59,17 @@ QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 # for, never slept past.
 PATIENCE = 60.0
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
-    print("  %-56s %s%s" % (name, "ok" if ok else "FAIL",
-                            "" if ok else "   " + extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 # ---------------------------------------------------------- the material
@@ -386,8 +389,9 @@ def carry_on():
                   "the list shows %s again" % (rows(),))
 
         elif i == 7:
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
+            # The window goes; the count and the verdict are printed
+            # below, where every way out of this test comes past --
+            # the crash above, and the deadline that quits the run.
             app.quit()
             return
     except Exception:
@@ -410,4 +414,6 @@ QtCore.QTimer.singleShot(240000, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 gate.set()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

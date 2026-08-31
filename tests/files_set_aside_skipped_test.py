@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, subprocess, shutil, importlib.util
+import sys, subprocess, shutil, time, importlib.util
 sys.path.insert(0, os.path.dirname(
     os.path.abspath(__file__)))
 from fixture_root import fixture
@@ -12,6 +12,16 @@ spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+
+began = time.time()
+done = 0
+error = []
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 D = fixture("setaside"); shutil.rmtree(D, ignore_errors=True); os.makedirs(D)
 def video(name, size, duration=2):
@@ -27,12 +37,6 @@ def video(name, size, duration=2):
 cam1 = video("Camera1.mov", "640x360")
 cam2 = video("Camera2.mov", "640x360")
 chart = video("Colourchart.mov", "320x180")
-
-error = []
-def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
-        error.append(name)
 
 print("1. Without set aside: the colour chart makes a resolution hint")
 findings = vpm.collect_findings([], [cam1, cam2, chart], fresh=True)
@@ -83,5 +87,6 @@ its_findings = [x for x in findings2 if x.file == os.path.abspath(audio[2])]
 check("the ignored track has findings of its own", bool(its_findings))
 check("and they are set aside", all(x.set_aside for x in its_findings))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util, inspect, re
+import sys, importlib.util, inspect, re, time
 # A test must never play sound at somebody working next to it. The program
 # reads the variable with bool(), so any value silences it, "0" as well.
 os.environ.setdefault("VPM_SILENT", "1")
@@ -13,11 +13,17 @@ spec = importlib.util.spec_from_file_location(
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 # The function itself, not a copy cut out of the source of gui().
 camera_offset = vpm.camera_offset
@@ -77,5 +83,6 @@ check("no start_s left in the player build",
         'x.get("start_s")' not in source.split("def player_load_cut")[1]
         .split("def ")[0])
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

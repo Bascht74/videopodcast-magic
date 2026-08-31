@@ -10,7 +10,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, sys, tempfile, wave
+import importlib.util, shutil, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -21,13 +21,20 @@ spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 
-error = []
+began = time.time()
+# Not "done": that name belongs to the function below, which stops the
+# run, and a counter under it would end this file in a traceback where
+# a verdict should stand.
+judged = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global judged
+    judged += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 RATE, SEC, CH = 48000, 5, 24
@@ -86,7 +93,7 @@ waited = [0]
 
 
 def done():
-    print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+    """Nothing more to ask. The verdict stands at the foot of the file."""
     app.quit()
 
 
@@ -149,7 +156,7 @@ def step():
             return
     except Exception:
         import traceback; traceback.print_exc()
-        error.append("crash"); app.quit(); return
+        bad.append("crash"); app.quit(); return
     QtCore.QTimer.singleShot(2000, step)
 
 
@@ -228,4 +235,8 @@ def clean_up(what):
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 clean_up(folder)
-sys.exit(1 if error else 0)
+# Here and nowhere else: a window that never got as far as the checks
+# quits on the timer above, and this line is what says how few it made.
+print("\n%d checks in %.2f s" % (judged, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

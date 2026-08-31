@@ -16,14 +16,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 WORK = tempfile.mkdtemp(prefix="chanread_")
+began = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def build(name, channels, seconds=3, rate=48000, width=2):
@@ -136,8 +139,6 @@ check("and every neighbour has an answer",
       len(vpm.channel_joins(facts)) == 7,
       str(len(vpm.channel_joins(facts))))
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("all checks passed")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

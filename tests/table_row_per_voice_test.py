@@ -20,7 +20,11 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import json, re, subprocess, sys, tempfile, wave
+import json, re, subprocess, sys, tempfile, time, wave
+
+# One clock for both processes: the child runs this file from the top
+# as well, and stops in look() before the parent's own part.
+began = time.time()
 
 RATE = 48000
 SEC = 12
@@ -181,12 +185,17 @@ def look(case, media):
     QtWidgets.QWidget.show = offstage
     QtWidgets.QDialog.show = offstage
 
-    error = []
+    bad = []
+    # A list, not a plain number: the checks are made in nested steps,
+    # and "done" is taken here by the flag that says the window got
+    # through them.
+    judged = [0]
 
     def check(name, ok, extra=""):
-        print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+        judged[0] += 1
+        print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
         if not ok:
-            error.append(name)
+            bad.append("%s [%s]" % (name, extra or "no numbers"))
 
     def win():
         for x in app.topLevelWidgets():
@@ -639,8 +648,7 @@ def look(case, media):
              asked_look])
 
     def stop_now():
-        print("\n%s" % ("ALL OK" if not error
-                        else "FAIL: " + ", ".join(error)))
+        """Nothing more to ask. The verdict stands at the end of look()."""
         done[0] = True
         app.quit()
 
@@ -653,7 +661,7 @@ def look(case, media):
         except Exception:
             import traceback
             traceback.print_exc()
-            error.append("crash")
+            bad.append("crash")
             stop_now()
             return
         if answer == STOP:
@@ -670,8 +678,10 @@ def look(case, media):
     vpm.gui()
     if not done[0]:
         print("  the window never got as far as the checks   FAIL")
-        error.append("no answer")
-    return 1 if error else 0
+        bad.append("no answer")
+    print("\n%d checks in %.2f s" % (judged[0], time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    return 1 if bad else 0
 
 
 # --------------------------------------------------------- the parent
@@ -709,6 +719,11 @@ if os.environ.get("VPM_VOICES_CASE"):
 # process would be a second interface standing on the first.
 media = tempfile.mkdtemp(prefix="vpm_voices_")
 material(media)
+# Every judgement in this test is made in a window, and every window is
+# a process of its own. What they judged is carried up here, so the
+# floor covers them: a window that stops judging brings the number down
+# instead of passing.
+done = 0
 bad = []
 for name, what in CASES:
     print("\n%s:" % what)
@@ -726,11 +741,12 @@ for name, what in CASES:
         out = (out or "") + "\nthe window never came back"
     for line in (out or "").rstrip().split("\n"):
         print(line[:160])
+        head = line.split(" checks in ")[0]
+        if " checks in " in line and head.isdigit():
+            done += int(head)
     if child.returncode != 0:
         bad.append(name)
 
-print()
-if bad:
-    print("FAIL: " + ", ".join(bad))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

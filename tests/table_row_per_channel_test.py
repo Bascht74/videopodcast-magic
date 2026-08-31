@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile, wave
+import importlib.util, json, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -15,11 +15,17 @@ spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 RATE = 48000
 SEC = 10
@@ -200,8 +206,6 @@ def step():
                   str(two and two[0][1]))
             check("and the tick stayed where it was put",
                   two and two[0][2] is not None and two[0][2].isChecked())
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -282,4 +286,8 @@ def clean_up(what):
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 clean_up(folder)
-sys.exit(1 if error else 0)
+# Here and nowhere else: a window that never got as far as the checks
+# quits on the timer above, and this line is what says how few it made.
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

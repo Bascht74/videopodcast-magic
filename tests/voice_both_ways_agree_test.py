@@ -17,19 +17,22 @@ import importlib.util
 import shutil
 import sys
 import tempfile
+import time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
-checked = [0]
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    checked[0] += 1
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 folder = tempfile.mkdtemp(prefix="vpm-same-way-")
@@ -187,5 +190,6 @@ check("and with the same cut list", cut_window == cut_run,
       "%d shots" % len(cut_run))
 
 shutil.rmtree(folder, ignore_errors=True)
-print("\n%d checks, %d failed" % (checked[0], len(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)
