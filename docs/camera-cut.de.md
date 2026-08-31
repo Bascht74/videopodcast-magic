@@ -31,13 +31,22 @@ sie zeigt beide.
 
 **Der Name richtet sich nach den Kameras.** Zwischen zwei Kameras
 wechselt das Bild, auf einer Kamera nicht. Dort entsteht ein erster
-Schnitt an jedem Sprecherwechsel. Der Lauf stellt `KAMERASCHNITT` über
-seinen Abschnitt bei zwei Kameras und mehr, bei einer
-`ERSTER SCHNITT NACH SPRECHERN`. Der Kasten im Fenster trägt diese
-beiden Namen und einen dritten: bei einer benannten Person und zwei
-Kameras oder mehr heißt er **Schnitt mit dem Weitwinkel**, weil ihre
-Kamera steht und nur der Weitwinkel sie unterbricht. Bevor etwas
-getrennt ist, heißt der Kasten **Kameraschnitt**.
+Schnitt an jedem Sprecherwechsel. Drei Fälle, drei Namen, und der Kasten
+im Fenster und die Überschrift über dem Abschnitt im Protokoll nennen
+denselben:
+
+* **Kameraschnitt**, wenn zwei Personen oder mehr je eine eigene Kamera
+  haben;
+* **Schnitt mit dem Weitwinkel**, wenn eine Person benannt ist und eine
+  zweite Kamera niemanden trägt — ihre Kamera steht, und nur der
+  Weitwinkel unterbricht sie;
+* **Erster Schnitt nach Sprechern**, wenn alle auf einer Kamera sitzen.
+
+Im Protokoll stehen dieselben drei in Großbuchstaben und auf einer neuen
+Zeile: `KAMERASCHNITT`, `SCHNITT MIT DEM WEITWINKEL`,
+`ERSTER SCHNITT NACH SPRECHERN`. Solange nichts getrennt ist, heißt der
+Kasten **Kameraschnitt**: das Material hat die Frage noch nicht
+beantwortet.
 
 Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
@@ -157,10 +166,59 @@ und 15 Sekunden gegen 20 bis 30.
 
 **Weitwinkel mindestens** und **Weitwinkel spätestens** bleiben offen,
 auch ohne Niederschrift: die beiden zählen nach der Uhr und brauchen
-keinen Satz.
+keinen Satz. Offen sind sie, solange es überhaupt einen Weitwinkel gibt
+— der nächste Abschnitt handelt vom zweiten Grund, aus dem eine
+Einstellung grau dasteht.
 
 Der erste Lauf schreibt die Niederschrift. Von da an sind die vier
 offen, und die Vorschau rechnet mit ihnen.
+
+### Wenn keine Kamera frei von Sprechern ist
+
+Der Weitwinkel ist die Kamera, auf der niemand ist. Trägt jede Kamera
+einen Sprecher, gibt es keinen, und die fünf Einstellungen, die nichts
+anderes sagen als das, was der Weitwinkel tut, stehen grau da:
+**Weitwinkel nach**, **Weitwinkel spätestens**, **Weitwinkel
+mindestens**, **Weitwinkel höchstens** und das Häkchen für die Ränder.
+In den drei unteren Auswahlfeldern wird der Eintrag **Weitwinkel** mit
+ihnen grau und lässt sich nicht mehr wählen. Er bleibt aber in der
+Liste, statt daraus zu verschwinden, und wer darauf zeigt, erfährt den
+Grund: die Antwort auf „warum kann ich das nicht wählen“ gehört dorthin,
+wo die Frage aufkommt.
+
+Unter den Einstellungen sagt eine Zeile dasselbe in Worten — keine
+Kamera ist frei von Sprechern, also gibt es keinen Weitwinkel, und diese
+fünf Einstellungen bewirken nichts. Zwei Personen auf je einer eigenen
+Kamera sind genau dieser Fall, und für ein Gespräch, das mit zwei
+Kameras aufgenommen wird, ist er der Normalfall.
+
+Die Zeile nennt auch die beiden Auswege; einer von beiden genügt:
+
+* einer Kamera im Feld **Typ** den Wert **Weitwinkel** geben. Das Feld
+  steht bei jeder Videodatei in der Liste und in der Kameratabelle auf
+  dem Reiter **Zuordnung & Zeitfenster**. Eine so gekennzeichnete Kamera
+  nimmt keine Sprecher mehr an, und die Kennzeichnung geht dem vor, was
+  das Programm von selbst herausfinden würde;
+* oder eine Kamera ohne Sprecher lassen. Jede Kamera, der niemand
+  zugeordnet ist, ist ein Weitwinkel.
+
+Mehrere Weitwinkel nebeneinander sind auf beiden Wegen erlaubt. Der
+Schnitt nimmt einen davon, und das Protokoll sagt, wie viele es sind und
+welchen es genommen hat, statt im Stillen eine Mehrheit auszurechnen.
+
+Eine Zahl, die schon in einem grau gewordenen Feld steht, bleibt
+erhalten, und der Lauf richtet sich ebenso wenig nach ihr: ohne
+Weitwinkel gilt **Weitwinkel nach** als 0, das Häkchen als
+abgeschaltet, und ein Auswahlfeld, in dem noch **Weitwinkel** steht,
+wirkt wie **Kein Kamerawechsel**. Das Protokoll sagt es unter der
+Überschrift des Schnitts: jede Kamera trägt einen Sprecher, also
+bewirken die vier Weitwinkel-Einstellungen und der Haken für die Ränder
+hier nichts.
+
+Keines der beiden Graus bleibt für immer. Eine Kamera kennzeichnen oder
+einer den Sprecher wegnehmen, und die fünf sind im selben Augenblick
+wieder da — so wie die vier, sobald ein Lauf die Wörter aufgeschrieben
+hat.
 
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
@@ -174,6 +232,18 @@ Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
 * **Mehrere reden zugleich**: und keine Kamera zeigt genau sie.
 * **Erkennung unsicher**: die Erkennung zerfasert über eine Passage,
   oder von einem Namen bleiben nur Schnipsel.
+
+**Was aus den Fragen geworden ist, steht im Protokoll.** Eine Zeile
+nennt, wie viele Fragezeichen im Transkript standen und bei wie vielen
+davon das Bild vorgezogen wurde. Dort heißt die Sache
+Reaktionsschnitt, und das ist die letzte Stelle, an der das Wort noch
+vorkommt: auf dem Bildschirm heißen die beiden Einstellungen **Nach
+einer Frage** und **Antwort früher im Bild**. Wo Fragen wegfielen, folgt
+eine zweite Zeile mit der Zahl je Grund — der Hauptsprecher fragte,
+Fragender und Antwortender auf einer Kamera, niemand antwortete
+rechtzeitig, die Antwort behielt das Wort nicht, bei der Frage sprach
+niemand. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
+Einstellung, die nichts bewirken kann, nicht wie eine kaputte aussieht.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
 Kamera in den letzten 20 Sekunden jemand zu hören war; sonst der
@@ -499,6 +569,14 @@ Lautheitsmessung läuft je Spur zweimal durch.
   keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
   Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen
   eine; der erste Lauf schreibt sie, danach nehmen sie einen Wert an.
+* **Fünf Einstellungen sind grau, und der Weitwinkel lässt sich nicht
+  wählen.** Jede Kamera trägt einen Sprecher, also gibt es keinen
+  Weitwinkel. Einer Kamera im Feld **Typ** den Wert **Weitwinkel**
+  geben, oder einer den Sprecher wegnehmen.
+* **In einem Auswahlfeld steht Weitwinkel, und der Schnitt hält
+  stattdessen das Bild.** Es gibt keinen Weitwinkel, zu dem er gehen
+  könnte, also wirkt **Weitwinkel** wie **Kein Kamerawechsel**. Das
+  Protokoll nennt es im Abschnitt des Schnitts.
 * **Das Bild steht, obwohl der Sprecher wechselt.** Beide Sprecher
   sitzen auf einer Kamera, oder der Block ist kürzer als **Redet
   mindestens**.

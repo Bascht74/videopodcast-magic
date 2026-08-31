@@ -27,12 +27,19 @@ one camera means it shows both.
 
 **The name follows the cameras.** Between two cameras the picture is
 switched; on one camera it is not. What comes out there is a first cut
-at every change of speaker. The run puts `CAMERA CUT` over its section
-with two cameras or more and `FIRST CUT BY SPEAKER` with one. The box in
-the window carries those two names and a third: with one person named
-and two cameras or more it is called **Cut with the wide shot**, because
-their camera stands and only the wide shot breaks it up. Before anything
-is separated the box is called **Camera cut**.
+at every change of speaker. Three cases, three names, and the box in the
+window and the heading over the log section say the same one:
+
+* **Camera cut**, where two people or more sit on cameras of their own;
+* **Cut with the wide shot**, where one person is named and a second
+  camera carries nobody -- their camera stands and only the wide shot
+  breaks it up;
+* **First cut by speaker**, where everybody is on one camera.
+
+In the log the same three stand in capitals and on a fresh line:
+`CAMERA CUT`, `CUT WITH THE WIDE SHOT`, `FIRST CUT BY SPEAKER`. Before
+anything is separated the box says **Camera cut**, because the material
+has not answered the question yet.
 
 The output folder gets `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 and `_cameracut.edl`, whatever the cut is called. The heads are
@@ -149,9 +156,51 @@ and 15 seconds against 20 to 30.
 
 **Wide shot at least** and **Wide shot at the latest** stay open, also
 without a transcript: those two count by the clock and need no sentence.
+They are open as long as there is a wide shot at all -- the next section
+is the other reason a setting stands grey.
 
 The first run writes the transcript down. From then on the four are
 open, and the preview reckons with them.
+
+### When no camera is free of speakers
+
+The wide shot is the camera nobody is on. Where every camera carries a
+speaker there is none, and the five settings that say nothing but what
+the wide shot does stand grey: **Wide shot after**, **Wide shot at the
+latest**, **Wide shot at least**, **Wide shot at most** and the tick for
+the edges. In the three lower selectors the entry **Wide shot** goes
+grey with them and cannot be picked. It stays in the list rather than
+vanishing from it, and pointing at it says why -- the answer to "why can
+I not choose this" belongs where the question is asked.
+
+Under the settings a line says the same in words: no camera is free of
+speakers, so there is no wide shot and these five settings do nothing.
+Two people on two cameras of their own is exactly that state, and for a
+conversation filmed on two cameras it is the usual one.
+
+The line also names the two ways out, and either does:
+
+* give one camera the **Kind** **Wide shot** -- the field stands beside
+  each video file in the list and in the camera table on **Assignment &
+  time window**. A camera marked that way takes no speakers, and the
+  mark beats what the program would have worked out by itself;
+* or leave one camera without a speaker. Every camera nobody is assigned
+  to is a wide shot.
+
+Several wide shots at once are allowed either way. The cut takes one of
+them, and the log says how many there are and which one it took, rather
+than working a majority out in silence.
+
+A number already in a grey field is kept, and the run does not act on it
+either: without a wide shot **Wide shot after** counts as 0, the tick as
+off, and a selector still standing on **Wide shot** as **No camera
+change**. The log says so under the heading of the cut: every camera
+carries a speaker, so the four wide shot settings and the tick for the
+edges do nothing here.
+
+Neither of the two greys is for ever. Mark a camera, or take a speaker
+off one, and the five come alive in the same moment, as the four do
+when a run has written the words down.
 
 ### When the speech does not say whom to show
 
@@ -165,6 +214,17 @@ Four cases, and what each of the four selectors decides:
 * **Several speak at once**: and no camera shows exactly them.
 * **Recognition uncertain**: the recognition frays over a passage, or
   a name is left with nothing but scraps.
+
+**What became of the questions stands in the log.** One line says how
+many question marks the transcript held and for how many of them the
+picture was brought forward -- there the thing is called a reaction cut,
+and that is the last place the word is used; on the screen it is
+**After a question** and **Answer on screen earlier**. A second line
+follows where any were let go, with the count for each reason: the main
+speaker asked, asker and answerer on one camera, nobody answered in
+time, the answer did not keep the floor, nobody was speaking at the
+question. Without a transcript the line says that instead, so a setting
+that can do nothing does not read as one that is broken.
 
 **Listener** means whoever speaks next, and only if somebody on that
 camera was heard in the last 20 seconds; otherwise the wide shot. The
@@ -478,6 +538,12 @@ loudness measurement runs through each track twice.
   down yet. **After a question**, **Answer on screen earlier**, **Wide
   shot after** and **Wide shot at most** all need one; the first run
   writes it, and from then on they take a value.
+* **Five settings are grey and the wide shot cannot be picked.** Every
+  camera carries a speaker, so there is no wide shot. Give one camera
+  the **Kind** **Wide shot**, or take the speaker off one of them.
+* **A selector says Wide shot and the cut holds the picture instead.**
+  There is no wide shot to go to, so **Wide shot** counts as **No camera
+  change**. The log names it in the cut section.
 * **The picture stands still although the speaker changes.** Both
   speakers sit on one camera, or the block is shorter than **Speaks at
   least**.
