@@ -2574,12 +2574,15 @@ open	voice_source_travels	a file without one gives nothing
 open	voice_source_travels	a section lands where it belongs
 open	voice_source_travels	and an empty one is refused too
 open	voice_source_travels	and the field in the window shows the same
+voice_source_travels	2026-08-31	and without the answer they share one, as they must	/private/tmp/vsb/kaputt2.py -- in write_cut_list nach der Stimmen-Schleife vergibt das Programm die Kameras selbst: camera_of.setdefault(name, spare[i % len(spare)]) ueber die Sprecher der Segmentliste	and without the answer they share one, as they must        FAIL the cut uses ['CamA', 'CamB'], wanted one
 open	voice_source_travels	it names the file
 open	voice_source_travels	it works
 open	voice_source_travels	out of a project file
 open	voice_source_travels	out of an assignment file
+voice_source_travels	2026-08-31	the camera of every voice goes into the plan as well	the version before the repair, where the multitrack branch of run_argv wrote speakers_of but not voices_of	the camera of every voice goes into the plan as well FAIL the plan says None
 open	voice_source_travels	the names come along
 open	voice_source_travels	the switch and the constant agree
+voice_source_travels	2026-08-31	two voices on two cameras give a cut that uses both	the same version, where write_cut_list built camera_of out of the tracks alone and never read voices_of -- a voice is finer than a track and had no row there	two voices on two cameras give a cut that uses both FAIL the cut uses ['CamB'], wanted two of ['CamA', 'CamB']
 open	voice_source_travels	what lies before the window is trimmed
 open	voice_source_travels	with one it is in the plan
 open	voice_source_travels	without a separation the key stays away

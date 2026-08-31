@@ -1,6 +1,6 @@
 # The test suite
 
-149 tests against `../videopodcast-magic.py`. Every one of them stands
+156 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-149 tests. The name is the one a red line carries, and beside it the
+156 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -368,7 +368,7 @@ it is green.
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
 | `project_rerun_updates` | #60 in a whole run: build twice, update on the second pass. |
 | `project_same_offset` | Preview and Resolve put a camera at the same offset. |
-| `project_settings_return` | Everything that can be set is set, saved, opened again, and asked after. |
+| `project_settings_return` | What is typed into the window reaches the project file and comes back. |
 | `project_tag_reason_fits` | The Tagging line names a reason only where it explains its own tags. |
 | `project_two_stay_two` | Two cameras whose files share a name stay two cameras. |
 | `project_two_timelines_go` | #60: update a project -- the two timelines go, nothing else. |
