@@ -117,74 +117,7 @@ open	auphonic_none_chosen	more than the placeholder is offered
 open	auphonic_none_chosen	preset list found
 open	auphonic_preset_fits	%-22s -> %s stop go
 open	auphonic_preset_fits	every case was tried
-open	auphonic_run_delivers	a download that is too small stops the run
-open	auphonic_run_delivers	a preset that is not multitrack stops the run
-open	auphonic_run_delivers	a production without a result stops the run
-open	auphonic_run_delivers	a production without the tracks stops the run
-open	auphonic_run_delivers	a refusal from auphonic.com stops the run
-open	auphonic_run_delivers	a refusal stops the run and says why
-open	auphonic_run_delivers	a result without an address stops the run
-open	auphonic_run_delivers	a track that got no file stops the run
-open	auphonic_run_delivers	an answer without a production id stops the run
-open	auphonic_run_delivers	an archive with foreign names matches nobody
-open	auphonic_run_delivers	an error at auphonic.com is passed on with its reason
-open	auphonic_run_delivers	an extra that will not come does not lose the tracks
-open	auphonic_run_delivers	and it is a real file
-open	auphonic_run_delivers	and it was fetched once, not twice
-open	auphonic_run_delivers	and its result came back
-open	auphonic_run_delivers	and none of them is empty
-open	auphonic_run_delivers	and nothing was downloaded
-open	auphonic_run_delivers	and nothing was started for it
-open	auphonic_run_delivers	and nothing was uploaded for it
-open	auphonic_run_delivers	and nothing was uploaded for them
-open	auphonic_run_delivers	and the fold to one channel is cleared
 open	auphonic_run_delivers	and the search would have found one
-open	auphonic_run_delivers	and the tracks came back all the same
-open	auphonic_run_delivers	asked for as multitrack
-open	auphonic_run_delivers	each speaker got the file bearing that name
-open	auphonic_run_delivers	every file is really there
-open	auphonic_run_delivers	it asked again instead of giving up
-open	auphonic_run_delivers	it paused between the tries
-open	auphonic_run_delivers	mono starts straight away, in the one call
-open	auphonic_run_delivers	mono tracks: the yardstick is folded to one channel
-open	auphonic_run_delivers	multitrack dry run: no call whatsoever
-open	auphonic_run_delivers	multitrack dry run: nothing came back
-open	auphonic_run_delivers	no second call was needed
-open	auphonic_run_delivers	nothing is started before the tracks are up
-open	auphonic_run_delivers	one file per speaker
-open	auphonic_run_delivers	one file per track went up, each the right one
-open	auphonic_run_delivers	one stereo track: the yardstick keeps two channels
-open	auphonic_run_delivers	one that never finishes ends at the time limit
-open	auphonic_run_delivers	one track per speaker, by name
-open	auphonic_run_delivers	single dry run: no call whatsoever
-open	auphonic_run_delivers	single dry run: nothing came back
-open	auphonic_run_delivers	stereo is not started before the settings are in
-open	auphonic_run_delivers	the WAV is taken, not the MP3
-open	auphonic_run_delivers	the archive was removed once unpacked
-open	auphonic_run_delivers	the extra output came along
-open	auphonic_run_delivers	the file itself went up
-open	auphonic_run_delivers	the file names come from the title
-open	auphonic_run_delivers	the key is in no argument list
-open	auphonic_run_delivers	the mixdown is asked for as the yardstick
-open	auphonic_run_delivers	the mixdown lies beside them as the yardstick
-open	auphonic_run_delivers	the preset's own identity is not sent back
-open	auphonic_run_delivers	the preset's own output is sent back with it
-open	auphonic_run_delivers	the preset's track settings reached every track
-open	auphonic_run_delivers	the production exists before anything is uploaded
-open	auphonic_run_delivers	the result is only fetched after the start
-open	auphonic_run_delivers	the result lies in the folder that was named
-open	auphonic_run_delivers	the settings call starts it
-open	auphonic_run_delivers	the single file is waited for too
-open	auphonic_run_delivers	the single tracks are asked for
-open	auphonic_run_delivers	the subtitles landed beside the audio
-open	auphonic_run_delivers	the time limit ends the wait and names the production
-open	auphonic_run_delivers	the time limit ends the wait and says where to look
-open	auphonic_run_delivers	the title of this episode, not the preset's
-open	auphonic_run_delivers	the tracks are there all the same
-open	auphonic_run_delivers	tracks created other than asked for stop the run
-open	auphonic_run_delivers	what only an answer can carry does not go back with it
-open	auphonic_run_delivers	with only an MP3 that one is taken
-open	auphonic_run_delivers	without dry run it does speak
 open	auphonic_speech_read	a German system suggests ger
 open	auphonic_speech_read	a Spanish one suggests spa -- not the interface language
 open	auphonic_speech_read	an English one suggests eng
@@ -206,6 +139,73 @@ open	auphonic_stays_quiet	presets_load is called from the button and the list on
 open	auphonic_stays_quiet	the list fetches itself when it is opened
 open	auphonic_stays_quiet	the unasked fetch has a quiet path
 open	auphonic_stays_quiet	turned away: %r
+auphonic_run_delivers	2026-08-31	multitrack dry run: no call whatsoever	run_multitrack_production: a read_preset(key, preset_uuid) call put into the dry_run branch before its return {}	multitrack dry run: no call whatsoever                   FAIL 1 calls: [('GET', '/api/preset/PRESETUUID.json')]
+auphonic_run_delivers	2026-08-31	multitrack dry run: nothing came back	run_multitrack_production: the dry_run branch returns {"Host": "nothing"} instead of {}	multitrack dry run: nothing came back                    FAIL {'Host': 'nothing'}
+auphonic_run_delivers	2026-08-31	single dry run: no call whatsoever	run_single_production: a read_preset(key, preset) call put into the dry_run branch before its return None	single dry run: no call whatsoever                       FAIL 1 calls: [('GET', '/api/preset/PRESETUUID.json')]
+auphonic_run_delivers	2026-08-31	single dry run: nothing came back	run_single_production: the dry_run branch returns audio instead of None	single dry run: nothing came back                        FAIL '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_nwIYzO/wholerun_r0j8qpjj/single_mono.wav'
+auphonic_run_delivers	2026-08-31	without dry run it does speak	run_multitrack_production: the dry_run guard turned into if True, so every run leaves early and speaks to nobody	without dry run it does speak                            FAIL 0 calls
+auphonic_run_delivers	2026-08-31	asked for as multitrack	build_multitrack_request: request["is_multitrack"] set to False instead of True	asked for as multitrack                                  FAIL False
+auphonic_run_delivers	2026-08-31	one track per speaker, by name	build_multitrack_request: the track list built for n in reversed(names) instead of for n in names	one track per speaker, by name                           FAIL ['Third', 'Guest', 'Host']
+auphonic_run_delivers	2026-08-31	the single tracks are asked for	build_multitrack_request: the output format asked for named "track" instead of "tracks"	the single tracks are asked for                          FAIL [('track', 'wav.zip'), ('wav-24bit', 'wav')]
+auphonic_run_delivers	2026-08-31	the mixdown is asked for as the yardstick	master_output_format: a return None put at the top, so no mixdown is ever asked for	the mixdown is asked for as the yardstick                FAIL [('tracks', 'wav.zip')]
+auphonic_run_delivers	2026-08-31	mono tracks: the yardstick is folded to one channel	master_output_format: "mono_mixdown" set to False instead of not stereo	mono tracks: the yardstick is folded to one channel      FAIL {'format': 'wav-24bit', 'ending': 'wav', 'mono_mixdown': False, 'suffix': '_master'}
+auphonic_run_delivers	2026-08-31	the title of this episode, not the preset's	build_multitrack_request: the line request["metadata"]["title"] = title replaced by pass	the title of this episode, not the preset's              FAIL 'from the preset'
+auphonic_run_delivers	2026-08-31	the file names come from the title	build_multitrack_request: request["output_basename"] set to base_name.lower() instead of base_name	the file names come from the title                       FAIL 'episode_12__hosts___guests'
+auphonic_run_delivers	2026-08-31	the preset's own identity is not sent back	PRESET_READ_ONLY: "uuid" taken out of the tuple, so the preset's uuid travels into the request	the preset's own identity is not sent back               FAIL ['uuid']
+auphonic_run_delivers	2026-08-31	the preset's track settings reached every track	build_multitrack_request: each track gets "algorithms": {} instead of dict(template)	the preset's track settings reached every track          FAIL ['Host', 'Guest', 'Third']
+auphonic_run_delivers	2026-08-31	the production exists before anything is uploaded	run_multitrack_production: a full upload.json call with all -F files put in front of the create POST	the production exists before anything is uploaded        FAIL ['/api/preset/PRESETUUID.json', '/api/info/output_files.json', '/api/productions.json?limit=50', '/api/production/PRODUUID/upload.json', '/api/productions.json', '/api/production/PRODUUID/upload.json', '/api/production/PRODUUID/start.json', '/api/production/PRODUUID.json', '/dl/tracks.zip', '/dl/master.wav']
+auphonic_run_delivers	2026-08-31	nothing is started before the tracks are up	run_multitrack_production: a start.json call put in between the create POST and the upload	nothing is started before the tracks are up              FAIL ['/api/preset/PRESETUUID.json', '/api/info/output_files.json', '/api/productions.json?limit=50', '/api/productions.json', '/api/production/PRODUUID/start.json', '/api/production/PRODUUID/upload.json', '/api/production/PRODUUID/start.json', '/api/production/PRODUUID.json', '/dl/tracks.zip', '/dl/master.wav']
+auphonic_run_delivers	2026-08-31	the result is only fetched after the start	run_multitrack_production: the start.json call moved to after download_results	the result is only fetched after the start               FAIL ['/api/preset/PRESETUUID.json', '/api/info/output_files.json', '/api/productions.json?limit=50', '/api/productions.json', '/api/production/PRODUUID/upload.json', '/api/production/PRODUUID.json', '/dl/tracks.zip', '/dl/master.wav', '/api/production/PRODUUID/start.json']
+auphonic_run_delivers	2026-08-31	one file per track went up, each the right one	run_multitrack_production: the upload field named track["name"].lower() instead of track["name"]	one file per track went up, each the right one           FAIL [['host', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_RiybPT/wholerun_6ftp0tr3/Host.wav'], ['guest', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_RiybPT/wholerun_6ftp0tr3/Guest.wav'], ['third', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_RiybPT/wholerun_6ftp0tr3/Third.wav']]
+auphonic_run_delivers	2026-08-31	the key is in no argument list	read_preset: ["-H", "bearer " + str(key)] put in front of the URL in the curl arguments	the key is in no argument list                           FAIL [['-H', 'bearer not-a-real-key-0123456789', 'https://auphonic.com/api/preset/PRESETUUID.json']]
+auphonic_run_delivers	2026-08-31	one file per speaker	match_zip_entries_to_tracks: the matching loop runs over names[:2] instead of names	one file per speaker                                     FAIL ['Guest', 'Host']
+auphonic_run_delivers	2026-08-31	every file is really there	match_zip_entries_to_tracks: zf.extractall(folder + "_elsewhere") instead of zf.extractall(folder)	every file is really there                               FAIL ['/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_sRmfBj/wholerun_ijv6m0yy/wet/auphonic-tracks/Episode_12_Hosts___Guests_Host.wav', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_sRmfBj/wholerun_ijv6m0yy/wet/auphonic-tracks/Episode_12_Hosts___Guests_Guest.wav', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_sRmfBj/wholerun_ijv6m0yy/wet/auphonic-tracks/Episode_12_Hosts___Guests_Third.wav']
+auphonic_run_delivers	2026-08-31	and none of them is empty	match_zip_entries_to_tracks: every unpacked file emptied right after zf.extractall(folder)	and none of them is empty                                FAIL [0, 0, 0]
+auphonic_run_delivers	2026-08-31	each speaker got the file bearing that name	match_zip_entries_to_tracks: assignment[name] set to files[0] instead of best, so every speaker gets the same file	each speaker got the file bearing that name              FAIL {'Host': 'Episode_12_Hosts___Guests_Host.wav', 'Guest': 'Episode_12_Hosts___Guests_Host.wav', 'Third': 'Episode_12_Hosts___Guests_Host.wav'}
+auphonic_run_delivers	2026-08-31	the mixdown lies beside them as the yardstick	download_results: extra_file put in target_folder instead of the cache folder	the mixdown lies beside them as the yardstick            FAIL ['Episode_12_Hosts___Guests_Guest.wav', 'Episode_12_Hosts___Guests_Host.wav', 'Episode_12_Hosts___Guests_Third.wav']
+auphonic_run_delivers	2026-08-31	the archive was removed once unpacked	match_zip_entries_to_tracks: os.unlink(zip_file_path) replaced by pass	the archive was removed once unpacked                    FAIL ['Episode_12_Hosts___Guests_Guest.wav', 'Episode_12_Hosts___Guests_Host.wav', 'Episode_12_Hosts___Guests_Third.wav', 'Episode_master.wav', 'tracks.wav.zip']
+auphonic_run_delivers	2026-08-31	a preset that is not multitrack stops the run	run_multitrack_production: the guard if not preset.get("is_multitrack") turned into if not True	a preset that is not multitrack stops the run            FAIL
+auphonic_run_delivers	2026-08-31	and nothing was uploaded for it	run_multitrack_production: an upload.json call put inside the not-multitrack branch, before its raise	and nothing was uploaded for it                          FAIL [('GET', '/api/preset/PRESETUUID.json'), ('POST', '/api/production/X/upload.json')]
+auphonic_run_delivers	2026-08-31	tracks created other than asked for stop the run	run_multitrack_production: the guard reads if sorted(created) != sorted(created), so it never fires	tracks created other than asked for stop the run         FAIL
+auphonic_run_delivers	2026-08-31	and nothing was uploaded for them	run_multitrack_production: an upload.json call put inside the different-tracks branch, before its raise	and nothing was uploaded for them                        FAIL [('GET', '/api/preset/PRESETUUID.json'), ('GET', '/api/info/output_files.json'), ('GET', '/api/productions.json?limit=50'), ('POST', '/api/productions.json'), ('POST', '/api/production/X/upload.json')]
+auphonic_run_delivers	2026-08-31	a track that got no file stops the run	run_multitrack_production: the guard if absent turned into if not absent and absent	a track that got no file stops the run                   FAIL
+auphonic_run_delivers	2026-08-31	and nothing was started for it	run_multitrack_production: a start.json call put inside the if-absent branch, before its raise	and nothing was started for it                           FAIL [('GET', '/api/preset/PRESETUUID.json'), ('GET', '/api/info/output_files.json'), ('GET', '/api/productions.json?limit=50'), ('POST', '/api/productions.json'), ('POST', '/api/production/PRODUUID/upload.json'), ('POST', '/api/production/X/start.json')]
+auphonic_run_delivers	2026-08-31	a refusal from auphonic.com stops the run	run_multitrack_production: 400 added to the accepted status codes (200, 201, None) of the create answer	a refusal from auphonic.com stops the run                FAIL
+auphonic_run_delivers	2026-08-31	an answer without a production id stops the run	run_multitrack_production and run_single_production: both if not uuid guards turned into if uuid and not uuid	an answer without a production id stops the run          FAIL
+auphonic_run_delivers	2026-08-31	a production without the tracks stops the run	download_results: the guard if not zip_file turned into if zip_file and not zip_file	a production without the tracks stops the run            FAIL
+auphonic_run_delivers	2026-08-31	an error at auphonic.com is passed on with its reason	wait_for_production: the status-2 message carries only status_string, not p.get("error_message")	an error at auphonic.com is passed on with its reason    FAIL
+auphonic_run_delivers	2026-08-31	the time limit ends the wait and names the production	wait_for_production: the uuid taken out of the time-limit message	the time limit ends the wait and names the production    FAIL Time limit of 0:00:00.000 reached, production still running: https://a
+auphonic_run_delivers	2026-08-31	an archive with foreign names matches nobody	match_zip_entries_to_tracks: the similarity limit moved from quality > 0.4 to quality > -1	an archive with foreign names matches nobody             FAIL {'Host': '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_9nsbTg/wholerun_9vxftkfx/badzip/auphonic-tracks/aaa.wav', 'Guest': '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_9nsbTg/wholerun_9vxftkfx/badzip/auphonic-tracks/bbb.wav', 'Third': '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_9nsbTg/wholerun_9vxftkfx/badzip/auphonic-tracks/ccc.wav'}
+auphonic_run_delivers	2026-08-31	the extra output came along	download_results: the loop over the extra outputs runs over output_files[:2] instead of all of them	the extra output came along                              FAIL ['tracks.wav.zip', 'Episode_master.wav']
+auphonic_run_delivers	2026-08-31	and it was fetched once, not twice	download_results: already.add(name.lower()) replaced by pass, so the set of fetched names stays empty	and it was fetched once, not twice                       FAIL 2 times
+auphonic_run_delivers	2026-08-31	the tracks are there all the same	download_results: the continue on an output that is in the production twice replaced by return {}	the tracks are there all the same                        FAIL []
+auphonic_run_delivers	2026-08-31	an extra that will not come does not lose the tracks	download_results: a return {} put after the print in the except of the extra download	an extra that will not come does not lose the tracks     FAIL []
+auphonic_run_delivers	2026-08-31	one stereo track: the yardstick keeps two channels	run_multitrack_production: stereo read as widest_track(...) == 3 instead of == 2	one stereo track: the yardstick keeps two channels       FAIL {'format': 'wav-24bit', 'ending': 'wav', 'mono_mixdown': True, 'suffix': '_master'}
+auphonic_run_delivers	2026-08-31	mono starts straight away, in the one call	run_single_production: the guard if not later turned into if False, so action=start is never inserted	mono starts straight away, in the one call               FAIL ['-X', 'POST', 'https://auphonic.com/api/simple/productions.json', '-F', 'preset=PRESETUUID', '-F', 'title=single_mono', '-F', 'input_file=@/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_1F92Is/wholerun_if8bi619/single_mono.wav']
+auphonic_run_delivers	2026-08-31	no second call was needed	wishes_then_start: the guard if not stereo: return turned into if not True: return	no second call was needed                                FAIL [('POST', '/api/simple/productions.json'), ('GET', '/api/production/PRODUUID.json'), ('POST', '/api/production/PRODUUID.json'), ('GET', '/api/production/PRODUUID.json'), ('GET', '/dl/master.wav')]
+auphonic_run_delivers	2026-08-31	the file itself went up	run_single_production: input_file=@ carries os.path.basename(audio) instead of audio	the file itself went up                                  FAIL ['-X', 'POST', 'https://auphonic.com/api/simple/productions.json', '-F', 'preset=PRESETUUID', '-F', 'title=single_mono', '-F', 'action=start', '-F', 'input_file=@single_mono.wav']
+auphonic_run_delivers	2026-08-31	the result lies in the folder that was named	run_single_production: target put in os.path.dirname(target_folder) instead of target_folder	the result lies in the folder that was named             FAIL '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_g9wA3E/wholerun_7lnn65b1/Episode_master.wav'
+auphonic_run_delivers	2026-08-31	and it is a real file	run_single_production: the downloaded file emptied right after the size guard	and it is a real file                                    FAIL 0
+auphonic_run_delivers	2026-08-31	stereo is not started before the settings are in	run_single_production: the guard if not later turned into if True, so action=start goes with the stereo call too	stereo is not started before the settings are in         FAIL ['-X', 'POST', 'https://auphonic.com/api/simple/productions.json', '-F', 'preset=PRESETUUID', '-F', 'title=single_stereo', '-F', 'action=start', '-F', 'input_file=@/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_JUPT93/wholerun__s97hnd_/single_stereo.wav']
+auphonic_run_delivers	2026-08-31	the settings call starts it	wishes_then_start: request["action"] set to "go" instead of "start"	the settings call starts it                              FAIL 'go'
+auphonic_run_delivers	2026-08-31	the preset's own output is sent back with it	OUTPUT_FILE_KEYS: "format" taken out of the tuple	the preset's own output is sent back with it             FAIL [{'mono_mixdown': False, 'filename': 'Episode.wav'}]
+auphonic_run_delivers	2026-08-31	and the fold to one channel is cleared	wishes_then_start: f["mono_mixdown"] set to True instead of False	and the fold to one channel is cleared                   FAIL [{'format': 'wav', 'mono_mixdown': True, 'filename': 'Episode.wav'}]
+auphonic_run_delivers	2026-08-31	what only an answer can carry does not go back with it	output_file_wish: returns dict(f) instead of only the OUTPUT_FILE_KEYS	what only an answer can carry does not go back with it   FAIL 4 of them went back: ['checksum', 'download_url', 'size', 'size_string'] in [{'filename': 'Episode.wav', 'format': 'wav', 'mono_mixdown': False, 'size': 12345, 'checksum': 'abc', 'size_string': '12 MB', 'download_url': 'https://auphonic.com/dl/Episode.wav'}]
+auphonic_run_delivers	2026-08-31	the subtitles landed beside the audio	fetch_text_outputs: the suffix test turned round, so exactly the text outputs are skipped	the subtitles landed beside the audio                    FAIL ['Episode.wav']
+auphonic_run_delivers	2026-08-31	a refusal stops the run and says why	run_single_production: the refusal message carries "a problem" instead of d.get("status_code")	a refusal stops the run and says why                     FAIL
+auphonic_run_delivers	2026-08-31	and nothing was downloaded	run_single_production: a download call put inside the refusal branch, before its raise	and nothing was downloaded                               FAIL ['x.bin']
+auphonic_run_delivers	2026-08-31	a download that is too small stops the run	run_single_production: the size guard moved from < 1000 to < 0	a download that is too small stops the run               FAIL
+auphonic_run_delivers	2026-08-31	a production without a result stops the run	run_single_production: the guard if not files turned into if files and not files	a production without a result stops the run              FAIL
+auphonic_run_delivers	2026-08-31	a result without an address stops the run	run_single_production: the guard if not url turned into if url and not url	a result without an address stops the run                FAIL
+auphonic_run_delivers	2026-08-31	it asked again instead of giving up	wait_for_production: if status == 3 widened to if status in (1, 3), so the first answer ends the wait	it asked again instead of giving up                      FAIL 1 times
+auphonic_run_delivers	2026-08-31	it paused between the tries	wait_for_production: if status == 3 widened to if status in (1, 3), so the first answer ends the wait	it paused between the tries                              FAIL 0 pauses of []
+auphonic_run_delivers	2026-08-31	and the tracks came back all the same	match_zip_entries_to_tracks: the matching loop runs over names[:2] instead of names	and the tracks came back all the same                    FAIL ['Guest', 'Host']
+auphonic_run_delivers	2026-08-31	the single file is waited for too	wait_for_production: if status == 3 widened to if status in (1, 3), so the first answer ends the wait	the single file is waited for too                        FAIL 1 times
+auphonic_run_delivers	2026-08-31	and its result came back	run_single_production: returns None instead of target after fetch_text_outputs	and its result came back                                 FAIL None
+auphonic_run_delivers	2026-08-31	one that never finishes ends at the time limit	wait_for_production: the time-limit raise replaced by return {}	one that never finishes ends at the time limit           FAIL
+auphonic_run_delivers	2026-08-31	the WAV is taken, not the MP3	run_single_production: rank gives ".wav" 10 instead of 1, so the MP3 sorts first	the WAV is taken, not the MP3                            FAIL '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_KFyMNB/wholerun_dd5t7ugm/pick/Episode.mp3'
+auphonic_run_delivers	2026-08-31	with only an MP3 that one is taken	run_single_production: name always title + ".wav" instead of best.get("filename")	with only an MP3 that one is taken                       FAIL '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_z3vEEB/wholerun_010e46tf/pickonly/single_mono.wav'
+auphonic_run_delivers	2026-08-31	the time limit ends the wait and says where to look	wait_for_production: the uuid taken out of the time-limit message	the time limit ends the wait and says where to look      FAIL Time limit of 0:00:00.000 reached, production still running: https://a
 cut_all_shots_land	2026-08-31	every shot lands at the length the cut asks for	/private/tmp/vpm_cut_break2b.py -- in build_cut_timeline Zeile 12494 `length = b - a` zu `length = b - a - (1 if e is cut[-1] else 0)` (genau ein Schnitt einen Frame zu kurz)	every shot lands at the length the cut asks for FAIL 1 of 331 shots off; first at shot 330: 476 frames instead of 477
 cut_all_shots_land	2026-08-31	every shot of the cut lands on the timeline	/private/tmp/vpm_cut_break1.py -- in build_cut_timeline Zeile 12490 `for e in cut:` zu `for e in cut[:-1]:` (der letzte Schnitt wird nie platziert)	every shot of the cut lands on the timeline FAIL 330 shots on the track against 331 in the cut
 cut_all_shots_land	2026-08-31	no gap opens between two shots	/private/tmp/vpm_cut_break3.py -- in build_cut_timeline Zeile 12511 `"recordFrame": origin + lead_in + a` zu `origin + lead_in + a + (1 if a else 0)` (jeder Schnitt ausser dem ersten einen Frame zu spaet gesetzt, Laengen unberuehrt)	no gap opens between two shots FAIL 1 gaps in 330 joins; first before shot 1: 1 frames
@@ -442,102 +442,102 @@ cut_rebuild_keeps_all	2026-08-31	the tick against the wide shot edges reaches th
 cut_rebuild_keeps_all	2026-08-31	when the wide shot starts comes back as it was given	_sliders_from_command_line: the slider loop's `if call and switch in call:` given `and switch != "--wide-after"`, so --wide-after is not read back out of the stored call	when the wide shot starts comes back as it was given FAIL 70.0 against 40.0 s asked for
 cut_rebuild_keeps_all	2026-08-31	with the mark the marked camera opens the cut	_sliders_from_command_line: `e.wide_shot` set to `[]` instead of collecting every --wide-shot of the stored call (the state before the repair)	with the mark the marked camera opens the cut FAIL 'Wide' against 'A' asked for, cameras ['A', 'B', 'Wide']
 cut_rebuild_keeps_all	2026-08-31	without the mark the camera nobody sits on opens the cut	wide_shots_of: the fallback `c not in set(taken)` turned into `c in set(taken)`, so the camera nobody sits on is not offered as a wide shot	without the mark the camera nobody sits on opens the cut FAIL 'A' against 'Wide' asked for, cameras ['A', 'B']
-open	cut_right_camera	%s: covers 0 to the end
-open	cut_right_camera	%s: no gap and no overlap
-open	cut_right_camera	%s: only cameras that exist
-open	cut_right_camera	%s: shots, and they run forwards
-open	cut_right_camera	a 0.8 s answer does not move the camera
-open	cut_right_camera	a 3.5 s answer does move it
-open	cut_right_camera	a camera nobody has is found
 cut_right_camera	2026-08-31	a lead of 1.5 s counts from the end of the question	in a copy, the zero point put back on the start of the answer (zero = raw[i][0]) -- the rule as it stood before 31.8.2026	a lead of 1.5 s counts from the end of the question FAIL camera changes at 19.500 s, wanted 17.300 -- the question ends at 18.800, the answer begins at 21.000
 cut_right_camera	2026-08-31	a lead of 4.0 s counts from there as well	the same copy, the same change of the zero point	a lead of 4.0 s counts from there as well FAIL camera changes at 17.000 s, wanted 14.800 -- the question ends at 18.800, the answer begins at 21.000
-open	cut_right_camera	a marked camera is the wide shot even with a speaker on it
-open	cut_right_camera	a missing shot is found as a gap
-open	cut_right_camera	a real wide shot brings the breaks back
-open	cut_right_camera	a shot of 0.4 s is found by the same reading
 open	cut_right_camera	a shot that does not run forwards is found
-open	cut_right_camera	a silence stands on the wide shot
-open	cut_right_camera	a speaker with no camera goes to the wide shot
-open	cut_right_camera	after %.0f s the camera is left
-open	cut_right_camera	an interposed shot stands at least %.0f s
-open	cut_right_camera	an overlap is found as well
-open	cut_right_camera	and at most %.0f s
-open	cut_right_camera	and it answers where the list is empty
-open	cut_right_camera	and it does count it when the delay is three seconds
-open	cut_right_camera	and the number is the whole of it: 20 s becomes 21 s
-open	cut_right_camera	and then the preview names it
-open	cut_right_camera	at zero it waits for the delay instead
-open	cut_right_camera	delay %+.1f s: every cut sits that far after the speech
 open	cut_right_camera	it gets no worse than the 5.00 s measured on 29.8.2026
-open	cut_right_camera	moved one camera along, the same reading catches it
-open	cut_right_camera	negative lets the picture lead: 20 s becomes 19.5 s
-open	cut_right_camera	nobody is held on the stand-in while they speak
-open	cut_right_camera	nothing under %.1f s stands, wide shot breaks off
-open	cut_right_camera	switched off, nothing comes early at all
-open	cut_right_camera	switched off, the same 0.8 s does move it
 open	cut_right_camera	the breach is only where the minimum is above the wide length
-open	cut_right_camera	the preview counts no speech on a wrong camera
-open	cut_right_camera	the preview says out loud that there is no wide shot
 cut_right_camera	2026-08-31	the question's end is reported, not the answer's start	in a copy, reaction_cuts made to fill ends with the answer's start (stopped[when] = when) instead of the question's end	the question's end is reported, not the answer's start FAIL answer begins [21.0], question ended [21.0], wanted [21.0] and [18.8]
-open	cut_right_camera	the same cut whichever way the cameras are listed
-open	cut_right_camera	the silence shows the same camera either way
-open	cut_right_camera	the stand-in does not depend on the order of the list
-open	cut_right_camera	the wide shot settings do nothing without a wide shot
-open	cut_right_camera	turned off, the long shot stands the whole way
-open	cut_right_camera	two at once: the camera showing both comes up
-open	cut_right_camera	whoever speaks is on their own camera
-open	cut_right_camera	with nothing to cut on, %.0f s is still the limit
+cut_right_camera	2026-08-31	%s: shots, and they run forwards	in camera_cut, the two ends of the second shot swapped before the cut is returned: cut[1] = (cut[1][1], cut[1][0], cut[1][2])	shortest shot 1.2 s: shots, and they run forwards      FAIL 92 shots, [(60.67, 45.17, 'CamC')]
+cut_right_camera	2026-08-31	%s: no gap and no overlap	in merge_short_shots, the line that hands a merged shot's time to the next one taken away (extra[i + 1][0] = extra[i][0])	shortest shot 1.2 s: no gap and no overlap             FAIL [(60.67, 61.27), (69.13, 69.45)]
+cut_right_camera	2026-08-31	%s: covers 0 to the end	in camera_cut, the end of the last shot moved 5 s past the length of the programme before the cut is returned	shortest shot 1.2 s: covers 0 to the end               FAIL 0.000 .. 905.000 of 900.0
+cut_right_camera	2026-08-31	%s: only cameras that exist	in camera_cut_detail, the solo speaker's camera given a name nobody has: who = (camera_of.get(strong[0]) or wide_shot) + "!"	shortest shot 1.2 s: only cameras that exist           FAIL ['CamA!', 'CamB!', 'CamC!']
+cut_right_camera	2026-08-31	a missing shot is found as a gap	in camera_cut, only the first four shots returned (return cut[:4]), so dropping shot 3 takes the last one and leaves no hole	a missing shot is found as a gap                       FAIL 0 gaps, first []
+cut_right_camera	2026-08-31	an overlap is found as well	in camera_cut, only the first three shots returned (return cut[:3]), so the doctored overlap sits on the last shot and has no neighbour	an overlap is found as well                            FAIL []
+cut_right_camera	2026-08-31	a camera nobody has is found	in camera_cut_detail, the solo speaker's camera given a name nobody has: who = (camera_of.get(strong[0]) or wide_shot) + "!"	a camera nobody has is found                           FAIL ['CamA!', 'CamB!', 'CamC!', 'CamZ']
+cut_right_camera	2026-08-31	whoever speaks is on their own camera	in camera_cut_detail, every speaker's camera moved two along the sorted ring of cameras before the cut is built	whoever speaks is on their own camera                  FAIL 207 of 207 samples wrong, first [('Host', 0.8, 'CamC'), ('Host', 2.17, 'CamC')]
+cut_right_camera	2026-08-31	moved one camera along, the same reading catches it	in camera_cut_detail, every speaker's camera moved one along the sorted ring of cameras -- the cut now agrees with the moved list	moved one camera along, the same reading catches it    FAIL 0 wrong
+cut_right_camera	2026-08-31	a silence stands on the wide shot	in camera_cut_detail, the silence branch made to hold instead of showing the wide shot: who = None in place of who = wide_shot	a silence stands on the wide shot                      FAIL CamA at 30 s, CamB at 70 s
+cut_right_camera	2026-08-31	a speaker with no camera goes to the wide shot	in camera_cut_detail, a speaker without a camera falls back to the first camera of the assignment instead of to the wide shot	a speaker with no camera goes to the wide shot         FAIL [(0.0, 20.3, 'CamA'), (20.3, 25.3, 'Wide'), (25.3, 45.3, 'CamA'), (45.3, 60.0, 'Wide')]
+cut_right_camera	2026-08-31	two at once: the camera showing both comes up	in camera_cut_detail, the call to common_camera taken away: who = together_picture(middle, strong)	two at once: the camera showing both comes up          FAIL [(0.0, 10.0, 'Hosts'), (10.0, 20.0, 'Wide'), (20.0, 30.0, 'Hosts'), (30.0, 35.0, 'Wide'), (35.0, 55.0, 'CamG'), (55.0, 60.0, 'Wide')]
+cut_right_camera	2026-08-31	the preview counts no speech on a wrong camera	in cut_statistics, the cut computed with delay + 3.0 instead of the delay it was given	the preview counts no speech on a wrong camera         FAIL 52.2 s off camera of 277.5 s of speech
+cut_right_camera	2026-08-31	and it does count it when the delay is three seconds	in cut_statistics, the cut computed with 0.0 instead of the delay it was given	and it does count it when the delay is three seconds   FAIL 0.0 s off camera of 277.5 s of speech
+cut_right_camera	2026-08-31	nothing under %.1f s stands, wide shot breaks off	in merge_short_shots, the minimum lowered by one second: if extra[i][1] - extra[i][0] >= min_len - 1.0	nothing under 1.2 s stands, wide shot breaks off       FAIL 121 shots, shortest 0.230, under: [(43.31, 43.61, 'CamA', 0.3), (60.67, 61.27, 'Wide', 0.6)]
+cut_right_camera	2026-08-31	a shot of 0.4 s is found by the same reading	in merge_short_shots, the minimum lowered by one second: if extra[i][1] - extra[i][0] >= min_len - 1.0	a shot of 0.4 s is found by the same reading           FAIL [(148.91, 151.26, 'Wide', 2.35), (162.5, 165.03, 'Wide', 2.53), (280.53, 283.48, 'Wide', 2.95), (425.02, 427.69, 'Wide', 2.67), (432.69, 435.68, 'Wide', 2.99), (547.51, 550.36, 'Wide', 2.85), (577.81, 579.94, 'Wide', 2.13), (590.69, 593.41, 'Wide', 2.72), (640.62, 643.18, 'Wide', 2.56), (643.18, 645.4, 'CamC', 2.22), (750.43, 753.32, 'Wide', 2.89), (814.0, 816.39, 'Wide', 2.39), (825.45, 827.52, 'Wide', 2.07), (900.0, 900.4, 'CamA', 0.4)]
+cut_right_camera	2026-08-31	delay %+.1f s: every cut sits that far after the speech	in camera_cut_detail, the edit change delay applied at half: limits[i] = min(end, limits[i] - lead_in / 2.0)	delay +0.3 s: every cut sits that far after the speech FAIL 23 shots, off the grid: [12.15, 25.15, 38.15]
+cut_right_camera	2026-08-31	and the number is the whole of it: 20 s becomes 21 s	in camera_cut_detail, the edit change delay capped at 0.5 s: limits[i] = min(end, limits[i] - max(lead_in, -0.5))	and the number is the whole of it: 20 s becomes 21 s   FAIL [(0.0, 20.5, 'CamA'), (20.5, 40.0, 'CamB')]
+cut_right_camera	2026-08-31	negative lets the picture lead: 20 s becomes 19.5 s	in camera_cut_detail, a negative edit change delay ignored: limits[i] = min(end, limits[i] - min(lead_in, 0.0))	negative lets the picture lead: 20 s becomes 19.5 s    FAIL [(0.0, 20.0, 'CamA'), (20.0, 40.0, 'CamB')]
+cut_right_camera	2026-08-31	a 0.8 s answer does not move the camera	in camera_cut_detail, the minimum speaking time set to 0.0 whatever the rules say	a 0.8 s answer does not move the camera                FAIL [(0.0, 20.3, 'CamA'), (20.3, 21.3, 'CamB'), (21.3, 22.3, 'Wide'), (22.3, 40.3, 'CamA')]
+cut_right_camera	2026-08-31	switched off, the same 0.8 s does move it	in camera_cut_detail, a minimum speaking time of 0 replaced by 1.5: float(rules.get("min_speech") or 1.5)	switched off, the same 0.8 s does move it              FAIL [(0.0, 20.3, 'CamA'), (20.3, 22.3, 'Wide'), (22.3, 40.3, 'CamA'), (40.3, 45.3, 'Wide')]
+cut_right_camera	2026-08-31	a 3.5 s answer does move it	in camera_cut_detail, the minimum speaking time tripled: float(rules.get("min_speech") or 0.0) * 3.0	a 3.5 s answer does move it                            FAIL [(0.0, 20.3, 'CamA'), (20.3, 24.3, 'Wide'), (24.3, 40.3, 'CamA'), (40.3, 45.3, 'Wide')]
+cut_right_camera	2026-08-31	after %.0f s the camera is left	in camera_cut, insert_wide_shots given after * 2.0 instead of after	after 40 s the camera is left                          FAIL longest on a speaker 80.00 s of 40 allowed
+cut_right_camera	2026-08-31	an interposed shot stands at least %.0f s	in insert_wide_shots, the wide shot length halved: holds = float(rules.get("wide_holds") or duration) * 0.5	an interposed shot stands at least 8 s                 FAIL 8 of them, shortest 4.00
+cut_right_camera	2026-08-31	and at most %.0f s	in insert_wide_shots, the wide shot length doubled: holds = float(rules.get("wide_holds") or duration) * 2.0	and at most 12 s                                       FAIL longest 16.00
+cut_right_camera	2026-08-31	turned off, the long shot stands the whole way	in camera_cut, an after of 0 replaced by 40.0, so switching the wide shot off no longer switches it off	turned off, the long shot stands the whole way         FAIL longest 40.00 s, 13 shots
+cut_right_camera	2026-08-31	with nothing to cut on, %.0f s is still the limit	in insert_wide_shots, the forced cut only above at_latest * 10.0	with nothing to cut on, 120 s is still the limit       FAIL longest 600.30 s, 2 shots
+cut_right_camera	2026-08-31	without the limit the same stretch stands unbroken	in camera_cut, an after of 0 replaced by 40.0, so switching the wide shot off no longer switches it off	without the limit the same stretch stands unbroken     FAIL longest 100.05 s
+cut_right_camera	2026-08-31	at zero it waits for the delay instead	in camera_cut_detail, a reaction lead of 0 replaced by 1.5: lead = float(rules.get("reaction_lead") or 1.5)	at zero it waits for the delay instead                 FAIL [(0.0, 17.3, 'CamA'), (17.3, 60.0, 'CamB')]
+cut_right_camera	2026-08-31	switched off, nothing comes early at all	in camera_cut_detail, the on_question switch no longer consulted: if words: in place of if (rules.get("on_question") or SHOT_OFF) != SHOT_OFF and words:	switched off, nothing comes early at all               FAIL [(0.0, 14.8, 'CamA'), (14.8, 60.0, 'CamB')]
+cut_right_camera	2026-08-31	the stand-in does not depend on the order of the list	in stand_in_camera, the sort taken away: the first name of the list instead of the first in order	the stand-in does not depend on the order of the list  FAIL ['CamC'], ['CamB'], ['CamA']
+cut_right_camera	2026-08-31	and it answers where the list is empty	in stand_in_camera, the fallback or ["Wide"] taken away, so an empty list answers with []	and it answers where the list is empty                 FAIL [] and []
+cut_right_camera	2026-08-31	the same cut whichever way the cameras are listed	in cut_statistics, the stand-in replaced by the first camera of the list -- the fault of 25.8.2026 put back	the same cut whichever way the cameras are listed      FAIL 7 shots against 6
+cut_right_camera	2026-08-31	the silence shows the same camera either way	in camera_cut_detail, the silence branch made to hold instead of showing the wide shot: who = None in place of who = wide_shot	the silence shows the same camera either way           FAIL CamC and CamC, stand-in ['CamA']
+cut_right_camera	2026-08-31	the preview says out loud that there is no wide shot	in cut_statistics, the wide field reported as the stand-in even where there is no wide shot: "wide": wide_shot	the preview says out loud that there is no wide shot   FAIL 'CamA', []
+cut_right_camera	2026-08-31	the wide shot settings do nothing without a wide shot	in cut_statistics, without_a_wide_shot never called: if False: in place of if not wides:	the wide shot settings do nothing without a wide shot  FAIL 9 shots, longest 121.00 s, 2 interposed
+cut_right_camera	2026-08-31	nobody is held on the stand-in while they speak	in cut_statistics, the cut computed with delay + 3.0 instead of the delay it was given	nobody is held on the stand-in while they speak        FAIL [('Guest', 61.8, 'CamA'), ('Guest', 272.8, 'CamA')]
+cut_right_camera	2026-08-31	a real wide shot brings the breaks back	in cut_statistics, without_a_wide_shot called even where there is a wide shot: if True: in place of if not wides:	a real wide shot brings the breaks back                FAIL 8 shots against 7, longest on a speaker 61.00 s
+cut_right_camera	2026-08-31	and then the preview names it	in cut_statistics, the wide field always empty: "wide": ""	and then the preview names it                          FAIL '', 6 wide shots in the cut
+cut_right_camera	2026-08-31	a marked camera is the wide shot even with a speaker on it	in wide_shots_of, a marked camera no longer beats the derivation: if False: in place of if marked:	a marked camera is the wide shot even with a speaker on it FAIL '', []
 open	cut_right_camera	with the minimum below the wide length nothing is short
-open	cut_right_camera	without the limit the same stretch stands unbroken
-open	cut_rules_hold	%s = %s gives a whole cut
-open	cut_rules_hold	%s: the value makes a difference
-open	cut_rules_hold	a 3.5 s block does move it
-open	cut_rules_hold	a calm recognition raises no alarm
-open	cut_rules_hold	a listener nobody has heard for 20 s does not get it
-open	cut_rules_hold	a question fires it
-open	cut_rules_hold	a sentence beginning within two seconds wins
-open	cut_rules_hold	a statement does not
-open	cut_rules_hold	alternating remembers and takes turns
-open	cut_rules_hold	and every break stands at least five seconds
-open	cut_rules_hold	and it is the same cut the run builds
-open	cut_rules_hold	and it searches backwards as well
-open	cut_rules_hold	and never longer than there is room for
 open	cut_rules_hold	and the Edit Change Delay is not added a second time
-open	cut_rules_hold	at least five seconds, then to the end of the sentence
-open	cut_rules_hold	beyond five seconds nothing is found
-open	cut_rules_hold	every value of every field checked, not every combination
-open	cut_rules_hold	never cut off in the middle of a sentence
-open	cut_rules_hold	no camera change leaves the shot alone
 open	cut_rules_hold	no new cuts -- if anything one disappears
-open	cut_rules_hold	nothing to measure means no dip
-open	cut_rules_hold	nothing under the minimum is left over
-open	cut_rules_hold	nothing where both sit on the same camera
-open	cut_rules_hold	nothing where the answer comes too late
 open	cut_rules_hold	nothing where the answer does not keep the floor
-open	cut_rules_hold	nothing where the main speaker is the one asking
-open	cut_rules_hold	on one camera the same to and fro is one picture, not unrest
-open	cut_rules_hold	one camera for both means one shot
-open	cut_rules_hold	otherwise a clause break within two seconds
-open	cut_rules_hold	over fifteen seconds the last clause break before it takes over
-open	cut_rules_hold	seven entries in twelve seconds count as restless
 cut_rules_hold	2026-08-30	switched off, the same block does reach the picture	the switched-off rule given the same value as the switched-on one	switched off, the same block does reach the picture  FAIL 4 against 4
 open	cut_rules_hold	the 0.4 s block gets no shot of its own
-open	cut_rules_hold	the answer is on screen earlier
-open	cut_rules_hold	the dip in the sound is found
-open	cut_rules_hold	the last one has nothing after it and falls back
 cut_rules_hold	2026-08-31	the lead counts from the end of the question, not the start of the answer	in a copy, the zero point put back on the start of the answer (zero = raw[i][0]) instead of the end of the question -- the rule as it stood before 31.8.2026	the lead counts from the end of the question, not the start of the answer FAIL [3.5], wanted 2.5 -- from the answer at 5.0 it would be 3.5
-open	cut_rules_hold	the leftover heap is found
-open	cut_rules_hold	the listener gets the picture
-open	cut_rules_hold	the preview computes
-open	cut_rules_hold	the short piece goes to the one after it
-open	cut_rules_hold	the wide shot breaks it up
-open	cut_rules_hold	then the sentence beginning within five
-open	cut_rules_hold	total duration does not tell them apart -- segment length does
-open	cut_rules_hold	two of the same camera never end up side by side
-open	cut_rules_hold	two real speakers raise no alarm
-open	cut_rules_hold	with sound the point moves onto the gap
-open	cut_rules_hold	without any punctuation it holds the minimum
-open	cut_rules_hold	without sound the boundary itself is taken
+cut_rules_hold	2026-08-31	a 3.5 s block does move it	in camera_cut_detail the minimum speaking time multiplied by three (min_speech = float(rules.get("min_speech") or 0.0) * 3.0), so 1.5 s becomes 4.5 s	a 3.5 s block does move it                                 FAIL [(0.0, 20.3, 'CamA'), (20.3, 30.3, 'Wide'), (30.3, 50.3, 'CamA'), (50.3, 70.0, 'CamB')]
+cut_rules_hold	2026-08-31	the short piece goes to the one after it	in merge_short_shots the forward merge switched off (if i + 1 < len(extra) -> if False), so a short shot merges backwards instead	the short piece goes to the one after it                   FAIL [[0.0, 11.0, 'A'], [11.0, 20.0, 'C']]
+cut_rules_hold	2026-08-31	the last one has nothing after it and falls back	in merge_short_shots the last shot's fallback given the short shot's start instead of its end (extra[i - 1][1] = extra[i][0])	the last one has nothing after it and falls back           FAIL
+cut_rules_hold	2026-08-31	two of the same camera never end up side by side	in merge_short_shots the loop that joins two neighbours of the same camera switched off (while False and j + 1 < len(extra) ...)	two of the same camera never end up side by side           FAIL
+cut_rules_hold	2026-08-31	nothing under the minimum is left over	in merge_short_shots the step back after a merge turned into a step forward (i = max(0, i - 1) -> i = i + 1), so a merged shot is never measured again	nothing under the minimum is left over                     FAIL
+cut_rules_hold	2026-08-31	the leftover heap is found	in stray_labels the label no longer put into the heap set (out.add(name) -> pass)	the leftover heap is found                                 FAIL set()
+cut_rules_hold	2026-08-31	total duration does not tell them apart -- segment length does	in stray_labels the mean segment length replaced by the total time held (held[name] / len(segs) < mean_s -> held[name] < mean_s)	total duration does not tell them apart -- segment length does FAIL 108 s of scraps against 1000 s
+cut_rules_hold	2026-08-31	two real speakers raise no alarm	in stray_labels the time each label holds replaced by its number of segments (held = {n: float(len(segs)) for n, segs in tracks})	two real speakers raise no alarm                           FAIL {'Guest'}
+cut_rules_hold	2026-08-31	seven entries in twelve seconds count as restless	in unrest_spans twenty added to the number of picture changes needed (need = max(2, int(starts_needed)) + 20)	seven entries in twelve seconds count as restless          FAIL []
+cut_rules_hold	2026-08-31	on one camera the same to and fro is one picture, not unrest	in unrest_spans the per-camera test dropped (if camera != last -> if True), so every segment start counts as a picture change	on one camera the same to and fro is one picture, not unrest FAIL
+cut_rules_hold	2026-08-31	a calm recognition raises no alarm	in unrest_spans the floor of two picture changes dropped (need = max(2, int(starts_needed)) -> need = 1)	a calm recognition raises no alarm                         FAIL
+cut_rules_hold	2026-08-31	a sentence beginning within two seconds wins	in boundary_near the near clause break put before the near sentence beginning ((clauses, near), (sentences, near), ...)	a sentence beginning within two seconds wins               FAIL
+cut_rules_hold	2026-08-31	otherwise a clause break within two seconds	in boundary_near the step for a clause break within two seconds taken out of the four ((clauses, near) removed)	otherwise a clause break within two seconds                FAIL
+cut_rules_hold	2026-08-31	then the sentence beginning within five	in boundary_near the far clause break put before the far sentence beginning (..., (clauses, far), (sentences, far))	then the sentence beginning within five                    FAIL
+cut_rules_hold	2026-08-31	and it searches backwards as well	in boundary_near the search made forward only (abs(t - target) <= radius -> 0 <= t - target <= radius)	and it searches backwards as well                          FAIL
+cut_rules_hold	2026-08-31	beyond five seconds nothing is found	in boundary_near both far radii doubled ((sentences, far * 2), (clauses, far * 2)), so five seconds becomes ten	beyond five seconds nothing is found                       FAIL
+cut_rules_hold	2026-08-31	the dip in the sound is found	in sound_dip the middle of the quiet stretch replaced by its start (middle = (first + i) * step)	the dip in the sound is found                              FAIL 2.1
+cut_rules_hold	2026-08-31	without sound the boundary itself is taken	in cut_point the boundary out of the text ignored (aim = boundary_near(...) with its fallback -> aim = target)	without sound the boundary itself is taken                 FAIL
+cut_rules_hold	2026-08-31	with sound the point moves onto the gap	in cut_point the search in the sound taken out (for radius in (DIP_NEAR_S, DIP_FAR_S) -> for radius in ())	with sound the point moves onto the gap                    FAIL 2.0
+cut_rules_hold	2026-08-31	nothing to measure means no dip	in sound_dip the test for a signal with no range loosened (if high <= low -> if high < low)	nothing to measure means no dip                            FAIL
+cut_rules_hold	2026-08-31	at least five seconds, then to the end of the sentence	in wide_shot_length the five-second floor ignored when looking for the sentence end (if t >= floor_t -> if t >= 0.0)	at least five seconds, then to the end of the sentence     FAIL
+cut_rules_hold	2026-08-31	over fifteen seconds the last clause break before it takes over	in wide_shot_length the first clause break taken instead of the last (max(breaks) - start -> min(breaks) - start)	over fifteen seconds the last clause break before it takes over FAIL
+cut_rules_hold	2026-08-31	never cut off in the middle of a sentence	in wide_shot_length the ceiling on the sentence end dropped (if t <= ceiling -> if True)	never cut off in the middle of a sentence                  FAIL
+cut_rules_hold	2026-08-31	without any punctuation it holds the minimum	in wide_shot_length the longest length returned instead of the shortest (return min(holds, room) -> return min(most, room))	without any punctuation it holds the minimum               FAIL
+cut_rules_hold	2026-08-31	and never longer than there is room for	in wide_shot_length the room left ignored (return min(holds, room) -> return holds)	and never longer than there is room for                    FAIL
+cut_rules_hold	2026-08-31	one camera for both means one shot	in camera_cut_detail the joining of two identical neighbouring shots switched off (if False and extra[-1][2] == r[2])	one camera for both means one shot                         FAIL [(0.0, 20.0, 'CamA'), (20.0, 40.0, 'CamA'), (40.0, 60.0, 'CamA')]
+cut_rules_hold	2026-08-31	a question fires it	in reaction_cuts the answer no longer written into the result (out[when] = who taken out)	a question fires it                                        FAIL {}
+cut_rules_hold	2026-08-31	a statement does not	in reaction_cuts the test for the question mark taken away (if not text.endswith("?") -> if False)	a statement does not                                       FAIL
+cut_rules_hold	2026-08-31	nothing where both sit on the same camera	in reaction_cuts the test for asker and answerer on one camera switched off (if False and camera_of.get(who) == camera_of.get(asker))	nothing where both sit on the same camera                  FAIL
+cut_rules_hold	2026-08-31	nothing where the answer comes too late	in reaction_cuts the gap allowed after a question multiplied by ten (if a > end + gap -> if a > end + gap * 10)	nothing where the answer comes too late                    FAIL
+cut_rules_hold	2026-08-31	nothing where the main speaker is the one asking	in reaction_cuts the rule that the main speaker's own question is no reaction cut switched off (if asker == main -> if False)	nothing where the main speaker is the one asking           FAIL
+cut_rules_hold	2026-08-31	the answer is on screen earlier	in camera_cut_detail the early cut switched off (if early -> if False), so the reaction cut sits where the plain cut sits	the answer is on screen earlier                            FAIL [5.3] against [5.3]
+cut_rules_hold	2026-08-31	%s = %s gives a whole cut	at the end of camera_cut the last shot dropped (return cut -> return cut[:-1])	on-question = off gives a whole cut                        FAIL 18 shots
+cut_rules_hold	2026-08-31	%s: the value makes a difference	in insert_wide_shots the Long monologue choice ignored (show = rules.get("on_monologue") or SHOT_WIDE -> show = SHOT_WIDE)	on-monologue: the value makes a difference                 FAIL 1 different results
+cut_rules_hold	2026-08-31	every value of every field checked, not every combination	in CUT_CHOICES the switch name "on-uncertain" written as "on-together", so two fields share one name and one is never covered	every value of every field checked, not every combination  FAIL
+cut_rules_hold	2026-08-31	no camera change leaves the shot alone	in insert_wide_shots the early return for "no camera change" switched off (if show == SHOT_HOLD -> if False)	no camera change leaves the shot alone                     FAIL [(0.0, 100.0, 'CamA'), (100.0, 105.0, 'Wide'), (105.0, 202.5, 'CamA'), (202.5, 207.5, 'Wide'), (207.5, 300.0, 'CamA')]
+cut_rules_hold	2026-08-31	the wide shot breaks it up	in insert_wide_shots the break shown on the speaker's own camera instead of the wide shot (else: choice = who)	the wide shot breaks it up                                 FAIL {'CamA'}
+cut_rules_hold	2026-08-31	and every break stands at least five seconds	in insert_wide_shots the length of an inserted break halved (holds -> holds * 0.5 in the call to wide_shot_length)	and every break stands at least five seconds               FAIL [2.5, 2.5]
+cut_rules_hold	2026-08-31	the listener gets the picture	in insert_wide_shots the listener's camera dropped from the choice (choice = listener or wide_shot -> choice = wide_shot)	the listener gets the picture                              FAIL ['CamA', 'Wide', 'CamA', 'Wide', 'CamA']
+cut_rules_hold	2026-08-31	alternating remembers and takes turns	in insert_wide_shots the memory taken out of alternating (turns[len(shown) % len(turns)] -> turns[0])	alternating remembers and takes turns                      FAIL ['Wide', 'Wide']
+cut_rules_hold	2026-08-31	a listener nobody has heard for 20 s does not get it	in next_speaker_camera the test that somebody was heard on that camera in the last 20 s taken away (if True: return best)	a listener nobody has heard for 20 s does not get it       FAIL {'CamB', 'CamA'}
+cut_rules_hold	2026-08-31	the preview computes	in cut_statistics the cut left out of what it returns ("cut": cut -> "cut": [])	the preview computes                                       FAIL
+cut_rules_hold	2026-08-31	and it is the same cut the run builds	in cut_statistics the preview given a different Edit Change Delay than the run (delay -> delay + 0.1 in the call to camera_cut)	and it is the same cut the run builds                      FAIL 20 against 18
 cut_voice_on_its_camera	2026-08-31	Vera is cut to her own camera and to no other	copy vpm_b_onto_last.py -- in voices_of_file `return dict(got)` to `return {k: list(got.values())[-1] for k in got}`, so every voice is sent to the last camera: Vera falls, Wim stays green	Vera is cut to her own camera and to no other FAIL 2 shots, on ['CamTwo'] -- wanted CamOne
 cut_voice_on_its_camera	2026-08-31	Wim is cut to his own camera and to no other	copy vpm_b_last.py -- in voices_of_file `return dict(got)` to `return dict(list(got.items())[:-1])`, so the last voice loses its camera: Wim falls, Vera stays green	Wim is cut to his own camera and to no other FAIL 2 shots, on ['CamThree'] -- wanted CamTwo
 cut_voice_on_its_camera	2026-08-31	all three voices of the assignment reach the cut list	copy vpm_b_sep.py -- in separation_for_run `given = getattr(args, "_speakers_of", None) or {}` to `given = {}`, so the separation handed over in the assignment is dropped	all three voices of the assignment reach the cut list FAIL found ['Mic A', 'Mic A + Mic B', 'Mic B'], wanted ['Vera', 'Wim', 'Xenia']
@@ -851,6 +851,72 @@ open	project_every_offset	the camera without one is found by its source
 open	project_every_offset	the handover frame is a real one
 project_every_offset	2026-08-31	the run says which file it left out and why	left out without a word about it	the run says which file it left out and why FAIL '\n\x01hFOR RESOLVE\n\n Test_resolve.json\n\n This produces the project, the import and one Timel'
 project_every_offset	2026-08-31	the two it could place are still there	the list of refused files ignored, the way it was before the repair	the two it could place are still there FAIL handed over: ['Guest', 'Jingle', 'Wide']
+project_handover_built	2026-08-31	audio wins	/private/tmp/gb_project_handover_built/b_01.py -- in choose_zero_point Zeile 4603 `min(audio_files)` zu `max(audio_files)` (die spaeteste Tonaufnahme statt der fruehesten)	audio wins FAIL
+project_handover_built	2026-08-31	without audio the picture	/private/tmp/gb_project_handover_built/b_02.py -- in choose_zero_point Zeile 4605 `min(videos)` zu `max(videos)` (die spaeteste Kamera statt der fruehesten)	without audio the picture FAIL
+project_handover_built	2026-08-31	None is passed over	/private/tmp/gb_project_handover_built/b_03.py -- in choose_zero_point Zeile 4588 `[float(t) for t in audio_origin if t is not None]` zu `[float(t or 0) for t in audio_origin]` (None wird 0 statt uebersprungen)	None is passed over FAIL
+project_handover_built	2026-08-31	only None is like empty	/private/tmp/gb_project_handover_built/b_04.py -- in choose_zero_point Zeile 4589 `[float(t) for t in camera_origin if t is not None]` zu `[float(t or 0) for t in camera_origin]` (None wird 0 statt uebersprungen)	only None is like empty FAIL
+project_handover_built	2026-08-31	nothing at all -> None	/private/tmp/gb_project_handover_built/b_05.py -- in choose_zero_point Zeile 4579 Vorgabe `audio_origin=()` zu `audio_origin=(0.0,)` (ohne Argumente ist die Tonliste nicht mehr leer)	nothing at all -> None FAIL
+project_handover_built	2026-08-31	no reason	/private/tmp/gb_project_handover_built/b_06.py -- in build_handover Zeile 4661 `length)}, "")` zu `length)}, "cannot")` (der gelungene Fall gibt einen Grund zurueck)	no reason FAIL cannot
+project_handover_built	2026-08-31	length taken over	/private/tmp/gb_project_handover_built/b_07.py -- in build_handover Zeile 4658 `"length_s": length` zu `"length_s": length + 1.0`	length taken over FAIL
+project_handover_built	2026-08-31	zero point from the audio	/private/tmp/gb_project_handover_built/b_08.py -- in build_handover Zeile 4660 `choose_zero_point(audio_origin, camera_origin,` zu `choose_zero_point(camera_origin, audio_origin,` (die Kamera vor dem Ton)	zero point from the audio FAIL
+project_handover_built	2026-08-31	two speakers	/private/tmp/gb_project_handover_built/b_09.py -- in build_handover Zeile 4655 `"name": n` zu `"name": str(n) + "!"` (die Namen kommen veraendert an)	two speakers FAIL
+project_handover_built	2026-08-31	sections are lists, not tuples	/private/tmp/gb_project_handover_built/b_10.py -- in build_handover Zeile 4656 `[list(x) for x in segs]` zu `[tuple(x) for x in segs]`	sections are lists, not tuples FAIL
+project_handover_built	2026-08-31	the wide shot gets nobody	/private/tmp/gb_project_handover_built/b_11.py -- in build_handover Zeile 4649 `who = [...]` zu `who = [...] or list(assignment)` (eine Kamera, der niemand zugeordnet ist, bekommt alle)	the wide shot gets nobody FAIL
+project_handover_built	2026-08-31	the guest at his camera	/private/tmp/gb_project_handover_built/b_12.py -- in build_handover Zeile 4646 `short = os.path.basename(cam.get("file") or "")` zu `short = cam.get("track") or ""` (Kamera am Spurnamen erkannt statt an der Datei)	the guest at his camera FAIL
+project_handover_built	2026-08-31	the co-host at the hosts camera	/private/tmp/gb_project_handover_built/b_13.py -- in build_handover Zeile 4649 `assignment.items()` zu `list(assignment.items())[:1]` (nur die erste Stimme der Zuordnung zaehlt)	the co-host at the hosts camera FAIL
+project_handover_built	2026-08-31	the order of the cameras stays	/private/tmp/gb_project_handover_built/b_14.py -- in build_handover Zeile 4644 `for cam in cameras:` zu `for cam in sorted(cameras, key=lambda c: c.get("track") or ""):` (alphabetisch statt in Anzeigereihenfolge)	the order of the cameras stays FAIL
+project_handover_built	2026-08-31	both at the same camera	/private/tmp/gb_project_handover_built/b_15.py -- in build_handover Zeile 4649 `who = [...]` zu `who = [...][:1]` (nur die erste Stimme je Kamera)	both at the same camera FAIL {'Wide': [], 'Guest': ['Guest'], 'Hosts': ['Co-host']}
+project_handover_built	2026-08-31	without an audio start the zero point stays empty	/private/tmp/gb_project_handover_built/b_16.py -- in build_handover Zeile 4660 `choose_zero_point(audio_origin, camera_origin, length)` zu `... or 0.0` (kein Nullpunkt wird zu 0.0)	without an audio start the zero point stays empty FAIL
+project_handover_built	2026-08-31	no sections -> None	/private/tmp/gb_project_handover_built/b_17.py -- in build_handover Zeile 4635 `if not segment_list or not length or length <= 0:` zu `if not length or length <= 0:` (die leere Abschnittsliste faellt nicht mehr auf)	no sections -> None FAIL
+project_handover_built	2026-08-31	the reason names both places	/private/tmp/gb_project_handover_built/b_18.py -- in build_handover Zeile 4639 `T(' and ').join(...)` zu `T(', ').join(...)`	the reason names both places FAIL No speakers known yet -- nothing measured, nothing separated, and no h
+project_handover_built	2026-08-31	length 0 counts as nothing too	/private/tmp/gb_project_handover_built/b_19.py -- in build_handover Zeile 4635 `if not segment_list or not length or length <= 0:` zu `if not segment_list:` (die Laenge 0 faellt nicht mehr auf)	length 0 counts as nothing too FAIL
+project_handover_built	2026-08-31	without a place still a sentence	/private/tmp/gb_project_handover_built/b_20.py -- in build_handover Zeile 4640 `T('no folder')` zu `T('nowhere')`	without a place still a sentence FAIL No speakers known yet -- nothing measured, nothing separated, and no h
+project_handover_built	2026-08-31	no cameras -> None	/private/tmp/gb_project_handover_built/b_21.py -- in build_handover Zeile 4641 `if not cameras:` zu `if cameras is None:` (die leere Kameraliste laeuft durch)	no cameras -> None FAIL
+project_handover_built	2026-08-31	the reason names Multitrack	/private/tmp/gb_project_handover_built/b_22.py -- in build_handover Zeile 4642 `switch Multitrack on` zu `switch Multi track on`	the reason names Multitrack FAIL No cameras assigned yet -- switch Multi track on to do that.
+project_handover_built	2026-08-31	the zero point moves along	/private/tmp/gb_project_handover_built/b_23.py -- in apply_time_window Zeile 4725 `fresh["start_s"] = round(float(origin) + from_s, 3)` zu `- from_s` (Vorzeichen gedreht)	the zero point moves along FAIL 61140.0
+project_handover_built	2026-08-31	sections move along and are trimmed	/private/tmp/gb_project_handover_built/b_24.py -- in apply_time_window Zeile 4729 `if b > from_s and a < until]}` zu `if b >= from_s and a < until]}` (der Abschnitt, der genau am In-Punkt endet, bleibt stehen)	sections move along and are trimmed FAIL [[0.0, 0.0], [60.0, 140.0]]
+project_handover_built	2026-08-31	the co-host moves just the same	/private/tmp/gb_project_handover_built/b_25.py -- in apply_time_window Zeile 4728 `max(0.0, a - from_s)` zu `max(0.5, a - from_s)` (untere Schranke um eine halbe Sekunde verschoben)	the co-host moves just the same FAIL [[0.5, 60.0]]
+project_handover_built	2026-08-31	off_speakers calls build_handover	/private/tmp/gb_project_handover_built/b_26.py -- in gui Zeile 30275 `d, reason = build_handover(segment_list, length, where_to,` zu `d, reason = build_handover_here(...)` (off_speakers ruft die Funktion nicht mehr)	off_speakers calls build_handover FAIL
+project_handover_built	2026-08-31	the old calculation is gone	/private/tmp/gb_project_handover_built/b_27.py -- in build_handover Zeile 4644 vor `out = []` die alte Rechnung wieder eingesetzt: `audios = [t for t in audio_origin if t is not None]` und `zero = (min(audios) if audios else None)`	the old calculation is gone FAIL
+project_handover_built	2026-08-31	named directly	/private/tmp/gb_project_handover_built/b_28.py -- in find_project_file Zeile 4556 `"files" in loaded` zu `"file_list" in loaded` (keine Datei gilt mehr als Projektdatei)	named directly FAIL
+project_handover_built	2026-08-31	pointed at the folder	/private/tmp/gb_project_handover_built/b_29.py -- in find_project_file Zeile 4542 `folder = file_path if os.path.isdir(file_path) else os.path.dirname(file_path)` zu `folder = "" if os.path.isdir(...)` (auf einen Ordner gezeigt wird die Nachbarschaft nicht gelesen)	pointed at the folder FAIL
+project_handover_built	2026-08-31	foreign json -> the right one next to it	/private/tmp/gb_project_handover_built/b_30.py -- in find_project_file Zeile 4556 `if isinstance(loaded, dict) and "files" in loaded:` zu `if isinstance(loaded, dict):` (jedes json gilt als Projektdatei)	foreign json -> the right one next to it FAIL
+project_handover_built	2026-08-31	no json at all -> found anyway	/private/tmp/gb_project_handover_built/b_31.py -- in find_project_file Zeile 4544 `attempts += sorted(...)` nur noch unter `if os.path.isdir(file_path) or file_path.lower().endswith(".json"):` (neben einer Nicht-json wird nicht gesucht)	no json at all -> found anyway FAIL
+project_handover_built	2026-08-31	empty folder -> (None, "")	/private/tmp/gb_project_handover_built/b_32.py -- in find_project_file Zeile 4558 `return None, ""` am Ende von find_project_file zu `return None, folder`	empty folder -> (None, "") FAIL
+project_handover_built	2026-08-31	empty path -> (None, "")	/private/tmp/gb_project_handover_built/b_33.py -- in find_project_file Zeile 4540 `if not file_path: return None, ""` zu `return {}, ""`	empty path -> (None, "") FAIL
+project_handover_built	2026-08-31	path into nothing -> no crash	/private/tmp/gb_project_handover_built/c_1.py -- in find_project_file Zeile 4549 im `except OSError:` um os.listdir das `pass` zu `return None, file_path` (nur der Griff in ein nicht vorhandenes Verzeichnis laeuft dort hinein)	path into nothing -> no crash FAIL
+project_handover_built	2026-08-31	broken json is skipped	/private/tmp/gb_project_handover_built/b_35.py -- in find_project_file Zeile 4554 `except (OSError, ValueError): continue` zu `break` (nach einer kaputten json wird nicht weitergesucht)	broken json is skipped FAIL
+project_handover_built	2026-08-31	only the one that exists stays	/private/tmp/gb_project_handover_built/b_36.py -- in project_files Zeile 4573 `present.append((file_path, ...))` zu `present.append((os.path.basename(file_path), ...))`	only the one that exists stays FAIL [('videopodcast-magic_Interview_2.json', 'audio')]
+project_handover_built	2026-08-31	the missing ones are named	/private/tmp/gb_project_handover_built/b_37.py -- in project_files Zeile 4575 `missing.append(os.path.basename(file_path))` zu `missing.append(file_path)`	the missing ones are named FAIL ['/gone/Guest.wav', '/gone/Wide.mov']
+project_handover_built	2026-08-31	empty entries drop out without disturbing	/private/tmp/gb_project_handover_built/b_38.py -- in project_files Zeile 4569 `if not file_path: continue` zu `if file_path is None: continue` (der leere Pfad faellt nicht mehr heraus)	empty entries drop out without disturbing FAIL
+project_handover_built	2026-08-31	empty project -> empty twice	/private/tmp/gb_project_handover_built/b_39.py -- in project_files Zeile 4568 `.get("files") or []` zu `.get("files") or [{"path": "/gone/Z.wav"}]` (das leere Projekt erfindet eine Datei)	empty project -> empty twice FAIL
+project_handover_built	2026-08-31	None -> no crash	/private/tmp/gb_project_handover_built/b_40.py -- in project_files Zeile 4568 `(d or {})` zu `(d if isinstance(d, dict) else {"files": [{"path": "/gone/Z.wav"}]})` (None erfindet eine Datei)	None -> no crash FAIL
+project_handover_built	2026-08-31	empty means the default	/private/tmp/gb_project_handover_built/b_41.py -- in slider_numbers Zeile 24197 `raw.replace(",", ".") or default_value` zu `... or "9"` (das leere Feld nimmt nicht mehr die Vorgabe des Feldes)	empty means the default FAIL ('9', 9.0)
+project_handover_built	2026-08-31	comma becomes point	/private/tmp/gb_project_handover_built/b_42.py -- in slider_numbers Zeile 24197 `raw.replace(",", ".")` zu `raw.replace(",", "")` (das Komma faellt weg statt zum Punkt zu werden)	comma becomes point FAIL
+project_handover_built	2026-08-31	a non-number is named	/private/tmp/gb_project_handover_built/b_43.py -- in slider_numbers Zeile 24200 `except ValueError: return out, api_key` zu `return out, ""` (das schlechte Feld wird nicht mehr benannt)	a non-number is named FAIL
+project_handover_built	2026-08-31	the fields before it are read already	/private/tmp/gb_project_handover_built/b_44.py -- in slider_numbers Zeile 24200 `except ValueError: return out, api_key` zu `return {}, api_key` (die Felder davor gehen mit verloren)	the fields before it are read already FAIL
+project_handover_built	2026-08-31	slider_argv passes the text on, not the number	/private/tmp/gb_project_handover_built/b_45.py -- in slider_argv Zeile 24240 `out += ["--" + api_key, numbers[api_key][0]]` zu `numbers[api_key][1]` (die Zahl statt des Textes)	slider_argv passes the text on, not the number FAIL
+project_handover_built	2026-08-31	slider_argv reports the same field	/private/tmp/gb_project_handover_built/b_46.py -- in slider_argv Zeile 24241 `return out, bad` am Ende von slider_argv zu `return out, None`	slider_argv reports the same field FAIL
+project_handover_built	2026-08-31	and stops there	/private/tmp/gb_project_handover_built/b_47.py -- in slider_argv Zeile 24238 `if api_key not in numbers: break` entfernt und `numbers[api_key][0]` zu `numbers.get(api_key, ("0", 0.0))[0]` (slider_argv laeuft ueber das schlechte Feld hinaus)	and stops there FAIL
+project_handover_built	2026-08-31	contains %r	/private/tmp/gb_project_handover_built/b_48.py -- in metrics_sentence Zeile 4366 `%(n)d shots` zu `%(n)d takes`	contains '132 shots' FAIL
+project_handover_built	2026-08-31	no leftover of the old formatting	/private/tmp/gb_project_handover_built/b_49.py -- in metrics_sentence Zeile 4366 `%(n)d shots</b>` zu `%(n)d shots</b>%%(w)s` (ein alter Platzhalter steht wieder im Satz)	no leftover of the old formatting FAIL
+project_handover_built	2026-08-31	separated by voice	/private/tmp/gb_project_handover_built/b_50.py -- in speech_heading Zeile 4391 `T('Speakers, separated by voice')` zu `T('Speakers, split by voice')`	separated by voice FAIL
+project_handover_built	2026-08-31	self-measured	/private/tmp/gb_project_handover_built/b_51.py -- in speech_heading Zeile 4389 `T('Speakers, self-measured from the tracks')` zu `T('Speakers, measured from the tracks')`	self-measured FAIL
+project_handover_built	2026-08-31	with the total appended	/private/tmp/gb_project_handover_built/b_52.py -- in speech_heading Zeile 4392 `"%s -- %s"` zu `"%s - %s"`	with the total appended FAIL
+project_handover_built	2026-08-31	an empty total appends nothing	/private/tmp/gb_project_handover_built/b_53.py -- in speech_heading Zeile 4392 `if total_sum else source_text` zu `if total_sum is not None else source_text` (die leere Summe wird angehaengt)	an empty total appends nothing FAIL
+project_handover_built	2026-08-31	the two on one camera keep their names	/private/tmp/gb_project_handover_built/b_54.py -- in wide_marks_applied Zeile 5402 `sorted(n for n, cam in speakers_on.items() ...)` zu `sorted(..., reverse=True)`	the two on one camera keep their names FAIL {'Moderator + Moderatorin': ['Moderatorin', 'Moderator'], 'Gast': ['Gast'], 'Totale': []}
+project_handover_built	2026-08-31	the single speaker keeps his	/private/tmp/gb_project_handover_built/b_55.py -- in wide_marks_applied Zeile 5402 `speakers_on.items()` zu `list(speakers_on.items())[:2]` (die letzte Stimme des Blattes faellt weg)	the single speaker keeps his FAIL {'Moderator + Moderatorin': ['Moderator', 'Moderatorin'], 'Gast': [], 'Totale': []}
+project_handover_built	2026-08-31	the camera nobody sits at stays empty	/private/tmp/gb_project_handover_built/b_56.py -- in wide_marks_applied Zeile 5402 `who = sorted(...)` zu `who = sorted(...) or ["nobody"]` (eine Kamera ohne Stimme bekommt eine)	the camera nobody sits at stays empty FAIL {'Moderator + Moderatorin': ['Moderator', 'Moderatorin'], 'Gast': ['Gast'], 'Totale': ['nobody']}
+project_handover_built	2026-08-31	only the free camera counts as the wide shot	/private/tmp/gb_project_handover_built/b_57.py -- in wide_marks_applied Zeile 5409 `wide=(bool(marked) and here) or not who` zu `... or bool(who)` (die besetzte Kamera gilt als Totale)	only the free camera counts as the wide shot FAIL [True, True, False]
+project_handover_built	2026-08-31	the number of shots survives the window's answer	/private/tmp/gb_project_handover_built/b_58.py -- in wide_marks_applied Zeile 5402 `if stem_of(cam) == stem)` zu `if stem_of(cam) == stem and n != sorted(speakers_on)[-1])` (die letzte Stimme verliert ihre Kamera)	the number of shots survives the window's answer FAIL 57 -> 75
+project_handover_built	2026-08-31	and it stays a cut, not one shot over the whole episode	/private/tmp/gb_project_handover_built/b_59.py -- in wide_marks_applied Zeile 5396 `stem = stem_of(c.get("source") or c.get("file") or c.get("camera"))` zu `stem = str(c.get("track") or "")` (Kamera am Spurnamen erkannt -- der alte Fehler)	and it stays a cut, not one shot over the whole episode FAIL 1
+project_handover_built	2026-08-31	the wide shot is still the one nobody sits at	/private/tmp/gb_project_handover_built/b_60.py -- in wide_marks_applied Zeile 5402 `who = sorted(...)` zu `who = sorted(...) or sorted(speakers_on)` (die freie Kamera bekommt alle Stimmen)	the wide shot is still the one nobody sits at FAIL Moderator + Moderatorin
+project_handover_built	2026-08-31	the marked camera carries wide_marked	/private/tmp/gb_project_handover_built/b_61.py -- in wide_marks_applied Zeile 5407 `wide_marked=bool(marked) and here` zu `wide_marked=False` (die Marke aus dem Fenster geht verloren)	the marked camera carries wide_marked FAIL [False, False, False]
+project_handover_built	2026-08-31	and the cut holds it for the wide shot	/private/tmp/gb_project_handover_built/b_62.py -- in cut_statistics Zeile 5432 in cut_statistics die Liste der markierten Spuren im Aufruf von wide_shots_of zu `[]` (die Marke erreicht den Schnitt nicht)	and the cut holds it for the wide shot FAIL ['Totale']
+project_handover_built	2026-08-31	so the mark beats the derivation	/private/tmp/gb_project_handover_built/b_63.py -- in wide_marks_applied Zeile 5391 `want = set(stem_of(n) for n in wide_names or ())` zu den Stems der Kameras ohne Stimme (die Marke folgt der Herleitung statt der Antwort)	so the mark beats the derivation FAIL Totale vs Totale
+project_handover_built	2026-08-31	nothing answered yet (%s) -> the file's answer stands	/private/tmp/gb_project_handover_built/b_64.py -- in wide_marks_applied Zeile 5397 `if speakers_on:` zu `if speakers_on is not None:` (ein leeres Blatt heisst dann "niemand")	nothing answered yet ({}) -> the file's answer stands FAIL {'Moderator + Moderatorin': [], 'Gast': [], 'Totale': []}
+project_handover_built	2026-08-31	and the cut stays what it was (%s)	/private/tmp/gb_project_handover_built/b_65.py -- in wide_marks_applied Zeile 5407 `wide_marked=bool(marked) and here` zu `wide_marked=True` (jede Kamera als Totale markiert)	and the cut stays what it was ({}) FAIL 57 -> 39
+project_handover_built	2026-08-31	without a source the file answers	/private/tmp/gb_project_handover_built/b_66.py -- in wide_marks_applied Zeile 5396 `stem_of(c.get("source") or c.get("file") or c.get("camera"))` zu `stem_of(c.get("source") or c.get("camera"))` (ohne source antwortet die Datei nicht mehr)	without a source the file answers FAIL {'Moderator + Moderatorin': [], 'Gast': [], 'Totale': []}
 open	project_grades_stay_off	local without an argument
 open	project_grades_stay_off	reported as set
 open	project_grades_stay_off	returns False
@@ -858,72 +924,6 @@ open	project_grades_stay_off	returns None
 open	project_grades_stay_off	setting says local
 open	project_grades_stay_off	setting says remote
 open	project_grades_stay_off	without cameras it never gets that far
-open	project_handover_built	None -> no crash
-open	project_handover_built	None is passed over
-open	project_handover_built	a non-number is named
-open	project_handover_built	an empty total appends nothing
-open	project_handover_built	and it stays a cut, not one shot over the whole episode
-open	project_handover_built	and stops there
-open	project_handover_built	and the cut holds it for the wide shot
-open	project_handover_built	and the cut stays what it was (%s)
-open	project_handover_built	audio wins
-open	project_handover_built	both at the same camera
-open	project_handover_built	broken json is skipped
-open	project_handover_built	comma becomes point
-open	project_handover_built	contains %r
-open	project_handover_built	empty entries drop out without disturbing
-open	project_handover_built	empty folder -> (None, "")
-open	project_handover_built	empty means the default
-open	project_handover_built	empty path -> (None, "")
-open	project_handover_built	empty project -> empty twice
-open	project_handover_built	foreign json -> the right one next to it
-open	project_handover_built	length 0 counts as nothing too
-open	project_handover_built	length taken over
-open	project_handover_built	named directly
-open	project_handover_built	no cameras -> None
-open	project_handover_built	no json at all -> found anyway
-open	project_handover_built	no leftover of the old formatting
-open	project_handover_built	no reason
-open	project_handover_built	no sections -> None
-open	project_handover_built	nothing answered yet (%s) -> the file's answer stands
-open	project_handover_built	nothing at all -> None
-open	project_handover_built	off_speakers calls build_handover
-open	project_handover_built	only None is like empty
-open	project_handover_built	only the free camera counts as the wide shot
-open	project_handover_built	only the one that exists stays
-open	project_handover_built	path into nothing -> no crash
-open	project_handover_built	pointed at the folder
-open	project_handover_built	sections are lists, not tuples
-open	project_handover_built	sections move along and are trimmed
-open	project_handover_built	self-measured
-open	project_handover_built	separated by voice
-open	project_handover_built	slider_argv passes the text on, not the number
-open	project_handover_built	slider_argv reports the same field
-open	project_handover_built	so the mark beats the derivation
-open	project_handover_built	the camera nobody sits at stays empty
-open	project_handover_built	the co-host at the hosts camera
-open	project_handover_built	the co-host moves just the same
-open	project_handover_built	the fields before it are read already
-open	project_handover_built	the guest at his camera
-open	project_handover_built	the marked camera carries wide_marked
-open	project_handover_built	the missing ones are named
-open	project_handover_built	the number of shots survives the window's answer
-open	project_handover_built	the old calculation is gone
-open	project_handover_built	the order of the cameras stays
-open	project_handover_built	the reason names Multitrack
-open	project_handover_built	the reason names both places
-open	project_handover_built	the single speaker keeps his
-open	project_handover_built	the two on one camera keep their names
-open	project_handover_built	the wide shot gets nobody
-open	project_handover_built	the wide shot is still the one nobody sits at
-open	project_handover_built	the zero point moves along
-open	project_handover_built	two speakers
-open	project_handover_built	with the total appended
-open	project_handover_built	without a place still a sentence
-open	project_handover_built	without a source the file answers
-open	project_handover_built	without an audio start the zero point stays empty
-open	project_handover_built	without audio the picture
-open	project_handover_built	zero point from the audio
 open	project_hdr_follows	%s: bitrate
 open	project_hdr_follows	%s: colour tagging
 open	project_hdr_follows	%s: encoding profile
@@ -1029,6 +1029,59 @@ open	project_tag_reason_fits	an HDR delivery tags Rec.2020 and ST.2084
 open	project_tag_reason_fits	an HDR delivery without a curve applies no tags
 open	project_tag_reason_fits	an HDR delivery without a curve prints no tag line
 project_tag_reason_fits	2026-08-30	an SDR delivery borrows no reason from its project	eight copies, one per check: SDR_TAGS emptied to ((), ()); the brackets put back unconditionally; "hdr and" dropped from the condition; "elif not hdr:" narrowed to "elif not hdr and not kind:" and widened to "else:"; "ST.2084" misspelt in HDR_TAGS["pq"]; and the whole conditional replaced by ""	an SDR delivery borrows no reason from its project     FAIL wanted nothing after the tags, got '(colorSpaceOutput = Rec.2100 ST2084)' in '    Tagging                Rec.709 / Rec.709  (colorSpaceOutput = Rec.2100 ST2084)'
+run_command_built	2026-08-31	program name first	/private/tmp/gb_run_command_built/b01.py -- in run_argv `argv = ["videopodcast-magic.py"] + [...]` zu `argv = ["vpm.py"] + [...]` (die Zeile faengt mit einem anderen Programmnamen an)	program name first FAIL
+run_command_built	2026-08-31	both files there	/private/tmp/gb_run_command_built/b02.py -- in run_argv `[p for p, _a in files` zu `[p for p, _a in files[1:]` (die erste Datei faellt aus der Dateiliste)	both files there FAIL
+run_command_built	2026-08-31	--out behind them	/private/tmp/gb_run_command_built/b03.py -- in run_argv `if values.get("out_folder"):` zu `if not values.get("out_folder"):` (der Ausgabeordner kommt nie auf die Zeile)	--out behind them FAIL
+run_command_built	2026-08-31	no plan	/private/tmp/gb_run_command_built/b04.py -- in run_argv `plan = None` zu `plan = {}` (der einfache Weg legt eine Zuordnung an, wo keine hingehoert)	no plan FAIL
+run_command_built	2026-08-31	no message	/private/tmp/gb_run_command_built/b05.py -- in run_argv vor `key = (values.get("key") or "").strip()` ein `messages.append(("question", "Are you sure?", "Really?", "Yes"))` eingefuegt (jeder Lauf stellt eine Frage)	no message FAIL
+run_command_built	2026-08-31	only the content file in the list	/private/tmp/gb_run_command_built/b06.py -- in run_argv `if p not in edge.values()` zu `if p in edge.values()` (die Dateiliste haelt statt der Inhaltsdatei nur Intro und Outro)	only the content file in the list FAIL
+run_command_built	2026-08-31	--intro and --outro sorted	/private/tmp/gb_run_command_built/b07.py -- in run_argv `sorted(edge.items())` zu `sorted(edge.items(), reverse=True)` (--outro steht vor --intro)	--intro and --outro sorted FAIL ['--outro', '/x/O.mp4', '--intro', '/x/J.mp4']
+run_command_built	2026-08-31	the ignored one is missing	/private/tmp/gb_run_command_built/b08.py -- in run_argv `off = set(p for p, a in clip_kind.items() if a == TYPE_IGNORED)` zu `off = set()` (nichts wird zurueckgehalten)	the ignored one is missing FAIL
+run_command_built	2026-08-31	rejected	/private/tmp/gb_run_command_built/b54.py -- in run_argv `if len(lines) < 2:` zu `if len(lines) < 1:` (eine einzige Spur gilt als genug, der Lauf wird nicht mehr abgelehnt)	rejected FAIL
+run_command_built	2026-08-31	and it says which two	/private/tmp/gb_run_command_built/b10.py -- in run_argv im Fehlertext `os.path.basename(second)` zu `"another file"` (die zweite Datei wird nicht mehr genannt)	and it says which two FAIL [('error', 'Two files as Intro', 'J.mp4 and another file are both set to Intro. Only one file can be that -- please set the other one back to content.', '')]
+run_command_built	2026-08-31	the same for the outro	/private/tmp/gb_run_command_built/b11.py -- in run_argv `if switch in edge:` zu `if switch in edge and switch != "--outro":` (nur beim Intro faellt die Doppelung auf)	the same for the outro FAIL ['videopodcast-magic.py', '/x/G.mov', '/x/J.mp4', '--outro', '/x/K.mp4', '--min-edit-duration', '3.0', '--min-speech-to-switch', '1.5', '--edit-change-delay', '0.3', '--reaction-lead', '1.5', '--wide-after', '70', '--wide-latest', '120', '--wide-length', '5', '--wide-most', '15', '--on-question', 'answer', '--on-monologue', 'alternate', '--on-together', 'wide', '--on-uncertain', 'wide']
+run_command_built	2026-08-31	one of each is fine	/private/tmp/gb_run_command_built/b12.py -- in run_argv `sorted(edge.items())` zu `sorted(edge.items())[1:]` (--intro faellt von der Zeile)	one of each is fine FAIL ['videopodcast-magic.py', '--outro', '/x/K.mp4', '--min-edit-duration', '3.0', '--min-speech-to-switch', '1.5', '--edit-change-delay', '0.3', '--reaction-lead', '1.5', '--wide-after', '70', '--wide-latest', '120', '--wide-length', '5', '--wide-most', '15', '--on-question', 'answer', '--on-monologue', 'alternate', '--on-together', 'wide', '--on-uncertain', 'wide']
+run_command_built	2026-08-31	--dry-run there	/private/tmp/gb_run_command_built/b13.py -- in run_argv `argv += ["--dry-run"]` zu `pass` (der Schalter wird nie ausgegeben)	--dry-run there FAIL
+run_command_built	2026-08-31	error named	/private/tmp/gb_run_command_built/b14.py -- in run_argv im Fehlertext `Multitrack needs at least two input tracks` zu `Multitrack needs several input tracks` (der Text nennt die Zahl nicht mehr)	error named FAIL [('error', 'Multitrack needs several tracks', 'Multitrack needs several input tracks. A track is a recording of its own, a channel of a multichannel recorder, or the audio of a video file set to "use the audio". Several blocks of the same recording count as one, tracks set aside not at all.', '')]
+run_command_built	2026-08-31	speaker names	/private/tmp/gb_run_command_built/b15.py -- in run_argv der Titel `T('Speaker names')` zu `T('Speaker names!')`	speaker names FAIL Speaker names!
+run_command_built	2026-08-31	only one speaker	/private/tmp/gb_run_command_built/b16.py -- in run_argv der Titel `T('Only one speaker')` zu `T('Only one speaker!')`	only one speaker FAIL Only one speaker!
+run_command_built	2026-08-31	gets through	/private/tmp/gb_run_command_built/b17.py -- in run_argv `if duplicate and len(set(names)) < 2:` zu `< 3:` (zwei verschiedene Namen gelten als einer, der Lauf wird abgelehnt)	gets through FAIL
+run_command_built	2026-08-31	one question	/private/tmp/gb_run_command_built/b18.py -- in run_argv die Doppelnamen-Meldung von `"question"` zu `"error"` (aus der Frage wird ein Fehler)	one question FAIL ['error']
+run_command_built	2026-08-31	title is right	/private/tmp/gb_run_command_built/b19.py -- in run_argv der Titel `T('Names used more than once')` zu `T('Names used more than once!')`	title is right FAIL
+run_command_built	2026-08-31	button labelled	/private/tmp/gb_run_command_built/b20.py -- in run_argv der Knopf `T('Merge them')` zu `T('Merge')`	button labelled FAIL
+run_command_built	2026-08-31	only two tracks in the plan	/private/tmp/gb_run_command_built/b21.py -- in run_argv `if r.get("camera_choice") != IGNORE_AUDIO]` zu `!= "no such choice"]` (die stillgelegte Zeile wird mitgezaehlt)	only two tracks in the plan FAIL 3
+run_command_built	2026-08-31	--multitrack there	/private/tmp/gb_run_command_built/b22.py -- in run_argv `argv += ["--multitrack", "--assign", assignment_file_path]` zu `argv += ["--assign", assignment_file_path]`	--multitrack there FAIL
+run_command_built	2026-08-31	--assign with path	/private/tmp/gb_run_command_built/b23.py -- in run_argv `argv += ["--multitrack", "--assign", assignment_file_path]` zu `argv += ["--multitrack", "--assign", ""]` (die Zuordnungsdatei wird nicht benannt)	--assign with path FAIL
+run_command_built	2026-08-31	--in-point	/private/tmp/gb_run_command_built/b24.py -- in run_argv `argv += ["--in-point", values["in_point"].strip()]` zu `argv += ["--in-point", "00:00:00:00"]` (fester Wert statt dem des Fensters)	--in-point FAIL
+run_command_built	2026-08-31	--out-point	/private/tmp/gb_run_command_built/b25.py -- in run_argv `argv += ["--out-point", values["out_point"].strip()]` zu `argv += ["--out-point", "00:00:00:00"]` (fester Wert statt dem des Fensters)	--out-point FAIL
+run_command_built	2026-08-31	comma becomes a point	/private/tmp/gb_run_command_built/b26.py -- in slider_numbers `raw.replace(",", ".")` zu `raw.replace(",", "")` (aus "1,5" wird 15 statt 1.5)	comma becomes a point FAIL
+run_command_built	2026-08-31	defaults for the other sliders	/private/tmp/gb_run_command_built/b27.py -- in slider_argv `for api_key, ... in CUT_FIELDS:` zu `in CUT_FIELDS[:-1]:` (die letzte Schnittzahl kommt nie auf die Zeile)	defaults for the other sliders FAIL
+run_command_built	2026-08-31	--no-wide-edges	/private/tmp/gb_run_command_built/b28.py -- in run_argv `if not values.get("wide_at_edges"):` zu `if False:` (der Schalter kommt nie)	--no-wide-edges FAIL
+run_command_built	2026-08-31	key and preset	/private/tmp/gb_run_command_built/b29.py -- in run_argv `"--auphonic-preset", selected` zu `"--auphonic-preset", "none"` (das gewaehlte Preset erreicht die Zeile nicht)	key and preset FAIL
+run_command_built	2026-08-31	--auphonic-done	/private/tmp/gb_run_command_built/b30.py -- in run_argv `argv += ["--auphonic-done", values["done_folder"]]` zu `argv += ["--auphonic-done", ""]` (der Ordner erreicht die Zeile nicht)	--auphonic-done FAIL
+run_command_built	2026-08-31	plan carries the production	/private/tmp/gb_run_command_built/b31.py -- in run_argv `"production": (values.get("production") or "").strip() or 'Production'` zu `"production": 'Production'` (der Name der Produktion faellt weg)	plan carries the production FAIL
+run_command_built	2026-08-31	plan carries two cameras	/private/tmp/gb_run_command_built/b32.py -- in run_argv `"cameras": cameras}` zu `"cameras": cameras[:1]}` (nur eine Kamera steht in der Zuordnung)	plan carries two cameras FAIL
+run_command_built	2026-08-31	camera resolved for the track	/private/tmp/gb_run_command_built/b33.py -- in run_argv `full = p` zu `full = ""` (die Kamera der Spur bleibt leer)	camera resolved for the track FAIL
+run_command_built	2026-08-31	says which value	/private/tmp/gb_run_command_built/b34.py -- in run_argv `T('%r is not a number.') % (values.get("cut") or {})[bad]` zu `% bad` (der Feldname statt des eingetippten Werts)	says which value FAIL 'min-edit-duration' is not a number.
+run_command_built	2026-08-31	file names	/private/tmp/gb_run_command_built/b35.py -- in run_argv der Titel `T('File names')` zu `T('File name')`	file names FAIL File name
+run_command_built	2026-08-31	preset missing	/private/tmp/gb_run_command_built/b36.py -- in run_argv der Titel `T('Preset missing')` zu `T('Preset missing!')`	preset missing FAIL
+run_command_built	2026-08-31	not rejected	/private/tmp/gb_run_command_built/b37.py -- in run_argv im Zweig `elif values.get("multitrack"):` das `argv += ["--without-auphonic"]` durch `return error(...)` ersetzt (ein Lauf ohne Schluessel wird abgelehnt)	not rejected FAIL [('error', 'Preset missing', 'Load Presets and pick one, or leave the API Key empty.', '')]
+run_command_built	2026-08-31	--without-auphonic is there	/private/tmp/gb_run_command_built/b38.py -- in run_argv `argv += ["--without-auphonic"]` zu `pass` (der Schalter wird nie ausgegeben)	--without-auphonic is there FAIL
+run_command_built	2026-08-31	nothing goes to auphonic.com	/private/tmp/gb_run_command_built/b39.py -- in run_argv `argv += ["--without-auphonic"]` zu `argv += ["--without-auphonic", "--auphonic-api-key", "leaked"]` (ein Schluesselschalter ohne Schluessel)	nothing goes to auphonic.com FAIL
+run_command_built	2026-08-31	the assignment is still written	/private/tmp/gb_run_command_built/b40.py -- in run_argv vor `argv += ["--multitrack", "--assign", ...]` ein `if not values.get("key"): plan = None` eingefuegt (ohne Schluessel keine Zuordnung)	the assignment is still written FAIL
+run_command_built	2026-08-31	the question comes first	/private/tmp/gb_run_command_built/b41.py -- in run_argv `if only_video:` zu `if False:` (die Frage nach dem Kameraton entfaellt)	the question comes first FAIL []
+run_command_built	2026-08-31	every track is its own camera	/private/tmp/gb_run_command_built/b42.py -- in run_argv `"camera_audio": bool(only_video or (camera_track and straight))` zu `bool(camera_track and straight)` (der Nur-Kamera-Fall zaehlt nicht mehr)	every track is its own camera FAIL
+run_command_built	2026-08-31	camera points at the audio file	/private/tmp/gb_run_command_built/b43.py -- in run_argv `if a == "video" and os.path.basename(p) == target:` zu `!= target` (jede Spur bekommt die fremde Kamera)	camera points at the audio file FAIL /x/H.mov
+run_command_built	2026-08-31	audio_done taken over	/private/tmp/gb_run_command_built/b44.py -- in run_argv `if r.get("audio_done"):` zu `if False:` (die fertig geholte Datei wird nicht uebernommen)	audio_done taken over FAIL None
+run_command_built	2026-08-31	the other row without	/private/tmp/gb_run_command_built/b45.py -- in run_argv dem entry-dict ein `"audio_done": r.get("audio_done", "")` hinzugefuegt (jede Zeile traegt das Feld)	the other row without FAIL
+run_command_built	2026-08-31	call present	/private/tmp/gb_run_command_built/b46.py -- in gui `argv, wishes, messages = run_argv(values, assign_file)` zu `= None, None, []` (das Fenster ruft run_argv nicht mehr)	call present FAIL
+run_command_built	2026-08-31	no argv tinkering left in gui()	/private/tmp/gb_run_command_built/b47.py -- in gui nach dem run_argv-Aufruf ein `if False: argv += ["--auphonic-api-key", "x"]` eingefuegt (das Fenster baut wieder selbst an der Zeile)	no argv tinkering left in gui() FAIL
+run_command_built	2026-08-31	the key is still thrown out when saving	/private/tmp/gb_run_command_built/b48.py -- in gui `if part == "--auphonic-api-key":` zu `if part == "--auphonic-api-key-none":` (der Schluessel wird beim Speichern nicht mehr aussortiert)	the key is still thrown out when saving FAIL
+run_command_built	2026-08-31	empty values -> all defaults	/private/tmp/gb_run_command_built/b49.py -- in slider_argv `for api_key, ... in CUT_CHOICES:` zu `in CUT_CHOICES[:-1]:` (eine Schnittregel fehlt auf der Zeile)	empty values -> all defaults FAIL 22
+run_command_built	2026-08-31	a set value gets through	/private/tmp/gb_run_command_built/b50.py -- in slider_argv `out += ["--" + api_key, numbers[api_key][0]]` zu `out += ["--" + api_key, _v]` (immer der Vorgabewert statt des eingetippten)	a set value gets through FAIL
+run_command_built	2026-08-31	comma becomes point	/private/tmp/gb_run_command_built/b26.py -- in slider_numbers `raw.replace(",", ".")` zu `raw.replace(",", "")` (aus "6,5" wird 65 statt 6.5)	comma becomes point FAIL
+run_command_built	2026-08-31	a non-number is reported	/private/tmp/gb_run_command_built/b52.py -- in slider_numbers `return out, api_key` zu `return out, ("x" if api_key == "wide-after" else api_key)` (das fehlerhafte Feld wird falsch benannt)	a non-number is reported FAIL x
+run_command_built	2026-08-31	and the same list is shared with only_resolve_start_run	/private/tmp/gb_run_command_built/b53.py -- in gui beide `slider_argv(values)` zu `slider_argv(dict(values))` (der Aufruf in only_resolve_start_run heisst nicht mehr so)	and the same list is shared with only_resolve_start_run FAIL
 open	project_tag_reason_fits	an SDR delivery in an HDR project still tags Rec.709
 open	project_tag_reason_fits	an SDR delivery names no reason beside its tags
 open	project_tag_reason_fits	an SDR delivery tags Rec.709 and says so
@@ -1096,59 +1149,6 @@ open	run_bar_tracks_work	the next figure carries it along
 open	run_bar_tracks_work	the short one hardly moves it
 open	run_bar_tracks_work	total is zero
 open	run_bar_tracks_work	two steps: the first and a count
-open	run_command_built	--assign with path
-open	run_command_built	--auphonic-done
-open	run_command_built	--dry-run there
-open	run_command_built	--in-point
-open	run_command_built	--intro and --outro sorted
-open	run_command_built	--multitrack there
-open	run_command_built	--no-wide-edges
-open	run_command_built	--out behind them
-open	run_command_built	--out-point
-open	run_command_built	--without-auphonic is there
-open	run_command_built	a non-number is reported
-open	run_command_built	a set value gets through
-open	run_command_built	and it says which two
-open	run_command_built	and the same list is shared with only_resolve_start_run
-open	run_command_built	audio_done taken over
-open	run_command_built	both files there
-open	run_command_built	button labelled
-open	run_command_built	call present
-open	run_command_built	camera points at the audio file
-open	run_command_built	camera resolved for the track
-open	run_command_built	comma becomes a point
-open	run_command_built	comma becomes point
-open	run_command_built	defaults for the other sliders
-open	run_command_built	empty values -> all defaults
-open	run_command_built	error named
-open	run_command_built	every track is its own camera
-open	run_command_built	file names
-open	run_command_built	gets through
-open	run_command_built	key and preset
-open	run_command_built	no argv tinkering left in gui()
-open	run_command_built	no message
-open	run_command_built	no plan
-open	run_command_built	not rejected
-open	run_command_built	nothing goes to auphonic.com
-open	run_command_built	one of each is fine
-open	run_command_built	one question
-open	run_command_built	only one speaker
-open	run_command_built	only the content file in the list
-open	run_command_built	only two tracks in the plan
-open	run_command_built	plan carries the production
-open	run_command_built	plan carries two cameras
-open	run_command_built	preset missing
-open	run_command_built	program name first
-open	run_command_built	rejected
-open	run_command_built	says which value
-open	run_command_built	speaker names
-open	run_command_built	the assignment is still written
-open	run_command_built	the ignored one is missing
-open	run_command_built	the key is still thrown out when saving
-open	run_command_built	the other row without
-open	run_command_built	the question comes first
-open	run_command_built	the same for the outro
-open	run_command_built	title is right
 open	run_metrics_add_up	%s has a loudness row
 open	run_metrics_add_up	%s: both figures are numbers
 open	run_metrics_add_up	%s: the peak rose by the same amount
@@ -1681,66 +1681,66 @@ source_skills_resolve	2026-08-31	every path a skill names resolves	in a real clo
 open	source_skills_resolve	every skill has a SKILL.md with a name and a description
 source_skills_resolve	2026-08-30	every skill named in a skill exists	three breaks on a copy of .claude/skills/ in scratch space: the real dead names left by a rename (counterproof_test.py, five times in gegenbeweis); a path pointing nowhere; and one skill sending the reader on to a skill that does not exist	every skill named in a skill exists FAIL 1 astray: test-neu:326 -> widerlegung -- and the first shape of that last check read no bold marker, so it stayed green through the same break
 source_skills_resolve	2026-08-30	every test a skill names is in the folder	three breaks on a copy of .claude/skills/ in scratch space: the real dead names left by a rename (counterproof_test.py, five times in gegenbeweis); a path pointing nowhere; and one skill sending the reader on to a skill that does not exist	every test a skill names is in the folder FAIL 4 dead: gegenbeweis:115 counterproof_test.py
+table_audio_asked_for	2026-08-31	the field offers two answers and no more	/private/tmp/gb_table_audio_asked_for/brk_c1_two_answers.py -- Zeile 21200 `cell, box = choice_cell(AUDIO_USE,` zu `cell, box = choice_cell(AUDIO_USE + (MIX_ONLY,),` (das Feld bietet eine dritte Antwort an)	the field offers two answers and no more                   FAIL ['audio-unused', 'audio-material', 'mix-only']
+table_audio_asked_for	2026-08-31	and stands on 'do not use the audio'	/private/tmp/gb_table_audio_asked_for/brk_c2_default_unused.py -- Zeile 21201 `AUDIO_MATERIAL if used else AUDIO_UNUSED,` zu `AUDIO_MATERIAL,` (das Feld steht immer auf 'use the audio', gleich was gilt)	and stands on 'do not use the audio'                       FAIL audio-material
+table_audio_asked_for	2026-08-31	choosing writes the decision down	/private/tmp/gb_table_audio_asked_for/brk_c3_written_down.py -- Zeile 21254 `lambda i: value.set(box.itemData(i) == AUDIO_MATERIAL))` zu `lambda i: value.set(box.itemData(i) != AUDIO_MATERIAL))` (die Wahl wird verkehrt herum in den Wert geschrieben)	choosing writes the decision down                          FAIL
+table_audio_asked_for	2026-08-31	a second field on the same value opens on it	/private/tmp/gb_table_audio_asked_for/brk_c4_opens_on_value.py -- Zeile 21201 `AUDIO_MATERIAL if used else AUDIO_UNUSED,` zu `AUDIO_UNUSED,` (das Feld oeffnet immer auf 'do not use', gleich was gilt)	a second field on the same value opens on it               FAIL
+table_audio_asked_for	2026-08-31	and changing either one moves the other	/private/tmp/gb_table_audio_asked_for/brk_c5_listen.py -- Zeile 21255 `value.listen(lambda: pick_choice(` zu `value.listen(lambda: None)` (das Feld hoert nicht mehr auf den Wert)	and changing either one moves the other                    FAIL audio-material
+table_audio_asked_for	2026-08-31	the settled field shows the audio in use	/private/tmp/gb_table_audio_asked_for/brk_c6_only_sound.py -- Zeile 20872 `return True, T('the only sound there is')` zu `return False, T('the only sound there is')` (die Ausnahme 'einziger Ton' gibt 'nicht benutzt' zurueck)	the settled field shows the audio in use                   FAIL
+table_audio_asked_for	2026-08-31	and cannot be changed	/private/tmp/gb_table_audio_asked_for/brk_c7_settled_shut.py -- Zeile 21203 `if why:` zu `if why:` (das entschiedene Feld bleibt offen)	and cannot be changed                                      FAIL
+table_audio_asked_for	2026-08-31	and nothing stands beside it any more	/private/tmp/gb_table_audio_asked_for/brk_c8_nothing_beside.py -- Zeile 21202 `"", quiet)` zu `why, quiet)` (der Grund steht wieder als Satz neben dem Feld)	and nothing stands beside it any more                      FAIL ['the only sound there is']
+table_audio_asked_for	2026-08-31	and showing it stores nothing	/private/tmp/gb_table_audio_asked_for/brk_c9_settled_writes.py -- Zeile 21251 `if why:` zu `if why:` (das entschiedene Feld wird doch gebunden, und schreibt ein Ja)	and showing it stores nothing                              FAIL
+table_audio_asked_for	2026-08-31	the project brought both cameras into the list	/private/tmp/gb_table_audio_asked_for/brk_w10_project_short.py -- Zeile 4568 `for entry in ((d or {}).get("files") or []):` zu `for entry in ((d or {}).get("files") or [])[:1]:` (die Dateiliste des Projekts wird eine Datei zu kurz gelesen)	the project brought both cameras into the list             FAIL
+table_audio_asked_for	2026-08-31	the field is still there to take back	/private/tmp/gb_table_audio_asked_for/brk_w11_no_cell.py -- Zeile 29565 `table_video.setCellWidget(row, 4, sound)` zu `pass` (das Tonfeld wird neben dem Spieler nicht in die Tabelle gesetzt)	the field is still there to take back                      FAIL
+table_audio_asked_for	2026-08-31	and every one of them starts on 'do not use'	/private/tmp/gb_table_audio_asked_for/brk_c2_default_unused.py -- Zeile 21201 `AUDIO_MATERIAL if used else AUDIO_UNUSED,` zu `AUDIO_MATERIAL,` (das Feld steht immer auf 'use the audio', gleich was gilt)	and every one of them starts on 'do not use'               FAIL ['audio-material', 'audio-material']
+table_audio_asked_for	2026-08-31	two cameras leave a real choice, not a settled field	/private/tmp/gb_table_audio_asked_for/brk_w14_two_cameras.py -- Zeile 14508 `if by_hand or audio_files or len(videos) != 1:` zu `if by_hand or audio_files or len(videos) != 2:` (die Ausnahme 'einzige Kamera' gilt jetzt bei zwei Kameras)	two cameras leave a real choice, not a settled field       FAIL
+table_audio_asked_for	2026-08-31	so no track stands in the recordings table	/private/tmp/gb_table_audio_asked_for/brk_w15_unasked.py -- Zeile 14507 `by_hand = [b for b in videos if os.path.abspath(b) in wanted]` zu `by_hand = list(videos)` (jede Kamera gibt ihren Ton, ungefragt)	so no track stands in the recordings table                 FAIL ['Wide_C003.mov   (camera audio)', 'Guest_C009.mov   (camera audio)']
+table_audio_asked_for	2026-08-31	and the run cannot start	/private/tmp/gb_table_audio_asked_for/brk_w16_start_on.py -- Zeile 26850 `start_run.setEnabled(ready)` zu `start_run.setEnabled(True)` (der Start-Knopf ist immer offen)	and the run cannot start                                   FAIL
+table_audio_asked_for	2026-08-31	with the reason under the button, saying what to do	/private/tmp/gb_table_audio_asked_for/brk_w17_reason.py -- Zeile 21046 `'Camera audio to "use the audio", or add an '` zu `'Camera audio to "the audio field", or add an '` (der Grund nennt die Antwort nicht mehr, die ihn behebt)	with the reason under the button, saying what to do        FAIL "Cannot start yet: Files & production -- No sound to work with -- set a video file's Camera"
+table_audio_asked_for	2026-08-31	the choice reaches the sheet beside the player	/private/tmp/gb_table_audio_asked_for/brk_w11_no_cell.py -- Zeile 29565 `table_video.setCellWidget(row, 4, sound)` zu `pass` (das Tonfeld wird neben dem Spieler nicht in die Tabelle gesetzt)	the choice reaches the sheet beside the player             FAIL
+table_audio_asked_for	2026-08-31	and the field there shows the same answer	/private/tmp/gb_table_audio_asked_for/brk_w19_used_false.py -- Zeile 29562 `sound, sound_box = camera_audio_cell(short, used, why,` zu `sound, sound_box = camera_audio_cell(short, False, why,` (das Feld neben dem Spieler wird immer mit 'nicht benutzt' gebaut)	and the field there shows the same answer                  FAIL audio-unused
+table_audio_asked_for	2026-08-31	while the camera nobody chose stays on 'do not use'	/private/tmp/gb_table_audio_asked_for/brk_w20_used_true.py -- Zeile 29562 `sound, sound_box = camera_audio_cell(short, used, why,` zu `sound, sound_box = camera_audio_cell(short, True, why,` (das Feld neben dem Spieler wird immer mit 'benutzt' gebaut)	while the camera nobody chose stays on 'do not use'        FAIL
+table_audio_asked_for	2026-08-31	the camera has become a row in the recordings table	/private/tmp/gb_table_audio_asked_for/brk_w21c_first_camera.py -- Zeile 14549 `rows.append(([piece], []))` zu `rows.append((videos[:1], []))` (die Spurzeile entsteht fuer die erste Kamera statt fuer die gewaehlte)	the camera has become a row in the recordings table        FAIL []
+table_audio_asked_for	2026-08-31	and that row starts on the camera it came out of	/private/tmp/gb_table_audio_asked_for/brk_w22_own_camera.py -- Zeile 14569 `if own_camera:` zu `if own_camera:` (die eigene Kamera wird nicht mehr vorgewaehlt)	and that row starts on the camera it came out of           FAIL mix-only
+table_audio_asked_for	2026-08-31	nothing else moved into the table	/private/tmp/gb_table_audio_asked_for/brk_w15_unasked.py -- Zeile 14507 `by_hand = [b for b in videos if os.path.abspath(b) in wanted]` zu `by_hand = list(videos)` (jede Kamera gibt ihren Ton, ungefragt)	nothing else moved into the table                          FAIL ['Wide_C003.mov   (camera audio)', 'Guest_C009.mov   (camera audio)']
+table_audio_asked_for	2026-08-31	the untouched camera is named as the full mix	/private/tmp/gb_table_audio_asked_for/brk_w24_full_mix.py -- Zeile 29551 `production_var.get(), short, names or ["Audio-Full-Mix"])` zu `production_var.get(), short, names or [])` (das Fenster fragt den Namen ohne 'Audio-Full-Mix' an)	the untouched camera is named as the full mix              FAIL Two cameras_Guest_C009
+table_audio_asked_for	2026-08-31	and now there is sound, so the run can start	/private/tmp/gb_table_audio_asked_for/brk_w25_start_off.py -- Zeile 26850 `start_run.setEnabled(ready)` zu `start_run.setEnabled(False)` (der Start-Knopf bleibt immer zu)	and now there is sound, so the run can start               FAIL ''
+table_audio_asked_for	2026-08-31	and the track is out of the recordings table again	/private/tmp/gb_table_audio_asked_for/brk_w15_unasked.py -- Zeile 14507 `by_hand = [b for b in videos if os.path.abspath(b) in wanted]` zu `by_hand = list(videos)` (jede Kamera gibt ihren Ton, ungefragt)	and the track is out of the recordings table again         FAIL ['Wide_C003.mov   (camera audio)', 'Guest_C009.mov   (camera audio)']
+table_audio_asked_for	2026-08-31	with a line in its place saying what would fill it	/private/tmp/gb_table_audio_asked_for/brk_w28n_plc_note.py -- Zeile 29246 `'a video file\'s Camera audio to "use the audio" in the '` zu `'a video file\'s Camera audio to "the audio field" in the '`; Zeile 15062 `'"use the audio" for a second.'` zu `'"the audio field" for a second.'` (beide Saetze auf dem Blatt, die die Antwort nennen: der Platzhalter der leeren Tabelle und die Zeile neben dem Multitrack-Haken)	with a line in its place saying what would fill it         FAIL
+table_audio_asked_for	2026-08-31	no sound left, so the run cannot start again	/private/tmp/gb_table_audio_asked_for/brk_w16_start_on.py -- Zeile 26850 `start_run.setEnabled(ready)` zu `start_run.setEnabled(True)` (der Start-Knopf ist immer offen)	no sound left, so the run cannot start again               FAIL
+table_audio_asked_for	2026-08-31	and the reason is under the button once more	/private/tmp/gb_table_audio_asked_for/brk_w17_reason.py -- Zeile 21046 `'Camera audio to "use the audio", or add an '` zu `'Camera audio to "the audio field", or add an '` (der Grund nennt die Antwort nicht mehr, die ihn behebt)	and the reason is under the button once more               FAIL
+table_audio_asked_for	2026-08-31	two audio recordings -> two rows	/private/tmp/gb_table_audio_asked_for/brk_p1_no_chains.py -- Zeile 14542 `if audio_files else [])` zu `if False else [])` (aus den Tonaufnahmen entstehen keine Zeilen mehr)	two audio recordings -> two rows                           FAIL 0
+table_audio_asked_for	2026-08-31	no camera contributes unasked	/private/tmp/gb_table_audio_asked_for/brk_p2_unasked.py -- Zeile 14546 `for b in list(own_flag_cameras or ()):` zu `for b in list(own_flag_cameras or videos):` (jede Kamera zaehlt als angehakt)	no camera contributes unasked                              FAIL
+table_audio_asked_for	2026-08-31	with one camera chosen -> three rows	/private/tmp/gb_table_audio_asked_for/brk_p3_no_camera_row.py -- Zeile 14549 `rows.append(([piece], []))` zu `(geloescht)` (die Zeile der gewaehlten Kamera wird nicht angehaengt)	with one camera chosen -> three rows                       FAIL 2
+table_audio_asked_for	2026-08-31	it sits at the back	/private/tmp/gb_table_audio_asked_for/brk_p4_order.py -- Zeile 14551 `return chains + rows, False, own` zu `return rows + chains, False, own` (Kamerazeilen stehen vorn statt hinten)	it sits at the back                                        FAIL
+table_audio_asked_for	2026-08-31	and is noted as coming out of that camera	/private/tmp/gb_table_audio_asked_for/brk_p5_own_note.py -- Zeile 14550 `own[os.path.abspath(piece)] = os.path.abspath(b)` zu `own[os.path.abspath(piece)] = ""` (die Herkunft der Kameraspur wird leer vermerkt)	and is noted as coming out of that camera                  FAIL
+table_audio_asked_for	2026-08-31	no recording and nothing chosen -> no rows at all	/private/tmp/gb_table_audio_asked_for/brk_p2_unasked.py -- Zeile 14546 `for b in list(own_flag_cameras or ()):` zu `for b in list(own_flag_cameras or videos):` (jede Kamera zaehlt als angehakt)	no recording and nothing chosen -> no rows at all          FAIL [(['/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_h4wMG9/assignment5c_ix1hyfls/Wide_C003.mov'], []), (['/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_h4wMG9/assignment5c_ix1hyfls/Guest_C009.mov'], []), (['/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_h4wMG9/assignment5c_ix1hyfls/Host_C005.mov'], [])]
+table_audio_asked_for	2026-08-31	and the old automatic stays off	/private/tmp/gb_table_audio_asked_for/brk_p7_cam_audio.py -- Zeile 14551 `return chains + rows, False, own` zu `return chains + rows, True, own` (die abgeschaffte Automatik meldet sich wieder als eingeschaltet)	and the old automatic stays off                            FAIL
+table_audio_asked_for	2026-08-31	one camera chosen -> one row	/private/tmp/gb_table_audio_asked_for/brk_p3_no_camera_row.py -- Zeile 14549 `rows.append(([piece], []))` zu `(geloescht)` (die Zeile der gewaehlten Kamera wird nicht angehaengt)	one camera chosen -> one row                               FAIL
+table_audio_asked_for	2026-08-31	nothing at all -> nothing at all	/private/tmp/gb_table_audio_asked_for/brk_p7_cam_audio.py -- Zeile 14551 `return chains + rows, False, own` zu `return chains + rows, True, own` (die abgeschaffte Automatik meldet sich wieder als eingeschaltet)	nothing at all -> nothing at all                           FAIL
+table_audio_asked_for	2026-08-31	set by hand still applies	/private/tmp/gb_table_audio_asked_for/brk_p10_by_hand.py -- Zeile 14567 `if old and old in targets:` zu `if old and old in targets:` (die von Hand gesetzte Kamera wird durch den Mix ersetzt)	set by hand still applies                                  FAIL
+table_audio_asked_for	2026-08-31	ignore stays as well	/private/tmp/gb_table_audio_asked_for/brk_p11_ignore.py -- Zeile 14567 `if old and old in targets:` zu `if old and old in targets and old != IGNORE_AUDIO:` ('ignore-audio' faellt aus der von Hand gesetzten Wahl heraus)	ignore stays as well                                       FAIL
+table_audio_asked_for	2026-08-31	camera gone -> guessed anew	/private/tmp/gb_table_audio_asked_for/brk_p12_gone.py -- Zeile 14567 `if old and old in targets:` zu `if old:` (eine alte Wahl gilt auch dann, wenn die Kamera nicht mehr da ist)	camera gone -> guessed anew                                FAIL
+table_audio_asked_for	2026-08-31	without an old choice, by the name	/private/tmp/gb_table_audio_asked_for/brk_p13_by_name.py -- Zeile 14571 `hit = camera_for_speaker(speaker, videos)` zu `hit = None` (die Suche nach der Kamera zum Namen faellt aus)	without an old choice, by the name                         FAIL
+table_audio_asked_for	2026-08-31	no match -> mix only	/private/tmp/gb_table_audio_asked_for/brk_p14_no_match.py -- Zeile 14572 `return os.path.basename(hit) if hit else MIX_ONLY` zu `return os.path.basename(hit) if hit else (os.path.basename(videos[0]) if videos else MIX_ONLY)` (ohne Treffer wird die erste Kamera geraten)	no match -> mix only                                       FAIL
+table_audio_asked_for	2026-08-31	empty name -> mix only	/private/tmp/gb_table_audio_asked_for/brk_p14_no_match.py -- Zeile 14572 `return os.path.basename(hit) if hit else MIX_ONLY` zu `return os.path.basename(hit) if hit else (os.path.basename(videos[0]) if videos else MIX_ONLY)` (ohne Treffer wird die erste Kamera geraten)	empty name -> mix only                                     FAIL
+table_audio_asked_for	2026-08-31	own camera is the preselection	/private/tmp/gb_table_audio_asked_for/brk_w22_own_camera.py -- Zeile 14569 `if own_camera:` zu `if own_camera:` (die eigene Kamera wird nicht mehr vorgewaehlt)	own camera is the preselection                             FAIL
+table_audio_asked_for	2026-08-31	but a setting made by hand beats it	/private/tmp/gb_table_audio_asked_for/brk_p17_hand_beats.py -- Zeile 14567 `if old and old in targets:` zu `if old and old in targets and not own_camera:` (die eigene Kamera schlaegt die von Hand gesetzte)	but a setting made by hand beats it                        FAIL
+table_audio_asked_for	2026-08-31	speakers into the middle	/private/tmp/gb_table_audio_asked_for/brk_p18_join.py -- Zeile 14641 `who = "+".join(x.strip() for x in speaker if (x or "").strip())` zu `who = "-".join(x.strip() for x in speaker if (x or "").strip())` (mehrere Sprecher werden mit - statt + verbunden)	speakers into the middle                                   FAIL Interview 1_Hosts_Host-Co-host_08141714_C002
+table_audio_asked_for	2026-08-31	camera already named like the speaker -> not twice	/private/tmp/gb_table_audio_asked_for/brk_p19_both_nets.py -- Zeile 14642 `if parts and who and similarity(parts[0], who) >= 0.85:` zu `if parts and who and similarity(parts[0], who) >= 1.5:`; Zeile 14048 `if t and t.lower() in seen:` zu `if False and t.lower() in seen:` (beide Netze: die nachsichtige Namensgleichheit und das Streichen wiederholter Namensteile)	camera already named like the speaker -> not twice         FAIL Interview 2_Guest_Guest_08141858_C009
+table_audio_asked_for	2026-08-31	not twice with a typo either	/private/tmp/gb_table_audio_asked_for/brk_p20_typo.py -- Zeile 14642 `if parts and who and similarity(parts[0], who) >= 0.85:` zu `if parts and who and similarity(parts[0], who) >= 0.99:` (die Schranke der Namensgleichheit von 0.85 auf 0.99)	not twice with a typo either                               FAIL I_Gueest_Guest_C009
+table_audio_asked_for	2026-08-31	without speakers the full mix	/private/tmp/gb_table_audio_asked_for/brk_p21_full_mix.py -- Zeile 14642 `if parts and who and similarity(parts[0], who) >= 0.85:` zu `if parts and who and similarity(parts[0], who) >= 0.0:` (jeder Sprechername gilt als der Kameraname selbst, faellt also weg)	without speakers the full mix                              FAIL Interview 2_Wide_08141855_C003
+table_audio_asked_for	2026-08-31	camera name without a separator -> appended at the back	/private/tmp/gb_table_audio_asked_for/brk_p22_no_separator.py -- Zeile 14650 `name = "_".join(x for x in (front, stem, who) if x)` zu `name = "_".join(x for x in (front, who, stem) if x)` (der Sprecher steht vorn statt hinten)	camera name without a separator -> appended at the back    FAIL I_Guest_C009
+table_audio_asked_for	2026-08-31	empty production becomes 'Production'	/private/tmp/gb_table_audio_asked_for/brk_p23_production.py -- Zeile 14644 `front = (production or "").strip() or 'Production'` zu `front = (production or "").strip() or ''` (der Ersatzname der Produktion faellt weg)	empty production becomes 'Production'                      FAIL _Camera_C001
+table_audio_asked_for	2026-08-31	only spaces counts as empty	/private/tmp/gb_table_audio_asked_for/brk_p24_spaces.py -- Zeile 14644 `front = (production or "").strip() or 'Production'` zu `front = (production or "") or 'Production'` (der Produktionsname wird nicht mehr beschnitten)	only spaces counts as empty                                FAIL
+table_audio_asked_for	2026-08-31	empty speaker names drop out	/private/tmp/gb_table_audio_asked_for/brk_p25_empty_names.py -- Zeile 14641 `who = "+".join(x.strip() for x in speaker if (x or "").strip())` zu `who = "+".join(x.strip() for x in speaker)` (leere Sprechernamen werden mitgenommen)	empty speaker names drop out                               FAIL I_Camera_++Anna_C001
+table_audio_asked_for	2026-08-31	a whole path works too	/private/tmp/gb_table_audio_asked_for/brk_p26_whole_path.py -- Zeile 14639 `stem = os.path.splitext(os.path.basename(camera))[0]` zu `stem = os.path.splitext(camera)[0]` (der Ordnerweg bleibt im Kameranamen stehen)	a whole path works too                                     FAIL
+table_audio_asked_for	2026-08-31	dots in the camera name separate too	/private/tmp/gb_table_audio_asked_for/brk_p27_dots.py -- Zeile 14640 `parts = re.split(r"[_\-. ]", stem, maxsplit=1)` zu `parts = re.split(r"[_\- ]", stem, maxsplit=1)` (der Punkt trennt den Kameranamen nicht mehr)	dots in the camera name separate too                       FAIL I_Camera.C001_Anna
+table_audio_asked_for	2026-08-31	no crash without a speaker list	/private/tmp/gb_table_audio_asked_for/brk_p28_no_speakers.py -- Zeile 14651 `return without_repeated_words(name)` zu `return ((without_repeated_words(name),) if speaker == ()` (ohne Sprecherliste kommt kein Name zurueck, sondern ein Tupel)	no crash without a speaker list                            FAIL
+table_audio_asked_for	2026-08-31	as delivered: %s _	/private/tmp/gb_table_audio_asked_for/brk_p18_join.py -- Zeile 14641 `who = "+".join(x.strip() for x in speaker if (x or "").strip())` zu `who = "-".join(x.strip() for x in speaker if (x or "").strip())` (mehrere Sprecher werden mit - statt + verbunden)	as delivered: Hosts                                        FAIL Interview Example Town 2_Hosts_Host-Co-host_08141855_C005
 open	source_skills_resolve	there is a skills folder
-open	table_audio_asked_for	a second field on the same value opens on it
-open	table_audio_asked_for	a whole path works too
-open	table_audio_asked_for	and cannot be changed
-open	table_audio_asked_for	and changing either one moves the other
-open	table_audio_asked_for	and every one of them starts on 'do not use'
-open	table_audio_asked_for	and is noted as coming out of that camera
-open	table_audio_asked_for	and nothing stands beside it any more
-open	table_audio_asked_for	and now there is sound, so the run can start
-open	table_audio_asked_for	and showing it stores nothing
-open	table_audio_asked_for	and stands on 'do not use the audio'
-open	table_audio_asked_for	and that row starts on the camera it came out of
-open	table_audio_asked_for	and the field there shows the same answer
-open	table_audio_asked_for	and the old automatic stays off
-open	table_audio_asked_for	and the reason is under the button once more
-open	table_audio_asked_for	and the run cannot start
-open	table_audio_asked_for	and the track is out of the recordings table again
-open	table_audio_asked_for	as delivered: %s _
-open	table_audio_asked_for	but a setting made by hand beats it
-open	table_audio_asked_for	camera already named like the speaker -> not twice
-open	table_audio_asked_for	camera gone -> guessed anew
-open	table_audio_asked_for	camera name without a separator -> appended at the back
-open	table_audio_asked_for	choosing writes the decision down
-open	table_audio_asked_for	dots in the camera name separate too
-open	table_audio_asked_for	empty name -> mix only
-open	table_audio_asked_for	empty production becomes 'Production'
-open	table_audio_asked_for	empty speaker names drop out
 open	table_audio_asked_for	every video file carries the decision itself
-open	table_audio_asked_for	ignore stays as well
-open	table_audio_asked_for	it sits at the back
-open	table_audio_asked_for	no camera contributes unasked
-open	table_audio_asked_for	no crash without a speaker list
-open	table_audio_asked_for	no match -> mix only
-open	table_audio_asked_for	no recording and nothing chosen -> no rows at all
-open	table_audio_asked_for	no sound left, so the run cannot start again
-open	table_audio_asked_for	not twice with a typo either
-open	table_audio_asked_for	nothing at all -> nothing at all
-open	table_audio_asked_for	nothing else moved into the table
-open	table_audio_asked_for	one camera chosen -> one row
-open	table_audio_asked_for	only spaces counts as empty
-open	table_audio_asked_for	own camera is the preselection
-open	table_audio_asked_for	set by hand still applies
-open	table_audio_asked_for	so no track stands in the recordings table
-open	table_audio_asked_for	speakers into the middle
 open	table_audio_asked_for	taking it back on one sheet shows on the other
-open	table_audio_asked_for	the camera has become a row in the recordings table
-open	table_audio_asked_for	the choice reaches the sheet beside the player
-open	table_audio_asked_for	the field is still there to take back
-open	table_audio_asked_for	the field offers two answers and no more
-open	table_audio_asked_for	the project brought both cameras into the list
-open	table_audio_asked_for	the settled field shows the audio in use
-open	table_audio_asked_for	the untouched camera is named as the full mix
-open	table_audio_asked_for	two audio recordings -> two rows
-open	table_audio_asked_for	two cameras leave a real choice, not a settled field
-open	table_audio_asked_for	while the camera nobody chose stays on 'do not use'
-open	table_audio_asked_for	with a line in its place saying what would fill it
-open	table_audio_asked_for	with one camera chosen -> three rows
-open	table_audio_asked_for	with the reason under the button, saying what to do
-open	table_audio_asked_for	without an old choice, by the name
-open	table_audio_asked_for	without speakers the full mix
 open	table_blocks_judged	a tick was found to click
 open	table_blocks_judged	one row per channel
 open	table_blocks_judged	the list is long enough to scroll
@@ -2499,6 +2499,57 @@ voice_language_arrives	2026-08-31	the field offers exactly the languages written
 voice_language_arrives	2026-08-31	the macOS door is reached and the call recorded	macos_words: "if not program:" turned into "if program:", so the recogniser is never called at all	the macOS door is reached and the call recorded            FAIL 0 calls, first []
 voice_language_arrives	2026-08-31	the macOS recogniser is handed the code, not the tag	speech_locale: "return SPEECH_CODES.get(tag.lower(), tag)" replaced by "return tag" -- the unconverted program of this morning	the macOS recogniser is handed the code, not the tag       FAIL 25 of 25 wrong: ["ara -> 'ara', wanted 'ar'", "cat -> 'cat', wanted 'ca'", "ces -> 'ces', wanted 'cs'"]
 voice_language_arrives	2026-08-31	the macOS way brings words back for every language offered	speech_locale: "return SPEECH_CODES.get(tag.lower(), tag)" replaced by "return tag" -- the unconverted program of this morning	the macOS way brings words back for every language offered FAIL 25 of 25 came back with nothing: ['ara', 'cat', 'ces']
+voice_names_when_sure	2026-08-31	every microphone reports speech	b01.py -- in speakers_from_tracks Zeile 4976 `for a, b in joined if b - a >= min_len]))` zu `... and i != 2]))` (die dritte Spur meldet keine Sprache mehr)	every microphone reports speech                            FAIL [27, 24, 0]
+voice_names_when_sure	2026-08-31	all three voices are matched	b02.py -- in which_microphone Zeile 3966 `for name, segs in voices:` zu `for name, segs in voices[:-1]:` (die letzte Stimme wird nie betrachtet)	all three voices are matched                               FAIL [('SPEAKER_00', 'Anna', 1.0, 0.9252827002572127), ('SPEAKER_01', 'Ben', 1.0, 0.9162355380765488)]
+voice_names_when_sure	2026-08-31	and each one to its own microphone	b03.py -- in which_microphone Zeile 3974 `picked.append((name, share[0][1], ...` zu `share[1][1]` (jede Stimme bekommt das zweitbeste Mikrofon)	and each one to its own microphone                         FAIL {'SPEAKER_01': 'Anna'}
+voice_names_when_sure	2026-08-31	the distance is far above the limit set from measurement	b04.py -- in which_microphone Zeile 3975 `share[0][0] - share[1][0]))` zu `share[1][0] - share[0][0]))` (der gemeldete Abstand mit umgedrehtem Vorzeichen)	the distance is far above the limit set from measurement   FAIL [-0.925, -0.916, -0.929]
+voice_names_when_sure	2026-08-31	a heading, a line per voice and the assumption	b05.py -- in microphones_report Zeile 3991 `for voice, track, share, distance in rows:` zu `rows[:-1]:` (eine Zeile je Stimme faellt weg)	a heading, a line per voice and the assumption             FAIL 4
+voice_names_when_sure	2026-08-31	the heading calls it a proposal	b06.py -- in microphones_report Zeile 3989 in der Ueberschrift `-- a proposal, and nothing is set` zu `-- a result, and nothing is set`	the heading calls it a proposal                            FAIL h
+voice_names_when_sure	2026-08-31	the last line names the assumption	b07.py -- in microphones_report Zeile 3996 `one microphone per ` zu `one microphone for ` in der Annahme-Zeile	the last line names the assumption                         FAIL   It holds under one assumption: one microphone for person, and each of them carrying only that person. Where the tracks overlap too much to be told apart, or two voices point at the same microphone, nothing is said at all rather than something uncertain.
+voice_names_when_sure	2026-08-31	every voice and its microphone stand in a line	b08.py -- in microphones_report Zeile 3994 `% (voice, track, round(100 * share),` zu `% (voice, voice, round(100 * share),` (der Mikrofonname fehlt in der Zeile)	every voice and its microphone stand in a line             FAIL ['  SPEAKER_00           sounds like SPEAKER_00           100 % of it inside that track, 93 points ahead of the next', '  SPEAKER_01           sounds like SPEAKER_01           100 % of it inside that track, 92 points ahead of the next', '  SPEAKER_02           sounds like SPEAKER_02           100 % of it inside that track, 93 points ahead of the next']
+voice_names_when_sure	2026-08-31	the German side is there and is not the English one	b09.py -- Zeile 33207 der Katalogschluessel der Ueberschrift von microphones_report um einen Punkt erweitert, so dass die deutsche Uebersetzung nicht mehr gefunden wird	the German side is there and is not the English one        FAIL h
+voice_names_when_sure	2026-08-31	nothing to say, nothing printed	b10.py -- in microphones_report Zeile 3987 `if not rows:` zu `if not rows and False:` (die Weigerung bei leerer Liste entfaellt)	nothing to say, nothing printed                            FAIL
+voice_names_when_sure	2026-08-31	one microphone alone says nothing	b11.py -- in which_microphone Zeile 3955 das `return []` der Weigerung bei weniger als zwei Stimmen oder Spuren zu `return [("x", "y", 1.0, 1.0)]`	one microphone alone says nothing                          FAIL
+voice_names_when_sure	2026-08-31	one voice alone says nothing	b12.py -- in which_microphone Zeile 3954 `len(voices or ()) < 2` zu `< 1` (eine einzelne Stimme wird beurteilt)	one voice alone says nothing                               FAIL
+voice_names_when_sure	2026-08-31	no voices at all	b11.py -- in which_microphone Zeile 3955 das `return []` der Weigerung bei weniger als zwei Stimmen oder Spuren zu `return [("x", "y", 1.0, 1.0)]`	no voices at all                                           FAIL
+voice_names_when_sure	2026-08-31	no tracks at all	b11.py -- in which_microphone Zeile 3955 das `return []` der Weigerung bei weniger als zwei Stimmen oder Spuren zu `return [("x", "y", 1.0, 1.0)]`	no tracks at all                                           FAIL
+voice_names_when_sure	2026-08-31	a track without any speech says nothing	b15.py -- in which_microphone Zeile 3957 `if min(held.values()) <= 0:` zu `< 0` (eine stumme Spur wird zugelassen)	a track without any speech says nothing                    FAIL
+voice_names_when_sure	2026-08-31	two microphones carrying the same person: %.0f%% shared	b16.py -- Zeile 3918 `VOICE_TRACK_TOGETHER = 0.40` zu `1.00` (die Grenze auf den Wert gehoben, den zwei Mikrofone mit derselben Person erreichen)	two microphones carrying the same person: 100% shared      FAIL 1.000
+voice_names_when_sure	2026-08-31	and then nothing at all is claimed	b17.py -- in which_microphone Zeile 3964 das `return []` nach zu grosser Ueberlappung zweier Spuren zu `continue`	and then nothing at all is claimed                         FAIL [('SPEAKER_01', 'Ben', 1.0, 0.9162355380765488)]
+voice_names_when_sure	2026-08-31	a separation ten seconds off the axis is not named	b18.py -- Zeile 3924 `VOICE_TRACK_MARGIN = 0.40` zu `0.00` (kein Abstand zwischen bestem und zweitbestem Mikrofon mehr verlangt)	a separation ten seconds off the axis is not named         FAIL [('SPEAKER_00', 'Anna', 0.5669630699361883, 0.35334468975673217), ('SPEAKER_01', 'Ben', 0.584279431096764, 0.2988973882851905), ('SPEAKER_02', 'Cleo', 0.5826467407996153, 0.3573418107985906)]
+voice_names_when_sure	2026-08-31	the one nobody has a microphone for gets no line	b19.py -- Zeile 3924 `VOICE_TRACK_MARGIN = 0.40` zu `0.00` UND in which_microphone Zeile 3982 `return [row for row in picked if row[1] not in twice]` zu `return picked` -- die Pruefung haengt an zwei Schranken, mit nur einer davon bleibt sie gruen	the one nobody has a microphone for gets no line           FAIL {'SPEAKER_00': 'Anna', 'SPEAKER_01': 'Ben', 'SPEAKER_02': 'Cleo', 'SPEAKER_03': 'Ben'}
+voice_names_when_sure	2026-08-31	the other three keep theirs	b18.py -- Zeile 3924 `VOICE_TRACK_MARGIN = 0.40` zu `0.00` (der Vierte ohne Mikrofon greift nach Bens Spur und nimmt Ben mit)	the other three keep theirs                                FAIL {'SPEAKER_00': 'Anna', 'SPEAKER_02': 'Cleo'}
+voice_names_when_sure	2026-08-31	a voice with %.0f s of speech is under the floor of %.0f s	b21.py -- Zeile 3928 `VOICE_MIN_SPEECH_S = 20.0` zu `1.0`	a voice with 7 s of speech is under the floor of 1 s       FAIL 7.0
+voice_names_when_sure	2026-08-31	and it is not named	b21.py -- Zeile 3928 `VOICE_MIN_SPEECH_S = 20.0` zu `1.0`	and it is not named                                        FAIL {'SPEAKER_00': 'Anna', 'SPEAKER_02': 'Cleo', 'SPEAKER_09': 'Ben'}
+voice_names_when_sure	2026-08-31	while the two that spoke enough are	b26.py -- in which_microphone Zeile 3981 `for _n, u, _s2, _d2 in picked[i + 1:] if t == u)` zu `if t != u)` (die Doppelbelegungsregel umgedreht)	while the two that spoke enough are                        FAIL {'SPEAKER_02': 'Cleo'}
+voice_names_when_sure	2026-08-31	two voices on one microphone: neither is named	b24.py -- in which_microphone Zeile 3982 `return [row for row in picked if row[1] not in twice]` zu `return picked`	two voices on one microphone: neither is named             FAIL {'SPEAKER_10': 'Anna', 'SPEAKER_11': 'Anna', 'SPEAKER_01': 'Ben', 'SPEAKER_02': 'Cleo'}
+voice_names_when_sure	2026-08-31	and the microphone itself is left out	b24.py -- in which_microphone Zeile 3982 `return [row for row in picked if row[1] not in twice]` zu `return picked`	and the microphone itself is left out                      FAIL {'SPEAKER_10': 'Anna', 'SPEAKER_11': 'Anna', 'SPEAKER_01': 'Ben', 'SPEAKER_02': 'Cleo'}
+voice_names_when_sure	2026-08-31	the two that are clear are still there	b26.py -- in which_microphone Zeile 3981 `for _n, u, _s2, _d2 in picked[i + 1:] if t == u)` zu `if t != u)` (die Doppelbelegungsregel umgedreht)	the two that are clear are still there                     FAIL {'SPEAKER_02': 'Cleo'}
+voice_names_when_sure	2026-08-31	no overlap is zero	b27.py -- in shared_seconds Zeile 3933 `out, j = 0.0, 0` zu `out, j = 0.5, 0`	no overlap is zero                                         FAIL
+voice_names_when_sure	2026-08-31	one inside the other is the inner one	b28.py -- in shared_seconds Zeile 3940 `min(b, other[k][1])` zu `min(b, other[k][1] + 1.0)`	one inside the other is the inner one                      FAIL
+voice_names_when_sure	2026-08-31	half over half	b29.py -- in shared_seconds Zeile 3940 `max(a, other[k][0])` zu `min(a, other[k][0])`	half over half                                             FAIL
+voice_names_when_sure	2026-08-31	several against several	b30b.py -- in shared_seconds Zeile 3935 `for a, b in sorted(one):` zu `for a, b in sorted(one)[1:]:`	several against several                                    FAIL
+voice_names_when_sure	2026-08-31	empty against anything is zero	b27.py -- in shared_seconds Zeile 3933 `out, j = 0.0, 0` zu `out, j = 0.5, 0`	empty against anything is zero                             FAIL
+voice_names_when_sure	2026-08-31	all three voices reach the ranking	b32.py -- in who_asks Zeile 3675 `[(n, said[n][0], said[n][1], held[n]) for n in enough],` zu `for n in enough[:-1]],`	all three voices reach the ranking                         FAIL [('Speaker 1', 24, 24, 48.0), ('Speaker 2', 24, 12, 47.99999999999998)]
+voice_names_when_sure	2026-08-31	the one who never asks is the guest	b33.py -- in voice_role_names Zeile 3725 `out = {order[-1][0]: T('Guest')}` zu `order[0][0]` (der Gast wird vorne statt hinten genommen)	the one who never asks is the guest                        FAIL {'Speaker 1': 'Host 1', 'Speaker 2': 'Host 2'}
+voice_names_when_sure	2026-08-31	the one asking most is the first host	b34.py -- in voice_role_names Zeile 3727 `T('Host %d') % (i + 1)` zu `% (len(asking) - i)` (die Nummerierung von hinten gezaehlt)	the one asking most is the first host                      FAIL {'Speaker 3': 'Guest', 'Speaker 1': 'Host 2', 'Speaker 2': 'Host 1'}
+voice_names_when_sure	2026-08-31	and the other one the second	b35.py -- in voice_role_names Zeile 3724 `asking = [row[0] for row in order[:-1]]` zu `order[:1]` (nur der erste gilt als Fragender)	and the other one the second                               FAIL {'Speaker 3': 'Guest', 'Speaker 1': 'Host'}
+voice_names_when_sure	2026-08-31	with only two there is one host, and it is not numbered	b36.py -- in voice_role_names Zeile 3727 `T('Host') if len(asking) == 1 else` zu `== 0` (auch der einzige Moderator bekommt eine Nummer)	with only two there is one host, and it is not numbered    FAIL {'Speaker 3': 'Guest', 'Speaker 2': 'Host 1'}
+voice_names_when_sure	2026-08-31	one voice alone is no ranking	b37.py -- in voice_role_names Zeile 3722 `if len(order or ()) < 2:` zu `< 1`	one voice alone is no ranking                              FAIL
+voice_names_when_sure	2026-08-31	nothing in, nothing out	b38.py -- in voice_role_names Zeile 3723 `return {}` zu `return {"x": "y"}`	nothing in, nothing out                                    FAIL
+voice_names_when_sure	2026-08-31	who_asks leaves the passer-by out	b39.py -- Zeile 3636 `ROLE_MIN_SENTENCES = 20` zu `1`	who_asks leaves the passer-by out                          FAIL ['Speaker 1', 'Speaker 2', 'Speaker 4', 'Speaker 3']
+voice_names_when_sure	2026-08-31	and so does the proposal	b39.py -- Zeile 3636 `ROLE_MIN_SENTENCES = 20` zu `1` -- voice_role_names selbst hat keine eigene Schranke, die Pruefung faellt nur ueber who_asks	and so does the proposal                                   FAIL {'Speaker 3': 'Guest', 'Speaker 1': 'Host 1', 'Speaker 2': 'Host 2', 'Speaker 4': 'Host 3'}
+voice_names_when_sure	2026-08-31	the label of the separation is one	b41.py -- in is_stand_in_name Zeile 3703 `re.match(r"^SPEAKER_\d+$", text)` zu `r"^SPEAKR_\d+$"`	the label of the separation is one                         FAIL
+voice_names_when_sure	2026-08-31	the numbered stand-in is one	b42.py -- in is_stand_in_name Zeile 3705 die englische Form aus `forms` gestrichen: `forms = ["Speaker %d"] + [...]` zu `forms = [c.get("Speaker %d") for c in CATALOGUE.values()]`	the numbered stand-in is one                               FAIL
+voice_names_when_sure	2026-08-31	in German as well	b43.py -- in is_stand_in_name Zeile 3705 die Katalogformen gestrichen: `forms = ["Speaker %d"] + [c.get("Speaker %d") for c in CATALOGUE.values()]` zu `forms = ["Speaker %d"]`	in German as well                                          FAIL
+voice_names_when_sure	2026-08-31	but it is checked in every language, not only the one running	b43.py -- in is_stand_in_name Zeile 3705 die Katalogformen gestrichen: `forms = ["Speaker %d"] + [c.get("Speaker %d") for c in CATALOGUE.values()]` zu `forms = ["Speaker %d"]`	but it is checked in every language, not only the one running FAIL
+voice_names_when_sure	2026-08-31	  a typed name is left alone: %r	b45.py -- in is_stand_in_name Zeile 3703 `re.match(r"^SPEAKER_\d+$", text)` zu `re.match(r"^A", text)` (der getippte Name Anna faengt an zu passen)	  a typed name is left alone: 'Anna'                       FAIL
+voice_names_when_sure	2026-08-31	a heading, three lines and the assumption	b46.py -- in voice_names_report Zeile 3738 `for row in order:` zu `for row in order[:-1]:` (eine Zeile je Stimme faellt weg)	a heading, three lines and the assumption                  FAIL 4
+voice_names_when_sure	2026-08-31	it calls itself a proposal	b47.py -- in voice_names_report Zeile 3737 in der Ueberschrift `-- a proposal` zu `-- a result`	it calls itself a proposal                                 FAIL h
+voice_names_when_sure	2026-08-31	and the last line says nothing is set	b48.py -- in voice_names_report Zeile 3743 `is never touched` zu `is never altered` in der Schlusszeile	and the last line says nothing is set                      FAIL   Only for voices still carrying the name the program gave them; one somebody typed is never altered. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting.
+voice_names_when_sure	2026-08-31	voices somebody has named get no proposal	b49.py -- in voice_names_report Zeile 3734 `if is_stand_in_name(n))` zu `if n)` (der Filter auf selbstvergebene Namen entfaellt)	voices somebody has named get no proposal                  FAIL ['\x01h\nWHAT THE VOICES COULD BE CALLED -- a proposal', '  Anna 1               could be called Host 1', '  Anna 2               could be called Host 2', '  Anna 3               could be called Guest', '  Only for voices still carrying the name the program gave them; one somebody typed is never touched. The roles are read off who asks and who answers, which holds for a conversation with one guest and is a proposal, not a setting.']
+voice_names_when_sure	2026-08-31	no ranking, no report	b50.py -- in voice_names_report Zeile 3735 `if not named:` zu `if not named and False:` (die Weigerung bei leerer Rangfolge entfaellt)	no ranking, no report                                      FAIL
+voice_names_when_sure	2026-08-31	the German side of the report is there	b51.py -- Zeile 33224 der Katalogschluessel der Ueberschrift von voice_names_report um einen Punkt erweitert, so dass die deutsche Uebersetzung nicht mehr gefunden wird	the German side of the report is there                     FAIL
 open	voice_mhm_is_speech	a tenth of a second is not counted as speech
 open	voice_mhm_is_speech	and it is about as long as it was built
 open	voice_mhm_is_speech	and it stands at 0.2 s
@@ -2508,57 +2559,6 @@ open	voice_mhm_is_speech	the floor is a named number, not a spelling in a signat
 open	voice_mhm_is_speech	the new floor cuts it in two
 open	voice_mhm_is_speech	the old floor leaves one long pause where the answer was
 open	voice_mhm_is_speech	the short reaction is found at all
-open	voice_names_when_sure	  a typed name is left alone: %r
-open	voice_names_when_sure	a heading, a line per voice and the assumption
-open	voice_names_when_sure	a heading, three lines and the assumption
-open	voice_names_when_sure	a separation ten seconds off the axis is not named
-open	voice_names_when_sure	a track without any speech says nothing
-open	voice_names_when_sure	a voice with %.0f s of speech is under the floor of %.0f s
-open	voice_names_when_sure	all three voices are matched
-open	voice_names_when_sure	all three voices reach the ranking
-open	voice_names_when_sure	and each one to its own microphone
-open	voice_names_when_sure	and it is not named
-open	voice_names_when_sure	and so does the proposal
-open	voice_names_when_sure	and the last line says nothing is set
-open	voice_names_when_sure	and the microphone itself is left out
-open	voice_names_when_sure	and the other one the second
-open	voice_names_when_sure	and then nothing at all is claimed
-open	voice_names_when_sure	but it is checked in every language, not only the one running
-open	voice_names_when_sure	empty against anything is zero
-open	voice_names_when_sure	every microphone reports speech
-open	voice_names_when_sure	every voice and its microphone stand in a line
-open	voice_names_when_sure	half over half
-open	voice_names_when_sure	in German as well
-open	voice_names_when_sure	it calls itself a proposal
-open	voice_names_when_sure	no overlap is zero
-open	voice_names_when_sure	no ranking, no report
-open	voice_names_when_sure	no tracks at all
-open	voice_names_when_sure	no voices at all
-open	voice_names_when_sure	nothing in, nothing out
-open	voice_names_when_sure	nothing to say, nothing printed
-open	voice_names_when_sure	one inside the other is the inner one
-open	voice_names_when_sure	one microphone alone says nothing
-open	voice_names_when_sure	one voice alone is no ranking
-open	voice_names_when_sure	one voice alone says nothing
-open	voice_names_when_sure	several against several
-open	voice_names_when_sure	the German side is there and is not the English one
-open	voice_names_when_sure	the German side of the report is there
-open	voice_names_when_sure	the distance is far above the limit set from measurement
-open	voice_names_when_sure	the heading calls it a proposal
-open	voice_names_when_sure	the label of the separation is one
-open	voice_names_when_sure	the last line names the assumption
-open	voice_names_when_sure	the numbered stand-in is one
-open	voice_names_when_sure	the one asking most is the first host
-open	voice_names_when_sure	the one nobody has a microphone for gets no line
-open	voice_names_when_sure	the one who never asks is the guest
-open	voice_names_when_sure	the other three keep theirs
-open	voice_names_when_sure	the two that are clear are still there
-open	voice_names_when_sure	two microphones carrying the same person: %.0f%% shared
-open	voice_names_when_sure	two voices on one microphone: neither is named
-open	voice_names_when_sure	voices somebody has named get no proposal
-open	voice_names_when_sure	while the two that spoke enough are
-open	voice_names_when_sure	who_asks leaves the passer-by out
-open	voice_names_when_sure	with only two there is one host, and it is not numbered
 open	voice_questions_rank	a question inside quotation marks still counts
 open	voice_questions_rank	all three are ranked
 open	voice_questions_rank	and an ordinary full stop does not
@@ -2581,61 +2581,61 @@ open	voice_questions_rank	the one asking is named first
 open	voice_questions_rank	the one asking stands first
 open	voice_questions_rank	the report has a heading and one line per speaker
 open	voice_questions_rank	the shorter speaker comes first
-open	voice_raw_times_kept	a broken row is left out, the rest stands
-open	voice_raw_times_kept	a changed file is measured again
-open	voice_raw_times_kept	a changed source is not carried on wrongly
-open	voice_raw_times_kept	a choice made by hand comes first
-open	voice_raw_times_kept	a file the measurement called unfit is not listened to
-open	voice_raw_times_kept	a name given by hand stays
-open	voice_raw_times_kept	a number of speakers is passed only when it was asked for
-open	voice_raw_times_kept	a number of speakers set by hand is another measurement
-open	voice_raw_times_kept	a real pause is not closed
-open	voice_raw_times_kept	a track left out contributes nothing
-open	voice_raw_times_kept	a voice with nothing left in the window is left out
-open	voice_raw_times_kept	and every name in it is a file that is there
-open	voice_raw_times_kept	and the stored measurement is untouched
-open	voice_raw_times_kept	and what either of them did counts
-open	voice_raw_times_kept	and what is left is counted from the In point
-open	voice_raw_times_kept	and without that switch it refuses to run
-open	voice_raw_times_kept	another file is another measurement
-open	voice_raw_times_kept	another model is another measurement
-open	voice_raw_times_kept	cameras that are all tracks count as well
-open	voice_raw_times_kept	every weight matches its checksum
-open	voice_raw_times_kept	from four processors up everything runs at once
-open	voice_raw_times_kept	mono 16 kHz is what the parent decodes to
-open	voice_raw_times_kept	moving a second time gives the same as moving once
-open	voice_raw_times_kept	nothing at all is nothing
-open	voice_raw_times_kept	nothing at all says so
-open	voice_raw_times_kept	nothing moves before zero
-open	voice_raw_times_kept	nothing stored is nothing read
-open	voice_raw_times_kept	one entry per voice
-open	voice_raw_times_kept	one recording is the one
-open	voice_raw_times_kept	overlapping stretches of the two are merged
-open	voice_raw_times_kept	several microphones: the tracks are the truth, so it stays out
-open	voice_raw_times_kept	the checksum file names more than one file
-open	voice_raw_times_kept	the edge is the measured 0.2 s
-open	voice_raw_times_kept	the first thing main does is switch the telemetry off
-open	voice_raw_times_kept	the mix from auphonic.com is not offered
-open	voice_raw_times_kept	the model comes out of a folder, never off a server
-open	voice_raw_times_kept	the model has a mark of its own
-open	voice_raw_times_kept	the model is where a checkout puts it
-open	voice_raw_times_kept	the names come back
-open	voice_raw_times_kept	the offset is added on
-open	voice_raw_times_kept	the one who spoke most stands first
-open	voice_raw_times_kept	the same file and model give the same name
-open	voice_raw_times_kept	the segments come back unchanged
-open	voice_raw_times_kept	the source comes back
-open	voice_raw_times_kept	the stretches are in order
-open	voice_raw_times_kept	the two stretches 0.1 s apart became one
-open	voice_raw_times_kept	the waveform goes in, not the path
 voice_raw_times_kept	2026-08-30	the worker is a program in its own right	the separation worker left with a syntax error, so it is no longer a program of its own	the worker is a program in its own right                 FAIL line 41: invalid syntax
-open	voice_raw_times_kept	there is room for exactly one
-open	voice_raw_times_kept	they are stored raw, without the widened edges
-open	voice_raw_times_kept	two cameras stay two
-open	voice_raw_times_kept	two speakers on one camera are one series
-open	voice_raw_times_kept	what lies before the In point falls out
-open	voice_raw_times_kept	whoever spoke most is the first one
-open	voice_raw_times_kept	without a recording the longest camera track is used
+voice_raw_times_kept	2026-08-31	one entry per voice	speaker_segments_group files every row under the one key "one" instead of under str(row[0]), so all voices become one entry	one entry per voice                                        FAIL 1
+voice_raw_times_kept	2026-08-31	the one who spoke most stands first	the sort key of speaker_segments_group loses its minus: key=lambda x: -sum(b - a ...) becomes key=lambda x: sum(b - a ...), so the shortest speaker stands first	the one who spoke most stands first                        FAIL SPEAKER_01
+voice_raw_times_kept	2026-08-31	the stretches are in order	speaker_segments_group sorts each voice's stretches backwards: per[label].sort() becomes per[label].sort(reverse=True)	the stretches are in order                                 FAIL [(4.1, 6.0), (1.0, 4.0)]
+voice_raw_times_kept	2026-08-31	a broken row is left out, the rest stands	speaker_segments_group files a row it could not read instead of skipping it: the continue in the except becomes stretch = (0.0, 0.0)	a broken row is left out, the rest stands                  FAIL
+voice_raw_times_kept	2026-08-31	nothing at all is nothing	speaker_segments_group invents a row when it is given none: for row in rows or () becomes for row in rows or ([["Z", 0.0, 1.0]])	nothing at all is nothing                                  FAIL
+voice_raw_times_kept	2026-08-31	the two stretches 0.1 s apart became one	SPEAKER_GAP_S moved from 0.25 to -1.0, so no gap is closed any more	the two stretches 0.1 s apart became one                   FAIL [(0.8, 4.2), (3.9, 6.2)]
+voice_raw_times_kept	2026-08-31	a real pause is not closed	SPEAKER_GAP_S moved from 0.25 to 8.0, so the 8 s pause of SPEAKER_01 is closed as well	a real pause is not closed                                 FAIL [(9.8, 21.2)]
+voice_raw_times_kept	2026-08-31	nothing moves before zero	speaker_segments_polish drops the floor at zero: max(0.0, a - margin) becomes a - margin	nothing moves before zero                                  FAIL
+voice_raw_times_kept	2026-08-31	the edge is the measured 0.2 s	SPEAKER_MARGIN_S moved from 0.2 to 0.3	the edge is the measured 0.2 s                             FAIL
+voice_raw_times_kept	2026-08-31	and the stored measurement is untouched	speaker_segments_polish reorders the list it was given (parts.sort(reverse=True) before the widening), so the stored raw measurement is changed under it	and the stored measurement is untouched                    FAIL
+voice_raw_times_kept	2026-08-31	the offset is added on	speaker_segments_on_axis subtracts the offset instead of adding it: a, b = a + offset, b + offset becomes a, b = a - offset, b - offset	the offset is added on                                     FAIL (-923.6, -920.6)
+voice_raw_times_kept	2026-08-31	what lies before the In point falls out	speaker_segments_on_axis no longer clamps the start to the In point: max(a, t0) becomes plain a, so what lies before the In point is carried along	what lies before the In point falls out                    FAIL {'SPEAKER_00': [(-4.0, -1.0), (-0.9, 1.0)], 'SPEAKER_01': [(5.0, 7.0), (15.0, 16.0)]}
+voice_raw_times_kept	2026-08-31	and what is left is counted from the In point	speaker_segments_on_axis adds the In point instead of subtracting it: round(a - (t0 or 0.0), 3) becomes round(a + (t0 or 0.0), 3), same for b	and what is left is counted from the In point              FAIL [(15.0, 17.0), (25.0, 26.0)]
+voice_raw_times_kept	2026-08-31	a voice with nothing left in the window is left out	speaker_segments_on_axis keeps a voice whose stretches all fell out of the window: if kept: becomes if kept or True:	a voice with nothing left in the window is left out        FAIL [('SPEAKER_00', []), ('SPEAKER_01', [])]
+voice_raw_times_kept	2026-08-31	moving a second time gives the same as moving once	speaker_segments_on_axis adds one second on top of the offset every time it runs: a + offset becomes a + offset + 1, so moving twice is one second further than moving once	moving a second time gives the same as moving once         FAIL [('SPEAKER_00', [(927.6, 930.6), (930.7, 932.6)]), ('SPEAKER_01', [(936.6, 938.6), (946.6, 947.6)])] against [('SPEAKER_00', [(926.6, 929.6), (929.7, 931.6)]), ('SPEAKER_01', [(935.6, 937.6), (945.6, 946.6)])]
+voice_raw_times_kept	2026-08-31	whoever spoke most is the first one	speaker_label_names starts counting at two: T('Speaker %d') % (i + 1) becomes % (i + 2)	whoever spoke most is the first one                        FAIL Speaker 2
+voice_raw_times_kept	2026-08-31	a name given by hand stays	speaker_label_names throws the names given by hand away: called = called or {} becomes called = {}	a name given by hand stays                                 FAIL
+voice_raw_times_kept	2026-08-31	two speakers on one camera are one series	segments_per_camera files by speaker instead of by camera: per.setdefault(camera, []).extend(parts) becomes per.setdefault(who, []).extend(parts)	two speakers on one camera are one series                  FAIL ['Anna', 'Bert']
+voice_raw_times_kept	2026-08-31	and what either of them did counts	segments_per_camera takes only the first stretch of each speaker: .extend(parts) becomes .extend(parts[:1])	and what either of them did counts                         FAIL [(1.0, 4.0), (10.0, 12.0)]
+voice_raw_times_kept	2026-08-31	overlapping stretches of the two are merged	segments_per_camera compares the new start with the start of the last stretch instead of its end: if joined and a <= joined[-1][1] becomes a <= joined[-1][0], so overlapping stretches stay apart	overlapping stretches of the two are merged                FAIL [('A.mov', [(0.0, 5.0), (4.0, 9.0)])]
+voice_raw_times_kept	2026-08-31	two cameras stay two	segments_per_camera reports only the first camera: for camera in sorted(per): becomes for camera in sorted(per)[:1]:	two cameras stay two                                       FAIL 1
+voice_raw_times_kept	2026-08-31	a track left out contributes nothing	segments_per_camera no longer knows the track set to be left out: if not camera or camera == IGNORE_AUDIO: becomes if not camera:	a track left out contributes nothing                       FAIL [('B.mov', [(10.0, 12.0), (20.0, 21.0)]), ('ignore-audio', [(1.0, 4.0), (4.1, 6.0)])]
+voice_raw_times_kept	2026-08-31	one recording is the one	speaker_source_pick no longer recognises the single recording: if len(good) == 1: becomes if len(good) == 99:	one recording is the one                                   FAIL
+voice_raw_times_kept	2026-08-31	several microphones: the tracks are the truth, so it stays out	speaker_source_pick no longer sees several microphones as several: if len(good) > 1: becomes if len(good) > 9:	several microphones: the tracks are the truth, so it stays out FAIL
+voice_raw_times_kept	2026-08-31	a choice made by hand comes first	speaker_source_pick skips the choice made by hand: if chosen and usable(chosen): becomes if chosen and usable(chosen) and False:	a choice made by hand comes first                          FAIL
+voice_raw_times_kept	2026-08-31	without a recording the longest camera track is used	speaker_source_pick takes the shortest camera track: return max(cameras, key=how_long) becomes return min(cameras, key=how_long)	without a recording the longest camera track is used       FAIL
+voice_raw_times_kept	2026-08-31	cameras that are all tracks count as well	speaker_source_pick reads the switch the wrong way round: list(videos) if camera_audio else own_cameras becomes list(videos) if not camera_audio else own_cameras	cameras that are all tracks count as well                  FAIL
+voice_raw_times_kept	2026-08-31	a file the measurement called unfit is not listened to	speaker_source_pick forgets which files the measurement called unfit: weak = set(path_key(p) for p in (weak or ())) becomes weak = set()	a file the measurement called unfit is not listened to     FAIL
+voice_raw_times_kept	2026-08-31	nothing at all says so	speaker_source_pick says something else when it has nothing: the last return "", "nothing" becomes return "", "none"	nothing at all says so                                     FAIL
+voice_raw_times_kept	2026-08-31	the mix from auphonic.com is not offered	SPEAKER_SOURCE_MIX_ALLOWED set from False to True	the mix from auphonic.com is not offered                   FAIL
+voice_raw_times_kept	2026-08-31	the same file and model give the same name	speaker_cache_key takes the clock into the key instead of the file's mtime: "%s|%d|%d" % (mark[0], mark[1], mark[2]) becomes % (mark[0], time.time_ns(), mark[2])	the same file and model give the same name                 FAIL
+voice_raw_times_kept	2026-08-31	another model is another measurement	speaker_cache_key leaves the model out of the key: model_mark or "" becomes ""	another model is another measurement                       FAIL
+voice_raw_times_kept	2026-08-31	a number of speakers set by hand is another measurement	speaker_cache_key leaves the number of speakers out of the key: str(int(num_speakers or 0)) becomes ""	a number of speakers set by hand is another measurement    FAIL
+voice_raw_times_kept	2026-08-31	another file is another measurement	speaker_cache_key leaves the path out of the key: "%s|%d|%d" % (mark[0], mark[1], mark[2]) becomes "%d|%d" % (mark[1], mark[2])	another file is another measurement                        FAIL
+voice_raw_times_kept	2026-08-31	a changed file is measured again	speaker_cache_key leaves the mtime out of the key: "%s|%d|%d" % (mark[0], mark[1], mark[2]) becomes "%s|%d" % (mark[0], mark[2])	a changed file is measured again                           FAIL
+voice_raw_times_kept	2026-08-31	the source comes back	speakers_from_project hands the source back shortened: return (source, ...) becomes return (os.path.basename(source), ...)	the source comes back                                      FAIL Zoom.wav
+voice_raw_times_kept	2026-08-31	the segments come back unchanged	speakers_from_project reads no segments out of the project file: speaker_segments_group(d.get("segments") or []) becomes speaker_segments_group([])	the segments come back unchanged                           FAIL []
+voice_raw_times_kept	2026-08-31	the names come back	speakers_from_project drops the names: dict(d.get("names") or {}) becomes {}	the names come back                                        FAIL {}
+voice_raw_times_kept	2026-08-31	they are stored raw, without the widened edges	speakers_for_project stores the widened segments instead of the raw ones: in its dict, for label, parts in segments becomes for label, parts in speaker_segments_polish(segments)	they are stored raw, without the widened edges             FAIL ['SPEAKER_00', 0.8, 6.2]
+voice_raw_times_kept	2026-08-31	a changed source is not carried on wrongly	speakers_from_project no longer compares mtime and size: if not mark or mark[1] != d.get("mtime") or mark[2] != d.get("size"): becomes if not mark:	a changed source is not carried on wrongly                 FAIL
+voice_raw_times_kept	2026-08-31	nothing stored is nothing read	speakers_from_project invents a voice where nothing is stored: the branch for an empty project returns "", [("SPEAKER_00", [(0.0, 1.0)])], {} instead of "", [], {}	nothing stored is nothing read                             FAIL
+voice_raw_times_kept	2026-08-31	the first thing main does is switch the telemetry off	in the separation worker the switch main asks first is not the telemetry one any more: def hush() and its call in main renamed to quiet(), so main starts with if not quiet():	the first thing main does is switch the telemetry off      FAIL UnaryOp(op=Not(), operand=Call(func=Name(id='quiet', ctx=Loa
+voice_raw_times_kept	2026-08-31	and without that switch it refuses to run	in the separation worker the refusal no longer names the telemetry: print(json.dumps({"error": "telemetry"})) becomes {"error": "no-switch"}	and without that switch it refuses to run                  FAIL
+voice_raw_times_kept	2026-08-31	the waveform goes in, not the path	the separation worker no longer hands the model a waveform: out = pipeline({"waveform": piece, becomes out = pipeline({"audio": piece,	the waveform goes in, not the path                         FAIL
+voice_raw_times_kept	2026-08-31	mono 16 kHz is what the parent decodes to	SPEAKER_SPLIT_RATE moved from 16000 to 44100	mono 16 kHz is what the parent decodes to                  FAIL
+voice_raw_times_kept	2026-08-31	a number of speakers is passed only when it was asked for	the separation worker passes a number of speakers even when none was asked for: if int(head.get("speakers") or 0) > 0: becomes >= 0:	a number of speakers is passed only when it was asked for  FAIL
+voice_raw_times_kept	2026-08-31	the model comes out of a folder, never off a server	the separation worker asks the model for a token: Pipeline.from_pretrained(head["model"]) becomes Pipeline.from_pretrained(head["model"], use_auth_token=True)	the model comes out of a folder, never off a server        FAIL
+voice_raw_times_kept	2026-08-31	the model is where a checkout puts it	SPEAKER_MODEL_NAME set from "speaker-diarization-community-1" to "speaker-diarization-community-2", so the folder the program looks for is in no checkout	the model is where a checkout puts it                      FAIL no config.yaml beside /private/tmp/gb_voice_raw_times_kept/c49.py and none in /Volumes/VIDEOS/Video_Podcast/Scripts/vpm-repo/models/speaker-diarization-community-2
+voice_raw_times_kept	2026-08-31	every weight matches its checksum	speaker_model_checked turns its comparison round: if file_digest(here) != sums[name]: becomes if file_digest(here) == sums[name]:, so a file that matches is reported as wrong	every weight matches its checksum                          FAIL config.yaml
+voice_raw_times_kept	2026-08-31	the model has a mark of its own	speaker_model_mark shortens the mark: hashlib.sha1(raw).hexdigest()[:12] becomes [:10]	the model has a mark of its own                            FAIL 83a8a28395
+voice_raw_times_kept	2026-08-31	the checksum file names more than one file	read_checksums hands back only the first entry: return out becomes return dict(list(out.items())[:1])	the checksum file names more than one file                 FAIL 1
+voice_raw_times_kept	2026-08-31	and every name in it is a file that is there	read_checksums files every name with an x on the end: out[parts[1].strip().lstrip("*")] becomes out[parts[1].strip().lstrip("*") + "x"]	and every name in it is a file that is there               FAIL
+voice_raw_times_kept	2026-08-31	there is room for exactly one	SPEAKER_SPLIT_TURN = threading.Semaphore(1) becomes threading.Semaphore(2), so two separations fit	there is room for exactly one                              FAIL
+voice_raw_times_kept	2026-08-31	from four processors up everything runs at once	SPEAKER_SPLIT_TOGETHER_CORES moved from 4 to 8	from four processors up everything runs at once            FAIL
 open	voice_source_travels	%s defaults to it
 open	voice_source_travels	a file without one gives nothing
 open	voice_source_travels	a section lands where it belongs
