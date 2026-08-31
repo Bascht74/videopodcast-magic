@@ -9,7 +9,16 @@ bash run.sh              # all of them, several at a time
 WORKERS=1 bash run.sh    # one after another, easier to read
 bash run.sh voice_turns_found time_offset_found   # only those, named
 python3 voice_turns_found_test.py                 # a single one, by hand
+bash resolve.sh          # the ones that need a running DaVinci Resolve
 ```
+
+`resolve.sh` runs what lies under `resolve/`. Those talk to a DaVinci
+Resolve really running on this machine, so they are not in the suite and
+not on the builder: without Resolve every one of them would be red for a
+reason that is not a fault. They work in a project of their own, put the
+project that was open back, and delete their own again. Their
+counter-proofs live in `resolve/counterproof`, for the same reason: the
+register reads the folder above, and a row there would belong to no test.
 
 A test started by hand runs in whatever language the machine is set to,
 and on a German Mac that is German -- the program skips the `C` locale
