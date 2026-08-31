@@ -2882,13 +2882,15 @@ def find_continuation_files(file_path):
     return row, discarded
 
 
-def track_order_for_camera(own, every):
+def track_order_for_camera(own, every, singles=()):
     """Return the audio tracks for one camera, in order.
 
     Track 1 is the finished mix of what belongs to this camera, so
-    taking only the first track is correct without further work. Then
-    the same speakers individually, then the overall mix minus the
-    crosstalk, and last the camera microphone itself.
+    taking only the first is correct without further work. Then the
+    same speakers, the overall mix minus the crosstalk, and last the
+    camera microphone. *singles* are the recordings that get a line of
+    their own where nobody was assigned to this camera; the caller
+    works out whether the run writes them.
     """
     sequence = []
     if own:
@@ -2898,6 +2900,7 @@ def track_order_for_camera(own, every):
             sequence += list(own)
     else:
         sequence.append("Full-Mix (%s)" % " + ".join(every))
+        sequence += list(singles)
     if every and own and set(own) != set(every):
         sequence.append("Full-Mix (%s)" % " + ".join(every))
     sequence.append("Camera Original")
@@ -8559,11 +8562,17 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     if cameras:
         print(T('\n  This produces:'))
         every = [e.get("speakers") or "?" for e in plan]
+        # The same rule the writer follows: a recording gets a line of
+        # its own only where no camera has a track at all, there is more
+        # than one recording, and --no-single-tracks was not given.
+        singles = ([] if any(k for k in combined) or len(every) < 2
+                   or getattr(args, "no_single_tracks", False) else every)
         for cam in cameras:
             own = combined.get(cam["video"]) or []
             print("    %s  ->  %s" % (os.path.basename(cam["video"]),
                                       cam["name"] + ".mov"))
-            for idx, what in enumerate(track_order_for_camera(own, every), 1):
+            for idx, what in enumerate(
+                    track_order_for_camera(own, every, singles), 1):
                 print(T('        Track %d: %s') % (idx, what))
     return build_common_timebase(args, plan, cameras, video_paths, title)
 
