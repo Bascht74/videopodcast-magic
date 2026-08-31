@@ -43,6 +43,11 @@ def check(name, ok, extra=""):
         error.append(name)
 
 
+def name_of(path):
+    """The file's own name: a full path in a failure line hides the point."""
+    return os.path.basename(path)
+
+
 #------------------------------------------------------------- Material
 
 RATE = 48000
@@ -185,7 +190,10 @@ check("and its match is far above the floor",
       "%.3f against %.2f" % (found[GOOD][1].get("quality", 0.0),
                              vpm.WEAK_MATCH))
 check("it is not marked unplaceable",
-      not found[GOOD][1].get("unplaceable"))
+      not found[GOOD][1].get("unplaceable"),
+      "the mark is %r, envelopes %.3f against a floor of %.2f"
+      % (found[GOOD][1].get("unplaceable"),
+         found[GOOD][1].get("quality", 0.0), vpm.WEAK_MATCH))
 for v in (LOST, CLOCK):
     short = os.path.basename(v)
     st = found[v][1]
@@ -198,25 +206,37 @@ for v in (LOST, CLOCK):
           "%.1f against %.1f" % (st.get("phase_sharp") or 0.0,
                                  vpm.PHASE_SHARP_ENOUGH))
     check("%s: and it says so, instead of handing back a guess" % short,
-          bool(st.get("unplaceable")))
+          bool(st.get("unplaceable")),
+          "the mark is %r, and the offset it would hand back is %+.3f s"
+          % (st.get("unplaceable"), found[v][0]))
 
 
 #--------------------------------------------------------- 2. The rule
 
 print("\n2. The rule: the timecode decides whether refusing is allowed")
-check("no timecode anywhere, no place",
-      vpm.cannot_be_placed(found[LOST][1], None, [audio_start]) is True)
-check("a timecode on both sides, and it stays",
-      vpm.cannot_be_placed(found[CLOCK][1],
-                           vpm.timecode_seconds(facts[CLOCK]),
-                           [audio_start]) is False)
-check("an alignment that worked is never refused",
-      vpm.cannot_be_placed(found[GOOD][1], None, [audio_start]) is False)
+clock_tc = vpm.timecode_seconds(facts[CLOCK])
+for_lost = vpm.cannot_be_placed(found[LOST][1], None, [audio_start])
+for_clock = vpm.cannot_be_placed(found[CLOCK][1], clock_tc, [audio_start])
+for_good = vpm.cannot_be_placed(found[GOOD][1], None, [audio_start])
+check("no timecode anywhere, no place", for_lost is True,
+      "%r, wanted True -- the mark is %r, own clock None, others [%r]"
+      % (for_lost, found[LOST][1].get("unplaceable"), audio_start))
+check("a timecode on both sides, and it stays", for_clock is False,
+      "%r, wanted False -- the mark is %r, own clock %r s, others [%r]"
+      % (for_clock, found[CLOCK][1].get("unplaceable"), clock_tc,
+         audio_start))
+check("an alignment that worked is never refused", for_good is False,
+      "%r, wanted False -- the mark is %r, envelopes %.3f"
+      % (for_good, found[GOOD][1].get("unplaceable"),
+         found[GOOD][1].get("quality", 0.0)))
 # A clock reading only says something next to a second one.
+lone_tc = vpm.timecode_places_it(36000.0, [None, None])
+paired_tc = vpm.timecode_places_it(36000.0, [None, 36004.0])
 check("a lone timecode among files that have none places nothing",
-      vpm.timecode_places_it(36000.0, [None, None]) is False)
-check("but one with a partner does",
-      vpm.timecode_places_it(36000.0, [None, 36004.0]) is True)
+      lone_tc is False,
+      "36000.0 among [None, None] -> %r, wanted False" % lone_tc)
+check("but one with a partner does", paired_tc is True,
+      "36000.0 among [None, 36004.0] -> %r, wanted True" % paired_tc)
 
 
 #------------------------------------------------- 3. Two cameras alone
@@ -228,7 +248,10 @@ check("the camera that fits is the reference", ref[0] == GOOD,
       os.path.basename(ref[0]))
 check("the one nothing can place is not on the axis",
       LOST not in position, str(sorted(map(os.path.basename, position))))
-check("the one with a timecode still is", CLOCK in position)
+check("the one with a timecode still is", CLOCK in position,
+      "Clock.mov on the axis %r, its timecode %r s, on the axis: %s"
+      % (CLOCK in position, vpm.timecode_seconds(facts[CLOCK]),
+         sorted(map(name_of, position))))
 
 
 #------------------------------------------------------ 4. A whole run
@@ -241,9 +264,12 @@ p = subprocess.run(
     capture_output=True, text=True, timeout=RUN_LIMIT_S, env=ENV)
 log = (p.stdout or "") + (p.stderr or "")
 check("no traceback", "Traceback" not in log,
-      log[log.find("Traceback"):][:90])
-check("nothing was sent to auphonic.com",
-      "auphonic.com/api" not in log and "Uploading" not in log)
+      log[log.find("Traceback"):][:90] if "Traceback" in log else "")
+went_out = [line.strip()[:70] for line in log.splitlines()
+            if "auphonic.com/api" in line or "Uploading" in line]
+check("nothing was sent to auphonic.com", not went_out,
+      "%d lines name the service or an upload, wanted 0: %s"
+      % (len(went_out), went_out[:2]))
 check("the run ends non-zero, because one camera was left out",
       p.returncode == 1, str(p.returncode))
 said = [line.strip() for line in log.splitlines()
@@ -251,22 +277,39 @@ said = [line.strip() for line in log.splitlines()
 print("   %s" % (said[0][:150] if said else "-- nothing said --"))
 check("the run says one file cannot be placed", len(said) == 1,
       "%d lines" % len(said))
-check("and names the one that cannot", bool(said) and "Lost.mov" in said[0])
+# The name stands at the front of that sentence and the way out at its
+# end, so each is quoted from the end it lives at: cut from the wrong
+# one and the failure line hides the very words being looked for.
+head = said[0][:60] if said else "-- no line said it --"
+tail = said[0][-95:] if said else "-- no line said it --"
+check("and names the one that cannot", bool(said) and "Lost.mov" in said[0],
+      "looked for 'Lost.mov' in %r" % head)
 # Without a way out, and without saying whose job it is, the message is
 # a dead end.
 check("the message asks for a timecode",
-      bool(said) and "timecode" in said[0].lower())
+      bool(said) and "timecode" in said[0].lower(),
+      "looked for 'timecode' in %r" % tail)
 check("and says it has to be set elsewhere",
-      bool(said) and "another program" in said[0])
+      bool(said) and "another program" in said[0],
+      "looked for 'another program' in %r" % tail)
+named_clock = [line[:60] for line in said if "Clock.mov" in line]
 check("the camera with the clock is not among the refused",
-      not any("Clock.mov" in line for line in said))
+      not named_clock,
+      "%d of %d refused lines name Clock.mov: %s"
+      % (len(named_clock), len(said), named_clock[:1]))
 made = dict((n, os.path.exists("%s/run/%s_audio.mov" % (D, n)))
             for n in ("Good", "Lost", "Clock"))
 print("   written: %s" % made)
-check("nothing was written for the refused camera", made["Lost"] is False)
+check("nothing was written for the refused camera", made["Lost"] is False,
+      "Lost_audio.mov there %r, wanted False -- written: %s"
+      % (made["Lost"], made))
 check("the one with the clock was written all the same",
-      made["Clock"] is True)
-check("and so was the one that fits", made["Good"] is True)
+      made["Clock"] is True,
+      "Clock_audio.mov there %r, wanted True -- written: %s"
+      % (made["Clock"], made))
+check("and so was the one that fits", made["Good"] is True,
+      "Good_audio.mov there %r, wanted True -- written: %s"
+      % (made["Good"], made))
 if made["Good"]:
     subprocess.run(["ffmpeg", "-v", "error", "-y", "-i",
                     D + "/run/Good_audio.mov", "-map", "0:a:0",
@@ -288,7 +331,8 @@ print("   unplaceable: %s   weak: %s"
       % (lost, [os.path.basename(x) for x in (data.get("weak") or [])]))
 check("the measurement names the file with no place", lost == ["Lost.mov"],
       str(lost))
-check("and not the one with a timecode", "Clock.mov" not in lost)
+check("and not the one with a timecode", "Clock.mov" not in lost,
+      "with no place: %s, wanted Clock.mov not among them" % lost)
 
 kinds = dict((v, vpm.Value(vpm.TYPE_CONTENT)) for v in (GOOD, LOST, CLOCK))
 moved = vpm.kind_proposal_apply(kinds, data.get("unplaceable"))
@@ -297,27 +341,48 @@ check("and sets it to 'ignore this video'",
       kinds[LOST].get() == vpm.TYPE_IGNORED, kinds[LOST].get())
 check("the others keep what they were",
       kinds[GOOD].get() == vpm.TYPE_CONTENT
-      and kinds[CLOCK].get() == vpm.TYPE_CONTENT)
-check("a second round changes nothing again",
-      vpm.kind_proposal_apply(kinds, data.get("unplaceable")) == [])
+      and kinds[CLOCK].get() == vpm.TYPE_CONTENT,
+      "Good.mov %r and Clock.mov %r, wanted %r for both"
+      % (kinds[GOOD].get(), kinds[CLOCK].get(), vpm.TYPE_CONTENT))
+again = vpm.kind_proposal_apply(kinds, data.get("unplaceable"))
+check("a second round changes nothing again", again == [],
+      "moved %s, wanted []" % [name_of(x) for x in again])
 # The whole point of a proposal: it stops at an answer.
 by_hand = vpm.Value(vpm.TYPE_CONTENT)
 by_hand.chosen_by_hand = True
+kept = vpm.kind_proposal_apply({LOST: by_hand}, data.get("unplaceable"))
 check("a Kind somebody picked is never written over",
-      vpm.kind_proposal_apply({LOST: by_hand}, data.get("unplaceable")) == []
-      and by_hand.get() == vpm.TYPE_CONTENT)
+      kept == [] and by_hand.get() == vpm.TYPE_CONTENT,
+      "moved %s and the Kind is %r, wanted [] and %r"
+      % ([name_of(x) for x in kept], by_hand.get(), vpm.TYPE_CONTENT))
+unasked = vpm.kind_proposal_apply(kinds, None)
 check("without a measurement nothing moves in either direction",
-      vpm.kind_proposal_apply(kinds, None) == []
-      and kinds[LOST].get() == vpm.TYPE_IGNORED)
+      unasked == [] and kinds[LOST].get() == vpm.TYPE_IGNORED,
+      "moved %s and Lost.mov is %r, wanted [] and %r"
+      % ([name_of(x) for x in unasked], kinds[LOST].get(), vpm.TYPE_IGNORED))
+taken_back = vpm.kind_proposal_apply(kinds, [])
 check("but a measurement that can place it takes the proposal back",
-      vpm.kind_proposal_apply(kinds, []) == [LOST]
-      and kinds[LOST].get() == vpm.TYPE_CONTENT)
+      taken_back == [LOST] and kinds[LOST].get() == vpm.TYPE_CONTENT,
+      "moved %s and Lost.mov is %r, wanted ['Lost.mov'] and %r"
+      % ([name_of(x) for x in taken_back], kinds[LOST].get(),
+         vpm.TYPE_CONTENT))
 # The window has to go this way, not through a second copy of the rule.
 source = open(SCRIPT, encoding="utf-8").read()
-check("the window calls the proposal", "kind_proposal_apply(" in source
-      and source.count("def kind_proposal_apply") == 1)
+# The def line carries the name too, so it is taken off the count. Left
+# in, it answered the question by itself and the check could not fall:
+# every call site could go and the mention in the def line kept it green.
+proposal_calls = (source.count("kind_proposal_apply(")
+                  - source.count("def kind_proposal_apply("))
+check("the window calls the proposal", proposal_calls >= 1
+      and source.count("def kind_proposal_apply") == 1,
+      "%d calls beside %d definitions, wanted at least 1 beside exactly 1"
+      % (proposal_calls, source.count("def kind_proposal_apply")))
 check("the refusal is written down once", source.count("unplaceable\"] = True")
-      == 2 and source.count("def cannot_be_placed") == 1)
+      == 2 and source.count("def cannot_be_placed") == 1,
+      "%d places set the mark (wanted 2), %d definitions of the rule "
+      "(wanted 1)"
+      % (source.count("unplaceable\"] = True"),
+         source.count("def cannot_be_placed")))
 
 
 #------------------------------ 6. The recording side of the same rule

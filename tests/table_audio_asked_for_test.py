@@ -91,12 +91,16 @@ def look(media):
     check("and stands on 'do not use the audio'",
           box.currentData() == vpm.AUDIO_UNUSED, str(box.currentData()))
     box.setCurrentIndex(box.findData(vpm.AUDIO_MATERIAL))
-    check("choosing writes the decision down", value.get() is True)
+    check("choosing writes the decision down", value.get() is True,
+          "value %r after the field went to %r"
+          % (value.get(), box.currentData()))
     _cell2, box2 = vpm.camera_audio_cell("Wide_C003.mov", value.get(), "",
                                          quiet, True)
     vpm.audio_use_bind(box2, value)
     check("a second field on the same value opens on it",
-          box2.currentData() == vpm.AUDIO_MATERIAL)
+          box2.currentData() == vpm.AUDIO_MATERIAL,
+          "field on %r, value %r, wanted %r"
+          % (box2.currentData(), value.get(), vpm.AUDIO_MATERIAL))
     box2.setCurrentIndex(box2.findData(vpm.AUDIO_UNUSED))
     check("and changing either one moves the other",
           box.currentData() == vpm.AUDIO_UNUSED and value.get() is False,
@@ -109,8 +113,11 @@ def look(media):
     cell3, box3 = vpm.camera_audio_cell("Only.mov", used, why, quiet)
     vpm.audio_use_bind(box3, settled, why)
     check("the settled field shows the audio in use",
-          box3.currentData() == vpm.AUDIO_MATERIAL)
-    check("and cannot be changed", not box3.isEnabled())
+          box3.currentData() == vpm.AUDIO_MATERIAL,
+          "field on %r, wanted %r, settled with used=%r"
+          % (box3.currentData(), vpm.AUDIO_MATERIAL, used))
+    check("and cannot be changed", not box3.isEnabled(),
+          "open=%r beside the reason %r" % (box3.isEnabled(), why))
     # A closed field says by being closed that there is nothing to
     # answer, and a sentence beside it made the row too long to read.
     check("and nothing stands beside it any more",
@@ -118,7 +125,15 @@ def look(media):
                if w.text().strip()],
           repr([w.text() for w in cell3.findChildren(QtWidgets.QLabel)]))
     box3.setCurrentIndex(box3.findData(vpm.AUDIO_UNUSED))
-    check("and showing it stores nothing", settled.get() is False)
+    # And back again, or the check cannot fall. The settled field opens
+    # on "use the audio" while the value behind it is a no, so a move
+    # away from it would write that same no and nothing would show. Only
+    # the move back writes a yes, and that is the one to look for.
+    box3.setCurrentIndex(box3.findData(vpm.AUDIO_MATERIAL))
+    check("and showing it stores nothing", settled.get() is False,
+          "value %r after the field went %r -> %r -> %r"
+          % (settled.get(), vpm.AUDIO_MATERIAL, vpm.AUDIO_UNUSED,
+             box3.currentData()))
 
     #-------------------------------------------------------- the window
     QtWidgets.QFileDialog.getOpenFileName = staticmethod(
@@ -248,17 +263,30 @@ def look(media):
                         w.click()
             elif i == 1:
                 # Waiting for the fields, not for a number of seconds:
-                # the list is built out of a thread.
+                # the list is built out of a thread. On the row and not
+                # on the audio field: waiting for the field makes the
+                # next check a repetition of the wait, and one that
+                # cannot fall -- a window that never draws the field
+                # would sit here for the full thirty seconds and the
+                # check on it would never be reached. Both cells of a
+                # row are set in one call, so the row is there no
+                # earlier than the field would have been.
                 sheet = sheet_of(files_word)
-                there = all(audio_box(sheet, s) is not None
-                            for s in shorts)
+                named = list(rows_named(sheet))
+                have = [s for s in shorts
+                        if any(x.startswith(s) for x in named)]
+                there = len(have) == len(shorts)
                 if not there and waited[0] < 120:
                     waited[0] += 1
                     n[0] = 1
                     QtCore.QTimer.singleShot(250, step)
                     return
                 check("the project brought both cameras into the list",
-                      there)
+                      there, "%d of %d camera rows among %d, sheet %s, "
+                      "after %d rounds of 250 ms"
+                      % (len(have), len(shorts), len(named),
+                         "there" if sheet is not None else "missing",
+                         waited[0]))
                 if not there:
                     app.quit()
                     return
@@ -287,7 +315,10 @@ def look(media):
             elif i == 4:
                 box_now = audio_box(sheet_of(assign_word), shorts[0])
                 if box_now is None:
-                    check("the field is still there to take back", False)
+                    seen = sorted(rows_named(sheet_of(assign_word)))
+                    check("the field is still there to take back", False,
+                          "no field offering %s among %d rows: %s"
+                          % (list(vpm.AUDIO_USE), len(seen), seen[:4]))
                 else:
                     box_now.setCurrentIndex(
                         box_now.findData(vpm.AUDIO_UNUSED))
@@ -312,25 +343,38 @@ def look(media):
         """Nothing chosen: no sound, and the run cannot start."""
         boxes = [audio_box(sheet, s) for s in shorts]
         check("every video file carries the decision itself",
-              all(b is not None for b in boxes))
+              all(b is not None for b in boxes),
+              "%d of %d files carry it, missing %s"
+              % (len([b for b in boxes if b is not None]), len(shorts),
+                 [s for s, b in zip(shorts, boxes) if b is None]))
         check("and every one of them starts on 'do not use'",
               all(b.currentData() == vpm.AUDIO_UNUSED for b in boxes),
               str([b.currentData() for b in boxes]))
         check("two cameras leave a real choice, not a settled field",
-              all(b.isEnabled() for b in boxes))
+              all(b.isEnabled() for b in boxes),
+              "%d cameras, open: %s"
+              % (len(boxes), [b.isEnabled() for b in boxes]))
         check("so no track stands in the recordings table",
               not track_rows(sheet_of(assign_word)),
               str(list(track_rows(sheet_of(assign_word)))))
+        go = start_button()
         check("and the run cannot start",
-              start_button() is not None
-              and not start_button().isEnabled())
+              go is not None and not go.isEnabled(),
+              "Start button %s" % ("not on the window" if go is None
+                                   else "open=%r" % go.isEnabled()))
         said = start_reason() or ""
+        # Not cut short: the answer that would fix it stands at the end
+        # of the sentence, and [:90] took off exactly the words looked
+        # for here.
         check("with the reason under the button, saying what to do",
-              fixes_it in said, repr(said[:90]))
+              fixes_it in said, "looked for %r in %r" % (fixes_it, said))
 
     def chosen_look(sheet, there):
         """One camera chosen on the file sheet: what tab 2 shows."""
-        check("the choice reaches the sheet beside the player", there)
+        check("the choice reaches the sheet beside the player", there,
+              "the field for %s %s after %d rounds of 250 ms"
+              % (shorts[0], "is there" if there else "never came",
+                 waited[0]))
         if not there:
             return
         box_here = audio_box(sheet, shorts[0])
@@ -340,7 +384,10 @@ def look(media):
         other = audio_box(sheet, shorts[1])
         check("while the camera nobody chose stays on 'do not use'",
               other is not None
-              and other.currentData() == vpm.AUDIO_UNUSED)
+              and other.currentData() == vpm.AUDIO_UNUSED,
+              "%s on %r, wanted %r"
+              % (shorts[1], None if other is None else other.currentData(),
+                 vpm.AUDIO_UNUSED))
         rows = track_rows(sheet)
         mine = [said for said in rows if said.startswith(shorts[0])]
         check("the camera has become a row in the recordings table",
@@ -359,7 +406,9 @@ def look(media):
                                         ["Audio-Full-Mix"]),
               str(written(sheet, shorts[1])))
         check("and now there is sound, so the run can start",
-              start_button().isEnabled(), repr((start_reason() or "")[:90]))
+              start_button().isEnabled(),
+              "the reason still under the button: %r"
+              % (start_reason() or ""))
 
     def taken_back_look():
         """Taken back beside the player: the file sheet follows."""
@@ -371,16 +420,23 @@ def look(media):
         sheet = sheet_of(assign_word)
         check("and the track is out of the recordings table again",
               not track_rows(sheet), str(list(track_rows(sheet))))
+        lines = [w.text() for w in sheet.findChildren(QtWidgets.QLabel)
+                 if w.text().strip()]
         check("with a line in its place saying what would fill it",
-              any(fixes_it in w.text()
-                  for w in sheet.findChildren(QtWidgets.QLabel)))
+              any(fixes_it in t for t in lines),
+              "looked for %r among %d lines on the sheet"
+              % (fixes_it, len(lines)))
         # The way in matters, so both are asked: a window that opens
         # without sound refuses because the button was never enabled
         # there, which says nothing about taking the last sound away.
+        go = start_button()
         check("no sound left, so the run cannot start again",
-              not start_button().isEnabled())
+              go is not None and not go.isEnabled(),
+              "Start button %s" % ("not on the window" if go is None
+                                   else "open=%r" % go.isEnabled()))
+        again = start_reason() or ""
         check("and the reason is under the button once more",
-              fixes_it in (start_reason() or ""))
+              fixes_it in again, "looked for %r in %r" % (fixes_it, again))
 
     def let_go_of(what):
         """Make every player let go of what it has open in there.
@@ -498,60 +554,75 @@ b1, b2, b3 = (file("Wide_C003.mov"), file("Guest_C009.mov"),
               file("Host_C005.mov"))
 rows, cam_audio, own = vpm.assignment_rows([t1, t2], [b1, b2, b3])
 check("two audio recordings -> two rows", len(rows) == 2, str(len(rows)))
-check("no camera contributes unasked", own == {})
+check("no camera contributes unasked", own == {},
+        "%d cameras named: %s"
+        % (len(own), [os.path.basename(k) for k in own]))
 
 rows, cam_audio, own = vpm.assignment_rows([t1, t2], [b1, b2, b3],
                                            own_flag_cameras=[b1])
 check("with one camera chosen -> three rows", len(rows) == 3,
         str(len(rows)))
-check("it sits at the back", rows[-1][0] == [b1])
+last = [os.path.basename(x) for x in rows[-1][0]] if rows else []
+check("it sits at the back", bool(rows) and rows[-1][0] == [b1],
+        "last row %s of %d, wanted %s"
+        % (last, len(rows), [os.path.basename(b1)]))
 check("and is noted as coming out of that camera",
-        own == {os.path.abspath(b1): os.path.abspath(b1)})
+        own == {os.path.abspath(b1): os.path.abspath(b1)},
+        "%s, wanted {%r: %r}"
+        % ({os.path.basename(k): os.path.basename(v)
+            for k, v in own.items()},
+           os.path.basename(b1), os.path.basename(b1)))
 
 # Nothing can tell a radio microphone in the video track from a room
 # microphone, so the program does not guess a row per camera.
 rows, cam_audio, own = vpm.assignment_rows([], [b1, b2, b3])
 check("no recording and nothing chosen -> no rows at all",
         rows == [] and own == {}, str(rows))
-check("and the old automatic stays off", cam_audio is False)
+check("and the old automatic stays off", cam_audio is False,
+        "camera_audio = %r, wanted False" % (cam_audio,))
 
 rows, cam_audio, own = vpm.assignment_rows([], [b1], own_flag_cameras=[b1])
-check("one camera chosen -> one row", len(rows) == 1 and own)
+check("one camera chosen -> one row", len(rows) == 1 and own,
+        "%d rows and %d cameras noted, wanted 1 and at least 1"
+        % (len(rows), len(own)))
 rows, cam_audio, own = vpm.assignment_rows([], [])
-check("nothing at all -> nothing at all", rows == [] and cam_audio is False)
+check("nothing at all -> nothing at all", rows == [] and cam_audio is False,
+        "%d rows, camera_audio = %r, wanted 0 and False"
+        % (len(rows), cam_audio))
 
 print("\n2. Which camera a track is preselected to")
 TARGETS = ["Wide_C003.mov", "Guest_C009.mov", "Host_C005.mov",
            vpm.MIX_ONLY, vpm.IGNORE_AUDIO]
 VIDEOS = [b1, b2, b3]
-check("set by hand still applies",
-        vpm.preselected_camera("Host_C005.mov", TARGETS, "Guest", VIDEOS)
-        == "Host_C005.mov")
-check("ignore stays as well",
-        vpm.preselected_camera(vpm.IGNORE_AUDIO, TARGETS, "Guest", VIDEOS)
-        == vpm.IGNORE_AUDIO)
-check("camera gone -> guessed anew",
-        vpm.preselected_camera("Gone_C099.mov", TARGETS, "Guest", VIDEOS)
-        == "Guest_C009.mov")
-check("without an old choice, by the name",
-        vpm.preselected_camera(None, TARGETS, "Guest", VIDEOS)
-        == "Guest_C009.mov")
+g = vpm.preselected_camera
+got = g("Host_C005.mov", TARGETS, "Guest", VIDEOS)
+check("set by hand still applies", got == "Host_C005.mov",
+        "%r against %r" % (got, "Host_C005.mov"))
+got = g(vpm.IGNORE_AUDIO, TARGETS, "Guest", VIDEOS)
+check("ignore stays as well", got == vpm.IGNORE_AUDIO,
+        "%r against %r" % (got, vpm.IGNORE_AUDIO))
+got = g("Gone_C099.mov", TARGETS, "Guest", VIDEOS)
+check("camera gone -> guessed anew", got == "Guest_C009.mov",
+        "%r against %r" % (got, "Guest_C009.mov"))
+got = g(None, TARGETS, "Guest", VIDEOS)
+check("without an old choice, by the name", got == "Guest_C009.mov",
+        "%r against %r" % (got, "Guest_C009.mov"))
 # No camera carries this speaker's name, not even a similar one.
-check("no match -> mix only",
-        vpm.preselected_camera(None, TARGETS, "Visitor", VIDEOS)
-        == vpm.MIX_ONLY)
-check("empty name -> mix only",
-        vpm.preselected_camera(None, TARGETS, "", VIDEOS) == vpm.MIX_ONLY)
+got = g(None, TARGETS, "Visitor", VIDEOS)
+check("no match -> mix only", got == vpm.MIX_ONLY,
+        "%r against %r" % (got, vpm.MIX_ONLY))
+got = g(None, TARGETS, "", VIDEOS)
+check("empty name -> mix only", got == vpm.MIX_ONLY,
+        "%r against %r" % (got, vpm.MIX_ONLY))
 # The camera the audio came out of is where a row starts, but only until
 # somebody says otherwise: the microphone may belong to another person.
-check("own camera is the preselection",
-        vpm.preselected_camera(None, TARGETS, "Guest", VIDEOS,
-                           own_camera="Wide_C003.mov")
-        == "Wide_C003.mov")
-check("but a setting made by hand beats it",
-        vpm.preselected_camera("Host_C005.mov", TARGETS, "Guest", VIDEOS,
-                           own_camera="Wide_C003.mov")
-        == "Host_C005.mov")
+got = g(None, TARGETS, "Guest", VIDEOS, own_camera="Wide_C003.mov")
+check("own camera is the preselection", got == "Wide_C003.mov",
+        "%r against %r" % (got, "Wide_C003.mov"))
+got = g("Host_C005.mov", TARGETS, "Guest", VIDEOS,
+        own_camera="Wide_C003.mov")
+check("but a setting made by hand beats it", got == "Host_C005.mov",
+        "%r against %r" % (got, "Host_C005.mov"))
 
 print("\n3. What the new video file is called")
 f = vpm.camera_output_name
@@ -578,20 +649,22 @@ check("camera name without a separator -> appended at the back",
 check("empty production becomes 'Production'",
         f("", "Camera_C001.mov", []).startswith("Production_"),
         f("", "Camera_C001.mov", []))
-check("only spaces counts as empty",
-        f("   ", "Camera_C001.mov", []).startswith("Production_"))
+got = f("   ", "Camera_C001.mov", [])
+check("only spaces counts as empty", got.startswith("Production_"),
+        "%r, wanted a name beginning %r" % (got, "Production_"))
 check("empty speaker names drop out",
         f("I", "Camera_C001.mov", ["", "  ", "Anna"])
         == "I_Camera_Anna_C001",
         f("I", "Camera_C001.mov", ["", " ", "Anna"]))
-check("a whole path works too",
-        f("I", "/deep/in/folder/Camera_C001.mov", ["Anna"])
-        == "I_Camera_Anna_C001")
+got = f("I", "/deep/in/folder/Camera_C001.mov", ["Anna"])
+check("a whole path works too", got == "I_Camera_Anna_C001",
+        "%r against %r" % (got, "I_Camera_Anna_C001"))
 check("dots in the camera name separate too",
         f("I", "Camera.C001.mov", ["Anna"]) == "I_Camera_Anna_C001",
         f("I", "Camera.C001.mov", ["Anna"]))
-check("no crash without a speaker list",
-        isinstance(f("I", "Camera_C001.mov"), str))
+got = f("I", "Camera_C001.mov")
+check("no crash without a speaker list", isinstance(got, str),
+        "a %s came back: %r" % (type(got).__name__, got))
 
 print("\n4. What comes out in the same order as before")
 # Names in the shape they are delivered in, spaces and a number and all.
@@ -656,7 +729,11 @@ except subprocess.TimeoutExpired:
     out, _ = child.communicate()
     out = (out or "") + "\nFAIL: the window never came back"
 for line in (out or "").rstrip().split("\n"):
-    print(line[:160])
+    # Wide enough for a judgement's evidence to arrive whole. At 160 the
+    # sentence under the Start button was cut off two words before the
+    # words the check was looking for, which is the one thing the line
+    # was printed for.
+    print(line[:300])
     # The window's judgements are made in the other process, and its
     # count is carried up here: held to this test's floor, they are
     # covered too, and a window that stops judging brings the number
