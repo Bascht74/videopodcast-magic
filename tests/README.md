@@ -338,6 +338,7 @@ it is green.
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |
 | `cut_jingle_over_start` | Intro and outro: where they sit, and how far the content moves. |
 | `cut_list_rebuilt` | The cut list is built again unless the window really moved. |
+| `cut_no_wide_silences` | Without a wide shot the settings that steer it are silenced in the cut. |
 | `cut_offer_needs_two` | When a camera cut is offered, and what the box over it is called. |
 | `cut_one_camera_marks` | One camera for everybody: the cut still marks the speaker changes. |
 | `cut_opening_wide_holds` | The opening wide shot must not depend on how finely a source cuts. |
