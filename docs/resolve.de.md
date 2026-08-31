@@ -85,6 +85,26 @@ löscht den überzähligen Ton nach dem Einfügen und benennt die Tonspuren
 wie die Bildspuren. Eine Kamera, die nicht gelandet ist, legt es einzeln
 nach und meldet es, wenn auch das misslingt.
 
+### Eine Datei, die nirgends hinpasst
+
+In die Übergabedatei kommen nur die Kameras, die der Lauf auf der
+gemeinsamen Zeitachse unterbringen konnte. Hat der Ton eines Videos mit
+dem übrigen Material nichts gemeinsam, und ordnet auch kein Timecode es
+ein, dann lässt der Lauf es weg und sagt beim Schreiben, was er
+weggelassen hat und warum: Nichts platziert es, also ist es keine Kamera
+dieser Folge.
+
+Das Weglassen hat seinen Grund. Für eine solche Datei ist nichts
+aufbereitet worden, und sie trüge die Marke des Weitwinkels: Als Weitwinkel
+gilt, wem kein Sprecher zugeordnet ist, und einer Datei, die nirgends
+hinpasst, ist niemand zugeordnet. Übergeben stünde ein kurzer Jingle als
+Weitwinkel einer ganzen Folge.
+
+Eine Datei, die der Lauf bloß nicht vermessen konnte, ist ein anderer
+Fall. Sie wird übergeben, mit der Warnung, die es dazu immer schon gab.
+Wo sie liegt, sagt dann ihr eigener Timecode; hat sie keinen, landet sie
+am Anfang der Achse, und dann lohnt sich ein Blick, wo sie sitzt.
+
 ### Eine Kamera
 
 Bei einer Kamera entstehen weder Multicam-Timeline noch Multicam-Clip.
@@ -418,6 +438,11 @@ keine Sicherungskopie an.
 - **Eine Timeline aus einem früheren Lauf steht noch da, und die neue
   trägt einen Zusatz im Namen.** Resolve hat sie nicht gelöscht. Von Hand
   löschen und den Knopf noch einmal drücken.
+- **In Resolve fehlt eine Kamera.** Der Lauf konnte sie nicht
+  platzieren und hat sie aus der Übergabedatei herausgelassen; beim
+  Schreiben nennt er sie. Der Datei einen Timecode geben, der zu
+  den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
+  sie von Hand nach Resolve holen.
 - **Im Ausgabeordner liegt je Einstellung eine Datei statt einer
   Folge.** Resolve hat eine Datei je Ausgabe abgelehnt, und das
   Protokoll sagt es unter **Renderauftrag**. Die Ausgabe in Resolve am

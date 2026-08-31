@@ -81,6 +81,25 @@ script deletes the surplus audio after the insert and names the audio
 tracks like the video tracks. It inserts a camera that did not land
 separately, and reports it when even that fails.
 
+### A file that fits nowhere
+
+Only cameras the run could place on the common time axis go into the
+handover file. Where the sound of a video has nothing in common with the
+rest of the material and no timecode places it either, the run leaves it
+out, and while writing it names what it left out and why: nothing places
+it, so it is no camera of this episode.
+
+Leaving it out is the point. Nothing was rendered for such a file, and
+it would carry the mark of the wide shot: the wide shot is whoever
+has no speaker assigned, and nobody is assigned to a file that fits
+nowhere. Handed over, a short jingle would stand as the wide shot of a
+whole episode.
+
+A file the run could only not measure is another case. That one is
+handed over, with the warning that has always gone with it. Its place
+then comes from its own timecode; without one it lands at the start of
+the axis, and it is worth looking where it sits.
+
 ### One camera
 
 One camera gives no multicam timeline and no multicam clip. Resolve gets
@@ -399,6 +418,10 @@ backup copy.
 - **A timeline of an earlier run is still there, and the new one carries
   an addition in its name.** Resolve did not delete it. Delete it by
   hand and press the button again.
+- **A camera is missing in Resolve.** The run could not place it and
+  left it out of the handover file; it names it as it writes.
+  Give the file a timecode that fits the other recordings and run
+  again, or bring it into Resolve by hand.
 - **The output folder holds one file per shot instead of one episode.**
   Resolve refused one file per delivery, and the log says so under
   **Render job**. Set the delivery back to a single file at the render
