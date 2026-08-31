@@ -337,6 +337,8 @@ it is green.
 | `cut_player_offset_used` | #63: The player has to take the measured offset, not zero. |
 | `cut_player_prepared_used` | Which recording a camera is heard with in the preview. |
 | `cut_player_right_file` | #62: The player takes the file that holds the In point and the Out point. |
+| `cut_preview_is_the_run` | The preview shows the cut the run will really make. |
+| `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
 | `cut_wide_colour_apart` | Does the wide shot colour keep far enough from the speaker colours? |
@@ -382,8 +384,10 @@ it is green.
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
+| `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
+| `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_start_runs` | The start button must build a command line and start a run. |
@@ -417,8 +421,10 @@ it is green.
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
+| `run_switch_changes_it` | A switch that is taken changes the result, not only the parser. |
 | `run_switch_has_effect` | A switch that is taken and does nothing is worse than no switch. |
 | `run_threads_keep_order` | Doing several things at once: in order, complete, and honest about errors. |
+| `run_three_ways_agree` | Window, project file and command line come to the same cut. |
 | `run_which_script` | The log names the copy of the script that is running. |
 
 ### `text_` -- the texts: catalogue, manual, changelog
