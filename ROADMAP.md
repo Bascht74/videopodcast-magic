@@ -11,17 +11,17 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 2.23.0-beta.
+gone through for 2.24.0-beta.
 
 ## Where the program stands today
 
-**Version 2.23.0-beta.** It runs every week, on real material.
+**Version 2.24.0-beta.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
 cameras onto one time axis, tells the speakers apart from the sound
-alone, proposes a first cut by speaker, and writes a DaVinci Resolve
-project.
+alone, writes down what was said, proposes a first cut by speaker, and
+writes a DaVinci Resolve project.
 
 Every run goes the same way. `--multitrack` says how the recordings are
 grouped into productions and nothing else: the time axis, the place of
@@ -30,18 +30,27 @@ and without it. Several recordings with no camera among them are laid
 against each other instead -- equally long, one starting point -- rather
 than turned away.
 
-Separation and speech recognition run on the machine in front of you.
-The model sits in a folder beside the program: no account, no token,
-and after the one download no network. Levelling, de-bleed, noise
-removal and transcription at auphonic.com are optional, and the
+Separation, speech recognition and the transcript run on the machine in
+front of you. The model sits in a folder beside the program: no account,
+no token, and after the one download no network. Ordering the transcript
+from auphonic.com is gone, tick and switch with it, so the words no
+longer depend on a service being reachable or on a preset being chosen.
+Levelling, de-bleed and noise removal there are still optional, and the
 program uploads only when somebody asks it to.
+
+Where a fact is missing, the window says so instead of taking an answer
+that changes nothing. The settings that need the words, and those that
+need a wide shot, stand greyed with the reason under them, and they open
+again the moment the fact arrives.
 
 It is one Python file of about 35000 lines, with no package and no
 build step. Python 3.10 or newer has to be there, and the two packages
 it needs it installs itself. macOS and Windows are what it is used on,
-and Linux works with two limits. A suite of 148 tests runs at every
-push: six runs side by side, three systems and two versions of Python,
-and the slowest of them is done in under five minutes.
+and Linux works with two limits. A suite of 159 tests runs at every
+push: six runs side by side, three systems and two versions of Python.
+They are not equally fast, and Windows is almost always the slow one:
+over the last seven green runs the slowest of the six took between 263
+and 374 seconds. That longest job is the wait, not the sum of the six.
 
 **Why it is still beta.** The format of the project file may still
 change. An older file is refused with a clear message rather than half
@@ -51,46 +60,81 @@ the major number.
 
 ## What comes next
 
-Three items stand here, and each waits on a run rather than on work.
+Five items. The first three are work. The last two are built, and what
+they wait on is a run rather than more building.
 
-**The two ways to auphonic.com get run against the service.**
-Transcription of a single track, and a multitrack production carrying
-one stereo track, are both built and neither has been sent for real.
-Whether the service hands a stereo track back with both channels is
-open. Until it has run, the manual describes those two ways from the
-source instead of from a run.
+**The delivered cameras get cut down to the time window, as a choice
+beside handing them over whole.** Decided for 2.25.0. Measured on real
+material: three cameras came to 83.57 GB where the window was five
+minutes long, and to 6.09 GB when only the window went out -- 92.7 %
+less. The default stays as it is, because a whole production saves
+nothing this way. The trap is the timecode: it is read back off the
+rendered file, so cutting without moving it puts every camera in the
+wrong place.
+
+**The whole way gets tests, not the single functions along it.** Seven
+steps, and each of them on both paths: the program opens, files come
+in, In and Out are marked, the change to the third tab, the cut with a
+speaker recognition that is already there, the run itself, the import
+into Resolve. A survey counted 121 stations along that way -- 65
+covered, 56 not -- and nine of the gaps have been built since. It is
+one item and not fifty-six: whoever takes it on covers one of the seven
+steps whole, because fifty-six tests picked off by number check
+something each and no way at all.
+
+**Tests against a real DaVinci Resolve.** They cannot live in the
+suite: on a machine without Resolve every one of them would be red for
+a reason that is not a fault. They sit beside it, in a folder of their
+own with a starter the suite does not know, and they run one after
+another on the one machine that has Resolve. Four are built. The
+opening title belongs here -- the program puts it on the second video
+track and reads back how many clips landed there, and a stand-in cannot
+confirm that. So does the case no stand-in has ever shown: a Resolve
+that says no.
+
+**The two ways to auphonic.com get run against the service.** Both ask
+the same question -- does a stereo recording come back with both
+channels -- and they ask it in two entirely different ways. A single
+recording goes through the simple interface: the production is created
+without starting it, the output files are read back, the fold to mono
+is struck from each of them, and the whole thing is sent again, so two
+calls. Several recordings go through the full one, which puts the same
+wish into the single request. Neither has ever been sent for real, and
+one does not stand in for the other. Until they have run, the manual
+describes those two ways from the source instead of from a run.
 
 **The reaction cut is watched before it stays on.** It fires a few
 dozen times in an episode and it is on by default, and nobody has yet
-sat through every place it fires. Two cases it must not fire on are
-known: a rhetorical question, and the technical talk before the
-recording proper, where people look at equipment rather than at each
-other.
-
-**The opening title is checked in a real Resolve project.** The program
-puts it on the second video track and reads back how many clips landed
-there. A stand-in stands in for Resolve in the tests, so only a real
-project can confirm it.
+sat through every place it fires. Its seconds count from the end of the
+question now rather than from the start of the answer, so what is set is
+what is seen. Two cases it must not fire on are known: a rhetorical
+question, and the technical talk before the recording proper, where
+people look at equipment rather than at each other.
 
 ## What comes later
 
 Coarser, and in no fixed order.
 
 * **Defaults that carry evidence.** A few numbers come from a single
-  reference edit rather than from a measurement. `--wide-latest` is
-  the clearest case. Each of them gets measured or gets smaller.
+  reference edit rather than from a measurement. `--wide-latest` is the
+  clearest case: 120 seconds, with one edit behind it. Each of them
+  gets measured or gets smaller.
 
 * **The edges of the program get tests.** What the coverage is, a run
   says: coverage.py over `bash run.sh`, with `COVERAGE_PROCESS_START`
   set so the runs the tests start are counted too. On a green run it
   stands at about three quarters of the statements; it is read as a
   band, and never as a target. What no test enters: the run that takes
-  its sound from the cameras, the failure exits of `main()`, the file
-  the Auphonic key is written into, the preset preflight, a Resolve
-  that refuses, the dialogs behind the menu, and the way back after an
-  update that went wrong. And several switches are taken with nothing
-  checking what they do -- `--apart` is joined back together one step
-  later, and no test notices.
+  its sound from the cameras, the failure exits of `main()`, the one
+  place the Auphonic key touches the disk, the preset preflight, a
+  Resolve that refuses, and the way back after an update that went
+  wrong. And several switches are taken with nothing checking what they
+  do: `--tc`, `--fps`, `--wide-shot`, `--hdr-check`, `--version`.
+
+* **The comments in the program get the treatment the tests have had.**
+  27 % of the file is comment, and most of it was written before the
+  rules for writing one. In the tests it is done, and they came out a
+  third shorter.
 
 * **The manual gets what it still lacks.** About a dozen numbers still
   stand without their default and the direction they pull in. And a
@@ -137,10 +181,15 @@ been refused, it has only not come up yet.
   test holds the two sides against each other. A wiki would be a
   second version that nothing checks.
 
-* **A code of conduct, a contributing guide, issue and pull request
-  templates.** They raise a percentage on a GitHub profile page while
-  there is nobody writing. The templates arrive the day somebody
-  actually reports something.
+* **A code of conduct, and templates for issues.** They raise a
+  percentage on a GitHub profile page while there is nobody writing.
+  The issue template arrives the day somebody actually reports
+  something. **The contributing guide and the pull request template
+  stood on this list and have since been built** -- not for the
+  percentage: four rules here turn a change back however good the idea
+  is, and somebody who cannot ask has to be able to read them in ten
+  minutes. That is [CONTRIBUTING.md](CONTRIBUTING.md), and the form a
+  pull request opens with already asks for them.
 
 * **Conventional Commits.** Their purpose is a generated changelog and
   a generated version number. This changelog is written by hand and
@@ -149,7 +198,7 @@ been refused, it has only not come up yet.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** All four want
   a package with a `pyproject.toml`. Here they would be four new
-  dependencies for one file whose 148 tests run as plain scripts. A
+  dependencies for one file whose 159 tests run as plain scripts. A
   thin pytest layer that starts those same scripts unchanged is a
   different thing, and that one may come.
 
@@ -170,13 +219,13 @@ been refused, it has only not come up yet.
   having; the percentage is not.
 
 * **Splitting the test run over several machines, and triage bots.**
-  The six runs answer in under five minutes, and there is no queue of
-  reports. Both would answer a volume this project does not have.
-  Running a test a second time is a different matter, and that one is
-  built: a test that crashed gets another go, one that came back red
-  beside the others is run once more alone, and either way the run
-  calls it unsteady rather than counting it green. A test that flaps is
-  a fault to be found, not noise to be retried away.
+  The six runs answer in minutes, and there is no queue of reports.
+  Both would answer a volume this project does not have. Running a test
+  a second time is a different matter, and that one is built: a test
+  that crashed gets another go, one that came back red beside the
+  others is run once more alone, and either way the run calls it
+  unsteady rather than counting it green. A test that flaps is a fault
+  to be found, not noise to be retried away.
 
 * **Installers, signed packages, notarising, PyPI.** It is one file on
   purpose: fetch it and run it.
@@ -209,6 +258,9 @@ the project file. No report needs it.
 change that does one thing gets read and merged; a large one waits.
 MIT, and no contributor agreement to sign.
 
-**Before a patch:** run `cd tests && bash run.sh` and leave it green.
-The manual is bilingual and a test enforces it, so changing an English
-chapter means changing the German one in the same commit.
+**Before a patch, read [CONTRIBUTING.md](CONTRIBUTING.md).** It is ten
+minutes and it holds the rules that turn a change back however good the
+idea is: run `cd tests && bash run.sh` and leave it green, every check
+owes a proof that it can go red, and the manual is bilingual with a
+test enforcing it -- so changing an English chapter means changing the
+German one in the same commit.
