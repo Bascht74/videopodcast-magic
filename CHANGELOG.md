@@ -25,6 +25,182 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.24.0-beta] - 2026-08-31
+
+**English**
+
+### Added
+
+- The three tabs can be reached from the "View" menu and with Ctrl+1 to
+  Ctrl+3. Until now the only way to a tab was its own label, and a tab
+  that had not been built yet had none.
+
+### Changed
+
+- The preflight said there was room when the numbers only just fitted,
+  and it looked at the output folder alone. It wants a margin over its
+  own estimate now, and counts the system temp folder too -- on one
+  disk that space is used twice.
+- The two settings that belong to a question stood at opposite ends of
+  the tab, in words that did not meet. "Answer on screen earlier" now
+  stands directly above "After a question", and its seconds say what
+  they are counted from.
+- Asking auphonic.com to write down the speech is gone: the tick
+  "Fetch transcript" and the switch "--transcript" with it. The
+  transcript is made here, as it already was on every run without a
+  preset, and it no longer depends on the service.
+- Four settings are greyed while no transcript is known, with the
+  reason under them: both of the question, and "Wide shot after" and
+  "Wide shot at most", which place themselves on a sentence boundary.
+  Measured: without one, "after 40" gives what "after 90" gives.
+- "Wide shot holds" is called "Wide shot at least" now, so it and "at
+  most" read as the pair they are, and the four wide shot settings
+  stand in the order they take effect.
+- "Wide shot after" and "Wide shot at the latest" said much the same
+  thing. The first is the soft limit -- from there a sentence boundary
+  is looked for -- and the second the hard one, where the cut happens
+  without one. Both lines now say which is which.
+
+### Fixed
+
+- "Rebuild cut list" read the stored call only in part and fell back
+  to the defaults for the rest: the camera marked as the wide shot,
+  "Reaction gap", "Reaction hold" and the file saying which voice was
+  heard on which camera all fell out, so every separately heard voice
+  landed on one camera. The button keeps them now.
+- The colour comparison counted a file the run could not place as a
+  camera. An 18-second jingle raised a caution about 357 steps of
+  brightness against three cameras it is never cut against. Only the
+  cameras of the episode are compared now.
+- The preview shows no reaction cut until a run has written a
+  transcript, and it did not say so. The two settings of the question
+  stood there taking answers that changed nothing. They are greyed with
+  the reason under them now.
+- The lead of the reaction cut counted from the start of the answer, so
+  the pause between question and answer swallowed it. Zero is the end
+  of the question now: five seconds means five seconds before the asker
+  stops.
+- "Save project" opened the folder chooser without a word, and the
+  sentence saying why came only for whoever cancelled. The sentence
+  comes first now.
+- A jingle became the wide shot of the episode: an 18-second clip took
+  42 shots and 5:15 of an hour. A file nothing can place is proposed as
+  "Intro" now, and "Content" and "Wide shot" are barred for it --
+  whoever set them, and wherever they came from.
+- The camera a speaker is filmed by stopped following the name: the
+  window wrote its own first guess into the project as though somebody
+  had chosen it. Only an answer that differs from the suggestion is
+  written down now, and the suggestion is worked out at every rebuild.
+- "--apart" and the "Remove" button separated a block and got it back
+  joined one step later, because two blocks of one recorder are given
+  the same name. A block taken out stays out of the plan now.
+- The handover to Resolve named a camera the run had refused, with an
+  empty file name and the mark of the wide shot on it. Such a file is
+  left out of the handover now, and the run says which one and why.
+- The Timecode column showed "no timecode" for times the program had
+  just worked out: the times were stored under one spelling of the path
+  and looked up under another. Both go through one shape now.
+- A recording reached under two spellings of its path had its sound
+  curve measured twice, which cost 2.88 MB an hour and a second pass
+  over the file. It is measured once now.
+
+### Tests
+
+- A test whose checking part died quietly printed nothing and stayed
+  green. The number of judgements is now read out of every test and
+  held against a floor, so a test that stops judging turns red even
+  when every judgement left in it passed.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Die drei Reiter lassen sich über das Menü „Ansicht" und mit Strg+1
+  bis Strg+3 erreichen. Bisher führte zu einem Reiter nur sein eigener
+  Kopf, und ein Reiter, den es noch nicht gab, hatte keinen.
+
+### Geändert
+
+- Die Vorabprüfung sagte „genug Platz", wenn die Zahlen gerade eben
+  aufgingen, und sah nur in den Ausgabeordner. Sie will jetzt einen
+  Abstand über ihre Schätzung hinaus und zählt den Temp-Ordner mit --
+  auf einer Platte wird dieser Platz zweimal gebraucht.
+- Die zwei Einstellungen, die zu einer Frage gehören, standen an
+  entgegengesetzten Enden des Reiters, in Wörtern, die sich nicht
+  trafen. „Antwort früher im Bild" steht jetzt direkt über „Nach einer
+  Frage", und die Sekunden sagen, wovon sie zählen.
+- Die Niederschrift bei auphonic.com zu bestellen ist weggefallen, mit
+  ihr der Haken „Transkription holen" und der Schalter „--transcript".
+  Die Niederschrift entsteht hier, wie schon bisher bei jedem Lauf ohne
+  Voreinstellung, und hängt an keinem Dienst mehr.
+- Vier Einstellungen sind gesperrt, solange keine Niederschrift
+  bekannt ist, mit dem Grund darunter: die beiden der Frage sowie
+  „Weitwinkel nach" und „Weitwinkel höchstens", die sich auf
+  Satzgrenzen setzen. Gemessen: ohne sie gibt „nach 40" dasselbe wie
+  „nach 90".
+- „Weitwinkel steht" heißt jetzt „Weitwinkel mindestens", damit es mit
+  „höchstens" das Paar bildet, das es ist; die vier Weitwinkelfelder
+  stehen in der Reihenfolge, in der sie greifen.
+- „Weitwinkel nach" und „Weitwinkel spätestens" sagten fast dasselbe.
+  Das erste ist die weiche Grenze -- ab dort wird eine Satzgrenze
+  gesucht -- das zweite die harte, wo ohne eine geschnitten wird. Beide
+  Zeilen sagen das jetzt.
+
+### Behoben
+
+- „Schnittliste neu bauen" las den gespeicherten Aufruf nur zur Hälfte
+  und nahm für den Rest die Vorgabewerte: die als Weitwinkel markierte
+  Kamera, „Reaktionsabstand", „Reaktionshaltezeit" und die Datei, die
+  sagt, welche Stimme auf welcher Kamera zu sehen ist, fielen heraus --
+  jede einzeln gehörte Stimme landete dann auf einer Kamera. Der Knopf
+  behält sie jetzt.
+- Der Farbvergleich zählte eine Datei mit, die der Lauf nicht platzieren
+  konnte. Ein 18-Sekunden-Jingle warnte so vor 357 Helligkeitsstufen
+  Unterschied zu drei Kameras, gegen die er nie geschnitten wird.
+  Verglichen werden jetzt nur die Kameras der Folge.
+- Die Vorschau zeigt keinen Reaktionsschnitt, solange kein Lauf eine
+  Niederschrift geschrieben hat, und sagte es nicht. Die zwei
+  Einstellungen der Frage nahmen Antworten entgegen, die nichts
+  bewirkten. Sie sind jetzt gesperrt, mit dem Grund darunter.
+- Der Vorlauf des Reaktionsschnitts zählte ab dem Beginn der Antwort,
+  und die Pause zwischen Frage und Antwort verschluckte ihn. Null ist
+  jetzt das Ende der Frage: fünf Sekunden heißt fünf Sekunden, bevor
+  der Fragende aufhört.
+- „Projekt speichern" öffnete die Ordnerauswahl wortlos, und der Satz,
+  warum sie kommt, erschien nur für den, der abbrach. Der Satz kommt
+  jetzt zuerst.
+- Ein Jingle wurde zum Weitwinkel der Folge: ein 18-Sekunden-Clip bekam
+  42 Einstellungen und 5:15 einer Stunde. Eine Datei, die nichts
+  platzieren kann, wird jetzt als „Vorspann" vorgeschlagen, und
+  „Inhalt" und „Weitwinkel" sind für sie gesperrt.
+- Die Kamera eines Sprechers folgte dem Namen nicht mehr: das Fenster
+  schrieb seine eigene erste Vermutung ins Projekt, als hätte jemand
+  sie gewählt. Aufgeschrieben wird jetzt nur, was vom Vorschlag
+  abweicht, und der Vorschlag wird bei jedem Neuaufbau neu gerechnet.
+- „--apart" und der Knopf „Entfernen" trennten einen Block und bekamen
+  ihn einen Schritt später wieder zusammengefügt, weil zwei Blöcke
+  desselben Aufnahmegeräts denselben Namen erraten. Ein herausgenommener
+  Block bleibt jetzt auch im Plan draußen.
+- Die Übergabe an Resolve nannte eine Kamera, die der Lauf
+  zurückgewiesen hatte -- ohne Datei und mit der Marke des Weitwinkels.
+  Eine solche Datei bleibt jetzt aus der Übergabe heraus, und der Lauf
+  sagt, welche und warum.
+- Die Timecode-Spalte zeigte „kein Timecode" für Zeiten, die das
+  Programm gerade selbst ausgerechnet hatte: die Zeiten lagen unter der
+  einen Schreibweise des Pfades und wurden unter einer anderen gesucht.
+  Beide gehen jetzt durch dieselbe Form.
+- Eine Aufnahme, die unter zwei Schreibweisen ihres Pfades erreicht
+  wurde, bekam ihre Klangkurve zweimal vermessen -- 2,88 MB je Stunde
+  und ein zweiter Gang über die Datei. Sie wird jetzt einmal vermessen.
+
+### Tests
+
+- Ein Test, dessen prüfender Teil still starb, druckte nichts und blieb
+  grün. Die Zahl der Urteile wird jetzt aus jedem Test gelesen und
+  gegen eine Untergrenze gehalten -- ein Test, der aufhört zu urteilen,
+  wird rot, auch wenn jedes verbliebene Urteil zutrifft.
+
+
 ## [2.23.0-beta] - 2026-08-30
 
 **English**
