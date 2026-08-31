@@ -64,7 +64,22 @@ RUN_CACHE="${TMPDIR:-/tmp}/vpm_cache_resolve_$(id -u)_$$"
 mkdir -p "$RUN_CACHE"
 export VPM_CACHE="$RUN_CACHE"
 export TMPDIR="$RUN_TEMP"
+# Set before the trap below uses them. RESOLVE_OK stays 0 until the
+# interface has answered, and the tidying up is skipped while it is 0:
+# where there is no Resolve nothing may be deleted, and that path ends in
+# a readable line of its own further down.
+RESOLVE_OK=0
+OPEN_BEFORE=""
+tidy_up_resolve() {
+  [ "$RESOLVE_OK" = 1 ] || return 0
+  echo
+  "$PY" "$WHERE/sweep.py" --sweep --restore "$OPEN_BEFORE"
+}
 clean_up() {
+  # Resolve first, the disc afterwards: this runs on every way out --
+  # the tests passed, one was red, one threw, somebody pressed Ctrl-C --
+  # and what it puts back is the project that was open at the start.
+  tidy_up_resolve
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
   else
@@ -124,9 +139,19 @@ then
   exit 2
 fi
 
+# From here on there is a Resolve to talk to, so the tidying up may run.
+RESOLVE_OK=1
+OPEN_BEFORE=$("$PY" "$WHERE/sweep.py" --which 2> /dev/null)
+
 echo
 echo "Somebody's project will be closed and opened again while these run."
-echo "Each test makes one of its own and deletes it afterwards."
+echo "Each test makes one of its own and deletes it afterwards, and"
+echo "whatever a killed run left behind is cleared away here and at the"
+echo "end. Only names of the tests' own shape, never a project somebody"
+echo "named. Open at the start, and open again at the end: ${OPEN_BEFORE:-none (what was open is one the tests made -- an earlier run was killed)}"
+# Here and not only at the end: a project a killed run left behind can be
+# found nowhere else. Same narrow pattern, and the same putting back.
+"$PY" "$WHERE/sweep.py" --sweep --restore "$OPEN_BEFORE"
 
 TESTS=$(cd "$WHERE" && ls *_test.py 2>/dev/null | sed 's/_test\.py$//' | sort)
 [ $# -gt 0 ] && TESTS="$*"

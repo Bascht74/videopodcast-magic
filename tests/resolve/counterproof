@@ -66,3 +66,23 @@ project_clips_land_right	2026-08-31	each shot comes from the camera the cut list
 project_clips_land_right	2026-08-31	the cut's video track says what is on it	build_cut_timeline does not call SetTrackName on V1	the cut's video track says what is on it                   FAIL V1 is called 'Video 1', expected 'Camera cut'
 project_clips_land_right	2026-08-31	the project the test made is gone again	resolve_ground.OwnProject.close does not call pm.DeleteProject	the project the test made is gone again                    FAIL 'vpm-test-clips-69553-753c' is still in the project list
 project_clips_land_right	2026-08-31	the run reached the end without an exception	import_media hands back an empty assignment	the run reached the end without an exception               FAIL KeyError: '/tmp/vpm-fixtures-501/interview/Kandidat_08141858_C009.mov'
+#
+# project_run_puts_back is in here as `open` rows and not as entries:
+# every check in it was seen green on 31.8.2026, but the counter-proofs
+# were not run. Resolve wedged while the sweep was being measured (a
+# CloseProject with nothing after it left the project manager without a
+# database; see the report and /private/tmp/resolve_fps/befund.md), and
+# every counter-proof needs a Resolve that answers. They are owed.
+open	project_run_puts_back	a project was open when the run started
+open	project_run_puts_back	the decoy is in the project list to begin with
+open	project_run_puts_back	and the decoy does not have the shape the sweep deletes
+open	project_run_puts_back	the killed run got as far as making its project
+open	project_run_puts_back	a run that was killed leaves its project behind
+open	project_run_puts_back	and it leaves that project open in front of somebody
+open	project_run_puts_back	the sweep deletes what the killed run left behind
+open	project_run_puts_back	and it says by name which project it deleted
+open	project_run_puts_back	a project that only looks like the tests' own is left alone
+open	project_run_puts_back	the project that was open at the start is open again
+open	project_run_puts_back	and the sweep says by name which project it opened
+open	project_run_puts_back	everything the test made is gone again
+open	project_run_puts_back	the run reached the end without an exception
