@@ -587,7 +587,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.23.0-beta"
+VERSION = "2.24.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -985,30 +985,48 @@ CUT_FIELDS = (
     ("edit-change-delay", "Edit Change Delay", "0.3", "s",
      'the picture changes this much later than the sound',
      'A negative value makes the picture lead the sound.'),
-    ("reaction-lead", 'Reaction cut earlier', "1.5", "s",
-     'after a question the answer is on screen this much earlier',
-     ('Applies only where "Question" asks for it. The point comes from '
-      'the sound, and the Edit Change Delay is not added again.')),
+    ("reaction-lead", 'Answer on screen earlier', "1.5", "s",
+     'before the question ends',
+     ('Zero is where the asker stops, not where the answer starts: the '
+      'pause between them belongs to the question. Applies only where '
+      '"After a question" asks for it, and the Edit Change Delay is '
+      'not added again.')),
     ("wide-after", 'Wide shot after', "70", "s",
-     'from this hold time on, a look at the wide shot',
-     'Placed on a sentence boundary, not by the clock. 0 turns it off.'),
-    ("wide-length", 'Wide shot holds', "5", "s",
-     'the inserted wide shot stands at least this long',
+     'from here on a good moment for it is looked for',
+     ('The soft limit of the pair: from here the program waits for a '
+      'sentence boundary and puts the wide shot there, not on the '
+      'clock. 0 turns it off. "Wide shot at the latest" is the hard '
+      'limit, where it cuts without one.')),
+    ("wide-latest", 'Wide shot at the latest', "120", "s",
+     'and here it is cut, good moment or not',
+     ('The hard limit of the pair: where no sentence boundary has '
+      'turned up since "Wide shot after", the longest speech pause '
+      'stands in for one, and at this point the cut happens whatever '
+      'is being said.')),
+    ("wide-length", 'Wide shot at least', "5", "s",
+     'so long the inserted wide shot stands at least',
      ('It then runs to the end of the sentence. Below five seconds the '
       'look reads as a twitch.')),
     ("wide-most", 'Wide shot at most', "15", "s",
      'and at most this long',
      ('Where the end of the sentence lies beyond it, the last clause '
       'break before it ends the shot -- it is not cut off mid-sentence.')),
-    ("wide-latest", 'Wide shot at the latest', "120", "s",
-     'a camera may hold this long at most',
-     'If no sentence boundary is found, the cut happens anyway.'),
 )
 
 # The four cases where the speech does not say whom to show, and what
 # is shown instead. Per entry: switch, label, default, the values it
 # takes, short explanation beside it, longer one in the tooltip.
 CUT_CHOICES = (
+    # First, and directly under "Answer on screen earlier": the two
+    # belong to one question and used to stand at opposite ends of the
+    # tab, in words that did not meet.
+    ("on-question", 'After a question', SHOT_ANSWER,
+     (SHOT_OFF, SHOT_ANSWER, SHOT_LISTENER),
+     'the picture goes to the answer before it starts',
+     ('Only after a question that is not the main speaker\'s, when '
+      'somebody else takes over at once and keeps the floor.\n"do not '
+      'go early" means no early camera change: the picture follows '
+      'the sound here as it does everywhere else.')),
     ("on-monologue", 'Long monologue', SHOT_ALTERNATE,
      (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
      'one person holds the floor past "Wide shot after"',
@@ -1025,13 +1043,6 @@ CUT_CHOICES = (
      'the speaker recognition frays or leaves a heap behind',
      ('Guessing puts the wrong person on screen for seconds; the wide '
       'shot is right in every case.')),
-    ("on-question", 'Question', SHOT_ANSWER,
-     (SHOT_OFF, SHOT_ANSWER, SHOT_LISTENER),
-     'the picture goes to the answer before it starts',
-     ('Only after a question that is not the main speaker\'s, when '
-      'somebody else takes over at once and keeps the floor.\n"do not '
-      'go early" means no early camera change: the picture follows '
-      'the sound here as it does everywhere else.')),
 )
 
 
@@ -2997,7 +3008,7 @@ def master_output_format(key, stereo=False):
 
 
 def build_multitrack_request(preset, title, names, base_name, key=None,
-                             transcript=False, language="", stereo=False):
+                             stereo=False):
     """Build the production request from the preset that was read.
 
     The preset cannot simply be sent along: Auphonic then merges its
@@ -3175,8 +3186,7 @@ def update_all_tracks(key, uuid, wanted, existing):
 
 
 def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
-                        wait_s=7200, dry_run=False, carry_on=None,
-                        transcript=False, language=""):
+                        wait_s=7200, dry_run=False, carry_on=None):
     """Create a multitrack production, upload, wait, fetch the tracks.
 
     Returns {speaker name: path of the processed file}.
@@ -3983,16 +3993,18 @@ def microphones_report(rows):
 
 
 def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
-                  over=10.0, tally=None):
+                  over=10.0, tally=None, ends=None):
     """Return {when the answer begins: who answers} for every question.
 
-    After a question the picture belongs to whoever answers. It fires
-    only where the asker is not the main speaker, somebody else starts
-    within *gap* seconds and holds *holds* of the next *over* seconds,
-    and not where both sit on the same camera. Each of those can turn
-    every question away, so *tally* says how many were let go and why.
+    *ends* takes {answer begins: question ended} -- not one moment, and
+    the lead counts from the second. After a question the picture
+    belongs to whoever answers: only where the asker is not the main
+    speaker, somebody else starts within *gap* seconds and holds
+    *holds* of the next *over*, and not where both sit on one camera.
+    Each can turn a question away, so *tally* says how many and why.
     """
     out = {}
+    stopped = {} if ends is None else ends
     counted = {} if tally is None else tally
     for key in ("questions", "used", "no_asker", "asked_by_main",
                 "no_answer", "did_not_hold", "same_camera"):
@@ -5028,6 +5040,14 @@ def marked_wide_shots(args):
 # fields: everything in the cut box that says what the wide shot does.
 WIDE_FIELDS = ("wide-after", "wide-length", "wide-most", "wide-latest")
 WIDE_CHOICES = ("on-monologue", "on-together", "on-uncertain")
+# The two that belong to a question. They need the words: without a
+# transcript no question is found, and then they change nothing.
+QUESTION_SETTINGS = ("reaction-lead", "on-question")
+# And two of the wide shot's: both place themselves on a sentence
+# boundary, which only a transcript knows. Measured over 200 s of
+# monologue -- without words "after 40" gives what "after 90" gives,
+# and "at most 15" what "at most 40" gives (measurements.md).
+WIDE_NEEDS_WORDS = ("wide-after", "wide-most")
 
 
 def wide_note_build(label_of_text, quiet):
@@ -33039,9 +33059,8 @@ CATALOGUE["de"] = {
         'Projekt speichern',
     'Close project':
         'Projekt schließen',
-    'The project file goes into the output folder, and none is chosen yet.':
-        'Die Projektdatei kommt in den Ausgabeordner, und der ist noch '
-        'nicht gewählt.',
+    'The project file goes into the output folder, and none is chosen yet. Please choose one.':
+        'Die Projektdatei kommt in den Ausgabeordner, und der ist noch nicht gewählt. Bitte einen wählen.',
     'Written:\n\n  %s':
         'Geschrieben:\n\n  %s',
     'Nothing was written -- there is no material yet.':
@@ -34468,8 +34487,6 @@ CATALOGUE["de"] = {
         'YouTube -- regelt nur herunter, nie herauf',
     'a box no longer fits into its parent':
         'eine Box passt nicht mehr in ihre Mutter',
-    'a camera may hold this long at most':
-        'so lange darf eine Kamera höchstens stehen',
     'after the device change':
         'nach dem Gerätewechsel',
     'auphonic.com does not accept the key: %s':
@@ -34679,7 +34696,7 @@ CATALOGUE["de"] = {
     'the old moov is back in place':
         'das alte moov steht wieder',
     'the picture changes this much later than the sound':
-        'so viel später als der Ton wechselt das Bild',
+        'später als der Ton wechselt das Bild',
     'the preset masters to %.0f LUFS, the calculation uses %.0f.':
         'das Preset mastert auf %.0f LUFS, gerechnet wird mit %.0f.',
     'the preset masters to %.0f LUFS -- that stands, nothing of ours '
@@ -35061,6 +35078,20 @@ CATALOGUE["de"] = {
         'Profil',
     'Project':
         'Projekt',
+    'from here on a good moment for it is looked for':
+        'ab hier wird ein guter Moment dafür gesucht',
+    'The soft limit of the pair: from here the program waits for a sentence boundary and puts the wide shot there, not on the clock. 0 turns it off. "Wide shot at the latest" is the hard limit, where it cuts without one.':
+        'Die weiche Grenze der beiden: ab hier wartet das Programm auf eine Satzgrenze und setzt den Weitwinkel dorthin, nicht nach der Uhr. 0 schaltet es ab. „Weitwinkel spätestens“ ist die harte Grenze, dort wird ohne eine geschnitten.',
+    'and here it is cut, good moment or not':
+        'und hier wird geschnitten, guter Moment oder nicht',
+    'The hard limit of the pair: where no sentence boundary has turned up since "Wide shot after", the longest speech pause stands in for one, and at this point the cut happens whatever is being said.':
+        'Die harte Grenze der beiden: ist seit „Weitwinkel nach“ keine Satzgrenze gekommen, tritt die längste Sprechpause an ihre Stelle, und hier wird geschnitten, gleich was gerade gesagt wird.',
+    'No transcript yet. Without one no question is found and no sentence boundary is known, so these four settings do nothing. A run writes it, and from then on they work.':
+        'Noch keine Niederschrift. Ohne sie wird keine Frage gefunden und keine Satzgrenze, also bewirken diese vier Einstellungen nichts. Ein Lauf schreibt sie, und von da an wirken sie.',
+    'Why the question settings are grey':
+        'Warum die Einstellungen zur Frage grau sind',
+    'After a question':
+        'Nach einer Frage',
     'Question':
         'Frage',
     'Remove':
@@ -35342,18 +35373,10 @@ CATALOGUE["de"] = {
         'Halb so viel zeigen, um die aktuelle Stelle herum (Plus-Taste oder Mausrad über dem Band)',
     'The whole length again (0 key)':
         'Wieder die ganze Länge (Taste 0)',
-    'Fetch transcript':
-        'Transkription holen',
-    'auphonic.com writes down what is said and delivers three files:\n  a json with times, an srt for subtitles, a txt to read.\nIts own Whisper is used, so no account anywhere else.\nNo extra fee, but the production takes longer.':
-        'auphonic.com schreibt mit, was gesprochen wird, und liefert drei Dateien:\n  ein json mit Zeiten, ein srt für Untertitel, ein txt zum Lesen.\nVerwendet wird das eigene Whisper, also kein Konto anderswo.\nKeine Zusatzkosten, aber die Produktion dauert länger.',
-    '  Transcript requested (speech recognition at auphonic.com)':
-        '  Transkription angefordert (Spracherkennung bei auphonic.com)',
     '  Also fetched: %s':
         '  Ebenfalls geholt: %s',
     'Auphonic will not take the settings: %s':
         'Auphonic nimmt die Einstellungen nicht an: %s',
-    "have auphonic.com transcribe the speech and fetch the result: a json with times, an srt for subtitles and a txt to read. Uses Auphonic's own Whisper, so no account anywhere else. Costs no extra fee but makes the production take longer.":
-        'auphonic.com die Sprache transkribieren lassen und das Ergebnis holen: ein json mit Zeiten, ein srt für Untertitel und ein txt zum Lesen. Verwendet Auphonics eigenes Whisper, also kein Konto anderswo. Keine Zusatzkosten, aber die Produktion dauert länger.',
     '      %d channels':
         '      %d Kanäle',
     'measurement running ...':
@@ -35460,22 +35483,21 @@ CATALOGUE["de"] = {
         'Ein kurzes „ja“ bewegt das Bild nicht. Ohne das zieht ein Block '
         'von einer halben Sekunde die Kamera herüber, und die '
         'Mindestschnittdauer hält sie dann Sekunden lang dort.',
-    'Reaction cut earlier':
-        'Reaktionsschnitt früher',
-    'after a question the answer is on screen this much earlier':
-        'nach einer Frage ist die Antwort so viel früher im Bild',
-    'Applies only where "Question" asks for it. The point comes from '
-    'the sound, and the Edit Change Delay is not added again.':
-        'Gilt nur, wo „Frage“ es verlangt. Der Punkt kommt aus dem Ton, '
-        'und die Bildverzögerung kommt nicht noch einmal dazu.',
-    'from this hold time on, a look at the wide shot':
-        'ab dieser Standzeit ein Blick in den Weitwinkel',
-    'Placed on a sentence boundary, not by the clock. 0 turns it off.':
-        'Auf eine Satzgrenze gelegt, nicht nach der Uhr. 0 schaltet es '
-        'ab.',
-    'Wide shot holds':
-        'Weitwinkel steht',
-    'the inserted wide shot stands at least this long':
+    'Answer on screen earlier':
+        'Antwort früher im Bild',
+    'before the question ends':
+        'vor dem Ende der Frage',
+    'Zero is where the asker stops, not where the answer starts: the '
+    'pause between them belongs to the question. Applies only where '
+    '"After a question" asks for it, and the Edit Change Delay is '
+    'not added again.':
+        'Der Nullpunkt liegt dort, wo der Fragende aufhört, nicht dort, '
+        'wo die Antwort anfängt: die Pause dazwischen gehört zur '
+        'Frage. Gilt nur, wo „Nach einer Frage“ es verlangt, und die '
+        'Bildverzögerung kommt nicht noch einmal dazu.',
+    'Wide shot at least':
+        'Weitwinkel mindestens',
+    'so long the inserted wide shot stands at least':
         'so lange steht der eingeschobene Weitwinkel mindestens',
     'It then runs to the end of the sentence. Below five seconds the '
     'look reads as a twitch.':
@@ -35488,8 +35510,6 @@ CATALOGUE["de"] = {
         'Liegt das Satzende darüber, beendet die letzte Teilsatzgrenze '
         'davor die Einstellung -- mitten im Satz wird nicht '
         'abgeschnitten.',
-    'If no sentence boundary is found, the cut happens anyway.':
-        'Wird keine Satzgrenze gefunden, wird trotzdem geschnitten.',
     'Long monologue':
         'Langer Monolog',
     'one person holds the floor past "Wide shot after"':
