@@ -1,17 +1,19 @@
 # -*- coding: utf-8 -*-
-"""A video nothing can place is refused, not laid down at a guess.
+"""A file nothing can place is refused, not laid down at a guess.
 
 Without the refusal the numbers of a failed alignment are handed back
-and used. The rule holds only where there is no usable timecode: a
-camera with a clock is placed by it, and refusing that for an
-uncorrelated sound throws away a known file. Three cases: no timecode
-and a foreign sound, a timecode and the same sound, one that fits.
+and used. The rule holds only where there is no usable timecode: a file
+with a clock is placed by it, and refusing that for an uncorrelated
+sound throws away a file known to the millisecond. In order: what the
+alignment admits, the rule itself, camera against camera, a whole run,
+what the window offers, and last the same question on the recording
+side, where another caller has to read the same verdict.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, subprocess, sys, time, wave
+import glob, importlib.util, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -20,6 +22,9 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+# The sentences the run prints are held against the ones this process
+# asks the program for, so both sides have to speak the same language.
+vpm.set_language("en")
 
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
@@ -104,16 +109,30 @@ write(D + "/plain.wav", whole)
 # it, so the two differ in their timecode and in nothing else.
 write(D + "/foreign.wav",
       np.random.default_rng(2).normal(0, 0.2, int(CAM_LEN * RATE)))
+# And a recording of its own that fits nowhere -- steady noise again,
+# but not the sound any camera carries, so no run can place it by
+# accident. It goes in twice: as it stands, and with a clock in it.
+write(D + "/Stray.wav",
+      np.random.default_rng(5).normal(0, 0.2, int(CAM_LEN * RATE)))
+# The recording that does fit and has no clock at all: what the good
+# camera heard, copied rather than converted, because wave writes no
+# bext chunk and a copy costs no process.
+shutil.copy(D + "/plain.wav", D + "/Fits.wav")
 
 # Two ffmpeg calls for everything: a process start is what the Windows
-# builder charges for. The first gives the recording its timecode --
-# wave cannot write a bext chunk. The second writes all three cameras,
-# colour bars at ultrafast, since no frame is ever decoded.
+# builder charges for. The first gives the two recordings that need one
+# their timecode -- wave cannot write a bext chunk. The second writes
+# all three cameras, colour bars at ultrafast, since no frame is ever
+# decoded.
+CLOCK_IN_IT = ["-write_bext", "1", "-metadata",
+               "time_reference=%d"
+               % int(vpm.parse_timecode(REC_TC, 25.0) * RATE),
+               "-c:a", "pcm_s16le"]
 subprocess.run(
     ["ffmpeg", "-v", "error", "-y", "-i", D + "/plain.wav",
-     "-write_bext", "1", "-metadata",
-     "time_reference=%d" % int(vpm.parse_timecode(REC_TC, 25.0) * RATE),
-     "-c:a", "pcm_s16le", D + "/Rec.wav"], check=True)
+     "-i", D + "/Stray.wav", "-map", "0:a"] + CLOCK_IN_IT
+    + [D + "/Rec.wav", "-map", "1:a"] + CLOCK_IN_IT
+    + [D + "/Timed.wav"], check=True)
 PICTURE = ["-c:v", "libx264", "-preset", "ultrafast", "-pix_fmt", "yuv420p",
            "-c:a", "pcm_s16le"]
 subprocess.run(
@@ -133,6 +152,14 @@ subprocess.run(
        "-timecode", CAM_TC] + PICTURE + [D + "/Clock.mov"], check=True)
 
 REC = D + "/Rec.wav"
+# The guard on one run of the program. Well under the limit run.sh puts
+# on the whole test, so a run that hangs says which one it was instead
+# of only that the test ran out of time. The three of them together take
+# four seconds here; the builder is up to three times slower.
+RUN_LIMIT_S = 300
+STRAY, TIMED, FITS = D + "/Stray.wav", D + "/Timed.wav", D + "/Fits.wav"
+# What a run calls a recording: the stem of its file.
+STRAY_NAME, TIMED_NAME, FITS_NAME = "Stray", "Timed", "Fits"
 GOOD, LOST, CLOCK = D + "/Good.mov", D + "/Lost.mov", D + "/Clock.mov"
 rec = read(D + "/plain.wav")
 facts = dict((v, vpm.video_facts(v)) for v in (GOOD, LOST, CLOCK))
@@ -211,7 +238,7 @@ p = subprocess.run(
     [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
      "--no-speech-recognition", "--no-transcript-file",
      "--out", D + "/run", REC, GOOD, LOST, CLOCK],
-    capture_output=True, text=True, timeout=900, env=ENV)
+    capture_output=True, text=True, timeout=RUN_LIMIT_S, env=ENV)
 log = (p.stdout or "") + (p.stderr or "")
 check("no traceback", "Traceback" not in log,
       log[log.find("Traceback"):][:90])
@@ -291,6 +318,71 @@ check("the window calls the proposal", "kind_proposal_apply(" in source
       and source.count("def kind_proposal_apply") == 1)
 check("the refusal is written down once", source.count("unplaceable\"] = True")
       == 2 and source.count("def cannot_be_placed") == 1)
+
+
+#------------------------------ 6. The recording side of the same rule
+
+print("\n6. A recording: the same verdict, read by another caller")
+_a, _b, stray_st = vpm.align_audio_to_video(STRAY, GOOD, 0)
+check("a recording foreign to the camera is marked unplaceable",
+      bool(stray_st.get("unplaceable")),
+      "envelopes %.3f against %.2f, phase %.1f against %.1f"
+      % (stray_st.get("quality", 0.0), vpm.WEAK_MATCH,
+         stray_st.get("phase_sharp") or 0.0, vpm.PHASE_SHARP_ENOUGH))
+
+
+def run_with(folder, *material):
+    """One run over these files, against the camera that has a clock."""
+    p = subprocess.run(
+        [sys.executable, SCRIPT, "--without-auphonic", "--no-metrics",
+         "--no-speech-recognition", "--no-transcript-file",
+         "--out", D + "/" + folder] + list(material) + [GOOD],
+        capture_output=True, text=True, timeout=RUN_LIMIT_S, env=ENV)
+    return p.returncode, (p.stdout or "") + (p.stderr or "")
+
+
+# The whole sentence with the name taken out of it. Searched for rather
+# than typed, so no English wording lives in the test.
+SAYS_NO = vpm.no_place_message("").strip()
+NOTHING_LEFT = vpm.T('\nNo audio track could be aligned -- there is nothing '
+                     'to put on the axis.').strip()
+alone_rc, alone_log = run_with("refused", STRAY)
+both_rc, both_log = run_with("placed", TIMED, FITS)
+whole = alone_log + both_log
+check("neither run threw", "Traceback" not in whole,
+      whole[whole.find("Traceback"):][:90] if "Traceback" in whole else "")
+turned_away = [line.strip() for line in alone_log.splitlines()
+               if SAYS_NO in line]
+print("   %s" % (turned_away[0][:150] if turned_away
+                 else "-- nothing said --"))
+check("the recording nothing can place is refused", len(turned_away) == 1,
+      "%d such lines" % len(turned_away))
+check("and the refusal is the sentence the program keeps for it",
+      bool(turned_away)
+      and turned_away[0] == vpm.no_place_message(STRAY_NAME),
+      (turned_away[0][:70] if turned_away else "--"))
+check("with its only recording gone the run stops and says so",
+      NOTHING_LEFT in alone_log, "looked for '%s'" % NOTHING_LEFT[:40])
+check("and it ends non-zero instead of carrying on", alone_rc == 1,
+      str(alone_rc))
+# The second run: the same foreign sound, but with a clock in it, and
+# beside it one that measures and has no clock at all. The clock is the
+# first way and the sound the second, and either one is enough.
+sent_away = [line.strip().split()[0] for line in both_log.splitlines()
+             if SAYS_NO in line]
+check("with a clock or a match, nothing is turned away", sent_away == [],
+      str(sent_away))
+laid_down = sorted(os.path.basename(f) for f in
+                   glob.glob(D + "/placed/auphonic-tracks/final_*.wav"))
+print("   written: %s" % laid_down)
+check("the same sound with a clock is laid on the axis",
+      any(TIMED_NAME in n for n in laid_down), str(laid_down))
+check("and so is a recording that measures and has no clock",
+      any(FITS_NAME in n for n in laid_down), str(laid_down))
+check("that run carries both through to the end",
+      both_rc == 0 and os.path.exists(D + "/placed/Good_audio.mov"),
+      "returned %d, Good_audio.mov %s"
+      % (both_rc, os.path.exists(D + "/placed/Good_audio.mov")))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

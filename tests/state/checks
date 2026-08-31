@@ -156,7 +156,7 @@ time_bad_point_dropped	19
 time_camera_by_clock	20
 time_drift_taken_out	4
 time_fit_reports	7
-time_guess_refused	40
+time_guess_refused	50
 time_length_is_in_to_out	23
 time_offset_found	6
 time_one_track_aligned	42
