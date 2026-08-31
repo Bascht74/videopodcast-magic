@@ -104,8 +104,12 @@ auphonic_key_out_of_view	2026-08-31	the config file lies in the temporary folder
 auphonic_key_out_of_view	2026-08-31	the config file may be read by its owner alone	_curl_call: os.chmod(conf, 0o600) changed to 0o644. The check is asked only where a file mode carries rights (os.name != "nt"), so this was seen red on macOS; on Windows it is left out by name	the config file may be read by its owner alone                   FAIL mode 0644 against 0600
 auphonic_key_out_of_view	2026-08-31	the key is written into the config file curl is pointed at	_curl_call: the line written into the config file replaced by f.write("\n"), so the key is never put there	the key is written into the config file curl is pointed at       FAIL config file there, 1 bytes, the key in none of them
 auphonic_key_out_of_view	2026-08-31	two calls do not share one config file name	_curl_call: mkstemp replaced by one fixed path, tempfile.gettempdir()/auph_fixed.conf	two calls do not share one config file name                      FAIL auph_fixed.conf and auph_fixed.conf
+auphonic_may_be_skipped	2026-08-31	value is stable and language-free	in the program: PRESET_NONE = "no-auphonic" (line 617) replaced by PRESET_NONE = "kein-auphonic"	value is stable and language-free                    FAIL PRESET_NONE is 'kein-auphonic', wanted 'no-auphonic'
+auphonic_may_be_skipped	2026-08-31	German label	in the program: the CATALOGUE["de"] line '"work without Auphonic": "ohne Auphonic arbeiten"' shortened to "ohne Auphonic"	German label                                         FAIL label_of('no-auphonic') is 'ohne Auphonic', wanted 'ohne Auphonic arbeiten'
+auphonic_may_be_skipped	2026-08-31	key without preset: an error message	in the program: in run_argv, 'if not selected:' replaced by 'if not selected and False:', so a key without a preset no longer stops the run	key without preset: an error message                 FAIL command line 31 words, 0 messages [], wanted none and the first one an 'error'
+auphonic_may_be_skipped	2026-08-31	without a key: no --auphonic-api-key	in the program: in run_argv, 'argv += ["--auphonic-api-key", key]' inserted before the 'if key:' guard, so the switch travels with an empty key	without a key: no --auphonic-api-key                 FAIL 29 words, --auphonic-api-key there, wanted a command line without it
+auphonic_may_be_skipped	2026-08-31	no QCheckBox 'this time without'	in the program: the comment line '# this time without auphonic.com' added beside CHOICE_LABELS, so the old tick's words stand in the file again	no QCheckBox 'this time without'                     FAIL 'this time without auphonic.com' stands 1 times in break_e_old_tick.py, wanted 0
 open	auphonic_may_be_skipped	English label
-open	auphonic_may_be_skipped	German label
 open	auphonic_may_be_skipped	PRESET_NONE is used in the interface
 open	auphonic_may_be_skipped	a plain preset name still holds
 open	auphonic_may_be_skipped	and still sits on it when the presets arrive
@@ -113,8 +117,6 @@ open	auphonic_may_be_skipped	entry first
 open	auphonic_may_be_skipped	entry stays on top
 open	auphonic_may_be_skipped	exactly one entry
 open	auphonic_may_be_skipped	it is selected
-open	auphonic_may_be_skipped	key without preset: an error message
-open	auphonic_may_be_skipped	no QCheckBox 'this time without'
 open	auphonic_may_be_skipped	nothing is chosen by the list arriving
 open	auphonic_may_be_skipped	only multitrack presets
 open	auphonic_may_be_skipped	plaintext empty -> no preset in the run
@@ -123,9 +125,7 @@ open	auphonic_may_be_skipped	sits on the placeholder
 open	auphonic_may_be_skipped	stays on the entry
 open	auphonic_may_be_skipped	the list still works
 open	auphonic_may_be_skipped	the wish from the project holds
-open	auphonic_may_be_skipped	value is stable and language-free
 open	auphonic_may_be_skipped	with key and preset: both there
-open	auphonic_may_be_skipped	without a key: no --auphonic-api-key
 open	auphonic_may_be_skipped	without a key: no message
 open	auphonic_mono_not_stereo	a configured output is found by its own suffix
 open	auphonic_mono_not_stereo	an empty channel count counts as no answer
@@ -549,7 +549,6 @@ cut_rules_hold	2026-08-31	nothing to measure means no dip	in sound_dip the test 
 cut_rules_hold	2026-08-31	nothing under the minimum is left over	in merge_short_shots the step back after a merge turned into a step forward (i = max(0, i - 1) -> i = i + 1), so a merged shot is never measured again	nothing under the minimum is left over                     FAIL
 cut_rules_hold	2026-08-31	nothing where both sit on the same camera	in reaction_cuts the test for asker and answerer on one camera switched off (if False and camera_of.get(who) == camera_of.get(asker))	nothing where both sit on the same camera                  FAIL
 cut_rules_hold	2026-08-31	nothing where the answer comes too late	in reaction_cuts the gap allowed after a question multiplied by ten (if a > end + gap -> if a > end + gap * 10)	nothing where the answer comes too late                    FAIL
-open	cut_rules_hold	nothing where the answer does not keep the floor
 cut_rules_hold	2026-08-31	nothing where the main speaker is the one asking	in reaction_cuts the rule that the main speaker's own question is no reaction cut switched off (if asker == main -> if False)	nothing where the main speaker is the one asking           FAIL
 cut_rules_hold	2026-08-31	on one camera the same to and fro is one picture, not unrest	in unrest_spans the per-camera test dropped (if camera != last -> if True), so every segment start counts as a picture change	on one camera the same to and fro is one picture, not unrest FAIL
 cut_rules_hold	2026-08-31	one camera for both means one shot	in camera_cut_detail the joining of two identical neighbouring shots switched off (if False and extra[-1][2] == r[2])	one camera for both means one shot                         FAIL [(0.0, 20.0, 'CamA'), (20.0, 40.0, 'CamA'), (40.0, 60.0, 'CamA')]
@@ -574,6 +573,7 @@ cut_rules_hold	2026-08-31	two real speakers raise no alarm	in stray_labels the t
 cut_rules_hold	2026-08-31	with sound the point moves onto the gap	in cut_point the search in the sound taken out (for radius in (DIP_NEAR_S, DIP_FAR_S) -> for radius in ())	with sound the point moves onto the gap                    FAIL 2.0
 cut_rules_hold	2026-08-31	without any punctuation it holds the minimum	in wide_shot_length the longest length returned instead of the shortest (return min(holds, room) -> return min(most, room))	without any punctuation it holds the minimum               FAIL
 cut_rules_hold	2026-08-31	without sound the boundary itself is taken	in cut_point the boundary out of the text ignored (aim = boundary_near(...) with its fallback -> aim = target)	without sound the boundary itself is taken                 FAIL
+cut_rules_hold	2026-08-31	nothing where the answer does not keep the floor	in reaction_cuts the rule about keeping the floor switched off (if over > 0 and spoken < holds * over -> if False and spoken < holds * over)	  nothing where the answer does not keep the floor           FAIL {5.0: 'Guest'} and 0 turned away for not keeping the floor, wanted {} and 1 -- the answer holds 0.8 s of the next 10.0, under the 7.0 asked
 cut_voice_on_its_camera	2026-08-31	Vera is cut to her own camera and to no other	copy vpm_b_onto_last.py -- in voices_of_file `return dict(got)` to `return {k: list(got.values())[-1] for k in got}`, so every voice is sent to the last camera: Vera falls, Wim stays green	Vera is cut to her own camera and to no other FAIL 2 shots, on ['CamTwo'] -- wanted CamOne
 cut_voice_on_its_camera	2026-08-31	Wim is cut to his own camera and to no other	copy vpm_b_last.py -- in voices_of_file `return dict(got)` to `return dict(list(got.items())[:-1])`, so the last voice loses its camera: Wim falls, Vera stays green	Wim is cut to his own camera and to no other FAIL 2 shots, on ['CamThree'] -- wanted CamTwo
 cut_voice_on_its_camera	2026-08-31	all three voices of the assignment reach the cut list	copy vpm_b_sep.py -- in separation_for_run `given = getattr(args, "_speakers_of", None) or {}` to `given = {}`, so the separation handed over in the assignment is dropped	all three voices of the assignment reach the cut list FAIL found ['Mic A', 'Mic A + Mic B', 'Mic B'], wanted ['Vera', 'Wim', 'Xenia']
@@ -670,6 +670,32 @@ files_curve_kept_once	2026-08-30	the curve is kept under the name path_key makes
 files_curve_kept_once	2026-08-30	the file is read once, not once per name	video_envelope made to key the store with the name it was handed	the file is read once, not once per name                   FAIL 2 ffmpeg processes, wanted 1
 files_curve_kept_once	2026-08-30	the long name and the short one are different strings	the test's own material: the long name set to the short one	the long name and the short one are different strings      FAIL /A.wav against /A.wav
 files_curve_kept_once	2026-08-30	two names for one file leave one curve in memory	video_envelope made to key the store with the name it was handed	two names for one file leave one curve in memory           FAIL 2 curves, wanted 1
+files_hdr_complete	2026-08-31	primaries good	HDR_PRIMARIES = 9 changed to HDR_PRIMARIES = 1, so a BT.2020 file no longer matches the primaries HDR wants	primaries good                                             FAIL Primaries: kind 'hint', text '9 (BT.2020)' -- wanted good -- HDR needs 9 (BT.2020)
+files_hdr_complete	2026-08-31	matrix good	HDR_MATRIX = 9 changed to HDR_MATRIX = 1, so a BT.2020 file no longer matches the matrix HDR wants	matrix good                                                FAIL Matrix: kind 'hint', text '9 (BT.2020)' -- wanted good -- HDR needs 9 (BT.2020)
+files_hdr_complete	2026-08-31	nothing to fault	HDR_PRIMARIES = 9 changed to HDR_PRIMARIES = 1, so a BT.2020 file no longer matches the primaries HDR wants	nothing to fault                                           FAIL 1 of 7 findings not good: Primaries hint '9 (BT.2020)'
+files_hdr_complete	2026-08-31	static metadata no fault	hdr_findings: "if trc == 18:" changed to "if trc == 99:", so the HLG file loses the exception that spares it static metadata	static metadata no fault                                   FAIL Static metadata: kind 'hint', text 'missing: Mastering-Display (ST 2086), MaxCLL/MaxFALL' -- wanted good -- HLG asks for none
+files_hdr_complete	2026-08-31	curve good	HDR_CURVES = {16: "PQ (HDR10)", 18: "HLG"} changed to {18: "HLG"}, so PQ is no longer an HDR curve	curve good                                                 FAIL Curve: kind 'hint', text '16 (PQ (HDR10))' -- wanted good -- 16 (PQ)
+files_hdr_complete	2026-08-31	curve good and PQ	HDR_CURVES = {16: "PQ (HDR10)", 18: "HLG"} changed to {18: "HLG"}, so PQ is no longer an HDR curve	curve good and PQ                                          FAIL Curve: kind 'hint', text '16 (PQ (HDR10))' -- wanted good with PQ in it -- HDR10 needs 16
+files_hdr_complete	2026-08-31	curve good and HLG	HDR_CURVES = {16: "PQ (HDR10)", 18: "HLG"} changed to {16: "PQ (HDR10)"}, so HLG is no longer an HDR curve	curve good and HLG                                         FAIL Curve: kind 'hint', text '18 (HLG)' -- wanted good with HLG in it -- HLG is 18
+files_hdr_complete	2026-08-31	static metadata as a hint	hdr_findings: the static metadata Finding built with '"good" if not missing else "hint"' changed to 'else "abort"'	static metadata as a hint                                  FAIL Static metadata: kind 'abort', text 'missing: Mastering-Display (ST 2086), MaxCLL/MaxFALL' -- wanted hint -- neither good nor abort
+files_hdr_complete	2026-08-31	no abort	hdr_findings: the static metadata Finding built with '"good" if not missing else "hint"' changed to 'else "abort"'	no abort                                                   FAIL 1 of 7 findings aborting: Static metadata abort 'missing: Mastering-Display (ST 2086), MaxCLL/MaxFALL'
+files_hdr_complete	2026-08-31	curve not good	HDR_CURVES = {16: "PQ (HDR10)", 18: "HLG"} changed to {1: "SDR", 16: "PQ (HDR10)", 18: "HLG"}, so the SDR curve 1 counts as HDR	curve not good                                             FAIL Curve: kind 'good', text '1 (SDR)' -- wanted any kind but good -- 1 is BT.709
+files_hdr_complete	2026-08-31	bit depth as an abort	hdr_findings: '"good" if depth >= 10 else "abort"' for the bit depth changed to 'depth >= 0', so eight bit passes	bit depth as an abort                                      FAIL Bit depth: kind 'good', text '8 bit' -- wanted abort -- under 10 bit
+files_hdr_complete	2026-08-31	bit depth good	hdr_findings: '"good" if depth >= 10 else "abort"' for the bit depth changed to 'depth >= 12', so ten bit fails	bit depth good                                             FAIL Bit depth: kind 'abort', text '10 bit' -- wanted good -- 10 bit or more
+files_hdr_complete	2026-08-31	codec profile good	hdr_findings: '"good" if "10" in profile else "hint"' for the codec profile changed to '"11" in profile'	codec profile good                                         FAIL Codec profile: kind 'hint', text 'HEVC Main 10' -- wanted good -- HEVC with Main 10
+files_hdr_complete	2026-08-31	static metadata complete	hdr_static_metadata: "out.add('mdcv')" under 'if "mastering display" in kind:' changed to "pass", so the mastering display is never found	static metadata complete                                   FAIL Static metadata: kind 'hint', text 'missing: Mastering-Display (ST 2086)' -- wanted good -- mdcv and clli both there
+files_hdr_complete	2026-08-31	codec instead of codec profile	hdr_findings: "elif codec:" changed to "elif False:", so a codec that is not HEVC gets no finding of its own	codec instead of codec profile                             FAIL fields back: ['Primaries', 'Curve', 'Matrix', 'Value range', 'Bit depth', 'Static metadata'] -- wanted a 'Codec' among them, not a 'Codec profile'
+files_hdr_complete	2026-08-31	curve 14 is faulted	HDR_CURVES = {16: "PQ (HDR10)", 18: "HLG"} changed to {14: "wrong", 16: "PQ (HDR10)", 18: "HLG"}, so curve 14 counts as HDR	curve 14 is faulted                                        FAIL Curve: kind 'good', text '14 (wrong)' -- wanted hint -- 14 is not an HDR curve
+files_hdr_complete	2026-08-31	but primaries and matrix are good	HDR_PRIMARIES = 9 changed to HDR_PRIMARIES = 1, so a BT.2020 file no longer matches the primaries HDR wants	but primaries and matrix are good                          FAIL Primaries: kind 'hint', text '9 (BT.2020)' -- wanted good; Matrix: kind 'good', text '9 (BT.2020)' -- wanted good
+files_hdr_complete	2026-08-31	HDR10 -> 0	check_hdr: "return 0 if have_hdr else 1" changed to "return 1 if have_hdr else 0", so the return value is turned round	HDR10 -> 0                                                 FAIL returned 1, wanted 0 -- said 'The file is tagged as HDR.'
+files_hdr_complete	2026-08-31	HLG -> 0	check_hdr: "return 0 if have_hdr else 1" changed to "return 1 if have_hdr else 0", so the return value is turned round	HLG -> 0                                                   FAIL returned 1, wanted 0 -- said 'The file is tagged as HDR.'
+files_hdr_complete	2026-08-31	without static -> 0 (a note only)	check_hdr: "return 0 if have_hdr else 1" changed to "return 1 if have_hdr else 0", so the return value is turned round	without static -> 0 (a note only)                          FAIL returned 1, wanted 0 -- said 'The file is tagged as HDR, with 1 note.'
+files_hdr_complete	2026-08-31	SDR -> 1	check_hdr: "return 0 if have_hdr else 1" changed to "return 1 if have_hdr else 0", so the return value is turned round	SDR -> 1                                                   FAIL returned 0, wanted 1 -- said 'The file is NOT recognised as HDR.'
+files_hdr_complete	2026-08-31	wrong curve -> 1	check_hdr: "return 0 if have_hdr else 1" changed to "return 1 if have_hdr else 0", so the return value is turned round	wrong curve -> 1                                           FAIL returned 0, wanted 1 -- said 'The file is NOT recognised as HDR.'
+files_hdr_complete	2026-08-31	no crash on %s empty	hdr_findings: the guard for a path that is no file, "return [Finding('abort', T('File'), ...)]", changed to "return []"	no crash on empty                                          FAIL '' gave 0 findings: none -- wanted a list with at least one finding
+files_hdr_complete	2026-08-31	%-20s -> %s	hdr_kind_from_project: 'if "st2084" in wl' changed to 'if "st2085" in wl', so ST2084 is no longer recognised	'Rec.2100 ST2084'    -> pq                                 FAIL colorSpaceOutput 'Rec.2100 ST2084' gave None, wanted 'pq' -- reason ''
+files_hdr_complete	2026-08-31	without a setting -> None	hdr_kind_from_project: the closing "return None, ''" changed to 'return "pq", ""', so an unrecognised setting is taken for PQ	without a setting -> None                                  FAIL no colour setting at all gave 'pq', wanted None -- reason ''
+files_hdr_complete	2026-08-31	Resolve does not answer -> None	hdr_kind_from_project: the "except Exception: return None, ''" around p.GetSetting("") changed to 'return "pq", ""'	Resolve does not answer -> None                            FAIL a GetSetting that raises gave ('pq', ''), wanted (None, '')
 open	files_foreign_untouched	%-14s -> nothing done
 open	files_foreign_untouched	_logs_atom_text %-13s empty, no crash
 open	files_foreign_untouched	colour_text returns something readable
@@ -677,32 +703,6 @@ open	files_foreign_untouched	logs carried over
 open	files_foreign_untouched	source %-13s -> nothing done
 open	files_foreign_untouched	target %-13s -> nothing done
 open	files_foreign_untouched	text is there
-open	files_hdr_complete	%-20s -> %s
-open	files_hdr_complete	HDR10 -> 0
-open	files_hdr_complete	HLG -> 0
-open	files_hdr_complete	Resolve does not answer -> None
-open	files_hdr_complete	SDR -> 1
-open	files_hdr_complete	bit depth as an abort
-open	files_hdr_complete	bit depth good
-open	files_hdr_complete	but primaries and matrix are good
-open	files_hdr_complete	codec instead of codec profile
-open	files_hdr_complete	codec profile good
-open	files_hdr_complete	curve 14 is faulted
-open	files_hdr_complete	curve good
-open	files_hdr_complete	curve good and HLG
-open	files_hdr_complete	curve good and PQ
-open	files_hdr_complete	curve not good
-open	files_hdr_complete	matrix good
-open	files_hdr_complete	no abort
-open	files_hdr_complete	no crash on %s empty
-open	files_hdr_complete	nothing to fault
-open	files_hdr_complete	primaries good
-open	files_hdr_complete	static metadata as a hint
-open	files_hdr_complete	static metadata complete
-open	files_hdr_complete	static metadata no fault
-open	files_hdr_complete	without a setting -> None
-open	files_hdr_complete	without static -> 0 (a note only)
-open	files_hdr_complete	wrong curve -> 1
 open	files_intro_proposed	%s falls on the right side of the limit
 open	files_intro_proposed	a Kind somebody picked is never written over
 open	files_intro_proposed	a file as long as the rest is not
@@ -1277,27 +1277,23 @@ open	run_odd_clock_named	the length is the four seconds it holds
 open	run_odd_clock_named	the rate is the 48000 Hz it was built at
 open	run_odd_clock_named	the text carries both clocks
 open	run_odd_clock_named	with two files nothing is decidable
-open	run_only_newer_offered	%r comes before %r
 open	run_only_newer_offered	%s: its own half is there
 open	run_only_newer_offered	a newer tag is offered
 open	run_only_newer_offered	a newer version is offered
 open	run_only_newer_offered	a no is remembered
 open	run_only_newer_offered	a no still holds for the unasked look
 open	run_only_newer_offered	a release without the two halves is kept whole
-open	run_only_newer_offered	a remembered no holds back the unasked look
 open	run_only_newer_offered	a remembered no switches the unasked look off
 open	run_only_newer_offered	a version does not beat itself
 open	run_only_newer_offered	a whole program is taken
 open	run_only_newer_offered	a yes is remembered too
 open	run_only_newer_offered	an error page is refused
 open	run_only_newer_offered	an older tag is not
-open	run_only_newer_offered	an unreadable tag is not offered
 open	run_only_newer_offered	and a yes brings it back
 open	run_only_newer_offered	and asking from the menu shows it anyway
 open	run_only_newer_offered	and both of them are in it
 open	run_only_newer_offered	and it is not offered again by itself
 open	run_only_newer_offered	and it writes the yes
-open	run_only_newer_offered	and says something else than an error page does
 open	run_only_newer_offered	and the other one is not
 open	run_only_newer_offered	and the yes brings the unasked look back
 open	run_only_newer_offered	and then nothing is asked
@@ -1308,20 +1304,23 @@ open	run_only_newer_offered	bytes that are not text are refused
 open	run_only_newer_offered	something that does not compile is refused
 open	run_only_newer_offered	the finished version beats the pre-release
 open	run_only_newer_offered	the new one is in place
-open	run_only_newer_offered	the old one is beside it
 open	run_only_newer_offered	the same tag is not
 open	run_only_newer_offered	the same version is the same
 open	run_only_newer_offered	there is a switch that takes it back
 run_only_newer_offered	2026-08-30	two releases, and still one language	the release text no longer cut to one language before it is shown	two releases, and still one language                 FAIL found the English half 2 time(s)
+run_only_newer_offered	2026-08-31	%r comes before %r	version_key: the pre-release rank turned round, 1 if not pre else 0 -> 0 if not pre else 1	'2.0.0-beta' comes before '2.0.0'                          FAIL '2.0.0-beta' sorts to ((2, 0, 0), 1, 'beta'), '2.0.0' to ((2, 0, 0), 0, '')
+run_only_newer_offered	2026-08-31	an unreadable tag is not offered	version_key: a piece that is no number counts highest instead of lowest, else 0 -> else 9999	an unreadable tag is not offered                           FAIL 'nightly' against a running 2.0.0-beta: offered 'nightly', wanted ''
+run_only_newer_offered	2026-08-31	a remembered no holds back the unasked look	newer_release: the guard cut to if UPDATE_OFF:, so the remembered no is no longer asked	a remembered no holds back the unasked look                FAIL unasked after a no: offered 'v2.1.0' for v2.1.0, wanted ''
+run_only_newer_offered	2026-08-31	without an answer it looks	update_wanted: with no answer file it returns False instead of True	without an answer it looks                                 FAIL update_wanted() is False with nothing remembered ('<no such file>'), wanted True
+run_only_newer_offered	2026-08-31	the old one is beside it	put_new_self: the line shutil.copyfile(here, here + '.old') taken out	the old one is beside it                                   FAIL videopodcast-magic.py.old holds '<no such file>', wanted 'the one that works\n'
+run_only_newer_offered	2026-08-31	and says something else than an error page does	self_checked: the SyntaxError branch gives the error page's message, 'That file does not compile: line %s.' -> 'That file is not this program.'	and says something else than an error page does            FAIL the unclosed brace says 'That file is not this program.', the 404 page says 'That file is not this program.'
 open	run_only_newer_offered	what was passed over is what was shown
-open	run_only_newer_offered	without an answer it looks
 open	run_only_newer_offered	writing works
 open	run_prework_listed	None -> None
 open	run_prework_listed	a file not in it at all -> discarded
 open	run_prework_listed	a file that is gone drops out
 open	run_prework_listed	a single one
 open	run_prework_listed	absolute is carried over
-open	run_prework_listed	absolute recognised
 open	run_prework_listed	audio is already there -> envelopes only
 open	run_prework_listed	audio only for the one, envelope for both
 open	run_prework_listed	blocks grouped -> both
@@ -1333,29 +1332,30 @@ open	run_prework_listed	earliest start
 open	run_prework_listed	empty data -> None
 open	run_prework_listed	envelopes are already there -> audio only
 open	run_prework_listed	everything there -> nothing to do
-open	run_prework_listed	fingerprint is path, time, size
-open	run_prework_listed	from zero
 open	run_prework_listed	latest end
-open	run_prework_listed	length zero -> no suggestion at all
-open	run_prework_listed	missing file -> None
 open	run_prework_listed	no clock time at all -> relative
-open	run_prework_listed	no files asked -> None
 open	run_prework_listed	none at all
-open	run_prework_listed	nothing in -> no suggestion at all
 open	run_prework_listed	nothing in -> nothing out
-open	run_prework_listed	one file changed -> everything discarded
 open	run_prework_listed	one recording out of several files
-open	run_prework_listed	one without a clock time does not count
 open	run_prework_listed	relative path becomes absolute
 open	run_prework_listed	same count -> only the file count
 run_prework_listed	2026-08-30	the header line is built in one place only	the header line built in a second place outside the catalogue	the header line is built in one place only             FAIL 2 places outside the catalogue build it, wanted 1
-open	run_prework_listed	the old window computation is gone
+run_prework_listed	2026-08-31	absolute recognised	window_suggestion returns False instead of True as the third value where a clock time was found	absolute recognised                                        FAIL absolute False, wanted True (from '17:00:00:00' until '17:10:00:00')
+run_prework_listed	2026-08-31	one without a clock time does not count	window_suggestion returns False instead of True as the third value where a clock time was found	one without a clock time does not count                    FAIL '17:01:00:00' and absolute False, wanted '17:01:00:00' and True
+run_prework_listed	2026-08-31	from zero	window_suggestion returns "" instead of "+0:00" as the relative In point	from zero                                                  FAIL '', wanted '+0:00'
+run_prework_listed	2026-08-31	missing file -> None	file_fingerprint returns [] instead of None in its except OSError	missing file -> None                                       FAIL [], wanted None for a file that does not exist
+run_prework_listed	2026-08-31	one file changed -> everything discarded	axis_still_valid no longer compares e.get("mtime") against the fingerprint	one file changed -> everything discarded                   FAIL {'axis': {'/private/tmp/beleg_run_prework_listed/axisvalid_jt2g3686/x.mov': 0.0, '/private/tmp/beleg_run_prework_listed/axisvalid_jt2g3686/y.mov': 5.0}, 'weak': [], 'absolute': False}, wanted None (y.mov stored with mtime 1, on disk 1788206732)
+run_prework_listed	2026-08-31	no files asked -> None	axis_still_valid: "if not axis: return None" turned into "if False:"	no files asked -> None                                     FAIL {'axis': {}, 'weak': [], 'absolute': True}, wanted None (2 files stored, 0 asked for)
+run_prework_listed	2026-08-31	the old window computation is gone	the old one-liner start_var.set(timecode_string(min(starts), fps)) put back as a comment in window_suggestion	the old window computation is gone                         FAIL 1 places still hold 'start_var.set(timecode_string(min(starts), fps))', wanted 0
+run_prework_listed	2026-08-31	length zero -> no suggestion at all	window_suggestion returns ("+0:00", "+0:00", False) instead of ("", "", False) where no entry is usable	length zero -> no suggestion at all                        FAIL ('+0:00', '+0:00', False), wanted ('', '', False)
+run_prework_listed	2026-08-31	nothing in -> no suggestion at all	window_suggestion returns ("+0:00", "+0:00", False) instead of ("", "", False) where no entry is usable	nothing in -> no suggestion at all                         FAIL from '+0:00' until '+0:00', wanted '' and ''
+run_prework_listed	2026-08-31	fingerprint is path, time, size	file_fingerprint writes a constant 0 into the middle field instead of int(st.st_mtime)	fingerprint is path, time, size                            FAIL ['/private/tmp/beleg_run_prework_listed/axisvalid_kuso13je/x.mov', 0, 100], wanted path '/private/tmp/beleg_run_prework_listed/axisvalid_kuso13je/x.mov', time 1788206733 and size 100
+run_prework_listed	2026-08-31	without having_audio, has_audio is not asked	pending_prework calls has_audio(a) for every file, before the test whether it is in having_audio	without having_audio, has_audio is not asked               FAIL [('a.mov', 'envelope')] and has_audio asked for ['a.mov'], wanted [('a.mov', 'envelope')] and []
 open	run_prework_listed	the values come along
 open	run_prework_listed	unchanged -> applies
 open	run_prework_listed	up to the longest
 open	run_prework_listed	weak is empty
 open	run_prework_listed	without an absolute flag it counts as relative
-open	run_prework_listed	without having_audio, has_audio is not asked
 run_simple_path_agrees	2026-08-31	and every camera file holds those tracks, in that order	in one_camera the loop that prints the track names turned into enumerate(items[::-1], 1)	and every camera file holds those tracks, in that order    FAIL 3 of 3 differ, the first: ('Kandidat_08141858_C009.mov', ['Moderatorin', 'Moderator', 'Kandidat', 'Full-Mix', 'Camera Original'], ['Full-Mix', 'Kandidat', 'Moderator', 'Moderatorin', 'Camera Original'])
 run_simple_path_agrees	2026-08-31	and it broke off nowhere	the last line of the file, sys.exit(main()) written as sys.exit(main() or nothing_of_that_name) -- a NameError once the run is through	and it broke off nowhere                                   FAIL the traceback begins at character 13529 of 13790
 run_simple_path_agrees	2026-08-31	and it is stamped with the file format of the day	the handover's "format" field written as FILE_FORMAT + 1	and it is stamped with the file format of the day          FAIL stamped 4, the format of the day is 3
@@ -1705,6 +1705,30 @@ open	sound_loudest_block	and the block it read is left as it was
 open	sound_loudest_block	the order of the blocks does not decide
 open	sound_loudest_block	two blocks, one answer per pair
 sound_mix_hits_target	2026-08-30	a target is applied, not only reported	the loudness target handed to the writer as None	a target is applied, not only reported               FAIL no target line in the log
+sound_stereo_kept	2026-08-31	kept_channels: one channel stays one	kept_channels: 'channel_count(file_path) == 2' changed to '== 1', so a one channel file is reported as two	kept_channels: one channel stays one                       FAIL kept 2, wanted 1, out of 1 in the file
+sound_stereo_kept	2026-08-31	kept_channels: two channels stay two	kept_channels: 'channel_count(file_path) == 2' changed to '== 3', so a stereo file is folded	kept_channels: two channels stay two                       FAIL kept 1, wanted 2, out of 2 in the file
+sound_stereo_kept	2026-08-31	kept_channels: four channels are folded to one	kept_channels: 'channel_count(file_path) == 2' changed to 'in (2, 4)', so a four channel file is passed on as two	kept_channels: four channels are folded to one             FAIL kept 2, wanted 1, out of 4 in the file
+sound_stereo_kept	2026-08-31	widest_track: one stereo among monos gives two	widest_track: 'max([1] + [kept_channels(p) for p in paths])' changed to 'min(...)'	widest_track: one stereo among monos gives two             FAIL 1 over mono, stereo, mono, wanted 2
+sound_stereo_kept	2026-08-31	widest_track: only monos give one	widest_track: the floor in 'max([1] + ...)' raised to 'max([2] + ...)'	widest_track: only monos give one                          FAIL 2 over mono, mono, wanted 1
+sound_stereo_kept	2026-08-31	channel_filter keeps what already fits	channel_filter: the 'have == want' branch returns "" instead of "anull"	channel_filter keeps what already fits                     FAIL two to two '' and one to one '', wanted 'anull' twice
+sound_stereo_kept	2026-08-31	channel_filter writes the pan out for one to two	channel_filter: 'pan=stereo|c0=c0|c1=c0' changed to 'pan=stereo|c0=c0|c1=0.7*c0'	channel_filter writes the pan out for one to two           FAIL 'pan=stereo|c0=c0|c1=0.7*c0' against 'pan=stereo|c0=c0|c1=c0'
+sound_stereo_kept	2026-08-31	and a half-and-half sum for two to one	channel_filter: 'pan=mono|c0=0.5*c0+0.5*c1' changed to 'pan=mono|c0=0.35*c0+0.35*c1'	and a half-and-half sum for two to one                     FAIL 'pan=mono|c0=0.35*c0+0.35*c1' against 'pan=mono|c0=0.5*c0+0.5*c1'
+sound_stereo_kept	2026-08-31	one channel to two keeps the level	channel_filter: 'pan=stereo|c0=c0|c1=c0' changed to 'pan=stereo|c0=0.7*c0|c1=0.7*c0'	one channel to two keeps the level                         FAIL -3.10 dB off, at most 0.05
+sound_stereo_kept	2026-08-31	two channels to one keeps the level	channel_filter: 'pan=mono|c0=0.5*c0+0.5*c1' changed to 'pan=mono|c0=0.35*c0+0.35*c1'	two channels to one keeps the level                        FAIL -3.10 dB off, at most 0.05
+sound_stereo_kept	2026-08-31	on the axis a stereo track keeps two channels	place_track_on_axis: 'keep = kept_channels(source)' changed to 'keep = 1'	on the axis a stereo track keeps two channels              FAIL 1 channels, wanted 2
+sound_stereo_kept	2026-08-31	and the two sides still differ	place_track_on_axis: 'keep = kept_channels(source)' changed to 'keep = 1'	and the two sides still differ                             FAIL 1 channels, sides apart by -1.0000, wanted 2 channels apart by more than 0.05
+sound_stereo_kept	2026-08-31	the window is the length asked for	place_track_on_axis: 'n_window = int(round((t1 - t0) * SR))' changed to '... - 100'	the window is the length asked for                         FAIL 191900 samples against the 192000 asked for, at most 1 apart
+sound_stereo_kept	2026-08-31	on the axis a mono track stays mono	place_track_on_axis: 'keep = kept_channels(source)' changed to 'keep = 2'	on the axis a mono track stays mono                        FAIL 2 channels, wanted 1, out of 1 in the source
+sound_stereo_kept	2026-08-31	a four channel file is folded, not passed on	place_track_on_axis: 'keep = kept_channels(source)' changed to 'keep = 2'	a four channel file is folded, not passed on               FAIL 2 channels, wanted 1, out of 4 in the source
+sound_stereo_kept	2026-08-31	a mix holding a stereo track has two channels	mix_tracks: 'channels = max(channels, max(have) if have else 1)' changed to 'channels = 1'	a mix holding a stereo track has two channels              FAIL 1 channels, wanted 2
+sound_stereo_kept	2026-08-31	and the sides of the stereo track survive it	mix_tracks: 'channels = max(channels, max(have) if have else 1)' changed to 'channels = 1'	and the sides of the stereo track survive it               FAIL 1 channels, sides apart by -1.0000, wanted 2 channels apart by more than 0.05
+sound_stereo_kept	2026-08-31	a mono track alone in a two channel mix keeps its level	channel_filter: 'pan=stereo|c0=c0|c1=c0' changed to 'pan=stereo|c0=0.7*c0|c1=0.7*c0'	a mono track alone in a two channel mix keeps its level    FAIL -3.10 dB off, at most 0.05
+sound_stereo_kept	2026-08-31	a single stereo track is not folded on its own line	mix_tracks: 'channels = max(channels, max(have) if have else 1)' changed to 'channels = 1'	a single stereo track is not folded on its own line        FAIL 1 channels, wanted 2
+sound_stereo_kept	2026-08-31	a single mono track needs no pass at all	mix_tracks: the early return's 'len(sources) == 1' changed to 'len(sources) == 0'	a single mono track needs no pass at all                   FAIL handed back /private/tmp/beleg_sound_stereo_kept/stereomix_acatx7eu/single_mono.wav, wanted the source itself /private/tmp/beleg_sound_stereo_kept/stereomix_acatx7eu/axis_mono.wav
+sound_stereo_kept	2026-08-31	a two channel sum gives a two channel curve	limiter_curve: 'channels = max(1, channel_count(total_sum))' changed to 'channels = 1'	a two channel sum gives a two channel curve                FAIL 1 channels, wanted 2
+sound_stereo_kept	2026-08-31	a mono track under a two channel curve stays mono	place_track_on_axis: 'keep = kept_channels(source)' changed to 'keep = 2'	a mono track under a two channel curve stays mono          FAIL 2 channels, wanted 1
+sound_stereo_kept	2026-08-31	the yardstick is one channel while everything is mono	master_output_format: '"mono_mixdown": not stereo' changed to '"mono_mixdown": bool(stereo)'	the yardstick is one channel while everything is mono      FAIL mono_mixdown False, wanted True; the entry was {'format': 'wav', 'ending': 'wav', 'mono_mixdown': False, 'suffix': '_master'}
+sound_stereo_kept	2026-08-31	and two as soon as one track is stereo	master_output_format: '"mono_mixdown": not stereo' changed to '"mono_mixdown": bool(stereo)'	and two as soon as one track is stereo                     FAIL mono_mixdown True, wanted False; the entry was {'format': 'wav', 'ending': 'wav', 'mono_mixdown': True, 'suffix': '_master'}
 open	sound_mix_hits_target	a target six louder asks for about six more
 open	sound_mix_hits_target	and the file really lands on it
 open	sound_mix_hits_target	and writes the joined file
@@ -1733,34 +1757,10 @@ open	sound_one_pass_agrees	with the real ffmpeg back it reads again
 open	sound_silent_no_pair	so channel 2 stays a track of its own
 open	sound_silent_no_pair	the stored tick is not honoured against a silent channel
 open	sound_silent_no_pair	where both carry something the tick still counts
-open	sound_stereo_kept	a four channel file is folded, not passed on
-open	sound_stereo_kept	a mix holding a stereo track has two channels
-open	sound_stereo_kept	a mono track alone in a two channel mix keeps its level
-open	sound_stereo_kept	a mono track under a two channel curve stays mono
-open	sound_stereo_kept	a single mono track needs no pass at all
-open	sound_stereo_kept	a single stereo track is not folded on its own line
-open	sound_stereo_kept	a two channel sum gives a two channel curve
-open	sound_stereo_kept	and a half-and-half sum for two to one
 open	sound_stereo_kept	and ffmpeg's own conversion would not (that is why)
 open	sound_stereo_kept	and ffmpeg's own conversion would raise it in float (that is why)
 open	sound_stereo_kept	and loses no more than the limiter asked for
-open	sound_stereo_kept	and the sides of the stereo track survive it
-open	sound_stereo_kept	and the two sides still differ
-open	sound_stereo_kept	and two as soon as one track is stereo
-open	sound_stereo_kept	channel_filter keeps what already fits
-open	sound_stereo_kept	channel_filter writes the pan out for one to two
-open	sound_stereo_kept	kept_channels: four channels are folded to one
-open	sound_stereo_kept	kept_channels: one channel stays one
-open	sound_stereo_kept	kept_channels: two channels stay two
-open	sound_stereo_kept	on the axis a mono track stays mono
-open	sound_stereo_kept	on the axis a stereo track keeps two channels
-open	sound_stereo_kept	one channel to two keeps the level
-open	sound_stereo_kept	the window is the length asked for
-open	sound_stereo_kept	the yardstick is one channel while everything is mono
-open	sound_stereo_kept	two channels to one keeps the level
 open	sound_stereo_kept	while in integers it would not -- the trap is the format
-open	sound_stereo_kept	widest_track: one stereo among monos gives two
-open	sound_stereo_kept	widest_track: only monos give one
 open	sound_tracks_written	%s: %s holds %d audio tracks
 open	sound_tracks_written	%s: %s holds the right ones
 open	sound_tracks_written	%s: %s was written
@@ -1832,7 +1832,6 @@ table_audio_asked_for	2026-08-31	dots in the camera name separate too	/private/t
 table_audio_asked_for	2026-08-31	empty name -> mix only	/private/tmp/gb_table_audio_asked_for/brk_p14_no_match.py -- Zeile 14572 `return os.path.basename(hit) if hit else MIX_ONLY` zu `return os.path.basename(hit) if hit else (os.path.basename(videos[0]) if videos else MIX_ONLY)` (ohne Treffer wird die erste Kamera geraten)	empty name -> mix only                                     FAIL
 table_audio_asked_for	2026-08-31	empty production becomes 'Production'	/private/tmp/gb_table_audio_asked_for/brk_p23_production.py -- Zeile 14644 `front = (production or "").strip() or 'Production'` zu `front = (production or "").strip() or ''` (der Ersatzname der Produktion faellt weg)	empty production becomes 'Production'                      FAIL _Camera_C001
 table_audio_asked_for	2026-08-31	empty speaker names drop out	/private/tmp/gb_table_audio_asked_for/brk_p25_empty_names.py -- Zeile 14641 `who = "+".join(x.strip() for x in speaker if (x or "").strip())` zu `who = "+".join(x.strip() for x in speaker)` (leere Sprechernamen werden mitgenommen)	empty speaker names drop out                               FAIL I_Camera_++Anna_C001
-open	table_audio_asked_for	every video file carries the decision itself
 table_audio_asked_for	2026-08-31	ignore stays as well	/private/tmp/gb_table_audio_asked_for/brk_p11_ignore.py -- Zeile 14567 `if old and old in targets:` zu `if old and old in targets and old != IGNORE_AUDIO:` ('ignore-audio' faellt aus der von Hand gesetzten Wahl heraus)	ignore stays as well                                       FAIL
 table_audio_asked_for	2026-08-31	it sits at the back	/private/tmp/gb_table_audio_asked_for/brk_p4_order.py -- Zeile 14551 `return chains + rows, False, own` zu `return rows + chains, False, own` (Kamerazeilen stehen vorn statt hinten)	it sits at the back                                        FAIL
 table_audio_asked_for	2026-08-31	no camera contributes unasked	/private/tmp/gb_table_audio_asked_for/brk_p2_unasked.py -- Zeile 14546 `for b in list(own_flag_cameras or ()):` zu `for b in list(own_flag_cameras or videos):` (jede Kamera zaehlt als angehakt)	no camera contributes unasked                              FAIL
@@ -1865,6 +1864,7 @@ table_audio_asked_for	2026-08-31	with one camera chosen -> three rows	/private/t
 table_audio_asked_for	2026-08-31	with the reason under the button, saying what to do	/private/tmp/gb_table_audio_asked_for/brk_w17_reason.py -- Zeile 21046 `'Camera audio to "use the audio", or add an '` zu `'Camera audio to "the audio field", or add an '` (der Grund nennt die Antwort nicht mehr, die ihn behebt)	with the reason under the button, saying what to do        FAIL "Cannot start yet: Files & production -- No sound to work with -- set a video file's Camera"
 table_audio_asked_for	2026-08-31	without an old choice, by the name	/private/tmp/gb_table_audio_asked_for/brk_p13_by_name.py -- Zeile 14571 `hit = camera_for_speaker(speaker, videos)` zu `hit = None` (die Suche nach der Kamera zum Namen faellt aus)	without an old choice, by the name                         FAIL
 table_audio_asked_for	2026-08-31	without speakers the full mix	/private/tmp/gb_table_audio_asked_for/brk_p21_full_mix.py -- Zeile 14642 `if parts and who and similarity(parts[0], who) >= 0.85:` zu `if parts and who and similarity(parts[0], who) >= 0.0:` (jeder Sprechername gilt als der Kameraname selbst, faellt also weg)	without speakers the full mix                              FAIL Interview 2_Wide_08141855_C003
+table_audio_asked_for	2026-08-31	every video file carries the decision itself	/private/tmp/beleg_table_audio_asked_for/brk_b1_no_cell_in_list.py -- Zeile 27483 `items.setItemWidget(node, 4, sound)` zu `pass` (das Tonfeld wird in der Dateiliste nie in die Zeile gesetzt). Die Zeile war bis heute `open`: die Pruefung stand hinter einer Wartezeit auf genau das Feld, das sie behauptet, und wurde bei diesem Bruch nie erreicht -- gewartet wird jetzt auf die Zeile.	every video file carries the decision itself               FAIL 0 of 2 files carry it, missing ['Wide_C003.mov', 'Guest_C009.mov']
 open	table_blocks_judged	a tick was found to click
 open	table_blocks_judged	one row per channel
 open	table_blocks_judged	the list is long enough to scroll
@@ -2069,7 +2069,6 @@ open	text_no_german_left	the line the catalogue starts at was found
 open	text_no_german_left	the version line is quoted in the German chapter
 open	text_no_german_left	there are tests to read at all
 open	text_only_texts_change	%s is language-free
-open	text_only_texts_change	CSV header fixed: %s
 open	text_only_texts_change	CSV rows are comma separated, never by language
 open	text_only_texts_change	English is the source
 open	text_only_texts_change	English label
@@ -2077,19 +2076,11 @@ open	text_only_texts_change	English stays as it stands
 open	text_only_texts_change	English words on the German side: %d (ratchet %d)
 open	text_only_texts_change	English: clock time
 open	text_only_texts_change	English: dot
-open	text_only_texts_change	English: thousands with a comma
-open	text_only_texts_change	German comes from the catalogue
 open	text_only_texts_change	German is among them
-open	text_only_texts_change	German label
 open	text_only_texts_change	German words: %d (ratchet %d)
-open	text_only_texts_change	German: clock time
-open	text_only_texts_change	German: comma
-open	text_only_texts_change	German: thousands with a dot
 open	text_only_texts_change	a dictionary is installed
 open	text_only_texts_change	a marker before the break belongs to the next line
 open	text_only_texts_change	colour for the heading
-open	text_only_texts_change	colour no longer hangs on %r
-open	text_only_texts_change	de-AT becomes de
 open	text_only_texts_change	de_DE.UTF-8 becomes de
 open	text_only_texts_change	error
 open	text_only_texts_change	fr is now on offer
@@ -2107,25 +2098,34 @@ open	text_only_texts_change	no dictionary -- the German side is not read
 open	text_only_texts_change	no gap in the German catalogue
 open	text_only_texts_change	no hard-coded comma left in the source
 open	text_only_texts_change	no hard-coded thousands mark left
-open	text_only_texts_change	no log_line_kind any more
 open	text_only_texts_change	no marker in a written file
 open	text_only_texts_change	no semicolon separator left
 open	text_only_texts_change	nothing becomes en
 open	text_only_texts_change	placeholders get filled
 text_only_texts_change	2026-08-30	printed lines outside the catalogue: %d (ratchet %d)	a copy in which one printed line was taken back out of the catalogue: print(T('    Out point  %s   (Timecode %s)') written as a plain string again	printed lines outside the catalogue: 11 (ratchet 10)   FAIL a printed line that used to go through T() no longer does, or a new one never did
+text_only_texts_change	2026-08-31	de-AT becomes de	known_language(): the dash taken out of the splitting pattern, re.split(r"[-_.@:]", ...) becomes re.split(r"[_.@:]", ...)	de-AT becomes de                                       FAIL 'en', wanted 'de'
+text_only_texts_change	2026-08-31	translated text comes out French	T(): the chosen language swapped for the source one -- CATALOGUE.get(LANG, {}) becomes CATALOGUE.get(SOURCE_LANG, {})	translated text comes out French                       FAIL T('Content') under 'fr' is 'Content', wanted 'Contenu'
+text_only_texts_change	2026-08-31	German comes from the catalogue	T(): the chosen language swapped for the source one -- CATALOGUE.get(LANG, {}) becomes CATALOGUE.get(SOURCE_LANG, {})	German comes from the catalogue                        FAIL T('Intro') under 'de' is 'Intro', wanted 'Vorspann'
+text_only_texts_change	2026-08-31	German label	T(): the chosen language swapped for the source one -- CATALOGUE.get(LANG, {}) becomes CATALOGUE.get(SOURCE_LANG, {})	German label                                           FAIL label_of(TYPE_INTRO) under 'de' is 'Intro', wanted 'Vorspann'
+text_only_texts_change	2026-08-31	German: comma	T(): the chosen language swapped for the source one -- CATALOGUE.get(LANG, {}) becomes CATALOGUE.get(SOURCE_LANG, {})	German: comma                                          FAIL decimal_text('25.000') under 'de' is '25.000', wanted '25,000'
+text_only_texts_change	2026-08-31	German: clock time	T(): the chosen language swapped for the source one -- CATALOGUE.get(LANG, {}) becomes CATALOGUE.get(SOURCE_LANG, {})	German: clock time                                     FAIL as_hms(3725.5) is '1:02:05.500', wanted '1:02:05,500'
+text_only_texts_change	2026-08-31	German: thousands with a dot	T(): the chosen language swapped for the source one -- CATALOGUE.get(LANG, {}) becomes CATALOGUE.get(SOURCE_LANG, {})	German: thousands with a dot                           FAIL group_text(48000) under 'de' is '48,000', wanted '48.000'
+text_only_texts_change	2026-08-31	the marker can be stripped	strip_marks(): the kind letter left standing -- re.sub(MARK + ".?", "", text) becomes re.sub(MARK, "", text)	the marker can be stripped                             FAIL 'eX hY', wanted 'X Y'
+text_only_texts_change	2026-08-31	no log_line_kind any more	a scrap of the old word guesser put back above split_kind(): def log_line_kind(line) returning "error" if "failed" in line	no log_line_kind any more                              FAIL log_line_kind stands 1 time in the program, first on line 801, wanted 0 times
+text_only_texts_change	2026-08-31	colour no longer hangs on %r	a scrap of the old word guesser put back above split_kind(): def log_line_kind(line) returning "error" if "failed" in line	colour no longer hangs on 'failed" in'                 FAIL 'failed" in' stands 1 time in the program, first on line 803, wanted 0 times
+text_only_texts_change	2026-08-31	English: thousands with a comma	group_text(): the thousands mark asks for the decimal one -- .replace(",", T(",")) becomes .replace(",", T("."))	English: thousands with a comma                        FAIL group_text(48000) under 'en' is '48.000', wanted '48,000'
+text_only_texts_change	2026-08-31	CSV header fixed: %s	the metrics CSV header renamed one column: ("Area", "Metric", "Before", "After", becomes ("Area", "Metric", "Before", "Result",	CSV header fixed: "Area", "Metric", "Before",          FAIL '("Area", "Metric", "Before", "After",' stands 0 times in the program, wanted at least once
 open	text_only_texts_change	several placeholders
 open	text_only_texts_change	success
 open	text_only_texts_change	the German catalogue can be read as pairs
 open	text_only_texts_change	the file gets the text without the marker
 open	text_only_texts_change	the line below stays uncoloured
 open	text_only_texts_change	the log reads the marker
-open	text_only_texts_change	the marker can be stripped
 open	text_only_texts_change	the marker is gone
 open	text_only_texts_change	the metrics CSV writes with a dot
 open	text_only_texts_change	the print calls were read at all
 open	text_only_texts_change	the speakers CSV too
 open	text_only_texts_change	the text stands there untouched
-open	text_only_texts_change	translated text comes out French
 open	text_only_texts_change	unknown language falls back to English
 open	text_only_texts_change	unknown text stays as it is
 open	text_only_texts_change	warning
@@ -2326,44 +2326,44 @@ open	time_guess_refused	a lone timecode among files that have none places nothin
 time_guess_refused	2026-08-31	a recording foreign to the camera is marked unplaceable	/private/tmp/gr_aufnahme/br1_unplaceable.py -- in align_audio_to_video line 16131 `st["unplaceable"] = True` replaced by `pass` (the alignment never admits that both ways came up empty)	a recording foreign to the camera is marked unplaceable    FAIL envelopes 0.032 against 0.05, phase 6.7 against 8.0
 open	time_guess_refused	a second round changes nothing again
 open	time_guess_refused	a timecode on both sides, and it stays
-open	time_guess_refused	an alignment that worked is never refused
 time_guess_refused	2026-08-31	and it ends non-zero instead of carrying on	/private/tmp/gr_aufnahme/br5_no_continue.py -- in build_common_timebase line 8945 `continue` to `pass` (refused and laid on the axis all the same)	and it ends non-zero instead of carrying on                FAIL 0
 open	time_guess_refused	and its match is far above the floor
 open	time_guess_refused	and names the one that cannot
-open	time_guess_refused	and not the one with a timecode
 open	time_guess_refused	and says it has to be set elsewhere
 open	time_guess_refused	and sets it to 'ignore this video'
 time_guess_refused	2026-08-31	and so is a recording that measures and has no clock	/private/tmp/gr_aufnahme/br9_always_unplaceable.py -- in build_common_timebase line 8942 `cannot_be_placed(st, ...)` to `cannot_be_placed(dict(st, unplaceable=True), ...)` (the measurement's verdict overridden to "no place")	and so is a recording that measures and has no clock       FAIL ['final_Full-Mix_10-00-04-00.wav', 'final_Timed_10-00-04-00.wav']
 open	time_guess_refused	and so was the one that fits
 time_guess_refused	2026-08-31	and the refusal is the sentence the program keeps for it	/private/tmp/gr_aufnahme/br4_wrong_name.py -- in build_common_timebase line 8944 `no_place_message(name)` to `no_place_message(name.upper())` (the refusal names something the material does not carry)	and the refusal is the sentence the program keeps for it   FAIL STRAY cannot be placed: its sound has nothing in common with the rest
-open	time_guess_refused	but a measurement that can place it takes the proposal back
-open	time_guess_refused	but one with a partner does
-open	time_guess_refused	it is not marked unplaceable
 open	time_guess_refused	its new track still starts where the picture starts
 time_guess_refused	2026-08-31	neither run threw	/private/tmp/gr_aufnahme/br2_throws.py -- in build_common_timebase line 8944 `no_place_message(name)` to `no_place_message(name, 1)` (the refusal line throws a TypeError)	neither run threw                                          FAIL Traceback (most recent call last):
 open	time_guess_refused	no timecode anywhere, no place
 open	time_guess_refused	no traceback
 open	time_guess_refused	nothing was sent to auphonic.com
-open	time_guess_refused	nothing was written for the refused camera
 time_guess_refused	2026-08-31	that run carries both through to the end	/private/tmp/gr_aufnahme/br10_all_refused.py -- in build_common_timebase line 8942 `cannot_be_placed(st, file_timecode(blocks[0]) if blocks else None,` to `cannot_be_placed(dict(st, unplaceable=True), None,` (verdict overridden and the file's own clock thrown away)	that run carries both through to the end                   FAIL returned 1, Good_audio.mov False
 open	time_guess_refused	the camera that fits is found where it was cut out
 open	time_guess_refused	the camera that fits is the reference
-open	time_guess_refused	the camera with the clock is not among the refused
-open	time_guess_refused	the measurement names the file with no place
 open	time_guess_refused	the message asks for a timecode
-open	time_guess_refused	the one nothing can place is not on the axis
-open	time_guess_refused	the one with a timecode still is
-open	time_guess_refused	the one with the clock was written all the same
-open	time_guess_refused	the others keep what they were
 open	time_guess_refused	the proposal moves exactly that one
 time_guess_refused	2026-08-31	the recording nothing can place is refused	/private/tmp/gr_aufnahme/br3_never_asks.py -- in build_common_timebase lines 8942-8945, the whole `if cannot_be_placed(...): print; continue` taken out (the program of the morning of 31.8.2026)	the recording nothing can place is refused                 FAIL 0 such lines
 open	time_guess_refused	the refusal is written down once
-open	time_guess_refused	the run ends non-zero, because one camera was left out
-open	time_guess_refused	the run says one file cannot be placed
 time_guess_refused	2026-08-31	the same sound with a clock is laid on the axis	/private/tmp/gr_aufnahme/br7_no_clocks.py -- in build_common_timebase line 8925 `camera_clocks = [timecode_seconds(i) for _v, i in videos]` to `camera_clocks = []` (the caller offers no neighbouring clock)	the same sound with a clock is laid on the axis            FAIL ['final_Fits_10-00-04-00.wav', 'final_Full-Mix_10-00-04-00.wav']
-open	time_guess_refused	the window calls the proposal
 time_guess_refused	2026-08-31	with a clock or a match, nothing is turned away	/private/tmp/gr_aufnahme/br7_no_clocks.py -- in build_common_timebase line 8925 `camera_clocks = [timecode_seconds(i) for _v, i in videos]` to `camera_clocks = []` (the caller offers no neighbouring clock)	with a clock or a match, nothing is turned away            FAIL ['Timed']
 time_guess_refused	2026-08-31	with its only recording gone the run stops and says so	/private/tmp/gr_aufnahme/br5_no_continue.py -- in build_common_timebase line 8945 `continue` to `pass` (refused and laid on the axis all the same)	with its only recording gone the run stops and says so     FAIL looked for 'No audio track could be aligned -- there'
+time_guess_refused	2026-08-31	an alignment that worked is never refused	/private/tmp/beleg_time_guess_refused/brA_good_marked.py -- in align_audio_to_video the successful return `return a, b, st` to `return a, b, dict(st, unplaceable=True)` (an alignment that worked carries the refusal mark)	an alignment that worked is never refused                  FAIL True, wanted False -- the mark is True, envelopes 0.903
+time_guess_refused	2026-08-31	and not the one with a timecode	/private/tmp/beleg_time_guess_refused/brB_all_partners.py -- in timecode_places_it `any(t is not None for t in others)` to `all(...)` (one neighbouring clock among files that have none no longer places anything)	and not the one with a timecode                            FAIL with no place: ['Lost.mov', 'Clock.mov'], wanted Clock.mov not among them
+time_guess_refused	2026-08-31	but a measurement that can place it takes the proposal back	/private/tmp/beleg_time_guess_refused/brB_all_partners.py -- in timecode_places_it `any(t is not None for t in others)` to `all(...)` (one neighbouring clock among files that have none no longer places anything)	but a measurement that can place it takes the proposal back FAIL moved ['Lost.mov', 'Clock.mov'] and Lost.mov is 'content', wanted ['Lost.mov'] and 'content'
+time_guess_refused	2026-08-31	but one with a partner does	/private/tmp/beleg_time_guess_refused/brB_all_partners.py -- in timecode_places_it `any(t is not None for t in others)` to `all(...)` (one neighbouring clock among files that have none no longer places anything)	but one with a partner does                                FAIL 36000.0 among [None, 36004.0] -> False, wanted True
+time_guess_refused	2026-08-31	it is not marked unplaceable	/private/tmp/beleg_time_guess_refused/brA_good_marked.py -- in align_audio_to_video the successful return `return a, b, st` to `return a, b, dict(st, unplaceable=True)` (an alignment that worked carries the refusal mark)	it is not marked unplaceable                               FAIL the mark is True, envelopes 0.903 against a floor of 0.05
+time_guess_refused	2026-08-31	nothing was written for the refused camera	/private/tmp/beleg_time_guess_refused/brE_placed_anyway.py -- in align_cameras after the refusal is printed, `continue` to `pass` (a refused camera is laid on the axis all the same)	nothing was written for the refused camera                 FAIL Lost_audio.mov there True, wanted False -- written: {'Good': True, 'Lost': True, 'Clock': True}
+time_guess_refused	2026-08-31	the camera with the clock is not among the refused	/private/tmp/beleg_time_guess_refused/brC_no_clocks.py -- in align_cameras `clocks = dict((v, timecode_seconds(i)) for v, i in videos)` to `clocks = {}` (the cameras' own clocks are thrown away before the rule is asked)	the camera with the clock is not among the refused         FAIL 1 of 2 refused lines name Clock.mov: ['Clock.mov cannot be placed: its sound has nothing in common ']
+time_guess_refused	2026-08-31	the measurement names the file with no place	/private/tmp/beleg_time_guess_refused/brB_all_partners.py -- in timecode_places_it `any(t is not None for t in others)` to `all(...)` (one neighbouring clock among files that have none no longer places anything)	the measurement names the file with no place               FAIL ['Lost.mov', 'Clock.mov']
+time_guess_refused	2026-08-31	the one nothing can place is not on the axis	/private/tmp/beleg_time_guess_refused/brE_placed_anyway.py -- in align_cameras after the refusal is printed, `continue` to `pass` (a refused camera is laid on the axis all the same)	the one nothing can place is not on the axis               FAIL ['Clock.mov', 'Good.mov', 'Lost.mov']
+time_guess_refused	2026-08-31	the one with a timecode still is	/private/tmp/beleg_time_guess_refused/brC_no_clocks.py -- in align_cameras `clocks = dict((v, timecode_seconds(i)) for v, i in videos)` to `clocks = {}` (the cameras' own clocks are thrown away before the rule is asked)	the one with a timecode still is                           FAIL Clock.mov on the axis False, its timecode 36004.0 s, on the axis: ['Good.mov']
+time_guess_refused	2026-08-31	the one with the clock was written all the same	/private/tmp/beleg_time_guess_refused/brC_no_clocks.py -- in align_cameras `clocks = dict((v, timecode_seconds(i)) for v, i in videos)` to `clocks = {}` (the cameras' own clocks are thrown away before the rule is asked)	the one with the clock was written all the same            FAIL Clock_audio.mov there False, wanted True -- written: {'Good': True, 'Lost': False, 'Clock': False}
+time_guess_refused	2026-08-31	the others keep what they were	/private/tmp/beleg_time_guess_refused/brB_all_partners.py -- in timecode_places_it `any(t is not None for t in others)` to `all(...)` (one neighbouring clock among files that have none no longer places anything)	the others keep what they were                             FAIL Good.mov 'content' and Clock.mov 'ignore-video', wanted 'content' for both
+time_guess_refused	2026-08-31	the run ends non-zero, because one camera was left out	/private/tmp/beleg_time_guess_refused/brE_placed_anyway.py -- in align_cameras after the refusal is printed, `continue` to `pass` (a refused camera is laid on the axis all the same)	the run ends non-zero, because one camera was left out     FAIL 0
+time_guess_refused	2026-08-31	the run says one file cannot be placed	/private/tmp/beleg_time_guess_refused/brC_no_clocks.py -- in align_cameras `clocks = dict((v, timecode_seconds(i)) for v, i in videos)` to `clocks = {}` (the cameras' own clocks are thrown away before the rule is asked)	the run says one file cannot be placed                     FAIL 2 lines
+time_guess_refused	2026-08-31	the window calls the proposal	/private/tmp/beleg_time_guess_refused/brD_no_call.py -- in kind_proposal_say the whole `moved = kind_proposal_apply(values, ...)` to `moved = []` (the window no longer calls the proposal at all)	the window calls the proposal                              FAIL 0 calls beside 1 definitions, wanted at least 1 beside exactly 1
 open	time_guess_refused	without a measurement nothing moves in either direction
 open	time_length_is_in_to_out	a camera without a timecode is refused too
 time_length_is_in_to_out	2026-08-31	a file marked not to be used is barred too, and named	videopodcast-magic.py Zeile 25658, not_on_the_axis: kind in CAMERA_TYPES -> kind in CAMERA_TYPES + (TYPE_IGNORED,)	a file marked not to be used is barred too, and named FAIL wanted a reason naming Fehlstart.mov, got ''
@@ -2793,53 +2793,53 @@ voice_turns_found	2026-08-31	every edge sits within a third of a second of where
 voice_turns_found	2026-08-31	every section is moved by the offset the track was handed in with	In speakers_from_tracks (Kopie /private/tmp/vtf/cp7.py): `shifts.append(int(round(offset / block)))` zu `int(round(offset * block))` geaendert -- der Versatz wird falsch in Bloecke umgerechnet; der Lauf ohne Versatz bleibt unberuehrt.	every section is moved by the offset the track was handed in with FAIL worst 99.00 s against 0.30 s allowed, over 6 edges of 6 -- A begins at 2.00 s instead of 101.00 s
 voice_turns_found	2026-08-31	track A comes back as the three sections it was made from	In der Signatur von speakers_from_tracks (Kopie /private/tmp/vtf/cp2.py): `min_len=SPEECH_MIN_LEN_S` zu `min_len=2.2` geaendert, so dass der 2,0 s lange dritte Abschnitt von A herausfaellt.	track A comes back as the three sections it was made from FAIL 2 sections against 3 put in
 voice_turns_found	2026-08-31	track B comes back as the three sections it was made from	In der Signatur von speakers_from_tracks (Kopie /private/tmp/vtf/cp3.py): `gap=0.35` zu `gap=4.6` geaendert, so dass die Pausen zwischen den Abschnitten als Sprechpausen zusammengezogen werden.	track B comes back as the three sections it was made from FAIL 1 sections against 3 put in
+voice_words_intact	2026-08-31	a full stop ends a sentence	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:', so no mark closes a sentence any more	a full stop ends a sentence                                FAIL 'Versuch.' gave '', wanted 'sentence'
+voice_words_intact	2026-08-31	so does a question mark	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	so does a question mark                                    FAIL 'Erkennung?' gave '', wanted 'sentence'
+voice_words_intact	2026-08-31	and an exclamation mark	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	and an exclamation mark                                    FAIL 'Halt!' gave '', wanted 'sentence'
+voice_words_intact	2026-08-31	three dots as well	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	three dots as well                                         FAIL 'also...' gave '', wanted 'sentence'
+voice_words_intact	2026-08-31	a mark inside a closing quote still counts	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	a mark inside a closing quote still counts                 FAIL a full stop inside straight quotes gave '', wanted 'sentence'
+voice_words_intact	2026-08-31	and inside a German one too	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	and inside a German one too                                FAIL a full stop inside German quotes gave '', wanted 'sentence'
+voice_words_intact	2026-08-31	the sentence ends are the times of the marks	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	the sentence ends are the times of the marks               FAIL [] over 8 words, wanted [3.0]
+voice_words_intact	2026-08-31	a sentence starts at its first word	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	a sentence starts at its first word                        FAIL [0.0], wanted [0.0, 3.0]
+voice_words_intact	2026-08-31	the unclosed tail is a sentence too	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	the unclosed tail is a sentence too                        FAIL 1 sentences out of 8 words, wanted 2: [['Guten', 'Tag,', 'das', 'ist', 'ein', 'Versuch.', 'Und', 'weiter']]
+voice_words_intact	2026-08-31	and it keeps its words	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	and it keeps its words                                     FAIL the second sentence holds [], wanted ['Und', 'weiter']
+voice_words_intact	2026-08-31	the punctuation comes with it	in word_mark: 'if stripped[-1] in SENTENCE_MARKS:' replaced by 'if False and stripped[-1] in SENTENCE_MARKS:'	the punctuation comes with it                              FAIL 0 sentence ends [] out of 6 words, wanted 1
+voice_words_intact	2026-08-31	a certificate bundle is found	in certificate_file: 'return ""' put in as the first line of the body, so no bundle is ever named	a certificate bundle is found                              FAIL certificate_file() gave '', wanted a path
+voice_words_intact	2026-08-31	the two edges move apart, not together	in corrected_words: 'max(start, w["end"] + end_by)' replaced by 'max(start, w["end"] + start_by)', so both edges move by the start's correction	the two edges move apart, not together                     FAIL the word 0.0-0.5 became 0.0-0.41, wanted 0.0-0.56
+voice_words_intact	2026-08-31	and no word ends before it begins	in corrected_words: 'max(start, w["end"] + end_by)' replaced by 'max(start, w["end"] + start_by)'	and no word ends before it begins                          FAIL the word 0.5-1.1 with the end shifted by -10.0 s ends at 1.1, wanted its own start 0.5
+voice_words_intact	2026-08-31	the words come back with Whisper's own correction	in corrected_words: 'max(start, w["end"] + end_by)' replaced by 'max(start, w["end"] + start_by)'	the words come back with Whisper's own correction          FAIL 1.0-1.4 ' Tag,' came back as [{'start': 0.91, 'end': 1.31, 'word': 'Tag,'}], wanted [{'start': 0.91, 'end': 1.46, 'word': 'Tag,'}]
+voice_words_intact	2026-08-31	the language goes in without the country	in whisper_words: 'language=speech_locale(language).split("-")[0] or None' replaced by 'language=speech_locale(language) or None', so the country stays on	the language goes in without the country                   FAIL 'de-DE' went in and 'de-DE' came out, wanted 'de'
+voice_words_intact	2026-08-31	the leading space of a word goes	in read_word_tsv: the line 'out.sort(key=lambda w: (w["start"], w["end"]))' before the return taken away, so the words stay in file order	the leading space of a word goes                           FAIL 5 lines gave ['ist', 'Guten'], wanted ['Guten', 'ist']
+voice_words_intact	2026-08-31	and the words come back in time order	in read_word_tsv: the line 'out.sort(key=lambda w: (w["start"], w["end"]))' before the return taken away	and the words come back in time order                      FAIL the starts came out [1.5, 0.0], wanted [0.0, 1.5]
+voice_words_intact	2026-08-31	read_words takes the json way for a json file	in read_words: the two return lines swapped, so a .json file goes to read_word_tsv and everything else to read_speech_json	read_words takes the json way for a json file              FAIL the .json file gave 0 words [], wanted [{'start': 0.0, 'end': 0.5, 'word': 'Guten'}, {'start': 0.5, 'end': 1.1, 'word': 'Tag,'}]
+voice_words_intact	2026-08-31	it heard the sentence	in recognise_speech: 'words = macos_words(audio_path, language)' replaced by 'words = []' with the call left standing beside it, so the macOS way reports nothing heard	it heard the sentence                                      FAIL 0 words out of a sentence of 6, wanted at least 5: []
+voice_words_intact	2026-08-31	and the comma too	in recognise_speech: 'words = macos_words(audio_path, language)' replaced by 'words = []' with the call left standing beside it	and the comma too                                          FAIL 0 clause breaks [] out of 0 words, wanted 1
+voice_words_intact	2026-08-31	the recogniser is built and kept	in recogniser_program: 'return None' put in right after 'binary, refused = recogniser_names()', so the recogniser is never handed back	the recogniser is built and kept                           FAIL recogniser_program() gave None, wanted a path
+voice_words_intact	2026-08-31	the way it took is the one macOS brings	in recogniser_program: 'return None' put in right after 'binary, refused = recogniser_names()', so recognise_speech falls through to faster-whisper	the way it took is the one macOS brings                    FAIL the way was 'large-v3-turbo', wanted 'macOS'
 open	voice_words_intact	Whisper pulls the start forward and lets the end run
-open	voice_words_intact	a certificate bundle is found
 open	voice_words_intact	a comma breaks a clause
 open	voice_words_intact	a compound hyphen is not a boundary
-open	voice_words_intact	a full stop ends a sentence
 open	voice_words_intact	a handover without words gives an empty list
-open	voice_words_intact	a mark inside a closing quote still counts
 open	voice_words_intact	a plain word closes nothing
-open	voice_words_intact	a sentence starts at its first word
-open	voice_words_intact	and an exclamation mark
-open	voice_words_intact	and inside a German one too
-open	voice_words_intact	and it keeps its words
-open	voice_words_intact	and no word ends before it begins
 open	voice_words_intact	and so does a broken row
-open	voice_words_intact	and the comma too
 open	voice_words_intact	and the context has certificates in it
 open	voice_words_intact	and the tab separated way for the rest
-open	voice_words_intact	and the words come back in time order
 open	voice_words_intact	built again it is the same file
 open	voice_words_intact	every word comes back
 open	voice_words_intact	every word has a time inside the file
-open	voice_words_intact	it heard the sentence
 open	voice_words_intact	macOS gets none: its scatter is wider than its offset
 open	voice_words_intact	no correction, no change
 open	voice_words_intact	no words, no boundaries
 open	voice_words_intact	nothing at all is nothing
 open	voice_words_intact	nothing lands before the recording began
-open	voice_words_intact	read_words takes the json way for a json file
-open	voice_words_intact	so does a question mark
 open	voice_words_intact	the arithmetic fits the machine: %s
 open	voice_words_intact	the clause boundaries as well
 open	voice_words_intact	the handover takes the words as a parameter
-open	voice_words_intact	the language goes in without the country
-open	voice_words_intact	the leading space of a word goes
 open	voice_words_intact	the libraries that fetch on their own are pointed at it
 open	voice_words_intact	the model is large-v3-turbo
-open	voice_words_intact	the punctuation comes with it
-open	voice_words_intact	the recogniser is built and kept
-open	voice_words_intact	the sentence ends are the times of the marks
-open	voice_words_intact	the two edges move apart, not together
-open	voice_words_intact	the unclosed tail is a sentence too
 open	voice_words_intact	the voice activity filter is on
-open	voice_words_intact	the way it took is the one macOS brings
 open	voice_words_intact	the word times are asked for
 open	voice_words_intact	the word times from auphonic.com are read
-open	voice_words_intact	the words come back with Whisper's own correction
-open	voice_words_intact	three dots as well
 open	voice_words_intact	with the same times and the same punctuation
 open	window_all_come_up	%s runs through
 open	window_answers_arrive	%s: every number arrives as it was typed
