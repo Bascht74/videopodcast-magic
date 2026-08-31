@@ -1791,13 +1791,6 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         print(T('  Please give a number between 1 and %d.') % len(items))
 
 
-# What auphonic.com delivers once speech recognition has run: a
-# machine readable transcript with times, a subtitle file, and one for
-# reading. All three, because they cost nothing beyond the recognition.
-TRANSCRIPT_OUTPUTS = ({"format": "speech", "ending": "json"},
-                      {"format": "subtitle", "ending": "srt"},
-                      {"format": "transcript", "ending": "txt"})
-
 # Output files with these endings are text about the audio, not audio.
 TRANSCRIPT_SUFFIXES = (".json", ".srt", ".vtt", ".txt", ".html", ".xml")
 
@@ -1823,6 +1816,19 @@ SPEECH_CODES = {
     "ara": "ar", "heb": "he", "hun": "hu", "ron": "ro", "rum": "ro",
     "ukr": "uk", "cat": "ca",
 }
+
+
+def speech_locale(language):
+    """The recogniser's code for the tag the interface carries.
+
+    The Language field and --speech-language hold what ffmpeg wants on
+    the audio track: three letters. Both recognisers want the two-letter
+    code. "ger" matched no locale and was dropped without a word, so the
+    machine's own language decided and the field did nothing -- asked
+    for "eng" on a German Mac, the recognition ran in de_DE.
+    """
+    tag = (language or "").strip()
+    return SPEECH_CODES.get(tag.lower(), tag)
 
 
 # What the interface offers. The tag is what ffmpeg wants on the audio
@@ -17499,6 +17505,7 @@ def macos_words(audio_path, language=""):
     program = recogniser_program()
     if not program:
         return None
+    language = speech_locale(language)
     handle, out = tempfile.mkstemp(suffix=".tsv", prefix="vpm_words_")
     os.close(handle)
     try:
@@ -17581,7 +17588,7 @@ def whisper_words(audio_path, language="", install=True):
         model = module.WhisperModel(WHISPER_MODEL, device="auto",
                                     compute_type=whisper_arithmetic())
         pieces, _info = model.transcribe(
-            audio_path, language=(language or "").split("-")[0] or None,
+            audio_path, language=speech_locale(language).split("-")[0] or None,
             word_timestamps=True, vad_filter=True)
         out = []
         for piece in pieces:
@@ -29676,8 +29683,8 @@ def gui():
     name_bar.insertSpacing(name_bar.count() - 1, 6)
     name_bar.insertWidget(name_bar.count() - 1, hint(language_box,
         T('The language spoken in the recording. It becomes the tag of '
-          'the\nwritten audio track, and auphonic.com uses it for the '
-          'transcript.\nPreset from the system language. "%s" leaves the '
+          'the\nwritten audio track, and the recognition here is told to '
+          'expect it.\nPreset from the system language. "%s" leaves the '
           'track untagged\nand lets the recognition work the language '
           'out itself.') % T('not set')))
 
@@ -29764,7 +29771,6 @@ def gui():
         available; only the preset behind it changes what happens.
         """
         multi_button.setEnabled(True)
-        # The transcript is fetched from auphonic.com. Without a preset
         buttons_check()
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
@@ -35513,8 +35519,8 @@ CATALOGUE["de"] = {
         'jeder von ihnen mit dem Kanal daneben',
     'not set':
         'nicht gesetzt',
-    'The language spoken in the recording. It becomes the tag of the\nwritten audio track, and auphonic.com uses it for the transcript.\nPreset from the system language. "%s" leaves the track untagged\nand lets the recognition work the language out itself.':
-        'Die in der Aufnahme gesprochene Sprache. Sie wird zur Kennzeichnung der\ngeschriebenen Tonspur, und auphonic.com nutzt sie für die Transkription.\nVorbelegt aus der Systemsprache. "%s" lässt die Spur ungekennzeichnet\nund überlässt der Erkennung die Sprache.',
+    'The language spoken in the recording. It becomes the tag of the\nwritten audio track, and the recognition here is told to expect it.\nPreset from the system language. "%s" leaves the track untagged\nand lets the recognition work the language out itself.':
+        'Die in der Aufnahme gesprochene Sprache. Sie wird zur Kennzeichnung der\ngeschriebenen Tonspur, und die Erkennung hier wird darauf eingestellt.\nVorbelegt aus der Systemsprache. "%s" lässt die Spur ungekennzeichnet\nund überlässt der Erkennung die Sprache.',
     'German':
         'Deutsch',
     'English':
