@@ -13201,6 +13201,14 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         if track.get("camera"):
             speaker_of.setdefault(os.path.abspath(track["camera"]),
                                     []).append(track["name"])
+    # And the voices told apart under one recording, which have no track
+    # of their own. Without them a camera the cut fills with a person
+    # comes over as having nobody on it: it counts as a wide shot, and
+    # its key on the timeline is the camera's name and not the person's.
+    for name, where in voices_of_file(
+            getattr(args, "assign", "")
+            or getattr(args, "speakers_from", "") or "").items():
+        speaker_of.setdefault(os.path.abspath(where), []).append(name)
 
     #----------------------------------------------------- Handover file
     marked_wide = marked_wide_shots(args)
