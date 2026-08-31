@@ -21497,9 +21497,14 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
         view_menu.clear()
         for number in range(tabs.count()):
             named = tabs.tabText(number).replace("&&", "&")
-            act(view_menu, named.replace("\u2713", "").strip(),
-                lambda i=number: tabs.setCurrentIndex(i),
-                "Ctrl+%d" % (number + 1))
+            shown = act(view_menu, named.replace("\u2713", "").strip(),
+                        lambda i=number: tabs.setCurrentIndex(i),
+                        "Ctrl+%d" % (number + 1))
+            # The entry shows the key and must not answer it: the same
+            # key on the window would then be a second answer, Qt calls
+            # that ambiguous and fires neither. Every key was dead the
+            # moment somebody had opened this menu once.
+            shown.setShortcutContext(QtCore.Qt.WidgetShortcut)
 
     view_menu_fill()
     view_menu.aboutToShow.connect(view_menu_fill)
