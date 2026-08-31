@@ -1640,6 +1640,12 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
         for path in [conf] + leftovers:
             try:
                 os.unlink(path)
+            except FileNotFoundError:
+                # Already gone is the goal, not a failure. Without this
+                # the branch below made a fresh empty file at that path
+                # -- one per upload and one per download, left lying in
+                # the temp folder for ever.
+                continue
             except OSError:
                 try:
                     with open(path, "w", encoding="utf-8") as f:
