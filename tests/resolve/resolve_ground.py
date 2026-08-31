@@ -24,6 +24,7 @@ close():
 """
 import os
 import random
+import re
 import sys
 import time
 
@@ -43,6 +44,51 @@ def program():
     spec.loader.exec_module(vpm)
     vpm.set_language("en")
     return vpm
+
+
+# The shape of a name the tests give their own projects -- and nothing
+# else. Anchored at both ends, and the whole tail spelled out: after
+# "vpm-test-" there has to be a word, then a process id, then four
+# hexadecimal digits. A person's own project cannot take that shape by
+# accident, and a substring match on "vpm-test" could: the sweep below
+# deletes what this matches, so it is written to be narrow rather than
+# convenient.
+TEST_PROJECT = re.compile(r"^vpm-test-[a-z0-9]+-[0-9]+-[0-9a-f]{4}$")
+
+
+def a_test_name(what):
+    """The name a test gives its own project. The only place it is built."""
+    return "vpm-test-%s-%d-%04x" % (what, os.getpid(), random.getrandbits(16))
+
+
+def swept(pm):
+    """Delete the projects the tests made. Returns (deleted, left standing).
+
+    Only what TEST_PROJECT matches, and the list is read again afterwards
+    rather than the answer believed: DeleteProject says False for a
+    project that was never saved, and True is not evidence either.
+
+    A project that is open cannot be deleted, so whoever calls this opens
+    something else first -- sweep.py does, and puts the caller's own
+    project back afterwards.
+    """
+    here = pm.GetCurrentProject()
+    here = here.GetName() if here else ""
+    mine = [n for n in (pm.GetProjectListInCurrentFolder() or [])
+            if TEST_PROJECT.match(n)]
+    for name in mine:
+        # Resolve refuses to delete the project it has open, and answers
+        # False without saying why. Skipped here so that it comes back as
+        # one that stayed, with a name on it.
+        if name == here:
+            continue
+        try:
+            pm.DeleteProject(name)
+        except Exception:
+            pass
+    after = pm.GetProjectListInCurrentFolder() or []
+    return ([n for n in mine if n not in after],
+            [n for n in mine if n in after])
 
 
 def leave_out(why):
@@ -100,6 +146,28 @@ def standstill(look, wants, patience=20.0, step=0.2):
     return last == wants, last, time.time() - began
 
 
+def progresses(look, done, patience=30.0, step=0.2):
+    """Wait until done(seen), giving up when seen stops changing.
+
+    The same discipline as standstill, for a sign of life that is a word
+    rather than a number: patience counts from the last time the answer
+    changed, so a slow machine is not punished and something hanging
+    while there is still time left is caught all the same. Returns
+    (arrived, what was last seen, how long it took) -- the caller checks
+    it, because exhausted patience is red and not green.
+    """
+    began = time.time()
+    last, since = look(), time.time()
+    while not done(last):
+        time.sleep(step)
+        now = look()
+        if now != last:
+            last, since = now, time.time()
+        elif time.time() - since > patience:
+            break
+    return done(last), last, time.time() - began
+
+
 class OwnProject(object):
     """A Resolve project belonging to this test alone, gone again after.
 
@@ -110,8 +178,7 @@ class OwnProject(object):
     def __init__(self, vpm, resolve, what):
         self.vpm = vpm
         self.pm = resolve.GetProjectManager()
-        self.name = "vpm-test-%s-%d-%04x" % (what, os.getpid(),
-                                             random.getrandbits(16))
+        self.name = a_test_name(what)
         self.before = None
         self.project = None
         self.kind = None
