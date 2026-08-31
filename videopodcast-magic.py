@@ -22740,6 +22740,11 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         # -- Setup ----------------------------------------------------
         def set(self, cut, files, offset, audio_file, audio_offset,
                    begins=0.0, until=None, tc0=None):
+            # Where the viewer was, and whether they were watching. A
+            # fresh cut arrives whenever the window recomputes its
+            # preview, and the picture has to follow it -- but the place
+            # and the playing belong to whoever is sitting there.
+            ran, where = self._playing, self._time()
             self.pause()
             self.cut = [(a, b, who) for a, b, who in (cut or [])
                             if who in (files or {})]
@@ -22760,7 +22765,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 _say(T('Audio file %s') % os.path.basename(audio_file))
                 self.audio.setSource(QtCore.QUrl.fromLocalFile(audio_file))
             self._times_show()
-            self.jump(self.begins)
+            self.jump(where if where > self.begins else self.begins)
+            if ran:
+                self.play()
 
         # -- Seeking --------------------------------------------------
         def jump(self, t):
