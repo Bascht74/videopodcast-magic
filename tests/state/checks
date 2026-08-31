@@ -170,6 +170,7 @@ voice_answer_kept	24
 voice_bleed_gone_first	10
 voice_both_ways_agree	16
 voice_every_word_placed	32
+voice_language_arrives	15
 voice_mhm_is_speech	9
 voice_names_when_sure	55
 voice_questions_rank	22
