@@ -89,6 +89,12 @@ rest of the material and no timecode places it either, the run leaves it
 out, and while writing it names what it left out and why: nothing places
 it, so it is no camera of this episode.
 
+A second reason leaves a camera out, and the run names it apart from
+the first: the file it should have carried never came back. Placed it
+was, and measured -- only nothing was written for it. Handed over it
+would stand with an empty path, and Resolve then falls back to the
+untouched source and imports that in place of the processed camera.
+
 Leaving it out is the point. Nothing was rendered for such a file, and
 it would carry the mark of the wide shot: the wide shot is whoever
 has no speaker assigned, and nobody is assigned to a file that fits
