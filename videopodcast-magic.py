@@ -31487,7 +31487,6 @@ def gui():
 
     items_fresh()
     folder_show()
-    window_enable()
     state["cut_box_there"] = True    # the cut box stands, so it can be read
     wide_state_show()
     preview_compute()
@@ -31517,6 +31516,7 @@ def gui():
         "to in": lambda: to_limit(start_var.get(), "In point"),
         "to out": lambda: to_limit(end_var.get(), "Out point")}, window_switch)
     vertical.setMenuBar(menu)
+    window_enable()    # after the menu: its four player entries join the list
 
     def scheme_changed(*_):
         """Follow a desktop switched between light and dark while running.
