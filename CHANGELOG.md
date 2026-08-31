@@ -38,10 +38,8 @@ nicht.
 
 ### Fixed
 
-- Ctrl+1 to Ctrl+4 reach the four tabs. None of them ever did: the menu
-  entry and the window claimed the same key, and Qt answers neither of
-  two claims on one key. The menu shows the keys now, the window
-  answers them.
+- None of the keys Ctrl+1 to Ctrl+4 did anything at all. All four reach
+  their tab now.
 - Every camera arrived in Resolve as a wide shot carrying nobody
   wherever the voices were told apart under one shared recording. The
   handover reads the assignment too now, so a camera comes over with
@@ -73,10 +71,8 @@ nicht.
 
 ### Tests
 
-- 431 checks that had been green for months are known to catch
-  something: each was seen red against a copy of the program with the
-  one thing it is about broken. A third of the suite stands on that
-  evidence.
+- 431 checks that had been green for months are now known to catch
+  something. A third of the suite stands on that evidence.
 - The check that the Auphonic key never leaves the machine in the clear
   read the command line only, and a key written into the request body
   left it green. Every argument and every file handed to curl is
@@ -105,10 +101,8 @@ nicht.
 
 ### Behoben
 
-- Strg+1 bis Strg+4 erreichen die vier Reiter. Keine dieser Tasten tat
-  es je: Menüeintrag und Fenster beanspruchten dieselbe Tastenfolge,
-  auf zwei Ansprüche antwortet Qt gar nicht. Das Menü zeigt die Tasten
-  jetzt, das Fenster löst sie aus.
+- Keine der Tasten Strg+1 bis Strg+4 tat überhaupt etwas. Alle vier
+  erreichen jetzt ihren Reiter.
 - Jede Kamera kam in Resolve als Weitwinkel ohne Sprecher an, sobald
   die Stimmen unter einer gemeinsamen Aufnahme auseinandergehalten
   wurden. Die Übergabe liest jetzt auch die Zuordnung, jede Kamera
@@ -131,9 +125,8 @@ nicht.
   den ausgelassenen.
 - Die Tonspuren von auphonic.com wurden am ganzen Dateinamen
   zugeordnet: trägt der Episodentitel die Sprechernamen, zieht es eine
-  Spur zur falschen Datei -- „Guest" kam auf 0,286 zum Eintrag des
-  Gastgebers und 0,278 zum eigenen. Verglichen wird jetzt nur, was die
-  Namen unterscheidet.
+  Spur zur falschen Datei. Verglichen wird jetzt nur, was die Namen
+  unterscheidet.
 - Jede Übertragung zu auphonic.com und zurück ließ eine leere Datei im
   Temp-Ordner liegen, eine je Vorgang. Der Ordner bleibt jetzt sauber.
 
