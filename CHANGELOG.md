@@ -62,9 +62,8 @@ nicht.
   among the ones left out now.
 - The tracks coming back from auphonic.com were matched on the whole
   file name, so an episode title carrying the speakers' names drew a
-  track to the wrong file: "Guest" scored 0.286 against the host's
-  entry, 0.278 against its own. What all the names share is cut away
-  now, before they are compared.
+  track to the wrong file. What all the names share is cut away now,
+  before they are compared.
 - Every upload to auphonic.com and every download left an empty file
   lying in the temp folder, one per transfer. The folder stays clean
   now.
@@ -132,10 +131,8 @@ nicht.
 
 ### Tests
 
-- 431 Prüfungen, monatelang grün, sind als prüfend belegt: jede wurde
-  einmal rot gesehen, gegen eine Kopie des Programms, in der genau ihr
-  Gegenstand kaputt war. Ein Drittel der Testreihe steht auf solchen
-  Belegen.
+- 431 Prüfungen, monatelang grün, sind jetzt als prüfend belegt. Ein
+  Drittel der Testreihe steht auf solchen Belegen.
 - Die Prüfung, dass der Auphonic-Schlüssel nirgends im Klartext
   auftaucht, sah nur in die Kommandozeile -- in den Anfragekörper
   geschrieben blieb sie grün. Durchsucht wird jetzt jedes Argument und
