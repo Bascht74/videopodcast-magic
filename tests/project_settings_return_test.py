@@ -127,7 +127,6 @@ def entry(label_text):
 WANTED = {"production": "Rundlauf",
           "camera_name": "Rundlauf_Weit_eigener_Name",
           "kind": None,           # filled in once the box is known
-          "transcript": False,
           "speaker": "Die Befragte"}
 found = {}
 
@@ -235,9 +234,6 @@ def step():
                 app.processEvents()
                 check("the speaker name went in",
                       said.text() == WANTED["speaker"], repr(said.text()))
-            tick = button("Fetch transcript")
-            if tick is not None and tick.isChecked() != WANTED["transcript"]:
-                tick.setChecked(WANTED["transcript"])
         elif i == 4:
             # The file is written once as soon as the axis is measured,
             # before anybody has typed anything. If closing does not
@@ -298,8 +294,6 @@ def step():
                   % (found.get("kind_file"),
                      kinds.get(found.get("kind_file")),
                      found.get("kind_value"), kinds))
-            check("it keeps the transcript answer", "transcript" in d,
-                  str(sorted(d)))
             check("it keeps the speaker name",
                   WANTED["speaker"] in json.dumps(d, ensure_ascii=False),
                   "not anywhere in the file")
@@ -401,10 +395,6 @@ def again():
             check("the speaker name is back",
                   said is not None and said.text() == WANTED["speaker"],
                   repr(said.text()) if said is not None else "no field")
-            tick = button("Fetch transcript")
-            check("the transcript answer is back",
-                  tick is not None and tick.isChecked() == WANTED["transcript"],
-                  "" if tick is None else str(tick.isChecked()))
         elif i == 3:
             # Closing must leave nothing of the project behind: what
             # stands here is carried into the next production.

@@ -4,7 +4,8 @@
 The key for auphonic.com and the preset used to stand in one box on the
 first sheet, so choosing a preset meant paging away from the table where
 that choice belongs. They are apart now -- key and Resolve check behind
-"Settings ...", preset under the assignment table.
+"Settings ...", preset and the Multitrack tick under the assignment
+table.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -128,11 +129,9 @@ def step():
             check("and the preset list is one of its fields", found is not None)
             names = [w.text() for w in win().findChildren(QtWidgets.QCheckBox)
                      if w.isVisible()]
-            check("the transcript tick came with it",
-                  any("ranskri" in x or "ranscript" in x for x in names),
-                  str(names))
-            check("beside the multitrack tick",
-                  any("ulti" in x for x in names), str(names))
+            check("the multitrack tick is on the assignment sheet",
+                  any("ulti" in x for x in names),
+                  "no tick named after Multitrack among %s" % names)
             print("\n3. Settings: one window, opened on purpose")
             b = button("Settings")
             check("the button is there", b is not None)
