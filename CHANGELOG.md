@@ -25,6 +25,143 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.24.1-beta] - 2026-08-31
+
+**English**
+
+### Changed
+
+- Above a recording it had just placed, the run printed nothing but a
+  weak match, which read as a verdict it was overruling. The line names
+  the comparison that placed the file -- "placed by phase" -- beside
+  the block count.
+
+### Fixed
+
+- Ctrl+1 to Ctrl+4 reach the four tabs. None of them ever did: the menu
+  entry and the window claimed the same key, and Qt answers neither of
+  two claims on one key. The menu shows the keys now, the window
+  answers them.
+- Every camera arrived in Resolve as a wide shot carrying nobody
+  wherever the voices were told apart under one shared recording. The
+  handover reads the assignment too now, so a camera comes over with
+  its speaker and its clips are keyed by the person.
+- "This produces:" promised two audio tracks per camera; the run wrote
+  five -- the mix, one per recording, and the camera original. The plan
+  counts them as the writer does now, and says two where
+  "--no-single-tracks" or a single recording makes two.
+- A finished cut paused the player and rewound it, so anybody who
+  pressed play shortly after opening a project was stopped. The picture
+  still follows the new cut, but the place and the playing now stay
+  with whoever is watching.
+- A recording nothing could place was laid down at whatever number came
+  out, where it looks exactly like one that fits. It is refused now,
+  with the sentence the program keeps for it, as a camera without a
+  place already was.
+- A camera whose file was never written stood in the handover with an
+  empty path, counted as the wide shot, and Resolve then quietly
+  imported the untouched source in its place. Such a camera is named
+  among the ones left out now.
+- The tracks coming back from auphonic.com were matched on the whole
+  file name, so an episode title carrying the speakers' names drew a
+  track to the wrong file: "Guest" scored 0.286 against the host's
+  entry, 0.278 against its own. What all the names share is cut away
+  now, before they are compared.
+- Every upload to auphonic.com and every download left an empty file
+  lying in the temp folder, one per transfer. The folder stays clean
+  now.
+
+### Tests
+
+- 431 checks that had been green for months are known to catch
+  something: each was seen red against a copy of the program with the
+  one thing it is about broken. A third of the suite stands on that
+  evidence.
+- The check that the Auphonic key never leaves the machine in the clear
+  read the command line only, and a key written into the request body
+  left it green. Every argument and every file handed to curl is
+  searched now.
+
+### Documentation
+
+- The interface chapter said the "Language" field tells auphonic.com
+  what to expect when transcribing. It sets the tag of the written
+  audio track and tells the recognition on this machine which language
+  to expect, and the chapter says so.
+- The key table gave K as "Pause, back to 1x". K pauses; the speed goes
+  back to 1x on the next press of L.
+- The roadmap described 2.23.0-beta: a transcript ordered at
+  auphonic.com, a contributing guide and a pull request template under
+  what is not planned although both exist. It describes 2.24.0-beta.
+
+**Deutsch**
+
+### Geändert
+
+- Über einer Aufnahme, die der Lauf gerade platziert hatte, stand nur
+  „schwache Übereinstimmung" -- als setze er sich über sein eigenes
+  Urteil hinweg. Neben der Blockzahl sagt die Zeile, welcher Vergleich
+  die Datei gesetzt hat: „per Phase platziert".
+
+### Behoben
+
+- Strg+1 bis Strg+4 erreichen die vier Reiter. Keine dieser Tasten tat
+  es je: Menüeintrag und Fenster beanspruchten dieselbe Tastenfolge,
+  auf zwei Ansprüche antwortet Qt gar nicht. Das Menü zeigt die Tasten
+  jetzt, das Fenster löst sie aus.
+- Jede Kamera kam in Resolve als Weitwinkel ohne Sprecher an, sobald
+  die Stimmen unter einer gemeinsamen Aufnahme auseinandergehalten
+  wurden. Die Übergabe liest jetzt auch die Zuordnung, jede Kamera
+  trägt ihren Sprecher, ihre Clips heißen nach der Person.
+- „This produces:" versprach zwei Tonspuren je Kamera, geschrieben
+  wurden fünf: die Mischung, eine je Aufnahme, dazu die Kameraspur. Der
+  Plan zählt jetzt nach derselben Regel wie der Schreiber -- mit
+  „--no-single-tracks" oder einer einzigen Aufnahme sind es zwei.
+- Ein fertiger Schnitt hielt den Spieler an und spulte an den Anfang;
+  wer kurz nach dem Öffnen eines Projekts auf Wiedergabe drückte, wurde
+  gestoppt. Das Bild folgt weiter dem neuen Schnitt, Stelle und
+  Wiedergabe bleiben jetzt beim Zuschauer.
+- Eine Aufnahme, die nirgends hinpasste, wurde bei der Zahl abgelegt,
+  die gerade herauskam -- und sieht dort aus wie eine, die passt. Sie
+  wird jetzt zurückgewiesen, mit dem Satz, den das Programm dafür
+  bereithält, wie eine Kamera ohne Platz schon länger.
+- Eine Kamera, deren Datei nie geschrieben wurde, stand mit leerem Pfad
+  in der Übergabe, galt dort als Weitwinkel, und Resolve holte sich
+  still die unbearbeitete Quelle. Eine solche Kamera steht jetzt unter
+  den ausgelassenen.
+- Die Tonspuren von auphonic.com wurden am ganzen Dateinamen
+  zugeordnet: trägt der Episodentitel die Sprechernamen, zieht es eine
+  Spur zur falschen Datei -- „Guest" kam auf 0,286 zum Eintrag des
+  Gastgebers und 0,278 zum eigenen. Verglichen wird jetzt nur, was die
+  Namen unterscheidet.
+- Jede Übertragung zu auphonic.com und zurück ließ eine leere Datei im
+  Temp-Ordner liegen, eine je Vorgang. Der Ordner bleibt jetzt sauber.
+
+### Tests
+
+- 431 Prüfungen, monatelang grün, sind als prüfend belegt: jede wurde
+  einmal rot gesehen, gegen eine Kopie des Programms, in der genau ihr
+  Gegenstand kaputt war. Ein Drittel der Testreihe steht auf solchen
+  Belegen.
+- Die Prüfung, dass der Auphonic-Schlüssel nirgends im Klartext
+  auftaucht, sah nur in die Kommandozeile -- in den Anfragekörper
+  geschrieben blieb sie grün. Durchsucht wird jetzt jedes Argument und
+  jede Datei, die curl gereicht bekommt.
+
+### Dokumentation
+
+- Das Kapitel zur Oberfläche schrieb dem Feld „Sprache" zu, es sage
+  auphonic.com, was beim Abtippen zu erwarten sei. Es setzt die
+  Kennzeichnung der Tonspur und sagt der Erkennung auf diesem Rechner,
+  welche Sprache kommt; so steht es jetzt da.
+- Die Tastentabelle gab K als „Pause, zurück auf 1x" an. K hält an; auf
+  1x geht es beim nächsten Druck auf L.
+- Die Roadmap beschrieb 2.23.0-beta: die Niederschrift bei
+  auphonic.com bestellt, ein Beitragsleitfaden und eine Vorlage für
+  Pull Requests unter dem, was nicht geplant ist, obwohl es beides
+  gibt. Sie beschreibt 2.24.0-beta.
+
+
 ## [2.24.0-beta] - 2026-08-31
 
 **English**
