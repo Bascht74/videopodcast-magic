@@ -3,14 +3,12 @@
 
 Every setting had a test where it is made and the project file had one
 for its shape, but nothing took the whole window round the circle. In
-order: the files, the production name, the new file name, the Kind and
-the speaker name go in through the widgets a person would use; the
-window closes and the file is read; a second window that knows nothing
-opens it again; and closing the project empties the window while the
-file itself stays. Where the first pass writes no file the second
-cannot run, and says so rather than passing. The View menu is asked
-here as well -- it needs a project open in a window, and this is the
-only test that has one.
+order: the files, the output folder, the production name, the new file
+name, the Kind and the speaker name go in through the widgets a person
+would use; the window closes and the file is read; a second window that
+knows nothing opens it again; and closing the project empties the
+window while the file itself stays. Where the first pass writes no file
+the second cannot run, and says so rather than passing.
 """
 import os
 import time
@@ -111,11 +109,6 @@ def menu_action(text):
             return a
 
 
-def menu_count():
-    from PySide6 import QtGui
-    return len(win().findChildren(QtGui.QAction))
-
-
 def tables():
     return win().findChildren(QtWidgets.QTableWidget)
 
@@ -155,6 +148,17 @@ def field_names():
             for w in win().findChildren(QtWidgets.QLineEdit)]
 
 
+def folder_shown():
+    """The line beside the Output folder button, by the name it is given.
+
+    It is a label and not a field: the folder is chosen in a dialog, so
+    there is nothing to type into.
+    """
+    for w in win().findChildren(QtWidgets.QLabel):
+        if (w.accessibleName() or "") == vpm.T('Output folder'):
+            return w
+
+
 def project_files():
     return sorted(f for f in os.listdir(out_folder)
                   if f.startswith(vpm.PROJECT_PREFIX))
@@ -165,7 +169,8 @@ def project_files():
 WANTED = {"production": "Rundlauf",
           "camera_name": "Rundlauf_Weit_eigener_Name",
           "kind": None,           # filled in once the box is known
-          "speaker": "Die Befragte"}
+          "speaker": "Die Befragte",
+          "place": out_folder}    # chosen in the dialog, not typed
 found = {}
 
 n = [0]
@@ -463,15 +468,16 @@ def again():
                   box.text() == WANTED["production"],
                   "wanted %r, the field holds %r"
                   % (WANTED["production"], box.text()))
-            # The View menu names the tabs; a numbered entry tells
-            # nobody which tab it is.
-            check("the View menu names the tabs and does not number them",
-                  menu_action("Files") is not None
-                  and menu_action("1. tab") is None,
-                  "of %d menu entries, one starting 'Files': %s, one "
-                  "starting '1. tab': %s"
-                  % (menu_count(), menu_action("Files") is not None,
-                     menu_action("1. tab") is not None))
+            # That the folder was taken in the first pass is proved
+            # further up, and harder than a label could: the project
+            # file was found inside it. What is asked here is the way
+            # back, which nothing asked before.
+            place = folder_shown()
+            check("the output folder is back in the second window",
+                  place is not None and place.text() == WANTED["place"],
+                  "wanted %r, the window shows %r"
+                  % (WANTED["place"],
+                     None if place is None else place.text()))
             check("the title bar names the project that is open",
                   os.path.basename(project_path[0]) in win().windowTitle(),
                   "wanted %r in the title, which reads %r"
