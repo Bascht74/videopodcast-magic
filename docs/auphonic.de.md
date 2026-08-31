@@ -52,13 +52,9 @@ zurückkommt, greift es zur Form mit dem Argument, die die Schwäche der
 Kommandozeile hat. Der Weg über die Windows-Registry hat sie nicht.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
-**Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut.
-
-* das Preset unter **Preset:** (auf der Kommandozeile
-  `--auphonic-preset`)
-* das Häkchen **Transkription holen** daneben
-
-Das Programm baut die Produktion aus dem Preset neu.
+**Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut: das
+Preset unter **Preset:** (auf der Kommandozeile `--auphonic-preset`).
+Aus diesem Preset baut das Programm die Produktion neu.
 
 Das Häkchen **Multitrack (je Sprecher eine Spur)** steht nicht im
 Auphonic-Kasten und braucht keinen Schlüssel. Es entscheidet hier, ob
@@ -72,20 +68,33 @@ einzelne Spur geht als gewöhnliche Produktion hoch, zwei oder mehr als
 Multitrack-Produktion, und das Preset muss dazu passen: ein gewöhnliches
 für die eine, ein Multitrack-Preset für die anderen.
 
-### Transkription holen
+### Das Transkript entsteht hier
 
-Mit **Transkription holen** schreibt auphonic.com mit, was gesprochen
-wird (auf der Kommandozeile `--transcript`). Neben dem Ton kommen drei
-Dateien zurück:
+Am Text hat auphonic.com keinen Anteil. Das Programm hört den fertigen
+Mix auf diesem Rechner ab und schreibt jedes Wort mit der Zeit mit, zu
+der es gesagt wurde. Drei Dateien landen im Ausgabeordner, benannt nach
+dem **Namen der Produktion**:
 
 * ein json mit Zeiten
 * ein srt für Untertitel
 * ein txt zum Lesen
 
-Die Arbeit macht Auphonics eigenes Whisper: kein Konto anderswo, keine
-Zusatzkosten, eine längere Produktion. Gehen mehrere Spuren hoch, trägt
-die Transkription die Sprechernamen: jede Spur ist eine Person, und
-auphonic.com weiß, welche welche ist.
+Sind die Stimmen vorher auseinandergehalten worden, trägt das Transkript
+ihre Namen. Sind sie es nicht, trägt es keine: dann ist nicht bekannt,
+wer einen Satz gesagt hat, und ein geratener Name im Transkript ist
+schlimmer als eine Lücke.
+
+Das kostet Rechenzeit, kein Guthaben. Es braucht weder Schlüssel noch
+Preset noch Upload, und ein Lauf ohne Auphonic schreibt dieselben drei
+Dateien. Wie viele Wörter gehört wurden und wie viele Sekunden das
+Zuhören gedauert hat, steht im Protokoll; unter der Überschrift
+**TRANSKRIPT** stehen die drei Pfade. `--no-transcript-file` lässt die
+Dateien weg -- gehört werden die Wörter trotzdem, und der Schnitt holt
+sich seine Satzgrenzen weiter aus ihnen.
+
+Welchen Weg die Erkennung auf welchem Rechner nimmt, was sie dort
+kostet und wofür der Text gebraucht wird, steht in [Spracherkennung und
+Sprechertrennung](speech.de.md).
 
 ### Ohne Auphonic arbeiten
 
@@ -137,9 +146,10 @@ Beim Neurechnen bringt das Programm auch die Spureinstellungen auf das
 Preset. Weitere Spuren dort gehen in den Mix, eine Warnung nennt sie.
 
 Das Programm lädt alles herunter, die Einzelspuren und jede weitere
-Ausgabe des Presets: Kapitelmarken, Transkript, Auswertungen. Alles
-landet in `auphonic-tracks/` neben den fertigen Videos, später auch die
-`final_*.wav`.
+Ausgabe, die das Preset selbst erzeugt: Kapitelmarken, Auswertungen und
+ein eigenes Transkript, wo das Preset eines herstellt. Bezahlt ist das
+alles ohnehin mit der Produktion. Es landet in `auphonic-tracks/` neben
+den fertigen Videos, später auch die `final_*.wav`.
 
 Einen nachträglich gesetzten In- oder Out-Punkt verrechnet das Programm
 hier, nicht bei Auphonic. Es beschneidet die zurückgekommenen Spuren auf

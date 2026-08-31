@@ -19,7 +19,7 @@ its own; nothing here has to be read from front to back.
 * **[The simple path](simple-path.md)**: one audio file, one camera --
   the shortest way through.
 * **[Processing at auphonic.com](auphonic.md)**: levelling, de-bleed,
-  transcription -- and where the key lives.
+  noise removal -- and where the key lives.
 * **[Multitrack: several speakers, several cameras](multitrack.md)**:
   one track per speaker, several cameras, one time axis.
 * **[Speech recognition and speaker separation](speech.md)**: what is
@@ -177,8 +177,8 @@ explains the word comes first.
 * **time window**: `multitrack`, "Setting the time window"
 * **timecode, virtual**: `interface`, "How the time axis is built without
   timecode"
-* **transcript**: `auphonic`, "Fetch transcript"; `speech`, "How the program
-  writes the text down"
+* **transcript**: `speech`, "How the program writes the text down";
+  `auphonic`, "The transcript is made here"
 * **update**: `interface`, "Keeping itself up to date"
 * **voice**: `speech`, "Naming the voices"
 * **wide shot**: `camera-cut`, "How the program places the wide shot";
