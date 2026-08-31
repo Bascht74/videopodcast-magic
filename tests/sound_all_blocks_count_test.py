@@ -4,8 +4,11 @@
 A soundcheck block can read as one used channel pair where the show
 reads as ten tracks, so judging one block alone throws tracks away.
 Each block is measured on its own -- they do not all fit in memory --
-and a channel counts as used where it carries anything in any block,
-the pair judgement coming from the block where the pair is loudest.
+and a channel counts as used where it carries anything in any block.
+Every neighbour is judged, and from the block where that pair is
+loudest and could see it at all; the tracks follow from that. One block
+alone is that block's answer, no block at all is unreadable, and two
+blocks of unequal channel count do not fit -- the reason names both.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -29,6 +32,20 @@ def check(name, ok, extra=""):
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+def db(level):
+    """Levels rounded, so a failure line carries numbers one can read."""
+    return "[" + ", ".join("%.1f" % x for x in (level or [])) + "]"
+
+
+def pair(pairs, i):
+    """Neighbour i, or a blank one.
+
+    A list shorter than expected is then a FAIL with numbers in it,
+    and not a traceback that takes the count of judgements with it.
+    """
+    return pairs[i] if i < len(pairs) else (None, None, None, "")
 
 
 def voice(seed, n):
@@ -93,75 +110,114 @@ second = vpm.channel_facts_cached(two)
 both = vpm.blocks_facts([one, two])
 
 check("the quiet block on its own has nothing left",
-      all(first["silent"]), str(first["silent"]))
+      all(first["silent"]) and len(first["silent"]) == 4,
+      "%d of 4 channels left, levels %s"
+      % (sum(1 for x in first["silent"] if not x), db(first["level"])))
 check("the loud block has all four channels",
-      not any(second["silent"]), str(second["silent"]))
-check("together, the recording has all four", not any(both["silent"]),
-      str(both["silent"]))
+      not any(second["silent"]) and len(second["silent"]) == 4,
+      "%d of 4 channels left, levels %s"
+      % (sum(1 for x in second["silent"] if not x), db(second["level"])))
+check("together, the recording has all four",
+      not any(both["silent"]) and len(both["silent"]) == 4,
+      "%d of 4 channels left, levels %s"
+      % (sum(1 for x in both["silent"] if not x), db(both["level"])))
 check("and the levels are the louder block's",
       both["level"] == second["level"],
-      "%s against %s" % (both["level"], second["level"]))
+      "%s against the loud block's %s"
+      % (db(both["level"]), db(second["level"])))
 
 pairs = vpm.channel_joins(both)
-check("three neighbours are judged", len(pairs) == 3, str(len(pairs)))
+check("three neighbours are judged", len(pairs) == 3,
+      "%d pairs over %d channels" % (len(pairs), both["channels"]))
 check("channels 1 and 2 are read as two microphones",
-      pairs[0][1] is False, str(pairs[0]))
+      pair(pairs, 0)[1] is False,
+      "stereo=%s for pair %s -- %s"
+      % (pair(pairs, 0)[1], pair(pairs, 0)[0], pair(pairs, 0)[3]))
 check("channels 3 and 4 as one stereo track",
-      pairs[2][1] is True, str(pairs[2]))
+      pair(pairs, 2)[1] is True,
+      "stereo=%s for pair %s -- %s"
+      % (pair(pairs, 2)[1], pair(pairs, 2)[0], pair(pairs, 2)[3]))
+alone = [p[1] for p in vpm.channel_joins(second)]
 check("the judgement is the loud block's",
-      [p[1] for p in pairs] == [q[1] for q in vpm.channel_joins(second)])
+      [p[1] for p in pairs] == alone,
+      "%s over both blocks against %s over the loud one alone"
+      % ([p[1] for p in pairs], alone))
 
 tracks = vpm.channel_tracks(both, "Mix")
-check("so the recording gives three tracks",
-      len([t for t in tracks if not t[2]]) == 3,
-      str([t[1] for t in tracks if not t[2]]))
+awake = [t[1] for t in tracks if not t[2]]
+check("so the recording gives three tracks", len(awake) == 3,
+      "%d of %d tracks carry sound: %s" % (len(awake), len(tracks), awake))
 
 #---------------------------------- the pair is judged where it was audible
-# A block where one of the two channels is silent measures nothing for
-# that pair, so the loudest block overall may hold no answer at all.
-def facts(level, zero):
+# The loudest block may hold no answer for a pair at all -- too few
+# places where both channels carry sound, and nothing was measured.
+# Here the loud block is the louder one on both channels of the last
+# pair and still has nothing to say about it, so only a block that was
+# skipped for having no answer can leave the quiet one in charge.
+def facts(level, zero, silent):
     n = len(level)
-    highest = max(level)
-    silent = [x < highest - vpm.SILENT_BELOW_DB or x < vpm.QUIET_BELOW_DBFS
-              for x in level]
-    return {"channels": n, "level": level, "silent": silent,
+    return {"channels": n, "level": list(level), "silent": list(silent),
             "pair_same": [None] * (n - 1), "pair_zero": list(zero),
             "pair_apart": [None] * (n - 1), "readable": True}
 
 
-loud_but_blind = facts([-20.0, -20.0, -30.0, -110.0], [0.9, 0.1, None])
-quiet_but_seeing = facts([-40.0, -40.0, -45.0, -45.0], [0.9, 0.1, 0.95])
+loud_but_blind = facts([-20.0, -20.0, -30.0, -32.0], [0.9, 0.1, None],
+                       [False, False, False, False])
+quiet_but_seeing = facts([-40.0, -40.0, -45.0, -45.0], [0.9, 0.1, 0.95],
+                         [False, False, False, False])
+seen = []
 kept = dict(vpm._PROBE)
+real_cached = vpm.channel_facts_cached
 try:
-    vpm.channel_facts_cached = lambda p: (loud_but_blind if p == "loud"
-                                          else quiet_but_seeing)
-    both = vpm.blocks_facts(["loud", "quiet"])
-    pairs = vpm.channel_joins(both)
-    check("the pair is judged in the block that could see it",
-          len(pairs) == 3 and pairs[2][1] is True,
-          str(pairs[2] if len(pairs) > 2 else pairs))
-    check("and it is not reported as unmeasurable",
-          "not recognisable" not in (pairs[2][3] if len(pairs) > 2 else ""),
-          str(pairs[2][3] if len(pairs) > 2 else ""))
+    def made_up(path):
+        seen.append(path)
+        return loud_but_blind if path == "loud" else quiet_but_seeing
+
+    vpm.channel_facts_cached = made_up
+    made = vpm.blocks_facts(["loud", "quiet"])
+    made_pairs = vpm.channel_joins(made)
 finally:
-    vpm.channel_facts_cached = lambda p: vpm.probe_remember(
-        "channelfacts", p, lambda: vpm.channel_facts(p))
+    vpm.channel_facts_cached = real_cached
     vpm._PROBE.clear()
     vpm._PROBE.update(kept)
 
+check("each block is measured on its own", seen == ["loud", "quiet"],
+      "%d of 2 blocks read: %s" % (len(seen), seen))
+check("the made-up blocks are judged as three neighbours too",
+      len(made_pairs) == 3,
+      "%d pairs over %d channels" % (len(made_pairs), made["channels"]))
+check("the pair is judged in the block that could see it",
+      pair(made_pairs, 2)[1] is True,
+      "stereo=%s for pair %s -- %s"
+      % (pair(made_pairs, 2)[1], pair(made_pairs, 2)[0],
+         pair(made_pairs, 2)[3]))
+# certain=False is what the two "not recognisable" answers carry, and
+# nothing else does -- asked that way round the check does not have to
+# quote a sentence in one language.
+check("and it is not reported as unmeasurable",
+      pair(made_pairs, 2)[2] is True,
+      "certain=%s -- %s"
+      % (pair(made_pairs, 2)[2], pair(made_pairs, 2)[3]))
+
 #------------------------------------------------------- the simple cases
 check("one block alone is just that block's answer",
-      vpm.blocks_facts([two])["silent"] == second["silent"])
-check("no blocks at all is not readable",
-      vpm.blocks_facts([])["readable"] is False)
+      vpm.blocks_facts([two])["silent"] == second["silent"],
+      "%s against the block's own %s"
+      % (vpm.blocks_facts([two])["silent"], second["silent"]))
+empty = vpm.blocks_facts([])
+check("no blocks at all is not readable", empty["readable"] is False,
+      "readable=%s over %d channels" % (empty["readable"], empty["channels"]))
 
 #--------------------------------------------------- what has to match to join
 mono = write(os.path.join(WORK, "Mono_01.wav"), [a])
 fits, why = vpm.shapes_match(one, two)
-check("two blocks of the same shape fit", fits and not why)
+check("two blocks of the same shape fit", fits and not why,
+      "fits=%s, 4 channels against 4, reason %r" % (fits, why))
 fits, why = vpm.shapes_match(one, mono)
-check("a different channel count does not", not fits, why)
-check("and the reason names both counts", "4" in why and "1" in why, why)
+check("a different channel count does not", not fits,
+      "fits=%s for 4 channels against 1, reason %r" % (fits, why))
+check("and the reason names both counts", "4" in why and "1" in why,
+      "wanted 4 and 1 in %r" % (why,))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
