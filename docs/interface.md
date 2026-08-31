@@ -39,10 +39,12 @@ Four tabs, in the order they are needed.
   folder already asked about does not ask again. Once a project is open
   nothing more is offered.
 
-  The output folder is not guessed. It stays empty until it is chosen,
-  or until a project says where it goes. The production name is
-  suggested from the folder the material lies in, and can be typed
-  over.
+  The output folder is not guessed. Until one is chosen, or a project
+  says where it goes, the strip reads **next to each video file**, and
+  that is where the result lands. Once a folder stands there, **reset**
+  appears beside it and puts the result back next to each video file.
+  The production name is suggested from the folder the material lies
+  in, and can be typed over.
 
   Every video file carries **Camera audio** in the list. It reads
   **do not use the audio** until somebody sets it to **use the audio**.
@@ -233,11 +235,22 @@ grey line beside it says so, and it names the way to a second:
 already gives its audio away, that line says there is none left to
 take.
 
+Under the Auphonic box a second bar appears while the material is being
+measured, one line per file with how far each has got. A line goes as
+its file is done, and the bar itself a moment after the last one. It
+shows the prework -- reading the audio and computing the envelopes --
+which is the same work the bar beside **Start** carries, here file by
+file.
+
 **Language** beside the production name is the language spoken in the
-recording, preset from the system language. It becomes the tag of the
-written audio track and tells auphonic.com what to expect when
-transcribing. "not set" leaves the track untagged and lets the
-recognition work the language out for itself.
+recording, preset from the system language. It does two things: it
+becomes the tag of the written audio track, and the recognition on this
+machine is told to expect that language. "not set" leaves the track
+untagged and lets the recognition work the language out for itself. The
+list holds only languages the recognition here also knows.
+[The transcript is made here](auphonic.md#the-transcript-is-made-here)
+says what the recognition writes, and [Speech recognition and speaker
+separation](speech.md) which way it takes on which machine.
 
 **Loudness** in the **Production** box on the first page sets how loud
 the finished episode is made; the same gain goes on every track, so the
@@ -334,8 +347,8 @@ stopped in.
 The button **Settings ...** sits in the footer, next to **Start**. Behind
 it stands what is set up once and then left alone: the key for
 auphonic.com with the tick that stores it, and whether Resolve answers.
-The preset and the transcript belong to the production being made and
-stand where the tracks are decided, under the assignment table.
+The preset belongs to the production being made and stands where the
+tracks are decided, under the assignment table.
 
 The window behind the button holds two boxes.
 
@@ -388,35 +401,38 @@ On a Mac the menu bar sits at the top of the screen, everywhere else at
 the top of the window. **Settings ...** moves into the application menu
 there and stands under **File** everywhere else.
 
-Everything reachable from a button is reachable from a key. The keys that
-need no modifier belong to the player and only work while the player has
-the focus.
+Everything the menus hold carries a key, and the menus hold the whole
+run: the project, the material, the start, the player. Buttons that
+stand on a sheet of their own have none -- **Connect** and **Check
+again** behind **Settings ...**, the three that zoom the cut band, and
+the two under **Output**. The keys that need no modifier belong to the
+player and only work while the player has the focus.
 
-| Key | What it does |
+| Key | The entry it presses |
 |---|---|
-| `Ctrl+P` | Open project |
-| `Ctrl+S` | Save project |
-| `Ctrl+W` | Close project |
-| `Ctrl+O` | Add files |
-| `Ctrl+Backspace` | Remove what is selected |
-| `Ctrl+Shift+O` | Choose the output folder |
-| `Ctrl+R` | Start |
-| `Ctrl+Shift+R` | Dry run |
-| `Ctrl+1` `Ctrl+2` `Ctrl+3` | To that tab |
-| `Ctrl+,` | Settings |
+| `Ctrl+P` | **Open project ...** |
+| `Ctrl+S` | **Save project** |
+| `Ctrl+W` | **Close project** |
+| `Ctrl+O` | **Add files ...** |
+| `Ctrl+Backspace` | **Remove** -- what is selected in the list |
+| `Ctrl+Shift+O` | **Output folder ...** |
+| `Ctrl+R` | **Start** |
+| `Ctrl+Shift+R` | **Dry run** |
+| `Ctrl+1` to `Ctrl+4` | To that tab, in the order they stand in |
+| `Ctrl+,` | **Settings ...** |
 
 In the player:
 
-| Key | What it does |
+| Key | The entry it presses |
 |---|---|
-| `Space` | Play and pause |
-| `L` | Play forward, twice as fast on every press |
-| `K` | Pause, back to 1× |
-| `Left` `Right` | One frame |
-| `Shift+Left` `Shift+Right` | One second |
-| `Alt+Left` `Alt+Right` | Ten seconds |
-| `I` `O` | Set In point, set Out point |
-| `Shift+I` `Shift+O` | Jump to In point, to Out point |
+| `Space` | **Play and pause** |
+| `L` | **Play forward, faster on every press** |
+| `K` | **Pause** |
+| `Left` `Right` | **One frame back**, **One frame forward** |
+| `Shift+Left` `Shift+Right` | **One second back**, **One second forward** |
+| `Alt+Left` `Alt+Right` | **Ten seconds back**, **Ten seconds forward** |
+| `I` `O` | **Mark In**, **Mark Out** |
+| `Shift+I` `Shift+O` | **to In point**, **to Out point** |
 
 `L` doubles up to 8×, and the speed stands on the fast forward button.
 The player has no `J`: Qt plays nothing backwards here, measured.
@@ -444,7 +460,7 @@ If one of the three fails, the file that works stays where it is and the
 window says what was wrong.
 
 The version that was running stays beside the new one as
-`videopodcast-magic.py.old`. **Help > Back to 2.3.0-beta** puts it
+`videopodcast-magic.py.old`. **Help > Back to 2.23.0-beta** puts it
 back; the entry names the version out of that file and stands in the
 menu only while the file is there.
 

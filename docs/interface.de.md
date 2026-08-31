@@ -42,8 +42,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   gefragt wurde, fragt nicht noch einmal. Ist ein Projekt offen, wird
   nichts mehr angeboten.
 
-  Der Ausgabeordner wird nicht geraten. Er bleibt leer, bis er gewählt
-  wird oder bis ein Projekt sagt, wohin es geht. Der Produktionsname
+  Der Ausgabeordner wird nicht geraten. Solange keiner gewählt ist und
+  kein Projekt sagt, wohin es geht, steht an seiner Stelle **neben der
+  jeweiligen Videodatei**, und genau dorthin geht das Ergebnis. Steht
+  dort ein Ordner, erscheint daneben **zurücksetzen** und legt das
+  Ergebnis wieder neben die jeweilige Videodatei. Der Produktionsname
   wird aus dem Ordner vorgeschlagen, in dem das Material liegt, und
   lässt sich überschreiben.
 
@@ -253,11 +256,23 @@ zweiten: **Kameraton** bei einer Kamera, gestellt auf
 **Ton verwenden**. Wenn jede Kamera ihren Ton schon hergibt, sagt diese
 Zeile, dass keiner mehr übrig ist.
 
-**Sprache** neben dem Produktionsnamen ist die in der Aufnahme gesprochene
-Sprache, vorbelegt aus der Systemsprache. Sie wird zur Kennzeichnung der
-geschriebenen Tonspur und sagt auphonic.com, was es beim Transkribieren
-erwarten soll. „nicht gesetzt“ lässt die Spur ungekennzeichnet und
-überlässt der Erkennung die Sprache.
+Unter dem Auphonic-Kasten erscheint ein zweiter Balken, solange das
+Material vermessen wird, mit einer Zeile je Datei und dem Stand jeder
+einzelnen. Eine Zeile verschwindet, sobald ihre Datei fertig ist, der
+Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
+lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
+neben **Start** mitträgt, hier Datei für Datei.
+
+**Sprache** neben dem Produktionsnamen ist die in der Aufnahme
+gesprochene Sprache, vorbelegt aus der Systemsprache. Sie tut zweierlei:
+Sie wird zur Kennzeichnung der geschriebenen Tonspur, und die Erkennung
+auf diesem Rechner wird auf diese Sprache eingestellt. „nicht gesetzt“
+lässt die Spur ungekennzeichnet und überlässt der Erkennung die Sprache.
+Zur Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
+[Das Transkript entsteht hier](auphonic.de.md#das-transkript-entsteht-hier)
+sagt, was die Erkennung schreibt, und [Spracherkennung und
+Sprechertrennung](speech.de.md), welchen Weg sie auf welchem Rechner
+nimmt.
 
 **Lautheit** in der Gruppe **Produktion** auf der ersten Seite legt fest,
 wie laut die fertige Folge gemacht wird; derselbe Gewinn geht auf jede
@@ -358,9 +373,8 @@ sagt die Zeile, in welchem Abschnitt.
 Der Knopf **Einstellungen ...** sitzt im Fußbereich, neben **Start**.
 Dahinter steht, was man einmal einrichtet und dann nicht mehr anfasst:
 der Schlüssel für auphonic.com samt Häkchen, das ihn ablegt, und ob
-Resolve antwortet. Das Preset und die Transkription gehören zur
-Produktion und stehen dort, wo über die Spuren entschieden wird: unter
-der Zuordnungstabelle.
+Resolve antwortet. Das Preset gehört zur Produktion und steht dort, wo
+über die Spuren entschieden wird: unter der Zuordnungstabelle.
 
 Das Fenster hinter dem Knopf hat zwei Kästen.
 
@@ -417,35 +431,39 @@ Auf dem Mac sitzt die Menüleiste oben am Bildschirmrand, sonst oben im
 Fenster. **Einstellungen ...** wandert dort ins Programmmenü und steht
 sonst überall unter **Datei**.
 
-Alles, was über einen Knopf geht, geht auch über eine Taste. Die Tasten
-ohne Zusatztaste gehören dem Player und wirken nur, solange er den
-Fokus hat.
+Alles, was in den Menüs steht, hat eine Taste, und in den Menüs steht
+der ganze Lauf: das Projekt, das Material, der Start, der Player.
+Knöpfe, die für sich auf einem Reiter stehen, haben keine --
+**Verbinden** und **Erneut prüfen** hinter **Einstellungen ...**, die
+drei, die das Schnittband zoomen, und die beiden unter **Ausgabe**. Die
+Tasten ohne Zusatztaste gehören dem Player und wirken nur, solange er
+den Fokus hat.
 
-| Taste | Was sie tut |
+| Taste | Der Eintrag, den sie drückt |
 |---|---|
-| `Cmd+P` | Projekt öffnen |
-| `Cmd+S` | Projekt speichern |
-| `Cmd+W` | Projekt schließen |
-| `Cmd+O` | Dateien hinzufügen |
-| `Cmd+Rückschritt` | Das Ausgewählte entfernen |
-| `Cmd+Umschalt+O` | Ausgabeordner wählen |
-| `Cmd+R` | Start |
-| `Cmd+Umschalt+R` | Probelauf |
-| `Cmd+1` `Cmd+2` `Cmd+3` | Auf diesen Reiter |
-| `Cmd+,` | Einstellungen |
+| `Cmd+P` | **Projekt öffnen ...** |
+| `Cmd+S` | **Projekt speichern** |
+| `Cmd+W` | **Projekt schließen** |
+| `Cmd+O` | **Dateien hinzufügen ...** |
+| `Cmd+Rückschritt` | **Entfernen** -- das in der Liste Ausgewählte |
+| `Cmd+Umschalt+O` | **Ausgabeordner ...** |
+| `Cmd+R` | **Start** |
+| `Cmd+Umschalt+R` | **Probelauf** |
+| `Cmd+1` bis `Cmd+4` | Auf diesen Reiter, in ihrer Reihenfolge |
+| `Cmd+,` | **Einstellungen ...** |
 
 Im Player:
 
-| Taste | Was sie tut |
+| Taste | Der Eintrag, den sie drückt |
 |---|---|
-| `Leertaste` | Abspielen und anhalten |
-| `L` | Vorwärts abspielen, mit jedem Druck doppelt so schnell |
-| `K` | Anhalten, zurück auf 1× |
-| `Links` `Rechts` | Ein Frame |
-| `Umschalt+Links` `Umschalt+Rechts` | Eine Sekunde |
-| `Alt+Links` `Alt+Rechts` | Zehn Sekunden |
-| `I` `O` | In-Punkt setzen, Out-Punkt setzen |
-| `Umschalt+I` `Umschalt+O` | Zum In-Punkt, zum Out-Punkt springen |
+| `Leertaste` | **Abspielen und anhalten** |
+| `L` | **Vorwärts abspielen, jeder Druck schneller** |
+| `K` | **Anhalten** |
+| `Links` `Rechts` | **Ein Bild zurück**, **Ein Bild vor** |
+| `Umschalt+Links` `Umschalt+Rechts` | **Eine Sekunde zurück**, **Eine Sekunde vor** |
+| `Alt+Links` `Alt+Rechts` | **Zehn Sekunden zurück**, **Zehn Sekunden vor** |
+| `I` `O` | **In markieren**, **Out markieren** |
+| `Umschalt+I` `Umschalt+O` | **zu In-Punkt**, **zu Out-Punkt** |
 
 `L` verdoppelt bis 8×, und das Tempo steht am Vorlauf-Knopf. Der Player
 hat kein `J`: Qt spielt hier nichts rückwärts, gemessen.
@@ -474,7 +492,7 @@ die Datei liegen, die funktioniert, und das Fenster sagt, was nicht
 stimmte.
 
 Die Version, die lief, bleibt als `videopodcast-magic.py.old` neben der
-neuen liegen. **Hilfe > Zurück auf 2.3.0-beta** setzt sie wieder ein;
+neuen liegen. **Hilfe > Zurück auf 2.23.0-beta** setzt sie wieder ein;
 der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
 solange die Datei da ist.
 
