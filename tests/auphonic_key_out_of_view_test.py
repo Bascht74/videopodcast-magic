@@ -2,13 +2,13 @@
 """Nobody else can read the key: not in the process list, not left behind.
 
 Every call to auphonic.com goes through _curl_call, and no test watched
-it. curl is never started: the place that starts a process is stood in
-for and reads what it was handed -- the arguments, the environment, and
-the file behind --config while it still exists, because the program
-removes it the moment curl is back. The sections: the quiet call, the
-two ways one can go wrong, the transfer with a bar, what is left lying
-about, and the project file. The key store is stood in for too, the key
-is plainly invented, and no line prints it -- only where it stood.
+it. curl is never started and the key store is stood in for: the place
+that starts a process reads what it was handed -- the arguments, the
+environment, and the file behind --config while it still exists. The
+sections: the quiet call, the two ways one can go wrong, the transfer
+with a bar, what is left lying about, and the project file. Where a
+file mode carries no rights -- Windows -- the two judgements about it
+are left out by name. The key is invented and no line prints it.
 """
 import io
 import json
@@ -43,8 +43,20 @@ KEY = "NOT-A-REAL-KEY-videopodcast-magic-test-only"
 # reach auphonic.com. One strand did reach it once by accident.
 URL = "https://vpm-test.invalid/api/info.json"
 
+# Whether a file mode carries rights on this system at all. On Windows
+# os.chmod sets the read-only flag and nothing else, so st_mode answers
+# 0666 for every writable file and 0600 can neither be asked for nor
+# read back -- both builder jobs there reported "mode 0666 against
+# 0600". What shuts the file there is the access list on %TEMP%, and no
+# way of reading an access list is open to this test. So the question is
+# not asked wrongly, it is left out by name at the end of the run.
+MODE_CARRIES_RIGHTS = os.name != "nt"
+
 done = 0
 bad = []
+# Judgements this system cannot be asked for. They are named in full at
+# the end rather than counted, so nothing has to be kept in step by hand.
+LEFT_OUT = []
 
 
 def check(name, ok, extra=""):
@@ -61,6 +73,24 @@ def check(name, ok, extra=""):
 
 def stop():
     """Every way out passes the count and the return code."""
+    if LEFT_OUT:
+        # run.sh keeps the test green on this and repeats the line, so
+        # the piece is named without the twenty-one beside it being
+        # written off. It has to say which piece and why, because on the
+        # machine that prints it this is the only word about the hole.
+        print("LEFT OUT %d of the %d judgements here, and both are the "
+              "same question: %s. os.chmod on this system sets the "
+              "read-only flag and no other right, so st_mode answers "
+              "0666 for every writable file and 0600 can neither be "
+              "asked for nor read back."
+              % (len(LEFT_OUT), done + len(LEFT_OUT),
+                 " and ".join(LEFT_OUT)))
+        print("LEFT OUT what still holds instead: the config file lies "
+              "in the folder this system hands out for temporary files "
+              "and in none of the program's, the working or the home "
+              "folder -- which on Windows is where the access list that "
+              "does shut it comes from. That list itself is not read "
+              "here, and nothing in this test claims it was.")
     print("\n%d checks in %.2f s" % (done, time.time() - began))
     print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
     sys.exit(1 if bad else 0)
@@ -221,11 +251,14 @@ check("no environment variable curl inherits carries the key", not in_env,
       % (len(first.env), "none carries it" if not in_env
          else "the one called %s carries it" % in_env[0]))
 
-check("the config file may be read by its owner alone",
-      first.conf_mode == 0o600,
-      "mode %s against 0600"
-      % ("none -- no config file" if first.conf_mode is None
-         else "0%o" % first.conf_mode))
+if MODE_CARRIES_RIGHTS:
+    check("the config file may be read by its owner alone",
+          first.conf_mode == 0o600,
+          "mode %s against 0600"
+          % ("none -- no config file" if first.conf_mode is None
+             else "0%o" % first.conf_mode))
+else:
+    LEFT_OUT.append("that the config file may be read by its owner alone")
 
 # The one file that holds the key belongs where the system keeps what a
 # run throws away -- not beside the program, the working folder or the
@@ -290,16 +323,25 @@ check("no argument on a transfer's command line is the key", not on_line,
       "%d arguments, %s"
       % (len(moved.argv), "none carries it" if not on_line
          else "argument %d of them carries it" % on_line[0]))
-check("a transfer's config file may be read by its owner alone",
-      moved.conf_mode == 0o600,
-      "mode %s against 0600"
-      % ("none -- no config file" if moved.conf_mode is None
-         else "0%o" % moved.conf_mode))
+if MODE_CARRIES_RIGHTS:
+    check("a transfer's config file may be read by its owner alone",
+          moved.conf_mode == 0o600,
+          "mode %s against 0600"
+          % ("none -- no config file" if moved.conf_mode is None
+             else "0%o" % moved.conf_mode))
+else:
+    LEFT_OUT.append("that a transfer's config file may be read by its "
+                    "owner alone")
 check("a transfer that finished leaves no config file",
       bool(moved.conf) and not os.path.exists(moved.conf),
       "%s is %s" % (moved.conf,
                     "still there" if moved.conf
                     and os.path.exists(moved.conf) else "gone"))
+check("a transfer that finished leaves no answer file",
+      bool(moved.out_file) and not os.path.exists(moved.out_file),
+      "%s is %s" % (moved.out_file,
+                    "still there" if moved.out_file
+                    and os.path.exists(moved.out_file) else "gone"))
 
 PLAN["break_off"] = True
 why = call(progress="Uploading")
@@ -322,12 +364,11 @@ check("a transfer that broke off leaves no answer file",
 # ------------------------------------------- 4. What is left lying about
 print("\n4. What is left lying about")
 
-# The count in this line is the finding, not the verdict: a transfer
-# that ran to the end does leave its answer file behind, because the
-# fallback that overwrites a file it could not remove also writes a new
-# one where the normal path had already removed it. What is left holds
-# one newline and no key, so the rule stands and this says so with a
-# number beside it.
+# Every temporary file the channel made in this run, held against what
+# is still on disk. The count stands in the line whether it falls or
+# not, because it is the cheapest way to see litter come back: this
+# found the fallback that recreated an answer file the normal path had
+# already removed, one per transfer, and would find its like again.
 made = [p for one in STARTS for p in (one.conf, one.out_file) if p]
 survivors = [p for p in made if os.path.exists(p)]
 leaky = []
