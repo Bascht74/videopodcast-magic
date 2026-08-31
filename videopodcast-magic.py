@@ -5080,7 +5080,7 @@ def question_note_build(label_of_text, quiet):
     return note
 
 
-def wide_settings_grey(parts, tick, note, there, quiet):
+def wide_settings_grey(parts, tick, note, there, quiet, words_there):
     """Grey the wide shot settings where there is no wide shot.
 
     Five settings and a value in three drop-downs are about the wide
@@ -5094,9 +5094,14 @@ def wide_settings_grey(parts, tick, note, there, quiet):
             'camera the Kind "Wide shot", or leave one without a '
             'speaker.')
     for api_key in WIDE_FIELDS:
+        # Two of them need the words as well, and whichever greying
+        # runs last writes the widget. So each asks both facts, and
+        # neither can prise open what the other shut -- a live control
+        # that does nothing, under a note saying why it is grey.
+        open_it = there and (words_there or api_key not in WIDE_NEEDS_WORDS)
         for w in parts.get(api_key, (None, None)):
             if w is not None:
-                w.setEnabled(there)
+                w.setEnabled(open_it)
     tick.setEnabled(there)
     for api_key in WIDE_CHOICES:
         _line, box = parts.get(api_key, (None, None))
@@ -29845,7 +29850,8 @@ def gui():
         """
         if state.get("cut_box_there"):
             wide_settings_grey(cut_parts, _edge_box, wide_note,
-                               bool(wide_cameras_now()[0]), COLOURS["quiet"])
+                               bool(wide_cameras_now()[0]), COLOURS["quiet"],
+                               bool(state.get("words_there")))
             preview_kick_off()
     # Preview: as soon as a handover file from earlier is there, the cut can be
     # recomputed on every change without writing anything. Then the effect of a
@@ -30345,10 +30351,10 @@ def gui():
         # The words come with the handover and nowhere else, and the
         # greying belongs here: with the wide shot's it would run
         # before the handover is read and answer from the round before.
-        said_words = words_from_handover(d)
-        state["words_there"] = bool(said_words)
+        state["words_there"] = bool(words_from_handover(d))
         if state.get("cut_box_there"):
-            words_settings_grey(cut_parts, question_note, bool(said_words),
+            words_settings_grey(cut_parts, question_note,
+                                state["words_there"],
                                 bool(wide_cameras_now()[0]), COLOURS["quiet"])
         try:
             numbers = cut_statistics(d, number["min-edit-duration"],
@@ -30359,11 +30365,6 @@ def gui():
                     reaction_lead=number["reaction-lead"],
                     wide_holds=number["wide-length"],
                     wide_most=number["wide-most"],
-                    # The words as well, or the preview shows a cut the
-                    # run will not make: without them no question is
-                    # found, and the reaction cut never appears -- which
-                    # is why nobody had seen it in the picture.
-                    words=said_words,
                     **{k.replace("-", "_"): cut_var[k].get()
                        for k, _c, _d, _v, _s, _l in CUT_CHOICES}))
         except Exception as e:
