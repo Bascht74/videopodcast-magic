@@ -4,6 +4,10 @@
 Two ways of being left out: a file named by hand that cannot be
 used, and a second name for the same moment that nothing joins.
 Both went by without a word.
+
+Each half first asks whether the recording came back at all and
+whether it holds the file it was asked about, so a red line names
+the first thing that was wrong and not a consequence of it.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -54,27 +58,60 @@ def long_silence(name, seconds):
 
 
 print("A file named by hand that cannot be used is said out loud")
+GONE = "nope.wav"
 solo = tone("r_260809_000030.wav", 300.0)
 other = tone("x_260809_010000.wav", 300.0)
+gone = os.path.join(WORK, GONE)
 rows = vpm.group_recording_parts(
-    [solo, other], together=[[solo, os.path.join(WORK, "nope.wav")]])
-said = " ".join(why for _row, discarded in rows
-                for _name, why in discarded) + " " + " ".join(
-    name for _row, discarded in rows for name, _why in discarded)
-check("the missing file is named", "nope.wav" in said, said[:160])
+    [solo, other], together=[[solo, gone]])
+# Two files were handed in and both exist, so two recordings come back.
+# Asked first: with none of them the two checks under it would report a
+# missing name where in truth nothing at all came back.
+check("the two files that exist come back as two recordings",
+      len(rows) == 2, "2 wanted, %d came back" % (len(rows),))
+left_out = [(name, why) for _row, discarded in rows
+            for name, why in discarded]
+named = [name for name, _why in left_out]
+check("the file named by hand that is not there is left out",
+      named.count(GONE) == 1,
+      "%s wanted 1 time, found %d among %d left out: %s"
+      % (GONE, named.count(GONE), len(left_out), named))
+reasons = [why for _name, why in left_out]
+check("and the one reason given says the file was not found",
+      reasons == [vpm.T('not found')],
+      "1 reason wanted, saying %r -- %d given: %s"
+      % (vpm.T('not found'), len(reasons), reasons))
 
 print("\nTwo file names for the same moment say why nothing was joined")
 # Five minutes apart, so the trailing number cannot pass for a counter
 # and only the clock rule could join the two.
-long_silence("v_260808_140000.wav", 300.0)
-long_silence("v_20260808_140000.wav", 300.0)
-after = long_silence("v_260808_140500.wav", 300.0)
+LATER = "v_260808_140500.wav"
+DOUBLED = ("v_20260808_140000.wav", "v_260808_140000.wav")
+long_silence(DOUBLED[1], 300.0)
+long_silence(DOUBLED[0], 300.0)
+after = long_silence(LATER, 300.0)
 row, discarded = vpm.find_continuation_files(after)
-check("neither of the two is taken", len(row) == 1, str(len(row)))
-check("and the reason is given", bool(discarded), str(discarded))
-check("naming both files",
-      len([1 for name, _why in discarded if name.startswith("v_")]) >= 2,
-      str(discarded))
+in_row = [os.path.basename(x) for x in row]
+# The same order as above: does the recording hold the file that was
+# asked about at all? Without this a recording made of quite other
+# files would still be one block long and pass the check below.
+check("the file asked about is in the recording that comes back",
+      in_row.count(LATER) == 1,
+      "%s wanted 1 time, found %d among %d blocks: %s"
+      % (LATER, in_row.count(LATER), len(in_row), in_row))
+check("neither name for the doubled moment joins the recording",
+      len(row) == 1, "1 block wanted, %d found: %s" % (len(row), in_row))
+told = sorted(name for name, _why in discarded)
+check("both names for that moment are named as left out",
+      told == sorted(DOUBLED),
+      "2 wanted, %s -- %d found, %s" % (sorted(DOUBLED), len(told), told))
+said = vpm.T('two file names for the same moment -- '
+             'neither of them is taken')
+why_told = [why for _name, why in discarded]
+check("each reason says the same moment was named twice",
+      why_told == [said, said],
+      "2 reasons wanted, saying %r -- %d of %d say it: %s"
+      % (said, why_told.count(said), len(why_told), why_told))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -13,6 +13,11 @@ the screen:
   bar went on naming files that were no longer in the window, and an
   answer arriving after the close put its work back on the bar.
 
+Three parts, in this order: the question comes before the measuring,
+yes throws no measurement away, closing breaks the measuring off. A
+last judgement says whether all of them ran, so a crash or an exhausted
+deadline cannot leave the file green with half its judgements missing.
+
 The window is driven from the outside: the button is clicked, the menu
 entry is triggered, and what is read back is what the window shows. The
 offer itself is stood in for, so the order can be read without a modal
@@ -61,7 +66,11 @@ PATIENCE = 60.0
 
 began = time.time()
 done = 0
-error = []
+bad = []
+
+# How many turns of carry_on() below there are. The last judgement holds
+# the file to it, so a crash halfway through cannot pass for a full run.
+STEPS = 8
 
 
 def check(name, ok, extra=""):
@@ -69,7 +78,7 @@ def check(name, ok, extra=""):
     done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append("%s [%s]" % (name, extra or "no numbers"))
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 # ---------------------------------------------------------- the material
@@ -182,6 +191,40 @@ def bar_line():
     return plan.line() if plan is not None and plan.busy() else ""
 
 
+# Every step the bar is given after the project was closed. Watching
+# the widget does not see them: a step put back and finished between
+# two glances leaves no trace on the screen, and the report that
+# arrives after a close is followed at once by the one saying "done".
+# So the plan is asked instead of the picture of it.
+put_back = []
+
+
+def short_step(name):
+    """A step's name with the folder cut out, or the line is unreadable."""
+    head, _colon, path = name.rpartition(":")
+    return "%s:%s" % (head, os.path.basename(path)) if head else name
+
+
+def plan_watched():
+    """Write down every step handed to the bar from now on."""
+    plan = drawn.get("plan")
+    if plan is None:
+        put_back.append("no bar was ever drawn, so nothing could be read")
+        return
+    real_add, real_report = plan.add, plan.report
+
+    def add_spy(name, *rest, **named):
+        put_back.append(name)
+        return real_add(name, *rest, **named)
+
+    def report_spy(name, *rest, **named):
+        put_back.append(name)
+        return real_report(name, *rest, **named)
+
+    plan.add = add_spy
+    plan.report = report_spy
+
+
 # ------------------------------------------------------------ the window
 def win():
     for x in app.topLevelWidgets():
@@ -224,9 +267,15 @@ def bar_up():
 
 
 def bar_says():
+    """Where the bar stands, and whether it is on the screen at all.
+
+    Both, because the two faults look alike in a number: a bar left
+    standing at 0 and a bar taken away read the same otherwise.
+    """
     bar = whole_bar()
-    return ("%d of %d" % (bar.value(), bar.maximum())
-            if bar is not None else "no bar")
+    return ("%d of %d, %s" % (bar.value(), bar.maximum(),
+                              "up" if bar.isVisible() else "away")
+            if bar is not None else "no bar in the window")
 
 
 def rows():
@@ -322,8 +371,15 @@ def carry_on():
             del events[:]
             add_files()
             seen = list(events)
+            offers = [e for e in seen if e[0] == "offer"]
             before = [e for e in seen if e[0] == "measure"][:1] \
                 if seen and seen[0][0] == "measure" else []
+            # First, or the two below report the list and the order
+            # while in truth no question was ever put.
+            check("the second set of files is asked about as well",
+                  len(offers) == 1,
+                  "%d questions asked, wanted 1; the window did this: %s"
+                  % (len(offers), short(seen)))
             check("the files the project replaces are not measured first",
                   before == [],
                   "measured before the question: %s (whole run %s)"
@@ -331,7 +387,9 @@ def carry_on():
             check("the project's own files are in the list instead",
                   all(any(os.path.basename(p) == r for r in rows())
                       for p in INSIDE),
-                  "the list shows %s" % (rows(),))
+                  "the list shows %d rows %s, wanted %s in them"
+                  % (len(rows()), rows(),
+                     [os.path.basename(p) for p in INSIDE]))
 
         elif i == 4:
             print("\n3. Closing the project breaks the measuring off")
@@ -346,11 +404,13 @@ def carry_on():
             add_files()
             # Caught in the act: work has to be running before closing
             # it means anything.
+            waited = time.time()
             going = wait_for(lambda: bar_up() and bool(envelope["began"]))
             check("the bar stands while the files are being measured",
                   going,
-                  "after %.0f s: bar %s, line %r, envelopes begun %d"
-                  % (PATIENCE, bar_says(), bar_line(),
+                  "after %.1f s of at most %.0f: bar %s, line %r, "
+                  "envelopes begun %d"
+                  % (time.time() - waited, PATIENCE, bar_says(), bar_line(),
                      len(envelope["began"])))
 
         elif i == 5:
@@ -362,7 +422,11 @@ def carry_on():
                   "the bar stands at %s and says %r"
                   % (bar_says(), bar_line()))
             check("and the list is empty", rows() == [],
-                  "the list still shows %s" % (rows(),))
+                  "the list still shows %d rows, wanted 0: %s"
+                  % (len(rows()), rows()))
+            # From here on the bar counts nothing: whatever it is
+            # handed belongs to a production that is no longer open.
+            plan_watched()
 
         elif i == 6:
             # Now the work that was held comes back. Its report is about
@@ -380,13 +444,17 @@ def carry_on():
                   "%d files had begun at the close, %d have begun now"
                   % (after_close["began"], len(envelope["began"])))
             check("an answer arriving after the close leaves the bar away",
-                  not after_close["seen"] and not bar_up()
+                  not put_back and not after_close["seen"] and not bar_up()
                   and not bar_line(),
-                  "the bar came back: %s"
-                  % (after_close["seen"][:3]
-                     or ("%s -- %r" % (bar_says(), bar_line())),))
+                  "%d steps put back on the bar %s, bar seen %d times %s, "
+                  "and it now stands at %s saying %r"
+                  % (len(put_back),
+                     sorted(set(short_step(n) for n in put_back))[:3],
+                     len(after_close["seen"]), after_close["seen"][:2],
+                     bar_says(), bar_line()))
             check("and it does not fill the emptied list", rows() == [],
-                  "the list shows %s again" % (rows(),))
+                  "the list shows %d rows again, wanted 0: %s"
+                  % (len(rows()), rows()))
 
         elif i == 7:
             # The window goes; the count and the verdict are printed
@@ -397,7 +465,9 @@ def carry_on():
     except Exception:
         import traceback
         traceback.print_exc()
-        error.append("crash")
+        bad.append("the test got through its steps without crashing "
+                   "[crashed in step %d of %d -- the traceback is above]"
+                   % (i + 1, STEPS))
         app.quit()
         return
     QtCore.QTimer.singleShot(50, carry_on)
@@ -410,10 +480,19 @@ def short(seen):
 
 
 QtCore.QTimer.singleShot(0, carry_on)
+# The one way out that is not carry_on's. It only closes the window --
+# the judgement about it is the last one below, which every way out
+# comes past, so an exhausted deadline is red and not a green 0.
 QtCore.QTimer.singleShot(240000, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 gate.set()
+
+print("")
+check("the test got through all of its steps", step[0] >= STEPS,
+      "stopped after step %d of %d, %.0f s gone, %d judgements made"
+      % (step[0], STEPS, time.time() - began, done))
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
-print("FAIL: " + " | ".join(error) if error else "ALL OK")
-sys.exit(1 if error else 0)
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

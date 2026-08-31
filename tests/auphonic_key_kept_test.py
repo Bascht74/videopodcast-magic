@@ -2,43 +2,25 @@
 """The Windows way to the key store, walked for real.
 
 Every other test replaces load_api_key with a lambda, so the storing
-functions are never run, and only a Windows runner has a registry to
-run them on; elsewhere this checks nothing and says so. REG_PATH goes
-to a throwaway key with made-up values, and nothing read back is ever
+functions are never run, and only a Windows runner has a registry to run
+them on. What needs no registry is judged on every machine: that the
+three names this file may write under really are three, and that the
+comparison the whole walk rests on tells two values apart. Off Windows
+the rest is named as left out rather than passed over. REG_PATH goes to
+a throwaway key with made-up values, and nothing read back is ever
 printed: a failed redirect would print the real key.
+
+The sections: the names and the comparison, there and back, what is not
+there, deleting, awkward values, the other way round, and what is left
+behind.
 """
 import os
 import sys
 import time
+import traceback
+import uuid
 
 began = time.time()
-HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
-
-# On a Mac the same functions talk to the keychain, and that is the one
-# store this file must not go near: it holds the real key.
-if os.name != "nt":
-    print("SKIPPED: no registry here -- this walks the Windows way to "
-          "the key store, and os.name is %r on this machine." % os.name)
-    sys.exit(0)
-
-try:
-    import winreg
-except ImportError:
-    print("SKIPPED: this Python has no winreg, so there is no way in "
-          "to the registry from here.")
-    sys.exit(0)
-
-import uuid
-import importlib.util
-
-os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
-
 done = 0
 bad = []
 
@@ -46,9 +28,33 @@ bad = []
 def check(name, ok, extra=""):
     global done
     done += 1
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+def finish(skipped=""):
+    """The one way out of this file: the count, the verdict, the code.
+
+    Nothing else calls sys.exit. A run that stopped early used to leave
+    without saying how much it had judged, and a test that prints no
+    count is one no floor can hold. "ALL OK" is left off a run that left
+    something out -- the SKIPPED line is the verdict there, and nothing
+    behind it may read as everything having been checked.
+    """
+    if skipped:
+        print("SKIPPED: " + skipped)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    if bad:
+        print("FAIL: " + " | ".join(bad))
+    elif not skipped:
+        print("ALL OK")
+    sys.exit(1 if bad else 0)
+
+
+HERE = os.path.dirname(os.path.abspath(__file__))
+SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
+    os.path.dirname(HERE), "videopodcast-magic.py")
 
 
 def where_apart(got, want):
@@ -88,6 +94,65 @@ UMLAUTS = ("not-a-key-" + "\u00e4\u00f6\u00fc"
            + "-\u00c4\u00d6\u00dc-\u00df-" + TAG)
 SPACED = "not a key with blanks in the middle " + TAG
 LONG = "not-a-key-" + "x" * 4000
+
+print("1. Before anything is written")
+# The whole file rests on these two lines. If REG_PATH still pointed at
+# the program's own key, every store below would overwrite the real one.
+# They need no registry, so they are asked on every machine: a name that
+# had crept back onto the real key would otherwise be found only by the
+# one runner that walks the store.
+check("the throwaway names are three different names",
+      len(set((MINE, NEVER, REAL))) == 3,
+      "%d of 3 names are different" % len(set((MINE, NEVER, REAL))))
+under_stem = sum(1 for n in (MINE, NEVER) if n.startswith(STEM))
+under_real = sum(1 for n in (MINE, NEVER) if n.startswith(REAL + "\\"))
+check("and neither reaches into the program's key",
+      under_stem == 2 and under_real == 0,
+      "%d of 2 under the throwaway stem, wanted 2; %d under the "
+      "program's own key, wanted 0" % (under_stem, under_real))
+# And these two say what the comparison is worth. Without them every
+# judgement further down would still be green with a store that wrote
+# nowhere and a read that handed back whatever it was given -- so they
+# too are asked wherever this file runs, registry or none.
+check("the comparison calls two different values different",
+      not same(PLAIN, PLAIN + "x"),
+      apart_says(PLAIN, PLAIN + "x"))
+check("it also spots a difference in the middle",
+      not same("not-a-key-abc", "not-a-key-abd"),
+      apart_says("not-a-key-abc", "not-a-key-abd"))
+
+# On a Mac the same functions talk to the keychain, and that is the one
+# store this file must not go near: it holds the real key.
+if os.name != "nt":
+    finish("1 of 7 sections ran in full -- the six that walk the key "
+           "store want a registry under HKEY_CURRENT_USER and os.name is "
+           "%r here. Run it on Windows; on a Mac those same three "
+           "functions go to the keychain, which holds the real key."
+           % os.name)
+
+try:
+    import winreg
+except ImportError:
+    finish("1 of 7 sections ran in full -- this Python has no winreg, so "
+           "there is no way in to the registry from here. Run it on a "
+           "Windows build of CPython.")
+
+check("this machine goes to the registry, not a keychain",
+      sys.platform != "darwin" and os.name == "nt",
+      "platform %r and os.name %r, wanted anything but 'darwin' and 'nt'"
+      % (sys.platform, os.name))
+# Nothing has been written yet, so this is the place to stop: a name
+# that is not safe must not reach a store at all.
+if bad:
+    finish()
+
+import importlib.util                                  # noqa: E402
+
+os.environ["VPM_NO_UPDATE_CHECK"] = "1"
+spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec)
+sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
 
 
 def scrub():
@@ -132,20 +197,6 @@ def leftovers():
     return out
 
 
-print("1. Before anything is written")
-# The whole file rests on these two lines. If REG_PATH still pointed at
-# the program's own key, every store below would overwrite the real one.
-check("the throwaway names are three different names",
-      len(set((MINE, NEVER, REAL))) == 3,
-      "%d of 3 names are different" % len(set((MINE, NEVER, REAL))))
-check("and neither reaches into the program's key",
-      MINE.startswith(STEM) and NEVER.startswith(STEM)
-      and not MINE.startswith(REAL + "\\")
-      and not NEVER.startswith(REAL + "\\"),
-      "%d chars, %d of them the shared stem" % (len(MINE), len(STEM)))
-check("this machine goes to the registry, not a keychain",
-      sys.platform != "darwin" and os.name == "nt",
-      "platform %r, os.name %r" % (sys.platform, os.name))
 # A run killed halfway leaves a key behind. Taking it out beats staying
 # red over a name that is this file's own; section 7 is the clean one.
 stale = leftovers()
@@ -157,17 +208,12 @@ for name in stale:
 print("  %d throwaway keys left by an earlier run, taken out"
       % len(stale))
 
-if bad:
-    print("\n%d checks in %.2f s" % (done, time.time() - began))
-    print("FAIL: " + ", ".join(bad))
-    sys.exit(1)
-
 vpm.REG_PATH = MINE
 try:
     print("\n2. There and back")
     stored = vpm.store_api_key(PLAIN)
     check("store_api_key says it stored the value", stored is True,
-          "returned %r" % (stored,))
+          "returned %r, wanted True" % (stored,))
     got = vpm.load_api_key()
     check("what went in comes out unchanged", same(got, PLAIN),
           apart_says(got, PLAIN))
@@ -180,18 +226,18 @@ try:
     except Exception as exc:                      # noqa: BLE001
         missing, threw = "", type(exc).__name__
     check("a name that was never written throws nothing", not threw,
-          "raised %s" % threw)
+          "raised %s, wanted nothing" % (threw or "nothing"))
     check("and it gives back nothing at all", missing == "",
-          "%d chars came back" % len(missing))
+          "%d chars came back, wanted 0" % len(missing))
     try:
         removed = vpm.delete_api_key()
         threw = ""
     except Exception as exc:                      # noqa: BLE001
         removed, threw = None, type(exc).__name__
     check("deleting what is not there throws nothing", not threw,
-          "raised %s" % threw)
+          "raised %s, wanted nothing" % (threw or "nothing"))
     check("and it says it removed nothing", removed is False,
-          "returned %r" % (removed,))
+          "returned %r, wanted False" % (removed,))
 
     print("\n4. Deleting deletes")
     vpm.REG_PATH = MINE
@@ -200,10 +246,10 @@ try:
           same(before, PLAIN), apart_says(before, PLAIN))
     removed = vpm.delete_api_key()
     check("delete_api_key says it removed the value", removed is True,
-          "returned %r" % (removed,))
+          "returned %r, wanted True" % (removed,))
     after = vpm.load_api_key()
     check("afterwards nothing comes back", after == "",
-          "%d chars came back" % len(after))
+          "%d chars came back, wanted 0" % len(after))
 
     print("\n5. Awkward values survive the trip")
     # Blanks at the edges are taken off on purpose: a pasted key carries
@@ -221,13 +267,10 @@ try:
           same(got, PLAIN), apart_says(got, PLAIN))
 
     print("\n6. The other way round: the checks do fire")
-    # Without this section every check above would still be green if the
-    # store wrote nowhere and the read gave back what it was handed.
-    check("the comparison calls two different values different",
-          not same(PLAIN, PLAIN + "x"),
-          apart_says(PLAIN, PLAIN + "x"))
-    check("it also spots a difference in the middle",
-          not same("not-a-key-abc", "not-a-key-abd"), "one character")
+    # The two that ask what the comparison is worth stand in section 1,
+    # because they need no store. These two ask the same of the store
+    # itself: that a write which went nowhere, and a delete which did
+    # nothing, would both have been caught above.
     vpm.store_api_key(PLAIN)
     vpm.REG_PATH = NEVER
     elsewhere = vpm.load_api_key()
@@ -238,13 +281,20 @@ try:
     still = vpm.load_api_key()
     check("a delete that did nothing would have been caught",
           same(still, PLAIN), apart_says(still, PLAIN))
+except Exception as exc:                          # noqa: BLE001
+    # The walk fell over somewhere the checks do not reach. Said out
+    # loud and carried into the verdict, or the file would leave through
+    # a traceback and never print how much it had judged.
+    traceback.print_exc()
+    bad.append("the walk got to the end of section 6 [%s: %s]"
+               % (type(exc).__name__, exc))
 finally:
     vpm.REG_PATH = REAL
     scrub()
     left = leftovers()
     print("\n7. Nothing of this run is left")
     check("the throwaway keys are gone again", not left,
-          "%d still standing: %s" % (len(left), left[:2]))
+          "%d still standing, wanted 0: %s" % (len(left), left[:2]))
     for number, path in enumerate((MINE, NEVER), 1):
         there = True
         try:
@@ -252,10 +302,6 @@ finally:
         except OSError:
             there = False
         check("key %d of 2 cannot be opened any more" % number,
-              not there, "%d still there: %s" % (int(there), path))
+              not there, "%d still there, wanted 0: %s" % (int(there), path))
 
-print("\n%d checks in %.2f s" % (done, time.time() - began))
-if bad:
-    print("FAIL: " + ", ".join(bad))
-    sys.exit(1)
-print("All good.")
+finish()

@@ -67,16 +67,16 @@ open	auphonic_key_kept	a store that went nowhere would have been caught
 open	auphonic_key_kept	afterwards nothing comes back
 open	auphonic_key_kept	and it gives back nothing at all
 open	auphonic_key_kept	and it says it removed nothing
-open	auphonic_key_kept	and neither reaches into the program's key
+auphonic_key_kept	2026-08-31	and neither reaches into the program's key	in the test itself: MINE = STEM + uuid.uuid4().hex[:12] replaced by MINE = REAL + "\\" + uuid.uuid4().hex[:12], so one throwaway name sits under the program's own key	and neither reaches into the program's key                 FAIL 1 of 2 under the throwaway stem, wanted 2; 1 under the program's own key, wanted 0
 open	auphonic_key_kept	blanks at the edges are taken off, as meant
 open	auphonic_key_kept	delete_api_key says it removed the value
 open	auphonic_key_kept	deleting what is not there throws nothing
-open	auphonic_key_kept	it also spots a difference in the middle
+auphonic_key_kept	2026-08-31	it also spots a difference in the middle	in the test itself: 'if got[i] != want[i]:' in where_apart replaced by 'if False:', so a difference inside two strings of equal length is no longer seen	it also spots a difference in the middle                   FAIL got 13 chars, wanted 13, apart at -1
 open	auphonic_key_kept	key %d of 2 cannot be opened any more
 open	auphonic_key_kept	store_api_key says it stored the value
-open	auphonic_key_kept	the comparison calls two different values different
+auphonic_key_kept	2026-08-31	the comparison calls two different values different	in the test itself: the last line of where_apart, 'return -1 if len(got) == len(want) else min(len(got), len(want))', replaced by 'return -1', so a difference in length alone is no longer seen	the comparison calls two different values different        FAIL got 18 chars, wanted 19, apart at -1
 open	auphonic_key_kept	the throwaway keys are gone again
-open	auphonic_key_kept	the throwaway names are three different names
+auphonic_key_kept	2026-08-31	the throwaway names are three different names	in the test itself: NEVER = STEM + uuid.uuid4().hex[:12] replaced by NEVER = MINE, so two of the three names are one	the throwaway names are three different names              FAIL 2 of 3 names are different
 open	auphonic_key_kept	the value is still there before the delete
 open	auphonic_key_kept	this machine goes to the registry, not a keychain
 open	auphonic_key_kept	what went in comes out unchanged
@@ -743,119 +743,163 @@ open	files_joined_by_hand	the third stands alone
 open	files_joined_by_hand	the two numbered blocks are found on their own
 open	files_joined_by_hand	two groups sharing a file become one
 open	files_joined_by_hand	two put together: two recordings
-open	files_left_out_named	and the reason is given
-open	files_left_out_named	naming both files
-open	files_left_out_named	neither of the two is taken
-open	files_left_out_named	the missing file is named
+files_left_out_named	2026-08-31	and the one reason given says the file was not found	group_recording_parts/with_its_blocks: refused.append((os.path.basename(x), T('not found'))) becomes refused.append((os.path.basename(x), ""))	and the one reason given says the file was not found       FAIL 1 reason wanted, saying 'not found' -- 1 given: ['']
+files_left_out_named	2026-08-31	both names for that moment are named as left out	blocks_by_clock: said.append((name, T(...))) becomes said.append((name.upper(), T(...)))	both names for that moment are named as left out           FAIL 2 wanted, ['v_20260808_140000.wav', 'v_260808_140000.wav'] -- 2 found, ['V_20260808_140000.WAV', 'V_260808_140000.WAV']
+files_left_out_named	2026-08-31	each reason says the same moment was named twice	blocks_by_clock: the T('two file names for the same moment -- neither of them is taken') beside the name replaced by ""	each reason says the same moment was named twice           FAIL 2 reasons wanted, saying 'two file names for the same moment -- neither of them is taken' -- 0 of 2 say it: ['', '']
+files_left_out_named	2026-08-31	neither name for the doubled moment joins the recording	blocks_by_clock: the line family.pop(moment, None) removed, so the doubled moment stays in the family and its file is joined	neither name for the doubled moment joins the recording    FAIL 1 block wanted, 2 found: ['v_20260808_140000.wav', 'v_260808_140500.wav']
+files_left_out_named	2026-08-31	the file asked about is in the recording that comes back	blocks_by_clock: the 'len(family) < 2 or when not in family' exit returns [folder] instead of [file_path]	the file asked about is in the recording that comes back   FAIL v_260808_140500.wav wanted 1 time, found 0 among 1 blocks: ['whynotjoined_l5mqobs_']
+files_left_out_named	2026-08-31	the file named by hand that is not there is left out	group_recording_parts/with_its_blocks: refused.append((os.path.basename(x), T('not found'))) becomes refused.append(("", T('not found')))	the file named by hand that is not there is left out       FAIL nope.wav wanted 1 time, found 0 among 1 left out: ['']
+files_left_out_named	2026-08-31	the two files that exist come back as two recordings	group_recording_parts: pending = sorted(paths, ...) given a [:1], so only the first of the handed-in files is looked at	the two files that exist come back as two recordings       FAIL 2 wanted, 1 came back
 files_lengths_summed	2026-08-31	a recording of four blocks is as long as the four together	In by_recording: "head["duration"] = sum(t.get("duration") or 0.0 for t in parts)" geändert zu "... for t in parts[:3])" -- die Summe nach drei Blöcken abgeschnitten. Trifft nur die Aufnahme mit vier Blöcken; die anderen fünf checks blieben grün.	a recording of four blocks is as long as the four together FAIL Co-host: wanted 40.00 s from blocks 10+10+10+10, found 30.00 s
 files_lengths_summed	2026-08-31	a recording of one block is as long as that block	In by_recording: "head["duration"] = sum(t.get("duration") or 0.0 for t in parts)" geändert zu "head["duration"] = sum(t.get("duration") or 0.0 for t in parts) - (6.0 if len(parts) == 1 else 0.0)" -- einer Aufnahme aus nur einem Block sechs Sekunden abgezogen.	a recording of one block is as long as that block FAIL Guest: wanted 31.00 s from one block of 31, found 25.00 s
 files_lengths_summed	2026-08-31	a recording of three blocks is as long as the three together	In by_recording: "head["duration"] = sum(t.get("duration") or 0.0 for t in parts)" geändert zu "... for t in parts[:2])" -- die Summe nach zwei Blöcken abgeschnitten.	a recording of three blocks is as long as the three together FAIL Host: wanted 28.00 s from blocks 10+10+8, found 20.00 s
 files_lengths_summed	2026-08-31	eight blocks are grouped into three recordings	In group_recording_parts, in der Schleife über pending: die Zeile " row, discarded = find_continuation_files(a)" ersetzt durch " row, discarded = [a], []" -- die Fortsetzungssuche weggenommen, jeder Block steht dann für sich.	eight blocks are grouped into three recordings FAIL wanted 3 recordings out of 8 blocks, 8 chains grouped, found 8
 files_lengths_summed	2026-08-31	no recording is reported short against the longest	In compare_audio_tracks: "if longer > 0 and d < 0.5 * longer:" geändert zu "if longer > 0 and d < 0.9 * longer:" -- die Schranke von der Hälfte auf neun Zehntel angehoben.	no recording is reported short against the longest FAIL wanted 0 reports over 3 recordings of 28.0, 40.0 and 31.0 s, found 2: ['Guest_REC00005.wa', 'Host_REC00005.wav']
 files_lengths_summed	2026-08-31	the same comparison over single blocks does report them short	In compare_audio_tracks: "if longer > 0 and d < 0.5 * longer:" geändert zu "if longer > 0 and d < 0.2 * longer:" -- die Schranke von der Hälfte auf ein Fünftel gesenkt, dann fällt auch der kürzeste Block nicht mehr darunter.	the same comparison over single blocks does report them short FAIL wanted at least 1 report over 8 blocks, the shortest 8.0 s against a longest of 31.0 s, found 0
-open	files_named_by_folder	%-10s -> date and time
-open	files_named_by_folder	Schreibtisch without the file is a production
-open	files_named_by_folder	a production folder
-open	files_named_by_folder	and a real folder is still a production
-open	files_named_by_folder	and the spelling does not matter
-open	files_named_by_folder	even one that reads like a date
-open	files_named_by_folder	no German folder name in the list
-open	files_named_by_folder	the English names still count too
-open	files_named_by_folder	the home folder itself
-open	files_named_by_folder	the root of a volume
-open	files_named_by_folder	with the file it says nothing
-open	files_old_file_refused	English
-open	files_old_file_refused	German
-open	files_old_file_refused	and is in order
-open	files_old_file_refused	but complained about
-open	files_old_file_refused	handover file
-open	files_old_file_refused	matching format: no complaint
-open	files_old_file_refused	names both formats
-open	files_old_file_refused	names the old version
-open	files_old_file_refused	no conversion table
-open	files_old_file_refused	no leftover for %r
-open	files_old_file_refused	no placeholder without an entry
-open	files_old_file_refused	not a dict: its own complaint
-open	files_old_file_refused	old file is found too
-open	files_old_file_refused	old format: complaint
-open	files_old_file_refused	project file
-open	files_old_file_refused	project file is found
-open	files_old_file_refused	the Resolve path checks too
-open	files_old_file_refused	without a number format 1 applies
-open	files_order_kept	and it lands where its first-named member would
-open	files_order_kept	the hand-forced row is not sorted by name
-open	files_order_kept	without --together everything sorts by name
-open	files_probed_once	%s asks again: no
-open	files_probed_once	%s costs nothing afterwards
-open	files_probed_once	a changed file is measured again
-open	files_probed_once	a changed file is measured again even so
-open	files_probed_once	a later one with no memory of it does not
-open	files_probed_once	a missing file is passed over
-open	files_probed_once	an empty kept file is measured again, not believed
-open	files_probed_once	and the answer is the new one
-open	files_probed_once	and the answer is the same
-open	files_probed_once	the first call measures
-open	files_probed_once	the first run measures
-open	files_probed_once	the next caller gets it whole
-open	files_probed_once	the second does not
-open	files_probed_once	three files, measured once each
-open	files_project_first	an answer arriving after the close leaves the bar away
-open	files_project_first	and it does not fill the emptied list
-open	files_project_first	and it is asked about the files just added
-open	files_project_first	and the list is empty
-open	files_project_first	closing takes the bar away at once
-open	files_project_first	no means the files are measured exactly once
-open	files_project_first	nothing new is measured after the close
-open	files_project_first	the bar stands while the files are being measured
-open	files_project_first	the files the project replaces are not measured first
-open	files_project_first	the project's own files are in the list instead
-open	files_project_first	the question is asked before anything is measured
-open	files_project_first	the work that was running comes back
-open	files_project_offered	a folder that does not exist gives nothing, not a crash
-open	files_project_offered	a list was shown instead
-open	files_project_offered	a project in a folder not asked about yet is offered
-open	files_project_offered	and it was still only asked once
-open	files_project_offered	and nothing was noted as offered either
-open	files_project_offered	and opened when the answer is yes
-open	files_project_offered	both files stand in it
-open	files_project_offered	cancelling the list opens nothing
-open	files_project_offered	choosing the second entry opens the second file
+files_named_by_folder	2026-08-31	%s is a folder every home has and names no production	GENERAL_FOLDERS: "music" taken out of the tuple	Music is a folder every home has and names no production   FAIL 'Music' wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	a file lying at the root of the disk names no production	guess_production_name: both clauses that catch the disk root replaced by False -- "not name" and "folder == os.sep"; each alone leaves the other catching it	a file lying at the root of the disk names no production   FAIL '' wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	a file lying on the root of a volume names no production	guess_production_name: parent == "/Volumes" replaced by False	a file lying on the root of a volume names no production   FAIL 'Recordings' wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	a folder name that begins with a date is kept as it stands	guess_production_name: return name changed to return name.split(" ", 1)[-1]	a folder name that begins with a date is kept as it stands FAIL 'Studio' wanted '2026-08-15 Studio'
+files_named_by_folder	2026-08-31	a folder user-dirs.dirs does not name is still a production	against the test's own material: XDG_TEMPLATES_DIR="$HOME/Interview_7" added to the user-dirs.dirs the test writes	a folder user-dirs.dirs does not name is still a production FAIL 'Production 2026-08-31 21-30' wanted 'Interview_7'
+files_named_by_folder	2026-08-31	a name user-dirs.dirs gives a folder names no production	general_folder_names: _general_extra[0].add(name.lower()) replaced by pass	a name user-dirs.dirs gives a folder names no production   FAIL 'Schreibtisch' wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	a translated name no file on disk claims is a production	GENERAL_FOLDERS: "schreibtisch" added to the tuple	a translated name no file on disk claims is a production   FAIL 'Production 2026-08-31 21-29' wanted 'Schreibtisch'
+files_named_by_folder	2026-08-31	no German folder name stands in the built-in list	GENERAL_FOLDERS: "schreibtisch" added to the tuple	no German folder name stands in the built-in list          FAIL 1 of 5 German names found: ['schreibtisch']
+files_named_by_folder	2026-08-31	no user-dirs.dirs stands where the program has looked so far	against the test's own material: an empty user-dirs.dirs written into the folder the check says is bare, in the two lines before it	no user-dirs.dirs stands where the program has looked so far FAIL nothing wanted at /var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_3LE9l3/foldername_zdf7xpyp/empty/user-dirs.dirs
+files_named_by_folder	2026-08-31	the built-in English names count on beside the ones read in	general_folder_names: _general_extra[0].clear() added as the first line inside the with that opens user-dirs.dirs, so reading it replaces the built-in list instead of adding to it	the built-in English names count on beside the ones read in FAIL 'Documents' wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	the built-in list and the function that guesses are both in the source	GENERAL_FOLDERS renamed to GENERAL_FOLDER_LIST, at its definition and at set(GENERAL_FOLDERS)	the built-in list and the function that guesses are both in the source FAIL list at -1, guesser at 611390, -1 is missing
+files_named_by_folder	2026-08-31	the folder the files sit in becomes the production name	GENERAL_FOLDERS: "interview_7" added to the tuple	the folder the files sit in becomes the production name    FAIL 'Production 2026-08-31 21-29' wanted 'Interview_7'
+files_named_by_folder	2026-08-31	the home folder itself names no production	guess_production_name: folder == os.path.expanduser("~") replaced by False	the home folder itself names no production                 FAIL 'sebastianlotz' for /Users/sebastianlotz, wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	the list of names that say nothing is the built-in one and no more	general_folder_names: _general_extra[0].add("stray") added right after the built-in list is seeded	the list of names that say nothing is the built-in one and no more FAIL 11 names against 10 built in, over and above them ['stray']
+files_named_by_folder	2026-08-31	the same folder shouted in capitals names no production either	guess_production_name: name.lower() in general changed to name[:1].lower() + name[1:] in general	the same folder shouted in capitals names no production either FAIL 'DOWNLOADS' wanted a name beginning 'Production '
+files_named_by_folder	2026-08-31	the user-dirs.dirs the test wrote is where the program looks	against the test's own material: written = os.path.join(config, "user-dirs.dirs") changed to "user_dirs.dirs", so the test lays the file down beside the place the program opens	the user-dirs.dirs the test wrote is where the program looks FAIL -1 bytes at /var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_lWcAdL/foldername_2d0j3ckr/config/user-dirs.dirs, /var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_lWcAdL/foldername_2d0j3ckr/config/user_dirs.dirs written
+files_named_by_folder	2026-08-31	what is read out of the source is that list and its reader, no more	against the test's own material: where = source, so the whole program file stands in for the piece between the list and the guesser	what is read out of the source is that list and its reader, no more FAIL 1566763 characters under a bound of 1500, 10 of 10 built-in names in them
+files_named_by_folder	2026-08-31	what stands in instead carries the day and the minute	guess_production_name: time.strftime("%Y-%m-%d %H-%M") changed to time.strftime("%H-%M")	what stands in instead carries the day and the minute      FAIL 'Production 21-29' against ^Production \d{4}-\d\d-\d\d \d\d-\d\d$
+files_old_file_refused	2026-08-31	a file with no format number counts as format 1	format_complaint: present = int(d.get("format") or 1) changed to ... or FILE_FORMAT)	a file with no format number counts as format 1            FAIL without a number '', with format 1 'This file was written by version ? in fo'
+files_old_file_refused	2026-08-31	a file written in an older format is complained about	format_complaint: a return "" put in front of the closing return T("This file was written by version %s in format %d; ...")	a file written in an older format is complained about      FAIL format 1 against 3 gave 0 characters
+files_old_file_refused	2026-08-31	a file written in this format draws no complaint	format_complaint: if present == FILE_FORMAT: changed to if present == FILE_FORMAT + 1:	a file written in this format draws no complaint           FAIL format 3 gave 161 characters: 'This file was written by version ? in fo'
+files_old_file_refused	2026-08-31	an older file is found as well, and it is that file	find_project_file: if int(loaded.get("format") or 1) != FILE_FORMAT: continue put in front of return loaded, attempt, so an older file is passed over and a neighbour answers instead	an older file is found as well, and it is that file        FAIL find_project_file returned '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_euLaul/format_xtslky4u/videopodcast-magic_x.json' for the 52 bytes at '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_euLaul/format_xtslky4u/videopodcast-magic_old.json'
+files_old_file_refused	2026-08-31	and that file draws no complaint	find_project_file: loaded.pop("format", None) put in front of return loaded, attempt, so what is read back carries no number	and that file draws no complaint                           FAIL format None in the file, this version writes 3, complaint 'This file was written by version 2.24.1-'
+files_old_file_refused	2026-08-31	and that one is complained about	find_project_file: loaded["format"] = FILE_FORMAT put in front of return loaded, attempt, so an older file comes back stamped as current	and that one is complained about                           FAIL format 3 in the file, this version writes 3, complaint 0 characters
+files_old_file_refused	2026-08-31	no named placeholder is left without an entry	the app-wide stylesheet's dictionary: "box" taken out of {k: COLOURS[k] for k in ("frame", "box", "heading", "head", ...)}	no named placeholder is left without an entry              FAIL 1 of 2 texts short: [(12082, ['box'])]
+files_old_file_refused	2026-08-31	no table converts an older file instead of refusing it	a line reading # umstellen_alt inserted after line 30	no table converts an older file instead of refusing it     FAIL MIGRAT 0 times, umstellen_alt 1 times in 1566779 characters
+files_old_file_refused	2026-08-31	the Resolve path asks for the complaint before it builds	inside build_resolve_project: complaint = format_complaint(d) changed to complaint = format_complaint(dict(d))	the Resolve path asks for the complaint before it builds   FAIL 10268 characters of build_resolve_project searched
+files_old_file_refused	2026-08-31	the Resolve path is in the source to be searched	def build_resolve_project renamed to def build_resolve_projekt	the Resolve path is in the source to be searched           FAIL 1 pieces after splitting 1566763 characters on the name
+files_old_file_refused	2026-08-31	the complaint is English where the run is English	"Please set the run up again." changed to "Please set the run up anew." in both places -- in format_complaint and in the catalogue key, so the German entry still resolves	the complaint is English where the run is English          FAIL 160 characters ending 'not be read. Please set the run up anew.'
+files_old_file_refused	2026-08-31	the complaint is German where the run is German	CATALOGUE["de"]: the German complaint's closing sentence changed from "Bitte den Lauf neu einrichten." to "... neu aufsetzen."	the complaint is German where the run is German            FAIL 203 characters ending 'cht lesen. Bitte den Lauf neu aufsetzen.'
+files_old_file_refused	2026-08-31	the complaint names the file's format and this one's	format_complaint: the argument present replaced by FILE_FORMAT, so the file's own format number never reaches the text	the complaint names the file's format and this one's       FAIL looked for 1 and 3 in 'This file was written by version ? in format 3; this one writes format'
+files_old_file_refused	2026-08-31	the complaint names the version that wrote the file	format_complaint: the argument d.get("version") or "?" replaced by "?", so the version is no longer put into the text	the complaint names the version that wrote the file        FAIL looked for 2.11.0 in the 161 characters: 'This file was written by version ? in format 1; this one wri'
+files_old_file_refused	2026-08-31	the file just written is the one that is found	find_project_file: if isinstance(loaded, dict) and "files" in loaded: changed to "filez" in loaded	the file just written is the one that is found             FAIL find_project_file returned '' for the 52 bytes at '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_B0wqyN/format_lpxpfuiw/videopodcast-magic_x.json'
+files_old_file_refused	2026-08-31	the handover file is built somewhere to be looked into	both openings renamed: handover = { changed to parcel = {	the handover file is built somewhere to be looked into     FAIL 0 places build one in 1566759 characters
+files_old_file_refused	2026-08-31	the handover file is stamped where it is built	the handover file's opening: "format": FILE_FORMAT, in front of "created_by" changed to "format": 3,	the handover file is stamped where it is built             FAIL 0 of the 2 openings carry the stamp on the next line
+files_old_file_refused	2026-08-31	the old name %r is gone from the code	a line reading LEFTOVER = "Inhalt" inserted after line 30, in front of the catalogue	the old name 'Inhalt' is gone from the code                FAIL found 1 times in the 1393387 characters before the catalogue
+files_old_file_refused	2026-08-31	the program carries a format number to compare against	FILE_FORMAT = 3 changed to FILE_FORMAT = 0	the program carries a format number to compare against     FAIL FILE_FORMAT is 0, wanted a whole number of 1 or more
+files_old_file_refused	2026-08-31	the program says what a project file is called	PROJECT_PREFIX = "videopodcast-magic_" changed to PROJECT_PREFIX = ""	the program says what a project file is called             FAIL PROJECT_PREFIX is ''
+files_old_file_refused	2026-08-31	the project file is stamped again where it is updated	the project file's updater: d["format"] = FILE_FORMAT changed to d["format"] = 3	the project file is stamped again where it is updated      FAIL 0 such assignments in 1566753 characters
+files_old_file_refused	2026-08-31	the project file is stamped where it is written	the project file's writer: d = {"format": FILE_FORMAT, changed to d = {"format": 3,	the project file is stamped where it is written            FAIL 0 such openings in 1566753 characters
+files_old_file_refused	2026-08-31	the search covers the code in front of the catalogue	a line reading # CATALOGUE["de"] = { inserted after line 30, so the split cuts the source off at the top	the search covers the code in front of the catalogue       FAIL 589 of 1566785 characters searched
+files_old_file_refused	2026-08-31	the source holds texts with named placeholders at all	in both stylesheet texts (the app-wide one and the slider one) every %( turned into pct(, so no text carries a named placeholder any more	the source holds texts with named placeholders at all      FAIL 0 such texts in 1566807 characters
+files_old_file_refused	2026-08-31	what is not a file of this program is refused as that	format_complaint: return T("This is not a file of this program.") changed to return ""	what is not a file of this program is refused as that      FAIL got 0 characters: ''
+files_order_kept	2026-08-31	a hand-forced row comes back with every file it names	collect_with_continuations: the hand-forced branch shortened to `list(joined[os.path.abspath(p)])[:-1]`, dropping the last member of the row	a hand-forced row comes back with every file it names      FAIL 3 wanted ['Alpha.wav', 'Mike.wav', 'Zulu.wav'], 2 back ['Alpha.wav', 'Zulu.wav']
+files_order_kept	2026-08-31	a hand-forced row keeps the order it was named in	collect_with_continuations: the rank of a row member changed from `(smallest, k)` to `(smallest, os.path.basename(x).lower())`, so the row sorts by name inside itself	a hand-forced row keeps the order it was named in          FAIL wanted ['Zulu.wav', 'Alpha.wav', 'Mike.wav'], got ['Alpha.wav', 'Mike.wav', 'Zulu.wav']
+files_order_kept	2026-08-31	a loose file beside a hand-forced row is not lost	collect_with_continuations: the no-follow-ups branch changed from `row, discarded = [p], []` to `row, discarded = [], []`, so a loose file never reaches the list	a loose file beside a hand-forced row is not lost          FAIL 4 wanted ['Alpha.wav', 'Bravo.wav', 'Mike.wav', 'Zulu.wav'], 3 back ['Alpha.wav', 'Mike.wav', 'Zulu.wav']
+files_order_kept	2026-08-31	a loose name after the row's smallest sorts behind the row	collect_with_continuations: the row's rank taken from its first-named member, `smallest = os.path.basename(row[0]).lower()` instead of `min(...)`	a loose name after the row's smallest sorts behind the row FAIL wanted ['Zulu.wav', 'Alpha.wav', 'Mike.wav', 'Bravo.wav'], got ['Bravo.wav', 'Zulu.wav', 'Alpha.wav', 'Mike.wav']
+files_order_kept	2026-08-31	a loose name before the row's smallest sorts ahead of the row	collect_with_continuations: the row's rank set to `smallest = ""`, so the block always sorts in front of everything loose	a loose name before the row's smallest sorts ahead of the row FAIL wanted ['Aaron.wav', 'Zulu.wav', 'Alpha.wav', 'Mike.wav'], got ['Zulu.wav', 'Alpha.wav', 'Mike.wav', 'Aaron.wav']
+files_order_kept	2026-08-31	the material stands on disc before anything is collected	in the test itself: the creation loop shortened to `for p in row + [behind]:` so Aaron.wav is never written	the material stands on disc before anything is collected   FAIL 5 wanted, 4 created: ['Zulu.wav', 'Alpha.wav', 'Mike.wav', 'Bravo.wav']
+files_order_kept	2026-08-31	without --together everything sorts by name	collect_with_continuations: the closing `out.sort(key=...)` replaced by `pass`, so the list keeps the order it was named in	without --together everything sorts by name                FAIL wanted ['Alpha.wav', 'Bravo.wav', 'Mike.wav', 'Zulu.wav'], got ['Zulu.wav', 'Alpha.wav', 'Mike.wav', 'Bravo.wav']
+files_probed_once	2026-08-31	%s costs nothing after warming	probe_warm: if len(todo) < 2: changed to if len(todo) < 20:, so three files are not warmed	the whole description costs nothing after warming          FAIL {'a.wav': 1, 'b.wav': 1, 'c.wav': 1}, wanted 0 for each
+files_probed_once	2026-08-31	%s is measured on the first ask	ffprobe_json: the work lambda changed to lambda: (_ffprobe_text(path), _ffprobe_text(path))[1], so one measurement starts two processes	the channel count is measured on the first ask             FAIL 2 processes, wanted 1
+files_probed_once	2026-08-31	%s is not asked of ffprobe a second time	probe_remember: stamp = file_stamp(path) changed to stamp = None, so every call falls through to work()	the channel count is not asked of ffprobe a second time    FAIL 1 processes, wanted 0
+files_probed_once	2026-08-31	a caller who spoils it does not spoil the next one's	ffprobe_json: return json.loads(out or b"{}") changed to return probe_remember("parsed", path, lambda: json.loads(out or b"{}")), so every caller is handed the same dictionary	a caller who spoils it does not spoil the next one's       FAIL format is str after one caller spoilt it, wanted a dict
+files_probed_once	2026-08-31	a changed file answers with its new length	file_stamp: return (os.path.realpath(path), int(s.st_mtime_ns), int(s.st_size)) changed to return (os.path.realpath(path),)	a changed file answers with its new length                 FAIL 1.000000 s -> 1.000000 s, wanted two different ones
+files_probed_once	2026-08-31	a changed file is measured again	file_stamp: return (os.path.realpath(path), int(s.st_mtime_ns), int(s.st_size)) changed to return (os.path.realpath(path),)	a changed file is measured again                           FAIL 0 processes, wanted 1
+files_probed_once	2026-08-31	a file changed on disk is measured again, store or no store	file_stamp: return (os.path.realpath(path), int(s.st_mtime_ns), int(s.st_size)) changed to return (os.path.realpath(path),)	a file changed on disk is measured again, store or no store FAIL 0 processes, wanted 1
+files_probed_once	2026-08-31	a later run with no memory of it starts none	probe_remember: got = probe_kept(api_key) if keep else None changed to got = None, so what is on disk is never read	a later run with no memory of it starts none               FAIL 1 processes, wanted 0
+files_probed_once	2026-08-31	a missing file does not stop the others being warmed	probe_warm: todo = [p for p in dict.fromkeys(paths) if p and os.path.exists(p)] changed to if p and not os.path.exists(p)	a missing file does not stop the others being warmed       FAIL 2 processes for the two good files afterwards, wanted 0
+files_probed_once	2026-08-31	an empty kept file is measured again, not believed	probe_kept: return got or None changed to return got, so an empty kept file counts as a measurement	an empty kept file is measured again, not believed         FAIL 0 processes, wanted 1
+files_probed_once	2026-08-31	asking about a missing file answers instead of throwing	_ffprobe_text: a first line added, if not os.path.exists(path): return b"ffprobe said nothing that is json"	asking about a missing file answers instead of throwing    FAIL JSONDecodeError while asking
+files_probed_once	2026-08-31	ffprobe answers about the material at all	_ffprobe_text: capture_output=True).stdout changed to .stdout[:0], so ffprobe runs and its answer is thrown away	ffprobe answers about the material at all                  FAIL duration None s, wanted a number
+files_probed_once	2026-08-31	rewriting a file changes what it is known by	file_stamp: return (os.path.realpath(path), int(s.st_mtime_ns), int(s.st_size)) changed to return (os.path.realpath(path),)	rewriting a file changes what it is known by               FAIL mtime and size () -> (), wanted two different ones
+files_probed_once	2026-08-31	the description of a file comes back as a dictionary	_ffprobe_text: capture_output=True).stdout changed to .stdout[:0], so ffprobe runs and its answer is thrown away	the description of a file comes back as a dictionary       FAIL format is NoneType, wanted a dict
+files_probed_once	2026-08-31	the file this asks about really is not there	the test itself, run from a copy of tests/: missing = os.path.join(folder, "not-there.wav") changed to missing = a, a file that is there	the file this asks about really is not there               FAIL a.wav is there: True, wanted False
+files_probed_once	2026-08-31	the first question about a file starts one ffprobe	ffprobe_json: the work lambda changed to lambda: (_ffprobe_text(path), _ffprobe_text(path))[1], so one measurement starts two processes	the first question about a file starts one ffprobe         FAIL 2 processes, wanted 1
+files_probed_once	2026-08-31	the run that measures starts one ffprobe	ffprobe_json: the work lambda changed to lambda: (_ffprobe_text(path), _ffprobe_text(path))[1], so one measurement starts two processes	the run that measures starts one ffprobe                   FAIL 2 processes, wanted 1
+files_probed_once	2026-08-31	the same question a second time starts none	probe_remember: stamp = file_stamp(path) changed to stamp = None, so every call falls through to work()	the same question a second time starts none                FAIL 1 processes, wanted 0
+files_probed_once	2026-08-31	the store did keep what was measured	probe_keep: if got: changed to if False:, so nothing is ever written to the store	the store did keep what was measured                       FAIL kept file 4f1f58731abb7f414bfaa1214a68517a.bin, wanted one that exists
+files_probed_once	2026-08-31	warming three files starts one ffprobe for each	probe_warm: if len(todo) < 2: changed to if len(todo) < 20:, so three files are not warmed	warming three files starts one ffprobe for each            FAIL 0 processes, wanted 3
+files_probed_once	2026-08-31	what the store gives back is what was measured	probe_kept: return got or None changed to return got.replace(b'"duration"', b'"duraton"') or None, so the store gives back something else	what the store gives back is what was measured             FAIL 2.000000 s measured, None s out of the store
+files_project_first	2026-08-31	an answer arriving after the close leaves the bar away	prework_display_text: the guard "if path_key(file_path) in prework_discarded: return" deleted, so a report about a file that left the list reaches the bar	an answer arriving after the close leaves the bar away     FAIL 16 steps put back on the bar ['pre:envelope:Busy_0.mov', 'pre:envelope:Busy_2.mov', 'pre:envelope:Busy_4.mov'], bar seen 0 times [], and it now stands at 1000 of 1000, away saying ''
+files_project_first	2026-08-31	and it does not fill the emptied list	project_new: the items_fresh() before folder_show() deleted, so the emptied list is never redrawn	and it does not fill the emptied list                      FAIL the list shows 47 rows again, wanted 0: ['AUDIO', 'Busy_1.wav', 'belongs to', 'Format', 'Length', 'fixed', 'Busy_3.wav', 'belongs to', 'Format', 'Length', 'fixed', 'Busy_5.wav', 'belongs to', 'Format', 'Length', 'fixed', 'Busy_7.wav', 'belongs to', 'Format', 'Length', 'fixed', 'VIDEO', 'Busy_0.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio', 'Busy_2.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio', 'Note', 'Busy_4.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio', 'Busy_6.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio']
+files_project_first	2026-08-31	and it is asked about the files just added	take_paths: the paths handed to project_offer cut down to [x for x, _ in files][:1], so only the first file is asked about	and it is asked about the files just added                 FAIL asked about [('offer', ('Dropped_A.wav',))], wanted [('', ('Dropped_A.wav', 'Dropped_B.mov'))]
+files_project_first	2026-08-31	and the list is empty	project_new: the items_fresh() before folder_show() deleted, so the emptied list is never redrawn	and the list is empty                                      FAIL the list still shows 47 rows, wanted 0: ['AUDIO', 'Busy_1.wav', 'belongs to', 'Format', 'Length', 'fixed', 'Busy_3.wav', 'belongs to', 'Format', 'Length', 'fixed', 'Busy_5.wav', 'belongs to', 'Format', 'Length', 'fixed', 'Busy_7.wav', 'belongs to', 'Format', 'Length', 'fixed', 'VIDEO', 'Busy_0.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio', 'Busy_2.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio', 'Note', 'Busy_4.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio', 'Busy_6.mov', 'Video', 'Length', 'Colour', 'Camera', 'Camera audio']
+files_project_first	2026-08-31	closing takes the bar away at once	total_hide: total_bar.hide() deleted, so closing leaves the bar standing on the screen	closing takes the bar away at once                         FAIL the bar stands at 0 of 1000, up and says ''
+files_project_first	2026-08-31	no means the files are measured exactly once	take_paths: a second items_fresh() added after the first, so the same files are measured twice	no means the files are measured exactly once               FAIL measured [('measure', ('Dropped_A.wav', 'Dropped_B.mov')), ('measure', ('Dropped_A.wav', 'Dropped_B.mov'))], wanted one round over [('', ('Dropped_A.wav', 'Dropped_B.mov'))]
+files_project_first	2026-08-31	nothing new is measured after the close	measuring_stop: the prework_clean_up(paths) call deleted, so the queue is neither emptied nor marked discarded and the threads carry on	nothing new is measured after the close                    FAIL 4 files had begun at the close, 8 have begun now
+files_project_first	2026-08-31	the bar stands while the files are being measured	total_paint: total_bar.show() deleted from the busy branch, so the bar for the whole job never comes on the screen	the bar stands while the files are being measured          FAIL after 60.0 s of at most 60: bar 352 of 1000, away, line 'Busy_0.mov   Envelope and 4 more', envelopes begun 8
+files_project_first	2026-08-31	the files the project replaces are not measured first	take_paths: items_fresh() moved above the project_offer(...) call, so the files are measured before the question is put	the files the project replaces are not measured first      FAIL measured before the question: [('measure', ('Dropped_A.wav', 'Dropped_B.mov'))] (whole run [('measure', ('Dropped_A.wav', 'Dropped_B.mov')), ('offer', ('Dropped_A.wav', 'Dropped_B.mov')), ('measure', ()), ('measure', ('Inside_A.wav', 'Inside_B.mov')), ('measure', ('Inside_A.wav', 'Inside_B.mov'))])
+files_project_first	2026-08-31	the project's own files are in the list instead	project_open: files[:] = present replaced by files[:] = [], so the project's own files never reach the list	the project's own files are in the list instead            FAIL the list shows 0 rows [], wanted ['Inside_A.wav', 'Inside_B.mov'] in them
+files_project_first	2026-08-31	the question is asked before anything is measured	take_paths: items_fresh() moved above the project_offer(...) call, so the files are measured before the question is put	the question is asked before anything is measured          FAIL the window did this: [('measure', ('Dropped_A.wav', 'Dropped_B.mov')), ('offer', ('Dropped_A.wav', 'Dropped_B.mov'))]
+files_project_first	2026-08-31	the second set of files is asked about as well	take_paths: the project_offer(...) call guarded by state["asked_times"] < 2, counted up on every call, so the second batch of files is never asked about	the second set of files is asked about as well             FAIL 0 questions asked, wanted 1; the window did this: [('measure', ('Dropped_A.wav', 'Dropped_B.mov'))]
+files_project_first	2026-08-31	the test got through all of its steps	the "Add files ..." button given the label "Bring files in", so the test never finds it and the run breaks off in its second step	the test got through all of its steps                      FAIL stopped after step 2 of 8, 11 s gone, 0 judgements made
+files_project_first	2026-08-31	the work that was running comes back	against the test's own stand-in: envelope["ended"].append(a) deleted from envelope_stub, so work that was held never reports back	the work that was running comes back                       FAIL 4 were waiting, 0 came back
+files_project_offered	2026-08-31	a folder that does not exist gives nothing, not a crash	in projects_beside: the try/except OSError around sorted(os.listdir(folder)) removed	a folder that does not exist gives nothing, not a crash    FAIL it threw FileNotFoundError, wanted 0 found
+files_project_offered	2026-08-31	a list was shown instead	in project_offer: the QInputDialog.getItem call replaced by picked, chosen = lines[0], True	a list was shown instead                                   FAIL 0 lists shown, wanted 1
+files_project_offered	2026-08-31	a no is not followed by a second question	in project_offer: the if ask(...) of the one-file branch turned into if ask(...) or ask(...)	a no is not followed by a second question                  FAIL asked 2 times, wanted 1
+files_project_offered	2026-08-31	a project in a folder not asked about yet is offered	in project_offer: the filter if one not in seen turned into if not seen	a project in a folder not asked about yet is offered       FAIL asked 0 times and opened [], wanted 1 and videopodcast-magic_second.json
+files_project_offered	2026-08-31	and opened when the answer is yes	in project_offer: the load(one) in the one-file branch deleted	and opened when the answer is yes                          FAIL 0 opened, wanted 1 (videopodcast-magic_only.json): []
+files_project_offered	2026-08-31	both files stand in it	in project_offer: the list of lines cut to its first entry with [:1]	both files stand in it                                     FAIL 1 lines, wanted 2: ['videopodcast-magic_newer.json   (2001-09-09 03:46)']
+files_project_offered	2026-08-31	cancelling the list opens nothing	in project_offer: if chosen and picked in lines turned into if picked in lines	cancelling the list opens nothing                          FAIL 1 opened, wanted 0, after a cancel over videopodcast-magic_newer.json   (2001-09-09 03:46)
 files_project_offered	2026-08-30	each file's own date stands beside it	the file's own date dropped from the line offering it	each file's own date stands beside it                      FAIL   ['videopodcast-magic_older.json   (2001-09-09 03:46)'], wanted ['1970-01-01', '2001-09-09']
-open	files_project_offered	each project file is named once, not once per recording
-open	files_project_offered	material with no project file gives nothing
-open	files_project_offered	more material from the same folder does not ask again
-open	files_project_offered	no list was shown for a single file
-open	files_project_offered	no means nothing is opened
-open	files_project_offered	no project file: no list
-open	files_project_offered	no project file: no question
-open	files_project_offered	no project file: nothing opened
-open	files_project_offered	nothing else came along
-open	files_project_offered	one file found: asked once
-open	files_project_offered	several files: no yes-or-no question
-open	files_project_offered	the chosen one is opened
-open	files_project_offered	the date comes with it
-open	files_project_offered	the first time asks
-open	files_project_offered	the guessing is gone
-open	files_project_offered	the newest stands first
-open	files_project_offered	the offer is there in its place
-open	files_project_offered	the one in the material folder is found
-open	files_project_offered	the one in the output folder below is found
-open	files_project_offered	the question names the file
-open	files_project_offered	the question says the whole project comes back
-open	files_project_offered	two folders down is not looked at
-open	files_project_offered	with a project open nothing is offered any more
-open	files_set_aside_skipped	all marked as set aside
-open	files_set_aside_skipped	and they are set aside
-open	files_set_aside_skipped	findings about Camera1 there
-open	files_set_aside_skipped	findings about the colour chart there
-open	files_set_aside_skipped	hint about differing resolutions there
-open	files_set_aside_skipped	no resolution hint
-open	files_set_aside_skipped	none set aside
-open	files_set_aside_skipped	the ignored track has findings of its own
-open	files_split_found_again	blocks that came apart differently stay whole
-open	files_split_found_again	channel 1 with channel 1
-open	files_split_found_again	each holding both blocks
-open	files_split_found_again	two blocks, two channels -> two recordings
+files_project_offered	2026-08-31	each project file is named once, not once per recording	in projects_beside: the two guards against naming a file twice removed -- the folder list no longer deduped and found built as a list of pairs instead of a dict keyed by path	each project file is named once, not once per recording    FAIL 3 named for 2 recordings, wanted 2: ['videopodcast-magic_below.json', 'videopodcast-magic_beside.json', 'videopodcast-magic_beside.json']
+files_project_offered	2026-08-31	material with no project file gives nothing	in projects_beside: the name filter (prefix and .json) turned into if True	material with no project file gives nothing                FAIL 1 found, wanted 0: ['Kamera1.mp4']
+files_project_offered	2026-08-31	more material from the same folder does not ask again	in project_offer: seen.update(one for one, _ in found) deleted	more material from the same folder does not ask again      FAIL asked 1 times and opened 1, wanted 0 and 0
+files_project_offered	2026-08-31	no list was shown for a single file	in project_offer: if len(found) == 1 turned into if len(found) == 0	no list was shown for a single file                        FAIL 1 lists shown, wanted 0
+files_project_offered	2026-08-31	no means nothing is opened	in project_offer: the if ask(...) of the one-file branch turned into if ask(...) or True	no means nothing is opened                                 FAIL 1 opened, wanted 0: ['videopodcast-magic_only.json']
+files_project_offered	2026-08-31	no project file: no list	in project_offer: the guard if not found: return False removed	no project file: no list                                   FAIL 1 lists shown, wanted 0
+files_project_offered	2026-08-31	no project file: no question	in project_offer: if not found: return False turned into if not found: found = [(paths[0], 0)]	no project file: no question                               FAIL asked 1 times, wanted 0
+files_project_offered	2026-08-31	no project file: nothing opened	in project_offer: if not found: return False turned into if not found: found = [(paths[0], 0)]	no project file: nothing opened                            FAIL 1 opened, wanted 0: ['Kamera1.mp4']
+files_project_offered	2026-08-31	nothing else came along	in projects_beside: name.startswith(PROJECT_PREFIX) turned into name.startswith("")	nothing else came along                                    FAIL 3 found, wanted 2, beside 2 decoys: ['videopodcast-magic_below.json', 'videopodcast-magic_beside.json', 'notes.json']
+files_project_offered	2026-08-31	one file found: asked once	in project_offer: if len(found) == 1 turned into if len(found) == 0	one file found: asked once                                 FAIL asked 0 times, wanted 1
+files_project_offered	2026-08-31	several files: no yes-or-no question	in project_offer: if len(found) == 1 turned into if len(found) >= 1	several files: no yes-or-no question                       FAIL asked 1 times, wanted 0
+files_project_offered	2026-08-31	the chosen one is opened	in project_offer: load(found[lines.index(picked)][0]) turned into load(found[-1][0])	the chosen one is opened                                   FAIL 1 opened, wanted 1 (videopodcast-magic_newer.json): ['videopodcast-magic_older.json']
+files_project_offered	2026-08-31	the date comes with it	in projects_beside: found[full] = os.path.getmtime(full) turned into found[full] = 0	the date comes with it                                     FAIL 0 came with the first of 2, wanted 2000
+files_project_offered	2026-08-31	the file opened is the one named in the line chosen	in project_offer: load(found[lines.index(picked)][0]) turned into load(found[0][0])	the file opened is the one named in the line chosen        FAIL 1 opened (['videopodcast-magic_newer.json']) out of the line videopodcast-magic_older.json   (1970-01-01 01:16)
+files_project_offered	2026-08-31	the first material out of a folder is asked about	in project_offer: the filter if one not in seen turned into if one in seen	the first material out of a folder is asked about          FAIL asked 0 times, wanted 1
+files_project_offered	2026-08-31	the guessing is gone	a guess_result_folder() put back into the program	the guessing is gone                                       FAIL guess_result_folder there: True, wanted False
+files_project_offered	2026-08-31	the newest stands at the top of the list	in project_offer: the lines built over found[::-1] instead of found	the newest stands at the top of the list                   FAIL line 1 of 2 is videopodcast-magic_older.json   (1970-01-01 01:16), wanted videopodcast-magic_newer.json in it
+files_project_offered	2026-08-31	the newest stands first	in projects_beside: the sort key -pair[1] turned into pair[1]	the newest stands first                                    FAIL first of 2 is videopodcast-magic_beside.json, wanted videopodcast-magic_below.json
+files_project_offered	2026-08-31	the offer is there in its place	project_offer renamed to project_offer_gone	the offer is there in its place                            FAIL project_offer there: False, wanted True
+files_project_offered	2026-08-31	the one in the material folder is found	in projects_beside: look = list(folders) turned into look = []	the one in the material folder is found                    FAIL 1 found, videopodcast-magic_beside.json among them: ['videopodcast-magic_below.json']
+files_project_offered	2026-08-31	the one in the output folder below is found	in projects_beside: the look.append(full) that takes in a subfolder deleted	the one in the output folder below is found                FAIL 1 found, videopodcast-magic_below.json among them: ['videopodcast-magic_beside.json']
+files_project_offered	2026-08-31	the program looks for project files beside the material	projects_beside renamed to projects_beside_gone	the program looks for project files beside the material    FAIL projects_beside there: False, wanted True
+files_project_offered	2026-08-31	the question names the file	in project_offer: os.path.basename(one) in the question replaced by "a project file"	the question names the file                                FAIL looked for videopodcast-magic_only.json in 262 characters of question
+files_project_offered	2026-08-31	the question says the whole project comes back	in project_offer: the "everything comes back" paragraph dropped out of the question	the question says the whole project comes back             FAIL looked for its 145 characters in 131 of question
+files_project_offered	2026-08-31	two folders down is not looked at	in projects_beside: the subfolder walk over folders turned into one over look, so it goes on down	two folders down is not looked at                          FAIL 3 found, videopodcast-magic_deep.json not among them: ['videopodcast-magic_deep.json', 'videopodcast-magic_below.json', 'videopodcast-magic_beside.json']
+files_project_offered	2026-08-31	with a project open nothing is noted as offered either	in project_offer: the seen = state.setdefault("projects_offered", set()) moved above the project_from guard	with a project open nothing is noted as offered either     FAIL 2 keys in the state, wanted the 1 it came with: ['project_from', 'projects_offered']
+files_project_offered	2026-08-31	with a project open nothing is offered any more	in project_offer: the guard if state.get("project_from"): return False removed	with a project open nothing is offered any more            FAIL asked 1, opened 1, lists 0, wanted 0, 0 and 0
+files_set_aside_skipped	2026-08-31	a comparison still speaks while one file is set aside	collect_findings: findings += compare_cameras(video_data) changed to findings += compare_cameras([])	a comparison still speaks while one file is set aside      FAIL 0 findings across files, 3 in all
+files_set_aside_skipped	2026-08-31	a file that takes part is measured too	collect_findings, the video loop: findings += counts_not(b, p) changed to findings += (counts_not(b, p) if path_key(p) in set_aside else [])	a file that takes part is measured too                     FAIL 0 findings about it, 2 in all
+files_set_aside_skipped	2026-08-31	a hint about a set-aside file leaves the balance alone	preflight_sentence: counts = [b for b in findings if not b.set_aside] changed to counts = list(findings)	a hint about a set-aside file leaves the balance alone     FAIL ' files -- 1 note: a note about something' against '2 video files -- nothing to fault.' without it
+files_set_aside_skipped	2026-08-31	a hint that takes part changes the balance line	preflight_sentence: counts = [b for b in findings if not b.set_aside] changed to counts = []	a hint that takes part changes the balance line            FAIL '2 video files -- nothing to fault.' against '2 video files -- nothing to fault.' without it
+files_set_aside_skipped	2026-08-31	a set-aside file is measured all the same	collect_findings, the video loop: findings += counts_not(b, p) changed to findings += ([] if path_key(p) in set_aside else counts_not(b, p))	a set-aside file is measured all the same                  FAIL 0 findings about it, 3 in all
+files_set_aside_skipped	2026-08-31	a short recording alone earns findings of its own	collect_findings, the audio loop: findings += counts_not(b, p) changed to findings += []	a short recording alone earns findings of its own          FAIL 0 findings alone
+files_set_aside_skipped	2026-08-31	beside longer ones it earns a hint from the comparison	compare_audio_tracks: d < 0.5 * longer changed to d < 0.0 * longer	beside longer ones it earns a hint from the comparison     FAIL 2 findings beside them against 2 alone
+files_set_aside_skipped	2026-08-31	every finding about a set-aside file carries the mark	collect_findings, counts_not: b.set_aside = True changed to b.set_aside = False	every finding about a set-aside file carries the mark      FAIL 1 of 1 without the mark: ['Colourchart.mov']
+files_set_aside_skipped	2026-08-31	every finding about the set-aside recording is marked	collect_findings, the audio loop: findings += counts_not(b, p) changed to findings += b	every finding about the set-aside recording is marked      FAIL 2 of 2 without the mark: ['Cara.wav', '']
+files_set_aside_skipped	2026-08-31	no finding about a file that takes part carries the mark	collect_findings, counts_not: if path_key(file_path) in set_aside: changed to if True:	no finding about a file that takes part carries the mark   FAIL 1 of 1 marked: ['Camera1.mov']
+files_set_aside_skipped	2026-08-31	no finding across files carries the mark	collect_findings: findings += compare_cameras(video_data) changed to findings += [setattr(_z, "set_aside", True) or _z for _z in compare_cameras(video_data)]	no finding across files carries the mark                   FAIL 1 of 1 marked: ['Resolutions']
+files_set_aside_skipped	2026-08-31	set aside it earns no hint from the comparison	collect_findings, both set-aside filters on the audio path taken out at once: if d and path_key(p) not in set_aside: to if d:, and audio_paths = [p for p in audio_paths if path_key(p) not in set_aside] to audio_paths = list(audio_paths) -- either one alone leaves the test green, the two guard the same thing	set aside it earns no hint from the comparison             FAIL 3 findings set aside against 2 alone
+files_set_aside_skipped	2026-08-31	set aside, that file makes no hint about resolutions	collect_findings, the video loop: if d and path_key(p) not in set_aside: changed to if d:, so a set-aside file's measurement goes into the comparison	set aside, that file makes no hint about resolutions       FAIL 1 such hints among 5 findings
+files_set_aside_skipped	2026-08-31	the odd-sized file makes a hint about resolutions	compare_cameras: if len(sizes) > 1: changed to if len(sizes) > 2:	the odd-sized file makes a hint about resolutions          FAIL 0 such hints among 4 findings
+files_split_found_again	2026-08-31	a piece of one channel is named after that channel	split_target: tag = "+".join(str(c + 1) for c in channels) changed to str(c + 2)	a piece of one channel is named after that channel         FAIL REC0001_e3d0a8de_Channel2.wav, wanted an end of _Channel1.wav
+files_split_found_again	2026-08-31	a piece of two channels is named after both of them	split_target: tag = "+".join(str(c + 1) ...) changed to "-".join(str(c + 1) ...)	a piece of two channels is named after both of them        FAIL REC0001_e3d0a8de_Channel2-3.wav, wanted an end of _Channel2+3.wav
+open	files_split_found_again	blocks cut into a different number of pieces stay whole
+files_split_found_again	2026-08-31	blocks cut into different channels stay whole	expand_chains_to_tracks: the guard clause or any(which(x) != which(pieces[0]) for x in pieces) removed	blocks cut into different channels stay whole              FAIL 2 recordings out of 1+2 against 2+3, wanted 1
+files_split_found_again	2026-08-31	each of those recordings holds both blocks	expand_chains_to_tracks: [x[k] for x in pieces] changed to [x[k] for x in pieces[:1]]	each of those recordings holds both blocks                 FAIL [1, 1] blocks per recording, wanted [2, 2]
+files_split_found_again	2026-08-31	the first recording holds channel 1 of both blocks	expand_chains_to_tracks: [x[k] for x in pieces] changed to [x[-1 - k] for x in pieces]	the first recording holds channel 1 of both blocks         FAIL ['REC0001_e3d0a8de_Channel2+3.wav', 'REC0002_12cc9f5c_Channel2+3.wav'], wanted ['REC0001_e3d0a8de_Channel1.wav', 'REC0002_12cc9f5c_Channel1.wav']
+files_split_found_again	2026-08-31	the mark is found in the name of a one-channel piece	SPLIT_MARK = re.compile(r"_Channel\d+(?:\+\d+)?$") changed to r"_Kanal\d+(?:\+\d+)?$"	the mark is found in the name of a one-channel piece       FAIL nothing in REC0001_e3d0a8de_Channel1, wanted a mark
+files_split_found_again	2026-08-31	the mark is found in the name of a two-channel piece	SPLIT_MARK = re.compile(r"_Channel\d+(?:\+\d+)?$") changed to r"_Channel\d+$"	the mark is found in the name of a two-channel piece       FAIL nothing in REC0001_e3d0a8de_Channel2+3, wanted a mark
+files_split_found_again	2026-08-31	the search for the next block leaves a split piece alone	find_continuation_files: if SPLIT_MARK.search(name): changed to if False:	the search for the next block leaves a split piece alone   FAIL 2 files back and 0 put aside, wanted 1 and 0: ['REC0001_e3d0a8de_Channel1.wav', 'REC0001_e3d0a8de_Channel2.wav']
+files_split_found_again	2026-08-31	two blocks cut alike give one recording per channel	expand_chains_to_tracks: for k in range(how_many): changed to for k in range(1):	two blocks cut alike give one recording per channel        FAIL 1 recordings out of 2 blocks by 2 channels, wanted 2
 open	project_cameras_land	%s audio on A%d, and only once track
 open	project_cameras_land	%s linked to its picture again track
 open	project_cameras_land	%s on V%d track
@@ -1388,17 +1432,23 @@ open	run_switch_has_effect	--help lists the switches one by one
 open	run_switch_has_effect	build_argument_parser found in the source
 open	run_switch_has_effect	build_argument_parser hands out its switches
 open	run_switch_has_effect	the program knows which switches need several recordings
-open	run_threads_keep_order	all of it, in order
-open	run_threads_keep_order	and about two seconds one after another
-open	run_threads_keep_order	and everything was still tried
-open	run_threads_keep_order	and in the order it went in
-open	run_threads_keep_order	eight quarter seconds take under a second side by side
-open	run_threads_keep_order	every item is worked on
-open	run_threads_keep_order	no items
-open	run_threads_keep_order	nothing left running
-open	run_threads_keep_order	one item
-open	run_threads_keep_order	the error comes out
-open	run_threads_keep_order	three items do not start fifty threads
+run_threads_keep_order	2026-08-31	a run with no thread startable really reaches the refusal	in parallel_map: if len(items) < 2: -> if len(items) < 6:, so five items never ask for a thread	a run with no thread startable really reaches the refusal  FAIL 0 refusals against at least 1
+run_threads_keep_order	2026-08-31	a single item gives back the one answer the work made	in parallel_map short path: return [work(x) for x in items] -> ... + [None]	a single item gives back the one answer the work made      FAIL [8, None] against [8]
+run_threads_keep_order	2026-08-31	a single item is worked on in the calling thread, not a new one	in parallel_map: if len(items) < 2: -> if len(items) < 1:, so one item takes the threaded path	a single item is worked on in the calling thread, not a new one FAIL ['Thread-9 (work_loop)'] against ['MainThread']
+run_threads_keep_order	2026-08-31	an error in the work does not stay inside the call	in parallel_map: raise trouble[0] -> pass	an error in the work does not stay inside the call         FAIL nothing raised against the wanted ValueError: no
+run_threads_keep_order	2026-08-31	eight items run side by side all come back answered	in parallel_map: thread.join() -> thread.join(0), so it returns before the workers are done	eight items run side by side all come back answered        FAIL [None, None, None, None, None, None, None, None] against [1, 1, 1, 1, 1, 1, 1, 1]
+run_threads_keep_order	2026-08-31	eight quarter-second items take under a second side by side	in parallel_map: for _ in range(max(1, min(workers, len(items)))): -> for _ in range(0):, so no thread is made and the caller does all of it	eight quarter-second items take under a second side by side FAIL 2.03 s against a limit of 1.00 s
+run_threads_keep_order	2026-08-31	every item is still tried after one of them fails	in parallel_map work_loop: 'if trouble: return' added at the top of the while, so the first error stops the rest	every item is still tried after one of them fails          FAIL [3, 4, 5] against [0, 1, 2, 3, 4, 5]
+run_threads_keep_order	2026-08-31	every one of the twelve items really was worked on	in parallel_map: todo = list(range(len(items))) -> list(range(len(items) - 1))	every one of the twelve items really was worked on         FAIL 1 of 12 answers still empty
+run_threads_keep_order	2026-08-31	no items give no answers	in parallel_map: items = list(items) -> items = list(items) or [0]	no items give no answers                                   FAIL [0] against []
+run_threads_keep_order	2026-08-31	no worker thread is still running once the answers are back	in parallel_map: thread.join() -> thread.join(0), so eight workers are still asleep when it returns	no worker thread is still running once the answers are back FAIL 9 threads against the 1 there were before
+run_threads_keep_order	2026-08-31	the answers come back in the order the items went in	in parallel_map work_loop: out[i] = work(items[i]) -> out[i] = work(items[-1 - i])	the answers come back in the order the items went in       FAIL [121, 100, 81, 64, 49, 36, 25, 16, 9, 4, 1, 0] against [0, 1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121]
+run_threads_keep_order	2026-08-31	the error that comes out is the one the work raised	in parallel_map: raise trouble[0] -> raise RuntimeError("swapped")	the error that comes out is the one the work raised        FAIL RuntimeError: swapped against the wanted ValueError: no
+run_threads_keep_order	2026-08-31	the same eight one after another take the whole two seconds	in parallel_map: if workers is None: -> if workers is None or True:, so workers=1 is overruled	the same eight one after another take the whole two seconds FAIL 0.26 s against a floor of 1.60 s
+run_threads_keep_order	2026-08-31	three items start three threads, not the fifty asked for	in parallel_map: for _ in range(max(1, min(workers, len(items)))): -> for _ in range(max(1, workers)):	three items start three threads, not the fifty asked for   FAIL 50 threads started for 3 items with 50 asked for, wanted 3
+run_threads_keep_order	2026-08-31	three items with fifty workers asked for are all worked on	in parallel_map: todo = list(range(len(items))) -> list(range(len(items) - 1))	three items with fifty workers asked for are all worked on FAIL [0, 1, None] against [0, 1, 2]
+run_threads_keep_order	2026-08-31	twelve items give twelve answers	in parallel_map: out = [None] * len(items) -> out = [None] * (len(items) + 1)	twelve items give twelve answers                           FAIL 13 answers against 12 items
+run_threads_keep_order	2026-08-31	with no thread startable every item is worked on, in order	in parallel_map: the trailing work_loop() call ('whatever no thread got to') replaced by pass	with no thread startable every item is worked on, in order FAIL [None, None, None, None, None] against [100, 101, 102, 103, 104]
 run_three_ways_agree	2026-08-31	In point and Out point reach the run as the file has them	/private/tmp/cp_three_ways/b15.py -- in run_argv `if (values.get("in_point") or "").strip():` zu `if not (...)` (Bedingung umgedreht, ein gesetzter In-Punkt kommt nie auf die Zeile)	In point and Out point reach the run as the file has them FAIL in None wanted '00:00:10:00', out '00:12:30:00' wanted '00:12:30:00'
 run_three_ways_agree	2026-08-31	a command line is built out of it, and nothing is refused	/private/tmp/cp_three_ways/b04.py -- in run_argv `if len(lines) < 2:` zu `if len(lines) < 3:` (zwei Spuren gelten als zu wenige, also entsteht keine Zeile)	a command line is built out of it, and nothing is refused FAIL 0 words on the line, 1 messages of kinds ['error']
 run_three_ways_agree	2026-08-31	and in it every speaker stands on the camera the file gave them	/private/tmp/cp_three_ways/b14.py -- in run_argv `if a == "video" and os.path.basename(p) == target:` zu `!= target` (Vergleich umgedreht, jede Stimme bekommt die fremde Kamera)	and in it every speaker stands on the camera the file gave them FAIL 2 of 2 pairs: [('Anna', 'CamB.mov'), ('Ben', 'CamA.mov')], wanted [('Anna', 'CamA.mov'), ('Ben', 'CamB.mov')]
@@ -1418,171 +1468,204 @@ run_three_ways_agree	2026-08-31	the parser knows every switch that command line 
 run_three_ways_agree	2026-08-31	the project file is found again where the window put it	/private/tmp/cp_three_ways/b01.py -- in find_project_file `return loaded, attempt` zu `return loaded, ""` (der Leser gibt den Inhalt zurueck, aber nicht den Pfad)	the project file is found again where the window put it FAIL 1 files lie in the folder, the reader took '', wanted 'videopodcast-magic_Three_Ways.json'
 run_three_ways_agree	2026-08-31	the recordings and the content cameras are the run's file list	/private/tmp/cp_three_ways/b12.py -- in run_argv `[p for p, _a in files` zu `[p for p, _a in files[1:]` (die erste Aufnahme faellt aus der Dateiliste)	the recordings and the content cameras are the run's file list FAIL 5 files wanted, 4 came: ['CamA.mov', 'CamB.mov', 'SoundB.wav', 'Wide.mov']
 run_three_ways_agree	2026-08-31	the run is handed an assignment file, and the line names it	/private/tmp/cp_three_ways/b13.py -- in run_argv `argv += ["--multitrack", "--assign", assignment_file_path]` zu `argv += ["--multitrack"]` (Multitrack ohne Zuordnungsdatei)	the run is handed an assignment file, and the line names it FAIL --multitrack is True, --assign is '', wanted 'vpm_assign_imgp9swc.json'
-open	run_which_script	an absolute path
-open	run_which_script	and it is the file that was loaded
-open	sound_all_blocks_count	a different channel count does not
-open	sound_all_blocks_count	and it is not reported as unmeasurable
-open	sound_all_blocks_count	and the levels are the louder block's
-open	sound_all_blocks_count	and the reason names both counts
-open	sound_all_blocks_count	channels 1 and 2 are read as two microphones
-open	sound_all_blocks_count	channels 3 and 4 as one stereo track
-open	sound_all_blocks_count	no blocks at all is not readable
-open	sound_all_blocks_count	one block alone is just that block's answer
-open	sound_all_blocks_count	so the recording gives three tracks
-open	sound_all_blocks_count	the judgement is the loud block's
-open	sound_all_blocks_count	the loud block has all four channels
-open	sound_all_blocks_count	the pair is judged in the block that could see it
-open	sound_all_blocks_count	the quiet block on its own has nothing left
-open	sound_all_blocks_count	three neighbours are judged
-open	sound_all_blocks_count	together, the recording has all four
-open	sound_all_blocks_count	two blocks of the same shape fit
-open	sound_any_count_judged	2 and 3 are not -- 2 is already spoken for anyway
-open	sound_any_count_judged	5 and 6 are one
-open	sound_any_count_judged	a pair with an empty channel is not stereo
-open	sound_any_count_judged	a tick on a channel that has none does nothing
-open	sound_any_count_judged	and nothing moves up into the gap
+run_which_script	2026-08-31	a second copy of the program starts in a folder of its own	log_path() in videopodcast-magic.py: first body line "here = os.path.dirname(os.path.abspath(__file__))" replaced by "raise OSError(\"no log path here\")", so redirect_console() throws before its try	a second copy of the program starts in a folder of its own FAIL the copy returned 1, wanted 0, after 497 characters ending 'OSError: no log path here'
+run_which_script	2026-08-31	it names the file that was loaded, not the one invoked	running_from() in videopodcast-magic.py: "return os.path.abspath(__file__)" replaced by "return os.path.abspath(sys.argv[0])"	it names the file that was loaded, not the one invoked     FAIL named device/inode 16777240/397598, loaded 16777230/100446364, argv[0] 16777240/397598 -- wanted named to equal loaded
+run_which_script	2026-08-31	that name is a full path, not a bare file name	running_from() in videopodcast-magic.py: "return os.path.abspath(__file__)" replaced by "return os.path.relpath(os.path.abspath(__file__))"	that name is a full path, not a bare file name             FAIL '../../../../../../private/tmp/stumm_run_which_script/b2_relative.py' -- 67 characters in 10 path parts, isabs=False, wanted True
+run_which_script	2026-08-31	that run leaves a log beside the copy it ran from	redirect_console() in videopodcast-magic.py: "if not file_path:" replaced by "if True:", so it returns before writing any log	that run leaves a log beside the copy it ran from          FAIL '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_lZSm7W/which-script-myg79cef/videopodcast-magic.log' -- -1 bytes, wanted more than 0, 1 files in the folder
+run_which_script	2026-08-31	the file that name points at is there	running_from() in videopodcast-magic.py: "return os.path.abspath(__file__)" replaced by "return os.path.abspath(__file__) + \".gone\""	the file that name points at is there                      FAIL '/private/tmp/stumm_run_which_script/b3_gone.py.gone' -- stat gave device/inode -1/-1, wanted a pair above -1
+run_which_script	2026-08-31	the log header names that copy by its full path	redirect_console() in videopodcast-magic.py: the header write's last argument "running_from()" replaced by the constant "nowhere"	the log header names that copy by its full path            FAIL wanted '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_7qaoM8/which-script-p6wb9jd8/a-second-copy.py' (102 characters) among the first 3 lines of the log, found on line none
+run_which_script	2026-08-31	the program says which file it was loaded from	running_from() in videopodcast-magic.py: "return os.path.abspath(__file__)" replaced by "return \"?\""	the program says which file it was loaded from             FAIL running_from() gave '?', 1 characters, raised nothing -- wanted a name
+sound_all_blocks_count	2026-08-31	a different channel count does not	shapes_match: in the a[0] != b[0] branch, return False changed to return True	a different channel count does not                         FAIL fits=True for 4 channels against 1, reason '4 channels against 1'
+sound_all_blocks_count	2026-08-31	and it is not reported as unmeasurable	PAIR_STANDS_OUT moved from 0.15 to 0.99, so the pair no longer stands out from its neighbour	and it is not reported as unmeasurable                     FAIL certain=False -- not recognisable -- these two agree no better than each does with the channel beside it
+sound_all_blocks_count	2026-08-31	and the levels are the louder block's	blocks_facts_from: level.append(max(seen) ...) changed to max(seen) + 1.0	and the levels are the louder block's                      FAIL [-12.0, -11.6, -14.4, -14.0] against the loud block's [-13.0, -12.6, -15.4, -15.0]
+sound_all_blocks_count	2026-08-31	and the reason names both counts	shapes_match: T('%d channels against %d') % (a[0], b[0]) changed to % (a[0], a[0])	and the reason names both counts                           FAIL wanted 4 and 1 in '4 channels against 4'
+sound_all_blocks_count	2026-08-31	channels 1 and 2 are read as two microphones	channel_joins: in the at_zero < PAIR_AT_ZERO branch, out.append((k, False, True, ...)) changed to (k, True, True, ...)	channels 1 and 2 are read as two microphones               FAIL stereo=True for pair 0 -- probably two microphones -- about 2.1 m apart, agreed at 63 of 82 places
+sound_all_blocks_count	2026-08-31	channels 3 and 4 as one stereo track	channel_joins: in the final else, out.append((k, True, True, 'probably one stereo track ...')) changed to (k, False, True, ...)	channels 3 and 4 as one stereo track                       FAIL stereo=False for pair 2 -- probably one stereo track -- both microphones in the same place
+sound_all_blocks_count	2026-08-31	each block is measured on its own	blocks_facts: [channel_facts_cached(x) for x in rows] changed to rows[:1], so only the first block is read	each block is measured on its own                          FAIL 1 of 2 blocks read: ['loud']
+sound_all_blocks_count	2026-08-31	no blocks at all is not readable	blocks_facts: the empty answer's "readable": False changed to True	no blocks at all is not readable                           FAIL readable=True over 0 channels
+sound_all_blocks_count	2026-08-31	one block alone is just that block's answer	blocks_facts: if not rows: changed to if len(rows) < 2:, so a single block falls into the unreadable answer	one block alone is just that block's answer                FAIL [] against the block's own [False, False, False, False]
+sound_all_blocks_count	2026-08-31	so the recording gives three tracks	channel_tracks: joined = joined_channels(facts, choice) replaced by joined = {}	so the recording gives three tracks                        FAIL 4 of 4 tracks carry sound: ['Mix Channel 1', 'Mix Channel 2', 'Mix Channel 3', 'Mix Channel 4']
+sound_all_blocks_count	2026-08-31	the judgement is the loud block's	blocks_facts_from: the search for the block a pair is loudest in, for f in usable: changed to for f in usable[:1]:	the judgement is the loud block's                          FAIL [False, False, False] over both blocks against [False, False, True] over the loud one alone
+sound_all_blocks_count	2026-08-31	the loud block has all four channels	SILENT_BELOW_DB moved from 45.0 to 2.0, so two channels 2 dB under the loudest read as unused	the loud block has all four channels                       FAIL 2 of 4 channels left, levels [-13.0, -12.6, -15.4, -15.0]
+sound_all_blocks_count	2026-08-31	the made-up blocks are judged as three neighbours too	channel_joins: for k in range(n - 1) changed to range(n - 2), so the last neighbour is never asked	the made-up blocks are judged as three neighbours too      FAIL 2 pairs over 4 channels
+sound_all_blocks_count	2026-08-31	the pair is judged in the block that could see it	blocks_facts_from: the continue that skips a block with no answer for the pair changed to pass	the pair is judged in the block that could see it          FAIL stereo=False for pair 2 -- not recognisable -- only 0 of 120 places where both channels carry sound, 8 needed
+sound_all_blocks_count	2026-08-31	the quiet block on its own has nothing left	channel_hush: in the branch for a channel at -inf, silent.append(True) changed to silent.append(False), so digital silence no longer counts as unused	the quiet block on its own has nothing left                FAIL 4 of 4 channels left, levels [-inf, -inf, -inf, -inf]
+sound_all_blocks_count	2026-08-31	three neighbours are judged	channel_joins: for k in range(n - 1) changed to range(n - 2), so the last neighbour is never asked	three neighbours are judged                                FAIL 2 pairs over 4 channels
+sound_all_blocks_count	2026-08-31	together, the recording has all four	blocks_facts_from: level.append(max(seen) ...) changed to min(seen), so the combined level is the quietest block's	together, the recording has all four                       FAIL 0 of 4 channels left, levels [-inf, -inf, -inf, -inf]
+sound_all_blocks_count	2026-08-31	two blocks of the same shape fit	shapes_match: if a == b: changed to if a is b:, so two equal shapes never report a fit	two blocks of the same shape fit                           FAIL fits=False, 4 channels against 4, reason '48000 Hz against 48000 Hz'
+sound_any_count_judged	2026-08-31	2 and 3 are not -- 2 is already spoken for anyway	channel_joins: the nothing-was-measured branch appends stereo True instead of False	2 and 3 are not -- 2 is already spoken for anyway          FAIL (1, True, False, 'not recognisable -- only 0 of 120 places where both channels carry sound, 8 needed')
+sound_any_count_judged	2026-08-31	5 and 6 are one	channel_joins: the identical-channels branch appends stereo False instead of True	5 and 6 are one                                            FAIL (4, False, True, 'both channels identical -- mono laid on both sides')
+sound_any_count_judged	2026-08-31	a pair with an empty channel is not stereo	channel_hush: a channel whose level is -inf appends silent False instead of True	a pair with an empty channel is not stereo                 FAIL (0, False, False, 'not recognisable -- only 0 of 120 places where both channels carry sound, 8 needed')
+sound_any_count_judged	2026-08-31	a tick on a channel that has none does nothing	joined_channels: the hand's bound if not (0 <= k < n - 1) cut down to if not (0 <= k)	a tick on a channel that has none does nothing             FAIL {0: True, 2: True, 4: True, 9: True}
+sound_any_count_judged	2026-08-31	and nothing moves up into the gap	joined_channels: the untick branch does out[k + 1] = True instead of out.pop(k, None)	and nothing moves up into the gap                          FAIL 3 joined True, wanted False, out of {0: True, 2: True, 4: True, 3: True}
 sound_any_count_judged	2026-08-30	and that is measured, not guessed	a copy that called a stereo pair certain when it was not	and that is measured, not guessed                      FAIL certain False, reason 'both channels identical -- mono laid on both sides'
-open	sound_any_count_judged	and the last one stands alone
-open	sound_any_count_judged	and the pair is 2 and 3
-open	sound_any_count_judged	and they are named after their channels
-open	sound_any_count_judged	channels 1 and 2 are one
-open	sound_any_count_judged	exactly one silent
-open	sound_any_count_judged	forced apart -> two tracks
-open	sound_any_count_judged	forced together -> one track
-open	sound_any_count_judged	four channels
-open	sound_any_count_judged	holding both channels
-open	sound_any_count_judged	it holds both channels
-open	sound_any_count_judged	it is the second
-open	sound_any_count_judged	judged separate
-open	sound_any_count_judged	judged stereo
-open	sound_any_count_judged	named accordingly
-open	sound_any_count_judged	no pairs judged
-open	sound_any_count_judged	not readable
-open	sound_any_count_judged	numbered by channel
-open	sound_any_count_judged	one channel counted
-open	sound_any_count_judged	one track out of it
-open	sound_any_count_judged	one track, named after the file
-open	sound_any_count_judged	one track, so the file does not vanish
-open	sound_any_count_judged	putting one together frees both its neighbours
-open	sound_any_count_judged	same judgement as for the audio file
-open	sound_any_count_judged	seven neighbours judged
-open	sound_any_count_judged	six tracks come out
-open	sound_any_count_judged	so 1 and 4 stand alone
-open	sound_any_count_judged	taking one apart takes exactly that one apart
-open	sound_any_count_judged	the empty one is marked, not dropped
-open	sound_any_count_judged	the first two belong together
-open	sound_any_count_judged	the middle neighbour is the stereo one
-open	sound_any_count_judged	the proposal pairs them up from the left
-open	sound_any_count_judged	the reason says why in plain words
-open	sound_any_count_judged	the stereo ones carry their pair
-open	sound_any_count_judged	the third does not go with them
-open	sound_any_count_judged	the whole file, no channel picked
-open	sound_any_count_judged	three tracks
-open	sound_any_count_judged	three tracks are left
-open	sound_any_count_judged	ticking channel 2 makes 2 and 3 the pair
-open	sound_any_count_judged	two channels found in the video
-open	sound_any_count_judged	two hands, two changes, no more
-open	sound_any_count_judged	two neighbours judged
-open	sound_any_count_judged	two tracks
-open	sound_any_count_judged	without a hand the left pair wins
-open	sound_bleed_reported	  %s is %.0f dB down, as built
+sound_any_count_judged	2026-08-31	and the last one stands alone	channel_tracks: k += 2 after a joined pair turned into k += 1, so the right-hand channel is used twice	and the last one stands alone                              FAIL ((1,), 'X Channel 2', False)
+sound_any_count_judged	2026-08-31	and the pair is 2 and 3	channel_tracks: a joined pair is built as (k, k + 2) instead of (k, k + 1)	and the pair is 2 and 3                                    FAIL [(0,), (1, 3), (3,)]
+sound_any_count_judged	2026-08-31	and they are named after their channels	channel_name: str(c + 1) turned into str(c), so channels are numbered from nought	and they are named after their channels                    FAIL ['X Channel 0+1', 'X Channel 2', 'X Channel 3', 'X Channel 4+5', 'X Channel 6', 'X Channel 7']
+sound_any_count_judged	2026-08-31	channels 1 and 2 are one	channel_joins: the identical-channels branch appends stereo False instead of True	channels 1 and 2 are one                                   FAIL (0, False, True, 'both channels identical -- mono laid on both sides')
+sound_any_count_judged	2026-08-31	exactly one silent	channel_hush: a channel whose level is -inf appends silent False instead of True	exactly one silent                                         FAIL [False, False, False, False]
+sound_any_count_judged	2026-08-31	forced apart -> two tracks	joined_channels: out.pop(k, None) taken out of the untick branch, so a tick taken away changes nothing	forced apart -> two tracks                                 FAIL [((0, 1), 'X', False)]
+sound_any_count_judged	2026-08-31	forced together -> one track	joined_channels: out[k] = True taken out of the hand loop, so a tick sets no pair	forced together -> one track                               FAIL [((0,), 'X Channel 1', False), ((1,), 'X Channel 2', False)]
+sound_any_count_judged	2026-08-31	four channels	channel_facts: rows = rows + rows[-1:] inserted before the count, so every file is measured with one channel too many	four channels                                              FAIL 5
+sound_any_count_judged	2026-08-31	holding both channels	joined_channels: out[k] = True taken out of the hand loop, so a tick sets no pair	holding both channels                                      FAIL (0,)
+sound_any_count_judged	2026-08-31	it holds both channels	channel_tracks: a joined pair is built as (k, k + 2) instead of (k, k + 1)	it holds both channels                                     FAIL (0, 2)
+sound_any_count_judged	2026-08-31	it is the second	channel_hush: a channel whose level is -inf appends silent False instead of True	it is the second                                           FAIL [False, False, False, False]
+sound_any_count_judged	2026-08-31	judged separate	channel_joins: the nothing-was-measured branch appends stereo True instead of False	judged separate                                            FAIL True
+sound_any_count_judged	2026-08-31	judged stereo	channel_joins: the identical-channels branch appends stereo False instead of True	judged stereo                                              FAIL (0, False, True, 'both channels identical -- mono laid on both sides')
+sound_any_count_judged	2026-08-31	named accordingly	channel_name: str(c + 1) turned into str(c), so channels are numbered from nought	named accordingly                                          FAIL X Channel 1+2
+sound_any_count_judged	2026-08-31	no pairs judged	channel_facts returns readable True for an unreadable file, channel_joins' guard returns [(0, False, False, '')] and channel_tracks' guard returns []	no pairs judged                                            FAIL [(0, False, False, '')]
+sound_any_count_judged	2026-08-31	not readable	channel_facts returns readable True for an unreadable file, channel_joins' guard returns [(0, False, False, '')] and channel_tracks' guard returns []	not readable                                               FAIL {'channels': 1, 'level': [], 'silent': [], 'pair_same': [], 'pair_zero': [], 'pair_apart': [], 'pair_places': [], 'pair_agreed': [], 'readable': True}
+sound_any_count_judged	2026-08-31	numbered by channel	channel_name: str(c + 1) turned into str(c), so channels are numbered from nought	numbered by channel                                        FAIL ['X Channel 0', 'X Channel 1']
+sound_any_count_judged	2026-08-31	one channel counted	channel_facts: rows = rows + rows[-1:] inserted before the count, so every file is measured with one channel too many	one channel counted                                        FAIL 2
+sound_any_count_judged	2026-08-31	one neighbour judged	channel_joins: for k in range(n - 1) turned into range(n - 2), one neighbour short	one neighbour judged                                       FAIL 0 neighbours judged, wanted 1
+sound_any_count_judged	2026-08-31	one track out of it	channel_tracks: k += 2 after a joined pair turned into k += 1, so the right-hand channel is used twice	one track out of it                                        FAIL [((0, 1), 'X Channel 1+2', False), ((1,), 'X Channel 2', False)]
+sound_any_count_judged	2026-08-31	one track, named after the file	channel_tracks: the one-channel early return gives ((0,), channel_name(name, (0,))) instead of ((), name)	one track, named after the file                            FAIL [((0,), 'X Channel 1', False)]
+sound_any_count_judged	2026-08-31	one track, so the file does not vanish	channel_facts returns readable True for an unreadable file, channel_joins' guard returns [(0, False, False, '')] and channel_tracks' guard returns []	one track, so the file does not vanish                     FAIL 0 tracks, wanted 1: []
+sound_any_count_judged	2026-08-31	putting one together frees both its neighbours	joined_channels: out.pop(k + 1, None) taken out of the hand loop	putting one together frees both its neighbours             FAIL {2: True, 4: True, 1: True}
+sound_any_count_judged	2026-08-31	same judgement as for the audio file	channel_facts: for a path ending .mov every row is replaced by the first, so a video's channels are read as one and the same	same judgement as for the audio file                       FAIL video (True, True), audio (False, False)
+sound_any_count_judged	2026-08-31	seven neighbours judged	channel_joins: for k in range(n - 1) turned into range(n - 2), one neighbour short	seven neighbours judged                                    FAIL 6 neighbours judged, wanted 7
+sound_any_count_judged	2026-08-31	six tracks come out	channel_tracks: k += 2 after a joined pair turned into k += 1, so the right-hand channel is used twice	six tracks come out                                        FAIL ['X Channel 1+2', 'X Channel 2', 'X Channel 3', 'X Channel 4', 'X Channel 5+6', 'X Channel 6', 'X Channel 7', 'X Channel 8']
+sound_any_count_judged	2026-08-31	so 1 and 4 stand alone	joined_channels: out[k] = True taken out of the hand loop, so a tick sets no pair	so 1 and 4 stand alone                                     FAIL [(0,), (1,), (2,), (3,)]
+sound_any_count_judged	2026-08-31	taking one apart takes exactly that one apart	joined_channels: the untick branch does out[k + 1] = True instead of out.pop(k, None)	taking one apart takes exactly that one apart              FAIL {0: True, 2: True, 4: True, 3: True}
+sound_any_count_judged	2026-08-31	the empty one is marked, not dropped	channel_hush: a channel whose level is -inf appends silent False instead of True	the empty one is marked, not dropped                       FAIL [((0,), 'X Channel 1', False), ((1,), 'X Channel 2', False), ((2,), 'X Channel 3', False), ((3,), 'X Channel 4', False)]
+sound_any_count_judged	2026-08-31	the first two belong together	channel_joins: the identical-channels branch appends stereo False instead of True	the first two belong together                              FAIL (0, False, True, 'both channels identical -- mono laid on both sides')
+sound_any_count_judged	2026-08-31	the middle neighbour is the stereo one	channel_joins: the identical-channels branch appends stereo False instead of True	the middle neighbour is the stereo one                     FAIL (1, False, True, 'both channels identical -- mono laid on both sides')
+sound_any_count_judged	2026-08-31	the proposal pairs them up from the left	joined_channels: the proposal loop starts at range(1, n - 1) instead of range(0, n - 1)	the proposal pairs them up from the left                   FAIL {2: True, 4: True}
+sound_any_count_judged	2026-08-31	the reason says why in plain words	channel_joins: the % (places or 0, PAIR_PLACES, PAIR_ENOUGH_PLACES) interpolation taken away, so the reason keeps its placeholders	the reason says why in plain words                         FAIL 15 words, wanted 4 and no %: 'not recognisable -- only %d of %d places where both channels carry sound, %d needed'
+sound_any_count_judged	2026-08-31	the stereo ones carry their pair	channel_tracks: a joined pair is built as (k, k + 2) instead of (k, k + 1)	the stereo ones carry their pair                           FAIL [(0, 2), (2,), (3,), (4, 6), (6,), (7,)]
+sound_any_count_judged	2026-08-31	the third does not go with them	channel_joins: the nothing-was-measured branch appends stereo True instead of False	the third does not go with them                            FAIL (1, True, False, 'not recognisable -- only 0 of 120 places where both channels carry sound, 8 needed')
+sound_any_count_judged	2026-08-31	the whole file, no channel picked	channel_tracks: the one-channel early return gives ((0,), channel_name(name, (0,))) instead of ((), name)	the whole file, no channel picked                          FAIL ((0,), 'X Channel 1', False)
+sound_any_count_judged	2026-08-31	three neighbours judged	channel_joins: for k in range(n - 1) turned into range(n - 2), one neighbour short	three neighbours judged                                    FAIL 2 neighbours judged, wanted 3
+sound_any_count_judged	2026-08-31	three tracks	channel_tracks: k += 2 after a joined pair turned into k += 1, so the right-hand channel is used twice	three tracks                                               FAIL ['X Channel 1', 'X Channel 2+3', 'X Channel 3', 'X Channel 4']
+sound_any_count_judged	2026-08-31	three tracks are left	channel_hush: a channel whose level is -inf appends silent False instead of True	three tracks are left                                      FAIL ['X Channel 1', 'X Channel 2', 'X Channel 3', 'X Channel 4']
+sound_any_count_judged	2026-08-31	ticking channel 2 makes 2 and 3 the pair	joined_channels: out[k] = True taken out of the hand loop, so a tick sets no pair	ticking channel 2 makes 2 and 3 the pair                   FAIL {}
+sound_any_count_judged	2026-08-31	two channels found in the video	channel_facts: rows = rows + rows[-1:] inserted before the count, so every file is measured with one channel too many	two channels found in the video                            FAIL 3
+sound_any_count_judged	2026-08-31	two hands, two changes, no more	joined_channels: for k in sorted(picked) cut to sorted(picked)[:1], so only the first hand is applied	two hands, two changes, no more                            FAIL {2: True, 4: True}
+sound_any_count_judged	2026-08-31	two neighbours judged	channel_joins: for k in range(n - 1) turned into range(n - 2), one neighbour short	two neighbours judged                                      FAIL 1 neighbours judged, wanted 2
+sound_any_count_judged	2026-08-31	two tracks	channel_tracks: k += 2 after a joined pair turned into k += 1, so the right-hand channel is used twice	two tracks                                                 FAIL ['X Channel 1+2', 'X Channel 2', 'X Channel 3']
+sound_any_count_judged	2026-08-31	without a hand the left pair wins	joined_channels: the proposal loop runs reversed(range(max(0, n - 1))), from the right instead of the left	without a hand the left pair wins                          FAIL {1: True}
+sound_bleed_reported	2026-08-31	  %s is %.0f dB down, as built	3 dB added to the reading in check_crosstalk: separation = 20.0 * math.log10(own_flag / others) + 3.0	Anna is 15 dB down, as built                             FAIL wanted 15.0 dB, the report says 18.0 dB, at most 1.5 dB out
 sound_bleed_reported	2026-08-30	  6 dB is too close, and the report says so	a copy with the crosstalk judgement turned round: close pairs called good, distant ones warned	6 dB is too close, and the report says so            FAIL   {'good'}
-open	sound_bleed_reported	  that is far enough apart, so no warning
-open	sound_bleed_reported	both directions are reported
-open	sound_bleed_reported	nothing to compare, nothing claimed
-open	sound_both_sides_alike	and lands on -16 LUFS
-open	sound_both_sides_alike	both are measurable
-open	sound_both_sides_alike	both are the same length
-open	sound_both_sides_alike	its two channels are still the same signal
-open	sound_both_sides_alike	left minus right is nothing at all
-open	sound_both_sides_alike	one channel where one was asked for
-open	sound_both_sides_alike	the difference is +3.0 LU, give or take a tenth
-open	sound_both_sides_alike	the mix has two channels
-open	sound_both_sides_alike	two where two were asked for
-open	sound_both_sides_alike	without the limiter the sum rises by exactly the gain
-open	sound_camera_counts	a missing assignment file is not an error
-open	sound_camera_counts	an assignment with nothing marked changes nothing
-open	sound_camera_counts	cameras_as_tracks counts the marked camera
-open	sound_camera_counts	nor is an unreadable one
-open	sound_camera_counts	one recording alone is not enough for Multitrack
-open	sound_camera_counts	one recording plus one camera track is enough
-open	sound_camera_counts	the older key camera_audio counts too
-open	sound_camera_counts	two cameras and no microphone are enough as well
-open	sound_camera_counts	two recordings are
-open	sound_camera_counts	without the tick nothing is checked at all
-open	sound_camera_judged_too	a camera that is not cut gives one row
-open	sound_camera_judged_too	a camera with one channel stays one track
-open	sound_camera_judged_too	a camera without any sound is not the exception
-open	sound_camera_judged_too	a recording beside them is the only row
-open	sound_camera_judged_too	a video's channels can be measured
-open	sound_camera_judged_too	and both are at the run's sample rate
-open	sound_camera_judged_too	and cut at the same channels
-open	sound_camera_judged_too	and it is marked as settled, not as chosen
-open	sound_camera_judged_too	and its pair is judged the same way
-open	sound_camera_judged_too	and keeps its own name
-open	sound_camera_judged_too	and no camera is noted as contributing
-open	sound_camera_judged_too	and only the camera's rows point at a camera
-open	sound_camera_judged_too	and points at itself
-open	sound_camera_judged_too	and records at 44.1 kHz
-open	sound_camera_judged_too	and so is one camera beside a recording
-open	sound_camera_judged_too	and the camera nobody chose stays out
-open	sound_camera_judged_too	both pieces are there
-open	sound_camera_judged_too	both point back at the camera they came from
-open	sound_camera_judged_too	but it can be moved to the other one
-open	sound_camera_judged_too	camera and recording give the same number of tracks
-open	sound_camera_judged_too	each holds one channel
-open	sound_camera_judged_too	each piece is one channel and at the run's rate
-open	sound_camera_judged_too	named after the camera, not after the temporary file
-open	sound_camera_judged_too	one camera with sound and nothing else -> in use by itself
-open	sound_camera_judged_too	one pair is judged
-open	sound_camera_judged_too	recording and camera are cut by the same rule
-open	sound_camera_judged_too	so the camera is cut into two tracks
-open	sound_camera_judged_too	so the field shows it in use and says why
-open	sound_camera_judged_too	the camera gives two tracks on the command line as well
-open	sound_camera_judged_too	the camera has two channels
-open	sound_camera_judged_too	the chosen camera brings its pieces as rows
-open	sound_camera_judged_too	the first piece is the first channel
-open	sound_camera_judged_too	the recording of it can be measured too
-open	sound_camera_judged_too	the second the other one
-open	sound_camera_judged_too	three of them make no difference
-open	sound_camera_judged_too	two cameras are a question again
-open	sound_camera_judged_too	two cameras, no recording, no choice -> no rows
-open	sound_camera_judged_too	two separate tones are not read as one stereo track
-open	sound_camera_judged_too	where there is a choice the field is not settled
-open	sound_camera_judged_too	without a setting the track starts on its own camera
-open	sound_channels_split	%-9s -> %s
-open	sound_channels_split	16 bit stays 16 bit
-open	sound_channels_split	24 bit stays 24 bit
-open	sound_channels_split	a pair that stays together: nothing to do
-open	sound_channels_split	a piece is not taken for a continuation block
-open	sound_channels_split	a recording of two blocks with two channels: two tracks
-open	sound_channels_split	an empty channel is dropped, the other kept
-open	sound_channels_split	and each is a track of its own
-open	sound_channels_split	and it has one channel
-open	sound_channels_split	and it is the third channel, not another
-open	sound_channels_split	and two tracks do not collide
-open	sound_channels_split	blocks that came apart differently stay whole
-open	sound_channels_split	each track keeps both its blocks
-open	sound_channels_split	float stays float
-open	sound_channels_split	no camera audio in the way
-open	sound_channels_split	nor channels 1 and 2 with channel 12
-open	sound_channels_split	nor do two files of the same name in two folders
-open	sound_channels_split	one channel: nothing to do
-open	sound_channels_split	one that cannot be cut stays one row
-open	sound_channels_split	the discarded blocks are named once, not per track
-open	sound_channels_split	the file is written
-open	sound_channels_split	the same pair, taken apart by hand: two tracks
-open	sound_channels_split	two channels come out
-open	sound_channels_split	two recordings of two channels become four tracks
-open	sound_channels_split	what could not be cut stays as it was
-open	sound_channels_split	without the splitter they stay two recordings
-open	sound_clipping_counted	16 bit against the stop is counted
-open	sound_clipping_counted	24 bit counts exactly the same
-open	sound_clipping_counted	32 bit float is not counted at all
-open	sound_clipping_counted	and a quiet recording is left alone
-open	sound_clipping_counted	and says how many, not just that it happened
-open	sound_clipping_counted	as a hint, never a reason to stop
-open	sound_clipping_counted	the preflight says so
+sound_bleed_reported	2026-08-31	  that is far enough apart, so no warning	the 3:1 limit in check_crosstalk moved out of reach: good = separation >= 100.0 instead of >= THREE_TO_ONE_DB, so nothing is ever far enough apart	that is far enough apart, so no warning                  FAIL at 15 dB: wanted ['good'] and nothing else, found ['hint']
+sound_bleed_reported	2026-08-31	  the files really carry %.0f dB of bleed	pair() in the test itself built the bleed from 10 ** (bleed_db / 10.0) instead of / 20.0, so every pair holds twice the decibels its name says	the files really carry 15 dB of bleed                    FAIL wanted 15.0 dB down, the files hold 30.0 and 30.0 dB down, at most 1.0 dB out
+sound_bleed_reported	2026-08-31	both directions are reported	check_crosstalk compared each pair once instead of both ways: 'if i == j: continue' turned into 'if i >= j: continue'	both directions are reported                               FAIL at 15 dB: wanted 2 rows about a microphone, got 1 of 1 findings [('Anna', 15.0)]
+sound_bleed_reported	2026-08-31	nothing to compare, nothing claimed	check_crosstalk let a single file through: 'if len(audio_paths) < 2: return []' turned into 'if len(audio_paths) < 1:'	nothing to compare, nothing claimed                        FAIL wanted 0 findings from 1 file, got 1: ['no place found where exactly one person speaks -- the separation cannot be measured.']
+sound_both_sides_alike	2026-08-31	both mixes are measurable	measure_loudness: the returned I is None for a path ending in "mono.wav", so the one channel mix has no loudness	both mixes are measurable                                  FAIL one channel not measurable, two channels -26.30 LUFS
+sound_both_sides_alike	2026-08-31	each mix is as long as the tracks that went into it	mix_tracks: "-t", "29" put in front of "-map", "[out]" in the ffmpeg call, so every mix is cut a second short	each mix is as long as the tracks that went into it        FAIL 1440000 samples in, 1392000 and 1392000 out
+sound_both_sides_alike	2026-08-31	each of the two source tracks has one channel	_channel_count: "return int(a.get('channels') or 1)" -> "return 2 if file_path.endswith('a.wav') else int(a.get('channels') or 1)", so the first source track reports two channels	each of the two source tracks has one channel              FAIL 1 wanted, 2 and 1 found
+sound_both_sides_alike	2026-08-31	each side is the one channel mix, sample for sample	channel_filter: the want==2 branch returns "pan=stereo|c0=0.98*c0|c1=0.98*c0", so both sides are 0.18 dB below the one channel mix	each side is the one channel mix, sample for sample        FAIL 0.00143 against 1e-06 allowed
+sound_both_sides_alike	2026-08-31	left minus right is nothing at all	channel_filter: the want==2 branch returns "pan=stereo|c0=c0|c1=0.5*c0", so the right side is half the left	left minus right is nothing at all                         FAIL 0.0357 against 1e-06 allowed
+sound_both_sides_alike	2026-08-31	one channel where one was asked for	mix_tracks: "channels = max(channels, max(have) if have else 1)" -> "channels = max(2, ...)", so a mix asked for one channel is written with two	one channel where one was asked for                        FAIL 1 asked for, 2 in the file
+sound_both_sides_alike	2026-08-31	raising by the gain moves the sum by exactly that much	mix_tracks: "fc += \",volume=%.3fdB\" % gain" -> "% (gain - 0.25)", so a quarter decibel of the computed gain never reaches the file	raising by the gain moves the sum by exactly that much     FAIL +10.00 LU risen against +10.30 dB of gain, allowed 0.20 out
+sound_both_sides_alike	2026-08-31	the gain comes from the two channel sum, not from one channel	normalise_loudness: "channels = max(channels, widest_track(ready))" -> "channels = 1", so the sum is measured as one channel	the gain comes from the two channel sum, not from one channel FAIL +13.40 dB, wanted +10.30 dB; from one channel it would be +13.40 dB
+sound_both_sides_alike	2026-08-31	the mix raised without a limiter is measurable	measure_loudness: the returned I is None for a path ending in "plain.wav", so the mix raised without a limiter has no loudness	the mix raised without a limiter is measurable             FAIL not measurable, wanted a figure in LUFS
+sound_both_sides_alike	2026-08-31	the normalised mix has two channels	channel_filter: the want==2 branch returns "anull" instead of "pan=stereo|c0=c0|c1=c0", so nothing is widened to two channels	the normalised mix has two channels                        FAIL 2 asked for, 1 in the file
+sound_both_sides_alike	2026-08-31	the normalised mix is measurable	measure_loudness: the returned I is None for a path ending in "done.wav", so the normalised mix has no loudness	the normalised mix is measurable                           FAIL not measurable, wanted a figure in LUFS
+sound_both_sides_alike	2026-08-31	the normalised mix lands on -16 LUFS	mix_tracks: "fc += \",volume=%.3fdB\" % gain" -> "% (gain - 1.0)", so the mix goes out a decibel under the target	the normalised mix lands on -16 LUFS                       FAIL -17.00 LUFS against -16.00 LUFS, allowed 0.30 out
+sound_both_sides_alike	2026-08-31	the normalised mix still has one signal on both sides	channel_filter: the want==2 branch returns "pan=stereo|c0=c0|c1=0.5*c0", so the right side is half the left	the normalised mix still has one signal on both sides      FAIL 0.149 against 1e-06 allowed
+sound_both_sides_alike	2026-08-31	the two source tracks are equally long	sample_count: the probe_remember result gets "+ (1 if path.endswith('b.wav') else 0)", so the second source track is one sample longer	the two source tracks are equally long                     FAIL 1440000 samples against 1440001
+sound_both_sides_alike	2026-08-31	two channels measure 3.0 LU louder than one	channel_filter: the want==2 branch returns "pan=stereo|c0=0.707*c0|c1=0.707*c0" -- the equal-power law the comment there warns about, which costs the three decibels the widening gains	two channels measure 3.0 LU louder than one                FAIL +0.00 LU against +3.00 LU, allowed 0.15 out
+sound_both_sides_alike	2026-08-31	two channels where two were asked for	channel_filter: the want==2 branch returns "anull" instead of "pan=stereo|c0=c0|c1=c0", so nothing is widened to two channels	two channels where two were asked for                      FAIL 2 asked for, 1 in the file
+sound_camera_counts	2026-08-31	a missing assignment file is not an error	cameras_as_tracks: return 0 for a path that is not there -> return 1	a missing assignment file is not an error                  FAIL 0 wanted, got 1 from a path that is not there
+sound_camera_counts	2026-08-31	an assignment with nothing marked changes nothing	cameras_as_tracks: e.get("own_audio") -> ("own_audio" in e), so a row that says False counts	an assignment with nothing marked changes nothing          FAIL 1 recording and 1 camera tracks, the answer was: nothing to report
+sound_camera_counts	2026-08-31	both test recordings are there before anything is asked of them	in the test: two = os.path.join(WORK, "two.wav") instead of silence("two.wav"), so the second recording is never written	both test recordings are there before anything is asked of them FAIL 2 wanted, 1 there, sizes [96044] bytes against a 44 byte header
+sound_camera_counts	2026-08-31	cameras_as_tracks counts the marked camera	cameras_as_tracks: e.get("own_audio") taken out of the sum	cameras_as_tracks counts the marked camera                 FAIL 1 wanted, got 0 out of 2 rows, 1 of them marked
+sound_camera_counts	2026-08-31	nor is an unreadable one	cameras_as_tracks: return 0 in except (ValueError, OSError) -> return 1	nor is an unreadable one                                   FAIL 0 wanted, got 1 from 9 bytes that are no json
+sound_camera_counts	2026-08-31	one recording alone is not enough for Multitrack	check_mode_fits_input: if chains < 2 -> if chains < 1	one recording alone is not enough for Multitrack           FAIL 1 recording and 0 camera tracks, the answer was: nothing to report
+sound_camera_counts	2026-08-31	one recording plus one camera track is enough	check_mode_fits_input: chains += cameras_as_tracks(args) -> chains += 0	one recording plus one camera track is enough              FAIL 1 recording and 1 camera tracks, the answer was: MULTITRACK NOT POSSIBLE
+sound_camera_counts	2026-08-31	the older key camera_audio counts too	cameras_as_tracks: e.get("camera_audio") taken out of the sum	the older key camera_audio counts too                      FAIL 2 wanted, got 0 out of 2 rows carrying camera_audio
+sound_camera_counts	2026-08-31	the third key from_camera counts too	cameras_as_tracks: e.get("from_camera") taken out of the sum	the third key from_camera counts too                       FAIL 1 wanted, got 0 out of 1 row carrying from_camera
+sound_camera_counts	2026-08-31	the unreadable assignment is there to be read	in the test: the write of broken.json taken away, so the path names no file	the unreadable assignment is there to be read              FAIL 0 bytes at broken.json, and more than 0 wanted -- a file that is not there is counted by the check above, not by this one
+sound_camera_counts	2026-08-31	two cameras and no microphone are enough as well	check_mode_fits_input: chains += cameras_as_tracks(args) -> chains += 0	two cameras and no microphone are enough as well           FAIL 0 recordings and 2 camera tracks, the answer was: MULTITRACK NOT POSSIBLE
+sound_camera_counts	2026-08-31	two recordings are	check_mode_fits_input: if chains < 2 -> if chains < 3	two recordings are                                         FAIL 2 recordings and 0 camera tracks, the answer was: MULTITRACK NOT POSSIBLE
+sound_camera_counts	2026-08-31	without the tick nothing is checked at all	check_mode_fits_input: the return None under if not args.multitrack taken away	without the tick nothing is checked at all                 FAIL multitrack off, 1 recording, the answer was: MULTITRACK NOT POSSIBLE
+sound_camera_judged_too	2026-08-31	a camera that is not cut gives one row	assignment_rows: pieces or [b] changed to pieces or [b, b], so an uncut camera gives two rows	a camera that is not cut gives one row                     FAIL 2 rows against 1: ['Camera2.mov', 'Camera2.mov']
+sound_camera_judged_too	2026-08-31	a camera with one channel stays one track	camera_audio_tracks: the uncut answer returns the one track twice	a camera with one channel stays one track                  FAIL 2 tracks against 1: ['cameraaudio_Wide.wav', 'cameraaudio_Wide.wav']
+sound_camera_judged_too	2026-08-31	a camera without any sound is not the exception	cameras_with_own_audio: the sound_of test switched off with if False and ...	a camera without any sound is not the exception            FAIL 1 and 1 against 0 and 0
+sound_camera_judged_too	2026-08-31	a recording beside them is the only row	assignment_rows: own_flag_cameras or () changed to own_flag_cameras or videos, so an unticked camera becomes a row	a recording beside them is the only row                    FAIL ['Osmo_recording.wav', 'Camera1.mov', 'Camera2.mov'] against ['Osmo_recording.wav']
+sound_camera_judged_too	2026-08-31	a video's channels can be measured	channel_facts: the short-file test changed to if True or not n or width < rate // 4:, so nothing is readable	a video's channels can be measured                         FAIL readable False against True, over 2 channels
+sound_camera_judged_too	2026-08-31	and both are at the run's sample rate	split_channels: the -ar argument dropped, so the piece keeps the camera rate	and both are at the run's sample rate                      FAIL [44100, 44100] against [48000, 48000]
+sound_camera_judged_too	2026-08-31	and cut at the same channels	tracks_to_split: rows cut to rows[:1] for a .wav, so the recording is judged by another rule than the camera	and cut at the same channels                               FAIL [] against [(0,), (1,)]
+sound_camera_judged_too	2026-08-31	and it is marked as settled, not as chosen	cameras_with_own_audio: the lone-camera exception returns [], [] instead of list(videos), list(videos)	and it is marked as settled, not as chosen                 FAIL [] against ['Camera1.mov']
+sound_camera_judged_too	2026-08-31	and its pair is judged the same way	channel_facts: n forced to 0 for a .wav, so only the recording comes back unreadable	and its pair is judged the same way                        FAIL 0 pairs against 1, stereo None against False
+sound_camera_judged_too	2026-08-31	and keeps its own name	camera_audio_tracks: the uncut answer returns the track under name + " 1"	and keeps its own name                                     FAIL ['Wide 1'] against ['Wide']
+sound_camera_judged_too	2026-08-31	and no camera is noted as contributing	assignment_rows: own_flag_cameras or () changed to own_flag_cameras or videos, so an unticked camera becomes a row	and no camera is noted as contributing                     FAIL 2 noted against 0: ['Camera1.mov', 'Camera2.mov']
+sound_camera_judged_too	2026-08-31	and only the camera's rows point at a camera	assignment_rows: every recording row noted in own as well, as coming from itself	and only the camera's rows point at a camera               FAIL ['Camera1_a871ebb4_Channel1.wav', 'Camera1_a871ebb4_Channel2.wav', 'Osmo_recording_66aa7ac4_Channel1.wav', 'Osmo_recording_66aa7ac4_Channel2.wav'] against ['Camera1_a871ebb4_Channel1.wav', 'Camera1_a871ebb4_Channel2.wav']
+sound_camera_judged_too	2026-08-31	and points at itself	assignment_rows: the camera noted beside a track written as os.path.abspath(b) + ".x"	and points at itself                                       FAIL [('Camera2.mov', 'Camera2.mov.x')] against {Camera2.mov: Camera2.mov}
+sound_camera_judged_too	2026-08-31	and records at 44.1 kHz	audio_shape: the sample rate it reports raised by one	and records at 44.1 kHz                                    FAIL 44101 Hz against 44100
+sound_camera_judged_too	2026-08-31	and so is one camera beside a recording	cameras_with_own_audio: audio_files dropped from the condition, so a recording beside a camera is ignored	and so is one camera beside a recording                    FAIL 1 and 1 against 0 and 0
+sound_camera_judged_too	2026-08-31	and the camera nobody chose stays out	assignment_rows: own_flag_cameras or () changed to videos or own_flag_cameras, so the ticks are ignored	and the camera nobody chose stays out                      FAIL Camera2.mov against never, among ['Camera1.mov', 'Camera2.mov']
+sound_camera_judged_too	2026-08-31	both pieces are there	split_channels: return target put in front of the ffmpeg call, so no piece is ever written	both pieces are there                                      FAIL 2 pieces asked for, 0 written, 0 refused, want 2, 2 and 0
+sound_camera_judged_too	2026-08-31	both point back at the camera they came from	assignment_rows: the camera noted beside a track written as os.path.abspath(b) + ".x"	both point back at the camera they came from               FAIL 2 rows point at ['Camera1.mov.x'], want all at Camera1.mov
+sound_camera_judged_too	2026-08-31	but it can be moved to the other one	preselected_camera: the manual setting branch switched off with if False and old ...	but it can be moved to the other one                       FAIL Camera1.mov against Camera2.mov
+sound_camera_judged_too	2026-08-31	camera and recording give the same number of tracks	tracks_to_split: rows cut to rows[:1] for a .wav, so the recording is judged by another rule than the camera	camera and recording give the same number of tracks        FAIL 0 against 2
+sound_camera_judged_too	2026-08-31	each holds one channel	split_channels: the one-channel pan changed to pan=stereo, so a piece keeps two channels	each holds one channel                                     FAIL [2, 2] against [1, 1]
+sound_camera_judged_too	2026-08-31	each piece is one channel and at the run's rate	camera_audio_tracks: the rate=SR argument dropped from split_channels	each piece is one channel and at the run's rate            FAIL [(1, 44100), (1, 44100)] against [(1, 48000), (1, 48000)]
+sound_camera_judged_too	2026-08-31	named after the camera, not after the temporary file	camera_audio_tracks: the name=name argument dropped from tracks_to_split	named after the camera, not after the temporary file       FAIL ['cameraaudio_Osmo Channel 1', 'cameraaudio_Osmo Channel 2'] against ['Osmo Channel 1', 'Osmo Channel 2']
+sound_camera_judged_too	2026-08-31	one camera with sound and nothing else -> in use by itself	cameras_with_own_audio: the lone-camera exception returns [], [] instead of list(videos), list(videos)	one camera with sound and nothing else -> in use by itself FAIL [] against ['Camera1.mov']
+sound_camera_judged_too	2026-08-31	one pair is judged	channel_joins: return out changed to return out + out, so every pair is judged twice	one pair is judged                                         FAIL 2 pairs against 1
+sound_camera_judged_too	2026-08-31	recording and camera are cut by the same rule	tracks_to_split: rows cut to rows[:1] for a .wav, so the recording is judged by another rule than the camera	recording and camera are cut by the same rule              FAIL 3 rows against 4: ['Osmo_recording.wav', 'Camera1_a4e06b53_Channel1.wav', 'Camera1_a4e06b53_Channel2.wav']
+sound_camera_judged_too	2026-08-31	so the camera is cut into two tracks	tracks_to_split: the "nothing has to happen" test widened from len(rows) <= 1 to <= 2	so the camera is cut into two tracks                       FAIL 0 tracks against 2: []
+sound_camera_judged_too	2026-08-31	so the field shows it in use and says why	audio_use_settled: the forced case answers True with an empty reason	so the field shows it in use and says why                  FAIL used True against True, reason '' against a sentence
+sound_camera_judged_too	2026-08-31	the camera gives two tracks on the command line as well	camera_audio_tracks: if not want: changed to if True:, so the camera is never cut	the camera gives two tracks on the command line as well    FAIL 1 tracks against 2: ['cameraaudio_Osmo.wav']
+sound_camera_judged_too	2026-08-31	the camera has two channels	channel_count: the lambda in probe_remember changed to _channel_count(file_path) + 1	the camera has two channels                                FAIL 3 channels against 2
+sound_camera_judged_too	2026-08-31	the camera is seen to carry sound at all	has_sound: the any(...) turned round to not any(...)	the camera is seen to carry sound at all                   FAIL False against True, over 2 audio channels
+sound_camera_judged_too	2026-08-31	the chosen camera brings its pieces as rows	assignment_rows: pieces or [b] changed to pieces[:1] or [b], so only the first piece becomes a row	the chosen camera brings its pieces as rows                FAIL ['Camera1_215c656e_Channel1.wav'] against ['Camera1_215c656e_Channel1.wav', 'Camera1_215c656e_Channel2.wav']
+sound_camera_judged_too	2026-08-31	the first piece is the first channel	split_channels: the pan takes channel 1 - c instead of c, so the two channels are swapped	the first piece is the first channel                       FAIL 500 Hz 0.00 against > 0.90, 900 Hz 1.00 against < 0.10
+sound_camera_judged_too	2026-08-31	the recording beside it is the same two channels	channel_count: the lambda in probe_remember changed to _channel_count(file_path) + 1	the recording beside it is the same two channels           FAIL 3 channels against 2, at 48000 Hz
+sound_camera_judged_too	2026-08-31	the recording of it can be measured too	channel_facts: n forced to 0 for a .wav, so only the recording comes back unreadable	the recording of it can be measured too                    FAIL readable False against True, over 0 channels
+sound_camera_judged_too	2026-08-31	the second the other one	split_channels: the pan takes channel 1 - c instead of c, so the two channels are swapped	the second the other one                                   FAIL 900 Hz 0.00 against > 0.90, 500 Hz 1.00 against < 0.10
+sound_camera_judged_too	2026-08-31	three of them make no difference	assignment_rows: own_flag_cameras or () changed to own_flag_cameras or videos, so an unticked camera becomes a row	three of them make no difference                           FAIL 3 rows against 0, 3 cameras noted against 0: ['Camera1.mov', 'Camera2.mov', 'Camera3.mov']
+sound_camera_judged_too	2026-08-31	two cameras are a question again	cameras_with_own_audio: len(videos) != 1 changed to len(videos) > 2, so two cameras still take the exception	two cameras are a question again                           FAIL 2 and 2 against 0 and 0
+sound_camera_judged_too	2026-08-31	two cameras, no recording, no choice -> no rows	assignment_rows: own_flag_cameras or () changed to own_flag_cameras or videos, so an unticked camera becomes a row	two cameras, no recording, no choice -> no rows            FAIL 2 rows against 0, 2 cameras noted against 0: ['Camera1.mov', 'Camera2.mov']
+sound_camera_judged_too	2026-08-31	two separate tones are not read as one stereo track	SAME_SIGNAL lowered from 0.999 to -2.0, so any two channels count as one signal	two separate tones are not read as one stereo track        FAIL stereo True against False, over 1 pairs
+sound_camera_judged_too	2026-08-31	where there is a choice the field is not settled	audio_use_settled: the last line answers with T('the only sound there is') instead of an empty reason	where there is a choice the field is not settled           FAIL used False against False, reason 'the only sound there is' against no reason at all
+sound_camera_judged_too	2026-08-31	without a setting the track starts on its own camera	preselected_camera: the own_camera branch switched off with if False and own_camera:	without a setting the track starts on its own camera       FAIL mix-only against Camera1.mov
+sound_channels_split	2026-08-31	a 16 bit recording is written back as 16 bit	pcm_kind: the limit 0 < deep <= 16 moved to 0 < deep <= 15	a 16 bit recording is written back as 16 bit               FAIL pcm_s16le wanted, pcm_s24le found
+sound_channels_split	2026-08-31	a 24 bit recording is written back as 24 bit	pcm_kind: the limit 0 < deep <= 16 moved to 0 < deep <= 24	a 24 bit recording is written back as 24 bit               FAIL pcm_s24le wanted, pcm_s16le found
+sound_channels_split	2026-08-31	a float recording is written back as float	pcm_kind: sample_fmt startswith(("flt", "dbl")) narrowed to startswith(("dbl",))	a float recording is written back as float                 FAIL pcm_f32le wanted, pcm_s24le found
+sound_channels_split	2026-08-31	a pair the measurement keeps together is not cut	joined_channels: judged built from {k: not stereo} instead of {k: stereo}	a pair the measurement keeps together is not cut           FAIL 0 tracks wanted, 2 found: [((0,), 'pair2 Channel 1'), ((1,), 'pair2 Channel 2')]
+sound_channels_split	2026-08-31	a piece is not taken for the next block of its recording	find_continuation_files: the early return on SPLIT_MARK.search(name) turned off with "if False and"	a piece is not taken for the next block of its recording   FAIL 1 file wanted, 2 found: ['four_82a90c04_Channel1.wav', 'four_82a90c04_Channel2.wav']
+sound_channels_split	2026-08-31	a piece made of a pair has two channels	split_channels: the pair filter "pan=stereo|c0=c%d|c1=c%d" changed to "pan=mono|c0=c%d" % channels[1]	a piece made of a pair has two channels                    FAIL 2 channels wanted, 1 found
+sound_channels_split	2026-08-31	a piece made of one channel has one channel	split_channels: the one-channel filter "pan=mono|c0=c%d" changed to "pan=stereo|c0=c%d|c1=c%d" % (channels[0], channels[0])	a piece made of one channel has one channel                FAIL 1 channel wanted, 2 found
+sound_channels_split	2026-08-31	a recording that cannot be cut stays one row	expand_chains_to_tracks: "if not how_many or A or B" turned into "if how_many and (A or B)", so a file with no pieces is dropped	a recording that cannot be cut stays one row               FAIL 1 row wanted, 0 found: []
+sound_channels_split	2026-08-31	an empty channel is dropped and the other one kept	tracks_to_split: the filter "if not silent and chs" cut back to "if chs"	an empty channel is dropped and the other one kept         FAIL 1 track of channel 1 wanted, 2 found: [((0,), 'half'), ((1,), 'half Channel 2')]
+sound_channels_split	2026-08-31	and each channel is a row of its own, in the order they were cut	assignment_rows: returns list(reversed(chains)) + rows instead of chains + rows	and each channel is a row of its own, in the order they were cut FAIL ['a1_893f9e4c_Channel1.wav', 'a1_893f9e4c_Channel2.wav', 'a2_fa6d1ddb_Channel1.wav', 'a2_fa6d1ddb_Channel2.wav'] wanted, ['a2_fa6d1ddb_Channel2.wav', 'a2_fa6d1ddb_Channel1.wav', 'a1_893f9e4c_Channel2.wav', 'a1_893f9e4c_Channel1.wav'] found
+sound_channels_split	2026-08-31	blocks cut along different seams stay whole	expand_chains_to_tracks: the clause any(which(x) != which(pieces[0]) for x in pieces) replaced by any(False for x in pieces)	blocks cut along different seams stay whole                FAIL 1 row of 2 files wanted, 2 rows found: ["['a1_893f9e4c_Channel1.wav', 'a3_3d3285eb_Channel1+2.wav']", "['a1_893f9e4c_Channel2.wav', 'a3_3d3285eb_Channel3.wav']"]
+sound_channels_split	2026-08-31	blocks that did not all come apart stay whole	expand_chains_to_tracks: pieces built only from the files that could be cut -- "for x in row if split_of(x)"	blocks that did not all come apart stay whole              FAIL 1 row of 2 files wanted, 2 rows found: ["['a1_893f9e4c_Channel1.wav']", "['a1_893f9e4c_Channel2.wav']"]
+sound_channels_split	2026-08-31	both pieces lie in one folder, side by side	split_channels: the ffmpeg output ["-y", target] changed to ["-y", target + ".other.wav"], so neither piece is written	both pieces lie in one folder, side by side                FAIL 2 files wanted, 0 found: []
+sound_channels_split	2026-08-31	channels 1 and 2 do not land on the name of channel 12	split_target: tag joined with "" instead of "+"	channels 1 and 2 do not land on the name of channel 12     FAIL rec_3b94e77b_Channel12.wav against rec_3b94e77b_Channel12.wav
+sound_channels_split	2026-08-31	each track keeps both its blocks	expand_chains_to_tracks: the regrouping index x[k] changed to x[how_many - 1 - k]	each track keeps both its blocks                           FAIL ['a1_893f9e4c_Channel1.wav', 'a2_fa6d1ddb_Channel1.wav'] and ['a1_893f9e4c_Channel2.wav', 'a2_fa6d1ddb_Channel2.wav'] wanted, ["['a1_893f9e4c_Channel2.wav', 'a2_fa6d1ddb_Channel2.wav']", "['a1_893f9e4c_Channel1.wav', 'a2_fa6d1ddb_Channel1.wav']"] found
+sound_channels_split	2026-08-31	no camera audio is put in the way	assignment_rows: the second return value changed from False to True	no camera audio is put in the way                          FAIL False wanted, True found
+sound_channels_split	2026-08-31	one channel alone is not cut	tracks_to_split: both guards at once -- the gate len(rows) <= 1 moved to len(rows) <= 0 and the filter "if not silent and chs" cut back to "if not silent"	one channel alone is not cut                               FAIL 0 tracks wanted, 1 found: [((), 'mono')]
+sound_channels_split	2026-08-31	the discarded blocks are named once, not per track	expand_chains_to_tracks: "discarded if k == 0 else []" changed to "discarded"	the discarded blocks are named once, not per track         FAIL 1 named and 0 wanted, [1, 1, 0] found
+sound_channels_split	2026-08-31	the empty channel of the half file was measured as empty	channel_hush: a channel at -inf appends silent False instead of True	the empty channel of the half file was measured as empty   FAIL [False, True] wanted, [False, False] found
+sound_channels_split	2026-08-31	the name of a piece ends in the channels it holds	split_target: tag joined from str(c) instead of str(c + 1)	the name of a piece ends in the channels it holds          FAIL channels (0,): Channel1 wanted at the end, name is rec_3b94e77b_Channel0.wav
+sound_channels_split	2026-08-31	the pair file was measured as two readable channels	channel_facts: the readable limit width < rate // 4 changed to width < rate * 4	the pair file was measured as two readable channels        FAIL 2 readable channels wanted, 2 channels and readable=False found
+sound_channels_split	2026-08-31	the piece carries the channel that was asked for	split_channels: the one-channel filter built from channels[0] + 1 instead of channels[0]	the piece carries the channel that was asked for           FAIL 800 Hz wanted, 1600 Hz found
+sound_channels_split	2026-08-31	the piece is written where its name says	split_channels: the ffmpeg output ["-y", target] changed to ["-y", target + ".other.wav"], so nothing is written where the returned name says	the piece is written where its name says                   FAIL third.wav, 0 bytes
+sound_channels_split	2026-08-31	the same pair, taken apart by hand, gives two tracks	channel_tracks: joined_channels(facts, choice) called with None instead of choice, so the tick by hand is ignored	the same pair, taken apart by hand, gives two tracks       FAIL 2 tracks wanted, 0 found: []
+sound_channels_split	2026-08-31	the single channel file was measured as one readable channel	channel_facts: the readable limit width < rate // 4 changed to width < rate * 4	the single channel file was measured as one readable channel FAIL 1 readable channel wanted, 1 channels and readable=False found
+sound_channels_split	2026-08-31	two blocks of two channels give two tracks, the uncut file a third	expand_chains_to_tracks: "if not how_many or A or B" turned into "if how_many and (A or B)", so a file with no pieces is dropped	two blocks of two channels give two tracks, the uncut file a third FAIL 3 rows wanted, 2 found: [(['/out/a1_893f9e4c_Channel1.wav', '/out/a2_fa6d1ddb_Channel1.wav'], [('x', 'why')]), (['/out/a1_893f9e4c_Channel2.wav', '/out/a2_fa6d1ddb_Channel2.wav'], [])]
+sound_channels_split	2026-08-31	two channels of one file do not land on one name	split_target: tag set to the constant "1" instead of the channel numbers	two channels of one file do not land on one name           FAIL rec_3b94e77b_Channel1.wav against rec_3b94e77b_Channel1.wav
+sound_channels_split	2026-08-31	two files of the same name in two folders do not land on one name	split_target: mark taken over os.path.basename(file_path) instead of os.path.abspath(file_path)	two files of the same name in two folders do not land on one name FAIL rec_257844c1_Channel1.wav against rec_257844c1_Channel1.wav
+sound_channels_split	2026-08-31	two recordings of two channels become four tracks	assignment_rows: "if split_of:" turned off with "if False and split_of:"	two recordings of two channels become four tracks          FAIL 4 rows wanted, 2 found
+sound_channels_split	2026-08-31	what could not be cut stays as it was	expand_chains_to_tracks: "if not how_many or A or B" turned into "if how_many and (A or B)", so a file with no pieces is dropped	what could not be cut stays as it was                      FAIL ['b1.wav'] wanted, no third row found
+sound_channels_split	2026-08-31	without a splitter the two recordings stay two rows	assignment_rows: the default split_of=None changed to a splitter that always answers with two pieces	without a splitter the two recordings stay two rows        FAIL 2 rows wanted, 4 found
+sound_clipping_counted	2026-08-31	16 bit against the stop is counted	clipping_runs_count: top, bottom = 32767, -32768 changed to 40000, -40000, out of reach of int16	16 bit against the stop is counted                         FAIL 0 runs on the first channel, wanted at least 1
+sound_clipping_counted	2026-08-31	24 bit counts exactly the same	clipping_facts: the early return widened to pcm_kind(file_path, stream) in ("pcm_f32le", "pcm_s24le")	24 bit counts exactly the same                             FAIL 24 bit 0 runs / longest 0 against 16 bit 1760 runs / longest 46
+sound_clipping_counted	2026-08-31	32 bit float is not counted at all	clipping_facts: the early return narrowed to "if np is None:", so float is counted like an integer format	32 bit float is not counted at all                         FAIL 1 channels counted, wanted 0 -- {0: (1760, 46, 0.9583333333333334, 0.00010416666666666667)}
+sound_clipping_counted	2026-08-31	a counted run is at least the three samples it takes	clipping_runs_count: longest[k] = max(longest[k], int(length.max())) replaced by longest[k] = 2	a counted run is at least the three samples it takes       FAIL longest run 2 samples, wanted at least 3
+sound_clipping_counted	2026-08-31	and a quiet recording is left alone	clipping_runs_count: top, bottom = 32767, -32768 changed to 800, -800, under the quiet file peak of 1024	and a quiet recording is left alone                        FAIL 1 channels counted, wanted 0 -- {0: (1760, 24, 0.5, 0.0003333333333333333)}
+sound_clipping_counted	2026-08-31	and its milliseconds are those samples at the file's own rate	clipping_runs_count: the returned milliseconds divided by 16000 instead of by rate	and its milliseconds are those samples at the file's own rate FAIL 2.8750 ms reported, 0.9583 ms for 46 samples at 48000 Hz
+sound_clipping_counted	2026-08-31	and says how many, not just that it happened	check_audio_file: the clipping hint text replaced by T('Channel %d is against the stop.') % (channel + 1,), which drops the count	and says how many, not just that it happened               FAIL looked for 1,760 runs in: Channel 1 is against the stop.
+sound_clipping_counted	2026-08-31	as a hint, never a reason to stop	check_audio_file: the kind of the clipping Finding changed from "hint" to "abort"	as a hint, never a reason to stop                          FAIL 1 of 2 findings would stop the run, wanted 0
+sound_clipping_counted	2026-08-31	ffmpeg wrote every piece of material	in the test itself: the stereo material written with codec pcm_nonesuch, so ffmpeg leaves that one file unwritten	ffmpeg wrote every piece of material                       FAIL 4 of 5 files written under /var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_run_NJM8Ak/vpm_clip_8apqwbkb
+sound_clipping_counted	2026-08-31	numpy is there, or nothing at all could be counted	np = _require_module("numpy") at the foot of the program replaced by np = None	numpy is there, or nothing at all could be counted         FAIL numpy missing -- pip install numpy
+sound_clipping_counted	2026-08-31	one clipped channel of two makes one hint, not two	clipping_facts: the returned dict changed from "for k in range(n) if runs[k]" to "for k in range(n)"	one clipped channel of two makes one hint, not two         FAIL 2 hints for 1 clipped channel of 2, wanted 1
+sound_clipping_counted	2026-08-31	only the channel that hit the stop is counted	clipping_facts: the returned dict changed from "for k in range(n) if runs[k]" to "for k in range(n)"	only the channel that hit the stop is counted              FAIL channels counted [0, 1], wanted [1] -- the loud side is the second
+sound_clipping_counted	2026-08-31	the hint counts channels from one, as a person does	check_audio_file: the hint formatted with % (channel, ...) instead of % (channel + 1, ...)	the hint counts channels from one, as a person does        FAIL wanted a hint opening on Channel 2 is against the stop: -- got Channel 1 is against the stop: 1,760 times three samples or
+sound_clipping_counted	2026-08-31	the preflight says so	check_audio_file: the clipping loop fed from sorted({}.items()) instead of sorted(clipping_facts(file_path).items())	the preflight says so                                      FAIL 0 hints for 1 clipped channel, wanted 1
 open	sound_delay_decides	   and the distance is about right
 open	sound_delay_decides	%-14s is read as one pair
 open	sound_delay_decides	%-14s is read as two microphones
@@ -2058,6 +2141,7 @@ open	text_release_ready	%s: groups in order, Documentation last
 open	text_release_ready	%s: only groups that are allowed
 open	text_release_ready	and it carries the version of its tag
 open	text_release_ready	every fixed point says how it is now
+text_release_ready	2026-08-31	every number in a point says what it counts	the two similarity scores put back into the German half of the auphonic point, word for word as they stood before commit 4bb26cd	every number in a point says what it counts          FAIL 2 in 28 points, first: '0,286 zum' in: Die Tonspuren von auphonic.com wurden am ganzen Da
 open	text_release_ready	every picture has both languages
 open	text_release_ready	every release carries the file
 open	text_release_ready	no English words on the German side
@@ -2065,9 +2149,8 @@ open	text_release_ready	no German words on the English side
 open	text_release_ready	no line writes the key into a file
 open	text_release_ready	no picture is referred to that is not there
 open	text_release_ready	no picture lies there unused
-text_release_ready	2026-08-30	no point stands out by its length	one changelog point stretched to 360 characters	no point stands out by its length                    FAIL 360 characters against a middle of 137: The multitrack path was measured for the
 text_release_ready	2026-08-31	no point carries a name out of the source	one word of a changelog point turned into a source name: "the assignment too now" -> "speaker_map too now"	no point carries a name out of the source            FAIL 1 in 28 points, first: 'speaker_map' in: Every camera arrived in Resolve as a wide shot car
-text_release_ready	2026-08-31	every number in a point says what it counts	the two similarity scores put back into the German half of the auphonic point, word for word as they stood before commit 4bb26cd	every number in a point says what it counts          FAIL 2 in 28 points, first: '0,286 zum' in: Die Tonspuren von auphonic.com wurden am ganzen Da
+text_release_ready	2026-08-30	no point stands out by its length	one changelog point stretched to 360 characters	no point stands out by its length                    FAIL 360 characters against a middle of 137: The multitrack path was measured for the
 open	text_release_ready	none of them is a stub
 open	text_release_ready	the changelog has sections
 open	text_release_ready	the key is taken out before pip runs
@@ -2696,13 +2779,14 @@ voice_source_travels	2026-08-31	two voices on two cameras give a cut that uses b
 open	voice_source_travels	what lies before the window is trimmed
 open	voice_source_travels	with one it is in the plan
 open	voice_source_travels	without a separation the key stays away
-open	voice_split_hears_two	as many voices as spoke: %d
-open	voice_split_hears_two	each voice keeps one label all the way
-open	voice_split_hears_two	no boundary further out than %.2f s
-open	voice_split_hears_two	one stretch per turn: %d
-open	voice_split_hears_two	something came out of it
-open	voice_split_hears_two	the run comes back without a complaint
-open	voice_split_hears_two	the shape the rest of the program reads
+voice_split_hears_two	2026-08-31	as many voices come back as spoke	speaker_segments_group: [:1] added to the returned sorted(per.items(), key=...), so only the longest voice comes back	as many voices come back as spoke                          FAIL 1 voices against the 2 that spoke: ['SPEAKER_00']
+voice_split_hears_two	2026-08-31	each turn comes back as one unbroken stretch	speaker_segments_group: for row in rows or (): changed to for row in (rows or ())[:-1]:, so one turn is dropped	each turn comes back as one unbroken stretch               FAIL 5 stretches against 6 turns spoken
+voice_split_hears_two	2026-08-31	each voice keeps one label from first turn to last	speaker_segments_group: the row starting between 10 s and 11 s filed under "SPEAKER_02" instead of str(row[0])	each voice keeps one label from first turn to last         FAIL 1 of 6 turns under a label the voice did not keep: ['A']
+voice_split_hears_two	2026-08-31	every piece is a pair of seconds that runs forwards	speaker_segments_group: stretch = (round(float(row[1]), 3), round(float(row[2]), 3)) turned round to (round(float(row[2]), 3), round(float(row[1]), 3))	every piece is a pair of seconds that runs forwards        FAIL 6 pieces, 6 of them not a forward pair of seconds: [(4.638, 0.031), (14.611, 10.173), (25.512, 20.669)]
+voice_split_hears_two	2026-08-31	every voice comes back under a name with pieces to it	speaker_segments_group: per.setdefault(str(row[0]), []) changed to per.setdefault(hash(row[0]), []), so a label is a number	every voice comes back under a name with pieces to it      FAIL 2 voices, 2 not a named pair, 0 with no pieces: [(3096043460051218391, [(5.043, 9.717), (14.999, 20.348), (2
+voice_split_hears_two	2026-08-31	no boundary is further out than the tolerance allows	speaker_segments_group: round(float(row[2]), 3) changed to round(float(row[2]), 0), so every turn's end is rounded to a whole second	no boundary is further out than the tolerance allows       FAIL worst 0.470 s against the 0.30 s allowed -- end of the turn at 25.530 s of A
+voice_split_hears_two	2026-08-31	the separation comes back without a complaint	speaker_split_run: if not python or not worker: turned round to if python or not worker:	the separation comes back without a complaint              FAIL 0.0 s of computing, and it said: The speaker separation is not set up.
+voice_split_hears_two	2026-08-31	the separation finds at least one voice	speaker_segments_group: for row in rows or (): changed to for row in ():	the separation finds at least one voice                    FAIL 0 voices back
 voice_turns_found	2026-08-31	a track handed in with an offset still comes back as three sections	Dieselbe Kopie wie bei Pruefung 2 (/private/tmp/vtf/cp2.py): in der Signatur von speakers_from_tracks `min_len=SPEECH_MIN_LEN_S` zu `min_len=2.2`; auch der Einspur-Lauf mit Versatz verliert damit den 2,0 s langen Abschnitt.	a track handed in with an offset still comes back as three sections FAIL 2 sections against 3 put in
 voice_turns_found	2026-08-31	both tracks come back, each with a row of its own	In speakers_from_tracks (Kopie /private/tmp/vtf/cp1.py): die Ausgabeschleife `for i, name in enumerate(names):` zu `for i, name in enumerate(names[:1]):` geaendert, so dass nur die erste Spur eine Zeile bekommt.	both tracks come back, each with a row of its own FAIL 1 rows ['A'] against 2 wanted ['A', 'B']
 voice_turns_found	2026-08-31	every edge sits within a third of a second of where it was put	In speakers_from_tracks (Kopie /private/tmp/vtf/cp4.py): `shift = begin * block` zu `shift = begin * block + 0.5` geaendert, so dass jede Kante eine halbe Sekunde spaeter liegt.	every edge sits within a third of a second of where it was put FAIL worst 0.50 s against 0.30 s allowed, over 12 edges of 12 -- B begins at 5.50 s instead of 5.00 s
