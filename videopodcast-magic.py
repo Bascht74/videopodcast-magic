@@ -21386,6 +21386,11 @@ def kind_proposal_say(values, data):
     return moved + [p for p in forced if p not in moved]
 
 
+# How many tabs the window can hold. Two of them arrive with the
+# material, so a menu or a key built at the start would name one.
+TABS_AT_MOST = 3
+
+
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
     """The whole menu bar, from a table of what each entry does.
 
@@ -21445,11 +21450,34 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
     # tick a finished tab carries is left out, since it comes and goes
     # and a menu entry that changes under the hand is worse than none.
     view_menu = menu.addMenu(T('&View'))
-    for number in range(tabs.count()):
-        named = tabs.tabText(number).replace("&&", "&")
-        act(view_menu, named.replace("\u2713", "").strip(),
-            lambda i=number: tabs.setCurrentIndex(i),
-            "Ctrl+%d" % (number + 1))
+    def view_menu_fill():
+        """Name the tabs that are there, each time the menu opens.
+
+        The menu is built once, at the end of gui(), when only the
+        first tab stands -- the other two arrive with the material. So
+        a menu filled once names one tab for ever, and Ctrl+2 and
+        Ctrl+3 name nothing at all. Qt has no signal for a tab
+        arriving, and it has one for a menu opening.
+        """
+        view_menu.clear()
+        for number in range(tabs.count()):
+            named = tabs.tabText(number).replace("&&", "&")
+            act(view_menu, named.replace("\u2713", "").strip(),
+                lambda i=number: tabs.setCurrentIndex(i),
+                "Ctrl+%d" % (number + 1))
+
+    view_menu_fill()
+    view_menu.aboutToShow.connect(view_menu_fill)
+    # The keys are not the menu's. A shortcut on a menu entry exists
+    # only while that entry does, and refilling on opening would leave
+    # Ctrl+2 dead until somebody had opened the menu once. These hang
+    # on the window and wait for their tab.
+    for number in range(TABS_AT_MOST):
+        keyed = QtGui.QShortcut(
+            QtGui.QKeySequence("Ctrl+%d" % (number + 1)), window)
+        keyed.activated.connect(
+            lambda i=number: (tabs.setCurrentIndex(i)
+                              if i < tabs.count() else None))
 
     play_menu = player_menu(menu, player)
     act(play_menu, T('Play and pause'), player.toggle, "Space", player)
