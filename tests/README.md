@@ -1,6 +1,6 @@
 # The test suite
 
-156 tests against `../videopodcast-magic.py`. Every one of them stands
+160 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-156 tests. The name is the one a red line carries, and beside it the
+160 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
