@@ -35,7 +35,7 @@ auphonic_may_be_skipped	23
 auphonic_mono_not_stereo	7
 auphonic_none_chosen	4
 auphonic_preset_fits	5
-auphonic_run_delivers	70
+auphonic_run_delivers	73
 auphonic_speech_read	13
 auphonic_stays_quiet	30
 cut_all_shots_land	4
@@ -69,10 +69,11 @@ files_hdr_complete	34
 files_intro_proposed	21
 files_joined_by_hand	20
 files_lengths_summed	6
+project_cameras_land	23
 project_each_track_set	5
 project_every_offset	9
 project_grades_stay_off	8
-project_handover_built	73
+project_handover_built	78
 project_hdr_follows	49
 project_real_frame	4
 project_render_kept	4
@@ -106,7 +107,6 @@ silent	files_project_first
 silent	files_project_offered
 silent	files_set_aside_skipped
 silent	files_split_found_again
-silent	project_cameras_land
 silent	run_threads_keep_order
 silent	run_which_script
 silent	sound_all_blocks_count
