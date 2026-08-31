@@ -70,21 +70,24 @@ Four tabs, in the order they are needed.
   greyed as a whole -- grey over the whole box would read as "nothing to
   be done here", and there always is.
 
-  What can be barred is one entry of the list, greyed and not pickable,
+  What can be barred is an entry of the list, greyed and not pickable,
   and the reason stands on that entry: rest on it and it says why. Two
-  entries can be barred that way, each with its own sentence.
+  entries can be barred at once, each with its own sentence.
 
   - A camera nobody is assigned to shows **Wide shot** although nobody
     marked it. **Content** is the barred entry while that lasts, because
     no speaker is assigned to it. Give that camera a speaker, or set the
     **Kind** yourself, and the entry frees itself.
-  - A file the measurement could place nowhere cannot serve as the wide
-    shot: the wide shot is the camera that runs through and steps in
-    wherever no other one fits, so it has to lie on the time axis.
-    **Wide shot** is the barred entry then, with that as its reason.
+  - A file the measurement could place nowhere is neither content nor
+    the wide shot, and both entries are barred for it. Content is cut
+    into the episode, and there is nowhere to cut this file in. The
+    wide shot is the camera that runs through and steps in wherever no
+    other one fits, so it has to lie on the time axis. Each entry says
+    its own reason, and the program puts such a file on **Intro** of
+    its own accord.
 
-    Two things have to hold together for that bar, and neither of them
-    alone. The sound of the file has to fit the rest badly -- such a
+    Two things have to hold together for those two bars, and neither of
+    them alone. The sound of the file has to fit the rest badly -- such a
     file stands red in the list -- **and** no timecode may place it
     among the others, which takes a timecode on the file and one on
     something else in the material; a clock read once says nothing. A
@@ -95,13 +98,20 @@ Four tabs, in the order they are needed.
 
   Intro, outro and leaving the file out are never barred. They are
   answers about the file itself and have nothing to do with who sits in
-  front of which camera.
+  front of which camera. A file that fits nothing belongs in one of
+  those three.
 
-  The bar on **Wide shot** never falls on a **Kind** somebody picked: a
-  picked answer stands, whatever the measurement says. And both bars
-  come off again by themselves -- a file a later measurement can place
-  gets the wide shot back, and a camera that is given a speaker gets
-  **Content** back.
+  The two bars on a file that fits nothing are not a recommendation but
+  a statement about the material, so they hold against a **Kind**
+  somebody picked and against one a project file brought in: an answer
+  of content or wide shot on such a file is moved to **Intro**. The bar
+  on a camera nobody is assigned to is the other way round -- pick the
+  **Kind** yourself and it ends.
+
+  Every bar comes off by itself once its reason is gone. A camera that
+  is given a speaker gets **Content** back, and a file a later
+  measurement can place gets both entries back. What the file was moved
+  to in the meantime stays until somebody sets it themselves.
 
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
@@ -136,6 +146,11 @@ Four tabs, in the order they are needed.
   **Only one speaker -- separate the track?** wherever a name stands in
   the field.
 
+  Which camera a recording belongs to follows from that name for as
+  long as nobody picks one, so a name typed or corrected later takes
+  the camera with it. A camera picked by hand is an answer and stays
+  where it was put.
+
   With more than one audio recording nothing starts by itself; the
   answer in the row starts it. Under the recordings stands **Not on
   this machine**: it switches the separation off for the whole project.
@@ -153,9 +168,11 @@ Four tabs, in the order they are needed.
   flat list, without triangles.
 
   The camera table under it carries **Camera audio** again, at every
-  camera, on the value from the file list. A camera set to
-  **use the audio** gets a row in the assignment table above, like a
-  recording of its own.
+  camera, on the value from the file list, and **Kind** beside it, on
+  the same value and with the same entries barred: that a clip is in
+  truth an outro is noticed while watching it, and the player is here.
+  A camera set to **use the audio** gets a row in the assignment table
+  above, like a recording of its own.
 
   ![Assignment table and player](images/assignment.png)
 
@@ -346,7 +363,13 @@ then the run. **Close project** empties the window down to what a fresh
 start looks like and leaves the file it came from untouched; it is the
 way to a second production without quitting the program. **Save
 project** writes the project file where the output folder points,
-without running anything.
+without running anything, and says afterwards where it went.
+
+Where no output folder is chosen yet, the sentence comes before the
+window: the project file goes into the output folder, and none is
+chosen yet, please choose one. Only then does the chooser open. Cancel
+it and nothing further happens. A folder dialog that opens by itself
+does not say why it is there.
 
 **Close project** also calls off the work that was running on the old
 material. The envelopes and the camera audio stop being taken out, the
@@ -448,14 +471,21 @@ every file, and the next start takes it up again. Files that no longer
 fit it show red. More about the project file stands in
 [camera-cut.md](camera-cut.md).
 
-The measurement tells two verdicts apart. A file whose sound fits the
+The measurement tells three verdicts apart. A file whose sound fits the
 others badly shows red. A file with no place at all -- its sound has
 nothing in common with the rest of the material, and no timecode puts it
-among the others -- is set to **ignore this video** in the column
-**Kind**, and the log says why. That is a proposal, like the ones for the
-voices: it only ever fills a **Kind** that still carries the program's own
-answer, never one somebody picked, and a file that a later measurement can
-place again gets its old entry back.
+among the others -- cannot be cut into the episode: in the column
+**Kind**, **Content** and **Wide shot** are barred for it, it is set to
+**Intro**, and the log says why. That is not a proposal but a statement
+about the material, and it holds however the **Kind** got there.
+
+Where nothing whatever could be measured of such a file, **ignore this
+video** is proposed for it instead. That is a proposal, like the ones
+for the voices: it only ever fills a **Kind** that still carries the
+program's own answer, never one somebody picked, and a file that a later
+measurement can place again gets its old entry back.
+[Preflight](preflight.md) says how a jingle and a camera that heard
+nothing are told apart.
 
 ## When something goes wrong
 
@@ -466,10 +496,12 @@ place again gets its old entry back.
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring
   the time axis. The bar beside **Start** says what is running.
-- **A file suddenly stands on "ignore this video"**: the measurement
-  found no place for it. Give it a timecode that fits the other
-  recordings -- that has to be set with another program -- or pick a
-  **Kind** by hand, which settles it for good.
+- **A file suddenly stands on "Intro" or on "ignore this video"**: the
+  measurement found no place for it. Give it a timecode that fits the
+  other recordings -- that has to be set with another program -- and
+  the entries come back. Until then **Intro**, **Outro** and **ignore
+  this video** are the answers on offer; **Content** and **Wide shot**
+  are barred, and no hand overrules that.
 - **The update did not go through**: the file that works stays where it
   is, and the window says what was wrong. **Help > Look for a newer
   version now** tries again.

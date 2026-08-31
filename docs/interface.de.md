@@ -75,24 +75,27 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Grau über dem ganzen Kasten hieße „hier ist nichts zu machen“, und zu
   machen ist immer etwas.
 
-  Gesperrt wird höchstens ein Eintrag der Liste: er steht grau da und
-  lässt sich nicht wählen, und der Grund steht an ihm — wer darauf
-  stehen bleibt, liest ihn. Zwei Einträge können so gesperrt sein, jeder
-  mit seinem eigenen Satz.
+  Gesperrt wird ein Eintrag der Liste: er steht grau da und lässt sich
+  nicht wählen, und der Grund steht an ihm — wer darauf stehen bleibt,
+  liest ihn. Zwei Einträge können zugleich gesperrt sein, jeder mit
+  seinem eigenen Satz.
 
   - Eine Kamera, der niemand zugeordnet ist, zeigt **Weitwinkel**,
     obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
     **Inhalt**, weil ihr kein Sprecher zugeordnet ist. Gibt man dieser
     Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
     wieder frei.
-  - Eine Datei, für die die Messung keinen Platz gefunden hat, kann
-    nicht der Weitwinkel sein: der Weitwinkel ist die Kamera, die
+  - Eine Datei, für die die Messung keinen Platz gefunden hat, ist
+    weder Inhalt noch Weitwinkel; für sie sind beide Einträge gesperrt.
+    Inhalt wird in die Folge hineingeschnitten, und für diese Datei
+    gibt es dort keine Stelle. Der Weitwinkel ist die Kamera, die
     durchläuft und einspringt, wo keine andere passt, also muss er auf
-    der Zeitachse liegen. Gesperrt ist dann **Weitwinkel**, mit eben
-    diesem Grund.
+    der Zeitachse liegen. An jedem Eintrag steht sein eigener Grund,
+    und das Programm setzt eine solche Datei von sich aus auf
+    **Vorspann**.
 
-    Für diese Sperre muss zweierlei zugleich zutreffen, keines davon
-    allein. Der Ton der Datei muss schlecht zum Rest passen — eine
+    Für diese beiden Sperren muss zweierlei zugleich zutreffen, keines
+    davon allein. Der Ton der Datei muss schlecht zum Rest passen — eine
     solche Datei steht rot in der Liste — **und** kein Timecode darf sie
     zwischen die anderen einordnen, wozu ein Timecode auf der Datei
     gehört und einer auf etwas anderem im Material; eine einmal
@@ -104,13 +107,22 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   **Vorspann**, **Abspann** und **Video ignorieren** werden nie
   gesperrt. Das sind Antworten über die Datei selbst und haben nichts
-  damit zu tun, wer vor welcher Kamera sitzt.
+  damit zu tun, wer vor welcher Kamera sitzt. Eine Datei, die zu nichts
+  passt, gehört genau in einen dieser drei Einträge.
 
-  Die Sperre auf **Weitwinkel** fällt nie auf einen **Typ**, den jemand
-  gewählt hat: eine gewählte Antwort steht, was die Messung auch sagt.
-  Und beide Sperren gehen von selbst wieder weg — eine Datei, die eine
-  spätere Messung einordnen kann, bekommt den Weitwinkel zurück, und
-  eine Kamera, die einen Sprecher bekommt, bekommt **Inhalt** zurück.
+  Die beiden Sperren an einer Datei, die nirgends hinpasst, sind keine
+  Empfehlung, sondern eine Feststellung über das Material. Sie gelten
+  darum auch gegen einen **Typ**, den jemand selbst gewählt hat, und
+  gegen einen, den eine Projektdatei mitgebracht hat: steht dort Inhalt
+  oder Weitwinkel, wird die Datei auf **Vorspann** gesetzt. Bei der
+  Kamera, der niemand zugeordnet ist, ist es umgekehrt — wer den **Typ**
+  selbst setzt, beendet die Sperre.
+
+  Jede Sperre geht von selbst wieder weg, sobald ihr Grund weg ist.
+  Eine Kamera, die einen Sprecher bekommt, bekommt **Inhalt** zurück,
+  und eine Datei, die eine spätere Messung einordnen kann, bekommt
+  beide Einträge zurück. Wohin die Datei inzwischen gesetzt wurde,
+  bleibt stehen, bis jemand es selbst ändert.
 
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile
@@ -148,6 +160,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Angebot **Nur ein Sprecher -- Spur auftrennen?**, wo immer ein Name
   im Feld steht.
 
+  Zu welcher Kamera eine Aufnahme gehört, ergibt sich aus diesem Namen,
+  solange niemand selbst eine wählt; ein später getippter oder
+  verbesserter Name zieht die Kamera also mit. Eine von Hand gewählte
+  Kamera ist eine Antwort und bleibt, wo sie hingesetzt wurde.
+
   Bei mehr als einer Tonaufnahme läuft nichts von selbst; die Antwort in
   der Zeile startet es. Unter den Aufnahmen steht **Auf diesem Rechner
   nicht**: das schaltet die Trennung für das ganze Projekt ab.
@@ -166,9 +183,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   ohne Dreiecke.
 
   Die Kameratabelle darunter trägt noch einmal **Kameraton**, bei jeder
-  Kamera, auf dem Wert aus der Dateiliste. Eine Kamera auf
-  **Ton verwenden** bekommt eine Zeile in der Zuordnungstabelle
-  darüber, wie eine eigene Aufnahme.
+  Kamera, auf dem Wert aus der Dateiliste, und daneben den **Typ**, auf
+  demselben Wert und mit denselben gesperrten Einträgen: dass ein Clip
+  in Wahrheit ein Abspann ist, merkt man beim Ansehen, und der Player
+  steht hier. Eine Kamera auf **Ton verwenden** bekommt eine Zeile in
+  der Zuordnungstabelle darüber, wie eine eigene Aufnahme.
 
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
@@ -371,7 +390,13 @@ räumt das Fenster leer, bis es aussieht wie nach dem Start, und lässt
 die Datei unberührt, aus der es kam; das ist der Weg zu einer zweiten
 Produktion, ohne das Programm zu beenden. **Projekt speichern**
 schreibt die Projektdatei dorthin, wohin der Ausgabeordner zeigt, ohne
-etwas laufen zu lassen.
+etwas laufen zu lassen, und sagt danach, wohin sie gegangen ist.
+
+Ist noch kein Ausgabeordner gewählt, kommt der Satz vor dem Fenster:
+die Projektdatei kommt in den Ausgabeordner, und der ist noch nicht
+gewählt, bitte einen wählen. Erst danach geht die Ordnerauswahl auf.
+Bricht man sie ab, geschieht nichts weiter. Eine Ordnerauswahl, die von
+selbst aufgeht, sagt nämlich nicht, warum sie da ist.
 
 **Projekt schließen** ruft außerdem zurück, was am alten Material noch
 lief. Hüllkurven und Kameraton werden nicht weiter herausgeholt, die
@@ -477,15 +502,23 @@ Datei, und der nächste Start übernimmt sie. Dateien, die nicht dazu
 passen, erscheinen rot. Mehr über die Projektdatei steht in
 [camera-cut.de.md](camera-cut.de.md).
 
-Die Messung unterscheidet zwei Urteile. Eine Datei, deren Ton schlecht zu
+Die Messung unterscheidet drei Urteile. Eine Datei, deren Ton schlecht zu
 den anderen passt, steht in Rot. Eine Datei, die überhaupt keinen Platz
 hat -- ihr Ton hat mit dem übrigen Material nichts gemeinsam, und kein
-Timecode ordnet sie zwischen die anderen ein --, wird in der Spalte
-**Typ** auf **Video ignorieren** gesetzt, und das Protokoll sagt, warum.
-Das ist ein Vorschlag wie die für die Stimmen: Er füllt nur einen **Typ**,
-in dem noch die eigene Antwort des Programms steht, nie einen, den jemand
-gewählt hat, und eine Datei, die eine spätere Messung wieder einordnen
-kann, bekommt ihren alten Eintrag zurück.
+Timecode ordnet sie zwischen die anderen ein --, lässt sich nicht in die
+Folge hineinschneiden: In der Spalte **Typ** sind **Inhalt** und
+**Weitwinkel** für sie gesperrt, sie wird auf **Vorspann** gesetzt, und
+das Protokoll sagt, warum. Das ist kein Vorschlag, sondern eine
+Feststellung über das Material, und sie gilt, wie der **Typ** auch
+dorthin gekommen ist.
+
+War an einer solchen Datei überhaupt nichts zu messen, wird ihr
+stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag
+wie die für die Stimmen: Er füllt nur einen **Typ**, in dem noch die
+eigene Antwort des Programms steht, nie einen, den jemand gewählt hat,
+und eine Datei, die eine spätere Messung wieder einordnen kann, bekommt
+ihren alten Eintrag zurück. [Vorflug](preflight.de.md) sagt, woran ein
+Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 
 ## Wenn etwas klemmt
 
@@ -496,11 +529,13 @@ kann, bekommt ihren alten Eintrag zurück.
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die
   Zeitachse noch. Der Balken neben **Start** sagt, was gerade läuft.
-- **Eine Datei steht plötzlich auf „Video ignorieren“**: die Messung hat
-  keinen Platz für sie gefunden. Ihr einen Timecode geben, der zum
-  übrigen Material passt -- der muss mit einem anderen Programm gesetzt
-  werden --, oder von Hand einen **Typ** wählen, was die Sache endgültig
-  entscheidet.
+- **Eine Datei steht plötzlich auf „Vorspann“ oder „Video ignorieren“**:
+  die Messung hat keinen Platz für sie gefunden. Ihr einen Timecode
+  geben, der zum übrigen Material passt -- der muss mit einem anderen
+  Programm gesetzt werden --, dann sind die Einträge wieder da. Bis
+  dahin stehen **Vorspann**, **Abspann** und **Video ignorieren** zur
+  Wahl; **Inhalt** und **Weitwinkel** sind gesperrt, und daran ändert
+  auch keine Hand etwas.
 - **Das Update ging nicht durch**: die Datei, die funktioniert, bleibt
   liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach Update
   suchen ...** versucht es noch einmal.

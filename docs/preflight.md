@@ -30,7 +30,7 @@ The report holds for both modes.
 | Sound | samples on the stop, per channel | note, integer formats only |
 | Timecode | the clocks of the files against each other | note where a clock was not set |
 | Room | bleed per pair of speakers, against the 3:1 rule | note for the *next* recording |
-| System | free disk space against the estimated need | **stop** if it is short |
+| System | free disk space against the estimated need | note where it is tight, **stop** where it is short |
 | Auphonic | preset algorithms, loudness target, track template | **stop** on a contradiction |
 | Loudness | which target holds and where it comes from | -- |
 
@@ -85,6 +85,25 @@ next time, so it does not halt the run.
 One track alone leaves nothing to measure. The same holds for recordings
 that overlap too little, and for a recording with no passage in which
 exactly one person speaks. The report says so and the run goes on.
+
+### How much room the report wants
+
+Before the first long step the report holds the free space against what
+the run will write. That estimate is a rough one and says so: it counts
+every camera as copied and given fresh audio tracks, adds the processed
+tracks and the mix, and rounds upward throughout.
+
+A rough estimate cleared by a hair is not room enough. So the report
+wants **15 percent more than it estimated itself** before it calls the
+space good. In between -- the numbers do add up, but only just -- it
+gives a note and lets the run go on; below the estimate it stops the run
+as before. That margin is fixed and no switch moves it.
+
+The report looks at both drives. What the run delivers goes into the
+output folder, but the intermediate files of the run go into the system
+temp folder, which is somewhere else again. Where the two sit on the
+same drive, the same space is needed twice, and the report counts it
+twice. On separate drives nothing changes.
 
 ### Which loudness target holds
 
@@ -204,9 +223,12 @@ for it.
   material and is far shorter than everything around it, so the program
   takes it for a jingle. Pick a **Kind** by hand and that settles the
   row for good.
-- **Disk space short.** Free space on the target drive, or set another
-  output folder in the strip under the file list. The temporary files of
-  the run go into the system temp folder, somewhere else again.
+- **Disk space short, or only just enough.** Free space on the target
+  drive, or set another output folder in the strip under the file list.
+  The temporary files of the run go into the system temp folder: where
+  that sits on the same drive as the output folder, the run needs the
+  space twice, and an output folder on another drive is worth as much as
+  clearing space.
 - **The preset masters to a different loudness.** Set `--lufs` to the
   value of the preset, or change the loudness target of the preset at
   auphonic.com. Both at once does not work: the tracks come back at one
