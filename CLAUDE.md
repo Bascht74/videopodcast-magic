@@ -7,6 +7,13 @@ by speaker, and a DaVinci Resolve project.
 One file, `videopodcast-magic.py`, about 35000 lines. No package, no
 build step.
 
+**Working from outside, or opening a pull request? Read
+`CONTRIBUTING.md` first.** It holds the same rules in the form somebody
+needs who cannot ask: how the tests are run, what a counter-proof is,
+which four ratchets may fall and never rise, and what a pull request
+has to carry before it can be looked at. This file is the version with
+the reasoning; that one is the version you can act on in ten minutes.
+
 `README.md` is the short version. `docs/` holds the manual: one file per
 chapter, English as `docs/name.md` and German as `docs/name.de.md`.
 Changing a chapter means changing both, or `text_no_german_left_test.py` turns

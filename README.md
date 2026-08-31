@@ -8,6 +8,8 @@
 not fit -- before anything is written.*
 
 **Version 2.23.0-beta.** It does the work it was written for, every
+*Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
+
 week, on real material. It is called beta because it is not finished
 being tested: the format of the project file may still change, and an
 older file is refused with a clear message rather than half read.
