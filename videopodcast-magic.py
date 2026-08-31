@@ -5089,10 +5089,10 @@ def wide_settings_grey(parts, tick, note, there, quiet, words_there):
     cannot be reached with the keyboard and is not read out reliably, so
     it cannot be the only place it is written.
     """
-    why = T('No camera is free of speakers, so there is no wide '
-            'shot and these five settings do nothing. Give a '
-            'camera the Kind "Wide shot", or leave one without a '
-            'speaker.')
+    why = T('No camera is free of speakers, so there is no wide shot: '
+            'the four wide shot settings and the tick for the edges do '
+            'nothing. Give a camera the Kind "Wide shot", or leave one '
+            'without a speaker.')
     for api_key in WIDE_FIELDS:
         # Two of them need the words as well, and whichever greying
         # runs last writes the widget. So each asks both facts, and
@@ -33799,13 +33799,13 @@ CATALOGUE["de"] = {
         '  Jede Kamera trägt einen Sprecher, also gibt es keinen '
         'Weitwinkel: die vier Weitwinkel-Einstellungen und der Haken für '
         'die Ränder bewirken hier nichts.',
-    'No camera is free of speakers, so there is no wide shot and these five '
-    'settings do nothing. Give a camera the Kind "Wide shot", or leave one '
-    'without a speaker.':
+    'No camera is free of speakers, so there is no wide shot: the four wide '
+    'shot settings and the tick for the edges do nothing. Give a camera the '
+    'Kind "Wide shot", or leave one without a speaker.':
         'Keine Kamera ist frei von Sprechern, also gibt es keinen '
-        'Weitwinkel, und diese fünf Einstellungen bewirken nichts. Setze '
-        'eine Kamera im Feld Typ auf "Weitwinkel", oder lass eine ohne '
-        'Sprecher.',
+        'Weitwinkel: die vier Weitwinkel-Einstellungen und das Häkchen für '
+        'die Ränder bewirken nichts. Setze eine Kamera im Feld Typ auf '
+        '"Weitwinkel", oder lass eine ohne Sprecher.',
     'Why the wide shot settings are grey':
         'Warum die Weitwinkel-Einstellungen grau sind',
     'because no speaker is assigned to it':
