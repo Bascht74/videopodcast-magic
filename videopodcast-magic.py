@@ -9898,20 +9898,28 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                 folder, safe_filename(args.production or 'Production'),
                 heard_words(), segment_list):
             print("  %s" % path)
+    # Content and wide shot, and nothing else. The comparison exists to
+    # show what a cut between two cameras looks like, so a file that is
+    # never cut against them does not belong in it: an 18-second jingle
+    # raised a caution about 357 steps of brightness (31.8.2026).
     placed_cameras = {path_key(k) for k in (position or {})}
+    at_the_edges = set(path_key(p) for p in
+                       (getattr(args, "intro", None), getattr(args, "outro", None))
+                       if p)
+
+    def cut_against_the_others(cam):
+        where = path_key(cam.get("video") or "")
+        return where in placed_cameras and where not in at_the_edges
+
     colours = []
     if not getattr(args, "no_metrics", False):
-        # A file nothing could place is no camera of this episode, so it
-        # does not belong in a comparison of the cameras: an 18-second
-        # jingle raised a caution about 357 steps of brightness against
-        # three cameras it is never cut against (31.8.2026).
         made = (results if len(results) == len(cameras)
                 else [cam.get("video") for cam in cameras])
         try:
             colours = report_picture_comparison(
                 [{"track": cam.get("name"), "file": p}
                  for cam, p in zip(cameras, made)
-                 if path_key(cam.get("video") or "") in placed_cameras])
+                 if cut_against_the_others(cam)])
         except Exception as e:
             print(T('  Colour comparison not possible: %s') % e)
         print(as_head(T('\nMETRICS')))
@@ -21391,7 +21399,8 @@ def kind_proposal_say(values, data):
 TABS_AT_MOST = 3
 
 
-def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
+def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
+                switched=None):
     """The whole menu bar, from a table of what each entry does.
 
     Outside gui() because it decides nothing. Every entry is a name, a
@@ -21501,10 +21510,17 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does):
         act(play_menu, text, lambda s=seconds: player.nudge(s), keys,
             player)
     play_menu.addSeparator()
-    act(play_menu, T('Mark In'), does["mark in"], "I", player)
-    act(play_menu, T('Mark Out'), does["mark out"], "O", player)
-    act(play_menu, T('to In point'), does["to in"], "Shift+I", player)
-    act(play_menu, T('to Out point'), does["to out"], "Shift+O", player)
+    # The same four things the buttons under the player do, and they
+    # are greyed with them: the buttons went dead without a time axis
+    # while the menu wrote +0:00:00.000 into both fields.
+    for text, doing, keys in (
+            (T('Mark In'), does["mark in"], "I"),
+            (T('Mark Out'), does["mark out"], "O"),
+            (T('to In point'), does["to in"], "Shift+I"),
+            (T('to Out point'), does["to out"], "Shift+O")):
+        entry = act(play_menu, text, doing, keys, player)
+        if switched is not None:
+            switched.append(entry)
 
     help_menu = menu.addMenu(T('&Help'))
     act(help_menu, T('The manual'),
@@ -31499,7 +31515,7 @@ def gui():
         "mark in": lambda: limit_set(start_var),
         "mark out": lambda: limit_set(end_var),
         "to in": lambda: to_limit(start_var.get(), "In point"),
-        "to out": lambda: to_limit(end_var.get(), "Out point")})
+        "to out": lambda: to_limit(end_var.get(), "Out point")}, window_switch)
     vertical.setMenuBar(menu)
 
     def scheme_changed(*_):
