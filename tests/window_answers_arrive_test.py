@@ -43,6 +43,7 @@ import importlib.util
 import json
 import shutil
 import tempfile
+import time
 
 from PySide6 import QtCore, QtWidgets
 from PySide6.QtTest import QTest
@@ -83,13 +84,17 @@ SEGMENTS = [["V0", 0.5, 12.0], ["V1", 13.0, 24.0],
 # that the two marks cannot be read as one, well short of the material.
 MOVED_TO = 6.0
 
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def drawn(text):
@@ -495,7 +500,6 @@ def step(say, do, then, watch="stat", until=None):
 
 
 def finish():
-    print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
     app.quit()
 
 
@@ -740,9 +744,14 @@ def rename_alone(_rec, _all):
 
 
 def nudge():
-    """Ask for the cut again without touching the assignment."""
+    """Ask for the cut again without touching the assignment.
+
+    Through "Wide shot at the latest", not "Wide shot after": that one
+    is greyed while no transcript is known, and typing into a greyed
+    field asks for nothing.
+    """
     tab_to(drawn(vpm.T('Resolve cut')).split()[0])
-    type_in(number_fields().get("wide-after"), "37")
+    type_in(number_fields().get("wide-latest"), "97")
 
 
 def rename_arrived(rec, _all):
@@ -756,22 +765,32 @@ def rename_arrived(rec, _all):
 
 
 # 4. the eight numbers
+# Four are not among them, and it is the same reason for all four:
+# without a transcript no question is found and no sentence boundary is
+# known, so "reaction-lead", "on-question", "wide-after" and "wide-most"
+# are greyed and nothing can be typed into them. That they are greyed is
+# checked below instead.
 FIRST = {"min-edit-duration": "2.5", "min-speech-to-switch": "1.1",
-         "edit-change-delay": "0.7", "reaction-lead": "2.2",
-         "wide-after": "31", "wide-length": "6.5",
-         "wide-most": "17", "wide-latest": "95"}
+         "edit-change-delay": "0.7",
+         "wide-length": "6.5", "wide-latest": "95"}
 # The second minimum edit duration is longer than any block here: two
 # sets of numbers leaving the same cut behind would prove nothing.
 SECOND = {"min-edit-duration": "15", "min-speech-to-switch": "0.4",
-          "edit-change-delay": "0.2", "reaction-lead": "3.3",
-          "wide-after": "9", "wide-length": "5.5",
-          "wide-most": "12", "wide-latest": "60"}
+          "edit-change-delay": "0.2",
+          "wide-length": "5.5", "wide-latest": "60"}
 
 
 def type_numbers(which):
     def do():
         tab_to(drawn(vpm.T('Resolve cut')).split()[0])
         fields = number_fields()
+        needs_words = ("reaction-lead", "wide-after", "wide-most")
+        open_ones = [k for k in needs_words
+                     if fields.get(k) is None or fields[k].isEnabled()]
+        check("the settings that need a transcript are greyed without one",
+              not open_ones,
+              "%d of %d still open: %s"
+              % (len(open_ones), len(needs_words), open_ones))
         missing = [k for k in which if k not in fields]
         if missing:
             check("every cut number has a field", False, str(missing))
@@ -1061,4 +1080,6 @@ if not plan or not plan[-1]["begun"]:
     check("every step was run", False,
           "%d of %d" % (sum(1 for j in plan if j["begun"]), len(plan)))
 clean_up(FOLDER)
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

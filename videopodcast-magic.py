@@ -5045,6 +5045,21 @@ def wide_note_build(label_of_text, quiet):
     return note
 
 
+def question_note_build(label_of_text, quiet):
+    """The line under the question settings that says why they are grey.
+
+    Same pattern as the wide shot's: a greyed control without a reason
+    is a dead end, and a tooltip is neither reachable by keyboard nor
+    read out reliably.
+    """
+    note = label_of_text("", quiet)
+    note.setWordWrap(True)
+    note.setVisible(False)
+    note.setObjectName("question_note")
+    note.setAccessibleName(T('Why the question settings are grey'))
+    return note
+
+
 def wide_settings_grey(parts, tick, note, there, quiet):
     """Grey the wide shot settings where there is no wide shot.
 
@@ -5067,6 +5082,31 @@ def wide_settings_grey(parts, tick, note, there, quiet):
         _line, box = parts.get(api_key, (None, None))
         if box is not None:
             choices_shut(box, () if there else (SHOT_WIDE,), why, quiet)
+    note.setText("" if there else why)
+    note.setVisible(not there)
+
+
+def words_settings_grey(parts, note, there, wide_there, quiet):
+    """Grey the settings that need a transcript, with the reason.
+
+    Four of them: the two of the question, which without words find no
+    question at all, and two of the wide shot, which place themselves
+    on a sentence boundary and have none. The reaction cut went unseen
+    for a whole version this way -- the preview showed a cut it could
+    not make. *wide_there* keeps the wide shot's own greying: a control
+    is open only where both say so.
+    """
+    why = T('No transcript yet. Without one no question is found and no '
+            'sentence boundary is known, so these four settings do '
+            'nothing. A run writes it, and from then on they work.')
+    for api_key in QUESTION_SETTINGS:
+        for w in parts.get(api_key, (None, None)):
+            if w is not None:
+                w.setEnabled(there)
+    for api_key in WIDE_NEEDS_WORDS:
+        for w in parts.get(api_key, (None, None)):
+            if w is not None:
+                w.setEnabled(there and wide_there)
     note.setText("" if there else why)
     note.setVisible(not there)
 
@@ -25114,10 +25154,15 @@ def cut_fields_build(into, parts=None):
     cut_var = {}
     field_grid = _qw.QGridLayout()
     into.addLayout(field_grid)
-    # The rhythm first, everything about the wide shot after it. At half
-    # the width the sliders no longer fit side by side.
-    ordered = ([f for f in CUT_FIELDS if not f[0].startswith("wide")]
-               + [f for f in CUT_FIELDS if f[0].startswith("wide")])
+    # The rhythm first, the wide shot after it, and the question last --
+    # its seconds stand directly above "After a question", which is the
+    # first of the choices below. At half the width the sliders no
+    # longer fit side by side.
+    apart_ = ("wide", "reaction")
+    ordered = ([f for f in CUT_FIELDS
+                if not f[0].startswith(apart_)]
+               + [f for f in CUT_FIELDS if f[0].startswith("wide")]
+               + [f for f in CUT_FIELDS if f[0].startswith("reaction")])
     for idx, (api_key, caption, default_value, unit, short,
               long) in enumerate(ordered):
         line = _qw.QWidget()
@@ -29768,7 +29813,9 @@ def gui():
     cut_position.addWidget(hint(
         _edge_box, T('During greeting and farewell the picture stays wide.')))
     wide_note = wide_note_build(label, COLOURS["quiet"])
-    cut_position.addWidget(wide_note)
+    question_note = question_note_build(label, COLOURS["quiet"])
+    for _n in (wide_note, question_note):
+        cut_position.addWidget(_n)
     def wide_state_show():
         """Grey the wide shot settings where there is no wide shot.
 
@@ -30275,6 +30322,14 @@ def gui():
             return
         speech_show(d)
         window_info_show()
+        # The words come with the handover and nowhere else, and the
+        # greying belongs here: with the wide shot's it would run
+        # before the handover is read and answer from the round before.
+        said_words = words_from_handover(d)
+        state["words_there"] = bool(said_words)
+        if state.get("cut_box_there"):
+            words_settings_grey(cut_parts, question_note, bool(said_words),
+                                bool(wide_cameras_now()[0]), COLOURS["quiet"])
         try:
             numbers = cut_statistics(d, number["min-edit-duration"],
                 number["edit-change-delay"], number["wide-after"],
@@ -30284,6 +30339,11 @@ def gui():
                     reaction_lead=number["reaction-lead"],
                     wide_holds=number["wide-length"],
                     wide_most=number["wide-most"],
+                    # The words as well, or the preview shows a cut the
+                    # run will not make: without them no question is
+                    # found, and the reaction cut never appears -- which
+                    # is why nobody had seen it in the picture.
+                    words=said_words,
                     **{k.replace("-", "_"): cut_var[k].get()
                        for k, _c, _d, _v, _s, _l in CUT_CHOICES}))
         except Exception as e:
