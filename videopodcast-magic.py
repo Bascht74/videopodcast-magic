@@ -12667,6 +12667,12 @@ def cut_slider_defaults():
     # None like the switch itself: no --lufs in the stored call means the
     # run took the loudness from the source files, not that it took -16.
     out.append(("--lufs", "lufs", None))
+    # And two numbers the run takes that the window has no field for.
+    # Out of CUT_FIELDS alone they are not recovered, and the rules then
+    # fall back to their own default -- "--reaction-gap 8" came back
+    # from the stored call as 3.0.
+    out.append(("--reaction-gap", "reaction_gap", 3.0))
+    out.append(("--reaction-hold", "reaction_hold", 0.7))
     return out
 
 
@@ -12680,6 +12686,22 @@ def _sliders_from_command_line(call, production):
     e = Sliders()
     e.production = production
     e.no_wide_edges = "--no-wide-edges" in (call or [])
+    # Every --wide-shot in the stored call, not only the first: the mark
+    # may stand on several cameras. Without this the button built the
+    # cut again with no wide shot at all, while the window above still
+    # showed one marked.
+    e.wide_shot = [(call or [])[i + 1] for i, x in enumerate(call or [])
+                   if x == "--wide-shot" and i + 1 < len(call or [])]
+    # And the file saying which voice was heard on which camera. Without
+    # it every separately heard voice falls back to the wide shot after
+    # the button, while the window above still shows it on its own.
+    for switch in ("--assign", "--speakers-from"):
+        value = ""
+        if call and switch in call:
+            i = call.index(switch)
+            if i + 1 < len(call):
+                value = call[i + 1]
+        setattr(e, switch[2:].replace("-", "_"), value)
     for switch, field, default_value in cut_slider_defaults():
         value = default_value
         if call and switch in call:
