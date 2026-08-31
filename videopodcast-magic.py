@@ -6155,14 +6155,23 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
         os.unlink(zip_file_path)
     except OSError:
         pass
+    # What the entries do not have in common. Where each carries the
+    # episode title and the title carries the speakers' names, the
+    # whole name tells them apart worse than nothing: "Guest" scored
+    # 0.286 against the Host entry and 0.278 against its own.
+    stems = [os.path.splitext(os.path.basename(d))[0] for d in files]
+    head = os.path.commonprefix(stems) if len(stems) > 1 else ""
+    tail = (os.path.commonprefix([x[::-1] for x in stems])[::-1]
+            if len(stems) > 1 else "")
+    telling = {d: (x[len(head):len(x) - len(tail)] or x)
+               for d, x in zip(files, stems)}
+
     for name in names:
         if not pending:
             break
-        best = max(pending, key=lambda d: similarity(name,
-                                                  os.path.splitext(
-                                                      os.path.basename(d))[0]))
-        quality = similarity(name, os.path.splitext(os.path.basename(best))[0])
-        if name.lower() in os.path.basename(best).lower() or quality > 0.4:
+        best = max(pending, key=lambda d: similarity(name, telling[d]))
+        quality = similarity(name, telling[best])
+        if name.lower() in telling[best].lower() or quality > 0.4:
             assignment[name] = os.path.join(folder, best)
             pending.remove(best)
             print("    %-20s <- %s" % (name, os.path.basename(best)))
