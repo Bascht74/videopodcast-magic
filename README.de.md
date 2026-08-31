@@ -7,9 +7,9 @@
 *Das Hauptfenster. Was gefunden wurde, was zusammengehört und was nicht
 zusammenpasst — bevor irgendetwas geschrieben wird.*
 
-**Version 2.23.0-beta.** Es macht die Arbeit, für die es geschrieben
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
+**Version 2.24.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
