@@ -56,7 +56,9 @@ und sagt, was fehlt.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
-*Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau.*
+*Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau. Vier der
+Einstellungen stehen grau da, weil noch kein Lauf die Wörter
+aufgeschrieben hat.*
 
 Alle acht Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
 Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als
@@ -64,7 +66,7 @@ Dezimalzeichen, und eine Obergrenze gibt es nicht. Ein negativer Wert
 ist nur für **Edit Change Delay** gedacht; die anderen Felder nehmen
 ihn an, aber es kommt nichts Gutes dabei heraus.
 
-Vier Felder formen den Schnitt selbst:
+Drei Felder bestimmen den Rhythmus des Schnitts:
 
 * **Mindestschnittdauer**: 3 s, so lange steht eine Einstellung
   mindestens; höher macht den Schnitt ruhiger (auf der Kommandozeile
@@ -75,65 +77,103 @@ Vier Felder formen den Schnitt selbst:
 * **Edit Change Delay**: 0,3 s, so viel später als der Ton wechselt
   das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
   Kommandozeile `--edit-change-delay`)
-* **Reaktionsschnitt früher**: 1,5 s, so viel früher steht nach einer
-  Frage die Antwort im Bild (auf der Kommandozeile `--reaction-lead`)
 
-Vier weitere formen den Weitwinkel:
+Vier formen den Weitwinkel, und die ersten beiden davon gehören
+zusammen: eine weiche Grenze und eine harte.
 
-* **Weitwinkel nach**: 70 s, ab dieser Standzeit ein Blick in den
-  Weitwinkel; kleiner gibt mehr Weitwinkel, 0 schaltet ihn ab (auf der
-  Kommandozeile `--wide-after`). An 87 Minuten Interview gemessen, in
-  denen einer 59 Minuten redet: bei 40 Sekunden verlässt ihn das Bild
-  77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104. Beide setzen
-  den Schnitt auf eine Satzgrenze — es geht also um Rhythmus, nicht um
-  Richtigkeit.
-* **Weitwinkel steht**: 5 s, so lange steht der eingeschobene
+* **Weitwinkel nach**: 70 s, die weiche Grenze. Ab dieser Standzeit
+  sucht das Programm eine Satzgrenze und setzt den Weitwinkel dorthin,
+  nicht nach der Uhr; kleiner gibt mehr Weitwinkel, 0 schaltet ihn ab
+  (auf der Kommandozeile `--wide-after`). An 87 Minuten Interview
+  gemessen, in denen einer 59 Minuten redet: bei 40 Sekunden verlässt
+  ihn das Bild 77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104.
+  Beide setzen den Schnitt auf eine Satzgrenze — es geht also um
+  Rhythmus, nicht um Richtigkeit.
+* **Weitwinkel spätestens**: 120 s, die harte Grenze. Ist seit
+  **Weitwinkel nach** keine Satzgrenze gekommen, tritt die längste
+  Sprechpause in der Nähe an ihre Stelle, und dort wird geschnitten,
+  gleich was gerade gesagt wird; ist auch keine brauchbare Pause da,
+  entscheidet die Uhr. Kleiner unterbricht eine stehende Kamera früher
+  (auf der Kommandozeile `--wide-latest`)
+* **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
 * **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der
   Kommandozeile `--wide-most`)
-* **Weitwinkel spätestens**: 120 s, Obergrenze für eine Kamera am
-  Stück; kleiner unterbricht sie früher (auf der Kommandozeile
-  `--wide-latest`)
 
-Darunter stehen vier Auswahlfelder. Sie sagen, was läuft, wenn die
-Sprache nicht sagt, wer zu zeigen ist:
+Das letzte Feld gehört zur Frage und steht direkt über dem Auswahlfeld,
+das über sie entscheidet:
 
+* **Antwort früher im Bild**: 1,5 s, so viel vor dem Ende der Frage
+  steht der Antwortende im Bild (auf der Kommandozeile
+  `--reaction-lead`). Der Nullpunkt liegt dort, wo der Fragende
+  aufhört, nicht dort, wo die Antwort anfängt: die Pause dazwischen
+  gehört zur Frage. Gemessen an einer Frage, die bei 10 Sekunden endet,
+  und einer Antwort, die bei 12,5 anfängt: mit fünf Sekunden Vorlauf
+  liegt der Schnitt bei 5,0 Sekunden, nicht bei 7,5. Die Verzögerung
+  aus **Edit Change Delay** kommt nicht noch einmal dazu.
+
+Unter den Feldern stehen vier Auswahlfelder. Sie sagen, was läuft, wenn
+die Sprache nicht sagt, wer zu zeigen ist:
+
+* **Nach einer Frage**: **Antwortender** (auf der Kommandozeile
+  `--on-question`)
 * **Langer Monolog**: **Abwechselnd** (auf der Kommandozeile
   `--on-monologue`)
 * **Mehrere reden zugleich**: **Weitwinkel** (auf der Kommandozeile
   `--on-together`)
 * **Erkennung unsicher**: **Weitwinkel** (auf der Kommandozeile
   `--on-uncertain`)
-* **Frage**: **Antwortender** (auf der Kommandozeile `--on-question`)
 
-Die ersten drei nehmen dieselben vier Werte: **Weitwinkel**,
-**Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Frage** nimmt
-**nicht vorziehen**, **Antwortender** und **Zuhörer**; **nicht
-vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild folgt dem
-Ton hier wie überall sonst.
+Die letzten drei nehmen dieselben vier Werte: **Weitwinkel**,
+**Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Nach einer
+Frage** nimmt **nicht vorziehen**, **Antwortender** und **Zuhörer**;
+**nicht vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild
+folgt dem Ton hier wie überall sonst.
 
-Unter den Feldern hält das Häkchen **Weitwinkel für Begrüßung am Anfang
-und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel (auf der
-Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel am Anfang
-hält, bis das Wort wirklich übergeben wird, nicht bis zum ersten längeren
-Block einer Nebenstimme.
+Unter den Auswahlfeldern hält das Häkchen **Weitwinkel für Begrüßung am
+Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
+(auf der Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel
+am Anfang hält, bis das Wort wirklich übergeben wird, nicht bis zum
+ersten längeren Block einer Nebenstimme.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
 in die vorherige.
 
+### Die vier Einstellungen, die auf die Wörter warten
+
+**Nach einer Frage**, **Antwort früher im Bild**, **Weitwinkel nach**
+und **Weitwinkel höchstens** stehen grau da, solange keine Niederschrift
+bekannt ist, und eine Zeile darunter sagt, warum: ohne aufgeschriebene
+Sprache wird keine Frage gefunden und keine Satzgrenze, also bewirken
+diese vier nichts. Vorher ließen sie sich setzen und taten trotzdem
+nichts.
+
+An 200 Sekunden Monolog ohne die Wörter gemessen: **Weitwinkel nach**
+liefert denselben einen Einschub, ob dort 40 steht oder 90, und
+**Weitwinkel höchstens** dieselben 5,0 Sekunden, ob dort 15 steht oder
+40. Mit den Wörtern ergibt dasselbe Material vier Einschübe gegen zwei
+und 15 Sekunden gegen 20 bis 30.
+
+**Weitwinkel mindestens** und **Weitwinkel spätestens** bleiben offen,
+auch ohne Niederschrift: die beiden zählen nach der Uhr und brauchen
+keinen Satz.
+
+Der erste Lauf schreibt die Niederschrift. Von da an sind die vier
+offen, und die Vorschau rechnet mit ihnen.
+
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
 Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
 
+* **Nach einer Frage**: das Bild geht zur Antwort, bevor sie anfängt.
+  Nur nach einer Frage, die nicht vom Vielredner kommt, wenn sofort ein
+  anderer übernimmt und das Wort behält.
 * **Langer Monolog**: einer hat über **Weitwinkel nach** hinaus das
   Wort. **Abwechselnd** merkt sich, was die letzte Unterbrechung zeigte.
 * **Mehrere reden zugleich**: und keine Kamera zeigt genau sie.
 * **Erkennung unsicher**: die Erkennung zerfasert über eine Passage,
   oder von einem Namen bleiben nur Schnipsel.
-* **Frage**: das Bild geht zur Antwort, bevor sie anfängt. Nur nach
-  einer Frage, die nicht vom Vielredner kommt, wenn sofort ein anderer
-  übernimmt und das Wort behält.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
 Kamera in den letzten 20 Sekunden jemand zu hören war; sonst der
@@ -388,18 +428,25 @@ und daraus baut der Resolve-Teil.
 
 ### Wie das Programm den Weitwinkel setzt
 
-Ein Weitwinkel kommt nicht nach der Uhr. Er steigt an einer Satzgrenze
-nahe der gewünschten Stelle ein, und den genauen Punkt liefert der Ton:
-die Senke im Pegel um diese Satzgrenze. Beides ist gemessen, also gibt
-dasselbe Material denselben Schnitt.
+Ein Weitwinkel kommt nicht nach der Uhr. Jenseits von **Weitwinkel
+nach** steigt er an einer Satzgrenze nahe der gewünschten Stelle ein,
+und den genauen Punkt liefert der Ton: die Senke im Pegel um diese
+Satzgrenze. Beides ist gemessen, also gibt dasselbe Material denselben
+Schnitt.
 
-Er steht mindestens **Weitwinkel steht**, dann bis zum Satzende. Wenn
-dieses Ende jenseits von **Weitwinkel höchstens** liegt, beendet ihn die
-letzte Teilsatzgrenze davor.
+Er steht so lange, wie **Weitwinkel mindestens** verlangt, dann bis zum
+Satzende. Wenn dieses Ende jenseits von **Weitwinkel höchstens** liegt,
+beendet ihn die letzte Teilsatzgrenze davor.
 
-`--wide-latest` ist die Reißleine: ohne Satzgrenze wird trotzdem
-geschnitten. Ohne Transkript geht der Weitwinkel an die längste
-Sprechpause in der Nähe und steht die eingestellte Mindestzeit.
+**Weitwinkel spätestens** ist die Reißleine. Kommt keine Satzgrenze,
+tritt die längste Sprechpause in der Nähe an ihre Stelle, und dort wird
+geschnitten, gleich was gerade gesagt wird; ist auch keine brauchbare
+Pause da, wird eine Kamera nach der Uhr aufgebrochen, damit kein Stück
+von ihr länger als diese Zeit steht. Ohne Niederschrift gibt es
+überhaupt keine Satzgrenzen: der Weitwinkel geht dann an die längste
+Pause in der Nähe und steht die eingestellte Mindestzeit — deshalb ist
+die weiche Grenze gesperrt, solange die Wörter fehlen, und die harte
+nicht.
 
 ### Was Kennzahlen und Farbvergleich messen
 
@@ -448,6 +495,10 @@ Lautheitsmessung läuft je Spur zweimal durch.
   Niemand trägt Namen und Kamera, oder eine Person tut es und es gibt
   keine zweite Kamera. Auf dem Reiter **Zuordnung & Zeitfenster** jeder
   Stimme einen Namen und eine Kamera geben.
+* **Vier Einstellungen sind grau und nehmen nichts an.** Es ist noch
+  keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
+  Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen
+  eine; der erste Lauf schreibt sie, danach nehmen sie einen Wert an.
 * **Das Bild steht, obwohl der Sprecher wechselt.** Beide Sprecher
   sitzen auf einer Kamera, oder der Block ist kürzer als **Redet
   mindestens**.
@@ -469,10 +520,12 @@ Vorschau, in der er zu prüfen ist. Was Resolve daraus macht, steht in
 Im Fenster gibt es dafür keine Entsprechung.
 
 * `--reaction-gap` wie schnell die Antwort auf die Frage folgen muss,
-  damit der Reaktionsschnitt greift (3 s); größer und er greift öfter
+  damit sie überhaupt vorgezogen wird (3 s); größer und das geschieht
+  öfter
 * `--reaction-hold` welchen Anteil der zehn Sekunden nach der Frage der
   Antwortende halten muss, zwischen 0 und 1 (0,7); höher und er greift
-  seltener
+  seltener. Beide gehören zur Frage und wollen eine Niederschrift, wie
+  die zwei Einstellungen dafür im Fenster
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
   aller drei Player unter das Bild und jeden Versuch auf die Konsole

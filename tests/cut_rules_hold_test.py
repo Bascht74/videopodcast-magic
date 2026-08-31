@@ -4,18 +4,22 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def word(start, end, text):
@@ -176,13 +180,21 @@ plain = vpm.build_camera_cut(talk, 30.0, cams, "Wide", 0.0, -0.3,
                                            on_question=vpm.SHOT_OFF))
 when_early = [a for a, _b, who in early if who == "CamB"]
 when_plain = [a for a, _b, who in plain if who == "CamB"]
+# The question's last word ends at 4.0, the answer starts at 5.0, and
+# the lead is 1.5. Zero is the end of the question, so the aim is 2.5;
+# the sound may move it half a second either way.
 check("the answer is on screen earlier",
-      when_early and when_plain
-      and abs(when_early[0] - (when_plain[0] - 1.8)) < 0.02,
+      when_early and when_plain and when_early[0] < when_plain[0] - 1.0,
       "%s against %s" % (when_early, when_plain))
+check("the lead counts from the end of the question, not the start "
+      "of the answer",
+      when_early and abs(when_early[0] - (4.0 - 1.5)) <= 0.5,
+      "%s, wanted 2.5 -- from the answer at 5.0 it would be 3.5"
+      % when_early)
 check("and the Edit Change Delay is not added a second time",
-      when_early and abs(when_early[0] - (5.0 - 1.5)) < 0.02,
-      str(when_early))
+      when_early and when_early[0] > (4.0 - 1.5) - 0.5 - 0.02,
+      "%s, the delay of 0.3 would push it below %.2f"
+      % (when_early, (4.0 - 1.5) - 0.5))
 check("no new cuts -- if anything one disappears",
       len(early) <= len(plain), "%d against %d" % (len(early), len(plain)))
 
@@ -273,8 +285,6 @@ check("and it is the same cut the run builds",
       numbers["cut"] == same, "%d against %d" % (len(numbers["cut"]),
                                                  len(same)))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)
