@@ -429,6 +429,7 @@ it is green.
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
+| `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
 | `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
 | `run_switch_changes_it` | A switch that is taken changes the result, not only the parser. |
