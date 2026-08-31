@@ -94,12 +94,6 @@ ein, dann lässt der Lauf es weg und sagt beim Schreiben, was er
 weggelassen hat und warum: Nichts platziert es, also ist es keine Kamera
 dieser Folge.
 
-Ein zweiter Grund lässt eine Kamera weg, und der Lauf nennt ihn getrennt
-vom ersten: Die Datei, die sie hätte tragen sollen, kam nie zurück.
-Platziert war sie, vermessen auch -- geschrieben wurde nur nichts.
-Übergeben stünde sie mit leerem Pfad da, und Resolve greift dann auf die
-unbearbeitete Quelle zurück und holt sie an Stelle der aufbereiteten.
-
 Das Weglassen hat seinen Grund. Für eine solche Datei ist nichts
 aufbereitet worden, und sie trüge die Marke des Weitwinkels: Als Weitwinkel
 gilt, wem kein Sprecher zugeordnet ist, und einer Datei, die nirgends

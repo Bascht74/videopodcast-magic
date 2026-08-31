@@ -13254,7 +13254,6 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     items = []
     unmeasured = []
     left_out = []
-    unwritten = []
     nowhere = {path_key(x) for x in (unplaceable or ())}
     for cam in cameras:
         v = os.path.abspath(cam["video"])
@@ -13267,13 +13266,6 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             continue
         who = speaker_of.get(v) or []
         file = done.get(cam["name"], "")
-        if not file and done:
-            # Others came back and this one did not, so no render exists
-            # for it. Handed over it is a wide shot with an empty path,
-            # and the Resolve side falls back to cam["source"] -- the
-            # untouched camera, quietly, in place of the processed one.
-            unwritten.append(cam["name"])
-            continue
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
         # start of the axis instead of where it was measured -- so the
@@ -13320,10 +13312,6 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         print(as_warn(T('  Not handed over: the run could not place %s, so '
                         'it is no camera of this episode.')
                       % ", ".join(left_out)))
-    if unwritten:
-        print(as_warn(T('  Not handed over: nothing was written for %s. It '
-                        'was placed, but its file never came back.')
-                      % ", ".join(unwritten)))
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))
@@ -33002,8 +32990,6 @@ CATALOGUE["de"] = {
         '  Kein Schnitt übrig -- Timeline bleibt leer.',
     '  Not handed over: the run could not place %s, so it is no camera of this episode.':
         '  Nicht übergeben: der Lauf konnte %s nicht platzieren, also ist es keine Kamera dieser Folge.',
-    '  Not handed over: nothing was written for %s. It was placed, but its file never came back.':
-        '  Nicht übergeben: für %s wurde nichts geschrieben. Es war platziert, aber seine Datei kam nie zurück.',
     '  No measured offset for %s -- placed at the start of the axis.':
         '  Kein gemessener Versatz für %s -- liegt am Anfang der Achse.',
     '  %s: the timecode puts it at %+.3f s, the measurement at %+.3f s '
