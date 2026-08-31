@@ -3812,51 +3812,55 @@ def voice_marks_of(state):
     return marks
 
 
-def voice_row_marks(state, label, name_value, camera_value, field, box):
+def voice_row_marks(state, key, name_value, camera_value, field, box):
     """Note what a voice row was born with, and who answers in it.
 
     The two starting values are what the proposals may write over.
     Whether a person has answered is asked of textEdited and activated
     and of nothing else: those fire for a person and never for the
-    program, so typing the stand-in name back counts as an answer.
-    Set once per voice and kept over a rebuild of the table.
+    program. Set once per voice, kept over a rebuild of the table.
+    *key* is recording and label together: both separated recordings
+    call their first voice SPEAKER_00.
     """
     marks = voice_marks_of(state)
-    marks["name"].setdefault(label, name_value.get())
-    marks["camera"].setdefault(label, camera_value.get())
-    field.textEdited.connect(lambda *_: marks["typed"].add(label))
-    box.activated.connect(lambda *_: marks["typed"].add(label))
+    marks["name"].setdefault(key, name_value.get())
+    marks["camera"].setdefault(key, camera_value.get())
+    field.textEdited.connect(lambda *_: marks["typed"].add(key))
+    box.activated.connect(lambda *_: marks["typed"].add(key))
 
 
-def voice_proposal_apply(voice_lines, named, silent, marks):
+def voice_proposal_apply(voice_lines, named, silent, marks, source=""):
     """Fill the fields that still carry what the program put there.
 
     A field belongs to the program while it holds what the row was born
     with or the last proposal, and stops the moment somebody answers in
-    that row -- typing the stand-in name back by hand is an answer too,
-    so the mark decides and not the text. The camera is only touched on
-    a voice nobody has named. Returns the labels that changed.
+    that row -- typing the stand-in name back by hand is an answer too.
+    The camera is only touched on a voice nobody has named. Returns the
+    labels that changed. The proposals are in one recording's labels,
+    so *source* keeps out the rows of other recordings.
     """
     typed = marks.get("typed") or set()
     said = marks.setdefault("said", {})
     born = marks.get("name") or {}
     first = marks.get("camera") or {}
     moved = []
-    for label, name_value, camera_value in voice_lines:
-        if label in typed:
+    for key, name_value, camera_value in voice_lines_here(voice_lines,
+                                                          source):
+        label = voice_key_parts(key)[1]
+        if key in typed:
             continue
         text = name_value.get().strip()
-        if not (is_stand_in_name(text) or text == said.get(label)):
+        if not (is_stand_in_name(text) or text == said.get(key)):
             continue
-        want = named.get(label) or born.get(label) or text
+        want = named.get(label) or born.get(key) or text
         if want != text:
             if named.get(label):
-                said[label] = want
+                said[key] = want
             else:
-                said.pop(label, None)
+                said.pop(key, None)
             name_value.set(want)
             moved.append(label)
-        picked, was = camera_value.get(), first.get(label)
+        picked, was = camera_value.get(), first.get(key)
         if label in silent:
             if picked == was and picked != IGNORE_AUDIO:
                 camera_value.set(IGNORE_AUDIO)
@@ -3899,7 +3903,12 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
         speech_words_kick_off(state, language, heard)
         return []
     marks = voice_marks_of(state)
-    by_hand = set(k for k, _nv, cv in voice_lines
+    # Of this recording's rows, and in this recording's labels: the
+    # passages below are one separation's, and another recording's
+    # SPEAKER_00 says nothing about them.
+    source = state.get("speakers_source") or ""
+    by_hand = set(voice_key_parts(k)[1]
+                  for k, _nv, cv in voice_lines_here(voice_lines, source)
                   if cv.get() == IGNORE_AUDIO and k in marks["typed"])
     offset = voice_axis_offset(state, assign_lines)
     tracks, length = speakers_on_window_axis(
@@ -3914,7 +3923,7 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
     order = voice_window_order(tracks, state.get("speakers_words") or [],
                               offset, origin, in_point, out_point)
     named, silent = voice_proposals(order, [k for k, _p in tracks])
-    return voice_proposal_apply(voice_lines, named, silent, marks)
+    return voice_proposal_apply(voice_lines, named, silent, marks, source)
 
 
 # When two microphones can still be told apart at all: the share of the
@@ -18463,22 +18472,71 @@ def voices_in_use(segments, ignored=()):
             if label not in ignored]
 
 
-def voices_ignored_of(voice_lines):
-    """The voices somebody set to "do not use", by their label."""
-    return set(label for label, _nv, cv in voice_lines
+def voice_key(source, label):
+    """The name one voice is remembered under: recording and label.
+
+    The model calls the first voice of every recording SPEAKER_00, so
+    the label alone is not a name. With two recordings separated, a
+    name and a camera given to a voice of the one were read back onto
+    a voice of the other. A newline stands in no path and in no label,
+    so the two parts always come apart again.
+    """
+    return "%s\n%s" % (os.path.abspath(source), label) if source else label
+
+
+def voice_key_parts(key):
+    """(recording, label) out of such a name.
+
+    A bare label -- what a project written before this carries -- has
+    no recording, and answers with the empty one.
+    """
+    source, _sep, label = str(key or "").rpartition("\n")
+    return source, label
+
+
+def voice_lines_here(voice_lines, source=""):
+    """The rows of *voice_lines* that belong to one recording.
+
+    Without a recording named, all of them: a caller that knows of one
+    separation only asks that way.
+    """
+    if not source:
+        return list(voice_lines or ())
+    want = os.path.abspath(source)
+    out = []
+    for row in voice_lines or ():
+        mine, _label = voice_key_parts(row[0])
+        here = os.path.abspath(mine) if mine else ""
+        if not here or here == want:
+            out.append(row)
+    return out
+
+
+def voices_ignored_of(voice_lines, source=""):
+    """The voices somebody set to "do not use", by their label.
+
+    Answered in the labels of the separation itself, not in the keys
+    the rows carry: what this is held against is a list of passages,
+    and there a voice is called SPEAKER_00.
+    """
+    return set(voice_key_parts(key)[1]
+               for key, _nv, cv in voice_lines_here(voice_lines, source)
                if cv.get() == IGNORE_AUDIO)
 
 
-def voice_names_of(named, voice_lines):
+def voice_names_of(named, voice_lines, source=""):
     """The names of the voices in use, with what was just typed in.
 
     A voice set to "do not use" has no name here: the name is what
     becomes a track and a speaker at auphonic.com, so leaving it out is
-    half of leaving the voice out.
+    half of leaving the voice out. *named* and the answer are in the
+    labels of one recording's separation, so *source* says which
+    recording's rows are read.
     """
-    ignored = voices_ignored_of(voice_lines)
+    ignored = voices_ignored_of(voice_lines, source)
     out = {k: v for k, v in dict(named or {}).items() if k not in ignored}
-    for label, name_value, _cv in voice_lines:
+    for key, name_value, _cv in voice_lines_here(voice_lines, source):
+        label = voice_key_parts(key)[1]
         if label not in ignored and name_value.get().strip():
             out[label] = name_value.get().strip()
     return out
@@ -18732,22 +18790,179 @@ def weak_rows_mark(rows, weak):
             return
 
 
-def split_cells_write(cells, busy, running, found, heard_in, note):
+def separations_of(by_source, path):
+    """What was separated out of that one recording, or nothing.
+
+    *by_source* is the store the window keeps: one entry per recording
+    that has been taken apart. Asking it by the recording is what keeps
+    two of them apart. With one entry for the whole window, separating
+    a second recording emptied the first one's rows without a word.
+    """
+    entry = (by_source or {}).get(os.path.abspath(path or "")) or {}
+    return list(entry.get("segments") or ())
+
+
+def speakers_stored(state, source):
+    """One recording's separation as the window holds it.
+
+    {"segments": …, "count": …, "names": …}, or nothing where that
+    recording has not been taken apart.
+    """
+    return (state.get("speakers_by") or {}).get(
+        os.path.abspath(source or "")) or {}
+
+
+def speakers_keep(state, source, segments, count, names):
+    """Store what was heard in one recording, and put it in front.
+
+    Every recording keeps its own. With room for one, taking a second
+    recording apart emptied the first one's rows and carried its names
+    over to the new voices -- names that hang on the model's labels and
+    cannot be put back by hand. In front is what the run and the
+    preview read: one first cut, out of one recording.
+    """
+    by = state.setdefault("speakers_by", {})
+    by[os.path.abspath(source)] = {
+        "segments": list(segments or ()),
+        "count": int(count or 0), "names": dict(names or {})}
+    state["speakers_source"] = source
+    state["speakers_local"] = list(segments or ())
+    state["speakers_count"] = int(count or 0)
+
+
+def speakers_project_block(state):
+    """Every separation the window holds, as the project file takes it.
+
+    The one in front stands where a single separation always stood, so
+    a version that knows of one still opens the file; the others hang
+    under it. Returns None where nothing was separated.
+    """
+    front = os.path.abspath(state.get("speakers_source") or "")
+    by = state.get("speakers_by") or {}
+    if not by.get(front, {}).get("segments"):
+        return None
+
+    def block(src, e):
+        return speakers_for_project(src, e["segments"],
+                                    e.get("count") or 0,
+                                    e.get("names") or {})
+    out = block(state.get("speakers_source") or "", by[front])
+    more = [block(src, e) for src, e in sorted(by.items())
+            if src != front and e.get("segments")]
+    if more:
+        out["more"] = more
+    return out
+
+
+def voices_answer_kept(remembered, files, named):
+    """Keep "several speakers" for every recording that shows voices.
+
+    several_set writes it when the entry is picked, but only then: a
+    project saved at any other moment came back without it and
+    everybody was called "Speaker 1" again. Never over an answer of
+    "one person" -- that answer and this arrive in the same round, and
+    writing True back brings the voice rows straight in again.
+    """
+    for p, _kind in files or ():
+        here = os.path.abspath(p)
+        if here not in named:
+            continue
+        for key in (p, here):
+            if remembered.get("several:" + key) is not False:
+                remembered["several:" + key] = True
+
+
+def voice_names_by_source(voice_lines, fallback=""):
+    """The names given in the rows, sorted under their recordings.
+
+    Written into one list for the whole window, the names of the rows
+    that were not on the screen fell out of it, and the ones that were
+    on it were read back under another recording's voices.
+    """
+    out = {}
+    for key, name_value, _cv in voice_lines or ():
+        src, _label = voice_key_parts(key)
+        here = out.setdefault(os.path.abspath(src or fallback), {})
+        if name_value.get().strip():
+            here[voice_key_parts(key)[1]] = name_value.get().strip()
+    return out
+
+
+def voice_names_store(state, named):
+    """Put each recording's names back under that recording."""
+    for src, names in (named or {}).items():
+        entry = (state.get("speakers_by") or {}).get(src)
+        if entry is not None:
+            entry["names"] = names
+
+
+def speakers_for_run(state, voice_lines, called):
+    """The separation the run is handed: the recording in front.
+
+    The run makes one first cut, out of the one recording everybody is
+    on, so only that one goes. The others stay in the window and in the
+    project file. Voices set to "do not use" are left out here and kept
+    there: they become no track and no speaker at auphonic.com.
+    """
+    source = state.get("speakers_source") or ""
+    segments = speakers_stored(state, source).get("segments")
+    if not segments:
+        return None
+    return speakers_for_project(
+        source, voices_in_use(segments,
+                              voices_ignored_of(voice_lines, source)),
+        state.get("speakers_count") or 0, called)
+
+
+def speakers_front_pick(state):
+    """Put a separation that still holds in front, where none is.
+
+    The recording the run was made of may have changed since the
+    project was written while another one's separation stands. Without
+    this the window would show voices and the run separate again.
+    """
+    if state.get("speakers_local") or not state.get("speakers_by"):
+        return
+    front = sorted(state["speakers_by"])[0]
+    entry = state["speakers_by"][front]
+    state["speakers_local"] = entry["segments"]
+    state["speakers_source"] = front
+    state["speakers_count"] = entry.get("count") or 0
+
+
+def voice_keys_carry_source(remembered, source):
+    """Give the voices of an older project the recording they are of.
+
+    A voice was remembered under the model's label alone. Such a
+    project holds one separation, so a bare label belongs to the
+    recording it separated; left bare, a second separation would write
+    its own voices' names and cameras over them.
+    """
+    if not source:
+        return
+    for stem in ("voice:", "voicename:"):
+        for api_key in [k for k in list(remembered)
+                        if k.startswith(stem) and "\n" not in k]:
+            fresh = stem + voice_key(source, api_key[len(stem):])
+            remembered.setdefault(fresh, remembered.pop(api_key))
+
+
+def split_cells_write(cells, busy, running, by_source, note):
     """Say in every recording's row how its separation stands.
 
     Only the recording being listened to offers a way out: the others
     have nothing to break off, and asking for one is answered in the
-    name field of the row rather than by a button here.
-
-    Returns False where the cells are gone, which happens whenever the
-    table has been built again while this was on its way.
+    name field of the row. Every row is asked about its own recording
+    -- two can carry a separation at once, and each says its own
+    number. Returns False where the cells are gone, which happens when
+    the table has been built again while this was on its way.
     """
     running = os.path.abspath(running) if running else ""
-    heard_in = os.path.abspath(heard_in) if heard_in else ""
     for path, button, mark in list(cells or ()):
         here = os.path.abspath(path)
         mine = busy and here == running
-        done = bool(found) and here == heard_in and not busy
+        found = separations_of(by_source, path)
+        done = bool(found) and not mine
         try:
             button.setVisible(mine)
             if note and note[0] == here:
@@ -18767,7 +18982,7 @@ def split_cells_write(cells, busy, running, found, heard_in, note):
     return True
 
 
-def voices_under(path, said, source, found):
+def voices_under(path, said, by_source):
     """The voices to show under one recording, and none where not.
 
     *said* is the answer stored for this recording: True for several
@@ -18780,16 +18995,16 @@ def voices_under(path, said, source, found):
     saying "several speakers" later brings them up without computing
     again.
 
+    *by_source* holds one separation per recording, and this reads its
+    own recording's. With room for one, the voices of a recording
+    disappeared the moment a second one was taken apart.
+
     Whether this machine may run a separation has no bearing on this. A
     result that is already stored is shown either way: switching the
     separation off says "do not compute", not "do not look".
     """
-    found = list(found or ())
-    if not found or not source:
-        return []
-    if os.path.abspath(source) != os.path.abspath(path):
-        return []
-    return found if said else []
+    found = separations_of(by_source, path)
+    return found if said and found else []
 
 
 def longest_stretch(segments, label_name):
@@ -19028,6 +19243,26 @@ def speakers_from_project(d, fingerprint=file_fingerprint):
     return (source, speaker_segments_group(d.get("segments") or []),
             dict(d.get("names") or {}))
 
+
+def speakers_all_from_project(d, fingerprint=file_fingerprint):
+    """Every separation a project carries, by the recording it is of.
+
+    More than one fits: an audio recording everybody is on and a
+    camera whose sound is used are two recordings, each with its own
+    voices. The block the run reads stands where a single separation
+    stood and the others hang under it in "more". Each is tested on its
+    own: one whose recording has changed falls out, the rest stand.
+    """
+    block = (d or {}).get("speakers") or {}
+    out = {}
+    for one in [block] + list(block.get("more") or ()):
+        source, segments, names = speakers_from_project(
+            {"speakers": one}, fingerprint)
+        if source and segments:
+            out[os.path.abspath(source)] = {
+                "segments": segments, "names": names,
+                "count": int(one.get("num_speakers") or 0)}
+    return out
 
 
 #---------------------------------------------------------------- Building
@@ -28190,16 +28425,13 @@ def gui():
             # key being there is what tells this file apart from one
             # written before there was a choice.
             d["lufs"] = lufs_value.get()
-            # The separation travels with the project: three minutes of
+            # The separations travel with the project: three minutes of
             # computing should not be paid a second time because the
             # folder moved to another machine. Raw, in the time of the
             # source file -- a changed offset is then arithmetic.
-            if state.get("speakers_local"):
-                d["speakers"] = speakers_for_project(
-                    state.get("speakers_source") or "",
-                    state["speakers_local"],
-                    state.get("speakers_count") or 0,
-                    state.get("speakers_named") or {})
+            block = speakers_project_block(state)
+            if block:
+                d["speakers"] = block
             d["speakers_source"] = state.get("speakers_source") or ""
             # Missing means nobody has been asked yet, which is not the
             # same as a no.
@@ -28395,8 +28627,7 @@ def gui():
         if not split_cells_write(state.get("split_cells") or (),
                                  split_run["busy"],
                                  state.get("speakers_running") or "",
-                                 state.get("speakers_local") or [],
-                                 state.get("speakers_source") or "",
+                                 state.get("speakers_by") or {},
                                  state.get("split_note")):
             state["split_cells"] = []
 
@@ -28421,15 +28652,13 @@ def gui():
         if not segments:
             speaker_split_show("", COLOURS["quiet"])
             return
-        state["speakers_local"] = segments
-        state["speakers_source"] = source
-        state["speakers_count"] = count
         # The names are an assignment, not a measurement: a voice that
-        # already had one keeps it.
-        called = dict(state.get("speakers_named") or {})
-        state["speakers_named"] = {
-            label: called.get(label) or name
-            for label, name in speaker_label_names(segments, called)}
+        # already had one keeps it -- its own recording's names.
+        called = dict(speakers_stored(state, source).get("names") or {})
+        speakers_keep(state, source, segments, count,
+                      {label: called.get(label) or name
+                       for label, name
+                       in speaker_label_names(segments, called)})
         axis_store(state.get("axis") or {})
         assignment_fresh()
         speaker_split_show()
@@ -28476,8 +28705,7 @@ def gui():
             return
         count = int(state.get("speakers_count") or 0)
         if not fresh:
-            if state.get("speakers_local") \
-                    and state.get("speakers_source") == source:
+            if speakers_stored(state, source).get("segments"):
                 speaker_split_show()
                 return
             if not speaker_split_wanted(state.get("speakers_wanted")):
@@ -28514,14 +28742,12 @@ def gui():
         question. It does not depend on what the row is showing: a row
         that says one person still carries what was measured on it.
         """
-        return len(voices_under(path, True, state.get("speakers_source"),
-                                state.get("speakers_local")))
+        return len(voices_under(path, True, state.get("speakers_by")))
 
     def voices_of(path):
         """The voices to show under this recording, if any."""
         return voices_under(path, remembered.get("several:" + path),
-                            state.get("speakers_source"),
-                            state.get("speakers_local"))
+                            state.get("speakers_by"))
 
     def several_set(path, on):
         """The name field was answered: several speakers, or one again.
@@ -28988,10 +29214,16 @@ def gui():
                                if not own.get())))
 
     def voice_names_now():
-        """The names of the voices that are in use."""
-        return voice_names_of(state.get("speakers_named"), voice_lines)
+        """The names of the voices in use, of the one in front.
 
-    def voice_play(label_name):
+        Its labels, not the window's: another recording's rows are
+        about other voices carrying the same labels.
+        """
+        front = state.get("speakers_source") or ""
+        return voice_names_of(speakers_stored(state, front).get("names"),
+                              voice_lines, front)
+
+    def voice_play(key):
         """Hand that voice to the player on the right.
 
         Without hearing it a name is a guess, and hearing it once is
@@ -29003,10 +29235,13 @@ def gui():
 
         It jumps into the middle of the longest stretch and not to its
         start, because the first moment of a passage is often the tail
-        of somebody else's word.
+        of somebody else's word. *key* carries the recording, so the
+        row plays its own file and not whichever was separated last.
         """
-        source = state.get("speakers_source") or ""
-        stretch = longest_stretch(state.get("speakers_local"), label_name)
+        source, label = voice_key_parts(key)
+        source = source or state.get("speakers_source") or ""
+        stretch = longest_stretch(
+            speakers_stored(state, source).get("segments"), label)
         if not source or not stretch:
             return
         length = min(8.0, stretch[1] - stretch[0])
@@ -29070,8 +29305,7 @@ def gui():
         number of speakers is set and the recording is listened to
         again.
         """
-        found = (len(state.get("speakers_local") or ())
-                 if state.get("speakers_source") == source else 0)
+        found = len(speakers_stored(state, source).get("segments") or ())
         state["speakers_source_chosen"] = source
         state["speakers_count"] = found + 1
         speaker_split_kick_off(fresh=True)
@@ -29091,15 +29325,17 @@ def gui():
         wide = wide or wide_bar_of(targets, (), False, {})
         barred = wide["barred"]
         found = voices_of(path)
-        called = dict(state.get("speakers_named") or {})
+        # The names of this recording, not of the window.
+        called = dict(speakers_stored(state, path).get("names") or {})
         for label, _parts in found:
             i = len(voice_lines) + 1
-            name_value = Value(remembered.get("voicename:" + label)
+            key = voice_key(path, label)
+            name_value = Value(remembered.get("voicename:" + key)
                                or called.get(label)
                                or T('Speaker %d') % i)
             picked, worked_out = camera_row_cameras(
-                camera_after_a_mark("voice:" + label,
-                                    remembered.get("voice:" + label), wide,
+                camera_after_a_mark("voice:" + key,
+                                    remembered.get("voice:" + key), wide,
                                     name_value.get().strip() or label),
                 wide["pickable"], name_value.get(), videos)
             camera_value = Value(MIX_ONLY if picked in barred else picked)
@@ -29111,14 +29347,14 @@ def gui():
             # the row above, the other in the field beside it.
             kid = tree_row(tree, under, [])
             tree_cell(kid, 0, T('Voice'), COLOURS["quiet"])
-            kid[0].setData(label, Qt.UserRole + 2)
+            kid[0].setData(key, Qt.UserRole + 2)
             field, box = voice_row_cells(name_value, camera_value,
                                          targets, name_value.get())
             choices_shut(box, barred, wide["why"], COLOURS["quiet"])
             tree_field(tree, kid, 1, field)
             tree_field(tree, kid, 2, box)
             row_picker_watch(state["row_picker"], field, box)
-            voice_row_marks(state, label, name_value, camera_value,
+            voice_row_marks(state, key, name_value, camera_value,
                             field, box)
             def voice_answered(*_):
                 """Store it, and say the Kind column again.
@@ -29137,7 +29373,7 @@ def gui():
 
             name_value.listen(voice_answered)
             camera_value.listen(voice_answered)
-            voice_lines.append((label, name_value, camera_value))
+            voice_lines.append((key, name_value, camera_value))
         return len(found)
 
     def voices_remember():
@@ -29147,9 +29383,10 @@ def gui():
             # what was measured and named must survive that -- three
             # minutes of computing are not undone by a mis-click.
             return
-        state["speakers_named"] = {k: nv.get().strip()
-                                   for k, nv, _cv in voice_lines
-                                   if nv.get().strip()}
+        # Each recording's names go back to that recording.
+        named = voice_names_by_source(voice_lines,
+                                      state.get("speakers_source") or "")
+        voice_names_store(state, named)
         for k, nv, cv in voice_lines:
             # Only a real override, the same rule the recordings above
             # follow: a camera the program worked out itself goes back
@@ -29164,19 +29401,7 @@ def gui():
                 remembered["voicename:" + k] = said
             else:
                 remembered.pop("voicename:" + k, None)
-        # And the answer itself. several_set writes it when the entry is
-        # picked, but only then: a project saved at any other moment
-        # came back without it, and everybody was called "Speaker 1"
-        # again although the voices were right there.
-        #
-        # Never over an answer of "one person": that answer and this
-        # listener arrive in the same round, and writing True back
-        # brings the four voice rows straight in again.
-        source = state.get("speakers_source")
-        if source:
-            for key in (source, os.path.abspath(source)):
-                if remembered.get("several:" + key) is not False:
-                    remembered["several:" + key] = True
+        voices_answer_kept(remembered, files, named)
         # A voice that has just been given a camera may be the second
         # one, and with it the camera cut becomes possible.
         assignment_state_show()
@@ -30273,16 +30498,21 @@ def gui():
     resolve_right.addStretch(0)
 
     def local_speaker_segments():
-        """The local separation, where this window puts it."""
-        segments = state.get("speakers_local") or []
+        """The local separation in front, where this window puts it.
+
+        One first cut, out of one recording -- so which voices are left
+        out is read off that recording's rows alone.
+        """
         source = state.get("speakers_source") or ""
+        segments = speakers_stored(state, source).get("segments") or []
         if not segments or not source:
             return None, 0.0
         begin = min([audio_start(row[0]) for row, _n, cv in assign_lines
                      if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
                     or [0.0])
         return speakers_on_window_axis(
-            voices_in_use(segments, voices_ignored_of(voice_lines)),
+            voices_in_use(segments,
+                          voices_ignored_of(voice_lines, source)),
             audio_start(source) - begin, voice_names_now())
 
     def off_speakers():
@@ -31025,7 +31255,7 @@ def gui():
         state["axis_absolute"] = False
         state["speakers_local"] = {}
         state["speakers_source"] = ""
-        state["speakers_named"] = {}
+        state["speakers_by"] = {}
         state["speakers_count"] = 0
         state["speakers_wanted"] = None
         state["preset_wanted"] = ""
@@ -31126,14 +31356,15 @@ def gui():
         # there was a choice carries none and changes nothing.
         if "lufs" in d:
             lufs_value.set(d["lufs"])
-        # The separation comes back before the tables are built, or the
-        # voices would be missing from them until it has run again.
-        source, found, called = speakers_from_project(d)
+        # The separations come back before the tables are built, or
+        # the voices would be missing until they had run again.
+        state["speakers_by"] = speakers_all_from_project(d)
+        source, found, _called = speakers_from_project(d)
         state["speakers_local"] = found
         state["speakers_source"] = source or (d.get("speakers_source") or "")
-        state["speakers_named"] = called
         state["speakers_count"] = int(
             ((d.get("speakers") or {}).get("num_speakers")) or 0)
+        speakers_front_pick(state)
         state["speakers_wanted"] = (bool(d["speakers_local"])
                                     if "speakers_local" in d else None)
         no_join.update(d.get("apart") or [])
@@ -31146,6 +31377,8 @@ def gui():
         for api_key, value in (d.get("assignment") or {}).items():
             remembered[api_key] = (tuple(value) if isinstance(value, list)
                                    else value)
+        voice_keys_carry_source(remembered,
+                                state.get("speakers_source") or "")
         if d.get("multitrack"):
             # Not somebody ticking the box: this project was saved with
             # Multitrack on, so its cameras were chosen by hand.
@@ -31434,17 +31667,8 @@ def gui():
             "wide_at_edges": bool(edge_on.get()),
             # The voices this machine has already taken apart. They
             # travel with the run so it need not separate them again.
-            # Whole in the project file, but not here: what the run is
-            # handed leaves out the voices set to "do not use", so they
-            # become no track and no speaker at auphonic.com.
-            "speakers_of": (speakers_for_project(
-                state.get("speakers_source") or "",
-                voices_in_use(state.get("speakers_local") or [],
-                              voices_ignored_of(voice_lines)),
-                state.get("speakers_count") or 0,
-                voice_names_now())
-                if state.get("speakers_local")
-                and state.get("speakers_source") else None),
+            "speakers_of": speakers_for_run(state, voice_lines,
+                                            voice_names_now()),
             # A no given in the window has to reach the run: it would
             # otherwise pick a source itself and separate after all.
             "speakers_wanted": state.get("speakers_wanted"),
