@@ -272,6 +272,73 @@ if newest_german.strip():
     check("no point stands out by its length", not long_ones,
           long_ones[0] if long_ones else "")
 
+    # A point says what the program does differently; why the old state
+    # was wrong belongs in the commit message. Three points of one
+    # version had to be rewritten because they explained the mechanism
+    # instead, and the checks above caught none of them.
+    #
+    # No machine can judge that, so what is held here are two marks such
+    # a sentence leaves behind. Both were measured over all 984 points
+    # the file held when they were written: the first matches nothing at
+    # all, the second twice, and both times the same point -- the one
+    # whose two similarity scores were struck out for saying nothing.
+    #
+    # WHAT THIS DOES NOT CATCH, and it is most of it: mechanism
+    # explained in ordinary words. "Qt answers neither of two claims on
+    # one key" passes every rule below, and the word cannot go on a
+    # list -- four good points name Qt, for a Qt built without
+    # multimedia, which is a state the reader is in. Nor can a list of
+    # tool names: ffprobe stands ten times in the manual. Whole numbers
+    # without a unit pass too, and so does a two-sentence justification
+    # short enough to stay under the length above.
+    #
+    # What stands in backticks is a quotation -- a switch, a file name,
+    # an environment variable -- and is not read as prose. Every one of
+    # the 24 underscores in the file stands inside them.
+    QUOTED = re.compile(r"`[^`]*`")
+    # kept_channels, project_write, QShortcut: shapes that only ever
+    # come from the source. A switch is spelled --no-single-tracks and
+    # keeps its hyphens, so it is not one of them.
+    OUT_OF_SOURCE = re.compile(
+        r"(?<![\w-])[a-z][a-z0-9]*(?:_[a-z0-9]+)+(?!\w)"
+        r"|(?<![A-Za-z])Q[A-Z][A-Za-z]{2,}(?![A-Za-z])")
+    # A number is understood without context where it carries what it
+    # measures: "0.040 s", "2.88 MB", "18 seconds". A fraction below one
+    # followed by a function word or by the end of the sentence carries
+    # nothing: it is a score off a scale that lives inside the program,
+    # and the reader cannot read it. Only below one -- above it the same
+    # rule would fall over a contrast ratio and over "Python 3.10".
+    FUNCTION_WORD = ("against|to|and|or|of|on|in|at|for|from|with|than|"
+                     "as|the|a|was|is|were|are|be|not|but|so|then|now|"
+                     "it|its|his|her|their|zu|zum|zur|und|oder|auf|im|"
+                     "an|am|bei|der|die|das|den|dem|des|ein|eine|einen|"
+                     "einem|einer|war|ist|sind|nicht|aber|gegen|nach|"
+                     "vor|mit|von|aus|als|wie|noch|schon|dann|jetzt")
+    WITHOUT_UNIT = re.compile(
+        r"(?<![\d.,:v-])0[.,](\d\d+)(?![\d.,])(\s+(?:%s)\b|\s*[.,;)]|$)"
+        % FUNCTION_WORD, re.I)
+
+    from_source, no_unit, weighed = [], [], 0
+    for part in (newest, newest_german):
+        for one in points_of(part):
+            said = " ".join(x.strip() for x in one)[2:]
+            weighed += 1
+            prose_only = QUOTED.sub(" ", said)
+            for spotted in OUT_OF_SOURCE.finditer(prose_only):
+                from_source.append("%r in: %s" % (spotted.group(0),
+                                                  said[:50]))
+            for spotted in WITHOUT_UNIT.finditer(prose_only):
+                no_unit.append("%r in: %s" % (spotted.group(0).strip(),
+                                              said[:50]))
+    check("no point carries a name out of the source", not from_source,
+          "%d in %d points, first: %s" % (len(from_source), weighed,
+                                          from_source[0])
+          if from_source else "none in %d points" % weighed)
+    check("every number in a point says what it counts", not no_unit,
+          "%d in %d points, first: %s" % (len(no_unit), weighed,
+                                          no_unit[0])
+          if no_unit else "none in %d points" % weighed)
+
     # Under Fixed a point can be written entirely in the past and read
     # as finished when it is not, so the word carrying the second half
     # -- what happens now -- has to be there. Only Fixed: Added is all

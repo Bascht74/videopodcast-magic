@@ -2066,6 +2066,8 @@ open	text_release_ready	no line writes the key into a file
 open	text_release_ready	no picture is referred to that is not there
 open	text_release_ready	no picture lies there unused
 text_release_ready	2026-08-30	no point stands out by its length	one changelog point stretched to 360 characters	no point stands out by its length                    FAIL 360 characters against a middle of 137: The multitrack path was measured for the
+text_release_ready	2026-08-31	no point carries a name out of the source	one word of a changelog point turned into a source name: "the assignment too now" -> "speaker_map too now"	no point carries a name out of the source            FAIL 1 in 28 points, first: 'speaker_map' in: Every camera arrived in Resolve as a wide shot car
+text_release_ready	2026-08-31	every number in a point says what it counts	the two similarity scores put back into the German half of the auphonic point, word for word as they stood before commit 4bb26cd	every number in a point says what it counts          FAIL 2 in 28 points, first: '0,286 zum' in: Die Tonspuren von auphonic.com wurden am ganzen Da
 open	text_release_ready	none of them is a stub
 open	text_release_ready	the changelog has sections
 open	text_release_ready	the key is taken out before pip runs
