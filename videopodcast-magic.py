@@ -8918,6 +8918,11 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     atexit.register(shutil.rmtree, tmpdir, True)
     joined = join_the_plan(plan, tmpdir)
     tracks = []
+    # The same rule the cameras follow: where every way of measuring
+    # came up empty and no clock places it either, a recording is
+    # refused rather than laid down somewhere -- laid down somewhere it
+    # looks exactly like one that fits.
+    camera_clocks = [timecode_seconds(i) for _v, i in videos]
     for e, made in zip(plan, joined):
         blocks, name = made["blocks"], made["name"]
         source, hint = made["source"], made["hint"]
@@ -8928,6 +8933,15 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                                   distance_s=30.0)
         except Exception as ex:
             print(T('  %-20s cannot be aligned: %s') % (name, ex))
+            continue
+        if st.get("from_phase"):
+            # Which way answered. Without this the warning above reads
+            # as a number the run used against its own verdict, when in
+            # truth the envelopes found nothing and the phase did.
+            hint = (hint + ", " if hint else "") + T('placed by phase')
+        if cannot_be_placed(st, file_timecode(blocks[0]) if blocks else None,
+                            camera_clocks):
+            print(as_bad("  " + no_place_message(name)))
             continue
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
