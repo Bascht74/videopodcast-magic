@@ -320,6 +320,7 @@ it is green.
 | `voice_bleed_gone_first` | #80: does the bleed get taken out before the speech detection? |
 | `voice_both_ways_agree` | The window and the command line separate the same way. |
 | `voice_every_word_placed` | The words on the speakers, and the three files that come of it. |
+| `voice_language_arrives` | The language asked for reaches the recognition as a code it takes. |
 | `voice_mhm_is_speech` | A short reaction is speech, not a hole in the conversation. |
 | `voice_names_when_sure` | Where the names of the voices could come from, instead of by hand. |
 | `voice_questions_rank` | Who is asking the questions, as a proposal and never as a verdict. |
