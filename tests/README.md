@@ -403,6 +403,7 @@ it is green.
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_start_runs` | The start button must build a command line and start a run. |
+| `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what the click then means. |
 
 ### `table_` -- the assignment table
