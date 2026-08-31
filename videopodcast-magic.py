@@ -13251,6 +13251,13 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             continue
         who = speaker_of.get(v) or []
         file = done.get(cam["name"], "")
+        if not file and done:
+            # Others came back and this one did not, so no render exists
+            # for it. Handed over it is a wide shot with an empty path,
+            # and the Resolve side falls back to cam["source"] -- the
+            # untouched camera, quietly, in place of the processed one.
+            left_out.append(cam["name"])
+            continue
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
         # start of the axis instead of where it was measured -- so the
