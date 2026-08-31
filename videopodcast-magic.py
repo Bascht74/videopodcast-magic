@@ -3825,6 +3825,10 @@ def voice_row_marks(state, key, name_value, camera_value, field, box):
     marks = voice_marks_of(state)
     marks["name"].setdefault(key, name_value.get())
     marks["camera"].setdefault(key, camera_value.get())
+    # The field itself, so a name already on somebody else can be
+    # marked in it. Written over on every rebuild, never kept: only the
+    # rows standing now are ever asked for.
+    marks.setdefault("field", {})[key] = field
     field.textEdited.connect(lambda *_: marks["typed"].add(key))
     box.activated.connect(lambda *_: marks["typed"].add(key))
 
@@ -3853,6 +3857,12 @@ def voice_proposal_apply(voice_lines, named, silent, marks, source=""):
         if not (is_stand_in_name(text) or text == said.get(key)):
             continue
         want = named.get(label) or born.get(key) or text
+        # Never onto a name somebody else already carries: a proposal
+        # that makes two voices one person is worse than none. The
+        # camera below is proposed all the same.
+        if want in set(nv.get().strip()
+                       for k, nv, _c in voice_lines if k != key):
+            want = text
         if want != text:
             if named.get(label):
                 said[key] = want
@@ -9431,7 +9441,28 @@ def voices_of_file(file_path):
 
 
 def separation_on_axis(given, tracks, position, t0, t1):
-    """Put a stored separation onto the axis of this run.
+    """Put every separation handed over onto the axis of this run.
+
+    The one in front and the ones under "more", each with the offset of
+    its own recording -- which recording a voice was heard in makes no
+    difference to the cut. Voices of one name are folded together, so a
+    name is one person here as it is everywhere else.
+    Returns (segments, "") or ([], why not).
+    """
+    out, trouble = one_separation_on_axis(given, tracks, position, t0, t1)
+    why = [trouble] if trouble else []
+    for one in ((given or {}).get("more") or ()):
+        more, trouble = one_separation_on_axis(one, tracks, position, t0, t1)
+        out += more
+        if trouble:
+            why.append(trouble)
+    if not out:
+        return [], "; ".join(why) or T('no recording named')
+    return voices_merged(out), ""
+
+
+def one_separation_on_axis(given, tracks, position, t0, t1):
+    """Put one stored separation onto the axis of this run.
 
     The segments are kept raw, in the time of the file they were
     measured in; where that file sits on the axis is already known from
@@ -18512,6 +18543,16 @@ def voice_lines_here(voice_lines, source=""):
     return out
 
 
+def voice_lines_here_not(voice_lines, source):
+    """The rows of *voice_lines* that belong to any other recording.
+
+    What a recording is about to be named against: its own old rows
+    would stand in the way of naming its own new voices.
+    """
+    mine = set(id(row) for row in voice_lines_here(voice_lines, source))
+    return [row for row in voice_lines or () if id(row) not in mine]
+
+
 def voices_ignored_of(voice_lines, source=""):
     """The voices somebody set to "do not use", by their label.
 
@@ -18542,6 +18583,54 @@ def voice_names_of(named, voice_lines, source=""):
     return out
 
 
+def sheet_speaker_names(assign_lines=(), voice_lines=(), voiced=()):
+    """Every speaker name the assignment sheet holds, in one list.
+
+    One entry per person, whichever of the four ways they came in by:
+    their own recording, a camera's sound, a channel of a recorder, or
+    a voice a separation found. A recording whose voices stand under it
+    says "several speakers" and not a name, so it is left out and its
+    voices speak for it; one set to "do not use" takes no part in the
+    run and none here.
+    """
+    shown = set(path_key(p) for p in voiced or ())
+    out = []
+    for chain, name_value, camera_value in assign_lines or ():
+        if camera_value.get() == IGNORE_AUDIO \
+                or path_key(chain[0]) in shown:
+            continue
+        out.append(speaker_name_of(name_value))
+    for _key, name_value, camera_value in voice_lines or ():
+        if camera_value.get() != IGNORE_AUDIO:
+            out.append(name_value.get().strip())
+    return [n for n in out if n]
+
+
+def names_used_twice(assign_lines=(), voice_lines=(), voiced=()):
+    """The names standing more than once on the assignment sheet.
+
+    A name is a person and a person is on the sheet once. Two of one
+    name reached the cut as one person on one camera, and that camera
+    then stood twice at different places in the same cut.
+    """
+    names = sheet_speaker_names(assign_lines, voice_lines, voiced)
+    return sorted(set(n for n in names if names.count(n) > 1))
+
+
+def voice_names_clashing(assign_lines=(), voice_lines=(), voiced=()):
+    """The names of that sort a voice carries.
+
+    Two recordings of one person are merged into one track by design,
+    so a name twice among the recordings is a question and not a
+    refusal. A voice cannot be merged with anything: it is one person
+    in one separation, so its name has to be its own.
+    """
+    twice = set(names_used_twice(assign_lines, voice_lines, voiced))
+    return sorted(set(nv.get().strip() for _k, nv, cv in voice_lines or ()
+                      if cv.get() != IGNORE_AUDIO
+                      and nv.get().strip() in twice))
+
+
 def speakers_on_window_axis(segments, offset, named=None):
     """The separation under its names, moved onto the shared axis.
 
@@ -18556,6 +18645,29 @@ def speakers_on_window_axis(segments, offset, named=None):
                speaker_segments_polish(segments), offset)]
     return out, max((b for _n, parts in out for _a, b in parts),
                     default=0.0)
+
+
+def speakers_all_on_window_axis(state, voice_lines, begin, offset_of):
+    """Every separation the window holds, on the window's own axis.
+
+    Each with the offset of its own recording, and then folded by name.
+    The run takes them all, so the preview beside it has to: a preview
+    computed from other voices than the run uses is worse than none.
+    *begin* is where the axis starts, *offset_of* where one recording
+    lies on it. Returns (voices, how long the last of them runs).
+    """
+    out, length = [], 0.0
+    for src, entry in sorted((state.get("speakers_by") or {}).items()):
+        if not voice_lines_here(voice_lines, src):
+            continue
+        rows, far = speakers_on_window_axis(
+            voices_in_use(entry.get("segments") or (),
+                          voices_ignored_of(voice_lines, src)),
+            offset_of(src) - begin,
+            voice_names_of(entry.get("names") or {}, voice_lines, src))
+        out += rows
+        length = max(length, far)
+    return voices_merged(out), length
 
 
 def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
@@ -18585,17 +18697,41 @@ def speaker_segments_on_axis(segments, offset, t0=None, t1=None):
     return out
 
 
-def speaker_label_names(segments, called=None):
+def voice_name_free(name, taken=()):
+    """The name a voice shows: its own, or the first number nobody has.
+
+    A name somebody typed stands, whatever else is on the sheet -- the
+    field says so itself where two are the same. Only the numbered
+    stand-in counts on, because it is the program's own and the program
+    does not put one name on two voices. Counting from one per
+    separation did: the second recording's first voice was a second
+    "Speaker 1", and to the cut two voices of one name are one person.
+    """
+    name = str(name or "").strip()
+    used = set(str(x).strip() for x in taken or () if str(x or "").strip())
+    if name and not (is_stand_in_name(name) and name in used):
+        return name
+    n = 1
+    while T('Speaker %d') % n in used:
+        n += 1
+    return T('Speaker %d') % n
+
+
+def speaker_label_names(segments, called=None, taken=()):
     """Name the voices: whoever spoke most is the first one.
 
     A name given by hand stays, keyed by the label the model used --
     renaming somebody is an assignment, not a reason to measure again.
+    *taken* are the names already given elsewhere in the window; the
+    stand-in counts past them.
     """
     called = called or {}
+    used = set(taken or ()) | set(called.values())
     out = []
-    for i, (label, _parts) in enumerate(segments or ()):
-        out.append((label, (called.get(label) or "").strip()
-                    or T('Speaker %d') % (i + 1)))
+    for label, _parts in segments or ():
+        name = voice_name_free(called.get(label), used)
+        used.add(name)
+        out.append((label, name))
     return out
 
 
@@ -18830,28 +18966,75 @@ def speakers_keep(state, source, segments, count, names):
     state["speakers_count"] = int(count or 0)
 
 
-def speakers_project_block(state):
-    """Every separation the window holds, as the project file takes it.
+def speakers_block_of(state, voice_lines=None):
+    """Every separation the window holds, in the shape they travel in.
 
     The one in front stands where a single separation always stood, so
     a version that knows of one still opens the file; the others hang
-    under it. Returns None where nothing was separated.
+    under it in "more". None where nothing was separated.
+
+    With *voice_lines* only what stands on the sheet goes, and without
+    the voices set to "do not use" -- the run's view, not the file's.
     """
-    front = os.path.abspath(state.get("speakers_source") or "")
     by = state.get("speakers_by") or {}
-    if not by.get(front, {}).get("segments"):
+    front = os.path.abspath(state.get("speakers_source") or "")
+    keep = [src for src in sorted(by) if by[src].get("segments")]
+    if voice_lines is not None:
+        # A recording whose sound was set back to "do not use", or
+        # answered with a single name, has no rows. Its separation
+        # stays stored -- switching it on again must be instant -- and
+        # it is not in the run.
+        keep = [src for src in keep if voice_lines_here(voice_lines, src)]
+    if not keep:
         return None
+    # The one the window calls the front, unless it is not among them.
+    first = front if front in keep else keep[0]
+    named = (state.get("speakers_source") or "") if first == front else first
 
     def block(src, e):
-        return speakers_for_project(src, e["segments"],
-                                    e.get("count") or 0,
-                                    e.get("names") or {})
-    out = block(state.get("speakers_source") or "", by[front])
-    more = [block(src, e) for src, e in sorted(by.items())
-            if src != front and e.get("segments")]
+        segments, names = e["segments"], e.get("names") or {}
+        if voice_lines is not None:
+            segments = voices_in_use(segments,
+                                     voices_ignored_of(voice_lines, src))
+            names = voice_names_of(names, voice_lines, src)
+        return speakers_for_project(src, segments, e.get("count") or 0,
+                                    names)
+    out = block(named, by[first])
+    more = [block(src, by[src]) for src in keep if src != first]
+    more = [m for m in more if m["segments"]]
     if more:
         out["more"] = more
     return out
+
+
+def speakers_project_block(state):
+    """Every separation the window holds, as the project file takes it."""
+    return speakers_block_of(state)
+
+
+def voices_merged(rows):
+    """One entry per name: the same name twice is the same person.
+
+    Two entries of one name reached the cut as two people, and the
+    camera they share then stood twice at different places in the same
+    cut. Whichever recording a voice was heard in, the name says who it
+    is.
+    """
+    order, where = [], {}
+    for name, parts in rows or ():
+        if name in where:
+            where[name].extend(parts)
+        else:
+            where[name] = list(parts)
+            order.append(name)
+    return [(name, sorted(where[name])) for name in order]
+
+
+def separation_has_voices(given):
+    """Whether any of the separations handed over heard anything."""
+    given = given or {}
+    return any((one or {}).get("segments")
+               for one in [given] + list(given.get("more") or ()))
 
 
 def voices_answer_kept(remembered, files, named):
@@ -18896,22 +19079,16 @@ def voice_names_store(state, named):
             entry["names"] = names
 
 
-def speakers_for_run(state, voice_lines, called):
-    """The separation the run is handed: the recording in front.
+def speakers_for_run(state, voice_lines):
+    """Every separation the window holds, as the run is handed them.
 
-    The run makes one first cut, out of the one recording everybody is
-    on, so only that one goes. The others stay in the window and in the
-    project file. Voices set to "do not use" are left out here and kept
-    there: they become no track and no speaker at auphonic.com.
+    All of them, each with the voices of the recording they were heard
+    in: where a voice comes from makes no difference to the cut. One of
+    two going in left half the people off the screen without a word.
+    Voices set to "do not use" are left out here and kept in the
+    window: they become no track and no speaker at auphonic.com.
     """
-    source = state.get("speakers_source") or ""
-    segments = speakers_stored(state, source).get("segments")
-    if not segments:
-        return None
-    return speakers_for_project(
-        source, voices_in_use(segments,
-                              voices_ignored_of(voice_lines, source)),
-        state.get("speakers_count") or 0, called)
+    return speakers_block_of(state, voice_lines)
 
 
 def speakers_front_pick(state):
@@ -21257,7 +21434,7 @@ def speaker_name_of(value):
 
 
 def missing_conditions(files, production, multitrack, assign_lines,
-                       camera_lines):
+                       camera_lines, voice_lines=(), voiced=()):
     """Report what is still missing, and where it is missing.
 
     Returns {key: reason}. Empty means everything is there. The reasons
@@ -21287,6 +21464,14 @@ def missing_conditions(files, production, multitrack, assign_lines,
             if len(set(names)) < 2:
                 pending[22] = (T('All recordings carry the same name '
                                  '-- that makes a single track.'))
+    # A voice whose name is on somebody else. Held here and not asked
+    # at the start: to the cut two voices of one name are one person,
+    # and there is no answer that makes that right.
+    clash = voice_names_clashing(assign_lines, voice_lines, voiced)
+    if clash:
+        pending[22] = (T('%s is on more than one speaker -- a name is a '
+                         'person, and every person needs their own.')
+                       % ", ".join(clash))
     # No sound at all: a video file whose Camera audio is not in use
     # contributes none, and a run with nothing to listen to has no first
     # step. Said here rather than in a dialog, like everything else that
@@ -24708,6 +24893,23 @@ def run_argv(values, assignment_file_path=""):
     if values.get("dry_run"):
         argv += ["--dry-run"]
 
+    # The last net under the window's own mark: a voice whose name is
+    # on somebody else already. Refused and not asked -- to the cut two
+    # voices of one name are one person, and there is nothing sensible
+    # to do with the answer "yes, merge them".
+    voices = [(r.get("name") or "").strip()
+              for r in (values.get("voices") or ())
+              if r.get("camera") != IGNORE_AUDIO
+              and (r.get("name") or "").strip()]
+    twice = sorted(set(n for n in voices if voices.count(n) > 1))
+    if twice:
+        return error(
+            T('One name for two voices'),
+            T('%s stands on more than one voice. A name is a person, and '
+              'the cut puts a person on one camera -- two voices of one '
+              'name would be one person in two places.')
+            % ", ".join(twice))
+
     plan = None
     if values.get("multitrack"):
         only_video = bool(values.get("camera_audio_only"))
@@ -24800,7 +25002,7 @@ def run_argv(values, assignment_file_path=""):
                 or 'Production', "tracks_of": tracks, "cameras": cameras}
         # What the separation heard travels with the assignment. Raw and
         # in the time of its own file -- the run puts it on the axis.
-        if (values.get("speakers_of") or {}).get("segments"):
+        if separation_has_voices(values.get("speakers_of")):
             plan["speakers_of"] = values["speakers_of"]
             # And which camera each voice belongs to. The simple path
             # has sent this along since it learned to cut; multitrack
@@ -24810,7 +25012,7 @@ def run_argv(values, assignment_file_path=""):
         argv += ["--multitrack", "--assign", assignment_file_path]
         if values.get("speakers_wanted") is False:
             argv += ["--no-speakers-local"]
-    elif (values.get("speakers_of") or {}).get("segments") \
+    elif separation_has_voices(values.get("speakers_of")) \
             and assignment_file_path:
         # One track, and the voices in it already told apart. It
         # travels the way the multitrack path sends it, so the run does
@@ -26608,20 +26810,25 @@ def project_state_read(file_path, elsewhere):
 
 
 def assignment_marks_show(audio_fields, assign_lines, video_fields,
-                          camera_lines, multitrack_on, voiced,
-                          audio_reason, video_reason):
+                          camera_lines, multitrack_on, state,
+                          voice_lines=()):
     """Mark the trouble spots red, and say beside the tables what they are.
 
     Outside gui() because it reaches into nothing: the fields, the rows
-    behind them and the two lines that carry the reason come in as
-    arguments. Two things are caught here before they do damage: two
-    recordings with the same speaker name, which would become a single
-    track, and two cameras with the same output name, where the second
-    would overwrite the first.
+    behind them and the window's own store come in as arguments. Three
+    things are caught here before they do damage: two recordings with
+    the same speaker name, which would become a single track, a voice
+    carrying a name that is on somebody else, and two cameras with the
+    same output name, where the second would overwrite the first.
     """
-    # A recording showing its voices is left out of the comparison:
-    # its field says "several speakers" and not a name, and two of
-    # them saying the same thing is not a clash but the truth.
+    voiced = state.get("voiced") or set()
+    audio_reason, video_reason = (state.get("audio_reason"),
+                                  state.get("video_reason"))
+    # Every name on the sheet at once, both levels of it: whichever way
+    # somebody came in by, a name is a person and a person is there
+    # once. A recording showing its voices is left out -- its field
+    # says "several speakers" and not a name.
+    twice = set(names_used_twice(assign_lines, voice_lines, voiced))
     used = [(f, v) for f, (r, v, cv) in zip(audio_fields, assign_lines)
                if cv.get() != IGNORE_AUDIO
                and os.path.abspath(r[0]) not in voiced] \
@@ -26630,10 +26837,20 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
     duplicate = set(n for n in names if n and names.count(n) > 1)
     for field, value in used:
         n = speaker_name_of(value)
-        mark_red(field, bool(n) and n in duplicate,
+        mark_red(field, bool(n) and n in twice,
                     T('This name occurs more than once. The recordings '
                       'would become one track -- for Multitrack '
                       'auphonic.com needs at least two different ones.'))
+    fields = voice_marks_of(state).get("field") or {}
+    for key, name_value, camera_value in voice_lines or ():
+        n = name_value.get().strip()
+        if fields.get(key) is not None:
+            mark_red(fields[key],
+                     bool(n) and n in twice
+                     and camera_value.get() != IGNORE_AUDIO,
+                     T('This name is on somebody else already. A name is '
+                       'a person, and the cut puts a person on one '
+                       'camera -- please give this voice its own.'))
     if audio_reason is not None:
         if duplicate and multitrack_on and len(set(names)) < 2:
             audio_reason.setText(
@@ -27167,7 +27384,8 @@ def gui():
         """What is still missing, in plain words, keyed by tab."""
         return missing_conditions(files, production_var.get(),
                                   multitrack.get(), assign_lines,
-                                  camera_lines)
+                                  camera_lines, voice_lines,
+                                  state.get("voiced") or set())
 
     def tab_named(sheet):
         """What the tab holding this sheet is called at the moment.
@@ -28065,6 +28283,13 @@ def gui():
 
     assign_lines = []            # [(chain, name_value, camera_value)]
     camera_lines = []           # [(path, name_value, own, own_name)]
+    # One row per voice a separation heard, hanging under the recording
+    # it was heard in. Two tables one above the other said the same
+    # thing twice -- both carried a speaker name and a camera, and only
+    # their heading said which level was meant. A tree says it by where
+    # the row hangs, the way the file list already does. Up here with
+    # the other two: what is missing is asked of all three.
+    voice_lines = []             # [(key, name_value, camera_value)]
     remembered = {}              # survives a redraw of the table
     suggestions = {}             # what the table last suggested itself
 
@@ -28755,12 +28980,14 @@ def gui():
             speaker_split_show("", COLOURS["quiet"])
             return
         # The names are an assignment, not a measurement: a voice that
-        # already had one keeps it -- its own recording's names.
+        # already had one keeps it -- its own recording's names. The
+        # stand-in counts past every name on the sheet, so a second
+        # recording's first voice is not a second "Speaker 1".
         called = dict(speakers_stored(state, source).get("names") or {})
-        speakers_keep(state, source, segments, count,
-                      {label: called.get(label) or name
-                       for label, name
-                       in speaker_label_names(segments, called)})
+        speakers_keep(state, source, segments, count, dict(
+            speaker_label_names(segments, called, sheet_speaker_names(
+                assign_lines, voice_lines_here_not(voice_lines, source),
+                state.get("voiced") or ()))))
         axis_store(state.get("axis") or {})
         assignment_fresh()
         speaker_split_show()
@@ -29268,16 +29495,9 @@ def gui():
             state["preview_soon"]()
         assignment_marks_show(
             audio_fields, assign_lines, video_fields, camera_lines,
-            bool(multitrack.get()), state.get("voiced") or set(),
-            state.get("audio_reason"), state.get("video_reason"))
+            bool(multitrack.get()), state, voice_lines)
         buttons_check()
 
-    # One row per voice the separation heard, hanging under the
-    # recording it was heard in. Two tables one above the other said
-    # the same thing twice -- both carried a speaker name and a camera,
-    # and only their heading said which level was meant. A tree says it
-    # by where the row hangs, the way the file list already does.
-    voice_lines = []        # (label, name Value, camera Value)
     # The recordings of the assignment tree: (its row, the file, the
     # plain caption). The voices are not in here -- they have no file.
     file_rows = []
@@ -29314,16 +29534,6 @@ def gui():
             note.setText(multitrack_state_note(
                 len(used), sum(1 for _b, _nv, own, _n in camera_lines
                                if not own.get())))
-
-    def voice_names_now():
-        """The names of the voices in use, of the one in front.
-
-        Its labels, not the window's: another recording's rows are
-        about other voices carrying the same labels.
-        """
-        front = state.get("speakers_source") or ""
-        return voice_names_of(speakers_stored(state, front).get("names"),
-                              voice_lines, front)
 
     def voice_play(key):
         """Hand that voice to the player on the right.
@@ -29430,11 +29640,10 @@ def gui():
         # The names of this recording, not of the window.
         called = dict(speakers_stored(state, path).get("names") or {})
         for label, _parts in found:
-            i = len(voice_lines) + 1
             key = voice_key(path, label)
-            name_value = Value(remembered.get("voicename:" + key)
-                               or called.get(label)
-                               or T('Speaker %d') % i)
+            name_value = Value(voice_name_free(
+                remembered.get("voicename:" + key) or called.get(label),
+                [nv.get() for _k, nv, _c in voice_lines]))
             picked, worked_out = camera_row_cameras(
                 camera_after_a_mark("voice:" + key,
                                     remembered.get("voice:" + key), wide,
@@ -29459,12 +29668,15 @@ def gui():
             voice_row_marks(state, key, name_value, camera_value,
                             field, box)
             def voice_answered(*_):
-                """Store it, and say the Kind column again.
+                """Store it, mark it, and say the Kind column again.
 
                 Name and camera both count: the wide shot is derived
-                from the cameras nobody is assigned to.
+                from the cameras nobody is assigned to. The mark is the
+                same way the rows above answer, on the same wait: a
+                name already on somebody else is red while it is typed.
                 """
                 queue_once(QtCore, state, "voices", voices_remember)
+                QtCore.QTimer.singleShot(0, assignment_check)
                 queue_once(QtCore, state, "kinds",
                            state.get("kinds_refresh"))
                 # The preview reads a handover older than this
@@ -30600,22 +30812,18 @@ def gui():
     resolve_right.addStretch(0)
 
     def local_speaker_segments():
-        """The local separation in front, where this window puts it.
+        """Every separation this window holds, on its own axis.
 
-        One first cut, out of one recording -- so which voices are left
-        out is read off that recording's rows alone.
+        All of them, each with the offset of its own recording: the
+        preview shows what the run cuts, and the run takes them all.
         """
-        source = state.get("speakers_source") or ""
-        segments = speakers_stored(state, source).get("segments") or []
-        if not segments or not source:
+        if not (state.get("speakers_by") or {}):
             return None, 0.0
         begin = min([audio_start(row[0]) for row, _n, cv in assign_lines
                      if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
                     or [0.0])
-        return speakers_on_window_axis(
-            voices_in_use(segments,
-                          voices_ignored_of(voice_lines, source)),
-            audio_start(source) - begin, voice_names_now())
+        return speakers_all_on_window_axis(state, voice_lines, begin,
+                                           audio_start)
 
     def off_speakers():
         """Build a handover from who speaks when and the assignment.
@@ -31773,8 +31981,7 @@ def gui():
             "wide_at_edges": bool(edge_on.get()),
             # The voices this machine has already taken apart. They
             # travel with the run so it need not separate them again.
-            "speakers_of": speakers_for_run(state, voice_lines,
-                                            voice_names_now()),
+            "speakers_of": speakers_for_run(state, voice_lines),
             # A no given in the window has to reach the run: it would
             # otherwise pick a source itself and separate after all.
             "speakers_wanted": state.get("speakers_wanted"),
@@ -33490,6 +33697,16 @@ CATALOGUE["de"] = {
         '%s aus %d Aufnahmen',
     '%s is missing.':
         '%s fehlt.',
+    '%s is on more than one speaker -- a name is a person, and every '
+    'person needs their own.':
+        '%s steht auf mehr als einem Sprecher -- ein Name ist eine '
+        'Person, und jede Person braucht einen eigenen.',
+    '%s stands on more than one voice. A name is a person, and the cut '
+    'puts a person on one camera -- two voices of one name would be one '
+    'person in two places.':
+        '%s steht auf mehr als einer Stimme. Ein Name ist eine Person, '
+        'und der Schnitt setzt eine Person auf eine Kamera -- zwei '
+        'Stimmen eines Namens wären eine Person an zwei Stellen.',
     '  This machine can install it properly: %s':
         '  Diese Maschine kann es richtig installieren: %s',
     '  Installing it: %s':
@@ -34880,6 +35097,11 @@ CATALOGUE["de"] = {
         'Start in den Ausgabeordner.',
     'This is what happens next':
         'Das ist gleich zu tun',
+    'This name is on somebody else already. A name is a person, and the '
+    'cut puts a person on one camera -- please give this voice its own.':
+        'Diesen Namen trägt schon jemand anderes. Ein Name ist eine '
+        'Person, und der Schnitt setzt eine Person auf eine Kamera -- '
+        'bitte einen eigenen für diese Stimme.',
     'This name occurs more than once. The recordings would become one '
     'track -- for Multitrack auphonic.com needs at least two different '
     'ones.':
@@ -35337,6 +35559,8 @@ CATALOGUE["de"] = {
         '%s, Sekunden',
     'Names used more than once':
         'Mehrfach vergebene Namen',
+    'One name for two voices':
+        'Ein Name für zwei Stimmen',
     'No files given.':
         'Keine Dateien angegeben.',
     'Number %d':
