@@ -21401,9 +21401,11 @@ def kind_proposal_say(values, data):
     return moved + [p for p in forced if p not in moved]
 
 
-# How many tabs the window can hold. Two of them arrive with the
-# material, so a menu or a key built at the start would name one.
-TABS_AT_MOST = 3
+# How many tabs the window can hold: files, assignment, cut, output.
+# Three of them arrive with the material, so a menu or a key built at
+# the start would name one. Too small a number here leaves the last
+# tab's key dead until somebody has opened the menu once.
+TABS_AT_MOST = 4
 
 
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
