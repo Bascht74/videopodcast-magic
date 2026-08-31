@@ -13405,6 +13405,26 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             camera_of[track["name"]] = output_name.get(v,
                                                      os.path.basename(v))
             taken.add(path_key(track["camera"]))
+    # And the voices told apart under a recording. They have no row of
+    # their own above, so without this every one of them lands on the
+    # camera of its recording -- a multitrack cut with one camera for
+    # everybody, while the window's preview showed two.
+    strangers = []
+    for who, where in voices_of_file(
+            getattr(args, "assign", "")
+            or getattr(args, "speakers_from", "") or "").items():
+        v = os.path.abspath(where)
+        if v not in output_name:
+            strangers.append((who, os.path.basename(v)))
+        camera_of[who] = output_name.get(v, os.path.basename(v))
+        taken.add(path_key(where))
+    # A name whose file is no camera of this run used to reach the cut
+    # list as a camera of its own, invented from the file name, and
+    # Resolve then built a track with nothing behind it.
+    for who, name in sorted(strangers):
+        print(as_bad(T('  %s is placed on %s, which is no camera of this '
+                       'run -- the cut names it all the same.')
+                     % (who, name)))
     marked_wide = marked_wide_shots(args)
 
     def camera_name_of(video):
@@ -33899,6 +33919,10 @@ CATALOGUE["de"] = {
         'Streifen, und YouTube verlangt zehn oder zwölf.',
     'Envelope':
         'Hüllkurve',
+    '  %s is placed on %s, which is no camera of this run -- the cut names '
+    'it all the same.':
+        '  %s steht auf %s, und das ist keine Kamera dieses Laufs -- der '
+        'Schnitt nennt es trotzdem.',
     'Envelope failed: %s':
         'Hüllkurve fehlgeschlagen: %s',
     'Envelopes and camera audio are prepared in the background.':
