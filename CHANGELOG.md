@@ -63,6 +63,10 @@ nicht.
 
 ### Fixed
 
+- The "Language" field steered nothing but the tag on the audio track.
+  The recognition wanted a two-letter code and got three, so the
+  setting was dropped without a word: asked for English on a German
+  Mac, the recognition ran in German. It reaches the recognition now.
 - "Rebuild cut list" read the stored call only in part and fell back
   to the defaults for the rest: the camera marked as the wide shot,
   "Reaction gap", "Reaction hold" and the file saying which voice was
@@ -148,6 +152,11 @@ nicht.
 
 ### Behoben
 
+- Das Feld „Sprache" steuerte nur die Kennzeichnung der Tonspur. Die
+  Erkennung wollte zwei Buchstaben und bekam drei, also fiel die
+  Einstellung wortlos heraus: auf einem deutschen Mac lief die
+  Erkennung deutsch, auch wenn Englisch dastand. Jetzt erreicht sie
+  die Erkennung.
 - „Schnittliste neu bauen" las den gespeicherten Aufruf nur zur Hälfte
   und nahm für den Rest die Vorgabewerte: die als Weitwinkel markierte
   Kamera, „Reaktionsabstand", „Reaktionshaltezeit" und die Datei, die
