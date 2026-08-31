@@ -75,11 +75,31 @@ almost nothing; the same commit has come back 950 and 1091 seconds.
 
 ## The rules that are not negotiable
 
-**The Auphonic API key never goes into a file, a script, a document or a
-command line.** It lives in the macOS Keychain or the Windows Registry.
-Inside the program it reaches curl through a temporary config file with
-mode 0600, so it is never in the process list. The project file strips
-`--auphonic-api-key`.
+**The Auphonic API key never goes into a script, a document or a command
+line.** It lives in the macOS Keychain or the Windows Registry, and the
+project file strips `--auphonic-api-key`.
+
+One file holds it, for the length of one call: the config file curl
+reads it from, so that it is never in the process list. **What shuts
+that file is not the same on every system, and saying "mode 0600" for
+all three was untrue.** Measured on 31.8.2026:
+
+* **macOS and Linux** -- mode 0600, the owner and nobody else.
+* **Windows** -- `os.chmod` sets only the read-only flag there and
+  `st_mode` answers 0666, so the mode shuts nothing. What shuts it is
+  the folder: `%TEMP%` lies inside the user's profile and inherits its
+  access list. The program does not set that list and does not check
+  it.
+
+Two guards hold everywhere and are the program's own doing: the name is
+unpredictable (`mkstemp`, never a fixed path), and the file lives only
+as long as the call -- removed on every path, and overwritten first
+where it cannot be removed.
+
+Whoever tightens this on Windows sets an access list of its own
+(`icacls`, pywin32) and writes the third bullet again. Until then the
+rule promises less there, and says so rather than claiming a mode it
+does not have.
 
 **The program never uploads to auphonic.com on its own.** Only when
 somebody asked for it.
