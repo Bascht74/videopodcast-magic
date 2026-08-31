@@ -1815,7 +1815,7 @@ SPEECH_CODES = {
 
 
 # What the interface offers. The tag is what ffmpeg wants on the audio
-# track; speech_language_code turns it into what auphonic.com wants.
+# track, and the recogniser is told which language to expect.
 # Only languages with both are listed -- offering one whose recognition
 # code is unknown would promise a transcript that cannot come.
 SPOKEN_LANGUAGES = (
@@ -1857,86 +1857,27 @@ def language_of_system():
     return ""
 
 
-def speech_language_code(tag):
-    """Turn an audio track tag into a recognition language, or "".
-
-    Empty rather than a guess: an unknown code sent to auphonic.com
-    would either be refused or, worse, quietly transcribe the wrong
-    language. Empty means Whisper decides.
-    """
-    tag = (tag or "").strip().replace("_", "-")
-    if not tag:
-        return ""
-    if tag.lower() in SPEECH_CODES:
-        return SPEECH_CODES[tag.lower()]
-    # Already a two letter code, with or without a country: de, de-DE.
-    # The country keeps its capitals -- that is how the code is written
-    # and how auphonic.com expects it.
-    parts = tag.split("-")
-    if len(parts[0]) == 2 and parts[0].isalpha():
-        return "-".join([parts[0].lower()] + [x.upper() for x in parts[1:]])
-    return ""
-
-
-def transcript_block(language=""):
-    """The block that switches speech recognition on at auphonic.com.
-
-    Without a service uuid Auphonic uses its own Whisper, which needs no
-    other account. The language may stay empty, and shownotes stay off:
-    a summary written by a machine is not what a transcript is for here.
-    """
-    block = {"shownotes": False}
-    if language:
-        block["language"] = language
-    return block
-
-
-def transcript_outputs(already=()):
-    """Return the output files to add for a transcript, minus duplicates."""
-    have = set()
-    for f in already or ():
-        have.add((f.get("format"), f.get("ending")))
-    return [dict(f) for f in TRANSCRIPT_OUTPUTS
-            if (f["format"], f["ending"]) not in have]
-
-
 def output_file_wish(f):
     """Reduce an output file entry to what may be asked for again."""
     return {k: f[k] for k in OUTPUT_FILE_KEYS if f.get(k) is not None}
 
 
-def transcript_wish(already=(), language=""):
-    """What a production needs so a transcript comes back with it.
-
-    One place decides the shape of this, and both ways of creating a
-    production -- the simple one for a single track and the json one
-    for multitrack -- take it from here.
-    """
-    return {"speech_recognition": transcript_block(language),
-            "output_files": transcript_outputs(already)}
-
-
-def wishes_then_start(key, uuid, transcript=False, language="",
-                      stereo=False):
+def wishes_then_start(key, uuid, stereo=False):
     """Set what the simple API cannot, then start the production.
 
-    The simple API takes a file and a preset and nothing else; speech
-    recognition and keeping two channels are not in it. Both are settled
-    in one call, and that call starts the production -- one created
-    without "action=start" waits for exactly this. The existing output
-    files are read and sent back, or the audio the preset asks for goes.
+    The simple API takes a file and a preset and nothing else; keeping
+    two channels is not in it. It is settled in one call, and that call
+    starts the production -- one created without "action=start" waits
+    for exactly this. The existing output files are read and sent back,
+    or the audio the preset asks for goes.
     """
-    if not transcript and not stereo:
+    if not stereo:
         return
     d = _parse_json(_curl_call(
         key, [AUPHONIC + "/api/production/%s.json" % uuid]))
     already = ((d.get("data") or {}).get("output_files") or [])
     wish = [output_file_wish(f) for f in already]
     request = {}
-    if transcript:
-        block = transcript_wish(already, language)
-        wish += block.pop("output_files")
-        request.update(block)
     if stereo:
         # The preset decides whether the mixdown is folded to one channel.
         # With a stereo recording that fold cannot be undone afterwards, so
@@ -1960,15 +1901,12 @@ def wishes_then_start(key, uuid, transcript=False, language="",
         raise RuntimeError(T('Auphonic will not take the settings: '
                              '%s') % (answer.get("error_message")
                                       or answer.get("form_errors")))
-    if transcript:
-        print(T('  Transcript requested (speech recognition at '
-                'auphonic.com)'))
     if stereo:
         print(T('  Two channels requested -- the recording is stereo'))
 
 
-def run_single_production(audio, preset, presetname, key, target_folder, wait_s=7200,
-                  dry_run=False, title=None, transcript=False, language=""):
+def run_single_production(audio, preset, presetname, key, target_folder,
+                  wait_s=7200, dry_run=False, title=None):
     """Upload a file, start the production, wait, download the result."""
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
@@ -1994,11 +1932,10 @@ def run_single_production(audio, preset, presetname, key, target_folder, wait_s=
     if dry_run:
         print(T('  (measuring only: nothing uploaded)\n'))
         return None
-    # With a transcript or a stereo recording the production is created but
-    # not started: recognition has to be switched on and the mono fold
-    # switched off, and that is a second call. Without either it starts
-    # straight away.
-    later = transcript or stereo
+    # With a stereo recording the production is created but not started:
+    # the mono fold has to be switched off, and that is a second call.
+    # Without it the production starts straight away.
+    later = stereo
     make = ["-X", "POST", AUPHONIC + "/api/simple/productions.json",
             "-F", "preset=%s" % preset,
             "-F", "title=%s" % title,
@@ -2017,7 +1954,7 @@ def run_single_production(audio, preset, presetname, key, target_folder, wait_s=
     uuid = data.get("uuid")
     if not uuid:
         raise RuntimeError(T('no production id in the response: %s') % answer[:300])
-    wishes_then_start(key, uuid, transcript, language, stereo)
+    wishes_then_start(key, uuid, stereo)
     print(T('  Production running (%s)') % uuid)
 
     started = time.time()
@@ -3091,15 +3028,6 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
                           % mst["format"]))
             if stereo:
                 print(T('  Two channels, because one track is stereo'))
-    if transcript:
-        # Multitrack has the advantage that the transcript carries the
-        # speaker names: each track is one person, and Auphonic knows
-        # which is which.
-        wish = transcript_wish(request["output_files"], language)
-        request["output_files"] += wish.pop("output_files")
-        request.update(wish)
-        print(T('  Transcript requested (speech recognition at '
-                'auphonic.com)'))
     request["metadata"] = dict(preset.get("metadata") or {})
     request["metadata"]["title"] = title
     request["output_basename"] = base_name
@@ -3271,7 +3199,7 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
                            % preset.get("preset_name"))
     stereo = widest_track([track["axis"] for track in tracks]) == 2
     request = build_multitrack_request(preset, title, names, base, key,
-                                       transcript, language, stereo)
+                                       stereo)
 
     # --- does this production already exist?
     existing = find_production_by_title(key, title)
@@ -8632,9 +8560,7 @@ def join_only(args, tracks, tmpdir, title=""):
             track["axis"] = track["source"]
             track["done"] = run_single_production(
                 track["source"], preset, presetname, key, folder,
-                args.auphonic_wait, args.dry_run, title or track["name"],
-                bool(getattr(args, "transcript", False)),
-                speech_language_code(getattr(args, "speech_language", "")))
+                args.auphonic_wait, args.dry_run, title or track["name"])
         if args.dry_run:
             return 0
         # What came back is held against what went up, the same as on a
@@ -8804,9 +8730,7 @@ def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
     try:
         done = run_multitrack_production(
             key, preset, title or 'Production', tracks, folder,
-            args.auphonic_wait, args.dry_run, args.auphonic_resume,
-            bool(getattr(args, "transcript", False)),
-            speech_language_code(getattr(args, "speech_language", "")))
+            args.auphonic_wait, args.dry_run, args.auphonic_resume)
     except Exception as e:
         print(as_bad(T('Processing failed: %s') % e))
         return 1
@@ -9170,16 +9094,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if alone:
             one = run_single_production(
                 tracks[0]["axis"], preset, presetname, key, folder,
-                args.auphonic_wait, args.dry_run, title or 'Production',
-                bool(getattr(args, "transcript", False)),
-                speech_language_code(getattr(args, "speech_language", "")))
+                args.auphonic_wait, args.dry_run, title or 'Production')
             done = {tracks[0]["name"]: one} if one else {}
         else:
             done = run_multitrack_production(
                 key, preset, title or 'Production', tracks, folder,
-                args.auphonic_wait, args.dry_run, args.auphonic_resume,
-                bool(getattr(args, "transcript", False)),
-                speech_language_code(getattr(args, "speech_language", "")))
+                args.auphonic_wait, args.dry_run, args.auphonic_resume)
     except Exception as e:
         print(as_bad(T('Processing failed: %s') % e))
         return 1
@@ -20556,12 +20476,6 @@ def build_argument_parser():
                          "which camera. The interface writes it; this is how "
                          "the assignment reaches a run without it. "
                          "(default: none)")
-    ap.add_argument("--transcript", action="store_true",
-                    help="have auphonic.com transcribe the speech and fetch "
-                         "the result: a json with times, an srt for "
-                         "subtitles and a txt to read. Uses Auphonic's own "
-                         "Whisper, so no account anywhere else. Costs no "
-                         "extra fee but makes the production take longer.")
     ap.add_argument("--without-auphonic", dest="without_auphonic",
                     action="store_true",
                     help="run without auphonic.com: align, mix and write "
@@ -24383,8 +24297,6 @@ def run_argv(values, assignment_file_path=""):
         # Only with a key: without auphonic.com there is nobody to
         # transcribe, and the switch would promise something that
         # cannot happen.
-        if values.get("transcript"):
-            argv += ["--transcript"]
     elif values.get("multitrack"):
         # No key, no preset: it runs locally. Everything that only
         # auphonic.com can do is missing, and the run says so.
@@ -28038,7 +27950,6 @@ def gui():
             # decision, and it should be there again on opening.
             d["preset"] = (PRESET_NONE if without_auphonic()
                            else preset_plaintext().strip())
-            d["transcript"] = bool(transcript_on.get())
             d["speech_language"] = speech_language.get().strip()
             # null where nothing is adjusted, and written even then: the
             # key being there is what tells this file apart from one
@@ -29661,18 +29572,6 @@ def gui():
           'only merged and normalised, not unmixed --\nand without separate '
           'tracks there is no camera cut.') % label_of(PRESET_NONE)))
     second_line.addSpacing(16)
-    # The transcript rides along with the production: auphonic.com has
-    # to recognise the speech anyway to remove the bleed, and asking for
-    # the text as well costs no extra fee.
-    transcript_on = Value(True)
-    transcript_button = QtWidgets.QCheckBox(T('Fetch transcript'))
-    checkbox_bind(transcript_button, transcript_on)
-    second_line.addWidget(hint(transcript_button,
-        T('auphonic.com writes down what is said and delivers three '
-          'files:\n  a json with times, an srt for subtitles, a txt to '
-          'read.\nIts own Whisper is used, so no account anywhere '
-          'else.\nNo extra fee, but the production takes longer.')))
-    second_line.addSpacing(16)
     # Where the processed tracks are already there, nothing is uploaded. The
     # script finds that out itself; this only says so.
     done_folder = Value("")
@@ -29693,15 +29592,9 @@ def gui():
         """
         multi_button.setEnabled(True)
         # The transcript is fetched from auphonic.com. Without a preset
-        # nothing is sent there, so there is nothing to fetch and the
-        # tick goes grey instead of standing there promising a file.
-        transcript_button.setEnabled(not without_auphonic())
         buttons_check()
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
-    # Only the tick: buttons_check() reaches a button not built yet.
-    transcript_button.setEnabled(not without_auphonic())
-
     def finished_tracks_check():
         """Check whether processed tracks are already in the output folder."""
         found = (finished_tracks_find(out_folder.get())
@@ -30888,7 +30781,6 @@ def gui():
         state["preset_wanted"] = ""
         # Back to what they hold when the program has just started, so a
         # second production begins the way the first one did.
-        transcript_on.set(True)
         speech_language.set(language_of_system())
         lufs_value.set(loudness_last())
         edge_on.set(True)
@@ -30974,8 +30866,6 @@ def gui():
         # project has to take them with it: a file that was the intro there
         # would otherwise still be the intro here, and two of them stop the
         # run.
-        if "transcript" in d:
-            transcript_on.set(bool(d.get("transcript")))
         if d.get("speech_language"):
             speech_language.set(d["speech_language"])
         # The saved project beats what was chosen last. null is an answer
@@ -31314,7 +31204,6 @@ def gui():
             "key": "" if without_auphonic() else key_var.get(),
             "preset": preset_plaintext(),
             "done_folder": done_folder.get(),
-            "transcript": bool(transcript_on.get()),
             "speech_language": speech_language.get().strip(),
             "lufs": lufs_value.get(),
             "apart": sorted(no_join),

@@ -35,8 +35,7 @@ hints. Without a key the multitrack run stops there.*
 | `--no-camera-audio` | drop the camera's own audio instead of keeping it |
 | `--no-follow-ups` | do not look for numbered continuation files (it looks for them) |
 | `--together FILE ...` | these files are one recording, in this order; repeatable. The run sorts the other files by name and leaves the group untouched: one block at the first of its names |
-| `--apart FILE` | this block stands on its own, whatever its name says; repeatable |
-| `--transcript` | have auphonic.com write down what is said: json, srt and txt |
+| `--apart FILE` | this block stands on its own, whatever its name says: it is not joined to a recording, and in the plan it stays a track of its own even where it gets the same name as another block of the same recorder; repeatable |
 | `--no-single-tracks` | only the mix into the video, not the recordings beside it  `[simple path only]` |
 | `--no-drift` | measure clock drift and report it, but do not take it out |
 | `--tc HH:MM:SS:FF` | start timecode of the picture, if the camera wrote none or a wrong one (from the video file) |
