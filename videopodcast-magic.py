@@ -24375,6 +24375,11 @@ def run_argv(values, assignment_file_path=""):
         # in the time of its own file -- the run puts it on the axis.
         if (values.get("speakers_of") or {}).get("segments"):
             plan["speakers_of"] = values["speakers_of"]
+            # And which camera each voice belongs to. The simple path
+            # has sent this along since it learned to cut; multitrack
+            # never did, so the run knew the voices and not where they
+            # sit.
+            plan["voices_of"] = voices_of_values(values)
         argv += ["--multitrack", "--assign", assignment_file_path]
         if values.get("speakers_wanted") is False:
             argv += ["--no-speakers-local"]
