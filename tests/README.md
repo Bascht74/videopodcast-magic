@@ -351,6 +351,7 @@ it is green.
 | `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
+| `cut_voice_on_its_camera` | A multitrack run puts every voice on the camera the assignment names. |
 | `cut_wide_colour_apart` | Does the wide shot colour keep far enough from the speaker colours? |
 
 ### `project_` -- what DaVinci Resolve is handed
