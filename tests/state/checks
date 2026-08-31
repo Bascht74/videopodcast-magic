@@ -77,6 +77,7 @@ project_render_kept	4
 project_render_queued	67
 project_rerun_updates	10
 project_same_offset	7
+project_settings_return	31
 project_tag_reason_fits	8
 project_two_stay_two	6
 project_two_timelines_go	16
@@ -103,7 +104,6 @@ silent	files_project_offered
 silent	files_set_aside_skipped
 silent	files_split_found_again
 silent	project_cameras_land
-silent	project_settings_return
 silent	run_threads_keep_order
 silent	run_which_script
 silent	sound_all_blocks_count
@@ -115,7 +115,6 @@ silent	sound_camera_judged_too
 silent	sound_channels_split
 silent	sound_clipping_counted
 silent	voice_split_hears_two
-silent	window_setup_kept_apart
 sound_delay_decides	14
 sound_each_gets_a_track	17
 sound_hush_reason	7
