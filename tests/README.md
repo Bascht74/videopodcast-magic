@@ -1,6 +1,6 @@
 # The test suite
 
-160 tests against `../videopodcast-magic.py`. Every one of them stands
+161 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-160 tests. The name is the one a red line carries, and beside it the
+161 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -380,6 +380,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `auphonic_key_kept` | The Windows way to the key store, walked for real. |
+| `auphonic_key_out_of_view` | Nobody else can read the key: not in the process list, not left behind. |
 | `auphonic_may_be_skipped` | The entry "work without Auphonic" instead of a tick of its own. |
 | `auphonic_mono_not_stereo` | A mono master does not stand in for the stereo one. |
 | `auphonic_none_chosen` | Connecting to auphonic.com must not by itself arm a paid run. |
