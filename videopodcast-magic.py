@@ -16877,7 +16877,7 @@ def read_word_tsv(path):
 
 
 def read_speech_json(path):
-    """Read the word times auphonic.com writes beside a transcript.
+    """Read the word times written beside a transcript.
 
     The file is a list of passages; each carries the speaker, the
     running text and one entry per word -- the word itself, its start,
