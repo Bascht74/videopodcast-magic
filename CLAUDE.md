@@ -4,7 +4,7 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, a first cut
 by speaker, and a DaVinci Resolve project.
 
-One file, `videopodcast-magic.py`, about 35000 lines. No package, no
+One file, `videopodcast-magic.py`, about 35 000 lines. No package, no
 build step.
 
 **Working from outside, or opening a pull request? Read

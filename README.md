@@ -19,7 +19,7 @@ first audio track, and build from it everything the edit needs afterwards:
 the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve
 project.
 
-One Python file, about 24000 lines. No package, no build step.
+One Python file, about 35 000 lines. No package, no build step.
 
 ## Why this exists
 

@@ -11,16 +11,17 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 2.23.0-beta durchgegangen worden.
+zuletzt für 2.24.0-beta durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 2.23.0-beta.** Es läuft jede Woche, an echtem Material.
+**Version 2.24.0-beta.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
-bringen, die Sprecher allein aus dem Ton trennen, einen ersten Schnitt
-nach Sprecher vorschlagen und ein DaVinci-Resolve-Projekt schreiben.
+bringen, die Sprecher allein aus dem Ton trennen, aufschreiben, was
+gesagt wurde, einen ersten Schnitt nach Sprecher vorschlagen und ein
+DaVinci-Resolve-Projekt schreiben.
 
 Jeder Lauf geht denselben Weg. `--multitrack` sagt nur noch, wie die
 Aufnahmen zu Produktionen zusammengefasst werden: Die Zeitachse, die
@@ -29,20 +30,31 @@ dieselben wie ohne ihn. Mehrere Aufnahmen, unter denen keine Kamera
 ist, werden stattdessen gegeneinander gelegt — gleich lang, ein Anfang
 für alle — statt abgewiesen.
 
-Sprechertrennung und Spracherkennung laufen auf der Maschine, vor der
-du sitzt. Das Modell liegt in einem Ordner neben dem Programm: kein
-Konto, kein Token, und nach dem einen Download kein Netz. Pegel,
-De-Bleed, Rauschunterdrückung und Transkript bei auphonic.com sind
-freiwillig, und das Programm lädt erst hoch, wenn es dazu aufgefordert
-wird.
+Sprechertrennung, Spracherkennung und Niederschrift laufen auf der
+Maschine, vor der du sitzt. Das Modell liegt in einem Ordner neben dem
+Programm: kein Konto, kein Token, und nach dem einen Download kein
+Netz. Die Niederschrift bei auphonic.com zu bestellen ist weggefallen,
+mit ihr der Haken und der Schalter dafür; die Worte hängen also weder
+daran, dass der Dienst erreichbar ist, noch daran, dass eine
+Voreinstellung gewählt wurde. Pegel, De-Bleed und Rauschunterdrückung
+dort sind weiterhin freiwillig, und das Programm lädt erst hoch, wenn es
+dazu aufgefordert wird.
+
+Wo eine Tatsache fehlt, sagt das Fenster es, statt eine Antwort
+entgegenzunehmen, die nichts bewirkt. Die Einstellungen, die die Worte
+brauchen, und die, die einen Weitwinkel brauchen, stehen gesperrt, mit
+dem Grund darunter, und sie öffnen sich wieder, sobald die Tatsache da
+ist.
 
 Es ist eine Python-Datei mit rund 35000 Zeilen, ohne Paket und ohne
 Bauschritt. Python 3.10 oder neuer muss da sein, die zwei Pakete
 installiert es selbst. Benutzt wird es unter macOS und Windows, unter
-Linux läuft es mit zwei Einschränkungen. Eine Suite aus 148 Tests läuft
+Linux läuft es mit zwei Einschränkungen. Eine Suite aus 159 Tests läuft
 bei jedem Push: sechs Läufe nebeneinander, drei Systeme und zwei
-Python-Versionen, und der langsamste davon ist in unter fünf Minuten
-fertig.
+Python-Versionen. Sie sind nicht gleich schnell, und der langsame ist
+fast immer Windows: über die letzten sieben grünen Läufe brauchte der
+langsamste der sechs zwischen 263 und 374 Sekunden. Gewartet wird auf
+diesen einen, nicht auf die Summe der sechs.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
@@ -52,27 +64,59 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Drei Punkte stehen hier, und jeder wartet auf einen Lauf, nicht auf
-Arbeit.
+Fünf Punkte. Die ersten drei sind Arbeit. Die letzten zwei sind gebaut,
+und was ihnen fehlt, ist ein Lauf, nicht weiteres Bauen.
+
+**Die ausgelieferten Kameras werden auf das Zeitfenster geschnitten —
+zur Wahl gestellt neben dem Weg, sie ganz zu übergeben.** Für 2.25.0
+entschieden. An echtem Material gemessen: drei Kameras kamen auf
+83,57 GB, wo das Zeitfenster fünf Minuten lang war, und auf 6,09 GB,
+wenn nur dieses Fenster hinausging — 92,7 % weniger. Voreingestellt
+bleibt es, wie es ist, denn bei einer ganzen Produktion spart dieser Weg
+nichts. Die Falle ist der Timecode: er wird aus der gerenderten Datei
+zurückgelesen, und wer schneidet, ohne ihn mitzuziehen, legt jede Kamera
+falsch.
+
+**Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
+Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet
+sich, Dateien kommen herein, In und Out werden markiert, der Wechsel auf
+Reiter 3, der richtige Schnitt mitsamt einer schon vorhandenen
+Sprechererkennung, der Lauf selbst, der Import nach Resolve. Eine
+Erhebung hat auf diesem Weg 121 Stationen gezählt — 65 gedeckt, 56 nicht
+— und neun der Lücken sind seither gebaut. Das ist ein Punkt und nicht
+sechsundfünfzig: Wer ihn anfasst, deckt einen der sieben Schritte ganz,
+denn sechsundfünfzig nach Nummer abgearbeitete Tests prüfen je etwas und
+zusammen keinen Weg.
+
+**Tests gegen ein echtes DaVinci Resolve.** In der Suite können sie
+nicht stehen: Auf einer Maschine ohne Resolve wäre jeder von ihnen rot
+aus einem Grund, der kein Fehler ist. Sie liegen daneben, in einem
+eigenen Ordner mit einem eigenen Starter, den die Suite nicht kennt, und
+sie laufen einer nach dem anderen auf der einen Maschine, auf der
+Resolve steht. Vier sind gebaut. Der Vorspann gehört hierher — das
+Programm legt ihn auf die zweite Videospur und liest nach, wie viele
+Clips dort liegen, und eine Attrappe kann das nicht bestätigen. Und der
+Fall, den keine Attrappe je gezeigt hat: ein Resolve, das nein sagt.
 
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
-gelaufen.** Das Transkript einer einzelnen Spur und eine
-Multitrack-Produktion mit einer Stereospur sind beide gebaut, und
-keiner ist je wirklich hinausgegangen. Ob der Dienst eine Stereospur
-mit beiden Kanälen zurückgibt, ist offen. Bis das gelaufen ist,
-beschreibt das Handbuch diese zwei Wege aus dem Quelltext statt aus
-einem Lauf.
+gelaufen.** Beide stellen dieselbe Frage — kommt eine Stereo-Aufnahme
+zweikanalig zurück — und sie stellen sie auf zwei ganz verschiedene
+Arten. Eine einzelne Aufnahme geht über die einfache Schnittstelle: Die
+Produktion wird angelegt, ohne sie zu starten, die Ausgabedateien werden
+zurückgelesen, auf jeder wird die Faltung auf Mono gestrichen, und das
+Ganze geht noch einmal hin — also zwei Aufrufe. Mehrere Aufnahmen gehen
+über die volle Schnittstelle, die denselben Wunsch gleich in die eine
+Anfrage setzt. Keiner der beiden ist je wirklich hinausgegangen, und
+einer vertritt den anderen nicht. Bis das gelaufen ist, beschreibt das
+Handbuch diese zwei Wege aus dem Quelltext statt aus einem Lauf.
 
 **Der Reaktionsschnitt wird gesichtet, bevor er scharf bleibt.** Er
 greift ein paar Dutzend Mal in einer Folge und ist voreingestellt an,
-und niemand hat bisher jede Stelle angesehen. Zwei Fälle, in denen er
-falsch liegt, sind bekannt: die rhetorische Frage und das technische
-Vorgeplänkel, wo Blicke zu Geräten fliegen statt zu Gesichtern.
-
-**Der Vorspann wird in einem echten Resolve-Projekt geprüft.** Das
-Programm legt ihn auf die zweite Videospur und liest nach, wie viele
-Clips dort liegen. In den Tests steht eine Attrappe für Resolve,
-bestätigen kann es also nur ein echtes Projekt.
+und niemand hat bisher jede Stelle angesehen. Seine Sekunden zählen
+jetzt vom Ende der Frage statt vom Beginn der Antwort, es ist also zu
+sehen, was eingestellt wurde. Zwei Fälle, in denen er falsch liegt, sind
+bekannt: die rhetorische Frage und das technische Vorgeplänkel, wo
+Blicke zu Geräten fliegen statt zu Gesichtern.
 
 ## Was später kommt
 
@@ -80,8 +124,8 @@ Gröber, und in keiner festen Reihenfolge.
 
 * **Vorgaben, die einen Beleg tragen.** Ein paar Zahlen stammen aus
   einem einzelnen Referenzschnitt statt aus einer Messung.
-  `--wide-latest` ist der deutlichste Fall. Jede von ihnen wird
-  gemessen oder kleiner.
+  `--wide-latest` ist der deutlichste Fall: 120 Sekunden, und dahinter
+  ein einziger Schnitt. Jede von ihnen wird gemessen oder kleiner.
 
 * **Die Ränder des Programms bekommen Tests.** Wie weit die Tests
   reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit
@@ -89,13 +133,18 @@ Gröber, und in keiner festen Reihenfolge.
   die Tests selbst starten. Grün sind es rund drei Viertel der
   Anweisungen -- gelesen als Spanne und nie als Ziel. Kein Test
   betritt: den Lauf, der den Ton aus den Kameras nimmt, die
-  Fehlerausgänge von `main()`, die Datei, in die der
-  Auphonic-Schlüssel geschrieben wird, die Vorwahl der Voreinstellung,
-  ein Resolve, das sich weigert, die Fenster hinter dem Menü und den
-  Rückweg nach einer misslungenen Selbst-Aktualisierung. Und mehrere
-  Schalter werden genommen, ohne dass jemand prüft, was sie tun:
-  `--apart` wird einen Schritt später wieder zusammengefügt, und kein
-  Test merkt es.
+  Fehlerausgänge von `main()`, die eine Stelle, an der der
+  Auphonic-Schlüssel die Platte berührt, die Vorwahl der
+  Voreinstellung, ein Resolve, das sich weigert, und den Rückweg nach
+  einer misslungenen Selbst-Aktualisierung. Und mehrere Schalter werden
+  genommen, ohne dass jemand prüft, was sie tun: `--tc`, `--fps`,
+  `--wide-shot`, `--hdr-check`, `--version`.
+
+* **Die Kommentare im Programm bekommen, was die Tests schon hinter
+  sich haben.** 27 % der Datei sind Kommentar, und das meiste davon ist
+  vor den Regeln geschrieben worden, nach denen einer geschrieben wird.
+  In den Tests ist es getan, und sie sind dabei um ein Drittel kürzer
+  geworden.
 
 * **Das Handbuch bekommt, was ihm fehlt.** Rund ein Dutzend Zahlen
   stehen noch ohne ihre Vorgabe und ohne die Richtung, in die sie
@@ -144,10 +193,16 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   ein Test hält die beiden Seiten gegeneinander. Ein Wiki wäre eine
   zweite Version, die nichts prüft.
 
-* **Verhaltensregeln, Beitragsanleitung, Vorlagen für Issues und Pull
-  Requests.** Sie heben eine Prozentzahl auf einer GitHub-Seite,
-  solange niemand schreibt. Die Vorlagen kommen an dem Tag, an dem
-  wirklich jemand etwas meldet.
+* **Verhaltensregeln und Vorlagen für Issues.** Sie heben eine
+  Prozentzahl auf einer GitHub-Seite, solange niemand schreibt. Die
+  Vorlage für Issues kommt an dem Tag, an dem wirklich jemand etwas
+  meldet. **Die Beitragsanleitung und die Vorlage für Pull Requests
+  standen auf dieser Liste und sind seither gebaut worden** — nicht der
+  Prozentzahl wegen: Vier Regeln weisen hier eine Änderung zurück, so
+  gut der Gedanke auch ist, und wer nicht nachfragen kann, muss sie in
+  zehn Minuten lesen können. Das ist
+  [CONTRIBUTING.md](CONTRIBUTING.md), und das Formular, mit dem ein Pull
+  Request aufgeht, fragt sie bereits ab.
 
 * **Conventional Commits.** Ihr Zweck ist ein erzeugter Changelog und
   eine erzeugte Versionsnummer. Dieser Changelog ist von Hand
@@ -156,7 +211,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Alle vier
   wollen ein Paket mit `pyproject.toml`. Hier wären es vier neue
-  Abhängigkeiten für eine Datei, deren 148 Tests als schlichte Scripts
+  Abhängigkeiten für eine Datei, deren 159 Tests als schlichte Scripts
   durchlaufen. Eine dünne pytest-Schicht, die genau diese Scripts
   unverändert startet, ist etwas anderes und kann kommen.
 
@@ -178,14 +233,14 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   ist etwas wert; der Prozentsatz nicht.
 
 * **Den Testlauf auf mehrere Rechner verteilen, Bots für die Triage.**
-  Die sechs Läufe antworten in unter fünf Minuten, und es gibt keine
-  Schlange von Meldungen. Beides beantwortet eine Menge, die es hier
-  nicht gibt. Einen Test ein zweites Mal laufen zu lassen ist etwas
-  anderes, und das ist gebaut: Ein abgestürzter Test bekommt einen
-  weiteren Anlauf, ein neben den anderen roter läuft noch einmal
-  allein, und in beiden Fällen heißt er danach unstet, statt grün
-  gezählt zu werden. Ein flatternder Test ist ein Fehler, den man
-  sucht, kein Rauschen, das man durch Wiederholen loswird.
+  Die sechs Läufe antworten in Minuten, und es gibt keine Schlange von
+  Meldungen. Beides beantwortet eine Menge, die es hier nicht gibt.
+  Einen Test ein zweites Mal laufen zu lassen ist etwas anderes, und
+  das ist gebaut: Ein abgestürzter Test bekommt einen weiteren Anlauf,
+  ein neben den anderen roter läuft noch einmal allein, und in beiden
+  Fällen heißt er danach unstet, statt grün gezählt zu werden. Ein
+  flatternder Test ist ein Fehler, den man sucht, kein Rauschen, das
+  man durch Wiederholen loswird.
 
 * **Installationsprogramme, signierte Pakete, Notarisierung, PyPI.**
   Es ist mit Absicht eine Datei: holen und starten.
@@ -220,7 +275,10 @@ ihn.
 Eine kleine Änderung, die eine Sache tut, wird gelesen und übernommen;
 eine große wartet. MIT, und nichts zu unterschreiben.
 
-**Vor einem Patch:** `cd tests && bash run.sh` laufen lassen und grün
-lassen. Das Handbuch ist zweisprachig, und ein Test achtet darauf: ein
-englisches Kapitel zu ändern heißt, das deutsche im selben Commit mit
-zu ändern.
+**Vor einem Patch: [CONTRIBUTING.md](CONTRIBUTING.md) lesen.** Zehn
+Minuten, und darin stehen die Regeln, die eine Änderung zurückweisen, so
+gut der Gedanke auch ist: `cd tests && bash run.sh` laufen lassen und
+grün lassen, zu jeder Prüfung gehört ein Beleg, dass sie auch rot werden
+kann, und das Handbuch ist zweisprachig, worauf ein Test achtet — ein
+englisches Kapitel zu ändern heißt, das deutsche im selben Commit mit zu
+ändern.

@@ -20,7 +20,7 @@ Videodateien legen und daraus alles bauen, was der Schnitt danach braucht:
 die Kameras auf einer Zeitachse, einen ersten Schnitt nach Sprecher und ein
 DaVinci-Resolve-Projekt.
 
-Eine Python-Datei, rund 24000 Zeilen. Kein Paket, kein Bauschritt.
+Eine Python-Datei, rund 35 000 Zeilen. Kein Paket, kein Bauschritt.
 
 ## Warum es das gibt
 
