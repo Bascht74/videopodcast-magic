@@ -9898,15 +9898,20 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                 folder, safe_filename(args.production or 'Production'),
                 heard_words(), segment_list):
             print("  %s" % path)
+    placed_cameras = {path_key(k) for k in (position or {})}
     colours = []
     if not getattr(args, "no_metrics", False):
+        # A file nothing could place is no camera of this episode, so it
+        # does not belong in a comparison of the cameras: an 18-second
+        # jingle raised a caution about 357 steps of brightness against
+        # three cameras it is never cut against (31.8.2026).
+        made = (results if len(results) == len(cameras)
+                else [cam.get("video") for cam in cameras])
         try:
             colours = report_picture_comparison(
                 [{"track": cam.get("name"), "file": p}
-                 for cam, p in zip(cameras, results)]
-                if len(results) == len(cameras) else
-                [{"track": cam.get("name"), "file": cam.get("video")}
-                 for cam in cameras])
+                 for cam, p in zip(cameras, made)
+                 if path_key(cam.get("video") or "") in placed_cameras])
         except Exception as e:
             print(T('  Colour comparison not possible: %s') % e)
         print(as_head(T('\nMETRICS')))
@@ -9916,7 +9921,6 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             tracks, cut, segment_list, cameras, args, colours, gain)
         if target:
             print("  %s" % target)
-    placed_cameras = {path_key(k) for k in (position or {})}
     write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results, cut, segment_list,
                       t1 - t0 if t1 is not None else 0, track_names,
