@@ -301,7 +301,7 @@ it is green.
 | `time_camera_by_clock` | A camera sits where its timecode says, not where the sound was measured. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
-| `time_guess_refused` | A video nothing can place is refused, not laid down at a guess. |
+| `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
 | `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
