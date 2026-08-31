@@ -1804,9 +1804,9 @@ OUTPUT_FILE_KEYS = ("format", "ending", "bitrate", "mono_mixdown",
 
 
 # The audio track tag and the recognition language are two different
-# code systems: ffmpeg wants three letters after ISO 639-2/B,
-# auphonic.com the two letter code. Only the plausible ones are listed;
-# for anything else the language stays empty and Whisper works it out.
+# code systems: ffmpeg wants three letters after ISO 639-2/B, both
+# recognisers the two letter code. Only the plausible ones are listed;
+# anything else is passed on as it stands and works itself out.
 SPEECH_CODES = {
     "ger": "de", "deu": "de", "eng": "en", "fra": "fr", "fre": "fr",
     "spa": "es", "ita": "it", "nld": "nl", "dut": "nl", "por": "pt",
@@ -29661,9 +29661,9 @@ def gui():
     # --- Spoken language
     #
     # Two jobs at once: it becomes the language tag of the written
-    # audio track, and it tells auphonic.com what to expect when
-    # transcribing. Empty is a fair answer to both -- the tag stays off
-    # and the recognition works the language out for itself.
+    # audio track, and it tells the recognition here what to expect.
+    # Empty is a fair answer to both -- the tag stays off and the
+    # recognition works the language out for itself.
     speech_language = Value(language_of_system())
     language_box = QtWidgets.QComboBox()
     language_box.addItem(T('not set'), "")
