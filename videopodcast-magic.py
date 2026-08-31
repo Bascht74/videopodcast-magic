@@ -33945,6 +33945,8 @@ CATALOGUE["de"] = {
         'Weitwinkel: die vier Weitwinkel-Einstellungen und das Häkchen für '
         'die Ränder bewirken nichts. Setze eine Kamera im Feld Typ auf '
         '"Weitwinkel", oder lass eine ohne Sprecher.',
+    'placed by phase':
+        'per Phase platziert',
     'Why the wide shot settings are grey':
         'Warum die Weitwinkel-Einstellungen grau sind',
     'because no speaker is assigned to it':
