@@ -21689,8 +21689,70 @@ def kind_proposal_say(values, data):
 TABS_AT_MOST = 4
 
 
+def window_ready(state):
+    """Whether the time window can be set: the files share an axis.
+
+    So as soon as any file carries a timecode, or as soon as the
+    positions have been measured. Before that a boundary would not know
+    what it refers to.
+    """
+    return bool(state["tc_there"] or state["axis"])
+
+
+def menus_follow(late, ready, project_here):
+    """Grey the file menu with the buttons that say the same thing.
+
+    The entries are built long after the check that decides them, so
+    they are left behind in *late* and switched from there -- one
+    source for the button and the entry, or the two drift apart.
+    """
+    for entry in late.get("menu_run") or ():
+        entry.setEnabled(ready)
+    for entry in late.get("menu_project") or ():
+        entry.setEnabled(project_here)
+
+
+def player_of_tab(tabs, players):
+    """The player sitting on the tab showing now, or None elsewhere.
+
+    Which tab a player is on is nowhere written down: the sheet is
+    asked whether the player is inside it. A second list of tabs kept
+    beside the first would name the wrong sheet the day one moves.
+    """
+    sheet = tabs.currentWidget()
+    if sheet is None:
+        return None
+    for one in players:
+        if one is not None and sheet.isAncestorOf(one):
+            return one
+    return None
+
+
+def player_loaded(one):
+    """Whether a player has anything at all to play.
+
+    The preview player holds one file, the cut player a list of shots.
+    Both are empty until material arrives, and every transport command
+    on an empty player returns without doing anything -- which from
+    outside looks exactly like a program that is broken.
+    """
+    return bool(getattr(one, "file_path", None) or getattr(one, "cut", None))
+
+
+def transport(pick, what, *rest):
+    """One transport command, to the player of the tab showing now.
+
+    A player that does not have that command is left alone: the cut
+    player has no fast forward, because it plays a cut of many files
+    and not one file.
+    """
+    doing = getattr(pick(), what, None)
+    if doing is not None:
+        doing(*rest)
+
+
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
-                switched=None):
+                switched=None, cut_player=None, late=None):
     """The whole menu bar, from a table of what each entry does.
 
     Outside gui() because it decides nothing. Every entry is a name, a
@@ -21705,7 +21767,8 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
         ones -- Space, I, O, the arrows -- and a bare key must not fire
         while somebody is typing a name into a field. Attached to the
         player, they work when the player has the focus and nowhere
-        else, and the menu still shows them.
+        else, and the menu still shows them. Several widgets may be
+        named, and then the key works at whichever of them has it.
         """
         action = QtGui.QAction(text, window)
         action.triggered.connect(lambda _=False: doing())
@@ -21714,7 +21777,9 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
             if inside is not None:
                 action.setShortcutContext(
                     QtCore.Qt.WidgetWithChildrenShortcut)
-                inside.addAction(action)
+                for widget in (inside if isinstance(inside, (list, tuple))
+                               else [inside]):
+                    widget.addAction(action)
         where.addAction(action)
         return action
 
@@ -21727,16 +21792,26 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
     # quit the program and start it again.
     file_menu = menu.addMenu(T('&File'))
     act(file_menu, T('Open project ...'), does["open project"], "Ctrl+P")
-    act(file_menu, T('Save project'), does["save project"], "Ctrl+S")
-    act(file_menu, T('Close project'), does["close project"], "Ctrl+W")
+    project_entries = [
+        act(file_menu, T('Save project'), does["save project"], "Ctrl+S"),
+        act(file_menu, T('Close project'), does["close project"], "Ctrl+W")]
     file_menu.addSeparator()
     act(file_menu, T('Add files ...'), does["add files"], "Ctrl+O")
     act(file_menu, T('Remove'), does["remove"], "Ctrl+Backspace")
     act(file_menu, T('Output folder ...'), does["output folder"],
         "Ctrl+Shift+O")
     file_menu.addSeparator()
-    act(file_menu, T('Start'), does["start"], "Ctrl+R")
-    act(file_menu, T('Dry run'), does["dry run"], "Ctrl+Shift+R")
+    run_entries = [act(file_menu, T('Start'), does["start"], "Ctrl+R"),
+                   act(file_menu, T('Dry run'), does["dry run"],
+                       "Ctrl+Shift+R")]
+    # The window decides what lives here, not the menu: these four are
+    # handed over and switched with the buttons that do the same thing.
+    # Born grey, because an empty window has nothing to save and nothing
+    # to start, and a fresh entry is born alive.
+    for entry in project_entries + run_entries:
+        entry.setEnabled(False)
+    if late is not None:
+        late["menu_project"], late["menu_run"] = project_entries, run_entries
     file_menu.addSeparator()
     # Qt moves anything it recognises as settings into the application
     # menu on a Mac, which is where people look for it.
@@ -21784,16 +21859,46 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
                               if i < tabs.count() else None))
 
     play_menu = player_menu(menu, player)
-    act(play_menu, T('Play and pause'), player.toggle, "Space", player)
+    # There are two players -- the preview on the assignment tab and the
+    # cut player on the Resolve tab -- and which one is meant is decided
+    # at the moment somebody presses, not when the entry is built: the
+    # tab changes and the menu stands.
+    both = [player] + ([cut_player] if cut_player is not None else [])
+    played = []
+
+    def playing():
+        return player_of_tab(tabs, both)
+
+    def play_enable():
+        """Grey the transport out where there is no player to drive.
+
+        On the file tab and on the output tab there is no player at
+        all, and on the others none until material has arrived. And an
+        entry the player of this tab cannot do stays grey as well: the
+        cut player has no fast forward. Asked again whenever the menu
+        opens, for the same reason the View menu is refilled -- a menu
+        built once carries the state of then.
+        """
+        one = playing()
+        on = player_loaded(one)
+        for entry, what in played:
+            entry.setEnabled(on and hasattr(one, what))
+
+    played.append((act(play_menu, T('Play and pause'),
+                       lambda: transport(playing, "toggle"), "Space", both),
+                   "toggle"))
     # L and K as in every editing program: L runs forward, K holds. J is
     # missing on purpose: backwards the ffmpeg backend under Qt reports
     # a rate of 0.00 and stands still, and a key that does nothing is
     # worse than none. K holds and never starts -- that is what it does
     # in an editing program, and the space bar is there for the other
     # half.
-    act(play_menu, T('Play forward, faster on every press'),
-        player.faster, "L", player)
-    act(play_menu, T('Pause'), player.pause, "K", player)
+    played.append((act(play_menu, T('Play forward, faster on every press'),
+                       lambda: transport(playing, "faster"), "L", both),
+                   "faster"))
+    played.append((act(play_menu, T('Pause'),
+                       lambda: transport(playing, "pause"), "K", both),
+                   "pause"))
     play_menu.addSeparator()
     for text, keys, seconds in (
             (T('One frame back'), "Left", -1.0 / 30.0),
@@ -21802,8 +21907,12 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
             (T('One second forward'), "Shift+Right", 1.0),
             (T('Ten seconds back'), "Alt+Left", -10.0),
             (T('Ten seconds forward'), "Alt+Right", 10.0)):
-        act(play_menu, text, lambda s=seconds: player.nudge(s), keys,
-            player)
+        played.append((act(play_menu, text,
+                           lambda s=seconds: transport(playing, "nudge", s),
+                           keys, both), "nudge"))
+    play_enable()
+    play_menu.aboutToShow.connect(play_enable)
+    tabs.currentChanged.connect(lambda *_: play_enable())
     play_menu.addSeparator()
     # The same four things the buttons under the player do, and they
     # are greyed with them: the buttons went dead without a time axis
@@ -27099,6 +27208,8 @@ def gui():
         ready = not pending and not state["running"]
         start_run.setEnabled(ready)
         preview_button.setEnabled(ready)
+        menus_follow(late, ready,
+                     bool(files) or bool(state.get("project_from")))
         mark_red(late.get("name_field"), 21 in pending,
                  pending.get(21, ""))
         note = late.get("start_note")
@@ -27882,15 +27993,6 @@ def gui():
     assign_position.insertWidget(1, split_line)
     split_line.setVisible(False)
 
-    def window_ready():
-        """Enable the time window only once all files share an axis.
-
-        That is the case as soon as any file carries a timecode, or as soon as
-        the positions have been measured. Before that a boundary would not know
-        what it refers to.
-        """
-        return bool(state["tc_there"] or state["axis"])
-
     def window_position_show():
         """Say what the In point and the Out point refer to."""
         if not state["without_tc"] or not state["axis"]:
@@ -27905,7 +28007,7 @@ def gui():
     def window_enable():
         away = not_on_the_axis(getattr(player, "file_path", None),
                                clip_kind_values, remembered)
-        on = window_ready() and not away
+        on = window_ready(state) and not away
         for widget in window_switch:
             widget.setEnabled(on)
         window_hint.setText(away or ("" if on else T(
@@ -27952,7 +28054,7 @@ def gui():
         from_s, until, absolute = window_suggestion(entries, fps)
         if not from_s:
             return
-        if not absolute and not window_ready():
+        if not absolute and not window_ready(state):
             return          # without an axis the value has no reference
         if absolute and (not state["axis"] or state.get("axis_absolute")):
             state["tc_there"] = True
@@ -31253,6 +31355,9 @@ def gui():
         # than an empty axis.
         state["axis"] = {}
         state["axis_absolute"] = False
+        # The timecode belonged to the material that has just gone; left
+        # standing, the menu went on offering marks on an empty window.
+        state["tc_there"] = False
         state["speakers_local"] = {}
         state["speakers_source"] = ""
         state["speakers_by"] = {}
@@ -31267,6 +31372,7 @@ def gui():
         multitrack.set(False)
         items_fresh()
         folder_show()
+        window_enable()
         resolve_button_check()
         result_button_check()
         preview_compute()
@@ -31804,9 +31910,11 @@ def gui():
         "mark in": lambda: limit_set(start_var),
         "mark out": lambda: limit_set(end_var),
         "to in": lambda: to_limit(start_var.get(), "In point"),
-        "to out": lambda: to_limit(end_var.get(), "Out point")}, window_switch)
+        "to out": lambda: to_limit(end_var.get(), "Out point")},
+        window_switch, cut_player, late)
     vertical.setMenuBar(menu)
     window_enable()    # after the menu: its four player entries join the list
+    buttons_check()    # and its four file entries follow the buttons
 
     def scheme_changed(*_):
         """Follow a desktop switched between light and dark while running.
