@@ -50,7 +50,9 @@ its place and says what is missing.
 
 ![The knobs for the camera cut](images/resolve-cut.png)
 
-*Tab Resolve cut: the values on the left, the preview on the right.*
+*Tab Resolve cut: the values on the left, the preview on the right. Four
+of the settings stand grey, because no run has written the words down
+yet.*
 
 All eight fields take seconds, and the number in each line is the
 default. An empty field means the default, a comma counts as the decimal
@@ -58,7 +60,7 @@ mark, and there is no upper limit. A negative value is only meant for
 **Edit Change Delay**; the other fields take one but nothing good comes
 of it.
 
-Four fields shape the cut itself:
+Three fields shape the rhythm of the cut:
 
 * **Minimum Edit Duration**: 3 s, this long a shot stands at least;
   higher makes the cut calmer (on the command line
@@ -69,45 +71,59 @@ Four fields shape the cut itself:
 * **Edit Change Delay**: 0.3 s, this much later than the sound the
   picture cuts; a negative value makes the picture lead (on the
   command line `--edit-change-delay`)
-* **Reaction cut earlier**: 1.5 s, after a question the answer is on
-  screen this much earlier (on the command line `--reaction-lead`)
 
-Four more shape the wide shot:
+Four shape the wide shot, and the first two of them are a pair: a soft
+limit and a hard one.
 
-* **Wide shot after**: 70 s, from this hold time on, a look at the
-  wide shot; smaller gives more wide shots, 0 turns it off (on the
-  command line `--wide-after`). Measured over 87 minutes of interview
-  with one guest holding the floor for 59 of them: at 40 seconds the
-  picture leaves that guest 77 times, every 39 seconds; at 70 it
-  leaves them 37 times, every 104. Both place the shot on a sentence
-  boundary, so this is rhythm and not correctness.
-* **Wide shot holds**: 5 s, the inserted wide shot stands at least
+* **Wide shot after**: 70 s, the soft limit. From this hold time on the
+  program looks for a sentence boundary and puts the wide shot there,
+  not by the clock; smaller gives more wide shots, 0 turns it off (on
+  the command line `--wide-after`). Measured over 87 minutes of
+  interview with one guest holding the floor for 59 of them: at 40
+  seconds the picture leaves that guest 77 times, every 39 seconds; at
+  70 it leaves them 37 times, every 104. Both place the shot on a
+  sentence boundary, so this is rhythm and not correctness.
+* **Wide shot at the latest**: 120 s, the hard limit. Where no sentence
+  boundary has turned up since **Wide shot after**, the longest speech
+  pause nearby stands in for one, and there the cut happens whatever is
+  being said; where not even a usable pause is there, it falls by the
+  clock. Smaller breaks a standing camera up sooner (on the command
+  line `--wide-latest`)
+* **Wide shot at least**: 5 s, the inserted wide shot stands at least
   this long (on the command line `--wide-length`)
 * **Wide shot at most**: 15 s, and at most this long (on the command
   line `--wide-most`)
-* **Wide shot at the latest**: 120 s, upper limit for one camera in
-  one piece; smaller breaks it up sooner (on the command line
-  `--wide-latest`)
 
-Under them stand four selectors. They say what runs when the speech
-does not say whom to show:
+The last field belongs to the question, and stands directly above the
+selector that decides it:
 
+* **Answer on screen earlier**: 1.5 s, this much before the question
+  ends the answering speaker is on screen (on the command line
+  `--reaction-lead`). Zero is where the asker stops, not where the
+  answer starts: the pause between the two belongs to the question.
+  Measured on a question ending at 10 seconds with the answer starting
+  at 12.5: with a lead of 5 seconds the cut sits at 5.0 seconds, not at
+  7.5. The **Edit Change Delay** is not added to it a second time.
+
+Under the fields stand four selectors. They say what runs when the
+speech does not say whom to show:
+
+* **After a question**: **Answering speaker** (on the command line
+  `--on-question`)
 * **Long monologue**: **Alternating** (on the command line
   `--on-monologue`)
 * **Several speak at once**: **Wide shot** (on the command line
   `--on-together`)
 * **Recognition uncertain**: **Wide shot** (on the command line
   `--on-uncertain`)
-* **Question**: **Answering speaker** (on the command line
-  `--on-question`)
 
-The first three take the same four values: **Wide shot**, **Listener**,
-**Alternating** and **No camera change**. **Question** takes **do not go
-early**, **Answering speaker** and **Listener**; **do not go early**
-means no early camera change, the picture follows the sound here as it
-does everywhere else.
+The last three take the same four values: **Wide shot**, **Listener**,
+**Alternating** and **No camera change**. **After a question** takes
+**do not go early**, **Answering speaker** and **Listener**; **do not go
+early** means no early camera change, the picture follows the sound here
+as it does everywhere else.
 
-Under the fields the tick **Wide shot for greeting at the start and
+Under the selectors the tick **Wide shot for greeting at the start and
 farewell at the end** keeps beginning and end on the wide shot (on the
 command line `--no-wide-edges` switches it off). The opening wide shot
 holds until the floor is really handed over, not until the first longer
@@ -117,18 +133,38 @@ block from somebody else.
 exactly"). A shot that still comes out too short falls into the one
 that follows, not into the one before.
 
+### The four settings that wait for the words
+
+**After a question**, **Answer on screen earlier**, **Wide shot after**
+and **Wide shot at most** stand grey as long as no transcript is known,
+and a line under them says why: without written-down speech no question
+is found and no sentence boundary is known, so those four change
+nothing. They could be set before and did nothing at all.
+
+Measured over 200 seconds of monologue without the words: **Wide shot
+after** gives the same single insert whether it says 40 or 90, and
+**Wide shot at most** the same 5.0 seconds whether it says 15 or 40.
+With the words there the same material gives four inserts against two,
+and 15 seconds against 20 to 30.
+
+**Wide shot at least** and **Wide shot at the latest** stay open, also
+without a transcript: those two count by the clock and need no sentence.
+
+The first run writes the transcript down. From then on the four are
+open, and the preview reckons with them.
+
 ### When the speech does not say whom to show
 
 Four cases, and what each of the four selectors decides:
 
+* **After a question**: the picture goes to the answer before it
+  starts. Only after a question that is not the main speaker's, when
+  somebody else takes over at once and keeps the floor.
 * **Long monologue**: one person holds the floor past **Wide shot
   after**. **Alternating** remembers what the last break showed.
 * **Several speak at once**: and no camera shows exactly them.
 * **Recognition uncertain**: the recognition frays over a passage, or
   a name is left with nothing but scraps.
-* **Question**: the picture goes to the answer before it starts. Only
-  after a question that is not the main speaker's, when somebody else
-  takes over at once and keeps the floor.
 
 **Listener** means whoever speaks next, and only if somebody on that
 camera was heard in the last 20 seconds; otherwise the wide shot. The
@@ -376,18 +412,23 @@ and the Resolve part builds from it.
 
 ### How the program places the wide shot
 
-A wide shot does not come by the clock. It enters on a sentence
-boundary near the wanted spot, and the exact point comes from the sound:
-the dip in the level around that boundary. Both are measured, so the
-same material gives the same cut.
+A wide shot does not come by the clock. Past **Wide shot after** it
+enters on a sentence boundary near the wanted spot, and the exact point
+comes from the sound: the dip in the level around that boundary. Both
+are measured, so the same material gives the same cut.
 
-It stands at least **Wide shot holds**, then runs to the end of the
-sentence. If that end lies beyond **Wide shot at most**, the last clause
-break before it ends the shot.
+It stands as long as **Wide shot at least** asks, then runs to the end
+of the sentence. If that end lies beyond **Wide shot at most**, the last
+clause break before it ends the shot.
 
-`--wide-latest` is the rip cord: with no sentence boundary the cut
-happens anyway. Without a transcript the wide shot goes to the longest
-speech pause nearby and stands the set minimum.
+**Wide shot at the latest** is the rip cord. Where no sentence boundary
+turns up, the longest speech pause nearby takes its place, and there the
+cut happens whatever is being said; where there is no usable pause
+either, one camera is broken up by the clock so that no piece of it
+stands longer than this. Without a transcript there are no sentence
+boundaries at all: the wide shot then goes to the longest pause nearby
+and stands the set minimum -- which is why the soft limit is shut until
+the words are there and the hard one is not.
 
 ### What the metrics and the colour comparison measure
 
@@ -433,6 +474,10 @@ loudness measurement runs through each track twice.
   and a camera, or one person does and there is no second camera. On
   the **Assignment & time window** tab give each voice a name and a
   camera.
+* **Four settings are grey and take nothing.** No transcript is written
+  down yet. **After a question**, **Answer on screen earlier**, **Wide
+  shot after** and **Wide shot at most** all need one; the first run
+  writes it, and from then on they take a value.
 * **The picture stands still although the speaker changes.** Both
   speakers sit on one camera, or the block is shorter than **Speaks at
   least**.
@@ -452,10 +497,12 @@ What Resolve makes of it is in [DaVinci Resolve](resolve.md).
 These have no counterpart in the window.
 
 * `--reaction-gap` how soon the answer has to follow the question for
-  the reaction cut to fire (3 s); larger and it fires more often
+  it to be brought forward at all (3 s); larger and that happens more
+  often
 * `--reaction-hold` how much of the ten seconds after the question the
   answering speaker has to hold, as a share between 0 and 1 (0.7);
-  higher and it fires less often
+  higher and it fires less often. Both belong to the question and want
+  a transcript, like the two settings for it in the window
 * `--no-metrics` leaves out the metrics file and the colour comparison
 * `VPM_PLAYER_DEBUG=1` in front of the call puts clock, position and
   wanted value of all three players under the picture, and every attempt

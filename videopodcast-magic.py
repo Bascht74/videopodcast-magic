@@ -4048,6 +4048,7 @@ def reaction_cuts(tracks, words, camera_of, gap=3.0, holds=0.7,
             counted["same_camera"] += 1
             continue
         out[when] = who
+        stopped[when] = end
         counted["used"] += 1
     return out
 
@@ -5616,7 +5617,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     # negative value makes it a lag, as Resolve's Edit Change Delay
     # does; the craft rule says the opposite, hence adjustable. Both
     # edges of a shot move together, or shifting would shorten it.
-    answers = {}
+    answers, asked_until = {}, {}
     if (rules.get("on_question") or SHOT_OFF) != SHOT_OFF and words:
         answers = reaction_cuts(
             long, words, camera_of or {},
@@ -5626,7 +5627,8 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
             # Counted into the caller's own rules, so whoever built them
             # can say afterwards what became of the questions. The dict
             # is the caller's; a rule built here has nobody to tell.
-            tally=rules.setdefault("question_tally", {}))
+            tally=rules.setdefault("question_tally", {}),
+            ends=asked_until)
     lead = float(rules.get("reaction_lead") or 0.0)
     if (lead_in or answers) and raw:
         limits = [r[0] for r in raw] + [raw[-1][1]]
@@ -5648,12 +5650,13 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
                               raw[i][0] - lead, per_camera, raw[i - 1][2])):
                 early = False
             if early:
-                # The point comes from the sound alone: the target sits
-                # inside the breath after the question, not on a
-                # boundary in the text. And the edge is set here, so the
-                # Edit Change Delay is not added to it a second time.
+                # Zero is where the asker stops, not where the answer
+                # starts: the pause between them belongs to the
+                # question. The point itself comes from the sound, and
+                # the Edit Change Delay is not added a second time.
+                zero = asked_until.get(raw[i][0], raw[i][0])
                 limits[i] = min(end, max(0.0, cut_point(
-                    raw[i][0] - lead, (), (), levels, step)))
+                    zero - lead, (), (), levels, step)))
                 brought.append(i)
             elif lead_in:
                 limits[i] = min(end, limits[i] - lead_in)
@@ -28862,12 +28865,13 @@ def gui():
             name_value = Value(remembered.get("voicename:" + label)
                                or called.get(label)
                                or T('Speaker %d') % i)
-            picked = preselected_camera(
+            picked, worked_out = camera_row_cameras(
                 camera_after_a_mark("voice:" + label,
                                     remembered.get("voice:" + label), wide,
                                     name_value.get().strip() or label),
                 wide["pickable"], name_value.get(), videos)
             camera_value = Value(MIX_ONLY if picked in barred else picked)
+            camera_value.derived = worked_out
             # The first column says which of the two levels this row
             # is, indented under the recording, the way the file list
             # writes "belongs to" and "4 channels" under a file. Not
@@ -28915,7 +28919,11 @@ def gui():
                                    for k, nv, _cv in voice_lines
                                    if nv.get().strip()}
         for k, nv, cv in voice_lines:
-            remembered["voice:" + k] = cv.get()
+            # Only a real override, the same rule the recordings above
+            # follow: a camera the program worked out itself goes back
+            # as nothing, so renaming a voice moves its camera too.
+            remembered["voice:" + k] = camera_to_remember(
+                cv.get(), getattr(cv, "derived", None))
             # The name as well, not only the camera: state alone does
             # not reach the project file, and the name is what
             # auphonic.com puts on the track.
@@ -30800,12 +30808,15 @@ def gui():
         session that wanted it on paper first had no way to ask.
         """
         if not out_folder.get():
-            folder_pick()
-        if not out_folder.get():
+            # The sentence first, the chooser after it. A folder dialog
+            # opening by itself does not say why it is there, and the
+            # explanation used to come only for whoever cancelled.
             report(T('Save project'),
                    T('The project file goes into the output folder, and '
-                     'none is chosen yet.'))
-            return
+                     'none is chosen yet. Please choose one.'))
+            folder_pick()
+            if not out_folder.get():
+                return
         axis_store(state.get("axis") or {})
         where = axis_file()
         report(T('Save project'),

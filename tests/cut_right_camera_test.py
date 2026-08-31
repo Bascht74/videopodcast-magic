@@ -6,7 +6,8 @@ screen at any moment is known before the cut is computed.
 
   1  Whoever speaks is on their own camera, silence is on the wide
      shot, and no shot names a camera that does not exist.
-  2  Every setting that is a number holds in the result.
+  2  Every setting that is a number holds in the result, and the
+     reaction lead counts from the end of the question.
   3  Where no camera is a wide shot, the stand-in is the same one
      wherever the question is asked and does not act as a wide shot.
 
@@ -372,20 +373,45 @@ check("with the minimum below the wide length nothing is short",
       not under(sane, 3.0), str(under(sane, 3.0)[:2]))
 
 print("\n7. REACTION LEAD (--reaction-lead)")
-# A question, answered by somebody on another camera.
+# A question, answered by somebody on another camera. The last word of
+# the question ends at 18.8 s and the answer begins at 21.0 s: between
+# them lie 2.2 s of pause. The lead is taken off the first of the two,
+# so 1.5 s early is 17.3 and 4.0 s early is 14.8 -- counted from the
+# answer instead they would be 19.5 and 17.0, and that is the whole
+# difference between the two rules.
 asked = [vpm.speech_word(t, t + 0.8, "word") for t in range(19)]
 asked[-1]["word"] = "word?"
 asked += [vpm.speech_word(21.0 + i, 21.8 + i, "word") for i in range(38)]
 duo = [("Host", [(0.0, 20.0)]), ("Guest", [(21.0, 60.0)])]
-for reach in (1.5, 4.0):
+ends = {}
+answering = vpm.reaction_cuts(duo, asked, CAMERA_OF, ends=ends)
+check("the question's end is reported, not the answer's start",
+      sorted(answering) == [21.0] and ends == {21.0: 18.8},
+      "answer begins %s, question ended %s, wanted [21.0] and [18.8]"
+      % (sorted(answering), sorted(ends.values())))
+def early_by(reach):
+    """Where the camera changes with this much lead, in seconds."""
     rules = vpm.cut_rules(words=asked, reaction_lead=reach,
                           on_question=vpm.SHOT_ANSWER)
     cut = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0,
                          5.0, 120.0, False, rules)
-    when = min([a for a, _b, w in cut if w == "CamB"] or [0.0])
-    check("the answer is on screen %.1f s early" % reach,
-          abs(when - (21.0 - reach)) < 1e-6,
-          "camera changes at %.3f s, wanted %.3f" % (when, 21.0 - reach))
+    return min([a for a, _b, w in cut if w == "CamB"] or [0.0])
+
+
+# Written out one by one, not looped: the register that holds the
+# counter-proofs reads the first argument of every check out of the
+# source, and a name put together while the test runs stands there as
+# an expression, not as a sentence.
+_when = early_by(1.5)
+check("a lead of 1.5 s counts from the end of the question",
+      abs(_when - 17.3) < 1e-6,
+      "camera changes at %.3f s, wanted 17.300 -- the question ends at "
+      "18.800, the answer begins at 21.000" % _when)
+_when = early_by(4.0)
+check("a lead of 4.0 s counts from there as well",
+      abs(_when - 14.8) < 1e-6,
+      "camera changes at %.3f s, wanted 14.800 -- the question ends at "
+      "18.800, the answer begins at 21.000" % _when)
 rules = vpm.cut_rules(words=asked, reaction_lead=0.0,
                       on_question=vpm.SHOT_ANSWER)
 none_early = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0,
