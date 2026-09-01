@@ -1,6 +1,6 @@
 # The test suite
 
-182 tests against `../videopodcast-magic.py`. Every one of them stands
+183 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-182 tests. The name is the one a red line carries, and beside it the
+183 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -260,6 +260,7 @@ it is green.
 | `files_lengths_summed` | Does the preflight compare recordings instead of blocks? |
 | `files_named_by_folder` | Which folder name is a production, and which one says nothing. |
 | `files_old_file_refused` | The format check: an older file is reported, not read. |
+| `files_only_window_kept` | A time window shortens the cameras and leaves every frame where it was. |
 | `files_order_kept` | Files put together by hand keep the order they were named in. |
 | `files_probed_once` | Every file is measured once, not once per question. |
 | `files_project_first` | The project is offered before the material is measured; closing stops it. |

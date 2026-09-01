@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """The simple path: one recording into the video files.
 
-run_single_track_path is what runs when there are no separate speaker
+The simple path is what runs when there are no separate speaker
 tracks: one overall recording, aligned and written into the camera
 files. It asks the question that costs the most when the answer is
 wrong -- does the sound still sit against the picture it was recorded
@@ -9,9 +9,13 @@ with? The camera's sound is a known piece of the recording, so the
 written track is held against the original and the offset comes out in
 samples rather than impressions.
 
-Beside that: a time window, a window outside the material, a camera
-without sound, a recording without a camera, and a recorder that
-stopped early. No key is given, so nothing is sent to auphonic.com.
+Beside that: the handover it writes, a time window, a window outside
+the material, a camera without sound, a recording without a camera, a
+recorder that stopped early, and two cameras against each other. A
+window cuts the camera down to itself, so that section reads where the
+delivered picture begins off the camera's own sound rather than taking
+the file's start for it. No key is given, so nothing is sent to
+auphonic.com.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -65,6 +69,12 @@ CAM_LATE, CAM_LEN = 4.0, 26.0
 CAM2_LATE, CAM2_LEN = 9.0, 21.0
 # A window inside the picture, in picture time.
 WIN_IN, WIN_OUT = 8.0, 18.0
+# The same two ends in recording time, which is the axis the material was
+# written on. Every judgement about the window is made on it: a window
+# cuts the camera down to itself, so seconds counted from the start of
+# the delivered file would be counted from the In point and hold the
+# window against itself.
+IN_AT, OUT_AT = CAM_LATE + WIN_IN, CAM_LATE + WIN_OUT
 # The recorder that stopped early: a piece from the middle.
 SHORT_FROM, SHORT_LEN = 6.0, 10.0
 # Speech-like, because the alignment lives on speech pauses: a steady
@@ -182,8 +192,11 @@ rc7, log7 = run("--out", D + "/two", D + "/Rec.wav", D + "/Cam.mov",
                 D + "/Cam2.mov")
 
 MADE = "/Cam_audio.mov"
-WANTED = [("plain", 0), ("plain", 1), ("window", 0), ("beyond", 0),
-          ("short", 0)]
+# Stream 0 of a written file is the new track, stream 1 the camera's own
+# sound. The second one is cut together with the picture, so it is what
+# says where a delivered picture begins.
+WANTED = [("plain", 0), ("plain", 1), ("window", 0), ("window", 1),
+          ("beyond", 0), ("short", 0)]
 # Files that are not there are left out rather than taking the call
 # down: parts 4 and 5 have cases where no file is the right answer.
 here = [f for f in ("plain", "window", "beyond", "short")
@@ -304,23 +317,44 @@ if os.path.exists(book):
           str(d.get("length_s")))
 
 print("\n3. A time window inside the picture")
-win = track("window")
+win, own = track("window"), track("window", 1)
 check("the window run goes through", rc2 == 0, str(rc2))
-check("the picture stays whole", abs(len(win) / float(RATE) - CAM_LEN) < 0.05,
-      "%.3f s" % (len(win) / float(RATE)))
-heard = loud(win)
+# The camera is not written whole any more: it carries the window and a
+# second at each end, cut back to the key frame before that. So where the
+# delivered picture begins is read off the camera's own sound, the one
+# track that was cut together with it, and not assumed to be the
+# camera's start.
+held = len(win) / float(RATE)
+at_pic = begins_at(rec, own)
+check("the picture is cut down to the window", held < CAM_LEN - 0.5,
+      "%.3f s written of the %.1f s the camera ran" % (held, CAM_LEN))
+check("and the whole window is still in it",
+      at_pic <= IN_AT + 0.04 and at_pic + held >= OUT_AT - 0.04,
+      "the picture runs from %.3f to %.3f s of the recording and the "
+      "window from %.1f to %.1f, read off %.1f s of camera sound"
+      % (at_pic, at_pic + held, IN_AT, OUT_AT, len(own) / float(RATE)))
+# One second of slack on the In side: a whole second counts as loud as
+# soon as part of it carries sound, and the file's seconds need not line
+# up with the window.
+heard = [at_pic + i for i in loud(win)]
 check("nothing sounds before the In point",
-      all(i >= WIN_IN for i in heard), str(heard[:4]))
+      all(t >= IN_AT - 1 for t in heard),
+      "the first loud seconds sit at %s of the recording, the In point "
+      "at %.1f" % (["%.1f" % t for t in heard[:4]], IN_AT))
 check("nothing sounds after the Out point",
-      all(i < WIN_OUT for i in heard), str(heard[-4:]))
+      all(t < OUT_AT for t in heard),
+      "the last loud seconds sit at %s of the recording, the Out point "
+      "at %.1f" % (["%.1f" % t for t in heard[-4:]], OUT_AT))
 check("there is sound inside the window", len(heard) >= 5, str(len(heard)))
 # The window moves the sound, and that is where it can lose the picture:
-# what lands at picture time WIN_IN has to be what was recorded then.
-at = begins_at(rec, win)
-check("the sound in the window still belongs to the picture",
-      abs(at - CAM_LATE) < 0.04,
-      "the written track begins at %.3f s of the recording, wanted %.3f "
-      "-- %.1f s out" % (at, CAM_LATE, at - CAM_LATE))
+# what lands at the In point has to be what was recorded then. Held
+# against the camera's own sound rather than against the camera's start,
+# because the delivered file may begin later than the camera did.
+sits = begins_at(own, win)
+check("the sound in the window sits on the camera's own sound",
+      abs(sits) < 0.04,
+      "%+.0f ms against the camera's own track, which begins at %.3f s "
+      "of the recording" % (sits * 1000, at_pic))
 said = "time window" in log2.lower()
 check("the run says it trimmed to the window", said,
       "" if said else "not in the log, which ends: " + tail(log2))
