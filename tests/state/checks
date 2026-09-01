@@ -53,6 +53,7 @@ cut_offer_needs_two	87
 cut_one_camera_marks	13
 cut_opening_wide_holds	7
 cut_own_mic_own_camera	10
+cut_own_rate_counted	18
 cut_player_in_sync	59
 cut_player_jump_lands	6
 cut_player_offset_used	12
@@ -103,6 +104,7 @@ project_rerun_updates	10
 project_same_offset	7
 project_settings_return	31
 project_tag_reason_fits	8
+project_top_rate_wins	11
 project_two_stay_two	6
 project_two_timelines_go	16
 run_bar_never_falls	13
@@ -148,7 +150,7 @@ source_numpy_comes_last	4
 source_reds_carry_value	6
 source_resolve_door_shut	9
 source_skills_resolve	5
-source_test_names_swept	7
+source_test_names_swept	10
 table_audio_asked_for	60
 table_blocks_judged	7
 table_camera_proposed	16

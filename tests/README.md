@@ -1,6 +1,6 @@
 # The test suite
 
-191 tests against `../videopodcast-magic.py`. Every one of them stands
+193 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-191 tests. The name is the one a red line carries, and beside it the
+193 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -362,6 +362,7 @@ it is green.
 | `cut_one_camera_marks` | One camera for everybody: the cut still marks the speaker changes. |
 | `cut_opening_wide_holds` | The opening wide shot must not depend on how finely a source cuts. |
 | `cut_own_mic_own_camera` | A speaker with her own microphone is in the cut beside a separation. |
+| `cut_own_rate_counted` | Every shot of the cut counts its frames in the rate of its own camera. |
 | `cut_player_in_sync` | Does the sound in the cut player belong to the picture on screen? |
 | `cut_player_jump_lands` | Does the cut player really jump where it is told to? |
 | `cut_player_offset_used` | #63: The player has to take the measured offset, not zero. |
@@ -395,6 +396,7 @@ it is green.
 | `project_same_offset` | Preview and Resolve put a camera at the same offset. |
 | `project_settings_return` | What is typed into the window reaches the project file and comes back. |
 | `project_tag_reason_fits` | The Tagging line names a reason only where it explains its own tags. |
+| `project_top_rate_wins` | The Timeline gets the highest rate in the material, not the longest one's. |
 | `project_two_stay_two` | Two cameras whose files share a name stay two cameras. |
 | `project_two_timelines_go` | #60: update a project -- the two timelines go, nothing else. |
 

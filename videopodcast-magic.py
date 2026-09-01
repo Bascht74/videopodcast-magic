@@ -669,7 +669,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.26.0-beta"
+VERSION = "2.26.1-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -1064,6 +1064,8 @@ CUT_FIELDS = (
      ('A short "yes" does not move the picture. Without this a block of '
       'half a second draws the camera over, and the minimum edit '
       'duration then holds it there for seconds.')),
+    # Resolve's own name for it, in the German window as well, so it stays
+    # English. The double quotes are the mark: this one is not translated.
     ("edit-change-delay", "Edit Change Delay", "0.3", "s",
      'the picture changes this much later than the sound',
      'A negative value makes the picture lead the sound.'),
@@ -6066,12 +6068,24 @@ def merge_short_shots(cut, min_len, key=shot_key):
     return extra
 
 
-def write_edl(file_path, title, segments, tc0, fps):
+def timeline_timecode(seconds, zero, fps):
+    """The timecode a moment of programme time carries on the Timeline.
+
+    Frame zero of the Timeline, then the frames since it -- the two steps
+    build_cut_timeline takes. The written cut list used to work it out
+    from the moment itself, and where the zero did not sit on a whole
+    frame the paper and the Timeline named frames one apart.
+    """
+    return frames_to_timecode(zero + seconds_to_frames(seconds, fps), fps)
+
+
+def write_edl(file_path, title, segments, zero, fps):
     """Write segments as an EDL; Resolve imports it as timeline markers."""
     with open(file_path, "w", encoding="utf-8") as f:
         f.write("TITLE: %s\nFCM: NON-DROP FRAME\n\n" % title)
         for i, (a, b, name) in enumerate(segments, 1):
-            t0, t1 = timecode_string(tc0 + a, fps), timecode_string(tc0 + b, fps)
+            t0 = timeline_timecode(a, zero, fps)
+            t1 = timeline_timecode(b, zero, fps)
             f.write("%03d  AX       A     C        %s %s %s %s\n"
                     % (i, t0, t1, t0, t1))
             f.write("* FROM CLIP NAME: %s\n\n" % name)
@@ -9190,10 +9204,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     if len(rates) > 1:
         print(as_head(T('\nDIFFERENT FRAME RATES: %s')
                       % ", ".join("%.3f" % r for r in rates)))
-        print(T('  That does not matter here -- each camera is aligned '
-                'separately against\n  its own sound, and the picture is '
-                'only copied over. But the Timeline in\n  the video '
-                'software needs one rate; Resolve converts the rest.'))
+        print(T('  The Timeline gets the highest of them, %g. Converted '
+                'upwards Resolve\n  repeats frames, downwards it throws '
+                'them away. Every camera keeps\n  its own rate, and the '
+                'cut counts in that one.')
+              % nearest_known_frame_rate(
+                  timeline_frame_rate(args, videos, None)))
     if len(sizes) > 1:
         print(as_head(T('\nDIFFERENT FRAME SIZES: %s') % ", ".join(sizes)))
         print(T('  Of no consequence for the sound.'))
@@ -10293,7 +10309,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         tc_start = parse_timecode(ref_clip[1]["tc"], max(1.0, ref_clip[1]["fps"]))\
             + t0 if t0 is not None else None
     print(as_head(T('\nSAVING TRACKS')))
-    tc_fps = max(1.0, ref_clip[1]["fps"]) if ref_clip else 30.0
+    # The stored tracks belong to programme time, not to a camera, so
+    # their timecode is written at the rate the Timeline runs at.
+    tc_fps = max(1.0, timeline_frame_rate(args, videos, ref_clip))
     stored = []
     single_files = {}      # speaker name -> stored WAV
     tc_name = ("_" + timecode_string(tc_start, tc_fps).replace(":", "-"))\
@@ -10528,6 +10546,32 @@ def seconds_to_frames(seconds, fps):
     return int(round(seconds * fps))
 
 
+def frames_of_the_file(length, fps, own):
+    """How many frames of a file fit into *length* frames of the Timeline.
+
+    The most that fit and never one more, so a shot never runs into the
+    next one: Resolve pushes what overlaps, and the pushes add up. What
+    a shot leaves uncovered is picked up by the one after it, which
+    begins that much earlier. One frame is the floor -- a shot shorter
+    than a single frame of its file cannot be had.
+    """
+    # A whole number of frames that a division misses by a billionth is
+    # that whole number: 23.976 in a 23.976 Timeline asked for one frame
+    # more than the shot has, and pushed the next one along for nothing.
+    return max(1, int(math.ceil((length + 1) * own / float(fps) - 1e-9)) - 1)
+
+
+def timeline_frames_of(count, fps, own):
+    """How many frames of the Timeline a span of *count* file frames fills.
+
+    Resolve matches a foreign rate over the duration and keeps whole
+    Timeline frames, so the last part frame does not count. Measured on
+    21.0.4.5: 175 frames of a 24 file fill 218 frames of a 30 Timeline,
+    176 fill 220 -- 219 is not reachable at all.
+    """
+    return int(count * fps / float(own) + 1e-9)
+
+
 RESOLVE_FRAME_RATES = (23.976, 24.0, 25.0, 29.97, 30.0, 47.952, 48.0, 50.0,
                  59.94, 60.0, 72.0, 95.904, 96.0, 100.0, 119.88, 120.0)
 
@@ -10541,6 +10585,22 @@ def nearest_known_frame_rate(fps):
     if not fps:
         return 30.0
     return min(RESOLVE_FRAME_RATES, key=lambda r: abs(r - fps))
+
+
+def timeline_frame_rate(args, videos, ref_clip):
+    """The rate the Timeline runs at: the highest one in the material.
+
+    Converted upwards Resolve repeats frames, downwards it throws them
+    away, so the fastest camera decides. Intro and outro are finished
+    clips and no cameras of the episode, so they do not count; where no
+    camera is left the longest recording decides, as it did before.
+    """
+    edges = {path_key(p) for p in (getattr(args, "intro", None),
+                                   getattr(args, "outro", None)) if p}
+    rates = [(e or {}).get("fps") or 0.0 for v, e in (videos or ())
+             if path_key(v) not in edges]
+    return max(rates) if any(rates) else (
+        ref_clip[1]["fps"] if ref_clip else 30.0)
 
 
 def frames_to_timecode(frames, fps, drop_frame=False):
@@ -12927,7 +12987,9 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
         c = clips.get(cam["file"])
         if c is not None:
             after_camera[cam["camera"]] = (c, cam.get("offset") or 0.0,
-                                        cam.get("duration") or 0.0)
+                                        cam.get("duration") or 0.0,
+                                        nearest_known_frame_rate(
+                                            cam.get("fps") or fps))
     # Fallback order: the wide shot first, then the rest.
     fallback = cameras_in_track_order(cameras)
     item, skipped, replaced = [], set(), 0
@@ -12935,48 +12997,63 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     def piece(name, t0, length):
         """Return the piece if it fits this camera, otherwise nothing.
 
-        The length comes from the timeline, not from the source. Rounding both
-        separately mostly works and is occasionally one frame off, and then
-        the cut has a gap.
+        *length* arrives in Timeline frames and is converted to the
+        camera's own. Rounding both separately mostly works and is
+        occasionally one frame off, and then the cut has a gap.
         """
         entry = after_camera.get(name)
         if entry is None:
             return None
-        c, offset, duration = entry
-        start_frame = seconds_to_frames(t0 - offset, fps)
-        end_frame = start_frame + length
+        c, offset, duration, own = entry
+        # Counted in the camera's own rate, not the Timeline's: at the
+        # Timeline's, a 24 camera in a 30 Timeline shows a quarter of the
+        # running time too late and the shot comes out a quarter too long.
+        start_frame = seconds_to_frames(t0 - offset, own)
+        end_frame = start_frame + frames_of_the_file(length, fps, own)
         if length <= 0 or start_frame < 0:
             return None
-        if duration and end_frame > seconds_to_frames(duration, fps):
+        if duration and end_frame > seconds_to_frames(duration, own):
             return None
         # endFrame counts exclusively -- with end_frame - 1 exactly one frame
         # was missing at the end of every cut and a gap opened between them.
         return {"mediaPoolItem": c, "startFrame": start_frame, "endFrame": end_frame}
 
+    # What the shot before left uncovered on the Timeline. A camera's own
+    # frames rarely divide the Timeline's, so a shot stops a little short
+    # of its place; the next one starts there instead of at the frame the
+    # cut names, and nothing is ever left black or pushed along.
+    carry = 0
     for e in cut:
         a, b = seconds_to_frames(e["start"], fps), seconds_to_frames(e["end"], fps)
         if b <= a:
             continue
-        length = b - a
+        at = a - carry
+        length = b - at
+        began = e["start"] - carry / float(fps)
         # In the timeline: from the window start. In the file: later by as much
         # as this camera started later. Where it was not yet or no longer
         # running, the wide shot takes the place, otherwise a gap would open.
-        part = piece(e["camera"], e["start"], length)
+        used = e["camera"]
+        part = piece(used, began, length)
         if part is None:
             for cam in fallback:
                 if cam["camera"] == e["camera"]:
                     continue
-                part = piece(cam["camera"], e["start"], length)
+                part = piece(cam["camera"], began, length)
                 if part is not None:
-                    replaced += 1
+                    used, replaced = cam["camera"], replaced + 1
                     break
         if part is None:
             skipped.add(T('%s (%s to %s)')
                               % (e["camera"], as_hms(e["start"]), as_hms(e["end"])))
+            carry = 0
             continue
-        part.update({"trackIndex": 1, "recordFrame": origin + lead_in + a,
+        part.update({"trackIndex": 1, "recordFrame": origin + lead_in + at,
                      "mediaType": 1})
         item.append(part)
+        carry = length - timeline_frames_of(
+            part["endFrame"] - part["startFrame"], fps,
+            after_camera[used][3])
     if replaced:
         print(T('    %dx the intended camera was not running -- a '
                 'different one is there.') % replaced)
@@ -13019,13 +13096,16 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     # against the picture by exactly that camera's offset.
     mix_cam = next((cam for cam in (d.get("cameras") or [])
                     if cam.get("file") == file_path), None)
-    head = (seconds_to_frames(-(mix_cam.get("offset") or 0.0), fps)
+    # A camera file again, so its frames are its own as well.
+    mix_fps = nearest_known_frame_rate(
+        (mix_cam.get("fps") or fps) if mix_cam else fps)
+    head = (seconds_to_frames(-(mix_cam.get("offset") or 0.0), mix_fps)
             if mix_cam else 0)
     place = {"mediaPoolItem": c, "trackIndex": 1,
              "recordFrame": origin + lead_in, "mediaType": 2}
     if head > 0:
         # endFrame counts exclusively, as for the picture pieces above.
-        last = seconds_to_frames(mix_cam.get("duration") or 0.0, fps)
+        last = seconds_to_frames(mix_cam.get("duration") or 0.0, mix_fps)
         place["startFrame"] = head
         if last > head:
             place["endFrame"] = last
@@ -13643,7 +13723,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     """
     if not cameras:
         return
-    fps = ref_clip[1]["fps"] if ref_clip else 30.0
+    fps = timeline_frame_rate(args, videos, ref_clip)
     stem = os.path.join(folder, safe_filename(args.production or 'Production'))
     done = {}
     for p in (results or []):
@@ -13656,6 +13736,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         rates.add(round(float(e.get("fps") or 0), 3))
     takes = {os.path.abspath(v): (e.get("duration") or 0.0)
               for v, e in videos}
+    rate_of = {os.path.abspath(v): (e.get("fps") or 0.0) for v, e in videos}
     speaker_of = {}
     for track in tracks:
         if track.get("camera"):
@@ -13713,11 +13794,12 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             "track": (" + ".join(who) if who else cam["name"]),
             "speakers": who,
             "audio_tracks": (track_names or {}).get(file, []),
-            # Where this camera sits: position in the file is
-            # programme time minus this. The rendered file carries the
-            # timecode of its own first frame, moved with whatever a
-            # window cut off the head, so camera_place reads it there.
-            "offset": round(camera_place((file, v), tc_start, shift, fps), 4),
+            # Where this camera sits: position in the file is programme
+            # time minus this. The rendered file carries the timecode of
+            # its own first frame, moved with whatever a window cut off
+            # the head, and its frames count at this camera's own rate.
+            "offset": round(camera_place((file, v), tc_start, shift,
+                                         rate_of.get(v) or fps), 4),
             # Not the camera's place: where the shared sound sits
             # against the delivered picture, with its sign turned round.
             # It is what camera_place falls back on where no file in the
@@ -13728,6 +13810,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # shot that runs past what this says.
             "duration": round((lengths or {}).get(file)
                               or takes.get(v, 0.0), 3),
+            # This camera's own rate, not the Timeline's. Resolve counts
+            # startFrame and endFrame in frames of the file, so the cut
+            # needs one rate per file and not one for all of them.
+            "fps": nearest_known_frame_rate(rate_of.get(v) or fps),
             # Two answers, and they are not the same question. "wide" is
             # what the colour and the mix source read: nobody is
             # assigned here. "wide_marked" is what somebody said in the
@@ -13872,14 +13958,20 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     where the cut points come from: the text says roughly where a cut
     belongs, the sound says exactly where.
     """
-    fps = max(1.0, ref_clip[1]["fps"]) if ref_clip else 30.0
+    fps = max(1.0, nearest_known_frame_rate(
+        timeline_frame_rate(args, videos, ref_clip)))
     if not any(segs for _, segs in (segment_list or ())):
         print(as_head(T('\nSPEAKERS\n  Nobody was heard -- no camera '
                         'cut from this.')))
         return [], []
     length = length or max((b for _n, segs in segment_list
                             for _a, b in segs), default=0.0)
-    tc0 = tc_start if tc_start is not None else 0.0
+    # Frame zero of the Timeline, read back out of the start timecode the
+    # handover carries -- the same step timeline_origin takes. Counting
+    # from the unrounded second instead named a different frame wherever
+    # the zero did not fall on a whole one.
+    zero = timecode_to_frames(
+        timecode_string(tc_start if tc_start is not None else 0.0, fps), fps)
 
     # Who belongs to which camera, and which one is the wide shot?
     output_name = {os.path.abspath(cam["video"]): cam["name"] for cam in cameras}
@@ -13932,10 +14024,10 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         f.write(csv_line(("Speaker", "Start TC", "End TC",
                           "Time from start", "Duration s")))
         for a, b, n in lines:
-            f.write(csv_line((n, timecode_string(tc0 + a, fps),
-                              timecode_string(tc0 + b, fps),
+            f.write(csv_line((n, timeline_timecode(a, zero, fps),
+                              timeline_timecode(b, zero, fps),
                               as_hms(a, "."), "%.2f" % (b - a))))
-    write_edl(stem + "_speakers.edl", "Speakers", lines, tc0, fps)
+    write_edl(stem + "_speakers.edl", "Speakers", lines, zero, fps)
 
     # With one camera nothing changes hands between cameras, so the
     # word would be wrong: what comes of it is a first cut at every
@@ -14004,13 +14096,13 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
                           "End TC", "Duration s")))
         for i, (a, b, n, speaking) in enumerate(detail, 1):
             f.write(csv_line((i, n, " + ".join(speaking),
-                              timecode_string(tc0 + a, fps),
-                              timecode_string(tc0 + b, fps),
+                              timeline_timecode(a, zero, fps),
+                              timeline_timecode(b, zero, fps),
                               "%.2f" % (b - a))))
     write_edl(stem + "_cameracut.edl", "Camera cut",
               [(a, b, " + ".join(speaking) or n)
                for a, b, n, speaking in detail] if alone else cut,
-              tc0, fps)
+              zero, fps)
 
     # The individual numbers are in the interface and in the files; what came
     # of them is enough here.
@@ -20576,7 +20668,7 @@ def compare_cameras(data):
             "hint", T('Frame rates'),
             T('the video files run at different rates: %s')
             % ", ".join(decimal_text("%.3f" % r) for r in different),
-            T('The Timeline gets one fixed rate -- that of the first file. '
+            T('The Timeline gets one fixed rate -- the highest of them. '
               'Resolve converts the others; with 23.976 against 24 that is '
               'where its audio analysis tends to stall.')))
     # With Apple the recording curve is not in the colr box but in the logs
@@ -34780,14 +34872,12 @@ CATALOGUE["de"] = {
         '  Summe der Spuren:  %.1f LUFS, Spitze %.1f dBTP%s',
     '  Target:            %.1f LUFS  ->  %+.1f dB on every track':
         '  Ziel:              %.1f LUFS  ->  %+.1f dB auf jede Spur',
-    '  That does not matter here -- each camera is aligned separately '
-    'against\n  its own sound, and the picture is only copied over. But the '
-    'Timeline in\n  the video software needs one rate; Resolve converts the '
-    'rest.':
-        '  Das stört hier nicht -- jede Kamera wird einzeln gegen ihren '
-        'eigenen Ton\n  ausgerichtet, das Bild nur umkopiert. Die '
-        'Zeitleiste in der Videosoftware\n  braucht aber eine Rate; Resolve '
-        'rechnet die übrigen um.',
+    '  The Timeline gets the highest of them, %g. Converted upwards Resolve\n'
+    '  repeats frames, downwards it throws them away. Every camera keeps\n'
+    '  its own rate, and the cut counts in that one.':
+        '  Die Zeitleiste bekommt die höchste davon, %g. Nach oben '
+        'wiederholt\n  Resolve Bilder, nach unten wirft es welche weg. Jede '
+        'Kamera behält\n  ihre eigene Rate, und der Schnitt rechnet in ihr.',
     '  The Full-Mix could not be imported.':
         '  Der Full-Mix ließ sich nicht importieren.',
     '  The Full-Mix could not be inserted.':
@@ -36127,10 +36217,10 @@ CATALOGUE["de"] = {
         'Die Resolve-Schnittstelle liegt nicht, wo erwartet:\n  %s\n  %s',
     'The Resolve interface is not where it should be.':
         'Die Resolve-Schnittstelle liegt nicht da, wo sie sein müsste.',
-    'The Timeline gets one fixed rate -- that of the first file. Resolve '
+    'The Timeline gets one fixed rate -- the highest of them. Resolve '
     'converts the others; with 23.976 against 24 that is where its audio '
     'analysis tends to stall.':
-        'Die Timeline bekommt eine feste Rate -- die der ersten Datei. '
+        'Die Timeline bekommt eine feste Rate -- die höchste davon. '
         'Resolve rechnet die anderen um; bei 23,976 gegen 24 bleibt seine '
         'Tonanalyse gern hängen.',
     'The audio recording of every speaker, plus the cameras.\nThe order '

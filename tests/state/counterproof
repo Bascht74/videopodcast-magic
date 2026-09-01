@@ -451,6 +451,24 @@ cut_own_mic_own_camera	2026-08-31	the cut list was written	copy b_cutfile.py -- 
 cut_own_mic_own_camera	2026-08-31	the run ends without an error	copy b_rc.py -- at the end of distribute_tracks_to_cameras `return 1 if error else 0` to `return 1 if not error else 0`	the run ends without an error                              FAIL 1, ends: /tmp/vpmownmic_i0nf_k75/out/MT_cameracut.csv | /tmp/vpmownmic_i0nf_k75/out/MT_cameracut.edl
 cut_own_mic_own_camera	2026-08-31	the separated voice with a camera is cut to hers	copy b_novoices.py -- voices_of_file ends on `return {}`, so the camera the assignment gives a separated voice is dropped	the separated voice with a camera is cut to hers           FAIL 2 shots, on ['CamThree'] -- wanted CamTwo
 cut_own_mic_own_camera	2026-08-31	the speaker list was written	copy b_whofile.py -- in write_cut_list `open(stem + "_speakers.csv", "w"` to `"_speakers.csvx"`	the speaker list was written                               FAIL ['CamOne.mov', 'CamThree.mov', 'CamTwo.mov', 'MT_cameracut.csv', 'MT_cameracut.edl', 'MT_resolve.json', 'MT_speakers.csvx', 'MT_speakers.edl', 'auphonic-tracks']
+cut_own_rate_counted	2026-09-01	a 30 Timeline slot is filled from a 24 file to the whole frame	frames_of_the_file returns length unchanged, so the slot is handed on in Timeline frames	a 30 Timeline slot is filled from a 24 file to the whole frame FAIL 219 against 175 for 219 frames of a 30 Timeline
+cut_own_rate_counted	2026-09-01	a 6.5 s shot asks for 164 frames of the 25 file, not 195	frames_of_the_file -- the carried-forward frame not counted into the slot	a 6.5 s shot asks for 164 frames of the 25 file, not 164    FAIL 163 frames against 164
+cut_own_rate_counted	2026-09-01	a 7.3 s shot asks for 175 frames of the 24 file, not 219	frames_of_the_file returns length unchanged, so the slot is handed on in Timeline frames	a 7.3 s shot asks for 175 frames of the 24 file, not 219   FAIL 219 frames against 175
+cut_own_rate_counted	2026-09-01	a file at the Timeline's own rate gives the slot back unchanged	frames_of_the_file rounds up instead of down	a file at the Timeline's own rate gives the slot back unchanged FAIL 196 against 195 for 195 frames of a 30 Timeline
+cut_own_rate_counted	2026-09-01	a file faster than the Timeline is counted in its own frames too	frames_of_the_file returns length unchanged, so the slot is handed on in Timeline frames	a file faster than the Timeline is counted in its own frames too FAIL 100 against 126 for 100 frames of a 24 Timeline
+cut_own_rate_counted	2026-09-01	a handover from an older version falls back to the Timeline's rate	build_cut_timeline: cam.get("fps") or fps changed to cam.get("fps") or 24.0	a handover from an older version falls back to the Timeline's rate FAIL 288 against 360, 12 s read at the Timeline's 30
+cut_own_rate_counted	2026-09-01	a shot begins where the one before it really stopped	build_cut_timeline -- the carried-forward remainder dropped, so a shot starts at its nominal frame again	a shot begins where the one before it really stopped        FAIL [0, 219, 414, 609] against [0, 218, 414, 609]
+cut_own_rate_counted	2026-09-01	and from a 25 file to its own whole frame	frames_of_the_file returns length unchanged, so the slot is handed on in Timeline frames	and from a 25 file to its own whole frame                  FAIL 195 against 163 for 195 frames of a 30 Timeline
+cut_own_rate_counted	2026-09-01	and no shot runs into the one that follows it	build_cut_timeline -- the outgoing shot lengthened by a whole source frame instead, so it overlaps	and no shot runs into the one that follows it               FAIL [-2, -2, -2] frames of overlap at the three joins
+cut_own_rate_counted	2026-09-01	and none falls short of it by a whole frame of its own file	frames_of_the_file returns length unchanged, so the slot is handed on in Timeline frames	and none falls short of it by a whole frame of its own file FAIL 1798 of 5394 slots short by a frame of their file or more: [(1, 50.0), (2, 50.0), (3, 50.0)]
+cut_own_rate_counted	2026-09-01	and the shot is then as long as the slot, in Timeline frames	build_cut_timeline: cam.get("fps") or fps changed to cam.get("fps") or 24.0	and the shot is then as long as the slot, in Timeline frames FAIL 175 frames against 219
+cut_own_rate_counted	2026-09-01	every shot of the cut list reaches the Timeline	build_cut_timeline: the guard in piece() turned round to 'start_frame >= 0', so no camera yields a piece	every shot of the cut list reaches the Timeline            FAIL 0 shots against the 4 the cut list names
+cut_own_rate_counted	2026-09-01	no Timeline frame is left without a picture between two shots	build_cut_timeline -- the same, so the frame the outgoing camera cannot reach stays open	no Timeline frame is left without a picture between two shots FAIL [1, 0, 0] frames open at the three joins, none of them allowed
+cut_own_rate_counted	2026-09-01	no piece ever asks for more of its file than its slot holds	frames_of_the_file rounds up instead of down	no piece ever asks for more of its file than its slot holds FAIL 3896 of 5394 slots run past their own: [(1, 24.0), (2, 24.0), (3, 24.0)]
+cut_own_rate_counted	2026-09-01	the 25 shot starts at frame 382 of its own file	build_cut_timeline: start_frame computed with fps instead of own, so the shot is found at the Timeline's rate	the 25 shot starts at frame 382 of its own file            FAIL 459 against 382, 15.3 s into a 25 file
+cut_own_rate_counted	2026-09-01	the 30 shot starts at frame 534 of its own file	build_cut_timeline: start_frame computed with a fixed 25.0 instead of own	the 30 shot starts at frame 534 of its own file            FAIL 445 against 534, 17.8 s into a 30 file
+cut_own_rate_counted	2026-09-01	the first shot starts at frame 288 of its own 24 file	build_cut_timeline: start_frame computed with fps instead of own, so the shot is found at the Timeline's rate	the first shot starts at frame 288 of its own 24 file      FAIL 360 against 288, 12 s into a 24 file
+cut_own_rate_counted	2026-09-01	the shot from the 30 camera keeps the Timeline's own 195	frames_of_the_file rounds up instead of down	the shot from the 30 camera keeps the Timeline's own 195   FAIL 196 frames against 195
 open	cut_player_in_sync	  %s: sound and picture mean one moment
 open	cut_player_in_sync	  %s: the line is about that very moment
 open	cut_player_in_sync	  a jump into an empty cut prints nothing, which is the gap
@@ -1327,6 +1345,17 @@ project_tag_reason_fits	2026-08-30	an SDR delivery borrows no reason from its pr
 open	project_tag_reason_fits	an SDR delivery in an HDR project still tags Rec.709
 open	project_tag_reason_fits	an SDR delivery names no reason beside its tags
 open	project_tag_reason_fits	an SDR delivery tags Rec.709 and says so
+project_top_rate_wins	2026-09-01	a 50 outro does not pull it up either	timeline_frame_rate: the edges set emptied, so intro and outro count as cameras	a 50 outro does not pull it up either                      FAIL 50.0 against 25.0, cameras 24/25 with a 50 outro
+project_top_rate_wins	2026-09-01	a 60 intro does not pull the Timeline up to 60	timeline_frame_rate: the edges set emptied, so intro and outro count as cameras	a 60 intro does not pull the Timeline up to 60             FAIL 60.0 against 30.0, cameras 24/25/30 with a 60 intro and a 50 outro
+project_top_rate_wins	2026-09-01	a camera whose rate could not be measured leaves it there too	timeline_frame_rate: the fallback shortened to 30.0, so the reference clip is no longer read	a camera whose rate could not be measured leaves it there too FAIL 30.0 against the 25 of the reference clip, one camera without a rate
+project_top_rate_wins	2026-09-01	and it does not depend on the order the cameras come in	timeline_frame_rate: max(rates) replaced by rates[-1], so the last camera in the list decides	and it does not depend on the order the cameras come in    FAIL 24.0 against 30.0, from the same three in the other order
+project_top_rate_wins	2026-09-01	no cameras at all leaves the rate of the reference clip	timeline_frame_rate: the fallback shortened to 30.0, so the reference clip is no longer read	no cameras at all leaves the rate of the reference clip    FAIL 30.0 against the 25 of the reference clip
+project_top_rate_wins	2026-09-01	no list at all is the same as an empty one	timeline_frame_rate: the fallback shortened to 30.0, so the reference clip is no longer read	no list at all is the same as an empty one                 FAIL 30.0 against the 25 of the reference clip
+project_top_rate_wins	2026-09-01	one rate throughout stays that rate	timeline_frame_rate: 1.0 added to the rate that came out	one rate throughout stays that rate                        FAIL 31.0 against 30.0, from 30/30
+project_top_rate_wins	2026-09-01	the highest rate wins over the rate of the longest recording	timeline_frame_rate: max(rates) replaced by the reference clip's rate, so the longest recording decides again	the highest rate wins over the rate of the longest recording FAIL 24.0 against 30.0, from 24/25/30 with the 24 running longest
+project_top_rate_wins	2026-09-01	with no 30 among them the fastest that is there wins	timeline_frame_rate: max(rates) replaced by rates[0], so the first camera in the list decides	with no 30 among them the fastest that is there wins       FAIL 24.0 against 25.0, from 24/25
+project_top_rate_wins	2026-09-01	with nothing but intro and outro the reference clip decides	timeline_frame_rate: the fallback shortened to 30.0, so the reference clip is no longer read	with nothing but intro and outro the reference clip decides FAIL 30.0 against the 24 of the reference clip, only a 60 intro and a 50 outro in the list
+project_top_rate_wins	2026-09-01	without a reference clip either it falls back to 30	timeline_frame_rate: the last fallback changed from 30.0 to 25.0	without a reference clip either it falls back to 30        FAIL 25.0 against 30.0, nothing to read anywhere
 open	project_two_stay_two	and the right one
 open	project_two_stay_two	each path gets its own clip
 open	project_two_stay_two	no path reported: the run stops
@@ -2480,50 +2509,50 @@ open	time_all_ways_agree	%s: %d ways, all on one frame
 open	time_all_ways_agree	%s: at least two ways lead there
 time_all_ways_agree	2026-08-31	%s: three cameras in the cut, both speakers heard	/private/tmp/vpm_time_break_wide.py -- in camera_cut_detail Zeile 5667 `who = wide_shot` zu `who = None` (Stille bekommt keine Kamera mehr, die Totale steht in keinem Schnitt)	Onemoment: three cameras in the cut, both speakers heard   FAIL 2 cameras and 2 speakers with sections, against 3 and 2
 open	time_all_ways_agree	a mix stamped the way the run stamps it reads back as start_s
-open	time_all_ways_agree	a relative In point applied twice moves by one In point, not two
+time_all_ways_agree	2026-09-01	a relative In point applied twice moves by one In point, not two	in apply_time_window, compute(), Zeile 4867 `return (length + value) if value < 0 else value` zu `... else value * 2` (ein relativer In-Punkt zaehlt doppelt)	a relative In point applied twice moves by one In point, not two FAIL 20.000 s the second time
 open	time_all_ways_agree	an absolute In point is read without complaint
-open	time_all_ways_agree	an absolute In point moved the axis by ten seconds
-open	time_all_ways_agree	and ends where the cut does
-open	time_all_ways_agree	and it wrote down the window it was made with
-open	time_all_ways_agree	and laid it down at start_s, in one piece
+time_all_ways_agree	2026-09-01	an absolute In point moved the axis by ten seconds	in apply_time_window Zeile 4903 `fresh["start_s"] = round(float(origin) + from_s, 3)` zu `... + from_s + 0.5, 3)` (die Achse wandert zehneinhalb statt zehn Sekunden)	an absolute In point moved the axis by ten seconds         FAIL 10.500
+time_all_ways_agree	2026-09-01	and ends where the cut does	in write_cut_list Zeile 14012 `... if alone else cut,` zu `... if alone else [(cut[0][0], cut[0][1] + 0.5, cut[0][2])] + cut[1:],` (nur der erste Eintrag der cameracut.edl endet eine halbe Sekunde zu spaet, der letzte bleibt richtig)	and ends where the cut does                                FAIL entry 0: 68122.800 vs 68122.300
+time_all_ways_agree	2026-09-01	and it wrote down the window it was made with	in write_handover Zeile 13762 `"in_point": getattr(args, "in_point", None) or None,` zu `"in_point": None,` (die Uebergabedatei schreibt das Fenster nicht mehr auf, mit dem sie gemacht wurde)	and it wrote down the window it was made with              FAIL None '-0:00:05'
+time_all_ways_agree	2026-09-01	and laid it down at start_s, in one piece	in build_cut_timeline Zeile 13025 `"recordFrame": origin + lead_in, "mediaType": 2}` zu `"recordFrame": origin + lead_in + 12, ...` (der Mix liegt zwoelf Bilder nach start_s)	and laid it down at start_s, in one piece                  FAIL 68100.480 vs 68100.000, startFrame None
 open	time_all_ways_agree	and moves no camera offset
 open	time_all_ways_agree	and moves no speech section
-open	time_all_ways_agree	and on the same cameras, through the camera-to-track map
+time_all_ways_agree	2026-09-01	and on the same cameras, through the camera-to-track map	in cut_statistics Zeile 5705 `"cut": cut,` zu `"cut": [(a, b, "Camera 1") for a, b, w in cut],` (die Vorschau nennt fuer jede Einstellung dieselbe Spur, Zeiten und Anzahl bleiben)	and on the same cameras, through the camera-to-track map   FAIL shot 0: 'Camera 1' vs 'Totale_08141855_C003'
 open	time_all_ways_agree	and shortened the material by the head and the tail
-open	time_all_ways_agree	and the material is ten seconds shorter
-open	time_all_ways_agree	and the same names
-open	time_all_ways_agree	and they begin at the same time
+time_all_ways_agree	2026-09-01	and the material is ten seconds shorter	in apply_time_window Zeile 4897 `fresh["length_s"] = round(until - from_s, 3)` zu `round(until - from_s + 0.5, 3)` (das getrimmte Material bleibt eine halbe Sekunde zu lang)	and the material is ten seconds shorter                    FAIL 9.500
+time_all_ways_agree	2026-09-01	and the same names	in write_cut_list Zeile 13935 `f.write(csv_line((n, timecode_string(...` zu `f.write(csv_line((n + "!", timecode_string(...` (die speakers.csv nennt den Sprecher anders als die speakers.edl)	and the same names                                         FAIL row 0: 'Moderator!' vs 'Moderator'
+time_all_ways_agree	2026-09-01	and they begin at the same time	in write_cut_list Zeilen 14007/14008 `timecode_string(tc0 + a, fps)` und `timecode_string(tc0 + b, fps)` zu `tc0 + 0.5 + a` bzw. `tc0 + 0.5 + b` (die cameracut.csv steht ganz um eine halbe Sekunde spaeter, in sich aber lueckenlos)	and they begin at the same time                            FAIL change 0: 68100.480 vs 68100.000
 open	time_all_ways_agree	and what survives is only the camera nobody is assigned to
-open	time_all_ways_agree	apply_time_window leaves start_tc behind -- so a windowed handover must not reach timeline_origin
+time_all_ways_agree	2026-09-01	apply_time_window leaves start_tc behind -- so a windowed handover must not reach timeline_origin	in apply_time_window hinter Zeile 4903 eine Zeile dazu: `fresh["start_tc"] = timecode_string(fresh["start_s"], nearest_known_frame_rate(fps))` (start_tc wandert jetzt mit start_s mit, die beiden meinen wieder denselben Augenblick)	apply_time_window leaves start_tc behind -- so a windowed handover must not reach timeline_origin FAIL start_tc 18:55:10:00, start_s 68110.000
 open	time_all_ways_agree	applying it a second time moves the axis no further
-open	time_all_ways_agree	at the same times
+time_all_ways_agree	2026-09-01	at the same times	in cut_statistics Zeile 5705 `"cut": cut,` zu `"cut": [(a + 0.5, b, w) for a, b, w in cut],` (die Vorschau setzt jede Einstellung eine halbe Sekunde spaeter an, Anzahl und Kamera bleiben)	at the same times                                          FAIL shot 0: 0.500 vs 0.000
 open	time_all_ways_agree	camera_offset() is keyed on tracks, not on camera names
-open	time_all_ways_agree	cameracut.csv holds at least as many rows as the EDL
-open	time_all_ways_agree	cameracut.edl has one entry per cut entry
+time_all_ways_agree	2026-09-01	cameracut.csv holds at least as many rows as the EDL	in write_cut_list Zeile 14005 `for i, (a, b, n, speaking) in enumerate(detail, 1):` zu `enumerate(detail[:-1], 1)` (die letzte Zeile der cameracut.csv wird nicht geschrieben)	cameracut.csv holds at least as many rows as the EDL       FAIL 6 vs 7
+time_all_ways_agree	2026-09-01	cameracut.edl has one entry per cut entry	in write_cut_list Zeile 14012 `... if alone else cut,` zu `... if alone else cut + cut[-1:],` (der cameracut.edl bekommt den letzten Schnitteintrag ein zweites Mal)	cameracut.edl has one entry per cut entry                  FAIL 8 vs 7
 open	time_all_ways_agree	cut_statistics returned a cut
 open	time_all_ways_agree	every camera name is unique
-open	time_all_ways_agree	every camera offset moved by the In point, once
-open	time_all_ways_agree	every cameracut.edl entry begins where the cut does
+time_all_ways_agree	2026-09-01	every camera offset moved by the In point, once	in apply_time_window Zeile 4923 `dict(cam, offset=round(float(cam["offset"]) - from_s, 4))` zu `... - from_s - 0.5, 4))` (jeder Kamera-Offset wandert eine halbe Sekunde zu weit)	every camera offset moved by the In point, once            FAIL [-10.5, -6.5, 6.98] vs [-10.0, -6.0, 7.48]
+time_all_ways_agree	2026-09-01	every cameracut.edl entry begins where the cut does	in write_cut_list Zeile 14012 `... if alone else cut,` zu `... if alone else cut[:1] + [(cut[1][0] + 0.5, cut[1][1], cut[1][2])] + cut[2:],` (nur der zweite Eintrag der cameracut.edl beginnt zu spaet, der erste bleibt auf start_s)	every cameracut.edl entry begins where the cut does        FAIL entry 1: 68122.800 vs 68122.300
 open	time_all_ways_agree	every cut entry names a camera the handover knows
-open	time_all_ways_agree	every speakers.edl entry sits where the handover says
-open	time_all_ways_agree	every speech section moved by the In point, once
+time_all_ways_agree	2026-09-01	every speakers.edl entry sits where the handover says	in write_cut_list Zeile 13938 `write_edl(stem + "_speakers.edl", "Speakers", lines, tc0, fps)` zu `... [(a + 0.5, b, n) for a, b, n in lines], tc0, fps)` (jeder Eintrag der speakers.edl beginnt eine halbe Sekunde nach dem Abschnitt der Uebergabedatei)	every speakers.edl entry sits where the handover says      FAIL entry 0: 68122.480 vs 68122.000
+time_all_ways_agree	2026-09-01	every speech section moved by the In point, once	in apply_time_window Zeile 4906 `"sections": [[max(0.0, a - from_s), min(until, b) - from_s]` zu `[[max(0.0, a - from_s) + 0.5, ...]` (jeder Sprechabschnitt wandert eine halbe Sekunde zu weit)	every speech section moved by the In point, once           FAIL [12.5, 36.5, 26.5] vs [12.0, 36.0, 26.0]
 open	time_all_ways_agree	every track name is unique
 open	time_all_ways_agree	feeding the handover's cut to the player loses every camera that carries a speaker
-open	time_all_ways_agree	its camera changes are the EDL's entries
+time_all_ways_agree	2026-09-01	its camera changes are the EDL's entries	in write_cut_list Zeile 14006 `f.write(csv_line((i, n, " + ".join(speaking),` zu `f.write(csv_line((i, "OneCamera", " + ".join(speaking),` (jede Zeile der cameracut.csv nennt dieselbe Kamera, aus sieben Wechseln wird einer)	its camera changes are the EDL's entries                   FAIL 1 vs 7
 open	time_all_ways_agree	no cut entry names a track by mistake
-open	time_all_ways_agree	no gap and no overlap between the shots
+time_all_ways_agree	2026-09-01	no gap and no overlap between the shots	in write_cut_list Zeile 14008 `timecode_string(tc0 + b, fps)` zu `timecode_string(tc0 + b + 0.5, fps)` (nur die End TC der cameracut.csv wandert, jede Einstellung ueberlappt die naechste um eine halbe Sekunde)	no gap and no overlap between the shots                    FAIL after shot 0: 68122.800 then 68122.320
 open	time_all_ways_agree	so its offset against programme time is zero
-open	time_all_ways_agree	speakers.csv and speakers.edl say the same times
-open	time_all_ways_agree	speakers.csv has one row per speech section
-open	time_all_ways_agree	speakers.csv: 'Time from start' is the TC minus start_s
-open	time_all_ways_agree	speakers.edl has one entry per speech section
-open	time_all_ways_agree	the Resolve build put the mix on the timeline
-open	time_all_ways_agree	the Resolve timeline ends where the EDL ends
-open	time_all_ways_agree	the Timeline was given the handover's own start timecode
-open	time_all_ways_agree	the cut begins at start_s
-open	time_all_ways_agree	the cut runs to the length the handover states
-open	time_all_ways_agree	the handover names the mix
-open	time_all_ways_agree	the preview finds the same number of shots
+time_all_ways_agree	2026-09-01	speakers.csv and speakers.edl say the same times	in write_cut_list Zeile 13935 `f.write(csv_line((n, timecode_string(tc0 + a, fps),` zu `... timecode_string(tc0 + a + 0.5, fps),` (nur die Start TC der speakers.csv wandert, die speakers.edl bleibt stehen)	speakers.csv and speakers.edl say the same times           FAIL row 0: 68122.480 vs 68122.000
+time_all_ways_agree	2026-09-01	speakers.csv has one row per speech section	in write_cut_list Zeile 13934 `for a, b, n in lines:` zu `for a, b, n in lines[:-1]:` (die letzte Zeile der speakers.csv wird nicht geschrieben)	speakers.csv has one row per speech section                FAIL 2 vs 3
+time_all_ways_agree	2026-09-01	speakers.csv: 'Time from start' is the TC minus start_s	in write_cut_list Zeile 13937 `as_hms(a, ".")` zu `as_hms(a + 0.5, ".")` (nur die Spalte 'Time from start' wandert, die Start TC daneben bleibt stehen)	speakers.csv: 'Time from start' is the TC minus start_s    FAIL Moderator: 22.000 vs 22.500
+time_all_ways_agree	2026-09-01	speakers.edl has one entry per speech section	in write_cut_list Zeile 13938 `write_edl(stem + "_speakers.edl", "Speakers", lines, tc0, fps)` zu `... lines + lines[-1:], tc0, fps)` (der letzte Sprechabschnitt steht zweimal in der speakers.edl)	speakers.edl has one entry per speech section              FAIL 4 vs 3
+time_all_ways_agree	2026-09-01	the Resolve build put the mix on the timeline	in build_cut_timeline Zeile 13032 `applied = mp.AppendToTimeline([place])` zu `applied = mp.AppendToTimeline([])` (der Mix wird der Timeline nicht mehr uebergeben)	the Resolve build put the mix on the timeline              FAIL 0 audio clips
+time_all_ways_agree	2026-09-01	the Resolve timeline ends where the EDL ends	in build_cut_timeline, piece(), Zeile 12947 `end_frame = start_frame + length` zu `... + length - 2` (jede Einstellung ist zwei Bilder kuerzer, recordFrame bleibt stehen)	the Resolve timeline ends where the EDL ends               FAIL 68159.920 vs 68160.000
+time_all_ways_agree	2026-09-01	the Timeline was given the handover's own start timecode	in build_cut_timeline Zeile 12923 `tl.SetStartTimecode(d["start_tc"])` zu `tl.SetStartTimecode("01:00:00:00")` (die Timeline bekommt den Vorgabe-Startcode statt den der Uebergabedatei)	the Timeline was given the handover's own start timecode   FAIL '01:00:00:00' vs '18:55:00:00'
+time_all_ways_agree	2026-09-01	the cut begins at start_s	in write_cut_list Zeile 14012 `... if alone else cut,` zu `... if alone else [(cut[0][0] + 0.5, cut[0][1], cut[0][2])] + cut[1:],` (der erste Eintrag der cameracut.edl beginnt eine halbe Sekunde nach start_s)	the cut begins at start_s                                  FAIL 68100.480 vs 68100.000
+time_all_ways_agree	2026-09-01	the cut runs to the length the handover states	in write_cut_list Zeile 14012 `... if alone else cut,` zu `... if alone else cut[:-1] + [(cut[-1][0], cut[-1][1] - 0.5, cut[-1][2])],` (nur der letzte Eintrag der cameracut.edl endet eine halbe Sekunde zu frueh)	the cut runs to the length the handover states             FAIL 68159.480 vs 68160.000
+time_all_ways_agree	2026-09-01	the handover names the mix	in write_handover Zeile 13787 `"audio_files": dict(single_files or {}),` zu `"audio_files": {},` (der gespeicherte Full-Mix steht nicht mehr in der Uebergabedatei)	the handover names the mix                                 FAIL {}
+time_all_ways_agree	2026-09-01	the preview finds the same number of shots	in cut_statistics Zeile 5705 `"cut": cut,` zu `"cut": cut[:-1],` (die Vorschau gibt eine Einstellung weniger zurueck als sie gerechnet hat)	the preview finds the same number of shots                 FAIL 6 vs 7
 open	time_all_ways_agree	the run's own windowed handover has the two agreeing
 open	time_all_ways_agree	the two name spaces really differ here (a camera carries a speaker)
 open	time_all_ways_agree	the window %r .. %r can be read at all
