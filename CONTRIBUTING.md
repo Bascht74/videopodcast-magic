@@ -65,7 +65,10 @@ WORKERS=1 bash run.sh          # one after another, easier to read
 
 The tests under `tests/resolve/` are not part of `run.sh` and not part
 of the builder. They need a running DaVinci Resolve and are started by
-hand: `cd tests && bash resolve.sh`.
+hand: `cd tests && bash resolve.sh`. Every run of the suite says at the
+end that they are there and did not run, and says it more sharply where
+git shows the Resolve branch has been worked on. On the builder it says
+nothing: nobody there could start them.
 
 A full run takes a couple of minutes. **Always through `run.sh`** — run
 by hand a test lacks `LANG=C LC_ALL=C LANGUAGE=en`, `TMPDIR`,

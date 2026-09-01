@@ -10,10 +10,12 @@ standing and open in front of somebody, exactly as a killed one does.
 
 In order -- what the run remembers is a project it can open again; a
 project Resolve has only created and never saved stands in no project
-list, is therefore remembered as nothing, and the sweep is content
-without it and asks for nothing by hand; a decoy stands beside the open
-project that only looks like the tests' own, and a folder that has their
-whole shape; a run that never tidied up leaves its project behind and
+list, a run asked to make one of its own beside it leaves itself out
+instead and leaves it open and unsaved where it was, it is therefore
+remembered as nothing, and the sweep is content without it and asks for
+nothing by hand; a decoy stands beside the open project that only looks
+like the tests' own, and a folder that has their whole shape;
+a run that never tidied up leaves its project behind and
 open; the sweep takes that project and that folder and says which, leaves
 the decoy standing, and opens the project that was open at the start
 again and names it; and last, everything this test made is gone again.
@@ -96,8 +98,34 @@ def swept_and_restored(name):
     return out.stdout + out.stderr, out.returncode
 
 
-# What the child does: make a project the way any test does, say so, and
-# end. It never deletes it and it has no finally -- the project left
+# What the first child does: the two steps every one of these tests takes
+# before it checks anything -- connect, and ask OwnProject for a project of
+# its own. Nothing after that, and nothing tidied up, because the point of
+# it is that nothing may be made: it runs while the decoy above is open and
+# unsaved, and a project made now would take that decoy away for good.
+#
+# A child rather than a call in this process, and not for honesty's sake:
+# leaving out prints SKIPPED: at the start of a line, and resolve.sh reads
+# that off this test's own output before it looks at anything else. Called
+# here, the one line would turn the whole file into a test that left itself
+# out, whatever every check in it had said. It is also cheap, because it
+# stops before the one expensive step -- measured on 1.9.2026 against
+# Resolve 21.0.4.5: three runs at 0.10, 0.08 and 0.08 s, against 1.2 to 1.4
+# for the child below that really makes one.
+OPENS_ONE = '''
+import sys
+sys.path.insert(0, %r)
+import resolve_ground as g
+
+vpm = g.program()
+resolve = vpm.connect_to_resolve()
+own = g.OwnProject(vpm, resolve, "guard")
+own.open()
+print("it made %%s" %% own.name)
+'''
+
+# What the second child does: make a project the way any test does, say so,
+# and end. It never deletes it and it has no finally -- the project left
 # standing and open is the whole point of it. It writes each step, so the
 # parent waits on something that only moves because the child is working.
 #
@@ -186,6 +214,26 @@ try:
           made_decoy and decoy not in listed(pm),
           "%r among %d projects: %s"
           % (decoy, len(listed(pm)), decoy in listed(pm)))
+    # And that state is the one a run must not walk into. Read the way
+    # resolve.sh reads it: the return code, and SKIPPED: at the start of a
+    # line of its own -- a bow-out that says neither is one nobody counts.
+    ran = subprocess.run([sys.executable, "-c", OPENS_ONE % HERE],
+                         capture_output=True, text=True)
+    loud = [line for line in ran.stdout.splitlines()
+            if line.startswith("SKIPPED:")]
+    check("a test does not make a project while an unsaved one is open",
+          ran.returncode == 2 and len(loud) == 1,
+          "OwnProject.open() ended with %d and put SKIPPED at the start of "
+          "%d lines; it said %r, and %r on the error stream"
+          % (ran.returncode, len(loud), ran.stdout.strip()[:70],
+             ran.stderr.strip()[-70:]))
+    # The return code says it bowed out; this says it bowed out in time.
+    # A guard that ran after the creating would answer 2 just the same and
+    # the decoy would be gone.
+    check("and the unsaved project is still open and still unsaved",
+          open_now(pm) == decoy and decoy not in listed(pm),
+          "Resolve has %r open, the decoy is %r and among %d projects: %s"
+          % (open_now(pm), decoy, len(listed(pm)), decoy in listed(pm)))
     said_which, rc_which = which_says()
     check("a project in no project list is not reported as open",
           said_which == "",

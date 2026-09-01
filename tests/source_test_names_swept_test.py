@@ -1,12 +1,14 @@
 # -*- coding: utf-8 -*-
-"""A project name a test gives Resolve is swept, or excepted by name.
+"""A name a test gives Resolve is swept, or excepted by name.
 
 resolve/sweep.py deletes what resolve_ground.TEST_PROJECT matches and
-nothing else, so a test that names its project any other way leaves it
-standing in somebody's project manager. Three sections: the shape the
-sweep knows and the way a test builds a name, that every file of the
-suite was read -- the repository, not the folder -- and the names, out
-of every call that can carry one into a project manager.
+nothing else, so a test that names its project or its folder any other
+way leaves it standing in somebody's project manager. The sections in
+the order they come: the shape the sweep knows, the way a test builds a
+name, and that folders are cleared away and not only projects; that
+every file of the suite was read -- the repository, not the folder; the
+project names; the folder names; and what is excepted by name. Each
+name out of every call that can carry one into a project manager.
 
 A name may lie outside that shape where a test needs it to. Then it
 stands in ALLOWED with its reason beside it, the run prints it by name,
@@ -168,6 +170,18 @@ def parsed(text):
 NAME_AT = {"CreateProject": 0, "LoadProject": 0, "DeleteProject": 0,
            "open_or_create_project": 1}
 BUILT_AT = {"OwnProject": 2, "a_test_name": 0}
+# A folder is the other thing a test can leave standing, and it is the
+# quieter one: a run that died half way through leaves a folder rather
+# than a project, and a folder stands in no project list. So
+# resolve_ground.swept() reads the folder list as well and clears it by
+# the same shape -- and a folder name outside that shape stays in
+# somebody's project manager exactly as a project name would, while
+# DeleteFolder given one takes away something that is not the tests'.
+FOLDER_AT = {"CreateFolder": 0, "DeleteFolder": 0, "OpenFolder": 0}
+# What swept() has to call for a folder to be cleared away at all: the
+# list a folder stands in, and the deleting. Without both of them no
+# folder name is swept, whatever shape it was given.
+CLEARS_FOLDERS = ("GetFolderListInCurrentFolder", "DeleteFolder")
 # build_resolve_project is the one that carries no name at all in most
 # calls: it takes the whole handover, and the project is named after its
 # "production" where no name was passed. That is how a name reaches
@@ -176,7 +190,9 @@ HANDOVER = "build_resolve_project"
 SWITCH = "--resolve-project"
 # What opens the way to a Resolve that is really running. A file that
 # calls none of these cannot give a name to anything but its own
-# stand-in, whatever it writes.
+# stand-in, whatever it writes. The folder calls above are not among
+# them and do not need to be: a folder is made on a project manager, and
+# a project manager only ever comes out of one of these.
 DOORS = ("connect_to_resolve", "a_resolve", "scriptapp",
          "GetProjectManager", "OwnProject", "a_test_name", HANDOVER)
 SHUT = "connect_to_resolve"
@@ -309,6 +325,10 @@ def read(text, path, offset, found, depth=0):
             elif name in BUILT_AT:
                 word = literal(where(node, BUILT_AT[name], "what"), seen)
                 found["built"].append((path, line, name, word))
+            elif name in FOLDER_AT:
+                found["folder"].append(
+                    (path, line, name,
+                     literal(where(node, FOLDER_AT[name], "name"), seen)))
             elif name == HANDOVER:
                 given = literal(where(node, 2, "project_name"), seen)
                 if given is None:
@@ -331,7 +351,8 @@ def read(text, path, offset, found, depth=0):
         if (depth < 2 and isinstance(node, ast.Constant)
                 and isinstance(node.value, str) and len(node.value) > 20
                 and any(k + "(" in node.value
-                        for k in tuple(NAME_AT) + tuple(BUILT_AT) + DOORS)):
+                        for k in tuple(NAME_AT) + tuple(BUILT_AT)
+                        + tuple(FOLDER_AT) + DOORS)):
             read(node.value, path, line - 1, found, depth + 1)
     return True
 
@@ -359,12 +380,35 @@ def blocks(text):
     return out
 
 
+def held(names):
+    """Hold names against the shape the sweep deletes, read in section 1.
+
+    Returns what lies outside that shape and what stands in ALLOWED, the
+    second one keyed by file and by the name as it is written, so that
+    the ratchet counts one exception once however often it is used.
+    """
+    outside, excused = [], {}
+    for path, line, route, written, name in sorted(names):
+        if shape and shape.match(name):
+            continue
+        if (path, written) in ALLOWED:
+            excused.setdefault((path, written), []).append("%d (%s)"
+                                                           % (line, route))
+            continue
+        outside.append("%s:%d %r%s (%s)"
+                       % (path, line, quiet(written),
+                          "" if name == written else " -> %r" % quiet(name),
+                          route))
+    return outside, excused
+
+
 # ------------------------------------------------------------------ 1.
 print("1. The shape the sweep knows, and the way a test builds a name")
 files, lost = suite()
 ground = files.get(GROUND, "")
 pattern = None
 template = None
+clears = set()
 tree = parsed(ground) if ground else None
 for node in ast.walk(tree) if tree is not None else ():
     if (isinstance(node, ast.Assign) and len(node.targets) == 1
@@ -380,6 +424,11 @@ for node in ast.walk(tree) if tree is not None else ():
                     and isinstance(step.value, ast.BinOp)
                     and isinstance(step.value.left, ast.Constant)):
                 template = step.value.left.value
+    if isinstance(node, ast.FunctionDef) and node.name == "swept":
+        for step in ast.walk(node):
+            if (isinstance(step, ast.Call)
+                    and last(step.func) in CLEARS_FOLDERS):
+                clears.add(last(step.func))
 
 check("the shape the sweep deletes stands in the tests' own ground",
       bool(pattern), "TEST_PROJECT in %s: %s"
@@ -397,17 +446,23 @@ check("a name built that way is one the sweep deletes",
       bool(shape) and bool(made) and bool(shape.match(made)),
       "%r against %s" % (quiet(made), quiet(pattern or "no shape to hold it "
                                             "against")))
+check("the sweep clears folders away and not only projects",
+      clears == set(CLEARS_FOLDERS),
+      "swept() in %s calls %d of %d, missing: %s"
+      % (GROUND, len(clears), len(CLEARS_FOLDERS),
+         ", ".join(sorted(set(CLEARS_FOLDERS) - clears)) or "none"))
 
 # ------------------------------------------------------------------ 2.
 print("\n2. Every file of the suite was read, the set-aside ones too")
-found = {"name": [], "built": [], "open": {}, "shut": set()}
+found = {"name": [], "built": [], "folder": [], "open": {}, "shut": set()}
 unread = list(lost)
 for path in sorted(files):
     text = files[path]
     if path.endswith(".sh"):
         for at, body in blocks(text):
             if not any(k + "(" in body
-                       for k in tuple(NAME_AT) + tuple(BUILT_AT) + DOORS):
+                       for k in tuple(NAME_AT) + tuple(BUILT_AT)
+                       + tuple(FOLDER_AT) + DOORS):
                 continue
             if not read(body, path, at - 1, found):
                 unread.append("%s, the block at line %d" % (path, at))
@@ -420,7 +475,7 @@ check("every file the repository names under tests/ was read",
          or "none"))
 
 # ------------------------------------------------------------------ 3.
-print("\n3. The names the tests can give Resolve")
+print("\n3. The project names the tests can give Resolve")
 reaches = dict((p, why) for p, why in found["open"].items()
                if p not in found["shut"])
 for path in sorted(reaches):
@@ -449,22 +504,47 @@ for path, line, route, name in found["name"]:
         judged.append((path, line, route, name, as_name(name)))
 
 check("there are names to judge at all", bool(judged),
-      "%d names read out of the source, %d worked out while a test runs, "
-      "in %d files that can reach Resolve"
+      "%d project names read out of the source, %d worked out while a test "
+      "runs, in %d files that can reach Resolve"
       % (len(judged), runtime, len(reaches)))
-outside = []
-excused = {}
-for path, line, route, written, name in sorted(judged):
-    if shape and shape.match(name):
-        continue
-    if (path, written) in ALLOWED:
-        excused.setdefault((path, written), []).append("%d (%s)"
-                                                       % (line, route))
-        continue
-    outside.append("%s:%d %r%s (%s)"
-                   % (path, line, quiet(written),
-                      "" if name == written else " -> %r" % quiet(name),
-                      route))
+outside, excused = held(judged)
+check("a project name a test can give Resolve is swept, or excepted by name",
+      bool(shape) and not outside, "%d of %d are not, against %s: %s"
+      % (len(outside), len(judged), quiet(pattern or "no shape at all"),
+         quiet("; ".join(outside)) or "none"))
+
+# ------------------------------------------------------------------ 4.
+print("\n4. The folder names the tests can give Resolve")
+# A folder is made and deleted on a project manager, not on a project, so
+# it comes out of its own calls. Most of them carry a name the file works
+# out while it runs -- a_test_name is judged in section 3, where it is
+# built -- and what is left here is a folder name written down as it
+# stands, which is the one nothing else looks at.
+folder_calls = [row for row in found["folder"] if row[0] in reaches]
+judged_folders = []
+folder_runtime = 0
+for path, line, route, name in folder_calls:
+    if name is None:
+        folder_runtime += 1
+    else:
+        judged_folders.append((path, line, route, name, as_name(name)))
+check("the calls that make a folder in Resolve are read too",
+      bool(folder_calls),
+      "%d folder calls in %d files that can reach Resolve, %d with a name "
+      "written down and %d worked out while a test runs; looked for: %s"
+      % (len(folder_calls), len(reaches), len(judged_folders), folder_runtime,
+         ", ".join(sorted(FOLDER_AT))))
+outside_folders, excused_folders = held(judged_folders)
+check("a folder name a test can give Resolve is swept, or excepted by name",
+      bool(shape) and not outside_folders, "%d of %d are not, against %s: %s"
+      % (len(outside_folders), len(judged_folders),
+         quiet(pattern or "no shape at all"),
+         quiet("; ".join(outside_folders)) or "none"))
+
+# ------------------------------------------------------------------ 5.
+print("\n5. The names excepted by name")
+for spot in excused_folders:
+    excused.setdefault(spot, []).extend(excused_folders[spot])
 # By name, so that whoever reads a green run sees that something was
 # taken out of the judgement rather than taking the run for clean.
 for spot in sorted(excused):
@@ -473,10 +553,8 @@ for spot in sorted(excused):
              ", ".join(excused[spot])))
     for piece in textwrap.wrap(quiet(ALLOWED[spot]), 66):
         print("          %s" % piece)
-check("a project name a test can give Resolve is swept, or excepted by name",
-      bool(shape) and not outside, "%d of %d are not, against %s: %s"
-      % (len(outside), len(judged), quiet(pattern or "no shape at all"),
-         quiet("; ".join(outside)) or "none"))
+if not excused:
+    print("      none")
 check("no more names are excepted than the ratchet allows",
       len(excused) <= EXCEPTIONS_ALLOWED, "%d excepted of at most %d%s: %s"
       % (len(excused), EXCEPTIONS_ALLOWED,

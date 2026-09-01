@@ -4,11 +4,25 @@
 #
 #   test   when   the check's wording   what was broken   the red line
 #
-# It is here and not in tests/state/counterproof because
-# source_checks_proved_test.py reads the tests out of tests/ and not out
-# of tests/resolve/ -- rows there would be reported as belonging to no
-# test at all. If the register is ever widened to this folder, these rows
-# move across unchanged.
+# It is here and not in tests/state/counterproof because these four are
+# a suite of their own: nothing under resolve/ runs in a suite here, and
+# a row of theirs over there would name no test that register knows.
+#
+# Held apart on purpose -- but until 1.9.2026 they were simply unseen.
+# git listed them as resolve/x_test.py, no x_test.py lay in tests/, and
+# the way back through the last commit missed them too, so they fell out
+# of source_checks_proved_test.py without a word and these seventy-four
+# checks were held by nothing at all. Section 5 of that test now reads
+# this file and holds the four against it, and takes them out of the
+# other set by name, so that mending either of those two mistakes cannot
+# tip them into the register that is not theirs. The rows stay here.
+#
+# There are no `open` rows here, and there is no ratchet. The suite's
+# register carries a census of what is still owed, because a check there
+# may be written by anyone; a check here can only be written by somebody
+# with a Resolve running, and that is the same somebody who can break
+# the one thing and keep the red line. So every check under resolve/
+# owes a finished row, and one without a row is red.
 #
 # The program was never edited for any of this: a copy went into scratch,
 # the one thing was broken there, and the test ran against the copy with
@@ -87,3 +101,5 @@ project_run_puts_back	2026-09-01	the sweep is content where there was nothing to
 project_run_puts_back	2026-09-01	and it does not ask for a project to be opened by hand	sweep.py -- the whole `if not wanted:` branch taken out, so an empty answer falls through to the loud box	and it does not ask for a project to be opened by hand     FAIL 'WOULD NOT OPEN' in what the sweep printed: True, of 296 characters
 project_run_puts_back	2026-09-01	the project that was open at the start is open again	sweep.py -- `wanted = argv[at + 1]` to `wanted = argv[at + 1] + "-nope"`	the project that was open at the start is open again       FAIL Resolve has 'vpm-test-left-47631-0621' open, it started with 'Untitled Project 1'
 project_run_puts_back	2026-09-01	and the sweep says by name which project it opened	sweep.py -- `print("  open again: %r" % wanted)` to `print("  open again.")`	and the sweep says by name which project it opened         FAIL 'Untitled Project 1' in what the sweep printed: False
+project_run_puts_back	2026-09-01	a test does not make a project while an unsaved one is open	resolve_ground.py -- in OwnProject.open the guard `if was not in (self.pm.GetProjectListInCurrentFolder() or []):` to `if False:`, so the run creates its project beside the unsaved decoy instead of leaving itself out	  a test does not make a project while an unsaved one is open FAIL OwnProject.open() ended with 0 and put SKIPPED at the start of 0 lines; it said "Project 'vpm-test-guard-28628-b941' created.\nit made vpm-test-guard-28", and '' on the error stream
+project_run_puts_back	2026-09-01	and the unsaved project is still open and still unsaved	resolve_ground.py -- the same guard in OwnProject.open to `if False:`, so CreateProject runs and takes the unsaved decoy away for good	  and the unsaved project is still open and still unsaved    FAIL Resolve has 'vpm-test-guard-28628-b941' open, the decoy is 'vpm-test-decoy-KEEP-28626' and among 17 projects: False

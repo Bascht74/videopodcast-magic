@@ -7,10 +7,17 @@ purpose, the test run against that, the red line kept.
 `state/counterproof` holds one row per check -- that red line, or a
 census row where there is none yet.
 
+There are two registers, and neither holds the other's rows. The suite's
+own is state/counterproof; the tests under resolve/ want a DaVinci
+Resolve really running, never take part in a run here, and keep their
+proofs in resolve/counterproof. Both are held, each against the tests
+that belong to it.
+
 The sections: that the register can be read, that every entry carries
-its evidence, that every row still belongs to a check that is here, and
-the ratchet over what is owed, red as soon as a check enters the suite
-without a row of its own.
+its evidence, that every row still belongs to a check that is here, the
+ratchet over what is owed, red as soon as a check enters the suite
+without a row of its own, and the Resolve tests against their own
+register, where nothing may be owed at all.
 
 A row names its check by that check's wording and its test by name. So
 rewording one check voids that one row and leaves its neighbours
@@ -28,6 +35,11 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 STATE = os.path.join(HERE, "state", "counterproof")
+# The Resolve suite and its own register. It is a folder apart because
+# nothing in it can run without a DaVinci Resolve, and a register apart
+# because a row of it would name no test the suite here knows.
+RESOLVE = os.path.join(HERE, "resolve")
+RESOLVE_STATE = os.path.join(RESOLVE, "counterproof")
 
 began = time.time()
 done = 0
@@ -91,32 +103,44 @@ def judgements(source):
                                if l.strip()))
 
 
+def rows_of(path):
+    """One register read: its census rows, its entries, what is malformed.
+
+    Both registers have the same two shapes, so both are read here. A
+    file that is not there reads as empty; whether it should have been
+    there is a judgement, not something to raise an exception over.
+    """
+    census, entries, bad_shape = [], [], []
+    if not os.path.exists(path):
+        return census, entries, bad_shape
+    for number, line in enumerate(io.open(path, encoding="utf-8"), 1):
+        line = line.rstrip("\n")
+        if not line.strip() or line.startswith("#"):
+            continue
+        # Every field but the check's own wording is stripped. That one
+        # is the key, and its leading blanks belong to it.
+        fields = line.split("\t")
+        kind = fields[0].strip()
+        if kind == "open" and len(fields) == 3:
+            census.append({"name": fields[1].strip(),
+                           "word": fields[2].rstrip(), "line": number})
+        elif kind != "open" and len(fields) == 5:
+            entries.append({"name": kind, "when": fields[1].strip(),
+                            "word": fields[2].rstrip(),
+                            "how": fields[3].strip(),
+                            "red": fields[4].strip(), "line": number})
+        else:
+            bad_shape.append("line %d: %s with %d fields"
+                             % (number, kind[:20], len(fields)))
+    return census, entries, bad_shape
+
+
 print("1. The register can be read")
 check("state/counterproof is there", os.path.exists(STATE), STATE)
 if bad:
     stop()
 
-census = []
-entries = []
-bad_shape = []
-for number, line in enumerate(io.open(STATE, encoding="utf-8"), 1):
-    line = line.rstrip("\n")
-    if not line.strip() or line.startswith("#"):
-        continue
-    # Every field but the check's own wording is stripped. That one is
-    # the key, and its leading blanks belong to it.
-    fields = line.split("\t")
-    kind = fields[0].strip()
-    if kind == "open" and len(fields) == 3:
-        census.append({"name": fields[1].strip(), "word": fields[2].rstrip(),
-                       "line": number})
-    elif kind != "open" and len(fields) == 5:
-        entries.append({"name": kind, "when": fields[1].strip(),
-                        "word": fields[2].rstrip(), "how": fields[3].strip(),
-                        "red": fields[4].strip(), "line": number})
-    else:
-        bad_shape.append("line %d: %s with %d fields"
-                         % (number, kind[:20], len(fields)))
+census, entries, bad_shape = rows_of(STATE)
 check("every row has the fields of its kind", not bad_shape,
       "%d of %d rows do not: %s"
       % (len(bad_shape), len(census) + len(entries) + len(bad_shape),
@@ -153,8 +177,22 @@ print("\n3. Every row belongs to a check that is here")
 # The repository, not the folder: the builder moves the tests a machine
 # cannot run out of the way before the suite starts, so counting what
 # lies about would make every such machine red for what is not a fault.
+#
+# The Resolve tests are taken out of this set by name, and section 5
+# holds them against their own register. By name and not by accident:
+# until now they fell out of their own accord, because git lists them
+# as `resolve/x_test.py`, no `x_test.py` lies here, and the way back
+# through the last commit misses them too. Two mistakes cancelling --
+# and mending either one would have dropped seventy-four proved checks
+# into the register that is not theirs, all as fresh debts, and sent
+# this ratchet up in one step.
+resolve_tests = {}
+if os.path.isdir(RESOLVE):
+    resolve_tests = dict((name, judgements(source)) for name, source
+                         in overview.test_sources(RESOLVE).items())
 tests = dict((name, judgements(source))
-             for name, source in overview.test_sources(HERE).items())
+             for name, source in overview.test_sources(HERE).items()
+             if name not in resolve_tests)
 rows_by_name = {}
 for row in entries + census:
     rows_by_name.setdefault(row["name"], []).append(row)
@@ -275,8 +313,71 @@ if not bad and not mute:
     if text != io.open(STATE, encoding="utf-8").read():
         io.open(STATE, "w", encoding="utf-8").write(text)
 
+# The Resolve section stands after the write-back on purpose: the two
+# registers are independent, and a fault in one must not stop the other
+# being brought up to date.
+print("\n5. The Resolve tests, against their own register")
+r_census, r_entries, r_shape = rows_of(RESOLVE_STATE)
+# The two checks that keep this section from reporting nothing.
+# Everything under it compares two sets, and two empty sets agree
+# beautifully: a route that stopped finding the tests, or a register
+# that was moved away, would leave the rest cheerfully green while
+# seventy-four checks went unheld. So each side is asked for its
+# existence first, and named in the line if it is missing.
+check("the Resolve tests are found where their register looks for them",
+      bool(resolve_tests),
+      "%d test files under %s, holding %d checks"
+      % (len(resolve_tests), RESOLVE,
+         sum(len(v) for v in resolve_tests.values())))
+check("the Resolve register holds rows at all", bool(r_entries or r_census),
+      "%d proved, %d open in %s" % (len(r_entries), len(r_census),
+                                    RESOLVE_STATE))
+check("every Resolve row has the fields of its kind", not r_shape,
+      "%d of %d rows do not: %s"
+      % (len(r_shape), len(r_census) + len(r_entries) + len(r_shape),
+         r_shape[:3]))
+# The same evidence the other register's entries owe. Held in one line
+# because a Resolve row that is short of any of the three is short of
+# the whole of what it claims: somebody once saw this check fall.
+thin = ["%s (line %d)" % (e["name"], e["line"]) for e in r_entries
+        if "FAIL" not in e["red"] or len(e["how"]) < 8
+        or not re.match(r"^\d{4}-\d{2}-\d{2}$", e["when"])]
+check("every Resolve entry carries its evidence", not thin,
+      "%d of %d entries short of a red line, a date or what was broken: %s"
+      % (len(thin), len(r_entries), thin[:3]))
+r_orphans = ["%s (line %d)" % (r["name"], r["line"])
+             for r in r_entries + r_census if r["name"] not in resolve_tests]
+check("no Resolve row for a test that is not there", not r_orphans,
+      "%d of %d rows name %d tests that are not among the %d found: %s"
+      % (len(r_orphans), len(r_entries) + len(r_census),
+         len(set(o.split(" ")[0] for o in r_orphans)), len(resolve_tests),
+         sorted(set(o.split(" ")[0] for o in r_orphans))[:4]))
+r_void = ["%s: %s" % (e["name"], e["word"].strip()[:40]) for e in r_entries
+          if e["name"] in resolve_tests
+          and e["word"] not in resolve_tests[e["name"]]]
+check("no Resolve entry for a check its test no longer makes", not r_void,
+      "%d of %d entries: %s" % (len(r_void), len(r_entries), r_void[:3]))
+# No census here, and so no ratchet: the Resolve register carries proofs
+# and nothing else. A check that cannot be run without a Resolve is
+# written by somebody who has one, and that is the same somebody who can
+# break the one thing and keep the red line.
+r_proved = set((e["name"], e["word"]) for e in r_entries
+               if e["name"] in resolve_tests
+               and e["word"] in resolve_tests[e["name"]])
+r_owed = ["%s: %s" % (name, word.strip()[:46])
+          for name in sorted(resolve_tests)
+          for word in resolve_tests[name] if (name, word) not in r_proved]
+r_total = sum(len(v) for v in resolve_tests.values())
+check("every Resolve check carries a counter-proof of its own", not r_owed,
+      "%d of %d checks in %d tests without one: %s"
+      % (len(r_owed), r_total, len(resolve_tests), r_owed[:3]))
+for row in r_owed:
+    print("      %s -- owes a counter-proof and has no row" % row)
+
 print("\n%d tests, %d checks, %d of them counter-proved, %d still owing"
       % (len(tests), sum(len(v) for v in tests.values()), len(proved), total))
+print("%d Resolve tests, %d checks, %d of them counter-proved, %d still owing"
+      % (len(resolve_tests), r_total, len(r_proved), len(r_owed)))
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

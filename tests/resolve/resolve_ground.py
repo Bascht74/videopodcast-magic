@@ -12,16 +12,27 @@ of their own whose name no human would type, they touch nothing else, and
 they put the project that was open back where it was -- also when the test
 falls over half way, which is what OwnProject.close() in a finally is for.
 
-What was measured on Resolve 21.0.4.5 and is the reason for the order in
-close():
+What was measured on Resolve 21.0.4.5, on 1.9.2026, and is the reason for
+the order in open() and close():
 
-* A project that was only created and never saved is not in
-  GetProjectListInCurrentFolder(), and DeleteProject then answers False
-  -- but only for as long as it is still the project Resolve has open.
-  The moment anything else is loaded Resolve writes it out, and then it
-  stands in the list and DeleteProject answers True. So the project is
-  saved once when it is made, and is really there from that moment on
-  rather than only after somebody opened something else.
+* Only what stands in GetProjectListInCurrentFolder() can be loaded
+  again. A project that was only created and never saved does not stand
+  there, and DeleteProject answers False for it.
+* Whether Resolve writes such a project out on the way to another one
+  depends on how it is left, and the two ways differ. LoadProject writes
+  it out -- under the name it had, not one of Resolve's choosing -- and
+  from then on it is in the list and DeleteProject answers True.
+  CreateProject does not: the unsaved project is gone, and no name
+  fetches it back. Measured with one project each way.
+* Creating is what these tests do, so what is open beforehand is only
+  remembered when it already stands in the list, and where it does not
+  the test leaves itself out before anything is made. Otherwise the
+  first thing a test does is take somebody's unsaved work away for good.
+  That is the same rule sweep.py --which applies, and both read the same
+  list to decide.
+* The tests' own project is saved the moment it is made, so it is really
+  there from then on rather than only after somebody opened something
+  else.
 * DeleteProject refuses a project that is open, so the project that was
   open before is loaded again first -- which is what has to happen anyway.
 """
@@ -206,9 +217,30 @@ class OwnProject(object):
         self.kind = None
 
     def open(self):
-        """Create the project and leave it open. Nothing else is touched."""
+        """Create the project and leave it open. Nothing else is touched.
+
+        Only a name that stands in the project manager's list is
+        remembered, because that list is the whole of what LoadProject
+        can fetch back -- the same rule sweep.py --which applies. Where
+        nothing can be remembered the test is left out here, before
+        anything is created: creating a project would take an unsaved one
+        away for good, and the leaving out has to happen while there is
+        still nothing to put back.
+        """
         was = self.pm.GetCurrentProject()
-        self.before = was.GetName() if was else None
+        was = was.GetName() if was else ""
+        if was not in (self.pm.GetProjectListInCurrentFolder() or []):
+            # Before self.before is set, and not only for tidiness: a
+            # sys.exit in here runs the caller's finally, and close() must
+            # find nothing there that it would try to load again.
+            leave_out(
+                "Resolve is on %r, which stands in no project list -- only "
+                "what stands in that list can be loaded again, so nothing "
+                "here could be put back afterwards, and making a project now "
+                "would take an unsaved one away for good. Open a project of "
+                "your own in Resolve, or save the one that is open, and run "
+                "again." % was)
+        self.before = was
         self.project, self.kind = self.vpm.open_or_create_project(
             self.pm, self.name, None)
         # Saved at once: unsaved, it is in no list and cannot be deleted
