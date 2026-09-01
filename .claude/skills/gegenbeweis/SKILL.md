@@ -92,11 +92,14 @@ The five fields of an entry:
 
 1. **The test name with the `_test.py` cut off.**
 2. **The date as `YYYY-MM-DD`.** Anything else is refused.
-3. **The fingerprint**, twelve characters, taken over **the first
-   argument of every `check(...)` in the file** and nothing else. That
-   is the whole answer to "does my edit void the entry?": leave those
-   strings alone and it does not. Never invented, never copied
-   from another row — the same one twice is red.
+3. **The wording of the check itself** — the first argument of the
+   `check(...)` this row is about, copied exactly. One row per check,
+   not one per file. That is also the whole answer to "does my edit void
+   the entry?": leave those strings alone and it does not. Reword a
+   check, add one or split one in two, and its row is void.
+
+   The register is read as `(test, wording)`; the same pair twice is
+   red, and so is a row whose wording no test says any more.
 4. **What was broken**, at least eight characters, and precise enough
    that somebody can repeat it without thinking: the one place and the
    one change. If it was not the program, this says what it was against
@@ -112,22 +115,24 @@ ratchet: the number may fall, never rise. **So a new test gets a
 finished entry, not an `open` row** — an `open` row would raise it.
 
 **Delete that test's `open` row in the same edit that adds its entry.**
-With both rows carrying the same fingerprint, `source_checks_proved_test.py`
-reports the test as being in the register twice.
+With both rows carrying the same wording, `source_checks_proved_test.py`
+reports the check as being in the register twice.
 
-### The suite works out the fingerprint, not the hand
+### The suite finds a row by its wording, not by the file name
 
-It is a fingerprint over the wording of every judgement in the test,
-not over the file name — which is why a row survives the file being
-renamed and dies when a check is reworded.
+`source_checks_proved_test.py` reads the first argument of every
+`check(...)` out of each test and holds the set against the register.
+So a row survives the **file** being renamed, and it dies when a
+**check** is reworded — the wording is the whole of the link.
 
-* **If the test already stands as `open`**, the suite keeps its
-  fingerprint written straight. After one run of
-  `python3 tests/source_checks_proved_test.py` the current one is in the file.
-* **If the test is new**, put an `open` row in with its name and any
-  twelve characters, and run `source_checks_proved_test.py`. It prints
-  `written straight: open <name> … -> open <name> <right>` and writes
-  it in. Then replace the `open` row with the finished entry.
+* **A test that still owes rows** stands in the register as `open`
+  lines, one per unproved check: `open <test> <wording>`.
+* **Replace an `open` line with the finished row in the same edit.**
+  Both carrying the same wording counts as the check being in the
+  register twice, and the run says so.
+* **A finished row whose wording no check says any more** is just as
+  red. Whoever rewords a check takes its old row out and earns a new
+  one — see §12 of `test-neu`.
 
 Both only happen when nothing else in that run is red. And
 `source_checks_proved_test.py` writes the file back itself — do not edit it by
@@ -140,9 +145,9 @@ is owed. If only *how* it looks changes, the entry stands.** Moving a
 limit, turning a comparison round, swapping one field for another: the
 what changes.
 
-The machine sees one half of this. Reword a judgement and the
-fingerprint no longer matches, and `source_checks_proved_test.py` reports the
-test as rewritten since its counter-proof. **The other half it cannot
+The machine sees one half of this. Reword a judgement and the register
+no longer finds it, and `source_checks_proved_test.py` reports the
+check as owing a counter-proof again. **The other half it cannot
 see:** a check that keeps its wording and changes its claim stays green
 with an entry that no longer proves anything. That one is caught only
 by whoever is doing the change.
