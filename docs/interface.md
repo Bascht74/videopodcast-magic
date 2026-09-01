@@ -27,8 +27,8 @@ Four tabs, in the order they are needed.
   it asks once, naming it and the day it was written; several and it
   shows them to choose between; none and nothing happens. Nothing is
   ever taken in part -- the project comes back whole, with the names,
-  the separation, who sits at which camera, the types and the time
-  window, or it is not opened at all.
+  every separation it holds, who sits at which camera, the types and
+  the time window, or it is not opened at all.
 
   **No** leaves the files that came in exactly where they are. The list
   is built from them and measured the usual way, once, and that project
@@ -148,6 +148,22 @@ Four tabs, in the order they are needed.
   **Only one speaker -- separate the track?** wherever a name stands in
   the field.
 
+  Each recording keeps a separation of its own, and several stand side
+  by side: every row counts the voices of its own recording, and taking
+  a second one apart leaves the first one's rows, names and cameras
+  where they are. Only **Break off** is ever in one row alone, because
+  one recording is worked through at a time.
+
+  A name is a person, and a person stands on the sheet once. A name that
+  is already there turns its field red while it is being typed, on both
+  levels and across separations. What that means is not the same on the
+  two levels. Two recordings under one name are a question, not a
+  refusal: they are meant to become a single track, and the line under
+  the table says so; [Multitrack](multitrack.md) has that whole side. A
+  **Voice** under a name somebody else carries is a refusal -- the note
+  at the field asks for one of its own, **Start** stays locked, and the
+  line under the buttons names the person.
+
   Which camera a recording belongs to follows from that name for as
   long as nobody picks one, so a name typed or corrected later takes
   the camera with it. A camera picked by hand is an answer and stays
@@ -168,6 +184,12 @@ Four tabs, in the order they are needed.
   at once. A click on a voice takes the player to where that voice
   speaks longest and plays it. Recordings that show no voices are a
   flat list, without triangles.
+
+  A name the program gives a voice itself takes the first number nobody
+  has, counted over every separation and over the recordings above, so
+  a second recording does not open with a second **Speaker 1**: where
+  **Speaker 1** stands, the next is **Speaker 2**. A name given by hand
+  is never renumbered, and a number that falls free is used again.
 
   The camera table under it carries **Camera audio** again, at every
   camera, on the value from the file list, and **Kind** beside it, on
@@ -194,7 +216,15 @@ Four tabs, in the order they are needed.
   zoomed: unzoomed it is the whole material, and while the band holds
   nothing it reads `0:00:00 -- 0:00:00`. Its width is fixed, so the
   three buttons stay under the pointer as the numbers change.
-  [The camera cut](camera-cut.md) says how the band itself is read.
+  [The camera cut](camera-cut.md) says how the band itself is read, and
+  how the heading of the box **Speaker** is to be read.
+
+  In the box **Camera cut -- preview**, under what the preview says,
+  stands **Measure speakers now** -- whenever a track is neither covered
+  by a separation nor measured, and so beside a separation that already
+  stands as well. Next to the button is who is missing. Those people are
+  in the cut; it is this preview that cannot show them until they have
+  been measured.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -205,8 +235,10 @@ Four tabs, in the order they are needed.
   it up. With **Multitrack** ticked the name stays **Camera cut**.
 
   The box appears as soon as **Multitrack** is ticked, or as soon as two
-  people carry a name and a camera -- the voices under a separated
-  recording, or the rows of the assignment table. One person is enough
+  people carry a name and a camera. Where those two came from makes no
+  difference, and the two sources count together: a voice under a
+  separated recording and a recording with a name of its own are two
+  people, just as two voices are, or two recordings. One person is enough
   where there are two cameras or more. One person on a single camera
   gets no box, and rightly: there is nowhere to cut to. Until then a
   line stands in place of box and preview and says what is missing. A
@@ -285,6 +317,9 @@ is stands under the buttons**, with the tab it is on:
   none the file name suggests -- the grey suggestion counts as the name
   wherever nothing is typed over it,
 - with multitrack, all recordings under the same name,
+- a **Voice** under a name that is on somebody else: the cut puts a
+  person on one camera, and one name on two voices would be that person
+  in two places,
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means

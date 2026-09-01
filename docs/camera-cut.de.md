@@ -12,6 +12,15 @@ Stimmen, die auf einer Aufnahme auseinandergehalten wurden, deren
 **Sprechername** mit **mehrere Sprecher** beantwortet ist; das Häkchen
 **Multitrack** gehört nicht dazu. Beide Wege stehen in [Spracherkennung
 und Sprechertrennung](speech.de.md).
+
+**Wer im Schnitt ist, hängt nicht daran, woher er kam.** Eine eigene
+Datei mit einer Stimme darauf, der Ton eines Videos mit einer Stimme
+darauf, eine Multitrack-Aufnahme oder eine Aufnahme, die in mehrere
+Stimmen aufgetrennt wurde — alles zählt gleich, und heraus hält nur
+**nicht verwenden**. An drei Personen mit je einer Kamera gemessen: alle
+drei sind im Schnitt, und das Bild geht auf alle drei Kameras — die
+Person am eigenen Mikrofon darunter, mit 2 Einstellungen.
+
 Damit weiß das Script, wann wer redet, und baut daraus den Schnitt:
 
 * Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
@@ -278,19 +287,30 @@ Der Kasten **Sprecher** zeigt je Sprecher:
 * eine Zeile Stille
 
 Die Überschrift nennt die Quelle: **Sprecher, nach Stimmen getrennt**
-oder **Sprecher, selbst aus den Spuren gemessen**. Bei zwei gleichzeitig
-Redenden zählt die Zeit doppelt, bei der Stille nicht. Deshalb ergeben
-die Zeilen zusammen mehr als die Laufzeit.
+oder **Sprecher, selbst aus den Spuren gemessen**. In der Tabelle kann
+beides zugleich stehen — Stimmen aus einer Trennung und Spuren, die aus
+ihrem eigenen Mikrofon gemessen wurden, nebeneinander —, und dann heißt
+die Überschrift für alle zusammen **Sprecher, nach Stimmen getrennt**.
+Das Protokoll hält die beiden auseinander und druckt beide Marken, jede
+über den Zeilen, die zu ihr gehören.
+
+Bei zwei gleichzeitig Redenden zählt die Zeit doppelt, bei der Stille
+nicht. Deshalb ergeben die Zeilen zusammen mehr als die Laufzeit.
 
 Beides rechnet das Programm aus der Übergabedatei
 `<Produktion>_resolve.json` des letzten Laufs, bei jeder Änderung neu
 und immer für das gewählte Zeitfenster. Schreiben und Hochladen gehören
 zum Lauf, nicht zur Vorschau.
 
-Ohne bekannte Sprecher sagt der Kasten das und bietet den Knopf
-**Sprecher jetzt messen**; wenn die Rechnung schiefgeht, steht an seiner
-Stelle der Grund. Sprecher, die später auftauchen, starten die Vorschau
-von selbst.
+Der Knopf **Sprecher jetzt messen** steht unten im Vorschau-Kasten und
+nicht unter diesem, solange eine Spur weder von einer Trennung abgedeckt
+noch gemessen ist; daneben steht, wer fehlt: **Name noch nicht gemessen
+-- im Schnitt, in dieser Vorschau noch nicht**. Diese Leute sind im
+Schnitt; ein Druck holt sie auch in die Vorschau. Sind überhaupt keine
+Sprecher bekannt, sagt der Vorschau-Kasten das an Stelle seiner Zahlen,
+und der Kasten **Sprecher** bleibt leer. Geht die Messung schief, steht
+der Grund neben dem Knopf. Sprecher, die später auftauchen, starten die
+Vorschau von selbst.
 
 ### Schnittband und Legende lesen
 
@@ -441,10 +461,13 @@ Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
 Sprecher Redezeit und Zahl der Abschnitte. Wenn nichts zu hören war,
 gibt es keinen Kameraschnitt.
 
-Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, schon
-vor dem ersten Lauf: gröber als die Trennung nach Stimmen, aber genug, um
-den Schnitt einzustellen. Nach Stimmen getrennte Sprecher haben Vorrang,
-sobald es sie gibt, und die Überschrift über der Tabelle sagt, was gilt.
+Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, ohne
+auf einen Lauf zu warten: gröber als die Trennung nach Stimmen, aber
+genug, um den Schnitt einzustellen. Die beiden schließen einander nicht
+aus. Stimmen aus einer Trennung und hier gemessene Spuren gehen in ein
+und dieselbe Rechnung, und den Knopf gibt es, solange eine Spur weder
+von einer Trennung abgedeckt noch gemessen ist — auch dann, wenn schon
+getrennt wurde.
 
 ### Schneiden, wenn eine Kamera alle zeigt
 
@@ -554,9 +577,14 @@ Lautheitsmessung läuft je Spur zweimal durch.
 
 ### Wenn etwas klemmt
 
-* **Der Kasten Sprecher sagt, dass keine Sprecher bekannt sind.**
-  **Sprecher jetzt messen** drücken. Der Grund steht an Stelle der
-  Tabelle, wenn die Rechnung schiefgeht.
+* **Die Vorschau sagt, dass keine Sprecher bekannt sind, und der Kasten
+  Sprecher ist leer.** Unten im Vorschau-Kasten **Sprecher jetzt
+  messen** drücken. Geht die Messung schief, steht der Grund neben dem
+  Knopf.
+* **Der Kasten Sprecher zeigt Sprecher, und die Vorschau sagt, dass
+  jemand noch nicht gemessen ist.** Diese Person ist im Schnitt; nur die
+  Vorschau kann sie nicht zeigen, weil ihre Spur weder getrennt noch
+  gemessen ist. **Sprecher jetzt messen** holt sie in die Vorschau.
 * **Es kommt kein Schnitt heraus.** Auf den Spuren war nichts zu hören,
   oder die Trennung hat nur eine Stimme gefunden und es gibt nur eine
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder

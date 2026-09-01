@@ -18,7 +18,11 @@ Das Häkchen entscheidet, wie die Aufnahmen zusammengefasst werden, und
 sonst nichts: mit Häkchen bekommt jede Person eine eigene Spur, mit
 Namen und Kamera; ohne Häkchen laufen alle zusammen in den Full-Mix.
 Die gemeinsame Zeitachse, der Kameraschnitt und die Dateien am Ende
-sind mit Häkchen dieselben wie ohne.
+sind mit Häkchen dieselben wie ohne. Auch wer im Schnitt landet, hängt
+nicht daran, woher er kommt: eine eigene Aufnahme, der Ton einer Kamera,
+ein Kanal eines Recorders und eine Stimme, die die Trennung gefunden
+hat, zählen gleich -- draußen bleibt nur, wer auf **nicht verwenden**
+steht.
 
 Alles andere läuft lokal. [Aufbereitung über auphonic.com](auphonic.de.md)
 beschreibt den Weg dahin (auf der Kommandozeile `--without-auphonic`). Das
@@ -55,9 +59,9 @@ Sind schon Stimmen gespeichert, bietet dieselbe Zeile stattdessen an,
 sie zu zeigen. Das Auswahlfeld **gehört zu** listet die Kameras, danach
 zwei Sonderfälle:
 
-- **nur in den Mix**: im Full-Mix, aber bei niemandem die erste Spur. Für
-  jemanden, der zu hören, aber nicht zu sehen ist.
-- **Audio ignorieren**: bleibt ganz außen vor, der Sprechername wird
+- **ohne eigene Kamera**: im Full-Mix, aber bei niemandem die erste
+  Spur. Für jemanden, der zu hören, aber nicht zu sehen ist.
+- **nicht verwenden**: bleibt ganz außen vor, der Sprechername wird
   grau. Für eine Aufnahme, deren Video noch fehlt.
 
 **Sprechername** startet leer, mit dem aus dem Dateinamen geratenen
@@ -68,6 +72,23 @@ bleibt leer, und bei Multitrack bleibt **Start** gesperrt, bis ein Name
 da ist: der Name wird bei auphonic.com zur Bezeichnung dieser Spur und
 dort von Leuten gelesen, die die Datei nie gesehen haben. Ein
 getippter Name gilt so, wie er getippt wurde.
+
+Ein Name gehört einer Person, und darum steht er einmal auf dem Blatt.
+Tippt man einen, den es dort schon gibt, wird das Feld rot -- auf beiden
+Ebenen, gleich ob der zweite Träger eine Aufnahme ist oder eine Stimme
+darunter.
+
+Was daraus folgt, ist zweierlei. Zwei Aufnahmen desselben Namens sind
+eine Frage und keine Weigerung: die Zeile unter der Tabelle nennt ihn
+und sagt **kommt mehrfach vor. Die Aufnahmen werden zu einer Spur
+zusammengefasst und nach Timecode hintereinandergelegt -- richtig, wenn
+zwischendurch gestoppt wurde**, und genau dafür ist dieses
+Zusammenfassen da. Eine Stimme dagegen lässt sich mit nichts
+zusammenfassen -- sie ist eine Person in einer Trennung --, und deshalb
+sperrt eine Stimme, die einen fremden Namen trägt, den **Start**; die
+Zeile unter dem Knopf nennt ihn und sagt **steht auf mehr als einem
+Sprecher -- ein Name ist eine Person, und jede Person braucht einen
+eigenen**.
 
 Die untere Tabelle hat je Kamera eine Zeile: **Kamera**, **neue Datei
 heißt**, **bekommt Audio von** und **Kameraton**. Was eine Datei ist --
@@ -89,8 +110,8 @@ Multitrack braucht zwei Eingangsspuren. Drei Dinge zählen als Spur:
 - der Ton einer Videodatei, deren **Kameraton** auf **Ton verwenden**
   steht.
 
-Das Programm zählt die Zeilen der oberen Tabelle, ohne die auf **Audio
-ignorieren**. Der Kameraschnitt braucht dieses Feld nicht.
+Das Programm zählt die Zeilen der oberen Tabelle, ohne die auf **nicht
+verwenden**. Der Kameraschnitt braucht dieses Feld nicht.
 
 ![Die beiden Tabellen der Zuordnung](images/assignment.de.png)
 
@@ -289,8 +310,17 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   eine Spur. Von selbst werden sie es nicht mehr: einer Kamera, die eine
   brauchbare Spur aufnimmt, sieht man das nicht an -- sie kann ebenso
   nur im selben Raum filmen.
+- **Eine Stimme trägt einen Namen, den schon jemand anderes hat, und
+  Start bleibt gesperrt.** Ein Name ist eine Person, und der Schnitt
+  setzt eine Person auf eine Kamera; derselbe Name zweimal wäre eine
+  Person an zwei Stellen. Der
+  Stimme in ihrer eingerückten Zeile unter der Aufnahme einen eigenen
+  Namen geben. Zwei **Aufnahmen** desselben Namens sind etwas anderes --
+  die werden mit Absicht zu einer Spur zusammengefasst und wollen nur
+  bestätigt werden; zu ändern ist also die eingerückte Zeile, nicht die
+  der Aufnahme.
 - **Ein Sprecher fehlt im Full-Mix.** Bei dieser Zeile steht in der
-  Spalte **gehört zu** der Eintrag **Audio ignorieren**.
+  Spalte **gehört zu** der Eintrag **nicht verwenden**.
 
 Die Spuren sind zugeordnet, das Fenster steht, und jede Kameradatei
 trägt ihren eigenen Mix. Als Nächstes kommt die Frage, wer was sagt:

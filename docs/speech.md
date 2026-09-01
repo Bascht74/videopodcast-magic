@@ -33,8 +33,10 @@ voices are already there, to show them. One click and they stand in
 their rows. A field nobody has answered is offered nothing.
 
 Once a recording has been separated, **Separated: 4 speakers** stands
-in its **Speakers** cell. The program keeps one separation. Separating
-a second recording puts its result in place of the first.
+in its **Speakers** cell. Every recording carries its own: separating a
+second one takes nothing from the first, both cells say their own
+number, and both sets of voices stay in their rows. The project file
+keeps them all.
 
 Under the recordings one line offers the separation, and only where
 it is needed. A Mac works it out by itself and gets no line at all.
@@ -49,9 +51,19 @@ own; the answer **several speakers** in the row starts it.
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
 speaker)**: the column stands there on both paths, with a single camera
-as well. If each person has their own microphone, the tracks are the
-truth and nothing has to be separated. The separation says who speaks
+as well. Where a person has a microphone of their own, that track is the
+truth and there is nothing to separate. The separation says who speaks
 when; it does not make one track per speaker out of one recording.
+
+**Which way somebody came in by makes no difference.** Everybody who is
+heard is in the cut: a recording of one person, a camera's own sound
+with one person on it, a recording several people share, and every voice
+a separation found on one of them. They count together, not against
+each other, and a separation on one recording takes nobody off the
+others. Only **do not use** keeps somebody out, at the recording or at
+the voice. Measured on two voices out of one separated recording and a
+third person on a microphone of their own, each with a camera: all three
+speak in the cut, and the picture goes to all three cameras.
 
 The setup fetches about 218 MB the first time, the model about 33 MB
 after it. [What it needs](requirements.md#getting-the-program) says
@@ -78,9 +90,25 @@ they were heard in, as indented rows of the same list: the first column
 says **Voice**, so that the step down can be seen at all, and beside it
 stand the **Speaker name** and the camera under **belongs to**. The
 names are filled in as Speaker 1, Speaker 2 and so on by speaking time,
-the longest first. No time is written in the row: which recording it is
+the longest first. The counting does not start over at each recording:
+a name the program makes up takes the first number nobody has, across
+every separation and across the rows of the assignment table above.
+Where Speaker 1 and Speaker 2 are taken, the next voice is Speaker 3. A
+name given by hand is never renumbered, and a number that comes free is
+filled again. No time is written in the row: which recording it is
 stands in the row above, and how long somebody speaks is nothing anyone
 decides here.
+
+**No two speakers may carry the same name.** A name is a person, and the
+cut puts a person on one camera; two of one name arrive there as one
+person, and that one camera then stands twice at different places in the
+same cut. So a name that is already on somebody else turns its field red
+while it is being typed, and the hint on it says so. Where the second
+one is a voice, **Start** waits until it has a name of its own: a voice
+is one person in one separation and cannot be merged with anything. Two
+recordings of one name are a question and not a refusal -- they are
+meant to become a single track, laid end to end by their timecode
+([Multitrack](multitrack.md)).
 
 Once the words are written down, those names become a proposal that
 says something. Who asks the questions and who answers can be read out
@@ -163,11 +191,19 @@ The button in another row drops it and counts afresh.
 ### Where the speakers came from
 
 The log says it. Two marks to search for: `SPEAKERS -- SEPARATED BY
-VOICE` and `SPEAKERS -- MEASURED HERE`. The separation on this machine
-counts first. The measurement under the second mark needs a track per
-person. If the separation does not fit the run, the log says why and
-the run carries on -- with the measurement from the tracks, or without
-a cut by speaker.
+VOICE` and `SPEAKERS -- MEASURED HERE`. Both stand in one log where both
+apply, one under the other: the first says where the separations came
+from and how many voices they hold together, the second names the tracks
+no separation covers. Under them comes one line per speaker, with the
+speech time and the number of passages, and that list is the whole cast
+of the cut.
+
+The measurement under the second mark needs a track per person, and it
+reads every track, including those a separation already speaks for: the
+bleed is taken out by holding the microphones against each other, so a
+track left out of the reading would hear its neighbour and count that as
+speech. If a separation cannot be used, the log says why and the run
+carries on with what the tracks say.
 
 ### How the program writes the text down
 
@@ -208,9 +244,12 @@ boundaries; the same chapter says what the wide shot does then.
   track per person the speakers come from the tracks, otherwise the cut
   stays out.
 * **The separation breaks off with a message.** The log says what
-  happened. With a track per person the program measures the tracks
-  instead and the cut still comes; on one common recording there is
-  none.
+  happened. With a track per person those tracks are measured as they
+  always are and the cut still comes, one speaker per track; on one
+  common recording there is none.
+* **Start stays locked and a name field is red.** Two speakers carry the
+  same name. The line under **Start** says which name it is; give the
+  voice in its row a name of its own.
 * **On a Mac recognition takes the slow way.** The Command Line
   Developer Tools are missing. `xcode-select --install` fetches them;
   after that the run takes the fast way.

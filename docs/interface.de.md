@@ -29,8 +29,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   findet es eine, fragt es einmal und nennt sie mit dem Tag, an dem sie
   geschrieben wurde; findet es mehrere, zeigt es sie zur Auswahl; findet
   es keine, geschieht nichts. Teilweise wird nie geladen — das Projekt
-  kommt ganz zurück, mit den Namen, der Trennung, wer vor welcher Kamera
-  sitzt, den Typen und dem Zeitfenster, oder es wird gar nicht geöffnet.
+  kommt ganz zurück, mit den Namen, jeder Trennung, die darin steht, wer
+  vor welcher Kamera sitzt, den Typen und dem Zeitfenster, oder es wird
+  gar nicht geöffnet.
 
   Ein **Nein** lässt die hereingekommenen Dateien genau dort, wo sie
   sind. Die Liste entsteht aus ihnen und wird vermessen wie sonst auch,
@@ -163,6 +164,23 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Angebot **Nur ein Sprecher -- Spur auftrennen?**, wo immer ein Name
   im Feld steht.
 
+  Jede Aufnahme hält ihre eigene Trennung, und mehrere stehen
+  nebeneinander: jede Zeile zählt die Stimmen ihrer eigenen Aufnahme,
+  und wird eine zweite aufgetrennt, bleiben Zeilen, Namen und Kameras
+  der ersten unangetastet. Nur **Abbrechen** steht immer in einer
+  einzigen Zeile, denn aufgetrennt wird eine Aufnahme nach der anderen.
+
+  Ein Name ist eine Person, und eine Person steht einmal auf dem Blatt.
+  Ein Name, den es schon gibt, färbt sein Feld schon beim Tippen rot --
+  auf beiden Ebenen und über die Trennungen hinweg. Was das heißt, ist
+  auf den beiden Ebenen verschieden. Zwei Aufnahmen unter einem Namen
+  sind eine Rückfrage und keine Weigerung: sie sollen zu einer einzigen
+  Spur werden, und die Zeile unter der Tabelle sagt das;
+  [Multitrack](multitrack.de.md) hat diese Seite ganz. Eine **Stimme**
+  unter einem Namen, den schon jemand anderes trägt, ist dagegen eine
+  Weigerung -- der Hinweis am Feld bittet um einen eigenen, **Start**
+  bleibt gesperrt, und die Zeile unter den Knöpfen nennt die Person.
+
   Zu welcher Kamera eine Aufnahme gehört, ergibt sich aus diesem Namen,
   solange niemand selbst eine wählt; ein später getippter oder
   verbesserter Name zieht die Kamera also mit. Eine von Hand gewählte
@@ -184,6 +202,13 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Player an die Stelle, wo diese Stimme am längsten redet, und spielt
   sie ab. Aufnahmen, die keine Stimmen zeigen, sind eine flache Liste,
   ohne Dreiecke.
+
+  Vergibt das Programm den Namen einer Stimme selbst, nimmt es die erste
+  Nummer, die niemand hat -- gezählt über alle Trennungen und über die
+  Aufnahmen darüber. So beginnt eine zweite Aufnahme nicht mit einem
+  zweiten **Sprecher 1**: wo **Sprecher 1** steht, heißt der nächste
+  **Sprecher 2**. Ein von Hand gegebener Name wird nie umnummeriert, und
+  eine Nummer, die wieder frei wird, wird wieder benutzt.
 
   Die Kameratabelle darunter trägt noch einmal **Kameraton**, bei jeder
   Kamera, auf dem Wert aus der Dateiliste, und daneben den **Typ**, auf
@@ -212,7 +237,13 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   liest sie `0:00:00 -- 0:00:00`. Ihre Breite liegt fest, damit die drei
   Knöpfe unter dem Zeiger stehen bleiben, während die Zahlen wechseln.
   [Der Kameraschnitt](camera-cut.de.md) sagt, wie das Band selbst zu
-  lesen ist.
+  lesen ist und was die Überschrift des Kastens **Sprecher** besagt.
+
+  Im Kasten **Kameraschnitt -- Vorschau** steht unter der Vorschau der
+  Knopf **Sprecher jetzt messen** -- immer dann, wenn eine Spur weder
+  von einer Trennung abgedeckt noch gemessen ist, also auch neben einer
+  Trennung, die schon steht. Daneben steht, wer fehlt. Diese Leute sind
+  im Schnitt; nur diese Vorschau kann sie erst nach dem Messen zeigen.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -224,9 +255,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   bleibt der Name **Kameraschnitt**.
 
   Der Kasten erscheint, sobald **Multitrack** gesetzt ist oder zwei
-  Personen einen Namen und eine Kamera tragen -- die Stimmen unter einer
-  getrennten Aufnahme oder die Zeilen der Zuordnungstabelle. Eine Person
-  genügt, wo es zwei oder mehr Kameras gibt. Eine Person auf einer
+  Personen einen Namen und eine Kamera tragen. Woher die beiden kommen,
+  macht keinen Unterschied, und beide Herkünfte zählen zusammen: eine
+  Stimme unter einer getrennten Aufnahme und eine Aufnahme mit eigenem
+  Namen sind zwei Personen, ebenso zwei Stimmen oder zwei Aufnahmen. Eine
+  Person genügt, wo es zwei oder mehr Kameras gibt. Eine Person auf einer
   einzigen Kamera bekommt keinen Kasten, und das ist richtig: es gibt
   nichts, wohin geschnitten werden könnte. Bis dahin steht an der
   Stelle von Kasten und Vorschau eine Zeile, die sagt, was fehlt. Ein
@@ -307,6 +340,9 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
   keiner, den der Dateiname nahelegt -- der graue Vorschlag gilt als
   Name, wo nichts darüber getippt wird,
 - bei Multitrack alle Aufnahmen unter demselben Namen,
+- eine **Stimme** unter einem Namen, den schon jemand anderes trägt: der
+  Schnitt setzt eine Person auf eine Kamera, und ein Name auf zwei
+  Stimmen wäre diese Person an zwei Stellen,
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter

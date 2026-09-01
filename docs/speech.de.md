@@ -34,9 +34,10 @@ stehen in ihren Zeilen. Einem Feld, das niemand beantwortet hat, wird
 nichts angeboten.
 
 Ist eine Aufnahme getrennt, steht **Getrennt: 4 Sprecher** in ihrer
-Zelle **Sprecher**. Das Programm behält eine Trennung. Wird eine
-zweite Aufnahme getrennt, tritt deren Ergebnis an die Stelle der
-ersten.
+Zelle **Sprecher**. Jede Aufnahme trägt ihre eigene: eine zweite zu
+trennen nimmt der ersten nichts weg, beide Zellen sagen ihre eigene
+Zahl, und die Stimmen beider bleiben in ihren Zeilen stehen. Die
+Projektdatei behält sie alle.
 
 Unter den Aufnahmen bietet eine Zeile die Trennung an, und nur dort,
 wo sie gebraucht wird. Ein Mac rechnet sie von selbst und bekommt gar
@@ -52,9 +53,20 @@ nichts; die Antwort **mehrere Sprecher** in der Zeile startet sie.
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
 Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer
-einzigen Kamera. Mit einem eigenen Mikrofon je Person sind die Spuren
-die Wahrheit, und es muss nichts getrennt werden. Die Trennung sagt,
-wer wann spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
+einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat, ist diese Spur
+die Wahrheit, und es gibt nichts zu trennen. Die Trennung sagt, wer wann
+spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
+
+**Woher jemand kommt, macht keinen Unterschied.** Wer zu hören ist, ist
+im Schnitt: eine Aufnahme mit einer Person darauf, der Ton einer Kamera
+mit einer Person darauf, eine Aufnahme, die sich mehrere teilen, und
+jede Stimme, die eine Trennung auf einer von ihnen gefunden hat. Sie
+zählen miteinander und nicht gegeneinander, und eine Trennung auf einer
+Aufnahme nimmt von den anderen niemanden weg. Nur **nicht verwenden**
+hält jemanden heraus, bei der Aufnahme wie bei der Stimme. Gemessen an
+zwei Stimmen aus einer getrennten Aufnahme und einer dritten Person am
+eigenen Mikrofon, jede mit einer Kamera: alle drei reden im Schnitt, und
+das Bild geht auf alle drei Kameras.
 
 Die Einrichtung lädt beim ersten Mal rund 218 MB, das Modell danach
 etwa 33 MB. [Was gebraucht wird](requirements.de.md#das-programm-holen)
@@ -83,9 +95,26 @@ in der sie gehört wurden, als eingerückte Zeilen derselben Liste: in
 der ersten Spalte steht **Stimme**, damit die Stufe überhaupt zu sehen
 ist, daneben stehen der **Sprechername** und unter **gehört zu** die
 Kamera. Die Namen sind mit Sprecher 1, Sprecher 2 und so fort vorbelegt,
-nach Sprechzeit, die längste zuerst. Keine Zeit steht in der Zeile: um
-welche Aufnahme es geht, sagt die Zeile darüber, und wie lange jemand
-redet, entscheidet hier niemand.
+nach Sprechzeit, die längste zuerst. Gezählt wird nicht bei jeder
+Aufnahme von vorn: ein Name, den das Programm selbst vergibt, nimmt die
+erste Zahl, die niemand hat -- über alle Trennungen und über die Zeilen
+der Zuordnungstabelle darüber hinweg. Sind Sprecher 1 und Sprecher 2
+vergeben, heißt die nächste Stimme Sprecher 3. Ein von Hand gegebener
+Name wird nie umnummeriert, und eine frei gewordene Zahl wird wieder
+gefüllt. Keine Zeit steht in der Zeile: um welche Aufnahme es geht, sagt
+die Zeile darüber, und wie lange jemand redet, entscheidet hier niemand.
+
+**Zwei Sprecher dürfen nicht denselben Namen tragen.** Ein Name ist eine
+Person, und der Schnitt setzt eine Person auf eine Kamera; zwei gleiche
+Namen kommen dort als eine Person an, und diese eine Kamera steht dann
+zweimal an verschiedenen Stellen desselben Schnitts. Darum wird ein
+Name, den schon jemand anderes trägt, bereits beim Tippen rot, und der
+Hinweis am Feld sagt, woran es liegt. Trägt eine Stimme den zweiten,
+wartet **Start**, bis sie einen eigenen hat: eine Stimme ist eine Person
+in einer Trennung und lässt sich mit nichts zusammenfassen. Zwei
+Aufnahmen gleichen Namens sind dagegen eine Frage und keine Weigerung --
+sie sollen zu einer Spur werden, nach Timecode hintereinandergelegt
+([Multitrack](multitrack.de.md)).
 
 Sobald die Worte aufgeschrieben sind, werden aus diesen Namen
 Vorschläge, die etwas sagen. Wer fragt und wer antwortet, lässt sich am
@@ -173,10 +202,19 @@ neu.
 
 Das Protokoll sagt es. Zwei Marken zum Suchen:
 `SPRECHER -- NACH STIMMEN GETRENNT` und `SPRECHER -- HIER GEMESSEN`.
-Zuerst zählt die örtliche Trennung. Die Messung unter der zweiten Marke
-braucht je Person eine Spur. Passt die Trennung nicht zum Lauf, sagt
-das Protokoll warum, und der Lauf geht weiter – mit der Messung aus den
-Spuren oder ohne Schnitt nach Sprechern.
+Wo beides zutrifft, stehen beide Marken in einem Protokoll, eine unter
+der anderen: die erste sagt, woher die Trennungen kommen und wie viele
+Stimmen sie zusammen tragen, die zweite nennt die Spuren, für die keine
+Trennung spricht. Darunter kommt je Sprecher eine Zeile mit Redezeit und
+Zahl der Passagen, und diese Liste ist die ganze Besetzung des Schnitts.
+
+Die Messung unter der zweiten Marke braucht je Person eine Spur, und sie
+liest jede Spur, auch die, für die schon eine Trennung spricht: das
+Übersprechen wird herausgerechnet, indem die Mikrofone gegeneinander
+gehalten werden, und eine Spur, die dabei fehlte, hörte ihren Nachbarn
+und zählte das als Sprechen. Lässt sich eine Trennung nicht verwenden,
+sagt das Protokoll warum, und der Lauf geht mit dem weiter, was die
+Spuren sagen.
 
 ### Wie das Programm den Text mitschreibt
 
@@ -218,9 +256,12 @@ dasselbe Kapitel sagt, was der Weitwinkel dann tut.
   der Lauf weiter: mit je Person einer Spur kommen die Sprecher aus den
   Spuren, sonst bleibt der Schnitt aus.
 * **Die Trennung bricht mit einer Meldung ab.** Das Protokoll sagt, was
-  war. Mit je Person einer Spur misst das Programm stattdessen aus den
-  Spuren, und der Schnitt kommt trotzdem; auf einer gemeinsamen Aufnahme
-  kommt keiner.
+  war. Mit je Person einer Spur werden diese Spuren gemessen wie immer,
+  und der Schnitt kommt trotzdem, ein Sprecher je Spur; auf einer
+  gemeinsamen Aufnahme kommt keiner.
+* **Start bleibt gesperrt, und ein Namensfeld steht rot.** Zwei Sprecher
+  tragen denselben Namen. Die Zeile unter **Start** sagt, welcher Name
+  es ist; gib der Stimme in ihrer Zeile einen eigenen.
 * **Auf einem Mac nimmt die Erkennung den langsamen Weg.** Die Command
   Line Developer Tools fehlen. `xcode-select --install` holt sie;
   danach nimmt der Lauf den schnellen Weg.
