@@ -148,7 +148,13 @@ echo "Somebody's project will be closed and opened again while these run."
 echo "Each test makes one of its own and deletes it afterwards, and"
 echo "whatever a killed run left behind is cleared away here and at the"
 echo "end. Only names of the tests' own shape, never a project somebody"
-echo "named. Open at the start, and open again at the end: ${OPEN_BEFORE:-none (what was open is one the tests made -- an earlier run was killed)}"
+# Nothing to remember has two reasons and the line names both, because
+# they want different things done. Either a project the tests made is
+# still open, which only a killed run leaves behind -- or what is open
+# stands in no project list, which is what a project nobody ever saved
+# looks like. The second one somebody can put right by saving it, and
+# until then the tests leave themselves out rather than take it away.
+echo "named. Open at the start, and open again at the end: ${OPEN_BEFORE:-none -- what is open cannot be opened again: either a project the tests made and an earlier run was killed, or one that was never saved and stands in no project list}"
 # Here and not only at the end: a project a killed run left behind can be
 # found nowhere else. Same narrow pattern, and the same putting back.
 "$PY" "$WHERE/sweep.py" --sweep --restore "$OPEN_BEFORE"
