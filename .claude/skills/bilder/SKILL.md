@@ -97,27 +97,39 @@ in the manual.
 
 ## Look at them, do not just produce them
 
-**Every new picture is looked at and held against the old one, in both
-languages.** The German sentence is the longer one; what fits in English
-says nothing. After a correction, look again.
+**The set is bounded by the checksum comparison above: every picture
+whose sum moved is looked at in both languages, and the answers are
+written down.** "Look at them" gets skipped; six questions with answers
+do not. The first four each caught a fault no test had; 5 and 6 are
+there to stop the next one.
 
-Three times it was only the looking that found a fault no test had:
+1. **Is a label cut off, is anything overlapping?** The German sentence
+   is the longer one; what fits in English says nothing. Four German
+   buttons and a checkbox wanted a measured 548 px in a row of about
+   480 px. **Ask it again after the correction** -- the first attempt, a
+   minimum width, turned cut off into overlapping, and without the second
+   picture that would have passed as fixed. Only a row of its own solved
+   it, the same way in **both** languages.
+2. **Does every word on it come out of the right catalogue?** A checkbox
+   saying „mit Channel 2 zusammenlegen" stood next to rows called
+   „Kanal 1": three catalogue entries left in English.
+3. **Does every sentence assembled from pieces parse?** „Der Schlüssel
+   geht nie in eine Datei" was built from building blocks and took the
+   wrong article.
+4. **Is anything on it out of the list below that may appear on no
+   picture?** Once the settings window came out with a filled field
+   **API Key** and a ticked **Im Schlüsselbund speichern** -- the program
+   had fetched the key from the Keychain at start. Noticed by looking,
+   not from the return code.
+5. **Does it show the program prettier than it is?** A label that is cut
+   off gets fixed in the program, never widened in the shooting script.
+6. **Did it change for the reason you expected?** A sum that moved where
+   nothing was touched is itself the finding -- a picture pass that
+   catches something nobody asked for is the return on the whole pass.
 
-* A German sentence assembled from building blocks, with the wrong
-  article -- „Der Schlüssel geht nie in eine Datei".
-* A label cut off: four German buttons and a checkbox wanted a measured
-  548 px in a row of about 480 px. The first attempt was the wrong one
-  -- a minimum width turned cut off into overlapping, and without the
-  second picture that would have passed as fixed. Only a row of its own
-  solved it, the same way in **both** languages.
-* A checkbox saying „mit Channel 2 zusammenlegen" next to rows called
-  „Kanal 1": three catalogue entries left standing in English.
-
-**A picture pass that catches something nobody asked for is itself the
-finding.** Once the settings window came out with a filled field
-**API Key** and a ticked **Im Schlüsselbund speichern** -- the program
-had fetched the key from the Keychain at start. It was noticed by
-looking, not from the return code.
+**One line per changed picture goes into the release report:** the name,
+both languages, and what was found. "Nothing" is an answer; a pass that
+names no picture has not been made.
 
 Hence the three nets in the script: `load_api_key` returns empty,
 `AUPHONIC_TOKEN` is cleared out of the environment, and the three
@@ -125,13 +137,9 @@ Hence the three nets in the script: `load_api_key` returns empty,
 no separation and installs nothing.** Before anybody removes one of
 them, they have to know what stands in the picture afterwards.
 
-**What may appear on no picture:** real production names, real presets
-or production IDs, paths from a private disc, people's names, a key.
-Only fixture names and `/tmp` paths.
-
-**And a picture that shows the program prettier than it is, is no
-picture.** A label that is cut off gets fixed in the program, not
-widened in the shooting script.
+**What may appear on no picture** (question 4): real production names,
+real presets or production IDs, paths from a private disc, people's
+names, a key. Only fixture names and `/tmp` paths.
 
 ## Afterwards, note what has become invalid
 

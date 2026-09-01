@@ -149,8 +149,28 @@ The machine sees one half of this. Reword a judgement and the register
 no longer finds it, and `source_checks_proved_test.py` reports the
 check as owing a counter-proof again. **The other half it cannot
 see:** a check that keeps its wording and changes its claim stays green
-with an entry that no longer proves anything. That one is caught only
-by whoever is doing the change.
+with an entry that no longer proves anything.
+
+Nothing goes red there, so it gets a step. Before the test is called
+finished:
+
+```bash
+git diff -- tests/<name>_test.py             # what really moved
+grep -P '^<name>\t' tests/state/counterproof # the rows as they stand
+```
+
+**For every check the diff touched whose wording did not move, quote its
+row's fourth field -- what was broken -- and answer one question: would
+breaking exactly that, in exactly that place, still make this check
+fall?** Not "probably". No, or unsure, and the row is void: earn it
+again. The quoted field and the answer go in the report beside the
+check, because an answer that is only thought is the same as no answer.
+
+**No case of this is on record, and that is the finding**, not an
+acquittal: nothing in the repository can report one. What the register
+*can* see went unnoticed for versions all the same -- two checks with a
+computed name in `text_release_ready_test.py`, one wording for four
+checks, and the ratchet said nothing (`80f46d5`, 1.9.2026).
 
 ## When the counter-proof will not go red
 

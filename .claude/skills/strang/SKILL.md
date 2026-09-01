@@ -50,8 +50,29 @@ text, to be applied the moment the file comes free.
 **Text anchors, never line numbers.** The first strand invalidates
 every line number as it works.
 
-**Every anchor has to match exactly once.** An anchor that matches
-twice or not at all is thrown away and cut again, never guessed at.
+**Every anchor has to match exactly once, and that is counted, not
+eyeballed.** Put the anchor in a file of its own and ask:
+
+```bash
+python3 - <<'EOF'
+anchor = open("anchor.txt").read()
+print(open("<the foreign file>").read().count(anchor))   # must print 1
+EOF
+```
+
+**Counted twice: when the pair is cut, and again the moment the file
+comes free** -- the strand that owned it has been editing in between, and
+an anchor that matched once an hour ago may match twice or not at all
+now. Anything but 1 is cut again, never guessed at and never forced: an
+editor that applies by proximity puts the lines silently beside the right
+place, and nothing goes red.
+
+**The real case is in `docs/notes/aufgaben.md`**, in the plan for the 29
+remaining path places: two of the old lines occur **twice** in
+`videopodcast-magic.py` and need the following line taken into the anchor
+to be unique. That was found by counting. Seventeen replacements were cut
+against that file; an uncounted anchor among them lands in the wrong
+function.
 
 ## What this machine cannot do
 
