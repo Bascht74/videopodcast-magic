@@ -186,18 +186,60 @@ measured](../development/measurements.md) (englisch).
 *Reiter Zuordnung & Zeitfenster: die Stimmen unter der Aufnahme, in
 der sie gehört wurden.*
 
-### Wann das Programm neu rechnet
+### Was aufgehoben wird und was neu gerechnet wird
 
-Das Programm rechnet die Trennung nur neu, wenn die Quelldatei wechselt,
-wenn sie sich ändert oder wenn jemand eine Sprecherzahl von Hand setzt.
-Ein verschobenes Zeitfenster, ein neuer In-Punkt, ein geänderter Versatz
-oder ein umbenannter Sprecher laufen mit der vorhandenen Trennung
-weiter. Die Trennung aus dem Fenster reist mit dem Lauf mit, und das
-Programm rechnet sie nur noch auf dessen Zeitachse um.
+Die Trennung und die mitgeschriebenen Wörter werden auf diesem Rechner
+aufgehoben, außerhalb des Projekts. Eine Aufnahme, die einmal getrennt
+oder einmal abgehört wurde, wird beim nächsten Mal zurückgelesen statt
+noch einmal gerechnet -- auch in einem anderen Projekt, auch nachdem
+das Programm zu war, auch Tage später. Darum ist ein zweiter Anlauf auf
+demselben Material auf einmal schnell.
+
+**Zurückgelesen ist keine Näherung.** Es ist, was die erste Rechnung
+ergeben hat, unverändert aufgehoben: dieselben Abschnitte auf die
+Tausendstelsekunde genau, dieselben Wörter an denselben Stellen.
+Gerechnet wird nichts ein zweites Mal, also kann auch nichts anderes
+herauskommen.
+
+Was von beidem geschehen ist, sagt das Protokoll. Wurde eine Trennung
+zurückgelesen, steht unter der Überschrift die Zeile **Schon einmal
+getrennt: zurückgelesen, nicht neu gemessen.**; muss eine gemessen
+werden, steht dort stattdessen, wieviel Rechenzeit die Aufnahme gleich
+kostet. Bei den Wörtern endet die Zeile auf **zurückgelesen** statt auf
+den Sekunden, die die Erkennung gebraucht hat.
+
+**Bei den Wörtern entscheidet der Inhalt der Datei** -- nicht ihr Name
+und nicht ihre Uhrzeit. Eine Aufnahme, die umbenannt, in einen anderen
+Ordner geschoben oder auf eine andere Platte kopiert wurde, ist
+dieselbe Aufnahme und wird nicht noch einmal abgehört. Eine Datei, die
+unter demselben Namen in derselben Sekunde neu geschrieben wurde und
+anderen Ton enthält, wird abgehört: verglichen wird, was darin steht,
+und nicht das Schild darauf. Die Datei dafür einmal durchzulesen kostet
+etwa eine Drittelsekunde je Gigabyte -- gegen eine halbe Minute für
+anderthalb Stunden auf einem Mac und die vielen Minuten dort, wo
+faster-whisper die Arbeit tut. Die Sprache und der Weg gehören ebenso
+dazu: dieselbe Aufnahme auf deutsch und auf englisch ergibt andere
+Wörter, und die beiden Erkenner schreiben auch nicht dasselbe.
+
+**Bei der Trennung entscheidet die Aufnahme, wie sie liegt** -- ihr
+Ort, ihre Größe und wann sie zuletzt geändert wurde -- dazu das Modell
+und eine von Hand gesetzte Sprecherzahl. Neu gerechnet wird also, wenn
+die Quelldatei wechselt, wenn sie sich ändert, wenn sie umbenannt oder
+verschoben wird oder wenn jemand eine Zahl setzt. Ein verschobenes
+Zeitfenster, ein neuer In-Punkt, ein geänderter Versatz oder ein
+umbenannter Sprecher laufen mit der vorhandenen Trennung weiter. Die
+Trennung aus dem Fenster reist mit dem Lauf mit, und das Programm
+rechnet sie nur noch auf dessen Zeitachse um.
 
 Eine von Hand gesetzte Sprecherzahl gehört zu der Aufnahme, für die sie
 gesetzt wurde. Der Knopf in einer anderen Zeile verwirft sie und zählt
 neu.
+
+Beides liegt im Ablageordner des Systems, neben den Hüllkurven
+(`~/Library/Caches/videopodcast-magic/`, unter Windows
+`%LOCALAPPDATA%`), in `words/` und `speakers/`. Dort bleibt es. Es
+wegzuwerfen macht nichts kaputt; es heißt nur, dass noch einmal
+gerechnet wird.
 
 ### Woher die Sprecher kamen
 
@@ -216,6 +258,40 @@ gehalten werden, und eine Spur, die dabei fehlte, hörte ihren Nachbarn
 und zählte das als Sprechen. Lässt sich eine Trennung nicht verwenden,
 sagt das Protokoll warum, und der Lauf geht mit dem weiter, was die
 Spuren sagen.
+
+### Was der Probelauf von den Sprechern zeigt
+
+Der **Probelauf** misst und schreibt nichts. Liegt die Trennung einer
+Aufnahme schon auf diesem Rechner, zeigt er den Schnitt, den er machen
+würde: der Block nennt die Aufnahme, sagt, dass die Abschnitte
+zurückgelesen wurden, und zählt die Stimmen auf.
+
+```
+SPRECHER WERDEN GETRENNT
+  In recorder.wav, auf diesem Rechner.
+  Schon einmal getrennt: zurückgelesen, nicht neu gemessen.
+
+  SPEAKER_00  0:00:08,600 in 2 Abschnitten
+  SPEAKER_01  0:00:04,000 in 1 Abschnitten
+```
+
+Die Stimmen tragen die Bezeichnungen aus der Trennung, weil ihnen
+niemand einen Namen gegeben hat: ein Lauf von der Kommandozeile hat
+kein Fenster, aus dem er welche nehmen könnte. Eine Trennung aus einer
+Projekt- oder Zuordnungsdatei steht genauso da, unter den Namen, die
+darin stehen.
+
+Liegt nichts vor, hört der Probelauf an dieser Stelle auf. Er sagt,
+wieviel Rechenzeit die Trennung kosten würde, dann **(nur gemessen:
+nichts getrennt)**, und es folgen keine Stimmen. Das ist der ganze
+Unterschied: liegen bleibt nur, was wirklich gemessen werden müsste.
+Eine Trennung zurückzulesen kostet nichts, also geschieht es, und das
+Ergebnis steht da.
+
+Die Aufzählung steht hier oder nirgends. Ein voller Lauf sagt weiter
+unten, wer wie lange redet, unter den beiden Marken von eben; ein
+Probelauf endet vorher und zählt die Stimmen deshalb dort auf, wohin er
+kommt.
 
 ### Wie das Programm den Text mitschreibt
 
@@ -242,6 +318,13 @@ Kameraschnitt mit, nicht davor.
 Die Erkennung läuft auf dem fertigen Mix, nicht auf den Einzelspuren.
 Ein leiser Mitschnitt kann für die Sprechertrennung reichen und für
 den Text trotzdem nicht taugen.
+
+Was einmal abgehört wurde, wird nicht wieder abgehört, was immer es
+gekostet hat. Was aufgehoben wird und was neu gerechnet wird, steht
+weiter oben unter „Was aufgehoben wird und was neu gerechnet wird“. Das
+Fenster und der Lauf hören verschiedenes ab -- das Fenster die
+Aufnahme, der Lauf den Mix, den er daraus gemacht hat -- also zahlt
+jeder von beiden einmal.
 
 ### Wofür der Text gebraucht wird
 

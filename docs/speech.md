@@ -177,17 +177,55 @@ measured](../development/measurements.md).
 *Tab Assignment & time window: the voices under the recording they
 were heard in.*
 
-### When the program separates again
+### What is kept, and what is worked out again
 
-The program works the separation out again only when the source file is
-exchanged, when it changes, or when somebody sets a speaker count by
-hand. A moved time window, a new In point, a changed offset or a
-renamed speaker carry on with the separation already there. The
-separation from the window travels with the run, and the program only
-converts it onto that time axis.
+Both the separation and the written-down words are kept on this
+machine, outside the project. A recording that was taken apart once, or
+listened to once, is read back the next time instead of being worked
+out again -- also in another project, also after the program was
+closed, also days later. That is why a second start on the same
+material is suddenly quick.
+
+**Read back is not an estimate.** It is what the first computation
+produced, kept as it stood: the same passages to the same thousandth of
+a second, the same words at the same points. Nothing is worked out a
+second time, so nothing can come out differently.
+
+The log says which of the two happened. Where a separation was read
+back, the line **Separated once already: read back, not measured
+again.** stands under the heading; where one has to be measured, a line
+saying how much computing the recording is about to cost stands there
+instead. For the words the line ends in **read back** in place of the
+seconds the recognition took.
+
+**For the words, what the file holds decides** -- not its name and not
+its time. A recording renamed, moved into another folder or copied to
+another disk is the same recording and is not listened to again. A file
+written afresh under the same name, in the same second, with other
+sound in it, is listened to again: the program compares what is inside,
+not the label on it. Reading a file through for that costs about a
+third of a second per gigabyte, against half a minute for an hour and a
+half on a Mac, and the many minutes it takes where faster-whisper does
+the work. The language and the way are part of it as well: the same
+recording in German and in English gives different words, and the two
+recognisers do not write the same ones either.
+
+**For the separation, the recording as it lies decides** -- its place,
+its size and when it was last changed -- together with the model and a
+speaker count set by hand. So the separation is worked out again when
+the source file is exchanged, when it changes, when it is renamed or
+moved, or when somebody sets a count. A moved time window, a new In
+point, a changed offset or a renamed speaker carry on with the
+separation already there. The separation from the window travels with
+the run, and the program only converts it onto that time axis.
 
 A speaker count set by hand belongs to the recording it was set for.
 The button in another row drops it and counts afresh.
+
+Both lie in the system cache folder, beside the envelopes
+(`~/Library/Caches/videopodcast-magic/`, on Windows `%LOCALAPPDATA%`),
+in `words/` and `speakers/`. They stay there. Throwing them away breaks
+nothing; it only means the computing happens once more.
 
 ### Where the speakers came from
 
@@ -205,6 +243,38 @@ bleed is taken out by holding the microphones against each other, so a
 track left out of the reading would hear its neighbour and count that as
 speech. If a separation cannot be used, the log says why and the run
 carries on with what the tracks say.
+
+### What the dry run shows of the speakers
+
+**Dry run** measures and writes nothing. Where the separation of a
+recording is already on this machine, it shows the cut it would make:
+the block names the recording, says the passages were read back, and
+counts the voices up.
+
+```
+SEPARATING THE SPEAKERS
+  In recorder.wav, on this machine.
+  Separated once already: read back, not measured again.
+
+  SPEAKER_00  0:00:08.600 in 2 passages
+  SPEAKER_01  0:00:04.000 in 1 passages
+```
+
+The voices carry the labels the separation gave them, because nobody
+has named them: a run started on the command line has no window to take
+names from. A separation taken out of a project or an assignment file
+is listed the same way, under the names that stand in it.
+
+Where nothing is stored, the dry run stops at that point. It says how
+much computing the separation would cost, then **(measuring only:
+nothing separated)**, and no voices follow. That is the whole
+difference: only a measurement that would really have to be made is
+left undone. Reading a separation back costs nothing, so it happens and
+the result is shown.
+
+The list stands here or nowhere. A full run says who speaks how long
+further down, under the two marks above; a dry run ends before that, so
+it counts the voices up at the place it reaches.
 
 ### How the program writes the text down
 
@@ -230,6 +300,12 @@ ahead of it.
 Recognition runs on the finished mix, not on the single tracks. A quiet
 recording can be enough for the speaker separation and still not carry
 the text.
+
+A recording listened to once is not listened to again, whatever the
+cost was. What is kept and what is worked out afresh stands above,
+under "What is kept, and what is worked out again". The window and the
+run listen to different things -- the window to the recording, the run
+to the mix it made of it -- so each of the two pays once.
 
 ### What the text is for
 

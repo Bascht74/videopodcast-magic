@@ -128,7 +128,8 @@ der das Wort erklärt, steht vorn.
   sagt“
 * **Preset**: `auphonic`, „Der Schlüssel und das Preset“; `preflight`, „Was
   geprüft wird“
-* **Probelauf**: `interface`, „Die vier Reiter“
+* **Probelauf**: `interface`, „Die vier Reiter“; `speech`, „Was der
+  Probelauf von den Sprechern zeigt“
 * **Projektdatei**: `camera-cut`, „Was die Projektdatei behält“;
   `interface`, „Wie die Zeitachse ohne Timecode entsteht“
 * **Protokoll (`videopodcast-magic.log`)**: `interface`, „Die vier Reiter“
@@ -192,6 +193,8 @@ der das Wort erklärt, steht vorn.
 * **Zeitfenster**: `multitrack`, „Das Zeitfenster setzen“; `multitrack`,
   „Wieviel von jeder Kamera geschrieben wird“
 * **Zuordnung**: siehe gehört zu
+* **zurückgelesen**: `speech`, „Was aufgehoben wird und was neu
+  gerechnet wird“
 
 ## Weitere Informationen und technische Details
 
