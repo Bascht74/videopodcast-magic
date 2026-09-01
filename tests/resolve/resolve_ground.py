@@ -16,9 +16,12 @@ What was measured on Resolve 21.0.4.5 and is the reason for the order in
 close():
 
 * A project that was only created and never saved is not in
-  GetProjectListInCurrentFolder(), and DeleteProject then answers False.
-  So the project is saved once when it is made, and is therefore really
-  there to be deleted afterwards.
+  GetProjectListInCurrentFolder(), and DeleteProject then answers False
+  -- but only for as long as it is still the project Resolve has open.
+  The moment anything else is loaded Resolve writes it out, and then it
+  stands in the list and DeleteProject answers True. So the project is
+  saved once when it is made, and is really there from that moment on
+  rather than only after somebody opened something else.
 * DeleteProject refuses a project that is open, so the project that was
   open before is loaded again first -- which is what has to happen anyway.
 """
@@ -62,11 +65,21 @@ def a_test_name(what):
 
 
 def swept(pm):
-    """Delete the projects the tests made. Returns (deleted, left standing).
+    """Delete what the tests made. Returns (deleted, left standing).
 
-    Only what TEST_PROJECT matches, and the list is read again afterwards
-    rather than the answer believed: DeleteProject says False for a
-    project that was never saved, and True is not evidence either.
+    Projects and folders both, and only what TEST_PROJECT matches. The
+    lists are read again afterwards rather than the answers believed:
+    DeleteProject says False for a project that is open or was never
+    saved, and True is not evidence either.
+
+    Folders, because a run that died half way through leaves one rather
+    than a project -- and a folder stands in no project list, so a sweep
+    that read only that one could never take it away however often it
+    ran. Measured on Resolve 21.0.4.5 on 1.9.2026: DeleteFolder answers
+    True for a folder it deleted and False for a name that was never
+    there, and it takes a folder with a project still inside it, which is
+    the case that matters. It is as narrow as the deleting of projects,
+    and no narrower: a folder a person named cannot take this shape.
 
     A project that is open cannot be deleted, so whoever calls this opens
     something else first -- sweep.py does, and puts the caller's own
@@ -86,7 +99,16 @@ def swept(pm):
             pm.DeleteProject(name)
         except Exception:
             pass
-    after = pm.GetProjectListInCurrentFolder() or []
+    ours = [n for n in (pm.GetFolderListInCurrentFolder() or [])
+            if TEST_PROJECT.match(n)]
+    for name in ours:
+        try:
+            pm.DeleteFolder(name)
+        except Exception:
+            pass
+    mine += ours
+    after = ((pm.GetProjectListInCurrentFolder() or [])
+             + (pm.GetFolderListInCurrentFolder() or []))
     return ([n for n in mine if n not in after],
             [n for n in mine if n in after])
 

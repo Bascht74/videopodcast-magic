@@ -14,6 +14,11 @@ were interrupted. It deletes only what resolve_ground.TEST_PROJECT
 matches -- the whole shape of a name the tests build, not a substring --
 so a project a person named cannot be hit.
 
+Folders as well as projects. A run that died half way through leaves a
+folder rather than a project, and a folder stands in no project list: one
+such leftover survived every sweep for a day until somebody took it away
+by hand.
+
 The order is fixed and the last step is the one that matters: open what
 was open first (a project that is open cannot be deleted anyway), then
 delete, then make sure the right project is open again and say so. If
@@ -96,11 +101,14 @@ def main(argv):
 
     gone, left = ground_of.swept(pm) if "--sweep" in argv else ([], [])
     if gone:
-        print("  swept %d project%s the tests made: %s"
+        # Not "projects": what goes may be a folder a half-finished run
+        # left, and naming it a project would send the next reader looking
+        # in the wrong list.
+        print("  swept %d thing%s the tests made: %s"
               % (len(gone), "" if len(gone) == 1 else "s",
                  ", ".join(repr(n) for n in gone)))
     if left:
-        print("  COULD NOT DELETE, still in the project list: %s"
+        print("  COULD NOT DELETE, still there: %s"
               % ", ".join(repr(n) for n in left))
     if "--sweep" in argv and not gone and not left:
         print("  nothing of the tests' was left over.")
