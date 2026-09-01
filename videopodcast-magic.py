@@ -25811,30 +25811,16 @@ def speaks_as(widget, what, row_name=""):
                              if row_name else what)
     return widget
 
-def split_cell_build(path, on_stop, name_value=None, several_value=None,
-                     stored=0):
+def split_cell_build(path, on_stop):
     """The Speakers cell of one recording: its state, and a way out.
 
-    There is no button to start with any more. Asking for the voices to
-    be told apart is an answer in the name field of the same row --
-    "several speakers" instead of a name -- so this cell only says what
-    came of it. Breaking off is a different matter: it exists only
-    while that recording is being listened to, and there has to be a
-    way to stop three minutes of computing that was started by
-    mistake. Returns the cell, the button and the label, because both
-    are written to again while a run is going on.
-
-    And the offer. Where the row has settled on one person the question
-    "or were there several?" is still open, and it is asked here, in
-    the cell that already says how the separation stands -- not in a
-    column of its own, which would be a column for one sentence. What
-    it says depends on whether that recording has been listened to:
-    with voices already stored it offers to show them, and without them
-    it offers to go and look. A finished number before anything has run
-    would be a promise nobody can keep.
+    Nothing here starts a separation -- that is answered in the name
+    field of the same row -- so the cell only says what came of it and
+    carries the button that breaks a running one off. Returns the cell,
+    the button and the label: both are written to again while a run is
+    going on.
     """
     from PySide6 import QtWidgets as _qw
-    from PySide6.QtCore import Qt as _qt
     box = _qw.QWidget()
     row = _qw.QHBoxLayout(box)
     row.setContentsMargins(0, 0, 0, 0)
@@ -25844,38 +25830,11 @@ def split_cell_build(path, on_stop, name_value=None, several_value=None,
     button.clicked.connect(lambda *_, x=path: on_stop(x))
     button.setVisible(False)
     mark = label("", COLOURS["quiet"])
-    # Word wrap, because the text changes after the column was sized:
-    # "Separated: 4 speakers" is wider than the empty label the column
-    # was measured on, and a second line is better than a cut one.
+    # Word wrap, because the cell is written to again after the column
+    # was measured: a reason the separation could not run is hundreds
+    # of pixels wide, and two lines are better than a cut one.
     mark.setWordWrap(True)
-    offer = _qw.QPushButton(
-        (TN(stored, 'Only one speaker -- show the %d voice?',
-            'Only one speaker -- show the %d voices?') % stored) if stored
-        else T('Only one speaker -- separate the track?'))
-    offer.setFlat(True)
-    offer.setCursor(_qt.PointingHandCursor)
-    offer.setStyleSheet("color: %s; text-align: left;" % COLOURS["heading"])
-    speaks_as(offer, offer.text(), os.path.basename(path))
-    offer.setVisible(False)
-    if several_value is not None and name_value is not None:
-        offer.clicked.connect(lambda *_: several_value.set(True))
-
-        def offer_show(*_a):
-            """Only where the row says one person, and says who.
-
-            An unanswered row shows nothing: nobody has claimed there
-            is one speaker there yet, and offering to correct an answer
-            that was never given is the same overreach as picking the
-            answer for them.
-            """
-            offer.setVisible(bool(str(name_value.get()).strip())
-                             and not several_value.get())
-
-        name_value.listen(offer_show)
-        several_value.listen(offer_show)
-        offer_show()
     row.addWidget(mark, 1)
-    row.addWidget(offer)
     row.addWidget(button)
     return box, button, mark
 
@@ -30473,13 +30432,7 @@ def gui():
             # spread over every camera has nothing to do with who is
             # heard on it.
             if not SPEAKER_SPLIT_OFF:
-                # What is stored, not what is on show: the voice rows
-                # stand only once the answer is "several speakers" and
-                # the offer only while it is not, so counting the rows
-                # counted nothing and the offer never said "show them".
-                box_, button_, mark_ = split_cell_build(
-                    first, split_stop, name_value, several_value,
-                    voices_stored_for(first))
+                box_, button_, mark_ = split_cell_build(first, split_stop)
                 tree_field(tree_audio, node, 4, box_)
                 state["split_cells"].append((first, button_, mark_))
             # The voices go under the row before the row is filled in:
@@ -33237,12 +33190,6 @@ CATALOGUE["de"] = {
         'Trennt die Aufnahme nach Stimmen: jede Stimme bekommt eine '
         'eigene Zeile und darin ihre Kamera. Etwa eine Minute f\u00fcr eine '
         'halbe Stunde Ton, auf diesem Rechner und ohne Hochladen.',
-    'Only one speaker -- separate the track?':
-        'Nur ein Sprecher -- Spur auftrennen?',
-    'Only one speaker -- show the %d voice?':
-        'Nur ein Sprecher -- die %d Stimme zeigen?',
-    'Only one speaker -- show the %d voices?':
-        'Nur ein Sprecher -- die %d Stimmen zeigen?',
     'on %d camera': 'auf %d Kamera',
     'on %d cameras': 'auf %d Kameras',
     ', %d without': ', %d ohne',

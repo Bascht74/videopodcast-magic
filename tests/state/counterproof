@@ -2129,36 +2129,35 @@ open	table_row_per_voice	a voice that was missed can still be asked for
 open	table_row_per_voice	and a chooser offering the camera itself
 open	table_row_per_voice	and brought them back without separating anything
 open	table_row_per_voice	and its name field is empty
+table_row_per_voice	2026-09-01	and naming one person separated nothing	speaker_split_kick_off: the three lines that return where speaker_split_wanted says no taken out, so the stored "not on this machine" stops holding the separation back	and naming one person separated nothing                    FAIL ['reading the cache', 'separating Room.wav']
 open	table_row_per_voice	and no voice rows came of a name
 open	table_row_per_voice	and nothing has been separated
 open	table_row_per_voice	and nothing is being computed
-open	table_row_per_voice	and nothing offers to correct an answer nobody gave
 open	table_row_per_voice	and nothing says a separation was found
-open	table_row_per_voice	and now the row offers to go and look
 open	table_row_per_voice	and saying one name separated nothing
 open	table_row_per_voice	and showing them separated nothing again
 open	table_row_per_voice	and so did the cameras they were put on
+table_row_per_voice	2026-09-01	and the cell still says how the separation stands	several_set: two lines added, "if not on: state['speakers_by'] = {}", so giving one name throws the stored separation away	and the cell still says how the separation stands          FAIL [''], wanted ['Separated: 3 speakers']
 open	table_row_per_voice	and the columns are the ones the sheet promises
 open	table_row_per_voice	and the field now says several speakers
 open	table_row_per_voice	and the field says several speakers again
 open	table_row_per_voice	and the name field of the recording is empty
-open	table_row_per_voice	and the offer alone separated nothing
 open	table_row_per_voice	and the tree hangs all three under the recording
 open	table_row_per_voice	and the tree hangs nothing under it
 open	table_row_per_voice	and the tree hangs nothing under the recording
 open	table_row_per_voice	and the tree hangs nothing under the recording again
 open	table_row_per_voice	and the window says what was found
+table_row_per_voice	2026-09-01	asking for several speakers again brings the voices back	several_set: the same two lines, "if not on: state['speakers_by'] = {}" -- one name given throws the separation away, so picking several speakers again finds nothing to bring back	asking for several speakers again brings the voices back   FAIL 0 rows, wanted 3
 open	table_row_per_voice	every row has a field to put a name in
 open	table_row_per_voice	no separation, no voice rows
 table_row_per_voice	2026-08-30	nobody answered, so there are no voice rows	the guard against an empty answer dropped, so voice rows appeared with nobody named	nobody answered, so there are no voice rows              FAIL ['Speaker 1', 'Speaker 2', 'Speaker 3']
 open	table_row_per_voice	one name given, and the voice rows are gone
+table_row_per_voice	2026-09-01	the Speakers cell puts no button on show	split_cell_build: one line added, row.addWidget(_qw.QPushButton("?")) before the Break off button, so the cell carries a button on show again	the Speakers cell puts no button on show                   FAIL 1 on show: ['?']
 open	table_row_per_voice	the name given is what the field says
 open	table_row_per_voice	the name survives the rebuild the answer causes
 open	table_row_per_voice	the names given to the voices came back with them
-open	table_row_per_voice	the offer brings the three voices back
 open	table_row_per_voice	the project brought its assignment sheet up
 open	table_row_per_voice	the recording is a row all the same
-open	table_row_per_voice	the row offers the way back to several speakers
 open	table_row_per_voice	the row says all the same what was separated
 open	table_row_per_voice	what was typed and picked reaches the run
 open	table_stereo_splits	and a run can be started -- multitrack is possible now
