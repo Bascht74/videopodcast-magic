@@ -1,6 +1,6 @@
 # The test suite
 
-184 tests against `../videopodcast-magic.py`. Every one of them stands
+185 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-184 tests. The name is the one a red line carries, and beside it the
+185 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -448,6 +448,7 @@ it is green.
 | `run_bar_never_falls` | The bar neither falls back nor stands still. |
 | `run_bar_tracks_work` | The one bar: weights, creeping, and never going backwards. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
+| `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody. |
