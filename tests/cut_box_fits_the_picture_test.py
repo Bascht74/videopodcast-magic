@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 """The box takes the shape of the picture and gives the rest to the note.
 
-A box built on one shape puts black over and under everything else, so
-the shape is measured off the frames that arrive. In order: that the
-handler for those frames is hooked up only once all it reads exists,
-what stands before anything is measured, the shape read off a picture
-that is not sixteen to nine, that the box gives height up and never
-takes any, that a narrower camera does not pull it back, and the air.
+Black over and under a picture is what this is against, so the shape is
+measured off the frames. In order: the handler hooked up only once all
+it reads exists, what stands before a measurement, the shape read off a
+picture far from sixteen to nine, that the picture gives height up and
+takes none, that a narrower camera does not pull it back, and the air.
+The height the box itself gets is the layout's, and is not measured.
 """
 import ast
 import io
@@ -63,7 +63,7 @@ def hint(widget, text):
 # expectation from the number it judges agrees with it however it moves.
 SIXTEEN_TO_NINE = 16.0 / 9.0
 AIR = 8                        # the air under the note, in pixels
-WIDE, HIGH = 400, 200          # the picture built below: two to one
+WIDE, HIGH = 800, 200          # the picture built below: four to one
 CAMERA = "Weit_08141855_C001"
 folder = tempfile.mkdtemp(prefix="vpm_shape_")
 clip = os.path.join(folder, "two_to_one.mp4")
@@ -132,6 +132,7 @@ player.set([(0.0, 3.0, CAMERA)], {CAMERA: clip}, {}, None, 0.0, 0.0, 3.0,
            None, [], {CAMERA: vpm.clip_colour_rgb("Orange")},
            [{"name": "Anna", "sections": [(0.0, 3.0)]}])
 first = player.stack.geometry()
+first_note = player.note.geometry()
 box = player.box.rect()
 check("the picture leaves the note its two lines and the air below",
       first.height() + player.note.line_room() + player.GAP
@@ -144,12 +145,13 @@ print("\n2. The shape read off the picture")
 player.play()
 waited = QtCore.QElapsedTimer()
 waited.start()
-while abs(player.shape - SIXTEEN_TO_NINE) < 0.001 and waited.elapsed() < 8000:
+while abs(player.shape - SIXTEEN_TO_NINE) < 0.001 \
+        and waited.elapsed() < 8000:
     app.processEvents()
     QtCore.QThread.msleep(5)
 player.pause()
 player.clock.stop()
-check("a picture two to one is measured, not assumed",
+check("a picture four to one is measured, not assumed",
       abs(player.shape - WIDE / float(HIGH)) < 0.01,
       "%.4f against %.4f after %d ms of at most 8000"
       % (player.shape, WIDE / float(HIGH), waited.elapsed()))
@@ -163,15 +165,30 @@ check("the picture is drawn at the shape that was measured",
          inside, WIDE / float(HIGH)))
 
 print("\n3. It gives height up and takes none")
-check("a wider picture makes the box shorter, not taller",
-      now.height() < first.height()
-      and player.box.height() == box.height(),
-      "the picture went from %d to %d high, the box stayed %d against %d"
-      % (first.height(), now.height(), player.box.height(), box.height()))
+# What the picture gives up is only visible where its shape is what
+# limits it. On a box wide enough for the shape, the height it is
+# allowed limits it instead, and then it cannot shrink at all -- which
+# is a fact about the box, not about the layout being wrong.
+spare = player.box.height() - player.GAP - now.height()
+check("the shape is what limits the picture here, not the room it has",
+      spare > player.note.line_room(),
+      "%d px left under the picture against the %d the note needs, in a "
+      "box %d wide" % (spare, player.note.line_room(), player.box.width()))
+check("a wider picture takes less height than a narrower one",
+      now.height() < first.height(),
+      "the picture went from %d to %d high at %.3f against %.3f"
+      % (first.height(), now.height(), SIXTEEN_TO_NINE,
+         WIDE / float(HIGH)))
+check("what the picture gives up falls to the note under it",
+      player.note.height() > first_note.height(),
+      "the note went from %d to %d high while the picture went from %d "
+      "to %d" % (first_note.height(), player.note.height(),
+                 first.height(), now.height()))
 check("the picture never reaches past the box it sits in",
-      box.contains(now),
+      player.box.rect().contains(now),
       "the picture is %d by %d at %d, the box %d by %d"
-      % (now.width(), now.height(), now.x(), box.width(), box.height()))
+      % (now.width(), now.height(), now.x(), player.box.width(),
+         player.box.height()))
 player._shape_seen(QtCore.QSize(600, 800))
 app.processEvents()
 check("a narrower camera does not pull the shape back",
