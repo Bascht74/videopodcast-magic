@@ -38,9 +38,17 @@ A full run takes a couple of minutes. Copy the script to a snapshot,
 start the suite against that, and do the next thing:
 
 ```bash
-cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
+mkdir -p /tmp/snap && cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
+ln -sfn "$PWD/models" /tmp/snap/models       # or the run skips and returns 1
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
+
+**The link is not optional.** What the program looks for beside itself is
+not beside the copy, and the speaker model is 33 MB -- so
+`voice_split_hears_two` bows out, the run skips twice where one is
+allowed, and it **returns 1 with every check in it green**. Measured on
+1.9.2026: two skips against a bare snapshot, one against the working
+file, and green with the link.
 
 ## What a release is
 

@@ -85,7 +85,9 @@ to be asleep, and the next step is about it.
 ### 4. Was it waiting on the clock instead of a condition?
 
 **The commonest real reason for red on the builder and green here.** The
-builder is up to three times slower; a deadline that is generous here is
+builder is about nine times slower -- measured over twelve tests on
+31.8.2026, median factor 8.7, spread 5.1 to 12.6; a deadline that is
+generous here is
 tight there, and the test goes red while the window was working the whole
 time.
 
