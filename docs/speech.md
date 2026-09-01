@@ -56,6 +56,14 @@ as well. Where a person has a microphone of their own, that track is the
 truth and there is nothing to separate. The separation says who speaks
 when; it does not make one track per speaker out of one recording.
 
+Where there is no separate recording, the separation listens to the
+sound of a camera. A camera whose sound fits the others too badly to be
+placed by it is still allowed there, as long as its timecode puts it
+among them; only a file with no place at all stays out. What a
+separation needs is a place on the common time axis, and a clock gives
+that place as well as a recognised sound does -- how good the camera's
+own sound is decides nothing here.
+
 **Which way somebody came in by makes no difference.** Everybody who is
 heard is in the cut: a recording of one person, a camera's own sound
 with one person on it, a recording several people share, and every voice

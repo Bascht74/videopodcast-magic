@@ -300,7 +300,7 @@ whole thing and seconds once zoomed in. Hovering names camera, from-to
 and duration; clicking sets the spot for the player. Below it the
 **legend**: one entry per camera in the cut, a square in its colour and
 then how often, who, the share and the time --
-`129 × Candidate  50 %  (29:48 min)`.
+`129 × Guest  50 %  (29:48 min)`.
 
 **An entry is named after the people, not after the file.** A file name
 says nothing that is not known already; the assignment does. So an

@@ -25,6 +25,91 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.27.0-beta] - 2026-09-02
+
+### Added
+
+- A camera whose frame rate Resolve has no timeline for is used all the
+  same: the timeline takes the next rate Resolve does have, and the
+  camera keeps its own. Measured, a 15 fps file sits in a 30 fps timeline
+  to within half a frame.
+- The chooser "belongs to" greys out a recording whose clock is hours
+  away from the one it would join, and says how far apart they are.
+  Joined by hand, that difference went into the file as silence: 40
+  seconds of sound became 5.95 GB and the speaker was gone.
+
+### Changed
+
+- Where the sound of a file could not be matched, the note used to say
+  only that it does not fit the others. It now says which of the two
+  ways to a place still holds: "sound not recognised; placed by its
+  timecode", or that neither does and the sound cannot be used.
+
+### Fixed
+
+- A camera could be marked as fitting none of the others although the
+  measurement had found it. The test for a trustworthy reading now uses
+  two numbers that were already measured and thrown away, and those
+  separate every one of 378 pairs correctly.
+- The preview dropped files the run kept, so the cut band showed one
+  camera fewer than the finished project. Both now ask the same
+  question.
+- A camera whose sound was not recognised is allowed to be the source of
+  the speaker separation now, as long as its timecode places it.
+- A file whose frame rate is not one of Resolve's had its timecode
+  counted at the wrong rate. It is counted at its own now.
+- German headings wrote OE and UE where they meant Ö and Ü. They no
+  longer do, in twelve places.
+- The reason beside a channel tick was cut off where it was longer than
+  its column -- in German the sentence lost its point, "matching at 120
+  of " and then nothing. It wraps now.
+- Curves the program keeps to save re-reading a file carried no mark of
+  how they were worked out. They carry one now, so a changed reckoning
+  throws the old ones away instead of mixing them in.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Eine Kamera, für deren Bildrate Resolve keine Zeitleiste hat, wird
+  trotzdem verwendet: die Zeitleiste bekommt die nächste Rate, die
+  Resolve hat, die Kamera behält ihre eigene. Gemessen sitzt eine
+  15er-Datei in einer 30er-Zeitleiste auf ein halbes eigenes Bild genau.
+- Der Wähler „gehört zu" graut eine Aufnahme aus, deren Uhr Stunden von
+  der entfernt liegt, in die sie hineinsoll, und sagt wie weit. Von Hand
+  verbunden ging der Unterschied als Stille in die Datei: aus 40 Sekunden
+  Ton wurden 5,95 GB, und der Sprecher war weg.
+
+### Geändert
+
+- Wo der Ton einer Datei sich nicht zuordnen ließ, stand bisher nur, sie
+  passe nicht zu den anderen. Jetzt steht da, welcher der zwei Wege zu
+  einem Platz noch trägt: „Ton nicht erkannt; über den Timecode
+  platziert", oder daß keiner trägt und der Ton nicht verwendbar ist.
+
+### Behoben
+
+- Eine Kamera konnte als unpassend markiert werden, obwohl die Messung
+  sie gefunden hatte. Die Prüfung auf eine brauchbare Ablesung nimmt
+  jetzt zwei Zahlen, die ohnehin gemessen wurden, und die trennen alle
+  378 Paare richtig.
+- Die Vorschau ließ Dateien weg, die der Lauf behielt -- im Schnittband
+  stand eine Kamera weniger als im fertigen Projekt. Beide fragen jetzt
+  dasselbe.
+- Eine Kamera, deren Ton nicht erkannt wurde, darf jetzt Quelle der
+  Sprechertrennung sein, solange ihr Timecode sie platziert.
+- Bei einer Datei, deren Bildrate keine von Resolves ist, wurde der
+  Timecode mit der falschen Rate gezählt. Er wird jetzt mit ihrer
+  eigenen gezählt.
+- Deutsche Überschriften schrieben OE und UE, wo Ö und Ü gemeint war.
+  Sie tun es nicht mehr, an zwölf Stellen.
+- Der Hinweis neben einem Kanal-Häkchen war abgeschnitten, wo er länger
+  war als seine Spalte -- auf deutsch fehlte die Aussage selbst,
+  „an 120 von " und dann nichts. Er bricht jetzt um.
+- Die Kurven, die das Programm aufhebt, um eine Datei nicht zweimal lesen
+  zu müssen, trugen kein Zeichen dafür, wie sie gerechnet wurden. Jetzt
+  tragen sie eins, und eine geänderte Rechnung wirft die alten weg.
+
 ## [2.26.1-beta] - 2026-09-01
 
 ### Fixed

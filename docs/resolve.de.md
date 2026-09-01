@@ -56,10 +56,14 @@ Kamera gibt, auf der niemand ist: ihre Kamera steht, und der Weitwinkel
 unterbricht sie. Sonst bleibt nur die Multicam-Timeline: alle Kameras an
 ihren gemessenen Stellen, und Resolve macht daraus den Multicam-Clip.
 
-Das Programm bringt die Bildrate auf eine, die Resolve kennt: ffprobe
-misst bei manchen Dateien 29,994 oder 30,001. Das Protokoll sagt, welche
-Rate es genommen hat. Timecodes rechnet es mit der ganzzahligen Rate und
-Dauern mit der echten, und Drop-Frame ist berücksichtigt.
+Eine Messung, die erkennbar eine Rate von Resolve meint, gilt als diese
+Rate: ffprobe misst bei manchen Dateien 29,994 oder 30,001, wo die
+Kamera 29,97 oder 30 gemeint hat. Eine Rate, die keine von Resolve ist,
+bleibt dagegen die eigene der Datei -- was mit 15 Bildern läuft, zählt
+fünfzehn Bilder in der Sekunde, und Timecode und Länge zählen ebenso.
+Das Protokoll sagt, welche Rate es genommen hat. Timecodes rechnet es
+mit der ganzzahligen Rate und Dauern mit der echten, und Drop-Frame ist
+berücksichtigt.
 
 **… Cut**: der fertige Schnitt. Auf V1 (`Camera cut`) liegen die
 Bildstücke **ohne ihren Ton**. Darunter läuft auf A1 (`Audio-Full-Mix`)
@@ -91,13 +95,28 @@ nach und meldet es, wenn auch das misslingt.
 Kameras verschiedener Bauart einigen sich selten auf eine Bildrate: die
 eine schreibt 24 Bilder in der Sekunde, die nächste 25, der Weitwinkel
 30. **Die Timeline bekommt die höchste Rate, die unter den Kameras
-vorkommt.** Nach oben umgerechnet wiederholt Resolve Bilder, nach unten
-wirft es welche weg; also gibt die schnellste Kamera den Takt vor, und
-kein Bild geht verloren. Intro und Outro zählen nicht mit, denn sie sind
-fertige Clips und keine Kameras dieser Folge, und eine Datei auf **Video
-ignorieren** zählt ebenso wenig. Wo die Raten auseinandergehen, sagt es
-der Lauf unter `VERSCHIEDENE BILDRATEN` und nennt die Rate, auf die er
-sich festgelegt hat.
+vorkommt -- und wenn Resolve für die keine Timeline hat, die nächste
+darüber, die es hat.** Nach oben umgerechnet wiederholt Resolve Bilder,
+nach unten wirft es welche weg; also gibt die schnellste Kamera den Takt
+vor, und kein Bild geht verloren. Über 120 Bildern hat Resolve nichts
+Höheres mehr, dort endet die Reihe, und nur dort geht es nach unten.
+Intro und Outro zählen nicht mit, denn sie sind fertige Clips und keine
+Kameras dieser Folge, und eine Datei auf **Video ignorieren** zählt
+ebenso wenig. Wo die Raten auseinandergehen, sagt es der Lauf unter
+`VERSCHIEDENE BILDRATEN` und nennt die Rate, auf die er sich festgelegt
+hat.
+
+Resolve hat Timelines nur für eine feste Reihe von Raten, und eine
+Kamera kann mit einer laufen, die nicht darin steht -- mit 15 Bildern in
+der Sekunde etwa. **Eine solche Kamera wird trotzdem verwendet und nicht
+weggelassen.** Beim Einlesen nennt der Lauf sie und sagt dazu, dass
+Resolve für diese Rate keine Timeline hat und umgerechnet statt
+weggelassen wird; derselbe Hinweis steht in der Dateiliste, in der Zeile
+**Video** der geöffneten Datei. An Resolve 21.0.4.5 nachgemessen: Eine
+Kamera mit 15 Bildern sitzt neben Kameras mit 30 in deren 30er-Timeline
+auf ein halbes eigenes Bild genau, ohne Lücke und mit stimmender Länge.
+Stünde sie dort allein, bekäme die Timeline 16 -- die nächste Rate, die
+Resolve über 15 hat.
 
 Jede Kamera behält dabei ihre eigene Rate, und der Schnitt rechnet in
 ihr. Resolve liest Anfang und Ende einer Einstellung als Bilder der

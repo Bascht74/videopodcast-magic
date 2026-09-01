@@ -14,16 +14,17 @@ row, shows what stands behind it.
 
 ![The file list with the marks from the preflight](images/files.png)
 
-*A tick on every row, and beside four of them the remark that the file
-does not fit the rest. The one note, about bleed, stands under GENERAL
-NOTES and in the sentence below the list.*
+*A tick on every row. Three recordings say in red that they fit none of
+the other files -- sound not recognised, no timecode -- and two cameras
+say that their sound was not recognised and their timecode places them.
+The strip under the list sums the whole thing up.*
 
 The report holds for both modes.
 
 | Area | What | What follows |
 |---|---|---|
 | Picture | nominal rate against actual rate, spread of the frame spacing | see below |
-| Picture | frame rates of the cameras against each other | the timeline gets the highest of them |
+| Picture | frame rates of the cameras against each other | the timeline gets the highest of them, or the next rate Resolve has above it |
 | Picture | multi-part cameras: gap between the blocks | where picture is missing |
 | Sound | sample rate, bit depth, channels, length | brought to 48 kHz, and it says so |
 | Sound | tracks much shorter than the longest | note |
@@ -37,10 +38,15 @@ The report holds for both modes.
 A stop halts the run before anything is written or uploaded.
 
 Where the cameras do not all run at the same speed, the note names the
-rate the timeline will get: the highest of them. Nothing has to be
-converted beforehand -- every camera keeps its own rate, and the cut is
-counted in it ([Resolve](resolve.md), "Cameras that run at different
-speeds").
+rate the timeline will get: the highest of them, or, where Resolve has no
+timeline at that rate, the next rate above it that Resolve does have.
+
+A camera whose own frame rate Resolve has no timeline for is used all the
+same. Nothing has to be converted beforehand: it is converted into the
+timeline, and it is not left out. The opened row says so on its **Video**
+line, and the run says it again at the file while it reads the files.
+Every camera keeps its own rate, and the cut is counted in it
+([Resolve](resolve.md), "Cameras that run at different speeds").
 
 A timecode from the other side of midnight counts as one night, not as a
 day apart. For files really recorded on different days, the measured

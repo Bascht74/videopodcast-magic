@@ -759,12 +759,12 @@ begins and the sound arrives within a third of a second.
 
 | the wide shot starts | who is speaking there | how long |
 |---|---|---|
-| 649.2 s | Moderator at 649.8 s | 0.25 s |
-| 1782.6 s | Kandidat at 1782.9 s | 0.39 s |
-| 2367.4 s | Moderator at 2367.1 s | 0.32 s |
-| 3924.8 s | Kandidat at 3925.0 s | 0.35 s |
-| 4602.1 s | Moderator at 4606.7 s | 0.30 s |
-| 4781.7 s | Kandidat at 4782.0 s | 0.37 s |
+| 649.2 s | Presenter at 649.8 s | 0.25 s |
+| 1782.6 s | Guest at 1782.9 s | 0.39 s |
+| 2367.4 s | Presenter at 2367.1 s | 0.32 s |
+| 3924.8 s | Guest at 3925.0 s | 0.35 s |
+| 4602.1 s | Presenter at 4606.7 s | 0.30 s |
+| 4781.7 s | Guest at 4782.0 s | 0.37 s |
 
 At 0.2 s and below the column is empty: **not one inserted wide shot
 lands on a thrown-away block any more.** The last column falls more
@@ -886,18 +886,18 @@ candidate, 447.4 against 432.6 for the moderator.
 
 | episode | speaker | words | sentences | questions | of sentences | opens with a question word | speech | share |
 |---|---|---|---|---|---|---|---|---|
-| Production A 1 | Kandidat | 10353 | 582 | 13 | **2.2 %** | 5.7 % | 3479.5 s | 85.0 % |
-| | Moderator | 397 | 36 | 8 | **22.2 %** | 19.4 % | 166.1 s | 4.1 % |
-| | Moderatorin | 1124 | 94 | 30 | **31.9 %** | 30.9 % | 447.4 s | 10.9 % |
-| Production A 2 | Kandidat | 7544 | 368 | 10 | **2.7 %** | 3.0 % | 3059.9 s | 80.2 % |
-| | Moderator | 368 | 30 | 9 | **30.0 %** | 23.3 % | 156.5 s | 4.1 % |
-| | Moderatorin | 1492 | 126 | 49 | **38.9 %** | 37.3 % | 598.6 s | 15.7 % |
-| Production B 1 | Kandidat | 11400 | 791 | 46 | **5.8 %** | 4.8 % | 5622.5 s | 60.1 % |
-| | Moderator | 6399 | 737 | 94 | **12.8 %** | 7.5 % | 2634.4 s | 28.2 % |
-| | Moderatorin | 2659 | 299 | 43 | **14.4 %** | 7.4 % | 1095.7 s | 11.7 % |
-| Production B 2 | Kandidat | 9647 | 787 | 64 | **8.1 %** | 6.4 % | 3314.2 s | 73.0 % |
-| | Moderator | 1659 | 113 | 28 | **24.8 %** | 11.5 % | 688.8 s | 15.2 % |
-| | Moderatorin | 1360 | 150 | 49 | **32.7 %** | 18.7 % | 535.4 s | 11.8 % |
+| Production A 1 | Guest | 10353 | 582 | 13 | **2.2 %** | 5.7 % | 3479.5 s | 85.0 % |
+| | Presenter | 397 | 36 | 8 | **22.2 %** | 19.4 % | 166.1 s | 4.1 % |
+| | CoPresenter | 1124 | 94 | 30 | **31.9 %** | 30.9 % | 447.4 s | 10.9 % |
+| Production A 2 | Guest | 7544 | 368 | 10 | **2.7 %** | 3.0 % | 3059.9 s | 80.2 % |
+| | Presenter | 368 | 30 | 9 | **30.0 %** | 23.3 % | 156.5 s | 4.1 % |
+| | CoPresenter | 1492 | 126 | 49 | **38.9 %** | 37.3 % | 598.6 s | 15.7 % |
+| Production B 1 | Guest | 11400 | 791 | 46 | **5.8 %** | 4.8 % | 5622.5 s | 60.1 % |
+| | Presenter | 6399 | 737 | 94 | **12.8 %** | 7.5 % | 2634.4 s | 28.2 % |
+| | CoPresenter | 2659 | 299 | 43 | **14.4 %** | 7.4 % | 1095.7 s | 11.7 % |
+| Production B 2 | Guest | 9647 | 787 | 64 | **8.1 %** | 6.4 % | 3314.2 s | 73.0 % |
+| | Presenter | 1659 | 113 | 28 | **24.8 %** | 11.5 % | 688.8 s | 15.2 % |
+| | CoPresenter | 1360 | 150 | 49 | **32.7 %** | 18.7 % | 535.4 s | 11.8 % |
 
 The direction never turns. In all four the candidate asks the fewest
 questions per sentence and speaks the longest, and no moderator ever
@@ -942,18 +942,18 @@ the same count after every sentence that is *not* a question:
 
 | episode | speaker | after a question | after a statement | difference |
 |---|---|---|---|---|
-| Production A 1 | Kandidat | 0.0 % (n=13) | 9.7 % (n=569) | -9.7 |
-| | Moderator | 87.5 % (n=8) | 89.3 % (n=28) | **-1.8** |
-| | Moderatorin | 96.7 % (n=30) | 53.1 % (n=64) | +43.5 |
-| Production A 2 | Kandidat | 20.0 % (n=10) | 15.4 % (n=358) | +4.6 |
-| | Moderator | 100.0 % (n=9) | 71.4 % (n=21) | +28.6 |
-| | Moderatorin | 91.8 % (n=49) | 54.5 % (n=77) | +37.3 |
-| Production B 1 | Kandidat | 6.5 % (n=46) | 12.3 % (n=745) | -5.8 |
-| | Moderator | 57.4 % (n=94) | 56.0 % (n=643) | **+1.5** |
-| | Moderatorin | 62.8 % (n=43) | 44.1 % (n=256) | +18.7 |
-| Production B 2 | Kandidat | 6.2 % (n=64) | 8.6 % (n=723) | -2.3 |
-| | Moderator | 53.6 % (n=28) | 56.5 % (n=85) | **-2.9** |
-| | Moderatorin | 55.1 % (n=49) | 47.5 % (n=101) | +7.6 |
+| Production A 1 | Guest | 0.0 % (n=13) | 9.7 % (n=569) | -9.7 |
+| | Presenter | 87.5 % (n=8) | 89.3 % (n=28) | **-1.8** |
+| | CoPresenter | 96.7 % (n=30) | 53.1 % (n=64) | +43.5 |
+| Production A 2 | Guest | 20.0 % (n=10) | 15.4 % (n=358) | +4.6 |
+| | Presenter | 100.0 % (n=9) | 71.4 % (n=21) | +28.6 |
+| | CoPresenter | 91.8 % (n=49) | 54.5 % (n=77) | +37.3 |
+| Production B 1 | Guest | 6.5 % (n=46) | 12.3 % (n=745) | -5.8 |
+| | Presenter | 57.4 % (n=94) | 56.0 % (n=643) | **+1.5** |
+| | CoPresenter | 62.8 % (n=43) | 44.1 % (n=256) | +18.7 |
+| Production B 2 | Guest | 6.2 % (n=64) | 8.6 % (n=723) | -2.3 |
+| | Presenter | 53.6 % (n=28) | 56.5 % (n=85) | **-2.9** |
+| | CoPresenter | 55.1 % (n=49) | 47.5 % (n=101) | +7.6 |
 
 The gap between candidate and moderator is the largest of all three
 measures -- 47 to 88 points, and never smaller than 47. But the
@@ -994,10 +994,10 @@ same episode:
 
 | episode | tracks | shared five word runs |
 |---|---|---|
-| Production A 1, after auphonic.com | Kandidat / Moderator | 0 of 10198 -- **0.0 %** |
-| Production A 1, as uploaded | Kandidat / Moderator | 0 of 10412 -- **0.0 %** |
-| Production B 1 | Kandidat / Moderator | 11900 of 16605 -- **71.7 %** |
-| Production B 2 | Kandidat / Moderatorin | 7594 of 12531 -- **60.6 %** |
+| Production A 1, after auphonic.com | Guest / Presenter | 0 of 10198 -- **0.0 %** |
+| Production A 1, as uploaded | Guest / Presenter | 0 of 10412 -- **0.0 %** |
+| Production B 1 | Guest / Presenter | 11900 of 16605 -- **71.7 %** |
+| Production B 2 | Guest / CoPresenter | 7594 of 12531 -- **60.6 %** |
 
 In Production B every track holds the whole conversation: the moderator's
 own recognition returned 19300 words where the candidate's returned
