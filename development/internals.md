@@ -362,13 +362,22 @@ On any mismatch the old `moov` comes back byte for byte.
 | `transcript`, `speech_language` | the transcript tick and the language tag |
 | `apart`, `together` | blocks taken out by hand, and put together by hand |
 | `channels` | the stereo ticks, per file and channel |
-| `timeline`, `timeline_absolute` | the measured position of every file |
+| `timeline`, `timeline_absolute` | the measured position of every file, and how fast its recorder ran |
 | `call` | the command line of the last run |
 
 The `assignment` cannot be guessed. `own:` holds only what somebody set
 themselves; a **Camera audio** field that settled itself is derived
 again at every start and leaves nothing behind. The `timeline` saves the
 measurement at the next start.
+
+Each `timeline` entry carries `path`, `mtime`, `size`, `start_s` and
+`clock`. `clock` is the `b` of "recorder time = a + b * axis time", the
+same figure the run takes out before it rewrites a track; it rides along
+with the position because measuring it again costs the same minutes, and
+a file that changed is caught by `mtime` and `size` anyway. It is not a
+new format: an entry written before `clock` existed reads back as 1.0,
+so an older project file opens and the axis in it still holds. The
+format number stays 3.
 
 ## How a spot for the wide shot is scored
 
@@ -429,6 +438,36 @@ A handover file carries `offset` per camera. A preview without a
 handover file works from `start_s` per camera. The speaker segments
 are stored raw in the time of their source file and converted where
 they are used.
+
+The offset is not the whole of it: **Measure speakers now** applies the
+clock speed as well. The run takes it out by rewriting the audio; here
+the level curve is resampled instead -- `clock_on_axis` stretches the
+100 Hz curve by `b` before the tracks are laid on one grid -- which is
+the same correction at the resolution the levels are read with. The
+speed comes out of the axis, is kept in `state["axis_clock"]`, and is
+read per file by `audio_clock_of`, which answers 1.0 where nothing is
+stored.
+
+Measured over an hour: without it the preview's edit points ran about
+143 ms away from the run's, three to four frames; with it they stay
+inside one frame. Which camera the cut goes to never changed -- the
+gap was always far under the shortest shot.
+
+## What the line on the third tab stands on
+
+`state["cut_basis"]` is set on every pass of the preview, before
+anything is computed: `"run"` where this window's own handover file was
+read, `"auphonic"` where that run went over auphonic.com
+(`state["run_auphonic"]`, held when **Start** is pressed, so turning the
+preset box afterwards cannot change the answer), otherwise `"measured"`.
+`cut_basis_line` turns it into the sentence and the colour -- warning
+for `"measured"`, good for the other two.
+
+The line stands whenever there are numbers. It gives way to who is still
+unmeasured (`tracks_left`) and to the reason a measurement failed
+(`measure_failed`); the button beside it comes and goes on `tracks_left`
+alone. Before this it was overwritten 400 ms after the measurement, when
+the preview timer next ran and hid the whole row.
 
 ## How a separation reaches the run
 

@@ -302,8 +302,8 @@ Beides rechnet das Programm aus der Übergabedatei
 und immer für das gewählte Zeitfenster. Schreiben und Hochladen gehören
 zum Lauf, nicht zur Vorschau.
 
-Der Knopf **Sprecher jetzt messen** steht unten im Vorschau-Kasten und
-nicht unter diesem, solange eine Spur weder von einer Trennung abgedeckt
+Der Knopf **Sprecher jetzt messen** steht oben im Vorschau-Kasten, unter
+dem, was die Vorschau sagt, und nicht unter diesem, solange eine Spur weder von einer Trennung abgedeckt
 noch gemessen ist; daneben steht, wer fehlt: **Name noch nicht gemessen
 -- im Schnitt, in dieser Vorschau noch nicht**. Diese Leute sind im
 Schnitt; ein Druck holt sie auch in die Vorschau. Sind überhaupt keine
@@ -372,8 +372,12 @@ Fläche in der Farbe der laufenden Einstellung, und derselbe Ton läuft
 als Rahmen um das Bild, so dass beides als ein Block zu lesen ist. Es
 sind die Farben des Schnittbands, der Weitwinkel in seinem blassen
 Salbeiton. Das Bild behält dabei sein eigenes Seitenverhältnis, und die
-Höhe, die es nicht braucht, bekommt die Fläche, statt dass dort
-schwarze Balken stehen. Auf der Fläche stehen zwei Zeilen:
+Fläche bleibt nur so hoch, wie die Schrift darauf es braucht; die steht
+darin mittig. Was beide nicht brauchen — in einem schmalen, hohen
+Fenster ist das viel —, bleibt in der Farbe des Kastens dahinter und
+nicht in der der Einstellung: Die Farbe soll wie eine Zeile zum Bild
+gehören und nicht wie ein zweites Farbfeld darunter stehen. Auf der
+Fläche stehen zwei Zeilen:
 
 * **wer spricht**, fett, und bei mehreren alle. Läuft dabei der
   Weitwinkel, steht **(Weitwinkel)** hinter dem Namen: der Weitwinkel
@@ -393,8 +397,9 @@ Shotlist und die EDLs geht davon nichts ein — es ist Lesestoff und
 sonst nichts.
 
 Hat eine Einstellung kein Bild — eine Kamera im Schnitt, deren Datei
-nicht da ist —, füllt die Farbe die ganze Fläche, und dieselben zwei
-Zeilen stehen darauf. Der Ton läuft weiter, und es bleibt lesbar, wer
+nicht da ist —, gibt es nichts, worunter sich die Fläche setzen könnte:
+Dann füllt die Farbe den ganzen Kasten, und dieselben zwei Zeilen
+stehen darauf. Der Ton läuft weiter, und es bleibt lesbar, wer
 spricht und auf welche Kamera der Lauf ihn setzt.
 
 Unter dem Bild stehen links der In-Punkt, in der Mitte die Position und
@@ -543,8 +548,8 @@ einzigen Kamera.
 was man von Hand eingestellt hat und nicht wieder erraten kann. Das sind
 die Dateiliste, Name und Ablageort der Produktion, das Zeitfenster, alle
 Werte des Kameraschnitts, wer zu welcher Kamera gehört, das
-Auphonic-Preset, die Stereo-Häkchen und die gemessene Lage jeder Datei;
-der API Key steht **nicht** darin.
+Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei und
+wie schnell ihr Recorder lief; der API Key steht **nicht** darin.
 
 Beim Öffnen prüft das Programm das Format der Datei und weist eine Datei
 in einem anderen Format ab. Ältere Projektdateien kann es nicht mehr

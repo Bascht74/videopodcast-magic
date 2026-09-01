@@ -25,6 +25,99 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.26.0-beta] - 2026-09-01
+
+### Added
+
+- Under the preview on the third tab a line now says what the cut rests
+  on: "measured from the recordings", in the colour of a warning, before
+  a run; "from the finished run" or "from the processed Auphonic tracks"
+  in the good colour once one is done. Turn the knobs after that and
+  "Create Resolve project" works out the Resolve cut afresh from the
+  values standing there and that same result.
+
+### Changed
+
+- The preview takes the clock drift of the recorders out, as the run has
+  always done. Its edit points ran some 143 milliseconds -- three to four
+  frames -- away from the run's over an hour; they now stay inside a
+  single frame. Which camera is cut to never changed. The project file
+  keeps how fast each recorder ran; one written before that still opens.
+- The coloured plate under the picture in the cut player keeps to the two
+  lines it carries, centred in it, and the height neither of them uses
+  goes to the ground of the box. In a narrow, tall window that plate was
+  a third of the height. A shot with no picture keeps the whole box.
+
+### Fixed
+
+- A speaker who says little was counted as speaking whenever a neighbour
+  did: the bleed was removed from the measurement only above a tenth of
+  the recording. On test material with a speaker on 3.5 %, half the
+  speech went to the wrong person; it is 5.3 % now.
+- The line saying how many speakers were measured was hidden again 400
+  milliseconds later by the preview. It now stays.
+- A test that talks to DaVinci Resolve destroyed an open project that
+  had never been saved. Those tests now leave themselves out instead and
+  say what to do.
+- The dry run now gives the separated voices the heading the real run
+  gives them, and German no longer counts "in 1 Abschnitten".
+
+### Tests
+
+- The run says at the end that the Resolve tests exist, did not run here
+  and how to start them -- and says it more sharply where the Resolve
+  branch has been worked on. The 74 checks under those tests are now held
+  against their register by name; until now they fell out of it unseen.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Unter der Vorschau auf dem dritten Reiter steht jetzt, worauf der
+  Schnitt beruht: „gemessen aus den Aufnahmen" in der Warnfarbe, solange
+  kein Lauf durch ist; „aus dem fertigen Lauf" oder „aus den bearbeiteten
+  Auphonic Spuren" in der guten Farbe, sobald einer durch ist. Verstellt
+  man danach die Regler, rechnet „Resolve-Projekt anlegen" den Schnitt
+  aus den jetzt dort stehenden Werten und ebendiesem Ergebnis neu.
+
+### Geändert
+
+- Die Vorschau rechnet den Uhrengang der Recorder heraus, wie der Lauf
+  es immer getan hat. Ihre Schnittpunkte liefen über eine Stunde um rund
+  143 Millisekunden gegen den Lauf davon, also drei bis vier Bilder;
+  jetzt bleiben sie unter einem Bild. Welche Kamera geschnitten wird, hat
+  sich nie geändert. Die Projektdatei hebt auf, wie schnell jeder
+  Recorder lief; eine ältere öffnet weiterhin.
+- Die farbige Fläche unter dem Bild im Schnitt-Player bleibt so hoch, wie
+  ihre zwei Zeilen es brauchen, die darin mittig stehen; was beide nicht
+  brauchen, bekommt der Grund des Kastens. In einem schmalen, hohen
+  Fenster war das ein Drittel der Höhe. Eine Einstellung ohne Bild behält
+  den ganzen Kasten.
+
+### Behoben
+
+- Wer wenig sagt, galt als sprechend, sobald ein Nachbar sprach: das
+  Übersprechen wurde nur oberhalb eines Zehntels der Aufnahme
+  herausgerechnet. An Prüfmaterial mit 3,5 % landete die Hälfte der
+  Sprache bei der falschen Person; jetzt sind es 5,3 %.
+- Die Zeile, die sagt, wieviele Sprecher gemessen wurden, wurde 400
+  Millisekunden später von der Vorschau wieder ausgeblendet, so daß sie
+  niemand je gesehen hat. Sie bleibt jetzt stehen.
+- Ein Test, der mit DaVinci Resolve spricht, hat ein offenes, nie
+  gespeichertes Projekt vernichtet. Diese Tests lassen sich jetzt aus
+  und sagen, was zu tun ist.
+- Der Probelauf gibt den getrennten Stimmen jetzt die Überschrift, die
+  der richtige Lauf ihnen gibt, und auf deutsch steht nicht mehr „in 1
+  Abschnitten".
+
+### Tests
+
+- Der Lauf sagt am Ende, daß es die Resolve-Tests gibt, daß sie hier
+  nicht mitgelaufen sind und wie man sie startet -- und schärfer, wo am
+  Resolve-Zweig gearbeitet wurde. Die 74 Prüfungen dieser Tests werden
+  jetzt namentlich gegen ihr Register gehalten; bisher fielen sie
+  ungesehen heraus.
+
 ## [2.25.1-beta] - 2026-09-01
 
 ### Removed

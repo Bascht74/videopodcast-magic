@@ -225,11 +225,43 @@ Four tabs, in the order they are needed.
   how the heading of the box **Speaker** is to be read.
 
   In the box **Camera cut -- preview**, under what the preview says,
-  stands **Measure speakers now** -- whenever a track is neither covered
-  by a separation nor measured, and so beside a separation that already
-  stands as well. Next to the button is who is missing. Those people are
-  in the cut; it is this preview that cannot show them until they have
-  been measured.
+  stands one line naming what this cut rests on, and its colour grades
+  the answer. It stays there as long as there are numbers.
+
+  - **measured from the recordings -- 3 speakers, 1:09:23**, in the
+    colour of a warning. Nothing has run yet; the speakers were read
+    off the recordings as they lie, and the cut in front of you is a
+    provisional one.
+  - **from the finished run -- 3 speakers, 1:09:23**, in the good
+    colour. A run is done and the preview stands on its result: all
+    tracks on one axis, the speakers as the run found them.
+  - **from the processed Auphonic tracks -- 3 speakers, 1:09:23**, also
+    in the good colour. The same, and the tracks came back from
+    auphonic.com with the neighbours taken out of them as well.
+
+  This is the answer to the one question worth asking of a preview:
+  whether it can be trusted. Once a run is done, preview and run stand
+  on the same ground -- the same speakers, the same axis. Turn the knobs
+  after that and the preview follows them at once; press **Create
+  Resolve project** and the cut for Resolve is worked out afresh, from
+  the values standing there now and that same result. No second run, and
+  no falling back on a provisional reading. As long as the line stands
+  in the colour of a warning, every number beside it can still move.
+
+  The preview reckons the speed of each recorder in, as the run does. No
+  two recorders run at exactly the same rate; over an hour that comes to
+  about a tenth of a second. The preview used to measure it and drop it
+  again, and its edit points then ran some 143 milliseconds -- three to
+  four frames -- away from the run's over an hour. They now stay inside
+  a single frame. Which camera is cut to was never affected: the gap was
+  far too small for that.
+
+  In the same line stands **Measure speakers now** -- whenever a track
+  is neither covered by a separation nor measured, and so beside a
+  separation that already stands as well. Then who is missing stands
+  there in place of what the cut rests on. Those people are in the cut;
+  it is this preview that cannot show them until they have been
+  measured. A measurement that fails says why in the same spot.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -534,9 +566,13 @@ One timecode anywhere is enough to hang the axis on; without any it counts
 from the start of the material and shows as a virtual timecode.
 
 The axis goes into the project file, with size and modification time of
-every file, and the next start takes it up again. Files that no longer
-fit it show red. More about the project file stands in
-[camera-cut.md](camera-cut.md).
+every file, and the next start takes it up again. Along with the place
+of each file goes how fast its recorder ran, so that the second start
+does not have to measure the same minutes over again. Files that no
+longer fit it show red. A project file written before that speed was
+kept still opens: every recorder in it then counts as running even,
+which is what the program assumed all along. More about the project file
+stands in [camera-cut.md](camera-cut.md).
 
 The measurement tells three verdicts apart. A file whose sound fits the
 others badly shows red. A file with no place at all -- its sound has
