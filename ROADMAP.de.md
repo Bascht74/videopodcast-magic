@@ -67,15 +67,15 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 Fünf Punkte. Die ersten drei sind Arbeit. Die letzten zwei sind gebaut,
 und was ihnen fehlt, ist ein Lauf, nicht weiteres Bauen.
 
-**Die ausgelieferten Kameras werden auf das Zeitfenster geschnitten —
-zur Wahl gestellt neben dem Weg, sie ganz zu übergeben.** Für 2.25.0
-entschieden. An echtem Material gemessen: drei Kameras kamen auf
-83,57 GB, wo das Zeitfenster fünf Minuten lang war, und auf 6,09 GB,
-wenn nur dieses Fenster hinausging — 92,7 % weniger. Voreingestellt
-bleibt es, wie es ist, denn bei einer ganzen Produktion spart dieser Weg
-nichts. Die Falle ist der Timecode: er wird aus der gerenderten Datei
-zurückgelesen, und wer schneidet, ohne ihn mitzuziehen, legt jede Kamera
-falsch.
+**Mit 2.25.0-beta hinausgegangen: die Kameras werden nur noch für das
+geschnittene Zeitfenster geschrieben** — aus 83,57 GB wurden 6,09 GB an
+echtem Material. Der Schalter, den diese Seite versprach, kam nicht,
+denn In- und Out-Punkt sind schon einer: wer sie setzt, bekommt nur das
+Fenster, wer sie leer läßt, bekommt alles. Die Falle mit dem Timecode
+war echt und ist gemessen — ffmpeg läßt ihn stehen, also setzt das
+Programm ihn selbst — und daneben kam eine zweite zutage: wer zwischen
+zwei Keyframes schneidet, treibt Bild und Ton 400 ms auseinander,
+deshalb geht der Schnitt auf das Keyframe vor dem Fenster zurück.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
 Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet
