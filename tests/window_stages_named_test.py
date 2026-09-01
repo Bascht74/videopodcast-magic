@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
@@ -15,22 +15,31 @@ vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 sys.path.insert(0, HERE)
 from fixture_project import fixture_project
+began = time.time()
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
 PROJECT, MEDIA = fixture_project("runbar")
 if PROJECT is None:
     print("SKIPPED: no test project -- point VPM_MEDIA at a folder "
           "holding videopodcast-magic_Interview_2.json (looked in %s)" % MEDIA)
-    sys.exit(0)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (PROJECT, ""))
 # Offscreen nobody answers a dialog, and the run asks before it starts.
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
-
-error = []
-def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok:
-        error.append(name)
 
 print("1. The stages of a run and what they are worth")
 plain = vpm.run_stages(False, 0, False)
@@ -43,15 +52,21 @@ check("with cameras there is", "cameras" in names, str(names))
 weight = dict((n, w) for n, w, _c in with_cams)
 check("writing the cameras is the largest single piece",
       weight["cameras"] == max(weight.values()), weight["cameras"])
-check("more cameras means more of the bar",
-      dict((n, w) for n, w, _c in vpm.run_stages(True, 6, False))["cameras"]
-      > weight["cameras"])
+six = dict((n, w) for n, w, _c in vpm.run_stages(True, 6, False))["cameras"]
+check("more cameras means more of the bar", six > weight["cameras"],
+      "six cameras weigh %s, three weigh %s" % (six, weight["cameras"]))
 check("without auphonic the loudness is measured here",
-      "loudness" in names and "auphonic" not in names)
-check("with auphonic it is not",
-      "auphonic" in [n for n, _w, _c in vpm.run_stages(True, 1, True)])
+      "loudness" in names and "auphonic" not in names,
+      "%d stages, loudness among them %s, auphonic %s: %s"
+      % (len(names), "loudness" in names, "auphonic" in names, names))
+with_auphonic = [n for n, _w, _c in vpm.run_stages(True, 1, True)]
+check("with auphonic it is not", "auphonic" in with_auphonic,
+      "%d stages: %s" % (len(with_auphonic), with_auphonic))
 check("every stage says what it is",
-      all(c for _n, _w, c in with_cams))
+      all(c for _n, _w, c in with_cams),
+      "%d of %d stages carry a caption; without one: %s"
+      % (sum(1 for _n, _w, c in with_cams if c), len(with_cams),
+         [n for n, _w, c in with_cams if not c]))
 
 print("\n2. The run reaches the bar")
 seen = []
@@ -64,8 +79,10 @@ bar.stream = open(os.devnull, "w")
 bar.report("a", 0.5)
 vpm.PROGRESS_SINK = None
 check("a stage beginning arrives", ("time base", None) in seen, str(seen[:2]))
-check("its own report arrives", ("time base", 0.5) in seen)
-check("what show_progress knows arrives", ("time base", 0.75) in seen)
+check("its own report arrives", ("time base", 0.5) in seen,
+      "%d reports arrived: %s" % (len(seen), seen[:4]))
+check("what show_progress knows arrives", ("time base", 0.75) in seen,
+      "%d reports arrived: %s" % (len(seen), seen[:4]))
 check("and the shared bar of a parallel batch too",
       any(n == "time base" and s not in (None, 0.5, 0.75) for n, s in seen),
       str(seen))
@@ -136,7 +153,9 @@ def step():
                 n[0] = 1
                 QtCore.QTimer.singleShot(1000, step)
                 return
-            check("the dry run can be started", bool(k and k.isEnabled()))
+            check("the dry run can be started", bool(k and k.isEnabled()),
+                  "button found %s, ready %s, after %d s of waiting"
+                  % (k is not None, bool(k and k.isEnabled()), waited[0]))
             if not (k and k.isEnabled()):
                 app.quit(); return
             # Only from here on is the bar the run's, not the opening's.
@@ -156,8 +175,6 @@ def step():
             check("it named a stage of the run by name",
                   len(watch["captions"]) >= 1,
                   str(sorted(watch["captions"])))
-            print("\n%s" % ("ALL OK" if not error
-                             else "FAIL: " + ", ".join(error)))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -169,4 +186,6 @@ QtCore.QTimer.singleShot(600, step)
 QtCore.QTimer.singleShot(180000, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

@@ -16,19 +16,22 @@ import json
 import shutil
 import sys
 import tempfile
+import time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
-checked = [0]
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    checked[0] += 1
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def words(*rows):
@@ -46,11 +49,17 @@ SAID = words((0.0, 0.5, "Guten"), (0.5, 1.1, "Tag,"), (1.1, 1.3, "das"),
 tally = {}
 put = vpm.words_by_speaker(SAID, SEGMENTS, tally)
 check("every word carries a name",
-      all(w.get("speaker") for w in put))
+      all(w.get("speaker") for w in put),
+      "%d of %d words named"
+      % (len([w for w in put if w.get("speaker")]), len(put)))
+first_six = [w["speaker"] for w in put[:6]]
 check("the first sentence is Anna's",
-      [w["speaker"] for w in put[:6]] == ["Anna"] * 6)
+      first_six == ["Anna"] * 6,
+      "%s against six times Anna" % (first_six,))
+next_two = [w["speaker"] for w in put[6:8]]
 check("the second is Bert's",
-      [w["speaker"] for w in put[6:8]] == ["Bert"] * 2)
+      next_two == ["Bert"] * 2,
+      "%s against two times Bert" % (next_two,))
 check("all nine words touch exactly one voice",
       (tally["clear"], tally["shared"], tally["gap"]) == (9, 0, 0),
       str(tally))
@@ -83,23 +92,31 @@ MIXED = words((0.0, 0.4, "Eins"), (0.4, 0.8, "zwei"), (0.8, 1.2, "drei"),
 for i, w in enumerate(MIXED):
     w["speaker"] = "Bert" if i == 2 else "Anna"
 after = vpm.sentence_speakers(MIXED)
+voices = [w["speaker"] for w in after]
 check("one voice in six is outvoted",
-      [w["speaker"] for w in after] == ["Anna"] * 6)
+      voices == ["Anna"] * 6,
+      "%s against six times Anna" % (voices,))
 for i, w in enumerate(MIXED):
     w["speaker"] = "Bert" if i >= 4 else "Anna"
 after = vpm.sentence_speakers(MIXED)
+voices = [w["speaker"] for w in after]
 check("two in six are not -- the words stand",
-      [w["speaker"] for w in after]
-      == ["Anna", "Anna", "Anna", "Anna", "Bert", "Bert"])
+      voices == ["Anna", "Anna", "Anna", "Anna", "Bert", "Bert"],
+      "%s against four times Anna and two times Bert" % (voices,))
 check("the limit is the measured fifth",
       abs(vpm.SENTENCE_MINORITY_SHARE - 0.2) < 1e-9,
       str(vpm.SENTENCE_MINORITY_SHARE))
 
 print("\n5. Without a separation nobody is named")
 put = vpm.words_with_speakers(SAID, [])
-check("no word gets a name", not any(w.get("speaker") for w in put))
+check("no word gets a name", not any(w.get("speaker") for w in put),
+      "%d of %d words named, wanted none"
+      % (len([w for w in put if w.get("speaker")]), len(put)))
+nameless = vpm.transcript_file_text(put)
 check("and the reading file has no colon in it",
-      ":" not in vpm.transcript_file_text(put))
+      ":" not in nameless,
+      "%d colons in %d characters, beginning %s"
+      % (nameless.count(":"), len(nameless), repr(nameless[:40])))
 
 print("\n6. The three files, and the json round trip")
 folder = tempfile.mkdtemp(prefix="vpm-transcript-")
@@ -111,11 +128,15 @@ try:
           == ["Episode.json", "Episode.srt", "Episode.txt"],
           str([os.path.basename(p) for p in written]))
     check("all three really exist",
-          all(os.path.exists(p) and os.path.getsize(p) for p in written))
+          all(os.path.exists(p) and os.path.getsize(p) for p in written),
+          "sizes in bytes %s, -1 where the file is missing"
+          % ([os.path.getsize(p) if os.path.exists(p) else -1
+              for p in written],))
 
     with open(written[0], encoding="utf-8") as f:
         passages = json.load(f)
-    check("the json is a list of passages", isinstance(passages, list))
+    check("the json is a list of passages", isinstance(passages, list),
+          "a %s: %.50s" % (type(passages).__name__, passages))
     check("each passage carries its speaker",
           [p.get("speaker") for p in passages] == ["Anna", "Bert", "Anna"],
           str([p.get("speaker") for p in passages]))
@@ -132,7 +153,9 @@ try:
     check("the subtitles are numbered from one",
           srt.startswith("1\n00:00:00,000 --> 00:00:03,000\n"), repr(srt[:40]))
     check("the name stands in capitals with a colon",
-          "ANNA: Guten Tag" in srt)
+          "ANNA: Guten Tag" in srt,
+          "'ANNA: Guten Tag' %d x, the file begins %s"
+          % (srt.count("ANNA: Guten Tag"), repr(srt[:64])))
     check("and only where the voice changes",
           srt.count("ANNA:") == 2 and srt.count("BERT:") == 1,
           "%d/%d" % (srt.count("ANNA:"), srt.count("BERT:")))
@@ -145,8 +168,12 @@ try:
     check("the reading file names the voices",
           text.startswith("Anna: Guten Tag"), repr(text[:20]))
     check("it shows the change of voice as a paragraph",
-          "\n\nBert: Und weiter." in text)
-    check("and carries no times", "-->" not in text and "00:00" not in text)
+          "\n\nBert: Und weiter." in text,
+          "%d blank lines, the file reads %s"
+          % (text.count("\n\n"), repr(text[:90])))
+    check("and carries no times", "-->" not in text and "00:00" not in text,
+          "%d arrows and %d clock stamps in %d characters"
+          % (text.count("-->"), text.count("00:00"), len(text)))
 finally:
     shutil.rmtree(folder, ignore_errors=True)
 
@@ -162,18 +189,23 @@ check("and none holds more than two lines' worth",
       all(len(t) <= vpm.SUBTITLE_LINE_CHARS * vpm.SUBTITLE_LINES
           for _a, _b, _n, t in cues),
       str(max((len(t) for _a, _b, _n, t in cues), default=0)))
-check("every word is in exactly one subtitle",
-      " ".join(t for _a, _b, _n, t in cues)
-      == " ".join(w["word"] for w in long_words))
+in_cues = " ".join(t for _a, _b, _n, t in cues)
+went_in = " ".join(w["word"] for w in long_words)
+check("every word is in exactly one subtitle", in_cues == went_in,
+      "%d words over %d subtitles against %d words in"
+      % (len(in_cues.split()), len(cues), len(went_in.split())))
 
 print("\n8. Nothing in, nothing written")
 folder = tempfile.mkdtemp(prefix="vpm-transcript-")
 try:
-    check("no words means no files",
-          vpm.write_transcript_files(folder, "Leer", [], SEGMENTS) == []
-          and not os.listdir(folder))
+    made = vpm.write_transcript_files(folder, "Leer", [], SEGMENTS)
+    left = os.listdir(folder)
+    check("no words means no files", made == [] and not left,
+          "%d files reported and %d left in the folder %s, wanted none"
+          % (len(made), len(left), left))
 finally:
     shutil.rmtree(folder, ignore_errors=True)
 
-print("\n%d checks, %d failed" % (checked[0], len(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

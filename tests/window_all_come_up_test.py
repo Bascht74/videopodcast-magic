@@ -5,7 +5,7 @@ A stylesheet with a placeholder that no longer exists, or a table that
 reads a renamed key, shows up in none of the functional tests. Here the
 window is really built.
 """
-import os, subprocess, sys, tempfile
+import os, subprocess, sys, tempfile, time
 
 # The three window scripts are not part of this suite; they are only
 # started here.
@@ -17,15 +17,19 @@ SCRIPTS = [os.path.join(HERE, name) for name in
 # a minute is a window that never reached its event loop. The clock
 # starts when a window's turn to be read comes, not when it was started.
 LIMIT = 120
-error = []
+began = time.time()
+done = 0
+bad = []
 checked = 0
 skipped = 0
 
 
 def check(name, ok, extra=""):
-    print("  %-46s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def readable(what):
@@ -51,7 +55,7 @@ started = []
 present = [s for s in SCRIPTS if os.path.exists(s)]
 for s in SCRIPTS:
     if s not in present:
-        print("  %-46s is not next to this test -- not checked"
+        print("  %-58s is not next to this test -- not checked"
               % os.path.basename(s))
 for language in ("de_DE.UTF-8", "en_US.UTF-8"):
     # LANGUAGE too: the suite sets LANGUAGE=en and the program reads
@@ -109,7 +113,7 @@ for language, row, env in started:
         if not hung and "SKIPPED:" in out:
             # A window that stops for want of material has not been
             # checked, so it must not count as a pass.
-            print("  %-46s skipped %s"
+            print("  %-58s skipped %s"
                   % (os.path.basename(s),
                      out.split("SKIPPED:")[1].split("\n")[0][:44]))
             skipped += 1
@@ -132,7 +136,7 @@ for language, row, env in started:
                 [sys.executable, s], stdout=subprocess.PIPE,
                 stderr=subprocess.STDOUT, text=True, env=env, cwd=HERE)
             if again.returncode == 0:
-                print("  %-46s ok on its own, after failing silently "
+                print("  %-58s ok on its own, after failing silently "
                       "beside five other windows"
                       % os.path.basename(s))
                 good = True
@@ -172,16 +176,15 @@ for language, row, env in started:
                 print("    " + line[:150])
 
 print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-if not checked:
-    # Nothing was really tried, so "All good." would be a lie: the suite
-    # reads this word and counts the test as skipped rather than green.
+if not bad and not checked:
+    # Nothing was really tried, so a verdict of ALL OK would be a lie:
+    # the suite reads this word and counts the test as skipped rather
+    # than green. The count of judgements below says the same in numbers.
     print("SKIPPED: not one window was checked -- %d skipped, %d of %d "
           "scripts missing" % (skipped, len(SCRIPTS) - len(present),
                                len(SCRIPTS)))
-    sys.exit(0)
-if skipped:
+elif not bad and skipped:
     print("%d window(s) checked, %d skipped." % (checked, skipped))
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

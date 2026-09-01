@@ -16,12 +16,27 @@ vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True)]
 vpm.load_api_key = lambda: ""
 sys.path.insert(0, HERE)
 from fixture_project import fixture_project
+began = time.time()
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
 PROJECT, D = fixture_project("startbutton")
 if PROJECT is None:
     # Not a pass: run.sh reads the marker and counts this as skipped.
     print("SKIPPED: no test project -- point VPM_MEDIA at a folder "
           "holding videopodcast-magic_Interview_2.json (looked in %s)" % D)
-    sys.exit(0)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (PROJECT, ""))
 
@@ -63,11 +78,6 @@ def fake_thread(target=None, args=(), daemon=None, **rest):
 
 
 threading.Thread = fake_thread
-
-error = []
-def check(name, ok, extra=""):
-    print("  %-48s %s %s" % (name, "ok" if ok else "FAIL", extra))
-    if not ok: error.append(name)
 
 def win():
     for x in app.topLevelWidgets():
@@ -138,16 +148,26 @@ def carry_on():
         elif i == 4:
             argv = seen.get("argv")
             print("   argv:", " ".join(argv[:14]) if argv else None)
-            check("a run was started", bool(argv))
+            check("a run was started", bool(argv),
+                    "%d arguments: %s"
+                    % (len(argv or []),
+                       " ".join(argv[:14]) if argv else "none"))
             if argv:
                 check("program name first",
-                        argv[0].endswith("videopodcast-magic.py"))
-                check("--dry-run there", "--dry-run" in argv)
+                        argv[0].endswith("videopodcast-magic.py"),
+                        "the first of %d arguments is %r"
+                        % (len(argv), argv[0]))
+                check("--dry-run there", "--dry-run" in argv,
+                        "%d arguments, the switches among them: %s"
+                        % (len(argv),
+                           [x for x in argv if x.startswith("-")][:10]))
                 check("files there",
                         any(x.endswith(".mov") or x.endswith(".wav")
-                            for x in argv))
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
+                            for x in argv),
+                        "%d of %d arguments end in .mov or .wav; the last "
+                        "are %s"
+                        % (sum(1 for x in argv if x.endswith(".mov")
+                               or x.endswith(".wav")), len(argv), argv[-4:]))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -158,4 +178,6 @@ QtCore.QTimer.singleShot(150000, app.quit)
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 threading.Thread = real
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

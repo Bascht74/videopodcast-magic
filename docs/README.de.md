@@ -20,7 +20,7 @@ für sich; nichts davon muss von vorn bis hinten gelesen werden.
 * **[Der einfache Weg](simple-path.de.md)**: eine Tondatei, eine
   Kamera — der kürzeste Weg hindurch.
 * **[Aufbereitung über auphonic.com](auphonic.de.md)**: Pegeln,
-  Übersprechen, Transkription — und wo der Schlüssel liegt.
+  Übersprechen, Rauschentfernung — und wo der Schlüssel liegt.
 * **[Multitrack: mehrere Sprecher, mehrere Kameras](multitrack.de.md)**:
   eine Spur je Sprecher, mehrere Kameras, eine Zeitachse.
 * **[Spracherkennung und Sprechertrennung](speech.de.md)**: was gesagt
@@ -124,7 +124,8 @@ der das Wort erklärt, steht vorn.
 * **Paketverwaltung**: `requirements`, „Woher ffmpeg, PySide6 und numpy
   kommen“
 * **Player, Vorschau**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie
-  die Vorschau-Player Datei und Ton wählen“
+  die Vorschau-Player Datei und Ton wählen“; `camera-cut`, „Was das Bild
+  sagt“
 * **Preset**: `auphonic`, „Der Schlüssel und das Preset“; `preflight`, „Was
   geprüft wird“
 * **Probelauf**: `interface`, „Die vier Reiter“
@@ -165,8 +166,8 @@ der das Wort erklärt, steht vorn.
 * **Tasten**: `interface`, „Alles über Menü oder Taste erreichen“
 * **Timecode, virtueller**: `interface`, „Wie die Zeitachse ohne Timecode
   entsteht“
-* **Transkription**: `auphonic`, „Transkription holen“; `speech`, „Wie das
-  Programm den Text mitschreibt“
+* **Transkription**: `speech`, „Wie das Programm den Text mitschreibt“;
+  `auphonic`, „Das Transkript entsteht hier“
 * **Typ (Spalte)**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie das
   Programm den Weitwinkel setzt“
 * **Übergabedatei (`_resolve.json`)**: `camera-cut`, „Was die Projektdatei
@@ -184,7 +185,8 @@ der das Wort erklärt, steht vorn.
 * **Vorflug**: `preflight`, „Was geprüft wird“
 * **Vorspann**: `resolve`, „Vorspann und Abspann setzen“
 * **Weitwinkel**: `camera-cut`, „Wie das Programm den Weitwinkel setzt“;
-  `camera-cut`, „Wie der Schnitt entsteht“
+  `camera-cut`, „Wie der Schnitt entsteht“; `camera-cut`, „Was das Bild
+  sagt“
 * **Zeitachse**: `interface`, „Wie die Zeitachse ohne Timecode entsteht“;
   `multitrack`, „Was Multitrack tut“
 * **Zeitfenster**: `multitrack`, „Das Zeitfenster setzen“

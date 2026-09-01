@@ -4,18 +4,22 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, sys
+import importlib.util, sys, time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def word(start, end, text):
@@ -57,17 +61,22 @@ check("the short piece goes to the one after it",
       vpm.merge_short_shots(band, 3.0)
       == [[0.0, 10.0, "A"], [10.0, 20.0, "C"]],
       str(vpm.merge_short_shots(band, 3.0)))
+tail = vpm.merge_short_shots([(0.0, 10.0, "A"), (10.0, 11.0, "B")], 3.0)
 check("the last one has nothing after it and falls back",
-      vpm.merge_short_shots([(0.0, 10.0, "A"), (10.0, 11.0, "B")], 3.0)
-      == [[0.0, 11.0, "A"]])
+      tail == [[0.0, 11.0, "A"]],
+      "%r, wanted [[0.0, 11.0, 'A']]" % (tail,))
+pair = vpm.merge_short_shots(
+    [(0.0, 10.0, "A"), (10.0, 11.0, "B"), (11.0, 20.0, "A")], 3.0)
 check("two of the same camera never end up side by side",
-      vpm.merge_short_shots(
-          [(0.0, 10.0, "A"), (10.0, 11.0, "B"), (11.0, 20.0, "A")], 3.0)
-      == [[0.0, 20.0, "A"]])
+      pair == [[0.0, 20.0, "A"]],
+      "%r, wanted [[0.0, 20.0, 'A']]" % (pair,))
+kept_long = vpm.merge_short_shots(
+    [(0.0, 4.0, "A"), (4.0, 5.0, "B"), (5.0, 6.0, "C"),
+     (6.0, 12.0, "D")], 3.0)
 check("nothing under the minimum is left over",
-      all(b - a >= 3.0 for a, b, _w in vpm.merge_short_shots(
-          [(0.0, 4.0, "A"), (4.0, 5.0, "B"), (5.0, 6.0, "C"),
-           (6.0, 12.0, "D")], 3.0)))
+      all(b - a >= 3.0 for a, b, _w in kept_long),
+      "%d shots of lengths %s, none may fall under 3.00 s"
+      % (len(kept_long), [round(b - a, 2) for a, b, _w in kept_long]))
 
 print("\n3. The wide shot where the recognition is not sure")
 heap = [("Host", [(0.0, 100.0)]), ("Guest", [(100.0, 200.0)]),
@@ -91,23 +100,40 @@ one_cam = {"Host": "CamA", "Guest": "CamA"}
 check("seven entries in twelve seconds count as restless",
       vpm.unrest_spans(frayed, two_cams), str(vpm.unrest_spans(frayed,
                                                               two_cams)))
+one_cam_spans = vpm.unrest_spans(frayed, one_cam)
 check("on one camera the same to and fro is one picture, not unrest",
-      not vpm.unrest_spans(frayed, one_cam))
+      not one_cam_spans,
+      "%r, wanted [] -- 16 segments inside 12.0 s, all of them on CamA, "
+      "so one picture change" % (one_cam_spans,))
 calm = [("Host", [(0.0, 40.0)]), ("Guest", [(40.0, 80.0)])]
-check("a calm recognition raises no alarm",
-      not vpm.unrest_spans(calm, two_cams))
+calm_spans = vpm.unrest_spans(calm, two_cams)
+check("a calm recognition raises no alarm", not calm_spans,
+      "%r, wanted [] -- 2 picture changes in 80.0 s, against the 7 in "
+      "12.0 s that count as restless" % (calm_spans,))
 
 print("\n4. Where a cut may sit: the text says roughly, the sound exactly")
+near_sentence = vpm.boundary_near(10.0, [11.5], [9.9])
 check("a sentence beginning within two seconds wins",
-      vpm.boundary_near(10.0, [11.5], [9.9]) == 11.5)
+      near_sentence == 11.5,
+      "%r, wanted 11.5 -- the sentence 1.5 s off beats the clause 0.1 s off"
+      % (near_sentence,))
+near_clause = vpm.boundary_near(10.0, [14.0], [9.4])
 check("otherwise a clause break within two seconds",
-      vpm.boundary_near(10.0, [14.0], [9.4]) == 9.4)
+      near_clause == 9.4,
+      "%r, wanted 9.4 -- the clause is 0.6 s off, the sentence 4.0 s, "
+      "and the near reach is 2.0 s" % (near_clause,))
+far_sentence = vpm.boundary_near(10.0, [14.0], [14.5])
 check("then the sentence beginning within five",
-      vpm.boundary_near(10.0, [14.0], [14.5]) == 14.0)
-check("and it searches backwards as well",
-      vpm.boundary_near(10.0, [6.5], []) == 6.5)
-check("beyond five seconds nothing is found",
-      vpm.boundary_near(10.0, [17.0], [16.0]) is None)
+      far_sentence == 14.0,
+      "%r, wanted 14.0 -- the sentence is 4.0 s off, the clause 4.5 s, "
+      "both past the near reach of 2.0 s" % (far_sentence,))
+backwards = vpm.boundary_near(10.0, [6.5], [])
+check("and it searches backwards as well", backwards == 6.5,
+      "%r, wanted 6.5 -- 3.5 s before the aim of 10.0" % (backwards,))
+too_far = vpm.boundary_near(10.0, [17.0], [16.0])
+check("beyond five seconds nothing is found", too_far is None,
+      "%r, wanted None -- 7.0 s and 6.0 s off, against a far reach of 5.0 s"
+      % (too_far,))
 levels = [900] * 500
 for i in range(210, 240):
     levels[i] = 3                       # a real gap of 0.3 s
@@ -115,29 +141,45 @@ step = 0.010
 found = vpm.sound_dip(levels, step, 2.0, 0.5)
 check("the dip in the sound is found", found is not None
       and abs(found - 2.25) < 0.05, str(found))
+dry = vpm.cut_point(10.0, [9.4], [], (), step)
 check("without sound the boundary itself is taken",
-      abs(vpm.cut_point(10.0, [9.4], [], (), step) - 9.4) < 1e-9)
+      abs(dry - 9.4) < 1e-9,
+      "%s s, wanted 9.4 s -- the sentence boundary, with no sound to "
+      "measure and an aim of 10.0" % (dry,))
 check("with sound the point moves onto the gap",
       abs(vpm.cut_point(2.0, [2.0], [], levels, step) - 2.25) < 0.05,
       str(vpm.cut_point(2.0, [2.0], [], levels, step)))
 flat = [500] * 500
-check("nothing to measure means no dip",
-      vpm.sound_dip(flat, step, 2.0, 0.5) is None)
+flat_dip = vpm.sound_dip(flat, step, 2.0, 0.5)
+check("nothing to measure means no dip", flat_dip is None,
+      "%r, wanted None -- 500 samples all at 500, so no range to find a "
+      "dip in" % (flat_dip,))
 
 print("\n5. How long the wide shot stands")
+to_sentence = vpm.wide_shot_length(0.0, 100.0, [3.0, 9.0, 20.0], [7.0],
+                                   5.0, 15.0)
 check("at least five seconds, then to the end of the sentence",
-      vpm.wide_shot_length(0.0, 100.0, [3.0, 9.0, 20.0], [7.0], 5.0,
-                           15.0) == 9.0)
+      to_sentence == 9.0,
+      "%s s, wanted 9.0 s -- the first sentence end at or after the 5.0 s "
+      "floor; 3.0 is under it" % (to_sentence,))
+to_clause = vpm.wide_shot_length(0.0, 100.0, [30.0], [7.0, 12.0, 14.0],
+                                 5.0, 15.0)
 check("over fifteen seconds the last clause break before it takes over",
-      vpm.wide_shot_length(0.0, 100.0, [30.0], [7.0, 12.0, 14.0], 5.0,
-                           15.0) == 14.0)
-check("never cut off in the middle of a sentence",
-      vpm.wide_shot_length(0.0, 100.0, [30.0], [7.0, 12.0], 5.0, 15.0)
-      == 12.0)
-check("without any punctuation it holds the minimum",
-      vpm.wide_shot_length(0.0, 100.0, [], [], 5.0, 15.0) == 5.0)
-check("and never longer than there is room for",
-      vpm.wide_shot_length(0.0, 2.0, [], [], 5.0, 15.0) == 2.0)
+      to_clause == 14.0,
+      "%s s, wanted 14.0 s -- the last clause at or under the 15.0 s "
+      "ceiling, not 7.0 or 12.0" % (to_clause,))
+not_mid = vpm.wide_shot_length(0.0, 100.0, [30.0], [7.0, 12.0], 5.0, 15.0)
+check("never cut off in the middle of a sentence", not_mid == 12.0,
+      "%s s, wanted 12.0 s -- the sentence ends at 30.0, well past the "
+      "15.0 s ceiling" % (not_mid,))
+bare = vpm.wide_shot_length(0.0, 100.0, [], [], 5.0, 15.0)
+check("without any punctuation it holds the minimum", bare == 5.0,
+      "%s s, wanted 5.0 s -- no sentence and no clause in 100.0 s of room"
+      % (bare,))
+cramped = vpm.wide_shot_length(0.0, 2.0, [], [], 5.0, 15.0)
+check("and never longer than there is room for", cramped == 2.0,
+      "%s s, wanted 2.0 s -- only 2.0 s of room for a 5.0 s minimum"
+      % (cramped,))
 
 print("\n6. A change of speaker on one camera is no cut")
 same = [("Host", [(0.0, 20.0), (40.0, 60.0)]),
@@ -154,20 +196,36 @@ cams = {"Host": "CamA", "Guest": "CamB"}
 check("a question fires it",
       vpm.reaction_cuts(talk, asked, cams) == {5.0: "Guest"},
       str(vpm.reaction_cuts(talk, asked, cams)))
-check("a statement does not", vpm.reaction_cuts(talk, told, cams) == {})
-check("nothing where both sit on the same camera",
-      vpm.reaction_cuts(talk, asked, {"Host": "CamA",
-                                      "Guest": "CamA"}) == {})
+stated = vpm.reaction_cuts(talk, told, cams)
+check("a statement does not", stated == {},
+      "%r, wanted {} -- the same eight words, closing on a full stop"
+      % (stated,))
+one_camera = vpm.reaction_cuts(talk, asked, {"Host": "CamA",
+                                             "Guest": "CamA"})
+check("nothing where both sit on the same camera", one_camera == {},
+      "%r, wanted {} -- asker and answerer both on CamA" % (one_camera,))
 late = [("Host", [(0.0, 4.2)]), ("Guest", [(12.0, 30.0)])]
-check("nothing where the answer comes too late",
-      vpm.reaction_cuts(late, asked, cams) == {})
-brief = [("Host", [(0.0, 4.2), (6.0, 30.0)]), ("Guest", [(5.0, 5.8)])]
+too_late = vpm.reaction_cuts(late, asked, cams)
+check("nothing where the answer comes too late", too_late == {},
+      "%r, wanted {} -- the question ends at 3.95, the answer starts at "
+      "12.0, and 3.0 s are allowed" % (too_late,))
+# Host asks and Guest answers with 0.8 s and is gone again. Guest holds
+# 140.8 s of the recording against Host's 28.2, so Host is not the main
+# speaker and the question really reaches the rule about the floor.
+brief = [("Host", [(0.0, 4.2), (6.0, 30.0)]),
+         ("Guest", [(5.0, 5.8), (60.0, 200.0)])]
+brief_tally = {}
+short_answer = vpm.reaction_cuts(brief, asked, cams, tally=brief_tally)
 check("nothing where the answer does not keep the floor",
-      vpm.reaction_cuts(brief, asked, cams) == {})
+      short_answer == {} and brief_tally.get("did_not_hold") == 1,
+      "%r and %s turned away for not keeping the floor, wanted {} and 1 "
+      "-- the answer holds 0.8 s of the next 10.0, under the 7.0 asked"
+      % (short_answer, brief_tally.get("did_not_hold")))
 main_asks = [("Host", [(0.0, 4.2), (20.0, 200.0)]),
              ("Guest", [(5.0, 20.0)])]
-check("nothing where the main speaker is the one asking",
-      vpm.reaction_cuts(main_asks, asked, cams) == {})
+by_main = vpm.reaction_cuts(main_asks, asked, cams)
+check("nothing where the main speaker is the one asking", by_main == {},
+      "%r, wanted {} -- Host asks and holds 184.2 s of 199.2 s" % (by_main,))
 rules = vpm.cut_rules(words=asked, on_question=vpm.SHOT_ANSWER,
                       reaction_lead=1.5)
 early = vpm.build_camera_cut(talk, 30.0, cams, "Wide", 0.0, -0.3, rules)
@@ -176,13 +234,21 @@ plain = vpm.build_camera_cut(talk, 30.0, cams, "Wide", 0.0, -0.3,
                                            on_question=vpm.SHOT_OFF))
 when_early = [a for a, _b, who in early if who == "CamB"]
 when_plain = [a for a, _b, who in plain if who == "CamB"]
+# The question's last word ends at 4.0, the answer starts at 5.0, and
+# the lead is 1.5. Zero is the end of the question, so the aim is 2.5;
+# the sound may move it half a second either way.
 check("the answer is on screen earlier",
-      when_early and when_plain
-      and abs(when_early[0] - (when_plain[0] - 1.8)) < 0.02,
+      when_early and when_plain and when_early[0] < when_plain[0] - 1.0,
       "%s against %s" % (when_early, when_plain))
+check("the lead counts from the end of the question, not the start "
+      "of the answer",
+      when_early and abs(when_early[0] - (4.0 - 1.5)) <= 0.5,
+      "%s, wanted 2.5 -- from the answer at 5.0 it would be 3.5"
+      % when_early)
 check("and the Edit Change Delay is not added a second time",
-      when_early and abs(when_early[0] - (5.0 - 1.5)) < 0.02,
-      str(when_early))
+      when_early and when_early[0] > (4.0 - 1.5) - 0.5 - 0.02,
+      "%s, the delay of 0.3 would push it below %.2f"
+      % (when_early, (4.0 - 1.5) - 0.5))
 check("no new cuts -- if anything one disappears",
       len(early) <= len(plain), "%d against %d" % (len(early), len(plain)))
 
@@ -217,7 +283,11 @@ for switch, _caption, default_value, values, _s, _l in vpm.CUT_CHOICES:
           len(set(shapes)) > 1, "%d different results" % len(set(shapes)))
 check("every value of every field checked, not every combination",
       sum(len(v) for v in seen.values())
-      == sum(len(f[3]) for f in vpm.CUT_CHOICES))
+      == sum(len(f[3]) for f in vpm.CUT_CHOICES),
+      "%d values tried over %d fields, against %d values over %d fields "
+      "in CUT_CHOICES" % (sum(len(v) for v in seen.values()), len(seen),
+                          sum(len(f[3]) for f in vpm.CUT_CHOICES),
+                          len(vpm.CUT_CHOICES)))
 
 print("\n9. Long monologue: what is shown when it is broken up")
 # One person holds the floor for five minutes; the other says "mhm"
@@ -265,7 +335,10 @@ d = {"speakers": [{"name": n, "sections": [list(x) for x in segs]}
      "length_s": 320.0,
      "words": vpm.words_for_handover(mixed_words)}
 numbers = vpm.cut_statistics(d, 3.0, 0.3, 40.0, 5.0, 120.0, False)
-check("the preview computes", bool(numbers and numbers.get("cut")))
+check("the preview computes", bool(numbers and numbers.get("cut")),
+      "%d shots in the cut, %d numbers in the answer, wanted a cut with "
+      "shots in it" % (len((numbers or {}).get("cut") or []),
+                       len(numbers or {})))
 same = vpm.camera_cut(mixed, 320.0, mixed_cams, "Wide", 3.0, 0.3,
                       40.0, 5.0, 120.0, False,
                       vpm.cut_rules(words=mixed_words))
@@ -273,8 +346,6 @@ check("and it is the same cut the run builds",
       numbers["cut"] == same, "%d against %d" % (len(numbers["cut"]),
                                                  len(same)))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

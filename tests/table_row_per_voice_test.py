@@ -20,7 +20,11 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import json, re, subprocess, sys, tempfile, wave
+import json, re, subprocess, sys, tempfile, time, wave
+
+# One clock for both processes: the child runs this file from the top
+# as well, and stops in look() before the parent's own part.
+began = time.time()
 
 RATE = 48000
 SEC = 12
@@ -181,12 +185,17 @@ def look(case, media):
     QtWidgets.QWidget.show = offstage
     QtWidgets.QDialog.show = offstage
 
-    error = []
+    bad = []
+    # A list, not a plain number: the checks are made in nested steps,
+    # and "done" is taken here by the flag that says the window got
+    # through them.
+    judged = [0]
 
     def check(name, ok, extra=""):
-        print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+        judged[0] += 1
+        print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
         if not ok:
-            error.append(name)
+            bad.append("%s [%s]" % (name, extra or "no numbers"))
 
     def win():
         for x in app.topLevelWidgets():
@@ -358,21 +367,35 @@ def look(case, media):
     # "Separated: " in whatever language the window is speaking.
     separated = vpm.TN(1, 'Separated: %d speaker',
                        'Separated: %d speakers').split("%d")[0]
-    # The words every offer in the Speakers cell begins with; what
-    # follows the dash is written down where it is checked.
-    one_speaker = vpm.T(
-        'Only one speaker -- separate the track?').split(" -- ")[0]
     several = vpm.label_of(vpm.SEVERAL_SPEAKERS)
     picks = [os.path.basename(video), vpm.MIX_ONLY,
              os.path.basename(video)]
 
-    def offers():
-        """The offers standing open in the window, in their own words."""
-        return [b for b in win().findChildren(QtWidgets.QPushButton)
-                if b.isVisible() and b.text().startswith(one_speaker)]
+    def speakers_cell():
+        """The Speakers cell of the recording's row, whatever sits in it.
 
-    def said_by(offer_list):
-        return str([b.text() for b in offer_list])
+        The column is found by its heading and not by its number: which
+        columns there are depends on what this machine can do.
+        """
+        view = tree()
+        where = row_of(view, room)
+        if where is None:
+            return None
+        which = headings_of(view).index(vpm.T('Speakers'))
+        return view.indexWidget(where.sibling(where.row(), which))
+
+    def buttons_in_cell():
+        """The buttons standing open in that cell, in their own words."""
+        cell = speakers_cell()
+        return [b.text() for b in
+                (cell.findChildren(QtWidgets.QPushButton) if cell else [])
+                if b.isVisible()]
+
+    def labels_in_cell():
+        """What that cell says, in its own words."""
+        cell = speakers_cell()
+        return [x.text() for x in
+                (cell.findChildren(QtWidgets.QLabel) if cell else [])]
 
     # ------------------------------------------------------ the steps
     # One thing at a time: answering rebuilds the whole sheet, and a
@@ -400,11 +423,16 @@ def look(case, media):
         once that row is there the voice rows are there too, or not.
         """
         sheet = sheet_of(vpm.T('Assignment && time window')[:8])
-        there = sheet is not None and room in rows_named(sheet)
+        named = rows_named(sheet) if sheet is not None else {}
+        there = sheet is not None and room in named
         if not there and waited[0] < 120:
             waited[0] += 1
             return AGAIN
-        check("the project brought its assignment sheet up", there)
+        check("the project brought its assignment sheet up", there,
+              "%d such sheets after %d rounds of waiting, %s wanted among "
+              "its %d rows: %s"
+              % (0 if sheet is None else 1, waited[0], room, len(named),
+                 sorted(named)[:5]))
         sheet_now[0] = sheet
         return None if there else STOP
 
@@ -440,8 +468,6 @@ def look(case, media):
         check("the row says all the same what was separated",
               bool(labels(mark)),
               str([x.text() for x in labels(separated)]))
-        check("and nothing offers to correct an answer nobody gave",
-              not offers(), said_by(offers()))
         check("and nothing has been separated", not separations,
               str(separations))
 
@@ -468,13 +494,17 @@ def look(case, media):
             for _t, said, _w, _b in rows:
                 print("      %r" % said[:90])
             return STOP
-        check("every row has a field to put a name in",
-              all(any(isinstance(w, QtWidgets.QLineEdit)
-                      for w in widgets)
-                  for _t, _s, widgets, _b in rows))
-        check("and a chooser offering the camera itself",
-              all(box.findData(os.path.basename(video)) >= 0
-                  for _t, _s, _w, box in rows))
+        no_field = [said for _t, said, widgets, _b in rows
+                    if not any(isinstance(w, QtWidgets.QLineEdit)
+                               for w in widgets)]
+        check("every row has a field to put a name in", not no_field,
+              "%d of %d rows carry no name field: %s"
+              % (len(no_field), len(rows), no_field))
+        no_cam = [said for _t, said, _w, box in rows
+                  if box.findData(os.path.basename(video)) < 0]
+        check("and a chooser offering the camera itself", not no_cam,
+              "%d of %d choosers do not offer %s: %s"
+              % (len(no_cam), len(rows), os.path.basename(video), no_cam))
         # Every voice is asked for in turn and has to answer with its
         # own longest passage. The three do not overlap, so a position
         # says which voice was meant, and the first row says the order.
@@ -505,9 +535,11 @@ def look(case, media):
               bool(labels(vpm.TN(len(FOUND), 'Separated: %d speaker',
                                  'Separated: %d speakers') % len(FOUND))),
               str([x.text() for x in labels(separated)]))
-        check("and nothing is being computed",
-              not any(b.isVisible()
-                      for b in buttons(vpm.T('Break off'))))
+        running = [b.text() for b in buttons(vpm.T('Break off'))
+                   if b.isVisible()]
+        check("and nothing is being computed", not running,
+              "%d Break off buttons on show, wanted 0: %s"
+              % (len(running), running))
 
     def say_one_name():
         type_into(name_field_of(sheet(), room), ALONE)
@@ -527,20 +559,25 @@ def look(case, media):
               str(under(tree(), row_of(tree(), room))))
         check("and saying one name separated nothing", not separations,
               str(separations))
-        # The way back, in the cell that says how the separation stands.
-        # Its words are printed beside the check: what they say depends
-        # on what the recording carries.
-        check("the row offers the way back to several speakers",
-              len(offers()) == 1, said_by(offers()))
-        if offers():
-            offers()[0].click()
-            app.processEvents()
+        # The cell that says how the separation stands says only that.
+        # The way back to several speakers is the name field, and the
+        # one button that belongs here breaks a running separation off.
+        check("the Speakers cell puts no button on show",
+              not buttons_in_cell(), "%d on show: %s"
+              % (len(buttons_in_cell()), buttons_in_cell()))
+        stands = [vpm.TN(len(FOUND), 'Separated: %d speaker',
+                         'Separated: %d speakers') % len(FOUND)]
+        check("and the cell still says how the separation stands",
+              labels_in_cell() == stands,
+              "%s, wanted %s" % (labels_in_cell(), stands))
+        pick_several(name_field_of(sheet(), room))
 
     def again_look():
-        """The offer taken: the same three voices, as they were left."""
+        """The way back taken: the same three voices, as they were left."""
         rows = voice_rows(sheet(), file_names)
-        check("the offer brings the three voices back",
-              len(rows) == len(FOUND), "%d rows" % len(rows))
+        check("asking for several speakers again brings the voices back",
+              len(rows) == len(FOUND),
+              "%d rows, wanted %d" % (len(rows), len(FOUND)))
         check("and brought them back without separating anything",
               not separations, str(separations))
         check("and the field says several speakers again",
@@ -589,8 +626,10 @@ def look(case, media):
         rows = voice_rows(sheet(), file_names)
         check("no separation, no voice rows", not rows,
               str([r[1] for r in rows]))
-        check("the recording is a row all the same",
-              room in rows_named(sheet()))
+        named = rows_named(sheet())
+        check("the recording is a row all the same", room in named,
+              "%s wanted among the %d rows: %s"
+              % (room, len(named), sorted(named)[:5]))
         check("and its name field is empty",
               text_of(name_field_of(sheet(), room)) == "",
               repr(text_of(name_field_of(sheet(), room))))
@@ -600,11 +639,11 @@ def look(case, media):
         check("and nothing says a separation was found",
               not labels(separated), str([x.text() for x
                                           in labels(separated)]))
-        check("and nothing offers to correct an answer nobody gave",
-              not offers(), said_by(offers()))
-        check("and nothing is being computed",
-              not any(b.isVisible()
-                      for b in buttons(vpm.T('Break off'))))
+        running = [b.text() for b in buttons(vpm.T('Break off'))
+                   if b.isVisible()]
+        check("and nothing is being computed", not running,
+              "%d Break off buttons on show, wanted 0: %s"
+              % (len(running), running))
         check("and nothing has been separated", not separations,
               str(separations))
 
@@ -614,22 +653,22 @@ def look(case, media):
     def asked_look():
         """A name given where nothing was ever listened to.
 
-        The offer here is the other one: nothing is stored to show, so
-        it offers to go and look. It is not clicked -- that would fetch
-        the model and compute for minutes -- so what is checked is that
-        it stands there and has started nothing.
+        One person named is an answer, not a question: nothing is
+        listened to because of it and nothing is put in the row's way
+        asking whether there were several -- that is the name field's
+        business, and it is where it was.
         """
         check("the name given is what the field says",
               text_of(name_field_of(sheet(), room)) == ALONE,
               repr(text_of(name_field_of(sheet(), room))))
-        check("and now the row offers to go and look",
-              len(offers()) == 1
-              and offers()[0].text() == vpm.T(
-                  'Only one speaker -- separate the track?'),
-              said_by(offers()))
-        check("and no voice rows came of a name",
-              not voice_rows(sheet(), file_names))
-        check("and the offer alone separated nothing", not separations,
+        check("the Speakers cell puts no button on show",
+              not buttons_in_cell(), "%d on show: %s"
+              % (len(buttons_in_cell()), buttons_in_cell()))
+        came = voice_rows(sheet(), file_names)
+        check("and no voice rows came of a name", not came,
+              "%d voice rows, wanted 0: %s"
+              % (len(came), [said for _t, said, _w, _b in came]))
+        check("and naming one person separated nothing", not separations,
               str(separations))
 
     plan = ([open_project, wait_for_sheet, unanswered_look, say_several,
@@ -639,8 +678,7 @@ def look(case, media):
              asked_look])
 
     def stop_now():
-        print("\n%s" % ("ALL OK" if not error
-                        else "FAIL: " + ", ".join(error)))
+        """Nothing more to ask. The verdict stands at the end of look()."""
         done[0] = True
         app.quit()
 
@@ -653,7 +691,7 @@ def look(case, media):
         except Exception:
             import traceback
             traceback.print_exc()
-            error.append("crash")
+            bad.append("crash")
             stop_now()
             return
         if answer == STOP:
@@ -670,8 +708,10 @@ def look(case, media):
     vpm.gui()
     if not done[0]:
         print("  the window never got as far as the checks   FAIL")
-        error.append("no answer")
-    return 1 if error else 0
+        bad.append("no answer")
+    print("\n%d checks in %.2f s" % (judged[0], time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    return 1 if bad else 0
 
 
 # --------------------------------------------------------- the parent
@@ -709,6 +749,11 @@ if os.environ.get("VPM_VOICES_CASE"):
 # process would be a second interface standing on the first.
 media = tempfile.mkdtemp(prefix="vpm_voices_")
 material(media)
+# Every judgement in this test is made in a window, and every window is
+# a process of its own. What they judged is carried up here, so the
+# floor covers them: a window that stops judging brings the number down
+# instead of passing.
+done = 0
 bad = []
 for name, what in CASES:
     print("\n%s:" % what)
@@ -726,11 +771,12 @@ for name, what in CASES:
         out = (out or "") + "\nthe window never came back"
     for line in (out or "").rstrip().split("\n"):
         print(line[:160])
+        head = line.split(" checks in ")[0]
+        if " checks in " in line and head.isdigit():
+            done += int(head)
     if child.returncode != 0:
         bad.append(name)
 
-print()
-if bad:
-    print("FAIL: " + ", ".join(bad))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

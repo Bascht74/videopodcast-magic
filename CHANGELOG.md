@@ -25,6 +25,511 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.25.0-beta] - 2026-09-01
+
+**English**
+
+### Added
+
+- The picture in **Camera cut -- preview** carries a note of its own:
+  who is speaking, in bold, and the camera under it, on a plate in the
+  colour of the running shot with a frame of that colour round the
+  picture. Where a shot has no picture, the colour fills the whole box
+  and the same two lines stand on it.
+- The player on the **Resolve cut** tab has a fast forward of its own,
+  at the end of the transport and on the `L` key. Every press doubles
+  the speed, up to eight times, and the speed stands on the button.
+
+### Changed
+
+- With an In and an Out point set, each camera is written only for that
+  window, plus a second at each end. On a five-minute window of a real
+  interview that is 6.09 GB of output rather than 83.57 GB, and the cut
+  it produces is the same to the millisecond.
+- Pressing **Measure speakers now** and then **Start** worked the same
+  recording out twice. The run reads the store the window fills now, so
+  a separation already in it comes back in 0.0008 s rather than 201 s,
+  and the log says it was read back.
+- The speech recognition waited for the speaker separation to finish.
+  It starts beside it now, which takes 27 seconds off the 201 seconds
+  an 87-minute recording waits. It runs on the consent that started the
+  separation, so nothing is asked twice.
+- Checking a camera the program has just written walks the file once,
+  not once per audio track. On a 36 GB camera file off a 150 MB/s drive
+  that saves about four minutes a camera, and the two progress lines
+  become one, **Check: Full-Mix and camera track**.
+
+### Removed
+
+- The flat button **Only one speaker -- separate the track?** in the
+  **Speakers** column is gone. What it did is an answer in the name
+  field of the same row: **several speakers** rather than a name.
+- A double click on the preview picture used to blow it up to the whole
+  screen, and Escape brought it back. Both are gone; the picture stays
+  in the box it is given, on every tab.
+
+### Fixed
+
+- Where two recordings had been taken apart, only one of them reached
+  the cut, and its people were placed on the other one's cameras: 2 of
+  4 speakers arrived, on the wrong two. All four are in the cut now,
+  each on their own camera.
+- Every separation started its stand-in names at **Speaker 1** again,
+  so five people shared three names. A stand-in takes the first number
+  nobody has now, over all recordings; typing a name another voice
+  already carries turns both fields red and holds the start.
+- Separating a second recording wiped the first one's voices off the
+  screen, and names typed under the first were written onto the
+  second's. Every recording keeps its own now, they stand side by side,
+  and reopening a project brings them all back.
+- A voice reached the cut only where a separation had found it, so
+  somebody measured from their own microphone dropped out as soon as any
+  recording was taken apart. Voices out of a separation and tracks
+  measured here go into one reckoning now, and only **do not use** keeps
+  somebody out.
+- Where somebody on **no camera of its own** spoke beside somebody who
+  has a camera, the picture went to the wide shot. Such a voice counts
+  now for the speaking shares and among who is heard in a shot, but the
+  camera is chosen among those who have one.
+- With nothing loaded, **Save project**, **Close project**, **Start**
+  and **Dry run** stood black over an empty list while the buttons for
+  the same four were grey. Each entry follows its button now, and so
+  does every entry of the **Player** menu.
+- The transport entries drove the preview player of the second tab
+  whatever tab was showing, the **Resolve cut** tab included. Each
+  drives the player of the tab in front now, and stays grey where that
+  tab shows none.
+- Storing the key while the keychain was locked stood for twenty
+  seconds and then failed, with a reason that was not the real one.
+  **Save in Keychain** is grey now, a line under it says the keychain is
+  locked, and **Open Keychain Access** beside it opens the program that
+  unlocks it.
+- Where the camera's own audio track was missing from the written file,
+  the run reported that the two tracks cannot be compared, which reads
+  like a bad take. It says now that the track is not in the file and
+  that nothing was measured.
+- The **Speakers** column hung off the right edge of the window: its
+  message was cut to two half lines and the button beside it showed the
+  single letter "e". The column is 132 px wide now, and the sideways
+  scrollbar under the table is gone.
+
+### Security
+
+- Where the macOS keychain did not take the key, the program handed it
+  over a second way: as an argument on a command line, where everybody
+  on the machine can read it. That way is gone -- nothing is stored
+  where the keychain refuses, and a line says why.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Das Bild in **Kameraschnitt -- Vorschau** trägt eine eigene Auskunft:
+  wer spricht, fett, darunter die Kamera, auf einer Fläche in der Farbe
+  der laufenden Einstellung und in einem Rahmen derselben Farbe. Wo eine
+  Einstellung kein Bild hat, füllt die Farbe den ganzen Kasten, und die
+  zwei Zeilen stehen darauf.
+- Der Player auf dem Reiter **Resolve-Schnitt** hat einen eigenen
+  **Vorlauf**, am Ende der Bedienleiste und auf der Taste `L`. Jeder
+  Druck verdoppelt das Tempo, bis achtfach, und das Tempo steht auf dem
+  Knopf.
+
+### Geändert
+
+- Sind In- und Out-Punkt gesetzt, wird jede Kamera nur für dieses
+  Zeitfenster geschrieben, dazu je eine Sekunde davor und danach. Bei
+  fünf Minuten aus einem echten Interview sind das 6,09 GB statt
+  83,57 GB, und der Schnitt bleibt auf die Millisekunde derselbe.
+- Wer **Sprecher jetzt messen** drückte und danach **Start**, ließ
+  dieselbe Aufnahme zweimal abhören. Der Lauf liest jetzt zurück, was
+  das Fenster abgelegt hat: eine schon gemessene Trennung kommt in
+  0,0008 s statt in 201 s, und das Protokoll nennt sie als
+  zurückgelesen.
+- Die Spracherkennung wartete, bis die Sprechertrennung fertig war. Sie
+  läuft jetzt daneben und spart 27 Sekunden der 201, die eine Aufnahme
+  von 87 Minuten braucht. Die Einwilligung bleibt dieselbe: sie stammt
+  vom Start der Trennung, gefragt wird nichts zweimal.
+- Die Kontrolle einer eben geschriebenen Kamera geht einmal durch die
+  Datei, nicht einmal je Tonspur. Bei 36 GB auf einer Platte mit
+  150 MB/s sind das rund vier Minuten je Kamera, und aus zwei
+  Fortschrittszeilen wird eine: **Kontrolle: Full-Mix und Kameraspur**.
+
+### Entfernt
+
+- Der flache Knopf **Nur ein Sprecher -- Spur auftrennen?** in der
+  Spalte **Sprecher** ist weg. Was er tat, ist eine Antwort im
+  Namensfeld derselben Zeile: **mehrere Sprecher** statt eines Namens.
+- Ein Doppelklick auf das Vorschaubild machte es bildschirmfüllend,
+  Escape holte es zurück. Beides gibt es nicht mehr; das Bild bleibt in
+  dem Kasten, den es bekommt, auf jedem Reiter.
+
+### Behoben
+
+- Waren zwei Aufnahmen aufgetrennt, kam nur eine davon in den Schnitt,
+  und ihre Leute saßen auf den Kameras der anderen: 2 von 4 Sprechern
+  kamen an, auf den falschen zwei. Jetzt sind alle vier im Schnitt,
+  jeder auf seiner eigenen Kamera.
+- Jede Trennung fing ihre Ersatznamen wieder bei **Sprecher 1** an,
+  fünf Leute teilten sich drei Namen. Ein Ersatzname nimmt jetzt die
+  erste freie Nummer über alle Aufnahmen hinweg; wer einen Namen tippt,
+  den eine andere Stimme trägt, färbt beide Felder rot und hält den
+  Start an.
+- Eine zweite Trennung wischte die Stimmen der ersten vom Schirm, und
+  die unter der ersten getippten Namen landeten auf den Stimmen der
+  zweiten. Jede Aufnahme behält jetzt ihre eigenen, sie stehen
+  nebeneinander, und ein wieder geöffnetes Projekt bringt alle zurück.
+- Eine Stimme kam nur in den Schnitt, wenn eine Trennung sie gefunden
+  hatte; wer über sein eigenes Mikrofon gemessen wurde, fiel heraus,
+  sobald irgendeine Aufnahme aufgetrennt wurde. Stimmen aus einer
+  Trennung und hier gemessene Spuren gehen jetzt in dieselbe Rechnung,
+  und nur **nicht verwenden** hält jemanden heraus.
+- Sprach jemand auf **ohne eigene Kamera** neben jemandem mit eigener
+  Kamera, ging das Bild auf den Weitwinkel. Eine solche Stimme zählt
+  jetzt für die Sprechanteile und dafür, wer in einer Einstellung zu
+  hören ist -- die Kamera wird unter denen gewählt, die eine haben.
+- Ohne geladenes Projekt standen **Projekt speichern**, **Projekt
+  schließen**, **Start** und **Probelauf** schwarz über einer leeren
+  Liste, während die Knöpfe dafür grau waren. Jeder Eintrag folgt jetzt
+  seinem Knopf, und die Einträge des Menüs **Wiedergabe** ebenso.
+- Die Bedienung im Menü steuerte den Vorschau-Player des zweiten
+  Reiters, gleich welcher Reiter vorn stand, den **Resolve-Schnitt**
+  eingeschlossen. Jetzt steuert sie den Player des Reiters, der vorn
+  steht, und bleibt grau, wo dort keiner ist.
+- Den Schlüssel bei zugesperrtem Schlüsselbund abzulegen stand zwanzig
+  Sekunden lang und scheiterte dann mit einem Grund, der nicht der
+  richtige war. **Im Schlüsselbund speichern** ist jetzt grau, eine
+  Zeile darunter nennt den zugesperrten Bund, und
+  **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das
+  ihn aufsperrt.
+- Fehlte die Kameraspur in der geschriebenen Datei, meldete der Lauf,
+  die beiden Spuren ließen sich nicht vergleichen -- das liest sich wie
+  eine schlechte Aufnahme. Jetzt sagt er, dass die Spur nicht in der
+  Datei ist und nichts gemessen wurde.
+- Die Spalte **Sprecher** hing über den rechten Fensterrand hinaus: ihre
+  Meldung war auf zwei halbe Zeilen beschnitten, und der Knopf daneben
+  zeigte nur den Buchstaben „e". Die Spalte ist jetzt 132 px breit, der
+  Querbalken unter der Tabelle ist weg.
+
+### Sicherheit
+
+- Nahm der Schlüsselbund den Schlüssel nicht, reichte das Programm ihn
+  auf einem zweiten Weg weiter: als Argument einer Kommandozeile, wo ihn
+  jeder am Rechner lesen kann. Diesen Weg gibt es nicht mehr -- wo der
+  Schlüsselbund ablehnt, wird nichts abgelegt, und eine Zeile sagt,
+  warum.
+
+## [2.24.1-beta] - 2026-08-31
+
+**English**
+
+### Changed
+
+- Above a recording it had just placed, the run printed nothing but a
+  weak match, which read as a verdict it was overruling. The line names
+  the comparison that placed the file -- "placed by phase" -- beside
+  the block count.
+
+### Fixed
+
+- None of the keys Ctrl+1 to Ctrl+4 did anything at all. All four reach
+  their tab now.
+- Every camera arrived in Resolve as a wide shot carrying nobody
+  wherever the voices were told apart under one shared recording. The
+  handover reads the assignment too now, so a camera comes over with
+  its speaker and its clips are keyed by the person.
+- "This produces:" promised two audio tracks per camera; the run wrote
+  five -- the mix, one per recording, and the camera original. The plan
+  counts them as the writer does now, and says two where
+  "--no-single-tracks" or a single recording makes two.
+- A finished cut paused the player and rewound it, so anybody who
+  pressed play shortly after opening a project was stopped. The picture
+  still follows the new cut, but the place and the playing now stay
+  with whoever is watching.
+- A recording nothing could place was laid down at whatever number came
+  out, where it looks exactly like one that fits. It is refused now,
+  with the sentence the program keeps for it, as a camera without a
+  place already was.
+- A camera whose file was never written stood in the handover with an
+  empty path, counted as the wide shot, and Resolve then quietly
+  imported the untouched source in its place. Such a camera is named
+  among the ones left out now.
+- The tracks coming back from auphonic.com were matched on the whole
+  file name, so an episode title carrying the speakers' names drew a
+  track to the wrong file. What all the names share is cut away now,
+  before they are compared.
+- Every upload to auphonic.com and every download left an empty file
+  lying in the temp folder, one per transfer. The folder stays clean
+  now.
+
+### Tests
+
+- 431 checks that had been green for months are now known to catch
+  something. A third of the suite stands on that evidence.
+- The check that the Auphonic key never leaves the machine in the clear
+  read the command line only, and a key written into the request body
+  left it green. Every argument and every file handed to curl is
+  searched now.
+
+### Documentation
+
+- The interface chapter said the "Language" field tells auphonic.com
+  what to expect when transcribing. It sets the tag of the written
+  audio track and tells the recognition on this machine which language
+  to expect, and the chapter says so.
+- The key table gave K as "Pause, back to 1x". K pauses; the speed goes
+  back to 1x on the next press of L.
+- The roadmap described 2.23.0-beta: a transcript ordered at
+  auphonic.com, a contributing guide and a pull request template under
+  what is not planned although both exist. It describes 2.24.0-beta.
+
+**Deutsch**
+
+### Geändert
+
+- Über einer Aufnahme, die der Lauf gerade platziert hatte, stand nur
+  „schwache Übereinstimmung" -- als setze er sich über sein eigenes
+  Urteil hinweg. Neben der Blockzahl sagt die Zeile, welcher Vergleich
+  die Datei gesetzt hat: „per Phase platziert".
+
+### Behoben
+
+- Keine der Tasten Strg+1 bis Strg+4 tat überhaupt etwas. Alle vier
+  erreichen jetzt ihren Reiter.
+- Jede Kamera kam in Resolve als Weitwinkel ohne Sprecher an, sobald
+  die Stimmen unter einer gemeinsamen Aufnahme auseinandergehalten
+  wurden. Die Übergabe liest jetzt auch die Zuordnung, jede Kamera
+  trägt ihren Sprecher, ihre Clips heißen nach der Person.
+- „This produces:" versprach zwei Tonspuren je Kamera, geschrieben
+  wurden fünf: die Mischung, eine je Aufnahme, dazu die Kameraspur. Der
+  Plan zählt jetzt nach derselben Regel wie der Schreiber -- mit
+  „--no-single-tracks" oder einer einzigen Aufnahme sind es zwei.
+- Ein fertiger Schnitt hielt den Spieler an und spulte an den Anfang;
+  wer kurz nach dem Öffnen eines Projekts auf Wiedergabe drückte, wurde
+  gestoppt. Das Bild folgt weiter dem neuen Schnitt, Stelle und
+  Wiedergabe bleiben jetzt beim Zuschauer.
+- Eine Aufnahme, die nirgends hinpasste, wurde bei der Zahl abgelegt,
+  die gerade herauskam -- und sieht dort aus wie eine, die passt. Sie
+  wird jetzt zurückgewiesen, mit dem Satz, den das Programm dafür
+  bereithält, wie eine Kamera ohne Platz schon länger.
+- Eine Kamera, deren Datei nie geschrieben wurde, stand mit leerem Pfad
+  in der Übergabe, galt dort als Weitwinkel, und Resolve holte sich
+  still die unbearbeitete Quelle. Eine solche Kamera steht jetzt unter
+  den ausgelassenen.
+- Die Tonspuren von auphonic.com wurden am ganzen Dateinamen
+  zugeordnet: trägt der Episodentitel die Sprechernamen, zieht es eine
+  Spur zur falschen Datei. Verglichen wird jetzt nur, was die Namen
+  unterscheidet.
+- Jede Übertragung zu auphonic.com und zurück ließ eine leere Datei im
+  Temp-Ordner liegen, eine je Vorgang. Der Ordner bleibt jetzt sauber.
+
+### Tests
+
+- 431 Prüfungen, monatelang grün, sind jetzt als prüfend belegt. Ein
+  Drittel der Testreihe steht auf solchen Belegen.
+- Die Prüfung, dass der Auphonic-Schlüssel nirgends im Klartext
+  auftaucht, sah nur in die Kommandozeile -- in den Anfragekörper
+  geschrieben blieb sie grün. Durchsucht wird jetzt jedes Argument und
+  jede Datei, die curl gereicht bekommt.
+
+### Dokumentation
+
+- Das Kapitel zur Oberfläche schrieb dem Feld „Sprache" zu, es sage
+  auphonic.com, was beim Abtippen zu erwarten sei. Es setzt die
+  Kennzeichnung der Tonspur und sagt der Erkennung auf diesem Rechner,
+  welche Sprache kommt; so steht es jetzt da.
+- Die Tastentabelle gab K als „Pause, zurück auf 1x" an. K hält an; auf
+  1x geht es beim nächsten Druck auf L.
+- Die Roadmap beschrieb 2.23.0-beta: die Niederschrift bei
+  auphonic.com bestellt, ein Beitragsleitfaden und eine Vorlage für
+  Pull Requests unter dem, was nicht geplant ist, obwohl es beides
+  gibt. Sie beschreibt 2.24.0-beta.
+
+
+## [2.24.0-beta] - 2026-08-31
+
+**English**
+
+### Added
+
+- The three tabs can be reached from the "View" menu and with Ctrl+1 to
+  Ctrl+3. Until now the only way to a tab was its own label, and a tab
+  that had not been built yet had none.
+
+### Changed
+
+- The preflight said there was room when the numbers only just fitted,
+  and it looked at the output folder alone. It wants a margin over its
+  own estimate now, and counts the system temp folder too -- on one
+  disk that space is used twice.
+- The two settings that belong to a question stood at opposite ends of
+  the tab, in words that did not meet. "Answer on screen earlier" now
+  stands directly above "After a question", and its seconds say what
+  they are counted from.
+- Asking auphonic.com to write down the speech is gone: the tick
+  "Fetch transcript" and the switch "--transcript" with it. The
+  transcript is made here, as it already was on every run without a
+  preset, and it no longer depends on the service.
+- Four settings are greyed while no transcript is known, with the
+  reason under them: both of the question, and "Wide shot after" and
+  "Wide shot at most", which place themselves on a sentence boundary.
+  Measured: without one, "after 40" gives what "after 90" gives.
+- "Wide shot holds" is called "Wide shot at least" now, so it and "at
+  most" read as the pair they are, and the four wide shot settings
+  stand in the order they take effect.
+- "Wide shot after" and "Wide shot at the latest" said much the same
+  thing. The first is the soft limit -- from there a sentence boundary
+  is looked for -- and the second the hard one, where the cut happens
+  without one. Both lines now say which is which.
+
+### Fixed
+
+- The "Language" field steered nothing but the tag on the audio track.
+  The recognition wanted a two-letter code and got three, so the
+  setting was dropped without a word: asked for English on a German
+  Mac, the recognition ran in German. It reaches the recognition now.
+- "Rebuild cut list" read the stored call only in part and fell back
+  to the defaults for the rest: the camera marked as the wide shot,
+  "Reaction gap", "Reaction hold" and the file saying which voice was
+  heard on which camera all fell out, so every separately heard voice
+  landed on one camera. The button keeps them now.
+- The colour comparison counted a file the run could not place as a
+  camera. An 18-second jingle raised a caution about 357 steps of
+  brightness against three cameras it is never cut against. Only the
+  cameras of the episode are compared now.
+- The preview shows no reaction cut until a run has written a
+  transcript, and it did not say so. The two settings of the question
+  stood there taking answers that changed nothing. They are greyed with
+  the reason under them now.
+- The lead of the reaction cut counted from the start of the answer, so
+  the pause between question and answer swallowed it. Zero is the end
+  of the question now: five seconds means five seconds before the asker
+  stops.
+- "Save project" opened the folder chooser without a word, and the
+  sentence saying why came only for whoever cancelled. The sentence
+  comes first now.
+- A jingle became the wide shot of the episode: an 18-second clip took
+  42 shots and 5:15 of an hour. A file nothing can place is proposed as
+  "Intro" now, and "Content" and "Wide shot" are barred for it --
+  whoever set them, and wherever they came from.
+- The camera a speaker is filmed by stopped following the name: the
+  window wrote its own first guess into the project as though somebody
+  had chosen it. Only an answer that differs from the suggestion is
+  written down now, and the suggestion is worked out at every rebuild.
+- "--apart" and the "Remove" button separated a block and got it back
+  joined one step later, because two blocks of one recorder are given
+  the same name. A block taken out stays out of the plan now.
+- The handover to Resolve named a camera the run had refused, with an
+  empty file name and the mark of the wide shot on it. Such a file is
+  left out of the handover now, and the run says which one and why.
+- The Timecode column showed "no timecode" for times the program had
+  just worked out: the times were stored under one spelling of the path
+  and looked up under another. Both go through one shape now.
+- A recording reached under two spellings of its path had its sound
+  curve measured twice, which cost 2.88 MB an hour and a second pass
+  over the file. It is measured once now.
+
+### Tests
+
+- A test whose checking part died quietly printed nothing and stayed
+  green. The number of judgements is now read out of every test and
+  held against a floor, so a test that stops judging turns red even
+  when every judgement left in it passed.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Die drei Reiter lassen sich über das Menü „Ansicht" und mit Strg+1
+  bis Strg+3 erreichen. Bisher führte zu einem Reiter nur sein eigener
+  Kopf, und ein Reiter, den es noch nicht gab, hatte keinen.
+
+### Geändert
+
+- Die Vorabprüfung sagte „genug Platz", wenn die Zahlen gerade eben
+  aufgingen, und sah nur in den Ausgabeordner. Sie will jetzt einen
+  Abstand über ihre Schätzung hinaus und zählt den Temp-Ordner mit --
+  auf einer Platte wird dieser Platz zweimal gebraucht.
+- Die zwei Einstellungen, die zu einer Frage gehören, standen an
+  entgegengesetzten Enden des Reiters, in Wörtern, die sich nicht
+  trafen. „Antwort früher im Bild" steht jetzt direkt über „Nach einer
+  Frage", und die Sekunden sagen, wovon sie zählen.
+- Die Niederschrift bei auphonic.com zu bestellen ist weggefallen, mit
+  ihr der Haken „Transkription holen" und der Schalter „--transcript".
+  Die Niederschrift entsteht hier, wie schon bisher bei jedem Lauf ohne
+  Voreinstellung, und hängt an keinem Dienst mehr.
+- Vier Einstellungen sind gesperrt, solange keine Niederschrift
+  bekannt ist, mit dem Grund darunter: die beiden der Frage sowie
+  „Weitwinkel nach" und „Weitwinkel höchstens", die sich auf
+  Satzgrenzen setzen. Gemessen: ohne sie gibt „nach 40" dasselbe wie
+  „nach 90".
+- „Weitwinkel steht" heißt jetzt „Weitwinkel mindestens", damit es mit
+  „höchstens" das Paar bildet, das es ist; die vier Weitwinkelfelder
+  stehen in der Reihenfolge, in der sie greifen.
+- „Weitwinkel nach" und „Weitwinkel spätestens" sagten fast dasselbe.
+  Das erste ist die weiche Grenze -- ab dort wird eine Satzgrenze
+  gesucht -- das zweite die harte, wo ohne eine geschnitten wird. Beide
+  Zeilen sagen das jetzt.
+
+### Behoben
+
+- Das Feld „Sprache" steuerte nur die Kennzeichnung der Tonspur. Die
+  Erkennung wollte zwei Buchstaben und bekam drei, also fiel die
+  Einstellung wortlos heraus: auf einem deutschen Mac lief die
+  Erkennung deutsch, auch wenn Englisch dastand. Jetzt erreicht sie
+  die Erkennung.
+- „Schnittliste neu bauen" las den gespeicherten Aufruf nur zur Hälfte
+  und nahm für den Rest die Vorgabewerte: die als Weitwinkel markierte
+  Kamera, „Reaktionsabstand", „Reaktionshaltezeit" und die Datei, die
+  sagt, welche Stimme auf welcher Kamera zu sehen ist, fielen heraus --
+  jede einzeln gehörte Stimme landete dann auf einer Kamera. Der Knopf
+  behält sie jetzt.
+- Der Farbvergleich zählte eine Datei mit, die der Lauf nicht platzieren
+  konnte. Ein 18-Sekunden-Jingle warnte so vor 357 Helligkeitsstufen
+  Unterschied zu drei Kameras, gegen die er nie geschnitten wird.
+  Verglichen werden jetzt nur die Kameras der Folge.
+- Die Vorschau zeigt keinen Reaktionsschnitt, solange kein Lauf eine
+  Niederschrift geschrieben hat, und sagte es nicht. Die zwei
+  Einstellungen der Frage nahmen Antworten entgegen, die nichts
+  bewirkten. Sie sind jetzt gesperrt, mit dem Grund darunter.
+- Der Vorlauf des Reaktionsschnitts zählte ab dem Beginn der Antwort,
+  und die Pause zwischen Frage und Antwort verschluckte ihn. Null ist
+  jetzt das Ende der Frage: fünf Sekunden heißt fünf Sekunden, bevor
+  der Fragende aufhört.
+- „Projekt speichern" öffnete die Ordnerauswahl wortlos, und der Satz,
+  warum sie kommt, erschien nur für den, der abbrach. Der Satz kommt
+  jetzt zuerst.
+- Ein Jingle wurde zum Weitwinkel der Folge: ein 18-Sekunden-Clip bekam
+  42 Einstellungen und 5:15 einer Stunde. Eine Datei, die nichts
+  platzieren kann, wird jetzt als „Vorspann" vorgeschlagen, und
+  „Inhalt" und „Weitwinkel" sind für sie gesperrt.
+- Die Kamera eines Sprechers folgte dem Namen nicht mehr: das Fenster
+  schrieb seine eigene erste Vermutung ins Projekt, als hätte jemand
+  sie gewählt. Aufgeschrieben wird jetzt nur, was vom Vorschlag
+  abweicht, und der Vorschlag wird bei jedem Neuaufbau neu gerechnet.
+- „--apart" und der Knopf „Entfernen" trennten einen Block und bekamen
+  ihn einen Schritt später wieder zusammengefügt, weil zwei Blöcke
+  desselben Aufnahmegeräts denselben Namen erraten. Ein herausgenommener
+  Block bleibt jetzt auch im Plan draußen.
+- Die Übergabe an Resolve nannte eine Kamera, die der Lauf
+  zurückgewiesen hatte -- ohne Datei und mit der Marke des Weitwinkels.
+  Eine solche Datei bleibt jetzt aus der Übergabe heraus, und der Lauf
+  sagt, welche und warum.
+- Die Timecode-Spalte zeigte „kein Timecode" für Zeiten, die das
+  Programm gerade selbst ausgerechnet hatte: die Zeiten lagen unter der
+  einen Schreibweise des Pfades und wurden unter einer anderen gesucht.
+  Beide gehen jetzt durch dieselbe Form.
+- Eine Aufnahme, die unter zwei Schreibweisen ihres Pfades erreicht
+  wurde, bekam ihre Klangkurve zweimal vermessen -- 2,88 MB je Stunde
+  und ein zweiter Gang über die Datei. Sie wird jetzt einmal vermessen.
+
+### Tests
+
+- Ein Test, dessen prüfender Teil still starb, druckte nichts und blieb
+  grün. Die Zahl der Urteile wird jetzt aus jedem Test gelesen und
+  gegen eine Untergrenze gehalten -- ein Test, der aufhört zu urteilen,
+  wird rot, auch wenn jedes verbliebene Urteil zutrifft.
+
+
 ## [2.23.0-beta] - 2026-08-30
 
 **English**

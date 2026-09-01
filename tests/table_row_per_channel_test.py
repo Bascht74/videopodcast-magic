@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile, wave
+import importlib.util, json, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -15,11 +15,17 @@ spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 RATE = 48000
 SEC = 10
@@ -173,16 +179,25 @@ def step():
             check("the two-microphone file gets a row per channel",
                   len(two) == 2, str(len(two)))
             check("and a tick to change it with",
-                  two and two[0][2] is not None)
+                  two and two[0][2] is not None,
+                  "%d rows, the first carries a %s"
+                  % (len(two),
+                     type(two[0][2]).__name__ if two else "no row at all"))
             check("only the first channel has one",
                   len(two) > 1 and two[1][2] is None, str(two[1:2]))
             check("the tick is off: two tracks",
                   two and two[0][2] is not None
-                  and not two[0][2].isChecked())
+                  and not two[0][2].isChecked(),
+                  "%d rows, the tick says %s, wanted False"
+                  % (len(two), two[0][2].isChecked()
+                     if two and two[0][2] is not None else "no tick"))
             check("the stereo file gets a row per channel",
                   len(pair) == 2, str(len(pair)))
             check("and its tick is on",
-                  pair and pair[0][2] is not None and pair[0][2].isChecked())
+                  pair and pair[0][2] is not None and pair[0][2].isChecked(),
+                  "%d rows, the tick says %s, wanted True"
+                  % (len(pair), pair[0][2].isChecked()
+                     if pair and pair[0][2] is not None else "no tick"))
             check("the second channel says who it belongs to",
                   len(pair) > 1 and "1" in pair[1][1], str(pair[1:2]))
             check("a single channel file gets none", not lone, str(lone))
@@ -199,9 +214,10 @@ def step():
                       'set by hand -- overrides the measurement'),
                   str(two and two[0][1]))
             check("and the tick stayed where it was put",
-                  two and two[0][2] is not None and two[0][2].isChecked())
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
+                  two and two[0][2] is not None and two[0][2].isChecked(),
+                  "%d rows, the tick says %s, it was put on above"
+                  % (len(two), two[0][2].isChecked()
+                     if two and two[0][2] is not None else "no tick"))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -282,4 +298,8 @@ def clean_up(what):
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 clean_up(folder)
-sys.exit(1 if error else 0)
+# Here and nowhere else: a window that never got as far as the checks
+# quits on the timer above, and this line is what says how few it made.
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

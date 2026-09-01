@@ -15,6 +15,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import importlib.util
 import tempfile
+import time
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_voiceprop_cache_")
@@ -23,10 +24,14 @@ vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -93,12 +98,16 @@ check("the one asking most is not the guest",
 check("exactly one of them is the guest",
       sorted(cut_named.values()).count(vpm.T('Guest')) == 1,
       str(cut_named))
+without_words = vpm.voice_proposals(
+    vpm.voice_window_order(TRACKS, [], 0.0, 0.0), LABELS)
 check("nothing at all is said where nothing was recognised",
-      vpm.voice_proposals(
-          vpm.voice_window_order(TRACKS, [], 0.0, 0.0), LABELS) == ({}, []))
+      without_words == ({}, []),
+      "%s, wanted ({}, [])" % (without_words,))
+one_minute = vpm.voice_window_order(TRACKS, WORDS, 0.0, 0.0,
+                                    "+1000", "+1060")
 check("nor where the window has been narrowed to a minute",
-      vpm.voice_window_order(TRACKS, WORDS, 0.0, 0.0,
-                             "+1000", "+1060") == [])
+      one_minute == [],
+      "%d voices ranked, wanted none: %s" % (len(one_minute), one_minute))
 
 
 # ------------------------------------------------------- filling the fields
@@ -134,7 +143,8 @@ check("the voice that hardly speaks goes to do not use",
       by_label["SPEAKER_03"][1].get() == vpm.IGNORE_AUDIO,
       by_label["SPEAKER_03"][1].get())
 check("the others keep their camera",
-      by_label["SPEAKER_00"][1].get() == "A.mov")
+      by_label["SPEAKER_00"][1].get() == "A.mov",
+      "SPEAKER_00 is on %s, wanted A.mov" % by_label["SPEAKER_00"][1].get())
 
 # The window widens again: the proposal has to be taken back, or a
 # moved In point would only ever switch voices off.
@@ -166,9 +176,12 @@ by_label["SPEAKER_01"][0].set(vpm.T('Speaker %d') % 2)
 marks["typed"].add("SPEAKER_01")
 apply(state, lines, "+%d" % IN_POINT)
 check("a name somebody typed stays",
-      by_label["SPEAKER_00"][0].get() == "Sebastian")
+      by_label["SPEAKER_00"][0].get() == "Sebastian",
+      "SPEAKER_00 is called %s, wanted Sebastian"
+      % by_label["SPEAKER_00"][0].get())
 check("a camera somebody picked stays, even on a silent voice",
-      by_label["SPEAKER_03"][1].get() == "B.mov")
+      by_label["SPEAKER_03"][1].get() == "B.mov",
+      "SPEAKER_03 is on %s, wanted B.mov" % by_label["SPEAKER_03"][1].get())
 check("a stand-in typed by a person is an answer too",
       by_label["SPEAKER_01"][0].get() == vpm.T('Speaker %d') % 2,
       by_label["SPEAKER_01"][0].get())
@@ -188,15 +201,23 @@ vpm.voice_row_marks(state, "SPEAKER_00", name_value, camera_value,
                     field, box)
 name_value.set("Gast")
 check("the program writing a name is not an answer",
-      "SPEAKER_00" not in vpm.voice_marks_of(state)["typed"])
+      "SPEAKER_00" not in vpm.voice_marks_of(state)["typed"],
+      "typed holds %s, wanted SPEAKER_00 out of it"
+      % (sorted(vpm.voice_marks_of(state)["typed"]),))
 field.setText("Anna")
 check("nor is the field following the value",
-      "SPEAKER_00" not in vpm.voice_marks_of(state)["typed"])
+      "SPEAKER_00" not in vpm.voice_marks_of(state)["typed"],
+      "typed holds %s, wanted SPEAKER_00 out of it"
+      % (sorted(vpm.voice_marks_of(state)["typed"]),))
 field.textEdited.emit("Anna")
 check("a person typing is",
-      "SPEAKER_00" in vpm.voice_marks_of(state)["typed"])
+      "SPEAKER_00" in vpm.voice_marks_of(state)["typed"],
+      "typed holds %s, wanted SPEAKER_00 among them"
+      % (sorted(vpm.voice_marks_of(state)["typed"]),))
 check("and what the row was born with is kept",
-      vpm.voice_marks_of(state)["camera"]["SPEAKER_00"] == "A.mov")
+      vpm.voice_marks_of(state)["camera"]["SPEAKER_00"] == "A.mov",
+      "the row was born on %s, wanted A.mov"
+      % (vpm.voice_marks_of(state)["camera"].get("SPEAKER_00"),))
 
 
 # --------------------------------------------------------------- the footer
@@ -257,5 +278,6 @@ clock.start(500)
 QtCore.QTimer.singleShot(30000, app.quit)
 vpm.gui()
 
-print("\n%s" % ("FAIL: %d of them" % len(bad) if bad else "All good."))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

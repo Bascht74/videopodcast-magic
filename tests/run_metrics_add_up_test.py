@@ -4,24 +4,33 @@
 The file is what stays behind after a run, and the only place where before
 and after stand side by side. The two tracks here are built at a known
 level, so what the loudness rows must say is arithmetic, not opinion.
+
+The shape of the file, the loudness rows, what was measured and only
+that, gain and target and cut, speech time and colour. Every row is
+asked for before its value is read: a row that is not there is a finding
+of its own, and a number taken out of a row that is not there would end
+the run instead of being reported.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, csv, math, subprocess, sys, tempfile
+import importlib.util, csv, math, subprocess, sys, tempfile, time
+began = time.time()
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 WORK = tempfile.mkdtemp(prefix="metrics_")
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-54s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def track(name, hz, loud):
@@ -62,7 +71,10 @@ target = vpm.write_metrics_csv(os.path.join(WORK, "Episode12_metrics.csv"),
                                4.2)
 print()
 print("1. The file and its shape")
-check("the file is there", os.path.exists(target))
+check("the file is there", os.path.exists(target),
+      "wanted %s; the %d files in the folder are %s"
+      % (os.path.basename(target), len(os.listdir(WORK)),
+         sorted(os.listdir(WORK))))
 with open(target, encoding="utf-8") as f:
     rows = list(csv.reader(f))
 check("it has a header", rows and rows[0] == ["Area", "Metric", "Before",
@@ -87,10 +99,34 @@ def number(row, column):
         return None
 
 
+def figure(area, metric, column=3):
+    """One number out of the file, the row asked for before the value.
+
+    A row that is not there answers None, and the check underneath then
+    worked with that None: abs(None - 4.2) ends the run with a TypeError
+    instead of a red line, no number is printed, and every check further
+    down the file is lost with it. So being there is a judgement of its
+    own and it stands first -- the red line then says the row is missing
+    and which rows the file does carry, rather than naming a value that
+    was never there to be wrong.
+    """
+    row = find(area, metric)
+    got = number(row, column)
+    here = [r[1] for r in body if r[0] == area]
+    check("the %s row under %s carries a number" % (metric, area),
+          got is not None,
+          "row %s in column %d; the %d metrics under %s are %s"
+          % (row, column, len(here), area, here))
+    return got
+
+
 print("\n2. The loudness rows say what was measured")
 for who, lift in (("Anna", ANNA_LIFT), ("Bert", BERT_LIFT)):
     row = find("Audio %s" % who, "Loudness")
-    check("%s has a loudness row" % who, row is not None)
+    mine = [r[1] for r in body if r[0] == "Audio %s" % who]
+    check("%s has a loudness row" % who, row is not None,
+          "row %s; the %d metrics under Audio %s are %s"
+          % (row, len(mine), who, mine))
     if not row:
         continue
     before, after = number(row, 2), number(row, 3)
@@ -102,59 +138,90 @@ for who, lift in (("Anna", ANNA_LIFT), ("Bert", BERT_LIFT)):
           abs((after - before) - lift) < 0.3,
           "%.1f dB measured" % (after - before))
     check("%s: the unit is LUFS" % who, row[4] == "LUFS", row[4])
-    peak = find("Audio %s" % who, "Peak")
+    peak_was = figure("Audio %s" % who, "Peak", 2)
+    peak_now = figure("Audio %s" % who, "Peak", 3)
     check("%s: the peak rose by the same amount" % who,
-          peak is not None
-          and abs((number(peak, 3) - number(peak, 2)) - lift) < 0.3,
-          str(peak))
+          peak_was is not None and peak_now is not None
+          and abs((peak_now - peak_was) - lift) < 0.3,
+          "%s dB against the %.1f dB it was given"
+          % ("no number" if None in (peak_was, peak_now)
+             else "%.1f" % (peak_now - peak_was), lift))
 
 print("\n3. What was measured, and only that")
 row = find("Audio Anna", "Clock drift")
 check("Anna's clock drift is in there", row is not None and "-9.2" in row[2],
       str(row))
-row = find("Audio Anna", "Offset")
-check("and her offset, before and after", row is not None
-      and abs(number(row, 2) - 18.4) < 0.01
-      and abs(number(row, 3) - 0.6) < 0.01, str(row))
+was = figure("Audio Anna", "Offset", 2)
+now = figure("Audio Anna", "Offset", 3)
+check("and her offset, before and after",
+      was is not None and now is not None
+      and abs(was - 18.4) < 0.01 and abs(now - 0.6) < 0.01,
+      "%s ms and %s ms, wanted 18.4 ms and 0.6 ms" % (was, now))
+drift = find("Audio Bert", "Clock drift")
 check("Bert has no drift row -- nothing was measured for him",
-      find("Audio Bert", "Clock drift") is None)
-check("nor an offset row", find("Audio Bert", "Offset") is None)
+      drift is None, "row %s, wanted none" % (drift,))
+shift = find("Audio Bert", "Offset")
+check("nor an offset row", shift is None, "row %s, wanted none" % (shift,))
 
 print("\n4. Gain, target and cut")
+gain = figure("Audio", "Gain on every track")
 check("the gain that went on every track",
-      abs(number(find("Audio", "Gain on every track"), 3) - 4.2) < 0.01)
-check("the loudness target", abs(number(find("Audio", "Loudness target"), 3)
-                                 + 16.0) < 0.01)
-check("three shots", number(find("Cut", "Shots"), 3) == 3)
+      gain is not None and abs(gain - 4.2) < 0.01,
+      "gain %s dB, wanted 4.2 dB" % (gain,))
+aim = figure("Audio", "Loudness target")
+check("the loudness target", aim is not None and abs(aim + 16.0) < 0.01,
+      "target %s LUFS, wanted -16.0 LUFS" % (aim,))
+shots = figure("Cut", "Shots")
+check("three shots", shots == 3, "%s shots, wanted 3" % (shots,))
+middle = figure("Cut", "Median hold time")
 check("median hold time is the middle one of 12, 3 and 25",
-      abs(number(find("Cut", "Median hold time"), 3) - 12.0) < 0.01,
-      str(find("Cut", "Median hold time")))
-check("the shortest is 3 s", abs(number(find("Cut", "shortest"), 3) - 3.0)
-      < 0.01)
-check("the longest is 25 s", abs(number(find("Cut", "longest"), 3) - 25.0)
-      < 0.01)
+      middle is not None and abs(middle - 12.0) < 0.01,
+      "%s s, wanted 12.0 s" % (middle,))
+shortest = figure("Cut", "shortest")
+check("the shortest is 3 s",
+      shortest is not None and abs(shortest - 3.0) < 0.01,
+      "shortest %s s, wanted 3.0 s" % (shortest,))
+longest = figure("Cut", "longest")
+check("the longest is 25 s",
+      longest is not None and abs(longest - 25.0) < 0.01,
+      "longest %s s, wanted 25.0 s" % (longest,))
 shares = [number(r, 3) for r in body
           if r[0] == "Cut" and r[1].startswith("Share")]
 check("three shares", len(shares) == 3, str(shares))
-check("and they add up to a hundred", abs(sum(shares) - 100.0) < 0.1,
-      str(sum(shares)))
+check("and every share is a number", bool(shares) and None not in shares,
+      "%d of the %d share rows carry no number: %s"
+      % (shares.count(None), len(shares), shares))
+check("and they add up to a hundred",
+      bool(shares) and None not in shares
+      and abs(sum(shares) - 100.0) < 0.1,
+      "%s, wanted 100.0" % (sum(s for s in shares if s is not None),))
+his = figure("Cut", "Share Bert")
 check("Bert holds the longest, so his share is the biggest",
-      max(shares) == number(find("Cut", "Share Bert"), 3), str(shares))
+      bool(shares) and None not in shares and his is not None
+      and max(shares) == his,
+      "Bert's share %s against the biggest of %s" % (his, shares))
 
 print("\n5. Speech time and colour")
+anna = figure("Speech time", "Anna")
 check("Anna speaks for twelve seconds",
-      abs(number(find("Speech time", "Anna"), 3) - 12.0) < 0.01)
-check("Bert for twenty-five",
-      abs(number(find("Speech time", "Bert"), 3) - 25.0) < 0.01)
-check("both cameras have a brightness",
-      number(find("Colour Camera 1", "Brightness"), 3) == 124.0
-      and number(find("Colour Camera 2", "Brightness"), 3) == 150.2)
+      anna is not None and abs(anna - 12.0) < 0.01,
+      "%s s, wanted 12.0 s" % (anna,))
+bert = figure("Speech time", "Bert")
+check("Bert for twenty-five", bert is not None and abs(bert - 25.0) < 0.01,
+      "%s s, wanted 25.0 s" % (bert,))
+one = figure("Colour Camera 1", "Brightness")
+two = figure("Colour Camera 2", "Brightness")
+check("both cameras have a brightness", one == 124.0 and two == 150.2,
+      "Camera 1 %s and Camera 2 %s, wanted 124.0 and 150.2" % (one, two))
+off_one = figure("Colour Camera 1", "Distance to mean")
+off_two = figure("Colour Camera 2", "Distance to mean")
 check("and their distance to the mean is equal and opposite",
-      abs(number(find("Colour Camera 1", "Distance to mean"), 3)
-          + number(find("Colour Camera 2", "Distance to mean"), 3)) < 0.01)
+      off_one is not None and off_two is not None
+      and abs(off_one + off_two) < 0.01,
+      "%s and %s, which add to %s; wanted 0.0"
+      % (off_one, off_two,
+         None if None in (off_one, off_two) else off_one + off_two))
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

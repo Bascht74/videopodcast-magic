@@ -17,7 +17,8 @@ Never in a file, never in the project file.
 2. In the box **Access to auphonic.com** fill in the field **API Key:**
    (on the command line `--auphonic-api-key`).
 3. Optional: tick **Save in Keychain**, which keeps the key in the
-   Keychain (macOS) or in the Registry (Windows).
+   Keychain (macOS) or in the Registry (Windows). On a Mac the keychain
+   has to be unlocked for that, and the window says so where it is not.
 4. Press **Connect**. It checks the key and fetches the presets.
 
 ![The box for the key](images/settings.png)
@@ -41,18 +42,26 @@ window** tab alike. It names a missing key as well.
   line, prefer `AUPHONIC_TOKEN`.
 
 Storing it in the macOS Keychain hands it to the `security` program over
-that program's input, not as an argument. The program reads it back to
-see that it arrived. Only if the wrong key comes back does it fall back
-to the argument form, which has the weakness of the command line. The
-Windows Registry path does not have it.
+that program's input, not as an argument, so the key does not stand in
+the process list on that way either. The program reads it back to see
+that it arrived. There is no second way round: handing it over as an
+argument would put it where everybody on the machine can read it, so
+where the Keychain does not take it, nothing is stored and a line says
+why. The Windows Registry path has no such question.
+
+A locked keychain is looked at before anything is handed over. While it
+is shut, the tick **Save in Keychain** is grey, and under it stands, in
+the colour of a warning, **The keychain is locked. Unlock it and this
+button wakes up.** Beside that line is **Open Keychain Access**, which
+opens the program that unlocks it. Unlock it there and the tick comes
+back by itself, within half a second -- and that waking is the sign the
+unlock took, because nothing else reports it. The look itself asks
+nothing and puts nothing on the screen.
 
 On the **Assignment & time window** tab the box **Processing at
-auphonic.com (optional)** holds what this run does.
-
-* the preset under **Preset:** (on the command line `--auphonic-preset`)
-* the tick **Fetch transcript** beside it
-
-The program rebuilds the production from the preset.
+auphonic.com (optional)** holds what this run does: the preset under
+**Preset:** (on the command line `--auphonic-preset`). The program
+rebuilds the production from that preset.
 
 The tick **Multitrack (one track per speaker)** is not in the Auphonic
 box and needs no key. What it decides here is whether every person keeps
@@ -65,19 +74,31 @@ up as an ordinary production, two or more as a multitrack production,
 and the preset has to match: an ordinary preset for the one, a
 multitrack preset for the others.
 
-### Fetch transcript
+### The transcript is made here
 
-With **Fetch transcript** auphonic.com writes down what is said (on the
-command line `--transcript`). Three files come back beside the audio:
+None of the text comes from auphonic.com. The program listens to the
+finished mix on this machine and writes down every word with the time it
+was said. Three files land in the output folder, named after the
+**Production name**:
 
 * a json with times
 * an srt for subtitles
 * a txt to read
 
-Auphonic's own Whisper does the work: no account anywhere else, no extra
-fee, a longer production. Where several tracks go up, the transcript
-carries the speaker names: each track is one person, and auphonic.com
-knows which is which.
+Where the voices have been told apart, the transcript carries their
+names. Where they have not, it carries none: who said a sentence is then
+not known, and a guessed name in a transcript is worse than a gap.
+
+This costs the processor, not credit. It needs no key, no preset and no
+upload, and a run without Auphonic writes the same three files. How many
+words were heard and how many seconds the listening took stands in the
+log; under the heading **TRANSCRIPT** stand the three paths.
+`--no-transcript-file` leaves the files out -- the words are still heard,
+and the cut still takes its sentence boundaries from them.
+
+Which way the recognition takes on which machine, what it costs there
+and what the text is used for is in [Speech recognition and speaker
+separation](speech.md).
 
 ### Working without Auphonic
 
@@ -129,9 +150,10 @@ On a recompute the program brings the track settings to the preset as
 well. Further tracks there go into the mix, and a warning names them.
 
 The program downloads everything, the single tracks and every further
-output of the preset: chapter marks, transcript, analyses. All of it
-lands in `auphonic-tracks/` next to the finished videos, later the
-`final_*.wav` too.
+output the preset itself makes: chapter marks, analyses, and a
+transcript of its own where the preset produces one. All of that is paid
+for with the production either way. It lands in `auphonic-tracks/` next
+to the finished videos, later the `final_*.wav` too.
 
 The program handles a later In point or Out point here, not at Auphonic.
 It trims the returned tracks to the new window. If the length matches

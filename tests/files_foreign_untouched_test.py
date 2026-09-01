@@ -7,7 +7,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, shutil, subprocess, importlib.util, hashlib, tempfile
+import sys, shutil, subprocess, importlib.util, hashlib, tempfile, time
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 from fixture_root import fixture
 spec = importlib.util.spec_from_file_location(
@@ -21,11 +21,17 @@ spec.loader.exec_module(vpm)
 D = fixture("foreign")
 WORK = tempfile.mkdtemp(prefix="foreign_work_")
 
+began = time.time()
+done = 0
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-46s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 def checksum(file_path):
     try:
@@ -137,9 +143,10 @@ subprocess.run(["ffmpeg", "-v", "error", "-i", SOURCE, "-c", "copy",
                 good_target, "-y"], check=True)
 out = vpm.copy_mov_atoms(SOURCE, good_target)
 check("logs carried over", out == ["logs"], str(out))
-check("text is there",
-        vpm.log_curve_from_atom(vpm._logs_atom_text(good_target))
-        == "Apple Log")
+curve = vpm.log_curve_from_atom(vpm._logs_atom_text(good_target))
+check("text is there", curve == "Apple Log",
+        "read back %r, wanted %r" % (curve, "Apple Log"))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

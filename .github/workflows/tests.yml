@@ -252,6 +252,8 @@ jobs:
       - name: "Set aside: the tests this machine cannot run"
         shell: bash
         run: |
+          # tests/resolve/ is not touched here: those tests need a running
+          # DaVinci Resolve and are started by hand with tests/resolve.sh.
           cd tests
           ASIDE="$RUNNER_TEMP/set-aside"
           mkdir -p "$ASIDE"
@@ -263,6 +265,14 @@ jobs:
             echo "$1 -- $2" >> "$RUNNER_TEMP/aside.txt"
             n=$((n+1))
           }
+          # No runner can run this one: it needs the 218 MB pyannote
+          # environment, and a builder must not fetch that. Left to skip
+          # it would spend the run's one allowance on a test nobody
+          # expects to run here.
+          aside voice_split_hears_two \
+            "it separates a recording by voice, which wants a 218 MB
+             environment no runner installs. Set aside on all six rather
+             than skipping on all six."
           case "$RUNNER_OS" in
             Linux)
               aside auphonic_key_kept \

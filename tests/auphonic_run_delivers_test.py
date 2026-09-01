@@ -5,7 +5,9 @@ Both spend money and are the last step before an episode is delivered,
 and the suite reached almost none of their statements. auphonic.com is
 never spoken to: `_curl_call` is replaced by a stand-in that answers
 from a table, which makes checkable what is sent, in what order, and
-what is not. Every claim has its counter-check with a wrong input.
+what is not. What is sent is read whole -- the arguments and the files
+an @ points at -- because a key travels in a body as easily as in an
+argument. Every claim has its counter-check with a wrong input.
 """
 import io
 import json
@@ -80,13 +82,22 @@ def wav_file(name, channels=1, seconds=0.3):
 NAMES = ["Host", "Guest", "Third"]
 TRACKS = [{"name": n, "axis": wav_file(n + ".wav")} for n in NAMES]
 KEY = "not-a-real-key-0123456789"
-TITLE = "Episode 12: Hosts & Guests"
+TITLE = "Episode 12: Cameras & Sound"
 
 # What the ZIP holds. The names are auphonic.com's and unknown to the
-# program, which matches by similarity; here that works.
-GOOD_ZIP = {"Episode_12_Hosts___Guests_Host.wav": wav_bytes(),
-            "Episode_12_Hosts___Guests_Guest.wav": wav_bytes(),
-            "Episode_12_Hosts___Guests_Third.wav": wav_bytes()}
+# program, which matches by similarity; here that works. The title
+# carries no speaker's name on purpose: with "Hosts & Guests" in it
+# every entry contained every name, and two speakers swapped over still
+# looked like a match.
+GOOD_ZIP = {"Episode_12__Cameras___Sound_Host.wav": wav_bytes(),
+            "Episode_12__Cameras___Sound_Guest.wav": wav_bytes(),
+            "Episode_12__Cameras___Sound_Third.wav": wav_bytes()}
+# Which file each speaker has to come out with. Written out rather than
+# worked out: a rule that computes it computes it as wrongly as the
+# program does.
+BY_NAME = {"Host": "Episode_12__Cameras___Sound_Host.wav",
+           "Guest": "Episode_12__Cameras___Sound_Guest.wav",
+           "Third": "Episode_12__Cameras___Sound_Third.wav"}
 # And where it cannot: names with nothing to do with the speakers.
 BAD_ZIP = {"aaa.wav": wav_bytes(), "bbb.wav": wav_bytes(),
            "ccc.wav": wav_bytes()}
@@ -117,6 +128,31 @@ FORMATS = {"data": {
     "tracks": {"string": "Multitrack files as ZIP", "ending": "wav.zip"}}}
 
 
+def handed_over(arguments):
+    """One curl call taken apart: [(where, the bytes that go out)].
+
+    The argument list is only half of what leaves the machine. curl
+    takes a request body out of a file (-d @file) and an upload out of
+    one (-F name=@file), so anything written into those files travels
+    just as far -- and is invisible in the process list, which is why
+    looking at the arguments alone proves nothing.
+
+    The label says where a find sits, never what was found: it must be
+    printable in a FAIL line without carrying the secret into the log.
+    """
+    pieces = []
+    for i, a in enumerate(arguments):
+        where = "argument %d of %d" % (i + 1, len(arguments))
+        text = str(a)
+        pieces.append((where, text.encode("utf-8", "replace")))
+        pointed_at = text[1:] if text.startswith("@") else (
+            text.split("=@", 1)[1] if "=@" in text else "")
+        if pointed_at and os.path.isfile(pointed_at):
+            with open(pointed_at, "rb") as f:
+                pieces.append(("the file behind " + where, f.read()))
+    return pieces
+
+
 class Auphonic(object):
     """Stands in for auphonic.com: answers from a table, notes it down.
 
@@ -127,6 +163,7 @@ class Auphonic(object):
     def __init__(self):
         self.calls = []          # (method, path), in the order they came
         self.arguments = []
+        self.handed = []         # every piece of every call, files included
         self.bodies = []
         self.downloads = []
         self.preset = dict(PRESET)
@@ -180,6 +217,10 @@ class Auphonic(object):
         url = next((a for a in arguments
                     if str(a).startswith("https://auphonic.com")), "")
         path = url.split("auphonic.com", 1)[-1]
+        # Read while the call is being made: the program deletes the
+        # body file again as soon as curl has returned.
+        self.handed.extend(("%s, %s" % (path or "no url", where), blob)
+                           for where, blob in handed_over(arguments))
         method = "POST" if "-X" in arguments else "GET"
         if "-o" in arguments:
             method = "GET"
@@ -337,10 +378,16 @@ check("nothing is started before the tracks are up",
       paths.index("/api/production/PRODUUID/upload.json")
       < paths.index("/api/production/PRODUUID/start.json"),
       str(paths))
+started = paths.index("/api/production/PRODUUID/start.json")
+# The first fetch, not the last: asking only whether some fetch comes
+# after the start leaves an early one before it unnoticed, and money is
+# spent on a production nobody has started.
+fetched = [i for i, p in enumerate(paths) if p.startswith("/dl/")]
 check("the result is only fetched after the start",
-      paths.index("/api/production/PRODUUID/start.json")
-      < max(i for i, p in enumerate(paths) if p.startswith("/dl/")),
-      str(paths))
+      bool(fetched) and started < min(fetched),
+      "start is call %d, %d fetches at %s of %d calls: %s"
+      % (started + 1, len(fetched), [i + 1 for i in fetched],
+         len(paths), paths))
 upload = next(a for a in server.arguments
               if any("upload.json" in str(x) for x in a))
 sent_files = [x.split("=@", 1) for x in upload if "=@" in str(x)]
@@ -348,15 +395,44 @@ check("one file per track went up, each the right one",
       sent_files == [[t["name"], t["axis"]] for t in TRACKS],
       repr(sent_files))
 
-print("\n4. The key stays out of everything curl is handed")
-in_argv = [a for a in server.arguments
-           if any(KEY in str(x) for x in a)]
-check("the key is in no argument list", not in_argv, repr(in_argv[:1]))
-# The counter-check: the same search finds a key that is there, so the
-# line above is a measurement and not a search that never matches.
-check("and the search would have found one",
-      bool([a for a in [["-H", "bearer " + KEY]]
-            if any(KEY in str(x) for x in a)]))
+print("\n4. The key stays out of everything that leaves the machine")
+# The rule is not "not in the process list": the key goes into no file,
+# no script, no document and no command line. So everything these two
+# functions hand over is read -- arguments and the files behind them --
+# and afterwards what they left lying in the folder.
+secret = KEY.encode("utf-8")
+carried = sorted(set(where for where, blob in server.handed
+                     if secret in blob))
+check("the key is in nothing curl is handed", not carried,
+      "%d of %d pieces carry it: %s"
+      % (len(carried), len(server.handed), carried[:2]))
+# The counter-checks: the same search finds a key that really is there,
+# in an argument and in a body, so the line above is a measurement and
+# not a search that never matches.
+decoy = os.path.join(D, "decoy.json")
+with open(decoy, "w", encoding="utf-8") as f:
+    json.dump({"auphonic_key": KEY}, f)
+in_argument = [w for w, blob in handed_over(["-H", "bearer " + KEY])
+               if secret in blob]
+in_body = [w for w, blob in handed_over(["-d", "@" + decoy])
+           if secret in blob]
+check("a key in an argument would have been found",
+      len(in_argument) == 1, "%d of 2 pieces: %s" % (len(in_argument),
+                                                     in_argument))
+check("a key in a file behind an @ would have been found",
+      len(in_body) == 1, "%d of 3 pieces: %s" % (len(in_body), in_body))
+seen, carrying = 0, []
+for root, _dirs, entries in os.walk(folder):
+    for entry in entries:
+        seen += 1
+        here = os.path.join(root, entry)
+        with open(here, "rb") as f:
+            if secret in f.read() or KEY in entry:
+                carrying.append(os.path.relpath(here, folder))
+check("the run left files behind to look through", seen >= 4,
+      "%d files under %s" % (seen, os.path.basename(folder)))
+check("the key is in no file the run left behind", not carrying,
+      "%d of %d files carry it: %s" % (len(carrying), seen, carrying[:2]))
 
 print("\n5. What came back is on the disc and belongs to the right voice")
 check("one file per speaker", sorted(result) == sorted(NAMES),
@@ -367,10 +443,12 @@ check("every file is really there",
 sizes = [os.path.getsize(p) for p in result.values()]
 check("and none of them is empty", all(s > 1000 for s in sizes),
       repr(sizes))
-check("each speaker got the file bearing that name",
-      all(name.lower() in os.path.basename(p).lower()
-          for name, p in result.items()),
-      repr({n: os.path.basename(p) for n, p in result.items()}))
+# Held against the whole table, not "the name occurs in the file name":
+# the latter says nothing as soon as two speakers swap files, because
+# each name then still occurs in the one it was given.
+by_name = {n: os.path.basename(p) for n, p in result.items()}
+check("each speaker got the file bearing that name", by_name == BY_NAME,
+      "%s instead of %s" % (by_name, BY_NAME))
 cache = vpm.tracks_folder(folder, create=False)
 check("the mixdown lies beside them as the yardstick",
       os.path.exists(os.path.join(cache, "Episode_master.wav")),
@@ -444,15 +522,18 @@ check("an archive with foreign names matches nobody",
 
 print("\n7. What is paid for is fetched, and fetched once")
 server, folder = fresh("extras")
-twice = {"filename": "transcript.txt", "format": "txt",
-         "download_url": "https://auphonic.com/dl/transcript.txt"}
+# Whatever else the preset produces beside the tracks -- chapter marks,
+# an analysis. The transcript is not among them: the program writes
+# that itself and never asks auphonic.com for it.
+twice = {"filename": "chapters.txt", "format": "txt",
+         "download_url": "https://auphonic.com/dl/chapters.txt"}
 server.outputs = server.output_files() + [twice, dict(twice)]
 result = multitrack(server, folder)
-check("the extra output came along", "transcript.txt" in server.downloads,
+check("the extra output came along", "chapters.txt" in server.downloads,
       repr(server.downloads))
 check("and it was fetched once, not twice",
-      server.downloads.count("transcript.txt") == 1,
-      "%d times" % server.downloads.count("transcript.txt"))
+      server.downloads.count("chapters.txt") == 1,
+      "%d times" % server.downloads.count("chapters.txt"))
 check("the tracks are there all the same", sorted(result) == sorted(NAMES),
       repr(sorted(result)))
 
@@ -480,7 +561,7 @@ server, folder = fresh("simple")
 got = single(server, folder, mono)
 create = next(a for a in server.arguments
               if any("simple/productions" in str(x) for x in a))
-check("mono without transcript starts straight away",
+check("mono starts straight away, in the one call",
       "action=start" in create, repr(create))
 check("no second call was needed",
       len([p for _m, p in server.calls
@@ -493,12 +574,15 @@ check("the result lies in the folder that was named",
 check("and it is a real file", got and os.path.getsize(got) > 1000,
       repr(got and os.path.getsize(got)))
 
-print("\n10. Stereo and transcript need the second call")
+print("\n10. Stereo needs the second call")
 stereo = wav_file("single_stereo.wav", channels=2)
 # The preset folds its mixdown to one channel: without that state an
-# output that clears nothing would pass.
+# output that clears nothing would pass. The answer carries besides
+# that what only an answer has -- a size, a checksum, an address --
+# and none of it describes a file that has still to be made.
 FOLDED = [{"filename": "Episode.wav", "format": "wav",
-           "mono_mixdown": True,
+           "mono_mixdown": True, "size": 12345, "checksum": "abc",
+           "size_string": "12 MB",
            "download_url": "https://auphonic.com/dl/Episode.wav"}]
 server, folder = fresh("simplestereo")
 server.outputs = [dict(f) for f in FOLDED]
@@ -518,39 +602,29 @@ check("the preset's own output is sent back with it",
 check("and the fold to one channel is cleared",
       bool(wished) and wished[0].get("mono_mixdown") is False,
       repr(wished))
+answer_only = sorted(k for f in wished for k in f
+                     if k in ("size", "checksum", "download_url",
+                              "size_string"))
+check("what only an answer can carry does not go back with it",
+      not answer_only, "%d of them went back: %s in %s"
+      % (len(answer_only), answer_only, wished))
 
-# The other direction: on mono the fold stays as the preset set it.
-server, folder = fresh("simplefold")
-server.outputs = [dict(f) for f in FOLDED]
-single(server, folder, mono, transcript=True)
-posted = [b for p, b in server.bodies
-          if p == "/api/production/PRODUUID.json"]
-kept = [f for f in ((posted[-1].get("output_files") or []) if posted else [])
-        if f.get("format") == "wav"]
-check("mono: the fold the preset asked for is left alone",
-      bool(kept) and kept[0].get("mono_mixdown") is True, repr(kept))
-
-server, folder = fresh("simpletranscript")
+print("\n11. What the production wrote about the audio comes along")
+# The program writes the transcript itself; what a preset produces
+# beside the audio -- subtitles, chapter marks -- is paid for either
+# way and is useless left on the server.
+server, folder = fresh("simpletext")
 server.outputs = [
     {"filename": "Episode.wav", "format": "wav",
      "download_url": "https://auphonic.com/dl/Episode.wav"},
     {"filename": "Episode.srt", "format": "srt",
      "download_url": "https://auphonic.com/dl/Episode.srt"}]
-single(server, folder, mono, transcript=True, language="de")
-posted = [b for p, b in server.bodies
-          if p == "/api/production/PRODUUID.json"]
-check("a transcript is asked for in the second call",
-      bool(posted) and "speech_recognition" in posted[-1],
-      repr(sorted(posted[-1]) if posted else None))
-check("in the language that was chosen",
-      bool(posted) and (posted[-1].get("speech_recognition")
-                        or {}).get("language") == "de",
-      repr(posted[-1].get("speech_recognition") if posted else None))
+single(server, folder, mono)
 check("the subtitles landed beside the audio",
       os.path.exists(os.path.join(folder, "Episode.srt")),
       repr(sorted(os.listdir(folder))))
 
-print("\n11. The counter-checks for the single file")
+print("\n12. The counter-checks for the single file")
 server, folder = fresh("simplebad")
 server.create_answer = {"status_code": 402,
                         "error_message": "no credit left"}
@@ -592,7 +666,7 @@ said = raises(lambda: single(server, folder, mono, wait_s=0), "Time limit")
 check("the time limit ends the wait and says where to look",
       bool(said) and "PRODUUID" in said, said[:70])
 
-print("\n12. A production that is not finished yet is waited for")
+print("\n13. A production that is not finished yet is waited for")
 server, folder = fresh("waiting")
 server.pending = 2
 (result, slept) = without_waiting(lambda: multitrack(server, folder))
@@ -624,7 +698,7 @@ said = raises(lambda: without_waiting(
 check("one that never finishes ends at the time limit", bool(said),
       said[:60])
 
-print("\n13. Lossless before lossy, whatever order they arrive in")
+print("\n14. Lossless before lossy, whatever order they arrive in")
 server, folder = fresh("pick")
 server.outputs = [
     {"filename": "Episode.mp3", "format": "mp3",

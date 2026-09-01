@@ -27,8 +27,8 @@ Four tabs, in the order they are needed.
   it asks once, naming it and the day it was written; several and it
   shows them to choose between; none and nothing happens. Nothing is
   ever taken in part -- the project comes back whole, with the names,
-  the separation, who sits at which camera, the types and the time
-  window, or it is not opened at all.
+  every separation it holds, who sits at which camera, the types and
+  the time window, or it is not opened at all.
 
   **No** leaves the files that came in exactly where they are. The list
   is built from them and measured the usual way, once, and that project
@@ -39,10 +39,12 @@ Four tabs, in the order they are needed.
   folder already asked about does not ask again. Once a project is open
   nothing more is offered.
 
-  The output folder is not guessed. It stays empty until it is chosen,
-  or until a project says where it goes. The production name is
-  suggested from the folder the material lies in, and can be typed
-  over.
+  The output folder is not guessed. Until one is chosen, or a project
+  says where it goes, the strip reads **next to each video file**, and
+  that is where the result lands. Once a folder stands there, **reset**
+  appears beside it and puts the result back next to each video file.
+  The production name is suggested from the folder the material lies
+  in, and can be typed over.
 
   Every video file carries **Camera audio** in the list. It reads
   **do not use the audio** until somebody sets it to **use the audio**.
@@ -70,21 +72,24 @@ Four tabs, in the order they are needed.
   greyed as a whole -- grey over the whole box would read as "nothing to
   be done here", and there always is.
 
-  What can be barred is one entry of the list, greyed and not pickable,
+  What can be barred is an entry of the list, greyed and not pickable,
   and the reason stands on that entry: rest on it and it says why. Two
-  entries can be barred that way, each with its own sentence.
+  entries can be barred at once, each with its own sentence.
 
   - A camera nobody is assigned to shows **Wide shot** although nobody
     marked it. **Content** is the barred entry while that lasts, because
     no speaker is assigned to it. Give that camera a speaker, or set the
     **Kind** yourself, and the entry frees itself.
-  - A file the measurement could place nowhere cannot serve as the wide
-    shot: the wide shot is the camera that runs through and steps in
-    wherever no other one fits, so it has to lie on the time axis.
-    **Wide shot** is the barred entry then, with that as its reason.
+  - A file the measurement could place nowhere is neither content nor
+    the wide shot, and both entries are barred for it. Content is cut
+    into the episode, and there is nowhere to cut this file in. The
+    wide shot is the camera that runs through and steps in wherever no
+    other one fits, so it has to lie on the time axis. Each entry says
+    its own reason, and the program puts such a file on **Intro** of
+    its own accord.
 
-    Two things have to hold together for that bar, and neither of them
-    alone. The sound of the file has to fit the rest badly -- such a
+    Two things have to hold together for those two bars, and neither of
+    them alone. The sound of the file has to fit the rest badly -- such a
     file stands red in the list -- **and** no timecode may place it
     among the others, which takes a timecode on the file and one on
     something else in the material; a clock read once says nothing. A
@@ -95,13 +100,20 @@ Four tabs, in the order they are needed.
 
   Intro, outro and leaving the file out are never barred. They are
   answers about the file itself and have nothing to do with who sits in
-  front of which camera.
+  front of which camera. A file that fits nothing belongs in one of
+  those three.
 
-  The bar on **Wide shot** never falls on a **Kind** somebody picked: a
-  picked answer stands, whatever the measurement says. And both bars
-  come off again by themselves -- a file a later measurement can place
-  gets the wide shot back, and a camera that is given a speaker gets
-  **Content** back.
+  The two bars on a file that fits nothing are not a recommendation but
+  a statement about the material, so they hold against a **Kind**
+  somebody picked and against one a project file brought in: an answer
+  of content or wide shot on such a file is moved to **Intro**. The bar
+  on a camera nobody is assigned to is the other way round -- pick the
+  **Kind** yourself and it ends.
+
+  Every bar comes off by itself once its reason is gone. A camera that
+  is given a speaker gets **Content** back, and a file a later
+  measurement can place gets both entries back. What the file was moved
+  to in the meantime stays until somebody sets it themselves.
 
   A file with more than one channel says underneath what will become of
   it: one row per channel, with a tick offering **join with Channel 2**
@@ -131,10 +143,32 @@ Four tabs, in the order they are needed.
   separation nobody has answered for leaves the field empty and the
   rows hidden, and answering later brings them up at once, with the
   names and cameras they already had. The fifth column, **Speakers**,
-  says how that stands -- **Break off** while it runs, in that row and
-  no other, then **Separated: 4 speakers**, and beside it the offer
-  **Only one speaker -- separate the track?** wherever a name stands in
-  the field.
+  says how that stands -- **Separating speakers ...** and **Break off**
+  while it runs, in that row and no other, then **Separated: 4
+  speakers**, and a reason where the separation could not run. It is a
+  report and nothing else: no separation is started there, and changing
+  one's mind means going back to the field.
+
+  Each recording keeps a separation of its own, and several stand side
+  by side: every row counts the voices of its own recording, and taking
+  a second one apart leaves the first one's rows, names and cameras
+  where they are. Only **Break off** is ever in one row alone, because
+  one recording is worked through at a time.
+
+  A name is a person, and a person stands on the sheet once. A name that
+  is already there turns its field red while it is being typed, on both
+  levels and across separations. What that means is not the same on the
+  two levels. Two recordings under one name are a question, not a
+  refusal: they are meant to become a single track, and the line under
+  the table says so; [Multitrack](multitrack.md) has that whole side. A
+  **Voice** under a name somebody else carries is a refusal -- the note
+  at the field asks for one of its own, **Start** stays locked, and the
+  line under the buttons names the person.
+
+  Which camera a recording belongs to follows from that name for as
+  long as nobody picks one, so a name typed or corrected later takes
+  the camera with it. A camera picked by hand is an answer and stays
+  where it was put.
 
   With more than one audio recording nothing starts by itself; the
   answer in the row starts it. Under the recordings stands **Not on
@@ -152,10 +186,18 @@ Four tabs, in the order they are needed.
   speaks longest and plays it. Recordings that show no voices are a
   flat list, without triangles.
 
+  A name the program gives a voice itself takes the first number nobody
+  has, counted over every separation and over the recordings above, so
+  a second recording does not open with a second **Speaker 1**: where
+  **Speaker 1** stands, the next is **Speaker 2**. A name given by hand
+  is never renumbered, and a number that falls free is used again.
+
   The camera table under it carries **Camera audio** again, at every
-  camera, on the value from the file list. A camera set to
-  **use the audio** gets a row in the assignment table above, like a
-  recording of its own.
+  camera, on the value from the file list, and **Kind** beside it, on
+  the same value and with the same entries barred: that a clip is in
+  truth an outro is noticed while watching it, and the player is here.
+  A camera set to **use the audio** gets a row in the assignment table
+  above, like a recording of its own.
 
   ![Assignment table and player](images/assignment.png)
 
@@ -165,7 +207,11 @@ Four tabs, in the order they are needed.
   to the settings beside it. Then the time window, the box with the cut
   values and the box **Speaker**, whose heading names where the speakers
   came from. Last the box **Camera cut -- preview**, with the cut band
-  and a picture that plays.
+  and a picture that plays. The picture says under itself, on a plate
+  in the colour of the running shot, who is speaking and which camera
+  is up; where a shot has no picture the colour fills the whole box and
+  those two lines stand on it. [The camera cut](camera-cut.md) reads
+  them out.
 
   The band shares its row with three zoom buttons and, at the end of the
   row, the stretch of time on show, in typewriter digits:
@@ -175,7 +221,15 @@ Four tabs, in the order they are needed.
   zoomed: unzoomed it is the whole material, and while the band holds
   nothing it reads `0:00:00 -- 0:00:00`. Its width is fixed, so the
   three buttons stay under the pointer as the numbers change.
-  [The camera cut](camera-cut.md) says how the band itself is read.
+  [The camera cut](camera-cut.md) says how the band itself is read, and
+  how the heading of the box **Speaker** is to be read.
+
+  In the box **Camera cut -- preview**, under what the preview says,
+  stands **Measure speakers now** -- whenever a track is neither covered
+  by a separation nor measured, and so beside a separation that already
+  stands as well. Next to the button is who is missing. Those people are
+  in the cut; it is this preview that cannot show them until they have
+  been measured.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -186,8 +240,10 @@ Four tabs, in the order they are needed.
   it up. With **Multitrack** ticked the name stays **Camera cut**.
 
   The box appears as soon as **Multitrack** is ticked, or as soon as two
-  people carry a name and a camera -- the voices under a separated
-  recording, or the rows of the assignment table. One person is enough
+  people carry a name and a camera. Where those two came from makes no
+  difference, and the two sources count together: a voice under a
+  separated recording and a recording with a name of its own are two
+  people, just as two voices are, or two recordings. One person is enough
   where there are two cameras or more. One person on a single camera
   gets no box, and rightly: there is nowhere to cut to. Until then a
   line stands in place of box and preview and says what is missing. A
@@ -216,11 +272,22 @@ grey line beside it says so, and it names the way to a second:
 already gives its audio away, that line says there is none left to
 take.
 
+Under the Auphonic box a second bar appears while the material is being
+measured, one line per file with how far each has got. A line goes as
+its file is done, and the bar itself a moment after the last one. It
+shows the prework -- reading the audio and computing the envelopes --
+which is the same work the bar beside **Start** carries, here file by
+file.
+
 **Language** beside the production name is the language spoken in the
-recording, preset from the system language. It becomes the tag of the
-written audio track and tells auphonic.com what to expect when
-transcribing. "not set" leaves the track untagged and lets the
-recognition work the language out for itself.
+recording, preset from the system language. It does two things: it
+becomes the tag of the written audio track, and the recognition on this
+machine is told to expect that language. "not set" leaves the track
+untagged and lets the recognition work the language out for itself. The
+list holds only languages the recognition here also knows.
+[The transcript is made here](auphonic.md#the-transcript-is-made-here)
+says what the recognition writes, and [Speech recognition and speaker
+separation](speech.md) which way it takes on which machine.
 
 **Loudness** in the **Production** box on the first page sets how loud
 the finished episode is made; the same gain goes on every track, so the
@@ -255,6 +322,9 @@ is stands under the buttons**, with the tab it is on:
   none the file name suggests -- the grey suggestion counts as the name
   wherever nothing is typed over it,
 - with multitrack, all recordings under the same name,
+- a **Voice** under a name that is on somebody else: the cut puts a
+  person on one camera, and one name on two voices would be that person
+  in two places,
 - two cameras with the same output file.
 
 The field or the row it means turns red. A tick behind a tab means
@@ -317,14 +387,17 @@ stopped in.
 The button **Settings ...** sits in the footer, next to **Start**. Behind
 it stands what is set up once and then left alone: the key for
 auphonic.com with the tick that stores it, and whether Resolve answers.
-The preset and the transcript belong to the production being made and
-stand where the tracks are decided, under the assignment table.
+The preset belongs to the production being made and stands where the
+tracks are decided, under the assignment table.
 
 The window behind the button holds two boxes.
 
 - **Access to auphonic.com**: the field for the API key and the tick that
   keeps it (**Save in Keychain** on a Mac, **Save in Registry** on
-  Windows). **Connect** checks the key and fetches the presets.
+  Windows). **Connect** checks the key and fetches the presets. On a Mac
+  with the keychain locked the tick is grey, a line under it says so, and
+  **Open Keychain Access** beside that line opens the program that
+  unlocks it; the tick comes back on its own once it is open.
 - **Connection to Resolve**: whether Resolve answers, with its version if
   it does and the reasons if it does not. **Check again** asks once more,
   and so does opening the window.
@@ -346,7 +419,13 @@ then the run. **Close project** empties the window down to what a fresh
 start looks like and leaves the file it came from untouched; it is the
 way to a second production without quitting the program. **Save
 project** writes the project file where the output folder points,
-without running anything.
+without running anything, and says afterwards where it went.
+
+Where no output folder is chosen yet, the sentence comes before the
+window: the project file goes into the output folder, and none is
+chosen yet, please choose one. Only then does the chooser open. Cancel
+it and nothing further happens. A folder dialog that opens by itself
+does not say why it is there.
 
 **Close project** also calls off the work that was running on the old
 material. The envelopes and the camera audio stop being taken out, the
@@ -365,35 +444,38 @@ On a Mac the menu bar sits at the top of the screen, everywhere else at
 the top of the window. **Settings ...** moves into the application menu
 there and stands under **File** everywhere else.
 
-Everything reachable from a button is reachable from a key. The keys that
-need no modifier belong to the player and only work while the player has
-the focus.
+Everything the menus hold carries a key, and the menus hold the whole
+run: the project, the material, the start, the player. Buttons that
+stand on a sheet of their own have none -- **Connect** and **Check
+again** behind **Settings ...**, the three that zoom the cut band, and
+the two under **Output**. The keys that need no modifier belong to the
+player and only work while the player has the focus.
 
-| Key | What it does |
+| Key | The entry it presses |
 |---|---|
-| `Ctrl+P` | Open project |
-| `Ctrl+S` | Save project |
-| `Ctrl+W` | Close project |
-| `Ctrl+O` | Add files |
-| `Ctrl+Backspace` | Remove what is selected |
-| `Ctrl+Shift+O` | Choose the output folder |
-| `Ctrl+R` | Start |
-| `Ctrl+Shift+R` | Dry run |
-| `Ctrl+1` `Ctrl+2` `Ctrl+3` | To that tab |
-| `Ctrl+,` | Settings |
+| `Ctrl+P` | **Open project ...** |
+| `Ctrl+S` | **Save project** |
+| `Ctrl+W` | **Close project** |
+| `Ctrl+O` | **Add files ...** |
+| `Ctrl+Backspace` | **Remove** -- what is selected in the list |
+| `Ctrl+Shift+O` | **Output folder ...** |
+| `Ctrl+R` | **Start** |
+| `Ctrl+Shift+R` | **Dry run** |
+| `Ctrl+1` to `Ctrl+4` | To that tab, in the order they stand in |
+| `Ctrl+,` | **Settings ...** |
 
 In the player:
 
-| Key | What it does |
+| Key | The entry it presses |
 |---|---|
-| `Space` | Play and pause |
-| `L` | Play forward, twice as fast on every press |
-| `K` | Pause, back to 1× |
-| `Left` `Right` | One frame |
-| `Shift+Left` `Shift+Right` | One second |
-| `Alt+Left` `Alt+Right` | Ten seconds |
-| `I` `O` | Set In point, set Out point |
-| `Shift+I` `Shift+O` | Jump to In point, to Out point |
+| `Space` | **Play and pause** |
+| `L` | **Play forward, faster on every press** |
+| `K` | **Pause** |
+| `Left` `Right` | **One frame back**, **One frame forward** |
+| `Shift+Left` `Shift+Right` | **One second back**, **One second forward** |
+| `Alt+Left` `Alt+Right` | **Ten seconds back**, **Ten seconds forward** |
+| `I` `O` | **Mark In**, **Mark Out** |
+| `Shift+I` `Shift+O` | **to In point**, **to Out point** |
 
 `L` doubles up to 8×, and the speed stands on the fast forward button.
 The player has no `J`: Qt plays nothing backwards here, measured.
@@ -421,7 +503,7 @@ If one of the three fails, the file that works stays where it is and the
 window says what was wrong.
 
 The version that was running stays beside the new one as
-`videopodcast-magic.py.old`. **Help > Back to 2.3.0-beta** puts it
+`videopodcast-magic.py.old`. **Help > Back to 2.23.0-beta** puts it
 back; the entry names the version out of that file and stands in the
 menu only while the file is there.
 
@@ -448,14 +530,21 @@ every file, and the next start takes it up again. Files that no longer
 fit it show red. More about the project file stands in
 [camera-cut.md](camera-cut.md).
 
-The measurement tells two verdicts apart. A file whose sound fits the
+The measurement tells three verdicts apart. A file whose sound fits the
 others badly shows red. A file with no place at all -- its sound has
 nothing in common with the rest of the material, and no timecode puts it
-among the others -- is set to **ignore this video** in the column
-**Kind**, and the log says why. That is a proposal, like the ones for the
-voices: it only ever fills a **Kind** that still carries the program's own
-answer, never one somebody picked, and a file that a later measurement can
-place again gets its old entry back.
+among the others -- cannot be cut into the episode: in the column
+**Kind**, **Content** and **Wide shot** are barred for it, it is set to
+**Intro**, and the log says why. That is not a proposal but a statement
+about the material, and it holds however the **Kind** got there.
+
+Where nothing whatever could be measured of such a file, **ignore this
+video** is proposed for it instead. That is a proposal, like the ones
+for the voices: it only ever fills a **Kind** that still carries the
+program's own answer, never one somebody picked, and a file that a later
+measurement can place again gets its old entry back.
+[Preflight](preflight.md) says how a jingle and a camera that heard
+nothing are told apart.
 
 ## When something goes wrong
 
@@ -466,10 +555,12 @@ place again gets its old entry back.
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring
   the time axis. The bar beside **Start** says what is running.
-- **A file suddenly stands on "ignore this video"**: the measurement
-  found no place for it. Give it a timecode that fits the other
-  recordings -- that has to be set with another program -- or pick a
-  **Kind** by hand, which settles it for good.
+- **A file suddenly stands on "Intro" or on "ignore this video"**: the
+  measurement found no place for it. Give it a timecode that fits the
+  other recordings -- that has to be set with another program -- and
+  the entries come back. Until then **Intro**, **Outro** and **ignore
+  this video** are the answers on offer; **Content** and **Wide shot**
+  are barred, and no hand overrules that.
 - **The update did not go through**: the file that works stays where it
   is, and the window says what was wrong. **Help > Look for a newer
   version now** tries again.

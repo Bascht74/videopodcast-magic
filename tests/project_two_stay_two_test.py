@@ -9,20 +9,23 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, io, sys, tempfile
+import importlib.util, io, sys, tempfile, time
 import contextlib
+began = time.time()
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 WORK = tempfile.mkdtemp(prefix="twocameras_")
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def spoken(call, *a, **k):
@@ -94,7 +97,12 @@ check("each path gets its own clip",
       out[first] is not out[second],
       "both on %s" % out[first].where)
 check("and the right one", out[first].where == first
-      and out[second].where == second)
+      and out[second].where == second,
+      "%s and %s, wanted %s and %s -- under %s"
+      % (str(out[first].where).replace(WORK + os.sep, ""),
+         str(out[second].where).replace(WORK + os.sep, ""),
+         first.replace(WORK + os.sep, ""),
+         second.replace(WORK + os.sep, ""), WORK))
 
 # The same again from a Resolve that reports no path at all. Guessing
 # would put one camera's picture on two tracks, so the run stops.
@@ -112,9 +120,11 @@ single = Pool([Clip("C0001.MP4", first)])
 try:
     with contextlib.redirect_stdout(io.StringIO()):
         out = vpm.import_media(single, [first, first])
-    check("the same path twice is no collision", len(out) == 1)
+    check("the same path twice is no collision", len(out) == 1,
+          "%d clips back for one path named twice, wanted 1" % len(out))
 except RuntimeError as e:
     check("the same path twice is no collision", False, str(e)[:60])
 
-print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

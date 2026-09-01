@@ -2,23 +2,41 @@
 
 Building the file list asks the same things about the same file over
 and over -- length, timecode, channel count, frame rate -- and each
-answer costs a process. The answers are kept, keyed on size and
-modification time; this test counts the processes.
+answer costs a process. Writing down what is spoken is the dearest of
+those measurements by far. All of them are kept in memory and on disk,
+keyed on size and modification time; this test counts the processes and
+the recognitions.
+
+In order: the same question twice, every measurement of its own, a file
+rewritten under its old name, a caller who spoils what it was handed,
+the warming pass before the window is drawn, what the store carries
+from one run into the next, a file that cannot be measured, which must
+not stop the rest, and a recording written down once: handed back and
+read back word for word, by both ways, listened to afresh in another
+language, by the other recogniser and after a rewrite, and a silence
+that counts as an answer rather than a miss.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, struct, subprocess, sys, tempfile, wave
+import importlib.util, shutil, struct, subprocess, sys, tempfile, time, wave
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-48s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
 
 folder = tempfile.mkdtemp(prefix="vpm_probe_")
 # A cache of its own: the suite hands every test the same folder, so
@@ -62,70 +80,115 @@ def probes(work):
     work()
     return count["n"] - before
 
+
+def duration_of(path):
+    """The length ffprobe reports for a file, or None."""
+    return vpm.ffprobe_json(path).get("format", {}).get("duration")
+
+
+def cold():
+    """Forget everything that was measured, in memory and on disk."""
+    vpm._PROBE.clear()
+    forget_kept()
+
 # ------------------------------------------------------- One file, asked twice
 print("1. The same question twice")
-vpm._PROBE.clear()
-forget_kept()
+# The first judgement is the ground under every count below: if ffprobe
+# answers nothing, or the counter never sees the process it starts,
+# every "costs nothing" further down is true and means nothing.
+cold()
 first = probes(lambda: vpm.ffprobe_json(a))
+answer = duration_of(a)
 again = probes(lambda: vpm.ffprobe_json(a))
-check("the first call measures", first == 1, first)
-check("the second does not", again == 0, again)
+check("ffprobe answers about the material at all", answer is not None,
+      "duration %s s, wanted a number" % (answer,))
+check("the first question about a file starts one ffprobe", first == 1,
+      "%d processes, wanted 1" % first)
+check("the same question a second time starts none", again == 0,
+      "%d processes, wanted 0" % again)
 
 print("\n2. Every measurement of its own")
-vpm._PROBE.clear()
-for name, work in (("channel count", lambda: vpm.channel_count(a)),
-                   ("length in samples", lambda: vpm.sample_count(a)),
-                   ("timecode", lambda: vpm.file_timecode(a))):
-    probes(work)
-    check("%s asks again: no" % name, probes(work) == 0)
+# Each question cold, so that "no second process" is not read off a
+# store the question before it filled.
+for what, ask in (("the channel count", lambda: vpm.channel_count(a)),
+                  ("the length in samples", lambda: vpm.sample_count(a)),
+                  ("the timecode", lambda: vpm.file_timecode(a))):
+    cold()
+    once, twice = probes(ask), probes(ask)
+    check("%s is measured on the first ask" % what, once == 1,
+          "%d processes, wanted 1" % once)
+    check("%s is not asked of ffprobe a second time" % what, twice == 0,
+          "%d processes, wanted 0" % twice)
 
 print("\n3. The answer belongs to this file as it stands")
-vpm._PROBE.clear()
-value_before = vpm.ffprobe_json(a).get("format", {}).get("duration")
-probes(lambda: vpm.ffprobe_json(a))
+cold()
+value_before = duration_of(a)
+stamp_before = vpm.file_stamp(a) or ()
 tone("a.wav", 2.0)                      # same name, other contents
+stamp_after = vpm.file_stamp(a) or ()
 after = probes(lambda: vpm.ffprobe_json(a))
-value_after = vpm.ffprobe_json(a).get("format", {}).get("duration")
-check("a changed file is measured again", after == 1, after)
-check("and the answer is the new one",
-      value_before != value_after, "%s -> %s" % (value_before, value_after))
+value_after = duration_of(a)
+# The path is left out of both: it is the same one, and it would carry
+# the temporary folder into every failure line.
+check("rewriting a file changes what it is known by",
+      tuple(stamp_before[1:]) != tuple(stamp_after[1:]),
+      "mtime and size %s -> %s, wanted two different ones"
+      % (stamp_before[1:], stamp_after[1:]))
+check("a changed file is measured again", after == 1,
+      "%d processes, wanted 1" % after)
+check("a changed file answers with its new length",
+      value_before != value_after,
+      "%s s -> %s s, wanted two different ones" % (value_before, value_after))
 
 print("\n4. A caller may keep what it got")
 vpm._PROBE.clear()
 d = vpm.ffprobe_json(a)
+check("the description of a file comes back as a dictionary",
+      isinstance(d.get("format"), dict),
+      "format is %s, wanted a dict" % type(d.get("format")).__name__)
 d["format"] = "spoilt"
-check("the next caller gets it whole",
-      isinstance(vpm.ffprobe_json(a).get("format"), dict))
+next_one = vpm.ffprobe_json(a).get("format")
+check("a caller who spoils it does not spoil the next one's",
+      isinstance(next_one, dict),
+      "format is %s after one caller spoilt it, wanted a dict"
+      % type(next_one).__name__)
 
 print("\n5. Warming up beforehand")
-vpm._PROBE.clear()
-forget_kept()
+cold()
 warm = probes(lambda: vpm.probe_warm([a, b, c]))
-check("three files, measured once each", warm >= 3, warm)
-# One line per question. Chained with "or" the first answer is truthy
-# and the other two questions are never asked, so a cache that had
-# warmed nothing but the whole description still read as green.
+check("warming three files starts one ffprobe for each", warm == 3,
+      "%d processes, wanted 3" % warm)
+# One line per question, and each one warmed afresh. Chained with "or"
+# the first answer is truthy and the other two questions are never
+# asked; asked one after another on the same warm cache, the first
+# question fills it for the other two and only it can ever fall.
 for what, ask in (("the whole description", vpm.ffprobe_json),
                   ("the channel count", vpm.channel_count),
                   ("the length in samples", vpm.sample_count)):
+    cold()
+    vpm.probe_warm([a, b, c])
     cost = dict((p, probes(lambda p=p: ask(p))) for p in (a, b, c))
-    check("%s costs nothing afterwards" % what,
+    check("%s costs nothing after warming" % what,
           set(cost.values()) == set([0]),
-          str(dict((os.path.basename(p), n) for p, n in cost.items())))
+          "%s, wanted 0 for each"
+          % dict((os.path.basename(p), n) for p, n in cost.items()))
 
 print("\n6. What ffprobe said outlives the run")
 # Asking again costs a process: cheap here, dear on a builder where
 # starting processes is most of what a test spends its time on.
-vpm._PROBE.clear()
-forget_kept()
+cold()
 first = probes(lambda: vpm.ffprobe_json(a))
-vpm._PROBE.clear()
+measured = duration_of(a)
+vpm._PROBE.clear()                      # a later run, nothing remembered
 second = probes(lambda: vpm.ffprobe_json(a))
-check("the first run measures", first == 1, first)
-check("a later one with no memory of it does not", second == 0, second)
-check("and the answer is the same",
-      vpm.ffprobe_json(a).get("format", {}).get("duration") is not None,
-      str(vpm.ffprobe_json(a))[:60])
+stored = duration_of(a)
+check("the run that measures starts one ffprobe", first == 1,
+      "%d processes, wanted 1" % first)
+check("a later run with no memory of it starts none", second == 0,
+      "%d processes, wanted 0" % second)
+check("what the store gives back is what was measured",
+      measured is not None and stored == measured,
+      "%s s measured, %s s out of the store" % (measured, stored))
 
 # Changed on disk means measured again, not answered from the store.
 with open(a, "r+b") as f:
@@ -133,31 +196,209 @@ with open(a, "r+b") as f:
     f.write(b"\0" * 64)
 vpm._PROBE.clear()
 again = probes(lambda: vpm.ffprobe_json(a))
-check("a changed file is measured again even so", again == 1, again)
+check("a file changed on disk is measured again, store or no store",
+      again == 1, "%d processes, wanted 1" % again)
 
 # A half-written file is what a run broken off in the middle leaves.
+# Whether one was kept at all comes first: with nothing in the store,
+# "measured again" is true of any program and says nothing.
 vpm._PROBE.clear()
-kept = vpm.probe_cache_path(("ffprobe",) + vpm.file_stamp(a))
-open(kept, "wb").close()
+stamp = vpm.file_stamp(a)
+kept = vpm.probe_cache_path(("ffprobe",) + stamp) if stamp else None
+there = bool(kept) and os.path.exists(kept)
+check("the store did keep what was measured", there,
+      "kept file %s, wanted one that exists"
+      % (os.path.basename(kept) if kept else "not named"))
+if there:
+    open(kept, "wb").close()
 empty = probes(lambda: vpm.ffprobe_json(a))
 check("an empty kept file is measured again, not believed", empty == 1,
-      empty)
+      "%d processes, wanted 1" % empty)
 
 print("\n7. What cannot be measured must not stop anything")
-vpm._PROBE.clear()
 missing = os.path.join(folder, "not-there.wav")
+check("the file this asks about really is not there",
+      not os.path.exists(missing),
+      "%s is there: %s, wanted False"
+      % (os.path.basename(missing), os.path.exists(missing)))
+cold()
 try:
     vpm.probe_warm([a, missing, b])
-    vpm.ffprobe_json(missing)
-    check("a missing file is passed over", True)
+    threw = ""
 except Exception as e:
-    check("a missing file is passed over", False, str(e)[:60])
+    threw = "%s while warming" % type(e).__name__
+rest = probes(lambda: [vpm.ffprobe_json(a), vpm.ffprobe_json(b)])
+check("a missing file does not stop the others being warmed",
+      threw == "" and rest == 0,
+      threw or "%d processes for the two good files afterwards, wanted 0"
+      % rest)
+try:
+    got = vpm.ffprobe_json(missing)
+    threw = ""
+except Exception as e:
+    got, threw = None, "%s while asking" % type(e).__name__
+check("asking about a missing file answers instead of throwing",
+      threw == "" and isinstance(got, dict),
+      threw or "answer is %s, wanted a dict" % type(got).__name__)
+
+print("\n8. A recording is written down once")
+# Listening is a measurement like the others and by far the dearest:
+# 27.0 s for 87 minutes of audio, and until there was a store it was
+# paid again on every start. The recognisers are stood in for here, so
+# what is counted is how often the program asks for one at all.
+said = tempfile.mkdtemp(prefix="vpm_words_")
+real_macos, real_whisper = vpm.macos_words, vpm.whisper_words
+heard = {"macos": 0, "whisper": 0}
+wrote = {"last": []}
+mute = set()
+
+
+def recording(name, seconds=0.2):
+    """A file to listen to. Only its name, size and time are read here."""
+    path = os.path.join(said, name)
+    with wave.open(path, "wb") as f:
+        f.setnchannels(1); f.setsampwidth(2); f.setframerate(8000)
+        f.writeframes(b"\0\0" * int(8000 * seconds))
+    return path
+
+
+def stood_in(way, path, language):
+    """Stand in for a recogniser: count the run, name way and language."""
+    # The real ones answer None where there is nothing to listen to, and
+    # a stand-in that invented words for a missing file would let a
+    # broken key through.
+    if not os.path.exists(path):
+        return None
+    heard[way] += 1
+    if path in mute:
+        wrote["last"] = []              # it listened and heard nobody
+        return []
+    raw = [vpm.speech_word(i * 0.5, i * 0.5 + 0.3, "%s-%s-%d"
+                           % (way, (language or "none").lower(), i))
+           for i in range(3)]
+    # Through the program's own correction, so the words carry the shape
+    # the rest of it expects rather than one this test invented.
+    shift = ((vpm.MACOS_START_S, vpm.MACOS_END_S) if way == "macos"
+             else (vpm.WHISPER_START_S, vpm.WHISPER_END_S))
+    wrote["last"] = vpm.corrected_words(raw, shift[0], shift[1])
+    return wrote["last"]
+
+
+vpm.macos_words = lambda path, language="": stood_in("macos", path, language)
+vpm.whisper_words = (lambda path, language="", install=True:
+                     stood_in("whisper", path, language))
+
+
+def listens(work):
+    """What a piece of work returned, and how many recogniser runs it cost."""
+    before = heard["macos"] + heard["whisper"]
+    got = work()
+    return got, heard["macos"] + heard["whisper"] - before
+
+
+def first_word(words):
+    """The first word of a transcript, for the failure line."""
+    return words[0]["word"] if words else "none"
+
+
+def alike(one, other):
+    """How many words of two transcripts stand in the same place unchanged."""
+    return sum(1 for x, y in zip(one or (), other or ()) if x == y)
+
+
+talk = recording("talk.wav")
+(spoken, _way), first_runs = listens(
+    lambda: vpm.recognise_speech(talk, "eng"))
+said_words = list(wrote["last"])
+(read_back, _way), again_runs = listens(
+    lambda: vpm.recognise_speech(talk, "eng"))
+check("the first listen to a recording runs the recogniser once",
+      first_runs == 1, "%d recogniser runs, wanted 1" % first_runs)
+check("the words the recogniser wrote are the ones handed back",
+      len(said_words) == 3 and spoken == said_words,
+      "%d words written down, %d handed back, %d of them alike, wanted 3"
+      % (len(said_words), len(spoken or ()), alike(spoken, said_words)))
+check("the same recording in the same language is not listened to twice",
+      again_runs == 0,
+      "%d recogniser runs the second time, wanted 0" % again_runs)
+check("what is read back is word for word what was heard",
+      read_back == spoken,
+      "%d words heard, %d read back, %d of them alike"
+      % (len(spoken or ()), len(read_back or ()), alike(spoken, read_back)))
+
+# Another language of the same recording: other words, so the entry of
+# the first one must not answer for it.
+(german, _way), other_runs = listens(
+    lambda: vpm.recognise_speech(talk, "ger"))
+check("another language is listened to afresh", other_runs == 1,
+      "%d recogniser runs for the second language, wanted 1" % other_runs)
+check("the other language gets words of its own",
+      bool(german) and german != spoken,
+      "first word %s against %s, wanted two different ones"
+      % (first_word(german), first_word(spoken)))
+
+# And the other recogniser: two machines do not write the same words.
+(whispered, whisper_way), whisper_runs = listens(
+    lambda: vpm.recognise_speech(talk, "eng", way="whisper"))
+check("the other recogniser is not answered out of the first one's store",
+      whisper_runs == 1,
+      "%d recogniser runs for the second way, wanted 1" % whisper_runs)
+check("the other recogniser's own words come back",
+      bool(whispered) and whispered != spoken,
+      "way %s, first word %s against the first way's %s, wanted two "
+      "different ones"
+      % (whisper_way, first_word(whispered), first_word(spoken)))
+
+# The one that proves the store never answers out of date: same name,
+# other recording.
+changed = recording("changed.wav", 0.2)
+listens(lambda: vpm.recognise_speech(changed, "eng"))
+mark_before = vpm.file_fingerprint(changed) or []
+recording("changed.wav", 0.5)           # same name, another recording
+mark_after = vpm.file_fingerprint(changed) or []
+_answer, rewritten_runs = listens(lambda: vpm.recognise_speech(changed, "eng"))
+check("rewriting a recording changes what it is known by",
+      list(mark_before[1:]) != list(mark_after[1:]),
+      "mtime and size %s -> %s, wanted two different ones"
+      % (mark_before[1:], mark_after[1:]))
+check("a recording rewritten under its own name is listened to again",
+      rewritten_runs == 1,
+      "%d recogniser runs after the rewrite, wanted 1" % rewritten_runs)
+
+# Nobody spoke: that is an answer, and asking again costs the same 27 s
+# as any other recording.
+quiet = recording("quiet.wav")
+mute.add(quiet)
+(nothing, _way), quiet_runs = listens(
+    lambda: vpm.recognise_speech(quiet, "eng"))
+_again, quiet_again = listens(lambda: vpm.recognise_speech(quiet, "eng"))
+check("a recording nobody spoke in gives an empty answer, not a refusal",
+      nothing == [] and quiet_runs == 1,
+      "words %s after %d recogniser runs, wanted [] after 1"
+      % (nothing, quiet_runs))
+check("a recording nobody spoke in is not listened to a second time",
+      quiet_again == 0,
+      "%d recogniser runs the second time, wanted 0" % quiet_again)
+
+# The run writes it down, the window reads it: one store, not two.
+both = recording("both.wav")
+(by_run, _way), _cost = listens(lambda: vpm.recognise_speech(both, "eng"))
+by_window, window_runs = listens(lambda: vpm.words_at_hand(both, "eng"))
+check("the window's way reads what the run's way wrote",
+      window_runs == 0 and by_window == by_run,
+      "%d recogniser runs and %d of %d words alike, wanted 0 runs and %d alike"
+      % (window_runs, alike(by_window, by_run), len(by_window or ()),
+         len(by_run or ())))
+
+vpm.macos_words, vpm.whisper_words = real_macos, real_whisper
+shutil.rmtree(said, ignore_errors=True)
+kept_words = vpm.cache_folder("words")
+if kept_words:                          # inside this test's own cache
+    shutil.rmtree(kept_words, ignore_errors=True)
 
 subprocess.run = run_real
 shutil.rmtree(folder, ignore_errors=True)
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

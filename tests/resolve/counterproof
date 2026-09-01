@@ -1,0 +1,88 @@
+# The counter-proof register for the Resolve tests. One line per check:
+# what made that one check go red, against a DaVinci Resolve really
+# running. Five fields, tab-separated, as in tests/state/counterproof:
+#
+#   test   when   the check's wording   what was broken   the red line
+#
+# It is here and not in tests/state/counterproof because
+# source_checks_proved_test.py reads the tests out of tests/ and not out
+# of tests/resolve/ -- rows there would be reported as belonging to no
+# test at all. If the register is ever widened to this folder, these rows
+# move across unchanged.
+#
+# The program was never edited for any of this: a copy went into scratch,
+# the one thing was broken there, and the test ran against the copy with
+# VPM_SCRIPT. Where the break is in resolve_ground.py or in the test
+# itself, that is what the fourth field says.
+project_settings_arrive	2026-08-31	the project the run asked for is the one Resolve has open	open_or_create_project creates the project as name + "-elsewhere"	the project the run asked for is the one Resolve has open  FAIL open is 'vpm-test-settings-63646-364a-elsewhere', asked for 'vpm-test-settings-63646-364a'
+project_settings_arrive	2026-08-31	a name nobody used before is reported as created	open_or_create_project returns "opened" for a project it just created	a name nobody used before is reported as created           FAIL reported 'opened', expected 'created'
+project_settings_arrive	2026-08-31	the saved project stands in the project manager's list	resolve_ground.OwnProject.open does not call pm.SaveProject()	the saved project stands in the project manager's list     FAIL 'vpm-test-settings-67108-191b' among 19 projects
+project_settings_arrive	2026-08-31	the frame rate the handover names is the project's	apply_project_settings sends "30" whatever the handover names	the frame rate the handover names is the project's         FAIL project carries 30.0, handover said 25.0
+project_settings_arrive	2026-08-31	a measured 23.98 reaches the project as 23.976	apply_project_settings sends "30" whatever the handover names	a measured 23.98 reaches the project as 23.976             FAIL project carries 30.0, expected 23.976
+project_settings_arrive	2026-08-31	and 29.97 stays 29.97 rather than becoming 30	apply_project_settings sends "30" whatever the handover names	and 29.97 stays 29.97 rather than becoming 30              FAIL project carries 30.0, handover said 29.97
+project_settings_arrive	2026-08-31	the timeline width the handover names is the project's	apply_project_settings swaps width and height in its list of settings	the timeline width the handover names is the project's     FAIL project carries '720', handover said 1280
+project_settings_arrive	2026-08-31	the timeline height the handover names is the project's	apply_project_settings swaps width and height in its list of settings	the timeline height the handover names is the project's    FAIL project carries '1280', handover said 720
+project_settings_arrive	2026-08-31	a second size arrives too, the first is not left standing	apply_project_settings swaps width and height in its list of settings	a second size arrives too, the first is not left standing  FAIL project carries '1080'x'1920', handover said 1920x1080, before that 1280x720
+project_settings_arrive	2026-08-31	drop frame is off where the handover has it off	apply_project_settings turns the drop frame condition round	drop frame is off where the handover has it off            FAIL project carries '1', handover said off
+project_settings_arrive	2026-08-31	drop frame is on where the handover has it on	apply_project_settings turns the drop frame condition round	drop frame is on where the handover has it on              FAIL project carries '0', handover said on
+project_settings_arrive	2026-08-31	the same name a second time is opened, not created	open_or_create_project: "keep" falls through to the create-alongside branch	the same name a second time is opened, not created         FAIL reported 'created', expected 'keep'
+project_settings_arrive	2026-08-31	and it is the project the test made, not another	open_or_create_project: "keep" falls through to the create-alongside branch	and it is the project the test made, not another           FAIL opened 'vpm-test-settings-67263-f609 2', expected 'vpm-test-settings-67263-f609'
+project_settings_arrive	2026-08-31	there is still only one project of that name	the check run against a project list with the name put into it twice	there is still only one project of that name               FAIL 2 projects called 'vpm-test-settings-67316-e683'
+project_settings_arrive	2026-08-31	the project the test made is gone again	resolve_ground.OwnProject.close does not call pm.DeleteProject	the project the test made is gone again                    FAIL 'vpm-test-settings-67450-55e4' is still in the project list
+project_settings_arrive	2026-08-31	the run reached the end without an exception	open_or_create_project creates the project as name + "-elsewhere"	the run reached the end without an exception               FAIL RuntimeError: Project 'vpm-test-settings-63646-364a' could not be created. Is the name already in another folder?
+project_pool_takes_all	2026-08-31	a clip came back for every file handed over	import_media hands back only the first pair of its assignment	a clip came back for every file handed over                FAIL 1 clips for 3 files
+project_pool_takes_all	2026-08-31	the media pool itself holds one clip per file	import_media gives Resolve one file more than it was handed (a .wav beside the cameras)	the media pool itself holds one clip per file              FAIL 4 clips in the pool after 20.0 s, 3 files went in
+project_pool_takes_all	2026-08-31	every clip carries the path of the file it came from	import_media gives Resolve one file more than it was handed (a .wav beside the cameras)	every clip carries the path of the file it came from       FAIL pool reports ['Kandidat_08141858_C009.mov', 'Moderator_REC00009.wav', 'Moderatoren_08141855_C005.mov', 'Totale_08141855_C003.mov'], files handed over ['Kandidat_08141858_C009.mov', 'Moderatoren_08141855_C005.mov', 'Totale_08141855_C003.mov']
+project_pool_takes_all	2026-08-31	no two files were matched to the same clip	import_media matches every file to the first clip in the pool	no two files were matched to the same clip                 FAIL 1 distinct clips for 3 files
+project_pool_takes_all	2026-08-31	every file handed over got a clip of its own back	import_media hands back only the first pair of its assignment	every file handed over got a clip of its own back          FAIL matched ['Kandidat_08141858_C009.mov']
+project_pool_takes_all	2026-08-31	both files of the same name came back	import_media hands back only the first pair of its assignment	both files of the same name came back                      FAIL 1 clips for 2 files of one name
+project_pool_takes_all	2026-08-31	the two are two clips, not one taken twice	import_media looks a clip up by name only: the path key and the collision guard taken out	the two are two clips, not one taken twice                 FAIL 1 distinct clips for ['cam0/C0001.MP4.mov', 'cam1/C0001.MP4.mov']
+project_pool_takes_all	2026-08-31	each of the two is matched to the clip carrying its own path	import_media looks a clip up by name only: the path key and the collision guard taken out	each of the two is matched to the clip carrying its own path FAIL matched [('cam0', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_pool_pvu5llvt/cam0/C0001.MP4.mov'), ('cam1', '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_pool_pvu5llvt/cam0/C0001.MP4.mov')]
+project_pool_takes_all	2026-08-31	a file that does not exist is refused, not passed over	import_media answers a missing file with an empty assignment instead of raising	a file that does not exist is refused, not passed over     FAIL import_media said ''
+project_pool_takes_all	2026-08-31	and it is refused for not being there, not for being lost	the existence guard at the head of import_media taken out, so Resolve is asked and the failure comes later	and it is refused for not being there, not for being lost  FAIL said 'Not found again after import: was-never-written.mov'
+project_pool_takes_all	2026-08-31	and the refusal names the file that is missing	import_media answers a missing file with an empty assignment instead of raising	and the refusal names the file that is missing             FAIL 'was-never-written.mov' is not in ''
+project_pool_takes_all	2026-08-31	the project the test made is gone again	resolve_ground.OwnProject.close does not call pm.DeleteProject	the project the test made is gone again                    FAIL 'vpm-test-pool-68682-2cf6' is still in the project list
+project_pool_takes_all	2026-08-31	the run reached the end without an exception	import_media hands back only the first pair of its assignment	the run reached the end without an exception               FAIL KeyError: '/var/folders/5q/s2t85n2x41s3kzvw6q05jg4r0000gn/T/vpm_pool_kpnivewz/cam1/C0001.MP4.mov'
+project_clips_land_right	2026-08-31	a clip asked onto a track that was never made is not on it	the check run against V1, a track that is really there, instead of V7	a clip asked onto a track that was never made is not on it FAIL V7 of a 1-track timeline holds None
+project_clips_land_right	2026-08-31	and no such track appeared because it was asked for	a video track added between counting the tracks and the ask	and no such track appeared because it was asked for        FAIL 2 video tracks, 1 before the ask
+project_clips_land_right	2026-08-31	so what the interface answers is no evidence on its own	an empty list handed to AppendToTimeline, so Resolve answers False	so what the interface answers is no evidence on its own    FAIL Resolve answered False to an insert onto a track that is not there
+project_clips_land_right	2026-08-31	one video track per camera, and no more	build_camera_timeline makes one video track more than there are cameras	one video track per camera, and no more                    FAIL 4 video tracks for 3 cameras
+project_clips_land_right	2026-08-31	no video track is left empty	build_camera_timeline makes one video track more than there are cameras	no video track is left empty                               FAIL empty video tracks: [4] of 4
+project_clips_land_right	2026-08-31	one audio track per camera is left when it is tidied	remove_empty_audio_tracks returns at once and removes nothing	one audio track per camera is left when it is tidied       FAIL 6 audio tracks for 3 cameras
+project_clips_land_right	2026-08-31	no audio track is left empty	remove_empty_audio_tracks returns at once and removes nothing	no audio track is left empty                               FAIL empty audio tracks: [4, 5, 6] of 6
+project_clips_land_right	2026-08-31	the audio tracks carry them too	trim_audio_tracks does not call SetTrackName on the audio tracks	the audio tracks carry them too                            FAIL ['Audio 1', 'Audio 2', 'Audio 3'], expected ['Wide', 'Guest', 'Hosts']
+project_clips_land_right	2026-08-31	the video tracks carry the speakers' names	build_camera_timeline does not call SetTrackName on the video tracks	the video tracks carry the speakers' names                 FAIL ['Video 1', 'Video 2', 'Video 3'], expected ['Wide', 'Guest', 'Hosts']
+project_clips_land_right	2026-08-31	the timeline begins where the earliest camera does	earliest_offset returns 0.0 instead of the smallest camera offset	the timeline begins where the earliest camera does         FAIL begins at frame 90250, the earliest camera at 90150
+project_clips_land_right	2026-08-31	%s alone on V%d, and it is its own file	build_camera_timeline makes no video tracks for the cameras	Guest alone on V2, and it is its own file                  FAIL V2 holds [], expected one 'Moderatoren_08141855_C005.mov'
+project_clips_land_right	2026-08-31	%s starts at the frame its offset says	build_camera_timeline turns the sign of the camera offset round in recordFrame	Wide starts at the frame its offset says                   FAIL V1 starts at 90350, -4.0 s from the In point is frame 90150
+project_clips_land_right	2026-08-31	%s goes on whole, not as a piece	build_camera_timeline sends startFrame 0 and endFrame 25 with every camera	Wide goes on whole, not as a piece                         FAIL V1 is 25 frames long, the file is 3000
+project_clips_land_right	2026-08-31	the cut stays on one video track	build_cut_timeline adds a video track before it inserts	the cut stays on one video track                           FAIL 2 video tracks for a cut of one
+project_clips_land_right	2026-08-31	every shot of the cut list is on the timeline	build_cut_timeline stops collecting shots after the second	every shot of the cut list is on the timeline              FAIL 2 shots on V1, the cut list names 3
+project_clips_land_right	2026-08-31	the timeline begins at the In point	build_cut_timeline does not call SetStartTimecode	the timeline begins at the In point                        FAIL begins at frame 90000, the In point is 90250
+project_clips_land_right	2026-08-31	each shot starts at the frame the cut list names	build_cut_timeline drops the shot's own offset from recordFrame	each shot starts at the frame the cut list names           FAIL shots start at [90250], the cut list says [90250, 90350, 90450]
+project_clips_land_right	2026-08-31	each shot is as long as the cut list says	build_cut_timeline takes one frame off end_frame	each shot is as long as the cut list says                  FAIL shots are [99, 99, 99] frames, the cut list says [100, 100, 100]
+project_clips_land_right	2026-08-31	no gap is left between one shot and the next	build_cut_timeline takes one frame off end_frame	no gap is left between one shot and the next               FAIL shots run [(90250, 90349), (90350, 90449), (90450, 90549)]
+project_clips_land_right	2026-08-31	each shot comes from the camera the cut list names	piece() takes the first camera in the pool whatever the cut list names	each shot comes from the camera the cut list names         FAIL shots come from ['Kandidat_08141858_C009.mov', 'Kandidat_08141858_C009.mov', 'Kandidat_08141858_C009.mov'], the cut list names ['Kandidat_08141858_C009.mov', 'Moderatoren_08141855_C005.mov', 'Totale_08141855_C003.mov']
+project_clips_land_right	2026-08-31	the cut's video track says what is on it	build_cut_timeline does not call SetTrackName on V1	the cut's video track says what is on it                   FAIL V1 is called 'Video 1', expected 'Camera cut'
+project_clips_land_right	2026-08-31	the project the test made is gone again	resolve_ground.OwnProject.close does not call pm.DeleteProject	the project the test made is gone again                    FAIL 'vpm-test-clips-69553-753c' is still in the project list
+project_clips_land_right	2026-08-31	the run reached the end without an exception	import_media hands back an empty assignment	the run reached the end without an exception               FAIL KeyError: '/tmp/vpm-fixtures-501/interview/Kandidat_08141858_C009.mov'
+#
+# project_run_puts_back is in here as `open` rows and not as entries:
+# every check in it was seen green on 31.8.2026, but the counter-proofs
+# were not run. Resolve wedged while the sweep was being measured (a
+# CloseProject with nothing after it left the project manager without a
+# database; see the report and /private/tmp/resolve_fps/befund.md), and
+# every counter-proof needs a Resolve that answers. They are owed.
+open	project_run_puts_back	a project was open when the run started
+open	project_run_puts_back	the decoy is in the project list to begin with
+open	project_run_puts_back	and the decoy does not have the shape the sweep deletes
+open	project_run_puts_back	the killed run got as far as making its project
+open	project_run_puts_back	a run that was killed leaves its project behind
+open	project_run_puts_back	and it leaves that project open in front of somebody
+open	project_run_puts_back	the sweep deletes what the killed run left behind
+open	project_run_puts_back	and it says by name which project it deleted
+open	project_run_puts_back	a project that only looks like the tests' own is left alone
+open	project_run_puts_back	the project that was open at the start is open again
+open	project_run_puts_back	and the sweep says by name which project it opened
+open	project_run_puts_back	everything the test made is gone again
+open	project_run_puts_back	the run reached the end without an exception

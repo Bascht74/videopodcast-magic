@@ -80,10 +80,10 @@ niemand geantwortet hat, zeigt ein leeres Feld und keine Stimmzeilen.
 Wählt man später **mehrere Sprecher**, stehen die Stimmen sofort da,
 mit ihren Namen und Kameras, ohne neue Rechnung.
 
-Wo eine Zeile einen Namen trägt und nicht auf **mehrere Sprecher**
-steht, bietet die Spalte **Sprecher** *Nur ein Sprecher -- Spur
-auftrennen?* als flachen Textknopf an. Ein Klick setzt das Feld auf
-**mehrere Sprecher**, und die Stimmen erscheinen.
+Tippt man einen Namen über **mehrere Sprecher**, verschwinden die
+Stimmzeilen wieder, und das Errechnete bleibt erhalten; ein zweites Mal
+**mehrere Sprecher** holt sie ohne neue Rechnung zurück. Die Spalte
+**Sprecher** fragt nie etwas -- geantwortet wird allein im Feld.
 
 Bei genau einer Videodatei mit Ton und keiner Tonaufnahme daneben muss
 niemand etwas setzen: dieser Ton ist der einzige, den es gibt, also

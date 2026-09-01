@@ -10,16 +10,20 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, io, json, struct, subprocess, sys, tempfile
+import importlib.util, io, json, struct, subprocess, sys, tempfile, time
 import contextlib
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 WORK = tempfile.mkdtemp(prefix="cameraplace_")
+began = time.time()
+done = 0
 bad = []
 
 
 def check(what, ok, detail=""):
+    global done
+    done += 1
     print("  %-58s %s%s" % (what, "ok" if ok else "FAIL",
                             "" if ok else "   " + detail))
     if not ok:
@@ -114,12 +118,15 @@ check("a stamped file: the timecode, not the measurement",
       str(vpm.camera_place(n_results[1], ZERO, -33.34, 30.0)))
 plain = os.path.join(WORK, "no_timecode.wav")
 open(plain, "w").write("x")
-check("a file without a timecode keeps the measurement",
-      vpm.camera_place(plain, ZERO, -7.25, 30.0) == -7.25)
-check("no zero point, so the measurement again",
-      vpm.camera_place(n_results[1], None, -7.25, 30.0) == -7.25)
-check("no file at all, likewise",
-      vpm.camera_place("", ZERO, -7.25, 30.0) == -7.25)
+no_stamp = vpm.camera_place(plain, ZERO, -7.25, 30.0)
+check("a file without a timecode keeps the measurement", no_stamp == -7.25,
+      "got %r, wanted the measurement %r" % (no_stamp, -7.25))
+no_zero = vpm.camera_place(n_results[1], None, -7.25, 30.0)
+check("no zero point, so the measurement again", no_zero == -7.25,
+      "got %r, wanted the measurement %r" % (no_zero, -7.25))
+no_file = vpm.camera_place("", ZERO, -7.25, 30.0)
+check("no file at all, likewise", no_file == -7.25,
+      "got %r, wanted the measurement %r" % (no_file, -7.25))
 
 # The frames of a timecode are frames, so the rate decides what they
 # are worth. Through ffprobe, where a camera's timecode track comes from.
@@ -186,5 +193,6 @@ check("the frames of a timecode are read at the file's rate",
       abs(vpm.file_timecode(twelve) - vpm.file_timecode(with_tc) - 0.48)
       < 0.001, str(vpm.file_timecode(twelve)))
 
-print("\n%s" % ("ALL OK" if not bad else "FAIL: " + ", ".join(bad)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

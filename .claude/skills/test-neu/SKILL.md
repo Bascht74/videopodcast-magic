@@ -193,8 +193,9 @@ generous upper bound.** The interval is the time lost in the normal
 case; the bound is never reached in the normal case and is therefore
 free.
 
-**Give up on standstill, not on a deadline.** The builder is up to three
-times slower than this machine. So what gets measured is how long
+**Give up on standstill, not on a deadline.** The builder is about nine
+times slower than this machine -- measured on 31.8.2026 over twelve
+tests, median 8.7, never below 5. So what gets measured is how long
 nothing has changed — that does not punish the slow machine, and it
 additionally catches the case a deadline cannot see: something hanging
 while there is still time left.

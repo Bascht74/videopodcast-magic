@@ -28,7 +28,7 @@ same. Where the platform knows no fixed-width family at all -- windowless
 Windows is the reported case -- both font checks are left out, because a
 red line would then name the platform and not the program.
 """
-import os, sys, json, subprocess
+import os, sys, json, subprocess, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -501,13 +501,17 @@ if os.environ.get("VPM_LAYOUT_LANG"):
 
 
 # -------------------------------------------------------------- the parent
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 # Pieces this machine could not judge, said once rather than once per
@@ -648,8 +652,6 @@ for language, process in started:
         print("    %-14s short by %4d px  in %-30s  %r"
               % (f["kind"][:14], f["short"], f["box"][:30], f["text"][:60]))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

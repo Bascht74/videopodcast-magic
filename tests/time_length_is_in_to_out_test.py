@@ -4,22 +4,41 @@ Three independent claims. The length counts from the In point to the
 Out point and not from where the file starts; the older file-relative
 arithmetic stands beside it to show how far the two differ. An intro,
 an outro or an ignored file can carry no boundary, with a reason that
-names the file, because a barred button without one reads as a fault; a
-file nobody has classified yet counts as content. And where a Timecode
-is refused, the refusal names the situation it is really in: without a
-picture there is no reference camera to name, and the message used to
-name one anyway."""
+names the file, because a barred button without one reads as a fault;
+an empty player bars nothing, and a file nobody has classified yet
+counts as content. And where a Timecode is refused, the refusal names
+the situation it is really in and says what does work instead, in the
+language of the run: without a picture there is no reference camera to
+name, and the message used to name one anyway."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util
+import contextlib
+import io
+import sys
+import time
+import importlib.util
+
+began = time.time()
 # No Qt here: the four functions this asks after live at module
 # level, and building an application for them doubled the run.
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 m = importlib.util.module_from_spec(spec); sys.modules["vpm"] = m
 spec.loader.exec_module(m)
+
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
 
 # Rebuild only the calculation, without the whole interface
 def duration(in_point, out_point, fps=30.0):
@@ -29,83 +48,90 @@ def duration(in_point, out_point, fps=30.0):
         return ""
     return m.as_hms(b - a)
 
-CASES = [("17:02:16:17", "18:23:14:04", "1:20:57.567"),
-         ("17:20:56:16", "18:17:06:15", "0:56:09.967"),
-         ("+0:00:10.000", "+0:01:10.000", "0:01:00.000"),
-         ("", "18:00:00:00", ""),
-         ("18:00:00:00", "17:00:00:00", "")]
-error = 0
-for a, b, want in CASES:
-    have = duration(a, b)
-    ok = have == want
-    error += 0 if ok else 1
-    print("  %-16s %-16s -> %-14s %s"
-          % (a or "(empty)", b, have or "(empty)",
-             "ok" if ok else "FAIL, expected %s" % want))
-assert not error
+
+print("  the length runs from the In point to the Out point")
+have = duration("17:02:16:17", "18:23:14:04")
+check("two Timecodes give the stretch between them", have == "1:20:57.567",
+      "17:02:16:17 to 18:23:14:04 wanted 1:20:57.567, got %s"
+      % (have or "(empty)"))
+have = duration("17:20:56:16", "18:17:06:15")
+check("a second pair gives its own length, under the hour",
+      have == "0:56:09.967",
+      "17:20:56:16 to 18:17:06:15 wanted 0:56:09.967, got %s"
+      % (have or "(empty)"))
+have = duration("+0:00:10.000", "+0:01:10.000")
+check("two points counted from the window start give their difference",
+      have == "0:01:00.000",
+      "+0:00:10.000 to +0:01:10.000 wanted 0:01:00.000, got %s"
+      % (have or "(empty)"))
+have = duration("", "18:00:00:00")
+check("with no In point there is no length", have == "",
+      "wanted an empty length, got %s" % (have or "(empty)"))
+have = duration("18:00:00:00", "17:00:00:00")
+check("an Out point before the In point gives no length", have == "",
+      "18:00:00:00 to 17:00:00:00 wanted an empty length, got %s"
+      % (have or "(empty)"))
 # And the old way, which took the file as the yardstick:
 tc0 = m.parse_timecode("17:06:35:20", 30.0)
 old = (m.parse_timecode("18:23:14:04", 30.0) - tc0) - max(
     0.0, m.parse_timecode("17:02:16:17", 30.0) - tc0)
-print("\n  the old way would have shown:", m.as_hms(old))
-assert m.as_hms(old) == "1:16:38.467", m.as_hms(old)
+check("counting from the file start comes out shorter",
+      m.as_hms(old) == "1:16:38.467",
+      "wanted 1:16:38.467, got %s, against 1:20:57.567 from In to Out"
+      % m.as_hms(old))
 # ----------------------------------------------------------------------
 # No boundary inside a jingle
 #
 # An intro is set in front of the material, not cut into it, so no point
 # inside it can be a boundary of the episode.
 print("\n  no boundary inside what is not on the axis")
-CASES = [
-    ("Interview_C002.mov", m.TYPE_CONTENT, False),
-    ("Totale_C003.mov", m.TYPE_WIDE, False),
-    ("Jingle.mp4", m.TYPE_INTRO, True),
-    ("Abspann.mp4", m.TYPE_OUTRO, True),
-    ("Fehlstart.mov", m.TYPE_IGNORED, True),
-]
-error = 0
-for name, kind, barred in CASES:
-    said = m.not_on_the_axis("/tmp/%s" % name, {}, {"kind:/tmp/%s" % name: kind})
-    ok = bool(said) is barred
-    error += 0 if ok else 1
-    # A reason is as much part of this as the greying out: greyed out
-    # with nothing beside it reads as a fault in the program.
-    if barred and ok:
-        ok = name in said
-        error += 0 if ok else 1
-    print("  %-22s %-10s -> %-8s %s"
-          % (name, kind, "barred" if said else "usable",
-             "ok" if ok else "FAIL, wanted %s and its name in the reason"
-             % ("barred" if barred else "usable")))
-assert not error
+
+
+def reason_for(name, kind):
+    """Why the file in the player carries no boundary, or ""."""
+    path = "/tmp/%s" % name
+    return m.not_on_the_axis(path, {}, {"kind:" + path: kind})
+
+
+said = reason_for("Interview_C002.mov", m.TYPE_CONTENT)
+check("content is not barred from carrying a boundary", said == "",
+      "wanted no reason, got %r" % said)
+said = reason_for("Totale_C003.mov", m.TYPE_WIDE)
+check("the wide shot is not barred either", said == "",
+      "wanted no reason, got %r" % said)
+# A reason is as much part of this as the greying out: greyed out with
+# nothing beside it reads as a fault in the program.
+said = reason_for("Jingle.mp4", m.TYPE_INTRO)
+check("an intro is barred, and the reason names the file",
+      "Jingle.mp4" in said,
+      "wanted a reason naming Jingle.mp4, got %r" % said)
+said = reason_for("Abspann.mp4", m.TYPE_OUTRO)
+check("an outro is barred, and the reason names the file",
+      "Abspann.mp4" in said,
+      "wanted a reason naming Abspann.mp4, got %r" % said)
+said = reason_for("Fehlstart.mov", m.TYPE_IGNORED)
+check("a file marked not to be used is barred too, and named",
+      "Fehlstart.mov" in said,
+      "wanted a reason naming Fehlstart.mov, got %r" % said)
 # Nothing in the player bars nothing: the four buttons are then held by
 # the axis alone, which is the older rule and still the one that counts.
-for nothing in (None, ""):
-    said = m.not_on_the_axis(nothing, {}, {})
-    assert said == "", "%r in the player should bar nothing, said %r" % (
-        nothing, said)
+said = m.not_on_the_axis(None, {}, {})
+check("with no file in the player nothing is barred", said == "",
+      "wanted no reason, got %r" % said)
+said = m.not_on_the_axis("", {}, {})
+check("and an empty path bars nothing either", said == "",
+      "wanted no reason, got %r" % said)
 # A file nobody has answered for counts as content, or opening a project
 # would bar the buttons until every Kind has been looked at once.
 said = m.not_on_the_axis("/tmp/unanswered.mov", {}, {})
-assert said == "", ("an unclassified file should count as content, "
-                    "said %r" % said)
-print("  a file nobody answered for counts as content     ok")
+check("a file nobody answered for counts as content", said == "",
+      "wanted no reason, got %r" % said)
 
 # ----------------------------------------------------------------------
 # A Timecode that cannot be counted from
 #
 # Two situations, and one message for both named a reference camera on
 # the path that has none: with no picture the file was printed as "?".
-import io as _io
-import contextlib as _cl
-
-bad = []
-
-
-def check(what, ok, detail=""):
-    print("  %-52s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
-    if not ok:
-        bad.append(what)
 
 
 class Call(object):
@@ -118,8 +144,8 @@ class Call(object):
 
 def refused(args, ref_clip):
     """What the run says when it will not take the point. One line."""
-    out = _io.StringIO()
-    with _cl.redirect_stdout(out):
+    out = io.StringIO()
+    with contextlib.redirect_stdout(out):
         window = m.clip_to_time_window(args, 0.0, 600.0, ref_clip)
     return window, " ".join(out.getvalue().split())
 
@@ -154,7 +180,6 @@ m.set_language("en")
 check("the German run says In-Punkt, not In point",
       "In-Punkt" in said and "In point" not in said, said[:110])
 
-if bad:
-    print("\nFAIL: " + ", ".join(bad))
-    sys.exit(1)
-print("\nall good")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

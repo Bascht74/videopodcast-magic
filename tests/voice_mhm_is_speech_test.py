@@ -8,7 +8,7 @@ material the floor belongs at 0.2 s: down to there whole reactions
 come back, and below it the gain is breath. The case built here is two
 turns with a short reaction between them.
 """
-import os, sys, wave, shutil, tempfile
+import os, sys, wave, shutil, tempfile, time
 import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -18,14 +18,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 RATE = 16000
@@ -59,7 +62,9 @@ def track(name, turns, seconds=16.0):
 
 print("1. The floor is where the measurement put it")
 check("the floor is a named number, not a spelling in a signature",
-      hasattr(vpm, "SPEECH_MIN_LEN_S"))
+      hasattr(vpm, "SPEECH_MIN_LEN_S"),
+      "SPEECH_MIN_LEN_S is %r, wanted a number"
+      % (getattr(vpm, "SPEECH_MIN_LEN_S", None),))
 check("and it stands at 0.2 s",
       abs(getattr(vpm, "SPEECH_MIN_LEN_S", 0) - 0.2) < 1e-9,
       str(getattr(vpm, "SPEECH_MIN_LEN_S", None)))
@@ -127,8 +132,6 @@ check("at the old floor the same reaction disappears again", not raised,
       str(raised))
 
 shutil.rmtree(folder, ignore_errors=True)
-print("\n----")
-if bad:
-    print("FAIL %d of them: %s" % (len(bad), "; ".join(bad)))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

@@ -10,21 +10,24 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, subprocess, sys, tempfile
+import importlib.util, subprocess, sys, tempfile, time
 import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 SR = vpm.SR
 WORK = tempfile.mkdtemp(prefix="beside_")
+began = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("%-58s %s%s" % (what, "ok" if ok else "FAIL",
-                          "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def tone(name, hz, seconds, start_sample):
@@ -48,8 +51,11 @@ check("the timecode is written and read back",
 
 mix, info = vpm.join_audio_parts([a, b], os.path.join(WORK, "joined.wav"),
                                  keep_parts=True)
-check("the join finds the timecode", bool(info.get("tc")))
-check("and sees that they overlap", bool(info.get("side_by_side")))
+check("the join finds the timecode", bool(info.get("tc")),
+      "tc %s, first sample %s" % (info.get("tc"), info.get("start")))
+check("and sees that they overlap", bool(info.get("side_by_side")),
+      "side by side %s, gaps in samples %s (a negative gap is an overlap)"
+      % (info.get("side_by_side"), info.get("gaps_found")))
 check("one single track per recording", len(info.get("parts") or []) == 2,
       "%d" % len(info.get("parts") or []))
 for name, path in info.get("parts") or []:
@@ -92,8 +98,12 @@ d = tone("Rec_02.wav", 500, 3.0, 48000 + 3 * SR)
 _m2, info2 = vpm.join_audio_parts([c, d], os.path.join(WORK, "joined2.wav"),
                                   keep_parts=True)
 check("blocks in a row are not seen as overlapping",
-      not info2.get("side_by_side"))
-check("and get no single tracks", not info2.get("parts"))
+      not info2.get("side_by_side"),
+      "side by side %s, gaps in samples %s (a negative gap is an overlap)"
+      % (info2.get("side_by_side"), info2.get("gaps_found")))
+check("and get no single tracks", not info2.get("parts"),
+      "%d single tracks: %s"
+      % (len(info2.get("parts") or []), info2.get("parts")))
 
 #------------------------------------- two recorders started together
 # Both write the same TimeReference, and both recordings run at the same
@@ -103,7 +113,8 @@ same2 = tone("Together_B_01.wav", 900, 4.0, 48000)
 mix2, info2 = vpm.join_audio_parts([same1, same2],
                                    os.path.join(WORK, "same.wav"),
                                    keep_parts=True)
-check("the same timecode is still read as a timecode", bool(info2.get("tc")))
+check("the same timecode is still read as a timecode", bool(info2.get("tc")),
+      "tc %s, first sample %s" % (info2.get("tc"), info2.get("start")))
 check("and they are placed on top of each other, not in a row",
       abs(vpm.sample_count(mix2) / float(SR) - 4.0) < 0.01,
       "%.2f s" % (vpm.sample_count(mix2) / float(SR)))
@@ -113,13 +124,13 @@ check("each still gets a track of its own",
 #------------------------------------------------------------ the switch off
 _m3, info3 = vpm.join_audio_parts([a, b], os.path.join(WORK, "joined3.wav"),
                                   keep_parts=False)
-check("without keep_parts nothing extra is written", not info3.get("parts"))
+check("without keep_parts nothing extra is written", not info3.get("parts"),
+      "%d single tracks: %s"
+      % (len(info3.get("parts") or []), info3.get("parts")))
 check("but the mix is the same length",
       vpm.sample_count(_m3) == vpm.sample_count(mix),
       "%d against %d" % (vpm.sample_count(_m3), vpm.sample_count(mix)))
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("all checks passed")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

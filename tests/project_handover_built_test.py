@@ -4,17 +4,37 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util
+import sys, importlib.util, time
+began = time.time()
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+# The failures collect in "error", not in "bad": further down
+# slider_numbers() hands the field it could not read back under
+# that name, and a check reads it there.
+done = 0
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-54s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+def keys_of(d):
+    """What came back, short enough to stand in a FAIL line.
+
+    A handover and a project file are both too big to print, and on
+    another machine the printed line is all there is. The keys say
+    whether something came back at all and what shape it had; anything
+    that is not a dict prints as itself.
+    """
+    return sorted(d) if isinstance(d, dict) else d
 
 SEG = [("Guest", [(10.0, 60.0), (120.0, 200.0)]),
        ("Co-host", [(60.0, 120.0)])]
@@ -24,34 +44,48 @@ CAM = [{"track": "Wide", "file": "/x/Wide_C003.mov", "start_s": 61100.0},
 ASSIGN = {"Guest": "Guest_C009.mov", "Co-host": "Host_C005.mov"}
 
 print("1. The zero point: audio comes before picture")
-check("audio wins", vpm.choose_zero_point([61200.0, 61300.0],
-                                           [61100.0]) == 61200.0)
-check("without audio the picture",
-        vpm.choose_zero_point([], [61100.0, 61500.0]) == 61100.0)
-check("None is passed over",
-        vpm.choose_zero_point([None, 61300.0], [61100.0]) == 61300.0)
-check("only None is like empty",
-        vpm.choose_zero_point([None], [None]) is None)
-check("nothing at all -> None", vpm.choose_zero_point() is None)
+zero = vpm.choose_zero_point([61200.0, 61300.0], [61100.0])
+check("audio wins", zero == 61200.0,
+        "%r against 61200.0 -- 61100.0 would mean the camera won" % (zero,))
+zero = vpm.choose_zero_point([], [61100.0, 61500.0])
+check("without audio the picture", zero == 61100.0,
+        "%r against 61100.0, the earliest of the two cameras" % (zero,))
+zero = vpm.choose_zero_point([None, 61300.0], [61100.0])
+check("None is passed over", zero == 61300.0,
+        "%r against 61300.0 -- a None counted as 0.0 would win" % (zero,))
+zero = vpm.choose_zero_point([None], [None])
+check("only None is like empty", zero is None, "%r against None" % (zero,))
+zero = vpm.choose_zero_point()
+check("nothing at all -> None", zero is None, "%r against None" % (zero,))
 
 print("\n2. The handover")
 d, reason = vpm.build_handover(SEG, 300.0, ASSIGN, CAM,
                                audio_origin=[61200.0], camera_origin=[61100.0])
 check("no reason", reason == "", reason)
-check("length taken over", d["length_s"] == 300.0)
-check("zero point from the audio", d["start_s"] == 61200.0)
-check("two speakers", [s["name"] for s in d["speakers"]]
-        == ["Guest", "Co-host"])
+check("length taken over", d["length_s"] == 300.0,
+        "%r against 300.0" % (d["length_s"],))
+check("zero point from the audio", d["start_s"] == 61200.0,
+        "%r against 61200.0, the audio start -- 61100.0 is the camera"
+        % (d["start_s"],))
+names = [s["name"] for s in d["speakers"]]
+check("two speakers", names == ["Guest", "Co-host"],
+        "%s against ['Guest', 'Co-host']" % (names,))
 check("sections are lists, not tuples",
-        d["speakers"][0]["sections"] == [[10.0, 60.0], [120.0, 200.0]])
+        d["speakers"][0]["sections"] == [[10.0, 60.0], [120.0, 200.0]],
+        "%r against [[10.0, 60.0], [120.0, 200.0]]"
+        % (d["speakers"][0]["sections"],))
 by_track = {cam["track"]: cam["speakers"] for cam in d["cameras"]}
-check("the wide shot gets nobody", by_track["Wide"] == [])
-check("the guest at his camera", by_track["Guest"] == ["Guest"])
+check("the wide shot gets nobody", by_track["Wide"] == [],
+        "Wide %r against []" % (by_track["Wide"],))
+check("the guest at his camera", by_track["Guest"] == ["Guest"],
+        "Guest %r against ['Guest']" % (by_track["Guest"],))
 check("the co-host at the hosts camera",
-        by_track["Hosts"] == ["Co-host"])
+        by_track["Hosts"] == ["Co-host"],
+        "Hosts %r against ['Co-host']" % (by_track["Hosts"],))
+tracks = [cam["track"] for cam in d["cameras"]]
 check("the order of the cameras stays",
-        [cam["track"] for cam in d["cameras"]] == ["Wide", "Guest",
-                                                   "Hosts"])
+        tracks == ["Wide", "Guest", "Hosts"],
+        "%s against ['Wide', 'Guest', 'Hosts']" % (tracks,))
 
 print("\n3. Two speakers on one camera")
 d, _r = vpm.build_handover(
@@ -60,39 +94,53 @@ d, _r = vpm.build_handover(
 by_track = {cam["track"]: sorted(cam["speakers"])
             for cam in d["cameras"]}
 check("both at the same camera",
-        by_track["Hosts"] == ["Co-host", "Host"], str(by_track))
+        by_track["Hosts"] == ["Co-host", "Host"],
+        "Hosts %r against ['Co-host', 'Host'] -- all of it %s"
+        % (by_track["Hosts"], by_track))
 check("without an audio start the zero point stays empty",
-        d["start_s"] is None)
+        d["start_s"] is None, "%r against None" % (d["start_s"],))
 
 print("\n4. When it does not work, it says why")
 d, reason = vpm.build_handover([], 300.0, ASSIGN, CAM, places=["/a", "/b"])
-check("no sections -> None", d is None)
-check("the reason names both places", "/a and /b" in reason, reason[:70])
+check("no sections -> None", d is None,
+        "%s against None" % (keys_of(d),))
+check("the reason names both places", "/a and /b" in reason,
+        "looked for '/a and /b' in: %s" % reason)
 d, reason = vpm.build_handover(SEG, 0.0, ASSIGN, CAM, places=[])
-check("length 0 counts as nothing too", d is None)
-check("without a place still a sentence", "no folder" in reason, reason[:70])
+check("length 0 counts as nothing too", d is None,
+        "%s against None" % (keys_of(d),))
+check("without a place still a sentence", "no folder" in reason,
+        "looked for 'no folder' in: %s" % reason)
 d, reason = vpm.build_handover(SEG, 300.0, ASSIGN, [])
-check("no cameras -> None", d is None)
+check("no cameras -> None", d is None,
+        "%s against None" % (keys_of(d),))
 check("the reason names Multitrack", "Multitrack" in reason, reason)
 
 print("\n5. The time window carries on from there")
 d, _r = vpm.build_handover(SEG, 300.0, ASSIGN, CAM, audio_origin=[61200.0])
 w, _complaint = vpm.apply_time_window(dict(d), "17:01:00:00", "")
-check("the zero point moves along", w["start_s"] == 61260.0, str(w["start_s"]))
+check("the zero point moves along", w["start_s"] == 61260.0,
+        "%r against 61260.0, the zero point 60 s further on"
+        % (w["start_s"],))
 # The In point sits 60 s behind the zero point, so early sections go.
 check("sections move along and are trimmed",
         w["speakers"][0]["sections"] == [[60.0, 140.0]],
-        str(w["speakers"][0]["sections"]))
+        "%r against [[60.0, 140.0]]" % (w["speakers"][0]["sections"],))
 check("the co-host moves just the same",
         w["speakers"][1]["sections"] == [[0.0, 60.0]],
-        str(w["speakers"][1]["sections"]))
+        "%r against [[0.0, 60.0]]" % (w["speakers"][1]["sections"],))
 
 print("\n6. The interface really takes this way")
 source = open(SCRIPT, encoding="utf-8").read()
-check("off_speakers calls build_handover",
-        "d, reason = build_handover(" in source)
-check("the old calculation is gone",
-        "zero = (min(audios) if audios else" not in source)
+lines_in_source = source.count("\n") + 1
+calls = source.count("d, reason = build_handover(")
+check("off_speakers calls build_handover", calls > 0,
+        "found %d times in the %d lines of %s"
+        % (calls, lines_in_source, os.path.basename(SCRIPT)))
+old_sums = source.count("zero = (min(audios) if audios else")
+check("the old calculation is gone", old_sums == 0,
+        "%d of the old zero-point lines against 0, in %d lines of %s"
+        % (old_sums, lines_in_source, os.path.basename(SCRIPT)))
 
 print("\n7. Finding the project file, even after a wrong pick")
 import os, json, shutil, tempfile
@@ -104,25 +152,33 @@ json.dump({"what": "something else"},
           open(os.path.join(D, "foreign.json"), "w"))
 open(os.path.join(D, "text.txt"), "w").write("nothing")
 d, found = vpm.find_project_file(real)
-check("named directly", d is not None and found == real)
+check("named directly", d is not None and found == real,
+        "%s %r against a project at %r" % (keys_of(d), found, real))
 d, found = vpm.find_project_file(D)
-check("pointed at the folder", d is not None and found == real)
+check("pointed at the folder", d is not None and found == real,
+        "%s %r against a project at %r" % (keys_of(d), found, real))
 d, found = vpm.find_project_file(os.path.join(D, "foreign.json"))
-check("foreign json -> the right one next to it", found == real)
+check("foreign json -> the right one next to it", found == real,
+        "%r against %r" % (found, real))
 d, found = vpm.find_project_file(os.path.join(D, "text.txt"))
-check("no json at all -> found anyway", found == real)
+check("no json at all -> found anyway", found == real,
+        "%r against %r" % (found, real))
 empty = tempfile.mkdtemp(prefix="projempty_")
 d, found = vpm.find_project_file(empty)
-check("empty folder -> (None, \"\")", d is None and found == "")
+check("empty folder -> (None, \"\")", d is None and found == "",
+        "%s %r against None and '' for %r" % (keys_of(d), found, empty))
 d, found = vpm.find_project_file("")
-check("empty path -> (None, \"\")", d is None and found == "")
+check("empty path -> (None, \"\")", d is None and found == "",
+        "%s %r against None and ''" % (keys_of(d), found))
 d, found = vpm.find_project_file("/doesnotexist/nor/this.json")
-check("path into nothing -> no crash", d is None and found == "")
+check("path into nothing -> no crash", d is None and found == "",
+        "%s %r against None and ''" % (keys_of(d), found))
 # A broken json must not hide the sound one
 open(os.path.join(D, vpm.PROJECT_PREFIX + "0_broken.json"),
      "w").write("{ this is not json")
 d, found = vpm.find_project_file(D)
-check("broken json is skipped", found == real, found)
+check("broken json is skipped", found == real,
+        "%r against %r" % (found, real))
 
 print("\n8. What of the project is still there")
 present, missing = vpm.project_files(
@@ -131,34 +187,50 @@ present, missing = vpm.project_files(
                  {"path": "/gone/Wide.mov", "kind": "video"},
                  {"path": ""}, {}]})
 check("only the one that exists stays", present == [(real, "audio")],
-        str(present))
+        "%r against [(%r, 'audio')]" % (present, real))
 check("the missing ones are named",
-        missing == ["Guest.wav", "Wide.mov"], str(missing))
+        missing == ["Guest.wav", "Wide.mov"],
+        "%r against ['Guest.wav', 'Wide.mov']" % (missing,))
 check("empty entries drop out without disturbing",
-        len(present)+len(missing) == 3)
+        len(present)+len(missing) == 3,
+        "%d present + %d missing = %d against 3 of the 5 entries"
+        % (len(present), len(missing), len(present)+len(missing)))
 present, missing = vpm.project_files({})
-check("empty project -> empty twice", present == [] and missing == [])
+check("empty project -> empty twice", present == [] and missing == [],
+        "%r and %r against [] and []" % (present, missing))
 present, missing = vpm.project_files(None)
-check("None -> no crash", present == [] and missing == [])
+check("None -> no crash", present == [] and missing == [],
+        "%r and %r against [] and []" % (present, missing))
 shutil.rmtree(D, ignore_errors=True); shutil.rmtree(empty, ignore_errors=True)
 
 print("\n9. The sliders as numbers -- one source for both ways")
 nums, bad = vpm.slider_numbers({})
 check("empty means the default", bad is None
-        and nums["min-edit-duration"][1] == 3.0, str(nums["min-edit-duration"]))
+        and nums["min-edit-duration"][1] == 3.0,
+        "bad %r and min-edit-duration %r against None and ('3.0', 3.0)"
+        % (bad, nums.get("min-edit-duration")))
 nums, bad = vpm.slider_numbers({"min-edit-duration": "2,5"})
-check("comma becomes point", nums["min-edit-duration"] == ("2.5", 2.5))
+check("comma becomes point", nums["min-edit-duration"] == ("2.5", 2.5),
+        "%r against ('2.5', 2.5)" % (nums.get("min-edit-duration"),))
 nums, bad = vpm.slider_numbers({"wide-after": "abc"})
-check("a non-number is named", bad == "wide-after")
+check("a non-number is named", bad == "wide-after",
+        "%r against 'wide-after'" % (bad,))
 check("the fields before it are read already",
-        "min-edit-duration" in nums and "wide-after" not in nums)
+        "min-edit-duration" in nums and "wide-after" not in nums,
+        "%s read, against a list with min-edit-duration in it "
+        "and wide-after not" % (sorted(nums),))
 a1, s1 = vpm.slider_argv({"min-edit-duration": "2,5"})
 check("slider_argv passes the text on, not the number",
         "--min-edit-duration" in a1
-        and a1[a1.index("--min-edit-duration")+1] == "2.5")
+        and a1[a1.index("--min-edit-duration")+1] == "2.5",
+        "%r against '--min-edit-duration', '2.5' in %d arguments"
+        % (a1[:2], len(a1)))
 a2, s2 = vpm.slider_argv({"wide-after": "abc"})
-check("slider_argv reports the same field", s2 == "wide-after")
-check("and stops there", "--wide-after" not in a2)
+check("slider_argv reports the same field", s2 == "wide-after",
+        "%r against 'wide-after'" % (s2,))
+check("and stops there", "--wide-after" not in a2,
+        "--wide-after %d times in the %d arguments, against 0"
+        % (a2.count("--wide-after"), len(a2)))
 
 print("\n10. The sentence under the preview")
 METRICS = {"shots": 132, "median": 12.5, "shortest": 1.2,
@@ -170,20 +242,28 @@ COLOURS = {"heading": "#111", "warning": "#c00", "value": "#000",
 t = vpm.metrics_sentence(METRICS, COLOURS, lambda s: "%.0f min" % (s/60.0))
 for piece in ("132 shots", "median 12.5 s", "83.4 %", "50 min",
                "1.5 %", "#c00"):
-    check("contains %r" % piece, piece in t, "")
+    check("contains %r" % piece, piece in t,
+            "found %d times in the %d characters: %s"
+            % (t.count(piece), len(t), t))
 check("no leftover of the old formatting",
-        "%(w)s" not in t and "%(l)s" not in t)
+        "%(w)s" not in t and "%(l)s" not in t,
+        "%d of '%%(w)s' and %d of '%%(l)s' against 0 and 0"
+        % (t.count("%(w)s"), t.count("%(l)s")))
 
 print("\n11. The heading says where the sections come from")
-check("separated by voice", vpm.speech_heading(False) ==
-        "Speakers, separated by voice")
-check("self-measured",
-        "self-measured from the tracks" in vpm.speech_heading(True))
+head = vpm.speech_heading(False)
+check("separated by voice", head == "Speakers, separated by voice",
+        "%r against 'Speakers, separated by voice'" % (head,))
+head = vpm.speech_heading(True)
+check("self-measured", "self-measured from the tracks" in head,
+        "looked for 'self-measured from the tracks' in %r" % (head,))
+head = vpm.speech_heading(False, "72 min")
 check("with the total appended",
-        vpm.speech_heading(False, "72 min") ==
-        "Speakers, separated by voice -- 72 min")
-check("an empty total appends nothing",
-        vpm.speech_heading(False, "").endswith("by voice"))
+        head == "Speakers, separated by voice -- 72 min",
+        "%r against 'Speakers, separated by voice -- 72 min'" % (head,))
+head = vpm.speech_heading(False, "")
+check("an empty total appends nothing", head.endswith("by voice"),
+        "%r against a heading ending in 'by voice'" % (head,))
 
 print("\n12. The window's answer reaches the cut, and nobody loses "
       "their speakers")
@@ -228,23 +308,29 @@ fresh = vpm.wide_marks_applied(RUN, ["C003.MP4"], ON, False)
 who_at = {cam["track"]: cam["speakers"] for cam in fresh["cameras"]}
 check("the two on one camera keep their names",
         who_at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"],
-        str(who_at))
+        "%r against ['Moderator', 'Moderatorin'] -- all of it %s"
+        % (who_at["Moderator + Moderatorin"], who_at))
 check("the single speaker keeps his", who_at["Gast"] == ["Gast"],
-        str(who_at))
+        "Gast %r against ['Gast'] -- all of it %s"
+        % (who_at["Gast"], who_at))
 check("the camera nobody sits at stays empty",
-        who_at["Totale"] == [], str(who_at))
+        who_at["Totale"] == [],
+        "Totale %r against [] -- all of it %s" % (who_at["Totale"], who_at))
 check("only the free camera counts as the wide shot",
         [cam["wide"] for cam in fresh["cameras"]] == [False, False, True],
-        str([cam["wide"] for cam in fresh["cameras"]]))
+        "%s against [False, False, True] for %s"
+        % ([cam["wide"] for cam in fresh["cameras"]],
+           [cam["track"] for cam in fresh["cameras"]]))
 
 after = vpm.cut_statistics(fresh)
 check("the number of shots survives the window's answer",
         after["shots"] == before["shots"],
-        "%s -> %s" % (before["shots"], after["shots"]))
+        "%s shots before against %s after" % (before["shots"],
+                                              after["shots"]))
 check("and it stays a cut, not one shot over the whole episode",
-        after["shots"] > 1, str(after["shots"]))
+        after["shots"] > 1, "%s shots against more than 1" % (after["shots"],))
 check("the wide shot is still the one nobody sits at",
-        after["wide"] == "Totale", str(after["wide"]))
+        after["wide"] == "Totale", "%r against 'Totale'" % (after["wide"],))
 
 # A mark in the Kind field is an answer, not a derivation. Marking a
 # camera somebody sits at is what tells the two apart.
@@ -252,14 +338,17 @@ marked = vpm.wide_marks_applied(RUN, ["A001.MP4"], ON, True)
 check("the marked camera carries wide_marked",
         [cam.get("wide_marked") for cam in marked["cameras"]]
         == [True, False, False],
-        str([cam.get("wide_marked") for cam in marked["cameras"]]))
+        "%s against [True, False, False] for %s"
+        % ([cam.get("wide_marked") for cam in marked["cameras"]],
+           [cam["track"] for cam in marked["cameras"]]))
 said = vpm.cut_statistics(marked)
 check("and the cut holds it for the wide shot",
         said["wide_shots"] == ["Moderator + Moderatorin"],
-        str(said["wide_shots"]))
+        "%r against ['Moderator + Moderatorin']" % (said["wide_shots"],))
 check("so the mark beats the derivation",
         said["wide"] != before["wide"],
-        "%s vs %s" % (said["wide"], before["wide"]))
+        "%r with the mark against %r without it -- they must differ"
+        % (said["wide"], before["wide"]))
 
 # An empty assignment says nothing, not "nobody": the sheet may not be
 # built yet, and the file's own answer would be wiped every time.
@@ -268,11 +357,13 @@ for nothing, called in (({}, "{}"), (None, "None")):
     at = {cam["track"]: cam["speakers"] for cam in kept["cameras"]}
     check("nothing answered yet (%s) -> the file's answer stands" % called,
             at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
-            and at["Gast"] == ["Gast"] and at["Totale"] == [], str(at))
+            and at["Gast"] == ["Gast"] and at["Totale"] == [],
+            "%s against {'Moderator + Moderatorin': ['Moderator', "
+            "'Moderatorin'], 'Gast': ['Gast'], 'Totale': []}" % (at,))
     check("and the cut stays what it was (%s)" % called,
             vpm.cut_statistics(kept)["shots"] == before["shots"],
-            "%s -> %s" % (before["shots"],
-                          vpm.cut_statistics(kept)["shots"]))
+            "%s shots before against %s after"
+            % (before["shots"], vpm.cut_statistics(kept)["shots"]))
 
 # The preview has no rendered file: "file" names the camera itself.
 PREVIEW = dict(RUN, cameras=[
@@ -284,8 +375,55 @@ seen = vpm.wide_marks_applied(PREVIEW, ["C003.MP4"], ON, False)
 at = {cam["track"]: cam["speakers"] for cam in seen["cameras"]}
 check("without a source the file answers",
         at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
-        and at["Gast"] == ["Gast"], str(at))
+        and at["Gast"] == ["Gast"],
+        "%s against ['Moderator', 'Moderatorin'] and ['Gast']" % (at,))
 
-print("\n%s" % ("all good" if not error
-                else "FAIL: %s" % ", ".join(error)))
+print("\n13. Cameras whose file is not there yet")
+# The preview is built from data alone, so a camera whose file has not
+# been written yet still belongs in it. Two cameras here have nobody
+# sitting at them, one with a file and one without: both are the wide
+# shot, which is how one sees that the file decides nothing. And the
+# empty path has to stay empty -- a path invented here is one the cut
+# would later hand to Resolve, which imports whatever it is given.
+NOT_YET = [{"track": "Totale", "file": "", "start_s": 61100.0},
+           {"track": "Spare", "file": "/cam/D004.MP4", "start_s": 61100.0},
+           {"track": "Moderator", "file": "/cam/A001.MP4",
+            "start_s": 61100.0},
+           {"track": "Gast", "file": "/cam/B002.MP4", "start_s": 61100.0},
+           {"track": "Ghost", "start_s": 61100.0}]   # no file field at all
+LOTS = [("Moderator", sections_every(2.0, 30.0, 11.0, 20)),
+        ("Gast", sections_every(23.0, 30.0, 6.0, 20))]
+AT = {"Moderator": "A001.MP4", "Gast": "B002.MP4"}
+d, reason = vpm.build_handover(LOTS, 600.0, AT, NOT_YET,
+                               audio_origin=[61200.0])
+check("a camera without a file does not stop the preview",
+        d is not None and reason == "",
+        "%s and reason %r against a handover and ''"
+        % (keys_of(d), reason))
+paths = [cam["file"] for cam in (d or {}).get("cameras") or []]
+check("the paths come through as they were given, empty and missing too",
+        paths == ["", "/cam/D004.MP4", "/cam/A001.MP4", "/cam/B002.MP4",
+                  None],
+        "%r against ['', '/cam/D004.MP4', '/cam/A001.MP4', "
+        "'/cam/B002.MP4', None]" % (paths,))
+sits_at = {cam["track"]: cam["speakers"]
+           for cam in (d or {}).get("cameras") or []}
+check("the cameras that do have a file keep their speakers",
+        sits_at.get("Moderator") == ["Moderator"]
+        and sits_at.get("Gast") == ["Gast"],
+        "%s against Moderator ['Moderator'] and Gast ['Gast']" % (sits_at,))
+free = [cam["wide"] for cam in (d or {}).get("cameras") or []]
+check("the file plays no part in who is the wide shot",
+        free == [True, True, False, False, True],
+        "%s against [True, True, False, False, True] for %s -- Totale has "
+        "no file and Spare has one, and neither has a speaker"
+        % (free, [cam["track"] for cam in (d or {}).get("cameras") or []]))
+numbers = vpm.cut_statistics(d) or {}
+check("the preview still cuts with a camera that has no file",
+        numbers.get("shots", 0) > 1,
+        "%s shots against more than 1, over %d cameras"
+        % (numbers.get("shots"), len(paths)))
+
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

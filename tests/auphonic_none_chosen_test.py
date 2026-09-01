@@ -49,7 +49,12 @@ def preset_box():
 def look():
     b = preset_box()
     if b is None:
-        check("preset list found", False)
+        boxes = [w for w in app.allWidgets()
+                 if isinstance(w, QtWidgets.QComboBox)]
+        check("preset list found", False,
+              "no list held PRESET_NONE: %d lists on screen, "
+              "with %s entries" % (len(boxes),
+                                   [w.count() for w in boxes][:10]))
         app.quit(); return
     # Opening the list is what asks the service: a start must not speak
     # to a third party about a key it was only asked to keep. So the

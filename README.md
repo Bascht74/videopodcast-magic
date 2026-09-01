@@ -7,7 +7,9 @@
 *The main window. What was found, what belongs together, and what does
 not fit -- before anything is written.*
 
-**Version 2.23.0-beta.** It does the work it was written for, every
+*Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
+
+**Version 2.25.0-beta.** It does the work it was written for, every
 week, on real material. It is called beta because it is not finished
 being tested: the format of the project file may still change, and an
 older file is refused with a clear message rather than half read.
@@ -17,7 +19,7 @@ first audio track, and build from it everything the edit needs afterwards:
 the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve
 project.
 
-One Python file, about 24000 lines. No package, no build step.
+One Python file, about 35 000 lines. No package, no build step.
 
 ## Why this exists
 

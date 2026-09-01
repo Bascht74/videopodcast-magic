@@ -31,7 +31,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Ton | Abtastwerte am Anschlag, je Kanal | Hinweis, nur Ganzzahlformate |
 | Timecode | die Uhren der Dateien gegeneinander | Hinweis, wo eine Uhr nicht gestellt war |
 | Raum | Übersprechen je Sprecherpaar, gegen die 3:1-Regel | Hinweis für die *nächste* Aufnahme |
-| System | freier Plattenplatz gegen den geschätzten Bedarf | **Abbruch**, wenn es nicht reicht |
+| System | freier Plattenplatz gegen den geschätzten Bedarf | Hinweis, wenn es knapp wird, **Abbruch**, wenn es nicht reicht |
 | Auphonic | Algorithmen des Presets, Lautheitsziel, Spurvorlage | **Abbruch** bei Widerspruch |
 | Lautheit | welches Ziel gilt und woher es kommt | — |
 
@@ -89,6 +89,28 @@ lässt es sich nur beim nächsten Mal, deshalb hält es den Lauf nicht an.
 Bei einer einzigen Spur gibt es nichts zu messen. Dasselbe gilt für
 Aufnahmen, die zu wenig überlappen, und für eine Aufnahme ohne Stelle, an
 der genau einer spricht. Der Bericht sagt es, und der Lauf geht weiter.
+
+### Wieviel Luft der Bericht verlangt
+
+Bevor der erste lange Schritt anfängt, hält der Bericht den freien Platz
+gegen das, was der Lauf schreiben wird. Diese Schätzung ist grob, und
+sie sagt das auch von sich: Sie rechnet jede Kamera als kopiert und mit
+neuen Tonspuren versehen, dazu die bearbeiteten Spuren und den Mix, und
+sie rundet durchweg nach oben auf.
+
+Eine grobe Schätzung, um ein Haar überboten, ist kein Platz. Deshalb
+verlangt der Bericht **15 Prozent über seiner eigenen Schätzung**, bevor
+er den Platz gutheißt. Dazwischen -- die Zahlen gehen auf, aber knapp --
+gibt er einen Hinweis und lässt den Lauf weiterlaufen; darunter bricht
+er ab wie zuvor. Dieser Abstand steht fest, kein Schalter verschiebt
+ihn.
+
+Dabei sieht der Bericht auf beide Platten. Was der Lauf abliefert,
+landet im Ausgabeordner, die Zwischendateien des Laufs aber im
+temporären Ordner des Systems, und der liegt noch einmal woanders.
+Stehen beide auf derselben Platte, wird derselbe Platz zweimal
+gebraucht, und der Bericht zählt ihn zweimal. Auf verschiedenen Platten
+ändert sich nichts.
 
 ### Welches Lautheitsziel gilt
 
@@ -212,10 +234,12 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   nichts im Material und ist viel kürzer als alles um sie herum, also
   hält das Programm sie für einen Jingle. Einen **Typ** von Hand wählen
   entscheidet die Zeile endgültig.
-- **Der Plattenplatz reicht nicht.** Platz schaffen oder im Streifen
-  unter der Dateiliste einen anderen Ausgabeordner setzen. Die
-  Zwischendateien des Laufs liegen im temporären Ordner des Systems,
-  also woanders.
+- **Der Plattenplatz reicht nicht oder gerade eben.** Platz schaffen
+  oder im Streifen unter der Dateiliste einen anderen Ausgabeordner
+  setzen. Die Zwischendateien des Laufs liegen im temporären Ordner des
+  Systems: Liegt der auf derselben Platte wie der Ausgabeordner, braucht
+  der Lauf den Platz zweimal, und ein Ausgabeordner auf einer anderen
+  Platte hilft dann so viel wie Aufräumen.
 - **Das Preset mastert auf eine andere Lautheit.** `--lufs` auf den Wert
   des Presets setzen oder das Lautheitsziel des Presets auf
   auphonic.com ändern. Beides zusammen geht nicht: die Spuren kommen auf
