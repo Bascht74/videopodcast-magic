@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 2.24.1-beta.** Es macht die Arbeit, für die es geschrieben
+**Version 2.25.0-beta.** Es macht die Arbeit, für die es geschrieben
 wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
 fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt

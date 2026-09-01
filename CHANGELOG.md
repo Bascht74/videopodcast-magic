@@ -25,6 +25,199 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.25.0-beta] - 2026-09-01
+
+**English**
+
+### Added
+
+- The picture in **Camera cut -- preview** carries a note of its own:
+  who is speaking, in bold, and the camera under it, on a plate in the
+  colour of the running shot with a frame of that colour round the
+  picture. Where a shot has no picture, the colour fills the whole box
+  and the same two lines stand on it.
+- The player on the **Resolve cut** tab has a fast forward of its own,
+  at the end of the transport and on the `L` key. Every press doubles
+  the speed, up to eight times, and the speed stands on the button.
+
+### Changed
+
+- With an In and an Out point set, each camera is written only for that
+  window, plus a second at each end. On a five-minute window of a real
+  interview that is 6.09 GB of output rather than 83.57 GB, and the cut
+  it produces is the same to the millisecond.
+- Pressing **Measure speakers now** and then **Start** worked the same
+  recording out twice. The run reads the store the window fills now, so
+  a separation already in it comes back in 0.0008 s rather than 201 s,
+  and the log says it was read back.
+- The speech recognition waited for the speaker separation to finish.
+  It starts beside it now, which takes 27 seconds off the 201 seconds
+  an 87-minute recording waits. It runs on the consent that started the
+  separation, so nothing is asked twice.
+- Checking a camera the program has just written walks the file once,
+  not once per audio track. On a 36 GB camera file off a 150 MB/s drive
+  that saves about four minutes a camera, and the two progress lines
+  become one, **Check: Full-Mix and camera track**.
+
+### Removed
+
+- The flat button **Only one speaker -- separate the track?** in the
+  **Speakers** column is gone. What it did is an answer in the name
+  field of the same row: **several speakers** rather than a name.
+- A double click on the preview picture used to blow it up to the whole
+  screen, and Escape brought it back. Both are gone; the picture stays
+  in the box it is given, on every tab.
+
+### Fixed
+
+- Where two recordings had been taken apart, only one of them reached
+  the cut, and its people were placed on the other one's cameras: 2 of
+  4 speakers arrived, on the wrong two. All four are in the cut now,
+  each on their own camera.
+- Every separation started its stand-in names at **Speaker 1** again,
+  so five people shared three names. A stand-in takes the first number
+  nobody has now, over all recordings; typing a name another voice
+  already carries turns both fields red and holds the start.
+- Separating a second recording wiped the first one's voices off the
+  screen, and names typed under the first were written onto the
+  second's. Every recording keeps its own now, they stand side by side,
+  and reopening a project brings them all back.
+- A voice reached the cut only where a separation had found it, so
+  somebody measured from their own microphone dropped out as soon as any
+  recording was taken apart. Voices out of a separation and tracks
+  measured here go into one reckoning now, and only **do not use** keeps
+  somebody out.
+- Where somebody on **no camera of its own** spoke beside somebody who
+  has a camera, the picture went to the wide shot. Such a voice counts
+  now for the speaking shares and among who is heard in a shot, but the
+  camera is chosen among those who have one.
+- With nothing loaded, **Save project**, **Close project**, **Start**
+  and **Dry run** stood black over an empty list while the buttons for
+  the same four were grey. Each entry follows its button now, and so
+  does every entry of the **Player** menu.
+- The transport entries drove the preview player of the second tab
+  whatever tab was showing, the **Resolve cut** tab included. Each
+  drives the player of the tab in front now, and stays grey where that
+  tab shows none.
+- Storing the key while the keychain was locked stood for twenty
+  seconds and then failed, with a reason that was not the real one.
+  **Save in Keychain** is grey now, a line under it says the keychain is
+  locked, and **Open Keychain Access** beside it opens the program that
+  unlocks it.
+- Where the camera's own audio track was missing from the written file,
+  the run reported that the two tracks cannot be compared, which reads
+  like a bad take. It says now that the track is not in the file and
+  that nothing was measured.
+- The **Speakers** column hung off the right edge of the window: its
+  message was cut to two half lines and the button beside it showed the
+  single letter "e". The column is 132 px wide now, and the sideways
+  scrollbar under the table is gone.
+
+### Security
+
+- Where the macOS keychain did not take the key, the program handed it
+  over a second way: as an argument on a command line, where everybody
+  on the machine can read it. That way is gone -- nothing is stored
+  where the keychain refuses, and a line says why.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Das Bild in **Kameraschnitt -- Vorschau** trägt eine eigene Auskunft:
+  wer spricht, fett, darunter die Kamera, auf einer Fläche in der Farbe
+  der laufenden Einstellung und in einem Rahmen derselben Farbe. Wo eine
+  Einstellung kein Bild hat, füllt die Farbe den ganzen Kasten, und die
+  zwei Zeilen stehen darauf.
+- Der Player auf dem Reiter **Resolve-Schnitt** hat einen eigenen
+  **Vorlauf**, am Ende der Bedienleiste und auf der Taste `L`. Jeder
+  Druck verdoppelt das Tempo, bis achtfach, und das Tempo steht auf dem
+  Knopf.
+
+### Geändert
+
+- Sind In- und Out-Punkt gesetzt, wird jede Kamera nur für dieses
+  Zeitfenster geschrieben, dazu je eine Sekunde davor und danach. Bei
+  fünf Minuten aus einem echten Interview sind das 6,09 GB statt
+  83,57 GB, und der Schnitt bleibt auf die Millisekunde derselbe.
+- Wer **Sprecher jetzt messen** drückte und danach **Start**, ließ
+  dieselbe Aufnahme zweimal abhören. Der Lauf liest jetzt zurück, was
+  das Fenster abgelegt hat: eine schon gemessene Trennung kommt in
+  0,0008 s statt in 201 s, und das Protokoll nennt sie als
+  zurückgelesen.
+- Die Spracherkennung wartete, bis die Sprechertrennung fertig war. Sie
+  läuft jetzt daneben und spart 27 Sekunden der 201, die eine Aufnahme
+  von 87 Minuten braucht. Die Einwilligung bleibt dieselbe: sie stammt
+  vom Start der Trennung, gefragt wird nichts zweimal.
+- Die Kontrolle einer eben geschriebenen Kamera geht einmal durch die
+  Datei, nicht einmal je Tonspur. Bei 36 GB auf einer Platte mit
+  150 MB/s sind das rund vier Minuten je Kamera, und aus zwei
+  Fortschrittszeilen wird eine: **Kontrolle: Full-Mix und Kameraspur**.
+
+### Entfernt
+
+- Der flache Knopf **Nur ein Sprecher -- Spur auftrennen?** in der
+  Spalte **Sprecher** ist weg. Was er tat, ist eine Antwort im
+  Namensfeld derselben Zeile: **mehrere Sprecher** statt eines Namens.
+- Ein Doppelklick auf das Vorschaubild machte es bildschirmfüllend,
+  Escape holte es zurück. Beides gibt es nicht mehr; das Bild bleibt in
+  dem Kasten, den es bekommt, auf jedem Reiter.
+
+### Behoben
+
+- Waren zwei Aufnahmen aufgetrennt, kam nur eine davon in den Schnitt,
+  und ihre Leute saßen auf den Kameras der anderen: 2 von 4 Sprechern
+  kamen an, auf den falschen zwei. Jetzt sind alle vier im Schnitt,
+  jeder auf seiner eigenen Kamera.
+- Jede Trennung fing ihre Ersatznamen wieder bei **Sprecher 1** an,
+  fünf Leute teilten sich drei Namen. Ein Ersatzname nimmt jetzt die
+  erste freie Nummer über alle Aufnahmen hinweg; wer einen Namen tippt,
+  den eine andere Stimme trägt, färbt beide Felder rot und hält den
+  Start an.
+- Eine zweite Trennung wischte die Stimmen der ersten vom Schirm, und
+  die unter der ersten getippten Namen landeten auf den Stimmen der
+  zweiten. Jede Aufnahme behält jetzt ihre eigenen, sie stehen
+  nebeneinander, und ein wieder geöffnetes Projekt bringt alle zurück.
+- Eine Stimme kam nur in den Schnitt, wenn eine Trennung sie gefunden
+  hatte; wer über sein eigenes Mikrofon gemessen wurde, fiel heraus,
+  sobald irgendeine Aufnahme aufgetrennt wurde. Stimmen aus einer
+  Trennung und hier gemessene Spuren gehen jetzt in dieselbe Rechnung,
+  und nur **nicht verwenden** hält jemanden heraus.
+- Sprach jemand auf **ohne eigene Kamera** neben jemandem mit eigener
+  Kamera, ging das Bild auf den Weitwinkel. Eine solche Stimme zählt
+  jetzt für die Sprechanteile und dafür, wer in einer Einstellung zu
+  hören ist -- die Kamera wird unter denen gewählt, die eine haben.
+- Ohne geladenes Projekt standen **Projekt speichern**, **Projekt
+  schließen**, **Start** und **Probelauf** schwarz über einer leeren
+  Liste, während die Knöpfe dafür grau waren. Jeder Eintrag folgt jetzt
+  seinem Knopf, und die Einträge des Menüs **Wiedergabe** ebenso.
+- Die Bedienung im Menü steuerte den Vorschau-Player des zweiten
+  Reiters, gleich welcher Reiter vorn stand, den **Resolve-Schnitt**
+  eingeschlossen. Jetzt steuert sie den Player des Reiters, der vorn
+  steht, und bleibt grau, wo dort keiner ist.
+- Den Schlüssel bei zugesperrtem Schlüsselbund abzulegen stand zwanzig
+  Sekunden lang und scheiterte dann mit einem Grund, der nicht der
+  richtige war. **Im Schlüsselbund speichern** ist jetzt grau, eine
+  Zeile darunter nennt den zugesperrten Bund, und
+  **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das
+  ihn aufsperrt.
+- Fehlte die Kameraspur in der geschriebenen Datei, meldete der Lauf,
+  die beiden Spuren ließen sich nicht vergleichen -- das liest sich wie
+  eine schlechte Aufnahme. Jetzt sagt er, dass die Spur nicht in der
+  Datei ist und nichts gemessen wurde.
+- Die Spalte **Sprecher** hing über den rechten Fensterrand hinaus: ihre
+  Meldung war auf zwei halbe Zeilen beschnitten, und der Knopf daneben
+  zeigte nur den Buchstaben „e". Die Spalte ist jetzt 132 px breit, der
+  Querbalken unter der Tabelle ist weg.
+
+### Sicherheit
+
+- Nahm der Schlüsselbund den Schlüssel nicht, reichte das Programm ihn
+  auf einem zweiten Weg weiter: als Argument einer Kommandozeile, wo ihn
+  jeder am Rechner lesen kann. Diesen Weg gibt es nicht mehr -- wo der
+  Schlüsselbund ablehnt, wird nichts abgelegt, und eine Zeile sagt,
+  warum.
+
 ## [2.24.1-beta] - 2026-08-31
 
 **English**
