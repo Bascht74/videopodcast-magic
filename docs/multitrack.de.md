@@ -51,13 +51,11 @@ verloren -- die Stimmen bleiben im Projekt und im Ablageordner, und
 wählt man später **mehrere Sprecher**, stehen sie sofort da, mit ihren
 Namen und Kameras und ohne neue Rechnung. Die letzte Spalte sagt, wie
 weit das gekommen ist, und bietet währenddessen **Abbrechen**
-([Spracherkennung und Sprechertrennung](speech.de.md)). Sie trägt noch
-eine Zeile, *Nur ein Sprecher -- Spur auftrennen?*, in jeder Zeile, die
-einen Namen hat und nicht auf **mehrere Sprecher** steht; ein Klick
-setzt das Feld auf **mehrere Sprecher**, und die Stimmen erscheinen.
-Sind schon Stimmen gespeichert, bietet dieselbe Zeile stattdessen an,
-sie zu zeigen. Das Auswahlfeld **gehört zu** listet die Kameras, danach
-zwei Sonderfälle:
+([Spracherkennung und Sprechertrennung](speech.de.md)). Dort startet
+nichts eine Trennung: ein über **mehrere Sprecher** getippter Name
+blendet die Stimmzeilen wieder aus und behält das Errechnete, und
+zurück holt sie die Antwort im Feld. Das Auswahlfeld **gehört zu**
+listet die Kameras, danach zwei Sonderfälle:
 
 - **ohne eigene Kamera**: im Full-Mix, aber bei niemandem die erste
   Spur. Für jemanden, der zu hören, aber nicht zu sehen ist.

@@ -143,10 +143,11 @@ Four tabs, in the order they are needed.
   separation nobody has answered for leaves the field empty and the
   rows hidden, and answering later brings them up at once, with the
   names and cameras they already had. The fifth column, **Speakers**,
-  says how that stands -- **Break off** while it runs, in that row and
-  no other, then **Separated: 4 speakers**, and beside it the offer
-  **Only one speaker -- separate the track?** wherever a name stands in
-  the field.
+  says how that stands -- **Separating speakers ...** and **Break off**
+  while it runs, in that row and no other, then **Separated: 4
+  speakers**, and a reason where the separation could not run. It is a
+  report and nothing else: no separation is started there, and changing
+  one's mind means going back to the field.
 
   Each recording keeps a separation of its own, and several stand side
   by side: every row counts the voices of its own recording, and taking
@@ -206,7 +207,11 @@ Four tabs, in the order they are needed.
   to the settings beside it. Then the time window, the box with the cut
   values and the box **Speaker**, whose heading names where the speakers
   came from. Last the box **Camera cut -- preview**, with the cut band
-  and a picture that plays.
+  and a picture that plays. The picture says under itself, on a plate
+  in the colour of the running shot, who is speaking and which camera
+  is up; where a shot has no picture the colour fills the whole box and
+  those two lines stand on it. [The camera cut](camera-cut.md) reads
+  them out.
 
   The band shares its row with three zoom buttons and, at the end of the
   row, the stretch of time on show, in typewriter digits:
@@ -389,7 +394,10 @@ The window behind the button holds two boxes.
 
 - **Access to auphonic.com**: the field for the API key and the tick that
   keeps it (**Save in Keychain** on a Mac, **Save in Registry** on
-  Windows). **Connect** checks the key and fetches the presets.
+  Windows). **Connect** checks the key and fetches the presets. On a Mac
+  with the keychain locked the tick is grey, a line under it says so, and
+  **Open Keychain Access** beside that line opens the program that
+  unlocks it; the tick comes back on its own once it is open.
 - **Connection to Resolve**: whether Resolve answers, with its version if
   it does and the reasons if it does not. **Check again** asks once more,
   and so does opening the window.

@@ -361,6 +361,46 @@ Am Ende der Zeile stehen der erste und der letzte gezeigte Augenblick
 einen einzelnen Schnitt zu beurteilen, sagen die Balken nicht mehr,
 welcher Teil der Folge vor einem liegt; die beiden Zeiten sagen es.
 
+### Was das Bild sagt
+
+Das Bild im Vorschaukasten trägt einen eigenen Hinweis, damit ein Blick
+beide Fragen zugleich beantwortet: wer spricht, und welche Kamera
+gerade läuft.
+
+Unmittelbar unter dem Bild und genau so breit wie dieses liegt eine
+Fläche in der Farbe der laufenden Einstellung, und derselbe Ton läuft
+als Rahmen um das Bild, so dass beides als ein Block zu lesen ist. Es
+sind die Farben des Schnittbands, der Weitwinkel in seinem blassen
+Salbeiton. Das Bild behält dabei sein eigenes Seitenverhältnis, und die
+Höhe, die es nicht braucht, bekommt die Fläche, statt dass dort
+schwarze Balken stehen. Auf der Fläche stehen zwei Zeilen:
+
+* **wer spricht**, fett, und bei mehreren alle. Läuft dabei der
+  Weitwinkel, steht **(Weitwinkel)** hinter dem Namen: der Weitwinkel
+  ist eine Wahl der Kamera und keine Stille, und wer auf ihm spricht,
+  behält seinen Namen. Spricht niemand, steht dort **Kein Sprecher**.
+  Leer ist die Zeile nie — eine leere Zeile liest sich wie ein Fehler.
+* **die Kamera** darunter, mit demselben Namen, den ihr auch das
+  Schnittband gibt. Ein Name, der nicht ins Bild passt, wird vorn
+  gekürzt, und ein Auslassungszeichen sagt, wo.
+
+Ein Name bleibt **mindestens eine halbe Sekunde** stehen, damit ein
+kurzes „Ja“ zwischen zwei langen Antworten ihn nicht aufblitzen lässt.
+Der Preis dafür: der Name kann dem Ton um ebenso viel nachhängen.
+Nur der Hinweis wartet: das Bild schneidet dort, wo der Schnitt es
+sagt, gleich welcher Name gerade noch steht. In den Schnitt, die
+Shotlist und die EDLs geht davon nichts ein — es ist Lesestoff und
+sonst nichts.
+
+Hat eine Einstellung kein Bild — eine Kamera im Schnitt, deren Datei
+nicht da ist —, füllt die Farbe die ganze Fläche, und dieselben zwei
+Zeilen stehen darauf. Der Ton läuft weiter, und es bleibt lesbar, wer
+spricht und auf welche Kamera der Lauf ihn setzt.
+
+Unter dem Bild stehen links der In-Punkt, in der Mitte die Position und
+rechts der Out-Punkt. Die Kamera wird dort nicht wiederholt — sie steht
+im Bild.
+
 ### Wie die Vorschau-Player Datei und Ton wählen
 
 Zwei Player zeigen das Material, und beide suchen sich ihre Datei
@@ -399,7 +439,9 @@ und in welcher Version.
 
 Auf dem Reiter **Resolve-Schnitt** zeigt der Player im Vorschau-Kasten
 immer etwas: wenn ein Schnitt da ist, spielt er ihn und schaltet an jeder
-Kante die Kamera um, sonst die Datei ohne zugeordneten Sprecher.
+Kante die Kamera um, sonst die Datei ohne zugeordneten Sprecher. Ohne
+Schnitt trägt der Hinweis unter dem Bild den Namen dieser Datei und sagt
+**Kein Sprecher**, denn wer spricht, ist dann noch gar nicht ermittelt.
 
 Der Ton kommt durchgehend aus einer Datei, am liebsten aus dem
 **Full-Mix**, der auf Sendepegel liegt und auch in die Schnitt-Timeline
