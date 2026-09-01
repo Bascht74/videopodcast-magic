@@ -17,9 +17,8 @@ so it is shown as one even where somebody set it to "Content" by hand
 
 The field itself was greyed as well, so every camera serving as the
 wide shot carried grey words in a shut box while a camera showing
-"Content" stood in black. Sebastian, on the picture: "Here you wanted
-to grey out only Content and make it unselectable. Currently
-everything is grey (too much)."
+"Content" stood in black. Only the entry that is refused is greyed;
+the field around it stays black and open.
 """
 import os
 import sys
@@ -193,7 +192,7 @@ check("and that is what the run really cuts to",
 # The other bar, on the same value, and it does not step back for an
 # answer: a file with no timecode whose sound has nothing in common with
 # the rest cannot be cut into the episode however firmly anybody says
-# otherwise. Sebastian, 31.8.2026 -- it can only be a jingle.
+# otherwise: it can only be a jingle.
 check("the wide shot bar holds against a hand-picked Kind as well",
       vpm.wide_shot_barred("/m/Camera1.mov", BY_HAND,
                            ["/m/Camera1.mov"]) != "",

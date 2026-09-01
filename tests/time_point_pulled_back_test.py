@@ -35,7 +35,7 @@ def check(name, ok, extra=""):
 SHARED_FROM, SHARED_TO = 0.0, 38.0
 # The reference camera, for the points written as a timecode. Only its
 # frame rate and its own timecode are ever read.
-REFERENCE = ("Totale.mov", {"fps": 25.0, "tc": "10:00:00:00"})
+REFERENCE = ("WideCam.mov", {"fps": 25.0, "tc": "10:00:00:00"})
 
 
 class Call(object):

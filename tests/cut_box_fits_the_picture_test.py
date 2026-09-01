@@ -64,7 +64,7 @@ def hint(widget, text):
 SIXTEEN_TO_NINE = 16.0 / 9.0
 AIR = 8                        # the air under the note, in pixels
 WIDE, HIGH = 800, 200          # the picture built below: four to one
-CAMERA = "Weit_08141855_C001"
+CAMERA = "WideCam_01011855_C001"
 folder = tempfile.mkdtemp(prefix="vpm_shape_")
 clip = os.path.join(folder, "two_to_one.mp4")
 subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",

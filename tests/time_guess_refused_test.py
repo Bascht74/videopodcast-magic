@@ -5,9 +5,10 @@ Without the refusal the numbers of a failed alignment are handed back
 and used. The rule holds only where there is no usable timecode: a file
 with a clock is placed by it, and refusing that for an uncorrelated
 sound throws away a file known to the millisecond. In order: what the
-alignment admits, the rule itself, camera against camera, a whole run,
-what the window offers, and last the same question on the recording
-side, where another caller has to read the same verdict.
+alignment admits, the rule itself, the sample points that are its
+second opinion, camera against camera, a whole run, what the window
+offers, and last the same question on the recording side, where
+another caller has to read the same verdict.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -25,6 +26,10 @@ spec.loader.exec_module(vpm)
 # The sentences the run prints are held against the ones this process
 # asks the program for, so both sides have to speak the same language.
 vpm.set_language("en")
+# The program's own text. Two sections below count places in it -- how
+# many gates ask the sample points, and how many set the refusal mark --
+# and the first of them stands before the run, so it is read here once.
+source = open(SCRIPT, encoding="utf-8").read()
 
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
@@ -239,6 +244,44 @@ check("but one with a partner does", paired_tc is True,
       "36000.0 among [None, 36004.0] -> %r, wanted True" % paired_tc)
 
 
+#------------------------------------ 2b. The sample points beside it
+
+print("\n2b. The sample points are the second opinion at the camera gate")
+st = {"quality": 0.44, "points": 234, "spread_ms": 10.91}
+check("many sample points, close on the line, place the file",
+      vpm.fit_places_it(st) is True,
+      "%r from %d points at %.2f ms, against %d and %.1f"
+      % (vpm.fit_places_it(st), st["points"], st["spread_ms"],
+         vpm.FIT_POINTS_ENOUGH, vpm.FIT_SPREAD_MS))
+few = {"quality": 0.44, "points": 49, "spread_ms": 1.0}
+check("too few of them place nothing, however close they lie",
+      vpm.fit_places_it(few) is False,
+      "%r from %d points at %.2f ms, the floor is %d points"
+      % (vpm.fit_places_it(few), few["points"], few["spread_ms"],
+         vpm.FIT_POINTS_ENOUGH))
+wide = {"quality": 0.44, "points": 234, "spread_ms": 15.1}
+check("and enough of them place nothing when they scatter",
+      vpm.fit_places_it(wide) is False,
+      "%r from %d points at %.2f ms, the limit is %.1f ms"
+      % (vpm.fit_places_it(wide), wide["points"], wide["spread_ms"],
+         vpm.FIT_SPREAD_MS))
+none = {"quality": 0.0, "points": 0, "spread_ms": 0.0}
+check("no sample point places nothing, however tight the spread reads",
+      vpm.fit_places_it(none) is False,
+      "%r from %d points at %.2f ms"
+      % (vpm.fit_places_it(none), none["points"], none["spread_ms"]))
+nospread = {"quality": 0.44, "points": 234}
+check("nor does one that never measured a spread",
+      vpm.fit_places_it(nospread) is False,
+      "%r from %d points and no spread at all"
+      % (vpm.fit_places_it(nospread), nospread["points"]))
+gates = source.count("and not fit_places_it(st)")
+check("both gates ask it, the window's and the run's",
+      gates == 2 and source.count("def fit_places_it") == 1,
+      "%d gates ask it (wanted 2), %d definitions of the rule (wanted 1)"
+      % (gates, source.count("def fit_places_it")))
+
+
 #------------------------------------------------- 3. Two cameras alone
 
 print("\n3. Camera against camera: the refused one leaves the axis")
@@ -367,7 +410,6 @@ check("but a measurement that can place it takes the proposal back",
       % ([name_of(x) for x in taken_back], kinds[LOST].get(),
          vpm.TYPE_CONTENT))
 # The window has to go this way, not through a second copy of the rule.
-source = open(SCRIPT, encoding="utf-8").read()
 # The def line carries the name too, so it is taken off the count. Left
 # in, it answered the question by itself and the check could not fall:
 # every call site could go and the mention in the def line kept it green.
@@ -377,9 +419,12 @@ check("the window calls the proposal", proposal_calls >= 1
       and source.count("def kind_proposal_apply") == 1,
       "%d calls beside %d definitions, wanted at least 1 beside exactly 1"
       % (proposal_calls, source.count("def kind_proposal_apply")))
+# Three gates give up and mark a file: the run's camera floor, the
+# preview's camera floor, and a recording against a camera. One rule
+# reads the mark, and there must stay only one.
 check("the refusal is written down once", source.count("unplaceable\"] = True")
-      == 2 and source.count("def cannot_be_placed") == 1,
-      "%d places set the mark (wanted 2), %d definitions of the rule "
+      == 3 and source.count("def cannot_be_placed") == 1,
+      "%d places set the mark (wanted 3), %d definitions of the rule "
       "(wanted 1)"
       % (source.count("unplaceable\"] = True"),
          source.count("def cannot_be_placed")))

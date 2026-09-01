@@ -129,11 +129,11 @@ check("a started one has moved", p.share["under way"] > 0.0,
 
 print("\n6. What it says while it works")
 p = vpm.ProgressPlan()
-p.report("one", 0.3, "Kandidat.mov")
-check("one step: its own caption", p.line() == "Kandidat.mov", p.line())
-p.report("two", 0.1, "Totale.mov")
+p.report("one", 0.3, "Guest.mov")
+check("one step: its own caption", p.line() == "Guest.mov", p.line())
+p.report("two", 0.1, "WideCam.mov")
 check("two steps: the first and a count",
-      p.line() == vpm.T('%s and %d more') % ("Kandidat.mov", 1), p.line())
+      p.line() == vpm.T('%s and %d more') % ("Guest.mov", 1), p.line())
 p.done("one"); p.done("two")
 check("nothing running: no line", p.line() == "", repr(p.line()))
 left = p.busy()

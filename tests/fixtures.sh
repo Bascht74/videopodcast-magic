@@ -138,9 +138,9 @@ fi
 # the same" and "correctly converted" look alike when every distance is
 # zero, and two equal distances hide which of the two was taken:
 #
-#   Totale_08141855_C003.mov       18:55:00:00   68100.00 s
-#   Moderatoren_08141855_C005.mov  18:55:04:00   68104.00 s   +4.00 s
-#   Kandidat_08141858_C009.mov     18:55:17:12   68117.48 s  +17.48 s
+#   WideCam_01011855_C001.mov        18:55:00:00   68100.00 s
+#   PresentersCam_01011855_C002.mov  18:55:04:00   68104.00 s   +4.00 s
+#   GuestCam_01011858_C003.mov       18:55:17:12   68117.48 s  +17.48 s
 #
 # The wide shot rolls first, which is what a wide shot does. The last
 # one holds 12 frames, so one distance is not a whole number of
@@ -172,11 +172,11 @@ fi
 # Now every microphone carries filtered noise in bursts, one speaker to a
 # track, and the three take turns (seconds of the programme):
 #
-#   Moderatorin    1.0-5.5   28.5-32.5   57.0-61.0   82.0-86.5
+#   CoPresenter    1.0-5.5   28.5-32.5   57.0-61.0   82.0-86.5
 #                111.5-117.5
-#   Kandidat       7.5-13.5   21.0-26.5   34.0-38.5   48.5-55.0
+#   Guest          7.5-13.5   21.0-26.5   34.0-38.5   48.5-55.0
 #                 63.0-69.5   88.5-95.0  103.0-109.5
-#   Moderator     15.5-19.5   42.0-46.5   71.5-77.5   97.0-101.0
+#   Presenter     15.5-19.5   42.0-46.5   71.5-77.5   97.0-101.0
 #
 # They never overlap, and at least 1.5 s lies between two turns. That is
 # a decision, not an accident. The bleed measurement needs moments where
@@ -203,7 +203,7 @@ fi
 # that speaker and nothing else. Over the whole recordings: 7, 4 and 5.
 # Peak -17.8 dBFS, speech 31.5 dB over the room noise. The one call costs
 # 0.5 s, which is what the three sine tones cost too.
-INTERVIEW_BUILD=voices-1
+INTERVIEW_BUILD=roles-1
 if have "$FIX/interview" "$INTERVIEW_BUILD"; then
   echo "  "$FIX/interview"    already there"
 else
@@ -216,13 +216,13 @@ else
             -timecode "$4" -shortest "$1" -y; }
   # When each turn speaks, as an expression the volume filter can read.
   # The turns of one person do not overlap, so the sum is 0 or 1.
-  KAND="between(t,7.5,13.5)+between(t,21,26.5)+between(t,34,38.5)"
-  KAND="$KAND+between(t,48.5,55)+between(t,63,69.5)+between(t,88.5,95)"
-  KAND="$KAND+between(t,103,109.5)"
-  MODR="between(t,15.5,19.5)+between(t,42,46.5)+between(t,71.5,77.5)"
-  MODR="$MODR+between(t,97,101)"
-  MODN="between(t,1,5.5)+between(t,28.5,32.5)+between(t,57,61)"
-  MODN="$MODN+between(t,82,86.5)+between(t,111.5,117.5)"
+  GUEST="between(t,7.5,13.5)+between(t,21,26.5)+between(t,34,38.5)"
+  GUEST="$GUEST+between(t,48.5,55)+between(t,63,69.5)+between(t,88.5,95)"
+  GUEST="$GUEST+between(t,103,109.5)"
+  PRES="between(t,15.5,19.5)+between(t,42,46.5)+between(t,71.5,77.5)"
+  PRES="$PRES+between(t,97,101)"
+  COPRES="between(t,1,5.5)+between(t,28.5,32.5)+between(t,57,61)"
+  COPRES="$COPRES+between(t,82,86.5)+between(t,111.5,117.5)"
   # Three voices and three room noises, seven files, one ffmpeg. The
   # seeds are written down because six build machines have to hear the
   # same recording; tremolo is what makes a burst sound spoken rather
@@ -230,35 +230,35 @@ else
   $FF -filter_complex "
     anoisesrc=c=white:r=48000:d=120:a=0.9:seed=1101,
       highpass=f=120,lowpass=f=4600,tremolo=f=5.5:d=0.55,
-      volume=eval=frame:volume='$KAND',volume=0.15[kand];
+      volume=eval=frame:volume='$GUEST',volume=0.15[guest];
     anoisesrc=c=white:r=48000:d=120:a=0.9:seed=2202,
       highpass=f=150,lowpass=f=5200,tremolo=f=4.7:d=0.55,
-      volume=eval=frame:volume='$MODR',volume=0.15[modr];
+      volume=eval=frame:volume='$PRES',volume=0.15[pres];
     anoisesrc=c=white:r=48000:d=120:a=0.9:seed=3303,
       highpass=f=180,lowpass=f=6000,tremolo=f=6.1:d=0.55,
-      volume=eval=frame:volume='$MODN',volume=0.15[modn];
+      volume=eval=frame:volume='$COPRES',volume=0.15[copres];
     anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=4404,volume=0.004[room1];
     anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=5505,volume=0.004[room2];
     anoisesrc=c=pink:r=48000:d=120:a=0.9:seed=6606,volume=0.004[room3];
-    [kand][room1]amix=inputs=2:normalize=0[k];
-    [modr][room2]amix=inputs=2:normalize=0,asplit=3[r1][r2][r3];
-    [modn][room3]amix=inputs=2:normalize=0,asplit=3[n1][n2][n3];
+    [guest][room1]amix=inputs=2:normalize=0[k];
+    [pres][room2]amix=inputs=2:normalize=0,asplit=3[r1][r2][r3];
+    [copres][room3]amix=inputs=2:normalize=0,asplit=3[n1][n2][n3];
     [r1]atrim=0:40,asetpts=PTS-STARTPTS[ra];
     [r2]atrim=40:80,asetpts=PTS-STARTPTS[rb];
     [r3]atrim=80:120,asetpts=PTS-STARTPTS[rc];
     [n1]atrim=0:40,asetpts=PTS-STARTPTS[na];
     [n2]atrim=40:80,asetpts=PTS-STARTPTS[nb];
     [n3]atrim=80:120,asetpts=PTS-STARTPTS[nc]" \
-    -map "[k]"  -ac 1 -ar 48000 -c:a pcm_s16le Kandidat_0008A_Timecode.wav \
-    -map "[ra]" -ac 1 -ar 48000 -c:a pcm_s16le Moderator_REC00009.wav \
-    -map "[rb]" -ac 1 -ar 48000 -c:a pcm_s16le Moderator_REC00010.wav \
-    -map "[rc]" -ac 1 -ar 48000 -c:a pcm_s16le Moderator_REC00011.wav \
-    -map "[na]" -ac 1 -ar 48000 -c:a pcm_s16le Moderatorin_REC00008.wav \
-    -map "[nb]" -ac 1 -ar 48000 -c:a pcm_s16le Moderatorin_REC00009.wav \
-    -map "[nc]" -ac 1 -ar 48000 -c:a pcm_s16le Moderatorin_REC00010.wav -y
-  cam Kandidat_08141858_C009.mov    120 220 18:55:17:12
-  cam Moderatoren_08141855_C005.mov 120 330 18:55:04:00
-  cam Totale_08141855_C003.mov      120 550 18:55:00:00
+    -map "[k]"  -ac 1 -ar 48000 -c:a pcm_s16le Guest_Take0021A_Timecode.wav \
+    -map "[ra]" -ac 1 -ar 48000 -c:a pcm_s16le Presenter_REC00021.wav \
+    -map "[rb]" -ac 1 -ar 48000 -c:a pcm_s16le Presenter_REC00022.wav \
+    -map "[rc]" -ac 1 -ar 48000 -c:a pcm_s16le Presenter_REC00023.wav \
+    -map "[na]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00018.wav \
+    -map "[nb]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00019.wav \
+    -map "[nc]" -ac 1 -ar 48000 -c:a pcm_s16le CoPresenter_REC00020.wav -y
+  cam GuestCam_01011858_C003.mov      120 220 18:55:17:12
+  cam PresentersCam_01011855_C002.mov 120 330 18:55:04:00
+  cam WideCam_01011855_C001.mov       120 550 18:55:00:00
   done_with "$FIX/interview" "$INTERVIEW_BUILD"
   echo "  "$FIX/interview"    built"
 fi
@@ -272,6 +272,12 @@ fi
 # else in the fixtures has more than one channel, so every case the
 # channel measurement knows is put into this one file, once each -- a
 # single reading of it shows the lot.
+#
+# The folder carries a build mark, and it had none until 1.9.2026. A
+# folder without one is built once and then taken for current for
+# ever: the camera below was renamed, and every machine that already
+# had the folder would have gone on reading the file with the old
+# name -- green, and against material this script no longer writes.
 #
 # Measured with channel_facts on ffmpeg 9.0.1. "share" is how much of
 # what two neighbours have in common arrives at the same moment; that,
@@ -305,7 +311,8 @@ fi
 # samples late (4.5 ms, 1.5 m). 24 bit, because channel 5 lies below
 # the last step of 16. Eight seconds, and the build takes under a
 # second -- run.sh calls this before every suite run.
-if have "$FIX/mixer"; then
+MIXER_BUILD=roles-1
+if have "$FIX/mixer" "$MIXER_BUILD"; then
   echo "  "$FIX/mixer"        already there"
 else
   rm -rf "$FIX/mixer" && mkdir -p "$FIX/mixer"
@@ -349,8 +356,8 @@ else
   $FF -f lavfi -i "testsrc=size=320x180:rate=25:duration=8" -i Mixer.wav \
     -filter_complex "[1:a]pan=mono|c0=c0[a]" -map 0:v -map "[a]" \
     -c:v libx264 -preset ultrafast -pix_fmt yuv420p -c:a aac \
-    -shortest Studio_08141855_C001.mov -y
-  done_with "$FIX/mixer"
+    -shortest StudioCam_01011855_C001.mov -y
+  done_with "$FIX/mixer" "$MIXER_BUILD"
   echo "  "$FIX/mixer"        built"
 fi
 

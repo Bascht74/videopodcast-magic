@@ -33,17 +33,17 @@ def check(what, ok, detail=""):
 print("1. Three cameras that do not begin together")
 # One camera comes on late and another stops early, with numbers chosen
 # so union and intersection cannot be confused for one another.
-THREE = [(-2.0, 118.0, "Totale.mov"),
-         (3.5, 121.0, "Moderatoren.mov"),
-         (0.0, 110.0, "Kandidat.mov")]
+THREE = [(-2.0, 118.0, "WideCam.mov"),
+         (3.5, 121.0, "PresentersCam.mov"),
+         (0.0, 110.0, "Guest.mov")]
 t0, late, t1, early = vpm.common_window(THREE)
 check("it begins where the last camera came on", abs(t0 - 3.5) < 1e-9,
       "%.3f, wanted 3.5" % t0)
 check("it ends where the first camera stopped", abs(t1 - 110.0) < 1e-9,
       "%.3f, wanted 110.0" % t1)
 check("and it names the camera that decides the start",
-      late == "Moderatoren.mov", late)
-check("and the one that decides the end", early == "Kandidat.mov", early)
+      late == "PresentersCam.mov", late)
+check("and the one that decides the end", early == "Guest.mov", early)
 # The counter-proof: what the union would have said, so a change back
 # is loud.
 check("the union would have been wider by 5.5 s at the front",
@@ -57,10 +57,10 @@ check("it never begins before the latest camera",
       t0 >= max(x for x, _y, _n in THREE) - 1e-9, "%.3f" % t0)
 
 print("\n2. One camera is its own window")
-ONE = [(4.0, 99.0, "Totale.mov")]
+ONE = [(4.0, 99.0, "WideCam.mov")]
 t0, late, t1, early = vpm.common_window(ONE)
 check("start, end and both names are that camera's",
-      (t0, late, t1, early) == (4.0, "Totale.mov", 99.0, "Totale.mov"),
+      (t0, late, t1, early) == (4.0, "WideCam.mov", 99.0, "WideCam.mov"),
       str((t0, late, t1, early)))
 
 print("\n3. Cameras that really do begin together")

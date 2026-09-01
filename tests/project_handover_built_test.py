@@ -282,40 +282,40 @@ def sections_every(first, apart, holds, how_many):
 # the rendered file under "file", the camera it came from under "source".
 RUN = {"length_s": 600.0, "start_s": 61200.0,
        "speakers": [
-           {"name": "Moderator",
+           {"name": "Presenter",
             "sections": sections_every(2.0, 30.0, 11.0, 20)},
-           {"name": "Moderatorin",
+           {"name": "CoPresenter",
             "sections": sections_every(14.0, 30.0, 8.0, 20)},
-           {"name": "Gast",
+           {"name": "Guest",
             "sections": sections_every(23.0, 30.0, 6.0, 20)}],
        "cameras": [
-           {"track": "Moderator + Moderatorin",
+           {"track": "Presenter + CoPresenter",
             "file": "/r/A001_video.mov", "source": "/cam/A001.MP4",
-            "camera": "A001", "speakers": ["Moderator", "Moderatorin"],
+            "camera": "A001", "speakers": ["Presenter", "CoPresenter"],
             "wide_marked": False, "wide": False},
-           {"track": "Gast", "file": "/r/B002_video.mov",
+           {"track": "Guest", "file": "/r/B002_video.mov",
             "source": "/cam/B002.MP4", "camera": "B002",
-            "speakers": ["Gast"], "wide_marked": False, "wide": False},
-           {"track": "Totale", "file": "/r/C003_video.mov",
-            "source": "/cam/C003.MP4", "camera": "Totale",
+            "speakers": ["Guest"], "wide_marked": False, "wide": False},
+           {"track": "WideCam", "file": "/r/C003_video.mov",
+            "source": "/cam/C003.MP4", "camera": "WideCam",
             "speakers": [], "wide_marked": False, "wide": True}]}
 # What the window holds: file names, as the choice fields show them.
-ON = {"Moderator": "A001.MP4", "Moderatorin": "A001.MP4",
-      "Gast": "B002.MP4"}
+ON = {"Presenter": "A001.MP4", "CoPresenter": "A001.MP4",
+      "Guest": "B002.MP4"}
 
 before = vpm.cut_statistics(RUN)
 fresh = vpm.wide_marks_applied(RUN, ["C003.MP4"], ON, False)
 who_at = {cam["track"]: cam["speakers"] for cam in fresh["cameras"]}
 check("the two on one camera keep their names",
-        who_at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"],
-        "%r against ['Moderator', 'Moderatorin'] -- all of it %s"
-        % (who_at["Moderator + Moderatorin"], who_at))
-check("the single speaker keeps his", who_at["Gast"] == ["Gast"],
-        "Gast %r against ['Gast'] -- all of it %s"
-        % (who_at["Gast"], who_at))
+        who_at["Presenter + CoPresenter"] == ["CoPresenter", "Presenter"],
+        "%r against ['CoPresenter', 'Presenter'] -- all of it %s"
+        % (who_at["Presenter + CoPresenter"], who_at))
+check("the single speaker keeps his", who_at["Guest"] == ["Guest"],
+        "Guest %r against ['Guest'] -- all of it %s"
+        % (who_at["Guest"], who_at))
 check("the camera nobody sits at stays empty",
-        who_at["Totale"] == [],
-        "Totale %r against [] -- all of it %s" % (who_at["Totale"], who_at))
+        who_at["WideCam"] == [],
+        "WideCam %r against [] -- all of it %s" % (who_at["WideCam"], who_at))
 check("only the free camera counts as the wide shot",
         [cam["wide"] for cam in fresh["cameras"]] == [False, False, True],
         "%s against [False, False, True] for %s"
@@ -330,7 +330,7 @@ check("the number of shots survives the window's answer",
 check("and it stays a cut, not one shot over the whole episode",
         after["shots"] > 1, "%s shots against more than 1" % (after["shots"],))
 check("the wide shot is still the one nobody sits at",
-        after["wide"] == "Totale", "%r against 'Totale'" % (after["wide"],))
+        after["wide"] == "WideCam", "%r against 'WideCam'" % (after["wide"],))
 
 # A mark in the Kind field is an answer, not a derivation. Marking a
 # camera somebody sits at is what tells the two apart.
@@ -343,8 +343,8 @@ check("the marked camera carries wide_marked",
            [cam["track"] for cam in marked["cameras"]]))
 said = vpm.cut_statistics(marked)
 check("and the cut holds it for the wide shot",
-        said["wide_shots"] == ["Moderator + Moderatorin"],
-        "%r against ['Moderator + Moderatorin']" % (said["wide_shots"],))
+        said["wide_shots"] == ["Presenter + CoPresenter"],
+        "%r against ['Presenter + CoPresenter']" % (said["wide_shots"],))
 check("so the mark beats the derivation",
         said["wide"] != before["wide"],
         "%r with the mark against %r without it -- they must differ"
@@ -356,10 +356,10 @@ for nothing, called in (({}, "{}"), (None, "None")):
     kept = vpm.wide_marks_applied(RUN, ["C003.MP4"], nothing, False)
     at = {cam["track"]: cam["speakers"] for cam in kept["cameras"]}
     check("nothing answered yet (%s) -> the file's answer stands" % called,
-            at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
-            and at["Gast"] == ["Gast"] and at["Totale"] == [],
-            "%s against {'Moderator + Moderatorin': ['Moderator', "
-            "'Moderatorin'], 'Gast': ['Gast'], 'Totale': []}" % (at,))
+            at["Presenter + CoPresenter"] == ["Presenter", "CoPresenter"]
+            and at["Guest"] == ["Guest"] and at["WideCam"] == [],
+            "%s against {'Presenter + CoPresenter': ['Presenter', "
+            "'CoPresenter'], 'Guest': ['Guest'], 'WideCam': []}" % (at,))
     check("and the cut stays what it was (%s)" % called,
             vpm.cut_statistics(kept)["shots"] == before["shots"],
             "%s shots before against %s after"
@@ -374,9 +374,9 @@ PREVIEW = dict(RUN, cameras=[
 seen = vpm.wide_marks_applied(PREVIEW, ["C003.MP4"], ON, False)
 at = {cam["track"]: cam["speakers"] for cam in seen["cameras"]}
 check("without a source the file answers",
-        at["Moderator + Moderatorin"] == ["Moderator", "Moderatorin"]
-        and at["Gast"] == ["Gast"],
-        "%s against ['Moderator', 'Moderatorin'] and ['Gast']" % (at,))
+        at["Presenter + CoPresenter"] == ["CoPresenter", "Presenter"]
+        and at["Guest"] == ["Guest"],
+        "%s against ['CoPresenter', 'Presenter'] and ['Guest']" % (at,))
 
 print("\n13. Cameras whose file is not there yet")
 # The preview is built from data alone, so a camera whose file has not
@@ -385,15 +385,15 @@ print("\n13. Cameras whose file is not there yet")
 # shot, which is how one sees that the file decides nothing. And the
 # empty path has to stay empty -- a path invented here is one the cut
 # would later hand to Resolve, which imports whatever it is given.
-NOT_YET = [{"track": "Totale", "file": "", "start_s": 61100.0},
+NOT_YET = [{"track": "WideCam", "file": "", "start_s": 61100.0},
            {"track": "Spare", "file": "/cam/D004.MP4", "start_s": 61100.0},
-           {"track": "Moderator", "file": "/cam/A001.MP4",
+           {"track": "Presenter", "file": "/cam/A001.MP4",
             "start_s": 61100.0},
-           {"track": "Gast", "file": "/cam/B002.MP4", "start_s": 61100.0},
+           {"track": "Guest", "file": "/cam/B002.MP4", "start_s": 61100.0},
            {"track": "Ghost", "start_s": 61100.0}]   # no file field at all
-LOTS = [("Moderator", sections_every(2.0, 30.0, 11.0, 20)),
-        ("Gast", sections_every(23.0, 30.0, 6.0, 20))]
-AT = {"Moderator": "A001.MP4", "Gast": "B002.MP4"}
+LOTS = [("Presenter", sections_every(2.0, 30.0, 11.0, 20)),
+        ("Guest", sections_every(23.0, 30.0, 6.0, 20))]
+AT = {"Presenter": "A001.MP4", "Guest": "B002.MP4"}
 d, reason = vpm.build_handover(LOTS, 600.0, AT, NOT_YET,
                                audio_origin=[61200.0])
 check("a camera without a file does not stop the preview",
@@ -409,13 +409,13 @@ check("the paths come through as they were given, empty and missing too",
 sits_at = {cam["track"]: cam["speakers"]
            for cam in (d or {}).get("cameras") or []}
 check("the cameras that do have a file keep their speakers",
-        sits_at.get("Moderator") == ["Moderator"]
-        and sits_at.get("Gast") == ["Gast"],
-        "%s against Moderator ['Moderator'] and Gast ['Gast']" % (sits_at,))
+        sits_at.get("Presenter") == ["Presenter"]
+        and sits_at.get("Guest") == ["Guest"],
+        "%s against Presenter ['Presenter'] and Guest ['Guest']" % (sits_at,))
 free = [cam["wide"] for cam in (d or {}).get("cameras") or []]
 check("the file plays no part in who is the wide shot",
         free == [True, True, False, False, True],
-        "%s against [True, True, False, False, True] for %s -- Totale has "
+        "%s against [True, True, False, False, True] for %s -- WideCam has "
         "no file and Spare has one, and neither has a speaker"
         % (free, [cam["track"] for cam in (d or {}).get("cameras") or []]))
 numbers = vpm.cut_statistics(d) or {}

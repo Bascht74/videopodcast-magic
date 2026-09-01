@@ -56,12 +56,12 @@ check("and the rest of the name comes with it",
 four_digits = vpm.clock_in_name("mix_20260808_185628")
 check("a four digit year works as well", four_digits is not None,
       "mix_20260808_185628 reads as %s" % (four_digits,))
-counter = vpm.clock_in_name("Moderator_REC00009")
+counter = vpm.clock_in_name("Presenter_REC00021")
 check("a counter is not a clock", counter is None,
-      "Moderator_REC00009 reads as %s, wanted nothing" % (counter,))
-camera = vpm.clock_in_name("Kandidat_08141858_C009")
+      "Presenter_REC00021 reads as %s, wanted nothing" % (counter,))
+camera = vpm.clock_in_name("GuestCam_01011858_C003")
 check("nor is a camera name", camera is None,
-      "Kandidat_08141858_C009 reads as %s, wanted nothing" % (camera,))
+      "GuestCam_01011858_C003 reads as %s, wanted nothing" % (camera,))
 no_date = vpm.clock_in_name("Take_991399_120000")
 check("six digits that are no date are refused", no_date is None,
       "Take_991399_120000 reads as %s, wanted nothing" % (no_date,))

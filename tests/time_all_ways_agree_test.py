@@ -88,9 +88,9 @@ def check(name, ok, extra=""):
 
 # ---------------------------------------------------------------- material
 FIX = fixture("interview")
-WIDE = os.path.join(FIX, "Totale_08141855_C003.mov")
-MOD = os.path.join(FIX, "Moderatoren_08141855_C005.mov")
-KAND = os.path.join(FIX, "Kandidat_08141858_C009.mov")
+WIDE = os.path.join(FIX, "WideCam_01011855_C001.mov")
+MOD = os.path.join(FIX, "PresentersCam_01011855_C002.mov")
+KAND = os.path.join(FIX, "GuestCam_01011858_C003.mov")
 FPS = 25.0
 FRAME = 1.0 / FPS
 
@@ -147,8 +147,8 @@ def stem_of(p):
 
 
 cameras = [{"video": p, "name": stem_of(p)} for p in (WIDE, MOD, KAND)]
-tracks = [{"name": "Moderator", "camera": MOD},
-          {"name": "Kandidat", "camera": KAND}]
+tracks = [{"name": "Presenter", "camera": MOD},
+          {"name": "Guest", "camera": KAND}]
 
 
 def videos_at(rate):
@@ -170,8 +170,8 @@ ref_clip = videos_at(FPS)[1]    # the window's reference, at the usual rate
 # The moments this test knows the place of. Chosen so that every shot
 # falls inside the time all three cameras are rolling: a shot before
 # that has no picture, which is another fault entirely.
-SPEECH = [("Moderator", [(22.0, 34.0), (46.0, 58.0)]),
-          ("Kandidat", [(36.0, 44.0)])]
+SPEECH = [("Presenter", [(22.0, 34.0), (46.0, 58.0)]),
+          ("Guest", [(36.0, 44.0)])]
 
 
 def make_args(name, in_point=None, out_point=None):
@@ -298,7 +298,7 @@ class Run(object):
             sys.exit(1)
         self.d = json.load(open(self.files["handover"], encoding="utf-8"))
         d = self.d
-        self.fps = vpm.nearest_known_frame_rate(d.get("fps") or FPS)
+        self.fps = vpm.resolve_timeline_rate(d.get("fps") or FPS)
         self.frame = 1.0 / self.fps
         self.start_s = float(d["start_s"])
         self.by_camera = {c["camera"]: c for c in d["cameras"]}
@@ -943,7 +943,7 @@ print("=" * 66)
 rate_run = Run("Onemomentrate", ZERO, SPEECH, LENGTH, rate=OTHER_FPS)
 rd = json.load(open(rate_run.files["handover"], encoding="utf-8"))
 rstem = rate_run.files["handover"][:-len("_resolve.json")]
-rfps = vpm.nearest_known_frame_rate(rd.get("fps") or OTHER_FPS)
+rfps = vpm.resolve_timeline_rate(rd.get("fps") or OTHER_FPS)
 rframe = 1.0 / rfps
 rstart = float(rd["start_s"])
 

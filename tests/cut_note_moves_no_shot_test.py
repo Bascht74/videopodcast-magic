@@ -59,7 +59,7 @@ def hint(widget, text):
 # No camera has a file: nothing is loaded, nothing is decoded, and the
 # note is all that moves. Bo speaks for a fifth of a second, which is
 # less than the hold and is the whole point of the material.
-NEAR, FAR = "Kandidat_08141714_C003", "Gast_08141812_C002"
+NEAR, FAR = "GuestCam_01011714_C003", "WideCam_01011812_C002"
 CUT = [(0.0, 5.0, NEAR), (5.0, 10.0, FAR), (10.0, 15.0, NEAR)]
 VOICES = [{"name": "Anna", "sections": [(0.0, 4.0), (11.0, 14.0)]},
           {"name": "Bo", "sections": [(4.6, 4.8), (6.0, 9.0)]},

@@ -63,7 +63,7 @@ player = CutPlayer()
 player.resize(640, 480)
 player.show()
 app.processEvents()
-player.set([(0.0, 600.0, "Kandidat_08141714_C003")], {}, {}, None, 0.0,
+player.set([(0.0, 600.0, "GuestCam_01011714_C003")], {}, {}, None, 0.0,
            0.0, 600.0)
 player.clock.stop()
 

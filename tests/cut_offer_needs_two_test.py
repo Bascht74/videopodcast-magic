@@ -48,9 +48,9 @@ sys.path.insert(0, HERE)
 
 # One recording and two cameras out of the shared fixture. The second
 # recording is added only where the case is about having two.
-ONE_TRACK = "Moderator_REC00009.wav"
-TWO_TRACK = "Kandidat_0008A_Timecode.wav"
-CAMERAS = ("Moderatoren_08141855_C005.mov", "Kandidat_08141858_C009.mov")
+ONE_TRACK = "Presenter_REC00021.wav"
+TWO_TRACK = "Guest_Take0021A_Timecode.wav"
+CAMERAS = ("PresentersCam_01011855_C002.mov", "GuestCam_01011858_C003.mov")
 # What the separation would have found. Cut down to the first entry
 # where a case wants a single voice.
 VOICES = (("V0", "Host"), ("V1", "Guest"))

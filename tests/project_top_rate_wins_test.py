@@ -6,6 +6,8 @@ among cameras of different rates and that the order they come in does
 not matter, that intro and outro are finished clips and no cameras of
 the episode, and where no camera rate can be read at all -- then the
 reference clip decides as it did before, and with no clip either a 30.
+Last, where Resolve has no Timeline at the rate that won, the Timeline
+gets the next one up while the files keep counting in their own.
 The rates are written out rather than computed, so a wrong comparison
 in the program cannot be repeated here.
 """
@@ -99,6 +101,37 @@ check("without a reference clip either it falls back to 30",
 rate = vpm.timeline_frame_rate(plain, None, GUEST)
 check("no list at all is the same as an empty one",
       rate == 25.0, "%s against the 25 of the reference clip" % rate)
+
+print("\n4. A rate Resolve has no Timeline at gets the next one up")
+got = vpm.resolve_timeline_rate(15.0)
+check("a 15 camera puts the Timeline on 16, the next rate up",
+      got == 16.0, "%s against 16.0, from 15" % got)
+got = vpm.resolve_timeline_rate(20.0)
+check("the next one up and not the nearest, which for 20 lies below",
+      got == 23.976,
+      "%s against 23.976, from 20 -- the nearest is 18" % got)
+got = vpm.resolve_timeline_rate(240.0)
+check("above the fastest rate Resolve has it stops at 120",
+      got == 120.0, "%s against 120.0, from 240" % got)
+got = vpm.resolve_timeline_rate(25.0)
+check("a rate Resolve does have is kept as it is",
+      got == 25.0, "%s against 25.0, from 25" % got)
+got = vpm.resolve_timeline_rate(23.98)
+check("and a measured reading counts as the rate it means",
+      got == 23.976, "%s against 23.976, from a measured 23.98" % got)
+got = vpm.resolve_timeline_rate(0)
+check("nothing to read leaves the Timeline at 30",
+      got == 30.0, "%s against 30.0, from no rate at all" % got)
+got = vpm.own_frame_rate(15.0)
+check("a camera at 15 keeps 15, it is not moved to a rate Resolve has",
+      got == 15.0,
+      "%s against 15.0 -- the nearest Resolve rate is 16" % got)
+got = vpm.own_frame_rate(24.0115)
+check("but a measured 24.0115 is the 24 it means",
+      got == 24.0, "%s against 24.0, from a measured 24.0115" % got)
+got = vpm.known_frame_rate(15.0)
+check("15 is named as a rate Resolve has no Timeline at",
+      got is None, "%s against None, from 15" % got)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

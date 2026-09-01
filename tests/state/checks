@@ -104,7 +104,7 @@ project_rerun_updates	10
 project_same_offset	7
 project_settings_return	31
 project_tag_reason_fits	8
-project_top_rate_wins	11
+project_top_rate_wins	20
 project_two_stay_two	6
 project_two_timelines_go	16
 run_bar_never_falls	13
@@ -146,6 +146,7 @@ sound_tracks_written	31
 source_checks_proved	17
 source_limits_hold	14
 source_no_loose_ends	9
+source_no_real_names	6
 source_numpy_comes_last	4
 source_reds_carry_value	6
 source_resolve_door_shut	9
@@ -175,7 +176,7 @@ time_bad_point_dropped	19
 time_camera_by_clock	20
 time_drift_taken_out	4
 time_fit_reports	7
-time_guess_refused	50
+time_guess_refused	56
 time_length_is_in_to_out	23
 time_offset_found	6
 time_one_track_aligned	43
@@ -198,7 +199,7 @@ voice_mic_reaches_cut	14
 voice_name_is_one_person	4
 voice_names_when_sure	55
 voice_questions_rank	28
-voice_raw_times_kept	60
+voice_raw_times_kept	62
 voice_source_travels	21
 voice_split_hears_two	8
 voice_tracks_read_once	4

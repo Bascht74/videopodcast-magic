@@ -166,7 +166,7 @@ print("\nNothing is set over an answer")
 state, lines = rows(LABELS)
 marks = vpm.voice_marks_of(state)
 by_label = {k: (nv, cv) for k, nv, cv in lines}
-by_label["SPEAKER_00"][0].set("Sebastian")
+by_label["SPEAKER_00"][0].set("Bea")
 marks["typed"].add("SPEAKER_00")
 by_label["SPEAKER_03"][1].set("B.mov")
 marks["typed"].add("SPEAKER_03")
@@ -176,8 +176,8 @@ by_label["SPEAKER_01"][0].set(vpm.T('Speaker %d') % 2)
 marks["typed"].add("SPEAKER_01")
 apply(state, lines, "+%d" % IN_POINT)
 check("a name somebody typed stays",
-      by_label["SPEAKER_00"][0].get() == "Sebastian",
-      "SPEAKER_00 is called %s, wanted Sebastian"
+      by_label["SPEAKER_00"][0].get() == "Bea",
+      "SPEAKER_00 is called %s, wanted Bea"
       % by_label["SPEAKER_00"][0].get())
 check("a camera somebody picked stays, even on a silent voice",
       by_label["SPEAKER_03"][1].get() == "B.mov",

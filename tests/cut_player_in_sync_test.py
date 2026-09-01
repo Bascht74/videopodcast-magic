@@ -126,9 +126,9 @@ sys.path.insert(0, HERE)
 # own -- 18:55:00:00, 18:55:04:00 and 18:55:17:12 -- which is the whole
 # reason they are used here: three cameras on one clock would let a
 # reversed sign pass on two of them.
-WIDE = "Totale_08141855_C003.mov"
-HOST = "Moderatoren_08141855_C005.mov"
-GUEST = "Kandidat_08141858_C009.mov"
+WIDE = "WideCam_01011855_C001.mov"
+HOST = "PresentersCam_01011855_C002.mov"
+GUEST = "GuestCam_01011858_C003.mov"
 # What each one is called on the cut is not settled here: the window
 # gives every camera a track name of its own, and the timecodes below
 # are measured under those names, off the very files it opened.
