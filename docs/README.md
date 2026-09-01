@@ -90,6 +90,8 @@ explains the word comes first.
   `interface`, "The four tabs"
 * **follow-up file**: `simple-path`, "What goes into the video beside the
   mix"; `interface`, "The four tabs"
+* **frame rate, mixed**: `resolve`, "Cameras that run at different
+  speeds"; `preflight`, "What is checked"
 * **frame rate, variable**: `preflight`, "What the report says about a
   variable frame rate"
 * **Full-Mix**: `multitrack`, "What goes into the camera files"; `resolve`,

@@ -25,6 +25,80 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.26.1-beta] - 2026-09-01
+
+### Fixed
+
+- Where the cameras did not all run at the same speed, the cut in the
+  Resolve timeline sat in the wrong place, and further out the longer the
+  episode ran. A shot due at 26.8 seconds showed what its camera had
+  recorded at 34.8. Every camera now counts its frames in its own rate,
+  and the cut read back out of Resolve matches the list the program
+  wrote.
+- The timeline now gets the highest rate found among the cameras, where
+  it used to get the rate of the longest recording. Converted upwards
+  Resolve repeats frames, downwards it throws them away. Intro and outro
+  do not count, nor does a file set to "ignore this video".
+- Between two shots from cameras of different speeds a frame of the
+  timeline could stay black, because the outgoing camera's frames did not
+  reach that far. A shot now begins where the one before it really
+  stopped. Measured over 400 shots for every pair of rates the program
+  knows: no gap anywhere, and no shot running into the next.
+- The cut list written beside the project named frames that were one out
+  from the ones in the timeline. Both now count from the same place.
+- A camera's own timecode was read at another camera's rate, which put
+  it out by a fraction of a second before anything was cut. It is read
+  at its own rate now.
+- The note before a run said the timeline would get the rate of the
+  first file, and the run said different rates did not matter. Both were
+  the opposite of the truth. They now name the rate the timeline gets.
+
+### Documentation
+
+- The Resolve chapter says in both languages what happens when cameras
+  run at different speeds -- which rate the timeline gets, why one frame
+  of it can stay open at a cut, and that the multicam timeline and the
+  written camera files were never part of this.
+
+**Deutsch**
+
+### Behoben
+
+- Liefen die Kameras nicht alle gleich schnell, saß der Schnitt in der
+  Resolve-Timeline an der falschen Stelle, und um so weiter daneben, je
+  länger die Folge lief. Eine Einstellung, die bei 26,8 Sekunden fällig
+  war, zeigte, was ihre Kamera bei 34,8 aufgenommen hatte. Jede Kamera
+  zählt ihre Bilder jetzt in ihrer eigenen Rate, und der aus Resolve
+  zurückgelesene Schnitt deckt sich mit der Liste des Programms.
+- Die Timeline bekommt jetzt die höchste Rate, die unter den Kameras
+  vorkommt; bisher war es die der längsten Aufnahme. Nach oben wiederholt Resolve
+  Bilder, nach unten wirft es welche weg. Intro und Outro zählen nicht
+  mit, eine Datei auf „dieses Video ignorieren" ebensowenig.
+- Zwischen zwei Einstellungen von verschieden schnellen Kameras konnte
+  ein Bild der Timeline schwarz bleiben, weil die Bilder der abgehenden
+  Kamera nicht so weit reichten. Eine Einstellung beginnt jetzt dort, wo
+  die vorige wirklich aufgehört hat. Über 400 Einstellungen für jedes
+  Ratenpaar gemessen, das das Programm kennt: nirgends eine Lücke, und
+  keine Einstellung, die in die nächste läuft.
+- Die Schnittliste neben dem Projekt nannte Bilder, die um eins neben
+  denen der Timeline lagen. Beide zählen jetzt von derselben Stelle.
+- Der Timecode einer Kamera wurde mit der Rate einer anderen gelesen und
+  saß dadurch um Bruchteile einer Sekunde daneben, bevor überhaupt
+  geschnitten war. Er wird jetzt mit ihrer eigenen Rate gelesen.
+- Der Hinweis vor dem Lauf sagte, die Timeline bekomme die Rate der
+  ersten Datei, und der Lauf selbst sagte, verschiedene Raten störten
+  hier nicht. Beides war das Gegenteil der Wahrheit. Sie nennen jetzt
+  die Rate, die die Timeline bekommt, und was Resolve mit den anderen
+  macht.
+
+### Documentation
+
+- Das Resolve-Kapitel sagt in beiden Sprachen, was geschieht, wenn
+  Kameras verschieden schnell laufen -- welche Rate die Timeline
+  bekommt, warum an einem Schnitt ein Bild von ihr offen bleiben kann,
+  und daß die Multicam-Timeline und die geschriebenen Kameradateien
+  davon nie berührt waren.
+
 ## [2.26.0-beta] - 2026-09-01
 
 ### Added

@@ -23,7 +23,7 @@ The report holds for both modes.
 | Area | What | What follows |
 |---|---|---|
 | Picture | nominal rate against actual rate, spread of the frame spacing | see below |
-| Picture | frame rates of the cameras against each other | which rate the timeline gets |
+| Picture | frame rates of the cameras against each other | the timeline gets the highest of them |
 | Picture | multi-part cameras: gap between the blocks | where picture is missing |
 | Sound | sample rate, bit depth, channels, length | brought to 48 kHz, and it says so |
 | Sound | tracks much shorter than the longest | note |
@@ -35,6 +35,12 @@ The report holds for both modes.
 | Loudness | which target holds and where it comes from | -- |
 
 A stop halts the run before anything is written or uploaded.
+
+Where the cameras do not all run at the same speed, the note names the
+rate the timeline will get: the highest of them. Nothing has to be
+converted beforehand -- every camera keeps its own rate, and the cut is
+counted in it ([Resolve](resolve.md), "Cameras that run at different
+speeds").
 
 A timecode from the other side of midnight counts as one night, not as a
 day apart. For files really recorded on different days, the measured

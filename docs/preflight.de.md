@@ -24,7 +24,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Bereich | Was | Was daraus folgt |
 |---|---|---|
 | Bild | Nennrate gegen tatsächliche Rate, Schwankung der Bildabstände | siehe unten |
-| Bild | Bildraten der Kameras untereinander | welche Rate die Timeline bekommt |
+| Bild | Bildraten der Kameras untereinander | die Timeline bekommt die höchste davon |
 | Bild | mehrteilige Kameras: Lücke zwischen den Blöcken | wo Bild fehlt |
 | Ton | Abtastrate, Bittiefe, Kanäle, Länge | wird auf 48 kHz gebracht, das steht dann da |
 | Ton | Spuren, die deutlich kürzer sind als die längste | Hinweis |
@@ -37,6 +37,12 @@ Der Bericht gilt für beide Betriebsarten.
 
 Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen
 wird.
+
+Laufen die Kameras nicht alle gleich schnell, nennt der Hinweis die
+Rate, die die Timeline bekommt: die höchste davon. Vorher umzurechnen
+ist nichts -- jede Kamera behält ihre eigene Rate, und der Schnitt
+rechnet in ihr ([Resolve](resolve.de.md), „Kameras, die verschieden
+schnell laufen“).
 
 Ein Timecode von der anderen Seite von Mitternacht zählt als eine Nacht,
 nicht als ein Tag Abstand. Bei Aufnahmen an wirklich verschiedenen Tagen
