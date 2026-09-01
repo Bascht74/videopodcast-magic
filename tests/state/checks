@@ -72,6 +72,7 @@ files_block_stays_apart	15
 files_clock_links_blocks	21
 files_colour_carried	7
 files_curve_kept_once	12
+files_cut_without_keys	5
 files_foreign_untouched	37
 files_hdr_complete	34
 files_intro_proposed	21
@@ -176,6 +177,7 @@ time_length_is_in_to_out	23
 time_offset_found	6
 time_one_track_aligned	43
 time_over_midnight	9
+time_point_pulled_back	5
 time_sound_stays_put	31
 time_tracks_alone	27
 time_tracks_sit_together	4
@@ -212,6 +214,7 @@ window_menu_greys_along	27
 window_no_full_screen	5
 window_play_follows_tab	23
 window_setup_kept_apart	19
+window_size_as_run	6
 window_speakers_as_run	5
 window_stages_named	16
 window_start_runs	4

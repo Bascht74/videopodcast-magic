@@ -6347,8 +6347,8 @@ def key_frame_at_or_before(video, when):
                  "%.3f%%%.3f" % (begin, when + 0.001), video],
                 capture_output=True, timeout=300)
         except Exception as e:
-            print(T('  Key frames of %s cannot be read (%s) -- the whole '
-                    'camera is written.')
+            print(T('  Key frames of %s cannot be read (%s) -- the copy '
+                    'starts at the beginning of the file.')
                   % (os.path.basename(video), str(e)[:60]))
             return 0.0
         found = []
@@ -6364,6 +6364,23 @@ def key_frame_at_or_before(video, when):
         if begin <= 0:
             break
     return 0.0
+
+
+def camera_window_cut(video, duration, offset, window_s):
+    """Which stretch of a camera a time window leaves: (cut_at, keep_s).
+
+    *offset* is where the camera's first frame sits in programme time.
+    The copy starts on the key frame before the window, so the picture
+    is not taken from between two of them; the end is cut wherever the
+    window ends, whether or not that key frame could be found. keep_s is
+    None where neither end has anything to give up.
+    """
+    first = max(0.0, -offset - CAMERA_MARGIN_S)
+    last = min(duration, window_s - offset + CAMERA_MARGIN_S)
+    cut_at = key_frame_at_or_before(video, first)
+    if cut_at <= 0 and last >= duration - 0.001:
+        return 0.0, None
+    return cut_at, max(1.0, last - cut_at)
 
 
 def write_camera_file(video, info, audio_tracks, target, a, b, drift, args,
@@ -10111,12 +10128,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         # a margin past its end; without a window nothing is cut.
         cut_at, keep_s = 0.0, None
         if window_s is not None:
-            first = max(0.0, -a - CAMERA_MARGIN_S)
-            last = min(info["duration"], window_s - a + CAMERA_MARGIN_S)
-            cut_at = key_frame_at_or_before(v, first)
-            if cut_at > 0 or last < info["duration"] - 0.001:
-                keep_s = max(1.0, last - cut_at)
-                a += cut_at
+            cut_at, keep_s = camera_window_cut(v, info["duration"], a,
+                                               window_s)
+            a += cut_at
         share.segment(0.30, 0.85)
         try:
             write_camera_file(v, info, items, target, a, b, drift, args,
@@ -20835,45 +20849,34 @@ def on_one_disk(one, other):
         return False
 
 
-def window_from_points(args, fps=30.0):
+def window_between(in_point, out_point, fps=30.0):
     """How long the delivered cameras are, out of In point and Out point.
 
     Only where both are given and count the same way is the length known
     before the axis has been measured. One point alone leaves the other
     end open, and then the answer is None and nothing is scaled.
     """
-    begin, begin_abs = parse_time_point(getattr(args, "in_point", None) or "",
-                                        fps)
-    end, end_abs = parse_time_point(getattr(args, "out_point", None) or "", fps)
+    begin, begin_abs = parse_time_point(in_point or "", fps)
+    end, end_abs = parse_time_point(out_point or "", fps)
     if begin is None or end is None or begin_abs != end_abs or end <= begin:
         return None
     return end - begin
 
 
-def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
-                        window_s=None):
-    """Report whether there is enough disk space for what will be created.
+def window_from_points(args, fps=30.0):
+    """The same length, out of the In point and Out point of a call."""
+    return window_between(getattr(args, "in_point", None),
+                          getattr(args, "out_point", None), fps)
 
-    Roughly calculated but erring upward: every camera is copied and gets
-    audio tracks added, plus the processed tracks and the mix. Better to
-    overestimate than to stop halfway. *window_s* shortens the cameras,
-    so the estimate follows it -- generously, or a run that fits is
-    refused.
+
+def space_needed_mb(audio_paths, video_paths, multitrack, window_s=None):
+    """What a run writes, and how much of that goes to the temp folder too.
+
+    Erring upward: every camera is copied and gets audio tracks added,
+    plus the processed tracks and the mix. With a window each camera
+    carries that stretch and no more, so it shrinks by its own share and
+    not by the longest camera's. Both numbers are megabytes.
     """
-    folder = target_folder or (os.path.dirname(os.path.abspath(video_paths[0]))
-                            if video_paths else os.getcwd())
-    while folder and not os.path.isdir(folder):
-        fresh = os.path.dirname(folder)
-        if fresh == folder:
-            break
-        folder = fresh
-    try:
-        free = shutil.disk_usage(folder or ".").free / 1e6
-    except Exception:
-        return []
-    # With a window each camera carries that stretch and no more, so it
-    # shrinks by its own share and not by the longest camera's -- a short
-    # camera gives up far less of itself than a long one.
     video_mb, delivered = 0.0, 0.0
     for p in video_paths:
         try:
@@ -20901,7 +20904,55 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
         per_camera = 2
     added = delivered * per_second * per_camera * max(1, len(video_paths))
     # The processed tracks come back and are mixed once more.
-    needed = video_mb * 1.05 + added + audio_mb * (3.0 if multitrack else 2.0)
+    return (video_mb * 1.05 + added
+            + audio_mb * (3.0 if multitrack else 2.0)), added
+
+
+def space_summary_lines(target, audio_paths, video_paths, multitrack,
+                        in_point="", out_point=""):
+    """What the run writes and what is free, for the summary before it.
+
+    The size is the preflight's own reckoning, so the two numbers agree
+    and a time window shortens both. Only what lands in the target
+    folder counts here; the temporary files are the preflight's
+    question. Where the disk cannot be read, only the target is named.
+    """
+    where = target or T('the source folder')
+    try:
+        needed, _temporary = space_needed_mb(
+            audio_paths, video_paths, multitrack,
+            window_between(in_point, out_point))
+        free = shutil.disk_usage(target or ".").free / 1e6
+    except Exception:
+        return [T('Target: %s') % where]
+    return [TN(len(video_paths),
+               'This makes %d video file, about %s. Target: %s',
+               'This makes %d video files, about %s. Target: %s')
+            % (len(video_paths), as_data_size(needed), where),
+            T('Free space there: %s') % as_data_size(free)]
+
+
+def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
+                        window_s=None):
+    """Report whether there is enough disk space for what will be created.
+
+    Roughly calculated but erring upward, so that a run stops before it
+    starts rather than halfway. *window_s* shortens the cameras, so the
+    estimate follows it -- generously, or a run that fits is refused.
+    """
+    folder = target_folder or (os.path.dirname(os.path.abspath(video_paths[0]))
+                            if video_paths else os.getcwd())
+    while folder and not os.path.isdir(folder):
+        fresh = os.path.dirname(folder)
+        if fresh == folder:
+            break
+        folder = fresh
+    try:
+        free = shutil.disk_usage(folder or ".").free / 1e6
+    except Exception:
+        return []
+    needed, added = space_needed_mb(audio_paths, video_paths, multitrack,
+                                    window_s)
     # The temporary files go into the system temp folder, and where that
     # sits on the same disk as the output they eat the same space twice.
     # Counted once the check passed a real run by 1.1 GB and the run
@@ -32840,21 +32891,11 @@ def gui():
         else:
             lines.append(T('Processing at auphonic.com with "%s"')
                           % (preset_plaintext() or "?"))
-        target = out_folder.get() or (os.path.dirname(videos_p[0])
-                                       if videos_p else "")
-        try:
-            needed = (sum(os.path.getsize(p) for p in content) * 1.15
-                        + sum(os.path.getsize(p) for p in audio_files)
-                        * (3.0 if multitrack.get() else 2.0)) / 1e6
-            free = shutil.disk_usage(target or ".").free / 1e6
-            lines.append(TN(len(content),
-                            'This makes %d video file, about %s. Target: %s',
-                            'This makes %d video files, about %s. Target: %s')
-                          % (len(content), as_data_size(needed),
-                             target or T('the source folder')))
-            lines.append(T('Free space there: %s') % as_data_size(free))
-        except Exception:
-            lines.append(T('Target: %s') % (target or T('the source folder')))
+        lines += space_summary_lines(
+            out_folder.get() or (os.path.dirname(videos_p[0])
+                                  if videos_p else ""),
+            audio_files, content, bool(multitrack.get()),
+            start_var.get(), end_var.get())
         if only_look:
             lines.append("")
             lines.append(T('Dry run: only measuring, nothing written, '
@@ -34464,10 +34505,10 @@ CATALOGUE["de"] = {
         '  Es gibt sie schon, mit denselben Kameras in derselben '
         'Reihenfolge --\n  sie bleibt unangetastet. Wer sie neu will, '
         'löscht sie in Resolve.',
-    '  Key frames of %s cannot be read (%s) -- the whole camera is '
-    'written.':
-        '  Keyframes von %s nicht lesbar (%s) -- die Kamera wird ganz '
-        'geschrieben.',
+    '  Key frames of %s cannot be read (%s) -- the copy starts at the '
+    'beginning of the file.':
+        '  Keyframes von %s nicht lesbar (%s) -- die Kopie beginnt am '
+        'Anfang der Datei.',
     '  Level curve not possible (%s) -- without limiter':
         '  Pegelkurve nicht möglich (%s) -- ohne Limiter',
     '  Limiter:           at most %.1f dB, the same curve on every track%s':
