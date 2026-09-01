@@ -3,8 +3,8 @@
  "heading": 0,
  "largest_function": 5201,
  "lazy_plural": 0,
- "long_blocks": 108,
- "long_docstrings": 143,
+ "long_blocks": 106,
+ "long_docstrings": 142,
  "long_lines": 0,
  "narrating": 0,
  "one_sided_paths": {
@@ -99,7 +99,6 @@
   "remove_empty_audio_tracks": [1, 11428],
   "run_ffmpeg_with_progress": [1, 19542],
   "sample_frame_intervals": [1, 18533],
-  "set_update_wanted": [1, 16516],
   "speaker_cache_write": [1, 18290],
   "speaker_split_setup": [1, 17478],
   "step_begin": [1, 14964],

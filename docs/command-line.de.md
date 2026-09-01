@@ -25,8 +25,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0)  `[multitrack only]` |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
 | `--version` | Nummer der Version, und auf welchem Python das läuft |
-| `--no-update-check` | nicht mehr nachsehen, ob eine neuere Version da ist; die Antwort wird behalten (es sieht nach) |
-| `--update-check` | wieder nachsehen, nachdem `--no-update-check` einmal gegeben wurde |
+| `--update` | die neuere Version holen und die laufende als `videopodcast-magic.py.old` daneben legen; ein Lauf sagt nur, daß eine da ist |
 
 ## Was mit Ton und Bild geschieht
 

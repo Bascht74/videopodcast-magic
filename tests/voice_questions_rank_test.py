@@ -5,8 +5,10 @@ The roles can be read off the recognition only as an ORDER: the guest
 asks the fewest questions per sentence and speaks the longest, but the
 distance varies too much for a fixed threshold. Questions beat the
 share of talking, because a long opening by the host points at the
-wrong person for minutes. So this file holds the order, holds the
-questions above the share, and stays quiet where there is too little.
+wrong person for minutes. And it all takes one voice per track. So
+this file holds the order, holds the questions above the share, stays
+quiet where there is too little, and quiet again where two tracks
+carry the same speech.
 """
 import os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -149,6 +151,45 @@ check("it says it takes one voice per track",
 empty_report = vpm.roles_report([])
 check("nothing to report is nothing printed", empty_report == [],
       "%d lines printed: %s" % (len(empty_report), empty_report))
+
+print("\n8. One voice per track, or the ranking is not said")
+# Two clip-on microphones in one room hear each other, and then both
+# tracks carry the whole conversation. Measured on real episodes: a few
+# per cent where the tracks are clean, 85 to 93 where they are not.
+seams = [("A", [(0.0, 100.0)]), ("B", [(93.0, 200.0)])]
+carried = [("A", [(0.0, 100.0)]), ("B", [(10.0, 100.0), (200.0, 210.0)])]
+check("a few seconds at the seams, the way separated voices touch, pass",
+      vpm.one_voice_each(seams),
+      "7 s of the shorter track's 100 s shared, guard above %d %%"
+      % round(100 * vpm.VOICE_TRACK_TOGETHER))
+check("two tracks carrying the same speech do not",
+      not vpm.one_voice_each(carried),
+      "90 s of the shorter track's 100 s shared, guard above %d %%"
+      % round(100 * vpm.VOICE_TRACK_TOGETHER))
+
+words, tracks = episode([("Host", 30, 22, 4), ("Guest", 30, 1, 12)])
+# The same episode, but the host's microphone heard the guest as well.
+guest = dict(tracks)["Guest"]
+heard_too = [(n, sorted(s + guest) if n == "Host" else s) for n, s in tracks]
+check("with one microphone carrying both, no ranking is given",
+      vpm.who_asks(heard_too, words) == [],
+      "%d ranked, %d without the bleed"
+      % (len(vpm.who_asks(heard_too, words)), len(vpm.who_asks(tracks, words))))
+voices = [("SPEAKER_00", dict(tracks)["Host"]), ("SPEAKER_01", guest)]
+matched = vpm.which_microphone(voices, heard_too)
+check("and the microphone proposal falls silent on those same tracks",
+      matched == [], "%d voices matched to a microphone, wanted none: %s"
+      % (len(matched), matched))
+
+said = vpm.T('  Who asks -- not said here: two of the tracks carry the '
+             'same speech, so the questions would go to whichever '
+             'recorder was turned up loudest.')
+bled = vpm.roles_report([], heard_too)
+check("the run says in one line why nothing was ranked", bled == [said],
+      "%d lines: %s" % (len(bled), str(bled)[:60]))
+clean = vpm.roles_report([], tracks)
+check("and stays quiet where the silence has another reason", clean == [],
+      "%d lines: %s" % (len(clean), str(clean)[:60]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - started))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

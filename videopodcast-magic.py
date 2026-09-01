@@ -3744,11 +3744,15 @@ def who_asks(tracks, words):
 
     The guest asks fewest questions per sentence and speaks longest, and
     that order holds; the distance varies too much for a threshold, so
-    this is a ranking and no verdict. Questions rank first and speaking
-    time only separates a tie. Gives [(name, sentences, questions,
-    speech_s)], the one doing most of the asking first.
+    this is a ranking and no verdict. It takes one voice per track, and
+    holds the tracks against each other first to see that it has one.
+    Gives [(name, sentences, questions, speech_s)], the asker first.
     """
     if not words or not tracks or len(tracks) < 2:
+        return []
+    # Counting per track means nothing where two of them carry the same
+    # speech: the questions go to the loudest recorder, not to the asker.
+    if not one_voice_each(tracks):
         return []
     held = {name: sum(b - a for a, b in segs) for name, segs in tracks}
 
@@ -3779,9 +3783,18 @@ def who_asks(tracks, words):
         key=lambda r: (-(r[2] / float(r[1])), r[3]))
 
 
-def roles_report(order):
-    """The proposal in words, or nothing where there is nothing to say."""
+def roles_report(order, tracks=()):
+    """The proposal in words, or why there is none.
+
+    Silence has one reason worth a line: the tracks carry each other's
+    speech. Every other reason -- no words, too few sentences -- says
+    nothing a person could act on, and stays quiet.
+    """
     if not order:
+        if not one_voice_each(tracks):
+            return [T('  Who asks -- not said here: two of the tracks carry '
+                      'the same speech, so the questions would go to '
+                      'whichever recorder was turned up loudest.')]
         return []
     out = [as_head(T('\nWHO ASKS -- a proposal, and nothing is set from it'))]
     for name, sentences, questions, held in order:
@@ -3790,8 +3803,8 @@ def roles_report(order):
     out.append(T('  The order carries, the distance between them does not: '
                  'measured over four episodes it never turned round, while '
                  'the distance between first and last changed fourfold. It '
-                 'takes one voice per track; where two people share a '
-                 'microphone it says nothing useful.'))
+                 'takes one voice per track; where two of them carry the '
+                 'same speech nothing is said at all.'))
     return out
 
 
@@ -4065,6 +4078,24 @@ def shared_seconds(one, other):
     return out
 
 
+def one_voice_each(tracks):
+    """Whether these lists of passages can be one voice apiece.
+
+    Where clip-on microphones hear each other, every track carries the
+    whole conversation and anything counted per track lands on whichever
+    recorder was turned up loudest. Measured as the share of the shorter
+    one's speech that also runs inside the longer one.
+    """
+    rows = list(tracks or ())
+    for i, (_name, one) in enumerate(rows):
+        for _other, two in rows[i + 1:]:
+            floor = min(sum(b - a for a, b in one),
+                        sum(b - a for a, b in two))
+            if shared_seconds(one, two) > VOICE_TRACK_TOGETHER * floor:
+                return False
+    return True
+
+
 def which_microphone(voices, tracks):
     """Match each separated voice to the microphone it was speaking into.
 
@@ -4083,12 +4114,8 @@ def which_microphone(voices, tracks):
     held = {name: sum(b - a for a, b in segs) for name, segs in tracks}
     if min(held.values()) <= 0:
         return []
-    for i, (_a, one) in enumerate(tracks):
-        for _b, other in tracks[i + 1:]:
-            floor = min(sum(b - a for a, b in one),
-                        sum(b - a for a, b in other))
-            if shared_seconds(one, other) > VOICE_TRACK_TOGETHER * floor:
-                return []
+    if not one_voice_each(tracks):
+        return []
     picked = []
     for name, segs in voices:
         spoken = sum(b - a for a, b in segs)
@@ -10275,7 +10302,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # measurement supports, and a name in the interface is a person's
     # decision.
     asking = who_asks(segment_list, heard_words())
-    for line in roles_report(asking) + voice_names_report(asking):
+    for line in (roles_report(asking, segment_list)
+                 + voice_names_report(asking)):
         print(line)
     if not getattr(args, "no_transcript_file", False) and heard_words():
         print(as_head(T('\nTRANSCRIPT')))
@@ -17367,10 +17395,11 @@ def certificate_file():
 # says so, fetch it and start again. Three rules hold it in place:
 #
 #   * Looking is free and needs no permission: one question for a
-#     version number, nothing sent. --no-update-check switches even
-#     that off, and the answer is remembered.
-#   * Fetching is not free, and is asked every single time. It never
-#     replaces itself unasked, and never while a run is going on.
+#     version number, nothing sent. It always looks; only
+#     VPM_NO_UPDATE_CHECK stops it, and that belongs to the machine.
+#   * Fetching is asked every single time: the window in a box, the
+#     command line with a line and --update. Never unasked, and never
+#     while a run is going on.
 #   * What comes down is read before it is used: a file that does not
 #     compile is not written over the one that works.
 
@@ -17385,43 +17414,6 @@ RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
 # Off for a test run: a suite must not reach for the network, and it
 # must certainly not swap the file it is testing.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
-
-
-def update_answer_file():
-    """Where the yes or no to looking for updates is kept."""
-    folder = cache_folder()
-    return os.path.join(folder, "update_check") if folder else ""
-
-
-def update_wanted():
-    """Whether to look for a newer version. Yes unless switched off.
-
-    Looking costs one question to github.com for a version number and
-    sends nothing, so it needs no permission. Fetching does, and that
-    is asked every time.
-    """
-    if UPDATE_OFF:
-        return False
-    where = update_answer_file()
-    if not where or not os.path.exists(where):
-        return True
-    try:
-        with open(where, encoding="utf-8") as f:
-            return f.read().strip() != "no"
-    except OSError:
-        return True
-
-
-def set_update_wanted(yes):
-    """Remember the answer, so the question is asked once."""
-    where = update_answer_file()
-    if not where:
-        return
-    try:
-        with open(where, "w", encoding="utf-8") as f:
-            f.write("yes" if yes else "no")
-    except OSError:
-        pass
 
 
 def update_skip_file():
@@ -17445,14 +17437,10 @@ def update_skipped():
 def set_update_skipped(tag):
     """Pass over this one version. The next one asks again.
 
-    This took the place of "do not ask again", which stopped the
-    looking for good. Sebastian, 31.8.2026: *"I would rather turn that
-    into: skip this version."* He is right, and the source already
-    said so about the other half of the same trap -- a no that cannot
-    be taken back caught him once before, in August, and nothing
-    anywhere said why the program had gone quiet.
-
-    One version passed over is not an answer about all of them.
+    In place of "do not ask again", which stopped the looking for
+    good: a no that cannot be taken back is a trap, and this program
+    has walked Sebastian into it twice. One version passed over is not
+    an answer about all of them, and nothing else here says no.
     """
     where = update_skip_file()
     if not where:
@@ -17535,12 +17523,12 @@ def newer_release(asked=False):
     install, and most will not: they will click yes without knowing.
     It comes down with the same answer, so it costs nothing.
 
-    *asked* is a direct question from the menu. The remembered no was
-    about looking unasked and does not stand against it;
+    *asked* is a direct question -- from the menu or from --update. A
+    version passed over does not stand against that;
     VPM_NO_UPDATE_CHECK does, because that one is set by whoever runs
     the machine rather than by whoever clicks.
     """
-    if UPDATE_OFF or not (asked or update_wanted()):
+    if UPDATE_OFF:
         return "", "", ""
     passed_over = "" if asked else update_skipped()
     try:
@@ -17628,6 +17616,49 @@ def put_new_self(text):
     except OSError as e:
         return T('The new version could not be written: %s') % e
     return ""
+
+
+def update_note():
+    """Say on the command line that a newer version is out.
+
+    A line and nothing else. A run started out of a script must not
+    stop to ask anything, so there is no box and no question here, and
+    nothing at all is fetched: --update does that, and only that.
+    """
+    tag, page, _changed = newer_release()
+    if not tag:
+        return
+    print(T('%s is out. This is %s.') % (tag, VERSION))
+    print(T('--update fetches it and puts it in place.'))
+    if page:
+        print("  %s" % page)
+
+
+def update_from_command_line():
+    """Fetch the newer version and put it in place. 0, or 1 with a word.
+
+    Asked for outright, so a version passed over in the window does not
+    stand against it. Nothing is started again afterwards: a command
+    line hands the next run back to whoever is at the keyboard.
+    """
+    if UPDATE_OFF:
+        print(T('The check for new versions is switched off here.'))
+        return 1
+    tag, _page, _changed = newer_release(asked=True)
+    if not tag:
+        print(T('No newer version found. This one is %s.') % VERSION)
+        return 0
+    text, trouble = fetch_new_self(tag)
+    if not text:
+        print(trouble)
+        return 1
+    trouble = put_new_self(text)
+    if trouble:
+        print(trouble)
+        return 1
+    print(T('%s is in place. The version before it is beside it as '
+            'videopodcast-magic.py.old.') % tag)
+    return 0
 
 
 def old_self_file():
@@ -21549,16 +21580,12 @@ def build_argument_parser():
                          "about %d MB the first time and the run takes "
                          "minutes. (default: whatever the run picks)"
                          % SPEAKER_SETUP_MB)
-    ap.add_argument("--no-update-check", dest="update_check",
-                    action="store_false", default=True,
-                    help="stop looking whether a newer version is out. "
-                         "The answer is remembered, so it is given once "
-                         "and not again -- and --update-check takes it "
-                         "back. (default: it looks)")
-    ap.add_argument("--update-check", dest="update_check_on",
+    ap.add_argument("--update", dest="update_now",
                     action="store_true", default=False,
-                    help="look again, after --no-update-check was given "
-                         "at some point. (default: nothing to take back)")
+                    help="fetch the newer version and put this one "
+                         "beside it as videopodcast-magic.py.old. A run "
+                         "only ever says that one is out; nothing is "
+                         "fetched without this. (default: off)")
     ap.add_argument("--speakers-from", dest="speakers_from", default=None,
                     metavar="FILE",
                     help="take a finished separation out of a project or "
@@ -21809,31 +21836,24 @@ def main():
         # argparse prints and exits by itself; nothing here needs a tool.
         build_argument_parser().parse_args()
         return 0
+    # --update wants no files and no tools, so it is answered before
+    # either is looked for -- a broken installation is one of the
+    # reasons to reach for it. It is the only way the command line
+    # fetches anything.
+    if "--update" in sys.argv[1:]:
+        set_language(build_argument_parser().parse_args().lang)
+        return update_from_command_line()
     find_required_tools()
     ap = build_argument_parser()
     clean_envelope_cache()
     clean_probe_cache()
     # --lang alone is not a job: it only picks the language, so the window
     # still opens. Anything else on the command line means a run.
-    # --no-update-check is the same kind of thing: it settles a question
-    # rather than asking for work, and the answer is kept so it need not
-    # be given again.
     rest = list(sys.argv[1:])
     while "--lang" in rest:
         i = rest.index("--lang")
         del rest[i:i + 2]
     rest = [a for a in rest if not a.startswith("--lang=")]
-    # Both settle a question rather than ask for work, so neither turns
-    # a start into a run. The way back matters as much as the way out:
-    # a no that cannot be taken back is a trap, and on 23.8.2026 it
-    # caught Sebastian -- the switch had been given once in passing,
-    # the program never looked again, and nothing anywhere said why.
-    if "--update-check" in rest:
-        set_update_wanted(True)
-        rest = [a for a in rest if a != "--update-check"]
-    if "--no-update-check" in rest:
-        set_update_wanted(False)
-        rest = [a for a in rest if a != "--no-update-check"]
     if not rest:
         if len(sys.argv) > 1:
             set_language(ap.parse_args(sys.argv[1:]).lang)
@@ -21856,6 +21876,7 @@ def main():
     enable_colour_output()
     print("videopodcast-magic.py %s   %s\n%s\n"
           % (VERSION, python_note(), running_from()))
+    update_note()
     args.auphonic_done = getattr(args, "auphonic_done", None)
     args.auphonic_resume = getattr(args, "auphonic_resume", None)
     args.production = ""
@@ -33770,6 +33791,12 @@ CATALOGUE["de"] = {
         'Von Hand starten: %s %s',
     'No newer version found. This one is %s.':
         'Keine neuere Version gefunden. Hier läuft %s.',
+    '--update fetches it and puts it in place.':
+        '--update holt sie und setzt sie ein.',
+    '%s is in place. The version before it is beside it as '
+    'videopodcast-magic.py.old.':
+        '%s ist eingesetzt. Die vorige Fassung liegt als '
+        'videopodcast-magic.py.old daneben.',
     'The check for new versions is switched off here.':
         'Die Suche nach neuen Versionen ist hier abgeschaltet.',
     'About Video Podcast Magic':
@@ -34793,13 +34820,18 @@ CATALOGUE["de"] = {
         '  %-20s %s Redezeit, %d von %d Sätzen eine Frage',
     '  The order carries, the distance between them does not: measured over '
     'four episodes it never turned round, while the distance between first '
-    'and last changed fourfold. It takes one voice per track; where two '
-    'people share a microphone it says nothing useful.':
+    'and last changed fourfold. It takes one voice per track; where two of '
+    'them carry the same speech nothing is said at all.':
         '  Die Reihenfolge trägt, der Abstand nicht: über vier Folgen '
         'gemessen hat sie sich nie gedreht, während der Abstand zwischen '
         'erstem und letztem um das Vierfache schwankte. Es setzt eine '
-        'Stimme je Spur voraus; wo sich zwei ein Mikrofon teilen, sagt es '
-        'nichts Brauchbares.',
+        'Stimme je Spur voraus; wo zwei dieselbe Rede tragen, wird gar '
+        'nichts gesagt.',
+    '  Who asks -- not said here: two of the tracks carry the same speech, '
+    'so the questions would go to whichever recorder was turned up loudest.':
+        '  Wer fragt -- hier nicht gesagt: zwei der Spuren tragen dieselbe '
+        'Rede, die Fragen gingen also an den Rekorder, der am lautesten '
+        'aufgedreht war.',
     '\nWHICH MICROPHONE -- a proposal, and nothing is set from it':
         '\nWELCHES MIKROFON -- ein Vorschlag, und es wird nichts daraus '
         'gesetzt',
