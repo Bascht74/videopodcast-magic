@@ -553,9 +553,9 @@ Prüfungen bestehen wie das, was herunterkommt. Danach startet das
 Programm neu. Die Datei ist damit aufgebraucht, und vorwärts geht es
 wieder über das Update aus dem Netz.
 
-Das Häkchen **Nicht mehr nachfragen** hält das Programm davon ab, von
-selbst nachzusehen. Über **Hilfe > Nach Update suchen ...** geht es
-weiterhin.
+Das Häkchen **Diese Version überspringen** legt eine Fassung beiseite.
+Bei der nächsten fragt das Fenster wieder, und über **Hilfe > Nach
+Update suchen ...** jederzeit.
 
 ## Wie die Zeitachse ohne Timecode entsteht
 
@@ -621,12 +621,10 @@ Prüfzeichens in der Dateiliste.
 
 Im Fenster gibt es diese Optionen nicht.
 
-`--update-check` holt das ungefragte Nachsehen zurück, nachdem das
-Häkchen **Nicht mehr nachfragen** gesetzt wurde.
-
-`--no-update-check` setzt dasselbe Nein wie dieses Häkchen. Ein Lauf von
-der Kommandozeile sieht ohnehin nicht nach: aus einem Script gestartet,
-darf er an keiner Frage stehen bleiben.
+`--update` holt die neuere Fassung und legt die laufende als
+`videopodcast-magic.py.old` daneben. Ein Lauf von der Kommandozeile sagt
+nur, daß eine neuere da ist -- aus einem Script gestartet darf er an
+keiner Frage stehen bleiben, und ungefragt holt er nichts.
 
 `VPM_NO_UPDATE_CHECK` in der Umgebung schaltet das Ganze ab, den
 Menüeintrag mit. Der Eintrag sagt das dann, statt nachzusehen. Diese
