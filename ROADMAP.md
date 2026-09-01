@@ -60,17 +60,18 @@ the major number.
 
 ## What comes next
 
-Five items. The first three are work. The last two are built, and what
+Four items. The first two are work. The last two are built, and what
 they wait on is a run rather than more building.
 
-**The delivered cameras get cut down to the time window, as a choice
-beside handing them over whole.** Decided for 2.25.0. Measured on real
-material: three cameras came to 83.57 GB where the window was five
-minutes long, and to 6.09 GB when only the window went out -- 92.7 %
-less. The default stays as it is, because a whole production saves
-nothing this way. The trap is the timecode: it is read back off the
-rendered file, so cutting without moving it puts every camera in the
-wrong place.
+**Gone out with 2.25.0-beta: the cameras are written only for the
+window that is cut** -- 83.57 GB became 6.09 GB on real material. It
+came without the switch this page promised, because the In and Out
+points already are one: set them and only the window goes out, leave
+them empty and nothing is cut. The timecode trap was real and is
+measured -- ffmpeg leaves it where it was, so the program sets it -- and
+a second trap turned up beside it: cutting between two key frames puts
+picture and sound 400 ms apart, so the cut goes back to the key frame
+before the window.
 
 **The whole way gets tests, not the single functions along it.** Seven
 steps, and each of them on both paths: the program opens, files come
