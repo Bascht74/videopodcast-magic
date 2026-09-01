@@ -18,7 +18,10 @@ The tick decides how the recordings are grouped, and nothing else: with
 it every person gets a track of their own, with a name and a camera;
 without it they all run into the Full-Mix together. The common time
 axis, the camera cut and the files that come out are the same with the
-tick and without it.
+tick and without it. Who ends up in the cut does not hang on where they
+came in by either: a recording of one person, the sound of a camera, a
+channel of a recorder and a voice a separation found all count alike,
+and only **do not use** keeps somebody out.
 
 Everything else runs locally. [Processing at auphonic.com](auphonic.md)
 describes the way there (on the command line `--without-auphonic`). The
@@ -54,10 +57,10 @@ and the voices appear. Where voices are stored already, the same line
 offers to show them instead. The selector **belongs to** lists the
 cameras, then two special cases:
 
-- **into the mix only**: in the Full-Mix, but nobody's first track. For
-  someone heard but not seen.
-- **ignore this audio**: out entirely, and the speaker name goes grey.
-  For a recording whose video is still missing.
+- **no camera of its own**: in the Full-Mix, but nobody's first track.
+  For someone heard but not seen.
+- **do not use**: out entirely, and the speaker name goes grey. For a
+  recording whose video is still missing.
 
 **Speaker name** starts empty, with the name guessed from the file name
 beside it in grey. Type nothing and the guess counts -- but only if it
@@ -66,6 +69,21 @@ begins with a letter, in any alphabet, not just in a to z. A guess like
 stays locked until a name is there: the name becomes that track's label
 at auphonic.com, read there by people who never saw the file. A typed
 name counts as typed.
+
+A name belongs to one person, so it stands on the sheet once. Type one
+that is there already and the field goes red -- on both levels, whether
+the other bearer is a recording or a voice under one.
+
+What follows from that is two different things. Two recordings of one
+name are a question and not a refusal: the line under the table names it
+and says **occurs more than once. These recordings are merged into one
+track and placed in sequence by their timecode -- correct if recording
+was stopped in between**, which is exactly what that grouping is for. A
+voice cannot be merged with anything -- it is one person inside one
+separation -- so a voice carrying a name somebody else has locks
+**Start**, and the line under the button names it and says **is on more
+than one speaker -- a name is a person, and every person needs their
+own**.
 
 The lower table has a row per camera: **Camera**, **new file name**,
 **gets audio from** and **Camera audio**. What a file is -- content,
@@ -86,8 +104,8 @@ Multitrack needs two input tracks. Three things count as a track:
 - the audio of a video file whose **Camera audio** stands on **use the
   audio**.
 
-The program counts the rows of the upper table, minus those on **ignore
-this audio**. The camera cut does not need this field.
+The program counts the rows of the upper table, minus those on **do not
+use**. The camera cut does not need this field.
 
 ![The two tables of the assignment](images/assignment.png)
 
@@ -271,8 +289,15 @@ masters to ([Preflight](preflight.md)).
   audio** at every camera that is to be heard; each one is then a track.
   They no longer become tracks by themselves: a camera recording a
   usable track cannot be told from one merely filming in the same room.
-- **A speaker is missing from the Full-Mix.** That row has **ignore this
-  audio** in the column **belongs to**.
+- **A voice carries a name somebody else has, and Start stays locked.**
+  A name is a person, and the cut puts a person on one camera; the same
+  name twice would be one person in two places. Give the voice a name of
+  its own, in its indented row under the recording. Two **recordings**
+  of one name are another matter -- those are joined into one track on
+  purpose and only want confirming, so what has to change is the
+  indented row, not the recording's.
+- **A speaker is missing from the Full-Mix.** That row has **do not
+  use** in the column **belongs to**.
 
 The tracks are assigned, the window is set, and every camera file
 carries its own mix. Next comes the question of who says what:

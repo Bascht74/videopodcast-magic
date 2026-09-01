@@ -10,8 +10,17 @@ enough as well, as long as a second camera is there that nobody is on.
 Separate recordings give two people, and so do the voices told apart on
 one recording whose **Speaker name** was answered with **several
 speakers**; the **Multitrack** tick is no part of it. Both ways are in
-[Speech recognition and speaker separation](speech.md). With that the
-script knows who speaks when, and builds the cut from it:
+[Speech recognition and speaker separation](speech.md).
+
+**Who is in the cut does not depend on where they came from.** A file of
+their own with one voice on it, the audio of a video with one voice on
+it, a multitrack recording, or one recording taken apart into several
+voices -- all of it counts the same, and only **do not use** keeps
+somebody out. Measured on three people with a camera each: all three are
+in the cut, and the picture goes to all three cameras -- the person on
+their own microphone among them, with 2 shots.
+
+With that the script knows who speaks when, and builds the cut from it:
 
 * One speaker alone gets their camera, with a lead-in.
 * A short "yes" does not: below **Speaks at least** the picture stays
@@ -258,18 +267,29 @@ The box **Speaker** shows, per speaker:
 * a row for silence
 
 The heading names the source: **Speakers, separated by voice** or
-**Speakers, self-measured from the tracks**. With two speaking at once
-the time counts twice, for silence it does not. The rows therefore add
-up to more than the running time.
+**Speakers, self-measured from the tracks**. The table can hold both at
+once -- voices out of a separation and tracks measured from their own
+microphone stand in it side by side -- and the heading then reads
+**Speakers, separated by voice** for all of them. The log tells the two
+apart and prints both marks, each over the rows belonging to it.
+
+With two speaking at once the time counts twice, for silence it does
+not. The rows therefore add up to more than the running time.
 
 The program computes both from the handover file
 `<Production>_resolve.json` of the last run, on every change and always
 for the chosen window. Writing and uploading belong to the run, not to
 the preview.
 
-With no speakers known the box says so and offers the button **Measure
-speakers now**; if the computation fails, the reason stands in its
-place. Speakers that turn up later start the preview by themselves.
+The button **Measure speakers now** stands at the foot of the preview
+box, not under this one, for as long as a track is neither covered by a
+separation nor measured; beside it stands who is missing: **Name not
+measured yet -- in the cut, not yet in this preview**. Those people are
+in the cut; one press fetches them into the preview as well. Where no
+speakers are known at all, the preview box says so in place of its
+numbers and the box **Speaker** stays empty. If the measurement fails,
+the reason stands beside the button. Speakers that turn up later start
+the preview by themselves.
 
 ### Reading the cut band and the legend
 
@@ -419,9 +439,11 @@ the number of passages per speaker. If nothing was audible, there is
 no camera cut.
 
 The button **Measure speakers now** does the same in the interface,
-before the first run: coarser than the separation by voice, but enough
-to set the cut up. Speakers separated by voice take precedence as soon
-as they are there, and the heading above the table says which applies.
+without waiting for a run: coarser than the separation by voice, but
+enough to set the cut up. The two are not alternatives. Voices out of a
+separation and tracks measured here go into one and the same reckoning,
+and the button stands there as long as a track is neither covered by a
+separation nor measured -- also once something has been separated.
 
 ### Cutting when one camera shows everybody
 
@@ -523,9 +545,13 @@ loudness measurement runs through each track twice.
 
 ### When something goes wrong
 
-* **The Speaker box says no speakers are known.** Press **Measure
-  speakers now**. The reason stands in place of the table if the
-  computation fails.
+* **The preview says no speakers are known, and the Speaker box is
+  empty.** Press **Measure speakers now** at the foot of the preview
+  box. If the measurement fails, the reason stands beside the button.
+* **The Speaker box shows speakers, and the preview says somebody is not
+  measured yet.** That person is in the cut; only the preview cannot
+  show them, because their track has been neither separated nor
+  measured. **Measure speakers now** fetches them into the preview.
 * **No cut comes out.** Nothing was audible on the tracks, or the
   separation found a single voice and there is only one camera. The log
   says so, under `SPEAKERS -- MEASURED HERE` or
