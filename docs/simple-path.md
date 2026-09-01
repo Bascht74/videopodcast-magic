@@ -28,8 +28,10 @@ What the simple path does just like multitrack:
   too (on the command line `--in-point` and `--out-point`). They take
   the notations listed in [Multitrack](multitrack.md), section "Time
   window". The point lies on the common time axis and means the same
-  moment for every camera. The program trims the audio; the picture
-  stays whole and keeps its timecode.
+  moment for every camera. The audio is trimmed to it, and so is the
+  picture: each camera is written for the window and a second at either
+  end, and carries the timecode of the frame it now starts on
+  ([Multitrack](multitrack.md), "How much of each camera is written").
 - **Preview player.** On the **Assignment & time window** tab, with the
   same buttons.
 - **Loudness measured.** The sum is measured and the figure goes into the
@@ -209,9 +211,12 @@ stays out even of a group it was put into. The project stores both.
 
 ### What comes back for each video file
 
-Each video file comes back with the picture untouched (`-c:v copy`), the
-new audio as the first track and the camera's own track behind it. The
-program names both tracks and keeps the timecode.
+Each video file comes back with the picture copied over rather than
+computed again (`-c:v copy`), the new audio as the first track and the
+camera's own track behind it. The program names both tracks. Without a
+time window the whole recording comes back and the timecode is the one
+it had; with a window it is the window and a second at either end, and
+the timecode says where that piece begins.
 
 The new track is always called `Full-Mix`. The camera's own is called
 `Camera Original`; a camera bringing several of its own gets them

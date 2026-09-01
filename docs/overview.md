@@ -43,7 +43,10 @@ this path.
 ## What comes out
 
 One new video file per camera. The program copies the picture instead of
-re-encoding it. Inside it the good audio sits as the first audio track,
+re-encoding it. Where a time window is set, the file holds that window
+and a second at either end rather than the whole shoot -- five minutes
+out of a real interview came to 6.09 GB where the whole day came to
+83.57 GB. Inside it the good audio sits as the first audio track,
 the camera microphone as the second, both named. In the edit you say
 "audio from track one" and you are done. Afterwards the program measures
 the two tracks against each other and writes down how far apart they are.

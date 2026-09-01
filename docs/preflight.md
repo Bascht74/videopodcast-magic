@@ -93,6 +93,15 @@ the run will write. That estimate is a rough one and says so: it counts
 every camera as copied and given fresh audio tracks, adds the processed
 tracks and the mix, and rounds upward throughout.
 
+A time window makes the cameras shorter, and the estimate goes with it:
+each camera counts with its own share of the window, so a short camera
+gives up far less of itself than a long one ([Multitrack](multitrack.md),
+"How much of each camera is written"). That only happens where an In
+point and an Out point both stand and both count the same way -- both as
+clock time, or both as a distance. One mark alone, or an Out point
+counted back from the end, leaves the estimate at the whole material.
+The run then writes less than the report asked for, never more.
+
 A rough estimate cleared by a hair is not room enough. So the report
 wants **15 percent more than it estimated itself** before it calls the
 space good. In between -- the numbers do add up, but only just -- it
@@ -228,7 +237,9 @@ for it.
   The temporary files of the run go into the system temp folder: where
   that sits on the same drive as the output folder, the run needs the
   space twice, and an output folder on another drive is worth as much as
-  clearing space.
+  clearing space. Where only a stretch of the recording is wanted
+  anyway, a narrower In point and Out point is worth more than either:
+  the cameras are then written for that window alone.
 - **The preset masters to a different loudness.** Set `--lufs` to the
   value of the preset, or change the loudness target of the preset at
   auphonic.com. Both at once does not work: the tracks come back at one

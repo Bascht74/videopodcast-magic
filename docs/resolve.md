@@ -70,8 +70,8 @@ uses, not the timecode. If a camera was not running, another steps in,
 the wide shot first. The log says how often. With several cameras the
 timeline carries no markers.
 
-**… Multicam**: all cameras side by side, one per video track, full
-length, **uncut**, each at its measured place. Track names = speakers, a
+**… Multicam**: all cameras side by side, one per video track, each as
+long as its own file and **uncut**, at its measured place. Track names = speakers, a
 camera without a speaker is called `Wide`, and the speaker names stand
 as markers. Video track 1 takes the camera whose first audio track is
 the Full-Mix, usually the wide shot; on conversion it becomes angle 1.

@@ -73,8 +73,9 @@ Kamera nicht lief, springt eine andere ein, zuerst der Weitwinkel. Das
 Protokoll sagt, wie oft. Bei mehreren Kameras trägt die Timeline keine
 Marker.
 
-**… Multicam**: alle Kameras nebeneinander, eine je Bildspur, in voller
-Länge und **ohne Schnitte**, jede an ihrer gemessenen Stelle. Die
+**… Multicam**: alle Kameras nebeneinander, eine je Bildspur, jede so
+lang wie ihre eigene Datei und **ohne Schnitte**, an ihrer gemessenen
+Stelle. Die
 Spurnamen sind die Sprecher, eine Kamera ohne Sprecher heißt `Wide`, und
 die Sprechernamen stehen als Marker. Auf Bildspur 1 kommt die Kamera,
 deren erste Tonspur der Full-Mix ist, meist der Weitwinkel; beim

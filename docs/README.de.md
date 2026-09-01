@@ -189,7 +189,8 @@ der das Wort erklärt, steht vorn.
   sagt“
 * **Zeitachse**: `interface`, „Wie die Zeitachse ohne Timecode entsteht“;
   `multitrack`, „Was Multitrack tut“
-* **Zeitfenster**: `multitrack`, „Das Zeitfenster setzen“
+* **Zeitfenster**: `multitrack`, „Das Zeitfenster setzen“; `multitrack`,
+  „Wieviel von jeder Kamera geschrieben wird“
 * **Zuordnung**: siehe gehört zu
 
 ## Weitere Informationen und technische Details

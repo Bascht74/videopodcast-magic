@@ -175,7 +175,8 @@ explains the word comes first.
   loudness target holds"
 * **time axis**: `interface`, "How the time axis is built without timecode";
   `multitrack`, "What Multitrack does"
-* **time window**: `multitrack`, "Setting the time window"
+* **time window**: `multitrack`, "Setting the time window"; `multitrack`,
+  "How much of each camera is written"
 * **timecode, virtual**: `interface`, "How the time axis is built without
   timecode"
 * **transcript**: `speech`, "How the program writes the text down";

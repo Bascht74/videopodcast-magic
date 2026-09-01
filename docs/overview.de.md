@@ -43,7 +43,10 @@ das Programm nicht heraus.
 ## Was herauskommt
 
 Je Kamera eine neue Videodatei. Das Bild wird umkopiert, nicht neu
-gerechnet. Darin liegt der gute Ton als erste Tonspur, das
+gerechnet. Steht ein Zeitfenster, trägt die Datei dieses Fenster und je
+eine Sekunde davor und danach statt des ganzen Drehs -- fünf Minuten aus
+einem echten Interview waren 6,09 GB, wo der ganze Tag 83,57 GB
+gebraucht hätte. Darin liegt der gute Ton als erste Tonspur, das
 Kameramikrofon als zweite, beide mit Namen. Im Schnittprogramm sagt man
 „Ton von Spur eins“ und ist fertig. Danach misst das Programm nach, wie
 weit die beiden Spuren auseinanderliegen, und schreibt es hin. Bei einem

@@ -204,6 +204,38 @@ Both boundaries take these entries:
 The buttons stay locked until the common time axis is there. After that
 they hold for every file alike, including those without a timecode.
 
+### How much of each camera is written
+
+The window decides what ends up in the output folder. As soon as one of
+the two marks stands, every camera is written for that stretch only and
+no longer for the whole shoot. Five minutes out of a real interview left
+6.09 GB in the folder where the same run used to leave 83.57 GB.
+
+Without a mark nothing is cut away. Every camera then comes out at its
+full length, exactly as before.
+
+Each written camera carries a second more than the window at either end,
+and at the front the program goes back from there to the key frame
+before it. That margin is a run-up and not an oversight. The run checks
+its own cameras and calls one misplaced from a single frame onward, so a
+second is twenty times the error it will tolerate; and a picture that
+begins between two key frames starts up to 400 milliseconds away from
+its own sound. The margin buys both, and what it costs is a second of
+picture at either end.
+
+The cut is untouched by this. The same shots stand at the same moments
+as before, to the millisecond, and the sound in the written files is the
+sound that was there.
+
+Every camera reports a line **Time window**: how much of it was written,
+and from which point of the recording. After the list of written files
+one line names what the cameras carry against how much was recorded.
+Where the key frames of a camera cannot be read, the program says so and
+leaves that camera's start where it is.
+
+Wanting more than the window holds means moving **Mark In** and **Mark
+Out** apart and running again. There is no separate switch for it.
+
 ### What goes into the camera files
 
 The first audio track of each camera file is the mix of exactly the

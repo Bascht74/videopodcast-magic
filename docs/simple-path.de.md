@@ -30,8 +30,11 @@ Was der einfache Weg genauso kann wie Multitrack:
   `--out-point`). Sie nehmen die Schreibweisen aus
   [Multitrack](multitrack.de.md), Abschnitt „Zeitfenster“. Der Punkt
   liegt auf der gemeinsamen Zeitachse und meint für jede Kamera denselben
-  Moment. Beschnitten wird der Ton; das Bild bleibt ganz und behält
-  seinen Timecode.
+  Moment. Beschnitten wird der Ton, und das Bild ebenso: Jede Kamera
+  wird für das Fenster und je eine Sekunde davor und danach geschrieben
+  und trägt den Timecode des Bildes, mit dem sie nun anfängt
+  ([Multitrack](multitrack.de.md), „Wieviel von jeder Kamera geschrieben
+  wird“).
 - **Vorschau Player.** Auf dem Reiter **Zuordnung & Zeitfenster**, mit
   denselben Knöpfen.
 - **Lautheit gemessen.** Die Summe wird gemessen, und die Zahl steht im
@@ -218,9 +221,12 @@ gelegt wurde. Beides steht im Projekt.
 
 ### Was je Videodatei zurückkommt
 
-Jede Videodatei kommt zurück mit unverändertem Bild (`-c:v copy`), dem
-neuen Ton als erster Spur und der Kameraspur dahinter. Das Programm
-benennt beide Spuren und behält den Timecode.
+Jede Videodatei kommt zurück mit umkopiertem statt neu gerechnetem Bild
+(`-c:v copy`), dem neuen Ton als erster Spur und der Kameraspur
+dahinter. Das Programm benennt beide Spuren. Ohne Zeitfenster kommt die
+ganze Aufnahme zurück und behält ihren Timecode; mit Zeitfenster ist es
+das Fenster und je eine Sekunde davor und danach, und der Timecode sagt,
+wo dieses Stück anfängt.
 
 Die neue Spur heißt immer `Full-Mix`. Die eigene der Kamera heißt
 `Camera Original`; bringt eine Kamera mehrere eigene mit, werden sie als
