@@ -76,13 +76,26 @@ project_clips_land_right	2026-08-31	the run reached the end without an exception
 open	project_run_puts_back	a project was open when the run started
 open	project_run_puts_back	the decoy is in the project list to begin with
 open	project_run_puts_back	and the decoy does not have the shape the sweep deletes
-open	project_run_puts_back	the killed run got as far as making its project
-open	project_run_puts_back	a run that was killed leaves its project behind
 open	project_run_puts_back	and it leaves that project open in front of somebody
-open	project_run_puts_back	the sweep deletes what the killed run left behind
 open	project_run_puts_back	and it says by name which project it deleted
 open	project_run_puts_back	a project that only looks like the tests' own is left alone
 open	project_run_puts_back	the project that was open at the start is open again
 open	project_run_puts_back	and the sweep says by name which project it opened
 open	project_run_puts_back	everything the test made is gone again
 open	project_run_puts_back	the run reached the end without an exception
+project_run_puts_back	2026-09-01	a project was open when the run started	project_run_puts_back_test.py -- `before = open_now(pm)` to `before = ""`	a project was open when the run started                    FAIL Resolve had '' open
+project_run_puts_back	2026-09-01	the decoy is in the project list to begin with	project_run_puts_back_test.py -- the two lines `made_decoy = pm.CreateProject(decoy) is not None` and `pm.SaveProject()` replaced by `made_decoy = True`, so no decoy is made	the decoy is in the project list to begin with             FAIL 'vpm-test-decoy-KEEP-60859' among 16 projects
+project_run_puts_back	2026-09-01	and the decoy does not have the shape the sweep deletes	project_run_puts_back_test.py -- the decoy named "vpm-test-decoy-%d-beef" instead of "vpm-test-decoy-KEEP-%d", which is the sweep's whole shape	and the decoy does not have the shape the sweep deletes    FAIL 'vpm-test-decoy-60877-beef' against ^vpm-test-[a-z0-9]+-[0-9]+-[0-9a-f]{4}$
+project_run_puts_back	2026-09-01	a folder of the tests' shape is in the folder list to begin with	project_run_puts_back_test.py -- `made_folder = bool(pm.CreateFolder(folder))` to `made_folder = True`, so no folder is made	a folder of the tests' shape is in the folder list to begin with FAIL 'vpm-test-folder-60908-8deb' among 0 folders
+project_run_puts_back	2026-09-01	the run got as far as making its project	project_run_puts_back_test.py -- in the child, `step("project " + ground.name)` to `step("projekt " ...)`, so the parent never sees the step it waits on	the run got as far as making its project                   FAIL it got to 'projekt vpm-test-left-60956-3299' after 31.8 s
+project_run_puts_back	2026-09-01	the run ended by itself, nothing had to be killed	project_run_puts_back_test.py -- `import time` and `while True: time.sleep(0.5)` appended to the child, so it never ends	the run ended by itself, nothing had to be killed          FAIL it ended with None after 30.2 s
+project_run_puts_back	2026-09-01	a run that never tidied up leaves its project behind	resolve_ground.py -- `self.pm.SaveProject()` taken out of OwnProject.open	a run that never tidied up leaves its project behind       FAIL 'vpm-test-left-61212-374b' among 17 projects
+project_run_puts_back	2026-09-01	and it leaves that project open in front of somebody	project_run_puts_back_test.py -- the child loads its own `ground.before` again after `ground.open()`	and it leaves that project open in front of somebody       FAIL Resolve has 'Untitled Project 1' open, the run made 'vpm-test-left-61258-7419'
+project_run_puts_back	2026-09-01	the sweep deletes what that run left behind	resolve_ground.py -- `pm.DeleteProject(name)` in swept() to `pass`	the sweep deletes what that run left behind                FAIL 'vpm-test-left-61329-6e93' in the list: True, of 18 projects
+project_run_puts_back	2026-09-01	and it says by name which project it deleted	sweep.py -- the swept line prints the count without the names	and it says by name which project it deleted               FAIL 'vpm-test-left-61348-1d32' in what the sweep printed: False
+project_run_puts_back	2026-09-01	the sweep deletes a folder of the tests' shape as well	resolve_ground.py -- `pm.DeleteFolder(name)` in swept() to `pass`	the sweep deletes a folder of the tests' shape as well     FAIL 'vpm-test-folder-61365-274e' in the folder list: True, of 1 folders
+project_run_puts_back	2026-09-01	a project that only looks like the tests' own is left alone	resolve_ground.py -- swept() takes `if "vpm-test" in n` for the projects instead of `if TEST_PROJECT.match(n)`	a project that only looks like the tests' own is left alone FAIL 'vpm-test-decoy-KEEP-61385' in the list: False, of 16 projects
+project_run_puts_back	2026-09-01	the project that was open at the start is open again	sweep.py -- `wanted = argv[at + 1]` to `wanted = argv[at + 1] + "-nope"`	the project that was open at the start is open again       FAIL Resolve has 'vpm-test-left-61657-81f4' open, it started with 'Untitled Project 1'
+project_run_puts_back	2026-09-01	and the sweep says by name which project it opened	sweep.py -- `print("  open again: %r" % wanted)` to `print("  open again.")`	and the sweep says by name which project it opened         FAIL 'Untitled Project 1' in what the sweep printed: False
+project_run_puts_back	2026-09-01	everything the test made is gone again	project_run_puts_back_test.py -- `pm.DeleteProject(decoy)` in the finally to `pass`	everything the test made is gone again                     FAIL 'vpm-test-decoy-KEEP-61818' is still in the project list
+project_run_puts_back	2026-09-01	the run reached the end without an exception	project_run_puts_back_test.py -- `listed()` calls `GetProjectListInCurrentFolderX`, a method Resolve does not have	the run reached the end without an exception               FAIL TypeError: 'NoneType' object is not callable
