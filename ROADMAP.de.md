@@ -98,6 +98,18 @@ Programm legt ihn auf die zweite Videospur und liest nach, wie viele
 Clips dort liegen, und eine Attrappe kann das nicht bestätigen. Und der
 Fall, den keine Attrappe je gezeigt hat: ein Resolve, das nein sagt.
 
+**Am 1.9.2026 gemessen, und deshalb sind sie noch keine Gewohnheit:**
+der Test, der beweist, daß ein abgebrochener Lauf nichts hinterläßt,
+stellt den Abbruch her, indem er einen Prozeß abschießt, der eine offene
+Verbindung zu Resolve mit geöffnetem Projekt hält. Drei Läufe, zwei
+überlebten, der dritte riß Resolve um und ließ ein halbfertiges Projekt
+zurück, das der Aufräumer nicht sieht — er liest Projekte, und das Ding
+erscheint als Ordner. Bevor sie wieder laufen, muß der Abbruch geordnet
+hergestellt werden. In derselben Nacht lagen drei Projekte aus drei
+Sitzungen im Projektmanager des Eigentümers, keines je wegräumbar, weil
+nichts einen Testprojektnamen in die eine Form zwingt, die der Aufräumer
+kennt.
+
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Beide stellen dieselbe Frage — kommt eine Stereo-Aufnahme
 zweikanalig zurück — und sie stellen sie auf zwei ganz verschiedene

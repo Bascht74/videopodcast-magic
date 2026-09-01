@@ -93,6 +93,18 @@ track and reads back how many clips landed there, and a stand-in cannot
 confirm that. So does the case no stand-in has ever shown: a Resolve
 that says no.
 
+**Measured on 1.9.2026, and it is why they are not yet a routine:** the
+test that proves an interrupted run leaves nothing behind makes the
+interruption by killing a process that holds an open connection to
+Resolve with a project open. Three runs, two survived, the third took
+Resolve down and left a half-made project the sweeper cannot see -- it
+reads projects, and that thing shows as a folder. Before they run again
+the interruption has to be made in an orderly way. Three projects from
+three sessions were found in the owner's project manager the same night,
+none of them ever removable, because nothing forces a test's project
+name into the one shape the sweeper knows.
+
+
 **The two ways to auphonic.com get run against the service.** Both ask
 the same question -- does a stereo recording come back with both
 channels -- and they ask it in two entirely different ways. A single
