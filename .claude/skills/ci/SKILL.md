@@ -98,3 +98,67 @@ Logs are kept for ninety days, and deleting old runs by hand deletes the
 evidence with them. What is worth keeping across that is counted into
 `tests/state/wobbly` by `bash wobbly.sh`, which reads a run once and
 keeps its numbers whether or not the run survives.
+
+## Is it us, or is it the machine?
+
+**Ask this before reading a single test line.** A red job has two quite
+different causes, and treating one as the other wastes a whole round: a
+check that really failed, or a runner that never got as far as checking.
+
+**The signs that it is the machine, not the code:**
+
+* **A tool is missing that the workflow installs** -- ffmpeg absent on
+  Linux, PySide6 not resolving, a wheel that would not build. The red
+  line then names a program, not a judgement.
+* **The failure sorts by something the code knows nothing about.** Two
+  jobs of the same Python version on different operating systems, or
+  every job on one runner image. Our faults sort by *platform* (paths,
+  file locking, a fixed `/tmp`), almost never by interpreter version
+  across platforms.
+* **A job hangs far past the others.** Measured on 1.9.2026: four jobs
+  finished in three to five minutes while two sat at thirteen. Compare
+  against `state/longest`, which holds what the slowest job really costs.
+* **The step that failed is a setup step**, not the suite step.
+* **Nothing changed here that could reach it** -- the commit touched a
+  document, or a platform the job does not run.
+
+**What to do, in this order:**
+
+1. **Name the step that failed**, not the job. `gh run view --job <id>
+   --json steps` says which one. Setup step -> the machine. Suite step ->
+   probably us.
+2. **Wait for the whole run before reading the log.** GitHub releases a
+   job's log only when the run is finished. Reading before that gets
+   "still in progress", and re-asking costs rounds.
+3. **The machine: start again as small as it goes, without a new
+   commit.** Three sizes, and the smallest that fits is the right one:
+   `gh run rerun <id> --job <job-id>` for one job -- a single hang, a
+   single missing tool; `--failed` for the failed ones; the bare `rerun`
+   for all six. All three keep the same commit, so the evidence still
+   belongs to what will be tagged. **Never push a commit to trigger a
+   retry** -- that changes the state the evidence is about, and it kills
+   the run that was going to be it.
+   **The one job green is not the release.** A rerun answers only for
+   that job on that state. Once it is green, let the whole run go once
+   more before the tag: six green on one state is the evidence, six green
+   collected over four attempts is not.
+   **And a rerun cannot carry a fix.** It repeats the same commit, so
+   nothing you changed here is in it. Repaired code needs a push, and a
+   push means a new run and the waiting that goes with it.
+   **Which is exactly why the two causes want different tools.** Was it
+   the machine? Then the rerun is the right instrument and the cheap one:
+   the state was never at fault, so repeating it against the same commit
+   is the whole repair. Was it us? Then a rerun answers nothing, however
+   often it is asked. So decide the question above first, and the tool
+   follows from the answer.
+4. **Twice in a row on the same job is not the machine any more.** A
+   flake repeats randomly; a fault repeats in the same place. Two reds in
+   the same job and the same step: read it as ours and stop rerunning.
+5. **Us: repair, then one push.** See the release skill -- one run per
+   attempt.
+
+**Write down which it was.** A red run put down to "GitHub" and never
+looked at again is how a real fault survives for weeks. If it was the
+machine, the line says which tool was missing and on which image; if it
+was us, the red line goes into the counter-proof register where it
+belongs.

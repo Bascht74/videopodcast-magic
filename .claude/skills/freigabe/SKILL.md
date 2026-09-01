@@ -67,8 +67,29 @@ What that refers to is the command-line switches, the format of the
 project file, and the names of what comes out. **Manual, tests or notes
 alone get no new number.**
 
-**Commit, then wait** until the suite is green on all six jobs. Only
-then the tag:
+**One run per attempt at a release.** Everything finished first -- every
+file, every register, the whole suite green here -- then **one** push.
+Then wait, without adding anything. A commit pushed after it kills the
+run that was going to be the evidence, and the list of runs stops saying
+which state was really tested. Green -> the tag. Red -> repair, and the
+next push is the next attempt.
+
+**Before that push, count what is left over.** The commonest way to
+break this rule is not impatience, it is a file forgotten while staging:
+
+```bash
+git status --short            # must be empty, or every line explained
+git stash list                # nothing of this work parked
+```
+
+A `git status` that is not empty after the commit means the push is not
+the whole thing. Look at every remaining line and say out loud why it
+stays -- a state file another strand owns is a reason; "I did not see
+it" is the fault this check exists for. It has happened: `tests/resolve.sh`
+was missed, reached as a second commit, and killed the first run.
+
+**Then wait** until the suite is green on all six jobs. Only then the
+tag:
 
 ```bash
 git tag -a v2.5.0-beta -m "videopodcast-magic 2.5.0-beta"
