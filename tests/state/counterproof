@@ -2917,15 +2917,15 @@ voice_language_arrives	2026-08-31	the field offers exactly the languages written
 voice_language_arrives	2026-08-31	the macOS door is reached and the call recorded	macos_words: "if not program:" turned into "if program:", so the recogniser is never called at all	the macOS door is reached and the call recorded            FAIL 0 calls, first []
 voice_language_arrives	2026-08-31	the macOS recogniser is handed the code, not the tag	speech_locale: "return SPEECH_CODES.get(tag.lower(), tag)" replaced by "return tag" -- the unconverted program of this morning	the macOS recogniser is handed the code, not the tag       FAIL 25 of 25 wrong: ["ara -> 'ara', wanted 'ar'", "cat -> 'cat', wanted 'ca'", "ces -> 'ces', wanted 'cs'"]
 voice_language_arrives	2026-08-31	the macOS way brings words back for every language offered	speech_locale: "return SPEECH_CODES.get(tag.lower(), tag)" replaced by "return tag" -- the unconverted program of this morning	the macOS way brings words back for every language offered FAIL 25 of 25 came back with nothing: ['ara', 'cat', 'ces']
-open	voice_mhm_is_speech	a tenth of a second is not counted as speech
-open	voice_mhm_is_speech	and it is about as long as it was built
-open	voice_mhm_is_speech	and it stands at 0.2 s
-open	voice_mhm_is_speech	and the measurement uses it, not a number of its own
-open	voice_mhm_is_speech	at the old floor the same reaction disappears again
-open	voice_mhm_is_speech	the floor is a named number, not a spelling in a signature
-open	voice_mhm_is_speech	the new floor cuts it in two
-open	voice_mhm_is_speech	the old floor leaves one long pause where the answer was
-open	voice_mhm_is_speech	the short reaction is found at all
+voice_mhm_is_speech	2026-09-01	a tenth of a second is not counted as speech	M07.py -- Zeile 4984 `SPEECH_MIN_LEN_S = 0.2` zu `0.05`	a tenth of a second is not counted as speech               FAIL [(6.0, 6.1)]
+voice_mhm_is_speech	2026-09-01	and it is about as long as it was built	M11.py -- in speakers_from_tracks Zeile 5090 `segments.append([first * block, j * block])` zu `(j + 8) * block` (jeder Lautblock 0,8 s laenger)	and it is about as long as it was built                    FAIL 1.10 s
+voice_mhm_is_speech	2026-09-01	and it stands at 0.2 s	M01.py -- Zeile 4984 `SPEECH_MIN_LEN_S = 0.2` zu `0.4`	and it stands at 0.2 s                                     FAIL 0.4
+voice_mhm_is_speech	2026-09-01	and the measurement uses it, not a number of its own	M10.py -- in speakers_from_tracks Zeile 4988 `min_len=SPEECH_MIN_LEN_S` zu `min_len=0.25` (eine eigene Zahl neben der Konstante)	and the measurement uses it, not a number of its own       FAIL 0.25
+voice_mhm_is_speech	2026-09-01	at the old floor the same reaction disappears again	M08.py -- in speakers_from_tracks Zeile 5103 `if b - a >= min_len` zu `>= 0.0` (die Untergrenze wirkt gar nicht mehr)	at the old floor the same reaction disappears again        FAIL [(6.0, 6.3)]
+voice_mhm_is_speech	2026-09-01	the floor is a named number, not a spelling in a signature	M09.py -- Zeile 4984 die Konstante SPEECH_MIN_LEN_S entfernt und in der Signatur von speakers_from_tracks `min_len=0.2` hingeschrieben	the floor is a named number, not a spelling in a signature FAIL SPEECH_MIN_LEN_S is None, wanted a number
+voice_mhm_is_speech	2026-09-01	the new floor cuts it in two	M03.py -- in speakers_from_tracks Zeile 5103 `if b - a >= min_len` zu `>= min_len * 3`	the new floor cuts it in two                               FAIL 3.50 s instead of 3.50 s
+voice_mhm_is_speech	2026-09-01	the old floor leaves one long pause where the answer was	M11.py -- in speakers_from_tracks Zeile 5090 `segments.append([first * block, j * block])` zu `(j + 8) * block` (jeder Lautblock 0,8 s laenger)	the old floor leaves one long pause where the answer was   FAIL 0.90 s
+voice_mhm_is_speech	2026-09-01	the short reaction is found at all	M03.py -- in speakers_from_tracks Zeile 5103 `if b - a >= min_len` zu `>= min_len * 3`	the short reaction is found at all                         FAIL {'Asks': [(0.5, 4.5), (8.0, 12.0)], 'Answers': []}
 voice_mic_reaches_cut	2026-09-01	a run that leaves a track out prints a line saying so	copy c4_noabsent.py -- in speakers_for_the_cut `absent = [t["name"] for t in tracks if t["name"] not in in_cut]` to `absent = []`	a run that leaves a track out prints a line saying so      FAIL found '' in 11 lines of log, wanted a line under '  Not in the cut: '
 voice_mic_reaches_cut	2026-08-31	a separation speaks for the recording a track is made of	copy x_a_noblocks.py -- in separated_already `mine = list(track.get("blocks") or []) + [` to `mine = [] + [`, so the recordings a track is made of are not looked at	a separation speaks for the recording a track is made of   FAIL answered False, wanted True
 voice_mic_reaches_cut	2026-08-31	and for the camera a track was taken off	copy x_a_nofromcam.py -- in separated_already `track.get("from_camera") or ""` to `""`	and for the camera a track was taken off                   FAIL answered False, wanted True
@@ -2995,28 +2995,28 @@ voice_names_when_sure	2026-08-31	voices somebody has named get no proposal	b49.p
 voice_names_when_sure	2026-08-31	while the two that spoke enough are	b26.py -- in which_microphone Zeile 3981 `for _n, u, _s2, _d2 in picked[i + 1:] if t == u)` zu `if t != u)` (die Doppelbelegungsregel umgedreht)	while the two that spoke enough are                        FAIL {'SPEAKER_02': 'Cleo'}
 voice_names_when_sure	2026-08-31	who_asks leaves the passer-by out	b39.py -- Zeile 3636 `ROLE_MIN_SENTENCES = 20` zu `1`	who_asks leaves the passer-by out                          FAIL ['Speaker 1', 'Speaker 2', 'Speaker 4', 'Speaker 3']
 voice_names_when_sure	2026-08-31	with only two there is one host, and it is not numbered	b36.py -- in voice_role_names Zeile 3727 `T('Host') if len(asking) == 1 else` zu `== 0` (auch der einzige Moderator bekommt eine Nummer)	with only two there is one host, and it is not numbered    FAIL {'Speaker 3': 'Guest', 'Speaker 2': 'Host 1'}
-open	voice_questions_rank	a question inside quotation marks still counts
-open	voice_questions_rank	all three are ranked
-open	voice_questions_rank	and an ordinary full stop does not
-open	voice_questions_rank	and is still named as the one asking
-open	voice_questions_rank	and the guest speaks the longer of the two
-open	voice_questions_rank	and the one asking most comes first
-open	voice_questions_rank	both speakers are ranked
-open	voice_questions_rank	five sentences each: nothing is claimed
-open	voice_questions_rank	it says it takes one voice per track
-open	voice_questions_rank	it says the order carries and the distance does not
-open	voice_questions_rank	no words at all: nothing is claimed
-open	voice_questions_rank	nothing to report is nothing printed
-open	voice_questions_rank	one speaker with too little: nothing is claimed either
-open	voice_questions_rank	one track alone: nothing is claimed
-open	voice_questions_rank	the guest comes last
-open	voice_questions_rank	the host does hold the floor here
-open	voice_questions_rank	the numbers are in it, not just the order
-open	voice_questions_rank	the numbers come with it, so a person can check them
-open	voice_questions_rank	the one asking is named first
-open	voice_questions_rank	the one asking stands first
-open	voice_questions_rank	the report has a heading and one line per speaker
-open	voice_questions_rank	the shorter speaker comes first
+voice_questions_rank	2026-09-01	a question inside quotation marks still counts	K13.py -- Zeile 16840 das Anfuehrungszeichen aus CLOSING_MARKS entfernt	a question inside quotation marks still counts             FAIL wort?"
+voice_questions_rank	2026-09-01	all three are ranked	K02.py -- in who_asks Zeile 3772 `enough = [...]` zu `enough = [...][:2]` (der dritte Sprecher faellt weg)	all three are ranked                                       FAIL ['HostA', 'Guest']
+voice_questions_rank	2026-09-01	and an ordinary full stop does not	gegen eine Kopie des Tests in /private/tmp/mhm_rollen/falsified_full_stop_test.py, in der das gewoehnliche Satzende `wort.` zu `wort?` gemacht ist -- am Programm ist dieser Check nicht zu Fall zu bringen	and an ordinary full stop does not                         FAIL wort?
+voice_questions_rank	2026-09-01	and is still named as the one asking	K06.py -- in who_asks Zeile 3769 `if text.endswith("?")` zu `endswith("!")` (keine Frage wird mehr gezaehlt)	and is still named as the one asking                       FAIL ['Guest', 'Host']
+voice_questions_rank	2026-09-01	and the guest speaks the longer of the two	K05.py -- in who_asks Zeile 3753 `sum(b - a for a, b in segs)` zu `sum(a - b ...)` (Vorzeichen der Redezeit gedreht)	and the guest speaks the longer of the two                 FAIL [('Host', -48.0), ('Guest', -144.0)]
+voice_questions_rank	2026-09-01	and the one asking most comes first	K03.py -- in who_asks Zeile 3779 im Sortierschluessel `-(r[2] / float(r[1]))` zu `(r[2] / float(r[1]))` (Vorzeichen gedreht)	and the one asking most comes first                        FAIL ['Guest', 'HostB', 'HostA']
+voice_questions_rank	2026-09-01	both speakers are ranked	K01.py -- in who_asks Zeile 3778 `for n in enough]` zu `for n in enough[:1]]` (ein Sprecher faellt aus der Reihenfolge)	both speakers are ranked                                   FAIL [('Guest', 30, 1, 144.00000000000014)]
+voice_questions_rank	2026-09-01	five sentences each: nothing is claimed	K08.py -- Zeile 3739 `ROLE_MIN_SENTENCES = 20` zu `5`	five sentences each: nothing is claimed                    FAIL [('Host', 5, 4, 8.000000000000002), ('Guest', 5, 0, 15.999999999999998)]
+voice_questions_rank	2026-09-01	it says it takes one voice per track	K18.py -- in roles_report Zeile 3793 `one voice per track` zu `one voice per channel`	it says it takes one voice per track                       FAIL   The order carries, the distance between them does not: measured over
+voice_questions_rank	2026-09-01	it says the order carries and the distance does not	K17.py -- in roles_report Zeile 3790 `The order carries` zu `The ranking carries`	it says the order carries and the distance does not        FAIL   The ranking carries, the distance between them does not: measured ov
+voice_questions_rank	2026-09-01	no words at all: nothing is claimed	K12.py -- in who_asks Zeile 3751 die Schranke `not words` entfernt, `>= ROLE_MIN_SENTENCES` zu `>= 0` und `float(r[1])` zu `float(r[1] or 1)`, damit der Fall als Urteil statt als Division durch Null endet	no words at all: nothing is claimed                        FAIL 2 speakers ranked: [('Guest', 0, 0, 9.600000000000009), ('Host', 0, 0, 48.00000000000003)]
+voice_questions_rank	2026-09-01	nothing to report is nothing printed	K19.py -- in roles_report Zeile 3783 `if not order: return []` entfernt	nothing to report is nothing printed                       FAIL 2 lines printed: ['\x01h\nWHO ASKS -- a proposal, and nothing is set from it', '  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two people share a microphone it says nothing useful.']
+voice_questions_rank	2026-09-01	one speaker with too little: nothing is claimed either	K10.py -- in who_asks Zeile 3772 `if len(enough) < 2:` zu `< 1:`	one speaker with too little: nothing is claimed either     FAIL [('Host', 30, 20, 48.00000000000003)]
+voice_questions_rank	2026-09-01	one track alone: nothing is claimed	K11.py -- in who_asks Zeile 3751 `len(tracks) < 2` zu `< 1` und die zweite Schranke `if len(enough) < 2:` zu `< 1:` (beide Schranken decken denselben Fall, eine allein faellt nicht)	one track alone: nothing is claimed                        FAIL [('Host', 30, 20, 48.00000000000003)]
+voice_questions_rank	2026-09-01	the guest comes last	K03.py -- in who_asks Zeile 3779 im Sortierschluessel `-(r[2] / float(r[1]))` zu `(r[2] / float(r[1]))` (Vorzeichen gedreht)	the guest comes last                                       FAIL ['Guest', 'HostB', 'HostA']
+voice_questions_rank	2026-09-01	the host does hold the floor here	K05.py -- in who_asks Zeile 3753 `sum(b - a for a, b in segs)` zu `sum(a - b ...)` (Vorzeichen der Redezeit gedreht)	the host does hold the floor here                          FAIL {'Host': -300.0, 'Guest': -40.0}
+voice_questions_rank	2026-09-01	the numbers are in it, not just the order	K16.py -- in roles_report Zeile 3789 `% (name, as_hms(held), questions, sentences)` zu `..., sentences, questions)` (die beiden Zahlen vertauscht)	the numbers are in it, not just the order                  FAIL ['  Host                 0:00:48.000 speaking, 30 of 22 sentences a question', '  Guest                0:02:24.000 speaking, 30 of 1 sentences a question']
+voice_questions_rank	2026-09-01	the numbers come with it, so a person can check them	K07.py -- in who_asks Zeile 3769 `said[who][1] += 1` zu `+= 2` (Fragen doppelt gezaehlt)	the numbers come with it, so a person can check them       FAIL ('Host', 30, 44, 48.00000000000003)
+voice_questions_rank	2026-09-01	the one asking is named first	K15.py -- in roles_report Zeile 3787 `for ... in order:` zu `order[::-1]` (die Reihenfolge im Protokoll gedreht)	the one asking is named first                              FAIL ['  Guest                0:02:24.000 speaking, 1 of 30 sentences a question']
+voice_questions_rank	2026-09-01	the one asking stands first	K03.py -- in who_asks Zeile 3779 im Sortierschluessel `-(r[2] / float(r[1]))` zu `(r[2] / float(r[1]))` (Vorzeichen gedreht)	the one asking stands first                                FAIL ['Guest', 'Host']
+voice_questions_rank	2026-09-01	the report has a heading and one line per speaker	K14.py -- in roles_report Zeile 3787 `for ... in order:` zu `order[:-1]` (eine Zeile je Sprecher faellt weg)	the report has a heading and one line per speaker          FAIL 3
+voice_questions_rank	2026-09-01	the shorter speaker comes first	K04.py -- in who_asks Zeile 3779 im Sortierschluessel `r[3]` zu `-r[3]` (bei Gleichstand entscheidet die laengere statt der kuerzeren Redezeit)	the shorter speaker comes first                            FAIL [('Guest', 120.0), ('Host', 40.0)]
 voice_raw_times_kept	2026-08-31	a broken row is left out, the rest stands	speaker_segments_group files a row it could not read instead of skipping it: the continue in the except becomes stretch = (0.0, 0.0)	a broken row is left out, the rest stands                  FAIL
 voice_raw_times_kept	2026-08-31	a changed file is measured again	speaker_cache_key leaves the mtime out of the key: "%s|%d|%d" % (mark[0], mark[1], mark[2]) becomes "%s|%d" % (mark[0], mark[2])	a changed file is measured again                           FAIL
 voice_raw_times_kept	2026-08-31	a changed source is not carried on wrongly	speakers_from_project no longer compares mtime and size: if not mark or mark[1] != d.get("mtime") or mark[2] != d.get("size"): becomes if not mark:	a changed source is not carried on wrongly                 FAIL
