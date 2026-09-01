@@ -178,8 +178,30 @@ Claude-Session: <the session URL>
 ```
 
 A pull request body ends with the "Generated with Claude Code" line and
-the same session URL. These are easy to forget on a commit made in a
-hurry; they belong to every one.
+the same session URL.
+
+**"Easy to forget" is not a step, so they are counted.** After every
+commit, and once more before a push:
+
+```bash
+git log -1 --format=%B | tail -2         # both lines, in this order
+
+for h in $(git log origin/main..HEAD --format=%H); do   # prints nothing
+  b=$(git log -1 --format=%B "$h")
+  echo "$b" | grep -q Co-Authored-By && echo "$b" | grep -q Claude-Session ||
+    echo "MISSING $(git log -1 --format='%h %s' "$h")"
+done
+```
+
+A commit the loop names is amended **before the next one is made** --
+`git commit --amend`. After a push the lines cannot be added without
+rewriting the branch, so afterwards is never.
+
+**Measured on 1.9.2026: ten of the 321 commits here carry neither line,
+and the newest of them is `40361b7`, "2.25.0-beta -- the night of the
+first" -- the release commit itself.** That is exactly the commit made in
+a hurry. The sentence warning about it stood two lines above and was
+skipped, which is what a sentence does.
 
 ## When a commit is made at all
 

@@ -131,6 +131,46 @@ The length is measured against the middle rather than against a number
 written down, because a number goes stale the moment the style moves
 and the middle of what was just written does not.
 
+## The read-back, and it is a step, not a good intention
+
+**Before the section is finished, read every point once more as somebody
+who was not there -- and the hard part is the "not there".** Whoever
+just made the measurement cannot un-know it: 3.5 and 5.3 are then two
+familiar quantities, not two similar numbers. So the read-back is not
+done from memory. **Put the measurement away and read the point out of
+the file**, or better out of the rendered release page, where it stands
+without anything of yours around it. If a number's meaning has to be
+supplied from your own head to make the sentence work, the sentence is
+missing it.
+
+**Read every point once more as somebody who was not there.** Not the whole section -- one point at a time, out of
+its neighbours, the way a reader meets it in a release list. The skill
+says elsewhere that an exhortation gets skipped; so this is a list of
+questions with answers, and a point that fails one is rewritten.
+
+1. **Two numbers in one point: can they be mistaken for each other?**
+   This is the one that got through on 1.9.2026: "a speaker on 3.5 %" and
+   "it is 5.3 % now" stood in one sentence, one a share of speaking time
+   and the other a share of misplaced speech. Sebastian had to ask what
+   it meant. **Where two numbers in a point measure different things,
+   one of them goes** -- into a second point, or out. Where both must
+   stay, say them in different units: half against a twentieth reads at
+   a glance, 50 % against 5.3 % does not.
+2. **Does a number in it need the setup to make sense?** A share of a
+   test that is not described is noise. Either the setup goes in, or the
+   number does not.
+3. **Read the first sentence alone.** If it does not say which thing
+   changed, no later sentence rescues it.
+4. **Under Fixed: is the second half there** -- what happens now, not
+   only what was wrong?
+5. **Is there a word in it only somebody who built it would use?**
+6. **Would a stranger have to open the commit to understand it?**
+
+**The German half is read again on its own, not against the English
+one.** A point carried over reads as a translation, and a number that
+was clear in English can collide in German, where the sentence is
+longer and the two figures end up closer together.
+
 ## What only a person sees
 
 Whether the point reaches a stranger. Whether it says one thing instead

@@ -51,9 +51,10 @@ nicht.
 ### Fixed
 
 - A speaker who says little was counted as speaking whenever a neighbour
-  did: the bleed was removed from the measurement only above a tenth of
-  the recording. On test material with a speaker on 3.5 %, half the
-  speech went to the wrong person; it is 5.3 % now.
+  did, because the bleed was removed from the measurement only for
+  somebody speaking in more than a tenth of the recording. Below that it
+  now works too. On test material, half of what was heard used to be put
+  on the wrong person; a twentieth is now.
 - The line saying how many speakers were measured was hidden again 400
   milliseconds later by the preview. It now stays.
 - A test that talks to DaVinci Resolve destroyed an open project that
@@ -97,9 +98,10 @@ nicht.
 ### Behoben
 
 - Wer wenig sagt, galt als sprechend, sobald ein Nachbar sprach: das
-  Übersprechen wurde nur oberhalb eines Zehntels der Aufnahme
-  herausgerechnet. An Prüfmaterial mit 3,5 % landete die Hälfte der
-  Sprache bei der falschen Person; jetzt sind es 5,3 %.
+  Übersprechen wurde nur für jemanden herausgerechnet, der in mehr als
+  einem Zehntel der Aufnahme redet. Darunter geschieht es jetzt auch. An
+  Prüfmaterial landete bisher die Hälfte des Gehörten bei der falschen
+  Person, jetzt ein Zwanzigstel.
 - Die Zeile, die sagt, wieviele Sprecher gemessen wurden, wurde 400
   Millisekunden später von der Vorschau wieder ausgeblendet, so daß sie
   niemand je gesehen hat. Sie bleibt jetzt stehen.

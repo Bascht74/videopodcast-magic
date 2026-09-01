@@ -47,7 +47,27 @@ a number means anything.
    every version moves them; one that changed the window does.
 
 5. **The list and the issue are up to date** -- `docs/notes/` for what
-   is open, the roadmap issue for whoever reads from outside.
+   is open, the roadmap issue for whoever reads from outside. **Said in
+   numbers, not asserted**, because a list nobody counts drifts without
+   anything noticing:
+
+   ```bash
+   gh issue view <roadmap issue> --json updatedAt,title
+   git log --oneline v<previous>..HEAD -- docs/notes/aufgaben.md | wc -l
+   ```
+
+   Three lines go into the release report, and a blank one stops the
+   release:
+
+   * `aufgaben.md: N entries struck off since v<previous>, M added`
+   * `roadmap issue: last touched <date>, <what changed in it>`
+   * `nothing this version's changelog claims is still standing as open`
+
+   **The real case: "Where the program stands today" in the roadmap said
+   2.24.0-beta while the program was at 2.25.0-beta.** It had drifted two
+   releases with nothing noticing (`80f46d5`, 1.9.2026). The *number* is
+   held mechanically in six places now; the *content* of the list is held
+   by nothing but these three lines.
 
 ## The mechanics, in this order
 
@@ -124,7 +144,9 @@ the commits are searched through, the manual is read while working. A
 title stays honest all the same -- about the work, never at the expense
 of whoever ran into the fault, and it names the thing that matters
 rather than being funny beside it. A release that fixed one thing gets a
-title about that one thing.
+title about that one thing. It reads as something a person wrote: out of
+the thing itself, no exclamation mark, no explanation behind it. If
+nothing comes, dry beats laboured.
 
 **The file goes on at creation, not afterwards:**
 
@@ -149,10 +171,6 @@ is 1 308 045 bytes.
 gh release view v<number>
 gh release edit v<number> --prerelease=false --latest   # if it is not
 ```
-
-**The title carries half a sentence** that a person can be seen to have
-written -- out of the thing itself, no exclamation mark, no explanation
-behind it. If none comes, dry beats laboured.
 
 **If a changelog section changes later, the release text is pulled up
 with it**, for every release it touches and not only the newest:
