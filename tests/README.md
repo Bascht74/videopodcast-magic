@@ -1,6 +1,6 @@
 # The test suite
 
-185 tests against `../videopodcast-magic.py`. Every one of them stands
+186 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-185 tests. The name is the one a red line carries, and beside it the
+186 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -364,6 +364,7 @@ it is green.
 | `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
+| `cut_two_stay_two` | Two cameras never become one camera in the cut. |
 | `cut_voice_on_its_camera` | A multitrack run puts every voice on the camera the assignment names. |
 | `cut_wide_colour_apart` | Does the wide shot colour keep far enough from the speaker colours? |
 
