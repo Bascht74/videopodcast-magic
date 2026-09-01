@@ -1,5 +1,12 @@
 # -*- coding: utf-8 -*-
-"""The common time axis, measured out of the sound and without a window."""
+"""The common time axis, measured out of the sound and without a window.
+
+Where a file sits, and how fast the recorder that wrote it ran. The
+second is what the run divides the offset by before it writes a track,
+so the axis has to carry it and the project file has to keep it: with
+it thrown away the window measured the speakers on one clock and the
+run on another.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -145,6 +152,39 @@ in_source = source.count("reference = max(envelopes, "
         "key=lambda p: len(envelopes[p]))")
 check("the computation is no longer in gui()", in_source == 1,
         "the line stands %d times in the source, wanted once" % in_source)
+
+print("\n7. How fast each recorder ran")
+# Only that the number is there and comes back. The value cannot be
+# checked on this material: the regression that finds the speed wants
+# sample points spread over the runtime, and half a minute holds too
+# few of them, so every file here answers 1. A drift is measured on an
+# episode, not on thirty seconds.
+d, _t = vpm.measure_time_axis([A, B, C])
+speed = (d or {}).get("clock") or {}
+check("a speed for every file on the axis",
+        sorted(speed) == sorted((d or {}).get("axis") or {}),
+        "%d speeds against %d places"
+        % (len(speed), len((d or {}).get("axis") or {})))
+# Made up, not measured: with the measured ones all at 1 the road
+# through the file would be green even where nothing travelled it.
+made_up = dict((vpm.path_key(p), b) for p, b in
+               ((A, 1.0), (B, 0.999969035), (C, 1.000031)))
+places = dict((p, d["axis"][vpm.path_key(p)]) for p in (A, B, C))
+entries = vpm.timeline_entries(places, made_up)
+back = vpm.axis_still_valid({"timeline": entries}, [A, B, C])
+check("the speed survives the project file",
+        back is not None and all(
+            abs(back["clock"][k] - made_up[k]) < 1e-8 for k in made_up),
+        "put in %s, read back %s"
+        % ({k.rsplit("/", 1)[-1]: v for k, v in made_up.items()},
+           {k.rsplit("/", 1)[-1]: v
+            for k, v in ((back or {}).get("clock") or {}).items()}))
+older = [dict((k, v) for k, v in e.items() if k != "clock") for e in entries]
+check("and a file stored without one comes back at 1",
+        vpm.axis_still_valid({"timeline": older}, [A, B, C])["clock"]
+        == dict((vpm.path_key(p), 1.0) for p in (A, B, C)),
+        "a project file written before the speed was kept says %s"
+        % vpm.axis_still_valid({"timeline": older}, [A, B, C])["clock"])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

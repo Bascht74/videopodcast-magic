@@ -36,10 +36,10 @@ TURNS = {"Host": [(0, 10), (20, 30), (40, 50)],
          "Guest": [(10, 20), (30, 40), (50, 60)]}
 
 
-def voice(turns, seed):
+def voice(turns, seed, length=LENGTH):
     """Speech-like noise in the given windows, silence in between."""
     rng = np.random.default_rng(seed)
-    x = np.zeros(int(LENGTH * RATE))
+    x = np.zeros(int(length * RATE))
     for a, b in turns:
         n = int((b - a) * RATE)
         # Amplitude wobbles like speech, so blocks differ from each other.
@@ -68,11 +68,11 @@ def speech_seconds(out):
     return {n: round(sum(b - a for a, b in segs), 1) for n, segs in out}
 
 
-def wrong_share(out):
+def wrong_share(out, turns=TURNS):
     """How much of a speaker's detected speech falls in the other's turn."""
     bad = total = 0.0
     for n, segs in out:
-        mine = TURNS[n]
+        mine = turns[n]
         for a, b in segs:
             total += b - a
             inside = sum(max(0.0, min(b, y) - max(a, x)) for x, y in mine)
@@ -144,6 +144,67 @@ moved = [(n, p, 100.0) for n, p, _o in tracks]
 out = vpm.speakers_from_tracks(moved, separate=True)
 first = min(a for _n, segs in out for a, _b in segs)
 check("everything sits 100 s later", 99.0 <= first <= 102.0, str(first))
+
+print("\n7. One person hardly speaks -- and is separated all the same")
+# Each track is held against a percentile of its own blocks, silence
+# included. A speaker who says little pushes that reference down into
+# what the others bleed into their microphone, and then the bleed is
+# measured against the bleed.
+UNEVEN_LENGTH = 400.0
+UNEVEN = {"Host": [(20, 22), (80, 82), (140, 143), (220, 222),
+                   (300, 303), (360, 362)],                     # 14 s
+          "Guest": [(30, 60), (95, 125), (150, 180), (230, 260),
+                    (310, 340), (370, 390)]}                    # 170 s
+
+
+def build_uneven(bleed_db):
+    """The same two microphones, but one of the two says almost nothing."""
+    host = voice(UNEVEN["Host"], 4, UNEVEN_LENGTH)
+    guest = voice(UNEVEN["Guest"], 5, UNEVEN_LENGTH)
+    g = 10.0 ** (-bleed_db / 20.0)
+    noise = np.random.default_rng(6).normal(0, 0.0005, len(host))
+    write(D + "/Few.wav", host + g * guest + noise)
+    write(D + "/Many.wav", guest + g * host + noise)
+    return [("Host", D + "/Few.wav", 0.0), ("Guest", D + "/Many.wav", 0.0)]
+
+
+tracks = build_uneven(20.0)
+said = []
+apart = vpm.speakers_from_tracks(tracks, separate=True, note=said.append)
+# The two texts the program uses, taken from the catalogue rather than
+# written out, so the check does not hang on one language.
+NOT_SEPARABLE = vpm.T('  Bleed not separable: %s').split('%s')[0]
+AS_LOUD = vpm.T('the microphones hear each other almost as loudly '
+                'as their own speaker')
+refused = [t for t in said if t.startswith(NOT_SEPARABLE)]
+print("   host speaks 14 s of 400 s = 3.5 %, microphones 20 dB apart")
+print("   notes:", "; ".join(t.strip() for t in said)[:100] or "none")
+print("   seconds:", speech_seconds(apart),
+      " wrong %.1f %%" % wrong_share(apart, UNEVEN))
+check("a speaker on a thirtieth of the recording is still separated",
+        not refused, "; ".join(t.strip() for t in refused)[:90]
+        or "no refusal")
+check("no refusal calls microphones 20 dB apart almost equally loud",
+        not [t for t in refused if AS_LOUD in t],
+        "built 20.0 dB apart; %s"
+        % ("; ".join(t.strip() for t in refused)[:80] or "no refusal"))
+few = speech_seconds(apart)["Host"]
+check("the one who speaks little keeps their own 14 s",
+        8.0 <= few <= 40.0, "%.1f s against the 14.0 s built" % few)
+off = wrong_share(apart, UNEVEN)
+check("almost nothing of the quiet speaker lands in the other turn",
+        off < 15.0, "%.1f %% against a limit of 15.0 %%" % off)
+cut = vpm.build_camera_cut(apart, UNEVEN_LENGTH, camera_of, "Wide",
+                           1.2, -0.3)
+share = {}
+for a, b, who in cut:
+    share[who] = share.get(who, 0.0) + (b - a)
+print("   cut: %2d shots | %s" % (len(cut), ", ".join(
+    "%s %.0f s" % (k, v) for k, v in sorted(share.items()))))
+check("the cut reaches both cameras although one of them speaks little",
+        share.get("CamHost", 0.0) > 5.0 and share.get("CamGuest", 0.0) > 60.0,
+        "%s against 5 s and 60 s"
+        % str({k: round(v) for k, v in sorted(share.items())}))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

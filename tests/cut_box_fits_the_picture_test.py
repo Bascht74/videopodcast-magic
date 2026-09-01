@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""The box takes the shape of the picture and gives the rest to the note.
+"""The picture keeps its shape, and the note under it keeps to two lines.
 
 Black over and under a picture is what this is against, so the shape is
 measured off the frames. In order: the handler hooked up only once all
@@ -179,11 +179,13 @@ check("a wider picture takes less height than a narrower one",
       "the picture went from %d to %d high at %.3f against %.3f"
       % (first.height(), now.height(), SIXTEEN_TO_NINE,
          WIDE / float(HIGH)))
-check("what the picture gives up falls to the note under it",
-      player.note.height() > first_note.height(),
-      "the note went from %d to %d high while the picture went from %d "
-      "to %d" % (first_note.height(), player.note.height(),
-                 first.height(), now.height()))
+check("what the picture gives up falls to the box, not to the note",
+      player.note.height() == player.note.line_room()
+      and player.note.height() == first_note.height(),
+      "the note went from %d to %d high, wanting %d for its two lines, "
+      "while the picture went from %d to %d"
+      % (first_note.height(), player.note.height(),
+         player.note.line_room(), first.height(), now.height()))
 check("the picture never reaches past the box it sits in",
       player.box.rect().contains(now),
       "the picture is %d by %d at %d, the box %d by %d"
@@ -197,13 +199,21 @@ check("a narrower camera does not pull the shape back",
       % (player.shape, 600 / 800.0, WIDE / float(HIGH)))
 
 print("\n4. The air at the foot")
+# The note reaches as far down as it ever does only where the height
+# limits the picture, not its shape. In a narrower box the air below
+# the note is whatever the shape left over, and says nothing.
+player.resize(1600, 480)
+app.processEvents()
 player._follow_up(1.0)
 app.processEvents()
 note = player.note.geometry()
 check("air in the box's own colour stands under the note",
       player.box.height() - note.bottom() - 1 == AIR,
-      "%d px of air under the note, wanted %d"
-      % (player.box.height() - note.bottom() - 1, AIR))
+      "%d px of air under the note, wanted %d, the picture %d high in "
+      "a box %d by %d"
+      % (player.box.height() - note.bottom() - 1, AIR,
+         player.stack.height(), player.box.width(),
+         player.box.height()))
 
 shutil.rmtree(folder, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

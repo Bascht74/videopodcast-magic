@@ -607,6 +607,24 @@ check("a recording still being written down is not started a second time",
       "the recogniser was started %d times for the one recording, wanted 1"
       % begun_for_one)
 
+print("\n11. What the store lets go of again")
+# Kept by fingerprint, so a folder of material seen once leaves an entry
+# behind per file -- and every entry is refused after an update, which
+# is why they have to go by age rather than wait to be read again.
+vpm.cache_write("a" * 16, {"findings": []})
+vpm.cache_write("b" * 16, {"findings": []})
+stale, fresh = vpm.cache_path("a" * 16), vpm.cache_path("b" * 16)
+os.utime(stale, (time.time() - 40 * 86400,) * 2)
+vpm.clean_preflight_cache()
+check("a measurement untouched for longer than the limit is let go",
+      not os.path.exists(stale),
+      "%s is still there" % os.path.basename(stale))
+check("and one from this month is kept", os.path.exists(fresh),
+      "%s went with it" % os.path.basename(fresh))
+kept_preflight = vpm.cache_folder("preflight")
+if kept_preflight:                      # inside this test's own cache
+    shutil.rmtree(kept_preflight, ignore_errors=True)
+
 vpm.macos_words, vpm.whisper_words = real_macos, real_whisper
 for one_folder in folders:
     shutil.rmtree(one_folder, ignore_errors=True)
