@@ -343,13 +343,16 @@ REG_PATH = r"Software\videopodcast-magic"
 def store_api_key(key):
     """Store the API key in the OS credential store. True on success.
 
-    On a Mac the key goes to "security" over its input, not as an
-    argument that would stand in the process list; the argument form is
-    the fallback where the read-back shows the wrong key. "security"
-    needs a session of its own -- it prompts on /dev/tty -- and the word
-    is sent twice, because it asks once and once to confirm.
+    On a Mac the key goes to "security" over its input, never as an
+    argument that would stand in the process list. "security" needs a
+    session of its own -- it prompts on /dev/tty -- and the word is sent
+    twice, because it asks once and once to confirm.
     """
     forget_api_key()   # or the old one would still answer
+    # A pasted key carries blanks and a newline more often than not, and
+    # it goes down the pipe as a line -- so it is made one before it
+    # goes. The store takes the edges off on the way back regardless.
+    key = key.strip()
     if sys.platform == "darwin":
         where = ["-s", "videopodcast-magic", "-a", "auphonic"]
         try:
@@ -358,19 +361,15 @@ def store_api_key(key):
                                input=(key + "\n" + key + "\n").encode("utf-8"),
                                capture_output=True, timeout=20,
                                start_new_session=True)
-            asked_well = p.returncode == 0
         except OSError:
             return False              # no "security" on this machine
         except subprocess.TimeoutExpired:
-            # A question nobody can answer would hold the window for
-            # good. The argument form below still works.
-            asked_well = False
-        if asked_well and load_api_key() == key:
-            return True
-        p = subprocess.run(["security", "add-generic-password", "-U"]
-                           + where + ["-w", key], capture_output=True,
-                           timeout=20)
-        return p.returncode == 0
+            # A locked keychain leaves the question standing. There is no
+            # second way round: handing the key over as an argument would
+            # put it in the process list, where every user of the machine
+            # can read it.
+            return False
+        return p.returncode == 0 and load_api_key() == key
     if os.name == "nt":
         try:
             import winreg
@@ -411,11 +410,13 @@ def _ask_key_store():
         try:
             # A limit for the same reason the write has one: a locked
             # keychain can leave "security" waiting, and a window that
-            # waits for good is worse than a key that is not found.
+            # waits for good is worse than a key that is not found. The
+            # empty input keeps it off this program's own standard input.
             p = subprocess.run(
                 ["security", "find-generic-password", "-s",
                  "videopodcast-magic", "-a", "auphonic", "-w"],
-                capture_output=True, timeout=20, start_new_session=True)
+                input=b"", capture_output=True, timeout=20,
+                start_new_session=True)
         except (OSError, subprocess.TimeoutExpired):
             return ""
         return p.stdout.decode("utf-8", "replace").strip()\
@@ -432,11 +433,22 @@ def _ask_key_store():
 
 
 def delete_api_key():
+    """Take the key out of the OS credential store. True if one went.
+
+    The same three guards as the write, and for the same reason: this
+    hangs off a click on a checkbox, where nothing catches a fault, and
+    a locked keychain can leave "security" waiting on a question.
+    """
     forget_api_key()
     if sys.platform == "darwin":
-        p = subprocess.run(["security", "delete-generic-password",
-                            "-s", "videopodcast-magic", "-a", "auphonic"],
-                           capture_output=True)
+        try:
+            p = subprocess.run(["security", "delete-generic-password",
+                                "-s", "videopodcast-magic",
+                                "-a", "auphonic"],
+                               input=b"", capture_output=True, timeout=20,
+                               start_new_session=True)
+        except (OSError, subprocess.TimeoutExpired):
+            return False
         return p.returncode == 0
     if os.name == "nt":
         try:
@@ -3971,12 +3983,16 @@ def which_microphone(voices, tracks):
     """Match each separated voice to the microphone it was speaking into.
 
     *voices* and *tracks* are both [(name, [(a, b), ...])] on one time
-    axis; returns [(voice, track, share, distance)] or []. Where clip-on
-    microphones hear each other every voice fits every microphone about
-    equally and the match lands on whichever is loudest, so the
-    microphones are held against each other first.
+    axis; returns [(voice, track, share, distance)] or []. A voice under
+    a track's own name is that track's own reading, named already, and
+    left in would claim its own microphone twice. Where clip-on
+    microphones hear each other every voice fits every one about
+    equally, so the microphones are held against each other first.
     """
-    if len(voices or ()) < 2 or len(tracks or ()) < 2:
+    own = set(name for name, _segs in tracks or ())
+    voices = [(name, segs) for name, segs in voices or ()
+              if name not in own]
+    if len(voices) < 2 or len(tracks or ()) < 2:
         return []
     held = {name: sum(b - a for a, b in segs) for name, segs in tracks}
     if min(held.values()) <= 0:
@@ -5632,6 +5648,15 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
                    if wanted_name <= who]
         return min(matching)[1] if matching else None
 
+    def on_a_camera(names):
+        """Those of these speakers who have a camera to be shown on.
+
+        A voice without one counts everywhere else -- for the speaking
+        shares and among who is heard in a shot -- but it cannot decide
+        the picture, because there is nothing to cut to.
+        """
+        return [n for n in names if (camera_of or {}).get(n)]
+
     per_camera = segments_per_camera(long, camera_of or {})
     words = rules.get("words") or ()
     sentences = sentence_start_times(words) if words else []
@@ -5655,7 +5680,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
         if want == SHOT_HOLD:
             return None
         if want in (SHOT_LISTENER, SHOT_ALTERNATE):
-            here = {camera_of.get(n) for n in active}
+            here = {camera_of.get(n) for n in on_a_camera(active)}
             listener = next_speaker_camera(
                 t, per_camera, next(iter(here)) if len(here) == 1 else None)
             if want == SHOT_LISTENER:
@@ -5691,16 +5716,19 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
         strong = [n for n in active if n not in stray
                   and not too_short.get(camera_of.get(n), lambda _t: False)(
                       middle)]
+        shown = on_a_camera(strong)
         if not active:
             who = wide_shot          # silence -> wide shot
         elif restless(middle) or (heap and not strong):
             who = unsure_picture(middle, active)
         elif not strong:
             who = None               # nobody held the floor long enough
-        elif len(strong) == 1:
-            who = camera_of.get(strong[0]) or wide_shot
+        elif not shown:
+            who = wide_shot          # heard, but nothing to cut to
+        elif len(shown) == 1:
+            who = camera_of.get(shown[0]) or wide_shot
         else:
-            who = common_camera(strong) or together_picture(middle, strong)
+            who = common_camera(shown) or together_picture(middle, shown)
         raw.append([a, b, who, tuple(sorted(active))])
 
     # "Hold" means the picture does not change, so the block takes the
@@ -8979,6 +9007,11 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             continue
         tracks.append({"name": name, "source": source, "a": a, "b": b,
                        "st": st, "camera": e.get("camera") or "",
+                       # Which recording the sound came out of, kept
+                       # apart from the camera the speaker is on: a
+                       # camera's audio is extracted into a file of its
+                       # own, and only this still names the recording.
+                       "from_camera": e.get("from_camera") or "",
                        "blocks": list(blocks), "hint": hint})
         print(T('  %-20s offset %s, clock drift %+.2f ppm (+/- %.2f), '
                 'residual spread %.1f ms, %d of %d points%s')
@@ -9576,6 +9609,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         where_from = T('the separation in this run')
     if not given:
         return [], ""
+    # Which recordings were taken apart. The tracks they are made of
+    # reach the cut through their voices; every other track reaches it
+    # through its own microphone, and speakers_for_the_cut adds those.
+    args._separated = separation_sources(given)
     out, why_not = separation_on_axis(given, tracks, position, t0, t1)
     if not out:
         print(as_warn(T('  The speaker separation is not used: %s.')
@@ -9584,49 +9621,94 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     return out, where_from
 
 
+def separation_sources(given):
+    """Every recording the separations handed over were made of."""
+    given = given or {}
+    return [one["source"] for one in [given] + list(given.get("more") or ())
+            if (one or {}).get("source") and (one or {}).get("segments")]
+
+
+def separated_already(track, separated=()):
+    """Whether a separation was made of this very recording.
+
+    Then the people in it are in the cut as its voices, and measuring
+    the track as well would put them there twice. That is the only
+    thing that keeps a track out of the measurement. A track with no
+    camera of its own is measured like any other and counts for the
+    speaking shares -- it has no picture to be cut to, that is all.
+    """
+    apart = set(path_key(p) for p in separated or () if p)
+    mine = list(track.get("blocks") or []) + [
+        track.get("source") or "", track.get("from_camera") or ""]
+    return any(path_key(p) in apart for p in mine if p)
+
+
 def speakers_for_the_cut(args, tracks):
     """Say who speaks when, and put the origin in the log.
 
-    Either the separation this run carries or the measurement out of the
-    separate tracks. The heading names which of the two, because the cut
-    cannot be judged without knowing it.
+    Everybody is in it, whichever way they came in: the voices a
+    separation found, and every track no separation covers, measured
+    from its own microphone. Only "do not use" keeps somebody out, and
+    that is answered before the run. Whoever is not in it after all is
+    named in the log instead of going quietly missing.
     """
-    segments, where_from = getattr(args, "_speakers", None) or ([], "")
-    if segments:
+    voices, where_from = getattr(args, "_speakers", None) or ([], "")
+    left = [t for t in tracks
+            if not separated_already(t, getattr(args, "_separated", None))]
+    mics = []
+    if left or (where_from and len(tracks) > 1):
+        # One reading for both uses, and over every track: the bleed is
+        # taken out by holding the microphones against each other, so a
+        # track left out of it would hear its neighbour and count that
+        # as speech.
+        try:
+            mics = speakers_from_tracks(
+                [(track["name"], track.get("ready") or track["axis"], 0.0)
+                 for track in tracks], note=print)
+        except Exception as e:
+            print(as_warn(T('  The tracks were not measured, so %s is in '
+                            'the mix and not in the cut: %s')
+                          % (", ".join(t["name"] for t in left) or "-",
+                             str(e)[:140])))
+            left = []
+    if voices:
         print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
-        print(T('  From %s: %d voices.') % (where_from, len(segments)))
-    else:
+        print(T('  From %s: %d voices.') % (where_from, len(voices)))
+    if left:
         print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
-        print(T('  From the tracks themselves, one voice per track.'))
-        segments = speakers_from_tracks(
-            [(track["name"], track.get("ready") or track["axis"], 0.0)
-             for track in tracks], note=print)
+        print(T('  From the tracks themselves, one voice per track: %s.')
+              % ", ".join(t["name"] for t in left))
+        keep = set(t["name"] for t in left)
+        voices = list(voices) + [(n, s) for n, s in mics if n in keep]
+    segments = voices_merged(voices)
     for name, segs in segments:
         print(T('  %-20s %s in %d passages')
               % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
+    # A run that quietly holds fewer speakers than the sheet did costs
+    # hours to find, so whoever is missing is named here.
+    in_cut = set(name for name, _segs in segments)
+    absent = [t["name"] for t in tracks if t["name"] not in in_cut]
+    if absent:
+        print(T('  Not in the cut: %s -- a separation speaks for the '
+                'recording, or it was not measured.') % ", ".join(absent))
     if not any(segs for _, segs in segments):
         print(T('  Nothing was audible in the tracks -- no camera cut from '
                 'this.'))
     if where_from and len(tracks) > 1:
-        for line in name_the_voices(segments, tracks):
+        for line in name_the_voices(segments, mics):
             print(line)
     return segments
 
 
-def name_the_voices(segments, tracks):
+def name_the_voices(segments, mics):
     """What the microphones say about voices that came out unnamed.
 
-    Only worth a second measurement where the two are different things:
-    a separation named the voices SPEAKER_00 upwards, and beside it
-    there are tracks a person has named.
+    Only worth saying where the two are different things: a separation
+    named the voices SPEAKER_00 upwards, and beside it there are tracks
+    a person has named. The measurement comes in rather than being made
+    here -- the one the cut is built from, not a second reading of
+    every track.
     """
-    try:
-        mics = speakers_from_tracks(
-            [(track["name"], track.get("ready") or track["axis"], 0.0)
-             for track in tracks], note=None)
-    except Exception as e:
-        return [T('  The microphones were not measured against the '
-                  'separation: %s') % e]
     return microphones_report(which_microphone(segments, mics))
 
 
@@ -18647,15 +18729,71 @@ def speakers_on_window_axis(segments, offset, named=None):
                     default=0.0)
 
 
-def speakers_all_on_window_axis(state, voice_lines, begin, offset_of):
+def track_recordings_of(assign_lines):
+    """Which recording each track that still speaks was measured off.
+
+    Every row the run has, which is every row but "do not use" -- a
+    track with no camera of its own speaks too. The names are the ones
+    speaker_measure gives, so the two ends of the measurement agree
+    without a second list kept beside them.
+    """
+    out = {}
+    for row, name_value, camera_value in assign_lines or ():
+        if camera_value.get() == IGNORE_AUDIO:
+            continue
+        out.setdefault(speaker_name_of(name_value)
+                       or os.path.basename(row[0]), []).append(row[0])
+    return out
+
+
+def speakers_window_all(voices, length, measured, where_from, separated=()):
+    """The separations' voices and every track no separation covers.
+
+    The same sum speakers_for_the_cut makes in the run, so the preview
+    shows the cut the run makes. *where_from* says which recording each
+    measured track came off; one whose recording was taken apart is in
+    already, through its voices.
+    """
+    apart = set(path_key(p) for p in separated or () if p)
+    out = list(voices or ())
+    for name, parts in ((measured or {}).get("segments") or ()):
+        # A name with no row behind it any more is nobody: the track
+        # was set to "do not use" after it had been measured.
+        paths = (where_from or {}).get(name)
+        if paths and not any(path_key(p) in apart for p in paths if p):
+            out.append((name, list(parts)))
+    out = voices_merged(out)
+    return out, max([length or 0.0]
+                    + [b for _n, parts in out for _a, b in parts])
+
+
+def tracks_awaiting_measure(where_from, measured, separated=()):
+    """The tracks no separation covers and no measurement has reached.
+
+    They are in the cut -- the run measures them itself -- and until
+    the button here has been pressed the preview cannot show them. So
+    it says who is missing rather than showing a cut without them.
+    """
+    apart = set(path_key(p) for p in separated or () if p)
+    heard = set(n for n, _p in ((measured or {}).get("segments") or ()))
+    return sorted(name for name, paths in (where_from or {}).items()
+                  if name not in heard
+                  and not any(path_key(p) in apart for p in paths if p))
+
+
+def speakers_all_on_window_axis(state, voice_lines, assign_lines,
+                                offset_of):
     """Every separation the window holds, on the window's own axis.
 
     Each with the offset of its own recording, and then folded by name.
     The run takes them all, so the preview beside it has to: a preview
     computed from other voices than the run uses is worse than none.
-    *begin* is where the axis starts, *offset_of* where one recording
-    lies on it. Returns (voices, how long the last of them runs).
+    *offset_of* says where one recording lies on the axis. Returns
+    (voices, how long the last of them runs).
     """
+    begin = min([offset_of(row[0]) for row, _n, cv in assign_lines or ()
+                 if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
+                or [0.0])
     out, length = [], 0.0
     for src, entry in sorted((state.get("speakers_by") or {}).items()):
         if not voice_lines_here(voice_lines, src):
@@ -21884,31 +22022,36 @@ def window_ready(state):
     return bool(state["tc_there"] or state["axis"])
 
 
-def menus_follow(late, ready, project_here):
-    """Grey the file menu with the buttons that say the same thing.
+def menus_follow(late):
+    """Grey each file entry with the button that does the same thing.
 
-    The entries are built long after the check that decides them, so
-    they are left behind in *late* and switched from there -- one
-    source for the button and the entry, or the two drift apart.
+    Entry and button are left behind in *late* as a pair, and the
+    button is the one source: it is greyed in places that ask nothing
+    here -- a run, a selection -- and an entry with a state of its own
+    drifts apart from it. Save and Close have no button anywhere in
+    the window and follow whether a project stands at all.
     """
-    for entry in late.get("menu_run") or ():
-        entry.setEnabled(ready)
+    for entry, button in late.get("menu_follows") or ():
+        entry.setEnabled(button.isEnabled())
+    here = late.get("project_here")
     for entry in late.get("menu_project") or ():
-        entry.setEnabled(project_here)
+        entry.setEnabled(bool(here and here()))
 
 
 def player_of_tab(tabs, players):
-    """The player sitting on the tab showing now, or None elsewhere.
+    """The player standing on the tab showing now, or None elsewhere.
 
     Which tab a player is on is nowhere written down: the sheet is
-    asked whether the player is inside it. A second list of tabs kept
-    beside the first would name the wrong sheet the day one moves.
+    asked whether the player is inside it. A player folded away is
+    none: the Resolve preview goes when there is no cut to show, and
+    the transport used to drive a picture nobody could see.
     """
     sheet = tabs.currentWidget()
     if sheet is None:
         return None
     for one in players:
-        if one is not None and sheet.isAncestorOf(one):
+        if (one is not None and sheet.isAncestorOf(one)
+                and one.isVisibleTo(sheet)):
             return one
     return None
 
@@ -21927,9 +22070,9 @@ def player_loaded(one):
 def transport(pick, what, *rest):
     """One transport command, to the player of the tab showing now.
 
-    A player that does not have that command is left alone: the cut
-    player has no fast forward, because it plays a cut of many files
-    and not one file.
+    A player that does not have that command is left alone rather than
+    raising: which player is meant is decided at the press, and the
+    stand-in for a Qt without multimedia knows less than the others.
     """
     doing = getattr(pick(), what, None)
     if doing is not None:
@@ -21937,12 +22080,14 @@ def transport(pick, what, *rest):
 
 
 def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
-                switched=None, cut_player=None, late=None):
+                switched=None, cut_player=None, late=None, buttons=None,
+                project_here=None):
     """The whole menu bar, from a table of what each entry does.
 
     Outside gui() because it decides nothing. Every entry is a name, a
     key and something to call, and all three come in; what is left here
     is the order they stand in, and where the lines between them go.
+    *buttons* are the ones the switched entries follow, in their order.
     """
 
     def act(where, text, doing, keys="", inside=None):
@@ -21982,21 +22127,29 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
         act(file_menu, T('Close project'), does["close project"], "Ctrl+W")]
     file_menu.addSeparator()
     act(file_menu, T('Add files ...'), does["add files"], "Ctrl+O")
-    act(file_menu, T('Remove'), does["remove"], "Ctrl+Backspace")
+    remove_entry = act(file_menu, T('Remove'), does["remove"],
+                       "Ctrl+Backspace")
     act(file_menu, T('Output folder ...'), does["output folder"],
         "Ctrl+Shift+O")
     file_menu.addSeparator()
     run_entries = [act(file_menu, T('Start'), does["start"], "Ctrl+R"),
                    act(file_menu, T('Dry run'), does["dry run"],
                        "Ctrl+Shift+R")]
-    # The window decides what lives here, not the menu: these four are
+    followers = [remove_entry] + run_entries
+    # The window decides what lives here, not the menu: these five are
     # handed over and switched with the buttons that do the same thing.
-    # Born grey, because an empty window has nothing to save and nothing
-    # to start, and a fresh entry is born alive.
-    for entry in project_entries + run_entries:
+    # Born grey, because an empty window has nothing to remove, nothing
+    # to save and nothing to start, and a fresh entry is born alive.
+    for entry in project_entries + followers:
         entry.setEnabled(False)
     if late is not None:
-        late["menu_project"], late["menu_run"] = project_entries, run_entries
+        late["menu_project"] = project_entries
+        late["menu_follows"] = list(zip(followers, buttons or ()))
+        late["project_here"] = project_here
+        # A menu built once carries the state of then, and the buttons
+        # move while it stands: a run greys them, so does a selection.
+        # Asked again on opening, as the View and Player menus are.
+        file_menu.aboutToShow.connect(lambda: menus_follow(late))
     file_menu.addSeparator()
     # Qt moves anything it recognises as settings into the application
     # menu on a Mac, which is where people look for it.
@@ -22059,10 +22212,10 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
 
         On the file tab and on the output tab there is no player at
         all, and on the others none until material has arrived. And an
-        entry the player of this tab cannot do stays grey as well: the
-        cut player has no fast forward. Asked again whenever the menu
-        opens, for the same reason the View menu is refilled -- a menu
-        built once carries the state of then.
+        entry the player of this tab cannot do stays grey as well.
+        Asked again whenever the menu opens, for the same reason the
+        View menu is refilled -- a menu built once carries the state
+        of then.
         """
         one = playing()
         on = player_loaded(one)
@@ -22917,6 +23070,74 @@ def audio_sink(QtMultimedia, parent):
     return out
 
 
+def readable_on(colour):
+    """Black or white, whichever can be read on *colour*.
+
+    The threshold is where the two contrasts meet: sRGB luminance
+    0.179 by WCAG 2.1, so a middling colour still takes black.
+    """
+    digits = str(colour or "").lstrip("#")
+    if len(digits) != 6 or any(c not in "0123456789abcdefABCDEF"
+                               for c in digits):
+        return "#ffffff"
+    parts = []
+    for i in (0, 2, 4):
+        v = int(digits[i:i + 2], 16) / 255.0
+        parts.append(v / 12.92 if v <= 0.04045
+                     else ((v + 0.055) / 1.055) ** 2.4)
+    light = 0.2126 * parts[0] + 0.7152 * parts[1] + 0.0722 * parts[2]
+    return "#000000" if light > 0.179 else "#ffffff"
+
+
+def speakers_at(sections_per_name, t):
+    """Who is speaking at programme time *t*, in the order handed in.
+
+    Several at once are all of them: two people talking over each
+    other are two names, and picking one would answer a question
+    nobody asked. Nobody speaking is an empty list, which is an
+    answer too.
+    """
+    return [name for name, spans in (sections_per_name or ())
+            if any(a <= t < b for a, b in spans)]
+
+
+# How long a name stands before another may take its place. A voice
+# that interjects for a moment would flash past unread otherwise; the
+# price is that the name lags the sound by up to this much.
+NAME_HOLD_S = 0.5
+
+
+class NameHold(object):
+    """Keep a name up long enough to be read.
+
+    Display only. What comes out of here never travels back into the
+    cut: the picture switches where the cut says, whatever name is
+    still standing. Time is programme time, so the same run of a
+    programme gives the same names every time.
+    """
+
+    def __init__(self, at_least=NAME_HOLD_S):
+        self.at_least = float(at_least)
+        self.shown = None
+        self.since = None
+
+    def forget(self):
+        """Drop what stands, so the next answer arrives at once."""
+        self.shown, self.since = None, None
+
+    def at(self, names, t):
+        """What to show at programme time *t*, given *names* are true."""
+        fresh = tuple(names or ())
+        if self.shown is None:
+            self.shown, self.since = fresh, float(t)
+        elif fresh != self.shown:
+            # A jump backwards is not waiting, it is a new place.
+            waited = float(t) - self.since
+            if waited < 0.0 or waited >= self.at_least:
+                self.shown, self.since = fresh, float(t)
+        return self.shown
+
+
 def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                       QtMultimediaWidgets, label, hint, COLOURS):
     """Play the computed cut without rendering anything.
@@ -22931,6 +23152,10 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
     Every seek therefore goes through a Seeker that checks whether it
     actually took and retries if not.
     """
+
+    # The box the pictures sit in. It is also what a stretch with no
+    # shot of its own is drawn in: no shot, no colour to show.
+    BACKDROP = "#101418"
 
     # How close the player has to be for a position to count as reached.
     HIT_MS = 350
@@ -23035,6 +23260,68 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         if VERBOSE:
             print(T('  Player: %s') % text)
 
+    class ShotNote(QtWidgets.QWidget):
+        """Who speaks and which camera runs, in the shot's colour.
+
+        One display for both cases, and only its height differs: over a
+        picture it is a strip along the bottom edge, without one it
+        covers the whole area. The colour is opaque either way -- a
+        video surface cannot be written on through, and text on an
+        unknown picture cannot be read.
+        """
+
+        def __init__(self, parent=None):
+            QtWidgets.QWidget.__init__(self, parent)
+            self.setAttribute(Qt.WA_TransparentForMouseEvents)
+            self.colour = BACKDROP
+            self.camera = ""
+            self.speaking = ""
+            self.strong = QtGui.QFont(self.font())
+            self.strong.setBold(True)
+
+        def line_room(self):
+            """How high the two lines and their air want to be."""
+            return 2 * QtGui.QFontMetrics(self.strong).height() + 8
+
+        def show_shot(self, colour, camera, speaking):
+            """Take what to show, and repaint only where it changed."""
+            fresh = (colour, camera, speaking)
+            if fresh == (self.colour, self.camera, self.speaking):
+                return
+            self.colour, self.camera, self.speaking = fresh
+            self.update()
+
+        def _fits(self, text, width, metrics):
+            """The camera name, cut at the front where it is too wide.
+
+            What tells two cameras apart sits at the end of these names,
+            in the take and the camera number, so the front is what
+            goes. Qt's own single ellipsis marks where.
+            """
+            return metrics.elidedText(text, Qt.ElideLeft, width)
+
+        def paintEvent(self, _event):
+            painter = QtGui.QPainter(self)
+            painter.fillRect(self.rect(), QtGui.QColor(self.colour))
+            painter.setPen(QtGui.QColor(readable_on(self.colour)))
+            room = self.rect().adjusted(6, 0, -6, -4)
+            bold = QtGui.QFontMetrics(self.strong)
+            high = bold.height()
+            painter.setFont(self.strong)
+            painter.drawText(
+                QtCore.QRect(room.left(), room.bottom() - 2 * high,
+                             room.width(), high),
+                Qt.AlignHCenter | Qt.AlignVCenter,
+                self._fits(self.speaking, room.width(), bold))
+            painter.setFont(self.font())
+            painter.drawText(
+                QtCore.QRect(room.left(), room.bottom() - high,
+                             room.width(), high),
+                Qt.AlignHCenter | Qt.AlignVCenter,
+                self._fits(self.camera, room.width(),
+                           QtGui.QFontMetrics(self.font())))
+            painter.end()
+
     class CutPlayer(QtWidgets.QWidget):
 
         position_changed = QtCore.Signal(float)
@@ -23042,19 +23329,40 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         # How long before the cut the next surface starts running.
         LEAD_IN = 1.0
 
+        # How thick the shot's colour lies round the picture. A hairline
+        # round a moving picture is not caught out of the corner of the
+        # eye, which is the only place this is ever looked at.
+        FRAME = 6
+
+        # Air under the note, in the box's own colour. Two coloured
+        # areas touching are read as one, and the cut band is next.
+        GAP = 8
+
+        # The shape of the picture before one has been measured. Every
+        # camera here has been 16:9 so far, and it is what the box was.
+        SHAPE = 16.0 / 9.0
+
         def __init__(self, parent=None):
             QtWidgets.QWidget.__init__(self, parent)
             position = QtWidgets.QVBoxLayout(self)
             position.setContentsMargins(0, 0, 0, 0)
             position.setSpacing(6)
-            self.stack = QtWidgets.QStackedWidget()
-            # Not nailed down: there is room below, and a larger picture is
-            # worth more when judging a cut than an empty area underneath.
-            self.stack.setMinimumHeight(302)
-            self.stack.setMinimumWidth(320)
-            self.stack.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
-                                      QtWidgets.QSizePolicy.Expanding)
-            self.stack.setStyleSheet("background: #101418;")
+            # The box the picture and the note share. It keeps the size
+            # the picture alone used to have: what the picture gives up
+            # by taking its own shape goes to the note, not to the
+            # window.
+            self.box = QtWidgets.QWidget()
+            self.box.setMinimumHeight(302)
+            self.box.setMinimumWidth(320)
+            self.box.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
+                                    QtWidgets.QSizePolicy.Expanding)
+            self.box.setStyleSheet("background: %s;" % BACKDROP)
+            self.shape = self.SHAPE
+            self.stack = QtWidgets.QStackedWidget(self.box)
+            self.stack.setMinimumSize(1, 1)
+            self._frame = None
+            self._blank = True
+            self._frame_show(BACKDROP)
             self.surfaces, self.videos = [], []
             for _ in (0, 1):
                 f = QtMultimediaWidgets.QVideoWidget()
@@ -23077,7 +23385,19 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 f.winId()
                 self.surfaces.append(f)
                 self.videos.append(p)
-            position.addWidget(self.stack, 1)
+            # The note last, so Qt puts it over the picture.
+            self.note = ShotNote(self.box)
+            self.note.hide()
+            self.box.installEventFilter(self)
+            self.hold = NameHold()
+            # Only now: what answers this signal lays the note out, and
+            # a signal is connected when everything it touches exists,
+            # never earlier. Qt decides on its own when it delivers.
+            for f in self.surfaces:
+                f.videoSink().videoSizeChanged.connect(
+                    lambda _s=None, w=f: self._shape_seen(
+                        w.videoSink().videoSize()))
+            position.addWidget(self.box, 1)
             self.seekers = [Seeker(self.videos[0], T('Video 1')),
                           Seeker(self.videos[1], T('Video 2'))]
             self.videos[0].mediaStatusChanged.connect(
@@ -23113,9 +23433,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             position.addWidget(hint(self.rail, T('Drag to move the position.')))
             self.position = position
             digits = digits_font(QtGui, self)
-            # One line: In point on the left, Out point on the right, in the
-            # middle where we are and which camera runs there. The length is
-            # already in the heading, and saying it twice only costs space.
+            # One line: In point on the left, Out point on the right,
+            # where we are in the middle. The length is already in the
+            # heading, and the camera stands in the picture itself.
             line = QtWidgets.QHBoxLayout()
             position.addLayout(line)
             self.left_label = label("", COLOURS["value"], True)
@@ -23123,11 +23443,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.spot_label = label("", COLOURS["heading"], True)
             for m in (self.left_label, self.right_label, self.spot_label):
                 m.setFont(QtGui.QFont(digits))
-            self.who = label("", COLOURS["quiet"])
             line.addWidget(self.left_label)
             line.addStretch(1)
             line.addWidget(self.spot_label)
-            line.addWidget(self.who)
             line.addStretch(1)
             line.addWidget(self.right_label)
             status = QtWidgets.QHBoxLayout()
@@ -23190,6 +23508,12 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             step("+1 F", T('One frame forward.'), 1.0 / 30.0)
             step("+1 s", T('One second forward.'), 1.0)
             step("+10 s", T('Ten seconds forward.'), 10.0)
+            # At the end of the transport, where the steps forward end
+            # -- the same place and the same button as on the preview.
+            self.fast_button = button("SP_MediaSeekForward",
+                                      T('Play forward, twice as fast on '
+                                        'every press -- the L key.'),
+                                      self.faster)
             self.mute_button = button("SP_MediaVolume", T('Mute.'),
                                      self.toggle_mute)
             self.loud = QtWidgets.QSlider(Qt.Horizontal)
@@ -23203,6 +23527,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                                  'Qt takes nothing above that.')), 2)
             self.audio_out.setVolume(loud(1.0))
             self._muted = False
+            # Fast forward doubles from here. Only forwards, for the
+            # reason the preview player gives at its own rate.
+            self._speed = 1.0
             self.clock = QtCore.QTimer(self)
             self.clock.setInterval(40)
             self.clock.timeout.connect(self._tick)
@@ -23220,6 +23547,87 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.tc0 = None                   # wall clock when it started
             self.now = None                 # which shot is running
             self.loaded = [None, None]       # which one in which pane
+            self.colours, self.wides = {}, set()
+            self.speaking = []            # who speaks when, for the note
+
+        def eventFilter(self, who, event):
+            """Lay the box out again whenever the box changes size."""
+            if who is self.box and event.type() == QtCore.QEvent.Resize:
+                self._note_place()
+            return QtWidgets.QWidget.eventFilter(self, who, event)
+
+        def _shape_seen(self, size):
+            """Take a picture's shape, if it is wider than what is set.
+
+            Only wider, and never back: cutting between two cameras of
+            different format would move the whole player every few
+            seconds, which is worse than a strip beside the narrower
+            one. So the box ends up as wide as the widest camera, and
+            no picture ever gets a band over and under it.
+            """
+            if size.height() <= 0 or size.width() <= 0:
+                return
+            shape = size.width() / float(size.height())
+            if shape <= self.shape + 0.001:
+                return
+            self.shape = shape
+            self._note_place()
+
+        def _frame_show(self, colour):
+            """Lay the shot's colour round the picture."""
+            if colour == self._frame:
+                return
+            self._frame = colour
+            self.stack.setStyleSheet(
+                "background: %s; border: %dpx solid %s;"
+                % (BACKDROP, self.FRAME, colour))
+
+        def _note_place(self):
+            """Fit the picture to its shape and give the note the rest.
+
+            The picture keeps the size it had at most, never more, and
+            what it gives up by taking its own shape falls to the note
+            below it. Without a picture the note takes the whole box.
+            A strip of the box's own colour stays free at the foot, or
+            the note and the cut band under it read as one thing.
+            """
+            wide, high = self.box.width(), self.box.height() - self.GAP
+            room = max(1, high - self.note.line_room() - 2 * self.FRAME)
+            seen = max(1, min(room, int((wide - 2 * self.FRAME)
+                                        / self.shape)))
+            across = min(wide, int(seen * self.shape) + 2 * self.FRAME)
+            self.stack.setGeometry((wide - across) // 2, 0, across,
+                                   seen + 2 * self.FRAME)
+            # As wide as the framed picture, so frame and note read as
+            # one block rather than as a band laid under a picture.
+            over = 0 if self._blank else self.stack.height()
+            self.note.setGeometry(self.stack.x(), over,
+                                  self.stack.width(), max(1, high - over))
+            self.note.raise_()
+
+        def _note_show(self, t, j):
+            """Say who speaks and which camera runs at programme time *t*.
+
+            Reading only: the hold below moves nothing but this note,
+            and *j* comes from the cut as it was handed over.
+            """
+            who = self.cut[j][2] if j is not None else None
+            colour = self.colours.get(who) or BACKDROP
+            # Never an empty line: a blank reads as a fault, a sentence
+            # says that nobody is speaking. The mark for the wide shot
+            # stands beside the name, never in its place -- the wide
+            # shot is a choice of camera, not a silence.
+            said = "  ".join(self.hold.at(speakers_at(self.speaking, t), t))
+            said = said or T('No speaker')
+            if who in self.wides:
+                said = "%s %s" % (said, T('(wide shot)'))
+            self._frame_show(colour)
+            self.note.show_shot(colour, who or "", said)
+            blank = who is None or who not in self.files
+            self.note.setVisible(bool(self.cut))
+            if blank != self._blank:
+                self._blank = blank
+                self._note_place()
 
         def _reported(self, name, status):
             _say(T('%s reports %s')
@@ -23283,16 +23691,26 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
 
         # -- Setup ----------------------------------------------------
         def set(self, cut, files, offset, audio_file, audio_offset,
-                   begins=0.0, until=None, tc0=None):
+                   begins=0.0, until=None, tc0=None,
+                   wides=None, colours=None, speaking=None):
             # Where the viewer was, and whether they were watching. A
             # fresh cut arrives whenever the window recomputes its
             # preview, and the picture has to follow it -- but the place
             # and the playing belong to whoever is sitting there.
             ran, where = self._playing, self._time()
             self.pause()
-            self.cut = [(a, b, who) for a, b, who in (cut or [])
-                            if who in (files or {})]
+            # Every shot, a camera without a file included: the sound
+            # runs on there, and the note says whose shot it is.
+            self.cut = [(a, b, who) for a, b, who in (cut or [])]
             self.files = dict(files or {})
+            self.wides = set(wides or ())
+            self.colours = dict(colours or {})
+            # Who speaks when. Read for the note and for nothing else.
+            self.speaking = [(str(s.get("name") or ""),
+                              [(float(a), float(b))
+                               for a, b in (s.get("sections") or [])])
+                             for s in (speaking or [])]
+            self.hold.forget()
             self.offset = dict(offset or {})
             self.audio_offset = float(audio_offset or 0.0)
             self.begins = float(begins or 0.0)
@@ -23309,6 +23727,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 _say(T('Audio file %s') % os.path.basename(audio_file))
                 self.audio.setSource(QtCore.QUrl.fromLocalFile(audio_file))
             self._times_show()
+            self._note_place()
             self.jump(where if where > self.begins else self.begins)
             if ran:
                 self.play()
@@ -23323,9 +23742,13 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             the tick handles.
             """
             t = max(self.begins, min(self.until or t, t))
+            # A jump is a new place, and the speed it was reached at
+            # says nothing about it: back to normal, playing or not.
+            self.speed_set(1.0)
             self._t = t
             self.base = t
             self._seeking = True
+            self.hold.forget()
             _say(T('--- jump to %s programme time%s ---')
                    % (as_hms(t), T(' (playing)') if self._playing else T(' (paused)')))
             pause_if_running(QtMultimedia, self.audio, *self.videos)
@@ -23347,6 +23770,51 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
 
         def toggle(self):
             self.pause() if self._playing else self.play()
+
+        def faster(self):
+            """Play forward, and double the rate on every further press.
+
+            1x, 2x, 4x, 8x, and there it stays -- the same rates and the
+            same button as the preview player, so one key does one
+            thing on both tabs.
+            """
+            if not self.cut:
+                return
+            if self._playing:
+                self.speed_set(min(8.0, self._speed * 2.0))
+            else:
+                self.speed_set(1.0)
+                self.play()
+
+        def speed_set(self, rate):
+            """Ask for a playback rate and keep the one that arrived.
+
+            The programme clock runs on the rate as well: at twice speed
+            the cut arrives twice as soon, and a clock left at 1x would
+            switch the picture where the sound has long gone.
+            """
+            if self._playing and not self._seeking \
+                    and self.stopwatch.isValid():
+                self.base = self._time()
+                self.stopwatch.restart()
+            self.audio.setPlaybackRate(rate)
+            for one in self.videos:
+                one.setPlaybackRate(rate)
+            arrived = self.audio.playbackRate()
+            self._speed = arrived if arrived > 0 else 1.0
+            self.speed_show()
+
+        def speed_show(self):
+            """Put the rate on the fast forward button; nothing at 1x."""
+            fast = self._speed > 1.01
+            self.fast_button.setToolButtonStyle(
+                Qt.ToolButtonTextBesideIcon if fast
+                else Qt.ToolButtonIconOnly)
+            self.fast_button.setText(
+                "%g\u00d7" % self._speed if fast else "")
+            self.fast_button.setAccessibleName(
+                T('Fast forward, %g times speed') % self._speed if fast
+                else T('Fast forward'))
 
         def play(self):
             if not self.cut:
@@ -23409,6 +23877,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 self._t = self._time()
             self._playing = False
             pause_if_running(QtMultimedia, self.audio, *self.videos)
+            # Whatever leaves the running picture goes back to 1x: a
+            # rate that survives out of sight explains nothing later.
+            self.speed_set(1.0)
             self._icon()
             if not self._seeking and not VERBOSE:
                 self.clock.stop()
@@ -23421,7 +23892,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
 
         def _time(self):
             if self._playing and not self._seeking and self.stopwatch.isValid():
-                return self.base + self.stopwatch.elapsed() / 1000.0
+                return (self.base
+                        + self._speed * self.stopwatch.elapsed() / 1000.0)
             return self._t
 
         def _which(self, t):
@@ -23512,11 +23984,12 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                    else T('volume %.2f') % self.audio_out.volume()))
 
         def _follow_up(self, t, at_once=False, slot=None):
+            # One search, and both the picture and the note go by it.
             j = self._which(t)
-            if j is None:
-                return
             self.spot_label.setText("%d:%02d" % (int(t) // 60, int(t) % 60))
-            self.who.setText(self.cut[j][2])
+            self._note_show(t, j)
+            if j is None or self.cut[j][2] not in self.files:
+                return
             if j != self.now or slot is not None:
                 self._switch_to(j, t, slot)
             elif not at_once:
@@ -23542,6 +24015,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             if fresh:
                 self._load(slot, j)
             self.stack.setCurrentIndex(slot)
+            # Showing a surface puts it on top of its brothers, and the
+            # note is one of them.
+            self.note.raise_()
             self.now = j
             # Set the position again: a prepared surface otherwise sits where
             # it was loaded, in doubt right at the front.
@@ -23570,22 +24046,25 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
 
         def _prepare(self, j, t):
             """Load the next shot and start it running."""
-            if j >= len(self.cut):
+            if j >= len(self.cut) or self.cut[j][2] not in self.files:
                 return
             slot = 1 - self.stack.currentIndex()
             a, _b, who = self.cut[j]
+            # The lead is a lead in real time: at twice speed the cut
+            # arrives twice as soon, so the pane has to start earlier.
+            lead = self.LEAD_IN * max(1.0, self._speed)
             if self.loaded[slot] == j:
                 self.seekers[slot].check()
-                if (a - t <= self.LEAD_IN and self._playing
+                if (a - t <= lead and self._playing
                         and self.videos[slot].playbackState()
                         != QtMultimedia.QMediaPlayer.PlayingState):
                     self._play_when_ready(slot)
                 return
-            if a - t > 2 * self.LEAD_IN:
+            if a - t > 2 * lead:
                 return
             self._load(slot, j)
             self.seekers[slot].seek_to(
-                max(0.0, a - self.LEAD_IN - self.offset.get(who, 0.0)) * 1000,
+                max(0.0, a - lead - self.offset.get(who, 0.0)) * 1000,
                 T('Prepare pane %d for %s') % (slot + 1, who))
 
     return CutPlayer
@@ -23701,24 +24180,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.initStyleOption(opt)
             return opt
 
-    class VideoSurface(QtMultimediaWidgets.QVideoWidget):
-        """The picture, with escape and double click to leave full screen."""
-
-        def keyPressEvent(self, e):
-            if e.key() == Qt.Key_Escape and self.isFullScreen():
-                self.setFullScreen(False)
-                self.setFixedHeight(302)
-                return
-            QtMultimediaWidgets.QVideoWidget.keyPressEvent(self, e)
-
-        def mouseDoubleClickEvent(self, e):
-            large = not self.isFullScreen()
-            if large:
-                self.setMinimumHeight(0)
-                self.setMaximumHeight(16777215)
-            else:
-                self.setFixedHeight(302)
-            self.setFullScreen(large)
+    # Qt's own surface. Nothing is caught on it: the picture fills the
+    # box it has been given and there is no full screen to leave.
+    VideoSurface = QtMultimediaWidgets.QVideoWidget
 
     class Player(QtWidgets.QWidget):
 
@@ -24402,15 +24866,6 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.mute_button.setIcon(self.style().standardIcon(
                 QtWidgets.QStyle.SP_MediaVolumeMuted if self._muted
                 else QtWidgets.QStyle.SP_MediaVolume))
-
-        def large(self):
-            large = not self.video.isFullScreen()
-            if large:
-                self.video.setMinimumHeight(0)
-                self.video.setMaximumHeight(16777215)
-            else:
-                self.video.setFixedHeight(302)
-            self.video.setFullScreen(large)
 
         def nudge(self, seconds=None, videos=None):
             """Step forwards or backwards without starting playback."""
@@ -27426,8 +27881,7 @@ def gui():
         ready = not pending and not state["running"]
         start_run.setEnabled(ready)
         preview_button.setEnabled(ready)
-        menus_follow(late, ready,
-                     bool(files) or bool(state.get("project_from")))
+        menus_follow(late)
         mark_red(late.get("name_field"), 21 in pending,
                  pending.get(21, ""))
         note = late.get("start_note")
@@ -27935,6 +28389,7 @@ def gui():
                 and node.data(0, Qt.UserRole + 1) is None:
             node = node.parent()
         remove_button.setEnabled(node is not None)
+        menus_follow(late)     # so the entry's key dies with the button
 
     items.currentItemChanged.connect(lambda *_: removable())
 
@@ -30784,7 +31239,9 @@ def gui():
                 cut_player.set(
                     numbers["cut"], files_per_track, offset,
                     audio_file, audio_offset,
-                    0.0, end, d.get("start_s"))
+                    0.0, end, d.get("start_s"),
+                    numbers.get("wide_shots"), numbers.get("colours"),
+                    d.get("speakers"))
                 return
         file_path = preview_file()
         if not file_path:
@@ -30801,7 +31258,8 @@ def gui():
         except Exception:
             tc0 = None
         cut_player.set([(0.0, duration or 1e6, name)], {name: file_path},
-                              {name: 0.0}, file_path, 0.0, 0.0, duration or None, tc0)
+                       {name: 0.0}, file_path, 0.0, 0.0, duration or None,
+                       tc0, [], {name: COLOURS["head"]})
         # Without a cut the band stays as a position display, in one colour.
         cut_band.set([(0.0, duration or 1.0, name)],
                            {name: COLOURS["head"]}, duration or 1.0)
@@ -30811,39 +31269,28 @@ def gui():
     # not to empty space.
     resolve_right.addStretch(0)
 
-    def local_speaker_segments():
-        """Every separation this window holds, on its own axis.
-
-        All of them, each with the offset of its own recording: the
-        preview shows what the run cuts, and the run takes them all.
-        """
-        if not (state.get("speakers_by") or {}):
-            return None, 0.0
-        begin = min([audio_start(row[0]) for row, _n, cv in assign_lines
-                     if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
-                    or [0.0])
-        return speakers_all_on_window_axis(state, voice_lines, begin,
-                                           audio_start)
-
     def off_speakers():
         """Build a handover from who speaks when and the assignment.
 
         Turning the cut values then needs no Resolve run to see the
         effect. Where nothing is found, the reason is stated.
         """
-        # The local separation first: one recording, worked out on this
-        # machine, and there before anything has been uploaded. Above
-        # the measurement from the tracks because it separates people
-        # rather than levels.
-        segment_list, length = local_speaker_segments()
+        # The separations first: worked out on this machine, and there
+        # before anything has been uploaded. They separate people
+        # rather than levels, so they go in front of the measurement.
+        apart = separation_sources(speakers_for_run(state, voice_lines))
+        rows = track_recordings_of(assign_lines)
+        segment_list, length = speakers_all_on_window_axis(
+            state, voice_lines, assign_lines, audio_start)
         state["stat_measured"] = not bool(segment_list)
-        if not segment_list or length <= 0:
-            # Failing that, the self-measured segments -- coarser, but
-            # there before the first run.
-            measured = state.get("speakers_measured")
-            if measured:
-                segment_list = measured["segments"]
-                length = measured["length"]
+        # And every track no separation speaks for, measured from its
+        # own microphone. The run takes those too, and a preview that
+        # leaves people out is a preview of a different cut.
+        segment_list, length = speakers_window_all(
+            segment_list, length, state.get("speakers_measured"),
+            rows, apart)
+        state["tracks_left"] = tracks_awaiting_measure(
+            rows, state.get("speakers_measured"), apart)
         where_to = speakers_to_cameras(assign_lines, voice_lines,
                                        state.get("voiced") or set())
         axis = state.get("axis") or {}
@@ -31029,10 +31476,16 @@ def gui():
                           'speakers" in the Speaker name field out of the '
                           'one recording all are on.'), COLOURS["quiet"])
             preview_label.setToolTip(state.get("reason") or "")
-            measure_line.setVisible(bool(
-                [1 for _p, a in files if a == "audio"]))
+            measure_line.setVisible(bool(state.get("tracks_left")))
             return
         state["statistics"] = True
+        # Somebody whose track has not been measured is in the cut and
+        # not in this picture. Said beside the button that fetches them.
+        measure_line.setVisible(bool(state.get("tracks_left")))
+        if state.get("tracks_left"):
+            measure_label.setText(T('%s not measured yet -- in the cut, '
+                                    'not yet in this preview.')
+                                  % ", ".join(state["tracks_left"]))
         loaded, bad = slider_numbers(
             {numbers: cut_var[numbers].get() for numbers in cut_var})
         if bad:
@@ -31547,6 +32000,7 @@ def gui():
         start_var.set("")
         end_var.set("")
         clip_kind_values.clear()
+        audio_use_values.clear()
         no_join.clear()
         join_to.clear()
         channel_choice.clear()
@@ -32118,10 +32572,12 @@ def gui():
         "mark out": lambda: limit_set(end_var),
         "to in": lambda: to_limit(start_var.get(), "In point"),
         "to out": lambda: to_limit(end_var.get(), "Out point")},
-        window_switch, cut_player, late)
+        window_switch, cut_player, late,
+        (remove_button, start_run, preview_button),
+        lambda: bool(files) or bool(state.get("project_from")))
     vertical.setMenuBar(menu)
     window_enable()    # after the menu: its four player entries join the list
-    buttons_check()    # and its four file entries follow the buttons
+    buttons_check()    # and its five file entries follow the buttons
 
     def scheme_changed(*_):
         """Follow a desktop switched between light and dark while running.
@@ -33804,8 +34260,6 @@ CATALOGUE["de"] = {
         'trägt nur diese eine. Wo die Spuren einander zu weit überlappen, '
         'um unterscheidbar zu sein, oder zwei Stimmen auf dasselbe Mikrofon '
         'zeigen, wird lieber gar nichts gesagt als etwas Unsicheres.',
-    '  The microphones were not measured against the separation: %s':
-        '  Die Mikrofone wurden nicht gegen die Trennung gehalten: %s',
     '\nWHAT THE VOICES COULD BE CALLED -- a proposal':
         '\nWIE DIE STIMMEN HEISSEN KÖNNTEN -- ein Vorschlag',
     '  %-20s could be called %s':
@@ -35993,8 +36447,15 @@ CATALOGUE["de"] = {
     '  (measuring only: nothing separated)':
         '  (nur gemessen: nichts getrennt)',
     '  From %s: %d voices.': '  Aus %s: %d Stimmen.',
-    '  From the tracks themselves, one voice per track.':
-        '  Aus den Spuren selbst, eine Stimme je Spur.',
+    '  The tracks were not measured, so %s is in the mix and not in the '
+    'cut: %s':
+        '  Die Spuren wurden nicht gemessen, %s ist damit in der Mischung '
+        'und nicht im Schnitt: %s',
+    '%s not measured yet -- in the cut, not yet in this preview.':
+        '%s noch nicht gemessen -- im Schnitt, in dieser Vorschau noch '
+        'nicht.',
+    '  From the tracks themselves, one voice per track: %s.':
+        '  Aus den Spuren selbst, eine Stimme je Spur: %s.',
     '  In %s, on this machine.': '  In %s, auf diesem Rechner.',
     '  The speaker separation is not used: %s.':
         '  Die Sprechertrennung wird nicht benutzt: %s.',
@@ -36027,6 +36488,10 @@ CATALOGUE["de"] = {
     '  Nothing was audible in the tracks -- no camera cut from this.':
         '  In den Spuren war nichts zu hören -- daraus wird kein '
         'Kameraschnitt.',
+    '  Not in the cut: %s -- a separation speaks for the recording, or it '
+    'was not measured.':
+        '  Nicht im Schnitt: %s -- eine Trennung spricht für die Aufnahme, '
+        'oder sie wurde nicht gemessen.',
     '  The tracks are used as recorded: aligned, mixed and brought to the\n '
     ' target loudness. No de-bleed, no leveler, no noise removal -- for\n  '
     'those the run needs auphonic.com.':
@@ -36274,6 +36739,10 @@ CATALOGUE["de"] = {
         'Weitwinkel',
     'Wide shot %d':
         'Weitwinkel %d',
+    '(wide shot)':
+        '(Weitwinkel)',
+    'No speaker':
+        'Kein Sprecher',
     'Listener':
         'Zuhörer',
     'Alternating':
