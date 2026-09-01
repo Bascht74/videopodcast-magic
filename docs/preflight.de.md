@@ -98,6 +98,16 @@ sie sagt das auch von sich: Sie rechnet jede Kamera als kopiert und mit
 neuen Tonspuren versehen, dazu die bearbeiteten Spuren und den Mix, und
 sie rundet durchweg nach oben auf.
 
+Ein Zeitfenster macht die Kameras kürzer, und die Schätzung geht mit:
+Jede Kamera zählt mit ihrem eigenen Anteil am Fenster, eine kurze gibt
+also viel weniger von sich her als eine lange
+([Multitrack](multitrack.de.md), „Wieviel von jeder Kamera geschrieben
+wird“). Das greift nur, wenn In-Punkt und Out-Punkt beide stehen und
+beide gleich zählen -- beide als Uhrzeit oder beide als Abstand. Eine
+Marke allein, oder ein Out-Punkt, der vom Ende zurückzählt, lässt die
+Schätzung beim ganzen Material. Der Lauf schreibt dann weniger, als der
+Bericht verlangt hat, nie mehr.
+
 Eine grobe Schätzung, um ein Haar überboten, ist kein Platz. Deshalb
 verlangt der Bericht **15 Prozent über seiner eigenen Schätzung**, bevor
 er den Platz gutheißt. Dazwischen -- die Zahlen gehen auf, aber knapp --
@@ -239,7 +249,10 @@ die Datei einen Platz, und es wird nichts vorgeschlagen.
   setzen. Die Zwischendateien des Laufs liegen im temporären Ordner des
   Systems: Liegt der auf derselben Platte wie der Ausgabeordner, braucht
   der Lauf den Platz zweimal, und ein Ausgabeordner auf einer anderen
-  Platte hilft dann so viel wie Aufräumen.
+  Platte hilft dann so viel wie Aufräumen. Wird ohnehin nur ein Stück
+  der Aufnahme gebraucht, hilft ein engerer In- und Out-Punkt mehr als
+  beides: Die Kameras werden dann nur noch für dieses Fenster
+  geschrieben.
 - **Das Preset mastert auf eine andere Lautheit.** `--lufs` auf den Wert
   des Presets setzen oder das Lautheitsziel des Presets auf
   auphonic.com ändern. Beides zusammen geht nicht: die Spuren kommen auf

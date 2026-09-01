@@ -215,6 +215,41 @@ Beide Grenzen nehmen diese Angaben:
 Die Knöpfe bleiben gesperrt, solange die gemeinsame Zeitachse fehlt.
 Danach gelten sie für alle Dateien gleich, auch für die ohne Timecode.
 
+### Wieviel von jeder Kamera geschrieben wird
+
+Am Zeitfenster hängt, was am Ende im Ausgabeordner liegt. Sobald eine
+der beiden Marken steht, wird jede Kamera nur noch für dieses Stück
+geschrieben und nicht mehr für den ganzen Dreh. Bei fünf Minuten aus
+einem echten Interview lagen danach 6,09 GB im Ordner, wo derselbe Lauf
+vorher 83,57 GB hinterlassen hat.
+
+Ohne Marke wird nichts abgeschnitten. Jede Kamera kommt dann in voller
+Länge heraus, genau wie bisher.
+
+Jede geschriebene Kamera trägt an beiden Enden eine Sekunde mehr als das
+Fenster, und vorne geht das Programm von dort aus noch bis zum Keyframe
+davor zurück. Dieser Rand ist Vorlauf und kein Versehen. Der Lauf prüft
+seine Kameras selbst nach und nennt eine schon ab einem einzigen Bild
+falsch eingeordnet -- eine Sekunde ist also das Zwanzigfache dessen, was
+er durchgehen lässt. Und ein Bild, das zwischen zwei Keyframes anfängt,
+liegt bis zu 400 Millisekunden neben seinem eigenen Ton. Der Rand kauft
+beides, und er kostet eine Sekunde Bild an jedem Ende.
+
+Am Schnitt ändert das nichts. Dieselben Einstellungen stehen zu
+denselben Zeitpunkten wie vorher, auf die Millisekunde, und in den
+geschriebenen Dateien steht der Ton, der dort war.
+
+Jede Kamera meldet eine Zeile **Zeitfenster**: wieviel von ihr
+geschrieben wurde und ab welcher Stelle der Aufnahme. Nach der Liste der
+geschriebenen Dateien nennt eine Zeile, was die Kameras zusammen tragen
+und wieviel aufgenommen worden war. Lassen sich die Keyframes einer
+Kamera nicht lesen, sagt das Programm es und lässt den Anfang dieser
+Kamera stehen.
+
+Wer mehr braucht, als das Fenster hergibt, setzt **In markieren** und
+**Out markieren** weiter auseinander und lässt noch einmal laufen. Einen
+eigenen Schalter dafür gibt es nicht.
+
 ### Was in die Kameradateien kommt
 
 Erste Tonspur jeder Kameradatei ist der Mix genau der Sprecher in diesem

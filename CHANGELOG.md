@@ -42,8 +42,9 @@ nicht.
 
 ### Changed
 
-- With an In and an Out point set, each camera is written only for that
-  window, plus a second at each end. On a five-minute window of a real
+- Where a time window is marked, each camera is written only for that
+  window, plus a second at each end. One mark is enough: an In point on
+  its own takes the head off every camera. On a five-minute window of a real
   interview that is 6.09 GB of output rather than 83.57 GB, and the cut
   it produces is the same to the millisecond.
 - Pressing **Measure speakers now** and then **Start** worked the same
@@ -136,8 +137,9 @@ nicht.
 
 ### Geändert
 
-- Sind In- und Out-Punkt gesetzt, wird jede Kamera nur für dieses
-  Zeitfenster geschrieben, dazu je eine Sekunde davor und danach. Bei
+- Wo ein Zeitfenster gesetzt ist, wird jede Kamera nur für dieses
+  Fenster geschrieben, dazu je eine Sekunde davor und danach. Eine
+  Marke genügt: ein In-Punkt allein schneidet jeder Kamera den Kopf ab. Bei
   fünf Minuten aus einem echten Interview sind das 6,09 GB statt
   83,57 GB, und der Schnitt bleibt auf die Millisekunde derselbe.
 - Wer **Sprecher jetzt messen** drückte und danach **Start**, ließ

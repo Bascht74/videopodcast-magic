@@ -14654,6 +14654,31 @@ def file_fingerprint(file_path):
         return None
 
 
+# How much is read at a time when marking a file by its content. A
+# larger block buys nothing: the hashing sets the pace, not the disk.
+CONTENT_BLOCK = 1 << 20
+
+
+def file_content_mark(file_path):
+    """Return what a file holds, as one string over size and content.
+
+    For a file whose name says nothing: a mix is written into a fresh
+    folder on every run, so path and time can never meet themselves,
+    and a modification time cannot tell two writes inside one second
+    apart either. Costs about a third of a second per gigabyte, read
+    or cached. "" where the file cannot be read.
+    """
+    mark = hashlib.sha1()
+    try:
+        with open(file_path, "rb") as f:
+            mark.update(b"%d\n" % os.fstat(f.fileno()).st_size)
+            for block in iter(lambda: f.read(CONTENT_BLOCK), b""):
+                mark.update(block)
+    except OSError:
+        return ""
+    return mark.hexdigest()
+
+
 def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     """Report whether a previously measured axis still applies to these files.
 
