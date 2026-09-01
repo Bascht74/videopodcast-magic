@@ -5,6 +5,15 @@ what was measured, how, and what came out. Not part of the manual and
 English only: this is for whoever changes the program, not for whoever
 uses it.
 
+**The productions are cover names, and they hold.** `Production A 1`
+and `A 2`, `Production B 1` and `B 2` are real recordings under
+invented names: the same name always means the same recording, two
+different names always mean two different ones, and the letter is the
+production with its episodes numbered after it. Nothing out of a real
+production is named here -- not a place, a person, a file or a number
+-- so the tables can be read against each other without any of it
+being public.
+
 How the program is built is in [Inside the script](internals.md).
 
 ---
@@ -363,9 +372,15 @@ silenced -- so that one recording could be run as an Auphonic
 Multitrack production? Measured on 24 and 25.8.2026 on one real
 interview. The answer is no.
 
-The material is one room recording from a Zoom,
-`Gesamtaudio-016_Zoom.wav`: 5216.71 s = 1:26:56, 48 kHz, stereo, one
-signal that holds everybody. The separation is the cached pyannote run,
+The material is one room recording from a Zoom, a single file of
+5216.71 s = 1:26:56, 48 kHz, stereo, one signal that holds everybody.
+**Which recording it was is no longer to be established** -- the section
+never said, and the cover names came later. The numbers below stand on
+their own and can be counted again from the cache; what cannot be done
+is to read them against the tables further down as if they were the same
+material. The first of the two reasons does not depend on the material
+at all.
+The separation is the cached pyannote run,
 so these are the numbers the program itself would cut the tracks from.
 
 | what | measured |
@@ -456,7 +471,7 @@ clock. Measured, path A against path B:
 | 23.976 | -- | 01:00:00:00 / 00:59:56:10 | 01:30:00:00 / 01:29:54:14 | up to 5.4 s |
 | 59.94 | -- | 01:00:00:00 / 00:59:56:24 | 01:30:00:00 / 01:29:54:36 | up to 5.4 s |
 
-**It cannot reach Sebastian's material, and not for the reason one
+**It cannot reach the real material, and not for the reason one
 would guess.** His cameras measure 29.9936, 29.9935 and 30.0010 -- none
 of them a 1000/1001 rate. `write_cut_list` really does hand the raw
 measured rate to `timecode_string`, not the snapped one. But the
@@ -523,7 +538,7 @@ And one thing that would be worse rather than better:
 `ScrollBarAlwaysOff` on the horizontal. The content stays 1271 px wide,
 so 287 px of it become **unreachable** instead of scrollable.
 
-Sebastian's MacBook is 1512 x 982 points, of which 1512 x 890 are
+The developer's MacBook is 1512 x 982 points, of which 1512 x 890 are
 available. Vertically the same run reported 16 px of air at three
 speakers, and a speaker table growing by 30 px per speaker with nothing
 holding it, which puts the threshold at four speakers and a window
@@ -554,7 +569,7 @@ rate looks over a full hour.
 Measured on 25.8.2026 on a written handover: zero point 10.0 s, In
 point `00:01:10:00`, so a removed head of 60 s.
 
-Before, the camera offsets `{Wide: -5.0, Anna: 0.0, Bert: 12.5,
+Before, the camera offsets `{Wide: -5.0, Guest: 0.0, Presenter: 12.5,
 Cam4: -33.25}` stayed exactly as they were while the zero point, the
 sections and the words all moved by 60. The distance between picture
 and sound was then **60.0 s per camera**. Afterwards the offsets are
@@ -663,7 +678,7 @@ the source and noted as "with an honest 0.1 s, 22 pauses of 1.5 s and
 over remain instead of the 64 the 0.4 s reading reports" -- read, not
 measured, and on a different interview.
 
-Measured on 29.8.2026 on the Testinterview: one hour and 27 minutes,
+Measured on 29.8.2026 on Production A 1: one hour and 27 minutes,
 three cameras, four voices. The threshold was not changed.
 
 **Two readings, and they are not the same material read twice.** Every
@@ -673,7 +688,7 @@ table below says which one it comes from.
   production found, out of its project file. Real speech, and every
   block carries a name. This production ran through the separation, and
   the separation has no such threshold, so nothing here was thrown away
-  in the real run: the 0 s row is the cut Sebastian has. The other rows
+  in the real run: the 0 s row is the cut that was delivered. The other rows
   are what the same hour becomes when a threshold is put in front of
   it, applied the way `speakers_from_tracks` applies it -- gaps up to
   0.35 s closed first, then what is still shorter thrown away.
@@ -833,19 +848,19 @@ loudness bar. The decision is not made here.
 
 ## Whether the questions tell the moderator from the candidate
 
-Sebastian asked on 29.8.2026 whether the recognition could be run over
+The developer was asked on 29.8.2026 whether the recognition could be run over
 ordinary tracks, the questions and the speaking time counted, and
 "candidate" and "moderator" set from that. This is what came out.
 Measured on 29.8.2026 on four episodes out of two productions.
 
 ### What there was to measure on
 
-Four recordings hold one track per person: Freiensteinau 1 and 2, and
-Steinau 1 and 2. Nothing else does. Two folders that look like more
-turned out to be the same material again -- the Testinterview run is
-the Freiensteinau 1 recording (its separation gives the candidate
+Four recordings hold one track per person: Production A 1 and 2, and
+Production B 1 and 2. Nothing else does. Two folders that look like
+more turned out to be the same material again -- one of them holds the
+Production A 1 recording (its separation gives the candidate
 83.5 % against 85.7 %, on the same three file names), and the twenty
-minute Auphonic file is a slice of Freiensteinau 2 (1805 of its 2928
+minute Auphonic file is a slice of Production A 2 (1805 of its 2928
 five word runs stand in that episode's transcript). They are used
 below as a second reading, not as a third and fourth episode.
 
@@ -864,23 +879,23 @@ same things.
 ### The four episodes, speaker by speaker
 
 Speaking time is the span of the words with holes under 0.6 s closed.
-For Freiensteinau it can be checked against the program's own
+For Production A it can be checked against the program's own
 separation, which never saw the same input: 3479.5 s here against
-3434.6 s in `Interview_BGM_Freiensteinau_speakers.edl` for the
+3434.6 s in that episode's own `..._speakers.edl` for the
 candidate, 447.4 against 432.6 for the moderator.
 
 | episode | speaker | words | sentences | questions | of sentences | opens with a question word | speech | share |
 |---|---|---|---|---|---|---|---|---|
-| Freiensteinau 1 | Kandidat | 10353 | 582 | 13 | **2.2 %** | 5.7 % | 3479.5 s | 85.0 % |
+| Production A 1 | Kandidat | 10353 | 582 | 13 | **2.2 %** | 5.7 % | 3479.5 s | 85.0 % |
 | | Moderator | 397 | 36 | 8 | **22.2 %** | 19.4 % | 166.1 s | 4.1 % |
 | | Moderatorin | 1124 | 94 | 30 | **31.9 %** | 30.9 % | 447.4 s | 10.9 % |
-| Freiensteinau 2 | Kandidat | 7544 | 368 | 10 | **2.7 %** | 3.0 % | 3059.9 s | 80.2 % |
+| Production A 2 | Kandidat | 7544 | 368 | 10 | **2.7 %** | 3.0 % | 3059.9 s | 80.2 % |
 | | Moderator | 368 | 30 | 9 | **30.0 %** | 23.3 % | 156.5 s | 4.1 % |
 | | Moderatorin | 1492 | 126 | 49 | **38.9 %** | 37.3 % | 598.6 s | 15.7 % |
-| Steinau 1 | Kandidat | 11400 | 791 | 46 | **5.8 %** | 4.8 % | 5622.5 s | 60.1 % |
+| Production B 1 | Kandidat | 11400 | 791 | 46 | **5.8 %** | 4.8 % | 5622.5 s | 60.1 % |
 | | Moderator | 6399 | 737 | 94 | **12.8 %** | 7.5 % | 2634.4 s | 28.2 % |
 | | Moderatorin | 2659 | 299 | 43 | **14.4 %** | 7.4 % | 1095.7 s | 11.7 % |
-| Steinau 2 | Kandidat | 9647 | 787 | 64 | **8.1 %** | 6.4 % | 3314.2 s | 73.0 % |
+| Production B 2 | Kandidat | 9647 | 787 | 64 | **8.1 %** | 6.4 % | 3314.2 s | 73.0 % |
 | | Moderator | 1659 | 113 | 28 | **24.8 %** | 11.5 % | 688.8 s | 15.2 % |
 | | Moderatorin | 1360 | 150 | 49 | **32.7 %** | 18.7 % | 535.4 s | 11.8 % |
 
@@ -889,7 +904,7 @@ questions per sentence and speaks the longest, and no moderator ever
 speaks more than the candidate.
 
 A second recogniser says the same on the twenty minutes of
-Freiensteinau 2 that went through auphonic.com: 26 of the
+Production A 2 that went through auphonic.com: 26 of the
 moderator's 44 sentences carry a question mark (59.1 %) and 0 of the
 candidate's 117 (0.0 %), with the share 18.6 % against 81.4 %. Same
 order, different size -- the absolute rate belongs to the recogniser,
@@ -902,19 +917,19 @@ distance that has to hold:
 
 | episode | questions per sentence | speaking share | questions per 10 min of own speech |
 |---|---|---|---|
-| Freiensteinau 1 | 2.2 % vs 22.2 % -- **20.0 points, 10.0x** | 85.0 % vs 10.9 % -- 7.8x | 2.24 vs 28.89 -- 12.9x |
-| Freiensteinau 2 | 2.7 % vs 30.0 % -- **27.3 points, 11.0x** | 80.2 % vs 15.7 % -- 5.1x | 1.96 vs 34.50 -- 17.6x |
-| Steinau 1 | 5.8 % vs 12.8 % -- **6.9 points, 2.2x** | 60.1 % vs 28.2 % -- 2.1x | 4.91 vs 21.41 -- 4.4x |
-| Steinau 2 | 8.1 % vs 24.8 % -- **16.6 points, 3.1x** | 73.0 % vs 15.2 % -- 4.8x | 11.59 vs 24.39 -- 2.1x |
+| Production A 1 | 2.2 % vs 22.2 % -- **20.0 points, 10.0x** | 85.0 % vs 10.9 % -- 7.8x | 2.24 vs 28.89 -- 12.9x |
+| Production A 2 | 2.7 % vs 30.0 % -- **27.3 points, 11.0x** | 80.2 % vs 15.7 % -- 5.1x | 1.96 vs 34.50 -- 17.6x |
+| Production B 1 | 5.8 % vs 12.8 % -- **6.9 points, 2.2x** | 60.1 % vs 28.2 % -- 2.1x | 4.91 vs 21.41 -- 4.4x |
+| Production B 2 | 8.1 % vs 24.8 % -- **16.6 points, 3.1x** | 73.0 % vs 15.2 % -- 4.8x | 11.59 vs 24.39 -- 2.1x |
 
 **This is the number that decides it.** Between the two productions
 the distance falls by a factor of four or five on every measure. A bar
-drawn where Freiensteinau puts it -- a moderator asks from 20 % of his
-sentences up -- calls every speaker in Steinau 1 a candidate. The
+drawn where Production A puts it -- a moderator asks from 20 % of his
+sentences up -- calls every speaker in Production B 1 a candidate. The
 ranking survives the change of production; a threshold does not.
 
 The question word at the start of a sentence is the weaker of the two
-readings and would not do on its own: in Steinau 1 it puts the
+readings and would not do on its own: in Production B 1 it puts the
 candidate at 4.8 % against the moderator's 7.5 %, 2.7 points apart
 where the question mark gives 6.9.
 
@@ -927,16 +942,16 @@ the same count after every sentence that is *not* a question:
 
 | episode | speaker | after a question | after a statement | difference |
 |---|---|---|---|---|
-| Freiensteinau 1 | Kandidat | 0.0 % (n=13) | 9.7 % (n=569) | -9.7 |
+| Production A 1 | Kandidat | 0.0 % (n=13) | 9.7 % (n=569) | -9.7 |
 | | Moderator | 87.5 % (n=8) | 89.3 % (n=28) | **-1.8** |
 | | Moderatorin | 96.7 % (n=30) | 53.1 % (n=64) | +43.5 |
-| Freiensteinau 2 | Kandidat | 20.0 % (n=10) | 15.4 % (n=358) | +4.6 |
+| Production A 2 | Kandidat | 20.0 % (n=10) | 15.4 % (n=358) | +4.6 |
 | | Moderator | 100.0 % (n=9) | 71.4 % (n=21) | +28.6 |
 | | Moderatorin | 91.8 % (n=49) | 54.5 % (n=77) | +37.3 |
-| Steinau 1 | Kandidat | 6.5 % (n=46) | 12.3 % (n=745) | -5.8 |
+| Production B 1 | Kandidat | 6.5 % (n=46) | 12.3 % (n=745) | -5.8 |
 | | Moderator | 57.4 % (n=94) | 56.0 % (n=643) | **+1.5** |
 | | Moderatorin | 62.8 % (n=43) | 44.1 % (n=256) | +18.7 |
-| Steinau 2 | Kandidat | 6.2 % (n=64) | 8.6 % (n=723) | -2.3 |
+| Production B 2 | Kandidat | 6.2 % (n=64) | 8.6 % (n=723) | -2.3 |
 | | Moderator | 53.6 % (n=28) | 56.5 % (n=85) | **-2.9** |
 | | Moderatorin | 55.1 % (n=49) | 47.5 % (n=101) | +7.6 |
 
@@ -957,13 +972,13 @@ episode? A speaker is ranked once he has ten sentences.
 
 | episode | by questions | by speaking share |
 |---|---|---|
-| Freiensteinau 1 | 9 min | 2 min |
-| Freiensteinau 2 | 7 min | 2 min |
-| Steinau 1 | **6 min** | **23 min** |
-| Steinau 2 | 2 min | 1 min |
+| Production A 1 | 9 min | 2 min |
+| Production A 2 | 7 min | 2 min |
+| Production B 1 | **6 min** | **23 min** |
+| Production B 2 | 2 min | 1 min |
 
 The share settles first three times out of four, and the one time it
-does not it is far the slower: Steinau 1 opens with a long setup in
+does not it is far the slower: Production B 1 opens with a long setup in
 which the moderator does the talking, and the share points at the
 wrong person for 23 minutes. The questions are right there from minute
 six. So the two do not merely agree -- **the questions cover the case
@@ -971,7 +986,7 @@ the share gets wrong**, which is what a second leg is for.
 
 ### What the raw lavaliers cost
 
-Sebastian's condition was a track with one voice on it. Whether a
+The condition given was a track with one voice on it. Whether a
 track has one voice is not a matter of how it was recorded but of what
 comes back off it, and the two productions are not alike. Counted as
 shared runs of five words between the transcripts of two tracks of the
@@ -979,31 +994,31 @@ same episode:
 
 | episode | tracks | shared five word runs |
 |---|---|---|
-| Freiensteinau 1, after auphonic.com | Kandidat / Moderator | 0 of 10198 -- **0.0 %** |
-| Freiensteinau 1, as uploaded | Kandidat / Moderator | 0 of 10412 -- **0.0 %** |
-| Steinau 1 | Kandidat / Moderator | 11900 of 16605 -- **71.7 %** |
-| Steinau 2 | Kandidat / Moderatorin | 7594 of 12531 -- **60.6 %** |
+| Production A 1, after auphonic.com | Kandidat / Moderator | 0 of 10198 -- **0.0 %** |
+| Production A 1, as uploaded | Kandidat / Moderator | 0 of 10412 -- **0.0 %** |
+| Production B 1 | Kandidat / Moderator | 11900 of 16605 -- **71.7 %** |
+| Production B 2 | Kandidat / Moderatorin | 7594 of 12531 -- **60.6 %** |
 
-In Steinau every track holds the whole conversation: the moderator's
+In Production B every track holds the whole conversation: the moderator's
 own recognition returned 19300 words where the candidate's returned
 16884. Counting questions on those tracks as they stand gives the
 moderator's questions to whoever has the hottest recorder gain.
 
 So they had to be taken apart first. The tracks were brought onto one
-axis by matching five word runs -- 11783 matches for Steinau 1, a
+axis by matching five word runs -- 11783 matches for Production B 1, a
 straight line through them, and 90 % of the matches within 64 ms of it
 -- and every word then went to its own track only where that track's
 level over that word led the others. **Every track's level is referred
 to its own loudest tenth of a per cent before the comparison.** Without
 that step the candidate's 8 to 11 dB hotter recorder takes the whole
-episode: it put a question of the moderator's -- who thought of tiling
-the swimming pool -- in the candidate's mouth.
+episode: a question the moderator asked, word for word, came out of it
+in the candidate's mouth.
 
 That gate was checked against a truth, not trusted. The three clean
-Freiensteinau 1 tracks were mixed into each other at -11.5 dB, the
-depth measured on Steinau, which reproduced the fault exactly -- all
+Production A 1 tracks were mixed into each other at -11.5 dB, the
+depth measured on Production B, which reproduced the fault exactly -- all
 three mixes then recognised about 11700 words, the whole conversation,
-as Steinau does. Recognised again and taken apart by the same gate:
+as Production B does. Recognised again and taken apart by the same gate:
 
 | | words judged | right |
 |---|---|---|
@@ -1019,9 +1034,9 @@ stand apart.
 
 The reservation is the margin it decides on. Over the words it kept,
 the winning track led by 5.9 dB in the checked case and by only 1.3 dB
-in Steinau 1 and 3.7 dB in Steinau 2. The Steinau figures are made
-much closer to the gate's limit than the figures the 99.79 % was
-measured at.
+in Production B 1 and 3.7 dB in Production B 2. The Production B
+figures are made much closer to the gate's limit than the figures the
+99.79 % was measured at.
 
 ### What was not measured
 
@@ -1032,28 +1047,29 @@ measured at.
   before an election, two moderators asking. A panel, two candidates,
   a guest who interviews the host: none of that is in this material,
   and none of these figures says what would happen there.
-* **The near miss that is in the material.** Steinau 1 comes within
+* **The near miss that is in the material.** Production B 1 comes within
   6.9 points on the questions and within a factor of 2.1 on the share.
   Nothing was measured that says a fifth episode could not close that
   gap altogether.
-* **Whether the Steinau split is right.** Its numbers rest on the gate
+* **Whether the Production B split is right.** Its numbers rest on the gate
   above, not on the program's own separation, and there is no
-  separation output for Steinau to check them against. The 99.79 % was
+  separation output for Production B to check them against. The 99.79 % was
   measured on a mix built for the purpose, at a margin four times
-  wider than the one Steinau 1 offers.
-* **Who is who in Steinau 2.** The moderator's track is `REC00018`
-  plus `REC00019`, named after the recorder and not after a person.
-  That they are the moderator's is taken from the file dates matching
-  Steinau 1's `Moderator.wav`, not from anybody saying so.
+  wider than the one Production B 1 offers.
+* **Who is who in Production B 2.** The moderator's track is two files
+  the recorder numbered for itself, named after it and not after a
+  person. That they are the moderator's is taken from the file dates
+  matching the moderator's track in Production B 1, whose name does say
+  the role, not from anybody saying so.
 * **The recognition on a track full of bleed.** It is visibly worse --
   it hears compound words that do not exist and mangles ordinary ones --
   and a question mark is
   put there by the recogniser, not by the speaker. How much of the
   candidate's 5.8 % and 8.1 % is his and how much is the recognition
   was not separated.
-* **The first minutes of a raw recording are not the episode.** Steinau
-  1 runs 151.7 minutes, of which the interview is roughly the first
-  125; the rest is packing up. The setup chatter is counted in
+* **The first minutes of a raw recording are not the episode.**
+  Production B 1 runs 151.7 minutes, of which the interview is roughly
+  the first 125; the rest is packing up. The setup chatter is counted in
   everything above, and it is what makes the share need 23 minutes.
 * **Nothing was listened to.** Every figure comes off a transcript.
 

@@ -11,7 +11,7 @@ videopodcast-magic.log
 videopodcast-magic_1.log
 
 # Working notes from real productions: material for the two of us, not
-# part of what is delivered. They stay on Sebastian's disk.
+# part of what is delivered. They stay on the owner's disk.
 docs/notes/
 
 # Folders the cleanup script fills. They hold superseded files, not code.

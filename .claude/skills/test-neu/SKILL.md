@@ -6,8 +6,10 @@ description: Anything inside a `tests/*_test.py` is about to change -- a new fil
 # Writing or changing a test
 
 `development/test_guidelines.md` says **why** all of this is so. This
-says **how, and in what order**, and the twelve points at the end are
-what gets answered last, one by one.
+says **how, and in what order**. Every rule stands in one place only:
+the sections carry the mechanism, the measurement and the case, the
+twelve points at the end carry the question that has to be answered
+before the test is finished. Neither says what the other says.
 
 ## 1. Where it belongs
 
@@ -19,16 +21,7 @@ that ground can ask it a twentieth question for nothing.
 
 Look at what is there first. The second line of every file is its claim,
 and all of them together stand in the table at the end of
-`tests/README.md`, sorted under the twelve prefixes. In the terminal:
-
-```bash
-cd tests && for f in *_test.py; do
-  printf '%-26s %s\n' "${f%_test.py}" \
-    "$(python3 -c 'import ast,sys
-d = ast.get_docstring(ast.parse(open(sys.argv[1]).read())) or ""
-print(d.splitlines()[0] if d else "(no docstring)")' "$f")"
-done
-```
+`tests/README.md`, sorted under the twelve prefixes.
 
 **It joins an existing file only if all three are yes:**
 
@@ -69,10 +62,8 @@ program is broken without opening the file.
 **The second half is a claim, not a thing:** `atom_travels`, not
 `log_atom`. A thing in the name covers every check that has anything to
 do with that thing — including one that measures something else
-entirely.
-
-**If the claim does not fit in two or three words, it is two claims.**
-Then it is split, and the name is not shortened back to a thing.
+entirely. **If the claim does not fit in two or three words, it is two
+claims**, and it is split rather than shortened back to a thing.
 
 ## 3. The docstring
 
@@ -90,10 +81,6 @@ numbering is the one the test itself prints, copied from there.
 What else does not belong in it: a date, a name, a path, the road that
 led there, and a number out of a single run. All of that ages, and no
 line is helped by it.
-
-**What stands in the docstring has a `check`. What a `check` tests
-stands in the docstring.** Both directions, and it is looked up, not
-assumed.
 
 ## 4. The judgements
 
@@ -119,12 +106,6 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 ```
 
-**Never a bare `assert` as a judgement.** It throws a traceback instead
-of a readable line, it stops at the first failure and hides everything
-behind it, it carries no numbers, and it is not counted. An `assert` is
-allowed for a precondition of the material that says nothing about the
-program — and then the comment beside it says that is what it is.
-
 **A `check` name is the sentence that lands in the report**, and it is
 read when nothing else is left: `check("a marked camera is the wide shot
 even with a speaker on it", …)`, not `check("wide shot", …)`.
@@ -143,25 +124,18 @@ print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)
 ```
 
-**One line per judgement, and the closing line sums them up.** The
+**One line per judgement, and the closing line sums them up** — the
 report shows that summary first, so it has to name every check that
-fell and not only how many — which is what collecting them in `bad`
-is for.
-
-Where anything runs concurrently — a timer, a window — the test ends in
-**one** place, and that place asks the count. A second timer that stops
-the run after a deadline otherwise sends the test out with 0 although it
-crashed on its first step.
+fell and not only how many, which is what collecting them in `bad` is
+for.
 
 ## 5. What belongs in the FAIL line
 
 **On someone else's machine, only what stands in the line itself
 exists.** Six builder jobs, and all that comes back are the lines that
 look like a failure; everything printed before is gone, and the run
-cannot be repeated.
-
-**So: expected and actual, as numbers.** The third argument is not
-optional.
+cannot be repeated. **So: expected and actual, as numbers. The third
+argument is not optional.**
 
 ```python
 # right
@@ -175,12 +149,6 @@ check("the shot does not fall below the minimum", shortest >= limit)
 Numbers, not adjectives: "too short" says nothing, "0.31 s against
 0.80 s" says everything.
 
-**And it must name the first thing that was wrong, not the last.**
-Where a claim rests on a precondition — the player was running, the file
-appeared — the precondition becomes a check of its own and stands
-before it. Otherwise the line reports that the camera did not switch
-while in truth nothing ever played.
-
 ## 6. Waiting
 
 **On a condition, never on the clock.** A fixed pause costs time in
@@ -193,10 +161,10 @@ generous upper bound.** The interval is the time lost in the normal
 case; the bound is never reached in the normal case and is therefore
 free.
 
-**Give up on standstill, not on a deadline.** The builder is about nine
-times slower than this machine -- measured on 31.8.2026 over twelve
-tests, median 8.7, never below 5. So what gets measured is how long
-nothing has changed — that does not punish the slow machine, and it
+**What is measured is how long nothing has changed, not how long the
+step has taken.** The builder is about nine times slower than this
+machine -- measured on 31.8.2026 over twelve tests, median 8.7, never
+below 5. Standstill does not punish the slow machine, and it
 additionally catches the case a deadline cannot see: something hanging
 while there is still time left.
 
@@ -206,12 +174,8 @@ anything happens or not. "The window is still up" is not one. Usable are
 a value the step itself writes, a file that appears, a number that
 rises, a state the program reports outright.
 
-**Exhausted patience is red, not green**, and the line says how long it
-waited and what never came. Where timeout and arrival return the same
-value, the test carries on and measures something half-finished.
-
-**A step's deadlines stay under the whole run's**, or a slow machine
-learns only that the total time is up, and not which step never came.
+Where timeout and arrival return the same value, the test carries on and
+measures something half-finished, so they must be told apart.
 
 **A fixed pause is allowed while a test is being written, and nowhere
 else.** What the condition has to be is worth measuring rather than
@@ -222,19 +186,14 @@ the thing really happens. Then the pause goes out again.
 
 **A skipped test is not a green one.** It prints `SKIPPED:` on a line of
 its own, `run.sh` counts it apart, and the summary names it — `green: 50
-skipped: 1`, never green for a test that checked nothing. A
-`sys.exit(0)` in passing is the same lie: a test that bows out because
-its material is missing and returns 0 cannot be told from one that
-checked everything.
+skipped: 1`. A `sys.exit(0)` in passing is the same lie: a test that
+bows out because its material is missing and returns 0 cannot be told
+from one that checked everything. **The reason stands in that line: what
+is missing, and what would bring it back** — "no test project" is not a
+reason, "no test project — point `VPM_MEDIA` at a folder with …" is one.
 
-**The reason stands in that line: what is missing, and what would bring
-it back.** "no test project" is not a reason; "no test project — point
-`VPM_MEDIA` at a folder with …" is one.
-
-**A test that left a section out says so too, and its closing line says
-how many of how many sections ran in full.** It must not claim that
-everything was checked. There are two ways to say it and they are
-counted differently:
+There are two ways to say a section was left out, and they are counted
+differently:
 
 * **`SKIPPED:` is the loud one, and it carries the fraction.**
   `tests/text_no_german_left_test.py` prints `SKIPPED: %d of %d sections
@@ -257,8 +216,7 @@ listed in `.github/workflows/tests.yml` — a Windows registry on Linux, a
 `#!/bin/sh` stand-in on Windows, a German dictation asset the macOS
 runner does not carry. That step moves them out of `tests/` before the
 suite starts, with the reason beside each and the count printed, so they
-never reach the skip ratchet. A test that cannot run here is taken out
-of the folder; it is not left to skip.
+never reach the skip ratchet.
 
 ## 8. Cleaning up
 
@@ -289,9 +247,8 @@ does with the answer, and the weather is no longer part of the result.
 **Never take the folder for the whole of what exists.** Three red runs in
 one day came from that one assumption, each in a different disguise:
 
-* **The builder sets tests aside.** The tests a machine cannot run are
-  moved out of `tests/` before the suite starts, so counting what lies
-  there answers 143 on Windows and 145 here. **Ask the repository, not
+* **The builder sets tests aside** (§7), so counting what lies in the
+  folder answers 143 on Windows and 145 here. **Ask the repository, not
   the folder** -- `git ls-files` knows what belongs to the suite whatever
   was moved; a file that is there is read from there, so uncommitted work
   still counts, and only a file that was set aside is read out of the
@@ -350,13 +307,10 @@ is done.
 
 ## 11. The counter-proof
 
-**Without it the check does not count.** Green says nothing about the
-program until the same check has been shown to go red when the thing it
-is about is wrong — and that is **per check, not per file**. Then the
-entry in `tests/state/counterproof`.
-
-How both are done is in the **`gegenbeweis`** skill. Call it; do not
-copy it out.
+How a check is shown to go red when the thing it is about is wrong, and
+how the entry in `tests/state/counterproof` is written, is in the
+**`gegenbeweis`** skill. Call it; do not copy it out. What it leaves for
+you to answer is points 6 to 8.
 
 ## 11b. When no judgement changes
 
@@ -387,22 +341,12 @@ The line tells a person who looks; it becomes a check the day the number
 is held against a floor, and then it owes a counter-proof like any
 other.
 
-## 12. When an existing test is changed
+## 12. What a change costs in the register
 
-**Read the docstring again, every time.** Does its first line still
-describe what the test claims today? Does it talk about a setup some
-rebuild replaced long ago? A wrong docstring sends every reader in the
-wrong direction, and it is the likeliest reason a hole goes unnoticed
-for years.
-
-**A note saying "this step is red" goes out with the repair**, not in
-the next tidy-up.
-
-**And the old counter-proof entry is replaced as soon as *what* is
-checked has changed.** Moving a limit, turning a comparison round,
-swapping one field for another: the what changes, and the entry is
-earned again. Changing only the how is rare — so when in doubt, earn it
-again.
+**The old counter-proof entry is replaced as soon as *what* is checked
+has changed.** Moving a limit, turning a comparison round, swapping one
+field for another: the what changes, and the entry is earned again.
+Changing only the how is rare — so when in doubt, earn it again.
 
 **The register draws that line for itself, and it draws it over the
 wordings.** `source_checks_proved_test.py` fingerprints the first
@@ -428,36 +372,45 @@ counter-proofs lost.
 
 ---
 
-**The test is finished when the twelve points below have been answered
-one by one.** One by one, not skimmed: the seventeen tests that checked
-less than their docstring promised were all green.
-
 ## The checklist
 
-Every one of these caught at least one of the seventeen, except 4 and 7,
-which are there to stop the next one.
+**The test is finished when these twelve have been answered one by one.**
+One by one, not skimmed: the seventeen tests that checked less than
+their docstring promised were all green, and every point below caught at
+least one of them, except 4 and 7, which are there to stop the next one.
 
 **1. Assert.** Does the test reach a verdict at all -- with `check`, not
-a bare `assert`? How many? And if none: does that stand in the docstring
-**and** in the closing line?
+a bare `assert`? A bare `assert` throws a traceback instead of a
+readable line, stops at the first failure and hides everything behind
+it, carries no numbers, and is not counted. It is allowed for a
+precondition of the material that says nothing about the program, and
+then the comment beside it says that is what it is. How many verdicts?
+And if none: does that stand in the docstring **and** in the closing
+line?
 
 **2. Head and checks agree.** Has every claim of the first line got a
-`check`? And does every `check` appear in the head? Both directions.
+`check`? And does every `check` appear in the head? Both directions, and
+it is looked up, not assumed.
 
 **3. The end is always reached.** Does every path through the test --
 the crashed one, the concurrent one -- pass the line that counts and
-sets the return code? Is the number of verdicts printed, and does it
-match what the head promises?
+sets the return code? Where a timer or a window runs alongside, the test
+ends in **one** place and that place asks the count: a second timer that
+stops the run after a deadline otherwise sends the test out with 0
+although it crashed on its first step. Is the number of verdicts
+printed, and does it match what the head promises?
 
-**4. The name is a claim.** Does the prefix say which part of the
+**4. The name is a claim** (§2). Does the prefix say which part of the
 program would be broken, rather than what the material is about? Is the
 second half a claim and not a thing? Does that hold for every single
 `check` as well?
 
-**5. The failure line carries its evidence.** Is it in every one --
+**5. The failure line carries its evidence** (§5). Is it in every one --
 wanted and found, as a number? And does it name the first thing that was
-wrong rather than a consequence: is every precondition a check of its
-own, before it?
+wrong rather than a consequence? Where a claim rests on a precondition
+-- the player was running, the file appeared -- the precondition is a
+check of its own and stands before it; otherwise the line reports that
+the camera did not switch while in truth nothing ever played.
 
 **6. The counter-proof is done -- for each check on its own.** A version
 in which exactly this one thing is false, the test run against it, the
@@ -466,35 +419,40 @@ does not count.
 
 **7. And it stands in `tests/state/counterproof`.** The check by name,
 how it was broken, the red line verbatim. This point cannot be ticked
-without the entry written -- and rewording a check, adding one or
-splitting one voids the old entry by itself, because the register's
-fingerprint moves with the wordings.
+without the entry written -- and §12 says when an entry the diff never
+touched has gone void anyway.
 
 **8. And if it would not go red: the check, or the stand-in?** Does the
 stand-in allow more anywhere than the real thing -- inventing what the
 real one refuses, missing a method whose absence the real one would make
 felt? Does an `except` anywhere swallow the answer?
 
-**9. Waiting is on a condition.** No fixed pause. Does the test give up
-on standstill rather than on a deadline running out? Is the sign of life
-something that only moves because the program is working? Do the steps'
-deadlines stay under the whole run's? Is exhausted patience red?
+**9. Waiting is on a condition** (§6). No fixed pause. Does the test
+give up on standstill rather than on a deadline running out? Is the sign
+of life something that only moves because the program is working? Do the
+steps' deadlines stay under the whole run's, so a slow machine learns
+which step never came and not merely that the total time is up? Is
+exhausted patience red rather than green, with a line saying how long it
+waited and what never came?
 
-**10. Skipping is visible.** `SKIPPED:` with a reason and the way back,
-no silent `sys.exit(0)`, no step quietly left out -- and where one was,
-does the closing line say how many of how many sections ran in full,
-rather than claiming everything was checked? Does the skip count stay
-under `SKIPS_ALLOWED`? What can run on no machine is removed rather than
-skipped.
+**10. Skipping is visible** (§7). `SKIPPED:` with a reason and the way
+back, no silent `sys.exit(0)`, no step quietly left out -- and where one
+was, does the closing line say how many of how many sections ran in
+full, rather than claiming everything was checked? Does the skip count
+stay under `SKIPS_ALLOWED`? What can run on no machine is removed rather
+than skipped.
 
-**11. It cleans up, and it does not take the folder for the world.** A
-temporary folder rather than a fixed path, nothing left standing
+**11. It cleans up, and it does not take the folder for the world** (§8,
+§8b). A temporary folder rather than a fixed path, nothing left standing
 afterwards, nothing deleted or altered that the test did not create
 itself. And what it reads out of the tree: would it still be there in a
 clone, on a machine that set some tests aside, beside a snapshot? The
-proof is `git archive HEAD | tar -x` into an empty folder and a run in
-there.
+proof is the clone in §8b, and it has been run.
 
-**12. The head has been reread.** Does it still describe what the test
-builds today? Is there no number in it that would have to travel? Has a
-note saying "this step is red" gone out with the repair?
+**12. The head has been reread.** Does its first line still describe
+what the test claims today, or does it talk about a setup some rebuild
+replaced long ago? A wrong docstring sends every reader in the wrong
+direction, and it is the likeliest reason a hole goes unnoticed for
+years. Is there no number in it that would have to travel? Has a note
+saying "this step is red" gone out with the repair, rather than waiting
+for the next tidy-up?

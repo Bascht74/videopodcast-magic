@@ -109,6 +109,32 @@ Whoever tightens this on Windows sets an access list of its own
 rule promises less there, and says so rather than claiming a mode it
 does not have.
 
+**Nothing out of a real production goes into this repository.** Not a
+file name, not a folder, not a path, not a person, not a preset or a
+production number -- neither in the test material, nor in a picture, nor
+in a test, nor in a note that is shipped. Everything here uses roles:
+`Guest`, `Presenter`, `CoPresenter`, `WideCam`. Everything here lives
+under `/tmp`.
+
+Measured on 1.9.2026, and this is why the rule is written down: the
+manual's terminal pictures carried the whole path of a private disc,
+publicly, for sixteen versions. The fixture built by `tests/fixtures.sh`
+carried the file names of two real episodes, readable on GitHub. Both
+had been looked at many times and seen by nobody, because each of them
+looked like what it was surrounded by.
+
+**A demo name still has to teach.** `a.wav` says nothing; a picture in
+the manual is there to explain. It carries the shape a recorder or a
+camera really writes, so the reader recognises it -- and it keeps the
+length of what it replaces, because a shorter name would hide the place
+where the program cuts a name off. **A picture that shows the program
+prettier than it is, is no picture.**
+
+Whoever adds material asks the question before the first file: **could
+this name have come off somebody's disc?** If yes, it is renamed before
+it is written, not afterwards -- afterwards it is in the history, and
+taking it out of there costs the history.
+
 **The program never uploads to auphonic.com on its own.** Only when
 somebody asked for it.
 
