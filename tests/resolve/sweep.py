@@ -70,10 +70,13 @@ def main(argv):
         # that list can be loaded again, so such a name is one nobody can
         # put back, and a name nobody can put back is worse than no name:
         # the run ends on the big box below for something that is not a
-        # fault. Measured on Resolve 21.0.4.5 on 1.9.2026: a project that
-        # was created and never saved is open and in no list, and the
-        # moment anything else is loaded Resolve writes it out under a
-        # name of its own choosing.
+        # fault. Measured on Resolve 21.0.4.5 on 1.9.2026: a project
+        # that was created and never saved is open and in no list.
+        # Loading something else writes it out, under the name it had
+        # and not one of Resolve's choosing; creating something else
+        # does not write it out at all, and then it is gone for good --
+        # which is why a test must not create one while such a project
+        # stands open.
         here = open_now(pm)
         if (ground_of.TEST_PROJECT.match(here)
                 or here not in (pm.GetProjectListInCurrentFolder() or [])):

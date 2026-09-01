@@ -1,6 +1,6 @@
 # The test suite
 
-190 tests against `../videopodcast-magic.py`. Every one of them stands
+191 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -19,6 +19,12 @@ reason that is not a fault. They work in a project of their own, put the
 project that was open back, and delete their own again. Their
 counter-proofs live in `resolve/counterproof`, for the same reason: the
 register reads the folder above, and a row there would belong to no test.
+`run.sh` ends every run by naming them -- how many there are, that they
+did not run here, and the command that starts them -- and where git says
+something under `resolve/` or in `resolve.sh` has been worked on, the
+line says that too. The count comes out of the folder, so a fifth test
+is named without anybody editing a number. On the builder the line is
+not printed at all.
 
 A test started by hand runs in whatever language the machine is set to,
 and on a German Mac that is German -- the program skips the `C` locale
@@ -238,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-190 tests. The name is the one a red line carries, and beside it the
+191 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -345,7 +351,7 @@ it is green.
 |---|---|
 | `cut_all_shots_land` | Checks the cut timeline: lengths fit, no gaps, nothing drops out. |
 | `cut_both_are_shown` | Two talk at once: does the camera showing both come up? |
-| `cut_box_fits_the_picture` | The box takes the shape of the picture and gives the rest to the note. |
+| `cut_box_fits_the_picture` | The picture keeps its shape, and the note under it keeps to two lines. |
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |
 | `cut_jingle_over_start` | Intro and outro: where they sit, and how far the content moves. |
 | `cut_list_rebuilt` | The cut list is built again unless the window really moved. |
@@ -489,7 +495,8 @@ it is green.
 | `source_numpy_comes_last` | The program loads without numpy, so --help and --version stay cheap. |
 | `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
 | `source_resolve_door_shut` | A test that calls at a door to Resolve has nailed it shut first. |
+| `source_resolve_recalled` | The reminder about the Resolve tests reaches a person, not the builder. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
-| `source_test_names_swept` | A project name a test gives Resolve is swept, or excepted by name. |
+| `source_test_names_swept` | A name a test gives Resolve is swept, or excepted by name. |
 
 <!-- overview ends -->

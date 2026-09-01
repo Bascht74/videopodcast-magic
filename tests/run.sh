@@ -627,7 +627,16 @@ if [ -n "$raised$census" ] && "$PY" -c \
   # one file and lost the head of it. The move is what makes the change
   # visible, and a move is one step.
   } > "$CHECKS.$$" && mv "$CHECKS.$$" "$CHECKS"
-  [ -n "$raised" ] && echo "state/checks: raised --$raised"
+  # A floor raised out of a file somebody is still writing is a floor set
+  # by half a thought. The run cannot know whether the edit is finished,
+  # so it does not refuse the raise -- it says so beside it.
+  if [ -n "$raised" ]; then
+    echo "state/checks: raised --$raised"
+    for r in $raised; do
+      git -C "$HERE" status --porcelain -- "${r%%=*}_test.py" 2> /dev/null \
+        | sed 's|^...|state/checks: raised out of a file that is not saved: |'
+    done
+  fi
   [ -n "$census" ] && echo "state/checks: written from this run --"\
     "$(echo $census | wc -w | tr -d ' ') tests report no count"
 fi
@@ -636,6 +645,76 @@ fi
 # order of the queue belongs to the builder, and builder_times.sh fills
 # it. Times written here put a test that is slow there last in the
 # queue on the strength of how fast it is on this machine.
+
+# The tests under resolve/ talk to a DaVinci Resolve really running on
+# this machine. They are not in this folder, so nothing above collected
+# them, counted them or judged them -- they are not skipped, they are
+# not part of this run at all, and the skips barrier must never hear of
+# them. The only thing that starts them is a person, and a person
+# forgets. So the run says at the end that they are there.
+#
+# Said after everything is counted and printed, and in a line that
+# begins with none of the words anything reads: run_one judges each
+# test's own output, not this one, and the CI report lifts "green:" and
+# "skips:" out of the log by name.
+#
+# Not on the builder. No runner has a Resolve, "start them by hand" is
+# an instruction nobody there can follow, and tests.yml already says
+# where it belongs -- in the step that sets tests aside. CI and
+# GITHUB_ACTIONS are both set by GitHub; neither is set here.
+if [ -z "${CI:-}" ] && [ -z "${GITHUB_ACTIONS:-}" ] && [ -d "$HERE/resolve" ]
+then
+  apart=$(ls "$HERE"/resolve/*_test.py 2>/dev/null | wc -l | tr -d ' ')
+  # Sharper when the Resolve branch has just been worked on: a line that
+  # reads the same every day is read once. Two signals, both out of git,
+  # both without guesswork -- work under those paths not committed yet,
+  # and the newest commit touching them being the one this run stands
+  # on. What the program's own diff says was measured and thrown away:
+  # over 40 commits, "a changed line in videopodcast-magic.py naming
+  # Resolve" fired three times and every one of the three was a comment
+  # or a key name, while no commit in those 40 changed the Resolve code
+  # itself. A sharp line that is wrong three times in forty is noise.
+  #
+  # Where there is no git and no repository both questions come back
+  # empty and the plain line stands.
+  touched=""
+  if command -v git > /dev/null 2>&1 \
+     && git -C "$HERE" rev-parse --git-dir > /dev/null 2>&1; then
+    # Named, not counted: "something changed" sends whoever reads it
+    # looking for what. Three names and then a number, because the line
+    # is a reminder and not a listing.
+    changed=$(git -C "$HERE" status --porcelain -- resolve resolve.sh \
+              2>/dev/null | sed 's/^...//' | grep -c . )
+    if [ "${changed:-0}" -gt 0 ]; then
+      touched=$(git -C "$HERE" status --porcelain -- resolve resolve.sh \
+                2>/dev/null | sed 's/^...//' | head -3 | tr '\n' ' ' \
+                | sed 's/ *$//')
+      [ "$changed" -gt 3 ] && touched="$touched and $((changed - 3)) more"
+    else
+      # Asked for, not derived from HEAD~1: a repository whose first
+      # commit is its only one has no HEAD~1, and a run there must not
+      # break. An unborn HEAD answers nothing at all, which is why the
+      # emptiness is asked after rather than compared.
+      was=$(git -C "$HERE" log -1 --format=%H -- resolve resolve.sh \
+            2>/dev/null)
+      now=$(git -C "$HERE" rev-parse HEAD 2>/dev/null)
+      [ -n "$was" ] && [ "$was" = "$now" ] \
+        && touched="the commit this run stands on"
+    fi
+  fi
+  if [ "$apart" -gt 0 ] && [ -n "$touched" ]; then
+    echo "resolve: $apart tests under resolve/ did not run here, and the"
+    echo "         Resolve branch has been worked on: $touched"
+    echo "         Nothing but a person starts them, and they want a"
+    echo "         Resolve running:"
+    echo "             cd tests && bash resolve.sh"
+  elif [ "$apart" -gt 0 ]; then
+    echo "resolve: $apart tests under resolve/ did not run here. They talk"
+    echo "         to a DaVinci Resolve really running, so a person"
+    echo "         starts them:"
+    echo "             cd tests && bash resolve.sh"
+  fi
+fi
 echo "(started in the background? then do the next thing while it runs.)"
 # Red if anything failed, and red if more was left out than the barrier
 # allows: the second is a failure too, because this run then proved
