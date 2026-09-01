@@ -25,6 +25,84 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.25.1-beta] - 2026-09-01
+
+### Removed
+
+- The switches `--update-check` and `--no-update-check` are gone. They
+  belonged to a remembered no that the window has not offered for a
+  version. `VPM_NO_UPDATE_CHECK` in the environment still switches the
+  looking off for everybody on a machine, and `--update` is what fetches.
+
+### Fixed
+
+- Two cameras whose file names begin alike were drawn as one in the
+  preview: one of them never played, both shots carried one colour, and
+  the legend counted them once. Worse, the preview showed one standing
+  shot where the run cut twice. Cameras are told apart by their whole
+  file name there now, so the picture the sliders are set against is the
+  cut that comes out.
+- The summary that opens on "Start" named the same amount of disc space
+  whatever time window was set. It was wrong in both directions -- 96 GB
+  for a run that writes 6, and 115 MB for one that writes a gigabyte, and
+  that second number is the one somebody checks their free space against.
+  The summary and the report before the run now come from one reckoning.
+- Where the key frames of a camera could not be read, the log said the
+  whole camera was written and then cut its tail anyway. It says now that
+  the copy starts at the beginning of the file, which is what happens.
+- Keeping the transcript saved nothing: the words were filed under the
+  name of a mix that is built in a new folder every time, so they were
+  never found again. They are filed under what the recording holds now,
+  and a second run of the same material skips the recogniser -- the 27
+  seconds in the window, and the eleven to thirty minutes Whisper takes
+  on Windows.
+- The program had stopped saying that a newer version was out. A no given
+  once in passing had been kept in the cache and could only be taken back
+  with a switch that nothing in the window mentions. No answer is remembered
+  now; "Skip this version" skips one version and asks again at the
+  next.
+
+**Deutsch**
+
+### Entfernt
+
+- Die Schalter `--update-check` und `--no-update-check` gibt es nicht
+  mehr. Sie gehörten zu einem gemerkten Nein, das im Fenster seit einer
+  Fassung gar nicht mehr angeboten wird. `VPM_NO_UPDATE_CHECK` in der
+  Umgebung schaltet das Nachsehen weiterhin für alle an einer Maschine
+  ab, geholt wird mit `--update`.
+
+### Behoben
+
+- Zwei Kameras, deren Dateinamen gleich anfangen, waren in der Vorschau
+  eine: eine davon lief nie, beide Einstellungen hatten dieselbe Farbe,
+  und die Legende zählte sie einmal. Schlimmer noch zeigte die Vorschau
+  eine durchgehende Einstellung, wo der Lauf zweimal schnitt. Kameras
+  werden dort jetzt am ganzen Dateinamen auseinandergehalten, damit das
+  Bild, nach dem die Regler gestellt werden, der Schnitt ist, der
+  herauskommt.
+- Die Übersicht, die bei „Start" aufgeht, nannte denselben Platzbedarf,
+  gleich welches Zeitfenster gesetzt war -- und zwar in beide Richtungen
+  falsch: 96 GB für einen Lauf, der 6 schreibt, und 115 MB für einen, der
+  ein Gigabyte schreibt. Die zweite Zahl ist die gefährliche, denn an ihr
+  mißt jemand seinen freien Platz. Übersicht und Bericht vor dem Lauf
+  rechnen jetzt dasselbe.
+- Wo die Schlüsselbilder einer Kamera nicht zu lesen waren, schrieb das
+  Protokoll, die ganze Kamera werde geschrieben, und schnitt ihr Ende
+  dann doch ab. Es steht jetzt da, daß die Kopie am Anfang der Datei
+  beginnt -- und so geschieht es auch.
+- Das Aufheben der Abschrift brachte nichts: die Wörter lagen unter dem
+  Namen einer Mischung, die bei jedem Lauf in einem neuen Ordner entsteht,
+  und waren deshalb nie wiederzufinden. Sie liegen jetzt unter dem, was
+  die Aufnahme enthält, und ein zweiter Lauf über dasselbe Material spart
+  sich die Erkennung -- die 27 Sekunden im Fenster, und die elf bis
+  dreißig Minuten, die Whisper unter Windows braucht.
+- Das Programm sagte nicht mehr, daß eine neuere Fassung da ist. Ein
+  einmal nebenbei gegebenes Nein lag im Zwischenspeicher und war nur mit
+  einem Schalter zurückzunehmen, von dem im Fenster nichts steht. Gemerkt
+  wird jetzt nichts mehr; „Diese Version überspringen" überspringt eine
+  Fassung und fragt bei der nächsten wieder.
+
 ## [2.25.0-beta] - 2026-09-01
 
 **English**
