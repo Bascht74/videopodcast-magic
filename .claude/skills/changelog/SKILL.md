@@ -151,7 +151,7 @@ questions with answers, and a point that fails one is rewritten.
 1. **Two numbers in one point: can they be mistaken for each other?**
    This is the one that got through on 1.9.2026: "a speaker on 3.5 %" and
    "it is 5.3 % now" stood in one sentence, one a share of speaking time
-   and the other a share of misplaced speech. Sebastian had to ask what
+   and the other a share of misplaced speech. A reader had to ask what
    it meant. **Where two numbers in a point measure different things,
    one of them goes** -- into a second point, or out. Where both must
    stay, say them in different units: half against a twentieth reads at

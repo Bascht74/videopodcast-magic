@@ -426,7 +426,7 @@ jobs:
           echo "1. It is a release, and it is the newest one"
           # newer_release(): "A pre-release is never the answer: GitHub
           # only calls one release the latest, and it is never one put
-          # out for trying." And Sebastian, 22.8.2026 16:35: the
+          # out for trying." And the owner, 22.8.2026 16:35: the
           # pre-release tick stays off, or the sidebar shows tags
           # instead of versions.
           [ "$draft" = "0" ] && ok=1 || ok=0
@@ -478,7 +478,7 @@ jobs:
             "$body characters"
 
           # And it is the changelog section itself, not a summary of
-          # it: claude_intern.md, Sebastian's rule of 22.8.2026. The
+          # it: claude_intern.md, the owner's rule of 22.8.2026. The
           # release is made with awk over CHANGELOG.md, and a pattern
           # that misses puts an empty or a wrong section there. Only
           # the count of characters would notice a wrong one.
