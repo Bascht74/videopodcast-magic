@@ -281,8 +281,8 @@ The program computes both from the handover file
 for the chosen window. Writing and uploading belong to the run, not to
 the preview.
 
-The button **Measure speakers now** stands at the foot of the preview
-box, not under this one, for as long as a track is neither covered by a
+The button **Measure speakers now** stands at the head of the preview
+box, under what the preview says and not under this one, for as long as a track is neither covered by a
 separation nor measured; beside it stands who is missing: **Name not
 measured yet -- in the cut, not yet in this preview**. Those people are
 in the cut; one press fetches them into the preview as well. Where no
@@ -350,8 +350,12 @@ Directly under the picture, and exactly as wide as it, lies a plate in
 the colour of the running shot, and a frame in that same colour runs
 round the picture, so that the two read as one block. These are the
 colours of the cut band, the wide shot in its pale sage. The picture
-keeps its own shape, and the height it does not need goes to the plate
-instead of to black bars. On the plate stand two lines:
+keeps its own shape, and the plate stays no higher than the writing on
+it needs, which sits centred in it. Height that neither of them uses --
+a narrow, tall window leaves a good deal -- stays in the colour of the
+box behind, not in the colour of the shot: the plate is meant to read
+as a line belonging to the picture, not as a second coloured field
+under it. On the plate stand two lines:
 
 * **who is speaking**, in bold, and everybody where several do at once.
   Where the wide shot is up, **(wide shot)** stands after the name: the
@@ -370,9 +374,10 @@ this reaches the cut, the shot list or the EDLs -- it is reading matter
 and nothing else.
 
 Where a shot has no picture -- a camera in the cut whose file is not
-here -- the colour fills the whole box and the same two lines stand on
-it. The sound runs on, and it stays readable who is speaking and which
-camera the run would put them on.
+here -- there is nothing for the plate to sit under, so the colour
+fills the whole box and the same two lines stand on it. The sound runs
+on, and it stays readable who is speaking and which camera the run
+would put them on.
 
 Under the picture stand the In point on the left, the position in the
 middle and the Out point on the right. The camera is not repeated
@@ -515,7 +520,8 @@ camera.
 everything set by hand that cannot be guessed again. That is the file
 list, the production name and the output folder, the time window, every
 value of the camera cut, who belongs to which camera, the Auphonic
-preset, the stereo ticks and the measured position of every file; the
+preset, the stereo ticks, the measured position of every file and how
+fast its recorder ran; the
 API key is **not** in there.
 
 On opening, the program checks the format of the file and refuses a file

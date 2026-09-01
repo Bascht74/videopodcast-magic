@@ -148,6 +148,8 @@ der das Wort erklärt, steht vorn.
 * **Schnitt mit dem Weitwinkel (Kasten)**: `camera-cut`, „Wie der
   Schnitt entsteht“
 * **Schnittband**: `camera-cut`, „Schnittband und Legende lesen“
+* **Schnittgrundlage (Zeile unter der Vorschau)**: `interface`, „Die
+  vier Reiter“
 * **Source Audio Channels**: `resolve`, „Den Multicam-Ton wählen“
 * **Sprecher jetzt messen (Knopf)**: `camera-cut`, „Sprecher ohne Auphonic
   messen“
@@ -176,7 +178,7 @@ der das Wort erklärt, steht vorn.
 * **Übersprechen**: `preflight`, „Wie der Bericht das Übersprechen gegen die
   3:1-Regel misst“; `camera-cut`, „Sprecher ohne Auphonic messen“
 * **Uhrengang**: `overview`, „Was es einem abnimmt“; `command-line`, „Was
-  mit Ton und Bild geschieht“
+  mit Ton und Bild geschieht“; `interface`, „Die vier Reiter“
 * **Update**: `interface`, „Sich selbst aktuell halten“
 * **Versatz**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton wählen“;
   `simple-path`, „Was neben dem Mix ins Video kommt“

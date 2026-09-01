@@ -244,11 +244,47 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   [Der Kameraschnitt](camera-cut.de.md) sagt, wie das Band selbst zu
   lesen ist und was die Überschrift des Kastens **Sprecher** besagt.
 
-  Im Kasten **Kameraschnitt -- Vorschau** steht unter der Vorschau der
-  Knopf **Sprecher jetzt messen** -- immer dann, wenn eine Spur weder
-  von einer Trennung abgedeckt noch gemessen ist, also auch neben einer
-  Trennung, die schon steht. Daneben steht, wer fehlt. Diese Leute sind
-  im Schnitt; nur diese Vorschau kann sie erst nach dem Messen zeigen.
+  Im Kasten **Kameraschnitt -- Vorschau** steht unter der Vorschau eine
+  Zeile, die sagt, worauf dieser Schnitt beruht; ihre Farbe bewertet die
+  Auskunft. Sie bleibt stehen, solange es Zahlen gibt.
+
+  - **gemessen aus den Aufnahmen -- 3 Sprecher, 1:09:23**, in der
+    Warnfarbe. Es ist noch nichts gelaufen; die Sprecher sind aus den
+    Aufnahmen herausgehört, wie sie daliegen, und der Schnitt davor ist
+    ein vorläufiger.
+  - **aus dem fertigen Lauf -- 3 Sprecher, 1:09:23**, in der guten
+    Farbe. Ein Lauf ist durch, und die Vorschau steht auf dessen
+    Ergebnis: alle Spuren auf einer Achse, die Sprecher so, wie der Lauf
+    sie gefunden hat.
+  - **aus den bearbeiteten Auphonic Spuren -- 3 Sprecher, 1:09:23**,
+    ebenfalls in der guten Farbe. Dasselbe, und die Spuren sind von
+    auphonic.com zurückgekommen, das Übersprechen der Nachbarn heraus.
+
+  Damit ist die eine Frage beantwortet, die man an eine Vorschau hat:
+  ob man ihr trauen kann. Ist ein Lauf durch, stehen Vorschau und Lauf
+  auf demselben Boden -- dieselben Sprecher, dieselbe Achse. Verstellt
+  man danach die Regler, folgt die Vorschau ihnen sofort; drückt man
+  **Resolve-Projekt anlegen**, wird der Schnitt für Resolve neu
+  gerechnet, aus den Werten, die jetzt dort stehen, und ebendiesem
+  Ergebnis. Kein zweiter Lauf, und kein Rückfall auf eine vorläufige
+  Lesart. Solange die Zeile in der Warnfarbe steht, kann sich jede Zahl
+  daneben noch verschieben.
+
+  Die Vorschau rechnet den Uhrengang jedes Recorders mit, so wie der
+  Lauf es tut. Keine zwei Recorder laufen exakt gleich schnell; über
+  eine Stunde macht das ungefähr eine Zehntelsekunde aus. Früher hat die
+  Vorschau ihn gemessen und wieder weggeworfen, und ihre Schnittpunkte
+  liefen dann über eine Stunde um rund 143 Millisekunden gegen den Lauf
+  davon, also drei bis vier Bilder. Jetzt bleiben sie unter einem Bild.
+  Auf welche Kamera geschnitten wird, war davon nie berührt: dafür war
+  der Abstand viel zu klein.
+
+  In derselben Zeile steht der Knopf **Sprecher jetzt messen** -- immer
+  dann, wenn eine Spur weder von einer Trennung abgedeckt noch gemessen
+  ist, also auch neben einer Trennung, die schon steht. Dann steht dort,
+  wer fehlt, anstelle dessen, worauf der Schnitt beruht. Diese Leute
+  sind im Schnitt; nur diese Vorschau kann sie erst nach dem Messen
+  zeigen. Scheitert eine Messung, steht der Grund an derselben Stelle.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -568,8 +604,13 @@ Ein einziger Timecode genügt, um die Achse daran zu hängen; ohne jeden zählt
 sie ab dem Anfang des Materials und wird als virtueller Timecode angezeigt.
 
 Die Achse steht in der Projektdatei, mit Größe und Änderungszeit jeder
-Datei, und der nächste Start übernimmt sie. Dateien, die nicht dazu
-passen, erscheinen rot. Mehr über die Projektdatei steht in
+Datei, und der nächste Start übernimmt sie. Neben dem Platz jeder Datei
+steht dort auch, wie schnell ihr Recorder gelaufen ist, damit der zweite
+Start dieselben Minuten nicht noch einmal messen muss. Dateien, die
+nicht dazu passen, erscheinen rot. Eine Projektdatei aus der Zeit, bevor
+dieser Gang mitgeschrieben wurde, lässt sich weiterhin öffnen: dann gilt
+jeder Recorder als gleichmäßig laufend, wovon das Programm vorher
+ohnehin ausgegangen ist. Mehr über die Projektdatei steht in
 [camera-cut.de.md](camera-cut.de.md).
 
 Die Messung unterscheidet drei Urteile. Eine Datei, deren Ton schlecht zu

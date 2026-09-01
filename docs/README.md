@@ -63,13 +63,16 @@ explains the word comes first.
 * **clip-on microphone**: `channels`, "One track or two"; `multitrack`,
   "Making camera sound a track"
 * **clock drift**: `overview`, "What it takes off your hands";
-  `command-line`, "What happens to audio and picture"
+  `command-line`, "What happens to audio and picture"; `interface`,
+  "The four tabs"
 * **colour comparison**: `camera-cut`, "What the metrics and the colour
   comparison measure"
 * **colour group**: `resolve`, "Grading a whole camera at once"
 * **`colr`**: `resolve`, "Keeping the colour of the source"
 * **credit**: `auphonic`, "When the production already exists"
 * **cut band**: `camera-cut`, "Reading the cut band and the legend"
+* **cut basis (the line under the preview)**: `interface`, "The four
+  tabs"
 * **Cut with the wide shot (box)**: `camera-cut`, "How the cut comes about"
 * **de-bleed**: `auphonic`, "Working without Auphonic"; `preflight`, "How
   the report measures bleed against the 3:1 rule"
