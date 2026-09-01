@@ -22054,6 +22054,34 @@ def speaker_name_of(value):
     return typed or str(getattr(value, "suggested", "") or "").strip()
 
 
+def camera_tracks_of(camera_lines):
+    """Every camera with the name it carries in the cut, in order.
+
+    Guessing reads one file and drops the take number, which is what
+    tells the cameras of one rig apart. So where two guesses fall
+    together the whole stem stands for both, and what differs is then
+    at the end -- the end a long name is kept by. Two files of one
+    name stay one name: nothing in them tells the cameras apart.
+    """
+    files = [p for p, _v, _k, _n in camera_lines or ()]
+    guessed = [guess_camera_name(p) for p in files]
+    return [(p, os.path.splitext(os.path.basename(p))[0]
+             if guessed.count(n) > 1 else n)
+            for p, n in zip(files, guessed)]
+
+
+def camera_tracks_clashing(camera_lines):
+    """Names that more than one camera would carry in the cut.
+
+    The cut keys a camera by that name: its colour, its line in the
+    legend and which file plays. Two under one name are one camera,
+    and only the last of them is ever seen. What reaches here is two
+    files of one name, which no guess off a file name can tell apart.
+    """
+    names = [t for _p, t in camera_tracks_of(camera_lines)]
+    return sorted(set(n for n in names if n and names.count(n) > 1))
+
+
 def missing_conditions(files, production, multitrack, assign_lines,
                        camera_lines, voice_lines=(), voiced=()):
     """Report what is still missing, and where it is missing.
@@ -22101,6 +22129,13 @@ def missing_conditions(files, production, multitrack, assign_lines,
         pending[11] = T('No sound to work with -- set a video file\'s '
                         'Camera audio to "use the audio", or add an '
                         'audio recording.')
+    # Said before the file names below, so the one with a field to type
+    # in wins where both are wrong at once.
+    same_name = camera_tracks_clashing(camera_lines)
+    if same_name:
+        pending[22] = (T('Two cameras are one camera in the cut: %s. Their '
+                         'files carry the same name, so rename one of '
+                         'them.') % ", ".join(same_name))
     outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
     duplicate = sorted(set(n for n in outputs if n and outputs.count(n) > 1))
     if duplicate:
@@ -27809,17 +27844,34 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
         outputs = [v.get().strip() for _p, v, _k, _n in camera_lines]
         duplicate_video = set(n for n in outputs
                               if n and outputs.count(n) > 1)
-        for field, (_p, value, _k, _n) in zip(video_fields, camera_lines):
+        same_name = set(camera_tracks_clashing(camera_lines))
+        track_of = dict(camera_tracks_of(camera_lines))
+        for field, (p, value, _k, _n) in zip(video_fields, camera_lines):
             n = value.get().strip()
-            mark_red(field, bool(n) and n in duplicate_video,
+            # The file name first: of the two it is the one this field
+            # can put right.
+            same_file = bool(n) and n in duplicate_video
+            mark_red(field,
+                     same_file or track_of.get(p) in same_name,
                         T('Two cameras would produce the same file. '
-                          'The second would overwrite the first.'))
+                          'The second would overwrite the first.')
+                        if same_file else
+                        T('Two cameras are one camera in the cut. Their '
+                          'files carry the same name, so rename one of '
+                          'them.'))
         if video_reason is not None:
             if duplicate_video:
                 video_reason.setText(
                     T('✕  Two cameras would produce the same file '
                       '(%s). The second would overwrite the first.')
                     % ", ".join(sorted(duplicate_video)))
+                video_reason.setVisible(True)
+            elif same_name:
+                video_reason.setText(
+                    T('✕  Two cameras are one camera in the cut (%s). '
+                      'Their files carry the same name, so rename one '
+                      'of them.')
+                    % ", ".join(sorted(same_name)))
                 video_reason.setVisible(True)
             else:
                 video_reason.setVisible(False)
@@ -31755,10 +31807,10 @@ def gui():
         axis = state.get("axis") or {}
 
         d, reason = build_handover(segment_list, length, where_to,
-            [{"track": guess_camera_name(b), "file": b,
+            [{"track": t, "file": b,
               "start_s": camera_start(b),      # the mark, or the preview
               "wide_marked": clip_kind_value(b).get() == TYPE_WIDE}
-             for b, _nv, _own_audio, _name in camera_lines],
+             for b, t in camera_tracks_of(camera_lines)],
             audio_origin=[audio_start_of(row[0], axis)
                       for row, _nv, cv in assign_lines
                       if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])],
@@ -36072,6 +36124,14 @@ CATALOGUE["de"] = {
         'Beim Ändern sind Spuren dazugekommen (jetzt %d). So wird die '
         'Mischung\n  falsch. Bitte bei auphonic.com die Spuren ohne Datei '
         'löschen.',
+    'Two cameras are one camera in the cut. Their files carry the same '
+    'name, so rename one of them.':
+        'Zwei Kameras sind im Schnitt eine. Ihre Dateien heißen gleich, '
+        'bitte eine davon umbenennen.',
+    'Two cameras are one camera in the cut: %s. Their files carry the '
+    'same name, so rename one of them.':
+        'Zwei Kameras sind im Schnitt eine: %s. Ihre Dateien heißen '
+        'gleich, bitte eine davon umbenennen.',
     'Two cameras would produce the same file. The second would overwrite '
     'the first.':
         'Zwei Kameras sollen dieselbe Datei ergeben. Die zweite '
@@ -36425,6 +36485,10 @@ CATALOGUE["de"] = {
     'Multitrack needs at least two.':
         '✕  Alle Aufnahmen tragen denselben Namen. Daraus wird eine Spur '
         '-- für Multitrack sind mindestens zwei nötig.',
+    '✕  Two cameras are one camera in the cut (%s). Their files carry '
+    'the same name, so rename one of them.':
+        '✕  Zwei Kameras sind im Schnitt eine (%s). Ihre Dateien heißen '
+        'gleich, bitte eine davon umbenennen.',
     '✕  Two cameras would produce the same file (%s). The second would '
     'overwrite the first.':
         '✕  Zwei Kameras sollen dieselbe Datei ergeben (%s). Die zweite '
