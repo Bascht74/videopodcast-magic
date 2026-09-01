@@ -31,7 +31,7 @@
 #
 # Written by run.sh, only from a run against the file this repository
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
-auphonic_key_by_pipe	43
+auphonic_key_by_pipe	63
 auphonic_key_out_of_view	24
 auphonic_may_be_skipped	23
 auphonic_mono_not_stereo	7
