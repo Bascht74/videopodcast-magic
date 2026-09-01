@@ -97,7 +97,12 @@ check("each path gets its own clip",
       out[first] is not out[second],
       "both on %s" % out[first].where)
 check("and the right one", out[first].where == first
-      and out[second].where == second)
+      and out[second].where == second,
+      "%s and %s, wanted %s and %s -- under %s"
+      % (str(out[first].where).replace(WORK + os.sep, ""),
+         str(out[second].where).replace(WORK + os.sep, ""),
+         first.replace(WORK + os.sep, ""),
+         second.replace(WORK + os.sep, ""), WORK))
 
 # The same again from a Resolve that reports no path at all. Guessing
 # would put one camera's picture on two tracks, so the run stops.
@@ -115,7 +120,8 @@ single = Pool([Clip("C0001.MP4", first)])
 try:
     with contextlib.redirect_stdout(io.StringIO()):
         out = vpm.import_media(single, [first, first])
-    check("the same path twice is no collision", len(out) == 1)
+    check("the same path twice is no collision", len(out) == 1,
+          "%d clips back for one path named twice, wanted 1" % len(out))
 except RuntimeError as e:
     check("the same path twice is no collision", False, str(e)[:60])
 

@@ -28,16 +28,24 @@ def check(name, ok, extra=""):
 
 folder = os.path.join(WORK, "out")
 os.makedirs(folder)
-check("free name stays as it is",
-      vpm.free_render_name(folder, "Episode") == "Episode")
+got = vpm.free_render_name(folder, "Episode")
+check("free name stays as it is", got == "Episode",
+      "got %r, wanted %r, folder holds %s"
+      % (got, "Episode", sorted(os.listdir(folder))))
 open(os.path.join(folder, "Episode.mp4"), "w").write("x")
-check("taken name counts up",
-      vpm.free_render_name(folder, "Episode") == "Episode_2")
+got = vpm.free_render_name(folder, "Episode")
+check("taken name counts up", got == "Episode_2",
+      "got %r, wanted %r, folder holds %s"
+      % (got, "Episode_2", sorted(os.listdir(folder))))
 open(os.path.join(folder, "Episode_2.mp4"), "w").write("x")
-check("and counts on",
-      vpm.free_render_name(folder, "Episode") == "Episode_3")
-check("another extension is its own question",
-      vpm.free_render_name(folder, "Episode", ".mov") == "Episode")
+got = vpm.free_render_name(folder, "Episode")
+check("and counts on", got == "Episode_3",
+      "got %r, wanted %r, folder holds %s"
+      % (got, "Episode_3", sorted(os.listdir(folder))))
+got = vpm.free_render_name(folder, "Episode", ".mov")
+check("another extension is its own question", got == "Episode",
+      "got %r, wanted %r for .mov, folder holds %s"
+      % (got, "Episode", sorted(os.listdir(folder))))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

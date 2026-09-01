@@ -143,10 +143,13 @@ def step():
             bar.setValue(bar.maximum()); app.processEvents()
             was = bar.value()
             box = None
-            for w in tree.findChildren(QtWidgets.QCheckBox):
+            boxes = tree.findChildren(QtWidgets.QCheckBox)
+            for w in boxes:
                 if w.isVisible():
                     box = w
-            check("a tick was found to click", box is not None)
+            check("a tick was found to click", box is not None,
+                  "%d ticks in the list, %d of them visible"
+                  % (len(boxes), sum(1 for w in boxes if w.isVisible())))
             if box is not None and was:
                 box.setChecked(not box.isChecked())
                 app.processEvents()

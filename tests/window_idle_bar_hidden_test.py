@@ -76,9 +76,15 @@ def step():
             win().show(); win().resize(1400, 900); app.processEvents()
         elif i == 1:
             b = bar()
-            check("a bar is there", b is not None)
+            bars = win().findChildren(QtWidgets.QProgressBar)
+            check("a bar is there", b is not None,
+                  "the bars in the window count to %s; the footer's counts "
+                  "to 1000" % ([w.maximum() for w in bars][:6],))
             check("and it is out of the way while nothing runs",
-                  b is not None and not b.isVisible())
+                  b is not None and not b.isVisible(),
+                  "bar found %s, visible %s, value %s"
+                  % (b is not None, b is not None and b.isVisible(),
+                     b.value() if b is not None else "-"))
             clock = QtCore.QTimer(win())
             clock.timeout.connect(watch)
             clock.start(100)

@@ -34,7 +34,8 @@ big = p2.total()
 check("the short one hardly moves it", small < 0.15, round(small, 3))
 check("the long one moves it a lot", big > 0.85, round(big, 3))
 check("both together are the whole thing",
-      abs(small + big - 1.0) < 1e-9)
+      abs(small + big - 1.0) < 1e-9,
+      "%.6f + %.6f = %.6f, wanted 1.0" % (small, big, small + big))
 
 print("\n2. It does not go backwards")
 p = vpm.ProgressPlan()
@@ -64,7 +65,9 @@ check("it moves", one > 0.2, round(one, 3))
 check("and keeps moving", two > one, "%.3f -> %.3f" % (one, two))
 check("it slows at the band", one > 0.2 and far > 0.93, round(far, 4))
 check("and crawls on past it", far > 0.93 and far < 0.995, round(far, 4))
-check("so it never says done by itself", p.busy())
+creeping = p.busy()
+check("so it never says done by itself", creeping,
+      "busy %r at a share of %.5f, wanted True" % (creeping, far))
 
 q = vpm.ProgressPlan()
 q.begin("fresh")
@@ -119,8 +122,10 @@ p = vpm.ProgressPlan()
 p.add("waiting", 1.0)
 p.begin("under way")
 p.creep(60.0)
-check("an announced step stays at zero", p.share["waiting"] == 0.0)
-check("a started one has moved", p.share["under way"] > 0.0)
+check("an announced step stays at zero", p.share["waiting"] == 0.0,
+      "waiting stands at %.5f, wanted 0.0" % p.share["waiting"])
+check("a started one has moved", p.share["under way"] > 0.0,
+      "under way stands at %.5f, wanted above 0.0" % p.share["under way"])
 
 print("\n6. What it says while it works")
 p = vpm.ProgressPlan()
@@ -131,14 +136,20 @@ check("two steps: the first and a count",
       p.line() == vpm.T('%s and %d more') % ("Kandidat.mov", 1), p.line())
 p.done("one"); p.done("two")
 check("nothing running: no line", p.line() == "", repr(p.line()))
-check("and nothing outstanding", not p.busy())
-check("the bar stands at the end", abs(p.total() - 1.0) < 1e-9)
+left = p.busy()
+check("and nothing outstanding", not left, "busy %r, wanted False" % (left,))
+whole = p.total()
+check("the bar stands at the end", abs(whole - 1.0) < 1e-9,
+      "the bar stands at %.9f, wanted 1.0" % whole)
 
 print("\n7. An empty plan says nothing and does not divide by zero")
 p = vpm.ProgressPlan()
-check("total is zero", p.total() == 0.0)
-check("not busy", not p.busy())
-check("no line", p.line() == "")
+bare_total, bare_busy, bare_line = p.total(), p.busy(), p.line()
+check("total is zero", bare_total == 0.0,
+      "total %r, wanted 0.0" % (bare_total,))
+check("not busy", not bare_busy, "busy %r, wanted False" % (bare_busy,))
+check("no line", bare_line == "",
+      "line %r, wanted %r" % (bare_line, ""))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

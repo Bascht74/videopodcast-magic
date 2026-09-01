@@ -42,8 +42,10 @@ live = {"channels": 3, "silent": [False, False, False], "readable": True,
         "level": [-20.0, -20.0, -20.0],
         "pair_same": [0.0, 0.0], "pair_zero": [0.1, 0.1],
         "pair_apart": [0.0, 0.0]}
+joined_live = vpm.joined_channels(live, {1: True})
 check("where both carry something the tick still counts",
-      vpm.joined_channels(live, {1: True}) == {1: True})
+      joined_live == {1: True},
+      "%s against an expected {1: True}" % (joined_live,))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

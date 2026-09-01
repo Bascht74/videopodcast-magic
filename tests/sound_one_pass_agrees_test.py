@@ -91,7 +91,9 @@ print("\n3. A single channel file still works")
 mono = build("mono.wav", 1)
 rows = vpm.channel_levels(mono, vpm.channel_rate(mono, 1))
 check("one row", len(rows) == 1, str(len(rows)))
-check("and it holds something", float(np.max(np.abs(rows[0]))) > 0.1)
+peak = float(np.max(np.abs(rows[0])))
+check("and it holds something", peak > 0.1,
+      "loudest sample %.4f, wanted more than 0.1000" % peak)
 
 print("\n4. An unreadable file gives nothing, not a traceback")
 broken = os.path.join(WORK, "broken.wav")
@@ -126,8 +128,10 @@ try:
           facts["readable"] is False, str(facts.get("readable")))
 finally:
     os.environ["PATH"] = was
-check("with the real ffmpeg back it reads again",
-      len(vpm.channel_levels(path, rate)[0]) > 0)
+again = vpm.channel_levels(path, rate)
+check("with the real ffmpeg back it reads again", len(again[0]) > 0,
+      "%d channels back, the first %d samples long"
+      % (len(again), len(again[0])))
 
 print("\n5. The judgement over the whole file is unchanged")
 facts = vpm.channel_facts(path)

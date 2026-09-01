@@ -179,16 +179,25 @@ def step():
             check("the two-microphone file gets a row per channel",
                   len(two) == 2, str(len(two)))
             check("and a tick to change it with",
-                  two and two[0][2] is not None)
+                  two and two[0][2] is not None,
+                  "%d rows, the first carries a %s"
+                  % (len(two),
+                     type(two[0][2]).__name__ if two else "no row at all"))
             check("only the first channel has one",
                   len(two) > 1 and two[1][2] is None, str(two[1:2]))
             check("the tick is off: two tracks",
                   two and two[0][2] is not None
-                  and not two[0][2].isChecked())
+                  and not two[0][2].isChecked(),
+                  "%d rows, the tick says %s, wanted False"
+                  % (len(two), two[0][2].isChecked()
+                     if two and two[0][2] is not None else "no tick"))
             check("the stereo file gets a row per channel",
                   len(pair) == 2, str(len(pair)))
             check("and its tick is on",
-                  pair and pair[0][2] is not None and pair[0][2].isChecked())
+                  pair and pair[0][2] is not None and pair[0][2].isChecked(),
+                  "%d rows, the tick says %s, wanted True"
+                  % (len(pair), pair[0][2].isChecked()
+                     if pair and pair[0][2] is not None else "no tick"))
             check("the second channel says who it belongs to",
                   len(pair) > 1 and "1" in pair[1][1], str(pair[1:2]))
             check("a single channel file gets none", not lone, str(lone))
@@ -205,7 +214,10 @@ def step():
                       'set by hand -- overrides the measurement'),
                   str(two and two[0][1]))
             check("and the tick stayed where it was put",
-                  two and two[0][2] is not None and two[0][2].isChecked())
+                  two and two[0][2] is not None and two[0][2].isChecked(),
+                  "%d rows, the tick says %s, it was put on above"
+                  % (len(two), two[0][2].isChecked()
+                     if two and two[0][2] is not None else "no tick"))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return

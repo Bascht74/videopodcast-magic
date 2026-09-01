@@ -52,15 +52,21 @@ check("with cameras there is", "cameras" in names, str(names))
 weight = dict((n, w) for n, w, _c in with_cams)
 check("writing the cameras is the largest single piece",
       weight["cameras"] == max(weight.values()), weight["cameras"])
-check("more cameras means more of the bar",
-      dict((n, w) for n, w, _c in vpm.run_stages(True, 6, False))["cameras"]
-      > weight["cameras"])
+six = dict((n, w) for n, w, _c in vpm.run_stages(True, 6, False))["cameras"]
+check("more cameras means more of the bar", six > weight["cameras"],
+      "six cameras weigh %s, three weigh %s" % (six, weight["cameras"]))
 check("without auphonic the loudness is measured here",
-      "loudness" in names and "auphonic" not in names)
-check("with auphonic it is not",
-      "auphonic" in [n for n, _w, _c in vpm.run_stages(True, 1, True)])
+      "loudness" in names and "auphonic" not in names,
+      "%d stages, loudness among them %s, auphonic %s: %s"
+      % (len(names), "loudness" in names, "auphonic" in names, names))
+with_auphonic = [n for n, _w, _c in vpm.run_stages(True, 1, True)]
+check("with auphonic it is not", "auphonic" in with_auphonic,
+      "%d stages: %s" % (len(with_auphonic), with_auphonic))
 check("every stage says what it is",
-      all(c for _n, _w, c in with_cams))
+      all(c for _n, _w, c in with_cams),
+      "%d of %d stages carry a caption; without one: %s"
+      % (sum(1 for _n, _w, c in with_cams if c), len(with_cams),
+         [n for n, _w, c in with_cams if not c]))
 
 print("\n2. The run reaches the bar")
 seen = []
@@ -73,8 +79,10 @@ bar.stream = open(os.devnull, "w")
 bar.report("a", 0.5)
 vpm.PROGRESS_SINK = None
 check("a stage beginning arrives", ("time base", None) in seen, str(seen[:2]))
-check("its own report arrives", ("time base", 0.5) in seen)
-check("what show_progress knows arrives", ("time base", 0.75) in seen)
+check("its own report arrives", ("time base", 0.5) in seen,
+      "%d reports arrived: %s" % (len(seen), seen[:4]))
+check("what show_progress knows arrives", ("time base", 0.75) in seen,
+      "%d reports arrived: %s" % (len(seen), seen[:4]))
 check("and the shared bar of a parallel batch too",
       any(n == "time base" and s not in (None, 0.5, 0.75) for n, s in seen),
       str(seen))
@@ -145,7 +153,9 @@ def step():
                 n[0] = 1
                 QtCore.QTimer.singleShot(1000, step)
                 return
-            check("the dry run can be started", bool(k and k.isEnabled()))
+            check("the dry run can be started", bool(k and k.isEnabled()),
+                  "button found %s, ready %s, after %d s of waiting"
+                  % (k is not None, bool(k and k.isEnabled()), waited[0]))
             if not (k and k.isEnabled()):
                 app.quit(); return
             # Only from here on is the bar the run's, not the opening's.

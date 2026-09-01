@@ -227,7 +227,10 @@ for name, log in (("without", log1), ("with", log2)):
     check("no traceback in the run %s a window" % name,
           "Traceback" not in log, log[log.find("Traceback"):][:90])
     check("nothing was uploaded in the run %s a window" % name,
-          "auphonic.com/api" not in log and "Uploading" not in log)
+          "auphonic.com/api" not in log and "Uploading" not in log,
+          "%d mentions of auphonic.com/api and %d of Uploading in %d "
+          "characters of log, wanted none"
+          % (log.count("auphonic.com/api"), log.count("Uploading"), len(log)))
 check("the second run says it took the window",
       "Time window by hand" in log2,
       "" if "Time window by hand" in log2 else tail(log2))
@@ -235,8 +238,12 @@ check("the second run says it took the window",
 print("\n2. Without a window the sound sits on its picture")
 plain_at = {}
 for cam in ("CamHost", "CamGuest"):
-    check("%s was written" % cam,
-          os.path.exists(D + "/plain/" + cam + ".mov"))
+    made = D + "/plain/" + cam + ".mov"
+    check("%s was written" % cam, os.path.exists(made),
+          "%d bytes, -1 for not there; the folder holds %s"
+          % (os.path.getsize(made) if os.path.exists(made) else -1,
+             sorted(os.listdir(D + "/plain"))
+             if os.path.isdir(D + "/plain") else "no folder"))
     x = track("plain", cam)
     check("%s keeps the whole picture" % cam,
           abs(len(x) / float(RATE) - CAM_LEN[cam]) < 0.05,
@@ -253,8 +260,12 @@ print("\n3. With a window it still sits on its picture")
 # measured twice over, against where the recording says it belongs and
 # against the run without a window, so no constant can hide in it.
 for cam in ("CamHost", "CamGuest"):
-    check("%s was written" % cam,
-          os.path.exists(D + "/window/" + cam + ".mov"))
+    made = D + "/window/" + cam + ".mov"
+    check("%s was written" % cam, os.path.exists(made),
+          "%d bytes, -1 for not there; the folder holds %s"
+          % (os.path.getsize(made) if os.path.exists(made) else -1,
+             sorted(os.listdir(D + "/window"))
+             if os.path.isdir(D + "/window") else "no folder"))
     x = track("window", cam)
     check("%s keeps the whole picture" % cam,
           abs(len(x) / float(RATE) - CAM_LEN[cam]) < 0.05,

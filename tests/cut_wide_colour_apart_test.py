@@ -98,9 +98,12 @@ assigned, duplicate = vpm.colour_per_camera(
 print("   ", assigned)
 check("Wide gets %s" % vpm.COLOUR_WIDE_SHOT,
         assigned["Wide"] == vpm.COLOUR_WIDE_SHOT, assigned["Wide"])
-check("no voice gets the same one",
-        list(assigned.values()).count(vpm.COLOUR_WIDE_SHOT) == 1)
-check("nothing twice", duplicate == 0)
+wide_given = list(assigned.values()).count(vpm.COLOUR_WIDE_SHOT)
+check("no voice gets the same one", wide_given == 1,
+        "%s given %d times, wanted once: %s"
+        % (vpm.COLOUR_WIDE_SHOT, wide_given, assigned))
+check("nothing twice", duplicate == 0,
+        "%s colours given twice, wanted 0: %s" % (duplicate, assigned))
 
 vpm.ON_DARK[0] = False
 print("\n%d checks in %.2f s" % (done, time.time() - began))

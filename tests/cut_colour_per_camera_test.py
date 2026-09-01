@@ -103,7 +103,9 @@ for n in (1, 2, 3, 5, 8, 15):
     angles = n + 1
     groups = per_camera(item)
     check("%2d angles: every clip is coloured" % angles,
-          all(c.colour for c in item))
+          all(c.colour for c in item),
+          "%d of %d clips coloured"
+          % (len([c for c in item if c.colour]), len(item)))
     check("%2d angles: each camera keeps one colour" % angles,
           all(len(v) == 1 for v in groups.values()),
           str({k: v for k, v in groups.items() if len(v) > 1}))
@@ -111,15 +113,23 @@ for n in (1, 2, 3, 5, 8, 15):
           len(set(c.colour for c in item)) == angles,
           "%d colours for %d angles"
           % (len(set(c.colour for c in item)), angles))
+    refused = [c.colour for c in item if c.colour not in REAL_COLOURS]
     check("%2d angles: only names Resolve knows" % angles,
-          all(c.colour in REAL_COLOURS for c in item))
+          all(c.colour in REAL_COLOURS for c in item),
+          "%d of %d clips carry a name Resolve refuses: %s"
+          % (len(refused), len(item), sorted(set(map(str, refused)))))
 
 print("\n2. More angles than colours")
 cameras, item = run(20)
 groups = per_camera(item)
-check("every clip is still coloured", all(c.colour for c in item))
+check("every clip is still coloured", all(c.colour for c in item),
+      "%d of %d clips coloured"
+      % (len([c for c in item if c.colour]), len(item)))
 check("each camera still keeps one colour",
-      all(len(v) == 1 for v in groups.values()))
+      all(len(v) == 1 for v in groups.values()),
+      "%d of %d cameras carry more than one colour: %s"
+      % (len([v for v in groups.values() if len(v) > 1]), len(groups),
+         {k: v for k, v in groups.items() if len(v) > 1}))
 check("all sixteen colours are used",
       len(set(c.colour for c in item)) == len(REAL_COLOURS),
       str(len(set(c.colour for c in item))))
@@ -129,9 +139,14 @@ REAL_COLOURS = {"Blue", "Green", "Orange"}
 cameras, item = run(4)
 groups = per_camera(item)
 check("every clip is coloured with what is left",
-      all(c.colour for c in item))
+      all(c.colour for c in item),
+      "%d of %d clips coloured"
+      % (len([c for c in item if c.colour]), len(item)))
+refused = [c.colour for c in item if c.colour not in REAL_COLOURS]
 check("and only with names it accepts",
-      all(c.colour in REAL_COLOURS for c in item))
+      all(c.colour in REAL_COLOURS for c in item),
+      "%d of %d clips carry a name Resolve refuses: %s"
+      % (len(refused), len(item), sorted(set(map(str, refused)))))
 check("each camera still keeps one colour",
       all(len(v) == 1 for v in groups.values()),
       str({k: v for k, v in groups.items() if len(v) > 1}))

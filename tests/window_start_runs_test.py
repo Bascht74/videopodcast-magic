@@ -148,14 +148,26 @@ def carry_on():
         elif i == 4:
             argv = seen.get("argv")
             print("   argv:", " ".join(argv[:14]) if argv else None)
-            check("a run was started", bool(argv))
+            check("a run was started", bool(argv),
+                    "%d arguments: %s"
+                    % (len(argv or []),
+                       " ".join(argv[:14]) if argv else "none"))
             if argv:
                 check("program name first",
-                        argv[0].endswith("videopodcast-magic.py"))
-                check("--dry-run there", "--dry-run" in argv)
+                        argv[0].endswith("videopodcast-magic.py"),
+                        "the first of %d arguments is %r"
+                        % (len(argv), argv[0]))
+                check("--dry-run there", "--dry-run" in argv,
+                        "%d arguments, the switches among them: %s"
+                        % (len(argv),
+                           [x for x in argv if x.startswith("-")][:10]))
                 check("files there",
                         any(x.endswith(".mov") or x.endswith(".wav")
-                            for x in argv))
+                            for x in argv),
+                        "%d of %d arguments end in .mov or .wav; the last "
+                        "are %s"
+                        % (sum(1 for x in argv if x.endswith(".mov")
+                               or x.endswith(".wav")), len(argv), argv[-4:]))
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return

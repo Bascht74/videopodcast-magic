@@ -125,16 +125,24 @@ p = subprocess.run(CALL + ["--multitrack", "--out", D + "/run",
 log = (p.stdout or "") + (p.stderr or "")
 check("no traceback", "Traceback" not in log,
       log[log.find("Traceback"):][:90])
+sent = [x.strip() for x in log.splitlines()
+        if "auphonic.com/api" in x or "Uploading" in x]
 check("nothing was sent to auphonic.com",
-      "auphonic.com/api" not in log and "Uploading" not in log)
+      "auphonic.com/api" not in log and "Uploading" not in log,
+      "%d of %d lines of the log speak of an upload: %s"
+      % (len(sent), len(log.splitlines()), sent[:2]))
 check("the run ends green", p.returncode == 0, str(p.returncode))
+refused = [x.strip() for x in log.splitlines() if "needs pictures" in x]
 check("it no longer refuses for want of a picture",
-      "needs pictures" not in log)
+      "needs pictures" not in log,
+      "%d of %d lines of the log refuse for want of a picture: %s"
+      % (len(refused), len(log.splitlines()), refused[:2]))
 said = [line.strip() for line in log.splitlines()
         if "laid against each other" in line or "Reference:" in line]
 print("   %s" % " | ".join(said[:2]))
 check("it says there is no picture and the tracks carry the axis",
-      any("laid against each other" in s for s in said))
+      any("laid against each other" in s for s in said),
+      "%d lines of the log speak of the axis: %s" % (len(said), said[:2]))
 check("the longest recording is the reference",
       any(s.startswith("Reference:") and "Host" in s for s in said),
       str(said[:2]))
@@ -200,7 +208,10 @@ joined = sorted(f for f in os.listdir(D + "/join")) \
 print("   written: %s" % joined)
 check("the joined files come out under their own names",
       joined == ["Guest_joined.wav", "Host_joined.wav"], str(joined))
-check("no axis was built", "MEASURING THE TIME AXIS" not in log)
+axis = [x.strip() for x in log.splitlines() if "MEASURING THE TIME AXIS" in x]
+check("no axis was built", "MEASURING THE TIME AXIS" not in log,
+      "%d of %d lines of the log announce the axis: %s"
+      % (len(axis), len(log.splitlines()), axis[:2]))
 if joined == ["Guest_joined.wav", "Host_joined.wav"]:
     length = dict((f, vpm.sample_count(D + "/join/" + f) / float(vpm.SR))
                   for f in joined)

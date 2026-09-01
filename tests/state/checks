@@ -31,6 +31,7 @@
 #
 # Written by run.sh, only from a run against the file this repository
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
+auphonic_key_by_pipe	43
 auphonic_key_out_of_view	24
 auphonic_may_be_skipped	23
 auphonic_mono_not_stereo	7
@@ -41,23 +42,28 @@ auphonic_speech_read	13
 auphonic_stays_quiet	30
 cut_all_shots_land	4
 cut_both_are_shown	18
+cut_box_fits_the_picture	11
 cut_colour_per_camera	32
 cut_jingle_over_start	18
 cut_list_rebuilt	7
 cut_no_wide_silences	21
+cut_note_moves_no_shot	11
+cut_note_says_who_speaks	17
 cut_offer_needs_two	87
 cut_one_camera_marks	13
 cut_opening_wide_holds	7
+cut_own_mic_own_camera	10
 cut_player_in_sync	59
 cut_player_jump_lands	6
 cut_player_offset_used	12
 cut_player_prepared_used	36
 cut_player_right_file	19
+cut_player_speeds_up	10
 cut_preview_is_the_run	15
 cut_rebuild_keeps_all	26
 cut_right_camera	65
 cut_rules_hold	66
-cut_voice_on_its_camera	14
+cut_voice_on_its_camera	18
 cut_wide_colour_apart	11
 files_atom_travels	11
 files_block_out_and_back	10
@@ -82,6 +88,7 @@ files_split_found_again	10
 project_cameras_land	23
 project_each_track_set	5
 project_every_offset	9
+project_file_beats_last	6
 project_grades_stay_off	8
 project_handover_built	78
 project_hdr_follows	49
@@ -97,7 +104,7 @@ project_two_timelines_go	16
 run_bar_never_falls	13
 run_bar_tracks_work	29
 run_command_built	62
-run_metrics_add_up	31
+run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	47
 run_prework_listed	43
@@ -110,12 +117,12 @@ run_threads_keep_order	17
 run_three_ways_agree	19
 run_which_script	7
 silent	auphonic_key_kept
-silent	sound_camera_judged_too
 sound_all_blocks_count	18
 sound_any_count_judged	56
 sound_bleed_reported	16
 sound_both_sides_alike	16
 sound_camera_counts	17
+sound_camera_judged_too	42
 sound_channels_split	35
 sound_clipping_counted	14
 sound_delay_decides	14
@@ -131,7 +138,9 @@ sound_tracks_written	31
 source_checks_proved	10
 source_limits_hold	14
 source_no_loose_ends	9
+source_reds_carry_value	6
 source_skills_resolve	5
+source_test_names_swept	7
 table_audio_asked_for	60
 table_blocks_judged	7
 table_camera_proposed	16
@@ -168,16 +177,20 @@ time_window_is_shared	11
 time_zero_at_in_point	77
 voice_answer_kept	24
 voice_bleed_gone_first	10
-voice_both_splits_stand	13
+voice_both_splits_stand	18
 voice_both_ways_agree	16
 voice_every_word_placed	32
+voice_failed_read_named	5
 voice_language_arrives	15
 voice_mhm_is_speech	9
+voice_mic_reaches_cut	14
+voice_name_is_one_person	4
 voice_names_when_sure	55
 voice_questions_rank	22
 voice_raw_times_kept	55
 voice_source_travels	21
 voice_split_hears_two	8
+voice_tracks_read_once	4
 voice_turns_found	6
 voice_words_intact	48
 window_all_come_up	6
@@ -185,10 +198,14 @@ window_answers_arrive	36
 window_captions_fit	12
 window_cut_colours	8
 window_grey_opens_again	19
-window_grey_says_why	32
+window_grey_says_why	34
 window_idle_bar_hidden	6
 window_marks_take_spot	27
+window_menu_greys_along	27
+window_no_full_screen	5
+window_play_follows_tab	23
 window_setup_kept_apart	19
+window_speakers_as_run	5
 window_stages_named	16
 window_start_runs	4
 window_view_reaches_tabs	10

@@ -131,7 +131,9 @@ check("so the first word falls at 8 s, where the jingle stops",
 check("the jingle starts the timeline", at(where, 2, "video", "i") == 0.0,
       str(where))
 check("picture and sound of the content start together",
-      at(where, 1, "video", "C") == at(where, 1, "audio", "mix") == lead)
+      at(where, 1, "video", "C") == at(where, 1, "audio", "mix") == lead,
+      "picture at %s s, sound at %s s, lead-in %.2f s"
+      % (at(where, 1, "video", "C"), at(where, 1, "audio", "mix"), lead))
 
 print("\n2. The same jingle, but the first word only comes at 25 s")
 lead, where = run(10.0, 25.0, audio_until=8.0)
@@ -151,21 +153,27 @@ lead, where = run(8.0, 2.0, 12.0, word1=110.0, audio_until=8.0,
                   audio_from=1.5)
 check("the content moves back by six seconds", abs(lead - 6.0) < 0.01,
       "%.2f s" % lead)
-check("the intro is at the front", at(where, 2, "video", "i") == 0.0)
+check("the intro is at the front", at(where, 2, "video", "i") == 0.0,
+      "at %s s, wanted 0.00" % (at(where, 2, "video", "i"),))
 check("the outro comes after the last word",
       at(where, 2, "video", "o") > lead + 110.0 - 5.0,
       str(at(where, 2, "video", "o")))
 check("its sound and picture start together",
-      at(where, 2, "video", "o") == at(where, 2, "audio", "o"))
+      at(where, 2, "video", "o") == at(where, 2, "audio", "o"),
+      "picture at %s s, sound at %s s"
+      % (at(where, 2, "video", "o"), at(where, 2, "audio", "o")))
 check("and it is inside the timeline",
-      at(where, 2, "video", "o") + 12.0 <= lead + 120.0 + 12.0)
+      at(where, 2, "video", "o") + 12.0 <= lead + 120.0 + 12.0,
+      "the outro ends at %.2f s, the timeline at %.2f s"
+      % (at(where, 2, "video", "o") + 12.0, lead + 120.0 + 12.0))
 
 print("\n4. A jingle without sound")
 lead, where = run(10.0, 3.0, audio=False)
 check("the content still moves out of the way", lead > 0, "%.2f s" % lead)
 check("but only the picture is laid in",
       at(where, 2, "audio", "i") is None, str(where))
-check("the jingle starts the timeline", at(where, 2, "video", "i") == 0.0)
+check("the jingle starts the timeline", at(where, 2, "video", "i") == 0.0,
+      "at %s s, wanted 0.00" % (at(where, 2, "video", "i"),))
 
 print("\n5. Neither of the two")
 lead, where = run(None, 4.0)
@@ -173,7 +181,9 @@ check("nothing moves", abs(lead) < 0.01, "%.2f s" % lead)
 check("and nothing lands on the second track",
       not [x for x in where if x[0] == 2], str(where))
 check("content picture and sound are still together",
-      at(where, 1, "video", "C") == at(where, 1, "audio", "mix") == 0.0)
+      at(where, 1, "video", "C") == at(where, 1, "audio", "mix") == 0.0,
+      "picture at %s s, sound at %s s, wanted both 0.00"
+      % (at(where, 1, "video", "C"), at(where, 1, "audio", "mix")))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

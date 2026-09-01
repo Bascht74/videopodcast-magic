@@ -29,10 +29,14 @@ check("landscape beside portrait",
       vpm.widest_frame({(1920, 1080), (1080, 1920)}) in
       ((1920, 1080), (1080, 1920)),
       str(vpm.widest_frame({(1920, 1080), (1080, 1920)})))
-check("the larger of two landscape frames",
-      vpm.widest_frame({(1920, 1080), (3840, 2160)}) == (3840, 2160))
-check("nothing measured", vpm.widest_frame(set()) == (None, None))
-check("one camera", vpm.widest_frame({(1280, 720)}) == (1280, 720))
+larger = vpm.widest_frame({(1920, 1080), (3840, 2160)})
+check("the larger of two landscape frames", larger == (3840, 2160),
+      "%s, wanted (3840, 2160)" % (larger,))
+nothing = vpm.widest_frame(set())
+check("nothing measured", nothing == (None, None),
+      "%s, wanted (None, None)" % (nothing,))
+alone = vpm.widest_frame({(1280, 720)})
+check("one camera", alone == (1280, 720), "%s, wanted (1280, 720)" % (alone,))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

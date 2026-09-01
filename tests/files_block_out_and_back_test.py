@@ -170,12 +170,19 @@ def step():
                 kid = long_row[2].child(j)
                 if "REC0002" in kid.text(0):
                     spot = kid
-            check("the middle block has a row of its own", spot is not None)
+            check("the middle block has a row of its own", spot is not None,
+                  "%d rows under %s: %s"
+                  % (long_row[2].childCount(), long_row[0],
+                     [long_row[2].child(j).text(0)
+                      for j in range(long_row[2].childCount())]))
             tree().setCurrentItem(spot)
             app.processEvents()
             k = button("Remove")
             check("and Remove offers itself for it",
-                  bool(k and k.isEnabled()))
+                  bool(k and k.isEnabled()),
+                  "button found %s, ready %s, with %r selected"
+                  % (k is not None, bool(k and k.isEnabled()),
+                     spot.text(0) if spot is not None else None))
             about_to_change()
             k.click()
         elif i == 2:

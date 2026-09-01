@@ -132,7 +132,8 @@ a1, z1 = b.window()
 check("it moves along", a1 > a0, "%.0f -> %.0f" % (a0, a1))
 check("the position is inside again", a1 <= 3000.0 <= z1,
       "%.0f .. %.0f" % (a1, z1))
-check("and the size stayed the same", abs((z1 - a1) - (z0 - a0)) < 1e-6)
+check("and the size stayed the same", abs((z1 - a1) - (z0 - a0)) < 1e-6,
+      "%.3f s wide against %.3f s before" % (z1 - a1, z0 - a0))
 
 print("\n7. New material starts over")
 b = band()

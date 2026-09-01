@@ -159,15 +159,23 @@ check("the camera that heard nothing stays out of the run",
       kinds[DEAD].get() == vpm.TYPE_IGNORED, kinds[DEAD].get())
 check("the cameras keep what they were",
       kinds[A].get() == vpm.TYPE_CONTENT
-      and kinds[B].get() == vpm.TYPE_CONTENT)
+      and kinds[B].get() == vpm.TYPE_CONTENT,
+      "CamA %s and CamB %s, wanted %s twice"
+      % (kinds[A].get(), kinds[B].get(), vpm.TYPE_CONTENT))
 check("both moves are reported back", sorted(moved) == sorted([JINGLE, DEAD]),
       str([os.path.basename(p) for p in moved]))
-check("a second round changes nothing again",
-      vpm.kind_proposal_say(kinds, data) == [])
+again = vpm.kind_proposal_say(kinds, data)
+check("a second round changes nothing again", again == [],
+      "%d moved a second time: %s"
+      % (len(again), [os.path.basename(p) for p in again]))
+back = vpm.kind_proposal_apply(kinds, [], [])
 check("and a measurement that places them takes both proposals back",
-      sorted(vpm.kind_proposal_apply(kinds, [], [])) == sorted([JINGLE, DEAD])
+      sorted(back) == sorted([JINGLE, DEAD])
       and kinds[JINGLE].get() == vpm.TYPE_CONTENT
-      and kinds[DEAD].get() == vpm.TYPE_CONTENT)
+      and kinds[DEAD].get() == vpm.TYPE_CONTENT,
+      "%d taken back %s, jingle %s and dead %s, wanted 2 and %s twice"
+      % (len(back), sorted(os.path.basename(p) for p in back),
+         kinds[JINGLE].get(), kinds[DEAD].get(), vpm.TYPE_CONTENT))
 
 
 #--------------------------------------------- 3. Where it keeps its hands off
@@ -175,10 +183,11 @@ check("and a measurement that places them takes both proposals back",
 print("\n3. The proposal stops at every answer somebody gave")
 by_hand = vpm.Value(vpm.TYPE_CONTENT)
 by_hand.chosen_by_hand = True
+over = vpm.kind_proposal_apply({JINGLE: by_hand}, [DEAD], [JINGLE])
 check("a Kind somebody picked is never written over",
-      vpm.kind_proposal_apply({JINGLE: by_hand}, [DEAD],
-                              [JINGLE]) == []
-      and by_hand.get() == vpm.TYPE_CONTENT)
+      over == [] and by_hand.get() == vpm.TYPE_CONTENT,
+      "%d moved and the picked one is %s, wanted 0 and %s"
+      % (len(over), by_hand.get(), vpm.TYPE_CONTENT))
 # An intro exists once. Where somebody has already marked one, a second
 # proposal would silently push the first back to content.
 mine = vpm.Value(vpm.TYPE_INTRO)
@@ -189,36 +198,45 @@ check("no second intro where one already stands, and no other guess",
       mine.get() == vpm.TYPE_INTRO
       and already[JINGLE].get() == vpm.TYPE_CONTENT,
       "%s / %s" % (mine.get(), already[JINGLE].get()))
+blind = vpm.kind_proposal_apply(kinds, None, [JINGLE])
 check("without a measurement nothing moves in either direction",
-      vpm.kind_proposal_apply(kinds, None, [JINGLE]) == []
-      and kinds[JINGLE].get() == vpm.TYPE_CONTENT)
+      blind == [] and kinds[JINGLE].get() == vpm.TYPE_CONTENT,
+      "%d moved and the jingle is %s, wanted 0 and %s"
+      % (len(blind), kinds[JINGLE].get(), vpm.TYPE_CONTENT))
 
 
 #------------------------------------------------------- 4. The rule itself
 
 print("\n4. The rule, on bare numbers")
 lengths = {"a": 4000.0, "b": 4000.0, "c": 4000.0, "jingle": 18.0}
-check("a jingle among long cameras is far shorter",
-      vpm.files_far_shorter(["jingle"], lengths) == ["jingle"])
-check("a file as long as the rest is not",
-      vpm.files_far_shorter(["a"], lengths) == [])
+far = vpm.files_far_shorter(["jingle"], lengths)
+check("a jingle among long cameras is far shorter", far == ["jingle"],
+      "%s out of %s, wanted ['jingle']" % (far, lengths))
+far = vpm.files_far_shorter(["a"], lengths)
+check("a file as long as the rest is not", far == [],
+      "%s out of %s, wanted nothing" % (far, lengths))
 limit = 4000.0 * vpm.INTRO_SHORT_ENOUGH
 lengths["edge"] = limit
 check("the limit itself still counts as far shorter",
       vpm.files_far_shorter(["edge"], lengths) == ["edge"],
       "%.0f s against a middle of %.0f" % (limit, 4000.0))
 lengths["edge"] = limit + 1.0
-check("and a second above it does not",
-      vpm.files_far_shorter(["edge"], lengths) == [])
+far = vpm.files_far_shorter(["edge"], lengths)
+check("and a second above it does not", far == [],
+      "%s at %.0f s against the limit of %.0f, wanted nothing"
+      % (far, lengths["edge"], limit))
 lengths = {"one": 60.0, "two": 3.0, "three": 2.0}
 check("the shortest comes first, because only one can be the intro",
       vpm.files_far_shorter(["two", "three"], lengths) == ["three", "two"],
       str(vpm.files_far_shorter(["two", "three"], lengths)))
 
 source = open(SCRIPT, encoding="utf-8").read()
+called = source.count("kind_proposal_say(state.get(\"clip_kinds\")")
+defined = source.count("def kind_proposal_apply")
 check("the window goes through the proposal and not past it",
-      "kind_proposal_say(state.get(\"clip_kinds\")" in source
-      and source.count("def kind_proposal_apply") == 1)
+      called >= 1 and defined == 1,
+      "%d x called from the window, %d x defined, wanted 1 or more and 1"
+      % (called, defined))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "All good.")

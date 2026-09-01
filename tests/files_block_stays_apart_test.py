@@ -71,21 +71,35 @@ check("and so does the run",
       == ["REC0001.wav", "REC0003.wav"],
       str(sorted(os.path.basename(x) for x in got)))
 
+def shown(chains):
+    """The grouping as the check compares it, minus the folder name."""
+    return str(chains).replace(folder + os.sep, "")
+
+
 print("\n4. The whole recording knows its blocks")
 family = vpm.recording_family(one)
 check("all three are named", len(family) == 3, str(sorted(
     os.path.basename(x) for x in family)))
 check("the other recording is not in it",
-      os.path.abspath(other) not in family)
-check("and it works from any block",
-      vpm.recording_family(three) == family)
+      os.path.abspath(other) not in family,
+      "%d in the family: %s -- %s wanted out"
+      % (len(family), sorted(os.path.basename(x) for x in family),
+         os.path.basename(other)))
+from_three = vpm.recording_family(three)
+check("and it works from any block", from_three == family,
+      "from the third block %s, from the first %s"
+      % (sorted(os.path.basename(x) for x in from_three),
+         sorted(os.path.basename(x) for x in family)))
 
 print("\n5. Nothing marked, nothing changed")
-check("an empty mark is the same as none",
-      vpm.group_recording_parts(every, apart=[])
-      == vpm.group_recording_parts(every))
-check("and a mark on a file nobody has changes nothing",
-      len(vpm.group_recording_parts(every, apart=["/nowhere.wav"])) == 2)
+with_empty = vpm.group_recording_parts(every, apart=[])
+without_mark = vpm.group_recording_parts(every)
+check("an empty mark is the same as none", with_empty == without_mark,
+      "with an empty mark %s, with none %s"
+      % (shown(with_empty), shown(without_mark)))
+ghost = vpm.group_recording_parts(every, apart=["/nowhere.wav"])
+check("and a mark on a file nobody has changes nothing", len(ghost) == 2,
+      "%d recordings against an expected 2: %s" % (len(ghost), shown(ghost)))
 
 print("\n6. And the plan keeps it apart")
 # The five sections above ask the grouping function, and they were green

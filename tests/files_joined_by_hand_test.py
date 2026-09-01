@@ -47,11 +47,15 @@ check("two groups sharing a file become one",
       vpm.together_chains([["a", "b"], ["b", "c"]])
       == [[os.path.abspath(x) for x in ("a", "b", "c")]],
       str(vpm.together_chains([["a", "b"], ["b", "c"]])))
-check("a group of one says nothing", vpm.together_chains([["a"]]) == [])
-check("nothing given, nothing back", vpm.together_chains([]) == [])
-check("order is the order they were named in",
-      [os.path.basename(x) for x in vpm.together_chains([["z", "a"]])[0]]
-      == ["z", "a"])
+alone = vpm.together_chains([["a"]])
+check("a group of one says nothing", alone == [],
+      "%d chains %s, wanted none" % (len(alone), alone))
+empty = vpm.together_chains([])
+check("nothing given, nothing back", empty == [],
+      "%d chains %s, wanted none" % (len(empty), empty))
+named = [os.path.basename(x) for x in vpm.together_chains([["z", "a"]])[0]]
+check("order is the order they were named in", named == ["z", "a"],
+      "%s, wanted ['z', 'a']" % (named,))
 
 #--------------------------------------------------------- the grouping itself
 one = wav("Alpha.wav")
@@ -59,8 +63,9 @@ two = wav("Bravo.wav")
 three = wav("Charlie.wav")
 every = [one, two, three]
 
-check("nothing joined: three recordings",
-      len(vpm.group_recording_parts(every)) == 3)
+separate = vpm.group_recording_parts(every)
+check("nothing joined: three recordings", len(separate) == 3,
+      "%d recordings %s, wanted 3" % (len(separate), names(separate)))
 got = vpm.group_recording_parts(every, together=[[one, three]])
 check("two put together: two recordings", len(got) == 2, str(names(got)))
 check("and they are in the order they were named",
@@ -127,7 +132,10 @@ args = ap.parse_args(["x.wav", "--together", one, three,
                       "--together", a1, loose])
 check("--together is repeatable", len(args.together) == 2,
       str(args.together))
-check("and takes several files at once", len(args.together[0]) == 2)
+check("and takes several files at once", len(args.together[0]) == 2,
+      "%d files in the first group %s, wanted 2"
+      % (len(args.together[0]),
+         [os.path.basename(x) for x in args.together[0]]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

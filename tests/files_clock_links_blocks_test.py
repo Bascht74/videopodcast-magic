@@ -47,18 +47,24 @@ def names(row):
 
 
 #------------------------------------------------------------ reading a clock
-check("a date and a time are read",
-      vpm.clock_in_name("r_260808_185628") is not None)
+dated = vpm.clock_in_name("r_260808_185628")
+check("a date and a time are read", dated is not None,
+      "r_260808_185628 reads as %s" % (dated,))
 check("and the rest of the name comes with it",
-      vpm.clock_in_name("r_260808_185628")[1:] == ("r_", ""))
-check("a four digit year works as well",
-      vpm.clock_in_name("mix_20260808_185628") is not None)
-check("a counter is not a clock",
-      vpm.clock_in_name("Moderator_REC00009") is None)
-check("nor is a camera name",
-      vpm.clock_in_name("Kandidat_08141858_C009") is None)
-check("six digits that are no date are refused",
-      vpm.clock_in_name("Take_991399_120000") is None)
+      dated[1:] == ("r_", ""),
+      "%s, wanted ('r_', '')" % (dated[1:],))
+four_digits = vpm.clock_in_name("mix_20260808_185628")
+check("a four digit year works as well", four_digits is not None,
+      "mix_20260808_185628 reads as %s" % (four_digits,))
+counter = vpm.clock_in_name("Moderator_REC00009")
+check("a counter is not a clock", counter is None,
+      "Moderator_REC00009 reads as %s, wanted nothing" % (counter,))
+camera = vpm.clock_in_name("Kandidat_08141858_C009")
+check("nor is a camera name", camera is None,
+      "Kandidat_08141858_C009 reads as %s, wanted nothing" % (camera,))
+no_date = vpm.clock_in_name("Take_991399_120000")
+check("six digits that are no date are refused", no_date is None,
+      "Take_991399_120000 reads as %s, wanted nothing" % (no_date,))
 one = vpm.clock_in_name("r_260808_185628")[0]
 two = vpm.clock_in_name("r_260808_190128")[0]
 check("and the difference is the five minutes it looks like",
@@ -78,16 +84,19 @@ check("the later take stays out",
       "r_260808_191500.wav" in [n for n, _why in discarded],
       str(discarded))
 row2, _ = vpm.find_continuation_files(b)
-check("picking a middle block finds the same row", names(row2) == names(row))
+check("picking a middle block finds the same row", names(row2) == names(row),
+      "%s, wanted %s" % (names(row2), names(row)))
 row3, _ = vpm.find_continuation_files(c)
-check("picking the last one too", names(row3) == names(row))
+check("picking the last one too", names(row3) == names(row),
+      "%s, wanted %s" % (names(row3), names(row)))
 row4, _ = vpm.find_continuation_files(later)
 check("the later take is a recording of its own",
       names(row4) == ["r_260808_191500.wav"], str(names(row4)))
 
 got = vpm.group_recording_parts([a, b, c, later])
 check("so the four files are two recordings", len(got) == 2, str(len(got)))
-check("three blocks in the first", len(got[0][0]) == 3)
+check("three blocks in the first", len(got[0][0]) == 3,
+      "%d blocks, wanted 3: %s" % (len(got[0][0]), names(got[0][0])))
 
 #---------------------------------------------------------- a gap breaks it
 gap = wav("s_260808_120000.wav", 300.0)
