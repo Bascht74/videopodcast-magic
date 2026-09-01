@@ -76,12 +76,15 @@ with open(os.path.join(D, "project.json"), "w", encoding="utf-8") as f:
     json.dump({"files": [], "speakers": heard}, f)
 with open(os.path.join(D, "nothing.json"), "w", encoding="utf-8") as f:
     json.dump({"files": []}, f)
-check("out of an assignment file",
-      vpm.read_separation_file(os.path.join(D, "assign.json")) == heard)
-check("out of a project file",
-      vpm.read_separation_file(os.path.join(D, "project.json")) == heard)
-check("a file without one gives nothing",
-      vpm.read_separation_file(os.path.join(D, "nothing.json")) == {})
+from_assign = vpm.read_separation_file(os.path.join(D, "assign.json"))
+check("out of an assignment file", from_assign == heard,
+      "read %s, wanted %s" % (from_assign, heard))
+from_project = vpm.read_separation_file(os.path.join(D, "project.json"))
+check("out of a project file", from_project == heard,
+      "read %s, wanted %s" % (from_project, heard))
+from_nothing = vpm.read_separation_file(os.path.join(D, "nothing.json"))
+check("a file without one gives nothing", from_nothing == {},
+      "read %s, wanted nothing" % (from_nothing,))
 
 print("\n3. Onto the axis of the run")
 # The recording sits two seconds behind the reference camera, and the

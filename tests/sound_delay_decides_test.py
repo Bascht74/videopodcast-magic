@@ -118,7 +118,8 @@ print("\n4. What cannot be measured is not claimed")
 path = build("apart.wav", a, b)          # two channels sharing nothing
 stereo, sure, why, zero, _apart = verdict(path)
 check("channels sharing nothing: no verdict", not sure, why[:60])
-check("and the split is what is proposed", not stereo)
+check("and the split is what is proposed", not stereo,
+      "read as one pair: %s -- %s" % (stereo, why[:60]))
 
 path = build("same.wav", a + b, 0.6 * (a + b))
 stereo, sure, why, zero, _apart = verdict(path)

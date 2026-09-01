@@ -39,7 +39,10 @@ def text_of(path):
 print("1. One version number, named the same everywhere")
 source = text_of(SCRIPT)
 found = re.search(r'^VERSION = "([^"]+)"', source, re.M)
-check("the program says which version it is", bool(found))
+check("the program says which version it is", bool(found),
+      "VERSION = %r, wanted one line of it in the %d lines of %s"
+      % (found.group(1) if found else None,
+         source.count("\n") + 1, os.path.basename(SCRIPT)))
 version = found.group(1) if found else ""
 
 changelog = text_of(os.path.join(ROOT, "CHANGELOG.md"))

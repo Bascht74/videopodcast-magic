@@ -6,7 +6,10 @@ interface. The reason has to stand in the footer, not in a tooltip; the
 faulty field has to be marked red; the tabs have to be named as they
 are labelled; and of two files set to intro the second frees the first.
 A camera nobody is assigned to shows a wide shot it never stored, so
-this test asks the value behind a field, not its label.
+this test asks the value behind a field, not its label. An entry it
+asks about is asked for first: a name that is not in the list would end
+the run with a traceback instead of a red line saying which entries
+there are.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -167,6 +170,25 @@ def kind_reason(box):
                     cell.findChildren(QtWidgets.QLabel) if w.text().strip())
 
 
+def entry(box, kind, called):
+    """One entry of a Kind field, asked for before it is asked about.
+
+    findData answers -1 where the entry is not in the list, item(-1)
+    answers None, and asking that None whether it is enabled ended the
+    run with an AttributeError: a traceback in place of a red line, no
+    index printed, and every check further down the file lost with it.
+    So the entry being there is a judgement of its own, and it stands
+    before the one about whether it is barred.
+    """
+    at = box.findData(kind)
+    item = box.model().item(at) if at >= 0 else None
+    check("the %s entry is in the field at all" % called, item is not None,
+          "%s sits at index %d, and the %d entries are %s"
+          % (called, at, box.count(),
+             [box.itemText(i) for i in range(box.count())]))
+    return item
+
+
 def pick(box, value):
     """Choose an entry the way somebody at the screen chooses it.
 
@@ -199,7 +221,11 @@ def step():
                 waited[0] += 1; n[0] = 1
                 QtCore.QTimer.singleShot(500, step); return
             field = name_field()
-            check("the production name field is there", field is not None)
+            check("the production name field is there", field is not None,
+                  "%d fields 340 wide after %d rounds of waiting, out of "
+                  "%d line edits in the window"
+                  % (0 if field is None else 1, waited[0],
+                     len(win().findChildren(QtWidgets.QLineEdit))))
             print("\n1. A name is there: nothing outstanding")
             check("no reason in the footer",
                   not footer_note().isVisible(),
@@ -225,7 +251,9 @@ def step():
                   repr(field.styleSheet()))
             check("the field says why when hovered",
                   bool(field.toolTip().strip()), repr(field.toolTip()))
-            check("start is grey", not button("Start").isEnabled())
+            check("start is grey", not button("Start").isEnabled(),
+                  "Start enabled %r with the name field at %r"
+                  % (button("Start").isEnabled(), field.text()))
             print("\n3. The reason names the tabs that exist")
             hint = ""
             for w in win().findChildren(QtWidgets.QWidget):
@@ -249,7 +277,9 @@ def step():
             app.processEvents()
             check("and it comes back with the name",
                   "✓" in tab_titles()[0], str(tab_titles()))
-            check("start is live again", button("Start").isEnabled())
+            check("start is live again", button("Start").isEnabled(),
+                  "Start enabled %r with the name field at %r"
+                  % (button("Start").isEnabled(), field.text()))
             check("the footer is quiet again",
                   not footer_note().isVisible(), repr(footer_note().text()))
             resolve = [t for t in tab_titles() if "Resolve" in t]
@@ -305,19 +335,28 @@ def step():
             # enough to read.
             check("nothing stands beside it any more",
                   not kind_reason(free), repr(kind_reason(free)))
+            content = entry(free, vpm.TYPE_CONTENT, "Content")
             check("and Content is the one entry barred",
-                  not free.model().item(
-                      free.findData(vpm.TYPE_CONTENT)).isEnabled())
+                  content is not None and not content.isEnabled(),
+                  "Content sits at index %d, and the %d barred entries "
+                  "are %s" % (free.findData(vpm.TYPE_CONTENT),
+                              len(shut), shut))
             check("with the reason on that entry",
                   bool(free.itemData(free.findData(vpm.TYPE_CONTENT),
                                      QtCore.Qt.ToolTipRole)),
                   repr(free.itemData(free.findData(vpm.TYPE_CONTENT),
                                      QtCore.Qt.ToolTipRole)))
+            intro = entry(free, vpm.TYPE_INTRO, "Intro")
             check("and an intro is still free to choose",
-                  free.model().item(
-                      free.findData(vpm.TYPE_INTRO)).isEnabled())
+                  intro is not None and intro.isEnabled(),
+                  "Intro sits at index %d, and the %d barred entries "
+                  "are %s" % (free.findData(vpm.TYPE_INTRO),
+                              len(shut), shut))
             check("the field stays operable all the same",
-                  free.isEnabled())
+                  free.isEnabled(),
+                  "the chooser is enabled %r, with %d entries of which "
+                  "%d are barred"
+                  % (free.isEnabled(), free.count(), len(shut)))
             print("\n7. Choosing what is shown makes it an answer")
             pick(free, vpm.TYPE_WIDE)
             n[0] = 4

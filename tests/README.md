@@ -1,6 +1,6 @@
 # The test suite
 
-161 tests against `../videopodcast-magic.py`. Every one of them stands
+179 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-161 tests. The name is the one a red line carries, and beside it the
+179 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -318,15 +318,20 @@ it is green.
 |---|---|
 | `voice_answer_kept` | The two proposals that fill a field nobody has answered. |
 | `voice_bleed_gone_first` | #80: does the bleed get taken out before the speech detection? |
+| `voice_both_splits_stand` | A second separation leaves the first its voices, names and cameras. |
 | `voice_both_ways_agree` | The window and the command line separate the same way. |
 | `voice_every_word_placed` | The words on the speakers, and the three files that come of it. |
+| `voice_failed_read_named` | A reading that fails costs its tracks the cut, and the log says so. |
 | `voice_language_arrives` | The language asked for reaches the recognition as a code it takes. |
 | `voice_mhm_is_speech` | A short reaction is speech, not a hole in the conversation. |
+| `voice_mic_reaches_cut` | Every track is in the cut by its own microphone, or the log names it. |
+| `voice_name_is_one_person` | A name that comes twice is one person in the cut, not two. |
 | `voice_names_when_sure` | Where the names of the voices could come from, instead of by hand. |
 | `voice_questions_rank` | Who is asking the questions, as a proposal and never as a verdict. |
 | `voice_raw_times_kept` | Local speaker separation: the arithmetic around the model. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
 | `voice_split_hears_two` | Let the speaker separation really run, on two voices we spoke. |
+| `voice_tracks_read_once` | The tracks of a run are read once, whatever the reading is used for. |
 | `voice_turns_found` | Speech is found back where it was put, offset and all. |
 | `voice_words_intact` | Speech recognition: the words, their times and their punctuation. |
 
@@ -336,18 +341,23 @@ it is green.
 |---|---|
 | `cut_all_shots_land` | Checks the cut timeline: lengths fit, no gaps, nothing drops out. |
 | `cut_both_are_shown` | Two talk at once: does the camera showing both come up? |
+| `cut_box_fits_the_picture` | The box takes the shape of the picture and gives the rest to the note. |
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |
 | `cut_jingle_over_start` | Intro and outro: where they sit, and how far the content moves. |
 | `cut_list_rebuilt` | The cut list is built again unless the window really moved. |
 | `cut_no_wide_silences` | Without a wide shot the settings that steer it are silenced in the cut. |
+| `cut_note_moves_no_shot` | A name held on the picture moves nothing in the cut. |
+| `cut_note_says_who_speaks` | The picture says who speaks and which camera runs, in the shot's colour. |
 | `cut_offer_needs_two` | When a camera cut is offered, and what the box over it is called. |
 | `cut_one_camera_marks` | One camera for everybody: the cut still marks the speaker changes. |
 | `cut_opening_wide_holds` | The opening wide shot must not depend on how finely a source cuts. |
+| `cut_own_mic_own_camera` | A speaker with her own microphone is in the cut beside a separation. |
 | `cut_player_in_sync` | Does the sound in the cut player belong to the picture on screen? |
 | `cut_player_jump_lands` | Does the cut player really jump where it is told to? |
 | `cut_player_offset_used` | #63: The player has to take the measured offset, not zero. |
 | `cut_player_prepared_used` | Which recording a camera is heard with in the preview. |
 | `cut_player_right_file` | #62: The player takes the file that holds the In point and the Out point. |
+| `cut_player_speeds_up` | The cut player runs forward faster on every press, and says how fast. |
 | `cut_preview_is_the_run` | The preview shows the cut the run will really make. |
 | `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
@@ -362,6 +372,7 @@ it is green.
 | `project_cameras_land` | Every camera reaches the timeline on picture and sound tracks of its own. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
 | `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
+| `project_file_beats_last` | A project opened after another takes its answers from its own file. |
 | `project_grades_stay_off` | Remote grades: off by default, and always set -- old projects too. |
 | `project_handover_built` | The handover is built from data alone, without a window. |
 | `project_hdr_follows` | The render job carries the codec, profile and tags of its range. |
@@ -379,6 +390,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `auphonic_key_by_pipe` | The macOS way to the key store: the key travels by pipe, whole. |
 | `auphonic_key_kept` | The Windows way to the key store, walked for real. |
 | `auphonic_key_out_of_view` | Nobody else can read the key: not in the process list, not left behind. |
 | `auphonic_may_be_skipped` | The entry "work without Auphonic" instead of a tick of its own. |
@@ -401,7 +413,11 @@ it is green.
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
 | `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
+| `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
+| `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
+| `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
+| `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_start_runs` | The start button must build a command line and start a run. |
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
@@ -461,6 +477,8 @@ it is green.
 | `source_checks_proved` | Which checks have been seen red, and which have not. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
+| `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
+| `source_test_names_swept` | A project name a test gives Resolve is swept, or excepted by name. |
 
 <!-- overview ends -->

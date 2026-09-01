@@ -134,9 +134,10 @@ check("no camera-audio stage on the simple path",
       "camera audio" not in [n for n, _w, _c in
                              vpm.run_stages(False, 2, False, False)],
       str([n for n, _w, _c in vpm.run_stages(False, 2, False, False)]))
+multitrack = [n for n, _w, _c in vpm.run_stages(True, 2, False, False)]
 check("but there is one on the multitrack path",
-      "camera audio" in [n for n, _w, _c in
-                         vpm.run_stages(True, 2, False, False)])
+      "camera audio" in multitrack,
+      "%d stages on that path: %s" % (len(multitrack), multitrack))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -86,11 +86,15 @@ def check(name, want, tolerance=0.6):
     video = s.videos[slot].position() / 1000.0
     audio = s.audio.position() / 1000.0
     ok = abs(video - want) <= tolerance and abs(audio - want) <= tolerance
-    print("%-28s want %6.2f  video %6.2f  audio %6.2f  %s"
-          % (name, want, video, audio, "ok" if ok else "FAIL"))
+    # The allowance belongs beside the three numbers: without it nobody
+    # reading the line on a builder can tell 0.4 s out from 0.8 s out.
+    print("%-28s want %6.2f  video %6.2f  audio %6.2f  (allowed %.2f)  %s"
+          % (name, want, video, audio, tolerance, "ok" if ok else "FAIL"))
     if not ok:
-        bad.append("%s [want %.2f, video %.2f, audio %.2f]"
-                   % (name, want, video, audio))
+        bad.append("%s [want %.2f, video %.2f (%+.2f), audio %.2f (%+.2f), "
+                   "allowed %.2f]"
+                   % (name, want, video, video - want, audio, audio - want,
+                      tolerance))
 
 print("\n== Jump while paused ==")
 s.jump(25.0); check("jump to 25 (paused)", 25.0)

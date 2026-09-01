@@ -89,8 +89,9 @@ check("and with how far out it was",
       gone and abs(abs(gone[0][1]) - 500) < 120, str(gone))
 
 print("\n5. How much of the runtime is still covered")
-check("a full set covers everything",
-      abs(vpm._spans_share(TIMES, 3600.0) - 1.0) < 0.01)
+whole = vpm._spans_share(TIMES, 3600.0)
+check("a full set covers everything", abs(whole - 1.0) < 0.01,
+      "%.3f of the runtime, wanted 1.000" % whole)
 check("a set cleaned down to one corner says so",
       vpm._spans_share(TIMES[:3], 3600.0) < 0.3,
       "%.2f" % vpm._spans_share(TIMES[:3], 3600.0))

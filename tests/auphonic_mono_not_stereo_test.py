@@ -36,9 +36,10 @@ want_stereo = [{"format": "wav", "suffix": "_master", "mono_mixdown": False}]
 check("the two-channel one is still missing",
       vpm.missing_outputs(mono_there, want_stereo) == want_stereo,
       str(vpm.missing_outputs(mono_there, want_stereo)))
+again = vpm.missing_outputs(mono_there,
+                            [dict(want_stereo[0], mono_mixdown=True)])
 check("and the one that is there is not asked for again",
-      vpm.missing_outputs(mono_there, [dict(want_stereo[0],
-                                            mono_mixdown=True)]) == [])
+      again == [], "%d still asked for, wanted 0: %s" % (len(again), again))
 unsaid = [{"format": "wav", "filename": "Show_master.wav"}]
 check("where the answer says nothing, nothing is sent twice",
       vpm.missing_outputs(unsaid, want_stereo) == [],
@@ -56,14 +57,16 @@ planned = [{"format": "wav", "suffix": "_master", "mono_mixdown": False}]
 check("a configured output is found by its own suffix",
       vpm.missing_outputs(planned, want_stereo) == [],
       str(vpm.missing_outputs(planned, want_stereo)))
+both = vpm.missing_outputs([{"format": "wav", "suffix": "_master"}],
+                           want_stereo)
 check("and one that says nothing about its channels counts for both",
-      vpm.missing_outputs([{"format": "wav", "suffix": "_master"}],
-                          want_stereo) == [])
+      both == [], "%d still asked for, wanted 0: %s" % (len(both), both))
+stated = vpm.missing_outputs(
+    [{"format": "wav", "filename": "Show_master.wav",
+      "mono_mixdown": True}],
+    [dict(want_stereo[0], mono_mixdown=False)])
 check("and a stated one channel still asks for the two channel one",
-      vpm.missing_outputs(
-          [{"format": "wav", "filename": "Show_master.wav",
-            "mono_mixdown": True}],
-          [dict(want_stereo[0], mono_mixdown=False)]) != [])
+      stated != [], "%d asked for, wanted 1: %s" % (len(stated), stated))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:

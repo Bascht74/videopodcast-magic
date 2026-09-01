@@ -98,8 +98,9 @@ order = vpm.who_asks(tracks, words)
 check("one speaker with too little: nothing is claimed either",
       order == [], str(order))
 
-check("no words at all: nothing is claimed",
-      vpm.who_asks(tracks, []) == [])
+none_said = vpm.who_asks(tracks, [])
+check("no words at all: nothing is claimed", none_said == [],
+      "%d speakers ranked: %s" % (len(none_said), none_said))
 words, tracks = episode([("Host", 30, 20, 4)])
 check("one track alone: nothing is claimed",
       vpm.who_asks(tracks, words) == [], str(vpm.who_asks(tracks, words)))
@@ -145,8 +146,9 @@ check("it says the order carries and the distance does not",
 check("it says it takes one voice per track",
       any("one voice per track" in x or "Stimme je Spur" in x
           for x in lines), str(lines[-1])[:70])
-check("nothing to report is nothing printed",
-      vpm.roles_report([]) == [])
+empty_report = vpm.roles_report([])
+check("nothing to report is nothing printed", empty_report == [],
+      "%d lines printed: %s" % (len(empty_report), empty_report))
 
 print("\n%d checks in %.2f s" % (done, time.time() - started))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

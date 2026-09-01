@@ -1,15 +1,17 @@
 # -*- coding: utf-8 -*-
 """A multitrack run puts every voice on the camera the assignment names.
 
-The voices are finer than the tracks: two people have a microphone, a
-third is heard only in the room and has no track of her own, so nothing
-in the run but the assignment knows where each voice sits. In order:
-the run ends without an error and without a traceback, the cut list and
-the handover for Resolve are both written, all three voices reach the
-cut list, each of the two placed voices is cut to her or his own camera
-and the third to the wide shot, the handover's cut shows the same three
-while they speak, and its table of cameras names the same two and marks
-only the camera nobody sits on as the wide shot.
+The voices are finer than the tracks: the two microphones stand in the
+assignment as devices with no camera, and under the first camera's
+sound a separation found three people -- two of them placed, the third
+heard only in the room. In order: the run ends without an error and
+without a traceback, the cut list, the list of speakers and the
+handover for Resolve are all written, all three voices reach the cut
+list, each of the two placed voices is cut to her or his own camera and
+the third to the wide shot, a track with no camera of its own counts
+for the speaking shares and still wins no shot, the handover's cut
+shows the same three while they speak, and its table of cameras names
+the same two and marks only the camera nobody sits on as the wide shot.
 
 Nothing goes out: the run is given --without-auphonic and no key, so
 there is nothing to send with. It is not asked of the log, because the
@@ -73,6 +75,10 @@ ON = {"Vera": "CamOne", "Wim": "CamTwo"}
 # no voice -- so it is the wide shot of this run, and a voice with no
 # camera of its own is shown there.
 WIDE = "CamThree"
+# What the two tracks are called in the assignment. Devices, not
+# people: the run measures them and counts them for the speaking
+# shares, and neither of them has a camera to be shown on.
+DEVICES = ("Mic A", "Mic B")
 
 
 def voice(turns, seed):
@@ -123,18 +129,17 @@ subprocess.run(build, check=True)
 # wrong number is refused before anything is measured.
 form = re.search(r"^FILE_FORMAT = (\d+)",
                  open(SCRIPT, encoding="utf-8").read(), re.M)
-# The two microphones are the tracks, and they carry no camera: nobody
-# named after a device speaks in this episode. The separation was made
-# on the sound of the first camera and found three voices there, and
-# voices_of is the only place that says where two of them sit. Xenia is
-# left out of it on purpose -- that is the case the wide shot is for.
+# The two microphones are the tracks and carry no camera, so they are
+# measured and counted but have no picture to win. The separation was
+# made on the first camera's sound and found three voices; voices_of
+# says where two of them sit, and Xenia is left out of it on purpose.
 plan = {"format": int(form.group(1)) if form else 3, "created_by": "test",
         "production": "MT",
         "tracks_of": [{"audio": D + "/Mic_%s.wav" % k,
                        "blocks": [D + "/Mic_%s.wav" % k],
-                       "speakers": "Mic %s" % k,
+                       "speakers": name,
                        "camera": "", "camera_audio": False}
-                      for k in ("A", "B")],
+                      for k, name in zip(("A", "B"), DEVICES)],
         "cameras": [{"video": D + "/" + cam + ".mov", "name": cam}
                     for cam in sorted(LATE)],
         "speakers_of": {"source": D + "/CamOne.mov", "names": {},
@@ -177,9 +182,11 @@ check("and it prints no traceback", fell < 0,
       tail(out[fell:]) if fell >= 0 else "")
 
 CUT = OUT + "/MT_cameracut.csv"
+SAID = OUT + "/MT_speakers.csv"
 JS = OUT + "/MT_resolve.json"
 there = sorted(os.listdir(OUT)) if os.path.isdir(OUT) else "no folder"
 check("the cut list was written", os.path.exists(CUT), str(there))
+check("the list of speakers was written", os.path.exists(SAID), str(there))
 check("the handover for Resolve was written", os.path.exists(JS),
       str(there))
 
@@ -190,15 +197,22 @@ if os.path.exists(CUT):
         # Shot, Camera, Speaker, Start TC, End TC, Duration s
         shots = [(row[1], row[2]) for row in list(csv.reader(f))[1:]]
 print("   ", len(shots), "shots:", shots)
-heard = {who for _cam, who in shots if who}
+
+
+def voices_in(cell):
+    """The names in one Speaker cell of the cut list, devices included."""
+    return [n for n in str(cell or "").split(" + ") if n]
+
+
+heard = {n for _cam, cell in shots for n in voices_in(cell)}
 check("all three voices of the assignment reach the cut list",
-      heard == set(TURNS), "found %s, wanted %s"
+      set(TURNS) <= heard, "found %s, wanted %s among them"
       % (sorted(heard), sorted(TURNS)))
 
 
 def seated(who):
     """Which cameras the cut list puts one voice on, and in how many shots."""
-    mine = [cam for cam, name in shots if name == who]
+    mine = [cam for cam, cell in shots if who in voices_in(cell)]
     return sorted(set(mine)), len(mine)
 
 
@@ -217,15 +231,54 @@ where, count = seated("Wim")
 check("Wim is cut to his own camera and to no other",
       where == [ON["Wim"]], "%d shots, on %s -- wanted %s"
       % (count, where or "nothing", ON["Wim"]))
-elsewhere = sorted({cam for cam, who in shots
-                    if who == "Xenia" and cam != WIDE})
+where, count = seated("Xenia")
+elsewhere = [cam for cam in where if cam != WIDE]
 check("the voice with no camera of its own is on the wide shot",
-      any(who == "Xenia" for _cam, who in shots) and not elsewhere,
+      count > 0 and not elsewhere,
       "%d shots of hers, not on %s: %s"
-      % (len([1 for _c, w in shots if w == "Xenia"]), WIDE,
-         elsewhere or "none"))
+      % (count, WIDE, elsewhere or "none"))
 
-print("\n3. And the handover shows the same picture")
+print("\n3. A track with no camera counts, and takes nothing from anybody")
+# The two devices are in the cut and must stay in it: the owner's rule
+# is that every speaker is taken into account. What they must not do is
+# decide the picture, because there is nothing to cut to.
+spoke = {}
+if os.path.exists(SAID):
+    with open(SAID, encoding="utf-8", newline="") as f:
+        # Speaker, Start TC, End TC, Time from start, Duration s
+        for row in list(csv.reader(f))[1:]:
+            spoke.setdefault(row[0], []).append(float(row[4]))
+print("   ", {n: "%.1f s in %d" % (sum(v), len(v))
+              for n, v in sorted(spoke.items())})
+check("Mic A counts for the shares though it has no camera",
+      bool(spoke.get("Mic A")), "%.1f s in %d passages, against Vera's %.1f s"
+      % (sum(spoke.get("Mic A") or [0]), len(spoke.get("Mic A") or []),
+         sum(spoke.get("Vera") or [0])))
+check("Mic B counts for the shares though it has no camera",
+      bool(spoke.get("Mic B")), "%.1f s in %d passages, against Wim's %.1f s"
+      % (sum(spoke.get("Mic B") or [0]), len(spoke.get("Mic B") or []),
+         sum(spoke.get("Wim") or [0])))
+# Mic A is heard in the same shots as Vera, because it is her
+# microphone. The picture there is hers: it speaks the longer of the
+# two and still has nothing to show.
+took = []
+for cam, cell in shots:
+    names = voices_in(cell)
+    if not set(names) & set(DEVICES):
+        continue
+    for name in names:
+        if name in ON and cam != ON[name]:
+            took.append("%s on %s instead of %s" % (cell, cam, ON[name]))
+per_voice = {}
+for cam, cell in shots:
+    for name in voices_in(cell):
+        per_voice.setdefault(name, {})
+        per_voice[name][cam] = per_voice[name].get(cam, 0) + 1
+check("a track with no camera wins no shot from one that has",
+      not took, "%d of %d shots taken away: %s -- shots per voice %s"
+      % (len(took), len(shots), sorted(set(took)) or "none", per_voice))
+
+print("\n4. And the handover shows the same picture")
 handover = {}
 if os.path.exists(JS):
     with open(JS, encoding="utf-8") as f:

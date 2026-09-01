@@ -96,8 +96,9 @@ finally:
 check("out of the cameras: the same, and the longer one",
       window == run and run[0] == CAM_B, str(run))
 
-check("nothing at all stays nothing",
-      vpm.separation_source_of_run(Args(), [], []) == ("", "nothing"))
+empty = vpm.separation_source_of_run(Args(), [], [])
+check("nothing at all stays nothing", empty == ("", "nothing"),
+      "%s, wanted ('', 'nothing')" % (empty,))
 
 print("\n2. The run starts it by itself, and the switches still hold")
 asked = []
@@ -165,12 +166,21 @@ def window_argv(**over):
     return vpm.run_argv(state, "/x/assign.json")[0] or []
 
 
+said_no = window_argv(speakers_wanted=False)
 check("the window sends its no as a switch",
-      "--no-speakers-local" in window_argv(speakers_wanted=False))
+      "--no-speakers-local" in said_no,
+      "%d arguments, the switches among them %s"
+      % (len(said_no), [x for x in said_no if x.startswith("--")]))
+said_yes = window_argv(speakers_wanted=True)
 check("a yes sends nothing -- the run separates as the window does",
-      "--no-speakers-local" not in window_argv(speakers_wanted=True))
+      "--no-speakers-local" not in said_yes,
+      "%d arguments, the switches among them %s"
+      % (len(said_yes), [x for x in said_yes if x.startswith("--")]))
+said_nothing = window_argv()
 check("and an unanswered question sends nothing either",
-      "--no-speakers-local" not in window_argv())
+      "--no-speakers-local" not in said_nothing,
+      "%d arguments, the switches among them %s"
+      % (len(said_nothing), [x for x in said_nothing if x.startswith("--")]))
 
 print("\n4. The same segments, the same cut list")
 handed = {"source": RECORDER,

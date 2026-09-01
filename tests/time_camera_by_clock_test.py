@@ -118,12 +118,15 @@ check("a stamped file: the timecode, not the measurement",
       str(vpm.camera_place(n_results[1], ZERO, -33.34, 30.0)))
 plain = os.path.join(WORK, "no_timecode.wav")
 open(plain, "w").write("x")
-check("a file without a timecode keeps the measurement",
-      vpm.camera_place(plain, ZERO, -7.25, 30.0) == -7.25)
-check("no zero point, so the measurement again",
-      vpm.camera_place(n_results[1], None, -7.25, 30.0) == -7.25)
-check("no file at all, likewise",
-      vpm.camera_place("", ZERO, -7.25, 30.0) == -7.25)
+no_stamp = vpm.camera_place(plain, ZERO, -7.25, 30.0)
+check("a file without a timecode keeps the measurement", no_stamp == -7.25,
+      "got %r, wanted the measurement %r" % (no_stamp, -7.25))
+no_zero = vpm.camera_place(n_results[1], None, -7.25, 30.0)
+check("no zero point, so the measurement again", no_zero == -7.25,
+      "got %r, wanted the measurement %r" % (no_zero, -7.25))
+no_file = vpm.camera_place("", ZERO, -7.25, 30.0)
+check("no file at all, likewise", no_file == -7.25,
+      "got %r, wanted the measurement %r" % (no_file, -7.25))
 
 # The frames of a timecode are frames, so the rate decides what they
 # are worth. Through ffprobe, where a camera's timecode track comes from.

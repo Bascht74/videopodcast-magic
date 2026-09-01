@@ -120,18 +120,35 @@ out = (p.stdout or "") + (p.stderr or "")
 check("return code 0", p.returncode == 0, str(p.returncode))
 check("no traceback", "Traceback" not in out,
         out[out.find("Traceback"):][:90])
-check("it says what is missing", "WITHOUT AUPHONIC.COM" in out)
-check("nothing was uploaded", "auphonic.com/api" not in out
-        and "Uploading" not in out)
-check("the bleed was measured", "Bleed measured" in out, "")
+said = out.count("WITHOUT AUPHONIC.COM")
+check("it says what is missing", said > 0,
+        "%d mentions of WITHOUT AUPHONIC.COM in %d characters of log, "
+        "wanted at least 1" % (said, len(out)))
+api = out.count("auphonic.com/api")
+sent = out.count("Uploading")
+check("nothing was uploaded", api == 0 and sent == 0,
+        "%d mentions of auphonic.com/api and %d of Uploading, wanted 0 and 0"
+        % (api, sent))
+measured = out.count("Bleed measured")
+apart = out.count("Bleed not separable")
+check("the bleed was measured", measured > 0,
+        "%d mentions of Bleed measured and %d of Bleed not separable in %d "
+        "characters of log, wanted at least 1" % (measured, apart, len(out)))
 
 print("\n2. The files are there")
+made = sorted(os.listdir(OUT)) if os.path.isdir(OUT) else []
 for tail in ("_speakers.csv", "_cameracut.csv", "_resolve.json"):
-    check("WA%s written" % tail, os.path.exists(OUT + "/WA" + tail))
+    check("WA%s written" % tail, os.path.exists(OUT + "/WA" + tail),
+          "wanted WA%s; the %d files in out are %s" % (tail, len(made), made))
 for name in ("CamHost.mov", "CamGuest.mov"):
-    check("%s written" % name, os.path.exists(OUT + "/" + name))
+    check("%s written" % name, os.path.exists(OUT + "/" + name),
+          "wanted %s; the %d files in out are %s" % (name, len(made), made))
+tracks = (sorted(os.listdir(OUT + "/auphonic-tracks"))
+          if os.path.isdir(OUT + "/auphonic-tracks") else [])
 check("the mix is there",
-        os.path.exists(OUT + "/auphonic-tracks/final_Full-Mix.wav"))
+        os.path.exists(OUT + "/auphonic-tracks/final_Full-Mix.wav"),
+        "wanted final_Full-Mix.wav; the %d files in auphonic-tracks are %s"
+        % (len(tracks), tracks))
 
 print("\n3. The speakers were told apart")
 rows = open(OUT + "/WA_speakers.csv", encoding="utf-8").read().splitlines()[1:]
@@ -175,7 +192,8 @@ check("both cameras are used", set(cameras) == {"CamHost", "CamGuest"},
 
 print("\n5. The handover holds the same cut")
 d = json.load(open(OUT + "/WA_resolve.json", encoding="utf-8"))
-check("format stamped", d.get("format") == vpm.FILE_FORMAT)
+check("format stamped", d.get("format") == vpm.FILE_FORMAT,
+        "%r in the file, wanted %r" % (d.get("format"), vpm.FILE_FORMAT))
 check("cut in the file", len(d.get("cut") or []) == len(cut),
         "%d/%d" % (len(d.get("cut") or []), len(cut)))
 # The track name is the speaker; the camera name stands beside it.

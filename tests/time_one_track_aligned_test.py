@@ -226,7 +226,8 @@ for name, want in (("Rec.wav", LENGTH), ("Short.wav", SHORT_LEN),
                    ("Cam.mov", None), ("Cam2.mov", None),
                    ("Mute.mov", None)):
     there = os.path.exists(D + "/" + name)
-    check("%s is still there" % name, there)
+    check("%s is still there" % name, there,
+          "%s/%s exists %s" % (D, name, there))
     if there and want is not None:
         held = len(read(D + "/" + name)) / float(RATE)
         check("and %s is as long as it was" % name, abs(held - want) < 0.02,
@@ -241,10 +242,17 @@ print("\n1. The ordinary run: recording plus camera")
 check("it goes through", rc1 == 0, str(rc1))
 check("no traceback", "Traceback" not in log1,
       log1[log1.find("Traceback"):][:90])
+sent = [line.strip() for line in log1.splitlines()
+        if "auphonic.com/api" in line or "Uploading" in line]
 check("nothing was sent to auphonic.com",
-      "auphonic.com/api" not in log1 and "Uploading" not in log1)
+      "auphonic.com/api" not in log1 and "Uploading" not in log1,
+      "%d lines of the log mention it, the first %s"
+      % (len(sent), sent[0][:60] if sent else "-"))
 check("the camera file was written under its own name",
-      os.path.exists(D + "/plain" + MADE))
+      os.path.exists(D + "/plain" + MADE),
+      "%s, and the folder holds %s" % (D + "/plain" + MADE,
+          sorted(os.listdir(D + "/plain"))
+          if os.path.isdir(D + "/plain") else "no folder"))
 mix, cam = track("plain", 0), track("plain", 1)
 check("the picture was not shortened",
       abs(len(mix) / float(RATE) - CAM_LEN) < 0.05,
@@ -337,9 +345,11 @@ check("and it says why", said,
 check("a recording without a camera ends without work",
       rc5 == 0 and "nothing to do" in log5,
       "return %d, ends: %s" % (rc5, tail(log5, 1)))
-check("and it writes no video for it",
-      not os.path.isdir(D + "/alone")
-      or not [x for x in os.listdir(D + "/alone") if x.endswith(".mov")])
+videos = ([x for x in os.listdir(D + "/alone") if x.endswith(".mov")]
+          if os.path.isdir(D + "/alone") else [])
+check("and it writes no video for it", not videos,
+      "%d video files in %s/alone, wanted none: %s"
+      % (len(videos), D, videos))
 
 print("\n6. A recorder that stopped before the camera did")
 short = track("short")

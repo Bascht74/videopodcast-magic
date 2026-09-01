@@ -409,11 +409,16 @@ def look(case, media):
         once that row is there the voice rows are there too, or not.
         """
         sheet = sheet_of(vpm.T('Assignment && time window')[:8])
-        there = sheet is not None and room in rows_named(sheet)
+        named = rows_named(sheet) if sheet is not None else {}
+        there = sheet is not None and room in named
         if not there and waited[0] < 120:
             waited[0] += 1
             return AGAIN
-        check("the project brought its assignment sheet up", there)
+        check("the project brought its assignment sheet up", there,
+              "%d such sheets after %d rounds of waiting, %s wanted among "
+              "its %d rows: %s"
+              % (0 if sheet is None else 1, waited[0], room, len(named),
+                 sorted(named)[:5]))
         sheet_now[0] = sheet
         return None if there else STOP
 
@@ -477,13 +482,17 @@ def look(case, media):
             for _t, said, _w, _b in rows:
                 print("      %r" % said[:90])
             return STOP
-        check("every row has a field to put a name in",
-              all(any(isinstance(w, QtWidgets.QLineEdit)
-                      for w in widgets)
-                  for _t, _s, widgets, _b in rows))
-        check("and a chooser offering the camera itself",
-              all(box.findData(os.path.basename(video)) >= 0
-                  for _t, _s, _w, box in rows))
+        no_field = [said for _t, said, widgets, _b in rows
+                    if not any(isinstance(w, QtWidgets.QLineEdit)
+                               for w in widgets)]
+        check("every row has a field to put a name in", not no_field,
+              "%d of %d rows carry no name field: %s"
+              % (len(no_field), len(rows), no_field))
+        no_cam = [said for _t, said, _w, box in rows
+                  if box.findData(os.path.basename(video)) < 0]
+        check("and a chooser offering the camera itself", not no_cam,
+              "%d of %d choosers do not offer %s: %s"
+              % (len(no_cam), len(rows), os.path.basename(video), no_cam))
         # Every voice is asked for in turn and has to answer with its
         # own longest passage. The three do not overlap, so a position
         # says which voice was meant, and the first row says the order.
@@ -514,9 +523,11 @@ def look(case, media):
               bool(labels(vpm.TN(len(FOUND), 'Separated: %d speaker',
                                  'Separated: %d speakers') % len(FOUND))),
               str([x.text() for x in labels(separated)]))
-        check("and nothing is being computed",
-              not any(b.isVisible()
-                      for b in buttons(vpm.T('Break off'))))
+        running = [b.text() for b in buttons(vpm.T('Break off'))
+                   if b.isVisible()]
+        check("and nothing is being computed", not running,
+              "%d Break off buttons on show, wanted 0: %s"
+              % (len(running), running))
 
     def say_one_name():
         type_into(name_field_of(sheet(), room), ALONE)
@@ -598,8 +609,10 @@ def look(case, media):
         rows = voice_rows(sheet(), file_names)
         check("no separation, no voice rows", not rows,
               str([r[1] for r in rows]))
-        check("the recording is a row all the same",
-              room in rows_named(sheet()))
+        named = rows_named(sheet())
+        check("the recording is a row all the same", room in named,
+              "%s wanted among the %d rows: %s"
+              % (room, len(named), sorted(named)[:5]))
         check("and its name field is empty",
               text_of(name_field_of(sheet(), room)) == "",
               repr(text_of(name_field_of(sheet(), room))))
@@ -611,9 +624,11 @@ def look(case, media):
                                           in labels(separated)]))
         check("and nothing offers to correct an answer nobody gave",
               not offers(), said_by(offers()))
-        check("and nothing is being computed",
-              not any(b.isVisible()
-                      for b in buttons(vpm.T('Break off'))))
+        running = [b.text() for b in buttons(vpm.T('Break off'))
+                   if b.isVisible()]
+        check("and nothing is being computed", not running,
+              "%d Break off buttons on show, wanted 0: %s"
+              % (len(running), running))
         check("and nothing has been separated", not separations,
               str(separations))
 
@@ -636,8 +651,10 @@ def look(case, media):
               and offers()[0].text() == vpm.T(
                   'Only one speaker -- separate the track?'),
               said_by(offers()))
-        check("and no voice rows came of a name",
-              not voice_rows(sheet(), file_names))
+        came = voice_rows(sheet(), file_names)
+        check("and no voice rows came of a name", not came,
+              "%d voice rows, wanted 0: %s"
+              % (len(came), [said for _t, said, _w, _b in came]))
         check("and the offer alone separated nothing", not separations,
               str(separations))
 

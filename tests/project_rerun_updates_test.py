@@ -125,7 +125,8 @@ check("two timelines, no backup copy",
 print("\n2. Second run with 'keep' -- they pile up (as before)")
 vpm.build_resolve_project(dict(D), "keep", log="")
 print("   ", names(p))
-check("cut 2 has been added", "X Cut 2" in names(p))
+check("cut 2 has been added", "X Cut 2" in names(p),
+        "%d timelines: %s" % (len(names(p)), names(p)))
 
 print("\n3. Third run with 'update'")
 p.tls.append(TL("My own timeline", p))
@@ -134,12 +135,15 @@ vpm.build_resolve_project(dict(D), "update", log="")
 now = names(p)
 print("   ", now)
 check("cut back again without a suffix",
-        "X Cut" in now and "X Cut 3" not in now)
+        "X Cut" in now and "X Cut 3" not in now,
+        "%d timelines: %s" % (len(now), now))
 check("multicam back again without a suffix",
-        "X Multicam" in now and "X Multicam 2" not in now)
+        "X Multicam" in now and "X Multicam 2" not in now,
+        "%d timelines: %s" % (len(now), now))
 check("no backup copy any more",
         not [n for n in now if "Backup" in n], str(now))
-check("foreign timeline still there", "My own timeline" in now)
+check("foreign timeline still there", "My own timeline" in now,
+        "%d timelines: %s" % (len(now), now))
 check("nothing grew", len(now) == len(before_value),
         "%d/%d" % (len(now), len(before_value)))
 
@@ -157,7 +161,8 @@ D2["cameras"] = D["cameras"] + [{"camera": "Third", "track": "Third",
 vpm.build_resolve_project(dict(D2), "update", log="")
 now = names(p)
 print("   ", now)
-check("multicam there, without a suffix", "X Multicam" in now)
+check("multicam there, without a suffix", "X Multicam" in now,
+        "%d timelines: %s" % (len(now), now))
 check("no second backup copy made",
         [n for n in now if "Backup" in n] == ["X Multicam (Backup)"],
         str([n for n in now if "Backup" in n]))

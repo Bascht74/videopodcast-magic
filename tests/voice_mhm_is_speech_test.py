@@ -62,7 +62,9 @@ def track(name, turns, seconds=16.0):
 
 print("1. The floor is where the measurement put it")
 check("the floor is a named number, not a spelling in a signature",
-      hasattr(vpm, "SPEECH_MIN_LEN_S"))
+      hasattr(vpm, "SPEECH_MIN_LEN_S"),
+      "SPEECH_MIN_LEN_S is %r, wanted a number"
+      % (getattr(vpm, "SPEECH_MIN_LEN_S", None),))
 check("and it stands at 0.2 s",
       abs(getattr(vpm, "SPEECH_MIN_LEN_S", 0) - 0.2) < 1e-9,
       str(getattr(vpm, "SPEECH_MIN_LEN_S", None)))
