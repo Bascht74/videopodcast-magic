@@ -2401,10 +2401,13 @@ open	text_only_texts_change	without a marker the text stays the same
 open	text_only_texts_change	without a marker: plain text
 open	text_only_texts_change	without a value: system language
 open	text_only_texts_change	without colour only the text
-open	text_release_ready	%s names this version
 open	text_release_ready	%s: every group once
 open	text_release_ready	%s: groups in order, Documentation last
 open	text_release_ready	%s: only groups that are allowed
+text_release_ready	2026-09-01	README.de.md names this version	README.de.md -- `**Version 2.25.1-beta.**` back to `**Version 2.24.0-beta.**`	README.de.md names this version                      FAIL 2.24.0-beta
+text_release_ready	2026-09-01	README.md names this version	README.md -- `**Version 2.25.1-beta.**` back to `**Version 2.24.0-beta.**`	README.md names this version                         FAIL 2.24.0-beta
+text_release_ready	2026-09-01	ROADMAP.de.md names this version	ROADMAP.de.md -- `**Version 2.25.1-beta.**` back to `**Version 2.24.0-beta.**`	ROADMAP.de.md names this version                     FAIL 2.24.0-beta
+text_release_ready	2026-09-01	ROADMAP.md names this version	ROADMAP.md -- `**Version 2.25.1-beta.**` back to `**Version 2.24.0-beta.**`, the number it really carried before this run	ROADMAP.md names this version                        FAIL 2.24.0-beta
 open	text_release_ready	and it carries the version of its tag
 open	text_release_ready	every fixed point says how it is now
 text_release_ready	2026-08-31	every number in a point says what it counts	the two similarity scores put back into the German half of the auphonic point, word for word as they stood before commit 4bb26cd	every number in a point says what it counts          FAIL 2 in 28 points, first: '0,286 zum' in: Die Tonspuren von auphonic.com wurden am ganzen Da
