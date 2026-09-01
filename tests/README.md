@@ -1,6 +1,6 @@
 # The test suite
 
-183 tests against `../videopodcast-magic.py`. Every one of them stands
+184 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-183 tests. The name is the one a red line carries, and beside it the
+184 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -482,6 +482,7 @@ it is green.
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
 | `source_numpy_comes_last` | The program loads without numpy, so --help and --version stay cheap. |
 | `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
+| `source_resolve_door_shut` | A test that calls at a door to Resolve has nailed it shut first. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
 | `source_test_names_swept` | A project name a test gives Resolve is swept, or excepted by name. |
 
