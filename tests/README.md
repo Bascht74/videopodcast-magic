@@ -390,7 +390,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
-| `auphonic_key_by_pipe` | The macOS way to the key store: the key travels by pipe, whole. |
+| `auphonic_key_by_pipe` | The macOS key store is reached without a leak and without a prompt. |
 | `auphonic_key_kept` | The Windows way to the key store, walked for real. |
 | `auphonic_key_out_of_view` | Nobody else can read the key: not in the process list, not left behind. |
 | `auphonic_may_be_skipped` | The entry "work without Auphonic" instead of a tick of its own. |

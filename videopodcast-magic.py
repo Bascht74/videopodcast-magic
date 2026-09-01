@@ -11,6 +11,7 @@ Design and rationale: see the manual under docs/ next to this file.
 import argparse
 import atexit
 import bisect
+import ctypes
 import datetime
 import glob
 import hashlib
@@ -349,6 +350,11 @@ def store_api_key(key):
     twice, because it asks once and once to confirm.
     """
     forget_api_key()   # or the old one would still answer
+    # Looked at first: a locked keychain leaves "security" standing for
+    # its whole limit, and twenty seconds of a frozen window say less
+    # than a sentence naming the lock.
+    if key_store_locked():
+        return False
     # A pasted key carries blanks and a newline more often than not, and
     # it goes down the pipe as a line -- so it is made one before it
     # goes. The store takes the edges off on the way back regardless.
@@ -379,6 +385,66 @@ def store_api_key(key):
         except Exception:
             return False
     return False
+
+
+# Whether the keychain is open, read out of the library every Mac
+# carries. If Apple ever withdraws SecKeychainGetStatus, the way back is
+# not the modern item query -- that answers the same whether the store is
+# shut or empty -- but to ask nothing and say why a save failed.
+SECURITY_LIBRARY = "/System/Library/Frameworks/Security.framework/Security"
+KEYCHAIN_IS_OPEN = 1          # the bit that stands for "not locked"
+
+
+def key_store_locked():
+    """Say whether the macOS keychain is locked: True, False or None.
+
+    None where the question was not put: not a Mac, or the library did
+    not answer. It asks the user nothing and starts nothing -- the
+    command-line way puts a password window on the screen, which is the
+    one thing a question asked twice a second must not do.
+    """
+    if sys.platform != "darwin":
+        return None
+    try:
+        library = ctypes.CDLL(SECURITY_LIBRARY)
+        bits = ctypes.c_uint32(0)
+        failed = library.SecKeychainGetStatus(None, ctypes.byref(bits))
+    except (OSError, AttributeError):
+        # Nothing said here: unknown leaves the button live, and a save
+        # that then fails says what happened once, instead of this line
+        # saying it twice a second.
+        return None
+    return None if failed else not bits.value & KEYCHAIN_IS_OPEN
+
+
+def open_key_store_app():
+    """Bring up the app that unlocks the keychain. True if it started.
+
+    By its bundle name and not by a path: the app has moved between
+    system folders, so a path written down here is a guess about where
+    it will be kept next.
+    """
+    if sys.platform != "darwin":
+        return False
+    try:
+        subprocess.Popen(["open", "-b", "com.apple.keychainaccess"])
+    except OSError as e:
+        print(T('  Keychain Access could not be opened: %s') % e)
+        return False
+    return True
+
+
+def key_store_trouble():
+    """Say why a key did not go into the store on this machine."""
+    if sys.platform == "darwin":
+        if key_store_locked():
+            return T('The keychain is locked. Unlock it and try again.')
+        return T('The keychain did not take the key. Keychain Access can '
+                 'say why.')
+    if os.name == "nt":
+        return T('The registry did not take the key.')
+    return T('The key can only be stored on Mac and Windows -- in the '
+             'keychain or the registry. It does not go into a file.')
 
 
 # What the key store last said: every ask is a process, and drawing the
@@ -440,6 +506,10 @@ def delete_api_key():
     a locked keychain can leave "security" waiting on a question.
     """
     forget_api_key()
+    # Unticking the box lands here, and it lands here again the moment a
+    # failed write puts the tick back -- so the same look as the write.
+    if key_store_locked():
+        return False
     if sys.platform == "darwin":
         try:
             p = subprocess.run(["security", "delete-generic-password",
@@ -25650,6 +25720,47 @@ def make_key_note(QtWidgets, label, hint, settings_open):
     return settings_note, key_row, show, hide
 
 
+def keychain_row_add(into, keep_button):
+    """Put in the line that shows while the macOS keychain is locked.
+
+    It greys the box that saves the key, says why, and offers the way
+    to unlock. A timer asks again while the window stands, so the box
+    wakes up by itself -- that waking is the only sign the unlock took.
+
+    Returns the call that reads the state once.
+    """
+    from PySide6 import QtCore as _qc, QtWidgets as _qw
+    row = _qw.QWidget()
+    row.setObjectName("keychain_row")
+    line = _qw.QHBoxLayout(row)
+    line.setContentsMargins(0, 0, 0, 0)
+    note = label(T('The keychain is locked. Unlock it and this button '
+                   'wakes up.'), COLOURS["warning"])
+    note.setWordWrap(True)
+    note.setObjectName("keychain_locked")
+    line.addWidget(note, 1)
+    way = _qw.QPushButton(T('Open Keychain Access'))
+    way.setObjectName("keychain_way")
+    way.clicked.connect(lambda *_: open_key_store_app())
+    line.addWidget(hint(way, T('Opens the app that unlocks the keychain.')))
+    into.addWidget(row)
+
+    def look():
+        """Grey the save box while the store is shut, and wake it up."""
+        shut = key_store_locked() is True
+        row.setVisible(shut)
+        keep_button.setEnabled(not shut)
+
+    look()
+    watch = _qc.QTimer(row)
+    watch.timeout.connect(look)
+    # Half a second: often enough that unlocking feels answered, and a
+    # question that reads a bit out of a library is cheap enough to
+    # repeat -- it starts no process and puts nothing on the screen.
+    watch.start(500)
+    return look
+
+
 def restore_entry(act, where, window):
     """Put the way back into the menu, where there is one to go back to.
 
@@ -30774,6 +30885,7 @@ def gui():
     check_button.setFixedWidth(caption_room(check_button, 110))
     first_line.addWidget(hint(check_button,
                                   T('Check the key and fetch Presets.')))
+    keychain_row_add(access_layout, keep_button)
 
     # The note about the key, under the field and on the sheet both.
     (settings_note, key_row, key_note_show,
@@ -30840,10 +30952,7 @@ def gui():
         if on:
             if not store_api_key(key_var.get().strip()):
                 remember.set(False)
-                report(T('Cannot remember here'),
-                       T('The key can only be stored on Mac and Windows -- '
-                         'in the keychain or the registry. It does not go '
-                         'into a file.'))
+                report(T('The key was not saved'), key_store_trouble())
         else:
             delete_api_key()
 
@@ -34924,8 +35033,6 @@ CATALOGUE["de"] = {
         'Warum der Lauf nicht starten kann',
     'Cannot start yet: %s':
         'Start noch nicht möglich: %s',
-    'Cannot remember here':
-        'Merken geht hier nicht',
     'Change rejected: %s':
         'Änderung abgelehnt: %s',
     'Check again':
@@ -35458,6 +35565,25 @@ CATALOGUE["de"] = {
         'Der Schlüssel lässt sich nur auf Mac und Windows ablegen -- im '
         'Schlüsselbund oder in der Registrierung. In eine Datei kommt er '
         'nicht.',
+    'The key was not saved':
+        'Der Schlüssel wurde nicht gespeichert',
+    'The keychain is locked. Unlock it and try again.':
+        'Der Schlüsselbund ist zugesperrt. Sperr ihn auf und versuch es '
+        'noch einmal.',
+    'The keychain is locked. Unlock it and this button wakes up.':
+        'Der Schlüsselbund ist zugesperrt. Sperr ihn auf, dann wacht '
+        'dieser Knopf auf.',
+    'The keychain did not take the key. Keychain Access can say why.':
+        'Der Schlüsselbund hat den Schlüssel nicht genommen. Die '
+        'Schlüsselbundverwaltung kann sagen, warum.',
+    'The registry did not take the key.':
+        'Die Registrierung hat den Schlüssel nicht genommen.',
+    'Open Keychain Access':
+        'Schlüsselbundverwaltung öffnen',
+    'Opens the app that unlocks the keychain.':
+        'Öffnet das Programm, das den Schlüsselbund aufsperrt.',
+    '  Keychain Access could not be opened: %s':
+        '  Die Schlüsselbundverwaltung ließ sich nicht öffnen: %s',
     'The stored key is not accepted: %s':
         'Der gemerkte Schlüssel wird nicht angenommen: %s',
     'What auphonic.com replied':

@@ -1,14 +1,12 @@
 # -*- coding: utf-8 -*-
-"""The macOS way to the key store: the key travels by pipe, whole.
+"""The macOS key store is reached without a leak and without a prompt.
 
-Nothing here starts a process -- the place that starts one is replaced
-and reads what it was handed, and the program is told this machine is a
-Mac, so all six builder jobs walk the same branch. The sections: what
-the comparison and the stand-in refuse, what security is handed, there
-and back, what is not there, deleting, when security is missing or
-deaf, and that nothing real ever ran. The keychain is stood in for, so
-a length or a locked store is not judged; the key is invented and no
-line prints it.
+Nothing here starts a process or opens a real library: both places are
+replaced and the program is told this machine is a Mac. The sections:
+what the stand-ins refuse, what security is handed, there and back,
+what is not there, deleting, a missing or deaf security, whether the
+store is shut and who is asked, the line that greys the save box, and
+that nothing real ever ran. The key is invented and no line prints it.
 """
 import os
 import subprocess
@@ -101,7 +99,7 @@ def carried_by(starts, secret):
 # that took anything at all.
 STORE = {}
 STARTS = []
-PLAN = {"raise": None, "deaf": 0}
+PLAN = {"raise": None, "deaf": 0, "mask": None}
 
 
 class Started(object):
@@ -198,8 +196,23 @@ def fake_run(argv, **kwargs):
     return subprocess.CompletedProcess(one.argv, code, out, err)
 
 
+class NoChild(object):
+    """What Popen hands back here: nothing anybody may lean on."""
+
+
+def fake_popen(argv, **kwargs):
+    """The way the program brings up an app, written down not walked."""
+    one = Started(argv, kwargs)
+    STARTS.append(one)
+    if PLAN["raise"] is not None:
+        raise PLAN["raise"]
+    if one.argv[:1] != ["open"]:
+        raise OSError("this stand-in brings up nothing but open")
+    return NoChild()
+
+
 class NoSubprocess(object):
-    """The three names this way through the program needs, and no more.
+    """The four names this way through the program needs, and no more.
 
     Nothing else is put here on purpose: a name the program reaches for
     and this does not carry raises AttributeError and is seen, where a
@@ -207,12 +220,66 @@ class NoSubprocess(object):
     """
 
     run = staticmethod(fake_run)
+    Popen = staticmethod(fake_popen)
     CompletedProcess = subprocess.CompletedProcess
     TimeoutExpired = subprocess.TimeoutExpired
 
 
-# --------------------------------------- 1. What the stand-in refuses
-print("1. What the comparison and the stand-in refuse")
+# --------------------------------------------- the stand-in library
+#
+# The lock is read out of Security.framework on the real machine. What
+# takes its place here answers the mask the plan names, writes down
+# every library opened and every call made into one, and refuses any
+# other library, so a check cannot be green over a question asked
+# somewhere else entirely.
+LIBS = []
+ASKED = []
+MASK_OPEN = 0x7        # what the framework answers for an open keychain
+MASK_LOCKED = 0x2      # and for a locked one
+
+
+class Slot(object):
+    """What c_uint32 makes: a number the called library writes into."""
+
+    def __init__(self, value=0):
+        self.value = value
+
+
+class FakeLibrary(object):
+    """Security.framework, as far as the one call into it goes."""
+
+    def __init__(self, path):
+        self.path = path
+
+    def SecKeychainGetStatus(self, which, out):
+        ASKED.append((self.path, "SecKeychainGetStatus"))
+        if PLAN["mask"] is None:
+            return -25293          # what it says when it will not answer
+        out.value = PLAN["mask"]
+        return 0
+
+
+def fake_cdll(path):
+    LIBS.append(str(path))
+    if "Security.framework" not in str(path):
+        raise OSError("this stand-in opens no library but Security")
+    return FakeLibrary(str(path))
+
+
+class NoCtypes(object):
+    """The three names the lock question needs, and no more.
+
+    As with the processes: a name the program reaches for and this does
+    not carry raises AttributeError and is seen.
+    """
+
+    CDLL = staticmethod(fake_cdll)
+    c_uint32 = Slot
+    byref = staticmethod(lambda one: one)
+
+
+# -------------------------------------- 1. What the stand-ins refuse
+print("1. What the comparison and the stand-ins refuse")
 
 check("the comparison calls two different values different",
       not same(PLAIN, PLAIN + "x"), apart_says(PLAIN, PLAIN + "x"))
@@ -240,7 +307,22 @@ except subprocess.TimeoutExpired:
 check("the stand-in waits when nobody sends the word at all",
       waited == "TimeoutExpired",
       "it answered with %s, wanted TimeoutExpired" % (waited or "no fault"))
+refused = ""
+try:
+    fake_cdll("/usr/lib/libSystem.dylib")
+except OSError:
+    refused = "OSError"
+check("the stand-in opens no library but Security", refused == "OSError",
+      "it answered with %s, wanted OSError" % (refused or "a library"))
+refused = ""
+try:
+    fake_popen(["security", "show-keychain-info"])
+except OSError:
+    refused = "OSError"
+check("the stand-in brings up no program but open", refused == "OSError",
+      "it answered with %s, wanted OSError" % (refused or "a child"))
 del STARTS[:]
+del LIBS[:]
 STORE.clear()
 
 # Nothing has gone near the program yet, and nothing should: a stand-in
@@ -249,7 +331,7 @@ STORE.clear()
 if bad:
     stop()
 
-os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 
 import importlib.util                                       # noqa: E402
@@ -257,6 +339,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+
+# Qt comes up here, before every way of starting a program is nailed
+# shut below, and offscreen: the last section builds a row of widgets
+# and nothing of it may reach anybody's screen.
+try:
+    from PySide6 import QtWidgets                           # noqa: E402
+except ImportError as exc:                                  # noqa: BLE001
+    QtWidgets, app, no_qt = None, None, type(exc).__name__
+else:
+    app = QtWidgets.QApplication(sys.argv[:1])
+    no_qt = ""
 
 
 # The last line of defence, put in after the import so the import itself
@@ -299,7 +392,14 @@ class MacSys(object):
         return getattr(sys, name)
 
 
+class NotMacSys(MacSys):
+    """The same again, except that this machine is not a Mac."""
+
+    platform = "linux"
+
+
 vpm.subprocess = NoSubprocess
+vpm.ctypes = NoCtypes
 vpm.sys = MacSys()
 # Not read on the way this test walks -- it is the Windows name and the
 # second half of the cache key. Pointed away from the real one all the
@@ -531,8 +631,143 @@ check("a delete that never answers comes back with a verdict, not a fault",
       "raised %s and returned %r, wanted no fault and a yes or no"
       % (threw or "nothing", removed))
 
-# ---------------------------------------- 7. Nothing real ever ran
-print("\n7. Nothing real ever ran")
+# ------------------------- 7. Whether the store is shut, and who is asked
+print("\n7. Whether the store is shut, and who is asked")
+
+del LIBS[:]
+del ASKED[:]
+mark, real_mark = len(STARTS), len(REAL_STARTS)
+PLAN["mask"] = MASK_OPEN
+says = vpm.key_store_locked()
+check("an unlocked keychain is reported unlocked", says is False,
+      "answered %r, wanted False" % (says,))
+PLAN["mask"] = MASK_LOCKED
+says = vpm.key_store_locked()
+check("a locked keychain is reported locked", says is True,
+      "answered %r, wanted True" % (says,))
+check("the question goes to Security.framework and nowhere else",
+      bool(ASKED) and all("Security.framework" in one for one in LIBS),
+      "%d calls into %s" % (len(ASKED), sorted(set(LIBS)) or "no library"))
+# The one thing this must never do. The command-line way answers the
+# same question and puts a password window on the screen for it, so a
+# start of any program at all on this path is the fault itself.
+started = ([one.argv[0] for one in STARTS[mark:]]
+           + REAL_STARTS[real_mark:])
+check("asking whether the keychain is locked starts no program",
+      not started, "%d starts, the first of them %s"
+      % (len(started), started[0] if started else "none"))
+PLAN["mask"] = None
+says = vpm.key_store_locked()
+check("a library that will not answer leaves the state unknown",
+      says is None, "answered %r, wanted None" % (says,))
+PLAN["mask"] = MASK_LOCKED
+vpm.sys = NotMacSys()
+mark = len(ASKED)
+says = vpm.key_store_locked()
+vpm.sys = MacSys()
+check("off a Mac the keychain is not asked at all",
+      says is None and len(ASKED) == mark,
+      "answered %r after %d calls, wanted None after 0"
+      % (says, len(ASKED) - mark))
+
+# What a failed save tells the person who pressed the box. On a Mac the
+# old wording blamed the machine, and the machine was never the reason.
+locked_words = vpm.T('The keychain is locked. Unlock it and try again.')
+PLAN["mask"] = MASK_LOCKED
+said = vpm.key_store_trouble()
+check("a save that failed over a locked keychain blames the lock",
+      said == locked_words,
+      "said %d chars, the locked wording has %d"
+      % (len(said), len(locked_words)))
+PLAN["mask"] = MASK_OPEN
+said = vpm.key_store_trouble()
+check("and with the keychain open it does not blame the lock",
+      bool(said) and said != locked_words,
+      "said %d chars, the locked wording has %d"
+      % (len(said), len(locked_words)))
+
+# Twenty seconds of a frozen window is what the look is there to spare,
+# and the delete needs it too: putting the tick back after a failed
+# write walks straight into it.
+PLAN["mask"] = MASK_LOCKED
+STORE.clear()
+vpm.forget_api_key()
+mark = len(STARTS)
+said = vpm.store_api_key(PLAIN)
+check("a locked keychain is not written to at all",
+      said is False and len(STARTS) == mark,
+      "returned %r after %d starts, wanted False after 0"
+      % (said, len(STARTS) - mark))
+mark = len(STARTS)
+removed = vpm.delete_api_key()
+check("and nothing is deleted out of it either",
+      removed is False and len(STARTS) == mark,
+      "returned %r after %d starts, wanted False after 0"
+      % (removed, len(STARTS) - mark))
+PLAN["mask"] = MASK_OPEN
+
+WAY = ["open", "-b", "com.apple.keychainaccess"]
+mark = len(STARTS)
+opened = vpm.open_key_store_app()
+way = STARTS[mark:]
+check("the keychain app is asked for by bundle name, not by a path",
+      opened is True and len(way) == 1 and way[0].argv == WAY,
+      "returned %r after %d starts, the first %r"
+      % (opened, len(way), way[0].argv if way else None))
+
+# ------------------------------- 8. The line that greys the save box
+print("\n8. The line that greys the save box")
+
+if no_qt:
+    print("  LEFT OUT the line that greys the save box: no PySide6 here"
+          " (%s) -- pip install -r requirements.txt brings it" % no_qt)
+else:
+    PLAN["mask"] = MASK_LOCKED
+    holder = QtWidgets.QWidget()
+    into = QtWidgets.QVBoxLayout(holder)
+    keep_box = QtWidgets.QCheckBox(vpm.T('Save in Keychain'))
+    vpm.keychain_row_add(into, keep_box)
+    row = holder.findChild(QtWidgets.QWidget, "keychain_row")
+    check("the line that says why the box is grey was built",
+          row is not None, "found %r, wanted a widget" % (row,))
+    check("the save box is grey while the keychain is locked",
+          not keep_box.isEnabled(),
+          "enabled %s, wanted False" % keep_box.isEnabled())
+    check("and the line that says why stands there",
+          row is not None and not row.isHidden(),
+          "hidden %s, wanted False" % (row.isHidden() if row else "no row"))
+
+    # Nothing calls the reading again: the row's own timer has to, or
+    # nobody can tell whether unlocking took. So the wait is on the box
+    # coming alive, and running out of patience is red.
+    WAKE_LIMIT = 20.0
+    PLAN["mask"] = MASK_OPEN
+    waited = time.time()
+    while not keep_box.isEnabled() and time.time() - waited < WAKE_LIMIT:
+        app.processEvents()
+        time.sleep(0.01)
+    woke = time.time() - waited
+    check("the save box wakes up by itself once the keychain is open",
+          keep_box.isEnabled(), "enabled %s after %.2f s of at most %.1f"
+          % (keep_box.isEnabled(), woke, WAKE_LIMIT))
+    check("and the line that says why goes away with it",
+          row is not None and row.isHidden(),
+          "hidden %s, wanted True" % (row.isHidden() if row else "no row"))
+
+    press = holder.findChild(QtWidgets.QPushButton, "keychain_way")
+    check("the button beside that line was built", press is not None,
+          "found %r, wanted a button" % (press,))
+    if press is not None:
+        mark = len(STARTS)
+        press.click()
+        pressed = STARTS[mark:]
+        check("pressing it brings up the keychain app",
+              len(pressed) == 1 and pressed[0].argv == WAY,
+              "%d starts, the first %r"
+              % (len(pressed), pressed[0].argv if pressed else None))
+
+# ---------------------------------------- 9. Nothing real ever ran
+print("\n9. Nothing real ever ran")
 
 check("no real process was started anywhere in this run", not REAL_STARTS,
       "%d starts got past the stand-in, the first of them %s"
