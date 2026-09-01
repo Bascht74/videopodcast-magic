@@ -74,7 +74,8 @@ explains the word comes first.
 * **de-bleed**: `auphonic`, "Working without Auphonic"; `preflight`, "How
   the report measures bleed against the 3:1 rule"
 * **drop frame**: `resolve`, "The button and the two timelines"
-* **dry run**: `interface`, "The four tabs"
+* **dry run**: `interface`, "The four tabs"; `speech`, "What the dry run
+  shows of the speakers"
 * **Edit Change Delay**: `camera-cut`, "Setting the knobs"
 * **EDL**: `camera-cut`, "How the cut comes about"
 * **envelope**: `interface`, "The four tabs"; `multitrack`, "Running several
@@ -152,6 +153,7 @@ explains the word comes first.
 * **raw recording (level)**: `camera-cut`, "How the preview players choose
   file and sound"
 * **reaction cut**: `camera-cut`, "Setting the knobs"
+* **read back**: `speech`, "What is kept, and what is worked out again"
 * **Remove (button)**: `simple-path`, "Putting blocks together by hand";
   `multitrack`, "Running several files at once"
 * **render job**: `resolve`, "What the render job sets"

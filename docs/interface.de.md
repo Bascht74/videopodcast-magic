@@ -354,6 +354,14 @@ Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
 einem Reiter heißt: dort ist nichts mehr offen. Kein Fenster geht dafür
 auf.
 
+Was ein Probelauf von den Sprechern zeigt, hängt davon ab, was auf
+diesem Rechner schon liegt. Eine früher gerechnete Trennung wird
+zurückgelesen, und die Stimmen werden mit ihrer Redezeit aufgezählt --
+der wirkliche Schnitt, ohne dass dafür etwas gerechnet wird. Nur wo
+eine Trennung erst gemessen werden müsste, bleibt sie liegen, und das
+Protokoll sagt es. [Spracherkennung und
+Sprechertrennung](speech.de.md) zeigt den Block und was darin steht.
+
 Dann eine Zusammenfassung: wie viele Kameras und Tonspuren, wie
 lang, welches Preset, wie viele Dateien entstehen, wieviel Platz sie
 brauchen und wieviel frei ist. Wenn der Lauf bestehende Dateien

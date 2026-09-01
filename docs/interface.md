@@ -330,6 +330,14 @@ is stands under the buttons**, with the tab it is on:
 The field or the row it means turns red. A tick behind a tab means
 nothing on it is outstanding. No window opens for any of this.
 
+What a dry run shows of the speakers depends on what is already on this
+machine. A separation worked out before is read back, and the voices
+are counted up with their speaking time -- the real cut, without
+computing anything for it. Only where a separation would have to be
+measured does the run leave it undone and say so. [Speech recognition
+and speaker separation](speech.md) shows the block and what stands in
+it.
+
 Then a summary: how many cameras and audio tracks, how long, which
 preset, how many files this makes, how much room they need and how much
 is free. If the run would overwrite files that are already there, a
