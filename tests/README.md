@@ -1,6 +1,6 @@
 # The test suite
 
-179 tests against `../videopodcast-magic.py`. Every one of them stands
+181 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-179 tests. The name is the one a red line carries, and beside it the
+181 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -411,6 +411,7 @@ it is green.
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
 | `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
+| `window_hears_while_split` | The words are written down while the speakers are being separated. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
 | `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
@@ -477,6 +478,7 @@ it is green.
 | `source_checks_proved` | Which checks have been seen red, and which have not. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
+| `source_numpy_comes_last` | The program loads without numpy, so --help and --version stay cheap. |
 | `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
 | `source_test_names_swept` | A project name a test gives Resolve is swept, or excepted by name. |

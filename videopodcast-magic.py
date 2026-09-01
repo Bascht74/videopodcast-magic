@@ -9649,25 +9649,31 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     if source:
         print(as_head(T('\nSEPARATING THE SPEAKERS')))
         print(T('  In %s, on this machine.') % os.path.basename(source))
-        how_long = media_seconds(source)
-        if how_long:
-            print(T('  About %s of computing for %s of audio.')
-                  % (as_hms(how_long / SPEAKER_SPLIT_SPEED),
-                     as_hms(how_long)))
-        if not speaker_split_available():
-            print(T('  The environment for it is not here yet: about '
-                    '%d MB are fetched now.') % SPEAKER_SETUP_MB)
+        count = int(getattr(args, "speakers_count", 0) or 0)
+        stored = speaker_split_stored(source, count)
+        if stored:
+            print(T('  Separated once already: read back, not measured '
+                    'again.'))
+        else:
+            how_long = media_seconds(source)
+            if how_long:
+                print(T('  About %s of computing for %s of audio.')
+                      % (as_hms(how_long / SPEAKER_SPLIT_SPEED),
+                         as_hms(how_long)))
+            if not speaker_split_available():
+                print(T('  The environment for it is not here yet: about '
+                        '%d MB are fetched now.') % SPEAKER_SETUP_MB)
         if getattr(args, "dry_run", False):
             print(T('  (measuring only: nothing separated)'))
             return [], ""
-        if not speaker_split_available():
+        if not stored and not speaker_split_available():
             trouble = speaker_split_setup(
                 report=lambda text, share: show_progress(text, share))
             if trouble:
                 print("  %s" % trouble)
                 return [], ""
-        segments, trouble = speaker_split_run(
-            source, int(getattr(args, "speakers_count", 0) or 0),
+        segments, trouble = speaker_split_cached(
+            source, count,
             report=lambda text, share: show_progress(text, share))
         print()
         if trouble:
@@ -15322,7 +15328,16 @@ def video_facts(path, fps_default=None, tc_default_value=None):
 
 #---------------------------------------------------------- Audio analysis
 
-def decode_audio(path, rate=SR, ss=None, duration=None, stream=None):
+def decode_audio(path, rate=SR, ss=None, duration=None, stream=None,
+                 dtype=None):
+    """Decode one channel of a file into samples.
+
+    ffmpeg writes float32 and the default widens it to float64.
+    Whoever hands the samples on in float32 asks for float32 here and
+    saves a copy at twice the size, which over a whole episode is the
+    largest block the program holds. None is that default: numpy is
+    fetched at the end of this file and cannot stand in a signature.
+    """
     cmd = ["ffmpeg", "-v", "error"]
     if ss is not None:
         cmd += ["-ss", "%.6f" % ss]
@@ -15333,7 +15348,8 @@ def decode_audio(path, rate=SR, ss=None, duration=None, stream=None):
         cmd += ["-map", "0:a:%d" % stream]
     cmd += ["-ac", "1", "-ar", str(rate), "-f", "f32le", "-"]
     p = subprocess.run(cmd, capture_output=True)
-    return np.frombuffer(p.stdout, dtype=np.float32).astype(np.float64)
+    return np.frombuffer(p.stdout, dtype=np.float32).astype(
+        dtype or np.float64)
 
 
 _ENV = {}
@@ -17841,6 +17857,89 @@ def whisper_words(audio_path, language="", install=True):
     return corrected_words(out, WHISPER_START_S, WHISPER_END_S)
 
 
+#------------------------------------------------------------- Storage
+
+# The two ways, in the order the recognition tries them: what the
+# window and the run both call "macos" first, then Whisper.
+WORD_WAYS = (("macos", "macOS"), ("whisper", WHISPER_MODEL))
+
+
+def words_cache_key(path, language, way):
+    """The name a written-down recording lives under.
+
+    Path, mtime and size say whether it is still the same recording.
+    The language and the way belong in it as well: the same file in
+    another language gives other words, and the two recognisers do
+    not write the same ones either.
+    """
+    mark = file_fingerprint(path)
+    if not mark:
+        return ""
+    parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
+             (language or "").lower(), way or ""]
+    return hashlib.sha1(
+        "\n".join(parts).encode("utf-8")).hexdigest()[:16]
+
+
+def words_cache_file(key):
+    """Where a written-down recording lives, or None."""
+    folder = cache_folder("words")
+    return os.path.join(folder, key + ".json") if folder and key else None
+
+
+def words_cache_read(path, language, way):
+    """The words stored for this recording, or None to listen again.
+
+    An empty list is an answer, not a miss: a recording nobody spoke
+    in was listened to and gave nothing.
+    """
+    file_path = words_cache_file(words_cache_key(path, language, way))
+    if not file_path or not os.path.exists(file_path):
+        return None
+    try:
+        with open(file_path, encoding="utf-8") as f:
+            d = json.load(f)
+    except (OSError, ValueError):
+        return None
+    words = d.get("words")
+    return words if isinstance(words, list) else None
+
+
+def words_cache_write(path, language, way, words):
+    """Store what was heard so the next start need not listen again."""
+    file_path = words_cache_file(words_cache_key(path, language, way))
+    if not file_path:
+        return
+    d = {"when": time.time(), "version": VERSION,
+         "language": language or "", "way": way or "",
+         "words": list(words or ())}
+    try:
+        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
+                                      prefix=".vpm_", suffix=".json")
+        with os.fdopen(fd, "w", encoding="utf-8") as f:
+            json.dump(d, f, ensure_ascii=False)
+        os.replace(beside, file_path)
+    except OSError as e:
+        # The words are there either way; only the next start pays for
+        # them again. Said out loud, because a store that quietly never
+        # stores looks exactly like one that works.
+        print(T('  %s could not be written: %s') % (file_path, e))
+
+
+def words_stored(audio_path, language, ways):
+    """Words already written down here, and the way they came from.
+
+    The ways are asked in the order the recognition itself would take
+    them, so a stored answer is the one that machine would have given
+    anyway. Returns (words, way), (None, "") for nothing stored.
+    """
+    for way in ways:
+        words = words_cache_read(audio_path, language, way)
+        if words is not None:
+            return words, way
+    return None, ""
+
+
 def recognise_speech(audio_path, language="", way=""):
     """Write down what is spoken in a file, with a time per word.
 
@@ -17854,7 +17953,13 @@ def recognise_speech(audio_path, language="", way=""):
     exists on this machine.
     """
     started = time.time()
-    words = None
+    words, took = words_stored(
+        audio_path, language,
+        [name for wanted, name in WORD_WAYS if way in ("", wanted)])
+    if words is not None:
+        print(T('  Speech recognition (%s): %s words, read back')
+              % (took, group_text(len(words))))
+        return words, took
     took = ""
     if way in ("", "macos"):
         words = macos_words(audio_path, language)
@@ -17866,6 +17971,7 @@ def recognise_speech(audio_path, language="", way=""):
         print(T('  No speech recognition on this machine: macOS 26 '
                 'brings one, otherwise faster-whisper is installed.'))
         return None, ""
+    words_cache_write(audio_path, language, took, words)
     print(T('  Speech recognition (%s): %s words in %.1f s')
           % (took, group_text(len(words)), time.time() - started))
     return words, took
@@ -17885,6 +17991,12 @@ def words_at_hand(audio_path, language=""):
     Returns the words, [] where this machine cannot listen.
     """
     started = time.time()
+    words, took = words_stored(audio_path, language,
+                               [name for _wanted, name in WORD_WAYS])
+    if words is not None:
+        print(T('  Speech recognition (%s): %s words, read back')
+              % (took, group_text(len(words))))
+        return words
     words = macos_words(audio_path, language)
     took = "macOS"
     if words is None:
@@ -17892,6 +18004,7 @@ def words_at_hand(audio_path, language=""):
         took = WHISPER_MODEL
     if words is None:
         return []
+    words_cache_write(audio_path, language, took, words)
     print(T('  Speech recognition (%s): %s words in %.1f s')
           % (took, group_text(len(words)), time.time() - started))
     return words
@@ -17907,20 +18020,17 @@ def speech_words_work(source, language, done):
     done((source, words))
 
 
-def speech_words_kick_off(state, language="", done=None):
-    """Write down what is said in the recording that was separated.
+def speech_words_kick_off(state, language="", done=None, source=""):
+    """Write down what is said in the recording being separated.
 
-    Behind the separation and not behind adding files. The separation
-    is the long computation somebody either started or was asked
-    about, and it is the step that says which single recording carries
-    every voice; the recognition wants exactly that file, so it comes
-    after it and inherits its consent. On its own it installs nothing
-    and fetches nothing -- words_at_hand says why.
-
-    Once per recording: the words do not change when the time window
-    moves, and everything the window does with them is arithmetic.
+    Beside the separation, not behind it: the two use different
+    machinery and the recognition is over long before the separation
+    is. It inherits the separation's consent from its start, which is
+    where *source* names the recording before anything is stored under
+    it. Without *source* the recording in front is meant. On its own
+    it installs nothing and fetches nothing -- words_at_hand says why.
     """
-    source = state.get("speakers_source") or ""
+    source = source or state.get("speakers_source") or ""
     if not source or not done or state.get("speakers_words_of") == source:
         return
     state["speakers_words_of"] = source
@@ -17930,9 +18040,13 @@ def speech_words_kick_off(state, language="", done=None):
 
 
 def speech_words_done(state, result, wake):
-    """The words came back; keep them where they still belong."""
+    """The words came back; keep them where they still belong.
+
+    Against the recording they were asked for, not against the one in
+    front: they may arrive before its separation does.
+    """
     source, words = result
-    if source != (state.get("speakers_source") or ""):
+    if source != (state.get("speakers_words_of") or ""):
         return
     state["speakers_words"] = words or []
     wake()
@@ -18478,7 +18592,7 @@ def speaker_split_run(path, num_speakers=0, report=None,
     if report:
         report(T('Reading the audio ...'), 0.02)
     try:
-        wave = decode_audio(path, SPEAKER_SPLIT_RATE).astype(np.float32)
+        wave = decode_audio(path, SPEAKER_SPLIT_RATE, dtype=np.float32)
     except Exception as e:
         return [], T('The speaker separation reports: %s') % str(e)[:140]
     if not len(wave):
@@ -19565,6 +19679,35 @@ def speaker_cache_write(key, segments):
         pass
 
 
+def speaker_split_stored(source, count=0):
+    """A separation of this recording that is already on this machine.
+
+    [] where none is, so whoever asks may print what it costs before
+    starting one.
+    """
+    return speaker_cache_read(
+        speaker_cache_key(source, speaker_model_mark(), count)) or []
+
+
+def speaker_split_cached(source, count=0, report=None, stopping=None):
+    """Separate one recording, or hand back what was stored before.
+
+    The one road to a separation: the window and the run both take it,
+    so minutes spent in the window are not spent again at the start of
+    the run. Returns (segments, trouble) like speaker_split_run.
+    """
+    stored = speaker_split_stored(source, count)
+    if stored:
+        return stored, ""
+    segments, trouble = speaker_split_run(source, count, report=report,
+                                          stopping=stopping)
+    if segments:
+        speaker_cache_write(
+            speaker_cache_key(source, speaker_model_mark(), count),
+            segments)
+    return segments, trouble
+
+
 def speaker_split_work(source, count, note, stopping, done):
     """One separation of one recording, in a thread of its own.
 
@@ -19578,17 +19721,47 @@ def speaker_split_work(source, count, note, stopping, done):
     try:
         if not speaker_split_available():
             trouble = speaker_split_setup(note)
-        key = speaker_cache_key(source, speaker_model_mark(), count)
         if not trouble:
-            segments = speaker_cache_read(key) or []
-        if not trouble and not segments:
-            segments, trouble = speaker_split_run(
+            segments, trouble = speaker_split_cached(
                 source, count, report=note, stopping=stopping)
-            if segments:
-                speaker_cache_write(key, segments)
     except Exception as e:
         trouble = T('The speaker separation reports: %s') % str(e)[:140]
     done((source, count, segments, trouble))
+
+
+def speaker_split_loop(state, split_run, bridge, bridge_emit,
+                       source, count, label_run):
+    """The separation, with the window's own way of answering.
+
+    Counted like the check and the time axis: nothing is said back
+    once the list this was started for has gone.
+    """
+    def still_wanted():
+        return state.get("speakers_run") == label_run
+
+    speaker_split_work(
+        source, count,
+        lambda t, s: still_wanted() and bridge_emit(
+            bridge.speakers_split_note, t, s),
+        lambda: split_run["stop"] or not still_wanted(),
+        lambda r: still_wanted() and bridge_emit(bridge.speakers_split, r))
+
+
+def speaker_split_begin(state, split_run, bridge, bridge_emit,
+                        source, count, label_run, language=""):
+    """Start the separation of one recording, and its words with it.
+
+    The recognition runs beside the separation, not behind it: the two
+    use different machinery, and the shorter of them costs nothing
+    where it runs inside the longer. It inherits the separation's
+    consent from this start rather than from its end.
+    """
+    threading.Thread(
+        target=speaker_split_loop,
+        args=(state, split_run, bridge, bridge_emit, source, count,
+              label_run), daemon=True).start()
+    speech_words_kick_off(state, language, lambda r: bridge_emit(
+        bridge.speakers_heard, r), source)
 
 
 def speakers_for_project(source, segments, num_speakers=0, called=None):
@@ -29522,23 +29695,6 @@ def gui():
     bridge.speakers_heard.connect(
         lambda r: speech_words_done(state, r, preview_kick_off))
 
-    def speaker_split_work_loop(source, count, label_run):
-        """The separation, with the window's own way of answering.
-
-        Counted like the check and the time axis: nothing is said back
-        once the list this was started for has gone.
-        """
-        def still_wanted():
-            return state.get("speakers_run") == label_run
-
-        speaker_split_work(
-            source, count,
-            lambda t, s: still_wanted() and bridge_emit(
-                bridge.speakers_split_note, t, s),
-            lambda: split_run["stop"] or not still_wanted(),
-            lambda r: still_wanted() and bridge_emit(
-                bridge.speakers_split, r))
-
     def speaker_split_kick_off(fresh=False):
         """Start the separation where there is something to separate.
 
@@ -29578,8 +29734,9 @@ def gui():
                  T('Separating speakers'))
         plan.begin("speakers:" + source, T('Separating speakers'))
         speaker_split_show()
-        threading.Thread(target=speaker_split_work_loop,
-                         args=(source, count, label_run), daemon=True).start()
+        speaker_split_begin(state, split_run, bridge, bridge_emit,
+                            source, count, label_run,
+                            speech_language.get())
 
     def split_stop(_source=""):
         """The one button left in a row: stop listening to it."""
@@ -33356,6 +33513,8 @@ CATALOGUE["de"] = {
         'eine mit, sonst wird faster-whisper installiert.',
     '  Speech recognition (%s): %s words in %.1f s':
         '  Spracherkennung (%s): %s Wörter in %.1f s',
+    '  Speech recognition (%s): %s words, read back':
+        '  Spracherkennung (%s): %s Wörter, zurückgelesen',
     '  Speaker separation (%s): %d speakers out of %s of audio':
         '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
     'Separating speakers': 'Sprecher werden getrennt',
@@ -36511,6 +36670,8 @@ CATALOGUE["de"] = {
     '  %s could not be written: %s':
         '  %s konnte nicht geschrieben werden: %s',
     '\nSEPARATING THE SPEAKERS': '\nSPRECHER WERDEN GETRENNT',
+    '  Separated once already: read back, not measured again.':
+        '  Schon einmal getrennt: zurückgelesen, nicht neu gemessen.',
     '  About %s of computing for %s of audio.':
         '  Etwa %s Rechenzeit für %s Ton.',
     '  The environment for it is not here yet: about %d MB are fetched '

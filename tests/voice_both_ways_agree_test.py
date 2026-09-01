@@ -2,12 +2,15 @@
 """The window and the command line separate the same way.
 
 The same folder has to give the same cut either way: both pick the same
-recording, both refuse in the same places, the switches hold, and the
-segments lead to the same cut list.
+recording, both refuse in the same places, the switches hold, the
+segments lead to the same cut list, and what one way measured the other
+reads out of the store instead of measuring it a second time.
 
 The separation itself is a stand-in that answers out of a table and
 notes that it was called. What is measured is which way asks for it,
-not what a model hears.
+not what a model hears. The store is this test's own, and it is emptied
+before every check that is about a machine which has not separated this
+recording before.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -36,6 +39,10 @@ def check(name, ok, extra=""):
 
 
 folder = tempfile.mkdtemp(prefix="vpm-same-way-")
+# A store of its own: the suite hands every test one cache folder, and
+# a separation another test left there would answer here for a file
+# this one never saw.
+os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm-same-way-store-")
 
 
 def made(name):
@@ -117,8 +124,20 @@ vpm.SPEAKER_SPLIT_OFF = False
 TRACKS = tracks_of(RECORDER)
 
 
+def forget_stored():
+    """Empty this test's own store, and only ever its own.
+
+    The checks below are about a machine that has not separated this
+    recording before; section 5 is the one that leaves it filled.
+    """
+    kept = vpm.cache_folder("speakers") or ""
+    for name in (os.listdir(kept) if kept else ()):
+        os.unlink(os.path.join(kept, name))
+
+
 def separate(args):
     del asked[:]
+    forget_stored()
     return vpm.separation_for_run(args, TRACKS, {}, 0.0, 20.0,
                                   [CAM_A, CAM_B])
 
@@ -199,6 +218,50 @@ cut_run = vpm.build_camera_cut(by_run, 20.0, CAMERA_OF, "camA.mov")
 check("and with the same cut list", cut_window == cut_run,
       "%d shots" % len(cut_run))
 
+print("\n5. What one way measured, the other reads")
+forget_stored()
+del asked[:]
+heard = []
+vpm.speaker_split_work(RECORDER, 0, lambda t, s: None, lambda: False,
+                       lambda r: heard.append(r))
+check("the window's road measures the recording once",
+      asked == [(RECORDER, 0)] and bool(heard and heard[0][2]),
+      "the model was asked %d times %s and %d voices came back, "
+      "wanted once and more than none"
+      % (len(asked), asked, len(heard[0][2]) if heard else 0))
+
+del asked[:]
+by_store, _w = vpm.separation_for_run(Args(), TRACKS, {}, 0.0, 20.0,
+                                      [CAM_A, CAM_B])
+check("and the run reads it back instead of measuring again",
+      asked == [] and bool(by_store),
+      "the model was asked %d times %s and %d voices came back, "
+      "wanted none and more than none"
+      % (len(asked), asked, len(by_store)))
+
+# The one thing a store must never do: answer for a recording that is
+# not the one it was filled from.
+os.utime(RECORDER, (2000, 2000))
+del asked[:]
+by_fresh, _w = vpm.separation_for_run(Args(), TRACKS, {}, 0.0, 20.0,
+                                      [CAM_A, CAM_B])
+check("a recording written since is measured again, not read back",
+      asked == [(RECORDER, 0)] and bool(by_fresh),
+      "the model was asked %d times %s and %d voices came back, "
+      "wanted once and more than none"
+      % (len(asked), asked, len(by_fresh)))
+
+del asked[:]
+back = []
+vpm.speaker_split_work(RECORDER, 0, lambda t, s: None, lambda: False,
+                       lambda r: back.append(r))
+check("and what the run measured, the window reads back",
+      asked == [] and bool(back and back[0][2]),
+      "the model was asked %d times %s and %d voices came back, "
+      "wanted none and more than none"
+      % (len(asked), asked, len(back[0][2]) if back else 0))
+
+shutil.rmtree(os.environ["VPM_CACHE"], ignore_errors=True)
 shutil.rmtree(folder, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
