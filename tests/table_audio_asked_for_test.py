@@ -627,22 +627,22 @@ check("but a setting made by hand beats it", got == "Host_C005.mov",
 print("\n3. What the new video file is called")
 f = vpm.camera_output_name
 check("speakers into the middle",
-        f("Interview 1", "Hosts_08141714_C002.mov", ["Host", "Co-host"])
-        == "Interview 1_Hosts_Host+Co-host_08141714_C002",
-        f("Interview 1", "Hosts_08141714_C002.mov", ["Host", "Co-host"]))
+        f("Interview 1", "Hosts_01011714_C002.mov", ["Host", "Co-host"])
+        == "Interview 1_Hosts_Host+Co-host_01011714_C002",
+        f("Interview 1", "Hosts_01011714_C002.mov", ["Host", "Co-host"]))
 check("camera already named like the speaker -> not twice",
-        f("Interview 2", "Guest_08141858_C009.mov", ["Guest"])
-        == "Interview 2_Guest_08141858_C009",
-        f("Interview 2", "Guest_08141858_C009.mov", ["Guest"]))
+        f("Interview 2", "Guest_01011858_C009.mov", ["Guest"])
+        == "Interview 2_Guest_01011858_C009",
+        f("Interview 2", "Guest_01011858_C009.mov", ["Guest"]))
 # The typo is "Gueest", not "Guset": a swapped pair only scores 0.80 and
 # stays under the 0.85 mark, so the check would test nothing.
 check("not twice with a typo either",
         "Gueest_Guest" not in f("I", "Gueest_C009.mov", ["Guest"]),
         f("I", "Gueest_C009.mov", ["Guest"]))
 check("without speakers the full mix",
-        f("Interview 2", "Wide_08141855_C003.mov", ["Audio-Full-Mix"])
-        == "Interview 2_Wide_Audio-Full-Mix_08141855_C003",
-        f("Interview 2", "Wide_08141855_C003.mov", ["Audio-Full-Mix"]))
+        f("Interview 2", "Wide_01011855_C003.mov", ["Audio-Full-Mix"])
+        == "Interview 2_Wide_Audio-Full-Mix_01011855_C003",
+        f("Interview 2", "Wide_01011855_C003.mov", ["Audio-Full-Mix"]))
 check("camera name without a separator -> appended at the back",
         f("I", "C009.mov", ["Guest"]) == "I_C009_Guest",
         f("I", "C009.mov", ["Guest"]))
@@ -668,13 +668,13 @@ check("no crash without a speaker list", isinstance(got, str),
 
 print("\n4. What comes out in the same order as before")
 # Names in the shape they are delivered in, spaces and a number and all.
-REAL = [("Wide_08141855_C003.mov", ["Audio-Full-Mix"],
-         "Interview Example Town 2_Wide_Audio-Full-Mix_08141855_C003"),
-        ("Guest_08141858_C009.mov", ["Guest"],
-         "Interview Example Town 2_Guest_08141858_C009"),
-        ("Hosts_08141855_C005.mov", ["Host", "Co-host"],
+REAL = [("Wide_01011855_C003.mov", ["Audio-Full-Mix"],
+         "Interview Example Town 2_Wide_Audio-Full-Mix_01011855_C003"),
+        ("Guest_01011858_C009.mov", ["Guest"],
+         "Interview Example Town 2_Guest_01011858_C009"),
+        ("Hosts_01011855_C005.mov", ["Host", "Co-host"],
          "Interview Example Town 2_Hosts_Host+Co-host_"
-         "08141855_C005")]
+         "01011855_C005")]
 for cam, spk, want in REAL:
     have = f("Interview Example Town 2", cam, spk)
     check("as delivered: %s" % cam.split("_")[0], have == want, have)

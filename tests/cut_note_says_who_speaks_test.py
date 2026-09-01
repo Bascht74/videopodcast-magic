@@ -59,9 +59,9 @@ def hint(widget, text):
 # Two cameras with a file, one without: the camera without a picture is
 # where the note has to take the whole area instead of a strip.
 MATERIAL = fixture("playertest")
-NEAR = "Kandidat_08141714_C003"
-WIDE = "Weit_08141855_C001"
-FAR = "Gast_08141812_C002"
+NEAR = "GuestCam_01011714_C003"
+WIDE = "WideCam_01011855_C001"
+FAR = "PresentersCam_01011812_C002"
 BLUE, ORANGE, GREEN = "#3465a4", "#cc7722", "#4e9a06"
 CUT = [(0.0, 6.0, NEAR), (6.0, 12.0, WIDE), (12.0, 18.0, FAR)]
 FILES = {NEAR: os.path.join(MATERIAL, "a.mp4"),

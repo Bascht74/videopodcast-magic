@@ -69,11 +69,11 @@ WINDOW = (1400, 950)
 # VPM_WIRING_DUMP=1 writes down every reading, not only the checked.
 DUMP = bool(os.environ.get("VPM_WIRING_DUMP"))
 
-SPLIT = "Moderator_REC00009.wav"          # the recording with the voices
-PLAIN = "Moderatorin_REC00008.wav"        # the recording with a name field
-WIDE = "Totale_08141855_C003.mov"
-HOSTS = "Moderatoren_08141855_C005.mov"
-GUESTS = "Kandidat_08141858_C009.mov"
+SPLIT = "Presenter_REC00021.wav"          # the recording with the voices
+PLAIN = "CoPresenter_REC00018.wav"        # the recording with a name field
+WIDE = "WideCam_01011855_C001.mov"
+HOSTS = "PresentersCam_01011855_C002.mov"
+GUESTS = "GuestCam_01011858_C003.mov"
 CAMERAS = (WIDE, HOSTS, GUESTS)
 VOICES = (("V0", "Host"), ("V1", "Guest"))
 # Two voices over the whole recording, so that a time window a few

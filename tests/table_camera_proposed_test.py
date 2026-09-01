@@ -34,11 +34,11 @@ def check(name, ok, extra=""):
 
 
 CAMERAS = ["/x/Colourchart.mov", "/x/Colourchart2.mov", "/x/Jingle.mp4",
-           "/x/Guset_08141714_C003.mov",
-           "/x/Hosts_08141714_C002.mov",
-           "/x/Wide_08141714_C007.mov"]
+           "/x/Guset_01011714_C003.mov",
+           "/x/Hosts_01011714_C002.mov",
+           "/x/Wide_01011714_C007.mov"]
 PICKABLE = [os.path.basename(p) for p in CAMERAS]
-GUEST, HOST = "Guset_08141714_C003.mov", "Hosts_08141714_C002.mov"
+GUEST, HOST = "Guset_01011714_C003.mov", "Hosts_01011714_C002.mov"
 
 print("1. The name alone")
 
@@ -65,8 +65,8 @@ check("a name close but not equal still finds its camera",
 check("a mix belongs to no camera",
       finds("Full-Mix") is None, "found %s, wanted None" % finds("Full-Mix"))
 check("a name matching the wide shot finds the wide shot",
-      finds("Wide") == "Wide_08141714_C007.mov",
-      "found %s, wanted Wide_08141714_C007.mov" % finds("Wide"))
+      finds("Wide") == "Wide_01011714_C007.mov",
+      "found %s, wanted Wide_01011714_C007.mov" % finds("Wide"))
 check("an empty name finds nothing",
       finds("") is None, "found %s, wanted None" % finds(""))
 check("a name like no camera finds nothing",

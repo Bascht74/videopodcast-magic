@@ -43,7 +43,7 @@ def tone(name, hz, seconds, start_sample):
 
 
 #------------------------------------------------ two microphones at once
-a = tone("Moderator_01.wav", 500, 4.0, 48000)
+a = tone("Presenter_01.wav", 500, 4.0, 48000)
 b = tone("Guest_01.wav", 900, 4.0, 48000 + 4800)     # 100 ms later
 check("the timecode is written and read back",
       vpm.bext_time_reference(a) == 48000,
@@ -65,7 +65,7 @@ for name, path in info.get("parts") or []:
           "%d against %d" % (vpm.sample_count(path) if os.path.exists(path)
                              else -1, vpm.sample_count(mix)))
 names = [n for n, _p in info.get("parts") or []]
-check("the names come from the files", names == ["Moderator", "Guest"],
+check("the names come from the files", names == ["Presenter", "Guest"],
       "%s" % names)
 
 
@@ -80,7 +80,7 @@ def peak_at(path, hz):
     return float(spectrum[k]) / (float(np.max(spectrum)) or 1.0)
 
 
-first = dict(info["parts"])["Moderator"]
+first = dict(info["parts"])["Presenter"]
 second = dict(info["parts"])["Guest"]
 check("the first single track holds its own tone",
       peak_at(first, 500) > 0.9 and peak_at(first, 900) < 0.05,

@@ -49,8 +49,8 @@ def rows(*cameras):
 # One rig, one folder: the take number is what tells the two apart, and
 # it is what the guess throws away. The new file names differ, so
 # nothing here trips the check about two cameras writing one file.
-RIG = rows(("/m/Studio_Kamera_A001.mp4", "Ep12_Studio_Anna_Kamera_A001"),
-           ("/m/Studio_Kamera_A002.mp4", "Ep12_Studio_Bernd_Kamera_A002"))
+RIG = rows(("/m/Studio_Camera_A001.mp4", "Ep12_Studio_Anna_Camera_A001"),
+           ("/m/Studio_Camera_A002.mp4", "Ep12_Studio_Bernd_Camera_A002"))
 # Two cards emptied into two folders. The files carry one name, and
 # there is nothing in either of them that says which camera it was.
 SAME = rows(("/a/C0001.MP4", "Ep12_C0001_Anna"),
@@ -77,7 +77,7 @@ check("a camera whose guess is its own keeps the short name",
 three = vpm.camera_tracks_of(RIG + rows(
     ("/m/Podcast_Wide.mp4", "Ep12_Podcast_Wide")))
 check("of three cameras only the two that fell together are lengthened",
-      [t for _p, t in three] == ["Studio_Kamera_A001", "Studio_Kamera_A002",
+      [t for _p, t in three] == ["Studio_Camera_A001", "Studio_Camera_A002",
                                  "Wide"],
       "the three names are %s" % [t for _p, t in three])
 

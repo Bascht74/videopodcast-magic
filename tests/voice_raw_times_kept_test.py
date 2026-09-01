@@ -169,10 +169,24 @@ all_tracks = vpm.speaker_source_pick([], [cam_a, cam_b], camera_audio=True,
 check("cameras that are all tracks count as well",
       all_tracks[1] == "camera track",
       "%s against a why of 'camera track'" % told(all_tracks))
-unfit = vpm.speaker_source_pick([one], [], weak=[one])
-check("a file the measurement called unfit is not listened to",
-      unfit == ("", "nothing"),
-      "%s against %s" % (told(unfit), told(("", "nothing"))))
+nowhere = vpm.speaker_source_pick([one], [], placeless=[one])
+check("a recording the measurement placed nowhere is not listened to",
+      nowhere == ("", "nothing"),
+      "%s against %s" % (told(nowhere), told(("", "nothing"))))
+anyway = vpm.speaker_source_pick([one], [], placeless=[])
+check("but one that has a place is, whatever its sound scored",
+      anyway == (one, "one recording"),
+      "%s against %s" % (told(anyway), told((one, "one recording"))))
+# What the window hands over is a call, not a value this can read back,
+# so the program's own text is the only place the answer stands.
+program = open(SCRIPT, encoding="utf-8").read()
+check("the window hands over what nothing could place, not what "
+      "sounded weak",
+      'placeless=state.get("no_place")' in program
+      and 'weak=state.get("weak")' not in program,
+      "no_place handed over: %r, weak handed over: %r"
+      % ('placeless=state.get("no_place")' in program,
+         'weak=state.get("weak")' in program))
 nothing = vpm.speaker_source_pick([], [])
 check("nothing at all says so", nothing[1] == "nothing",
       "%s against a why of 'nothing'" % told(nothing))

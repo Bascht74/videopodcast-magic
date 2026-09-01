@@ -124,9 +124,9 @@ check("the chooser carries no tooltip it does not need",
       % (len(which.toolTip()), which.toolTip()))
 
 print("\n3. A name the row has no room for is shortened in the middle")
-LONG = ["Kandidat_0008A_a_recording_name_far_too_long_for_the_row_"
+LONG = ["Guest_Take0021A_a_recording_name_far_too_long_for_the_row_"
         "take_17_channel_3.wav",
-        "Kandidat_0008B_a_recording_name_far_too_long_for_the_row_"
+        "Guest_Take0021B_a_recording_name_far_too_long_for_the_row_"
         "take_18_channel_4.wav"]
 row, paths, picked = row_of(LONG)
 which = row.findChild(QtWidgets.QComboBox)

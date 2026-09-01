@@ -78,10 +78,10 @@ def video(name):
 # name, and where they differ the two lists cannot be laid on each other
 # at all. That is a second question and time_all_ways_agree_test asks it.
 LENGTH = 200.0
-SPEECH = [("Moderator", [(0.0, 40.0), (50.0, 160.0), (190.0, 200.0)]),
-          ("Gast", [(40.0, 50.0), (160.0, 190.0)])]
-NAMES = ["Moderator", "Gast", "Wide"]
-REF_CLIP = ("Moderator.mov", {"fps": 25.0, "tc": "10:00:00:00"})
+SPEECH = [("Presenter", [(0.0, 40.0), (50.0, 160.0), (190.0, 200.0)]),
+          ("Guest", [(40.0, 50.0), (160.0, 190.0)])]
+NAMES = ["Presenter", "Guest", "Wide"]
+REF_CLIP = ("Presenter.mov", {"fps": 25.0, "tc": "10:00:00:00"})
 TC_START = 36000.0
 
 
@@ -96,8 +96,8 @@ def said(first, last, closer):
     return out
 
 
-# Moderator holds the floor longest, so he is the main speaker; the
-# question is the guest's, and the answer is the Moderator's block that
+# Presenter holds the floor longest, so he is the main speaker; the
+# question is the guest's, and the answer is the Presenter's block that
 # begins at 50 s. That is what a reaction cut needs, and without a
 # question in the words this test cannot see the fault it exists for.
 WORDS = (said(0.0, 40.0, "so.")
@@ -291,7 +291,7 @@ ONE = settings("One", wide_shot=[video("Wide")])
 TWO = settings("Two", wide_shot=[video("Wide")], wide_after=40.0,
                no_wide_edges=False)
 THREE = settings("Three")
-WITH_A_SPEAKER = [("Moderator", "Moderator"), ("Gast", "Gast")]
+WITH_A_SPEAKER = [("Presenter", "Presenter"), ("Guest", "Guest")]
 
 print("1. The material, before anything is held against anything")
 # Two cuts of the same run, one with the transcript and one without. If

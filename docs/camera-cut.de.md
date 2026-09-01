@@ -321,7 +321,7 @@ Minuten über das Ganze und Sekunden im Hineingezoomten. Zeigen nennt
 Kamera, Von-bis und Dauer, Klicken setzt die Stelle für den Player.
 Darunter die **Legende**: je Kamera im Schnitt ein Eintrag, ein Kästchen
 in ihrer Farbe und dann wie oft, wer, Anteil und Zeit —
-`129 × Kandidat  50 %  (29:48 Min)`.
+`129 × Gast  50 %  (29:48 Min)`.
 
 **Ein Eintrag ist nach den Personen benannt, nicht nach der Datei.** Ein
 Dateiname sagt nichts, was nicht schon bekannt wäre; die Zuordnung sagt

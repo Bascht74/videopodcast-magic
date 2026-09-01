@@ -2650,12 +2650,15 @@ def video_summary(file_path, info):
     # beside it where it differs -- frame count over track duration, so a
     # property of the container.
     label_text, measured = info.get("nominal") or info["fps"], info["fps"]
-    lines = [("Video", "%s, %sx%s, %s fps%s"
+    lines = [("Video", "%s, %sx%s, %s fps%s%s"
                % (v.get("codec_name", "?"), v.get("width"), v.get("height"),
                   decimal_text("%.3f" % label_text),
                   "" if abs(measured - label_text) < 0.0005
                   else T('  (container; measured %s)')
-                  % decimal_text("%.4f" % measured))),
+                  % decimal_text("%.4f" % measured),
+                  "" if known_frame_rate(file_frame_rate(info))
+                  else T('  --  no Resolve Timeline runs at this rate; '
+                         'it is converted'))),
               (T('Length'), "%s  (%s)  --  %s"
                % (as_hms(info["duration"]), as_data_size(size_in_mb(file_path)),
                   "Timecode %s" % info["tc"] if info["tc"]
@@ -2757,6 +2760,15 @@ NAME_CLOCK = re.compile(r"(?<![0-9])([0-9]{6}|[0-9]{8})[_\-. ]([0-9]{6})"
 # whole one, so two seconds of slack are needed -- and two blocks that
 # really follow one another are never further apart than that.
 CLOCK_SLACK = 2.0
+# How far two blocks of one recording may sit apart per timecode. A
+# recorder that closes one file and opens the next needs a fraction of
+# a second; one that stood between the two can be minutes.
+
+# Half an hour is the fence because a clock is set wrong by whole
+# hours -- a time zone, or the twelve of AM against PM -- so half of
+# the smallest of those catches every one and still lets a real pause
+# through. Without a fence a gap of 12:19:48 joined (1.9.2026).
+BLOCK_GAP_MAX_S = 1800.0
 # What a track cut out of a multichannel file is called at the end. The
 # search for continuation blocks has to leave those alone: the number in
 # them is a channel, not a block.
@@ -2887,9 +2899,13 @@ def _joins_seamlessly(before, after, row):
     t_before, t_after = file_timecode(before), file_timecode(after)
     if t_before is not None and t_after is not None:
         gap = t_after - (t_before + sample_count(before) / float(SR))
-        # With timecode a pause is no problem: it is known and filled with
-        # silence on assembly. Only an overlap would mean the blocks do not
-        # belong together.
+        # A pause is known and filled with silence on assembly, so a
+        # short one is no problem. A long one is not a pause but a
+        # clock that was never set: joined, it becomes hours of silence
+        # inside the file, and nothing afterwards takes it out again.
+        if gap > BLOCK_GAP_MAX_S:
+            return False, (T('gap of %s per timecode, too far apart for '
+                             'one recording') % as_hms(gap))
         return gap > -1.0, (T('overlap of %s per timecode')
                                % as_hms(abs(gap)))
     # The candidate belongs in the comparison, or the very first step
@@ -8403,7 +8419,8 @@ def align_cameras(videos):
         # are the whole measurement and the floor is higher than
         # anywhere else. A short jingle otherwise gets a number too, and
         # on the axis it shrinks the common window to nothing.
-        if st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH:
+        if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
+                and not fit_places_it(st)):
             st["unplaceable"] = True
         if cannot_be_placed(st, clocks.get(v),
                             [t for w, t in clocks.items() if w != v]):
@@ -9163,6 +9180,14 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             print(T('  %s has no camera sound -- without it nothing can be '
                     'aligned') % os.path.basename(v))
             continue
+        if known_frame_rate(file_frame_rate(info)) is None:
+            # Said, not refused: the Timeline takes a rate Resolve has
+            # and the file is converted into it. Which rate that is says
+            # the note below, where every camera has been read.
+            print(T('  %s runs at %s frames/s, a rate Resolve has no '
+                    'Timeline for -- it is converted, not left out')
+                  % (os.path.basename(v),
+                     decimal_text("%.3f" % file_frame_rate(info))))
         videos.append((v, info))
     if videos and not getattr(args, "production", ""):
         # The same name the ordinary path gives a production: the folder
@@ -9204,11 +9229,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     if len(rates) > 1:
         print(as_head(T('\nDIFFERENT FRAME RATES: %s')
                       % ", ".join("%.3f" % r for r in rates)))
-        print(T('  The Timeline gets the highest of them, %g. Converted '
-                'upwards Resolve\n  repeats frames, downwards it throws '
-                'them away. Every camera keeps\n  its own rate, and the '
-                'cut counts in that one.')
-              % nearest_known_frame_rate(
+        print(T('  The Timeline gets %g: the highest of them, or the '
+                'next rate Resolve\n  has above it. Converted upwards '
+                'Resolve repeats frames, downwards it\n  throws them '
+                'away. Every camera keeps its own rate, and the cut '
+                'counts\n  in that one.')
+              % resolve_timeline_rate(
                   timeline_frame_rate(args, videos, None)))
     if len(sizes) > 1:
         print(as_head(T('\nDIFFERENT FRAME SIZES: %s') % ", ".join(sizes)))
@@ -9398,9 +9424,12 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
 
     # Who speaks when, before anything is uploaded and before the audio
     # is processed: the axis stands now, so a separation can be placed
-    # on it. Computed here it is arithmetic on stored segments.
-    args._speakers = separation_for_run(args, tracks, position, t0, t1,
-                                        video_paths)
+    # on it -- and only on the cameras that have a place, as in the
+    # window: the segments of a file that sits nowhere land nowhere.
+    args._speakers = separation_for_run(
+        args, tracks, position, t0, t1,
+        [ref_clip[0]] + [v for v, _e in videos
+                         if v != ref_clip[0] and v in position])
 
     #--------------------------------------------------- Processing
     # --auphonic-done first, and on purpose. It names a folder: an
@@ -10572,8 +10601,16 @@ def timeline_frames_of(count, fps, own):
     return int(count * fps / float(own) + 1e-9)
 
 
-RESOLVE_FRAME_RATES = (23.976, 24.0, 25.0, 29.97, 30.0, 47.952, 48.0, 50.0,
-                 59.94, 60.0, 72.0, 95.904, 96.0, 100.0, 119.88, 120.0)
+# Every rate Resolve offers a Timeline, and no other.
+RESOLVE_FRAME_RATES = (16.0, 18.0, 23.976, 24.0, 25.0, 29.97, 30.0, 47.952,
+                 48.0, 50.0, 59.94, 60.0, 72.0, 90.0, 95.904, 96.0, 100.0,
+                 119.88, 120.0)
+
+# How far a measured rate may sit from one of those and still be it.
+# Relative: one frame at 120 is a fifth of one at 24. A container names
+# its rate to within a millionth and an averaged reading strays a few
+# ten-thousandths, while the nearest foreign rate lies four times out.
+FRAME_RATE_TOLERANCE = 0.01
 
 
 def nearest_known_frame_rate(fps):
@@ -10581,10 +10618,66 @@ def nearest_known_frame_rate(fps):
 
     ffprobe measures averaged values for some files. Resolve rejects
     those and picks something itself, so it is decided here and said.
+    Whether it is one of Resolve's rates at all is known_frame_rate.
     """
     if not fps:
         return 30.0
     return min(RESOLVE_FRAME_RATES, key=lambda r: abs(r - fps))
+
+
+def known_frame_rate(fps):
+    """The Resolve rate this one is, allowing for a measured reading.
+
+    A rate this answers None for is not one Resolve gives a Timeline.
+    The file is used all the same: the Timeline takes a rate Resolve
+    does have, and the file keeps counting in its own.
+    """
+    if not fps:
+        return None
+    near = min(RESOLVE_FRAME_RATES, key=lambda r: abs(r - fps))
+    return near if abs(near - fps) <= near * FRAME_RATE_TOLERANCE else None
+
+
+def own_frame_rate(fps):
+    """The rate a file's own frames are counted at.
+
+    A measured reading strays a few ten-thousandths from the format it
+    means, so where it means one of Resolve's rates that is the answer.
+    Where it means none of them the reading itself is the answer, and
+    it is not moved to the nearest: a file at 15 counts fifteen frames
+    to the second, and its length, its timecode and its cut all say so.
+    """
+    return known_frame_rate(fps) or float(fps or 30.0)
+
+
+def resolve_timeline_rate(fps):
+    """The rate a Timeline gets for material running at this one.
+
+    Not the nearest but the next one up: upwards Resolve repeats
+    frames, downwards it throws them away. Above the fastest rate it
+    has there is no higher one, so that is where it stops. Measured on
+    21.0.4.5: 15 and 240 are refused as project rates, 16 and 120 are
+    the ends -- and a 15 file in a 16 Timeline keeps its length to the
+    millisecond, every shot on the source frame the cut names.
+    """
+    known = known_frame_rate(fps)
+    if known is not None:
+        return known
+    if not fps:
+        return 30.0
+    return next((r for r in RESOLVE_FRAME_RATES if r > fps),
+                RESOLVE_FRAME_RATES[-1])
+
+
+def file_frame_rate(info):
+    """The rate a video file runs at: the one its container declares.
+
+    An averaged reading is not a format -- a file whose rate varies
+    averages to something that is no rate at all -- so the container's
+    own figure decides, and the average stands in only where the
+    container names none.
+    """
+    return (info or {}).get("nominal") or (info or {}).get("fps") or 0.0
 
 
 def timeline_frame_rate(args, videos, ref_clip):
@@ -10609,7 +10702,7 @@ def frames_to_timecode(frames, fps, drop_frame=False):
     Counts on the timecode clock, like timecode_to_frames -- dividing by
     the true rate instead is off by about a minute per hour.
     """
-    full = int(round(nearest_known_frame_rate(fps)))
+    full = int(round(own_frame_rate(fps)))
     n = max(0, int(frames)) % (full * 86400)
     if drop_frame:
         dropped = 2 * full // 30
@@ -10639,7 +10732,7 @@ def timecode_to_frames(tc, fps):
     if len(t) != 4:
         return 0
     h, m, s, f = (int(x) for x in t)
-    full = int(round(nearest_known_frame_rate(fps)))          # 30 at 29.97
+    full = int(round(own_frame_rate(fps)))                    # 30 at 29.97
     n = ((h * 3600 + m * 60 + s) * full) + f
     if df:
         # Two numbers dropped per minute, except every tenth minute.
@@ -10707,9 +10800,9 @@ def same_setting_value(a, b):
 
 def apply_project_settings(p, d):
     """Set frame rate, drop frame and resolution, then verify they took."""
-    value = "%g" % nearest_known_frame_rate(d.get("fps") or 30.0)
+    value = "%g" % resolve_timeline_rate(d.get("fps") or 30.0)
     if d.get("fps_measured") and abs(d["fps_measured"]
-                                     - nearest_known_frame_rate(d["fps"])) > 0.001:
+                                     - resolve_timeline_rate(d["fps"])) > 0.001:
         print(T('    Measured %g frames/s -- Resolve only knows fixed '
                 'rates,\n    %s is used.')
               % (d["fps_measured"], value))
@@ -11880,7 +11973,7 @@ def timeline_origin(d):
     outside a timeline that begins at 01:00:00:00, and the delivery is a
     single frame while the log says six seconds.
     """
-    fps = nearest_known_frame_rate(d.get("fps") or 30.0)
+    fps = resolve_timeline_rate(d.get("fps") or 30.0)
     if not d.get("start_tc"):
         return fps, int(round(TIMELINE_START_HOUR * 3600 * fps))
     return fps, timecode_to_frames(d.get("start_tc"), fps)
@@ -12988,7 +13081,7 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
         if c is not None:
             after_camera[cam["camera"]] = (c, cam.get("offset") or 0.0,
                                         cam.get("duration") or 0.0,
-                                        nearest_known_frame_rate(
+                                        own_frame_rate(
                                             cam.get("fps") or fps))
     # Fallback order: the wide shot first, then the rest.
     fallback = cameras_in_track_order(cameras)
@@ -13078,7 +13171,7 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
         print(as_warn(T('  Only %d of %d shots are on the Timeline.')
                       % (len(landed), len(item))))
     on_it = sum(float(x.GetDuration() or 0) for x in landed) / max(
-        1.0, float(nearest_known_frame_rate(d.get("fps"))))
+        1.0, float(resolve_timeline_rate(d.get("fps"))))
     print(T('  %d shots, %.1f s in total, without their audio.')
           % (len(landed), on_it))
 
@@ -13097,7 +13190,7 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     mix_cam = next((cam for cam in (d.get("cameras") or [])
                     if cam.get("file") == file_path), None)
     # A camera file again, so its frames are its own as well.
-    mix_fps = nearest_known_frame_rate(
+    mix_fps = own_frame_rate(
         (mix_cam.get("fps") or fps) if mix_cam else fps)
     head = (seconds_to_frames(-(mix_cam.get("offset") or 0.0), mix_fps)
             if mix_cam else 0)
@@ -13813,7 +13906,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # This camera's own rate, not the Timeline's. Resolve counts
             # startFrame and endFrame in frames of the file, so the cut
             # needs one rate per file and not one for all of them.
-            "fps": nearest_known_frame_rate(rate_of.get(v) or fps),
+            "fps": own_frame_rate(rate_of.get(v) or fps),
             # Two answers, and they are not the same question. "wide" is
             # what the colour and the mix source read: nobody is
             # assigned here. "wide_marked" is what somebody said in the
@@ -13831,13 +13924,13 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         "format": FILE_FORMAT,
         "created_by": "videopodcast-magic.py %s" % VERSION,
         "production": args.production or 'Production',
-        "fps": nearest_known_frame_rate(fps),
+        "fps": resolve_timeline_rate(fps),
         "fps_measured": round(fps, 4),
         "drop_frame": is_drop_frame(ref_clip[1].get("tc") if ref_clip else None),
         "width": widest_frame(resolutions)[0],
         "height": widest_frame(resolutions)[1],
         "start_tc": (timecode_string(tc_start,
-                                     nearest_known_frame_rate(fps))
+                                     resolve_timeline_rate(fps))
                      if tc_start is not None else None),
         "start_s": tc_start,
         # The window this run was made with. Without it the check before
@@ -13958,7 +14051,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     where the cut points come from: the text says roughly where a cut
     belongs, the sound says exactly where.
     """
-    fps = max(1.0, nearest_known_frame_rate(
+    fps = max(1.0, resolve_timeline_rate(
         timeline_frame_rate(args, videos, ref_clip)))
     if not any(segs for _, segs in (segment_list or ())):
         print(as_head(T('\nSPEAKERS\n  Nobody was heard -- no camera '
@@ -14779,6 +14872,10 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
             continue
         a_s, b, g = answer
         if abs(g) < SOUND_MATCH_ENOUGH:
+            # No phase way here, and that is measured rather than
+            # forgotten: laid in at this floor it placed all ten files
+            # of the interview folder nineteen hours out, where the
+            # window had placed none and said so. See align_audio_to_video.
             weak.append(p)
             if cannot_be_placed({"unplaceable": g < WEAK_MATCH}, clocks.get(p),
                                 [t for q, t in clocks.items() if q != p]):
@@ -14803,10 +14900,19 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
                                              envelopes[p], HOP)
             except Exception:
                 continue
-            if st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH:
+            if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
+                    and not fit_places_it(st)):
+                # The same second way the run leaves open at this floor:
+                # where a clock places the file, the sound is not asked.
+                # It is still marked, so the list says the sound was not
+                # recognised -- but it keeps the place it was given.
+                st["unplaceable"] = True
                 weak.append(p)
-                axis.pop(p, None)
-                clock_speed.pop(p, None)
+                if cannot_be_placed(st, clocks.get(p),
+                                    [t for q, t in clocks.items()
+                                     if q != p]):
+                    axis.pop(p, None)
+                    clock_speed.pop(p, None)
     # A file that fits nothing and is far shorter than everything around
     # it is a jingle rather than a camera. A clock that places it beats
     # the sound here as everywhere. The lengths are here anyway: an
@@ -16273,8 +16379,41 @@ def clean_envelope_cache(days=30):
     clean_old_files(envelope_cache_folder(), days)
 
 
+_RECIPE_MARK = []
+
+
+def envelope_recipe_mark():
+    """A short mark of the way a curve is worked out.
+
+    Hop and rate are in the cache name already; what else decides the
+    numbers is the recipe -- what ffmpeg is asked for, the root mean
+    square, the logarithm, the floor under it. A number counted by hand
+    would have to be remembered, so the recipe is read and hashed
+    instead: it cannot change without changing this. The recogniser and
+    the separation worker carry their mark the same way.
+    """
+    if not _RECIPE_MARK:
+        try:
+            import inspect
+            text = "".join(inspect.getsource(f) for f in
+                           (decode_audio, decode_audio_tracks, envelope))
+        except Exception:
+            # Nothing to read the source from. The version is coarse --
+            # every release throws the curves away -- but it never hands
+            # back a curve some other recipe wrote.
+            text = VERSION
+        _RECIPE_MARK.append(
+            hashlib.sha1(text.encode("utf-8")).hexdigest()[:12])
+    return _RECIPE_MARK[0]
+
+
 def envelope_cache_path(path, hop_ms, rate):
-    """Return a cache name that changes as soon as the file changes."""
+    """Return a cache name that changes as soon as the file changes.
+
+    Or as soon as the way the curve is worked out changes: without that
+    mark a changed recipe reads the old curves back and the run
+    compares two of them that were never measured the same way.
+    """
     folder = envelope_cache_folder()
     if not folder:
         return None
@@ -16283,8 +16422,9 @@ def envelope_cache_path(path, hop_ms, rate):
     except OSError:
         return None
     import hashlib
-    fingerprint = "%s|%d|%d|%.3f|%d" % (path_key(path), int(st.st_mtime),
-                                    st.st_size, hop_ms, rate)
+    fingerprint = "%s|%d|%d|%.3f|%d|%s" % (path_key(path), int(st.st_mtime),
+                                    st.st_size, hop_ms, rate,
+                                    envelope_recipe_mark())
     return os.path.join(folder,
                         hashlib.sha1(fingerprint.encode("utf-8")).hexdigest()
                         + ".npy")
@@ -16778,6 +16918,28 @@ AXIS_MIN_WINDOW_S = 10.0
 # 0.21 to 0.27 the same day. A real match sits above 0.8, unrelated
 # material with structure near 0.25, and half is the middle of the gap.
 CAMERA_MATCH_ENOUGH = 0.5
+# Measured 1.9.2026, four productions, 85 pairs that belong together
+# against 293 that do not: the correlation overlaps (worst real 0.203,
+# best foreign 0.124), the fit does not (62 against 43 sample points,
+# 11.3 against 22.4 ms).
+FIT_POINTS_ENOUGH = 50
+FIT_SPREAD_MS = 15.0
+
+
+def fit_places_it(st):
+    """Report whether the sample points alone place this file.
+
+    The correlation above compares two loudness curves over the whole
+    runtime, and a steady tone in one of them -- mains hum -- pushes it
+    down without moving where the file belongs. The fit does move with
+    the answer: many points spread over the runtime, all on one line.
+    A file that fits nowhere gets neither.
+    """
+    spread = st.get("spread_ms")
+    return (st.get("points", 0) >= FIT_POINTS_ENOUGH
+            and spread is not None and spread <= FIT_SPREAD_MS)
+
+
 # Against a sound recording a real match reads far lower, so this floor
 # only tells a measurement from noise. It stood as a bare 0.15 in the
 # middle of the axis measurement until 31.8.2026.
@@ -17612,7 +17774,7 @@ def set_update_skipped(tag):
 
     In place of "do not ask again", which stopped the looking for
     good: a no that cannot be taken back is a trap, and this program
-    has walked Sebastian into it twice. One version passed over is not
+    has walked the owner into it twice. One version passed over is not
     an answer about all of them, and nothing else here says no.
     """
     where = update_skip_file()
@@ -19183,10 +19345,9 @@ def voices_in_use(segments, ignored=()):
 
     That answer took the camera away and greyed the name, and there it
     stopped: the voice still became a track, a speaker at auphonic.com,
-    a line in the transcript and one in the speaking shares. Sebastian,
-    31.8.2026, on a fourth voice a separation found where three people
-    sat: he wanted setting it to "do not use" to make it as good as not
-    there.
+    a line in the transcript and one in the speaking shares. The case
+    was a fourth voice a separation found where three people sat, and
+    the rule it left: "do not use" makes a voice as good as not there.
 
     Taken out of the passages, not only of the names. With the passages
     gone nobody is speaking there, so the picture holds whoever it was
@@ -19544,7 +19705,7 @@ def split_line_write(line, words, never, wanted, busy, any_files):
 
     It used to carry an offer: "who speaks when can be worked out on
     this machine". On a machine that works it out by itself that was
-    an offer for something long since done -- Sebastian read it on
+    an offer for something long since done -- it was read on
     25.8.2026 while the table beside it already said "Separated: 4
     speakers". The sentence is left over from the time when the button
     sat down there and this was the state line; the state has stood in
@@ -19570,7 +19731,7 @@ def split_line_write(line, words, never, wanted, busy, any_files):
 # number that looked like a timestamp and was in truth the sum of that
 # voice's speaking time; on 25.8.2026 the two were pulled apart into a
 # duration and a position, which was the right answer to the wrong
-# question. Sebastian, reading the result: the times matter for jumping
+# question. Read back on the result: the times matter for jumping
 # to the right place, not for the person looking at the table, and the
 # table grows too wide for them. So neither is written down any more.
 # The longest passage is still worked out below -- it is where a click
@@ -19614,33 +19775,71 @@ def tc_column_write(rows, real_tc, axis, absolute):
     return True
 
 
-def weak_nodes_mark(nodes, weak):
+def weak_note(caption, placeless):
+    """What a file whose sound was not recognised says beside its name.
+
+    Two ways lead to a place and one of them is enough, so the sentence
+    turns on which one is left. With a timecode the file still lies on
+    the axis to the frame and only the second opinion is missing; with
+    none there is no place at all, and its sound is out of the run.
+    """
+    if placeless:
+        return T('%s   --   does not fit the other files: sound not '
+                 'recognised, no timecode. Its sound cannot be used.') \
+            % caption
+    return T('%s   --   sound not recognised; placed by its timecode') \
+        % caption
+
+
+def weak_colour(odd, placeless):
+    """The colour a badly fitting file is written in."""
+    if placeless:
+        return COLOURS["error"]
+    return COLOURS["warning"] if odd else COLOURS["text"]
+
+
+def weak_nodes_mark(nodes, weak, no_place=()):
     """Mark the rows of the file list that do not fit the time axis.
 
     Usually those files were picked by mistake and belong to another
-    recording. Returns the ones whose row is gone, for the caller to
-    forget.
+    recording. *no_place* are the ones no timecode places either: those
+    are refused, the rest are only warned about. Returns the ones whose
+    row is gone, for the caller to forget.
     """
     import PySide6.QtGui as _qg
-    red = _qg.QBrush(_qg.QColor(COLOURS["error"]))
-    black = _qg.QBrush(_qg.QColor(COLOURS["text"]))
-    lost = []
+    nowhere = set(no_place or ())
+    dropped = []
     for p, item in list(nodes.items()):
-        odd = path_key(p) in weak
+        placeless = path_key(p) in nowhere
+        odd = path_key(p) in weak or placeless
+        ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless)))
         try:
             # Column 1 stays with the check mark, or one overwrites the
             # green and red of the other depending on which ran last.
             for column in (0, 2):
-                item.setForeground(column, red if odd else black)
+                item.setForeground(column, ink)
             if odd:
-                item.setText(2, T('%s   --   does not fit the other files')
-                             % os.path.dirname(p))
+                item.setText(2, weak_note(os.path.dirname(p), placeless))
         except RuntimeError:
-            lost.append(p)
-    return lost
+            dropped.append(p)
+    return dropped
 
 
-def weak_rows_mark(rows, weak):
+def weak_marks_show(state, nodes):
+    """Say on both sheets which files do not fit the time axis.
+
+    One call for the two, so the file list and the assignment tree
+    cannot end up saying different things about the same file.
+    Returns the rows that are gone.
+    """
+    weak = state.get("weak") or ()
+    nowhere = state.get("no_place") or ()
+    dropped = weak_nodes_mark(nodes, weak, nowhere)
+    weak_rows_mark(state.get("file_rows") or (), weak, nowhere)
+    return dropped
+
+
+def weak_rows_mark(rows, weak, no_place=()):
     """The same mark on the recordings of the assignment tree.
 
     *rows* is (its row in the tree, the file, the plain caption), one
@@ -19656,15 +19855,16 @@ def weak_rows_mark(rows, weak):
     it -- was an accusation, not news.
     """
     import PySide6.QtGui as _qg
-    red = _qg.QBrush(_qg.QColor(COLOURS["error"]))
-    black = _qg.QBrush(_qg.QColor(COLOURS["text"]))
+    nowhere = set(no_place or ())
     for row, p, plain in rows:
         if not p:
             continue
-        odd = path_key(p) in weak
+        placeless = path_key(p) in nowhere
+        odd = path_key(p) in weak or placeless
+        ink = _qg.QBrush(_qg.QColor(weak_colour(odd, placeless)))
         try:
             for cell in row:
-                cell.setForeground(red if odd else black)
+                cell.setForeground(ink)
             # Colour carries nothing to anybody who cannot see it, so
             # the first cell says it in words too -- the same words the
             # first sheet uses. The plain caption travels beside the
@@ -19672,8 +19872,7 @@ def weak_rows_mark(rows, weak):
             # sentence.
             said = plain
             if odd:
-                said = (T('%s   --   does not fit the other files')
-                        % plain)
+                said = weak_note(plain, placeless)
             row[0].setText(said)
             # The column can be narrower than the sentence.
             row[0].setToolTip(said if odd else "")
@@ -20012,7 +20211,7 @@ def camera_start_of(file_path):
 
 
 def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
-                        camera_audio=False, weak=(), length_of=None,
+                        camera_audio=False, placeless=(), length_of=None,
                         alone=False):
     """Say which file the separation should listen to.
 
@@ -20020,25 +20219,29 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
     on. Where every person has a microphone of their own, measuring
     the tracks themselves is the better answer and this stays out.
 
+    *placeless* are the files the measurement could place nowhere, and
+    they are the only ones left out. Not the ones whose sound the
+    alignment did not recognise: what a separation needs is a place on
+    the axis, and a timecode is a place. Measured on a camera the old
+    rule refused for a correlation of 0.44 -- mains hum on its loudness
+    curve -- the separation found two speakers in 90 seconds.
+
     *alone* is the difference between being asked and deciding by
-    oneself. Somebody who asks for a separation has said which
-    recording they mean, or there is only one it can be; a run nobody
-    asked for may only start where the choice is not a guess. Several
-    cameras carrying sound are several candidates, and which of them
-    holds the conversation and which the music cannot be read off a
-    file. At the measured 28 times real time that is three minutes per
-    wrong guess, so unasked it waits to be told instead.
+    oneself. Somebody who asks has said which recording they mean, or
+    there is only one it can be; a run nobody asked for may only start
+    where the choice is not a guess. At the measured 28 times real time
+    a wrong guess is three minutes, so unasked it waits to be told.
 
     Returns (path, why), why being one of: "chosen" a setting made by
     hand, "one recording", "camera track", "several microphones" or
     "several cameras" -- then the path is empty because nothing here
     can pick between them -- or "nothing".
     """
-    weak = set(path_key(p) for p in (weak or ()))
+    nowhere = set(path_key(p) for p in (placeless or ()))
 
     def usable(p):
         return (p and os.path.exists(p)
-                and path_key(p) not in weak)
+                and path_key(p) not in nowhere)
 
     if chosen and usable(chosen):
         return chosen, "chosen"
@@ -20668,9 +20871,10 @@ def compare_cameras(data):
             "hint", T('Frame rates'),
             T('the video files run at different rates: %s')
             % ", ".join(decimal_text("%.3f" % r) for r in different),
-            T('The Timeline gets one fixed rate -- the highest of them. '
-              'Resolve converts the others; with 23.976 against 24 that is '
-              'where its audio analysis tends to stall.')))
+            T('The Timeline gets one fixed rate -- the highest of them, '
+              'or the next rate Resolve has above it. It converts the '
+              'others; with 23.976 against 24 that is where its audio '
+              'analysis tends to stall.')))
     # With Apple the recording curve is not in the colr box but in the logs
     # atom. Where that is present there is nothing to guess and nothing to
     # report -- it is read out and carried along byte for byte.
@@ -22188,7 +22392,7 @@ def audio_use_settled(video, chosen, forced, has_sound=True,
     Three things settle it without asking: a file with no audio track
     at all, a file that stays out entirely, and an intro or outro,
     which is placed as it lies and never processed. The fourth is the
-    exception Sebastian laid down: one video with sound and no audio
+    exception that was laid down: one video with sound and no audio
     recording beside it is the only sound there is.
     """
     a = path_key(video)
@@ -22316,10 +22520,10 @@ def speaker_name_of(value):
     that read the field alone saw nothing there and the start button
     refused a run whose speaker was plainly written on the screen.
 
-    So the guess counts. It is still never written into the field:
-    Sebastian sees it in grey and can overrule it before he starts, and
-    it is not stored anywhere as though somebody had said it. Refused
-    is only the case where there is no name at all -- none typed and
+    So the guess counts. It is still never written into the field: it
+    stands there in grey to be overruled before the start, and it is
+    not stored anywhere as though somebody had said it. Refused is
+    only the case where there is no name at all -- none typed and
     none to be had from the file name.
 
     The cost, and it was taken knowingly: "Miriam_0008A.wav" gives a
@@ -22521,11 +22725,10 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
     what the program worked out. That is the wide shot nobody marked.
     Then *why* bars the one entry it is about and says itself there:
     a camera nobody sits in front of cannot be content while that is
-    so. Intro, outro and "leave out" stay open -- they are answers
-    about the file itself. Only that one entry is greyed, and the
-    field itself stands in black: grey over the whole box reads as
-    "nothing to be done here", which is the opposite of what it is.
-    *no_wide* bars the wide shot the same way, with its own sentence.
+    so. Only that entry is greyed and the field stands in black: grey
+    over the whole box reads as "nothing to be done here", which is
+    the opposite of what it is. *no_wide* bars the wide shot the same
+    way, with its own sentence.
 
     Without *derived* a *why* explains rather than refuses -- which of
     several marked wide shots the cut takes -- and it stands on the
@@ -22566,9 +22769,9 @@ def camera_audio_cell(short, used, why, quiet, beside_player=False):
     the field and the value behind it do not.
 
     Nothing stands behind the field, for the reason given at the Kind
-    field above: in this table Sebastian wants the answer and nothing
-    else. Where the field is settled it is closed, and *why* says so
-    from the field itself rather than from a sentence beside it.
+    field above: this table is to show the answer and nothing else.
+    Where the field is settled it is closed, and *why* says so from
+    the field itself rather than from a sentence beside it.
     """
     cell, box = choice_cell(AUDIO_USE,
                             AUDIO_MATERIAL if used else AUDIO_UNUSED,
@@ -23103,11 +23306,11 @@ def from_the_front(entry):
     """Show a name from its beginning, and the whole of it on hovering.
 
     The column is narrower than the names are: they begin with the
-    production and end with the camera, so a field that shows its end
-    reads "ll-Mix_08141714_C003" and a field that shows its beginning
-    reads "Testinterview_Kanditat_...". The second is the one that says
-    which row this is. Measured on Sebastian's window, 30.8.2026: the
-    column stood at 185 pixels and the name needed about 300.
+    production and end with the camera, so a field showing its end
+    reads "...11855_C002.mov" and one showing its beginning reads
+    "PresentersCam_0...". The second is the one that says which row
+    this is. Measured against the demo material: the name comes to
+    about twice the width the column gives it.
 
     A field keeps its caret where it was left, so this is done once on
     building and never again -- typing must not jump back to the front.
@@ -23123,9 +23326,9 @@ def widget_width(w):
     resizeColumnsToContents measures the text of items, and a cell with
     a widget in it has no item text. A column of input fields or drop
     downs was therefore measured as empty and came out at its minimum:
-    on Sebastian's window, 30.8.2026, the name column stood at 114
-    pixels with "Testinterview_Jingle_Audio-Full-Mix" in it, and the
-    drop down beside it showed the last half of its word.
+    the name column stood at 114 pixels with
+    "Guest_Take0021A_Timecode.wav" in it, and the drop down beside it
+    showed the last half of its word.
 
     The widget's own sizeHint does not help for a line edit -- it is the
     same whatever the text says -- so the text itself is measured. For a
@@ -27373,6 +27576,91 @@ class Question(object):
 
 
 
+def channel_rows_fit(items, Qt, QtCore, QtWidgets):
+    """Give every channel row the height its reason needs.
+
+    The reason stands in the column that takes whatever the others
+    leave, so how many lines it runs to is known only once the window
+    has a width. Without this the wrapped line is drawn outside its
+    row and the sentence is lost after all.
+    """
+    room = items.columnWidth(2)
+
+    def fit(kid):
+        beside = items.itemWidget(kid, 2)
+        said = beside.findChild(QtWidgets.QLabel) if beside else None
+        if said is None:
+            return
+        box = beside.findChild(QtWidgets.QCheckBox)
+        # The width it has, and only before the first layout the width
+        # it is about to get. Working from the column both times drifts
+        # by a few pixels every round and the rows creep taller.
+        left = said.width() or (
+            room - (box.sizeHint().width() if box else 0) - 8)
+        tall = said.fontMetrics().boundingRect(
+            QtCore.QRect(0, 0, max(60, left), 0), Qt.TextWordWrap,
+            said.text()).height()
+        want = max(box.sizeHint().height() if box else 0, tall) + 4
+        if kid.sizeHint(2).height() != want:
+            kid.setSizeHint(2, QtCore.QSize(0, want))
+
+    def walk(node):
+        for i in range(node.childCount()):
+            kid = node.child(i)
+            if kid.data(0, Qt.UserRole + 2) == "channel":
+                fit(kid)
+            walk(kid)
+
+    walk(items.invisibleRootItem())
+
+
+def join_barred(path, targets, blocks=None):
+    """Which recordings this one cannot be put into, and why.
+
+    The window asks what the search asks, through the same
+    _joins_seamlessly: timecodes that overlap, or that lie too far
+    apart to be one recording, say these are two. By hand the
+    difference goes into the joined file as silence, and no later step
+    takes it out. Only where both sides carry a timecode -- without one
+    there is nothing to check, and that is what this chooser is for.
+    """
+    blocks = blocks or {}
+    mine = blocks.get(os.path.abspath(path)) or [path]
+    shut = {}
+    for h in targets:
+        yours = blocks.get(os.path.abspath(h)) or [h]
+        try:
+            here, there = file_timecode(mine[0]), file_timecode(yours[0])
+        except (OSError, ValueError, RuntimeError):
+            continue
+        if here is None or there is None:
+            continue
+        first, second = (mine, yours) if here <= there else (yours, mine)
+        fits, why = _joins_seamlessly(first[-1], second[0], first)
+        if not fits:
+            shut[os.path.abspath(h)] = T(
+                '%s -- joined by hand that difference goes into the file '
+                'as silence, and nothing later takes it out.') % why
+    return shut
+
+
+def join_box_fill(box, path, targets, blocks=None):
+    """Fill the "belongs to" chooser: its entries, its bar, its hint.
+
+    A target whose clock says the two cannot be one recording is greyed
+    rather than left out of the list: the answer to "why can I not pick
+    this" has to stand on the entry it is about. Returns the box.
+    """
+    box.addItem(T('a recording of its own'), "")
+    for h in targets:
+        box.addItem(os.path.basename(h), os.path.abspath(h))
+    return hint(choices_shut(box, join_barred(path, targets, blocks), "",
+                             COLOURS["quiet"]),
+                T('Puts this recording into another one, with every '
+                  'block it has.\nUse it where the file names give the '
+                  'search nothing to go on.'))
+
+
 def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
                        channel_choice, channel_node, channels_arrived,
                        clip_kind_values, items, remembered, split_files):
@@ -27465,11 +27753,14 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
         box = QtWidgets.QCheckBox(
             T('join with Channel %d') % (k + 2))
         box.setChecked(bool(joined.get(k)))
+        said = label(why if sure else T('uncertain -- %s') % why,
+                     COLOURS["quiet"])
+        # What was measured is a sentence, and German writes it half as
+        # long again as English. It wraps rather than being cut off:
+        # what would run past the edge here is the finding itself.
+        said.setWordWrap(True)
         in_a_row.addWidget(box)
-        in_a_row.addWidget(label(why if sure
-                                 else T('uncertain -- %s') % why,
-                                 COLOURS["quiet"]))
-        in_a_row.addStretch(1)
+        in_a_row.addWidget(said, 1)
         hint(box, T('On makes one stereo track out of this channel '
                     'and the next.\nThe next one then has no tick of '
                     'its own -- it is spoken for.\nWhat was measured '
@@ -27499,6 +27790,18 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
 
         box.toggled.connect(chosen)
         items.setItemWidget(kid, 2, beside)
+    # A moment later, because the column still answers with its old
+    # width while it is saying that the width has changed. The width
+    # moves again whenever a column is dragged or the window grows.
+    def when_settled(*_a):
+        QtCore.QTimer.singleShot(
+            0, lambda: channel_rows_fit(items, Qt, QtCore, QtWidgets))
+
+    head = items.header()
+    if not head.property("channel_rows_fit"):
+        head.setProperty("channel_rows_fit", True)
+        head.sectionResized.connect(when_settled)
+    when_settled()
 
 
 def video_kinds_again(rows):
@@ -27610,8 +27913,7 @@ def common_window(camera_areas):
     12.567 s before one of three cameras began, and on the fixture the
     window even began at -0.180 s -- before its own zero. Whoever wants
     that stretch anyway sets an In point of their own; what is derived
-    is a window every camera can fill. Decided by Sebastian on
-    29.8.2026.
+    is a window every camera can fill. Decided on 29.8.2026.
 
     Sitting out here rather than inside the run because it is
     arithmetic and nothing else, and arithmetic can be held against
@@ -27628,7 +27930,7 @@ def not_on_the_axis(path, kinds, remembered):
     A boundary is a point on the axis of the episode. An intro is not
     on that axis: it is set in front, not cut in. A point marked inside
     one would put the window of the episode somewhere that has nothing
-    to do with the interview -- Sebastian, 26.8.2026, with a picture of
+    to do with the interview -- seen on 26.8.2026 in a picture of
     an 18-second jingle in the player while the window above it said
     17:14 to 18:23.
 
@@ -27869,9 +28171,9 @@ def wide_too_short(number):
     but the wide shot somebody asked for is simply not there, and no
     line said why.
 
-    Better said before than repaired after. Sebastian, 29.8.2026:
-    "could we not check that the wide shot length may then not be
-    shorter than the shortest shot?"
+    Better said before than repaired after: the wide shot length may
+    not be shorter than the shortest shot, and the line says so before
+    the run rather than after it.
 
     Returns the line, or "" where the two agree.
     """
@@ -27890,7 +28192,7 @@ def run_done_text(dry):
     A dry run measures and writes nothing, so pointing at a result
     folder and offering to build a Resolve project out of it points at
     whatever an earlier run happened to leave there. Measured
-    30.8.2026 on Sebastian's interview: a dry run said "if all is
+    30.8.2026 on an interview: a dry run said "if all is
     right, Create Resolve project builds the project from it" while the
     newest handover in that folder was four days old, from another
     window and another measurement.
@@ -27912,7 +28214,7 @@ def resolve_ours(state):
     interview: a dry run offered a Resolve project and showed a cut,
     both out of a handover from four days earlier.
 
-    Sebastian settled it the same day: the handover is a help for the
+    It was settled the same day: the handover is a help for the
     instance that made it. After a restart it is worked out again
     rather than believed, and the program does not trust what an
     earlier one of itself left behind.
@@ -28921,7 +29223,8 @@ def gui():
 
         Only offered while there is another recording to join, and never
         on the recording somebody is already joining into: a chain of
-        joins would be a puzzle, not a setting.
+        joins would be a puzzle, not a setting. What the clocks rule
+        out is greyed rather than offered -- join_barred says which.
         """
         others = [h for h in heads if os.path.abspath(h) != os.path.abspath(path)
                   and os.path.abspath(h) not in join_to]
@@ -28930,16 +29233,9 @@ def gui():
         kid = QtWidgets.QTreeWidgetItem(["      " + T('belongs to'), "", ""])
         kid.setData(0, Qt.UserRole + 2, "join")
         node.insertChild(0, kid)
-        box = QtWidgets.QComboBox()
-        box.addItem(T('a recording of its own'), "")
-        for h in others:
-            box.addItem(os.path.basename(h), os.path.abspath(h))
-        picked = join_to.get(os.path.abspath(path)) or ""
-        i = box.findData(picked)
+        box = join_box_fill(QtWidgets.QComboBox(), path, others, blocks_of)
+        i = box.findData(join_to.get(os.path.abspath(path)) or "")
         box.setCurrentIndex(i if i >= 0 else 0)
-        hint(box, T('Puts this recording into another one, with every '
-                    'block it has.\nUse it where the file names give the '
-                    'search nothing to go on.'))
 
         def chosen(_i=0, file_path=os.path.abspath(path), b=box):
             target = b.currentData() or ""
@@ -29102,7 +29398,7 @@ def gui():
         # nobody: a handover file in a subfolder belongs to the run that
         # wrote it, may be days old and from another measurement, and a
         # setting taken out of it looks exactly like an answer somebody
-        # gave here. Sebastian on 30.8.2026: the project file has to be
+        # gave here. Settled on 30.8.2026: the project file has to be
         # enough, everything else is made again. So the folder stays
         # empty until it is chosen.
         if files and not production_var.get().strip():
@@ -30202,7 +30498,7 @@ def gui():
         return speaker_source_pick(
             audio_files, videos, state.get("own_cameras") or (),
             chosen=state.get("speakers_source_chosen") or "",
-            weak=state.get("weak") or (), alone=alone)
+            placeless=state.get("no_place") or (), alone=alone)
 
     def speaker_split_show(text="", colour=None, where=""):
         """Say where the separation stands: in the row of its file.
@@ -30372,15 +30668,14 @@ def gui():
             state["file_rows"] = None
 
     def show_weak():
-        """Mark files red that do not fit the common axis.
+        """Mark the files that do not fit the common axis.
 
         On the first sheet, where the files are chosen, and on the
         recordings of the assignment tree. Not on the cameras there:
         that note has been read by then, see weak_rows_mark.
         """
-        for p in weak_nodes_mark(lines_node, state["weak"]):
+        for p in weak_marks_show(state, lines_node):
             lines_node.pop(p, None)
-        weak_rows_mark(state.get("file_rows") or (), state["weak"])
 
     def prework_clean_up(gone):
         """What left the list needs no audio either."""
@@ -32566,7 +32861,7 @@ def gui():
     # ------------------------------------------------------------------
     # Above the buttons, not under them: a line below the bottom row
     # reads like a footnote to the window rather than the answer to
-    # "why can I not press this". Sebastian, 30.8.2026.
+    # "why can I not press this". Decided 30.8.2026.
     start_note = label("", COLOURS["quiet"])
     vertical.addWidget(start_note)
     foot = QtWidgets.QHBoxLayout()
@@ -32770,9 +33065,9 @@ def gui():
         """Empty the window, the way a new production starts.
 
         Until now the only way to a second production was to quit the
-        program and start it again: Sebastian, 30.8.2026, *"I would
-        like a close project or new project -- at least in the menu.
-        At the moment I always have to restart."*
+        program and start it again. Asked for on 30.8.2026: a close
+        project and a new one in the menu, so that a second production
+        does not need a restart.
 
         This is also the list of what belongs to a project and what does
         not, and it is the only such list: opening a project runs it
@@ -33335,7 +33630,7 @@ def gui():
     wide_state_show()
     preview_compute()
     # No fetch at start-up, not even with a key that is remembered.
-    # Sebastian, 23.8.2026: it may not happen by itself. A start that
+    # Laid down 23.8.2026: it may not happen by itself. A start that
     # speaks to auphonic.com unasked is a start that speaks to a third
     # party about a key it was only asked to keep. The presets are
     # fetched when somebody opens the list -- that is the moment they
@@ -33582,7 +33877,7 @@ def changes_shown(window):
 
     It used to open a browser at the changelog of the whole project,
     where somebody then looked for their own version among all the
-    others. Sebastian, 31.8.2026: show the text here, the way the
+    others. Settled 31.8.2026: show the text here, the way the
     update window does -- without its buttons, and about this version
     rather than the new one.
     """
@@ -33599,7 +33894,7 @@ def changes_shown(window):
 def newest_shown(window, page, changed):
     """Say that this is the newest, and show what is in it.
 
-    Sebastian on 24.8.2026, at the box that only said "no newer
+    Asked for on 24.8.2026, at the box that only said "no newer
     version found": show the last changelog here as well. The release
     text comes down with the same answer that was asked for the
     version number, so it costs nothing, and whoever just asked has
@@ -33658,9 +33953,9 @@ def preset_entries(presets, multitrack_on, none_label, none_value):
     because then it applies anyway.
 
     Where the list came back and holds nothing to pick, a grey row says
-    so where the question is asked. Sebastian asked for it on
-    24.8.2026: the list used to come back with its single row and
-    nothing to explain it, which reads like a key that was refused.
+    so where the question is asked. Asked for on 24.8.2026: the list
+    used to come back with its single row and nothing to explain it,
+    which reads like a key that was refused.
 
     Three states, and they are not the same thing. *presets* is None
     while nobody has looked yet -- then nothing is said, because
@@ -34184,6 +34479,10 @@ CATALOGUE["de"] = {
         '%s (%s bis %s)',
     '%s -- %d:%02d to %d:%02d (%.1f s)':
         '%s -- %d:%02d bis %d:%02d (%.1f s)',
+    '%s -- joined by hand that difference goes into the file as silence, '
+    'and nothing later takes it out.':
+        '%s -- von Hand verbunden steht der Unterschied als Stille in der '
+        'Datei, und nichts danach bekommt ihn wieder heraus.',
     '%s and %d more':
         '%s und %d weitere',
     '%s and %s are both set to %s. Only one file can be that -- please set the other one back to content.':
@@ -34346,7 +34645,7 @@ CATALOGUE["de"] = {
         'Ergebnis.\nStimmt alles, legt "Resolve-Projekt anlegen" daraus das '
         'Projekt an.\n',
     '\nHDR CHECK  %s':
-        '\nHDR-PRUEFUNG  %s',
+        '\nHDR-PRÜFUNG  %s',
     '\nNo preset chosen: %s':
         '\nKein Preset gewählt: %s',
     '\nStopped before the first long step. With --anyway it runs regardless.':
@@ -34612,6 +34911,10 @@ CATALOGUE["de"] = {
         '  %s hat keinen Kameraton -- ohne den lässt sich nichts ausrichten',
     '  %s is in the production twice -- fetched once.':
         '  %s gibt es zweimal in der Produktion -- einmal geholt.',
+    '  %s runs at %s frames/s, a rate Resolve has no Timeline for -- '
+    'it is converted, not left out':
+        '  %s läuft mit %s Bildern/s -- dafür hat Resolve keine '
+        'Zeitleiste, es wird umgerechnet statt weggelassen',
     '  %s is ready -- with --resolve-json it can be done later.':
         '  %s liegt bereit -- mit --resolve-json lässt es sich nachholen.',
     '  %s: %s, skipped':
@@ -34872,12 +35175,14 @@ CATALOGUE["de"] = {
         '  Summe der Spuren:  %.1f LUFS, Spitze %.1f dBTP%s',
     '  Target:            %.1f LUFS  ->  %+.1f dB on every track':
         '  Ziel:              %.1f LUFS  ->  %+.1f dB auf jede Spur',
-    '  The Timeline gets the highest of them, %g. Converted upwards Resolve\n'
-    '  repeats frames, downwards it throws them away. Every camera keeps\n'
-    '  its own rate, and the cut counts in that one.':
-        '  Die Zeitleiste bekommt die höchste davon, %g. Nach oben '
-        'wiederholt\n  Resolve Bilder, nach unten wirft es welche weg. Jede '
-        'Kamera behält\n  ihre eigene Rate, und der Schnitt rechnet in ihr.',
+    '  The Timeline gets %g: the highest of them, or the next rate Resolve\n'
+    '  has above it. Converted upwards Resolve repeats frames, downwards it\n'
+    '  throws them away. Every camera keeps its own rate, and the cut counts\n'
+    '  in that one.':
+        '  Die Zeitleiste bekommt %g: die höchste davon, oder die nächste '
+        'Rate,\n  die Resolve darüber hat. Nach oben wiederholt Resolve '
+        'Bilder, nach unten\n  wirft es welche weg. Jede Kamera behält ihre '
+        'eigene Rate, und der Schnitt\n  rechnet in ihr.',
     '  The Full-Mix could not be imported.':
         '  Der Full-Mix ließ sich nicht importieren.',
     '  The Full-Mix could not be inserted.':
@@ -35006,7 +35311,7 @@ CATALOGUE["de"] = {
     'soon as its\n  Camera audio says "use the audio". Without two of '
     'them there\n  is nothing to decouple, and the same file runs through '
     'as an\n  ordinary production.':
-        'MULTITRACK NICHT MOEGLICH\n  Nötig sind mindestens zwei '
+        'MULTITRACK NICHT MÖGLICH\n  Nötig sind mindestens zwei '
         'Eingangsspuren, gefunden wurde nur %d.\n  Eine Spur ist eine '
         'eigene Aufnahme, ein Kanal eines mehrkanaligen\n  Aufnahmegeräts '
         'oder der Ton einer Kamera -- der zählt mit, sobald\n  sein '
@@ -35130,7 +35435,7 @@ CATALOGUE["de"] = {
     "from that run's handover file,\n      without computing anything "
     'again,\n    • above "Start" -- compute everything again and overwrite '
     'the files.\n':
-        'PROJEKT GEOEFFNET\n  Alle Angaben stehen wieder da, gerechnet '
+        'PROJEKT GEÖFFNET\n  Alle Angaben stehen wieder da, gerechnet '
         'wurde in dieser Sitzung noch nichts.\n  Im Ausgabeordner liegen '
         'die Dateien des letzten Laufs:\n  %s\n\n  Drei Wege:\n    • unten '
         '„Ergebnis-Ordner öffnen“ -- die Dateien von damals ansehen,\n    • '
@@ -35184,7 +35489,7 @@ CATALOGUE["de"] = {
     '\n  A PROJECT WITH THIS NAME ALREADY EXISTS: %r':
         '\n  ES GIBT SCHON EIN PROJEKT MIT DIESEM NAMEN: %r',
     '\n  CLEAN UP AUDIO TRACKS':
-        '\n  TONSPUREN AUFRAEUMEN',
+        '\n  TONSPUREN AUFRÄUMEN',
     '\n  CLIPS IN THE MEDIA POOL':
         '\n  CLIPS IM MEDIA POOL',
     '\n  Not usable: %s':
@@ -35212,11 +35517,11 @@ CATALOGUE["de"] = {
     '\nCAMERA COLOUR COMPARISON':
         '\nFARBVERGLEICH DER KAMERAS',
     '\nCHECK THE RETURN':
-        '\nRUECKGABE PRUEFEN',
+        '\nRÜCKGABE PRÜFEN',
     '\nDIFFERENT FRAME RATES: %s':
         '\nVERSCHIEDENE BILDRATEN: %s',
     '\nDIFFERENT FRAME SIZES: %s':
-        '\nVERSCHIEDENE BILDGROESSEN: %s',
+        '\nVERSCHIEDENE BILDGRÖSSEN: %s',
     '\nEnded without a result: %s':
         '\nOhne Ergebnis geblieben: %s',
     '\nFinished with errors.\n':
@@ -35448,7 +35753,7 @@ CATALOGUE["de"] = {
     'EXTRACTING CAMERA AUDIO':
         'KAMERATON HERAUSZIEHEN',
     'FOR RESOLVE':
-        'FUER RESOLVE',
+        'FÜR RESOLVE',
     'Messages of this run: %s':
         'Meldungen dieses Laufs: %s',
     'NO AUDIO FILE -- USING THE CAMERA AUDIO':
@@ -35473,7 +35778,9 @@ CATALOGUE["de"] = {
     'Angles:%s\n  Everything else -- audio choice, colour groups, framing '
     '-- is in the\n  manual, docs/resolve.md.\n':
         '\n  Zum Umwandeln: im Medienpool Rechtsklick auf "%s Multicam" >\n  '
-        '"Timeline in Multicam-Clip umwandeln" > "Quellaudiokanaele '
+        # Resolve's own wording in its German window, looked up there
+        # on 1.9.2026 rather than translated.
+        '"Timeline in Multicam-Clip umwandeln" > "Quellaudiokanäle '
         'verwenden".\n  Einwegvorgang -- die Timeline baut ein neuer Lauf '
         'jederzeit wieder.\n  Perspektiven:%s\n  Alles Weitere -- Tonwahl, '
         'Farbgruppen, Bildausschnitt -- steht im\n  Handbuch, '
@@ -35498,6 +35805,9 @@ CATALOGUE["de"] = {
         '  (diese Datei endet früher)',
     '  (this file starts later)':
         '  (diese Datei beginnt später)',
+    '  --  no Resolve Timeline runs at this rate; it is converted':
+        '  --  keine Resolve-Zeitleiste läuft mit dieser Rate; es wird '
+        'umgerechnet',
     '  --  this file is outside':
         '  --  diese Datei liegt außerhalb',
     '  -->  aligned':
@@ -35583,8 +35893,12 @@ CATALOGUE["de"] = {
         '%r ist kein Multitrack-Preset',
     '%r is not a number.':
         '%r ist keine Zahl.',
-    '%s   --   does not fit the other files':
-        '%s   --   passt nicht zu den anderen Dateien',
+    '%s   --   does not fit the other files: sound not recognised, no '
+    'timecode. Its sound cannot be used.':
+        '%s   --   passt nicht zu den anderen Dateien: Ton nicht erkannt, '
+        'kein Timecode. Der Ton ist nicht verwendbar.',
+    '%s   --   sound not recognised; placed by its timecode':
+        '%s   --   Ton nicht erkannt; über den Timecode platziert',
     '%s   --   the app does not know this format':
         '%s   --   Format kennt die App nicht',
     '%s  (%s)  --  %s  --  %d blocks':
@@ -35984,7 +36298,7 @@ CATALOGUE["de"] = {
     'No API key. Pass --auphonic-api-key KEY, set AUPHONIC_TOKEN or have '
     'it remembered once in the interface. The key is in the Auphonic '
     'account settings.':
-        'Kein API-Schlüssel. --auphonic-api-key SCHLUESSEL angeben, '
+        'Kein API-Schlüssel. --auphonic-api-key SCHLÜSSEL angeben, '
         'AUPHONIC_TOKEN setzen oder ihn einmal in der Oberfläche merken '
         'lassen. Er steht in den Auphonic-Kontoeinstellungen.',
     'No audio file carries a timecode. In point and Out point count from the '
@@ -36162,7 +36476,7 @@ CATALOGUE["de"] = {
     'Puts it back next to each video file.':
         'Wieder neben der jeweiligen Videodatei.',
     'ROLLBACK FAILED (%s)':
-        'ZURUECKNEHMEN GING NICHT (%s)',
+        'ZURÜCKNEHMEN GING NICHT (%s)',
     'Reading audio track from %s':
         'Lese Tonspur aus %s',
     'Remove all %d %ss from the list?\n\n%s':
@@ -36217,12 +36531,12 @@ CATALOGUE["de"] = {
         'Die Resolve-Schnittstelle liegt nicht, wo erwartet:\n  %s\n  %s',
     'The Resolve interface is not where it should be.':
         'Die Resolve-Schnittstelle liegt nicht da, wo sie sein müsste.',
-    'The Timeline gets one fixed rate -- the highest of them. Resolve '
-    'converts the others; with 23.976 against 24 that is where its audio '
-    'analysis tends to stall.':
-        'Die Timeline bekommt eine feste Rate -- die höchste davon. '
-        'Resolve rechnet die anderen um; bei 23,976 gegen 24 bleibt seine '
-        'Tonanalyse gern hängen.',
+    'The Timeline gets one fixed rate -- the highest of them, or the '
+    'next rate Resolve has above it. It converts the others; with '
+    '23.976 against 24 that is where its audio analysis tends to stall.':
+        'Die Timeline bekommt eine feste Rate -- die höchste davon, oder '
+        'die nächste Rate, die Resolve darüber hat. Die anderen rechnet '
+        'es um; bei 23,976 gegen 24 bleibt seine Tonanalyse gern hängen.',
     'The audio recording of every speaker, plus the cameras.\nThe order '
     'does not matter -- the program recognises what is what.\nFor a '
     'multi-part recording the first block is enough.':
@@ -36327,7 +36641,7 @@ CATALOGUE["de"] = {
     'throwing an error.\n\n        In point and Out point are set from here as '
     'well: the point you\n        see is the point you mean.\n        ':
         'Der Sichtbereich: ein Fenster im Fenster, das stehen bleibt.\n\n    '
-        '    Qt spielt Ton und Bild selbst ab -- für die ueblichen '
+        '    Qt spielt Ton und Bild selbst ab -- für die üblichen '
         'Formate\n        genügt das. Was der Rechner nicht kennt (MXF, '
         'R3D, manche\n        ProRes-Spielarten), reicht der Player an '
         'ffplay weiter, statt\n        eine Fehlermeldung zu werfen.\n\n      '
@@ -36572,6 +36886,8 @@ CATALOGUE["de"] = {
         'passt das Preset zum Lauf?',
     'downloaded file is only %d bytes':
         'heruntergeladene Datei hat nur %d Byte',
+    'gap of %s per timecode, too far apart for one recording':
+        'Abstand von %s laut Timecode, zu weit für eine Aufnahme',
     'gets audio from':
         'bekommt Audio von',
     'hear assigned audio':
@@ -36896,7 +37212,7 @@ CATALOGUE["de"] = {
     '   MISSING':
         '   FEHLT',
     '   NOT INSERTED':
-        '   NICHT EINGEFUEGT',
+        '   NICHT EINGEFÜGT',
     '  (container; measured %s)':
         '  (Container; gemessen %s)',
     '  Number (empty = cancel): ':
@@ -37351,7 +37667,7 @@ CATALOGUE["de"] = {
     'MULTITRACK NOT POSSIBLE\n  Without an API key there is nothing to send '
     'to auphonic.com.\n  With --without-auphonic it runs locally instead: '
     'aligned,\n  mixed and cut, but without de-bleed and leveler.':
-        'MULTITRACK NICHT MOEGLICH\n  Ohne API Key gibt es nichts, was zu '
+        'MULTITRACK NICHT MÖGLICH\n  Ohne API Key gibt es nichts, was zu '
         'auphonic.com ginge.\n  Mit --without-auphonic läuft es stattdessen '
         'örtlich: ausgerichtet,\n  gemischt und geschnitten, aber ohne '
         'De-Bleed und Leveler.',

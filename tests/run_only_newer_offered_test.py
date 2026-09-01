@@ -138,7 +138,7 @@ check("an unreadable tag is not offered", offered == "",
 print("\n3. Nothing a user did once stops the looking")
 # The fault this is about: a no given once in passing was written into
 # the cache and the program went quiet for good, with nothing on any
-# screen saying why. It caught Sebastian twice, in August and again on
+# screen saying why. It caught the owner twice, in August and again on
 # 1.9.2026, so the answer is not shown -- it is gone.
 folder = tempfile.mkdtemp(prefix="vpm_update_left_")
 os.environ["VPM_CACHE"] = folder

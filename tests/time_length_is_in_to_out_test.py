@@ -96,7 +96,7 @@ def reason_for(name, kind):
 said = reason_for("Interview_C002.mov", m.TYPE_CONTENT)
 check("content is not barred from carrying a boundary", said == "",
       "wanted no reason, got %r" % said)
-said = reason_for("Totale_C003.mov", m.TYPE_WIDE)
+said = reason_for("WideCam_C003.mov", m.TYPE_WIDE)
 check("the wide shot is not barred either", said == "",
       "wanted no reason, got %r" % said)
 # A reason is as much part of this as the greying out: greyed out with

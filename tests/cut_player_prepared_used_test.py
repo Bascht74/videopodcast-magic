@@ -46,12 +46,12 @@ os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 
 # The first speaker is typed in, the second is left to the guess the
 # file name gives -- the prepared track has to be found either way.
-TYPED = "Moderator_REC00009.wav"
-GUESSED = "Kandidat_0008A_Timecode.wav"
-CAM_TYPED = "Moderatoren_08141855_C005.mov"
-CAM_GUESSED = "Kandidat_08141858_C009.mov"
-CAM_WIDE = "Totale_08141855_C003.mov"
-TYPED_NAME = "Moderator"
+TYPED = "Presenter_REC00021.wav"
+GUESSED = "Guest_Take0021A_Timecode.wav"
+CAM_TYPED = "PresentersCam_01011855_C002.mov"
+CAM_GUESSED = "GuestCam_01011858_C003.mov"
+CAM_WIDE = "WideCam_01011855_C001.mov"
+TYPED_NAME = "Presenter"
 # One clock for everything, written in here rather than taken as it
 # comes: a recording without a clock has to be measured and the player
 # drops a track it cannot yet place, and three cameras on three

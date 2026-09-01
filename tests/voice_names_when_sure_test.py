@@ -297,7 +297,7 @@ vpm.set_language("en")
 in_english = vpm.is_stand_in_name("Sprecher 2")
 check("but it is checked in every language, not only the one running",
       in_english, "'Sprecher 2', language en -> %s, wanted True" % in_english)
-for typed in ("Anna", "Speaker", "", "Speaker one", "Moderator"):
+for typed in ("Anna", "Speaker", "", "Speaker one", "Presenter"):
     answer = vpm.is_stand_in_name(typed)
     check("  a typed name is left alone: %r" % typed,
           not answer, "%r -> %s, wanted False" % (typed, answer))
