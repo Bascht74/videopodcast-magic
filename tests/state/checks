@@ -66,6 +66,7 @@ cut_rules_hold	66
 cut_two_stay_two	15
 cut_voice_on_its_camera	18
 cut_wide_colour_apart	11
+cut_wide_not_on_speech	6
 files_atom_travels	11
 files_block_out_and_back	10
 files_block_stays_apart	15
@@ -110,7 +111,7 @@ run_command_built	62
 run_dry_reports_voices	12
 run_metrics_add_up	51
 run_odd_clock_named	17
-run_only_newer_offered	47
+run_only_newer_offered	51
 run_prework_listed	43
 run_simple_path_agrees	26
 run_space_has_margin	17
@@ -194,7 +195,7 @@ voice_mhm_is_speech	9
 voice_mic_reaches_cut	14
 voice_name_is_one_person	4
 voice_names_when_sure	55
-voice_questions_rank	22
+voice_questions_rank	28
 voice_raw_times_kept	60
 voice_source_travels	21
 voice_split_hears_two	8

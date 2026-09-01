@@ -3,7 +3,16 @@
 
 Nothing here touches the network: asking github.com for a version
 number is answered from a table, so this says something about the
-arithmetic rather than about the weather.
+arithmetic rather than about the weather. The way out is nailed shut
+at the top and every address asked for is written down, so a check
+cannot pass over a real look.
+
+The sections: which version is newer, that only a newer one is
+offered, that nothing a user did once can stop the looking, that the
+switches which did that are gone, that what comes back is read before
+it is believed, that the old file is kept, that one version may be
+passed over, that a release text is shown in one language, and what
+the command line says and fetches.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -11,11 +20,30 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 # The suite sets this, and the module reads it while it is loading.
 os.environ.pop("VPM_NO_UPDATE_CHECK", None)
-import importlib.util, sys, tempfile, time
+import importlib.util, io, subprocess, sys, tempfile, time
+import urllib.request
 began = time.time()
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+# The real one, kept before any section puts a stand-in in its place:
+# the sections further down point VPM_CACHE at a folder of their own
+# and want the reading that answers it.
+REAL_CACHE_FOLDER = vpm.cache_folder
+
+WENT_OUT = []
+
+
+def no_network(url, *rest, **more):
+    """Refuse every look and write down where it wanted to go."""
+    WENT_OUT.append(str(getattr(url, "full_url", url)))
+    raise IOError("this test asks github.com nothing")
+
+
+# Nailed shut here rather than trusting VPM_NO_UPDATE_CHECK: the whole
+# point of several checks below is that the looking is not switched
+# off, so the switch cannot be the thing that keeps this test at home.
+urllib.request.urlopen = no_network
 
 done = 0
 bad = []
@@ -43,11 +71,6 @@ def held_by(path):
         return "<unreadable: %s>" % e.strerror
 
 
-def answer_in(folder):
-    """The remembered yes or no as it lies on disk."""
-    return held_by(os.path.join(folder, "update_check"))
-
-
 print("1. Which version is newer")
 # Semantic Versioning: a finished release beats its own pre-release,
 # and a name nobody understands never wins.
@@ -68,12 +91,9 @@ check("a version does not beat itself",
       % (itself,))
 
 print("\n2. Only a newer release counts")
-# The remembered answer belongs to whoever runs the test, not to the
-# test: somebody who ticked "Do not ask again" in the program would
-# turn this file red. So it gets a folder of its own.
+# A folder of its own: what a real run left in the cache of whoever
+# starts this test has no business deciding anything here.
 ANSWERS = tempfile.mkdtemp(prefix="vpm_update_")
-# Over cache_folder, not update_answer_file: section 3 takes the same
-# lever, and two would leave the answer where the test does not look.
 vpm.cache_folder = lambda sub="": ANSWERS
 def with_tag(tag, asked=False):
     """Answer the question with this tag, without a network."""
@@ -106,23 +126,6 @@ check("an older tag is not", offered == "",
       "v1.9.0 against a running %s: offered %r, wanted ''"
       % (vpm.VERSION, offered))
 
-vpm.set_update_wanted(False)
-wanted = vpm.update_wanted()
-check("a remembered no switches the unasked look off", not wanted,
-      "update_wanted() is %r, wanted False; the answer on disk is %r"
-      % (wanted, answer_in(ANSWERS)))
-offered = with_tag("v2.1.0")[0]
-check("a remembered no holds back the unasked look", offered == "",
-      "unasked after a no: offered %r for v2.1.0, wanted ''" % (offered,))
-offered = with_tag("v2.1.0", asked=True)[0]
-check("but a direct question is still answered", offered == "v2.1.0",
-      "asked after a no: offered %r for v2.1.0, wanted 'v2.1.0'"
-      % (offered,))
-vpm.set_update_wanted(True)
-offered = with_tag("v2.1.0")[0]
-check("and a yes brings it back", offered == "v2.1.0",
-      "unasked after a yes: offered %r for v2.1.0, wanted 'v2.1.0'"
-      % (offered,))
 offered = with_tag("v2.0.0")[0]
 check("the finished version beats the pre-release", offered == "v2.0.0",
       "v2.0.0 against a running %s: offered %r, wanted 'v2.0.0'"
@@ -132,60 +135,98 @@ check("an unreadable tag is not offered", offered == "",
       "'nightly' against a running %s: offered %r, wanted ''"
       % (vpm.VERSION, offered))
 
-print("\n3. Switched off means switched off")
-folder = tempfile.mkdtemp()
-vpm.cache_folder = lambda sub="": folder
-vpm.set_update_wanted(False)
-wanted = vpm.update_wanted()
-check("a no is remembered", wanted is False,
-      "update_wanted() is %r, wanted False; the answer on disk is %r"
-      % (wanted, answer_in(folder)))
+print("\n3. Nothing a user did once stops the looking")
+# The fault this is about: a no given once in passing was written into
+# the cache and the program went quiet for good, with nothing on any
+# screen saying why. It caught Sebastian twice, in August and again on
+# 1.9.2026, so the answer is not shown -- it is gone.
+folder = tempfile.mkdtemp(prefix="vpm_update_left_")
+os.environ["VPM_CACHE"] = folder
+vpm.cache_folder = REAL_CACHE_FOLDER
+LEFT = os.path.join(REAL_CACHE_FOLDER(), "update_check")
+with open(LEFT, "w", encoding="utf-8") as f:
+    f.write("no")
 offered = with_tag("v9.9.9")[0]
-check("and then nothing is asked", offered == "",
-      "unasked after a no: offered %r for v9.9.9, wanted ''" % (offered,))
-vpm.set_update_wanted(True)
-wanted = vpm.update_wanted()
-check("a yes is remembered too", wanted is True,
-      "update_wanted() is %r, wanted True; the answer on disk is %r"
-      % (wanted, answer_in(folder)))
-os.unlink(os.path.join(folder, "update_check"))
-wanted = vpm.update_wanted()
-check("without an answer it looks", wanted is True,
-      "update_wanted() is %r with nothing remembered (%r), wanted True"
-      % (wanted, answer_in(folder)))
-
-print("\n3b. A no can be taken back")
-# The trap this closes: --no-update-check given once in passing kept
-# the program from ever looking again, with no switch to undo it.
-import io as _io
-source = _io.open(SCRIPT, encoding="utf-8").read()
-TAKES_BACK = '"--update-check"'
-WRITES_YES = 'if "--update-check" in rest:\n        set_update_wanted(True)'
-check("there is a switch that takes it back", TAKES_BACK in source,
-      "%s found %d time(s) in the %d characters of %s"
-      % (TAKES_BACK, source.count(TAKES_BACK), len(source),
-         os.path.basename(SCRIPT)))
-check("and it writes the yes", WRITES_YES in source,
-      "%r found %d time(s), while %s stands there %d time(s)"
-      % (WRITES_YES, source.count(WRITES_YES), TAKES_BACK,
-         source.count(TAKES_BACK)))
-vpm.set_update_wanted(False)
-wanted = vpm.update_wanted()
-check("a no still holds for the unasked look", wanted is False,
-      "update_wanted() is %r, wanted False; the answer on disk is %r"
-      % (wanted, answer_in(folder)))
-offered = with_tag("v9.9.9", asked=True)[0]
-check("but a direct question is answered anyway", offered == "v9.9.9",
-      "asked after a no: offered %r for v9.9.9, wanted 'v9.9.9'"
-      % (offered,))
-vpm.set_update_wanted(True)
-offered = with_tag("v9.9.9")[0]
-check("and the yes brings the unasked look back",
+check("a no left in the cache does not stop the unasked look",
       offered == "v9.9.9",
-      "unasked after a yes taken back: offered %r for v9.9.9, wanted"
-      " 'v9.9.9'" % (offered,))
+      "with %r holding %r: offered %r for v9.9.9, wanted 'v9.9.9'"
+      % (os.path.basename(LEFT), held_by(LEFT), offered))
+offered = with_tag("v9.9.9", asked=True)[0]
+check("and it does not stop a direct question either", offered == "v9.9.9",
+      "asked with %r holding %r: offered %r for v9.9.9, wanted 'v9.9.9'"
+      % (os.path.basename(LEFT), held_by(LEFT), offered))
+# Neither read nor written: a file the program still wrote to would be
+# the same mechanism under another name, waiting to be read again.
+os.unlink(LEFT)
+with_tag("v9.9.9")
+with_tag("v9.9.9", asked=True)
+check("and no look writes that file back", not os.path.exists(LEFT),
+      "after two looks %r holds %r, wanted no such file"
+      % (os.path.basename(LEFT), held_by(LEFT)))
+# The one thing that may still stop it belongs to whoever runs the
+# machine, not to whoever clicks.
+was_off = vpm.UPDATE_OFF
+vpm.UPDATE_OFF = True
+offered = with_tag("v9.9.9", asked=True)[0]
+vpm.UPDATE_OFF = was_off
+check("only VPM_NO_UPDATE_CHECK still stops it", offered == "",
+      "asked with the switch set: offered %r for v9.9.9, wanted ''"
+      % (offered,))
 
-print("\n4. What comes back is read before it is believed")
+print("\n4. The switches that stopped it are gone")
+# Not the parser alone: the two switches were answered off sys.argv
+# before a namespace ever existed, so a parser that does not know them
+# proves nothing on its own. The whole text is read, and the program
+# is asked as a user asks it.
+source = io.open(SCRIPT, encoding="utf-8").read()
+
+
+def times(*words):
+    """How often each of those stands in the program, as evidence."""
+    return "%s in the %d characters of %s" % (
+        ", ".join("%s %d time(s)" % (w, source.count(w)) for w in words),
+        len(source), os.path.basename(SCRIPT))
+
+
+OFF_SWITCHES = ("--no-update-check", "--update-check")
+check("no switch that stops the looking stands in the program",
+      not any(w in source for w in OFF_SWITCHES), times(*OFF_SWITCHES))
+KEEPS_ANSWER = ("set_update_wanted", "update_answer_file", "update_wanted")
+check("and nothing writes or reads a remembered answer",
+      not any(w in source for w in KEEPS_ANSWER), times(*KEEPS_ANSWER))
+handed = set()
+for entry in vpm.build_argument_parser()._actions:
+    handed.update(entry.option_strings)
+check("the program hands out a switch that fetches the new version",
+      "--update" in handed,
+      "%d switches, and --update is %s among them"
+      % (len(handed), "" if "--update" in handed else "not"))
+# The switch on its own, and no --version or --help beside it: those
+# two answer and leave before argparse reports anything it does not
+# know, so the run would end at 0 with the switch never judged. And
+# held against a name nobody ever gave the program, because a switch
+# that is taken and ignored also ends in a complaint about the files.
+REFUSE_ENV = dict(os.environ, VPM_NO_UPDATE_CHECK="1", LANG="C",
+                  LC_ALL="C", LANGUAGE="en")
+
+
+def given(switch):
+    """Start the program with that one switch. (code, what it said)"""
+    said = subprocess.run([sys.executable, SCRIPT, switch],
+                          capture_output=True, text=True,
+                          stdin=subprocess.DEVNULL, env=REFUSE_ENV)
+    return said.returncode, ((said.stdout or "") + (said.stderr or "")
+                             ).replace(switch, "<the switch>").strip()
+
+
+off_code, off_said = given("--no-update-check")
+made_code, made_said = given("--a-switch-nobody-ever-gave-it")
+check("and the program refuses it the way it refuses a made-up name",
+      off_code == made_code and off_said == made_said,
+      "returned %d saying %r, while a made-up name returned %d saying %r"
+      % (off_code, off_said[-70:], made_code, made_said[-70:]))
+
+print("\n5. What comes back is read before it is believed")
 def with_body(body):
     class Answer(object):
         def read(self):
@@ -227,7 +268,7 @@ check("bytes that are not text are refused", not text and bool(trouble),
       "two bytes that are no utf-8 gave back %d characters of program,"
       " trouble %r" % (len(text or ""), trouble))
 
-print("\n5. The old file is kept")
+print("\n6. The old file is kept")
 work = tempfile.mkdtemp()
 mine = os.path.join(work, "videopodcast-magic.py")
 with open(mine, "w", encoding="utf-8") as f:
@@ -247,10 +288,9 @@ check("the old one is beside it", kept == "the one that works\n",
       "videopodcast-magic.py.old holds %r, wanted %r"
       % (kept, "the one that works\n"))
 
-print("\nPassing over one version")
-# "Do not ask again" stopped the looking for good, and a no that
-# cannot be taken back is a trap. It is now "skip this version": one
-# version passed over is not an answer about all of them.
+print("\n7. Passing over one version")
+# The one answer left that a person can give, and it is about one
+# version: the next release has another name and asks again.
 import tempfile as _tf
 os.environ["VPM_CACHE"] = _tf.mkdtemp(prefix="vpm_update_cache_")
 
@@ -321,7 +361,7 @@ finally:
 # The window shows one of them. Two windows show this text and only one
 # was cutting, so a German reader was handed the English half -- and it
 # is the half that comes first.
-print("\n5. The window shows one language")
+print("\n8. The window shows one language")
 TWO = ("**English**\n\n### Changed\n\n- the English point\n\n---\n\n"
        "**Deutsch**\n\n### Ge\u00e4ndert\n\n- der deutsche Punkt")
 
@@ -379,6 +419,137 @@ check("a release without the two halves is kept whole",
       "just one language here" in text,
       "wanted 'just one language here' among the %d characters %r"
       % (len(text), text))
+
+print("\n9. The command line says it and fetches nothing")
+# A run started out of a script must not stop to ask anything, so the
+# command line gets a line and no box. Fetching is a second step and
+# has its own switch.
+os.environ["VPM_CACHE"] = _tf.mkdtemp(prefix="vpm_update_line_")
+vpm.VERSION = "2.15.0-beta"
+RAW = "raw.githubusercontent.com"
+
+
+def said_on_the_line(tag):
+    """What update_note() prints, and which addresses it asked for."""
+    asked = []
+
+    class Answer(object):
+        def __init__(self, body):
+            self.body = body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            return False
+
+        def read(self):
+            return self.body
+
+    def opened(url, *a, **k):
+        where = str(getattr(url, "full_url", url))
+        asked.append(where)
+        if RAW in where:
+            return Answer(b'VERSION = "9.9.9"\nCATALOGUE = {}\n')
+        return Answer(json.dumps({
+            "tag_name": tag, "html_url": "https://example/%s" % tag,
+            "body": "what changed"}).encode("utf-8"))
+
+    was, out = urllib.request.urlopen, io.StringIO()
+    was_stdout, sys.stdout = sys.stdout, out
+    urllib.request.urlopen = opened
+    try:
+        vpm.update_note()
+    finally:
+        sys.stdout = was_stdout
+        urllib.request.urlopen = was
+    return out.getvalue(), asked
+
+
+spoken, asked = said_on_the_line("v2.19.0-beta")
+# Both versions, not the new one alone: the address underneath carries
+# the new tag as well, so half the sentence could go and the tag would
+# still stand there.
+check("the line names the new version and the running one",
+      "v2.19.0-beta" in spoken and vpm.VERSION in spoken,
+      "with github saying v2.19.0-beta to a running %s it printed %r"
+      % (vpm.VERSION, spoken))
+check("and the way to fetch it is named with it",
+      "--update" in spoken,
+      "'--update' found %d time(s) in %r" % (spoken.count("--update"),
+                                             spoken))
+check("but nothing of the program itself is fetched",
+      not any(RAW in one for one in asked),
+      "%d addresses asked for, %s" % (len(asked), asked))
+quiet, asked = said_on_the_line("v1.0.0")
+check("and nothing is said where nothing is newer", quiet == "",
+      "with github saying v1.0.0 to a running %s it printed %r"
+      % (vpm.VERSION, quiet))
+
+print("\n10. --update puts the new version in place")
+# The only way the command line fetches anything. It writes over the
+# file it is running from, so it is pointed at a copy of its own --
+# nothing here may touch the program under test.
+HOME = tempfile.mkdtemp(prefix="vpm_update_self_")
+COPY = os.path.join(HOME, "videopodcast-magic.py")
+with open(COPY, "w", encoding="utf-8") as f:
+    f.write("the one that works\n")
+
+
+def update_run(tag, switched_off=False):
+    """Run --update against the copy, and keep what it printed."""
+    class Answer(object):
+        def __init__(self, body):
+            self.body = body
+
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *_):
+            return False
+
+        def read(self):
+            return self.body
+
+    def opened(url, *a, **k):
+        where = str(getattr(url, "full_url", url))
+        if RAW in where:
+            return Answer(b'VERSION = "9.9.9"\nCATALOGUE = {}\n')
+        return Answer(json.dumps({
+            "tag_name": tag, "html_url": "https://example/%s" % tag,
+            "body": "what changed"}).encode("utf-8"))
+
+    was, out = urllib.request.urlopen, io.StringIO()
+    was_file, was_off = vpm.__file__, vpm.UPDATE_OFF
+    was_stdout, sys.stdout = sys.stdout, out
+    urllib.request.urlopen = opened
+    vpm.__file__, vpm.UPDATE_OFF = COPY, switched_off
+    try:
+        return vpm.update_from_command_line(), out.getvalue()
+    finally:
+        sys.stdout = was_stdout
+        urllib.request.urlopen = was
+        vpm.__file__, vpm.UPDATE_OFF = was_file, was_off
+
+
+code, spoken = update_run("v2.19.0-beta")
+check("--update reports that it worked", code == 0,
+      "returned %r and said %r, wanted 0" % (code, spoken.strip()[:80]))
+now = held_by(COPY)
+check("and the new version is in place", now.startswith('VERSION = "9.9.9"'),
+      "the copy holds %r, wanted the fetched program" % (now[:40],))
+kept = held_by(COPY + ".old")
+check("and the one that ran is beside it", kept == "the one that works\n",
+      "videopodcast-magic.py.old holds %r, wanted %r"
+      % (kept, "the one that works\n"))
+code, spoken = update_run("v2.19.0-beta", switched_off=True)
+check("and with VPM_NO_UPDATE_CHECK it fetches nothing and says so",
+      code == 1 and spoken.strip() != "",
+      "returned %r and said %r, wanted 1 and a word" % (code, spoken.strip()))
+
+check("no look in this whole run left the machine", not WENT_OUT,
+      "%d addresses got past the stand-ins, the first of them %s"
+      % (len(WENT_OUT), WENT_OUT[0] if WENT_OUT else "none"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

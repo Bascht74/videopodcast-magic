@@ -739,6 +739,12 @@ open	cut_wide_colour_apart	no voice gets the same one
 open	cut_wide_colour_apart	nothing twice
 open	cut_wide_colour_apart	on light no worse than before
 open	cut_wide_colour_apart	smallest distance on dark clearly larger
+cut_wide_not_on_speech	2026-09-01	at a floor of four tenths the same answers are thrown away	in a copy of the test in scratch, with_floor returns everything as kept and nothing as thrown away	at a floor of four tenths the same answers are thrown away FAIL 0 thrown away of 36 at 0.40 s
+cut_wide_not_on_speech	2026-09-01	at four tenths a wide shot lands on somebody answering	in a copy of the program in scratch, the split_up call taken out of insert_wide_shots so it hands the cut back unchanged	at four tenths a wide shot lands on somebody answering     FAIL 0 of 0 inserted wide shots sit on a thrown-away answer
+cut_wide_not_on_speech	2026-09-01	at the floor the program uses none of them does	in a copy of the program in scratch, SPEECH_MIN_LEN_S 0.2 -> 0.4	at the floor the program uses none of them does            FAIL 6 of 21 inserted wide shots sit on a thrown-away answer, wanted 0
+cut_wide_not_on_speech	2026-09-01	the break rule does break the monologue up at both floors	in a copy of the program in scratch, the split_up call taken out of insert_wide_shots so it hands the cut back unchanged	the break rule does break the monologue up at both floors  FAIL 0 wide shots put in at the floor in use, 0 at 0.40 s
+cut_wide_not_on_speech	2026-09-01	the floor the program uses keeps every one of them	in a copy of the program in scratch, SPEECH_MIN_LEN_S 0.2 -> 0.4	the floor the program uses keeps every one of them         FAIL 0 kept, 36 thrown away of 36
+cut_wide_not_on_speech	2026-09-01	the material holds short answers to be thrown away at all	in a copy of the test in scratch, EVERY 25.0 -> 500.0, so the material holds 2 short answers instead of 36	the material holds short answers to be thrown away at all  FAIL 2 answers of 0.30 s in 900 s
 open	files_atom_travels	a second run adds nothing
 open	files_atom_travels	and the atom stands unchanged
 open	files_atom_travels	copy_mov_atoms names the atom it added
@@ -1493,44 +1499,48 @@ open	run_odd_clock_named	the length is the four seconds it holds
 open	run_odd_clock_named	the rate is the 48000 Hz it was built at
 open	run_odd_clock_named	the text carries both clocks
 open	run_odd_clock_named	with two files nothing is decidable
-run_only_newer_offered	2026-08-31	%r comes before %r	version_key: the pre-release rank turned round, 1 if not pre else 0 -> 0 if not pre else 1	'2.0.0-beta' comes before '2.0.0'                          FAIL '2.0.0-beta' sorts to ((2, 0, 0), 1, 'beta'), '2.0.0' to ((2, 0, 0), 0, '')
+open	run_only_newer_offered	%r comes before %r
 open	run_only_newer_offered	%s: its own half is there
+run_only_newer_offered	2026-09-01	--update reports that it worked	update_from_command_line: the last return 0 turned into return 1	--update reports that it worked FAIL returned 1 and said 'v2.19.0-beta is in place. The version before it is beside it as videopodcast-mag', wanted 0
 open	run_only_newer_offered	a newer tag is offered
 open	run_only_newer_offered	a newer version is offered
-open	run_only_newer_offered	a no is remembered
-open	run_only_newer_offered	a no still holds for the unasked look
+run_only_newer_offered	2026-09-01	a no left in the cache does not stop the unasked look	newer_release: the leftover update_check file read again, for the unasked look	a no left in the cache does not stop the unasked look FAIL with 'update_check' holding 'no': offered '' for v9.9.9, wanted 'v9.9.9'
 open	run_only_newer_offered	a release without the two halves is kept whole
-run_only_newer_offered	2026-08-31	a remembered no holds back the unasked look	newer_release: the guard cut to if UPDATE_OFF:, so the remembered no is no longer asked	a remembered no holds back the unasked look                FAIL unasked after a no: offered 'v2.1.0' for v2.1.0, wanted ''
-open	run_only_newer_offered	a remembered no switches the unasked look off
 open	run_only_newer_offered	a version does not beat itself
 open	run_only_newer_offered	a whole program is taken
-open	run_only_newer_offered	a yes is remembered too
 open	run_only_newer_offered	an error page is refused
 open	run_only_newer_offered	an older tag is not
 run_only_newer_offered	2026-08-31	an unreadable tag is not offered	version_key: a piece that is no number counts highest instead of lowest, else 0 -> else 9999	an unreadable tag is not offered                           FAIL 'nightly' against a running 2.0.0-beta: offered 'nightly', wanted ''
-open	run_only_newer_offered	and a yes brings it back
 open	run_only_newer_offered	and asking from the menu shows it anyway
 open	run_only_newer_offered	and both of them are in it
+run_only_newer_offered	2026-09-01	and it does not stop a direct question either	newer_release: the leftover update_check file read again, for the asked look	and it does not stop a direct question either FAIL asked with 'update_check' holding 'no': offered '' for v9.9.9, wanted 'v9.9.9'
 open	run_only_newer_offered	and it is not offered again by itself
-open	run_only_newer_offered	and it writes the yes
+run_only_newer_offered	2026-09-01	and no look writes that file back	newer_release: writes 'no' into update_check on every look	and no look writes that file back FAIL after two looks 'update_check' holds 'no', wanted no such file
+run_only_newer_offered	2026-09-01	and nothing is said where nothing is newer	update_note: the return where no tag is newer taken out	and nothing is said where nothing is newer FAIL with github saying v1.0.0 to a running 2.15.0-beta it printed ' is out. This is 2.15.0-beta.\n--update fetches it and puts it in place.\n'
+run_only_newer_offered	2026-09-01	and nothing writes or reads a remembered answer	update_answer_file put back beside the rest	and nothing writes or reads a remembered answer FAIL set_update_wanted 0 time(s), update_answer_file 1 time(s), update_wanted 0 time(s) in the 1639142 characters of broken_05.py
 run_only_newer_offered	2026-08-31	and says something else than an error page does	self_checked: the SyntaxError branch gives the error page's message, 'That file does not compile: line %s.' -> 'That file is not this program.'	and says something else than an error page does            FAIL the unclosed brace says 'That file is not this program.', the 404 page says 'That file is not this program.'
+run_only_newer_offered	2026-09-01	and the new version is in place	put_new_self: os.replace(beside, here) turned into os.remove(beside)	and the new version is in place FAIL the copy holds 'the one that works\n', wanted the fetched program
+run_only_newer_offered	2026-09-01	and the one that ran is beside it	put_new_self: the line shutil.copyfile(here, here + '.old') taken out	and the one that ran is beside it FAIL videopodcast-magic.py.old holds '<no such file>', wanted 'the one that works\n'
 open	run_only_newer_offered	and the other one is not
-open	run_only_newer_offered	and the yes brings the unasked look back
-open	run_only_newer_offered	and then nothing is asked
-open	run_only_newer_offered	but a direct question is answered anyway
-open	run_only_newer_offered	but a direct question is still answered
+run_only_newer_offered	2026-09-01	and the program refuses it the way it refuses a made-up name	build_argument_parser: --no-update-check taken back as a switch the program accepts and ignores	and the program refuses it the way it refuses a made-up name FAIL returned 2 saying ' [files ...]\nvideopodcast-magic.py: error: No files given.', while a made-up name returned 2 saying '..]\nvideopodcast-magic.py: error: unrecognized arguments: <the switch>'
+run_only_newer_offered	2026-09-01	and the way to fetch it is named with it	update_note: the line naming --update taken out	and the way to fetch it is named with it FAIL '--update' found 0 time(s) in 'v2.19.0-beta is out. This is 2.15.0-beta.\n https://example/v2.19.0-beta\n'
+run_only_newer_offered	2026-09-01	and with VPM_NO_UPDATE_CHECK it fetches nothing and says so	update_from_command_line: the guard on UPDATE_OFF taken out	and with VPM_NO_UPDATE_CHECK it fetches nothing and says so FAIL returned 0 and said 'No newer version found. This one is 2.15.0-beta.', wanted 1 and a word
+run_only_newer_offered	2026-09-01	but nothing of the program itself is fetched	update_note: fetch_new_self called after the line is printed	but nothing of the program itself is fetched FAIL 3 addresses asked for, ['https://api.github.com/repos/Bascht74/videopodcast-magic/releases/latest', 'https://api.github.com/repos/Bascht74/videopodcast-magic/releases?per_page=30', 'https://raw.githubusercontent.com/Bascht74/videopodcast-magic/v2.19.0-beta/videopodcast-magic.py']
 open	run_only_newer_offered	but the next version is offered
 open	run_only_newer_offered	bytes that are not text are refused
+run_only_newer_offered	2026-09-01	no look in this whole run left the machine	the test itself: one look sent through the refusing stand-in before the check	no look in this whole run left the machine FAIL 1 addresses got past the stand-ins, the first of them https://api.github.com/probe
+run_only_newer_offered	2026-09-01	no switch that stops the looking stands in the program	build_argument_parser: --update-check put back as a switch	no switch that stops the looking stands in the program FAIL --no-update-check 0 time(s), --update-check 1 time(s) in the 1639228 characters of broken_04.py
+run_only_newer_offered	2026-09-01	only VPM_NO_UPDATE_CHECK still stops it	newer_release: the guard on UPDATE_OFF taken out	only VPM_NO_UPDATE_CHECK still stops it FAIL asked with the switch set: offered 'v9.9.9' for v9.9.9, wanted ''
 open	run_only_newer_offered	something that does not compile is refused
 open	run_only_newer_offered	the finished version beats the pre-release
+run_only_newer_offered	2026-09-01	the line names the new version and the running one	update_note: the line naming the two versions taken out	the line names the new version and the running one FAIL with github saying v2.19.0-beta to a running 2.15.0-beta it printed '--update fetches it and puts it in place.\n https://example/v2.19.0-beta\n'
 open	run_only_newer_offered	the new one is in place
 run_only_newer_offered	2026-08-31	the old one is beside it	put_new_self: the line shutil.copyfile(here, here + '.old') taken out	the old one is beside it                                   FAIL videopodcast-magic.py.old holds '<no such file>', wanted 'the one that works\n'
+run_only_newer_offered	2026-09-01	the program hands out a switch that fetches the new version	build_argument_parser: --update renamed to --fetch-update	the program hands out a switch that fetches the new version FAIL 64 switches, and --update is not among them
 open	run_only_newer_offered	the same tag is not
 open	run_only_newer_offered	the same version is the same
-open	run_only_newer_offered	there is a switch that takes it back
 run_only_newer_offered	2026-08-30	two releases, and still one language	the release text no longer cut to one language before it is shown	two releases, and still one language                 FAIL found the English half 2 time(s)
 open	run_only_newer_offered	what was passed over is what was shown
-run_only_newer_offered	2026-08-31	without an answer it looks	update_wanted: with no answer file it returns False instead of True	without an answer it looks                                 FAIL update_wanted() is False with nothing remembered ('<no such file>'), wanted True
 open	run_only_newer_offered	writing works
 open	run_prework_listed	None -> None
 open	run_prework_listed	a file not in it at all -> discarded
@@ -2995,18 +3005,21 @@ voice_names_when_sure	2026-08-31	voices somebody has named get no proposal	b49.p
 voice_names_when_sure	2026-08-31	while the two that spoke enough are	b26.py -- in which_microphone Zeile 3981 `for _n, u, _s2, _d2 in picked[i + 1:] if t == u)` zu `if t != u)` (die Doppelbelegungsregel umgedreht)	while the two that spoke enough are                        FAIL {'SPEAKER_02': 'Cleo'}
 voice_names_when_sure	2026-08-31	who_asks leaves the passer-by out	b39.py -- Zeile 3636 `ROLE_MIN_SENTENCES = 20` zu `1`	who_asks leaves the passer-by out                          FAIL ['Speaker 1', 'Speaker 2', 'Speaker 4', 'Speaker 3']
 voice_names_when_sure	2026-08-31	with only two there is one host, and it is not numbered	b36.py -- in voice_role_names Zeile 3727 `T('Host') if len(asking) == 1 else` zu `== 0` (auch der einzige Moderator bekommt eine Nummer)	with only two there is one host, and it is not numbered    FAIL {'Speaker 3': 'Guest', 'Speaker 2': 'Host 1'}
+voice_questions_rank	2026-09-01	a few seconds at the seams, the way separated voices touch, pass	VOICE_TRACK_TOGETHER 0.40 -> 0.05, so the guard fires on the few seconds separated voices touch at	a few seconds at the seams, the way separated voices touch, pass FAIL 7 s of the shorter track's 100 s shared, guard above 5 %
 voice_questions_rank	2026-09-01	a question inside quotation marks still counts	K13.py -- Zeile 16840 das Anfuehrungszeichen aus CLOSING_MARKS entfernt	a question inside quotation marks still counts             FAIL wort?"
 voice_questions_rank	2026-09-01	all three are ranked	K02.py -- in who_asks Zeile 3772 `enough = [...]` zu `enough = [...][:2]` (der dritte Sprecher faellt weg)	all three are ranked                                       FAIL ['HostA', 'Guest']
 voice_questions_rank	2026-09-01	and an ordinary full stop does not	gegen eine Kopie des Tests in /private/tmp/mhm_rollen/falsified_full_stop_test.py, in der das gewoehnliche Satzende `wort.` zu `wort?` gemacht ist -- am Programm ist dieser Check nicht zu Fall zu bringen	and an ordinary full stop does not                         FAIL wort?
 voice_questions_rank	2026-09-01	and is still named as the one asking	K06.py -- in who_asks Zeile 3769 `if text.endswith("?")` zu `endswith("!")` (keine Frage wird mehr gezaehlt)	and is still named as the one asking                       FAIL ['Guest', 'Host']
+voice_questions_rank	2026-09-01	and stays quiet where the silence has another reason	in roles_report `if not one_voice_each(tracks)` turned into `if one_voice_each(tracks)`, so clean tracks get the line	and stays quiet where the silence has another reason       FAIL 1 lines: ['  Who asks -- not said here: two of the tracks carry the s
 voice_questions_rank	2026-09-01	and the guest speaks the longer of the two	K05.py -- in who_asks Zeile 3753 `sum(b - a for a, b in segs)` zu `sum(a - b ...)` (Vorzeichen der Redezeit gedreht)	and the guest speaks the longer of the two                 FAIL [('Host', -48.0), ('Guest', -144.0)]
+voice_questions_rank	2026-09-01	and the microphone proposal falls silent on those same tracks	in which_microphone the two lines `if not one_voice_each(tracks): return []` taken out	and the microphone proposal falls silent on those same tracks FAIL 1 voices matched to a microphone, wanted none: [('SPEAKER_00', 'Host', 1.0, 1.0)]
 voice_questions_rank	2026-09-01	and the one asking most comes first	K03.py -- in who_asks Zeile 3779 im Sortierschluessel `-(r[2] / float(r[1]))` zu `(r[2] / float(r[1]))` (Vorzeichen gedreht)	and the one asking most comes first                        FAIL ['Guest', 'HostB', 'HostA']
 voice_questions_rank	2026-09-01	both speakers are ranked	K01.py -- in who_asks Zeile 3778 `for n in enough]` zu `for n in enough[:1]]` (ein Sprecher faellt aus der Reihenfolge)	both speakers are ranked                                   FAIL [('Guest', 30, 1, 144.00000000000014)]
 voice_questions_rank	2026-09-01	five sentences each: nothing is claimed	K08.py -- Zeile 3739 `ROLE_MIN_SENTENCES = 20` zu `5`	five sentences each: nothing is claimed                    FAIL [('Host', 5, 4, 8.000000000000002), ('Guest', 5, 0, 15.999999999999998)]
 voice_questions_rank	2026-09-01	it says it takes one voice per track	K18.py -- in roles_report Zeile 3793 `one voice per track` zu `one voice per channel`	it says it takes one voice per track                       FAIL   The order carries, the distance between them does not: measured over
 voice_questions_rank	2026-09-01	it says the order carries and the distance does not	K17.py -- in roles_report Zeile 3790 `The order carries` zu `The ranking carries`	it says the order carries and the distance does not        FAIL   The ranking carries, the distance between them does not: measured ov
 voice_questions_rank	2026-09-01	no words at all: nothing is claimed	K12.py -- in who_asks Zeile 3751 die Schranke `not words` entfernt, `>= ROLE_MIN_SENTENCES` zu `>= 0` und `float(r[1])` zu `float(r[1] or 1)`, damit der Fall als Urteil statt als Division durch Null endet	no words at all: nothing is claimed                        FAIL 2 speakers ranked: [('Guest', 0, 0, 9.600000000000009), ('Host', 0, 0, 48.00000000000003)]
-voice_questions_rank	2026-09-01	nothing to report is nothing printed	K19.py -- in roles_report Zeile 3783 `if not order: return []` entfernt	nothing to report is nothing printed                       FAIL 2 lines printed: ['\x01h\nWHO ASKS -- a proposal, and nothing is set from it', '  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two people share a microphone it says nothing useful.']
+voice_questions_rank	2026-09-01	nothing to report is nothing printed	in roles_report the whole `if not order:` block taken out, so an empty order still builds the report -- earned again because the old row quoted a sentence the program no longer says	nothing to report is nothing printed                       FAIL 2 lines printed: ['\x01h\nWHO ASKS -- a proposal, and nothing is set from it', '  The order carries, the distance between them does not: measured over four episodes it never turned round, while the distance between first and last changed fourfold. It takes one voice per track; where two of them carry the same speech nothing is said at all.']
 voice_questions_rank	2026-09-01	one speaker with too little: nothing is claimed either	K10.py -- in who_asks Zeile 3772 `if len(enough) < 2:` zu `< 1:`	one speaker with too little: nothing is claimed either     FAIL [('Host', 30, 20, 48.00000000000003)]
 voice_questions_rank	2026-09-01	one track alone: nothing is claimed	K11.py -- in who_asks Zeile 3751 `len(tracks) < 2` zu `< 1` und die zweite Schranke `if len(enough) < 2:` zu `< 1:` (beide Schranken decken denselben Fall, eine allein faellt nicht)	one track alone: nothing is claimed                        FAIL [('Host', 30, 20, 48.00000000000003)]
 voice_questions_rank	2026-09-01	the guest comes last	K03.py -- in who_asks Zeile 3779 im Sortierschluessel `-(r[2] / float(r[1]))` zu `(r[2] / float(r[1]))` (Vorzeichen gedreht)	the guest comes last                                       FAIL ['Guest', 'HostB', 'HostA']
@@ -3016,7 +3029,10 @@ voice_questions_rank	2026-09-01	the numbers come with it, so a person can check 
 voice_questions_rank	2026-09-01	the one asking is named first	K15.py -- in roles_report Zeile 3787 `for ... in order:` zu `order[::-1]` (die Reihenfolge im Protokoll gedreht)	the one asking is named first                              FAIL ['  Guest                0:02:24.000 speaking, 1 of 30 sentences a question']
 voice_questions_rank	2026-09-01	the one asking stands first	K03.py -- in who_asks Zeile 3779 im Sortierschluessel `-(r[2] / float(r[1]))` zu `(r[2] / float(r[1]))` (Vorzeichen gedreht)	the one asking stands first                                FAIL ['Guest', 'Host']
 voice_questions_rank	2026-09-01	the report has a heading and one line per speaker	K14.py -- in roles_report Zeile 3787 `for ... in order:` zu `order[:-1]` (eine Zeile je Sprecher faellt weg)	the report has a heading and one line per speaker          FAIL 3
+voice_questions_rank	2026-09-01	the run says in one line why nothing was ranked	in roles_report the branch `if not one_voice_each(tracks): return [T(...)]` taken out, so nothing is said	the run says in one line why nothing was ranked            FAIL 0 lines: []
 voice_questions_rank	2026-09-01	the shorter speaker comes first	K04.py -- in who_asks Zeile 3779 im Sortierschluessel `r[3]` zu `-r[3]` (bei Gleichstand entscheidet die laengere statt der kuerzeren Redezeit)	the shorter speaker comes first                            FAIL [('Guest', 120.0), ('Host', 40.0)]
+voice_questions_rank	2026-09-01	two tracks carrying the same speech do not	VOICE_TRACK_TOGETHER 0.40 -> 0.95, so 90 % shared speech passes the guard	two tracks carrying the same speech do not                 FAIL 90 s of the shorter track's 100 s shared, guard above 95 %
+voice_questions_rank	2026-09-01	with one microphone carrying both, no ranking is given	in who_asks the two lines `if not one_voice_each(tracks): return []` taken out	with one microphone carrying both, no ranking is given     FAIL 2 ranked, 2 without the bleed
 voice_raw_times_kept	2026-08-31	a broken row is left out, the rest stands	speaker_segments_group files a row it could not read instead of skipping it: the continue in the except becomes stretch = (0.0, 0.0)	a broken row is left out, the rest stands                  FAIL
 voice_raw_times_kept	2026-08-31	a changed file is measured again	speaker_cache_key leaves the mtime out of the key: "%s|%d|%d" % (mark[0], mark[1], mark[2]) becomes "%s|%d" % (mark[0], mark[2])	a changed file is measured again                           FAIL
 voice_raw_times_kept	2026-08-31	a changed source is not carried on wrongly	speakers_from_project no longer compares mtime and size: if not mark or mark[1] != d.get("mtime") or mark[2] != d.get("size"): becomes if not mark:	a changed source is not carried on wrongly                 FAIL
