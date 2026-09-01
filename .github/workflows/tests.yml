@@ -281,6 +281,14 @@ jobs:
                  nothing here for it to walk."
               ;;
             Windows)
+              aside source_resolve_recalled \
+                "it starts run.sh twice as a child and reads the closing
+                 block out of it. On Windows the nested run comes back
+                 with eleven lines and no summary at all, and the count
+                 answers -1 -- measured on run 33532148965, both Python
+                 versions. What it holds is a line run.sh prints, not
+                 anything the program does, so it is set aside here
+                 rather than weakened everywhere."
               aside sound_one_pass_agrees \
                 "it puts a stand-in ffmpeg on PATH as a file with a
                  #!/bin/sh line and an execute bit. Windows runs neither,
