@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-"""A run that never tidied up leaves nothing, and what was open is open again.
+"""A run that never tidied up leaves nothing, and what it remembers comes back.
 
 Against a DaVinci Resolve that is really running. Every test deletes its
 own project in a finally, and a finally does not run when the process is
@@ -8,14 +8,18 @@ the test of that, and it makes the bad case rather than waiting for it: a
 child run makes its project, ends without deleting it, and leaves it
 standing and open in front of somebody, exactly as a killed one does.
 
-In order -- a project is open, a decoy stands beside it that only looks
-like the tests' own and a folder that has their whole shape, a run that
-never tidied up leaves its project behind and open, the sweep takes that
-project and that folder and says which, the decoy is left standing, and
-the project that was open at the start is open again and named. The decoy
-is the narrowness: it carries the vpm-test prefix and not the whole
-shape, so a pattern loose enough to hit somebody's own project hits it
-first.
+In order -- what the run remembers is a project it can open again; a
+project Resolve has only created and never saved stands in no project
+list, is therefore remembered as nothing, and the sweep is content
+without it and asks for nothing by hand; a decoy stands beside the open
+project that only looks like the tests' own, and a folder that has their
+whole shape; a run that never tidied up leaves its project behind and
+open; the sweep takes that project and that folder and says which, leaves
+the decoy standing, and opens the project that was open at the start
+again and names it; and last, everything this test made is gone again.
+The decoy is the narrowness: it carries the vpm-test prefix and not the
+whole shape, so a pattern loose enough to hit somebody's own project hits
+it first.
 
 The limit of the method: nothing is killed here. Killing a run that is
 holding a connection to Resolve takes Resolve down, and a run cannot
@@ -23,6 +27,12 @@ reliably let go of that connection first -- both measured, and the
 numbers stand beside the child below. So what stands in for the accident
 is a run that simply never deletes what it made. The leftover is
 Resolve's own state and is the same either way.
+
+And where the sweep would remember nothing of what is open -- a project
+of the tests' own shape, or one that stands in no project list -- this
+test leaves itself out. It could not put that state back afterwards, and
+moving somebody's work without being able to put it back is worse than
+checking nothing.
 
 This one must not run beside the others: its own tidying up sweeps every
 project of the tests' shape, and theirs would go with it. resolve.sh runs
@@ -65,6 +75,25 @@ def folders(pm):
 def open_now(pm):
     p = pm.GetCurrentProject()
     return p.GetName() if p else ""
+
+
+def which_says():
+    """What the run would remember, asked the way resolve.sh asks it.
+
+    Standard output only, as resolve.sh takes it -- a name with anything
+    else glued to it would be a name nobody can load.
+    """
+    out = subprocess.run([sys.executable, os.path.join(HERE, "sweep.py"),
+                          "--which"], capture_output=True, text=True)
+    return out.stdout.strip(), out.returncode
+
+
+def swept_and_restored(name):
+    """The sweep resolve.sh runs at the end, with what --which answered."""
+    out = subprocess.run([sys.executable, os.path.join(HERE, "sweep.py"),
+                          "--sweep", "--restore", name],
+                         capture_output=True, text=True)
+    return out.stdout + out.stderr, out.returncode
 
 
 # What the child does: make a project the way any test does, say so, and
@@ -113,6 +142,21 @@ resolve = ground_of.a_resolve(vpm)
 print("Resolve: %s %s" % (resolve.GetProductName(), resolve.GetVersionString()))
 pm = resolve.GetProjectManager()
 
+# Asked before anything is made: where the sweep remembers nothing there
+# is nothing to put back at the end, and a test that cannot put back what
+# it moved has no business moving it.
+before, which_rc = which_says()
+if which_rc != 0:
+    ground_of.leave_out("sweep.py --which ended with %d and said %r -- there "
+                        "is no Resolve to ask" % (which_rc, before))
+if not before:
+    ground_of.leave_out(
+        "the sweep remembers nothing of what is open. Resolve is on %r, "
+        "which is either a project of the tests' own shape or one that "
+        "stands in no project list -- nothing here could be put back "
+        "afterwards. Open a project of your own in Resolve, or save the one "
+        "that is open, and run again." % open_now(pm))
+
 work = tempfile.mkdtemp(prefix="vpm_back_")
 # A name that carries the tests' prefix and not their shape: no process
 # id, no four hexadecimal digits. Anything looser than the whole shape
@@ -122,18 +166,48 @@ decoy = "vpm-test-decoy-KEEP-%d" % os.getpid()
 # through leaves one, and a folder stands in no project list -- so this is
 # made outright rather than by taking Resolve down to get it.
 folder = ground_of.a_test_name("folder")
-before = open_now(pm)
 child = None
 made_decoy = False
 made_folder = False
 try:
-    print("\n1. A project is open, and a decoy and a folder stand beside it")
-    check("a project was open when the run started",
-          bool(before), "Resolve had %r open" % before)
+    print("\n1. What the run remembers is a project it can open again")
+    check("what the run remembers is a project it can open again",
+          before in listed(pm),
+          "--which said %r, among %d projects: %s"
+          % (before, len(listed(pm)), before in listed(pm)))
+
+    print("\n2. A project in no project list is remembered as nothing")
     made_decoy = pm.CreateProject(decoy) is not None
+    # Left unsaved on purpose, and that is the whole state. Measured on
+    # Resolve 21.0.4.5 on 1.9.2026: a project that was only created stays
+    # out of the project list for as long as it is the open one, and
+    # LoadProject cannot fetch back a name that is not in that list.
+    check("a project that was never saved is in no project list",
+          made_decoy and decoy not in listed(pm),
+          "%r among %d projects: %s"
+          % (decoy, len(listed(pm)), decoy in listed(pm)))
+    said_which, rc_which = which_says()
+    check("a project in no project list is not reported as open",
+          said_which == "",
+          "--which said %r (ended with %d) while Resolve had %r open"
+          % (said_which, rc_which, open_now(pm)))
+    # And the rest of the way bears the empty answer: what --which said is
+    # what resolve.sh hands to --restore, whatever it said.
+    said_empty, rc_empty = swept_and_restored(said_which)
+    print(said_empty.rstrip())
+    check("the sweep is content where there was nothing to put back",
+          rc_empty == 0,
+          "sweep.py --restore %r ended with %d" % (said_which, rc_empty))
+    check("and it does not ask for a project to be opened by hand",
+          "WOULD NOT OPEN" not in said_empty,
+          "'WOULD NOT OPEN' in what the sweep printed: %s, of %d characters"
+          % ("WOULD NOT OPEN" in said_empty, len(said_empty)))
+    # From here on the decoy is a project like any other: saved, in the
+    # list, and left standing while the sweep runs over everything else.
     pm.SaveProject()
-    if before:
-        pm.LoadProject(before)
+    pm.LoadProject(before)
+
+    print("\n3. A decoy and a folder stand beside the open project")
     check("the decoy is in the project list to begin with",
           decoy in listed(pm),
           "%r among %d projects" % (decoy, len(listed(pm))))
@@ -145,7 +219,7 @@ try:
           folder in folders(pm),
           "%r among %d folders" % (folder, len(folders(pm))))
 
-    print("\n2. A run ends without tidying up, so nothing of its own is put back")
+    print("\n4. A run ends without tidying up, so nothing of its own is put back")
     told = os.path.join(work, "how_far")
     script = os.path.join(work, "child.py")
     with open(script, "w") as f:
@@ -183,11 +257,8 @@ try:
           "Resolve has %r open, the run made %r"
           % (open_now(pm), left_behind))
 
-    print("\n3. The sweep clears it away and puts the project back")
-    swept = subprocess.run(
-        [sys.executable, os.path.join(HERE, "sweep.py"), "--sweep",
-         "--restore", before], capture_output=True, text=True)
-    said = swept.stdout + swept.stderr
+    print("\n5. The sweep clears it away and puts the project back")
+    said = swept_and_restored(before)[0]
     print(said.rstrip())
     check("the sweep deletes what that run left behind",
           bool(left_behind) and left_behind not in listed(pm),
@@ -225,7 +296,7 @@ finally:
     except Exception as e:
         left_over.append("the child would not die: %s" % e)
     try:
-        if before and open_now(pm) != before:
+        if open_now(pm) != before:
             pm.LoadProject(before)
         if made_decoy:
             pm.DeleteProject(decoy)
@@ -239,9 +310,9 @@ finally:
         gone, stayed = ground_of.swept(pm)
         if stayed:
             left_over.append("still there: %s" % ", ".join(stayed))
-        if before and open_now(pm) != before:
+        if open_now(pm) != before:
             pm.LoadProject(before)
-        if before and open_now(pm) != before:
+        if open_now(pm) != before:
             left_over.append("%r could not be opened again" % before)
     except Exception as e:
         left_over.append("could not tidy up: %s" % e)

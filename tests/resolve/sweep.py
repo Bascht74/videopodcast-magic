@@ -25,7 +25,13 @@ delete, then make sure the right project is open again and say so. If
 Resolve will not open it, that is said loudly with the name in it,
 because then somebody has to open it by hand.
 
-  python3 sweep.py --which                    print what is open now
+What --which reports is not "what is open" but "what can be opened
+again": a project that stands in no project list cannot be loaded, so
+its name is answered with nothing. An empty answer is a normal one and
+the rest of the way has to bear it -- nothing is put back, and the loud
+box is not printed for a project nobody could have opened anyway.
+
+  python3 sweep.py --which           print what could be opened again
   python3 sweep.py --sweep --restore NAME     clear away, put NAME back
 """
 import os
@@ -52,12 +58,27 @@ def main(argv):
         return 2
     pm = resolve.GetProjectManager()
     if "--which" in argv:
-        # Never a project of the tests' own shape. Where a run was killed
+        # Two kinds of name are answered with nothing, and both would do
+        # harm if they were reported.
+        #
+        # A project of the tests' own shape: where a run was killed
         # outright no trap could run, and the leftover is then still open
         # -- reporting it would make the next run guard it as if it were
         # somebody's work, and it could then never be deleted.
+        #
+        # And a project that stands in no project list. Only what is in
+        # that list can be loaded again, so such a name is one nobody can
+        # put back, and a name nobody can put back is worse than no name:
+        # the run ends on the big box below for something that is not a
+        # fault. Measured on Resolve 21.0.4.5 on 1.9.2026: a project that
+        # was created and never saved is open and in no list, and the
+        # moment anything else is loaded Resolve writes it out under a
+        # name of its own choosing.
         here = open_now(pm)
-        print("" if ground_of.TEST_PROJECT.match(here) else here)
+        if (ground_of.TEST_PROJECT.match(here)
+                or here not in (pm.GetProjectListInCurrentFolder() or [])):
+            here = ""
+        print(here)
         return 0
 
     wanted = ""
