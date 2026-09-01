@@ -669,7 +669,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.25.1-beta"
+VERSION = "2.26.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -4546,6 +4546,30 @@ def speech_heading(own_measure_measured, total_sum=""):
     return "%s -- %s" % (source_text, total_sum) if total_sum else source_text
 
 
+def label_say(widget, text, colour):
+    """Put one line into a label, in the colour that grades it."""
+    widget.setText(text)
+    widget.setStyleSheet("color: %s" % colour)
+
+
+def cut_basis_line(basis, speakers, length):
+    """Say what the cut on the third tab stands on, and in what colour.
+
+    Three answers, and they are not worth the same. The recordings as
+    they lie are what the window can read before anything has run. A
+    finished run has every track on one axis, and with auphonic.com the
+    neighbours have been taken out of them as well.
+    """
+    if basis == "auphonic":
+        text = T('from the processed Auphonic tracks -- %d speakers, %s')
+    elif basis == "run":
+        text = T('from the finished run -- %d speakers, %s')
+    else:
+        text = T('measured from the recordings -- %d speakers, %s')
+    return (text % (speakers, as_hms(length)),
+            COLOURS["good" if basis in ("run", "auphonic") else "warning"])
+
+
 def format_complaint(d):
     """Say why a stored file cannot be used, or return "".
 
@@ -5011,6 +5035,24 @@ def unmix_levels(power, c, at_most=30.0):
 SPEECH_MIN_LEN_S = 0.2
 
 
+def clock_on_axis(curve, clock):
+    """Stretch a level curve from a recorder's own clock onto the axis.
+
+    No two recorders run at exactly the same speed, so an hour on one
+    is not an hour on the next. The run takes that out by rewriting the
+    audio; here the level curve is resampled instead, which is the same
+    correction at the resolution the levels are read with. *clock* is
+    the b of "recorder time = a + b * axis time".
+    """
+    if not len(curve) or abs(clock - 1.0) <= 1e-7:
+        return curve
+    long_enough = int(round(len(curve) / clock))
+    if long_enough < 2:
+        return curve
+    return np.interp(np.arange(long_enough) * clock,
+                     np.arange(len(curve)), curve)
+
+
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                         gap=0.35, min_len=SPEECH_MIN_LEN_S,
                         report=None, separate=True,
@@ -5021,14 +5063,16 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     recorders are set to different gains. With *separate* the bleed is
     taken out first; without it a voice loud enough in a neighbour's
     microphone counts as that neighbour speaking, and the cut then sits
-    on the wide shot throughout. *tracks* is [(name, path, offset)].
-    """
+    on the wide shot throughout. *tracks* is [(name, path, offset)] or
+    [(name, path, offset, clock)]."""
     names, levels, shifts = [], [], []
     # Read a handful at a time, not all at once: an hour of audio is a
     # couple of hundred megabytes per track.
     step = max(2, min(4, how_many_processors()))
     read = {}
-    for i, (name, file_path, offset) in enumerate(tracks):
+    for i, entry in enumerate(tracks):
+        name, file_path, offset = entry[0], entry[1], entry[2]
+        clock = float(entry[3]) if len(entry) > 3 else 1.0
         if i % step == 0:
             read = {}
             group = tracks[i:i + step]
@@ -5047,8 +5091,9 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
         if count < 2:
             levels.append(np.zeros(0))
             continue
-        levels.append(np.sqrt((x[:count * nb].reshape(count, nb).astype(
-            np.float64) ** 2).mean(axis=1)))
+        levels.append(clock_on_axis(np.sqrt(
+            (x[:count * nb].reshape(count, nb).astype(np.float64) ** 2
+             ).mean(axis=1)), clock))
 
     # One grid for all of them: only on a shared time axis does it mean
     # anything that one track is louder than another at this moment.
@@ -5059,7 +5104,11 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     for i, (s, v) in enumerate(zip(shifts, levels)):
         if len(v):
             level[i][s - begin:s - begin + len(v)] = v
-    speech = np.array([float(np.percentile(v[v > 0], 90))
+    # The reference has to land inside the speaking. The 90th percentile
+    # does so only above a tenth of the blocks; below that it lands on
+    # the bleed, which is then measured against itself and the split
+    # refused with a reason that is untrue. The 99th: a hundredth.
+    speech = np.array([float(np.percentile(v[v > 0], 99))
                        if len(v) and len(v[v > 0]) else 0.0 for v in levels])
 
     power = level ** 2
@@ -9753,7 +9802,8 @@ def separation_source_of_run(args, tracks, video_paths):
 def voices_reported(segments):
     """Say who speaks how long, and in how many passages."""
     for name, segs in segments:
-        print(T('  %-20s %s in %d passages')
+        print(TN(len(segs), '  %-20s %s in %d passage',
+                 '  %-20s %s in %d passages')
               % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
 
 
@@ -9830,7 +9880,9 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         return [], ""
     if getattr(args, "dry_run", False):
         # A dry run stops before the cut is built, so what the voices
-        # amount to is said here or nowhere.
+        # amount to is said here or nowhere -- under the heading the
+        # real run gives the same list, not bare.
+        print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
         voices_reported(out)
     return out, where_from
 
@@ -9887,7 +9939,8 @@ def speakers_for_the_cut(args, tracks):
             left = []
     if voices:
         print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
-        print(T('  From %s: %d voices.') % (where_from, len(voices)))
+        print(TN(len(voices), '  From %s: %d voice.', '  From %s: %d voices.')
+              % (where_from, len(voices)))
     if left:
         print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
         print(T('  From the tracks themselves, one voice per track: %s.')
@@ -14584,11 +14637,11 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     the whole axis hangs off it and the others get a real wall clock time
     instead of an invented one.
 
-    Returns (result, text). The result is {} or
-    {"axis", "absolute", "weak", "unplaceable", "brief", "no_place"}.
-    The axis is keyed by path_key, as axis_still_valid keys the one it
-    reads out of the project file; the four lists keep the names they
-    came in with, because those are shown.
+    Returns (result, text). The result is {} or {"axis", "clock",
+    "absolute", "weak", "unplaceable", "brief", "no_place"}; "clock" is
+    how fast each recorder ran, the b the run takes out. Both are keyed
+    by path_key, as axis_still_valid keys what it reads out of the
+    project file; the four lists keep the names they came in with.
 
     Four lists, narrowing. "weak" is a file that fits badly. "no_place"
     are the weak ones no timecode places either -- those sit nowhere,
@@ -14614,6 +14667,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         return ({}, "" if envelopes else T('time axis not measurable'))
     reference = max(envelopes, key=lambda p: len(envelopes[p]))
     axis, weak, lost = {reference: 0.0}, [], []
+    # Not "clocks": that one holds timecodes a few lines down.
+    clock_speed = {reference: 1.0}
     others = [p for p in envelopes if p != reference]
     clocks = dict((p, tc_of(p)) for p in paths)
 
@@ -14621,23 +14676,27 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         try:
             # The same method as the run: sample points over the whole
             # runtime, a regression line, the median.
-            a_s, _b, st = align_envelopes(envelopes[reference],
+            a_s, b, st = align_envelopes(envelopes[reference],
                                           envelopes[file_path], HOP)
-            return a_s, st.get("quality", 0.0)
+            return a_s, b, st.get("quality", 0.0)
         except Exception:
             return None
 
     for p, answer in zip(others, parallel_map(others, against_reference)):
         if answer is None:
             continue
-        a_s, g = answer
+        a_s, b, g = answer
         if abs(g) < SOUND_MATCH_ENOUGH:
             weak.append(p)
             if cannot_be_placed({"unplaceable": g < WEAK_MATCH}, clocks.get(p),
                                 [t for q, t in clocks.items() if q != p]):
                 lost.append(p)
             continue
-        axis[p] = -a_s
+        # Divided by b, exactly as the run divides it before it writes
+        # the track: a is where the recording sits in its own time, and
+        # its own time runs at b.
+        axis[p] = -a_s / b
+        clock_speed[p] = b
     # Held against a camera as well: against a sound recording a jingle
     # and a camera read too close together to tell apart
     # (measurements.md, 31.8.2026). The run used this floor all along.
@@ -14655,6 +14714,7 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
             if st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH:
                 weak.append(p)
                 axis.pop(p, None)
+                clock_speed.pop(p, None)
     # A file that fits nothing and is far shorter than everything around
     # it is a jingle rather than a camera. A clock that places it beats
     # the sound here as everywhere. The lengths are here anyway: an
@@ -14667,7 +14727,7 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         # No axis, but the measurement did happen and knows which files
         # it could not place. Thrown away here, the one file that fits
         # nothing would come out of a two-file production unmarked.
-        return ({"axis": {}, "absolute": False, "weak": weak,
+        return ({"axis": {}, "clock": {}, "absolute": False, "weak": weak,
                  "unplaceable": lost, "brief": brief,
                  "no_place": nowhere},
                 T('time axis not measurable'))
@@ -14690,8 +14750,10 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     # Not before here: everything above reads the file itself, and the
     # timecode is asked for under the name that was passed in.
     axis = dict((path_key(p), t) for p, t in axis.items())
-    return {"axis": axis, "absolute": absolute, "weak": weak,
-            "unplaceable": lost, "brief": brief,
+    speed = dict((path_key(p), b) for p, b in clock_speed.items()
+                 if path_key(p) in axis)
+    return {"axis": axis, "clock": speed, "absolute": absolute,
+            "weak": weak, "unplaceable": lost, "brief": brief,
             "no_place": nowhere}, text
 
 
@@ -14734,6 +14796,24 @@ def file_content_mark(file_path):
     return mark.hexdigest()
 
 
+def timeline_entries(axis, clocks):
+    """The measured place of every file, as the project file keeps it.
+
+    The clock speed rides along with the position: measuring it again
+    costs the same minutes, and a file that changed is caught by its
+    size and time anyway.
+    """
+    out = []
+    for p, start in (axis or {}).items():
+        k = file_fingerprint(p)
+        if k:
+            out.append({"path": k[0], "mtime": k[1], "size": k[2],
+                        "start_s": round(start, 3),
+                        "clock": round(float(
+                            (clocks or {}).get(path_key(p), 1.0)), 9)})
+    return out
+
+
 def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     """Report whether a previously measured axis still applies to these files.
 
@@ -14741,23 +14821,24 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
     axis is a statement about their relationship. A half valid axis would be
     worse than none, because it would look right.
 
-    Returns {"axis", "weak", "absolute"} or None, keyed by path_key like
-    the measured one, and the stored name is shaped as it is read."""
+    Returns {"axis", "clock", "weak", "absolute"} or None, keyed by
+    path_key; without a stored clock speed a file comes back at 1.0."""
     known = {}
     for e in ((d or {}).get("timeline") or []):
         stored = e.get("path")
         if stored:
             known[path_key(stored)] = e
-    axis = {}
+    axis, speed = {}, {}
     for file_path in paths:
         k = fingerprint(file_path)
         e = known.get(path_key(k[0])) if k else None
         if not e or e.get("mtime") != k[1] or e.get("size") != k[2]:
             return None
         axis[path_key(k[0])] = float(e.get("start_s") or 0.0)
+        speed[path_key(k[0])] = float(e.get("clock") or 1.0)
     if not axis:
         return None
-    return {"axis": axis, "weak": [],
+    return {"axis": axis, "clock": speed, "weak": [],
             "absolute": bool((d or {}).get("timeline_absolute"))}
 
 
@@ -18946,9 +19027,11 @@ def _speaker_split_talk(python, worker, head, wave, environment,
     # What it ran on, not what it should have run on: on the processor
     # the same file takes many times as long, and that belongs in the
     # log beside the time it took.
-    print(T('  Speaker separation (%s): %d speakers out of %s of audio')
-          % (device[-1] if device else "cpu",
-             len(set(x[0] for x in d["segments"])), as_hms(seconds)))
+    found = len(set(x[0] for x in d["segments"]))
+    print(TN(found,
+             '  Speaker separation (%s): %d speaker out of %s of audio',
+             '  Speaker separation (%s): %d speakers out of %s of audio')
+          % (device[-1] if device else "cpu", found, as_hms(seconds)))
     return speaker_segments_group(d["segments"]), ""
 
 
@@ -19778,6 +19861,18 @@ def longest_stretch(segments, label_name):
     return None
 
 
+def audio_clock_of(file_path, clocks):
+    """Return how fast this recorder ran against the common axis.
+
+    The run rewrites every track with this before it reads the speakers
+    off it, so the preview applies it too: without it the far end of an
+    hour sits a tenth of a second out, and the last shots shown are not
+    the ones the run makes.
+    """
+    b = (clocks or {}).get(path_key(file_path))
+    return float(b) if b else 1.0
+
+
 def audio_start_of(file_path, axis, unset=None):
     """Where an audio file starts: its timecode, else the measurement.
 
@@ -19986,6 +20081,18 @@ def speaker_split_work(source, count, note, stopping, done):
     except Exception as e:
         trouble = T('The speaker separation reports: %s') % str(e)[:140]
     done((source, count, segments, trouble))
+
+
+def speaker_measure_loop(tracks, bridge, bridge_emit):
+    """Read off the tracks who speaks when, in a thread of its own."""
+    try:
+        out = speakers_from_tracks(tracks, report=bridge.speaker_note.emit)
+        length = max((b for _n, segs in out for _a, b in segs), default=0.0)
+        result = (out, length, "" if length > 0 else
+                    T('Nothing was audible in the tracks.'))
+    except Exception as e:
+        result = ([], 0.0, T('Measuring not possible: %s') % str(e)[:140])
+    bridge_emit(bridge.speakers_measured, result)
 
 
 def speaker_split_loop(state, split_run, bridge, bridge_emit,
@@ -20219,6 +20326,16 @@ def cache_write(fingerprint, content):
     write_beside_then_move(
         cache_path(fingerprint),
         json.dumps(d, ensure_ascii=False).encode("utf-8"))
+
+
+def clean_preflight_cache(days=30):
+    """Discard stale measurements; once per run is enough.
+
+    Every entry names the version that wrote it and is refused after an
+    update, so without this the folder keeps a dead layer for every
+    release it has lived through.
+    """
+    clean_old_files(cache_folder("preflight"), days)
 
 
 def _findings_to_json(findings):
@@ -21847,6 +21964,7 @@ def main():
     ap = build_argument_parser()
     clean_envelope_cache()
     clean_probe_cache()
+    clean_preflight_cache()
     # --lang alone is not a job: it only picks the language, so the window
     # still opens. Anything else on the command line means a run.
     rest = list(sys.argv[1:])
@@ -23853,9 +23971,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
     class ShotNote(QtWidgets.QWidget):
         """Who speaks and which camera runs, in the shot's colour.
 
-        One display for both cases, and only its height differs: over a
-        picture it is a strip along the bottom edge, without one it
-        covers the whole area. The colour is opaque either way -- a
+        One display for both cases, and only its height differs: under
+        a picture it is a strip as high as its two lines, without one
+        it covers the whole area. The colour is opaque either way -- a
         video surface cannot be written on through, and text on an
         unknown picture cannot be read.
         """
@@ -23870,7 +23988,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.strong.setBold(True)
 
         def line_room(self):
-            """How high the two lines and their air want to be."""
+            """How high the two lines and the air round them are."""
             return 2 * QtGui.QFontMetrics(self.strong).height() + 8
 
         def show_shot(self, colour, camera, speaking):
@@ -23894,19 +24012,21 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             painter = QtGui.QPainter(self)
             painter.fillRect(self.rect(), QtGui.QColor(self.colour))
             painter.setPen(QtGui.QColor(readable_on(self.colour)))
-            room = self.rect().adjusted(6, 0, -6, -4)
+            room = self.rect().adjusted(6, 0, -6, 0)
             bold = QtGui.QFontMetrics(self.strong)
             high = bold.height()
+            # The two lines stand in the middle of whatever they are
+            # given, across and down. Both cases then read the same,
+            # and a strip cut to their height needs no second rule.
+            top = room.top() + max(0, (room.height() - 2 * high) // 2)
             painter.setFont(self.strong)
             painter.drawText(
-                QtCore.QRect(room.left(), room.bottom() - 2 * high,
-                             room.width(), high),
+                QtCore.QRect(room.left(), top, room.width(), high),
                 Qt.AlignHCenter | Qt.AlignVCenter,
                 self._fits(self.speaking, room.width(), bold))
             painter.setFont(self.font())
             painter.drawText(
-                QtCore.QRect(room.left(), room.bottom() - high,
-                             room.width(), high),
+                QtCore.QRect(room.left(), top + high, room.width(), high),
                 Qt.AlignHCenter | Qt.AlignVCenter,
                 self._fits(self.camera, room.width(),
                            QtGui.QFontMetrics(self.font())))
@@ -23939,8 +24059,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             position.setSpacing(6)
             # The box the picture and the note share. It keeps the size
             # the picture alone used to have: what the picture gives up
-            # by taking its own shape goes to the note, not to the
-            # window.
+            # by taking its own shape stays inside the box and does not
+            # move the window.
             self.box = QtWidgets.QWidget()
             self.box.setMinimumHeight(302)
             self.box.setMinimumWidth(320)
@@ -24173,16 +24293,18 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 % (BACKDROP, self.FRAME, colour))
 
         def _note_place(self):
-            """Fit the picture to its shape and give the note the rest.
+            """Fit the picture to its shape and put the note under it.
 
             The picture keeps the size it had at most, never more, and
-            what it gives up by taking its own shape falls to the note
-            below it. Without a picture the note takes the whole box.
-            A strip of the box's own colour stays free at the foot, or
-            the note and the cut band under it read as one thing.
+            the note under it is as high as its two lines. Whatever
+            stays free below falls to the box's own colour, so the
+            strip reads as a caption to the picture. A strip of that
+            colour stays free at the foot in any case, or the note and
+            the cut band under it read as one thing.
             """
             wide, high = self.box.width(), self.box.height() - self.GAP
-            room = max(1, high - self.note.line_room() - 2 * self.FRAME)
+            lines = self.note.line_room()
+            room = max(1, high - lines - 2 * self.FRAME)
             seen = max(1, min(room, int((wide - 2 * self.FRAME)
                                         / self.shape)))
             across = min(wide, int(seen * self.shape) + 2 * self.FRAME)
@@ -24190,9 +24312,12 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                                    seen + 2 * self.FRAME)
             # As wide as the framed picture, so frame and note read as
             # one block rather than as a band laid under a picture.
+            # Without a picture there is nothing to caption and nothing
+            # to sit under, so there the colour keeps the whole box.
             over = 0 if self._blank else self.stack.height()
+            deep = high if self._blank else min(lines, high - over)
             self.note.setGeometry(self.stack.x(), over,
-                                  self.stack.width(), max(1, high - over))
+                                  self.stack.width(), max(1, deep))
             self.note.raise_()
 
         def _note_show(self, t, j):
@@ -28053,7 +28178,8 @@ def gui():
                "camera_audio": False, "waiting": False, "without_tc": False,
                "assignment_content": None, "statistics": False,
                "in_point": "", "out_point": "", "axis": {}, "tc_there": False,
-               "weak": set(), "tables": [], "axis_absolute": False}
+               "weak": set(), "tables": [], "axis_absolute": False,
+               "axis_clock": {}}
     post = queue.Queue()
 
     # ------------------------------------------------------------------
@@ -29854,14 +29980,7 @@ def gui():
         # way the settings reach the file where every file carries a
         # timecode and no axis was ever measured.
         if axis:
-            entries = []
-            for p, start in axis.items():
-                k = file_fingerprint(p)
-                if k:
-                    entries.append({"path": k[0], "mtime": k[1],
-                                    "size": k[2],
-                                    "start_s": round(start, 3)})
-            d["timeline"] = entries
+            d["timeline"] = timeline_entries(axis, state.get("axis_clock"))
             d["timeline_absolute"] = bool(state.get("axis_absolute"))
         d["files"] = [{"path": p, "kind": a} for p, a in files]
         settings_extend(d)
@@ -29937,6 +30056,7 @@ def gui():
         plan.done("axis")
         axis = (data or {}).get("axis") or {}
         state["axis"] = axis
+        state["axis_clock"] = (data or {}).get("clock") or {}
         state["axis_absolute"] = bool((data or {}).get("absolute"))
         state["weak"] = set(path_key(p) for p in ((data or {}).get("weak") or []))
         state["no_place"] = set(path_key(p)
@@ -31924,35 +32044,21 @@ def gui():
         """While nothing is computed the box holds only the hint."""
         for widget in (speech_title, speech_table, speech_total_sum):
             widget.setVisible(not empty)
-        if not empty:
-            measure_line.setVisible(False)
 
     def speaker_measure_done(result):
         segment_list, length, error = result
         measure_button.setEnabled(True)
         measure_button.setText(T('Measure speakers now'))
         if error:
-            measure_label.setText(error[:160])
-            measure_label.setStyleSheet("color: %s" % COLOURS["error"])
+            state["measure_failed"] = True
+            label_say(measure_label, error[:160], COLOURS["error"])
             return
         state["speakers_measured"] = {"segments": segment_list,
                                         "length": length}
-        measure_label.setText(T('measured -- %d speakers, %s')
-                             % (len(segment_list), as_hms(length)))
-        measure_label.setStyleSheet("color: %s" % COLOURS["good"])
+        state["cut_basis"] = "measured"
+        label_say(measure_label,
+                  *cut_basis_line("measured", len(segment_list), length))
         preview_kick_off()
-
-    def speaker_measure_work_loop(tracks):
-        try:
-            out = speakers_from_tracks(
-                tracks, report=bridge.speaker_note.emit)
-            length = max((b for _n, segs in out for _a, b in segs),
-                         default=0.0)
-            result = (out, length, "" if length > 0 else
-                        T('Nothing was audible in the tracks.'))
-        except Exception as e:
-            result = ([], 0.0, T('Measuring not possible: %s') % str(e)[:140])
-        bridge_emit(bridge.speakers_measured, result)
 
     def speaker_measure():
         """Derive the speech segments from the tracks themselves."""
@@ -31961,23 +32067,25 @@ def gui():
             if camera_value.get() == IGNORE_AUDIO:
                 continue
             name = speaker_name_of(name_value) or os.path.basename(row[0])
-            tracks.append((name, row[0], audio_start(row[0])))
+            tracks.append((name, row[0], audio_start(row[0]),
+                           audio_clock_of(row[0], state.get("axis_clock"))))
         if not tracks:
-            measure_label.setText(T('No audio tracks are assigned.'))
-            measure_label.setStyleSheet("color: %s" % COLOURS["error"])
+            label_say(measure_label, T('No audio tracks are assigned.'),
+                      COLOURS["error"])
             return
-        begin = min(v for _n, _p, v in tracks)
-        tracks = [(n, p, v - begin) for n, p, v in tracks]
+        begin = min(v for _n, _p, v, _b in tracks)
+        tracks = [(n, p, v - begin, b) for n, p, v, b in tracks]
+        state["measure_failed"] = False
         measure_button.setEnabled(False)
         measure_button.setText(T('measuring ...'))
-        measure_label.setText("")
-        measure_label.setStyleSheet("color: %s" % COLOURS["quiet"])
-        threading.Thread(target=speaker_measure_work_loop, args=(tracks,),
+        label_say(measure_label, "", COLOURS["quiet"])
+        threading.Thread(target=speaker_measure_loop,
+                         args=(tracks, bridge, bridge_emit),
                          daemon=True).start()
 
     measure_line = QtWidgets.QWidget()
     _measure_row = QtWidgets.QHBoxLayout(measure_line)
-    _measure_row.setContentsMargins(0, 6, 0, 0)
+    _measure_row.setContentsMargins(0, 0, 0, 0)
     measure_button = QtWidgets.QPushButton(T('Measure speakers now'))
     hint(measure_button,
             T('Works out who speaks when from the audio tracks themselves '
@@ -32017,6 +32125,11 @@ def gui():
                     d = json.load(f)
             except (OSError, ValueError):
                 d = None
+        # What the cut stands on, and it is said out loud further down.
+        # A finished run beats what was measured here: its tracks lie
+        # on one axis, and auphonic.com has de-bled them as well.
+        state["cut_basis"] = (("auphonic" if state.get("run_auphonic")
+                               else "run") if d is not None else "measured")
         if d is None:
             d = off_speakers()
         # A change on the assignment sheet reaches the preview without
@@ -32059,12 +32172,15 @@ def gui():
                           'speakers" in the Speaker name field out of the '
                           'one recording all are on.'), COLOURS["quiet"])
             preview_label.setToolTip(state.get("reason") or "")
+            measure_button.setVisible(bool(state.get("tracks_left")))
             measure_line.setVisible(bool(state.get("tracks_left")))
             return
         state["statistics"] = True
-        # Somebody whose track has not been measured is in the cut and
-        # not in this picture. Said beside the button that fetches them.
-        measure_line.setVisible(bool(state.get("tracks_left")))
+        # The line stays and says what the cut stands on. Only the
+        # button comes and goes: somebody whose track has not been
+        # measured is in the cut and not in this picture.
+        measure_line.setVisible(True)
+        measure_button.setVisible(bool(state.get("tracks_left")))
         if state.get("tracks_left"):
             measure_label.setText(T('%s not measured yet -- in the cut, '
                                     'not yet in this preview.')
@@ -32084,6 +32200,10 @@ def gui():
             preview_set(complaint, COLOURS["warning"])
             return
         speech_show(d)
+        if not (state.get("tracks_left") or state.get("measure_failed")):
+            label_say(measure_label, *cut_basis_line(
+                state.get("cut_basis"), len(d.get("speakers") or []),
+                float(d.get("length_s") or 0.0)))
         window_info_show()
         # The words come with the handover and nowhere else, and the
         # greying belongs here: with the wide shot's it would run
@@ -32589,13 +32709,15 @@ def gui():
         channel_choice.clear()
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
-                     "result_folder", "resolve_json", "voice_marks"):
+                     "result_folder", "resolve_json", "voice_marks",
+                     "cut_basis", "run_auphonic", "measure_failed"):
             state.pop(name, None)
         words_forgotten(state)
         # Emptied, not taken away: the time axis is read by name in
         # several places, and a missing key there is a KeyError rather
         # than an empty axis.
         state["axis"] = {}
+        state["axis_clock"] = {}
         state["axis_absolute"] = False
         # The timecode belonged to the material that has just gone; left
         # standing, the menu went on offering marks on an empty window.
@@ -32740,6 +32862,7 @@ def gui():
             mode_toggled(camera_fresh=False)
         state["resolve_json"] = None
         state["results"] = []
+        state.pop("measure_failed", None)
         target = out_folder.get()
         if target and os.path.isdir(target) and any(
                 n.lower().endswith(VIDEO_SUFFIXES) for n in os.listdir(target)):
@@ -33080,6 +33203,8 @@ def gui():
         only_resolve.setEnabled(False)
         start_run.setText(T('Preview running ...') if only_look else T('running ...'))
         state["running"], state["dry_run"] = True, bool(only_look)
+        # Held now: the preset box can be turned while the run goes on.
+        state["run_auphonic"] = not without_auphonic()
         break_off_arm(break_off)
         run_plan_build()
         result_button_check()
@@ -33872,6 +33997,8 @@ CATALOGUE["de"] = {
         '  Spracherkennung (%s): %s Wörter in %.1f s',
     '  Speech recognition (%s): %s words, read back':
         '  Spracherkennung (%s): %s Wörter, zurückgelesen',
+    '  Speaker separation (%s): %d speaker out of %s of audio':
+        '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
     '  Speaker separation (%s): %d speakers out of %s of audio':
         '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
     'Separating speakers': 'Sprecher werden getrennt',
@@ -36662,8 +36789,12 @@ CATALOGUE["de"] = {
         'Weitwinkel nach',
     'into every camera':
         'in alle Kameras',
-    'measured -- %d speakers, %s':
-        'gemessen -- %d Sprecher, %s',
+    'measured from the recordings -- %d speakers, %s':
+        'gemessen aus den Aufnahmen -- %d Sprecher, %s',
+    'from the finished run -- %d speakers, %s':
+        'aus dem fertigen Lauf -- %d Sprecher, %s',
+    'from the processed Auphonic tracks -- %d speakers, %s':
+        'aus den bearbeiteten Auphonic Spuren -- %d Sprecher, %s',
     'no folder':
         'keinem Ordner',
     'no text':
@@ -37066,6 +37197,7 @@ CATALOGUE["de"] = {
         'geholt.',
     '  (measuring only: nothing separated)':
         '  (nur gemessen: nichts getrennt)',
+    '  From %s: %d voice.': '  Aus %s: %d Stimme.',
     '  From %s: %d voices.': '  Aus %s: %d Stimmen.',
     '  The tracks were not measured, so %s is in the mix and not in the '
     'cut: %s':
@@ -37093,6 +37225,8 @@ CATALOGUE["de"] = {
         'Daraus wird kein Schnitt -- bitte oben noch einmal auf Start.',
     '\nWITHOUT AUPHONIC.COM':
         '\nOHNE AUPHONIC.COM',
+    '  %-20s %s in %d passage':
+        '  %-20s %s in %d Abschnitt',
     '  %-20s %s in %d passages':
         '  %-20s %s in %d Abschnitten',
     '  Bleed measured, %s in %s only %.1f dB quieter -- taken out of the '

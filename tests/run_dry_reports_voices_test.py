@@ -136,15 +136,18 @@ check("and hands the stored voices on rather than nothing",
 check("and does not say it separated nothing",
       vpm.T('  (measuring only: nothing separated)') not in log,
       "the log was %r" % log[-120:])
+check("and the list stands under the heading the real run gives it",
+      vpm.as_head(vpm.T('\nSPEAKERS -- SEPARATED BY VOICE')) in log,
+      "the log was %r" % log[-200:])
 check("the log names one line per voice",
-      log.count(" passages") == len(read_back),
+      log.count(" passage") == len(read_back),
       "%d lines with passages against %d voices"
-      % (log.count(" passages"), len(read_back)))
+      % (log.count(" passage"), len(read_back)))
 check("and the first voice with the seconds it speaks",
       "SPEAKER_00" in log and "0:00:08.600 in 2 passages" in log,
       "the log was %r" % log[-200:])
-check("and the second one with its own",
-      "SPEAKER_01" in log and "0:00:04.000 in 1 passages" in log,
+check("and the second one, which speaks once, in the singular",
+      "SPEAKER_01" in log and "0:00:04.000 in 1 passage\n" in log,
       "the log was %r" % log[-200:])
 
 print("\n3. A recording written since it was separated")

@@ -15,7 +15,12 @@ One assignment, read both ways. In order: the run puts the separation's
 voices and both free microphones into the cut, the preview comes to the
 same list, the track with no camera of its own stands in both, a row set
 to "do not use" reaches neither, and the recording a separation speaks
-for reaches neither.
+for reaches neither. Then the same question about the clock: the run
+rewrites every track onto the axis before it reads the speakers off
+it, so the window has to read on that clock too, or the two hear the
+same hour at two different lengths. Last the line on the third tab
+that says which of the two the cut in front of somebody is standing
+on.
 
 The run's reading of the microphones is stood in for, and it hands back
 exactly what the window's stored measurement holds -- otherwise the two
@@ -160,6 +165,65 @@ check("and the recording a separation speaks for reaches neither",
       IN_THE_MIX not in preview_names and IN_THE_MIX not in run_names,
       "%s stands in the preview %s and in the run %s, wanted in neither"
       % (IN_THE_MIX, IN_THE_MIX in preview_names, IN_THE_MIX in run_names))
+
+print("\n3. And it reads them on the clock the run uses")
+import numpy as np
+CLOCKED = os.path.join(D, "Clocked.wav")
+SPEED, LONG, HZ = 1.02, 20.0, 8000
+with wave.open(CLOCKED, "wb") as f:
+    f.setnchannels(1); f.setsampwidth(2); f.setframerate(HZ)
+    n = int(LONG * HZ)
+    x = np.random.default_rng(3).normal(0.0, 0.002, n)
+    for begin in (1.0, 8.0, 17.0):
+        i0, i1 = int(begin * HZ), int((begin + 1.5) * HZ)
+        x[i0:i1] += np.random.default_rng(4).normal(0.0, 0.3, i1 - i0)
+    f.writeframes((np.clip(x, -0.99, 0.99) * 32000).astype("<i2").tobytes())
+# Two per cent, not the thirty parts per million of a real recorder:
+# the reading works in blocks of a tenth of a second, and a real drift
+# would hide inside one block over twenty seconds. What is checked is
+# that the number is applied and in which direction.
+flat = dict(vpm.speakers_from_tracks([("One", CLOCKED, 0.0)])).get("One") or []
+sped = dict(vpm.speakers_from_tracks(
+    [("One", CLOCKED, 0.0, SPEED)])).get("One") or []
+print("   ", "flat:", flat, " on the clock:", sped)
+check("both readings find the three passages",
+        len(flat) == 3 and len(sped) == 3,
+        "%d passages flat, %d on the clock, wanted 3 each"
+        % (len(flat), len(sped)))
+if len(flat) == 3 and len(sped) == 3:
+    check("a recorder running fast has its last passage pulled forward",
+            abs(sped[2][0] - flat[2][0] / SPEED) < 0.15,
+            "the last passage starts at %.2f s, wanted %.2f s, flat %.2f s"
+            % (sped[2][0], flat[2][0] / SPEED, flat[2][0]))
+    check("and its first one barely moves",
+            abs(sped[0][0] - flat[0][0]) < 0.15,
+            "%.2f s against %.2f s" % (sped[0][0], flat[0][0]))
+check("a file the axis does not know runs at 1",
+        vpm.audio_clock_of("/nowhere.wav", {}) == 1.0,
+        "%r" % (vpm.audio_clock_of("/nowhere.wav", {}),))
+check("and one it does keeps its own speed",
+        vpm.audio_clock_of(CLOCKED, {vpm.path_key(CLOCKED): SPEED}) == SPEED,
+        "%r" % (vpm.audio_clock_of(CLOCKED, {vpm.path_key(CLOCKED): SPEED}),))
+
+print("\n4. And the third tab says what the cut stands on")
+vpm.set_language("en")
+said = dict((b, vpm.cut_basis_line(b, 3, 4163.0))
+            for b in ("measured", "run", "auphonic"))
+for b in ("measured", "run", "auphonic"):
+    print("   %-9s %s" % (b, said[b][0]))
+check("three bases, three different sentences",
+        len(set(t for t, _c in said.values())) == 3,
+        "%s" % [t for t, _c in said.values()])
+check("the raw recordings are the provisional answer",
+        said["measured"][1] == vpm.COLOURS["warning"]
+        and "recordings" in said["measured"][0],
+        "%s in %s" % (said["measured"][0], said["measured"][1]))
+check("a finished run is the good one, with or without auphonic.com",
+        said["run"][1] == vpm.COLOURS["good"]
+        and said["auphonic"][1] == vpm.COLOURS["good"],
+        "run %s, auphonic %s" % (said["run"][1], said["auphonic"][1]))
+check("and auphonic.com is named where it did the work",
+        "Auphonic" in said["auphonic"][0], said["auphonic"][0])
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

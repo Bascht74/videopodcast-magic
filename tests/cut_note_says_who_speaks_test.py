@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """The picture says who speaks and which camera runs, in the shot's colour.
 
-One note serves both cases and only its height differs: over a picture
-it is a strip at the foot, without one it covers the whole area. In
+One note serves both cases and only its height differs: under a picture
+it is a strip of two lines, without one it covers the whole area. In
 order: what the two lines carry, the four ways speech and the wide shot
 can meet, the colour round the picture and on the note, the two
 heights, and that the camera is named there and in no line under it.
