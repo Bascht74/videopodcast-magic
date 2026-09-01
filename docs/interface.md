@@ -519,9 +519,9 @@ It asks first, and the kept file has to pass the same three checks as
 what comes down. Then the program starts again. That uses the file up,
 and the way forward is the update over the network again.
 
-The tick **Do not ask again** stops the program from looking by itself.
-**Help > Look for a newer version now** still asks whenever it is
-chosen.
+The tick **Skip this version** puts one version aside. The next one
+asks again, and **Help > Look for a newer version now** asks whenever
+it is chosen.
 
 ## How the time axis is built without timecode
 
@@ -584,12 +584,10 @@ list.
 
 The window does not offer these.
 
-`--update-check` brings the unasked look back after the tick **Do not ask
-again** was set.
-
-`--no-update-check` sets the same no as that tick. A run from the command
-line leaves the looking out anyway: started from a script, it must not
-stop at a question.
+`--update` fetches the newer version and puts the running one beside it
+as `videopodcast-magic.py.old`. A run from the command line only ever
+says that a newer one is out -- started from a script, it must not stop
+at a question, and it fetches nothing unasked.
 
 `VPM_NO_UPDATE_CHECK` in the environment switches the whole thing off,
 the menu entry with it. The entry then says so instead of looking. That
