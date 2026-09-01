@@ -77,10 +77,10 @@ an empty field and no voice rows. Picking **several speakers** later
 puts the voices there at once, with their names and cameras, without
 computing anything again.
 
-Where a row carries a name and is not on **several speakers**, the
-column **Speakers** offers *Only one speaker -- separate the track?* as
-a flat text button. A click sets the field to **several speakers**, and
-the voices appear.
+Typing a name over **several speakers** hides the voice rows again and
+keeps what was worked out; picking **several speakers** once more
+brings them back without computing. The column **Speakers** never asks
+anything -- the answer is given in the field alone.
 
 With exactly one video file with sound and no audio recording beside it
 nobody has to set anything: that sound is the only sound there is, so

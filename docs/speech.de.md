@@ -27,11 +27,12 @@ Stimmen: erst eine Antwort holt sie hoch. Sie holt sie sofort hoch, mit
 den Namen und Kameras, die sie schon hatten, und gerechnet wird nichts
 zweimal -- ein Fehlklick kostet also keine Zeit.
 
-Steht ein Name im Feld, bietet die Zelle **Sprecher** an, es sich
-anders zu überlegen: **Nur ein Sprecher -- Spur auftrennen?**, oder,
-wenn die Stimmen schon da sind, sie zu zeigen. Ein Klick, und sie
-stehen in ihren Zeilen. Einem Feld, das niemand beantwortet hat, wird
-nichts angeboten.
+Es sich anders zu überlegen geht durch dasselbe Feld und nur durch
+dieses. Steht ein Name darin, gibt **mehrere Sprecher** diese Aufnahme
+an die Trennung; stehen die Stimmen darunter, blendet ein über die
+Antwort getippter Name sie wieder aus und wirft nichts weg. Die Zelle
+**Sprecher** ist eine Auskunft und keine Frage: nichts darin startet
+eine Trennung.
 
 Ist eine Aufnahme getrennt, steht **Getrennt: 4 Sprecher** in ihrer
 Zelle **Sprecher**. Jede Aufnahme trägt ihre eigene: eine zweite zu

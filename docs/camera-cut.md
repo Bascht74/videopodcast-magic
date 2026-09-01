@@ -340,6 +340,44 @@ interface](interface.md)). Once the zoom is close enough to judge a
 single cut, the bars no longer say which part of the episode is in front
 of you; those two times do.
 
+### What the picture says
+
+The picture in the preview box carries a note of its own, so that one
+glance settles both questions at once: who is talking, and which camera
+is up.
+
+Directly under the picture, and exactly as wide as it, lies a plate in
+the colour of the running shot, and a frame in that same colour runs
+round the picture, so that the two read as one block. These are the
+colours of the cut band, the wide shot in its pale sage. The picture
+keeps its own shape, and the height it does not need goes to the plate
+instead of to black bars. On the plate stand two lines:
+
+* **who is speaking**, in bold, and everybody where several do at once.
+  Where the wide shot is up, **(wide shot)** stands after the name: the
+  wide shot is a choice of camera, not a silence, and somebody speaking
+  on it keeps their name. Where nobody speaks, the line reads **No
+  speaker**. It is never empty -- an empty line reads as a fault.
+* **the camera** under it, by the same name the cut band gives it. A
+  name too wide for the picture is cut at the front, with an ellipsis
+  where the cut is.
+
+A name stands for **at least half a second**, so that a short "yes"
+between two long answers cannot make it flash. The price is that the
+name can lag the sound by that much. Only the note waits: the picture
+cuts where the cut says, whatever name is still standing. Nothing of
+this reaches the cut, the shot list or the EDLs -- it is reading matter
+and nothing else.
+
+Where a shot has no picture -- a camera in the cut whose file is not
+here -- the colour fills the whole box and the same two lines stand on
+it. The sound runs on, and it stays readable who is speaking and which
+camera the run would put them on.
+
+Under the picture stand the In point on the left, the position in the
+middle and the Out point on the right. The camera is not repeated
+there; it stands in the picture.
+
 ### How the preview players choose file and sound
 
 Two players show the material, and both pick their file themselves.
@@ -377,7 +415,9 @@ in which version.
 
 On the **Resolve cut** tab the player in the preview box always shows
 something: if there is a cut it plays the cut and switches camera at
-every edge, otherwise the file with no speaker assigned.
+every edge, otherwise the file with no speaker assigned. Without a cut
+the note under the picture carries that file's name and says **No
+speaker**, because nobody has been worked out to be speaking yet.
 
 The sound comes from one file throughout, preferably the **Full-Mix**,
 which is at delivery level and goes into the cut timeline too. As long

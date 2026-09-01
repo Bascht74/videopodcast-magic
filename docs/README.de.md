@@ -124,7 +124,8 @@ der das Wort erklärt, steht vorn.
 * **Paketverwaltung**: `requirements`, „Woher ffmpeg, PySide6 und numpy
   kommen“
 * **Player, Vorschau**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie
-  die Vorschau-Player Datei und Ton wählen“
+  die Vorschau-Player Datei und Ton wählen“; `camera-cut`, „Was das Bild
+  sagt“
 * **Preset**: `auphonic`, „Der Schlüssel und das Preset“; `preflight`, „Was
   geprüft wird“
 * **Probelauf**: `interface`, „Die vier Reiter“
@@ -184,7 +185,8 @@ der das Wort erklärt, steht vorn.
 * **Vorflug**: `preflight`, „Was geprüft wird“
 * **Vorspann**: `resolve`, „Vorspann und Abspann setzen“
 * **Weitwinkel**: `camera-cut`, „Wie das Programm den Weitwinkel setzt“;
-  `camera-cut`, „Wie der Schnitt entsteht“
+  `camera-cut`, „Wie der Schnitt entsteht“; `camera-cut`, „Was das Bild
+  sagt“
 * **Zeitachse**: `interface`, „Wie die Zeitachse ohne Timecode entsteht“;
   `multitrack`, „Was Multitrack tut“
 * **Zeitfenster**: `multitrack`, „Das Zeitfenster setzen“

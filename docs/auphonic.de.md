@@ -19,7 +19,8 @@ Den Schlüssel gibt es in den Auphonic-Kontoeinstellungen, alternativ in
    (auf der Kommandozeile `--auphonic-api-key`).
 3. Optional: das Häkchen **Im Schlüsselbund speichern** setzen, das den
    Schlüssel im Schlüsselbund (macOS) oder in der Registry (Windows)
-   behält.
+   behält. Auf dem Mac muss der Schlüsselbund dafür aufgesperrt sein;
+   ist er es nicht, sagt das Fenster es.
 4. **Verbinden** drücken. Der Knopf prüft den Schlüssel und holt die
    Presets.
 
@@ -46,10 +47,23 @@ einen fehlenden Schlüssel.
   Kommandozeile also lieber `AUPHONIC_TOKEN`.
 
 Das Ablegen im macOS-Schlüsselbund übergibt ihn dem Programm `security`
-über dessen Eingabe, nicht als Argument. Das Programm liest ihn zurück,
-um zu sehen, dass er angekommen ist. Nur wenn der falsche Schlüssel
-zurückkommt, greift es zur Form mit dem Argument, die die Schwäche der
-Kommandozeile hat. Der Weg über die Windows-Registry hat sie nicht.
+über dessen Eingabe, nicht als Argument; auch auf diesem Weg steht er
+also nicht in der Prozessliste. Das Programm liest ihn zurück, um zu
+sehen, dass er angekommen ist. Einen zweiten Weg gibt es nicht: als
+Argument übergeben stünde er dort, wo jeder am Rechner ihn lesen kann.
+Nimmt der Schlüsselbund ihn also nicht, wird nichts abgelegt, und eine
+Zeile sagt, warum. Beim Weg über die Windows-Registry stellt sich die
+Frage nicht.
+
+Ob der Schlüsselbund zugesperrt ist, wird nachgesehen, bevor etwas
+übergeben wird. Solange er zu ist, ist das Häkchen **Im Schlüsselbund
+speichern** grau, und darunter steht in Warnfarbe **Der Schlüsselbund
+ist zugesperrt. Sperr ihn auf, dann wacht dieser Knopf auf.** Daneben
+steht **Schlüsselbundverwaltung öffnen**, und dieser Knopf öffnet das
+Programm, das ihn aufsperrt. Ist er aufgesperrt, wacht das Häkchen
+innerhalb einer halben Sekunde von selbst auf -- und dieses Aufwachen
+ist das Zeichen, dass es geklappt hat, denn sonst meldet es niemand.
+Das Nachsehen selbst fragt nichts und bringt nichts auf den Schirm.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** steht im Kasten
 **Aufbereitung bei auphonic.com (optional)**, was dieser Lauf tut: das

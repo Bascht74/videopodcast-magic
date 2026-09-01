@@ -27,10 +27,11 @@ only an answer brings them up. It brings them up at once, with the
 names and cameras they already had, and nothing is worked out twice --
 so a wrong click costs no time.
 
-Where a name stands in the field, the **Speakers** cell offers to think
-again: **Only one speaker -- separate the track?**, or, where the
-voices are already there, to show them. One click and they stand in
-their rows. A field nobody has answered is offered nothing.
+Thinking again goes through the same field, and only through it. Where
+a name stands, **several speakers** hands that recording to the
+separation; where the voices stand, a name typed over the answer hides
+them again and throws nothing away. The **Speakers** cell is a report
+and not a question: nothing in it starts a separation.
 
 Once a recording has been separated, **Separated: 4 speakers** stands
 in its **Speakers** cell. Every recording carries its own: separating a

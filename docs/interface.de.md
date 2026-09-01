@@ -159,10 +159,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   hat, lässt das Feld leer und die Zeilen verborgen, und eine spätere
   Antwort holt sie sofort hoch, mit den Namen und Kameras, die sie
   schon hatten. Die fünfte Spalte, **Sprecher**, sagt, wie es darum
-  steht -- **Abbrechen**, solange es läuft, in dieser Zeile und in
-  keiner anderen, danach **Getrennt: 4 Sprecher**, und daneben das
-  Angebot **Nur ein Sprecher -- Spur auftrennen?**, wo immer ein Name
-  im Feld steht.
+  steht -- **Sprecher werden getrennt ...** und **Abbrechen**, solange
+  es läuft, in dieser Zeile und in keiner anderen, danach **Getrennt: 4
+  Sprecher**, und einen Grund, wo die Trennung nicht laufen konnte. Sie
+  ist eine Auskunft und sonst nichts: dort startet keine Trennung, und
+  wer es sich anders überlegt, geht zurück ins Feld.
 
   Jede Aufnahme hält ihre eigene Trennung, und mehrere stehen
   nebeneinander: jede Zeile zählt die Stimmen ihrer eigenen Aufnahme,
@@ -226,7 +227,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   mit den Werten für den Schnitt und der Kasten **Sprecher**, dessen
   Überschrift die Quelle der Sprecher nennt. Zuletzt der Kasten
   **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer
-  Vorschau.
+  Vorschau. Das Bild sagt unter sich, auf einer Fläche in der Farbe der
+  laufenden Einstellung, wer spricht und welche Kamera läuft; hat eine
+  Einstellung kein Bild, füllt die Farbe die ganze Fläche, und die
+  beiden Zeilen stehen darauf. [Der Kameraschnitt](camera-cut.de.md)
+  liest sie aus.
 
   Das Band teilt sich seine Zeile mit drei Zoom-Knöpfen und, ganz am
   Ende der Zeile, der gezeigten Zeitspanne in Schreibmaschinenziffern:
@@ -417,7 +422,10 @@ Das Fenster hinter dem Knopf hat zwei Kästen.
 - **Zugang zu auphonic.com**: das Feld für den API Key und das Häkchen,
   das ihn behält (**Im Schlüsselbund speichern** auf dem Mac, **In der
   Registry speichern** unter Windows). **Verbinden** prüft den Schlüssel
-  und holt die Presets.
+  und holt die Presets. Ist der Schlüsselbund auf dem Mac zugesperrt, ist
+  das Häkchen grau, eine Zeile darunter sagt es, und
+  **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das ihn
+  aufsperrt; danach wacht das Häkchen von selbst wieder auf.
 - **Verbindung zu Resolve**: ob Resolve antwortet, mit Version, wenn ja,
   und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal, das
   Öffnen des Fensters ebenso.

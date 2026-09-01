@@ -50,12 +50,11 @@ stay in the project and in the cache folder, and picking **several
 speakers** later brings them up at once, with their names and cameras
 and without computing again. The last column says how far that got and
 offers **Break off** while it runs ([Speech recognition and speaker
-separation](speech.md)). It carries one more line, *Only one speaker --
-separate the track?*, in every row that has a name and does not stand
-on **several speakers**; a click sets the field to **several speakers**
-and the voices appear. Where voices are stored already, the same line
-offers to show them instead. The selector **belongs to** lists the
-cameras, then two special cases:
+separation](speech.md)). Nothing there starts a separation: a name
+typed over **several speakers** hides the voice rows again and keeps
+what was worked out, and what brings them back is the answer in the
+field. The selector **belongs to** lists the cameras, then two special
+cases:
 
 - **no camera of its own**: in the Full-Mix, but nobody's first track.
   For someone heard but not seen.
