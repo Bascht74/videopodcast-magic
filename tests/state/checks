@@ -80,7 +80,7 @@ files_lengths_summed	6
 files_named_by_folder	27
 files_old_file_refused	30
 files_order_kept	7
-files_probed_once	27
+files_probed_once	40
 files_project_first	14
 files_project_offered	35
 files_set_aside_skipped	14
@@ -138,6 +138,7 @@ sound_tracks_written	31
 source_checks_proved	10
 source_limits_hold	14
 source_no_loose_ends	9
+source_numpy_comes_last	4
 source_reds_carry_value	6
 source_skills_resolve	5
 source_test_names_swept	7
@@ -178,7 +179,7 @@ time_zero_at_in_point	77
 voice_answer_kept	24
 voice_bleed_gone_first	10
 voice_both_splits_stand	18
-voice_both_ways_agree	16
+voice_both_ways_agree	20
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_language_arrives	15
@@ -187,7 +188,7 @@ voice_mic_reaches_cut	14
 voice_name_is_one_person	4
 voice_names_when_sure	55
 voice_questions_rank	22
-voice_raw_times_kept	55
+voice_raw_times_kept	60
 voice_source_travels	21
 voice_split_hears_two	8
 voice_tracks_read_once	4
@@ -199,6 +200,7 @@ window_captions_fit	12
 window_cut_colours	8
 window_grey_opens_again	19
 window_grey_says_why	34
+window_hears_while_split	8
 window_idle_bar_hidden	6
 window_marks_take_spot	27
 window_menu_greys_along	27

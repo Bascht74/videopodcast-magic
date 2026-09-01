@@ -1,10 +1,10 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5230,
+ "largest_function": 5214,
  "lazy_plural": 0,
  "long_blocks": 108,
- "long_docstrings": 144,
+ "long_docstrings": 143,
  "long_lines": 0,
  "narrating": 0,
  "one_sided_paths": {

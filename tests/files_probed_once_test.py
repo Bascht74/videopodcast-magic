@@ -2,14 +2,19 @@
 
 Building the file list asks the same things about the same file over
 and over -- length, timecode, channel count, frame rate -- and each
-answer costs a process. The answers are kept in memory and on disk,
-keyed on size and modification time; this test counts the processes.
+answer costs a process. Writing down what is spoken is the dearest of
+those measurements by far. All of them are kept in memory and on disk,
+keyed on size and modification time; this test counts the processes and
+the recognitions.
 
 In order: the same question twice, every measurement of its own, a file
 rewritten under its old name, a caller who spoils what it was handed,
 the warming pass before the window is drawn, what the store carries
-from one run into the next, and a file that cannot be measured, which
-must not stop the rest.
+from one run into the next, a file that cannot be measured, which must
+not stop the rest, and a recording written down once: handed back and
+read back word for word, by both ways, listened to afresh in another
+language, by the other recogniser and after a rewrite, and a silence
+that counts as an answer rather than a miss.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -235,6 +240,161 @@ except Exception as e:
 check("asking about a missing file answers instead of throwing",
       threw == "" and isinstance(got, dict),
       threw or "answer is %s, wanted a dict" % type(got).__name__)
+
+print("\n8. A recording is written down once")
+# Listening is a measurement like the others and by far the dearest:
+# 27.0 s for 87 minutes of audio, and until there was a store it was
+# paid again on every start. The recognisers are stood in for here, so
+# what is counted is how often the program asks for one at all.
+said = tempfile.mkdtemp(prefix="vpm_words_")
+real_macos, real_whisper = vpm.macos_words, vpm.whisper_words
+heard = {"macos": 0, "whisper": 0}
+wrote = {"last": []}
+mute = set()
+
+
+def recording(name, seconds=0.2):
+    """A file to listen to. Only its name, size and time are read here."""
+    path = os.path.join(said, name)
+    with wave.open(path, "wb") as f:
+        f.setnchannels(1); f.setsampwidth(2); f.setframerate(8000)
+        f.writeframes(b"\0\0" * int(8000 * seconds))
+    return path
+
+
+def stood_in(way, path, language):
+    """Stand in for a recogniser: count the run, name way and language."""
+    # The real ones answer None where there is nothing to listen to, and
+    # a stand-in that invented words for a missing file would let a
+    # broken key through.
+    if not os.path.exists(path):
+        return None
+    heard[way] += 1
+    if path in mute:
+        wrote["last"] = []              # it listened and heard nobody
+        return []
+    raw = [vpm.speech_word(i * 0.5, i * 0.5 + 0.3, "%s-%s-%d"
+                           % (way, (language or "none").lower(), i))
+           for i in range(3)]
+    # Through the program's own correction, so the words carry the shape
+    # the rest of it expects rather than one this test invented.
+    shift = ((vpm.MACOS_START_S, vpm.MACOS_END_S) if way == "macos"
+             else (vpm.WHISPER_START_S, vpm.WHISPER_END_S))
+    wrote["last"] = vpm.corrected_words(raw, shift[0], shift[1])
+    return wrote["last"]
+
+
+vpm.macos_words = lambda path, language="": stood_in("macos", path, language)
+vpm.whisper_words = (lambda path, language="", install=True:
+                     stood_in("whisper", path, language))
+
+
+def listens(work):
+    """What a piece of work returned, and how many recogniser runs it cost."""
+    before = heard["macos"] + heard["whisper"]
+    got = work()
+    return got, heard["macos"] + heard["whisper"] - before
+
+
+def first_word(words):
+    """The first word of a transcript, for the failure line."""
+    return words[0]["word"] if words else "none"
+
+
+def alike(one, other):
+    """How many words of two transcripts stand in the same place unchanged."""
+    return sum(1 for x, y in zip(one or (), other or ()) if x == y)
+
+
+talk = recording("talk.wav")
+(spoken, _way), first_runs = listens(
+    lambda: vpm.recognise_speech(talk, "eng"))
+said_words = list(wrote["last"])
+(read_back, _way), again_runs = listens(
+    lambda: vpm.recognise_speech(talk, "eng"))
+check("the first listen to a recording runs the recogniser once",
+      first_runs == 1, "%d recogniser runs, wanted 1" % first_runs)
+check("the words the recogniser wrote are the ones handed back",
+      len(said_words) == 3 and spoken == said_words,
+      "%d words written down, %d handed back, %d of them alike, wanted 3"
+      % (len(said_words), len(spoken or ()), alike(spoken, said_words)))
+check("the same recording in the same language is not listened to twice",
+      again_runs == 0,
+      "%d recogniser runs the second time, wanted 0" % again_runs)
+check("what is read back is word for word what was heard",
+      read_back == spoken,
+      "%d words heard, %d read back, %d of them alike"
+      % (len(spoken or ()), len(read_back or ()), alike(spoken, read_back)))
+
+# Another language of the same recording: other words, so the entry of
+# the first one must not answer for it.
+(german, _way), other_runs = listens(
+    lambda: vpm.recognise_speech(talk, "ger"))
+check("another language is listened to afresh", other_runs == 1,
+      "%d recogniser runs for the second language, wanted 1" % other_runs)
+check("the other language gets words of its own",
+      bool(german) and german != spoken,
+      "first word %s against %s, wanted two different ones"
+      % (first_word(german), first_word(spoken)))
+
+# And the other recogniser: two machines do not write the same words.
+(whispered, whisper_way), whisper_runs = listens(
+    lambda: vpm.recognise_speech(talk, "eng", way="whisper"))
+check("the other recogniser is not answered out of the first one's store",
+      whisper_runs == 1,
+      "%d recogniser runs for the second way, wanted 1" % whisper_runs)
+check("the other recogniser's own words come back",
+      bool(whispered) and whispered != spoken,
+      "way %s, first word %s against the first way's %s, wanted two "
+      "different ones"
+      % (whisper_way, first_word(whispered), first_word(spoken)))
+
+# The one that proves the store never answers out of date: same name,
+# other recording.
+changed = recording("changed.wav", 0.2)
+listens(lambda: vpm.recognise_speech(changed, "eng"))
+mark_before = vpm.file_fingerprint(changed) or []
+recording("changed.wav", 0.5)           # same name, another recording
+mark_after = vpm.file_fingerprint(changed) or []
+_answer, rewritten_runs = listens(lambda: vpm.recognise_speech(changed, "eng"))
+check("rewriting a recording changes what it is known by",
+      list(mark_before[1:]) != list(mark_after[1:]),
+      "mtime and size %s -> %s, wanted two different ones"
+      % (mark_before[1:], mark_after[1:]))
+check("a recording rewritten under its own name is listened to again",
+      rewritten_runs == 1,
+      "%d recogniser runs after the rewrite, wanted 1" % rewritten_runs)
+
+# Nobody spoke: that is an answer, and asking again costs the same 27 s
+# as any other recording.
+quiet = recording("quiet.wav")
+mute.add(quiet)
+(nothing, _way), quiet_runs = listens(
+    lambda: vpm.recognise_speech(quiet, "eng"))
+_again, quiet_again = listens(lambda: vpm.recognise_speech(quiet, "eng"))
+check("a recording nobody spoke in gives an empty answer, not a refusal",
+      nothing == [] and quiet_runs == 1,
+      "words %s after %d recogniser runs, wanted [] after 1"
+      % (nothing, quiet_runs))
+check("a recording nobody spoke in is not listened to a second time",
+      quiet_again == 0,
+      "%d recogniser runs the second time, wanted 0" % quiet_again)
+
+# The run writes it down, the window reads it: one store, not two.
+both = recording("both.wav")
+(by_run, _way), _cost = listens(lambda: vpm.recognise_speech(both, "eng"))
+by_window, window_runs = listens(lambda: vpm.words_at_hand(both, "eng"))
+check("the window's way reads what the run's way wrote",
+      window_runs == 0 and by_window == by_run,
+      "%d recogniser runs and %d of %d words alike, wanted 0 runs and %d alike"
+      % (window_runs, alike(by_window, by_run), len(by_window or ()),
+         len(by_run or ())))
+
+vpm.macos_words, vpm.whisper_words = real_macos, real_whisper
+shutil.rmtree(said, ignore_errors=True)
+kept_words = vpm.cache_folder("words")
+if kept_words:                          # inside this test's own cache
+    shutil.rmtree(kept_words, ignore_errors=True)
 
 subprocess.run = run_real
 shutil.rmtree(folder, ignore_errors=True)

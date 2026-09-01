@@ -5,7 +5,9 @@ The model itself is not run here -- it needs its own environment and
 minutes of computing. Checked is everything around it, where the
 mistakes would be: that segments are stored raw in the time of their
 own file, that widening and moving them is arithmetic and not a second
-measurement, and that the worker keeps the rules that were measured.
+measurement, that the worker keeps the rules that were measured, and
+that the samples come back as wide as they were asked for -- narrow
+for the separation, which holds a whole episode in memory at once.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,6 +16,8 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
 import ast
 import importlib.util
 import json
+import shutil
+import subprocess
 import sys
 import tempfile
 import time
@@ -271,7 +275,105 @@ check("the model comes out of a folder, never off a server",
       WANT_MODEL in vpm.SPEAKER_SPLIT_WORKER,
       "the worker says %s, wanted [%r]" % (loads, WANT_MODEL))
 
-print("\n10. The model that travels with the program")
+print("\n10. How wide the samples come back")
+# The separation holds the whole episode in memory at once, so the
+# width of that block is the largest the program ever asks for: on an
+# 87 minute interview it was 1095 MB in float32 against 1428 MB in
+# float64. Every other caller wants the wide form and must keep it.
+tone_folder = tempfile.mkdtemp(prefix="vpm_dtype_")
+tone = os.path.join(tone_folder, "tone.wav")
+# ffmpeg builds the material here; a failure of it says nothing about
+# the program, so it stops the run outright instead of being judged.
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                "sine=frequency=440:duration=0.2", "-ac", "1",
+                "-ar", str(vpm.SPEAKER_SPLIT_RATE), tone], check=True)
+wide = vpm.decode_audio(tone, vpm.SPEAKER_SPLIT_RATE)
+narrow = vpm.decode_audio(tone, vpm.SPEAKER_SPLIT_RATE,
+                          dtype=vpm.np.float32)
+check("the test tone decodes to samples at all", len(wide) > 0,
+      "%d samples out of 0.2 s at %d Hz, wanted more than 0"
+      % (len(wide), vpm.SPEAKER_SPLIT_RATE))
+check("without a dtype the samples stay float64",
+      wide.dtype == vpm.np.float64,
+      "%s at %d bytes a sample against float64 at 8"
+      % (wide.dtype.name, wide.itemsize))
+check("asked for float32 the samples come back float32",
+      narrow.dtype == vpm.np.float32,
+      "%s at %d bytes a sample against float32 at 4"
+      % (narrow.dtype.name, narrow.itemsize))
+
+
+def dtype_told(x):
+    """Name a dtype for the report -- None is nothing, not float64.
+
+    numpy answers np.dtype(None) with float64, which would print the
+    default where the argument was missing and send whoever reads the
+    line after the wrong thing.
+    """
+    if x is None:
+        return "none given"
+    try:
+        return vpm.np.dtype(x).name
+    except TypeError:
+        return repr(x)
+
+
+asked, handed = [], []
+
+
+def decode_recorder(path, rate=vpm.SR, ss=None, duration=None,
+                    stream=None, dtype=None):
+    """The decoder's own signature, and its one habit: it obeys dtype.
+
+    A stand-in that always answered float32 would leave the check on
+    what the worker gets green however wide a copy the program makes
+    of it afterwards.
+    """
+    asked.append(dtype)
+    return vpm.np.zeros(8, dtype=vpm.np.float32).astype(
+        dtype or vpm.np.float64)
+
+
+def talk_recorder(python, worker, head, wave, environment, report,
+                  stopping):
+    """Where the waveform leaves for the worker process."""
+    handed.append(wave)
+    return [], ""
+
+
+real = (vpm.speaker_model_folder, vpm.speaker_model_checked,
+        vpm.speaker_venv_python, vpm.speaker_worker_file,
+        vpm.decode_audio, vpm._speaker_split_talk)
+# The four things the run wants in place before it decodes anything.
+vpm.speaker_model_folder = lambda: tone_folder
+vpm.speaker_model_checked = lambda folder="": ""
+vpm.speaker_venv_python = lambda folder="": os.path.join(tone_folder,
+                                                         "python")
+vpm.speaker_worker_file = lambda: os.path.join(tone_folder, "worker.py")
+vpm.decode_audio = decode_recorder
+vpm._speaker_split_talk = talk_recorder
+try:
+    _segments, why = vpm.speaker_split_run(tone)
+finally:
+    (vpm.speaker_model_folder, vpm.speaker_model_checked,
+     vpm.speaker_venv_python, vpm.speaker_worker_file,
+     vpm.decode_audio, vpm._speaker_split_talk) = real
+last_asked = dtype_told(asked[-1]) if asked else "not called at all"
+check("the separation asks the decoder for float32",
+      len(asked) == 1 and last_asked == "float32",
+      "the decoder was called %d times, the last for %s, wanted 1 time "
+      "for float32; the separation answered %r"
+      % (len(asked), last_asked, why))
+last_handed = handed[-1].dtype.name if handed else "nothing at all"
+check("and the wave the worker gets is still the narrow one",
+      len(handed) == 1 and last_handed == "float32",
+      "the worker was handed %d waves, the last %s at %d bytes a "
+      "sample, wanted 1 wave of float32 at 4"
+      % (len(handed), last_handed,
+         handed[-1].itemsize if handed else 0))
+shutil.rmtree(tone_folder, ignore_errors=True)
+
+print("\n11. The model that travels with the program")
 model = vpm.speaker_model_folder()
 SHIPPED = os.path.join(os.path.dirname(HERE), "models",
                        vpm.SPEAKER_MODEL_NAME)
@@ -305,7 +407,7 @@ if model:
           "%d of %d names have no file: %s"
           % (len(missing), len(sums), missing))
 
-print("\n11. One separation at a time")
+print("\n12. One separation at a time")
 first_go = vpm.SPEAKER_SPLIT_TURN.acquire(blocking=False)
 second_go = first_go and vpm.SPEAKER_SPLIT_TURN.acquire(blocking=False)
 check("there is room for exactly one", first_go and not second_go,
