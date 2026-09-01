@@ -26,7 +26,11 @@ the place of and walks it out to a wall clock time every way there is:
     the camera timecode plus its startFrame       (Resolve, into the file)
 
 All have to name the same time within one frame, and where two do not,
-both numbers and both ways are printed. It runs twice, wide open and
+both numbers and both ways are printed. Which moments those are is said
+first and as a judgement of its own -- a shot on each of the three
+cameras, both speakers heard -- because everything below it is counted
+per moment, and a cut that quietly lost one would show as a smaller
+count and not as a fault. It runs twice, wide open and
 with a window set: applied twice a window moves everything under it, an
 absolute In point applied again must move nothing more, a relative one
 must move by one more In point, and "+0:10:00" must mean ten minutes
@@ -37,14 +41,22 @@ part company Resolve gets something other than the preview shows. Then
 the cut cut_statistics() computes again, against the written one, and
 with it the two name spaces: the cut list names a camera by the
 camera's name, the player by the track name, and they agree only where
-no camera carries a speaker.
+no camera carries a speaker. Last the whole set once more at a second
+frame rate, read back the way a stranger reads it -- from the handover
+alone, the files beside it found by their stem: everything before that
+is written at 25 fps, and a frame rate is where timecode arithmetic
+goes wrong.
 
 The shared interview fixture carries real timecodes but the same
 picture, so one file is checked against the axis, not three aligned.
+Every judgement here is reached on every machine, and every one stands
+on material the test writes itself: a section only one machine can run
+makes the count this test prints mean a different thing on each of
+them, and then no floor can hold it.
 
 VPM_ONE_MOMENT_KEEP=1 leaves the written files in place for looking at.
 """
-import os, sys, csv, json, re, shutil, subprocess, tempfile, types
+import os, sys, csv, json, re, shutil, subprocess, tempfile, time, types
 import importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -59,9 +71,16 @@ sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
 error = []
+began = time.time()
+# Not "bad": that name is taken further down by the lists of entries
+# that did not line up, and a counter under it would end this file in a
+# traceback where a verdict should stand.
+done = 0
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -84,6 +103,10 @@ missing = [os.path.basename(p) for p in (WIDE, MOD, KAND)
 if missing:
     print("SKIPPED: no interview fixture under %s (%s) -- "
           "run tests/fixtures.sh" % (FIX, ", ".join(missing)))
+    # The count on the way out as well: no way out of this file is
+    # silent about how much it judged. The SKIPPED line stays the
+    # verdict here -- nothing behind it may read as "all good".
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
     sys.exit(0)
 
 stamp = {p: vpm.file_timecode(p, FPS) for p in (WIDE, MOD, KAND)}
@@ -93,6 +116,7 @@ if blank:
           "timecode on %s, and every clock here is measured from one -- "
           "rebuild %s with tests/fixtures.sh (INTERVIEW_BUILD)"
           % (", ".join(blank), FIX))
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
     sys.exit(0)
 
 ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
@@ -114,7 +138,6 @@ def stamp_of(cam):
         if got is not None:
             return got
     return None
-ZERO_TC = vpm.timecode_string(ZERO, FPS)
 LENGTH = 60.0
 KEEP = []
 
@@ -124,12 +147,25 @@ def stem_of(p):
 
 
 cameras = [{"video": p, "name": stem_of(p)} for p in (WIDE, MOD, KAND)]
-videos = [(p, {"width": 1280, "height": 720, "fps": FPS, "duration": 120.0,
-               "tc": ZERO_TC if p == WIDE else None})
-          for p in (WIDE, MOD, KAND)]
 tracks = [{"name": "Moderator", "camera": MOD},
           {"name": "Kandidat", "camera": KAND}]
-ref_clip = (WIDE, videos[0][1])
+
+
+def videos_at(rate):
+    """The three cameras described at *rate*, and the reference clip.
+
+    write_cut_list and write_handover both take the rate they write at
+    from ref_clip[1]["fps"] and from nowhere else, so this is the whole
+    of what it takes to ask the same questions at another frame rate.
+    """
+    tc = vpm.timecode_string(ZERO, rate)
+    made = [(p, {"width": 1280, "height": 720, "fps": rate,
+                 "duration": 120.0, "tc": tc if p == WIDE else None})
+            for p in (WIDE, MOD, KAND)]
+    return made, (WIDE, made[0][1])
+
+
+ref_clip = videos_at(FPS)[1]    # the window's reference, at the usual rate
 
 # The moments this test knows the place of. Chosen so that every shot
 # falls inside the time all three cameras are rolling: a shot before
@@ -230,7 +266,7 @@ class Run(object):
     """One whole run: the five files it wrote and everything read back."""
 
     def __init__(self, name, tc_start, speech, length,
-                 in_point=None, out_point=None, mix=None):
+                 in_point=None, out_point=None, mix=None, rate=FPS):
         self.name = name
         self.dir = tempfile.mkdtemp(prefix="onemoment_")
         KEEP.append(self.dir)
@@ -238,11 +274,12 @@ class Run(object):
         print("\nTHE RUN %r%s" % (name, (" with In point %s, Out point %s"
                                          % (in_point, out_point))
                                   if in_point or out_point else ""))
+        vids, ref = videos_at(rate)
         self.cut, self.segs = vpm.write_cut_list(
-            self.args, speech, tracks, cameras, videos, self.dir,
-            tc_start, ref_clip, length)
+            self.args, speech, tracks, cameras, vids, self.dir,
+            tc_start, ref, length)
         vpm.write_handover(
-            self.args, tracks, cameras, videos, self.dir, tc_start, ref_clip,
+            self.args, tracks, cameras, vids, self.dir, tc_start, ref,
             results=[WIDE, MOD, KAND], cut=self.cut, segment_list=self.segs,
             length=length, track_names={}, single_files=dict(mix or {}),
             offsets={p: 0.0 for p in (WIDE, MOD, KAND)}, words=())
@@ -255,7 +292,9 @@ class Run(object):
             "speakers.csv": self.stem + "_speakers.csv"}
         gone = [n for n, p in self.files.items() if not os.path.exists(p)]
         if gone:
-            print("FAIL: the run %r wrote no %s" % (name, ", ".join(gone)))
+            error.append("the run %r wrote no %s" % (name, ", ".join(gone)))
+            print("\n%d checks in %.2f s" % (done, time.time() - began))
+            print("FAIL: " + ", ".join(error))
             sys.exit(1)
         self.d = json.load(open(self.files["handover"], encoding="utf-8"))
         d = self.d
@@ -402,6 +441,17 @@ def walk_every_way(r):
             continue
         seen.add(e["camera"])
         moments.append(e)
+    heard = [s for s in d["speakers"] if s["sections"]]
+    # Before the loops, and as a judgement rather than a comment: how
+    # many judgements follow hangs on these two numbers, and a count
+    # that quietly moved with the material is exactly what left this
+    # test with one number here and another on six builders. Three
+    # cameras and two speakers are what the material above sets up, so
+    # every run walks the same five moments out.
+    check("%s: three cameras in the cut, both speakers heard" % r.name,
+          len(moments) == 3 and len(heard) == 2,
+          "%d cameras and %d speakers with sections, against 3 and 2"
+          % (len(moments), len(heard)))
 
     for e in moments:
         t = float(e["start"])
@@ -431,9 +481,7 @@ def walk_every_way(r):
               % (r.name, camera, t), ways)
 
     # And a speech moment, which is where the speaker files can be reached.
-    for s in d["speakers"]:
-        if not s["sections"]:
-            continue
+    for s in heard:
         name, t = s["name"], float(s["sections"][0][0])
         shot = next((e for e in d["cut"] if e["start"] <= t < e["end"]), None)
         on_screen = shot["camera"] if shot else None
@@ -658,7 +706,8 @@ if NEW0 is None or NEW1 is None:
     # in a stack trace with no summing-up line for run.sh to show.
     check("the window %r .. %r can be read at all" % (IN_TEXT, OUT_TEXT),
           False, "clip_to_time_window returned nothing")
-    print("\nFAIL: " + ", ".join(error))
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + ", ".join(error))
     sys.exit(1)
 # The run measures the speech on the trimmed material, so the sections
 # count from the In point. The same real moments, on the new axis.
@@ -871,69 +920,79 @@ else:
               "%.3f vs %.3f, startFrame %s"
               % (at, mix_run.start_s, mix_run.audio[0].get("startFrame")))
 
-# ------------------------------------------- a real run, where one is on disk
-REAL = os.environ.get("VPM_ONE_MOMENT_REAL",
-                      "/Volumes/VIDEOS/Video_Podcast/Testinterview/Ausgabe")
-real_json = None
-if os.path.isdir(REAL):
-    real_json = next((os.path.join(REAL, f) for f in sorted(os.listdir(REAL))
-                      if f.endswith("_resolve.json")), None)
+# ------------------------------------------------- and at a second frame rate
+# Everything above is written at 25 fps. A frame rate is where timecode
+# arithmetic goes wrong -- the same instant gets a different frame
+# number, and a rate read out of the wrong place is out by a frame per
+# frame -- so the whole set of files is written once more at 30 and read
+# back the way a stranger reads it: from the handover alone, the files
+# beside it found by their stem, at the rate the handover itself states.
+#
+# These eight questions used to be put to a real production under
+# /Volumes, where one happened to be lying. That made the section judge
+# eight times on the one machine that had it and not at all on the six
+# builders, and no floor in state/checks can hold a count that depends
+# on which machine is asking: 122 here, 114 there, red on all six for a
+# fault that was in the test. Material only one machine has cannot carry
+# a judgement -- so the run this section reads is one it writes itself,
+# and the four "if it is there" branches under it are gone with it.
+OTHER_FPS = 30.0
 print("\n" + "=" * 66)
-print("A REAL RUN, IF ONE IS ON THIS MACHINE")
+print("THE SAME QUESTIONS AT A SECOND FRAME RATE")
 print("=" * 66)
-if not real_json:
-    # Not a skip: everything above stands on its own. This only adds a
-    # second frame rate and a run nobody built for a test.
-    print("  none here (%s) -- the fixture runs above checked the same"
-          % REAL)
-else:
-    rd = json.load(open(real_json, encoding="utf-8"))
-    rstem = real_json[:-len("_resolve.json")]
-    rfps = vpm.nearest_known_frame_rate(rd.get("fps") or 30.0)
-    rframe = 1.0 / rfps
-    rstart = float(rd["start_s"])
+rate_run = Run("Onemomentrate", ZERO, SPEECH, LENGTH, rate=OTHER_FPS)
+rd = json.load(open(rate_run.files["handover"], encoding="utf-8"))
+rstem = rate_run.files["handover"][:-len("_resolve.json")]
+rfps = vpm.nearest_known_frame_rate(rd.get("fps") or OTHER_FPS)
+rframe = 1.0 / rfps
+rstart = float(rd["start_s"])
 
-    def rclock(tc):
-        return vpm.timecode_to_frames(tc, rfps) / float(rfps)
 
-    print("  %s at %g fps" % (os.path.basename(real_json), rfps))
-    check("  start_tc and start_s are the same instant",
-          abs(rclock(rd["start_tc"]) - rstart) <= rframe,
-          "%.3f vs %.3f" % (rclock(rd["start_tc"]), rstart))
-    if os.path.exists(rstem + "_cameracut.edl"):
-        redl = read_edl(rstem + "_cameracut.edl", rfps)
-        check("  cameracut.edl has one entry per cut entry",
-              len(redl) == len(rd["cut"]),
-              "%d vs %d" % (len(redl), len(rd["cut"])))
-        bad = [(i, a, rstart + e["start"]) for i, ((a, _b, _n), e)
-               in enumerate(zip(redl, rd["cut"]))
-               if abs(a - (rstart + e["start"])) > rframe]
-        check("  and every one begins where the cut does", not bad,
-              "" if not bad else "entry %d: %.3f vs %.3f" % bad[0])
-        bad = [(i, n, e["camera"]) for i, ((_a, _b, n), e)
-               in enumerate(zip(redl, rd["cut"])) if n != e["camera"]]
-        check("  and names the same camera", not bad,
-              "" if not bad else "entry %d: %r vs %r" % bad[0])
-    if os.path.exists(rstem + "_speakers.csv") \
-            and os.path.exists(rstem + "_speakers.edl"):
-        rows = read_csv(rstem + "_speakers.csv")
-        ents = read_edl(rstem + "_speakers.edl", rfps)
-        check("  speakers.csv and .edl have the same number of entries",
-              len(rows) == len(ents), "%d vs %d" % (len(rows), len(ents)))
-        bad = [(i, rclock(row["Start TC"]), a) for i, (row, (a, _b, _n))
-               in enumerate(zip(rows, ents))
-               if abs(rclock(row["Start TC"]) - a) > rframe]
-        check("  and the same times", not bad,
-              "" if not bad else "row %d: %.3f vs %.3f" % bad[0])
-        lines = sorted((a, b, s["name"]) for s in rd["speakers"]
-                       for a, b in s["sections"])
-        check("  as many as the handover holds sections",
-              len(lines) == len(ents), "%d vs %d" % (len(lines), len(ents)))
-        bad = [(i, a, rstart + s[0]) for i, ((a, _b, _n), s)
-               in enumerate(zip(ents, lines))
-               if abs(a - (rstart + s[0])) > rframe]
-        check("  and every one sits where the handover says", not bad,
-              "" if not bad else "entry %d: %.3f vs %.3f" % bad[0])
+def rclock(tc):
+    return vpm.timecode_to_frames(tc, rfps) / float(rfps)
+
+
+print("  %s at %g fps" % (os.path.basename(rate_run.files["handover"]), rfps))
+# First of the eight, because they all rest on it: if the rate never
+# reached the handover, the questions below are the ones already asked
+# at 25 fps, they are all green, and the section proves nothing twice.
+check("  the handover really is at the other frame rate",
+      abs(rfps - OTHER_FPS) < 1e-6 and abs(rfps - FPS) > 1e-6,
+      "%g fps, against %g everywhere above" % (rfps, FPS))
+check("  start_tc and start_s are the same instant",
+      abs(rclock(rd["start_tc"]) - rstart) <= rframe,
+      "%.3f vs %.3f" % (rclock(rd["start_tc"]), rstart))
+redl = read_edl(rstem + "_cameracut.edl", rfps)
+check("  cameracut.edl has one entry per cut entry",
+      len(redl) == len(rd["cut"]),
+      "%d vs %d" % (len(redl), len(rd["cut"])))
+bad = [(i, a, rstart + e["start"]) for i, ((a, _b, _n), e)
+       in enumerate(zip(redl, rd["cut"]))
+       if abs(a - (rstart + e["start"])) > rframe]
+check("  and every one begins where the cut does", not bad,
+      "" if not bad else "entry %d: %.3f vs %.3f" % bad[0])
+bad = [(i, n, e["camera"]) for i, ((_a, _b, n), e)
+       in enumerate(zip(redl, rd["cut"])) if n != e["camera"]]
+check("  and names the same camera", not bad,
+      "" if not bad else "entry %d: %r vs %r" % bad[0])
+rows = read_csv(rstem + "_speakers.csv")
+ents = read_edl(rstem + "_speakers.edl", rfps)
+check("  speakers.csv and .edl have the same number of entries",
+      len(rows) == len(ents), "%d vs %d" % (len(rows), len(ents)))
+bad = [(i, rclock(row["Start TC"]), a) for i, (row, (a, _b, _n))
+       in enumerate(zip(rows, ents))
+       if abs(rclock(row["Start TC"]) - a) > rframe]
+check("  and the same times", not bad,
+      "" if not bad else "row %d: %.3f vs %.3f" % bad[0])
+lines = sorted((a, b, s["name"]) for s in rd["speakers"]
+               for a, b in s["sections"])
+check("  as many as the handover holds sections",
+      len(lines) == len(ents), "%d vs %d" % (len(lines), len(ents)))
+bad = [(i, a, rstart + s[0]) for i, ((a, _b, _n), s)
+       in enumerate(zip(ents, lines))
+       if abs(a - (rstart + s[0])) > rframe]
+check("  and every one sits where the handover says", not bad,
+      "" if not bad else "entry %d: %.3f vs %.3f" % bad[0])
 
 if not os.environ.get("VPM_ONE_MOMENT_KEEP"):
     for folder in KEEP:
@@ -941,7 +1000,7 @@ if not os.environ.get("VPM_ONE_MOMENT_KEEP"):
 else:
     print("\n  kept: %s" % ", ".join(KEEP))
 
-print()
+print("\n%d checks in %.2f s" % (done, time.time() - began))
 if error:
     print("FAIL: " + ", ".join(error))
     sys.exit(1)

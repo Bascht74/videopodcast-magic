@@ -295,7 +295,9 @@ for name in sorted(os.listdir(HERE)):
 # files rather than sitting in the program.
 held = state.places("mute_tests", dict((n, (1, 0)) for n in mute))
 check("tests without a single check: %d (ratchet %d)"
-      % (len(mute), held.limit), held.ok)
+      % (len(mute), held.limit), held.ok,
+      "%d tests against a ratchet of %d, first: %s"
+      % (len(mute), held.limit, mute[:5]))
 held.report()
 for name in mute:
     print("      %s" % name)

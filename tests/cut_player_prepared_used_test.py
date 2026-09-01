@@ -28,6 +28,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import time
 import wave
 
 sys.path.insert(0, HERE)
@@ -89,13 +90,19 @@ vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 vpm.update_offer = lambda *a, **k: None
 
+# The counter is called "counted" and not "done": "done" is the flag
+# below that says the plan got to its end.
+began = time.time()
+counted = 0
 error = []
 
 
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global counted
+    counted += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 # Worked out with the program's own functions rather than written
@@ -109,7 +116,12 @@ missing = [n for n in (CAM_TYPED, CAM_GUESSED, CAM_WIDE)
 if missing or not GUESSED_NAME:
     print("SKIPPED: no material under %s -- missing %s"
           % (material, ", ".join(missing) or "a guessable name"))
-    raise SystemExit(0)
+    # Out through the same lines as every other way out: the run reads
+    # the count off the last of them, and a way out that prints none
+    # leaves the number unsaid rather than saying nought.
+    print("\n%d checks in %.2f s" % (counted, time.time() - began))
+    print("FAIL: " + " | ".join(error) if error else "ALL OK")
+    sys.exit(1 if error else 0)
 
 
 # ------------------------------------------------------------- material
@@ -469,6 +481,21 @@ def pick_camera(name):
     return False
 
 
+def cameras_listed():
+    """The camera names the sheet shows, for a failure line.
+
+    A click that finds no row leaves nothing behind to read: without the
+    names that were there, red says only that the row was not found.
+    """
+    view = cameras_view()
+    if view is None:
+        return "no camera sheet in the window"
+    model = view.model()
+    return "%d rows in the camera sheet: %s" % (
+        model.rowCount(),
+        [str(model.index(r, 0).data() or "") for r in range(model.rowCount())])
+
+
 def ask_again():
     """Make the player work the question out afresh.
 
@@ -535,6 +562,15 @@ def put_on_camera(recording, camera):
     w.setCurrentIndex(w.findData(camera))
     app.processEvents()
     return True
+
+
+def cameras_offered(recording):
+    """What the 'belongs to' box of that row offers, for a failure line."""
+    w = field_of(recording, vpm.T('belongs to'))
+    if w is None:
+        return "the row has no 'belongs to' field"
+    return "%d cameras offered: %s" % (
+        w.count(), [w.itemData(i) for i in range(w.count())])
 
 
 def type_name(recording, text):
@@ -607,25 +643,36 @@ def wait_for_sheets():
              rows and rows.model().rowCount()))
     if not there:
         return STOP
+    seat, box = player(), tick()
     check("the preview player is the one with the assigned-audio tick",
-          player() is not None and tick() is not None)
-    if player() is None or tick() is None:
+          seat is not None and box is not None,
+          "ticks in the window saying %r: %d; the widget holding one %s"
+          % (vpm.T('hear assigned audio'),
+             sum(1 for b in win().findChildren(QtWidgets.QCheckBox)
+                 if b.text() == vpm.T('hear assigned audio')),
+             "was found" if seat is not None else "was not"))
+    if seat is None or box is None:
         return STOP
     check("and the tick is set, so the assigned audio is what plays",
-          tick().isChecked())
+          box.isChecked(), "tick %s, and %s is under the picture"
+          % (box.isChecked(), playing()))
 
 
 def put_them_on_cameras():
     """Say who sits in front of which camera, in the sheet."""
     check("the first recording can be put on a camera",
-          put_on_camera(TYPED, CAM_TYPED))
-    check("and the second one too", put_on_camera(GUESSED, CAM_GUESSED))
+          put_on_camera(TYPED, CAM_TYPED),
+          "%s wanted; %s" % (CAM_TYPED, cameras_offered(TYPED)))
+    check("and the second one too", put_on_camera(GUESSED, CAM_GUESSED),
+          "%s wanted; %s" % (CAM_GUESSED, cameras_offered(GUESSED)))
 
 
 def type_one_name():
     """One name is typed in. The other is left to the guess."""
     check("a name can be typed in for the first",
-          type_name(TYPED, TYPED_NAME))
+          type_name(TYPED, TYPED_NAME),
+          "%r typed, the field now holds %r"
+          % (TYPED_NAME, name_in(TYPED)))
 
 
 def typed_name_look():
@@ -634,7 +681,8 @@ def typed_name_look():
           name_in(TYPED) == TYPED_NAME, repr(name_in(TYPED)))
     check("and his recording is assigned to his camera",
           camera_of(TYPED) == CAM_TYPED, repr(camera_of(TYPED)))
-    check("his camera can be clicked", pick_camera(CAM_TYPED))
+    check("his camera can be clicked", pick_camera(CAM_TYPED),
+          "%s wanted; %s" % (CAM_TYPED, cameras_listed()))
     got = playing()
     check("and it plays the track prepared for him",
           got == os.path.basename(FINAL[TYPED_NAME]), str(got))
@@ -662,7 +710,8 @@ def guessed_name_look():
           "%r against %r" % (hint_for(GUESSED), GUESSED_NAME))
     check("and her recording is assigned to her camera",
           camera_of(GUESSED) == CAM_GUESSED, repr(camera_of(GUESSED)))
-    check("her camera can be clicked", pick_camera(CAM_GUESSED))
+    check("her camera can be clicked", pick_camera(CAM_GUESSED),
+          "%s wanted; %s" % (CAM_GUESSED, cameras_listed()))
     got = playing()
     check("and a guessed name finds its prepared track too",
           got == os.path.basename(FINAL[GUESSED_NAME]),
@@ -672,7 +721,8 @@ def guessed_name_look():
 
 def wide_look():
     """A camera nobody is assigned to: the prepared overall mix."""
-    check("the wide shot can be clicked", pick_camera(CAM_WIDE))
+    check("the wide shot can be clicked", pick_camera(CAM_WIDE),
+          "%s wanted; %s" % (CAM_WIDE, cameras_listed()))
     got = playing()
     check("and it plays the prepared overall mix",
           got == os.path.basename(FINAL["Full-Mix"]), str(got))
@@ -691,12 +741,20 @@ def start_measuring():
     """
     for w in win().findChildren(QtWidgets.QPushButton):
         if w.text().strip() == vpm.T('Measure speakers now'):
+            # The label before the click: clicking changes it, and read
+            # afterwards it would name a button nobody looked for.
+            said = w.text().strip()
             w.click()
             app.processEvents()
-            check("the speaker measurement can be started", True)
+            check("the speaker measurement can be started", True,
+                  "the button %r was clicked; it now says %r"
+                  % (said, w.text().strip()))
             return
     check("the speaker measurement can be started", False,
-          "no button of that name")
+          "no button called %r; the window offers %s"
+          % (vpm.T('Measure speakers now'),
+             [b.text().strip()
+              for b in win().findChildren(QtWidgets.QPushButton)][:12]))
     return STOP
 
 
@@ -848,7 +906,8 @@ def take_his_track_away():
 
 def raw_look():
     """Nothing prepared for him: his raw recording, and the tick says so."""
-    check("his camera can be clicked again", pick_camera(CAM_TYPED))
+    check("his camera can be clicked again", pick_camera(CAM_TYPED),
+          "%s wanted; %s" % (CAM_TYPED, cameras_listed()))
     ask_again()
     got = playing()
     check("without a prepared track it plays the raw recording",
@@ -871,11 +930,13 @@ def take_the_folder_away():
 
 def nothing_look():
     """No prepared folder at all: silence for the wide shot."""
-    check("the wide shot can be clicked once more", pick_camera(CAM_WIDE))
+    check("the wide shot can be clicked once more", pick_camera(CAM_WIDE),
+          "%s wanted; %s" % (CAM_WIDE, cameras_listed()))
     ask_again()
     check("with nothing prepared the wide shot gets no audio",
           playing() is None, str(playing()))
-    check("his camera can be clicked once more", pick_camera(CAM_TYPED))
+    check("his camera can be clicked once more", pick_camera(CAM_TYPED),
+          "%s wanted; %s" % (CAM_TYPED, cameras_listed()))
     ask_again()
     check("but he still gets his raw recording", playing() == TYPED,
           str(playing()))
@@ -888,7 +949,9 @@ plan = [open_project, wait_for_sheets, put_them_on_cameras, type_one_name,
 
 
 def stop_now():
-    print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+    # The verdict is said in one place, at the foot of the file: the
+    # window can also go out through the timer below, and a count
+    # printed only here would leave that way out reporting nothing.
     done[0] = True
     app.quit()
 
@@ -922,4 +985,6 @@ if not done[0]:
     print("  the window never got as far as the checks   FAIL")
     error.append("no answer")
 clean_up(aside)
+print("\n%d checks in %.2f s" % (counted, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

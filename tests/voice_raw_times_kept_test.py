@@ -5,7 +5,9 @@ The model itself is not run here -- it needs its own environment and
 minutes of computing. Checked is everything around it, where the
 mistakes would be: that segments are stored raw in the time of their
 own file, that widening and moving them is arithmetic and not a second
-measurement, and that the worker keeps the rules that were measured.
+measurement, that the worker keeps the rules that were measured, and
+that the samples come back as wide as they were asked for -- narrow
+for the separation, which holds a whole episode in memory at once.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -14,19 +16,26 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
 import ast
 import importlib.util
 import json
+import shutil
+import subprocess
 import sys
 import tempfile
+import time
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 RAW = [["SPEAKER_01", 10.0, 12.0], ["SPEAKER_00", 1.0, 4.0],
@@ -39,9 +48,11 @@ check("the one who spoke most stands first",
       grouped[0][0] == "SPEAKER_00", grouped[0][0])
 check("the stretches are in order",
       grouped[0][1] == [(1.0, 4.0), (4.1, 6.0)], str(grouped[0][1]))
-check("a broken row is left out, the rest stands",
-      len(vpm.speaker_segments_group(RAW + [["X"], ["Y", "a", "b"]])) == 2)
-check("nothing at all is nothing", vpm.speaker_segments_group([]) == [])
+mixed = vpm.speaker_segments_group(RAW + [["X"], ["Y", "a", "b"]])
+check("a broken row is left out, the rest stands", len(mixed) == 2,
+      "%d voices against 2: %s" % (len(mixed), [v for v, _p in mixed]))
+empty = vpm.speaker_segments_group([])
+check("nothing at all is nothing", empty == [], "%r against []" % (empty,))
 
 print("\n2. Widening the edges and closing the gaps")
 polished = dict(vpm.speaker_segments_polish(grouped))
@@ -49,11 +60,15 @@ check("the two stretches 0.1 s apart became one",
       polished["SPEAKER_00"] == [(0.8, 6.2)], str(polished["SPEAKER_00"]))
 check("a real pause is not closed",
       len(polished["SPEAKER_01"]) == 2, str(polished["SPEAKER_01"]))
-check("nothing moves before zero",
-      vpm.speaker_segments_polish([("A", [(0.05, 1.0)])])[0][1][0][0] == 0.0)
-check("the edge is the measured 0.2 s", vpm.SPEAKER_MARGIN_S == 0.2)
+at_zero = vpm.speaker_segments_polish([("A", [(0.05, 1.0)])])[0][1][0][0]
+check("nothing moves before zero", at_zero == 0.0,
+      "start %.3f s against 0.000 s, from a raw 0.05 s widened by %s s"
+      % (at_zero, vpm.SPEAKER_MARGIN_S))
+check("the edge is the measured 0.2 s", vpm.SPEAKER_MARGIN_S == 0.2,
+      "SPEAKER_MARGIN_S %r s against 0.2 s" % (vpm.SPEAKER_MARGIN_S,))
 check("and the stored measurement is untouched",
-      grouped[0][1] == [(1.0, 4.0), (4.1, 6.0)])
+      grouped[0][1] == [(1.0, 4.0), (4.1, 6.0)],
+      "%s against [(1.0, 4.0), (4.1, 6.0)]" % (grouped[0][1],))
 
 print("\n3. From the time of the file onto the common axis")
 # Whatever a recording heard before the episode began has to fall out,
@@ -79,9 +94,9 @@ print("\n4. Naming the voices")
 names = dict(vpm.speaker_label_names(grouped))
 check("whoever spoke most is the first one",
       names["SPEAKER_00"] == "Speaker 1", names["SPEAKER_00"])
-check("a name given by hand stays",
-      dict(vpm.speaker_label_names(
-          grouped, {"SPEAKER_00": "Anna"}))["SPEAKER_00"] == "Anna")
+given = dict(vpm.speaker_label_names(grouped, {"SPEAKER_00": "Anna"}))
+check("a name given by hand stays", given["SPEAKER_00"] == "Anna",
+      "%r against 'Anna'" % (given["SPEAKER_00"],))
 
 print("\n5. Everything counts per camera, not per speaker")
 per = dict(vpm.segments_per_camera(
@@ -121,43 +136,76 @@ def touch(name, size=1000):
 one = touch("Zoom.wav")
 two_a, two_b = touch("Anna.wav"), touch("Bert.wav")
 cam_a, cam_b = touch("A.mov", 2000), touch("B.mov", 4000)
-check("one recording is the one",
-      vpm.speaker_source_pick([one], [cam_a]) == (one, "one recording"))
+
+
+def told(v):
+    """A picked (path, why) with this run's temporary folder as ".../".
+
+    The same shortening on the wanted side, so a path from anywhere
+    else keeps its full name and still shows up as different.
+    """
+    return repr(v).replace(folder + os.sep, ".../").replace(folder, "...")
+
+
+single = vpm.speaker_source_pick([one], [cam_a])
+check("one recording is the one", single == (one, "one recording"),
+      "%s against %s" % (told(single), told((one, "one recording"))))
+mics = vpm.speaker_source_pick([two_a, two_b], [cam_a])
 check("several microphones: the tracks are the truth, so it stays out",
-      vpm.speaker_source_pick([two_a, two_b], [cam_a])
-      == ("", "several microphones"))
-check("a choice made by hand comes first",
-      vpm.speaker_source_pick([one], [cam_a], chosen=cam_a)[1] == "chosen")
+      mics == ("", "several microphones"),
+      "%s against %s" % (told(mics), told(("", "several microphones"))))
+picked = vpm.speaker_source_pick([one], [cam_a], chosen=cam_a)
+check("a choice made by hand comes first", picked[1] == "chosen",
+      "%s against a why of 'chosen'" % told(picked))
+longest = vpm.speaker_source_pick([], [cam_a, cam_b], [cam_a, cam_b],
+                                  length_of=os.path.getsize)
 check("without a recording the longest camera track is used",
-      vpm.speaker_source_pick([], [cam_a, cam_b], [cam_a, cam_b],
-                              length_of=os.path.getsize)
-      == (cam_b, "camera track"))
+      longest == (cam_b, "camera track"),
+      "%s against %s, A.mov %d bytes and B.mov %d bytes"
+      % (told(longest), told((cam_b, "camera track")),
+         os.path.getsize(cam_a), os.path.getsize(cam_b)))
+all_tracks = vpm.speaker_source_pick([], [cam_a, cam_b], camera_audio=True,
+                                     length_of=os.path.getsize)
 check("cameras that are all tracks count as well",
-      vpm.speaker_source_pick([], [cam_a, cam_b], camera_audio=True,
-                              length_of=os.path.getsize)[1]
-      == "camera track")
+      all_tracks[1] == "camera track",
+      "%s against a why of 'camera track'" % told(all_tracks))
+unfit = vpm.speaker_source_pick([one], [], weak=[one])
 check("a file the measurement called unfit is not listened to",
-      vpm.speaker_source_pick([one], [], weak=[one]) == ("", "nothing"))
-check("nothing at all says so", vpm.speaker_source_pick([], []) [1]
-      == "nothing")
+      unfit == ("", "nothing"),
+      "%s against %s" % (told(unfit), told(("", "nothing"))))
+nothing = vpm.speaker_source_pick([], [])
+check("nothing at all says so", nothing[1] == "nothing",
+      "%s against a why of 'nothing'" % told(nothing))
 check("the mix from auphonic.com is not offered",
-      vpm.SPEAKER_SOURCE_MIX_ALLOWED is False)
+      vpm.SPEAKER_SOURCE_MIX_ALLOWED is False,
+      "SPEAKER_SOURCE_MIX_ALLOWED %r against False"
+      % (vpm.SPEAKER_SOURCE_MIX_ALLOWED,))
 
 print("\n7. What is measured again, and what is not")
 key = vpm.speaker_cache_key(one, "model1", 0)
-check("the same file and model give the same name",
-      key == vpm.speaker_cache_key(one, "model1", 0))
-check("another model is another measurement",
-      key != vpm.speaker_cache_key(one, "model2", 0))
+again = vpm.speaker_cache_key(one, "model1", 0)
+check("the same file and model give the same name", key == again,
+      "%r twice against %r" % (again, key))
+other_model = vpm.speaker_cache_key(one, "model2", 0)
+check("another model is another measurement", key != other_model,
+      "model1 %r, model2 %r, wanted two different ones"
+      % (key, other_model))
+three = vpm.speaker_cache_key(one, "model1", 3)
 check("a number of speakers set by hand is another measurement",
-      key != vpm.speaker_cache_key(one, "model1", 3))
-check("another file is another measurement",
-      key != vpm.speaker_cache_key(two_a, "model1", 0))
+      key != three,
+      "no number %r, three speakers %r, wanted two different ones"
+      % (key, three))
+other_file = vpm.speaker_cache_key(two_a, "model1", 0)
+check("another file is another measurement", key != other_file,
+      "Zoom.wav %r, Anna.wav %r, wanted two different ones"
+      % (key, other_file))
 os.utime(one, (1000, 1000))
 early = vpm.speaker_cache_key(one, "model1", 0)
 os.utime(one, (2000, 2000))
-check("a changed file is measured again",
-      early != vpm.speaker_cache_key(one, "model1", 0))
+later = vpm.speaker_cache_key(one, "model1", 0)
+check("a changed file is measured again", early != later,
+      "mtime 1000 %r, mtime 2000 %r, wanted two different ones"
+      % (early, later))
 
 print("\n8. Through the project file and back")
 d = {}
@@ -171,11 +219,14 @@ check("the names come back", called == {"SPEAKER_00": "Anna"}, str(called))
 check("they are stored raw, without the widened edges",
       d["speakers"]["segments"][0][1] == 1.0,
       str(d["speakers"]["segments"][0]))
-check("a changed source is not carried on wrongly",
-      vpm.speakers_from_project(
-          d, fingerprint=lambda p: [p, 7, 7])[1] == [])
-check("nothing stored is nothing read", vpm.speakers_from_project({}) [1]
-      == [])
+stale = vpm.speakers_from_project(d, fingerprint=lambda p: [p, 7, 7])[1]
+check("a changed source is not carried on wrongly", stale == [],
+      "%r against [], for a source of 7 bytes at mtime 7 against the "
+      "stored %d bytes at mtime %d"
+      % (stale, d["speakers"]["size"], d["speakers"]["mtime"]))
+unstored = vpm.speakers_from_project({})[1]
+check("nothing stored is nothing read", unstored == [],
+      "%r against []" % (unstored,))
 
 print("\n9. The three rules of the worker process")
 try:
@@ -186,26 +237,143 @@ except SyntaxError as e:
     worker, broken = None, "line %s: %s" % (e.lineno, e.msg)
 check("the worker is a program in its own right", not broken, broken)
 if worker is None:
-    print("\nFAIL: " + ", ".join(error))
-    sys.exit(1)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 body = [n for n in worker.body if isinstance(n, ast.FunctionDef)]
 first = [n for n in body if n.name == "main"][0].body[0]
 check("the first thing main does is switch the telemetry off",
       isinstance(first, ast.If)
       and "hush" in ast.dump(first.test), ast.dump(first.test)[:60])
+reports = [v.value for n in ast.walk(first) if isinstance(n, ast.Dict)
+           for v in n.values if isinstance(v, ast.Constant)]
 check("and without that switch it refuses to run",
-      "telemetry" in ast.dump(first))
+      "telemetry" in ast.dump(first),
+      "'telemetry' found %d times in that branch, wanted at least 1; "
+      "it reports %s"
+      % (ast.dump(first).count("telemetry"), reports))
 check("the waveform goes in, not the path",
       '"waveform"' in vpm.SPEAKER_SPLIT_WORKER
-      and "16000" not in vpm.SPEAKER_SPLIT_WORKER)
+      and "16000" not in vpm.SPEAKER_SPLIT_WORKER,
+      '"waveform" found %d times and "16000" %d times in the worker, '
+      "wanted at least 1 and 0"
+      % (vpm.SPEAKER_SPLIT_WORKER.count('"waveform"'),
+         vpm.SPEAKER_SPLIT_WORKER.count("16000")))
 check("mono 16 kHz is what the parent decodes to",
-      vpm.SPEAKER_SPLIT_RATE == 16000)
+      vpm.SPEAKER_SPLIT_RATE == 16000,
+      "SPEAKER_SPLIT_RATE %r against 16000" % (vpm.SPEAKER_SPLIT_RATE,))
+WANT_ASKED = 'if int(head.get("speakers") or 0) > 0:'
+WANT_MODEL = 'Pipeline.from_pretrained(head["model"])'
+asked = [ln.strip() for ln in vpm.SPEAKER_SPLIT_WORKER.splitlines()
+         if 'head.get("speakers")' in ln]
 check("a number of speakers is passed only when it was asked for",
-      'if int(head.get("speakers") or 0) > 0:' in vpm.SPEAKER_SPLIT_WORKER)
+      WANT_ASKED in vpm.SPEAKER_SPLIT_WORKER,
+      "the worker says %s, wanted [%r]" % (asked, WANT_ASKED))
+loads = [ln.strip() for ln in vpm.SPEAKER_SPLIT_WORKER.splitlines()
+         if "from_pretrained" in ln]
 check("the model comes out of a folder, never off a server",
-      'Pipeline.from_pretrained(head["model"])' in vpm.SPEAKER_SPLIT_WORKER)
+      WANT_MODEL in vpm.SPEAKER_SPLIT_WORKER,
+      "the worker says %s, wanted [%r]" % (loads, WANT_MODEL))
 
-print("\n10. The model that travels with the program")
+print("\n10. How wide the samples come back")
+# The separation holds the whole episode in memory at once, so the
+# width of that block is the largest the program ever asks for: on an
+# 87 minute interview it was 1095 MB in float32 against 1428 MB in
+# float64. Every other caller wants the wide form and must keep it.
+tone_folder = tempfile.mkdtemp(prefix="vpm_dtype_")
+tone = os.path.join(tone_folder, "tone.wav")
+# ffmpeg builds the material here; a failure of it says nothing about
+# the program, so it stops the run outright instead of being judged.
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi", "-i",
+                "sine=frequency=440:duration=0.2", "-ac", "1",
+                "-ar", str(vpm.SPEAKER_SPLIT_RATE), tone], check=True)
+wide = vpm.decode_audio(tone, vpm.SPEAKER_SPLIT_RATE)
+narrow = vpm.decode_audio(tone, vpm.SPEAKER_SPLIT_RATE,
+                          dtype=vpm.np.float32)
+check("the test tone decodes to samples at all", len(wide) > 0,
+      "%d samples out of 0.2 s at %d Hz, wanted more than 0"
+      % (len(wide), vpm.SPEAKER_SPLIT_RATE))
+check("without a dtype the samples stay float64",
+      wide.dtype == vpm.np.float64,
+      "%s at %d bytes a sample against float64 at 8"
+      % (wide.dtype.name, wide.itemsize))
+check("asked for float32 the samples come back float32",
+      narrow.dtype == vpm.np.float32,
+      "%s at %d bytes a sample against float32 at 4"
+      % (narrow.dtype.name, narrow.itemsize))
+
+
+def dtype_told(x):
+    """Name a dtype for the report -- None is nothing, not float64.
+
+    numpy answers np.dtype(None) with float64, which would print the
+    default where the argument was missing and send whoever reads the
+    line after the wrong thing.
+    """
+    if x is None:
+        return "none given"
+    try:
+        return vpm.np.dtype(x).name
+    except TypeError:
+        return repr(x)
+
+
+asked, handed = [], []
+
+
+def decode_recorder(path, rate=vpm.SR, ss=None, duration=None,
+                    stream=None, dtype=None):
+    """The decoder's own signature, and its one habit: it obeys dtype.
+
+    A stand-in that always answered float32 would leave the check on
+    what the worker gets green however wide a copy the program makes
+    of it afterwards.
+    """
+    asked.append(dtype)
+    return vpm.np.zeros(8, dtype=vpm.np.float32).astype(
+        dtype or vpm.np.float64)
+
+
+def talk_recorder(python, worker, head, wave, environment, report,
+                  stopping):
+    """Where the waveform leaves for the worker process."""
+    handed.append(wave)
+    return [], ""
+
+
+real = (vpm.speaker_model_folder, vpm.speaker_model_checked,
+        vpm.speaker_venv_python, vpm.speaker_worker_file,
+        vpm.decode_audio, vpm._speaker_split_talk)
+# The four things the run wants in place before it decodes anything.
+vpm.speaker_model_folder = lambda: tone_folder
+vpm.speaker_model_checked = lambda folder="": ""
+vpm.speaker_venv_python = lambda folder="": os.path.join(tone_folder,
+                                                         "python")
+vpm.speaker_worker_file = lambda: os.path.join(tone_folder, "worker.py")
+vpm.decode_audio = decode_recorder
+vpm._speaker_split_talk = talk_recorder
+try:
+    _segments, why = vpm.speaker_split_run(tone)
+finally:
+    (vpm.speaker_model_folder, vpm.speaker_model_checked,
+     vpm.speaker_venv_python, vpm.speaker_worker_file,
+     vpm.decode_audio, vpm._speaker_split_talk) = real
+last_asked = dtype_told(asked[-1]) if asked else "not called at all"
+check("the separation asks the decoder for float32",
+      len(asked) == 1 and last_asked == "float32",
+      "the decoder was called %d times, the last for %s, wanted 1 time "
+      "for float32; the separation answered %r"
+      % (len(asked), last_asked, why))
+last_handed = handed[-1].dtype.name if handed else "nothing at all"
+check("and the wave the worker gets is still the narrow one",
+      len(handed) == 1 and last_handed == "float32",
+      "the worker was handed %d waves, the last %s at %d bytes a "
+      "sample, wanted 1 wave of float32 at 4"
+      % (len(handed), last_handed,
+         handed[-1].itemsize if handed else 0))
+shutil.rmtree(tone_folder, ignore_errors=True)
+
+print("\n11. The model that travels with the program")
 model = vpm.speaker_model_folder()
 SHIPPED = os.path.join(os.path.dirname(HERE), "models",
                        vpm.SPEAKER_MODEL_NAME)
@@ -233,16 +401,27 @@ if model:
     sums = vpm.read_checksums(os.path.join(model, "SHA256SUMS.txt"))
     check("the checksum file names more than one file", len(sums) > 1,
           str(len(sums)))
-    check("and every name in it is a file that is there",
-          all(os.path.exists(os.path.join(model, n)) for n in sums))
+    missing = [n for n in sorted(sums)
+               if not os.path.exists(os.path.join(model, n))]
+    check("and every name in it is a file that is there", not missing,
+          "%d of %d names have no file: %s"
+          % (len(missing), len(sums), missing))
 
-print("\n11. One separation at a time")
-check("there is room for exactly one",
-      vpm.SPEAKER_SPLIT_TURN.acquire(blocking=False)
-      and not vpm.SPEAKER_SPLIT_TURN.acquire(blocking=False))
-vpm.SPEAKER_SPLIT_TURN.release()
+print("\n12. One separation at a time")
+first_go = vpm.SPEAKER_SPLIT_TURN.acquire(blocking=False)
+second_go = first_go and vpm.SPEAKER_SPLIT_TURN.acquire(blocking=False)
+check("there is room for exactly one", first_go and not second_go,
+      "first go %s, second go %s, wanted True and False"
+      % (first_go, second_go))
+if second_go:
+    vpm.SPEAKER_SPLIT_TURN.release()
+if first_go:
+    vpm.SPEAKER_SPLIT_TURN.release()
 check("from four processors up everything runs at once",
-      vpm.SPEAKER_SPLIT_TOGETHER_CORES == 4)
+      vpm.SPEAKER_SPLIT_TOGETHER_CORES == 4,
+      "SPEAKER_SPLIT_TOGETHER_CORES %r against 4"
+      % (vpm.SPEAKER_SPLIT_TOGETHER_CORES,))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

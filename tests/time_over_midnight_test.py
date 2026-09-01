@@ -7,6 +7,7 @@ plainly, the run reported an unset clock where the clock was right.
 """
 import os
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -17,21 +18,30 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
 
 
 DAY = 24 * 3600
-check("a value moves onto the axis of its neighbour",
-      vpm.unwrap_day(600, 85800) == 600 + DAY)
-check("and back the other way",
-      vpm.unwrap_day(85800, 600) == 85800 - DAY)
-check("nothing moves inside the same day",
-      vpm.unwrap_day(3600, 3000) == 3600)
-check("no timecode, nothing to do", vpm.unwrap_day(None, 5) is None)
+moved = vpm.unwrap_day(600, 85800)
+check("a value moves onto the axis of its neighbour", moved == 600 + DAY,
+      "%s s, wanted %d" % (moved, 600 + DAY))
+back = vpm.unwrap_day(85800, 600)
+check("and back the other way", back == 85800 - DAY,
+      "%s s, wanted %d" % (back, 85800 - DAY))
+same_day = vpm.unwrap_day(3600, 3000)
+check("nothing moves inside the same day", same_day == 3600,
+      "%s s, wanted 3600" % (same_day,))
+unset = vpm.unwrap_day(None, 5)
+check("no timecode, nothing to do", unset is None,
+      "%s, wanted nothing" % (unset,))
 
 cameras = [{"tc": 23 * 3600 + 50 * 60, "duration": 1800,
             "name": "CamA", "path": "a"},
@@ -49,8 +59,10 @@ found = about(10 * 60)
 check("a recording after midnight is not an unset clock",
       len(found) == 1 and found[0].field == vpm.T('Midnight'),
       "; ".join(b.text[:40] for b in found))
-check("the same evening says nothing at all",
-      about(23 * 3600 + 55 * 60) == [])
+evening = about(23 * 3600 + 55 * 60)
+check("the same evening says nothing at all", evening == [],
+      "%d findings, wanted none: %s"
+      % (len(evening), "; ".join(b.text[:40] for b in evening)))
 found = about(3 * 3600)
 # The unwrap is only kept where it puts the file among the others.
 # Here it does not, so the move is taken back and the old finding
@@ -62,12 +74,13 @@ found = about(0)
 check("and 00:00:00 stays the unset clock it has always been",
       len(found) == 1 and "Timecode" in found[0].text,
       "; ".join(b.text[:40] for b in found))
+on_the_hour = vpm.unwrap_day(5.0, 86395.0 + 5.0) - (86395.0 + 5.0)
+ten_before = vpm.unwrap_day(5.0, 86390.0) - 86390.0
 check("a camera that restarts over midnight has no gap",
-      vpm.unwrap_day(5.0, 86395.0 + 5.0) - (86395.0 + 5.0) == 0.0
-      or abs(vpm.unwrap_day(5.0, 86390.0) - 86390.0 - 15.0) < 0.001)
+      on_the_hour == 0.0 or abs(ten_before - 15.0) < 0.001,
+      "5 s after 86400.0 lands %.3f s on, after 86390.0 %.3f s on, "
+      "wanted 0.000 or 15.000" % (on_the_hour, ten_before))
 
-print()
-if error:
-    print("FAIL: %d of the checks" % len(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

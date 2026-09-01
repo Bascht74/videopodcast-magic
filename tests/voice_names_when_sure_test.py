@@ -10,21 +10,23 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, random, sys, tempfile, wave
+import importlib.util, random, sys, tempfile, time, wave
 import numpy as np
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-bad, done = [], []
+began = time.time()
+done = 0
+bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
-    done.append(what)
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 PEOPLE = ["Anna", "Ben", "Cleo"]
@@ -102,30 +104,46 @@ lines = vpm.microphones_report(rows)
 check("a heading, a line per voice and the assumption",
       len(lines) == 5, str(len(lines)))
 check("the heading calls it a proposal",
-      "proposal" in lines[0] and "nothing is set" in lines[0], lines[0])
+      "proposal" in lines[0] and "nothing is set" in lines[0], "%r" % lines[0])
 check("the last line names the assumption",
-      "one microphone per person" in lines[-1], lines[-1])
+      "one microphone per person" in lines[-1],
+      "wanted 'one microphone per person' in the last of %d lines: %r"
+      % (len(lines), lines[-1][:100]))
 check("every voice and its microphone stand in a line",
       all(any(v in line and t in line for line in lines[1:-1])
           for v, t in named(rows).items()), str(lines[1:-1]))
 vpm.set_language("de")
 german = vpm.microphones_report(rows)
 check("the German side is there and is not the English one",
-      len(german) == len(lines) and german[0] != lines[0], german[0])
+      len(german) == len(lines) and german[0] != lines[0], "%r" % german[0])
 vpm.set_language("en")
+no_rows = vpm.microphones_report([])
 check("nothing to say, nothing printed",
-      vpm.microphones_report([]) == [], "")
+      no_rows == [], "0 rows in, %d lines out, wanted 0: %s"
+      % (len(no_rows), no_rows))
 
 # ---------------------------------------------------- where it must be quiet
 print("\nQuiet where the answer would be a guess")
+one_track = vpm.which_microphone(VOICES, MICS[:1])
 check("one microphone alone says nothing",
-      vpm.which_microphone(VOICES, MICS[:1]) == [], "")
+      one_track == [], "%d voices against 1 microphone: %d named, wanted 0: %s"
+      % (len(VOICES), len(one_track), named(one_track)))
+one_voice = vpm.which_microphone(VOICES[:1], MICS)
 check("one voice alone says nothing",
-      vpm.which_microphone(VOICES[:1], MICS) == [], "")
-check("no voices at all", vpm.which_microphone([], MICS) == [], "")
-check("no tracks at all", vpm.which_microphone(VOICES, []) == [], "")
+      one_voice == [], "1 voice against %d microphones: %d named, wanted 0: %s"
+      % (len(MICS), len(one_voice), named(one_voice)))
+no_voices = vpm.which_microphone([], MICS)
+check("no voices at all", no_voices == [],
+      "0 voices against %d microphones: %d named, wanted 0: %s"
+      % (len(MICS), len(no_voices), named(no_voices)))
+no_tracks = vpm.which_microphone(VOICES, [])
+check("no tracks at all", no_tracks == [],
+      "%d voices against 0 microphones: %d named, wanted 0: %s"
+      % (len(VOICES), len(no_tracks), named(no_tracks)))
+one_mute = vpm.which_microphone(VOICES, [(MICS[0][0], []), MICS[1]])
 check("a track without any speech says nothing",
-      vpm.which_microphone(VOICES, [(MICS[0][0], []), MICS[1]]) == [], "")
+      one_mute == [], "%d voices against 2 microphones, one with 0 passages: "
+      "%d named, wanted 0: %s" % (len(VOICES), len(one_mute), named(one_mute)))
 
 # The shape of real material: both microphones carry the same person.
 union = []
@@ -187,17 +205,21 @@ check("the two that are clear are still there", len(rows) == 2,
       str(named(rows)))
 
 print("\nHow long two lists of passages run at once")
-check("no overlap is zero",
-      vpm.shared_seconds([(0.0, 1.0)], [(2.0, 3.0)]) == 0.0, "")
-check("one inside the other is the inner one",
-      vpm.shared_seconds([(0.0, 10.0)], [(2.0, 3.0)]) == 1.0, "")
-check("half over half",
-      abs(vpm.shared_seconds([(0.0, 2.0)], [(1.0, 4.0)]) - 1.0) < 1e-9, "")
-check("several against several",
-      abs(vpm.shared_seconds([(0.0, 2.0), (4.0, 6.0)],
-                             [(1.0, 5.0)]) - 2.0) < 1e-9, "")
-check("empty against anything is zero",
-      vpm.shared_seconds([], [(1.0, 2.0)]) == 0.0, "")
+apart = vpm.shared_seconds([(0.0, 1.0)], [(2.0, 3.0)])
+check("no overlap is zero", apart == 0.0,
+      "(0,1) against (2,3): %.9f s, wanted 0" % apart)
+inside = vpm.shared_seconds([(0.0, 10.0)], [(2.0, 3.0)])
+check("one inside the other is the inner one", inside == 1.0,
+      "(0,10) against (2,3): %.9f s, wanted 1" % inside)
+overlap = vpm.shared_seconds([(0.0, 2.0)], [(1.0, 4.0)])
+check("half over half", abs(overlap - 1.0) < 1e-9,
+      "(0,2) against (1,4): %.9f s, wanted 1 within 1e-9" % overlap)
+several = vpm.shared_seconds([(0.0, 2.0), (4.0, 6.0)], [(1.0, 5.0)])
+check("several against several", abs(several - 2.0) < 1e-9,
+      "(0,2)+(4,6) against (1,5): %.9f s, wanted 2 within 1e-9" % several)
+nothing = vpm.shared_seconds([], [(1.0, 2.0)])
+check("empty against anything is zero", nothing == 0.0,
+      "nothing against (1,2): %.9f s, wanted 0" % nothing)
 
 # ----------------------------------------- the roles, out of who asks
 # Two people asking, one only ever answering and twice as long: the
@@ -236,9 +258,12 @@ check("and the other one the second", roles.get("Speaker 2") == "Host 2",
 two = vpm.voice_role_names(ORDER[1:])
 check("with only two there is one host, and it is not numbered",
       sorted(two.values()) == ["Guest", "Host"], str(two))
-check("one voice alone is no ranking", vpm.voice_role_names(ORDER[:1]) == {},
-      "")
-check("nothing in, nothing out", vpm.voice_role_names([]) == {}, "")
+alone = vpm.voice_role_names(ORDER[:1])
+check("one voice alone is no ranking", alone == {},
+      "1 voice in, %d roles out, wanted 0: %s" % (len(alone), alone))
+none = vpm.voice_role_names([])
+check("nothing in, nothing out", none == {},
+      "0 voices in, %d roles out, wanted 0: %s" % (len(none), none))
 
 print("\nA voice that hardly speaks in the window gets no role")
 # A voice under ROLE_MIN_SENTENCES -- the person behind the camera --
@@ -258,41 +283,52 @@ check("and so does the proposal",
       str(vpm.voice_role_names(order4)))
 
 print("\nOnly names the program gave itself are proposed over")
-check("the label of the separation is one",
-      vpm.is_stand_in_name("SPEAKER_00"), "")
-check("the numbered stand-in is one", vpm.is_stand_in_name("Speaker 3"), "")
+label = vpm.is_stand_in_name("SPEAKER_00")
+check("the label of the separation is one", label,
+      "'SPEAKER_00' -> %s, wanted True" % label)
+numbered = vpm.is_stand_in_name("Speaker 3")
+check("the numbered stand-in is one", numbered,
+      "'Speaker 3' -> %s, wanted True" % numbered)
 vpm.set_language("de")
-check("in German as well", vpm.is_stand_in_name("Sprecher 2"), "")
+in_german = vpm.is_stand_in_name("Sprecher 2")
+check("in German as well", in_german,
+      "'Sprecher 2', language de -> %s, wanted True" % in_german)
 vpm.set_language("en")
+in_english = vpm.is_stand_in_name("Sprecher 2")
 check("but it is checked in every language, not only the one running",
-      vpm.is_stand_in_name("Sprecher 2"), "")
+      in_english, "'Sprecher 2', language en -> %s, wanted True" % in_english)
 for typed in ("Anna", "Speaker", "", "Speaker one", "Moderator"):
+    answer = vpm.is_stand_in_name(typed)
     check("  a typed name is left alone: %r" % typed,
-          not vpm.is_stand_in_name(typed), "")
+          not answer, "%r -> %s, wanted False" % (typed, answer))
 
 print("\nThe report on the roles")
 lines = vpm.voice_names_report(ORDER)
 check("a heading, three lines and the assumption", len(lines) == 5,
       str(len(lines)))
-check("it calls itself a proposal", "proposal" in lines[0], lines[0])
+check("it calls itself a proposal", "proposal" in lines[0], "%r" % lines[0])
 check("and the last line says nothing is set",
       "never touched" in lines[-1] and "not a setting" in lines[-1],
-      lines[-1])
+      "'never touched' %s, 'not a setting' %s in the last of %d lines: %r"
+      % ("never touched" in lines[-1], "not a setting" in lines[-1],
+         len(lines), lines[-1][:90]))
 named_order = [(n.replace("Speaker", "Anna"), s, q, h)
                for n, s, q, h in ORDER]
 check("voices somebody has named get no proposal",
       vpm.voice_names_report(named_order) == [],
       str(vpm.voice_names_report(named_order)))
-check("no ranking, no report", vpm.voice_names_report([]) == [], "")
+no_report = vpm.voice_names_report([])
+check("no ranking, no report", no_report == [],
+      "0 voices in, %d lines out, wanted 0: %s" % (len(no_report), no_report))
 vpm.set_language("de")
+german_lines = vpm.voice_names_report(ORDER)
 check("the German side of the report is there",
-      len(vpm.voice_names_report(ORDER)) == 5
-      and vpm.voice_names_report(ORDER)[0] != lines[0], "")
+      len(german_lines) == 5 and german_lines[0] != lines[0],
+      "%d lines, wanted 5; first line %r against the English %r"
+      % (len(german_lines), german_lines[0] if german_lines else None,
+         lines[0]))
 vpm.set_language("en")
 
-print()
-if bad:
-    print("FAIL: %d of %d checks: %s"
-          % (len(bad), len(done), "; ".join(bad)))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

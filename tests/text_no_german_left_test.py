@@ -65,6 +65,7 @@ def check(what, ok, detail=""):
 #-------------------------------------------------------------- the catalogue
 tree = ast.parse(source)
 catalogue_node = None
+catalogue_at = []
 for node in tree.body:
     if isinstance(node, ast.Assign):
         for target in node.targets:
@@ -72,9 +73,12 @@ for node in tree.body:
                     and isinstance(target.value, ast.Name) \
                     and target.value.id == "CATALOGUE":
                 catalogue_node = node
+                catalogue_at.append(node.lineno)
 section("The catalogue as data")
 check("the catalogue is one assignment at the end",
-      catalogue_node is not None)
+      catalogue_node is not None,
+      "%d assignments to CATALOGUE[...] stand at the top level of the "
+      "program, at lines %s" % (len(catalogue_at), catalogue_at))
 inside = {id(n) for n in ast.walk(catalogue_node)} if catalogue_node else set()
 elsewhere = {n.value for n in ast.walk(tree) if id(n) not in inside
              and isinstance(n, ast.Constant) and isinstance(n.value, str)}

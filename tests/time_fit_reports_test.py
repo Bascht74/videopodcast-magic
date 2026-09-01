@@ -7,6 +7,7 @@ fit that worked still owes the number saying how well it worked.
 """
 import os
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -17,8 +18,12 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -56,8 +61,6 @@ found2 = vpm.solve_pair_offsets(m, 0, 1)
 check("and a point out of line shows up in it",
       found2 is not None and found2[4] > 1.0, "%.2f ms" % found2[4])
 
-print()
-if error:
-    print("FAIL: %d of the checks" % len(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

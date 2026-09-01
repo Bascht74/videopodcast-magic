@@ -29,8 +29,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   findet es eine, fragt es einmal und nennt sie mit dem Tag, an dem sie
   geschrieben wurde; findet es mehrere, zeigt es sie zur Auswahl; findet
   es keine, geschieht nichts. Teilweise wird nie geladen — das Projekt
-  kommt ganz zurück, mit den Namen, der Trennung, wer vor welcher Kamera
-  sitzt, den Typen und dem Zeitfenster, oder es wird gar nicht geöffnet.
+  kommt ganz zurück, mit den Namen, jeder Trennung, die darin steht, wer
+  vor welcher Kamera sitzt, den Typen und dem Zeitfenster, oder es wird
+  gar nicht geöffnet.
 
   Ein **Nein** lässt die hereingekommenen Dateien genau dort, wo sie
   sind. Die Liste entsteht aus ihnen und wird vermessen wie sonst auch,
@@ -42,8 +43,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   gefragt wurde, fragt nicht noch einmal. Ist ein Projekt offen, wird
   nichts mehr angeboten.
 
-  Der Ausgabeordner wird nicht geraten. Er bleibt leer, bis er gewählt
-  wird oder bis ein Projekt sagt, wohin es geht. Der Produktionsname
+  Der Ausgabeordner wird nicht geraten. Solange keiner gewählt ist und
+  kein Projekt sagt, wohin es geht, steht an seiner Stelle **neben der
+  jeweiligen Videodatei**, und genau dorthin geht das Ergebnis. Steht
+  dort ein Ordner, erscheint daneben **zurücksetzen** und legt das
+  Ergebnis wieder neben die jeweilige Videodatei. Der Produktionsname
   wird aus dem Ordner vorgeschlagen, in dem das Material liegt, und
   lässt sich überschreiben.
 
@@ -75,24 +79,27 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Grau über dem ganzen Kasten hieße „hier ist nichts zu machen“, und zu
   machen ist immer etwas.
 
-  Gesperrt wird höchstens ein Eintrag der Liste: er steht grau da und
-  lässt sich nicht wählen, und der Grund steht an ihm — wer darauf
-  stehen bleibt, liest ihn. Zwei Einträge können so gesperrt sein, jeder
-  mit seinem eigenen Satz.
+  Gesperrt wird ein Eintrag der Liste: er steht grau da und lässt sich
+  nicht wählen, und der Grund steht an ihm — wer darauf stehen bleibt,
+  liest ihn. Zwei Einträge können zugleich gesperrt sein, jeder mit
+  seinem eigenen Satz.
 
   - Eine Kamera, der niemand zugeordnet ist, zeigt **Weitwinkel**,
     obwohl niemand sie so gekennzeichnet hat. Gesperrt ist dann
     **Inhalt**, weil ihr kein Sprecher zugeordnet ist. Gibt man dieser
     Kamera einen Sprecher oder setzt den **Typ** selbst, ist der Eintrag
     wieder frei.
-  - Eine Datei, für die die Messung keinen Platz gefunden hat, kann
-    nicht der Weitwinkel sein: der Weitwinkel ist die Kamera, die
+  - Eine Datei, für die die Messung keinen Platz gefunden hat, ist
+    weder Inhalt noch Weitwinkel; für sie sind beide Einträge gesperrt.
+    Inhalt wird in die Folge hineingeschnitten, und für diese Datei
+    gibt es dort keine Stelle. Der Weitwinkel ist die Kamera, die
     durchläuft und einspringt, wo keine andere passt, also muss er auf
-    der Zeitachse liegen. Gesperrt ist dann **Weitwinkel**, mit eben
-    diesem Grund.
+    der Zeitachse liegen. An jedem Eintrag steht sein eigener Grund,
+    und das Programm setzt eine solche Datei von sich aus auf
+    **Vorspann**.
 
-    Für diese Sperre muss zweierlei zugleich zutreffen, keines davon
-    allein. Der Ton der Datei muss schlecht zum Rest passen — eine
+    Für diese beiden Sperren muss zweierlei zugleich zutreffen, keines
+    davon allein. Der Ton der Datei muss schlecht zum Rest passen — eine
     solche Datei steht rot in der Liste — **und** kein Timecode darf sie
     zwischen die anderen einordnen, wozu ein Timecode auf der Datei
     gehört und einer auf etwas anderem im Material; eine einmal
@@ -104,13 +111,22 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   **Vorspann**, **Abspann** und **Video ignorieren** werden nie
   gesperrt. Das sind Antworten über die Datei selbst und haben nichts
-  damit zu tun, wer vor welcher Kamera sitzt.
+  damit zu tun, wer vor welcher Kamera sitzt. Eine Datei, die zu nichts
+  passt, gehört genau in einen dieser drei Einträge.
 
-  Die Sperre auf **Weitwinkel** fällt nie auf einen **Typ**, den jemand
-  gewählt hat: eine gewählte Antwort steht, was die Messung auch sagt.
-  Und beide Sperren gehen von selbst wieder weg — eine Datei, die eine
-  spätere Messung einordnen kann, bekommt den Weitwinkel zurück, und
-  eine Kamera, die einen Sprecher bekommt, bekommt **Inhalt** zurück.
+  Die beiden Sperren an einer Datei, die nirgends hinpasst, sind keine
+  Empfehlung, sondern eine Feststellung über das Material. Sie gelten
+  darum auch gegen einen **Typ**, den jemand selbst gewählt hat, und
+  gegen einen, den eine Projektdatei mitgebracht hat: steht dort Inhalt
+  oder Weitwinkel, wird die Datei auf **Vorspann** gesetzt. Bei der
+  Kamera, der niemand zugeordnet ist, ist es umgekehrt — wer den **Typ**
+  selbst setzt, beendet die Sperre.
+
+  Jede Sperre geht von selbst wieder weg, sobald ihr Grund weg ist.
+  Eine Kamera, die einen Sprecher bekommt, bekommt **Inhalt** zurück,
+  und eine Datei, die eine spätere Messung einordnen kann, bekommt
+  beide Einträge zurück. Wohin die Datei inzwischen gesetzt wurde,
+  bleibt stehen, bis jemand es selbst ändert.
 
   Eine Datei mit mehr als einem Kanal sagt darunter, was aus ihr wird: je
   Kanal eine Zeile, mit einem Häkchen, das in der ersten Zeile
@@ -143,10 +159,33 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   hat, lässt das Feld leer und die Zeilen verborgen, und eine spätere
   Antwort holt sie sofort hoch, mit den Namen und Kameras, die sie
   schon hatten. Die fünfte Spalte, **Sprecher**, sagt, wie es darum
-  steht -- **Abbrechen**, solange es läuft, in dieser Zeile und in
-  keiner anderen, danach **Getrennt: 4 Sprecher**, und daneben das
-  Angebot **Nur ein Sprecher -- Spur auftrennen?**, wo immer ein Name
-  im Feld steht.
+  steht -- **Sprecher werden getrennt ...** und **Abbrechen**, solange
+  es läuft, in dieser Zeile und in keiner anderen, danach **Getrennt: 4
+  Sprecher**, und einen Grund, wo die Trennung nicht laufen konnte. Sie
+  ist eine Auskunft und sonst nichts: dort startet keine Trennung, und
+  wer es sich anders überlegt, geht zurück ins Feld.
+
+  Jede Aufnahme hält ihre eigene Trennung, und mehrere stehen
+  nebeneinander: jede Zeile zählt die Stimmen ihrer eigenen Aufnahme,
+  und wird eine zweite aufgetrennt, bleiben Zeilen, Namen und Kameras
+  der ersten unangetastet. Nur **Abbrechen** steht immer in einer
+  einzigen Zeile, denn aufgetrennt wird eine Aufnahme nach der anderen.
+
+  Ein Name ist eine Person, und eine Person steht einmal auf dem Blatt.
+  Ein Name, den es schon gibt, färbt sein Feld schon beim Tippen rot --
+  auf beiden Ebenen und über die Trennungen hinweg. Was das heißt, ist
+  auf den beiden Ebenen verschieden. Zwei Aufnahmen unter einem Namen
+  sind eine Rückfrage und keine Weigerung: sie sollen zu einer einzigen
+  Spur werden, und die Zeile unter der Tabelle sagt das;
+  [Multitrack](multitrack.de.md) hat diese Seite ganz. Eine **Stimme**
+  unter einem Namen, den schon jemand anderes trägt, ist dagegen eine
+  Weigerung -- der Hinweis am Feld bittet um einen eigenen, **Start**
+  bleibt gesperrt, und die Zeile unter den Knöpfen nennt die Person.
+
+  Zu welcher Kamera eine Aufnahme gehört, ergibt sich aus diesem Namen,
+  solange niemand selbst eine wählt; ein später getippter oder
+  verbesserter Name zieht die Kamera also mit. Eine von Hand gewählte
+  Kamera ist eine Antwort und bleibt, wo sie hingesetzt wurde.
 
   Bei mehr als einer Tonaufnahme läuft nichts von selbst; die Antwort in
   der Zeile startet es. Unter den Aufnahmen steht **Auf diesem Rechner
@@ -165,10 +204,19 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   sie ab. Aufnahmen, die keine Stimmen zeigen, sind eine flache Liste,
   ohne Dreiecke.
 
+  Vergibt das Programm den Namen einer Stimme selbst, nimmt es die erste
+  Nummer, die niemand hat -- gezählt über alle Trennungen und über die
+  Aufnahmen darüber. So beginnt eine zweite Aufnahme nicht mit einem
+  zweiten **Sprecher 1**: wo **Sprecher 1** steht, heißt der nächste
+  **Sprecher 2**. Ein von Hand gegebener Name wird nie umnummeriert, und
+  eine Nummer, die wieder frei wird, wird wieder benutzt.
+
   Die Kameratabelle darunter trägt noch einmal **Kameraton**, bei jeder
-  Kamera, auf dem Wert aus der Dateiliste. Eine Kamera auf
-  **Ton verwenden** bekommt eine Zeile in der Zuordnungstabelle
-  darüber, wie eine eigene Aufnahme.
+  Kamera, auf dem Wert aus der Dateiliste, und daneben den **Typ**, auf
+  demselben Wert und mit denselben gesperrten Einträgen: dass ein Clip
+  in Wahrheit ein Abspann ist, merkt man beim Ansehen, und der Player
+  steht hier. Eine Kamera auf **Ton verwenden** bekommt eine Zeile in
+  der Zuordnungstabelle darüber, wie eine eigene Aufnahme.
 
   ![Zuordnungstabelle und Player](images/assignment.de.png)
 
@@ -179,7 +227,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   mit den Werten für den Schnitt und der Kasten **Sprecher**, dessen
   Überschrift die Quelle der Sprecher nennt. Zuletzt der Kasten
   **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer
-  Vorschau.
+  Vorschau. Das Bild sagt unter sich, auf einer Fläche in der Farbe der
+  laufenden Einstellung, wer spricht und welche Kamera läuft; hat eine
+  Einstellung kein Bild, füllt die Farbe die ganze Fläche, und die
+  beiden Zeilen stehen darauf. [Der Kameraschnitt](camera-cut.de.md)
+  liest sie aus.
 
   Das Band teilt sich seine Zeile mit drei Zoom-Knöpfen und, ganz am
   Ende der Zeile, der gezeigten Zeitspanne in Schreibmaschinenziffern:
@@ -190,7 +242,13 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   liest sie `0:00:00 -- 0:00:00`. Ihre Breite liegt fest, damit die drei
   Knöpfe unter dem Zeiger stehen bleiben, während die Zahlen wechseln.
   [Der Kameraschnitt](camera-cut.de.md) sagt, wie das Band selbst zu
-  lesen ist.
+  lesen ist und was die Überschrift des Kastens **Sprecher** besagt.
+
+  Im Kasten **Kameraschnitt -- Vorschau** steht unter der Vorschau der
+  Knopf **Sprecher jetzt messen** -- immer dann, wenn eine Spur weder
+  von einer Trennung abgedeckt noch gemessen ist, also auch neben einer
+  Trennung, die schon steht. Daneben steht, wer fehlt. Diese Leute sind
+  im Schnitt; nur diese Vorschau kann sie erst nach dem Messen zeigen.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -202,9 +260,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   bleibt der Name **Kameraschnitt**.
 
   Der Kasten erscheint, sobald **Multitrack** gesetzt ist oder zwei
-  Personen einen Namen und eine Kamera tragen -- die Stimmen unter einer
-  getrennten Aufnahme oder die Zeilen der Zuordnungstabelle. Eine Person
-  genügt, wo es zwei oder mehr Kameras gibt. Eine Person auf einer
+  Personen einen Namen und eine Kamera tragen. Woher die beiden kommen,
+  macht keinen Unterschied, und beide Herkünfte zählen zusammen: eine
+  Stimme unter einer getrennten Aufnahme und eine Aufnahme mit eigenem
+  Namen sind zwei Personen, ebenso zwei Stimmen oder zwei Aufnahmen. Eine
+  Person genügt, wo es zwei oder mehr Kameras gibt. Eine Person auf einer
   einzigen Kamera bekommt keinen Kasten, und das ist richtig: es gibt
   nichts, wohin geschnitten werden könnte. Bis dahin steht an der
   Stelle von Kasten und Vorschau eine Zeile, die sagt, was fehlt. Ein
@@ -234,11 +294,23 @@ zweiten: **Kameraton** bei einer Kamera, gestellt auf
 **Ton verwenden**. Wenn jede Kamera ihren Ton schon hergibt, sagt diese
 Zeile, dass keiner mehr übrig ist.
 
-**Sprache** neben dem Produktionsnamen ist die in der Aufnahme gesprochene
-Sprache, vorbelegt aus der Systemsprache. Sie wird zur Kennzeichnung der
-geschriebenen Tonspur und sagt auphonic.com, was es beim Transkribieren
-erwarten soll. „nicht gesetzt“ lässt die Spur ungekennzeichnet und
-überlässt der Erkennung die Sprache.
+Unter dem Auphonic-Kasten erscheint ein zweiter Balken, solange das
+Material vermessen wird, mit einer Zeile je Datei und dem Stand jeder
+einzelnen. Eine Zeile verschwindet, sobald ihre Datei fertig ist, der
+Balken selbst kurz nach der letzten. Er zeigt die Vorarbeit -- Ton
+lesen und Hüllkurven rechnen --, also dieselbe Arbeit, die der Balken
+neben **Start** mitträgt, hier Datei für Datei.
+
+**Sprache** neben dem Produktionsnamen ist die in der Aufnahme
+gesprochene Sprache, vorbelegt aus der Systemsprache. Sie tut zweierlei:
+Sie wird zur Kennzeichnung der geschriebenen Tonspur, und die Erkennung
+auf diesem Rechner wird auf diese Sprache eingestellt. „nicht gesetzt“
+lässt die Spur ungekennzeichnet und überlässt der Erkennung die Sprache.
+Zur Auswahl stehen nur Sprachen, die die Erkennung hier auch versteht.
+[Das Transkript entsteht hier](auphonic.de.md#das-transkript-entsteht-hier)
+sagt, was die Erkennung schreibt, und [Spracherkennung und
+Sprechertrennung](speech.de.md), welchen Weg sie auf welchem Rechner
+nimmt.
 
 **Lautheit** in der Gruppe **Produktion** auf der ersten Seite legt fest,
 wie laut die fertige Folge gemacht wird; derselbe Gewinn geht auf jede
@@ -273,6 +345,9 @@ Er und **Start** bleiben gesperrt, solange etwas offen ist, und
   keiner, den der Dateiname nahelegt -- der graue Vorschlag gilt als
   Name, wo nichts darüber getippt wird,
 - bei Multitrack alle Aufnahmen unter demselben Namen,
+- eine **Stimme** unter einem Namen, den schon jemand anderes trägt: der
+  Schnitt setzt eine Person auf eine Kamera, und ein Name auf zwei
+  Stimmen wäre diese Person an zwei Stellen,
 - zwei Kameras mit derselben Ausgabedatei.
 
 Das Feld oder die Zeile, die gemeint ist, wird rot. Ein Häkchen hinter
@@ -339,16 +414,18 @@ sagt die Zeile, in welchem Abschnitt.
 Der Knopf **Einstellungen ...** sitzt im Fußbereich, neben **Start**.
 Dahinter steht, was man einmal einrichtet und dann nicht mehr anfasst:
 der Schlüssel für auphonic.com samt Häkchen, das ihn ablegt, und ob
-Resolve antwortet. Das Preset und die Transkription gehören zur
-Produktion und stehen dort, wo über die Spuren entschieden wird: unter
-der Zuordnungstabelle.
+Resolve antwortet. Das Preset gehört zur Produktion und steht dort, wo
+über die Spuren entschieden wird: unter der Zuordnungstabelle.
 
 Das Fenster hinter dem Knopf hat zwei Kästen.
 
 - **Zugang zu auphonic.com**: das Feld für den API Key und das Häkchen,
   das ihn behält (**Im Schlüsselbund speichern** auf dem Mac, **In der
   Registry speichern** unter Windows). **Verbinden** prüft den Schlüssel
-  und holt die Presets.
+  und holt die Presets. Ist der Schlüsselbund auf dem Mac zugesperrt, ist
+  das Häkchen grau, eine Zeile darunter sagt es, und
+  **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das ihn
+  aufsperrt; danach wacht das Häkchen von selbst wieder auf.
 - **Verbindung zu Resolve**: ob Resolve antwortet, mit Version, wenn ja,
   und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal, das
   Öffnen des Fensters ebenso.
@@ -371,7 +448,13 @@ räumt das Fenster leer, bis es aussieht wie nach dem Start, und lässt
 die Datei unberührt, aus der es kam; das ist der Weg zu einer zweiten
 Produktion, ohne das Programm zu beenden. **Projekt speichern**
 schreibt die Projektdatei dorthin, wohin der Ausgabeordner zeigt, ohne
-etwas laufen zu lassen.
+etwas laufen zu lassen, und sagt danach, wohin sie gegangen ist.
+
+Ist noch kein Ausgabeordner gewählt, kommt der Satz vor dem Fenster:
+die Projektdatei kommt in den Ausgabeordner, und der ist noch nicht
+gewählt, bitte einen wählen. Erst danach geht die Ordnerauswahl auf.
+Bricht man sie ab, geschieht nichts weiter. Eine Ordnerauswahl, die von
+selbst aufgeht, sagt nämlich nicht, warum sie da ist.
 
 **Projekt schließen** ruft außerdem zurück, was am alten Material noch
 lief. Hüllkurven und Kameraton werden nicht weiter herausgeholt, die
@@ -392,35 +475,39 @@ Auf dem Mac sitzt die Menüleiste oben am Bildschirmrand, sonst oben im
 Fenster. **Einstellungen ...** wandert dort ins Programmmenü und steht
 sonst überall unter **Datei**.
 
-Alles, was über einen Knopf geht, geht auch über eine Taste. Die Tasten
-ohne Zusatztaste gehören dem Player und wirken nur, solange er den
-Fokus hat.
+Alles, was in den Menüs steht, hat eine Taste, und in den Menüs steht
+der ganze Lauf: das Projekt, das Material, der Start, der Player.
+Knöpfe, die für sich auf einem Reiter stehen, haben keine --
+**Verbinden** und **Erneut prüfen** hinter **Einstellungen ...**, die
+drei, die das Schnittband zoomen, und die beiden unter **Ausgabe**. Die
+Tasten ohne Zusatztaste gehören dem Player und wirken nur, solange er
+den Fokus hat.
 
-| Taste | Was sie tut |
+| Taste | Der Eintrag, den sie drückt |
 |---|---|
-| `Cmd+P` | Projekt öffnen |
-| `Cmd+S` | Projekt speichern |
-| `Cmd+W` | Projekt schließen |
-| `Cmd+O` | Dateien hinzufügen |
-| `Cmd+Rückschritt` | Das Ausgewählte entfernen |
-| `Cmd+Umschalt+O` | Ausgabeordner wählen |
-| `Cmd+R` | Start |
-| `Cmd+Umschalt+R` | Probelauf |
-| `Cmd+1` `Cmd+2` `Cmd+3` | Auf diesen Reiter |
-| `Cmd+,` | Einstellungen |
+| `Cmd+P` | **Projekt öffnen ...** |
+| `Cmd+S` | **Projekt speichern** |
+| `Cmd+W` | **Projekt schließen** |
+| `Cmd+O` | **Dateien hinzufügen ...** |
+| `Cmd+Rückschritt` | **Entfernen** -- das in der Liste Ausgewählte |
+| `Cmd+Umschalt+O` | **Ausgabeordner ...** |
+| `Cmd+R` | **Start** |
+| `Cmd+Umschalt+R` | **Probelauf** |
+| `Cmd+1` bis `Cmd+4` | Auf diesen Reiter, in ihrer Reihenfolge |
+| `Cmd+,` | **Einstellungen ...** |
 
 Im Player:
 
-| Taste | Was sie tut |
+| Taste | Der Eintrag, den sie drückt |
 |---|---|
-| `Leertaste` | Abspielen und anhalten |
-| `L` | Vorwärts abspielen, mit jedem Druck doppelt so schnell |
-| `K` | Anhalten, zurück auf 1× |
-| `Links` `Rechts` | Ein Frame |
-| `Umschalt+Links` `Umschalt+Rechts` | Eine Sekunde |
-| `Alt+Links` `Alt+Rechts` | Zehn Sekunden |
-| `I` `O` | In-Punkt setzen, Out-Punkt setzen |
-| `Umschalt+I` `Umschalt+O` | Zum In-Punkt, zum Out-Punkt springen |
+| `Leertaste` | **Abspielen und anhalten** |
+| `L` | **Vorwärts abspielen, jeder Druck schneller** |
+| `K` | **Anhalten** |
+| `Links` `Rechts` | **Ein Bild zurück**, **Ein Bild vor** |
+| `Umschalt+Links` `Umschalt+Rechts` | **Eine Sekunde zurück**, **Eine Sekunde vor** |
+| `Alt+Links` `Alt+Rechts` | **Zehn Sekunden zurück**, **Zehn Sekunden vor** |
+| `I` `O` | **In markieren**, **Out markieren** |
+| `Umschalt+I` `Umschalt+O` | **zu In-Punkt**, **zu Out-Punkt** |
 
 `L` verdoppelt bis 8×, und das Tempo steht am Vorlauf-Knopf. Der Player
 hat kein `J`: Qt spielt hier nichts rückwärts, gemessen.
@@ -449,7 +536,7 @@ die Datei liegen, die funktioniert, und das Fenster sagt, was nicht
 stimmte.
 
 Die Version, die lief, bleibt als `videopodcast-magic.py.old` neben der
-neuen liegen. **Hilfe > Zurück auf 2.3.0-beta** setzt sie wieder ein;
+neuen liegen. **Hilfe > Zurück auf 2.23.0-beta** setzt sie wieder ein;
 der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
 solange die Datei da ist.
 
@@ -477,15 +564,23 @@ Datei, und der nächste Start übernimmt sie. Dateien, die nicht dazu
 passen, erscheinen rot. Mehr über die Projektdatei steht in
 [camera-cut.de.md](camera-cut.de.md).
 
-Die Messung unterscheidet zwei Urteile. Eine Datei, deren Ton schlecht zu
+Die Messung unterscheidet drei Urteile. Eine Datei, deren Ton schlecht zu
 den anderen passt, steht in Rot. Eine Datei, die überhaupt keinen Platz
 hat -- ihr Ton hat mit dem übrigen Material nichts gemeinsam, und kein
-Timecode ordnet sie zwischen die anderen ein --, wird in der Spalte
-**Typ** auf **Video ignorieren** gesetzt, und das Protokoll sagt, warum.
-Das ist ein Vorschlag wie die für die Stimmen: Er füllt nur einen **Typ**,
-in dem noch die eigene Antwort des Programms steht, nie einen, den jemand
-gewählt hat, und eine Datei, die eine spätere Messung wieder einordnen
-kann, bekommt ihren alten Eintrag zurück.
+Timecode ordnet sie zwischen die anderen ein --, lässt sich nicht in die
+Folge hineinschneiden: In der Spalte **Typ** sind **Inhalt** und
+**Weitwinkel** für sie gesperrt, sie wird auf **Vorspann** gesetzt, und
+das Protokoll sagt, warum. Das ist kein Vorschlag, sondern eine
+Feststellung über das Material, und sie gilt, wie der **Typ** auch
+dorthin gekommen ist.
+
+War an einer solchen Datei überhaupt nichts zu messen, wird ihr
+stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag
+wie die für die Stimmen: Er füllt nur einen **Typ**, in dem noch die
+eigene Antwort des Programms steht, nie einen, den jemand gewählt hat,
+und eine Datei, die eine spätere Messung wieder einordnen kann, bekommt
+ihren alten Eintrag zurück. [Vorflug](preflight.de.md) sagt, woran ein
+Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 
 ## Wenn etwas klemmt
 
@@ -496,11 +591,13 @@ kann, bekommt ihren alten Eintrag zurück.
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die
   Zeitachse noch. Der Balken neben **Start** sagt, was gerade läuft.
-- **Eine Datei steht plötzlich auf „Video ignorieren“**: die Messung hat
-  keinen Platz für sie gefunden. Ihr einen Timecode geben, der zum
-  übrigen Material passt -- der muss mit einem anderen Programm gesetzt
-  werden --, oder von Hand einen **Typ** wählen, was die Sache endgültig
-  entscheidet.
+- **Eine Datei steht plötzlich auf „Vorspann“ oder „Video ignorieren“**:
+  die Messung hat keinen Platz für sie gefunden. Ihr einen Timecode
+  geben, der zum übrigen Material passt -- der muss mit einem anderen
+  Programm gesetzt werden --, dann sind die Einträge wieder da. Bis
+  dahin stehen **Vorspann**, **Abspann** und **Video ignorieren** zur
+  Wahl; **Inhalt** und **Weitwinkel** sind gesperrt, und daran ändert
+  auch keine Hand etwas.
 - **Das Update ging nicht durch**: die Datei, die funktioniert, bleibt
   liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach Update
   suchen ...** versucht es noch einmal.

@@ -12,6 +12,15 @@ Stimmen, die auf einer Aufnahme auseinandergehalten wurden, deren
 **Sprechername** mit **mehrere Sprecher** beantwortet ist; das Häkchen
 **Multitrack** gehört nicht dazu. Beide Wege stehen in [Spracherkennung
 und Sprechertrennung](speech.de.md).
+
+**Wer im Schnitt ist, hängt nicht daran, woher er kam.** Eine eigene
+Datei mit einer Stimme darauf, der Ton eines Videos mit einer Stimme
+darauf, eine Multitrack-Aufnahme oder eine Aufnahme, die in mehrere
+Stimmen aufgetrennt wurde — alles zählt gleich, und heraus hält nur
+**nicht verwenden**. An drei Personen mit je einer Kamera gemessen: alle
+drei sind im Schnitt, und das Bild geht auf alle drei Kameras — die
+Person am eigenen Mikrofon darunter, mit 2 Einstellungen.
+
 Damit weiß das Script, wann wer redet, und baut daraus den Schnitt:
 
 * Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
@@ -31,13 +40,22 @@ sie zeigt beide.
 
 **Der Name richtet sich nach den Kameras.** Zwischen zwei Kameras
 wechselt das Bild, auf einer Kamera nicht. Dort entsteht ein erster
-Schnitt an jedem Sprecherwechsel. Der Lauf stellt `KAMERASCHNITT` über
-seinen Abschnitt bei zwei Kameras und mehr, bei einer
-`ERSTER SCHNITT NACH SPRECHERN`. Der Kasten im Fenster trägt diese
-beiden Namen und einen dritten: bei einer benannten Person und zwei
-Kameras oder mehr heißt er **Schnitt mit dem Weitwinkel**, weil ihre
-Kamera steht und nur der Weitwinkel sie unterbricht. Bevor etwas
-getrennt ist, heißt der Kasten **Kameraschnitt**.
+Schnitt an jedem Sprecherwechsel. Drei Fälle, drei Namen, und der Kasten
+im Fenster und die Überschrift über dem Abschnitt im Protokoll nennen
+denselben:
+
+* **Kameraschnitt**, wenn zwei Personen oder mehr je eine eigene Kamera
+  haben;
+* **Schnitt mit dem Weitwinkel**, wenn eine Person benannt ist und eine
+  zweite Kamera niemanden trägt — ihre Kamera steht, und nur der
+  Weitwinkel unterbricht sie;
+* **Erster Schnitt nach Sprechern**, wenn alle auf einer Kamera sitzen.
+
+Im Protokoll stehen dieselben drei in Großbuchstaben und auf einer neuen
+Zeile: `KAMERASCHNITT`, `SCHNITT MIT DEM WEITWINKEL`,
+`ERSTER SCHNITT NACH SPRECHERN`. Solange nichts getrennt ist, heißt der
+Kasten **Kameraschnitt**: das Material hat die Frage noch nicht
+beantwortet.
 
 Im Ausgabeordner landen `_speakers.csv`, `_speakers.edl`, `_cameracut.csv`
 und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
@@ -56,7 +74,9 @@ und sagt, was fehlt.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
-*Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau.*
+*Reiter Resolve-Schnitt: links die Werte, rechts die Vorschau. Vier der
+Einstellungen stehen grau da, weil noch kein Lauf die Wörter
+aufgeschrieben hat.*
 
 Alle acht Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
 Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als
@@ -64,7 +84,7 @@ Dezimalzeichen, und eine Obergrenze gibt es nicht. Ein negativer Wert
 ist nur für **Edit Change Delay** gedacht; die anderen Felder nehmen
 ihn an, aber es kommt nichts Gutes dabei heraus.
 
-Vier Felder formen den Schnitt selbst:
+Drei Felder bestimmen den Rhythmus des Schnitts:
 
 * **Mindestschnittdauer**: 3 s, so lange steht eine Einstellung
   mindestens; höher macht den Schnitt ruhiger (auf der Kommandozeile
@@ -75,65 +95,164 @@ Vier Felder formen den Schnitt selbst:
 * **Edit Change Delay**: 0,3 s, so viel später als der Ton wechselt
   das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
   Kommandozeile `--edit-change-delay`)
-* **Reaktionsschnitt früher**: 1,5 s, so viel früher steht nach einer
-  Frage die Antwort im Bild (auf der Kommandozeile `--reaction-lead`)
 
-Vier weitere formen den Weitwinkel:
+Vier formen den Weitwinkel, und die ersten beiden davon gehören
+zusammen: eine weiche Grenze und eine harte.
 
-* **Weitwinkel nach**: 70 s, ab dieser Standzeit ein Blick in den
-  Weitwinkel; kleiner gibt mehr Weitwinkel, 0 schaltet ihn ab (auf der
-  Kommandozeile `--wide-after`). An 87 Minuten Interview gemessen, in
-  denen einer 59 Minuten redet: bei 40 Sekunden verlässt ihn das Bild
-  77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104. Beide setzen
-  den Schnitt auf eine Satzgrenze — es geht also um Rhythmus, nicht um
-  Richtigkeit.
-* **Weitwinkel steht**: 5 s, so lange steht der eingeschobene
+* **Weitwinkel nach**: 70 s, die weiche Grenze. Ab dieser Standzeit
+  sucht das Programm eine Satzgrenze und setzt den Weitwinkel dorthin,
+  nicht nach der Uhr; kleiner gibt mehr Weitwinkel, 0 schaltet ihn ab
+  (auf der Kommandozeile `--wide-after`). An 87 Minuten Interview
+  gemessen, in denen einer 59 Minuten redet: bei 40 Sekunden verlässt
+  ihn das Bild 77 Mal, alle 39 Sekunden; bei 70 noch 37 Mal, alle 104.
+  Beide setzen den Schnitt auf eine Satzgrenze — es geht also um
+  Rhythmus, nicht um Richtigkeit.
+* **Weitwinkel spätestens**: 120 s, die harte Grenze. Ist seit
+  **Weitwinkel nach** keine Satzgrenze gekommen, tritt die längste
+  Sprechpause in der Nähe an ihre Stelle, und dort wird geschnitten,
+  gleich was gerade gesagt wird; ist auch keine brauchbare Pause da,
+  entscheidet die Uhr. Kleiner unterbricht eine stehende Kamera früher
+  (auf der Kommandozeile `--wide-latest`)
+* **Weitwinkel mindestens**: 5 s, so lange steht der eingeschobene
   Weitwinkel mindestens (auf der Kommandozeile `--wide-length`)
 * **Weitwinkel höchstens**: 15 s, und so lange höchstens (auf der
   Kommandozeile `--wide-most`)
-* **Weitwinkel spätestens**: 120 s, Obergrenze für eine Kamera am
-  Stück; kleiner unterbricht sie früher (auf der Kommandozeile
-  `--wide-latest`)
 
-Darunter stehen vier Auswahlfelder. Sie sagen, was läuft, wenn die
-Sprache nicht sagt, wer zu zeigen ist:
+Das letzte Feld gehört zur Frage und steht direkt über dem Auswahlfeld,
+das über sie entscheidet:
 
+* **Antwort früher im Bild**: 1,5 s, so viel vor dem Ende der Frage
+  steht der Antwortende im Bild (auf der Kommandozeile
+  `--reaction-lead`). Der Nullpunkt liegt dort, wo der Fragende
+  aufhört, nicht dort, wo die Antwort anfängt: die Pause dazwischen
+  gehört zur Frage. Gemessen an einer Frage, die bei 10 Sekunden endet,
+  und einer Antwort, die bei 12,5 anfängt: mit fünf Sekunden Vorlauf
+  liegt der Schnitt bei 5,0 Sekunden, nicht bei 7,5. Die Verzögerung
+  aus **Edit Change Delay** kommt nicht noch einmal dazu.
+
+Unter den Feldern stehen vier Auswahlfelder. Sie sagen, was läuft, wenn
+die Sprache nicht sagt, wer zu zeigen ist:
+
+* **Nach einer Frage**: **Antwortender** (auf der Kommandozeile
+  `--on-question`)
 * **Langer Monolog**: **Abwechselnd** (auf der Kommandozeile
   `--on-monologue`)
 * **Mehrere reden zugleich**: **Weitwinkel** (auf der Kommandozeile
   `--on-together`)
 * **Erkennung unsicher**: **Weitwinkel** (auf der Kommandozeile
   `--on-uncertain`)
-* **Frage**: **Antwortender** (auf der Kommandozeile `--on-question`)
 
-Die ersten drei nehmen dieselben vier Werte: **Weitwinkel**,
-**Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Frage** nimmt
-**nicht vorziehen**, **Antwortender** und **Zuhörer**; **nicht
-vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild folgt dem
-Ton hier wie überall sonst.
+Die letzten drei nehmen dieselben vier Werte: **Weitwinkel**,
+**Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Nach einer
+Frage** nimmt **nicht vorziehen**, **Antwortender** und **Zuhörer**;
+**nicht vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild
+folgt dem Ton hier wie überall sonst.
 
-Unter den Feldern hält das Häkchen **Weitwinkel für Begrüßung am Anfang
-und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel (auf der
-Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel am Anfang
-hält, bis das Wort wirklich übergeben wird, nicht bis zum ersten längeren
-Block einer Nebenstimme.
+Unter den Auswahlfeldern hält das Häkchen **Weitwinkel für Begrüßung am
+Anfang und Verabschiedung am Ende** Anfang und Ende auf dem Weitwinkel
+(auf der Kommandozeile schaltet `--no-wide-edges` es ab). Der Weitwinkel
+am Anfang hält, bis das Wort wirklich übergeben wird, nicht bis zum
+ersten längeren Block einer Nebenstimme.
 
 **Redet mindestens** erledigt kurze Einwürfe („mhm“, „ja genau“). Eine
 Einstellung, die trotzdem zu kurz ausfällt, geht in die folgende, nicht
 in die vorherige.
 
+### Die vier Einstellungen, die auf die Wörter warten
+
+**Nach einer Frage**, **Antwort früher im Bild**, **Weitwinkel nach**
+und **Weitwinkel höchstens** stehen grau da, solange keine Niederschrift
+bekannt ist, und eine Zeile darunter sagt, warum: ohne aufgeschriebene
+Sprache wird keine Frage gefunden und keine Satzgrenze, also bewirken
+diese vier nichts. Vorher ließen sie sich setzen und taten trotzdem
+nichts.
+
+An 200 Sekunden Monolog ohne die Wörter gemessen: **Weitwinkel nach**
+liefert denselben einen Einschub, ob dort 40 steht oder 90, und
+**Weitwinkel höchstens** dieselben 5,0 Sekunden, ob dort 15 steht oder
+40. Mit den Wörtern ergibt dasselbe Material vier Einschübe gegen zwei
+und 15 Sekunden gegen 20 bis 30.
+
+**Weitwinkel mindestens** und **Weitwinkel spätestens** bleiben offen,
+auch ohne Niederschrift: die beiden zählen nach der Uhr und brauchen
+keinen Satz. Offen sind sie, solange es überhaupt einen Weitwinkel gibt
+— der nächste Abschnitt handelt vom zweiten Grund, aus dem eine
+Einstellung grau dasteht.
+
+Der erste Lauf schreibt die Niederschrift. Von da an sind die vier
+offen, und die Vorschau rechnet mit ihnen.
+
+### Wenn keine Kamera frei von Sprechern ist
+
+Der Weitwinkel ist die Kamera, auf der niemand ist. Trägt jede Kamera
+einen Sprecher, gibt es keinen, und die fünf Einstellungen, die nichts
+anderes sagen als das, was der Weitwinkel tut, stehen grau da:
+**Weitwinkel nach**, **Weitwinkel spätestens**, **Weitwinkel
+mindestens**, **Weitwinkel höchstens** und das Häkchen für die Ränder.
+In den drei unteren Auswahlfeldern wird der Eintrag **Weitwinkel** mit
+ihnen grau und lässt sich nicht mehr wählen. Er bleibt aber in der
+Liste, statt daraus zu verschwinden, und wer darauf zeigt, erfährt den
+Grund: die Antwort auf „warum kann ich das nicht wählen“ gehört dorthin,
+wo die Frage aufkommt.
+
+Unter den Einstellungen sagt eine Zeile dasselbe in Worten — keine
+Kamera ist frei von Sprechern, also gibt es keinen Weitwinkel, und diese
+fünf Einstellungen bewirken nichts. Zwei Personen auf je einer eigenen
+Kamera sind genau dieser Fall, und für ein Gespräch, das mit zwei
+Kameras aufgenommen wird, ist er der Normalfall.
+
+Die Zeile nennt auch die beiden Auswege; einer von beiden genügt:
+
+* einer Kamera im Feld **Typ** den Wert **Weitwinkel** geben. Das Feld
+  steht bei jeder Videodatei in der Liste und in der Kameratabelle auf
+  dem Reiter **Zuordnung & Zeitfenster**. Eine so gekennzeichnete Kamera
+  nimmt keine Sprecher mehr an, und die Kennzeichnung geht dem vor, was
+  das Programm von selbst herausfinden würde;
+* oder eine Kamera ohne Sprecher lassen. Jede Kamera, der niemand
+  zugeordnet ist, ist ein Weitwinkel.
+
+Mehrere Weitwinkel nebeneinander sind auf beiden Wegen erlaubt. Der
+Schnitt nimmt einen davon, und das Protokoll sagt, wie viele es sind und
+welchen es genommen hat, statt im Stillen eine Mehrheit auszurechnen.
+
+Eine Zahl, die schon in einem grau gewordenen Feld steht, bleibt
+erhalten, und der Lauf richtet sich ebenso wenig nach ihr: ohne
+Weitwinkel gilt **Weitwinkel nach** als 0, das Häkchen als
+abgeschaltet, und ein Auswahlfeld, in dem noch **Weitwinkel** steht,
+wirkt wie **Kein Kamerawechsel**. Das Protokoll sagt es unter der
+Überschrift des Schnitts: jede Kamera trägt einen Sprecher, also
+bewirken die vier Weitwinkel-Einstellungen und der Haken für die Ränder
+hier nichts.
+
+Keines der beiden Graus bleibt für immer. Eine Kamera kennzeichnen oder
+einer den Sprecher wegnehmen, und die fünf sind im selben Augenblick
+wieder da — so wie die vier, sobald ein Lauf die Wörter aufgeschrieben
+hat.
+
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
 Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
 
+* **Nach einer Frage**: das Bild geht zur Antwort, bevor sie anfängt.
+  Nur nach einer Frage, die nicht vom Vielredner kommt, wenn sofort ein
+  anderer übernimmt und das Wort behält.
 * **Langer Monolog**: einer hat über **Weitwinkel nach** hinaus das
   Wort. **Abwechselnd** merkt sich, was die letzte Unterbrechung zeigte.
 * **Mehrere reden zugleich**: und keine Kamera zeigt genau sie.
 * **Erkennung unsicher**: die Erkennung zerfasert über eine Passage,
   oder von einem Namen bleiben nur Schnipsel.
-* **Frage**: das Bild geht zur Antwort, bevor sie anfängt. Nur nach
-  einer Frage, die nicht vom Vielredner kommt, wenn sofort ein anderer
-  übernimmt und das Wort behält.
+
+**Was aus den Fragen geworden ist, steht im Protokoll.** Eine Zeile
+nennt, wie viele Fragezeichen im Transkript standen und bei wie vielen
+davon das Bild vorgezogen wurde. Dort heißt die Sache
+Reaktionsschnitt, und das ist die letzte Stelle, an der das Wort noch
+vorkommt: auf dem Bildschirm heißen die beiden Einstellungen **Nach
+einer Frage** und **Antwort früher im Bild**. Wo Fragen wegfielen, folgt
+eine zweite Zeile mit der Zahl je Grund — der Hauptsprecher fragte,
+Fragender und Antwortender auf einer Kamera, niemand antwortete
+rechtzeitig, die Antwort behielt das Wort nicht, bei der Frage sprach
+niemand. Ohne Niederschrift steht an ihrer Stelle genau das, damit eine
+Einstellung, die nichts bewirken kann, nicht wie eine kaputte aussieht.
 
 **Zuhörer** heißt: wer als Nächstes spricht, und nur, wenn auf dieser
 Kamera in den letzten 20 Sekunden jemand zu hören war; sonst der
@@ -168,19 +287,30 @@ Der Kasten **Sprecher** zeigt je Sprecher:
 * eine Zeile Stille
 
 Die Überschrift nennt die Quelle: **Sprecher, nach Stimmen getrennt**
-oder **Sprecher, selbst aus den Spuren gemessen**. Bei zwei gleichzeitig
-Redenden zählt die Zeit doppelt, bei der Stille nicht. Deshalb ergeben
-die Zeilen zusammen mehr als die Laufzeit.
+oder **Sprecher, selbst aus den Spuren gemessen**. In der Tabelle kann
+beides zugleich stehen — Stimmen aus einer Trennung und Spuren, die aus
+ihrem eigenen Mikrofon gemessen wurden, nebeneinander —, und dann heißt
+die Überschrift für alle zusammen **Sprecher, nach Stimmen getrennt**.
+Das Protokoll hält die beiden auseinander und druckt beide Marken, jede
+über den Zeilen, die zu ihr gehören.
+
+Bei zwei gleichzeitig Redenden zählt die Zeit doppelt, bei der Stille
+nicht. Deshalb ergeben die Zeilen zusammen mehr als die Laufzeit.
 
 Beides rechnet das Programm aus der Übergabedatei
 `<Produktion>_resolve.json` des letzten Laufs, bei jeder Änderung neu
 und immer für das gewählte Zeitfenster. Schreiben und Hochladen gehören
 zum Lauf, nicht zur Vorschau.
 
-Ohne bekannte Sprecher sagt der Kasten das und bietet den Knopf
-**Sprecher jetzt messen**; wenn die Rechnung schiefgeht, steht an seiner
-Stelle der Grund. Sprecher, die später auftauchen, starten die Vorschau
-von selbst.
+Der Knopf **Sprecher jetzt messen** steht unten im Vorschau-Kasten und
+nicht unter diesem, solange eine Spur weder von einer Trennung abgedeckt
+noch gemessen ist; daneben steht, wer fehlt: **Name noch nicht gemessen
+-- im Schnitt, in dieser Vorschau noch nicht**. Diese Leute sind im
+Schnitt; ein Druck holt sie auch in die Vorschau. Sind überhaupt keine
+Sprecher bekannt, sagt der Vorschau-Kasten das an Stelle seiner Zahlen,
+und der Kasten **Sprecher** bleibt leer. Geht die Messung schief, steht
+der Grund neben dem Knopf. Sprecher, die später auftauchen, starten die
+Vorschau von selbst.
 
 ### Schnittband und Legende lesen
 
@@ -231,6 +361,46 @@ Am Ende der Zeile stehen der erste und der letzte gezeigte Augenblick
 einen einzelnen Schnitt zu beurteilen, sagen die Balken nicht mehr,
 welcher Teil der Folge vor einem liegt; die beiden Zeiten sagen es.
 
+### Was das Bild sagt
+
+Das Bild im Vorschaukasten trägt einen eigenen Hinweis, damit ein Blick
+beide Fragen zugleich beantwortet: wer spricht, und welche Kamera
+gerade läuft.
+
+Unmittelbar unter dem Bild und genau so breit wie dieses liegt eine
+Fläche in der Farbe der laufenden Einstellung, und derselbe Ton läuft
+als Rahmen um das Bild, so dass beides als ein Block zu lesen ist. Es
+sind die Farben des Schnittbands, der Weitwinkel in seinem blassen
+Salbeiton. Das Bild behält dabei sein eigenes Seitenverhältnis, und die
+Höhe, die es nicht braucht, bekommt die Fläche, statt dass dort
+schwarze Balken stehen. Auf der Fläche stehen zwei Zeilen:
+
+* **wer spricht**, fett, und bei mehreren alle. Läuft dabei der
+  Weitwinkel, steht **(Weitwinkel)** hinter dem Namen: der Weitwinkel
+  ist eine Wahl der Kamera und keine Stille, und wer auf ihm spricht,
+  behält seinen Namen. Spricht niemand, steht dort **Kein Sprecher**.
+  Leer ist die Zeile nie — eine leere Zeile liest sich wie ein Fehler.
+* **die Kamera** darunter, mit demselben Namen, den ihr auch das
+  Schnittband gibt. Ein Name, der nicht ins Bild passt, wird vorn
+  gekürzt, und ein Auslassungszeichen sagt, wo.
+
+Ein Name bleibt **mindestens eine halbe Sekunde** stehen, damit ein
+kurzes „Ja“ zwischen zwei langen Antworten ihn nicht aufblitzen lässt.
+Der Preis dafür: der Name kann dem Ton um ebenso viel nachhängen.
+Nur der Hinweis wartet: das Bild schneidet dort, wo der Schnitt es
+sagt, gleich welcher Name gerade noch steht. In den Schnitt, die
+Shotlist und die EDLs geht davon nichts ein — es ist Lesestoff und
+sonst nichts.
+
+Hat eine Einstellung kein Bild — eine Kamera im Schnitt, deren Datei
+nicht da ist —, füllt die Farbe die ganze Fläche, und dieselben zwei
+Zeilen stehen darauf. Der Ton läuft weiter, und es bleibt lesbar, wer
+spricht und auf welche Kamera der Lauf ihn setzt.
+
+Unter dem Bild stehen links der In-Punkt, in der Mitte die Position und
+rechts der Out-Punkt. Die Kamera wird dort nicht wiederholt — sie steht
+im Bild.
+
 ### Wie die Vorschau-Player Datei und Ton wählen
 
 Zwei Player zeigen das Material, und beide suchen sich ihre Datei
@@ -269,7 +439,9 @@ und in welcher Version.
 
 Auf dem Reiter **Resolve-Schnitt** zeigt der Player im Vorschau-Kasten
 immer etwas: wenn ein Schnitt da ist, spielt er ihn und schaltet an jeder
-Kante die Kamera um, sonst die Datei ohne zugeordneten Sprecher.
+Kante die Kamera um, sonst die Datei ohne zugeordneten Sprecher. Ohne
+Schnitt trägt der Hinweis unter dem Bild den Namen dieser Datei und sagt
+**Kein Sprecher**, denn wer spricht, ist dann noch gar nicht ermittelt.
 
 Der Ton kommt durchgehend aus einer Datei, am liebsten aus dem
 **Full-Mix**, der auf Sendepegel liegt und auch in die Schnitt-Timeline
@@ -331,10 +503,13 @@ Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
 Sprecher Redezeit und Zahl der Abschnitte. Wenn nichts zu hören war,
 gibt es keinen Kameraschnitt.
 
-Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, schon
-vor dem ersten Lauf: gröber als die Trennung nach Stimmen, aber genug, um
-den Schnitt einzustellen. Nach Stimmen getrennte Sprecher haben Vorrang,
-sobald es sie gibt, und die Überschrift über der Tabelle sagt, was gilt.
+Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, ohne
+auf einen Lauf zu warten: gröber als die Trennung nach Stimmen, aber
+genug, um den Schnitt einzustellen. Die beiden schließen einander nicht
+aus. Stimmen aus einer Trennung und hier gemessene Spuren gehen in ein
+und dieselbe Rechnung, und den Knopf gibt es, solange eine Spur weder
+von einer Trennung abgedeckt noch gemessen ist — auch dann, wenn schon
+getrennt wurde.
 
 ### Schneiden, wenn eine Kamera alle zeigt
 
@@ -388,18 +563,25 @@ und daraus baut der Resolve-Teil.
 
 ### Wie das Programm den Weitwinkel setzt
 
-Ein Weitwinkel kommt nicht nach der Uhr. Er steigt an einer Satzgrenze
-nahe der gewünschten Stelle ein, und den genauen Punkt liefert der Ton:
-die Senke im Pegel um diese Satzgrenze. Beides ist gemessen, also gibt
-dasselbe Material denselben Schnitt.
+Ein Weitwinkel kommt nicht nach der Uhr. Jenseits von **Weitwinkel
+nach** steigt er an einer Satzgrenze nahe der gewünschten Stelle ein,
+und den genauen Punkt liefert der Ton: die Senke im Pegel um diese
+Satzgrenze. Beides ist gemessen, also gibt dasselbe Material denselben
+Schnitt.
 
-Er steht mindestens **Weitwinkel steht**, dann bis zum Satzende. Wenn
-dieses Ende jenseits von **Weitwinkel höchstens** liegt, beendet ihn die
-letzte Teilsatzgrenze davor.
+Er steht so lange, wie **Weitwinkel mindestens** verlangt, dann bis zum
+Satzende. Wenn dieses Ende jenseits von **Weitwinkel höchstens** liegt,
+beendet ihn die letzte Teilsatzgrenze davor.
 
-`--wide-latest` ist die Reißleine: ohne Satzgrenze wird trotzdem
-geschnitten. Ohne Transkript geht der Weitwinkel an die längste
-Sprechpause in der Nähe und steht die eingestellte Mindestzeit.
+**Weitwinkel spätestens** ist die Reißleine. Kommt keine Satzgrenze,
+tritt die längste Sprechpause in der Nähe an ihre Stelle, und dort wird
+geschnitten, gleich was gerade gesagt wird; ist auch keine brauchbare
+Pause da, wird eine Kamera nach der Uhr aufgebrochen, damit kein Stück
+von ihr länger als diese Zeit steht. Ohne Niederschrift gibt es
+überhaupt keine Satzgrenzen: der Weitwinkel geht dann an die längste
+Pause in der Nähe und steht die eingestellte Mindestzeit — deshalb ist
+die weiche Grenze gesperrt, solange die Wörter fehlen, und die harte
+nicht.
 
 ### Was Kennzahlen und Farbvergleich messen
 
@@ -437,9 +619,14 @@ Lautheitsmessung läuft je Spur zweimal durch.
 
 ### Wenn etwas klemmt
 
-* **Der Kasten Sprecher sagt, dass keine Sprecher bekannt sind.**
-  **Sprecher jetzt messen** drücken. Der Grund steht an Stelle der
-  Tabelle, wenn die Rechnung schiefgeht.
+* **Die Vorschau sagt, dass keine Sprecher bekannt sind, und der Kasten
+  Sprecher ist leer.** Unten im Vorschau-Kasten **Sprecher jetzt
+  messen** drücken. Geht die Messung schief, steht der Grund neben dem
+  Knopf.
+* **Der Kasten Sprecher zeigt Sprecher, und die Vorschau sagt, dass
+  jemand noch nicht gemessen ist.** Diese Person ist im Schnitt; nur die
+  Vorschau kann sie nicht zeigen, weil ihre Spur weder getrennt noch
+  gemessen ist. **Sprecher jetzt messen** holt sie in die Vorschau.
 * **Es kommt kein Schnitt heraus.** Auf den Spuren war nichts zu hören,
   oder die Trennung hat nur eine Stimme gefunden und es gibt nur eine
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder
@@ -448,6 +635,18 @@ Lautheitsmessung läuft je Spur zweimal durch.
   Niemand trägt Namen und Kamera, oder eine Person tut es und es gibt
   keine zweite Kamera. Auf dem Reiter **Zuordnung & Zeitfenster** jeder
   Stimme einen Namen und eine Kamera geben.
+* **Vier Einstellungen sind grau und nehmen nichts an.** Es ist noch
+  keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
+  Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen
+  eine; der erste Lauf schreibt sie, danach nehmen sie einen Wert an.
+* **Fünf Einstellungen sind grau, und der Weitwinkel lässt sich nicht
+  wählen.** Jede Kamera trägt einen Sprecher, also gibt es keinen
+  Weitwinkel. Einer Kamera im Feld **Typ** den Wert **Weitwinkel**
+  geben, oder einer den Sprecher wegnehmen.
+* **In einem Auswahlfeld steht Weitwinkel, und der Schnitt hält
+  stattdessen das Bild.** Es gibt keinen Weitwinkel, zu dem er gehen
+  könnte, also wirkt **Weitwinkel** wie **Kein Kamerawechsel**. Das
+  Protokoll nennt es im Abschnitt des Schnitts.
 * **Das Bild steht, obwohl der Sprecher wechselt.** Beide Sprecher
   sitzen auf einer Kamera, oder der Block ist kürzer als **Redet
   mindestens**.
@@ -469,10 +668,12 @@ Vorschau, in der er zu prüfen ist. Was Resolve daraus macht, steht in
 Im Fenster gibt es dafür keine Entsprechung.
 
 * `--reaction-gap` wie schnell die Antwort auf die Frage folgen muss,
-  damit der Reaktionsschnitt greift (3 s); größer und er greift öfter
+  damit sie überhaupt vorgezogen wird (3 s); größer und das geschieht
+  öfter
 * `--reaction-hold` welchen Anteil der zehn Sekunden nach der Frage der
   Antwortende halten muss, zwischen 0 und 1 (0,7); höher und er greift
-  seltener
+  seltener. Beide gehören zur Frage und wollen eine Niederschrift, wie
+  die zwei Einstellungen dafür im Fenster
 * `--no-metrics` lässt die Kennzahlendatei und den Farbvergleich weg
 * `VPM_PLAYER_DEBUG=1` vor dem Aufruf stellt Uhr, Stand und Sollwert
   aller drei Player unter das Bild und jeden Versuch auf die Konsole

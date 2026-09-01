@@ -10,19 +10,23 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, subprocess, sys, json, tempfile
+import importlib.util, subprocess, sys, json, tempfile, time
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 T = tempfile.mkdtemp(prefix="simple_")
@@ -126,8 +130,6 @@ check("both tracks under the name they were given",
       names == [args.name, args.name_camera],
       "%r, expected %r" % (names, [args.name, args.name_camera]))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
+sys.exit(1 if error else 0)

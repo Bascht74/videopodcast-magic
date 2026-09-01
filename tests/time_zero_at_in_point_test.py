@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import copy, sys, inspect, importlib.util
+import copy, sys, inspect, importlib.util, time
 # A test must never play sound at somebody working next to it. The
 # program reads the variable with bool(), so even "0" silences it.
 os.environ.setdefault("VPM_SILENT", "1")
@@ -13,8 +13,12 @@ spec = importlib.util.spec_from_file_location(
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -31,7 +35,9 @@ D = {"start_s": AUDIO0, "length_s": 3600.0, "fps": 30.0,
 
 print("1. Without a window everything stays as it is")
 n, _complaint = vpm.apply_time_window(dict(D), "", "")
-check("unchanged", n["start_s"] == AUDIO0 and n["length_s"] == 3600.0)
+check("unchanged", n["start_s"] == AUDIO0 and n["length_s"] == 3600.0,
+        "start_s %s and length_s %s, wanted %.1f and 3600.0"
+        % (n["start_s"], n["length_s"], AUDIO0))
 
 print("\n2. With the In point at 17:10:00 the zero point moves along")
 n, _complaint = vpm.apply_time_window(dict(D), "17:10:00:00", "")
@@ -56,7 +62,8 @@ check("Wide started 700 s before the In point",
 check("Guest started 300 s before the In point",
         abs(off["Guest"] - (-300.0)) < 0.01, str(off["Guest"]))
 check("both negative -- as in the handover file",
-        all(x < 0 for x in off.values()))
+        all(x < 0 for x in off.values()),
+        "%s, every one wanted below 0" % (off,))
 
 print("\n4. Without a zero point the earliest camera holds")
 off = camera_offset(D["cameras"], None)
@@ -77,7 +84,9 @@ spot = t - off["Wide"]
 check("Wide: 100 s programme time = 800 s into the file",
         abs(spot - 800.0) < 0.01, str(spot))
 # Counter-check on the clock: 61800 + 100 = 61900; the file began at 61100.
-check("matches the clock", abs(spot - (61900.0 - 61100.0)) < 0.01)
+check("matches the clock", abs(spot - (61900.0 - 61100.0)) < 0.01,
+        "%.2f s into the file against %.2f s off the clock"
+        % (spot, 61900.0 - 61100.0))
 
 print("\n7. In point given as a relative time")
 n, _complaint = vpm.apply_time_window(dict(D), "+0:10:00", "")
@@ -218,7 +227,10 @@ check("the zero point moved by the head only",
         abs(n["start_s"] - 61800.0) < 0.001, str(n["start_s"]))
 absolute, _complaint = vpm.apply_time_window(copy.deepcopy(INSIDE),
                                              "17:10:00:00", "17:55:00:00")
-check("and it says the same as the absolute window", n == absolute)
+keys = sorted(set(n) | set(absolute))
+apart = [k for k in keys if n.get(k) != absolute.get(k)]
+check("and it says the same as the absolute window", n == absolute,
+        "%d of %d fields differ: %s" % (len(apart), len(keys), apart))
 n, complaint = vpm.apply_time_window(copy.deepcopy(INSIDE), "", "-0:05:00")
 check("Out point alone: 3300 s", abs(n["length_s"] - 3300.0) < 0.001,
         "%.3f" % n["length_s"])
@@ -243,5 +255,6 @@ for shape, source in SHAPES:
         same_spots("%s, %r: the spot in the file stays" % (shape, text),
                    spots(source), spots(n))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

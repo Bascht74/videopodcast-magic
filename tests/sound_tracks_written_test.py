@@ -12,7 +12,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import json, re, shutil, subprocess, sys, wave
+import json, re, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -25,13 +25,17 @@ ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",
            QT_QPA_PLATFORM="offscreen")
 
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def tail(text, n=2):
@@ -180,9 +184,13 @@ for name in ("one", "two", "nosingle", "assign"):
     fell = log[name].find("Traceback")
     check("no traceback in the %s run" % name, fell < 0,
           log[name][fell:][:90] if fell >= 0 else "")
+    api = log[name].count("auphonic.com/api")
+    sent = log[name].count("Uploading")
     check("nothing was uploaded in the %s run" % name,
-          "auphonic.com/api" not in log[name]
-          and "Uploading" not in log[name])
+          api == 0 and sent == 0,
+          "%d mentions of auphonic.com/api and %d of Uploading in %d "
+          "characters of log, wanted 0 and 0"
+          % (api, sent, len(log[name])))
 
 print("\n2. What the written files carry")
 for folder, made, want in WANTED:
@@ -212,8 +220,6 @@ named = [line.strip() for line in heads if "multitrack" in line.lower()]
 check("no heading of the ordinary run says multitrack", not named,
       " | ".join(named)[:100])
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys
+import sys, time
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_PLAYER_DEBUG"] = "1"
 import importlib.util
@@ -43,7 +43,9 @@ files = {"A": d + "/a.mp4", "B": d + "/b.mp4"}
 s.set(cut, files, {"A": 0.0, "B": 0.0}, d + "/audio.m4a", 0.0,
          begins=0.0, until=50.0)
 
-error = []
+began = time.time()
+done = 0
+bad = []
 plan = []
 
 def arrived():
@@ -73,6 +75,8 @@ def wait(ms, until=None, steady=400):
         QtCore.QThread.msleep(5)
 
 def check(name, want, tolerance=0.6):
+    global done
+    done += 1
     # While playing the 2.5 s are the measurement itself; while paused
     # nothing moves once the seek has landed, so the player is asked.
     wait(2500, None if s.is_running() else arrived)
@@ -82,10 +86,15 @@ def check(name, want, tolerance=0.6):
     video = s.videos[slot].position() / 1000.0
     audio = s.audio.position() / 1000.0
     ok = abs(video - want) <= tolerance and abs(audio - want) <= tolerance
-    print("%-28s want %6.2f  video %6.2f  audio %6.2f  %s"
-          % (name, want, video, audio, "ok" if ok else "FAIL"))
+    # The allowance belongs beside the three numbers: without it nobody
+    # reading the line on a builder can tell 0.4 s out from 0.8 s out.
+    print("%-28s want %6.2f  video %6.2f  audio %6.2f  (allowed %.2f)  %s"
+          % (name, want, video, audio, tolerance, "ok" if ok else "FAIL"))
     if not ok:
-        error.append(name)
+        bad.append("%s [want %.2f, video %.2f (%+.2f), audio %.2f (%+.2f), "
+                   "allowed %.2f]"
+                   % (name, want, video, video - want, audio, audio - want,
+                      tolerance))
 
 print("\n== Jump while paused ==")
 s.jump(25.0); check("jump to 25 (paused)", 25.0)
@@ -99,7 +108,7 @@ wait(800)
 t = s._time()
 print("programme time after jump+play: %.2f (expected ~38.3)" % t)
 if not (35.0 <= t <= 39.5):
-    error.append("clock after jump")
+    bad.append("clock after jump")
 s.jump(12.0); check("jump to 12 (playing)", 12.0)
 s.pause()
 
@@ -118,7 +127,7 @@ print("after the cut: clock %.2f, pane %d, loaded %s"
 video = s.videos[s.stack.currentIndex()].position() / 1000.0
 print("visible picture sits at %.2f (clock %.2f)" % (video, t))
 if abs(video - t) > 1.2:
-    error.append("picture out of step after the cut")
+    bad.append("picture out of step after the cut")
 s.pause()
 
 print("\n== Readout line ==")
@@ -129,9 +138,9 @@ print("  ", text)
 visible = s.readouts.isVisible()
 print("  visible while playing:", visible)
 if not visible:
-    error.append("readouts not visible while playing")
+    bad.append("readouts not visible while playing")
 if "(+" not in text and "(-" not in text:
-    error.append("no deviation in brackets")
+    bad.append("no deviation in brackets")
 import re as _re
 numbers = [float(x) for x in _re.findall(r"\(([+-]\d+\.\d+)\)", text)]
 # Three brackets: pane 1, pane 2, audio. The hidden pane may run ahead,
@@ -139,13 +148,14 @@ numbers = [float(x) for x in _re.findall(r"\(([+-]\d+\.\d+)\)", text)]
 slot = s.stack.currentIndex()
 print("  deviations:", numbers, " visible is pane", slot + 1)
 if len(numbers) != 3:
-    error.append("not three deviations in the line")
+    bad.append("not three deviations in the line")
 elif abs(numbers[slot]) > 1.0 or abs(numbers[2]) > 1.0:
-    error.append("visible picture or audio out of step")
+    bad.append("visible picture or audio out of step")
 s.pause(); wait(300)
 print("  visible while paused:", s.readouts.isVisible())
 if s.readouts.isVisible():
-    error.append("readouts still there while paused")
+    bad.append("readouts still there while paused")
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

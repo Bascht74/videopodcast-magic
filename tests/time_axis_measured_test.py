@@ -4,17 +4,23 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util
+import sys, importlib.util, time
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 D = "/tmp/axis"
 A, B, C = D + "/A.wav", D + "/B.wav", D + "/C.wav"
@@ -70,14 +76,19 @@ check("an axis comes out", bool(d), text)
 if d:
     a = d["axis"]
     print("   %s" % {k.rsplit("/", 1)[-1]: round(v, 2) for k, v in a.items()})
-    check("all three in it", len(a) == 3)
+    check("all three in it", len(a) == 3,
+            "%d on the axis: %s" % (len(a), sorted(
+                k.rsplit("/", 1)[-1] for k in a)))
     check("B lies 5 s from A", abs(abs(a[KB]-a[KA]) - 5.0) < 0.2,
             "%.2f" % abs(a[KB]-a[KA]))
     check("C lies 8 s from A", abs(abs(a[KC]-a[KA]) - 8.0) < 0.2,
             "%.2f" % abs(a[KC]-a[KA]))
-    check("zero point is 0", abs(min(a.values())) < 1e-6)
-    check("without a timecode not absolute", d["absolute"] is False)
-    check("none weak", d["weak"] == [])
+    check("zero point is 0", abs(min(a.values())) < 1e-6,
+            "the earliest sits at %.6f s, wanted 0" % min(a.values()))
+    check("without a timecode not absolute", d["absolute"] is False,
+            "absolute is %s, wanted False" % (d["absolute"],))
+    check("none weak", d["weak"] == [],
+            "%d do not fit: %s" % (len(d["weak"]), d["weak"]))
     check("the text says so", "the same point" in text, text)
 
 print("\n2. A file that does not belong")
@@ -90,11 +101,14 @@ check("and counted in the text", "1 file does not fit" in text, text)
 print("\n3. With a timecode the axis hangs off the clock")
 d, text = vpm.measure_time_axis(
     [A, B, C], tc_of=lambda p: 61200.0 if p == A else None)
-check("absolute", d["absolute"] is True)
+check("absolute", d["absolute"] is True,
+        "absolute is %s, wanted True" % (d["absolute"],))
 check("A sits on its timecode", abs(d["axis"][KA] - 61200.0) < 0.01,
         "%.2f" % d["axis"][KA])
 check("the distances stay",
-        abs(abs(d["axis"][KB]-d["axis"][KA]) - 5.0) < 0.2)
+        abs(abs(d["axis"][KB]-d["axis"][KA]) - 5.0) < 0.2,
+        "B lies %.2f s from A, wanted 5.00"
+        % abs(d["axis"][KB]-d["axis"][KA]))
 check("the text says so", "tied to the timecode" in text, text)
 
 print("\n4. One outlier in the timecode does not skew everything")
@@ -106,22 +120,32 @@ check("A stays on its timecode", abs(d["axis"][KA] - 61200.0) < 1.0,
 
 print("\n5. When it does not work")
 d, text = vpm.measure_time_axis([])
-check("nothing in -> nothing out", d == {})
+check("nothing in -> nothing out", d == {},
+        "the axis holds %d files, wanted none: %s"
+        % (len(d.get("axis") or {}), d))
 check("and a reason", text == "time axis not measurable", text)
 d, text = vpm.measure_time_axis([A])
-check("one alone is no axis", d == {})
+check("one alone is no axis", d == {},
+        "the axis holds %d files, wanted none: %s"
+        % (len(d.get("axis") or {}), d))
 check("and no blame for it", text == "", repr(text))
 d, text = vpm.measure_time_axis(["/nothere.wav", "/neitherthis.wav"])
-check("paths into the void -> no crash", d == {})
+check("paths into the void -> no crash", d == {},
+        "the axis holds %d files, wanted none: %s"
+        % (len(d.get("axis") or {}), d))
 
 print("\n6. The interface really calls this path")
 source = open(SCRIPT, encoding="utf-8").read()
 check("axis_measure only passes it on",
-        "return measure_time_axis(paths, real_tc, HOP)" in source)
-check("the computation is no longer in gui()",
-        source.count("reference = max(envelopes, "
-                "key=lambda p: len(envelopes[p]))") == 1)
+        "return measure_time_axis(paths, real_tc, HOP)" in source,
+        "the line stands %d times in %d characters of source"
+        % (source.count("return measure_time_axis(paths, real_tc, HOP)"),
+           len(source)))
+in_source = source.count("reference = max(envelopes, "
+        "key=lambda p: len(envelopes[p]))")
+check("the computation is no longer in gui()", in_source == 1,
+        "the line stands %d times in the source, wanted once" % in_source)
 
-print("\n%s" % ("All good." if not error
-                else "FAIL: %s" % ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

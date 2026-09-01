@@ -37,6 +37,19 @@ def check(name, ok, extra=""):
     if not ok:
         error.append(name)
 
+
+def over(held):
+    """The places a place-ratchet found beyond what the state allows.
+
+    held.report() prints them too, but only the lines that look like a
+    failure travel off the builder, so the count and the first few
+    names go on the judgement's own line.
+    """
+    return "%d places over what the state allows: %s" % (
+        len(held.worse),
+        ["%s %d>%d" % (mark, measure, allowed)
+         for mark, measure, allowed, _line in held.worse[:3]])
+
 source = io.open(SCRIPT, encoding="utf-8").read()
 lines = source.splitlines()
 tree = ast.parse(source)
@@ -201,7 +214,9 @@ for name, line, text, _e in docs:
         bad_head.append((name, "no blank line after the first"))
 limit_h = state.number("heading", len(bad_head))
 check("docstring headings: %d defects (ratchet %d)"
-        % (len(bad_head), limit_h), len(bad_head) <= limit_h)
+        % (len(bad_head), limit_h), len(bad_head) <= limit_h,
+        "%d over the ratchet; the first are %s"
+        % (len(bad_head) - limit_h, bad_head[:3]))
 for n, w in bad_head[:8]:
     print("      %-30s %s" % (n, w))
 
@@ -217,7 +232,9 @@ for node in ast.walk(ast.parse(source)):
             lazy.append((node.lineno, node.value.strip()[:58]))
 limit_p = state.number("lazy_plural", len(lazy))
 check("lazy plurals: %d (ratchet %d)" % (len(lazy), limit_p),
-        len(lazy) <= limit_p)
+        len(lazy) <= limit_p,
+        "%d over the ratchet; the first are %s"
+        % (len(lazy) - limit_p, lazy[:3]))
 state.note(limit_p, len(lazy))
 for line, text in lazy[:8]:
     print("      line %-6d %s" % (line, text))
@@ -242,7 +259,7 @@ big = [s for s in sizes if s[0] > 300]
 held = state.places("over_300",
                     dict((name, (1, line)) for _size, name, line in big))
 check("functions over 300 lines: %d (ratchet %d)" % (len(big), held.limit),
-        held.ok)
+        held.ok, over(held))
 held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(big)))
@@ -277,7 +294,7 @@ for node in ast.walk(tree):
         silent.append((seen.get(id(node), "<module>"), node.lineno))
 held = state.places("silent_except", ratchet.tally(silent))
 check("except branches that only pass: %d (ratchet %d)"
-      % (len(silent), held.limit), held.ok)
+      % (len(silent), held.limit), held.ok, over(held))
 held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(silent)))
@@ -316,7 +333,7 @@ for node in ast.walk(tree):
         lopsided.append((seen.get(id(node), "<module>"), node.lineno))
 held = state.places("one_sided_paths", ratchet.tally(lopsided))
 check("paths shaped on one side of a comparison: %d (ratchet %d)"
-      % (len(lopsided), held.limit), held.ok)
+      % (len(lopsided), held.limit), held.ok, over(held))
 held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(lopsided)))

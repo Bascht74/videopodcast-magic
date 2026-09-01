@@ -9,6 +9,7 @@ the edge pulls hardest, and that is where an opening jingle sits.
 """
 import os
 import sys
+import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -20,11 +21,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 TIMES = np.linspace(0, 3600, 9)
 DRIFT = 10e-6
@@ -82,11 +89,13 @@ check("and with how far out it was",
       gone and abs(abs(gone[0][1]) - 500) < 120, str(gone))
 
 print("\n5. How much of the runtime is still covered")
-check("a full set covers everything",
-      abs(vpm._spans_share(TIMES, 3600.0) - 1.0) < 0.01)
+whole = vpm._spans_share(TIMES, 3600.0)
+check("a full set covers everything", abs(whole - 1.0) < 0.01,
+      "%.3f of the runtime, wanted 1.000" % whole)
 check("a set cleaned down to one corner says so",
       vpm._spans_share(TIMES[:3], 3600.0) < 0.3,
       "%.2f" % vpm._spans_share(TIMES[:3], 3600.0))
 
-print("\nAll good." if not error else "\nFAIL: %s" % ", ".join(error))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

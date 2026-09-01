@@ -34,71 +34,120 @@ def check(name, ok, extra=""):
 state.announce()
 
 print("1. Which languages there are")
-check("English is the source", vpm.SOURCE_LANG == "en")
-check("German is among them", "de" in vpm.languages(), str(vpm.languages()))
-check("de_DE.UTF-8 becomes de", vpm.known_language("de_DE.UTF-8") == "de")
-check("de-AT becomes de", vpm.known_language("de-AT") == "de")
-check("fr_FR becomes en", vpm.known_language("fr_FR") == "en")
-check("nothing becomes en", vpm.known_language("") == "en")
+check("English is the source", vpm.SOURCE_LANG == "en",
+        "SOURCE_LANG is %r, wanted 'en'" % vpm.SOURCE_LANG)
+check("German is among them", "de" in vpm.languages(),
+        "languages() %s, wanted 'de' among them" % vpm.languages())
+got = vpm.known_language("de_DE.UTF-8")
+check("de_DE.UTF-8 becomes de", got == "de", "%r, wanted 'de'" % got)
+got = vpm.known_language("de-AT")
+check("de-AT becomes de", got == "de", "%r, wanted 'de'" % got)
+got = vpm.known_language("fr_FR")
+check("fr_FR becomes en", got == "en",
+        "%r, wanted 'en' -- there is no French catalogue" % got)
+got = vpm.known_language("")
+check("nothing becomes en", got == "en",
+        "the empty code gives %r, wanted 'en'" % got)
 
 print("\n2. One more language needs only a catalogue entry")
 vpm.CATALOGUE["fr"] = {"Content": "Contenu"}
 try:
-    check("fr is now on offer", "fr" in vpm.languages())
-    check("fr_FR now becomes fr", vpm.known_language("fr_FR") == "fr")
+    check("fr is now on offer", "fr" in vpm.languages(),
+            "languages() %s, wanted 'fr' among them" % vpm.languages())
+    got = vpm.known_language("fr_FR")
+    check("fr_FR now becomes fr", got == "fr", "%r, wanted 'fr'" % got)
     vpm.set_language("fr")
-    check("translated text comes out French", vpm.T("Content") == "Contenu")
-    check("missing text stays English", vpm.T("Outro") == "Outro")
+    got = vpm.T("Content")
+    check("translated text comes out French", got == "Contenu",
+            "T('Content') under %r is %r, wanted 'Contenu'" % (vpm.LANG, got))
+    got = vpm.T("Outro")
+    check("missing text stays English", got == "Outro",
+            "T('Outro') under %r is %r, wanted 'Outro' -- the fr catalogue "
+            "has no entry for it" % (vpm.LANG, got))
 finally:
     del vpm.CATALOGUE["fr"]
 vpm.set_language("de")
 
 print("\n3. Translating and filling in")
 # The German catalogue is the subject here, so this expectation is German.
-check("German comes from the catalogue", vpm.T("Intro") == "Vorspann")
+got = vpm.T("Intro")
+check("German comes from the catalogue", got == "Vorspann",
+        "T('Intro') under %r is %r, wanted 'Vorspann'" % (vpm.LANG, got))
 vpm.set_language("en")
-check("English stays as it stands", vpm.T("Intro") == "Intro")
-check("placeholders get filled", vpm.T("a %s c", "b") == "a b c")
-check("several placeholders", vpm.T("%s-%s", 1, 2) == "1-2")
-check("unknown language falls back to English", (vpm.set_language("xx"),
-        vpm.LANG)[1] == "en")
+got = vpm.T("Intro")
+check("English stays as it stands", got == "Intro",
+        "T('Intro') under %r is %r, wanted 'Intro'" % (vpm.LANG, got))
+got = vpm.T("a %s c", "b")
+check("placeholders get filled", got == "a b c",
+        "T('a %%s c', 'b') is %r, wanted 'a b c'" % got)
+got = vpm.T("%s-%s", 1, 2)
+check("several placeholders", got == "1-2",
+        "T('%%s-%%s', 1, 2) is %r, wanted '1-2'" % got)
+vpm.set_language("xx")
+check("unknown language falls back to English", vpm.LANG == "en",
+        "set_language('xx') leaves LANG at %r, wanted 'en'" % vpm.LANG)
 vpm.set_language("de")
 
 print("\n4. The --lang switch")
 ap = vpm.build_argument_parser()
 lang = [a for a in ap._actions if "--lang" in (a.option_strings or [])]
-check("it is there", bool(lang))
+check("it is there", bool(lang),
+        "%d of the %d actions carry --lang, wanted 1"
+        % (len(lang), len(ap._actions)))
 check("knows every language", sorted(lang[0].choices) == vpm.languages(),
-        str(lang[0].choices))
-check("without a value: system language", ap.parse_args([]).lang is None)
-check("with a value it arrives", ap.parse_args(["--lang", "en"]).lang == "en")
+        "%s, wanted %s" % (sorted(lang[0].choices), vpm.languages()))
+got = ap.parse_args([]).lang
+check("without a value: system language", got is None,
+        "lang is %r without the switch, wanted None" % got)
+got = ap.parse_args(["--lang", "en"]).lang
+check("with a value it arrives", got == "en",
+        "--lang en gives %r, wanted 'en'" % got)
 
 print("\n5. Values and labels are separate")
 for name in ("MIX_ONLY", "IGNORE_AUDIO", "PRESET_NONE", "TYPE_CONTENT",
              "TYPE_INTRO", "TYPE_OUTRO", "TYPE_IGNORED"):
     value = getattr(vpm, name)
     check("%s is language-free" % name,
-            re.match(r"^[a-z][a-z-]*$", value) is not None, value)
+            re.match(r"^[a-z][a-z-]*$", value) is not None,
+            "%s is %r, wanted lower case letters and dashes only"
+            % (name, value))
 vpm.set_language("de")
-check("German label", vpm.label_of(vpm.TYPE_INTRO) == "Vorspann")
+got = vpm.label_of(vpm.TYPE_INTRO)
+check("German label", got == "Vorspann",
+        "label_of(TYPE_INTRO) under %r is %r, wanted 'Vorspann'"
+        % (vpm.LANG, got))
 vpm.set_language("en")
-check("English label", vpm.label_of(vpm.TYPE_INTRO) == "Intro")
-check("unknown text stays as it is", vpm.label_of("Camera 1.mov")
-        == "Camera 1.mov")
+got = vpm.label_of(vpm.TYPE_INTRO)
+check("English label", got == "Intro",
+        "label_of(TYPE_INTRO) under %r is %r, wanted 'Intro'"
+        % (vpm.LANG, got))
+got = vpm.label_of("Camera 1.mov")
+check("unknown text stays as it is", got == "Camera 1.mov",
+        "label_of('Camera 1.mov') is %r, wanted it handed back unchanged"
+        % got)
 vpm.set_language("de")
 
 print("\n6. The kind of a log line sits on the text, not in the word")
-check("heading", vpm.split_kind(vpm.as_head("X")) == ("heading", "X"))
-check("success", vpm.split_kind(vpm.as_good("X")) == ("good", "X"))
-check("warning", vpm.split_kind(vpm.as_warn("X")) == ("warning", "X"))
-check("error", vpm.split_kind(vpm.as_bad("X")) == ("error", "X"))
+got = vpm.split_kind(vpm.as_head("X"))
+check("heading", got == ("heading", "X"),
+        "%r, wanted ('heading', 'X')" % (got,))
+got = vpm.split_kind(vpm.as_good("X"))
+check("success", got == ("good", "X"), "%r, wanted ('good', 'X')" % (got,))
+got = vpm.split_kind(vpm.as_warn("X"))
+check("warning", got == ("warning", "X"),
+        "%r, wanted ('warning', 'X')" % (got,))
+got = vpm.split_kind(vpm.as_bad("X"))
+check("error", got == ("error", "X"), "%r, wanted ('error', 'X')" % (got,))
+got = vpm.split_kind("CAREFUL: all good")
 check("without a marker: plain text",
-        vpm.split_kind("CAREFUL: all good")
-        == ("text", "CAREFUL: all good"))
-check("the marker can be stripped",
-        vpm.strip_marks(vpm.as_bad("X") + " " + vpm.as_head("Y")) == "X Y")
-check("without a marker the text stays the same",
-        vpm.strip_marks("nothing to do") == "nothing to do")
+        got == ("text", "CAREFUL: all good"),
+        "%r, wanted ('text', 'CAREFUL: all good')" % (got,))
+got = vpm.strip_marks(vpm.as_bad("X") + " " + vpm.as_head("Y"))
+check("the marker can be stripped", got == "X Y",
+        "%r, wanted 'X Y'" % got)
+got = vpm.strip_marks("nothing to do")
+check("without a marker the text stays the same", got == "nothing to do",
+        "%r, wanted 'nothing to do'" % got)
 
 print("\n7. The terminal colours by that and leaves nothing behind")
 class Catch(object):
@@ -109,8 +158,10 @@ class Catch(object):
 f = Catch(); w = vpm.ColourWriter(f, colour=True)
 w.write(vpm.as_head("RESULT") + "\n")
 check("colour for the heading", vpm.ANSI["heading"] in f.text, repr(f.text))
-check("the marker is gone", "\x01" not in f.text)
-check("the text stands there untouched", "RESULT" in f.text)
+check("the marker is gone", "\x01" not in f.text,
+        "written %r, wanted no \\x01 left in it" % f.text)
+check("the text stands there untouched", "RESULT" in f.text,
+        "written %r, wanted 'RESULT' inside it" % f.text)
 
 f = Catch(); w = vpm.ColourWriter(f, colour=False)
 w.write(vpm.as_bad("Abort") + "\n")
@@ -133,10 +184,32 @@ print("\n8. The log window colours the same way")
 # built here bought nothing and cost half the run. The branch that
 # stood in for a missing PySide6 asserted True and could not fail.
 source = io.open(SCRIPT, encoding="utf-8").read()
+
+
+def sightings(needle):
+    """How often a piece of source stands in the program, and where first.
+
+    The evidence for every check that looks for a literal: the count says
+    what was found, and the line number says where to go and look. Whole,
+    never cut -- a shortened needle hides the half that mattered.
+    """
+    n = source.count(needle)
+    if not n:
+        return "stands 0 times in the program"
+    return "stands %d %s in the program, first on line %d" % (
+        n, "time" if n == 1 else "times",
+        source[:source.find(needle)].count("\n") + 1)
+
+
 check("the log reads the marker",
-        "split_kind(part)" in source and "self._kind" in source)
+        "split_kind(part)" in source and "self._kind" in source,
+        "split_kind(part) %s; self._kind %s -- wanted both at least once"
+        % (sightings("split_kind(part)"), sightings("self._kind")))
 check("the file gets the text without the marker",
-        "self.having.write(strip_marks(text))" in source)
+        "self.having.write(strip_marks(text))" in source,
+        "%r %s, wanted at least once"
+        % ("self.having.write(strip_marks(text))",
+           sightings("self.having.write(strip_marks(text))")))
 
 print("\n9. Every T() text is in the catalogue")
 tree = ast.parse(io.open(SCRIPT, encoding="utf-8").read())
@@ -205,10 +278,12 @@ check("headings without a marker: %d (ratchet %d)" % (len(unmarked), old),
 
 print("\n11. The old word detection is really gone")
 source = io.open(SCRIPT, encoding="utf-8").read()
-check("no log_line_kind any more", "log_line_kind" not in source)
+check("no log_line_kind any more", "log_line_kind" not in source,
+        "log_line_kind %s, wanted 0 times" % sightings("log_line_kind"))
 # The words the old guesser read the colour off.
 for label in ("DONE", "failed\" in", "Finished with errors\" in"):
-    check("colour no longer hangs on %r" % label, label not in source)
+    check("colour no longer hangs on %r" % label, label not in source,
+            "%r %s, wanted 0 times" % (label, sightings(label)))
 
 print("\n12. Switches and targets are English")
 # The list stays German on purpose: it is what must not turn up.
@@ -239,21 +314,35 @@ check("no German choice values", not bad_choices, str(bad_choices))
 
 print("\n13. Every language writes numbers its own way")
 vpm.set_language("de")
-check("German: comma", vpm.decimal_text("%.3f" % 25.0) == "25,000")
+got = vpm.decimal_text("%.3f" % 25.0)
+check("German: comma", got == "25,000",
+        "decimal_text('25.000') under %r is %r, wanted '25,000'"
+        % (vpm.LANG, got))
 check("German: clock time", vpm.as_hms(3725.5) == "1:02:05,500",
-        vpm.as_hms(3725.5))
+        "as_hms(3725.5) is %r, wanted '1:02:05,500'" % vpm.as_hms(3725.5))
 vpm.set_language("en")
-check("English: dot", vpm.decimal_text("%.3f" % 25.0) == "25.000")
+got = vpm.decimal_text("%.3f" % 25.0)
+check("English: dot", got == "25.000",
+        "decimal_text('25.000') under %r is %r, wanted '25.000'"
+        % (vpm.LANG, got))
 check("English: clock time", vpm.as_hms(3725.5) == "1:02:05.500",
-        vpm.as_hms(3725.5))
+        "as_hms(3725.5) is %r, wanted '1:02:05.500'" % vpm.as_hms(3725.5))
 check("no hard-coded comma left in the source",
-        'replace(".", ",")' not in source)
+        'replace(".", ",")' not in source,
+        "%r %s, wanted 0 times"
+        % ('replace(".", ",")', sightings('replace(".", ",")')))
 vpm.set_language("de")
-check("German: thousands with a dot", vpm.group_text(48000) == "48.000")
+got = vpm.group_text(48000)
+check("German: thousands with a dot", got == "48.000",
+        "group_text(48000) under %r is %r, wanted '48.000'" % (vpm.LANG, got))
 vpm.set_language("en")
-check("English: thousands with a comma", vpm.group_text(48000) == "48,000")
+got = vpm.group_text(48000)
+check("English: thousands with a comma", got == "48,000",
+        "group_text(48000) under %r is %r, wanted '48,000'" % (vpm.LANG, got))
 check("no hard-coded thousands mark left",
-        'format(SR, ",d").replace' not in source)
+        'format(SR, ",d").replace' not in source,
+        "%r %s, wanted 0 times"
+        % ('format(SR, ",d").replace', sightings('format(SR, ",d").replace')))
 vpm.set_language("de")
 
 print("\n14. No translation as early as import time")
@@ -292,19 +381,34 @@ check("no marker in a written file", not _in_file, str(_in_file[:3]))
 
 print("\n16. Numbers in files do not hang on the language")
 check("the metrics CSV writes with a dot",
-        'return "" if x is None else "%.*f" % (spots, x)' in source)
-check("the speakers CSV too", 'as_hms(a, ".")' in source)
+        'return "" if x is None else "%.*f" % (spots, x)' in source,
+        "the rounding line %r %s, wanted at least once"
+        % ('return "" if x is None else "%.*f" % (spots, x)',
+           sightings('return "" if x is None else "%.*f" % (spots, x)')))
+check("the speakers CSV too", 'as_hms(a, ".")' in source,
+        "%r %s, wanted at least once"
+        % ('as_hms(a, ".")', sightings('as_hms(a, ".")')))
 # The headers go through csv_line() as tuples, so the check looks for the
 # tuple rather than for a finished line.
 for head in ('("Area", "Metric", "Before", "After",',
              '("Speaker", "Start TC", "End TC",',
              '("Shot", "Camera", "Speaker", "Start TC",'):
-    check("CSV header fixed: %s" % head[1:29], head in source)
+    # The whole header in the evidence, not the shortened one the name
+    # carries: what is cut off is where a changed column would sit.
+    check("CSV header fixed: %s" % head[1:29], head in source,
+            "%r %s, wanted at least once" % (head, sightings(head)))
 check("CSV rows are comma separated, never by language",
-        'return ",".join(out) + "\\n"' in source)
+        'return ",".join(out) + "\\n"' in source,
+        "the joining line %r %s, wanted at least once"
+        % ('return ",".join(out) + "\\n"',
+           sightings('return ",".join(out) + "\\n"')))
 check("no semicolon separator left",
         'f.write("%s;' not in source and '";".join(str(x) for x in r)'
-        not in source)
+        not in source,
+        "%r %s; %r %s -- wanted 0 times each"
+        % ('f.write("%s;', sightings('f.write("%s;'),
+           '";".join(str(x) for x in r)',
+           sightings('";".join(str(x) for x in r)')))
 
 print("\n17. No German word outside the catalogue")
 # Two dictionaries decide, and the catalogue acts as a third: a word
@@ -449,7 +553,11 @@ for _w, _where in _stands.items():
 _forgotten.sort()
 
 if _english is None:
-    check("no dictionary -- the German side is not read", True)
+    # This one cannot fall: it stands in the branch where there is no
+    # dictionary and judges True. What it says is in the evidence.
+    check("no dictionary -- the German side is not read", True,
+            "0 of the %d catalogue entries were read -- "
+            "pip install pyspellchecker" % len(_entries))
 else:
     # The fingerprint is the word plus the entry it was left in, never
     # the line: the catalogue sits at the end of the file and every entry

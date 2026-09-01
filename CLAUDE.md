@@ -4,8 +4,15 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, a first cut
 by speaker, and a DaVinci Resolve project.
 
-One file, `videopodcast-magic.py`, about 35000 lines. No package, no
+One file, `videopodcast-magic.py`, about 35 000 lines. No package, no
 build step.
+
+**Working from outside, or opening a pull request? Read
+`CONTRIBUTING.md` first.** It holds the same rules in the form somebody
+needs who cannot ask: how the tests are run, what a counter-proof is,
+which four ratchets may fall and never rise, and what a pull request
+has to carry before it can be looked at. This file is the version with
+the reasoning; that one is the version you can act on in ten minutes.
 
 `README.md` is the short version. `docs/` holds the manual: one file per
 chapter, English as `docs/name.md` and German as `docs/name.de.md`.
@@ -31,9 +38,17 @@ A full run takes a couple of minutes. Copy the script to a snapshot,
 start the suite against that, and do the next thing:
 
 ```bash
-cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
+mkdir -p /tmp/snap && cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
+ln -sfn "$PWD/models" /tmp/snap/models       # or the run skips and returns 1
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
+
+**The link is not optional.** What the program looks for beside itself is
+not beside the copy, and the speaker model is 33 MB -- so
+`voice_split_hears_two` bows out, the run skips twice where one is
+allowed, and it **returns 1 with every check in it green**. Measured on
+1.9.2026: two skips against a bare snapshot, one against the working
+file, and green with the link.
 
 ## What a release is
 
@@ -68,11 +83,31 @@ almost nothing; the same commit has come back 950 and 1091 seconds.
 
 ## The rules that are not negotiable
 
-**The Auphonic API key never goes into a file, a script, a document or a
-command line.** It lives in the macOS Keychain or the Windows Registry.
-Inside the program it reaches curl through a temporary config file with
-mode 0600, so it is never in the process list. The project file strips
-`--auphonic-api-key`.
+**The Auphonic API key never goes into a script, a document or a command
+line.** It lives in the macOS Keychain or the Windows Registry, and the
+project file strips `--auphonic-api-key`.
+
+One file holds it, for the length of one call: the config file curl
+reads it from, so that it is never in the process list. **What shuts
+that file is not the same on every system, and saying "mode 0600" for
+all three was untrue.** Measured on 31.8.2026:
+
+* **macOS and Linux** -- mode 0600, the owner and nobody else.
+* **Windows** -- `os.chmod` sets only the read-only flag there and
+  `st_mode` answers 0666, so the mode shuts nothing. What shuts it is
+  the folder: `%TEMP%` lies inside the user's profile and inherits its
+  access list. The program does not set that list and does not check
+  it.
+
+Two guards hold everywhere and are the program's own doing: the name is
+unpredictable (`mkstemp`, never a fixed path), and the file lives only
+as long as the call -- removed on every path, and overwritten first
+where it cannot be removed.
+
+Whoever tightens this on Windows sets an access list of its own
+(`icacls`, pywin32) and writes the third bullet again. Until then the
+rule promises less there, and says so rather than claiming a mode it
+does not have.
 
 **The program never uploads to auphonic.com on its own.** Only when
 somebody asked for it.

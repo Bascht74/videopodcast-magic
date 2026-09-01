@@ -16,14 +16,17 @@ spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 WORK = tempfile.mkdtemp(prefix="chanread_")
+began = time.time()
+done = 0
 bad = []
 
 
-def check(what, ok, detail=""):
-    print("  %-56s %s%s" % (what, "ok" if ok else "FAIL",
-                            "" if ok else "   " + detail))
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        bad.append(what)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 def build(name, channels, seconds=3, rate=48000, width=2):
@@ -88,7 +91,9 @@ print("\n3. A single channel file still works")
 mono = build("mono.wav", 1)
 rows = vpm.channel_levels(mono, vpm.channel_rate(mono, 1))
 check("one row", len(rows) == 1, str(len(rows)))
-check("and it holds something", float(np.max(np.abs(rows[0]))) > 0.1)
+peak = float(np.max(np.abs(rows[0])))
+check("and it holds something", peak > 0.1,
+      "loudest sample %.4f, wanted more than 0.1000" % peak)
 
 print("\n4. An unreadable file gives nothing, not a traceback")
 broken = os.path.join(WORK, "broken.wav")
@@ -123,8 +128,10 @@ try:
           facts["readable"] is False, str(facts.get("readable")))
 finally:
     os.environ["PATH"] = was
-check("with the real ffmpeg back it reads again",
-      len(vpm.channel_levels(path, rate)[0]) > 0)
+again = vpm.channel_levels(path, rate)
+check("with the real ffmpeg back it reads again", len(again[0]) > 0,
+      "%d channels back, the first %d samples long"
+      % (len(again), len(again[0])))
 
 print("\n5. The judgement over the whole file is unchanged")
 facts = vpm.channel_facts(path)
@@ -136,8 +143,6 @@ check("and every neighbour has an answer",
       len(vpm.channel_joins(facts)) == 7,
       str(len(vpm.channel_joins(facts))))
 
-print()
-if bad:
-    print("FAIL: %d of the checks" % len(bad))
-    sys.exit(1)
-print("all checks passed")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

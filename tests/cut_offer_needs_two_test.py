@@ -32,7 +32,7 @@ these cases already expect. Both are found by their column names.
 
 VPM_CUT_GATE_DUMP=1 prints what the children said.
 """
-import os, sys, json, subprocess, tempfile
+import os, sys, json, subprocess, tempfile, time
 
 # All six at once. The repeat below is for a lock inside Qt that runs
 # used to walk into; it costs nothing where it never fires, and it is
@@ -472,13 +472,17 @@ if os.environ.get("VPM_CUT_GATE_CASE"):
 
 
 # -------------------------------------------------------------- the parent
-error = []
+began = time.time()
+done = 0
+bad = []
 
 
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 from fixture_root import fixture
@@ -489,7 +493,9 @@ missing = [n for n in (ONE_TRACK, TWO_TRACK) + CAMERAS
 if missing:
     print("SKIPPED: no material under %s -- missing %s"
           % (material, ", ".join(missing)))
-    raise SystemExit(0)
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 
 def build(case):
     """Start one child on one case."""
@@ -620,8 +626,6 @@ for case in CASES:
         print("      read twice and not the same both times: %s"
               % json.dumps(d.get("first")))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

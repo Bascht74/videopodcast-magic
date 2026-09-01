@@ -35,8 +35,7 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--no-camera-audio` | den Kameraton wegwerfen statt behalten |
 | `--no-follow-ups` | nicht nach nummerierten Fortsetzungsdateien suchen (es sucht danach) |
 | `--together DATEI ...` | diese Dateien sind eine Aufnahme, in dieser Reihenfolge; wiederholbar. Der Lauf sortiert sonst nach Namen, die Gruppe nicht: ein Block beim ersten ihrer Namen |
-| `--apart DATEI` | dieser Block steht für sich, was immer sein Name sagt; wiederholbar |
-| `--transcript` | auphonic.com schreibt mit, was gesagt wird: json, srt und txt |
+| `--apart DATEI` | dieser Block steht für sich, was immer sein Name sagt: er wird an keine Aufnahme angehängt und bleibt im Plan eine eigene Spur, auch wenn er denselben Namen bekommt wie ein anderer Block desselben Aufnahmegeräts; wiederholbar |
 | `--no-single-tracks` | nur den Mix ins Video, nicht die Aufnahmen daneben  `[simple path only]` |
 | `--no-drift` | Uhrendrift messen und melden, aber nicht herausrechnen |
 | `--tc HH:MM:SS:FF` | Starttimecode des Bildes, wenn die Kamera keinen oder einen falschen geschrieben hat (aus der Videodatei) |

@@ -1,6 +1,6 @@
 # The test suite
 
-148 tests against `../videopodcast-magic.py`. Every one of them stands
+183 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -9,7 +9,16 @@ bash run.sh              # all of them, several at a time
 WORKERS=1 bash run.sh    # one after another, easier to read
 bash run.sh voice_turns_found time_offset_found   # only those, named
 python3 voice_turns_found_test.py                 # a single one, by hand
+bash resolve.sh          # the ones that need a running DaVinci Resolve
 ```
+
+`resolve.sh` runs what lies under `resolve/`. Those talk to a DaVinci
+Resolve really running on this machine, so they are not in the suite and
+not on the builder: without Resolve every one of them would be red for a
+reason that is not a fault. They work in a project of their own, put the
+project that was open back, and delete their own again. Their
+counter-proofs live in `resolve/counterproof`, for the same reason: the
+register reads the folder above, and a row there would belong to no test.
 
 A test started by hand runs in whatever language the machine is set to,
 and on a German Mac that is German -- the program skips the `C` locale
@@ -229,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-148 tests. The name is the one a red line carries, and beside it the
+183 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -251,6 +260,7 @@ it is green.
 | `files_lengths_summed` | Does the preflight compare recordings instead of blocks? |
 | `files_named_by_folder` | Which folder name is a production, and which one says nothing. |
 | `files_old_file_refused` | The format check: an older file is reported, not read. |
+| `files_only_window_kept` | A time window shortens the cameras and leaves every frame where it was. |
 | `files_order_kept` | Files put together by hand keep the order they were named in. |
 | `files_probed_once` | Every file is measured once, not once per question. |
 | `files_project_first` | The project is offered before the material is measured; closing stops it. |
@@ -269,6 +279,7 @@ it is green.
 | `sound_camera_counts` | A camera counts as a track once the assignment says so. |
 | `sound_camera_judged_too` | A camera whose audio is in use is an audio file like any other. |
 | `sound_channels_split` | A file with several channels becomes several tracks. |
+| `sound_check_reads_once` | The check of a written camera file reads it once, not once per track. |
 | `sound_clipping_counted` | Clipping is counted per channel, and only where the format has a stop. |
 | `sound_delay_decides` | One pair of microphones, or two of them? |
 | `sound_each_gets_a_track` | Without Multitrack: the mix, and the recordings beside it. |
@@ -292,14 +303,14 @@ it is green.
 | `time_camera_by_clock` | A camera sits where its timecode says, not where the sound was measured. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
-| `time_guess_refused` | A video nothing can place is refused, not laid down at a guess. |
+| `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
-| `time_offset_found` | Three microphones, a known sound path, a known error -- is it found? |
+| `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
 | `time_over_midnight` | Midnight is one night, not a day apart. |
 | `time_sound_stays_put` | Does a time window move the sound against the picture in Multitrack? |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
-| `time_tracks_sit_together` | The whole way: measure, place on the axis, measure again. |
+| `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
 | `time_window_is_shared` | The window is the stretch EVERY camera saw, not the one any saw. |
 | `time_zero_at_in_point` | #66: Where does programme time start on the clock, and what hangs on it? |
 
@@ -309,15 +320,21 @@ it is green.
 |---|---|
 | `voice_answer_kept` | The two proposals that fill a field nobody has answered. |
 | `voice_bleed_gone_first` | #80: does the bleed get taken out before the speech detection? |
+| `voice_both_splits_stand` | A second separation leaves the first its voices, names and cameras. |
 | `voice_both_ways_agree` | The window and the command line separate the same way. |
 | `voice_every_word_placed` | The words on the speakers, and the three files that come of it. |
+| `voice_failed_read_named` | A reading that fails costs its tracks the cut, and the log says so. |
+| `voice_language_arrives` | The language asked for reaches the recognition as a code it takes. |
 | `voice_mhm_is_speech` | A short reaction is speech, not a hole in the conversation. |
+| `voice_mic_reaches_cut` | Every track is in the cut by its own microphone, or the log names it. |
+| `voice_name_is_one_person` | A name that comes twice is one person in the cut, not two. |
 | `voice_names_when_sure` | Where the names of the voices could come from, instead of by hand. |
 | `voice_questions_rank` | Who is asking the questions, as a proposal and never as a verdict. |
 | `voice_raw_times_kept` | Local speaker separation: the arithmetic around the model. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
 | `voice_split_hears_two` | Let the speaker separation really run, on two voices we spoke. |
-| `voice_turns_found` | Does speakers_from_tracks() find the speech sections again? |
+| `voice_tracks_read_once` | The tracks of a run are read once, whatever the reading is used for. |
+| `voice_turns_found` | Speech is found back where it was put, offset and all. |
 | `voice_words_intact` | Speech recognition: the words, their times and their punctuation. |
 
 ### `cut_` -- the cut by speaker, and the player over it
@@ -326,19 +343,28 @@ it is green.
 |---|---|
 | `cut_all_shots_land` | Checks the cut timeline: lengths fit, no gaps, nothing drops out. |
 | `cut_both_are_shown` | Two talk at once: does the camera showing both come up? |
+| `cut_box_fits_the_picture` | The box takes the shape of the picture and gives the rest to the note. |
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |
 | `cut_jingle_over_start` | Intro and outro: where they sit, and how far the content moves. |
 | `cut_list_rebuilt` | The cut list is built again unless the window really moved. |
+| `cut_no_wide_silences` | Without a wide shot the settings that steer it are silenced in the cut. |
+| `cut_note_moves_no_shot` | A name held on the picture moves nothing in the cut. |
+| `cut_note_says_who_speaks` | The picture says who speaks and which camera runs, in the shot's colour. |
 | `cut_offer_needs_two` | When a camera cut is offered, and what the box over it is called. |
 | `cut_one_camera_marks` | One camera for everybody: the cut still marks the speaker changes. |
 | `cut_opening_wide_holds` | The opening wide shot must not depend on how finely a source cuts. |
+| `cut_own_mic_own_camera` | A speaker with her own microphone is in the cut beside a separation. |
 | `cut_player_in_sync` | Does the sound in the cut player belong to the picture on screen? |
 | `cut_player_jump_lands` | Does the cut player really jump where it is told to? |
 | `cut_player_offset_used` | #63: The player has to take the measured offset, not zero. |
 | `cut_player_prepared_used` | Which recording a camera is heard with in the preview. |
 | `cut_player_right_file` | #62: The player takes the file that holds the In point and the Out point. |
+| `cut_player_speeds_up` | The cut player runs forward faster on every press, and says how fast. |
+| `cut_preview_is_the_run` | The preview shows the cut the run will really make. |
+| `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
+| `cut_voice_on_its_camera` | A multitrack run puts every voice on the camera the assignment names. |
 | `cut_wide_colour_apart` | Does the wide shot colour keep far enough from the speaker colours? |
 
 ### `project_` -- what DaVinci Resolve is handed
@@ -347,7 +373,8 @@ it is green.
 |---|---|
 | `project_cameras_land` | Every camera reaches the timeline on picture and sound tracks of its own. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
-| `project_every_offset` | Every camera reaches the handover with the offset measured for it. |
+| `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
+| `project_file_beats_last` | A project opened after another takes its answers from its own file. |
 | `project_grades_stay_off` | Remote grades: off by default, and always set -- old projects too. |
 | `project_handover_built` | The handover is built from data alone, without a window. |
 | `project_hdr_follows` | The render job carries the codec, profile and tags of its range. |
@@ -356,7 +383,7 @@ it is green.
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
 | `project_rerun_updates` | #60 in a whole run: build twice, update on the second pass. |
 | `project_same_offset` | Preview and Resolve put a camera at the same offset. |
-| `project_settings_return` | Everything that can be set is set, saved, opened again, and asked after. |
+| `project_settings_return` | What is typed into the window reaches the project file and comes back. |
 | `project_tag_reason_fits` | The Tagging line names a reason only where it explains its own tags. |
 | `project_two_stay_two` | Two cameras whose files share a name stay two cameras. |
 | `project_two_timelines_go` | #60: update a project -- the two timelines go, nothing else. |
@@ -365,13 +392,15 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `auphonic_key_by_pipe` | The macOS key store is reached without a leak and without a prompt. |
 | `auphonic_key_kept` | The Windows way to the key store, walked for real. |
+| `auphonic_key_out_of_view` | Nobody else can read the key: not in the process list, not left behind. |
 | `auphonic_may_be_skipped` | The entry "work without Auphonic" instead of a tick of its own. |
 | `auphonic_mono_not_stereo` | A mono master does not stand in for the stereo one. |
 | `auphonic_none_chosen` | Connecting to auphonic.com must not by itself arm a paid run. |
 | `auphonic_preset_fits` | Preflight for the preset: does it hold what the run needs? |
 | `auphonic_run_delivers` | The two functions that assemble a whole production at auphonic.com. |
-| `auphonic_speech_read` | The transcript from auphonic.com: asked for, and fetched. |
+| `auphonic_speech_read` | What a production writes about the audio, and in which language. |
 | `auphonic_stays_quiet` | The program says nothing to auphonic.com unless somebody asks it to. |
 
 ### `window_` -- the interface
@@ -382,11 +411,19 @@ it is green.
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
+| `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
+| `window_hears_while_split` | The words are written down while the speakers are being separated. |
 | `window_idle_bar_hidden` | The one bar in the footer: does it come, rise, and go again? |
+| `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
+| `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
+| `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
+| `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
+| `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_start_runs` | The start button must build a command line and start a run. |
+| `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what the click then means. |
 
 ### `table_` -- the assignment table
@@ -415,9 +452,13 @@ it is green.
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
+| `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
+| `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
+| `run_switch_changes_it` | A switch that is taken changes the result, not only the parser. |
 | `run_switch_has_effect` | A switch that is taken and does nothing is worse than no switch. |
 | `run_threads_keep_order` | Doing several things at once: in order, complete, and honest about errors. |
+| `run_three_ways_agree` | Window, project file and command line come to the same cut. |
 | `run_which_script` | The log names the copy of the script that is running. |
 
 ### `text_` -- the texts: catalogue, manual, changelog
@@ -439,6 +480,9 @@ it is green.
 | `source_checks_proved` | Which checks have been seen red, and which have not. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
+| `source_numpy_comes_last` | The program loads without numpy, so --help and --version stay cheap. |
+| `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
+| `source_test_names_swept` | A project name a test gives Resolve is swept, or excepted by name. |
 
 <!-- overview ends -->

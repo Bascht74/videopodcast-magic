@@ -38,12 +38,13 @@ A handover file from an older measurement lies in the result folder on
 purpose, with a start an hour away, and one check is that programme
 time did not land on it.
 
-Five cases, in two windows built offscreen:
+The cases, in two windows built offscreen:
 
   * every line the player prints, at a standstill and while running
   * after a jump into the middle of the cut, where it went wrong
   * at a camera change: the picture file changes, the sound runs on
   * with the offsets deliberately reversed, which has to turn red
+  * a fresh cut handed over under a viewer, running and standing
   * with a time window set, where programme time starts later
 
 The reversed run is the point of the whole file. Two numbers that come
@@ -59,6 +60,35 @@ handed an empty cut, and a jump landing in that gap is answered with
 silence. Every jump here therefore asks again until a line comes out,
 and two steps make that gap on purpose and then wait it out -- without
 them the waiting would be a story rather than a measurement.
+
+A step is opened before the player is asked for anything and closed
+again the moment it has answered, because the window prints too: every
+rebuild of its preview hands the player a cut, and the player says so
+at the start of the programme with the honest offsets in it. Charged
+to whichever step happened to be left open, that line made the
+reversed run read honest and would make the empty cut read noisy.
+Between two steps it belongs to nobody, and the reversed run says how
+many there were. And where the window did it in the middle of the one
+step that has to run in real time, that step is begun again rather
+than waited out: a player put back to the start will not reach a
+moment it has already left, however long it is given.
+
+A fresh cut arrives while somebody is watching, and that is the last
+four steps. The window works its preview out again whenever a fact
+about a file comes in and hands the player the answer; until 31.8.2026
+that call took the viewer with it, stopping the player and winding it
+back to the In point. It happened once in every run measured here, so
+whoever pressed play soon after opening a project was put back where
+they started. What the viewer keeps is the place and the playing. What
+follows the fresh cut is the picture: where the new cut names another
+camera on that second, that camera has to come up, and the short break
+in the picture is the price of it. So a cut is handed over four times
+-- to a player that is running, to one that stands, to one whose place
+lies past the end of the fresh cut, and to one that finds another
+camera on the second in view. The clock is read either side of the
+handover in one breath, with no turn of the event loop between: the
+player reads it at the first line of the handover and puts it back at
+the last, so the two numbers are one call apart and nothing else.
 
 And the numbers do not travel in the log. The window's media backend
 writes to the error output while it opens a file, both go into one
@@ -84,6 +114,7 @@ import shutil
 import struct
 import subprocess
 import tempfile
+import time
 import wave
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -137,6 +168,26 @@ PATIENCE = 300
 # turn of the event loop on the machine this was written on, and a
 # build machine three times as slow is nowhere near forty times.
 TRIES = 40
+# A player that says it is playing and whose clock has not moved for
+# this many polls has stopped, not slowed. The clock is a stopwatch on
+# the wall, so it goes on rising on the busiest machine as long as
+# anything is playing at all -- which is why standstill is worth giving
+# up on and a deadline is not.
+STILL = 40
+# How often the run into the camera change may be begun again. The
+# window hands the player a fresh cut every time it recomputes its
+# preview, and that pauses the player and puts it at the start of the
+# programme. It happened once in every run measured here, beside eight
+# neighbours and alone alike, and where it landed inside the second
+# being played the old step waited sixteen seconds and reported a
+# player that never ran.
+BEGUN_AGAIN = 8
+# How far the player's clock has to have risen before it counts as
+# running. A poll is 200 ms apart, and the clock is a stopwatch on the
+# wall, so a player that is running at all passes this on the first
+# one; a tenth of a poll is far enough below that to survive a machine
+# three times slower, and far enough above nought to mean something.
+MOVED = 0.02
 DUMP = bool(os.environ.get("VPM_SOUND_PICTURE_DUMP"))
 
 # The line the player prints. Written by print() and not through the
@@ -371,7 +422,7 @@ def look(case):
                 return w
         return None
 
-    seen = {"now": None, "lines": {}, "total": 0}
+    seen = {"now": None, "lines": {}, "total": 0, "loose": 0}
 
     class Tee(object):
         """Pass everything on, and keep the player's lines going past.
@@ -407,6 +458,12 @@ def look(case):
                 seen["total"] += 1
                 if seen["now"]:
                     seen["lines"][seen["now"]].append(numbers_of(got))
+                else:
+                    # Nobody asked for this one. Counted rather than
+                    # dropped, so a run that goes wrong can say how busy
+                    # the window was laying its own cut over the
+                    # player's while nothing was being measured.
+                    seen["loose"] += 1
             return len(text)
 
         def flush(self):
@@ -431,6 +488,19 @@ def look(case):
         print(MARK + name)
         sys.stdout.flush()
 
+    def close():
+        """End the step: a line that comes now belongs to no step.
+
+        The window hands the player a cut every time it rebuilds its
+        preview, and the player answers that at the start of the
+        programme with the honest offsets in it. Nobody asked for that
+        line, so no step may be charged with it. Left open, the last
+        reversed jump collected one and the counter-check then read the
+        honest numbers and called itself toothless -- red beside eight
+        neighbours on this Mac, twice out of two, and green alone.
+        """
+        seen["now"] = None
+
     def said_in(name):
         """The player lines of that step, as this process saw them."""
         return seen["lines"].get(name) or []
@@ -438,8 +508,14 @@ def look(case):
     result = {"case": case, "measured": measured, "start_s": CUT_START,
               "window_in": WINDOW_IN if case == "window" else 0.0}
     state = {"waited": 0, "played": 0, "ready": 0, "from": 0.0,
-             "turned": 0}
+             "turned": 0, "seen_at": 0.0, "still": 0, "again": 0,
+             "went": None, "quiet": 0, "afresh": 0}
     keep = {}
+    # What each of the four handovers below left behind. Handed up as
+    # one piece so that a run which never got that far says so with an
+    # empty box rather than with numbers nobody measured.
+    handover = {}
+    result["handover"] = handover
 
     def cut_ready():
         p = cut_player()
@@ -516,6 +592,10 @@ def look(case):
                     os.write(2, NOISE)
                 p.jump(t)
                 sys.stdout.flush()
+                # The jump printed inside itself or not at all, so the
+                # step is over here: what the window prints next is not
+                # this step's answer.
+                close()
                 if said_in(tag):
                     result.setdefault("tries", {})[tag] = tries[0]
                     return
@@ -607,6 +687,27 @@ def look(case):
                               result["spots"][0], noise=True))
         plan.extend(after_the_edge)
 
+    def run_at_the_edge(p):
+        """Put the player just before the change and set it going.
+
+        Called again where the window took the cut back: handing the
+        player a cut pauses it and puts it at the start of the
+        programme, and what was being measured is then gone. Beginning
+        again costs the 1.2 s of programme it plays; waiting for a
+        clock that was put back to zero costs the whole run.
+
+        The step is opened again with it, so the lines of the attempt
+        that was interrupted go rather than being read as this one's.
+        """
+        b = result["cut"][result["edge"]][1]
+        step("playing over %.3f" % b)
+        p.jump(max(p.begins, b - 1.2))
+        # Where the clock stood before it was asked to run, so that
+        # "it never started" can be told from "it never got there".
+        state["from"] = state["seen_at"] = p._time()
+        state["still"] = 0
+        p.play()
+
     def play_over_the_edge():
         """Let it run into the camera change, the way a person does."""
         i = result.get("edge")
@@ -621,48 +722,86 @@ def look(case):
                 {"step": "playing over", "covered": False,
                  "waited_ms": state["ready"] * 200})
             return
-        step("playing over %.3f" % b)
-        p.jump(start)
-        # Where the clock stood before it was asked to run, so that
-        # "it never started" can be told from "it never got there".
-        state["from"] = p._time()
-        p.play()
+        run_at_the_edge(p)
 
     def wait_for_the_switch():
-        """Wait for the shot to change, not for a number of seconds.
+        """Wait for the shot to change, and give up on standstill.
 
-        A play that lands before the file is loaded is dropped, and
-        beside a loaded machine that is the usual case: the clock then
-        never leaves the start and the shot never changes. So the ask is
-        repeated until the clock moves, which is asking again for the
-        cause rather than waiting longer for the effect.
+        Three things can happen while it runs and they are not the
+        same. The shot changes: done. The clock moves: the player is
+        working, and a machine that needs longer must not be called
+        broken for it. The clock stands still, or has gone back to the
+        start of the programme -- and that last one is a state, not a
+        delay: the window recomputes its preview whenever a fact about
+        a file arrives, hands the player the fresh cut, and the player
+        pauses and goes back to the beginning. Then the run is begun
+        again rather than waited out.
+
+        The clock is a stopwatch on the wall, so it rises while
+        anything is playing however loaded the machine is. Standstill
+        therefore means stopped, and it is the only thing worth giving
+        up on.
+
+        And play is not pressed at a player that is already playing:
+        play starts the clock over at the position it finds. A poll
+        that pressed it every time held the clock at a fifth of a
+        second for sixteen seconds and then reported a player that
+        never ran -- which was this test's own doing and not the
+        program's.
         """
         p = cut_ready()
         i = result.get("edge")
         if p is None or i is None:
+            close()
             return
-        if p._time() <= state["from"] and state["played"] < 80:
-            state["played"] += 1
-            p.play()
-            return "again"
-        if p.now != i + 1 and state["played"] < 80:
-            state["played"] += 1
-            return "again"
+        state["played"] += 1
+        now = p._time()
+        if p.now != i + 1:
+            if not p._playing or now < state["from"] - 0.5:
+                # The window laid its own cut over ours and the player
+                # is back at the start. Begin again.
+                if state["again"] < BEGUN_AGAIN:
+                    state["again"] += 1
+                    run_at_the_edge(p)
+                    return "again"
+            elif now > state["seen_at"] + 0.01:
+                # It is running. Nothing to ask for, and nothing to
+                # press: pressing play here is what froze the clock.
+                state["seen_at"] = now
+                state["still"] = 0
+                return "again"
+            elif state["still"] < STILL:
+                state["still"] += 1
+                # A play that lands before the file is loaded is
+                # dropped, and then the cause is worth asking for once
+                # more -- every couple of seconds, not every poll.
+                if state["still"] % 10 == 0:
+                    p.play()
+                return "again"
         result["switched"] = (p.now == i + 1)
         # How far it got, for the line that has to say so where it never
         # got there. The player's own clock, because that is the thing
         # that is meant to be running.
-        result["ran_to"] = round(p._time(), 3)
+        result["ran_to"] = round(max(state["seen_at"], now), 3)
         result["waited_ms"] = state["played"] * 200
+        result["still_for_ms"] = state["still"] * 200
+        # How often the window took the cut back from under it. A run
+        # that was begun three times and one that was never disturbed
+        # look alike in every other number.
+        result["begun_again"] = state["again"]
         # Whether it left the mark at all. A player that never started
         # and one that started and stopped short of the change fail the
         # same way from outside, and they are not the same fault.
-        result["started"] = p._time() > state["from"]
+        result["started"] = state["seen_at"] > state["from"]
         result["from_at"] = round(state["from"], 3)
         # It did start, so it may be stopped: a player that never ran
         # is a different matter, and pausing one of those is what left
         # a window standing.
         p.pause()
+        # The one step that goes on printing after its own body has
+        # returned: it ends where the player stops, not where the jump
+        # did.
+        close()
 
     def reversed_offsets():
         """The same points again, with every offset the wrong way round.
@@ -671,19 +810,25 @@ def look(case):
         same cut and the same sound file. If the checks above cannot
         see this, they were reading the player's own arithmetic back to
         itself.
+
+        What gets turned round is what the window handed the player at
+        the start and this test kept, not whatever the player is
+        holding now. On a second go it is already holding the reversed
+        numbers, and reversing those would put the honest ones back and
+        leave the counter-check checking nothing while staying green.
         """
         p = cut_ready()
-        if p is None:
+        if p is None or not keep:
             return
-        turned = {k: -v for k, v in p.offset.items()}
+        turned = {k: -v for k, v in keep["offset"].items()}
         result["reversed"] = turned
         # Said before the offsets are turned round: handing the player
         # a cut puts it back to the start, and that first line is
         # already a reversed one.
         step("reversed at the start")
-        p.set([(a, b, w) for a, b, w in p.cut], dict(p.files), turned,
-              p.audio.source().toLocalFile(), -p.audio_offset,
-              p.begins, p.until, p.tc0)
+        p.set(keep["cut"], keep["files"], turned, keep["audio"],
+              -keep["audio_offset"], keep["begins"], keep["until"],
+              keep["tc0"])
         # No turn of the event loop in here, and no waiting either. The
         # jump prints before it returns, and letting the window run in
         # between would let it lay its own cut over this one -- the
@@ -692,17 +837,25 @@ def look(case):
         for t in result["spots"]:
             step("reversed %.3f" % t)
             p.jump(t)
+        close()
         # And where the window did get in between, the step is done
-        # again rather than reported. It shows as one shot answering
-        # twice while another never does, and on a loaded machine it is
+        # again rather than reported. It shows in what was printed, and
+        # in two shapes: one shot answering twice while another never
+        # does, and a line carrying the honest offset because the
+        # rebuild landed between two jumps. On a loaded machine both are
         # the machine talking, not the program.
-        who = [x["who"] for t in result["spots"]
-               for x in said_in("reversed %.3f" % t)]
-        if len(set(who)) < len(result["spots"]) and state["turned"] < TRIES:
+        said = [x for t in result["spots"]
+                for x in said_in("reversed %.3f" % t)]
+        astray = [x for x in said
+                  if abs(x["picture_offset"] - turned.get(x["who"], 0.0))
+                  > 0.001]
+        if ((len(set(x["who"] for x in said)) < len(result["spots"])
+             or astray) and state["turned"] < TRIES):
             state["turned"] += 1
             return "again"
         result["reversed_seen"] = dict(p.offset)
         result["reversed_sound"] = p.audio_offset
+        result["reversed_tries"] = state["turned"]
 
     def empty_cut():
         """The state the slower machine was caught in, on purpose.
@@ -719,6 +872,9 @@ def look(case):
         step("an empty cut")
         p.set([], {}, {}, None, 0.0)
         p.jump(result["spots"][0])
+        # Closed at once, or the rebuild that comes while the next step
+        # waits would print into it and this step would read noisy.
+        close()
 
     def hand_it_back():
         """Give the player its cut again, a moment later.
@@ -733,6 +889,7 @@ def look(case):
             p.set(keep["cut"], keep["files"], keep["offset"],
                   keep["audio"], keep["audio_offset"], keep["begins"],
                   keep["until"], keep["tc0"])
+            close()
 
     def late_cut():
         """Ask for a moment the player does not hold yet.
@@ -750,10 +907,204 @@ def look(case):
         plan.append(go_to("late %.3f" % result["spots"][0],
                           result["spots"][0], on_retry=hand_it_back))
 
+    # ------------------------------- a fresh cut arrives under a viewer
+    def shot_at(cut, t):
+        """Which camera that cut shows at that moment."""
+        for a, b, who in cut:
+            if a <= t < b:
+                return who
+        return None
+
+    def other_than(who):
+        """Another camera of the same cut."""
+        for _a, _b, w in keep["cut"]:
+            if w != who:
+                return w
+        return None
+
+    def on_screen(p):
+        """The picture file the visible surface is holding.
+
+        What a viewer would see, and not what the cut says or what the
+        player printed: a cut can name a camera whose file was never
+        loaded, and then the line reads right while the screen shows
+        the shot before. Only the surface says which of the two it is.
+
+        Nothing is caught here on purpose. A surface holding no file
+        answers with an empty name by itself, which is a measurement; a
+        player that has no surfaces at all is a different matter, and a
+        traceback says so where an empty name would read as the first.
+        """
+        return os.path.basename(
+            p.videos[p.stack.currentIndex()].source().toLocalFile())
+
+    def hand_a_cut(p, cut, until):
+        """Hand the player a cut and read the clock either side of it.
+
+        Both readings in one breath, with no turn of the event loop
+        between them: the player reads its own clock at the first line
+        of the handover and puts it back at the last, so what lies
+        between the two numbers is that one call and nothing else.
+        """
+        before, was = p._time(), p._playing
+        p.set(cut, keep["files"], keep["offset"], keep["audio"],
+              keep["audio_offset"], keep["begins"], until, keep["tc0"])
+        return {"ran_before": was, "before": round(before, 3),
+                "after": round(p._time(), 3), "runs_after": p._playing}
+
+    def a_cut_while_it_plays():
+        """Hand a running player a fresh cut, while it is running.
+
+        The condition and the handover are one poll on purpose. Waiting
+        for the clock in one step and handing the cut over in the next
+        leaves a turn of the event loop in between, and the window can
+        stop the player in it -- the step would then report a player
+        that was not running rather than a place that was lost.
+
+        The clock is a stopwatch on the wall, so it rises on the
+        busiest machine as long as anything plays at all. Standstill is
+        therefore worth giving up on, and a deadline is not. Where the
+        window took the cut back the run is begun again rather than
+        waited out, the same way as at the camera change.
+        """
+        p = cut_player()
+        if p is None or not keep or not result.get("spots"):
+            return
+        at = result["spots"][0]
+        if state["went"] is None:
+            p.jump(at)
+            p.play()
+            state["went"] = p._time()
+            state["quiet"] = 0
+            return "again"
+        now = p._time()
+        moved = now - state["went"]
+        if not (p._playing and moved >= MOVED):
+            if not p._playing and state["afresh"] < BEGUN_AGAIN:
+                # The window laid its own cut over ours and stopped it.
+                state["afresh"] += 1
+                state["went"] = None
+                return "again"
+            if state["quiet"] < STILL:
+                state["quiet"] += 1
+                # A play that lands before the file is loaded is
+                # dropped, so the cause is worth asking for once more
+                # now and then.
+                if state["quiet"] % 10 == 0:
+                    p.play()
+                return "again"
+            # Patience gone, and the cut is handed over all the same.
+            # Left out, this step would be missing from the report and
+            # the run would judge one thing less than the run before --
+            # which is a second failure, about the count, on top of the
+            # one that matters. Handed over, the first check below is
+            # the one about the clock, and it says what never happened.
+        step("a cut while it plays")
+        handover["playing"] = hand_a_cut(p, keep["cut"], keep["until"])
+        close()
+        handover["playing"].update(
+            at=at, began_at=round(state["went"], 3), moved=round(moved, 3),
+            needed=MOVED, polls=state["quiet"], begun_again=state["afresh"],
+            waited_ms=state["quiet"] * 200)
+        p.pause()
+
+    def a_cut_while_it_stands():
+        """Hand a standing player a fresh cut.
+
+        The other half of it: whoever had paused stays paused. A repair
+        that put the playing back for everybody would start a picture
+        running in front of somebody who had stopped it.
+        """
+        p = cut_player()
+        if p is None or not keep or not result.get("spots"):
+            return
+        at = result["spots"][-1]
+        p.pause()
+        p.jump(at)
+        step("a cut while it stands")
+        handover["standing"] = hand_a_cut(p, keep["cut"], keep["until"])
+        close()
+        handover["standing"]["at"] = at
+
+    def a_shorter_cut_arrives():
+        """The fresh cut ends before the place the viewer was at.
+
+        Then the place cannot be kept as it is, and the question is
+        what becomes of it: pulled in to the end of the new cut, or
+        thrown away. The first is a viewer who has to wind back a
+        little, the second is a viewer who lost their place.
+        """
+        p = cut_player()
+        if p is None or not keep or not result.get("spots"):
+            return
+        at = result["spots"][-1]
+        ends_at = round((keep["begins"] + at) / 2.0, 3)
+        shorter = [(a, min(b, ends_at), who) for a, b, who in keep["cut"]
+                   if a < ends_at]
+        p.pause()
+        p.jump(at)
+        step("a shorter cut")
+        handover["shorter"] = hand_a_cut(p, shorter, ends_at)
+        close()
+        handover["shorter"].update(at=at, ends_at=ends_at,
+                                   begins=keep["begins"])
+
+    def another_camera_arrives():
+        """The fresh cut puts another camera on the second in view.
+
+        This is the half of the repair that the kept place must not
+        cost. The picture belongs to the cut, so where the fresh cut
+        names another camera on that second, that camera is what has to
+        be on screen -- a short break in the picture is the price, and
+        the owner asked for it to be paid.
+        """
+        p = cut_player()
+        if p is None or not keep or not result.get("spots"):
+            return
+        at = result["spots"][0]
+        # The honest cut first: the step before left a shorter one
+        # behind, and this one is about the camera and nothing else.
+        p.set(keep["cut"], keep["files"], keep["offset"], keep["audio"],
+              keep["audio_offset"], keep["begins"], keep["until"],
+              keep["tc0"])
+        p.pause()
+        p.jump(at)
+        was = shot_at(keep["cut"], at)
+        other = other_than(was)
+        swapped = [(a, b, other if a <= at < b else who)
+                   for a, b, who in keep["cut"]]
+        step("another camera on the same second")
+        showed = on_screen(p)
+        p.set(swapped, keep["files"], keep["offset"], keep["audio"],
+              keep["audio_offset"], keep["begins"], keep["until"],
+              keep["tc0"])
+        shows = on_screen(p)
+        close()
+        handover["camera"] = {
+            "at": at, "was": was, "now_says": other, "showed": showed,
+            "shows": shows,
+            "was_file": os.path.basename(keep["files"].get(was) or ""),
+            "wanted": os.path.basename(keep["files"].get(other) or "")}
+        p.pause()
+
+    def and_then_a_fresh_cut():
+        """Queue the four handovers, after everything else is done.
+
+        Appended from inside a step rather than listed with the others,
+        because the step before this one appends the last of its own
+        jumps to the end of the plan. Listed, these four would come
+        between that step and its jump, and the jump would find a
+        player holding a cut again -- which is the one thing that step
+        is about not finding.
+        """
+        plan.extend([a_cut_while_it_plays, a_cut_while_it_stands,
+                     a_shorter_cut_arrives, another_camera_arrives])
+
     after_the_edge = []
     if case == "plain":
         after_the_edge[:] = [play_over_the_edge, wait_for_the_switch,
-                             reversed_offsets, empty_cut, late_cut]
+                             reversed_offsets, empty_cut, late_cut,
+                             and_then_a_fresh_cut]
     plan[:] = [open_project, wait_for_cut]
 
     done = [False]
@@ -772,6 +1123,7 @@ def look(case):
             return
         result["steps"] = seen["lines"]
         result["printed"] = seen["total"]
+        result["loose"] = seen["loose"]
         if why:
             result["error"] = why
         with open(where + ".part", "w", encoding="utf-8") as f:
@@ -820,13 +1172,20 @@ if os.environ.get("VPM_SOUND_PICTURE_CASE"):
 
 
 # ------------------------------------------------------------ the parent
-error = []
+# The counter is not called "done" here: the child above uses that name
+# for two things of its own, and one name for three things is how a
+# closing line ends in a traceback instead of a verdict.
+began = time.time()
+judged = 0
+bad = []
 
 
 def check(name, ok, extra=""):
+    global judged
+    judged += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
 from fixture_root import fixture              # noqa: E402  after the child
@@ -837,7 +1196,9 @@ missing = [n for n in CAMERAS
 if missing:
     print("SKIPPED: no material under %s -- missing %s"
           % (material, ", ".join(missing)))
-    raise SystemExit(0)
+    print("\n%d checks in %.2f s" % (judged, time.time() - began))
+    print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+    sys.exit(1 if bad else 0)
 
 
 posted = tempfile.mkdtemp(prefix="vpm_soundpicture_said_")
@@ -973,10 +1334,15 @@ for case in CASES:
         continue
 
     # ---- the core: every line the player printed, at every step
-    # The empty cut is the one step that must stay quiet; it is the
-    # state a slower machine caught this test in, reproduced on purpose.
+    # Two steps are quiet on purpose and stand outside this. The empty
+    # cut is the state a slower machine caught this test in,
+    # reproduced. The shorter cut ends where it draws the viewer to, and
+    # a shot runs up to its end and not into it, so no shot holds that
+    # moment and the player has nothing to say about it -- that step is
+    # about the clock, and its own checks are further down.
+    QUIET = ("an empty cut", "a shorter cut")
     honest = [k for k in steps
-              if not k.startswith("reversed") and k != "an empty cut"]
+              if not k.startswith("reversed") and k not in QUIET]
     check("  the player printed a line at every step",
           len(honest) >= 4 and all(steps[k] for k in honest),
           "%s %s" % (json.dumps({k: len(steps[k]) for k in sorted(steps)}),
@@ -1036,14 +1402,16 @@ for case in CASES:
     ran = steps[playing[0]] if playing else []
     check("  running into the cut, the player ran at all",
           bool(d.get("started")),
-          "clock %s -> %s after %s ms"
-          % (d.get("from_at"), d.get("ran_to"), d.get("waited_ms")))
+          "clock %s -> %s after %s ms, still for %s ms, begun again %s "
+          "time(s)" % (d.get("from_at"), d.get("ran_to"),
+                       d.get("waited_ms"), d.get("still_for_ms"),
+                       d.get("begun_again")))
     check("  running into the cut, the camera changed by itself",
           bool(d.get("switched"))
           and len(set(x["who"] for x in ran)) > 1,
-          "ran %s to %s in %s ms, over %s"
+          "ran %s to %s in %s ms, begun again %s time(s), over %s"
           % (d.get("from_at"), d.get("ran_to"), d.get("waited_ms"),
-             json.dumps([x["who"] for x in ran])))
+             d.get("begun_again"), json.dumps([x["who"] for x in ran])))
 
     # ---- the counter-check: the same checks over reversed offsets
     turned = sorted(k for k in steps if k.startswith("reversed"))
@@ -1057,10 +1425,12 @@ for case in CASES:
           bool(want) and d.get("reversed_seen") == want
           and all(abs(x["picture_offset"] - want.get(x["who"], 0.0))
                   < 0.001 for x in seen),
-          "%s, printed %s" % (json.dumps(d.get("reversed_seen")),
-                              json.dumps(sorted(set(
-                                  (x["who"], x["picture_offset"])
-                                  for x in seen)))))
+          "%s, printed %s, asked again %s time(s), %s line(s) of the "
+          "window's own belonged to no step"
+          % (json.dumps(d.get("reversed_seen")),
+             json.dumps(sorted(set((x["who"], x["picture_offset"])
+                                   for x in seen))),
+             d.get("reversed_tries"), d.get("loose")))
     real = [line for line in seen
             if abs((d.get("reversed") or {}).get(line["who"], 0.0)) > frame]
     check("  the reversed run printed lines with a real offset in them",
@@ -1127,6 +1497,86 @@ for case in CASES:
           % (tries, json.dumps([x["t"] for x in steps[late[0]]])
              if late else "-"))
 
+    # ---- a fresh cut arrives under a viewer
+    # The window works its preview out again whenever a fact about a
+    # file comes in and hands the player the answer. Until 31.8.2026
+    # that call stopped whoever was watching and wound them back to the
+    # In point -- once in every run measured here, beside neighbours
+    # and alone alike, so pressing play soon after opening a project
+    # put the viewer back where they started. What the viewer keeps is
+    # the place and the playing; what follows the fresh cut is the
+    # picture.
+    over = d.get("handover") or {}
+    on_air = over.get("playing") or {}
+    check("  the fresh cut reached a player that was really running",
+          (on_air.get("moved") or 0.0) >= (on_air.get("needed") or 1e9),
+          "the clock rose %s s from %s, wanted %s s, after %s poll(s) and "
+          "%s ms, begun again %s time(s)"
+          % (on_air.get("moved"), on_air.get("began_at"),
+             on_air.get("needed"), on_air.get("polls"),
+             on_air.get("waited_ms"), on_air.get("begun_again")))
+    check("  and that player is playing after the handover too",
+          on_air.get("runs_after") is True,
+          "playing %s before the fresh cut, %s after"
+          % (on_air.get("ran_before"), on_air.get("runs_after")))
+    # Where the limit comes from: the handover reads the player's clock
+    # at its first line and puts it back at its last, so the two
+    # numbers are one call apart and nothing else -- measured at 0.000 s
+    # here, at 25 frames a second. A frame is the smallest step the
+    # picture has, so a place that moved less than one was not lost;
+    # and it leaves a machine three times slower all the room it needs.
+    apart = (abs(on_air["after"] - on_air["before"])
+             if "after" in on_air and "before" in on_air else None)
+    check("  and it is still at the second it was watching",
+          apart is not None and apart <= frame,
+          "programme %s before the fresh cut, %s after, %s s apart, a "
+          "frame is %.3f s"
+          % (on_air.get("before"), on_air.get("after"),
+             "-" if apart is None else round(apart, 4), frame))
+    at_rest = over.get("standing") or {}
+    check("  a player at a standstill is not set going by a fresh cut",
+          at_rest.get("ran_before") is False
+          and at_rest.get("runs_after") is False,
+          "playing %s before the fresh cut, %s after"
+          % (at_rest.get("ran_before"), at_rest.get("runs_after")))
+    rested = (abs(at_rest["after"] - at_rest["before"])
+              if "after" in at_rest and "before" in at_rest else None)
+    check("  and it too keeps the second it was standing on",
+          rested is not None and rested <= frame,
+          "programme %s before the fresh cut, %s after, %s s apart, a "
+          "frame is %.3f s"
+          % (at_rest.get("before"), at_rest.get("after"),
+             "-" if rested is None else round(rested, 4), frame))
+    cropped = over.get("shorter") or {}
+    check("  the place really lay past the end of the shorter cut",
+          cropped.get("before") is not None
+          and cropped.get("ends_at") is not None
+          and cropped["before"] > cropped["ends_at"] + frame,
+          "the viewer was at %s, the shorter cut ends at %s"
+          % (cropped.get("before"), cropped.get("ends_at")))
+    check("  and a shorter cut draws it in to that end, not to the start",
+          cropped.get("after") is not None
+          and cropped.get("ends_at") is not None
+          and abs(cropped["after"] - cropped["ends_at"]) <= frame,
+          "at %s afterwards, the cut ends at %s and begins at %s, a "
+          "frame is %.3f s" % (cropped.get("after"), cropped.get("ends_at"),
+                               cropped.get("begins"), frame))
+    swapped = over.get("camera") or {}
+    check("  the fresh cut names another camera on the second in view",
+          bool(swapped.get("was_file"))
+          and swapped.get("showed") == swapped.get("was_file")
+          and bool(swapped.get("wanted"))
+          and swapped.get("wanted") != swapped.get("was_file"),
+          "at programme %s the screen held %s, the fresh cut says %s"
+          % (swapped.get("at"), json.dumps(swapped.get("showed")),
+             json.dumps(swapped.get("wanted"))))
+    check("  and that camera's file is the one on screen afterwards",
+          bool(swapped.get("wanted"))
+          and swapped.get("shows") == swapped.get("wanted"),
+          "%s on screen, wanted %s"
+          % (json.dumps(swapped.get("shows")),
+             json.dumps(swapped.get("wanted"))))
+
 # ---- what the time window did to the picture, seen from outside
 plain, _s = report["plain"]
 shifted, _s2 = report["window"]
@@ -1143,8 +1593,6 @@ if plain.get("offset") and shifted.get("offset"):
           "%s against %s" % (plain.get("audio_offset"),
                              shifted.get("audio_offset")))
 
-print()
-if error:
-    print("FAIL: " + ", ".join(error))
-    sys.exit(1)
-print("All good.")
+print("\n%d checks in %.2f s" % (judged, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)

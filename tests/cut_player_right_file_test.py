@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util
+import sys, time, importlib.util
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
 # No window is built here, so no application either.
@@ -13,11 +13,17 @@ spec = importlib.util.spec_from_file_location(
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
+began = time.time()
+done = 0
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 # Four files on one time axis: a wide shot over the whole hour, a guest
 # inside it, a short one late, and an intro that never comes into question.
@@ -111,7 +117,9 @@ for name in ("def covers(file_path, text):",
              "def player_follow_up(spot_also=False):",
              "def main_track_show(force=False):"):
     check("in the script: %s" % name.split("(")[0][4:],
-            name in source)
+            name in source,
+            "%d x in the %d characters of gui(), wanted 1 or more"
+            % (source.count(name), len(source)))
 
 print("\n1. Without In/Out point: the camera with no speaker wins (Wide)")
 check("Wide", player_suggestion() == "/x/Wide.mov",
@@ -124,7 +132,9 @@ check("Wide", player_suggestion() == "/x/Wide.mov",
 
 print("\n3. In/Out point only inside the guest -- that beats the wide shot")
 start_var.set("17:15:00:00"); end_var.set("17:35:00:00")
-check("both inside the wide shot?", covers("/x/Wide.mov", "17:15:00:00"))
+inside = covers("/x/Wide.mov", "17:15:00:00")
+check("both inside the wide shot?", inside,
+        "Wide at 17:15:00:00: %s, wanted True" % (inside,))
 check("Wide (both cover it, Wide has no speaker)",
         player_suggestion() == "/x/Wide.mov", str(player_suggestion()))
 
@@ -143,7 +153,9 @@ check("Jingle not among the candidates",
 print("\n6. 'ignore this video' never comes into question")
 clip_kind_values["/x/Wide.mov"] = Value(vpm.TYPE_IGNORED)
 start_var.set(""); end_var.set("")
-check("Wide is out", "/x/Wide.mov" not in player_candidates())
+left_over = player_candidates()
+check("Wide is out", "/x/Wide.mov" not in left_over,
+        "%d candidates: %s" % (len(left_over), left_over))
 check("instead the one with no speaker (Short)",
         player_suggestion() == "/x/Short.mov",
         str(player_suggestion()))
@@ -164,15 +176,23 @@ remembered.pop("player_file")
 print("\n9. Relative values need the time axis")
 start_var.set("+0:15:00")
 end_var.set("")
-check("Wide covers it", covers("/x/Wide.mov", "+0:15:00") is True)
-check("Short does not cover it", covers("/x/Short.mov", "+0:15:00") is False)
+wide_at = covers("/x/Wide.mov", "+0:15:00")
+check("Wide covers it", wide_at is True,
+        "Wide at +0:15:00: %s, wanted True" % (wide_at,))
+short_at = covers("/x/Short.mov", "+0:15:00")
+check("Short does not cover it", short_at is False,
+        "Short at +0:15:00: %s, wanted False" % (short_at,))
 SPANS["/x/Wide.mov"]["axis"] = None
-check("no axis: no claim",
-        covers("/x/Wide.mov", "+0:15:00") is None)
+no_axis = covers("/x/Wide.mov", "+0:15:00")
+check("no axis: no claim", no_axis is None,
+        "Wide without an axis at +0:15:00: %s, wanted None" % (no_axis,))
 SPANS["/x/Wide.mov"]["axis"] = 0.0
 
 print("\n10. No timecode, no claim for an absolute value")
-check("Jingle: None", covers("/x/Jingle.mp4", "17:20:00:00") is None)
+no_clock = covers("/x/Jingle.mp4", "17:20:00:00")
+check("Jingle: None", no_clock is None,
+        "Jingle at 17:20:00:00: %s, wanted None" % (no_clock,))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

@@ -15,7 +15,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, shutil, subprocess, sys, wave
+import importlib.util, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
@@ -29,10 +29,14 @@ os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1")
 
+began = time.time()
+done = 0
 error = []
 
 
 def check(name, ok, extra=""):
+    global done
+    done += 1
     print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
         error.append(name)
@@ -121,16 +125,24 @@ p = subprocess.run(CALL + ["--multitrack", "--out", D + "/run",
 log = (p.stdout or "") + (p.stderr or "")
 check("no traceback", "Traceback" not in log,
       log[log.find("Traceback"):][:90])
+sent = [x.strip() for x in log.splitlines()
+        if "auphonic.com/api" in x or "Uploading" in x]
 check("nothing was sent to auphonic.com",
-      "auphonic.com/api" not in log and "Uploading" not in log)
+      "auphonic.com/api" not in log and "Uploading" not in log,
+      "%d of %d lines of the log speak of an upload: %s"
+      % (len(sent), len(log.splitlines()), sent[:2]))
 check("the run ends green", p.returncode == 0, str(p.returncode))
+refused = [x.strip() for x in log.splitlines() if "needs pictures" in x]
 check("it no longer refuses for want of a picture",
-      "needs pictures" not in log)
+      "needs pictures" not in log,
+      "%d of %d lines of the log refuse for want of a picture: %s"
+      % (len(refused), len(log.splitlines()), refused[:2]))
 said = [line.strip() for line in log.splitlines()
         if "laid against each other" in line or "Reference:" in line]
 print("   %s" % " | ".join(said[:2]))
 check("it says there is no picture and the tracks carry the axis",
-      any("laid against each other" in s for s in said))
+      any("laid against each other" in s for s in said),
+      "%d lines of the log speak of the axis: %s" % (len(said), said[:2]))
 check("the longest recording is the reference",
       any(s.startswith("Reference:") and "Host" in s for s in said),
       str(said[:2]))
@@ -142,7 +154,8 @@ print("   written: %s" % made)
 check("one file per voice, and not the two glued into one",
       made == ["Guest_aligned.wav", "Host_aligned.wav"], str(made))
 if len(made) != 2:
-    print("\nFAIL: %s" % ", ".join(error or ["nothing was written"]))
+    print("\n%d checks in %.2f s" % (done, time.time() - began))
+    print("FAIL: " + " | ".join(error or ["nothing was written"]))
     sys.exit(1)
 
 host = vpm.decode_audio(D + "/run/Host_aligned.wav", rate=RATE)
@@ -195,7 +208,10 @@ joined = sorted(f for f in os.listdir(D + "/join")) \
 print("   written: %s" % joined)
 check("the joined files come out under their own names",
       joined == ["Guest_joined.wav", "Host_joined.wav"], str(joined))
-check("no axis was built", "MEASURING THE TIME AXIS" not in log)
+axis = [x.strip() for x in log.splitlines() if "MEASURING THE TIME AXIS" in x]
+check("no axis was built", "MEASURING THE TIME AXIS" not in log,
+      "%d of %d lines of the log announce the axis: %s"
+      % (len(axis), len(log.splitlines()), axis[:2]))
 if joined == ["Guest_joined.wav", "Host_joined.wav"]:
     length = dict((f, vpm.sample_count(D + "/join/" + f) / float(vpm.SR))
                   for f in joined)
@@ -265,6 +281,6 @@ check("and the one predicate governs both messages",
           ["--multitrack", "--lufs", "-16", "x.wav"]), ()) is True,
       "lufs_does_nothing said no on the very path that prints it")
 
-print("\n%s" % ("All good." if not error
-                else "FAIL: %s" % ", ".join(error)))
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

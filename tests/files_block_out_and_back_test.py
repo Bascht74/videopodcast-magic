@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile, wave
+import importlib.util, json, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -15,11 +15,17 @@ spec.loader.exec_module(vpm)
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 
+began = time.time()
+done = 0
 error = []
+
+
 def check(name, ok, extra=""):
-    print("  %-52s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        error.append("%s [%s]" % (name, extra or "no numbers"))
 
 RATE = 48000
 folder = tempfile.mkdtemp(prefix="vpm_blockrm_")
@@ -164,12 +170,19 @@ def step():
                 kid = long_row[2].child(j)
                 if "REC0002" in kid.text(0):
                     spot = kid
-            check("the middle block has a row of its own", spot is not None)
+            check("the middle block has a row of its own", spot is not None,
+                  "%d rows under %s: %s"
+                  % (long_row[2].childCount(), long_row[0],
+                     [long_row[2].child(j).text(0)
+                      for j in range(long_row[2].childCount())]))
             tree().setCurrentItem(spot)
             app.processEvents()
             k = button("Remove")
             check("and Remove offers itself for it",
-                  bool(k and k.isEnabled()))
+                  bool(k and k.isEnabled()),
+                  "button found %s, ready %s, with %r selected"
+                  % (k is not None, bool(k and k.isEnabled()),
+                     spot.text(0) if spot is not None else None))
             about_to_change()
             k.click()
         elif i == 2:
@@ -214,8 +227,10 @@ def step():
             check("all three back means one recording again",
                   len(rows) == 2 and any(len(r[1]) == 3 for r in rows),
                   str([(r[0], len(r[1])) for r in rows]))
-            print("\n%s" % ("ALL OK" if not error
-                            else "FAIL: " + ", ".join(error)))
+            # The verdict is not said here. The window can also go out
+            # through the timer or through a crash in a step, and a
+            # count printed only on the way that got to the end would
+            # leave those two saying nothing was ever judged.
             app.quit(); return
     except Exception:
         import traceback; traceback.print_exc(); app.quit(); return
@@ -296,4 +311,6 @@ def clean_up(what):
 sys.argv = ["videopodcast-magic.py"]
 vpm.gui()
 clean_up(folder)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(error) if error else "ALL OK")
 sys.exit(1 if error else 0)

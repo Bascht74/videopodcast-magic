@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util, inspect, re
+import sys, importlib.util, inspect, re, time
 # A test must never play sound at somebody working next to it. The program
 # reads the variable with bool(), so any value silences it, "0" as well.
 os.environ.setdefault("VPM_SILENT", "1")
@@ -13,11 +13,29 @@ spec = importlib.util.spec_from_file_location(
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 
-error = []
+began = time.time()
+done = 0
+bad = []
+
+
 def check(name, ok, extra=""):
-    print("  %-56s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
     if not ok:
-        error.append(name)
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+def sought(needle, text, what, probe):
+    """What a search through the source found, for the failure line.
+
+    A red line saying only "not there" cannot be acted on: the phrase
+    looked for, how much was looked through, and the lines that come
+    nearest say whether the phrase moved or the function did.
+    """
+    near = [line.strip() for line in text.splitlines() if probe in line]
+    return "%r sought in %d lines of %s; %d of them hold %r: %s" % (
+        needle, len(text.splitlines()), what, len(near), probe, near[:2])
+
 
 # The function itself, not a copy cut out of the source of gui().
 camera_offset = vpm.camera_offset
@@ -32,7 +50,9 @@ off = camera_offset(cameras)
 check("values taken over unchanged",
         off == {"Wide": -534.2, "Guest": -331.7, "Hosts": -516.9},
         str(off))
-check("not all zero", any(x != 0.0 for x in off.values()))
+check("not all zero", any(x != 0.0 for x in off.values()),
+        "%d of %d offsets differ from 0.0: %s"
+        % (sum(1 for x in off.values() if x != 0.0), len(off), off))
 
 print("\n2. Even when one camera has offset 0")
 cameras = [{"track": "A", "offset": 0.0}, {"track": "B", "offset": -12.5}]
@@ -50,19 +70,25 @@ check("without a zero point: counted against the earliest",
 print("\n4. Nothing known at all -> zero everywhere, no crash")
 off = camera_offset([{"track": "A"}, {"track": "B"}])
 check("zero", off == {"A": 0.0, "B": 0.0}, str(off))
-check("empty list", camera_offset([]) == {})
+empty = camera_offset([])
+check("empty list", empty == {}, "%s against an expected {}" % (empty,))
 
 print("\n5. The formula matches the cut timeline in Resolve")
 # Resolve: start_frame = t0 - offset. The player: want = t - offset.
 tl = inspect.getsource(vpm.build_cut_timeline)
-check("Resolve computes t0 - offset", "t0 - offset" in tl)
+check("Resolve computes t0 - offset", "t0 - offset" in tl,
+        sought("t0 - offset", tl, "build_cut_timeline", "offset"))
 player_source = inspect.getsource(vpm.qt_cut_player)
 check("the player computes t - offset",
-        "t - self.offset.get(who, 0.0)" in player_source)
+        "t - self.offset.get(who, 0.0)" in player_source,
+        sought("t - self.offset.get(who, 0.0)", player_source,
+               "qt_cut_player", "self.offset"))
 
 print("\n6. The audio comes from the camera with the Full-Mix")
 check("cameras_in_track_order is used",
-        "cameras_in_track_order(cameras)" in source)
+        "cameras_in_track_order(cameras)" in source,
+        sought("cameras_in_track_order(cameras)", source,
+               "gui and camera_offset", "cameras_in_track_order"))
 mix = [{"camera": "Guest", "track": "Guest", "audio_tracks": ["Guest"]},
        {"camera": "Wide", "track": "Wide",
         "audio_tracks": ["Full-Mix", "Guest"], "wide": True}]
@@ -72,10 +98,15 @@ check("the Wide shot with the Full-Mix comes first",
 
 print("\n7. And the audio offset is the one of that same camera")
 check("offset.get(first[track]) instead of start_s",
-        'offset.get(first.get("track"), 0.0)' in source)
+        'offset.get(first.get("track"), 0.0)' in source,
+        sought('offset.get(first.get("track"), 0.0)', source,
+               "gui and camera_offset", "offset.get"))
+player_build = source.split("def player_load_cut")[1].split("def ")[0]
 check("no start_s left in the player build",
-        'x.get("start_s")' not in source.split("def player_load_cut")[1]
-        .split("def ")[0])
+        'x.get("start_s")' not in player_build,
+        sought('x.get("start_s")', player_build, "player_load_cut",
+               "start_s"))
 
-print("\n%s" % ("ALL OK" if not error else "FAIL: " + ", ".join(error)))
-sys.exit(1 if error else 0)
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)
