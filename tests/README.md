@@ -1,6 +1,6 @@
 # The test suite
 
-181 tests against `../videopodcast-magic.py`. Every one of them stands
+182 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-181 tests. The name is the one a red line carries, and beside it the
+182 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -278,6 +278,7 @@ it is green.
 | `sound_camera_counts` | A camera counts as a track once the assignment says so. |
 | `sound_camera_judged_too` | A camera whose audio is in use is an audio file like any other. |
 | `sound_channels_split` | A file with several channels becomes several tracks. |
+| `sound_check_reads_once` | The check of a written camera file reads it once, not once per track. |
 | `sound_clipping_counted` | Clipping is counted per channel, and only where the format has a stop. |
 | `sound_delay_decides` | One pair of microphones, or two of them? |
 | `sound_each_gets_a_track` | Without Multitrack: the mix, and the recordings beside it. |

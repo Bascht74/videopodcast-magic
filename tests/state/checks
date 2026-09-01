@@ -124,6 +124,7 @@ sound_both_sides_alike	16
 sound_camera_counts	17
 sound_camera_judged_too	42
 sound_channels_split	35
+sound_check_reads_once	14
 sound_clipping_counted	14
 sound_delay_decides	14
 sound_each_gets_a_track	17
