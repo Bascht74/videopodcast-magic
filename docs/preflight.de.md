@@ -15,16 +15,17 @@ dahintersteht.
 
 ![Die Dateiliste mit den Prüfzeichen aus dem Vorflug](images/files.de.png)
 
-*Ein Häkchen in jeder Zeile, und neben vier davon der Vermerk, dass die
-Datei nicht zu den anderen passt. Der eine Hinweis, das Übersprechen,
-steht unter ALLGEMEINE HINWEISE und im Satz unter der Liste.*
+*Ein Häkchen in jeder Zeile. Drei Aufnahmen sagen in Rot, dass sie zu
+keiner der anderen Dateien passen -- Ton nicht erkannt, kein Timecode --,
+und zwei Kameras sagen, dass ihr Ton nicht erkannt wurde und ihr Timecode
+sie platziert. Der Streifen unter der Liste fasst das Ganze zusammen.*
 
 Der Bericht gilt für beide Betriebsarten.
 
 | Bereich | Was | Was daraus folgt |
 |---|---|---|
 | Bild | Nennrate gegen tatsächliche Rate, Schwankung der Bildabstände | siehe unten |
-| Bild | Bildraten der Kameras untereinander | die Timeline bekommt die höchste davon |
+| Bild | Bildraten der Kameras untereinander | die Timeline bekommt die höchste davon oder die nächste Rate, die Resolve darüber hat |
 | Bild | mehrteilige Kameras: Lücke zwischen den Blöcken | wo Bild fehlt |
 | Ton | Abtastrate, Bittiefe, Kanäle, Länge | wird auf 48 kHz gebracht, das steht dann da |
 | Ton | Spuren, die deutlich kürzer sind als die längste | Hinweis |
@@ -39,10 +40,16 @@ Ein Abbruch hält den Lauf an, bevor etwas geschrieben oder hochgeladen
 wird.
 
 Laufen die Kameras nicht alle gleich schnell, nennt der Hinweis die
-Rate, die die Timeline bekommt: die höchste davon. Vorher umzurechnen
-ist nichts -- jede Kamera behält ihre eigene Rate, und der Schnitt
-rechnet in ihr ([Resolve](resolve.de.md), „Kameras, die verschieden
-schnell laufen“).
+Rate, die die Timeline bekommt: die höchste davon -- oder, wenn Resolve
+für diese Rate keine Timeline hat, die nächste darüber, die es hat.
+
+Eine Kamera, für deren eigene Bildrate Resolve keine Timeline hat, wird
+trotzdem benutzt. Vorher umzurechnen ist nichts: Umgerechnet wird sie in
+die Timeline, weggelassen wird sie nicht. Die aufgeklappte Zeile sagt es
+unter **Video**, und beim Einlesen sagt es der Lauf noch einmal bei der
+Datei. Jede Kamera behält ihre eigene Rate, und der Schnitt rechnet in
+ihr ([Resolve](resolve.de.md), „Kameras, die verschieden schnell
+laufen“).
 
 Ein Timecode von der anderen Seite von Mitternacht zählt als eine Nacht,
 nicht als ein Tag Abstand. Bei Aufnahmen an wirklich verschiedenen Tagen

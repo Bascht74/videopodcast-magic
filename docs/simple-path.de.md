@@ -209,6 +209,32 @@ gibt. Nicht angeboten wird es auf einer Aufnahme, die selbst in eine
 andere gelegt wird: eine Kette von Zusammenlegungen gibt es nicht.
 Zurück geht es mit dem Eintrag **eine eigene Aufnahme**.
 
+Eine Aufnahme, die sich nicht anlegen lässt, fällt nicht aus der Liste.
+Sie steht grau darin und lässt sich nicht wählen, und der Grund steht an
+ihr -- wer darauf stehen bleibt, liest, wie weit die beiden Uhren
+auseinanderliegen. Mehr als eine halbe Stunde Abstand ist zu weit für
+eine Aufnahme:
+
+```
+    Abstand von 12:19:48 laut Timecode, zu weit für eine Aufnahme --
+    von Hand verbunden steht der Unterschied als Stille in der Datei,
+    und nichts danach bekommt ihn wieder heraus.
+```
+
+Die andere Lesart einer Uhr ist eine Überlappung -- `Überlappung von
+<Zeit> laut Timecode` -- mit demselben Satz dahinter. Geprüft wird
+beides nur, wo beide Seiten einen Timecode tragen. Ohne ihn gibt es
+nichts zu prüfen, und nichts wird ausgegraut. Ein dritter Grund hat mit
+den Uhren nichts zu tun: Zwei Dateien mit verschiedener Kanalzahl oder
+Abtastrate lassen sich überhaupt nicht hintereinanderlegen, und dann
+nennt der Eintrag die beiden Zahlen, die nicht zusammenpassen.
+
+Gesperrt ist der Eintrag wegen dessen, was er einmal gekostet hat. Von
+Hand über eine solche Lücke verbunden, stand der Unterschied als Stille
+in der zusammengelegten Datei, und kein späterer Schritt bekam ihn
+wieder heraus: Aus 40 Sekunden Ton wurden 5,95 GB, und der Sprecher war
+darin nicht mehr zu finden.
+
 Auf der Kommandozeile nennt `--together A B C` sie in dieser Reihenfolge
 und ist für mehrere wiederholbar; jeder Name bringt die Blöcke mit, die
 schon zu ihm gehören.

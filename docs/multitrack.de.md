@@ -92,10 +92,11 @@ Die untere Tabelle hat je Kamera eine Zeile: **Kamera**, **neue Datei
 heißt**, **bekommt Audio von** und **Kameraton**. Was eine Datei ist --
 Inhalt, Vorspann, Abspann oder ignoriert -- wird jetzt in der Dateiliste
 gefragt, in der Spalte **Typ**, beim Material, um das es geht. Ein Klick
-auf eine Zeile holt die Datei in den Player. Dateien, die nicht zur
-gemessenen Zeitachse passen, stehen in Rot, hier wie in der Dateiliste;
-eine Datei, die überhaupt keinen Platz hat, schlägt das Programm zum
-Weglassen vor.
+auf eine Zeile holt die Datei in den Player. Eine Datei, die überhaupt
+keinen Platz hat, steht in Rot, hier wie in der Dateiliste, und das
+Programm schlägt sie zum Weglassen vor. Eine Datei, deren Ton nicht
+erkannt wurde, die ihr Timecode aber zwischen die anderen setzt, ist
+vermerkt und behält ihren Platz.
 
 Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
 ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
@@ -320,11 +321,16 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   nicht gegen die Referenz messen, und eine Spur allein hat nichts mehr,
   wogegen sie liegen könnte. Die Zeilen darüber nennen jede einzelne und
   den Grund.
-- **Eine Zeile steht in Rot.** Der Ton dieser Datei passt zu schlecht
-  zu dem der anderen, um sie einzuordnen, sie bekommt also keinen Platz
-  auf der gemeinsamen Zeitachse. In der Spalte **Typ** der Dateiliste
-  den Eintrag **Video ignorieren** wählen oder die Datei mit
-  **Entfernen** aus der Liste nehmen.
+- **Eine Zeile ist vermerkt, und der Vermerk ist nicht rot.** Neben dem
+  Namen steht **Ton nicht erkannt; über den Timecode platziert**. Zu tun
+  ist nichts: Der Ton dieser Datei wurde nicht erkannt, ihre Uhr setzt
+  sie aber framegenau zwischen die anderen, und einer der beiden Wege zu
+  einem Platz genügt. Die Datei liegt auf der Achse und geht in den Lauf.
+- **Eine Zeile steht in Rot.** Diese Datei hat überhaupt keinen Platz:
+  Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und auch kein
+  Timecode ordnet sie zwischen die anderen ein. In der Spalte **Typ**
+  der Dateiliste den Eintrag **Video ignorieren** wählen oder die Datei
+  mit **Entfernen** aus der Liste nehmen.
 - **Eine Zeile steht von selbst auf Video ignorieren.** Diese Datei hat
   überhaupt keinen Platz: Ihr Ton hat mit dem übrigen Material nichts
   gemeinsam, und einen Timecode trägt sie auch nicht. Das Programm

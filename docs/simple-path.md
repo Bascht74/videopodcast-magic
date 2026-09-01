@@ -200,6 +200,30 @@ leaves the selector out on a recording that is itself joining into
 another: a chain of joins is not on offer. To undo it, choose **a
 recording of its own**.
 
+A recording that cannot be joined is not left out of the list. It stands
+there greyed and not pickable, and the reason stands on that entry: rest
+on it and it says how far the two clocks lie apart. More than half an
+hour of gap is too far for one recording:
+
+```
+    gap of 12:19:48 per timecode, too far apart for one recording --
+    joined by hand that difference goes into the file as silence, and
+    nothing later takes it out.
+```
+
+The other reading of a clock is an overlap -- `overlap of <time> per
+timecode` -- with the same sentence behind it. Both are checked only
+where the two sides carry a timecode. Without one there is nothing to
+check, and nothing is greyed. A third reason has nothing to do with the
+clocks: two files whose channel count or sample rate differ cannot be
+laid end to end at all, and the entry then names the two numbers that
+disagree.
+
+That entry is barred because of what it cost once. Joined by hand across
+such a gap, the difference went into the joined file as silence, and no
+later step took it out again: 40 seconds of sound became 5.95 GB, and
+the speaker was lost somewhere in it.
+
 On the command line `--together A B C` names them in that order and is
 repeatable for several; each name brings the blocks that already belong
 to it.

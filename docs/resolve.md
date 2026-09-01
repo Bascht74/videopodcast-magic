@@ -54,8 +54,11 @@ nobody is on: their camera stands and the wide shot breaks it up.
 Without that the multicam timeline stands alone: all cameras at their
 measured places, and Resolve makes the multicam clip from it.
 
-The program rounds the frame rate to one Resolve knows: ffprobe
-measures 29.994 or 30.001 for some files. The log says which rate it
+A reading that plainly means one of Resolve's rates is taken as that
+rate: ffprobe measures 29.994 or 30.001 for some files where the camera
+meant 29.97 or 30. A rate that is none of Resolve's stays the file's
+own -- a file at 15 frames counts fifteen frames to the second, and its
+timecode and its length are counted in that. The log says which rate it
 took. It computes timecodes with the whole-number rate and durations
 with the true one, and it takes drop frame into account.
 
@@ -85,13 +88,26 @@ separately, and reports it when even that fails.
 
 Cameras of different makes rarely agree on a frame rate: one writes 24
 frames a second, the next 25, the wide shot 30. **The timeline gets the
-highest rate found among the cameras.** Converted upwards Resolve
-repeats frames, converted downwards it throws them away, so the fastest
-camera sets the pace and no picture is lost. Intro and outro do not
-count -- they are finished clips, not cameras of this episode -- and a
-file set to **ignore this video** does not either. Where the rates
-differ the run says so under `DIFFERENT FRAME RATES` and names the rate
-it settled on.
+highest rate found among the cameras -- and where Resolve has no
+timeline at that rate, the next rate up that it does have.** Converted
+upwards Resolve repeats frames, converted downwards it throws them away,
+so the fastest camera sets the pace and no picture is lost. Above 120
+frames Resolve has nothing higher, so there the row ends and only there
+does it go down instead. Intro and outro do not count -- they are
+finished clips, not cameras of this episode -- and a file set to
+**ignore this video** does not either. Where the rates differ the run
+says so under `DIFFERENT FRAME RATES` and names the rate it settled on.
+
+Resolve has timelines only for a fixed row of rates, and a camera can
+run at one that is not in it -- 15 frames a second, say. **Such a camera
+is used all the same and not left out.** While the files are read the
+run names it and says that Resolve has no timeline for this rate and it
+is converted, not left out; the same note stands in the file list, on
+the **Video** line of the opened file. Measured against Resolve
+21.0.4.5: a camera at 15 beside cameras at 30 sits in that 30 timeline
+within half a frame of its own, with no gaps and the length exact. Were
+it there alone the timeline would be a 16 one, the next rate Resolve
+has above 15.
 
 Every camera keeps its own rate, and the cut counts frames in that one.
 Resolve reads the in and out point of a shot as frames of the file it

@@ -99,15 +99,15 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     **Vorspann**.
 
     Für diese beiden Sperren muss zweierlei zugleich zutreffen, keines
-    davon allein. Der Ton der Datei muss schlecht zum Rest passen — eine
-    solche Datei steht rot in der Liste — **und** kein Timecode darf sie
-    zwischen die anderen einordnen, wozu ein Timecode auf der Datei
-    gehört und einer auf etwas anderem im Material; eine einmal
-    abgelesene Uhr sagt nichts. Ein Jingle ist beides auf einmal: kein
-    Timecode, und im Ton nichts, was der Raum auch hat. Eine Kamera,
-    deren Mikrofon vom Raum nichts gehört hat, ist nur das erste, und
-    ihr eigener Timecode setzt sie weiterhin framegenau — sie behält
-    also die Wahl.
+    davon allein. Der Ton der Datei muss schlecht zum Rest passen **und**
+    kein Timecode darf sie zwischen die anderen einordnen, wozu ein
+    Timecode auf der Datei gehört und einer auf etwas anderem im
+    Material; eine einmal abgelesene Uhr sagt nichts. Ein Jingle ist
+    beides auf einmal: kein Timecode, und im Ton nichts, was der Raum
+    auch hat — er steht rot in der Liste. Eine Kamera, deren Mikrofon vom
+    Raum nichts gehört hat, ist nur das erste, und ihr eigener Timecode
+    setzt sie weiterhin framegenau — sie behält also die Wahl, und die
+    Liste schreibt das neben sie, statt sie rot zu färben.
 
   **Vorspann**, **Abspann** und **Video ignorieren** werden nie
   gesperrt. Das sind Antworten über die Datei selbst und haben nichts
@@ -278,6 +278,14 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   davon, also drei bis vier Bilder. Jetzt bleiben sie unter einem Bild.
   Auf welche Kamera geschnitten wird, war davon nie berührt: dafür war
   der Abstand viel zu klein.
+
+  Vorschau und Lauf behalten auch dieselben Kameras. Beide stellen an
+  eine Datei die eine Frage, an der es hängt -- hat sie überhaupt einen
+  Platz --, und darum steht eine Kamera, deren Ton nicht erkannt wurde,
+  die ihre Uhr aber zwischen die anderen setzt, im Band ebenso wie im
+  fertigen Projekt. Früher ließ das Band eine Kamera weg, die der Lauf
+  behielt, und die Legende darunter zählte dann eine Kamera weniger, als
+  aus Resolve herauskam.
 
   In derselben Zeile steht der Knopf **Sprecher jetzt messen** -- immer
   dann, wenn eine Spur weder von einer Trennung abgedeckt noch gemessen
@@ -613,15 +621,24 @@ jeder Recorder als gleichmäßig laufend, wovon das Programm vorher
 ohnehin ausgegangen ist. Mehr über die Projektdatei steht in
 [camera-cut.de.md](camera-cut.de.md).
 
-Die Messung unterscheidet drei Urteile. Eine Datei, deren Ton schlecht zu
-den anderen passt, steht in Rot. Eine Datei, die überhaupt keinen Platz
-hat -- ihr Ton hat mit dem übrigen Material nichts gemeinsam, und kein
-Timecode ordnet sie zwischen die anderen ein --, lässt sich nicht in die
-Folge hineinschneiden: In der Spalte **Typ** sind **Inhalt** und
-**Weitwinkel** für sie gesperrt, sie wird auf **Vorspann** gesetzt, und
-das Protokoll sagt, warum. Das ist kein Vorschlag, sondern eine
-Feststellung über das Material, und sie gilt, wie der **Typ** auch
-dorthin gekommen ist.
+Die Messung unterscheidet drei Urteile, und die Zeile sagt, welches es
+ist. **Zu einem Platz führen zwei Wege, der Ton und die Uhr, und einer
+davon genügt** -- daran entscheidet sich, was dort steht.
+
+Eine Datei, deren Ton nicht erkannt wurde, die ihr Timecode aber zwischen
+die anderen setzt, trägt den Vermerk **Ton nicht erkannt; über den
+Timecode platziert**. Sie liegt framegenau auf der Achse; es fehlt allein
+die Gegenprobe, und gesperrt ist für sie nichts.
+
+Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
+nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode. Der Ton
+ist nicht verwendbar.** und steht in Rot. Ihr Ton hat mit dem übrigen
+Material nichts gemeinsam, und kein Timecode ordnet sie zwischen die
+anderen ein; deshalb lässt sie sich nicht in die Folge hineinschneiden:
+In der Spalte **Typ** sind **Inhalt** und **Weitwinkel** für sie
+gesperrt, sie wird auf **Vorspann** gesetzt, und das Protokoll sagt,
+warum. Das ist kein Vorschlag, sondern eine Feststellung über das
+Material, und sie gilt, wie der **Typ** auch dorthin gekommen ist.
 
 War an einer solchen Datei überhaupt nichts zu messen, wird ihr
 stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag

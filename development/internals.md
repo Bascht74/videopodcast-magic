@@ -173,6 +173,37 @@ interface uses the same method in the background as the run itself.
 The spread of a file is read at five spots over it, two seconds each,
 from the packet timestamps in the container.
 
+**Two ways lead to a place and either one is enough**, and
+`cannot_be_placed` is the only reading of that: the timecode places a
+file (`timecode_places_it` -- one on the file and one on something else
+in the material), or the measurement does. Only where neither answers
+is the file refused.
+
+What decides whether a measurement answers is not the correlation.
+Measured over 85 pairs that belong together and 293 that do not, the
+correlation runs to 0.203 at worst for a true pair and 0.124 at best
+for a false one, so no threshold separates them -- a steady mains hum
+pushes it down without moving where the file belongs. `fit_places_it`
+reads the two numbers the fit already produced and throws away:
+how many sample points were set (`FIT_POINTS_ENOUGH`, 50) and how far
+they scatter (`FIT_SPREAD_MS`, 15 ms). Those give 85 of 85 and 0 of
+293. The camera-against-camera door in the window's measurement reads
+it, as the run's does.
+
+The window used to leave a file out where the run kept it, so the cut
+band showed one camera fewer than the finished project. It asks the
+same question now. A file the sound could not vouch for is still marked
+-- `weak` -- but it keeps the place its clock gave it, and only
+`no_place` bars anything. `weak_note` and `weak_colour` turn the two
+apart: warning colour and "sound not recognised; placed by its
+timecode" against error colour and "does not fit the other files".
+
+`speaker_source_pick` follows the same rule rather than one of its
+own. It leaves out only what has no place at all; a camera whose sound
+was not recognised may be the source of the separation. Measured on
+such a camera -- hum at 99.94 Hz sitting 51.7 dB over the speech -- two
+speakers in 90 seconds of it.
+
 ## What the preflight remembers a file by
 
 A measurement is filed under a fingerprint. The fingerprint is a sha1
@@ -287,6 +318,18 @@ calendar has to accept them. `Take_991399_120000` is not a date and is
 not read as one. Two names spelling the same moment cannot be told
 apart, so neither of them is taken, and that is said as well. `260808`
 and `20260808` are the same day.
+
+The "belongs to" chooser, which joins by hand what the search did not
+find, asks that same `_joins_seamlessly` before it offers a target.
+`join_barred` returns the ones it rules out and the reason, and
+`choices_shut` greys those entries instead of dropping them: the answer
+to "why can I not pick this" has to stand on the entry it is about.
+Only where both sides carry a timecode -- without one there is nothing
+to check, and that is what the chooser is for. `BLOCK_GAP_MAX_S` is the
+fence, half an hour, because a clock is set wrong by whole hours and
+half of the smallest of those catches every one while still letting a
+real pause through. Joined over a gap of 12:19:48 the difference went
+into the file as silence: 40 seconds of sound came out as 5.95 GB.
 
 ## How the colour tagging survives the copy
 
@@ -525,8 +568,9 @@ otherwise still have remote grades on.
 
 ## Which frame rate counts where
 
-Three rates have to be kept apart, and confusing two of them put every
-shot of a mixed-rate cut in the wrong place.
+Four rates have to be kept apart, and confusing two of them put every
+shot of a mixed-rate cut in the wrong place -- twice, on two different
+pairs.
 
 `timeline_frame_rate` says what the timeline runs at: the highest `fps`
 among the videos, with intro and outro dropped by path and a file set to
@@ -538,6 +582,40 @@ axis, and the log still names it as the longest running time -- that is
 a different question from the rate. Upwards Resolve repeats frames,
 downwards it throws every fifth one away, so taking the highest loses no
 picture.
+
+`resolve_timeline_rate` puts that answer onto a rate Resolve offers a
+timeline for. `RESOLVE_FRAME_RATES` holds the nineteen it has, read off
+Resolve's own list, and nothing else is a project rate: measured on
+21.0.4.5, 15 and 240 are refused, 16 and 120 are the two ends. So the
+next rate **up** is taken, never the nearest -- upwards costs repeated
+frames, downwards thrown-away ones -- and above 120 there is nothing
+higher, which is the one place it goes down instead.
+
+`known_frame_rate` answers which of those nineteen a reading means, or
+`None`. The fence is relative (`FRAME_RATE_TOLERANCE`, one per cent),
+because one frame at 120 is a fifth of one at 24: a container names its
+rate to within a millionth, an averaged reading strays a few
+ten-thousandths, and the nearest foreign rate lies four times further
+out than that.
+
+`own_frame_rate` is the rate a file's own frames are counted at, and it
+is not the same question. Where the reading means one of Resolve's
+rates, that is the answer; where it means none of them, **the reading
+itself is**, and it is not moved to the nearest. A 15 fps file counts
+fifteen frames to the second in its length, its timecode and its cut.
+Rounding a foreign rate here was the fault behind the whole change: one
+function answered both questions, so a 15 file had its timecode counted
+at 16 frames to the second. `frames_to_timecode` and `timecode_to_frames`
+go through `own_frame_rate` for that reason.
+
+Nothing is refused for its rate. The file is read, placed and cut like
+any other; only the timeline gets a rate Resolve has. Measured on
+21.0.4.5, a 15 file in a 30 timeline sits within half a source frame at
+every shot, with no gaps and the length exact; alone it gets a 16
+timeline and keeps its length to the millisecond. `video_summary` puts
+the note on the **Video** line of the file list where
+`known_frame_rate` is `None`, and the time-base step says the same at
+the file while it reads it.
 
 `startFrame` and `endFrame` of an appended clip are frames of the source
 file, counted at that file's own rate. Measured against Resolve

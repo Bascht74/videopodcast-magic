@@ -150,6 +150,7 @@ source_no_real_names	6
 source_numpy_comes_last	4
 source_reds_carry_value	6
 source_resolve_door_shut	9
+source_resolve_recalled	5
 source_skills_resolve	5
 source_test_names_swept	10
 table_audio_asked_for	60

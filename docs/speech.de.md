@@ -58,6 +58,15 @@ einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat, ist diese Spur
 die Wahrheit, und es gibt nichts zu trennen. Die Trennung sagt, wer wann
 spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
 
+Gibt es keine eigene Aufnahme, hört die Trennung den Ton einer Kamera
+ab. Auch eine Kamera, deren Ton zu schlecht zu den anderen passt, um sie
+danach einzuordnen, ist dafür zugelassen, solange ihr Timecode ihr einen
+Platz unter den anderen gibt; heraus bleibt nur eine Datei, die
+überhaupt keinen Platz hat. Denn was eine Trennung braucht, ist ein
+Platz auf der gemeinsamen Zeitachse, und den gibt eine Uhr ebenso wie
+ein wiedererkannter Ton -- wie gut der Kameraton ist, entscheidet hier
+nichts.
+
 **Woher jemand kommt, macht keinen Unterschied.** Wer zu hören ist, ist
 im Schnitt: eine Aufnahme mit einer Person darauf, der Ton einer Kamera
 mit einer Person darauf, eine Aufnahme, die sich mehrere teilen, und

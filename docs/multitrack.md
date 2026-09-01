@@ -88,9 +88,10 @@ The lower table has a row per camera: **Camera**, **new file name**,
 **gets audio from** and **Camera audio**. What a file is -- content,
 intro, outro or ignored -- is asked in the file list now, in the column
 **Kind**, with the material it is about. A click on a row fetches that
-file into the player. Files that do not fit the measured time axis stand
-in red, here as in the file list; a file that has no place at all the
-program proposes to leave out.
+file into the player. A file with no place at all stands red, here as in
+the file list, and the program proposes to leave it out. A file whose
+sound was not recognised but whose timecode still sets it among the
+others is marked and keeps its place.
 
 Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
@@ -301,10 +302,16 @@ masters to ([Preflight](preflight.md)).
 - **Only one track found a place.** The others could not be measured
   against the reference, and one track on its own has nothing left to
   lie against. The lines above name each one and why it was dropped.
-- **A row stands in red.** That file's sound fits the others too badly
-  to place it, so it gets no place on the common time axis. Pick
-  **ignore this video** in the column **Kind** of the file list, or take
-  the file out of the list with **Remove**.
+- **A row is marked, and the mark is not red.** Beside the name stands
+  **sound not recognised; placed by its timecode**. Nothing has to be
+  done: the sound of that file was not recognised, its clock places it
+  among the others to the frame, and one of the two ways to a place is
+  enough. The file lies on the axis and goes into the run.
+- **A row stands in red.** That file has no place at all: nothing in its
+  sound matches the rest of the material, and no timecode places it
+  among the others either. Pick **ignore this video** in the column
+  **Kind** of the file list, or take the file out of the list with
+  **Remove**.
 - **A row went to ignore this video by itself.** That file has no place
   at all: nothing in its sound matches the rest of the material, and it
   carries no timecode either. The program proposes leaving it out

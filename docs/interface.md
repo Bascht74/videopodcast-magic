@@ -89,14 +89,15 @@ Four tabs, in the order they are needed.
     its own accord.
 
     Two things have to hold together for those two bars, and neither of
-    them alone. The sound of the file has to fit the rest badly -- such a
-    file stands red in the list -- **and** no timecode may place it
-    among the others, which takes a timecode on the file and one on
-    something else in the material; a clock read once says nothing. A
-    jingle is both at once: no timecode, and nothing in its sound that
-    the room also has. A camera whose microphone heard nothing of the
-    room is only the first, and its own timecode still sets it to the
-    frame, so it keeps the choice.
+    them alone. The sound of the file has to fit the rest badly **and**
+    no timecode may place it among the others, which takes a timecode on
+    the file and one on something else in the material; a clock read
+    once says nothing. A jingle is both at once: no timecode, and
+    nothing in its sound that the room also has, and it stands red in
+    the list. A camera whose microphone heard nothing of the room is
+    only the first, and its own timecode still sets it to the frame, so
+    it keeps the choice -- and the list writes that beside it instead of
+    colouring it red.
 
   Intro, outro and leaving the file out are never barred. They are
   answers about the file itself and have nothing to do with who sits in
@@ -255,6 +256,13 @@ Four tabs, in the order they are needed.
   four frames -- away from the run's over an hour. They now stay inside
   a single frame. Which camera is cut to was never affected: the gap was
   far too small for that.
+
+  Preview and run also keep the same cameras. Both ask a file the one
+  question that decides it -- has it a place at all -- so a camera whose
+  sound was not recognised but whose clock sets it among the others
+  stands in the band as well as in the finished project. The band used
+  to drop a camera the run kept, and the legend under it then counted
+  one camera fewer than what came out of Resolve.
 
   In the same line stands **Measure speakers now** -- whenever a track
   is neither covered by a separation nor measured, and so beside a
@@ -574,13 +582,23 @@ kept still opens: every recorder in it then counts as running even,
 which is what the program assumed all along. More about the project file
 stands in [camera-cut.md](camera-cut.md).
 
-The measurement tells three verdicts apart. A file whose sound fits the
-others badly shows red. A file with no place at all -- its sound has
-nothing in common with the rest of the material, and no timecode puts it
-among the others -- cannot be cut into the episode: in the column
-**Kind**, **Content** and **Wide shot** are barred for it, it is set to
-**Intro**, and the log says why. That is not a proposal but a statement
-about the material, and it holds however the **Kind** got there.
+The measurement tells three verdicts apart, and the row says which one
+it is. **Two ways lead to a place, the sound and the clock, and one of
+them is enough** -- that is what the two lines turn on.
+
+A file whose sound was not recognised but whose timecode puts it among
+the others says **sound not recognised; placed by its timecode**. It
+lies on the axis to the frame; what is missing is only the second
+opinion, and nothing is barred for it.
+
+A file with no place at all says **does not fit the other files: sound
+not recognised, no timecode. Its sound cannot be used.** and stands red.
+Its sound has nothing in common with the rest of the material and no
+timecode puts it among the others, so it cannot be cut into the episode:
+in the column **Kind**, **Content** and **Wide shot** are barred for it,
+it is set to **Intro**, and the log says why. That is not a proposal but
+a statement about the material, and it holds however the **Kind** got
+there.
 
 Where nothing whatever could be measured of such a file, **ignore this
 video** is proposed for it instead. That is a proposal, like the ones
