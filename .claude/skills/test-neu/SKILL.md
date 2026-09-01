@@ -414,6 +414,18 @@ fingerprint, and the register then reports the test as rewritten since
 its counter-proof, whatever the change was meant to be. A split earns
 its entry again.
 
+**And a check whose name is computed hides from all of this.** The
+register collects the string constants inside the first argument, so
+`check("%s names this version" % name, ...)` leaves one wording for
+four checks -- and the row cannot say which of the four was ever seen
+red. Two such checks stood in `text_release_ready_test.py` for versions
+with no entry possible, and nothing said so: the ratchet counts tests
+missing a row, and that test had rows for its other checks.
+
+So **write the name out, once per check, even where a loop is
+shorter.** A loop over four file names is four lines saved and four
+counter-proofs lost.
+
 ---
 
 **The test is finished when the twelve points below have been answered
