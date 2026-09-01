@@ -4006,7 +4006,8 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
     """
     if not (state.get("speakers_local") and state.get("speakers_source")):
         return []
-    if state.get("speakers_words_of") != state.get("speakers_source"):
+    spoken = words_of_recording(state, state.get("speakers_source") or "")
+    if spoken is None:
         speech_words_kick_off(state, language, heard)
         return []
     marks = voice_marks_of(state)
@@ -4027,8 +4028,8 @@ def voice_suggest_round(state, voice_lines, assign_lines, camera_lines,
          for row, _nv, cv in assign_lines
          if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])],
         [camera_start_of(b) for b, _n, _own, _flag in camera_lines], length)
-    order = voice_window_order(tracks, state.get("speakers_words") or [],
-                              offset, origin, in_point, out_point)
+    order = voice_window_order(tracks, spoken, offset, origin,
+                               in_point, out_point)
     named, silent = voice_proposals(order, [k for k, _p in tracks])
     return voice_proposal_apply(voice_lines, named, silent, marks, source)
 
@@ -9705,6 +9706,13 @@ def separation_source_of_run(args, tracks, video_paths):
                                camera_audio=from_cameras)
 
 
+def voices_reported(segments):
+    """Say who speaks how long, and in how many passages."""
+    for name, segs in segments:
+        print(T('  %-20s %s in %d passages')
+              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
+
+
 def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     """Work out who speaks when, before the audio is processed.
 
@@ -9742,7 +9750,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             if not speaker_split_available():
                 print(T('  The environment for it is not here yet: about '
                         '%d MB are fetched now.') % SPEAKER_SETUP_MB)
-        if getattr(args, "dry_run", False):
+        # A separation already on this machine costs nothing to read,
+        # so a dry run hands it on instead of stopping here. Only a
+        # measurement that would have to be made is left undone.
+        if getattr(args, "dry_run", False) and not stored:
             print(T('  (measuring only: nothing separated)'))
             return [], ""
         if not stored and not speaker_split_available():
@@ -9773,6 +9784,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         print(as_warn(T('  The speaker separation is not used: %s.')
                       % why_not))
         return [], ""
+    if getattr(args, "dry_run", False):
+        # A dry run stops before the cut is built, so what the voices
+        # amount to is said here or nowhere.
+        voices_reported(out)
     return out, where_from
 
 
@@ -9836,9 +9851,7 @@ def speakers_for_the_cut(args, tracks):
         keep = set(t["name"] for t in left)
         voices = list(voices) + [(n, s) for n, s in mics if n in keep]
     segments = voices_merged(voices)
-    for name, segs in segments:
-        print(T('  %-20s %s in %d passages')
-              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
+    voices_reported(segments)
     # A run that quietly holds fewer speakers than the sheet did costs
     # hours to find, so whoever is missing is named here.
     in_cut = set(name for name, _segs in segments)
@@ -18024,19 +18037,18 @@ def whisper_words(audio_path, language="", install=True):
 WORD_WAYS = (("macos", "macOS"), ("whisper", WHISPER_MODEL))
 
 
-def words_cache_key(path, language, way):
+def words_cache_key(mark, language, way):
     """The name a written-down recording lives under.
 
-    Path, mtime and size say whether it is still the same recording.
-    The language and the way belong in it as well: the same file in
-    another language gives other words, and the two recognisers do
-    not write the same ones either.
+    What the recording holds decides, not where it lies: the run mixes
+    into a folder of its own every time, so a key on the path would
+    never meet itself. The language and the way belong in it as well:
+    the same recording in another language gives other words, and the
+    two recognisers do not write the same ones either.
     """
-    mark = file_fingerprint(path)
     if not mark:
         return ""
-    parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
-             (language or "").lower(), way or ""]
+    parts = [mark, (language or "").lower(), way or ""]
     return hashlib.sha1(
         "\n".join(parts).encode("utf-8")).hexdigest()[:16]
 
@@ -18047,13 +18059,13 @@ def words_cache_file(key):
     return os.path.join(folder, key + ".json") if folder and key else None
 
 
-def words_cache_read(path, language, way):
-    """The words stored for this recording, or None to listen again.
+def words_cache_read(mark, language, way):
+    """The words stored under this mark, or None to listen again.
 
     An empty list is an answer, not a miss: a recording nobody spoke
     in was listened to and gave nothing.
     """
-    file_path = words_cache_file(words_cache_key(path, language, way))
+    file_path = words_cache_file(words_cache_key(mark, language, way))
     if not file_path or not os.path.exists(file_path):
         return None
     try:
@@ -18065,9 +18077,9 @@ def words_cache_read(path, language, way):
     return words if isinstance(words, list) else None
 
 
-def words_cache_write(path, language, way, words):
+def words_cache_write(mark, language, way, words):
     """Store what was heard so the next start need not listen again."""
-    file_path = words_cache_file(words_cache_key(path, language, way))
+    file_path = words_cache_file(words_cache_key(mark, language, way))
     if not file_path:
         return
     d = {"when": time.time(), "version": VERSION,
@@ -18086,15 +18098,17 @@ def words_cache_write(path, language, way, words):
         print(T('  %s could not be written: %s') % (file_path, e))
 
 
-def words_stored(audio_path, language, ways):
+def words_stored(mark, language, ways):
     """Words already written down here, and the way they came from.
 
     The ways are asked in the order the recognition itself would take
     them, so a stored answer is the one that machine would have given
-    anyway. Returns (words, way), (None, "") for nothing stored.
+    anyway. The mark comes in rather than being made here: reading the
+    recording once per way would double what the store costs. Returns
+    (words, way), (None, "") for nothing stored.
     """
     for way in ways:
-        words = words_cache_read(audio_path, language, way)
+        words = words_cache_read(mark, language, way)
         if words is not None:
             return words, way
     return None, ""
@@ -18113,8 +18127,9 @@ def recognise_speech(audio_path, language="", way=""):
     exists on this machine.
     """
     started = time.time()
+    mark = file_content_mark(audio_path)
     words, took = words_stored(
-        audio_path, language,
+        mark, language,
         [name for wanted, name in WORD_WAYS if way in ("", wanted)])
     if words is not None:
         print(T('  Speech recognition (%s): %s words, read back')
@@ -18131,7 +18146,7 @@ def recognise_speech(audio_path, language="", way=""):
         print(T('  No speech recognition on this machine: macOS 26 '
                 'brings one, otherwise faster-whisper is installed.'))
         return None, ""
-    words_cache_write(audio_path, language, took, words)
+    words_cache_write(mark, language, took, words)
     print(T('  Speech recognition (%s): %s words in %.1f s')
           % (took, group_text(len(words)), time.time() - started))
     return words, took
@@ -18151,7 +18166,8 @@ def words_at_hand(audio_path, language=""):
     Returns the words, [] where this machine cannot listen.
     """
     started = time.time()
-    words, took = words_stored(audio_path, language,
+    mark = file_content_mark(audio_path)
+    words, took = words_stored(mark, language,
                                [name for _wanted, name in WORD_WAYS])
     if words is not None:
         print(T('  Speech recognition (%s): %s words, read back')
@@ -18164,7 +18180,7 @@ def words_at_hand(audio_path, language=""):
         took = WHISPER_MODEL
     if words is None:
         return []
-    words_cache_write(audio_path, language, took, words)
+    words_cache_write(mark, language, took, words)
     print(T('  Speech recognition (%s): %s words in %.1f s')
           % (took, group_text(len(words)), time.time() - started))
     return words
@@ -18191,8 +18207,14 @@ def speech_words_kick_off(state, language="", done=None, source=""):
     it installs nothing and fetches nothing -- words_at_hand says why.
     """
     source = source or state.get("speakers_source") or ""
-    if not source or not done or state.get("speakers_words_of") == source:
+    listening = state.setdefault("speakers_words_now", set())
+    # A recording still being written down is not started again: a
+    # second separation moves what the window waits for, and without
+    # this the round after it would set the same recogniser going twice.
+    if (not source or not done or source in listening
+            or state.get("speakers_words_of") == source):
         return
+    listening.add(source)
     state["speakers_words_of"] = source
     state["speakers_words"] = []
     threading.Thread(target=speech_words_work,
@@ -18202,14 +18224,46 @@ def speech_words_kick_off(state, language="", done=None, source=""):
 def speech_words_done(state, result, wake):
     """The words came back; keep them where they still belong.
 
-    Against the recording they were asked for, not against the one in
-    front: they may arrive before its separation does.
+    Every recording keeps its own, so a second separation does not
+    throw away what was heard in the first. In front stand the words
+    of the recording that was asked about, not of the one being
+    separated: they may arrive before its separation does.
     """
     source, words = result
+    state.setdefault("speakers_words_by", {})[source] = list(words or ())
+    (state.get("speakers_words_now") or set()).discard(source)
     if source != (state.get("speakers_words_of") or ""):
         return
     state["speakers_words"] = words or []
     wake()
+
+
+def words_forgotten(state):
+    """Forget what was written down in the recordings just let go.
+
+    Carried over, the next production would be built on what was said
+    in the last one's.
+    """
+    for name in ("speakers_words", "speakers_words_of",
+                 "speakers_words_by", "speakers_words_now"):
+        state.pop(name, None)
+
+
+def words_of_recording(state, source):
+    """What was written down in that recording, None where nothing was.
+
+    The recording on the sheet is not always the one being listened
+    to: a second separation asks for its own words while the first is
+    still what the preview is built from.
+    """
+    if not source:
+        return None
+    by = state.get("speakers_words_by") or {}
+    if source in by:
+        return by[source]
+    if source == (state.get("speakers_words_of") or ""):
+        return state.get("speakers_words") or []
+    return None
 
 
 # =====================================================================
@@ -32411,12 +32465,9 @@ def gui():
         channel_choice.clear()
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
-                     "result_folder", "resolve_json",
-                     # The words of the old recording, and what was
-                     # answered about its voices. Carried over, the
-                     # next production would be named after this one.
-                     "speakers_words", "speakers_words_of", "voice_marks"):
+                     "result_folder", "resolve_json", "voice_marks"):
             state.pop(name, None)
+        words_forgotten(state)
         # Emptied, not taken away: the time axis is read by name in
         # several places, and a missing key there is a KeyError rather
         # than an empty axis.

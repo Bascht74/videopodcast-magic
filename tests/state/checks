@@ -81,7 +81,7 @@ files_named_by_folder	27
 files_old_file_refused	30
 files_only_window_kept	16
 files_order_kept	7
-files_probed_once	40
+files_probed_once	59
 files_project_first	14
 files_project_offered	35
 files_set_aside_skipped	14
@@ -105,6 +105,7 @@ project_two_timelines_go	16
 run_bar_never_falls	13
 run_bar_tracks_work	29
 run_command_built	62
+run_dry_reports_voices	12
 run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	47
@@ -142,6 +143,7 @@ source_limits_hold	14
 source_no_loose_ends	9
 source_numpy_comes_last	4
 source_reds_carry_value	6
+source_resolve_door_shut	9
 source_skills_resolve	5
 source_test_names_swept	7
 table_audio_asked_for	60
