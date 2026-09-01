@@ -9373,13 +9373,16 @@ def check_written_file(target, items, n_camera, args, fps):
     try:
         HOP, rate = 5.0, 4000
         duration = float(ffprobe_json(target).get("format", {}).get("duration") or 0)
-        env_fresh = envelope(decode_audio_long(target, rate, duration,
-                                           T('Check: %s') % items[index_number][0],
-                                           stream=index_number), HOP, rate)
-        env_cam = envelope(decode_audio_long(target, rate, duration,
-                                           T('Check: camera track'),
-                                           stream=len(items)), HOP, rate)
-        k, g = cross_correlate(env_cam, env_fresh)
+        fresh, cam = decode_audio_tracks(
+            target, rate, duration,
+            T('Check: %s and camera track') % items[index_number][0],
+            [index_number, len(items)])
+        if not len(fresh) or not len(cam):
+            print(T('  Check:           one of the two tracks is not in the '
+                    'written file, so nothing was measured.'))
+            return
+        k, g = cross_correlate(envelope(cam, HOP, rate),
+                               envelope(fresh, HOP, rate))
     except Exception as e:
         print(T('  Check:           not possible (%s)') % e)
         return
@@ -15719,15 +15722,31 @@ def decode_audio_long(path, rate, duration, text, stream=None, report=None):
     Reading a 30 GB file once takes minutes, and a blinking cursor is not
     enough feedback for that.
     """
-    fd, raw = tempfile.mkstemp(suffix=".raw")
-    os.close(fd)
+    return decode_audio_tracks(path, rate, duration, text, [stream],
+                               report)[0]
+
+
+def decode_audio_tracks(path, rate, duration, text, streams, report=None):
+    """Decode several tracks of one file in one pass over the container.
+
+    Asking track by track reads a 36 GB camera file once per track, and
+    off a drive that pass is the whole of the waiting; one ffmpeg with a
+    -map per track reads it once. One process has one progress stream,
+    so the text has to name every track that pass is fetching.
+    """
+    cmd = ["ffmpeg", "-v", "error", "-nostats", "-progress", "pipe:1",
+           "-i", path]
+    raws = []
+    for stream in streams:
+        fd, raw = tempfile.mkstemp(suffix=".raw")
+        os.close(fd)
+        raws.append(raw)
+        if stream is not None:
+            cmd += ["-map", "0:a:%d" % stream]
+        cmd += ["-ac", "1", "-ar", str(rate), "-f", "f32le", "-y", raw]
     try:
-        proc = subprocess.Popen(
-            ["ffmpeg", "-v", "error", "-nostats", "-progress", "pipe:1",
-             "-i", path]
-            + (["-map", "0:a:%d" % stream] if stream is not None else [])
-            + ["-ac", "1", "-ar", str(rate), "-f", "f32le", "-y", raw],
-            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL)
+        proc = subprocess.Popen(cmd, stdout=subprocess.PIPE,
+                                stderr=subprocess.DEVNULL)
         points = 0
         for line in proc.stdout:
             share = progress_from_line(line, duration)
@@ -15752,12 +15771,11 @@ def decode_audio_long(path, rate, duration, text, stream=None, report=None):
                     OUTPUT_SINK("\n")
                 else:
                     sys.stdout.write("\n")
-        return np.fromfile(raw, dtype=np.float32).astype(np.float64)
+        return [np.fromfile(raw, dtype=np.float32).astype(np.float64)
+                for raw in raws]
     finally:
-        try:
-            os.unlink(raw)
-        except OSError:
-            pass
+        for raw in raws:
+            remove_quietly(raw)
 
 
 def cache_folder(sub=""):
@@ -34511,6 +34529,10 @@ CATALOGUE["de"] = {
         '  %s ist schon da -- nicht zweimal geholt',
     'The text for %s could not be fetched.':
         'Der Text zu %s ließ sich nicht holen.',
+    '  Check:           one of the two tracks is not in the written file, '
+    'so nothing was measured.':
+        '  Kontrolle:       eine der beiden Spuren ist nicht in der '
+        'geschriebenen Datei, es wurde nichts gemessen.',
     '  Check:           the two tracks cannot be compared (match %.2f, '
     '%.2f is the floor). This says nothing about the timing.':
         '  Prüfung:         die beiden Spuren lassen sich nicht '
@@ -36338,10 +36360,8 @@ CATALOGUE["de"] = {
         'Abbrechen',
     'Capture curve':
         'Aufnahmekurve',
-    'Check: %s':
-        'Kontrolle: %s',
-    'Check: camera track':
-        'Kontrolle: Kameraspur',
+    'Check: %s and camera track':
+        'Kontrolle: %s und Kameraspur',
     'Codec profile':
         'Codecprofil',
     'Colour tag':

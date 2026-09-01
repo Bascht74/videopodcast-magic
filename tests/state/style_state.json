@@ -52,7 +52,6 @@
   "check_crosstalk": [1, 19004],
   "check_disk_space": [1, 19092],
   "create_colour_groups": [2, 11980],
-  "decode_audio_long": [1, 15204],
   "desktop_is_dark": [1, 779],
   "extract_audio_from_video": [1, 8159],
   "fetch_model": [1, 17295],
