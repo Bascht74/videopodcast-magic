@@ -79,6 +79,7 @@ files_left_out_named	7
 files_lengths_summed	6
 files_named_by_folder	27
 files_old_file_refused	30
+files_only_window_kept	16
 files_order_kept	7
 files_probed_once	40
 files_project_first	14
@@ -109,7 +110,7 @@ run_odd_clock_named	17
 run_only_newer_offered	47
 run_prework_listed	43
 run_simple_path_agrees	26
-run_space_has_margin	16
+run_space_has_margin	17
 run_stays_local	20
 run_switch_changes_it	12
 run_switch_has_effect	8
@@ -170,9 +171,9 @@ time_fit_reports	7
 time_guess_refused	50
 time_length_is_in_to_out	23
 time_offset_found	6
-time_one_track_aligned	42
+time_one_track_aligned	43
 time_over_midnight	9
-time_sound_stays_put	29
+time_sound_stays_put	31
 time_tracks_alone	27
 time_tracks_sit_together	4
 time_window_is_shared	11

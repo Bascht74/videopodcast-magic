@@ -1320,6 +1320,21 @@ def is_drop_frame(tc):
     return ";" in str(tc or "")
 
 
+def timecode_moved(tc, by_s, fps=30.0):
+    """A timecode string moved on by *by_s* seconds.
+
+    Cutting a head off a camera moves the moment its first frame was
+    taken, and whoever plays the file reads that moment off the
+    timecode. The semicolon of drop frame is kept: losing it turns the
+    same frame into a different time of day for whoever reads it.
+    """
+    moved = timecode_string(parse_timecode(tc, fps) + by_s, fps)
+    if is_drop_frame(tc):
+        head, _sep, frames = moved.rpartition(":")
+        moved = head + ";" + frames
+    return moved
+
+
 def build_ixml(name, tr, fps, bits=24, channels=1, df=False):
     """Build the iXML block for one track.
 
@@ -6303,16 +6318,66 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
     return assignment
 
 
+# What a camera carries beyond the time window at each end. The run's
+# own cross-check calls an offset wrong past a single frame, so a second
+# is more than twenty times the error it tolerates -- and at the front
+# the key frame the copy has to start on usually swallows it anyway.
+CAMERA_MARGIN_S = 1.0
+
+
+def key_frame_at_or_before(video, when):
+    """Where the last key frame at or before *when* seconds sits.
+
+    A stream copy that starts between two key frames takes the picture
+    from the key frame before it while the sound starts where it was
+    asked, and the two then sit up to one group of pictures apart. So
+    the cut goes back to a key frame, never forward. Nothing found means
+    0.0, which cuts nothing off the front.
+    """
+    if when <= 0:
+        return 0.0
+    for reach in (10.0, 120.0, 1200.0):
+        begin = max(0.0, when - reach)
+        try:
+            p = subprocess.run(
+                ["ffprobe", "-v", "error", "-select_streams", "v:0",
+                 "-skip_frame", "nokey", "-show_entries", "frame=pts_time",
+                 "-of", "csv=p=0", "-read_intervals",
+                 "%.3f%%%.3f" % (begin, when + 0.001), video],
+                capture_output=True, timeout=300)
+        except Exception as e:
+            print(T('  Key frames of %s cannot be read (%s) -- the whole '
+                    'camera is written.')
+                  % (os.path.basename(video), str(e)[:60]))
+            return 0.0
+        found = []
+        for line in p.stdout.decode("utf-8", "replace").splitlines():
+            try:
+                seconds = float(line.strip().rstrip(","))
+            except ValueError:
+                continue
+            if seconds <= when + 1e-6:
+                found.append(seconds)
+        if found:
+            return max(found)
+        if begin <= 0:
+            break
+    return 0.0
+
+
 def write_camera_file(video, info, audio_tracks, target, a, b, drift, args,
-                 head_s=0, tail_s=0):
+                 head_s=0, tail_s=0, cut_at=0.0, keep_s=None):
     """Write a new video file carrying several audio tracks.
 
     *audio_tracks* is a list of (name, path). They all sit on the same
     axis and get the same offset and clock correction, so they stay as
     precisely aligned to each other as they were. *head_s* and *tail_s*
     trim samples from the front and back before the offset is applied.
+    *cut_at* and *keep_s* say which stretch of the camera is written;
+    *a* then counts from there, and the timecode moves with it.
     """
-    n_video = int(round(info["duration"] * SR))
+    kept = keep_s if keep_s else info["duration"] - cut_at
+    n_video = int(round(kept * SR))
     if drift and abs(b - 1.0) > 1e-7:
         intro = rate_filter_chain(b) + ","
         k = int(round(a / b * SR))
@@ -6320,7 +6385,14 @@ def write_camera_file(video, info, audio_tracks, target, a, b, drift, args,
         intro, k = "", int(round(a * SR))
     cut = ("atrim=start_sample=%d,asetpts=N/SR/TB," % k) if k > 0 else\
               ("adelay=delays=%dS:all=1," % (-k)) if k < 0 else ""
-    cmd = ["ffmpeg", "-v", "warning", "-nostats", "-i", video]
+    cmd = ["ffmpeg", "-v", "warning", "-nostats"]
+    # Both in front of the input, so they cut the camera alone: the
+    # tracks that follow are inputs of their own and keep their length.
+    if cut_at > 0:
+        cmd += ["-ss", "%.6f" % cut_at]
+    if keep_s:
+        cmd += ["-t", "%.6f" % keep_s]
+    cmd += ["-i", video]
     chains, map_args = [], ["-map", "0:v"]
     for i, (_, file_path) in enumerate(audio_tracks):
         cmd += ["-i", file_path]
@@ -6364,9 +6436,13 @@ def write_camera_file(video, info, audio_tracks, target, a, b, drift, args,
         if args.speech_language_camera:
             cmd += ["-metadata:s:a:%d" % j, "language=%s" % args.speech_language_camera]
     if info["tc"]:
-        cmd += ["-timecode", info["tc"]]
+        # ffmpeg carries the source timecode through unchanged however
+        # much is cut off the front, so the moved one has to be written
+        # here. Whoever plays the file reads the camera's place off it.
+        cmd += ["-timecode", timecode_moved(info["tc"], cut_at,
+                                            max(1.0, info["fps"]))]
     cmd += ["-y", target]
-    run_ffmpeg_with_progress(cmd, info["duration"],
+    run_ffmpeg_with_progress(cmd, kept,
                               T('Writing %s') % os.path.basename(target))
 
 
@@ -9922,6 +9998,15 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         taken.add(target.lower())
         output_path[_v] = (outdir, target)
     results, error = [], 0
+    lengths = {}          # output file -> running time delivered
+    # An In or Out point is what makes the cameras carry a stretch
+    # rather than the whole shoot. Without one they stay as they were,
+    # so a run that sets no window writes exactly what it wrote before.
+    window_s = (t1 - t0 if t1 is not None
+                and ((getattr(args, "in_point", None) or "").strip()
+                     or (getattr(args, "out_point", None) or "").strip())
+                else None)
+
     def one_camera(v, info, share):
         """Finish one camera: measure, write, verify.
 
@@ -10007,9 +10092,22 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         print()
         outdir, target = output_path[v]
         os.makedirs(outdir, exist_ok=True)
+        # What lies before the In point and after the Out point appears
+        # in no cut, and on a long shoot it is the bulk of the file. So
+        # the camera is written from the key frame before the window to
+        # a margin past its end; without a window nothing is cut.
+        cut_at, keep_s = 0.0, None
+        if window_s is not None:
+            first = max(0.0, -a - CAMERA_MARGIN_S)
+            last = min(info["duration"], window_s - a + CAMERA_MARGIN_S)
+            cut_at = key_frame_at_or_before(v, first)
+            if cut_at > 0 or last < info["duration"] - 0.001:
+                keep_s = max(1.0, last - cut_at)
+                a += cut_at
         share.segment(0.30, 0.85)
         try:
-            write_camera_file(v, info, items, target, a, b, drift, args)
+            write_camera_file(v, info, items, target, a, b, drift, args,
+                              cut_at=cut_at, keep_s=keep_s)
         except Exception as e:
             print(as_bad(T('  Error while writing: %s') % e))
             return None
@@ -10020,10 +10118,15 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print(T('  Audio track %d:   %s') % (len(items) + 1,
                                               args.name_camera))
         if info["tc"]:
-            print("  Timecode:        %s" % info["tc"])
+            print("  Timecode:        %s" % timecode_moved(info["tc"], cut_at,
+                                                           fps))
+        if keep_s:
+            print(T('  Time window:     %s of %s written, from %s of the '
+                    'camera') % (as_hms(keep_s), as_hms(info["duration"]),
+                                 as_hms(cut_at)))
         share.segment(0.85, 1.0)
         finish_camera_file(v, info, target, items, args, fps)
-        return target, track_names, a
+        return target, track_names, a, (keep_s or info["duration"])
 
     # The expensive part is the cross-check, and that only computes. ffmpeg
     # merely copies the picture and waits on the disk. Together they saturate
@@ -10061,9 +10164,10 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                 if what is None:
                     error += 1
                     continue
-                target, names, offset = what
+                target, names, offset, delivered = what
                 track_names[target] = names
                 offsets[target] = offset   # camera position in the window
+                lengths[target] = delivered
                 results.append(target)
     finally:
         sys.stdout = old_off
@@ -10123,6 +10227,15 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print("  %s" % path)
         for path in stored:
             print("  %s" % path)
+        # What is in the folder is no longer the whole shoot, and that is
+        # worth a sentence: whoever wants more of it than the window
+        # holds sets the In and Out point wider and runs again.
+        if window_s is not None and lengths:
+            print(T('  The cameras carry the time window and a second at '
+                    'each end: %s written for %s of the %s recorded.')
+                  % (as_data_size(sum(size_in_mb(p) for p in results)),
+                     as_hms(sum(lengths.values())),
+                     as_hms(sum(i["duration"] for _v, i in videos))))
 
     # The last stage: the cut list, the handover, the result. The bar
     # lists it, so it is announced here too.
@@ -10177,7 +10290,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results, cut, segment_list,
                       t1 - t0 if t1 is not None else 0, track_names,
-                      single_files, offsets, words=heard_words(),
+                      single_files, offsets, lengths, words=heard_words(),
                       unplaceable=[cam["video"] for cam in cameras
                                    if path_key(cam["video"])
                                    not in placed_cameras])
@@ -13410,7 +13523,7 @@ def camera_place(files, zero, measured, fps=30.0):
 def write_handover(args, tracks, cameras, videos, folder, tc_start,
                       ref_clip, results=None, cut=None, segment_list=None,
                       length=0.0, track_names=None, single_files=None,
-                      offsets=None, words=(), unplaceable=()):
+                      offsets=None, lengths=None, words=(), unplaceable=()):
     """Write everything Resolve needs: the handover file and instructions.
 
     The Resolve scripting interface has no multicam: the word does not
@@ -13494,15 +13607,19 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             "audio_tracks": (track_names or {}).get(file, []),
             # Where this camera sits: position in the file is
             # programme time minus this. The rendered file carries the
-            # camera's own timecode and its untouched picture, so
-            # camera_place reads it off that.
+            # timecode of its own first frame, moved with whatever a
+            # window cut off the head, so camera_place reads it there.
             "offset": round(camera_place((file, v), tc_start, shift, fps), 4),
             # Not the camera's place: where the shared sound sits
-            # against this camera's picture, with its sign turned round.
-            # Kept because it is what the alignment measured, and named
-            # so that nobody takes it for a place again.
+            # against the delivered picture, with its sign turned round.
+            # It is what camera_place falls back on where no file in the
+            # row carries a timecode, and named so nobody reads a place.
             "sound_against_picture": round(shift, 4),
-            "duration": round(takes.get(v, 0.0), 3),
+            # How long the delivered file is, not the recording: a
+            # window makes it shorter, and the cut timeline drops every
+            # shot that runs past what this says.
+            "duration": round((lengths or {}).get(file)
+                              or takes.get(v, 0.0), 3),
             # Two answers, and they are not the same question. "wide" is
             # what the colour and the mix source read: nobody is
             # assigned here. "wide_marked" is what somebody said in the
@@ -20639,12 +20756,30 @@ def on_one_disk(one, other):
         return False
 
 
-def check_disk_space(target_folder, audio_paths, video_paths, multitrack):
+def window_from_points(args, fps=30.0):
+    """How long the delivered cameras are, out of In point and Out point.
+
+    Only where both are given and count the same way is the length known
+    before the axis has been measured. One point alone leaves the other
+    end open, and then the answer is None and nothing is scaled.
+    """
+    begin, begin_abs = parse_time_point(getattr(args, "in_point", None) or "",
+                                        fps)
+    end, end_abs = parse_time_point(getattr(args, "out_point", None) or "", fps)
+    if begin is None or end is None or begin_abs != end_abs or end <= begin:
+        return None
+    return end - begin
+
+
+def check_disk_space(target_folder, audio_paths, video_paths, multitrack,
+                        window_s=None):
     """Report whether there is enough disk space for what will be created.
 
     Roughly calculated but erring upward: every camera is copied and gets
     audio tracks added, plus the processed tracks and the mix. Better to
-    overestimate than to stop halfway.
+    overestimate than to stop halfway. *window_s* shortens the cameras,
+    so the estimate follows it -- generously, or a run that fits is
+    refused.
     """
     folder = target_folder or (os.path.dirname(os.path.abspath(video_paths[0]))
                             if video_paths else os.getcwd())
@@ -20657,7 +20792,21 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack):
         free = shutil.disk_usage(folder or ".").free / 1e6
     except Exception:
         return []
-    video_mb = sum(os.path.getsize(p) for p in video_paths) / 1e6
+    # With a window each camera carries that stretch and no more, so it
+    # shrinks by its own share and not by the longest camera's -- a short
+    # camera gives up far less of itself than a long one.
+    video_mb, delivered = 0.0, 0.0
+    for p in video_paths:
+        try:
+            running = float((ffprobe_json(p).get("format")
+                             or {}).get("duration") or 0.0)
+        except Exception:
+            running = 0.0
+        share = 1.0
+        if window_s and running > 0:
+            share = min(1.0, (window_s + 4 * CAMERA_MARGIN_S) / running)
+        delivered = max(delivered, running * share)
+        video_mb += os.path.getsize(p) / 1e6 * share
     audio_mb = sum(os.path.getsize(p) for p in audio_paths) / 1e6
     # The picture is copied unchanged; what grows the file is the audio,
     # and it is written uncompressed: 48 kHz, 24 bit, two channels are
@@ -20665,20 +20814,13 @@ def check_disk_space(target_folder, audio_paths, video_paths, multitrack):
     # given audio files was far too low wherever the cameras bring their
     # own sound and no separate recording exists at all.
     per_second = 48000 * 3 * 2 / 1e6
-    longest = 0.0
-    for p in video_paths:
-        try:
-            longest = max(longest, float((ffprobe_json(p).get("format")
-                                          or {}).get("duration") or 0.0))
-        except Exception:
-            pass
     if multitrack:
         # Every camera carries its own mix, its speakers, the overall mix
         # and the camera original. Two plus the speakers is the upper end.
         per_camera = 2 + (len(audio_paths) or 1)
     else:
         per_camera = 2
-    added = longest * per_second * per_camera * max(1, len(video_paths))
+    added = delivered * per_second * per_camera * max(1, len(video_paths))
     # The processed tracks come back and are mixed once more.
     needed = video_mb * 1.05 + added + audio_mb * (3.0 if multitrack else 2.0)
     # The temporary files go into the system temp folder, and where that
@@ -21094,7 +21236,8 @@ def run_preflight(args, audio_paths, video_paths):
     # These two depend not on the material but on the call and the machine, so
     # they are determined afresh every time.
     findings += check_disk_space(getattr(args, "out", None), audio_paths, video_paths,
-                             bool(getattr(args, "multitrack", False)))
+                             bool(getattr(args, "multitrack", False)),
+                             window_from_points(args))
     findings += check_loudness_target(args, video_paths)
     return 1 if report_findings(findings, T('does the material fit together?'),
                                getattr(args, "anyway", False)) else 0
@@ -34193,6 +34336,10 @@ CATALOGUE["de"] = {
         '  Es gibt sie schon, mit denselben Kameras in derselben '
         'Reihenfolge --\n  sie bleibt unangetastet. Wer sie neu will, '
         'löscht sie in Resolve.',
+    '  Key frames of %s cannot be read (%s) -- the whole camera is '
+    'written.':
+        '  Keyframes von %s nicht lesbar (%s) -- die Kamera wird ganz '
+        'geschrieben.',
     '  Level curve not possible (%s) -- without limiter':
         '  Pegelkurve nicht möglich (%s) -- ohne Limiter',
     '  Limiter:           at most %.1f dB, the same curve on every track%s':
@@ -34322,6 +34469,10 @@ CATALOGUE["de"] = {
         '  Der Full-Mix ließ sich nicht importieren.',
     '  The Full-Mix could not be inserted.':
         '  Der Full-Mix ließ sich nicht einfügen.',
+    '  The cameras carry the time window and a second at each end: %s '
+    'written for %s of the %s recorded.':
+        '  Die Kameras tragen das Zeitfenster und je eine Sekunde davor '
+        'und danach: %s geschrieben für %s der aufgenommenen %s.',
     '  The cameras lie close together (at most %.0f steps of brightness).':
         '  Die Kameras liegen dicht beieinander (höchstens %.0f Stufen '
         'Helligkeit).',
@@ -34345,6 +34496,8 @@ CATALOGUE["de"] = {
         '  Dort sind es %d Spuren, hier %d -- das passt nicht zusammen.',
     '  This camera could not be placed -- skipped':
         '  Kamera ließ sich nicht einordnen -- übersprungen',
+    '  Time window:     %s of %s written, from %s of the camera':
+        '  Zeitfenster:     %s von %s geschrieben, ab %s der Kamera',
     '  Timecode %s written as bext and iXML (reference: %s)':
         '  Timecode %s als bext und iXML eingetragen (Bezug: %s)',
     '  Too much:          the limiter would have to take %.1f dB away. '

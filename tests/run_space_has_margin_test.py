@@ -6,9 +6,9 @@ is the band where the numbers fit but only just, "the second disk" is
 the temporary files eating the same space twice, and "two folders, one
 disk" is how that is told. "What the run really writes" is what the
 estimate has to cover -- the whole length, every camera, every track,
-and no less for a time window, because the pictures are copied whole
-whatever window the cut gets. "The folder that is asked about" is the
-one the answer is about.
+and with a time window the stretch each camera is cut down to rather
+than the whole shoot. "The folder that is asked about" is the one the
+answer is about.
 
 What free space really is comes from the system, so it is replaced
 here: the check is about the judgement, not about this machine's disk.
@@ -73,6 +73,10 @@ three_cameras = [long_video, second_camera, third_camera]
 # hour. Written as two ends of a timecode because that is how the call
 # carries it.
 WINDOW_IN, WINDOW_OUT = "17:16:36:04", "17:16:41:04"
+# How long that window is. Written out rather than computed from the two
+# timecodes: what the estimate is held against must not be arrived at by
+# the program's own route.
+WINDOW_S = 5.0
 # How long the long camera really is, asked of ffprobe directly rather
 # than of the program being checked. A precondition of the material: the
 # window has to be a small part of it, or the section below would compare
@@ -253,21 +257,37 @@ check("the preflight reaches the disk-space line at all",
       handed_on is not None,
       "the disk-space finding the preflight handed on reads %r"
       % (handed_on.text if handed_on is not None else None,))
-# The time window bounds the cut and the timeline. The camera files are
-# copied whole -- measured on the owner's shoot on 31.8.2026: with
-# --in-point 17:16:36:04 --out-point 17:21:36:04 the three cameras came
-# out 4098.208 s long, exactly as long as the sources, and 83.6 GB. So an
-# estimate that shrinks with the window would let a run start on a disk
-# that cannot hold it.
+# The time window now bounds the camera files as well as the cut, and
+# this check was once the other way round. The history, so that nobody
+# turns it back a second time: the shrinking estimate was built on
+# 31.8.2026 and withdrawn the same day, because the cameras were still
+# written whole -- with --in-point 17:16:36:04 --out-point 17:21:36:04
+# the three came out 4098.208 s long, exactly as long as the sources, and
+# 83.6 GB. The estimate lied, and this check was written to hold the
+# withdrawal. Since the cameras really are cut down to the window, the
+# lie is the other one: an estimate over the whole shoot refuses a run
+# that fits easily -- 11.2 GB asked for where 1.3 GB is written. So the
+# estimate has to follow the window down, and it may not fall under what
+# the window itself costs.
 open_end = bisect_estimate(lambda free: preflight_space(free))
 windowed = bisect_estimate(
     lambda free: preflight_space(free, WINDOW_IN, WINDOW_OUT))
-check("a time window does not shrink what the run needs on disk",
-      abs(windowed - open_end) < 0.001,
-      "a window of %s to %s wants %.3f MB against %.3f MB with no window -- "
-      "the cameras come out whole, 4098.208 s in and 4098.208 s out for "
-      "83.6 GB (31.8.2026)"
-      % (WINDOW_IN, WINDOW_OUT, windowed, open_end))
+check("a time window shrinks what the run needs on disk",
+      windowed < open_end / 2.0,
+      "a window of %s to %s -- %.1f s of %.1f -- wants %.3f MB against "
+      "%.3f MB with no window"
+      % (WINDOW_IN, WINDOW_OUT, WINDOW_S, material_s, windowed, open_end))
+# Against nought a shrinking estimate would pass the line above with the
+# best number in the file. The floor is the same one section 5 opened
+# with, only over the window instead of the shoot: two uncompressed
+# tracks are laid into the copy for as long as it runs, and it runs at
+# least the length of the window. The picture and the margin at each end
+# come on top and are not counted here.
+window_floor = WINDOW_S * SOUND_MB_PER_SECOND * TRACKS_PER_CAMERA
+check("and it does not fall under what the window itself costs",
+      windowed >= window_floor,
+      "the estimate came to %.3f MB, and %.1f s of two uncompressed tracks "
+      "are %.3f MB on their own" % (windowed, WINDOW_S, window_floor))
 
 print("\n6. The folder that is asked about")
 # The real disk_usage here, not the made-up one: what is asked is which
