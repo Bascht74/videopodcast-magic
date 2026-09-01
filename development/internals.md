@@ -523,6 +523,60 @@ does the same work without giving up the clip level. The script sets
 local versions on every run because a project from an earlier run would
 otherwise still have remote grades on.
 
+## Which frame rate counts where
+
+Three rates have to be kept apart, and confusing two of them put every
+shot of a mixed-rate cut in the wrong place.
+
+`timeline_frame_rate` says what the timeline runs at: the highest `fps`
+among the videos, with intro and outro dropped by path and a file set to
+"ignore this video" never in the list to begin with. Where nothing is
+left the reference clip decides, as before. It stands in for
+`ref_clip[1]["fps"]` in `write_handover`, in `write_cut_list` and in the
+timecode of the stored tracks. The reference clip still decides the time
+axis, and the log still names it as the longest running time -- that is
+a different question from the rate. Upwards Resolve repeats frames,
+downwards it throws every fifth one away, so taking the highest loses no
+picture.
+
+`startFrame` and `endFrame` of an appended clip are frames of the source
+file, counted at that file's own rate. Measured against Resolve
+21.0.4.5: three clips at 24, 25 and 30 frames, each given
+`startFrame=240`, answered `GetSourceStartTime` with 10.000, 9.600 and
+8.000 seconds. `write_handover` therefore writes an `fps` into every
+camera entry of the handover file, and `build_cut_timeline` carries one
+rate per camera and counts the in point at that rate. Against the
+timeline's rate a 24 camera in a 30 timeline showed a quarter of the
+elapsed time too late, and its shots came out a quarter too long.
+Measured over the round trip -- the cut list read back out of Resolve
+and held against what went in -- six shots gave sixteen complaints
+before and none after. The head cut of the Full-Mix runs at the rate of
+the camera file it comes from for the same reason. The `offset` of a
+camera goes the same way: `camera_place` reads the timecode of that
+file, so it is handed that file's rate and no longer the reference
+clip's.
+
+`frames_of_the_file` turns a length in timeline frames into source
+frames: the most that fit and never one more. Not every length is
+reachable, because a 24 clip covers timeline frames of a 30 timeline in
+steps of 1.25, so about one cut in five ends one timeline frame short.
+The overrun was measured too and dropped: it closes that frame but moves
+every following shot, and the moves accumulate over an hour into
+seconds. One frame is the floor -- no picture at all is worse than one
+frame too many.
+
+`recordFrame` is the one number that really counts in timeline frames.
+`build_camera_timeline` sends nothing else, which is why the multicam
+timeline was right the whole time: measured, all three cameras placed at
++3.000 s kept their true running time in a 30 timeline.
+
+The written camera files stay out of all of it. `write_camera_file`
+copies the picture and takes the timecode from `info["fps"]`, the rate
+of that file. Measured with ffprobe over eighteen written files: the
+frame rate is the source's in every one, and where the head cut is not a
+whole second the frame part of the timecode is the one that file's own
+rate gives.
+
 ## German and English: what lives where
 
 The whole source is English: names, messages, comments. German exists

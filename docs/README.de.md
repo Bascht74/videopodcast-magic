@@ -56,6 +56,8 @@ der das Wort erklärt, steht vorn.
 * **API Key**: `auphonic`, „Der Schlüssel und das Preset“; `interface`, „Was
   hinter Einstellungen ... steht“
 * **Apple Log**: `resolve`, „Wie Apple Log das Umschreiben übersteht“
+* **Bildrate, gemischte**: `resolve`, „Kameras, die verschieden schnell
+  laufen“; `preflight`, „Was geprüft wird“
 * **Bildrate, variable**: `preflight`, „Was der Bericht zur variablen
   Bildrate sagt“
 * **Block**: `simple-path`, „Was neben dem Mix ins Video kommt“;

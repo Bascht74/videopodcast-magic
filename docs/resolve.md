@@ -81,6 +81,44 @@ script deletes the surplus audio after the insert and names the audio
 tracks like the video tracks. It inserts a camera that did not land
 separately, and reports it when even that fails.
 
+### Cameras that run at different speeds
+
+Cameras of different makes rarely agree on a frame rate: one writes 24
+frames a second, the next 25, the wide shot 30. **The timeline gets the
+highest rate found among the cameras.** Converted upwards Resolve
+repeats frames, converted downwards it throws them away, so the fastest
+camera sets the pace and no picture is lost. Intro and outro do not
+count -- they are finished clips, not cameras of this episode -- and a
+file set to **ignore this video** does not either. Where the rates
+differ the run says so under `DIFFERENT FRAME RATES` and names the rate
+it settled on.
+
+Every camera keeps its own rate, and the cut counts frames in that one.
+Resolve reads the in and out point of a shot as frames of the file it
+comes from, not as frames of the timeline. A camera running at 24 in a
+30 timeline therefore used to slide: after 26.8 seconds of the programme
+it showed what it had recorded at 34.8 seconds, and the error grew the
+longer the episode ran. Now every shot sits where it was meant to sit,
+whatever speed each camera ran at.
+
+One frame is left over, and on purpose. A camera at 24 frames fills a 30
+timeline only in steps of 1.25 frames, so at about one cut in five the
+shot does not come out to the last frame and **one frame of the timeline
+stays open** -- a thirtieth of a second of black between two shots. The
+other way round was measured and dropped: letting the shot run one frame
+over closes the hole but pushes the next cut along, and over an hour
+those pushes add up to seconds. A gap that stays one frame is better
+than a drift with no limit. With every camera at the same rate the case
+does not arise at all.
+
+**The multicam timeline and the written camera files were never part of
+this.** On the multicam timeline every camera sits at its measured
+place, and that place is counted in timeline frames alone -- measured,
+and right. The camera files the program writes keep the frame rate of
+their source and carry their own timecode, counted in their own rate.
+Only the cut timeline was wrong, and only where the cameras ran at
+different speeds.
+
 ### A file that fits nowhere
 
 Only cameras the run could place on the common time axis go into the

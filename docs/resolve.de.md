@@ -86,6 +86,47 @@ löscht den überzähligen Ton nach dem Einfügen und benennt die Tonspuren
 wie die Bildspuren. Eine Kamera, die nicht gelandet ist, legt es einzeln
 nach und meldet es, wenn auch das misslingt.
 
+### Kameras, die verschieden schnell laufen
+
+Kameras verschiedener Bauart einigen sich selten auf eine Bildrate: die
+eine schreibt 24 Bilder in der Sekunde, die nächste 25, der Weitwinkel
+30. **Die Timeline bekommt die höchste Rate, die unter den Kameras
+vorkommt.** Nach oben umgerechnet wiederholt Resolve Bilder, nach unten
+wirft es welche weg; also gibt die schnellste Kamera den Takt vor, und
+kein Bild geht verloren. Intro und Outro zählen nicht mit, denn sie sind
+fertige Clips und keine Kameras dieser Folge, und eine Datei auf **Video
+ignorieren** zählt ebenso wenig. Wo die Raten auseinandergehen, sagt es
+der Lauf unter `VERSCHIEDENE BILDRATEN` und nennt die Rate, auf die er
+sich festgelegt hat.
+
+Jede Kamera behält dabei ihre eigene Rate, und der Schnitt rechnet in
+ihr. Resolve liest Anfang und Ende einer Einstellung als Bilder der
+Datei, aus der sie stammt, nicht als Bilder der Timeline. Eine Kamera
+mit 24 Bildern lief in einer 30er-Timeline deshalb davon: nach 26,8
+Sekunden Programm zeigte sie, was sie erst bei 34,8 Sekunden aufgenommen
+hatte, und der Fehler wuchs mit der Länge der Folge. Jetzt sitzt jede
+Einstellung da, wo sie hingehört, gleich wie schnell die einzelne Kamera
+lief.
+
+Ein Bild bleibt übrig, und das mit Absicht. Eine Kamera mit 24 Bildern
+füllt eine 30er-Timeline nur in Schritten von 1,25 Bildern; an etwa
+jedem fünften Schnitt geht die Einstellung deshalb nicht bis aufs letzte
+Bild auf, und **ein Bild der Timeline bleibt offen** -- eine
+Dreißigstelsekunde Schwarz zwischen zwei Einstellungen. Der andere Weg
+ist gemessen und verworfen: lässt man die Einstellung ein Bild
+überlaufen, schließt sich die Lücke, aber jeder folgende Schnitt rückt
+nach hinten, und über eine Stunde summiert sich das auf Sekunden. Eine
+Lücke, die ein Bild bleibt, ist besser als ein Wandern ohne Grenze.
+Laufen alle Kameras gleich schnell, tritt der Fall gar nicht erst auf.
+
+**Die Multicam-Timeline und die geschriebenen Kameradateien waren davon
+nie berührt.** Auf der Multicam-Timeline steht jede Kamera an ihrer
+gemessenen Stelle, und die zählt allein in Bildern der Timeline --
+nachgemessen und richtig. Die Kameradateien, die das Programm schreibt,
+behalten die Bildrate ihrer Quelle und tragen ihren eigenen Timecode, in
+ihrer eigenen Rate gezählt. Falsch war allein die Schnitt-Timeline, und
+auch die nur dort, wo die Kameras verschieden schnell liefen.
+
 ### Eine Datei, die nirgends hinpasst
 
 In die Übergabedatei kommen nur die Kameras, die der Lauf auf der
