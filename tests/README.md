@@ -1,6 +1,6 @@
 # The test suite
 
-186 tests against `../videopodcast-magic.py`. Every one of them stands
+189 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -238,7 +238,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-186 tests. The name is the one a red line carries, and beside it the
+189 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -252,6 +252,7 @@ it is green.
 | `files_clock_links_blocks` | Blocks that carry a clock in the name instead of a counter. |
 | `files_colour_carried` | Colour tags, QuickTime keys and named audio tracks reach the result. |
 | `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |
+| `files_cut_without_keys` | A camera is cut to the window even where its key frames cannot be read. |
 | `files_foreign_untouched` | Copying atoms over onto everything that is not a camera file. |
 | `files_hdr_complete` | #65: Does a finished file carry everything that marks it as HDR? |
 | `files_intro_proposed` | A jingle is proposed as the intro, not for "ignore this video". |
@@ -308,6 +309,7 @@ it is green.
 | `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
 | `time_over_midnight` | Midnight is one night, not a day apart. |
+| `time_point_pulled_back` | A hand-set In or Out point never reaches past what every camera saw. |
 | `time_sound_stays_put` | Does a time window move the sound against the picture in Multitrack? |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
 | `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
@@ -421,6 +423,7 @@ it is green.
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
+| `window_size_as_run` | The window's summary names the size the run really needs. |
 | `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_start_runs` | The start button must build a command line and start a run. |
