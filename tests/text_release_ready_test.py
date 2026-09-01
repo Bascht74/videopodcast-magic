@@ -55,13 +55,28 @@ newest = next((s for s in sections if s.upper() != "UNRELEASED"), "")
 check("the newest numbered section is this version", newest == version,
       "%r in the changelog, %r in the program" % (newest, version))
 
-for name, pattern in (("README.md", r"\*\*Version ([0-9][^.]*\.[^*]*)\.\*\*"),
-                      ("README.de.md",
-                       r"\*\*Version ([0-9][^.]*\.[^*]*)\.\*\*")):
-    said = re.search(pattern, text_of(os.path.join(ROOT, name)))
-    check("%s names this version" % name,
-          bool(said) and said.group(1) == version,
-          said.group(1) if said else "no version found")
+# The roadmap's "Where the program stands today" is in here because it
+# drifted two versions behind without anything noticing: it says the
+# number in the same shape as the READMEs and was never held to it.
+#
+# The four are written out rather than looped over, because a check
+# whose name is computed carries no wording the register can key on --
+# the two READMEs had stood here for versions with no counter-proof
+# possible, and nothing said so.
+SAYS_VERSION = r"\*\*Version ([0-9][^.]*\.[^*]*)\.\*\*"
+said_by = {}
+for name in ("README.md", "README.de.md", "ROADMAP.md", "ROADMAP.de.md"):
+    found = re.search(SAYS_VERSION, text_of(os.path.join(ROOT, name)))
+    said_by[name] = found.group(1) if found else "no version found"
+
+check("README.md names this version", said_by["README.md"] == version,
+      said_by["README.md"])
+check("README.de.md names this version", said_by["README.de.md"] == version,
+      said_by["README.de.md"])
+check("ROADMAP.md names this version", said_by["ROADMAP.md"] == version,
+      said_by["ROADMAP.md"])
+check("ROADMAP.de.md names this version",
+      said_by["ROADMAP.de.md"] == version, said_by["ROADMAP.de.md"])
 
 print("\n2. The changelog keeps its shape")
 # Keep a Changelog, plus the two groups this project added: Tests and
@@ -472,7 +487,7 @@ print("""
 Before the tag -- five things, and the tag comes last:
 
   checked here   the changelog names this version, in the right groups
-  checked here   the READMEs name this version
+  checked here   the READMEs and the roadmap name this version
   checked here   the manual's defaults match the parser (docs_truth)
   checked here   the file hangs on every release github.com lists,
                  where github.com answers at all
