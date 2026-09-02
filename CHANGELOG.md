@@ -25,6 +25,71 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.29.0-beta] - 2026-09-02
+
+### Added
+
+- A selector "Nobody speaks" beside "Recognition uncertain", with the
+  field "Short gap up to" at one second. Silence went to the wide shot
+  with no choice. The default stays the wide shot.
+
+### Fixed
+
+- A file added while the time axis is being measured is now measured
+  too. The request used to be dropped and nobody picked it up.
+- Removing a file now reaches the saved project. The recording stayed in
+  it, and one added again later was silently "Intro" once more.
+- Where auphonic.com refuses the key, "work without Auphonic" is no
+  longer written into the project as a decision. It came back at every
+  opening, long after the key was good again.
+- The key that was checked is now the key that is stored. The field was
+  read a second time when the answer arrived.
+- The complaint about a refused key now names where the value came from,
+  the environment or the store. It blamed the store either way.
+- Three notes that broke off in the middle of a word now break into
+  lines: in the file column, at the colour hint, under the player.
+- The name of the camera file now takes the speaker even where the name
+  was only proposed and never typed. It went to Resolve without it.
+- The reference camera no longer reports a measurement it cannot make.
+  It is the reference; there is nothing to measure against.
+- The speech recognition now says what it did in a sentence, in the
+  language of the run and with that language's decimal mark.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Ein Auswahlfeld „Niemand redet" neben „Erkennung unsicher", dazu das
+  Feld „Kurze Lücke bis" mit einer Sekunde. Bei Stille ging der Schnitt
+  in den Weitwinkel, ohne Wahl. Vorschlagswert bleibt der Weitwinkel.
+
+### Behoben
+
+- Eine Datei, die während der Messung der Zeitachse dazukommt, wird
+  jetzt mitgemessen. Die Anfrage wurde fallengelassen und von niemandem
+  nachgeholt.
+- Das Entfernen einer Datei erreicht jetzt die gespeicherte
+  Projektdatei. Die Aufnahme blieb darin stehen, und eine später wieder
+  hinzugefügte war wortlos erneut „Vorspann".
+- Lehnt auphonic.com den Schlüssel ab, wird „ohne Auphonic arbeiten"
+  nicht mehr als Entscheidung ins Projekt geschrieben. Es kam bei jedem
+  Öffnen zurück, lange nachdem der Schlüssel wieder gut war.
+- Der geprüfte Schlüssel ist jetzt der gespeicherte. Das Feld wurde ein
+  zweites Mal gelesen, wenn die Antwort kam.
+- Die Meldung über einen abgelehnten Schlüssel nennt jetzt, woher der
+  Wert kam: aus der Umgebung oder aus dem Speicher. Sie beschuldigte
+  immer den Speicher.
+- Drei Hinweise, die mitten im Wort abbrachen, brechen jetzt um: in der
+  Dateispalte, bei der Farbkennung, unter dem Player.
+- Der Name der Kameradatei bekommt jetzt den Sprecher auch dort, wo der
+  Name nur vorgeschlagen und nie getippt wurde. Er ging ohne ihn nach
+  Resolve.
+- Die Referenzkamera meldet nicht mehr eine Messung, die es bei ihr
+  nicht gibt. Sie ist die Referenz; es gibt nichts, wogegen zu messen
+  wäre.
+- Die Spracherkennung sagt jetzt in einem Satz, was sie getan hat -- in
+  der Sprache des Laufs und mit deren Dezimalzeichen.
+
 ## [2.28.0-beta] - 2026-09-02
 
 ### Added
