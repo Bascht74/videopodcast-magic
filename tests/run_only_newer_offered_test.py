@@ -84,11 +84,21 @@ for older, newer in ORDER:
 with_v, bare = vpm.version_key("v2.0.0-beta"), vpm.version_key("2.0.0-beta")
 check("the same version is the same", with_v == bare,
       "'v2.0.0-beta' sorts to %r, '2.0.0-beta' to %r" % (with_v, bare))
-itself = vpm.version_key("2.0.0")
-check("a version does not beat itself",
-      not vpm.version_key("2.0.0") < vpm.version_key("2.0.0"),
-      "'2.0.0' sorts to %r, held against the same reading of itself"
-      % (itself,))
+# Written out, not held against a second reading of itself. A version
+# never beats itself whatever version_key does, so that judgement said
+# only that the function answers the same twice: measured on 2.9.2026,
+# flattening version_key to one constant turned 23 of the checks in
+# this file red and left it green. Every pair above compares one
+# reading with another, so a key that changed its meaning wholesale
+# still sorts the same way. This is the one place that says what a
+# reading is -- the three numbers, the 1 that lets a finished release
+# beat its own pre-release, and the pre-release name kept whole.
+WRITTEN_DOWN = (((2, 0, 0), 1, ""), ((2, 1, 0), 0, "beta.2"))
+read_as = (vpm.version_key("2.0.0"), vpm.version_key("v2.1.0-beta.2"))
+check("a version reads as the key written down here",
+      read_as == WRITTEN_DOWN,
+      "'2.0.0' and 'v2.1.0-beta.2' sort to %r, written down is %r"
+      % (read_as, WRITTEN_DOWN))
 
 print("\n2. Only a newer release counts")
 # A folder of its own: what a real run left in the cache of whoever
@@ -263,10 +273,18 @@ check("something that does not compile is refused",
       % (len(text or ""), trouble))
 check("and says something else than an error page does", trouble != other,
       "the unclosed brace says %r, the 404 page says %r" % (trouble, other))
+# Held against the error page's reason too, not only against "it was
+# refused". The question under this one turns away anything that is
+# not this program, and it answers bytes that never decoded as well --
+# so the decoding could be taken out altogether and this stayed green.
+# Measured on 2.9.2026: decoding with errors="replace" left every
+# check in the file green.
 text, trouble = with_body(b'\xff\xfe not text')
-check("bytes that are not text are refused", not text and bool(trouble),
+check("bytes that are not text are refused, not as an error page",
+      not text and bool(trouble) and trouble != other,
       "two bytes that are no utf-8 gave back %d characters of program,"
-      " trouble %r" % (len(text or ""), trouble))
+      " trouble %r, where an error page says %r"
+      % (len(text or ""), trouble, other))
 
 print("\n6. The old file is kept")
 work = tempfile.mkdtemp()
