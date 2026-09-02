@@ -50,11 +50,11 @@ left = [w for w in KEYWORDS if w in said]
 check("the recogniser's own keywords do not reach the screen", not left,
       "%d of %d still in %r" % (len(left), len(KEYWORDS), said[:60]))
 check("and the sentence is the one the catalogue holds",
-      said == vpm.T('  Recognised in %s: ready in %.1f s, heard in %.1f s')
-      % ("de-DE", 0.1, 25.75),
+      said == vpm.T('  Recognised in %s: ready in %s s, heard in %s s')
+      % ("de-DE", "0.1", "25.8"),
       "%r against %r" % (said[:60], (vpm.T(
-          '  Recognised in %s: ready in %.1f s, heard in %.1f s')
-          % ("de-DE", 0.1, 25.75))[:60]))
+          '  Recognised in %s: ready in %s s, heard in %s s')
+          % ("de-DE", "0.1", "25.8"))[:60]))
 check("and the two times it measured are still in it",
       "0.1" in said and "25.8" in said,
       "%r -- wanted the 0.1 s of setup and the 25.75 s rounded to 25.8"
@@ -64,10 +64,13 @@ print("\n2. And it reads German in a German run")
 vpm.set_language("de")
 german = vpm.speech_note_said(NOTE)
 vpm.set_language("en")
+# The numbers go through the decimal mark too, so the German line
+# carries commas. That is the whole point: the sentence was turned
+# and the number was left English.
 check("the German run gets the German sentence",
       german == vpm.CATALOGUE["de"][
-          '  Recognised in %s: ready in %.1f s, heard in %.1f s']
-      % ("de-DE", 0.1, 25.75),
+          '  Recognised in %s: ready in %s s, heard in %s s']
+      % ("de-DE", "0,1", "25,8"),
       "%r" % german[:70])
 check("and German and English are not the same line",
       german != said, "%r against %r" % (german[:40], said[:40]))
@@ -119,8 +122,8 @@ try:
           % (len(raw), len(printed), (raw or [""])[0][:60]))
     check("and the line that was printed went through the catalogue",
           printed == [vpm.T(
-              '  Recognised in %s: ready in %.1f s, heard in %.1f s')
-              % ("de-DE", 0.1, 25.75)],
+              '  Recognised in %s: ready in %s s, heard in %s s')
+              % ("de-DE", "0.1", "25.8")],
           "%r" % (printed or [""])[0][:70])
 finally:
     if here:
