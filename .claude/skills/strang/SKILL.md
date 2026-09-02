@@ -97,13 +97,24 @@ them and lose the time:
 
 * **No `timeout`** and no `gtimeout`. A strand that needs a deadline
   builds it into the script it starts.
-* **And when it has to wait for something, this is the shape:**
+* **And when it has to wait for something it started itself, this is
+  the shape** -- wait on the process, not on its name:
 
   ```bash
-  while pgrep -f "name_of_the_thing" >/dev/null; do sleep 2; done
+  nohup bash run.sh > /tmp/out.log 2>&1 &
+  waiting=$!
+  while kill -0 "$waiting" 2>/dev/null; do sleep 5; done
   ```
 
-  Nothing cleverer. A strand invented
+  **Not `pgrep -f`.** `pgrep -f` searches whole command lines, and the
+  waiting line contains the name it is searching for -- **so the guard
+  finds itself and waits for itself, for ever.** Measured on 2.9.2026:
+  two of them stood for half an hour at no cost in processor and never
+  ended, and the work they were waiting for had finished in two
+  minutes. `pgrep -f` is for a process somebody else started, and even
+  then the pattern must not appear in one's own line.
+
+  Nothing cleverer than either of those two. A strand invented
   `until [ ! -e /proc/self ] && false; do :; done` -- there is no
   `/proc` on a Mac, so the condition is false for ever and `until`
   spins. Measured: **99,3 % of one core for seventeen minutes**, and

@@ -1,6 +1,6 @@
 # The test suite
 
-211 tests against `../videopodcast-magic.py`. Every one of them stands
+214 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-211 tests. The name is the one a red line carries, and beside it the
+214 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -307,6 +307,7 @@ it is green.
 | `time_axis_keys_agree` | A measured time axis answers to the same name as a remembered one. |
 | `time_axis_measured` | The common time axis, measured out of the sound and without a window. |
 | `time_bad_point_dropped` | One sample point in the wrong place must not tip the whole line. |
+| `time_block_holds_on` | A recording made of blocks is placed as one recording. |
 | `time_camera_by_clock` | A camera sits where its timecode says, not where the sound was measured. |
 | `time_clock_from_any_file` | A Timecode is counted from the axis, not from the reference's clock. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
@@ -444,11 +445,13 @@ it is green.
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
 | `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
+| `window_picture_returns` | A refused format does not outlive the attempt it was about. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_size_as_run` | The window's summary names the size the run really needs. |
 | `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
+| `window_stands_still` | Left alone, the window stops measuring and stops moving a Kind. |
 | `window_start_runs` | The start button must build a command line and start a run. |
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what a press then means. |
