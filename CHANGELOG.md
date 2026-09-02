@@ -31,19 +31,16 @@ nicht.
 
 - Where the microphones hear each other too well to be told apart, the
   speaker separation now listens to all of them at once and names each
-  voice it finds after the microphone it belongs to. Measured against
-  material whose speakers are known to the millisecond, the speech under
-  the right name went from 72.5 to 92.7 per cent. Only on a run without
-  auphonic.com, and only where the run picks the separation itself --
-  one the window already made travels with it and is used as it stands.
+  voice after its microphone. On material whose speakers are known to
+  the millisecond, the speech under the right name went from 72.5 to
+  92.7 per cent. Only on a run without auphonic.com, where the tracks
+  still bleed.
 - A recording with a steady tone over it -- a hum, an air conditioner --
   now finds its place on the time axis. Where the shape of the sound
   says nothing, the run compares it once more on the frequency bands
-  that do move. With a hum 40 dB over the material the old way missed
-  the place by more than half an hour; the new one finds it to three
-  hundredths of a second. It wants a camera running longer than about
-  twelve and a half minutes, and the log then marks that line "placed on
-  the bands that move".
+  that do move: with a hum 40 dB over the material the old way missed by
+  more than half an hour, the new one finds it to three hundredths of a
+  second.
 
 ### Changed
 
@@ -53,26 +50,47 @@ nicht.
   would be worked out now. It costs minutes of the graphics unit per
   recording, once.
 
+### Fixed
+
+- A run started from the window now reaches the joined recording too. It
+  took over whatever separation the window had already made, so the
+  case that joining was built for never arose there and the speech under
+  the right name stayed at 37.5 per cent.
+- A handover trimmed after it was written now moves its timecode along
+  with the seconds. Only the seconds moved, and DaVinci Resolve places from
+  the timecode alone -- every picture landed off by the trimmed head,
+  measured ten seconds.
+- Two shots merged into one now name every speaker heard in them. The
+  survivor kept its own names, so somebody who spoke for ten seconds on
+  the same camera vanished from the "Speaker" column of the cut list and
+  from the clip name in the EDL.
+- Two names at one camera now stand in the same order everywhere. The
+  preview sorted them and the run put the recordings first, and it is
+  the run that writes the track name in Resolve.
+- The log now says which of the three ways placed a recording, and how
+  sharp
+  a find by phase was. On the run with no picture it named no way at
+  all, and a track placed by phase showed a drift of "+0.00 ppm" where
+  the drift is in truth unknown.
+- The buttons under the run now stand on one line, and "Dry run" shows
+  what it is for while it is still switched off.
+
 **Deutsch**
 
 ### Hinzugefügt
 
 - Hören die Mikrofone einander zu gut, um auseinandergehalten zu werden,
   hört die Sprechertrennung jetzt allen auf einmal zu und benennt jede
-  gefundene Stimme nach ihrem Mikrofon. An Material, dessen Sprecher auf
-  die Millisekunde bekannt sind, stieg die richtig benannte Rede von
-  72,5 auf 92,7 Prozent. Nur bei einem Lauf ohne auphonic.com, und nur
-  wo der Lauf die Trennung selbst wählt -- eine aus dem Fenster wandert
-  mit und bleibt, wie sie ist.
+  Stimme nach ihrem Mikrofon. An Material, dessen Sprecher auf die
+  Millisekunde bekannt sind, stieg die richtig benannte Rede von 72,5
+  auf 92,7 Prozent. Nur bei einem Lauf ohne auphonic.com, wo die Spuren
+  noch ineinandersprechen.
 - Eine Aufnahme, über der ein gleichbleibender Ton liegt -- ein Brummen,
-  eine Klimaanlage --, findet jetzt ihren Platz auf der Zeitachse. Wo
-  die Form des Klangs nichts hergibt, vergleicht der Lauf noch einmal,
-  aber nur auf den Frequenzbändern, die sich bewegen. Bei einem Brummen
-  40 dB über dem Material verfehlte der alte Weg den Platz um mehr als
-  eine halbe Stunde; der neue trifft ihn auf drei Hundertstelsekunden.
-  Nötig ist eine Kamera von mehr als etwa zwölfeinhalb Minuten; im
-  Protokoll steht an der Zeile dann „über die bewegten Frequenzbänder
-  platziert".
+  eine Klimaanlage --, findet jetzt ihren Platz auf der Zeitachse. Wo die
+  Form des Klangs nichts hergibt, vergleicht der Lauf noch einmal, nur
+  auf den Frequenzbändern, die sich bewegen: bei einem Brummen 40 dB
+  darüber verfehlte der alte Weg den Platz um eine halbe Stunde, der
+  neue trifft auf drei Hundertstelsekunden.
 
 ### Geändert
 
@@ -81,6 +99,33 @@ nicht.
   ermittelt werden, hat sich geändert; ein gespeichertes Ergebnis gehört
   nicht mehr zu dem Weg, auf dem es jetzt entstünde. Das kostet einmalig
   Minuten Grafikrechnung je Aufnahme.
+
+### Behoben
+
+- Auch ein aus dem Fenster gestarteter Lauf kommt jetzt zur
+  zusammengelegten Aufnahme. Er übernahm, was das Fenster an Trennung
+  schon hatte -- der Fall, für den das Zusammenlegen gebaut ist, trat
+  dort also nie ein, und die richtig benannte Rede blieb bei 37,5
+  Prozent.
+- Eine Übergabedatei, die nachträglich beschnitten wird, zieht jetzt
+  ihren Timecode mit. Bisher wanderte nur die Sekunde, und DaVinci Resolve
+  plaziert allein nach dem Timecode -- jedes Bild landete um den
+  abgeschnittenen Kopf versetzt, gemessen zehn Sekunden.
+- Zwei zusammengelegte Schüsse nennen jetzt jeden, der darin zu hören
+  ist. Der überlebende behielt seine eigenen Namen, so daß jemand, der
+  zehn Sekunden auf derselben Kamera sprach, aus der Spalte „Speaker"
+  der Schnittliste und aus dem Klippennamen der EDL verschwand.
+- Zwei Namen an einer Kamera stehen jetzt überall in derselben Folge.
+  Die Vorschau sortierte sie, der Lauf setzte die Aufnahmen zuerst -- und
+  der Lauf ist es, der den Spurnamen in Resolve schreibt.
+- Das Protokoll sagt jetzt, welcher der drei Wege eine Aufnahme
+  plazierte,
+  und wie scharf ein Fund über die Phase war. Beim Lauf ohne Bild nannte
+  es gar keinen Weg, und eine per Phase plazierte Spur zeigte eine Drift
+  von „+0,00 ppm", wo die Drift in Wahrheit unbekannt ist.
+- Die Schalter unter dem Lauf stehen jetzt auf einer Linie, und
+  „Probelauf"
+  zeigt jetzt auch im abgeschalteten Zustand, wofür er da ist.
 
 ## [2.29.0-beta] - 2026-09-02
 
