@@ -74,6 +74,22 @@ to be unique. That was found by counting. Seventeen replacements were cut
 against that file; an uncounted anchor among them lands in the wrong
 function.
 
+## The order carries the rules it demands
+
+**A name that must not stand in the repository must not stand in the
+order either.** Measured on 2.9.2026: an order said "he saw it in the
+real window", and the strand carried the name into the docstring of a
+test to explain where the finding came from. It was doing its job. The
+check for real names went red on all six builder jobs, while a full run
+here had been green -- the run went before the file reached its final
+shape.
+
+**A strand reads its order as the standard.** Whoever writes "no real
+name" into it and then puts one in the next paragraph has set two
+standards, and the nearer one wins. So: the person who saw it is "it
+was seen", the production is a role, the disc is `/tmp`. **In the order
+as much as in the file.**
+
 ## What this machine cannot do
 
 These belong in every order, because a strand that is not told will try
