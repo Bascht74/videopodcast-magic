@@ -130,10 +130,17 @@ build()
 QUIET = int(0.5 * RATE)        # where the first burst sits in the signal
 
 print("1. What the file says")
+# What ffmpeg writes is rounded to its own grid, and the grid is not
+# the same on every build -- 2898 samples here, 2880 on the builder. So
+# the file is asked what it says, and everything below is held against
+# that answer. The claim is that the program follows the file, not that
+# ffmpeg hits a number.
 says_late = vpm.audio_track_starts_at(LATE_PCM)
-check("the file says a late uncompressed track begins 60.375 ms after "
-      "the picture", abs(says_late - LATE_S) < 1e-6,
-      "the file says %.6f s, wanted %.6f s" % (says_late, LATE_S))
+SAYS = int(round(says_late * RATE))
+check("the file says a late uncompressed track begins after the picture",
+      abs(says_late - LATE_S) < 0.002,
+      "the file says %.6f s, asked for %.6f s (%d samples)"
+      % (says_late, LATE_S, SAYS))
 says_zero = vpm.audio_track_starts_at(ON_TIME_AAC)
 check("the file says an AAC track written with the picture begins at "
       "zero", abs(says_zero) < 1e-6,
@@ -146,15 +153,21 @@ on_time_pcm = vpm.decode_audio(ON_TIME_PCM, rate=RATE)
 late_aac = vpm.decode_audio(LATE_AAC, rate=RATE)
 on_time_aac = vpm.decode_audio(ON_TIME_AAC, rate=RATE)
 moved = onset(late_pcm) - onset(plain)
-check("a late uncompressed track lands where the file says, 2898 "
-      "samples in", moved == LATE_SAMPLES,
-      "the burst sits %d samples further in, wanted %d (%d against %d)"
-      % (moved, LATE_SAMPLES, onset(late_pcm), onset(plain)))
+check("a late uncompressed track lands where the file says",
+      moved == SAYS,
+      "the burst sits %d samples further in, the file says %d (%d "
+      "against %d)" % (moved, SAYS, onset(late_pcm), onset(plain)))
 moved_aac = onset(late_aac) - onset(on_time_aac)
-check("a late AAC track lands 2898 samples further in than the same "
-      "stream written with the picture", moved_aac == LATE_SAMPLES,
-      "the burst sits %d samples further in, wanted %d (%d against %d)"
-      % (moved_aac, LATE_SAMPLES, onset(late_aac), onset(on_time_aac)))
+# AAC lands on its own frame grid, so it may miss the mark by a
+# handful of samples where the uncompressed one hits it exactly.
+# Measured: 2 samples here, 16 on the builder -- a third of a
+# millisecond, far under one picture.
+AAC_SLACK = 48        # one millisecond at this rate
+check("a late AAC track lands as far in as the file says",
+      abs(moved_aac - SAYS) <= AAC_SLACK,
+      "the burst sits %d samples further in, the file says %d, allowed "
+      "%d (%d against %d)" % (moved_aac, SAYS, AAC_SLACK,
+                              onset(late_aac), onset(on_time_aac)))
 check("a track written with the picture is not moved",
       onset(on_time_pcm) == QUIET,
       "its burst sits at %d, wanted %d" % (onset(on_time_pcm), QUIET))
