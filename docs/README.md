@@ -97,6 +97,7 @@ explains the word comes first.
 * **Full-Mix**: `multitrack`, "What goes into the camera files"; `resolve`,
   "The button and the two timelines"; `simple-path`, "What comes back for
   each video file"
+* **GENERAL NOTES (row in the file list)**: `preflight`, "What is checked"
 * **handover file (`_resolve.json`)**: `camera-cut`, "What the project file
   keeps"
 * **HDR**: `resolve`, "HDR: what has to be in the file"; `resolve`, "What

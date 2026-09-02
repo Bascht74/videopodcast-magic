@@ -27,6 +27,7 @@ Der Bericht gilt für beide Betriebsarten.
 | Bild | Nennrate gegen tatsächliche Rate, Schwankung der Bildabstände | siehe unten |
 | Bild | Bildraten der Kameras untereinander | die Timeline bekommt die höchste davon oder die nächste Rate, die Resolve darüber hat |
 | Bild | mehrteilige Kameras: Lücke zwischen den Blöcken | wo Bild fehlt |
+| Bild | Aufnahmekurve, Farbkennung und Bildgröße der Kameras untereinander | Hinweis, der nennt, welche Kamera was trägt |
 | Ton | Abtastrate, Bittiefe, Kanäle, Länge | wird auf 48 kHz gebracht, das steht dann da |
 | Ton | Spuren, die deutlich kürzer sind als die längste | Hinweis |
 | Ton | Abtastwerte am Anschlag, je Kanal | Hinweis, nur Ganzzahlformate |
@@ -61,6 +62,20 @@ Programm allein. Bildraten, Auflösungen und Spuren aus der Reihe fallen
 erst im Vergleich auf und rechnen sich aus den gemerkten Daten. Das
 Übersprechen gilt für genau diese Menge an Spuren. Plattenplatz und
 Lautheitsziel bestimmt das Programm jedes Mal neu.
+
+**Was erst im Vergleich auffällt, gehört zu keiner einzelnen Datei**
+und hängt deshalb an keiner Zeile. Es steht am Fuß der Liste unter
+**ALLGEMEINE HINWEISE**, und diese Zeile klappt auf wie jede andere:
+die Bildraten gegeneinander, die Aufnahmekurven, die Farbkennungen, die
+Auflösungen, das Übersprechen zwischen den Aufnahmen. Was sich einer
+Datei zuschreiben lässt, bleibt in deren Zeile -- eine Uhr, die nicht
+gestellt war, ist Sache dieser Datei.
+
+Tragen mehrere Kameras verschiedene Kurven oder verschiedene
+Kennungen, steht jeder Wert in einer eigenen Zeile, mit den Kameras,
+die ihn haben. Hintereinander geschrieben liefen sie über das Ende der
+Spalte hinaus, und abgeschnitten war gerade der Kameraname, den man
+suchte.
 
 ### Was der Bericht zur variablen Bildrate sagt
 

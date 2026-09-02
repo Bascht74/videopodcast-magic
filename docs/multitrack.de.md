@@ -97,14 +97,38 @@ Sprecher -- ein Name ist eine Person, und jede Person braucht einen
 eigenen**.
 
 Die untere Tabelle hat je Kamera eine Zeile: **Kamera**, **neue Datei
-heißt**, **bekommt Audio von** und **Kameraton**. Was eine Datei ist --
-Inhalt, Vorspann, Abspann oder ignoriert -- wird jetzt in der Dateiliste
-gefragt, in der Spalte **Typ**, beim Material, um das es geht. Ein Klick
-auf eine Zeile holt die Datei in den Player. Eine Datei, die überhaupt
-keinen Platz hat, steht in Rot, hier wie in der Dateiliste, und das
-Programm schlägt sie zum Weglassen vor. Eine Datei, deren Ton nicht
-erkannt wurde, die ihr Timecode aber zwischen die anderen setzt, ist
-vermerkt und behält ihren Platz.
+heißt**, **bekommt Audio von**, **Typ** und **Kameraton**. Die beiden
+letzten stehen auch in der Dateiliste, auf demselben Wert, und sie
+stehen hier ein zweites Mal, weil der Player hier ist: dass ein Clip in
+Wahrheit ein Abspann ist, fällt beim Ansehen auf. Ein Klick auf eine
+Zeile holt die Datei in den Player.
+
+**neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird.
+Bis jemand darüberschreibt, ist es ein Vorschlag, gebaut aus dem
+Produktionsnamen, der Kamera und den Sprechern davor. **bekommt Audio
+von** daneben nennt dieselben Sprecher. Eine Kamera, der niemand
+zugeordnet ist, sagt dort **den Mix aus allen Spuren**, und der
+Weitwinkel sagt **kein Sprecher -- das ist der Weitwinkel** -- oder
+nennt den, der ihm vorher zugeordnet war und auf **ohne eigene Kamera**
+gewechselt ist.
+
+**Ein nur vorgeschlagener Name zählt in beidem mit.** Das Namensfeld
+einer Aufnahme steht leer da, mit dem aus dem Dateinamen geratenen
+Namen in Grau darin, und mit diesem Namen arbeitet der Lauf -- also
+gehört er in den Dateinamen der Kamera und in **bekommt Audio von**.
+Bisher fehlte er in beidem, während der Lauf ihn hatte, und die Kamera
+ging unter einem Dateinamen ohne Menschen darin nach Resolve. Wer den
+Namen eintippt, ändert daran nichts: es war schon vorher der Name, der
+galt.
+
+Eine Datei, für die die Messung keinen Platz findet, ist in dieser
+Tabelle nicht vermerkt. Jeder Vermerk zu einer Datei steht in der
+Dateiliste, wo die Dateien ausgewählt werden und wo er gelesen ist,
+bevor jemand bis hierher kommt. Hier zeigt allein der **Typ**, was aus
+ihr geworden ist: **Inhalt** und **Weitwinkel** sind gesperrt, und im
+Feld steht die eigene Antwort des Programms -- **Vorspann**, oder
+**Video ignorieren**, wenn an der Datei überhaupt nichts zu messen war
+([Die Oberfläche](interface.de.md)).
 
 Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
 ist dasselbe Häkchen wie unter **Produktion**: klickt man eines, zeigen
@@ -264,6 +288,14 @@ und wieviel aufgenommen worden war. Lassen sich die Keyframes einer
 Kamera nicht lesen, sagt das Programm es und lässt den Anfang dieser
 Kamera stehen.
 
+Im selben Block meldet jede Kamera ihren Versatz und ihren Uhrengang.
+Eine meldet keinen: **Uhrengang: nichts gemessen -- das ist die
+Referenz, gegen die die anderen gehalten werden**. Es ist die längste
+Kamera, die, gegen die alle anderen gemessen wurden, und an ihr hat
+also keine Messung etwas ergeben. Früher stand dort eine Reihe Nullen
+-- null ppm, null von null Punkten --, die aussah wie eine Messung und
+keine war.
+
 Wer mehr braucht, als das Fenster hergibt, setzt **In markieren** und
 **Out markieren** weiter auseinander und lässt noch einmal laufen. Einen
 eigenen Schalter dafür gibt es nicht.
@@ -338,7 +370,7 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   nicht gegen die Referenz messen, und eine Spur allein hat nichts mehr,
   wogegen sie liegen könnte. Die Zeilen darüber nennen jede einzelne und
   den Grund.
-- **Eine Zeile ist vermerkt, und der Vermerk ist nicht rot.** Neben dem
+- **Eine Zeile ist vermerkt, und der Vermerk ist nicht rot.** Unter dem
   Namen steht **Ton nicht erkannt; über den Timecode platziert**. Zu tun
   ist nichts: Der Ton dieser Datei wurde nicht erkannt, ihre Uhr setzt
   sie aber framegenau zwischen die anderen, und einer der beiden Wege zu

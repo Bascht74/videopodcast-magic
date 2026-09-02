@@ -32,6 +32,15 @@ replied, with a button beside it that opens the settings. That line
 stands in the settings window and in the box on the **Assignment & time
 window** tab alike. It names a missing key as well.
 
+**The line says which key was refused.** Nobody typed anything at
+start-up, so the key came from somewhere, and there can be one in each
+place at once: `AUPHONIC_TOKEN` is read before what the Keychain or the
+Registry holds. The line names the one that went out -- **The key from
+AUPHONIC_TOKEN is not accepted** or **The stored key is not accepted**
+-- so the answer is not looked for in the wrong place. After **Connect**
+it is the key in the field, and the line says only what auphonic.com
+replied.
+
 * On its way to auphonic.com the key never appears in the process list:
   curl reads it from a config file that only its owner can read. The
   program deletes that file afterwards, and overwrites it first if it
@@ -50,6 +59,11 @@ where the Keychain does not take it, nothing is stored and a line says
 why. The tick comes off again with it, so it never stands there green
 over a key that is gone at the next start. The Windows Registry path has
 no such question.
+
+What is stored is the key that was checked, and not what stands in the
+field when the answer comes back. Pasting a second key while the first
+one is still being checked used to store the second, unchecked, under a
+button that had just gone green for the first.
 
 A locked keychain is looked at before anything is handed over. While it
 is shut, the tick **Save in Keychain** is grey, and under it stands, in
@@ -127,9 +141,16 @@ the audio. The measurement and its lower limit stand in [Speaker
 statistics, camera cut, EDL](camera-cut.md).
 
 As long as the program has checked no key, the list holds this one
-entry. Once the presets arrive, the choice jumps to the first of them. A
-deliberate choice survives a rebuild of the list and goes into the
-project file.
+entry. When the presets arrive the entry keeps the selection: a list
+that has just come in is no reason for the next **Start** to spend
+credit, so the presets are offered and none of them is picked for you.
+
+A preset picked by hand is the answer from then on. It survives a
+rebuild of the list, and it goes into the project file even where the
+list cannot be built at all -- a key auphonic.com refuses, no line out.
+What is written down is then the preset that was picked and not the
+entry the box fell back on, so a project saved on a machine with no
+connection opens again with the preset it was given.
 
 ### When the production already exists
 

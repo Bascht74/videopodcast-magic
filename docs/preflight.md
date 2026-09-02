@@ -26,6 +26,7 @@ The report holds for both modes.
 | Picture | nominal rate against actual rate, spread of the frame spacing | see below |
 | Picture | frame rates of the cameras against each other | the timeline gets the highest of them, or the next rate Resolve has above it |
 | Picture | multi-part cameras: gap between the blocks | where picture is missing |
+| Picture | recording curve, colour tag and picture size of the cameras against each other | note naming which camera carries what |
 | Sound | sample rate, bit depth, channels, length | brought to 48 kHz, and it says so |
 | Sound | tracks much shorter than the longest | note |
 | Sound | samples on the stop, per channel | note, integer formats only |
@@ -57,6 +58,18 @@ not per selection. It measures a newly added camera alone. Frame rates,
 resolutions and tracks out of line show only in comparison and come from
 the remembered data. The bleed counts for exactly that set of tracks. The
 program finds disk space and loudness target afresh every time.
+
+**What only shows in comparison belongs to no single file**, so it does
+not hang on a row. It stands at the foot of the list under **GENERAL
+NOTES**, which opens like any other row: the frame rates against each
+other, the recording curves, the colour tags, the picture sizes, the
+bleed between the recordings. What can be pinned to one file stays on
+that file's row -- a clock that was not set is the file's own affair.
+
+Where several cameras carry different curves or different tags, each
+value stands on a line of its own with the cameras that have it.
+Written one after another they ran past the end of the column, and what
+was cut off was the camera name the reader was looking for.
 
 ### What the report says about a variable frame rate
 

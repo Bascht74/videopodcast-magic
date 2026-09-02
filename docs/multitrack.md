@@ -93,13 +93,35 @@ than one speaker -- a name is a person, and every person needs their
 own**.
 
 The lower table has a row per camera: **Camera**, **new file name**,
-**gets audio from** and **Camera audio**. What a file is -- content,
-intro, outro or ignored -- is asked in the file list now, in the column
-**Kind**, with the material it is about. A click on a row fetches that
-file into the player. A file with no place at all stands red, here as in
-the file list, and the program proposes to leave it out. A file whose
-sound was not recognised but whose timecode still sets it among the
-others is marked and keeps its place.
+**gets audio from**, **Kind** and **Camera audio**. The last two stand
+in the file list as well, on the same value, and they stand here a
+second time because the player is here: that a clip is in truth an
+outro is noticed while watching it. A click on a row fetches that file
+into the player.
+
+**new file name** is what will come out of that camera. It is a
+proposal until somebody types over it, and it is built from the
+production name, the camera and the speakers in front of it. **gets
+audio from** beside it names those same speakers. A camera nobody is
+assigned to says **the mix of all tracks** there, and the wide shot
+says **no speaker -- this is the wide shot** -- or names whoever was
+assigned to it before and has been moved to **no camera of its own**.
+
+**A name that is only suggested counts in both.** The name field of a
+recording starts empty with the guess from the file name standing in it
+in grey, and that guess is what the run works with, so it belongs in
+the camera's file name and in **gets audio from** as well. It used to
+be missing from both while the run had it, and the camera then went to
+Resolve under a file name with nobody in it. Typing the name over
+changes nothing about that -- it was already the name that counted.
+
+A file the measurement can place nowhere is not marked in this table.
+Every note about a file stands in the file list, where the files are
+chosen and where it is read before anybody gets this far. Here only the
+**Kind** shows what became of it: **Content** and **Wide shot** are
+barred, and the program's own answer stands in the field -- **Intro**,
+or **ignore this video** where nothing at all could be measured of the
+file ([The interface](interface.md)).
 
 Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
@@ -251,6 +273,14 @@ one line names what the cameras carry against how much was recorded.
 Where the key frames of a camera cannot be read, the program says so and
 leaves that camera's start where it is.
 
+In the same block each camera reports its offset and its clock drift.
+One of them reports no drift: **Clock drift: nothing measured -- this
+is the reference the others are held against**. It is the longest
+camera, the one all the others were measured against, so there is
+nothing about it that a measurement produced. It used to print a row of
+noughts there -- nought ppm, nought of nought points -- which reads
+like a measurement and was none.
+
 Wanting more than the window holds means moving **Mark In** and **Mark
 Out** apart and running again. There is no separate switch for it.
 
@@ -319,7 +349,7 @@ masters to ([Preflight](preflight.md)).
 - **Only one track found a place.** The others could not be measured
   against the reference, and one track on its own has nothing left to
   lie against. The lines above name each one and why it was dropped.
-- **A row is marked, and the mark is not red.** Beside the name stands
+- **A row is marked, and the mark is not red.** Under the name stands
   **sound not recognised; placed by its timecode**. Nothing has to be
   done: the sound of that file was not recognised, its clock places it
   among the others to the frame, and one of the two ways to a place is

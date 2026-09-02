@@ -142,6 +142,15 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   entfernt und wieder hinzugefügt wird, gehören die Blöcke wieder
   zusammen.
 
+  **Mit der Datei gehen die Antworten über sie**: der Sprechername, die
+  Kamera, der **Typ**, das Ausgemachte über ihre Kanäle. Die
+  Projektdatei wird aus demselben Vorrat geschrieben, also ist das, was
+  die Liste verlassen hat, auch aus ihr heraus, und eine wieder
+  hinzugefügte Datei kommt blank zurück und wird neu gefragt. Bisher
+  blieb das Entfernte in der gespeicherten Projektdatei stehen, und wer
+  eine Datei später wieder hinzunahm, bekam wortlos die alte Antwort --
+  eine Aufnahme mit leerem Namen, eine Kamera auf **Vorspann**.
+
   ![Die Dateiliste](images/files.de.png)
 
   *Die Liste nach dem Öffnen eines Projekts, mit den Prüfzeichen aus
@@ -646,9 +655,21 @@ jeder Recorder als gleichmäßig laufend, wovon das Programm vorher
 ohnehin ausgegangen ist. Mehr über die Projektdatei steht in
 [camera-cut.de.md](camera-cut.de.md).
 
+**Wer eine Datei hineinzieht, während gemessen wird, bekommt sie
+mitgemessen.** Die laufende Messung wurde über die Liste angestoßen,
+wie sie damals war, und weiß von der neuen Datei nichts. Also wartet
+die Anfrage: sobald die Antwort da ist, wird die ganze Liste noch
+einmal gemessen, die neue Datei mit. Von Hand ist dafür nichts zu tun
+und nichts zu wiederholen. Der Balken neben **Start** sagt, dass die
+Zeitachse gemessen wird, und über den zweiten Durchgang sagt er es
+wieder.
+
 Die Messung unterscheidet drei Urteile, und die Zeile sagt, welches es
 ist. **Zu einem Platz führen zwei Wege, der Ton und die Uhr, und einer
-davon genügt** -- daran entscheidet sich, was dort steht.
+davon genügt** -- daran entscheidet sich, was dort steht. Der Vermerk
+steht in eigenen Zeilen unter dem, was die Zeile sonst sagt, und nicht
+mehr dahinter: in einer Zeile geschrieben schob ihn der Ordnername
+davor aus der Spalte, und gerade die Hälfte, auf die es ankam, war fort.
 
 Eine Datei, deren Ton nicht erkannt wurde, die ihr Timecode aber zwischen
 die anderen setzt, trägt den Vermerk **Ton nicht erkannt; über den
@@ -682,6 +703,8 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   die Datei an `ffplay` übergibt; das öffnet ein eigenes Fenster.
 - **In-Punkt und Out-Punkt sind gesperrt**: das Programm misst die
   Zeitachse noch. Der Balken neben **Start** sagt, was gerade läuft.
+  Dateien, die währenddessen dazukommen, werden danach gemessen, in
+  einem eigenen zweiten Durchgang.
 - **Eine Datei steht plötzlich auf „Vorspann“ oder „Video ignorieren“**:
   die Messung hat keinen Platz für sie gefunden. Ihr einen Timecode
   geben, der zum übrigen Material passt -- der muss mit einem anderen

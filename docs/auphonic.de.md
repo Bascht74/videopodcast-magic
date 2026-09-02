@@ -36,6 +36,16 @@ Einstellungen öffnet. Dieselbe Zeile steht im Einstellungsfenster und
 im Kasten auf dem Reiter **Zuordnung & Zeitfenster**. Sie nennt auch
 einen fehlenden Schlüssel.
 
+**Die Zeile sagt, welcher Schlüssel abgelehnt wurde.** Beim Start hat
+niemand etwas getippt, der Schlüssel kam also irgendwoher, und es kann
+an beiden Stellen zugleich einer liegen: `AUPHONIC_TOKEN` wird vor dem
+gelesen, was Schlüsselbund oder Registry halten. Die Zeile nennt den,
+der hinausgegangen ist -- **Der Schlüssel aus AUPHONIC_TOKEN wird nicht
+angenommen** oder **Der gemerkte Schlüssel wird nicht angenommen** --,
+damit niemand an der falschen Stelle sucht. Nach **Verbinden** ist es
+der Schlüssel aus dem Feld, und die Zeile sagt nur noch, was
+auphonic.com geantwortet hat.
+
 * Auf dem Weg zu auphonic.com steht der Schlüssel nie in der
   Prozessliste: curl liest ihn aus einer Konfigurationsdatei, die nur
   ihrem Eigentümer lesbar ist. Das Programm löscht die Datei danach und
@@ -55,6 +65,11 @@ Nimmt der Schlüsselbund ihn also nicht, wird nichts abgelegt, und eine
 Zeile sagt, warum. Das Häkchen geht dabei wieder heraus, damit es nicht
 gesetzt über einem Schlüssel steht, der beim nächsten Start fort ist.
 Beim Weg über die Windows-Registry stellt sich die Frage nicht.
+
+Abgelegt wird der Schlüssel, der geprüft wurde, und nicht das, was im
+Feld steht, wenn die Antwort eintrifft. Wer während der Prüfung einen
+zweiten einfügte, bekam bisher diesen zweiten, ungeprüften, abgelegt --
+unter einem Knopf, der gerade für den ersten grün geworden war.
 
 Ob der Schlüsselbund zugesperrt ist, wird nachgesehen, bevor etwas
 übergeben wird. Solange er zu ist, ist das Häkchen **Im Schlüsselbund
@@ -136,9 +151,18 @@ aus dem Ton. Die Messung und ihre untere Grenze stehen in
 [Sprecherstatistik, Kameraschnitt, EDL](camera-cut.de.md).
 
 Solange das Programm keinen Schlüssel geprüft hat, steht nur dieser
-Eintrag in der Liste. Sobald die Presets eintreffen, springt die Auswahl
-auf das erste davon. Eine bewusste Wahl übersteht den Neuaufbau der
-Liste und steht in der Projektdatei.
+Eintrag in der Liste. Treffen die Presets ein, bleibt die Auswahl auf
+ihm stehen: dass eine Liste eingetroffen ist, ist kein Grund, beim
+nächsten **Start** Guthaben auszugeben. Die Presets stehen zur Wahl,
+gewählt wird keines für einen.
+
+Ein von Hand gewähltes Preset ist von da an die Antwort. Es übersteht
+den Neuaufbau der Liste, und es steht auch dann in der Projektdatei,
+wenn die Liste gar nicht aufgebaut werden kann -- abgelehnter
+Schlüssel, keine Leitung. Aufgeschrieben wird dann das gewählte Preset
+und nicht der Eintrag, auf den der Kasten zurückgefallen ist: ein ohne
+Verbindung gespeichertes Projekt öffnet wieder mit dem Preset, das es
+bekommen hat.
 
 ### Wenn es die Produktion schon gibt
 

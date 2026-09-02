@@ -128,6 +128,15 @@ Four tabs, in the order they are needed.
   later makes it a recording of its own. Only removing the whole
   recording and adding it again joins the blocks up as before.
 
+  **Removing takes the answers about that file with it**: the speaker
+  name, the camera, the **Kind**, what was settled about its channels.
+  The project file is written out of the same store, so what has left
+  the list has left the file as well, and a file added again comes back
+  bare and is asked about afresh. What was removed used to stand in the
+  saved project all the same, and a file put back later came up on the
+  old answer without a word about it -- a recording with an empty name,
+  a camera on **Intro**.
+
   ![The file list](images/files.png)
 
   *The list after a project was opened, with the marks from the
@@ -604,9 +613,20 @@ kept still opens: every recorder in it then counts as running even,
 which is what the program assumed all along. More about the project file
 stands in [camera-cut.md](camera-cut.md).
 
+**Files dropped in while the measurement is running are measured too.**
+The measurement under way was started over the list as it stood and
+knows nothing of the new file, so the request waits for it: as soon as
+the answer is in, the whole list is measured again, the new file with
+it. Nothing has to be pressed and nothing repeated by hand. The bar
+beside **Start** says the axis is being measured, and it says it again
+over the second pass.
+
 The measurement tells three verdicts apart, and the row says which one
 it is. **Two ways lead to a place, the sound and the clock, and one of
-them is enough** -- that is what the two lines turn on.
+them is enough** -- that is what the two lines turn on. The verdict
+stands on lines of its own, under what the row otherwise says rather
+than behind it: written on one line it was pushed out of the column by
+the folder in front of it, and the reader lost the half that mattered.
 
 A file whose sound was not recognised but whose timecode puts it among
 the others says **sound not recognised; placed by its timecode**. It
@@ -638,7 +658,8 @@ nothing are told apart.
 - **The player shows no picture**: a button takes its place and hands the
   file to `ffplay`, which opens a window of its own.
 - **In point and Out point are locked**: the program is still measuring
-  the time axis. The bar beside **Start** says what is running.
+  the time axis. The bar beside **Start** says what is running. Files
+  added meanwhile are measured after it, in a second pass of their own.
 - **A file suddenly stands on "Intro" or on "ignore this video"**: the
   measurement found no place for it. Give it a timecode that fits the
   other recordings -- that has to be set with another program -- and
