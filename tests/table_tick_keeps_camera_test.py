@@ -105,15 +105,42 @@ QtWidgets.QDialog.exec = lambda self: QtWidgets.QDialog.Accepted
 QtWidgets.QMessageBox.exec = lambda self: QtWidgets.QMessageBox.Ok
 
 
+# Closing a window does not destroy it: it stays a widget of the top
+# rank carrying the same title, so from the second pass on two answer to
+# that name. Which of them comes first is a hash order Qt seeds afresh in
+# every process, and picking by title then decides nothing the test can
+# see. Measured over twelve copies side by side: six read the first
+# pass's window all through the second one -- green, and proving nothing,
+# because that window already stood on the picked camera; five read the
+# new one; and one changed its mind between two steps and went red. So
+# the window is chosen once per pass and kept, and the window of a pass
+# that is over is put aside by its identity rather than by its title.
+held = [None]
+put_aside = []
+
+
 def win():
-    for x in app.topLevelWidgets():
-        if "Video Podcast Magic" in x.windowTitle():
-            return x
+    """The window of this pass -- chosen once, then kept."""
+    if held[0] is None:
+        for x in app.topLevelWidgets():
+            if ("Video Podcast Magic" in x.windowTitle()
+                    and not any(x is old for old in put_aside)):
+                held[0] = x
+                break
+    return held[0]
+
+
+def pass_over():
+    """This pass is done: the next one may not find its window."""
+    if held[0] is not None:
+        put_aside.append(held[0])
+        held[0] = None
 
 
 def button(text):
-    for w in (win().findChildren(QtWidgets.QPushButton)
-              + win().findChildren(QtWidgets.QCheckBox)):
+    top = win()
+    for w in ((top.findChildren(QtWidgets.QPushButton)
+               + top.findChildren(QtWidgets.QCheckBox)) if top else []):
         if w.text().strip().startswith(text):
             return w
 
@@ -246,7 +273,8 @@ def step():
     print("   step %d" % i, flush=True)
     try:
         if i == 0:
-            win().show(); win().resize(1400, 900); app.processEvents()
+            top = needed("the window of the first pass", win())
+            top.show(); top.resize(1400, 900); app.processEvents()
             needed("the Add files button", button("Add files")).click()
         elif i == 1:
             # Without an output folder there is nowhere for the project
@@ -325,15 +353,22 @@ def step():
             # in four fell here on this Mac and one builder job of six.
             # What follows then is worse than the fault -- the pass ends,
             # the second pass has no file to open, and its own step waits
-            # a minute for a row that cannot come. So the step waits for
-            # the file, and the judgement below says it arrived at all.
-            needed("the project file the closing window writes",
-                   project_files() or None)
+            # a minute for a row that cannot come. So the step waits.
+            #
+            # It waits by giving up, not by refusing: a `needed` here
+            # would swallow exactly the case the judgement below asks
+            # about, and a file that never came would end the run under a
+            # name no register knows. Standstill and then the judgement,
+            # which then says how long it waited for nothing.
+            if not project_files() and patience[0] < STANDSTILL:
+                raise NotYet("the project file the closing window writes")
             names = project_files()
             check("closing the window leaves one project file behind",
                   len(names) == 1,
-                  "%d project files against 1; the folder holds %s"
-                  % (len(names), sorted(os.listdir(out_folder))))
+                  "%d project files against 1 after %.0f s of waiting; "
+                  "the folder holds %s"
+                  % (len(names), patience[0] * POLL / 1000.0,
+                     sorted(os.listdir(out_folder))))
             if not names:
                 raise SystemExit
             project_path[0] = os.path.join(out_folder, names[0])
@@ -381,6 +416,7 @@ vpm.gui()
 
 # ------------------------------------------- 2. open it again, elsewhere
 print("\n2. Open it again, in a window that knows nothing")
+pass_over()
 
 
 def again():
@@ -388,7 +424,8 @@ def again():
     print("   step %d" % i, flush=True)
     try:
         if i == 0:
-            win().show(); win().resize(1400, 900); app.processEvents()
+            top = needed("the window of the second pass", win())
+            top.show(); top.resize(1400, 900); app.processEvents()
             needed("the Open project button",
                    button("Open project")).click()
         elif i == 1:
