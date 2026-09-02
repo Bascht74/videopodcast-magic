@@ -4,7 +4,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, importlib.util, time
+import contextlib, importlib.util, io, json, shutil, sys, tempfile, time
 began = time.time()
 spec = importlib.util.spec_from_file_location(
     "vpm", SCRIPT)
@@ -278,8 +278,11 @@ def sections_every(first, apart, holds, how_many):
             for i in range(how_many)]
 
 
-# Shaped the way a run writes it: the speakers joined into the track,
-# the rendered file under "file", the camera it came from under "source".
+# Shaped the way a run writes it -- the speakers joined into the track,
+# the rendered file under "file", the camera it came from under
+# "source" -- but with the two names deliberately left in the order
+# they were handed in rather than sorted, so that the sorting the
+# window does to them is visible here and not hidden by the material.
 RUN = {"length_s": 600.0, "start_s": 61200.0,
        "speakers": [
            {"name": "Presenter",
@@ -423,6 +426,71 @@ check("the preview still cuts with a camera that has no file",
         numbers.get("shots", 0) > 1,
         "%s shots against more than 1, over %d cameras"
         % (numbers.get("shots"), len(paths)))
+
+print("\n14. Two names at one camera stand in one order, whoever built it")
+# The names at a camera are read: joined with a plus they are the
+# legend under the cut band and the track name in Resolve, and that
+# name is a key -- the clips of a camera and its place on the timeline
+# are looked up by it. Two builders make the list. Measured on
+# 2.9.2026 they ordered it differently: the preview sorted, the run put
+# the recordings' names before the voices'. Both are handed material
+# whose given order is the reverse of the sorted one, or a sorted list
+# could not be told from one that came out as it went in.
+BACK_TO_FRONT = {"Presenter": "Host_C005.mov",
+                 "CoPresenter": "Host_C005.mov"}
+d, _r = vpm.build_handover(
+    [("Presenter", [(0.0, 10.0)]), ("CoPresenter", [(10.0, 20.0)])],
+    300.0, BACK_TO_FRONT, CAM)
+at_camera = {cam["track"]: cam["speakers"] for cam in d["cameras"]}
+check("the preview builder sorts the two names, whatever order they "
+        "were assigned in",
+        at_camera["Hosts"] == ["CoPresenter", "Presenter"],
+        "%r against ['CoPresenter', 'Presenter'] -- the assignment names "
+        "them the other way round, all of it %s"
+        % (at_camera["Hosts"], at_camera))
+
+# And the run's builder, which gathers them in two goes: the recordings
+# with a camera first, then the voices a separation found under one of
+# them. Presenter is the recording and CoPresenter the voice, so
+# gathered in that order the list comes out back to front.
+RUN_WORK = tempfile.mkdtemp(prefix="handover_order_")
+ONE_CAM = os.path.join(RUN_WORK, "A001.MP4")
+open(ONE_CAM, "w").write("x")
+VOICE_FILE = os.path.join(RUN_WORK, "assign.json")
+with open(VOICE_FILE, "w", encoding="utf-8") as f:
+    json.dump({"voices_of": {"CoPresenter": ONE_CAM}}, f)
+
+
+class RunArgs(object):
+    production = "Order"
+    resolve = False
+    lufs = -16.0
+    intro = None
+    outro = None
+    assign = VOICE_FILE
+
+
+said = io.StringIO()
+with contextlib.redirect_stdout(said):
+    vpm.write_handover(
+        RunArgs(), [{"name": "Presenter", "camera": ONE_CAM}],
+        [{"name": "A001", "video": ONE_CAM}],
+        [(ONE_CAM, {"fps": 30.0, "width": 1920, "height": 1080,
+                    "duration": 100.0, "tc": "10:00:00:00"})],
+        RUN_WORK, 0.0, (ONE_CAM, {"fps": 30.0, "tc": "10:00:00:00"}))
+written = json.load(io.open(os.path.join(RUN_WORK, "Order_resolve.json"),
+                            encoding="utf-8"))
+one = (written.get("cameras") or [{}])[0]
+check("the run's builder sorts them too, though it gathers the "
+        "recording before the voice",
+        one.get("speakers") == ["CoPresenter", "Presenter"],
+        "%r against ['CoPresenter', 'Presenter'] -- gathered as they "
+        "arrive it is ['Presenter', 'CoPresenter']"
+        % (one.get("speakers"),))
+check("so the track name Resolve is keyed on reads the same either way",
+        one.get("track") == "CoPresenter + Presenter",
+        "%r against 'CoPresenter + Presenter'" % (one.get("track"),))
+shutil.rmtree(RUN_WORK, ignore_errors=True)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

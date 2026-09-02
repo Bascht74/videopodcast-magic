@@ -914,14 +914,13 @@ r_twice, _ = vpm.apply_time_window(r_once, "+0:00:10", "")
 step = float(r_twice["start_s"]) - float(r_once["start_s"])
 check("a relative In point applied twice moves by one In point, not two",
       abs(step - 10.0) <= FRAME, "%.3f s the second time" % step)
-# apply_time_window moves start_s to the In point. Whether start_tc
-# goes with it the program has not settled: the run's own windowed
-# handover names one instant with both fields (the check below), this
-# path leaves start_tc standing at the untrimmed start. Either is an
-# answer; a third value is a fault, and that is what is asked here --
-# the earlier form demanded that the two disagree and so went red on
-# the repair. While they do disagree, a handover out of this path must
-# not reach timeline_origin, which reads start_tc and nothing else.
+# apply_time_window moves start_s to the In point, and start_tc goes
+# with it: Resolve reads start_tc and nothing else, so a handover
+# trimmed after it was written used to put every frame the removed head
+# out of place. The wide judgement stays beside the narrow one on
+# purpose -- it allows either answer and refuses a third, so it holds
+# whichever of the two the program settles on, while the one under it
+# says which of the two that is today.
 head = float(once["start_s"]) - float(base["start_s"])
 gap = open_run.clock(once["start_tc"]) - float(once["start_s"])
 check("a window puts start_tc where start_s now is, or leaves it at "
@@ -930,6 +929,12 @@ check("a window puts start_tc where start_s now is, or leaves it at "
       "start_tc %s sits %.3f s from start_s %.3f -- %.3f (moved along) "
       "and %.3f (left behind) are the two right answers"
       % (once["start_tc"], gap, float(once["start_s"]), 0.0, -head))
+check("and a handover trimmed after it was written names one instant "
+      "in both fields, as a run with a window does",
+      abs(gap) <= FRAME,
+      "start_tc %s sits %.3f s from start_s %.3f, wanted 0.000 -- left "
+      "at the untrimmed start it would sit %.3f s away"
+      % (once["start_tc"], gap, float(once["start_s"]), -head))
 check("the run's own windowed handover has the two agreeing",
       abs(win_run.clock(win_run.d["start_tc"]) - win_run.start_s)
       <= win_run.frame,

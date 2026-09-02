@@ -13,6 +13,14 @@ app = QtWidgets.QApplication(sys.argv[:1])
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
+# Before the window comes up: all three names of the credential store
+# go somewhere throwaway. Measured on 2.9.2026 -- this file is the one
+# that wrote "not-a-real-key" into the real keychain. The reading below
+# is stood in for, the writing was not, and starting the window saves
+# what it read; on a Mac the two keychain names stood in the program
+# where they were used, so nothing here could redirect them.
+import key_store_apart                                      # noqa: E402
+key_store_apart.apart(vpm)
 vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True),
                                 ("Podcast_Zoom", "u2", False)]
 vpm.load_api_key = lambda: "not-a-real-key"

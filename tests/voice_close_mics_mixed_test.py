@@ -6,16 +6,21 @@ microphones stand, whether the separation is refused or handed a mix of
 them all, that the mix is a plain sum and nothing is levelled first,
 and that the voices are named after the microphone that is left when
 the recording level is taken out. Then a guard: where the microphones
-can be told apart the cheap route stays untouched. Last a recording
+can be told apart the cheap route stays untouched. Then a recording
 that arrives in several blocks, which has to be measured as the one
-recording it is. The model itself is not run -- the voices are handed
-in with their true times.
+recording it is. Last a run started out of the window with a separation
+already in hand: below the limit the run overrules it, above the limit
+and wherever the measurement could decide nothing it does not, and the
+question of how far apart they stand is asked once a run at most. The
+model itself is not run -- the voices are handed in with their true
+times.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import importlib.util
+import io
 import shutil
 import struct
 import sys
@@ -515,6 +520,194 @@ try:
 finally:
     vpm.microphones_apart_db = straight_apart
     vpm.speaker_mix_file = straight_mix
+
+
+print("\n8. A separation handed over from the window does not settle it")
+#
+# The window picks its source without knowing how far the microphones
+# stand apart, so it can only ever take a single recording. Measured on
+# 2.9.2026 the run then never asked the question at all -- it carried
+# the window's answer over to save the graphics unit three minutes, and
+# below the limit that is the worse answer by a long way. So the run
+# overrules it, and only where it can really do better.
+#
+# The model is a stand-in answering out of a table, as everywhere else
+# in this file; the mix under it is the program's own and is really
+# made. The store is this test's own, so nothing another test left
+# behind can answer for a recording this one mixed.
+KEPT_CACHE = os.environ.get("VPM_CACHE")
+OWN_STORE = tempfile.mkdtemp(prefix="vpm_close_store_")
+os.environ["VPM_CACHE"] = OWN_STORE
+KEPT_OFF = vpm.SPEAKER_SPLIT_OFF
+vpm.SPEAKER_SPLIT_OFF = False
+vpm.speaker_split_available = lambda deep=False: True
+vpm.speaker_split_run = lambda path, count=0, **kw: (
+    [("SPEAKER_00", [(1.0, 6.0)]), ("SPEAKER_01", [(7.0, 12.0)])], "")
+counted = {"apart": 0, "picked": []}
+straight_apart = vpm.microphones_apart_db
+straight_pick = vpm.separation_source_of_run
+
+
+def counting_apart(paths):
+    """The real measurement, counted: it may not fall in every run."""
+    counted["apart"] += 1
+    return straight_apart(paths)
+
+
+def counting_pick(args, tracks, video_paths, mixable=False, window=()):
+    """The real source pick, with a note of whether it was asked at all."""
+    counted["picked"].append(bool(mixable))
+    return straight_pick(args, tracks, video_paths, mixable=mixable,
+                         window=window)
+
+
+vpm.microphones_apart_db = counting_apart
+vpm.separation_source_of_run = counting_pick
+
+
+def on_the_axis(tracks):
+    """The two microphones as they stand when the separation is chosen."""
+    return [{"name": n, "source": p, "blocks": [p], "axis": p,
+             "a": 0.0, "b": 1.0} for n, p in tracks]
+
+
+def handed_over(tracks):
+    """What the window took apart: one recording, one voice, one name."""
+    return {"source": tracks[0][1],
+            "names": {"SPEAKER_00": "WindowVoice"},
+            "segments": [["SPEAKER_00", 2.0, 9.0]]}
+
+
+class Started(object):
+    """As much of the parsed command line as the separation reads."""
+
+    def __init__(self, **over):
+        self.speakers_local = None
+        self.speakers_from = None
+        self.speakers_count = 0
+        self.no_speakers_local = False
+        self.dry_run = False
+        self.without_auphonic = True
+        self.auphonic_done = None
+        self._camera_audio = None
+        self.__dict__.update(over)
+
+
+def out_of_the_window(tracks, **over):
+    """One run started from the window, and everything it said."""
+    counted["apart"] = 0
+    del counted["picked"][:]
+    kept_out, sys.stdout = sys.stdout, io.StringIO()
+    try:
+        out, where_from = vpm.separation_for_run(
+            Started(_speakers_of=handed_over(tracks), **over),
+            on_the_axis(tracks), {}, 0.0, LENGTH, [])
+    finally:
+        said, sys.stdout = sys.stdout.getvalue(), kept_out
+    return {"voices": [n for n, _s in out], "from": where_from,
+            "said": said, "apart": counted["apart"],
+            "picked": list(counted["picked"])}
+
+
+try:
+    close_run = out_of_the_window(CLOSE)
+    check("close microphones: the window's separation is dropped and the "
+          "run picks its own",
+          close_run["from"] == vpm.T('the separation in this run')
+          and close_run["picked"] == [True],
+          "the run says %r after %d source picks %s -- wanted %r and one "
+          "pick with the mix allowed"
+          % (close_run["from"], len(close_run["picked"]),
+             close_run["picked"], vpm.T('the separation in this run')))
+    check("and the voices that reach the cut are the mix's, not the "
+          "window's one",
+          sorted(close_run["voices"]) == ["SPEAKER_00", "SPEAKER_01"],
+          "%s came back, wanted the two the mix was taken apart into and "
+          "not ['WindowVoice']" % (close_run["voices"],))
+    check("and the run names both numbers for the work it threw away",
+          ("%.1f" % close_db) in close_run["said"]
+          and ("%.1f" % vpm.MICROPHONES_APART_DB) in close_run["said"],
+          "the log carries %.1f dB: %r, and the limit %.1f dB: %r -- "
+          "wanted both"
+          % (close_db, ("%.1f" % close_db) in close_run["said"],
+             vpm.MICROPHONES_APART_DB,
+             ("%.1f" % vpm.MICROPHONES_APART_DB) in close_run["said"]))
+    check("and how far apart they stand is measured once in that run",
+          close_run["apart"] == 1,
+          "%d measurements, wanted 1" % close_run["apart"])
+
+    far_run = out_of_the_window(FAR)
+    check("microphones far apart: what the window handed over is what the "
+          "run uses",
+          far_run["from"] == vpm.T('the interface')
+          and far_run["voices"] == ["WindowVoice"],
+          "the run says %r and %s came back -- wanted %r and "
+          "['WindowVoice']"
+          % (far_run["from"], far_run["voices"], vpm.T('the interface')))
+    check("and no separation of its own is started there",
+          far_run["picked"] == [] and far_run["apart"] == 1,
+          "%d source picks %s after %d measurements -- wanted none after "
+          "one" % (len(far_run["picked"]), far_run["picked"],
+                   far_run["apart"]))
+
+    # The measurement reads five windows out of every recording against
+    # every other, so it may not fall where its answer changes nothing.
+    auphonic_run = out_of_the_window(CLOSE, without_auphonic=False)
+    check("where auphonic.com takes the bleed out the window's answer "
+          "stands, unmeasured",
+          auphonic_run["from"] == vpm.T('the interface')
+          and auphonic_run["apart"] == 0,
+          "the run says %r after %d measurements -- wanted %r and none"
+          % (auphonic_run["from"], auphonic_run["apart"],
+             vpm.T('the interface')))
+    refused_run = out_of_the_window(CLOSE, no_speakers_local=True)
+    check("and --no-speakers-local leaves it alone, unmeasured, as well",
+          refused_run["from"] == vpm.T('the interface')
+          and refused_run["apart"] == 0,
+          "the run says %r after %d measurements -- wanted %r and none"
+          % (refused_run["from"], refused_run["apart"],
+             vpm.T('the interface')))
+    # Three more ways the run cannot do better, each with a run of its
+    # own: a recording named on the command line, sound taken off the
+    # cameras, and a machine that has no model to take anything apart
+    # with. The microphones stand close in all three, so only the term
+    # under test keeps the measurement from happening.
+    named_run = out_of_the_window(CLOSE, speakers_local="/nowhere/one.wav")
+    check("a recording named with --speakers-local keeps the window's "
+          "answer, unmeasured",
+          named_run["from"] == vpm.T('the interface')
+          and named_run["apart"] == 0,
+          "the run says %r after %d measurements -- wanted %r and none"
+          % (named_run["from"], named_run["apart"],
+             vpm.T('the interface')))
+    camera_run = out_of_the_window(CLOSE, _camera_audio=True)
+    check("and sound taken off the cameras keeps it too, unmeasured",
+          camera_run["from"] == vpm.T('the interface')
+          and camera_run["apart"] == 0,
+          "the run says %r after %d measurements -- wanted %r and none"
+          % (camera_run["from"], camera_run["apart"],
+             vpm.T('the interface')))
+    vpm.SPEAKER_SPLIT_OFF = True
+    try:
+        no_model_run = out_of_the_window(CLOSE)
+    finally:
+        vpm.SPEAKER_SPLIT_OFF = False
+    check("and a machine with no model to take a recording apart keeps "
+          "it as well, unmeasured",
+          no_model_run["from"] == vpm.T('the interface')
+          and no_model_run["apart"] == 0,
+          "the run says %r after %d measurements -- wanted %r and none"
+          % (no_model_run["from"], no_model_run["apart"],
+             vpm.T('the interface')))
+finally:
+    vpm.microphones_apart_db = straight_apart
+    vpm.separation_source_of_run = straight_pick
+    vpm.SPEAKER_SPLIT_OFF = KEPT_OFF
+    if KEPT_CACHE is None:
+        os.environ.pop("VPM_CACHE", None)
+    else:
+        os.environ["VPM_CACHE"] = KEPT_CACHE
+    shutil.rmtree(OWN_STORE, ignore_errors=True)
 
 
 shutil.rmtree(WORK, ignore_errors=True)
