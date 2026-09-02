@@ -10112,7 +10112,8 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
     cameras were ticked by hand is not on the command line, so all are
     offered. With *mixable* the microphones are measured and, where
     they hear each other too well to be told apart, added into one file
-    that becomes the source. *window* goes into that mix's name.
+    that becomes the source. *window* goes into that mix's name. How far
+    apart they stand is asked of the recordings, not of the blocks.
     """
     from_cameras = bool(getattr(args, "_camera_audio", None))
     recordings, of_track = [], {}
@@ -10139,9 +10140,17 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
 
     apart = None
     if mixable and not from_cameras:
-        there = [p for p in recordings if os.path.exists(p)]
-        if len(there) > 1:
-            apart = microphones_apart_db(there)
+        # A block is not a recording: two blocks of one recorder follow
+        # each other and never sound at the same moment, so measured
+        # against each other they share no time at all. The question
+        # goes to the joined recordings, as in the preflight.
+        whole = []
+        for track in tracks or ():
+            p = track.get("source") or (track.get("blocks") or [""])[0]
+            if p and p not in whole and os.path.exists(p):
+                whole.append(p)
+        if len(whole) > 1:
+            apart = microphones_apart_db(whole)
     return speaker_source_pick([] if from_cameras else recordings,
                                video_paths or (),
                                camera_audio=from_cameras,
