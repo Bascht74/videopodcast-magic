@@ -412,6 +412,26 @@ wrong rather than a consequence? Where a claim rests on a precondition
 check of its own and stands before it; otherwise the line reports that
 the camera did not switch while in truth nothing ever played.
 
+**5b. Three questions before the counter-proof, not after.** Twenty-two
+judgements were found green and testing nothing in one night, and they
+fall into three shapes. Ask these of every judgement while you write it:
+
+* **Does it hold A against A?** One pure function, one argument, called
+  twice. `not version_key("2.0.0") < version_key("2.0.0")` proves that
+  the function is deterministic, nothing about the ordering it is named
+  after -- measured, three breaks that flattened it entirely left it
+  green while 23 neighbours fell.
+* **Does it repeat a guard above it?** Four lines up the code already
+  demanded it and waited. Then nothing happens, and the judgement asks
+  the same thing again. Per construction always true.
+* **Does a second net repair the fault before it looks?** Take the guard
+  away and the program puts it right on a later pass, or the fixture
+  happens to give the right answer for the wrong reason. Measured: a
+  whole name check could be deleted and all 21 judgements stayed green.
+
+**All three are invisible from the source.** Only a broken copy finds
+them -- which is why the counter-proof is the rule and not the polish.
+
 **6. The counter-proof is done -- for each check on its own.** A version
 in which exactly this one thing is false, the test run against it, the
 red line read. Not one per file, one per check. Without it the check
