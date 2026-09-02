@@ -4,10 +4,20 @@
 On a long run the bar is the only sign that anything moves. Opening a
 project fills it with the measuring; pressing Start in that moment used
 to add the run's stages on top, so the bar opened high and fell back. A
-bar that never falls then made it stand still instead. This is
-arithmetic, and can be held against numbers without a window.
+bar that never falls then made it stand still instead. Between two
+figures only the creeping moves it, so that is held here too, and last
+the stages having one set of names. This is arithmetic, no window.
+
+What is asked is always the bar, never a step's own figure -- that is
+the neighbour's subject. And it is asked in between as seldom as it
+can be: the bar keeps a high mark, so a judgement that has just raised
+it can no longer see anything fall.
+
+The limit of the last part: which stages the run announces is read off
+the program's own calls, so a name written out or held in a constant is
+seen and one built at run time is not -- the line says which.
 """
-import os, sys, time
+import ast, os, sys, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
@@ -84,14 +94,22 @@ check("and only then does it move again",
 print("\n3. It never goes backwards, whatever happens")
 # The older guard is still in force, and it has to be: a step that
 # reports itself smaller than it was would otherwise pull the bar down.
+# The bar is not asked between the two figures. Asked once, its high
+# mark would hold the answer up by itself and this would test nothing;
+# so what is wanted is written out instead -- one step of weight one,
+# best figure 0.8, and the bar is that.
+plan = vpm.ProgressPlan()
+plan.add("one", 1.0)
+plan.report("one", 0.8)
+plan.report("one", 0.2)
+check("a step's smaller second figure never reaches the bar",
+      abs(plan.total() - 0.8) < 1e-9, "%.3f, wanted 0.800" % plan.total())
+# Work announced later is the high mark's own case: there the sum
+# really does fall, from 0.8 to 0.4, and only the mark holds it up.
 plan = vpm.ProgressPlan()
 plan.add("one", 1.0)
 plan.report("one", 0.8)
 was = plan.total()
-plan.report("one", 0.2)
-check("a step reporting itself smaller does not pull it down",
-      plan.total() >= was - 1e-9, "%.3f after %.3f" % (plan.total(), was))
-# And adding work later cannot either.
 plan.add("two", 1.0)
 check("nor does work announced later",
       plan.total() >= was - 1e-9, "%.3f after %.3f" % (plan.total(), was))
@@ -107,14 +125,74 @@ check("reporting an unknown step adds it", "stranger" in plan.order,
 check("and it is counted in the whole", abs(plan.total() - 0.5) < 1e-9,
       "%.3f" % plan.total())
 
+# ------------------------------------------- Between two figures, only
+# the creeping moves the bar. Pulling the audio out of an hour of 4K
+# reports nothing for minutes; if the bar reads reported figures alone
+# it stands still for all of them, and a bar that stands still is what
+# this file is against. Nothing below names a number out of creep's
+# own settings -- each judgement asks only whether it moved.
+print("\n5. Between two figures the creeping moves it")
+plan = vpm.ProgressPlan()
+plan.begin("slow")
+still = plan.total()
+plan.creep(30.0)
+check("a step that reports nothing still moves the bar",
+      plan.total() > still, "%.3f after %.3f" % (plan.total(), still))
+# A figure arriving late is a floor, not a ceiling: the step crept past
+# it while nobody was asking, and that is not thrown away. Two plans
+# crept side by side, one of them told a small figure at the end.
+crept = vpm.ProgressPlan()
+late = vpm.ProgressPlan()
+crept.begin("slow")
+late.begin("slow")
+for _ in range(100):
+    crept.creep(60.0)
+    late.creep(60.0)
+late.report("slow", 0.1)
+check("a small figure arriving late does not undo the creeping",
+      late.total() >= crept.total() - 1e-9,
+      "%.3f against %.3f" % (late.total(), crept.total()))
+# And how far a step may creep hangs on its best figure, not its last.
+# On the lower one the ceiling would sit under where the step already
+# is, and the bar would freeze there.
+plan = vpm.ProgressPlan()
+plan.add("one", 1.0)
+plan.report("one", 0.8)
+plan.report("one", 0.2)
+stood = plan.total()
+for _ in range(20):
+    plan.creep(60.0)
+check("and the best figure, not the last, sets how far it creeps",
+      plan.total() > stood, "%.3f after %.3f" % (plan.total(), stood))
+
 # --------------------------------------------- The names on both paths
 # One bar draws both paths, so both must call their stages the same. A
 # stage announced but never listed lowers every share already reported;
 # one listed but never announced is skipped in a jump.
-print("\n5. The stages have one set of names")
-import re
-source = open(SCRIPT, encoding="utf-8").read()
-said = set(re.findall(r'step_begin\(\s*"([^"]+)"', source))
+print("\n6. The stages have one set of names")
+# The announcements are collected from the program's own calls, not from
+# the text around them: a name written out is read off the call, a name
+# held in a constant is asked of the program. Reading the text alone saw
+# only written-out names, so moving one single stage name into a
+# constant -- a change that alters nothing the program does -- made this
+# section red. What still cannot be read, a name built at run time or
+# taken out of a loop, is collected apart and named in the line.
+said = set()
+unread = []
+for node in ast.walk(ast.parse(open(SCRIPT, encoding="utf-8").read())):
+    if not (isinstance(node, ast.Call) and node.args
+            and getattr(node.func, "id", "") == "step_begin"):
+        continue
+    what = node.args[0]
+    if isinstance(what, ast.Constant) and isinstance(what.value, str):
+        said.add(what.value)
+    elif isinstance(what, ast.Name) and isinstance(
+            getattr(vpm, what.id, None), str):
+        said.add(getattr(vpm, what.id))
+    else:
+        unread.append("line %d" % what.lineno)
+aside = "" if not unread else "; announcements not read as a name: %s" % (
+    ", ".join(unread))
 planned = set()
 for multitrack in (False, True):
     for cameras in (0, 2):
@@ -123,11 +201,11 @@ for multitrack in (False, True):
                 planned |= set(name for name, _w, _c in vpm.run_stages(
                     multitrack, cameras, auphonic, speakers))
 check("every stage the run announces is one the plan knows",
-      said <= planned, str(sorted(said - planned)))
-# The other way round is not an error in general, but a stage nobody
+      said <= planned, str(sorted(said - planned)) + aside)
+# The other way round is not a fault in general, but a stage nobody
 # ever announces would be dead weight in the bar.
 check("and the plan lists nothing nobody ever reaches",
-      planned <= said, str(sorted(planned - said)))
+      planned <= said, str(sorted(planned - said)) + aside)
 # The simple path aligns against the cameras but does not pull their
 # audio out, so listing that stage for it would hold the bar back.
 check("no camera-audio stage on the simple path",

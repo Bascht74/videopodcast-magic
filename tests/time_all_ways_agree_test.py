@@ -25,9 +25,10 @@ the place of and walks it out to a wall clock time every way there is:
     recordFrame / fps out of build_cut_timeline   (Resolve, on the timeline)
     the camera timecode plus its startFrame       (Resolve, into the file)
 
-All have to name the same time within one frame, and where two do not,
-both numbers and both ways are printed. Which moments those are is said
-first and as a judgement of its own -- a shot on each of the three
+All have to name the same time within one frame, and how many of them
+could be walked at all is a judgement beside that one: a spread says
+nothing about a way that gave no answer. Which moments those are is
+said first and as a judgement of its own -- a shot on each of the three
 cameras, both speakers heard -- because everything below it is counted
 per moment, and a cut that quietly lost one would show as a smaller
 count and not as a fault. It runs twice, wide open and
@@ -41,11 +42,20 @@ part company Resolve gets something other than the preview shows. Then
 the cut cut_statistics() computes again, against the written one, and
 with it the two name spaces: the cut list names a camera by the
 camera's name, the player by the track name, and they agree only where
-no camera carries a speaker. Last the whole set once more at a second
-frame rate, read back the way a stranger reads it -- from the handover
-alone, the files beside it found by their stem: everything before that
-is written at 25 fps, and a frame rate is where timecode arithmetic
-goes wrong.
+no camera carries a speaker.
+
+After that three cases the material of a single ordinary run cannot
+make, each one a place where two numbers that are one number here are
+two everywhere else: a camera running slower than the Timeline, where
+the frames of the file and the frames of the Timeline part company; a
+row of files carrying no timecode, where the shift the run measured
+itself is all that is left to place a camera by; and a rate whose
+timecode counts faster than the pictures run, where the frame a
+timecode names and the frame a second is are not the same frame. Last
+the whole set once more at a second frame rate, read back the way a
+stranger reads it -- from the handover alone, the files beside it found
+by their stem: everything before that is written at 25 fps, and a frame
+rate is where timecode arithmetic goes wrong.
 
 The shared interview fixture carries real timecodes but the same
 picture, so one file is checked against the axis, not three aligned.
@@ -93,6 +103,14 @@ MOD = os.path.join(FIX, "PresentersCam_01011855_C002.mov")
 KAND = os.path.join(FIX, "GuestCam_01011858_C003.mov")
 FPS = 25.0
 FRAME = 1.0 / FPS
+# What the run measured for itself, and none of it zero. A camera's
+# place in the handover comes off its timecode, and the measurement is
+# only what is left where no file in the row carries one -- so with
+# zeroes here, "the timecode decided" and "the measurement decided"
+# name the same number for the camera that starts the axis, and taking
+# the timecode away changes nothing that can be seen. Three different
+# wrong answers instead, so every camera says which of the two it took.
+MEASURED = {WIDE: 7.5, MOD: -3.25, KAND: 11.0}
 
 # Two ways out, and they are not the same news: a machine nobody set
 # up, or a fixture that changed under everybody. One line each --
@@ -188,6 +206,21 @@ EDL_ROW = re.compile(r"^(\d{3})\s+\S+\s+\S+\s+\S+\s+"
                      r"(\S+)\s+(\S+)\s+(\S+)\s+(\S+)\s*$")
 
 
+def tc_clock(fps):
+    """How many frames a timecode counts to the second at *fps*.
+
+    Thirty at 29.97 and twenty-four at 23.976: a non-drop timecode
+    labels the wall clock and counts whole frames under it, so a frame
+    number out of one is turned back into seconds with the whole
+    number, never with the true rate. Dividing by the true rate is out
+    by about a minute per hour, and at 18:55 that is sixty-eight
+    seconds -- every reading here would then name a moment no file
+    mentions. Rounded here rather than looked up in the program, so the
+    two do not agree by being the same call.
+    """
+    return float(int(round(float(fps))))
+
+
 def read_edl(path, fps):
     """(start s, end s, clip name) per entry, in file order.
 
@@ -197,7 +230,7 @@ def read_edl(path, fps):
     rate = float(fps)
 
     def at(tc):
-        return vpm.timecode_to_frames(tc, rate) / rate
+        return vpm.timecode_to_frames(tc, rate) / tc_clock(rate)
 
     out, pending = [], None
     for line in open(path, encoding="utf-8"):
@@ -282,7 +315,7 @@ class Run(object):
             self.args, tracks, cameras, vids, self.dir, tc_start, ref,
             results=[WIDE, MOD, KAND], cut=self.cut, segment_list=self.segs,
             length=length, track_names={}, single_files=dict(mix or {}),
-            offsets={p: 0.0 for p in (WIDE, MOD, KAND)}, words=())
+            offsets=dict(MEASURED), words=())
         self.stem = os.path.join(self.dir, vpm.safe_filename(name))
         self.files = {
             "handover": self.stem + "_resolve.json",
@@ -316,7 +349,7 @@ class Run(object):
 
     def clock(self, tc):
         """A timecode as seconds since midnight, as the program counts."""
-        return vpm.timecode_to_frames(tc, self.fps) / float(self.fps)
+        return vpm.timecode_to_frames(tc, self.fps) / tc_clock(self.fps)
 
     # -- the Resolve build ------------------------------------------------
     def _build(self):
@@ -367,6 +400,16 @@ class Run(object):
             return None
         return tc + (t - offset)
 
+    def own_rate(self, camera):
+        """The rate this camera's own frames are counted at.
+
+        startFrame and endFrame are frames of the file and of nothing
+        else, so a way that divides them by the Timeline's rate is right
+        only for as long as the two rates are the same number.
+        """
+        cam = self.by_camera.get(camera)
+        return float((cam or {}).get("fps") or self.fps_r)
+
     def in_file(self, camera, t):
         """Where in this camera's file programme time *t* sits."""
         cam = self.by_camera.get(camera)
@@ -390,24 +433,25 @@ def agree(tag, heading, ways):
     """Every way has to name the same wall clock time, within a frame.
 
     *ways* is a list of (name, seconds or None). None means the way could
-    not be walked at all, which is said rather than passed over. *tag* is
-    what the failing line says where run.sh reads it, so that five
-    failures do not read alike.
+    not be walked at all, which is said rather than passed over -- the
+    names that led nowhere come back from here, because the caller is
+    where they become a judgement. *tag* is what the failing line says
+    where run.sh reads it, so that five failures do not read alike.
     """
     print("\n%s" % heading)
     gone = [n for n, v in ways if v is None]
     have = [(n, v) for n, v in ways if v is not None]
     for n in gone:
         print("      not reachable: %s" % n)
-    if len(have) < 2:
-        check("%s: at least two ways lead there" % tag, False,
-              "%d of %d" % (len(have), len(ways)))
-        return
     # The whole spread, not neighbour against neighbour: three ways a
-    # frame apart each are two frames apart at the ends.
-    low = min(v for _n, v in have)
-    high = max(v for _n, v in have)
-    ok = (high - low) <= FRAME * 1.001
+    # frame apart each are two frames apart at the ends. Where fewer
+    # than two were reachable there is no spread to measure and the line
+    # falls on the count instead -- there used to be a judgement of its
+    # own for that, and it could not fall: two of the nine ways below are
+    # the same expression written twice, so two of them are always there.
+    low = min([v for _n, v in have] or [0.0])
+    high = max([v for _n, v in have] or [0.0])
+    ok = len(have) >= 2 and (high - low) <= FRAME * 1.001
     # Grouped only for the report, so a divergence names both sides.
     # A single frame apart is rounding, not a disagreement.
     groups = {}
@@ -427,7 +471,7 @@ def agree(tag, heading, ways):
         print("      %s  (%s)"
               % (vpm.timecode_string(names[0][1], FPS),
                  ", ".join("%s = %.3f" % (n, v) for n, v in names)))
-    return ok
+    return [(tag, n) for n in gone]
 
 
 def walk_every_way(r):
@@ -453,6 +497,16 @@ def walk_every_way(r):
           "%d cameras and %d speakers with sections, against 3 and 2"
           % (len(moments), len(heard)))
 
+    # What could not be walked at all is collected and judged once at
+    # the end. A way that leads nowhere is not a small disagreement, it
+    # is a file with no row for this moment -- and the line above it
+    # cannot say so: it measures how far the answers lie apart, and a
+    # way that gave no answer is not in that spread. Measured: a zero
+    # moved by 125 frames left four of the five files five seconds
+    # wrong, and the count of ways fell from nine to seven without a
+    # word.
+    lost = []
+
     for e in moments:
         t = float(e["start"])
         camera = e["camera"]
@@ -474,11 +528,11 @@ def walk_every_way(r):
             ("Resolve startFrame in the file",
              None if x is None else
              (stamp_of(r.by_camera[camera]) or 0.0)
-             + float(x["startFrame"]) / r.fps_r),
+             + float(x["startFrame"]) / r.own_rate(camera)),
         ]
-        agree("%s: the shot on %s at %.3f s" % (r.name, camera, t),
-              "%s: the shot on %s that begins at %.3f s programme time"
-              % (r.name, camera, t), ways)
+        lost += agree("%s: the shot on %s at %.3f s" % (r.name, camera, t),
+                      "%s: the shot on %s that begins at %.3f s programme "
+                      "time" % (r.name, camera, t), ways)
 
     # And a speech moment, which is where the speaker files can be reached.
     for s in heard:
@@ -503,9 +557,13 @@ def walk_every_way(r):
              None if x is None else
              (float(x["recordFrame"]) / r.fps_r) + (t - float(shot["start"]))),
         ]
-        agree("%s: %s starts speaking at %.3f s" % (r.name, name, t),
-              "%s: %s starts speaking at %.3f s programme time -- on %s"
-              % (r.name, name, t, on_screen), ways)
+        lost += agree("%s: %s starts speaking at %.3f s" % (r.name, name, t),
+                      "%s: %s starts speaking at %.3f s programme time "
+                      "-- on %s" % (r.name, name, t, on_screen), ways)
+
+    check("every way to every one of those moments could be walked",
+          not lost, "%d of them led nowhere: %s"
+          % (len(lost), "; ".join("%s -- %s" % p for p in lost[:3])))
 
     print("\n  THE BRIDGE BETWEEN THE AXES")
     for c in d["cameras"]:
@@ -606,14 +664,36 @@ def five_files(r):
     check("the cut begins at start_s",
           abs(r.cut_edl[0][0] - r.start_s) <= r.frame,
           "%.3f vs %.3f" % (r.cut_edl[0][0], r.start_s))
-    last = max(x["recordFrame"] + (x["endFrame"] - x["startFrame"])
-               for x in r.placed)
+    # The empty list has an answer here too: a build that placed nothing
+    # is a fault this line has to report, not one it may die on. max()
+    # over nothing throws, and the traceback would end the file before
+    # the counting line and take every judgement after it with it.
+    last = max([x["recordFrame"] + (x["endFrame"] - x["startFrame"])
+                for x in r.placed] or [0])
     check("the Resolve timeline ends where the EDL ends",
           abs(float(last) / r.fps_r - r.cut_edl[-1][1]) <= r.frame,
           "%.3f vs %.3f" % (float(last) / r.fps_r, r.cut_edl[-1][1]))
     check("the Timeline was given the handover's own start timecode",
           r.timeline.start_tc == d["start_tc"],
           "%r vs %r" % (r.timeline.start_tc, d["start_tc"]))
+    # The paper and the Timeline on the same frame, and asked as frames:
+    # everything above allows a frame either way, because a second read
+    # off a timecode and a second computed from the axis are rounded in
+    # different places. Between these two there is nothing to round --
+    # the EDL is written as a frame number and Resolve is handed one --
+    # so a whole frame between them is a disagreement and not the
+    # method. It is where a rounding put in one of the two and not in
+    # the other shows up, and that difference is exactly one frame.
+    clock = tc_clock(r.fps)
+    apart = [(i, int(round(a * clock)), x["recordFrame"])
+             for i, ((a, _b, _n), x) in enumerate(zip(r.cut_edl, r.placed))
+             if int(round(a * clock)) != x["recordFrame"]]
+    check("every cameracut.edl entry names the frame Resolve is handed",
+          not apart and len(r.cut_edl) == len(r.placed),
+          "%d entries against %d clips%s"
+          % (len(r.cut_edl), len(r.placed),
+             "" if not apart else "; entry %d on frame %d, its clip on %d"
+             % apart[0]))
 
 
 def preview_cut(r):
@@ -647,6 +727,20 @@ print("=" * 66)
 print("THE WINDOW WIDE OPEN")
 print("=" * 66)
 open_run = Run("Onemoment", ZERO, SPEECH, LENGTH)
+# Everything below looks a camera up in this dict by its track name, so
+# it is asked here and not among the two name spaces further down: a
+# key missing there kills the run before the judgement is reached.
+# And asked as "every track is a key", not as "these keys and no
+# others": the player, the band and audio_for_cut all read the dict
+# with .get(track) and never over its keys, so an extra key under the
+# camera's name breaks nothing -- and the earlier form of this check
+# went red on exactly that harmless addition.
+no_key = sorted({c["track"] for c in open_run.d["cameras"]}
+                - set(open_run.player_offset))
+check("camera_offset() answers to every track name", not no_key,
+      "%d of %d tracks have no key: %s -- the keys are %s"
+      % (len(no_key), len(open_run.d["cameras"]), no_key,
+         sorted(open_run.player_offset)))
 
 print("\n" + "=" * 66)
 print("A KNOWN MOMENT, WALKED OUT EVERY WAY")
@@ -734,13 +828,18 @@ print("=" * 66)
 # A window makes something fall away, it does not make things slide. So
 # one real moment is asked of both runs: the two answers must be the
 # same, or sound runs against the wrong picture.
+# Both of these used to hold one run against the other -- the windowed
+# start_s less the open one, the windowed length less the open one --
+# and everything the program got equally wrong in both runs cancelled
+# out. Measured: a constant half second added in write_handover turned
+# 44 judgements here red and left these two green. So they are held
+# against numbers of this file's own: the timecode the fixture carries
+# and the window that was asked for.
 check("the window moved the axis by the In point",
-      abs((win_run.start_s - open_run.start_s) - NEW0) <= FRAME,
-      "%.3f vs %.3f" % (win_run.start_s - open_run.start_s, NEW0))
+      abs(win_run.start_s - (ZERO + NEW0)) <= FRAME,
+      "%.3f vs %.3f" % (win_run.start_s, ZERO + NEW0))
 check("and shortened the material by the head and the tail",
-      abs(float(win_run.d["length_s"])
-          - (float(open_run.d["length_s"]) - NEW0
-             - (LENGTH - NEW1))) <= FRAME,
+      abs(float(win_run.d["length_s"]) - (NEW1 - NEW0)) <= FRAME,
       "%.3f vs %.3f" % (win_run.d["length_s"], NEW1 - NEW0))
 for real in (ZERO + 22.0, ZERO + 36.0, ZERO + 50.0):
     for camera in open_run.by_camera:
@@ -815,13 +914,22 @@ r_twice, _ = vpm.apply_time_window(r_once, "+0:00:10", "")
 step = float(r_twice["start_s"]) - float(r_once["start_s"])
 check("a relative In point applied twice moves by one In point, not two",
       abs(step - 10.0) <= FRAME, "%.3f s the second time" % step)
-# apply_time_window moves start_s and leaves start_tc, so the two no
-# longer name one instant: a windowed handover goes to the player and
-# the band, never to timeline_origin.
-check("apply_time_window leaves start_tc behind -- so a windowed "
-      "handover must not reach timeline_origin",
-      abs(open_run.clock(once["start_tc"]) - float(once["start_s"])) > FRAME,
-      "start_tc %s, start_s %.3f" % (once["start_tc"], once["start_s"]))
+# apply_time_window moves start_s to the In point. Whether start_tc
+# goes with it the program has not settled: the run's own windowed
+# handover names one instant with both fields (the check below), this
+# path leaves start_tc standing at the untrimmed start. Either is an
+# answer; a third value is a fault, and that is what is asked here --
+# the earlier form demanded that the two disagree and so went red on
+# the repair. While they do disagree, a handover out of this path must
+# not reach timeline_origin, which reads start_tc and nothing else.
+head = float(once["start_s"]) - float(base["start_s"])
+gap = open_run.clock(once["start_tc"]) - float(once["start_s"])
+check("a window puts start_tc where start_s now is, or leaves it at "
+      "the untrimmed start -- never a third place",
+      abs(gap) <= FRAME or abs(gap + head) <= FRAME,
+      "start_tc %s sits %.3f s from start_s %.3f -- %.3f (moved along) "
+      "and %.3f (left behind) are the two right answers"
+      % (once["start_tc"], gap, float(once["start_s"]), 0.0, -head))
 check("the run's own windowed handover has the two agreeing",
       abs(win_run.clock(win_run.d["start_tc"]) - win_run.start_s)
       <= win_run.frame,
@@ -855,9 +963,9 @@ check("every cut entry names a camera the handover knows",
 check("no cut entry names a track by mistake",
       not ({e["camera"] for e in d["cut"]} & (set(track_names) - set(names))),
       str({e["camera"] for e in d["cut"]} & set(track_names)))
-check("camera_offset() is keyed on tracks, not on camera names",
-      set(open_run.player_offset) == set(track_names),
-      str(sorted(open_run.player_offset)))
+# That camera_offset keys on tracks and not on camera names is asked
+# right after the run is built, above: by the time the two name spaces
+# are compared here, a missing key has long since stopped the run.
 # files_per_track is built on tracks, and so is the cut cut_statistics
 # feeds the player. Fed the handover's own cut instead, nothing matches.
 in_cut = {e["camera"] for e in d["cut"]}
@@ -912,14 +1020,173 @@ else:
           str(mix_run.d.get("audio_files")))
     check("the Resolve build put the mix on the timeline",
           len(mix_run.audio) == 1, "%d audio clips" % len(mix_run.audio))
-    if mix_run.audio:
-        at = float(mix_run.audio[0]["recordFrame"]) / mix_run.fps_r
-        check("and laid it down at start_s, in one piece",
-              abs(at - mix_run.start_s) <= mix_run.frame
-              and not mix_run.audio[0].get("startFrame"),
-              "%.3f vs %.3f, startFrame %s"
-              % (at, mix_run.start_s, mix_run.audio[0].get("startFrame")))
+    # Judged whether the mix arrived or not: under an "if" this line
+    # disappears exactly when it has something to say, and the count
+    # printed at the end then means one thing on a good day and another
+    # on a bad one.
+    laid = mix_run.audio[0] if mix_run.audio else {}
+    at = float(laid.get("recordFrame", -1)) / mix_run.fps_r
+    check("and laid it down at start_s, in one piece",
+          bool(mix_run.audio) and abs(at - mix_run.start_s) <= mix_run.frame
+          and not laid.get("startFrame"),
+          "%.3f vs %.3f, startFrame %s"
+          % (at, mix_run.start_s, laid.get("startFrame")))
 
+print("\n" + "=" * 66)
+print("A CAMERA THAT RUNS AT ANOTHER RATE THAN THE TIMELINE")
+print("=" * 66)
+# startFrame and endFrame are frames of the camera's file; recordFrame
+# is a frame of the Timeline. In every run above the two rates are the
+# same number, so all three can be counted at either rate and nothing
+# moves -- three ways of being wrong that no material running at one
+# rate can show, and that every way walked above therefore walks past.
+# So the run's own handover is taken, one camera in it is set to a
+# slower rate, and one shot is put on that camera through the same
+# build. Its own handover and not a made-up one, because a dict written
+# here would be a guess at the shape the program writes. One shot,
+# because a second would begin where the first stopped short of its
+# place, and that carry is a different claim from this one.
+#
+# 24 in a 25 Timeline, and not the wide shot: the wide shot stands in
+# for every camera that cannot cover a moment, so a shot refused there
+# is silently taken by nobody. This camera's timecode holds no frames
+# (18:55:04:00), so read at 24 it names the same instant as read at 25
+# -- with the twelve frames the guest's camera carries it would not,
+# and the section would be measuring the test's own arithmetic.
+OWN_FPS = 24.0
+SLOWER = stem_of(MOD)
+foreign = json.loads(json.dumps(open_run.d))
+for c in foreign["cameras"]:
+    if c["camera"] == SLOWER:
+        c["fps"] = OWN_FPS
+foreign["cut"] = [{"start": 10.0, "end": 30.0, "camera": SLOWER}]
+f_pool = FakePool()
+vpm.build_cut_timeline(f_pool, FakeTimeline(f_pool), foreign["cut"],
+                       foreign["cameras"],
+                       {c["file"]: FakeClip(c["camera"])
+                        for c in foreign["cameras"]}, foreign)
+f_placed = [x for x in f_pool.sent if x.get("mediaType") == 1]
+f_fps, f_origin = vpm.timeline_origin(foreign)
+f_cam = next(c for c in foreign["cameras"] if c["camera"] == SLOWER)
+# Both halves of the setup, as judgements: everything under them is a
+# statement about two rates, and if the two ever became one number
+# again the four lines below would go on passing and prove nothing.
+check("the Timeline keeps its rate while a camera on it runs slower",
+      abs(f_fps - FPS) < 1e-6 and abs(float(f_cam["fps"]) - OWN_FPS) < 1e-6,
+      "Timeline %g fps, camera %g fps, and they must differ"
+      % (f_fps, f_cam["fps"]))
+check("and that camera came in four seconds after the axis begins",
+      abs(float(f_cam["offset"]) - 4.0) <= FRAME,
+      "offset %.4f s, against the 4.0 the material sets up"
+      % float(f_cam["offset"]))
+check("the one shot on it reached the Timeline", len(f_placed) == 1,
+      "%d clips placed, against 1" % len(f_placed))
+# Nothing conditional under that: a section that judges four times here
+# and once there makes the count this test prints mean two things.
+f_shot = f_placed[0] if f_placed else {"startFrame": -1, "endFrame": -1,
+                                       "recordFrame": -1}
+# 10.0 s into the programme, less the 4.0 s this camera was not yet
+# running, is 6.0 s into its file -- at 24 that is frame 144. Counted at
+# the Timeline's rate it would be 150, and the shot would show a quarter
+# of a second of the wrong moment.
+check("the shot begins on the file's own frame, counted at the "
+      "camera's rate", f_shot["startFrame"] == 144,
+      "startFrame %d, against 144 -- at the Timeline's rate it is 150"
+      % f_shot["startFrame"])
+# The shot is 20.0 s long: 500 frames of the Timeline, 480 of the
+# camera. Counted at the Timeline's rate it would take 500 of the
+# camera's frames and run a second past the shot after it.
+check("and is as long as the cut says, counted at the camera's rate",
+      f_shot["endFrame"] - f_shot["startFrame"] == 480,
+      "%d frames long, against 480 -- at the Timeline's rate it is 500"
+      % (f_shot["endFrame"] - f_shot["startFrame"]))
+# Where it sits is the Timeline's business and nobody else's: 10.0 s
+# after frame zero, and at 25 that is 250 frames.
+check("and sits on the Timeline where the cut puts it, counted at the "
+      "Timeline's rate", f_shot["recordFrame"] - f_origin == 250,
+      "%d frames after frame zero, against 250"
+      % (f_shot["recordFrame"] - f_origin))
+
+print("\n" + "=" * 66)
+print("A RUN WITH NO TIMECODE TO GO BY")
+print("=" * 66)
+# A camera's place comes off its timecode, and the shift the run
+# measured for itself is only what is left where no timecode can be
+# had -- an ffmpeg that drops the timecode track through a render, a
+# camera that never wrote one. Then the measurement has to reach the
+# handover, because the alternative is not "roughly right": it is every
+# camera at the start of the axis, sound against the wrong picture, and
+# nothing in the file looking wrong. The whole row is asked with no zero
+# at all, which is the case camera_place falls back in.
+BLINDDIR = tempfile.mkdtemp(prefix="onemoment_blind_")
+KEEP.append(BLINDDIR)
+vpm.write_handover(
+    make_args("Onemomentblind"), tracks, cameras, videos_at(FPS)[0],
+    BLINDDIR, None, ref_clip, results=[WIDE, MOD, KAND],
+    cut=open_run.cut, segment_list=open_run.segs, length=LENGTH,
+    track_names={}, single_files={}, offsets=dict(MEASURED), words=())
+BLINDFILE = os.path.join(
+    BLINDDIR, vpm.safe_filename("Onemomentblind") + "_resolve.json")
+blind_d = (json.load(open(BLINDFILE, encoding="utf-8"))
+           if os.path.exists(BLINDFILE) else {"cameras": []})
+check("a run with no zero writes a handover all the same",
+      os.path.exists(BLINDFILE) and len(blind_d["cameras"]) == 3,
+      "%d cameras in %s" % (len(blind_d["cameras"]),
+                            os.path.basename(BLINDFILE)))
+want = {stem_of(p): v for p, v in MEASURED.items()}
+bad = [(c["camera"], c["offset"], want.get(c["camera"]))
+       for c in blind_d["cameras"]
+       if abs(float(c["offset"]) - want.get(c["camera"], 1e9)) > FRAME]
+check("with no timecode to go by, every camera stands where the run "
+      "measured it", not bad and len(blind_d["cameras"]) == 3,
+      "" if not bad else "%s: offset %.4f, measured %.4f" % bad[0])
+# And the measurement travels under a name of its own beside it, so
+# nobody downstream reads a place out of it.
+bad = [(c["camera"], c.get("sound_against_picture"), want.get(c["camera"]))
+       for c in blind_d["cameras"]
+       if abs(float(c.get("sound_against_picture", 1e9))
+              - want.get(c["camera"], 0.0)) > 1e-6]
+check("and the measurement is handed on under its own name as well",
+      not bad and len(blind_d["cameras"]) == 3,
+      "" if not bad else "%s: sound_against_picture %s, measured %.4f"
+      % bad[0])
+# The other way round, on the run that had timecodes: the measurement
+# was three different wrong answers there, and not one of them stuck.
+bad = [(c["camera"], c["offset"], want.get(c["camera"]))
+       for c in open_run.d["cameras"]
+       if abs(float(c["offset"]) - want.get(c["camera"], 1e9)) <= FRAME]
+check("and where there was a timecode, the measurement was not the "
+      "place", not bad,
+      "" if not bad else "%s: offset %.4f is the measured %.4f" % bad[0])
+
+print("\n" + "=" * 66)
+print("A RATE WHOSE TIMECODE COUNTS FASTER THAN THE MATERIAL RUNS")
+print("=" * 66)
+# At 25 and at 30 a timecode counts as many frames to the second as the
+# material runs, and then "the frame this timecode names" and "the
+# frame this second is" are one number: either may stand in for the
+# other anywhere, and a cut list that counted its zero the second way
+# would write exactly the same files. At 29.97 they part company -- the
+# timecode still counts thirty to the second while the pictures run
+# 29.97 -- and at 18:55 the two are 68 seconds apart. So this is the
+# one rate at which the paper can be seen to count from the frame the
+# start timecode names rather than from the raw second, and the one at
+# which the paper and the Timeline can be caught naming different
+# frames. Asked in frames and not in seconds, because seconds are what
+# the two clocks disagree about.
+DRIFT_FPS = 29.97
+drift = Run("Onemomentdrift", ZERO, SPEECH, LENGTH, rate=DRIFT_FPS)
+d_clock = tc_clock(drift.fps)
+check("  the rate really is one whose timecode outruns its pictures",
+      abs(drift.fps - DRIFT_FPS) < 1e-6 and abs(d_clock - drift.fps) > 1e-6,
+      "%g fps, and a timecode on it counts %g frames to the second"
+      % (drift.fps, d_clock))
+d_zero = vpm.timecode_to_frames(drift.d["start_tc"], drift.fps)
+d_first = int(round(drift.cut_edl[0][0] * d_clock)) if drift.cut_edl else -1
+check("  the cut list counts from the frame the start timecode names, "
+      "not from the second behind it", d_first == d_zero,
+      "first entry on frame %d, start_tc on frame %d, %d apart"
+      % (d_first, d_zero, d_first - d_zero))
 # ------------------------------------------------- and at a second frame rate
 # Everything above is written at 25 fps. A frame rate is where timecode
 # arithmetic goes wrong -- the same instant gets a different frame
@@ -949,7 +1216,7 @@ rstart = float(rd["start_s"])
 
 
 def rclock(tc):
-    return vpm.timecode_to_frames(tc, rfps) / float(rfps)
+    return vpm.timecode_to_frames(tc, rfps) / tc_clock(rfps)
 
 
 print("  %s at %g fps" % (os.path.basename(rate_run.files["handover"]), rfps))

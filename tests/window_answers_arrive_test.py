@@ -23,6 +23,19 @@ A name is asked twice over: that it reaches the calculation, and that
 it sets the calculation going by itself. Those are two wirings, and
 the first can pass on the second's behalf, because the step that
 types a name moves a chooser as well.
+
+The mark travels as two answers and both are read: the cut goes by
+"wide_marked", the colour and the mix source by "wide". Which names
+stand at a camera is read, and not the order they stand in: the
+program puts them one way for the preview and the other way round for
+the run, and nothing has decided between the two.
+
+What this cannot see: the window builds the handover out of the same
+choosers it then answers from, so a break in the second pass over it
+that merely falls back on the first changes nothing that arrives
+here. Where that pass earns its keep is a handover left over from a
+run, and that is another test's ground. Nor that order, for as long
+as the program keeps both.
 """
 import os
 import sys
@@ -194,9 +207,12 @@ def picture_of(d):
         return {"cameras": [], "speakers": [], "length": None}
     return {"length": d.get("length_s"), "start": d.get("start_s"),
             "speakers": [s.get("name") for s in (d.get("speakers") or [])],
+            # The names as they lie, never sorted here: the order they
+            # arrived in belongs in the failure line even where no
+            # judgement fixes it, and a sorted reading would hide it.
             "cameras": [{"stem": stem_of(c.get("source") or c.get("file")
                                          or c.get("camera")),
-                         "who": sorted(c.get("speakers") or []),
+                         "who": list(c.get("speakers") or []),
                          "marked": bool(c.get("wide_marked")),
                          "wide": bool(c.get("wide"))}
                         for c in (d.get("cameras") or [])]}
@@ -599,6 +615,19 @@ def ready(rec, _all):
           rec["wide"].get("marked") is False, str(rec["wide"]))
     check("the camera without a speaker is the derived wide shot",
           rec["wide"].get("names") == [WIDE], str(rec["wide"].get("names")))
+    # The two above read what the window hands over. These two read what
+    # came out of it, and they are the only place the second answer --
+    # "wide", which the colour and the mix source go by -- is looked at.
+    check("and no camera arrives marked, a derived one being no answer",
+          [c["stem"] for c in rec["d"]["cameras"] if c["marked"]] == [],
+          "marked %s, wanted none"
+          % [c["stem"] for c in rec["d"]["cameras"] if c["marked"]])
+    check("and that camera, and only it, arrives as the wide shot",
+          [c["stem"] for c in rec["d"]["cameras"] if c["wide"]]
+          == [stem_of(WIDE)],
+          "wide %s, wanted %s"
+          % ([c["stem"] for c in rec["d"]["cameras"] if c["wide"]],
+             [stem_of(WIDE)]))
 
 
 def voiced_row():
@@ -695,6 +724,14 @@ def host_moved(rec, _all):
     check("the camera left behind no longer carries him",
           bool(was) and was["who"] == [],
           str([(c["stem"], c["who"]) for c in rec["d"]["cameras"]]))
+    # And the second answer moves with him: nobody sits there now, so
+    # that camera is the wide shot and the one he moved to is not.
+    check("and the camera he left is the wide shot now, alone",
+          [c["stem"] for c in rec["d"]["cameras"] if c["wide"]]
+          == [stem_of(HOSTS)],
+          "wide %s, wanted %s"
+          % ([c["stem"] for c in rec["d"]["cameras"] if c["wide"]],
+             [stem_of(HOSTS)]))
 
 
 def move_host_back():
@@ -718,9 +755,17 @@ def name_arrived(rec, _all):
     check("the typed name reaches the calculation",
           rec["wide"]["on"].get("Sidekick") == GUESTS, str(rec["wide"]["on"]))
     got = camera_named(rec, stem_of(GUESTS))
-    check("and stands at its camera beside the voice already there",
-          bool(got) and got["who"] == ["Guest", "Sidekick"],
-          str([(c["stem"], c["who"]) for c in rec["d"]["cameras"]]))
+    # Which names, and no others -- not the order they stand in. The
+    # program has two of those for the same camera: the preview sorts
+    # them, the run and the handover put the recordings' names before
+    # the voices'. Nothing has decided between them, so a test that
+    # fixed one would go red on a program that kept only the other.
+    check("both names stand at that camera, and only those two",
+          bool(got) and set(got["who"]) == {"Guest", "Sidekick"}
+          and len(got["who"]) == 2,
+          "%s, wanted Guest and Sidekick in either order at %s"
+          % ([(c["stem"], c["who"]) for c in rec["d"]["cameras"]],
+             stem_of(GUESTS)))
 
 
 def rename_the_plain_track():
@@ -759,9 +804,12 @@ def rename_arrived(rec, _all):
           rec["wide"]["on"].get("Helper") == GUESTS
           and "Sidekick" not in rec["wide"]["on"], str(rec["wide"]["on"]))
     got = camera_named(rec, stem_of(GUESTS))
-    check("and the calculation shows the new name at the camera",
-          bool(got) and got["who"] == ["Guest", "Helper"],
-          str([(c["stem"], c["who"]) for c in rec["d"]["cameras"]]))
+    check("typed over, both stand there again, and only those two",
+          bool(got) and set(got["who"]) == {"Guest", "Helper"}
+          and len(got["who"]) == 2,
+          "%s, wanted Guest and Helper in either order at %s"
+          % ([(c["stem"], c["who"]) for c in rec["d"]["cameras"]],
+             stem_of(GUESTS)))
 
 
 # 4. the eight numbers

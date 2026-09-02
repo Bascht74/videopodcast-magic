@@ -1,10 +1,24 @@
 # -*- coding: utf-8 -*-
-"""#62: The player takes the file that holds the In point and the Out point."""
+"""#62: The player takes the file that holds the In point and the Out point.
+
+The rules sit inside gui() and cannot be called from outside, so the
+three of them are lifted by name out of gui()'s own body and run here
+over six made-up files on one time axis: what is judged is the
+program's code, not a copy kept beside it. The sections: the rules come
+out and answer, the order they put the files in, the kinds that never
+come into question, the file chosen last, and what covers() says about
+the axis, a missing timecode and the ends of a file. What the method
+costs, in full: the three have to keep their names and stay directly
+inside gui() -- their order, their parameters and their layout are
+free; a rule that starts reading a further name out of gui() shows up
+as no answer at all; and nothing here says the window ever reaches
+these rules.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import sys, time, importlib.util
+import sys, time, importlib.util, inspect, ast
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
 # No window is built here, so no application either.
@@ -25,173 +39,276 @@ def check(name, ok, extra=""):
     if not ok:
         error.append("%s [%s]" % (name, extra or "no numbers"))
 
-# Four files on one time axis: a wide shot over the whole hour, a guest
-# inside it, a short one late, and an intro that never comes into question.
+# Six files, and each one is there so that exactly one rule decides.
+#
+#   the guest    16:40 - 18:10   the longest, and the only one carrying
+#                                a speaker, so "no speaker" is the only
+#                                rule that can ever put it behind
+#   the wide     17:00 - 18:00   inside the guest, so a boundary can lie
+#                                in one of them and not in the other --
+#                                in either direction
+#   the short    17:50 - 17:51   short enough to lose on length, long
+#                                enough to hold one boundary and not two
+#   copresenter  no span at all  the file whose length was never read
+#   the jingle   no timecode     an intro, and undecidable on a clock
+#   guest.wav    sound           never a picture
+#
+# The wide shot used to be the longest as well as the only free one, so
+# it won every field of the sort key at once and no judgement could say
+# which rule had decided, nor notice when one of them was gone.
 SPANS = {
-    "/x/Wide.mov":   {"duration": 3600.0, "fps": 30.0,
-                      "tc0": 17 * 3600.0, "axis": 0.0},
-    "/x/Guest.mov":  {"duration": 1800.0, "fps": 30.0,
-                      "tc0": 17 * 3600.0 + 600.0, "axis": 600.0},
-    "/x/Short.mov":  {"duration": 60.0, "fps": 30.0,
-                      "tc0": 17 * 3600.0 + 3000.0, "axis": 3000.0},
-    "/x/Jingle.mp4": {"duration": 10.0, "fps": 30.0,
-                      "tc0": None, "axis": None},
+    "/x/Guest.mov":   {"duration": 5400.0, "fps": 30.0,
+                       "tc0": 16 * 3600.0 + 2400.0, "axis": 0.0},
+    "/x/WideCam.mov": {"duration": 3600.0, "fps": 30.0,
+                       "tc0": 17 * 3600.0, "axis": 1200.0},
+    "/x/Short.mov":   {"duration": 60.0, "fps": 30.0,
+                       "tc0": 17 * 3600.0 + 3000.0, "axis": 4200.0},
+    "/x/Jingle.mp4":  {"duration": 10.0, "fps": 30.0,
+                       "tc0": None, "axis": None},
 }
 
-# Rebuild the interface: only what the four functions touch.
+
+# What the window holds around those rules: only what they reach for.
 class Value(object):
     def __init__(self, v=""): self.v = v
     def get(self): return self.v
     def set(self, v): self.v = v
 
-files = [(p, "video") for p in SPANS]
-clip_kind_values = {"/x/Jingle.mp4": Value(vpm.TYPE_INTRO)}
-assign_lines = [(["/x/t1.wav"], Value("Tr1"), Value("Guest.mov"))]
+
+# Deliberately not in alphabetical order, so that the sorting the
+# program does is visible in the answer rather than free.
+files = [("/x/WideCam.mov", "video"),
+         ("/x/Guest.wav", "audio"),
+         ("/x/Short.mov", "video"),
+         ("/x/Jingle.mp4", "video"),
+         ("/x/CoPresenter.mov", "video"),
+         ("/x/Guest.mov", "video")]
+IN_ORDER = ["/x/CoPresenter.mov", "/x/Guest.mov",
+            "/x/Short.mov", "/x/WideCam.mov"]
+clip_kind_values = {"/x/Jingle.mp4": Value(vpm.TYPE_INTRO),
+                    "/x/WideCam.mov": Value(vpm.TYPE_WIDE)}
+assign_lines = [(["/x/Guest.wav"], Value("Tr1"), Value("Guest.mov"))]
 remembered = {}
 start_var, end_var = Value(""), Value("")
 
-TYPE_CONTENT = vpm.TYPE_CONTENT if hasattr(vpm, "TYPE_CONTENT") else "content"
 
 def picture_span(file_path):
+    """Where the fixture stops and the program starts: the spans above."""
     return SPANS.get(file_path)
 
-def covers(file_path, text):
-    if not (text or "").strip():
-        return None
-    sp = picture_span(file_path)
-    if not sp or not sp["duration"]:
-        return None
-    try:
-        value, absolute = vpm.parse_time_point(text, sp["fps"])
-    except Exception:
-        return None
-    if value is None:
-        return None
-    if absolute:
-        if sp["tc0"] is None:
-            return None
-        value -= sp["tc0"]
-    elif value >= 0:
-        if sp["axis"] is None:
-            return None
-        value -= sp["axis"]
-    else:
-        value = sp["duration"] + value
-    return -0.05 <= value <= sp["duration"] + 0.05
 
-def player_candidates():
-    out = []
-    for file_path, kind in files:
-        if kind != "video":
-            continue
-        w = clip_kind_values.get(file_path)
-        if w is not None and w.get() != TYPE_CONTENT:
-            continue
-        out.append(file_path)
-    return sorted(out, key=lambda x: os.path.basename(x).lower())
-
-def player_suggestion():
-    videos = player_candidates()
-    if not videos:
-        return None
-    taken = set(kv.get() for _r, _nv, kv in assign_lines)
-    def hit(file_path):
-        return sum(1 for t in (start_var.get(), end_var.get())
-                   if covers(file_path, t) is True)
-    def quality(file_path):
-        free = 0 if os.path.basename(file_path) in taken else 1
-        sp = picture_span(file_path)
-        return (hit(file_path), free, (sp or {}).get("duration") or 0.0)
-    last_time = remembered.get("player_file")
-    if last_time in videos and hit(last_time) == max(hit(b)
-                                                     for b in videos):
-        return last_time
-    return max(videos, key=quality)
-
-print("0. The rebuild matches the script")
-import inspect
+print("0. The player's own rules are cut out of the script and run here")
+WANTED = ("covers", "player_candidates", "player_suggestion")
+# Each rule is taken on its own, by name, out of gui()'s own body, and
+# only as far as gui() says it reaches. So their order among each other,
+# a parameter added to one of them and the way their lines are laid out
+# are all free, and a statement of gui()'s standing between two of them
+# is not dragged along and cannot raise in here unnoticed.
 source = inspect.getsource(vpm.gui)
-for name in ("def covers(file_path, text):",
-             "def player_candidates():",
-             "def player_suggestion():",
-             "def player_follow_up(spot_also=False):",
-             "def main_track_show(force=False):"):
-    check("in the script: %s" % name.split("(")[0][4:],
-            name in source,
-            "%d x in the %d characters of gui(), wanted 1 or more"
-            % (source.count(name), len(source)))
+cut = {}
+for node in ast.parse(source).body[0].body:
+    if isinstance(node, ast.FunctionDef) and node.name in WANTED:
+        cut[node.name] = ast.get_source_segment(source, node) or ""
+block = "\n".join(cut[n] for n in WANTED if cut.get(n))
+rules = {"os": os, "picture_span": picture_span, "files": files,
+         "clip_kind_values": clip_kind_values, "assign_lines": assign_lines,
+         "start_var": start_var, "end_var": end_var, "remembered": remembered,
+         "parse_time_point": vpm.parse_time_point,
+         "CAMERA_TYPES": vpm.CAMERA_TYPES}
+trouble = ""
+if block:
+    try:
+        exec(compile(block, "<gui>", "exec"), rules)
+    except Exception as why:                 # reported, and it counts below
+        trouble = "%s: %s" % (type(why).__name__, why)
+missing = [n for n in WANTED if n not in cut]
+standing = sum(1 for n in WANTED if callable(rules.get(n)))
+# Anything that went wrong up here has to reach the verdict: a value
+# that is only printed lets a rule fall over in silence.
+ran = standing == len(WANTED) and not trouble
+check("the player's own rules run here, cut out of the script",
+        ran,
+        "%d of %d rules standing out of %d characters cut from gui()%s%s"
+        % (standing, len(WANTED), len(block),
+           "; gui() holds no " + ", ".join(missing) if missing else "",
+           ", " + trouble if trouble else ""))
 
-print("\n1. Without In/Out point: the camera with no speaker wins (Wide)")
-check("Wide", player_suggestion() == "/x/Wide.mov",
-        str(player_suggestion()))
+answered = ""
+if ran:
+    try:
+        first_answer = rules["player_suggestion"]()
+    except Exception as why:                 # reported, never swallowed
+        first_answer, answered = None, "%s: %s" % (type(why).__name__, why)
+    check("the rules answer with one of the files, not with a complaint",
+            first_answer in IN_ORDER,
+            "answered %r, wanted one of %d files%s"
+            % (first_answer, len(IN_ORDER),
+               "; " + answered if answered else ""))
 
-print("\n2. In/Out point only inside the wide shot")
-start_var.set("17:05:00:00"); end_var.set("17:55:00:00")
-check("Wide", player_suggestion() == "/x/Wide.mov",
-        str(player_suggestion()))
+if ran and not answered:
+    covers = rules["covers"]
+    player_candidates = rules["player_candidates"]
+    player_suggestion = rules["player_suggestion"]
 
-print("\n3. In/Out point only inside the guest -- that beats the wide shot")
-start_var.set("17:15:00:00"); end_var.set("17:35:00:00")
-inside = covers("/x/Wide.mov", "17:15:00:00")
-check("both inside the wide shot?", inside,
-        "Wide at 17:15:00:00: %s, wanted True" % (inside,))
-check("Wide (both cover it, Wide has no speaker)",
-        player_suggestion() == "/x/Wide.mov", str(player_suggestion()))
+    print("\n1. Nothing to go by: a speaker puts a file behind one without,"
+          "\n   and among those the length decides")
+    check("the camera with no speaker beats a longer one that has one",
+            player_suggestion() == "/x/WideCam.mov",
+            "chose %s: guest %.0f s with a speaker on it, wide %.0f s with"
+            " none, copresenter with no length read"
+            % (player_suggestion(), SPANS["/x/Guest.mov"]["duration"],
+               SPANS["/x/WideCam.mov"]["duration"]))
+    files.remove(("/x/Guest.mov", "video"))
+    check("among cameras with no speaker the longest one wins",
+            player_suggestion() == "/x/WideCam.mov",
+            "with the guest's file away, chose %s of %s: wide %.0f s,"
+            " short %.0f s"
+            % (player_suggestion(), player_candidates(),
+               SPANS["/x/WideCam.mov"]["duration"],
+               SPANS["/x/Short.mov"]["duration"]))
+    files.append(("/x/Guest.mov", "video"))
 
-print("\n4. Out point beyond the wide shot -> the file that has both")
-SPANS["/x/Wide.mov"]["duration"] = 900.0     # Wide ends 17:15
-start_var.set("17:20:00:00"); end_var.set("17:30:00:00")
-check("Guest", player_suggestion() == "/x/Guest.mov",
-        str(player_suggestion()))
-SPANS["/x/Wide.mov"]["duration"] = 3600.0
+    print("\n2. The Out point decides: In point in both files, Out point"
+          "\n   only in the guest's")
+    start_var.set("17:30:00:00"); end_var.set("18:05:00:00")
+    check("a file holding both boundaries beats one holding the In point only",
+            player_suggestion() == "/x/Guest.mov",
+            "chose %s: guest holds %d of the two boundaries, wide %d"
+            % (player_suggestion(),
+               sum(1 for t in ("17:30:00:00", "18:05:00:00")
+                   if covers("/x/Guest.mov", t) is True),
+               sum(1 for t in ("17:30:00:00", "18:05:00:00")
+                   if covers("/x/WideCam.mov", t) is True)))
 
-print("\n5. An intro never comes into question")
-check("Jingle not among the candidates",
-        "/x/Jingle.mp4" not in player_candidates(),
-        str(player_candidates()))
+    print("\n3. The In point decides: Out point in both files, In point"
+          "\n   only in the guest's")
+    start_var.set("16:50:00:00"); end_var.set("17:30:00:00")
+    check("a file holding both boundaries beats one holding the Out point"
+          " only",
+            player_suggestion() == "/x/Guest.mov",
+            "chose %s: guest holds %d of the two boundaries, wide %d"
+            % (player_suggestion(),
+               sum(1 for t in ("16:50:00:00", "17:30:00:00")
+                   if covers("/x/Guest.mov", t) is True),
+               sum(1 for t in ("16:50:00:00", "17:30:00:00")
+                   if covers("/x/WideCam.mov", t) is True)))
 
-print("\n6. 'ignore this video' never comes into question")
-clip_kind_values["/x/Wide.mov"] = Value(vpm.TYPE_IGNORED)
-start_var.set(""); end_var.set("")
-left_over = player_candidates()
-check("Wide is out", "/x/Wide.mov" not in left_over,
-        "%d candidates: %s" % (len(left_over), left_over))
-check("instead the one with no speaker (Short)",
-        player_suggestion() == "/x/Short.mov",
-        str(player_suggestion()))
-del clip_kind_values["/x/Wide.mov"]
+    print("\n4. A file that cannot say does not thereby hold the boundaries")
+    SPANS["/x/WideCam.mov"]["tc0"] = None     # its timecode was never read
+    start_var.set("16:45:00:00"); end_var.set("16:55:00:00")
+    check("a file with no timecode does not count as holding a clock time",
+            player_suggestion() == "/x/Guest.mov",
+            "chose %s: wide answers %s for 16:45:00:00, guest holds %d of the"
+            " two boundaries"
+            % (player_suggestion(), covers("/x/WideCam.mov", "16:45:00:00"),
+               sum(1 for t in ("16:45:00:00", "16:55:00:00")
+                   if covers("/x/Guest.mov", t) is True)))
+    SPANS["/x/WideCam.mov"]["tc0"] = 17 * 3600.0
 
-print("\n7. The file chosen last keeps its place on a tie")
-start_var.set(""); end_var.set("")
-remembered["player_file"] = "/x/Short.mov"
-check("Short stays", player_suggestion() == "/x/Short.mov",
-        str(player_suggestion()))
+    print("\n5. What comes into question at all")
+    start_var.set(""); end_var.set("")
+    standing_files = player_candidates()
+    check("an intro is not among the candidates",
+            "/x/Jingle.mp4" not in standing_files,
+            "%d candidates: %s" % (len(standing_files), standing_files))
+    check("a sound file is not among the candidates",
+            "/x/Guest.wav" not in standing_files,
+            "%d candidates: %s" % (len(standing_files), standing_files))
+    check("a camera marked as the wide shot is among the candidates",
+            "/x/WideCam.mov" in standing_files,
+            "%d candidates: %s" % (len(standing_files), standing_files))
+    check("the candidates come back sorted by file name",
+            standing_files == IN_ORDER,
+            "got %s, wanted %s" % (standing_files, IN_ORDER))
 
-print("\n8. ... but not when it does not hold the boundaries")
-start_var.set("17:20:00:00"); end_var.set("17:30:00:00")
-check("no longer Short", player_suggestion() != "/x/Short.mov",
-        str(player_suggestion()))
-remembered.pop("player_file")
+    print("\n6. 'ignore this video' never comes into question")
+    clip_kind_values["/x/WideCam.mov"] = Value(vpm.TYPE_IGNORED)
+    left_over = player_candidates()
+    check("a video set to be ignored is not among the candidates",
+            "/x/WideCam.mov" not in left_over,
+            "%d candidates: %s" % (len(left_over), left_over))
+    check("a video set to be ignored is not suggested either",
+            player_suggestion() == "/x/Short.mov",
+            "chose %s while the wide shot is set to be ignored; the"
+            " candidates are %s" % (player_suggestion(), left_over))
+    clip_kind_values["/x/WideCam.mov"] = Value(vpm.TYPE_WIDE)
 
-print("\n9. Relative values need the time axis")
-start_var.set("+0:15:00")
-end_var.set("")
-wide_at = covers("/x/Wide.mov", "+0:15:00")
-check("Wide covers it", wide_at is True,
-        "Wide at +0:15:00: %s, wanted True" % (wide_at,))
-short_at = covers("/x/Short.mov", "+0:15:00")
-check("Short does not cover it", short_at is False,
-        "Short at +0:15:00: %s, wanted False" % (short_at,))
-SPANS["/x/Wide.mov"]["axis"] = None
-no_axis = covers("/x/Wide.mov", "+0:15:00")
-check("no axis: no claim", no_axis is None,
-        "Wide without an axis at +0:15:00: %s, wanted None" % (no_axis,))
-SPANS["/x/Wide.mov"]["axis"] = 0.0
+    print("\n7. The file chosen last keeps its place on a tie")
+    # All three hold both boundaries, so the tie is decided by nothing
+    # but the memory: the short file is the shortest of them, and the
+    # wide shot is free of a speaker.
+    start_var.set("17:50:10:00"); end_var.set("17:50:50:00")
+    remembered["player_file"] = "/x/Short.mov"
+    tied = [f for f in player_candidates()
+            if covers(f, "17:50:10:00") is True
+            and covers(f, "17:50:50:00") is True]
+    check("the file chosen last wins a tie against a longer one",
+            player_suggestion() == "/x/Short.mov",
+            "chose %s of %d files holding both boundaries: %s"
+            % (player_suggestion(), len(tied), tied))
 
-print("\n10. No timecode, no claim for an absolute value")
-no_clock = covers("/x/Jingle.mp4", "17:20:00:00")
-check("Jingle: None", no_clock is None,
-        "Jingle at 17:20:00:00: %s, wanted None" % (no_clock,))
+    print("\n8. ... but it gives way to a file that holds more")
+    start_var.set("17:50:30:00"); end_var.set("17:55:00:00")
+    check("the file chosen last gives way when another holds more boundaries",
+            player_suggestion() == "/x/WideCam.mov",
+            "chose %s: short holds %d of the two boundaries, wide %d"
+            % (player_suggestion(),
+               sum(1 for t in ("17:50:30:00", "17:55:00:00")
+                   if covers("/x/Short.mov", t) is True),
+               sum(1 for t in ("17:50:30:00", "17:55:00:00")
+                   if covers("/x/WideCam.mov", t) is True)))
+    remembered.pop("player_file")
+
+    print("\n9. A value counted from the start of the material needs the axis")
+    # The wide shot begins 1200 s into the material, so the axis is the
+    # whole difference between +0:15:00 and +0:50:00 landing outside and
+    # inside it.
+    late = covers("/x/WideCam.mov", "+0:50:00")
+    check("a value 3000 s along the axis lies inside the wide shot",
+            late is True,
+            "wide at +0:50:00: %s, wanted True -- 3000 s along an axis the"
+            " wide shot joins at %.0f s, and it runs %.0f s"
+            % (late, SPANS["/x/WideCam.mov"]["axis"],
+               SPANS["/x/WideCam.mov"]["duration"]))
+    early = covers("/x/WideCam.mov", "+0:15:00")
+    check("a value 900 s along the axis lies before the wide shot",
+            early is False,
+            "wide at +0:15:00: %s, wanted False -- 900 s along an axis the"
+            " wide shot joins at %.0f s"
+            % (early, SPANS["/x/WideCam.mov"]["axis"]))
+    SPANS["/x/WideCam.mov"]["axis"] = None
+    no_axis = covers("/x/WideCam.mov", "+0:50:00")
+    check("with no axis measured such a value gets no answer at all",
+            no_axis is None,
+            "wide without an axis at +0:50:00: %s, wanted None" % (no_axis,))
+    SPANS["/x/WideCam.mov"]["axis"] = 1200.0
+
+    print("\n10. No timecode, no answer for a clock time")
+    no_clock = covers("/x/Jingle.mp4", "17:20:00:00")
+    check("a file with no timecode gets no answer for a clock time",
+            no_clock is None,
+            "jingle at 17:20:00:00: %s, wanted None -- it has no timecode"
+            " and runs %.0f s"
+            % (no_clock, SPANS["/x/Jingle.mp4"]["duration"]))
+
+    print("\n11. Where a file begins and ends")
+    last_frame = covers("/x/Short.mov", "17:51:00:00")
+    check("a boundary on the file's last frame still lies inside it",
+            last_frame is True,
+            "short at 17:51:00:00: %s, wanted True -- 60.0 s into a file"
+            " of %.1f s" % (last_frame, SPANS["/x/Short.mov"]["duration"]))
+    past_end = covers("/x/Short.mov", "17:51:30:00")
+    check("a boundary past the end of the file lies outside it",
+            past_end is False,
+            "short at 17:51:30:00: %s, wanted False -- 90.0 s into a file"
+            " of %.1f s" % (past_end, SPANS["/x/Short.mov"]["duration"]))
+    from_end = covers("/x/Short.mov", "-0:00:10")
+    check("a value counted back from the end lands inside the file",
+            from_end is True,
+            "short at -0:00:10: %s, wanted True -- 10 s back from the end"
+            " of %.1f s" % (from_end, SPANS["/x/Short.mov"]["duration"]))
+else:
+    print("\nThe judgements below need those rules, and they did not run.")
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

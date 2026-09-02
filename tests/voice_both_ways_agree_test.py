@@ -1,22 +1,26 @@
 # -*- coding: utf-8 -*-
 """The window and the command line separate the same way.
 
-The same folder has to give the same cut either way: both pick the same
-recording, both refuse in the same places, the switches hold, the
-segments lead to the same cut list, and what one way measured the other
+The same folder has to be taken apart the same way either way: both
+pick the same recording, both refuse in the same places, the switches
+hold, and the segments are the same whether the window hands them over
+or its assignment file carries them. What one way measured, the other
 reads out of the store instead of measuring it a second time.
 
-The separation itself is a stand-in that answers out of a table and
-notes that it was called. What is measured is which way asks for it,
-not what a model hears. The store is this test's own, and it is emptied
-before every check that is about a machine which has not separated this
-recording before.
+The separation is a stand-in answering out of a table that notes it
+was called: what is measured is which way asks for it, not what a
+model hears. The store is this test's own, emptied before every check
+about a machine that has not separated this recording before. What the
+cut makes of the segments is not asked here -- both roads reach the
+one camera_cut, and the preview against the run is
+cut_preview_is_the_run's.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import importlib.util
+import json
 import shutil
 import sys
 import tempfile
@@ -129,10 +133,19 @@ def forget_stored():
 
     The checks below are about a machine that has not separated this
     recording before; section 5 is the one that leaves it filled.
+
+    The store's shape is the program's business, not this test's: a
+    folder made only when something is written, a version folder under
+    it. Emptying it copes with both, so a rearranged store leaves this
+    file with a verdict rather than a traceback.
     """
     kept = vpm.cache_folder("speakers") or ""
-    for name in (os.listdir(kept) if kept else ()):
-        os.unlink(os.path.join(kept, name))
+    for name in (os.listdir(kept) if os.path.isdir(kept) else ()):
+        here = os.path.join(kept, name)
+        if os.path.isdir(here):
+            shutil.rmtree(here, ignore_errors=True)
+        else:
+            os.unlink(here)
 
 
 def separate(args):
@@ -168,7 +181,8 @@ vpm.SPEAKER_SPLIT_OFF = False
 print("\n3. A no in the window reaches the run")
 
 
-def window_argv(**over):
+def window_state(**over):
+    """As much of the window as run_argv reads."""
     state = {"files": [], "clip_kinds": {}, "out_folder": "",
              "dry_run": False, "multitrack": True,
              "camera_audio_only": False, "production": "P",
@@ -182,7 +196,11 @@ def window_argv(**over):
              "cameras": [{"path": "/x/G.mov", "name": "Cam1"},
                          {"path": "/x/H.mov", "name": "Cam2"}]}
     state.update(over)
-    return vpm.run_argv(state, "/x/assign.json")[0] or []
+    return state
+
+
+def window_argv(**over):
+    return vpm.run_argv(window_state(**over), "/x/assign.json")[0] or []
 
 
 said_no = window_argv(speakers_wanted=False)
@@ -201,7 +219,7 @@ check("and an unanswered question sends nothing either",
       "%d arguments, the switches among them %s"
       % (len(said_nothing), [x for x in said_nothing if x.startswith("--")]))
 
-print("\n4. The same segments, the same cut list")
+print("\n4. The same segments, however they arrive")
 handed = {"source": RECORDER,
           "segments": [[label, a, b]
                        for label, parts in fake_run(RECORDER)[0]
@@ -212,11 +230,30 @@ by_run, _w = separate(Args())
 check("both ways end with the same speaker segments",
       by_window == by_run, "%s / %s" % (by_window, by_run))
 
-CAMERA_OF = {"SPEAKER_00": "camA.mov", "SPEAKER_01": "camB.mov"}
-cut_window = vpm.build_camera_cut(by_window, 20.0, CAMERA_OF, "camA.mov")
-cut_run = vpm.build_camera_cut(by_run, 20.0, CAMERA_OF, "camA.mov")
-check("and with the same cut list", cut_window == cut_run,
-      "%d shots" % len(cut_run))
+# The window's third road: what it separated goes into the assignment
+# file, and the file is named on the command line the window builds --
+# so the switch is used here rather than asserted, and a window that
+# stopped sending it lands the run on its own pick. The store is
+# emptied first, or that fall-back would read the separation back and
+# look like the file having carried it.
+handover = os.path.join(folder, "assign.json")
+argv, plan, _msgs = vpm.run_argv(
+    window_state(multitrack=False, speakers_of=handed), handover)
+argv = argv or []
+named = (argv[argv.index("--speakers-from") + 1]
+         if "--speakers-from" in argv else "")
+with open(handover, "w", encoding="utf-8") as f:
+    json.dump(plan or {}, f)
+del asked[:]
+forget_stored()
+by_file, _w = vpm.separation_for_run(Args(speakers_from=named), TRACKS, {},
+                                     0.0, 20.0, [CAM_A, CAM_B])
+check("out of the assignment file the same segments, unmeasured",
+      by_file == by_window and asked == [],
+      "out of %s: %s, handed over: %s, the model asked %d times -- "
+      "wanted the same passages and none"
+      % (os.path.basename(named) or "no --speakers-from",
+         by_file, by_window, len(asked)))
 
 print("\n5. What one way measured, the other reads")
 forget_stored()
