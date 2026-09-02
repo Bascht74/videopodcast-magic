@@ -284,9 +284,12 @@ if newest_german.strip():
         room = max(1.5 * middle, 200)
         for text in said:
             if len(text) > room:
+                # The room, not only the two numbers: without it
+                # whoever shortens guesses, and guesses more than once.
                 long_ones.append(
-                    "%d characters against a middle of %d: %s"
-                    % (len(text), middle, text[:40]))
+                    "%d characters, %d too many (room %d, middle %d): %s"
+                    % (len(text), len(text) - int(room), int(room),
+                       middle, text[:40]))
     check("no point stands out by its length", not long_ones,
           long_ones[0] if long_ones else "")
 
