@@ -1,11 +1,12 @@
 # -*- coding: utf-8 -*-
 """Speech recognition: the words, their times and their punctuation.
 
-Three things are checked: that punctuation is read the same way every
-time, because the cut hangs on sentence ends and clause boundaries;
-that the words survive the handover file unchanged; and that each
-recogniser keeps its own measured rules -- the filter without which
-Whisper writes words into silence, and a correction of its own.
+What is checked: that punctuation is read the same way every time,
+because the cut hangs on sentence ends and clause boundaries; that the
+words survive the handover file unchanged; that each recogniser keeps
+its own measured rules -- the filter without which Whisper writes words
+into silence, and a correction of its own; and that the bundle a model
+download is verified against reaches the connection.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -242,12 +243,35 @@ bundle = vpm.certificate_file()
 check("a certificate bundle is found", bool(bundle),
       "certificate_file() gave %r, wanted a path" % (bundle,))
 if bundle:
-    context = vpm.https_context()
-    stats = context.cert_store_stats()
-    check("and the context has certificates in it",
-          stats["x509_ca"] > 0,
-          "%d certificate authorities in the store, wanted more than 0: %s"
-          % (stats["x509_ca"], stats))
+    # What goes to the context is a bundle written here, three
+    # certificates out of the real one and nothing else. Holding the
+    # store against the real bundle proves nothing: section 6 put
+    # SSL_CERT_FILE into the environment, OpenSSL reads that by itself,
+    # and a context that was handed no bundle at all then comes back
+    # with exactly the same authorities as one that was handed the file
+    # -- 121 of them, measured on 2.9.2026.
+    END = "-----END CERTIFICATE-----"
+    with open(bundle, encoding="utf-8", errors="replace") as f:
+        pems = f.read().split(END)
+    # certifi is third-party material, not the program: below three
+    # certificates the slice would be short and the count would say
+    # nothing. A precondition of the material, hence a bare assert.
+    assert len(pems) - 1 >= 3, "the bundle holds %d certificates" % (
+        len(pems) - 1,)
+    three = os.path.join(folder, "three_certificates.pem")
+    with open(three, "w", encoding="utf-8") as f:
+        f.write(END.join(pems[:3]) + END + "\n")
+    real_certificate_file = vpm.certificate_file
+    vpm.certificate_file = lambda: three
+    try:
+        stats = vpm.https_context().cert_store_stats()
+    finally:
+        vpm.certificate_file = real_certificate_file
+    check("the context is loaded out of the bundle, not the machine",
+          stats["x509_ca"] == 3,
+          "%d certificate authorities in the store, wanted the 3 in the "
+          "bundle handed over; the whole bundle holds %d, the store says %s"
+          % (stats["x509_ca"], len(pems) - 1, stats))
     pointed = vpm.use_certificates()
     check("the libraries that fetch on their own are pointed at it",
           pointed == bundle
