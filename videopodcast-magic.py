@@ -4136,6 +4136,12 @@ VOICE_TRACK_MARGIN = 0.40
 # it the distance between the microphones collapses.
 VOICE_MIN_SPEECH_S = 20.0
 
+# How far the best microphone has to stand ahead of the second once the
+# recording level has been taken out, in dB. Measured over a full
+# interview the three margins were 6.0, 6.6 and 8.4 dB, so this refuses
+# only a coin toss.
+VOICE_LEVEL_MARGIN_DB = 1.0
+
 
 def shared_seconds(one, other):
     """How long both of these lists of passages are running at once."""
@@ -4206,6 +4212,65 @@ def which_microphone(voices, tracks):
     # that this cannot name them.
     twice = set(t for i, (_, t, _s, _d) in enumerate(picked)
                 for _n, u, _s2, _d2 in picked[i + 1:] if t == u)
+    return [row for row in picked if row[1] not in twice]
+
+
+def voices_by_level(voices, names, level, block=0.1, begin=0.0,
+                    margin=VOICE_LEVEL_MARGIN_DB):
+    """Name each separated voice after the microphone it spoke into.
+
+    The voice says *when*, the microphones *who*, once for the whole
+    recording. *level* is [microphone][block], *begin* where block zero
+    sits. Not the loudest microphone: measured, a speaker stood louder
+    in his neighbour's (-47.2 dB) than his own (-47.4 dB), the
+    recorders being 11 dB apart. Each microphone's mean out fixes that.
+    """
+    rows = [(name, list(segs)) for name, segs in (voices or ()) if segs]
+    names = list(names or ())
+    if len(rows) < 2 or len(names) < 2 or len(rows) > len(names):
+        return []
+    level = np.asarray(level, dtype=np.float64)
+    if level.ndim != 2 or level.shape[0] != len(names) or not level.shape[1]:
+        return []
+    # Each microphone's own noise floor is the bottom of its column. A
+    # track that is digitally silent under a voice would otherwise be
+    # minus infinity and drag that microphone's mean down with it.
+    floor = []
+    for row in level:
+        present = row[row > 0]
+        floor.append(float(np.percentile(present, 20)) if len(present)
+                     else 1e-7)
+    table = []
+    for _name, segs in rows:
+        wanted = np.zeros(level.shape[1], dtype=bool)
+        for a, b in segs:
+            i = max(0, int(round((a - begin) / block)))
+            j = min(level.shape[1], int(round((b - begin) / block)))
+            if j > i:
+                wanted[i:j] = True
+        if not wanted.any():
+            return []
+        table.append([20.0 * math.log10(max(float(np.median(level[m][wanted])),
+                                            floor[m], 1e-12))
+                      for m in range(len(names))])
+    # One number per microphone taken out of that microphone's column:
+    # after this a recorder turned up louder than its neighbour shifts
+    # nothing, and only the distance to the speaker is left.
+    middle = [sum(row[m] for row in table) / float(len(table))
+              for m in range(len(names))]
+    picked = []
+    for (name, _segs), row in zip(rows, table):
+        order = sorted(((row[m] - middle[m], names[m])
+                        for m in range(len(names))), reverse=True)
+        ahead = order[0][0] - order[1][0]
+        if ahead >= margin:
+            picked.append((name, order[0][1], round(order[0][0], 2),
+                           round(ahead, 2)))
+    # One microphone, one person -- the same rule which_microphone keeps.
+    # Where two voices land on one microphone neither of them is the
+    # answer, and saying nothing beats naming a whole episode wrongly.
+    twice = set(t for i, (_n, t, _l, _d) in enumerate(picked)
+                for _n2, u, _l2, _d2 in picked[i + 1:] if t == u)
     return [row for row in picked if row[1] not in twice]
 
 
@@ -5159,15 +5224,15 @@ def clock_on_axis(curve, clock):
 def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                         gap=0.35, min_len=SPEECH_MIN_LEN_S,
                         report=None, separate=True,
-                        note=None):
+                        note=None, grid=None):
     """Derive speech segments from the separate tracks.
 
     Each block is measured against the track's own noise floor, because
     recorders are set to different gains. With *separate* the bleed is
-    taken out first; without it a voice loud enough in a neighbour's
-    microphone counts as that neighbour speaking, and the cut then sits
-    on the wide shot throughout. *tracks* is [(name, path, offset)] or
-    [(name, path, offset, clock)]."""
+    taken out first; without it a neighbour's voice counts as that
+    neighbour speaking and the cut sits on the wide shot throughout.
+    *tracks* is [(name, path, offset[, clock])]; *grid* takes the levels
+    as read, so naming a voice after a microphone opens no track twice."""
     names, levels, shifts = [], [], []
     # Read a handful at a time, not all at once: an hour of audio is a
     # couple of hundred megabytes per track.
@@ -5213,6 +5278,9 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
     # refused with a reason that is untrue. The 99th: a hundredth.
     speech = np.array([float(np.percentile(v[v > 0], 99))
                        if len(v) and len(v[v > 0]) else 0.0 for v in levels])
+    if grid is not None:
+        grid.append({"names": list(names), "level": level.copy(),
+                     "block": block, "begin": begin * block})
 
     power = level ** 2
     reason = ""
@@ -10033,24 +10101,49 @@ def one_separation_on_axis(given, tracks, position, t0, t1):
     return out, ""
 
 
-def separation_source_of_run(args, tracks, video_paths):
+def separation_source_of_run(args, tracks, video_paths, mixable=False,
+                             window=()):
     """Which recording a run without a window takes apart by voice.
 
-    The same rule the window follows, on the same function: one
-    recording everybody is audible on is the source, several microphones
-    need no separation, and without any audio recording the camera track
-    carries everybody. Which cameras were ticked by hand is not on the
-    command line, so all of them are offered. Returns (path, why).
+    The same rule the window follows, on the same function. Which
+    cameras were ticked by hand is not on the command line, so all are
+    offered. With *mixable* the microphones are measured and, where
+    they hear each other too well to be told apart, added into one file
+    that becomes the source. *window* goes into that mix's name.
     """
     from_cameras = bool(getattr(args, "_camera_audio", None))
-    recordings = []
+    recordings, of_track = [], {}
     for track in tracks or ():
         for p in (track.get("blocks") or [track.get("source")]):
             if p and p not in recordings:
                 recordings.append(p)
+                of_track[p] = track
+
+    def mix(chosen):
+        """Add up the tracks these recordings were aligned into."""
+        picked, made_of, seen = [], [], set()
+        for p in chosen:
+            track = of_track.get(p)
+            if track is None or id(track) in seen or not track.get("axis"):
+                continue
+            seen.add(id(track))
+            picked.append(track["axis"])
+            made_of.append("%s|%s|%.6f|%.9f"
+                           % (path_key(p), file_fingerprint(p),
+                              float(track.get("a") or 0.0),
+                              float(track.get("b") or 1.0)))
+        return speaker_mix_file(picked, made_of + [str(x) for x in window])
+
+    apart = None
+    if mixable and not from_cameras:
+        there = [p for p in recordings if os.path.exists(p)]
+        if len(there) > 1:
+            apart = microphones_apart_db(there)
     return speaker_source_pick([] if from_cameras else recordings,
                                video_paths or (),
-                               camera_audio=from_cameras)
+                               camera_audio=from_cameras,
+                               apart_db=apart,
+                               mix=mix if mixable else None)
 
 
 def voices_reported(segments):
@@ -10075,15 +10168,28 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     if not given and getattr(args, "speakers_from", None):
         given = read_separation_file(args.speakers_from)
         where_from = os.path.basename(args.speakers_from)
-    source = ""
+    source, why = "", ""
     if not given and not getattr(args, "no_speakers_local", False):
         if getattr(args, "speakers_local", None):
             source = os.path.abspath(args.speakers_local)
         elif not SPEAKER_SPLIT_OFF:
-            source = separation_source_of_run(args, tracks, video_paths)[0]
+            # Only where the recordings stay raw: measured, the tracks
+            # then name 37.5 % of the speech right against 97.6 % from
+            # the mix. After auphonic.com the bleed is out of them.
+            source, why = separation_source_of_run(
+                args, tracks, video_paths,
+                mixable=bool(getattr(args, "without_auphonic", False))
+                and not getattr(args, "auphonic_done", None),
+                window=(t0, t1))
     if source:
         print(as_head(T('\nSEPARATING THE SPEAKERS')))
-        print(T('  In %s, on this machine.') % os.path.basename(source))
+        if why == "microphones mixed":
+            args._speakers_mixed = True
+            print(T('  The microphones hear each other too well to say who '
+                    'is speaking, so the separation listens to all %d of '
+                    'them at once, on this machine.') % len(tracks))
+        else:
+            print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
         stored = speaker_split_stored(source, count)
         if stored:
@@ -10127,11 +10233,30 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     # reach the cut through their voices; every other track reaches it
     # through its own microphone, and speakers_for_the_cut adds those.
     args._separated = separation_sources(given)
+    if getattr(args, "_speakers_mixed", False):
+        # The mix was written onto the axis over this very window, so a
+        # moment in it is already a moment of the cut. Placing a
+        # recording takes t0 off it; a start of -t0 puts it back.
+        position = dict(position or {})
+        position[source] = (-t0, 1.0)
     out, why_not = separation_on_axis(given, tracks, position, t0, t1)
     if not out:
         print(as_warn(T('  The speaker separation is not used: %s.')
                       % why_not))
+        if getattr(args, "_speakers_mixed", False):
+            # Whatever went wrong, the tracks are still there and every
+            # person is still on one. Letting a mix that says nothing
+            # speak for all of them would empty the cut.
+            args._speakers_mixed = False
+            args._separated = []
         return [], ""
+    if getattr(args, "_speakers_mixed", False):
+        # The mix is made of every track, so every track is spoken for.
+        # Without this each one would be measured as well and everybody
+        # would stand in the cut twice.
+        args._separated += [p for track in (tracks or ())
+                            for p in (track.get("blocks")
+                                      or [track.get("source")]) if p]
     if getattr(args, "dry_run", False):
         # A dry run stops before the cut is built, so what the voices
         # amount to is said here or nowhere -- under the heading the
@@ -10175,7 +10300,7 @@ def speakers_for_the_cut(args, tracks):
     voices, where_from = getattr(args, "_speakers", None) or ([], "")
     left = [t for t in tracks
             if not separated_already(t, getattr(args, "_separated", None))]
-    mics = []
+    mics, box = [], []
     if left or (where_from and len(tracks) > 1):
         # One reading for both uses, and over every track: the bleed is
         # taken out by holding the microphones against each other, so a
@@ -10184,17 +10309,27 @@ def speakers_for_the_cut(args, tracks):
         try:
             mics = speakers_from_tracks(
                 [(track["name"], track.get("ready") or track["axis"], 0.0)
-                 for track in tracks], note=print)
+                 for track in tracks], note=print, grid=box)
         except Exception as e:
             print(as_warn(T('  The tracks were not measured, so %s is in '
                             'the mix and not in the cut: %s')
                           % (", ".join(t["name"] for t in left) or "-",
                              str(e)[:140])))
             left = []
+    named = []
+    if voices and getattr(args, "_speakers_mixed", False):
+        voices, named = name_voices_by_microphone(voices, box)
+        if not voices:
+            left = list(tracks)
+            for line in named:
+                print(line)
+            named = []
     if voices:
         print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
         print(TN(len(voices), '  From %s: %d voice.', '  From %s: %d voices.')
               % (where_from, len(voices)))
+        for line in named:
+            print(line)
     if left:
         print(as_head(T('\nSPEAKERS -- MEASURED HERE')))
         print(T('  From the tracks themselves, one voice per track: %s.')
@@ -10217,6 +10352,32 @@ def speakers_for_the_cut(args, tracks):
         for line in name_the_voices(segments, mics):
             print(line)
     return segments
+
+
+def name_voices_by_microphone(voices, box):
+    """Give the voices of a mixed separation the names of the microphones.
+
+    A voice out of a mix is SPEAKER_00, a name with no camera behind
+    it, so the cut would stand on the wide shot throughout -- this is
+    no proposal like the one below. *box* holds the levels
+    speakers_from_tracks read, so the tracks are opened once. Nothing
+    comes back where they cannot say, and the tracks answer instead.
+    """
+    grid = (box or [None])[0]
+    rows = voices_by_level(voices, grid["names"], grid["level"],
+                           grid["block"], grid["begin"]) if grid else []
+    if not rows:
+        # Nothing that could be hung on a camera, so the voices are let
+        # go and the tracks answer instead -- worse, but everybody is
+        # then at least somewhere, which a nameless voice is not.
+        return [], [T('  Which voice belongs to which microphone could '
+                      'not be told, so the tracks are measured instead.')]
+    called = dict((voice, track) for voice, track, _level, _ahead in rows)
+    lines = [T('  %-20s is %-20s %.1f dB ahead of the next microphone, '
+               'the recording level taken out')
+             % (voice, track, ahead) for voice, track, _l, ahead in rows]
+    return ([(called.get(name, name), segs) for name, segs in voices or ()],
+            lines)
 
 
 def name_the_voices(segments, mics):
@@ -19042,7 +19203,12 @@ SPEAKER_SPLIT_RATE = 16000
 # smaller edge is the one taken. Both are applied when the segments
 # are used, never when they are stored.
 SPEAKER_MARGIN_S = 0.2
-SPEAKER_GAP_S = 0.25
+
+# How wide a hole inside one speaker is still that speaker breathing.
+# Measured over nine values: 0.75 s shows whoever really talks 83.6 %
+# of the time against 73.0 % at 0.25 s, for six words of 10 158 that
+# go wrong; from 1.0 s both get worse. On a one-sided conversation.
+SPEAKER_GAP_S = 0.75
 
 # Measured on Apple Silicon with the graphics unit: an hour of audio
 # in a little over two minutes. Used to give the step its share of the
@@ -20610,14 +20776,77 @@ def camera_start_of(file_path):
     return timecode_seconds(info)
 
 
+# How far apart two microphones have to stand before measuring the
+# tracks beats listening to them mixed. Measured: above this both name
+# 99 % of the speech right, below it the mix pulls ahead by 9.5 points
+# at 13 dB and by 23 at 3 dB. The level route is the cheaper one.
+MICROPHONES_APART_DB = 20.0
+
+
+def speaker_mix_file(paths, made_of, folder=""):
+    """Add the aligned recordings into the one file the separation hears.
+
+    Measured, the bare sum names 97.6 % of the speech right against
+    37.5 % for measuring the same tracks. **Nothing is levelled
+    first**: that costs 1.6 points, the recording levels here being as
+    large as the bleed. The name comes from *made_of* and not from the
+    tracks, or a mix redated every run would cost the separation its key.
+    """
+    paths = [p for p in (paths or ()) if p]
+    if len(paths) < 2:
+        return ""
+    folder = folder or cache_folder("speakers")
+    if not folder:
+        return ""
+    mark = hashlib.sha1("\n".join([speaker_recipe_mark()]
+                                  + [str(x) for x in made_of])
+                        .encode("utf-8")).hexdigest()[:16]
+    here = os.path.join(folder, "mix_%s.wav" % mark)
+    if os.path.exists(here):
+        return here
+    parts, chains, markers = [], [], []
+    for i, path in enumerate(paths):
+        parts += ["-i", path]
+        chains.append("[%d:a]aformat=channel_layouts=mono[m%d]" % (i, i))
+        markers.append("[m%d]" % i)
+    # A plain sum, and then one gain over the finished mix so that it
+    # cannot clip. One gain over everything moves no track against
+    # another, which is the whole point of not levelling them.
+    fc = (";".join(chains) + ";" + "".join(markers)
+          + "amix=inputs=%d:normalize=0:dropout_transition=0" % len(markers)
+          + ",volume=%.6f[out]" % (1.0 / len(markers)))
+    beside = ""
+    try:
+        fd, beside = tempfile.mkstemp(dir=folder, prefix=".vpm_",
+                                      suffix=".wav")
+        os.close(fd)
+        run_ffmpeg_with_progress(
+            ["ffmpeg", "-v", "error"] + parts
+            + ["-filter_complex", fc, "-map", "[out]",
+               "-ar", str(SPEAKER_SPLIT_RATE), "-ac", "1",
+               "-c:a", "pcm_s16le", "-y", beside],
+            sample_count(paths[0]) / float(SR),
+            T('Mixing the tracks for the separation'))
+        os.replace(beside, here)
+    except Exception:
+        if beside:
+            remove_quietly(beside)
+        return ""
+    return here
+
+
 def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
                         camera_audio=False, placeless=(), length_of=None,
-                        alone=False):
+                        alone=False, apart_db=None, mix=None):
     """Say which file the separation should listen to.
 
     The separation is the way for one recording everybody is audible
-    on. Where every person has a microphone of their own, measuring
-    the tracks themselves is the better answer and this stays out.
+    on. Where every person has a microphone of their own and those can
+    be told apart, measuring the tracks is the better answer and this
+    stays out. *apart_db* is how far apart they really stand and *mix*
+    makes one file of several: below MICROPHONES_APART_DB the tracks
+    no longer answer who is speaking -- measured, 37.5 % right -- and
+    the separation listens to all of them at once instead.
 
     *placeless* are the files the measurement could place nowhere, and
     they are the only ones left out. Not the ones whose sound the
@@ -20626,16 +20855,12 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
     rule refused for a correlation of 0.44 -- mains hum on its loudness
     curve -- the separation found two speakers in 90 seconds.
 
-    *alone* is the difference between being asked and deciding by
-    oneself. Somebody who asks has said which recording they mean, or
-    there is only one it can be; a run nobody asked for may only start
-    where the choice is not a guess. At the measured 28 times real time
-    a wrong guess is three minutes, so unasked it waits to be told.
+    *alone*: a run nobody asked for may only start where the choice is
+    no guess, three minutes being the price of a wrong one.
 
-    Returns (path, why), why being one of: "chosen" a setting made by
-    hand, "one recording", "camera track", "several microphones" or
-    "several cameras" -- then the path is empty because nothing here
-    can pick between them -- or "nothing".
+    Returns (path, why): "chosen", "one recording", "camera track",
+    "microphones mixed", "several microphones" or "several cameras" --
+    for the last two the path is empty -- or "nothing".
     """
     nowhere = set(path_key(p) for p in (placeless or ()))
 
@@ -20649,6 +20874,11 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
     if len(good) == 1:
         return good[0], "one recording"
     if len(good) > 1:
+        if (mix is not None and apart_db is not None
+                and apart_db < MICROPHONES_APART_DB):
+            made = mix(good)
+            if made:
+                return made, "microphones mixed"
         return "", "several microphones"
     cameras = [p for p in (list(videos) if camera_audio
                            else list(own_cameras or ())) if usable(p)]
@@ -20667,20 +20897,51 @@ def speaker_source_pick(audio_files, videos, own_cameras=(), chosen="",
 
 #------------------------------------------------------------- Storage
 
+_SPEAKER_RECIPE = []
+
+
+def speaker_recipe_mark():
+    """A short mark of the way a separation is worked out.
+
+    Without it a changed reckoning hands back yesterday's answer, and
+    eight minutes of computing is what nobody repeats to check. Only
+    what decides the *stored* segments goes in -- not the whole file,
+    and not the widening and gap closing, which happen on use. Hashed,
+    not counted: a number needs remembering, source changes by itself.
+    """
+    if not _SPEAKER_RECIPE:
+        try:
+            import inspect
+            text = "%s|%d|%s" % (
+                SPEAKER_SPLIT_WORKER, SPEAKER_SPLIT_RATE,
+                "".join(inspect.getsource(f) for f in
+                        (speaker_split_run, _speaker_split_talk,
+                         speaker_segments_group, speaker_mix_file)))
+        except Exception:
+            # Nothing to read the source from. Coarser -- every release
+            # throws the separations away -- but it never hands back
+            # one that some other reckoning wrote.
+            text = VERSION
+        _SPEAKER_RECIPE.append(
+            hashlib.sha1(text.encode("utf-8")).hexdigest()[:12])
+    return _SPEAKER_RECIPE[0]
+
+
 def speaker_cache_key(path, model_mark="", num_speakers=0):
     """The name a stored separation lives under.
 
     Path, mtime and size say whether it is still the same recording;
-    the model and a number of speakers set by hand are inputs to the
-    measurement and belong in the key as well. What is not in it: the
-    language, the time window, the offset and the names -- none of
-    them change what was measured.
+    the model, a number of speakers set by hand and the way the answer
+    is worked out are inputs to the measurement and belong in the key
+    as well. What is not in it: the language, the time window, the
+    offset and the names -- none of them change what was measured.
     """
     mark = file_fingerprint(path)
     if not mark:
         return ""
     parts = ["%s|%d|%d" % (mark[0], mark[1], mark[2]),
-             model_mark or "", str(int(num_speakers or 0))]
+             model_mark or "", str(int(num_speakers or 0)),
+             speaker_recipe_mark()]
     return hashlib.sha1(
         "\n".join(parts).encode("utf-8")).hexdigest()[:16]
 
@@ -21566,21 +21827,18 @@ def timecode_comparison(data):
 WHOLE_READ_S = 300.0
 
 
-def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
-                          min_len_long=4.0):
+def crosstalk_apart(audio_paths, rate=16000, window=5, long=20.0,
+                    min_len_long=4.0):
     """Measure how loudly each voice appears in the others' microphones.
 
-    Not the whole recording -- too slow for a preflight -- but a few windows
-    spread over the shared time. That is enough for a level ratio.
-
-    The yardstick is the 3:1 rule of audio recording: with the other
-    microphone three times as far from the speaker as their own, the
-    neighbouring voice is about 9.5 dB quieter. That is a statement about
-    the *setup in the room*, not about post-production; it can only be
-    changed next time.
+    Not the whole recording -- too slow for a preflight -- but a few
+    windows over the shared time, enough for a level ratio. Returns
+    ([(who, in whose microphone, dB), ...], indices into *audio_paths*,
+    plus why not. One measurement, two readers: the preflight makes
+    sentences of it, the separation asks whether the tracks still tell.
     """
     if len(audio_paths) < 2:
-        return []
+        return [], ""
     starts = [file_timecode(p) for p in audio_paths]
     takes = []
     for p in audio_paths:
@@ -21596,9 +21854,8 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
         # With short material use smaller windows rather than giving up.
         long = max(min_len_long, min(long, (t1 - t0) / (window + 1.0)))
         if t1 - t0 < 2 * long:
-            return [Finding("hint", T('Bleed'),
-                           T('the recordings overlap only %s -- too little '
-                             'to measure.') % as_hms(max(0.0, t1 - t0)))]
+            return [], T('the recordings overlap only %s -- too little '
+                         'to measure.') % as_hms(max(0.0, t1 - t0))
         points = [t0 + (t1 - t0 - long) * k / float(max(1, window - 1))
                   for k in range(window)]
         offset = [[p - s for s in starts] for p in points]
@@ -21606,9 +21863,8 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
         shortest = min(d for d in takes if d) if any(takes) else 0.0
         long = max(min_len_long, min(long, shortest / (window + 1.0)))
         if shortest < 2 * long:
-            return [Finding("hint", T('Bleed'),
-                           T('the shortest recording has only %s -- too '
-                             'little to measure.') % as_hms(shortest))]
+            return [], T('the shortest recording has only %s -- too '
+                         'little to measure.') % as_hms(shortest)
         points = [(shortest - long) * k / float(max(1, window - 1))
                   for k in range(window)]
         offset = [[p] * len(audio_paths) for p in points]
@@ -21639,13 +21895,12 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
             except Exception:
                 pass
         if not pieces:
-            return [Finding("hint", T('Bleed'), T('not measurable.'))]
+            return [], T('not measurable.')
         data.append(np.concatenate(pieces))
     short = min(len(x) for x in data)
     data = [np.asarray(x[:short], dtype=np.float64) for x in data]
     level, speech = _block_levels(data, rate)
-    names = [os.path.splitext(os.path.basename(p))[0][:28] for p in audio_paths]
-    out, bad = [], 0
+    rows = []
     for i in range(len(data)):
         for j in range(len(data)):
             if i == j:
@@ -21657,26 +21912,63 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
             others = float(np.median([level[j][b] for b in blocks]))
             if own_flag <= 0 or others <= 0:
                 continue
-            separation = 20.0 * math.log10(own_flag / others)
-            good = separation >= THREE_TO_ONE_DB
-            if not good:
-                bad += 1
-            out.append(Finding(
-                "good" if good else "hint", T('Bleed'),
-                T("%s%s in %s's microphone only %.1f dB quieter")
-                % ("" if good else T('Limits the de-bleed: '),
-                   names[i], names[j], separation)
-                if not good else
-                T("%s in %s's microphone: %.1f dB quieter than in their own.")
-                % (names[i], names[j], separation),
-                "" if good else
-                T('It arose during the recording and cannot be changed '
-                  'now. The less the microphones are separated, the more '
-                  'cautiously De-Bleed at auphonic.com can work. Next '
-                  'time: three times as far from the neighbouring '
-                  'microphone as from your own mouth, then the '
-                  'neighbouring voice sits about %.1f dB lower.') % THREE_TO_ONE_DB,
-                os.path.abspath(audio_paths[j])))
+            rows.append((i, j, 20.0 * math.log10(own_flag / others)))
+    return rows, ""
+
+
+def microphones_apart_db(audio_paths):
+    """How far the closest pair of these microphones stands apart, in dB.
+
+    The worst of every recording against every other, both ways round;
+    None where it could not be measured. That is the number the
+    separation asks before it decides whether the tracks can still say
+    who is speaking on their own.
+    """
+    try:
+        rows, _why = crosstalk_apart(audio_paths)
+    except Exception:
+        return None
+    return min((db for _i, _j, db in rows), default=None)
+
+
+def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
+                    min_len_long=4.0):
+    """Say in words how much of each voice sits in the other microphones.
+
+    The yardstick is the 3:1 rule of audio recording: with the other
+    microphone three times as far from the speaker as their own, the
+    neighbouring voice is about 9.5 dB quieter. That is a statement
+    about the *setup in the room*, not about post-production; it can
+    only be changed next time.
+    """
+    if len(audio_paths) < 2:
+        return []
+    rows, why = crosstalk_apart(audio_paths, rate, window, long,
+                                min_len_long)
+    if why:
+        return [Finding("hint", T('Bleed'), why)]
+    names = [os.path.splitext(os.path.basename(p))[0][:28] for p in audio_paths]
+    out, bad = [], 0
+    for i, j, separation in rows:
+        good = separation >= THREE_TO_ONE_DB
+        if not good:
+            bad += 1
+        out.append(Finding(
+            "good" if good else "hint", T('Bleed'),
+            T("%s%s in %s's microphone only %.1f dB quieter")
+            % ("" if good else T('Limits the de-bleed: '),
+               names[i], names[j], separation)
+            if not good else
+            T("%s in %s's microphone: %.1f dB quieter than in their own.")
+            % (names[i], names[j], separation),
+            "" if good else
+            T('It arose during the recording and cannot be changed '
+              'now. The less the microphones are separated, the more '
+              'cautiously De-Bleed at auphonic.com can work. Next '
+              'time: three times as far from the neighbouring '
+              'microphone as from your own mouth, then the '
+              'neighbouring voice sits about %.1f dB lower.') % THREE_TO_ONE_DB,
+            os.path.abspath(audio_paths[j])))
     if not out:
         return [Finding("hint", T('Bleed'),
                        T('no place found where exactly one person speaks '
@@ -38075,6 +38367,22 @@ CATALOGUE["de"] = {
     '  From the tracks themselves, one voice per track: %s.':
         '  Aus den Spuren selbst, eine Stimme je Spur: %s.',
     '  In %s, on this machine.': '  In %s, auf diesem Rechner.',
+    '  The microphones hear each other too well to say who is speaking, '
+    'so the separation listens to all %d of them at once, on this '
+    'machine.':
+        '  Die Mikrofone hören einander zu gut, um zu sagen, wer spricht; '
+        'die Trennung hört deshalb alle %d zugleich ab, auf diesem '
+        'Rechner.',
+    'Mixing the tracks for the separation':
+        'Spuren für die Trennung mischen',
+    '  Which voice belongs to which microphone could not be told, so the '
+    'tracks are measured instead.':
+        '  Welche Stimme zu welchem Mikrofon gehört, war nicht zu sagen; '
+        'statt dessen werden die Spuren gemessen.',
+    '  %-20s is %-20s %.1f dB ahead of the next microphone, the '
+    'recording level taken out':
+        '  %-20s ist %-20s %.1f dB vor dem nächsten Mikrofon, der '
+        'Aufnahmepegel herausgerechnet',
     '  The speaker separation is not used: %s.':
         '  Die Sprechertrennung wird nicht benutzt: %s.',
     '  %s cannot be read: %s': '  %s ist nicht lesbar: %s',
