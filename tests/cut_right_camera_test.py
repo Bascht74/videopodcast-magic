@@ -6,7 +6,8 @@ screen at any moment is known before the cut is computed.
 
   1  Whoever speaks is on their own camera, silence is on the wide
      shot, and no shot names a camera that does not exist.
-  2  Every setting that is a number holds in the result, and the
+  2  Every setting that is a number holds in the result, the delay
+     nobody names is still the one the window offers, and the
      reaction lead counts from the end of the question.
   3  Where no camera is a wide shot, the stand-in is the same one
      wherever the question is asked and does not act as a wide shot.
@@ -278,6 +279,23 @@ back = vpm.camera_cut([("Host", [(0.0, 20.0)]), ("Guest", [(20.0, 40.0)])],
                       120.0, False, vpm.cut_rules())
 check("negative lets the picture lead: 20 s becomes 19.5 s",
       abs(back[0][1] - 19.5) < 1e-6, str(back))
+# And the delay nobody names. Every call above says what it wants, so
+# the number the program falls back to could be moved without a check
+# noticing -- measured on 2.9.2026 over the seventeen tests that touch
+# the cut. It is 0.3 s, the starting value the window offers.
+handover = [("Host", [(0.0, 20.0)]), ("Guest", [(20.0, 40.0)])]
+untold = vpm.camera_cut(handover, 40.0, CAMERA_OF, "Wide")
+untold_at = untold[0][1] if untold else -1.0
+check("with nobody naming a delay the cut still sits 0.3 s late",
+      abs(untold_at - 20.3) < 1e-6,
+      "%d shots, the first change at %.3f s, wanted 20.300 -- the "
+      "speech changes at 20.000" % (len(untold), untold_at))
+raw = vpm.build_camera_cut(handover, 40.0, CAMERA_OF, "Wide")
+raw_at = raw[0][1] if raw else -1.0
+check("the same 0.3 s in the shots before any wide shot is put in",
+      abs(raw_at - 20.3) < 1e-6,
+      "%d shots, the first change at %.3f s, wanted 20.300 -- the "
+      "speech changes at 20.000" % (len(raw), raw_at))
 
 print("\n5. MINIMUM SPEAKING TIME (--min-speech-to-switch)")
 # The guest has to hold the floor properly later on, or a single short
@@ -285,18 +303,21 @@ print("\n5. MINIMUM SPEAKING TIME (--min-speech-to-switch)")
 brief = [("Host", [(0.0, 20.0), (22.0, 40.0)]),
          ("Guest", [(20.2, 21.0), (45.0, 80.0)])]
 early = lambda cut: [w for a, _b, w in cut if a < 40.0]
-kept = vpm.build_camera_cut(brief, 80.0, CAMERA_OF, "Wide", 0.5, -0.3,
-                            vpm.cut_rules(min_speech=1.5))
+kept = vpm.build_camera_cut(brief, 80.0, CAMERA_OF, "Wide", min_len=0.5,
+                            lead_in=-0.3,
+                            rules=vpm.cut_rules(min_speech=1.5))
 check("a 0.8 s answer does not move the camera",
       "CamB" not in early(kept), str(kept[:4]))
-loose = vpm.build_camera_cut(brief, 80.0, CAMERA_OF, "Wide", 0.5, -0.3,
-                             vpm.cut_rules(min_speech=0.0))
+loose = vpm.build_camera_cut(brief, 80.0, CAMERA_OF, "Wide", min_len=0.5,
+                             lead_in=-0.3,
+                             rules=vpm.cut_rules(min_speech=0.0))
 check("switched off, the same 0.8 s does move it",
       "CamB" in early(loose), str(loose[:4]))
 longer = [("Host", [(0.0, 20.0), (24.0, 40.0)]),
           ("Guest", [(20.2, 23.7), (45.0, 80.0)])]
-over = vpm.build_camera_cut(longer, 80.0, CAMERA_OF, "Wide", 0.5, -0.3,
-                            vpm.cut_rules(min_speech=1.5))
+over = vpm.build_camera_cut(longer, 80.0, CAMERA_OF, "Wide", min_len=0.5,
+                            lead_in=-0.3,
+                            rules=vpm.cut_rules(min_speech=1.5))
 check("a 3.5 s answer does move it", "CamB" in early(over),
       str(over[:4]))
 
