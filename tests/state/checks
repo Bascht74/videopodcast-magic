@@ -119,6 +119,7 @@ run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	51
 run_prework_listed	43
+run_promise_is_written	12
 run_simple_path_agrees	26
 run_space_has_margin	17
 run_stays_local	20
@@ -202,7 +203,7 @@ voice_answer_kept	24
 voice_bleed_gone_first	15
 voice_both_splits_stand	18
 voice_both_ways_agree	20
-voice_close_mics_mixed	31
+voice_close_mics_mixed	36
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_language_arrives	15

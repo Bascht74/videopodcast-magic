@@ -1125,3 +1125,40 @@ called it placed (0.15, against the recorder) -- so nothing downstream
 learned that the file sits nowhere, and the derivation made an
 18-second jingle the wide shot of an hour-long interview: 42 shots,
 5:15 of screen time.
+
+## The second try on the moving bands (2.9.2026)
+
+Five recording-against-camera pairs from four productions, a 100 Hz tone
+added to the camera at its own level plus 20, 30, 40 and 50 dB.
+
+| tone over the track | quality of the plain curve | its error | the second try |
+|---|---|---|---|
+| none | 0.586 - 0.852 | 0 | 221-240 points, 1.7-9.6 ms |
+| +30 dB | 0.038 - 0.101 | up to 45 ms | unchanged |
+| +40 dB | 0.018 - 0.027 | -1642 s, -2247 s, +180 s, +31 ms, +14 ms | unchanged |
+| +50 dB | 0.010 - 0.020 | -2247 s, +909 s, -1642 s | unchanged |
+
+**The second try placed all 25 runs within 31 ms of the untouched
+answer**, at every tone level, and passed `fit_places_it` every time.
+
+**The gate holds on band-selected curves as well:** 85 of 85 pairs that
+belong together pass (50 points, 15 ms spread), 0 of 293 foreign ones --
+the foreign maxima are 49 points and a smallest spread of 240 ms. The
+worst real pair's correlation rises 0.203 to 0.377.
+
+**The band selection is what does it, not the shorter window.** With the
+window kept at 64 ms but the band rule switched off
+(`BAND_MOVES_ENOUGH = 0.0`), the synthetic case finds 0 sample points.
+
+**Cost per hour of material at 4000 Hz on this Mac:** `decode_audio`
+1.02 s, `envelope()` 0.03 s, `band_envelope()` 0.77 s, `phase_align()`
+on the pair 1.09 s. So: nothing where the plain curve places (the second
+try is not entered), a net saving where it places (the phase and its
+decoding fall away), and about +0.5 s where neither does.
+
+**The floor of 50 points is reachable from 750 s of reference.** A run
+asks for `max(20, min(120, duration/30))` sample points and
+`align_envelopes` doubles them into `max(sample_points * 2, 12)`
+candidates. At exactly 750 s every candidate would have to yield a
+point, so in practice the second try is only accepted well above twelve
+and a half minutes.
