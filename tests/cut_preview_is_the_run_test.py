@@ -129,6 +129,7 @@ def settings(name, **over):
                 reaction_gap=3.0, reaction_hold=0.7,
                 on_question=vpm.SHOT_ANSWER, on_monologue="alternate",
                 on_together="wide", on_uncertain="wide",
+                on_silence="wide", silence_hold=1.0,
                 in_point=None, out_point=None, lufs=None, intro=None,
                 outro=None, resolve=False)
     made.update(over)
@@ -197,6 +198,7 @@ def the_preview(args, d, hand_the_words=True):
         vpm.cut_rules(min_speech=args.min_speech_to_switch,
                       reaction_lead=args.reaction_lead,
                       wide_holds=args.wide_length,
+                      silence_hold=args.silence_hold,
                       wide_most=args.wide_most, **picked))
     if not numbers:
         return None, vpm.why_no_cut(d)
