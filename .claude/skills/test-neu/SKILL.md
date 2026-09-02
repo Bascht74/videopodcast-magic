@@ -463,6 +463,35 @@ program may never stop doing.
 something downstream depends on it -- that stands in the docstring, in
 words, so the next person reads it before the red line.
 
+**5d. Does a guard above it ask what the judgement below asks?**
+A wait or a precondition put in front of a check to give a better
+failure line can demand exactly the thing the check demands -- and then
+the check never runs. The file still counts it, the register still
+holds a row for it, and nobody is told.
+
+**Found twice in one day, 2.9.2026, and one of them was put there that
+same morning** by somebody improving a failure line:
+
+* `needed("the project file the closing window writes", …)` above
+  `check("closing the window leaves one project file behind", …)`.
+  Measured against the register's own recorded break: **11 checks, dies
+  at the guard**; with the guard letting go into the judgement, 12
+  checks and the check falls with its own line.
+* A guard demanding the title bar carry the project name, three lines
+  above the check that asks the same. Its row had been void since the
+  guard went in, and nothing reported it.
+
+**Neither is visible to `source_checks_proved`:** it sees a wording
+that has gone, not a judgement that can no longer be reached. **So this
+one is asked by hand, and the cheapest way to ask it is to run the
+row's own recorded break and count the checks.** If the count comes out
+short, a guard ate the judgement.
+
+**The repair is not to drop the guard.** A guard that gives a better
+failure line is worth keeping -- it has to **give up into** the
+judgement rather than instead of it: wait, then judge either way, and
+let the line say which of the two happened.
+
 **6. The counter-proof is done -- for each check on its own.** A version
 in which exactly this one thing is false, the test run against it, the
 red line read. Not one per file, one per check. Without it the check
