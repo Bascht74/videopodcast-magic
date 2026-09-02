@@ -133,6 +133,18 @@ The five fields of an entry:
 The `open` rows are the census of what is still owed, and there are
 more of them than finished entries -- about two thirds of the file. A
 row that carries a red line is the exception so far, not the rule.
+
+**A row is addressed by its wording, never by its line number.** The
+file is written by many hands in one night, and every entry above a row
+moves it. Measured on 2.9.2026: a strand handed the next one "delete
+line 1452"; by the time that was read, 1452 was a row belonging to a
+different test, and following the instruction would have taken out an
+unrelated file's counter-proof.
+
+**So a hand-off says the test and the wording**, and whoever merges
+looks the pair up. The same holds for a machine: a merge keyed on
+`(test, wording)` replaces the right row and cannot damage a
+neighbour's. One keyed on a line number can.
 They are the
 ratchet: the number may fall, never rise. **So a new test gets a
 finished entry, not an `open` row** — an `open` row would raise it.
