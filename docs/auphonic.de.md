@@ -162,7 +162,11 @@ wenn die Liste gar nicht aufgebaut werden kann -- abgelehnter
 Schlüssel, keine Leitung. Aufgeschrieben wird dann das gewählte Preset
 und nicht der Eintrag, auf den der Kasten zurückgefallen ist: ein ohne
 Verbindung gespeichertes Projekt öffnet wieder mit dem Preset, das es
-bekommen hat.
+bekommen hat. Beim Wiederöffnen eines Projekts steht das gewählte
+Preset wieder im Kasten, auch ein Multitrack-Preset: erst kommt der
+Modus zurück, dann wird die Liste für ihn aufgebaut. Was nur unter
+**Multitrack** in der Liste steht, ist damit wieder da, wo es gewählt
+werden kann.
 
 ### Wenn es die Produktion schon gibt
 

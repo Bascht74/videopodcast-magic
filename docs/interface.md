@@ -86,7 +86,8 @@ Four tabs, in the order they are needed.
     wide shot is the camera that runs through and steps in wherever no
     other one fits, so it has to lie on the time axis. Each entry says
     its own reason, and the program puts such a file on **Intro** of
-    its own accord.
+    its own accord -- on **ignore this video** where another file
+    already holds the intro, because an episode has one.
 
     Two things have to hold together for those two bars, and neither of
     them alone. The sound of the file has to fit the rest badly **and**
@@ -99,15 +100,17 @@ Four tabs, in the order they are needed.
     it keeps the choice -- and the list writes that beside it instead of
     colouring it red.
 
-  Intro, outro and leaving the file out are never barred. They are
-  answers about the file itself and have nothing to do with who sits in
-  front of which camera. A file that fits nothing belongs in one of
-  those three.
+  Leaving the file out is never barred, and intro and outro only while
+  another file holds that mark -- the entry then says which one, and
+  taking the mark off there frees it again. All three are answers about
+  the file itself and have nothing to do with who sits in front of
+  which camera. A file that fits nothing belongs in one of them.
 
   The two bars on a file that fits nothing are not a recommendation but
   a statement about the material, so they hold against a **Kind**
   somebody picked and against one a project file brought in: an answer
-  of content or wide shot on such a file is moved to **Intro**. The bar
+  of content or wide shot on such a file is moved to **Intro**, or to
+  **ignore this video** where the intro is already given away. The bar
   on a camera nobody is assigned to is the other way round -- pick the
   **Kind** yourself and it ends.
 
@@ -275,14 +278,22 @@ Four tabs, in the order they are needed.
   to drop a camera the run kept, and the legend under it then counted
   one camera fewer than what came out of Resolve.
 
-  In the same line stands **Measure speakers now** -- whenever a track
-  is neither covered by a separation nor measured, and so beside a
-  separation that already stands as well. Then who is missing stands
-  there in place of what the cut rests on. Those people are in the cut;
-  it is this preview that cannot show them until they have been
-  measured. A measurement that fails says why in the same spot. After a
-  run the button is gone, and only the line stays: the run measured
-  every track it had, and its result is finer than this button's.
+  Nothing has to be pressed for the speakers. They are worked out of
+  the tracks by themselves, as soon as this tab is opened -- once, and
+  not a second time: not while one reading is running, not after one
+  has failed, and not where a finished run already knows them. Until
+  anything is known the preview says as much, and names the way for a
+  room where everybody sits on one recording: **several speakers** in
+  the field **Speaker name**.
+
+  That line under the preview stays and carries both answers. Where a
+  track is neither covered by a separation nor measured, it names who is
+  still missing in place of what the cut rests on -- beside a separation
+  that already stands as well. Those people are in the cut; it is this
+  preview that cannot show them until they have been measured. A reading
+  that fails says why in the same spot. After a run only what the cut
+  rests on is left there: the run measured every track it had, and its
+  result is finer than anything heard out of the raw recordings.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -408,14 +419,28 @@ window first shows which.
 
 The player has play and pause, seconds and frames forward and back,
 volume and speed; timecode on the left, position on the right, counted
-from the In point.
+from the In point. The timecode on the left is the measured place
+wherever there is one -- the same reckoning the whole axis uses -- and
+the file's own clock only where nothing was measured.
 
 - A click on a row of the assignment or camera table brings that file in
   at the same point in what is happening, so two cameras can be
-  compared. A click on a voice under a recording opens that recording
-  where the voice speaks longest and plays at once. The tick **hear
-  assigned audio** plays the recording assigned to that camera; without
-  it the camera's own sound is heard.
+  compared. That point comes from the measurement; where nothing was
+  measured of one of the two, the clocks answer. A picture that was
+  running goes on running in the file that comes in, so the camera can
+  be changed without stopping to watch. A click on a voice under a
+  recording opens that recording where the voice speaks longest and
+  plays at once. The tick **hear assigned audio** plays the recording
+  assigned to that camera; without it the camera's own sound is heard.
+  The recording is laid against the picture by the measurement as well,
+  so the two run together even where the two devices disagree about the
+  time of day. A recording written in several blocks plays through: the
+  block holding this moment is the one that sounds, the change at the
+  boundary happens by itself, and where that recording is not due under
+  the picture on screen it stays silent rather than sounding its
+  beginning in the wrong place. Both ends of that sum come out of one
+  reckoning: mixing them left the sound running against the picture by
+  the difference between the two clocks.
 - In point and Out point take the spot from the picture, a blue stripe
   shows the window, and dragging the rail moves only the numbers. Until
   the time axis stands they are locked.
@@ -429,7 +454,13 @@ program share one log, and without that line nobody can tell later which
 of them wrote what. Every start of the program begins the file again and
 keeps the one before as `videopodcast-magic_1.log`, so one file holds a
 whole session and every run in it. What Qt and ffmpeg write past Python
-is in there too.
+is in there too. The two players write into it as well, on lines marked
+**[GUI]**: what was loaded, played and paused, which sound was laid
+against which picture -- naming, for a recording written in several
+blocks, the block that is playing, and saying where that recording was
+not due under this picture and stayed silent on purpose -- and, at every
+start and every stop of the cut player, which camera it was showing.
+That is the part to send along with a complaint about the preview.
 
 Beside **Start** runs **one bar for everything outstanding**, with a line
 saying what is being worked on; it only ever moves forward. It covers
@@ -598,15 +629,44 @@ The tick **Skip this version** puts one version aside. The next one
 asks again, and **Help > Look for a newer version now** asks whenever
 it is chosen.
 
-## How the time axis is built without timecode
+## How the time axis is measured
 
-If a file carries no timecode, the interface measures in the background
-where it sits, with the method of the run itself. The player then jumps
-between files to the same point in what is happening, and In point and
-Out point hold for all alike.
+As soon as two files are in the list, the interface measures in the
+background where each of them sits, with the method of the run itself --
+whether they carry a timecode or not. The player then jumps between files
+to the same point in what is happening, and In point and Out point hold
+for all alike.
+
+**Where something was measured, the measurement decides, and the file's
+own clock only answers where nothing was.** A clock is set by hand and
+gets set wrong, and nothing in the file admits it: on real material a
+sound recorder ran 2.35 seconds ahead of the cameras beside it, far
+enough to hear the sound running against the picture. The measurement
+holds every file against every other and hangs the axis on the middle one
+of the clocks, so one wrong clock is outvoted instead of dragging
+everything after it.
+
+The measurement therefore runs even where every file carries a timecode.
+That costs one pass the first time -- material that used to skip it now
+waits for it once -- and it buys a preview that stands on the same
+reckoning the run does. The run measures in any case; it was the preview
+that used to leave it out.
 
 One timecode anywhere is enough to hang the axis on; without any it counts
 from the start of the material and shows as a virtual timecode.
+
+**The column Timecode** in the assignment table shows the measured place,
+at every file alike, with **computed** behind it -- or **virtual** where
+the axis has no clock to hang on. Only a file the measurement could not
+place at all stands there with its own timecode and nothing behind it,
+and where it has none of its own either the column says **no timecode**,
+in grey. That last is what a file fitting nowhere shows, and it is the
+first place to look when one has put itself on **Intro**.
+
+It used to be the other way round: a file with a clock of its own showed
+that clock and the rest showed the measurement, so one column carried two
+different reckonings and the numbers in it could not be compared. They are
+different numbers now.
 
 The axis goes into the project file, with size and modification time of
 every file, and the next start takes it up again. Along with the place
@@ -635,16 +695,17 @@ the folder in front of it, and the reader lost the half that mattered.
 A file whose sound was not recognised but whose timecode puts it among
 the others says **sound not recognised; placed by its timecode**. It
 lies on the axis to the frame; what is missing is only the second
-opinion, and nothing is barred for it.
+opinion, and the measurement bars nothing for it.
 
 A file with no place at all says **does not fit the other files: sound
 not recognised, no timecode. Its sound cannot be used.** and stands red.
 Its sound has nothing in common with the rest of the material and no
 timecode puts it among the others, so it cannot be cut into the episode:
 in the column **Kind**, **Content** and **Wide shot** are barred for it,
-it is set to **Intro**, and the log says why. That is not a proposal but
-a statement about the material, and it holds however the **Kind** got
-there.
+it is set to **Intro** -- or to **ignore this video** where another file
+already holds the intro -- and the log says which of the two and why.
+That is not a proposal but a statement about the material, and it holds
+however the **Kind** got there.
 
 Where nothing whatever could be measured of such a file, **ignore this
 video** is proposed for it instead. That is a proposal, like the ones
@@ -668,14 +729,26 @@ nothing are told apart.
   measurement found no place for it. Give it a timecode that fits the
   other recordings -- that has to be set with another program -- and
   the entries come back. Until then **Intro**, **Outro** and **ignore
-  this video** are the answers on offer; **Content** and **Wide shot**
-  are barred, and no hand overrules that.
+  this video** are the answers on offer -- the first two only where no
+  other file holds that mark; **Content** and **Wide shot** are barred,
+  and no hand overrules that.
 - **The update did not go through**: the file that works stays where it
   is, and the window says what was wrong. **Help > Look for a newer
   version now** tries again.
 - **Asking for help**: send the version from `--version`, the operating
   system, `videopodcast-magic.log` and what you were trying to do, before
-  the details of the fault.
+  the details of the fault. Both players write down in that log what they
+  did, every line marked **[GUI]** and carrying the time of day: which
+  file was loaded and at what point, every play and every pause, which
+  recording was laid against the picture, out of which of the two
+  reckonings that came and what the sum was. A recording written in
+  several blocks is named with the block that is playing, and where it
+  is not due under the picture on screen the line says it is silent --
+  so a preview that went quiet can be read off afterwards instead of
+  guessed at. The player on **Resolve cut** names the camera it is
+  showing at each start and each stop, not on every frame between them.
+  Sound running against the wrong picture can be read off those lines
+  afterwards; without them it can only be described.
 
 That is the whole window. The next chapter, [Preflight](preflight.md),
 covers the checks before a run and the meaning of each mark in the file

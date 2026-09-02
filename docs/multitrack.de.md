@@ -42,7 +42,13 @@ Aufnahme, die zwischendurch gestoppt wurde, kommt am Stück zurück.
 
 Auf dem Reiter **Zuordnung & Zeitfenster** stehen links zwei Tabellen.
 Die obere hat je Tonaufnahme eine Zeile: **Tonaufnahme**,
-**Sprechername**, **gehört zu**, Timecode, **Sprecher**. Ein in
+**Sprechername**, **gehört zu**, Timecode, **Sprecher**. Unter Timecode
+steht die gemessene Lage, mit **errechnet** dahinter, oder mit
+**virtuell**, wo die Achse an keiner Uhr hängt; nur eine Datei, für die
+die Messung keinen Platz gefunden hat, zeigt dort ihre eigene Uhr, und
+zwar ohne Zusatz -- und eine Datei, die weder das eine noch das andere
+hat, zeigt **kein Timecode** ([Die Oberfläche](interface.de.md), „Wie
+die Zeitachse gemessen wird“). Ein in
 **Sprechername** getippter Name sagt, dass die Aufnahme diese eine
 Person ist; der eine Eintrag, den man stattdessen wählen kann,
 **mehrere Sprecher**, sagt, dass es mehrere sind, und die gefundenen
@@ -130,7 +136,8 @@ Dateiliste, wo die Dateien ausgewählt werden und wo er gelesen ist,
 bevor jemand bis hierher kommt. Hier zeigt allein der **Typ**, was aus
 ihr geworden ist: **Inhalt** und **Weitwinkel** sind gesperrt, und im
 Feld steht die eigene Antwort des Programms -- **Vorspann**, oder
-**Video ignorieren**, wenn an der Datei überhaupt nichts zu messen war
+**Video ignorieren**, wenn eine andere Datei den Vorspann schon hält
+oder wenn an der Datei überhaupt nichts zu messen war
 ([Die Oberfläche](interface.de.md)).
 
 Unter den Tabellen steht das Häkchen **Multitrack** ein zweites Mal. Es
@@ -307,8 +314,11 @@ eigenen Schalter dafür gibt es nicht.
 
 Erste Tonspur jeder Kameradatei ist der Mix genau der Sprecher in diesem
 Bild: `Mix <A> + <B>`. Bei nur einem Sprecher ist es sein Name. Danach
-dieselben Sprecher einzeln, dann `Full-Mix (…)`, zuletzt
-`Camera Original`. Die Lautheit wird über die Summe bestimmt und auf
+dieselben Sprecher einzeln, dann `Full-Mix`, zuletzt
+`Camera Original`. Früher stand die Gesamtmischung im Laufplan mit ihren
+Zutaten in Klammern dahinter; jetzt steht dort der bloße Name
+`Full-Mix`, derselbe, den die geschriebene Spur trägt und den sie auch
+in Resolve hat. Die Lautheit wird über die Summe bestimmt und auf
 alle Spuren gleich angewendet, damit die Verhältnisse bleiben. Welches
 Ziel gilt, kommt aus **Lautheit** in der Gruppe **Produktion** oder von
 `--lufs`; ohne beides wird der Ton aus den Quelldateien übernommen und
@@ -378,6 +388,9 @@ Wert weiterhin gegen das gehalten, worauf das Preset mastert
   ist nichts: Der Ton dieser Datei wurde nicht erkannt, ihre Uhr setzt
   sie aber framegenau zwischen die anderen, und einer der beiden Wege zu
   einem Platz genügt. Die Datei liegt auf der Achse und geht in den Lauf.
+  Ist es eine Kamera, nennt der Lauf sie beim Schreiben der
+  Übergabedatei noch einmal -- allein nach Timecode gesetzt
+  ([DaVinci Resolve](resolve.de.md), „Wo jede Kamera sitzt“).
 - **Eine Zeile steht in Rot.** Diese Datei hat überhaupt keinen Platz:
   Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und auch kein
   Timecode ordnet sie zwischen die anderen ein. In der Spalte **Typ**

@@ -43,7 +43,12 @@ stopped in between comes back in one piece.
 
 The **Assignment & time window** tab holds two tables on the left. The
 upper one has a row per audio recording: **Audio recording**, **Speaker
-name**, **belongs to**, Timecode, **Speakers**. A name typed into
+name**, **belongs to**, Timecode, **Speakers**. Timecode is the measured
+place, with **computed** behind it, or **virtual** where the axis hangs
+on no clock; only a file the measurement could not place shows its own
+clock instead, and then bare -- and a file with neither reads **no
+timecode** ([The interface](interface.md), "How the
+time axis is measured"). A name typed into
 **Speaker name** says the recording is that one person; the one entry
 that can be picked instead, **several speakers**, says there are
 several, and the voices found then hang under that row as indented rows
@@ -124,8 +129,9 @@ Every note about a file stands in the file list, where the files are
 chosen and where it is read before anybody gets this far. Here only the
 **Kind** shows what became of it: **Content** and **Wide shot** are
 barred, and the program's own answer stands in the field -- **Intro**,
-or **ignore this video** where nothing at all could be measured of the
-file ([The interface](interface.md)).
+or **ignore this video** where another file already holds the intro, or
+where nothing at all could be measured of the file
+([The interface](interface.md)).
 
 Under the tables the **Multitrack** tick sits a second time. It is the
 same tick as under **Production**: click either one and both show it.
@@ -292,8 +298,11 @@ Out** apart and running again. There is no separate switch for it.
 
 The first audio track of each camera file is the mix of exactly the
 speakers in that picture: `Mix <A> + <B>`. With only one speaker it
-carries their name. Then those speakers singly, then `Full-Mix (…)`,
-last `Camera Original`. The program measures loudness over the sum and
+carries their name. Then those speakers singly, then `Full-Mix`, last
+`Camera Original`. The full mix used to stand in the plan with its
+ingredients in brackets behind it; it is the bare `Full-Mix` now, the
+same name the written track carries and the same one it has in Resolve.
+The program measures loudness over the sum and
 applies it to every track alike, so their balance stays. Which target it
 uses comes from **Loudness** in the **Production** box, or from `--lufs`;
 without either, the sound is taken from the source files and nothing is
@@ -357,7 +366,10 @@ masters to ([Preflight](preflight.md)).
   **sound not recognised; placed by its timecode**. Nothing has to be
   done: the sound of that file was not recognised, its clock places it
   among the others to the frame, and one of the two ways to a place is
-  enough. The file lies on the axis and goes into the run.
+  enough. The file lies on the axis and goes into the run. Where it is a
+  camera, the run names it once more as it writes the handover -- placed
+  by the timecode alone ([DaVinci Resolve](resolve.md), "Where each
+  camera sits").
 - **A row stands in red.** That file has no place at all: nothing in its
   sound matches the rest of the material, and no timecode places it
   among the others either. Pick **ignore this video** in the column

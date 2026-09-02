@@ -127,6 +127,39 @@ löscht den überzähligen Ton nach dem Einfügen und benennt die Tonspuren
 wie die Bildspuren. Eine Kamera, die nicht gelandet ist, legt es einzeln
 nach und meldet es, wenn auch das misslingt.
 
+### Wo jede Kamera sitzt
+
+**Auf beiden Timelines steht eine Kamera dort, wo ihr Ton gemessen
+wurde, und nicht dort, wo ihre Uhr es sagt.** Die Messung hält jede
+Datei gegen jede andere. Einen Timecode stellt ein Mensch, und ein
+Mensch stellt ihn falsch; anzusehen ist es der Datei nicht -- eine
+Kamera, die auf der falschen Stunde steht, bringt diese Stunde in die
+Timeline mit. Und selbst wenn wirklich jemand alle Kameras auf dieselbe
+Uhr gestellt hat, gehen die Uhren noch ein, zwei Bilder auseinander.
+
+**Die Uhr ist der Rückfall, mehr nicht.** War im Ton einer Kamera nichts
+zu finden, setzt ihr eigener Timecode sie; hat sie auch den nicht,
+landet sie am Anfang der Achse. Beides sagt der Lauf beim Schreiben der
+Übergabedatei ausdrücklich, mit Namen:
+
+- *Im Ton war für `WideCam` nichts zu finden -- allein nach Timecode
+  gesetzt.*
+- *Kein gemessener Versatz für `WideCam` -- liegt am Anfang der Achse.*
+
+Beim ersten lohnt ein Blick. Beim zweiten immer: eine Kamera am Anfang
+der Achse ist eine, die niemand platziert hat, und sie sieht genauso aus
+wie eine, die mit der Folge beginnt.
+
+Gehen Messung und Uhr um mehr als ein Bild auseinander, druckt der Lauf
+für diese Kamera beide Zahlen und sagt dazu, dass er die Messung nimmt.
+Ohne diese Zeile geht eine Uhr, die auf einem anderen Tag steht, still
+durch, und niemand erfährt davon.
+
+**In der Übergabedatei steht die Antwort je Kamera**, unter `placed_by`
+neben dem Versatz: `measured`, `clock` oder `nowhere`. Wer später fragt,
+warum eine Kamera dort sitzt, wo sie sitzt, liest es dort nach, statt zu
+raten.
+
 ### Kameras, die verschieden schnell laufen
 
 Kameras verschiedener Bauart einigen sich selten auf eine Bildrate: die
@@ -199,9 +232,10 @@ hinpasst, ist niemand zugeordnet. Übergeben stünde ein kurzer Jingle als
 Weitwinkel einer ganzen Folge.
 
 Eine Datei, die der Lauf bloß nicht vermessen konnte, ist ein anderer
-Fall. Sie wird übergeben, mit der Warnung, die es dazu immer schon gab.
-Wo sie liegt, sagt dann ihr eigener Timecode; hat sie keinen, landet sie
-am Anfang der Achse, und dann lohnt sich ein Blick, wo sie sitzt.
+Fall. Sie wird übergeben, und die Warnung nennt sie: wo sie liegt, sagt
+dann ihr eigener Timecode, und hat sie keinen, landet sie am Anfang der
+Achse. Beide Zeilen stehen oben unter *Wo jede Kamera sitzt*, und beide
+sind einen Blick wert.
 
 ### Eine Kamera
 
@@ -344,9 +378,11 @@ Timeline (auf der Kommandozeile `--intro DATEI` und `--outro DATEI`).
 Beide landen auf der **zweiten** Bild- und Tonspur, über dem Inhalt
 (`Intro / Outro` und `Audio Intro / Outro`).
 
-Das Programm nimmt einen Vorspann und einen Abspann. Wenn man eine zweite
-Datei auf denselben Typ stellt, geht die erste zurück auf Inhalt. Ein Lauf,
-der trotzdem zwei desselben Typs sieht, hält an und nennt sie.
+Eine Folge hat einen Vorspann und einen Abspann. Solange eine Datei eine der
+beiden Marken trägt, ist der Eintrag an jeder anderen Datei grau und nennt die
+Datei, die ihn hält; nimmt man die Marke dort wieder ab, ist er wieder frei.
+Ein Lauf, der trotzdem zwei desselben Typs sieht -- aus einer älteren
+Projektdatei etwa --, hält an und nennt beide.
 
 **Beide Clips behalten ihre volle Länge, der Inhalt ebenfalls.** Es
 verschiebt sich nur, wo sie liegen, und das richtet sich nach dem **Ton**,
@@ -541,6 +577,14 @@ keine Sicherungskopie an.
   Schreiben nennt er sie. Der Datei einen Timecode geben, der zu
   den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
   sie von Hand nach Resolve holen.
+- **Eine Kamera steht neben ihrem Platz oder gleich ganz am Anfang.**
+  Der Lauf hat es beim Schreiben der Übergabedatei gesagt: im Ton dieser
+  Kamera war nichts zu finden, also ging er allein nach dem Timecode --
+  oder er hatte beides nicht und hat sie an den Anfang der Achse gelegt.
+  Der Name der Kamera steht in dieser Zeile, und `placed_by` in der
+  Übergabedatei sagt dasselbe. Die Kamera in Resolve verschieben, oder
+  der Datei einen Timecode geben, der zum übrigen Material passt, und
+  noch einmal laufen lassen.
 - **Der Knopf ist gleich nach dem Öffnen eines Projekts grau, und im
   Ordner liegt eine Übergabedatei.** Sie nennt andere Kameras, als das
   Projekt hat -- eine andere Produktion, oder eine Runde, bevor eine

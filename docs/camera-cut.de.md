@@ -362,18 +362,34 @@ aus dem, was das Fenster selbst ermittelt hat. So oder so bei jeder
 Änderung neu und immer für das gewählte Zeitfenster. Schreiben und
 Hochladen gehören zum Lauf, nicht zur Vorschau.
 
-Der Knopf **Sprecher jetzt messen** steht unten im Vorschau-Kasten, in
-der Zeile unter dem, was die Vorschau sagt, und nicht unter diesem — und
-nur so lange, wie eine Spur weder von einer Trennung abgedeckt noch
-gemessen ist. Daneben steht, wer fehlt: **Name noch nicht gemessen -- im
-Schnitt, in dieser Vorschau noch nicht**. Diese Leute sind im Schnitt;
-ein Druck holt sie auch in die Vorschau. **Nach einem Lauf ist der Knopf
-fort**: der Lauf hat jede Spur gemessen, die er hatte, also gibt es
-nichts mehr zu drücken, und in der Zeile steht dann, worauf der Schnitt
-beruht. Sind überhaupt keine Sprecher bekannt, sagt der Vorschau-Kasten
-das an Stelle seiner Zahlen, und der Kasten **Sprecher** bleibt leer.
-Geht die Messung schief, steht der Grund neben dem Knopf. Sprecher, die
-später auftauchen, starten die Vorschau von selbst.
+**Für die Sprecher muss nichts gedrückt werden.** Sie werden aus den
+Spuren geholt, sobald der Reiter **Resolve-Schnitt** aufgeht -- in dem
+Augenblick also, in dem man sie braucht. Nicht, während eine Messung
+schon läuft, nicht nach einer gescheiterten -- ein zweiter Versuch
+scheitert genauso und kostet dieselben Minuten -- und nicht dort, wo ein
+fertiger Lauf sie schon kennt: die Rohaufnahmen noch einmal zu messen
+setzte eine gröbere Antwort an die Stelle der seinen.
+
+Unten im Vorschau-Kasten steht eine Zeile, unter dem, was die Vorschau
+sagt, und nicht unter diesem; darin steht, worauf der Schnitt beruht. Ist
+eine Spur weder von einer Trennung abgedeckt noch gemessen, steht dort
+statt dessen, wer fehlt: **Name noch nicht gemessen -- im Schnitt, in
+dieser Vorschau noch nicht**. Diese Leute sind im Schnitt -- der Lauf
+misst jede Spur, die er hat --, und es ist diese Vorschau, die sie nicht
+zeigen kann. Geht eine Messung schief, steht der Grund in derselben
+Zeile.
+
+**Gemessen wird einmal.** Eine Spur, die erst Namen und Kamera bekommt,
+nachdem der Reiter offen war, bleibt für den Rest der Sitzung in dieser
+Zeile stehen, und nach einer gescheiterten Messung bleiben es alle --
+es sei denn, eine Trennung nach Stimmen deckt sie später ab, dann sind
+sie heraus. **Projekt schließen** und ein Projekt öffnen fangen beide
+von vorn an.
+
+Sind überhaupt keine Sprecher bekannt, sagt der Vorschau-Kasten das an
+Stelle seiner Zahlen und setzt dazu, dass sie aus den Spuren geholt
+werden, sobald dieser Reiter aufgeht; der Kasten **Sprecher** bleibt
+leer. Sprecher, die später auftauchen, starten die Vorschau von selbst.
 
 ### Schnittband und Legende lesen
 
@@ -505,6 +521,35 @@ Rohaufnahmen liegen 16 bis 36 dB unter dem aufbereiteten Ton, und lauter
 machen kann die Oberfläche sie nicht. Der Kurzhinweis nennt, was läuft
 und in welcher Version.
 
+Welcher der drei es auch ist: ans Bild gelegt wird er über die gemessene
+Zeitachse. Wo das Bild steht, wird an der Achse abgelesen, wo die
+Aufnahme beginnt, an derselben Achse, und der Unterschied ist die Stelle,
+auf die der Ton gesetzt wird. Nur wo für eine der beiden Dateien nichts
+gemessen wurde, antworten die Uhren -- und dann für beide Enden zugleich.
+Nie eines von jedem: zwei Uhren tragen je ihre eigene Vorstellung von der
+Zeit, und zieht man die eine von der anderen ab, bleibt genau dieser
+Unterschied zwischen Ton und Bild stehen. Legt keine der beiden
+Rechnungen die Aufnahme unter das Bild auf dem Schirm, dann wird der Ton
+angehalten statt auf gut Glück gespielt: die Aufnahme bleibt geladen und
+stumm, und das Protokoll nennt sie, das Bild darüber und den Grund --
+hier ist sie noch nicht dran.
+
+**Eine Aufnahme aus mehreren Blöcken läuft durch.** Ein Recorder teilt
+eine lange Aufnahme in zwei oder drei Dateien, und der Player nimmt den
+Block, in den der Augenblick auf dem Schirm fällt; an der Grenze schaltet
+er weiter. Vor dem Anfang der Aufnahme und nach ihrem Ende bleibt er
+stumm, statt den Anfang eines Blocks unter ein Bild zu legen, zu dem er
+nicht gehört. Das Protokoll nennt den Block, auf dem er steht -- den
+zweiten von dreien --, und aus welcher der beiden Rechnungen die Stelle
+kommt.
+
+Holt man eine andere Kamera in diesen Player, bleibt der Augenblick
+stehen und nicht der Abstand zum Dateianfang: die neue Datei öffnet dort,
+wo die alte im Geschehen stand, denn Kameras fangen zu verschiedenen
+Zeiten an. Auch das kommt aus der Messung, mit den Uhren als Rückfall.
+Und ein Bild, das lief, läuft in der neuen Datei weiter -- die Kamera zu
+wechseln, während man zusieht, heißt vergleichen.
+
 Auf dem Reiter **Resolve-Schnitt** zeigt der Player im Vorschau-Kasten
 immer etwas: wenn ein Schnitt da ist, spielt er ihn und schaltet an jeder
 Kante die Kamera um, sonst die Datei ohne zugeordneten Sprecher. Ohne
@@ -518,8 +563,9 @@ den Mix als erste Tonspur trägt — dieselbe Wahl wie für Perspektive 1
 des Multicam-Clips, und deutlich leiser.
 
 `start_s` ist die Uhrzeit, zu der die Programmzeit null ist. Es ist der
-früheste Tonanfang, der wirklich bekannt ist, eigener Timecode oder
-gemessene Lage; sonst der früheste Kamera-Timecode; sonst nichts.
+früheste Tonanfang, der wirklich bekannt ist -- die gemessene Lage, oder
+der eigene Timecode der Aufnahme, wo an ihr nichts zu messen war; sonst
+der früheste Kamera-Timecode; sonst nichts.
 In-Punkt und Out-Punkt verschieben den Nullpunkt mit. Die Stelle in jeder
 Kameradatei ist Programmzeit minus Versatz, derselbe Versatz, mit dem
 auch die Schnitt-Timeline gebaut wird.
@@ -571,15 +617,15 @@ Das Protokoll sagt, wie stark das Übersprechen war, und darunter je
 Sprecher Redezeit und Zahl der Abschnitte. Wenn nichts zu hören war,
 gibt es keinen Kameraschnitt.
 
-Der Knopf **Sprecher jetzt messen** tut in der Oberfläche dasselbe, ohne
-auf einen Lauf zu warten: gröber als die Trennung nach Stimmen, aber
-genug, um den Schnitt einzustellen. Die beiden schließen einander nicht
-aus. Stimmen aus einer Trennung und hier gemessene Spuren gehen in ein
-und dieselbe Rechnung, und den Knopf gibt es, solange eine Spur weder
-von einer Trennung abgedeckt noch gemessen ist — auch dann, wenn schon
-getrennt wurde. Nach einem Lauf verschwindet er: was der Lauf gemessen
-hat, ist feiner als alles, was dieser Knopf liefern kann, und er hat
-niemanden ausgelassen.
+Das Fenster tut dasselbe von sich aus, ohne auf einen Lauf zu warten:
+geht der Reiter **Resolve-Schnitt** auf, misst es die Spuren auf der
+Stelle — gröber als die Trennung nach Stimmen, aber genug, um den
+Schnitt einzustellen. Die beiden schließen einander nicht aus. Stimmen
+aus einer Trennung und im Fenster gemessene Spuren gehen in ein und
+dieselbe Rechnung, und gemessen wird jede Spur, die keine Trennung
+abdeckt — auch dann, wenn schon getrennt wurde. Nach einem Lauf
+geschieht es gar nicht mehr: was der Lauf gemessen hat, ist feiner als
+alles, was das Fenster liefern kann, und er hat niemanden ausgelassen.
 
 ### Schneiden, wenn eine Kamera alle zeigt
 
@@ -620,7 +666,10 @@ Darin steht, was jemand geantwortet hat, und sonst nichts. Ein von Hand
 gewähltes Preset bleibt auch dann darin stehen, wenn die Presetliste
 gerade nicht aufgebaut werden konnte -- abgelehnter Schlüssel, keine
 Leitung --, und nicht der Eintrag, auf den der Kasten zurückgefallen
-ist. Und eine Datei, die aus der Liste genommen wird, geht mit allem,
+ist. **Öffnet man das Projekt, steht dieses Preset wieder im Kasten**,
+auch ein Multitrack-Preset: das Häkchen **Multitrack** wird zuerst
+gesetzt, denn in der Liste steht ein Multitrack-Preset nur in diesem
+Modus. Und eine Datei, die aus der Liste genommen wird, geht mit allem,
 was zu ihr geantwortet war, auch aus der Projektdatei heraus: wer sie
 später wieder hinzunimmt, fängt bei nichts an statt bei einer Antwort,
 die niemand mehr sieht.
@@ -708,13 +757,22 @@ Lautheitsmessung läuft je Spur zweimal durch.
 ### Wenn etwas klemmt
 
 * **Die Vorschau sagt, dass keine Sprecher bekannt sind, und der Kasten
-  Sprecher ist leer.** Unten im Vorschau-Kasten **Sprecher jetzt
-  messen** drücken. Geht die Messung schief, steht der Grund neben dem
-  Knopf.
+  Sprecher ist leer.** Sie werden geholt, sobald der Reiter
+  **Resolve-Schnitt** aufgeht; den Reiter verlassen und wieder
+  aufsuchen. Angestoßen wird sie vom Reiterwechsel, ein Projekt also,
+  das bei offenem Reiter geöffnet wird, lässt die Zeile stehen und tut
+  nichts. Geht die Messung schief, steht der Grund unten im
+  Vorschau-Kasten in der Zeile.
 * **Der Kasten Sprecher zeigt Sprecher, und die Vorschau sagt, dass
   jemand noch nicht gemessen ist.** Diese Person ist im Schnitt; nur die
   Vorschau kann sie nicht zeigen, weil ihre Spur weder getrennt noch
-  gemessen ist. **Sprecher jetzt messen** holt sie in die Vorschau.
+  gemessen ist. Gemessen wird einmal je Dateiliste, also bleibt draußen,
+  wer erst später einen Namen bekommen hat -- der Lauf misst ihn
+  trotzdem. Wer ihn auch in der Vorschau haben will, speichert das
+  Projekt, wählt **Projekt schließen**, öffnet es wieder und kommt von
+  einem anderen Reiter auf diesen: die Messung hängt am Reiterwechsel,
+  ein Projekt, das bei offenem Reiter geöffnet wird, stößt sie also
+  nicht an.
 * **Es kommt kein Schnitt heraus.** Auf den Spuren war nichts zu hören,
   oder die Trennung hat nur eine Stimme gefunden und es gibt nur eine
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder

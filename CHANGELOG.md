@@ -25,6 +25,180 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.31.0-beta] - 2026-09-03
+
+### Added
+
+- Both players now write down what they do in
+  `videopodcast-magic.log`, on lines marked `[GUI]`: which file was
+  loaded and at what point, every play and every pause, and which
+  recording was laid under which picture, out of which of the two
+  reckonings. Those are the lines to send along with a complaint about
+  the preview.
+
+### Changed
+
+- A camera now reaches DaVinci Resolve at the place its sound was
+  measured, and at its own timecode only where nothing could be found in
+  the sound. Cameras run on a shared clock only if somebody set them to
+  one, and even that is a frame or two out. The run names every camera
+  it had to place by the clock alone.
+- The time axis is now measured as soon as two files are in the list,
+  with a timecode or without. It used to be left out where every file
+  carried a clock, and the preview then showed a different film from the
+  one the run made. Material that used to skip the measurement now waits
+  for it once.
+- An episode has one intro and one outro, so while a file holds either
+  mark, that entry is greyed out on every other file and names the file
+  holding it. Choosing it a second time used to take the mark off the
+  first file without a word.
+- The full mix is called `Full-Mix` in the plan the run prints, the same
+  name the written track carries. It used to be listed with its
+  ingredients in brackets behind it, so the plan and Resolve named one
+  track two ways.
+
+### Removed
+
+- The button "Measure speakers now" is gone. The speakers are worked out
+  as soon as the "Resolve cut" tab is opened, which is the moment they
+  are wanted -- and not a second time while one reading is running, nor
+  after one failed, nor where a finished run already knows them.
+
+### Fixed
+
+- The assigned recording now runs with the picture in the preview
+  player. Where the picture stood came out of one clock and where the
+  recording began out of another, and the difference between the two
+  stayed in the answer: on real material the sound ran 2.35 seconds
+  ahead of the picture. Both ends of that sum come out of one reckoning
+  now.
+- The column "Timecode" now shows the same thing at every file: the
+  measured place, with "computed" behind it. A file with a clock of its
+  own showed that clock while all the others showed the measurement, so
+  one column carried two reckonings and its numbers could not be
+  compared.
+- A recording written in two files now plays through in the preview
+  player. The player knew only the first file and went silent at the
+  boundary with no word; it moves on to the next part now, and keeps quiet
+  where the recording is not due yet rather than sounding its beginning
+  under a picture it does not belong to.
+- A recording written in two files is no longer thrown out of the run
+  because of its second part. Every part was placed on the time axis on
+  its own, so a tail of seven minutes that fitted nowhere refused a
+  recording of over an hour whose first part sat on the axis to the
+  millisecond. Both parts are one recording now.
+- The window no longer measures the whole material over and over on its
+  own. Two files that fit nowhere pushed each other back and forth
+  between "Intro" and "Wide shot", and every turn set the measurement
+  going again -- 170 full measurements in twenty seconds. The measuring
+  now starts only where the material has changed.
+- A file the player cannot open no longer costs the picture of every
+  file after it. The refusal hid the picture and nothing ever brought it
+  back, so the next file played its sound with nothing to see. The
+  refusal is taken back as soon as frames arrive.
+- A camera now keeps its name and its measured place where the same file
+  reaches the run written two ways. The lookup settled the folder and
+  not the spelling, so the camera rendered under the bare file name and
+  its offset fell back to the start of the axis. On Windows a single
+  capital letter was enough, and the picture then stood 7.5 seconds
+  beside its place.
+- The preset now stands in the box again after a project is reopened. It
+  was written into the project file correctly but applied before
+  "Multitrack" was switched on, and a multitrack preset is not in the
+  list in the other mode -- so the box fell back to "work without
+  Auphonic".
+- Opening a second project no longer brings the speakers of the first
+  one along. They stayed in hand across the change, so the cut preview
+  of the new material was built out of the old material's voices. They
+  are worked out again now.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Beide Abspieler schreiben jetzt in `videopodcast-magic.log`
+  mit, was sie tun; ihre Zeilen tragen vorn `[GUI]`. Darin steht, welche
+  Datei geladen wurde und an welcher Stelle, jedes Abspielen und jede
+  Pause, und welche Aufnahme aus welcher Rechnung unter welches Bild
+  gelegt wurde. Wer sich über die Vorschau beschwert, schickt diese
+  Zeilen mit.
+
+### Geändert
+
+- Eine Kamera kommt jetzt an der Stelle nach DaVinci Resolve, an der ihr
+  Ton gemessen wurde; ihr eigener Timecode zählt nur noch dort, wo im
+  Ton nichts zu finden war. Kameras laufen nur auf einer gemeinsamen
+  Uhr, wenn jemand sie darauf gestellt hat, und auch die geht ein, zwei
+  Bilder daneben. Der Lauf nennt jede Kamera, die er allein nach der Uhr
+  setzen musste.
+- Die Zeitachse wird jetzt gemessen, sobald zwei Dateien in der Liste
+  stehen -- mit Timecode wie ohne. Bisher unterblieb die Messung, wenn
+  jede Datei eine Uhr trug; die Vorschau zeigte einen anderen Film als
+  den, den der Lauf machte. Material, das die Messung bisher übersprang,
+  wartet jetzt einmal darauf.
+- Vorspann und Abspann gibt es in einer Folge je einmal. Solange eine
+  Datei die Marke hält, ist der Eintrag bei jeder anderen grau und nennt
+  die Datei, die ihn hält. Bisher nahm die zweite Wahl der ersten Datei
+  die Marke stillschweigend wieder ab.
+- Die Gesamtmischung heißt im Laufplan `Full-Mix`, genau wie die
+  geschriebene Spur. Bisher standen ihre Zutaten in Klammern dahinter,
+  und Laufplan und Resolve nannten dieselbe Spur verschieden.
+
+### Entfernt
+
+- Der Schalter „Sprecher jetzt messen“ ist fort. Die Sprecher werden
+  ermittelt, sobald der Reiter „Resolve-Schnitt“ aufgeht -- in dem
+  Augenblick also, in dem man sie braucht. Nicht ein zweites Mal,
+  während eine Messung läuft, nicht nach einer gescheiterten, und nicht
+  dort, wo ein fertiger Lauf sie schon kennt.
+
+### Behoben
+
+- Die zugeordnete Aufnahme läuft im Vorschau-Abspieler jetzt mit dem
+  Bild. Wo das Bild stand, kam aus der einen Uhr, wo die Aufnahme
+  anfing, aus einer anderen, und ihr Unterschied blieb im Ergebnis
+  stehen: an echtem Material lief der Ton dem Bild um 2,35 Sekunden
+  voraus. Beide Enden dieser Rechnung kommen jetzt aus derselben Quelle.
+- In der Spalte „Timecode“ steht jetzt bei jeder Datei dasselbe: der
+  gemessene Platz, mit „errechnet“ dahinter. Eine Datei mit eigener Uhr
+  zeigte deren Wert, alle übrigen den gemessenen -- zwei Zeitrechnungen
+  in einer Spalte, deren Zahlen sich nicht vergleichen ließen.
+- Eine Aufnahme aus zwei Dateien läuft im Vorschau-Abspieler jetzt
+  durch. Der Abspieler kannte nur die erste Datei und verstummte an der
+  Grenze, ohne ein Wort; jetzt schaltet er weiter -- und er
+  schweigt, wo die Aufnahme noch gar nicht dran ist, statt ihren Anfang
+  unter ein Bild zu legen, zu dem er nicht gehört.
+- Eine Aufnahme aus zwei Dateien fliegt nicht mehr wegen ihres zweiten
+  Teils aus dem Lauf. Jeder Teil kam einzeln auf die Zeitachse, also
+  verwarf ein Schwanz von sieben Minuten, für den sich kein Platz fand,
+  eine Aufnahme von über einer Stunde, deren erster Teil auf die
+  Millisekunde genau lag. Beide Teile sind jetzt eine Aufnahme.
+- Das Fenster misst das ganze Material nicht mehr von selbst immer
+  wieder neu. Zwei Dateien ohne Platz schoben einander hin und her
+  zwischen „Vorspann“ und „Weitwinkel“, und jede Runde stieß die Messung
+  erneut an -- 170 vollständige Messungen in zwanzig Sekunden. Gemessen
+  wird jetzt nur noch, wo sich das Material geändert hat.
+- Eine Datei, die der Abspieler nicht öffnen kann, kostet nicht mehr das
+  Bild aller folgenden. Die Absage verdeckte das Bild, und nichts holte
+  es je zurück -- die nächste Datei spielte dann ihren Ton, ohne dass
+  etwas zu sehen war. Die Absage wird jetzt zurückgenommen, sobald
+  Bilder ankommen.
+- Eine Kamera behält jetzt ihren Namen und ihren gemessenen Platz, auch
+  wenn derselbe Pfad den Lauf in zwei Schreibweisen erreicht. Das
+  Nachschlagen klärte den Ordner, nicht die Schreibweise: die Kamera
+  wurde unter dem nackten Dateinamen gerendert, und ihr Versatz fiel auf
+  den Anfang der Achse zurück. Unter Windows genügte dafür ein einziger
+  Großbuchstabe, und das Bild stand 7,5 Sekunden neben seinem Platz.
+- Nach dem Wiederöffnen eines Projekts steht das Preset jetzt wieder im
+  Kasten. Es kam richtig in die Projektdatei, wurde aber angewandt,
+  bevor „Multitrack“ eingeschaltet war -- und im anderen Modus steht ein
+  Multitrack-Preset gar nicht in der Liste, also fiel der Kasten auf
+  „ohne Auphonic arbeiten“ zurück.
+- Öffnet man ein zweites Projekt, kommen die Sprecher des ersten nicht
+  mehr mit. Sie blieben über den Wechsel hinweg stehen, und so entstand
+  die Schnittvorschau des neuen Materials aus den Stimmen des alten. Sie
+  werden jetzt neu ermittelt.
+
 ## [2.30.0-beta] - 2026-09-02
 
 ### Added
@@ -79,53 +253,52 @@ nicht.
 
 ### Hinzugefügt
 
-- Hören die Mikrofone einander zu gut, um auseinandergehalten zu werden,
-  hört die Sprechertrennung jetzt allen auf einmal zu und benennt jede
-  Stimme nach ihrem Mikrofon. An Material, dessen Sprecher auf die
-  Millisekunde bekannt sind, stieg die richtig benannte Rede von 72,5
-  auf 92,7 Prozent. Nur bei einem Lauf ohne auphonic.com, wo die Spuren
-  noch ineinandersprechen.
+- Hören die Mikrofone einander zu gut, um die Stimmen auseinanderhalten
+  zu können, hört die Sprechertrennung jetzt allen Mikrofonen zugleich zu
+  und benennt jede Stimme nach ihrem Mikrofon. Bei Material, dessen
+  Sprecher auf die Millisekunde bekannt sind, stieg die richtig benannte
+  Rede von 72,5 auf 92,7 Prozent. Das gilt nur für einen Lauf ohne
+  auphonic.com, bei dem die Spuren noch ineinanderlaufen.
 - Eine Aufnahme, über der ein gleichbleibender Ton liegt -- ein Brummen,
   eine Klimaanlage --, findet jetzt ihren Platz auf der Zeitachse. Wo die
   Form des Klangs nichts hergibt, vergleicht der Lauf noch einmal, nur
-  auf den Frequenzbändern, die sich bewegen: bei einem Brummen 40 dB
-  darüber verfehlte der alte Weg den Platz um eine halbe Stunde, der
-  neue trifft auf drei Hundertstelsekunden.
+  auf den Frequenzbändern, die sich bewegen: bei einem Brummen 40 dB über
+  dem Material verfehlte der alte Weg den Platz um mehr als eine halbe
+  Stunde, der neue trifft ihn auf drei Hundertstelsekunden genau.
 
 ### Geändert
 
-- Jede Sprechertrennung, die schon auf dieser Maschine liegt, wird beim
-  ersten Lauf nach dieser Fassung neu gemessen. Wie die Stimmen
-  ermittelt werden, hat sich geändert; ein gespeichertes Ergebnis gehört
-  nicht mehr zu dem Weg, auf dem es jetzt entstünde. Das kostet einmalig
-  Minuten Grafikrechnung je Aufnahme.
+- Jede Sprechertrennung, die schon auf diesem Rechner liegt, wird beim
+  ersten Lauf nach dieser Fassung neu gemessen. Wie die Stimmen ermittelt
+  werden, hat sich geändert; ein gespeichertes Ergebnis passt deshalb
+  nicht mehr zu dem, was jetzt herauskäme. Das kostet einmalig einige
+  Minuten Rechenzeit auf der Grafikkarte je Aufnahme.
 
 ### Behoben
 
-- Auch ein aus dem Fenster gestarteter Lauf kommt jetzt zur
-  zusammengelegten Aufnahme. Er übernahm, was das Fenster an Trennung
-  schon hatte -- der Fall, für den das Zusammenlegen gebaut ist, trat
-  dort also nie ein, und die richtig benannte Rede blieb bei 37,5
-  Prozent.
+- Auch ein Lauf, der aus dem Fenster gestartet wird, kommt jetzt zur
+  zusammengelegten Aufnahme. Bisher übernahm er die Trennung, die das
+  Fenster schon gemacht hatte; der Fall, für den das Zusammenlegen gebaut
+  ist, trat dort also nie ein, und die richtig benannte Rede blieb bei
+  37,5 Prozent.
 - Eine Übergabedatei, die nachträglich beschnitten wird, zieht jetzt
-  ihren Timecode mit. Bisher wanderte nur die Sekunde, und DaVinci Resolve
-  plaziert allein nach dem Timecode -- jedes Bild landete um den
-  abgeschnittenen Kopf versetzt, gemessen zehn Sekunden.
-- Zwei zusammengelegte Schüsse nennen jetzt jeden, der darin zu hören
-  ist. Der überlebende behielt seine eigenen Namen, so daß jemand, der
-  zehn Sekunden auf derselben Kamera sprach, aus der Spalte „Speaker"
-  der Schnittliste und aus dem Klippennamen der EDL verschwand.
-- Zwei Namen an einer Kamera stehen jetzt überall in derselben Folge.
-  Die Vorschau sortierte sie, der Lauf setzte die Aufnahmen zuerst -- und
-  der Lauf ist es, der den Spurnamen in Resolve schreibt.
-- Das Protokoll sagt jetzt, welcher der drei Wege eine Aufnahme
-  plazierte,
-  und wie scharf ein Fund über die Phase war. Beim Lauf ohne Bild nannte
-  es gar keinen Weg, und eine per Phase plazierte Spur zeigte eine Drift
-  von „+0,00 ppm", wo die Drift in Wahrheit unbekannt ist.
-- Die Schalter unter dem Lauf stehen jetzt auf einer Linie, und
-  „Probelauf"
-  zeigt jetzt auch im abgeschalteten Zustand, wofür er da ist.
+  ihren Timecode mit. Bisher wanderten nur die Sekunden, und DaVinci
+  Resolve richtet sich allein nach dem Timecode -- jedes Bild landete um
+  den abgeschnittenen Kopf versetzt, gemessen zehn Sekunden.
+- Zwei Einstellungen, die zu einer zusammengelegt werden, nennen jetzt
+  jeden, der darin zu hören ist. Bisher behielt die verbleibende nur ihre
+  eigenen Namen, und wer zehn Sekunden auf derselben Kamera sprach, fehlte
+  in der Spalte „Speaker" der Schnittliste und im Clipnamen der EDL.
+- Zwei Namen an einer Kamera stehen jetzt überall in derselben
+  Reihenfolge. Die Vorschau sortierte sie, der Lauf stellte die Aufnahmen
+  nach vorn -- und der Lauf ist es, der den Spurnamen in Resolve schreibt.
+- Das Protokoll sagt jetzt, auf welchem der drei Wege eine Aufnahme
+  gesetzt wurde und wie sicher ein Fund über die Phase war. Beim Lauf
+  ohne Bild nannte es gar keinen Weg, und eine über die Phase gesetzte
+  Spur zeigte eine Drift von „+0,00 ppm", obwohl die Drift dort
+  unbekannt ist.
+- Die Schalter unter dem Lauf stehen jetzt in einer Zeile, und
+  „Probelauf" sagt auch im abgeschalteten Zustand, wofür er da ist.
 
 ## [2.29.0-beta] - 2026-09-02
 
@@ -163,31 +336,32 @@ nicht.
 
 - Ein Auswahlfeld „Niemand redet" neben „Erkennung unsicher", dazu das
   Feld „Kurze Lücke bis" mit einer Sekunde. Bei Stille ging der Schnitt
-  in den Weitwinkel, ohne Wahl. Vorschlagswert bleibt der Weitwinkel.
+  bisher in den Weitwinkel, und man hatte keine Wahl. Vorgabe bleibt der
+  Weitwinkel.
 
 ### Behoben
 
-- Eine Datei, die während der Messung der Zeitachse dazukommt, wird
-  jetzt mitgemessen. Die Anfrage wurde fallengelassen und von niemandem
-  nachgeholt.
-- Das Entfernen einer Datei erreicht jetzt die gespeicherte
-  Projektdatei. Die Aufnahme blieb darin stehen, und eine später wieder
-  hinzugefügte war wortlos erneut „Vorspann".
+- Eine Datei, die während der Messung der Zeitachse dazukommt, wird jetzt
+  mitgemessen. Bisher wurde die Anfrage fallengelassen, und niemand holte
+  sie nach.
+- Wird eine Datei entfernt, verschwindet sie jetzt auch aus der
+  gespeicherten Projektdatei. Bisher blieb sie darin stehen, und eine
+  später wieder hinzugefügte hieß wortlos erneut „Vorspann".
 - Lehnt auphonic.com den Schlüssel ab, wird „ohne Auphonic arbeiten"
-  nicht mehr als Entscheidung ins Projekt geschrieben. Es kam bei jedem
+  nicht mehr als Entscheidung ins Projekt geschrieben. Sie kam bei jedem
   Öffnen zurück, lange nachdem der Schlüssel wieder gut war.
-- Der geprüfte Schlüssel ist jetzt der gespeicherte. Das Feld wurde ein
-  zweites Mal gelesen, wenn die Antwort kam.
+- Geprüft und gespeichert wird jetzt derselbe Schlüssel. Bisher wurde das
+  Feld ein zweites Mal gelesen, sobald die Antwort eintraf.
 - Die Meldung über einen abgelehnten Schlüssel nennt jetzt, woher der
-  Wert kam: aus der Umgebung oder aus dem Speicher. Sie beschuldigte
-  immer den Speicher.
+  Wert kam: aus der Umgebung oder aus dem Speicher. Bisher schob sie es
+  immer auf den Speicher.
 - Drei Hinweise, die mitten im Wort abbrachen, brechen jetzt um: in der
   Dateispalte, bei der Farbkennung, unter dem Player.
-- Der Name der Kameradatei bekommt jetzt den Sprecher auch dort, wo der
-  Name nur vorgeschlagen und nie getippt wurde. Er ging ohne ihn nach
-  Resolve.
-- Die Referenzkamera meldet nicht mehr eine Messung, die es bei ihr
-  nicht gibt. Sie ist die Referenz; es gibt nichts, wogegen zu messen
+- Der Name der Kameradatei trägt den Sprecher jetzt auch dort, wo dieser
+  Name nur vorgeschlagen und nie getippt wurde. Bisher ging die Datei
+  ohne ihn nach Resolve.
+- Die Referenzkamera meldet keine Messung mehr, die es bei ihr gar nicht
+  gibt. Sie ist die Referenz; es gibt nichts, wogegen sie zu messen
   wäre.
 - Die Spracherkennung sagt jetzt in einem Satz, was sie getan hat -- in
   der Sprache des Laufs und mit deren Dezimalzeichen.
@@ -252,33 +426,34 @@ nicht.
   Uhren der Dateien, die eine haben, und der Lauf nennt sie und sagt,
   worauf das erste Bild der Referenzkamera steht. Vorher ließ sich ein
   solches Projekt gar nicht starten.
-- „Resolve-Projekt anlegen" läßt sich drücken, nachdem ein Projekt
+- „Resolve-Projekt anlegen" lässt sich drücken, nachdem ein Projekt
   geöffnet wurde, in dessen Ausgabeordner die Übergabedatei eines
-  früheren Laufs liegt. Der Hinweis auf diesem Blatt bot den Weg schon
+  früheren Laufs liegt. Der Hinweis auf diesem Reiter bot den Weg schon
   an; jetzt folgt ihm der Knopf.
 
 ### Geändert
 
-- Die Spalte „gehört zu" ist mit und ohne „Multitrack" da. Welcher
-  Kamera eine Aufnahme gehört, entscheidet über den Schnitt und nicht
-  über die Zahl der abgelieferten Spuren, und der Lauf hat den Haken
-  dafür nie gebraucht.
+- Die Spalte „gehört zu" gibt es jetzt mit und ohne „Multitrack". Über
+  den Schnitt entscheidet, zu welcher Kamera eine Aufnahme gehört, und
+  nicht die Zahl der abgelieferten Spuren; den Haken hat der Lauf dafür
+  nie gebraucht.
 - Nach einem Lauf zeigt die Schnittvorschau die Sprecher, die der Lauf
-  gemessen hat, und sagt es in ihrer Überschrift. Vorher rechnete sie
-  sie aus den Rohaufnahmen neu und kam dabei auf einen anderen Film.
+  gemessen hat, und sagt das in ihrer Überschrift. Vorher rechnete sie
+  die Sprecher aus den Rohaufnahmen neu und kam dabei auf einen anderen
+  Film.
 
 ### Entfernt
 
-- Der Knopf „Sprecher jetzt messen" ist fort, wo die Messung eines Laufs
-  vorliegt. Dort konnte er nichts ändern, weil ohnehin das Ergebnis des
-  Laufs gilt.
+- Den Knopf „Sprecher jetzt messen" gibt es nicht mehr, wo die Messung
+  eines Laufs vorliegt. Dort konnte er nichts ändern, weil ohnehin das
+  Ergebnis des Laufs gilt.
 
 ### Behoben
 
 - Ein Klick auf „Multitrack" löschte jede von Hand gesetzte
   Kamerazuordnung, in beide Richtungen, und schrieb „ohne eigene Kamera"
   ins Projekt. Danach hatte keine Kamera mehr einen Sprecher, also war
-  jede Kamera Weitwinkel und „Inhalt" nicht mehr wählbar. Der Haken läßt
+  jede Kamera Weitwinkel und „Inhalt" nicht mehr wählbar. Der Haken lässt
   die Zuordnung jetzt stehen.
 - Wo das Speichern des API-Schlüssels fehlschlug, blieb der Haken
   gesetzt, der Knopf wurde grün, und beim nächsten Start war der
@@ -286,17 +461,16 @@ nicht.
   nimmt sich jetzt selbst zurück und sagt, was der Speicher geantwortet
   hat.
 - Die Schnittvorschau zählte mehr Minuten, als die Zeitleiste lang ist:
-  1080 Sekunden auf ein Fenster von 600. Sie zählt jetzt je Augenblick
+  1080 Sekunden in einem Fenster von 600. Sie zählt jetzt je Augenblick
   der Zeitleiste, nicht je Sprecher.
 - Der Hinweis zu einer Datei, deren Bildzahl und Spurdauer auseinander
   liegen, sagte, Bild und Kameraton liefen auseinander. Gemessen tun sie
-  das nicht. Er nennt jetzt die Rate und sagt, daß ein Schnittprogramm
-  etwa alle so viele Sekunden ein Bild wegläßt.
-- Der Kameraton wurde von einem anderen Augenblick an gelesen, als sein
-  Bild beginnt, wo eine Datei sagt, daß ihre Tonspur später anfängt. Der
-  Schnitt trug den Ton dann vor dem Bild her -- gemessen 1,4 Bilder bei
-  einer Kamera. Der eigene Anfang der Spur wird jetzt aus der Datei
-  gelesen.
+  das nicht. Er nennt jetzt die Rate und sagt, in welchem Abstand ein
+  Schnittprogramm ein Bild weglässt.
+- Sagt eine Datei, dass ihre Tonspur später anfängt, wurde der Kameraton
+  von einer anderen Stelle an gelesen als der, an der sein Bild beginnt.
+  Der Ton lief dem Bild dann voraus -- gemessen 1,4 Bilder bei einer
+  Kamera. Der eigene Anfang der Spur wird jetzt aus der Datei gelesen.
 
 ## [2.27.0-beta] - 2026-09-02
 
@@ -346,26 +520,29 @@ nicht.
 
 - Eine Kamera, für deren Bildrate Resolve keine Zeitleiste hat, wird
   trotzdem verwendet: die Zeitleiste bekommt die nächste Rate, die
-  Resolve hat, die Kamera behält ihre eigene. Gemessen sitzt eine
-  15er-Datei in einer 30er-Zeitleiste auf ein halbes eigenes Bild genau.
-- Der Wähler „gehört zu" graut eine Aufnahme aus, deren Uhr Stunden von
-  der entfernt liegt, in die sie hineinsoll, und sagt wie weit. Von Hand
-  verbunden ging der Unterschied als Stille in die Datei: aus 40 Sekunden
-  Ton wurden 5,95 GB, und der Sprecher war weg.
+  Resolve kennt, und die Kamera behält ihre eigene. Gemessen sitzt eine
+  Datei mit 15 Bildern je Sekunde in einer Zeitleiste mit 30 auf ein
+  halbes Bild genau.
+- Die Auswahl „gehört zu" graut eine Aufnahme aus, deren Uhr Stunden von
+  der Aufnahme entfernt liegt, mit der sie zusammengelegt werden soll,
+  und sagt, wie weit. Wurden die beiden von Hand verbunden, ging der
+  Unterschied als Stille in die Datei: aus 40 Sekunden Ton wurden
+  5,95 GB, und der Sprecher war weg.
 
 ### Geändert
 
 - Wo der Ton einer Datei sich nicht zuordnen ließ, stand bisher nur, sie
-  passe nicht zu den anderen. Jetzt steht da, welcher der zwei Wege zu
-  einem Platz noch trägt: „Ton nicht erkannt; über den Timecode
-  platziert", oder daß keiner trägt und der Ton nicht verwendbar ist.
+  passe nicht zu den anderen. Jetzt steht da, welcher der beiden Wege zu
+  einem Platz noch offen ist: „Ton nicht erkannt; über den Timecode
+  platziert" -- oder dass keiner mehr offen ist und der Ton nicht
+  verwendet werden kann.
 
 ### Behoben
 
 - Eine Kamera konnte als unpassend markiert werden, obwohl die Messung
   sie gefunden hatte. Die Prüfung auf eine brauchbare Ablesung nimmt
-  jetzt zwei Zahlen, die ohnehin gemessen wurden, und die trennen alle
-  378 Paare richtig.
+  jetzt zwei Zahlen, die ohnehin gemessen wurden; diese beiden trennen
+  alle 378 Paare richtig.
 - Die Vorschau ließ Dateien weg, die der Lauf behielt -- im Schnittband
   stand eine Kamera weniger als im fertigen Projekt. Beide fragen jetzt
   dasselbe.
@@ -377,11 +554,12 @@ nicht.
 - Deutsche Überschriften schrieben OE und UE, wo Ö und Ü gemeint war.
   Sie tun es nicht mehr, an zwölf Stellen.
 - Der Hinweis neben einem Kanal-Häkchen war abgeschnitten, wo er länger
-  war als seine Spalte -- auf deutsch fehlte die Aussage selbst,
+  war als seine Spalte -- auf Deutsch fehlte die Aussage selbst,
   „an 120 von " und dann nichts. Er bricht jetzt um.
 - Die Kurven, die das Programm aufhebt, um eine Datei nicht zweimal lesen
-  zu müssen, trugen kein Zeichen dafür, wie sie gerechnet wurden. Jetzt
-  tragen sie eins, und eine geänderte Rechnung wirft die alten weg.
+  zu müssen, trugen kein Zeichen dafür, wie sie berechnet wurden. Jetzt
+  tragen sie eines, und nach einer geänderten Rechnung werden die alten
+  weggeworfen, statt sich unter die neuen zu mischen.
 
 ## [2.26.1-beta] - 2026-09-01
 
@@ -423,15 +601,16 @@ nicht.
 ### Behoben
 
 - Liefen die Kameras nicht alle gleich schnell, saß der Schnitt in der
-  Resolve-Timeline an der falschen Stelle, und um so weiter daneben, je
+  Resolve-Timeline an der falschen Stelle, und umso weiter daneben, je
   länger die Folge lief. Eine Einstellung, die bei 26,8 Sekunden fällig
   war, zeigte, was ihre Kamera bei 34,8 aufgenommen hatte. Jede Kamera
   zählt ihre Bilder jetzt in ihrer eigenen Rate, und der aus Resolve
   zurückgelesene Schnitt deckt sich mit der Liste des Programms.
 - Die Timeline bekommt jetzt die höchste Rate, die unter den Kameras
-  vorkommt; bisher war es die der längsten Aufnahme. Nach oben wiederholt Resolve
-  Bilder, nach unten wirft es welche weg. Intro und Outro zählen nicht
-  mit, eine Datei auf „dieses Video ignorieren" ebensowenig.
+  vorkommt; bisher war es die der längsten Aufnahme. Rechnet Resolve
+  nach oben um, wiederholt es Bilder, nach unten wirft es welche weg.
+  Intro und Outro zählen nicht mit, eine Datei auf „dieses Video
+  ignorieren" ebenso wenig.
 - Zwischen zwei Einstellungen von verschieden schnellen Kameras konnte
   ein Bild der Timeline schwarz bleiben, weil die Bilder der abgehenden
   Kamera nicht so weit reichten. Eine Einstellung beginnt jetzt dort, wo
@@ -449,12 +628,12 @@ nicht.
   die Rate, die die Timeline bekommt, und was Resolve mit den anderen
   macht.
 
-### Documentation
+### Dokumentation
 
 - Das Resolve-Kapitel sagt in beiden Sprachen, was geschieht, wenn
   Kameras verschieden schnell laufen -- welche Rate die Timeline
   bekommt, warum an einem Schnitt ein Bild von ihr offen bleiben kann,
-  und daß die Multicam-Timeline und die geschriebenen Kameradateien
+  und dass die Multicam-Timeline und die geschriebenen Kameradateien
   davon nie berührt waren.
 
 ## [2.26.0-beta] - 2026-09-01
@@ -511,44 +690,45 @@ nicht.
   kein Lauf durch ist; „aus dem fertigen Lauf" oder „aus den bearbeiteten
   Auphonic Spuren" in der guten Farbe, sobald einer durch ist. Verstellt
   man danach die Regler, rechnet „Resolve-Projekt anlegen" den Schnitt
-  aus den jetzt dort stehenden Werten und ebendiesem Ergebnis neu.
+  aus den jetzt dort stehenden Werten und eben diesem Ergebnis neu.
 
 ### Geändert
 
 - Die Vorschau rechnet den Uhrengang der Recorder heraus, wie der Lauf
-  es immer getan hat. Ihre Schnittpunkte liefen über eine Stunde um rund
-  143 Millisekunden gegen den Lauf davon, also drei bis vier Bilder;
-  jetzt bleiben sie unter einem Bild. Welche Kamera geschnitten wird, hat
-  sich nie geändert. Die Projektdatei hebt auf, wie schnell jeder
-  Recorder lief; eine ältere öffnet weiterhin.
-- Die farbige Fläche unter dem Bild im Schnitt-Player bleibt so hoch, wie
-  ihre zwei Zeilen es brauchen, die darin mittig stehen; was beide nicht
-  brauchen, bekommt der Grund des Kastens. In einem schmalen, hohen
-  Fenster war das ein Drittel der Höhe. Eine Einstellung ohne Bild behält
-  den ganzen Kasten.
+  es immer getan hat. Ihre Schnittpunkte wichen über eine Stunde um rund
+  143 Millisekunden von denen des Laufs ab, also um drei bis vier Bilder;
+  jetzt bleiben sie innerhalb eines einzigen Bildes. Welche Kamera
+  geschnitten wird, hat sich nie geändert. Die Projektdatei hält jetzt
+  fest, wie schnell jeder Recorder lief; eine ältere lässt sich
+  weiterhin öffnen.
+- Die farbige Fläche unter dem Bild im Schnitt-Player ist nur noch so
+  hoch, wie ihre zwei mittig stehenden Zeilen es brauchen; die Höhe, die
+  sie nicht brauchen, füllt der Hintergrund des Kastens. In einem
+  schmalen, hohen Fenster war diese Fläche ein Drittel der Höhe. Eine
+  Einstellung ohne Bild behält den ganzen Kasten.
 
 ### Behoben
 
 - Wer wenig sagt, galt als sprechend, sobald ein Nachbar sprach: das
   Übersprechen wurde nur für jemanden herausgerechnet, der in mehr als
-  einem Zehntel der Aufnahme redet. Darunter geschieht es jetzt auch. An
+  einem Zehntel der Aufnahme redet. Darunter geschieht es jetzt auch. Am
   Prüfmaterial landete bisher die Hälfte des Gehörten bei der falschen
   Person, jetzt ein Zwanzigstel.
-- Die Zeile, die sagt, wieviele Sprecher gemessen wurden, wurde 400
-  Millisekunden später von der Vorschau wieder ausgeblendet, so daß sie
+- Die Zeile, die sagt, wie viele Sprecher gemessen wurden, wurde 400
+  Millisekunden später von der Vorschau wieder ausgeblendet, so dass sie
   niemand je gesehen hat. Sie bleibt jetzt stehen.
 - Ein Test, der mit DaVinci Resolve spricht, hat ein offenes, nie
-  gespeichertes Projekt vernichtet. Diese Tests lassen sich jetzt aus
-  und sagen, was zu tun ist.
+  gespeichertes Projekt vernichtet. Diese Tests laufen jetzt nicht mehr
+  von selbst mit und sagen stattdessen, was zu tun ist.
 - Der Probelauf gibt den getrennten Stimmen jetzt die Überschrift, die
-  der richtige Lauf ihnen gibt, und auf deutsch steht nicht mehr „in 1
+  der richtige Lauf ihnen gibt, und auf Deutsch steht nicht mehr „in 1
   Abschnitten".
 
 ### Tests
 
-- Der Lauf sagt am Ende, daß es die Resolve-Tests gibt, daß sie hier
-  nicht mitgelaufen sind und wie man sie startet -- und schärfer, wo am
-  Resolve-Zweig gearbeitet wurde. Die 74 Prüfungen dieser Tests werden
+- Der Lauf sagt am Ende, dass es die Resolve-Tests gibt, dass sie hier
+  nicht mitgelaufen sind, und wie man sie startet -- deutlicher dort, wo
+  am Resolve-Zweig gearbeitet wurde. Die 74 Prüfungen dieser Tests werden
   jetzt namentlich gegen ihr Register gehalten; bisher fielen sie
   ungesehen heraus.
 
@@ -596,39 +776,39 @@ nicht.
 - Die Schalter `--update-check` und `--no-update-check` gibt es nicht
   mehr. Sie gehörten zu einem gemerkten Nein, das im Fenster seit einer
   Fassung gar nicht mehr angeboten wird. `VPM_NO_UPDATE_CHECK` in der
-  Umgebung schaltet das Nachsehen weiterhin für alle an einer Maschine
+  Umgebung schaltet das Nachsehen weiterhin für alle auf einem Rechner
   ab, geholt wird mit `--update`.
 
 ### Behoben
 
 - Zwei Kameras, deren Dateinamen gleich anfangen, waren in der Vorschau
-  eine: eine davon lief nie, beide Einstellungen hatten dieselbe Farbe,
-  und die Legende zählte sie einmal. Schlimmer noch zeigte die Vorschau
-  eine durchgehende Einstellung, wo der Lauf zweimal schnitt. Kameras
-  werden dort jetzt am ganzen Dateinamen auseinandergehalten, damit das
-  Bild, nach dem die Regler gestellt werden, der Schnitt ist, der
-  herauskommt.
+  ein und dieselbe: eine davon lief nie, beide Einstellungen hatten
+  dieselbe Farbe, und die Legende zählte sie einmal. Schlimmer noch: die
+  Vorschau zeigte eine durchgehende Einstellung, wo der Lauf zweimal
+  schnitt. Kameras werden dort jetzt am ganzen Dateinamen
+  auseinandergehalten, so dass das Bild, nach dem die Regler gestellt
+  werden, den Schnitt zeigt, der herauskommt.
 - Die Übersicht, die bei „Start" aufgeht, nannte denselben Platzbedarf,
   gleich welches Zeitfenster gesetzt war -- und zwar in beide Richtungen
   falsch: 96 GB für einen Lauf, der 6 schreibt, und 115 MB für einen, der
   ein Gigabyte schreibt. Die zweite Zahl ist die gefährliche, denn an ihr
-  mißt jemand seinen freien Platz. Übersicht und Bericht vor dem Lauf
+  misst jemand seinen freien Platz. Übersicht und Bericht vor dem Lauf
   rechnen jetzt dasselbe.
 - Wo die Schlüsselbilder einer Kamera nicht zu lesen waren, schrieb das
   Protokoll, die ganze Kamera werde geschrieben, und schnitt ihr Ende
-  dann doch ab. Es steht jetzt da, daß die Kopie am Anfang der Datei
+  dann doch ab. Es steht jetzt da, dass die Kopie am Anfang der Datei
   beginnt -- und so geschieht es auch.
-- Das Aufheben der Abschrift brachte nichts: die Wörter lagen unter dem
+- Die Niederschrift aufzuheben brachte nichts: die Wörter lagen unter dem
   Namen einer Mischung, die bei jedem Lauf in einem neuen Ordner entsteht,
   und waren deshalb nie wiederzufinden. Sie liegen jetzt unter dem, was
   die Aufnahme enthält, und ein zweiter Lauf über dasselbe Material spart
   sich die Erkennung -- die 27 Sekunden im Fenster, und die elf bis
   dreißig Minuten, die Whisper unter Windows braucht.
-- Das Programm sagte nicht mehr, daß eine neuere Fassung da ist. Ein
+- Das Programm sagte nicht mehr, dass eine neuere Fassung da ist. Ein
   einmal nebenbei gegebenes Nein lag im Zwischenspeicher und war nur mit
   einem Schalter zurückzunehmen, von dem im Fenster nichts steht. Gemerkt
-  wird jetzt nichts mehr; „Diese Version überspringen" überspringt eine
-  Fassung und fragt bei der nächsten wieder.
+  wird jetzt nichts mehr; „Diese Version überspringen" überspringt genau
+  diese eine und fragt bei der nächsten wieder.
 
 ## [2.25.0-beta] - 2026-09-01
 
@@ -748,12 +928,12 @@ nicht.
   fünf Minuten aus einem echten Interview sind das 6,09 GB statt
   83,57 GB, und der Schnitt bleibt auf die Millisekunde derselbe.
 - Wer **Sprecher jetzt messen** drückte und danach **Start**, ließ
-  dieselbe Aufnahme zweimal abhören. Der Lauf liest jetzt zurück, was
-  das Fenster abgelegt hat: eine schon gemessene Trennung kommt in
-  0,0008 s statt in 201 s, und das Protokoll nennt sie als
-  zurückgelesen.
+  dieselbe Aufnahme zweimal durchrechnen. Der Lauf liest jetzt zurück,
+  was das Fenster abgelegt hat: eine schon gemessene Trennung kommt in
+  0,0008 s statt in 201 s, und das Protokoll sagt, dass sie
+  zurückgelesen wurde.
 - Die Spracherkennung wartete, bis die Sprechertrennung fertig war. Sie
-  läuft jetzt daneben und spart 27 Sekunden der 201, die eine Aufnahme
+  läuft jetzt daneben und spart 27 der 201 Sekunden, die eine Aufnahme
   von 87 Minuten braucht. Die Einwilligung bleibt dieselbe: sie stammt
   vom Start der Trennung, gefragt wird nichts zweimal.
 - Die Kontrolle einer eben geschriebenen Kamera geht einmal durch die
@@ -773,16 +953,16 @@ nicht.
 ### Behoben
 
 - Waren zwei Aufnahmen aufgetrennt, kam nur eine davon in den Schnitt,
-  und ihre Leute saßen auf den Kameras der anderen: 2 von 4 Sprechern
-  kamen an, auf den falschen zwei. Jetzt sind alle vier im Schnitt,
-  jeder auf seiner eigenen Kamera.
+  und ihre Leute wurden den Kameras der anderen zugeordnet: 2 von 4
+  Sprechern kamen an, auf den falschen zwei. Jetzt sind alle vier im
+  Schnitt, jeder auf seiner eigenen Kamera.
 - Jede Trennung fing ihre Ersatznamen wieder bei **Sprecher 1** an,
   fünf Leute teilten sich drei Namen. Ein Ersatzname nimmt jetzt die
   erste freie Nummer über alle Aufnahmen hinweg; wer einen Namen tippt,
   den eine andere Stimme trägt, färbt beide Felder rot und hält den
   Start an.
-- Eine zweite Trennung wischte die Stimmen der ersten vom Schirm, und
-  die unter der ersten getippten Namen landeten auf den Stimmen der
+- Eine zweite Trennung wischte die Stimmen der ersten vom Bildschirm,
+  und die unter der ersten getippten Namen landeten auf den Stimmen der
   zweiten. Jede Aufnahme behält jetzt ihre eigenen, sie stehen
   nebeneinander, und ein wieder geöffnetes Projekt bringt alle zurück.
 - Eine Stimme kam nur in den Schnitt, wenn eine Trennung sie gefunden
@@ -790,22 +970,23 @@ nicht.
   sobald irgendeine Aufnahme aufgetrennt wurde. Stimmen aus einer
   Trennung und hier gemessene Spuren gehen jetzt in dieselbe Rechnung,
   und nur **nicht verwenden** hält jemanden heraus.
-- Sprach jemand auf **ohne eigene Kamera** neben jemandem mit eigener
-  Kamera, ging das Bild auf den Weitwinkel. Eine solche Stimme zählt
-  jetzt für die Sprechanteile und dafür, wer in einer Einstellung zu
-  hören ist -- die Kamera wird unter denen gewählt, die eine haben.
-- Ohne geladenes Projekt standen **Projekt speichern**, **Projekt
-  schließen**, **Start** und **Probelauf** schwarz über einer leeren
-  Liste, während die Knöpfe dafür grau waren. Jeder Eintrag folgt jetzt
-  seinem Knopf, und die Einträge des Menüs **Wiedergabe** ebenso.
-- Die Bedienung im Menü steuerte den Vorschau-Player des zweiten
-  Reiters, gleich welcher Reiter vorn stand, den **Resolve-Schnitt**
-  eingeschlossen. Jetzt steuert sie den Player des Reiters, der vorn
-  steht, und bleibt grau, wo dort keiner ist.
-- Den Schlüssel bei zugesperrtem Schlüsselbund abzulegen stand zwanzig
-  Sekunden lang und scheiterte dann mit einem Grund, der nicht der
+- Sprach jemand, der auf **ohne eigene Kamera** steht, neben jemandem
+  mit eigener Kamera, ging das Bild auf den Weitwinkel. Eine solche
+  Stimme zählt jetzt für die Sprechanteile und dafür, wer in einer
+  Einstellung zu hören ist -- die Kamera wird unter denen gewählt, die
+  eine haben.
+- Ohne geladenes Projekt standen die Einträge **Projekt speichern**,
+  **Projekt schließen**, **Start** und **Probelauf** schwarz über einer
+  leeren Liste, während die Knöpfe dafür grau waren. Jeder Eintrag folgt
+  jetzt seinem Knopf, und die Einträge des Menüs **Wiedergabe** ebenso.
+- Die Wiedergabe-Einträge im Menü steuerten den Vorschau-Player des
+  zweiten Reiters, gleich welcher Reiter vorn stand, den
+  **Resolve-Schnitt** eingeschlossen. Jetzt steuern sie den Player des
+  Reiters, der vorn steht, und bleiben grau, wo dort keiner ist.
+- Den Schlüssel bei zugesperrtem Schlüsselbund abzulegen, hing zwanzig
+  Sekunden lang und scheiterte dann mit einer Begründung, die nicht die
   richtige war. **Im Schlüsselbund speichern** ist jetzt grau, eine
-  Zeile darunter nennt den zugesperrten Bund, und
+  Zeile darunter sagt, dass der Schlüsselbund zugesperrt ist, und
   **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das
   ihn aufsperrt.
 - Fehlte die Kameraspur in der geschriebenen Datei, meldete der Lauf,
@@ -814,8 +995,8 @@ nicht.
   Datei ist und nichts gemessen wurde.
 - Die Spalte **Sprecher** hing über den rechten Fensterrand hinaus: ihre
   Meldung war auf zwei halbe Zeilen beschnitten, und der Knopf daneben
-  zeigte nur den Buchstaben „e". Die Spalte ist jetzt 132 px breit, der
-  Querbalken unter der Tabelle ist weg.
+  zeigte nur den Buchstaben „e". Die Spalte ist jetzt 132 px breit, und
+  der waagerechte Rollbalken unter der Tabelle ist weg.
 
 ### Sicherheit
 
@@ -904,38 +1085,40 @@ nicht.
   erreichen jetzt ihren Reiter.
 - Jede Kamera kam in Resolve als Weitwinkel ohne Sprecher an, sobald
   die Stimmen unter einer gemeinsamen Aufnahme auseinandergehalten
-  wurden. Die Übergabe liest jetzt auch die Zuordnung, jede Kamera
-  trägt ihren Sprecher, ihre Clips heißen nach der Person.
-- „This produces:" versprach zwei Tonspuren je Kamera, geschrieben
+  wurden. Die Übergabe liest jetzt auch die Zuordnung: jede Kamera
+  trägt ihren Sprecher, und ihre Clips heißen nach der Person.
+- „Daraus werden:" versprach zwei Tonspuren je Kamera, geschrieben
   wurden fünf: die Mischung, eine je Aufnahme, dazu die Kameraspur. Der
-  Plan zählt jetzt nach derselben Regel wie der Schreiber -- mit
-  „--no-single-tracks" oder einer einzigen Aufnahme sind es zwei.
-- Ein fertiger Schnitt hielt den Spieler an und spulte an den Anfang;
+  Plan zählt jetzt nach derselben Regel, nach der das Programm die
+  Spuren schreibt -- mit „--no-single-tracks" oder einer einzigen
+  Aufnahme sind es zwei.
+- Ein fertiger Schnitt hielt den Player an und spulte an den Anfang;
   wer kurz nach dem Öffnen eines Projekts auf Wiedergabe drückte, wurde
   gestoppt. Das Bild folgt weiter dem neuen Schnitt, Stelle und
   Wiedergabe bleiben jetzt beim Zuschauer.
 - Eine Aufnahme, die nirgends hinpasste, wurde bei der Zahl abgelegt,
-  die gerade herauskam -- und sieht dort aus wie eine, die passt. Sie
-  wird jetzt zurückgewiesen, mit dem Satz, den das Programm dafür
-  bereithält, wie eine Kamera ohne Platz schon länger.
+  die gerade herauskam -- und sah dort aus wie eine, die passt. Sie wird
+  jetzt zurückgewiesen, mit dem Satz, den das Programm dafür bereithält
+  -- so wie eine Kamera ohne Platz schon länger.
 - Eine Kamera, deren Datei nie geschrieben wurde, stand mit leerem Pfad
   in der Übergabe, galt dort als Weitwinkel, und Resolve holte sich
   still die unbearbeitete Quelle. Eine solche Kamera steht jetzt unter
   den ausgelassenen.
 - Die Tonspuren von auphonic.com wurden am ganzen Dateinamen
-  zugeordnet: trägt der Episodentitel die Sprechernamen, zieht es eine
-  Spur zur falschen Datei. Verglichen wird jetzt nur, was die Namen
+  zugeordnet: trug der Episodentitel die Sprechernamen, landete eine
+  Spur bei der falschen Datei. Verglichen wird jetzt nur, was die Namen
   unterscheidet.
 - Jede Übertragung zu auphonic.com und zurück ließ eine leere Datei im
   Temp-Ordner liegen, eine je Vorgang. Der Ordner bleibt jetzt sauber.
 
 ### Tests
 
-- 431 Prüfungen, monatelang grün, sind jetzt als prüfend belegt. Ein
-  Drittel der Testreihe steht auf solchen Belegen.
+- Für 431 Prüfungen, die monatelang grün waren, ist jetzt belegt, dass
+  sie überhaupt etwas prüfen. Ein Drittel der Testreihe steht auf
+  solchen Belegen.
 - Die Prüfung, dass der Auphonic-Schlüssel nirgends im Klartext
-  auftaucht, sah nur in die Kommandozeile -- in den Anfragekörper
-  geschrieben blieb sie grün. Durchsucht wird jetzt jedes Argument und
+  auftaucht, sah nur in die Kommandozeile; stand der Schlüssel im Text
+  der Anfrage, blieb sie grün. Durchsucht wird jetzt jedes Argument und
   jede Datei, die curl gereicht bekommt.
 
 ### Dokumentation
@@ -946,10 +1129,10 @@ nicht.
   welche Sprache kommt; so steht es jetzt da.
 - Die Tastentabelle gab K als „Pause, zurück auf 1x" an. K hält an; auf
   1x geht es beim nächsten Druck auf L.
-- Die Roadmap beschrieb 2.23.0-beta: die Niederschrift bei
-  auphonic.com bestellt, ein Beitragsleitfaden und eine Vorlage für
-  Pull Requests unter dem, was nicht geplant ist, obwohl es beides
-  gibt. Sie beschreibt 2.24.0-beta.
+- Die Roadmap beschrieb noch 2.23.0-beta: die Niederschrift wurde dort
+  bei auphonic.com bestellt, und ein Beitragsleitfaden und eine Vorlage
+  für Pull Requests standen unter dem, was nicht geplant ist, obwohl es
+  beides längst gibt. Jetzt beschreibt sie 2.24.0-beta.
 
 
 ## [2.24.0-beta] - 2026-08-31
@@ -1047,23 +1230,24 @@ nicht.
 ### Hinzugefügt
 
 - Die drei Reiter lassen sich über das Menü „Ansicht" und mit Strg+1
-  bis Strg+3 erreichen. Bisher führte zu einem Reiter nur sein eigener
-  Kopf, und ein Reiter, den es noch nicht gab, hatte keinen.
+  bis Strg+3 erreichen. Bisher führte zu einem Reiter nur seine eigene
+  Beschriftung, und ein Reiter, den es noch nicht gab, hatte keine.
 
 ### Geändert
 
-- Die Vorabprüfung sagte „genug Platz", wenn die Zahlen gerade eben
-  aufgingen, und sah nur in den Ausgabeordner. Sie will jetzt einen
-  Abstand über ihre Schätzung hinaus und zählt den Temp-Ordner mit --
-  auf einer Platte wird dieser Platz zweimal gebraucht.
+- Der Vorflug sagte „genug Platz", wenn die Zahlen gerade eben aufgingen,
+  und sah nur in den Ausgabeordner. Er will jetzt einen Abstand über
+  seine Schätzung hinaus und zählt den Temp-Ordner mit -- auf einer
+  Platte wird dieser Platz zweimal gebraucht.
 - Die zwei Einstellungen, die zu einer Frage gehören, standen an
-  entgegengesetzten Enden des Reiters, in Wörtern, die sich nicht
-  trafen. „Antwort früher im Bild" steht jetzt direkt über „Nach einer
-  Frage", und die Sekunden sagen, wovon sie zählen.
-- Die Niederschrift bei auphonic.com zu bestellen ist weggefallen, mit
-  ihr der Haken „Transkription holen" und der Schalter „--transcript".
-  Die Niederschrift entsteht hier, wie schon bisher bei jedem Lauf ohne
-  Voreinstellung, und hängt an keinem Dienst mehr.
+  entgegengesetzten Enden des Reiters, und ihre Beschriftungen passten
+  nicht zueinander. „Antwort früher im Bild" steht jetzt direkt über
+  „Nach einer Frage", und die Sekunden sagen, wovon sie zählen.
+- Die Niederschrift bei auphonic.com zu bestellen, ist weggefallen, und
+  mit dieser Möglichkeit auch der Haken „Transkription holen" und der
+  Schalter „--transcript". Die Niederschrift entsteht hier, wie schon
+  bisher bei jedem Lauf ohne Voreinstellung, und hängt an keinem Dienst
+  mehr.
 - Vier Einstellungen sind gesperrt, solange keine Niederschrift
   bekannt ist, mit dem Grund darunter: die beiden der Frage sowie
   „Weitwinkel nach" und „Weitwinkel höchstens", die sich auf
@@ -1074,26 +1258,26 @@ nicht.
   stehen in der Reihenfolge, in der sie greifen.
 - „Weitwinkel nach" und „Weitwinkel spätestens" sagten fast dasselbe.
   Das erste ist die weiche Grenze -- ab dort wird eine Satzgrenze
-  gesucht -- das zweite die harte, wo ohne eine geschnitten wird. Beide
-  Zeilen sagen das jetzt.
+  gesucht --, das zweite die harte, an der auch ohne eine geschnitten
+  wird. Beide Zeilen sagen das jetzt.
 
 ### Behoben
 
 - Das Feld „Sprache" steuerte nur die Kennzeichnung der Tonspur. Die
   Erkennung wollte zwei Buchstaben und bekam drei, also fiel die
   Einstellung wortlos heraus: auf einem deutschen Mac lief die
-  Erkennung deutsch, auch wenn Englisch dastand. Jetzt erreicht sie
+  Erkennung deutsch, auch wenn Englisch dastand. Jetzt erreicht das Feld
   die Erkennung.
 - „Schnittliste neu bauen" las den gespeicherten Aufruf nur zur Hälfte
   und nahm für den Rest die Vorgabewerte: die als Weitwinkel markierte
   Kamera, „Reaktionsabstand", „Reaktionshaltezeit" und die Datei, die
   sagt, welche Stimme auf welcher Kamera zu sehen ist, fielen heraus --
-  jede einzeln gehörte Stimme landete dann auf einer Kamera. Der Knopf
-  behält sie jetzt.
+  jede einzeln gehörte Stimme landete dann auf derselben Kamera. Der
+  Knopf behält sie jetzt.
 - Der Farbvergleich zählte eine Datei mit, die der Lauf nicht platzieren
-  konnte. Ein 18-Sekunden-Jingle warnte so vor 357 Helligkeitsstufen
-  Unterschied zu drei Kameras, gegen die er nie geschnitten wird.
-  Verglichen werden jetzt nur die Kameras der Folge.
+  konnte. So kam wegen eines 18-Sekunden-Jingles eine Warnung über 357
+  Helligkeitsstufen Unterschied zu drei Kameras, gegen die er nie
+  geschnitten wird. Verglichen werden jetzt nur die Kameras der Folge.
 - Die Vorschau zeigt keinen Reaktionsschnitt, solange kein Lauf eine
   Niederschrift geschrieben hat, und sagte es nicht. Die zwei
   Einstellungen der Frage nahmen Antworten entgegen, die nichts
@@ -1106,16 +1290,16 @@ nicht.
   warum sie kommt, erschien nur für den, der abbrach. Der Satz kommt
   jetzt zuerst.
 - Ein Jingle wurde zum Weitwinkel der Folge: ein 18-Sekunden-Clip bekam
-  42 Einstellungen und 5:15 einer Stunde. Eine Datei, die nichts
-  platzieren kann, wird jetzt als „Vorspann" vorgeschlagen, und
-  „Inhalt" und „Weitwinkel" sind für sie gesperrt.
+  42 Einstellungen und 5:15 Minuten einer Stunde. Eine Datei, die sich
+  nirgends platzieren lässt, wird jetzt als „Vorspann" vorgeschlagen,
+  und „Inhalt" und „Weitwinkel" sind für sie gesperrt.
 - Die Kamera eines Sprechers folgte dem Namen nicht mehr: das Fenster
   schrieb seine eigene erste Vermutung ins Projekt, als hätte jemand
   sie gewählt. Aufgeschrieben wird jetzt nur, was vom Vorschlag
   abweicht, und der Vorschlag wird bei jedem Neuaufbau neu gerechnet.
-- „--apart" und der Knopf „Entfernen" trennten einen Block und bekamen
-  ihn einen Schritt später wieder zusammengefügt, weil zwei Blöcke
-  desselben Aufnahmegeräts denselben Namen erraten. Ein herausgenommener
+- „--apart" und der Knopf „Entfernen" trennten einen Block ab, und einen
+  Schritt später war er wieder zusammengefügt, weil zwei Blöcke
+  desselben Aufnahmegeräts denselben Namen bekommen. Ein herausgenommener
   Block bleibt jetzt auch im Plan draußen.
 - Die Übergabe an Resolve nannte eine Kamera, die der Lauf
   zurückgewiesen hatte -- ohne Datei und mit der Marke des Weitwinkels.
@@ -1124,10 +1308,10 @@ nicht.
 - Die Timecode-Spalte zeigte „kein Timecode" für Zeiten, die das
   Programm gerade selbst ausgerechnet hatte: die Zeiten lagen unter der
   einen Schreibweise des Pfades und wurden unter einer anderen gesucht.
-  Beide gehen jetzt durch dieselbe Form.
-- Eine Aufnahme, die unter zwei Schreibweisen ihres Pfades erreicht
-  wurde, bekam ihre Klangkurve zweimal vermessen -- 2,88 MB je Stunde
-  und ein zweiter Gang über die Datei. Sie wird jetzt einmal vermessen.
+  Beide bringen den Pfad jetzt in dieselbe Schreibweise.
+- Bei einer Aufnahme, die unter zwei Schreibweisen ihres Pfades erreicht
+  wurde, wurde die Klangkurve zweimal vermessen -- 2,88 MB je Stunde und
+  ein zweiter Gang über die Datei. Sie wird jetzt einmal vermessen.
 
 ### Tests
 
@@ -1197,22 +1381,22 @@ nicht.
 - Mit Auphonic-Schlüssel gehen diese ausgerichteten Aufnahmen zusammen
   als eine Multitrack-Produktion hoch, so wie die Spuren eines Drehs
   mit Kameras.
-- „--lufs" steuert auf diesem Weg nichts aus und sagt das auch, wo
-  keine Auphonic-Voreinstellung im Spiel ist. Die Aufnahmen gehen so
-  heraus, wie sie aufgenommen wurden — das Verhältnis der Stimmen ist
-  also das des Raumes; die Lautheit wird beim Mischen gesetzt.
+- „--lufs" regelt auf diesem Weg nichts und sagt das auch, wo keine
+  Auphonic-Voreinstellung im Spiel ist. Die Aufnahmen gehen so heraus,
+  wie sie aufgenommen wurden -- das Verhältnis der Stimmen ist also das
+  des Raumes; die Lautheit wird beim Mischen gesetzt.
 
 ### Geändert
 
 - Eine Datei, die zu nichts im Material passt, wurde als „Video
   ignorieren" vorgeschlagen. Ist sie zugleich viel kürzer als der Rest,
-  lautet der Vorschlag „Vorspann": Ein Jingle soll benutzt und vorne
-  angelegt werden.
+  lautet der Vorschlag jetzt „Vorspann": ein Jingle soll verwendet und
+  vorn angesetzt werden, nicht vermessen.
 - Das Feld „Typ" bot „Weitwinkel" auch für eine Datei an, die sich im
   Material nirgends einordnen lässt. Dieser Eintrag ist jetzt gesperrt,
-  mit dem Grund daran: Der Weitwinkel ist die Kamera, die durchläuft
-  und einspringt, wenn keine andere passt -- das kann eine Datei nicht
-  sein, von der niemand weiß, wann sie liegt.
+  und der Grund steht dabei: der Weitwinkel ist die Kamera, die
+  durchläuft und einspringt, wenn keine andere passt -- das kann eine
+  Datei nicht sein, die sich zeitlich nirgends einordnen lässt.
 - Eine Projektdatei neben dem Material wurde erst nach dem Vermessen
   angeboten, und beim Öffnen ersetzte ihre Dateiliste die gerade
   vermessene -- das Vermessen war umsonst. Angeboten wird sie jetzt,
@@ -1268,7 +1452,8 @@ nicht.
 
 - Die Schalter „−", „+" und „▭" unter dem Schnittband rückten beim
   ersten Druck um 104 Pixel weiter, der zweite Druck traf daneben. Die
-  Anzeige daneben hat jetzt feste Breite, die Schalter bleiben stehen.
+  Anzeige daneben hat jetzt eine feste Breite, und die Schalter bleiben
+  stehen.
 - Mehrere Aufnahmen ohne Bild wurden zu einer Datei zusammengefügt,
   eine Stimme nach der anderen. Jetzt entsteht aus jeder Aufnahme eine
   eigene Datei, nach ihr benannt.
@@ -1276,15 +1461,16 @@ nicht.
   Tonspur mit zwei Kanälen. Die Spur hat jetzt so viele Kanäle wie die
   Aufnahme.
 - Das Update-Fenster zeigte die Versionshinweise auf Englisch, obwohl
-  das Programm auf Deutsch lief. Es ist die Hälfte, die oben steht, und
-  nur das Fenster im Hilfe-Menü schnitt den Text zu. Jetzt zeigen beide
-  eine Sprache, die des laufenden Programms.
+  das Programm auf Deutsch lief: gezeigt wurde immer die obere, die
+  englische Hälfte des Abschnitts. Nur das Fenster im Hilfe-Menü kürzte
+  den Text. Jetzt zeigen beide eine Sprache, die des laufenden
+  Programms.
 - Ein Lautheitsziel aus „--lufs" wurde bei einem Lauf mit Bild
-  angewendet und bei einem ohne nur gemeldet. Jetzt wird es auf jedem
+  angewendet und bei einem ohne nur gemeldet. Jetzt wird es bei jedem
   Lauf angewendet, und die zusammengefügte Datei behält die Uhr ihrer
   Quelle.
 - Was auphonic.com bei einem Lauf ohne Bild zurückschickte, wurde nie
-  gegen das Hochgeladene gehalten. Jetzt wird es geprüft wie auf jedem
+  gegen das Hochgeladene gehalten. Jetzt wird es geprüft wie bei jedem
   anderen Lauf.
 
 ## [2.21.0-beta] - 2026-08-30
@@ -1352,7 +1538,7 @@ nicht.
   Dateien am Ende sind mit dem Schalter dieselben wie ohne ihn.
 - Fünf Schalter taten ohne „--multitrack" gar nichts: „--parallel",
   „--no-metrics", „--no-transcript-file", „--no-speech-recognition" und
-  „--auphonic-done". Sie wirken jetzt auf jedem Lauf.
+  „--auphonic-done". Sie wirken jetzt bei jedem Lauf.
 
 ### Entfernt
 
@@ -1361,7 +1547,7 @@ nicht.
   Resolve, und eine ältere Übergabe wird darüber wiedergefunden.
 - Der Schalter „--no-trim", der den Ton in voller Länge ließ, ist
   entfernt. Was wegfällt, ergibt sich aus dem Fenster, das jede Kamera
-  gesehen hat, es gibt also nichts mehr abzuschalten.
+  gesehen hat; es gibt also nichts mehr abzuschalten.
 
 ### Behoben
 
@@ -1373,14 +1559,14 @@ nicht.
   Jetzt zählt, wie viele Stützpunkte die Ausrichtung im Fenster
   gefunden hat, und die Meldung nennt die Zahl.
 - Eine Kamera wurde abgewiesen, wenn die Ausrichtung darin keinen
-  Stützpunkt setzen konnte: sie liegen dreißig Sekunden auseinander,
-  eine 21 Sekunden lange Kamera hatte also keinen. Jetzt zählt, wie
-  ähnlich die beiden Aufnahmen klingen.
+  Stützpunkt setzen konnte: die Stützpunkte liegen dreißig Sekunden
+  auseinander, eine 21 Sekunden lange Kamera hatte also keinen. Jetzt
+  zählt, wie ähnlich die beiden Aufnahmen klingen.
 - Was eine Aufnahme durch das Zeitfenster verliert, steht jetzt im
   Protokoll, vorne wie hinten. Ein Lauf, der stillschweigend Sekunden
   abschnitt, sah aus wie einer, der nichts abschnitt.
 - Eine Aufnahme aus mehreren Blöcken wurde unter „--multitrack"
-  stillschweigend zusammengefügt, ein zehn Sekunden langes Loch darin
+  stillschweigend zusammengefügt; ein zehn Sekunden langes Loch darin
   fiel niemandem auf. Jetzt sagen beide Wege, wie viele Blöcke
   zusammenkamen, wo die Lücken liegen und ob zwei sich überlappen.
 - „--multitrack" hielt an, wenn sich nur eine Aufnahme ausrichten ließ,
@@ -1472,10 +1658,10 @@ nicht.
 ### Geändert
 
 - Versionshinweise stehen auf Englisch und Deutsch. Das Programm zeigt
-  die Sprache, in der es läuft.
+  sie in der Sprache, in der es läuft.
 - Der Haken „Nicht mehr nachfragen" im Update-Fenster stellte die Suche
   nach neuen Versionen für immer ab. Er heißt jetzt „Diese Version
-  überspringen" und meldet spätere Versionen wieder.
+  überspringen", und spätere Versionen werden wieder gemeldet.
 - Die Tonspur heißt auf beiden Wegen „Full-Mix". Der Einspur-Weg nannte
   sie „Processed audio"; dieser Name reicht bis Resolve, das seine
   Tonspur danach benennt.
@@ -1488,14 +1674,14 @@ nicht.
 
 ### Behoben
 
-- Zwei gleichnamige Ausgaben landeten beide in derselben Datei, die
+- Zwei gleichnamige Ausgaben landeten beide in derselben Datei; die
   zweite überschrieb die erste. Jetzt wird nur noch eine geholt.
 - Ein Zeitfenster verschob auf dem Einspur-Weg den Ton gegen das Bild,
   und zwar um den Abstand vom Beginn der Aufnahme zum Beginn des
   Bildes. Jetzt liegen Ton und Bild aufeinander.
 - Ein Zeitfenster, das kein Material trifft, schrieb ein Video aus
-  reiner Stille und meldete es als Ergebnis. Jetzt hält es an und sagt
-  es.
+  reiner Stille und meldete es als Ergebnis. Jetzt hält der Lauf an und
+  sagt das auch.
 - Die Zeile „Prüfung: neue Spur gegen den Kameraton" nannte auch dann
   eine Zahl, wenn sich die beiden gar nicht vergleichen ließen. Jetzt
   sagt sie, dass kein Vergleich möglich ist.
@@ -1506,8 +1692,8 @@ nicht.
   derselben Stelle und mussten von Hand auseinandergezogen werden.
   Jetzt steht jede dort, wo sie gemessen wurde.
 - Eine Aufnahme über den Einspur-Weg verlor die Marke, die Resolve
-  sagt, auf welche Kurve gedreht wurde, Apple Log darunter. Farbe und
-  Metadaten werden dort jetzt ebenso geprüft.
+  sagt, auf welche Kurve gedreht wurde -- Apple Log zum Beispiel. Farbe
+  und Metadaten werden dort jetzt ebenso geprüft.
 - Der Fortschrittsbalken meldete auf dem Einspur-Weg keine einzige
   Stufe und kroch minutenlang von Anfang bis Ende. Er nennt jetzt
   dieselben sechs Stufen wie der andere Weg.
@@ -1516,10 +1702,10 @@ nicht.
   jetzt eine eigene Kamera, und die Übergabe wird geschrieben.
 - Ein vierzehn Sekunden langer Jingle unter drei Kameras brachte den
   ganzen Lauf zu Fall. Eine Datei, die sich nicht einordnen lässt, wird
-  jetzt benannt und ausgelassen.
-- Mehrspur ohne ein einziges Video beklagte Dateien, die nie übergeben
-  wurden. Jetzt sagt es stattdessen, dass die Spuren an die Kameras
-  gelegt werden und keine Kamera da ist.
+  jetzt benannt und ausgelassen, und der Lauf läuft durch.
+- Ein Multitrack-Lauf ohne ein einziges Video beklagte Dateien, die nie
+  übergeben wurden. Jetzt sagt das Programm stattdessen, dass die Spuren
+  an die Kameras gelegt werden und keine Kamera da ist.
 
 ### Dokumentation
 
@@ -1606,10 +1792,10 @@ nicht.
 
 - Das Fenster schlug für die Stimmen „Sprecher 1" bis „Sprecher n" vor.
   Jetzt ordnet es sie danach, wer fragt, und schlägt „Gast" und
-  „Moderation" vor -- nur über Namen, die es selbst vergab.
+  „Moderation" vor -- aber nur dort, wo der Name von ihm selbst stammt.
 - Sammelt eine Stimme im Zeitfenster zu wenige Sätze, wird sie für
   „nicht verwenden" vorgeschlagen. Weitet man das Fenster, kehrt sie zur
-  Kamera zurück und bekommt einen Namen aus der Reihenfolge.
+  Kamera zurück und bekommt einen Namen aus der neuen Reihenfolge.
 - „Nicht verwenden" nahm einer Stimme die Kamera und graute den Namen,
   mehr nicht: Sie wurde weiter zur Spur, zum Sprecher bei auphonic.com,
   zur Zeile im Transkript. Ihre Passagen entfallen jetzt.
@@ -1621,19 +1807,19 @@ nicht.
 - Die Knöpfe am Fuß des Fensters -- „Einstellungen ...", „Start",
   „Probelauf" und der zum Abbrechen -- sind jetzt gleich hoch.
   „Einstellungen ..." war vier Pixel niedriger und mittig gesetzt.
-- Was an einer Datei gemessen wurde, wird unter jedem anderen Weg dahin
-  wiedergefunden. War ein Ordner über zwei Namen erreichbar, wurde jede
-  Datei darin zweimal gemessen.
+- Was an einer Datei gemessen wurde, wird auch unter jedem anderen Pfad
+  dahin wiedergefunden. War ein Ordner über zwei Namen erreichbar, wurde
+  jede Datei darin zweimal gemessen.
 
 ### Tests
 
-- Das Lesen einer fehlenden Datei schrieb in jedem Lauf auf jeder
-  Maschine 54 Fehlerzeilen in die Fehlerausgabe. Jetzt bleibt es still.
+- Das Lesen einer fehlenden Datei schrieb in jedem Lauf auf jedem
+  Rechner 54 Fehlerzeilen in die Fehlerausgabe. Jetzt bleibt es still.
 - Das Ablesen der Zeiten des Baurechners erfasste keinen Namen mit
   Ziffer, sodass ein Test aus jeder Ablesung fiel und eine veraltete
   Zahl behielt. Jetzt wird er mitgelesen.
 - Ein Fehlerbericht behält, was der Test selbst ausgab. Fünfundzwanzig
-  Zeilen über ein misslungenes Fenster passten auf kein Muster, keine
+  Zeilen über ein misslungenes Fenster passten auf kein Muster; keine
   einzige erreichte das Protokoll des Baurechners.
 - Die Skripte für die Bilder urteilen nach eigenen Prüfungen, nicht mehr
   danach, was das Fenstersystem zurückgibt. Unter Linux war das 1,
@@ -1648,13 +1834,13 @@ nicht.
   Schritt erreichte, wie viel es bemängelte und was das Fenstersystem
   zurückgab. Fehlt sie, ist das der erste Befund.
 - Jedes Fensterskript bekommt einen eigenen Laufzeitordner. Sechs von
-  ihnen starten auf einer Maschine im selben Augenblick; bisher teilten
+  ihnen starten auf einem Rechner im selben Augenblick; bisher teilten
   sie sich einen.
 
 ### Dokumentation
 
-- Das Kapitel über die Rede sagt, was die Namen vorschlagen, wann eine
-  Stimme für „nicht verwenden" vorgeschlagen wird und wo das
+- Das Kapitel über die Rede sagt, welche Namen vorgeschlagen werden,
+  wann eine Stimme für „nicht verwenden" vorgeschlagen wird und wo das
   Niederschreiben der Worte läuft und was es kostet.
 
 ## [2.18.0-beta] - 2026-08-30
@@ -1709,7 +1895,7 @@ nicht.
 ### Tests
 
 - Ein Test baut seine zwei Kameradateien in einem ffmpeg-Aufruf statt in
-  zweien, ein Prozessstart weniger.
+  zweien; das ist ein Prozessstart weniger.
 
 ## [2.17.0-beta] - 2026-08-30
 
@@ -1767,11 +1953,12 @@ nicht.
   erhalten, nach Größe und Änderungszeit. Dasselbe Projekt zweimal zu
   öffnen stellte dieselbe Frage zu derselben Datei erneut.
 - Der Schlüsselspeicher wird einmal je Lauf befragt statt einmal je
-  Frage. Das Zeichnen der Einstellungen fragte mehrfach. Der Schlüssel
-  kommt in keine Datei und auf keine Befehlszeile, wie bisher.
-- Zwei Stellen, die fünf Prozesse starteten, starten einen: Die
-  Bildtaktung eines Videos wird in einem Aufruf geholt, kurze Proben des
-  Übersprechens werden aus einer Lesung geschnitten.
+  Frage. Das Zeichnen des Einstellungsfensters fragte ihn gleich
+  mehrfach ab. Der Schlüssel kommt in keine Datei und auf keine
+  Befehlszeile, wie bisher.
+- Zwei Stellen, die fünf Prozesse starteten, starten nur noch einen: die
+  Bildtaktung eines Videos wird in einem Aufruf geholt, und kurze Proben
+  des Übersprechens werden aus einem einzigen Durchgang geschnitten.
 - Der ganze Testauftrag auf dem Windows-Baurechner fiel von 208 auf 161
   Sekunden, sein längster Test von 126 auf 107.
 
@@ -1843,8 +2030,8 @@ nicht.
 ### Geändert
 
 - Ein für seine Spalte zu langer Name wird von vorn gezeigt und steht
-  ganz als Tooltip. Das Feld zeigte sein Ende, die neuen Namen enden mit
-  der Kamera -- weg war die Hälfte, die die Zeile nennt.
+  ganz als Tooltip. Das Feld zeigte bisher sein Ende, und die neuen Namen
+  enden mit der Kamera -- weg war gerade der Teil, der die Zeile benennt.
 - Eine Spalte mit einem Feld oder Klappmenü wird nach dessen Inhalt
   bemessen. Solch eine Spalte galt als leer und kam auf ihr Mindestmaß
   -- das Klappmenü neben dem Namen zeigte ein halbes Wort.
@@ -1858,8 +2045,9 @@ nicht.
   Zahl auf. Er steht auf einer eigenen Zeile, mit der Zahl gefallener
   Anläufe und der ersten Meldung.
 - Ein neuer Test geht den ganzen Kreis: Alles Einstellbare wird über das
-  Bedienelement gesetzt, die Datei geschrieben, ein zweites Fenster
-  öffnet sie, jede Antwort wird namentlich abgefragt.
+  Bedienelement gesetzt, das auch eine Person benutzen würde, die Datei
+  wird geschrieben, ein zweites Fenster öffnet sie, und jede Antwort wird
+  namentlich abgefragt.
 - Derselbe Test geht den zweiten Kreis: Das Schließen des Projekts leert
   das Fenster, und die Datei, aus der es kam, bleibt unberührt.
 - `bash run.sh <name> ...` lässt nur die genannten Tests laufen, über
@@ -1926,11 +2114,12 @@ nicht.
 
 - Beim Hinzufügen von Material kommen Ausgabeordner und
   Produktionsname nicht mehr aus einer alten Übergabedatei. Der Name
-  stammt aus dem Ordner des Materials, der Ausgabeordner bleibt leer.
-- Am Mac trug der erste Eintrag der Menüleiste den Namen „Python". Er
-  trägt jetzt den Namen des Programms.
+  stammt aus dem Ordner des Materials; der Ausgabeordner bleibt leer,
+  bis er gewählt wird.
+- Auf dem Mac trug der erste Eintrag der Menüleiste den Namen „Python".
+  Er trägt jetzt den Namen des Programms.
 - „Einstellungen", „Beenden", „Dienste" und die Knöpfe im Dateidialog
-  erscheinen am Mac in der gewählten Sprache. Im deutschen Fenster
+  erscheinen auf dem Mac in der gewählten Sprache. Im deutschen Fenster
   waren sie bisher englisch geblieben.
 - „Transkription holen" ist grau, solange die Voreinstellung „ohne
   Auphonic arbeiten" gilt. Der Knopf bot bisher eine Datei an, die gar
@@ -2002,8 +2191,8 @@ nicht.
 
 ### Hinzugefügt
 
-- Steht „Weitwinkel steht" unter der „Mindestschnittdauer", sagt es
-  die Vorschau. So gesetzt, wird jeder Weitwinkel in einem langen
+- Steht „Weitwinkel steht" unter der „Mindestschnittdauer", weist die
+  Vorschau darauf hin. So gesetzt, wird jeder Weitwinkel in einem langen
   Monolog wieder zusammengelegt und fehlt in der Folge ganz.
 
 ### Geändert
@@ -2011,16 +2200,17 @@ nicht.
 - Eine Übergabedatei gilt nur für das Fenster, das sie schrieb. Eine
   im Ergebnis-Ordner kann Tage alt sein, aus einer anderen Messung.
   Nach einem Neustart entsteht der Schnitt neu aus dem Projekt.
-- Ein Trockenlauf meldet kein Ergebnis mehr: Er schreibt nichts, und
+- Ein Probelauf meldet kein Ergebnis mehr: Er schreibt nichts, und
   „Ergebnis-Ordner öffnen" zeigte auf einen alten Lauf.
-  „Resolve-Projekt anlegen" nennt jetzt den Lauf des Schnitts.
+  „Resolve-Projekt anlegen" nennt jetzt den Lauf, aus dem sein Schnitt
+  stammt.
 - Die Zeile, die sagt, warum der Lauf nicht starten kann, steht über
   den Knöpfen statt darunter.
 
 ### Behoben
 
 - Das Bild lief 80 ms vor dem Ton, wo der Schnitt im Fenster entstand
-  statt in einem Lauf: Es reiste keine Bildrate mit, der Abspieler
+  statt in einem Lauf: Es reiste keine Bildrate mit, und der Player
   nahm 30 an. Sie stammt jetzt von einer Kamera.
 - Ein getippter Sprechername erreichte die Vorschau nicht: Sie zeigte
   weiter den alten Namen an der alten Kamera, bis etwas anderes
@@ -2032,8 +2222,8 @@ nicht.
   Ergebnis-Ordner: drei eigene Kameras, zehn Minuten lang. Der Schnitt
   muss auf den Kameras des Projekts entstehen.
 - Das Zusammensetzen einer Produktion hatte keinen Test. Jetzt sind es
-  70 Prüfungen gegen einen Ersatz für auphonic.com: Ein Trockenlauf
-  sendet nichts, der Schlüssel steht in keiner Argumentliste.
+  70 Prüfungen gegen einen Ersatz für auphonic.com: Ein Probelauf
+  sendet nichts, und der Schlüssel steht in keiner Argumentliste.
 
 ## [2.13.0-beta] - 2026-08-30
 
@@ -2089,10 +2279,12 @@ nicht.
 
 - Ein Lauf lässt sich abbrechen. „Abbrechen" steht neben Start,
   solange er läuft. Er hält erst dort, wo nichts halb geschrieben
-  bleibt: Auf den Druck folgt eine Wartezeit, das Protokoll sagt es.
-- Was vor einem Abbruch geschrieben wurde, ist ganz, was danach käme,
-  fehlt. Der Lauf nennt die fertigen Dateien und sagt, dass hier kein
-  Ergebnis liegt. Ein laufendes ffmpeg wird mit beendet.
+  bleibt: Auf den Druck folgt eine Wartezeit, und das Protokoll sagt
+  das auch.
+- Was vor einem Abbruch geschrieben wurde, ist ganz; was danach käme,
+  fehlt. Der Lauf nennt die fertigen Dateien und sagt, dass im Ordner
+  ein Teilstück liegt und kein Ergebnis. Ein laufendes ffmpeg wird mit
+  abgebrochen.
 
 ### Geändert
 
@@ -2115,17 +2307,19 @@ nicht.
 ### Tests
 
 - Acht Fenster-Tests löschten ihren Ordner, während das Fenster noch
-  stand, vier hielten je drei Abspieler. Sie lassen jetzt zuerst
-  los, und das Warten auf die Freigabe ist selbst die Messung.
+  stand, und vier von ihnen hielten dabei je drei Player. Sie lassen
+  jetzt zuerst los, und das Warten auf die Freigabe ist selbst die
+  Messung.
 
 ### Dokumentation
 
 - Neunzehn Zahlen im Handbuch sagen, was sie sind: ob sie eine
   Vorbelegung sind, welcher Schalter sie setzt und was ein größerer
   oder kleinerer Wert bewirkt.
-- Zwei stimmten nicht. Die Meldung über Samples an der Decke sollte ab
-  acht kommen, das Programm nennt drei, und einen Spitzenwert nahe
-  Vollaussteuerung verlangen; die Bedingung gibt es nicht.
+- Zwei stimmten nicht. Laut Handbuch sollte die Meldung über Samples an
+  der Decke erst ab acht kommen -- das Programm nennt drei -- und
+  außerdem einen Spitzenwert nahe Vollaussteuerung verlangen; diese
+  Bedingung gibt es gar nicht.
 
 ## [2.12.0-beta] - 2026-08-29
 
@@ -2163,20 +2357,20 @@ nicht.
 - Das Fenster, das ein Lauf selbst ermittelt, ist die Strecke, die
   jede Kamera sah, nicht die, die irgendeine sah. Es beginnt, wo die
   letzte Kamera ansprang, und endet, wo die erste aufhörte.
-- Wer eine weitere Strecke will, setzt einen eigenen In-Punkt. Von der
+- Wer eine längere Strecke will, setzt einen eigenen In-Punkt. Von der
   Regel darüber bleibt er unberührt.
 - Die Zeile neben dem Fortschrittsbalken wird in der Mitte gekürzt, wo
   sie für ihr Feld zu breit ist. Der ganze Text steht als Tooltip. Wie
   breit sie wird, entscheidet das Material.
 - Kein In- und kein Out-Punkt bei Vorspann, Abspann oder einer als
-  „Video ignorieren" markierten Datei im Abspieler. Die vier Knöpfe
-  sind grau: So etwas steht vor oder hinter dem Material.
+  „Video ignorieren" markierten Datei im Player. Die vier Knöpfe sind
+  grau und sagen, warum: So etwas steht vor oder hinter dem Material.
 
 ### Tests
 
 - Der Schnitt wird gegen Zahlen gehalten: 64 Prüfungen über ein eigens
-  gebautes Gespräch, die richtige Antwort ist vorher bekannt. Jede
-  Einstellung, die eine Zahl ist, wird zurückgelesen.
+  gebautes Gespräch, bei dem die richtige Antwort vorher bekannt ist.
+  Jede Einstellung, die eine Zahl ist, wird zurückgelesen.
 - Das ermittelte Fenster hatte keinen Test. Die Rechnung steht jetzt
   für sich: drei Kameras, die nicht zugleich beginnen,
   eine allein, gemeinsam beginnende und zwei ohne Überschneidung.
@@ -2265,9 +2459,9 @@ nicht.
 
 ### Behoben
 
-- Das Fenster konnte für immer stehenbleiben. Es geschah, wo ein Player
-  pausiert werden sollte, der nie gestartet war; ein solcher Player wird
-  jetzt in Ruhe gelassen.
+- Das Fenster konnte endgültig aufhören zu reagieren. Es geschah, wo ein
+  Player pausiert werden sollte, der nie gestartet war; ein solcher
+  Player wird jetzt in Ruhe gelassen.
 - Das Resolve-Projekt setzte die Kameras dorthin, wo die
   Ausrichtungsmessung sie hatte, bis zu 78 s neben den freigegebenen
   Schnitt. Jetzt entscheidet der eigene Timecode jeder Kamera.
@@ -2278,14 +2472,14 @@ nicht.
   vollständig. Ein Lauf schreibt sein Zeitfenster jetzt mit, und die
   Prüfung gegen ältere Dateien fragt danach.
 - Die Übergabedatei nannte nicht, welcher Sprecher an welcher Kamera
-  sitzt. Jede Kamera galt als „Weitwinkel", die ganze Folge fiel zu einer
-  Einstellung zusammen. Jetzt steht es darin.
+  sitzt. Jede Kamera galt als „Weitwinkel", und die ganze Folge fiel zu
+  einer einzigen Einstellung zusammen. Jetzt steht es darin.
 - Die Kameratabelle sagte „Weitwinkel" für eine Kamera, der ein Sprecher
   gegeben war. Beide Tabellen und die Dateiliste werden jetzt neu
   gezeichnet, sobald eine Stimme Namen oder Kamera bekommt.
-- Zu einem anderen Zeitpunkt gesichert als dem, in dem die Antwort gewählt
-  wurde, hieß danach jeder „Sprecher 1". Sprechername und Antwort bleiben
-  jetzt bei jedem Sichern erhalten.
+- Wurde ein Projekt zu einem anderen Zeitpunkt gesichert als dem, in dem
+  die Antwort gewählt wurde, hieß danach jeder „Sprecher 1". Sprechername
+  und Antwort bleiben jetzt bei jedem Sichern erhalten.
 - Der Wechsel des „Typs" einer Datei lässt das Zuordnungsblatt nicht mehr
   flackern.
 
@@ -2297,9 +2491,9 @@ nicht.
 - Der Baurechner schreibt mit, gegen welches ffmpeg er lief, hält das
   Sprachmodell gegen die mitgelieferten Prüfsummen und bricht einen Lauf
   auf macOS ab, der seine Zeit überschreitet.
-- Der Gate-Test baut drei Fenster gleichzeitig statt sechs. Ein Kind, das
-  hundert Sekunden lang nichts gesagt hat, wird gestoppt, allein noch
-  einmal gebaut und im Protokoll benannt.
+- Der Gate-Test baut drei Fenster gleichzeitig statt sechs. Ein
+  Kindprozess, der hundert Sekunden lang nichts gesagt hat, wird
+  gestoppt, allein noch einmal gebaut und im Protokoll benannt.
 - Vier neue Prüfungen der Zeitachsen: Ein Zeitfenster verschiebt nichts, vom
   Ende gezählte Punkte ergeben sinnvolle Längen, jede Kamera sitzt auf ihrem
   Timecode, eine Antwort erreicht den Schnitt.
@@ -2407,16 +2601,16 @@ nicht.
 - Das Namensfeld wählt „mehrere Sprecher" nicht mehr von selbst; es trägt
   nur eine gegebene Antwort. Gibt es nur einen Sprecher, steht das Angebot
   daneben.
-- Eine Kamera für eine Stimme zu wählen macht deren Zeile zur aktuellen, so
-  hört, wer wählt, was er wählt. Die Kameraliste zu öffnen und ins
-  Namensfeld zu klicken bewegen beide den Player.
+- Eine Kamera für eine Stimme zu wählen, macht deren Zeile zur aktuellen;
+  wer wählt, hört also, was er gerade wählt. Beides bewegt den Player: die
+  Kameraliste zu öffnen und ins Namensfeld zu klicken.
 - Die Kameratabelle im Zuordnungsreiter lässt Hinweise und Rot weg. Die
   Dateiliste im ersten Reiter sagt weiterhin alles, in voller Länge.
 - Die Legende unter dem Schnittband nennt, wer im Bild ist, statt der Datei,
   aus der es stammt, und sie bricht um: auf einem 1512 px breiten Fenster
   bleibt nichts zu rollen.
 - Die Sprechertabelle hat einen Deckel. Ab dem vierten Sprecher rollt sie
-  in sich selbst, statt das ganze Blatt höher zu ziehen.
+  in sich selbst, statt den ganzen Reiter höher zu ziehen.
 - Ein geratener Sprechername zählt, wo niemand einen tippte, aber nur wenn
   er mit einem Buchstaben beginnt. `0008A.wav` ergibt nichts, das Feld
   bleibt leer, und Multitrack verweigert den Start.
@@ -2426,14 +2620,14 @@ nicht.
 
 ### Entfernt
 
-- `--platform` ist fort, ohne `--lufs` wird nichts mehr angeglichen. Ein
+- `--platform` ist fort, und ohne `--lufs` wird nichts mehr angeglichen. Ein
   Aufruf, der sich auf die alten -16 LUFS verließ, bleibt nun unangetastet;
   `--lufs -16` fordert das alte Verhalten.
 
 ### Behoben
 
 - Ins Namensfeld ließ sich nicht tippen, wo „mehrere Sprecher" darin stand:
-  Der erste Anschlag riss genau das Feld ein, in das getippt wurde. Es
+  Der erste Anschlag zerstörte genau das Feld, in das getippt wurde. Es
   wartet jetzt das Tippen ab.
 - Der Reiter „Resolve-Schnitt" erreichte den Lauf nicht, wenn weder
   „Multitrack" angehakt war noch eine Trennung gelaufen: Der Lauf nahm die
@@ -2444,15 +2638,16 @@ nicht.
 - Kameraton wurde mit fester Bittiefe entpackt, in beide Richtungen falsch:
   eine 24-Bit-Kamera auf 16 gequetscht, eine 16-Bit-Kamera auf 24
   aufgeblasen. Die Tiefe folgt jetzt der Quelle.
-- Wo es keinen Weitwinkel gibt, unterbrachen seine vier Zahlen und sein
+- Wo es keinen Weitwinkel gab, unterbrachen seine vier Zahlen und sein
   Haken einen Monolog weiterhin mit dem Blick auf eine fremde Kamera. Sie
-  tun jetzt nichts, ausgegraut mit Begründung.
+  bewirken jetzt nichts mehr und sind mit Begründung ausgegraut.
 - Die Kamerazuordnung ging verloren, sobald ein Projekt geöffnet wurde:
   Aufnahmen ohne getippten Namen kamen ohne Kamera zurück. Jetzt kommen sie
   mit ihrer Kamera zurück.
-- Der Ausgabereiter behielt die Farben, mit denen er begann. Hell gestartet
-  und dunkel gestellt, stand der laufende Text bei einem Kontrast von 1,00.
-  Geschriebene Zeilen folgen jetzt dem Aussehen.
+- Der Ausgabereiter behielt die Farben, mit denen er begann. Startete das
+  Fenster hell und wurde danach auf dunkel gestellt, stand der laufende
+  Text bei einem Kontrast von 1,00. Geschriebene Zeilen folgen jetzt dem
+  Aussehen.
 - Eine Kamera, deren Sprechername nur geraten ist, wurde mit der rohen
   Aufnahme gespielt, obwohl ihre fertige Spur bereitlag. Der geratene Name
   zählt hier jetzt auch.
@@ -2494,11 +2689,11 @@ nicht.
   Sekunden. Das Programm sagte es im ersten Reiter und nahm ihn doch: kein
   Schnitt kam heraus. Jetzt sind es 218 Einstellungen.
 - Die Sperre gegen ein Zeitfenster unter fünf Sekunden griff vor dem
-  Beschneiden, so rutschte ein Fenster außerhalb des Materials durch und
-  wurde negativ. Sie greift jetzt hinter dem Beschneiden.
-- Ein Zeitfenster, das nicht arbeiten kann, ergab eine Länge von minus 56788
-  Sekunden ganz ohne Klage. Es sagt jetzt, wo es liegt und wie lang das
-  Material läuft.
+  Beschneiden, so dass ein Fenster außerhalb des Materials durchrutschte
+  und negativ wurde. Sie greift jetzt hinter dem Beschneiden.
+- Ein Zeitfenster, das so gar nicht aufgehen kann, ergab eine Länge von
+  minus 56788 Sekunden, ganz ohne Klage. Es sagt jetzt, wo es liegt und
+  wie lang das Material läuft.
 - Der Hinweis auf eine ungestellte Uhr, der Tonursprung und der Nullpunkt
   beurteilen eine solche Uhr jetzt nach ein und derselben Regel.
 - Wo kein Schnitt herauskommt, wird jetzt der Grund genannt: kein Sprecher,
@@ -2580,8 +2775,8 @@ nicht.
 - Die Trennung startet nur von selbst, wo es genau einen Kandidaten gibt.
   Bei zwei freigegebenen Kameras nahm sie bisher die längere von beiden und
   rechnete drei Minuten ungefragt.
-- Die Zeile unter der Tabelle, die sagt, wer wann spricht, lasse sich auf
-  diesem Rechner ermitteln, spricht nur noch, wo dieser Rechner die
+- Die Zeile unter der Tabelle, nach der sich auf diesem Rechner ermitteln
+  lässt, wer wann spricht, erscheint nur noch dort, wo dieser Rechner die
   Trennung gar nicht ausführt.
 - Vor einem Lauf sagt das Feld, wer keine eigene Kamera bekommt.
 
@@ -2590,8 +2785,8 @@ nicht.
 - Das Schließen des Fensters sicherte nichts. Zwei Namen getippt, zwei
   Kameras gewählt, Fenster geschlossen, Projektdatei unberührt. Sie wird
   jetzt beim Schließen geschrieben.
-- Der Trockenlauf schrieb das Projekt ebenso wenig. Er schreibt es jetzt,
-  so geht die Handarbeit davor nicht verloren.
+- Der Probelauf schrieb das Projekt ebenso wenig. Er schreibt es jetzt,
+  so dass die Handarbeit davor nicht verloren geht.
 
 ### Dokumentation
 
@@ -2649,12 +2844,12 @@ nicht.
 - Ist der Ton genommen, läuft er durch dieselbe Maschinerie wie eine
   eigens eingelesene Aufnahme: Kanäle gemessen, Stereo-Urteil, stumme
   Kanäle verworfen, in Spuren geschnitten.
-- Dasselbe Feld steht auch im Zuordnungsreiter und zeigt beidseitig denselben
-  Wert. Eine Spur zu beurteilen heißt, sie zu hören, und der Player ist
-  dort.
+- Dasselbe Feld steht auch im Zuordnungsreiter und zeigt an beiden Stellen
+  denselben Wert. Eine Spur zu beurteilen heißt, sie zu hören, und der
+  Player ist dort.
 - Genau ein Video führt Ton, keine Tonaufnahme daneben: Das Feld setzt sich
-  selbst, ist ausgegraut und trägt seinen Grund. Eine Aufnahme hinzuzufügen
-  nimmt es rückstandslos fort.
+  selbst, ist ausgegraut und trägt seinen Grund. Kommt eine Aufnahme dazu,
+  verschwindet es wieder.
 
 ### Behoben
 
@@ -2735,14 +2930,14 @@ nicht.
 ### Hinzugefügt
 
 - Jede Aufnahme hat in einer fünften Spalte der Zuordnungstabelle einen
-  eigenen Knopf „Sprecher trennen". Bisher saß ein Knopf im Abspielfeld,
-  auf einer Datei, die das Programm selbst wählte.
+  eigenen Knopf „Sprecher trennen". Bisher saß ein Knopf im Kasten des
+  Players, auf einer Datei, die das Programm selbst wählte.
 - Mehrere Aufnahmen sperren die Trennung nicht mehr. Bisher meldete die
-  Zeile mehrere Mikrofone und verschwand, zwei Tondateien hießen gar
-  keine Trennung. Der Knopf in der Zeile startet sie.
+  Zeile mehrere Mikrofone und verschwand; bei zwei Tondateien gab es also
+  gar keine Trennung. Der Knopf in der Zeile startet sie.
 - Der Ton einer Kamera lässt sich auch bei nur einer Kamera als Spur
   nehmen. Für ein einzelnes Video ohne Tonaufnahme daneben entstand
-  keine Kamerazeile, das Häkchen gab es also nicht.
+  keine Kamerazeile; das Häkchen gab es also nicht.
 - Genau ein Video mit Ton, keine Tonaufnahme daneben: das Häkchen steht
   allein, grau, beschriftet „der einzige Ton, den es gibt". Kommt eine
   Aufnahme dazu, verschwindet es spurlos.
@@ -2751,9 +2946,9 @@ nicht.
 
 - Die Zustandszeile „Getrennt: 4 Sprecher" steht in der Zeile der Datei,
   zu der sie gehört, an der Stelle des Knopfes. Bisher stand sie rechts
-  im Abspielfeld.
+  im Kasten des Players.
 - Der Knopf „Auf diesem Rechner nicht" steht nur einmal, unter dem
-  Häkchen. Es ist die eine Frage, die zum Projekt gehört und nicht zu
+  Häkchen. Das ist die eine Frage, die zum Projekt gehört und nicht zu
   einer einzelnen Datei.
 - Ein Klick auf eine Stimmzeile spielt sie ab. Der Knopf „Anhören" ist
   nicht mehr der einzige Weg.
@@ -2763,15 +2958,15 @@ nicht.
 - Multitrack zählte Videodateien statt Spuren. Eine einzelne Kamera mit
   zwei Ansteckmikrofonen wurde abgewiesen, bevor überhaupt gemessen
   wurde. Solche Läufe gehen jetzt durch.
-- Eine Spur ist ein gültiges Ergebnis, zwei Stellen wiesen sie trotzdem
+- Eine Spur ist ein gültiges Ergebnis; zwei Stellen wiesen sie trotzdem
   ab. Sie sagen jetzt, warum Multitrack wegfällt, und geben die Spuren
   an den gewöhnlichen Weg, der nach Sprechern schneidet.
-- Die Kanaltrennung lief bei Videodateien nie, eine Kamera mit zwei
+- Die Kanaltrennung lief bei Videodateien nie; eine Kamera mit zwei
   Mikrofonen blieb deshalb für immer eine einzige Zeile. Jetzt läuft sie
   auch dort.
 - War gar kein Ton mehr übrig, kam bisher ein Fenster oder ein Abbruch
-  am Ende des Laufs. Jetzt ist der Start gesperrt, der Grund steht unter
-  dem Knopf.
+  am Ende des Laufs. Jetzt ist der Start gesperrt, und der Grund steht
+  unter dem Knopf.
 
 ### Dokumentation
 
@@ -2813,7 +3008,7 @@ nicht.
   für den eigenen Text. Jetzt misst jedes System.
 - Eine gemessene Beschriftung fällt jetzt nie schmaler aus als die
   entworfene; ein Layout, das ohnehin passt, rückt also nicht.
-- Ein Test vertrat ein Stück des Programms zu dünn für Windows, das
+- Ein Test vertrat ein Stück des Programms zu dünn für Windows; das
   Öffnen eines Projekts starb daher nur innerhalb dieses Tests. Der
   Ersatz ist jetzt vollständig.
 
@@ -2895,9 +3090,9 @@ nicht.
 - Die Stimmzeile zeigte „0:59:08,376", wo eine Uhrzeit zu erwarten war,
   und meinte die gesamte Redezeit. Sie nennt Länge und Lage der
   längsten Passage.
-- Nur eine gefundene Stimme gilt nicht mehr als Fehlschlag. Niemand
-  übergibt, also gibt es keinen Schnitt; die Passagen reisen als Marker
-  mit, Resolve bekommt die Kamera am Stück.
+- Nur eine gefundene Stimme gilt nicht mehr als Fehlschlag. Niemand gibt
+  das Wort weiter, also gibt es keinen Schnitt; die Passagen reisen als
+  Marker mit, und Resolve bekommt die Kamera am Stück.
 
 ### Behoben
 
@@ -2906,13 +3101,14 @@ nicht.
   ergaben einen leeren Resolve-Reiter. Jetzt schneidet er.
 - Der Resolve-Reiter sagte, der Kameraschnitt brauche die
   Sprecherzuordnung von auphonic.com. Die Trennung läuft seit 2.0.0 auf
-  diesem Rechner, der Reiter sagt es jetzt nicht mehr.
+  diesem Rechner, und der Reiter sagt es jetzt nicht mehr.
 - Eine Aufnahme mit mehr als zwei Kanälen ging als Mono zu
   auphonic.com. Die Zahl geht jetzt wie gemessen hinaus, mit dem
   Hinweis, dass mehr als zwei Kanäle als einer reisen.
-- Bei einer Kamera wurde nie ein Sprechermarker gesetzt: sie lagen auf
-  der Multicam-Zeitleiste, die bei einer Kamera nie entsteht. Sie sitzen
-  jetzt auf der Schnittzeitleiste, je Person eine Farbe.
+- Bei einer einzigen Kamera wurde nie ein Sprechermarker gesetzt: die
+  Marker lagen auf der Multicam-Timeline, die bei einer Kamera nie
+  entsteht. Sie sitzen jetzt auf der Schnitt-Timeline, je Person eine
+  Farbe.
 - Fünfzehn Schalter trugen in `--help` den Zusatz „nur Multitrack",
   `--suffix` den Zusatz „nur Einspur-Weg", obwohl beide Wege sie alle
   nutzen. Die Zusätze sind jetzt weg.
@@ -2922,8 +3118,8 @@ nicht.
 - Sechs Kapitel trugen die alte Einschränkung, dass Sprechertrennung und
   Schnitt Multitrack brauchen. In beiden Sprachen.
 - Die Messnotizen bekommen „Warum aus einer Aufnahme keine vier Spuren
-  werden": stummgeschaltet fallen 34,3 % der Grenzen in eine echte
-  Sprechpause, gegen 97 bis 99 % bei der Tonsenke.
+  werden": Schaltet man die anderen stumm, fallen 34,3 % der Grenzen in
+  eine echte Sprechpause, gegen 97 bis 99 % bei der Tonsenke.
 
 ## [2.6.1-beta] - 2026-08-24
 
@@ -2951,9 +3147,10 @@ nicht.
   und hatte nie funktioniert. Das Hilfsprogramm fragte im Terminal
   hinter dem Fenster nach. Jetzt läuft es ohne Terminal.
 - Der Schlüsselbund fragt den Schlüssel ab und lässt ihn wiederholen.
-  Eine Antwort speicherte nichts, meldete aber Erfolg, jede Sicherung
-  stellte ihn in die Prozessliste. Jetzt gehen beide hinaus.
-- „Verbinden" konnte für immer bei „wird geprüft ..." stehen: kein
+  Eine Antwort speicherte nichts, meldete aber Erfolg; deshalb wich jede
+  Sicherung darauf aus, den Schlüssel in die Prozessliste zu stellen.
+  Jetzt gehen beide Antworten hinaus.
+- „Verbinden" konnte endlos bei „wird geprüft ..." stehen: kein
   Aufruf zu auphonic.com hatte eine Zeitgrenze. Kurze Aufrufe geben
   jetzt nach sechzig Sekunden auf, fünfzehn für die Verbindung.
 
@@ -3023,9 +3220,9 @@ nicht.
 
 ### Hinzugefügt
 
-- Die ganze Reihe läuft bei jedem Push unter Linux, Windows und macOS,
-  auf Python 3.14.7 sowie auf 3.10. Bisher liefen alle 98 Tests nur auf
-  einem Mac, die Untergrenze 3.10 war eine Behauptung.
+- Die ganze Testreihe läuft bei jedem Push unter Linux, Windows und
+  macOS, auf Python 3.14.7 sowie auf 3.10. Bisher liefen alle 98 Tests
+  nur auf einem Mac, und die Untergrenze 3.10 war eine Behauptung.
 - Drei Prüfungen für Fehler, die nur das Auge fand: eine Beschriftung
   breiter als ihr Feld; ein englisches Wort auf der deutschen Seite; ein
   Satz aus übersetzten Bruchstücken.
@@ -3060,13 +3257,13 @@ nicht.
   für „beschädigt". Jetzt kommt es heil an.
 - 62 Beschriftungen passten unter Windows nicht in ihr Feld, die
   schlimmste um 136 Pixel. Bei nominell gleicher Schrift läuft der Text
-  dort 1,89-mal breiter. Die Felder rechnen jetzt selbst.
+  dort 1,89-mal breiter. Die Felder rechnen ihre Breite jetzt selbst aus.
 - Die Sprechertrennung brach mit der neuesten pyannote ab, die in
   anderer Form antwortet. Beide Formen werden jetzt verstanden, eine
   dritte wird benannt, statt den Lauf wortlos zu beenden.
-- Die Ratschen zählten Verstöße, statt sie festzuhalten. Einen gegen
-  einen anderen getauscht, blieb die Zahl stehen und der Test grün. Sie
-  halten jetzt die Funde selbst.
+- Die Ratschen zählten Verstöße, statt sie festzuhalten. Wurde einer
+  gegen einen anderen getauscht, blieb die Zahl stehen und der Test grün.
+  Sie halten jetzt die Funde selbst.
 - Ein Lauf gegen eine Momentaufnahme konnte eine Ratsche für immer
   herunterziehen. Solche Läufe senken jetzt keine mehr.
 - Das Abspielmenü riss das Fenster auf einem Qt ohne Multimedia mit. Das
@@ -3077,8 +3274,8 @@ nicht.
 - Dreizehn Stellen, an denen das Handbuch etwas behauptete, was das
   Programm gar nicht tut, sind berichtigt. Die Tabelle der Befehlszeile
   deckt sich Schalter für Schalter, 68 gegen 68.
-- Elf Kapitel haben einen Abschnitt bekommen, was zu tun ist, wenn etwas
-  schiefgeht.
+- Elf Kapitel haben einen Abschnitt darüber bekommen, was zu tun ist,
+  wenn etwas schiefgeht.
 
 ## [2.5.0-beta] - 2026-08-24
 
@@ -3156,8 +3353,8 @@ nicht.
 ### Geändert
 
 - Eine nach Mitternacht aufgenommene Datei galt als Rekorder mit
-  ungestellter Uhr. Die Timecodes kommen jetzt auf eine Achse, bevor
-  sie verglichen werden, so fällt die Datei zu den anderen.
+  ungestellter Uhr. Die Timecodes kommen jetzt auf eine Achse, bevor sie
+  verglichen werden, und die Datei landet dadurch bei den anderen.
 - Ein Kanal ohne Inhalt nennt, welche der beiden Regeln ihn erfasst
   hat, und um wie viel. Bisher hieß es bei beiden „unter dem
   Grundrauschen", was für einen von ihnen falsch war.
@@ -3165,10 +3362,10 @@ nicht.
   Sekunden nur eine Stimme trugen und wie scharf der beste Fund war.
   Bisher hieß es nur, kein Paar sei messbar.
 - `--together` behält die angegebene Reihenfolge. Auf einem der beiden
-  Wege durch das Programm wurde die Reihe nach Namen sortiert, derselbe
-  Schalter gab also zwei Antworten.
+  Wege durch das Programm wurde die Reihe nach Namen sortiert; derselbe
+  Schalter gab also zwei verschiedene Antworten.
 - Die Versatzzeile nennt den Restfehler neben der Zahl der Messpunkte.
-  Drei Punkte passen genau auf drei Unbekannte, ein Restfehler von null
+  Drei Punkte passen genau auf drei Unbekannte; ein Restfehler von null
   sagt dort also nichts.
 
 ### Behoben
@@ -3183,7 +3380,7 @@ nicht.
   Programm nicht tut, sind berichtigt: Zahl der Menüs, falscher
   Vorgabewert, fehlender Schalter, was der Vorflug vergleicht.
 - Elf Kapitel haben einen Abschnitt „Wenn etwas klemmt" bekommen. Er
-  nennt, was jemand tut, wo es an dieser Stelle hakt, nicht den
+  nennt, was jemand tun kann, wenn es an dieser Stelle hakt -- nicht den
   Wortlaut der Meldung.
 - Das Kapitel zur Befehlszeile wurde Schalter für Schalter geprüft.
   Beide Tabellen nennen alle 68 Schalter, drei ohne Vorgabewert haben
@@ -3377,14 +3574,14 @@ nicht.
   oder ein untippbares Zeichen trägt. Nicht seine Länge.
 - Der Regler unter dem Player, der das gewählte Fenster zeigt, nimmt
   seine Farben aus dem Farbschema. Sein Umriss gegen den Griff ging von
-  2,94 auf 5,17 hell, 6,03 dunkel.
+  2,94 auf 5,17 im hellen und auf 6,03 im dunklen Schema.
 - Auf dunkel zieht dieser Regler kein weißes Band mehr quer durchs
   Fenster.
 - Der Warntext im hellen Schema ist dunkler, gemessen 5,77 gegen den
   Untergrund, wo er bisher unter 4,5 fiel. Das dunkle Schema behält
   seine Farbe.
 - Ein Wechsel von hell zu dunkel kommt an, während das Programm läuft.
-  Das Schema wurde einmal beim Start gelesen, der Weg zurück zu hell
+  Das Schema wurde einmal beim Start gelesen; der Weg zurück zu hell
   lag fest.
 - Die Schrift in der Zeile „Ein Sprecher mehr in" wird nur dort
   kleiner, wo die Zeile sonst breiter würde, als der Player ihr Platz
@@ -3404,15 +3601,15 @@ nicht.
 
 ### Tests
 
-- Ein neuer Test hält eine Versionsnummer über Programm,
-  Änderungsbericht und beide READMEs, dazu die Form des Berichts, jedes
-  Bild darin, und die Regel, dass der Schlüssel in keine Datei kommt.
+- Ein neuer Test hält Programm, Änderungsbericht und beide READMEs auf
+  einer Versionsnummer fest, dazu die Form des Berichts, jedes Bild
+  darin und die Regel, dass der Schlüssel in keine Datei kommt.
 - Ein neuer Test deckt ab, was vor dem Senden eines Schlüssels
   abgewiesen wird, was durchgeht, dass beim Start kein Zeitgeber
   Presets holt, und dass ein ungefragter Abruf kein Fenster öffnet.
 - Die Bildskripte suchten einen Reiter, fanden keinen und kehrten stumm
-  zurück, so wurde der falsche Reiter fotografiert. Sie halten an und
-  sagen, welche Reiter es gibt.
+  zurück; so wurde der falsche Reiter fotografiert. Sie halten jetzt an
+  und sagen, welche Reiter es gibt.
 - Der Test für einen ersten Start tut, was das Handbuch einem Fremden
   sagt: die eine Datei holen und starten. Bisher holte er den Installer
   und führte diesen aus.
@@ -3422,9 +3619,9 @@ nicht.
 - Die Bildschirmfotos zeigten ein Fenster, das es nirgends gibt. Sie
   entstehen jetzt im echten Stil und mit der echten Palette, die
   Menüleiste oben am Bildschirm.
-- Das Kapitel Was gebraucht wird sagt, was sich das Programm selbst
-  holt, wann und wie viel, in beiden Sprachen. Es beschrieb den
-  Installer, den es nicht mehr gibt.
+- Das Kapitel „Was gebraucht wird" sagt in beiden Sprachen, was sich das
+  Programm selbst holt, wann und wie viel. Es beschrieb den Installer,
+  den es nicht mehr gibt.
 - Der Abschnitt zu ffmpeg nannte static-ffmpeg als das, was bei
   fehlendem ffmpeg geschieht. Zuerst kommt die Paketverwaltung, mit
   Nachfrage; static-ffmpeg hilft, wo es keine Paketverwaltung gibt.
@@ -3493,15 +3690,15 @@ nicht.
   nicht.
 - Leertaste spielt und hält, die Pfeile springen ein Bild, mit Umschalt
   eine Sekunde, mit Alt zehn. Marken setzen I und O, mit Umschalt
-  springt man hin. Alles nur im Player, nie im Namensfeld.
+  springt man zu ihnen. Alles nur im Player, nie im Namensfeld.
 - Strg+O fügt Dateien hinzu, Strg+R startet, Strg+Umschalt+R den
   Probelauf, Strg+1 bis Strg+3 wählen einen Reiter, Strg+, öffnet die
   Einstellungen. Auf dem Mac ist es Befehl.
 - Siebzehn Bedienelemente tragen einen Namen, den ein Vorleseprogramm
   ansagen kann. Bisher hatten sie keinen.
-- `VPM_CACHE` legt das, was das Programm von Lauf zu Lauf behält,
-  woandershin. Ein Testlauf lässt keine Hüllkurven und Messungen im
-  Zwischenspeicher dessen, der ihn startete.
+- `VPM_CACHE` legt das, was das Programm von Lauf zu Lauf behält, an
+  einen anderen Ort. Ein Testlauf lässt keine Hüllkurven und Messungen
+  im Zwischenspeicher dessen, der ihn startete.
 
 ### Geändert
 
@@ -3519,22 +3716,22 @@ nicht.
 ### Behoben
 
 - brew fragte ein zweites Mal und wartete auf eine Antwort, die niemand
-  gab. Es wird jetzt angewiesen, nichts zu fragen, so läuft ein Lauf
-  ohne Aufsicht durch.
+  gab. Es wird jetzt angewiesen, nichts zu fragen, so dass ein Lauf ohne
+  Aufsicht durchläuft.
 
 ### Tests
 
 - Der Test zum Startgrund hielt das alte Verhalten fest: er prüfte, ob
-  die Fußzeile auf den Tooltip zeigt. Er prüft, ob die Fußzeile den
-  Grund selbst nennt.
+  die Fußzeile auf den Tooltip zeigt. Er prüft jetzt, ob die Fußzeile
+  den Grund selbst nennt.
 
 ### Dokumentation
 
 - Das Handbuch hat einen Abschnitt zu Menü und Tasten, in beiden
   Sprachen. Bisher gab es keinen.
-- Alle fünf Bildschirmfotos neu aufgenommen, englisch und deutsch.
-  Menüleiste und Zustandszeile am unteren Rand haben sich auf jedem
-  geändert.
+- Alle fünf Bildschirmfotos wurden neu aufgenommen, englisch und
+  deutsch. Menüleiste und Zustandszeile am unteren Rand haben sich auf
+  jedem von ihnen geändert.
 
 ## [2.1.0-beta] - 2026-08-23
 
@@ -3626,7 +3823,7 @@ nicht.
   Netz.
 - `first_run.sh` entfernt auch, was ein Paket nach der eigenen
   Installation nachlädt, sowie den Eintrag im Schlüsselbund. So kommt
-  eine Maschine in den Zustand vor dem allerersten Lauf zurück.
+  ein Rechner in den Zustand vor dem allerersten Lauf zurück.
 - Die Testreihe hält mit einem klaren Wort an, statt rot zu werden,
   wenn ffmpeg fehlt.
 
@@ -3744,15 +3941,15 @@ nicht.
 - Das Programm unterscheidet die Stimmen selbst, auf dem Rechner, ohne
   etwas hochzuladen. Gegen die Einzelmikrofone zweier Interviews
   gehalten, sitzen 98,7 Prozent von 45 473 Wörtern richtig.
-- Eine Stimmentabelle unter der Zuordnung, eine Zeile je gefundener
+- Eine Stimmentabelle unter der Zuordnung, eine Zeile je gefundene
   Stimme. Die Zeilen heißen „Sprecher 1, 2 ...", bis jemand sie
   benennt, und jede Zeile hat einen Knopf zum Anhören.
-- Vier Antworten auf Registerkarte 3 entscheiden, was zu sehen ist,
+- Vier Antworten auf dem dritten Reiter entscheiden, was zu sehen ist,
   solange niemand deutlich spricht: der Weitwinkel, der Zuhörer, beide
   im Wechsel oder gar kein Wechsel.
 - Der Weitwinkel wird von der Sprache gesetzt. Er kommt an einer
   Satzgrenze, hält mindestens fünf Sekunden und geht an einem Satzende,
-  spätestens an einer Teilsatzgrenze vor fünfzehn Sekunden.
+  spätestens nach fünfzehn Sekunden an einer Teilsatzgrenze.
 - Das genaue Bild kommt aus dem Ton: Die leiseste Stelle nahe am Ziel
   wird genommen. Sie trifft 97- bis 99-mal von hundert eine
   Sprechpause, wo die Wortgrenze der Erkennung auf 42 bis 46 kommt.
@@ -3774,7 +3971,7 @@ nicht.
 - `--wide-after` steht auf 40 statt auf 45 Sekunden. `--wide-length`
   ist die kürzeste Haltezeit des Weitwinkels, nicht mehr seine Länge.
 - Eine „Mindestschnittdauer" für alles. Das Fenster bot drei Sekunden,
-  ein ohne Fenster gestarteter Lauf schnitt auf 1,2, die beiden gingen
+  ein ohne Fenster gestarteter Lauf schnitt auf 1,2; die beiden gingen
   also auseinander.
 - Der einleitende Weitwinkel übersteht eine Erkennung, die in Stücken
   kommt. Er endete am ersten Vier-Sekunden-Block einer anderen Stimme,
@@ -3795,10 +3992,10 @@ nicht.
 - Auf macOS fand die Zeitachse eine Datei nicht, deren Ordner über eine
   Verknüpfung erreicht wird: Dieselbe Datei trug zwei Namen, einer
   davon war der Suche unbekannt. Sie findet die Datei jetzt.
-- Vier Beschriftungen des Vorschau-Spielers blieben im deutschen
+- Vier Beschriftungen des Vorschau-Players blieben im deutschen
   Fenster englisch. Sie sind jetzt übersetzt.
 - Die Knopfreihe „Ein Sprecher mehr in ..." wuchs mit jeder Aufnahme
-  und schob den Vorschau-Spieler über den Rand. Der Dateiname sitzt
+  und schob den Vorschau-Player über den Rand. Der Dateiname sitzt
   jetzt in einer Auswahlliste, die Reihe bleibt gleich breit.
 
 ### Tests
@@ -3806,7 +4003,7 @@ nicht.
 - Acht neue Testdateien, 90 im Ganzen. Eine spricht ihren Ton selbst
   ein, statt eine Tondatei mitzuliefern; eine andere hält die
   Schnittliste der Vorschau gegen die des Laufs.
-- `first_run.sh` versetzt eine Maschine in den Zustand vor dem
+- `first_run.sh` versetzt einen Rechner in den Zustand vor dem
   allerersten Lauf: Umgebung, Zwischenspeicher, Pakete, Modelle,
   Schlüsselbund. Es gehört nicht zur Testreihe.
 
@@ -3840,7 +4037,7 @@ nicht.
 
 - „Einstellungen ..." steht nun in der Fußzeile, bei den anderen
   Knöpfen unten rechts, flach und abgesetzt. Bisher saß es neben den
-  Registerkarten oben rechts.
+  Reitern oben rechts.
 
 ### Behoben
 
@@ -3902,7 +4099,7 @@ nicht.
 
 ### Geändert
 
-- Die Wörter auf dem Schirm sind die von DaVinci Resolve: „In-Punkt"
+- Die Wörter auf dem Bildschirm sind die von DaVinci Resolve: „In-Punkt"
   und „Out-Punkt" für die Marken, „In markieren" und „Out markieren"
   für die Knöpfe, die sie setzen.
 - Die kürzeste Dauer einer Einstellung heißt „Mindestschnittdauer", die
@@ -4269,7 +4466,7 @@ haben. Jede Behebung unten hat einen Test.
   Python sowie die empfohlene Version, wo beide auseinandergehen:
   `Python 3.11.15  (empfohlene Version 3.14.7)`.
 - Wie viel gleichzeitig läuft, richtet sich danach, was das Programm
-  nutzen darf, nicht nach der Maschine. In einem Container mit
+  nutzen darf, nicht nach dem Rechner. In einem Container mit
   zwei von 32 Prozessoren liefen sonst 30 Abläufe abwechselnd.
 - „Einstellungen ..." rechts oben in der Reiterleiste öffnet ein
   Fenster mit dem Schlüssel für auphonic.com, dem Haken zum Speichern,
@@ -4481,9 +4678,9 @@ haben. Jede Behebung unten hat einen Test.
 - Scheiterte die Installation eines fehlenden Pakets, war der Rat
   darunter derselbe Befehl, der eben gescheitert war. Jetzt stehen die
   letzten Zeilen seiner Ausgabe da.
-- Unter Python 3.7 lief das Programm weiter und scheiterte später an
-  etwas, das niemand einordnen kann. Jetzt sagt es, dass es dort nicht
-  läuft, und hält an.
+- Unterhalb von Python 3.7 lief das Programm weiter und scheiterte
+  später an etwas, das niemand einordnen kann. Jetzt sagt es, dass es
+  dort nicht läuft, und hält an.
 - Der Rat bei fehlendem ffmpeg nannte auf Linux die Wege für den Mac und
   für Windows. Jetzt nennt er den Rechner, auf dem es läuft: brew, die
   Paketverwaltung, ffmpeg.org.
@@ -4574,9 +4771,9 @@ haben. Jede Behebung unten hat einen Test.
 - Der Grund, warum die Starttaste grau ist, stand allein im Tooltip, und
   eine abgeschaltete Taste zeigt gar keinen Tooltip. Jetzt steht er in
   der Fußzeile daneben.
-- Ein fehlender Produktionsname ließ sein Feld unmarkiert. Jetzt färbt
-  er es rot, so wie ein doppelter Sprechername oder ein doppelter
-  Ausgabename seine Zeile färbt.
+- Ein fehlender Produktionsname ließ sein Feld unmarkiert. Jetzt wird
+  das Feld rot, so wie ein doppelter Sprechername oder ein doppelter
+  Ausgabename seine Zeile rot färbt.
 - Der Grund nannte Seiten, die es nicht mehr gibt: „2.1 Produktion" und
   „2.3 Resolve-Schnitt". Die Namen werden jetzt von den Reitern selbst
   gelesen, so laufen sie nicht mehr auseinander.
