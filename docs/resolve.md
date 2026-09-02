@@ -119,6 +119,37 @@ script deletes the surplus audio after the insert and names the audio
 tracks like the video tracks. It inserts a camera that did not land
 separately, and reports it when even that fails.
 
+### Where each camera sits
+
+**Both timelines put a camera where its sound was measured, not where
+its clock says.** The measurement holds every file against every other.
+A timecode is set by hand and gets set wrong, and nothing in the file
+admits it -- a camera set to the wrong hour carries that hour into the
+timeline. Even where somebody did put every camera on one clock, the
+clocks are still a frame or two apart.
+
+**The clock is the fallback, and only that.** Where nothing could be
+found in a camera's sound, its own timecode places it; where it has no
+timecode either, it lands at the start of the axis. Both are said out
+loud while the handover is written, by name:
+
+- *Nothing was found in the sound for `WideCam` -- placed by the
+  timecode alone.*
+- *No measured offset for `WideCam` -- placed at the start of the axis.*
+
+The first is worth a look. The second always is: a camera at the start
+of the axis is a camera nobody placed, and it looks exactly like one
+that begins with the episode.
+
+Where measurement and clock disagree by more than a frame, the run
+prints both numbers for that camera and says that it used the
+measurement. Without that line a clock set to another day is quietly
+passed over and nobody learns of it.
+
+**The handover file carries the answer per camera**, in `placed_by`
+beside the offset: `measured`, `clock` or `nowhere`. Whoever asks later
+why a camera sits where it does reads it there instead of guessing.
+
 ### Cameras that run at different speeds
 
 Cameras of different makes rarely agree on a frame rate: one writes 24
@@ -185,9 +216,10 @@ nowhere. Handed over, a short jingle would stand as the wide shot of a
 whole episode.
 
 A file the run could only not measure is another case. That one is
-handed over, with the warning that has always gone with it. Its place
-then comes from its own timecode; without one it lands at the start of
-the axis, and it is worth looking where it sits.
+handed over, and the warning names it: its place then comes from its own
+timecode, and without one it lands at the start of the axis. Both lines
+stand under *Where each camera sits* above, and both are worth looking
+at.
 
 ### One camera
 
@@ -323,9 +355,10 @@ timeline (on the command line `--intro FILE` and `--outro FILE`). Both
 land on the **second** video and audio track, over the content
 (`Intro / Outro` and `Audio Intro / Outro`).
 
-The program takes one intro and one outro. Setting a second file to the same
-kind puts the first one back to content. A run that still sees two of a kind
-stops and names them.
+An episode has one intro and one outro. While a file holds either mark, that
+entry is greyed out on every other file and says which file holds it; take the
+mark off again and it is free. A run that still sees two of a kind -- out of an
+older project file, say -- stops and names both.
 
 **Both clips keep their full length, and so does the content.** Only their
 place shifts, and that follows the **sound**, not the file length:
@@ -511,6 +544,13 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
+- **A camera stands beside its place, or right at the beginning.** The
+  run said so as it wrote the handover: it found nothing in that
+  camera's sound and went by the timecode alone, or it had neither and
+  put the camera at the start of the axis. The camera's name stands in
+  that line, and `placed_by` in the handover file says the same. Move
+  the camera in Resolve, or give the file a timecode that fits the rest
+  and run again.
 - **The button is grey right after a project was opened, and there is a
   handover in the folder.** It names other cameras than the project
   holds -- another production, or a round before a camera was added or

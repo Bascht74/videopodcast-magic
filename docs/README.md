@@ -10,8 +10,8 @@ its own; nothing here has to be read from front to back.
 
 * **[What it needs](requirements.md)**: Python, ffmpeg, the two
   packages, and what differs per platform.
-* **[The interface](interface.md)**: the window, tab by tab -- and what
-  to do when there is no timecode.
+* **[The interface](interface.md)**: the window, tab by tab -- and how
+  the common time axis is measured.
 * **[Preflight](preflight.md)**: what is checked before a run starts,
   and what each complaint means.
 * **[Channels: one track or two?](channels.md)**: how a stereo pair is
@@ -103,8 +103,8 @@ explains the word comes first.
 * **HDR**: `resolve`, "HDR: what has to be in the file"; `resolve`, "What
   the render job sets"
 * **`--hdr-check`**: `resolve`, "HDR: what has to be in the file"
-* **ignore this video**: `interface`, "How the time axis is built without
-  timecode"; `multitrack`, "When something goes wrong"; `simple-path`, "When
+* **ignore this video**: `interface`, "How the time axis is measured";
+  `multitrack`, "When something goes wrong"; `simple-path`, "When
   something goes wrong"
 * **In point**: `multitrack`, "Setting the time window"; `interface`, "The
   four tabs"
@@ -129,8 +129,6 @@ explains the word comes first.
   timelines"
 * **marks ✓ ! ✕**: `interface`, "The four tabs"; `preflight`, "What is
   checked"
-* **Measure speakers now (button)**: `camera-cut`, "Measuring the speakers
-  without Auphonic"
 * **metrics (`_metrics.csv`)**: `camera-cut`, "What the metrics and the
   colour comparison measure"
 * **Minimum Edit Duration**: `camera-cut`, "Setting the knobs"
@@ -144,11 +142,13 @@ explains the word comes first.
   "When the speech does not say whom to show"
 * **Node Sizing**: `resolve`, "Setting position and zoom for a whole camera"
 * **offset**: `camera-cut`, "How the preview players choose file and sound";
-  `simple-path`, "What goes into the video beside the mix"
+  `simple-path`, "What goes into the video beside the mix"; `resolve`,
+  "Where each camera sits"
 * **Out point**: see In point
 * **outro**: `resolve`, "Setting intro and outro"
 * **package manager**: `requirements`, "Where ffmpeg, PySide6 and numpy come
   from"
+* **`placed_by` (handover file)**: `resolve`, "Where each camera sits"
 * **player, preview**: `interface`, "The four tabs"; `camera-cut`, "How the
   preview players choose file and sound"; `camera-cut`, "What the picture
   says"
@@ -156,7 +156,7 @@ explains the word comes first.
 * **preset**: `auphonic`, "The key and the preset"; `preflight`, "What is
   checked"
 * **project file**: `camera-cut`, "What the project file keeps";
-  `interface`, "How the time axis is built without timecode"
+  `interface`, "How the time axis is measured"
 * **PySide6**: `requirements`, "Where ffmpeg, PySide6 and numpy come from"
 * **raw recording (level)**: `camera-cut`, "How the preview players choose
   file and sound"
@@ -184,12 +184,11 @@ explains the word comes first.
   from"
 * **stereo track**: `channels`, "Stereo stays stereo"; `preflight`, "Which
   loudness target holds"
-* **time axis**: `interface`, "How the time axis is built without timecode";
+* **time axis**: `interface`, "How the time axis is measured";
   `multitrack`, "What Multitrack does"
 * **time window**: `multitrack`, "Setting the time window"; `multitrack`,
   "How much of each camera is written"
-* **timecode, virtual**: `interface`, "How the time axis is built without
-  timecode"
+* **timecode, virtual**: `interface`, "How the time axis is measured"
 * **transcript**: `speech`, "How the program writes the text down";
   `auphonic`, "The transcript is made here"
 * **update**: `interface`, "Keeping itself up to date"

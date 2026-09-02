@@ -11,7 +11,7 @@ für sich; nichts davon muss von vorn bis hinten gelesen werden.
 * **[Was gebraucht wird](requirements.de.md)**: Python, ffmpeg, die
   beiden Pakete, und was sich je Plattform unterscheidet.
 * **[Die Oberfläche](interface.de.md)**: das Fenster, Reiter für
-  Reiter — und was zu tun ist, wenn es keinen Timecode gibt.
+  Reiter — und wie die gemeinsame Zeitachse gemessen wird.
 * **[Vorflug](preflight.de.md)**: was vor einem Lauf geprüft wird, und
   was jede Beanstandung bedeutet.
 * **[Kanäle: eine Spur oder zwei?](channels.de.md)**: wie ein
@@ -130,6 +130,7 @@ der das Wort erklärt, steht vorn.
 * **Out-Punkt**: siehe In-Punkt
 * **Paketverwaltung**: `requirements`, „Woher ffmpeg, PySide6 und numpy
   kommen“
+* **`placed_by` (Übergabedatei)**: `resolve`, „Wo jede Kamera sitzt“
 * **Player, Vorschau**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie
   die Vorschau-Player Datei und Ton wählen“; `camera-cut`, „Was das Bild
   sagt“
@@ -138,7 +139,7 @@ der das Wort erklärt, steht vorn.
 * **Probelauf**: `interface`, „Die vier Reiter“; `speech`, „Was der
   Probelauf von den Sprechern zeigt“
 * **Projektdatei**: `camera-cut`, „Was die Projektdatei behält“;
-  `interface`, „Wie die Zeitachse ohne Timecode entsteht“
+  `interface`, „Wie die Zeitachse gemessen wird“
 * **Protokoll (`videopodcast-magic.log`)**: `interface`, „Die vier Reiter“
 * **Prüfzeichen ✓ ! ✕**: `interface`, „Die vier Reiter“; `preflight`, „Was
   geprüft wird“
@@ -158,8 +159,6 @@ der das Wort erklärt, steht vorn.
 * **Schnittgrundlage (Zeile unter der Vorschau)**: `interface`, „Die
   vier Reiter“
 * **Source Audio Channels**: `resolve`, „Den Multicam-Ton wählen“
-* **Sprecher jetzt messen (Knopf)**: `camera-cut`, „Sprecher ohne Auphonic
-  messen“
 * **Sprechername**: `multitrack`, „Die Zuordnung setzen“; `speech`, „Die
   Stimmen benennen“
 * **Sprechertrennung**: `speech`, „Die Sprecher trennen“; `simple-path`,
@@ -174,8 +173,7 @@ der das Wort erklärt, steht vorn.
 * **Stufen eines Laufs (Balken neben Start)**: `interface`, „Die vier
   Reiter“
 * **Tasten**: `interface`, „Alles über Menü oder Taste erreichen“
-* **Timecode, virtueller**: `interface`, „Wie die Zeitachse ohne Timecode
-  entsteht“
+* **Timecode, virtueller**: `interface`, „Wie die Zeitachse gemessen wird“
 * **Transkription**: `speech`, „Wie das Programm den Text mitschreibt“;
   `auphonic`, „Das Transkript entsteht hier“
 * **Typ (Spalte)**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie das
@@ -188,16 +186,17 @@ der das Wort erklärt, steht vorn.
   mit Ton und Bild geschieht“; `interface`, „Die vier Reiter“
 * **Update**: `interface`, „Sich selbst aktuell halten“
 * **Versatz**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton wählen“;
-  `simple-path`, „Was neben dem Mix ins Video kommt“
-* **Video ignorieren**: `interface`, „Wie die Zeitachse ohne Timecode
-  entsteht“; `multitrack`, „Wenn etwas klemmt“; `simple-path`, „Wenn etwas
+  `simple-path`, „Was neben dem Mix ins Video kommt“; `resolve`, „Wo jede
+  Kamera sitzt“
+* **Video ignorieren**: `interface`, „Wie die Zeitachse gemessen wird“;
+  `multitrack`, „Wenn etwas klemmt“; `simple-path`, „Wenn etwas
   klemmt“
 * **Vorflug**: `preflight`, „Was geprüft wird“
 * **Vorspann**: `resolve`, „Vorspann und Abspann setzen“
 * **Weitwinkel**: `camera-cut`, „Wie das Programm den Weitwinkel setzt“;
   `camera-cut`, „Wie der Schnitt entsteht“; `camera-cut`, „Was das Bild
   sagt“
-* **Zeitachse**: `interface`, „Wie die Zeitachse ohne Timecode entsteht“;
+* **Zeitachse**: `interface`, „Wie die Zeitachse gemessen wird“;
   `multitrack`, „Was Multitrack tut“
 * **Zeitfenster**: `multitrack`, „Das Zeitfenster setzen“; `multitrack`,
   „Wieviel von jeder Kamera geschrieben wird“

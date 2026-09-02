@@ -96,7 +96,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     durchläuft und einspringt, wo keine andere passt, also muss er auf
     der Zeitachse liegen. An jedem Eintrag steht sein eigener Grund,
     und das Programm setzt eine solche Datei von sich aus auf
-    **Vorspann**.
+    **Vorspann** — auf **Video ignorieren**, wenn eine andere Datei den
+    Vorspann schon hält, denn in einer Folge gibt es einen.
 
     Für diese beiden Sperren muss zweierlei zugleich zutreffen, keines
     davon allein. Der Ton der Datei muss schlecht zum Rest passen **und**
@@ -109,16 +110,19 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
     setzt sie weiterhin framegenau — sie behält also die Wahl, und die
     Liste schreibt das neben sie, statt sie rot zu färben.
 
-  **Vorspann**, **Abspann** und **Video ignorieren** werden nie
-  gesperrt. Das sind Antworten über die Datei selbst und haben nichts
+  **Video ignorieren** wird nie gesperrt, **Vorspann** und **Abspann**
+  nur so lange, wie eine andere Datei die Marke hält — der Eintrag nennt
+  dann jene Datei, und wer die Marke dort wegnimmt, gibt ihn wieder
+  frei. Alle drei sind Antworten über die Datei selbst und haben nichts
   damit zu tun, wer vor welcher Kamera sitzt. Eine Datei, die zu nichts
-  passt, gehört genau in einen dieser drei Einträge.
+  passt, gehört genau in einen von ihnen.
 
   Die beiden Sperren an einer Datei, die nirgends hinpasst, sind keine
   Empfehlung, sondern eine Feststellung über das Material. Sie gelten
   darum auch gegen einen **Typ**, den jemand selbst gewählt hat, und
   gegen einen, den eine Projektdatei mitgebracht hat: steht dort Inhalt
-  oder Weitwinkel, wird die Datei auf **Vorspann** gesetzt. Bei der
+  oder Weitwinkel, wird die Datei auf **Vorspann** gesetzt, und auf
+  **Video ignorieren**, wenn der Vorspann schon vergeben ist. Bei der
   Kamera, der niemand zugeordnet ist, ist es umgekehrt — wer den **Typ**
   selbst setzt, beendet die Sperre.
 
@@ -298,15 +302,23 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   behielt, und die Legende darunter zählte dann eine Kamera weniger, als
   aus Resolve herauskam.
 
-  In derselben Zeile steht der Knopf **Sprecher jetzt messen** -- immer
-  dann, wenn eine Spur weder von einer Trennung abgedeckt noch gemessen
-  ist, also auch neben einer Trennung, die schon steht. Dann steht dort,
-  wer fehlt, anstelle dessen, worauf der Schnitt beruht. Diese Leute
-  sind im Schnitt; nur diese Vorschau kann sie erst nach dem Messen
-  zeigen. Scheitert eine Messung, steht der Grund an derselben Stelle.
-  Nach einem Lauf ist der Knopf fort, und nur die Zeile bleibt: der Lauf
-  hat jede Spur gemessen, die er hatte, und sein Ergebnis ist feiner als
-  das dieses Knopfes.
+  Für die Sprecher ist nichts zu drücken. Sie werden aus den Spuren
+  geholt, sobald dieser Reiter aufgeht -- einmal und kein zweites Mal:
+  nicht, während eine Messung läuft, nicht, nachdem eine gescheitert
+  ist, und nicht dort, wo ein fertiger Lauf sie schon kennt. Solange
+  nichts bekannt ist, sagt die Vorschau genau das und nennt den Weg für
+  den Fall, dass alle auf einer Aufnahme sitzen: **mehrere Sprecher** im
+  Feld **Sprechername**.
+
+  Die Zeile unter der Vorschau bleibt und trägt beide Auskünfte. Ist
+  eine Spur weder von einer Trennung abgedeckt noch gemessen, steht
+  dort, wer fehlt, anstelle dessen, worauf der Schnitt beruht -- auch
+  neben einer Trennung, die schon steht. Diese Leute sind im Schnitt;
+  nur diese Vorschau kann sie erst nach dem Messen zeigen. Scheitert
+  eine Messung, steht der Grund an derselben Stelle. Nach einem Lauf
+  steht dort nur noch, worauf der Schnitt beruht: der Lauf hat jede Spur
+  gemessen, die er hatte, und sein Ergebnis ist feiner als alles, was
+  sich aus den rohen Aufnahmen heraushören lässt.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -438,15 +450,29 @@ brauchen und wieviel frei ist. Wenn der Lauf bestehende Dateien
 
 Der Player hat Abspielen und Pause, sekunden- und frameweise vor und
 zurück, Lautstärke und Tempo; links der Timecode, rechts die Position, ab
-dem In-Punkt gezählt.
+dem In-Punkt gezählt. Der Timecode links ist die gemessene Lage, wo es
+eine gibt -- dieselbe Zeitrechnung, in der die ganze Achse steht --, und
+nur wo nichts gemessen wurde, die eigene Uhr der Datei.
 
 - Ein Klick auf eine Zeile der Zuordnungs- oder der Kameratabelle holt
   die Datei an dieselbe Stelle im Geschehen, so lassen sich zwei Kameras
-  vergleichen. Ein Klick auf eine Stimme unter einer Aufnahme öffnet
-  diese Aufnahme dort, wo die Stimme am längsten redet, und spielt
-  sofort. Das Häkchen **zugeordneten Ton hören** spielt die dieser
-  Kamera zugeordnete Aufnahme; ohne das Häkchen ist der Kameraton zu
-  hören.
+  vergleichen. Diese Stelle kommt aus der Messung; wo für eine der
+  beiden Dateien nichts gemessen wurde, antworten die Uhren. Lief das
+  Bild gerade, läuft es in der neuen Datei weiter -- man kann die Kamera
+  wechseln, ohne das Zusehen zu unterbrechen. Ein Klick auf eine Stimme
+  unter einer Aufnahme öffnet diese Aufnahme dort, wo die
+  Stimme am längsten redet, und spielt sofort. Das Häkchen
+  **zugeordneten Ton hören** spielt die dieser Kamera zugeordnete
+  Aufnahme; ohne das Häkchen ist der Kameraton zu hören. Auch diese
+  Aufnahme wird über die Messung ans Bild gelegt, damit beide zusammen
+  laufen, selbst wenn die Uhren der zwei Geräte auseinandergehen. Eine
+  Aufnahme aus mehreren Blöcken läuft dabei durch: es klingt der Block,
+  der diesen Augenblick enthält, der Wechsel an der Grenze geschieht von
+  selbst, und wo die Aufnahme unter dem Bild auf dem Schirm gar nicht
+  dran ist, bleibt sie still, statt ihren Anfang an der falschen Stelle
+  zu spielen. Beide Enden dieser Rechnung kommen aus derselben
+  Zeitrechnung: gemischt lief der Ton um genau den Unterschied der
+  beiden Uhren gegen das Bild.
 - In-Punkt und Out-Punkt nehmen die Stelle aus dem Bild, ein blauer
   Streifen zeigt das Fenster, und beim Ziehen laufen nur die Zahlen mit.
   Solange die Zeitachse fehlt, sind sie gesperrt.
@@ -461,7 +487,14 @@ Zeile ist später nicht zu sagen, welche davon was geschrieben hat. Jeder
 Start des Programms beginnt die Datei neu und hebt die vorige als
 `videopodcast-magic_1.log` auf; eine Datei hält also eine ganze Sitzung
 mit allen Läufen darin. Auch was Qt und ffmpeg an Python vorbei
-ausgeben, steht darin.
+ausgeben, steht darin. Ebenso schreiben die beiden Player mit, auf Zeilen
+mit dem Vorsatz **[GUI]**: was geladen, gespielt und angehalten wurde,
+welcher Ton an welches Bild gelegt wurde -- bei einer Aufnahme aus
+mehreren Blöcken mit dem Block, der gerade läuft, und mit einem Wort
+dort, wo diese Aufnahme unter diesem Bild nicht dran ist und deshalb
+still bleibt -- und, bei jedem Start und jedem Halt des
+Schnitt-Players, welche Kamera er dabei zeigte. Genau das ist der Teil,
+den man einer Beschwerde über die Vorschau mitschickt.
 
 Neben **Start** läuft **ein Balken für alles Ausstehende**, mit einer
 Zeile daneben, woran gerade gearbeitet wird; er läuft immer nur vorwärts.
@@ -639,15 +672,45 @@ Das Häkchen **Diese Version überspringen** legt eine Fassung beiseite.
 Bei der nächsten fragt das Fenster wieder, und über **Hilfe > Nach
 Update suchen ...** jederzeit.
 
-## Wie die Zeitachse ohne Timecode entsteht
+## Wie die Zeitachse gemessen wird
 
-Wenn eine Datei keinen Timecode trägt, misst die Oberfläche im
-Hintergrund, wo sie liegt, mit dem Verfahren des Laufs selbst. Danach
-springt der Player zwischen den Dateien auf dieselbe Stelle im Geschehen,
-und In-Punkt und Out-Punkt gelten für alle gleich.
+Sobald zwei Dateien in der Liste stehen, misst die Oberfläche im
+Hintergrund, wo jede von ihnen liegt, mit dem Verfahren des Laufs selbst
+-- ob sie einen Timecode tragen oder nicht. Danach springt der Player
+zwischen den Dateien auf dieselbe Stelle im Geschehen, und In-Punkt und
+Out-Punkt gelten für alle gleich.
+
+**Wo gemessen wurde, gilt die Messung; die Uhr einer Datei antwortet nur
+dort, wo nichts zu messen war.** Eine Uhr wird von Hand gestellt und wird
+falsch gestellt, und der Datei sieht man das nicht an: an wirklichem
+Material ging ein Tonrecorder 2,35 Sekunden vor den Kameras neben ihm --
+weit genug, um den Ton gegen das Bild laufen zu hören. Die Messung hält
+jede Datei gegen jede andere und hängt die Achse an die mittlere der
+Uhren; eine einzelne falsche wird damit überstimmt, statt alles andere
+hinter sich herzuziehen.
+
+Gemessen wird deshalb auch dann, wenn jede Datei einen Timecode trägt.
+Das kostet beim ersten Mal einen Durchgang, den manches Material bisher
+übersprang, und es bringt dafür eine Vorschau, die auf derselben
+Zeitrechnung steht wie der Lauf. Der Lauf misst ohnehin; ausgelassen hat
+es die Vorschau.
 
 Ein einziger Timecode genügt, um die Achse daran zu hängen; ohne jeden zählt
 sie ab dem Anfang des Materials und wird als virtueller Timecode angezeigt.
+
+**In der Spalte Timecode** der Zuordnungstabelle steht die gemessene
+Lage, bei jeder Datei gleich, mit **errechnet** dahinter -- oder mit
+**virtuell**, wo die Achse an keiner Uhr hängt. Nur eine Datei, für die
+die Messung überhaupt keinen Platz gefunden hat, steht dort mit ihrem
+eigenen Timecode und ohne Zusatz -- und hat sie auch keinen eigenen,
+sagt die Spalte **kein Timecode**, grau. Das Letzte zeigt eine Datei,
+die nirgends hinpasst; wer eine plötzlich auf **Vorspann** findet, sieht
+zuerst hier nach.
+
+Früher war es umgekehrt: eine Datei mit eigener Uhr zeigte diese Uhr,
+die übrigen die gemessene Lage, und so trug eine Spalte zwei
+Zeitrechnungen, deren Zahlen sich nicht miteinander vergleichen ließen.
+Dort stehen jetzt andere Zahlen als vorher.
 
 Die Achse steht in der Projektdatei, mit Größe und Änderungszeit jeder
 Datei, und der nächste Start übernimmt sie. Neben dem Platz jeder Datei
@@ -678,7 +741,7 @@ davor aus der Spalte, und gerade die Hälfte, auf die es ankam, war fort.
 Eine Datei, deren Ton nicht erkannt wurde, die ihr Timecode aber zwischen
 die anderen setzt, trägt den Vermerk **Ton nicht erkannt; über den
 Timecode platziert**. Sie liegt framegenau auf der Achse; es fehlt allein
-die Gegenprobe, und gesperrt ist für sie nichts.
+die Gegenprobe, und die Messung sperrt für sie nichts.
 
 Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
 nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode. Der Ton
@@ -686,9 +749,11 @@ ist nicht verwendbar.** und steht in Rot. Ihr Ton hat mit dem übrigen
 Material nichts gemeinsam, und kein Timecode ordnet sie zwischen die
 anderen ein; deshalb lässt sie sich nicht in die Folge hineinschneiden:
 In der Spalte **Typ** sind **Inhalt** und **Weitwinkel** für sie
-gesperrt, sie wird auf **Vorspann** gesetzt, und das Protokoll sagt,
-warum. Das ist kein Vorschlag, sondern eine Feststellung über das
-Material, und sie gilt, wie der **Typ** auch dorthin gekommen ist.
+gesperrt, sie wird auf **Vorspann** gesetzt — auf **Video ignorieren**,
+wenn eine andere Datei den Vorspann schon hält —, und das Protokoll
+sagt, welches von beidem und warum. Das ist kein Vorschlag, sondern eine
+Feststellung über das Material, und sie gilt, wie der **Typ** auch
+dorthin gekommen ist.
 
 War an einer solchen Datei überhaupt nichts zu messen, wird ihr
 stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag
@@ -714,14 +779,28 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   geben, der zum übrigen Material passt -- der muss mit einem anderen
   Programm gesetzt werden --, dann sind die Einträge wieder da. Bis
   dahin stehen **Vorspann**, **Abspann** und **Video ignorieren** zur
-  Wahl; **Inhalt** und **Weitwinkel** sind gesperrt, und daran ändert
+  Wahl — die ersten beiden nur, solange keine andere Datei die Marke
+  hält; **Inhalt** und **Weitwinkel** sind gesperrt, und daran ändert
   auch keine Hand etwas.
 - **Das Update ging nicht durch**: die Datei, die funktioniert, bleibt
   liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach Update
   suchen ...** versucht es noch einmal.
 - **Beim Nachfragen mitschicken**: die Version aus `--version`, das
   Betriebssystem, `videopodcast-magic.log` und was man vorhatte, vor
-  den Einzelheiten des Fehlers.
+  den Einzelheiten des Fehlers. Beide Player schreiben in dieses
+  Protokoll, was sie getan haben, jede Zeile mit dem Vorsatz **[GUI]**
+  und mit der Uhrzeit: welche Datei geladen wurde und an welcher Stelle,
+  jedes Abspielen und jede Pause, welche Aufnahme ans Bild gelegt wurde,
+  aus welcher der beiden Zeitrechnungen das kam und was dabei
+  herauskam. Eine Aufnahme aus mehreren Blöcken steht dort mit dem
+  Block, der gerade läuft, und wo sie unter dem Bild auf dem Schirm
+  nicht dran ist, sagt die Zeile, dass sie still bleibt -- wer sich über
+  eine still gewordene Vorschau beschwert, kann beides hinterher
+  nachlesen, statt es zu vermuten. Der Player auf **Resolve-Schnitt**
+  nennt die Kamera, die er zeigt, bei jedem Start und jedem Halt, nicht
+  bei jedem Bild dazwischen. Ton, der gegen das falsche Bild läuft,
+  lässt sich an diesen Zeilen hinterher ablesen; ohne sie lässt er sich
+  nur beschreiben.
 
 Das ist das ganze Fenster. Im nächsten Kapitel, [Vorflug](preflight.de.md),
 geht es um die Prüfungen vor einem Lauf und um die Bedeutung jedes

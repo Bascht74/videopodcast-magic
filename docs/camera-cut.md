@@ -341,18 +341,31 @@ has worked out for itself. Either way on every change, and always for
 the chosen window. Writing and uploading belong to the run, not to the
 preview.
 
-The button **Measure speakers now** stands at the foot of the preview
-box, in the line under what the preview says and not under this one --
-and only for as long as a track is neither covered by a separation nor
-measured. Beside it stands who is missing: **Name not measured yet -- in
-the cut, not yet in this preview**. Those people are in the cut; one
-press fetches them into the preview as well. **Once a run is done the
-button is gone**: the run measured every track it had, so there is
-nothing left to press it for, and the line then says what the cut rests
-on. Where no speakers are known at all, the preview box says so in place
-of its numbers and the box **Speaker** stays empty. If the measurement
-fails, the reason stands beside the button. Speakers that turn up later
-start the preview by themselves.
+**Nothing has to be pressed for the speakers.** Opening the tab
+**Resolve cut** works them out of the tracks, which is the moment they
+are wanted. Not while one reading is already running, not after one has
+failed -- a second attempt fails the same way and costs the same minutes
+-- and not where a finished run knows them already: reading the raw
+recordings again would put a coarser answer in place of the run's.
+
+A line at the foot of the preview box, under what the preview says and
+not under this one, holds what the cut rests on. Where a track is neither
+covered by a separation nor measured, it names who is missing instead:
+**Name not measured yet -- in the cut, not yet in this preview**. Those
+people are in the cut -- the run measures every track it has -- and it is
+this preview that cannot show them. A reading that fails puts its reason
+in that same line.
+
+**The reading happens once.** A track that gets a name and a camera after
+the tab has been open stays in that line for the rest of the session, and
+so does everybody after a reading that failed -- unless a separation by
+voice covers them later, which does take them out of it. **Close
+project** and opening one both start over.
+
+Where no speakers are known at all, the preview box says so in place of
+its numbers and adds that they are worked out of the tracks as soon as
+this tab is opened; the box **Speaker** stays empty. Speakers that turn
+up later start the preview by themselves.
 
 ### Reading the cut band and the legend
 
@@ -481,6 +494,33 @@ Raw recordings sit 16 to 36 dB below the processed sound, and the
 interface cannot make them louder. The tooltip says what is running and
 in which version.
 
+Whichever of the three it is, it is laid against the picture off the
+measured time axis: where the picture stands is read off the axis, where
+the recording begins is read off the same axis, and the difference is the
+point the sound is set to. Only where nothing was measured of one of the
+two do the clocks answer, and then for both ends at once. Never one of
+each -- two clocks each carry their own idea of the time, and taking one
+from the other leaves exactly that difference standing between sound and
+picture. Where neither reckoning puts the recording under the picture on
+screen, the sound is held rather than played at a guess: the recording
+stays loaded and silent, and the log says which recording, under which
+picture, and that it is not due there.
+
+**A recording written in several blocks plays through.** A recorder
+splits a long take into two or three files, and the player takes the
+block the moment on screen falls into, switching at the boundary. Before
+a recording begins and after it ends it stays silent rather than sounding
+the start of a block under a picture it does not belong to. The log names
+the block it is on -- second of three -- and which of the two reckonings
+put it there.
+
+Fetching another camera into this player keeps the moment, not the
+offset from the file start: the new file opens where the old one stood in
+the events, because cameras begin at different times. That too comes off
+the measurement, with the clocks as the fallback. And a picture that was
+running goes on running in the new file -- switching cameras while
+watching is comparing them.
+
 On the **Resolve cut** tab the player in the preview box always shows
 something: if there is a cut it plays the cut and switches camera at
 every edge, otherwise the file with no speaker assigned. Without a cut
@@ -494,11 +534,12 @@ as its first audio track -- the same choice as for angle 1 of the
 multicam clip, and noticeably quieter.
 
 `start_s` is the wall clock time at which programme time is zero. It is
-the earliest audio start actually known, own timecode or measured
-position; failing that the earliest camera timecode; failing that
-nothing. In point and Out point move the zero point along. The spot in
-each camera file is programme time minus offset, the same offset the cut
-timeline is built with.
+the earliest audio start actually known -- the measured position, or the
+recording's own timecode where nothing was measured of it; failing that
+the earliest camera timecode; failing that nothing. In point and Out
+point move the zero point along. The spot in each camera file is
+programme time minus offset, the same offset the cut timeline is built
+with.
 
 The program sets every spot again until it holds;
 [Inside the script](../development/internals.md) names how often and
@@ -546,14 +587,14 @@ The log says how strong the bleed was, and under it the speech time and
 the number of passages per speaker. If nothing was audible, there is
 no camera cut.
 
-The button **Measure speakers now** does the same in the interface,
-without waiting for a run: coarser than the separation by voice, but
-enough to set the cut up. The two are not alternatives. Voices out of a
-separation and tracks measured here go into one and the same reckoning,
-and the button stands there as long as a track is neither covered by a
-separation nor measured -- also once something has been separated. After
-a run it disappears: what the run measured is finer than anything this
-button can deliver, and it left nobody out.
+The window does the same on its own, without waiting for a run: opening
+the **Resolve cut** tab reads the tracks there and then -- coarser than
+the separation by voice, but enough to set the cut up. The two are not
+alternatives. Voices out of a separation and tracks measured in the
+window go into one and the same reckoning, and the reading takes in every
+track that no separation covers, also once something has been separated.
+After a run it does not happen at all: what the run measured is finer
+than anything the window can deliver, and it left nobody out.
 
 ### Cutting when one camera shows everybody
 
@@ -592,7 +633,10 @@ API key is **not** in there.
 It keeps what somebody answered, and nothing else. A preset picked by
 hand stays in it even where the preset list could not be built at that
 moment -- a refused key, no line out -- rather than the entry the box
-fell back on. And a file taken out of the list is taken out of the
+fell back on. **Opening the project puts that preset back in the box**,
+a multitrack one included: the tick **Multitrack** is set first, because
+a multitrack preset is in the list only in that mode. And a file taken
+out of the list is taken out of the
 project file with it, along with everything that had been answered
 about it, so that adding it again later starts from nothing rather than
 from an answer nobody can see any more.
@@ -674,12 +718,21 @@ loudness measurement runs through each track twice.
 ### When something goes wrong
 
 * **The preview says no speakers are known, and the Speaker box is
-  empty.** Press **Measure speakers now** at the foot of the preview
-  box. If the measurement fails, the reason stands beside the button.
+  empty.** They are worked out as soon as the **Resolve cut** tab is
+  opened; leave the tab and come back to it. It is the change of tab
+  that sets the reading going, so a project opened while this tab is
+  already on screen leaves the line saying that and nothing happening.
+  If the reading fails, the reason stands in the line at the foot of the
+  preview box.
 * **The Speaker box shows speakers, and the preview says somebody is not
   measured yet.** That person is in the cut; only the preview cannot
   show them, because their track has been neither separated nor
-  measured. **Measure speakers now** fetches them into the preview.
+  measured. The reading runs once per set of files, so somebody who was
+  given a name later stays out of this preview -- the run measures them
+  all the same. To get them into the preview, save the project, **Close
+  project**, open it again and come to this tab from another one: the
+  reading hangs on the change of tab, so a project opened while this tab
+  is already on screen does not set it going.
 * **No cut comes out.** Nothing was audible on the tracks, or the
   separation found a single voice and there is only one camera. The log
   says so, under `SPEAKERS -- MEASURED HERE` or

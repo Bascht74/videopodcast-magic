@@ -150,7 +150,11 @@ rebuild of the list, and it goes into the project file even where the
 list cannot be built at all -- a key auphonic.com refuses, no line out.
 What is written down is then the preset that was picked and not the
 entry the box fell back on, so a project saved on a machine with no
-connection opens again with the preset it was given.
+connection opens again with the preset it was given. Reopening a
+project puts that preset back into the box, a multitrack preset
+included: the mode comes back first and the list is built for it, so a
+preset that stands only under **Multitrack** is there again to be
+found.
 
 ### When the production already exists
 
