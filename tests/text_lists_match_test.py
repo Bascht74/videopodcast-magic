@@ -12,8 +12,8 @@ writes the same list down. Sets get compared, never sentences.
      docs/command-line.md, and every row of the table is a switch
   2. the defaults named in brackets at the end of a row, but only the
      ones a machine can compare
-  3. the four cut rules of CUT_CHOICES: their values, their defaults,
-     and the default named again in docs/camera-cut.md
+  3. the cut rules of CUT_CHOICES: their values, their defaults, and
+     the default named again in docs/camera-cut.md
   4. the menus the window builds, against docs/interface.md
   5. links between the shipped .md files that lead nowhere
 
@@ -200,7 +200,7 @@ for chapter, german in CHAPTERS:
                          % (chapter, number, switch, rule[2], said))
     found("%s: %d cut rules with their values and defaults"
           % (chapter, seen), wrong)
-    check("%s: all four cut rules have a row" % chapter,
+    check("%s: every cut rule has a row" % chapter,
           seen == len(RULES), "%d of %d" % (seen, len(RULES)))
 
 

@@ -75,13 +75,15 @@ Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 |---|---|
 | `--min-edit-duration SEKUNDEN` | wie kurz eine Einstellung stehen darf; kürzere gehen in die folgende auf, 0 aus (3) |
 | `--min-speech-to-switch SEKUNDEN` | wie lange jemand reden muss, bevor die Kamera ihm folgt, 0 aus (1,5) |
+| `--silence-hold SEKUNDEN` | wie lange eine Stille noch als Atempause zählt und nicht als Ende; nur wo `--on-silence` eine kurze Lücke halten soll (1,0) |
 | `--edit-change-delay SEKUNDEN` | wie viel später als der Ton das Bild schneidet; negativ lässt es vorlaufen (0,3) |
 | `--reaction-lead SEKUNDEN` | wie viel früher das Bild nach einer Frage zur Antwort geht (1,5) |
 | `--reaction-gap SEKUNDEN` | wie schnell die Antwort auf die Frage folgen muss, damit der Reaktionsschnitt greift (3) |
 | `--reaction-hold ANTEIL` | wie viel der zehn Sekunden nach der Frage der Antwortende halten muss, zwischen 0 und 1 (0,7) |
 | `--on-monologue WERT` | einer redet allein, länger als `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: dieselben vier Werte (wide) |
-| `--on-uncertain WERT` | die Erkennung ist unsicher: dieselben vier Werte (wide) |
+| `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (wide) |
+| `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |
 | `--wide-shot DATEI` | diese Videodatei ist ein Weitwinkel: eine Kamera, vor der niemand sitzt, sie nimmt keinen Sprecher; wiederholbar. Ohne ihn sind es die Kameras ohne zugeordneten Sprecher |
 | `--wide-after SEKUNDEN` | ab dieser Standzeit bricht das Programm die Einstellung an einer Satzgrenze auf, nicht nach der Uhr, 0 aus (70) |

@@ -86,7 +86,7 @@ exactly those people beats the wide shot, the one camera with everybody
 in frame. The wide shot itself does not come by the clock, but at a long
 pause shortly before someone else starts.
 
-Eight number fields and four selectors set how fine the cut turns out, and
+Nine number fields and five selectors set how fine the cut turns out, and
 the window shows their effect at once, without writing anything. Out come
 a table, an EDL and the speaking times: who talked how long, in per cent
 ([camera cut](camera-cut.md)).
