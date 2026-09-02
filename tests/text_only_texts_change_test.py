@@ -3,12 +3,17 @@
 
 And the seam itself: every line the program prints goes through the
 catalogue, or it comes out English in a German run.
+
+The switch section really starts the program, twice, on a file that is
+not there: whether --lang is acted on cannot be read off the parser,
+and a wording held against the output would only say what language the
+machine itself is set to.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
-import ast, importlib.util, io, re, sys, time, tokenize
+import ast, importlib.util, io, re, subprocess, sys, time, tokenize
 
 began = time.time()
 
@@ -89,28 +94,144 @@ check("unknown language falls back to English", vpm.LANG == "en",
 vpm.set_language("de")
 
 print("\n4. The --lang switch")
-ap = vpm.build_argument_parser()
+# The three steps at the head of the program say that a catalogue is the
+# whole of what it takes to add a language: --lang then offers the new
+# code. So one is put into the program here **before the parser is built
+# at all**, and stays there while the two directions below are asked.
+# Put in first rather than added afterwards with the parser built a
+# second time: a program that builds its parser once and hands the same
+# one back is right, and rebuilding would have called it broken. What is
+# left of that: a program that built its parser as early as import time
+# could not see this catalogue either and would be red with nothing
+# broken. Nothing in the program points that way today, and a red on the
+# two judgements below sends the reader to those three steps first.
+SPARE = "qa"     # a code no catalogue here uses; whatever stood under
+                 # it is put back at once, so a real one would survive
+was = vpm.CATALOGUE.get(SPARE)
+vpm.CATALOGUE[SPARE] = {"Content": "Content"}
+try:
+    ap = vpm.build_argument_parser()
+    speaks = vpm.languages()
+finally:
+    if was is None:
+        vpm.CATALOGUE.pop(SPARE, None)
+    else:
+        vpm.CATALOGUE[SPARE] = was
 lang = [a for a in ap._actions if "--lang" in (a.option_strings or [])]
 check("it is there", bool(lang),
         "%d of the %d actions carry --lang, wanted 1"
         % (len(lang), len(ap._actions)))
-check("knows every language", sorted(lang[0].choices) == vpm.languages(),
-        "%s, wanted %s" % (sorted(lang[0].choices), vpm.languages()))
+# Everything below rests on the switch being there and on its list of
+# values existing at all, so both are asked before either is used: a
+# switch that is gone, or one that takes anything at all, is then a red
+# line of its own instead of a traceback that swallows the fifty checks
+# after it.
+picks = lang[0].choices if lang else None
+check("the switch says which values it takes", picks is not None,
+        "--lang has %r for its choices, wanted a list of language codes"
+        % (picks,))
+offered = sorted(picks or [])
+strange = [w for w in offered if w not in speaks]
+check("it offers no language the program cannot speak", not strange,
+        "--lang offers %s, the program speaks %s, over and above that: %s"
+        % (offered, speaks, strange))
+# And the other way round, which is the direction that bites on a real
+# fault: a language whose catalogue lies in the file but which --lang
+# will not take cannot be asked for at all, and no other check here
+# would notice. It is asked over every language there is and not over
+# the two this file knows by name, so a third catalogue is covered the
+# day somebody adds one -- and because the catalogue above was put in
+# before the parser, a list of codes written into the switch by hand
+# falls here too, which is what "reaches the switch" really means.
+absent = [w for w in speaks if w not in offered]
+check("every language the program speaks is on the switch", not absent,
+        "the program speaks %s (a %r catalogue was put in before the "
+        "parser was built), --lang offers %s, not on offer: %s"
+        % (speaks, SPARE, offered, absent))
 got = ap.parse_args([]).lang
 check("without a value: system language", got is None,
         "lang is %r without the switch, wanted None" % got)
 got = ap.parse_args(["--lang", "en"]).lang
 check("with a value it arrives", got == "en",
         "--lang en gives %r, wanted 'en'" % got)
+# Arriving in the parser is not the same as being acted on. A run whose
+# --lang goes nowhere falls back on the system's language, and on a
+# machine set to German that looks exactly right -- which is why the
+# program is really started here, once per language, on a file that is
+# not there so nothing is read and nothing is written. The two runs
+# only have to differ: no wording is held against anything, so this
+# says the same on a German machine and on an English one. Both streams
+# together, because the line that names a missing file goes to stderr
+# and the banner above it is language-free.
+GONE = "/tmp/vpm-no-such-recording.wav"
+# The program looks for ffmpeg before it ever looks at --lang, and where
+# it finds none it offers to fetch one: the package manager if somebody
+# is there to answer, and a pip install into this Python if nobody is.
+# A question about the language must do neither, so the run gets no
+# console to be asked on and a pip that can neither reach an index nor
+# write outside a virtual environment. Both, because either alone
+# leaves a way through -- and this is not theory: an earlier version of
+# these two runs put static-ffmpeg into the system Python.
+SEALED = dict(os.environ, VPM_NO_UPDATE_CHECK="1",
+              PIP_NO_INDEX="1", PIP_REQUIRE_VIRTUALENV="1", PIP_NO_INPUT="1")
+SEALED.pop("VPM_INSTALL_TOOLS", None)
+spoken, codes = {}, {}
+for _code in ("de", "en"):
+    try:
+        _r = subprocess.run([sys.executable, SCRIPT, "--lang", _code, GONE],
+                            capture_output=True, stdin=subprocess.DEVNULL,
+                            timeout=300, env=SEALED)
+        spoken[_code] = _r.stdout + _r.stderr
+        codes[_code] = _r.returncode
+    except subprocess.TimeoutExpired:
+        spoken[_code], codes[_code] = b"", "timed out after 300 s"
+# Asked before the judgement under it, and not folded into it: a
+# machine on which the program cannot start at all prints the same
+# thing twice, and that must read as "it did not run" and not as
+# "--lang does nothing".
+fell_over = b"Traceback" in spoken["de"] + spoken["en"]
+check("the program answers on both runs",
+        bool(spoken["de"]) and bool(spoken["en"])
+        and codes["de"] == codes["en"] and not fell_over,
+        "--lang de: %d characters, returned %s; --lang en: %d characters, "
+        "returned %s; a traceback in them: %s"
+        % (len(spoken["de"]), codes["de"], len(spoken["en"]), codes["en"],
+           "yes" if fell_over else "no"))
+apart = ""
+for _a, _b in zip(spoken["de"].splitlines(), spoken["en"].splitlines()):
+    if _a != _b:
+        apart = "%s against %s" % (repr(_a[:36]), repr(_b[:36]))
+        break
+check("--lang is acted on, not only accepted",
+        spoken["de"] != spoken["en"],
+        "--lang de and --lang en print %d and %d characters; first line "
+        "that differs: %s" % (len(spoken["de"]), len(spoken["en"]),
+                              apart or "none -- the two runs are the same"))
 
 print("\n5. Values and labels are separate")
-for name in ("MIX_ONLY", "IGNORE_AUDIO", "PRESET_NONE", "TYPE_CONTENT",
-             "TYPE_INTRO", "TYPE_OUTRO", "TYPE_IGNORED"):
-    value = getattr(vpm, name)
-    check("%s is language-free" % name,
-            re.match(r"^[a-z][a-z-]*$", value) is not None,
+# One check per constant, each with its name written out. A name built
+# in a loop leaves the register a single wording for seven judgements,
+# and the register cannot then say which of the seven was ever seen red
+# -- six of these had never been broken while the row said "proved".
+
+
+def bare(name):
+    """Is that constant a value rather than a text, and the evidence."""
+    value = getattr(vpm, name, None)
+    if not isinstance(value, str):
+        return (False, "%s is %r -- not a text at all" % (name, value))
+    return (re.match(r"^[a-z][a-z-]*$", value) is not None,
             "%s is %r, wanted lower case letters and dashes only"
             % (name, value))
+
+
+check("MIX_ONLY is language-free", *bare("MIX_ONLY"))
+check("IGNORE_AUDIO is language-free", *bare("IGNORE_AUDIO"))
+check("PRESET_NONE is language-free", *bare("PRESET_NONE"))
+check("TYPE_CONTENT is language-free", *bare("TYPE_CONTENT"))
+check("TYPE_INTRO is language-free", *bare("TYPE_INTRO"))
+check("TYPE_OUTRO is language-free", *bare("TYPE_OUTRO"))
+check("TYPE_IGNORED is language-free", *bare("TYPE_IGNORED"))
 vpm.set_language("de")
 got = vpm.label_of(vpm.TYPE_INTRO)
 check("German label", got == "Vorspann",
@@ -280,10 +401,20 @@ print("\n11. The old word detection is really gone")
 source = io.open(SCRIPT, encoding="utf-8").read()
 check("no log_line_kind any more", "log_line_kind" not in source,
         "log_line_kind %s, wanted 0 times" % sightings("log_line_kind"))
-# The words the old guesser read the colour off.
-for label in ("DONE", "failed\" in", "Finished with errors\" in"):
-    check("colour no longer hangs on %r" % label, label not in source,
-            "%r %s, wanted 0 times" % (label, sightings(label)))
+# The words the old guesser read the colour off, one check each and
+# each name written out: a name built in a loop gives the register one
+# wording for three judgements, and two of the three were never broken.
+check("colour no longer hangs on 'DONE'", "DONE" not in source,
+        "%r %s, wanted 0 times" % ("DONE", sightings("DONE")))
+check("colour no longer hangs on 'failed\" in'",
+        "failed\" in" not in source,
+        "%r %s, wanted 0 times"
+        % ("failed\" in", sightings("failed\" in")))
+check("colour no longer hangs on 'Finished with errors\" in'",
+        "Finished with errors\" in" not in source,
+        "%r %s, wanted 0 times"
+        % ("Finished with errors\" in",
+           sightings("Finished with errors\" in")))
 
 print("\n12. Switches and targets are English")
 # The list stays German on purpose: it is what must not turn up.
@@ -388,15 +519,28 @@ check("the metrics CSV writes with a dot",
 check("the speakers CSV too", 'as_hms(a, ".")' in source,
         "%r %s, wanted at least once"
         % ('as_hms(a, ".")', sightings('as_hms(a, ".")')))
-# The headers go through csv_line() as tuples, so the check looks for the
-# tuple rather than for a finished line.
-for head in ('("Area", "Metric", "Before", "After",',
-             '("Speaker", "Start TC", "End TC",',
-             '("Shot", "Camera", "Speaker", "Start TC",'):
-    # The whole header in the evidence, not the shortened one the name
-    # carries: what is cut off is where a changed column would sit.
-    check("CSV header fixed: %s" % head[1:29], head in source,
-            "%r %s, wanted at least once" % (head, sightings(head)))
+# The headers go through csv_line() as tuples, so the checks look for
+# the tuple rather than for a finished line. The whole header stands in
+# the evidence, not the shortened one the name carries: what is cut off
+# is where a changed column would sit. And the names are written out
+# rather than built in the loop that used to stand here -- one wording
+# for three judgements told the register nothing about which of the
+# three had ever been seen red.
+HEAD_METRICS = '("Area", "Metric", "Before", "After",'
+HEAD_SPEAKERS = '("Speaker", "Start TC", "End TC",'
+HEAD_SHOTS = '("Shot", "Camera", "Speaker", "Start TC",'
+check('CSV header fixed: "Area", "Metric", "Before",',
+        HEAD_METRICS in source,
+        "%r %s, wanted at least once"
+        % (HEAD_METRICS, sightings(HEAD_METRICS)))
+check('CSV header fixed: "Speaker", "Start TC", "End',
+        HEAD_SPEAKERS in source,
+        "%r %s, wanted at least once"
+        % (HEAD_SPEAKERS, sightings(HEAD_SPEAKERS)))
+check('CSV header fixed: "Shot", "Camera", "Speaker",',
+        HEAD_SHOTS in source,
+        "%r %s, wanted at least once"
+        % (HEAD_SHOTS, sightings(HEAD_SHOTS)))
 check("CSV rows are comma separated, never by language",
         'return ",".join(out) + "\\n"' in source,
         "the joining line %r %s, wanted at least once"
@@ -553,11 +697,16 @@ for _w, _where in _stands.items():
 _forgotten.sort()
 
 if _english is None:
-    # This one cannot fall: it stands in the branch where there is no
-    # dictionary and judges True. What it says is in the evidence.
-    check("no dictionary -- the German side is not read", True,
-            "0 of the %d catalogue entries were read -- "
-            "pip install pyspellchecker" % len(_entries))
+    # Not a judgement any more, and it never was one: it read True, so
+    # no change to the program could move it, and it stood in the branch
+    # that only runs when there is no dictionary -- that is, when the
+    # check above has already gone red. What is left is the piece that
+    # was not done, written in the shape run.sh greps for. It is read
+    # here by a person and not by run.sh: both places that pick LEFT OUT
+    # up sit in the branch for a run already recorded green, and a run
+    # without a dictionary is red on the check above.
+    print("      LEFT OUT: the German side was not read -- 0 of the %d "
+          "catalogue entries, pip install pyspellchecker" % len(_entries))
 else:
     # The fingerprint is the word plus the entry it was left in, never
     # the line: the catalogue sits at the end of the file and every entry

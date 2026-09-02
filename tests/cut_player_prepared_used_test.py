@@ -13,8 +13,9 @@ The question is asked the way a person asks it -- click the camera,
 read what the player says it is playing -- and a guessed speaker name
 must find its prepared track just like a typed one. The cut on the
 Resolve sheet buys from the same shop, and it must build itself only
-out of what the window measured; a stranger's handover lies in the
-result folder the whole time and must have no effect.
+out of what the window measured. Two things lie about the whole time
+and must have no effect: a stranger's handover in the result folder,
+and an earlier production's prepared tracks below the material.
 """
 import math
 import os
@@ -188,12 +189,21 @@ def voice_wav(path, turns, seconds=LENGTH):
 
 own = tempfile.mkdtemp(prefix="vpm_prepared_")
 aside = tempfile.mkdtemp(prefix="vpm_prepared_aside_")
+# The recordings and the result lie beside each other, not one inside
+# the other, and that is deliberate: a run writes where it is told to,
+# which is usually not the folder the cameras were emptied into. Were
+# the result a subfolder of the material, the window would reach the
+# prepared tracks a second way -- one level below the material -- and a
+# version that had stopped looking in the output folder altogether
+# would still find them here.
+media = os.path.join(own, "Recordings")
 result = os.path.join(own, "Result")
 done_folder = os.path.join(result, "auphonic-tracks")
 os.makedirs(done_folder)
+os.makedirs(media)
 here = {}
 for name in (TYPED, GUESSED, CAM_TYPED, CAM_GUESSED, CAM_WIDE):
-    copy = os.path.join(own, name)
+    copy = os.path.join(media, name)
     here[name] = copy
     if name.endswith(".mov"):
         # Only stamped, not re-encoded: the clock is written beside
@@ -221,11 +231,27 @@ with open(os.path.join(done_folder, "Interview_statistics.json"), "w",
           encoding="utf-8") as f:
     json.dump({}, f)
 
+# The second bait, and it stays there to the end: an earlier
+# production's prepared tracks, one level below the material, where the
+# window looks last. The folder this run wrote comes first, so nothing
+# may ever come out of here. Same three people, another day: the
+# timecode in the names and the clock inside them are different, so a
+# track taken from the wrong folder is named in the line that falls.
+EARLIER_TAIL = "15-00-00-00"
+EARLIER_CLOCK = 15 * 3600
+EARLIER_FOLDER = os.path.join(media, "earlier-episode", "auphonic-tracks")
+os.makedirs(EARLIER_FOLDER)
+EARLIER = {n: os.path.join(EARLIER_FOLDER,
+                           "final_%s_%s.wav" % (n, EARLIER_TAIL))
+           for n in (TYPED_NAME, GUESSED_NAME, "Full-Mix")}
+for path in EARLIER.values():
+    silent_wav(path, clock=EARLIER_CLOCK)
+
 # Multitrack, because only then does a recording belong to one camera.
 # Who sits in front of which is picked in the sheet below: opening a
 # multitrack project clears the stored assignment on purpose and works
 # it out again from the speaker names.
-project = os.path.join(own, "videopodcast-magic_Prepared.json")
+project = os.path.join(media, "videopodcast-magic_Prepared.json")
 with open(project, "w", encoding="utf-8") as f:
     json.dump({
         "format": vpm.FILE_FORMAT, "version": "test", "timeline": [],
@@ -405,13 +431,15 @@ def cut_audio():
     """What the cut player was given: the file, and its shift.
 
     Nothing on the sheet writes the file name out, so it is read off
-    the player.
+    the player. The whole path, not the name at the end of it: two
+    folders here hold a file of that name, and a name cannot tell them
+    apart -- nor tell either of them from a path to nothing at all.
     """
     p = cut_player()
     if p is None:
         return None, None
     where = p.audio.source().toLocalFile()
-    return (os.path.basename(where) if where else None), p.audio_offset
+    return (where or None), p.audio_offset
 
 
 def cut_places():
@@ -609,6 +637,12 @@ def says_raw(name):
 # through ffprobe and the media layer, and a check made in the same
 # breath reads the state that is about to go.
 AGAIN, STOP = "again", "stop"
+# The two pauses between steps, in milliseconds: the short one for a
+# step that asks to be asked again, the longer one between two steps.
+# They stand here because a round is the unit every wait below counts
+# in, and a wait that says how long it waited has to read the length of
+# a round off the same place the timer does.
+AGAIN_MS, STEP_MS = 250, 500
 waited = [0]
 done = [False]
 
@@ -730,6 +764,17 @@ def wide_look():
 
 
 cut_waited = [0]
+sound_waited = [0]
+# How far the sound may lag behind the cut, counted in rounds of the
+# step below. The cut is drawn from what the window measured; the mix
+# comes out of a search through folders, and a program that draws the
+# one at once and hands the other in when the search comes back is
+# right rather than broken. Where the mix is there in the same breath,
+# as it is today, not one of these rounds is used, so the bound is only
+# ever paid in a run that is going red anyway -- which is why it is set
+# well above the lag measured here rather than at the edge of it: the
+# builder is about nine times slower than this machine.
+SOUND_ROUNDS = 20
 
 
 def start_measuring():
@@ -763,34 +808,69 @@ def cut_look():
 
     The window works the cut out of its own measurement after a timer
     of its own, so what is waited for is the cut, never a set time. A
-    cut is there when the sound under it is a track of its own -- not
-    "more than one shot" and not "more than one camera", because a cut
-    off the wrong material can be a single shot on a single camera,
-    and this line would then blame the waiting and give up before the
-    lines that say what is really wrong.
+    cut is there when the player holds more than one camera file: with
+    no cut it is handed the single file the preview shows, and that is
+    the only state a cut can be confused with -- not "more than one
+    shot", because that one file is a shot too.
+
+    The sound then gets a second wait of its own, a short one, and
+    after it it is judged either way -- because waiting and judging are
+    two things, and putting them in one guard loses one fault or the
+    other. With the sound inside the one long wait, a version that put
+    no mix under the cut ran that wait out, said the cut had never
+    come, and stopped, while the three lines that name the real fault
+    never spoke. With no wait for the sound at all, a version that
+    draws the cut at once and hands the mix in when the folder search
+    comes back -- the obvious step once the output folder may sit on a
+    network share -- comes to rest right and is called red three times
+    over. So: first the sound is there or the patience is out, then the
+    judgement, and every line that falls says which of the two it was.
     """
     shots, files = cut_shots(), cut_files()
-    name, _off = cut_audio()
-    there = bool(shots) and bool(name) and name not in [
-        os.path.basename(x) for x in files]
+    there = bool(shots) and len(files) > 1
     if not there and cut_waited[0] < 200:
         cut_waited[0] += 1
         return AGAIN
+    # A path is not a file: handed the name alone, or the same name in
+    # the folder above, the player has nothing to play and says nothing
+    # about it. And a camera file is not an answer here but the state
+    # before one -- it is what the program falls back to while no
+    # prepared mix is there, and what it is left holding when none ever
+    # comes. So both make the sound "not yet there" and are waited on,
+    # and both are a red line once the patience is out.
+    where, off = cut_audio()
+    on_disk = bool(where) and os.path.isfile(where)
+    a_camera = bool(where) and os.path.realpath(where) in [
+        os.path.realpath(x) for x in files]
+    sound_there = on_disk and not a_camera
+    if there and not sound_there and sound_waited[0] < SOUND_ROUNDS:
+        sound_waited[0] += 1
+        return AGAIN
+    # What ended that second wait, in every line resting on it.
+    heard = ("the sound was there after %d of %d rounds"
+             % (sound_waited[0], SOUND_ROUNDS) if sound_there else
+             "no sound of its own came in %d rounds, %.1f s of waiting"
+             % (sound_waited[0], sound_waited[0] * AGAIN_MS / 1000.0))
     check("the window worked a cut out on its own, from no file", there,
-          "%d shots on %d cameras (%s), sound %s, after %d rounds -- %s"
+          "%d shots on %d cameras (%s), %d camera files, sound %s, after "
+          "%d rounds -- %s"
           % (len(shots), len(cut_cameras()),
-             ", ".join(cut_cameras()) or "none", name, cut_waited[0],
+             ", ".join(cut_cameras()) or "none", len(files),
+             os.path.basename(where) if where else None, cut_waited[0],
              measure_note()))
     if not there:
         return STOP
-    name, off = cut_audio()
-    check("the cut player was given an audio file", name is not None,
-          str(name))
+    check("the cut player was given an audio file", sound_there,
+          "%s -- %s, and it is %s of the %d camera files under the cut; %s"
+          % (where, "a file that is there" if on_disk else "nothing on disk",
+             "one" if a_camera else "none", len(files), heard))
+    name = os.path.basename(where) if where else None
     check("and it is the prepared overall mix",
-          name == os.path.basename(FINAL["Full-Mix"]), str(name))
+          name == os.path.basename(FINAL["Full-Mix"]),
+          "%s -- %s" % (name, heard))
     check("placed by its own timecode against programme time",
           off is not None and abs(off - OWN_MIX_SHIFT) < 0.001,
-          "%s, wanted %s" % (off, OWN_MIX_SHIFT))
+          "%s, wanted %s -- %s" % (off, OWN_MIX_SHIFT, heard))
 
 
 def bait_look():
@@ -917,15 +997,19 @@ def raw_look():
 
 
 def take_the_folder_away():
-    """The whole folder of prepared tracks, out of every reach.
+    """Both folders of prepared tracks, out of every reach.
 
     The program looks in the output folder, in the folder the material
-    comes from and one level below, so moving it aside within any of
-    them would still find it.
+    comes from and one level below, so moving one aside within any of
+    them would still find it -- and leaving the earlier production's
+    folder standing would keep the window supplied out of the very
+    place the step is meant to empty.
     """
     print("  let go of %s"
-          % (", ".join(let_go_of(done_folder)) or "nothing"))
+          % (", ".join(let_go_of(done_folder) + let_go_of(EARLIER_FOLDER))
+             or "nothing"))
     shutil.move(done_folder, os.path.join(aside, "auphonic-tracks"))
+    shutil.move(EARLIER_FOLDER, os.path.join(aside, "earlier-auphonic-tracks"))
 
 
 def nothing_look():
@@ -973,7 +1057,7 @@ def step():
         return
     if answer != AGAIN:
         plan.pop(0)
-    QtCore.QTimer.singleShot(250 if answer == AGAIN else 500, step)
+    QtCore.QTimer.singleShot(AGAIN_MS if answer == AGAIN else STEP_MS, step)
 
 
 QtCore.QTimer.singleShot(300, step)

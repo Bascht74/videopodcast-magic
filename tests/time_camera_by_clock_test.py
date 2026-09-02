@@ -100,16 +100,26 @@ for cam in written["cameras"]:
           "%s - %s != %s" % (stamp, written["start_s"], cam["offset"]))
 # Why one camera is not enough: on the reference the wrong number and
 # the right one are the same number.
-wrong = [cam["camera"] for cam in written["cameras"]
-         if abs(cam["offset"] - cam["sound_against_picture"]) > a_frame]
+# Which cameras, not in which order: the cameras are named here and
+# looked up by name, so re-ordering the handover leaves both of these
+# judgements alone. Whether that order is part of the contract is a
+# question of its own, and no judgement here answers it.
+wrong = sorted(cam["camera"] for cam in written["cameras"]
+               if abs(cam["offset"] - cam["sound_against_picture"]) > a_frame)
 check("the reference alone would have shown nothing",
-      wrong == ["Hosts", "Guest"], str(wrong))
+      wrong == ["Guest", "Hosts"], str(wrong))
+kept = {cam["camera"]: cam["sound_against_picture"]
+        for cam in written["cameras"]}
 check("the measurement is kept, under its own name",
-      [cam["sound_against_picture"] for cam in written["cameras"]]
-      == [0.0, -33.34, -60.11],
-      str([cam["sound_against_picture"] for cam in written["cameras"]]))
-check("no camera was left unmeasured", "offset" not in said.lower(),
-      said.strip()[:60])
+      kept == {"Wide": 0.0, "Hosts": -33.34, "Guest": -60.11}, str(kept))
+# What says a camera was left unmeasured is the program's own warning,
+# taken from the catalogue. Looking for the word "offset" anywhere in
+# what was printed made any other line carrying it a failure, and it
+# said nothing at all wherever the run is not in English.
+warned = vpm.T('  No measured offset for %s -- placed at the '
+               'start of the axis.').split("%s")[0].strip()
+check("no camera was left unmeasured", warned not in said,
+      "wanted no %r; printed: %s" % (warned, " ".join(said.split())[:70]))
 
 # camera_place is the one place that answers this, so it is asked
 # directly too, including the fallback a file without a timecode takes.
@@ -124,18 +134,40 @@ check("a file without a timecode keeps the measurement", no_stamp == -7.25,
 no_zero = vpm.camera_place(n_results[1], None, -7.25, 30.0)
 check("no zero point, so the measurement again", no_zero == -7.25,
       "got %r, wanted the measurement %r" % (no_zero, -7.25))
-no_file = vpm.camera_place("", ZERO, -7.25, 30.0)
-check("no file at all, likewise", no_file == -7.25,
-      "got %r, wanted the measurement %r" % (no_file, -7.25))
+# An empty name reaches camera_place inside a row, never on its own:
+# write_handover looks the rendered file up by camera name, puts "" there
+# for a camera that has none, and hands over the pair ("", source).
+# Asked with the empty name alone the answer is the same whether the
+# guard on it stands or falls -- a name that is no file has no timecode
+# either -- so the row is what is asked here, and what it has to show is
+# that the empty name is stepped over rather than ending the row.
+no_render = vpm.camera_place(("", n_results[1]), ZERO, -7.25, 30.0)
+check("a camera with no render lands by its source's clock",
+      no_render == 4.0,
+      "got %r, wanted the source's 4.0 s and not the measurement %r"
+      % (no_render, -7.25))
+# A timecode of 00:00:00:00 is a timecode. Read as a truth value rather
+# than as "there is one" it counts as none, and the camera drops back on
+# the sound measurement instead of landing on the zero point.
+midnight = stamped(os.path.join(WORK, "at_midnight.wav"), 0.0)
+from_zero = vpm.camera_place((midnight, plain), 12.0, -7.25, 30.0)
+check("a timecode of zero is a timecode, not a missing one",
+      from_zero == -12.0,
+      "got %r, wanted 0.0 minus the zero point 12.0, not the "
+      "measurement -7.25" % (from_zero,))
 
 # The frames of a timecode are frames, so the rate decides what they
-# are worth. Through ffprobe, where a camera's timecode track comes from.
+# are worth. Through ffprobe, where a camera's timecode track comes
+# from. The file asked about is one that is really there and carries no
+# timecode of its own: what the program makes of a name that is no file
+# is a question of its own, and hanging these two on it made every
+# guard against a missing path a failure here.
 real_probe = vpm.ffprobe_json
 vpm.ffprobe_json = lambda path: {
     "format": {"tags": {"timecode": "18:55:00:12"}}, "streams": []}
 try:
-    at30 = vpm.camera_place("/nowhere/Cam.mov", ZERO, -99.0, 30.0)
-    at25 = vpm.camera_place("/nowhere/Cam.mov", ZERO, -99.0, 25.0)
+    at30 = vpm.camera_place(plain, ZERO, -99.0, 30.0)
+    at25 = vpm.camera_place(plain, ZERO, -99.0, 25.0)
 finally:
     vpm.ffprobe_json = real_probe
 check("12 frames at 30 fps are 0.400 s", abs(at30 - 0.4) < 1e-6, str(at30))
@@ -175,9 +207,19 @@ WRONG = -99.5
 check("a rendered file without one falls through to the source",
       abs(vpm.camera_place((blank, with_tc), 0.0, WRONG, 25.0) - zero)
       < 0.001, str(vpm.camera_place((blank, with_tc), 0.0, WRONG, 25.0)))
-check("the rendered file still wins where it has one",
-      abs(vpm.camera_place((with_tc, blank), 0.0, WRONG, 25.0) - zero)
-      < 0.001, str(vpm.camera_place((with_tc, blank), 0.0, WRONG, 25.0)))
+# Which end of the row is read first shows only where both files carry
+# a timecode: with one of them blank, "the first one", "the last one",
+# "the earliest" and "in name order" all answer the same. 18:55:04:00 at
+# 25 fps is 68104.0 s, and the twelve frames below are 0.48 s on from it.
+twelve = little_camera("twelve_frames.mov", "18:55:04:12")
+rendered_first = vpm.camera_place((with_tc, twelve), 0.0, WRONG, 25.0)
+check("the rendered file's timecode wins, not the source's",
+      abs(rendered_first - 68104.0) < 0.001,
+      "got %r, wanted the rendered file's 68104.0" % (rendered_first,))
+rendered_later = vpm.camera_place((twelve, with_tc), 0.0, WRONG, 25.0)
+check("and it wins when it is the later of the two as well",
+      abs(rendered_later - 68104.48) < 0.001,
+      "got %r, wanted the rendered file's 68104.48" % (rendered_later,))
 check("and with no timecode anywhere the measurement is kept",
       abs(vpm.camera_place((blank, blank), 0.0, WRONG, 25.0) - WRONG)
       < 0.001, str(vpm.camera_place((blank, blank), 0.0, WRONG, 25.0)))
@@ -188,7 +230,6 @@ check("one file may still be passed on its own",
       str(vpm.camera_place(with_tc, 0.0, WRONG, 25.0)))
 # The rate is the material's own here, and a wrong one would show only
 # in the frames: twelve of them are 0.48 s at 25 and 0.40 s at 30.
-twelve = little_camera("twelve_frames.mov", "18:55:04:12")
 check("the frames of a timecode are read at the file's rate",
       abs(vpm.file_timecode(twelve) - vpm.file_timecode(with_tc) - 0.48)
       < 0.001, str(vpm.file_timecode(twelve)))

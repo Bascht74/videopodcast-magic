@@ -1,5 +1,14 @@
 # -*- coding: utf-8 -*-
-"""One camera for everybody: the cut still marks the speaker changes."""
+"""One camera for everybody: the cut still marks the speaker changes.
+
+One camera the old way, then split at the change of speaker; two
+cameras, where the shots are the speakers already; a short
+interjection; silence. What the detailed cut says about who is talking
+is held against written-out names, not against a second reading of the
+same tracks. How many fields a row has gets no judgement of its own:
+every caller above unpacks them by name, so a row of the wrong width
+ends the run before a check could speak.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -55,23 +64,51 @@ check("it runs from nothing to the end and has no gap",
       "%.2f .. %.2f" % (rich[0][0], rich[-1][1]))
 
 print("\n3. Two cameras: the shots are already the speakers")
+# Everything down to the pair below runs on the defaults, and the ten
+# turns hang on them: a moved minimum, a moved lead-in, a changed cut
+# rule or a wider unrest window turns this section red without the
+# program being wrong. The unrest window is not one of the cut rules,
+# so naming rules here would not reach it either.
 two_cut = vpm.build_camera_cut(tracks, 80.0, two, "Wide")
 after = vpm.split_shots_by_speaker(two_cut, tracks)
 check("splitting again changes nothing",
       [(round(a, 4), round(b, 4), c) for a, b, c in two_cut]
       == [(round(a, 4), round(b, 4), c) for a, b, c, _w in after],
       "%d against %d" % (len(two_cut), len(after)))
-check("and the old function still answers in threes",
-      all(len(r) == 3 for r in two_cut),
-      "%d of %d shots hold three fields, seen %s"
-      % (len([r for r in two_cut if len(r) == 3]), len(two_cut),
-         sorted(set(len(r) for r in two_cut))))
 detail = vpm.camera_cut_detail(tracks, 80.0, two, "Wide")
-check("while the detailed one says who is talking",
-      all(len(r) == 4 for r in detail),
-      "%d of %d shots hold four fields, seen %s"
-      % (len([r for r in detail if len(r) == 4]), len(detail),
-         sorted(set(len(r) for r in detail))))
+# Counting the fields said nothing about what stands in the fourth, and
+# a cut that named nobody kept every check green. So the names are
+# written out: ten turns of eight seconds, the Host first. Read off the
+# tracks again they would only repeat the program's own reading.
+TURNS = [("Host",), ("Guest",), ("Host",), ("Guest",), ("Host",),
+         ("Guest",), ("Host",), ("Guest",), ("Host",), ("Guest",)]
+said = [r[3] for r in detail]
+# Both lists whole: a merge goes wrong behind the fourth shot as often
+# as in front of it, and a cut-off line then puts FAIL beside two
+# readings that look the same.
+check("while the detailed one says who is talking", said == TURNS,
+      "%d shots against %d wanted, %s against %s"
+      % (len(said), len(TURNS), said, TURNS))
+# Where two talk at once both belong in the shot, and always in the
+# same order: split_shots_by_speaker hands out the same four fields and
+# sorts the names, and two rows that ordered the same pair differently
+# would not compare equal. Host stands before Guest in the tracks and
+# after it in the alphabet, so the two orders really differ here. The
+# rules are named rather than left to their defaults, so a changed
+# default does not turn this one judgement red for the wrong reason --
+# it does nothing for the reading above, which passes nothing. Named
+# too, and not counted off: a parameter inserted into the signature
+# leaves the program right and kills a row of seven positions.
+both = [("Host", [(0, 20)]), ("Guest", [(8, 12)])]
+pair = vpm.camera_cut_detail(both, 20.0, two, "Wide", min_len=0.5,
+                             lead_in=0.0,
+                             rules=vpm.cut_rules(min_speech=0.5,
+                                                 on_together=vpm.SHOT_WIDE))
+WANTED_PAIR = [("Host",), ("Guest", "Host"), ("Host",)]
+check("and both are named, in one order, where they talk at once",
+      [r[3] for r in pair] == WANTED_PAIR,
+      "%d shots against %d wanted, %s against %s"
+      % (len(pair), len(WANTED_PAIR), [r[3] for r in pair], WANTED_PAIR))
 
 print("\n4. Short interjections still disappear")
 quick = [("Host", [(0, 30)]), ("Guest", [(10, 10.4)])]
