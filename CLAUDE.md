@@ -199,6 +199,14 @@ written, `internals.md` how the program works inside, `measurements.md`
 what was measured, `test_guidelines.md` why the rules about tests are
 what they are.
 
+**What you promise in conversation is an entry, not an intention.** Say
+"that goes on the list" and it goes on the list -- into
+`docs/notes/aufgaben.md`, in the same breath, before the next thing is
+started. A strand that reports gets written down because its report
+arrives; a sentence you said to somebody has nothing that arrives.
+Measured on 2.9.2026: six points promised in one night, none of them
+written, all six found only because he asked a second time.
+
 Explain a change in plain words, not in terms of the code: what it does
 and why. **Short**, in a comment as in a commit message. The road that
 led there goes in `docs/notes/`, not into the message. The skill `commit`

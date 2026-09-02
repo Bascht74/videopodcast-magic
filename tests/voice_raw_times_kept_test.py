@@ -5,9 +5,11 @@ The model itself is not run here -- it needs its own environment and
 minutes of computing. Checked is everything around it, where the
 mistakes would be: that segments are stored raw in the time of their
 own file, that widening and moving them is arithmetic and not a second
-measurement, that the worker keeps the rules that were measured, and
-that the samples come back as wide as they were asked for -- narrow
-for the separation, which holds a whole episode in memory at once.
+measurement, that a changed way of working it out is not served out of
+yesterday's store, that the worker keeps the rules that were measured,
+and that the samples come back as wide as they were asked for --
+narrow for the separation, which holds a whole episode in memory at
+once.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -66,6 +68,26 @@ check("nothing moves before zero", at_zero == 0.0,
       % (at_zero, vpm.SPEAKER_MARGIN_S))
 check("the edge is the measured 0.2 s", vpm.SPEAKER_MARGIN_S == 0.2,
       "SPEAKER_MARGIN_S %r s against 0.2 s" % (vpm.SPEAKER_MARGIN_S,))
+check("the closing distance is the measured 0.75 s",
+      vpm.SPEAKER_GAP_S == 0.75,
+      "SPEAKER_GAP_S %r s against 0.75 s" % (vpm.SPEAKER_GAP_S,))
+# Widening happens first, so a hole in the raw list has 0.4 s taken off
+# it before the distance is measured. The middle one is the point of
+# the three: 0.9 s raw is 0.5 s widened, which the old 0.25 s left
+# standing and the measured 0.75 s closes.
+holes = dict(vpm.speaker_segments_polish(
+    [("A", [(10.0, 12.0), (12.5, 14.0)]),
+     ("B", [(20.0, 22.0), (22.9, 24.0)]),
+     ("C", [(30.0, 32.0), (33.5, 35.0)])]))
+check("a hole of 0.5 s inside one speaker is closed",
+      holes["A"] == [(9.8, 14.2)],
+      "%s against [(9.8, 14.2)]" % (holes["A"],))
+check("and one of 0.9 s, which the old distance left open",
+      holes["B"] == [(19.8, 24.2)],
+      "%s against [(19.8, 24.2)]" % (holes["B"],))
+check("a hole of 1.5 s stays a change of speaker",
+      holes["C"] == [(29.8, 32.2), (33.3, 35.2)],
+      "%s against [(29.8, 32.2), (33.3, 35.2)]" % (holes["C"],))
 check("and the stored measurement is untouched",
       grouped[0][1] == [(1.0, 4.0), (4.1, 6.0)],
       "%s against [(1.0, 4.0), (4.1, 6.0)]" % (grouped[0][1],))
@@ -220,6 +242,48 @@ later = vpm.speaker_cache_key(one, "model1", 0)
 check("a changed file is measured again", early != later,
       "mtime 1000 %r, mtime 2000 %r, wanted two different ones"
       % (early, later))
+
+# The way the answer is worked out belongs in the key as much as the
+# file does. Eight minutes of computing is the sort of result nobody
+# repeats to check, so a changed reckoning that quietly handed back
+# yesterday's answer would never be noticed.
+kept_mix = vpm.speaker_mix_file
+# Read again here rather than reusing the one from the top: the file's
+# date was moved in between, so that one differs for a second reason
+# and would have said yes whatever the reckoning did.
+today = vpm.speaker_cache_key(one, "model1", 0)
+stored_key = vpm.speaker_cache_key(one, vpm.speaker_model_mark(), 0)
+vpm.speaker_cache_write(stored_key, grouped)
+check("a separation stored under this reckoning is read back",
+      vpm.speaker_split_stored(one) == grouped,
+      "%s against %s" % (vpm.speaker_split_stored(one), grouped))
+
+
+def another_mix(paths, made_of, folder=""):
+    """A different way of making the mix, so the reckoning has moved."""
+    return ""
+
+
+vpm.speaker_mix_file = another_mix
+del vpm._SPEAKER_RECIPE[:]
+moved = vpm.speaker_cache_key(one, "model1", 0)
+check("a changed reckoning is another measurement", today != moved,
+      "the reckoning of today %r, a changed one %r, wanted two "
+      "different ones" % (today, moved))
+check("and the answer stored under the old one is not read back",
+      vpm.speaker_split_stored(one) == [],
+      "%d voices came back, wanted 0"
+      % len(vpm.speaker_split_stored(one)))
+vpm.speaker_mix_file = kept_mix
+del vpm._SPEAKER_RECIPE[:]
+check("while the old reckoning still finds it",
+      vpm.speaker_split_stored(one) == grouped,
+      "%s against %s" % (vpm.speaker_split_stored(one), grouped))
+if vpm.speaker_cache_file(stored_key):
+    try:
+        os.remove(vpm.speaker_cache_file(stored_key))
+    except OSError:
+        pass
 
 print("\n8. Through the project file and back")
 d = {}
