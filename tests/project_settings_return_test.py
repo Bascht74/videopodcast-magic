@@ -88,10 +88,36 @@ QtWidgets.QFileDialog.getOpenFileName = staticmethod(
     lambda *a, **k: (project_path[0], ""))
 
 
+# Which window the test is working in, and always the same one.
+#
+# Closing a window does not destroy it: it stays a top level widget
+# carrying the same title, so from the second pass on two windows answer
+# to that name. Qt hands the top level widgets out of a hash, and which
+# of the two comes first changed between two steps of the same run: the
+# click went into one window and the title was read out of the other,
+# which of course never got one. Measured on 2.9.2026, twelve runs
+# beside each other: six red, every one of them on that line. Pinning
+# the window costs nothing and takes the choice out of the run.
+this_window = [None]
+past_windows = []
+
+
 def win():
-    for x in app.topLevelWidgets():
-        if "Video Podcast Magic" in x.windowTitle():
-            return x
+    """The window of this pass, picked once and then kept."""
+    if this_window[0] is None:
+        for x in app.topLevelWidgets():
+            if ("Video Podcast Magic" in x.windowTitle()
+                    and not any(x is old for old in past_windows)):
+                this_window[0] = x
+                break
+    return this_window[0]
+
+
+def window_next():
+    """A new pass begins, so the window of the last one is not it."""
+    if this_window[0] is not None:
+        past_windows.append(this_window[0])
+    this_window[0] = None
 
 
 def button(text):
@@ -175,8 +201,47 @@ found = {}
 
 n = [0]
 m = [0]
-patience = [0]
+patience = [0]        # rounds in a row in which nothing moved
+waited = [0]          # rounds this step has waited altogether
+moved = [None]        # what the window looked like the last time
 over = set()
+
+
+def pulse():
+    """What the window looks like now, in a handful of numbers.
+
+    A step that is waiting gives up when this has stopped changing, not
+    when a clock runs out. A machine that is merely slow goes on being
+    waited for as long as it is still building something, and one that
+    is stuck is given up on while there is time left over. Every number
+    here moves only because the program moved it.
+    """
+    w = win()
+    if w is None:
+        return ()
+    return (w.windowTitle(),
+            len(w.findChildren(QtWidgets.QWidget)),
+            tuple(t.rowCount() for t in tables()),
+            len(vpm_files()))
+
+
+def standstill():
+    """One round of waiting. True when nothing has moved for 21 of them."""
+    waited[0] += 1
+    now = pulse()
+    if now != moved[0]:
+        moved[0] = now
+        patience[0] = 0
+        return False
+    patience[0] += 1
+    return patience[0] > 20
+
+
+def on_again():
+    """A step got through: the next one starts its waiting from nothing."""
+    patience[0] = 0
+    waited[0] = 0
+    moved[0] = None
 
 
 class NotYet(Exception):
@@ -189,7 +254,8 @@ def needed(what, thing):
     Fixed waits are what makes a window test flap: fast here, slow on
     the builder, and a step that simply failed there would be a red run
     that means nothing. So a step that does not find what it needs is
-    run again, up to twenty times, before it is called red.
+    run again -- for as long as the window is still changing, and it is
+    called red only once nothing in it has moved for twenty-one rounds.
     """
     if thing is None or thing is False:
         raise NotYet(what)
@@ -402,13 +468,13 @@ def step():
             app.quit()
             return
         n[0] += 1
-        patience[0] = 0
+        on_again()
         QtCore.QTimer.singleShot(700, step)
     except NotYet as why:
-        patience[0] += 1
-        if patience[0] > 20:
-            bad.append("step %d waited for %s: 21 goes over about 10 s, "
-                       "and it never came" % (i, why))
+        if standstill():
+            bad.append("step %d waited %d rounds for %s, and through the "
+                       "last 21 of them nothing in the window moved"
+                       % (i, waited[0], why))
             over.add("the first pass")
             app.quit()
             return
@@ -451,7 +517,10 @@ vpm.gui()
 
 print("\n2. Open it again, in a window that knows nothing")
 # A second window, built from nothing: a value can stand in the file and
-# never reach the field that shows it.
+# never reach the field that shows it. The first one is still there --
+# closed, hidden, and answering to the same title -- so it is set aside
+# by name here rather than being told apart by luck.
+window_next()
 
 
 def again():
@@ -463,14 +532,16 @@ def again():
             needed("the Open project button",
                    button("Open project")).click()
         elif i == 1:
-            # The title is set when the opening has finished, and on a
-            # slower machine that is not yet true when this step runs --
-            # measured, one builder job of six went red on it while the
-            # other five were green. Through needed(), so the whole step
-            # waits instead of the clock, and it stands before the first
-            # check so nothing is printed twice on a repeat.
-            needed("the title bar to carry the project name",
-                   os.path.basename(project_path[0]) in win().windowTitle())
+            # What has to have happened before anything is judged. The
+            # file list is refilled at the end of the opening -- later
+            # than the title, the production name and the folder -- so
+            # waiting on it leaves all three still worth asking. Waiting
+            # on the title, as this did, was the step demanding what the
+            # check three lines down asks again, and that check could
+            # then not fall at all. What made a builder job red here was
+            # never a slow machine but the wrong window: see win().
+            needed("the opened project to fill the file list again",
+                   bool(vpm_files()))
             box = needed("the production field", production_field())
             check("the production name is back in the second window",
                   box.text() == WANTED["production"],
@@ -547,13 +618,13 @@ def again():
             app.quit()
             return
         m[0] += 1
-        patience[0] = 0
+        on_again()
         QtCore.QTimer.singleShot(700, again)
     except NotYet as why:
-        patience[0] += 1
-        if patience[0] > 20:
-            bad.append("second pass, step %d waited for %s: 21 goes over "
-                       "about 10 s, and it never came" % (i, why))
+        if standstill():
+            bad.append("second pass, step %d waited %d rounds for %s, and "
+                       "through the last 21 of them nothing in the window "
+                       "moved" % (i, waited[0], why))
             over.add("the second pass")
             app.quit()
             return
