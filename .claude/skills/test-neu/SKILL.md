@@ -432,6 +432,37 @@ fall into three shapes. Ask these of every judgement while you write it:
 **All three are invisible from the source.** Only a broken copy finds
 them -- which is why the counter-proof is the rule and not the polish.
 
+**5c. And the other direction: does the judgement forbid the repair?**
+The three shapes above check nothing. This one checks the wrong thing:
+it is green while a fault stands in the program and goes red the moment
+somebody fixes it.
+
+It is the more expensive of the two, because a blind judgement costs
+nobody anything and this one **costs the next person their
+improvement**. They read the head of the file, build what it asks for,
+see red, and believe they broke something.
+
+Found twice in one day, independently:
+
+* A judgement demanded that `apply_time_window` leave the timecode
+  behind. Five lines put that right, and the test fell -- **its own FAIL
+  line proving with its own numbers that the program was now correct.**
+  Fifteen lines further down the same file demanded the opposite for the
+  same thing.
+* A file whose docstring asks for a leverage-aware rule went red when
+  somebody wrote one, although it cut the edge miss from 54.4 % to
+  22.0 %.
+
+**The question to ask: if the thing this judgement describes were put
+right tomorrow, would the judgement still be true?** Where the answer is
+no, the judgement is describing today's state as though it were the
+contract. It says what the program does; it must not say what the
+program may never stop doing.
+
+**Where a judgement really does have to pin a fault** -- because
+something downstream depends on it -- that stands in the docstring, in
+words, so the next person reads it before the red line.
+
 **6. The counter-proof is done -- for each check on its own.** A version
 in which exactly this one thing is false, the test run against it, the
 red line read. Not one per file, one per check. Without it the check
