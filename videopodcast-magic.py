@@ -10607,7 +10607,11 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
               % (os.path.basename(file_path),
                  " + ".join(track["name"] for track in own)))
 
-    output_name = {os.path.abspath(cam["video"]): cam["name"] for cam in cameras}
+    # Through path_key, both sides: a camera whose path arrives in
+    # another shape than the same file in the video list loses the name
+    # given here, writes itself under the bare file name, and then
+    # misses its measured offset, which is kept under the file written.
+    output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
     # The target names are settled before the threads start. Without a name
     # of its own a camera would write over an original -- its own or another
     # camera's, which a second thread may be reading at that moment -- and
@@ -10616,7 +10620,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     sources = set(os.path.abspath(_v).lower() for _v, _i in videos)
     for _v, _info in videos:
         _v = os.path.abspath(_v)
-        stem = output_name.get(_v) or os.path.splitext(
+        stem = output_name.get(path_key(_v)) or os.path.splitext(
             os.path.basename(_v))[0]
         outdir = os.path.abspath(args.out) if args.out else os.path.dirname(_v)
         target = os.path.join(outdir, stem + ".mov")
@@ -14388,13 +14392,21 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         if e.get("width"):
             resolutions.add((e["width"], e["height"]))
         rates.add(round(float(e.get("fps") or 0), 3))
-    takes = {os.path.abspath(v): (e.get("duration") or 0.0)
-              for v, e in videos}
-    rate_of = {os.path.abspath(v): (e.get("fps") or 0.0) for v, e in videos}
+    # Every path that is a key here goes through path_key, and so does
+    # every path looked up in one: abspath settles the folder and not
+    # the shape, and one file in two shapes misses every lookup below.
+    # The fallback for the offset is 0.0 -- the start of the axis.
+    takes = {path_key(v): (e.get("duration") or 0.0) for v, e in videos}
+    rate_of = {path_key(v): (e.get("fps") or 0.0) for v, e in videos}
+    # The three that are kept under the rendered file, in the same shape
+    # as the two above.
+    measured = {path_key(p): s for p, s in (offsets or {}).items() if p}
+    delivered = {path_key(p): s for p, s in (lengths or {}).items() if p}
+    named = {path_key(p): n for p, n in (track_names or {}).items() if p}
     speaker_of = {}
     for track in tracks:
         if track.get("camera"):
-            speaker_of.setdefault(os.path.abspath(track["camera"]),
+            speaker_of.setdefault(path_key(track["camera"]),
                                     []).append(track["name"])
     # And the voices told apart under one recording, which have no track
     # of their own. Without them a camera the cut fills with a person
@@ -14403,7 +14415,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     for name, where in voices_of_file(
             getattr(args, "assign", "")
             or getattr(args, "speakers_from", "") or "").items():
-        speaker_of.setdefault(os.path.abspath(where), []).append(name)
+        speaker_of.setdefault(path_key(where), []).append(name)
 
     #----------------------------------------------------- Handover file
     marked_wide = marked_wide_shots(args)
@@ -14425,15 +14437,15 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # the same two people come out as one name here and another
         # there -- and both are read, one as a Resolve track and one
         # in the legend under the cut band.
-        who = sorted(speaker_of.get(v) or [])
+        who = sorted(speaker_of.get(path_key(v)) or [])
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
         # start of the axis instead of where it was measured -- so the
         # source is tried too, and what stays unknown gets said out loud.
-        shift = (offsets or {}).get(file)
+        shift = measured.get(path_key(file)) if file else None
         if shift is None:
-            shift = (offsets or {}).get(v)
+            shift = measured.get(path_key(v))
         if shift is None:
             shift = 0.0
             if offsets:
@@ -14451,13 +14463,13 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # still listed both.
             "track": (" + ".join(who) if who else cam["name"]),
             "speakers": who,
-            "audio_tracks": (track_names or {}).get(file, []),
+            "audio_tracks": (named.get(path_key(file), []) if file else []),
             # Where this camera sits: position in the file is programme
             # time minus this. The rendered file carries the timecode of
             # its own first frame, moved with whatever a window cut off
             # the head, and its frames count at this camera's own rate.
             "offset": round(camera_place((file, v), tc_start, shift,
-                                         rate_of.get(v) or fps), 4),
+                                         rate_of.get(path_key(v)) or fps), 4),
             # Not the camera's place: where the shared sound sits
             # against the delivered picture, with its sign turned round.
             # It is what camera_place falls back on where no file in the
@@ -14466,12 +14478,12 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # How long the delivered file is, not the recording: a
             # window makes it shorter, and the cut timeline drops every
             # shot that runs past what this says.
-            "duration": round((lengths or {}).get(file)
-                              or takes.get(v, 0.0), 3),
+            "duration": round((delivered.get(path_key(file)) if file else None)
+                              or takes.get(path_key(v), 0.0), 3),
             # This camera's own rate, not the Timeline's. Resolve counts
             # startFrame and endFrame in frames of the file, so the cut
             # needs one rate per file and not one for all of them.
-            "fps": own_frame_rate(rate_of.get(v) or fps),
+            "fps": own_frame_rate(rate_of.get(path_key(v)) or fps),
             # Two answers, and they are not the same question. "wide" is
             # what the colour and the mix source read: nobody is
             # assigned here. "wide_marked" is what somebody said in the
@@ -14632,13 +14644,16 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         timecode_string(tc_start if tc_start is not None else 0.0, fps), fps)
 
     # Who belongs to which camera, and which one is the wide shot?
-    output_name = {os.path.abspath(cam["video"]): cam["name"] for cam in cameras}
+    # Through path_key like the set of files below it: with two shapes
+    # of one path counting as two cameras, the speaker reaches the cut
+    # list under the bare file name instead of the camera's.
+    output_name = {path_key(cam["video"]): cam["name"] for cam in cameras}
     camera_of = {}
     taken = set()
     for track in tracks:
         if track.get("camera"):
             v = os.path.abspath(track["camera"])
-            camera_of[track["name"]] = output_name.get(v,
+            camera_of[track["name"]] = output_name.get(path_key(v),
                                                      os.path.basename(v))
             taken.add(path_key(track["camera"]))
     # And the voices told apart under a recording. They have no row of
@@ -14650,9 +14665,9 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             getattr(args, "assign", "")
             or getattr(args, "speakers_from", "") or "").items():
         v = os.path.abspath(where)
-        if v not in output_name:
+        if path_key(v) not in output_name:
             strangers.append((who, os.path.basename(v)))
-        camera_of[who] = output_name.get(v, os.path.basename(v))
+        camera_of[who] = output_name.get(path_key(v), os.path.basename(v))
         taken.add(path_key(where))
     # A name whose file is no camera of this run used to reach the cut
     # list as a camera of its own, invented from the file name, and
@@ -14664,8 +14679,7 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     marked_wide = marked_wide_shots(args)
 
     def camera_name_of(video):
-        return output_name.get(os.path.abspath(video),
-                               os.path.basename(video))
+        return output_name.get(path_key(video), os.path.basename(video))
 
     wides = wide_shots_of(
         [camera_name_of(v) for v, _ in videos],

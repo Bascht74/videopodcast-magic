@@ -44,13 +44,15 @@ with it the two name spaces: the cut list names a camera by the
 camera's name, the player by the track name, and they agree only where
 no camera carries a speaker.
 
-After that three cases the material of a single ordinary run cannot
+After that the cases the material of a single ordinary run cannot
 make, each one a place where two numbers that are one number here are
 two everywhere else: a camera running slower than the Timeline, where
 the frames of the file and the frames of the Timeline part company; a
 row of files carrying no timecode, where the shift the run measured
-itself is all that is left to place a camera by; and a rate whose
-timecode counts faster than the pictures run, where the frame a
+itself is all that is left to place a camera by; one file whose path
+is written two ways, where a handover comparing raw strings loses the
+measurement and puts the camera at the start of the axis; and a rate
+whose timecode counts faster than the pictures run, where the frame a
 timecode names and the frame a second is are not the same frame. Last
 the whole set once more at a second frame rate, read back the way a
 stranger reads it -- from the handover alone, the files beside it found
@@ -1163,6 +1165,74 @@ bad = [(c["camera"], c["offset"], want.get(c["camera"]))
 check("and where there was a timecode, the measurement was not the "
       "place", not bad,
       "" if not bad else "%s: offset %.4f is the measured %.4f" % bad[0])
+
+print("\n" + "=" * 66)
+print("ONE FILE WHOSE PATH IS WRITTEN TWO WAYS")
+print("=" * 66)
+# What the run measured, how long it delivered and what it called the
+# audio tracks are all kept under the file they belong to, and the
+# caller writes that path in the shape it reached him in. A folder and
+# straight back out again is one shape; a path carrying no drive letter
+# is another, and that is the shape a run on Windows hands over.
+# Compared as raw strings the two miss each other, and a missed
+# measurement is 0.0 -- the camera at the start of the axis with
+# seconds measured for it. The row with no timecode again, because
+# there the measurement is the whole of the answer.
+
+
+def other_shape(p):
+    """The same file, its folder written by way of a step and back."""
+    return os.path.join(os.path.dirname(p), os.curdir, os.path.basename(p))
+
+
+SHAPEDIR = tempfile.mkdtemp(prefix="onemoment_shape_")
+KEEP.append(SHAPEDIR)
+# Three values apart from each other and from anything the material
+# could give back: the delivered lengths are neither the 120 s the
+# files carry nor the 60 s of the run, so a fallback cannot pass for a
+# find.
+DELIVERED = {WIDE: 41.5, MOD: 42.25, KAND: 43.0}
+NAMED = {WIDE: ["Room"], MOD: ["Presenter"], KAND: ["Guest", "Presenter"]}
+vpm.write_handover(
+    make_args("Onemomentshape"), tracks, cameras, videos_at(FPS)[0],
+    SHAPEDIR, None, ref_clip, results=[WIDE, MOD, KAND],
+    cut=open_run.cut, segment_list=open_run.segs, length=LENGTH,
+    track_names={other_shape(p): n for p, n in NAMED.items()},
+    single_files={},
+    offsets={other_shape(p): s for p, s in MEASURED.items()},
+    lengths={other_shape(p): s for p, s in DELIVERED.items()}, words=())
+SHAPEFILE = os.path.join(
+    SHAPEDIR, vpm.safe_filename("Onemomentshape") + "_resolve.json")
+shaped = (json.load(open(SHAPEFILE, encoding="utf-8"))
+          if os.path.exists(SHAPEFILE) else {"cameras": []})
+check("a handover is written from paths in the other shape too",
+      os.path.exists(SHAPEFILE) and len(shaped["cameras"]) == 3,
+      "%d cameras in %s" % (len(shaped["cameras"]),
+                            os.path.basename(SHAPEFILE)))
+want_shift = {stem_of(p): v for p, v in MEASURED.items()}
+bad = [(c["camera"], c["offset"], want_shift.get(c["camera"]))
+       for c in shaped["cameras"]
+       if abs(float(c["offset"]) - want_shift.get(c["camera"], 1e9)) > FRAME]
+check("the measured shift is found however the path was written",
+      not bad and len(shaped["cameras"]) == 3,
+      "%s: offset %.4f, measured %.4f" % bad[0] if bad
+      else "%d cameras of 3" % len(shaped["cameras"]))
+want_len = {stem_of(p): v for p, v in DELIVERED.items()}
+bad = [(c["camera"], c["duration"], want_len.get(c["camera"]))
+       for c in shaped["cameras"]
+       if abs(float(c["duration"]) - want_len.get(c["camera"], 1e9)) > 1e-6]
+check("and so is the length the run delivered under it",
+      not bad and len(shaped["cameras"]) == 3,
+      "%s: duration %.3f, delivered %.3f" % bad[0] if bad
+      else "%d cameras of 3" % len(shaped["cameras"]))
+want_names = {stem_of(p): v for p, v in NAMED.items()}
+bad = [(c["camera"], c.get("audio_tracks"), want_names.get(c["camera"]))
+       for c in shaped["cameras"]
+       if list(c.get("audio_tracks") or ()) != want_names.get(c["camera"])]
+check("and the names of the audio tracks it wrote",
+      not bad and len(shaped["cameras"]) == 3,
+      "%s: audio_tracks %s, handed in %s" % bad[0] if bad
+      else "%d cameras of 3" % len(shaped["cameras"]))
 
 print("\n" + "=" * 66)
 print("A RATE WHOSE TIMECODE COUNTS FASTER THAN THE MATERIAL RUNS")
