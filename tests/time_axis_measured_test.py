@@ -143,11 +143,11 @@ check("paths into the void -> no crash", d == {},
 
 print("\n6. The interface really calls this path")
 source = open(SCRIPT, encoding="utf-8").read()
+PASSED_ON = "return axis_with_blocks(paths, real_tc, HOP, blocks_of)"
 check("axis_measure only passes it on",
-        "return measure_time_axis(paths, real_tc, HOP)" in source,
+        PASSED_ON in source,
         "the line stands %d times in %d characters of source"
-        % (source.count("return measure_time_axis(paths, real_tc, HOP)"),
-           len(source)))
+        % (source.count(PASSED_ON), len(source)))
 in_source = source.count("reference = max(envelopes, "
         "key=lambda p: len(envelopes[p]))")
 check("the computation is no longer in gui()", in_source == 1,

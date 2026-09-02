@@ -15390,6 +15390,22 @@ def files_far_shorter(some, length_of):
     return sorted(out, key=lambda p: length_of[p])
 
 
+def axis_text(data):
+    """The line under the axis: how it was found, and what did not fit.
+
+    Read off the finished answer rather than put together beside it, so
+    the count and the list it counts cannot drift apart.
+    """
+    text = (T('time axis measured and tied to the timecode')
+            if (data or {}).get("absolute")
+            else T('time axis measured -- jumps land at the same point'))
+    weak = (data or {}).get("weak") or ()
+    if weak:
+        text += TN(len(weak), ', %d file does not fit',
+                   ', %d files do not fit') % len(weak)
+    return text
+
+
 def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     """Determine how all files sit relative to each other.
 
@@ -15498,8 +15514,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
     # envelope holds one value every HOP milliseconds.
     nowhere = files_with_no_place(weak, clocks)
     brief = files_far_shorter(
-        nowhere,
-        dict((p, len(e) * HOP / 1000.0) for p, e in envelopes.items()))
+        nowhere, dict((p, len(e) * HOP / 1000.0)
+                      for p, e in envelopes.items()))
     if len(axis) < 2:
         # No axis, but the measurement did happen and knows which files
         # it could not place. Thrown away here, the one file that fits
@@ -15519,19 +15535,80 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
         middle = offsets[len(offsets) // 2]
         for p in axis:
             axis[p] += middle
-    text = (T('time axis measured and tied to the timecode') if absolute
-            else T('time axis measured -- jumps land at the same point'))
-    if weak:
-        text += TN(len(weak), ', %d file does not fit',
-                   ', %d files do not fit') % len(weak)
     # Not before here: everything above reads the file itself, and the
     # timecode is asked for under the name that was passed in.
     axis = dict((path_key(p), t) for p, t in axis.items())
     speed = dict((path_key(p), b) for p, b in clock_speed.items()
                  if path_key(p) in axis)
-    return {"axis": axis, "clock": speed, "absolute": absolute,
-            "weak": weak, "unplaceable": lost, "brief": brief,
-            "no_place": nowhere}, text
+    answer = {"axis": axis, "clock": speed, "absolute": absolute,
+              "weak": weak, "unplaceable": lost, "brief": brief,
+              "no_place": nowhere}
+    return answer, axis_text(answer)
+
+
+def envelope_seconds(path, HOP=5.0):
+    """How long a file runs, out of the envelope already measured.
+
+    No second reading of the file: the curve is in memory or in the
+    cache by the time the axis is worked out, and it holds one value
+    every HOP milliseconds. 0.0 where there is none.
+    """
+    try:
+        return len(video_envelope(path, HOP, 4000)) * HOP / 1000.0
+    except Exception:
+        return 0.0
+
+
+def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
+    """Put a continuation behind its head block.
+
+    A recording is one recording, and the grouping settles where its
+    parts lie: the head's place plus what runs before. *blocks* is
+    {head: [head, second, ...]} and is the whole of the distinction --
+    a block taken out and put back in on its own is not in there, so it
+    is a recording of its own, measured and free to fail.
+    """
+    axis = (data or {}).get("axis") or {}
+    speed = (data or {}).get("clock") or {}
+    put = {}
+    for row in (blocks or {}).values():
+        keys = [path_key(p) for p in row or ()]
+        if len(keys) < 2 or keys[0] not in axis:
+            continue
+        at = axis[keys[0]]
+        for before, key in zip(row, keys[1:]):
+            runs = float(length_of(before) or 0.0)
+            if runs <= 0.0:
+                # Without the length of the block in front there is no
+                # place to work out. Guessing one would put the rest of
+                # the recording somewhere and call it measured.
+                break
+            at += runs
+            put[key] = (at, speed.get(keys[0], 1.0))
+    if not put:
+        return data
+    axis.update((k, v[0]) for k, v in put.items())
+    speed.update((k, v[1]) for k, v in put.items())
+    data["axis"], data["clock"] = axis, speed
+    return data
+
+
+def axis_with_blocks(paths, tc_of=lambda p: None, HOP=5.0, blocks=None,
+                     length_of=envelope_seconds):
+    """Measure a recording made of blocks as one recording.
+
+    The head is measured like any other file, the continuations are not
+    measured at all: they are taken to fit, and their place follows
+    from the head. So a tail of a few minutes can no longer turn down
+    an hour of material -- and whoever wants one weighed on its own
+    takes it out of the recording and puts it back in as a file, which
+    makes it a recording of its own and measured like any other.
+    """
+    tails = set(path_key(p) for row in (blocks or {}).values()
+                for p in (row or ())[1:])
+    data, text = measure_time_axis(
+        [p for p in paths if path_key(p) not in tails], tc_of, HOP)
+    return blocks_after_their_head(data, blocks, length_of), text
 
 
 def file_fingerprint(file_path):
@@ -15617,6 +15694,39 @@ def axis_still_valid(d, paths, fingerprint=file_fingerprint):
         return None
     return {"axis": axis, "clock": speed, "weak": [],
             "absolute": bool((d or {}).get("timeline_absolute"))}
+
+
+def axis_worth_measuring(files, every, state, fingerprint=file_fingerprint):
+    """Whether the time axis still has something new to say.
+
+    The tables ask again on every rebuild, the answer moves the Kind of
+    a file with no place, and that rebuilds the tables. Material that
+    has not changed and files an answer has reached leave nothing to
+    measure. The list handed in is no mark: a file whose Kind is not a
+    camera drops out of it. The question is noted on *state*, except
+    while one is running -- that answer is about the older list.
+    """
+    mark = frozenset(tuple(fingerprint(p) or (p, 0, 0)) for p, _a in files)
+    want = set(path_key(p) for p in every)
+    if (state.get("axis_answered") == mark
+            and want <= (state.get("axis_covered") or set())):
+        return False
+    if not state.get("axis_running"):
+        state["axis_asked"], state["axis_asking"] = mark, want
+    return True
+
+
+def axis_answer_kept(state):
+    """Note what the answer just given was about.
+
+    Material that changed meanwhile starts the list of files reached
+    afresh; otherwise two questions over one unchanged set add up.
+    """
+    if state.get("axis_answered") != state.get("axis_asked"):
+        state["axis_covered"] = set()
+    state["axis_answered"] = state.get("axis_asked")
+    state["axis_covered"] = ((state.get("axis_covered") or set())
+                             | (state.get("axis_asking") or set()))
 
 
 def recordings_text(chains, file_count):
@@ -26183,6 +26293,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.tc0 = None            # wall clock time at file start
             self.fps = 30.0
             self.failed = None
+            # What the line above the picture says when nothing is wrong,
+            # so a refusal written over it can be taken back again.
+            self._title_plain = None
             position = QtWidgets.QVBoxLayout(self)
             position.setContentsMargins(0, 0, 0, 0)
             position.setSpacing(6)
@@ -26454,10 +26567,16 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 else:
                     seconds = old_one_spot
                 seconds = max(0.0, seconds)
-            self._title_show("%s%s" % (os.path.basename(file_path),
-                                         T('   --   audio only') if audio_file
-                                         else ""))
+            self._title_plain = "%s%s" % (os.path.basename(file_path),
+                                          T('   --   audio only')
+                                          if audio_file else "")
+            self._title_show(self._title_plain)
             self.extern.hide()
+            # And the picture back: a refused format takes the surface
+            # away, and that state belonged to the player rather than to
+            # the file -- one such file cost every later one its picture,
+            # sound running and nothing to be seen.
+            self.picture_show()
             self.stack.setVisible(not audio_file)
             # Remember first, then set: setSource can fire "loaded"
             # immediately, and that clears the target position.
@@ -26673,10 +26792,36 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 T('Fast forward, %g times speed') % self._speed if fast
                 else T('Fast forward'))
 
+        def picture_show(self):
+            """Put up the page the stack calls the current one.
+
+            Which of the two carries the picture is the stack's answer;
+            this only undoes a page hidden behind its back.
+            """
+            here = self.stack.currentWidget()
+            if here is not None:
+                here.show()
+
+        def trouble_gone(self):
+            """Take the refusal back once pictures arrive again.
+
+            It is an answer about one attempt, not about the player, so
+            a picture running again settles it -- without this only
+            loading another file did, and the button stood on beside it.
+            """
+            if not self.extern.isVisible():
+                return
+            self.extern.hide()
+            self.picture_show()
+            if self._title_plain is not None:
+                self._title_show(self._title_plain)
+
         def frame_arrived(self, frames):
             """Qt delivered a frame; show it during playback."""
-            if (self._should_play and frames is not None
-                    and frames.isValid()
+            if frames is None or not frames.isValid():
+                return
+            self.trouble_gone()
+            if (self._should_play
                     and self.stack.currentWidget() is not self.video):
                 self.stack.setCurrentWidget(self.video)
 
@@ -31262,7 +31407,7 @@ def gui():
 
     def axis_measure(paths):
         """Determine how all files sit relative to each other."""
-        return measure_time_axis(paths, real_tc, HOP)
+        return axis_with_blocks(paths, real_tc, HOP, blocks_of)
 
     def axis_file():
         """Return the project file, even before a name is settled.
@@ -31441,13 +31586,13 @@ def gui():
         for row, _nv, _cv in assign_lines:
             if row[0] not in every:
                 every.append(row[0])
-        without = [p for p in every if real_tc(p) is None]
-        if not without or len(every) < 2:
+        if len(every) < 2 or all(real_tc(p) is not None for p in every):
+            return
+        if not axis_worth_measuring(files, every, state):
             return
         remembered = axis_read(every)
         if remembered:
-            axis_present(remembered, "",
-                     remember=False)
+            axis_present(remembered, "", remember=False)
             return
         if state.get("axis_running"):
             # A file added while the measurement runs: the answer on its
@@ -31467,6 +31612,7 @@ def gui():
 
     def axis_present(data, text, remember=True):
         state["axis_running"] = False
+        axis_answer_kept(state)
         plan.done("axis")
         axis = (data or {}).get("axis") or {}
         state["axis"] = axis
@@ -31500,9 +31646,8 @@ def gui():
         player_follow_up()
         # Taken out before it is asked again, or a stored axis coming
         # back through here would ask a third time.
-        again = state.pop("axis_again", None)
-        if again is not None:
-            axis_kick_off(again)
+        if state.get("axis_again") is not None:
+            axis_kick_off(state.pop("axis_again"))
 
     bridge.axis.connect(axis_present)
 
