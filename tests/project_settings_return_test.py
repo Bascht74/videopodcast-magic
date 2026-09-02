@@ -463,6 +463,14 @@ def again():
             needed("the Open project button",
                    button("Open project")).click()
         elif i == 1:
+            # The title is set when the opening has finished, and on a
+            # slower machine that is not yet true when this step runs --
+            # measured, one builder job of six went red on it while the
+            # other five were green. Through needed(), so the whole step
+            # waits instead of the clock, and it stands before the first
+            # check so nothing is printed twice on a repeat.
+            needed("the title bar to carry the project name",
+                   os.path.basename(project_path[0]) in win().windowTitle())
             box = needed("the production field", production_field())
             check("the production name is back in the second window",
                   box.text() == WANTED["production"],
