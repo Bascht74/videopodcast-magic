@@ -62,6 +62,14 @@ listet die Kameras, danach zwei Sonderfälle:
 - **nicht verwenden**: bleibt ganz außen vor, der Sprechername wird
   grau. Für eine Aufnahme, deren Video noch fehlt.
 
+Das Auswahlfeld steht mit dem Häkchen **Multitrack** da und ohne es: zu
+welcher Kamera eine Aufnahme gehört, ist so oder so dieselbe Frage, und
+der Kameraschnitt stellt sie mit gesetztem Häkchen wie ohne. Das Häkchen
+anzuklicken nimmt darum nichts weg -- eine von Hand gewählte Kamera
+bleibt stehen. Nur wo eine Aufnahme ihre Stimmen als eigene Zeilen
+zeigt, weicht das Feld: dann tragen die Zeilen darunter die Kameras, und
+die Zelle der Aufnahme sagt das grau.
+
 **Sprechername** startet leer, mit dem aus dem Dateinamen geratenen
 Namen grau daneben. Tippt man nichts, gilt der Vorschlag -- aber nur,
 wenn er mit einem Buchstaben beginnt, in irgendeinem Alphabet, nicht
@@ -215,6 +223,15 @@ Beide Grenzen nehmen diese Angaben:
 
 Die Knöpfe bleiben gesperrt, solange die gemeinsame Zeitachse fehlt.
 Danach gelten sie für alle Dateien gleich, auch für die ohne Timecode.
+
+**Eine Uhrzeit geht auch dann, wenn die längste Kamera keine Uhr
+trägt.** In ihr wird das Fenster gezählt, aber sie muss nicht die sein,
+die die Tageszeit kennt: die Achse hängt dann an den Uhren der übrigen
+Dateien, und der Lauf sagt, an welchen er sie gehängt hat und worauf ihr
+erstes Bild damit steht. Erst wenn keine einzige Datei auf der Achse
+eine Uhr trägt, hat eine Uhrzeit nichts, worüber sie sich umrechnen
+ließe; dann sagt der Lauf das und hält an, und es geht nur noch eine
+Angabe ab Fensteranfang — `+12:30`, `90`, `-30`.
 
 ### Wieviel von jeder Kamera geschrieben wird
 

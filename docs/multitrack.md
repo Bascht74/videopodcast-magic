@@ -61,6 +61,14 @@ cases:
 - **do not use**: out entirely, and the speaker name goes grey. For a
   recording whose video is still missing.
 
+The selector is there with the **Multitrack** tick and without it: which
+camera a recording belongs to is the same question either way, and the
+camera cut asks it whether the tick is set or not. Clicking the tick
+therefore takes nothing away -- a camera picked by hand stays picked.
+Only where a recording shows its voices as rows of their own does the
+selector give way: the rows below carry the cameras then, and the
+recording's own cell says so in grey.
+
 **Speaker name** starts empty, with the name guessed from the file name
 beside it in grey. Type nothing and the guess counts -- but only if it
 begins with a letter, in any alphabet, not just in a to z. A guess like
@@ -204,6 +212,15 @@ Both boundaries take these entries:
 
 The buttons stay locked until the common time axis is there. After that
 they hold for every file alike, including those without a timecode.
+
+**A clock time works even where the longest camera carries no clock.**
+It is the longest camera the window is counted in, and it need not be
+the one that knows the time of day: the axis is hung on the clocks of
+the other files, and the run says which ones it took and what they make
+the first frame of that camera read. Only where not one file on the axis
+carries a clock does a clock time have nothing to be converted through;
+the run says so and stops, and then only a value from the window start
+works -- `+12:30`, `90`, `-30`.
 
 ### How much of each camera is written
 

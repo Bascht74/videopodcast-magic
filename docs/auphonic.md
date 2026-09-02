@@ -47,7 +47,9 @@ the process list on that way either. The program reads it back to see
 that it arrived. There is no second way round: handing it over as an
 argument would put it where everybody on the machine can read it, so
 where the Keychain does not take it, nothing is stored and a line says
-why. The Windows Registry path has no such question.
+why. The tick comes off again with it, so it never stands there green
+over a key that is gone at the next start. The Windows Registry path has
+no such question.
 
 A locked keychain is looked at before anything is handed over. While it
 is shut, the tick **Save in Keychain** is grey, and under it stands, in

@@ -25,6 +25,112 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.28.0-beta] - 2026-09-02
+
+### Added
+
+- A Timecode as In point or Out point works even where the reference
+  camera carries no clock of its own. The axis is hung on the clocks of
+  the files that do have one, and the run says which those were and what
+  the reference camera's first frame reads. Before, such a project could
+  not be started at all.
+- "Create Resolve project" can be pressed after opening a project whose
+  output folder holds the handover of an earlier run. The note on that
+  sheet had been offering this way for a while; now the button follows.
+
+### Changed
+
+- The column "belongs to" is there with and without "Multitrack". Which
+  camera a recording belongs to decides the cut, not the number of
+  delivered tracks, and the run has never needed the tick for it.
+- After a run, the cut preview shows the speakers the run measured and
+  says so in its heading. It used to work them out again from the raw
+  recordings and could arrive at a different film.
+
+### Removed
+
+- The button "Measure speakers now" is gone where a run's measurement is
+  in hand. There it could change nothing, because the run's result wins
+  anyway.
+
+### Fixed
+
+- A click on "Multitrack" cleared every camera assignment made by hand,
+  in both directions, and wrote "no camera of its own" into the project.
+  From then on no camera had a speaker, so every camera was the wide shot
+  and "Content" could not be chosen any more. The tick now leaves the
+  assignment alone.
+- Where saving the API key failed, the box stayed ticked, the button went
+  green, and the key was gone at the next start -- the refusal deleted the
+  key that was already there. The box now takes itself back and says what
+  the store answered.
+- The cut preview counted more minutes than the timeline is long: 1080
+  seconds over a window of 600. It counts once per moment of the timeline
+  now, not once per speaker.
+- The note on a file whose frame count and track duration disagree said
+  picture and camera sound drift apart. Measured, they do not. It now
+  names the rate, and that an editing program leaves out about one frame
+  every so many seconds.
+- The camera sound was read from a different moment than its picture
+  begins, where a file says its audio track starts late. The cut then
+  carried the sound ahead of the picture -- measured, 1.4 frames on one
+  camera. The track's own start is read out of the file now.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Ein Timecode als In- oder Out-Punkt geht auch dort, wo die
+  Referenzkamera keine eigene Uhr trägt. Die Achse hängt dann an den
+  Uhren der Dateien, die eine haben, und der Lauf nennt sie und sagt,
+  worauf das erste Bild der Referenzkamera steht. Vorher ließ sich ein
+  solches Projekt gar nicht starten.
+- „Resolve-Projekt anlegen" läßt sich drücken, nachdem ein Projekt
+  geöffnet wurde, in dessen Ausgabeordner die Übergabedatei eines
+  früheren Laufs liegt. Der Hinweis auf diesem Blatt bot den Weg schon
+  an; jetzt folgt ihm der Knopf.
+
+### Geändert
+
+- Die Spalte „gehört zu" ist mit und ohne „Multitrack" da. Welcher
+  Kamera eine Aufnahme gehört, entscheidet über den Schnitt und nicht
+  über die Zahl der abgelieferten Spuren, und der Lauf hat den Haken
+  dafür nie gebraucht.
+- Nach einem Lauf zeigt die Schnittvorschau die Sprecher, die der Lauf
+  gemessen hat, und sagt es in ihrer Überschrift. Vorher rechnete sie
+  sie aus den Rohaufnahmen neu und kam dabei auf einen anderen Film.
+
+### Entfernt
+
+- Der Knopf „Sprecher jetzt messen" ist fort, wo die Messung eines Laufs
+  vorliegt. Dort konnte er nichts ändern, weil ohnehin das Ergebnis des
+  Laufs gilt.
+
+### Behoben
+
+- Ein Klick auf „Multitrack" löschte jede von Hand gesetzte
+  Kamerazuordnung, in beide Richtungen, und schrieb „ohne eigene Kamera"
+  ins Projekt. Danach hatte keine Kamera mehr einen Sprecher, also war
+  jede Kamera Weitwinkel und „Inhalt" nicht mehr wählbar. Der Haken läßt
+  die Zuordnung jetzt stehen.
+- Wo das Speichern des API-Schlüssels fehlschlug, blieb der Haken
+  gesetzt, der Knopf wurde grün, und beim nächsten Start war der
+  Schlüssel weg -- die Ablehnung löschte den, der schon da war. Der Haken
+  nimmt sich jetzt selbst zurück und sagt, was der Speicher geantwortet
+  hat.
+- Die Schnittvorschau zählte mehr Minuten, als die Zeitleiste lang ist:
+  1080 Sekunden auf ein Fenster von 600. Sie zählt jetzt je Augenblick
+  der Zeitleiste, nicht je Sprecher.
+- Der Hinweis zu einer Datei, deren Bildzahl und Spurdauer auseinander
+  liegen, sagte, Bild und Kameraton liefen auseinander. Gemessen tun sie
+  das nicht. Er nennt jetzt die Rate und sagt, daß ein Schnittprogramm
+  etwa alle so viele Sekunden ein Bild wegläßt.
+- Der Kameraton wurde von einem anderen Augenblick an gelesen, als sein
+  Bild beginnt, wo eine Datei sagt, daß ihre Tonspur später anfängt. Der
+  Schnitt trug den Ton dann vor dem Bild her -- gemessen 1,4 Bilder bei
+  einer Kamera. Der eigene Anfang der Spur wird jetzt aus der Datei
+  gelesen.
+
 ## [2.27.0-beta] - 2026-09-02
 
 ### Added

@@ -13,8 +13,43 @@ and builds the timelines. It writes the run along to
 
 The button works on the handover file and sends the camera-cut values
 from the fields along. So it recomputes the cut list with what stands
-there now. If In point or Out point have changed since, it stops. The
-audio in the videos belongs to the old window.
+there now. Who speaks when is not recomputed: that stays as the run
+measured it, and the tooltip on the button says so. If In point or Out
+point have changed since, it stops. The audio in the videos belongs to
+the old window.
+
+**Two things put a handover into the button's hands.** One is a run in
+this window: what it wrote is this material by definition, and the
+button is live the moment the run is done. The other is **Open project
+...**, which looks for one in the output folder and beside the project
+file -- and takes it only where it names **exactly the cameras this
+project holds**. A handover out of another production, or out of a round
+over fewer cameras, is passed over as if it were not there: a cut built
+out of it looks exactly like a fresh one and is not. So a project can be
+opened and **Create Resolve project** pressed without running anything
+again.
+
+Nothing else hands one over. Dropping files in and picking an output
+folder that already holds a handover does not: choosing a folder clears
+what the button had, and nothing looks in it. Where the button is not
+usable, the reason stands at it:
+
+- **That needs the handover file from a run, and there is none.** No run
+  in this window, and no project opened whose handover fits. Press
+  **Start**.
+- **The Resolve interface is not where it should be.** Resolve is not
+  installed where the program looks; the box **Connection to Resolve**
+  on the **Resolve cut** tab says more.
+- **The run is still going.** Wait for it; the button frees itself when
+  the run is done.
+
+The match over the cameras is asked on opening, and only there. A camera
+whose **Kind** is changed to intro, outro or **ignore this video** after
+a run therefore costs nothing straight away -- the button keeps working
+on the handover of the run over all of them. It costs it the next time
+the project is opened: the file then names one camera more than the
+project holds, and is passed over. Press **Start** again for the cameras
+as they stand now.
 
 The program asks whether Resolve answers by itself, in the background,
 at the first look at the **Resolve cut** tab. That tab says the answer
@@ -476,6 +511,10 @@ backup copy.
   left it out of the handover file; it names it as it writes.
   Give the file a timecode that fits the other recordings and run
   again, or bring it into Resolve by hand.
+- **The button is grey right after a project was opened, and there is a
+  handover in the folder.** It names other cameras than the project
+  holds -- another production, or a round before a camera was added or
+  set to intro. Press **Start** again.
 - **The output folder holds one file per shot instead of one episode.**
   Resolve refused one file per delivery, and the log says so under
   **Render job**. Set the delivery back to a single file at the render

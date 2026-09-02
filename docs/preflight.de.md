@@ -69,9 +69,15 @@ jedem Bild einen Zeitstempel ablegen und die Abstände schwanken lassen;
 Telefone tun das, wenn es dunkel wird. In der Datei steht trotzdem eine
 feste Nennrate. Der Bericht sagt, welcher von zwei Fällen vorliegt:
 
-- **Gleichmäßig daneben.** Die Datei sagt 30, in Wirklichkeit sind es
-  konstant 29,98. Das ist Uhrengang wie beim Ton. Der Ton wird beim
-  Ausrichten ohnehin auf das Bild gezogen, der Bericht erwähnt es nur.
+- **Gleichmäßig daneben.** Die Rate bleibt gleich, sie ist nur nicht
+  die, die in der Datei steht. Die Zeile nennt beide -- die gemessene
+  gegen die angegebene -- und wie viele Bilder das auf derselben Länge
+  ausmacht. Darunter steht, was ein Schnittprogramm daraus macht: es
+  legt die Bilder mit der angegebenen Rate ab und lässt dafür alle paar
+  Sekunden eines weg, so dass die Datei nicht länger wird und Bild und
+  Kameraton zusammenbleiben. Das ist Uhrengang wie beim Ton, und der Ton
+  wird beim Ausrichten ohnehin auf das Bild gezogen; der Bericht erwähnt
+  es nur.
 - **Ungleichmäßig.** Die Bildabstände ändern sich mitten in der
   Aufnahme, und über den Ton lässt sich das *nicht* einfangen. Wenn dann
   auch die Stützstellen beim Ausrichten streuen, hilft nur die Wandlung

@@ -151,8 +151,9 @@ nothing: it takes the recognition macOS brings with it, and the other
 way only where a run has already put it there.
 
 A recording that shows voices comes up open, with a triangle in front
-of it that folds it away. Open, its own **belongs to** stays empty and
-the rows underneath carry the assignment; folded away, it says there
+of it that folds it away. Its own **belongs to** says in grey **the
+voices below carry the cameras**, and the rows underneath carry
+the assignment; fold them away and it says there
 what folding takes off the screen -- the cameras: **on 2 cameras**, and
 **on 1 camera, 1 without** where a voice has none yet. The number of
 voices is not repeated there, because the **Speakers** cell of the same

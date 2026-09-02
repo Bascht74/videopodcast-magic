@@ -13,9 +13,46 @@ die fertigen Dateien und baut die Timelines. Der Ablauf wird als
 
 Der Knopf arbeitet auf der Übergabedatei und schickt die Werte für den
 Kameraschnitt aus den Feldern mit. Die Schnittliste wird also mit dem
-gerechnet, was jetzt dort steht. Wenn sich In-Punkt oder Out-Punkt
-inzwischen geändert haben, bricht er ab. Der Ton in den Videos gehört
-dann zum alten Fenster.
+gerechnet, was jetzt dort steht. Wer wann spricht, wird dabei nicht neu
+gerechnet: das bleibt so, wie der Lauf es gemessen hat, und der Hinweis
+am Knopf sagt es. Wenn sich In-Punkt oder Out-Punkt inzwischen geändert
+haben, bricht er ab. Der Ton in den Videos gehört dann zum alten
+Fenster.
+
+**Zweierlei gibt dem Knopf eine Übergabedatei in die Hand.** Das eine
+ist ein Lauf in diesem Fenster: was er geschrieben hat, ist dieses
+Material und nichts anderes, und der Knopf ist bedienbar, sobald der
+Lauf durch ist. Das andere ist **Projekt öffnen ...** — dabei sucht das
+Programm im Ausgabeordner und neben der Projektdatei und nimmt nur eine,
+die **genau die Kameras dieses Projekts** nennt. Eine aus einer anderen
+Produktion oder aus einer Runde über weniger Kameras übergeht es, als
+läge sie nicht da: ein Schnitt daraus sieht genauso aus wie ein frischer
+und ist es nicht. Ein Projekt lässt sich also öffnen und
+**Resolve-Projekt anlegen** drücken, ohne noch einmal etwas laufen zu
+lassen.
+
+Sonst gibt nichts eine her. Dateien hineinziehen und einen
+Ausgabeordner wählen, in dem schon eine liegt, genügt nicht: das Wählen
+des Ordners nimmt dem Knopf, was er hatte, und niemand sieht dort nach.
+Wo der Knopf nicht bedienbar ist, steht der Grund an ihm:
+
+- **Dafür fehlt die Übergabedatei aus einem Lauf.** Kein Lauf in diesem
+  Fenster, und kein geöffnetes Projekt, dessen Übergabe passt. Auf
+  **Start** drücken.
+- **Die Resolve-Schnittstelle liegt nicht da, wo sie sein müsste.**
+  Resolve ist nicht dort installiert, wo das Programm nachsieht; der
+  Kasten **Verbindung zu Resolve** auf dem Reiter **Resolve-Schnitt**
+  sagt mehr dazu.
+- **Der Lauf läuft noch.** Abwarten; wenn er durch ist, wird der Knopf
+  von selbst wieder frei.
+
+Der Abgleich über die Kameras wird beim Öffnen gefragt und nur dort.
+Wird der **Typ** einer Kamera nach einem Lauf auf Vorspann, Abspann oder
+**Video ignorieren** gestellt, kostet das also sofort nichts — der Knopf
+arbeitet weiter auf der Übergabe des Laufs über alle. Es kostet sie beim
+nächsten Öffnen des Projekts: die Datei nennt dann eine Kamera mehr, als
+das Projekt hat, und wird übergangen. Dann noch einmal **Start**
+drücken, für die Kameras, wie sie jetzt stehen.
 
 Das Programm fragt beim ersten Blick auf den Reiter **Resolve-Schnitt**
 von selbst nach, im Hintergrund, ob Resolve antwortet. Der Reiter sagt
@@ -504,6 +541,11 @@ keine Sicherungskopie an.
   Schreiben nennt er sie. Der Datei einen Timecode geben, der zu
   den übrigen Aufnahmen passt, und noch einmal laufen lassen -- oder
   sie von Hand nach Resolve holen.
+- **Der Knopf ist gleich nach dem Öffnen eines Projekts grau, und im
+  Ordner liegt eine Übergabedatei.** Sie nennt andere Kameras, als das
+  Projekt hat -- eine andere Produktion, oder eine Runde, bevor eine
+  Kamera dazukam oder auf Vorspann gestellt wurde. Noch einmal **Start**
+  drücken.
 - **Im Ausgabeordner liegt je Einstellung eine Datei statt einer
   Folge.** Resolve hat eine Datei je Ausgabe abgelehnt, und das
   Protokoll sagt es unter **Renderauftrag**. Die Ausgabe in Resolve am

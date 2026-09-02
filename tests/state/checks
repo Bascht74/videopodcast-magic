@@ -45,7 +45,7 @@ cut_both_are_shown	18
 cut_box_fits_the_picture	13
 cut_colour_per_camera	32
 cut_jingle_over_start	18
-cut_list_rebuilt	7
+cut_list_rebuilt	9
 cut_no_wide_silences	21
 cut_note_moves_no_shot	11
 cut_note_says_who_speaks	17
@@ -60,10 +60,11 @@ cut_player_offset_used	12
 cut_player_prepared_used	36
 cut_player_right_file	19
 cut_player_speeds_up	10
-cut_preview_is_the_run	15
+cut_preview_is_the_run	17
 cut_rebuild_keeps_all	26
 cut_right_camera	65
 cut_rules_hold	66
+cut_speech_time_fits	6
 cut_two_stay_two	15
 cut_voice_on_its_camera	18
 cut_wide_colour_apart	11
@@ -101,6 +102,7 @@ project_real_frame	4
 project_render_kept	4
 project_render_queued	67
 project_rerun_updates	10
+project_run_comes_back	15
 project_same_offset	7
 project_settings_return	31
 project_tag_reason_fits	8
@@ -163,6 +165,7 @@ table_recording_shown	15
 table_row_per_channel	11
 table_row_per_voice	41
 table_stereo_splits	5
+table_tick_keeps_camera	13
 text_index_targets_exist	26
 text_lists_match	25
 text_no_german_left	49
@@ -175,6 +178,7 @@ time_axis_keys_agree	13
 time_axis_measured	26
 time_bad_point_dropped	19
 time_camera_by_clock	20
+time_clock_from_any_file	22
 time_drift_taken_out	4
 time_fit_reports	7
 time_guess_refused	56
@@ -184,6 +188,7 @@ time_one_track_aligned	43
 time_over_midnight	9
 time_point_pulled_back	5
 time_sound_stays_put	31
+time_track_starts_late	8
 time_tracks_alone	27
 time_tracks_sit_together	4
 time_window_is_shared	11

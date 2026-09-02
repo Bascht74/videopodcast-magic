@@ -1,6 +1,6 @@
 # The test suite
 
-194 tests against `../videopodcast-magic.py`. Every one of them stands
+199 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-194 tests. The name is the one a red line carries, and beside it the
+199 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -308,6 +308,7 @@ it is green.
 | `time_axis_measured` | The common time axis, measured out of the sound and without a window. |
 | `time_bad_point_dropped` | One sample point in the wrong place must not tip the whole line. |
 | `time_camera_by_clock` | A camera sits where its timecode says, not where the sound was measured. |
+| `time_clock_from_any_file` | A Timecode is counted from the axis, not from the reference's clock. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
 | `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |
@@ -317,6 +318,7 @@ it is green.
 | `time_over_midnight` | Midnight is one night, not a day apart. |
 | `time_point_pulled_back` | A hand-set In or Out point never reaches past what every camera saw. |
 | `time_sound_stays_put` | Does a time window move the sound against the picture in Multitrack? |
+| `time_track_starts_late` | A track that begins after the picture is placed where the file says. |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
 | `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
 | `time_window_is_shared` | The window is the stretch EVERY camera saw, not the one any saw. |
@@ -373,6 +375,7 @@ it is green.
 | `cut_rebuild_keeps_all` | Rebuilding the cut list keeps every setting the run was given. |
 | `cut_right_camera` | Is the cut true: the right camera, and every time rule kept? |
 | `cut_rules_hold` | The cut rules: when the camera follows, and what it shows instead. |
+| `cut_speech_time_fits` | The speech time the preview reports fits inside the timeline. |
 | `cut_two_stay_two` | Two cameras never become one camera in the cut. |
 | `cut_voice_on_its_camera` | A multitrack run puts every voice on the camera the assignment names. |
 | `cut_wide_colour_apart` | Does the wide shot colour keep far enough from the speaker colours? |
@@ -393,6 +396,7 @@ it is green.
 | `project_render_kept` | A render never writes over the delivery before it. |
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
 | `project_rerun_updates` | #60 in a whole run: build twice, update on the second pass. |
+| `project_run_comes_back` | Opening a project takes up the handover its own run left behind. |
 | `project_same_offset` | Preview and Resolve put a camera at the same offset. |
 | `project_settings_return` | What is typed into the window reaches the project file and comes back. |
 | `project_tag_reason_fits` | The Tagging line names a reason only where it explains its own tags. |
@@ -453,6 +457,7 @@ it is green.
 | `table_row_per_channel` | The channel split is visible on the file page, and can be changed. |
 | `table_row_per_voice` | A separation stored in the project becomes rows -- once somebody says so. |
 | `table_stereo_splits` | A stereo file with two people on it becomes two rows to assign. |
+| `table_tick_keeps_camera` | The Multitrack tick neither bars a camera choice nor clears one. |
 
 ### `run_` -- a whole run: command line, threads, progress, log
 

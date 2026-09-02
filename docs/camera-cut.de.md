@@ -67,10 +67,10 @@ und `_cameracut.edl`, wie der Schnitt auch heißt. Die Köpfe sind
 
 Die Oberfläche nimmt alle Werte entgegen: auf dem Reiter
 **Resolve-Schnitt**, im Kasten **Kameraschnitt**. Je Wert ein Feld,
-daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald der
-Schnitt seine Personen hat — zwei davon, oder eine mit einer zweiten
-Kamera, auf der niemand ist; vorher steht an seiner Stelle eine Zeile
-und sagt, was fehlt.
+daneben die Einheit und eine kurze Zeile. Den Kasten gibt es, sobald
+**Multitrack** gesetzt ist oder der Schnitt seine Personen hat — zwei
+davon, oder eine mit einer zweiten Kamera, auf der niemand ist; vorher
+steht an seiner Stelle eine Zeile und sagt, was fehlt.
 
 ![Die Stellschrauben für den Kameraschnitt](images/resolve-cut.de.png)
 
@@ -278,7 +278,12 @@ darunter eine Zeile Zahlen:
 * längste Standzeit einer Kamera
 * die Redezeit, geteilt in eigene Kamera, Weitwinkel und fremde Kamera
 
-Die letzte Zahl steht in der Warnfarbe.
+Die letzte Zahl steht in der Warnfarbe. Gezählt werden die drei Anteile
+an der fertigen Zeitachse entlang, in Zehntelsekunden: reden zwei
+zugleich, ist das ein Augenblick und nicht zwei, und die drei Zeiten
+zusammen sind die Zeit, in der überhaupt jemand redet. Der Kasten
+**Sprecher** darunter zählt andersherum, je Person, und kommt deshalb
+höher hinaus.
 
 Der Kasten **Sprecher** zeigt je Sprecher:
 
@@ -286,31 +291,49 @@ Der Kasten **Sprecher** zeigt je Sprecher:
 * Zahl der Blöcke und deren mittlere Länge
 * eine Zeile Stille
 
-Die Überschrift nennt die Quelle: **Sprecher, nach Stimmen getrennt**
-oder **Sprecher, selbst aus den Spuren gemessen**. In der Tabelle kann
-beides zugleich stehen — Stimmen aus einer Trennung und Spuren, die aus
-ihrem eigenen Mikrofon gemessen wurden, nebeneinander —, und dann heißt
-die Überschrift für alle zusammen **Sprecher, nach Stimmen getrennt**.
-Das Protokoll hält die beiden auseinander und druckt beide Marken, jede
-über den Zeilen, die zu ihr gehören.
+Die Überschrift nennt die Quelle, und es gibt drei Antworten:
+
+- **Sprecher, wie der Lauf sie gemessen hat.** Ein Lauf ist durch, und
+  seine Übergabedatei wird gelesen. Für ihn lagen alle Spuren auf einer
+  Achse, und über auphonic.com waren zusätzlich die Nachbarn aus ihnen
+  herausgerechnet. Das ist die feinste der drei Auskünfte.
+- **Sprecher, nach Stimmen getrennt.** Sie kommen aus einer Trennung auf
+  diesem Rechner, noch vor jedem Lauf.
+- **Sprecher, selbst aus den Spuren gemessen.** Pegel, hier im Fenster
+  gegeneinander gemessen, je Person ein Mikrofon. Die gröbste der drei,
+  und sie genügt, um den Schnitt einzustellen.
+
+Vor einem Lauf können die beiden letzten zugleich in der Tabelle stehen
+— Stimmen aus einer Trennung und Spuren, die aus ihrem eigenen Mikrofon
+gemessen wurden, nebeneinander —, und dann heißt die Überschrift für
+alle zusammen **Sprecher, nach Stimmen getrennt**. Das Protokoll hält
+diese beiden auf seine Weise auseinander: es druckt beide Marken und
+unter jeder eine Zeile, wer auf diesem Weg gekommen ist -- wie viele
+Stimmen aus welcher Aufnahme, und die Namen der Spuren, die
+gegeneinander gemessen wurden. Die Sprechzeiten selbst folgen nach
+beiden Marken, in einer Liste für alle.
 
 Bei zwei gleichzeitig Redenden zählt die Zeit doppelt, bei der Stille
 nicht. Deshalb ergeben die Zeilen zusammen mehr als die Laufzeit.
 
-Beides rechnet das Programm aus der Übergabedatei
-`<Produktion>_resolve.json` des letzten Laufs, bei jeder Änderung neu
-und immer für das gewählte Zeitfenster. Schreiben und Hochladen gehören
-zum Lauf, nicht zur Vorschau.
+Hat ein Lauf seine Übergabedatei `<Produktion>_resolve.json`
+hinterlassen, rechnet das Programm beide Kästen daraus; gibt es keine,
+aus dem, was das Fenster selbst ermittelt hat. So oder so bei jeder
+Änderung neu und immer für das gewählte Zeitfenster. Schreiben und
+Hochladen gehören zum Lauf, nicht zur Vorschau.
 
-Der Knopf **Sprecher jetzt messen** steht oben im Vorschau-Kasten, unter
-dem, was die Vorschau sagt, und nicht unter diesem, solange eine Spur weder von einer Trennung abgedeckt
-noch gemessen ist; daneben steht, wer fehlt: **Name noch nicht gemessen
--- im Schnitt, in dieser Vorschau noch nicht**. Diese Leute sind im
-Schnitt; ein Druck holt sie auch in die Vorschau. Sind überhaupt keine
-Sprecher bekannt, sagt der Vorschau-Kasten das an Stelle seiner Zahlen,
-und der Kasten **Sprecher** bleibt leer. Geht die Messung schief, steht
-der Grund neben dem Knopf. Sprecher, die später auftauchen, starten die
-Vorschau von selbst.
+Der Knopf **Sprecher jetzt messen** steht unten im Vorschau-Kasten, in
+der Zeile unter dem, was die Vorschau sagt, und nicht unter diesem — und
+nur so lange, wie eine Spur weder von einer Trennung abgedeckt noch
+gemessen ist. Daneben steht, wer fehlt: **Name noch nicht gemessen -- im
+Schnitt, in dieser Vorschau noch nicht**. Diese Leute sind im Schnitt;
+ein Druck holt sie auch in die Vorschau. **Nach einem Lauf ist der Knopf
+fort**: der Lauf hat jede Spur gemessen, die er hatte, also gibt es
+nichts mehr zu drücken, und in der Zeile steht dann, worauf der Schnitt
+beruht. Sind überhaupt keine Sprecher bekannt, sagt der Vorschau-Kasten
+das an Stelle seiner Zahlen, und der Kasten **Sprecher** bleibt leer.
+Geht die Messung schief, steht der Grund neben dem Knopf. Sprecher, die
+später auftauchen, starten die Vorschau von selbst.
 
 ### Schnittband und Legende lesen
 
@@ -514,7 +537,9 @@ genug, um den Schnitt einzustellen. Die beiden schließen einander nicht
 aus. Stimmen aus einer Trennung und hier gemessene Spuren gehen in ein
 und dieselbe Rechnung, und den Knopf gibt es, solange eine Spur weder
 von einer Trennung abgedeckt noch gemessen ist — auch dann, wenn schon
-getrennt wurde.
+getrennt wurde. Nach einem Lauf verschwindet er: was der Lauf gemessen
+hat, ist feiner als alles, was dieser Knopf liefern kann, und er hat
+niemanden ausgelassen.
 
 ### Schneiden, wenn eine Kamera alle zeigt
 
@@ -565,6 +590,15 @@ keine Dateien in der Liste stehen; bei einem Fehlgriff sucht das Programm
 im selben Ordner nach `videopodcast-magic*.json`. Daneben liegt die
 Übergabedatei `<Produktion>_resolve.json`. Daraus rechnet die Vorschau,
 und daraus baut der Resolve-Teil.
+
+**Beim Öffnen eines Projekts nimmt das Programm diese Übergabedatei
+wieder auf**, im Ausgabeordner und neben der Projektdatei — aber nur
+eine, die **genau diese Kameras** nennt. Eine aus einer anderen
+Produktion oder aus einer früheren Runde über weniger Kameras übergeht
+es, als läge sie nicht da: ein Schnitt daraus sieht genauso aus wie ein
+frischer und ist es nicht. Passt sie, steht die Vorschau vom ersten
+Augenblick an auf den Zahlen des Laufs, und **Resolve-Projekt anlegen**
+lässt sich drücken, ohne noch einmal etwas laufen zu lassen.
 
 ### Wie das Programm den Weitwinkel setzt
 
@@ -637,9 +671,10 @@ Lautheitsmessung läuft je Spur zweimal durch.
   Kamera. Das Protokoll sagt es unter `SPRECHER -- HIER GEMESSEN` oder
   `SPRECHER -- NACH STIMMEN GETRENNT`.
 * **Auf dem Reiter Resolve-Schnitt fehlt der Kasten für den Schnitt.**
-  Niemand trägt Namen und Kamera, oder eine Person tut es und es gibt
-  keine zweite Kamera. Auf dem Reiter **Zuordnung & Zeitfenster** jeder
-  Stimme einen Namen und eine Kamera geben.
+  **Multitrack** ist nicht gesetzt, und niemand trägt Namen und Kamera —
+  oder eine Person tut es und es gibt keine zweite Kamera. Auf dem
+  Reiter **Zuordnung & Zeitfenster** jeder Stimme einen Namen und eine
+  Kamera geben.
 * **Vier Einstellungen sind grau und nehmen nichts an.** Es ist noch
   keine Niederschrift da. **Nach einer Frage**, **Antwort früher im
   Bild**, **Weitwinkel nach** und **Weitwinkel höchstens** brauchen

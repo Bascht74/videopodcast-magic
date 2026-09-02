@@ -15,7 +15,7 @@ gone through for 2.24.0-beta.
 
 ## Where the program stands today
 
-**Version 2.27.0-beta.** It runs every week, on real material.
+**Version 2.28.0-beta.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and

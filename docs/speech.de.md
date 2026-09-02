@@ -160,9 +160,10 @@ macOS mitbringt, und den anderen Weg nur dort, wo ein Lauf ihn schon
 gelegt hat.
 
 Eine Aufnahme, die Stimmen zeigt, kommt aufgeklappt hoch, mit einem
-Dreieck davor, das sie zuklappt. Aufgeklappt bleibt ihr eigenes
-**gehört zu** leer, und die Zeilen darunter tragen die Zuordnung;
-zugeklappt steht dort, was das Zuklappen vom Schirm nimmt -- die
+Dreieck davor, das sie zuklappt. In ihrem eigenen
+**gehört zu** steht grau **die Stimmen darunter tragen die Kameras**, und die
+Zeilen darunter tragen die Zuordnung;
+klappt man sie zu, steht dort, was das Zuklappen vom Schirm nimmt -- die
 Kameras: **auf 2 Kameras**, und **auf 1 Kamera, 1 ohne**, wenn eine
 Stimme noch keine hat. Die Zahl der Stimmen steht dort nicht noch
 einmal, denn die Zelle **Sprecher** derselben Zeile sagt sie schon. Die
