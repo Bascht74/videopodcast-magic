@@ -548,6 +548,14 @@ preset, the stereo ticks, the measured position of every file and how
 fast its recorder ran; the
 API key is **not** in there.
 
+It keeps what somebody answered, and nothing else. A preset picked by
+hand stays in it even where the preset list could not be built at that
+moment -- a refused key, no line out -- rather than the entry the box
+fell back on. And a file taken out of the list is taken out of the
+project file with it, along with everything that had been answered
+about it, so that adding it again later starts from nothing rather than
+from an answer nobody can see any more.
+
 On opening, the program checks the format of the file and refuses a file
 in another format. It can no longer open older project files.
 

@@ -576,6 +576,15 @@ Werte des Kameraschnitts, wer zu welcher Kamera gehört, das
 Auphonic-Preset, die Stereo-Häkchen, die gemessene Lage jeder Datei und
 wie schnell ihr Recorder lief; der API Key steht **nicht** darin.
 
+Darin steht, was jemand geantwortet hat, und sonst nichts. Ein von Hand
+gewähltes Preset bleibt auch dann darin stehen, wenn die Presetliste
+gerade nicht aufgebaut werden konnte -- abgelehnter Schlüssel, keine
+Leitung --, und nicht der Eintrag, auf den der Kasten zurückgefallen
+ist. Und eine Datei, die aus der Liste genommen wird, geht mit allem,
+was zu ihr geantwortet war, auch aus der Projektdatei heraus: wer sie
+später wieder hinzunimmt, fängt bei nichts an statt bei einer Antwort,
+die niemand mehr sieht.
+
 Beim Öffnen prüft das Programm das Format der Datei und weist eine Datei
 in einem anderen Format ab. Ältere Projektdateien kann es nicht mehr
 öffnen.

@@ -50,6 +50,8 @@ der das Wort erklärt, steht vorn.
   Zuordnung setzen“
 * **Abtastwerte am Anschlag**: `preflight`, „Wie der Bericht die Abtastwerte
   am Anschlag zählt“
+* **ALLGEMEINE HINWEISE (Zeile in der Dateiliste)**: `preflight`, „Was
+  geprüft wird“
 * **Anschlag**: siehe Abtastwerte am Anschlag
 * **Ansteckmikrofon**: `channels`, „Eine Spur oder zwei“; `multitrack`,
   „Kameraton zur Spur machen“
