@@ -4,7 +4,11 @@
 A greyed button with no reason is the commonest dead end in an
 interface. The reason has to stand in the footer, not in a tooltip; the
 faulty field has to be marked red; the tabs have to be named as they
-are labelled; and of two files set to intro the second frees the first.
+are labelled; and while one file is the intro, "Intro" is barred on
+every other file, with the name of the file holding it on that entry.
+Both directions are asked: the bar goes up when the mark is given, and
+it comes down again when the mark is taken away -- a bar that never
+lifts would pass the first judgement and leave the field dead.
 A camera nobody is assigned to shows a wide shot it never stored, so
 this test asks the value behind a field, not its label. An entry it
 asks about is asked for first: a name that is not in the list would end
@@ -170,6 +174,27 @@ def kind_reason(box):
                     cell.findChildren(QtWidgets.QLabel) if w.text().strip())
 
 
+def entry_of(box, kind):
+    """One entry of a Kind field, without a judgement about it."""
+    return box.model().item(box.findData(kind))
+
+
+def barred_in(box):
+    """The captions of the entries that cannot be chosen."""
+    return [box.model().item(k).text() for k in range(box.count())
+            if not box.model().item(k).isEnabled()]
+
+
+def reason_on(box, kind):
+    """The sentence standing on one entry, empty where there is none."""
+    return box.itemData(box.findData(kind), QtCore.Qt.ToolTipRole) or ""
+
+
+def held_by(box):
+    """The file a Kind field belongs to, off its accessible name."""
+    return (box.accessibleName() or "").split(" -- ")[-1]
+
+
 def entry(box, kind, called):
     """One entry of a Kind field, asked for before it is asked about.
 
@@ -299,17 +324,32 @@ def step():
             check("the first one is the intro",
                   kinds[0] == vpm.TYPE_INTRO
                   and kinds.count(vpm.TYPE_INTRO) == 1, str(kinds))
-            pick(boxes[1], vpm.TYPE_INTRO)
+            taken = entry(boxes[1], vpm.TYPE_INTRO, "Intro")
+            check("the intro is barred on the other file",
+                  taken is not None and not taken.isEnabled(),
+                  "Intro sits at index %d of %d entries, and the barred "
+                  "ones are %s"
+                  % (boxes[1].findData(vpm.TYPE_INTRO), boxes[1].count(),
+                     barred_in(boxes[1])))
+            check("and that entry names the file holding the mark",
+                  held_by(boxes[0]) in reason_on(boxes[1], vpm.TYPE_INTRO),
+                  "the entry says %r, and the mark is on %r"
+                  % (reason_on(boxes[1], vpm.TYPE_INTRO), held_by(boxes[0])))
+            # The other direction. A bar that never lifts passes the two
+            # judgements above and leaves the entry dead for the session,
+            # so giving the mark back has to free it again.
+            pick(boxes[0], vpm.TYPE_CONTENT)
             n[0] = 3
             QtCore.QTimer.singleShot(1500, step)
             return
         elif i == 3:
+            boxes = kind_boxes()
             kinds = stored_kinds()
-            check("the second choice frees the first",
-                  kinds[1] == vpm.TYPE_INTRO
-                  and kinds.count(vpm.TYPE_INTRO) == 1, str(kinds))
-            check("and the first one is content again",
-                  kinds[0] == vpm.TYPE_CONTENT, str(kinds))
+            check("taking the mark off frees the intro elsewhere again",
+                  vpm.TYPE_INTRO not in kinds
+                  and entry_of(boxes[1], vpm.TYPE_INTRO).isEnabled(),
+                  "the kinds are %s, and the second field bars %s"
+                  % (kinds, barred_in(boxes[1])))
             print("\n6. The wide shot nobody marked: shown, not stored")
             # Nobody is assigned to a camera here, so the first file is
             # the wide shot the program works out for itself.

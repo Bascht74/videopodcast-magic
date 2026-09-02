@@ -282,9 +282,9 @@ for switch, _caption, default_value, values, _s, _l in vpm.CUT_CHOICES:
     shapes = []
     for value in values:
         made = vpm.camera_cut(
-            mixed, 320.0, mixed_cams, "Wide", 3.0, 0.3, 40.0, 5.0,
-            120.0, False,
-            vpm.cut_rules(words=mixed_words, **{field: value}))
+            mixed, 320.0, mixed_cams, "Wide", 3.0, 0.3, after=40.0, holds=5.0,
+            at_latest=120.0, edge=False,
+            rules=vpm.cut_rules(words=mixed_words, **{field: value}))
         ok = bool(made) and all(b > a for a, b, _w in made)
         ok = ok and abs(made[0][0]) < 1e-6 and abs(made[-1][1] - 320.0) < 1.0
         ok = ok and all(abs(x[1] - y[0]) < 1e-6
@@ -354,8 +354,8 @@ check("the preview computes", bool(numbers and numbers.get("cut")),
       "shots in it" % (len((numbers or {}).get("cut") or []),
                        len(numbers or {})))
 same = vpm.camera_cut(mixed, 320.0, mixed_cams, "Wide", 3.0, 0.3,
-                      40.0, 5.0, 120.0, False,
-                      vpm.cut_rules(words=mixed_words))
+                      after=40.0, holds=5.0, at_latest=120.0, edge=False,
+                      rules=vpm.cut_rules(words=mixed_words))
 check("and it is the same cut the run builds",
       numbers["cut"] == same, "%d against %d" % (len(numbers["cut"]),
                                                  len(same)))
@@ -428,7 +428,8 @@ WHOLE = [(0.0, 20.0, "CamA"), (20.0, 24.0, "Wide"), (24.0, 40.0, "CamA"),
 def whole_cut(**over):
     """The finished cut the run makes, with one answer to the silence."""
     return vpm.camera_cut(long_hole, 60.0, gap_cams, "Wide", 3.0, 0.0,
-                          0.0, 5.0, 120.0, False, vpm.cut_rules(**over))
+                          after=0.0, holds=5.0, at_latest=120.0, edge=False,
+                          rules=vpm.cut_rules(**over))
 
 
 by_default = whole_cut()

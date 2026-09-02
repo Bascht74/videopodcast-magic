@@ -9,6 +9,11 @@ round over a single camera. Read off the search, the button, and the
 preview, which has to show the run's speakers rather than work them out
 again from the raw tracks -- and has to follow that file when it is
 written again, which is what turning a number above does.
+
+Last the sheet that reads the recordings itself, opened where no run
+answered the question. That reading costs minutes on the graphics card,
+so a reading that came to nothing must not be set going a second time
+by the next look at the sheet.
 """
 import os
 import time
@@ -43,6 +48,21 @@ vpm.say_dialog = lambda *a, **k: True     # no dialog waits for anybody
 # The builder has no Resolve, and this test is not about whether it is
 # installed: the button is grey without it whatever the handover says.
 vpm.resolve_installed = lambda: True
+
+# Every reading of the recordings the window sets going, counted where
+# it is set going: it runs in a thread of its own and costs minutes on
+# the graphics card, so how often it is started is what the last
+# section is about. The real reading follows it unchanged.
+measurements = []
+_really_measure = vpm.speaker_measure_loop
+
+
+def counted_measure(tracks, bridge, bridge_emit):
+    measurements.append(len(tracks))
+    _really_measure(tracks, bridge, bridge_emit)
+
+
+vpm.speaker_measure_loop = counted_measure
 
 done = 0
 bad = []
@@ -222,20 +242,71 @@ def speech_names():
     return []
 
 
-def measure_offered():
-    """Whether the window still offers to measure the speakers itself."""
-    b = button(vpm.T('Measure speakers now'))
-    return b is not None and not b.isHidden()
+def cut_sheet():
+    """The Resolve sheet, found by its name in the bar of sheets."""
+    tw = tab_bar()
+    if tw is None:
+        return None
+    for i in range(tw.count()):
+        if tw.tabText(i).startswith(vpm.T('Resolve cut')):
+            return tw.widget(i)
+    return None
+
+
+def sheets_offered():
+    """The sheets the bar holds, for a failure line."""
+    tw = tab_bar()
+    return [] if tw is None else [tw.tabText(i) for i in range(tw.count())]
+
+
+def sheet_says():
+    """Everything the Resolve sheet has in words, as a person reads it.
+
+    Read off the whole sheet rather than off one label picked out
+    beforehand: what used to name that label -- the button it stood
+    beside -- is gone, and its tooltip is wording like any other and
+    moves when somebody rewrites it. The sentences looked for below
+    all go through T() and are the program's own.
+    """
+    sheet = cut_sheet()
+    if sheet is None:
+        return []
+    return [w.text().strip() for w in sheet.findChildren(QtWidgets.QLabel)
+            if w.text().strip()]
 
 
 def measure_note():
-    """The sentence standing beside that button."""
-    b = button(vpm.T('Measure speakers now'))
-    if b is None or b.parentWidget() is None:
-        return "no measure button"
-    return " / ".join(x.text().strip() for x
-                      in b.parentWidget().findChildren(QtWidgets.QLabel)
-                      if x.text().strip()) or "nothing said"
+    """What the sheet says, short enough for a failure line.
+
+    The sheet also carries the paragraph that explains the settings,
+    which is longer than a whole failure line may be and carries line
+    breaks a register row cannot hold. So: the short lines only, the
+    last of them, which is where the one about the speakers sits.
+    """
+    said = [" ".join(x.split()) for x in sheet_says()]
+    short = [x for x in said if len(x) < 70]
+    return "%d lines on the sheet, the last short ones %s" % (len(said),
+                                                              short[-6:])
+
+
+def open_cut_sheet():
+    """Click on the Resolve sheet, the way a person does."""
+    tw, sheet = tab_bar(), cut_sheet()
+    if tw is None or sheet is None:
+        return False
+    tw.setCurrentWidget(sheet)
+    app.processEvents()
+    return True
+
+
+def look_away_and_back():
+    """Off the Resolve sheet and onto it again, as a person would."""
+    tw = tab_bar()
+    if tw is None:
+        return False
+    tw.setCurrentIndex(0)
+    app.processEvents()
+    return open_cut_sheet()
 
 
 def cut_cameras():
@@ -297,12 +368,19 @@ same = {}
 
 
 def life():
-    """A sign that moves only because the window is working."""
+    """A sign that moves only because the window is working.
+
+    The line about the speakers is in it because the last section
+    waits for a reading to come back, and that reading moves nothing
+    else here: without it a step would stand still while the window
+    was working the whole time.
+    """
     w = win()
     tw = tab_bar() if w is not None else None
     return (w.windowTitle() if w is not None else None,
             tw.count() if tw is not None else -1,
-            enabled() if w is not None else None)
+            enabled() if w is not None else None,
+            measure_note() if w is not None else None)
 
 
 class NotYet(Exception):
@@ -316,11 +394,18 @@ def needed(what, thing):
 
 
 def deadline():
-    """The whole pass has taken 150 s: red, and it says where."""
+    """The whole pass has taken 240 s: red, and it says where.
+
+    An outer brake and nothing else -- the waiting inside the pass is
+    on standstill, not on this clock. It is set where it is because
+    there is no timeout(1) on the machine this was written on and a
+    window that never comes must not hold the suite: 11 s here, and
+    the builder runs about nine times slower, worst measured 12.6.
+    """
     def fired():
         if "the pass" in over:
             return          # the pass is over; this timer is only late
-        bad.append("the pass never finished: 150 s gone, still at step %d"
+        bad.append("the pass never finished: 240 s gone, still at step %d"
                    % n[0])
         app.quit()
     return fired
@@ -420,18 +505,10 @@ def step():
                   speech_names() == SPEAKERS,
                   "the table lists %s, wanted %s" % (speech_names(),
                                                      SPEAKERS))
-            check("nothing is left waiting to be measured, so the button "
-                  "that measures speakers is gone",
-                  not measure_offered(),
-                  "the button is %s and beside it stands %r"
-                  % ("offered" if measure_offered() else "gone",
-                     measure_note()))
-            check("the line beside it says the cut stands on the finished "
-                  "run", measure_note() == vpm.cut_basis_line(
-                      "run", len(SPEAKERS), LENGTH)[0],
-                  "it says %r, wanted %r"
-                  % (measure_note(),
-                     vpm.cut_basis_line("run", len(SPEAKERS), LENGTH)[0]))
+            from_run = vpm.cut_basis_line("run", len(SPEAKERS), LENGTH)[0]
+            check("the line on the cut sheet says the cut stands on the "
+                  "finished run", from_run in sheet_says(),
+                  "%r not among the %s" % (from_run, measure_note()))
             check("the cut in the preview runs on the cameras the handover "
                   "names",
                   bool(cut_cameras())
@@ -484,6 +561,34 @@ def step():
                   % (taken(), os.path.basename(SHORT_HANDOVER), ground()))
             check("and Create Resolve project is grey again once such a "
                   "project is opened", enabled() is False, ground())
+            # No run answered the question for this project, so opening
+            # the Resolve sheet is what sets the reading of the
+            # recordings going. Four seconds of an unbroken sine wave
+            # is nobody talking, so it comes back with a complaint --
+            # which is the state the two judgements below are about.
+            if not open_cut_sheet():
+                raise NotYet("the Resolve sheet, the window offers %s"
+                             % sheets_offered())
+        elif i == 6:
+            working = vpm.T('working out who speaks when ...')
+            if working in sheet_says():
+                raise NotYet("the reading to come back, the sheet still "
+                             "says %r after %d set going"
+                             % (working, len(measurements)))
+            print("\n6. The cut sheet where no run answered the question")
+            came_to_nothing = vpm.T('Nothing was audible in the tracks.')
+            check("a reading that comes to nothing says so on the cut sheet",
+                  came_to_nothing in sheet_says(),
+                  "%r not among the %s, after %d readings were set going"
+                  % (came_to_nothing, measure_note(), len(measurements)))
+            came_back = look_away_and_back()
+            check("and a reading that failed is not set going a second time",
+                  came_back and len(measurements) == 1,
+                  "%d readings after looking away and back, wanted 1; the "
+                  "sheet %s and there are %s"
+                  % (len(measurements),
+                     "was opened again" if came_back else "never came back",
+                     measure_note()))
         else:
             over.add("the pass")
             app.quit()
@@ -513,7 +618,7 @@ def step():
 
 
 QtCore.QTimer.singleShot(500, step)
-QtCore.QTimer.singleShot(150000, deadline())
+QtCore.QTimer.singleShot(240000, deadline())
 # A window that falls over while it is being built takes the event loop
 # with it, and the closing lines below are the only place that counts.
 try:

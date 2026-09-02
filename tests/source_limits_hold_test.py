@@ -3,8 +3,11 @@
 
 Two things must not come back as more gets written: German comments (the
 interface stays German, the code does not) and narrating comments that
-report what stood there before. Both are counted as ratchets, so the
-numbers may fall and never rise.
+report what stood there before. Beside them stand the sizes -- lines,
+blocks, docstrings, functions -- the except branches that only pass, and
+the paths put into shape on one side of a comparison or of a lookup
+while the other side is left raw. All of it is counted as ratchets, so
+the numbers may fall and never rise.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -337,6 +340,44 @@ check("paths shaped on one side of a comparison: %d (ratchet %d)"
 held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(lopsided)))
+
+# --------------------------------------------- One shape for a key too
+# A comparison shows both its sides; a dictionary does not. Where a path
+# is put into shape as a key, or as the key something is looked up
+# under, the line says nothing about how the keys on the other side were
+# built -- and where the two came from two places, the lookup misses and
+# the value falls back to whatever the default is. abspath is not
+# enough: it settles the folder and leaves the case, so one file written
+# two ways is two keys on Windows. path_key is the one shape here too.
+LOOKS_UP = {"get", "setdefault", "pop"}
+
+
+def keys_of(node):
+    """Every expression this node uses as a dictionary key."""
+    if isinstance(node, ast.Subscript):
+        return [node.slice]
+    if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+            and node.func.attr in LOOKS_UP and node.args):
+        return [node.args[0]]
+    if isinstance(node, ast.DictComp):
+        return [node.key]
+    if isinstance(node, ast.Dict):
+        return [k for k in node.keys if k is not None]
+    return []
+
+
+half_shaped = []
+for node in ast.walk(tree):
+    for slot in keys_of(node):
+        if brings_into_shape(slot) is True:
+            half_shaped.append((seen.get(id(node), "<module>"), node.lineno))
+held = state.places("one_sided_keys", ratchet.tally(half_shaped))
+check("paths used as a key without the one shape: %d (ratchet %d)"
+      % (len(half_shaped), held.limit), held.ok, over(held))
+held.report()
+if held.tightened:
+    print("      ratchet tightened: %d -> %d"
+          % (held.limit, len(half_shaped)))
 
 # The one shape has to be one shape. abspath alone leaves the case and
 # the separator, so two names for one file still compare unequal.

@@ -13,9 +13,12 @@ The question is asked the way a person asks it -- click the camera,
 read what the player says it is playing -- and a guessed speaker name
 must find its prepared track just like a typed one. The cut on the
 Resolve sheet buys from the same shop, and it must build itself only
-out of what the window measured. Two things lie about the whole time
-and must have no effect: a stranger's handover in the result folder,
-and an earlier production's prepared tracks below the material.
+out of what the window measured: opening that sheet is what sets the
+measurement going, and because it costs minutes on the graphics card,
+opening it again -- while one runs, and once the answer is in -- must
+set nothing going. Two things lie about the whole time and must have
+no effect: a stranger's handover in the result folder, and an earlier
+production's prepared tracks below the material.
 """
 import math
 import os
@@ -29,6 +32,7 @@ import struct
 import subprocess
 import sys
 import tempfile
+import threading
 import time
 import wave
 
@@ -90,6 +94,26 @@ vpm.set_language("en")
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 vpm.update_offer = lambda *a, **k: None
+
+# Every reading of the recordings the window sets going, counted where
+# it is set going. It runs in a thread of its own and costs minutes on
+# the graphics card, so how often it is started is the whole point of
+# three of the judgements below. The real reading follows, unchanged,
+# so what reaches the cut is the window's own answer; the gate only
+# holds it still where a judgement needs it running, and it is let go
+# again in the same step.
+measurements = []
+go_on = threading.Event()
+_really_measure = vpm.speaker_measure_loop
+
+
+def counted_measure(tracks, bridge, bridge_emit):
+    measurements.append(len(tracks))
+    go_on.wait(60)
+    _really_measure(tracks, bridge, bridge_emit)
+
+
+vpm.speaker_measure_loop = counted_measure
 
 # The counter is called "counted" and not "done": "done" is the flag
 # below that says the plan got to its end.
@@ -471,21 +495,80 @@ def cut_files():
     return sorted((getattr(p, "files", None) or {}).values()) if p else []
 
 
-def measure_note():
-    """The sentence beside the measure button, for a FAIL line.
+def tab_bar():
+    """The bar of sheets, found by the one sheet that is always there."""
+    for tw in win().findChildren(QtWidgets.QTabWidget):
+        if tw.count() and tw.tabText(0).startswith(
+                vpm.T('Files && production')):
+            return tw
+    return None
 
-    Nothing is decided by it. It is the only place the window says why
-    a measurement brought nothing.
+
+def cut_sheet():
+    """The Resolve sheet, found by its name in the bar of sheets."""
+    bar = tab_bar()
+    if bar is None:
+        return None
+    for i in range(bar.count()):
+        if bar.tabText(i).startswith(vpm.T('Resolve cut')):
+            return bar.widget(i)
+    return None
+
+
+def sheets_offered():
+    """The sheets the bar holds, for a failure line."""
+    bar = tab_bar()
+    return [] if bar is None else [bar.tabText(i) for i in range(bar.count())]
+
+
+def sheet_says():
+    """Everything the Resolve sheet has in words, as a person reads it.
+
+    Read off the whole sheet rather than off one label picked out
+    beforehand: what used to name that label -- the button it stood
+    beside -- is gone, and its tooltip is wording like any other and
+    moves when somebody rewrites it. The sentences looked for below
+    all go through T() and are the program's own.
     """
-    said = (vpm.T('Measure speakers now'), vpm.T('measuring ...'))
-    for w in win().findChildren(QtWidgets.QPushButton):
-        if w.text().strip() not in said or w.parentWidget() is None:
-            continue
-        return " / ".join(
-            [x.text().strip() for x
-             in w.parentWidget().findChildren(QtWidgets.QLabel)
-             if x.text().strip()]) or "nothing said"
-    return "no measure button"
+    sheet = cut_sheet()
+    if sheet is None:
+        return []
+    return [w.text().strip() for w in sheet.findChildren(QtWidgets.QLabel)
+            if w.text().strip()]
+
+
+def measure_note():
+    """What the sheet says, short enough for a failure line.
+
+    The sheet also carries the paragraph that explains the settings,
+    which is longer than a whole failure line may be and carries line
+    breaks a register row cannot hold. So: the short lines only, the
+    last of them, which is where the one about the speakers sits.
+    """
+    said = [" ".join(x.split()) for x in sheet_says()]
+    short = [x for x in said if len(x) < 70]
+    return "%d lines on the sheet, the last short ones %s" % (len(said),
+                                                              short[-6:])
+
+
+def open_cut_sheet():
+    """Click on the Resolve sheet, the way a person does."""
+    bar, sheet = tab_bar(), cut_sheet()
+    if bar is None or sheet is None:
+        return False
+    bar.setCurrentWidget(sheet)
+    app.processEvents()
+    return True
+
+
+def look_away_and_back():
+    """Off the Resolve sheet and onto it again, as a person would."""
+    bar = tab_bar()
+    if bar is None:
+        return False
+    bar.setCurrentIndex(0)
+    app.processEvents()
+    return open_cut_sheet()
 
 
 def pick_camera(name):
@@ -777,30 +860,43 @@ sound_waited = [0]
 SOUND_ROUNDS = 20
 
 
-def start_measuring():
+def open_the_cut_sheet():
     """Have the window work out who speaks when, here and now.
 
-    Nothing on disk tells the window where the speakers are, so it is
-    asked the way a person asks: the button under the preview. It runs
-    in a thread of its own, and what comes of it is waited for below.
+    Nothing on disk tells the window where the speakers are, and there
+    is no button to ask with any more: opening the Resolve sheet is
+    what sets the reading going. It runs in a thread of its own, and
+    what comes of it is waited for below.
+
+    The second look is taken while that reading is still running, and
+    it is held here rather than raced against: a reading that had
+    already come back would answer the question of the step after this
+    one instead of this one's.
     """
-    for w in win().findChildren(QtWidgets.QPushButton):
-        if w.text().strip() == vpm.T('Measure speakers now'):
-            # The label before the click: clicking changes it, and read
-            # afterwards it would name a button nobody looked for.
-            said = w.text().strip()
-            w.click()
-            app.processEvents()
-            check("the speaker measurement can be started", True,
-                  "the button %r was clicked; it now says %r"
-                  % (said, w.text().strip()))
-            return
-    check("the speaker measurement can be started", False,
-          "no button called %r; the window offers %s"
-          % (vpm.T('Measure speakers now'),
-             [b.text().strip()
-              for b in win().findChildren(QtWidgets.QPushButton)][:12]))
-    return STOP
+    opened = open_cut_sheet()
+    check("the Resolve sheet is there to be opened", opened,
+          "%r wanted; the window offers %s"
+          % (vpm.T('Resolve cut'), sheets_offered()))
+    if not opened:
+        return STOP
+    check("opening the Resolve sheet sets the speaker measurement going",
+          len(measurements) == 1,
+          "%d measurements set going, wanted 1; %s"
+          % (len(measurements), measure_note()))
+    working = vpm.T('working out who speaks when ...')
+    check("and the sheet says while it runs that it is working it out",
+          working in sheet_says(),
+          "%r not among the %s" % (working, measure_note()))
+    came_back = look_away_and_back()
+    check("a second look while it runs sets no second measurement going",
+          came_back and len(measurements) == 1,
+          "%d measurements after looking away and back, wanted 1; the "
+          "sheet %s and there are %s"
+          % (len(measurements),
+             "was opened again" if came_back else "never came back",
+             measure_note()))
+    # Let go, or the reading never reaches the cut the steps below read.
+    go_on.set()
 
 
 def cut_look():
@@ -871,6 +967,24 @@ def cut_look():
     check("placed by its own timecode against programme time",
           off is not None and abs(off - OWN_MIX_SHIFT) < 0.001,
           "%s, wanted %s -- %s" % (off, OWN_MIX_SHIFT, heard))
+
+
+def sheet_again_look():
+    """The answer is in, and a fresh look must not pay for it twice.
+
+    The cut above is only there because the reading came back, so by
+    here the window knows who speaks when. Opening the sheet again is
+    the commonest thing a person does on it, and each time it costs
+    minutes of the graphics card if the window forgets what it has.
+    """
+    came_back = look_away_and_back()
+    check("no measurement is set going once the speakers are known",
+          came_back and len(measurements) == 1,
+          "%d measurements after the answer was in, wanted 1; the sheet "
+          "%s and there are %s"
+          % (len(measurements),
+             "was opened again" if came_back else "never came back",
+             measure_note()))
 
 
 def bait_look():
@@ -1027,8 +1141,8 @@ def nothing_look():
 
 
 plan = [open_project, wait_for_sheets, put_them_on_cameras, type_one_name,
-        typed_name_look, guessed_name_look, wide_look, start_measuring,
-        cut_look, bait_look, take_his_track_away, raw_look,
+        typed_name_look, guessed_name_look, wide_look, open_the_cut_sheet,
+        cut_look, sheet_again_look, bait_look, take_his_track_away, raw_look,
         take_the_folder_away, nothing_look]
 
 
@@ -1037,6 +1151,9 @@ def stop_now():
     # window can also go out through the timer below, and a count
     # printed only here would leave that way out reporting nothing.
     done[0] = True
+    # Let a held reading go on whichever way out is taken, so it is
+    # never the thing that keeps a file open while the folder goes.
+    go_on.set()
     app.quit()
 
 

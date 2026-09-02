@@ -204,13 +204,11 @@ check("and the text behind the clock has to match as well",
       "%s, wanted ['rec_260808_170000_Guest.wav']" % (names(row11),))
 
 #------------------------------- the extension only apart from its case
-# The one difference that has to be waved through, and the only point
-# about case where both rules in the program say the same: the clock
-# rule folds the extension to lower case before comparing, and the
-# counter rule beside it takes a name that differs only in case as long
-# as it is the only one that could be meant. Whether the text before
-# and behind the clock is read as forgivingly the two rules answer
-# differently, and nothing here decides that.
+# The one difference this rule waves through: the clock rule folds the
+# extension to lower case before comparing. The counter rule beside it
+# does not -- it takes the name exactly as the first block writes it,
+# which is what files_blocks_join_exact_test.py measures. That the two
+# answer differently about the extension is known and not decided here.
 e1 = wav("Mix_260808_183000.wav", 60.0)
 e2 = wav("Mix_260808_183100.WAV", 60.0)
 row12, _ = vpm.find_continuation_files(e1)
