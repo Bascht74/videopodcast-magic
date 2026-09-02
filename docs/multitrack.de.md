@@ -28,6 +28,9 @@ Alles andere läuft lokal. [Aufbereitung über auphonic.com](auphonic.de.md)
 beschreibt den Weg dahin (auf der Kommandozeile `--without-auphonic`). Das
 Programm richtet dann den Ton aus, mischt ihn, setzt die Lautheit und baut
 den Kameraschnitt. Es lässt De-Bleed, Leveler und Rauschentfernung aus.
+Hören die Mikrofone einander zu gut, um noch zu sagen, wer spricht, nimmt
+die Sprechertrennung ihnen diese Frage ab und hört alle Spuren zugleich
+ab ([Spracherkennung und Sprechertrennung](speech.de.md)).
 
 Alles kommt auf eine gemeinsame Zeitachse, Uhrengang eingerechnet. Das
 Fenster kommt allein aus den Kameras, und wo es gar keine gibt, aus den

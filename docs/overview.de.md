@@ -33,12 +33,29 @@ und wann das Kameramikrofon, schiebt beides übereinander und rechnet den
 Uhrengang über die Länge heraus. Wenn die Messung dafür zu wackelig ist,
 lässt es die Finger davon und sagt das auch.
 
-Dieser Vergleich lebt von Sprechpausen, und Musik hat keine. Wenn er
-nichts findet, sucht das Programm weiter über die Phase, die einen Raum
-und ein zweites Mikrofon übersteht. Im Protokoll steht, dass es
-umgeschaltet hat, und wie sicher der Fund war. Die Phase sagt, wo der
+Gegen einen gleichbleibenden Ton kommt dieser Vergleich nicht an. Ein
+Netzbrummen, eine Klimaanlage, irgendwo im Haus ein Signalton: so etwas
+liegt von der ersten Sekunde bis zur letzten unverändert über der
+Aufnahme und deckt genau das zu, wovon der Vergleich lebt, das Auf und
+Ab. Also läuft derselbe Vergleich ein zweites Mal, diesmal nur noch auf
+den Frequenzbändern, die sich über die Aufnahme bewegen; die
+stillstehenden bleiben außen vor. Nach einer Frequenz, die es schon
+kennt, sucht das Programm dabei nicht -- es fragt jede Aufnahme, welche
+ihrer Bänder Bewegung tragen. Lag so ein Ton 40 dB über der Aufnahme,
+verfehlte der erste Vergleich den Platz um bis zu 2247 Sekunden; der
+zweite trifft ihn auf 31 Millisekunden. Gelten lässt das Programm ihn
+nur, wenn er über die ganze Laufzeit genug Punkte gesetzt hat und die
+alle auf einer Geraden liegen; sonst geht die Aufnahme weiter zum dritten
+Weg. Trägt er, wird der Uhrengang herausgerechnet wie sonst auch, und im
+Protokoll steht an der Zeile: **über die bewegten Frequenzbänder
+platziert**.
+
+Beide Vergleiche leben von Sprechpausen, und Musik hat keine. Findet
+keiner von beiden etwas, sucht das Programm weiter über die Phase, die
+einen Raum und ein zweites Mikrofon übersteht. Die Phase sagt, wo der
 Ton liegt. Der Uhrengang bleibt unbekannt, und auf diesem Weg rechnet ihn
-das Programm nicht heraus.
+das Programm nicht heraus. Auch diese Zeile ist gekennzeichnet: **per
+Phase platziert**.
 
 ## Was herauskommt
 

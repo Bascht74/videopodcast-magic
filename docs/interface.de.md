@@ -397,7 +397,11 @@ wie in den Quelldateien -- die Datei kommt Byte für Byte gleich heraus.
 sagt, was sonst noch am Ziel hängt: die Normalisierung der Spuren, die
 Anzeige im Resolve-Projekt und was im Protokoll steht.
 
-**Probelauf** ist der Lauf, der misst und berichtet, aber nichts schreibt.
+**Probelauf** ist der Lauf, der misst und berichtet und keinen Schnitt
+erzeugt. Eines schreibt er doch: Hören die Mikrofone einander zu gut,
+um auseinandergehalten zu werden, misst er ihren Abstand und bewahrt
+die zusammengelegte Aufnahme auf, die die Trennung braucht -- der
+richtige Lauf muss sie dann nicht ein zweites Mal bauen.
 Er und **Start** bleiben gesperrt, solange etwas offen ist, und
 **unter den Knöpfen steht, was**, mitsamt dem Reiter, auf dem es steht:
 

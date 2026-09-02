@@ -33,12 +33,26 @@ and when the camera microphone does, slides them together, and takes the
 drift out over the length. If the measurement is too shaky for that, the
 program leaves it alone and says so.
 
-That comparison lives on pauses in the speech, and music has none. If it
-comes back with nothing, the program looks again at the phase, which
-survives a room and a second microphone. The log says that it switched
-and how sharp the find was. The phase answers where the audio sits. How
+A steady tone defeats that comparison. A hum off the mains, an air
+conditioner, a signal tone somewhere in the building: it stands there
+from the first second to the last, unchanging, and it buries the ups and
+downs the comparison lives on. So the program runs the same comparison
+again, this time only on the frequency bands that move over the
+recording; the ones that stand still are left out. It looks for no
+frequency it knows in advance -- it asks each recording which of its own
+bands carry movement. With such a tone 40 dB above the recording the
+first comparison missed the place by as much as 2247 seconds; the second
+lands within 31 milliseconds. It counts only where it has set enough
+points over the whole running time and they all sit on one line;
+otherwise the recording goes on to the third way. Where it holds, the
+drift comes out of the length as before, and the log marks the line:
+**placed on the bands that move**.
+
+Both comparisons live on pauses in the speech, and music has none. Where
+neither finds anything, the program looks at the phase, which survives a
+room and a second microphone. The phase answers where the audio sits. How
 fast the clocks run stays unknown, so the program takes no drift out on
-this path.
+this path. The log marks that line too: **placed by phase**.
 
 ## What comes out
 
