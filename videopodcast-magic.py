@@ -18580,9 +18580,12 @@ def speech_note_said(note):
     """
     found = SPEECH_TIMING.match(str(note or "").strip())
     if found:
-        return T('  Recognised in %s: ready in %.1f s, heard in %.1f s') \
-            % (found.group(1).replace("_", "-"), float(found.group(2)),
-               float(found.group(3)))
+        # Through decimal_text, or a German run reads "0.1 s" -- the
+        # catalogue turns the sentence and left the number English.
+        return T('  Recognised in %s: ready in %s s, heard in %s s') \
+            % (found.group(1).replace("_", "-"),
+               decimal_text("%.1f" % float(found.group(2))),
+               decimal_text("%.1f" % float(found.group(3))))
     return T('  The speech recognition reports: %s') % note
 
 
@@ -34733,8 +34736,8 @@ CATALOGUE["de"] = {
         '  Die Spracherkennung ist gebaut (%.1f s).',
     '  The speech recognition reports: %s':
         '  Die Spracherkennung meldet: %s',
-    '  Recognised in %s: ready in %.1f s, heard in %.1f s':
-        '  Erkannt in %s: bereit in %.1f s, gehört in %.1f s',
+    '  Recognised in %s: ready in %s s, heard in %s s':
+        '  Erkannt in %s: bereit in %s s, gehört in %s s',
     '  No speech recognition on this machine: macOS 26 brings one, otherwise '
     'faster-whisper is installed.':
         '  Auf diesem Rechner gibt es keine Spracherkennung: macOS 26 bringt '

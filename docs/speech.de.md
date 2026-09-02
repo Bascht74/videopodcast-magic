@@ -325,6 +325,16 @@ Laufs. Bleibt sie leer, arbeitet macOS mit der Systemsprache und Whisper
 errät sie aus dem Ton. Der Lauf schreibt den Text neben dem
 Kameraschnitt mit, nicht davor.
 
+Auf dem macOS-Weg meldet die Erkennung hinterher, wie es ihr ergangen
+ist -- in der Fortschrittszeile und im Protokoll: **Erkannt in de-DE:
+bereit in 0,1 s, gehört in 25,8 s**. Also womit sie gearbeitet hat, wie
+lange sie zum Bereitwerden brauchte und wie lange das Zuhören selbst
+gedauert hat. Daran lässt sich ein späterer Lauf gegen diesen halten.
+Die Zeile steht in der Sprache des Laufs; früher wurde sie in den
+eigenen Schlagworten der Erkennung durchgereicht, Englisch mitten in
+einem deutschen Lauf. Sagt die Erkennung etwas anderes, ist es eine
+Störung und wird auch als solche ausgegeben.
+
 Die Erkennung läuft auf dem fertigen Mix, nicht auf den Einzelspuren.
 Ein leiser Mitschnitt kann für die Sprechertrennung reichen und für
 den Text trotzdem nicht taugen.

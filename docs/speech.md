@@ -306,6 +306,15 @@ empty, macOS works with the system language and Whisper guesses it from
 the audio. The run writes the text down alongside the camera cut, not
 ahead of it.
 
+On the macOS way the recognition reports on itself afterwards, in the
+progress line and in the log: **Recognised in de-DE: ready in 0.1 s,
+heard in 25.8 s** -- which language it settled on, how long it took to
+be ready, how long the listening itself took. That is what makes a
+later run comparable to this one. The line is in the language of the
+run; it used to be handed on in the recognition's own keywords, English
+in the middle of a German run. Anything else the recognition says is a
+fault, and it comes out as one.
+
 Recognition runs on the finished mix, not on the single tracks. A quiet
 recording can be enough for the speaker separation and still not carry
 the text.
