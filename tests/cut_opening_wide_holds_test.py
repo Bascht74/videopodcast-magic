@@ -42,8 +42,9 @@ PIECES = [(0.0, 6.4), (7.1, 12.6), (13.5, 18.0), (19.4, 24.6),
 
 def opening_until(tracks):
     """Where the wide shot at the start gives way, or 0 without one."""
-    cut = vpm.camera_cut(tracks, LENGTH, CAMERA_OF, "Wide",
-                         3.0, 0.3, 0.0, 5.0, 120.0, True, None, faint=True)
+    cut = vpm.camera_cut(tracks, LENGTH, CAMERA_OF, "Wide", 3.0, 0.3,
+                         after=0.0, holds=5.0, at_latest=120.0, edge=True,
+                         rules=None, faint=True)
     return cut[0][1] if cut and cut[0][2] == "Wide" else 0.0
 
 

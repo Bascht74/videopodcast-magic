@@ -10,13 +10,13 @@ ffprobe name the same tracks in the same order; and the camera files in
 the folder are the ones the plan promised, none of them appearing
 unannounced and none going missing without a word.
 
-Two things the run says differently today, and both judgements stay
-true when either is put right. The plan names the camera's own track
-under every camera while the run writes it only where the camera has
-sound and --no-camera-audio was not given: exactly that one name may be
-promised and not delivered. And the mix is announced with its
-ingredients in brackets and carried under the bare name: either
-spelling is taken, and the brackets have to hold what went in.
+One thing the run says differently today, and the judgement stays true
+when it is put right: the plan names the camera's own track under every
+camera while the run writes it only where the camera has sound and
+--no-camera-audio was not given, so exactly that one name may be
+promised and not delivered. Every other name has to match letter for
+letter -- the overall mix included, which is why it is asked about on
+its own as well.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -275,13 +275,12 @@ def tracks_in_file(path):
 def names_it(promise, held):
     """Does one promised line name the track the file carries?
 
-    The overall mix is announced with its ingredients in brackets --
-    "Full-Mix (Guest + Presenter)" -- and carried under the bare name.
-    Both spellings name the same track; anything else has to match
-    letter for letter.
+    Letter for letter, the overall mix included: the plan is read
+    before the run to see whether the settings are right, and a name
+    that is spelt one way there and another way in Resolve is two
+    names to whoever reads both.
     """
-    return promise == held or (promise.startswith(held + " (")
-                               and promise.endswith(")"))
+    return promise == held
 
 
 #----------------------------------------------------------- The answers
@@ -379,18 +378,17 @@ check("and the file's tracks come in the order the plan named them",
       "%d of %d camera files differ, the first: %s"
       % (len(out_of_order), len(rows),
          out_of_order[0] if out_of_order else ()))
-# The one place the two lists spell a name differently. Either spelling
-# is taken; what is asked is that the brackets hold the recordings the
-# mix was made of and nothing else.
-WANTED_MIX = (MIX, "%s (Guest + Presenter)" % MIX)
+# The mix on its own, because it is the line that used to be spelt one
+# way in the plan and another in the file, and the rule above would let
+# a decorated name back in the day somebody decorates the file too.
 mix_named = [(name, source, line)
              for name, source, promise, _said, held in rows
              for line in promise
-             if line.startswith(MIX) and line not in WANTED_MIX]
-check("the overall mix is named bare or with the recordings in it",
-      not mix_named,
-      "%d over %d camera files are neither %r nor %r, the first: %s"
-      % (len(mix_named), len(rows), WANTED_MIX[0], WANTED_MIX[1],
+             if line.startswith(MIX) and line != MIX]
+check("the overall mix is named in the plan as the file names it",
+      bool(rows) and not mix_named,
+      "%d lines over %d camera files are not exactly %r, the first: %s"
+      % (len(mix_named), len(rows), MIX,
          mix_named[0] if mix_named else ()))
 # And the run's own report of what it wrote, against the file itself. No
 # exception here: this list is printed after the writing, so it has

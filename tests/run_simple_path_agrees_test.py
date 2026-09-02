@@ -146,18 +146,6 @@ def first_of(rows):
     return rows[0] if rows else ()
 
 
-def as_track_name(what):
-    """One line of the plan, back to the name the file carries.
-
-    The mix line carries its ingredients in brackets -- "Full-Mix (A +
-    B)" -- so that whoever reads the plan before the run knows what
-    goes into it. The file carries the name alone. Nothing else in the
-    block is decorated, so nothing else is touched here.
-    """
-    return (vpm.MIX_TRACK_NAME
-            if what.startswith(vpm.MIX_TRACK_NAME + " (") else what)
-
-
 def tracks_in_file(path):
     """The names of the audio tracks of one file, in file order."""
     answer = subprocess.run(
@@ -216,7 +204,7 @@ if at >= 0:
             promised.append(tuple(x.strip() for x in line.split("  ->  ")))
         elif line.startswith(track_head) and promised:
             promised_tracks.setdefault(promised[-1][0], []).append(
-                as_track_name(line.split(":", 1)[1].strip()))
+                line.split(":", 1)[1].strip())
         elif line.strip() and not line.startswith(" "):
             break
 want = [b for _a, b in promised]

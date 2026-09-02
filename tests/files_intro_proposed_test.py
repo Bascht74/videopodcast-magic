@@ -7,7 +7,9 @@ room, and wrong for a jingle: a jingle fits nothing because it is not a
 camera, and it is meant to be used -- set at the front rather than
 measured. The two are told apart by length, against the middle of the
 material around them, and both stand in the list of files with no
-place, which is what everything else asks.
+place, which is what everything else asks. And there is one intro in
+an episode: where it is already given away, the next file with no
+place is left out instead of taking the mark off the first.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -229,6 +231,32 @@ lengths = {"one": 60.0, "two": 3.0, "three": 2.0}
 check("the shortest comes first, because only one can be the intro",
       vpm.files_far_shorter(["two", "three"], lengths) == ["three", "two"],
       str(vpm.files_far_shorter(["two", "three"], lengths)))
+
+#------------------------------------- 5. A second file, the intro taken
+
+print("\n5. The intro is taken: the next file with no place is left out")
+# An episode has one intro. A second file that fits nothing cannot be
+# it, and content is what it cannot carry either -- so it is left out,
+# rather than pushing the first file off the mark.
+holds = vpm.Value(vpm.TYPE_INTRO)
+second = vpm.Value(vpm.TYPE_CONTENT)
+moved = vpm.kinds_off_the_axis({JINGLE: holds, DEAD: second}, [DEAD])
+check("the file that holds the intro keeps it",
+      holds.get() == vpm.TYPE_INTRO,
+      "%s, wanted %s" % (holds.get(), vpm.TYPE_INTRO))
+check("and the second file with no place is left out",
+      second.get() == vpm.TYPE_IGNORED and moved == [DEAD],
+      "%s and %d moved %s, wanted %s and 1"
+      % (second.get(), len(moved),
+         [os.path.basename(p) for p in moved], vpm.TYPE_IGNORED))
+# The other direction: with the intro free that same file takes it, so
+# what decided above was the mark being gone and not a rule that never
+# proposes an intro at all.
+alone = vpm.Value(vpm.TYPE_CONTENT)
+vpm.kinds_off_the_axis({DEAD: alone}, [DEAD])
+check("with the intro free the same file becomes the intro",
+      alone.get() == vpm.TYPE_INTRO,
+      "%s, wanted %s" % (alone.get(), vpm.TYPE_INTRO))
 
 source = open(SCRIPT, encoding="utf-8").read()
 called = source.count("kind_proposal_say(state.get(\"clip_kinds\")")

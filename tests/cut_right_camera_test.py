@@ -154,7 +154,8 @@ BUSY = [(n, busy[n]) for n in NAMES]
 print("1. THE SHAPE OF A CUT")
 for min_len in (1.2, 3.0, 6.0):
     cut = vpm.camera_cut(BUSY, 900.0, CAMERA_OF, "Wide", min_len, 0.3,
-                         40.0, 5.0, 120.0, True, vpm.cut_rules())
+                         after=40.0, holds=5.0, at_latest=120.0, edge=True,
+                         rules=vpm.cut_rules())
     tag = "shortest shot %.1f s" % min_len
     check("%s: shots, and they run forwards" % tag,
           bool(cut) and not backwards(cut),
@@ -168,8 +169,9 @@ for min_len in (1.2, 3.0, 6.0):
           not strangers_in(cut, KNOWN), str(strangers_in(cut, KNOWN)))
 
 print("\n1b. The same readings against lists doctored to break the rule")
-whole = vpm.camera_cut(BUSY, 900.0, CAMERA_OF, "Wide", 3.0, 0.3, 40.0,
-                       5.0, 120.0, True, vpm.cut_rules())
+whole = vpm.camera_cut(BUSY, 900.0, CAMERA_OF, "Wide", 3.0, 0.3, after=40.0,
+                       holds=5.0, at_latest=120.0, edge=True,
+                       rules=vpm.cut_rules())
 holed = [x for i, x in enumerate(whole) if i != 3]
 check("a missing shot is found as a gap", bool(gaps_in(holed)),
       "%d gaps, first %s" % (len(gaps_in(holed)), gaps_in(holed)[:1]))
@@ -189,8 +191,9 @@ print("\n2. THE RIGHT CAMERA")
 # The wide shot settings are out of the way, so nothing but the
 # assignment can decide what is on screen.
 turns = taking_turns(300.0, 12.0, 1.0, NAMES)
-plain = vpm.camera_cut(turns, 300.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0,
-                       5.0, 120.0, False, vpm.cut_rules())
+plain = vpm.camera_cut(turns, 300.0, CAMERA_OF, "Wide", 3.0, 0.3, after=0.0,
+                       holds=5.0, at_latest=120.0, edge=False,
+                       rules=vpm.cut_rules())
 missed = wrong_camera(plain, turns, CAMERA_OF, 0.3)
 check("whoever speaks is on their own camera", not missed,
       "%d of %d samples wrong, first %s"
@@ -203,24 +206,25 @@ check("moved one camera along, the same reading catches it",
       "%d wrong" % len(astray))
 
 quiet = [("Host", [(0.0, 20.0)]), ("Guest", [(40.0, 60.0)])]
-lull = vpm.camera_cut(quiet, 80.0, {"Host": "CamA", "Guest": "CamB"},
-                      "Wide", 3.0, 0.3, 0.0, 5.0, 120.0, False,
-                      vpm.cut_rules())
+lull = vpm.camera_cut(quiet, 80.0, {"Host": "CamA", "Guest": "CamB"}, "Wide",
+                      3.0, 0.3, after=0.0, holds=5.0, at_latest=120.0,
+                      edge=False, rules=vpm.cut_rules())
 check("a silence stands on the wide shot",
       shown_at(lull, 30.0) == "Wide" and shown_at(lull, 70.0) == "Wide",
       "%s at 30 s, %s at 70 s" % (shown_at(lull, 30.0),
                                   shown_at(lull, 70.0)))
 free = [("Host", [(0.0, 20.0)]), ("Nobody", [(25.0, 45.0)])]
 none = vpm.camera_cut(free, 60.0, {"Host": "CamA"}, "Wide", 3.0, 0.3,
-                      0.0, 5.0, 120.0, False, vpm.cut_rules())
+                      after=0.0, holds=5.0, at_latest=120.0, edge=False,
+                      rules=vpm.cut_rules())
 check("a speaker with no camera goes to the wide shot",
       shown_at(none, 35.0) == "Wide", str(none))
 both = [("Host", [(0.0, 20.0)]), ("Co-host", [(10.0, 30.0)]),
         ("Guest", [(35.0, 55.0)])]
 pair = vpm.camera_cut(both, 60.0,
-                      {"Host": "Hosts", "Co-host": "Hosts",
-                       "Guest": "CamG"}, "Wide", 3.0, 0.0, 0.0, 5.0,
-                      120.0, False, vpm.cut_rules())
+                      {"Host": "Hosts", "Co-host": "Hosts", "Guest": "CamG"},
+                      "Wide", 3.0, 0.0, after=0.0, holds=5.0, at_latest=120.0,
+                      edge=False, rules=vpm.cut_rules())
 check("two at once: the camera showing both comes up",
       shown_at(pair, 15.0) == "Hosts", str(pair))
 
@@ -248,7 +252,8 @@ check("and it does count it when the delay is three seconds",
 print("\n3. SHORTEST SHOT (--min-edit-duration)")
 for min_len in (1.2, 3.0, 6.0, 10.0):
     cut = vpm.camera_cut(BUSY, 900.0, CAMERA_OF, "Wide", min_len, 0.3,
-                         0.0, 5.0, 120.0, True, vpm.cut_rules())
+                         after=0.0, holds=5.0, at_latest=120.0, edge=True,
+                         rules=vpm.cut_rules())
     check("nothing under %.1f s stands, wide shot breaks off" % min_len,
           not under(cut, min_len),
           "%d shots, shortest %.3f, under: %s"
@@ -262,7 +267,8 @@ print("\n4. EDIT CHANGE DELAY (--edit-change-delay)")
 speech_edges = sorted({t for _n, segs in turns for s in segs for t in s})
 for delay in (0.0, 0.3, 1.0, -0.5):
     cut = vpm.camera_cut(turns, 300.0, CAMERA_OF, "Wide", 3.0, delay,
-                         0.0, 5.0, 120.0, False, vpm.cut_rules())
+                         after=0.0, holds=5.0, at_latest=120.0, edge=False,
+                         rules=vpm.cut_rules())
     want = set(round(e + delay, 6) for e in speech_edges) | {0.0, 300.0}
     off = [round(b, 6) for _a, b, _w in cut[:-1]
            if round(b, 6) not in want]
@@ -270,21 +276,26 @@ for delay in (0.0, 0.3, 1.0, -0.5):
           % delay, not off, "%d shots, off the grid: %s" % (len(cut),
                                                             off[:3]))
 lead = vpm.camera_cut([("Host", [(0.0, 20.0)]), ("Guest", [(20.0, 40.0)])],
-                      40.0, CAMERA_OF, "Wide", 3.0, 1.0, 0.0, 5.0,
-                      120.0, False, vpm.cut_rules())
+                      40.0, CAMERA_OF, "Wide", 3.0, 1.0, after=0.0, holds=5.0,
+                      at_latest=120.0, edge=False, rules=vpm.cut_rules())
 check("and the number is the whole of it: 20 s becomes 21 s",
       abs(lead[0][1] - 21.0) < 1e-6, str(lead))
 back = vpm.camera_cut([("Host", [(0.0, 20.0)]), ("Guest", [(20.0, 40.0)])],
-                      40.0, CAMERA_OF, "Wide", 3.0, -0.5, 0.0, 5.0,
-                      120.0, False, vpm.cut_rules())
+                      40.0, CAMERA_OF, "Wide", 3.0, -0.5, after=0.0, holds=5.0,
+                      at_latest=120.0, edge=False, rules=vpm.cut_rules())
 check("negative lets the picture lead: 20 s becomes 19.5 s",
       abs(back[0][1] - 19.5) < 1e-6, str(back))
 # And the delay nobody names. Every call above says what it wants, so
 # the number the program falls back to could be moved without a check
 # noticing -- measured on 2.9.2026 over the seventeen tests that touch
-# the cut. It is 0.3 s, the starting value the window offers.
+# the cut. It is 0.3 s, the starting value the window offers. The four
+# wide shot settings beside it are named even here: they have no
+# starting value of their own any more, because the program passes all
+# four wherever it asks for a cut.
 handover = [("Host", [(0.0, 20.0)]), ("Guest", [(20.0, 40.0)])]
-untold = vpm.camera_cut(handover, 40.0, CAMERA_OF, "Wide")
+untold = vpm.camera_cut(handover, 40.0, CAMERA_OF, "Wide",
+                        after=vpm.WIDE_AFTER_S, holds=5.0, at_latest=120.0,
+                        edge=True)
 untold_at = untold[0][1] if untold else -1.0
 check("with nobody naming a delay the cut still sits 0.3 s late",
       abs(untold_at - 20.3) < 1e-6,
@@ -328,8 +339,8 @@ paper = sentences_every(5.0, 240.0)
 for after, holds, most in ((40.0, 5.0, 15.0), (30.0, 8.0, 12.0)):
     rules = vpm.cut_rules(words=paper, wide_holds=holds, wide_most=most)
     cut = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"},
-                         "Wide", 3.0, 0.3, after, holds, 120.0, False,
-                         rules)
+                         "Wide", 3.0, 0.3, after=after, holds=holds,
+                         at_latest=120.0, edge=False, rules=rules)
     longest = max(b - a for a, b, w in cut if w != "Wide")
     puts = inserted_wides(cut, "Wide")
     check("after %.0f s the camera is left" % after,
@@ -342,9 +353,9 @@ for after, holds, most in ((40.0, 5.0, 15.0), (30.0, 8.0, 12.0)):
     check("and at most %.0f s" % most,
           all(b - a <= most + 1e-6 for a, b, _w in puts),
           "longest %.2f" % max([b - a for a, b, _w in puts] or [0.0]))
-off = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"},
-                     "Wide", 3.0, 0.3, 0.0, 5.0, 120.0, False,
-                     vpm.cut_rules(words=paper))
+off = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"}, "Wide",
+                     3.0, 0.3, after=0.0, holds=5.0, at_latest=120.0,
+                     edge=False, rules=vpm.cut_rules(words=paper))
 check("turned off, the long shot stands the whole way",
       max(b - a for a, b, w in off if w != "Wide") > 200.0,
       "longest %.2f s, %d shots"
@@ -354,15 +365,15 @@ check("turned off, the long shot stands the whole way",
 mute = [("Host", [(0.0, 600.0)]), ("Guest", [(600.0, 620.0)])]
 for latest in (120.0, 60.0):
     cut = vpm.camera_cut(mute, 620.0, {"Host": "CamA", "Guest": "CamB"},
-                         "Wide", 3.0, 0.3, 40.0, 5.0, latest, False,
-                         vpm.cut_rules())
+                         "Wide", 3.0, 0.3, after=40.0, holds=5.0,
+                         at_latest=latest, edge=False, rules=vpm.cut_rules())
     longest = max(b - a for a, b, w in cut if w != "Wide")
     check("with nothing to cut on, %.0f s is still the limit" % latest,
           longest <= latest + 1e-6,
           "longest %.2f s, %d shots" % (longest, len(cut)))
 free_run = vpm.camera_cut(mute, 620.0, {"Host": "CamA", "Guest": "CamB"},
-                          "Wide", 3.0, 0.3, 0.0, 5.0, 120.0, False,
-                          vpm.cut_rules())
+                          "Wide", 3.0, 0.3, after=0.0, holds=5.0,
+                          at_latest=120.0, edge=False, rules=vpm.cut_rules())
 check("without the limit the same stretch stands unbroken",
       max(b - a for a, b, w in free_run if w != "Wide") > 500.0,
       "longest %.2f s"
@@ -375,8 +386,9 @@ print("\n6b. Where the shortest shot and the interposed shot disagree")
 # shot above the wide shot length -- both are free fields in the window
 # -- and a flash of the wide shot reaches the edit.
 rules = vpm.cut_rules(words=paper, wide_holds=5.0, wide_most=15.0)
-clash = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"},
-                       "Wide", 8.0, 0.3, 40.0, 5.0, 120.0, False, rules)
+clash = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"}, "Wide",
+                       8.0, 0.3, after=40.0, holds=5.0, at_latest=120.0,
+                       edge=False, rules=rules)
 breach = under(clash, 8.0)
 print("     shortest shot 8 s, wide shot length 5 s -> %d shots under "
       "the minimum" % len(breach))
@@ -388,8 +400,9 @@ check("it gets no worse than the 5.00 s measured on 29.8.2026",
       all(d >= 5.0 - 1e-6 for _a, _b, _w, d in breach),
       "shortest %.2f s of %d" % (min([d for _a, _b, _w, d in breach]
                                      or [0.0]), len(breach)))
-sane = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"},
-                      "Wide", 3.0, 0.3, 40.0, 5.0, 120.0, False, rules)
+sane = vpm.camera_cut(talk, 280.0, {"Host": "CamA", "Guest": "CamB"}, "Wide",
+                      3.0, 0.3, after=40.0, holds=5.0, at_latest=120.0,
+                      edge=False, rules=rules)
 check("with the minimum below the wide length nothing is short",
       not under(sane, 3.0), str(under(sane, 3.0)[:2]))
 
@@ -414,8 +427,8 @@ def early_by(reach):
     """Where the camera changes with this much lead, in seconds."""
     rules = vpm.cut_rules(words=asked, reaction_lead=reach,
                           on_question=vpm.SHOT_ANSWER)
-    cut = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0,
-                         5.0, 120.0, False, rules)
+    cut = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, after=0.0,
+                         holds=5.0, at_latest=120.0, edge=False, rules=rules)
     return min([a for a, _b, w in cut if w == "CamB"] or [0.0])
 
 
@@ -435,15 +448,16 @@ check("a lead of 4.0 s counts from there as well",
       "18.800, the answer begins at 21.000" % _when)
 rules = vpm.cut_rules(words=asked, reaction_lead=0.0,
                       on_question=vpm.SHOT_ANSWER)
-none_early = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0,
-                            5.0, 120.0, False, rules)
+none_early = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, after=0.0,
+                            holds=5.0, at_latest=120.0, edge=False,
+                            rules=rules)
 check("at zero it waits for the delay instead",
       abs(min(a for a, _b, w in none_early if w == "CamB") - 20.3) < 1e-6,
       str(none_early))
 rules = vpm.cut_rules(words=asked, reaction_lead=4.0,
                       on_question=vpm.SHOT_OFF)
-shut = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, 0.0, 5.0,
-                      120.0, False, rules)
+shut = vpm.camera_cut(duo, 60.0, CAMERA_OF, "Wide", 3.0, 0.3, after=0.0,
+                      holds=5.0, at_latest=120.0, edge=False, rules=rules)
 check("switched off, nothing comes early at all",
       abs(min(a for a, _b, w in shut if w == "CamB") - 20.3) < 1e-6,
       str(shut))

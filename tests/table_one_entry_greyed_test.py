@@ -19,6 +19,11 @@ The field itself was greyed as well, so every camera serving as the
 wide shot carried grey words in a shut box while a camera showing
 "Content" stood in black. Only the entry that is refused is greyed;
 the field around it stays black and open.
+
+The marks work the same way: an episode has one intro and one outro,
+so while a file holds either, that entry alone is greyed on every
+other file and says which file holds it. Both directions are asked,
+because a bar that never lifts would pass the first half.
 """
 import os
 import sys
@@ -214,6 +219,48 @@ check("intro, outro and ignore stay open",
       set(open_ones) == {vpm.TYPE_WIDE, vpm.TYPE_INTRO, vpm.TYPE_OUTRO,
                          vpm.TYPE_IGNORED},
       "open: %s" % (open_ones,))
+
+print("\n7. One intro and one outro: the mark bars it elsewhere")
+HOLDER, OTHER = "/m/Jingle.mov", "/m/Camera3.mov"
+kinds = {HOLDER: vpm.Value(vpm.TYPE_INTRO),
+         OTHER: vpm.Value(vpm.TYPE_CONTENT)}
+shut = vpm.edge_kind_barred(OTHER, kinds)
+check("intro is barred where another file holds it",
+      list(shut) == [vpm.TYPE_INTRO],
+      "barred: %s, wanted only %r" % (sorted(shut), vpm.TYPE_INTRO))
+check("and the sentence names the file that holds it",
+      "Jingle.mov" in shut.get(vpm.TYPE_INTRO, ""),
+      repr(shut.get(vpm.TYPE_INTRO, "")))
+check("the file holding the mark is barred nothing",
+      vpm.edge_kind_barred(HOLDER, kinds) == {},
+      "barred on the holder: %s"
+      % (sorted(vpm.edge_kind_barred(HOLDER, kinds)),))
+# The other direction. A bar that never lifts passes the three above
+# and leaves the entry dead for the rest of the session.
+kinds[HOLDER].set(vpm.TYPE_CONTENT)
+check("and the bar comes off again when the mark does",
+      vpm.edge_kind_barred(OTHER, kinds) == {},
+      "still barred: %s" % (sorted(vpm.edge_kind_barred(OTHER, kinds)),))
+kinds[HOLDER].set(vpm.TYPE_OUTRO)
+check("the outro is barred the same way, and it alone",
+      list(vpm.edge_kind_barred(OTHER, kinds)) == [vpm.TYPE_OUTRO],
+      "barred: %s, wanted only %r"
+      % (sorted(vpm.edge_kind_barred(OTHER, kinds)), vpm.TYPE_OUTRO))
+# And in the field itself, greyed the way every other bar in this file
+# is: the one entry, with its reason on it, in a box that stays open.
+_cell, box = vpm.clip_kind_cell("Camera3.mov", vpm.TYPE_CONTENT, "", QUIET,
+                                False, "",
+                                vpm.edge_kind_barred(OTHER, kinds))
+check("that entry is the only one greyed in the field",
+      barred(box) == [vpm.TYPE_OUTRO],
+      "barred: %s of %s" % (barred(box), list(vpm.CLIP_TYPES)))
+check("the reason stands on the entry it is about",
+      note(box, vpm.TYPE_OUTRO)
+      == vpm.edge_kind_barred(OTHER, kinds)[vpm.TYPE_OUTRO],
+      "the entry says %r" % (note(box, vpm.TYPE_OUTRO),))
+check("and the field is still open to be answered", box.isEnabled(),
+      "the field is dead, with %d entries of which %d are barred"
+      % (box.count(), len(barred(box))))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -1,6 +1,6 @@
 # The test suite
 
-214 tests against `../videopodcast-magic.py`. Every one of them stands
+216 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-214 tests. The name is the one a red line carries, and beside it the
+216 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -255,6 +255,7 @@ it is green.
 | `files_atom_travels` | A logs atom lost by ffmpeg's copy is put back into the new file. |
 | `files_block_out_and_back` | Taking one block out of a recording, and putting it back. |
 | `files_block_stays_apart` | A block taken out of a recording by hand stays out. |
+| `files_blocks_join_exact` | Blocks join only where the file names match letter for letter. |
 | `files_clock_links_blocks` | Blocks that carry a clock in the name instead of a counter. |
 | `files_colour_carried` | Colour tags, QuickTime keys and named audio tracks reach the result. |
 | `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |
@@ -308,12 +309,13 @@ it is green.
 | `time_axis_measured` | The common time axis, measured out of the sound and without a window. |
 | `time_bad_point_dropped` | One sample point in the wrong place must not tip the whole line. |
 | `time_block_holds_on` | A recording made of blocks is placed as one recording. |
-| `time_camera_by_clock` | A camera sits where its timecode says, not where the sound was measured. |
 | `time_clock_from_any_file` | A Timecode is counted from the axis, not from the reference's clock. |
+| `time_clock_read_at_rate` | What a file's clock says is read at that file's own rate. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
 | `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
+| `time_measured_place_wins` | A camera stands where it was measured; its clock is the last resort. |
 | `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
 | `time_over_midnight` | Midnight is one night, not a day apart. |

@@ -82,7 +82,8 @@ def cut_at(floor):
     kept, thrown = with_floor(ANSWERS, floor)
     common = dict(tracks=[(GUEST, GUEST_BLOCKS), (HOST, kept)],
                   length=LENGTH, camera_of={GUEST: GUEST_CAM, HOST: HOST_CAM},
-                  wide_shot=WIDE, rules=vpm.cut_rules())
+                  wide_shot=WIDE, holds=5.0, at_latest=120.0, edge=True,
+                  rules=vpm.cut_rules())
     plain = vpm.camera_cut(after=0, **common)
     whole = vpm.camera_cut(after=vpm.WIDE_AFTER_S, **common)
     stood = set(round(a, 3) for a, _b, _w in plain)

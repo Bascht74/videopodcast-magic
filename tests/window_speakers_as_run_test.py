@@ -86,8 +86,8 @@ IN_THE_MIX = "Room"
 LEFT_OUT = "Recorder"
 VOICES = [("Bea", [(11.5, 16.5)]), ("Cid", [(31.0, 36.5)])]
 LENGTH = 36.5
-# What "Measure speakers now" left behind in the window: every row that
-# stood at the time, the one since set aside included.
+# What the window's own reading of the recordings left behind: every
+# row that stood at the time, the one since set aside included.
 MEASURED = {"segments": [(FREE, [(5.0, 10.0), (18.0, 23.0)]),
                          (NO_CAMERA, [(24.0, 29.0)]),
                          (IN_THE_MIX, [(2.0, 38.0)]),

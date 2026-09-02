@@ -311,7 +311,10 @@ if made == ["Guest_aligned.wav", "Host_aligned.wav"]:
                   % (from_s, until_s, name, got, was, share))
             if thinnest is None or share < thinnest:
                 thinnest, thin_name = share, name
-    check("both tracks carry the sound their recording has there",
+    # The name says what the floor really rules out. Half the level is
+    # a long way from "the sound the recording has there", and a check
+    # promising that would be read as one nobody has to repeat.
+    check("neither track is empty or far below its recording's level",
           thinnest is not None and thinnest >= LEVEL_LEAST,
           "the thinnest is %s at %.2f of the recording's level, wanted "
           "%.2f" % (thin_name, thinnest if thinnest is not None else -1.0,

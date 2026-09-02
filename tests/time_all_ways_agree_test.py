@@ -48,10 +48,12 @@ After that the cases the material of a single ordinary run cannot
 make, each one a place where two numbers that are one number here are
 two everywhere else: a camera running slower than the Timeline, where
 the frames of the file and the frames of the Timeline part company; a
-row of files carrying no timecode, where the shift the run measured
-itself is all that is left to place a camera by; one file whose path
-is written two ways, where a handover comparing raw strings loses the
-measurement and puts the camera at the start of the axis; and a rate
+measurement and a clock saying different things, where which of the
+two placed a camera can be seen at all -- in every run above they
+agree, and they have to, or no two ways could land on one instant;
+one file whose path is written two ways, where a handover comparing
+raw strings loses the measurement and puts the camera at the start of
+the axis; and a rate
 whose timecode counts faster than the pictures run, where the frame a
 timecode names and the frame a second is are not the same frame. Last
 the whole set once more at a second frame rate, read back the way a
@@ -105,14 +107,18 @@ MOD = os.path.join(FIX, "PresentersCam_01011855_C002.mov")
 KAND = os.path.join(FIX, "GuestCam_01011858_C003.mov")
 FPS = 25.0
 FRAME = 1.0 / FPS
-# What the run measured for itself, and none of it zero. A camera's
-# place in the handover comes off its timecode, and the measurement is
-# only what is left where no file in the row carries one -- so with
-# zeroes here, "the timecode decided" and "the measurement decided"
-# name the same number for the camera that starts the axis, and taking
-# the timecode away changes nothing that can be seen. Three different
-# wrong answers instead, so every camera says which of the two it took.
-MEASURED = {WIDE: 7.5, MOD: -3.25, KAND: 11.0}
+# What the run measured for itself. A camera stands where it was
+# measured, so these are the places every way below has to arrive at.
+# They are also what the fixture's own clocks say, and that is not a
+# convenience: a run whose measurement disagreed with its clocks is one
+# in which the sound really does sit against the wrong picture, and
+# then no two ways could agree by any arithmetic. That the clocks say
+# exactly this is a judgement of its own further down, so a fixture
+# rebuilt to other times says so instead of turning every line here red
+# without a reason. Where the two have to be told apart -- which of
+# them the run went by -- a section of its own does it, on material
+# built so that they disagree.
+MEASURED = {WIDE: 0.0, MOD: 4.0, KAND: 17.48}
 
 # Two ways out, and they are not the same news: a machine nobody set
 # up, or a fixture that changed under everybody. One line each --
@@ -140,6 +146,16 @@ if blank:
     sys.exit(0)
 
 ZERO = stamp[WIDE]              # the earliest camera is the zero of the axis
+# The material's own clocks, held against the places above. Every way
+# below walks from one of the two, and a fixture rebuilt to other times
+# would part them without anything saying so: the spread reported then
+# names no fault of the program's at all.
+off_by = {os.path.basename(p): round(stamp[p] - ZERO - MEASURED[p], 4)
+          for p in (WIDE, MOD, KAND)}
+check("the fixture's clocks are the places this test was written for",
+      not [v for v in off_by.values() if abs(v) > FRAME],
+      "each camera's clock less the axis, less what this test measures "
+      "for it: %s -- rebuild with tests/fixtures.sh" % (off_by,))
 
 
 def stamp_of(cam):
@@ -301,7 +317,8 @@ class Run(object):
     """One whole run: the five files it wrote and everything read back."""
 
     def __init__(self, name, tc_start, speech, length,
-                 in_point=None, out_point=None, mix=None, rate=FPS):
+                 in_point=None, out_point=None, mix=None, rate=FPS,
+                 offsets=None):
         self.name = name
         self.dir = tempfile.mkdtemp(prefix="onemoment_")
         KEEP.append(self.dir)
@@ -317,7 +334,8 @@ class Run(object):
             self.args, tracks, cameras, vids, self.dir, tc_start, ref,
             results=[WIDE, MOD, KAND], cut=self.cut, segment_list=self.segs,
             length=length, track_names={}, single_files=dict(mix or {}),
-            offsets=dict(MEASURED), words=())
+            offsets=dict(MEASURED if offsets is None else offsets),
+            words=())
         self.stem = os.path.join(self.dir, vpm.safe_filename(name))
         self.files = {
             "handover": self.stem + "_resolve.json",
@@ -568,18 +586,50 @@ def walk_every_way(r):
           % (len(lost), "; ".join("%s -- %s" % p for p in lost[:3])))
 
     print("\n  THE BRIDGE BETWEEN THE AXES")
-    for c in d["cameras"]:
+    # Written out one camera at a time rather than looped: a name put
+    # together out of the camera makes one line in state/counterproof
+    # stand for three judgements, and that row cannot say which of the
+    # three was ever seen red.
+
+    def bridge(camera):
+        """(the clock against the axis, the stored place, the player's)."""
+        c = r.by_camera.get(camera)
+        if c is None:
+            return None, None, None
         got = stamp_of(c)
-        check("  %s: timecode - start_s == offset" % c["camera"],
-              got is not None
-              and abs((got - r.start_s) - float(c["offset"])) <= r.frame,
-              "" if got is None else
-              "%.4f vs %.4f" % (got - r.start_s, c["offset"]))
-        check("  %s: camera_offset() says the same" % c["camera"],
-              abs(r.player_offset.get(c["track"], 1e9)
-                  - float(c["offset"])) <= r.frame,
-              "%.4f vs %.4f" % (r.player_offset.get(c["track"], 0.0),
-                                c["offset"]))
+        return (None if got is None else got - r.start_s,
+                float(c["offset"]), r.player_offset.get(c["track"]))
+
+    def one_instant(a, b):
+        return a is not None and b is not None and abs(a - b) <= r.frame
+
+    clock, stored, played = bridge(stem_of(WIDE))
+    check("  the wide shot's clock and its stored place are one instant",
+          one_instant(clock, stored),
+          "%s: the clock sits %s s from the axis, the handover says %s"
+          % (r.name, clock, stored))
+    check("  and the player puts the wide shot in that same place",
+          one_instant(played, stored),
+          "%s: the player says %s, the handover %s"
+          % (r.name, played, stored))
+    clock, stored, played = bridge(stem_of(MOD))
+    check("  the presenters' clock and its stored place are one instant",
+          one_instant(clock, stored),
+          "%s: the clock sits %s s from the axis, the handover says %s"
+          % (r.name, clock, stored))
+    check("  and the player puts the presenters' camera in that place",
+          one_instant(played, stored),
+          "%s: the player says %s, the handover %s"
+          % (r.name, played, stored))
+    clock, stored, played = bridge(stem_of(KAND))
+    check("  the guest's clock and its stored place are one instant",
+          one_instant(clock, stored),
+          "%s: the clock sits %s s from the axis, the handover says %s"
+          % (r.name, clock, stored))
+    check("  and the player puts the guest's camera in that place",
+          one_instant(played, stored),
+          "%s: the player says %s, the handover %s"
+          % (r.name, played, stored))
 
 
 def five_files(r):
@@ -810,8 +860,14 @@ if NEW0 is None or NEW1 is None:
 WINDOW_SPEECH = [(n, [(max(0.0, a - NEW0), min(NEW1 - NEW0, b - NEW0))
                       for a, b in segs if b > NEW0 and a < NEW1])
                  for n, segs in SPEECH]
+# The measurement moves with the window. A run measures on the trimmed
+# material, so what it finds is one In point smaller than what the open
+# run found: the camera's picture has not moved, the axis under it has.
+# Handing the open run's numbers to the windowed one would be handing
+# it a measurement of material it never saw.
 win_run = Run("Onemomentwin", ZERO + NEW0, WINDOW_SPEECH, NEW1 - NEW0,
-              in_point=IN_TEXT, out_point=OUT_TEXT)
+              in_point=IN_TEXT, out_point=OUT_TEXT,
+              offsets={p: m - NEW0 for p, m in MEASURED.items()})
 
 print("\n" + "=" * 66)
 print("THE SAME MOMENTS AGAIN, WITH THE WINDOW SET")
@@ -1115,56 +1171,112 @@ check("and sits on the Timeline where the cut puts it, counted at the "
       % (f_shot["recordFrame"] - f_origin))
 
 print("\n" + "=" * 66)
-print("A RUN WITH NO TIMECODE TO GO BY")
+print("WHICH OF THE TWO PUT A CAMERA WHERE IT IS")
 print("=" * 66)
-# A camera's place comes off its timecode, and the shift the run
-# measured for itself is only what is left where no timecode can be
-# had -- an ffmpeg that drops the timecode track through a render, a
-# camera that never wrote one. Then the measurement has to reach the
-# handover, because the alternative is not "roughly right": it is every
-# camera at the start of the axis, sound against the wrong picture, and
-# nothing in the file looking wrong. The whole row is asked with no zero
-# at all, which is the case camera_place falls back in.
-BLINDDIR = tempfile.mkdtemp(prefix="onemoment_blind_")
-KEEP.append(BLINDDIR)
-vpm.write_handover(
-    make_args("Onemomentblind"), tracks, cameras, videos_at(FPS)[0],
-    BLINDDIR, None, ref_clip, results=[WIDE, MOD, KAND],
-    cut=open_run.cut, segment_list=open_run.segs, length=LENGTH,
-    track_names={}, single_files={}, offsets=dict(MEASURED), words=())
-BLINDFILE = os.path.join(
-    BLINDDIR, vpm.safe_filename("Onemomentblind") + "_resolve.json")
-blind_d = (json.load(open(BLINDFILE, encoding="utf-8"))
-           if os.path.exists(BLINDFILE) else {"cameras": []})
+# A camera stands where it was measured, and its clock is what is left
+# where nothing was. Every run above is built so the two say the same
+# thing -- they have to, or no two ways to a moment could land on one
+# instant -- and that is exactly the material in which "the measurement
+# decided" and "the clock decided" cannot be told apart. So three short
+# handovers here, each one written from a material in which the two
+# disagree, and each read for the place, for the word the file carries
+# saying who put it there, and for what the run kept beside it.
+#
+# Three shifts apart from each other and from anything the clocks could
+# give back (0.0, 4.0 and 17.48 against the axis), so a measurement
+# that never arrived cannot pass for one that did.
+ODD = {WIDE: 7.5, MOD: -3.25, KAND: 11.0}
+
+
+def handover_from(name, tc_start, offsets):
+    """Write one handover and read it back. No judgement here."""
+    folder = tempfile.mkdtemp(prefix="onemoment_who_")
+    KEEP.append(folder)
+    vpm.write_handover(
+        make_args(name), tracks, cameras, videos_at(FPS)[0], folder,
+        tc_start, ref_clip, results=[WIDE, MOD, KAND], cut=open_run.cut,
+        segment_list=open_run.segs, length=LENGTH, track_names={},
+        single_files={}, offsets=dict(offsets), words=())
+    path = os.path.join(folder, vpm.safe_filename(name) + "_resolve.json")
+    got = (json.load(open(path, encoding="utf-8"))
+           if os.path.exists(path) else {"cameras": []})
+    return path, got
+
+
+def off_from(written, want):
+    """The cameras whose offset is not *want*, as (name, got, wanted)."""
+    return [(c["camera"], float(c["offset"]), want.get(c["camera"]))
+            for c in written["cameras"]
+            if abs(float(c["offset"]) - want.get(c["camera"], 1e9)) > FRAME]
+
+
+ODDFILE, odd_d = handover_from("Onemomentodd", ZERO, ODD)
+want = {stem_of(p): v for p, v in ODD.items()}
+bad = off_from(odd_d, want)
+check("where the measurement and the clock disagree, the measurement "
+      "is the place", not bad and len(odd_d["cameras"]) == 3,
+      "%d cameras of 3%s" % (len(odd_d["cameras"]), "" if not bad else
+                             "; %s: offset %.4f, measured %.4f" % bad[0]))
+# And the file says so out loud, so that anybody asking afterwards why
+# a camera sits where it does is not left to guess between the two.
+wrong_word = [(c["camera"], c.get("placed_by")) for c in odd_d["cameras"]
+              if c.get("placed_by") != "measured"]
+check("and every camera says the measurement is what placed it",
+      not wrong_word and len(odd_d["cameras"]) == 3,
+      "%d cameras of 3%s" % (len(odd_d["cameras"]), "" if not wrong_word
+                             else "; %s says %r" % wrong_word[0]))
+
+# Nothing measured at all: then the clock is all there is, and a camera
+# put there is one nobody checked -- so the word has to say "clock" and
+# no shift may be claimed beside it. A 0.0 there reads exactly like a
+# camera the alignment found on the axis.
+NOTHINGFILE, none_d = handover_from("Onemomentnone", ZERO, {})
+by_clock = {stem_of(p): stamp[p] - ZERO for p in (WIDE, MOD, KAND)}
+bad = off_from(none_d, by_clock)
+check("with nothing measured, every camera stands where its clock says",
+      not bad and len(none_d["cameras"]) == 3,
+      "%d cameras of 3%s" % (len(none_d["cameras"]), "" if not bad else
+                             "; %s: offset %.4f, the clock says %.4f"
+                             % bad[0]))
+wrong_word = [(c["camera"], c.get("placed_by")) for c in none_d["cameras"]
+              if c.get("placed_by") != "clock"]
+check("and every camera says the clock is what placed it",
+      not wrong_word and len(none_d["cameras"]) == 3,
+      "%d cameras of 3%s" % (len(none_d["cameras"]), "" if not wrong_word
+                             else "; %s says %r" % wrong_word[0]))
+claimed = [(c["camera"], c.get("sound_against_picture"))
+           for c in none_d["cameras"]
+           if c.get("sound_against_picture") is not None]
+check("and none of them claims a shift against the picture",
+      not claimed and len(none_d["cameras"]) == 3,
+      "%d cameras of 3%s" % (len(none_d["cameras"]), "" if not claimed
+                             else "; %s carries %r" % claimed[0]))
+
+# And with no zero point there is no axis to read a clock against, so
+# the measurement is the whole of the answer. The alternative is not
+# "roughly right": it is every camera at the start of the axis, sound
+# against the wrong picture, and nothing in the file looking wrong.
+BLINDFILE, blind_d = handover_from("Onemomentblind", None, ODD)
 check("a run with no zero writes a handover all the same",
       os.path.exists(BLINDFILE) and len(blind_d["cameras"]) == 3,
       "%d cameras in %s" % (len(blind_d["cameras"]),
                             os.path.basename(BLINDFILE)))
-want = {stem_of(p): v for p, v in MEASURED.items()}
-bad = [(c["camera"], c["offset"], want.get(c["camera"]))
-       for c in blind_d["cameras"]
-       if abs(float(c["offset"]) - want.get(c["camera"], 1e9)) > FRAME]
-check("with no timecode to go by, every camera stands where the run "
-      "measured it", not bad and len(blind_d["cameras"]) == 3,
-      "" if not bad else "%s: offset %.4f, measured %.4f" % bad[0])
+bad = off_from(blind_d, want)
+check("with no zero point to go by, every camera still stands where "
+      "the run measured it", not bad and len(blind_d["cameras"]) == 3,
+      "%d cameras of 3%s" % (len(blind_d["cameras"]), "" if not bad else
+                             "; %s: offset %.4f, measured %.4f" % bad[0]))
 # And the measurement travels under a name of its own beside it, so
 # nobody downstream reads a place out of it.
 bad = [(c["camera"], c.get("sound_against_picture"), want.get(c["camera"]))
        for c in blind_d["cameras"]
-       if abs(float(c.get("sound_against_picture", 1e9))
+       if abs(float(c.get("sound_against_picture") or 1e9)
               - want.get(c["camera"], 0.0)) > 1e-6]
 check("and the measurement is handed on under its own name as well",
       not bad and len(blind_d["cameras"]) == 3,
-      "" if not bad else "%s: sound_against_picture %s, measured %.4f"
-      % bad[0])
-# The other way round, on the run that had timecodes: the measurement
-# was three different wrong answers there, and not one of them stuck.
-bad = [(c["camera"], c["offset"], want.get(c["camera"]))
-       for c in open_run.d["cameras"]
-       if abs(float(c["offset"]) - want.get(c["camera"], 1e9)) <= FRAME]
-check("and where there was a timecode, the measurement was not the "
-      "place", not bad,
-      "" if not bad else "%s: offset %.4f is the measured %.4f" % bad[0])
+      "%d cameras of 3%s" % (len(blind_d["cameras"]), "" if not bad else
+                             "; %s: sound_against_picture %s, measured %.4f"
+                             % bad[0]))
 
 print("\n" + "=" * 66)
 print("ONE FILE WHOSE PATH IS WRITTEN TWO WAYS")
@@ -1199,7 +1311,7 @@ vpm.write_handover(
     cut=open_run.cut, segment_list=open_run.segs, length=LENGTH,
     track_names={other_shape(p): n for p, n in NAMED.items()},
     single_files={},
-    offsets={other_shape(p): s for p, s in MEASURED.items()},
+    offsets={other_shape(p): s for p, s in ODD.items()},
     lengths={other_shape(p): s for p, s in DELIVERED.items()}, words=())
 SHAPEFILE = os.path.join(
     SHAPEDIR, vpm.safe_filename("Onemomentshape") + "_resolve.json")
@@ -1209,7 +1321,11 @@ check("a handover is written from paths in the other shape too",
       os.path.exists(SHAPEFILE) and len(shaped["cameras"]) == 3,
       "%d cameras in %s" % (len(shaped["cameras"]),
                             os.path.basename(SHAPEFILE)))
-want_shift = {stem_of(p): v for p, v in MEASURED.items()}
+# The shifts of the section above, not the places the runs use: with
+# no zero point a missed measurement writes 0.0, and one camera really
+# is measured at 0.0 up there -- so that camera alone could not tell a
+# find from a fallback.
+want_shift = {stem_of(p): v for p, v in ODD.items()}
 bad = [(c["camera"], c["offset"], want_shift.get(c["camera"]))
        for c in shaped["cameras"]
        if abs(float(c["offset"]) - want_shift.get(c["camera"], 1e9)) > FRAME]
