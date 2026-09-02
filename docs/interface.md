@@ -179,11 +179,13 @@ Four tabs, in the order they are needed.
   ([Speech recognition and speaker separation](speech.md)), indented
   and open to begin with. Each says **Voice** in the first column, so
   that the step down can be seen, and carries the name and the camera
-  it belongs to. Folded away, the recording says under **belongs to**
-  what folding takes off the screen -- the cameras: **on 2 cameras**,
-  or **on 1 camera, 1 without** where a voice has none yet; open, that
-  cell of its own stays empty, so the assignment is never on two levels
-  at once. A click on a voice takes the player to where that voice
+  it belongs to. A recording with voices under it carries no camera of
+  its own -- the rows below carry it, so the assignment is never on two
+  levels at once -- and its own cell under **belongs to** says as much
+  in grey: **the voices below carry the cameras**. Fold the voices away
+  and that cell names them instead -- the cameras: **on 2 cameras**, or
+  **on 1 camera, 1 without** where a voice has none yet. A click on a
+  voice takes the player to where that voice
   speaks longest and plays it. Recordings that show no voices are a
   flat list, without triangles.
 
@@ -269,7 +271,9 @@ Four tabs, in the order they are needed.
   separation that already stands as well. Then who is missing stands
   there in place of what the cut rests on. Those people are in the cut;
   it is this preview that cannot show them until they have been
-  measured. A measurement that fails says why in the same spot.
+  measured. A measurement that fails says why in the same spot. After a
+  run the button is gone, and only the line stays: the run measured
+  every track it had, and its result is finer than this button's.
 
   The box with the cut values is called **Camera cut** when the speakers
   sit on two cameras or more. On one camera for everybody it is called
@@ -290,11 +294,17 @@ Four tabs, in the order they are needed.
   Resolve project is written anyway, with every camera at its measured
   place.
 
-  Both rear tabs are there with or without separate tracks. Without them
-  the assignment column reads "into every camera" in grey.
+  Both rear tabs are there with or without separate tracks, and so is
+  the assignment: **belongs to** is asked with the tick and without it,
+  because which camera a recording belongs to is the same question
+  either way and the run makes the same answer of it. Clicking the tick
+  therefore costs nothing -- the cameras picked by hand stay picked.
 - **Output**: appears as soon as something runs, in the same colours as
   the terminal, with the buttons **Open result folder** and
-  **Create Resolve project**.
+  **Create Resolve project**. It also comes up on opening a project
+  whose output folder already holds finished files -- the buttons belong
+  to those files, so the sheet says where things stand instead of
+  looking like a run that failed.
 
 **Multitrack (one track per speaker)** has a line of its own under the
 assignment table, above the Auphonic box. It works with auphonic.com and
@@ -399,10 +409,14 @@ from the In point.
 - Formats the machine cannot play (MXF, R3D, some ProRes variants) get a
   button for `ffplay`.
 
-The output also goes to `videopodcast-magic.log` next to the script, with
-version, time and machine in the header and a dividing line per run; the
-previous run stays as `videopodcast-magic_1.log`. What Qt and ffmpeg write
-past Python is in there too.
+The output also goes to `videopodcast-magic.log` next to the script. Its
+first line names version, time, operating system and Python, and the line
+under it the path the program was started from -- several copies of the
+program share one log, and without that line nobody can tell later which
+of them wrote what. Every start of the program begins the file again and
+keeps the one before as `videopodcast-magic_1.log`, so one file holds a
+whole session and every run in it. What Qt and ffmpeg write past Python
+is in there too.
 
 Beside **Start** runs **one bar for everything outstanding**, with a line
 saying what is being worked on; it only ever moves forward. It covers
@@ -445,7 +459,10 @@ The window behind the button holds two boxes.
   Windows). **Connect** checks the key and fetches the presets. On a Mac
   with the keychain locked the tick is grey, a line under it says so, and
   **Open Keychain Access** beside that line opens the program that
-  unlocks it; the tick comes back on its own once it is open.
+  unlocks it; the tick comes back on its own once it is open. Where the
+  store refuses the key, **Connect** takes the tick off again and writes
+  **The key was not saved** with the reason -- the tick never stands
+  green over a key that will be gone at the next start.
 - **Connection to Resolve**: whether Resolve answers, with its version if
   it does and the reasons if it does not. **Check again** asks once more,
   and so does opening the window.
@@ -494,10 +511,15 @@ there and stands under **File** everywhere else.
 
 Everything the menus hold carries a key, and the menus hold the whole
 run: the project, the material, the start, the player. Buttons that
-stand on a sheet of their own have none -- **Connect** and **Check
-again** behind **Settings ...**, the three that zoom the cut band, and
-the two under **Output**. The keys that need no modifier belong to the
-player and only work while the player has the focus.
+stand on a sheet of their own have no menu entry and no key of their own
+-- **Connect** and **Check again** behind **Settings ...**, and the two
+under **Output**. The keys that need no modifier belong to the player,
+or to the cut band, and each only works while that one has the focus.
+
+The three buttons that zoom the cut band do carry keys, and the band
+answers them itself: `+` shows half as much around the current position,
+`-` twice as much, `0` and `Home` the whole length again. The wheel over
+the band does the same as `+` and `-`.
 
 | Key | The entry it presses |
 |---|---|
@@ -551,7 +573,7 @@ If one of the three fails, the file that works stays where it is and the
 window says what was wrong.
 
 The version that was running stays beside the new one as
-`videopodcast-magic.py.old`. **Help > Back to 2.23.0-beta** puts it
+`videopodcast-magic.py.old`. **Help > Back to 2.26.1-beta** puts it
 back; the entry names the version out of that file and stands in the
 menu only while the file is there.
 

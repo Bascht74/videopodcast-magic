@@ -40,6 +40,29 @@ itself, next to the check: the same reading over a faked list, with the
 offset turned round, with the switch off. That version stays in scratch
 space too, or is taken back out after the run.
 
+## One trap when they are done in series
+
+**Give every broken copy its own file name.** Python keeps a
+`__pycache__` entry for a copy loaded through `spec_from_file_location`
+and holds it valid as long as **size and mtime** of the source agree.
+Two turned-round signs one after the other are the same size, and
+written within the same second they are the same mtime -- so the second
+run reads the bytecode of the first.
+
+Measured, and it cost a finding: a strand got a green run back from a
+break that should have gone red, reported "this check tests nothing",
+and had to withdraw it. **A green counter-proof is a claim about the
+check. Make sure it is not a claim about the cache.**
+
+A serial number in the name of every broken copy costs nothing and
+settles it.
+
+**And give every run its own `VPM_CACHE`.** The same trap wears a second
+coat: a check on the words came back green not because the program was
+whole but because the words were on disk from the run before, and the
+broken place was never entered. Measured, and it cost one false find.
+`VPM_CACHE=<your folder>` beside the three language variables.
+
 ## How small the damage has to be
 
 **A sign turned round. A limit moved by one. A call taken away.**

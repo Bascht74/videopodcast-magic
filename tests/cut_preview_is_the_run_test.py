@@ -11,10 +11,11 @@ the transcript moves the cut at all, and that the handover carries every
 word of it. Then three cases, held against each other in that there is a
 cut at all, in the number of shots, in the seconds and in the camera --
 after a question, on a long monologue with the wide shot at the edges,
-and with every camera taken. Last the transcript cut_statistics finds in
-the handover itself where the caller sends none. Only the cut list is
-compared, to the millisecond the handover writes; what the window rounds
-for its own sentence is not.
+and with every camera taken. Then the transcript cut_statistics finds in
+the handover itself where the caller sends none, and last the cut list
+the written file carries, against both. Only the cut list is compared,
+to the millisecond the handover writes; what the window rounds for its
+own sentence is not.
 """
 import collections
 import contextlib
@@ -367,6 +368,32 @@ check("the preview takes the transcript out of the handover itself",
       % (len(_run or []),
          ("%d -- %s" % (len(_found), how_apart(_run, _found)))
          if _found else "none -- %s" % (_why or "no reason given")))
+
+print("\n6. The cut list the handover file itself carries")
+# The two above are the cut in memory against the preview. What lands
+# in Resolve is neither: it is the list written into the file, and a
+# window showing a cut the file does not carry shows a film nobody will
+# see. So the file is read back and held against both.
+try:
+    _made, _file = the_run(ONE, *parts(NAMES, WITH_A_SPEAKER))
+    _carried = shots([(c["start"], c["end"], c["camera"])
+                      for c in (_file.get("cut") or [])])
+    _shown, _no = the_preview(ONE, _file)
+except Exception as e:
+    _made, _carried, _shown, _no = None, [], None, "%s: %s" % (
+        type(e).__name__, str(e)[:90])
+check("the handover file carries the cut the run made",
+      bool(_made) and _carried == _made,
+      "the run made %d shots, the file carries %d -- %s"
+      % (len(_made or []), len(_carried),
+         how_apart(_made or [], _carried, "the run", "the file")))
+check("and the preview shows the cut the handover file carries",
+      bool(_carried) and _shown == _carried,
+      "the file carries %d shots, the preview shows %s"
+      % (len(_carried),
+         ("%d -- %s" % (len(_shown), how_apart(_carried, _shown, "the file",
+                                               "the preview")))
+         if _shown else "none -- %s" % (_no or "no reason given")))
 
 shutil.rmtree(ROOM, ignore_errors=True)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

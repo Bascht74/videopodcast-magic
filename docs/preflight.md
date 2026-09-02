@@ -65,9 +65,14 @@ on every frame and let the spacing vary; phones do that when the light
 goes. The file still states a fixed nominal rate. The report says which of
 two cases it is:
 
-- **Evenly off.** The file says 30, in truth it is a constant 29.98. That
-  is clock drift, as in the audio. The audio is pulled onto the picture
-  during alignment anyway, so the report only mentions it.
+- **Evenly off.** The rate holds steady, only it is not the one the file
+  states. The line names both -- the measured rate against the stated
+  one -- and how many frames that comes to over the same length. Under
+  it stands what an editing program makes of it: it lays the frames out
+  at the stated rate and leaves one out every so many seconds, so the
+  file does not grow longer and picture and camera audio stay together.
+  That is clock drift, as in the audio, and the audio is pulled onto the
+  picture during alignment anyway, so the report only mentions it.
 - **Unevenly.** The frame spacing changes mid-recording, and the audio
   *cannot* catch that. If the sample points spread during alignment too,
   only converting to a fixed frame rate helps.

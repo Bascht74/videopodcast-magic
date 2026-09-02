@@ -81,6 +81,18 @@ them and lose the time:
 
 * **No `timeout`** and no `gtimeout`. A strand that needs a deadline
   builds it into the script it starts.
+* **And when it has to wait for something, this is the shape:**
+
+  ```bash
+  while pgrep -f "name_of_the_thing" >/dev/null; do sleep 2; done
+  ```
+
+  Nothing cleverer. A strand invented
+  `until [ ! -e /proc/self ] && false; do :; done` -- there is no
+  `/proc` on a Mac, so the condition is false for ever and `until`
+  spins. Measured: **99,3 % of one core for seventeen minutes**, and
+  the line it was waiting for never ran. Whoever writes a wait tries it
+  once on something that finishes in a second.
 * **Windows offscreen only.** Nothing may jump onto the screen.
 * **Nothing is committed, nothing is pushed.** Not even "just to be
   safe".

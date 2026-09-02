@@ -52,8 +52,9 @@ also nicht in der Prozessliste. Das Programm liest ihn zurück, um zu
 sehen, dass er angekommen ist. Einen zweiten Weg gibt es nicht: als
 Argument übergeben stünde er dort, wo jeder am Rechner ihn lesen kann.
 Nimmt der Schlüsselbund ihn also nicht, wird nichts abgelegt, und eine
-Zeile sagt, warum. Beim Weg über die Windows-Registry stellt sich die
-Frage nicht.
+Zeile sagt, warum. Das Häkchen geht dabei wieder heraus, damit es nicht
+gesetzt über einem Schlüssel steht, der beim nächsten Start fort ist.
+Beim Weg über die Windows-Registry stellt sich die Frage nicht.
 
 Ob der Schlüsselbund zugesperrt ist, wird nachgesehen, bevor etwas
 übergeben wird. Solange er zu ist, ist das Häkchen **Im Schlüsselbund

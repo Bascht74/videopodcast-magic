@@ -195,11 +195,13 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   wurden ([Spracherkennung und Sprechertrennung](speech.de.md)),
   eingerückt und zunächst aufgeklappt. Jede sagt in der ersten Spalte
   **Stimme**, damit die Stufe zu sehen ist, und trägt den Namen und die
-  zugehörige Kamera. Zugeklappt sagt die Aufnahme unter **gehört zu**,
-  was das Zuklappen vom Schirm nimmt -- die Kameras: **auf 2 Kameras**,
-  oder **auf 1 Kamera, 1 ohne**, wenn eine Stimme noch keine hat;
-  aufgeklappt bleibt diese eigene Zelle leer, damit die Zuordnung nie
-  auf zwei Ebenen zugleich steht. Ein Klick auf eine Stimme holt den
+  zugehörige Kamera. Eine Aufnahme mit Stimmen darunter trägt selbst
+  keine Kamera -- die tragen die Zeilen darunter, damit die Zuordnung
+  nie auf zwei Ebenen zugleich steht --, und ihre eigene Zelle unter
+  **gehört zu** sagt genau das, grau: **die Stimmen darunter tragen die
+  Kameras**. Klappt man die Stimmen zu, nennt dieselbe Zelle statt
+  dessen sie -- die Kameras: **auf 2 Kameras**, oder **auf 1 Kamera, 1
+  ohne**, wenn eine Stimme noch keine hat. Ein Klick auf eine Stimme holt den
   Player an die Stelle, wo diese Stimme am längsten redet, und spielt
   sie ab. Aufnahmen, die keine Stimmen zeigen, sind eine flache Liste,
   ohne Dreiecke.
@@ -293,6 +295,9 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   wer fehlt, anstelle dessen, worauf der Schnitt beruht. Diese Leute
   sind im Schnitt; nur diese Vorschau kann sie erst nach dem Messen
   zeigen. Scheitert eine Messung, steht der Grund an derselben Stelle.
+  Nach einem Lauf ist der Knopf fort, und nur die Zeile bleibt: der Lauf
+  hat jede Spur gemessen, die er hatte, und sein Ergebnis ist feiner als
+  das dieses Knopfes.
 
   Der Kasten mit den Werten heißt **Kameraschnitt**, wenn die Sprecher
   auf zwei oder mehr Kameras sitzen. Bei einer Kamera für alle heißt er
@@ -315,11 +320,18 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   Resolve-Projekt entsteht trotzdem, mit jeder Kamera am gemessenen
   Platz.
 
-  Beide hinteren Reiter stehen mit und ohne getrennte Spuren da. Ohne sie
-  zeigt die Zuordnungsspalte grau „in alle Kameras“.
+  Beide hinteren Reiter stehen mit und ohne getrennte Spuren da, und die
+  Zuordnung ebenso: **gehört zu** wird mit dem Häkchen gefragt und ohne
+  es, denn zu welcher Kamera eine Aufnahme gehört, ist ohnehin
+  dieselbe Frage, und der Lauf macht dieselbe Antwort daraus. Das
+  Häkchen anzuklicken kostet deshalb nichts — von Hand gewählte Kameras
+  bleiben stehen.
 - **Ausgabe**: erscheint, sobald etwas läuft, in denselben Farben wie
   das Terminal, mit den Knöpfen **Ergebnis-Ordner öffnen** und
-  **Resolve-Projekt anlegen**.
+  **Resolve-Projekt anlegen**. Der Reiter kommt außerdem beim Öffnen
+  eines Projekts hoch, wenn im Ausgabeordner schon fertige Dateien
+  liegen -- die Knöpfe gehören zu diesen Dateien, und so sagt das Blatt,
+  wie die Dinge stehen, statt wie ein misslungener Lauf auszusehen.
 
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
 Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
@@ -429,9 +441,13 @@ dem In-Punkt gezählt.
   ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
 Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem
-Script, mit Version, Zeit und Rechner in der Kopfzeile und einer
-Trennlinie je Lauf; vom vorletzten Lauf bleibt
-`videopodcast-magic_1.log`. Auch was Qt und ffmpeg an Python vorbei
+Script. Die erste Zeile nennt Version, Zeit, Betriebssystem und Python,
+die Zeile darunter den Pfad, aus dem das Programm gestartet wurde --
+mehrere Kopien des Programms teilen sich ein Protokoll, und ohne diese
+Zeile ist später nicht zu sagen, welche davon was geschrieben hat. Jeder
+Start des Programms beginnt die Datei neu und hebt die vorige als
+`videopodcast-magic_1.log` auf; eine Datei hält also eine ganze Sitzung
+mit allen Läufen darin. Auch was Qt und ffmpeg an Python vorbei
 ausgeben, steht darin.
 
 Neben **Start** läuft **ein Balken für alles Ausstehende**, mit einer
@@ -477,7 +493,11 @@ Das Fenster hinter dem Knopf hat zwei Kästen.
   und holt die Presets. Ist der Schlüsselbund auf dem Mac zugesperrt, ist
   das Häkchen grau, eine Zeile darunter sagt es, und
   **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das ihn
-  aufsperrt; danach wacht das Häkchen von selbst wieder auf.
+  aufsperrt; danach wacht das Häkchen von selbst wieder auf. Nimmt die
+  Ablage den Schlüssel nicht an, nimmt **Verbinden** das Häkchen wieder
+  heraus und schreibt **Der Schlüssel wurde nicht gespeichert** samt
+  Grund dazu — es steht nie gesetzt über einem Schlüssel, der beim
+  nächsten Start fort ist.
 - **Verbindung zu Resolve**: ob Resolve antwortet, mit Version, wenn ja,
   und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal, das
   Öffnen des Fensters ebenso.
@@ -529,11 +549,16 @@ sonst überall unter **Datei**.
 
 Alles, was in den Menüs steht, hat eine Taste, und in den Menüs steht
 der ganze Lauf: das Projekt, das Material, der Start, der Player.
-Knöpfe, die für sich auf einem Reiter stehen, haben keine --
-**Verbinden** und **Erneut prüfen** hinter **Einstellungen ...**, die
-drei, die das Schnittband zoomen, und die beiden unter **Ausgabe**. Die
-Tasten ohne Zusatztaste gehören dem Player und wirken nur, solange er
-den Fokus hat.
+Knöpfe, die für sich auf einem Reiter stehen, haben keinen Menüeintrag
+und keine eigene Taste -- **Verbinden** und **Erneut prüfen** hinter
+**Einstellungen ...** und die beiden unter **Ausgabe**. Die Tasten ohne
+Zusatztaste gehören dem Player oder dem Schnittband und wirken nur,
+solange dieses den Fokus hat.
+
+Die drei Knöpfe, die das Schnittband zoomen, haben sehr wohl Tasten, und
+das Band beantwortet sie selbst: `+` zeigt halb so viel um die aktuelle
+Stelle, `-` doppelt so viel, `0` und `Pos1` wieder die ganze Länge. Das
+Rad über dem Band tut dasselbe wie `+` und `-`.
 
 | Taste | Der Eintrag, den sie drückt |
 |---|---|
@@ -588,7 +613,7 @@ die Datei liegen, die funktioniert, und das Fenster sagt, was nicht
 stimmte.
 
 Die Version, die lief, bleibt als `videopodcast-magic.py.old` neben der
-neuen liegen. **Hilfe > Zurück auf 2.23.0-beta** setzt sie wieder ein;
+neuen liegen. **Hilfe > Zurück auf 2.26.1-beta** setzt sie wieder ein;
 der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
 solange die Datei da ist.
 

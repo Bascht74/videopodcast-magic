@@ -60,9 +60,9 @@ and `_cameracut.edl`, whatever the cut is called. The heads are
 
 The interface takes every value on the **Resolve cut** tab, in the box
 **Camera cut**. One field per value, with the unit and a short line
-beside it. The box is there once the cut has its people -- two of them,
-or one with a second camera nobody is on; until then a line stands in
-its place and says what is missing.
+beside it. The box is there once **Multitrack** is ticked, or once the
+cut has its people -- two of them, or one with a second camera nobody is
+on; until then a line stands in its place and says what is missing.
 
 ![The knobs for the camera cut](images/resolve-cut.png)
 
@@ -258,7 +258,11 @@ one line of numbers below it:
 * the speech time, split into own camera, wide shot and a camera
   without the speaker
 
-The last figure stands in the warning colour.
+The last figure stands in the warning colour. The three shares are
+counted along the finished timeline, a tenth of a second at a time: where
+two talk at once that is one moment and not two, and the three times
+together are the time somebody is speaking. The box **Speaker** below
+counts the other way round, per person, so its rows add up higher.
 
 The box **Speaker** shows, per speaker:
 
@@ -266,30 +270,48 @@ The box **Speaker** shows, per speaker:
 * the number of blocks and their average length
 * a row for silence
 
-The heading names the source: **Speakers, separated by voice** or
-**Speakers, self-measured from the tracks**. The table can hold both at
-once -- voices out of a separation and tracks measured from their own
-microphone stand in it side by side -- and the heading then reads
-**Speakers, separated by voice** for all of them. The log tells the two
-apart and prints both marks, each over the rows belonging to it.
+The heading names the source, and there are three answers:
+
+- **Speakers, as the run measured them.** A run is done and its handover
+  is being read. Every track lay on one axis for it, and over
+  auphonic.com the neighbours had been taken out of them as well. This
+  is the finest of the three.
+- **Speakers, separated by voice.** They come out of a separation on
+  this machine, before any run.
+- **Speakers, self-measured from the tracks.** Levels measured against
+  each other here in the window, one microphone per person. The coarsest
+  of the three, and enough to set the cut up.
+
+Before a run the table can hold the last two at once -- voices out of a
+separation and tracks measured from their own microphone stand in it
+side by side -- and the heading then reads **Speakers, separated by
+voice** for all of them. The log tells those two apart in its own way:
+it prints both marks, and under each one line saying who came that way
+-- how many voices out of which recording, and the names of the tracks
+measured against each other. The speaking times themselves follow after
+both marks, in one list for everybody.
 
 With two speaking at once the time counts twice, for silence it does
 not. The rows therefore add up to more than the running time.
 
-The program computes both from the handover file
-`<Production>_resolve.json` of the last run, on every change and always
-for the chosen window. Writing and uploading belong to the run, not to
-the preview.
+Where a run has left its handover file `<Production>_resolve.json`, both
+boxes are computed from it; where there is none, from what the window
+has worked out for itself. Either way on every change, and always for
+the chosen window. Writing and uploading belong to the run, not to the
+preview.
 
-The button **Measure speakers now** stands at the head of the preview
-box, under what the preview says and not under this one, for as long as a track is neither covered by a
-separation nor measured; beside it stands who is missing: **Name not
-measured yet -- in the cut, not yet in this preview**. Those people are
-in the cut; one press fetches them into the preview as well. Where no
-speakers are known at all, the preview box says so in place of its
-numbers and the box **Speaker** stays empty. If the measurement fails,
-the reason stands beside the button. Speakers that turn up later start
-the preview by themselves.
+The button **Measure speakers now** stands at the foot of the preview
+box, in the line under what the preview says and not under this one --
+and only for as long as a track is neither covered by a separation nor
+measured. Beside it stands who is missing: **Name not measured yet -- in
+the cut, not yet in this preview**. Those people are in the cut; one
+press fetches them into the preview as well. **Once a run is done the
+button is gone**: the run measured every track it had, so there is
+nothing left to press it for, and the line then says what the cut rests
+on. Where no speakers are known at all, the preview box says so in place
+of its numbers and the box **Speaker** stays empty. If the measurement
+fails, the reason stands beside the button. Speakers that turn up later
+start the preview by themselves.
 
 ### Reading the cut band and the legend
 
@@ -488,7 +510,9 @@ without waiting for a run: coarser than the separation by voice, but
 enough to set the cut up. The two are not alternatives. Voices out of a
 separation and tracks measured here go into one and the same reckoning,
 and the button stands there as long as a track is neither covered by a
-separation nor measured -- also once something has been separated.
+separation nor measured -- also once something has been separated. After
+a run it disappears: what the run measured is finer than anything this
+button can deliver, and it left nobody out.
 
 ### Cutting when one camera shows everybody
 
@@ -537,6 +561,15 @@ files are in the list; point at the wrong file and the program searches
 the same folder for `videopodcast-magic*.json`. Beside it lies the
 handover file `<Production>_resolve.json`. The preview computes from it,
 and the Resolve part builds from it.
+
+**Opening a project picks that handover up again**, in the output folder
+and beside the project file -- but only one that names **exactly these
+cameras**. A handover out of another production, or out of an earlier
+round over fewer cameras, is passed over as if it were not there: a cut
+built out of it looks exactly like a fresh one and is not. Where it
+fits, the preview stands on the run's numbers from the first moment and
+**Create Resolve project** can be pressed without running anything
+again.
 
 ### How the program places the wide shot
 
@@ -602,10 +635,10 @@ loudness measurement runs through each track twice.
   separation found a single voice and there is only one camera. The log
   says so, under `SPEAKERS -- MEASURED HERE` or
   `SPEAKERS -- SEPARATED BY VOICE`.
-* **No box for the cut on the Resolve cut tab.** Nobody carries a name
-  and a camera, or one person does and there is no second camera. On
-  the **Assignment & time window** tab give each voice a name and a
-  camera.
+* **No box for the cut on the Resolve cut tab.** **Multitrack** is not
+  ticked, and nobody carries a name and a camera -- or one person does
+  and there is no second camera. On the **Assignment & time window** tab
+  give each voice a name and a camera.
 * **Four settings are grey and take nothing.** No transcript is written
   down yet. **After a question**, **Answer on screen earlier**, **Wide
   shot after** and **Wide shot at most** all need one; the first run
