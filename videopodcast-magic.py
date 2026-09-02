@@ -696,7 +696,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.30.0-beta"
+VERSION = "2.31.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -3032,27 +3032,18 @@ def find_continuation_files(file_path):
     stem, digits = m.group(1), m.group(2)
     width = len(digits)
     row, discarded = [file_path], []
-    # Exactly as they are written, and only then case-blind: on a
+    # Exactly as they are written, and no other spelling: on a
     # case-sensitive disc REC0002.wav and rec0002.wav are two files, and
-    # folding them into one key would put whichever came last into the
-    # recording -- a different answer depending on the folder listing.
-    every = os.listdir(folder)
-    exact = {f: f for f in every}
-    loosely = {}
-    for f in every:
-        loosely.setdefault(f.lower(), []).append(f)
+    # taking one for the other answers differently depending on the
+    # folder listing. Two spellings in a row is two naming logics.
+    every = set(os.listdir(folder))
 
     def neighbour(index_number):
         for b in (width, 0):
             nm = ("%s%0*d%s" % (stem, b, index_number, ext)) if b else\
                  ("%s%d%s" % (stem, index_number, ext))
-            hit = exact.get(nm)
-            if hit is None:
-                same = loosely.get(nm.lower()) or []
-                # Only where there is no doubt which file was meant.
-                hit = same[0] if len(same) == 1 else None
-            if hit:
-                return os.path.join(folder, hit)
+            if nm in every:
+                return os.path.join(folder, nm)
         return None
 
     index_number = int(digits)
@@ -3089,11 +3080,10 @@ def track_order_for_camera(own, every, singles=()):
     """Return the audio tracks for one camera, in order.
 
     Track 1 is the finished mix of what belongs to this camera, so
-    taking only the first is correct without further work. Then the
-    same speakers, the overall mix minus the crosstalk, and last the
-    camera microphone. *singles* are the recordings that get a line of
-    their own where nobody was assigned to this camera; the caller
-    works out whether the run writes them.
+    taking only the first is correct. Then the same speakers, the
+    overall mix minus the crosstalk, and last the camera microphone.
+    *singles* get a line of their own where nobody was assigned here;
+    every line is the name the track carries in the written file.
     """
     sequence = []
     if own:
@@ -3102,10 +3092,10 @@ def track_order_for_camera(own, every, singles=()):
         if len(own) > 1:
             sequence += list(own)
     else:
-        sequence.append("Full-Mix (%s)" % " + ".join(every))
+        sequence.append(MIX_TRACK_NAME)
         sequence += list(singles)
     if every and own and set(own) != set(every):
-        sequence.append("Full-Mix (%s)" % " + ".join(every))
+        sequence.append(MIX_TRACK_NAME)
     sequence.append("Camera Original")
     return sequence
 
@@ -4510,17 +4500,16 @@ def rules_from_cut_box(number, chosen):
 WIDE_AFTER_S = 70.0
 
 
-def insert_wide_shots(cut, tracks, wide_shot, after=WIDE_AFTER_S,
-                      duration=5.0,
-                      min_len=1.2, at_latest=120.0, camera_of=None,
-                      rules=None):
+def insert_wide_shots(cut, tracks, wide_shot, after, duration, min_len,
+                      at_latest, camera_of=None, rules=None):
     """Break up long shots by leaving the speaker for a while.
 
     A shot holding longer than *after* is opened at a sentence boundary
-    nearby, the exact point coming from the sound; what is shown there
-    is the "Long monologue" choice. The shot stands at least *duration*
-    seconds and runs to the end of the sentence. Without a boundary the
-    longest speech pause stands in, and *at_latest* forces a cut.
+    nearby, the point coming from the sound; what is shown there is the
+    "Long monologue" choice. It stands at least *duration* seconds and
+    runs to the end of the sentence; without one the longest pause
+    stands in, and *at_latest* forces a cut. All four are always given,
+    so none of them carries a starting value of its own.
     """
     rules = rules or cut_rules()
     words = rules.get("words") or ()
@@ -5387,15 +5376,15 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
 
 
 def camera_cut(tracks, length, camera_of, wide_shot,
-               min_len=MIN_EDIT_DURATION_S,
-               delay=0.3, after=WIDE_AFTER_S, holds=5.0,
-               at_latest=120.0,
-               edge=True, rules=None, faint=True):
+               min_len=MIN_EDIT_DURATION_S, delay=0.3, *,
+               after, holds, at_latest, edge, rules=None, faint=True):
     """Build the whole camera cut, in the order the rules apply.
 
     The preview and the run both come through here. Two copies of this
     order drift apart, and then the same material yields a different
-    cut depending on which of the two produced it.
+    cut depending on which produced it. The four wide shot settings are
+    named at every call and have no starting value; *delay* keeps its
+    0.3 s, which the command line and the cut box name too.
     """
     rules = rules or cut_rules()
     cut = build_camera_cut(tracks, length, camera_of, wide_shot,
@@ -5919,8 +5908,9 @@ def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
         rules["levels"] = sound_levels_for(d)
     if not wides:
         after, edge, rules = without_a_wide_shot(after, edge, rules)
-    cut = camera_cut(tracks, length, camera_of, wide_shot, min_len,
-                     delay, after, holds, at_latest, edge, rules)
+    cut = camera_cut(tracks, length, camera_of, wide_shot, min_len, delay,
+                     after=after, holds=holds, at_latest=at_latest,
+                     edge=edge, rules=rules)
     if not cut:
         return None
 
@@ -10285,9 +10275,10 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             # what for.
             print(as_warn(
                 T('  What the window took apart is dropped: it listened '
-                  'to one recording, and the microphones stand only %s dB '
-                  'apart -- below %s dB one of them alone no longer says '
-                  'who is speaking.')
+                  'to one recording, and the microphones hear each other '
+                  'so well that none of them stands out -- %s dB against '
+                  'the %s dB one of them alone needs to say who is '
+                  'speaking.')
                 % (decimal_text("%.1f" % dropped),
                    decimal_text("%.1f" % MICROPHONES_APART_DB))))
         if why == "microphones mixed":
@@ -14331,27 +14322,31 @@ def widest_frame(sizes):
 
 
 def camera_place(files, zero, measured, fps=30.0):
-    """Where a camera's picture sits against programme time.
+    """Where a camera's picture sits, and what put it there.
 
-    "Position in the file is programme time minus this." The file
-    carries the camera's own timecode and the camera's own picture, so
-    the answer is the timecode minus the zero of the axis.
+    "Position in the file is programme time minus this." Returns the
+    place and one word for how it was found: "measured", "clock" or
+    "nowhere".
+
+    The measurement comes first. Not every camera shares a timecode,
+    and a shared one is still a frame or two out -- so a clock is where
+    a measurement starts, not what it is replaced by. Only where
+    nothing was measured does the clock answer, and the caller then
+    says so: a camera placed without a measurement is one nobody
+    checked.
 
     *files* are asked in turn, the rendered file first: a window cuts a
     head off it and moves its timecode with it, and that moved one is
-    the truth for whoever plays it. But not every ffmpeg carries a
-    timecode track through a render -- Windows with ffmpeg 9 does not,
-    measured 28.8.2026, while macOS with the same 9 and Ubuntu with 6
-    do. Asking it alone therefore fell back to the measured shift on
-    one system in three, silently, and put the cameras where the
-    measurement saw them rather than where their clocks say they are.
-    Only where no file in the row has one is the measurement kept.
+    the truth for whoever plays it. Not every ffmpeg carries a timecode
+    track through a render -- Windows with ffmpeg 9 does not, measured
+    28.8.2026, while macOS with the same 9 and Ubuntu with 6 do.
 
     *fps* is the measured frame rate, and it has to be passed: the
     frames of a timecode are frames, so reading 10:00:01:12 at 30
-    instead of at 25 puts the camera 0.08 s out, and at the far end
-    of a second that grows to four frames.
+    instead of at 25 puts the camera 0.08 s out.
     """
+    if measured is not None:
+        return float(measured), "measured"
     if isinstance(files, str):
         files = (files,)
     for file in files:
@@ -14362,8 +14357,8 @@ def camera_place(files, zero, measured, fps=30.0):
         except Exception:
             stamp = None
         if stamp is not None:
-            return float(stamp) - float(zero)
-    return float(measured or 0.0)
+            return float(stamp) - float(zero), "clock"
+    return 0.0, "nowhere"
 
 
 def write_handover(args, tracks, cameras, videos, folder, tc_start,
@@ -14422,6 +14417,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     _hdr_flag = hdr_from_sources([cam["video"] for cam in cameras])
     items = []
     unmeasured = []
+    by_clock = []
     left_out = []
     nowhere = {path_key(x) for x in (unplaceable or ())}
     for cam in cameras:
@@ -14446,10 +14442,27 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         shift = measured.get(path_key(file)) if file else None
         if shift is None:
             shift = measured.get(path_key(v))
-        if shift is None:
-            shift = 0.0
-            if offsets:
-                unmeasured.append(cam["name"])
+        # A 0.0 put here would be a lie nothing can read back out of the
+        # file: it looks exactly like a camera measured at the start of
+        # the axis. Nothing measured travels as nothing measured.
+        where, how = camera_place((file, v), tc_start, shift,
+                                   rate_of.get(path_key(v)) or fps)
+        if how == "clock":
+            by_clock.append(cam["name"])
+        elif how == "nowhere":
+            unmeasured.append(cam["name"])
+        elif how == "measured" and tc_start is not None:
+            # Both numbers where they disagree -- a clock quietly
+            # ignored is how a camera nineteen hours out slips through.
+            # The word matters: without it a camera with no clock at
+            # all is reported as one whose clock reads zero.
+            clock, said = camera_place((file, v), tc_start, None,
+                                        rate_of.get(path_key(v)) or fps)
+            if said == "clock" and abs(clock - where) > 1.0 / max(
+                    1.0, float(fps)):
+                print(T('  %s: the measurement puts it at %+.3f s, the '
+                        'timecode at %+.3f s -- the measurement is used.')
+                      % (cam["name"], where, clock))
         items.append({
             "file": file,
             "source": v,
@@ -14468,13 +14481,17 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # time minus this. The rendered file carries the timecode of
             # its own first frame, moved with whatever a window cut off
             # the head, and its frames count at this camera's own rate.
-            "offset": round(camera_place((file, v), tc_start, shift,
-                                         rate_of.get(path_key(v)) or fps), 4),
+            "offset": round(where, 4),
+            # Which of the three answered: "measured", "clock" or
+            # "nowhere". Read back by anybody asking afterwards why a
+            # camera sits where it does.
+            "placed_by": how,
             # Not the camera's place: where the shared sound sits
             # against the delivered picture, with its sign turned round.
             # It is what camera_place falls back on where no file in the
             # row carries a timecode, and named so nobody reads a place.
-            "sound_against_picture": round(shift, 4),
+            "sound_against_picture": (round(shift, 4)
+                                       if shift is not None else None),
             # How long the delivered file is, not the recording: a
             # window makes it shorter, and the cut timeline drops every
             # shot that runs past what this says.
@@ -14494,6 +14511,9 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         print(as_warn(T('  Not handed over: the run could not place %s, so '
                         'it is no camera of this episode.')
                       % ", ".join(left_out)))
+    if by_clock:
+        print(as_warn(T('  Nothing was found in the sound for %s -- placed '
+                        'by the timecode alone.') % ", ".join(by_clock)))
     if unmeasured:
         print(as_warn(T('  No measured offset for %s -- placed at the '
                         'start of the axis.') % ", ".join(unmeasured)))
@@ -14733,9 +14753,9 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     cut = camera_cut(
         segment_list, length, camera_of, wide_shot,
         args.min_edit_duration, getattr(args, "delay", 0.3),
-        wide_after, args.wide_length,
-        getattr(args, "wide_latest", 120.0), edges_on, rules,
-        faint=GUI_RUNNING)
+        after=wide_after, holds=args.wide_length,
+        at_latest=getattr(args, "wide_latest", 120.0), edge=edges_on,
+        rules=rules, faint=GUI_RUNNING)
     # What became of the questions. An omitted reaction cut that says
     # nothing looks like a broken setting, and the answer to "it does not
     # work" is a number here, not another turn of the same knob.
@@ -14747,8 +14767,9 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         before_value = len(camera_cut(
             segment_list, length, camera_of, wide_shot,
             args.min_edit_duration, getattr(args, "delay", 0.3),
-            0.0, args.wide_length, getattr(args, "wide_latest", 120.0),
-            edges_on, rules))
+            after=0.0, holds=args.wide_length,
+            at_latest=getattr(args, "wide_latest", 120.0), edge=edges_on,
+            rules=rules))
     if wide_after > 0 and len(cut) > before_value and not GUI_RUNNING:
         print(T('  %dx away from the speaker because a shot ran '
                 'longer than %.0f s') % ((len(cut) - before_value) // 2,
@@ -15557,6 +15578,26 @@ def envelope_seconds(path, HOP=5.0):
         return len(video_envelope(path, HOP, 4000)) * HOP / 1000.0
     except Exception:
         return 0.0
+
+
+def block_at(blocks, when, begins):
+    """Which block of a recording holds a moment, and how far into it.
+
+    A recording written in pieces is one recording, and every piece has
+    a place of its own -- so the piece holding a moment is the last one
+    that starts before it. *begins* answers where a piece starts, which
+    lets the same walk serve the measured axis and the files' own
+    clocks. Returns (path, seconds into it), or (None, None).
+    """
+    before = [(begins(p), p) for p in blocks or ()]
+    before = [(t, p) for t, p in before if t is not None and t <= when]
+    if not before:
+        # Nothing of this recording had started yet. Playing its front
+        # here would sound it against a picture it does not belong to,
+        # which is the very mistake the axis exists to prevent.
+        return None, None
+    t, p = max(before)
+    return p, when - t
 
 
 def blocks_after_their_head(data, blocks, length_of=envelope_seconds):
@@ -17038,6 +17079,41 @@ def log_path():
         return os.path.join(here, "videopodcast-magic.log")
     folder = cache_folder()
     return os.path.join(folder, "videopodcast-magic.log") if folder else None
+
+
+# The mark the window's own lines carry, so they can be picked out of a
+# log that also holds what ffmpeg and Qt write: grep for it.
+GUI_MARK = "[GUI]"
+
+
+# What a speaker reading leaves behind in the state. Cleared together,
+# or a reading of one project is read back in the next.
+SPEAKER_STATE = ("measure_failed", "speakers_measured", "speakers_measuring")
+
+
+def speakers_still_wanted(state):
+    """Whether the speakers still have to be worked out.
+
+    Not while one run is under way and not after one failed -- it would
+    fail the same way and cost the same minutes. And not where a
+    finished run already knows them: measuring again would relabel its
+    preview as measured from the raw recordings.
+    """
+    return not (state.get("speakers_measured")
+                or state.get("speakers_measuring")
+                or state.get("measure_failed")
+                or state.get("cut_basis") in ("run", "auphonic"))
+
+
+def gui_log(text):
+    """Write down what the window just did.
+
+    A window tells nobody afterwards what it was showing, where it
+    stood, or which of the two reckonings a position came out of. The
+    log is what somebody can send along with a complaint. It lands in
+    the file: redirect_console has the descriptors by then.
+    """
+    print("%s %s  %s" % (GUI_MARK, time.strftime("%H:%M:%S"), text))
 
 
 def redirect_console():
@@ -20668,9 +20744,9 @@ def split_line_write(line, words, never, wanted, busy, any_files):
 def tc_column_write(rows, real_tc, axis, absolute):
     """Fill the timecode column of the assignment tree.
 
-    Without a timecode of its own, what the measurement produced is
-    used there: the file then has a wall clock time like any other,
-    just a computed one.
+    What the measurement produced is what stands there: it has held
+    every file against the others, while a clock can be seconds off.
+    Only where nothing was measured does the timecode speak.
 
     *rows* is one entry per recording -- (its row in the tree, the
     file, the plain caption) -- and not one per row of the tree: the
@@ -20685,10 +20761,11 @@ def tc_column_write(rows, real_tc, axis, absolute):
     for row, p, _plain in rows:
         if not p:
             continue
-        t, kind = real_tc(p), ""
-        if t is None:
-            t = (axis or {}).get(path_key(p))
+        t, kind = (axis or {}).get(path_key(p)), ""
+        if t is not None:
             kind = T(' computed') if absolute else T(' virtual')
+        else:
+            t = real_tc(p)
         if t is None:
             text, colour = T('no timecode'), COLOURS["quiet"]
         else:
@@ -21092,29 +21169,19 @@ def audio_clock_of(file_path, clocks):
 
 
 def audio_start_of(file_path, axis, unset=None):
-    """Where an audio file starts: its timecode, else the measurement.
+    """Where an audio file starts: the measurement, else its timecode.
 
-    A real timecode goes before the measurement, and rightly so: it is
-    set on the device, not read off an envelope. A clock that was never
-    set is no timecode at all, though, and clocks_not_set names those
-    -- the file whose timecode window overlaps none of the others,
-    which is what the first tab has been printing all along.
-
-    Measured on 25.8.2026 against a real take: the recorder's bext
-    chunk said 48.0 s, dated 1.1.2008, while three cameras and the
-    measured axis agreed on 62053 to 62079 s of the same day. That is
-    61080 s away, on a recording 5216.968 s long, so the two cannot be
-    the same clock. Believing the bext put the In point 62005 s into
-    that recording and the preview stayed empty.
-
-    Where a timecode does not hold, the measurement carries. It is on
-    the clock as well: measure_time_axis ties the axis to the median of
-    the timecodes it was given, so one wrong clock is outvoted by the
-    others rather than dragging the axis along.
-
-    *unset* is that set of paths, worked out from the axis where it is
-    not passed in.
+    A clock is set by hand and is set wrong, and nothing here notices:
+    measured, a recorder ran 2.35 s ahead of the cameras beside it. The
+    axis is tied to the median of every timecode it was given, so one
+    wrong clock is outvoted rather than believed -- asking a single one
+    throws that away. Where nothing was measured the timecode answers,
+    except the clock that was never set: clocks_not_set names those, and
+    *unset* is that set, worked out from the axis where none is passed.
     """
+    a = (axis or {}).get(path_key(file_path))
+    if a is not None:
+        return float(a)
     if unset is None:
         unset = clocks_not_set(list(axis or ()))
     if path_key(file_path) not in unset:
@@ -21124,8 +21191,7 @@ def audio_start_of(file_path, axis, unset=None):
             t = None
         if t is not None:
             return float(t)
-    a = (axis or {}).get(path_key(file_path))
-    return float(a) if a is not None else None
+    return None
 
 
 def camera_start_of(file_path):
@@ -23789,7 +23855,31 @@ def wide_shot_barred(path, value, placeless):
              'time axis.')
 
 
-def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
+def edge_kind_barred(path, kinds):
+    """Which of intro and outro this file cannot be, and why.
+
+    An episode has one intro and one outro, and each travels to the run
+    as a single switch. So while one file holds either mark, that entry
+    is shut on every other file, rather than the second choice taking
+    the mark off the first and leaving that file on a "Content" it may
+    not be able to carry. *kinds* is {path: Value}, and a path missing
+    from it counts as content.
+    """
+    here = path_key(path)
+    barred = {}
+    for kind in (TYPE_INTRO, TYPE_OUTRO):
+        holder = next((p for p, value in (kinds or {}).items()
+                       if path_key(p) != here and value.get() == kind), None)
+        if holder:
+            barred[kind] = T('%s is already set as %s, and an episode has '
+                             'one of those. Answer differently here, or '
+                             'take the mark off that file first.') \
+                % (os.path.basename(holder), label_of(kind))
+    return barred
+
+
+def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide="",
+                   no_edge=None):
     """The Kind field of one video file: what this file is.
 
     It stands with the material and not in the assignment table:
@@ -23807,7 +23897,7 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
     so. Only that entry is greyed and the field stands in black: grey
     over the whole box reads as "nothing to be done here", which is
     the opposite of what it is. *no_wide* bars the wide shot the same
-    way, with its own sentence.
+    way, with its own sentence, and *no_edge* the marks somebody gave.
 
     Without *derived* a *why* explains rather than refuses -- which of
     several marked wide shots the cut takes -- and it stands on the
@@ -23827,6 +23917,8 @@ def clip_kind_cell(short, kind, why="", quiet="", derived=False, no_wide=""):
         barred.setdefault(TYPE_CONTENT, T(
             'It fits nowhere in the material, so it cannot be cut into '
             'the episode. It can be set in front of it or after it.'))
+    for value, sentence in (no_edge or {}).items():
+        barred.setdefault(value, sentence)
     choices_shut(box, barred, why, quiet, noted)
     speaks_as(box, T('Kind'), short)
     hint(box, T('Content: a camera like any other.\nWide shot: a '
@@ -23924,18 +24016,21 @@ def kinds_said_again(state, rows):
         video_kinds_again(rows)
 
 
-def kind_cell_for(path, value, wides, said, placeless, quiet, after=None):
+def kind_cell_for(path, value, wides, said, placeless, kinds, quiet,
+                  after=None):
     """The Kind field of one video file, built and tied to its value.
 
     Three tables show a Kind, and all three ask here: what is derived,
     what is barred and what the field answers into are decided once.
     Two derivations of one answer drift apart, and then one table
-    offers what another refuses. Returns (cell, box).
+    offers what another refuses. *kinds* says what every video file is,
+    which tells whether intro and outro are free. Returns (cell, box).
     """
     short = os.path.basename(path)
     shown, why, derived = kind_on_show(value.get(), short, wides, said)
     cell, box = clip_kind_cell(short, shown, why, quiet, derived,
-                               wide_shot_barred(path, value, placeless))
+                               wide_shot_barred(path, value, placeless),
+                               edge_kind_barred(path, kinds))
     clip_kind_bind(box, value, after=after)
     return cell, box
 
@@ -24044,17 +24139,21 @@ def kinds_off_the_axis(values, no_place):
     """Move every file with no place off content and the wide shot.
 
     Not a proposal but a fact: a file with no timecode whose sound has
-    nothing in common with the rest cannot be cut into the episode, so
-    content and the wide shot are not answers it can carry -- however
-    they got there, by hand or out of a project file. Intro is where it
-    lands; outro and "leave out" stay one click away.
+    nothing in common with the rest cannot be cut into the episode,
+    however that answer got there. Intro is where it lands, and only
+    while the intro is free -- an episode has one. Where it is taken
+    the file is left out instead; outro stays one click away.
     """
     lost = set(path_key(p) for p in (no_place or ()))
     moved = []
     for path, value in list(values.items()):
-        if path_key(path) in lost and value.get() in CAMERA_TYPES:
-            value.set(TYPE_INTRO)
-            moved.append(path)
+        if path_key(path) not in lost or value.get() not in CAMERA_TYPES:
+            continue
+        taken = any(other.get() == TYPE_INTRO
+                    for p, other in values.items()
+                    if path_key(p) != path_key(path))
+        value.set(TYPE_IGNORED if taken else TYPE_INTRO)
+        moved.append(path)
     return moved
 
 
@@ -24073,7 +24172,10 @@ def kind_proposal_say(values, data):
     forced = kinds_off_the_axis(values, (data or {}).get("no_place"))
     for path in forced:
         print(T('%s fits nothing in the material, so it cannot be cut '
-                'into the episode: set to Intro.') % os.path.basename(path))
+                'into the episode: set to Intro.') % os.path.basename(path)
+              if values[path].get() == TYPE_INTRO else
+              T('%s fits nothing in the material either, and the intro is '
+                'taken: left out.') % os.path.basename(path))
     for path in moved:
         name, kind = os.path.basename(path), values[path].get()
         if kind == TYPE_INTRO:
@@ -25916,10 +26018,19 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 quiet()
             self._playing = True
             self._icon()
+            gui_log("cut play at %.3f s, %s" % (self._time(), self._on_now()))
             if not self.clock.isActive():
                 self.clock.start()
             if not self._seeking:
                 self._start_playing()
+
+        def _on_now(self):
+            """Name the file the cut is showing, for the log."""
+            if self.now is None or not (0 <= self.now < len(self.cut)):
+                return "nothing loaded"
+            who = self.cut[self.now][2]
+            return "%s (%s)" % (os.path.basename(self.files.get(who) or "-"),
+                                 who)
 
         def _start_playing(self):
             """Resume playing; the clock starts at the position found."""
@@ -25965,6 +26076,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             if self._playing and not self._seeking:
                 self._t = self._time()
             self._playing = False
+            gui_log("cut pause at %.3f s, %s" % (self._t, self._on_now()))
             pause_if_running(QtMultimedia, self.audio, *self.videos)
             # Whatever leaves the running picture goes back to 1x: a
             # rate that survives out of sight explains nothing later.
@@ -26092,10 +26204,10 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             _a, _b, who = self.cut[j]
             want = max(0.0, t - self.offset.get(who, 0.0))
             fresh = self.loaded[slot] != j
-            # Say where picture and sound are being put. Two numbers that
-            # should mean the same moment, and where they do not the
-            # sound runs against the wrong picture -- which is a thing
-            # one hears long before one can point at it.
+            # Where picture and sound are being put, read word for word
+            # by a test. Two numbers that should mean the same moment;
+            # where they do not, the sound runs against the wrong
+            # picture -- heard long before it can be pointed at.
             if os.environ.get("VPM_PLAYER_LOG"):
                 print("  player: programme %8.3f  picture %-32s "
                       "at %8.3f (offset %8.3f)  sound %8.3f (offset %8.3f)"
@@ -26505,7 +26617,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.track_audio = audio_sink(QtMultimedia, self)
             self.track = QtMultimedia.QMediaPlayer(self)
             self.track.setAudioOutput(self.track_audio)
-            self.track_path = None
+            self._moment = None    # kept where a file cannot show it
+            self.track_path = None          # the block playing now
+            self.track_blocks = []          # the whole recording, in order
             self.find_track = None          # set by the GUI
             self._track_target = None
             self.track.mediaStatusChanged.connect(self.track_loaded)
@@ -26535,9 +26649,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
             Playback stops on the switch, otherwise comparing two cameras would
             start the audio every time. If old and new file both carry a
-            timecode the seek goes to the same wall clock time rather than to
-            the same offset from the file start, since cameras begin at
-            different times. Otherwise the offset from the start is kept.
+            measured place the seek goes to the same moment in the
+            events, not the same offset from the file start: cameras
+            begin at different times. The clocks are the fallback.
             """
             old_one_position = self.position()
             old_one_spot = self.spot_s()
@@ -26559,14 +26673,24 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 pass
             if seconds is None:
                 old_timer, old_axis = old_one_position
-                if old_timer is not None and self.tc0 is not None:
-                    seconds = old_timer - self.tc0
-                elif old_axis is not None and self.axis_s() is not None:
-                    # No timecode, but the position has been measured.
+                # The measurement first, for both ends at once: two
+                # clocks each carry their own idea of the time, and the
+                # difference stays in the result. See track_follow_up.
+                if old_axis is not None and self.axis_s() is not None:
                     seconds = old_axis - self.axis_s()
+                elif old_timer is not None and self.tc0 is not None:
+                    seconds = old_timer - self.tc0
                 else:
                     seconds = old_one_spot
-                seconds = max(0.0, seconds)
+                if seconds < 0.0:
+                    # This camera had not started at that moment. Its
+                    # front is what can be shown, but the moment is
+                    # kept: read back out of a file that cannot hold
+                    # it, it would be lost for the next switch too.
+                    self._moment = old_one_position
+                    seconds = 0.0
+                else:
+                    self._moment = None
             self._title_plain = "%s%s" % (os.path.basename(file_path),
                                           T('   --   audio only')
                                           if audio_file else "")
@@ -26597,6 +26721,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.set_mark()
             self.spot(int(max(0.0, seconds) * 1000))
             self.window_draw()
+            gui_log("load %s at %.3f s%s"
+                     % (os.path.basename(file_path), max(0.0, seconds),
+                        ", playing" if running else ""))
 
         def window_draw(self):
             """Draw the In point and the Out point onto the rail."""
@@ -26714,6 +26841,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if self.track_path:
                 self.track.play()
             self.set_mark()
+            gui_log("play %s at %.3f s%s"
+                     % (os.path.basename(self.file_path), self.spot_s(),
+                        " with %s" % os.path.basename(self.track_path)
+                        if self.track_path else ""))
 
         def pause(self):
             """Hold the picture, and put the speed back to normal.
@@ -26735,6 +26866,12 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.speed_set(1.0)
             QtCore.QTimer.singleShot(60, self.expect_frame)
             self.set_mark()
+            gui_log("pause %s at %.3f s"
+                     % (os.path.basename(self.file_path), self.spot_s()))
+
+        def now_playing(self):
+            """Whether playback is meant to go on -- across a file switch."""
+            return bool(self._should_play)
 
         def toggle(self):
             if self.file_path is None:
@@ -26902,15 +27039,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                     not in AUDIO_SUFFIXES):
                 wanted_value = self.find_track(self.file_path)
             if not wanted_value:
-                self.track_path = None
+                self.track_path, self.track_blocks = None, []
                 self.track.stop()
                 self.track.setSource(QtCore.QUrl())
                 self.track_checkbox.setEnabled(bool(self.find_track))
                 self.audio_adjust()
                 return
-            if wanted_value != self.track_path:
-                self.track_path = wanted_value
-                self.track.setSource(QtCore.QUrl.fromLocalFile(wanted_value))
+            # A recording arrives as all its blocks; which one plays
+            # depends on where the picture stands, so track_follow_up
+            # picks it.
+            if list(wanted_value) != self.track_blocks:
+                self.track_blocks = list(wanted_value)
+                self.track_path = None
             self._label_track()
             self.audio_adjust()
             self.track_follow_up()
@@ -26922,12 +27062,14 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             below the processed audio. Switching between the two players, that
             is easily mistaken for a fault.
             """
-            if not self.track_path:
+            playing = self.track_path or (self.track_blocks
+                                           or [None])[0]
+            if not playing:
                 self.track_checkbox.setToolTip(
                     T('The recording assigned to this camera instead of '
                       'the camera audio.'))
                 return
-            name = os.path.basename(self.track_path)
+            name = os.path.basename(playing)
             if name.startswith("final_"):
                 self.track_checkbox.setToolTip(
                     T('Playing %s -- the processed track from '
@@ -26939,30 +27081,54 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                       'than the processed audio; once the tracks from '
                       'auphonic.com\nare there, the preview takes those.') % name)
 
-        def track_start(self):
-            """Return when the assigned recording starts: clock or axis."""
-            if not self.track_path:
-                return None
-            t = real_tc(self.track_path)
-            if t is not None:
-                return t
-            return state["axis"].get(path_key(self.track_path))
+        def track_where(self):
+            """Which block belongs under the picture now, and where in it.
+
+            Both ends of this out of the same reckoning: two clocks are
+            seconds apart -- 2.35 s where that was found -- and taking
+            one from the other leaves exactly that between sound and
+            picture. The clocks are the fallback, and then for both at
+            once. Returns (path, seconds into it, which reckoning).
+            """
+            here = self.axis_spot()
+            if here is not None:
+                path, into = block_at(
+                    self.track_blocks, here,
+                    lambda p: state["axis"].get(path_key(p)))
+                if path is not None:
+                    return path, into, "measured"
+            here = self.timer_s()
+            if here is not None:
+                path, into = block_at(self.track_blocks, here, real_tc)
+                if path is not None:
+                    return path, into, "by clock"
+            return None, None, ""
 
         def track_follow_up(self):
             """Move the audio track to the same point in the events."""
-            if not self.track_path:
+            if not self.track_blocks:
                 return
-            here = self.timer_s()
-            if here is None:
-                here = self.axis_spot()
-            start = self.track_start()
-            if here is None or start is None:
-                # Without a common axis nothing could be put together.
-                self.track.stop()
-                self.track_path = None
-                self.audio_adjust()
+            path, into, whose = self.track_where()
+            if path is None:
+                # Not this recording's moment. Its first block is loaded
+                # and stays ready, but silent -- sounding here would put
+                # it against a picture it does not belong to.
+                path = self.track_blocks[0]
+            if path != self.track_path:
+                self.track_path = path
+                self.track.setSource(QtCore.QUrl.fromLocalFile(path))
+                self._label_track()
+            if into is None:
+                pause_if_running(QtMultimedia, self.track)
+                gui_log("%s is not due where %s stands -- silent"
+                         % (os.path.basename(path),
+                            os.path.basename(self.file_path or "-")))
                 return
-            ms = int(max(0.0, here - start) * 1000)
+            ms = int(max(0.0, into) * 1000)
+            gui_log("%s %s: %.3f s into it, block %d of %d"
+                     % (os.path.basename(path), whose, ms / 1000.0,
+                        self.track_blocks.index(path) + 1,
+                        len(self.track_blocks)))
             self._track_target = ms
             self.track.setPosition(ms)
             # Only where playback is really wanted -- the short nudge for the
@@ -26986,7 +27152,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.audio.setVolume(loud(value))
             self.track_audio.setVolume(loud(value))
             self.track_audio.setMuted(hushed(self._muted))
-            self.audio.setMuted(hushed(self._muted or bool(self.track_path)))
+            self.audio.setMuted(hushed(self._muted
+                                        or bool(self.track_blocks)))
             self.mute_button.setIcon(self.style().standardIcon(
                 QtWidgets.QStyle.SP_MediaVolumeMuted if self._muted
                 else QtWidgets.QStyle.SP_MediaVolume))
@@ -27032,10 +27199,19 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.show_edges()
 
         def time_mark(self, seconds_from_begin):
-            """Return a position in this file as wall clock time."""
+            """Return a position in this file as wall clock time.
+
+            Out of the measurement wherever it carries a wall clock:
+            it has held every file against the others, while a single
+            clock carries only its own idea of the time. The file's own
+            timecode answers where nothing was measured, and a measured
+            axis with no clock behind it says so.
+            """
+            a = self.axis_s()
+            if a is not None and state.get("axis_absolute"):
+                return timecode_string(a + seconds_from_begin, self.fps)
             if self.tc0 is not None:
                 return timecode_string(self.tc0 + seconds_from_begin, self.fps)
-            a = self.axis_s()
             if a is not None:
                 return T('%s virtual') % timecode_string(a + seconds_from_begin,
                                                  self.fps)
@@ -27050,9 +27226,32 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.cut_right.setText(T('Out point %s') % (until or "--"))
             self.cut_middle.setText(self._window_length())
 
+        def track_watch(self):
+            """Take over where the picture has run past a boundary.
+
+            The audio runs free once it is put in place, so nothing
+            would notice a block ending: it just falls silent. And a
+            recording beginning later than the picture stands has to
+            come in when its moment arrives. A lookup on every tick,
+            acting only on a change.
+            """
+            if not self.track_blocks:
+                return
+            path, into, _whose = self.track_where()
+            due = into is not None
+            playing = (self.track.playbackState()
+                        == QtMultimedia.QMediaPlayer.PlayingState)
+            # Three reasons to put it right: another block holds this
+            # moment; the sound is due and silent; it sounds and is not.
+            if ((path or self.track_blocks[0]) != self.track_path
+                    or (due and self._should_play and not playing)
+                    or (not due and playing)):
+                self.track_follow_up()
+
         def spot(self, ms):
             if not self._held:
                 self.slider.setValue(ms)
+            self.track_watch()
             # Timecode on the left, playback position on the right. With a cut
             # in set it counts from there, negative before it, as in an editor.
             begins = self._limit(state["in_point"])
@@ -27082,7 +27281,14 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             return None if a is None else a + self.spot_s()
 
         def position(self):
-            """Return where we are, by clock and by measured axis."""
+            """Return where we are, by clock and by measured axis.
+
+            Where a file cannot hold the moment -- it begins later --
+            the moment kept at the switch answers instead of the front
+            of that file, so the next switch lands right again.
+            """
+            if self._moment is not None and not self.spot_s():
+                return self._moment
             return self.timer_s(), self.axis_spot()
 
         def _title_show(self, text):
@@ -27109,6 +27315,14 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """
             if error == QtMultimedia.QMediaPlayer.NoError:
                 return
+            # What Qt really complains about, in the log: on screen
+            # every refusal reads alike, and a file whose picture is
+            # fine while only its sound breaks looks exactly like an
+            # unknown format. Here the difference survives.
+            gui_log("%s refused: %s (code %s)"
+                     % (os.path.basename(self.file_path or "-"),
+                        self.player.errorString() or "no reason given",
+                        error))
             self.player.stop()
             self.video.hide()
             self.extern.show()
@@ -27139,6 +27353,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def load(self, file_path, seconds=None, running=False):
             self.file_path = os.path.abspath(file_path)
             ffplay_preview(file_path, seconds or 0.0)
+
+        def now_playing(self):
+            return False
 
         def spot_s(self):
             return 0.0
@@ -28664,10 +28881,13 @@ def camera_offset(cameras, origin=None, fps=30.0):
 
     Two data shapes lead here and they say it differently.
 
-    The handover file of a run carries an ``offset`` per camera: measured,
-    in seconds, negative where the camera started before In point. The cut
-    timeline in Resolve uses exactly that, with the position in the file
-    being programme time minus offset.
+    The handover file of a run carries an ``offset`` per camera: the
+    place the run found, in seconds, negative where the camera started
+    before In point. The cut timeline in Resolve uses exactly that, and
+    so does the player here -- position in the file is programme time
+    minus offset. Which of the three ways found it was settled when the
+    file was written; deciding it over again here is how the player and
+    Resolve came apart.
 
     The preview built from the speaker statistics has no ``offset`` but a
     ``start_s`` per camera, the wall clock time of its start. The origin is
@@ -28681,31 +28901,6 @@ def camera_offset(cameras, origin=None, fps=30.0):
     # as the sound running against the wrong picture -- and only away
     # from the reference camera, where nobody looks first.
     rate = max(1.0, float(fps or 30.0))
-    if origin is not None:
-        stamped, whole = {}, True
-        for x in cameras:
-            tc = file_timecode(x.get("file") or "", rate)
-            if tc is None:
-                whole = False
-                break
-            stamped[x["track"]] = round(float(tc) - float(origin), 4)
-        if whole and stamped:
-            # Where the two disagree by more than a frame, both numbers
-            # go into the log. Which of them is right is not decided
-            # here -- the timecode keeps the precedence it has -- but a
-            # measurement dropped without a word is how a wrong offset
-            # stays hidden: on the reference camera both are zero, and
-            # nobody looks at the others first.
-            for x in cameras:
-                was = x.get("offset")
-                if was is None:
-                    continue
-                if abs(stamped[x["track"]] - float(was)) > 1.0 / rate:
-                    print(T('  %s: the timecode puts it at %+.3f s, the '
-                            'measurement at %+.3f s -- the timecode is '
-                            'used.')
-                          % (x["track"], stamped[x["track"]], float(was)))
-            return stamped
     if any(x.get("offset") is not None for x in cameras):
         for x in cameras:
             out[x["track"]] = float(x.get("offset") or 0.0)
@@ -30448,7 +30643,8 @@ def gui():
         video_kind_again[path] = lambda: video_choices_show(
             node, path, chosen, forced)
         cell, box = kind_cell_for(path, kind, *wide_cameras_now(),
-                                  state.get("no_place"), COLOURS["quiet"],
+                                  state.get("no_place"), clip_kind_values,
+                                  COLOURS["quiet"],
                                   lambda p=path: kind_answered(p))
         items.setItemWidget(node, 3, cell)
         used, why = audio_use_settled(path, chosen, forced,
@@ -30864,15 +31060,15 @@ def gui():
     def limit_set(target):
         """Adopt the position currently on screen as a boundary.
 
-        As wall clock time with timecode. Without timecode but with a measured
-        axis, as a distance from the start of the material -- the boundary then
-        applies to all files alike even though they started at different times.
+        In the same reckoning as the readout right above these buttons:
+        two of them one widget apart put it where nobody set it.
         """
-        u = player.timer_s()
-        if u is not None:
-            target.set(timecode_string(u, player.fps))
-            return
         a = player.axis_spot()
+        exact = a if (a is not None and state.get("axis_absolute")) \
+            else player.timer_s()
+        if exact is not None:
+            target.set(timecode_string(exact, player.fps))
+            return
         target.set(as_relative_time(a if a is not None else player.spot_s()))
 
     def window_remember():
@@ -31004,9 +31200,10 @@ def gui():
                     duration = info.get("duration") or 0.0
             except Exception:
                 continue
-            if t0 is None:
-                # Without a timecode of its own, the measured position counts.
-                t0 = state["axis"].get(path_key(b))
+            measured = state["axis"].get(path_key(b))
+            if t0 is None or (measured is not None   # measured first
+                               and state.get("axis_absolute")):
+                t0 = measured
             entries.append((t0, duration))
         from_s, until, absolute = window_suggestion(entries, fps)
         if not from_s:
@@ -31581,12 +31778,15 @@ def gui():
             bridge_emit(bridge.axis, data or {}, text)
 
     def axis_kick_off(paths):
-        """Only when needed: with timecode the positions are already known."""
+        """Measure wherever there are two files, timecode or not.
+
+        A clock is set by hand and is set wrong; the run measures anyway.
+        """
         every = list(paths)
         for row, _nv, _cv in assign_lines:
             if row[0] not in every:
                 every.append(row[0])
-        if len(every) < 2 or all(real_tc(p) is not None for p in every):
+        if len(every) < 2:
             return
         if not axis_worth_measuring(files, every, state):
             return
@@ -31918,12 +32118,13 @@ def gui():
             # then got the raw recording rather than its own track.
             name = speaker_name_of(nv)
             if name and name in done:
-                return done[name]
+                return [done[name]]
             if os.path.exists(row[0]):
-                return row[0]
+                # The whole recording, not its head -- see block_at.
+                return blocks_of.get(row[0]) or [row[0]]
         for name in ("Full-Mix", "Fullmix", "Mix"):
             if name in done:
-                return done[name]
+                return [done[name]]
         return None
 
     def line_show(table, file_list):
@@ -31939,11 +32140,11 @@ def gui():
     def player_load(file_path, seconds=None):
         """Load a file into the player and remember which it was.
 
-        The choice belongs in the project: opening it again should show the
-        same camera without having to look for it.
+        The choice belongs in the project. And what was running goes on
+        running: switching cameras while watching is comparing them.
         """
         remembered["player_file"] = file_path
-        player.load(file_path, seconds, running=False)
+        player.load(file_path, seconds, running=player.now_playing())
         if not state.get("closing"):
             window_enable()      # it decides whether a boundary can be set
 
@@ -31993,6 +32194,10 @@ def gui():
         none, or it counts from the start of the material and the time axis
         has not been measured.
         """
+        # A cheap early return, not a guard: four lines down the time
+        # reader answers None for empty text just the same, so taking
+        # this line out changes nothing anybody can see. It saves
+        # reading the file's span for a field nobody has filled in.
         if not (text or "").strip():
             return None
         span = picture_span(file_path)
@@ -32128,25 +32333,13 @@ def gui():
     state["wide_cameras_now"] = wide_cameras_now
 
     def kind_answered(path):
-        """A Kind changed: both tables show it, and the assignment too."""
-        single_edge_clip(path)
+        """A Kind changed: both tables show it, and the assignment too.
+
+        Drawing them again is also what shuts "Intro" on the other
+        files, and opens it again when the mark is taken off.
+        """
         QtCore.QTimer.singleShot(0, items_fresh)
         QtCore.QTimer.singleShot(0, assignment_fresh)
-
-    def single_edge_clip(file_path):
-        """Intro and outro exist once: a second choice frees the first.
-
-        Both travel to the run as one switch each. Rather than refusing
-        the second choice, the file that held the mark before goes back
-        to content.
-        """
-        value = clip_kind_values.get(file_path)
-        kind = value.get() if value is not None else None
-        if kind not in (TYPE_INTRO, TYPE_OUTRO):
-            return
-        for other, other_value in clip_kind_values.items():
-            if other != file_path and other_value.get() == kind:
-                other_value.set(TYPE_CONTENT)
 
     def assignment_remember():
         for row, nv, cv in assign_lines:
@@ -32736,8 +32929,8 @@ def gui():
                         break
                     box_cell, _box = kind_cell_for(
                         path, clip_kind_value(path), fresh, marked,
-                        state.get("no_place"), COLOURS["quiet"],
-                        lambda q=path: kind_answered(q))
+                        state.get("no_place"), clip_kind_values,
+                        COLOURS["quiet"], lambda q=path: kind_answered(q))
                     table_video.setCellWidget(i, 3, box_cell)
             except RuntimeError:
                 # The table was rebuilt under us; the new one is right.
@@ -32751,7 +32944,8 @@ def gui():
             clip_kind = clip_kind_value(b)
             kind_cell, _kind_box = kind_cell_for(
                 b, clip_kind, wides, said, state.get("no_place"),
-                COLOURS["quiet"], lambda p=b: kind_answered(p))
+                clip_kind_values, COLOURS["quiet"],
+                lambda p=b: kind_answered(p))
             table_video.setCellWidget(row, 3, kind_cell)
             own_audio = audio_use_value(b)
             used, why = audio_use_settled(b, own_now, forced,
@@ -33168,15 +33362,18 @@ def gui():
     bridge.resolve_check.connect(resolve_check_run_fill_in)
 
     def resolve_sheet_chosen(*_):
-        """Ask Resolve once, on the first look at the tab that needs it.
+        """Resolve and the speakers, on the first look at this tab.
 
-        The box itself sits in the settings window now, but the answer
-        belongs to this tab: a run that ends by building a project should
-        not find out at the end that Resolve was never running.
+        Not twice -- a second speaker run costs minutes for nothing.
         """
-        if tabs.currentWidget() is tab3 and not state.get("resolve_checked"):
+        if tabs.currentWidget() is not tab3:
+            return
+        if not state.get("resolve_checked"):
             state["resolve_checked"] = True
             resolve_check_run_kick_off()
+        if speakers_still_wanted(state):
+            gui_log("cut tab opened with no speakers known -- measuring")
+            speaker_measure()
 
     tabs.currentChanged.connect(resolve_sheet_chosen)
 
@@ -33557,17 +33754,16 @@ def gui():
     def camera_start(file_path):
         """Return where this file starts on the common time axis.
 
-        Preferably the timecode; without it the measured position. Without
-        either, the beginning -- then all files lie on top of each other and
-        the preview still shows the rhythm.
+        The measurement first, then the timecode. Without either the
+        beginning -- then all files lie on top of each other and the
+        preview still shows the rhythm.
         """
-        try:
-            info = video_facts(file_path)
-            if info.get("tc"):
-                return parse_timecode(info["tc"], max(1.0, info.get("fps") or 30.0))
-        except Exception:
-            pass
         a = (state.get("axis") or {}).get(path_key(file_path))
+        if a is None:
+            try:
+                a = timecode_seconds(video_facts(file_path))
+            except (OSError, ValueError, RuntimeError):
+                a = None
         return float(a) if a is not None else 0.0
 
     def forecast_empty(empty):
@@ -33577,8 +33773,7 @@ def gui():
 
     def speaker_measure_done(result):
         segment_list, length, error = result
-        measure_button.setEnabled(True)
-        measure_button.setText(T('Measure speakers now'))
+        state["speakers_measuring"] = False
         if error:
             state["measure_failed"] = True
             label_say(measure_label, error[:160], COLOURS["error"])
@@ -33606,9 +33801,10 @@ def gui():
         begin = min(v for _n, _p, v, _b in tracks)
         tracks = [(n, p, v - begin, b) for n, p, v, b in tracks]
         state["measure_failed"] = False
-        measure_button.setEnabled(False)
-        measure_button.setText(T('measuring ...'))
-        label_say(measure_label, "", COLOURS["quiet"])
+        state["speakers_measuring"] = True
+        measure_line.setVisible(True)
+        label_say(measure_label, T('working out who speaks when ...'),
+                  COLOURS["quiet"])
         threading.Thread(target=speaker_measure_loop,
                          args=(tracks, bridge, bridge_emit),
                          daemon=True).start()
@@ -33616,18 +33812,14 @@ def gui():
     measure_line = QtWidgets.QWidget()
     _measure_row = QtWidgets.QHBoxLayout(measure_line)
     _measure_row.setContentsMargins(0, 0, 0, 0)
-    measure_button = QtWidgets.QPushButton(T('Measure speakers now'))
-    hint(measure_button,
-            T('Works out who speaks when from the audio tracks themselves '
-              '-- one microphone per person, level against its own noise '
-              'floor. Where everybody is on one recording, "several '
-              'speakers" in the Speaker name field is the way.'))
-    _measure_row.addWidget(measure_button)
     measure_label = label("", COLOURS["quiet"])
     measure_label.setWordWrap(True)
+    hint(measure_label, T('Works out who speaks when from the tracks '
+              'themselves -- one microphone per person, level against its '
+              'own noise floor. Where everybody is on one recording, '
+              '"several speakers" in the Speaker name field is the way.'))
     _measure_row.addWidget(measure_label, 1)
     cut_column.addWidget(measure_line)
-    measure_button.clicked.connect(speaker_measure)
     bridge.speakers_measured.connect(speaker_measure_done)
     bridge.speaker_note.connect(measure_label.setText)
     measure_line.setVisible(False)
@@ -33688,12 +33880,12 @@ def gui():
                 len(camera_lines)))
             state["cut_numbers"] = None
             band_show(None)
-            preview_set(T('No speakers are known yet -- "Measure speakers '
-                          'now" works them out of the tracks, "several '
-                          'speakers" in the Speaker name field out of the '
-                          'one recording all are on.'), COLOURS["quiet"])
+            preview_set(T('No speakers are known yet -- they are worked '
+                          'out of the tracks as soon as this tab is opened. '
+                          'Where everybody is on one recording, "several '
+                          'speakers" in the Speaker name field is the way.'),
+                        COLOURS["quiet"])
             preview_label.setToolTip(state.get("reason") or "")
-            measure_button.setVisible(bool(state.get("tracks_left")))
             measure_line.setVisible(bool(state.get("tracks_left")))
             return
         state["statistics"] = True
@@ -33701,7 +33893,6 @@ def gui():
         # button comes and goes: somebody whose track has not been
         # measured is in the cut and not in this picture.
         measure_line.setVisible(True)
-        measure_button.setVisible(bool(state.get("tracks_left")))
         if state.get("tracks_left"):
             measure_label.setText(T('%s not measured yet -- in the cut, '
                                     'not yet in this preview.')
@@ -34202,7 +34393,7 @@ def gui():
         for name in ("wide_set_aside", "voiced", "projects_offered",
                      "speakers_source_chosen", "forced_own",
                      "result_folder", "resolve_json", "voice_marks",
-                     "cut_basis", "run_auphonic", "measure_failed"):
+                     "cut_basis", "run_auphonic") + SPEAKER_STATE:
             state.pop(name, None)
         words_forgotten(state)
         # Emptied, not taken away: the time axis is read by name in
@@ -34334,8 +34525,6 @@ def gui():
         for p, choice in (d.get("channels") or {}).items():
             channel_choice[p] = {int(k): bool(v) for k, v in choice.items()}
         state["preset_wanted"] = d.get("preset") or ""
-        if state.get("presets"):
-            presets_filter()      # list is there, so apply the wish
         for api_key, value in (d.get("assignment") or {}).items():
             remembered[api_key] = (tuple(value) if isinstance(value, list)
                                    else value)
@@ -34343,13 +34532,16 @@ def gui():
                                 state.get("speakers_source") or "")
         if d.get("multitrack"):
             multitrack.set(True)
+        if state.get("presets"):
+            presets_filter()      # after the mode: the list hangs on it
         items_fresh()
         if multitrack.get():
             # The tick fires nothing where it already stood, so the later
             # tabs are told by hand that the project is open.
             mode_toggled()
         state["results"] = []
-        state.pop("measure_failed", None)
+        for name in SPEAKER_STATE:
+            state.pop(name, None)
         target = out_folder.get()
         # The handover of that project's own run, looked for where the
         # note below sends the reader, and only where it names the same
@@ -35080,6 +35272,12 @@ def preset_box_fill(box, entries, state, none_value):
         elif wanted != none_value:
             state["preset_wanted"] = wanted
     box.blockSignals(False)
+    # What the box was asked for and what it settled on. A wish left
+    # standing is the sign that the list could not hold it -- which is
+    # how a preset can be in the project file and not on the screen.
+    gui_log("presets: %d in the list, wish %r -> %r%s"
+             % (box.count(), before_value or wanted, box.currentData(),
+                "" if not state.get("preset_wanted") else " (not placed)"))
 
 
 def preset_entries(presets, multitrack_on, none_label, none_value):
@@ -36232,10 +36430,14 @@ CATALOGUE["de"] = {
         '  Nicht übergeben: der Lauf konnte %s nicht platzieren, also ist es keine Kamera dieser Folge.',
     '  No measured offset for %s -- placed at the start of the axis.':
         '  Kein gemessener Versatz für %s -- liegt am Anfang der Achse.',
-    '  %s: the timecode puts it at %+.3f s, the measurement at %+.3f s '
-    '-- the timecode is used.':
-        '  %s: der Timecode setzt sie auf %+.3f s, die Messung auf '
-        '%+.3f s -- benutzt wird der Timecode.',
+    '  Nothing was found in the sound for %s -- placed by the timecode '
+    'alone.':
+        '  Im Ton war für %s nichts zu finden -- allein nach Timecode '
+        'gesetzt.',
+    '  %s: the measurement puts it at %+.3f s, the timecode at %+.3f s '
+    '-- the measurement is used.':
+        '  %s: die Messung setzt sie auf %+.3f s, der Timecode auf '
+        '%+.3f s -- benutzt wird die Messung.',
     '  No such Timeline existed yet -- it is only built.':
         '  Es gab noch keine dieser Timelines -- es wird nur gebaut.',
     '  Note: this computes with the files uploaded at the time. They '
@@ -37403,6 +37605,15 @@ CATALOGUE["de"] = {
     'episode: set to Intro.':
         '%s passt zu nichts im Material und kann darum nicht in die Folge '
         'hineingeschnitten werden: auf Vorspann gesetzt.',
+    '%s fits nothing in the material either, and the intro is taken: '
+    'left out.':
+        '%s passt ebenfalls zu nichts im Material, und der Vorspann ist '
+        'vergeben: bleibt draußen.',
+    '%s is already set as %s, and an episode has one of those. Answer '
+    'differently here, or take the mark off that file first.':
+        '%s ist schon als %s gesetzt, und den gibt es in einer Folge '
+        'einmal. Hier eine andere Antwort wählen, oder zuerst bei jener '
+        'Datei die Marke wegnehmen.',
     'It is in the logs atom of the picture description -- that is how '
     'Resolve recognises the input colour space. Different curves mean '
     'different input colour spaces.':
@@ -37794,12 +38005,13 @@ CATALOGUE["de"] = {
         'Statt Kameraton die Aufnahme, die dieser Kamera zugeordnet ist.',
     'The run is still going.':
         'Der Lauf läuft noch.',
-    'No speakers are known yet -- "Measure speakers now" works them out '
-    'of the tracks, "several speakers" in the Speaker name field out of '
-    'the one recording all are on.':
-        'Es sind noch keine Sprecher bekannt -- „Sprecher jetzt '
-        'messen“ holt sie aus den Spuren, „mehrere Sprecher“ im Feld '
-        'Sprechername aus einer Aufnahme, auf der alle zu hören '
+    'No speakers are known yet -- they are worked out of the tracks as '
+    'soon as this tab is opened. Where everybody is on one recording, '
+    '"several speakers" in the Speaker name field is the way.':
+        'Es sind noch keine Sprecher bekannt -- sie werden aus den '
+        'Spuren geholt, sobald dieser Reiter aufgeht. Sitzen alle auf '
+        'einer Aufnahme, ist „mehrere Sprecher“ im Feld '
+        'Sprechername der Weg, auf der alle zu hören '
         'sind.',
     'The three numbers are primaries, curve and matrix. Different tags '
     'need different input colour spaces in Resolve -- otherwise one camera '
@@ -37972,7 +38184,7 @@ CATALOGUE["de"] = {
         'für Multicam.',
     'Without timecode the position of the files is measured.':
         'Ohne Timecode wird die Lage der Dateien gemessen.',
-    'Works out who speaks when from the audio tracks themselves -- one '
+    'Works out who speaks when from the tracks themselves -- one '
     'microphone per person, level against its own noise floor. Where '
     'everybody is on one recording, "several speakers" in the Speaker '
     'name field is the way.':
@@ -38328,8 +38540,6 @@ CATALOGUE["de"] = {
         'Ende %s',
     'Error':
         'Fehler',
-    'Measure speakers now':
-        'Sprecher jetzt messen',
     'Mark In': 'In markieren',
     'Mark Out': 'Out markieren',
     'Measure, align, process, write files.':
@@ -38661,8 +38871,8 @@ CATALOGUE["de"] = {
         'bleibt stehen',
     'limited (Video/TV)':
         'beschnitten (Video/TV)',
-    'measuring ...':
-        'misst ...',
+    'working out who speaks when ...':
+        'ermittelt, wer wann spricht ...',
     'nothing':
         'nichts',
     'nothing to do':
@@ -38796,12 +39006,13 @@ CATALOGUE["de"] = {
         'die Trennung hört deshalb alle %d zugleich ab, auf diesem '
         'Rechner.',
     '  What the window took apart is dropped: it listened to one '
-    'recording, and the microphones stand only %s dB apart -- below %s dB '
-    'one of them alone no longer says who is speaking.':
+    'recording, and the microphones hear each other so well that none of '
+    'them stands out -- %s dB against the %s dB one of them alone needs '
+    'to say who is speaking.':
         '  Was das Fenster getrennt hat, wird verworfen: es hörte eine '
-        'einzelne Aufnahme ab, und die Mikrofone stehen nur %s dB '
-        'auseinander -- unter %s dB sagt eines allein nicht mehr, wer '
-        'spricht.',
+        'einzelne Aufnahme ab, und die Mikrofone hören einander so gut, '
+        'dass keines von ihnen heraussticht -- %s dB gegen die %s dB, die '
+        'eines allein braucht, um zu sagen, wer spricht.',
     'Mixing the tracks for the separation':
         'Spuren für die Trennung mischen',
     '  Which voice belongs to which microphone could not be told, so the '
