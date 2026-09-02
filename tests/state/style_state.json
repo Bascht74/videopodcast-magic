@@ -4,7 +4,7 @@
  "largest_function": 5149,
  "lazy_plural": 0,
  "long_blocks": 106,
- "long_docstrings": 141,
+ "long_docstrings": 140,
  "long_lines": 0,
  "narrating": 0,
  "one_sided_paths": {
@@ -49,8 +49,8 @@
   "audio_track_count": [1, 11120],
   "bit_depth": [1, 10057],
   "channel_levels": [1, 7064],
-  "check_crosstalk": [1, 19004],
   "create_colour_groups": [2, 11980],
+  "crosstalk_apart": [1, 19004],
   "desktop_is_dark": [1, 779],
   "extract_audio_from_video": [1, 8159],
   "fetch_model": [1, 17295],
