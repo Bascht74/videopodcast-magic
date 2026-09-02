@@ -4,11 +4,13 @@
 Every other test replaces load_api_key with a lambda, so the storing
 functions are never run, and only a Windows runner has a registry to run
 them on. What needs no registry is judged on every machine: that the
-three names this file may write under really are three, and that the
-comparison the whole walk rests on tells two values apart. Off Windows
-the rest is named as left out rather than passed over. REG_PATH goes to
-a throwaway key with made-up values, and nothing read back is ever
-printed: a failed redirect would print the real key.
+three names this file may write under really are three, that the Mac
+names are moved as well and that the store shuts a test run out while
+they are not, and that the comparison the whole walk rests on tells two
+values apart. Off Windows the rest is named as left out rather than
+passed over. All three names of the store go to throwaway ones with
+made-up values, and nothing read back is ever printed: a failed
+redirect would print the real key.
 
 The sections: the names and the comparison, there and back, what is not
 there, deleting, awkward values, the other way round, and what is left
@@ -95,6 +97,37 @@ UMLAUTS = ("not-a-key-" + "\u00e4\u00f6\u00fc"
 SPACED = "not a key with blanks in the middle " + TAG
 LONG = "not-a-key-" + "x" * 4000
 
+# The program is loaded here and not further down, because the first
+# section asks about the names it keeps and those have to be readable on
+# every machine -- the Mac names above all, which is where the fault
+# was. Loading it writes nothing anywhere.
+import importlib.util                                  # noqa: E402
+import key_store_apart                                 # noqa: E402
+
+os.environ["VPM_NO_UPDATE_CHECK"] = "1"
+spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
+vpm = importlib.util.module_from_spec(spec)
+sys.modules["vpm"] = vpm
+spec.loader.exec_module(vpm)
+# The Mac side of the same move: service and account go to throwaway
+# names of their own. REG_PATH goes with them and is set again below,
+# to the name this file's own sections write under.
+MAC_APART = key_store_apart.apart(vpm)
+# What the store answers a test run that left the real names standing.
+# Nothing is touched to find out -- three strings are compared.
+KEPT_NAMES = (vpm.KEY_SERVICE, vpm.KEY_ACCOUNT, vpm.REG_PATH)
+KEPT_SILENT = os.environ.get("VPM_SILENT")
+try:
+    vpm.KEY_SERVICE, vpm.KEY_ACCOUNT, vpm.REG_PATH = vpm.KEY_STORE_REAL
+    os.environ["VPM_SILENT"] = "1"
+    off_limits_with_the_real_names = vpm.key_store_off_limits()
+finally:
+    vpm.KEY_SERVICE, vpm.KEY_ACCOUNT, vpm.REG_PATH = KEPT_NAMES
+    if KEPT_SILENT is None:
+        os.environ.pop("VPM_SILENT", None)
+    else:
+        os.environ["VPM_SILENT"] = KEPT_SILENT
+
 print("1. Before anything is written")
 # The whole file rests on these two lines. If REG_PATH still pointed at
 # the program's own key, every store below would overwrite the real one.
@@ -110,6 +143,25 @@ check("and neither reaches into the program's key",
       under_stem == 2 and under_real == 0,
       "%d of 2 under the throwaway stem, wanted 2; %d under the "
       "program's own key, wanted 0" % (under_stem, under_real))
+# The registry path is half the answer. On a Mac the same three
+# functions go to the keychain under a service and an account of their
+# own, and those two used to stand in the program where they were used
+# -- so this file's redirect moved nothing there. Asked on every
+# machine for the same reason as the two above.
+check("the Mac names are moved as well, and none of them is the "
+      "program's own",
+      len(set(MAC_APART)) == 3
+      and not set(MAC_APART) & set(vpm.KEY_STORE_REAL),
+      "%d different names of %d, %d of them the program's own -- wanted "
+      "three and none"
+      % (len(set(MAC_APART)), len(MAC_APART),
+         len(set(MAC_APART) & set(vpm.KEY_STORE_REAL))))
+check("and the store refuses a test run that left them standing",
+      vpm.key_store_off_limits() is False
+      and off_limits_with_the_real_names is True,
+      "with the throwaway names it says %r and with the real ones %r -- "
+      "wanted False and True"
+      % (vpm.key_store_off_limits(), off_limits_with_the_real_names))
 # And these two say what the comparison is worth. Without them every
 # judgement further down would still be green with a store that wrote
 # nowhere and a read that handed back whatever it was given -- so they
@@ -145,15 +197,6 @@ check("this machine goes to the registry, not a keychain",
 # that is not safe must not reach a store at all.
 if bad:
     finish()
-
-import importlib.util                                  # noqa: E402
-
-os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
-
 
 def scrub():
     """Take the throwaway keys out again, whatever happened before.

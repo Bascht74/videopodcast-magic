@@ -336,9 +336,26 @@ def open_ffmpeg_page():
 
 # The API key lives in the OS credential store -- macOS keychain, Windows
 # registry under HKEY_CURRENT_USER -- both owned by the logged-in user.
-# Never in a file: the script gets copied around, a plaintext key next to it
-# would travel with it.
-REG_PATH = r"Software\videopodcast-magic"
+# Never in a file: the script gets copied around, and a plaintext key would
+# travel with it. All three names of the place stand here, and only here.
+KEY_STORE_REAL = ("videopodcast-magic", "auphonic",
+                  r"Software\videopodcast-magic")
+KEY_SERVICE, KEY_ACCOUNT, REG_PATH = KEY_STORE_REAL
+
+
+def key_store_off_limits():
+    """True where this run may not go near the credential store at all.
+
+    A test run marks itself with VPM_SILENT, and a test with business
+    in the store points KEY_SERVICE, KEY_ACCOUNT or REG_PATH at a
+    throwaway name first. One that forgets would overwrite the key
+    this machine really uses, so the store refuses rather than every
+    test file having to remember. Reading is refused with writing: a
+    test that reads the key prints it in a failure line.
+    """
+    if not os.environ.get("VPM_SILENT"):
+        return False
+    return (KEY_SERVICE, KEY_ACCOUNT, REG_PATH) == KEY_STORE_REAL
 
 
 def store_api_key(key):
@@ -350,6 +367,8 @@ def store_api_key(key):
     twice, because it asks once and once to confirm.
     """
     forget_api_key()   # or the old one would still answer
+    if key_store_off_limits():
+        return False
     # Looked at first: a locked keychain leaves "security" standing for
     # its whole limit, and twenty seconds of a frozen window say less
     # than a sentence naming the lock.
@@ -360,7 +379,7 @@ def store_api_key(key):
     # goes. The store takes the edges off on the way back regardless.
     key = key.strip()
     if sys.platform == "darwin":
-        where = ["-s", "videopodcast-magic", "-a", "auphonic"]
+        where = ["-s", KEY_SERVICE, "-a", KEY_ACCOUNT]
         try:
             p = subprocess.run(["security", "add-generic-password", "-U"]
                                + where + ["-w"],
@@ -436,6 +455,10 @@ def open_key_store_app():
 
 def key_store_trouble():
     """Say why a key did not go into the store on this machine."""
+    if key_store_off_limits():
+        return T('This run is a test run and the store still carries its '
+                 'real name, so nothing was written. Point KEY_SERVICE, '
+                 'KEY_ACCOUNT or REG_PATH somewhere else first.')
     if sys.platform == "darwin":
         if key_store_locked():
             return T('The keychain is locked. Unlock it and try again.')
@@ -462,9 +485,10 @@ def forget_api_key():
 def load_api_key():
     """Read the stored API key, or "" if there is none."""
     # Keyed on the place it is kept, not just on the machine: the place
-    # is fixed in a run but not in a test, which points the registry
-    # path at a throwaway name and asks again.
-    where = (sys.platform, REG_PATH)
+    # is fixed in a run but not in a test, which points the store at a
+    # throwaway name and asks again. All three names are in the key --
+    # on a Mac the registry path decides nothing.
+    where = (sys.platform, KEY_SERVICE, KEY_ACCOUNT, REG_PATH)
     if where not in _API_KEY:
         _API_KEY[where] = _ask_key_store()
     return _API_KEY[where]
@@ -472,6 +496,8 @@ def load_api_key():
 
 def _ask_key_store():
     """Go to the keychain or the registry, whatever this machine has."""
+    if key_store_off_limits():
+        return ""
     if sys.platform == "darwin":
         try:
             # A limit for the same reason the write has one: a locked
@@ -479,8 +505,8 @@ def _ask_key_store():
             # waits for good is worse than a key that is not found. The
             # empty input keeps it off this program's own standard input.
             p = subprocess.run(
-                ["security", "find-generic-password", "-s",
-                 "videopodcast-magic", "-a", "auphonic", "-w"],
+                ["security", "find-generic-password", "-s", KEY_SERVICE,
+                 "-a", KEY_ACCOUNT, "-w"],
                 input=b"", capture_output=True, timeout=20,
                 start_new_session=True)
         except (OSError, subprocess.TimeoutExpired):
@@ -506,6 +532,8 @@ def delete_api_key():
     a locked keychain can leave "security" waiting on a question.
     """
     forget_api_key()
+    if key_store_off_limits():
+        return False
     # Unticking the box lands here, and it lands here again the moment a
     # failed write puts the tick back -- so the same look as the write.
     if key_store_locked():
@@ -513,8 +541,7 @@ def delete_api_key():
     if sys.platform == "darwin":
         try:
             p = subprocess.run(["security", "delete-generic-password",
-                                "-s", "videopodcast-magic",
-                                "-a", "auphonic"],
+                                "-s", KEY_SERVICE, "-a", KEY_ACCOUNT],
                                input=b"", capture_output=True, timeout=20,
                                start_new_session=True)
         except (OSError, subprocess.TimeoutExpired):
@@ -4991,8 +5018,10 @@ def build_handover(segment_list, length, assignment, cameras, audio_origin=(),
     for cam in cameras:
         short = os.path.basename(cam.get("file") or "")
         # The camera audio has its own row in the upper table, so it arrives
-        # through the assignment already.
-        who = [n for n, target in assignment.items() if target == short]
+        # through the assignment already. Sorted, because the list is read as
+        # a name -- the legend under the cut band, the track in Resolve -- and
+        # write_handover builds the same list, which would otherwise differ.
+        who = sorted(n for n, target in assignment.items() if target == short)
         out.append({"track": cam.get("track"), "file": cam.get("file"),
                      "speakers": who,
                      "start_s": cam.get("start_s"),
@@ -5069,6 +5098,12 @@ def apply_time_window(d, in_point, out_point):
     # length of the removed head.
     if origin is not None:
         fresh["start_s"] = round(float(origin) + from_s, 3)
+        # And the timecode with it: the same instant said the other way.
+        # Resolve places by this field alone, so one that stands still
+        # while start_s moves puts every frame out by the length of the
+        # removed head.
+        if d.get("start_tc"):
+            fresh["start_tc"] = timecode_string(fresh["start_s"], fps)
     fresh["speakers"] = [
         {"name": s.get("name"),
          "sections": [[max(0.0, a - from_s), min(until, b) - from_s]
@@ -6194,10 +6229,25 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     for r in raw:
         if extra and extra[-1][2] == r[2]:
             extra[-1][1] = r[1]
+            voices_joined(extra[-1], r)
         else:
             extra.append(list(r))
 
     return [tuple(r) for r in merge_short_shots(extra, min_len)]
+
+
+def voices_joined(keeper, swallowed):
+    """Add the swallowed shot's voices to the shot that stays.
+
+    Both halves are still audible in the joined shot, so both belong to
+    its name -- and that name is read: it is the Speaker column of the
+    cut list, and with one camera for everybody it is the clip name in
+    the EDL. Named after the first half alone, the second speaker
+    disappeared from both. A row without a voices field -- the plain
+    cut list, which carries only the camera -- is left as it is.
+    """
+    if len(keeper) > 3 and len(swallowed) > 3:
+        keeper[3] = tuple(sorted(set(keeper[3]) | set(swallowed[3])))
 
 
 def shot_key(row):
@@ -6275,9 +6325,11 @@ def merge_short_shots(cut, min_len, key=shot_key):
             continue
         if i + 1 < len(extra):
             extra[i + 1][0] = extra[i][0]
+            voices_joined(extra[i + 1], extra[i])
             del extra[i]
         else:
             extra[i - 1][1] = extra[i][1]
+            voices_joined(extra[i - 1], extra[i])
             del extra[i]
             i -= 1
         # The neighbours may now be the same shot, and two of those in a
@@ -6285,6 +6337,7 @@ def merge_short_shots(cut, min_len, key=shot_key):
         j = max(0, i - 1)
         while j + 1 < len(extra) and key(extra[j]) == key(extra[j + 1]):
             extra[j][1] = extra[j + 1][1]
+            voices_joined(extra[j], extra[j + 1])
             del extra[j + 1]
         i = max(0, i - 1)
     return extra
@@ -9318,6 +9371,10 @@ def measure_tracks_against_each_other(tracks):
             continue
         track["a"], track["b"] = a, b
         placed.append(track)
+        # The same note as on the path with a picture: which way placed
+        # it. Without it a track put there by phase shows +0.00 ppm and
+        # nothing else, and that reads as a drift measured at zero.
+        track["hint"] = which_way_placed(st, track.get("hint") or "")
         print(T('  %-20s offset %s, clock drift %+.2f ppm (+/- %.2f), '
                 'residual spread %.1f ms, %d of %d points%s')
               % (track["name"], as_hms(a), st.get("ppm", 0.0),
@@ -9553,14 +9610,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         except Exception as ex:
             print(T('  %-20s cannot be aligned: %s') % (name, ex))
             continue
-        if st.get("from_bands"):
-            # Which way answered. Without this the warning above reads
-            # as a number the run used against its own verdict, when in
-            # truth the plain curve found nothing and a later way did.
-            hint = (hint + ", " if hint else "") + T('placed on the bands '
-                                                     'that move')
-        if st.get("from_phase"):
-            hint = (hint + ", " if hint else "") + T('placed by phase')
+        hint = which_way_placed(st, hint)
         if cannot_be_placed(st, file_timecode(blocks[0]) if blocks else None,
                             camera_clocks):
             print(as_bad("  " + no_place_message(name)))
@@ -10104,6 +10154,28 @@ def one_separation_on_axis(given, tracks, position, t0, t1):
     return out, ""
 
 
+def microphones_apart_of_run(args, tracks):
+    """How far apart the microphones of this run stand, in dB.
+
+    Every recording against every other, both ways round, so it is the
+    dearest question in this corner: asked once a run, the answer kept
+    on *args*, None where there is nothing to compare. A block is not a
+    recording -- two blocks of one recorder never sound at the same
+    moment, so measured against each other they share no time at all.
+    The question goes to the joined recordings, as in the preflight.
+    """
+    if hasattr(args, "_microphones_apart"):
+        return args._microphones_apart
+    whole = []
+    for track in tracks or ():
+        p = track.get("source") or (track.get("blocks") or [""])[0]
+        if p and p not in whole and os.path.exists(p):
+            whole.append(p)
+    apart = microphones_apart_db(whole) if len(whole) > 1 else None
+    args._microphones_apart = apart
+    return apart
+
+
 def separation_source_of_run(args, tracks, video_paths, mixable=False,
                              window=()):
     """Which recording a run without a window takes apart by voice.
@@ -10138,19 +10210,8 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
                               float(track.get("b") or 1.0)))
         return speaker_mix_file(picked, made_of + [str(x) for x in window])
 
-    apart = None
-    if mixable and not from_cameras:
-        # A block is not a recording: two blocks of one recorder follow
-        # each other and never sound at the same moment, so measured
-        # against each other they share no time at all. The question
-        # goes to the joined recordings, as in the preflight.
-        whole = []
-        for track in tracks or ():
-            p = track.get("source") or (track.get("blocks") or [""])[0]
-            if p and p not in whole and os.path.exists(p):
-                whole.append(p)
-        if len(whole) > 1:
-            apart = microphones_apart_db(whole)
+    apart = (microphones_apart_of_run(args, tracks)
+             if mixable and not from_cameras else None)
     return speaker_source_pick([] if from_cameras else recordings,
                                video_paths or (),
                                camera_audio=from_cameras,
@@ -10170,18 +10231,41 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     """Work out who speaks when, before the audio is processed.
 
     Four ways in, in this order: a separation handed over in the
-    assignment file, one named with --speakers-from, the recording named
-    with --speakers-local, and otherwise the one this run picks itself
-    -- by the same rule the window uses. --no-speakers-local leaves it
-    out. Returns (segments, where they came from), ([], "") for nothing.
+    assignment file, one named with --speakers-from, the recording
+    named with --speakers-local, and otherwise the one this run picks
+    itself; --no-speakers-local leaves it out. One exception: where the
+    microphones hear each other too well the run overrules the window
+    and mixes all recordings. Returns (segments, where from) or ([], "").
     """
     given = getattr(args, "_speakers_of", None) or {}
     where_from = T('the interface') if given else ""
     if not given and getattr(args, "speakers_from", None):
         given = read_separation_file(args.speakers_from)
         where_from = os.path.basename(args.speakers_from)
-    source, why = "", ""
-    if not given and not getattr(args, "no_speakers_local", False):
+    source, why, dropped = "", "", None
+    if (getattr(args, "_speakers_of", None)
+            and not SPEAKER_SPLIT_OFF
+            and not getattr(args, "no_speakers_local", False)
+            and not getattr(args, "speakers_local", None)
+            and not getattr(args, "_camera_audio", None)
+            and bool(getattr(args, "without_auphonic", False))
+            and not getattr(args, "auphonic_done", None)):
+        # The window picks its source without knowing how far the
+        # microphones stand apart, so it takes one recording: below
+        # MICROPHONES_APART_DB that names 37.5 % of the speech right
+        # against 97.6 % from the mix, worth three minutes to redo.
+        apart = microphones_apart_of_run(args, tracks)
+        if apart is not None and apart < MICROPHONES_APART_DB:
+            source, why = separation_source_of_run(
+                args, tracks, video_paths, mixable=True, window=(t0, t1))
+            if source and why == "microphones mixed":
+                dropped = apart
+            else:
+                # No mix came back, so there is nothing better to be
+                # had and what the window found still stands.
+                source, why = "", ""
+    if not given and not source and not getattr(args, "no_speakers_local",
+                                                False):
         if getattr(args, "speakers_local", None):
             source = os.path.abspath(args.speakers_local)
         elif not SPEAKER_SPLIT_OFF:
@@ -10195,6 +10279,17 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
                 window=(t0, t1))
     if source:
         print(as_head(T('\nSEPARATING THE SPEAKERS')))
+        if dropped is not None:
+            # Somebody is about to wait three minutes longer than the
+            # window promised, and this is the only place that can say
+            # what for.
+            print(as_warn(
+                T('  What the window took apart is dropped: it listened '
+                  'to one recording, and the microphones stand only %s dB '
+                  'apart -- below %s dB one of them alone no longer says '
+                  'who is speaking.')
+                % (decimal_text("%.1f" % dropped),
+                   decimal_text("%.1f" % MICROPHONES_APART_DB))))
         if why == "microphones mixed":
             args._speakers_mixed = True
             print(T('  The microphones hear each other too well to say who '
@@ -14326,7 +14421,11 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # file that fits nowhere.
             left_out.append(cam["name"])
             continue
-        who = speaker_of.get(v) or []
+        # Sorted, like build_handover's: gathered the way they arrive,
+        # the same two people come out as one name here and another
+        # there -- and both are read, one as a Resolve track and one
+        # in the legend under the cut band.
+        who = sorted(speaker_of.get(v) or [])
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
@@ -17619,6 +17718,28 @@ def cannot_be_placed(st, own_tc, other_tcs):
     if not (st or {}).get("unplaceable"):
         return False
     return not timecode_places_it(own_tc, other_tcs)
+
+
+def which_way_placed(st, hint=""):
+    """Add to a track's note which way put it on the axis.
+
+    The plain loudness curve says nothing, being the ordinary answer;
+    the two later ways do, and both report lines use this one function
+    so they say the same thing. The phase carries its sharpness against
+    PHASE_SHARP_ENOUGH, and says the drift is unknown: it answers where
+    a track sits, not how fast it ran, and the line beside it prints
+    +0.00 ppm, which would otherwise read as a drift measured at zero.
+    """
+    if (st or {}).get("from_bands"):
+        hint = (hint + ", " if hint else "") + T('placed on the bands '
+                                                 'that move')
+    if (st or {}).get("from_phase"):
+        hint = (hint + ", " if hint else "") + (
+            T('placed by phase, sharpness %s against a floor of %s, '
+              'drift unknown')
+            % (decimal_text("%.1f" % float(st.get("phase_sharp") or 0.0)),
+               decimal_text("%.1f" % PHASE_SHARP_ENOUGH)))
+    return hint
 
 
 def no_place_message(name):
@@ -29000,6 +29121,25 @@ def break_off_button(QtWidgets, state, say):
     return button
 
 
+def button_in_a_frame(QtWidgets, button):
+    """Wrap a button in a bare frame, and hand the frame back.
+
+    Two reasons, and every footer button that can be switched off goes
+    through here for both. A disabled button takes no mouse events in
+    Qt and so shows no tooltip; the frame takes them and carries a copy
+    of its text. And a button wants a fixed height where a plain widget
+    wants a preferred one, so a wrapped button centres in its frame and
+    a bare one in the row -- on an odd difference they round apart.
+    """
+    frame = QtWidgets.QWidget()
+    row = QtWidgets.QHBoxLayout(frame)
+    row.setContentsMargins(0, 0, 0, 0)
+    row.addWidget(button)
+    if button.toolTip():
+        frame.setToolTip(button.toolTip())
+    return frame
+
+
 def row_same_height(buttons):
     """Give a row of buttons the height of the tallest among them.
 
@@ -33771,18 +33911,17 @@ def gui():
     # looks at the result and creates the project after.
     start_run = QtWidgets.QPushButton(T('Start'))
     start_run.setEnabled(False)
-    # A disabled button takes no mouse events in Qt and therefore shows no
-    # tooltip. So it sits in a wrapper that carries the text.
-    start_run_env_curve = QtWidgets.QWidget()
-    _start_row = QtWidgets.QHBoxLayout(start_run_env_curve)
-    _start_row.setContentsMargins(0, 0, 0, 0)
-    _start_row.addWidget(start_run)
+    hint(start_run, T('Measure, align, process, write files.'))
+    # Both run buttons sit in a frame of their own: it is what makes the
+    # tooltip of a switched-off button reachable at all, and it is what
+    # keeps the two standing on one line. button_in_a_frame says why.
+    start_run_env_curve = button_in_a_frame(QtWidgets, start_run)
     foot.addWidget(start_run_env_curve)
     preview_button = QtWidgets.QPushButton(T('Dry run'))
     preview_button.setEnabled(False)
     hint(preview_button,
             T('Measure only -- nothing is written or uploaded.'))
-    foot.addWidget(preview_button)
+    foot.addWidget(button_in_a_frame(QtWidgets, preview_button))
     break_off = break_off_button(QtWidgets, state, lambda t: write(t))
     foot.addWidget(break_off)
     # The two run buttons are one pair and switch off the same way: both
@@ -33806,7 +33945,6 @@ def gui():
         "QPushButton:hover:!disabled { background: %s; }"
         % (COLOURS["box"], COLOURS["heading"], COLOURS["heading"],
            COLOURS["off_text"], COLOURS["off"], COLOURS["backdrop"]))
-    hint(start_run, T('Measure, align, process, write files.'))
     # Settings belongs with the buttons, not beside the tabs: it is not
     # a step of the work, so it stays flat and keeps its distance, but
     # the footer is where a button is looked for.
@@ -36942,8 +37080,9 @@ CATALOGUE["de"] = {
         'Weitwinkel: die vier Weitwinkel-Einstellungen und das Häkchen für '
         'die Ränder bewirken nichts. Setze eine Kamera im Feld Typ auf '
         '"Weitwinkel", oder lass eine ohne Sprecher.',
-    'placed by phase':
-        'per Phase platziert',
+    'placed by phase, sharpness %s against a floor of %s, drift unknown':
+        'per Phase platziert, Schärfe %s gegen einen Boden von %s, Gang '
+        'unbekannt',
     'placed on the bands that move':
         'über die bewegten Frequenzbänder platziert',
     'Why the wide shot settings are grey':
@@ -37451,6 +37590,12 @@ CATALOGUE["de"] = {
     'The keychain is locked. Unlock it and try again.':
         'Der Schlüsselbund ist zugesperrt. Sperr ihn auf und versuch es '
         'noch einmal.',
+    'This run is a test run and the store still carries its real name, '
+    'so nothing was written. Point KEY_SERVICE, KEY_ACCOUNT or REG_PATH '
+    'somewhere else first.':
+        'Dieser Lauf ist ein Testlauf, und der Speicher trägt noch seinen '
+        'echten Namen, also wurde nichts geschrieben. Richte KEY_SERVICE, '
+        'KEY_ACCOUNT oder REG_PATH zuerst woanders hin.',
     'The keychain is locked. Unlock it and this button wakes up.':
         'Der Schlüsselbund ist zugesperrt. Sperr ihn auf, dann wacht '
         'dieser Knopf auf.',
@@ -38491,6 +38636,13 @@ CATALOGUE["de"] = {
         '  Die Mikrofone hören einander zu gut, um zu sagen, wer spricht; '
         'die Trennung hört deshalb alle %d zugleich ab, auf diesem '
         'Rechner.',
+    '  What the window took apart is dropped: it listened to one '
+    'recording, and the microphones stand only %s dB apart -- below %s dB '
+    'one of them alone no longer says who is speaking.':
+        '  Was das Fenster getrennt hat, wird verworfen: es hörte eine '
+        'einzelne Aufnahme ab, und die Mikrofone stehen nur %s dB '
+        'auseinander -- unter %s dB sagt eines allein nicht mehr, wer '
+        'spricht.',
     'Mixing the tracks for the separation':
         'Spuren für die Trennung mischen',
     '  Which voice belongs to which microphone could not be told, so the '

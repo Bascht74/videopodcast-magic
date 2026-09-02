@@ -34,6 +34,11 @@ vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
 vpm.set_language("en")
+# Before anything can reach the credential store: all three names of
+# it go somewhere throwaway. On a Mac the two keychain names decide,
+# and REG_PATH alone moved nothing there.
+import key_store_apart
+key_store_apart.apart(vpm)
 
 # Unmistakably invented, and it survives the program's escaping
 # untouched: no backslash, no quotation mark, no space, so what is

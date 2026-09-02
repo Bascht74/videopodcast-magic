@@ -32,7 +32,7 @@
 # Written by run.sh, only from a run against the file this repository
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
 auphonic_key_answer_fits	16
-auphonic_key_by_pipe	63
+auphonic_key_by_pipe	68
 auphonic_key_out_of_view	24
 auphonic_may_be_skipped	23
 auphonic_mono_not_stereo	7
@@ -51,7 +51,7 @@ cut_no_wide_silences	21
 cut_note_moves_no_shot	11
 cut_note_says_who_speaks	17
 cut_offer_needs_two	87
-cut_one_camera_marks	13
+cut_one_camera_marks	19
 cut_opening_wide_holds	7
 cut_own_mic_own_camera	10
 cut_own_rate_counted	18
@@ -97,7 +97,7 @@ project_each_track_set	5
 project_every_offset	9
 project_file_beats_last	6
 project_grades_stay_off	8
-project_handover_built	78
+project_handover_built	81
 project_hdr_follows	49
 project_keeps_answers	13
 project_real_frame	4
@@ -177,7 +177,7 @@ text_only_texts_change	80
 text_release_ready	35
 text_tests_listed	9
 text_whole_sentences	4
-time_all_ways_agree	141
+time_all_ways_agree	142
 time_axis_keys_agree	13
 time_axis_measured	26
 time_bad_point_dropped	20
@@ -197,13 +197,14 @@ time_sound_stays_put	31
 time_track_starts_late	8
 time_tracks_alone	32
 time_tracks_sit_together	4
+time_which_way_is_said	13
 time_window_is_shared	11
 time_zero_at_in_point	77
 voice_answer_kept	24
 voice_bleed_gone_first	15
 voice_both_splits_stand	18
 voice_both_ways_agree	20
-voice_close_mics_mixed	36
+voice_close_mics_mixed	47
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_language_arrives	15
@@ -224,6 +225,7 @@ window_answers_arrive	39
 window_axis_asks_again	2
 window_captions_fit	12
 window_cut_colours	8
+window_foot_on_one_line	8
 window_grey_opens_again	19
 window_grey_says_why	34
 window_hears_while_split	8

@@ -1,6 +1,6 @@
 # The test suite
 
-209 tests against `../videopodcast-magic.py`. Every one of them stands
+211 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-209 tests. The name is the one a red line carries, and beside it the
+211 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -323,6 +323,7 @@ it is green.
 | `time_track_starts_late` | A track that begins after the picture is placed where the file says. |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
 | `time_tracks_sit_together` | Tracks put on the axis sit together, whatever offset they came with. |
+| `time_which_way_is_said` | The run says which way put a track on the axis, and how sure it is. |
 | `time_window_is_shared` | The window is the stretch EVERY camera saw, not the one any saw. |
 | `time_zero_at_in_point` | #66: Where does programme time start on the clock, and what hangs on it? |
 
@@ -434,6 +435,7 @@ it is green.
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
+| `window_foot_on_one_line` | The buttons in the footer stand on one line, and say why they are off. |
 | `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
 | `window_grey_says_why` | Why the start button is grey, and where that is said. |
 | `window_hears_while_split` | The words are written down while the speakers are being separated. |

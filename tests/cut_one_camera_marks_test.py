@@ -3,11 +3,13 @@
 
 One camera the old way, then split at the change of speaker; two
 cameras, where the shots are the speakers already; a short
-interjection; silence. What the detailed cut says about who is talking
-is held against written-out names, not against a second reading of the
-same tracks. How many fields a row has gets no judgement of its own:
-every caller above unpacks them by name, so a row of the wrong width
-ends the run before a check could speak.
+interjection; silence; and last two shots that become one, which has
+to carry the names of both. What the detailed cut says about who is
+talking is held against written-out names, not against a second
+reading of the same tracks. How wide a row is gets one judgement, and
+only for the plain cut list, which may not grow a name field it never
+had; everywhere else the callers unpack by name, so a row of the wrong
+width ends the run before a check could speak.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -123,6 +125,63 @@ rich = vpm.split_shots_by_speaker(
     vpm.build_camera_cut(gap, 25.0, one, "Wide"), gap)
 check("there is a shot with no speaker",
       any(w == () for _a, _b, _c, w in rich), str([r[3] for r in rich]))
+
+print("\n6. Two shots joined into one name everybody heard in it")
+# Measured on 2.9.2026: Host ten seconds, Guest ten seconds, both on
+# the same camera. The picture never changes, so it is one shot -- and
+# named after the first speaker alone the Guest disappeared from the
+# Speaker column of the cut list the user gets, and with one camera for
+# everybody from the clip names in the EDL. It happens on three roads,
+# and each has its own line here. The wanted values are written out;
+# read off the tracks again they would repeat the program's reading.
+turn_taking = [("Host", [(0.0, 10.0)]), ("Guest", [(10.0, 20.0)])]
+joined = vpm.camera_cut_detail(turn_taking, 20.0, one, "Wide",
+                               min_len=3.0, lead_in=0.0,
+                               rules=vpm.cut_rules(min_speech=0.5))
+check("two turns on one camera come out as one shot",
+      [(r[0], r[1], r[2]) for r in joined] == [(0.0, 20.0, "Wide")],
+      "%s, wanted one shot of 0.0 .. 20.0 on Wide"
+      % ([(r[0], r[1], r[2]) for r in joined],))
+check("and that shot names both people heard in it",
+      [r[3] for r in joined] == [("Guest", "Host")],
+      "%s, wanted [('Guest', 'Host')] -- the Host alone is the fault "
+      "this asks about" % ([r[3] for r in joined],))
+brief = [("Host", [(0.0, 30.0)]), ("Guest", [(10.0, 10.4)])]
+swallowed = vpm.split_shots_by_speaker(
+    vpm.build_camera_cut(brief, 30.0, one, "Wide"), brief, 1.2)
+check("a shot too short to stand takes its speaker into the one that "
+      "swallows it",
+      [r[3] for r in swallowed] == [("Host",), ("Guest", "Host")],
+      "%s, wanted [('Host',), ('Guest', 'Host')]"
+      % ([r[3] for r in swallowed],))
+# The last shot has nothing after it, so it goes back into the one
+# before -- the other half of the same rule, and it lost the name the
+# same way.
+tail = vpm.merge_short_shots([[0.0, 10.0, "Wide", ("Host",)],
+                              [10.0, 11.0, "CamB", ("Guest",)]], 3.0)
+check("and a last shot too short to stand takes its speaker back with it",
+      [tuple(r) for r in tail] == [(0.0, 11.0, "Wide", ("Guest", "Host"))],
+      "%s, wanted [(0.0, 11.0, 'Wide', ('Guest', 'Host'))]"
+      % ([tuple(r) for r in tail],))
+# The plain cut list carries three fields and no names at all, and the
+# same merging runs over it. It may not grow a fourth.
+plain = vpm.merge_short_shots([(0.0, 10.0, "Wide"), (10.0, 11.0, "CamB")],
+                              3.0)
+check("while a cut list that carries no names is joined as before",
+      [tuple(r) for r in plain] == [(0.0, 11.0, "Wide")],
+      "%s, wanted [(0.0, 11.0, 'Wide')]" % ([tuple(r) for r in plain],))
+# A short shot between two shots of the same camera goes into the one
+# after it, and the two left standing are then one shot again. That
+# second fold gathers names of its own, and no line above reaches it.
+between = vpm.merge_short_shots([[0.0, 10.0, "Wide", ("Host",)],
+                                 [10.0, 11.0, "CamB", ("Guest",)],
+                                 [11.0, 21.0, "Wide", ("Third",)]], 3.0)
+check("and neighbours left side by side become one shot naming all "
+      "three",
+      [tuple(r) for r in between]
+      == [(0.0, 21.0, "Wide", ("Guest", "Host", "Third"))],
+      "%s, wanted [(0.0, 21.0, 'Wide', ('Guest', 'Host', 'Third'))]"
+      % ([tuple(r) for r in between],))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

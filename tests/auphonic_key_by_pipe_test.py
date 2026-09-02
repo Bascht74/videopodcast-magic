@@ -5,8 +5,10 @@ Nothing here starts a process or opens a real library: both places are
 replaced and the program is told this machine is a Mac. The sections:
 what the stand-ins refuse, what security is handed, there and back,
 what is not there, deleting, a missing or deaf security, whether the
-store is shut and who is asked, the line that greys the save box, and
-that nothing real ever ran. The key is invented and no line prints it.
+store is shut and who is asked, the line that greys the save box, that
+a test run which left the real names standing is shut out of the store
+altogether, and that nothing real ever ran. The key is invented and no
+line prints it.
 """
 import os
 import subprocess
@@ -335,6 +337,7 @@ os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 
 import importlib.util                                       # noqa: E402
+import key_store_apart                                      # noqa: E402
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec)
 sys.modules["vpm"] = vpm
@@ -401,10 +404,11 @@ class NotMacSys(MacSys):
 vpm.subprocess = NoSubprocess
 vpm.ctypes = NoCtypes
 vpm.sys = MacSys()
-# Not read on the way this test walks -- it is the Windows name and the
-# second half of the cache key. Pointed away from the real one all the
-# same, so no slip of the branch could reach a real registry.
-vpm.REG_PATH = r"Software\videopodcast-magic-test-" + uuid.uuid4().hex[:12]
+# All three names of the store go somewhere throwaway, so no slip of a
+# branch could reach a real one. The two keychain names are the ones
+# that decide here: pointing only REG_PATH away moved nothing on a Mac,
+# because the service and the account were written out in the program.
+APART = key_store_apart.apart(vpm)
 
 # ------------------------------------- 2. What security is handed
 print("\n2. What security is handed when the key is stored")
@@ -766,8 +770,69 @@ else:
               "%d starts, the first %r"
               % (len(pressed), pressed[0].argv if pressed else None))
 
-# ---------------------------------------- 9. Nothing real ever ran
-print("\n9. Nothing real ever ran")
+# ------------------------- 9. A test run cannot reach the real store
+print("\n9. A test run cannot reach the real store")
+#
+# Measured on 2.9.2026: the keychain service and account stood in the
+# program where they were used, so a test that pointed REG_PATH at a
+# throwaway name moved nothing here and wrote over the key the person
+# at this machine really uses -- fourteen characters where an Auphonic
+# key has about forty. The real names are put back for these few
+# lines, which is safe only because nothing in this file starts a real
+# process: the stand-in above is what makes the question askable.
+check("the throwaway names are three, and none of them the real ones",
+      len(set(APART)) == 3 and not set(APART) & set(vpm.KEY_STORE_REAL),
+      "%d different names of %d, and %d of them real -- wanted three "
+      "and none"
+      % (len(set(APART)), len(APART),
+         len(set(APART) & set(vpm.KEY_STORE_REAL))))
+# That the gate stands open while the names are throwaway ones gets no
+# judgement of its own here: every section above went to the store and
+# came back, so it was open, and a check saying so again would be one
+# that cannot fall. auphonic_key_kept asks it, where nothing else does.
+kept_names = (vpm.KEY_SERVICE, vpm.KEY_ACCOUNT, vpm.REG_PATH)
+kept_silent = os.environ.get("VPM_SILENT")
+try:
+    vpm.KEY_SERVICE, vpm.KEY_ACCOUNT, vpm.REG_PATH = vpm.KEY_STORE_REAL
+    os.environ["VPM_SILENT"] = "1"
+    vpm.forget_api_key()
+    shut = vpm.key_store_off_limits()
+    mark = len(STARTS)
+    wrote = vpm.store_api_key(PLAIN)
+    read = vpm.load_api_key()
+    removed = vpm.delete_api_key()
+    tried = len(STARTS) - mark
+    why = vpm.key_store_trouble()
+finally:
+    vpm.KEY_SERVICE, vpm.KEY_ACCOUNT, vpm.REG_PATH = kept_names
+    if kept_silent is None:
+        os.environ.pop("VPM_SILENT", None)
+    else:
+        os.environ["VPM_SILENT"] = kept_silent
+    vpm.forget_api_key()
+check("a test run that left the real names standing is shut out",
+      shut is True, "%r, wanted True" % (shut,))
+# The store itself is asked as well as the three answers. With the
+# guard gone from the write alone, the key really lands in the store
+# and all three answers still read right: the write reports False
+# because the read it confirms itself with is the one still shut out.
+landed = [at for at in STORE if at == vpm.KEY_STORE_REAL[:2]]
+check("so nothing is written, read or deleted under the real names",
+      wrote is False and read == "" and removed is False and not landed,
+      "the store said %r, the read gave %d characters, the delete said "
+      "%r, and %d entries stand under the real names -- wanted False, 0, "
+      "False and none" % (wrote, len(read), removed, len(landed)))
+check("and not one process is started to try",
+      tried == 0, "%d starts, wanted 0" % tried)
+check("and the program says why nothing was saved",
+      why == vpm.T('This run is a test run and the store still carries '
+                   'its real name, so nothing was written. Point '
+                   'KEY_SERVICE, KEY_ACCOUNT or REG_PATH somewhere else '
+                   'first.'),
+      "it says %r" % (why,))
+
+# --------------------------------------- 10. Nothing real ever ran
+print("\n10. Nothing real ever ran")
 
 check("no real process was started anywhere in this run", not REAL_STARTS,
       "%d starts got past the stand-in, the first of them %s"
