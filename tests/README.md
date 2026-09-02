@@ -1,6 +1,6 @@
 # The test suite
 
-206 tests against `../videopodcast-magic.py`. Every one of them stands
+208 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-206 tests. The name is the one a red line carries, and beside it the
+208 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -318,6 +318,7 @@ it is green.
 | `time_over_midnight` | Midnight is one night, not a day apart. |
 | `time_point_pulled_back` | A hand-set In or Out point never reaches past what every camera saw. |
 | `time_reference_silent` | The camera everything else is measured against reports no measurement. |
+| `time_second_try_places` | A steady tone no longer keeps a file off the time axis. |
 | `time_sound_stays_put` | Does a time window move the sound against the picture in Multitrack? |
 | `time_track_starts_late` | A track that begins after the picture is placed where the file says. |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
@@ -333,6 +334,7 @@ it is green.
 | `voice_bleed_gone_first` | #80: does the bleed get taken out before the speech detection? |
 | `voice_both_splits_stand` | A second separation leaves the first its voices, names and cameras. |
 | `voice_both_ways_agree` | The window and the command line separate the same way. |
+| `voice_close_mics_mixed` | Microphones that hear each other are mixed and taken apart by voice. |
 | `voice_every_word_placed` | The words on the speakers, and the three files that come of it. |
 | `voice_failed_read_named` | A reading that fails costs its tracks the cut, and the log says so. |
 | `voice_language_arrives` | The language asked for reaches the recognition as a code it takes. |
@@ -447,7 +449,7 @@ it is green.
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_start_runs` | The start button must build a command line and start a run. |
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
-| `window_zoom_stays_in` | Zoom on the cut band: in, out, and what the click then means. |
+| `window_zoom_stays_in` | Zoom on the cut band: in, out, and what a press then means. |
 
 ### `table_` -- the assignment table
 

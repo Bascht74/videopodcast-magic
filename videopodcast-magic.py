@@ -9553,10 +9553,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         except Exception as ex:
             print(T('  %-20s cannot be aligned: %s') % (name, ex))
             continue
-        if st.get("from_phase"):
+        if st.get("from_bands"):
             # Which way answered. Without this the warning above reads
             # as a number the run used against its own verdict, when in
-            # truth the envelopes found nothing and the phase did.
+            # truth the plain curve found nothing and a later way did.
+            hint = (hint + ", " if hint else "") + T('placed on the bands '
+                                                     'that move')
+        if st.get("from_phase"):
             hint = (hint + ", " if hint else "") + T('placed by phase')
         if cannot_be_placed(st, file_timecode(blocks[0]) if blocks else None,
                             camera_clocks):
@@ -16998,6 +17001,81 @@ def envelope(x, hop_ms=5.0, rate=SR):
     return e - e.mean()
 
 
+# Narrow where mains hum sits, wider above it. Everything over the last
+# edge is counted into the last band: at 4000 Hz that is a single bin.
+BAND_EDGES = (0, 50, 75, 100, 125, 150, 200, 250, 300, 400, 500, 650,
+              800, 1000, 1200, 1400, 1600, 1800, 2000)
+# How long a stretch one band level is read over. 64 ms is long enough
+# to tell 50 Hz from 100 Hz; the 5 ms box the plain curve uses is not,
+# and there a hum and the voice over it land in the same value.
+BAND_WINDOW_S = 0.064
+# A band counts if its own loudness moves at least half as much as the
+# liveliest band of that recording. Measured 1.9.2026 over 38 tracks
+# from four productions: the mains hum drops out of every one of them,
+# and none of the 85 pairs that belong together got worse.
+BAND_MOVES_ENOUGH = 0.5
+
+
+def band_powers(x, hop_ms=5.0, rate=SR):
+    """How much power each band holds at every step of the curve.
+
+    One short spectrum every hop, its bins summed inside the band
+    edges. Worked through in blocks: a whole episode at once is a
+    matrix of some gigabytes, and the answer is the same either way.
+    """
+    hop = max(1, int(hop_ms * rate / 1000.0))
+    win = max(16, 1 << int(round(np.log2(BAND_WINDOW_S * rate))))
+    steps = (len(x) - win) // hop
+    bands = len(BAND_EDGES) - 1
+    if steps < 10:
+        return np.zeros((bands, 0), dtype=np.float32)
+    which = np.clip(np.searchsorted(np.asarray(BAND_EDGES, float),
+                                    np.fft.rfftfreq(win, 1.0 / rate),
+                                    side="right") - 1, 0, bands - 1)
+    shape = np.hanning(win)
+    out = np.empty((bands, steps), dtype=np.float32)
+    block = 40000
+    for s in range(0, steps, block):
+        k = min(block, steps - s)
+        at = np.arange(win)[None, :] + hop * np.arange(s, s + k)[:, None]
+        power = np.abs(np.fft.rfft(x[at] * shape, axis=1)) ** 2
+        for b in range(bands):
+            here = which == b
+            out[b, s:s + k] = power[:, here].sum(1) if here.any() else 0.0
+    return out
+
+
+def moving_bands(power):
+    """Which bands say something about the time, and which stand still.
+
+    A band whose level never changes cannot place anything, however
+    loud it is: mains hum sits there at full strength and says the
+    same thing from the first second to the last. Asked of the
+    recording itself, so no frequency has to be set from outside.
+    """
+    if not power.size:
+        return np.zeros(len(power), dtype=bool)
+    move = np.array([float(np.log(np.sqrt(np.asarray(p, float)) + 1e-9).std())
+                     for p in power])
+    return move >= BAND_MOVES_ENOUGH * (float(move.max()) or 1.0)
+
+
+def band_envelope(x, hop_ms=5.0, rate=SR):
+    """The loudness curve without the bands that carry no movement.
+
+    What envelope() reads in one piece, read band by band with the
+    still ones left out. Where every band moves alike nothing is left
+    out, and this is the same curve through a longer window.
+    """
+    power = band_powers(x, hop_ms, rate)
+    keep = moving_bands(power)
+    kept = power[keep] if keep.any() else power
+    if not kept.size:
+        return np.zeros(0)
+    e = np.log(np.sqrt(kept.astype(np.float64).sum(0)) + 1e-9)
+    return e - e.mean()
+
+
 def phase_align(a, b, rate, most_s=None):
     """Where b sits against a, by phase alone. (seconds, sharpness).
 
@@ -17353,23 +17431,51 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
 PHASE_SHARP_ENOUGH = 8.0
 
 
+def align_on_moving_bands(x_video, x_audio, HOP, rate, sample_points,
+                          window_s, distance_s):
+    """The same way again, on the bands that carry movement.
+
+    Returns what align_envelopes returns, or None where a curve came
+    out too short to compare. The numbers in it are the ordinary ones
+    -- sample points and their spread -- so the gate that judges the
+    first answer judges this one by the same rule.
+    """
+    curve_video = band_envelope(x_video, HOP, rate)
+    curve_audio = band_envelope(x_audio, HOP, rate)
+    if len(curve_video) < 10 or len(curve_audio) < 10:
+        return None
+    return align_envelopes(curve_video, curve_audio, HOP, sample_points,
+                           window_s, distance_s, warn=False)
+
+
 def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0,
                distance_s=120.0):
     """Return a, b with audio time = a + b * video time."""
     HOP, rate = 5.0, 4000
     env_video = video_envelope(video, HOP, rate)
-    env_audio = envelope(decode_audio(audio, rate=rate, ss=head_s / float(SR)), HOP, rate)
+    x_audio = decode_audio(audio, rate=rate, ss=head_s / float(SR))
+    env_audio = envelope(x_audio, HOP, rate)
     a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
                                window_s, distance_s)
     if st.get("quality", 0.0) >= WEAK_MATCH:
         return a, b, st
-    # The plain way found nothing worth having. Before giving up, the
-    # phase way -- it costs one more read of both files and only ever
-    # runs here, where the answer was going to be wrong anyway.
+    # The plain way found nothing worth having. Both files are read
+    # here, once, for the second try and for the phase way under it --
+    # the phase way read them itself before, so this costs no decode.
+    x_video = decode_audio(video, rate=rate)
+    second = align_on_moving_bands(x_video, x_audio, HOP, rate,
+                                   sample_points, window_s, distance_s)
+    if second is not None and fit_places_it(second[2]):
+        # Sample points enough, and close enough to one line. Measured
+        # over 293 pairs out of different productions not one gets that
+        # far, and all 85 that belong together do.
+        second[2]["from_bands"] = True
+        return second
+    # Both curves came up empty. The phase way -- it only ever runs
+    # here, where the answer was going to be wrong anyway, and it is
+    # the one way no sample point backs up.
     st["music_like"] = looks_like_music(env_audio)
-    where, sharp = phase_align(
-        decode_audio(video, rate=rate),
-        decode_audio(audio, rate=rate, ss=head_s / float(SR)), rate)
+    where, sharp = phase_align(x_video, x_audio, rate)
     st["phase_s"], st["phase_sharp"] = where, sharp
     if sharp >= PHASE_SHARP_ENOUGH:
         st["from_phase"] = True
@@ -17574,7 +17680,7 @@ def without_outliers(tv, dt):
 
 
 def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=20.0,
-                       distance_s=120.0, points_off="video"):
+                       distance_s=120.0, points_off="video", warn=True):
     """The same on ready-made envelopes.
 
     Which way round: the second curve's time = a + b * the first
@@ -17598,14 +17704,15 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         raise RuntimeError(T('too little audio to align'))
     if points_off == "audio":
         a, b, st = align_envelopes(env_audio, env_video, HOP, sample_points, window_s,
-                                      distance_s)
+                                      distance_s, warn=warn)
         return -a / b, 1.0 / b, st
     k, g = cross_correlate(env_video, env_audio)
     coarse = k * HOP / 1000.0
-    # Signed, not by size: see cross_correlate. And the number is said
-    # out loud even where it passes, because "found something" and
-    # "found it barely" used to look the same from outside.
-    if g < WEAK_MATCH:
+    # Signed, not by size: see cross_correlate. Said out loud even
+    # where it passes, because "found something" and "found it barely"
+    # look the same from outside. A second try on the same two files
+    # has heard it once and asks for silence.
+    if warn and g < WEAK_MATCH:
         print(as_warn(T('      WARNING: weak match (%.3f, %.2f is the '
                         'floor). The two may not belong together.')
                       % (g, WEAK_MATCH)))
@@ -36828,6 +36935,8 @@ CATALOGUE["de"] = {
         '"Weitwinkel", oder lass eine ohne Sprecher.',
     'placed by phase':
         'per Phase platziert',
+    'placed on the bands that move':
+        'über die bewegten Frequenzbänder platziert',
     'Why the wide shot settings are grey':
         'Warum die Weitwinkel-Einstellungen grau sind',
     'because no speaker is assigned to it':
