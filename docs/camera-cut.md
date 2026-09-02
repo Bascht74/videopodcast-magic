@@ -25,7 +25,10 @@ With that the script knows who speaks when, and builds the cut from it:
 * One speaker alone gets their camera, with a lead-in.
 * A short "yes" does not: below **Speaks at least** the picture stays
   where it is.
-* In silence the wide shot runs: the camera with no speaker assigned.
+* In silence the wide shot runs -- the camera with no speaker assigned
+  -- as long as **Nobody speaks** is left standing on it. That selector
+  can also hold a short gap instead, or leave the picture alone
+  altogether.
 * After a long shot the wide shot drops in at a sentence boundary.
 
 **When several speak at once**, a camera showing exactly those speakers
@@ -70,7 +73,7 @@ on; until then a line stands in its place and says what is missing.
 of the settings stand grey, because no run has written the words down
 yet.*
 
-All eight fields take seconds, and the number in each line is the
+All nine fields take seconds, and the number in each line is the
 default. An empty field means the default, a comma counts as the decimal
 mark, and there is no upper limit. A negative value is only meant for
 **Edit Change Delay**; the other fields take one but nothing good comes
@@ -87,6 +90,18 @@ Three fields shape the rhythm of the cut:
 * **Edit Change Delay**: 0.3 s, this much later than the sound the
   picture cuts; a negative value makes the picture lead (on the
   command line `--edit-change-delay`)
+
+A fourth field stands among those three, in third place, and belongs
+not to the rhythm but to a selector further down:
+
+* **Short gap up to**: 1 s, up to this length a silence leaves the
+  picture where it is, and a longer one goes to the wide shot. It does
+  something only where **Nobody speaks** stands on **Hold a short
+  gap** (on the command line `--silence-hold`). Measured over 83
+  minutes of interview: at one second no camera stands on a silent
+  person for longer than 4 seconds; from two seconds on the first
+  stretches over five seconds appear, and that is where the picture
+  starts to look forgotten.
 
 Four shape the wide shot, and the first two of them are a pair: a soft
 limit and a hard one.
@@ -121,7 +136,7 @@ selector that decides it:
   at 12.5: with a lead of 5 seconds the cut sits at 5.0 seconds, not at
   7.5. The **Edit Change Delay** is not added to it a second time.
 
-Under the fields stand four selectors. They say what runs when the
+Under the fields stand five selectors. They say what runs when the
 speech does not say whom to show:
 
 * **After a question**: **Answering speaker** (on the command line
@@ -130,14 +145,21 @@ speech does not say whom to show:
   `--on-monologue`)
 * **Several speak at once**: **Wide shot** (on the command line
   `--on-together`)
+* **Nobody speaks**: **Wide shot** (on the command line
+  `--on-silence`)
 * **Recognition uncertain**: **Wide shot** (on the command line
   `--on-uncertain`)
 
-The last three take the same four values: **Wide shot**, **Listener**,
-**Alternating** and **No camera change**. **After a question** takes
-**do not go early**, **Answering speaker** and **Listener**; **do not go
-early** means no early camera change, the picture follows the sound here
-as it does everywhere else.
+**Long monologue**, **Several speak at once** and **Recognition
+uncertain** take the same four values: **Wide shot**, **Listener**,
+**Alternating** and **No camera change**. **Nobody speaks** takes three
+of its own: **Wide shot**, **Hold a short gap** and **No camera
+change** -- with nobody speaking there is no listener to turn to and
+nothing to alternate between, and how long a short gap may be is what
+**Short gap up to** says. **After a question** takes **do not go
+early**, **Answering speaker** and **Listener**; **do not go early**
+means no early camera change, the picture follows the sound here as it
+does everywhere else.
 
 Under the selectors the tick **Wide shot for greeting at the start and
 farewell at the end** keeps beginning and end on the wide shot (on the
@@ -177,10 +199,15 @@ The wide shot is the camera nobody is on. Where every camera carries a
 speaker there is none, and the five settings that say nothing but what
 the wide shot does stand grey: **Wide shot after**, **Wide shot at the
 latest**, **Wide shot at least**, **Wide shot at most** and the tick for
-the edges. In the three lower selectors the entry **Wide shot** goes
-grey with them and cannot be picked. It stays in the list rather than
-vanishing from it, and pointing at it says why -- the answer to "why can
-I not choose this" belongs where the question is asked.
+the edges. In **Long monologue**, **Several speak at once** and
+**Recognition uncertain** the entry **Wide shot** goes grey with them
+and cannot be picked. It stays in the list rather than vanishing from
+it, and pointing at it says why -- the answer to "why can I not choose
+this" belongs where the question is asked.
+
+**Nobody speaks** keeps the entry and stays open. A silence has to show
+something, and where no camera is free the cut takes one of the cameras
+it has, as it did before this selector existed.
 
 Under the settings a line says the same in words: no camera is free of
 speakers, so there is no wide shot and these five settings do nothing.
@@ -202,10 +229,10 @@ than working a majority out in silence.
 
 A number already in a grey field is kept, and the run does not act on it
 either: without a wide shot **Wide shot after** counts as 0, the tick as
-off, and a selector still standing on **Wide shot** as **No camera
-change**. The log says so under the heading of the cut: every camera
-carries a speaker, so the four wide shot settings and the tick for the
-edges do nothing here.
+off, and each of those three selectors still standing on **Wide shot**
+as **No camera change**. The log says so under the heading of the cut:
+every camera carries a speaker, so the four wide shot settings and the
+tick for the edges do nothing here.
 
 Neither of the two greys is for ever. Mark a camera, or take a speaker
 off one, and the five come alive in the same moment, as the four do
@@ -213,7 +240,7 @@ when a run has written the words down.
 
 ### When the speech does not say whom to show
 
-Four cases, and what each of the four selectors decides:
+Five cases, and what each of the five selectors decides:
 
 * **After a question**: the picture goes to the answer before it
   starts. Only after a question that is not the main speaker's, when
@@ -221,8 +248,22 @@ Four cases, and what each of the four selectors decides:
 * **Long monologue**: one person holds the floor past **Wide shot
   after**. **Alternating** remembers what the last break showed.
 * **Several speak at once**: and no camera shows exactly them.
+* **Nobody speaks**: no voice is heard at all here. A breath in the
+  middle of a sentence and the end of a thought are both silence, and
+  the program cannot tell them apart -- only their length can, and
+  **Short gap up to** draws that line.
 * **Recognition uncertain**: the recognition frays over a passage, or
-  a name is left with nothing but scraps.
+  a name is left with nothing but scraps. Somebody is speaking here;
+  where nobody is, **Nobody speaks** decides.
+
+**Silence is the biggest of these cases by far**, and most of it is not
+what the word suggests. Measured over 83 minutes of interview: a fifth
+of the running time falls to it, and nine tenths of that are gaps
+inside one and the same person, the middle one 0.6 seconds long -- a
+breath, not the end of a thought. Left on **Wide shot** every one of
+them takes the picture off the speaker. Set to **Hold a short gap**
+with one second, the same material gives 244 shots instead of 296, and
+the wide shot's share falls from 28 to 17 per cent.
 
 **What became of the questions stands in the log.** One line says how
 many question marks the transcript held and for how many of them the

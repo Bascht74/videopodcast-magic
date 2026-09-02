@@ -26,8 +26,10 @@ Damit weiß das Script, wann wer redet, und baut daraus den Schnitt:
 * Ein Sprecher allein bekommt seine Kamera, mit Vorlauf.
 * Ein kurzes „ja“ nicht: unter **Redet mindestens** bleibt das Bild, wo
   es ist.
-* Bei Stille läuft der Weitwinkel: die Kamera, der kein Sprecher
-  zugeordnet ist.
+* Bei Stille läuft der Weitwinkel — die Kamera, der kein Sprecher
+  zugeordnet ist —, solange **Niemand redet** darauf stehen bleibt.
+  Dieses Auswahlfeld kann stattdessen auch eine kurze Lücke halten oder
+  das Bild ganz in Ruhe lassen.
 * Nach einer langen Einstellung kommt der Weitwinkel an einer
   Satzgrenze.
 
@@ -78,7 +80,7 @@ steht an seiner Stelle eine Zeile und sagt, was fehlt.
 Einstellungen stehen grau da, weil noch kein Lauf die Wörter
 aufgeschrieben hat.*
 
-Alle acht Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
+Alle neun Felder nehmen Sekunden, und die Zahl in jeder Zeile ist die
 Vorgabe. Ein leeres Feld heißt Vorgabe, ein Komma gilt als
 Dezimalzeichen, und eine Obergrenze gibt es nicht. Ein negativer Wert
 ist nur für **Edit Change Delay** gedacht; die anderen Felder nehmen
@@ -95,6 +97,18 @@ Drei Felder bestimmen den Rhythmus des Schnitts:
 * **Edit Change Delay**: 0,3 s, so viel später als der Ton wechselt
   das Bild; ein negativer Wert lässt das Bild vorlaufen (auf der
   Kommandozeile `--edit-change-delay`)
+
+Ein viertes Feld steht mitten unter diesen dreien, an dritter Stelle,
+und gehört nicht zum Rhythmus, sondern zu einem Auswahlfeld weiter
+unten:
+
+* **Kurze Lücke bis**: 1 s, bis zu dieser Länge lässt eine Stille das
+  Bild stehen, eine längere geht auf den Weitwinkel. Es wirkt nur, wo
+  **Niemand redet** auf **Kurze Lücke halten** steht (auf der
+  Kommandozeile `--silence-hold`). An 83 Minuten Interview gemessen:
+  bei einer Sekunde steht keine Kamera länger als 4 Sekunden auf einem,
+  der schweigt; ab zwei Sekunden kommen die ersten Strecken über fünf
+  Sekunden, und dort fängt das Bild an, vergessen auszusehen.
 
 Vier formen den Weitwinkel, und die ersten beiden davon gehören
 zusammen: eine weiche Grenze und eine harte.
@@ -130,7 +144,7 @@ das über sie entscheidet:
   liegt der Schnitt bei 5,0 Sekunden, nicht bei 7,5. Die Verzögerung
   aus **Edit Change Delay** kommt nicht noch einmal dazu.
 
-Unter den Feldern stehen vier Auswahlfelder. Sie sagen, was läuft, wenn
+Unter den Feldern stehen fünf Auswahlfelder. Sie sagen, was läuft, wenn
 die Sprache nicht sagt, wer zu zeigen ist:
 
 * **Nach einer Frage**: **Antwortender** (auf der Kommandozeile
@@ -139,11 +153,18 @@ die Sprache nicht sagt, wer zu zeigen ist:
   `--on-monologue`)
 * **Mehrere reden zugleich**: **Weitwinkel** (auf der Kommandozeile
   `--on-together`)
+* **Niemand redet**: **Weitwinkel** (auf der Kommandozeile
+  `--on-silence`)
 * **Erkennung unsicher**: **Weitwinkel** (auf der Kommandozeile
   `--on-uncertain`)
 
-Die letzten drei nehmen dieselben vier Werte: **Weitwinkel**,
-**Zuhörer**, **Abwechselnd** und **Kein Kamerawechsel**. **Nach einer
+**Langer Monolog**, **Mehrere reden zugleich** und **Erkennung
+unsicher** nehmen dieselben vier Werte: **Weitwinkel**, **Zuhörer**,
+**Abwechselnd** und **Kein Kamerawechsel**. **Niemand redet** hat drei
+eigene: **Weitwinkel**, **Kurze Lücke halten** und **Kein
+Kamerawechsel** — wo niemand redet, gibt es weder einen Zuhörer noch
+zwei Sprecher, zwischen denen sich abwechseln ließe; wie lang eine
+kurze Lücke sein darf, sagt **Kurze Lücke bis**. **Nach einer
 Frage** nimmt **nicht vorziehen**, **Antwortender** und **Zuhörer**;
 **nicht vorziehen** heißt: kein vorgezogener Kamerawechsel, das Bild
 folgt dem Ton hier wie überall sonst.
@@ -189,11 +210,15 @@ einen Sprecher, gibt es keinen, und die fünf Einstellungen, die nichts
 anderes sagen als das, was der Weitwinkel tut, stehen grau da:
 **Weitwinkel nach**, **Weitwinkel spätestens**, **Weitwinkel
 mindestens**, **Weitwinkel höchstens** und das Häkchen für die Ränder.
-In den drei unteren Auswahlfeldern wird der Eintrag **Weitwinkel** mit
-ihnen grau und lässt sich nicht mehr wählen. Er bleibt aber in der
-Liste, statt daraus zu verschwinden, und wer darauf zeigt, erfährt den
-Grund: die Antwort auf „warum kann ich das nicht wählen“ gehört dorthin,
-wo die Frage aufkommt.
+In **Langer Monolog**, **Mehrere reden zugleich** und **Erkennung
+unsicher** wird der Eintrag **Weitwinkel** mit ihnen grau und lässt sich
+nicht mehr wählen. Er bleibt aber in der Liste, statt daraus zu
+verschwinden, und wer darauf zeigt, erfährt den Grund: die Antwort auf
+„warum kann ich das nicht wählen“ gehört dorthin, wo die Frage aufkommt.
+
+**Niemand redet** behält den Eintrag und bleibt offen. Eine Stille muss
+irgendetwas zeigen, und wo keine Kamera frei ist, nimmt der Schnitt eine
+der Kameras, die er hat — so wie vor diesem Auswahlfeld auch.
 
 Unter den Einstellungen sagt eine Zeile dasselbe in Worten — keine
 Kamera ist frei von Sprechern, also gibt es keinen Weitwinkel, und diese
@@ -218,11 +243,11 @@ welchen es genommen hat, statt im Stillen eine Mehrheit auszurechnen.
 Eine Zahl, die schon in einem grau gewordenen Feld steht, bleibt
 erhalten, und der Lauf richtet sich ebenso wenig nach ihr: ohne
 Weitwinkel gilt **Weitwinkel nach** als 0, das Häkchen als
-abgeschaltet, und ein Auswahlfeld, in dem noch **Weitwinkel** steht,
-wirkt wie **Kein Kamerawechsel**. Das Protokoll sagt es unter der
-Überschrift des Schnitts: jede Kamera trägt einen Sprecher, also
-bewirken die vier Weitwinkel-Einstellungen und der Haken für die Ränder
-hier nichts.
+abgeschaltet, und jedes dieser drei Auswahlfelder, in dem noch
+**Weitwinkel** steht, wirkt wie **Kein Kamerawechsel**. Das Protokoll
+sagt es unter der Überschrift des Schnitts: jede Kamera trägt einen
+Sprecher, also bewirken die vier Weitwinkel-Einstellungen und der Haken
+für die Ränder hier nichts.
 
 Keines der beiden Graus bleibt für immer. Eine Kamera kennzeichnen oder
 einer den Sprecher wegnehmen, und die fünf sind im selben Augenblick
@@ -231,7 +256,7 @@ hat.
 
 ### Wenn die Sprache nicht sagt, wer zu zeigen ist
 
-Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
+Fünf Fälle, und was jedes der fünf Auswahlfelder entscheidet:
 
 * **Nach einer Frage**: das Bild geht zur Antwort, bevor sie anfängt.
   Nur nach einer Frage, die nicht vom Vielredner kommt, wenn sofort ein
@@ -239,8 +264,23 @@ Vier Fälle, und was jedes der vier Auswahlfelder entscheidet:
 * **Langer Monolog**: einer hat über **Weitwinkel nach** hinaus das
   Wort. **Abwechselnd** merkt sich, was die letzte Unterbrechung zeigte.
 * **Mehrere reden zugleich**: und keine Kamera zeigt genau sie.
+* **Niemand redet**: hier ist überhaupt keine Stimme zu hören. Eine
+  Atempause mitten im Satz und das Ende eines Gedankens sind beide
+  Stille, und das Programm unterscheidet sie nicht — nur ihre Länge
+  tut es, und die Grenze zieht **Kurze Lücke bis**.
 * **Erkennung unsicher**: die Erkennung zerfasert über eine Passage,
-  oder von einem Namen bleiben nur Schnipsel.
+  oder von einem Namen bleiben nur Schnipsel. Hier redet jemand; wo
+  niemand redet, entscheidet **Niemand redet**.
+
+**Die Stille ist mit Abstand der größte dieser Fälle**, und das meiste
+daran ist nicht, was das Wort vermuten lässt. An 83 Minuten Interview
+gemessen: ein Fünftel der Laufzeit fällt darauf, und neun Zehntel davon
+sind Lücken innerhalb ein und derselben Person, die mittlere 0,6
+Sekunden lang — eine Atempause, nicht das Ende eines Gedankens. Steht
+**Niemand redet** auf **Weitwinkel**, nimmt jede einzelne davon das
+Bild vom Sprecher weg. Auf **Kurze Lücke halten** mit einer Sekunde ergibt
+dasselbe Material 244 Einstellungen statt 296, und der Anteil des
+Weitwinkels sinkt von 28 auf 17 Prozent.
 
 **Was aus den Fragen geworden ist, steht im Protokoll.** Eine Zeile
 nennt, wie viele Fragezeichen im Transkript standen und bei wie vielen

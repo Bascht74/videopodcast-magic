@@ -75,13 +75,15 @@ hints. Without a key the multitrack run stops there.*
 |---|---|
 | `--min-edit-duration SECONDS` | shortest a shot may stand; shorter ones merge into the one that follows, 0 off (3) |
 | `--min-speech-to-switch SECONDS` | how long somebody has to hold the floor before the camera follows them, 0 off (1.5) |
+| `--silence-hold SECONDS` | how long a silence still counts as a breath rather than an end; only where `--on-silence` asks to hold a short gap (1.0) |
 | `--edit-change-delay SECONDS` | how much later than the audio the picture cuts; negative lets it lead (0.3) |
 | `--reaction-lead SECONDS` | how much earlier the picture goes to the answer after a question (1.5) |
 | `--reaction-gap SECONDS` | how soon the answer has to follow the question for the reaction cut to fire (3) |
 | `--reaction-hold SHARE` | how much of the ten seconds after the question the answering speaker has to hold, between 0 and 1 (0.7) |
 | `--on-monologue VALUE` | one person holds the floor longer than `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
 | `--on-together VALUE` | several speak at once and no camera shows exactly them: the same four values (wide) |
-| `--on-uncertain VALUE` | the recognition is uncertain: the same four values (wide) |
+| `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (wide) |
+| `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
 | `--wide-shot FILE` | this video file is a wide shot: a camera nobody sits in front of, it takes no speaker; repeatable. Without it the cameras with no speaker assigned are the wide shots |
 | `--wide-after SECONDS` | from this hold time on the program breaks the shot up at a sentence boundary, not by the clock, 0 off (70) |

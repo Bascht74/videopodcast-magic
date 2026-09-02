@@ -105,6 +105,7 @@ der das Wort erklärt, steht vorn.
   Spur werden“
 * **Kennzahlen (`_metrics.csv`)**: `camera-cut`, „Was Kennzahlen und
   Farbvergleich messen“
+* **Kurze Lücke bis**: `camera-cut`, „Die Stellschrauben einstellen“
 * **Lautheitsumfang**: `preflight`, „Welches Lautheitsziel gilt“
 * **Lautheitsziel (LUFS)**: `interface`, „Die vier Reiter“; `preflight`,
   „Welches Lautheitsziel gilt“;
@@ -121,6 +122,8 @@ der das Wort erklärt, steht vorn.
 * **MOV**: `simple-path`, „Warum das Ziel immer MOV ist“
 * **Multicam-Clip**: `resolve`, „Wenn Resolve selbst schneiden soll“;
   `resolve`, „Den Multicam-Ton wählen“
+* **Niemand redet**: `camera-cut`, „Die Stellschrauben einstellen“;
+  `camera-cut`, „Wenn die Sprache nicht sagt, wer zu zeigen ist“
 * **Node Sizing**: `resolve`, „Position und Zoom für eine ganze Kamera
   setzen“
 * **ohne Auphonic arbeiten**: `auphonic`, „Ohne Auphonic arbeiten“

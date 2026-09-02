@@ -140,6 +140,8 @@ explains the word comes first.
 * **MOV**: `simple-path`, "Why the target is always MOV"
 * **multicam clip**: `resolve`, "When Resolve is to cut for itself";
   `resolve`, "Choosing the multicam audio"
+* **Nobody speaks**: `camera-cut`, "Setting the knobs"; `camera-cut`,
+  "When the speech does not say whom to show"
 * **Node Sizing**: `resolve`, "Setting position and zoom for a whole camera"
 * **offset**: `camera-cut`, "How the preview players choose file and sound";
   `simple-path`, "What goes into the video beside the mix"
@@ -168,6 +170,7 @@ explains the word comes first.
 * **sentence boundary**: `camera-cut`, "How the program places the wide
   shot"; `speech`, "What the text is for"
 * **Settings ...**: `interface`, "What Settings ... holds"
+* **Short gap up to**: `camera-cut`, "Setting the knobs"
 * **Source Audio Channels**: `resolve`, "Choosing the multicam audio"
 * **speaker name**: `multitrack`, "Setting the assignment"; `speech`,
   "Naming the voices"
