@@ -368,7 +368,11 @@ it is in the source files -- the file comes out byte for byte the same.
 says what else hangs on the target: normalising the tracks, the meter in
 the Resolve project, and what the log records.
 
-**Dry run** is the run that measures and reports but writes nothing. It
+**Dry run** is the run that measures and reports and makes no edit.
+One thing it does write: where the microphones hear each other too well
+to be told apart, it measures how far apart they stand and keeps the
+joined recording the separation needs, so the run that follows does not
+build it a second time. It
 and **Start** stay locked while something is outstanding, and **what it
 is stands under the buttons**, with the tab it is on:
 

@@ -52,8 +52,11 @@ own; the answer **several speakers** in the row starts it.
 Separation is the way for **one common recording** that everybody is
 audible on. It does not need the tick **Multitrack (one track per
 speaker)**: the column stands there on both paths, with a single camera
-as well. Where a person has a microphone of their own, that track is the
-truth and there is nothing to separate. The separation says who speaks
+as well. Where a person has a microphone of their own and the
+microphones can be told apart, that track is the truth and there is
+nothing to separate; where they hear each other too well for that, a run
+without auphonic.com joins them and separates them together ("When the
+microphones hear each other" below). The separation says who speaks
 when; it does not make one track per speaker out of one recording.
 
 Where there is no separate recording, the separation listens to the
@@ -91,6 +94,70 @@ camera there is somewhere to go: that one camera stands and the wide
 shot breaks it up. Measured on 25.8.2026, five minutes on two cameras
 gave 15 shots, 7 of them the wide one; the same five minutes on one
 camera gave 1.
+
+### When the microphones hear each other
+
+Two people sitting close together are on each other's microphones. Every
+track then carries the neighbour as well, and a separation run over each
+track on its own finds somebody in every passage of every one of them:
+they all look as if they had talked almost throughout, and who really
+spoke is no longer in the answer.
+
+Where that is the case, the program stops asking the microphones one at
+a time. It adds the aligned recordings into a single recording, lets the
+separation listen to that one, and gives every voice it finds the name of
+the microphone it belongs to. That name is the whole point: a voice out
+of a joined recording would otherwise be Speaker 1, a name with nobody
+behind it, and a name with nobody behind it has no camera -- the cut
+would stand on the wide shot from beginning to end.
+
+**Too well** is measured, not assumed. Every recording is held against
+every other, in both directions, in the passages where one person is
+speaking; where the smallest of those distances is under 20 dB, the
+microphones are joined. They go in as they were recorded. Making them
+equally loud first would flatten the very difference the naming lives
+on, because the recording levels here are as large as the bleed.
+
+Measured, the tracks on their own name 37.5 per cent of the speech
+right, the joined recording 97.6. On material where who speaks when is
+known to the millisecond, the speech under the right name went from 72.5
+to 92.7 per cent, and the time the picture stands on the same camera as
+a run through auphonic.com from 46 to 96.5 per cent.
+
+**Only on a run without auphonic.com.** The de-bleed there takes the
+neighbours out of the tracks, and afterwards each track answers better
+on its own than any joining of them could. A run that uploads, and a run
+pointed at tracks that have already been processed, go the way they
+always went: one voice per track, measured from the microphones.
+
+**And only where the run works the separation out itself.** A separation
+the window has already made travels with the run and is used as it
+stands. Answer **several speakers** on one recording in the window, and
+that one recording is what the cut is built from; nothing is joined.
+Where the window separated nothing -- the usual case with a microphone
+per person, where every row carries a name -- the run decides, and it is
+the run that joins them. On the command line it decides as well, unless
+`--speakers-from` or `--speakers-local` hands it something.
+
+The log says which of the two happened. In place of the recording's
+name, the block **SEPARATING THE SPEAKERS** then says that the
+microphones hear each other too well to say who is speaking, and how
+many of them are being listened to at once. Under **SPEAKERS --
+SEPARATED BY VOICE** the voices come **From the separation in this
+run**, and one line per voice says which microphone it belongs to and
+how many dB it stands **ahead of the next microphone, the recording
+level taken out**.
+
+That number decides, and one dB of it is enough. Each microphone's own
+level is taken out of the reckoning first: a recorder turned up louder
+than its neighbour would otherwise collect the voices of the whole room.
+A voice that no microphone is far enough ahead of keeps its label and
+gets no camera, and two voices pointing at the same microphone cancel
+each other out, because one microphone is one person. More voices than
+microphones -- somebody in the room without one, or a voice out of the
+run-up -- and not one of them is placed. Where in the end no voice can
+be given a microphone, the log says that the tracks are measured
+instead, and the cut is the one it always was: one voice per track.
 
 ### Naming the voices
 
@@ -220,8 +287,10 @@ recording in German and in English gives different words, and the two
 recognisers do not write the same ones either.
 
 **For the separation, the recording as it lies decides** -- its place,
-its size and when it was last changed -- together with the model and a
-speaker count set by hand. So the separation is worked out again when
+its size and when it was last changed -- together with the model, a
+speaker count set by hand, and the way the program works the answer out:
+a version that changes that measures afresh instead of handing back what
+an older reckoning wrote. So the separation is worked out again when
 the source file is exchanged, when it changes, when it is renamed or
 moved, or when somebody sets a count. A moved time window, a new In
 point, a changed offset or a renamed speaker carry on with the
@@ -233,8 +302,11 @@ The button in another row drops it and counts afresh.
 
 Both lie in the system cache folder, beside the envelopes
 (`~/Library/Caches/videopodcast-magic/`, on Windows `%LOCALAPPDATA%`),
-in `words/` and `speakers/`. They stay there. Throwing them away breaks
-nothing; it only means the computing happens once more.
+in `words/` and `speakers/`. A recording joined out of several
+microphones lies in `speakers/` as well, under a name made out of the
+recordings it holds, so the same material finds it again instead of
+building it twice. It all stays there. Throwing it away breaks nothing;
+it only means the computing happens once more.
 
 ### Where the speakers came from
 
@@ -253,9 +325,17 @@ track left out of the reading would hear its neighbour and count that as
 speech. If a separation cannot be used, the log says why and the run
 carries on with what the tracks say.
 
+Where the microphones were joined, the second mark stays away. The
+joined recording speaks for every track, so no track is measured a
+second time and nobody stands in the cut twice: everybody in it is a
+voice. Where no voice could be given a microphone it is the other way
+round -- the voices are let go and every track is measured, exactly as
+it was before.
+
 ### What the dry run shows of the speakers
 
-**Dry run** measures and writes nothing. Where the separation of a
+**Dry run** writes no result and leaves the measuring undone, with the
+one exception at the end of this section. Where the separation of a
 recording is already on this machine, it shows the cut it would make:
 the block names the recording, says the passages were read back, and
 counts the voices up.
@@ -284,6 +364,12 @@ the result is shown.
 The list stands here or nowhere. A full run says who speaks how long
 further down, under the two marks above; a dry run ends before that, so
 it counts the voices up at the place it reaches.
+
+One thing it does do. Where the microphones are joined, that is decided
+before the separation is asked for at all, so the dry run does that
+part: it measures how far the microphones stand apart, writes the joined
+recording beside the separations and stops after it. What it leaves
+undone is the separation itself.
 
 ### How the program writes the text down
 

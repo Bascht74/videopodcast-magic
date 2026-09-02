@@ -167,16 +167,49 @@ Protokoll sagt es je Spur, eine Zeile für jede:
 Die Zeile kommt nur, wo vorne oder hinten mehr als eine Viertelsekunde
 wegfällt.
 
-Ein Video, das der Lauf gar nicht einordnen kann, bleibt draußen. Wo
-weder die Form des Tons noch seine Phase die Kamera in der Aufnahme
-findet und die Datei auch keinen Timecode trägt, der zum übrigen Material
-passt, nennt der Lauf die Datei und geht ohne sie weiter, statt sie
-dorthin zu legen, wohin die beste von mehreren schlechten Zahlen zeigt.
-Die Zeile sagt, was helfen würde: ein Timecode, der zu den übrigen
-Aufnahmen passt, mit einem anderen Programm gesetzt. Eine Datei, deren
-Timecode passt, wird nach dieser Uhr eingeordnet und nach ihrem Ton gar
-nicht gefragt; ein einzelner Timecode unter Dateien ohne Timecode ist
-keine Einordnung.
+Nach dem Versatz sucht der Lauf auf drei Wegen, einen nach dem anderen,
+und wer zuerst antwortet, behält recht: erst die Form des Tons, dann
+derselbe Vergleich noch einmal, aber nur auf den Frequenzbändern, die
+sich über die Aufnahme bewegen, zuletzt die Phase allein
+([Überblick](overview.de.md)).
+
+Der mittlere Weg ist für Aufnahmen da, über denen ein gleichbleibender
+Ton liegt -- ein Brummen, eine Klimaanlage. In der letzten Minute ist so
+ein Ton genauso laut wie in der ersten. Über die Zeit sagt er also
+nichts, und dafür drückt er die Kurve über allem flach, was die Stimmen
+darin tun. Welche Bänder stillstehen, wird an jeder Aufnahme gemessen;
+eine feste Frequenz ist nirgends eingestellt. Lag ein Brummen 40 dB über
+dem Material, verfehlte der erste Weg den Platz um mehr als eine halbe
+Stunde -- der zweite traf ihn auf drei Hundertstelsekunden.
+
+Welcher Weg geantwortet hat, sagt das Protokoll: Hinter der Zeile dieser
+Aufnahme steht dann `über die bewegten Frequenzbänder platziert` oder
+`per Phase platziert`. Hat der erste Weg gereicht, steht dort nichts.
+
+Genommen wird der zweite Weg nur, wo er viele Stützstellen über die
+Laufzeit gesetzt hat und alle auf einer Linie liegen; so viele gibt es
+erst in langem Material: Die längste Kamera muss länger laufen als etwa
+zwölfeinhalb Minuten. Darunter misst der zweite Weg weiterhin richtig,
+seine Antwort wird aber nicht genommen, und es entscheidet wie bisher
+die Phase.
+
+Eine Aufnahme, die der Lauf gar nicht einordnen kann, bleibt draußen. Wo
+keiner der drei Wege die Kamera in der Aufnahme findet und die Datei
+auch keinen Timecode trägt, der zum übrigen Material passt, nennt der
+Lauf die Datei und geht ohne sie weiter, statt sie dorthin zu legen,
+wohin die beste von mehreren schlechten Zahlen zeigt. Die Zeile sagt,
+was helfen würde: ein Timecode, der zu den übrigen Aufnahmen passt, mit
+einem anderen Programm gesetzt. Eine Datei, deren Timecode passt, wird
+nach dieser Uhr eingeordnet und nach ihrem Ton gar nicht gefragt; ein
+einzelner Timecode unter Dateien ohne Timecode ist keine Einordnung.
+
+Zwischen zwei Kameras bleibt es bei dem einen Weg und der Uhr. Eine
+Phase, auf die sich zurückfallen ließe, gibt es dort nicht, also ist der
+erste Weg die ganze Messung -- und was eine Kamera gegenüber einer
+anderen erreichen muss, liegt um ein Vielfaches höher als das, was eine
+Aufnahme gegenüber einer Kamera erreichen muss. Eine Kamera, die das
+nicht erreicht und keinen passenden Timecode trägt, bleibt genauso
+draußen.
 
 ### Wie der Lauf eine Uhrzeit statt eines Zählers liest
 

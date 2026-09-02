@@ -160,14 +160,45 @@ log says it for each track, one line apiece:
 The line comes only where more than a quarter of a second falls away at
 the front or at the back.
 
-A video the run cannot place at all stays out. Where neither the shape of
-the sound nor its phase finds the camera in the recording, and the file
-carries no timecode fitting the rest of the material either, the run
-names the file and goes on without it instead of laying it down where the
-best of several bad numbers points. The line says what would help: a
-timecode that fits the other recordings, set with another program. A file
-whose timecode does fit is placed by that clock and never asked about its
+The offset is looked for in three ways, one after the other, and the
+first that answers decides: the shape of the sound, then the same
+comparison once more but only on the frequency bands that move over the
+recording, then the phase on its own ([overview](overview.md)).
+
+The middle way is there for a recording with a steady tone lying over
+it -- a hum, an air conditioner. Such a tone is as loud in the last
+minute as in the first, so it says nothing about the time, and it
+flattens the curve over everything the voices do in it. Which bands
+stand still is measured on every recording; no frequency is set in
+advance. With a hum 40 dB above the material the first way missed the
+place by more than half an hour, and the second found it to three
+hundredths of a second.
+
+The log says which way answered. Behind the line of that recording
+stands `placed on the bands that move`, or `placed by phase`. Where the
+first way was enough, nothing stands there.
+
+The second way is taken only where it set many points over the running
+time and all of them lie on one line, and that many points exist only in
+long material: the longest camera has to run longer than about twelve
+and a half minutes. Below that the second way still measures, and
+measures right, but its answer is not taken and the phase decides as
+before.
+
+A recording the run cannot place at all stays out. Where none of the
+three ways finds the camera in the recording, and the file carries no
+timecode fitting the rest of the material either, the run names the file
+and goes on without it instead of laying it down where the best of
+several bad numbers points. The line says what would help: a timecode
+that fits the other recordings, set with another program. A file whose
+timecode does fit is placed by that clock and never asked about its
 sound; a single timecode among files that carry none is not a place.
+
+Between two cameras it stays at the one way and the clock. There is no
+phase to fall back on there, so the first way is the whole measurement,
+and what one camera has to reach against another is many times what a
+recording has to reach against a camera. A camera that does not reach it
+and carries no fitting timecode stays out in the same way.
 
 ### How the run reads a clock instead of a counter
 

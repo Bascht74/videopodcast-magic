@@ -54,8 +54,11 @@ nichts; die Antwort **mehrere Sprecher** in der Zeile startet sie.
 Die Trennung ist der Weg für **eine gemeinsame Aufnahme**, auf der alle
 zu hören sind. Sie braucht das Häkchen **Multitrack (je Sprecher eine
 Spur)** nicht: die Spalte steht auf beiden Wegen da, auch bei einer
-einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat, ist diese Spur
-die Wahrheit, und es gibt nichts zu trennen. Die Trennung sagt, wer wann
+einzigen Kamera. Wo eine Person ein eigenes Mikrofon hat und die
+Mikrofone auseinanderzuhalten sind, ist diese Spur die Wahrheit, und es
+gibt nichts zu trennen; hören sie einander dafür zu gut, legt ein Lauf
+ohne auphonic.com sie zusammen und trennt sie gemeinsam („Wenn die
+Mikrofone einander hören“ weiter unten). Die Trennung sagt, wer wann
 spricht; sie macht aus einer Aufnahme keine Spur je Sprecher.
 
 Gibt es keine eigene Aufnahme, hört die Trennung den Ton einer Kamera
@@ -97,6 +100,73 @@ durch. Bei einer zweiten Kamera gibt es eine solche Stelle: diese eine
 Kamera steht, und der Weitwinkel bricht sie auf. Am 25.8.2026 gemessen
 ergaben fünf Minuten auf zwei Kameras 15 Einstellungen, davon 7 im
 Weitwinkel; dieselben fünf Minuten auf einer Kamera ergaben 1.
+
+### Wenn die Mikrofone einander hören
+
+Sitzen zwei Menschen dicht beieinander, liegt jeder auf dem Mikrofon des
+anderen. Jede Spur trägt dann den Nachbarn mit, und eine Trennung, die
+jede Spur für sich abhört, findet in jeder Passage jeder Spur jemanden:
+alle sehen so aus, als hätten sie fast ununterbrochen geredet, und wer
+wirklich gesprochen hat, steht in der Antwort nicht mehr drin.
+
+Wo das so ist, fragt das Programm die Mikrofone nicht mehr einzeln ab.
+Es legt die ausgerichteten Aufnahmen zu einer einzigen zusammen, lässt
+die Trennung diese eine abhören und gibt jeder gefundenen Stimme den
+Namen des Mikrofons, zu dem sie gehört. Auf diesen Namen kommt alles an:
+eine Stimme aus einer zusammengelegten Aufnahme hieße sonst Sprecher 1,
+und hinter diesem Namen steht niemand -- also auch keine Kamera, und der
+Schnitt stünde von Anfang bis Ende im Weitwinkel.
+
+**Zu gut** ist gemessen und nicht angenommen. Jede Aufnahme wird gegen
+jede andere gehalten, in beide Richtungen, an den Stellen, an denen
+einer allein redet; ist der kleinste dieser Abstände unter 20 dB, werden
+die Mikrofone zusammengelegt. Sie gehen hinein, wie sie aufgenommen
+wurden. Sie vorher gleich laut zu machen würde genau den Unterschied
+einebnen, von dem die Benennung lebt, denn die Aufnahmepegel sind hier
+so groß wie das Übersprechen.
+
+Gemessen benennen die Spuren für sich 37,5 Prozent der Rede richtig, die
+zusammengelegte Aufnahme 97,6. An Material, dessen Wahrheit auf die
+Millisekunde feststeht, stieg die richtig benannte Rede von 72,5 auf
+92,7 Prozent, und die Zeit, in der das Bild auf derselben Kamera steht
+wie bei einem Lauf über auphonic.com, von 46 auf 96,5 Prozent.
+
+**Nur bei einem Lauf ohne auphonic.com.** Der De-Bleed dort nimmt die
+Nachbarn aus den Spuren heraus, und danach antwortet jede Spur für sich
+besser, als jedes Zusammenlegen es könnte. Ein Lauf, der hochlädt, und
+einer, der auf schon aufbereitete Spuren gerichtet ist, gehen deshalb
+den Weg wie bisher: eine Stimme je Spur, aus den Mikrofonen gemessen.
+
+**Und nur dort, wo der Lauf die Trennung selbst ermittelt.** Eine
+Trennung, die das Fenster schon gemacht hat, reist mit dem Lauf mit und
+wird genommen, wie sie ist. Wer im Fenster bei einer Aufnahme **mehrere
+Sprecher** antwortet, bekommt den Schnitt aus dieser einen Aufnahme;
+zusammengelegt wird dann nichts. Hat das Fenster nichts getrennt -- der
+übliche Fall bei einem Mikrofon je Person, wo in jeder Zeile ein Name
+steht --, entscheidet der Lauf, und er legt zusammen. Auf der
+Kommandozeile entscheidet er ebenso, sofern ihm nicht `--speakers-from`
+oder `--speakers-local` etwas mitgibt.
+
+Was von beidem geschehen ist, sagt das Protokoll. Statt die Aufnahme zu
+nennen, sagt der Block **SPRECHER WERDEN GETRENNT** dann, dass die
+Mikrofone einander zu gut hören, um zu sagen, wer spricht, und wie viele
+davon auf einmal abgehört werden. Unter **SPRECHER -- NACH STIMMEN
+GETRENNT** kommen die Stimmen **Aus der Trennung in diesem Lauf**, und
+je Stimme sagt eine Zeile, zu welchem Mikrofon sie gehört und wie viele
+dB sie **vor dem nächsten Mikrofon** steht, **der Aufnahmepegel
+herausgerechnet**.
+
+Diese Zahl entscheidet, und ein dB davon genügt. Von jedem Mikrofon wird
+vorher sein eigener Pegel herausgerechnet: ein lauter gedrehtes
+Aufnahmegerät würde sonst die Stimmen des ganzen Raums einsammeln. Eine
+Stimme, vor der kein Mikrofon weit genug steht, behält ihre Bezeichnung
+und bekommt keine Kamera, und zwei Stimmen, die auf dasselbe Mikrofon
+zeigen, heben einander auf, denn ein Mikrofon ist eine Person. Mehr
+Stimmen als Mikrofone -- jemand im Raum ohne eigenes, oder eine Stimme
+aus dem Vorlauf -- und keine einzige wird zugeordnet. Lässt sich am Ende
+keiner Stimme ein Mikrofon geben, sagt das Protokoll, dass stattdessen
+die Spuren gemessen werden, und der Schnitt ist der, der er immer war:
+eine Stimme je Spur.
 
 ### Die Stimmen benennen
 
@@ -232,14 +302,16 @@ dazu: dieselbe Aufnahme auf deutsch und auf englisch ergibt andere
 Wörter, und die beiden Erkenner schreiben auch nicht dasselbe.
 
 **Bei der Trennung entscheidet die Aufnahme, wie sie liegt** -- ihr
-Ort, ihre Größe und wann sie zuletzt geändert wurde -- dazu das Modell
-und eine von Hand gesetzte Sprecherzahl. Neu gerechnet wird also, wenn
-die Quelldatei wechselt, wenn sie sich ändert, wenn sie umbenannt oder
-verschoben wird oder wenn jemand eine Zahl setzt. Ein verschobenes
-Zeitfenster, ein neuer In-Punkt, ein geänderter Versatz oder ein
-umbenannter Sprecher laufen mit der vorhandenen Trennung weiter. Die
-Trennung aus dem Fenster reist mit dem Lauf mit, und das Programm
-rechnet sie nur noch auf dessen Zeitachse um.
+Ort, ihre Größe und wann sie zuletzt geändert wurde -- dazu das Modell,
+eine von Hand gesetzte Sprecherzahl und die Art, wie das Programm die
+Antwort ermittelt: eine Fassung, die daran etwas ändert, misst neu,
+statt herauszugeben, was eine ältere Rechnung geschrieben hat. Neu
+gerechnet wird also, wenn die Quelldatei wechselt, wenn sie sich ändert,
+wenn sie umbenannt oder verschoben wird oder wenn jemand eine Zahl
+setzt. Ein verschobenes Zeitfenster, ein neuer In-Punkt, ein geänderter
+Versatz oder ein umbenannter Sprecher laufen mit der vorhandenen
+Trennung weiter. Die Trennung aus dem Fenster reist mit dem Lauf mit,
+und das Programm rechnet sie nur noch auf dessen Zeitachse um.
 
 Eine von Hand gesetzte Sprecherzahl gehört zu der Aufnahme, für die sie
 gesetzt wurde. Der Knopf in einer anderen Zeile verwirft sie und zählt
@@ -247,9 +319,12 @@ neu.
 
 Beides liegt im Ablageordner des Systems, neben den Hüllkurven
 (`~/Library/Caches/videopodcast-magic/`, unter Windows
-`%LOCALAPPDATA%`), in `words/` und `speakers/`. Dort bleibt es. Es
-wegzuwerfen macht nichts kaputt; es heißt nur, dass noch einmal
-gerechnet wird.
+`%LOCALAPPDATA%`), in `words/` und `speakers/`. Eine aus mehreren
+Mikrofonen zusammengelegte Aufnahme liegt ebenfalls in `speakers/`,
+unter einem Namen aus den Aufnahmen, die in ihr stecken -- dasselbe
+Material findet sie also wieder, statt sie ein zweites Mal zu bauen.
+Dort bleibt alles. Es wegzuwerfen macht nichts kaputt; es heißt nur,
+dass noch einmal gerechnet wird.
 
 ### Woher die Sprecher kamen
 
@@ -269,11 +344,19 @@ und zählte das als Sprechen. Lässt sich eine Trennung nicht verwenden,
 sagt das Protokoll warum, und der Lauf geht mit dem weiter, was die
 Spuren sagen.
 
+Wo die Mikrofone zusammengelegt wurden, bleibt die zweite Marke aus. Die
+zusammengelegte Aufnahme spricht für jede Spur, also wird keine Spur ein
+zweites Mal gemessen, und niemand steht zweimal im Schnitt: wer darin
+ist, ist eine Stimme. Konnte keiner Stimme ein Mikrofon gegeben werden,
+ist es umgekehrt -- die Stimmen werden fallengelassen, und jede Spur
+wird gemessen wie zuvor.
+
 ### Was der Probelauf von den Sprechern zeigt
 
-Der **Probelauf** misst und schreibt nichts. Liegt die Trennung einer
-Aufnahme schon auf diesem Rechner, zeigt er den Schnitt, den er machen
-würde: der Block nennt die Aufnahme, sagt, dass die Abschnitte
+Der **Probelauf** schreibt kein Ergebnis und lässt das Messen liegen --
+mit der einen Ausnahme am Ende dieses Abschnitts. Liegt die Trennung
+einer Aufnahme schon auf diesem Rechner, zeigt er den Schnitt, den er
+machen würde: der Block nennt die Aufnahme, sagt, dass die Abschnitte
 zurückgelesen wurden, und zählt die Stimmen auf.
 
 ```
@@ -302,6 +385,12 @@ Die Aufzählung steht hier oder nirgends. Ein voller Lauf sagt weiter
 unten, wer wie lange redet, unter den beiden Marken von eben; ein
 Probelauf endet vorher und zählt die Stimmen deshalb dort auf, wohin er
 kommt.
+
+Eines tut er doch. Ob die Mikrofone zusammengelegt werden, entscheidet
+sich, bevor die Trennung überhaupt verlangt wird -- diesen Teil tut der
+Probelauf also: er misst, wie weit die Mikrofone auseinanderstehen,
+schreibt die zusammengelegte Aufnahme neben die Trennungen und hört erst
+danach auf. Liegen bleibt die Trennung selbst.
 
 ### Wie das Programm den Text mitschreibt
 

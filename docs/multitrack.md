@@ -26,7 +26,11 @@ and only **do not use** keeps somebody out.
 Everything else runs locally. [Processing at auphonic.com](auphonic.md)
 describes the way there (on the command line `--without-auphonic`). The
 program then aligns the audio, mixes it, sets the loudness and builds the
-camera cut. It leaves out de-bleed, leveler and noise removal.
+camera cut. It leaves out de-bleed, leveler and noise removal. Where the
+microphones hear each other too well for the tracks to say who is
+speaking, the separation takes that question off them and listens to all
+of them at once ([Speech recognition and speaker
+separation](speech.md)).
 
 Everything lands on one common time axis, clock drift and all. The
 window comes from the cameras alone, and where there is no camera at all
