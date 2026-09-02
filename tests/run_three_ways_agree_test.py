@@ -7,7 +7,7 @@ the window builds out of them. A fault comes in through one while the
 other two are watched, and it sits in the caller rather than in the
 function it calls. In order: the file is found, read and given back
 whole; a line is built out of it and the parser takes every switch on
-it; the eight cut numbers and the four cut rules; the five kinds a clip
+it; the cut numbers and the cut rules; the five kinds a clip
 can have; the assignment; the time window, the wide shot at the edges
 and the loudness; and last the census -- no setting the window writes
 stops half way, and the five that carry no switch are named.
@@ -87,12 +87,13 @@ LANGUAGE_TAG = "eng"
 CUT = {"min-edit-duration": "2.5", "min-speech-to-switch": "0.9",
        "edit-change-delay": "0.4", "reaction-lead": "2.0",
        "wide-after": "55", "wide-latest": "100",
-       "wide-length": "6", "wide-most": "12",
+       "wide-length": "6", "wide-most": "12", "silence-hold": "1.7",
        "on-question": vpm.SHOT_LISTENER, "on-monologue": vpm.SHOT_WIDE,
-       "on-together": vpm.SHOT_HOLD, "on-uncertain": vpm.SHOT_LISTENER}
+       "on-together": vpm.SHOT_HOLD, "on-uncertain": vpm.SHOT_LISTENER,
+       "on-silence": vpm.SHOT_HOLD_BRIEF}
 
-# Precondition of the material again: not one of the twelve answers is
-# the built-in default. A command line that quietly fell back to the
+# Precondition of the material again: not one of the answers is the
+# built-in default. A command line that quietly fell back to the
 # defaults would otherwise look exactly like one that carried them.
 assert all(CUT[s] != d for s, _c, d, _u, _k, _l in vpm.CUT_FIELDS), CUT
 assert all(CUT[s] != d for s, _c, d, _v, _k, _l in vpm.CUT_CHOICES), CUT
@@ -253,7 +254,7 @@ def field_of(switch):
 numbers_off = ["%s wanted %s got %r" % (s, CUT[s], got(field_of(s)))
                for s, _c, _d, _u, _k, _l in vpm.CUT_FIELDS
                if got(field_of(s)) != float(CUT[s])]
-check("the eight cut numbers reach the run as the file has them",
+check("every cut number reaches the run as the file has it",
       numbers_off == [],
       "%d of %d differ: %s" % (len(numbers_off), len(vpm.CUT_FIELDS),
                                "; ".join(numbers_off[:3])))
@@ -261,7 +262,7 @@ check("the eight cut numbers reach the run as the file has them",
 rules_off = ["%s wanted %r got %r" % (s, CUT[s], got(field_of(s)))
              for s, _c, _d, _v, _k, _l in vpm.CUT_CHOICES
              if got(field_of(s)) != CUT[s]]
-check("the four cut rules reach the run as the file has them",
+check("every cut rule reaches the run as the file has it",
       rules_off == [],
       "%d of %d differ: %s" % (len(rules_off), len(vpm.CUT_CHOICES),
                                "; ".join(rules_off)))

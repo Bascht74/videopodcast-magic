@@ -252,9 +252,10 @@ check("and the Edit Change Delay is not added a second time",
 check("no new cuts -- if anything one disappears",
       len(early) <= len(plain), "%d against %d" % (len(early), len(plain)))
 
-print("\n8. Every value of every one of the four fields")
-# One long monologue, one place where both speak, one heap of scraps
-# and one question -- so all four fields have something to decide.
+print("\n8. Every value of every one of the choice fields")
+# One long monologue, one place where both speak, one heap of scraps,
+# one question and holes between them -- so every field has something
+# to decide.
 mixed = [("Host", [(0.0, 10.0), (210.0, 230.0), (260.0, 264.0),
                    (305.0, 315.0)]),
          ("Guest", [(40.0, 200.0), (215.0, 225.0), (265.0, 300.0)]),
@@ -345,6 +346,87 @@ same = vpm.camera_cut(mixed, 320.0, mixed_cams, "Wide", 3.0, 0.3,
 check("and it is the same cut the run builds",
       numbers["cut"] == same, "%d against %d" % (len(numbers["cut"]),
                                                  len(same)))
+
+print("\n11. Silence: a breath in a sentence, or the end of a thought")
+# One person, two holes in their own speech: a breath of 0.8 s and a
+# stop of 2.5 s. Nobody else says a word, so both are silence and the
+# wide shot is the only other picture within reach. The shortest shot
+# is set to 0.5 s here, or the merging would hide the answer.
+breath = [("Host", [(0.0, 20.0), (20.8, 40.0), (42.5, 60.0)]),
+          ("Guest", [(60.0, 80.0)])]
+gap_cams = {"Host": "CamA", "Guest": "CamB"}
+TODAY = [(0.0, 20.0, "CamA"), (20.0, 20.8, "Wide"), (20.8, 40.0, "CamA"),
+         (40.0, 42.5, "Wide"), (42.5, 60.0, "CamA"), (60.0, 80.0, "CamB")]
+
+
+def silence_cut(**over):
+    """The cut over the two holes, with one answer to the silence."""
+    return vpm.build_camera_cut(breath, 80.0, gap_cams, "Wide", 0.5, 0.0,
+                                vpm.cut_rules(**over))
+
+
+def camera_at(cut, when):
+    """Which camera stands at this second, or None."""
+    for a, b, who in cut:
+        if a <= when < b:
+            return who
+    return None
+
+
+plain = silence_cut()
+check("with nothing set both holes go to the wide shot, as before",
+      plain == TODAY, "%d shots %s, wanted the %d of %s"
+      % (len(plain), [(a, w) for a, _b, w in plain], len(TODAY),
+         [(a, w) for a, _b, w in TODAY]))
+told_wide = silence_cut(on_silence=vpm.SHOT_WIDE)
+check("and asking for the wide shot by name gives that same cut",
+      told_wide == TODAY, "%d shots %s, wanted the %d of %s"
+      % (len(told_wide), [(a, w) for a, _b, w in told_wide], len(TODAY),
+         [(a, w) for a, _b, w in TODAY]))
+brief = silence_cut(on_silence=vpm.SHOT_HOLD_BRIEF, silence_hold=1.0)
+check("holding up to 1.0 s: the 0.8 s breath leaves the camera standing",
+      camera_at(brief, 20.4) == "CamA",
+      "%r at 20.4 s, wanted 'CamA' -- the hole is 0.8 s against a limit "
+      "of 1.0 s" % (camera_at(brief, 20.4),))
+check("holding up to 1.0 s: the 2.5 s stop goes to the wide shot",
+      camera_at(brief, 41.0) == "Wide",
+      "%r at 41.0 s, wanted 'Wide' -- the hole is 2.5 s against a limit "
+      "of 1.0 s" % (camera_at(brief, 41.0),))
+raised = silence_cut(on_silence=vpm.SHOT_HOLD_BRIEF, silence_hold=3.0)
+check("the limit is a setting: at 3.0 s the same 2.5 s stop is held",
+      camera_at(raised, 41.0) == "CamA",
+      "%r at 41.0 s, wanted 'CamA' -- the hole is 2.5 s against a limit "
+      "of 3.0 s" % (camera_at(raised, 41.0),))
+never = silence_cut(on_silence=vpm.SHOT_HOLD)
+check("holding without an end keeps the camera through both holes",
+      camera_at(never, 20.4) == "CamA" and camera_at(never, 41.0) == "CamA",
+      "%r at 20.4 s and %r at 41.0 s, wanted 'CamA' twice"
+      % (camera_at(never, 20.4), camera_at(never, 41.0)))
+# And the whole way through, at the minimum edit duration the program
+# really uses: a 4.0 s hole is long enough to stand as a shot of its
+# own, so what the answer decides is not swallowed by the merging.
+long_hole = [("Host", [(0.0, 20.0), (24.0, 40.0)]),
+             ("Guest", [(40.0, 60.0)])]
+WHOLE = [(0.0, 20.0, "CamA"), (20.0, 24.0, "Wide"), (24.0, 40.0, "CamA"),
+         (40.0, 60.0, "CamB")]
+
+
+def whole_cut(**over):
+    """The finished cut the run makes, with one answer to the silence."""
+    return vpm.camera_cut(long_hole, 60.0, gap_cams, "Wide", 3.0, 0.0,
+                          0.0, 5.0, 120.0, False, vpm.cut_rules(**over))
+
+
+by_default = whole_cut()
+check("in the finished cut a 4.0 s hole is the wide shot as before",
+      by_default == WHOLE, "%d shots %s, wanted the %d of %s"
+      % (len(by_default), [(a, w) for a, _b, w in by_default], len(WHOLE),
+         [(a, w) for a, _b, w in WHOLE]))
+kept = whole_cut(on_silence=vpm.SHOT_HOLD_BRIEF, silence_hold=5.0)
+check("and with the limit past it the answer survives the merging",
+      kept == [(0.0, 40.0, "CamA"), (40.0, 60.0, "CamB")],
+      "%d shots %s, wanted 2 of [(0.0, 'CamA'), (40.0, 'CamB')]"
+      % (len(kept), [(a, w) for a, _b, w in kept]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

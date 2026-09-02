@@ -1031,6 +1031,7 @@ SHOT_WIDE = "wide"
 SHOT_LISTENER = "listener"
 SHOT_ALTERNATE = "alternate"
 SHOT_HOLD = "hold"
+SHOT_HOLD_BRIEF = "hold-brief"
 SHOT_OFF = "off"
 SHOT_ANSWER = "answer"
 
@@ -1039,6 +1040,10 @@ SHOT_NAMES = {
     SHOT_LISTENER: 'Listener',
     SHOT_ALTERNATE: 'Alternating',
     SHOT_HOLD: 'No camera change',
+    # Holding without an end is a different answer from holding a
+    # breath, so the two are two entries and the seconds stand in a
+    # field of their own.
+    SHOT_HOLD_BRIEF: 'Hold a short gap',
     # Named after what does not happen, not after a switch position:
     # in a row labelled "Question" the picture going early is the only
     # thing there is to leave alone.
@@ -1050,6 +1055,12 @@ SHOT_NAMES = {
 # viewer can settle on a face reads as nervous. One value for the
 # interface, the switch and every default, or the two cut differently.
 MIN_EDIT_DURATION_S = 3.0
+
+# Up to here a gap with nobody in it counts as a breath rather than as
+# an end, where the cut is told to hold one. Measured over 83 minutes
+# on 2.9.2026: at one second no picture stands on a silent person for
+# longer than 4.0 s, from two seconds on the first ones over five appear.
+SILENCE_HOLD_S = 1.0
 
 # The camera cut is derived from who speaks when; these numbers decide
 # how fine it turns out. Per entry: switch, label, default, unit,
@@ -1064,6 +1075,12 @@ CUT_FIELDS = (
      ('A short "yes" does not move the picture. Without this a block of '
       'half a second draws the camera over, and the minimum edit '
       'duration then holds it there for seconds.')),
+    ("silence-hold", 'Short gap up to', "%.1f" % SILENCE_HOLD_S, "s",
+     'so long a silence leaves the picture alone',
+     ('Only where "Nobody speaks" is set to hold a short gap. A gap up '
+      'to this long changes nothing, a longer one goes to the wide '
+      'shot. Above two seconds the picture begins to stand on someone '
+      'silent for over five seconds.')),
     # Resolve's own name for it, in the German window as well, so it stays
     # English. The double quotes are the mark: this one is not translated.
     ("edit-change-delay", "Edit Change Delay", "0.3", "s",
@@ -1097,8 +1114,8 @@ CUT_FIELDS = (
       'break before it ends the shot -- it is not cut off mid-sentence.')),
 )
 
-# The four cases where the speech does not say whom to show, and what
-# is shown instead. Per entry: switch, label, default, the values it
+# The cases where the speech does not say whom to show, and what is
+# shown instead. Per entry: switch, label, default, the values it
 # takes, short explanation beside it, longer one in the tooltip.
 CUT_CHOICES = (
     # First, and directly under "Answer on screen earlier": the two
@@ -1122,11 +1139,23 @@ CUT_CHOICES = (
      (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
      'and no camera shows exactly them',
      'Cutting into a jumble looks frantic.'),
+    # Directly above "Recognition uncertain", because the two were
+    # taken for one another: nobody speaking is not the recognition
+    # being unsure, and this is the case that decides a fifth of the
+    # running time against that one's three thousandths.
+    ("on-silence", 'Nobody speaks', SHOT_WIDE,
+     (SHOT_WIDE, SHOT_HOLD_BRIEF, SHOT_HOLD),
+     'no voice is heard at all here',
+     ('A breath in the middle of a sentence and the end of a thought '
+      'are both silence, and the program cannot tell them apart. Only '
+      'the length can: "Short gap up to" says how long a silence may '
+      'be and still count as a breath.')),
     ("on-uncertain", 'Recognition uncertain', SHOT_WIDE,
      (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
      'the speaker recognition frays or leaves a heap behind',
      ('Guessing puts the wrong person on screen for seconds; the wide '
-      'shot is right in every case.')),
+      'shot is right in every case. Somebody is speaking here -- where '
+      'nobody is, "Nobody speaks" decides.')),
 )
 
 
@@ -4319,6 +4348,11 @@ def cut_rules(**over):
            "on_monologue": SHOT_ALTERNATE,
            "on_together": SHOT_WIDE,
            "on_uncertain": SHOT_WIDE,
+           # The wide shot, as it always was. A setting that moved the
+           # cut of every project already made is not one to switch on
+           # for somebody; the answer belongs to whoever cuts.
+           "on_silence": SHOT_WIDE,
+           "silence_hold": SILENCE_HOLD_S,
            "on_question": SHOT_ANSWER,
            "reaction_lead": 1.5,
            "reaction_gap": 3.0,
@@ -4339,8 +4373,8 @@ def cut_rules(**over):
 def rules_from_settings(args):
     """Read the cut rules out of the command line settings.
 
-    The four choices come out of CUT_CHOICES rather than being named
-    again here: two lists of the same four names drift apart.
+    The choices come out of CUT_CHOICES rather than being named again
+    here: two lists of the same names drift apart.
     """
     picked = {}
     for switch, _caption, default_value, _values, _k, _l in CUT_CHOICES:
@@ -4354,7 +4388,27 @@ def rules_from_settings(args):
         reaction_hold=float(getattr(args, "reaction_hold", 0.7)),
         wide_holds=float(getattr(args, "wide_length", 5.0)),
         wide_most=float(getattr(args, "wide_most", 15.0)),
+        silence_hold=float(getattr(args, "silence_hold", SILENCE_HOLD_S)),
         **picked)
+
+
+def rules_from_cut_box(number, chosen):
+    """Read the cut rules out of what the cut box in the window holds.
+
+    *number* is {switch: number} over CUT_FIELDS, *chosen* {switch:
+    value} over CUT_CHOICES. The counterpart to rules_from_settings,
+    and out here beside it: a rule the window offers and the run does
+    not is a preview showing a cut nobody can make, and that has
+    happened once for a whole version.
+    """
+    return cut_rules(
+        min_speech=number["min-speech-to-switch"],
+        reaction_lead=number["reaction-lead"],
+        wide_holds=number["wide-length"],
+        wide_most=number["wide-most"],
+        silence_hold=number["silence-hold"],
+        **{k.replace("-", "_"): chosen[k]
+           for k, _c, _d, _v, _s, _l in CUT_CHOICES})
 
 
 # How long one camera may hold before the picture looks away for a
@@ -5914,6 +5968,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     # Too short to move the camera, judged per camera: what counts is
     # that one of the people on it was speaking, not which of them.
     min_speech = float(rules.get("min_speech") or 0.0)
+    hold_gap = float(rules.get("silence_hold") or 0.0)
     too_short = {}
     for camera, segs in per_camera:
         too_short[camera] = span_finder(
@@ -5921,6 +5976,21 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
     stray = stray_labels(long)
     restless = span_finder(unrest_spans(long, camera_of or {}))
     turns = []
+
+    def silence_picture(gap):
+        """Return what to show where nobody speaks at all.
+
+        A breath in the middle of a sentence and the end of a thought
+        are the same thing here, and only the length tells them apart.
+        Every stretch with nobody in it is one block, so *gap* is the
+        whole silence and not a piece of it.
+        """
+        want = rules.get("on_silence") or SHOT_WIDE
+        if want == SHOT_HOLD:
+            return None
+        if want == SHOT_HOLD_BRIEF and gap <= hold_gap:
+            return None
+        return wide_shot
 
     def unsure_picture(t, active):
         """Return what to show where the cut does not know whom."""
@@ -5966,7 +6036,7 @@ def camera_cut_detail(tracks, length, camera_of, wide_shot,
                       middle)]
         shown = on_a_camera(strong)
         if not active:
-            who = wide_shot          # silence -> wide shot
+            who = silence_picture(b - a)
         elif restless(middle) or (heap and not strong):
             who = unsure_picture(middle, active)
         elif not strong:
@@ -22409,6 +22479,13 @@ def build_argument_parser():
                          "edit duration then holds the wrong person on "
                          "screen for seconds. 0 turns it off. (default: "
                          "1.5)")
+    ap.add_argument("--silence-hold", dest="silence_hold", type=float,
+                    default=SILENCE_HOLD_S, metavar="SECONDS",
+                    help="how long a silence may be and still count as a "
+                         "breath rather than an end. Only where "
+                         "--on-silence hold-brief asks for it: up to here "
+                         "the picture stays, beyond it the wide shot "
+                         "comes. (default: 1.0)")
     ap.add_argument("--edit-change-delay", dest="delay", type=float,
                     default=0.3, metavar="SECONDS",
                     help="how much later than the audio the picture cuts. "
@@ -26853,9 +26930,9 @@ def run_argv(values, assignment_file_path=""):
     #
     # Until 2.10.1-beta these sat inside the two branches above. On the
     # third way -- no Multitrack, no separation in the window -- In
-    # point, Out point, the eight numbers, the four choices and the
-    # wide shot tick all stayed in the window, the run cut with the
-    # built-in defaults, and nothing said so.
+    # point, Out point, the numbers, the choices and the wide shot tick
+    # all stayed in the window, the run cut with the built-in defaults,
+    # and nothing said so.
     if (values.get("in_point") or "").strip():
         argv += ["--in-point", values["in_point"].strip()]
     if (values.get("out_point") or "").strip():
@@ -27691,7 +27768,7 @@ def choice_bind(box, value, allowed):
     return box
 
 def cut_fields_build(into, parts=None):
-    """Build the eight numbers and the four choices of the cut box.
+    """Build the numbers and the choices of the cut box.
 
     Out here rather than inside the window, which is long enough
     without sixty lines of grid. It is a builder and nothing else: the
@@ -27746,10 +27823,10 @@ def cut_fields_build(into, parts=None):
             hint(_w, T(long))
         field_grid.addWidget(line, idx, 0)
         parts[api_key] = (line, field)
-    # Below the numbers: the four cases where the speech does not say
-    # who belongs on screen, and what is shown instead. They sit here
-    # and not in the settings window because they change the cut, and
-    # the cut is what this tab is about.
+    # Below the numbers: the cases where the speech does not say who
+    # belongs on screen, and what is shown instead. They sit here and
+    # not in the settings window because they change the cut, and the
+    # cut is what this tab is about.
     choice_grid = _qw.QGridLayout()
     into.addLayout(choice_grid)
     for idx, (api_key, caption, default_value, allowed, short,
@@ -32954,13 +33031,8 @@ def gui():
             numbers = cut_statistics(d, number["min-edit-duration"],
                 number["edit-change-delay"], number["wide-after"],
                 number["wide-length"], number["wide-latest"],
-                bool(edge_on.get()), cut_rules(
-                    min_speech=number["min-speech-to-switch"],
-                    reaction_lead=number["reaction-lead"],
-                    wide_holds=number["wide-length"],
-                    wide_most=number["wide-most"],
-                    **{k.replace("-", "_"): cut_var[k].get()
-                       for k, _c, _d, _v, _s, _l in CUT_CHOICES}))
+                bool(edge_on.get()), rules_from_cut_box(
+                    number, {k: cut_var[k].get() for k in cut_var}))
         except Exception as e:
             preview_set(T('Preview not possible: %s') % e,
                             COLOURS["warning"])
@@ -38265,14 +38337,40 @@ CATALOGUE["de"] = {
         'und keine Kamera zeigt genau sie',
     'Cutting into a jumble looks frantic.':
         'In ein Durcheinander zu schneiden wirkt hektisch.',
+    'Nobody speaks':
+        'Niemand redet',
+    'no voice is heard at all here':
+        'hier ist überhaupt keine Stimme zu hören',
+    'A breath in the middle of a sentence and the end of a thought '
+    'are both silence, and the program cannot tell them apart. Only '
+    'the length can: "Short gap up to" says how long a silence may '
+    'be and still count as a breath.':
+        'Eine Atempause mitten im Satz und das Ende eines Gedankens '
+        'sind beide Stille, und das Programm unterscheidet sie nicht. '
+        'Nur die Länge tut es: „Kurze Lücke bis“ sagt, wie lang eine '
+        'Stille sein darf und noch als Atempause gilt.',
+    'Short gap up to':
+        'Kurze Lücke bis',
+    'so long a silence leaves the picture alone':
+        'so lange lässt eine Stille das Bild in Ruhe',
+    'Only where "Nobody speaks" is set to hold a short gap. A gap up '
+    'to this long changes nothing, a longer one goes to the wide '
+    'shot. Above two seconds the picture begins to stand on someone '
+    'silent for over five seconds.':
+        'Nur wo „Niemand redet“ auf eine kurze Lücke halten steht. Eine '
+        'Lücke bis hierher ändert nichts, eine längere geht auf den '
+        'Weitwinkel. Über zwei Sekunden fängt das Bild an, länger als '
+        'fünf Sekunden auf einem Schweigenden zu stehen.',
     'Recognition uncertain':
         'Erkennung unsicher',
     'the speaker recognition frays or leaves a heap behind':
         'die Sprechererkennung zerfasert oder lässt ein Häufchen übrig',
     'Guessing puts the wrong person on screen for seconds; the wide '
-    'shot is right in every case.':
+    'shot is right in every case. Somebody is speaking here -- where '
+    'nobody is, "Nobody speaks" decides.':
         'Raten zeigt sekundenlang den Falschen; der Weitwinkel ist in '
-        'jedem Fall richtig.',
+        'jedem Fall richtig. Hier redet jemand -- wo niemand redet, '
+        'entscheidet „Niemand redet“.',
     'the picture goes to the answer before it starts':
         'das Bild geht zur Antwort, bevor sie anfängt',
     "Only after a question that is not the main speaker's, when "
@@ -38297,6 +38395,8 @@ CATALOGUE["de"] = {
         'Abwechselnd',
     'No camera change':
         'Kein Kamerawechsel',
+    'Hold a short gap':
+        'Kurze Lücke halten',
     'do not go early':
         'nicht vorziehen',
     'Answering speaker':

@@ -52,7 +52,8 @@ def check(name, ok, extra=""):
 # Sorted, so a list in a FAIL line reads the same on every machine.
 EVERY_SETTING = ["edit-change-delay", "min-edit-duration",
                  "min-speech-to-switch", "on-monologue", "on-question",
-                 "on-together", "on-uncertain", "reaction-lead",
+                 "on-silence", "on-together", "on-uncertain",
+                 "reaction-lead", "silence-hold",
                  "wide-after", "wide-latest", "wide-length", "wide-most"]
 WIDE_NUMBERS = ["wide-after", "wide-latest", "wide-length", "wide-most"]
 WIDE_BOXES = ["on-monologue", "on-together", "on-uncertain"]
@@ -61,8 +62,9 @@ WIDE_BOXES = ["on-monologue", "on-together", "on-uncertain"]
 WORDS_SETTINGS = ["on-question", "reaction-lead", "wide-after", "wide-most"]
 # Everything the words' greying has no business touching.
 NOT_THE_WORDS = ["edit-change-delay", "min-edit-duration",
-                 "min-speech-to-switch", "on-monologue", "on-together",
-                 "on-uncertain", "wide-latest", "wide-length"]
+                 "min-speech-to-switch", "on-monologue", "on-silence",
+                 "on-together", "on-uncertain", "silence-hold",
+                 "wide-latest", "wide-length"]
 
 alive = []  # the holders, so Qt does not collect the parts under them
 
@@ -198,7 +200,7 @@ check("the question's two settings and the wide shot's two are dead",
       "%d of %d dead: %s, wanted %s"
       % (len(dead(parts, WORDS_SETTINGS)), len(WORDS_SETTINGS),
          dead(parts, WORDS_SETTINGS), WORDS_SETTINGS))
-check("and the other eight settings are left alone",
+check("and the settings that do not need the words are left alone",
       open_ones(parts, NOT_THE_WORDS) == NOT_THE_WORDS,
       "%d of %d still open: %s"
       % (len(open_ones(parts, NOT_THE_WORDS)), len(NOT_THE_WORDS),
