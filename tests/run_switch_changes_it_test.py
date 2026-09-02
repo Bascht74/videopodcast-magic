@@ -16,6 +16,7 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
+import concurrent.futures
 import importlib.util
 import io
 import json
@@ -185,6 +186,14 @@ BLOCK_TWO = BLOCKS[1]
 # the network -- no key, no preset, no update check.
 LOCAL = ["--multitrack", "--without-auphonic", "--no-preflight",
          "--no-metrics", "--no-speech-recognition", "--no-transcript-file",
+         # The camera's own sound is still read -- the alignment locks
+         # onto it -- it is only not copied into the written camera file
+         # as a third track. Nothing below reads the tracks of a written
+         # camera file, and the camera cut comes back byte for byte the
+         # same with the switch and without it; measured on 2.9.2026 it
+         # takes a good quarter off the processor time a run costs
+         # (4.30 s against 3.14 s), seven runs long.
+         "--no-camera-audio",
          "--assign", ASSIGN]
 CAMERA_FILES = [HOST_WAV, GUEST_WAV, CAM_HOST, CAM_GUEST, CAM_WIDE]
 
@@ -296,11 +305,25 @@ def started(tag, ground, extra):
     return runs[tag]
 
 
-for name, ground in (("cut", whole_run), ("plan", only_plan),
-                     ("look", only_look)):
-    started(name, ground, [])
-for switch, extra, ground, _reading in CASES:
-    started(switch.lstrip("-"), ground, extra)
+# No start below needs what another one found, so they go side by side
+# instead of one after the other. The bare run on the camera ground goes
+# first and by itself: it leaves the probes and the envelopes of the
+# camera files in the shared cache, and the ones behind it read them
+# instead of measuring them again. Starting them all at once costs a
+# fifth more processor time for the same waiting -- measured here on
+# 2.9.2026, 26 s against 22 s.
+started("cut", whole_run, [])
+LEFT = [("plan", only_plan, []), ("look", only_look, [])]
+LEFT += [(switch.lstrip("-"), ground, extra)
+         for switch, extra, ground, _reading in CASES]
+# As many at once as the machine has cores, and at most six. Measured
+# here on 2.9.2026, this section takes 7.1 s at two, 5.5 at three, 4.8
+# at four, 4.1 at six and 3.7 at eleven, while the processor time it
+# costs stays between 21 and 22 s throughout. Past six the waiting
+# hardly falls any further and every further start wants its own 200 MB.
+AT_ONCE = max(2, min(6, os.cpu_count() or 2))
+with concurrent.futures.ThreadPoolExecutor(max_workers=AT_ONCE) as side:
+    list(side.map(lambda one: started(*one), LEFT))
 
 fell = sorted(tag for tag, (said, _o, _rc) in runs.items()
               if "Traceback" in said)
