@@ -1,6 +1,6 @@
 # The test suite
 
-199 tests against `../videopodcast-magic.py`. Every one of them stands
+206 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-199 tests. The name is the one a red line carries, and beside it the
+206 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -317,6 +317,7 @@ it is green.
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
 | `time_over_midnight` | Midnight is one night, not a day apart. |
 | `time_point_pulled_back` | A hand-set In or Out point never reaches past what every camera saw. |
+| `time_reference_silent` | The camera everything else is measured against reports no measurement. |
 | `time_sound_stays_put` | Does a time window move the sound against the picture in Multitrack? |
 | `time_track_starts_late` | A track that begins after the picture is placed where the file says. |
 | `time_tracks_alone` | Multitrack without a picture: the tracks are laid against each other. |
@@ -339,6 +340,7 @@ it is green.
 | `voice_mic_reaches_cut` | Every track is in the cut by its own microphone, or the log names it. |
 | `voice_name_is_one_person` | A name that comes twice is one person in the cut, not two. |
 | `voice_names_when_sure` | Where the names of the voices could come from, instead of by hand. |
+| `voice_note_translated` | Nothing the speech recogniser prints reaches the screen in its words. |
 | `voice_questions_rank` | Who is asking the questions, as a proposal and never as a verdict. |
 | `voice_raw_times_kept` | Local speaker separation: the arithmetic around the model. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
@@ -392,6 +394,7 @@ it is green.
 | `project_grades_stay_off` | Remote grades: off by default, and always set -- old projects too. |
 | `project_handover_built` | The handover is built from data alone, without a window. |
 | `project_hdr_follows` | The render job carries the codec, profile and tags of its range. |
+| `project_keeps_answers` | The saved project holds what was answered, and nothing else. |
 | `project_real_frame` | The frame of the project is one a camera really recorded. |
 | `project_render_kept` | A render never writes over the delivery before it. |
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
@@ -408,6 +411,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `auphonic_key_answer_fits` | What comes back is said about the key that went out, not another. |
 | `auphonic_key_by_pipe` | The macOS key store is reached without a leak and without a prompt. |
 | `auphonic_key_kept` | The Windows way to the key store, walked for real. |
 | `auphonic_key_out_of_view` | Nobody else can read the key: not in the process list, not left behind. |
@@ -425,6 +429,7 @@ it is green.
 |---|---|
 | `window_all_come_up` | The interface really builds itself -- in both languages. |
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
+| `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
 | `window_cut_colours` | Every shot in the cut band stands at its time in its camera colour. |
 | `window_grey_opens_again` | Every setting greyed out opens again once its reason is gone. |
@@ -434,6 +439,7 @@ it is green.
 | `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
+| `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_size_as_run` | The window's summary names the size the run really needs. |
@@ -450,6 +456,7 @@ it is green.
 | `table_audio_asked_for` | #38 Stage 5c: what decides that a camera's sound is material. |
 | `table_blocks_judged` | A recording of several blocks must not wait for ever to be judged. |
 | `table_camera_proposed` | The suggestion finds the speaker's camera, and never freezes it. |
+| `table_names_reach_camera` | A speaker's name reaches the camera row, typed or only suggested. |
 | `table_no_place_not_wide` | A file that sits nowhere is not offered as the wide shot. |
 | `table_notes_in_one_row` | Do all findings of a multi-part recording land in its row? |
 | `table_one_entry_greyed` | The Kind field greys one entry, not the whole field. |

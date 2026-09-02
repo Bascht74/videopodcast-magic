@@ -31,6 +31,7 @@
 #
 # Written by run.sh, only from a run against the file this repository
 # ships -- a run under VPM_SCRIPT measures and writes nothing.
+auphonic_key_answer_fits	16
 auphonic_key_by_pipe	63
 auphonic_key_out_of_view	24
 auphonic_may_be_skipped	23
@@ -98,6 +99,7 @@ project_file_beats_last	6
 project_grades_stay_off	8
 project_handover_built	78
 project_hdr_follows	49
+project_keeps_answers	13
 project_real_frame	4
 project_render_kept	4
 project_render_queued	67
@@ -158,6 +160,7 @@ source_test_names_swept	10
 table_audio_asked_for	60
 table_blocks_judged	7
 table_camera_proposed	16
+table_names_reach_camera	8
 table_no_place_not_wide	23
 table_notes_in_one_row	6
 table_one_entry_greyed	33
@@ -187,6 +190,7 @@ time_offset_found	6
 time_one_track_aligned	43
 time_over_midnight	9
 time_point_pulled_back	5
+time_reference_silent	5
 time_sound_stays_put	31
 time_track_starts_late	8
 time_tracks_alone	27
@@ -204,6 +208,7 @@ voice_mhm_is_speech	9
 voice_mic_reaches_cut	14
 voice_name_is_one_person	4
 voice_names_when_sure	55
+voice_note_translated	9
 voice_questions_rank	28
 voice_raw_times_kept	62
 voice_source_travels	21
@@ -213,6 +218,7 @@ voice_turns_found	6
 voice_words_intact	48
 window_all_come_up	6
 window_answers_arrive	36
+window_axis_asks_again	2
 window_captions_fit	12
 window_cut_colours	8
 window_grey_opens_again	19
@@ -222,6 +228,7 @@ window_idle_bar_hidden	6
 window_marks_take_spot	27
 window_menu_greys_along	27
 window_no_full_screen	5
+window_notes_break_up	6
 window_play_follows_tab	23
 window_setup_kept_apart	19
 window_size_as_run	6
