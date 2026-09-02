@@ -320,6 +320,15 @@ def step():
             app.aboutToQuit.emit()
             app.processEvents()
         elif i == 8:
+            # The file is written while the window closes, and the step
+            # after that is not the moment it is there: measured, one run
+            # in four fell here on this Mac and one builder job of six.
+            # What follows then is worse than the fault -- the pass ends,
+            # the second pass has no file to open, and its own step waits
+            # a minute for a row that cannot come. So the step waits for
+            # the file, and the judgement below says it arrived at all.
+            needed("the project file the closing window writes",
+                   project_files() or None)
             names = project_files()
             check("closing the window leaves one project file behind",
                   len(names) == 1,
