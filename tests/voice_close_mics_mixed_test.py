@@ -5,9 +5,11 @@ The switch, the source and the naming, in that order: how far apart the
 microphones stand, whether the separation is refused or handed a mix of
 them all, that the mix is a plain sum and nothing is levelled first,
 and that the voices are named after the microphone that is left when
-the recording level is taken out. Last a guard: where the microphones
-can be told apart the cheap route stays untouched. The model itself is
-not run -- the voices are handed in with their true times.
+the recording level is taken out. Then a guard: where the microphones
+can be told apart the cheap route stays untouched. Last a recording
+that arrives in several blocks, which has to be measured as the one
+recording it is. The model itself is not run -- the voices are handed
+in with their true times.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -15,6 +17,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast-magic.py")
 import importlib.util
 import shutil
+import struct
 import sys
 import tempfile
 import time
@@ -332,6 +335,186 @@ check("so the run there never asks for a mix",
       "%r against ('', 'several microphones')"
       % (vpm.speaker_source_pick([p for _n, p in FAR], [],
                                  apart_db=far_db, mix=a_mix),))
+
+
+print("\n7. A recording that arrives in blocks is one recording")
+#
+# Most field recorders cut a long take into files of a few minutes, and
+# the program joins them again by their clock. Two such blocks follow
+# each other and never sound at the same moment: measured against each
+# other they share no time at all, and measured against a neighbour's
+# recording without a clock, minute three of the second block would be
+# held against minute three of the first. So what the microphones hear
+# of each other has to be asked of the recording, not of the blocks.
+#
+# The Presenter's recording is cut in two here, the Guest's is left
+# whole -- the same audio as in section 1, so the number a whole
+# recording gives is close_db and far_db and needs no second reading.
+
+
+def frames_of(path):
+    """The samples of a mono file, as they stand in it."""
+    with wave.open(path, "rb") as f:
+        return f.readframes(f.getnframes())
+
+
+def written(path, frames, start_s=None):
+    """One block, carrying the start a recorder writes where asked.
+
+    The stamp is the BWF one: the start of the file in samples, counted
+    at the rate the program reads it, in the bext chunk behind the RIFF
+    header.
+    """
+    with wave.open(path, "wb") as f:
+        f.setnchannels(1)
+        f.setsampwidth(2)
+        f.setframerate(SR)
+        f.writeframes(frames)
+    if start_s is None:
+        return path
+    body = bytearray(602)
+    struct.pack_into("<Q", body, 338, int(round(start_s * vpm.SR)))
+    raw = open(path, "rb").read()
+    out = (raw[:12] + b"bext" + struct.pack("<I", len(body)) + bytes(body)
+           + raw[12:])
+    with open(path, "wb") as f:
+        f.write(b"RIFF" + struct.pack("<I", len(out) - 8) + out[8:])
+    return path
+
+
+def in_blocks(tracks, tag, clock=True):
+    """The Presenter's recording in two halves, plus the joined whole.
+
+    With *clock* every file carries the timecode a recorder writes, so
+    the blocks are placed one after the other; without it they are laid
+    end to end in the order they came. The joining is the program's own,
+    because it is the file the run works with afterwards.
+    """
+    named = dict(tracks)
+    cut = int(30.0 * SR) * 2      # two bytes to a sample
+    pres = frames_of(named["Presenter"])
+    guest = written(os.path.join(WORK, "%s_Guest.wav" % tag),
+                    frames_of(named["Guest"]), 0.0 if clock else None)
+    first = written(os.path.join(WORK, "%s_Presenter_1.wav" % tag),
+                    pres[:cut], 0.0 if clock else None)
+    second = written(os.path.join(WORK, "%s_Presenter_2.wav" % tag),
+                     pres[cut:], 30.0 if clock else None)
+    joined, _info = vpm.join_audio_parts(
+        [first, second], os.path.join(WORK, "%s_joined.wav" % tag))
+    return guest, first, second, joined
+
+
+def blocked_tracks(guest, first, second, joined):
+    """The two tracks as they stand when the separation is chosen.
+
+    By then the blocks are joined and laid on the common axis, so a
+    track carries both: the recording it became and the files it came
+    in.
+    """
+    return [{"name": "Guest", "source": guest, "blocks": [guest],
+             "axis": guest, "a": 0.0, "b": 1.0},
+            {"name": "Presenter", "source": joined,
+             "blocks": [first, second], "axis": joined,
+             "a": 0.0, "b": 1.0}]
+
+
+class Bare(object):
+    """As much of the parsed command line as the choice reads."""
+
+    _camera_audio = None
+
+
+measured = []
+offered = []
+straight_apart = vpm.microphones_apart_db
+straight_mix = vpm.speaker_mix_file
+
+
+def watched(paths):
+    """The real measurement, with its answer written down as it passes."""
+    got = straight_apart(paths)
+    measured.append(got)
+    return got
+
+
+def noted_mix(paths, made_of, folder=""):
+    """A stand-in for the mixing: what was offered is what is asked."""
+    offered.append(list(paths))
+    return os.path.join(WORK, "blockmix.wav")
+
+
+vpm.microphones_apart_db = watched
+vpm.speaker_mix_file = noted_mix
+try:
+    del measured[:]
+    del offered[:]
+    close_run = vpm.separation_source_of_run(
+        Bare(), blocked_tracks(*in_blocks(CLOSE, "blocked_close")), [],
+        mixable=True)
+    close_blocks_db = measured[-1] if measured else None
+    close_offered = offered[-1] if offered else []
+    check("a recording in blocks is measured as one, so close "
+          "microphones are still mixed",
+          close_run[1] == "microphones mixed",
+          "%r at %s dB, wanted 'microphones mixed' under %.1f dB"
+          % (close_run[1],
+             "none" if close_blocks_db is None else "%.1f" % close_blocks_db,
+             vpm.MICROPHONES_APART_DB))
+    check("and the mix is offered one file per recording, not one per "
+          "block",
+          len(close_offered) == 2,
+          "%d files offered (%s), wanted 2 -- one Guest, one Presenter"
+          % (len(close_offered),
+             ", ".join(os.path.basename(p) for p in close_offered) or "none"))
+    # How the recording was cut into files may not move the answer.
+    # The tenth of a decibel is wide enough for another way of asking
+    # the same question -- measured, a reading over the first block
+    # alone lands 0.001 dB away -- and far under what a reading block
+    # against block costs, which is 0.73 dB here.
+    check("what a recording in blocks measures is what the same "
+          "recording in one file measures",
+          close_blocks_db is not None and close_db is not None
+          and abs(close_blocks_db - close_db) <= 0.10,
+          "%s dB in blocks against %s dB in one file, wanted within 0.10 dB"
+          % ("none" if close_blocks_db is None else "%.3f" % close_blocks_db,
+             "none" if close_db is None else "%.3f" % close_db))
+
+    del measured[:]
+    del offered[:]
+    far_run = vpm.separation_source_of_run(
+        Bare(), blocked_tracks(*in_blocks(FAR, "blocked_far")), [],
+        mixable=True)
+    far_blocks_db = measured[-1] if measured else None
+    check("microphones far apart are left alone even when a recording "
+          "comes in blocks",
+          far_run == ("", "several microphones") and offered == [],
+          "%r at %s dB and %d mixes asked for, wanted 'several "
+          "microphones' over %.1f dB and none"
+          % (far_run[1],
+             "none" if far_blocks_db is None else "%.1f" % far_blocks_db,
+             len(offered), vpm.MICROPHONES_APART_DB))
+
+    # Without a clock nothing gives up: a number comes out either way,
+    # and only its size says whether the blocks were joined first or
+    # held against each other at the wrong minute.
+    del measured[:]
+    del offered[:]
+    loose_run = vpm.separation_source_of_run(
+        Bare(), blocked_tracks(*in_blocks(CLOSE, "loose_close", clock=False)),
+        [], mixable=True)
+    loose_db = measured[-1] if measured else None
+    check("and without a clock too, blocks answer as the one recording "
+          "and not each other",
+          loose_db is not None and close_db is not None
+          and abs(loose_db - close_db) <= 0.10,
+          "%s dB in blocks against %s dB in one file (%r), wanted within "
+          "0.10 dB"
+          % ("none" if loose_db is None else "%.3f" % loose_db,
+             "none" if close_db is None else "%.3f" % close_db,
+             loose_run[1]))
+finally:
+    vpm.microphones_apart_db = straight_apart
+    vpm.speaker_mix_file = straight_mix
 
 
 shutil.rmtree(WORK, ignore_errors=True)
