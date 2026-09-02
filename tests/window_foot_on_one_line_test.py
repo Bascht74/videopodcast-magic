@@ -14,8 +14,8 @@ with no pixel written down: a number here would be this machine's.
 
 The limit of the method: offscreen, which is what the suite and the
 builder have, Qt draws in the Fusion style and the row was exact there
-even while it stood crooked in the native macOS style, where Sebastian
-saw it. So this reads as a guard offscreen and as a measurement under
+even while it stood crooked in the native macOS style, which is where
+it was seen. So this reads as a guard offscreen and as a measurement under
 VPM_LAYOUT_PLATFORM=cocoa, which is where it was made to fall.
 """
 import os
