@@ -8,10 +8,12 @@ right one, and one such point used to drag the line with it.
 
 The sections: what survives untouched, one point moved and where it
 sits, a second point hidden behind a bigger one, what the report says,
-how much of the runtime is left. Every set is nine offsets over an
-hour, and one of them carries ordinary measurement noise -- a line to
-the millisecond is not what a measurement looks like, and a tolerance
-read off the scatter has to be tried against scatter.
+how much of the runtime is left, a clock far enough out that the line
+itself is steep, and a bend small enough to test the floor under the
+tolerance. Every set is nine offsets over an hour, and one of them
+carries ordinary measurement noise -- a line to the millisecond is not
+what a measurement looks like, and a tolerance read off the scatter has
+to be tried against scatter.
 
 What it does not reach: a wrong point at the very first or very last
 sample, on noisy material. The line tilts to swallow it, and the
@@ -178,6 +180,62 @@ check("a full set covers everything", abs(whole - 1.0) < 0.01,
 corner = vpm._spans_share(TIMES[6:], 3600.0)
 check("a set cleaned down to one corner says so", corner < 0.3,
       "%.2f of the runtime over 2700 s to 3600 s, wanted 0.25" % corner)
+# The two guards in front of that arithmetic. Both cases really arrive
+# -- the cleaning can empty a set, and a file whose length was not read
+# comes through as zero -- and neither may be answered with a crash or
+# with a number: what is wanted is nothing covered.
+
+
+def share_of(points, runtime):
+    """The share, or what went wrong instead -- never swallowed."""
+    try:
+        return vpm._spans_share(points, runtime)
+    except Exception as why:
+        return "raised %s: %s" % (type(why).__name__, why)
+
+
+empty = share_of(np.array([]), 3600.0)
+check("no points left covers nothing rather than failing", empty == 0.0,
+      "%s, wanted 0.0" % (empty,))
+unread = share_of(TIMES, 0.0)
+check("and a runtime nobody read covers nothing either", unread == 0.0,
+      "%s, wanted 0.0" % (unread,))
+
+print("\n6. A clock that is badly out, so the line itself is steep")
+# Everything above lies within a few hundred milliseconds of flat, and
+# on such a set the line and the median of the points are almost the
+# same anchor. Then not laying the line at all -- fitting it and
+# throwing the answer away, or anchoring on the median of the raw
+# values -- changes nothing that any judgement can see. A clock 3000
+# ppm out runs 10.8 s over the hour, and there the two anchors are
+# nowhere near each other.
+steep = 3000e-6 * TIMES
+steep[8] += 0.500
+tv, dt, gone = vpm.without_outliers(TIMES, steep)
+now_off, now_ppm = line_through(tv, dt)
+gone_at = sorted(round(g[0]) for g in gone)
+check("on a steeply drifting clock the bent point is still the odd one",
+      gone_at == [3600],
+      "dropped at %s s, wanted [3600]" % gone_at)
+check("and the steep drift itself comes back", abs(now_ppm - 3000.0) < 0.5,
+      "%.2f ppm, wanted 3000.00 ppm" % now_ppm)
+
+print("\n7. A bend small enough to reach the floor of the tolerance")
+# On a quiet line the scatter is nothing, so the tolerance is the floor
+# under it and nothing else. Every bend above is 500 ms, which clears
+# that floor sixteen times over; this one is 150 ms and comes back as a
+# 93 ms residual, so it holds the floor down to about a tenth of a
+# second. Above that the point is kept, the drift reads wrong, and
+# nothing else in the file notices.
+small = CLEAN.copy()
+small[8] += 0.150
+tv, dt, gone = vpm.without_outliers(TIMES, small)
+_off, small_ppm = line_through(tv, dt)
+gone_at = sorted(round(g[0]) for g in gone)
+check("a bend of 150 ms is found and not swallowed by the floor",
+      gone_at == [3600], "dropped at %s s, wanted [3600]" % gone_at)
+check("so the drift comes back from that one too",
+      abs(small_ppm - 10.0) < 0.1, "%.2f ppm, wanted 10.00 ppm" % small_ppm)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

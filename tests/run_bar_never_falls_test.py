@@ -4,7 +4,9 @@
 On a long run the bar is the only sign that anything moves. Opening a
 project fills it with the measuring; pressing Start in that moment used
 to add the run's stages on top, so the bar opened high and fell back. A
-bar that never falls then made it stand still instead. Between two
+bar that never falls then made it stand still instead. It also has to
+stay inside the whole: a step reporting more than all of itself, or
+creeping on for an hour, must not carry it past the end. Between two
 figures only the creeping moves it, so that is held here too, and last
 the stages having one set of names. This is arithmetic, no window.
 
@@ -69,6 +71,21 @@ for i, name in enumerate(RUN, 1):
 check("and from there it says the truth at every step",
       all(abs(a - b) < 1e-9 for a, b in seen),
       "; ".join("%.3f vs %.3f" % (a, b) for a, b in seen))
+# Calling work off is the other way to the same place, and the run
+# really walks it: it drops the checking stage, and again the stages
+# that run before the work. A high mark left over from what was
+# dropped holds the bar up over stages that are at nothing, which is
+# word for word the fault the paragraph above is about.
+gone = vpm.ProgressPlan()
+gone.add("measuring", 1.0)
+gone.begin("measuring")
+gone.done("measuring")
+gone.total()
+gone.drop(["measuring"])
+for name in ("tracks", "render"):
+    gone.add(name, 1.0)
+check("calling all the work off puts the bar back to nothing",
+      abs(gone.total()) < 1e-9, "%.3f, wanted 0.000" % gone.total())
 
 print("\n2. What it did before, kept as a number")
 # The counter-proof, read out rather than remembered: without the
@@ -114,6 +131,28 @@ plan.add("two", 1.0)
 check("nor does work announced later",
       plan.total() >= was - 1e-9, "%.3f after %.3f" % (plan.total(), was))
 
+print("\n3b. And it never claims more than the whole")
+# The other end of "never falls". A caller handing in bytes divided by
+# an estimate is one underestimate away from a figure over one, and a
+# bar that has already claimed everything has nothing left to show the
+# rest of the work with.
+over = vpm.ProgressPlan()
+over.add("one", 1.0)
+over.report("one", 1.5)
+check("a step reporting more than all of itself stays inside the bar",
+      over.total() <= 1.0 + 1e-9,
+      "%.3f, wanted at most 1.000" % over.total())
+# And the creeping, which moves without anybody reporting anything: an
+# hour of it must not walk the bar out of the top either.
+kept = vpm.ProgressPlan()
+kept.add("one", 1.0)
+kept.report("one", 0.95)
+for _ in range(50):
+    kept.creep(60.0)
+check("nor does an hour of creeping walk it past the end",
+      kept.total() <= 1.0 + 1e-9,
+      "%.3f, wanted at most 1.000" % kept.total())
+
 print("\n4. A step nobody announced still counts")
 # What makes the clearing safe: a step that was thrown away puts
 # itself back when it reports, so nothing still to come is lost.
@@ -138,6 +177,19 @@ still = plan.total()
 plan.creep(30.0)
 check("a step that reports nothing still moves the bar",
       plan.total() > still, "%.3f after %.3f" % (plan.total(), still))
+# Moving once is not moving. Pulling the audio out of an hour of 4K
+# says nothing for minutes, so the question is whether the bar is still
+# rising late in that -- the same stretch of creeping twice over, and
+# the second half has to move it as well.
+far = vpm.ProgressPlan()
+far.begin("slow")
+for _ in range(20):
+    far.creep(30.0)
+early = far.total()
+for _ in range(20):
+    far.creep(30.0)
+check("and it is still moving late in a long step",
+      far.total() > early, "%.4f after %.4f" % (far.total(), early))
 # A figure arriving late is a floor, not a ceiling: the step crept past
 # it while nobody was asking, and that is not thrown away. Two plans
 # crept side by side, one of them told a small figure at the end.

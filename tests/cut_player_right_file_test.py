@@ -6,8 +6,10 @@ three of them are lifted by name out of gui()'s own body and run here
 over six made-up files on one time axis: what is judged is the
 program's code, not a copy kept beside it. The sections: the rules come
 out and answer, the order they put the files in, the kinds that never
-come into question, the file chosen last, and what covers() says about
-the axis, a missing timecode and the ends of a file. What the method
+come into question, the file chosen last, what covers() says about the
+axis, a missing timecode and the ends of a file, the values it can and
+cannot answer, the order over two cards, and nothing left to play at
+all. What the method
 costs, in full: the three have to keep their names and stay directly
 inside gui() -- their order, their parameters and their layout are
 free; a rule that starts reading a further name out of gui() shows up
@@ -307,6 +309,106 @@ if ran and not answered:
             from_end is True,
             "short at -0:00:10: %s, wanted True -- 10 s back from the end"
             " of %.1f s" % (from_end, SPANS["/x/Short.mov"]["duration"]))
+    # And how far outside is far enough. The two above hold the sign of
+    # the comparison, not the slack around it: widening either end
+    # tenfold leaves both green. Twelve frames is well outside any
+    # rounding a timecode can carry.
+    just_past = covers("/x/Short.mov", "17:51:00:12")
+    check("four tenths of a second past the end is outside",
+            just_past is False,
+            "short at 17:51:00:12: %s, wanted False -- 60.4 s into a file"
+            " of %.1f s" % (just_past, SPANS["/x/Short.mov"]["duration"]))
+    just_before = covers("/x/Short.mov", "17:49:59:18")
+    check("and four tenths before the start is outside as well",
+            just_before is False,
+            "short at 17:49:59:18: %s, wanted False -- 0.4 s before a file"
+            " that begins at 17:50:00:00" % (just_before,))
+
+    print("\n12. The values a file cannot answer, and the ones it can")
+    # Everything above asks a file that has both a timecode and a
+    # measured axis, and both of those read zero in an ordinary project:
+    # the reference camera joins the material at 0.0 s, and a camera
+    # with no time-of-day clock reads 00:00:00:00. A guard written
+    # "if not ..." instead of "is None" turns both of those into "I
+    # cannot say", and every judgement above stays green.
+    at_zero_axis = covers("/x/Guest.mov", "+0:10:00")
+    check("the file the axis is counted from can still answer",
+            at_zero_axis is True,
+            "guest at +0:10:00: %s, wanted True -- 600 s along an axis it"
+            " joins at %.0f s"
+            % (at_zero_axis, SPANS["/x/Guest.mov"]["axis"]))
+    SPANS["/x/Jingle.mp4"]["tc0"] = 0.0       # a camera with no clock
+    at_zero_clock = covers("/x/Jingle.mp4", "00:00:05:00")
+    check("and a file whose clock reads zero can answer too",
+            at_zero_clock is True,
+            "jingle at 00:00:05:00 with a timecode of 0.0: %s, wanted True"
+            " -- 5 s into a file of %.0f s"
+            % (at_zero_clock, SPANS["/x/Jingle.mp4"]["duration"]))
+    SPANS["/x/Jingle.mp4"]["tc0"] = None
+    # The very start of the material is what the program's own writing of
+    # a relative time produces, so it is a value it hands itself. It has
+    # to be read forwards from the beginning, not backwards from the end.
+    axis_start = covers("/x/WideCam.mov", "+0:00:00")
+    check("the start of the axis lies before a camera that joins later",
+            axis_start is False,
+            "wide at +0:00:00: %s, wanted False -- it joins the axis at"
+            " %.0f s" % (axis_start, SPANS["/x/WideCam.mov"]["axis"]))
+    # A file whose length was never read arrives as a duration of 0.0,
+    # not as no span at all: file_span writes float(... or 0.0).
+    SPANS["/x/CoPresenter.mov"] = {"duration": 0.0, "fps": 30.0,
+                                   "tc0": 17 * 3600.0, "axis": 0.0}
+    no_length = covers("/x/CoPresenter.mov", "17:00:00:00")
+    check("a file whose length was never read answers nothing",
+            no_length is None,
+            "copresenter with a duration of 0.0 at 17:00:00:00: %s,"
+            " wanted None" % (no_length,))
+    del SPANS["/x/CoPresenter.mov"]
+    # In point and Out point are free text somebody types, so a slip of
+    # the finger travels from here through the suggestion into the
+    # window.
+    mistyped = []
+    for text in ("abc", "17:xx:00:00", ".."):
+        try:
+            mistyped.append(covers("/x/Guest.mov", text))
+        except Exception as why:
+            mistyped.append("%s: %s" % (type(why).__name__, why))
+    check("a mistyped boundary gets no answer instead of falling over",
+            mistyped == [None, None, None],
+            "%s for 'abc', '17:xx:00:00' and '..', wanted no answer to any"
+            % (mistyped,))
+
+    print("\n13. The order the candidates come back in")
+    # The six above all begin with a capital and all lie in one folder,
+    # so neither half of the sort key is held by them. Two cards, and a
+    # camera that writes its name in lower case: sorting the whole path
+    # and sorting without folding the case both turn this pair round.
+    files.append(("/x/card_b/cam_0001.mov", "video"))
+    files.append(("/x/card_a/Guest_C001.mov", "video"))
+    ON_TWO_CARDS = ["/x/card_b/cam_0001.mov", "/x/CoPresenter.mov",
+                    "/x/Guest.mov", "/x/card_a/Guest_C001.mov",
+                    "/x/Short.mov", "/x/WideCam.mov"]
+    spread = player_candidates()
+    check("the sort ignores the folder and the case of the name",
+            spread == ON_TWO_CARDS,
+            "got %s, wanted %s" % (spread, ON_TWO_CARDS))
+    files.pop(); files.pop()
+
+    print("\n14. Nothing left to play")
+    # A person can set every video to "ignore this video" by hand, and
+    # then there is nothing to choose from at all.
+    was = dict(clip_kind_values)
+    for file_path, kind in files:
+        if kind == "video":
+            clip_kind_values[file_path] = Value(vpm.TYPE_IGNORED)
+    try:
+        empty_answer = player_suggestion()
+    except Exception as why:                 # reported, never swallowed
+        empty_answer = "%s: %s" % (type(why).__name__, why)
+    clip_kind_values.clear(); clip_kind_values.update(was)
+    check("with every video ignored the player is offered nothing",
+            empty_answer is None,
+            "%r, wanted None -- %d candidates left"
+            % (empty_answer, len(player_candidates())))
 else:
     print("\nThe judgements below need those rules, and they did not run.")
 

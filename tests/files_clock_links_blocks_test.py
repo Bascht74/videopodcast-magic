@@ -6,7 +6,10 @@ mixer often writes the date and the time of day instead, which are not
 consecutive numbers. Two rules then: the clock of the next block has to
 sit where the previous one ends, and only names built alike are joined
 -- the text before the clock and the text behind it have to match, the
-extension only apart from its case.
+extension only apart from its case. Both directions are asked: what has
+to stay apart, and what has to become one row, because a rule that
+refuses everything passes every judgement of the first kind. Last, a
+moment two names spell alike, from either of the two files.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -173,6 +176,15 @@ row8, _ = vpm.find_continuation_files(p1)
 check("a name that another only extends is a different recording",
       names(row8) == ["Presenter_260808_160000.wav"],
       "%s, wanted ['Presenter_260808_160000.wav']" % (names(row8),))
+# And from the other end, which is a different comparison: there the
+# short name is weighed against the long one. A rule reading either
+# half as "begins with" passes one way and joins the other, and then
+# the same file stands in two recordings depending on which block
+# somebody picked.
+row9, _ = vpm.find_continuation_files(p2)
+check("and the longer of the two finds only itself as well",
+      names(row9) == ["Presenter_B_260808_160100.wav"],
+      "%s, wanted ['Presenter_B_260808_160100.wav']" % (names(row9),))
 
 s1 = wav("Take_260808_200000.wav", 60.0)
 s2 = wav("Take-260808_200100.wav", 60.0)
@@ -206,6 +218,62 @@ check("a block whose extension differs only in case still joins",
       names(row12) == ["Mix_260808_183000.wav", "Mix_260808_183100.WAV"],
       "%s, wanted ['Mix_260808_183000.wav', 'Mix_260808_183100.WAV']"
       % (names(row12),))
+
+#--------------------------------------- and the names that have to join
+# Everything above says when the program must refuse, and a rule that
+# refuses everything passes all of it. The guest track a mixer writes
+# carries something on both sides of the clock, and it has to arrive as
+# one recording rather than as a block per file.
+j1 = wav("mix_260808_213000_Room.wav", 60.0)
+wav("mix_260808_213100_Room.wav", 60.0)
+row13, _ = vpm.find_continuation_files(j1)
+check("blocks named alike on both sides of the clock do join",
+      names(row13) == ["mix_260808_213000_Room.wav",
+                       "mix_260808_213100_Room.wav"],
+      "%s, wanted both blocks" % (names(row13),))
+
+#------------------------- three kind readings of the half behind the clock
+# The pair further up differs behind the clock in its length and in its
+# text at once, so a comparison that keeps only one of the two waves it
+# through. These three take one property away each: a text the next one
+# only extends, two texts of the same length, and nothing at all
+# against something. All are names a recorder or a mixer really writes.
+k1 = wav("cam_260808_220000_Cam.wav", 60.0)
+wav("cam_260808_220100_CamB.wav", 60.0)
+row14, _ = vpm.find_continuation_files(k1)
+check("a text behind the clock the next one extends keeps them apart",
+      names(row14) == ["cam_260808_220000_Cam.wav"],
+      "%s, wanted ['cam_260808_220000_Cam.wav']" % (names(row14),))
+n1 = wav("gst_260808_223000_Guest1.wav", 60.0)
+wav("gst_260808_223100_Guest2.wav", 60.0)
+row15, _ = vpm.find_continuation_files(n1)
+check("two equally long texts behind the clock are two recordings",
+      names(row15) == ["gst_260808_223000_Guest1.wav"],
+      "%s, wanted ['gst_260808_223000_Guest1.wav']" % (names(row15),))
+q1 = wav("sess_260808_230000.wav", 60.0)
+wav("sess_260808_230100_Guest.wav", 60.0)
+row16, _ = vpm.find_continuation_files(q1)
+check("and nothing behind the clock does not match something",
+      names(row16) == ["sess_260808_230000.wav"],
+      "%s, wanted ['sess_260808_230000.wav']" % (names(row16),))
+
+#------------------------ a moment claimed twice, gripped from inside it
+# The judgement further up picks the uninvolved neighbour, so the part
+# that protects the picked file itself is never entered. Here the file
+# picked is one of the two rivals, and two further blocks stand beside
+# them -- without that protection the program looks a moment up that it
+# threw away one line earlier.
+rival = wav("u_260808_100000.wav", 60.0)
+wav("u_20260808_100000.wav", 60.0)
+wav("u_260808_100100.wav", 60.0)
+wav("u_260808_100200.wav", 60.0)
+try:
+    got17 = names(vpm.find_continuation_files(rival)[0])
+except Exception as why:                      # reported, never swallowed
+    got17 = "raised %s: %s" % (type(why).__name__, why)
+check("picking one of the two rivals joins nothing either",
+      got17 == ["u_260808_100000.wav"],
+      "%s, wanted ['u_260808_100000.wav']" % (got17,))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

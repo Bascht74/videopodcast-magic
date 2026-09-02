@@ -3,7 +3,9 @@
 
 The sections: everything on show, in by a factor of two, out again and
 never past the ends, the floor of a syllable, what a press means, the
-stretch following the position, new material.
+stretch following the position, new material, the doors a user really
+zooms through -- the third button, the wheel, the keys -- and zooming
+with a point given or with no position at all.
 
 Every judgement about where the stretch sits holds window() against a
 stretch written out in seconds, never against a bound: window() ends in
@@ -274,6 +276,72 @@ b.label_set(600.0)
 b.zoom(0.5)
 b.set(CUT, {}, LENGTH)
 check("the zoom is dropped", at(b, 0.0, LENGTH), shows(b, 0.0, LENGTH))
+
+print("\n8. The doors a user really zooms through")
+# Everything above turns the zoom by hand. The three ways the manual
+# promises -- the third button, the wheel over the band and the keys
+# after a click on it -- go through code of their own, and the buttons
+# and their connections sit inside gui(), which no test builds. So
+# these are the only place that code is entered at all.
+b = band()
+b.label_set(600.0)
+b.zoom(0.5); b.zoom(0.5)
+b.zoom_all()
+check("the third button brings the whole length back",
+      at(b, 0.0, LENGTH), shows(b, 0.0, LENGTH))
+# The wheel carries the pointer with it: a turn over the right of the
+# band has to magnify what is under the pointer, not what is under the
+# playhead. Position 0 s, pointer three quarters along, so the two
+# answers lie 1800 s apart and cannot be confused; and a wheel turned
+# round would show everything instead of half.
+b = band()
+b.label_set(0.0)
+QtWidgets.QApplication.sendEvent(b, QtGui.QWheelEvent(
+    QtCore.QPointF(750.0, 10.0), QtCore.QPointF(750.0, 10.0),
+    QtCore.QPoint(0, 0), QtCore.QPoint(0, 120),
+    Qt.NoButton, Qt.NoModifier, Qt.NoScrollPhase, False))
+check("a turn of the wheel zooms in where the pointer is",
+      at(b, 1800.0, LENGTH), shows(b, 1800.0, LENGTH))
+
+
+def pressed(b, code):
+    """One key press on the band."""
+    QtWidgets.QApplication.sendEvent(b, QtGui.QKeyEvent(
+        QtCore.QEvent.KeyPress, code, Qt.NoModifier))
+
+
+b = band()
+b.label_set(2400.0)
+pressed(b, Qt.Key_Plus)
+check("plus shows half as much around the position",
+      at(b, 1500.0, 3300.0), shows(b, 1500.0, 3300.0))
+pressed(b, Qt.Key_Minus)
+check("and minus twice as much again", at(b, 0.0, LENGTH),
+      shows(b, 0.0, LENGTH))
+pressed(b, Qt.Key_Plus)
+pressed(b, Qt.Key_Plus)
+pressed(b, Qt.Key_0)
+check("and nought the whole length", at(b, 0.0, LENGTH),
+      shows(b, 0.0, LENGTH))
+
+print("\n9. Zooming with no point given")
+# The second argument of zoom() carries a centring rule of its own and
+# the wheel is its only caller in the program, so without this the
+# difference between "the wheel zooms where the pointer is" and "where
+# the playhead is" is unheld. The position is at 600 s and the point
+# given is 3000 s, so the two answers do not overlap.
+b = band()
+b.label_set(600.0)
+b.zoom(0.5, 3000.0)
+check("a point handed to the zoom beats the position",
+      at(b, 1800.0, LENGTH), shows(b, 1800.0, LENGTH))
+# And before anything has been clicked there is no position at all.
+# That is the band's state right after set(), so a user pressing plus
+# first walks into it.
+b = band()
+b.zoom(0.5)
+check("with no position yet it zooms on the middle",
+      at(b, 900.0, 2700.0), shows(b, 900.0, 2700.0))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
