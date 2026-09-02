@@ -1606,14 +1606,40 @@ def file_timecode(path, fps=None):
 AUPHONIC = "https://auphonic.com"
 
 
+def api_key_source(args=None):
+    """Return (the API key, where it came from).
+
+    Read in order: command line, environment, credential store -- so a
+    key in AUPHONIC_TOKEN goes out even where another one is stored.
+    Which of the three answered travels with the key: a complaint
+    naming the store for a key from elsewhere misdirects the reader.
+    """
+    given = getattr(args, "auphonic_key", "") if args is not None else ""
+    if given:
+        return given, "argument"
+    from_env = os.environ.get("AUPHONIC_TOKEN")
+    if from_env:
+        return from_env, "environment"
+    kept = load_api_key() or ""
+    return kept, ("store" if kept else "")
+
+
+def key_refused_note(origin, error):
+    """Say a key was refused, and name where that key came from."""
+    if origin == "environment":
+        return T('The key from AUPHONIC_TOKEN is not accepted: %s') % error
+    if origin == "store":
+        return T('The stored key is not accepted: %s') % error
+    return T('auphonic.com does not accept the key: %s') % error
+
+
 def api_key_from_anywhere(args):
     """Return the API key.
 
     Checked in order: the command line argument, the environment, the OS
     credential store.
     """
-    key = (args.auphonic_key or os.environ.get("AUPHONIC_TOKEN")
-           or load_api_key())
+    key = api_key_source(args)[0]
     if not key:
         raise RuntimeError(T('No API key. Pass --auphonic-api-key KEY, set '
                              'AUPHONIC_TOKEN or have it remembered once in '
@@ -5450,20 +5476,44 @@ def camera_after_a_mark(api_key, old_camera, wide, who):
     return old_camera
 
 
+def speaker_names_of(values):
+    """The names a set of speaker fields really works under.
+
+    Read the way the run reads them: a name only suggested stands in
+    grey and is not the field's value, so asking the fields alone left
+    it out. The speaker names reached the run all the same; the camera
+    file name and the "gets audio from" cell did not, and went to
+    Resolve without them.
+    """
+    return [name for name in (speaker_name_of(v) for v in values or ())
+            if name]
+
+
 def camera_gets_from(short, wide, names):
     """What the camera table says this camera gets its audio from.
 
-    A wide shot takes no speakers, so the question has an answer of its
-    own here -- one that says why, rather than an empty cell. Any that
-    were assigned before the mark are named: they are only set aside.
+    A wide shot takes no speakers, so the question has an answer of
+    its own here -- one that says why. Any assigned before the mark
+    are named: they are only set aside.
     """
     if short in wide["barred"]:
         if wide["pushed"].get(short):
             return T('this is the wide shot -- %s moved to "no camera '
                      'of its own"') % ", ".join(wide["pushed"][short])
         return T('no speaker -- this is the wide shot')
-    return (", ".join(v.get().strip() or "?" for v in names)
+    return (", ".join(speaker_name_of(v) or "?" for v in names)
             if names else T('the mix of all tracks'))
+
+
+def camera_name_suggestion(production, camera, values):
+    """The file name a camera is offered, out of the speakers on it.
+
+    The names go through speaker_name_of like everywhere else: a
+    speaker whose name is only suggested belongs in the camera's file
+    name too, and that name travels to Resolve.
+    """
+    return camera_output_name(production, camera,
+                              speaker_names_of(values) or ["Audio-Full-Mix"])
 
 
 def cameras_with_a_speaker(assign_rows, voice_rows, voiced=()):
@@ -10325,14 +10375,22 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                   % (as_hms(a2), deviation * 1000.0, st2.get("points", 0),
                      st2.get("candidates", 0),
                      T('   Caution: more than one frame') if serious else ""))
-        print(T('  Clock drift:     %+.2f ppm (+/- %.2f), residual spread '
-                '%.1f ms, %d of %d points')
-              % ((b - 1.0) * 1e6, st.get("ppm_error", 0.0),
-                 st.get("spread_ms", 0.0), st.get("points", 0),
-                 st.get("candidates", 0) or 0))
-        print(T('  Drift over the running time: %+.3f s = %.1f frames  -->  %s') % (total, abs(total) * fps,
-                             T('is actively taken out') if drift
-                             else T('is left in')))
+        # The reference camera is what the others were measured
+        # against, so there is nothing here that was measured. The line
+        # of noughts it used to print -- "+0.00 ppm (+/- 0.00), 0 of 0
+        # points" -- read like a measurement and was none.
+        if ref_clip and path_key(ref_clip[0]) == path_key(v):
+            print(T('  Clock drift:     nothing measured -- this is the '
+                    'reference the others are held against'))
+        else:
+            print(T('  Clock drift:     %+.2f ppm (+/- %.2f), residual spread '
+                    '%.1f ms, %d of %d points')
+                  % ((b - 1.0) * 1e6, st.get("ppm_error", 0.0),
+                     st.get("spread_ms", 0.0), st.get("points", 0),
+                     st.get("candidates", 0) or 0))
+            print(T('  Drift over the running time: %+.3f s = %.1f frames  -->  %s') % (total, abs(total) * fps,
+                                 T('is actively taken out') if drift
+                                 else T('is left in')))
         print()
         outdir, target = output_path[v]
         os.makedirs(outdir, exist_ok=True)
@@ -18507,6 +18565,27 @@ def recogniser_program(build=True):
     return binary
 
 
+SPEECH_TIMING = re.compile(
+    r"^LOCALE\s+(\S+)\s+SETUP\s+([0-9.]+)\s+SECONDS\s+([0-9.]+)$")
+
+
+def speech_note_said(note):
+    """Put what the recogniser printed into words of our own.
+
+    It writes one line about itself: the locale, how long it took to
+    get ready, how long it listened. Handed on unchanged that line
+    stood in the progress bar in its own keywords -- "LOCALE de_DE
+    SETUP 0.10 SECONDS 25.75" -- English in a German run. Anything
+    else it says is a fault and goes out as one.
+    """
+    found = SPEECH_TIMING.match(str(note or "").strip())
+    if found:
+        return T('  Recognised in %s: ready in %.1f s, heard in %.1f s') \
+            % (found.group(1).replace("_", "-"), float(found.group(2)),
+               float(found.group(3)))
+    return T('  The speech recognition reports: %s') % note
+
+
 def macos_recognition_ready():
     """Say whether the recognition macOS brings with it can be used."""
     binary, refused = recogniser_names()
@@ -18542,7 +18621,7 @@ def macos_words(audio_path, language=""):
         # settled on and how long it took, so a slow run later can be
         # held against this one.
         if note:
-            print("  %s" % note)
+            print(speech_note_said(note))
         return corrected_words(read_word_tsv(out),
                                MACOS_START_S, MACOS_END_S)
     except OSError as e:
@@ -19599,6 +19678,41 @@ def voice_key_parts(key):
     return source, label
 
 
+# What the assignment table remembers about one file, by the head of the
+# key. The voices of a recording are remembered under the recording, so
+# they are struck with it.
+REMEMBERED_PER_FILE = ("audio", "kind", "own", "ownname", "several", "video")
+REMEMBERED_PER_VOICE = ("voice", "voicename")
+
+
+def remembered_forget(remembered, gone):
+    """Strike what the table remembers about files that have left.
+
+    The table is redrawn out of this store, and the project file is
+    written out of it too. So a recording taken out of the list still
+    stood in the saved project with an empty name, and one added again
+    was "Intro" once more. *gone* are the paths that left.
+    """
+    gone = set(path_key(p) for p in (gone or ()) if p)
+    struck = []
+    if not gone:
+        return struck
+    for api_key in list(remembered or {}):
+        head, _sep, rest = str(api_key).partition(":")
+        if not rest:
+            continue
+        if head in REMEMBERED_PER_FILE:
+            path = rest
+        elif head in REMEMBERED_PER_VOICE:
+            path = voice_key_parts(rest)[0]
+        else:
+            continue
+        if path and path_key(path) in gone:
+            remembered.pop(api_key, None)
+            struck.append(api_key)
+    return struck
+
+
 def voice_lines_here(voice_lines, source=""):
     """The rows of *voice_lines* that belong to one recording.
 
@@ -19997,10 +20111,10 @@ def weak_note(caption, placeless):
     none there is no place at all, and its sound is out of the run.
     """
     if placeless:
-        return T('%s   --   does not fit the other files: sound not '
-                 'recognised, no timecode. Its sound cannot be used.') \
+        return T('%s\n   does not fit the other files: sound not '
+                 'recognised, no timecode.\n   Its sound cannot be used.') \
             % caption
-    return T('%s   --   sound not recognised; placed by its timecode') \
+    return T('%s\n   sound not recognised; placed by its timecode') \
         % caption
 
 
@@ -21133,8 +21247,11 @@ def compare_cameras(data):
         out.append(Finding(
             "hint", T('Capture curve'),
             T('the video files carry different recording curves: %s')
-            % "; ".join(T('%s in %s') % (k, ", ".join(v))
-                        for k, v in sorted(curves.items())),
+            # One per line: the names of three cameras behind one
+            # another ran past the end of the column, and what was cut
+            # off was the file name the reader needed.
+            % "\n      ".join(T('%s in %s') % (k, ", ".join(v))
+                              for k, v in sorted(curves.items())),
             T('It is in the logs atom of the picture description -- that '
               'is how Resolve recognises the input colour space. Different '
               'curves mean different input colour spaces.')))
@@ -21154,8 +21271,11 @@ def compare_cameras(data):
         out.append(Finding(
             "hint", T('Colour tag'),
             T('the video files are tagged differently: %s')
-            % "; ".join(T('%s in %s') % (k, ", ".join(v))
-                        for k, v in sorted(tags.items())),
+            # One tag per line, as with the curves above: "2/2/9 in
+            # <camera>; 2/2/1 in <camera>" was cut off inside the first
+            # camera's name.
+            % "\n      ".join(T('%s in %s') % (k, ", ".join(v))
+                              for k, v in sorted(tags.items())),
             T('The three numbers are primaries, curve and matrix. '
               'Different tags need different input colour spaces in '
               'Resolve -- otherwise one camera looks unlike the other.')))
@@ -23960,25 +24080,25 @@ def cut_caption_room(widget, base):
 
 
 def box_room(box, base):
-    """Fix a box at its designed width, on Windows at what fits in it.
+    """Fix a box at its designed width, and at what fits in it.
 
-    How much room it wants there only the finished box knows: what
-    stands inside is built after this line, and the times in it are
-    written first when a file is loaded. So the box keeps watch over
-    its own layout and is let out again every time what it carries
-    has grown.
+    Only the finished box knows how much room it wants, so it watches
+    its own layout and is let out when what it carries has grown -- on
+    every system, not on Windows alone. A missing font family is
+    replaced by a wider one anywhere: measured on 2.9.2026, the
+    player's line wants 519 px here, about 590 in a substitute 12 %
+    wider, against a box fixed at 580.
     """
     box.setFixedWidth(base)
-    if WIDE_FONT:
-        from PySide6 import QtCore
+    from PySide6 import QtCore
 
-        class BoxWatch(QtCore.QObject):
-            def eventFilter(self, which, event):
-                if event.type() == QtCore.QEvent.LayoutRequest:
-                    box_grown(which)
-                return False
+    class BoxWatch(QtCore.QObject):
+        def eventFilter(self, which, event):
+            if event.type() == QtCore.QEvent.LayoutRequest:
+                box_grown(which)
+            return False
 
-        box.installEventFilter(BoxWatch(box))
+    box.installEventFilter(BoxWatch(box))
     return box
 
 
@@ -27697,6 +27817,34 @@ def finished_tracks_find(base):
             return p
     return None
 
+
+def prepared_tracks_in(folder):
+    """The finished tracks lying in that folder: name -> file.
+
+    They carry their timecode as a BWF marker and are at -16 LUFS, so
+    for the preview they are the better source: a raw recording sits
+    16 to 36 dB below. Only the fully assembled ones count --
+    "final_<name>_<tc>.wav"; Auphonic's raw return is "<name>.wav",
+    neither trimmed nor on the axis.
+    """
+    out = {}
+    if not folder or not os.path.isdir(folder):
+        return out
+    try:
+        names = sorted(os.listdir(folder))
+    except OSError:
+        return out
+    for name in names:
+        stem, suffix = os.path.splitext(name)
+        if (suffix.lower() not in AUDIO_SUFFIXES
+                or not stem.startswith("final_")):
+            continue
+        parts = stem[len("final_"):].rsplit("_", 1)
+        if len(parts) == 2 and parts[0]:
+            out[parts[0]] = os.path.join(folder, name)
+    return out
+
+
 def prework_api_key(file_path):
     s = os.stat(file_path)
     return (os.path.abspath(file_path), int(s.st_mtime), s.st_size)
@@ -28804,7 +28952,10 @@ def gui():
     class Bridge(QtCore.QObject):
         progress = QtCore.Signal(str, str, float, str)
         question = QtCore.Signal(object)
-        presets = QtCore.Signal(object, str)
+        # The key the answer is about travels with it: read off the
+        # field again when the answer lands, it may be a second one
+        # somebody pasted while the first was still on its way.
+        presets = QtCore.Signal(object, str, str)
         axis = QtCore.Signal(object, str)
         preflight = QtCore.Signal(object)
         resolve_check = QtCore.Signal(object)
@@ -29722,6 +29873,11 @@ def gui():
                 no_join.difference_update(recording_family(p))
         prework_clean_up(gone)
         items_fresh()
+        # After the tables are built again, not before: building them
+        # writes back every row they hold, and the row that has just
+        # gone is among them until then. The project file is written
+        # out of this store, so a row leaving the screen leaves it too.
+        remembered_forget(remembered, gone)
 
     def removable():
         """Enable removal only when the selection actually offers something."""
@@ -30540,9 +30696,12 @@ def gui():
             d["assignment"] = {s: (list(value) if isinstance(value, tuple) else value)
                               for s, value in remembered.items()}
             # The no-Auphonic entry is not a preset but very much a
-            # decision, and it should be there again on opening.
-            d["preset"] = (PRESET_NONE if without_auphonic()
-                           else preset_plaintext().strip())
+            # decision, and it should be there again on opening. A
+            # fallback is not that decision: where a preset was chosen
+            # and only the list is missing, the choice is what is kept.
+            d["preset"] = (state.get("preset_wanted")
+                           or (PRESET_NONE if without_auphonic()
+                               else preset_plaintext().strip()))
             d["speech_language"] = speech_language.get().strip()
             # null where nothing is adjusted, and written even then: the
             # key being there is what tells this file apart from one
@@ -30649,6 +30808,11 @@ def gui():
                      remember=False)
             return
         if state.get("axis_running"):
+            # A file added while the measurement runs: the answer on its
+            # way is about the list without it. The request is kept and
+            # asked again once that answer is in, or the new file never
+            # gets measured at all.
+            state["axis_again"] = list(paths)
             return
         state["axis_running"] = True
         label_run = state.get("axis_run", 0) + 1
@@ -30692,6 +30856,11 @@ def gui():
         # relative values count from the start of the material, and that is
         # known only after the measurement.
         player_follow_up()
+        # Taken out before it is asked again, or a stored axis coming
+        # back through here would ask a third time.
+        again = state.pop("axis_again", None)
+        if again is not None:
+            axis_kick_off(again)
 
     bridge.axis.connect(axis_present)
 
@@ -30932,37 +31101,12 @@ def gui():
             _ENV.pop(api_key, None)
 
     def prepared_tracks():
-        """Return the finished tracks from auphonic.com: name -> file.
-
-        They carry their timecode as a BWF marker, so they sit on the same
-        clock as everything else, and they are brought to -16 LUFS. For the
-        preview that is the better source: depending on the recording level a
-        raw recording sits 16 to 36 dB below, which is startling when switching
-        between the two players.
-        """
-        folder = (done_folder.get()
-                  or finished_tracks_find(out_folder.get())
-                  or finished_tracks_find(commonest_folder())
-                  or finished_tracks_deeper(commonest_folder()))
-        out = {}
-        if not folder or not os.path.isdir(folder):
-            return out
-        try:
-            names = sorted(os.listdir(folder))
-        except OSError:
-            return out
-        for name in names:
-            stem, suffix = os.path.splitext(name)
-            # Only the fully assembled ones: "final_<name>_<tc>.wav". The raw
-            # return from Auphonic is called "<name>.wav" and is neither
-            # trimmed nor placed on the axis.
-            if suffix.lower() not in AUDIO_SUFFIXES or not stem.startswith(
-                    "final_"):
-                continue
-            parts = stem[len("final_"):].rsplit("_", 1)
-            if len(parts) == 2 and parts[0]:
-                out[parts[0]] = os.path.join(folder, name)
-        return out
+        """Return the finished tracks from auphonic.com: name -> file."""
+        return prepared_tracks_in(
+            done_folder.get()
+            or finished_tracks_find(out_folder.get())
+            or finished_tracks_find(commonest_folder())
+            or finished_tracks_deeper(commonest_folder()))
 
     def audio_for_camera(camera_path):
         """Return the audio recording belonging to this camera.
@@ -31857,9 +32001,8 @@ def gui():
             own = list(taken.get(short) or [])
             if used:
                 own += mine or [own_audio_name]
-            names = [v.get().strip() for v in own if v.get().strip()]
-            suggestion = camera_output_name(
-                production_var.get(), short, names or ["Audio-Full-Mix"])
+            suggestion = camera_name_suggestion(production_var.get(),
+                                                short, own)
             suggestions[b] = suggestion
             name_value = Value(remembered.get("video:" + b) or suggestion)
             name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
@@ -32047,7 +32190,8 @@ def gui():
     first_line = QtWidgets.QHBoxLayout()
     access_layout.addLayout(first_line)
     first_line.addWidget(label("API Key:"))
-    key_var = Value(os.environ.get("AUPHONIC_TOKEN", "") or load_api_key())
+    _key_first, state["key_from"] = api_key_source()
+    key_var = Value(_key_first)
     key_entry = field_bind(QtWidgets.QLineEdit(), key_var, 280)
     key_entry.setEchoMode(QtWidgets.QLineEdit.Password)
     first_line.addWidget(key_entry)
@@ -32122,6 +32266,17 @@ def gui():
         buttons_check()
 
     preset_box.currentIndexChanged.connect(without_auphonic_toggled)
+
+    def preset_picked(*_):
+        """A pick by hand is the wish from here on, whatever it was.
+
+        Only a click raises this; rebuilding the list is done with the
+        signals blocked. So what is kept here is a decision and never
+        the entry the box fell onto when the list went away.
+        """
+        state["preset_wanted"] = preset_box.currentData() or ""
+
+    preset_box.activated.connect(preset_picked)
     def finished_tracks_check():
         """Check whether processed tracks are already in the output folder."""
         found = (finished_tracks_find(out_folder.get())
@@ -32865,36 +33020,11 @@ def gui():
     watchdog.start()
 
     def presets_filter():
-        """Offer only the presets that match the mode.
-
-        The mode is shown in brackets so nobody has to guess why a preset is
-        missing.
-        """
-        entries = preset_entries(state["presets"], multitrack.get(),
-                                 label_of(PRESET_NONE), PRESET_NONE)
-        before_value = preset_box.currentData() or ""
-        preset_box.blockSignals(True)
-        preset_box.clear()
-        for value, text, pickable in entries:
-            preset_box.addItem(text, value)
-            if not pickable:
-                preset_box.model().item(preset_box.count() - 1).setEnabled(False)
-        # Without auphonic.com stays selected until somebody picks a
-        # preset. Connecting fetches the list, and jumping to the first
-        # entry of it would mean the next Start spends credit because a
-        # list arrived, not because anyone asked for it.
-        preset_box.setCurrentIndex(0)
-        preset_box.setEnabled(True)
-        # What stood there before, or what comes from an opened project. The
-        # list only arrives once the key is checked, so the wish waits here
-        # until it exists.
-        wanted = state.get("preset_wanted") or before_value or ""
-        if wanted:
-            i = preset_box.findData(wanted)
-            if i >= 0:
-                preset_box.setCurrentIndex(i)
-                state.pop("preset_wanted", None)
-        preset_box.blockSignals(False)
+        """Offer only the presets that match the mode."""
+        preset_box_fill(preset_box,
+                        preset_entries(state["presets"], multitrack.get(),
+                                       label_of(PRESET_NONE), PRESET_NONE),
+                        state, PRESET_NONE)
         without_auphonic_toggled()
 
     def preset_plaintext():
@@ -32936,13 +33066,13 @@ def gui():
 
         def fetch():
             try:
-                bridge_emit(bridge.presets, list_presets(key), "")
+                bridge_emit(bridge.presets, list_presets(key), "", key)
             except Exception as e:
-                bridge_emit(bridge.presets, None, str(e)[:90])
+                bridge_emit(bridge.presets, None, str(e)[:90], key)
 
         threading.Thread(target=fetch, daemon=True).start()
 
-    def presets_arrived(preset_list, error):
+    def presets_arrived(preset_list, error, checked=""):
         state["presets_busy"] = False
         check_button.setText(T('Connect'))
         # Opened while it was still fetching: show it again, now with
@@ -32954,21 +33084,22 @@ def gui():
             state["presets"] = None
             button_green(False)
             presets_filter()
-            # Whole and unshortened either way: what auphonic.com said
-            # is the only account anybody gets of the reason. Only the
-            # wording differs -- at start-up the key came out of the
-            # store, after Connect it is the one just typed.
+            # Whole and unshortened: what auphonic.com said is the only
+            # account of the reason anybody gets. Only the wording
+            # differs -- at start-up the key came out of the store or
+            # out of AUPHONIC_TOKEN, and is named as such.
             if not state.get("key_asked", True):
-                key_note_show(T('The stored key is not accepted: %s')
-                              % error)
+                key_note_show(key_refused_note(state.get("key_from"), error))
                 return
-            key_note_show(T('auphonic.com does not accept the key: %s')
-                          % error)
+            key_note_show(key_refused_note("", error))
             return
         state["presets"] = preset_list
         # A store that refuses must show, or the button goes green over
-        # a key that is gone at the next start.
-        if remember.get() and not store_api_key(key_var.get().strip()):
+        # a key that is gone at the next start. What goes in is the key
+        # that was checked, never the field read a second time: a paste
+        # during the check otherwise stored one nobody had checked.
+        if remember.get() and not store_api_key(
+                (checked or key_var.get()).strip()):
             tick_off_quietly(keep_button, remember)
             key_note_show(T('The key was not saved: %s')
                           % key_store_trouble())
@@ -34142,6 +34273,35 @@ def preset_box_widget(QtWidgets, state, fetch):
     return PresetBox
 
 
+def preset_box_fill(box, entries, state, none_value):
+    """Put the rows into the preset list and pick what is wanted.
+
+    Without auphonic.com stays selected until somebody picks: landing
+    on the first entry of an arriving list would spend credit because
+    a list came. The wish is what stood there before, or what a
+    project brought; where the list cannot hold it -- key refused, no
+    net -- it stays in *state*, or the stand-in would be stored.
+    """
+    before_value = box.currentData() or ""
+    box.blockSignals(True)
+    box.clear()
+    for value, text, pickable in entries:
+        box.addItem(text, value)
+        if not pickable:
+            box.model().item(box.count() - 1).setEnabled(False)
+    box.setCurrentIndex(0)
+    box.setEnabled(True)
+    wanted = state.get("preset_wanted") or before_value or ""
+    if wanted:
+        i = box.findData(wanted)
+        if i >= 0:
+            box.setCurrentIndex(i)
+            state.pop("preset_wanted", None)
+        elif wanted != none_value:
+            state["preset_wanted"] = wanted
+    box.blockSignals(False)
+
+
 def preset_entries(presets, multitrack_on, none_label, none_value):
     """The rows of the preset list: (value, text, can be picked).
 
@@ -34573,6 +34733,8 @@ CATALOGUE["de"] = {
         '  Die Spracherkennung ist gebaut (%.1f s).',
     '  The speech recognition reports: %s':
         '  Die Spracherkennung meldet: %s',
+    '  Recognised in %s: ready in %.1f s, heard in %.1f s':
+        '  Erkannt in %s: bereit in %.1f s, gehört in %.1f s',
     '  No speech recognition on this machine: macOS 26 brings one, otherwise '
     'faster-whisper is installed.':
         '  Auf diesem Rechner gibt es keine Spracherkennung: macOS 26 bringt '
@@ -35192,6 +35354,10 @@ CATALOGUE["de"] = {
     'of %d points':
         '  Uhrengang:       %+.2f ppm (+/- %.2f), Reststreuung %.1f ms, %d '
         'von %d Punkten',
+    '  Clock drift:     nothing measured -- this is the reference the '
+    'others are held against':
+        '  Uhrengang:       nichts gemessen -- das ist die Referenz, gegen '
+        'die die anderen gehalten werden',
     '  Colour comparison not possible: %s':
         '  Farbvergleich nicht möglich: %s',
     '  Colour group %r cannot be created.':
@@ -36096,12 +36262,12 @@ CATALOGUE["de"] = {
         '%r ist kein Multitrack-Preset',
     '%r is not a number.':
         '%r ist keine Zahl.',
-    '%s   --   does not fit the other files: sound not recognised, no '
-    'timecode. Its sound cannot be used.':
-        '%s   --   passt nicht zu den anderen Dateien: Ton nicht erkannt, '
-        'kein Timecode. Der Ton ist nicht verwendbar.',
-    '%s   --   sound not recognised; placed by its timecode':
-        '%s   --   Ton nicht erkannt; über den Timecode platziert',
+    '%s\n   does not fit the other files: sound not recognised, no '
+    'timecode.\n   Its sound cannot be used.':
+        '%s\n   passt nicht zu den anderen Dateien: Ton nicht erkannt, '
+        'kein Timecode.\n   Der Ton ist nicht verwendbar.',
+    '%s\n   sound not recognised; placed by its timecode':
+        '%s\n   Ton nicht erkannt; über den Timecode platziert',
     '%s   --   the app does not know this format':
         '%s   --   Format kennt die App nicht',
     '%s  (%s)  --  %s  --  %d blocks':
@@ -36816,6 +36982,8 @@ CATALOGUE["de"] = {
         '  Die Schlüsselbundverwaltung ließ sich nicht öffnen: %s',
     'The stored key is not accepted: %s':
         'Der gemerkte Schlüssel wird nicht angenommen: %s',
+    'The key from AUPHONIC_TOKEN is not accepted: %s':
+        'Der Schlüssel aus AUPHONIC_TOKEN wird nicht angenommen: %s',
     'What auphonic.com replied':
         'Was auphonic.com geantwortet hat',
     'There is no key.':
