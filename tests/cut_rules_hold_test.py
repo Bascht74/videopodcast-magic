@@ -1,5 +1,11 @@
 # -*- coding: utf-8 -*-
-"""The cut rules: when the camera follows, and what it shows instead."""
+"""The cut rules: when the camera follows, and what it shows instead.
+
+And the values they take when nobody sets one. The fields of the cut
+box declare the same numbers a second time, so the last section holds
+the two against each other; the few numbers no field shows stand
+written out there instead.
+"""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
@@ -40,18 +46,21 @@ print("1. Minimum speaking time -- a short yes does not move the camera")
 tracks = [("Host", [(0.0, 20.0), (30.0, 50.0)]),
           ("Guest", [(20.5, 20.9), (50.0, 70.0)])]
 camera_of = {"Host": "CamA", "Guest": "CamB"}
-cut = vpm.build_camera_cut(tracks, 70.0, camera_of, "Wide", 3.0, -0.3,
-                           vpm.cut_rules(min_speech=1.5))
+cut = vpm.build_camera_cut(tracks, 70.0, camera_of, "Wide", min_len=3.0,
+                           lead_in=-0.3,
+                           rules=vpm.cut_rules(min_speech=1.5))
 check("the 0.4 s block gets no shot of its own",
       not any(who == "CamB" and b < 45.0 for _a, b, who in cut), str(cut))
-off = vpm.build_camera_cut(tracks, 70.0, camera_of, "Wide", 0.0, -0.3,
-                           vpm.cut_rules(min_speech=0.0))
+off = vpm.build_camera_cut(tracks, 70.0, camera_of, "Wide", min_len=0.0,
+                           lead_in=-0.3,
+                           rules=vpm.cut_rules(min_speech=0.0))
 check("switched off, the same block does reach the picture",
       any(who == "CamB" and b < 45.0 for _a, b, who in off), str(off))
 longer = [("Host", [(0.0, 20.0), (30.0, 50.0)]),
           ("Guest", [(20.5, 24.0), (50.0, 70.0)])]
-cut = vpm.build_camera_cut(longer, 70.0, camera_of, "Wide", 3.0, -0.3,
-                           vpm.cut_rules(min_speech=1.5))
+cut = vpm.build_camera_cut(longer, 70.0, camera_of, "Wide", min_len=3.0,
+                           lead_in=-0.3,
+                           rules=vpm.cut_rules(min_speech=1.5))
 check("a 3.5 s block does move it",
       any(who == "CamB" and b < 45.0 for _a, b, who in cut), str(cut))
 
@@ -185,7 +194,8 @@ print("\n6. A change of speaker on one camera is no cut")
 same = [("Host", [(0.0, 20.0), (40.0, 60.0)]),
         ("Second", [(20.0, 40.0)])]
 cut = vpm.build_camera_cut(same, 60.0, {"Host": "CamA",
-                                        "Second": "CamA"}, "Wide", 3.0)
+                                        "Second": "CamA"}, "Wide",
+                           min_len=3.0)
 check("one camera for both means one shot", len(cut) == 1, str(cut))
 
 print("\n7. The reaction cut after a question")
@@ -228,10 +238,13 @@ check("nothing where the main speaker is the one asking", by_main == {},
       "%r, wanted {} -- Host asks and holds 184.2 s of 199.2 s" % (by_main,))
 rules = vpm.cut_rules(words=asked, on_question=vpm.SHOT_ANSWER,
                       reaction_lead=1.5)
-early = vpm.build_camera_cut(talk, 30.0, cams, "Wide", 0.0, -0.3, rules)
-plain = vpm.build_camera_cut(talk, 30.0, cams, "Wide", 0.0, -0.3,
-                             vpm.cut_rules(words=asked,
-                                           on_question=vpm.SHOT_OFF))
+early = vpm.build_camera_cut(talk, 30.0, cams, "Wide", min_len=0.0,
+                             lead_in=-0.3, rules=rules)
+plain = vpm.build_camera_cut(talk, 30.0, cams, "Wide", min_len=0.0,
+                             lead_in=-0.3,
+                             rules=vpm.cut_rules(
+                                 words=asked,
+                                 on_question=vpm.SHOT_OFF))
 when_early = [a for a, _b, who in early if who == "CamB"]
 when_plain = [a for a, _b, who in plain if who == "CamB"]
 # The question's last word ends at 4.0, the answer starts at 5.0, and
@@ -361,8 +374,9 @@ TODAY = [(0.0, 20.0, "CamA"), (20.0, 20.8, "Wide"), (20.8, 40.0, "CamA"),
 
 def silence_cut(**over):
     """The cut over the two holes, with one answer to the silence."""
-    return vpm.build_camera_cut(breath, 80.0, gap_cams, "Wide", 0.5, 0.0,
-                                vpm.cut_rules(**over))
+    return vpm.build_camera_cut(breath, 80.0, gap_cams, "Wide",
+                                min_len=0.5, lead_in=0.0,
+                                rules=vpm.cut_rules(**over))
 
 
 def camera_at(cut, when):
@@ -427,6 +441,56 @@ check("and with the limit past it the answer survives the merging",
       kept == [(0.0, 40.0, "CamA"), (40.0, 60.0, "CamB")],
       "%d shots %s, wanted 2 of [(0.0, 'CamA'), (40.0, 'CamB')]"
       % (len(kept), [(a, w) for a, _b, w in kept]))
+
+print("\n12. What the rules are when nobody sets one")
+# Every call above says what it wants, so the value the program falls
+# back to can be moved without a check noticing. Measured on 2.9.2026
+# against the seventeen tests that touch the cut: nine of the rules
+# could be moved and all seventeen stayed green.
+#
+# The fields of the cut box declare the same numbers a second time, so
+# they are what the rules are held against: where the two drift apart,
+# one of them is lying to whoever reads it.
+NUMBER_OF = {"min-speech-to-switch": "min_speech",
+             "reaction-lead": "reaction_lead",
+             "wide-most": "wide_most"}
+in_the_box = sorted(f[0] for f in vpm.CUT_FIELDS if f[0] in NUMBER_OF)
+check("every field named here is still a field of the cut box",
+      in_the_box == sorted(NUMBER_OF),
+      "%s found, wanted %s -- a renamed field would leave the check "
+      "below asking nothing" % (in_the_box, sorted(NUMBER_OF)))
+plain_rules = vpm.cut_rules()
+adrift = sorted((switch, shown, plain_rules[NUMBER_OF[switch]])
+                for switch, _label, shown, _unit, _short, _long
+                in vpm.CUT_FIELDS if switch in NUMBER_OF
+                and abs(float(shown)
+                        - plain_rules[NUMBER_OF[switch]]) > 1e-9)
+check("the numbers nobody sets are the ones the fields offer",
+      not adrift, "%d of %d disagree (field, offered, used): %s"
+      % (len(adrift), len(in_the_box), adrift))
+astray = sorted((switch, shown,
+                 str(plain_rules.get(switch.replace("-", "_"),
+                                     "no such rule")))
+                for switch, _label, shown, _values, _short, _long
+                in vpm.CUT_CHOICES
+                if plain_rules.get(switch.replace("-", "_"),
+                                   "no such rule") != shown)
+check("and every choice falls back to what its own field calls the "
+      "default", not astray,
+      "%d of %d disagree (field, offered, used): %s"
+      % (len(astray), len(vpm.CUT_CHOICES), astray))
+# Three of the reaction cut's numbers stand in no field at all, and
+# "Short gap up to" writes its own out of the same constant the rules
+# read -- so for these four there is nothing to hold them against, and
+# they are written out here instead.
+ALONE = {"silence_hold": 1.0, "reaction_gap": 3.0,
+         "reaction_hold": 0.7, "reaction_over": 10.0}
+moved = sorted((rule, wanted, plain_rules[rule])
+               for rule, wanted in ALONE.items()
+               if abs(plain_rules[rule] - wanted) > 1e-9)
+check("the four numbers with nothing to hold them against are unmoved",
+      not moved, "%d of %d moved (rule, wanted, found): %s"
+      % (len(moved), len(ALONE), moved))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")
