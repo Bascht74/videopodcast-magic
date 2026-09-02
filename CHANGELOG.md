@@ -25,6 +25,63 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.30.0-beta] - 2026-09-02
+
+### Added
+
+- Where the microphones hear each other too well to be told apart, the
+  speaker separation now listens to all of them at once and names each
+  voice it finds after the microphone it belongs to. Measured against
+  material whose speakers are known to the millisecond, the speech under
+  the right name went from 72.5 to 92.7 per cent. Only on a run without
+  auphonic.com, and only where the run picks the separation itself --
+  one the window already made travels with it and is used as it stands.
+- A recording with a steady tone over it -- a hum, an air conditioner --
+  now finds its place on the time axis. Where the shape of the sound
+  says nothing, the run compares it once more on the frequency bands
+  that do move. With a hum 40 dB over the material the old way missed
+  the place by more than half an hour; the new one finds it to three
+  hundredths of a second. It wants a camera running longer than about
+  twelve and a half minutes, and the log then marks that line "placed on
+  the bands that move".
+
+### Changed
+
+- Every speaker separation already stored on this machine is measured
+  again on the first run after this version. How the voices are worked
+  out has changed, so a stored answer no longer belongs to the way it
+  would be worked out now. It costs minutes of the graphics unit per
+  recording, once.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Hören die Mikrofone einander zu gut, um auseinandergehalten zu werden,
+  hört die Sprechertrennung jetzt allen auf einmal zu und benennt jede
+  gefundene Stimme nach ihrem Mikrofon. An Material, dessen Sprecher auf
+  die Millisekunde bekannt sind, stieg die richtig benannte Rede von
+  72,5 auf 92,7 Prozent. Nur bei einem Lauf ohne auphonic.com, und nur
+  wo der Lauf die Trennung selbst wählt -- eine aus dem Fenster wandert
+  mit und bleibt, wie sie ist.
+- Eine Aufnahme, über der ein gleichbleibender Ton liegt -- ein Brummen,
+  eine Klimaanlage --, findet jetzt ihren Platz auf der Zeitachse. Wo
+  die Form des Klangs nichts hergibt, vergleicht der Lauf noch einmal,
+  aber nur auf den Frequenzbändern, die sich bewegen. Bei einem Brummen
+  40 dB über dem Material verfehlte der alte Weg den Platz um mehr als
+  eine halbe Stunde; der neue trifft ihn auf drei Hundertstelsekunden.
+  Nötig ist eine Kamera von mehr als etwa zwölfeinhalb Minuten; im
+  Protokoll steht an der Zeile dann „über die bewegten Frequenzbänder
+  platziert".
+
+### Geändert
+
+- Jede Sprechertrennung, die schon auf dieser Maschine liegt, wird beim
+  ersten Lauf nach dieser Fassung neu gemessen. Wie die Stimmen
+  ermittelt werden, hat sich geändert; ein gespeichertes Ergebnis gehört
+  nicht mehr zu dem Weg, auf dem es jetzt entstünde. Das kostet einmalig
+  Minuten Grafikrechnung je Aufnahme.
+
 ## [2.29.0-beta] - 2026-09-02
 
 ### Added
