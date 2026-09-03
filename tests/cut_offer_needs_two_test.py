@@ -22,8 +22,15 @@ project of its own opened in it:
   one recording, the voices separated  cut there   "Camera cut"
   one recording, one voice, 2 cameras  cut there   "Cut with the wide shot"
   one recording, one voice, 1 camera   cut away    the sentence instead
-  a separation nobody answered for     cut away    the sentence instead
-  one recording, nothing separated     cut away    the sentence instead
+  a separation nobody answered for     cut there   "Cut with the wide shot"
+  one recording, nothing separated     cut there   "Cut with the wide shot"
+
+The last two once said "cut away": the box asked the name field, and a
+name only offered in grey left it empty. Since the field answers with
+the name the run works under, a recording carries one either way, sits
+on a camera by preselection, and is cut -- so the box showing is what
+the run does. What is left of the old rule stands in the fourth case:
+one camera cannot be cut against anything.
 
 Neither sheet is looked for by the class of widget it happens to be: a
 test that names the class goes green having checked nothing the day
@@ -93,12 +100,12 @@ PLAN = {
         say="a separation nobody answered for",
         tracks=(ONE_TRACK,), cameras=2, tick=False,
         stored=2, answered=False, voices=0,
-        cut=False, title=None),
+        cut=True, title='Cut with the wide shot'),
     "plain": dict(
         say="one recording, nothing separated",
         tracks=(ONE_TRACK,), cameras=2, tick=False,
         stored=0, answered=False, voices=0,
-        cut=False, title=None),
+        cut=True, title='Cut with the wide shot'),
 }
 CASES = ("multitrack", "separated", "one_voice", "one_camera",
          "unanswered", "plain")
