@@ -258,9 +258,10 @@ head = vpm.speech_heading(True)
 check("self-measured", "self-measured from the tracks" in head,
         "looked for 'self-measured from the tracks' in %r" % (head,))
 head = vpm.speech_heading(False, "72 min")
-check("with the total appended",
-        head == "Speakers, separated by voice -- 72 min",
-        "%r against 'Speakers, separated by voice -- 72 min'" % (head,))
+want = ("Speakers, separated by voice (72 min) -- "
+        "talking at once counts twice")
+check("with the total in it and the warning about talking at once",
+        head == want, "%r against %r" % (head, want))
 head = vpm.speech_heading(False, "")
 check("an empty total appends nothing", head.endswith("by voice"),
         "%r against a heading ending in 'by voice'" % (head,))

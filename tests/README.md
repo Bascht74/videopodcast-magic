@@ -1,6 +1,6 @@
 # The test suite
 
-217 tests against `../videopodcast-magic.py`. Every one of them stands
+219 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-217 tests. The name is the one a red line carries, and beside it the
+219 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -487,6 +487,7 @@ it is green.
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody. |
+| `run_outside_seen` | Every call to another program is in the log, and none in the output. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |
 | `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
@@ -522,6 +523,7 @@ it is green.
 | `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
 | `source_resolve_door_shut` | A test that calls at a door to Resolve has nailed it shut first. |
 | `source_resolve_recalled` | The reminder about the Resolve tests reaches a person, not the builder. |
+| `source_sections_named` | The program divides into named sections, and the ground uses none above. |
 | `source_skills_resolve` | Every file, test and skill a skill names by name is really there. |
 | `source_test_names_swept` | A name a test gives Resolve is swept, or excepted by name. |
 
