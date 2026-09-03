@@ -110,19 +110,25 @@ into the player.
 
 **new file name** is what will come out of that camera. It is a
 proposal until somebody types over it, and it is built from the
-production name, the camera and the speakers in front of it. **gets
-audio from** beside it names those same speakers. A camera nobody is
-assigned to says **the mix of all tracks** there, and the wide shot
-says **no speaker -- this is the wide shot** -- or names whoever was
-assigned to it before and has been moved to **no camera of its own**.
+production name, the camera and the speakers. Where the camera counts
+its files with a number, the speakers go in front of that number and
+the camera's own name stays in front of them, so the front still reads
+as which camera it was. Where there is no such number the camera's name
+is left whole and the speakers follow it, and where the camera is
+called after those speakers already they are not said a second time.
+**gets audio from** beside it names those same speakers. A camera
+nobody is assigned to says **the mix of all tracks** there, and the
+wide shot says **no speaker -- this is the wide shot** -- or names
+whoever was assigned to it before and has been moved to **no camera of
+its own**.
 
-**A name that is only suggested counts in both.** The name field of a
-recording starts empty with the guess from the file name standing in it
-in grey, and that guess is what the run works with, so it belongs in
-the camera's file name and in **gets audio from** as well. It used to
-be missing from both while the run had it, and the camera then went to
-Resolve under a file name with nobody in it. Typing the name over
-changes nothing about that -- it was already the name that counted.
+**A name that is only suggested counts everywhere.** The name field of
+a recording starts empty with the guess from the file name standing in
+it in grey, and that guess is what the run works with: it stands in the
+camera's file name and in **gets audio from**, and it decides which
+camera the recording is put on for as long as nobody picks one by hand.
+Typing the name over changes nothing about that -- it was already the
+name that counted.
 
 A file the measurement can place nowhere is not marked in this table.
 Every note about a file stands in the file list, where the files are

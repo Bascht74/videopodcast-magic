@@ -25,6 +25,150 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.31.1-beta] - 2026-09-03
+
+### Changed
+
+- The summary before **Start** now says what follows where nobody has a
+  camera of their own: every shot then goes to the same camera. It named
+  those speakers already; what would become of the cut it did not say,
+  and that is worth knowing before the hours of computing.
+
+### Fixed
+
+- Changing the camera while the picture runs now holds the moment. A
+  freshly opened file falls back to its front after it has reported
+  itself loaded -- 18 to 88 milliseconds later, never twice the same --
+  and the one jump to the moment had been made before that, so the
+  switch landed at the beginning of the file instead. It is asked for
+  again until it sits.
+- A file the player refuses no longer costs the picture. The refusal
+  stopped the player, the player loaded again and played again, and that
+  raised the refusal again -- 2590 times in two seconds, the surface
+  black throughout. It is said once per file now, and the picture stays.
+- Which camera a recording belongs to now follows the name the run works
+  with. Only the name field was asked, and a name merely offered in grey
+  leaves it empty, so whoever did not type over the suggestion got **no
+  camera of its own** on every recording -- no camera then carried a
+  speaker, and a whole episode was cut on a single one.
+- A speaker finds their camera where the file name carries the number a
+  device counted it with. `Presenter00018` was held against the camera's
+  name with that number still on it and matched nothing. The
+  digits a recorder or a camera counts its files with are left out of
+  the comparison now.
+- The name of a written camera file no longer says a name twice, and no
+  longer tears a camera's name in half. The speakers go in front of the
+  number the camera counts its files with; where there is no such
+  number the camera's name stays whole and the speakers go behind it,
+  and where the camera already carries those names they are not said
+  again.
+- The three speech-time shares under **Camera cut -- preview** now count
+  every speaker, with a camera of their own or without. Only those who
+  had one were counted, so where nobody had one the line read 0.0 %
+  three times -- which reads as a quiet episode and is the loudest case
+  there is.
+- The Timeline start is read back now. Where DaVinci Resolve did not
+  take it, the Timeline kept the 01:00:00:00 a new one is born with and
+  a whole episode sat fifteen hours inside it, without a word. The run
+  prints the start it set, and says so where the Timeline answers with
+  another one.
+- The timecode written into a camera file comes out of the measurement
+  now. It was the camera's own clock moved by what had been cut off the
+  front -- half the one reckoning, half the other -- so two cameras
+  ended up sixteen frames away from the place the handover gives them.
+  All of them are counted from one moment now, so the files agree.
+- The preview of the camera cut now shows the shots the run makes. Where
+  one camera shows everybody, the run cuts again at every change of
+  speaker; the preview did not, and reported a single shot over a whole
+  programme where the run made 237.
+- A project carrying an Auphonic preset now fetches the preset list when
+  it is opened. The list was fetched only when somebody opened the box,
+  so the preset had no list to stand in and the box fell back to **work
+  without Auphonic**. Until the answer is there the box names the preset
+  with **being checked** behind it, and a run before that spends nothing.
+
+### Tests
+
+- The checks that build a real project in DaVinci Resolve run after a
+  plain start of Resolve now. All four used to stand aside while Resolve
+  was on the untitled project it opens with, which is the state after
+  every start. Three of them run there now; the fourth needs a project
+  of somebody's own, since what it checks is that a run gives it back.
+
+**Deutsch**
+
+### Geändert
+
+- Die Zusammenfassung vor **Start** sagt jetzt auch, was folgt, wenn
+  niemand eine eigene Kamera hat: dann geht jede Einstellung auf
+  dieselbe Kamera. Die Namen standen schon da; was daraus für den
+  Schnitt wird, stand nicht dabei -- und das will man wissen, bevor die
+  Stunden Rechenzeit anfangen.
+
+### Behoben
+
+- Der Kamerawechsel bei laufendem Bild hält jetzt die Stelle. Eine
+  frisch geöffnete Datei fällt auf ihren Anfang zurück, nachdem sie sich
+  als geladen gemeldet hat -- 18 bis 88 Millisekunden später und nie
+  zweimal gleich --, und der eine Sprung war da schon getan: der
+  Wechsel landete also am Anfang der Datei. Er wird jetzt so lange
+  nachgefragt, bis er sitzt.
+- Eine Datei, die der Abspieler ablehnt, kostet nicht mehr das Bild. Die
+  Absage hielt ihn an, er lud neu und spielte wieder, und das löste die
+  Absage erneut aus -- 2590 Mal in zwei Sekunden, und die Fläche blieb
+  schwarz. Gesagt wird es jetzt einmal je Datei, und das Bild bleibt.
+- Zu welcher Kamera eine Aufnahme gehört, richtet sich jetzt nach dem
+  Namen, mit dem der Lauf arbeitet. Gefragt war nur das Namensfeld, und
+  ein bloß grau angebotener Name lässt es leer: wer den Vorschlag nicht
+  übertippte, bekam bei jeder Aufnahme **ohne eigene Kamera** -- dann
+  trug keine Kamera einen Sprecher, und eine ganze Folge saß im Schnitt
+  auf einer einzigen.
+- Ein Sprecher findet seine Kamera jetzt auch dort, wo der Dateiname
+  die Zählnummer des Geräts trägt. `Presenter00018` wurde mitsamt dieser
+  Nummer gegen den Kameranamen gehalten und traf nichts. Die Ziffern,
+  mit denen ein Aufnahmegerät oder eine Kamera ihre Dateien durchzählt,
+  bleiben beim Vergleich außen vor.
+- Der Name einer geschriebenen Kameradatei nennt jetzt keinen Namen
+  mehr doppelt und zerreißt keinen Kameranamen mehr. Die Sprecher
+  kommen vor die Zählnummer der Kamera; gibt es keine, bleibt der
+  Kameraname ganz und die Sprecher stehen dahinter, und heißt die
+  Kamera ohnehin nach ihnen, werden sie kein zweites Mal genannt.
+- Die drei Anteile der Redezeit unter **Kameraschnitt -- Vorschau**
+  zählen jetzt jeden Sprecher, mit eigener Kamera wie ohne. Gezählt
+  wurden nur die mit einer, also stand dort dreimal 0,0 %, wo niemand
+  eine hatte -- das liest sich wie eine stille Folge und ist der
+  lauteste Fall, den es gibt.
+- Der Anfang der Timeline wird jetzt nachgelesen. Nahm DaVinci Resolve
+  ihn nicht an, blieb die Timeline bei den 01:00:00:00, mit denen eine
+  neue anfängt, und eine ganze Folge saß fünfzehn Stunden darin, ohne
+  ein Wort. Der Lauf schreibt den gesetzten Anfang jetzt auf und sagt
+  es, wenn die Timeline einen anderen nennt.
+- Der Timecode, der in eine Kameradatei geschrieben wird, kommt jetzt
+  aus der Messung. Bisher war es die Uhr der Kamera, verschoben um den
+  Beschnitt vorn -- halb die eine Rechnung, halb die andere --, und zwei
+  Kameras lagen dadurch sechzehn Bilder neben dem Platz, den die
+  Übergabe für sie nennt. Jetzt wird jeder von einem einzigen
+  Augenblick aus gezählt, und die Dateien stimmen untereinander.
+- Die Vorschau des Kameraschnitts zeigt jetzt die Einstellungen, die der
+  Lauf macht. Zeigt eine Kamera alle, schneidet der Lauf noch einmal an
+  jedem Sprecherwechsel; die Vorschau tat das nicht und meldete eine
+  einzige Einstellung über eine ganze Sendung, wo der Lauf 237 machte.
+- Ein Projekt, das ein Auphonic-Preset mitbringt, holt die Presetliste
+  jetzt beim Öffnen selbst. Bisher kam sie nur, wenn jemand den Kasten
+  aufklappte -- das Preset fand also nichts, worin es hätte stehen
+  können, und der Kasten fiel auf **ohne Auphonic arbeiten** zurück. Bis
+  die Antwort da ist, nennt der Kasten das Preset mit **wird geprüft**
+  dahinter, und ein Lauf davor kostet nichts.
+
+### Tests
+
+- Die Prüfungen, die ein echtes Projekt in DaVinci Resolve bauen, laufen
+  jetzt auch nach einem frischen Start von Resolve. Alle vier ließen
+  sich aus, solange Resolve auf dem unbenannten Projekt stand, mit dem
+  es aufmacht -- also nach jedem Start. Drei laufen dort jetzt; die
+  vierte braucht ein eigenes Projekt, denn sie prüft, dass ein Lauf es
+  zurückgibt.
+
 ## [2.31.0-beta] - 2026-09-03
 
 ### Added

@@ -156,6 +156,12 @@ included: the mode comes back first and the list is built for it, so a
 preset that stands only under **Multitrack** is there again to be
 found.
 
+Where no list has been fetched yet, opening the project fetches one, so
+that the preset has somewhere to stand. Until the answer arrives the
+box names the preset with **being checked** behind it, greyed and not
+pickable, and its value stays **work without Auphonic**: a **Start**
+pressed before the answer spends no credit.
+
 ### When the production already exists
 
 The program finds the production by name and asks what should happen to

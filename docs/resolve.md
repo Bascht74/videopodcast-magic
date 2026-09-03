@@ -197,9 +197,12 @@ does not arise at all.
 this.** On the multicam timeline every camera sits at its measured
 place, and that place is counted in timeline frames alone -- measured,
 and right. The camera files the program writes keep the frame rate of
-their source and carry their own timecode, counted in their own rate.
-Only the cut timeline was wrong, and only where the cameras ran at
-different speeds.
+their source and carry the moment they really begin, counted in that
+rate -- out of the same measurement that places every camera, so the
+files agree with each other. Only where nothing in the material gives
+the programme a time of day does each fall back on its own clock,
+moved by what was cut off its front. Only the cut timeline was wrong, and
+only where the cameras ran at different speeds.
 
 ### A file that fits nowhere
 
@@ -551,6 +554,11 @@ backup copy.
   that line, and `placed_by` in the handover file says the same. Move
   the camera in Resolve, or give the file a timecode that fits the rest
   and run again.
+- **The whole episode sits far inside the timeline, or the timeline
+  starts at 01:00:00:00.** Resolve did not take the start the run set.
+  The log says which start was asked for and which one the timeline
+  answers with. Set it by hand on the timeline in Resolve, or build the
+  project again.
 - **The button is grey right after a project was opened, and there is a
   handover in the folder.** It names other cameras than the project
   holds -- another production, or a round before a camera was added or

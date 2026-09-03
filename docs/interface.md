@@ -180,7 +180,9 @@ Four tabs, in the order they are needed.
 
   Which camera a recording belongs to follows from that name for as
   long as nobody picks one, so a name typed or corrected later takes
-  the camera with it. A camera picked by hand is an answer and stays
+  the camera with it. The grey suggestion counts as that name: a
+  recording nobody has typed anything into still lands on the camera
+  called after it. A camera picked by hand is an answer and stays
   where it was put.
 
   With more than one audio recording nothing starts by itself; the
