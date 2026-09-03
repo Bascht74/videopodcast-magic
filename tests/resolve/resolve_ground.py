@@ -124,6 +124,27 @@ def swept(pm):
             [n for n in mine if n in after])
 
 
+def holds_nothing(project):
+    """Whether a project holds nothing anybody could miss.
+
+    Neither a timeline nor a clip nor a folder. Asked of the unsaved
+    project a fresh Resolve opens on: it stands in no project list and
+    cannot be loaded again, but there is nothing in it to put back.
+    Anything that cannot be read counts as holding something -- not
+    knowing is not the same as knowing it is empty.
+    """
+    try:
+        if int(project.GetTimelineCount() or 0) > 0:
+            return False
+        pool = project.GetMediaPool()
+        root = pool.GetRootFolder() if pool else None
+        if root is None:
+            return False
+        return not (root.GetClipList() or root.GetSubFolderList())
+    except Exception:
+        return False
+
+
 def leave_out(why):
     """Say out loud that nothing was checked, and stop.
 
@@ -228,8 +249,14 @@ class OwnProject(object):
         still nothing to put back.
         """
         was = self.pm.GetCurrentProject()
+        # An unsaved project holding nothing is nothing to lose, and a
+        # fresh Resolve opens on exactly that. Refusing there meant
+        # refusing after every restart -- the normal state, not the
+        # exception. Decided on 3.9.2026.
+        spare = was is not None and holds_nothing(was)
         was = was.GetName() if was else ""
-        if was not in (self.pm.GetProjectListInCurrentFolder() or []):
+        if was not in (self.pm.GetProjectListInCurrentFolder() or []) \
+                and not spare:
             # Before self.before is set, and not only for tidiness: a
             # sys.exit in here runs the caller's finally, and close() must
             # find nothing there that it would try to load again.

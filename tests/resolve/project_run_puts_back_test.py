@@ -30,6 +30,13 @@ numbers stand beside the child below. So what stands in for the accident
 is a run that simply never deletes what it made. The leftover is
 Resolve's own state and is the same either way.
 
+An empty unsaved project is not guarded, and cannot need to be:
+measured on Resolve 21.0.4.5 on 3.9.2026, the first Timeline made in
+such a project puts it into the project list at once. A project in no
+list therefore holds nothing, and a run may make its own beside it --
+which is what keeps this test from leaving itself out after every
+start of Resolve, since Resolve opens on exactly such a project.
+
 And where the sweep would remember nothing of what is open -- a project
 of the tests' own shape, or one that stands in no project list -- this
 test leaves itself out. It could not put that state back afterwards, and
@@ -178,12 +185,16 @@ if which_rc != 0:
     ground_of.leave_out("sweep.py --which ended with %d and said %r -- there "
                         "is no Resolve to ask" % (which_rc, before))
 if not before:
+    # This one test needs something to put back, and that is its
+    # subject: it checks that a run gives back what was open. Where
+    # nothing was -- Resolve on the empty unsaved project it starts
+    # with -- there is nothing to check, and that is a reason to stand
+    # aside, not a fault. The other three run.
     ground_of.leave_out(
-        "the sweep remembers nothing of what is open. Resolve is on %r, "
-        "which is either a project of the tests' own shape or one that "
-        "stands in no project list -- nothing here could be put back "
-        "afterwards. Open a project of your own in Resolve, or save the one "
-        "that is open, and run again." % open_now(pm))
+        "nothing was open that could be put back: Resolve is on %r, "
+        "which stands in no project list. This test is about giving "
+        "back what was there, so there is nothing here to check. Open "
+        "a project of your own in Resolve to run it." % open_now(pm))
 
 work = tempfile.mkdtemp(prefix="vpm_back_")
 # A name that carries the tests' prefix and not their shape: no process
@@ -205,15 +216,30 @@ try:
           % (before, len(listed(pm)), before in listed(pm)))
 
     print("\n2. A project in no project list is remembered as nothing")
-    made_decoy = pm.CreateProject(decoy) is not None
+    # A second name for this section: the project made here is the one
+    # a run may now step over, so it does not survive to section 3 --
+    # and the decoy has to, because the later checks are about it being
+    # left alone.
+    spare = decoy + "-spare"
+    made_decoy = pm.CreateProject(spare) is not None
     # Left unsaved on purpose, and that is the whole state. Measured on
     # Resolve 21.0.4.5 on 1.9.2026: a project that was only created stays
     # out of the project list for as long as it is the open one, and
     # LoadProject cannot fetch back a name that is not in that list.
     check("a project that was never saved is in no project list",
-          made_decoy and decoy not in listed(pm),
+          made_decoy and spare not in listed(pm),
           "%r among %d projects: %s"
-          % (decoy, len(listed(pm)), decoy in listed(pm)))
+          % (spare, len(listed(pm)), spare in listed(pm)))
+    # And it holds nothing, which is why stepping over it is safe.
+    # Measured on Resolve 21.0.4.5 on 3.9.2026: a Timeline made in such
+    # a project puts it into the list at once -- so a project that is
+    # in no list has no Timeline, and there is nothing in it to lose.
+    check("a project in no list holds nothing, so nothing can be lost",
+          ground_of.holds_nothing(pm.GetCurrentProject()),
+          "timelines: %s, in the list: %s"
+          % (pm.GetCurrentProject().GetTimelineCount()
+             if pm.GetCurrentProject() else "no project",
+             spare in listed(pm)))
     # And that state is the one a run must not walk into. Read the way
     # resolve.sh reads it: the return code, and SKIPPED: at the start of a
     # line of its own -- a bow-out that says neither is one nobody counts.
@@ -221,19 +247,15 @@ try:
                          capture_output=True, text=True)
     loud = [line for line in ran.stdout.splitlines()
             if line.startswith("SKIPPED:")]
-    check("a test does not make a project while an unsaved one is open",
-          ran.returncode == 2 and len(loud) == 1,
+    check("a run goes ahead where the open project holds nothing",
+          ran.returncode == 0 and not loud,
           "OwnProject.open() ended with %d and put SKIPPED at the start of "
           "%d lines; it said %r, and %r on the error stream"
           % (ran.returncode, len(loud), ran.stdout.strip()[:70],
              ran.stderr.strip()[-70:]))
-    # The return code says it bowed out; this says it bowed out in time.
-    # A guard that ran after the creating would answer 2 just the same and
-    # the decoy would be gone.
-    check("and the unsaved project is still open and still unsaved",
-          open_now(pm) == decoy and decoy not in listed(pm),
-          "Resolve has %r open, the decoy is %r and among %d projects: %s"
-          % (open_now(pm), decoy, len(listed(pm)), decoy in listed(pm)))
+    # No check on the spare being gone from the list: it was never in
+    # it, so such a judgement could not fall and would test nothing.
+    # What matters is said above -- a project in no list holds nothing.
     said_which, rc_which = which_says()
     check("a project in no project list is not reported as open",
           said_which == "",

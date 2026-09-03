@@ -42,12 +42,10 @@ def check(name, ok, extra=""):
 def field(typed="", offered=""):
     """A speaker name field as the assignment table builds one.
 
-    The guess is never written into the field: it is hung on the value
-    as the placeholder, which is exactly what made it invisible.
+    The guess is never written into the field: it is offered in grey,
+    and the field itself is what knows that.
     """
-    value = vpm.Value(typed)
-    value.suggested = offered
-    return value
+    return vpm.SpeakerName(typed, offered)
 
 
 NOWHERE = {"barred": set(), "pushed": {}, "aside": {}}
