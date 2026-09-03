@@ -10,8 +10,9 @@ a measurement is one nobody checked.
 The sections: the three steps camera_place goes through and the word
 it hands back for each; which file of a row its clock is read from;
 the same three steps once more through the handover, one camera
-placed each way; and the lines the run owes wherever a measurement
-was missing.
+placed each way; the lines the run owes wherever a measurement was
+missing; and a camera whose sound gives nothing, which the axis
+places by its clock rather than stopping on.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -280,6 +281,72 @@ check("and no camera is reported as placed by its clock",
       alone_line not in all_said,
       "wanted no %r; printed: %s"
       % (alone_line, " ".join(all_said.split())[:70]))
+
+
+#------------- 5. A camera whose sound gives nothing does not stop the axis
+print("\n5. A camera with nothing to measure is placed by its clock")
+
+# video_envelope raises where a file gives nothing back, on purpose:
+# caching a curve of silence would treat the file as unalignable until
+# it next changes, saying nothing. Standing in for it here keeps this
+# section off ffmpeg.
+#
+# The stand-in is not the softer one: it raises for the file the real
+# one raises for, and hands back a real curve for the other. Nothing
+# is measured against the broken camera either way -- there is no
+# curve to measure.
+BROKEN = os.path.join(WORK, "BrokenCam_01011856_C004.mov")
+SOUND = os.path.join(WORK, "WideCam_01011855_C001.mov")
+real_envelope = vpm.video_envelope
+
+
+def envelope_of_the_one_that_speaks(path, *rest, **named):
+    if os.path.basename(path).startswith("Broken"):
+        raise ValueError("no audio data from %s" % os.path.basename(path))
+    return vpm.np.zeros(24000)
+
+
+vpm.video_envelope = envelope_of_the_one_that_speaks
+try:
+    try:
+        answered, raised = vpm.envelope_heard(BROKEN), None
+    except Exception as trouble:
+        answered, raised = "never got there", trouble
+    check("a file that gives nothing back answers instead of raising",
+          raised is None and answered is None,
+          "raised %r, answered %r" % (raised, answered))
+    curve = vpm.envelope_heard(SOUND)
+    check("and one that does give something hands its curve back",
+          curve is not None and len(curve) == 24000,
+          "%d points" % (0 if curve is None else len(curve)))
+
+    # The broken one is the longer of the two, so the old reference
+    # would have been the one there is nothing to measure against.
+    facts_broken = {"duration": 120.0, "tc": "18:55:10:00", "fps": 25.0}
+    facts_sound = {"duration": 60.0, "tc": "18:55:00:00", "fps": 25.0}
+    videos = [(BROKEN, facts_broken), (SOUND, facts_sound)]
+    ref_clip, position = vpm.align_cameras(videos)
+    check("the reference is a camera there is something to measure "
+          "against, not the longest",
+          ref_clip[0] == SOUND, os.path.basename(ref_clip[0]))
+    check("the camera with no sound is placed rather than left out",
+          BROKEN in position, sorted(os.path.basename(p) for p in position))
+    a, b, st = position.get(BROKEN, (None, None, {}))
+    # 18:55:00:00 less 18:55:10:00: the reference clock less its own.
+    check("and it stands where its clock says, ten seconds behind the "
+          "reference", a == -10.0, "a = %r" % (a,))
+    check("its verdict says the clock alone placed it",
+          bool(st.get("by_clock_only")), repr(sorted(st)))
+
+    # The same camera without a clock: nothing left to place it with.
+    facts_no_clock = {"duration": 120.0, "fps": 25.0}
+    _ref, place_no_clock = vpm.align_cameras(
+        [(BROKEN, facts_no_clock), (SOUND, facts_sound)])
+    check("with no sound and no clock it is refused, not laid down "
+          "somewhere", BROKEN not in place_no_clock,
+          sorted(os.path.basename(p) for p in place_no_clock))
+finally:
+    vpm.video_envelope = real_envelope
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
