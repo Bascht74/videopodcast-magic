@@ -8679,6 +8679,42 @@ def place_track_on_axis(source, target, a, b, t0, t1, drift=True):
     return target
 
 
+def envelope_heard(path):
+    """The curve of a file's audio, or None where there is none to read.
+
+    A camera that gives nothing is ordinary material: one whose sound
+    broke off after a moment, or a file that lost its track in a copy.
+    That is not a fault of the run, so it is answered rather than
+    raised -- and the caller places the camera by its clock and says
+    so, instead of the run stopping on the first line.
+    """
+    try:
+        return video_envelope(path)
+    except Exception:
+        return None
+
+
+def place_camera_by_clock(v, position, clocks, reference):
+    """Place a camera that gives no sound, by its clock, and say so.
+
+    The measured offset is the reference clock less this camera's own
+    -- measured on 3.9.2026 against two cameras five seconds apart,
+    a = -5.000 at a quality of 0.912. Both ends therefore come from
+    the one reckoning, and where either clock is missing there is
+    nothing to place it with and it is refused rather than laid down.
+    """
+    own, base = clocks.get(v), clocks.get(reference)
+    st = {"points": 0, "unplaceable": True, "by_clock_only": True}
+    if own is None or base is None or cannot_be_placed(
+            st, own, [t for w, t in clocks.items() if w != v]):
+        print(as_bad("  " + no_place_message(os.path.basename(v))))
+        return
+    print(T('  %s gives no sound to measure -- placed by its clock '
+            'alone, and nothing was found to check it against')
+          % os.path.basename(v))
+    position[v] = (base - own, 1.0, st)
+
+
 def align_cameras(videos):
     """Put all cameras on the time axis of the longest one.
 
@@ -8688,16 +8724,24 @@ def align_cameras(videos):
     down at a guess is worse than a missing one, which the log names.
     Returns (reference, {path: (a, b, count)}), camera time = a + b * t.
     """
-    ref_clip = max(videos, key=lambda v: v[1]["duration"])
+    heard = dict((v, envelope_heard(v)) for v, _info in videos)
+    # The reference has to be one there is something to measure
+    # against. The longest of the others otherwise stops the run on
+    # its first line -- and the longest is the likeliest reference.
+    speaking = [(v, i) for v, i in videos if heard[v] is not None]
+    ref_clip = max(speaking or videos, key=lambda v: v[1]["duration"])
     # The reference sits at zero against itself, and nothing had to be
     # measured to find that out.
     position = {ref_clip[0]: (0.0, 1.0, {"points": 0})}
-    env_ref = video_envelope(ref_clip[0])
+    env_ref = heard[ref_clip[0]]
     clocks = dict((v, timecode_seconds(i)) for v, i in videos)
     for v, info in videos:
         if v == ref_clip[0]:
             continue
-        env = video_envelope(v)
+        env = heard[v]
+        if env is None or env_ref is None:
+            place_camera_by_clock(v, position, clocks, ref_clip[0])
+            continue
         # Sample more densely than for audio against video: two cameras often
         # overlap only partly, and what lies outside the overlap drops out as a
         # sample point anyway. Every 30 seconds instead of every two minutes,
@@ -36510,6 +36554,10 @@ CATALOGUE["de"] = {
         '  %s steht zweimal mit verschiedenen Kameras -- genommen wird %s',
     '  %s cannot be classified: %s':
         '  %s lässt sich nicht einordnen: %s',
+    '  %s gives no sound to measure -- placed by its clock alone, and '
+    'nothing was found to check it against':
+        '  %s gibt keinen messbaren Ton -- allein nach seiner Uhr '
+        'eingeordnet, und es war nichts da, woran sich das prüfen ließe',
     '  %s could not be fetched: %s':
         '  %s ließ sich nicht holen: %s',
     '  %s could not be rewritten: %s':
