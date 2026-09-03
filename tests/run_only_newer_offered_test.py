@@ -17,7 +17,7 @@ the command line says and fetches.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 # The suite sets this, and the module reads it while it is loading.
 os.environ.pop("VPM_NO_UPDATE_CHECK", None)
 import importlib.util, io, subprocess, sys, tempfile, time
@@ -288,7 +288,7 @@ check("bytes that are not text are refused, not as an error page",
 
 print("\n6. The old file is kept")
 work = tempfile.mkdtemp()
-mine = os.path.join(work, "videopodcast-magic.py")
+mine = os.path.join(work, "videopodcast_magic.py")
 with open(mine, "w", encoding="utf-8") as f:
     f.write("the one that works\n")
 was_file = vpm.__file__
@@ -300,10 +300,10 @@ finally:
 check("writing works", not trouble, "put_new_self said %r" % (trouble,))
 now = held_by(mine)
 check("the new one is in place", now == "the new one\n",
-      "videopodcast-magic.py holds %r, wanted %r" % (now, "the new one\n"))
+      "videopodcast_magic.py holds %r, wanted %r" % (now, "the new one\n"))
 kept = held_by(mine + ".old")
 check("the old one is beside it", kept == "the one that works\n",
-      "videopodcast-magic.py.old holds %r, wanted %r"
+      "videopodcast_magic.py.old holds %r, wanted %r"
       % (kept, "the one that works\n"))
 
 print("\n7. Passing over one version")
@@ -509,7 +509,7 @@ print("\n10. --update puts the new version in place")
 # file it is running from, so it is pointed at a copy of its own --
 # nothing here may touch the program under test.
 HOME = tempfile.mkdtemp(prefix="vpm_update_self_")
-COPY = os.path.join(HOME, "videopodcast-magic.py")
+COPY = os.path.join(HOME, "videopodcast_magic.py")
 with open(COPY, "w", encoding="utf-8") as f:
     f.write("the one that works\n")
 
@@ -558,7 +558,7 @@ check("and the new version is in place", now.startswith('VERSION = "9.9.9"'),
       "the copy holds %r, wanted the fetched program" % (now[:40],))
 kept = held_by(COPY + ".old")
 check("and the one that ran is beside it", kept == "the one that works\n",
-      "videopodcast-magic.py.old holds %r, wanted %r"
+      "videopodcast_magic.py.old holds %r, wanted %r"
       % (kept, "the one that works\n"))
 code, spoken = update_run("v2.19.0-beta", switched_off=True)
 check("and with VPM_NO_UPDATE_CHECK it fetches nothing and says so",

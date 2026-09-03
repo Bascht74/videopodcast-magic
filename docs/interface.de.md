@@ -690,7 +690,7 @@ sich übersetzen lassen. Wenn eine der drei Prüfungen fehlschlägt, bleibt
 die Datei liegen, die funktioniert, und das Fenster sagt, was nicht
 stimmte.
 
-Die Version, die lief, bleibt als `videopodcast-magic.py.old` neben der
+Die Version, die lief, bleibt als `videopodcast_magic.py.old` neben der
 neuen liegen. **Hilfe > Zurück auf 2.26.1-beta** setzt sie wieder ein;
 der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
 solange die Datei da ist.
@@ -699,6 +699,16 @@ Es wird vorher gefragt, und die aufbewahrte Datei muss dieselben drei
 Prüfungen bestehen wie das, was herunterkommt. Danach startet das
 Programm neu. Die Datei ist damit aufgebraucht, und vorwärts geht es
 wieder über das Update aus dem Netz.
+
+**Wo das Programm installiert und nicht geholt wurde, ersetzt es sich
+nicht selbst.** Dort führt etwas anderes Buch darüber, welche Fassung
+liegt, und die Datei zu überschreiben ließe diesen Nachweis stehen und
+falsch werden. **Aktualisieren** hört deshalb auf, nennt den Ordner,
+in den installiert wurde, und sagt, es sei auf demselben Weg zu
+aktualisieren — `pip3 install -U` auf die Adresse, aus der es kam;
+[Was gebraucht wird](requirements.de.md#das-programm-holen) schreibt
+den Befehl aus. Nach einer neueren Fassung wird weiterhin gefragt, und
+die, die draußen ist, wird weiterhin genannt.
 
 Das Häkchen **Diese Version überspringen** legt eine Fassung beiseite.
 Bei der nächsten fragt das Fenster wieder, und über **Hilfe > Nach
@@ -847,9 +857,11 @@ Prüfzeichens in der Dateiliste.
 Im Fenster gibt es diese Optionen nicht.
 
 `--update` holt die neuere Fassung und legt die laufende als
-`videopodcast-magic.py.old` daneben. Ein Lauf von der Kommandozeile sagt
+`videopodcast_magic.py.old` daneben. Ein Lauf von der Kommandozeile sagt
 nur, daß eine neuere da ist -- aus einem Script gestartet darf er an
-keiner Frage stehen bleiben, und ungefragt holt er nichts.
+keiner Frage stehen bleiben, und ungefragt holt er nichts. Wo das
+Programm installiert wurde, schreibt auch `--update` nichts und sagt
+dasselbe wie das Fenster.
 
 `VPM_NO_UPDATE_CHECK` in der Umgebung schaltet das Ganze ab, den
 Menüeintrag mit. Der Eintrag sagt das dann, statt nachzusehen. Diese

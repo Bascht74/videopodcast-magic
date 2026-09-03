@@ -646,13 +646,23 @@ If one of the three fails, the file that works stays where it is and the
 window says what was wrong.
 
 The version that was running stays beside the new one as
-`videopodcast-magic.py.old`. **Help > Back to 2.26.1-beta** puts it
+`videopodcast_magic.py.old`. **Help > Back to 2.26.1-beta** puts it
 back; the entry names the version out of that file and stands in the
 menu only while the file is there.
 
 It asks first, and the kept file has to pass the same three checks as
 what comes down. Then the program starts again. That uses the file up,
 and the way forward is the update over the network again.
+
+**Where the program was installed rather than fetched, it does not
+replace itself.** Something else keeps a record there of which version
+is in place, and writing over the file would leave that record
+standing and wrong. So **Update** stops, names the folder the program
+was installed into, and says to update it the way it was installed --
+`pip3 install -U` on the address it came from, which
+[What it needs](requirements.md#getting-the-program) writes out. The
+question about a newer version is still asked, and still names the one
+that is out.
 
 The tick **Skip this version** puts one version aside. The next one
 asks again, and **Help > Look for a newer version now** asks whenever
@@ -792,9 +802,11 @@ list.
 The window does not offer these.
 
 `--update` fetches the newer version and puts the running one beside it
-as `videopodcast-magic.py.old`. A run from the command line only ever
+as `videopodcast_magic.py.old`. A run from the command line only ever
 says that a newer one is out -- started from a script, it must not stop
-at a question, and it fetches nothing unasked.
+at a question, and it fetches nothing unasked. Where the program was
+installed, `--update` writes nothing either and says the same thing the
+window says.
 
 `VPM_NO_UPDATE_CHECK` in the environment switches the whole thing off,
 the menu entry with it. The entry then says so instead of looking. That

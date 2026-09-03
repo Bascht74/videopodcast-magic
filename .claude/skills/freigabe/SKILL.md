@@ -71,11 +71,19 @@ a number means anything.
 
 ## The mechanics, in this order
 
-**Set the number.** `VERSION = "..."` in `videopodcast-magic.py`, around
-line 590. The same number stands as the topmost numbered section in
-`CHANGELOG.md`, and in `README.md` and `README.de.md` as
-`**Version ....**`. `tests/text_release_ready_test.py` holds the four
-against each other.
+**Set the number.** `VERSION = "..."` in `videopodcast_magic.py`, around
+line 700. The same number stands as the topmost numbered section in
+`CHANGELOG.md`, and as `**Version ....**` in `README.md`,
+`README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
+`tests/text_release_ready_test.py` holds those six against each other.
+
+**A seventh place, and no test here reaches it: `version = "..."` in
+`pyproject.toml`.** It is what pip hands somebody who installs rather
+than fetches, and a package calling itself one thing while the program
+calls itself another looks amiss nowhere on the release page.
+`.github/workflows/release.yml` holds it against the program letter for
+letter -- but only once the release is out, and by then the push is
+long gone. So it is set by hand, with the other six, before the push.
 
 **Which number**, by Semantic Versioning:
 
@@ -109,7 +117,11 @@ it" is the fault this check exists for. It has happened: `tests/resolve.sh`
 was missed, reached as a second commit, and killed the first run.
 
 **Then wait** until the suite is green on all six jobs. Only then the
-tag:
+tag. **It is `v` plus the number in the program, letter for letter** --
+the program builds the address it fetches its model from out of
+`VERSION` that way, so a tag spelled differently sends a fresh
+installation to an address that is not there.
+`.github/workflows/release.yml` holds the two against each other:
 
 ```bash
 git tag -a v2.5.0-beta -m "videopodcast-magic 2.5.0-beta"
@@ -151,19 +163,39 @@ nothing comes, dry beats laboured.
 **The file goes on at creation, not afterwards:**
 
 ```bash
+shasum -a 256 videopodcast_magic.py > /tmp/SHA256SUMS.txt
+
 gh release create v2.5.0-beta \
    --title "2.5.0-beta -- <half a sentence>" \
    --notes-file /tmp/notes.md --latest \
-   videopodcast-magic.py
+   videopodcast_magic.py /tmp/SHA256SUMS.txt
 ```
+
+**Two files hang on a release, not one.** The sum is made from the
+file that is about to go up, in the working tree at the tag, and it
+goes up beside it.
+
+Why a file of its own rather than a line in the notes: **whoever
+checks it is not a person.** The notes are prose and change shape from
+version to version; a manifest is read by a program. The model already
+carries one under exactly this name and in exactly this format, so one
+reader serves both -- a line whose first field is 64 characters, the
+file name last, comments skipped.
+
+**Without it, somebody who downloads the file has nothing in their
+hand.** The release workflow holds the file byte for byte against the
+tag, but that is our answer to ourselves; it is not something the
+person downloading can repeat. And the day the program fetches itself
+through a wrapper, the wrapper has nothing to check what came down
+against.
 
 Three releases went out without the file. The check for it sits in
 `.github/workflows/release.yml` and runs on `release: published`:
 whoever creates first and uploads after has already seen it red -- and a
 check that is red by design is one nobody reads for long. Without the
-attachment the release page offers only "Source code (zip)" at
-63 735 119 bytes, while the one file the README tells people to download
-is 1 308 045 bytes.
+attachment the release page offers only "Source code (zip)":
+63 735 119 bytes against the 1 308 045 of the one file the README tells
+people to download, as both stood when that was read.
 
 **No `--prerelease`.** Then look that "Latest" is on it:
 

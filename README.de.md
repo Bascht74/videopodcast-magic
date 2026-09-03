@@ -9,18 +9,22 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 2.32.0-beta.** Es macht die Arbeit, für die es geschrieben
-wurde, jede Woche, an echtem Material. Beta heißt es, weil es nicht
-fertig geprüft ist: das Format der Projektdatei kann sich noch ändern,
+**Version 3.0.0b0.** Es macht die Arbeit, für die es geschrieben wurde,
+jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
+kein Haufen neuer Funktionen: die Datei heißt jetzt
+`videopodcast_magic.py`, damit sie sich nicht nur holen, sondern auch
+installieren lässt — wer den alten Namen irgendwo stehen hat, schreibt
+ihn einmal um. Das Format der Projektdatei kann sich weiterhin ändern,
 und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
 halb gelesen.
 
-`videopodcast-magic.py` — aufbereiteten Ton als erste Tonspur in
+`videopodcast_magic.py` — aufbereiteten Ton als erste Tonspur in
 Videodateien legen und daraus alles bauen, was der Schnitt danach braucht:
 die Kameras auf einer Zeitachse, einen ersten Schnitt nach Sprecher und ein
 DaVinci-Resolve-Projekt.
 
-Eine Python-Datei, rund 35 000 Zeilen. Kein Paket, kein Bauschritt.
+Eine Python-Datei, rund 40 000 Zeilen. Diese eine Datei ist das ganze
+Programm, ob geholt oder installiert, und zu bauen ist daran nichts.
 
 ## Warum es das gibt
 
@@ -46,16 +50,49 @@ auf der Platte bis zum fertigen Resolve-Projekt, steht in
 
 ## Installieren
 
-Eine Datei. `videopodcast-magic.py` holen und starten — mehr ist nicht
+Es gibt zwei Wege hinein, und der erste ist nach wie vor eine Datei.
+
+**Geholt.** `videopodcast_magic.py` holen und starten — mehr ist nicht
 zu installieren:
 
 ```
-python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast-magic.py', 'videopodcast-magic.py')"
-python3 videopodcast-magic.py
+python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast_magic.py', 'videopodcast_magic.py')"
+python3 videopodcast_magic.py
 ```
 
 Oder einfacher: die Adresse im Browser öffnen, die Datei speichern und
-starten. Unter Windows `python` statt `python3` schreiben.
+starten. Unter Windows `python` statt `python3` schreiben. Das ist der
+Weg zum Hineinschauen, für eine Maschine, an der man einmal sitzt, und
+für eine Fassung, die neben ihrem Material liegen bleiben soll: die
+Datei ist das ganze Programm, und man kann sie lesen, bevor man sie
+startet.
+
+**Installiert.** Wer das Programm jede Woche braucht, installiert es
+einmal; danach ist es ein Befehl wie jeder andere, aus jedem Ordner
+heraus:
+
+```
+pip3 install git+https://github.com/Bascht74/videopodcast-magic
+videopodcast-magic
+```
+
+Die neuere Fassung kommt auf demselben Weg und tritt an die Stelle der
+installierten:
+
+```
+pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Beides ist eine Sache von Sekunden. Die beiden großen Pakete zieht
+keiner der beiden Befehle mit: die holt sich das Programm weiterhin
+selbst, beim ersten Start, und fragt vorher.
+
+**Verweigert `pip3 install` den Dienst** mit dem Hinweis, diese
+Umgebung werde von außen verwaltet, dann gehört dieses Python einem
+Paketverwalter — dem von Homebrew oder dem der Linux-Distribution. Die
+Meldung nennt `pipx` beim Namen, und das ist der richtige Rat:
+`pipx install git+https://github.com/Bascht74/videopodcast-magic` legt
+das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
 Python 3.10 oder neuer muss vorher da sein; das eine kann das Programm
 nicht mitbringen. Alles andere holt es sich, wenn es gebraucht wird,
@@ -71,14 +108,18 @@ Es holt das Modell nur beim ersten Mal.
 ## Loslegen
 
 ```
-python3 videopodcast-magic.py                          Oberfläche
-python3 videopodcast-magic.py TON.wav VIDEO.mov
-python3 videopodcast-magic.py TON.wav                  nur zusammensetzen
-python3 videopodcast-magic.py TON.wav *.mov --out Fertig
-python3 videopodcast-magic.py VIDEO.mov                nimmt den Kameraton
-python3 videopodcast-magic.py --lang de|en             Sprache der Meldungen
-python3 videopodcast-magic.py --help                   alle Schalter
+python3 videopodcast_magic.py                          Oberfläche
+python3 videopodcast_magic.py TON.wav VIDEO.mov
+python3 videopodcast_magic.py TON.wav                  nur zusammensetzen
+python3 videopodcast_magic.py TON.wav *.mov --out Fertig
+python3 videopodcast_magic.py VIDEO.mov                nimmt den Kameraton
+python3 videopodcast_magic.py --lang de|en             Sprache der Meldungen
+python3 videopodcast_magic.py --help                   alle Schalter
 ```
+
+Wo das Programm installiert wurde statt geholt, steht in jeder dieser
+Zeilen `videopodcast-magic` anstelle von `python3 videopodcast_magic.py`,
+und es nimmt dieselben Schalter.
 
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
 erkannt, die Reihenfolge ist egal. `--lang de` oder `--lang en` legt die
@@ -93,9 +134,12 @@ wird.*
 ## Was gebraucht wird
 
 Python 3.10 oder neuer, `ffmpeg` und `ffprobe` im Suchpfad und zwei Pakete
-— `PySide6` für das Fenster, `numpy` für die Messungen. Das Programm
-installiert Fehlendes beim Start über pip nach. Benutzt wird das Ganze
-auf macOS und Windows; Linux läuft mit zwei Einschränkungen.
+— `PySide6` für das Fenster, `numpy` für die Messungen. Fehlt eines der
+beiden Pakete, bietet das Programm an, es zu holen, und fragt vorher; es
+installiert nichts ungefragt. Ein eigenes ffmpeg bringt es nicht mit —
+dafür bietet es den Paketverwalter des Systems an, und sonst sagt es,
+woher man es bekommt. Benutzt wird das Ganze auf macOS und Windows; Linux
+läuft mit zwei Einschränkungen.
 
 Die Einzelheiten, samt empfohlener Python-Version und den Unterschieden je
 Plattform, stehen in

@@ -3,7 +3,7 @@
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import importlib.util, sys, tempfile, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 # A cache of its own, and an empty one. There is nothing to show where
@@ -119,7 +119,7 @@ def vpm_busy():
 
 QtCore.QTimer.singleShot(600, step)
 QtCore.QTimer.singleShot(120000, app.quit)
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

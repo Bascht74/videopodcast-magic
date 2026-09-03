@@ -10,7 +10,7 @@ of its own, since two builders of one command line drift apart."""
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import sys, importlib.util, time
 began = time.time()
 spec = importlib.util.spec_from_file_location(
@@ -89,8 +89,8 @@ a, plan, m = vpm.run_argv(values(
     files=[("/x/a.wav", "audio"), ("/x/G.mov", "video")],
     out_folder="/out"))
 print("   ", a)
-check("program name first", a[0] == "videopodcast-magic.py",
-        "1. a[0] is %r, wanted 'videopodcast-magic.py'" % (a[0],))
+check("program name first", a[0] == "videopodcast_magic.py",
+        "1. a[0] is %r, wanted 'videopodcast_magic.py'" % (a[0],))
 check("both files there", a[1:3] == ["/x/a.wav", "/x/G.mov"],
         "1. a[1:3] is %s, wanted ['/x/a.wav', '/x/G.mov']" % (a[1:3],))
 check("--out behind them", a[3:5] == ["--out", "/out"],

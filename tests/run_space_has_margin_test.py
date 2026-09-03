@@ -16,7 +16,7 @@ here: the check is about the judgement, not about this machine's disk.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import collections
 import importlib.util, subprocess, sys, tempfile, time, wave
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)

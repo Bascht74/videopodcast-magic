@@ -23,7 +23,7 @@ import importlib.util
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 
 began = time.time()
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)

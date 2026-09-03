@@ -19,7 +19,7 @@ section 5. How to do it is here.
 the test against that copy. The repository is not touched.**
 
 ```bash
-cp videopodcast-magic.py /tmp/broken.py
+cp videopodcast_magic.py /tmp/broken.py
 # break exactly the one thing the check is about
 cd tests && LANG=C LC_ALL=C LANGUAGE=en VPM_SILENT=1 \
   VPM_NO_SPEAKER_SPLIT=1 VPM_NO_UPDATE_CHECK=1 \

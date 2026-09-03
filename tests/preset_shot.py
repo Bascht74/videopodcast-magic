@@ -3,7 +3,7 @@
 import os, sys, importlib.util
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
@@ -108,6 +108,6 @@ def step():
 
 QtCore.QTimer.singleShot(1000, step)
 QtCore.QTimer.singleShot(45000, app.quit)
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 sys.exit(1 if error else 0)

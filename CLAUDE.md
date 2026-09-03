@@ -4,8 +4,13 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, a first cut
 by speaker, and a DaVinci Resolve project.
 
-One file, `videopodcast-magic.py`, about 35 000 lines. No package, no
-build step.
+One file, `videopodcast_magic.py`, about 40 000 lines. That one file is
+the whole program and there is nothing to build. It is reached two
+ways: fetched and called, or installed with pip -- `pyproject.toml`
+makes a package of that one module and puts a `videopodcast-magic`
+command on the path. The file carries an underscore while the
+repository and the command carry a hyphen, because only an underscore
+can be imported.
 
 **Working from outside, or opening a pull request? Read
 `CONTRIBUTING.md` first.** It holds the same rules in the form somebody
@@ -38,7 +43,7 @@ A full run takes a couple of minutes. Copy the script to a snapshot,
 start the suite against that, and do the next thing:
 
 ```bash
-mkdir -p /tmp/snap && cp videopodcast-magic.py /tmp/snap/vpm_sNN.py
+mkdir -p /tmp/snap && cp videopodcast_magic.py /tmp/snap/vpm_sNN.py
 ln -sfn "$PWD/models" /tmp/snap/models       # or the run skips and returns 1
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```

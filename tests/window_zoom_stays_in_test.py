@@ -22,7 +22,7 @@ centre instead of from its left edge is red on purpose.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import importlib.util, sys, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtGui, QtWidgets

@@ -14,7 +14,7 @@ began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast-magic.py")
+    ROOT, "videopodcast_magic.py")
 sys.path.insert(0, HERE)
 import ratchet
 

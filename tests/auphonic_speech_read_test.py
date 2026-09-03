@@ -10,7 +10,7 @@ what is checked is which files are asked for and which are left alone.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import importlib.util, shutil, sys, tempfile, time
 
 began = time.time()

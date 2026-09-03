@@ -1,6 +1,6 @@
 # The test suite
 
-219 tests against `../videopodcast-magic.py`. Every one of them stands
+220 tests against `../videopodcast_magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-219 tests. The name is the one a red line carries, and beside it the
+220 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -484,9 +484,10 @@ it is green.
 | `run_bar_tracks_work` | The one bar: weights, creeping, and never going backwards. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
+| `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
-| `run_only_newer_offered` | Keeping itself up to date must not surprise anybody. |
+| `run_only_newer_offered` | Keeping itself up to date must not surprise anybody or guess. |
 | `run_outside_seen` | Every call to another program is in the log, and none in the output. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |

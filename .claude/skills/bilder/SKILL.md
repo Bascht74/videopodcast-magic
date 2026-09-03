@@ -7,7 +7,7 @@ description: The window has changed and the pictures in the manual show a state 
 
 Every picture exists twice: English as `docs/images/NAME.png`, German as
 `docs/images/NAME.de.png`. None of them is taken by hand.
-`docs/notes/shoot_screenshots.py` loads `videopodcast-magic.py` as a
+`docs/notes/shoot_screenshots.py` loads `videopodcast_magic.py` as a
 module, opens a project built from the test fixtures, steps through the
 tabs and saves `window.grab()`. No desktop in the frame, no foreign
 window, and repeatable at any time.

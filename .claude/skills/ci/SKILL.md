@@ -41,7 +41,8 @@ be seen here at all:
   separator and case.
 * **A test set aside per platform.** The workflow moves the tests a
   machine cannot run out of the way, so counting what lies in `tests/`
-  answers 143 there and 145 here.
+  answers fewer there than here -- 143 against 145 when that was
+  counted.
 * **A wait that is generous here and tight there.**
 
 **And red there is not always a fault.** Read the skill `test-rot`

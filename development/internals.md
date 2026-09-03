@@ -1,6 +1,6 @@
 # Inside the script
 
-For `videopodcast-magic.py`. How the one file is put together, and how
+For `videopodcast_magic.py`. How the one file is put together, and how
 each step works. Not part of the manual and English only: this is for
 whoever changes the program, not for whoever uses it.
 
@@ -11,10 +11,16 @@ rates, run times, distributions, comparisons.
 
 ## How the script is put together
 
-The core is a single file, on purpose: copy, call, done, no
-installation. One rule holds inside it: everything that computes or
-decides sits as a function at the top level and can be tested without a
-window. `gui()` only builds the interface. So far:
+The core is a single file, on purpose: fetch, call, done, nothing to
+build. It can now be installed as well -- `pyproject.toml` makes a
+package of that one module and puts a `videopodcast-magic` command on
+the path -- and nothing inside the file knows the difference: it is the
+same file either way, and the name carries an underscore only because a
+hyphen cannot be imported.
+
+One rule holds inside it: everything that computes or decides sits as a
+function at the top level and can be tested without a window. `gui()`
+only builds the interface. So far:
 
 | Function | what it decides |
 |---|---|

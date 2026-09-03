@@ -23,7 +23,7 @@ import json
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IN_TREE = os.path.join(os.path.dirname(HERE), "videopodcast-magic.py")
+IN_TREE = os.path.join(os.path.dirname(HERE), "videopodcast_magic.py")
 
 
 def state_is_ours():

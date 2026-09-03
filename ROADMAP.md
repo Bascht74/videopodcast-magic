@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 2.24.0-beta.
+gone through for 3.0.0b0.
 
 ## Where the program stands today
 
-**Version 2.32.0-beta.** It runs every week, on real material.
+**Version 3.0.0b0.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -30,6 +30,13 @@ and without it. Several recordings with no camera among them are laid
 against each other instead -- equally long, one starting point -- rather
 than turned away.
 
+Where a file sits on the shared time axis comes out of its sound. A
+camera's own clock counts only where the sound gave nothing to go on,
+and the run names every file it had to place by the clock alone --
+because two cameras agree on a clock only if somebody set them to one,
+and even then by a frame or two. The window, the preview and the
+finished project are all built on that one reckoning.
+
 Separation, speech recognition and the transcript run on the machine in
 front of you. The model sits in a folder beside the program: no account,
 no token, and after the one download no network. Ordering the transcript
@@ -43,14 +50,25 @@ that changes nothing. The settings that need the words, and those that
 need a wide shot, stand greyed with the reason under them, and they open
 again the moment the fact arrives.
 
-It is one Python file of about 35000 lines, with no package and no
-build step. Python 3.10 or newer has to be there, and the two packages
-it needs it installs itself. macOS and Windows are what it is used on,
-and Linux works with two limits. A suite of 159 tests runs at every
+The log beside the program says what a run did outside itself: every
+call to ffmpeg and ffprobe with the file it was about and how long it
+took, the recognition and the separation the same way, what the two
+players loaded and played, and which of the three ways placed each
+recording. Everything the window showed in red stands there too, with
+the time of day -- a red mark is gone the moment its row is drawn
+again, and the complaint about it arrives hours later.
+
+It is one Python file of about 40 000 lines, fetched and run as it is
+or installed with pip, and there is nothing to build. Python 3.10 or
+newer has to be there, and it asks before it installs the two packages
+it needs. macOS and Windows are what it is used on, and Linux works
+with two limits. A suite of 220 tests runs at every
 push: six runs side by side, three systems and two versions of Python.
-They are not equally fast, and Windows is almost always the slow one:
-over the last seven green runs the slowest of the six took between 263
-and 374 seconds. That longest job is the wait, not the sum of the six.
+Beside it stand four more that want a real Resolve and cannot run
+anywhere else. The six are not equally fast, and Windows is the slow
+one: over the last seven green runs, measured on 3.9.2026, the slowest
+of the six took between 404 and 835 seconds, and it was a Windows job
+every time. That longest job is the wait, not the sum of the six.
 
 **Why it is still beta.** The format of the project file may still
 change. An older file is refused with a clear message rather than half
@@ -61,49 +79,30 @@ the major number.
 ## What comes next
 
 Four items. The first two are work. The last two are built, and what
-they wait on is a run rather than more building.
-
-**Gone out with 2.25.0-beta: the cameras are written only for the
-window that is cut** -- 83.57 GB became 6.09 GB on real material. It
-came without the switch this page promised, because the In and Out
-points already are one: set them and only the window goes out, leave
-them empty and nothing is cut. The timecode trap was real and is
-measured -- ffmpeg leaves it where it was, so the program sets it -- and
-a second trap turned up beside it: cutting between two key frames puts
-picture and sound 400 ms apart, so the cut goes back to the key frame
-before the window.
+they wait on is somebody sitting down with real material rather than
+more building.
 
 **The whole way gets tests, not the single functions along it.** Seven
 steps, and each of them on both paths: the program opens, files come
 in, In and Out are marked, the change to the third tab, the cut with a
 speaker recognition that is already there, the run itself, the import
-into Resolve. A survey counted 121 stations along that way -- 65
-covered, 56 not -- and nine of the gaps have been built since. It is
-one item and not fifty-six: whoever takes it on covers one of the seven
-steps whole, because fifty-six tests picked off by number check
-something each and no way at all.
+into Resolve. It is one item and not a list of fifty: whoever takes it
+on covers one of the seven steps whole, because gaps picked off by
+number give a test each and no way at all. The survey that counted
+those gaps is several versions old and most of what it named has been
+covered since, so it is worth taking again before anything is built on
+it.
 
 **Tests against a real DaVinci Resolve.** They cannot live in the
 suite: on a machine without Resolve every one of them would be red for
 a reason that is not a fault. They sit beside it, in a folder of their
 own with a starter the suite does not know, and they run one after
-another on the one machine that has Resolve. Four are built. The
-opening title belongs here -- the program puts it on the second video
-track and reads back how many clips landed there, and a stand-in cannot
-confirm that. So does the case no stand-in has ever shown: a Resolve
-that says no.
-
-**Measured on 1.9.2026, and it is why they are not yet a routine:** the
-test that proves an interrupted run leaves nothing behind makes the
-interruption by killing a process that holds an open connection to
-Resolve with a project open. Three runs, two survived, the third took
-Resolve down and left a half-made project the sweeper cannot see -- it
-reads projects, and that thing shows as a folder. Before they run again
-the interruption has to be made in an orderly way. Three projects from
-three sessions were found in the owner's project manager the same night,
-none of them ever removable, because nothing forces a test's project
-name into the one shape the sweeper knows.
-
+another on the one machine that has Resolve. Four are built, and three
+of them now run against the untitled project Resolve opens with, which
+is the state after every start. The opening title belongs here -- the
+program puts it on the second video track and reads back how many clips
+landed there, and a stand-in cannot confirm that. So does the case no
+stand-in has ever shown: a Resolve that says no.
 
 **The two ways to auphonic.com get run against the service.** Both ask
 the same question -- does a stereo recording come back with both
@@ -118,11 +117,10 @@ describes those two ways from the source instead of from a run.
 
 **The reaction cut is watched before it stays on.** It fires a few
 dozen times in an episode and it is on by default, and nobody has yet
-sat through every place it fires. Its seconds count from the end of the
-question now rather than from the start of the answer, so what is set is
-what is seen. Two cases it must not fire on are known: a rhetorical
-question, and the technical talk before the recording proper, where
-people look at equipment rather than at each other.
+sat through every place it fires. Two cases it must not fire on are
+known: a rhetorical question, and the technical talk before the
+recording proper, where people look at equipment rather than at each
+other.
 
 ## What comes later
 
@@ -137,12 +135,11 @@ Coarser, and in no fixed order.
   says: coverage.py over `bash run.sh`, with `COVERAGE_PROCESS_START`
   set so the runs the tests start are counted too. On a green run it
   stands at about three quarters of the statements; it is read as a
-  band, and never as a target. What no test enters: the run that takes
-  its sound from the cameras, the failure exits of `main()`, the one
-  place the Auphonic key touches the disk, the preset preflight, a
-  Resolve that refuses, and the way back after an update that went
-  wrong. And several switches are taken with nothing checking what they
-  do: `--tc`, `--fps`, `--wide-shot`, `--hdr-check`, `--version`.
+  band, and never as a target. What is worth having out of such a run
+  is the list of places no test ever enters, and that list wants taking
+  again: the last one is several versions old, and most of what it
+  named -- the switches taken with nothing checking what they do
+  included -- has been covered since.
 
 * **The comments in the program get the treatment the tests have had.**
   27 % of the file is comment, and most of it was written before the
@@ -197,23 +194,21 @@ been refused, it has only not come up yet.
 * **A code of conduct, and templates for issues.** They raise a
   percentage on a GitHub profile page while there is nobody writing.
   The issue template arrives the day somebody actually reports
-  something. **The contributing guide and the pull request template
-  stood on this list and have since been built** -- not for the
-  percentage: four rules here turn a change back however good the idea
-  is, and somebody who cannot ask has to be able to read them in ten
-  minutes. That is [CONTRIBUTING.md](CONTRIBUTING.md), and the form a
-  pull request opens with already asks for them.
+  something. What a patch really has to carry is written down for the
+  opposite reason: four rules here turn a change back however good the
+  idea is, and somebody who cannot ask has to be able to read them in
+  ten minutes. That is [CONTRIBUTING.md](CONTRIBUTING.md), and the form
+  a pull request opens with already asks for them.
 
 * **Conventional Commits.** Their purpose is a generated changelog and
   a generated version number. This changelog is written by hand and
   carries a measurement in almost every entry, and a generator would
   turn it into a list of subject lines.
 
-* **A rewrite onto pytest, ruff, mypy and pre-commit.** All four want
-  a package with a `pyproject.toml`. Here they would be four new
-  dependencies for one file whose 159 tests run as plain scripts. A
-  thin pytest layer that starts those same scripts unchanged is a
-  different thing, and that one may come.
+* **A rewrite onto pytest, ruff, mypy and pre-commit.** They would be
+  four new dependencies for one file whose 220 tests run as plain
+  scripts. A thin pytest layer that starts those same scripts
+  unchanged is a different thing, and that one may come.
 
 * **Screenshot comparison in the test suite.** The manual's pictures
   are taken in the real window style, which needs a screen somebody is
@@ -240,8 +235,9 @@ been refused, it has only not come up yet.
   unsteady rather than counting it green. A test that flaps is a fault
   to be found, not noise to be retried away.
 
-* **Installers, signed packages, notarising, PyPI.** It is one file on
-  purpose: fetch it and run it.
+* **Installers, signed packages, notarising, PyPI.** Two ways in are
+  enough: fetch the one file and run it, or install it with pip from
+  the repository.
 
 * **Sponsors, Projects.** Paperwork with nothing in return.
 
@@ -261,11 +257,14 @@ one is a fair use of the tracker.
 what you expected instead. The log names the version and which copy of
 the script ran, so that line is worth pasting. Several runnable copies
 of one version are normal here, and without that line there is no
-telling later why two runs came out differently.
+telling later why two runs came out differently. A complaint about the
+preview, or about where a camera landed, wants the log itself: it holds
+what the players loaded and played, which recording was laid under
+which picture, and how every file got its place on the time axis.
 
 **Never paste your Auphonic key.** The program keeps it in the
-keychain or the registry, never in a file, and it strips the key from
-the project file. No report needs it.
+keychain or the registry, and it strips the key out of the project
+file. No report needs it.
 
 **Patches are welcome, and there is no second reviewer.** A small
 change that does one thing gets read and merged; a large one waits.

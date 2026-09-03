@@ -18,7 +18,7 @@ there are.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import importlib.util, json, shutil, subprocess, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
@@ -493,7 +493,7 @@ def clean_up(what):
               % (clock.elapsed() / 1000.0))
 
 
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 clean_up(folder)
 print("\n%d checks in %.2f s" % (done, time.time() - began))

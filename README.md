@@ -9,17 +9,21 @@ not fit -- before anything is written.*
 
 *Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
 
-**Version 2.32.0-beta.** It does the work it was written for, every
-week, on real material. It is called beta because it is not finished
-being tested: the format of the project file may still change, and an
-older file is refused with a clear message rather than half read.
+**Version 3.0.0b0.** It does the work it was written for, every week, on
+real material. The step to 3 is a break rather than a heap of new
+features: the file is called `videopodcast_magic.py` now, so that it
+can be installed as well as fetched, and anything that still names the
+old file has to be written once more. The format of the project file
+may still change, and an older file is refused with a clear message
+rather than half read.
 
-`videopodcast-magic.py` -- put processed audio into video files as the
+`videopodcast_magic.py` -- put processed audio into video files as the
 first audio track, and build from it everything the edit needs afterwards:
 the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve
 project.
 
-One Python file, about 35 000 lines. No package, no build step.
+One Python file, about 40 000 lines. That one file is the whole
+program, fetched or installed, and there is nothing to build.
 
 ## Why this exists
 
@@ -43,16 +47,46 @@ is in **[docs/overview.md](docs/overview.md)**.
 
 ## Getting it
 
-One file. Fetch `videopodcast-magic.py` and run it -- nothing else has
-to be installed:
+There are two ways in, and the first one is still one file.
+
+**Fetched.** Take `videopodcast_magic.py` and run it -- nothing else
+has to be installed:
 
 ```
-python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast-magic.py', 'videopodcast-magic.py')"
-python3 videopodcast-magic.py
+python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast_magic.py', 'videopodcast_magic.py')"
+python3 videopodcast_magic.py
 ```
 
 Or simpler: open that address in a browser, save the file, and run it.
-On Windows write `python` instead of `python3`.
+On Windows write `python` instead of `python3`. This is the way for a
+first look, for a machine you sit at once, and for a copy kept beside
+the material it belongs to: the file is the whole program, and it can
+be read before it is run.
+
+**Installed.** Where the program is used every week, install it once
+and it becomes a command like any other, out of any folder:
+
+```
+pip3 install git+https://github.com/Bascht74/videopodcast-magic
+videopodcast-magic
+```
+
+The newer version comes the same way, and replaces the one installed:
+
+```
+pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Both are a matter of seconds. Neither drags the two big packages in
+with it: the program still fetches those itself at the first start,
+and asks first.
+
+**Where `pip3 install` refuses**, saying the environment is externally
+managed, this Python belongs to a package manager -- Homebrew's, or a
+Linux distribution's. The refusal names `pipx`, and that is the right
+answer: `pipx install git+https://github.com/Bascht74/videopodcast-magic`
+puts the program in an environment of its own and the command on the
+path.
 
 Python 3.10 or newer has to be there first; that is the one thing the
 program cannot bring. Everything else it fetches when it needs it and
@@ -69,14 +103,18 @@ first time.
 ## Getting started
 
 ```
-python3 videopodcast-magic.py                          interface
-python3 videopodcast-magic.py AUDIO.wav VIDEO.mov
-python3 videopodcast-magic.py AUDIO.wav                join only
-python3 videopodcast-magic.py AUDIO.wav *.mov --out Done
-python3 videopodcast-magic.py VIDEO.mov                takes the camera sound
-python3 videopodcast-magic.py --lang de|en             language of the messages
-python3 videopodcast-magic.py --help                   all switches
+python3 videopodcast_magic.py                          interface
+python3 videopodcast_magic.py AUDIO.wav VIDEO.mov
+python3 videopodcast_magic.py AUDIO.wav                join only
+python3 videopodcast_magic.py AUDIO.wav *.mov --out Done
+python3 videopodcast_magic.py VIDEO.mov                takes the camera sound
+python3 videopodcast_magic.py --lang de|en             language of the messages
+python3 videopodcast_magic.py --help                   all switches
 ```
+
+Where the program was installed rather than fetched, `videopodcast-magic`
+stands in place of `python3 videopodcast_magic.py` in every one of those
+lines, and takes the same switches.
 
 Without arguments the interface opens. Files are told apart by extension;
 the order does not matter. `--lang de` or `--lang en` fixes the language;
@@ -90,9 +128,12 @@ camera.*
 ## What it needs
 
 Python 3.10 or newer, `ffmpeg` and `ffprobe` on the search path, and two
-packages -- `PySide6` for the window, `numpy` for the measurements. The
-program installs what is missing at start over pip. macOS and Windows are
-what this is used on; Linux works with two limits.
+packages -- `PySide6` for the window, `numpy` for the measurements. Where
+one of the two packages is missing, the program offers to fetch it and
+asks first; it never installs anything unasked, and it brings no ffmpeg
+of its own -- for that it offers the system's package manager, and
+otherwise says where to get it. macOS and Windows are what this is used
+on; Linux works with two limits.
 
 The detail, including which Python is recommended and what differs per
 platform, is in **[docs/requirements.md](docs/requirements.md)**.

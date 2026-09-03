@@ -5,10 +5,30 @@
 
 ## Das Programm holen
 
-Eine Datei, und sonst ist nichts zu installieren:
-`videopodcast-magic.py` holen und starten. Der Befehl steht in der
-[README](../README.de.md#installieren). Python 3.10 oder neuer muss
-vorher da sein. Das eine kann das Programm nicht mitbringen.
+Es führen zwei Wege hinein, und die
+[README](../README.de.md#installieren) hält zu jedem den Befehl.
+
+**Geholt**: die eine Datei `videopodcast_magic.py` nehmen, mit
+`python3` starten, sonst ist nichts zu installieren. Gut zum
+Hineinschauen, für eine Maschine, an der man einmal sitzt, und für
+eine Fassung, die neben ihrem Material liegen bleibt.
+
+**Installiert**: der Befehl
+`pip3 install git+https://github.com/Bascht74/videopodcast-magic`
+legt das Programm in dieses Python und hinterlässt den Befehl
+`videopodcast-magic`, aufrufbar aus jedem Ordner. Derselbe Befehl mit
+`-U` holt die neuere Fassung. Gut, wo das Programm jede Woche
+gebraucht wird.
+
+Verweigert `pip3 install` den Dienst mit dem Hinweis, diese Umgebung
+werde von außen verwaltet, dann gehört dieses Python einem
+Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
+und die Meldung nennt `pipx`. Das ist der richtige Rat: `pipx` auf
+dieselbe Adresse legt das Programm in eine eigene Umgebung und den
+Befehl in den Suchpfad.
+
+So oder so muss Python 3.10 oder neuer vorher da sein. Das eine kann
+das Programm nicht mitbringen.
 
 Alles andere holt sich das Programm, wenn es gebraucht wird, und sagt
 dabei, was es tut:
@@ -16,8 +36,10 @@ dabei, was es tut:
 * `numpy` und `PySide6` beim ersten Start, über pip. Das meiste davon
   ist `PySide6`: etwa 250 MB unter Windows und Linux, etwa 440 MB
   unter macOS.
-* `ffmpeg` und `ffprobe`, wenn sie fehlen, über die Paketverwaltung.
-  Der Abschnitt darunter sagt, wie.
+* `ffmpeg` und `ffprobe`, wenn sie fehlen -- über die Paketverwaltung
+  dieses Systems, und nur dann, wenn das erlaubt wird. Auf einem
+  anderen Weg holt das Programm sie nicht. Der Abschnitt darunter
+  sagt, wie.
 * Die Umgebung, in der die Sprechertrennung läuft, etwa 218 MB, beim
   ersten Trennen.
 * Das Modell für die Trennung, etwa 33 MB, gleich danach.
@@ -60,8 +82,10 @@ Klammer.*
 ## Woher ffmpeg, PySide6 und numpy kommen
 
 Das Programm sucht `ffmpeg` und `ffprobe` zuerst im Suchpfad, dann
-neben sich. Wenn beide fehlen, nennt es die Paketverwaltung dieser
-Maschine und fragt, bevor es sie ausführt:
+neben sich. Fehlen sie danach immer noch, nennt es die Paketverwaltung
+dieser Maschine und fragt, bevor es sie ausführt -- ungefragt tut es
+das nie, denn eine Paketverwaltung schreibt außerhalb des Programms,
+in das hinein, was dem Besitzer der Maschine gehört:
 
 * **macOS:** `brew`.
 * **Linux:** `apt-get`, `dnf`, `zypper` oder `pacman`, mit `sudo`
@@ -69,12 +93,19 @@ Maschine und fragt, bevor es sie ausführt:
 * **Windows:** Windows bringt keine Paketverwaltung mit, also bietet
   das Programm an, ffmpeg.org zu öffnen. Der Ordner mit `ffmpeg.exe`
   gehört danach in PATH oder die Dateien neben das Programm.
-* **Wenn nichts installiert wird:** `static-ffmpeg` ist der letzte
-  Ausweg, eine Version in diesem Python. Das Programm holt es, wenn
-  diese Maschine keine Paketverwaltung hat und wenn die vorhandene
-  nichts liefert. Die Frage mit nein zu beantworten zählt dazu. Es
-  zieht sechzehn Pakete hinter sich her, und seine 50 MB kommen aus
-  einem privaten Repository, gegen nichts geprüft.
+* **Wenn nichts installiert wird:** Das Programm hört auf und sagt,
+  was auf dieser Maschine zu tun ist -- unter macOS
+  `brew install ffmpeg`, unter Windows die Version von ffmpeg.org und
+  ihr Ordner in PATH, unter Linux die Paketverwaltung der
+  Distribution. Die Frage mit nein zu beantworten beendet den Lauf
+  auf demselben Weg. Ein eigenes ffmpeg bringt das Programm nicht
+  mit: was es braucht, muss auf der Maschine liegen, und wer es nicht
+  hat, holt es sich einmal von Hand.
+
+Eine Frage braucht jemanden, der sie beantwortet, und wird deshalb nur
+dort gestellt, wo der Lauf ein Terminal vor sich hat. Ohne eines fragt
+das Programm nichts, sondern hört so auf, wie es der letzte Punkt oben
+beschreibt.
 
 Für die Oberfläche `PySide6` (Qt), für die Messungen `numpy`. Das
 Programm installiert das Fehlende beim Start über pip nach. Nur Python
@@ -107,7 +138,13 @@ es ebenfalls, mit zwei Einschränkungen:
   virtuellen Umgebung.
 * **`ffmpeg` wird auch nach der Installation nicht gefunden.** Der
   Ordner mit `ffmpeg` steht nicht im Suchpfad. Die beiden Dateien
-  stattdessen neben `videopodcast-magic.py` legen.
+  stattdessen neben `videopodcast_magic.py` legen.
+* **`videopodcast-magic` ist nach der Installation kein bekannter
+  Befehl.** pip hat den Befehl in einen Ordner gelegt, der nicht im
+  Suchpfad steht. Entweder diesen Ordner in den Suchpfad aufnehmen
+  oder das Programm über Python erreichen:
+  `python3 -m videopodcast_magic` braucht keinen eigenen Befehl und
+  nimmt dieselben Schalter.
 
 Mehr braucht das Programm nicht. Was das Fenster danach zeigt, Reiter
 für Reiter, steht in [Die Oberfläche](interface.de.md).

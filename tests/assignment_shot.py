@@ -3,7 +3,7 @@
 import os, sys, time, importlib.util
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore, QtGui
 app = QtWidgets.QApplication(sys.argv[:1])
@@ -409,7 +409,7 @@ def step():
 
 QtCore.QTimer.singleShot(50, step)
 alive()
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 BEGAN = time.monotonic()
 code = vpm.gui()
 if not through[0] and not bad:

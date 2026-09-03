@@ -23,7 +23,7 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.path.realpath(os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py"))
+    os.path.dirname(HERE), "videopodcast_magic.py"))
 
 MARK = "NUMPY-REPORT"
 # Reading the file costs well under a second here and the builder is
@@ -70,7 +70,7 @@ sys.modules.pop("numpy", None)
 sys.meta_path.insert(0, NoNumpy())
 # Set before the file is read: ONLY_READING is worked out in its body,
 # and without this the program fetches numpy and starts pip.
-sys.argv = ["videopodcast-magic.py", "--version"]
+sys.argv = ["videopodcast_magic.py", "--version"]
 
 out = {"loaded": False, "kind": "", "message": "", "line": 0, "source": "",
        "names": 0, "np": "(the file was not read to the end)",

@@ -3,7 +3,7 @@
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import copy, sys, inspect, importlib.util, time
 # A test must never play sound at somebody working next to it. The
 # program reads the variable with bool(), so even "0" silences it.

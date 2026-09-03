@@ -20,7 +20,7 @@ echo "Python: $("$PY" -V 2>&1)"
 # while the working file is being written on, and without this line the
 # two runs look alike in the log and a result is read against the wrong
 # file.
-echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast-magic.py}"
+echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic.py}"
 # Without ffmpeg most of the suite goes red, and none of those reds say
 # anything about the program: they say the machine has no ffmpeg.
 # static-ffmpeg is named because it is what the program itself falls
@@ -670,7 +670,7 @@ then
   # both without guesswork -- work under those paths not committed yet,
   # and the newest commit touching them being the one this run stands
   # on. What the program's own diff says was measured and thrown away:
-  # over 40 commits, "a changed line in videopodcast-magic.py naming
+  # over 40 commits, "a changed line in videopodcast_magic.py naming
   # Resolve" fired three times and every one of the three was a comment
   # or a key name, while no commit in those 40 changed the Resolve code
   # itself. A sharp line that is wrong three times in forty is noise.

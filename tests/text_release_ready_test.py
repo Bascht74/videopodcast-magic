@@ -22,7 +22,7 @@ began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast-magic.py")
+    ROOT, "videopodcast_magic.py")
 
 done = 0
 error = []
@@ -199,7 +199,7 @@ def key_dropped(argv):
 
 
 KEY = "not-a-real-key-000"
-left = key_dropped(["videopodcast-magic.py", "--out", "somewhere",
+left = key_dropped(["videopodcast_magic.py", "--out", "somewhere",
                     "--auphonic-api-key", KEY, "--auphonic-preset", "podcast"])
 check("the project file drops the switch and its key",
       left is not None and "--auphonic-api-key" not in left
@@ -385,7 +385,7 @@ print("\n6. The file hangs on the releases that are out")
 # program's own update reads that page too. A release without the file
 # offers a source archive instead, and nothing in the working tree can
 # see that -- so this section asks github.com.
-ASSET = "videopodcast-magic.py"
+ASSET = "videopodcast_magic.py"
 left_out = []
 
 

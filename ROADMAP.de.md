@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 2.24.0-beta durchgegangen worden.
+zuletzt für 3.0.0b0 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 2.32.0-beta.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b0.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -29,6 +29,13 @@ Lage jeder Kamera und die Dateien am Ende sind mit dem Schalter
 dieselben wie ohne ihn. Mehrere Aufnahmen, unter denen keine Kamera
 ist, werden stattdessen gegeneinander gelegt — gleich lang, ein Anfang
 für alle — statt abgewiesen.
+
+Wo eine Datei auf der gemeinsamen Zeitachse liegt, kommt aus ihrem Ton.
+Die eigene Uhr einer Kamera zählt nur dort, wo der Ton nichts hergab,
+und der Lauf nennt jede Datei, die er allein nach der Uhr setzen musste
+— denn zwei Kameras gehen nur gleich, wenn jemand sie darauf gestellt
+hat, und dann noch um ein, zwei Bilder daneben. Fenster, Vorschau und
+fertiges Projekt stehen alle auf dieser einen Rechnung.
 
 Sprechertrennung, Spracherkennung und Niederschrift laufen auf der
 Maschine, vor der du sitzt. Das Modell liegt in einem Ordner neben dem
@@ -46,15 +53,27 @@ brauchen, und die, die einen Weitwinkel brauchen, stehen gesperrt, mit
 dem Grund darunter, und sie öffnen sich wieder, sobald die Tatsache da
 ist.
 
-Es ist eine Python-Datei mit rund 35000 Zeilen, ohne Paket und ohne
-Bauschritt. Python 3.10 oder neuer muss da sein, die zwei Pakete
-installiert es selbst. Benutzt wird es unter macOS und Windows, unter
-Linux läuft es mit zwei Einschränkungen. Eine Suite aus 159 Tests läuft
-bei jedem Push: sechs Läufe nebeneinander, drei Systeme und zwei
-Python-Versionen. Sie sind nicht gleich schnell, und der langsame ist
-fast immer Windows: über die letzten sieben grünen Läufe brauchte der
-langsamste der sechs zwischen 263 und 374 Sekunden. Gewartet wird auf
-diesen einen, nicht auf die Summe der sechs.
+Das Protokoll neben dem Programm sagt, was ein Lauf außerhalb von sich
+getan hat: jeden Aufruf von ffmpeg und ffprobe mit der Datei, um die es
+ging, und mit seiner Dauer, Spracherkennung und Sprechertrennung ebenso,
+was die beiden Abspieler geladen und gespielt haben, und auf welchem der
+drei Wege jede Aufnahme gesetzt wurde. Was das Fenster rot gezeigt hat,
+steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
+ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
+später.
+
+Es ist eine Python-Datei mit rund 40 000 Zeilen, die man holen und
+starten oder mit pip installieren kann; zu bauen ist daran nichts.
+Python 3.10 oder neuer muss da sein, und nach den zwei Paketen, die es
+braucht, fragt es, bevor es sie installiert. Benutzt wird es unter
+macOS und Windows, unter Linux läuft es mit zwei Einschränkungen. Eine
+Suite aus 220 Tests läuft bei jedem Push: sechs Läufe nebeneinander,
+drei Systeme und zwei Python-Versionen. Daneben liegen vier weitere,
+die ein echtes Resolve brauchen und nirgends sonst laufen können. Die sechs sind nicht gleich
+schnell, und der langsame ist Windows: über die letzten sieben grünen
+Läufe, gemessen am 3.9.2026, brauchte der langsamste der sechs zwischen
+404 und 835 Sekunden, und es war jedes Mal ein Windows-Lauf. Gewartet
+wird auf diesen einen, nicht auf die Summe der sechs.
 
 **Warum es noch beta heißt.** Das Format der Projektdatei kann sich
 noch ändern. Eine ältere Datei wird mit einer klaren Meldung
@@ -64,51 +83,33 @@ die es bricht, hebt die erste Stelle der Versionsnummer.
 
 ## Was als Nächstes kommt
 
-Fünf Punkte. Die ersten drei sind Arbeit. Die letzten zwei sind gebaut,
-und was ihnen fehlt, ist ein Lauf, nicht weiteres Bauen.
-
-**Mit 2.25.0-beta hinausgegangen: die Kameras werden nur noch für das
-geschnittene Zeitfenster geschrieben** — aus 83,57 GB wurden 6,09 GB an
-echtem Material. Der Schalter, den diese Seite versprach, kam nicht,
-denn In- und Out-Punkt sind schon einer: wer sie setzt, bekommt nur das
-Fenster, wer sie leer läßt, bekommt alles. Die Falle mit dem Timecode
-war echt und ist gemessen — ffmpeg läßt ihn stehen, also setzt das
-Programm ihn selbst — und daneben kam eine zweite zutage: wer zwischen
-zwei Keyframes schneidet, treibt Bild und Ton 400 ms auseinander,
-deshalb geht der Schnitt auf das Keyframe vor dem Fenster zurück.
+Vier Punkte. Die ersten zwei sind Arbeit. Die letzten zwei sind gebaut,
+und was ihnen fehlt, ist jemand, der sich mit echtem Material hinsetzt,
+nicht weiteres Bauen.
 
 **Der ganze Weg bekommt Tests, nicht die einzelnen Funktionen an ihm.**
 Sieben Schritte, und jeder davon auf beiden Wegen: Das Programm öffnet
 sich, Dateien kommen herein, In und Out werden markiert, der Wechsel auf
 Reiter 3, der richtige Schnitt mitsamt einer schon vorhandenen
-Sprechererkennung, der Lauf selbst, der Import nach Resolve. Eine
-Erhebung hat auf diesem Weg 121 Stationen gezählt — 65 gedeckt, 56 nicht
-— und neun der Lücken sind seither gebaut. Das ist ein Punkt und nicht
-sechsundfünfzig: Wer ihn anfasst, deckt einen der sieben Schritte ganz,
-denn sechsundfünfzig nach Nummer abgearbeitete Tests prüfen je etwas und
-zusammen keinen Weg.
+Sprechererkennung, der Lauf selbst, der Import nach Resolve. Das ist ein
+Punkt und keine Liste von fünfzig: Wer ihn anfasst, deckt einen der
+sieben Schritte ganz, denn nach Nummer abgearbeitete Lücken geben je
+einen Test und zusammen keinen Weg. Die Erhebung, die diese Lücken
+gezählt hat, ist mehrere Fassungen alt, und das meiste, was sie nannte,
+ist seither gedeckt — sie lohnt sich noch einmal, bevor darauf gebaut
+wird.
 
 **Tests gegen ein echtes DaVinci Resolve.** In der Suite können sie
 nicht stehen: Auf einer Maschine ohne Resolve wäre jeder von ihnen rot
 aus einem Grund, der kein Fehler ist. Sie liegen daneben, in einem
 eigenen Ordner mit einem eigenen Starter, den die Suite nicht kennt, und
 sie laufen einer nach dem anderen auf der einen Maschine, auf der
-Resolve steht. Vier sind gebaut. Der Vorspann gehört hierher — das
-Programm legt ihn auf die zweite Videospur und liest nach, wie viele
-Clips dort liegen, und eine Attrappe kann das nicht bestätigen. Und der
-Fall, den keine Attrappe je gezeigt hat: ein Resolve, das nein sagt.
-
-**Am 1.9.2026 gemessen, und deshalb sind sie noch keine Gewohnheit:**
-der Test, der beweist, daß ein abgebrochener Lauf nichts hinterläßt,
-stellt den Abbruch her, indem er einen Prozeß abschießt, der eine offene
-Verbindung zu Resolve mit geöffnetem Projekt hält. Drei Läufe, zwei
-überlebten, der dritte riß Resolve um und ließ ein halbfertiges Projekt
-zurück, das der Aufräumer nicht sieht — er liest Projekte, und das Ding
-erscheint als Ordner. Bevor sie wieder laufen, muß der Abbruch geordnet
-hergestellt werden. In derselben Nacht lagen drei Projekte aus drei
-Sitzungen im Projektmanager des Eigentümers, keines je wegräumbar, weil
-nichts einen Testprojektnamen in die eine Form zwingt, die der Aufräumer
-kennt.
+Resolve steht. Vier sind gebaut, und drei davon laufen jetzt auch gegen
+das unbenannte Projekt, mit dem Resolve aufmacht — also nach jedem
+Start. Der Vorspann gehört hierher: das Programm legt ihn auf die zweite
+Videospur und liest nach, wie viele Clips dort liegen, und eine Attrappe
+kann das nicht bestätigen. Und der Fall, den keine Attrappe je gezeigt
+hat: ein Resolve, das nein sagt.
 
 **Die zwei Wege zu auphonic.com werden einmal gegen den Dienst
 gelaufen.** Beide stellen dieselbe Frage — kommt eine Stereo-Aufnahme
@@ -124,11 +125,9 @@ Handbuch diese zwei Wege aus dem Quelltext statt aus einem Lauf.
 
 **Der Reaktionsschnitt wird gesichtet, bevor er scharf bleibt.** Er
 greift ein paar Dutzend Mal in einer Folge und ist voreingestellt an,
-und niemand hat bisher jede Stelle angesehen. Seine Sekunden zählen
-jetzt vom Ende der Frage statt vom Beginn der Antwort, es ist also zu
-sehen, was eingestellt wurde. Zwei Fälle, in denen er falsch liegt, sind
-bekannt: die rhetorische Frage und das technische Vorgeplänkel, wo
-Blicke zu Geräten fliegen statt zu Gesichtern.
+und niemand hat bisher jede Stelle angesehen. Zwei Fälle, in denen er
+falsch liegt, sind bekannt: die rhetorische Frage und das technische
+Vorgeplänkel, wo Blicke zu Geräten fliegen statt zu Gesichtern.
 
 ## Was später kommt
 
@@ -143,14 +142,12 @@ Gröber, und in keiner festen Reihenfolge.
   reichen, sagt ein Lauf: coverage.py über `bash run.sh`, mit
   gesetztem `COVERAGE_PROCESS_START`, damit die Läufe mitzählen, die
   die Tests selbst starten. Grün sind es rund drei Viertel der
-  Anweisungen -- gelesen als Spanne und nie als Ziel. Kein Test
-  betritt: den Lauf, der den Ton aus den Kameras nimmt, die
-  Fehlerausgänge von `main()`, die eine Stelle, an der der
-  Auphonic-Schlüssel die Platte berührt, die Vorwahl der
-  Voreinstellung, ein Resolve, das sich weigert, und den Rückweg nach
-  einer misslungenen Selbst-Aktualisierung. Und mehrere Schalter werden
-  genommen, ohne dass jemand prüft, was sie tun: `--tc`, `--fps`,
-  `--wide-shot`, `--hdr-check`, `--version`.
+  Anweisungen — gelesen als Spanne und nie als Ziel. Was so ein Lauf
+  wirklich wert ist, ist die Liste der Stellen, die kein Test betritt,
+  und die will neu erhoben werden: Die letzte ist mehrere Fassungen alt,
+  und das meiste, was sie nannte — die Schalter, die genommen wurden,
+  ohne dass jemand prüfte, was sie tun, eingeschlossen —, ist seither
+  gedeckt.
 
 * **Die Kommentare im Programm bekommen, was die Tests schon hinter
   sich haben.** 27 % der Datei sind Kommentar, und das meiste davon ist
@@ -189,8 +186,8 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   stand unter „Was später kommt“, und die Messung hat es andersherum
   beantwortet: die leiseste Stelle landet 97 bis 99 mal
   von hundert in einer echten Sprechpause, die Wortgrenze der
-  Erkennung 42 bis 46 mal. Der Text sagt weiterhin ungefähr wo --
-  Satz- und Teilsatzenden kommen aus den Wortzeiten --, und der Ton
+  Erkennung 42 bis 46 mal. Der Text sagt weiterhin ungefähr wo —
+  Satz- und Teilsatzenden kommen aus den Wortzeiten —, und der Ton
   sagt genau wo. Das zu tauschen machte den Schnitt schlechter.
 
 * **Pull Requests als Prüfstelle, Pflichtdurchsichten, CODEOWNERS.**
@@ -208,11 +205,10 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
 * **Verhaltensregeln und Vorlagen für Issues.** Sie heben eine
   Prozentzahl auf einer GitHub-Seite, solange niemand schreibt. Die
   Vorlage für Issues kommt an dem Tag, an dem wirklich jemand etwas
-  meldet. **Die Beitragsanleitung und die Vorlage für Pull Requests
-  standen auf dieser Liste und sind seither gebaut worden** — nicht der
-  Prozentzahl wegen: Vier Regeln weisen hier eine Änderung zurück, so
-  gut der Gedanke auch ist, und wer nicht nachfragen kann, muss sie in
-  zehn Minuten lesen können. Das ist
+  meldet. Was ein Patch mitbringen muss, steht aus dem umgekehrten
+  Grund niedergeschrieben: Vier Regeln weisen hier eine Änderung
+  zurück, so gut der Gedanke auch ist, und wer nicht nachfragen kann,
+  muss sie in zehn Minuten lesen können. Das ist
   [CONTRIBUTING.md](CONTRIBUTING.md), und das Formular, mit dem ein Pull
   Request aufgeht, fragt sie bereits ab.
 
@@ -221,11 +217,10 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   geschrieben und trägt in fast jedem Punkt einen Messwert; ein
   Generator machte daraus eine Liste von Betreffzeilen.
 
-* **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Alle vier
-  wollen ein Paket mit `pyproject.toml`. Hier wären es vier neue
-  Abhängigkeiten für eine Datei, deren 159 Tests als schlichte Scripts
-  durchlaufen. Eine dünne pytest-Schicht, die genau diese Scripts
-  unverändert startet, ist etwas anderes und kann kommen.
+* **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Das wären vier
+  neue Abhängigkeiten für eine Datei, deren 220 Tests als schlichte
+  Scripts durchlaufen. Eine dünne pytest-Schicht, die genau diese
+  Scripts unverändert startet, ist etwas anderes und kann kommen.
 
 * **Bildvergleich der Handbuchbilder in der Suite.** Die Bilder
   entstehen im echten Fensterstil, dafür braucht es einen Bildschirm
@@ -255,7 +250,8 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   man durch Wiederholen loswird.
 
 * **Installationsprogramme, signierte Pakete, Notarisierung, PyPI.**
-  Es ist mit Absicht eine Datei: holen und starten.
+  Zwei Wege hinein reichen: die eine Datei holen und starten, oder sie
+  mit pip aus dem Repository installieren.
 
 * **Sponsors, Projects.** Papierkram ohne Gegenwert.
 
@@ -276,12 +272,15 @@ herauskam und was du stattdessen erwartet hast. Das Log nennt die
 Version und welche Kopie des Scripts gelaufen ist. Diese Zeile lohnt
 sich mitzuschicken: mehrere lauffähige Kopien einer Version sind hier
 normal, und ohne diese Zeile ist später nicht zu sagen, warum zwei
-Läufe verschieden ausgingen.
+Läufe verschieden ausgingen. Bei einer Beschwerde über die Vorschau
+oder darüber, wo eine Kamera gelandet ist, gehört das Protokoll selbst
+dazu: darin steht, was die Abspieler geladen und gespielt haben, welche
+Aufnahme unter welches Bild gelegt wurde, und wie jede Datei zu ihrem
+Platz auf der Zeitachse kam.
 
 **Der Auphonic-Schlüssel gehört nie in eine Meldung.** Das Programm
-hält ihn im Schlüsselbund oder in der Registry, nie in einer Datei,
-und aus der Projektdatei nimmt es ihn heraus. Keine Meldung braucht
-ihn.
+hält ihn im Schlüsselbund oder in der Registry, und aus der Projektdatei
+nimmt es ihn heraus. Keine Meldung braucht ihn.
 
 **Patches sind willkommen, und einen zweiten Leser gibt es nicht.**
 Eine kleine Änderung, die eine Sache tut, wird gelesen und übernommen;

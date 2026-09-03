@@ -3,7 +3,7 @@
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import sys, time, importlib.util
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
@@ -154,7 +154,7 @@ def carry_on():
                        " ".join(argv[:14]) if argv else "none"))
             if argv:
                 check("program name first",
-                        argv[0].endswith("videopodcast-magic.py"),
+                        argv[0].endswith("videopodcast_magic.py"),
                         "the first of %d arguments is %r"
                         % (len(argv), argv[0]))
                 check("--dry-run there", "--dry-run" in argv,
@@ -175,7 +175,7 @@ def carry_on():
 
 QtCore.QTimer.singleShot(0, carry_on)
 QtCore.QTimer.singleShot(150000, app.quit)
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 threading.Thread = real
 print("\n%d checks in %.2f s" % (done, time.time() - began))
