@@ -1,6 +1,6 @@
 # The test suite
 
-216 tests against `../videopodcast-magic.py`. Every one of them stands
+217 tests against `../videopodcast-magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-216 tests. The name is the one a red line carries, and beside it the
+217 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -256,6 +256,7 @@ it is green.
 | `files_block_out_and_back` | Taking one block out of a recording, and putting it back. |
 | `files_block_stays_apart` | A block taken out of a recording by hand stays out. |
 | `files_blocks_join_exact` | Blocks join only where the file names match letter for letter. |
+| `files_by_file_holds` | The dictionary of files finds one file under any of its names. |
 | `files_clock_links_blocks` | Blocks that carry a clock in the name instead of a counter. |
 | `files_colour_carried` | Colour tags, QuickTime keys and named audio tracks reach the result. |
 | `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |

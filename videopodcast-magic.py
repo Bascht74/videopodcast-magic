@@ -1223,6 +1223,146 @@ def path_key(path):
     return os.path.normcase(os.path.abspath(path))
 
 
+class ByFile(dict):
+    """A dictionary of files: one entry per file, whatever it is called.
+
+    The same file arrives typed by hand, out of a file dialogue and out
+    of a project file, and on Windows those differ in case while
+    meaning one file. Finding therefore goes through path_key on every
+    side. The key keeps the spelling it was first written under, so
+    what is walked over, shown or saved is the name on the disc.
+    """
+
+    # A key that is not a string passes through untouched. A key made
+    # of a path and something else is built where it is built, and
+    # path_key belongs in that one place -- see prework_api_key.
+
+    def __init__(self, *given, **named):
+        dict.__init__(self)
+        self._spelt = {}
+        if given or named:
+            self.update(*given, **named)
+
+    def _index(self):
+        """The spelling each file sits under, rebuilt if it is gone.
+
+        A dictionary can come into being without __init__ -- fromkeys,
+        a copy read back in -- and a lookup against an index that is
+        not there would quietly miss.
+        """
+        try:
+            return self._spelt
+        except AttributeError:
+            self._spelt = {path_key(k): k for k in self if isinstance(k, str)}
+            return self._spelt
+
+    def _as_stored(self, key):
+        """The key this file already sits under, or the key itself."""
+        if not isinstance(key, str):
+            return key
+        if dict.__contains__(self, key):
+            return key
+        return self._index().get(path_key(key), key)
+
+    def __getitem__(self, key):
+        return dict.__getitem__(self, self._as_stored(key))
+
+    def __setitem__(self, key, value):
+        here = self._as_stored(key)
+        dict.__setitem__(self, here, value)
+        if isinstance(key, str):
+            self._index()[path_key(key)] = here
+
+    def __delitem__(self, key):
+        here = self._as_stored(key)
+        dict.__delitem__(self, here)
+        if isinstance(here, str):
+            self._index().pop(path_key(here), None)
+
+    def __contains__(self, key):
+        return dict.__contains__(self, self._as_stored(key))
+
+    def __ior__(self, other):
+        self.update(other)
+        return self
+
+    def get(self, key, fallback=None):
+        return dict.get(self, self._as_stored(key), fallback)
+
+    def setdefault(self, key, fallback=None):
+        here = self._as_stored(key)
+        if dict.__contains__(self, here):
+            return dict.__getitem__(self, here)
+        self[key] = fallback
+        return fallback
+
+    def pop(self, key, *fallback):
+        here = self._as_stored(key)
+        got = dict.pop(self, here, *fallback)
+        if isinstance(here, str):
+            self._index().pop(path_key(here), None)
+        return got
+
+    def popitem(self):
+        key, value = dict.popitem(self)
+        if isinstance(key, str):
+            self._index().pop(path_key(key), None)
+        return key, value
+
+    def clear(self):
+        dict.clear(self)
+        self._index().clear()
+
+    def update(self, *given, **named):
+        for other in given:
+            pairs = other.items() if hasattr(other, "items") else other
+            for key, value in pairs:
+                self[key] = value
+        for key, value in named.items():
+            self[key] = value
+
+    def copy(self):
+        return ByFile(self)
+
+
+class FileSet(set):
+    """A set of files: one entry per file, whatever it is called.
+
+    The companion to ByFile, and for the same reason. Only the members
+    that are strings are put into shape; anything else passes through.
+    """
+
+    def __init__(self, given=()):
+        set.__init__(self)
+        self.update(given)
+
+    @staticmethod
+    def _shape(item):
+        return path_key(item) if isinstance(item, str) else item
+
+    def __contains__(self, item):
+        return set.__contains__(self, self._shape(item))
+
+    def add(self, item):
+        set.add(self, self._shape(item))
+
+    def discard(self, item):
+        set.discard(self, self._shape(item))
+
+    def remove(self, item):
+        set.remove(self, self._shape(item))
+
+    def update(self, *given):
+        for other in given:
+            for item in other or ():
+                self.add(item)
+
+    def difference_update(self, *given):
+        for other in given:
+            for item in other or ():
+                self.discard(item)
+
+
 def file_stamp(path):
     """Identify a file by what changes when it is written to.
 
@@ -5449,8 +5589,7 @@ def marked_wide_shots(args):
     One switch may stand several times: several wide shots are allowed,
     and the window can mark as many as it likes.
     """
-    return set(path_key(p)
-               for p in (getattr(args, "wide_shot", None) or ()) if p)
+    return FileSet(p for p in (getattr(args, "wide_shot", None) or ()) if p)
 
 
 # The four numbers, the tick and the value in three of the choice
@@ -8932,8 +9071,8 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
     step_begin("camera audio")
     plan = []
     prefixes = [t + "_" for t in {title, safe_filename(title)} if t]
-    named = {os.path.abspath(cam["video"]): cam["name"]
-               for cam in (cameras or []) if cam.get("video")}
+    named = ByFile((cam["video"], cam["name"])
+                   for cam in (cameras or []) if cam.get("video"))
     taken = set()
     print(as_head(T('NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO')))
     for i, v in enumerate(video_paths, 1):
@@ -9267,9 +9406,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             # One entry per camera, not per track: a camera whose two
             # channels carry two microphones is still one camera and
             # still writes one file. Both names go into that file name.
-            who = {}
+            who = ByFile()
             for e in plan:
-                who.setdefault(os.path.abspath(e["camera"]), []).append(
+                who.setdefault(e["camera"], []).append(
                     e["speakers"])
             cameras = [{"video": v, "name": "%s_%s"
                         % (safe_filename(title or 'Production'),
@@ -10208,7 +10347,7 @@ def one_separation_on_axis(given, tracks, position, t0, t1):
     # Looked up by the real path: /tmp is a link to /private/tmp on
     # macOS, and the same file then carries two names.
     source = os.path.realpath(given["source"])
-    where = {}
+    where = ByFile()
     for track in tracks:
         blocks = track.get("blocks") or [track.get("source")]
         if blocks and blocks[0]:
@@ -10627,13 +10766,13 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         step_begin("speakers")
         segment_list = speakers_for_the_cut(args, tracks)
     names_every = [track["name"] for track in tracks]
-    after_camera = {}
+    after_camera = ByFile()
     for track in tracks:
         if track.get("camera"):
-            after_camera.setdefault(os.path.abspath(track["camera"]), []).append(track)
+            after_camera.setdefault(track["camera"], []).append(track)
 
-    track_names = {}          # output file -> names of its audio tracks
-    offsets = {}          # output file -> measured offset in seconds
+    track_names = ByFile()    # output file -> names of its audio tracks
+    offsets = ByFile()        # output file -> measured offset in seconds
     print(as_head(T('\nMIXING')))
     # Mixes of several tracks go out in two channels, single tracks in
     # as many as they were recorded with: the mix is what is delivered
@@ -10680,7 +10819,11 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     if in_stereo:
         print(TN(len(in_stereo), '  %s stays in two channels',
                  '  %s stay in two channels') % ", ".join(in_stereo))
-    camera_mix = {}
+    # Filled from the keys of a ByFile and read back under abspath, so
+    # it is one too. A plain dict here loses what the type settles: on
+    # Windows the two spellings differ, the lookup raises, and every
+    # camera with a track assigned goes unwritten without a word.
+    camera_mix = ByFile()
     for file_path, own in after_camera.items():
         camera_mix[file_path] = mix_tracks(
             [track["ready"] for track in own],
@@ -10718,7 +10861,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         taken.add(target.lower())
         output_path[_v] = (outdir, target)
     results, error = [], 0
-    lengths = {}          # output file -> running time delivered
+    lengths = ByFile()    # output file -> running time delivered
     # An In or Out point is what makes the cameras carry a stretch
     # rather than the whole shoot. Without one they stay as they were,
     # so a run that sets no window writes exactly what it wrote before.
@@ -12406,19 +12549,18 @@ def import_media(mp, paths):
     # first one's picture without a word. Resolve reports the real path, so
     # that is the key; the name stays as a fallback for versions that do
     # not, and a collision there stops the run instead of wiring it wrong.
-    after_path, after_name = {}, {}
+    after_path, after_name = ByFile(), {}
     for c in (mp.GetRootFolder().GetClipList() or []):
         try:
             where = c.GetClipProperty("File Path") or ""
         except Exception:
             where = ""
         if where:
-            after_path.setdefault(
-                os.path.normcase(os.path.abspath(where)), c)
+            after_path.setdefault(where, c)
         after_name.setdefault(c.GetName(), c)
     assignment, claimed = {}, {}
     for p in paths:
-        c = (after_path.get(os.path.normcase(os.path.abspath(p)))
+        c = (after_path.get(p)
              or after_name.get(os.path.basename(p)))
         if c is None:
             raise RuntimeError(T('Not found again after import: %s')
@@ -14436,12 +14578,12 @@ def voices_on_cameras(segment_list, videos, wanted=None, fallback=""):
     the cut falls at the change of speaker instead of between cameras.
     """
     wanted = dict(wanted or {})
-    known = dict((os.path.basename(v), v) for v, _info in videos)
-    known.update(dict((os.path.abspath(v), v) for v, _info in videos))
+    after_name = dict((os.path.basename(v), v) for v, _info in videos)
+    after_file = ByFile((v, v) for v, _info in videos)
     out = []
     for name, _segs in segment_list or ():
         pick = wanted.get(name) or ""
-        camera = known.get(pick) or known.get(os.path.abspath(pick)) \
+        camera = after_name.get(pick) or after_file.get(pick) \
             if pick else ""
         out.append({"name": name, "camera": camera or fallback})
     return out
@@ -14525,21 +14667,18 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         if e.get("width"):
             resolutions.add((e["width"], e["height"]))
         rates.add(round(float(e.get("fps") or 0), 3))
-    # Every path that is a key here goes through path_key, and so does
-    # every path looked up in one: abspath settles the folder and not
-    # the shape, and one file in two shapes misses every lookup below.
     # The fallback for the offset is 0.0 -- the start of the axis.
-    takes = {path_key(v): (e.get("duration") or 0.0) for v, e in videos}
-    rate_of = {path_key(v): (e.get("fps") or 0.0) for v, e in videos}
-    # The three that are kept under the rendered file, in the same shape
-    # as the two above.
-    measured = {path_key(p): s for p, s in (offsets or {}).items() if p}
-    delivered = {path_key(p): s for p, s in (lengths or {}).items() if p}
-    named = {path_key(p): n for p, n in (track_names or {}).items() if p}
-    speaker_of = {}
+    takes = ByFile((v, e.get("duration") or 0.0) for v, e in videos)
+    rate_of = ByFile((v, e.get("fps") or 0.0) for v, e in videos)
+    # The three that are kept under the rendered file. Put into shape
+    # here because they may come from a caller that is not the run.
+    measured = ByFile(offsets or {})
+    delivered = ByFile(lengths or {})
+    named = ByFile(track_names or {})
+    speaker_of = ByFile()
     for track in tracks:
         if track.get("camera"):
-            speaker_of.setdefault(path_key(track["camera"]),
+            speaker_of.setdefault(track["camera"],
                                     []).append(track["name"])
     # And the voices told apart under one recording, which have no track
     # of their own. Without them a camera the cut fills with a person
@@ -14548,7 +14687,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     for name, where in voices_of_file(
             getattr(args, "assign", "")
             or getattr(args, "speakers_from", "") or "").items():
-        speaker_of.setdefault(path_key(where), []).append(name)
+        speaker_of.setdefault(where, []).append(name)
 
     #----------------------------------------------------- Handover file
     marked_wide = marked_wide_shots(args)
@@ -14557,10 +14696,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
     unmeasured = []
     by_clock = []
     left_out = []
-    nowhere = {path_key(x) for x in (unplaceable or ())}
+    nowhere = FileSet(unplaceable or ())
     for cam in cameras:
         v = os.path.abspath(cam["video"])
-        if path_key(v) in nowhere:
+        if v in nowhere:
             # Refused by the run, so it is no camera of this episode.
             # Handed over it becomes the wide shot: "wide" below is true
             # for whoever has no speaker, and nobody is assigned to a
@@ -14571,20 +14710,20 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
         # the same two people come out as one name here and another
         # there -- and both are read, one as a Resolve track and one
         # in the legend under the cut band.
-        who = sorted(speaker_of.get(path_key(v)) or [])
+        who = sorted(speaker_of.get(v) or [])
         file = done.get(cam["name"], "")
         # The offsets are kept under the rendered file. A camera without a
         # render has no such key, and 0.0 as a fallback would put it at the
         # start of the axis instead of where it was measured -- so the
         # source is tried too, and what stays unknown gets said out loud.
-        shift = measured.get(path_key(file)) if file else None
+        shift = measured.get(file) if file else None
         if shift is None:
-            shift = measured.get(path_key(v))
+            shift = measured.get(v)
         # A 0.0 put here would be a lie nothing can read back out of the
         # file: it looks exactly like a camera measured at the start of
         # the axis. Nothing measured travels as nothing measured.
         where, how = camera_place((file, v), tc_start, shift,
-                                   rate_of.get(path_key(v)) or fps)
+                                   rate_of.get(v) or fps)
         if how == "clock":
             by_clock.append(cam["name"])
         elif how == "nowhere":
@@ -14595,7 +14734,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # The word matters: without it a camera with no clock at
             # all is reported as one whose clock reads zero.
             clock, said = camera_place((file, v), tc_start, None,
-                                        rate_of.get(path_key(v)) or fps)
+                                        rate_of.get(v) or fps)
             if said == "clock" and abs(clock - where) > 1.0 / max(
                     1.0, float(fps)):
                 print(T('  %s: the measurement puts it at %+.3f s, the '
@@ -14614,7 +14753,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # still listed both.
             "track": (" + ".join(who) if who else cam["name"]),
             "speakers": who,
-            "audio_tracks": (named.get(path_key(file), []) if file else []),
+            "audio_tracks": (named.get(file, []) if file else []),
             # Where this camera sits: position in the file is programme
             # time minus this. The rendered file carries the timecode of
             # its own first frame, moved with whatever a window cut off
@@ -14633,18 +14772,18 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
             # How long the delivered file is, not the recording: a
             # window makes it shorter, and the cut timeline drops every
             # shot that runs past what this says.
-            "duration": round((delivered.get(path_key(file)) if file else None)
-                              or takes.get(path_key(v), 0.0), 3),
+            "duration": round((delivered.get(file) if file else None)
+                              or takes.get(v, 0.0), 3),
             # This camera's own rate, not the Timeline's. Resolve counts
             # startFrame and endFrame in frames of the file, so the cut
             # needs one rate per file and not one for all of them.
-            "fps": own_frame_rate(rate_of.get(path_key(v)) or fps),
+            "fps": own_frame_rate(rate_of.get(v) or fps),
             # Two answers, and they are not the same question. "wide" is
             # what the colour and the mix source read: nobody is
             # assigned here. "wide_marked" is what somebody said in the
             # Kind field, and that is what the cut goes by.
-            "wide_marked": path_key(v) in marked_wide,
-            "wide": path_key(v) in marked_wide or not who})
+            "wide_marked": v in marked_wide,
+            "wide": v in marked_wide or not who})
     if left_out:
         print(as_warn(T('  Not handed over: the run could not place %s, so '
                         'it is no camera of this episode.')
@@ -16117,12 +16256,12 @@ def assignment_rows(audio_files, videos, own_flag_cameras=(),
               if audio_files else [])
     if split_of:
         chains = expand_chains_to_tracks(chains, split_of)
-    rows, own = [], {}
+    rows, own = [], ByFile()
     for b in list(own_flag_cameras or ()):
         pieces = [x for x in (split_of(b) or ())] if split_of else []
         for piece in (pieces or [b]):
             rows.append(([piece], []))
-            own[os.path.abspath(piece)] = os.path.abspath(b)
+            own[piece] = os.path.abspath(b)
     return chains + rows, False, own
 
 
@@ -16312,7 +16451,7 @@ def group_recording_parts(paths, no_followups=False, apart=(), together=()):
     the measurement, so a file named in *apart* stays out even of a group
     it was put into.
     """
-    apart = {os.path.abspath(x) for x in (apart or ())}
+    apart = FileSet(apart or ())
 
     def with_its_blocks(row):
         """Each named file plus the blocks already found for it.
@@ -20792,7 +20931,7 @@ def speakers_all_on_window_axis(state, voice_lines, assign_lines,
                  if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])]
                 or [0.0])
     out, length = [], 0.0
-    for src, entry in sorted((state.get("speakers_by") or {}).items()):
+    for src, entry in sorted((state.get("speakers_by") or ByFile()).items()):
         if not voice_lines_here(voice_lines, src):
             continue
         rows, far = speakers_on_window_axis(
@@ -21108,7 +21247,7 @@ def separations_of(by_source, path):
     two of them apart. With one entry for the whole window, separating
     a second recording emptied the first one's rows without a word.
     """
-    entry = (by_source or {}).get(os.path.abspath(path or "")) or {}
+    entry = (by_source or ByFile()).get(path or "") or {}
     return list(entry.get("segments") or ())
 
 
@@ -21118,8 +21257,8 @@ def speakers_stored(state, source):
     {"segments": …, "count": …, "names": …}, or nothing where that
     recording has not been taken apart.
     """
-    return (state.get("speakers_by") or {}).get(
-        os.path.abspath(source or "")) or {}
+    return (state.get("speakers_by") or ByFile()).get(
+        source or "") or {}
 
 
 def speakers_keep(state, source, segments, count, names):
@@ -21131,8 +21270,8 @@ def speakers_keep(state, source, segments, count, names):
     cannot be put back by hand. In front is what the run and the
     preview read: one first cut, out of one recording.
     """
-    by = state.setdefault("speakers_by", {})
-    by[os.path.abspath(source)] = {
+    by = state.setdefault("speakers_by", ByFile())
+    by[source] = {
         "segments": list(segments or ()),
         "count": int(count or 0), "names": dict(names or {})}
     state["speakers_source"] = source
@@ -21150,8 +21289,8 @@ def speakers_block_of(state, voice_lines=None):
     With *voice_lines* only what stands on the sheet goes, and without
     the voices set to "do not use" -- the run's view, not the file's.
     """
-    by = state.get("speakers_by") or {}
-    front = os.path.abspath(state.get("speakers_source") or "")
+    by = state.get("speakers_by") or ByFile()
+    front = state.get("speakers_source") or ""
     keep = [src for src in sorted(by) if by[src].get("segments")]
     if voice_lines is not None:
         # A recording whose sound was set back to "do not use", or
@@ -21162,8 +21301,13 @@ def speakers_block_of(state, voice_lines=None):
     if not keep:
         return None
     # The one the window calls the front, unless it is not among them.
-    first = front if front in keep else keep[0]
-    named = (state.get("speakers_source") or "") if first == front else first
+    # keep holds the spellings the store was written under and front
+    # the one the window kept, so they are compared in shape: a list
+    # is not a ByFile, and two names of one file are unequal as text.
+    same = [src for src in keep if path_key(src) == path_key(front)]
+    first = same[0] if same else keep[0]
+    named = ((state.get("speakers_source") or "")
+             if path_key(first) == path_key(front) else first)
 
     def block(src, e):
         segments, names = e["segments"], e.get("names") or {}
@@ -21236,10 +21380,10 @@ def voice_names_by_source(voice_lines, fallback=""):
     that were not on the screen fell out of it, and the ones that were
     on it were read back under another recording's voices.
     """
-    out = {}
+    out = ByFile()
     for key, name_value, _cv in voice_lines or ():
         src, _label = voice_key_parts(key)
-        here = out.setdefault(os.path.abspath(src or fallback), {})
+        here = out.setdefault(src or fallback, {})
         if name_value.get().strip():
             here[voice_key_parts(key)[1]] = name_value.get().strip()
     return out
@@ -21248,7 +21392,7 @@ def voice_names_by_source(voice_lines, fallback=""):
 def voice_names_store(state, named):
     """Put each recording's names back under that recording."""
     for src, names in (named or {}).items():
-        entry = (state.get("speakers_by") or {}).get(src)
+        entry = (state.get("speakers_by") or ByFile()).get(src)
         if entry is not None:
             entry["names"] = names
 
@@ -21776,12 +21920,12 @@ def speakers_all_from_project(d, fingerprint=file_fingerprint):
     own: one whose recording has changed falls out, the rest stand.
     """
     block = (d or {}).get("speakers") or {}
-    out = {}
+    out = ByFile()
     for one in [block] + list(block.get("more") or ()):
         source, segments, names = speakers_from_project(
             {"speakers": one}, fingerprint)
         if source and segments:
-            out[os.path.abspath(source)] = {
+            out[source] = {
                 "segments": segments, "names": names,
                 "count": int(one.get("num_speakers") or 0)}
     return out
@@ -22376,11 +22520,12 @@ def by_recording(audio_data, chains):
     recording. Recordings are compared, otherwise every block would count
     as too short.
     """
-    after_file_path = {d.get("path"): d for d in audio_data if d.get("path")}
+    after_file_path = ByFile((d.get("path"), d)
+                            for d in audio_data if d.get("path"))
     out = []
     for row, _rest in chains:
-        parts = [after_file_path[os.path.abspath(x)] for x in row
-                 if os.path.abspath(x) in after_file_path]
+        parts = [after_file_path[x] for x in row
+                 if x in after_file_path]
         if not parts:
             continue
         head = dict(parts[0])
@@ -23224,8 +23369,8 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
     belong to one recording although their names do not say so -- see
     group_recording_parts.
     """
-    apart = {os.path.abspath(x) for x in (apart or ())}
-    joined = {}
+    apart = FileSet(apart or ())
+    joined = ByFile()
     for row in together_chains(together):
         for x in row:
             if x not in apart:
@@ -23234,14 +23379,14 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
     for p in paths:
         if os.path.abspath(p) in seen:
             continue
-        if os.path.abspath(p) in joined:
-            row, discarded = list(joined[os.path.abspath(p)]), []
-        elif no_followups or os.path.abspath(p) in apart:
+        if p in joined:
+            row, discarded = list(joined[p]), []
+        elif no_followups or p in apart:
             row, discarded = [p], []
         else:
             row, discarded = find_continuation_files(os.path.abspath(p))
-            row = [x for x in row if os.path.abspath(x) not in apart
-                   and os.path.abspath(x) not in joined]
+            row = [x for x in row if x not in apart
+                   and x not in joined]
         for path in row:
             if os.path.abspath(path) not in seen:
                 seen.add(os.path.abspath(path))
@@ -23259,7 +23404,7 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
     # first: the whole point of sorting here is that the order of
     # selection makes no difference, and a block that moved with the
     # order it was typed in would put that difference straight back.
-    rank = {}
+    rank = ByFile()
     for row in together_chains(together):
         row = [x for x in row if x not in apart]
         if not row:
@@ -23267,8 +23412,8 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
         smallest = min(os.path.basename(x).lower() for x in row)
         for k, x in enumerate(row):
             rank[x] = (smallest, k)
-    out.sort(key=lambda x: rank.get(os.path.abspath(x),
-                                    (os.path.basename(x).lower(), 0)))
+    out.sort(key=lambda x: rank.get(
+        x, (os.path.basename(x).lower(), 0)))
     return out, hints
 
 
@@ -24022,7 +24167,7 @@ def chain_fill_in(group, row, discarded, selected,
     # The continuations point at this row too: a finding about block 3
     # belongs to the recording, not to nowhere.
     for part in row:
-        lines_node[os.path.abspath(part)] = node
+        lines_node[part] = node
     channel_rows_show(node, row[0])
     try:
         lines = audio_summary(row[0])
@@ -29139,7 +29284,12 @@ def prepared_tracks_in(folder):
 
 def prework_api_key(file_path):
     s = os.stat(file_path)
-    return (os.path.abspath(file_path), int(s.st_mtime), s.st_size)
+    return (path_key(file_path), int(s.st_mtime), s.st_size)
+
+
+def prework_share_key(file_path, task):
+    """What one piece of prework on one file is counted under."""
+    return (path_key(file_path), task)
 
 def prework_fetch(file_path, target, report):
     """Extract one file while reporting progress.
@@ -29280,10 +29430,10 @@ def join_barred(path, targets, blocks=None):
     there is nothing to check, and that is what this chooser is for.
     """
     blocks = blocks or {}
-    mine = blocks.get(os.path.abspath(path)) or [path]
+    mine = blocks.get(path) or [path]
     shut = {}
     for h in targets:
-        yours = blocks.get(os.path.abspath(h)) or [h]
+        yours = blocks.get(h) or [h]
         try:
             here, there = file_timecode(mine[0]), file_timecode(yours[0])
         except (OSError, ValueError, RuntimeError):
@@ -29293,7 +29443,7 @@ def join_barred(path, targets, blocks=None):
         first, second = (mine, yours) if here <= there else (yours, mine)
         fits, why = _joins_seamlessly(first[-1], second[0], first)
         if not fits:
-            shut[os.path.abspath(h)] = T(
+            shut[os.path.abspath(h)] = T(          # the box's own value
                 '%s -- joined by hand that difference goes into the file '
                 'as silence, and nothing later takes it out.') % why
     return shut
@@ -30537,26 +30687,26 @@ def gui():
     # Blocks taken out of a recording by hand. They stand on their own
     # from then on; putting one back later makes it a file in its own
     # right. Only removing the whole recording clears its marks.
-    no_join = set()
+    no_join = FileSet()
     # Which blocks make up which recording. The channels are judged over
     # the whole recording, not over its first block -- see blocks_facts.
-    blocks_of = {}
-    recording_of = {}
+    blocks_of = ByFile()
+    recording_of = ByFile()
     # Files put into a recording by hand: {file: the recording it joins}.
     # The counterpart to no_join, and stored in the project the same way.
-    join_to = {}
+    join_to = ByFile()
 
     def together_now():
         """The by-hand groupings, as group_recording_parts wants them."""
         return [[target, source] for source, target in sorted(join_to.items())
                 if target and target != source]
-    channel_choice = {}          # file -> {pair number: stereo yes/no}
-    channel_node = {}            # file -> its row in the list
-    video_kind_again = {}        # file -> draw its Kind cell again
+    channel_choice = ByFile()    # file -> {pair number: stereo yes/no}
+    channel_node = ByFile()      # file -> its row in the list
+    video_kind_again = ByFile()  # file -> draw its Kind cell again
     # file -> [(track file, label)]. An empty list means the file was
     # looked at and stays whole; a missing entry means not looked at
     # yet.
-    split_files = {}
+    split_files = ByFile()
 
     def channel_rows_show(node, path):
         channel_rows_build(node, path, Qt, QtCore, QtWidgets,
@@ -30574,7 +30724,7 @@ def gui():
         """
         out = []
         for p, kind in files:
-            pieces = (split_files.get(os.path.abspath(p)) or []
+            pieces = (split_files.get(p) or []
                       if kind == "audio" else [])
             if pieces:
                 out += [(x, "audio") for x, _label in pieces]
@@ -30886,15 +31036,15 @@ def gui():
         joins would be a puzzle, not a setting. What the clocks rule
         out is greyed rather than offered -- join_barred says which.
         """
-        others = [h for h in heads if os.path.abspath(h) != os.path.abspath(path)
-                  and os.path.abspath(h) not in join_to]
+        others = [h for h in heads if path_key(h) != path_key(path)
+                  and h not in join_to]
         if not others:
             return
         kid = QtWidgets.QTreeWidgetItem(["      " + T('belongs to'), "", ""])
         kid.setData(0, Qt.UserRole + 2, "join")
         node.insertChild(0, kid)
         box = join_box_fill(QtWidgets.QComboBox(), path, others, blocks_of)
-        i = box.findData(join_to.get(os.path.abspath(path)) or "")
+        i = box.findData(join_to.get(path) or "")
         box.setCurrentIndex(i if i >= 0 else 0)
 
         def chosen(_i=0, file_path=os.path.abspath(path), b=box):
@@ -31005,7 +31155,7 @@ def gui():
                     head = os.path.abspath(r[0])
                     blocks_of[head] = [os.path.abspath(x) for x in r]
                     for x in r:
-                        recording_of[os.path.abspath(x)] = head
+                        recording_of[x] = head
                 for row, discarded in chains:
                     if len(row) > 1:
                         node = chain_fill_in(
@@ -31017,7 +31167,7 @@ def gui():
                     node = item(group, os.path.basename(p),
                                     os.path.dirname(p), "audio",
                                     files_for_it=[p])
-                    lines_node[os.path.abspath(p)] = node
+                    lines_node[p] = node
                     join_row_show(node, p, heads)
                     channel_rows_show(node, p)
                     try:
@@ -31034,8 +31184,8 @@ def gui():
                             key=lambda x: os.path.basename(x).lower()):
                 node = item(group, os.path.basename(p),
                                 os.path.dirname(p), "video", files_for_it=[p])
-                prework_node[os.path.abspath(p)] = (node, os.path.dirname(p))
-                lines_node[os.path.abspath(p)] = node
+                prework_node[p] = (node, os.path.dirname(p))
+                lines_node[p] = node
                 video_choices_show(node, p, own_now, forced_now)
                 channel_rows_show(node, p)
                 try:
@@ -31534,7 +31684,7 @@ def gui():
     # the other two: what is missing is asked of all three.
     voice_lines = []             # [(key, name_value, camera_value)]
     remembered = {}              # survives a redraw of the table
-    suggestions = {}             # what the table last suggested itself
+    suggestions = ByFile()       # what the table last suggested itself
 
     # ------------------------------------------------------------------
     # Extract the camera audio in the background
@@ -31551,9 +31701,9 @@ def gui():
     prework_queue = []                # still to fetch
     prework_active = set()          # taken off the queue, being worked on
     prework_discarded = set()    # left the list while being fetched
-    prework_pending = {}                # path -> how many tasks are still open
-    prework_node = {}            # path -> (row in the file list, text)
-    lines_node = {}              # path -> row in the file list
+    prework_pending = ByFile()          # path -> how many tasks are still open
+    prework_node = ByFile()      # path -> (row in the file list, text)
+    lines_node = ByFile()        # path -> row in the file list
     prework_lock = threading.Lock()
     prework_run = {"threads": 0}
     prework_shares = {}              # (path, task) -> 0..1
@@ -31582,13 +31732,14 @@ def gui():
         if path_key(file_path) in prework_discarded:
             return
         if task:
-            prework_shares[(file_path, task)] = max(0.0, min(1.0, share))
+            prework_shares[prework_share_key(file_path, task)] = max(
+                0.0, min(1.0, share))
             plan.report("pre:%s:%s" % (task, file_path), share,
                         "%s   %s" % (os.path.basename(file_path), text)
                         if text else os.path.basename(file_path))
         elif share >= 1.0:
             for k in list(prework_shares):
-                if k[0] == file_path:
+                if k[0] == path_key(file_path):
                     prework_shares[k] = 1.0
             for name in [n for n in plan.order
                          if n.endswith(":" + file_path)]:
@@ -31867,7 +32018,7 @@ def gui():
         if not prework_shares:
             prework_run["bar"] = 0
         for p, task in fresh:
-            prework_shares.setdefault((os.path.abspath(p), task), 0.0)
+            prework_shares.setdefault(prework_share_key(p, task), 0.0)
             # Announced before the work starts: a bar that only learns of
             # a step when that step begins jumps backwards at every one.
             plan.add("pre:%s:%s" % (task, os.path.abspath(p)),
@@ -32207,7 +32358,7 @@ def gui():
         if not split_cells_write(state.get("split_cells") or (),
                                  split_run["busy"],
                                  state.get("speakers_running") or "",
-                                 state.get("speakers_by") or {},
+                                 state.get("speakers_by") or ByFile(),
                                  state.get("split_note")):
             state["split_cells"] = []
 
@@ -32362,7 +32513,7 @@ def gui():
 
     def prework_clean_up(gone):
         """What left the list needs no audio either."""
-        gone = set(os.path.abspath(p) for p in gone)
+        gone = FileSet(gone)
         keys = set(path_key(p) for p in gone)      # what the cache is keyed by
         with prework_lock:
             dropped = [(p, a) for p, a in prework_queue if p in gone]
@@ -32381,7 +32532,7 @@ def gui():
         # Runs in the window thread, so the bar may be touched directly.
         for p, task in dropped:
             # Their share would stay at zero and hold the bar back.
-            prework_shares.pop((os.path.abspath(p), task), None)
+            prework_shares.pop(prework_share_key(p, task), None)
         # The same on the bar for the whole job: a step announced for
         # a file that has left keeps that bar creeping.
         plan.drop([n for n in plan.order
@@ -32610,10 +32761,10 @@ def gui():
             if where_to is not None:
                 player.jump(int(where_to * 1000))
 
-    clip_kind_values = {}
+    clip_kind_values = ByFile()
     # One value per video file, shown twice -- file list and player. Not
     # a second store: the same object both times.
-    audio_use_values = {}
+    audio_use_values = ByFile()
 
     # The time axis is measured elsewhere and proposes a Kind from there.
     state["clip_kinds"] = clip_kind_values
@@ -32706,7 +32857,7 @@ def gui():
     # Which recordings somebody left open, over a rebuild of the tree.
     # Open is what a fresh one starts as: the assignment lives in the
     # rows underneath, and a sheet that hides its own subject is no use.
-    tree_open = {}
+    tree_open = ByFile()
 
     def assignment_state_show():
         """What the material allows: the cut box, and the tick's line.
@@ -32806,7 +32957,7 @@ def gui():
         if not p or not many:
             return
         open_now = tree.isExpanded(where)
-        tree_open[os.path.abspath(p)] = open_now
+        tree_open[p] = open_now
         tree_cell(row, 2, "" if open_now else folded_summary(tree, row),
                   COLOURS["quiet"])
         tree_rows_fit(tree, 266)
@@ -32969,22 +33120,22 @@ def gui():
                         key=lambda x: os.path.basename(x).lower())
         # A camera contributing its audio is an input track like any other, so
         # it is in the same table above.
-        own_audio_names = {}
+        own_audio_names = ByFile()
         # What a cut-out piece is called: the label the cutting gave it,
         # "Camera 1" and "Camera 2" for two clip-on microphones on one
         # camera. Without it the piece would be named after its file, which
         # carries the channel number and not the person.
-        piece_label = {}
+        piece_label = ByFile()
         for _src, _pieces in split_files.items():
             for _path, _label in _pieces or []:
-                piece_label[os.path.abspath(_path)] = _label
+                piece_label[_path] = _label
         # The file list's own derivation, called and not copied: both
         # tabs show one value and must not disagree about it.
         own_now, forced = audio_use_now()
         chains, camera_audio, own = assignment_rows(
             audio_files, videos, own_now,
             split_of=lambda x: [t[0] for t in
-                                split_files.get(os.path.abspath(x)) or []],
+                                split_files.get(x) or []],
             apart=no_join, together=together_now())
         state["camera_audio"] = camera_audio
         state["own_audio_rows"] = own
@@ -33046,13 +33197,13 @@ def gui():
         for (row, _) in chains:
             first = row[0]
             camera_track = os.path.abspath(first) in state["own_audio_rows"]
-            from_camera = state["own_audio_rows"].get(os.path.abspath(first)) \
+            from_camera = state["own_audio_rows"].get(first) \
                 if isinstance(state["own_audio_rows"], dict) else None
             stem = (guess_camera_name(from_camera or first)
                      if camera_track else guess_speaker_name(first))
             # So the two rows of one camera can be told apart.
-            if piece_label.get(os.path.abspath(first)):
-                stem = piece_label[os.path.abspath(first)]
+            if piece_label.get(first):
+                stem = piece_label[first]
             if camera_track:
                 stem = remembered.get("ownname:" + first) or stem
             caption = os.path.basename(first)
@@ -33107,8 +33258,8 @@ def gui():
             # whether this recording has any is what decides what it
             # carries itself.
             if voices_build(tree_audio, node, first, videos, targets, wide):
-                tree_audio.setExpanded(node[0].index(), tree_open.get(
-                    os.path.abspath(first), True))
+                tree_audio.setExpanded(node[0].index(),
+                                       tree_open.get(first, True))
                 folded_show(node[0].index())
             # Where the voices hang underneath, the rows below carry the
             # cameras and this row carries none -- the assignment has
@@ -33279,8 +33430,7 @@ def gui():
             # One camera can give more than one track: two clip-on
             # microphones on two channels are two speakers, and both names
             # belong in the file name of that camera.
-            mine = own_audio_names.get(os.path.abspath(b)) \
-                or own_audio_names.get(b) or []
+            mine = own_audio_names.get(b) or []
             own_audio_name = mine[0] if mine else Value(
                 remembered.get("ownname:" + b) or guess_camera_name(b))
             own = list(taken.get(short) or [])
@@ -34711,7 +34861,7 @@ def gui():
         state["tc_there"] = False
         state["speakers_local"] = {}
         state["speakers_source"] = ""
-        state["speakers_by"] = {}
+        state["speakers_by"] = ByFile()
         state["speakers_count"] = 0
         state["speakers_wanted"] = None
         state["preset_wanted"] = ""
@@ -35103,8 +35253,8 @@ def gui():
             "rows": [{"blocks": list(row),
                         "speakers": nv.get(),
                         "camera_choice": cv.get(),
-                        "own_audio": os.path.abspath(row[0]) in own_flag,
-                        "from_camera": (own_flag.get(os.path.abspath(row[0]))
+                        "own_audio": row[0] in own_flag,
+                        "from_camera": (own_flag.get(row[0])
                                         if isinstance(own_flag, dict) else ""),
                         "audio_done": audio_done_of(row)}
                        for row, nv, cv in assign_lines],
