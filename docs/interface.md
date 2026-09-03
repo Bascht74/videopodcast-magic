@@ -220,10 +220,15 @@ Four tabs, in the order they are needed.
 
   *Above which recording belongs to which camera, below what becomes
   of each camera.*
-- **Resolve cut**: one line saying whether Resolve answers, with the way
-  to the settings beside it. Then the time window, the box with the cut
-  values and the box **Speaker**, whose heading names where the speakers
-  came from. Last the box **Camera cut -- preview**, with the cut band
+- **Resolve cut**: a line about Resolve only where Resolve does not
+  answer -- **Resolve does not answer -- see Settings**, with the way to
+  the settings beside it. Where it answers, nothing stands there: about
+  Resolve there is nothing to set, and the way to the settings is for
+  whoever has something to put right. Then the time window, the box with
+  the cut values and the box **Speaker**, whose heading names where the
+  speakers came from, the measured speech time in brackets and, behind
+  it, that people talking at once count twice.
+  Last the box **Camera cut -- preview**, with the cut band
   and a picture that plays. The picture says under itself, on a plate
   in the colour of the running shot, who is speaking and which camera
   is up; where a shot has no picture the colour fills the whole box and
@@ -463,6 +468,28 @@ blocks, the block that is playing, and saying where that recording was
 not due under this picture and stayed silent on purpose -- and, at every
 start and every stop of the cut player, which camera it was showing.
 That is the part to send along with a complaint about the preview.
+
+Lines marked **[EXT]** hold every call to a program outside this one --
+ffmpeg and ffprobe -- with the tool, the file it was about and how long
+it took; speech recognition and speaker separation stand among them,
+because that is where a run spends its minutes. Where no measurement was
+needed because one was already there, that stands in place of the call:
+from outside, a file read once looks exactly like one read four times.
+The same call several times in a row stands as one line, with the count
+and the total -- the fine measurement asks for nine stretches out of two
+files. A line marked **[ENV]** says, for each loudness curve the program
+draws out of a file for the time axis, whether it came out of the store
+or had to be read off the file again; on a large file that is the
+difference between minutes and nothing. And what the window shows in red
+is in there with the time of day, under **[BAD]**: a warning window, a
+red line under a box, a red mark on a row of the file list -- a red mark
+is gone as soon as the row is drawn again, and the complaint about it
+arrives hours later.
+
+None of that goes into what the run itself prints, only into the file:
+in the window it would tear the progress bars apart. The new lines are
+English, like the [GUI] ones; only the wording of a red message stands
+as it stood in the window, and so in the language of the program.
 
 Beside **Start** runs **one bar for everything outstanding**, with a line
 saying what is being worked on; it only ever moves forward. It covers
@@ -750,7 +777,11 @@ nothing are told apart.
   guessed at. The player on **Resolve cut** names the camera it is
   showing at each start and each stop, not on every frame between them.
   Sound running against the wrong picture can be read off those lines
-  afterwards; without them it can only be described.
+  afterwards; without them it can only be described. Beside them stand
+  the calls to ffmpeg and ffprobe with their times, marked **[EXT]**,
+  and every red message the window showed, marked **[BAD]** and with the
+  time of day -- a red mark that has since been drawn over is found
+  again there instead of being remembered.
 
 That is the whole window. The next chapter, [Preflight](preflight.md),
 covers the checks before a run and the meaning of each mark in the file

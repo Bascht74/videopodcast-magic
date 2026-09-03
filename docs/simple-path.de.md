@@ -211,6 +211,19 @@ Aufnahme gegenüber einer Kamera erreichen muss. Eine Kamera, die das
 nicht erreicht und keinen passenden Timecode trägt, bleibt genauso
 draußen.
 
+Eine Kamera, die zwar eine Tonspur meldet, aus der sich aber nichts
+lesen lässt -- der Ton brach nach einem Augenblick ab, oder die Spur ging
+beim Kopieren verloren --, beendet den Lauf nicht mehr, ehe er begonnen
+hat. Die Zeitachse gibt die längste unter den Kameras vor, gegen die
+sich überhaupt messen lässt; die stumme wird dorthin gelegt, wohin ihre
+eigene Uhr zeigt. Das Protokoll nennt dann die Datei und sagt, dass sie
+keinen messbaren Ton gibt, allein nach ihrer Uhr eingeordnet ist und
+nichts da war, woran sich das prüfen ließe -- diese eine Zeile ist zu
+lesen, denn diese eine Kamera liegt dort, wohin ihre Uhr sie legt, und
+niemand hat es nachgemessen. Fehlt die Uhr -- bei ihr selbst oder bei
+der Kamera, die die Achse vorgibt -- oder passt sie zu keiner der
+anderen, bleibt die Kamera draußen und wird genannt wie oben.
+
 ### Wie der Lauf eine Uhrzeit statt eines Zählers liest
 
 Namen mit Datum und Uhrzeit gelten ebenso als Blöcke:

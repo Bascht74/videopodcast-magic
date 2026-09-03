@@ -25,6 +25,137 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [2.32.0-beta] - 2026-09-03
+
+### Added
+
+- The log `videopodcast-magic.log` now says what the program does
+  outside itself: every call to ffmpeg and ffprobe with the file it is
+  about and how long it took, and the speech recognition and the
+  separation the same way. Where a measurement was there already and
+  nothing had to be called, that stands in its place.
+- The same call repeated stands as one line, with the count and the
+  total. The fine measurement after auphonic.com asks for nine short
+  stretches out of two files, which used to be twenty lines saying the
+  same thing.
+- All of it goes into the file only, never into what a run prints. There
+  it would land between two progress bars and tear them apart.
+- What the window shows in red now stands in the log as well, with the
+  time of day: a warning box, a red line under a box, a red mark on a row
+  of the file list. A red mark is gone the moment that row is drawn
+  again, and the complaint about it arrives hours later.
+
+### Changed
+
+- The channels of a recording are measured once now, and what was
+  measured outlives the program. Reading every channel of a file right
+  through takes 20 to 50 seconds on an hour of material, and until now
+  every start did it again -- opening the same project a second time cost
+  the same wait as the first. A file that has changed is measured afresh.
+- The heading over the speaker figures on the **Resolve cut** tab now
+  carries the speech time and, behind it, the note that people talking at
+  once are counted twice. The line that said so under the table is gone,
+  and the table has that row back.
+- The line about Resolve on the **Resolve cut** tab now shows only where
+  Resolve does not answer, and it names the way to the settings. Where
+  Resolve answers there is nothing to set up, and the row goes to the
+  rest of the tab.
+
+### Fixed
+
+- An intro or an outro now plays its own sound in the preview, with
+  **hear assigned audio** ticked as well. No speaker is assigned to it,
+  so the rule for the wide shot took hold and the full mix of the episode
+  ran under it, laid on an axis it is not on: an intro stands before the
+  episode and an outro after it, not inside it.
+- The warning about a weak match now names the file it is about. With
+  several recordings the log held a heap of warnings nobody could put
+  back against a file -- and each of them says two files may not belong
+  together.
+- A camera whose sound gives nothing to read no longer ends the run. One
+  reporting a track with nothing in it stopped it on the first line, and
+  where it was the longest every other camera was measured against it.
+  The reference is now the longest that can be measured against; the
+  silent one is placed by its clock and named.
+
+### Tests
+
+- A test holds the log to what it promises: that every call is written
+  down, that repeated ones are summed up, that none of it reaches the
+  output of a run, and that the channel measurement really is read back
+  in a second process instead of measured again.
+- Another prints the table of the program's own sections at every run
+  -- how long each is, how many names it takes from elsewhere and how
+  many it hands out. It holds one of them: the ground section takes
+  nothing from above it.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Das Protokoll `videopodcast-magic.log` sagt jetzt, was das Programm
+  ausserhalb von sich tut: jeden Aufruf von ffmpeg und ffprobe mit der
+  Datei, um die es geht, und mit seiner Dauer -- Spracherkennung und
+  Sprechertrennung ebenso. Wo eine Messung schon vorlag und nichts
+  aufgerufen werden musste, steht das an ihrer Stelle.
+- Derselbe Aufruf mehrfach steht als eine Zeile, mit Anzahl und Summe.
+  Die feine Nachmessung nach auphonic.com holt neun kurze Stellen aus
+  zwei Dateien -- das waren zwanzig Zeilen mit demselben Inhalt.
+- Das alles steht nur in der Datei, nie in dem, was ein Lauf ausgibt.
+  Dort landete es zwischen zwei Fortschrittsbalken und zerriss sie.
+- Was das Fenster rot zeigt, steht jetzt auch im Protokoll, mit der
+  Uhrzeit: ein Warnfenster, eine rote Zeile unter einem Kasten, eine rote
+  Marke an einer Zeile der Dateiliste. Eine rote Marke ist weg, sobald
+  die Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
+  später.
+
+### Geändert
+
+- Die Messung, die die Kanäle einer Aufnahme beurteilt, läuft jetzt
+  einmal und überdauert das Programm. Sie liest jeden Kanal einer Datei
+  ganz durch; bei einer Stunde Material sind das 20 bis 50 Sekunden, und
+  bisher fielen die bei jedem Start wieder an -- auch beim zweiten Öffnen
+  desselben Projekts. Eine geänderte Datei wird neu gemessen.
+- Die Überschrift über den Sprecherzahlen auf dem Reiter
+  **Resolve-Schnitt** trägt jetzt die Sprechzeit und dahinter den
+  Hinweis, dass gleichzeitig Redende doppelt zählen. Die Zeile, die das
+  unter der Tabelle sagte, ist weggefallen, und die Tabelle hat die Zeile
+  wieder.
+- Die Zeile über Resolve auf dem Reiter **Resolve-Schnitt** erscheint nur
+  noch, wenn Resolve nicht antwortet, und nennt dann den Weg zu den
+  Einstellungen. Antwortet Resolve, ist ohnehin nichts einzustellen, und
+  die Zeile gehört dem übrigen Reiter.
+
+### Behoben
+
+- Ein Vorspann oder ein Abspann spielt in der Vorschau jetzt seinen
+  eigenen Ton, auch bei gesetztem Häkchen **zugeordneten Ton hören**. Ihm
+  ist kein Sprecher zugeordnet, also griff die Regel für den Weitwinkel
+  und die Gesamtmischung der Folge lief darunter -- auf einer Zeitachse,
+  auf der er nicht steht: Ein Vorspann steht vor der Folge, ein Abspann
+  dahinter, nicht darin.
+- Die Warnung über eine schwache Übereinstimmung nennt jetzt die Datei,
+  um die es geht. Bei mehreren Aufnahmen stand im Protokoll ein Haufen
+  Warnungen, den niemand einer Datei zuordnen konnte -- und jede davon
+  sagt, dass zwei Dateien womöglich nicht zusammengehören.
+- Eine Kamera, deren Ton nichts hergibt, beendet den Lauf nicht mehr.
+  Eine, die eine Tonspur meldet und nichts herausgibt, brach ihn in der
+  ersten Zeile ab -- und war sie die längste, wurde an ihr gemessen.
+  Bezugskamera ist jetzt die längste, an der sich messen lässt; die
+  stumme wird nach ihrer Uhr eingeordnet und genannt.
+
+### Tests
+
+- Eine Pruefung haelt das Protokoll an sein Versprechen: dass jeder
+  Aufruf aufgeschrieben wird, dass sich wiederholende zusammengefasst
+  werden, dass nichts davon in die Ausgabe eines Laufs gelangt, und
+  dass die Kanalmessung im zweiten Prozess wirklich gelesen statt neu
+  gemessen wird.
+- Eine zweite druckt bei jedem Lauf die Tabelle der Abschnitte des
+  Programms: wie lang jeder ist, wie viele Namen er von anderswo holt
+  und wie viele er hinausgibt. Einen Punkt haelt sie fest -- der
+  Unterbau holt sich nichts von oberhalb.
+
 ## [2.31.1-beta] - 2026-09-03
 
 ### Changed

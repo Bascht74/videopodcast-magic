@@ -311,7 +311,9 @@ The box **Speaker** shows, per speaker:
 * the number of blocks and their average length
 * a row for silence
 
-The heading names the source, and there are three answers:
+The heading holds three things in one line: the source, behind it in
+brackets the measured speech time, and behind that **-- talking at once
+counts twice**. For the source there are three answers:
 
 - **Speakers, as the run measured them.** A run is done and its handover
   is being read. Every track lay on one axis for it, and over
@@ -332,8 +334,9 @@ it prints both marks, and under each one line saying who came that way
 measured against each other. The speaking times themselves follow after
 both marks, in one list for everybody.
 
-With two speaking at once the time counts twice, for silence it does
-not. The rows therefore add up to more than the running time.
+With two speaking at once the time counts twice, as the heading says;
+for silence it does not. The rows therefore add up to more than the
+running time.
 
 Where a run has left its handover file `<Production>_resolve.json`, both
 boxes are computed from it; where there is none, from what the window
@@ -483,6 +486,10 @@ happened.
 With **hear assigned audio** the picture runs with the sound belonging to
 that camera:
 
+* **never under a file set to Intro or Outro.** They stand before the
+  episode and after it, not inside it, so nothing off its time axis
+  belongs under them: even with the box ticked, the file's own sound is
+  heard. This is settled before the three below are asked at all
 * the **processed track** from auphonic.com (`final_<Name>_<TC>.wav`), at
   the target chosen under **Loudness**, or that of the preset where
   nothing was chosen, and with a BWF timecode

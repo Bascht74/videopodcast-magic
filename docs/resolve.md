@@ -52,9 +52,12 @@ project holds, and is passed over. Press **Start** again for the cameras
 as they stand now.
 
 The program asks whether Resolve answers by itself, in the background,
-at the first look at the **Resolve cut** tab. That tab says the answer
-in one line, and beside it stands the way to the **Settings ...**
-window, where the check itself lives.
+at the first look at the **Resolve cut** tab. Only a no shows there: the
+tab then reads **Resolve does not answer -- see Settings**, and beside
+that stands the way to the **Settings ...** window, where the check
+itself lives. Where Resolve answers, the tab says nothing at all --
+about Resolve there is nothing to set, and the way to that window is for
+whoever has something to put right.
 
 Its box **Connection to Resolve** names the product and the version if
 the connection works. If it does not, it names the two paths it looked

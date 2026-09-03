@@ -239,10 +239,15 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   *Oben, welche Aufnahme zu welcher Kamera gehört, unten, was aus
   jeder Kamera wird.*
-- **Resolve-Schnitt**: eine Zeile, die sagt, ob Resolve antwortet, mit
-  dem Weg zu den Einstellungen daneben. Dann das Zeitfenster, der Kasten
-  mit den Werten für den Schnitt und der Kasten **Sprecher**, dessen
-  Überschrift die Quelle der Sprecher nennt. Zuletzt der Kasten
+- **Resolve-Schnitt**: eine Zeile über Resolve nur dort, wo Resolve
+  nicht antwortet -- **Resolve antwortet nicht -- siehe Einstellungen**,
+  mit dem Weg zu den Einstellungen daneben. Antwortet Resolve, steht
+  dort gar nichts: an Resolve ist nichts einzustellen, und der Weg zu den
+  Einstellungen ist für den da, der etwas zu richten hat. Dann das
+  Zeitfenster, der Kasten mit den Werten für den Schnitt und der Kasten
+  **Sprecher**, dessen Überschrift die Quelle der Sprecher nennt, in
+  Klammern die gemessene Redezeit und dahinter, dass gleichzeitig
+  Redende doppelt zählen. Zuletzt der Kasten
   **Kameraschnitt -- Vorschau** mit Schnittband und abspielbarer
   Vorschau. Das Bild sagt unter sich, auf einer Fläche in der Farbe der
   laufenden Einstellung, wer spricht und welche Kamera läuft; hat eine
@@ -497,6 +502,31 @@ dort, wo diese Aufnahme unter diesem Bild nicht dran ist und deshalb
 still bleibt -- und, bei jedem Start und jedem Halt des
 Schnitt-Players, welche Kamera er dabei zeigte. Genau das ist der Teil,
 den man einer Beschwerde über die Vorschau mitschickt.
+
+Zeilen mit dem Vorsatz **[EXT]** halten jeden Aufruf eines fremden
+Programms fest -- ffmpeg und ffprobe -- mit dem Werkzeug, der Datei, um
+die es ging, und der Dauer des Aufrufs; Spracherkennung und
+Sprechertrennung stehen mit darunter, denn dort verbringt ein Lauf seine
+Minuten. Wo nichts zu messen war, weil die Messung schon vorlag, steht
+das anstelle des Aufrufs: von außen sieht eine einmal gelesene Datei
+genauso aus wie eine viermal gelesene. Gleiche Aufrufe unmittelbar
+hintereinander stehen als eine Zeile, mit der Anzahl und der Gesamtdauer
+-- die feine Messung fragt neun Stücke aus zwei Dateien ab. Eine Zeile
+mit dem Vorsatz **[ENV]** sagt zu jeder Lautstärkekurve, die das
+Programm für die Zeitachse aus einer Datei zieht, ob sie aus dem
+Speicher kam oder neu von der Datei gelesen werden musste; bei einer
+großen Datei ist das der Unterschied zwischen Minuten und nichts. Und
+was das Fenster rot zeigt, steht mit der Uhrzeit darin, unter dem
+Vorsatz **[BAD]**: ein Warnfenster, eine rote Zeile unter einem Kasten,
+eine rote Marke an einer Zeile der Dateiliste -- eine rote Marke ist
+weg, sobald die Zeile neu gezeichnet wird, und die Beschwerde darüber
+kommt Stunden später.
+
+Das alles geht nicht in die Ausgabe des Laufs selbst, sondern nur in die
+Datei: im Fenster würde es die Fortschrittsbalken zerreißen. Die neuen
+Zeilen sind englisch wie die [GUI]-Zeilen; nur der Wortlaut einer roten
+Meldung steht so da, wie er im Fenster stand, also in der Sprache des
+Programms.
 
 Neben **Start** läuft **ein Balken für alles Ausstehende**, mit einer
 Zeile daneben, woran gerade gearbeitet wird; er läuft immer nur vorwärts.
@@ -802,7 +832,11 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   nennt die Kamera, die er zeigt, bei jedem Start und jedem Halt, nicht
   bei jedem Bild dazwischen. Ton, der gegen das falsche Bild läuft,
   lässt sich an diesen Zeilen hinterher ablesen; ohne sie lässt er sich
-  nur beschreiben.
+  nur beschreiben. Daneben stehen die Aufrufe von ffmpeg und ffprobe mit
+  ihren Zeiten, mit dem Vorsatz **[EXT]**, und jede rote Meldung, die
+  das Fenster gezeigt hat, mit dem Vorsatz **[BAD]** und mit der Uhrzeit
+  -- eine rote Marke, über die längst neu gezeichnet wurde, findet man
+  dort wieder, statt sie erinnern zu müssen.
 
 Das ist das ganze Fenster. Im nächsten Kapitel, [Vorflug](preflight.de.md),
 geht es um die Prüfungen vor einem Lauf und um die Bedeutung jedes

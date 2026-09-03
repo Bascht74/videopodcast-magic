@@ -331,30 +331,33 @@ Der Kasten **Sprecher** zeigt je Sprecher:
 * Zahl der Blöcke und deren mittlere Länge
 * eine Zeile Stille
 
-Die Überschrift nennt die Quelle, und es gibt drei Antworten:
+Die Überschrift nennt drei Dinge in einer Zeile: die Quelle, dahinter in
+Klammern die gemessene Sprechzeit und dahinter **-- gleichzeitig redende
+werden doppelt gezählt**. Für die Quelle gibt es drei Antworten:
 
-- **Sprecher, wie der Lauf sie gemessen hat.** Ein Lauf ist durch, und
-  seine Übergabedatei wird gelesen. Für ihn lagen alle Spuren auf einer
-  Achse, und über auphonic.com waren zusätzlich die Nachbarn aus ihnen
-  herausgerechnet. Das ist die feinste der drei Auskünfte.
-- **Sprecher, nach Stimmen getrennt.** Sie kommen aus einer Trennung auf
+- **Gemessene Sprecher.** Ein Lauf ist durch, und seine Übergabedatei
+  wird gelesen. Für ihn lagen alle Spuren auf einer Achse, und über
+  auphonic.com waren zusätzlich die Nachbarn aus ihnen herausgerechnet.
+  Das ist die feinste der drei Auskünfte.
+- **Nach Stimmen getrennte Sprecher.** Sie kommen aus einer Trennung auf
   diesem Rechner, noch vor jedem Lauf.
-- **Sprecher, selbst aus den Spuren gemessen.** Pegel, hier im Fenster
-  gegeneinander gemessen, je Person ein Mikrofon. Die gröbste der drei,
-  und sie genügt, um den Schnitt einzustellen.
+- **Selbst gemessene Sprecher.** Pegel, hier im Fenster gegeneinander
+  gemessen, je Person ein Mikrofon. Die gröbste der drei, und sie
+  genügt, um den Schnitt einzustellen.
 
 Vor einem Lauf können die beiden letzten zugleich in der Tabelle stehen
 — Stimmen aus einer Trennung und Spuren, die aus ihrem eigenen Mikrofon
 gemessen wurden, nebeneinander —, und dann heißt die Überschrift für
-alle zusammen **Sprecher, nach Stimmen getrennt**. Das Protokoll hält
+alle zusammen **Nach Stimmen getrennte Sprecher**. Das Protokoll hält
 diese beiden auf seine Weise auseinander: es druckt beide Marken und
 unter jeder eine Zeile, wer auf diesem Weg gekommen ist -- wie viele
 Stimmen aus welcher Aufnahme, und die Namen der Spuren, die
 gegeneinander gemessen wurden. Die Sprechzeiten selbst folgen nach
 beiden Marken, in einer Liste für alle.
 
-Bei zwei gleichzeitig Redenden zählt die Zeit doppelt, bei der Stille
-nicht. Deshalb ergeben die Zeilen zusammen mehr als die Laufzeit.
+Bei zwei gleichzeitig Redenden zählt die Zeit doppelt -- die Überschrift
+sagt es --, bei der Stille nicht. Deshalb ergeben die Zeilen zusammen
+mehr als die Laufzeit.
 
 Hat ein Lauf seine Übergabedatei `<Produktion>_resolve.json`
 hinterlassen, rechnet das Programm beide Kästen daraus; gibt es keine,
@@ -510,6 +513,11 @@ nichts passiert ist.
 Mit **zugeordneten Ton hören** läuft zum Bild der Ton, der zu dieser
 Kamera gehört:
 
+* **nie unter einer Datei, die auf Vorspann oder Abspann steht.** Sie
+  stehen vor der Folge und hinter ihr, nicht in ihr, und deshalb gehört
+  nichts von ihrer Zeitachse darunter: auch bei gesetztem Häkchen ist
+  der eigene Ton der Datei zu hören. Das entscheidet sich, bevor die
+  drei folgenden überhaupt gefragt werden
 * die **aufbereitete Spur** von auphonic.com (`final_<Name>_<TC>.wav`),
   auf dem unter **Lautheit** gewählten Ziel, oder auf dem des Presets,
   wo nichts gewählt wurde, und mit BWF-Timecode

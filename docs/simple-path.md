@@ -200,6 +200,18 @@ and what one camera has to reach against another is many times what a
 recording has to reach against a camera. A camera that does not reach it
 and carries no fitting timecode stays out in the same way.
 
+A camera that reports a sound track but gives nothing readable out of
+it -- the sound broke off after a moment, or the track was lost in a
+copy -- no longer ends the run before it has begun. The camera that sets
+the time axis is the longest of those there is something to measure
+against, and the one that gives nothing is laid where its own clock puts
+it: the log names the file and says that it gives no sound to measure,
+that it was placed by its clock alone, and that nothing was found to
+check that against. That line is worth reading, because this one camera
+lies where its clock says and nobody checked it. Where the clock is
+missing -- on it or on the camera that sets the axis -- or fits none of
+the others, the camera stays out and is named, as above.
+
 ### How the run reads a clock instead of a counter
 
 Names with date and time of day count as blocks too:

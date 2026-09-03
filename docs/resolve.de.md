@@ -55,9 +55,13 @@ das Projekt hat, und wird übergangen. Dann noch einmal **Start**
 drücken, für die Kameras, wie sie jetzt stehen.
 
 Das Programm fragt beim ersten Blick auf den Reiter **Resolve-Schnitt**
-von selbst nach, im Hintergrund, ob Resolve antwortet. Der Reiter sagt
-die Antwort in einer Zeile, und daneben steht der Weg zum Fenster
-**Einstellungen ...**, in dem die Prüfung selbst sitzt.
+von selbst nach, im Hintergrund, ob Resolve antwortet. Dort erscheint
+nur ein Nein: der Reiter sagt dann **Resolve antwortet nicht -- siehe
+Einstellungen**, und daneben steht der Weg zum Fenster
+**Einstellungen ...**, in dem die Prüfung selbst sitzt. Antwortet
+Resolve, sagt der Reiter gar nichts -- für Resolve gibt es nichts
+einzustellen, und der Weg dorthin ist für den gedacht, der etwas
+richten muss.
 
 In dessen Kasten **Verbindung zu Resolve** stehen Produkt und Version,
 wenn die Verbindung steht. Wenn nicht, stehen dort die beiden Pfade,
