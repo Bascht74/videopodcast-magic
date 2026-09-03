@@ -197,8 +197,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
 
   Zu welcher Kamera eine Aufnahme gehört, ergibt sich aus diesem Namen,
   solange niemand selbst eine wählt; ein später getippter oder
-  verbesserter Name zieht die Kamera also mit. Eine von Hand gewählte
-  Kamera ist eine Antwort und bleibt, wo sie hingesetzt wurde.
+  verbesserter Name zieht die Kamera also mit. Der graue Vorschlag gilt
+  dabei als dieser Name: auch eine Aufnahme, in die niemand etwas
+  getippt hat, landet auf der Kamera, die nach ihr heißt. Eine von Hand
+  gewählte Kamera ist eine Antwort und bleibt, wo sie hingesetzt wurde.
 
   Bei mehr als einer Tonaufnahme läuft nichts von selbst; die Antwort in
   der Zeile startet es. Unter den Aufnahmen steht **Auf diesem Rechner

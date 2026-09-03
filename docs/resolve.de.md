@@ -212,9 +212,13 @@ Laufen alle Kameras gleich schnell, tritt der Fall gar nicht erst auf.
 nie berührt.** Auf der Multicam-Timeline steht jede Kamera an ihrer
 gemessenen Stelle, und die zählt allein in Bildern der Timeline --
 nachgemessen und richtig. Die Kameradateien, die das Programm schreibt,
-behalten die Bildrate ihrer Quelle und tragen ihren eigenen Timecode, in
-ihrer eigenen Rate gezählt. Falsch war allein die Schnitt-Timeline, und
-auch die nur dort, wo die Kameras verschieden schnell liefen.
+behalten die Bildrate ihrer Quelle und tragen den Augenblick, in dem sie
+wirklich anfangen, in dieser Rate gezählt -- aus derselben Messung, die
+auch jede Kamera platziert, also stimmen die Dateien untereinander
+überein. Nur wo dem Material keine Tageszeit zu entnehmen ist, fällt
+jede auf ihre eigene Uhr zurück, verschoben um den Beschnitt vorn.
+Falsch war allein die Schnitt-Timeline, und auch die nur dort, wo die
+Kameras verschieden schnell liefen.
 
 ### Eine Datei, die nirgends hinpasst
 
@@ -585,6 +589,11 @@ keine Sicherungskopie an.
   Übergabedatei sagt dasselbe. Die Kamera in Resolve verschieben, oder
   der Datei einen Timecode geben, der zum übrigen Material passt, und
   noch einmal laufen lassen.
+- **Die ganze Folge sitzt weit innen in der Timeline, oder die Timeline
+  fängt bei 01:00:00:00 an.** Resolve hat den Anfang nicht übernommen,
+  den der Lauf gesetzt hat. Das Protokoll nennt den gewünschten Anfang
+  und den, den die Timeline meldet. In Resolve von Hand an der Timeline
+  setzen, oder das Projekt noch einmal bauen lassen.
 - **Der Knopf ist gleich nach dem Öffnen eines Projekts grau, und im
   Ordner liegt eine Übergabedatei.** Sie nennt andere Kameras, als das
   Projekt hat -- eine andere Produktion, oder eine Runde, bevor eine

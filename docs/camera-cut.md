@@ -604,6 +604,9 @@ framing, and carries the name of whoever is talking. Resolve gets a
 track already separated at the right places, and there each piece can be
 grouped, coloured and zoomed into, so the wide shot becomes the speaker.
 
+The preview counts those shots as well, so the number in the box is the
+one the run makes.
+
 The cut list says so too: with one camera for everybody the EDL carries
 the speaker name in place of the camera name. The Speaker column of
 `_cameracut.csv` is there in any case.

@@ -168,6 +168,12 @@ Modus zurück, dann wird die Liste für ihn aufgebaut. Was nur unter
 **Multitrack** in der Liste steht, ist damit wieder da, wo es gewählt
 werden kann.
 
+Ist noch gar keine Liste geholt worden, holt das Öffnen des Projekts
+eine, damit das Preset irgendwo stehen kann. Bis die Antwort da ist,
+nennt der Kasten das Preset mit **wird geprüft** dahinter, grau und
+nicht wählbar, und sein Wert bleibt **ohne Auphonic arbeiten**: ein
+**Start** vor der Antwort gibt kein Guthaben aus.
+
 ### Wenn es die Produktion schon gibt
 
 Das Programm erkennt die Produktion am Namen und fragt, was mit ihr

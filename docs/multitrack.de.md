@@ -114,21 +114,25 @@ Zeile holt die Datei in den Player.
 
 **neue Datei heißt** ist das, was aus dieser Kamera herauskommen wird.
 Bis jemand darüberschreibt, ist es ein Vorschlag, gebaut aus dem
-Produktionsnamen, der Kamera und den Sprechern davor. **bekommt Audio
-von** daneben nennt dieselben Sprecher. Eine Kamera, der niemand
-zugeordnet ist, sagt dort **den Mix aus allen Spuren**, und der
+Produktionsnamen, der Kamera und den Sprechern. Zählt die Kamera ihre
+Dateien mit einer Nummer durch, stehen die Sprecher vor dieser Nummer
+und der Name der Kamera vor ihnen -- vorn bleibt also lesbar, welche
+Kamera es war. Gibt es keine solche Nummer, bleibt der Kameraname ganz
+und die Sprecher folgen ihm; und heißt die Kamera ohnehin schon nach
+ihnen, werden sie kein zweites Mal genannt. **bekommt Audio von**
+daneben nennt dieselben Sprecher. Eine Kamera, der niemand zugeordnet
+ist, sagt dort **den Mix aus allen Spuren**, und der
 Weitwinkel sagt **kein Sprecher -- das ist der Weitwinkel** -- oder
 nennt den, der ihm vorher zugeordnet war und auf **ohne eigene Kamera**
 gewechselt ist.
 
-**Ein nur vorgeschlagener Name zählt in beidem mit.** Das Namensfeld
+**Ein nur vorgeschlagener Name zählt überall mit.** Das Namensfeld
 einer Aufnahme steht leer da, mit dem aus dem Dateinamen geratenen
-Namen in Grau darin, und mit diesem Namen arbeitet der Lauf -- also
-gehört er in den Dateinamen der Kamera und in **bekommt Audio von**.
-Bisher fehlte er in beidem, während der Lauf ihn hatte, und die Kamera
-ging unter einem Dateinamen ohne Menschen darin nach Resolve. Wer den
-Namen eintippt, ändert daran nichts: es war schon vorher der Name, der
-galt.
+Namen in Grau darin, und mit diesem Namen arbeitet der Lauf: er steht
+im Dateinamen der Kamera und in **bekommt Audio von**, und er
+entscheidet, auf welche Kamera die Aufnahme kommt, solange niemand von
+Hand eine wählt. Wer den Namen eintippt, ändert daran nichts: es war
+schon vorher der Name, der galt.
 
 Eine Datei, für die die Messung keinen Platz findet, ist in dieser
 Tabelle nicht vermerkt. Jeder Vermerk zu einer Datei steht in der

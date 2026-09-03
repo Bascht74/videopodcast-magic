@@ -636,6 +636,9 @@ Resolve bekommt eine Spur, die an den richtigen Stellen schon getrennt
 ist, und dort lässt sich jedes Stück gruppieren, einfärben und
 heranzoomen, so dass aus dem Weitwinkel der Sprecher wird.
 
+Die Vorschau zählt diese Einstellungen mit: die Zahl im Kasten ist die,
+die der Lauf macht.
+
 Die Schnittliste sagt es mit: bei einer Kamera für alle trägt die EDL
 den Sprechernamen an Stelle des Kameranamens. Die Spalte Sprecher in
 `_cameracut.csv` steht in jedem Fall da.
