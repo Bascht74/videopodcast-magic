@@ -7022,6 +7022,7 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             a_corr, b_corr, st = align_envelopes(env_old, env_fresh, HOP,
                                                 sample_points=density,
                                                 distance_s=30.0,
+                                                warn=os.path.basename(done),
                                                 points_off="audio")
         except Exception as e:
             print(T('  %-20s not measurable: %s') % (track["name"], e))
@@ -8750,7 +8751,8 @@ def align_cameras(videos):
         density = int(max(20, min(120, duration / 30.0)))
         try:
             a, b, st = align_envelopes(env_ref, env, sample_points=density,
-                                          distance_s=30.0)
+                                          distance_s=30.0,
+                                          warn=os.path.basename(v))
         except Exception as e:
             print(T('  %s cannot be classified: %s')
                   % (os.path.basename(v), e))
@@ -10786,8 +10788,11 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             env_video = video_envelope(v, HOP, rate)
             env_audio = envelope(decode_audio(check, rate=rate), HOP, rate)
             density = int(max(20, min(120, info["duration"] / 30.0)))
-            a2, b2, st2 = align_envelopes(env_video, env_audio, HOP, sample_points=density,
-                                             distance_s=30.0, points_off="audio")
+            a2, b2, st2 = align_envelopes(env_video, env_audio, HOP,
+                                             sample_points=density,
+                                             distance_s=30.0,
+                                             points_off="audio",
+                                             warn=os.path.basename(check))
             deviation = a2 - a
         except Exception as e:
             a2, st2, deviation = None, {}, None
@@ -15624,7 +15629,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
             # The same method as the run: sample points over the whole
             # runtime, a regression line, the median.
             a_s, b, st = align_envelopes(envelopes[reference],
-                                          envelopes[file_path], HOP)
+                                          envelopes[file_path], HOP,
+                                          warn=os.path.basename(file_path))
             return a_s, b, st.get("quality", 0.0)
         except Exception:
             return None
@@ -15659,7 +15665,8 @@ def measure_time_axis(paths, tc_of=lambda p: None, HOP=5.0):
                 continue
             try:
                 _a, _b, st = align_envelopes(envelopes[camera_ref],
-                                             envelopes[p], HOP)
+                                             envelopes[p], HOP,
+                                             warn=os.path.basename(p))
             except Exception:
                 continue
             if (st.get("quality", 0.0) < CAMERA_MATCH_ENOUGH
@@ -17967,7 +17974,8 @@ def align_audio_to_video(audio, video, head_s, sample_points=None, window_s=20.0
     x_audio = decode_audio(audio, rate=rate, ss=head_s / float(SR))
     env_audio = envelope(x_audio, HOP, rate)
     a, b, st = align_envelopes(env_video, env_audio, HOP, sample_points,
-                               window_s, distance_s)
+                               window_s, distance_s,
+                               warn=os.path.basename(audio))
     if st.get("quality", 0.0) >= WEAK_MATCH:
         return a, b, st
     # The plain way found nothing worth having. Both files are read
@@ -18246,9 +18254,13 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
     # look the same from outside. A second try on the same two files
     # has heard it once and asks for silence.
     if warn and g < WEAK_MATCH:
-        print(as_warn(T('      WARNING: weak match (%.3f, %.2f is the '
-                        'floor). The two may not belong together.')
-                      % (g, WEAK_MATCH)))
+        # warn carries the name where the caller has one. Without it
+        # a run with several recordings prints a heap of warnings
+        # nobody can put back against a file.
+        print(as_warn(T('      WARNING: weak match for %s (%.3f, %.2f is '
+                        'the floor). The two may not belong together.')
+                      % (warn if isinstance(warn, str)
+                         else T('this pair of files'), g, WEAK_MATCH)))
 
     duration_v = len(env_video) * HOP / 1000.0
     W = int(window_s * 1000 / HOP)
@@ -36319,10 +36331,12 @@ CATALOGUE["de"] = {
         'Übergänge anlegen.)',
     '      GetAudioMapping   fails: %s':
         '      GetAudioMapping   geht nicht: %s',
-    '      WARNING: weak match (%.3f, %.2f is the floor). The two may '
-    'not belong together.':
-        '      WARNUNG: schwache Übereinstimmung (%.3f, die Grenze ist '
-        '%.2f). Die beiden gehören vielleicht nicht zusammen.',
+    '      WARNING: weak match for %s (%.3f, %.2f is the floor). The two '
+    'may not belong together.':
+        '      WARNUNG: %s passt nur schwach (%.3f, %.2f ist die Grenze). '
+        'Die beiden gehören womöglich nicht zusammen.',
+    'this pair of files':
+        'dieses Dateipaar',
     '    %-20s %+.0f ms / %+.0f ppm -- that cannot be right, track\n    '
     '%-20s stays where it is.':
         '    %-20s %+.0f ms / %+.0f ppm -- das kann nicht stimmen, die '
