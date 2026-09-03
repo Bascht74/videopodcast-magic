@@ -148,6 +148,7 @@ explains the word comes first.
 * **outro**: `resolve`, "Setting intro and outro"
 * **package manager**: `requirements`, "Where ffmpeg, PySide6 and numpy come
   from"
+* **pip, pipx (installing)**: `requirements`, "Getting the program"
 * **`placed_by` (handover file)**: `resolve`, "Where each camera sits"
 * **player, preview**: `interface`, "The four tabs"; `camera-cut`, "How the
   preview players choose file and sound"; `camera-cut`, "What the picture
@@ -180,8 +181,6 @@ explains the word comes first.
 * **stages of a run (bar beside Start)**: `interface`, "The four tabs"
 * **`start_s`**: `camera-cut`, "How the preview players choose file and
   sound"
-* **static-ffmpeg**: `requirements`, "Where ffmpeg, PySide6 and numpy come
-  from"
 * **stereo track**: `channels`, "Stereo stays stereo"; `preflight`, "Which
   loudness target holds"
 * **time axis**: `interface`, "How the time axis is measured";

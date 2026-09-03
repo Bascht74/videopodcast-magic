@@ -331,24 +331,24 @@ if [ $THEN_INSTALL -eq 1 ]; then
     echo "-------------------------------------------------------------------"
     mkdir -p "$INTO" || { echo " $INTO cannot be made."; exit 1; }
     if [ $FROM_HERE -eq 1 ]; then
-        cp "$REPO/videopodcast-magic.py" "$INTO/" || exit 1
+        cp "$REPO/videopodcast_magic.py" "$INTO/" || exit 1
         echo " taken from $REPO"
     else
         # What the manual tells a stranger to do: fetch the one file and
         # start it. There is nothing else to install -- the program
         # brings what it needs when it needs it.
         URL="https://raw.githubusercontent.com/Bascht74"
-        URL="$URL/videopodcast-magic/main/videopodcast-magic.py"
+        URL="$URL/videopodcast-magic/main/videopodcast_magic.py"
         if ! "$PY" -c "import urllib.request as u, sys; \
 u.urlretrieve(sys.argv[1], sys.argv[2])" \
-                "$URL" "$INTO/videopodcast-magic.py"; then
+                "$URL" "$INTO/videopodcast_magic.py"; then
             echo " The program could not be fetched. Nothing installed."
             exit 1
         fi
         echo " fetched from github.com"
     fi
     cd "$INTO" || exit 1
-    exec "$PY" videopodcast-magic.py
+    exec "$PY" videopodcast_magic.py
 fi
 
 echo " What happens by itself from here:"

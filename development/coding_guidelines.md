@@ -1,6 +1,6 @@
 # Coding guidelines
 
-For `videopodcast-magic.py`. These grew out of the work on this
+For `videopodcast_magic.py`. These grew out of the work on this
 program. What is written here either proved right while building it, or
 was learned by getting it wrong.
 

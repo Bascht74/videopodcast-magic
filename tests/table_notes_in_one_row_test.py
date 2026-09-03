@@ -8,7 +8,7 @@ row of its own and not to the general notes.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import gc, importlib.util, shutil, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
@@ -221,7 +221,7 @@ QtCore.QTimer.singleShot(0, step)
 # never got to the checks would end with 0, and the suite would read a
 # test that checked nothing as one that passed.
 QtCore.QTimer.singleShot(45000, app.quit)
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 
 if not got_there:

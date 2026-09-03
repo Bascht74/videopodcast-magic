@@ -1,0 +1,44 @@
+# What pip needs to install this, and nothing more.
+#
+# The module name carries an underscore because a hyphen cannot be
+# imported; the project name keeps the hyphen, which is what somebody
+# types. Both are the same name to pip.
+#
+# The version is spelled the way pip spells it, here and in the
+# program and on the tag. "3.0.0-beta" would be accepted and then
+# written down as "3.0.0b0" anyway, and two spellings of one version
+# is a thing to get wrong for no gain.
+#
+# The two packages are named here, so that pip brings them along. The
+# way in is the window, and a window that cannot open on the first
+# start because something is missing is not a way in. It costs the
+# wait once, at installing, rather than at the moment somebody wants
+# to work.
+#
+# No versions are pinned, the same as requirements.txt: nothing here
+# needs a particular one, and a pin that nobody measured only goes
+# stale.
+#
+# ffmpeg and ffprobe are not in here and cannot be: they are not
+# Python. The program looks for them and says where to get them.
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "videopodcast-magic"
+version = "3.0.0b0"
+description = "Raw material from a video podcast becomes an edited episode"
+readme = "README.md"
+requires-python = ">=3.10"
+license = "MIT"
+dependencies = [
+    "numpy",     # the measuring: the cameras onto one time axis
+    "PySide6",   # the window, and the player in it
+]
+
+[project.scripts]
+videopodcast-magic = "videopodcast_magic:main"
+
+[tool.setuptools]
+py-modules = ["videopodcast_magic"]

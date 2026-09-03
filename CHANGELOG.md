@@ -25,6 +25,101 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b0] - 2026-09-03
+
+The program file is called `videopodcast_magic.py` from here on, where
+it was `videopodcast-magic.py`. There is no second name and no way
+back: whoever has the old file fetches the new one or installs it as
+below, and whatever calls the file by name -- a shortcut, a script, a
+job on a timer -- is written once more.
+
+### Added
+
+- `pip3 install git+https://github.com/Bascht74/videopodcast-magic`
+  installs the program now, and the same line with `-U` puts a newer
+  one in its place. `videopodcast-magic` then starts it from any
+  folder. Fetching the single file by hand works as it did.
+- A `SHA256SUMS.txt` hangs beside the program on every release now.
+  Whoever downloads the file holds it against that sum and sees that
+  what arrived is what was sent.
+
+### Changed
+
+- Nothing is installed unasked any more. Where `PySide6` or `numpy` is
+  missing, the program names the Python it would install into and asks
+  first; whoever says no gets the line to type by hand.
+- The program's own update leaves an installed copy alone. It names the
+  folder that copy sits in and says to update it the way it was
+  installed.
+- In the coloured note over the picture in **Preview player** the
+  camera stands on top now and who speaks under it. A speaker's name
+  too long for the line is cut at the end rather than at the front, so
+  the beginning of the name stays readable.
+
+### Removed
+
+- The program fetches no ffmpeg of its own over pip any more. It looks
+  on the search path and beside its own file, offers the package
+  manager of the system, and otherwise says where ffmpeg is to be had.
+- The program no longer installs past a system's guard over its own
+  Python. Where the system refuses, it stops and says so, rather than
+  writing into that Python anyway.
+
+### Fixed
+
+- The check for a newer version now says when it could not look at all.
+  No network, or a certificate store this Python cannot read, gave the
+  same answer as a look that found nothing: no newer version. The
+  reason stands on the command line and in the window now.
+
+**Deutsch**
+
+Die Programmdatei heißt ab jetzt `videopodcast_magic.py`, vorher
+`videopodcast-magic.py`. Einen zweiten Namen gibt es nicht und einen
+Weg zurück auch nicht: Wer die alte Datei hat, holt sich die neue oder
+installiert sie wie unten, und was die Datei beim Namen ruft -- eine
+Verknüpfung, ein Skript, ein nächtlicher Lauf -- wird einmal
+umgeschrieben.
+
+### Hinzugefügt
+
+- `pip3 install git+https://github.com/Bascht74/videopodcast-magic`
+  installiert das Programm, dieselbe Zeile mit `-U` holt eine neuere
+  Fassung. `videopodcast-magic` startet es danach aus jedem Ordner.
+  Die eine Datei von Hand zu holen, geht wie bisher.
+- Bei jeder Freigabe hängt ab jetzt eine `SHA256SUMS.txt` neben dem
+  Programm. Wer die Datei herunterlädt, hält sie gegen diese Summe und
+  sieht, dass angekommen ist, was abgeschickt wurde.
+
+### Geändert
+
+- Ungefragt installiert das Programm nichts mehr. Fehlt `PySide6` oder
+  `numpy`, nennt es das Python, in das es installieren würde, und fragt
+  vorher; wer nein sagt, bekommt die Zeile zum Selbertippen.
+- Die eigene Aktualisierung rührt eine installierte Fassung nicht an.
+  Sie nennt den Ordner, in dem die Fassung liegt, und sagt, sie auf
+  demselben Weg zu aktualisieren, auf dem sie installiert wurde.
+- Im farbigen Feld über dem Bild im **Vorschau Player** steht ab jetzt
+  oben die Kamera und darunter, wer spricht. Ein Sprechername, der
+  nicht in die Zeile passt, wird hinten gekürzt statt vorn, damit sein
+  Anfang lesbar bleibt.
+
+### Entfernt
+
+- Das Programm holt sich kein eigenes ffmpeg mehr über pip. Es sucht im
+  Suchpfad und neben der eigenen Datei, bietet die Paketverwaltung des
+  Systems an und sagt sonst, woher ffmpeg zu bekommen ist.
+- Das Programm installiert nicht mehr an der Sperre vorbei, mit der ein
+  System sein eigenes Python schützt. Wehrt sich das System, hält es an
+  und sagt das, statt trotzdem hineinzuschreiben.
+
+### Behoben
+
+- Die Prüfung auf eine neuere Fassung sagt jetzt, wenn sie gar nicht
+  nachsehen konnte. Ohne Netz, oder wenn Python den Zertifikatsspeicher
+  nicht lesen kann, hieß die Antwort bisher: keine neuere Fassung.
+  Jetzt steht der Grund dabei, im Fenster wie auf der Kommandozeile.
+
 ## [2.32.0-beta] - 2026-09-03
 
 ### Added

@@ -130,6 +130,7 @@ der das Wort erklärt, steht vorn.
 * **Out-Punkt**: siehe In-Punkt
 * **Paketverwaltung**: `requirements`, „Woher ffmpeg, PySide6 und numpy
   kommen“
+* **pip, pipx (installieren)**: `requirements`, „Das Programm holen“
 * **`placed_by` (Übergabedatei)**: `resolve`, „Wo jede Kamera sitzt“
 * **Player, Vorschau**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie
   die Vorschau-Player Datei und Ton wählen“; `camera-cut`, „Was das Bild
@@ -165,8 +166,6 @@ der das Wort erklärt, steht vorn.
   „Die Sprecher auf einer Spur auseinanderhalten“
 * **`start_s`**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton
   wählen“
-* **static-ffmpeg**: `requirements`, „Woher ffmpeg, PySide6 und numpy
-  kommen“
 * **Stereospur**: `channels`, „Stereo bleibt Stereo“; `preflight`, „Welches
   Lautheitsziel gilt“
 * **Stimme**: `speech`, „Die Stimmen benennen“

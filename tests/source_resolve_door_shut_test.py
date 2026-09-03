@@ -27,7 +27,7 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 ME = os.path.basename(__file__)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 # The test that asked the neighbouring question -- which files can reach a
 # Resolve at all, and what shuts the way. Its answer is read out of it
 # rather than written down a second time here.

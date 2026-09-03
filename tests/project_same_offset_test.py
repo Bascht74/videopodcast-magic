@@ -21,7 +21,7 @@ clocks would answer the same and nothing here could see it.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import importlib.util, io, json, struct, sys, tempfile, time
 import contextlib
 began = time.time()

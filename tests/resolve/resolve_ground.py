@@ -46,7 +46,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 TESTS = os.path.dirname(HERE)
 ROOT = os.path.dirname(TESTS)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast-magic.py")
+    ROOT, "videopodcast_magic.py")
 
 
 def program():

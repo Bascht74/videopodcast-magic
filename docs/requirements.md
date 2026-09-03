@@ -5,18 +5,38 @@
 
 ## Getting the program
 
-One file, and nothing else to install: fetch `videopodcast-magic.py`
-and start it. The command is in the [README](../README.md#getting-it).
-Python 3.10 or newer has to be there first. That is the one thing the
-program cannot bring.
+Two ways lead in, and the [README](../README.md#getting-it) holds the
+command for each.
+
+**Fetched**: take the one file `videopodcast_magic.py`, start it with
+`python3`, and there is nothing else to install. Good for a first
+look, for a machine you sit at once, and for a copy kept beside the
+material it belongs to.
+
+**Installed**: the command
+`pip3 install git+https://github.com/Bascht74/videopodcast-magic` puts
+the program into this Python and leaves the command
+`videopodcast-magic` behind, callable out of any folder. The same
+command with `-U` brings the newer version. Good where the program is
+used every week.
+
+Where `pip3 install` refuses and says the environment is externally
+managed, this Python belongs to a package manager -- Homebrew's, or a
+Linux distribution's -- and the refusal names `pipx`. That is the
+right answer: `pipx` on the same address puts the program in an
+environment of its own and the command on the path.
+
+Either way Python 3.10 or newer has to be there first. That is the one
+thing the program cannot bring.
 
 Everything else the program fetches when it needs it, and says so
 while it does:
 
 * `numpy` and `PySide6` at the first start, over pip. `PySide6` is the
   big one: about 250 MB on Windows and Linux, about 440 MB on macOS.
-* `ffmpeg` and `ffprobe` when they are missing, over the package
-  manager. The section below says how.
+* `ffmpeg` and `ffprobe` when they are missing -- over the package
+  manager of this system, and only when that is allowed. On no other
+  route. The section below says how.
 * The environment the speaker separation runs in, about 218 MB, the
   first time a separation is asked for.
 * The model for the separation, about 33 MB, right after it.
@@ -57,8 +77,10 @@ follows.*
 ## Where ffmpeg, PySide6 and numpy come from
 
 The program looks for `ffmpeg` and `ffprobe` first on the search path,
-then next to itself. When both are missing it names the package
-manager of this machine and asks before it runs it:
+then next to itself. When they are still missing it names the package
+manager of this machine and asks before it runs it -- never unasked,
+because a package manager writes outside the program, into what the
+machine owner keeps:
 
 * **macOS:** `brew`.
 * **Linux:** `apt-get`, `dnf`, `zypper` or `pacman`, with `sudo` in
@@ -66,12 +88,17 @@ manager of this machine and asks before it runs it:
 * **Windows:** Windows brings no package manager, so the program
   offers to open ffmpeg.org. The folder with `ffmpeg.exe` then goes
   into PATH, or the files next to the program.
-* **When nothing gets installed:** `static-ffmpeg` is the last
-  resort, a build inside this Python. The program fetches it when this
-  machine has no package manager, and when the one it has does not
-  deliver. Answering the question with no counts as that. It pulls
-  sixteen packages in behind it, and its 50 MB build comes from a
-  private repository, checked against nothing.
+* **When nothing gets installed:** the program stops and says what to
+  do on this machine -- `brew install ffmpeg` on macOS, on Windows the
+  build from ffmpeg.org and its folder into PATH, on Linux the package
+  manager of the distribution. Answering the question with no ends the
+  run the same way. The program brings no ffmpeg of its own: what it
+  needs has to be on the machine, and whoever has not got it fetches
+  it once, by hand.
+
+A question needs somebody to answer it, so it is only put where the
+run has a terminal in front of it. Started without one, the program
+asks nothing and ends the way the last point above describes.
 
 The interface needs `PySide6` (Qt), the measurements `numpy`. The
 program installs what is missing at start over pip. Only Python has to
@@ -103,7 +130,12 @@ well, with two limits:
   best into a virtual environment.
 * **`ffmpeg` is still not found after the install.** The folder with
   `ffmpeg` is not on the search path. Put the two files next to
-  `videopodcast-magic.py` instead.
+  `videopodcast_magic.py` instead.
+* **`videopodcast-magic` is not a known command after the install.**
+  pip put the command into a folder that is not on the search path.
+  Put that folder on the path, or reach the program through Python
+  instead: `python3 -m videopodcast_magic` needs no command of its own
+  and takes the same switches.
 
 That is everything the program needs. What the window then shows, tab
 by tab, is in [The interface](interface.md).

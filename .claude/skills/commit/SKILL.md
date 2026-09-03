@@ -20,11 +20,11 @@ one way.
 Writing the changelog for 2.23.0-beta: **seven of the nine points in
 that section come out of a single commit, `c746179`, whose subject is
 "tests that check, and a rule that says how".** It mentions none of
-them. That commit changed 54 files and rewrote 1346 lines of
-`videopodcast-magic.py` against 2003 taken out -- among them a whole new
-`--multitrack` path for a run with no video, the "Intro" proposal, the
-grey in the "Kind" field, the digits beside the cut band and "Close
-project" calling off the measuring.
+them. That commit changed 54 files and rewrote 1346 lines of the
+program against 2003 taken out -- among them a whole new `--multitrack`
+path for a run with no video, the "Intro" proposal, the grey in the
+"Kind" field, the digits beside the cut band and "Close project"
+calling off the measuring.
 
 Read from the subject lines, that version has a nearly empty changelog.
 The points had to be found afterwards with `git log -S` over the

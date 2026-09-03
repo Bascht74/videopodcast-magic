@@ -11,7 +11,7 @@ audio tracks are in it, and what is each one called.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import json, re, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)

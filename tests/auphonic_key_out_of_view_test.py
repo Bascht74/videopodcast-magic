@@ -23,7 +23,7 @@ began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
@@ -427,7 +427,7 @@ def lifted(name):
 
 room = tempfile.mkdtemp(prefix="vpm_key_view_")
 project_path = os.path.join(room, "podcast.vpm")
-ARGV = ["videopodcast-magic.py", "--out", room,
+ARGV = ["videopodcast_magic.py", "--out", room,
         "--auphonic-api-key", KEY, "--auphonic-preset", "podcast"]
 
 body = lifted("project_write")

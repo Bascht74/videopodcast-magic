@@ -10,7 +10,7 @@ by a byte, so only the size is compared.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import collections, importlib.util, json, re, sys, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
@@ -236,7 +236,7 @@ def carry_on():
 
 QtCore.QTimer.singleShot(0, carry_on)
 QtCore.QTimer.singleShot(300000, app.quit)
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 threading.Thread = real_thread
 

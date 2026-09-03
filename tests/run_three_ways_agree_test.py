@@ -25,7 +25,7 @@ import time
 began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec)
@@ -230,7 +230,7 @@ def read_back(line):
         return argparse.Namespace(), [], "the parser walked out (%s)" % e
 
 
-ns, left_over, refused = read_back(list(argv or ["videopodcast-magic.py"]))
+ns, left_over, refused = read_back(list(argv or ["videopodcast_magic.py"]))
 check("the parser knows every switch that command line carries",
       left_over == [] and refused == "",
       "%d of %d words unknown: %s %s"
@@ -326,7 +326,7 @@ check("In point and Out point reach the run as the file has them",
 edges_argv, _plan, _messages = vpm.run_argv(dict(back, wide_at_edges=True),
                                             assign_path)
 edges_ns, _over, _refused = read_back(
-    list(edges_argv or ["videopodcast-magic.py"]))
+    list(edges_argv or ["videopodcast_magic.py"]))
 check("the edges are only taken away where the file turned them off",
       got("no_wide_edges") is True
       and getattr(edges_ns, "no_wide_edges", None) is False,

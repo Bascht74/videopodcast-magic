@@ -17,7 +17,7 @@ import time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 import importlib.util
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)

@@ -88,9 +88,9 @@ jobs:
         run: |
           python - <<'PY' >> "$GITHUB_ENV"
           import importlib.util, sys
-          sys.argv = ["videopodcast-magic.py", "--version"]
+          sys.argv = ["videopodcast_magic.py", "--version"]
           spec = importlib.util.spec_from_file_location(
-              "vpm", "videopodcast-magic.py")
+              "vpm", "videopodcast_magic.py")
           vpm = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(vpm)
           for name in ("VERSION", "RELEASES", "RAW_FILE", "MODEL_BASE",
@@ -130,8 +130,17 @@ jobs:
           [ "$RELEASES" = "$want" ] && ok=1 || ok=0
           check "newer_release asks about this repository" "$ok" \
             "$RELEASES"
+          # Two names that are nearly the same and are not the same:
+          # the repository is videopodcast-magic, the file in it is
+          # videopodcast_magic.py, because only an underscore can be
+          # imported. Before 3.0.0 both were spelled with the hyphen,
+          # so an address that built the file name out of the
+          # repository name came out right by accident. It no longer
+          # does, and this is the check that says so -- an update
+          # fetches RAW_FILE and nothing else, so a wrong one here is
+          # every installed copy unable to reach the next version.
           want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
-          want="$want/%s/videopodcast-magic.py"
+          want="$want/%s/videopodcast_magic.py"
           [ "$RAW_FILE" = "$want" ] && ok=1 || ok=0
           check "fetch_new_self fetches from this repository" "$ok" \
             "$RAW_FILE"
@@ -215,7 +224,7 @@ jobs:
           check("it is this program, not an error page",
                 "VERSION = " in text and "CATALOGUE" in text)
           try:
-              compile(text, "videopodcast-magic.py", "exec")
+              compile(text, "videopodcast_magic.py", "exec")
               check("it compiles", True)
           except SyntaxError as e:
               check("it compiles", False, "line %s" % e.lineno)
@@ -228,9 +237,9 @@ jobs:
 
           echo
           echo "3. It is the file that was tagged"
-          cmp -s /tmp/came-down.py videopodcast-magic.py && ok=1 || ok=0
+          cmp -s /tmp/came-down.py videopodcast_magic.py && ok=1 || ok=0
           a=$(shasum -a 256 /tmp/came-down.py | cut -c1-16)
-          b=$(shasum -a 256 videopodcast-magic.py | cut -c1-16)
+          b=$(shasum -a 256 videopodcast_magic.py | cut -c1-16)
           check "byte for byte the file at this tag" "$ok" \
             "$a... came down, $b... was tagged"
           said=$(sed -n 's/^VERSION = "\(.*\)"$/\1/p' /tmp/came-down.py \
@@ -409,7 +418,7 @@ jobs:
               latest = {}
           names = [a["name"] for a in r.get("assets", [])]
           one = [a for a in r.get("assets", [])
-                 if a["name"] == "videopodcast-magic.py"]
+                 if a["name"] == "videopodcast_magic.py"]
           for name, value in (
                   ("draft", 1 if r.get("draft") else 0),
                   ("pre", 1 if r.get("prerelease") else 0),
@@ -444,9 +453,9 @@ jobs:
           set +e
           python - <<'PY'
           import importlib.util, json, sys
-          sys.argv = ["videopodcast-magic.py", "--version"]
+          sys.argv = ["videopodcast_magic.py", "--version"]
           spec = importlib.util.spec_from_file_location(
-              "vpm", "videopodcast-magic.py")
+              "vpm", "videopodcast_magic.py")
           vpm = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(vpm)
           mine = json.load(open("/tmp/release.json"))["tag_name"]
@@ -520,20 +529,192 @@ jobs:
           # Source code (zip), 63 735 119 bytes, and the file the README
           # tells people to download, 1 308 045 bytes, is not on it.
           case ",$assets," in
-            *,videopodcast-magic.py,*) ok=1 ;;
+            *,videopodcast_magic.py,*) ok=1 ;;
             *) ok=0 ;;
           esac
-          check "videopodcast-magic.py hangs on the release" "$ok" \
+          check "videopodcast_magic.py hangs on the release" "$ok" \
             "it carries: ${assets:-nothing}"
           if [ "$ok" = "1" ]; then
             curl -fsSL -o /tmp/asset.py "$file"
-            cmp -s /tmp/asset.py videopodcast-magic.py && ok=1 || ok=0
+            cmp -s /tmp/asset.py videopodcast_magic.py && ok=1 || ok=0
             check "and it is the file at this tag" "$ok" \
               "$(wc -c < /tmp/asset.py | tr -d ' ') bytes"
           else
             check "and it is the file at this tag" 0 \
               "no file to hold against it"
           fi
+
+          echo
+          echo "4. And a sum somebody who is not us can check it by"
+          # The check above is our answer to ourselves: it holds what
+          # came down against the file in this checkout. Whoever
+          # downloads has neither, so a manifest goes up beside the
+          # file -- the same name and the same shape the model already
+          # carries, so one reader serves both.
+          case ",$assets," in
+            *,SHA256SUMS.txt,*) ok=1 ;;
+            *) ok=0 ;;
+          esac
+          check "SHA256SUMS.txt hangs on the release" "$ok" \
+            "it carries: ${assets:-nothing}"
+          if [ "$ok" = "1" ]; then
+            sums=$(python -c "import json; print([a['browser_download_url'] \
+              for a in json.load(open('/tmp/release.json'))['assets'] \
+              if a['name'] == 'SHA256SUMS.txt'][0])")
+            curl -fsSL -o /tmp/sums-release.txt "$sums"
+            want=$(awk 'length($1) == 64 && $NF == "videopodcast_magic.py" \
+                        {print $1}' /tmp/sums-release.txt | head -1)
+            # What it does name, not how many lines long it is: whoever
+            # reads this on a red run has the manifest nowhere else,
+            # and a manifest that still says videopodcast-magic.py is
+            # the way this goes wrong.
+            held=$(awk 'length($1) == 64 {print $NF}' \
+                   /tmp/sums-release.txt | tr '\n' ' ')
+            [ -n "$want" ] && ok=1 || ok=0
+            check "it names videopodcast_magic.py" "$ok" \
+              "it names: ${held:-nothing}"
+            got=$(shasum -a 256 videopodcast_magic.py | awk '{print $1}')
+            [ "$want" = "$got" ] && ok=1 || ok=0
+            check "and the sum is the sum of the file at this tag" "$ok" \
+              "${want:0:16}... says the manifest, ${got:0:16}... is it"
+          else
+            check "it names videopodcast_magic.py" 0 "no manifest"
+            check "and the sum is the sum of the file at this tag" 0 \
+              "no manifest"
+          fi
+
+          echo
+          [ "$fails" = "0" ] && echo "All good." \
+            || { echo "FAIL: $fails of these"; exit 1; }
+
+      - name: "Contract: it installs as a package and answers"
+        # Every check has its say, even after one before it has
+        # gone red: a run that stops at the first is a run that
+        # has to be done again to see the rest.
+        if: ${{ !cancelled() && env.VERSION != '' }}
+        run: |
+          fails=0
+          check() {
+            if [ "$2" = "1" ]; then
+              printf '  %-52s ok   %s\n' "$1" "${3:-}"
+            else
+              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
+              fails=$((fails + 1))
+            fi
+          }
+
+          echo "1. What pyproject.toml says before anything is built"
+          # The version now stands in a second file, and that is a new
+          # way to get a release wrong: pip would hand somebody a
+          # package calling itself one thing and a program calling
+          # itself another, and nothing on the release page would look
+          # amiss. Held letter for letter, because pyproject.toml
+          # settles it that way itself: one spelling, the one pip
+          # writes down, here and in the program and on the tag.
+          set +e
+          python - <<'PY' > /tmp/said-project.txt
+          import re, tomllib
+          with open("pyproject.toml", "rb") as f:
+              project = tomllib.load(f)["project"]
+          print("version=%s" % project["version"])
+          for needs in project.get("dependencies", []):
+              # "PySide6", "numpy>=2" and "numpy [extra]" all come down
+              # to the name pip knows the package by.
+              print("needs=%s"
+                    % re.split(r"[^A-Za-z0-9._-]", needs, maxsplit=1)[0])
+          PY
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] && ok=1 || ok=0
+          check "pyproject.toml reads, and names a version" "$ok" \
+            "returned $rc"
+          said=$(sed -n 's/^version=//p' /tmp/said-project.txt | head -1)
+          [ -n "$said" ] && [ "$said" = "$VERSION" ] && ok=1 || ok=0
+          check "and it is the version in the program" "$ok" \
+            "pyproject ${said:-nothing}, program $VERSION"
+          sed -n 's/^needs=/  it asks pip for /p' /tmp/said-project.txt
+
+          echo
+          echo "2. pip builds a package out of it and installs it"
+          # The line a reader is given, aimed at this tag. pip clones
+          # the repository and builds from pyproject.toml, so nothing
+          # of this checkout is used: a module renamed on a disc but
+          # not committed under the new name comes out red here rather
+          # than green. Into an environment of its own, so that what
+          # the runner already had cannot stand in for what the
+          # package brings.
+          python -m venv /tmp/package && ok=1 || ok=0
+          check "an environment of its own to install into" "$ok" \
+            "/tmp/package"
+          if [ "$ok" = "0" ]; then
+            echo
+            echo "FAIL: $fails of these"
+            exit 1
+          fi
+
+          url="git+https://github.com/$GITHUB_REPOSITORY@$TAG"
+          echo "   pip install $url"
+          # The dependencies are fetched with it and not skipped. They
+          # are the slow half -- PySide6 and numpy are a few hundred
+          # megabytes -- but a name in that list is spelled nowhere
+          # else and tried nowhere else, so skipping them would leave
+          # the one thing about them that can break unasked.
+          #
+          # The three tries are not a cache catching up: git hands out
+          # a tag the moment it is pushed. They are for pypi.org, a
+          # second machine that can have a bad minute.
+          ok=0
+          for try in 1 2 3; do
+            /tmp/package/bin/pip install --disable-pip-version-check \
+              "$url" && { ok=1; break; }
+            echo "  ... it did not install (try $try of 3)"
+            sleep 10
+          done
+          check "pip installs it from this tag" "$ok" "$url"
+          if [ "$ok" = "0" ]; then
+            echo
+            echo "FAIL: $fails of these"
+            exit 1
+          fi
+
+          # pyproject.toml: "the way pip spells it". If it is spelled
+          # any other way pip writes down its own -- 3.0.0-beta becomes
+          # 3.0.0b0 -- and the release page and pip then name the same
+          # version differently.
+          pipsaid=$(/tmp/package/bin/pip show videopodcast-magic \
+                    | sed -n 's/^Version: //p')
+          [ -n "$pipsaid" ] && [ "$pipsaid" = "$said" ] && ok=1 || ok=0
+          check "pip writes the version down unchanged" "$ok" \
+            "pyproject ${said:-nothing}, pip ${pipsaid:-nothing}"
+
+          # Every package pyproject names, asked of the environment
+          # afterwards. Read out of the file rather than written here,
+          # so a package added there is asked about without this being
+          # touched.
+          sed -n 's/^needs=//p' /tmp/said-project.txt > /tmp/needs.txt
+          while read -r needs; do
+            [ -n "$needs" ] || continue
+            /tmp/package/bin/pip show "$needs" > /dev/null 2>&1 \
+              && ok=1 || ok=0
+            check "pip brought $needs along" "$ok"
+          done < /tmp/needs.txt
+
+          echo
+          echo "3. The command it puts there answers"
+          [ -x /tmp/package/bin/videopodcast-magic ] && ok=1 || ok=0
+          check "there is a videopodcast-magic command" "$ok" \
+            "the package left: $(ls /tmp/package/bin | tr '\n' ' ')"
+          set +e
+          said=$(/tmp/package/bin/videopodcast-magic --version 2>&1)
+          rc=$?
+          set -e
+          [ "$rc" = "0" ] && ok=1 || ok=0
+          check "--version answers" "$ok" "returned $rc: $said"
+          case "$said" in
+            *"$VERSION"*) ok=1 ;;
+            *) ok=0 ;;
+          esac
+          check "--version names $VERSION" "$ok" "${said:-nothing}"
 
           echo
           [ "$fails" = "0" ] && echo "All good." \
@@ -613,7 +794,7 @@ jobs:
           }
 
           url="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
-          url="$url/$TAG/videopodcast-magic.py"
+          url="$url/$TAG/videopodcast_magic.py"
           echo "$url"
           ok=0
           for try in 1 2 3 4 5; do

@@ -13,7 +13,7 @@ got through its steps at all rather than breaking off.
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import importlib.util, json, shutil, sys, tempfile, time, traceback, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
@@ -407,7 +407,7 @@ def clean_up(what):
               % (clock.elapsed() / 1000.0))
 
 
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 # The window itself is the last thing that can throw, and a throw here
 # would take the closing lines with it. So it is caught like the steps
 # inside it, and the last check below reports it.

@@ -248,11 +248,11 @@ does with the answer, and the weather is no longer part of the result.
 one day came from that one assumption, each in a different disguise:
 
 * **The builder sets tests aside** (§7), so counting what lies in the
-  folder answers 143 on Windows and 145 here. **Ask the repository, not
-  the folder** -- `git ls-files` knows what belongs to the suite whatever
-  was moved; a file that is there is read from there, so uncommitted work
-  still counts, and only a file that was set aside is read out of the
-  last commit.
+  folder answers fewer on Windows than here -- 143 against 145 when that
+  was counted. **Ask the repository, not the folder** -- `git ls-files`
+  knows what belongs to the suite whatever was moved; a file that is
+  there is read from there, so uncommitted work still counts, and only a
+  file that was set aside is read out of the last commit.
 * **The working notes are not shipped.** `docs/notes/` is in
   `.gitignore` on purpose, so it is present here and absent on every
   clone. A check that resolved paths against it was green here and red on

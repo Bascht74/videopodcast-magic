@@ -28,7 +28,7 @@ import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 sys.path.insert(0, HERE)
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
@@ -484,7 +484,7 @@ QtCore.QTimer.singleShot(0, carry_on)
 # the judgement about it is the last one below, which every way out
 # comes past, so an exhausted deadline is red and not a green 0.
 QtCore.QTimer.singleShot(240000, app.quit)
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 vpm.gui()
 gate.set()
 

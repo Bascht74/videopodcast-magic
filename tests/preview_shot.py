@@ -3,7 +3,7 @@
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast-magic.py")
+    os.path.dirname(HERE), "videopodcast_magic.py")
 import re, sys, time, importlib.util
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
@@ -467,7 +467,7 @@ def step():
 
 QtCore.QTimer.singleShot(50, step)
 alive()
-sys.argv = ["videopodcast-magic.py"]
+sys.argv = ["videopodcast_magic.py"]
 BEGAN = time.monotonic()
 code = vpm.gui()
 if not through[0] and not bad:

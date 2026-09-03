@@ -37,9 +37,17 @@ merge.
 
 **The order names both sides: which files the strand owns, and which
 are somebody else's.** Name the foreign ones **by path**, not as
-"everything else" — above all `videopodcast-magic.py` when another
+"everything else" — above all `videopodcast_magic.py` when another
 strand is working in it. "Everything else" reads as a courtesy; a path
 reads as a border.
+
+**A folder is not a category.** Four strands were told to leave
+`docs/notes/` alone as history, and all four obeyed — while the two
+scripts that take the manual's pictures sit in there and went on
+naming a file that had just been renamed. Nobody would have noticed
+until the next release, with the screen already asked for. Where an
+order excludes a folder, it says what **kind** of thing is excluded,
+and whoever writes it looks once at what else lives there.
 
 ## A foreign file: prepare, do not wait
 
@@ -69,7 +77,7 @@ place, and nothing goes red.
 
 **The real case is in `docs/notes/aufgaben.md`**, in the plan for the 29
 remaining path places: two of the old lines occur **twice** in
-`videopodcast-magic.py` and need the following line taken into the anchor
+`videopodcast_magic.py` and need the following line taken into the anchor
 to be unique. That was found by counting. Seventeen replacements were cut
 against that file; an uncounted anchor among them lands in the wrong
 function.
@@ -96,7 +104,10 @@ These belong in every order, because a strand that is not told will try
 them and lose the time:
 
 * **No `timeout`** and no `gtimeout`. A strand that needs a deadline
-  builds it into the script it starts.
+  builds it into the script it starts -- **and clears it away before it
+  reports.** Four wait loops once outlived their measurement, one of
+  them a bare spin burning a core, and whoever measured next never saw
+  that they were a core short: the numbers still looked like numbers.
 * **And when it has to wait for something it started itself, this is
   the shape** -- wait on the process, not on its name:
 
@@ -161,7 +172,7 @@ Order: <one sentence: what is different at the end>
 
 You own:      <paths, absolute>
 Not yours:    <paths, absolute, by name — including
-               videopodcast-magic.py if somebody is working in it>
+               videopodcast_magic.py if somebody is working in it>
 Prepare only: <a foreign file you deliver old-text/new-text pairs for
                instead of waiting. Text anchors, no line numbers; every
                anchor matches exactly once.>

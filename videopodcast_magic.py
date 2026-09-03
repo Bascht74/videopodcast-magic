@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """Put processed audio back into video files.
 
-    python3 videopodcast-magic.py            graphical interface
-    python3 videopodcast-magic.py --help     all switches
+    python3 videopodcast_magic.py            graphical interface
+    python3 videopodcast_magic.py --help     all switches
 
 Design and rationale: see the manual under docs/ next to this file.
 """
@@ -670,7 +670,7 @@ def _require_module(module, package=None):
 NEEDS_PYTHON = (3, 10)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
-    sys.exit("videopodcast-magic.py needs Python %d.%d or newer -- this is "
+    sys.exit("videopodcast_magic.py needs Python %d.%d or newer -- this is "
              "%d.%d. Recommended version: %s."
              % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
 
@@ -12614,7 +12614,7 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
     print(T('    Queued -- in Resolve only "Render All" is left.'))
     if hdr:
         print(T('    Whether the finished file passes as HDR:\n      '
-                'videopodcast-magic.py --hdr-check %s')
+                'videopodcast_magic.py --hdr-check %s')
               % os.path.join(folder, name + ".mp4"))
     return True
 
@@ -14552,7 +14552,7 @@ def refresh_cut_list(d, file_path):
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
-    d["created_by"] = ('videopodcast-magic.py %s (cut list refreshed)'
+    d["created_by"] = ('videopodcast_magic.py %s (cut list refreshed)'
                        % VERSION)
     # Written beside it and moved into place. This file is the whole
     # product of a long run -- the measured offsets, the cut, the speaker
@@ -15022,7 +15022,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                         'start of the axis.') % ", ".join(unmeasured)))
     handover = {
         "format": FILE_FORMAT,
-        "created_by": "videopodcast-magic.py %s" % VERSION,
+        "created_by": "videopodcast_magic.py %s" % VERSION,
         "production": args.production or 'Production',
         "fps": resolve_timeline_rate(fps),
         "fps_measured": round(fps, 4),
@@ -19399,7 +19399,7 @@ RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
 RELEASE_LIST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
                 "/releases?per_page=30")
 RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
-            "/videopodcast-magic/%s/videopodcast-magic.py")
+            "/videopodcast-magic/%s/videopodcast_magic.py")
 # Off for a test run: a suite must not reach for the network, and it
 # must certainly not swap the file it is testing.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
@@ -19569,7 +19569,7 @@ def self_checked(raw):
     if "VERSION = " not in text or "CATALOGUE" not in text:
         return "", T('That file is not this program.')
     try:
-        compile(text, "videopodcast-magic.py", "exec")
+        compile(text, "videopodcast_magic.py", "exec")
     except SyntaxError as e:
         return "", T('That file does not compile: line %s.') % e.lineno
     return text, ""
@@ -19646,7 +19646,7 @@ def update_from_command_line():
         print(trouble)
         return 1
     print(T('%s is in place. The version before it is beside it as '
-            'videopodcast-magic.py.old.') % tag)
+            'videopodcast_magic.py.old.') % tag)
     return 0
 
 
@@ -23786,11 +23786,11 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(
-        prog="videopodcast-magic.py",
-        description="videopodcast-magic.py %s -- put processed audio into "
+        prog="videopodcast_magic.py",
+        description="videopodcast_magic.py %s -- put processed audio into "
                     "video files as the first audio track" % VERSION)
     ap.add_argument("--version", action="version",
-                    version="videopodcast-magic.py %s   %s"
+                    version="videopodcast_magic.py %s   %s"
                             % (VERSION, python_note()))
     ap.add_argument("--lang", choices=languages(), default=None,
                     help="language of the messages (default: the system's)")
@@ -23860,7 +23860,7 @@ def build_argument_parser():
     ap.add_argument("--update", dest="update_now",
                     action="store_true", default=False,
                     help="fetch the newer version and put this one "
-                         "beside it as videopodcast-magic.py.old. A run "
+                         "beside it as videopodcast_magic.py.old. A run "
                          "only ever says that one is out; nothing is "
                          "fetched without this. (default: off)")
     ap.add_argument("--speakers-from", dest="speakers_from", default=None,
@@ -24159,7 +24159,7 @@ def main():
         set_language(args.lang)
     force_utf8_output()
     enable_colour_output()
-    print("videopodcast-magic.py %s   %s\n%s\n"
+    print("videopodcast_magic.py %s   %s\n%s\n"
           % (VERSION, python_note(), running_from()))
     update_note()
     args.auphonic_done = getattr(args, "auphonic_done", None)
@@ -28590,7 +28590,7 @@ def run_argv(values, assignment_file_path=""):
                label_of(kind)))
     # Anything set to "ignore this video" does not come along at all.
     off = set(p for p, a in clip_kind.items() if a == TYPE_IGNORED)
-    argv = ["videopodcast-magic.py"] + [p for p, _a in files
+    argv = ["videopodcast_magic.py"] + [p for p, _a in files
                                         if p not in edge.values()
                                         and p not in off]
     for switch, file_path in sorted(edge.items()):
@@ -28725,7 +28725,7 @@ def run_argv(values, assignment_file_path=""):
                 T('Two cameras would produce the same new file. Please '
                   'give different names.'))
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast-magic.py %s" % VERSION,
+                "created_by": "videopodcast_magic.py %s" % VERSION,
                 "production": (values.get("production") or "").strip()
                 or 'Production', "tracks_of": tracks, "cameras": cameras}
         # What the separation heard travels with the assignment. Raw and
@@ -28749,7 +28749,7 @@ def run_argv(values, assignment_file_path=""):
         # too: since 24.8.2026 this path cuts as well, and numbers that
         # do not reach the run are numbers that do nothing.
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast-magic.py %s" % VERSION,
+                "created_by": "videopodcast_magic.py %s" % VERSION,
                 "speakers_of": values["speakers_of"],
                 "voices_of": voices_of_values(values)}
         argv += ["--speakers-from", assignment_file_path]
@@ -36263,7 +36263,7 @@ def update_offer(window, asked=False):
 
     said = QtWidgets.QLabel(
         T('Update? The run then begins from the new version. The one '
-          'running now stays beside it as videopodcast-magic.py.old.'))
+          'running now stays beside it as videopodcast_magic.py.old.'))
     said.setWordWrap(True)
     rows.addWidget(said)
 
@@ -36412,9 +36412,9 @@ CATALOGUE["de"] = {
     '%s is out. This is %s.':
         '%s ist da. Hier läuft %s.',
     'Update? The run then begins from the new version. The one '
-    'running now stays beside it as videopodcast-magic.py.old.':
+    'running now stays beside it as videopodcast_magic.py.old.':
         'Aktualisieren? Danach läuft die neue Version. Die aktuelle '
-        'Version bleibt als videopodcast-magic.py.old daneben liegen.',
+        'Version bleibt als videopodcast_magic.py.old daneben liegen.',
     'an intro or outro with two channels is a stereo mix -- not measured':
         'ein Vorspann oder Abspann mit zwei Kanälen ist eine '
         'Stereomischung -- nicht gemessen',
@@ -36495,9 +36495,9 @@ CATALOGUE["de"] = {
     '--update fetches it and puts it in place.':
         '--update holt sie und setzt sie ein.',
     '%s is in place. The version before it is beside it as '
-    'videopodcast-magic.py.old.':
+    'videopodcast_magic.py.old.':
         '%s ist eingesetzt. Die vorige Fassung liegt als '
-        'videopodcast-magic.py.old daneben.',
+        'videopodcast_magic.py.old daneben.',
     'The check for new versions is switched off here.':
         'Die Suche nach neuen Versionen ist hier abgeschaltet.',
     'About Video Podcast Magic':
@@ -37062,9 +37062,9 @@ CATALOGUE["de"] = {
     '    Video track %d could not be renamed.':
         '    Bildspur %d ließ sich nicht umbenennen.',
     '    Whether the finished file passes as HDR:\n      '
-    'videopodcast-magic.py --hdr-check %s':
+    'videopodcast_magic.py --hdr-check %s':
         '    Ob die fertige Datei als HDR durchgeht:\n      '
-        'videopodcast-magic.py --hdr-check %s',
+        'videopodcast_magic.py --hdr-check %s',
     '    not possible: %s':
         '    nicht möglich: %s',
     '   (sound path negative -- something is wrong)':
