@@ -46,10 +46,12 @@ spec.loader.exec_module(vpm)
 vpm.set_language("en")
 
 # The same environment the suite gives every test, so a run by hand
-# measures the same thing. PIP_NO_INDEX shuts the one road out of the
-# house that is left: where ffmpeg is missing the program offers to
-# fetch static-ffmpeg into this Python, and a test must not install
-# anything. VPM_INSTALL_TOOLS would answer that question with yes, so it
+# measures the same thing. PIP_NO_INDEX shuts the road out of the house
+# that is left: the program fetches numpy and PySide6 into this Python
+# where they are missing, and a test must not install anything. ffmpeg
+# is not among them any more -- the program says what is missing and
+# stops, which run_ffmpeg_not_fetched_test.py holds it to.
+# VPM_INSTALL_TOOLS would let it install over the package manager, so it
 # goes out of the environment whatever the caller set.
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",
            VPM_SILENT="1", VPM_NO_UPDATE_CHECK="1",

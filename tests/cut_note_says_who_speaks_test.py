@@ -118,9 +118,9 @@ def at(t):
 
 print("\n1. The two lines")
 note = at(1.0)
-check("the lower line names the camera the cut names there",
+check("the note names the camera the cut names there",
       note.camera == NEAR, "%r against %r" % (note.camera, NEAR))
-check("the upper line names who speaks at that moment",
+check("and who speaks at that moment",
       note.speaking == "Anna", "%r against %r" % (note.speaking, "Anna"))
 note = at(2.5)
 check("two speaking at once are both named",
@@ -138,7 +138,7 @@ note = at(8.0)
 check("somebody on the wide shot keeps his name and gets the mark "
       "beside it", note.speaking == "Bo %s" % MARK,
       "%r against %r" % (note.speaking, "Bo %s" % MARK))
-check("the wide shot is still named by its own file below",
+check("the wide shot is still named by its own file",
       note.camera == WIDE, "%r against %r" % (note.camera, WIDE))
 note = at(10.0)
 check("nobody on the wide shot says both: no speaker, and the mark",
@@ -183,6 +183,42 @@ also = [m.text() for m in player.findChildren(QtWidgets.QLabel)
         if m.text() == FAR]
 check("the camera is named in the picture and in no line under it",
       not also, "%d labels under the video carry %r" % (len(also), FAR))
+
+print("\n6. Which of the two lines is on top")
+# Measured on the painted surface, not on the two values: reading the
+# values back tells nothing about where they land, and that is how the
+# camera and the speaker came to be the wrong way round through three
+# versions with this test green the whole time.
+#
+# Written on one line at a time and the ink counted in each half. That
+# holds whatever the font is, whatever it measures and wherever the
+# text is centred -- unlike matching pixels against an expected shape.
+
+
+def ink_halves(camera, speaking):
+    """Paint the note with these two lines, and count the ink."""
+    note.resize(320, note.line_room())
+    note.show_shot("#ffffff", camera, speaking)
+    picture = note.grab().toImage().convertToFormat(
+        QtGui.QImage.Format_RGB32)
+    high = picture.height()
+    above = below = 0
+    for y in range(high):
+        for x in range(0, picture.width(), 2):
+            if QtGui.qGray(picture.pixel(x, y)) < 200:
+                if y < high // 2:
+                    above += 1
+                else:
+                    below += 1
+    return above, below
+
+
+above, below = ink_halves("WideCam_A001", "")
+check("the camera stands in the upper half of the note",
+      above > 20 and below == 0, "%d dots above, %d below" % (above, below))
+above, below = ink_halves("", "Guest")
+check("and who speaks in the lower half",
+      below > 20 and above == 0, "%d dots above, %d below" % (above, below))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
