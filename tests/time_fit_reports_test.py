@@ -3,7 +3,10 @@
 
 A fit that says only "failed" makes everybody talking at once look
 like bleed too weak to read, and the two need different remedies. A
-fit that worked still owes the number saying how well it worked.
+fit that worked still owes the number saying how well it worked. And
+a warning about a weak one owes the name of the file it is about:
+with several recordings in a run, warnings without names are a heap
+nobody can put back.
 """
 import os
 import sys
@@ -60,6 +63,47 @@ m = {(0, 1): noisy, (1, 0): [(t, -v) for t, v in points]}
 found2 = vpm.solve_pair_offsets(m, 0, 1)
 check("and a point out of line shows up in it",
       found2 is not None and found2[4] > 1.0, "%.2f ms" % found2[4])
+
+
+print("\nA weak match names the file it is about")
+# Two curves that have nothing to do with each other: the warning is
+# the only line saying so, and with several recordings in one run a
+# warning without a name cannot be put back against a file.
+import contextlib, io as _io
+import numpy as _np
+_r = _np.random.RandomState(11)
+one, two = _r.randn(4000), _r.randn(4000)
+
+
+def said_while_aligning(warn):
+    caught = _io.StringIO()
+    floor_was = vpm.WEAK_MATCH
+    vpm.WEAK_MATCH = 1.0
+    try:
+        with contextlib.redirect_stdout(caught):
+            try:
+                vpm.align_envelopes(one, two, warn=warn)
+            except Exception:
+                pass
+    finally:
+        vpm.WEAK_MATCH = floor_was
+    return caught.getvalue()
+
+
+named = said_while_aligning("Guest_0001.wav")
+check("the weak match names the file it is about",
+      "Guest_0001.wav" in named,
+      repr(named.strip()[:70]))
+check("and it is still the warning, not some other line",
+      "Guest_0001.wav" in named and vpm.T('this pair of files') not in named,
+      repr(named.strip()[:70]))
+plain = said_while_aligning(True)
+check("with no name to hand it says so rather than naming nothing",
+      vpm.T('this pair of files') in plain, repr(plain.strip()[:70]))
+quiet = said_while_aligning(False)
+check("and where the caller asked for silence there is none of it",
+      "0.0" not in quiet and "WARN" not in quiet.upper(),
+      repr(quiet.strip()[:70]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")
