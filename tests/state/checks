@@ -120,6 +120,7 @@ run_dry_reports_voices	13
 run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	51
+run_outside_seen	14
 run_prework_listed	43
 run_promise_is_written	12
 run_simple_path_agrees	26
@@ -158,6 +159,7 @@ source_numpy_comes_last	4
 source_reds_carry_value	6
 source_resolve_door_shut	9
 source_resolve_recalled	5
+source_sections_named	2
 source_skills_resolve	5
 source_test_names_swept	10
 table_audio_asked_for	60

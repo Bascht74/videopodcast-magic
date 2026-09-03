@@ -1,7 +1,7 @@
 {
  "german": 0,
  "heading": 0,
- "largest_function": 5139,
+ "largest_function": 5120,
  "lazy_plural": 0,
  "long_blocks": 105,
  "long_docstrings": 140,
@@ -106,7 +106,7 @@
   "stop_asked_for": [1, 25018],
   "system_locale": [2, 85],
   "usable_clip_colours": [2, 11874],
-  "video_envelope": [3, 15355],
+  "video_envelope": [2, 17838],
   "write_handover": [1, 13177]
  }
 }
