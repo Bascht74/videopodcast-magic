@@ -385,7 +385,15 @@ print("\n6. The file hangs on the releases that are out")
 # program's own update reads that page too. A release without the file
 # offers a source archive instead, and nothing in the working tree can
 # see that -- so this section asks github.com.
-ASSET = "videopodcast_magic.py"
+#
+# The file was renamed when the hyphen went out of it, and a release
+# keeps the name it went out under: the ones already published carry
+# the old name for ever, the ones to come the new one. So either name
+# is the file, and both stand in the failure line -- held to one, this
+# would be red on everything behind the rename or on the first release
+# after it, and neither would be a fault.
+ASSETS = ("videopodcast_magic.py", "videopodcast-magic.py")
+ASSET_SAID = " or ".join(ASSETS)
 left_out = []
 
 
@@ -443,14 +451,14 @@ else:
     without = []
     for one in want:
         names = [a.get("name") for a in one.get("assets", [])]
-        if ASSET not in names:
+        if not [n for n in ASSETS if n in names]:
             without.append("%s carries %s"
                            % (one.get("tag_name"), ", ".join(names)
                               or "nothing but the source archive"))
     check("every release carries the file",
           not without,
           "%d of %d carry %s; %s" % (len(want) - len(without), len(want),
-                                     ASSET, "; ".join(without[:3])
+                                     ASSET_SAID, "; ".join(without[:3])
                                      or "none is missing it"))
 
     # A wrong or half-written attachment is short, and the size comes
@@ -458,9 +466,10 @@ else:
     # only ever grows, so half of the one in the working tree is under
     # every release that was ever made.
     floor = os.path.getsize(SCRIPT) // 2
-    stubs = ["%s: %d bytes" % (one.get("tag_name"), a.get("size") or 0)
+    stubs = ["%s: %s at %d bytes" % (one.get("tag_name"), a.get("name"),
+                                     a.get("size") or 0)
              for one in want for a in one.get("assets", [])
-             if a.get("name") == ASSET and (a.get("size") or 0) < floor]
+             if a.get("name") in ASSETS and (a.get("size") or 0) < floor]
     check("none of them is a stub", not stubs,
           "under %d bytes: %s" % (floor, "; ".join(stubs[:3])
                                   or "none of them"))
@@ -468,7 +477,7 @@ else:
     newest = want[0] if want else {}
     address = [a.get("browser_download_url")
                for a in newest.get("assets", [])
-               if a.get("name") == ASSET]
+               if a.get("name") in ASSETS]
     # The version stands near the top, so the first pages of the file
     # answer for the file's version without fetching a megabyte and a
     # half. The window follows the line as the program grows.

@@ -22,9 +22,9 @@ echo "Python: $("$PY" -V 2>&1)"
 # file.
 echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic.py}"
 # Without ffmpeg most of the suite goes red, and none of those reds say
-# anything about the program: they say the machine has no ffmpeg.
-# static-ffmpeg is named because it is what the program itself falls
-# back to, so the suite comes up the way the program does.
+# anything about the program: they say the machine has no ffmpeg. The
+# program brings none of its own either -- it names the package manager
+# and stops -- so the way out named here is the way out it names.
 for tool in ffmpeg ffprobe; do
   if ! command -v "$tool" > /dev/null 2>&1; then
     echo "$tool is not on the search path. Almost every test needs it,"
@@ -33,14 +33,8 @@ for tool in ffmpeg ffprobe; do
     echo "  brew install ffmpeg              (macOS)"
     echo "  apt install ffmpeg               (Debian, Ubuntu)"
     echo
-    echo "Or let the program do it: VPM_INSTALL_TOOLS=1 answers the"
+    echo "Or let the program ask for it: VPM_INSTALL_TOOLS=1 answers the"
     echo "question with yes, and it installs over the package manager."
-    echo
-    echo "Or the one it falls back to, into this Python:"
-    echo "  $PY -m pip install static-ffmpeg"
-    echo "  $PY -c 'import static_ffmpeg; static_ffmpeg.add_paths()'"
-    echo "The second line prints where the binaries went; put that"
-    echo "folder on PATH for the run."
     exit 2
   fi
 done
@@ -670,7 +664,7 @@ then
   # both without guesswork -- work under those paths not committed yet,
   # and the newest commit touching them being the one this run stands
   # on. What the program's own diff says was measured and thrown away:
-  # over 40 commits, "a changed line in videopodcast_magic.py naming
+  # over 40 commits, "a changed line in videopodcast-magic.py naming
   # Resolve" fired three times and every one of the three was a comment
   # or a key name, while no commit in those 40 changed the Resolve code
   # itself. A sharp line that is wrong three times in forty is noise.

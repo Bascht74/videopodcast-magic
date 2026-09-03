@@ -155,10 +155,10 @@ def channel_text(count):
         count, TN(count, '%d channel', '%d channels') % count)
 
 
-# Set to answer the ffmpeg question with yes before it is asked: a test
-# run, a build machine, anything with nobody sitting in front of it.
-# Only the package manager -- the fallback needs no permission, it stays
-# inside this Python.
+# Set to answer yes before the question is asked: a test run, a build
+# machine, anything with nobody in front of it. It answers for both
+# places that ask, the package manager and pip -- and nothing installs
+# without it, or without somebody saying yes.
 INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
 
 
@@ -176,47 +176,15 @@ def find_required_tools():
         missing = [tool for tool in missing if shutil.which(tool) is None]
     if not missing:
         return
-    # static-ffmpeg keeps its programs inside the package and only puts
-    # them on PATH for the running process, so this is asked again at
-    # every start. Where it is already there, nothing is missing and
-    # nothing is fetched -- saying "missing" then would be a lie.
-    ready = _really_there("static_ffmpeg")
-    if ready is not None:
-        try:
-            ready.add_paths()
-        except Exception:
-            pass
-        if not [tool for tool in ("ffmpeg", "ffprobe")
-                if shutil.which(tool) is None]:
-            return
     print(T('%s is missing.') % ", ".join(missing))
-    # The package manager first: its build is maintained and signed for
-    # this system. Only ever asked, never done unasked -- it writes
-    # outside this program, into what the machine owner keeps.
+    # The package manager, and nothing after it: no wheel, no pip. Its
+    # build is maintained and signed for this system, and it is asked
+    # rather than done -- it writes into what the machine owner keeps.
     if install_over_package_manager():
         missing = [tool for tool in ("ffmpeg", "ffprobe")
                    if shutil.which(tool) is None]
         if not missing:
             return
-    # Last resort: the static-ffmpeg wheel brings both binaries, so
-    # Python alone is enough. It says so, because it pulls a heap of
-    # unrelated packages in behind it and fetches an unchecked binary
-    # from a private repository.
-    static_ffmpeg = _really_there("static_ffmpeg")
-    if static_ffmpeg is None:
-        print(T('  Fetching static-ffmpeg instead: a build inside this '
-                'Python. It brings sixteen packages with it and loads '
-                'its programs from a private repository, unchecked.'))
-        if _pip_install("static-ffmpeg"):
-            import importlib
-            importlib.invalidate_caches()
-            static_ffmpeg = _really_there("static_ffmpeg")
-    if static_ffmpeg is not None:
-        try:
-            static_ffmpeg.add_paths()
-        except Exception as e:
-            print(T('  static-ffmpeg reports: %s') % e)
-        missing = [tool for tool in missing if shutil.which(tool) is None]
     if missing:
         # The advice for the machine in hand, not for the other two.
         how = {"darwin": "brew install ffmpeg",
@@ -583,27 +551,38 @@ def delete_api_key():
 
 
 def _pip_install(*packages):
-    """Run pip, working around externally managed installations.
+    """Ask, then run pip. False where the answer is no.
 
-    PEP 668 systems reject a plain "pip install". The four flag combinations
-    are tried in order of decreasing politeness: plain, --user, then each
-    again with --break-system-packages. True as soon as one succeeds.
+    Nothing is installed unasked: this writes into a Python other
+    things use. The question sits in this one place, so no caller
+    can skip it.
+
+    Plain and --user, no third: --break-system-packages defeats the
+    barrier a system puts up against exactly this.
     """
+    printed = " ".join(packages)
+    if INSTALL_TOOLS:
+        # VPM_INSTALL_TOOLS: whoever set it has answered in advance.
+        print(T('  Installing it: pip install %s') % printed)
+    else:
+        print(T('  %s would be installed into this Python: %s')
+              % (printed, sys.executable))
+        if not sys.stdin.isatty():
+            print(T('  By hand:  %s -m pip install %s')
+                  % (sys.executable, printed))
+            return False
+        answer = input(T('  Run that now? [Y/n] ')).strip().lower()
+        if answer and not answer.startswith(("y", "j")):
+            print(T('  By hand:  %s -m pip install %s')
+                  % (sys.executable, printed))
+            return False
     # pip runs code from the packages it installs, so it is not given the
     # environment this program runs in: an API key in AUPHONIC_TOKEN would
     # otherwise be readable by every setup script in the dependency chain.
     clean = dict(os.environ)
     clean.pop("AUPHONIC_TOKEN", None)
     last = ""
-    for extra_text in ([], ["--user"], ["--break-system-packages"],
-                   ["--user", "--break-system-packages"]):
-        if "--break-system-packages" in extra_text and last:
-            # The polite attempts were refused. Say what happens now: this
-            # writes into a Python the package manager owns, and a silent
-            # step into somebody else's territory is not on.
-            print(T('    pip refused the safe options -- installing '
-                    'around the system package manager. A virtual '
-                    'environment would avoid this.'))
+    for extra_text in ([], ["--user"]):
         try:
             # stdout stays visible: PySide6 is a download of a few
             # hundred megabytes, and silence for that long looks like a
@@ -719,7 +698,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.32.0-beta"
+VERSION = "3.0.0b0"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -19441,15 +19420,40 @@ def set_update_skipped(tag):
         return
 
 
+# PEP 440 hangs the pre-release straight on the numbers, with no dash:
+# a1 is an alpha, b0 a beta, rc1 a release candidate. Without a number
+# it means the zeroth of them, so 3.0.0b reads as 3.0.0b0.
+PIP_PRE_RELEASE = re.compile(r"^(\d+(?:\.\d+)*)(a|b|rc)(\d*)$")
+
+
+def pre_release_key(pre):
+    """The name of a pre-release, cut so that ten comes after nine.
+
+    Runs of digits and runs of everything else, each run of digits as
+    the number it is. The 0 and the 1 in front keep the two kinds
+    apart, so a number is never held against a word: b9 falls under
+    b10 and beta.2 under beta.10, where either read as text would sort
+    the other way round.
+    """
+    return tuple((0, int(run)) if run.isdigit() else (1, run)
+                 for run in re.findall(r"\d+|\D+", pre))
+
+
 def version_key(text):
     """A version as something that can be compared.
 
-    Semantic Versioning: 2.0.0 is newer than 2.0.0-beta, and a release
-    without a pre-release part beats one with it. Anything unreadable
-    sorts oldest, so a name nobody understands never counts as newer.
+    Two spellings and one order: 2.0.0-beta the way the tags read, and
+    3.0.0b0 the way pip writes it. Both are older than the same
+    numbers with nothing hung on them, which is what Semantic
+    Versioning and PEP 440 both say. Anything unreadable sorts oldest,
+    so a name nobody understands never counts as newer.
     """
     text = str(text or "").strip().lstrip("vV")
     core, _, pre = text.partition("-")
+    hung_on = None if pre else PIP_PRE_RELEASE.match(core)
+    if hung_on:
+        core = hung_on.group(1)
+        pre = hung_on.group(2) + (hung_on.group(3) or "0")
     numbers = []
     for piece in core.split(".")[:3]:
         numbers.append(int(piece) if piece.isdigit() else 0)
@@ -19457,7 +19461,7 @@ def version_key(text):
         numbers.append(0)
     # 1 for a finished release, 0 for a pre-release: that way 2.0.0
     # comes after 2.0.0-beta, which is what the standard says.
-    return (tuple(numbers), 1 if not pre else 0, pre)
+    return (tuple(numbers), 1 if not pre else 0, pre_release_key(pre))
 
 
 def releases_in_between(newest, running):
@@ -19502,7 +19506,14 @@ def releases_in_between(newest, running):
 
 
 def newer_release(asked=False):
-    """(tag, page, what changed) of a newer release, or "", "", "".
+    """(tag, page, what changed, trouble) of a newer release.
+
+    All four are "" where a newer release was looked for and none was
+    there. *trouble* carries a sentence where the looking itself could
+    not happen -- no network, or a certificate store this Python cannot
+    read. That is not the same answer as "nothing newer", and it must
+    not read as one: a program that says something reassuring where it
+    knows nothing is worse than one that says it does not know.
 
     A pre-release is never the answer: GitHub only calls one release
     the latest, and it is never one put out for trying.
@@ -19518,21 +19529,24 @@ def newer_release(asked=False):
     the machine rather than by whoever clicks.
     """
     if UPDATE_OFF:
-        return "", "", ""
+        return "", "", "", ""
     passed_over = "" if asked else update_skipped()
     try:
         import urllib.request
         with urllib.request.urlopen(RELEASES, context=https_context(),
                                     timeout=20) as answer:
             found = json.load(answer)
-    except Exception:
-        return "", "", ""      # no network, no answer, no complaint
+    except Exception as e:
+        # Said, not swallowed. Whoever did not ask is not told -- a
+        # start without a network would otherwise complain every time.
+        return "", "", "", (T('Could not look for a newer version: %s')
+                            % e if asked else "")
     tag = str(found.get("tag_name") or "")
     if passed_over and tag == passed_over:
         # Passed over once, so it is not offered again by itself. The
         # next release has another name and asks, and the menu asks
         # whenever somebody wants it to.
-        return "", "", ""
+        return "", "", "", ""
     if not tag or version_key(tag) <= version_key(VERSION):
         # Nothing newer. The answer already carries the text of the
         # release that is running, and throwing it away means asking
@@ -19541,12 +19555,12 @@ def newer_release(asked=False):
         # newer version are unaffected.
         same = version_key(tag) == version_key(VERSION) if tag else False
         return ("", str(found.get("html_url") or "") if same else "",
-                str(found.get("body") or "").strip() if same else "")
+                str(found.get("body") or "").strip() if same else "", "")
     text = str(found.get("body") or "").strip()
     # Two versions may lie between what runs here and what is out.
     # Showing only the newest hides what somebody is also getting.
     whole = releases_in_between(tag, VERSION)
-    return (tag, str(found.get("html_url") or ""), whole or text)
+    return (tag, str(found.get("html_url") or ""), whole or text, "")
 
 
 def self_checked(raw):
@@ -19588,13 +19602,42 @@ def fetch_new_self(tag):
     return self_checked(raw)
 
 
+def installed_by_a_package_manager():
+    """The folder a package manager owns this file in, or "".
+
+    Where the program was installed rather than downloaded, something
+    else keeps a record of which version is there. Writing over the
+    file leaves that record standing and wrong.
+    """
+    import sysconfig
+    here = os.path.abspath(__file__)
+    import site
+    # site.USER_SITE, not getusersitepackages(): the call raises where
+    # the user folder is switched off, the name is always there, and it
+    # is None when there is no such folder.
+    owned = [sysconfig.get_paths().get(k) for k in ("purelib", "platlib")]
+    owned.append(site.USER_SITE)
+    for folder in owned:
+        if folder and here.startswith(os.path.abspath(folder) + os.sep):
+            return folder
+    return ""
+
+
 def put_new_self(text):
     """Write it in place of this file, the old one kept beside it.
 
     Returns "" when it worked. The old file stays as .old: an update
     that turns out wrong should not need the network to be undone.
+
+    Where a package manager owns the folder, nothing is written: that
+    would leave its record of the version standing and wrong.
     """
     here = os.path.abspath(__file__)
+    owner = installed_by_a_package_manager()
+    if owner:
+        return T('This was installed rather than downloaded, into %s. '
+                 'Update it the way it was installed, or the record '
+                 'kept there would go on naming the old version.') % owner
     try:
         beside = here + ".new"
         with open(beside, "w", encoding="utf-8") as f:
@@ -19614,7 +19657,7 @@ def update_note():
     stop to ask anything, so there is no box and no question here, and
     nothing at all is fetched: --update does that, and only that.
     """
-    tag, page, _changed = newer_release()
+    tag, page, _changed, _trouble = newer_release()
     if not tag:
         return
     print(T('%s is out. This is %s.') % (tag, VERSION))
@@ -19633,7 +19676,10 @@ def update_from_command_line():
     if UPDATE_OFF:
         print(T('The check for new versions is switched off here.'))
         return 1
-    tag, _page, _changed = newer_release(asked=True)
+    tag, _page, _changed, trouble = newer_release(asked=True)
+    if trouble:
+        print(trouble)
+        return 1
     if not tag:
         print(T('No newer version found. This one is %s.') % VERSION)
         return 0
@@ -25766,6 +25812,18 @@ def cut_caption_room(widget, base):
                         + [T(c[1]) for c in CUT_CHOICES])
 
 
+def cut_choice_room(widget, base):
+    """Width of the drop-downs beside the camera cut captions.
+
+    All the rows share it, so every entry any of them offers is
+    measured: a box as wide as its own longest entry leaves the column
+    ragged, and the widest entry anywhere decides.
+    """
+    return caption_room(widget, base,
+                        [T(SHOT_NAMES.get(n, n))
+                         for c in CUT_CHOICES for n in c[3]])
+
+
 def box_room(box, base):
     """Fix a box at its designed width, and at what fits in it.
 
@@ -26347,17 +26405,21 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             # given, across and down. Both cases then read the same,
             # and a strip cut to their height needs no second rule.
             top = room.top() + max(0, (room.height() - 2 * high) // 2)
+            # The camera on top, who is speaking underneath. The
+            # colour field then reads like the band below it, which is
+            # a band of camera shots -- and one camera can carry
+            # several speakers, which is what the second line is for.
             painter.setFont(self.strong)
             painter.drawText(
                 QtCore.QRect(room.left(), top, room.width(), high),
                 Qt.AlignHCenter | Qt.AlignVCenter,
-                self._fits(self.speaking, room.width(), bold))
+                self._fits(self.camera, room.width(), bold))
             painter.setFont(self.font())
             painter.drawText(
                 QtCore.QRect(room.left(), top + high, room.width(), high),
                 Qt.AlignHCenter | Qt.AlignVCenter,
-                self._fits(self.camera, room.width(),
-                           QtGui.QFontMetrics(self.font())))
+                QtGui.QFontMetrics(self.font()).elidedText(
+                    self.speaking, Qt.ElideRight, room.width()))
             painter.end()
 
     class CutPlayer(QtWidgets.QWidget):
@@ -29685,7 +29747,7 @@ def cut_fields_build(into, parts=None):
         value = Value(default_value)
         cut_var[api_key] = value
         box = choice_bind(_qw.QComboBox(), value, allowed)
-        box.setFixedWidth(150)
+        box.setFixedWidth(cut_choice_room(box, 150))
         speaks_as(box, T(caption))
         row_layout.addWidget(box)
         t = label(T(short), COLOURS["quiet"])
@@ -36232,16 +36294,17 @@ def update_offer(window, asked=False):
     that did nothing.
     """
     QtWidgets = _qt_widgets()
-    tag, page, changed = newer_release(asked)
+    tag, page, changed, trouble = newer_release(asked)
     if not tag:
         if asked:
-            # Switched off means nothing was looked at, and calling
-            # this the newest version would then be a guess.
-            if UPDATE_OFF:
+            # Switched off, or unable to look at all: both mean nothing
+            # was seen, and calling this the newest version would then
+            # be a guess.
+            if UPDATE_OFF or trouble:
                 QtWidgets.QMessageBox.information(
                     window, T('Look for a newer version now'),
-                    T('The check for new versions is switched off '
-                      'here.'))
+                    trouble or T('The check for new versions is '
+                                 'switched off here.'))
             else:
                 newest_shown(window, page, changed)
         return
@@ -37495,16 +37558,24 @@ CATALOGUE["de"] = {
         '  Wird installiert: %s',
     '  On this machine: %s':
         '  Auf dieser Maschine: %s',
+    '  Installing it: pip install %s':
+        '  Wird installiert: pip install %s',
+    '  %s would be installed into this Python: %s':
+        '  %s würde in dieses Python installiert: %s',
+    '  By hand:  %s -m pip install %s':
+        '  Von Hand:  %s -m pip install %s',
+    'Could not look for a newer version: %s':
+        'Konnte nicht nach einer neueren Fassung sehen: %s',
+    'This was installed rather than downloaded, into %s. Update it the '
+    'way it was installed, or the record kept there would go on naming '
+    'the old version.':
+        'Das hier wurde installiert und nicht heruntergeladen, nach %s. '
+        'Aktualisiere es auf demselben Weg, sonst nennt der Nachweis dort '
+        'weiter die alte Fassung.',
     '  Run that now? [Y/n] ':
         '  Jetzt ausführen? [J/n] ',
     '  That did not work: %s':
         '  Das hat nicht geklappt: %s',
-    '  Fetching static-ffmpeg instead: a build inside this Python. It '
-    'brings sixteen packages with it and loads its programs from a '
-    'private repository, unchecked.':
-        '  Statt dessen static-ffmpeg: eine Version in diesem Python. Es '
-        'bringt sechzehn Pakete mit und lädt seine Programme ungeprüft '
-        'aus einem privaten Repository.',
     '  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then '
     'has to go into PATH, or the files next to this program.':
         '  Auf ffmpeg.org gibt es Versionen für Windows. Der Ordner mit '
@@ -37958,8 +38029,6 @@ CATALOGUE["de"] = {
         '  Mitschrift: %s',
     '  Uploaded:':
         '  Hochgeladen:',
-    '  static-ffmpeg reports: %s':
-        '  static-ffmpeg meldet: %s',
     '%s  Deviation:                      %s':
         '%s  Abweichung:                     %s',
     '%s  Deviation:                      %s  (%.1f frames)':
@@ -38606,11 +38675,6 @@ CATALOGUE["de"] = {
     'this file (%s).\nHere: %s':
         'Nicht gefunden: %s.\nDie Programme müssen im Suchpfad oder neben '
         'dieser Datei liegen (%s).\nHier: %s',
-    '    pip refused the safe options -- installing around the system '
-    'package manager. A virtual environment would avoid this.':
-        '    pip hat die vorsichtigen Wege abgelehnt -- Installation an '
-        'der Systempaketverwaltung vorbei. Eine virtuelle Umgebung würde '
-        'das vermeiden.',
     'from ffmpeg.org, and the folder into PATH':
         'von ffmpeg.org, und den Ordner in den PATH',
     'over the package manager: apt install ffmpeg, dnf install ffmpeg':

@@ -165,13 +165,19 @@ check("with a value it arrives", got == "en",
 # and the banner above it is language-free.
 GONE = "/tmp/vpm-no-such-recording.wav"
 # The program looks for ffmpeg before it ever looks at --lang, and where
-# it finds none it offers to fetch one: the package manager if somebody
-# is there to answer, and a pip install into this Python if nobody is.
-# A question about the language must do neither, so the run gets no
-# console to be asked on and a pip that can neither reach an index nor
-# write outside a virtual environment. Both, because either alone
-# leaves a way through -- and this is not theory: an earlier version of
-# these two runs put static-ffmpeg into the system Python.
+# it finds none it offers the package manager -- asked, and only where
+# somebody is there to answer. A question about the language must not
+# reach even that, so the run gets no console to be asked on, and a pip
+# that can neither reach an index nor write outside a virtual
+# environment.
+#
+# The pip half is kept although the program no longer fetches ffmpeg
+# that way. It still fetches numpy and PySide6, and it asks first -- but
+# this seal is what an unasked install would have run into, and it is
+# not theory: an earlier version of these two runs put a wheel of
+# ffmpeg binaries into the system Python. A seal is cheap; taking one
+# away because the hole it covers is closed today is how the hole comes
+# back.
 SEALED = dict(os.environ, VPM_NO_UPDATE_CHECK="1",
               PIP_NO_INDEX="1", PIP_REQUIRE_VIRTUALENV="1", PIP_NO_INPUT="1")
 SEALED.pop("VPM_INSTALL_TOOLS", None)

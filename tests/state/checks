@@ -49,7 +49,7 @@ cut_jingle_over_start	18
 cut_list_rebuilt	9
 cut_no_wide_silences	21
 cut_note_moves_no_shot	11
-cut_note_says_who_speaks	17
+cut_note_says_who_speaks	19
 cut_offer_needs_two	91
 cut_one_camera_marks	19
 cut_opening_wide_holds	7
@@ -117,9 +117,10 @@ run_bar_never_falls	20
 run_bar_tracks_work	29
 run_command_built	62
 run_dry_reports_voices	13
+run_ffmpeg_not_fetched	6
 run_metrics_add_up	51
 run_odd_clock_named	17
-run_only_newer_offered	51
+run_only_newer_offered	66
 run_outside_seen	14
 run_prework_listed	43
 run_promise_is_written	12

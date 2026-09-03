@@ -73,7 +73,7 @@ fi
 # shiboken6 is on the list because it comes in with PySide6 and does not
 # go out with it: pip removes what was asked for, not what came along.
 MODULES="numpy PySide6 PySide6_Addons PySide6_Essentials shiboken6 \
-certifi faster-whisper static-ffmpeg"
+certifi faster-whisper"
 # Only with these gone does the environment cost what it costs: it is
 # built with --system-site-packages and borrows whatever is already
 # here. What the program never installs is not on the list, because
@@ -292,21 +292,16 @@ try:
     roots.add(site.getusersitepackages())
 except Exception:
     pass
-# static-ffmpeg downloads its programs after it is installed, and pip
-# takes back only what it put there itself: 94 MB of ffmpeg stay behind
-# in the package folder. Measured on 2026-08-23.
-DOWNLOADED = ("static_ffmpeg",)
 for name in ("numpy", "PySide6", "certifi", "faster_whisper",
-             "static_ffmpeg", "torch", "torchaudio", "shiboken6"):
+             "torch", "torchaudio", "shiboken6"):
     for root in roots:
         folder = os.path.join(root, name)
         if not os.path.isdir(folder):
             continue
-        # Only a shell: nothing in it but compiled leftovers -- or a
-        # folder one of them filled after pip was done with it.
+        # Only a shell: nothing in it but compiled leftovers.
         alive = [f for _, _, fs in os.walk(folder) for f in fs
                  if not f.endswith((".pyc", ".pyo"))]
-        if alive and name not in DOWNLOADED:
+        if alive:
             continue
         try:
             shutil.rmtree(folder)

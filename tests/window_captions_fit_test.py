@@ -48,7 +48,7 @@ WINDOW = (1400, 950)
 # room. A line edit and a combo box scroll or elide on purpose, and
 # their content is not a caption.
 KINDS = ("QLabel", "QPushButton", "QCheckBox", "QRadioButton",
-         "QToolButton", "QGroupBox")
+         "QToolButton", "QGroupBox", "QComboBox")
 NAME = "videopodcast-magic_Interview_2.json"
 # The longest the reading beside the zoom buttons can get: two hours or
 # more on both sides. The field is pinned to this, so the pin and the
@@ -144,7 +144,22 @@ def measure(language):
     QtWidgets.QDialog.show = offstage
 
     def caption(w):
-        """The text drawn in the widget, or "" if it carries none."""
+        """The text drawn in the widget, or "" if it carries none.
+
+        A drop-down is asked for the longest entry it offers, not for
+        the one showing: every one of them can be picked, and a box
+        that fits only what it opens on is cut off as soon as somebody
+        chooses.
+        """
+        count = getattr(w, "count", None)
+        item = getattr(w, "itemText", None)
+        if count is not None and item is not None:
+            try:
+                entries = [item(i) for i in range(count())]
+            except Exception:
+                entries = []
+            if entries:
+                return max(entries, key=len)
         for name in ("text", "title"):
             reader = getattr(w, name, None)
             if reader is None:
@@ -208,7 +223,12 @@ def measure(language):
             try:
                 twin.setText(sample)
             except Exception:
-                twin.setTitle(sample)
+                try:
+                    twin.setTitle(sample)
+                except Exception:
+                    # A drop-down carries no text of its own: what it
+                    # draws is the entry standing in it.
+                    twin.addItem(sample)
             got = twin.minimumSizeHint().width() \
                 - twin.fontMetrics().horizontalAdvance(sample)
             twin.setParent(None)
