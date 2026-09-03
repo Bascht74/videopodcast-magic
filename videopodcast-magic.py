@@ -11,6 +11,7 @@ Design and rationale: see the manual under docs/ next to this file.
 import argparse
 import atexit
 import bisect
+import contextlib
 import ctypes
 import datetime
 import glob
@@ -314,6 +315,28 @@ def install_over_package_manager():
         print(T('  That did not work: %s') % e)
         return False
     return p.returncode == 0
+
+
+def open_page(url):
+    """Hand an address to whatever the system opens addresses with.
+
+    Every desktop has its own way and none of them is Python's: the
+    Windows shell, the open command on a Mac, xdg-open elsewhere.
+    """
+    try:
+        if os.name == "nt":
+            os.startfile(url)
+        elif sys.platform == "darwin":
+            subprocess.Popen(["open", url])
+        else:
+            subprocess.Popen(["xdg-open", url])
+        return True
+    except Exception as e:
+        # Silence would leave somebody waiting for a page that is not
+        # coming, so the address goes out to be opened by hand.
+        print(T('  The page could not be opened: %s') % e)
+        print("  %s" % url)
+        return False
 
 
 def open_ffmpeg_page():
@@ -696,7 +719,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "2.31.1-beta"
+VERSION = "2.32.0-beta"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear
@@ -1378,6 +1401,183 @@ def file_stamp(path):
     return (os.path.realpath(path), int(s.st_mtime_ns), int(s.st_size))
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+def _ffprobe_text(path):
+    return subprocess.run(["ffprobe", "-v", "error", "-print_format", "json",
+                           "-show_format", "-show_streams", path],
+                          capture_output=True).stdout
+
+
+def cache_folder(sub=""):
+    """Return the folder the program may keep its intermediate state in."""
+    # VPM_CACHE points the whole thing somewhere else. The test suite
+    # sets it: a test run has no business leaving envelopes, preflight
+    # measurements and a compiled recogniser in the cache of whoever
+    # happens to run it.
+    base = os.environ.get("VPM_CACHE") or ""
+    if not base:
+        if sys.platform == "darwin":
+            base = os.path.expanduser("~/Library/Caches")
+        elif os.name == "nt":
+            base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
+        else:
+            base = (os.environ.get("XDG_CACHE_HOME")
+                     or os.path.expanduser("~/.cache"))
+    folder = os.path.join(base, "videopodcast-magic", sub)
+    try:
+        os.makedirs(folder, exist_ok=True)
+    except OSError:
+        return None
+    return folder
+
+
+def clean_old_files(folder, days=30):
+    """Discard what has lain in this folder untouched for that long.
+
+    One reader for both stores. A cache folder that only ever grows is
+    a folder somebody finds one day and does not dare to delete.
+    """
+    if not folder:
+        return
+    limit = time.time() - days * 86400
+    try:
+        names = os.listdir(folder)
+    except OSError:
+        return
+    for name in names:
+        one = os.path.join(folder, name)
+        try:
+            if os.path.getmtime(one) < limit:
+                os.unlink(one)
+        except OSError:
+            continue
+
+
+def write_beside_then_move(file_path, data):
+    """Write bytes so that no half-written file is ever read.
+
+    Beside it and then moved into place: a run broken off halfway would
+    otherwise leave half a file behind, and these files are read as
+    measurements on every later start. Two runs writing the same one at
+    the same moment is fine as well -- one of them wins whole.
+    """
+    if not file_path:
+        return
+    try:
+        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
+                                      prefix=".vpm_", suffix=".part")
+        with os.fdopen(fd, "wb") as f:
+            f.write(data)
+        os.replace(beside, file_path)
+    except OSError:
+        return
+
+
+EXT_MARK = "[EXT]"
+
+
+ENV_MARK = "[ENV]"
+
+
+BAD_MARK = "[BAD]"
+
+
+_LOG_ASIDE = []
+
+
+def log_path():
+    """Return where the log goes: next to the script.
+
+    There it is found without searching. If that is not writable -- the
+    script on a read-only volume, say -- the system cache folder is used.
+    """
+    here = os.path.dirname(os.path.abspath(__file__))
+    if os.path.isdir(here) and os.access(here, os.W_OK):
+        return os.path.join(here, "videopodcast-magic.log")
+    folder = cache_folder()
+    return os.path.join(folder, "videopodcast-magic.log") if folder else None
+
+
+def log_aside(text):
+    """Write one line into the log file only, never to the console.
+
+    What a run prints is read by a person and by the window, and a
+    diagnostic line landing between two progress bars tears them
+    apart. This goes past both descriptors into the file itself.
+    """
+    if not _LOG_ASIDE:
+        try:
+            where = log_path()
+            _LOG_ASIDE.append(open(where, "a", buffering=1,
+                                   encoding="utf-8", errors="replace")
+                              if where else None)
+        except Exception:
+            _LOG_ASIDE.append(None)
+    if _LOG_ASIDE[0] is None:
+        return
+    try:
+        _LOG_ASIDE[0].write(text + "\n")
+    except Exception:
+        # A write that failed once fails again -- a full disc, a file
+        # taken away. Stop rather than throw once per line from here.
+        _LOG_ASIDE[0] = None
+
+
+# The same tool on the same file over and over -- the fine measurement
+# asks for nine stretches out of two files -- is held back and written
+# as one line with the count and the total.
+_SAME_AGAIN = {"what": None, "times": 0, "seconds": 0.0}
+
+
+def outside_say(tool, about, seconds=None, what=None):
+    """One line about work that happens outside this program's own code.
+
+    ffmpeg, ffprobe and the two models are where a run spends its
+    minutes, and from outside a file read once and a file read four
+    times look the same. A stored answer says so too, so every
+    measurement in the log is either a call or the line saying why
+    there was none.
+    """
+    same = (tool, about, what)
+    if _SAME_AGAIN["what"] == same and seconds is not None:
+        _SAME_AGAIN["times"] += 1
+        _SAME_AGAIN["seconds"] += seconds
+        return
+    outside_flush()
+    if seconds is None:
+        log_aside("%s %s  %-13s %-22s %s"
+                  % (EXT_MARK, time.strftime("%H:%M:%S"), tool,
+                     what or "started", about))
+        return
+    _SAME_AGAIN.update({"what": same, "times": 1, "seconds": seconds})
+
+def outside_flush():
+    """Write out what was held back, as one line."""
+    held = _SAME_AGAIN["what"]
+    if not held:
+        return
+    tool, about, what = held
+    times, seconds = _SAME_AGAIN["times"], _SAME_AGAIN["seconds"]
+    log_aside("%s %s  %-13s %-22s %s"
+              % (EXT_MARK, time.strftime("%H:%M:%S"), tool,
+                 what or ("%.2f s" % seconds if times == 1
+                          else "%d calls, %.2f s" % (times, seconds)),
+                 about))
+    _SAME_AGAIN.update({"what": None, "times": 0, "seconds": 0.0})
+
+
+
 def probe_cache_path(api_key):
     """Where a measurement of a file is kept between runs, or None."""
     folder = cache_folder("probes")
@@ -1412,26 +1612,41 @@ def clean_probe_cache(days=30):
     clean_old_files(cache_folder("probes"), days)
 
 
-def probe_remember(name, path, work, keep=False):
+def probe_remember(name, path, work, keep=False, as_json=False):
     """Return a measured property of a file, asking only once.
 
     Keyed on size and modification time: a changed file is measured
-    again, one that cannot be stat'ed every time, because there is
-    nothing to key on. With *keep* the answer outlives the run -- only
-    ffprobe asks for that, and only because it is a few kilobytes of
-    text about a file that has not changed.
+    again, one that cannot be stat'ed every time. With *keep* the
+    answer outlives the run, which is what a measurement costing half
+    a minute needs; *as_json* is for one that is not text.
+
+    A kept answer carries the recipe in its *name* -- see recipe_mark.
     """
     stamp = file_stamp(path)
     if stamp is None:
         return work()
     api_key = (name,) + stamp
     if api_key in _PROBE:
+        # Not said. This one is asked thousands of times in a table
+        # rebuild, and a line for each would drown the log it is
+        # meant to make readable -- and cost more than the lookup.
         return _PROBE[api_key]
     got = probe_kept(api_key) if keep else None
+    if got is not None and as_json:
+        try:
+            got = json.loads(got)
+        except Exception:
+            got = None          # half a write, or another version
+    if got is not None:
+        # This one is worth a line: it is the measurement that would
+        # otherwise have cost seconds.
+        outside_say(name.split("-")[0], os.path.basename(path),
+                    what="read back from the store")
     if got is None:
         got = work()
         if keep:
-            probe_keep(api_key, got)
+            probe_keep(api_key, json.dumps(got).encode("utf-8")
+                       if as_json else got)
     if len(_PROBE) > 4000:
         _PROBE.clear()
     _PROBE[api_key] = got
@@ -1442,12 +1657,6 @@ def probe_has(name, path):
     """Report whether this measurement of this file is already there."""
     stamp = file_stamp(path)
     return stamp is not None and (name,) + stamp in _PROBE
-
-
-def _ffprobe_text(path):
-    return subprocess.run(["ffprobe", "-v", "error", "-print_format", "json",
-                           "-show_format", "-show_streams", path],
-                          capture_output=True).stdout
 
 
 def ffprobe_json(path):
@@ -1745,24 +1954,6 @@ def clocks_apart(spans):
                 if alone(i, a, n, placed)), moved, placed)
 
 
-def clocks_not_set(paths):
-    """Which of these files carry a timecode from a clock never set.
-
-    The same question the first tab asks, through the same clocks_apart:
-    the file whose timecode window overlaps none of the others. A file
-    without a timecode is not in the result. Returns path_key names, so
-    the answer can be held against the time axis without either side
-    having to know which spelling the other was given.
-    """
-    spans = []
-    for p in paths:
-        try:
-            t = file_timecode(p)
-        except (OSError, ValueError, RuntimeError):
-            t = None
-        if t is not None:
-            spans.append((float(t), media_seconds(p), path_key(p)))
-    return clocks_apart(spans)[0]
 
 
 def picture_rate(probed):
@@ -4877,13 +5068,29 @@ def speech_heading(own_measure_measured, total_sum=""):
         source_text = T('Speakers, self-measured from the tracks')
     else:
         source_text = T('Speakers, separated by voice')
-    return "%s -- %s" % (source_text, total_sum) if total_sum else source_text
+    if not total_sum:
+        return source_text
+    return T('%s (%s) -- talking at once counts twice') % (
+        source_text, total_sum)
+
+
+def warn_box(QtWidgets, parent, title, text):
+    """Show a warning, and write it down before it is clicked away.
+
+    A box is gone as soon as somebody presses the button, and what it
+    said is then only in their memory. One place does both, so a new
+    warning cannot be shown without being kept.
+    """
+    trouble_log("%s -- %s" % (title, text))
+    QtWidgets.QMessageBox.warning(parent, title, text)
 
 
 def label_say(widget, text, colour):
     """Put one line into a label, in the colour that grades it."""
     widget.setText(text)
     widget.setStyleSheet("color: %s" % colour)
+    if colour == COLOURS["error"]:
+        trouble_log(text)
 
 
 def cut_basis_line(basis, speakers, length):
@@ -8077,6 +8284,24 @@ def channel_hush(level):
 
 
 
+def channel_recipe_mark():
+    """The mark for the channel measurement, so a change throws it away."""
+    return recipe_mark("channels", channel_facts, channel_levels,
+                       channel_hush, channel_rate)
+
+
+def channel_facts_name():
+    """The one name the channel measurement is stored under.
+
+    Built in one place because three ask for it: the one that stores,
+    and the two that ask whether it is there. Spelled out twice, the
+    recipe mark went into the store and not into the question -- and
+    the answer was then "not measured" for ever, which put the work
+    back in the queue every time the rows were drawn.
+    """
+    return "channelfacts-" + channel_recipe_mark()
+
+
 def channel_facts(file_path, rate=None, stream=0):
     """Measure the channels of one file: how loud, how empty, how alike.
 
@@ -8638,11 +8863,12 @@ def channel_facts_cached(file_path):
     file list is rebuilt on every change. Keyed on size and modification
     time, so a changed file is measured again.
     """
-    # A name of its own: "channels" already belongs to the plain
-    # channel count, and one store holding both would hand an integer
-    # to whoever asked for the facts.
-    return probe_remember("channelfacts", file_path,
-                          lambda: channel_facts(file_path))
+    # Kept on disc, unlike most: reading every channel of an hour of
+    # audio takes 20 to 50 seconds, and without this every start of
+    # the program does it again. "channels" alone is the plain count.
+    return probe_remember(channel_facts_name(), file_path,
+                          lambda: channel_facts(file_path),
+                          keep=True, as_json=True)
 
 
 def channel_tracks(facts, name="Track", choice=None):
@@ -17365,27 +17591,6 @@ def decode_audio_tracks(path, rate, duration, text, streams, report=None):
             remove_quietly(raw)
 
 
-def cache_folder(sub=""):
-    """Return the folder the program may keep its intermediate state in."""
-    # VPM_CACHE points the whole thing somewhere else. The test suite
-    # sets it: a test run has no business leaving envelopes, preflight
-    # measurements and a compiled recogniser in the cache of whoever
-    # happens to run it.
-    base = os.environ.get("VPM_CACHE") or ""
-    if not base:
-        if sys.platform == "darwin":
-            base = os.path.expanduser("~/Library/Caches")
-        elif os.name == "nt":
-            base = os.environ.get("LOCALAPPDATA") or os.path.expanduser("~")
-        else:
-            base = (os.environ.get("XDG_CACHE_HOME")
-                     or os.path.expanduser("~/.cache"))
-    folder = os.path.join(base, "videopodcast-magic", sub)
-    try:
-        os.makedirs(folder, exist_ok=True)
-    except OSError:
-        return None
-    return folder
 
 
 def running_from():
@@ -17402,17 +17607,6 @@ def running_from():
 
 
 
-def log_path():
-    """Return where the log goes: next to the script.
-
-    There it is found without searching. If that is not writable -- the
-    script on a read-only volume, say -- the system cache folder is used.
-    """
-    here = os.path.dirname(os.path.abspath(__file__))
-    if os.path.isdir(here) and os.access(here, os.W_OK):
-        return os.path.join(here, "videopodcast-magic.log")
-    folder = cache_folder()
-    return os.path.join(folder, "videopodcast-magic.log") if folder else None
 
 
 # The mark the window's own lines carry, so they can be picked out of a
@@ -17465,6 +17659,156 @@ def gui_log(text):
     print("%s %s  %s" % (GUI_MARK, time.strftime("%H:%M:%S"), text))
 
 
+
+
+def outside_what(cmd):
+    """The tool and the file one call to another program is about."""
+    parts = [str(x) for x in ([cmd] if isinstance(cmd, str) else (cmd or []))]
+    if not parts:
+        return "", ""
+    tool = os.path.basename(parts[0])
+    # A python of its own runs the speaker separation, and "python3"
+    # says nothing about what is taking the minutes. The script it is
+    # given is the name worth printing.
+    if tool.startswith("python") and len(parts) > 1:
+        tool = os.path.basename(parts[1]).replace(".py", "") or tool
+    for i, one in enumerate(parts):
+        if one == "-i" and i + 1 < len(parts):
+            return tool, os.path.basename(parts[i + 1])
+    # ffprobe takes its file last and without a switch in front of it.
+    tail = parts[-1]
+    return tool, os.path.basename(tail) if not tail.startswith("-") else ""
+
+
+
+
+
+
+
+
+
+
+
+
+# Otherwise the last run of identical calls is never written: nothing
+# different comes after it to push it out.
+atexit.register(outside_flush)
+
+
+def outside_log(cmd, seconds=None):
+    """Write down one call to a program outside this one.
+
+    Every call is here because subprocess is wrapped once below, so a
+    new call site cannot forget to say so.
+    """
+    tool, about = outside_what(cmd)
+    if tool:
+        outside_say(tool, about, seconds)
+
+
+@contextlib.contextmanager
+def outside_work(tool, about):
+    """Time work that runs in this process but costs like an outside call.
+
+    The models are not subprocesses, so the wrapper below does not see
+    them -- and they are the longest thing a run does. Said even where
+    it fails: work that broke off after four minutes still took them.
+    """
+    began = time.monotonic()
+    try:
+        yield
+    finally:
+        outside_say(tool, about, time.monotonic() - began)
+
+
+_subprocess_run, _subprocess_popen = subprocess.run, subprocess.Popen
+
+
+# run() opens a Popen of its own, so without this every call it makes
+# would be said twice. Per thread: the window runs its prework in
+# several at once, and one counter for all of them would silence the
+# wrong lines.
+_in_run = threading.local()
+
+
+def run_outside(cmd, *rest, **named):
+    """subprocess.run, with the call and how long it took written down."""
+    began = time.monotonic()
+    _in_run.here = getattr(_in_run, "here", 0) + 1
+    try:
+        return _subprocess_run(cmd, *rest, **named)
+    finally:
+        _in_run.here -= 1
+        outside_log(cmd, time.monotonic() - began)
+
+
+class SaysWhenDone(_subprocess_popen):
+    """A Popen that says how long it ran when somebody waits for it.
+
+    Started and finished are two lines because a long call is
+    interesting while it runs -- and without the second one a process
+    that took four minutes cannot be told from one that took four
+    seconds.
+    """
+
+    def __init__(self, cmd, *rest, **named):
+        self._began = time.monotonic()
+        self._said = False
+        self._cmd = cmd
+        _subprocess_popen.__init__(self, cmd, *rest, **named)
+
+    def _say_done(self):
+        if not self._said:
+            self._said = True
+            outside_log(self._cmd, time.monotonic() - self._began)
+
+    def wait(self, *rest, **named):
+        try:
+            return _subprocess_popen.wait(self, *rest, **named)
+        finally:
+            self._say_done()
+
+    def communicate(self, *rest, **named):
+        try:
+            return _subprocess_popen.communicate(self, *rest, **named)
+        finally:
+            self._say_done()
+
+
+def popen_outside(cmd, *rest, **named):
+    """subprocess.Popen, saying both when it started and when it ended."""
+    if getattr(_in_run, "here", 0):
+        return _subprocess_popen(cmd, *rest, **named)
+    outside_log(cmd)
+    return SaysWhenDone(cmd, *rest, **named)
+
+
+def watch_outside_calls():
+    """Route every call to another program past the log.
+
+    Wrapped here rather than at the 46 call sites: what is asked of a
+    call site is forgotten by the next one somebody writes. Only where
+    this file is the program being run -- loaded as a module, the
+    replacement would reach into the loader too, and its own processes
+    have nothing to do with a run.
+    """
+    subprocess.run = run_outside
+    subprocess.Popen = popen_outside
+
+
+def trouble_log(text):
+    """Write down what the window is showing in red.
+
+    A red mark in the window is gone the moment the row is drawn
+    again, and the complaint about it arrives hours later. In the log
+    it keeps, with the time beside it.
+    """
+    said = " ".join(str(text or "").split())
+    if said:
+        log_aside("%s %s  %s"
+                  % (BAD_MARK, time.strftime("%H:%M:%S"), said[:200]))
+
+
 def redirect_console():
     """Redirect everything that would go to the terminal into a file.
 
@@ -17513,26 +17857,18 @@ def envelope_cache_folder():
     return cache_folder("envelopes")
 
 
-def clean_old_files(folder, days=30):
-    """Discard what has lain in this folder untouched for that long.
 
-    One reader for both stores. A cache folder that only ever grows is
-    a folder somebody finds one day and does not dare to delete.
-    """
-    if not folder:
-        return
-    limit = time.time() - days * 86400
-    try:
-        names = os.listdir(folder)
-    except OSError:
-        return
-    for name in names:
-        one = os.path.join(folder, name)
-        try:
-            if os.path.getmtime(one) < limit:
-                os.unlink(one)
-        except OSError:
-            continue
+
+
+
+
+
+
+
+
+
+
+
 
 
 def clean_envelope_cache(days=30):
@@ -17540,33 +17876,39 @@ def clean_envelope_cache(days=30):
     clean_old_files(envelope_cache_folder(), days)
 
 
-_RECIPE_MARK = []
+
+
+_RECIPE_MARKS = {}
+
+
+def recipe_mark(name, *work):
+    """A short mark of the way something is worked out.
+
+    A number counted by hand would have to be remembered, and the day
+    somebody forgets it the store hands back a measurement another
+    recipe wrote. So the source of the functions that decide the
+    numbers is read and hashed: it cannot change without changing
+    this.
+    """
+    if name not in _RECIPE_MARKS:
+        try:
+            import inspect
+            text = "".join(inspect.getsource(f) for f in work)
+        except Exception:
+            # Nothing to read the source from. The version is coarse --
+            # every release throws the store away -- but it never hands
+            # back what some other recipe wrote.
+            text = VERSION
+        _RECIPE_MARKS[name] = hashlib.sha1(
+            text.encode("utf-8")).hexdigest()[:12]
+    return _RECIPE_MARKS[name]
 
 
 def envelope_recipe_mark():
-    """A short mark of the way a curve is worked out.
-
-    Hop and rate are in the cache name already; what else decides the
-    numbers is the recipe -- what ffmpeg is asked for, the root mean
-    square, the logarithm, the floor under it. A number counted by hand
-    would have to be remembered, so the recipe is read and hashed
-    instead: it cannot change without changing this. The recogniser and
-    the separation worker carry their mark the same way.
-    """
-    if not _RECIPE_MARK:
-        try:
-            import inspect
-            text = "".join(inspect.getsource(f) for f in
-                           (decode_audio, decode_audio_tracks, envelope,
-                            audio_track_starts_at, audio_on_the_picture))
-        except Exception:
-            # Nothing to read the source from. The version is coarse --
-            # every release throws the curves away -- but it never hands
-            # back a curve some other recipe wrote.
-            text = VERSION
-        _RECIPE_MARK.append(
-            hashlib.sha1(text.encode("utf-8")).hexdigest()[:12])
-    return _RECIPE_MARK[0]
+    """The mark for a curve: what ffmpeg is asked for, and the rest."""
+    return recipe_mark("envelope", decode_audio, decode_audio_tracks,
+                       envelope, audio_track_starts_at,
+                       audio_on_the_picture)
 
 
 def envelope_cache_path(path, hop_ms, rate):
@@ -17592,6 +17934,19 @@ def envelope_cache_path(path, hop_ms, rate):
                         + ".npy")
 
 
+def envelope_log(path, hop_ms, rate, what):
+    """Say whether a curve came out of the store or off the disc.
+
+    A curve costs minutes on a large file and nothing when it is
+    found. Which of the two happened is invisible from outside, and
+    the numbers are in the line because a curve is kept under them:
+    the same file at another hop or rate is another curve.
+    """
+    log_aside("%s %s  %-30s %g/%d  %s"
+              % (ENV_MARK, time.strftime("%H:%M:%S"),
+                 os.path.basename(path)[:30], hop_ms, rate, what))
+
+
 def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
     """Return the envelope of the video audio track, computed once per file.
 
@@ -17608,9 +17963,15 @@ def video_envelope(path, hop_ms=5.0, rate=4000, report=None):
         if cache and os.path.exists(cache):
             try:
                 _ENV[api_key] = np.load(cache)
+                envelope_log(path, hop_ms, rate, "read back from the store")
                 return _ENV[api_key]
-            except Exception:
-                pass
+            except Exception as trouble:
+                envelope_log(path, hop_ms, rate,
+                             "the stored curve would not read: %s" % trouble)
+        else:
+            envelope_log(path, hop_ms, rate,
+                         "nothing in the store, reading the file"
+                         if cache else "no store to look in")
         duration = 0.0
         try:
             duration = float(ffprobe_json(path).get("format", {}).get("duration") or 0)
@@ -19715,11 +20076,14 @@ def whisper_words(audio_path, language="", install=True):
             audio_path, language=speech_locale(language).split("-")[0] or None,
             word_timestamps=True, vad_filter=True)
         out = []
-        for piece in pieces:
-            # words is None unless word_timestamps was asked for, and
-            # it was: without the times there is nothing here to use.
-            for w in (piece.words or ()):
-                out.append(speech_word(w.start, w.end, w.word))
+        # transcribe hands back a generator: nothing is computed until
+        # the pieces are walked, so the clock has to run over the walk.
+        with outside_work(WHISPER_MODEL, os.path.basename(audio_path)):
+            for piece in pieces:
+                # words is None unless word_timestamps was asked for,
+                # and it was: without the times there is nothing to use.
+                for w in (piece.words or ()):
+                    out.append(speech_word(w.start, w.end, w.word))
     except Exception as e:
         print(T('  The speech recognition reports: %s') % e)
         return None
@@ -20044,6 +20408,26 @@ def media_seconds(file_path):
                      .get("duration") or 0.0)
     except Exception:
         return 0.0
+
+def clocks_not_set(paths):
+    """Which of these files carry a timecode from a clock never set.
+
+    The same question the first tab asks, through the same clocks_apart:
+    the file whose timecode window overlaps none of the others. A file
+    without a timecode is not in the result. Returns path_key names, so
+    the answer can be held against the time axis without either side
+    having to know which spelling the other was given.
+    """
+    spans = []
+    for p in paths:
+        try:
+            t = file_timecode(p)
+        except (OSError, ValueError, RuntimeError):
+            t = None
+        if t is not None:
+            spans.append((float(t), media_seconds(p), path_key(p)))
+    return clocks_apart(spans)[0]
+
 
 
 def speaker_model_folder():
@@ -22040,24 +22424,6 @@ def cache_read(fingerprint):
     return d
 
 
-def write_beside_then_move(file_path, data):
-    """Write bytes so that no half-written file is ever read.
-
-    Beside it and then moved into place: a run broken off halfway would
-    otherwise leave half a file behind, and these files are read as
-    measurements on every later start. Two runs writing the same one at
-    the same moment is fine as well -- one of them wins whole.
-    """
-    if not file_path:
-        return
-    try:
-        fd, beside = tempfile.mkstemp(dir=os.path.dirname(file_path),
-                                      prefix=".vpm_", suffix=".part")
-        with os.fdopen(fd, "wb") as f:
-            f.write(data)
-        os.replace(beside, file_path)
-    except OSError:
-        return
 
 
 def cache_write(fingerprint, content):
@@ -23881,6 +24247,128 @@ def main():
     # built, not which arithmetic places the window, not which code
     # writes the files. One axis for one job.
     return multitrack_or_single(args, ap, audio_paths, video_paths)
+
+
+#------------------------------------------------ Beside the window
+# Named here rather than inside the interface section: none of them
+# touches a widget, and other sections reach in for them.
+
+
+def stand_in_camera(names):
+    """What stands in front of a silence where no camera is a wide shot.
+
+    Not a wide shot, and it must not act as one: everything the wide
+    shot settings ask for is switched off wherever this is used.
+
+    All that matters here is that the preview and the run reach for the
+    same camera -- and they did not. The preview took the first of its
+    own list, the run took the reference clip, and in a real shoot both
+    are real cameras, so it showed as two different cuts rather than as
+    a fault. Found 25.8.2026, and only reachable at all since a camera
+    with a speaker stopped counting as a wide shot.
+
+    By name, not by position: the two lists are built in different
+    places and nothing says they are sorted alike, so a rule that hangs
+    on the order would let them drift again on the day one of them is
+    built differently.
+    """
+    return sorted(n for n in names if n)[:1] or ["Wide"]
+
+
+def common_window(camera_areas):
+    """The stretch every camera saw, and the two that decide it.
+
+    *camera_areas* is (from, to, name) per camera, in reference camera
+    time. Returns (t0, begins_with, t1, ends_with).
+
+    Every camera, not any camera. A window wider than a camera reaches
+    has a stretch where a cut to that camera finds no picture, and the
+    episode then comes out shorter than the window said it would.
+    Measured on 26.8.2026 over the test interview: the beginning lay
+    12.567 s before one of three cameras began, and on the fixture the
+    window even began at -0.180 s -- before its own zero. Whoever wants
+    that stretch anyway sets an In point of their own; what is derived
+    is a window every camera can fill. Decided on 29.8.2026.
+
+    Sitting out here rather than inside the run because it is
+    arithmetic and nothing else, and arithmetic can be held against
+    numbers without building a window and an hour of sound first.
+    """
+    t0, begins_with = max((x, name) for x, _y, name in camera_areas)
+    t1, ends_with = min((y, name) for _x, y, name in camera_areas)
+    return t0, begins_with, t1, ends_with
+
+
+def finished_tracks_find(base):
+    """Report whether processed tracks from Auphonic are already there.
+
+    After a run the output folder holds a subfolder with the single tracks.
+    Choosing the same folder again usually means reassembling rather than
+    uploading again, so it is offered.
+    """
+    if not base or not os.path.isdir(base):
+        return None
+    for name in ("auphonic-tracks",):
+        p = os.path.join(base, name)
+        if os.path.isdir(p) and any(
+                os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES
+                for f in os.listdir(p)):
+            return p
+    return None
+
+
+MARK_DE = "**Deutsch**"
+
+
+# What separates the two halves of a release text. Each version says
+# everything twice: the English part first, the German part under this
+# line. Two strings in one place -- the changelog writes them, the
+# window looks for them, and the release test insists on them.
+MARK_EN = "**English**"
+
+
+def release_text_in(text, language=None):
+    """Keep the half of a release text that is in this language.
+
+    From 2.20.0-beta on a release says everything twice, in two blocks
+    one under the other: English first, German under a line of its own.
+    Both belong on the release page, where anybody may read and jump to
+    the language they want. In the window only one is wanted -- two
+    languages in a box are twice as long and half as readable.
+
+    Given away only where the mark is really there. A text from before
+    this, or one where the mark was forgotten, comes back whole: half a
+    text is worse than one in the wrong language.
+    """
+    lines = str(text or "").split("\n")
+    at = [i for i, x in enumerate(lines) if x.strip() == MARK_DE]
+    if not at:
+        return text
+    if (language or LANG) == "de":
+        kept = lines[at[0] + 1:]
+    else:
+        kept = lines[:at[0]]
+        # The rule that draws the line between them goes with it.
+        while kept and kept[-1].strip() in ("", "---", "***", "___"):
+            kept.pop()
+    return "\n".join(x for x in kept
+                      if x.strip() not in (MARK_EN, MARK_DE)).strip()
+
+
+class Stopped(Exception):
+    """The run was broken off from the window."""
+
+
+# What is running right now, so that breaking off can end it. A flag on
+# its own would not do: the run spends most of its minutes waiting for
+# ffmpeg, and a child nobody tells goes on writing long after the window
+# says it has stopped.
+RUN_STOP = {"wanted": False, "children": set(), "at": ""}
+
+
+def stop_wanted():
+    """Whether somebody has asked for the run to stop."""
+    return bool(RUN_STOP["wanted"])
 
 
 #-------------------------------------------------------------- Interface
@@ -29237,22 +29725,6 @@ def mark_red(widget, on, reason=""):
     except RuntimeError:
         pass
 
-def finished_tracks_find(base):
-    """Report whether processed tracks from Auphonic are already there.
-
-    After a run the output folder holds a subfolder with the single tracks.
-    Choosing the same folder again usually means reassembling rather than
-    uploading again, so it is offered.
-    """
-    if not base or not os.path.isdir(base):
-        return None
-    for name in ("auphonic-tracks",):
-        p = os.path.join(base, name)
-        if os.path.isdir(p) and any(
-                os.path.splitext(f)[1].lower() in AUDIO_SUFFIXES
-                for f in os.listdir(p)):
-            return p
-    return None
 
 
 def prepared_tracks_in(folder):
@@ -29504,7 +29976,7 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
         spot[0] += 1
         return kid
 
-    if not all(probe_has("channelfacts", x) for x in row):
+    if not all(probe_has(channel_facts_name(), x) for x in row):
         channel_row(T('      %d channels') % how_many,
                     T('measurement running ...'))
         return
@@ -29705,28 +30177,6 @@ def pause_if_running(QtMultimedia, *players):
             pass
 
 
-def common_window(camera_areas):
-    """The stretch every camera saw, and the two that decide it.
-
-    *camera_areas* is (from, to, name) per camera, in reference camera
-    time. Returns (t0, begins_with, t1, ends_with).
-
-    Every camera, not any camera. A window wider than a camera reaches
-    has a stretch where a cut to that camera finds no picture, and the
-    episode then comes out shorter than the window said it would.
-    Measured on 26.8.2026 over the test interview: the beginning lay
-    12.567 s before one of three cameras began, and on the fixture the
-    window even began at -0.180 s -- before its own zero. Whoever wants
-    that stretch anyway sets an In point of their own; what is derived
-    is a window every camera can fill. Decided on 29.8.2026.
-
-    Sitting out here rather than inside the run because it is
-    arithmetic and nothing else, and arithmetic can be held against
-    numbers without building a window and an hour of sound first.
-    """
-    t0, begins_with = max((x, name) for x, _y, name in camera_areas)
-    t1, ends_with = min((y, name) for _x, y, name in camera_areas)
-    return t0, begins_with, t1, ends_with
 
 
 def not_on_the_axis(path, kinds, remembered):
@@ -29779,36 +30229,10 @@ def fitted(Qt, label, text):
     label.setText(metrics.elidedText(text, Qt.ElideMiddle, room))
 
 
-def stand_in_camera(names):
-    """What stands in front of a silence where no camera is a wide shot.
-
-    Not a wide shot, and it must not act as one: everything the wide
-    shot settings ask for is switched off wherever this is used.
-
-    All that matters here is that the preview and the run reach for the
-    same camera -- and they did not. The preview took the first of its
-    own list, the run took the reference clip, and in a real shoot both
-    are real cameras, so it showed as two different cuts rather than as
-    a fault. Found 25.8.2026, and only reachable at all since a camera
-    with a speaker stopped counting as a wide shot.
-
-    By name, not by position: the two lists are built in different
-    places and nothing says they are sorted alike, so a rule that hangs
-    on the order would let them drift again on the day one of them is
-    built differently.
-    """
-    return sorted(n for n in names if n)[:1] or ["Wide"]
 
 
-class Stopped(Exception):
-    """The run was broken off from the window."""
 
 
-# What is running right now, so that breaking off can end it. A flag on
-# its own would not do: the run spends most of its minutes waiting for
-# ffmpeg, and a child nobody tells goes on writing long after the window
-# says it has stopped.
-RUN_STOP = {"wanted": False, "children": set(), "at": ""}
 
 
 def stop_asked_for(where=""):
@@ -29830,9 +30254,6 @@ def stop_forget():
     RUN_STOP["children"].clear()
 
 
-def stop_wanted():
-    """Whether somebody has asked for the run to stop."""
-    return bool(RUN_STOP["wanted"])
 
 
 def stop_here(what=""):
@@ -30069,7 +30490,7 @@ def question_dialog(f, window, QtWidgets, label):
     f.event.set()
 
 
-def speech_table_fill(Qt, QtGui, QtWidgets, table, sum_label, d):
+def speech_table_fill(Qt, QtGui, QtWidgets, table, d):
     """Write the speaker statistics into the table.
 
     Outside gui() because it reaches into nothing: the table, the line
@@ -30101,9 +30522,6 @@ def speech_table_fill(Qt, QtGui, QtWidgets, table, sum_label, d):
                 p.setTextAlignment(Qt.AlignRight | Qt.AlignVCenter)
             table.setItem(i, column, p)
     fix_table_width(table, most_rows=SPEAKER_ROWS_SHOWN)
-    sum_label.setText(
-        T('Where two speak at once, the time above counts twice; for '
-          'silence it does not.') if lines else "")
     return (T('%s speech time') % as_minutes(total) if lines else "")
 
 
@@ -30320,6 +30738,42 @@ def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
         state["result_folder"] = os.path.dirname(
             state["results"][-1])
     state["running"] = False
+
+def audio_under_camera(camera_path, kind_of, done,
+                   assign_lines, blocks_of):
+    """Return the audio recording belonging to this camera.
+
+    For the preview: instead of the camera audio, the audio assigned to it
+    plays. Preferably the processed track -- same content, at delivery
+    level. Where that does not exist yet, the raw recording. With several
+    speakers assigned to one camera the first one applies; a mix of both is
+    only created during the run.
+
+    With no speaker assigned -- that is the wide shot -- the overall mix
+    plays, if it exists already. That is the same audio the cut timeline
+    gets.
+    """
+    # An intro or an outro stands before or after the episode, not
+    # inside it, so nothing off the episode's own axis belongs
+    # under it -- neither a speaker's recording nor the mix.
+    kind = kind_of.get(camera_path)
+    if kind is not None and kind.get() in (TYPE_INTRO, TYPE_OUTRO):
+        return []
+    short = os.path.basename(camera_path)
+    for row, nv, cv in assign_lines:
+        if cv.get() != short:
+            continue
+        name = nv.get()
+        if name and name in done:
+            return [done[name]]
+        if os.path.exists(row[0]):
+            # The whole recording, not its head -- see block_at.
+            return blocks_of.get(row[0]) or [row[0]]
+    for name in ("Full-Mix", "Fullmix", "Mix"):
+        if name in done:
+            return [done[name]]
+    return None
+
 
 def gui():
     """Build the Qt interface.
@@ -30657,6 +31111,8 @@ def gui():
         how = MARKS.get(kind)
         if not how:
             return
+        if kind in ("hint", "abort"):
+            trouble_log("%s -- %s" % (node.text(0) or "?", text or kind))
         node.setText(1, how[0])
         node.setForeground(1, QtGui.QBrush(QtGui.QColor(how[1])))
         node.setTextAlignment(1, Qt.AlignCenter)
@@ -31995,7 +32451,7 @@ def gui():
 
         fresh = pending_prework(paths, having_audio, audio_present,
                               lambda a: (path_key(a), 5.0, 4000) in _ENV,
-                              lambda a: probe_has("channelfacts", a),
+                              lambda a: probe_has(channel_facts_name(), a),
                               lambda a: os.path.abspath(a) in split_files)
         with prework_lock:
             for entry in fresh:
@@ -32554,33 +33010,10 @@ def gui():
             or finished_tracks_deeper(commonest_folder()))
 
     def audio_for_camera(camera_path):
-        """Return the audio recording belonging to this camera.
-
-        For the preview: instead of the camera audio, the audio assigned to it
-        plays. Preferably the processed track -- same content, at delivery
-        level. Where that does not exist yet, the raw recording. With several
-        speakers assigned to one camera the first one applies; a mix of both is
-        only created during the run.
-
-        With no speaker assigned -- that is the wide shot -- the overall mix
-        plays, if it exists already. That is the same audio the cut timeline
-        gets.
-        """
-        done = prepared_tracks()
-        short = os.path.basename(camera_path)
-        for row, nv, cv in assign_lines:
-            if cv.get() != short:
-                continue
-            name = nv.get()
-            if name and name in done:
-                return [done[name]]
-            if os.path.exists(row[0]):
-                # The whole recording, not its head -- see block_at.
-                return blocks_of.get(row[0]) or [row[0]]
-        for name in ("Full-Mix", "Fullmix", "Mix"):
-            if name in done:
-                return [done[name]]
-        return None
+        """The recording that belongs under this camera in the preview."""
+        return audio_under_camera(camera_path, clip_kind_values,
+                                  prepared_tracks(), assign_lines,
+                                  blocks_of)
 
     def line_show(table, file_list):
         """A clicked row of the camera table: that file in the player.
@@ -33755,6 +34188,7 @@ def gui():
     _echo_button = QtWidgets.QPushButton(T('Settings ...'))
     _echo_button.setFlat(True)
     _echo_button.clicked.connect(lambda: settings_open())
+    _echo_button.setVisible(False)
     _echo_row.addWidget(_echo_button)
     _echo_row.addStretch(1)
     _resolve_rows = QtWidgets.QVBoxLayout(resolve_box)
@@ -33783,7 +34217,12 @@ def gui():
                                     'Settings'))
         resolve_echo.setStyleSheet("color: %s;" % (COLOURS["good"] if works
                                                    else COLOURS["error"]))
-        resolve_echo.setVisible(True)
+        # Only where it does not answer. Resolve has nothing to set, so
+        # a line saying it is there costs a row and tells nobody
+        # anything -- and the way to the box is only worth showing to
+        # somebody who has something to fix.
+        resolve_echo.setVisible(not works)
+        _echo_button.setVisible(not works)
         resolve_head.setText(T('Resolve answers%s')
                              % (("  (%s)" % lines[0]) if works and lines
                                 else "" if works else T(' not.')))
@@ -33938,16 +34377,12 @@ def gui():
     speech_table.setShowGrid(False)
     speech_table.setAlternatingRowColors(True)
     speech_position.addWidget(speech_table)
-    speech_total_sum = label("", COLOURS["quiet"])
-    speech_total_sum.setWordWrap(True)
-    speech_position.addWidget(speech_total_sum)
-    speech_position.addStretch(1)
 
 
     def speech_show(d):
         """Write the speaker statistics into the table."""
         state["speech_time_total"] = speech_table_fill(
-            Qt, QtGui, QtWidgets, speech_table, speech_total_sum, d)
+            Qt, QtGui, QtWidgets, speech_table, d)
 
     speech_table.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
                                 QtWidgets.QSizePolicy.Fixed)
@@ -34222,7 +34657,7 @@ def gui():
 
     def forecast_empty(empty):
         """While nothing is computed the box holds only the hint."""
-        for widget in (speech_title, speech_table, speech_total_sum):
+        for widget in (speech_title, speech_table):
             widget.setVisible(not empty)
 
     def speaker_measure_done(result):
@@ -35462,26 +35897,6 @@ def gui():
     return app.exec()
 
 
-def open_page(url):
-    """Hand an address to whatever the system opens addresses with.
-
-    Every desktop has its own way and none of them is Python's: the
-    Windows shell, the open command on a Mac, xdg-open elsewhere.
-    """
-    try:
-        if os.name == "nt":
-            os.startfile(url)
-        elif sys.platform == "darwin":
-            subprocess.Popen(["open", url])
-        else:
-            subprocess.Popen(["xdg-open", url])
-        return True
-    except Exception as e:
-        # Silence would leave somebody waiting for a page that is not
-        # coming, so the address goes out to be opened by hand.
-        print(T('  The page could not be opened: %s') % e)
-        print("  %s" % url)
-        return False
 
 
 def player_menu(menu, player):
@@ -35540,40 +35955,8 @@ def release_text_of(tag):
         return ""
 
 
-# What separates the two halves of a release text. Each version says
-# everything twice: the English part first, the German part under this
-# line. Two strings in one place -- the changelog writes them, the
-# window looks for them, and the release test insists on them.
-MARK_EN = "**English**"
-MARK_DE = "**Deutsch**"
 
 
-def release_text_in(text, language=None):
-    """Keep the half of a release text that is in this language.
-
-    From 2.20.0-beta on a release says everything twice, in two blocks
-    one under the other: English first, German under a line of its own.
-    Both belong on the release page, where anybody may read and jump to
-    the language they want. In the window only one is wanted -- two
-    languages in a box are twice as long and half as readable.
-
-    Given away only where the mark is really there. A text from before
-    this, or one where the mark was forgotten, comes back whole: half a
-    text is worse than one in the wrong language.
-    """
-    lines = str(text or "").split("\n")
-    at = [i for i, x in enumerate(lines) if x.strip() == MARK_DE]
-    if not at:
-        return text
-    if (language or LANG) == "de":
-        kept = lines[at[0] + 1:]
-    else:
-        kept = lines[:at[0]]
-        # The rule that draws the line between them goes with it.
-        while kept and kept[-1].strip() in ("", "---", "***", "___"):
-            kept.pop()
-    return "\n".join(x for x in kept
-                      if x.strip() not in (MARK_EN, MARK_DE)).strip()
 
 
 def story_window(window, title, said, changed, page=""):
@@ -35929,13 +36312,11 @@ def update_offer(window, asked=False):
         return
     text, trouble = fetch_new_self(tag)
     if not text:
-        QtWidgets.QMessageBox.warning(window, T('A newer version is out'),
-                                      trouble)
+        warn_box(QtWidgets, window, T('A newer version is out'), trouble)
         return
     trouble = put_new_self(text)
     if trouble:
-        QtWidgets.QMessageBox.warning(window, T('A newer version is out'),
-                                      trouble)
+        warn_box(QtWidgets, window, T('A newer version is out'), trouble)
         return
     start_again()
 
@@ -35992,7 +36373,7 @@ def restore_offer(window):
         return
     trouble = restore_old_self()
     if trouble:
-        QtWidgets.QMessageBox.warning(window, title, trouble)
+        warn_box(QtWidgets, window, title, trouble)
         return
     start_again()
 
@@ -38367,9 +38748,9 @@ CATALOGUE["de"] = {
     'Select audio and video files':
         'Ton- und Videodateien wählen',
     'Speakers, as the run measured them':
-        'Sprecher, wie der Lauf sie gemessen hat',
+        'Gemessene Sprecher',
     'Speakers, self-measured from the tracks':
-        'Sprecher, selbst aus den Spuren gemessen',
+        'Selbst gemessene Sprecher',
     'Started late or stopped early -- this voice is then missing from the '
     'mix in places.':
         'Spät gestartet oder früh gestoppt -- im Mix fehlt diese Stimme '
@@ -38643,10 +39024,8 @@ CATALOGUE["de"] = {
     'Volume. 100 is as loud as it goes -- Qt takes nothing above that.':
         'Lautstärke. 100 ist so laut, wie es geht -- mehr nimmt Qt '
         'nicht an.',
-    'Where two speak at once, the time above counts twice; for silence it '
-    'does not.':
-        'Wo zwei gleichzeitig reden, zählt die Zeit oben doppelt, bei der '
-        'Stille nicht.',
+    '%s (%s) -- talking at once counts twice':
+        '%s (%s) -- gleichzeitig redende werden doppelt gezählt',
     'Wide shot at most':
         'Weitwinkel höchstens',
     'Wide shot at the latest':
@@ -39528,7 +39907,7 @@ CATALOGUE["de"] = {
         'nichts davon fällt in das Zeitfenster',
     'the interface': 'der Oberfläche',
     'the separation in this run': 'der Trennung in diesem Lauf',
-    'Speakers, separated by voice': 'Sprecher, nach Stimmen getrennt',
+    'Speakers, separated by voice': 'Nach Stimmen getrennte Sprecher',
     'That produced no cut -- press Start above again.':
         'Daraus wird kein Schnitt -- bitte oben noch einmal auf Start.',
     '\nWITHOUT AUPHONIC.COM':
@@ -39859,4 +40238,6 @@ if not ONLY_READING:
 
 
 if __name__ == "__main__":
+    watch_outside_calls()
+
     sys.exit(main())
