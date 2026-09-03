@@ -2901,11 +2901,15 @@ time_drift_taken_out	2026-08-31	the offset is out of the straightened track	In d
 time_drift_taken_out	2026-08-31	the return is accepted as matching the upload	In der Kopie /private/tmp/drift_cp/vpm_a.py in verify_returned_tracks die Schranke in Zeile 6453 verschoben: `uncertain = st.get("points", 0) < 5 or spread > 150.0` zu `... or spread > 0.0`, so dass jede Messung als unbrauchbar gilt und die Funktion False zurueckgibt.	the return is accepted as matching the upload FAIL the answer was False, spread 1.3 ms against the 150.0 ms above which a measurement counts as unusable
 open	time_fit_reports	a line that fits exactly leaves nothing over
 open	time_fit_reports	and a point out of line shows up in it
+time_fit_reports	2026-09-03	and it is still the warning, not some other line	the name is put in and the stand-in text beside it	FAIL: and it is still the warning, not some other line
 open	time_fit_reports	and so does the indistinct-bleed line
+time_fit_reports	2026-09-03	and where the caller asked for silence there is none of it	the warning is printed even where silence was asked for	FAIL: and where the caller asked for silence there is none of it
 open	time_fit_reports	five values come back now, not four
 open	time_fit_reports	so is the sharpness a second has to reach
 open	time_fit_reports	the thin-material line carries both numbers
+time_fit_reports	2026-09-03	the weak match names the file it is about	the warning goes back to naming nothing	FAIL: the weak match names the file it is about | and it is still the warning, not some other line
 open	time_fit_reports	three is the floor for a fit, and it is named
+time_fit_reports	2026-09-03	with no name to hand it says so rather than naming nothing	with no name the warning names an empty string	FAIL: with no name to hand it says so rather than naming nothing
 time_guess_refused	2026-09-02	%s: and it says so, instead of handing back a guess	align_audio_to_video: the line 'st["unplaceable"] = True' before the last 'return a, b, st' removed, so both ways coming up empty leaves no mark	Lost.mov: and it says so, instead of handing back a guess  FAIL the mark is None, and the offset it would hand back is +15.860 s
 time_guess_refused	2026-09-02	%s: the envelopes stay under the floor	the constant 'WEAK_MATCH = 0.05' replaced by 'WEAK_MATCH = 0.01', so the floor sits under the 0.029 the foreign sound reaches	Lost.mov: the envelopes stay under the floor               FAIL 0.029 against 0.01
 time_guess_refused	2026-09-02	%s: the phase way was tried and failed too	align_audio_to_video: the line 'st["phase_s"], st["phase_sharp"] = where, sharp' removed, so the phase way runs and reports nothing	Lost.mov: the phase way was tried and failed too           FAIL 0.0 against 8.0
