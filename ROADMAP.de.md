@@ -11,7 +11,7 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b0 durchgegangen worden.
+zuletzt für 3.0.0b1 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
