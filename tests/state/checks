@@ -124,6 +124,7 @@ run_dry_reports_voices	13
 run_ffmpeg_new_enough	25
 run_ffmpeg_not_fetched	8
 run_ffmpeg_offered	19
+run_findings_reach_both	6
 run_install_is_watched	40
 run_log_within_reach	25
 run_metrics_add_up	51
@@ -205,6 +206,7 @@ time_drift_taken_out	4
 time_fit_reports	11
 time_guess_refused	56
 time_length_is_in_to_out	23
+time_length_names_change	5
 time_measured_place_wins	35
 time_offset_found	6
 time_one_track_aligned	43

@@ -1,6 +1,6 @@
 # The test suite
 
-236 tests against the program in `../videopodcast_magic/`. Every one of them stands
+238 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-236 tests. The name is the one a red line carries, and beside it the
+238 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -319,6 +319,7 @@ it is green.
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
 | `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |
 | `time_length_is_in_to_out` | The window shows its own length, and only content bounds an episode. |
+| `time_length_names_change` | The length line names the measured window only where it differs. |
 | `time_measured_place_wins` | A camera stands where it was measured; its clock is the last resort. |
 | `time_offset_found` | Sound path and a track's own offset are told apart out of the bleed. |
 | `time_one_track_aligned` | The simple path: one recording into the video files. |
@@ -496,6 +497,7 @@ it is green.
 | `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and only that. |
 | `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
 | `run_ffmpeg_offered` | Getting ffmpeg is offered on all three systems, and a test run gets none. |
+| `run_findings_reach_both` | Every preflight finding reaches the log and the pane, not just a count. |
 | `run_install_is_watched` | Installing ffmpeg shows what it is doing while it does it. |
 | `run_log_within_reach` | The log of a run is where whoever started it can get at it. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
