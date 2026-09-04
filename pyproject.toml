@@ -35,6 +35,8 @@ license = "MIT"
 dependencies = [
     "numpy",     # the measuring: the cameras onto one time axis
     "PySide6",   # the window, and the player in it
+    "certifi",   # what an https connection is checked against
+    "faster-whisper",   # speech recognition, used as soon as a transcript is
 ]
 
 [project.scripts]

@@ -564,13 +564,15 @@ def _pip_install(*packages):
     if INSTALL_TOOLS:
         # VPM_INSTALL_TOOLS: whoever set it has answered in advance.
         print(T('  Installing it: pip install %s') % printed)
+    elif not sys.stdin.isatty():
+        # Nobody to answer, so nothing is asked and nothing is said:
+        # the caller knows what it wanted and says that in its own
+        # words. A question printed where it cannot be answered is
+        # noise on every start.
+        return False
     else:
         print(T('  %s would be installed into this Python: %s')
               % (printed, sys.executable))
-        if not sys.stdin.isatty():
-            print(T('  By hand:  %s -m pip install %s')
-                  % (sys.executable, printed))
-            return False
         answer = input(T('  Run that now? [Y/n] ')).strip().lower()
         if answer and not answer.startswith(("y", "j")):
             print(T('  By hand:  %s -m pip install %s')
@@ -632,8 +634,10 @@ def _require_module(module, package=None):
     if got is not None:
         return got
     pkg = package or module
-    print(T('%s is missing -- installing it. The first time takes a few '
-            'minutes.') % pkg)
+    # Not "installing it": the install is asked for below and may be
+    # refused, and a line that promises what has not been decided is
+    # worse than one that only says what is known.
+    print(T('%s is missing. The first time it takes a few minutes.') % pkg)
     if _pip_install(pkg):
         importlib.invalidate_caches()
         got = _really_there(module)
@@ -37572,6 +37576,8 @@ CATALOGUE["de"] = {
         'Das hier wurde installiert und nicht heruntergeladen, nach %s. '
         'Aktualisiere es auf demselben Weg, sonst nennt der Nachweis dort '
         'weiter die alte Fassung.',
+    '%s is missing. The first time it takes a few minutes.':
+        '%s fehlt. Beim ersten Mal dauert es ein paar Minuten.',
     '  Run that now? [Y/n] ':
         '  Jetzt ausführen? [J/n] ',
     '  That did not work: %s':
