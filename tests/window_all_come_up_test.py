@@ -12,10 +12,10 @@ import os, subprocess, sys, tempfile, time
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPTS = [os.path.join(HERE, name) for name in
            ("assignment_shot.py", "preview_shot.py", "preset_shot.py")]
-# How long one window may take before it is called hung. The scripts
-# carry their own emergency exit at 45 and 60 seconds, so anything past
-# a minute is a window that never reached its event loop. The clock
-# starts when a window's turn to be read comes, not when it was started.
+# How long one window may take before it is called hung. Each script
+# works out a backstop of its own from its waits and none of them
+# reaches a minute, so a window still here after two is one that never
+# got to its event loop. The clock starts when its turn to be read comes.
 LIMIT = 120
 began = time.time()
 done = 0
@@ -109,7 +109,13 @@ for language, row, env in started:
                 err = readable(still_open.stderr) or readable(ran_on.stderr)
                 hung = ("still running after %d s, and the pipe stayed "
                         "open -- a child of it is still alive" % LIMIT)
-        out = (out or "") + (err or "")
+        # Kept apart, because they say different things: the script's
+        # own words on the one hand, ffmpeg and Qt talking on the other.
+        # Added together, ffmpeg's metadata is the end of the output and
+        # pushes the script's own last word out of every tail below.
+        said = out or ""
+        aside = err or ""
+        out = said + aside
         if not hung and "SKIPPED:" in out:
             # A window that stops for want of material has not been
             # checked, so it must not count as a pass.
@@ -141,8 +147,8 @@ for language, row, env in started:
                       % os.path.basename(s))
                 good = True
             else:
-                out = (out or "") + "\n--- and again, alone: ---\n" \
-                    + (again.stdout or "")
+                said += "\n--- and again, alone: ---\n" + (again.stdout or "")
+                out = said + aside
         checked += 1
         # Why it is red, in the same line: the reason it hung or the
         # return code, so a signal and an error do not read alike.
@@ -150,25 +156,40 @@ for language, row, env in started:
         if not good:
             note = hung or "return code %s" % p.returncode
             if serious:
-                note += " -- " + serious[0][:60]
+                # Whole, and cut only by the limit on the line itself.
+                # A slice at sixty characters took the numbers off a
+                # give-up line built to carry them, and what came back
+                # off the builder ended in the middle of a word.
+                note += " -- " + serious[0]
             else:
                 # Where it stopped, in this line and not only in the
                 # block below it: a builder's log keeps the lines that
                 # say FAIL and drops the rest. Qt's offscreen grumbling
                 # stands after the script's last word, so it is dropped.
-                said = [x.strip() for x in out.rstrip().split("\n")
-                        if x.strip() and "This plugin does not" not in x
-                        and not x.startswith("qt.")]
-                if said:
+                words = [x.strip() for x in said.rstrip().split("\n")
+                         if x.strip() and "This plugin does not" not in x
+                         and not x.startswith("qt.")]
+                if words:
                     note += " -- last words: " + " | ".join(
-                        w[:45] for w in said[-3:])
-        check("%s runs through" % os.path.basename(s), good, note[:160])
+                        w[:45] for w in words[-3:])
+        check("%s runs through" % os.path.basename(s), good, note[:300])
         if not good:
-            # The one line above says a window did not build, not why,
-            # and a rare failure without its traceback cannot be chased.
+            # The side channel first and short: a traceback and a
+            # segmentation fault arrive here and nowhere else, while
+            # ffmpeg fills it with metadata nobody needs.
+            noise = [x for x in aside.rstrip().split("\n") if x.strip()]
+            if noise:
+                print("    --- what %s said on the side channel ---"
+                      % os.path.basename(s))
+                for line in noise[-8:]:
+                    print("    " + line[:150])
+            # The script's own words last, so that they are the end of
+            # this test's output: the run report keeps the last lines of
+            # it and drops the rest, and it is these that say what the
+            # window was still waiting for.
             print("    --- what %s printed ---" % os.path.basename(s))
-            tail = out.rstrip().split("\n")[-25:]
-            if not any(line.strip() for line in tail):
+            tail = said.rstrip().split("\n")[-25:] if said.strip() else []
+            if not tail:
                 # An empty block under this heading is a finding of its
                 # own, not a printing that went wrong.
                 print("    (nothing -- it printed not one line)")
