@@ -25,6 +25,99 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b3] - 2026-09-04
+
+### Added
+
+- The window offers to get ffmpeg 9.0.1 where it is missing or too old,
+  on macOS, Windows and Linux alike. Windows and Linux had no offer at
+  all before. Every line the install says appears under "Output", so it
+  can be read rather than guessed at; on a Mac it builds from source and
+  takes two to three minutes.
+- "Show the log of this run" under Help opens the log in an editor.
+  Finding it meant knowing where it was.
+
+### Changed
+
+- **The speaker separation comes with the installation.** It used to set
+  up an environment of its own the first time somebody asked for it,
+  which could quietly fall apart when a package was removed later. An
+  installation is now about 2565 MB and takes about 100 seconds, and one
+  `pip3 install -U git+...` puts everything back.
+- **ffmpeg 9.0.1 or newer is required now**, up from 8.1.2. Below it the
+  window opens and stays empty, and the offer above is the way out. The
+  builds it fetches carry soxr, which takes the clock drift between
+  cameras out in steps a hundred times finer.
+- The log of an installed copy is in the system's own log folder now:
+  `~/Library/Logs/videopodcast-magic/` on macOS, under `%LOCALAPPDATA%`
+  on Windows, the desktop standard's place elsewhere. It used to be
+  written beside the program, which for an installed copy is a folder
+  pip owns and overwrites. A copy running out of its own folder still
+  writes beside itself.
+- Nothing is printed before the window opens any more. The one line that
+  was left named the log, and the menu entry above says it better.
+
+### Removed
+
+- `python3 -m videopodcast_magic` does not start the program any more.
+  The program is a folder now, and a folder needs a starter of its own
+  that it does not have. `videopodcast-magic` on the command line and
+  the desktop shortcut are unaffected.
+
+### Fixed
+
+- The complaint about a missing or old ffmpeg came back in English on a
+  German run, because it was built before the switch that picks the
+  language had been read. The language is settled first now, so a run
+  asked for German is German from its first line.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Das Fenster bietet an, ffmpeg 9.0.1 zu holen, wo es fehlt oder zu alt
+  ist -- auf macOS, Windows und Linux gleichermaßen. Für Windows und
+  Linux gab es bisher gar kein Angebot. Jede Zeile, die das Installieren
+  sagt, erscheint unter „Ausgabe", ist also lesbar statt zu erraten; auf
+  dem Mac wird übersetzt, das dauert zwei bis drei Minuten.
+- „Protokoll dieses Laufs zeigen" unter Hilfe öffnet das Protokoll in
+  einem Editor. Bisher musste man wissen, wo es liegt.
+
+### Geändert
+
+- **Die Sprechertrennung kommt mit der Installation.** Sie hat sich
+  bisher beim ersten Gebrauch eine eigene Umgebung eingerichtet, die
+  still zerfallen konnte, wenn später ein Paket entfernt wurde. Eine
+  Installation ist jetzt rund 2565 MB groß und dauert etwa 100
+  Sekunden, und ein `pip3 install -U git+...` setzt alles wieder
+  instand.
+- **ffmpeg 9.0.1 oder neuer wird jetzt verlangt**, bisher 8.1.2.
+  Darunter geht das Fenster auf und bleibt leer, und das Angebot oben
+  ist der Weg heraus. Die geholten Fassungen tragen soxr, das den
+  Uhrengang zwischen Kameras in hundertmal feineren Stufen ausgleicht.
+- Das Protokoll einer installierten Fassung liegt jetzt im
+  Protokollordner des Systems: unter macOS `~/Library/Logs/`, unter
+  Windows in `%LOCALAPPDATA%`, sonst am Ort des Schreibtischs. Bisher
+  stand es neben dem Programm -- ein Ordner, den pip besitzt und
+  überschreibt. Wer aus dem eigenen Ordner läuft, schreibt weiter
+  daneben.
+- Vor dem Fenster wird nichts mehr gedruckt. Die eine Zeile, die übrig
+  war, nannte das Protokoll, und der Menüeintrag oben sagt es besser.
+
+### Entfernt
+
+- `python3 -m videopodcast_magic` startet das Programm nicht mehr. Das
+  Programm ist jetzt ein Ordner, und ein Ordner braucht einen eigenen
+  Starter, den es nicht hat. `videopodcast-magic` auf der Kommandozeile
+  und die Verknüpfung auf dem Schreibtisch sind unberührt.
+
+### Behoben
+
+- Die Klage über ein fehlendes oder zu altes ffmpeg kam bei einem
+  deutschen Lauf auf Englisch zurück, weil sie gebaut wurde, bevor der
+  Schalter für die Sprache gelesen war. Die Sprache steht jetzt zuerst
+  fest, und ein deutscher Lauf ist von der ersten Zeile an deutsch.
+
 ## [3.0.0b2] - 2026-09-04
 
 ### Added
