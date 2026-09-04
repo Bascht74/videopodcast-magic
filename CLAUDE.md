@@ -140,6 +140,27 @@ this name have come off somebody's disc?** If yes, it is renamed before
 it is written, not afterwards -- afterwards it is in the history, and
 taking it out of there costs the history.
 
+**Installing is pip3, and nothing else.** Decided on 4.9.2026.
+
+    pip3 install git+https://github.com/Bascht74/videopodcast-magic
+    pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+
+Measured: three seconds each, and no PyPI needed. Every Python package
+the program needs stands on the list pip reads -- `requirements.txt`
+and `pyproject.toml` -- so nothing is fetched behind anybody's back and
+nothing is missing on the first start. `requires-python` turns a Python
+that is too old into pip's answer rather than a printed line.
+
+**What follows from it, and it is the point: nothing is ever said
+before the window.** The one case that used to need a printed line was
+a missing PySide6, and pip3 brings it. So a run that finds something
+missing opens the window and says it in the fourth tab -- which is the
+program's console now, because nobody starts it from one.
+
+**ffmpeg is the exception it cannot be**, because it is not Python.
+That is what the fourth tab is for: what pip3 cannot bring is fetched
+there, in front of somebody, asked rather than done.
+
 **The program never uploads to auphonic.com on its own.** Only when
 somebody asked for it.
 
@@ -151,6 +172,28 @@ end of the file. Changing a string means changing both sides, or
 **Measure, do not guess.** If a number is needed, it gets measured. What
 was measured goes into the log. Third-party names are asked for at run
 time, never written into the code.
+
+**A measurement holds for the thing measured, and not for its
+neighbour.** Measured on 3.9.2026: a strand found that `pipx` cannot
+update an installation made from a git URL, and that was reported here
+as "without PyPI there is no updating". `pip3` does it in three
+seconds -- measured, but only after the owner asked. A finding about
+one tool, one switch, one platform says nothing about the one beside
+it. Where it is named anyway, it is named as unmeasured.
+
+**Green here is not green there, and the gap is what this machine
+carries.** Measured in the night to 4.9.2026: a change was green on
+this Mac three times over, 219 tests, and turned four of six builder
+jobs red. The cause was `certifi`, which macOS brings along -- **the
+absence of a thing cannot be seen where it is never absent.** Before a
+release, what is missing elsewhere matters more than what passes here.
+
+**A question is only asked where somebody can answer it.** Same night:
+the install question was printed first and the terminal checked
+afterwards, so a run with nobody in front of it wrote two lines into a
+place that has to stay silent. Where nothing can be answered, nothing
+is asked and nothing is said -- the caller knows what it wanted and
+says that in its own words.
 
 `development/coding_guidelines.md` says how the code is written, and why.
 `CHANGELOG.md` says what changed in each version, from 0.1.0.
