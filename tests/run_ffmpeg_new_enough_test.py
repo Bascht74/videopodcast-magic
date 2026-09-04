@@ -12,10 +12,9 @@ gyan, and one straight out of git that carries a commit where the
 number should be. Then in order: the floor itself, what the decision
 makes of a version above and below it, that both tools are asked and
 the old one named, that a build without soxr still lets the run start,
-that what brew is offered names the tap and the option -- homebrew/core
-builds ffmpeg without soxr in any version, and soxr is what the fine
-clock correction is made of -- that installing and building again are
-different commands, and that the ways out -- --help, --version,
+that what brew is offered is the bottle and not the tap -- the tap has
+no bottle at all, so that button would compile in the window's own
+thread -- that installing and building again are different commands, and that the ways out -- --help, --version,
 --update -- still answer while the gate is shut.
 """
 import os
@@ -176,14 +175,18 @@ finally:
 # Written out twice rather than looped: a check whose wording is worked
 # out at run time cannot be found in state/counterproof, which reads
 # the wording out of the source.
-WRONG = ("it offers %r -- homebrew/core has no soxr, so that installs "
-         "what the program refuses afterwards")
-check("the brew command to install ffmpeg names the tap and the option",
-      "homebrew-ffmpeg/ffmpeg/ffmpeg" in mac_install
-      and "--with-libsoxr" in mac_install, WRONG % (" ".join(mac_install),))
-check("the brew command to build it again names the tap and the option",
-      "homebrew-ffmpeg/ffmpeg/ffmpeg" in mac_again
-      and "--with-libsoxr" in mac_again, WRONG % (" ".join(mac_again),))
+# What the button mends is the version. The tap that carries soxr has
+# no bottle at all -- measured 4.9.2026, brew info answers with none --
+# so offering it would compile in the window's own thread, minutes to
+# an hour, for a want that is a note and not a refusal.
+WRONG = ("it offers %r -- the tap has no bottle, so this button would "
+         "compile in the window's own thread")
+check("the brew command to install ffmpeg offers the bottle, not the tap",
+      "ffmpeg" in mac_install and "homebrew-ffmpeg/ffmpeg/ffmpeg"
+      not in mac_install, WRONG % (" ".join(mac_install),))
+check("the brew command to build it again offers the bottle, not the tap",
+      "ffmpeg" in mac_again and "homebrew-ffmpeg/ffmpeg/ffmpeg"
+      not in mac_again, WRONG % (" ".join(mac_again),))
 check("installing and building it again are different brew commands",
       mac_install != mac_again,
       "both are %r -- told to install what is already there brew answers "

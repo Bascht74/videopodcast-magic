@@ -170,11 +170,27 @@ jobs:
           sys.exit(1 if bad else 0)
           PY
 
+      # apt is the bottleneck here, not the platform: Ubuntu 24.04
+      # carries ffmpeg 6.1.1, under the floor this program names, and
+      # nothing newer is in its archive. A static build settles it in
+      # half a minute -- and it is the one of the three runners that
+      # carries soxr, so the fine clock correction is exercised
+      # somewhere. macOS stays on what brew gives (8.1.2, no soxr) and
+      # Windows on what choco gives (9.0.1): three runners, two sides of
+      # the floor, and both paths through the drift correction.
       - name: "Install: ffmpeg (Linux)"
         if: runner.os == 'Linux'
         run: |
-          sudo apt-get update -qq
-          sudo apt-get install -y -qq ffmpeg
+          set -e
+          base=https://github.com/BtbN/FFmpeg-Builds/releases/download/latest
+          name=ffmpeg-n9.0-latest-linux64-gpl-9.0
+          curl -fsSL --retry 3 -o /tmp/ff.tar.xz "$base/$name.tar.xz"
+          tar -xJf /tmp/ff.tar.xz -C /tmp
+          sudo install -m755 "/tmp/$name/bin/ffmpeg" "/tmp/$name/bin/ffprobe" \
+                             /usr/local/bin/
+          ffmpeg -version | head -1
+          ffmpeg -version | tr ' ' '\n' | grep -c enable-libsoxr \
+            || { echo "FAIL: this build has no soxr"; exit 1; }
 
       - name: "Install: ffmpeg and a time limit (macOS)"
         if: runner.os == 'macOS'
