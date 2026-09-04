@@ -639,6 +639,8 @@ TEXTS = {
         '    Eine Datei je Ausgabe ließ sich nicht anfordern: %s',
     '    Length  %s  (instead of %s)':
         '    Länge   %s  (statt %s)',
+    '    Length  %s':
+        '    Länge   %s',
     '    Local versions: in the node editor "Group Pre-Clip" applies to '
     'the\n    whole camera, "Clip" only to the one cut. One does not '
     'exclude\n    the other.':

@@ -10354,7 +10354,12 @@ def clip_to_time_window(args, t0, t1, ref_clip, clocks=()):
         print(T('    The window would be only %s long -- that cannot be '
                 'intended.') % as_hms(max(0, new1 - new0)))
         return None, None
-    print(T('    Length  %s  (instead of %s)') % (as_hms(new1 - new0), as_hms(t1 - t0)))
+    kept, measured = as_hms(new1 - new0), as_hms(t1 - t0)
+    # The bracket is there to say "yours instead of the measured one".
+    # Where a point was pulled back the two are the same length, and
+    # "1:26:31 (instead of 1:26:31)" says nothing twice.
+    print(T('    Length  %s  (instead of %s)') % (kept, measured)
+          if kept != measured else T('    Length  %s') % kept)
     return new0, new1
 
 
@@ -24530,17 +24535,15 @@ def report_findings(findings, heading, anyway=False):
     """Print the report. Returns True when the run should be aborted."""
     if not findings:
         return False
-    # In the interface every finding already sits on its file. Printing it a
-    # second time here only makes the log long.
-    if not GUI_RUNNING:
-        print(as_head(T('\nPREFLIGHT -- %s') % heading))
-        for b in findings:
-            print(b.line())
-            if b.advice:
-                for line in textwrap.wrap(b.advice, 70):
-                    print("      %s" % line)
-    else:
-        print(as_head(T('\nPREFLIGHT -- %s') % heading))
+    print(as_head(T('\nPREFLIGHT -- %s') % heading))
+    for b in findings:
+        print(b.line())
+        # In the window the finding stands on its file and the advice on
+        # the mark. The log has neither, and a count with no findings
+        # under it names none of them -- so only the advice is held back.
+        if b.advice and not GUI_RUNNING:
+            for line in textwrap.wrap(b.advice, 70):
+                print("      %s" % line)
     abort = [b for b in findings if b.kind == "abort"]
     hints = [b for b in findings if b.kind == "hint"]
     fixed = [b for b in findings if b.kind == "fixed"]
