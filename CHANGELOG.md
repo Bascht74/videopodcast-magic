@@ -70,6 +70,10 @@ nicht.
   German run, because it was built before the switch that picks the
   language had been read. The language is settled first now, so a run
   asked for German is German from its first line.
+- The thin progress bar for the prework sometimes stayed on the screen
+  at 100 % for the rest of the session, so it looked as though the
+  program were still busy long after it had finished. It goes away when
+  the work is over now.
 
 **Deutsch**
 
@@ -117,6 +121,10 @@ nicht.
   deutschen Lauf auf Englisch zurück, weil sie gebaut wurde, bevor der
   Schalter für die Sprache gelesen war. Die Sprache steht jetzt zuerst
   fest, und ein deutscher Lauf ist von der ersten Zeile an deutsch.
+- Der schmale Fortschrittsbalken der Vorarbeit blieb manchmal bis zum
+  Programmende auf 100 % stehen, sodass es aussah, als arbeite das
+  Programm noch, obwohl es längst fertig war. Er verschwindet jetzt,
+  sobald die Arbeit vorbei ist.
 
 ## [3.0.0b2] - 2026-09-04
 

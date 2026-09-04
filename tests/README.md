@@ -1,6 +1,6 @@
 # The test suite
 
-233 tests against the program in `../videopodcast_magic/`. Every one of them stands
+234 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-233 tests. The name is the one a red line carries, and beside it the
+234 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -455,6 +455,7 @@ it is green.
 | `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
 | `window_picture_returns` | A refused format does not outlive the attempt it was about. |
 | `window_play_follows_tab` | The transport drives the player of the tab showing, or nothing. |
+| `window_prework_box_goes` | The box that shows the prework goes away once the prework is over. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_size_as_run` | The window's summary names the size the run really needs. |
 | `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
