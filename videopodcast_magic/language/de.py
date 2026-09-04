@@ -2279,6 +2279,25 @@ TEXTS = {
     'What it says appears here.':
         'Das dauert ein paar Minuten -- ein Paketverwalter baut '
         'womöglich aus dem Quelltext. Was er sagt, steht hier.',
+    'Now it is being compiled, and that is the long part: minutes on a '
+    'fast machine and a good deal longer on an older one. Nothing is '
+    'stuck -- a dot appears every few seconds for as long as it works.':
+        'Jetzt wird übersetzt, und das ist der lange Teil: auf einem '
+        'schnellen Rechner Minuten, auf einem älteren deutlich länger. '
+        'Es hängt nicht -- solange gearbeitet wird, kommt alle paar '
+        'Sekunden ein Punkt.',
+    'ffmpeg is in place.':
+        'ffmpeg ist da.',
+    'The program reads it when it starts. It can start again now, or '
+    'you can do that yourself later.':
+        'Das Programm liest es beim Start. Es kann jetzt neu starten, '
+        'oder du machst das später selbst.',
+    'Start again now':
+        'Jetzt neu starten',
+    'Starting again did not work. Close the window and start the '
+    'program the way you did before.':
+        'Der Neustart hat nicht geklappt. Schließe das Fenster und '
+        'starte das Programm wie zuvor.',
     '  Taking the ffmpeg that is there out of the way first: %s':
         '  Das vorhandene ffmpeg kommt zuerst aus dem Weg: %s',
     '  A built ffmpeg 9.0.1 with soxr can be fetched: %s':

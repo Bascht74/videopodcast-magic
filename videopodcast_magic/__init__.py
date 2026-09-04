@@ -503,6 +503,79 @@ def manager_environment(command):
     return clean
 
 
+# What a package manager says just before it goes quiet: "==> " and
+# the command it is about to run. brew then writes that command's own
+# output into a log file and prints nothing at all until it is over --
+# read out of Homebrew 6.0.21, Formula#system.
+BUILD_TOOLS = ("configure", "make", "gmake", "cmake", "meson", "ninja",
+               "cargo", "autoreconf", "bootstrap")
+
+
+def build_begins(line):
+    """True where this line is a package manager starting to compile.
+
+    The one line worth hanging a sentence on, because the silence
+    starts under it. Fetching and pouring look much the same and are
+    over in seconds, so only the build commands count.
+    """
+    words = line.strip().split()
+    if len(words) < 2 or words[0] != "==>":
+        return False
+    return os.path.basename(words[1]) in BUILD_TOOLS
+
+
+def sign_of_life(line, mark, every=5.0):
+    """Keep the pane moving while the package manager says nothing.
+
+    Measured on the build logs of one ffmpeg: 36 and 34 seconds
+    without a single line on a fast Mac, and an older machine takes a
+    multiple of that. So the movement comes from here -- a dot every
+    few seconds -- while the sentence that says what is happening
+    hangs on the manager's own first build line. Hands back the sink
+    to give the manager, and the way to stop the dots.
+    """
+    seen = [time.time()]
+    dotted = [False]
+    told = [False]
+    over = threading.Event()
+
+    def close():
+        """End the row of dots, so the next real line starts its own."""
+        if dotted[0]:
+            dotted[0] = False
+            mark("\n")
+
+    def watched(text):
+        close()
+        seen[0] = time.time()
+        line(text)
+        if not told[0] and build_begins(text):
+            told[0] = True
+            line(T('Now it is being compiled, and that is the long '
+                   'part: minutes on a fast machine and a good deal '
+                   'longer on an older one. Nothing is stuck -- a dot '
+                   'appears every few seconds for as long as it '
+                   'works.'))
+
+    def turn():
+        beat = min(0.5, every / 2.0)
+        while not over.wait(beat):
+            if time.time() - seen[0] >= every:
+                seen[0] = time.time()
+                dotted[0] = True
+                mark(".")
+        close()
+
+    wheel = threading.Thread(target=turn, daemon=True)
+    wheel.start()
+
+    def stop():
+        over.set()
+        wheel.join(3.0)
+
+    return watched, stop
+
+
 def run_watched(command, env=None, say=None, started=None):
     """Run a command and hand out what it says while it says it.
 
@@ -36995,7 +37068,15 @@ def install_watched(window, app, update):
     """
     if UPDATE_SINK is None:
         return False
-    UPDATE_SINK(lambda say: install_job(update, say))
+    ended = []
+
+    def job(say):
+        trouble = install_job(update, say)
+        ended.append(trouble)
+        return trouble
+
+    UPDATE_SINK(job)
+    restart_when_done(window, ended)
     return True
 
 
@@ -37017,7 +37098,11 @@ def install_job(update, say):
     line(as_head(T('Installing ffmpeg')))
     line(T('This takes a few minutes -- a package manager may build '
            'from source. What it says appears here.'))
-    good = install_ffmpeg(update=update, asked=True, say=line)
+    watched, stop = sign_of_life(line, say)
+    try:
+        good = install_ffmpeg(update=update, asked=True, say=watched)
+    finally:
+        stop()
     # Asked again, not taken on trust: a package manager can report
     # success having just laid down an ffmpeg still too old for this.
     forget_soxr()
@@ -37030,6 +37115,64 @@ def install_job(update, say):
         return ""
     return T('Nothing runs until that is put right. This way: %s') \
         % how_to_get_ffmpeg(update)
+
+
+def restart_when_done(window, ended):
+    """Wait for the install in the other thread, then offer the restart.
+
+    A timer rather than a call out of that thread: a box belongs to
+    the window's own thread and to no other. It stops itself either
+    way, and it offers nothing where the install came back with
+    trouble -- there is nothing to pick up then.
+    """
+    from PySide6 import QtCore
+    watch = QtCore.QTimer(window)
+    watch.setInterval(300)
+
+    def look():
+        if not ended:
+            return
+        watch.stop()
+        if ended[0] == "":
+            restart_offer(window)
+
+    watch.timeout.connect(look)
+    watch.start()
+    return watch
+
+
+def restart_offer(window):
+    """Say in a box that ffmpeg is there, and offer the restart.
+
+    A box rather than a line: in the Output tab that sentence is the
+    last of two hundred the package manager wrote, and it goes under
+    there. The box holds nothing up -- the window's timers go on
+    turning inside it, so a pane still filling keeps filling, which is
+    measured. True where somebody asked for the restart.
+    """
+    if os.environ.get("VPM_SILENT"):
+        return False
+    QtWidgets = _qt_widgets()
+    box = QtWidgets.QMessageBox(window)
+    box.setWindowTitle("ffmpeg")
+    box.setText(T('ffmpeg is in place.'))
+    box.setInformativeText(
+        T('The program reads it when it starts. It can start again '
+          'now, or you can do that yourself later.'))
+    do = box.addButton(T('Start again now'),
+                       QtWidgets.QMessageBox.AcceptRole)
+    box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
+    box.exec()
+    if box.clickedButton() is not do:
+        return False
+    start_again()
+    # Only reached where the start failed: one that works never comes
+    # back. So it is said where the offer stood, and not on a console
+    # this program does not have.
+    warn_box(QtWidgets, window, "ffmpeg",
+             T('Starting again did not work. Close the window and '
+               'start the program the way you did before.'))
+    return True
 
 
 def about_show(window):
