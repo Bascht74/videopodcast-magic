@@ -25,6 +25,113 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b2] - 2026-09-04
+
+### Added
+
+- Seven more languages are on offer: Spanish, French, Portuguese,
+  Russian, Chinese, Japanese and Hindi. They are partly translated, the
+  wordings are unreviewed first drafts, and what is missing appears in
+  English. Which one the window speaks still follows the system.
+
+### Changed
+
+- **ffmpeg 9.0.1 or newer is required now.** Below it the window opens
+  and stays empty: adding files, opening a project and the run itself
+  are barred. Only from version 9 on is it known what of a camera file
+  arrives unchanged, and carrying that through is half the work.
+- **That ffmpeg has to be built with soxr.** Without it the clock drift
+  between two cameras can only be taken out in steps of 21 ppm instead
+  of 0.21, a hundred times coarser. The program says which of the two is
+  wrong and names the command that puts it right.
+- A release does not carry the program as one file any more. Installing
+  is `pip3 install git+...`, and pip brings every file; the release page
+  carries an archive of them beside its checksums.
+
+### Fixed
+
+- Dolby Vision no longer falls out of a camera file when the program
+  rewrites it. Such a recording used to come out as plain HEVC without a
+  word, and two smaller entries went with it.
+- The camera-data check does not stop at Apple any more. A camera
+  writing none of Apple's own keys used to get no line at all, neither
+  good nor bad; it is now held against its source like any other.
+- The colour box is no longer invented where the source has none. The
+  program wrote "unspecified" into the new file and then warned about
+  what it had just done itself.
+- `--update` now answers in the language of the machine. On a German
+  system it came back in English, because the switch that picks the
+  language was read even where nobody had given one, and an empty answer
+  means English.
+
+### Tests
+
+- Two new checks hold what a camera file carries through a rewrite, box
+  by box, and what the program does with an ffmpeg that is too old or
+  built without soxr. Both cases used to go unnoticed.
+
+### Documentation
+
+- The requirements chapter names the version of ffmpeg and says why, what
+  is barred below it, and how to get the right one. It named the tool
+  before and no version at all.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- Sieben weitere Sprachen stehen zur Wahl: Spanisch, Französisch,
+  Portugiesisch, Russisch, Chinesisch, Japanisch und Hindi. Sie sind
+  teilweise übersetzt, die Wortlaute sind ungeprüfte Erstfassungen, und
+  was fehlt, erscheint auf Englisch. Welche das Fenster spricht, richtet
+  sich weiterhin nach dem System.
+
+### Geändert
+
+- **ffmpeg 9.0.1 oder neuer ist jetzt Voraussetzung.** Darunter geht das
+  Fenster auf und bleibt leer: Dateien hinzufügen, ein Projekt öffnen
+  und der Lauf selbst sind gesperrt. Erst ab Fassung 9 ist bekannt, was
+  aus einer Kameradatei unverändert ankommt, und das durchzureichen ist
+  die halbe Arbeit.
+- **Dieses ffmpeg muss mit soxr gebaut sein.** Ohne das lässt sich der
+  Uhrengang zwischen zwei Kameras nur in Schritten von 21 ppm statt 0,21
+  herausrechnen, also hundertmal gröber. Das Programm sagt, welches von
+  beiden nicht stimmt, und nennt den Befehl, der es richtigstellt.
+- Eine Freigabe trägt das Programm nicht mehr als eine Datei.
+  Installiert wird mit `pip3 install git+...`, und pip holt alle Dateien;
+  die Freigabeseite trägt statt dessen ein Archiv davon neben den
+  Prüfsummen.
+
+### Behoben
+
+- Dolby Vision fällt beim Umschreiben nicht mehr aus einer Kameradatei
+  heraus. So eine Aufnahme kam bisher wortlos als schlichtes HEVC wieder
+  heraus, und zwei kleinere Einträge gingen mit ihr verloren.
+- Die Prüfung der Kameradaten hört nicht mehr bei Apple auf. Eine
+  Kamera, die keinen von Apples eigenen Schlüsseln schreibt, bekam bisher
+  gar keine Zeile, weder gut noch schlecht; sie wird jetzt wie jede
+  andere gegen ihre Quelle gehalten.
+- Der Farbkasten wird nicht mehr erfunden, wo die Quelle keinen hat. Das
+  Programm schrieb „unbestimmt" in die neue Datei und warnte danach vor
+  dem, was es selbst gerade getan hatte.
+- `--update` antwortet jetzt in der Sprache der Maschine. Auf einem
+  deutschen System kam die Antwort auf Englisch, weil der Schalter für
+  die Sprache auch dort gelesen wurde, wo niemand einen angegeben hatte
+  — und eine leere Antwort heißt Englisch.
+
+### Tests
+
+- Zwei neue Prüfungen halten fest, was eine Kameradatei beim Umschreiben
+  mitnimmt, Kasten für Kasten, und was das Programm mit einem ffmpeg
+  tut, das zu alt oder ohne soxr gebaut ist. Beides fiel bisher niemandem
+  auf.
+
+### Dokumentation
+
+- Das Kapitel zu den Voraussetzungen nennt die Fassung von ffmpeg und
+  sagt, warum, was darunter gesperrt ist und wie man die richtige
+  bekommt. Bisher nannte es das Werkzeug und keine Fassung.
+
 ## [3.0.0b1] - 2026-09-04
 
 ### Added

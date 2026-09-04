@@ -9,7 +9,7 @@ not fit -- before anything is written.*
 
 *Working on the program, or opening a pull request? [CONTRIBUTING.md](CONTRIBUTING.md) says how: the tests, the counter-proof every check owes, and what a pull request has to carry.*
 
-**Version 3.0.0b1.** It does the work it was written for, every week, on
+**Version 3.0.0b2.** It does the work it was written for, every week, on
 real material. The step to 3 is a break rather than a heap of new
 features: the program is installed now, with pip3, and it is a command
 called `videopodcast-magic`. Anything that still starts it as a file
@@ -22,9 +22,8 @@ first audio track, and build from it everything the edit needs afterwards:
 the cameras on one time axis, a first cut by speaker, and a DaVinci Resolve
 project.
 
-One Python file, about 40 000 lines. That one file is the whole
-program, and there is nothing to build: pip makes a package of it and
-puts the command on the path.
+A Python program, and there is nothing to build: pip makes a package of
+it and puts the command on the path.
 
 ## Why this exists
 
@@ -82,10 +81,13 @@ the refusal names the way round it:
 the program in an environment of its own and the command on the path.
 
 Two things pip cannot bring, because neither is Python: **Python
-itself**, 3.10 or newer, and **`ffmpeg` with `ffprobe`**. For the two
-tools the program looks on the search path, offers the package manager
-of the machine and asks before it runs it, and otherwise says where to
-fetch them.
+itself**, 3.10 or newer, and **`ffmpeg` 9.0.1 or newer, with
+`ffprobe`**. For the two tools the program looks on the search path,
+offers the package manager of the machine and asks before it runs it,
+and otherwise says where to fetch them. Below 9.0.1 the window opens
+and stays empty: only that version hands the camera's own entries --
+colour box, recording curve, Dolby Vision, timecode -- through
+untouched beside the picture.
 
 **One trap, measured on 4 September 2026.** A pip that reads the
 project file stops below Python 3.10 and says which version it wanted.
@@ -131,21 +133,24 @@ camera.*
 
 ## What it needs
 
-Python 3.10 or newer, and `ffmpeg` and `ffprobe` on the search path.
-That is the whole list: everything else is a Python package, every one
-of them stands on the list pip reads, and the install brings them all.
-ffmpeg is the exception it cannot help being, since it is not Python
--- the program brings none of its own, offers the system's package
-manager and asks first, and otherwise says where to get it. macOS and
-Windows are what this is used on; Linux works with two limits.
+Python 3.10 or newer, and `ffmpeg` 9.0.1 or newer with `ffprobe` on the
+search path. That is the whole list: everything else is a Python
+package, every one of them stands on the list pip reads, and the
+install brings them all. ffmpeg is the exception it cannot help being,
+since it is not Python -- the program brings none of its own, offers
+the system's package manager and asks first, and otherwise says where
+to get it. macOS and Windows are what this is used on; Linux works with
+two limits.
 
-The detail, including which Python is recommended and what differs per
-platform, is in **[docs/requirements.md](docs/requirements.md)**.
+The detail, including why that ffmpeg version, which Python is
+recommended and what differs per platform, is in
+**[docs/requirements.md](docs/requirements.md)**.
 
 ## The manual
 
 * **[What it needs](docs/requirements.md)**: the one command that
-  installs it, Python, ffmpeg, and what differs per platform.
+  installs it, Python, which ffmpeg and why, and what differs per
+  platform.
 * **[The interface](docs/interface.md)**: the window, tab by tab -- and
   what to do when there is no timecode.
 * **[Preflight](docs/preflight.md)**: what is checked before a run
@@ -174,8 +179,8 @@ The whole contents: **[docs/README.md](docs/README.md)**.
 Beside the manual stand the documents for whoever changes the program
 rather than uses it. They are English only.
 
-**[Inside the script](development/internals.md)** says how the one
-file is put together and how each step works. **[What was
+**[Inside the script](development/internals.md)** says how the program
+is put together and how each step works. **[What was
 measured](development/measurements.md)** holds the evidence behind
 the numbers: hit rates, run times, distributions, comparisons.
 **[Coding guidelines](development/coding_guidelines.md)** says how

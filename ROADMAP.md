@@ -11,11 +11,11 @@ Nothing on this page is a commitment. An item moves up when it turns
 out to matter more, and it is dropped when a measurement says it is
 not worth building. What has actually shipped stands in
 [CHANGELOG.md](CHANGELOG.md), version by version. This page was last
-gone through for 3.0.0b1.
+gone through for 3.0.0b2.
 
 ## Where the program stands today
 
-**Version 3.0.0b1.** It runs every week, on real material.
+**Version 3.0.0b2.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
@@ -58,11 +58,22 @@ recording. Everything the window showed in red stands there too, with
 the time of day -- a red mark is gone the moment its row is drawn
 again, and the complaint about it arrives hours later.
 
-It is one Python file of about 40 000 lines, fetched and run as it is
-or installed with pip, and there is nothing to build. Python 3.10 or
-newer has to be there, and it asks before it installs the two packages
-it needs. macOS and Windows are what it is used on, and Linux works
-with two limits. A suite of 220 tests runs at every
+It is a Python program: one large file, `videopodcast_magic.py`, with
+the files it reads its texts out of beside it. It is installed with
+`pip3 install git+...` and there is nothing to build. Fetching the one
+file and starting it was the other way in until 4.9.2026 and is not one
+any more -- a copy without the files beside it stops during the import. Python 3.10 or newer has to be there, and `ffmpeg`, which is
+not Python and is the one thing pip cannot bring; every Python package
+it needs is on the list pip reads and arrives with the install. macOS
+and Windows are what it is used on, and Linux works with two limits.
+
+**It was one file until 4.9.2026, and it is on the way to being
+several.** The texts went out first, into a file for each language; the
+aim is a folder `videopodcast_magic/` with an `__init__.py` and no
+`videopodcast_magic.py` left at all. It is nowhere near there: today it
+is still one big file with its texts alongside. What follows for
+anybody working on it is only this -- the program is copied with all of
+its files, never on its own. A suite of 220 tests runs at every
 push: six runs side by side, three systems and two versions of Python.
 Beside it stand four more that want a real Resolve and cannot run
 anywhere else. The six are not equally fast, and Windows is the slow
@@ -142,7 +153,8 @@ Coarser, and in no fixed order.
   included -- has been covered since.
 
 * **The comments in the program get the treatment the tests have had.**
-  27 % of the file is comment, and most of it was written before the
+  Nearly a third of the program is comment and docstring, and most of
+  it was written before the
   rules for writing one. In the tests it is done, and they came out a
   third shorter.
 
@@ -206,7 +218,7 @@ been refused, it has only not come up yet.
   turn it into a list of subject lines.
 
 * **A rewrite onto pytest, ruff, mypy and pre-commit.** They would be
-  four new dependencies for one file whose 220 tests run as plain
+  four new dependencies for a program whose 220 tests run as plain
   scripts. A thin pytest layer that starts those same scripts
   unchanged is a different thing, and that one may come.
 
@@ -235,9 +247,9 @@ been refused, it has only not come up yet.
   unsteady rather than counting it green. A test that flaps is a fault
   to be found, not noise to be retried away.
 
-* **Installers, signed packages, notarising, PyPI.** Two ways in are
-  enough: fetch the one file and run it, or install it with pip from
-  the repository.
+* **Installers, signed packages, notarising, PyPI.** One way in is
+  enough: `pip3 install` from the repository. It takes three seconds
+  and needs no PyPI.
 
 * **Sponsors, Projects.** Paperwork with nothing in return.
 

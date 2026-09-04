@@ -11,11 +11,11 @@ Nichts auf dieser Seite ist eine Zusage. Ein Punkt rückt nach vorn,
 wenn er sich als wichtiger herausstellt, und er fällt weg, wenn eine
 Messung sagt, dass er sich nicht lohnt. Was wirklich fertig ist, steht
 in [CHANGELOG.md](CHANGELOG.md), Version für Version. Diese Seite ist
-zuletzt für 3.0.0b1 durchgegangen worden.
+zuletzt für 3.0.0b2 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b1.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b2.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
@@ -62,11 +62,24 @@ steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
 ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
-Es ist eine Python-Datei mit rund 40 000 Zeilen, die man holen und
-starten oder mit pip installieren kann; zu bauen ist daran nichts.
-Python 3.10 oder neuer muss da sein, und nach den zwei Paketen, die es
-braucht, fragt es, bevor es sie installiert. Benutzt wird es unter
-macOS und Windows, unter Linux läuft es mit zwei Einschränkungen. Eine
+Es ist ein Python-Programm: eine große Datei, `videopodcast_magic.py`,
+und daneben die Dateien, aus denen es seine Texte liest. Installiert
+wird es mit `pip3 install git+...`, zu bauen ist daran nichts. Die eine
+Datei zu holen und zu starten war bis zum 4.9.2026 der zweite Weg
+hinein und ist keiner mehr -- eine Kopie ohne die Dateien daneben
+bleibt schon beim Import stehen. Python 3.10 oder neuer muss da sein
+und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
+mitbringen kann; jedes Python-Paket, das es braucht, steht auf der
+Liste, die pip liest, und kommt mit der Installation. Benutzt wird es
+unter macOS und Windows, unter Linux läuft es mit zwei Einschränkungen.
+
+**Bis zum 4.9.2026 war es eine Datei, und es ist unterwegs zu
+mehreren.** Zuerst gingen die Texte heraus, je Sprache eine Datei; das
+Ziel ist ein Ordner `videopodcast_magic/` mit einer `__init__.py` und
+gar keiner `videopodcast_magic.py` mehr. Dort ist es noch lange nicht:
+heute ist es weiter eine große Datei mit ihren Texten daneben. Für
+jeden, der daran arbeitet, folgt daraus nur eines -- das Programm wird
+mit allen seinen Dateien kopiert, nie allein. Eine
 Suite aus 220 Tests läuft bei jedem Push: sechs Läufe nebeneinander,
 drei Systeme und zwei Python-Versionen. Daneben liegen vier weitere,
 die ein echtes Resolve brauchen und nirgends sonst laufen können. Die sechs sind nicht gleich
@@ -150,7 +163,8 @@ Gröber, und in keiner festen Reihenfolge.
   gedeckt.
 
 * **Die Kommentare im Programm bekommen, was die Tests schon hinter
-  sich haben.** 27 % der Datei sind Kommentar, und das meiste davon ist
+  sich haben.** Knapp ein Drittel des Programms ist Kommentar und Docstring, und das
+  meiste davon ist
   vor den Regeln geschrieben worden, nach denen einer geschrieben wird.
   In den Tests ist es getan, und sie sind dabei um ein Drittel kürzer
   geworden.
@@ -218,7 +232,7 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   Generator machte daraus eine Liste von Betreffzeilen.
 
 * **Ein Umbau auf pytest, ruff, mypy und pre-commit.** Das wären vier
-  neue Abhängigkeiten für eine Datei, deren 220 Tests als schlichte
+  neue Abhängigkeiten für ein Programm, dessen 220 Tests als schlichte
   Scripts durchlaufen. Eine dünne pytest-Schicht, die genau diese
   Scripts unverändert startet, ist etwas anderes und kann kommen.
 
@@ -250,8 +264,8 @@ nicht abgelehnt, er ist nur noch nicht aufgekommen.
   man durch Wiederholen loswird.
 
 * **Installationsprogramme, signierte Pakete, Notarisierung, PyPI.**
-  Zwei Wege hinein reichen: die eine Datei holen und starten, oder sie
-  mit pip aus dem Repository installieren.
+  Ein Weg hinein reicht: `pip3 install` aus dem Repository. Das dauert
+  drei Sekunden und braucht kein PyPI.
 
 * **Sponsors, Projects.** Papierkram ohne Gegenwert.
 

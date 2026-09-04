@@ -9,7 +9,7 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 *Am Programm arbeiten oder einen Pull Request stellen? [CONTRIBUTING.md](CONTRIBUTING.md) sagt wie: die Tests, der Gegenbeweis, den jede Prüfung schuldet, und was ein Pull Request tragen muss.*
 
-**Version 3.0.0b1.** Es macht die Arbeit, für die es geschrieben wurde,
+**Version 3.0.0b2.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
 kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
 pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
@@ -22,9 +22,8 @@ Videodateien legen und daraus alles bauen, was der Schnitt danach braucht:
 die Kameras auf einer Zeitachse, einen ersten Schnitt nach Sprecher und ein
 DaVinci-Resolve-Projekt.
 
-Eine Python-Datei, rund 40 000 Zeilen. Diese eine Datei ist das ganze
-Programm, und zu bauen ist daran nichts: pip macht ein Paket daraus
-und legt den Befehl in den Suchpfad.
+Ein Python-Programm, und zu bauen ist daran nichts: pip macht ein Paket
+daraus und legt den Befehl in den Suchpfad.
 
 ## Warum es das gibt
 
@@ -87,10 +86,13 @@ nennt den Weg daran vorbei:
 das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
 Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
-**Python selbst**, 3.10 oder neuer, und **`ffmpeg` samt `ffprobe`**.
-Die beiden Werkzeuge sucht das Programm im Suchpfad, bietet die
-Paketverwaltung der Maschine an und fragt, bevor es sie ausführt, und
-sonst sagt es, woher man sie bekommt.
+**Python selbst**, 3.10 oder neuer, und **`ffmpeg` 9.0.1 oder neuer,
+samt `ffprobe`**. Die beiden Werkzeuge sucht das Programm im Suchpfad,
+bietet die Paketverwaltung der Maschine an und fragt, bevor es sie
+ausführt, und sonst sagt es, woher man sie bekommt. Unter 9.0.1 geht
+das Fenster auf und bleibt leer: erst diese Fassung reicht neben dem
+Bild auch die Angaben der Kamera unverändert durch — Farbkasten,
+Aufnahmekurve, Dolby Vision, Zeitcode.
 
 **Eine Falle, am 4. September 2026 gemessen.** Ein pip, das die
 Projektdatei liest, hört unterhalb von Python 3.10 auf und sagt,
@@ -139,24 +141,24 @@ wird.*
 
 ## Was gebraucht wird
 
-Python 3.10 oder neuer, dazu `ffmpeg` und `ffprobe` im Suchpfad. Mehr
-steht nicht auf der Liste: alles andere ist ein Python-Paket, jedes
-davon steht auf der Liste, die pip liest, und die Installation bringt
-sie alle mit. ffmpeg ist die Ausnahme, die es nicht sein kann, denn es
-ist kein Python — ein eigenes bringt das Programm nicht mit, es bietet
-den Paketverwalter des Systems an und fragt vorher, und sonst sagt es,
-woher man es bekommt. Benutzt wird das Ganze auf macOS und Windows;
-Linux läuft mit zwei Einschränkungen.
+Python 3.10 oder neuer, dazu `ffmpeg` 9.0.1 oder neuer samt `ffprobe`
+im Suchpfad. Mehr steht nicht auf der Liste: alles andere ist ein
+Python-Paket, jedes davon steht auf der Liste, die pip liest, und die
+Installation bringt sie alle mit. ffmpeg ist die Ausnahme, die es nicht
+sein kann, denn es ist kein Python — ein eigenes bringt das Programm
+nicht mit, es bietet den Paketverwalter des Systems an und fragt
+vorher, und sonst sagt es, woher man es bekommt. Benutzt wird das Ganze
+auf macOS und Windows; Linux läuft mit zwei Einschränkungen.
 
-Die Einzelheiten, samt empfohlener Python-Version und den Unterschieden je
-Plattform, stehen in
+Die Einzelheiten — warum diese ffmpeg-Fassung, welches Python empfohlen
+wird und was sich je Plattform unterscheidet — stehen in
 **[docs/requirements.de.md](docs/requirements.de.md)**.
 
 ## Das Handbuch
 
 * **[Was gebraucht wird](docs/requirements.de.md)**: der eine Befehl,
-  der es installiert, Python, ffmpeg, und was sich je Plattform
-  unterscheidet.
+  der es installiert, Python, welches ffmpeg und warum, und was sich je
+  Plattform unterscheidet.
 * **[Die Oberfläche](docs/interface.de.md)**: das Fenster, Reiter für
   Reiter — und was zu tun ist, wenn es keinen Timecode gibt.
 * **[Vorflug](docs/preflight.de.md)**: was vor einem Lauf geprüft wird,
@@ -187,8 +189,8 @@ Das ganze Verzeichnis: **[docs/README.de.md](docs/README.de.md)**.
 Neben dem Handbuch stehen die Dokumente für alle, die das Programm
 ändern statt es zu benutzen. Sie sind alle englisch.
 
-**[Inside the script](development/internals.md)** sagt, wie die
-eine Datei aufgebaut ist und wie jeder Schritt arbeitet. **[What was
+**[Inside the script](development/internals.md)** sagt, wie das
+Programm aufgebaut ist und wie jeder Schritt arbeitet. **[What was
 measured](development/measurements.md)** hält die Belege hinter den
 Zahlen: Trefferquoten, Laufzeiten, Verteilungen, Vergleiche. **[Coding
 guidelines](development/coding_guidelines.md)** sagt, wie der Code
