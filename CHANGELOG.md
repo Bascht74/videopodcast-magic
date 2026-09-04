@@ -25,6 +25,112 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b1] - 2026-09-04
+
+### Added
+
+- `audio_chain.py` stands beside the program: the way one recording is
+  treated locally -- high-pass, hum removal, levelling, target loudness --
+  as a program of its own with its own command line. It computes only on
+  this machine, needs no key and uploads nothing. pip does not install it;
+  it belongs to the repository.
+
+### Changed
+
+- The **Colour** row of a video file names the colour space along with the
+  curve: "Apple Log (Rec.2020)" or "Apple Log 2 (Apple Wide Gamut)", where
+  both used to read "Apple Log". The newer iPhones name their colour space
+  nowhere else in the file, and a colour table built for the one lies wrong
+  on the other.
+- **Check for updates** carries the update out now. Where the program had
+  been installed it used to refuse and only name the folder. It offers the
+  pip3 line instead, shows what changed before it asks, and every line pip
+  prints lands in the fourth tab while it runs.
+
+### Fixed
+
+- A camera file whose description merely contained a longer word like
+  "Vlogger" was taken for log material, and the delivery was written as
+  HDR. A marker has to stand as a word of its own now; `S-Log3` and `LogC4`
+  still count, because a version digit may follow it.
+- Where two cameras recorded in different Apple Log variants, the finding
+  **Capture curve** stayed silent -- both files read "Apple Log", so they
+  looked like one curve. It names both now, and the colour space finding
+  comes with it.
+- A file naming no camera no longer says "no information in the file";
+  it says what wrote it instead -- a render, a remux. Where a file really names its
+  device, that still stands and nothing displaces it.
+
+### Tests
+
+- Two checks hold the recognition of a recording curve: that the two Apple
+  identifiers are named as written, and that a marker inside a longer word
+  is no marker. Both would have passed silently before.
+
+### Documentation
+
+- The install chapter names one command and says there is no second way.
+  The waiting times are in it because a five-minute wait with no
+  explanation reads as a hang: 302 seconds the first time, 12 for an
+  update.
+- The Resolve chapter says what a recording curve is recognised by, and
+  what the plain name carries besides the curve.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- `audio_chain.py` steht neben dem Programm: der Weg, den eine Aufnahme
+  hier durchläuft -- Hochpass, Entbrummen, Pegelführung, Ziellautheit --,
+  als eigenes Programm mit eigener Befehlszeile. Es rechnet nur auf dieser
+  Maschine, braucht keinen Schlüssel und lädt nichts hoch. pip installiert
+  es nicht; es gehört zum Verzeichnis.
+
+### Geändert
+
+- Die Zeile **Farbe** einer Videodatei nennt neben der Kurve den Farbraum:
+  „Apple Log (Rec.2020)" oder „Apple Log 2 (Apple Wide Gamut)", wo bisher
+  beides „Apple Log" hieß. Die neueren iPhones nennen ihren Farbraum
+  nirgends sonst in der Datei, und eine Farbtabelle für den einen liegt auf
+  dem anderen falsch.
+- **Auf Aktualisierung prüfen** führt die Aktualisierung jetzt aus. Wo das
+  Programm installiert war, verweigerte es sie und nannte nur den Ordner.
+  Statt dessen bietet es die pip3-Zeile an, zeigt vor der Frage, was sich
+  geändert hat, und jede Zeile, die pip ausgibt, landet währenddessen im
+  vierten Reiter.
+
+### Behoben
+
+- Eine Kameradatei, in deren Beschreibung nur ein längeres Wort wie
+  „Vlogger" stand, galt als Log-Material, und die Ausgabe wurde als HDR
+  geschrieben. Eine Marke muss jetzt als eigenes Wort dastehen; `S-Log3`
+  und `LogC4` zählen weiter, denn eine Versionsziffer darf ihr folgen.
+- Wo zwei Kameras in verschiedenen Apple-Log-Spielarten aufgenommen
+  hatten, blieb der Befund **Aufnahmekurve** stumm -- beide Dateien lasen
+  sich als „Apple Log" und sahen damit wie eine Kurve aus. Er nennt jetzt
+  beide, und der Befund zum Farbraum kommt mit.
+- Eine Datei, die keine Kamera nennt, sagt nicht mehr „keine Angabe in
+  der Datei", sondern was sie geschrieben hat -- ein Rendern, ein
+  Umpacken. Wo eine
+  Datei ihr Gerät wirklich nennt, bleibt das stehen und nichts verdrängt
+  es.
+
+### Tests
+
+- Zwei Prüfungen halten die Erkennung der Aufnahmekurve fest: dass die
+  beiden Apple-Kennungen so heißen, wie sie geschrieben sind, und dass eine
+  Marke mitten in einem längeren Wort keine Marke ist. Beides wäre vorher
+  stillschweigend durchgegangen.
+
+### Dokumentation
+
+- Das Kapitel zur Installation nennt einen Befehl und sagt, dass es keinen
+  zweiten Weg gibt. Die Wartezeiten stehen darin, weil fünf Minuten ohne
+  Erklärung sich wie ein Hänger anfühlen: 302 Sekunden beim ersten Mal, 12
+  für eine Aktualisierung.
+- Das Resolve-Kapitel sagt, woran eine Aufnahmekurve erkannt wird und was
+  der Klarname neben der Kurve trägt.
+
 ## [3.0.0b0] - 2026-09-03
 
 The program file is called `videopodcast_magic.py` from here on, where
@@ -38,7 +144,7 @@ job on a timer -- is written once more.
 - `pip3 install git+https://github.com/Bascht74/videopodcast-magic`
   installs the program now, and the same line with `-U` puts a newer
   one in its place. `videopodcast-magic` then starts it from any
-  folder. Fetching the single file by hand works as it did.
+  folder. There is no second way in.
 - A `SHA256SUMS.txt` hangs beside the program on every release now.
   Whoever downloads the file holds it against that sum and sees that
   what arrived is what was sent.
@@ -86,7 +192,7 @@ umgeschrieben.
 - `pip3 install git+https://github.com/Bascht74/videopodcast-magic`
   installiert das Programm, dieselbe Zeile mit `-U` holt eine neuere
   Fassung. `videopodcast-magic` startet es danach aus jedem Ordner.
-  Die eine Datei von Hand zu holen, geht wie bisher.
+  Einen zweiten Weg hinein gibt es nicht.
 - Bei jeder Freigabe hängt ab jetzt eine `SHA256SUMS.txt` neben dem
   Programm. Wer die Datei herunterlädt, hält sie gegen diese Summe und
   sieht, dass angekommen ist, was abgeschickt wurde.
