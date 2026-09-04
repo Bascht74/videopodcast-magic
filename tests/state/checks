@@ -194,9 +194,9 @@ time_axis_keys_agree	13
 time_axis_measured	26
 time_bad_point_dropped	26
 time_block_holds_on	6
-time_camera_by_clock	22
 time_clock_from_any_file	22
 time_clock_read_at_rate	8
+time_clock_track_first	8
 time_drift_taken_out	4
 time_fit_reports	11
 time_guess_refused	56

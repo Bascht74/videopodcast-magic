@@ -1,6 +1,6 @@
 # The test suite
 
-227 tests against `../videopodcast_magic.py`. Every one of them stands
+228 tests against `../videopodcast_magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-227 tests. The name is the one a red line carries, and beside it the
+228 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -314,6 +314,7 @@ it is green.
 | `time_block_holds_on` | A recording made of blocks is placed as one recording. |
 | `time_clock_from_any_file` | A Timecode is counted from the axis, not from the reference's clock. |
 | `time_clock_read_at_rate` | What a file's clock says is read at that file's own rate. |
+| `time_clock_track_first` | A file's clock is read off its track before the file's own level. |
 | `time_drift_taken_out` | A returned track that runs away has to be straightened again. |
 | `time_fit_reports` | The offset fit says how close it came and what it left unexplained. |
 | `time_guess_refused` | A file nothing can place is refused, not laid down at a guess. |

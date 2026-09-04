@@ -332,7 +332,7 @@ def tools_repaired(kind, says, asked=False):
     # macOS it is the command that was offered above, word for word, so
     # the two cannot say different things.
     how = {"darwin": " ".join(package_manager_command(kind != "missing"))
-           or "brew install %s %s" % BREW_FFMPEG,
+           or "brew install %s" % BREW_FFMPEG,
            "win32": T('from ffmpeg.org, and the folder into PATH')}.get(
         sys.platform, T('over the package manager: apt install ffmpeg, '
                         'dnf install ffmpeg'))
@@ -353,11 +353,10 @@ QUIET_MANAGER = {
 }
 
 
-# Not plain "ffmpeg": measured 4.9.2026, homebrew/core builds it
-# without soxr in every version, and soxr is what the fine clock
-# correction is made of. So the tap and the option belong to the
-# command, or the correction works in steps a hundred times coarser.
-BREW_FFMPEG = ("homebrew-ffmpeg/ffmpeg/ffmpeg", "--with-libsoxr")
+# What this button mends is the version, and the main tap has 9.0.1
+# as a built bottle. The tap that carries soxr has no bottle at all,
+# so it would compile in the window's own thread.
+BREW_FFMPEG = ("ffmpeg",)
 
 
 def package_manager_command(update=False):
@@ -2259,8 +2258,12 @@ def file_timecode(path, fps=None):
         return tr / float(SR)
     d = ffprobe_json(path)
     rate = float(fps) if fps else (picture_rate(d) or 30.0)
-    for source in [d.get("format", {}).get("tags", {})] +\
-                  [s.get("tags", {}) or {} for s in d.get("streams", [])]:
+    # The tracks before the file: a track's clock is what the camera
+    # wrote, the file level is what ffmpeg made of it, and the camera
+    # wins where they disagree. A file that keeps a clock nowhere else
+    # -- MXF and AVI do -- is still read, only afterwards.
+    for source in [s.get("tags", {}) or {} for s in d.get("streams", [])] +\
+                  [d.get("format", {}).get("tags", {})]:
         if source.get("timecode"):
             try:
                 return parse_timecode(source["timecode"], rate)
@@ -17436,8 +17439,11 @@ def video_facts(path, fps_default=None, tc_default_value=None):
             fps = 30.0
     tc = tc_default_value
     if tc is None:
-        for source in [d.get("format", {}).get("tags", {})] +\
-                      [s.get("tags", {}) or {} for s in d.get("streams", [])]:
+        # The tracks before the file, for the reason in file_timecode:
+        # the track is the camera's clock, the file level is ffmpeg's
+        # reading of it, and the camera wins where they disagree.
+        for source in [s.get("tags", {}) or {} for s in d.get("streams", [])] +\
+                      [d.get("format", {}).get("tags", {})]:
             if source.get("timecode"):
                 tc = source["timecode"]
                 break
