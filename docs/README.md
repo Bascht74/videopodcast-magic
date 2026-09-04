@@ -9,7 +9,7 @@ its own; nothing here has to be read from front to back.
 ## Contents
 
 * **[What it needs](requirements.md)**: the one command that installs
-  it, Python, ffmpeg, and what differs per platform.
+  it, Python, which ffmpeg and why, and what differs per platform.
 * **[The interface](interface.md)**: the window, tab by tab -- and how
   the common time axis is measured.
 * **[Preflight](preflight.md)**: what is checked before a run starts,
@@ -84,7 +84,8 @@ explains the word comes first.
 * **envelope**: `interface`, "The four tabs"; `multitrack`, "Running several
   files at once"
 * **faster-whisper**: `speech`, "How the program writes the text down"
-* **ffmpeg**: `requirements`, "Where ffmpeg comes from"
+* **ffmpeg (and which version)**: `requirements`, "Where ffmpeg comes
+  from"
 * **ffplay**: `interface`, "The four tabs"
 * **First cut by speaker (box)**: `camera-cut`, "How the cut comes about";
   `interface`, "The four tabs"

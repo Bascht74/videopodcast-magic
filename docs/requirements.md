@@ -58,10 +58,10 @@ can bring neither:
   left behind an empty folder of that name. No module, no command, no
   error. **Reading `UNKNOWN` means the pip is the wrong one**, and the
   answer is to install Python 3.10 or newer and use its `pip3`.
-* **`ffmpeg` and `ffprobe`.** They are not Python and no list pip
-  reads can name them. [Where ffmpeg comes
-  from](#where-ffmpeg-comes-from) says what the program does when they
-  are missing.
+* **`ffmpeg` 9.0.1 or newer, built with soxr, and `ffprobe` beside
+  it.** They are not Python and no list pip reads can name them.
+  [Where ffmpeg comes from](#where-ffmpeg-comes-from) says why that
+  version, why soxr, and what the program does without them.
 
 Two more the program fetches later, and only when somebody wants what
 they are for:
@@ -110,7 +110,39 @@ follows.*
 they are not Python and no list pip reads has a place for them. Every
 other piece came with the install; these two have to be on the machine.
 
-The program looks for them first on the search path, then next to
+**9.0.1 is the floor, and below it nothing runs.** The picture out of a
+camera file is copied through untouched, and what stands beside it is
+meant to arrive untouched with it: the colour box, the recording curve,
+the Dolby Vision entries, the timecode, the camera's own keys. Only
+from version 9 on is it known what arrives. An older one lets part of it
+fall, and which part depends on how it was built -- so the result would
+look right and be wrong, in the one place nobody thinks to check. A
+floor nobody can name is no floor, and that is why the number is a
+requirement and not a recommendation.
+
+**And soxr, which is a second condition and not a comfort.** The
+cameras are put on one time axis, and their clocks run apart -- a few
+parts per million, which over an hour is frames. Taking that out means
+stretching audio by a factor very close to one, and the plain
+resampler can only round to whole sample rates: at 48 kHz that is
+steps of 21 ppm. With soxr the step is 0.21 ppm, a hundred times
+finer. So a build can be 9.0.1 and still be the wrong build, and the
+program says which of the two is wrong rather than lumping them
+together.
+
+**Missing, too old, built without soxr: all the same case, the window
+opens and stays empty.** Everything that needs the two tools is
+barred, not the run alone -- adding files, opening a project,
+measuring the time axis. The message names what was found and what is
+needed.
+
+**It is said where somebody can read it**: in the window where there is
+one; in the terminal where the program was started with switches; and
+where neither is true, in `videopodcast-magic.log` -- and then nothing
+is asked either, because nobody is there to answer. The program never
+says a line before the window is up.
+
+The program looks for the two first on the search path, then next to
 itself. When they are still missing it names the package
 manager of this machine and asks before it runs it -- never unasked,
 because a package manager writes outside the program, into what the
@@ -122,17 +154,26 @@ machine owner keeps:
 * **Windows:** Windows brings no package manager, so the program
   offers to open ffmpeg.org. The folder with `ffmpeg.exe` then goes
   into PATH, or the files next to the program.
-* **When nothing gets installed:** the program stops and says what to
-  do on this machine -- `brew install ffmpeg` on macOS, on Windows the
-  build from ffmpeg.org and its folder into PATH, on Linux the package
-  manager of the distribution. Answering the question with no ends the
-  run the same way. The program brings no ffmpeg of its own: what it
-  needs has to be on the machine, and whoever has not got it fetches
-  it once, by hand.
-
-A question needs somebody to answer it, so it is only put where the
-run has a terminal in front of it. Started without one, the program
-asks nothing and ends the way the last point above describes.
+* **On macOS it is not `brew install ffmpeg`.** Homebrew's own ffmpeg
+  is built without soxr, so that command installs exactly what the
+  program refuses a moment later. What the program offers instead is
+  `brew install --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`:
+  the tap that has soxr, and the option that asks for it. It builds
+  from source and takes a while.
+* **When nothing gets installed:** the window stays empty and says what
+  to do on this machine -- the brew command above on macOS, on Windows
+  the build from ffmpeg.org and its folder into PATH, on Linux the
+  package manager of the distribution. Answering the question with no
+  leaves it the same way. The program brings no ffmpeg of its own:
+  what it needs has to be on the machine, and whoever has not got it
+  fetches it once, by hand.
+* **When one is there and wrong -- too old, or without soxr:** it has
+  to be built again, not installed a second time. Told to install what
+  is already there a package manager answers "already installed" and
+  does nothing. On macOS that is `brew reinstall --yes
+  homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`. A distribution's
+  package is often older than 9, and where it is, the build from
+  ffmpeg.org is the shortest way to one that fits.
 
 `requirements.txt` holds the Python packages under the same names pip
 reads from `pyproject.toml`, for anyone who would rather have them in
@@ -169,6 +210,16 @@ well, with two limits:
   takes the same switches.
 * **`ffmpeg` is still not found after installing it.** The folder
   holding it is not on the search path. Put it there and start again.
+* **The window opens and stays empty, and the message names an ffmpeg
+  version.** This ffmpeg is older than 9.0.1. Build it again -- on
+  macOS `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg
+  --with-libsoxr`, otherwise the build from ffmpeg.org -- and start
+  again. `ffmpeg -version` in a terminal says which one is on the
+  search path.
+* **The window opens and stays empty, and the message names soxr.**
+  This ffmpeg is new enough but was built without it. The same command
+  puts it right; `ffmpeg -version` lists `--enable-libsoxr` among the
+  build options where it is there.
 
 That is everything the program needs. What the window then shows, tab
 by tab, is in [The interface](interface.md).

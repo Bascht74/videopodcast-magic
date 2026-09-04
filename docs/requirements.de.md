@@ -61,10 +61,10 @@ kann pip nicht mitbringen:
   keine Fehlermeldung. **Wer `UNKNOWN` liest, hat das falsche pip
   erwischt**, und die Antwort darauf ist, Python 3.10 oder neuer zu
   installieren und dessen `pip3` zu nehmen.
-* **`ffmpeg` und `ffprobe`.** Sie sind kein Python, und keine Liste,
-  die pip liest, hat einen Platz für sie. [Woher ffmpeg
-  kommt](#woher-ffmpeg-kommt) sagt, was das Programm tut, wenn sie
-  fehlen.
+* **`ffmpeg` 9.0.1 oder neuer, mit soxr gebaut, samt `ffprobe`.** Sie
+  sind kein Python, und keine Liste, die pip liest, hat einen Platz für
+  sie. [Woher ffmpeg kommt](#woher-ffmpeg-kommt) sagt, warum diese
+  Fassung, warum soxr, und was das Programm ohne sie tut.
 
 Zweierlei holt das Programm später nach, und nur, wenn jemand will,
 wofür es da ist:
@@ -116,8 +116,40 @@ kann**, denn sie sind kein Python, und keine Liste, die pip liest, hat
 einen Platz für sie. Jedes andere Stück kam mit der Installation; diese
 beiden müssen auf der Maschine liegen.
 
-Das Programm sucht sie zuerst im Suchpfad, dann
-neben sich. Fehlen sie danach immer noch, nennt es die Paketverwaltung
+**9.0.1 ist die Untergrenze, und darunter läuft nichts.** Das Bild aus
+einer Kameradatei wird unverändert durchkopiert, und was daneben steht,
+soll genauso unverändert ankommen: der Farbkasten, die Aufnahmekurve,
+die Dolby-Vision-Angaben, der Zeitcode, die Schlüssel der Kamera. Erst
+ab Fassung 9 ist bekannt, was davon ankommt. Eine ältere lässt einen
+Teil fallen, und welchen, hängt davon ab, wie sie gebaut wurde — das
+Ergebnis sähe richtig aus und wäre falsch, und zwar an genau der Stelle,
+an der niemand nachsieht. Ein Boden, den man nicht kennt, ist kein
+Boden; deshalb ist die Zahl eine Voraussetzung und keine Empfehlung.
+
+**Und soxr, und das ist eine zweite Bedingung und kein Komfort.** Die
+Kameras kommen auf eine Zeitachse, und ihre Uhren laufen auseinander —
+ein paar Millionstel, was über eine Stunde Bilder sind. Das
+herauszurechnen heißt, Ton um einen Faktor dicht bei eins zu dehnen,
+und der einfache Rechenweg kann nur auf ganze Abtastraten runden: bei
+48 kHz sind das Schritte von 21 ppm. Mit soxr ist der Schritt 0,21 ppm,
+also hundertmal feiner. Eine Fassung kann demnach 9.0.1 sein und
+trotzdem der falsche Bau; das Programm sagt, welches von beidem nicht
+stimmt, statt beides in einen Topf zu werfen.
+
+**Ob sie fehlt, zu alt ist oder ohne soxr gebaut wurde, macht keinen
+Unterschied: Das Fenster geht auf und bleibt leer.** Gesperrt ist
+alles, was die beiden Werkzeuge braucht, und nicht erst der Lauf —
+Dateien hinzufügen, ein Projekt öffnen, die Zeitachse messen. Die
+Meldung nennt das Gefundene und das, was gebraucht wird.
+
+**Gesagt wird es dort, wo jemand es lesen kann**: im Fenster, wenn eines
+da ist; im Terminal, wenn das Programm mit Schaltern gestartet wurde;
+und wenn beides nicht zutrifft, in `videopodcast-magic.log` — dann wird
+auch nichts gefragt, denn es ist niemand da, der antworten könnte. Vor
+dem Fenster sagt das Programm nie eine Zeile.
+
+Das Programm sucht die beiden zuerst im Suchpfad, dann neben sich.
+Fehlen sie danach immer noch, nennt es die Paketverwaltung
 dieser Maschine und fragt, bevor es sie ausführt -- ungefragt tut es
 das nie, denn eine Paketverwaltung schreibt außerhalb des Programms,
 in das hinein, was dem Besitzer der Maschine gehört:
@@ -128,19 +160,28 @@ in das hinein, was dem Besitzer der Maschine gehört:
 * **Windows:** Windows bringt keine Paketverwaltung mit, also bietet
   das Programm an, ffmpeg.org zu öffnen. Der Ordner mit `ffmpeg.exe`
   gehört danach in PATH oder die Dateien neben das Programm.
-* **Wenn nichts installiert wird:** Das Programm hört auf und sagt,
-  was auf dieser Maschine zu tun ist -- unter macOS
-  `brew install ffmpeg`, unter Windows die Version von ffmpeg.org und
-  ihr Ordner in PATH, unter Linux die Paketverwaltung der
-  Distribution. Die Frage mit nein zu beantworten beendet den Lauf
-  auf demselben Weg. Ein eigenes ffmpeg bringt das Programm nicht
-  mit: was es braucht, muss auf der Maschine liegen, und wer es nicht
-  hat, holt es sich einmal von Hand.
-
-Eine Frage braucht jemanden, der sie beantwortet, und wird deshalb nur
-dort gestellt, wo der Lauf ein Terminal vor sich hat. Ohne eines fragt
-das Programm nichts, sondern hört so auf, wie es der letzte Punkt oben
-beschreibt.
+* **Unter macOS ist es nicht `brew install ffmpeg`.** Homebrews
+  eigenes ffmpeg wird ohne soxr gebaut, dieser Befehl installiert also
+  genau das, was das Programm einen Augenblick später ablehnt.
+  Angeboten wird stattdessen
+  `brew install --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`:
+  der Tap, der soxr hat, und die Option, die danach fragt. Das baut aus
+  dem Quelltext und dauert.
+* **Wenn nichts installiert wird:** Das Fenster bleibt leer und sagt,
+  was auf dieser Maschine zu tun ist -- unter macOS der Befehl von
+  oben, unter Windows die Version von ffmpeg.org und ihr Ordner in
+  PATH, unter Linux die Paketverwaltung der Distribution. Die Frage
+  mit nein zu beantworten lässt es genauso stehen. Ein eigenes ffmpeg
+  bringt das Programm nicht mit: was es braucht, muss auf der Maschine
+  liegen, und wer es nicht hat, holt es sich einmal von Hand.
+* **Wenn eines da ist und nicht stimmt -- zu alt oder ohne soxr:** Dann
+  muss es neu gebaut und nicht ein zweites Mal installiert werden. Auf
+  die Aufforderung, etwas zu installieren, was schon da ist, antwortet
+  eine Paketverwaltung „ist schon installiert“ und tut nichts. Unter
+  macOS heißt das
+  `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`.
+  Das Paket einer Distribution ist oft älter als 9; wo es das ist,
+  führt die Version von ffmpeg.org am schnellsten zu einer, die passt.
 
 In `requirements.txt` stehen dieselben Python-Pakete, die pip aus
 `pyproject.toml` liest, für alle, die sie lieber vor der Installation
@@ -179,6 +220,17 @@ es ebenfalls, mit zwei Einschränkungen:
 * **`ffmpeg` wird auch nach der Installation nicht gefunden.** Der
   Ordner, in dem es liegt, steht nicht im Suchpfad. Ihn dort
   aufnehmen und neu starten.
+* **Das Fenster geht auf und bleibt leer, und die Meldung nennt eine
+  ffmpeg-Fassung.** Dieses ffmpeg ist älter als 9.0.1. Es muss neu
+  gebaut werden -- unter macOS mit
+  `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`,
+  sonst mit der Version von ffmpeg.org --, danach neu starten.
+  `ffmpeg -version` in einem Terminal sagt, welche gerade im Suchpfad
+  steht.
+* **Das Fenster geht auf und bleibt leer, und die Meldung nennt soxr.**
+  Dieses ffmpeg ist neu genug, wurde aber ohne soxr gebaut. Derselbe
+  Befehl bringt es in Ordnung; `ffmpeg -version` führt
+  `--enable-libsoxr` unter den Bauoptionen auf, wo es da ist.
 
 Mehr braucht das Programm nicht. Was das Fenster danach zeigt, Reiter
 für Reiter, steht in [Die Oberfläche](interface.de.md).

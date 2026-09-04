@@ -9,8 +9,8 @@ für sich; nichts davon muss von vorn bis hinten gelesen werden.
 ## Inhalt
 
 * **[Was gebraucht wird](requirements.de.md)**: der eine Befehl, der
-  es installiert, Python, ffmpeg, und was sich je Plattform
-  unterscheidet.
+  es installiert, Python, welches ffmpeg und warum, und was sich je
+  Plattform unterscheidet.
 * **[Die Oberfläche](interface.de.md)**: das Fenster, Reiter für
   Reiter — und wie die gemeinsame Zeitachse gemessen wird.
 * **[Vorflug](preflight.de.md)**: was vor einem Lauf geprüft wird, und
@@ -81,7 +81,7 @@ der das Wort erklärt, steht vorn.
 * **Farbgruppe**: `resolve`, „Eine ganze Kamera auf einmal korrigieren“
 * **Farbvergleich**: `camera-cut`, „Was Kennzahlen und Farbvergleich messen“
 * **faster-whisper**: `speech`, „Wie das Programm den Text mitschreibt“
-* **ffmpeg**: `requirements`, „Woher ffmpeg kommt“
+* **ffmpeg (und welche Fassung)**: `requirements`, „Woher ffmpeg kommt“
 * **ffplay**: `interface`, „Die vier Reiter“
 * **Fortsetzungsdatei**: `simple-path`, „Was neben dem Mix ins Video kommt“;
   `interface`, „Die vier Reiter“
