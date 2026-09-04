@@ -160,20 +160,71 @@ title about that one thing. It reads as something a person wrote: out of
 the thing itself, no exclamation mark, no explanation behind it. If
 nothing comes, dry beats laboured.
 
-**The file goes on at creation, not afterwards:**
+**The archive goes on at creation, not afterwards. Built at the top of
+the checkout, and the tree clean:**
 
 ```bash
-shasum -a 256 videopodcast_magic.py > /tmp/SHA256SUMS.txt
+rm -f /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt
+zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic*.py
+( cd /tmp && shasum -a 256 videopodcast_magic.zip > SHA256SUMS.txt )
 
 gh release create v2.5.0-beta \
    --title "2.5.0-beta -- <half a sentence>" \
    --notes-file /tmp/notes.md --latest \
-   videopodcast_magic.py /tmp/SHA256SUMS.txt
+   /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt
 ```
 
-**Two files hang on a release, not one.** The sum is made from the
-file that is about to go up, in the working tree at the tag, and it
-goes up beside it.
+**The `rm -f` is not tidiness.** `zip` adds to an archive that is
+already there instead of replacing it, so without it a second attempt
+ships yesterday's files beside today's and nothing says so. And from
+the top of the checkout, so the names inside are bare: whoever unpacks
+it has the program in a folder of their choosing and it starts there.
+
+**An archive and not a file, since 4.9.2026.** The texts of each
+language stand in files beside the program that day, and the program
+alone does not start -- `FileNotFoundError` on the first line, measured.
+So all of it goes up or none of it does.
+
+**And an archive of the program, not of the repository.** GitHub hangs
+"Source code (zip)" on every release by itself: 63 735 119 bytes,
+because the whole tree is in it. The ten files of the program came to
+588 141 (measured 4.9.2026). That small one is what "the state of the
+program" means, and it is the reason to attach anything at all --
+**installing is `pip3 install git+...` and nothing else**, so the
+attachment documents a state rather than offering a way in. The owner,
+4.9.2026: the newest release comes over pip3; the archive writes the
+state of the work down once, cleanly.
+
+**Zip, and always that name.** Zip because it opens by double-click on
+a Mac and on Windows with nothing installed, because the source archive
+beside it on the same page is one too, and because the release workflow
+opens it with Python's own `zipfile` and needs nothing fetched to do
+it. Always `videopodcast_magic.zip`, never the version in the name:
+`.github/workflows/release.yml` and `tests/text_release_ready_test.py`
+name it letter for letter, the way `SHA256SUMS.txt` is named, and a
+name built out of the tag would have to be built the same way in three
+places.
+
+**The star picks by shape, and that is the whole of the maintenance.**
+A language added tomorrow is a file matching `videopodcast_magic*.py`
+and travels by itself. The day the program becomes a folder
+`videopodcast_magic/`, **this line is the one that changes** --
+`zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic` -- and the
+workflow follows by itself, because it lists what is at the tag rather
+than holding a list of its own. What does not follow by itself that day
+is the `starts:` job in the workflow and the fetch in
+`tests/first_run.sh`: both ask github.com for names ending in `.py`.
+
+**Two files hang on a release: the archive and the sum of it.** The sum
+is made from the archive that is about to go up and goes up beside it.
+
+**It is over the archive, not over the files in it.** An archive cannot
+be built twice into the same bytes -- it carries the times and the order
+the files went in -- so a sum over the files inside would be one nobody
+could repeat against what is in their hand, while the archive's own sum
+is exactly that. Whether the files inside are the ones that were tagged
+is the workflow's question, and it answers it byte for byte without
+needing a sum.
 
 Why a file of its own rather than a line in the notes: **whoever
 checks it is not a person.** The notes are prose and change shape from
@@ -182,20 +233,16 @@ carries one under exactly this name and in exactly this format, so one
 reader serves both -- a line whose first field is 64 characters, the
 file name last, comments skipped.
 
-**Without it, somebody who downloads the file has nothing in their
-hand.** The release workflow holds the file byte for byte against the
-tag, but that is our answer to ourselves; it is not something the
-person downloading can repeat. And the day the program fetches itself
-through a wrapper, the wrapper has nothing to check what came down
-against.
+**Without it, somebody who downloads has nothing in their hand.** The
+release workflow holds the archive against the tag, but that is our
+answer to ourselves; it is not something the person downloading can
+repeat.
 
-Three releases went out without the file. The check for it sits in
-`.github/workflows/release.yml` and runs on `release: published`:
-whoever creates first and uploads after has already seen it red -- and a
-check that is red by design is one nobody reads for long. Without the
-attachment the release page offers only "Source code (zip)":
-63 735 119 bytes against the 1 308 045 of the one file the README tells
-people to download, as both stood when that was read.
+Three releases went out with nothing attached at all. The check for it
+sits in `.github/workflows/release.yml` and runs on
+`release: published`: whoever creates first and uploads after has
+already seen it red -- and a check that is red by design is one nobody
+reads for long.
 
 **No `--prerelease`.** Then look that "Latest" is on it:
 

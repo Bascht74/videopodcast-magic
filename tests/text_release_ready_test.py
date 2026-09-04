@@ -16,13 +16,14 @@ import re
 import subprocess
 import sys
 import time
+import zipfile
+import the_program
 
 began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 done = 0
 error = []
@@ -380,19 +381,22 @@ if newest_german.strip():
           "%d of them, first: %s" % (len(half_told), half_told[0])
           if half_told else "")
 
-print("\n6. The file hangs on the releases that are out")
+print("\n6. The program hangs on the releases that are out")
 # Whoever has no copy yet gets one from the release page, and the
-# program's own update reads that page too. A release without the file
-# offers a source archive instead, and nothing in the working tree can
-# see that -- so this section asks github.com.
+# program's own update reads that page too. A release without it
+# offers a source archive of the whole repository instead, and nothing
+# in the working tree can see that -- so this section asks github.com.
 #
-# The file was renamed when the hyphen went out of it, and a release
-# keeps the name it went out under: the ones already published carry
-# the old name for ever, the ones to come the new one. So either name
-# is the file, and both stand in the failure line -- held to one, this
-# would be red on everything behind the rename or on the first release
-# after it, and neither would be a fault.
-ASSETS = ("videopodcast_magic.py", "videopodcast-magic.py")
+# A release keeps the shape it went out in, and there have been three.
+# The file was renamed when the hyphen went out of it, so the older
+# releases carry the old name for ever and the ones behind the rename
+# the new one. And on 4.9.2026 the texts moved into files of their own
+# beside the program: one of them alone dies on import, so from then on
+# an archive of all of them goes up in place of the one file. All three
+# names stand in the failure line -- held to one, this would be red on
+# everything behind a change and never on the change itself.
+ARCHIVE = "videopodcast_magic.zip"
+ASSETS = (ARCHIVE, "videopodcast_magic.py", "videopodcast-magic.py")
 ASSET_SAID = " or ".join(ASSETS)
 left_out = []
 
@@ -455,45 +459,78 @@ else:
             without.append("%s carries %s"
                            % (one.get("tag_name"), ", ".join(names)
                               or "nothing but the source archive"))
-    check("every release carries the file",
+    check("every release carries the program",
           not without,
           "%d of %d carry %s; %s" % (len(want) - len(without), len(want),
                                      ASSET_SAID, "; ".join(without[:3])
                                      or "none is missing it"))
 
     # A wrong or half-written attachment is short, and the size comes
-    # with the list, so nothing has to be fetched to see it. The file
-    # only ever grows, so half of the one in the working tree is under
-    # every release that was ever made.
+    # with the list, so nothing has to be fetched to see it.
+    #
+    # Two floors, because the two shapes are not the same size. The
+    # file only ever grew, so half of the one in the working tree is
+    # under every release that was ever made. The archive holds the
+    # same program compressed: measured 4.9.2026, 1 950 864 bytes of
+    # source came to 588 141, about a third of what the program alone
+    # weighs -- so a sixth of that is half again of the smallest it has
+    # been, and far above anything half-written.
     floor = os.path.getsize(SCRIPT) // 2
+    floor_zip = os.path.getsize(SCRIPT) // 6
     stubs = ["%s: %s at %d bytes" % (one.get("tag_name"), a.get("name"),
                                      a.get("size") or 0)
              for one in want for a in one.get("assets", [])
-             if a.get("name") in ASSETS and (a.get("size") or 0) < floor]
+             if a.get("name") in ASSETS
+             and (a.get("size") or 0) < (floor_zip
+                                         if a.get("name") == ARCHIVE
+                                         else floor)]
     check("none of them is a stub", not stubs,
-          "under %d bytes: %s" % (floor, "; ".join(stubs[:3])
-                                  or "none of them"))
+          "under %d bytes, an archive under %d: %s"
+          % (floor, floor_zip, "; ".join(stubs[:3]) or "none of them"))
 
     newest = want[0] if want else {}
-    address = [a.get("browser_download_url")
+    address = [(a.get("name"), a.get("browser_download_url"))
                for a in newest.get("assets", [])
                if a.get("name") in ASSETS]
     # The version stands near the top, so the first pages of the file
     # answer for the file's version without fetching a megabyte and a
     # half. The window follows the line as the program grows.
+    #
+    # An archive is not readable that way: what is in it is compressed,
+    # and reading it back wants the whole of it to seek in. So that one
+    # is fetched entire -- 588 141 bytes when it was measured -- and
+    # opening it is at the same time the answer to whether it is an
+    # archive at all.
     window = max(32768, source.find('VERSION = "') + 8192)
-    head = from_github(address[0], window) if address else None
-    if head is not None:
-        text = head.decode("utf-8", "replace")
+    got = None
+    if address:
+        name, url = address[0]
+        got = from_github(url, 0 if name == ARCHIVE else window)
+    if got is not None:
+        if name == ARCHIVE:
+            try:
+                box = zipfile.ZipFile(io.BytesIO(got))
+                parts = [n for n in box.namelist() if not n.endswith("/")]
+                text = "\n".join(box.read(n).decode("utf-8", "replace")
+                                 for n in parts)
+            except (zipfile.BadZipFile, OSError, RuntimeError, ValueError):
+                parts, text = [], ""
+            # Only the program itself carries such a line, and none of
+            # the text files beside it does -- counted 4.9.2026, none
+            # of the nine.
+            looks = bool(parts) and 'VERSION = "' in text
+            shown = "%d bytes, %d files in it" % (len(got), len(parts))
+        else:
+            text = got.decode("utf-8", "replace")
+            looks = text.startswith("#!") and 'VERSION = "' in text
+            shown = "%d bytes, %r" % (len(got), text[:20])
         said = re.search(r'^VERSION = "([^"]+)"', text, re.M)
         tag = newest.get("tag_name") or ""
-        check("what hangs on %s is the program" % tag,
-              text.startswith("#!") and bool(said),
-              "%d bytes, %r" % (len(head), text[:20]))
+        check("what hangs on %s is the program" % tag, looks, shown)
         check("and it carries the version of its tag",
               bool(said) and "v" + said.group(1) == tag,
-              "the file says %s, the tag says %s"
-              % (said.group(1) if said else "nothing", tag))
+              "%s says %s, the tag says %s"
+              % (name, said.group(1) if said else "nothing", tag))
 
 print("""
 Before the tag -- five things, and the tag comes last:

@@ -418,14 +418,15 @@ jobs:
               latest = {}
           names = [a["name"] for a in r.get("assets", [])]
           one = [a for a in r.get("assets", [])
-                 if a["name"] == "videopodcast_magic.py"]
+                 if a["name"] == "videopodcast_magic.zip"]
           for name, value in (
                   ("draft", 1 if r.get("draft") else 0),
                   ("pre", 1 if r.get("prerelease") else 0),
                   ("body", len(r.get("body") or "")),
                   ("latest", latest.get("tag_name") or ""),
                   ("assets", ",".join(names)),
-                  ("file", one[0]["browser_download_url"] if one else "")):
+                  ("archive",
+                   one[0]["browser_download_url"] if one else "")):
               print("%s=%s" % (name, shlex.quote(str(value))))
           PY
           . /tmp/said.txt
@@ -524,33 +525,98 @@ jobs:
           [ "$rc" = "0" ] || fails=$((fails + 1))
 
           echo
-          echo "3. The one file hangs on the release"
-          # github_moeglichkeiten.md, 24.8.2026: the release page offers
-          # Source code (zip), 63 735 119 bytes, and the file the README
-          # tells people to download, 1 308 045 bytes, is not on it.
+          echo "3. The whole program hangs on the release"
+          # github_moeglichkeiten.md, 24.8.2026: on its own the release
+          # page offers Source code (zip) and nothing else -- 63 735 119
+          # bytes, because the whole repository is in it. What goes up
+          # beside it is the program and nothing else: ten files and
+          # 588 141 bytes, measured 4.9.2026.
+          #
+          # An archive rather than a file since that day: the texts
+          # moved into files of their own beside the program, and the
+          # program alone dies on import with FileNotFoundError. So
+          # either all of it goes up or none of it does.
           case ",$assets," in
-            *,videopodcast_magic.py,*) ok=1 ;;
+            *,videopodcast_magic.zip,*) ok=1 ;;
             *) ok=0 ;;
           esac
-          check "videopodcast_magic.py hangs on the release" "$ok" \
+          check "videopodcast_magic.zip hangs on the release" "$ok" \
             "it carries: ${assets:-nothing}"
+          rm -rf /tmp/asset /tmp/asset.zip
+          : > /tmp/found.txt
           if [ "$ok" = "1" ]; then
-            curl -fsSL -o /tmp/asset.py "$file"
-            cmp -s /tmp/asset.py videopodcast_magic.py && ok=1 || ok=0
-            check "and it is the file at this tag" "$ok" \
-              "$(wc -c < /tmp/asset.py | tr -d ' ') bytes"
+            mkdir -p /tmp/asset
+            curl -fsSL -o /tmp/asset.zip "$archive" || true
+            set +e
+            python - /tmp/asset.zip /tmp/asset > /tmp/found.txt <<'PY'
+          import sys, zipfile
+          box = zipfile.ZipFile(sys.argv[1])
+          box.extractall(sys.argv[2])
+          for name in box.namelist():
+              if not name.endswith("/"):
+                  print(name)
+          PY
+            rc=$?
+            set -e
+            size=$(wc -c < /tmp/asset.zip 2>/dev/null | tr -d ' ')
+            [ "$rc" = "0" ] && ok=1 || ok=0
+            check "it opens" "$ok" "returned $rc, ${size:-0} bytes"
           else
-            check "and it is the file at this tag" 0 \
-              "no file to hold against it"
+            check "it opens" 0 "no archive to open"
           fi
+
+          # Both directions at once, so a file left out and a file that
+          # does not belong come out as the same line. The listing is
+          # taken the way the archive is built -- everything whose name
+          # begins with videopodcast_magic, files only -- so a language
+          # added tomorrow is asked about without this being touched,
+          # and the day the program becomes a folder of that name the
+          # listing follows it by itself.
+          #
+          # One sorter for both sides, and LC_ALL=C so that it is the
+          # order of the bytes. Measured 4.9.2026: a Mac's sort puts
+          # videopodcast_magic.py last and Python's sorted() puts it
+          # first, because the collation of a locale steps over the
+          # punctuation -- so two sorters make a difference out of
+          # nothing and turn a good release red.
+          find videopodcast_magic* -type f 2>/dev/null \
+            | LC_ALL=C sort > /tmp/here.txt
+          LC_ALL=C sort /tmp/found.txt > /tmp/inside.txt
+          diff /tmp/here.txt /tmp/inside.txt > /tmp/differ.txt \
+            && ok=1 || ok=0
+          tagged=$(wc -l < /tmp/here.txt | tr -d ' ')
+          inside=$(wc -l < /tmp/inside.txt | tr -d ' ')
+          differ=$(tr '\n' ' ' < /tmp/differ.txt)
+          check "it holds every file the program is, and no other" "$ok" \
+            "$tagged at this tag, $inside in it; $differ"
+
+          # Byte for byte, every one of them. The checkout is the tag,
+          # so this is the whole question of whether what somebody
+          # downloads is the state that was tested.
+          bad=""
+          while read -r name; do
+            [ -n "$name" ] || continue
+            cmp -s "/tmp/asset/$name" "$name" || bad="$bad $name"
+          done < /tmp/inside.txt
+          [ -s /tmp/inside.txt ] && [ -z "$bad" ] && ok=1 || ok=0
+          check "and every file in it is the file at this tag" "$ok" \
+            "${bad:-$inside of them}"
 
           echo
           echo "4. And a sum somebody who is not us can check it by"
-          # The check above is our answer to ourselves: it holds what
-          # came down against the file in this checkout. Whoever
+          # The checks above are our answer to ourselves: they hold what
+          # came down against the files in this checkout. Whoever
           # downloads has neither, so a manifest goes up beside the
-          # file -- the same name and the same shape the model already
-          # carries, so one reader serves both.
+          # archive -- the same name and the same shape the model
+          # already carries, so one reader serves both.
+          #
+          # Over the archive, not over the files inside it. An archive
+          # cannot be built twice into the same bytes -- it carries the
+          # times and the order the files went in -- so a sum over the
+          # files would be one nobody could repeat against what is in
+          # their hand, while the archive's own sum is exactly that.
+          # Whether the files inside are the tagged ones is the check
+          # above, and it needs no sum to say so.
           case ",$assets," in
             *,SHA256SUMS.txt,*) ok=1 ;;
             *) ok=0 ;;
@@ -562,24 +628,27 @@ jobs:
               for a in json.load(open('/tmp/release.json'))['assets'] \
               if a['name'] == 'SHA256SUMS.txt'][0])")
             curl -fsSL -o /tmp/sums-release.txt "$sums"
-            want=$(awk 'length($1) == 64 && $NF == "videopodcast_magic.py" \
+            want=$(awk 'length($1) == 64 && $NF == "videopodcast_magic.zip" \
                         {print $1}' /tmp/sums-release.txt | head -1)
             # What it does name, not how many lines long it is: whoever
             # reads this on a red run has the manifest nowhere else,
-            # and a manifest that still says videopodcast-magic.py is
-            # the way this goes wrong.
+            # and a manifest still naming the one file the program used
+            # to be is the way this goes wrong.
             held=$(awk 'length($1) == 64 {print $NF}' \
                    /tmp/sums-release.txt | tr '\n' ' ')
             [ -n "$want" ] && ok=1 || ok=0
-            check "it names videopodcast_magic.py" "$ok" \
+            check "it names videopodcast_magic.zip" "$ok" \
               "it names: ${held:-nothing}"
-            got=$(shasum -a 256 videopodcast_magic.py | awk '{print $1}')
-            [ "$want" = "$got" ] && ok=1 || ok=0
-            check "and the sum is the sum of the file at this tag" "$ok" \
+            got=""
+            [ -f /tmp/asset.zip ] \
+              && got=$(shasum -a 256 /tmp/asset.zip | awk '{print $1}')
+            [ -n "$want" ] && [ "$want" = "$got" ] && ok=1 || ok=0
+            check "and the sum is the sum of the archive on the release" \
+              "$ok" \
               "${want:0:16}... says the manifest, ${got:0:16}... is it"
           else
-            check "it names videopodcast_magic.py" 0 "no manifest"
-            check "and the sum is the sum of the file at this tag" 0 \
+            check "it names videopodcast_magic.zip" 0 "no manifest"
+            check "and the sum is the sum of the archive on the release" 0 \
               "no manifest"
           fi
 
@@ -776,11 +845,15 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      # No checkout and no packages: what is asked here is what somebody
-      # gets who has nothing but this one file, which is what an update
-      # leaves behind. --version and --help are the two ways in that
-      # the program itself promises to answer without numpy.
-      - name: "Start: fetch as an update does, then run it"
+      # No checkout and no packages: what is asked here is that the files
+      # standing at the tag start when they stand beside each other,
+      # which is what pip hands somebody. It used to fetch one file,
+      # because the program was one; since the texts moved into files of
+      # their own a lone program dies on import, so the list is asked for
+      # rather than written down -- a language added tomorrow travels by
+      # itself. --version and --help are the two ways in that the program
+      # promises to answer without numpy.
+      - name: "Start: fetch what stands at the tag, then run it"
         shell: bash
         run: |
           fails=0
@@ -793,17 +866,34 @@ jobs:
             fi
           }
 
-          url="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
-          url="$url/$TAG/videopodcast_magic.py"
-          echo "$url"
-          ok=0
+          api="https://api.github.com/repos/$GITHUB_REPOSITORY/contents"
+          raw="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$TAG"
+          echo "$api?ref=$TAG"
+          names=""
           for try in 1 2 3 4 5; do
-            curl -fsSL --retry 2 -o vpm.py "$url" && { ok=1; break; }
+            names=$(curl -fsSL --retry 2 "$api?ref=$TAG" \
+                    | jq -r '.[].name | select(test("^videopodcast_magic.*[.]py$"))')
+            [ -n "$names" ] && break
             echo "  ... no answer yet (try $try of 5)"
             sleep 10
           done
-          check "it came down" "$ok" "$url"
+          n=$(printf '%s\n' "$names" | grep -c . || true)
+          [ -n "$names" ] && ok=1 || ok=0
+          check "the tag says which files the program is" "$ok" "$n files"
           [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
+
+          mkdir -p got
+          ok=1
+          for name in $names; do
+            curl -fsSL --retry 3 -o "got/$name" "$raw/$name" \
+              || { echo "  ... $name did not come down"; ok=0; }
+          done
+          check "they all came down" "$ok" "$n of $n"
+          [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
+          # The program finds its texts beside itself, whatever it is
+          # called -- so renaming it proves the neighbours are what carry
+          # it, not the name.
+          mv got/videopodcast_magic.py vpm.py && mv got/*.py . || true
 
           echo
           set +e
