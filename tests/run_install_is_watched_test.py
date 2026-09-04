@@ -21,11 +21,20 @@ window to show it in.
 No package manager is ever really called. The command is replaced by a
 harmless one that prints, waits and prints again -- so what is
 measured is the plumbing, not the weather on a mirror. Windows has no
-manager to watch and leaves the two sections about one out.
+manager to watch and leaves the three sections about one out.
+
+From the fifth section on, VPM_SILENT has to come off, or the manager
+is never reached at all -- and that takes the guard off the fetch
+beside it. So while it is off, the road out is shut at the socket,
+where every road out ends, and the last check of the failed job says
+how many addresses were opened all the same. The failed job itself is
+driven onto Linux: only there does the program have a second door.
 """
 import io
 import os
 import re
+import shutil
+import socket
 import subprocess
 import sys
 import tempfile
@@ -63,6 +72,70 @@ SLOW = [sys.executable, "-c",
         "time.sleep(0.6);print('last')"]
 NEVER = [os.path.join(os.path.dirname(os.path.abspath(__file__)),
                       "no such command at all")]
+
+# Somewhere for a fetched build to land that is not the home folder of
+# whoever ran the suite. Without VPM_SILENT the program is given a real
+# one, and on the builder that is a hundred and fifty megabytes left
+# behind by a test.
+ROOM = tempfile.mkdtemp(prefix="vpm_toolsroom_")
+outward = []
+
+
+def no_fetch(url, where, say=None):
+    """The one place in the program that opens a connection, replaced.
+
+    Its own docstring asks for this: a test replaces this function and
+    then measures what the program does with the answer, instead of
+    measuring the weather on a mirror.
+    """
+    return "the test fetched nothing"
+
+
+def shut(address):
+    """No address is reached from here, and the attempt is written down.
+
+    The two callers hand their arguments over differently -- connect
+    arrives as a method with its socket first, create_connection with
+    the address first and a timeout behind it -- so each has a line of
+    its own below and only the address arrives here.
+    """
+    outward.append(address)
+    raise OSError("this test opens no connection")
+
+
+class Unguarded(object):
+    """VPM_SILENT off, and every road out shut in its place.
+
+    The two belong together. VPM_SILENT is the one switch over two
+    different things -- no package manager, and no network -- so a
+    section that has to reach the manager takes the guard off the
+    fetch as well. On 4.9.2026 that fetched a real ffmpeg on the Linux
+    builder and turned the last section green in the wrong direction.
+
+    Shut at the socket rather than at a list of the program's own
+    functions: a list is one rebuild away from being the wrong list,
+    and it goes wrong silently. What is left over is the second shape
+    of going outside, an address handed to the desktop's own browser,
+    and the program has one named door for that too.
+    """
+
+    def __enter__(self):
+        self.was = (os.environ.pop("VPM_SILENT", None),
+                    socket.socket.connect, socket.create_connection,
+                    vpm.fetch_archive, vpm.tools_folder, vpm.open_page)
+        socket.socket.connect = lambda one, address, *rest: shut(address)
+        socket.create_connection = lambda address, *rest, **more: \
+            shut(address)
+        vpm.fetch_archive = no_fetch
+        vpm.tools_folder = lambda make=False: ROOM
+        vpm.open_page = lambda url: outward.append(url) or False
+        return self
+
+    def __exit__(self, *trouble):
+        (was_silent, socket.socket.connect, socket.create_connection,
+         vpm.fetch_archive, vpm.tools_folder, vpm.open_page) = self.was
+        if was_silent is not None:
+            os.environ["VPM_SILENT"] = was_silent
 
 
 def waited(ready, sign, bound=90.0, still=20.0):
@@ -161,18 +234,17 @@ if sys.platform == "win32":
     # instead, and there is nothing to watch. The two sections below
     # would measure nothing there.
     left_out.append("no package manager on Windows")
-    print("LEFT OUT: sections 5 and 6 -- Windows installs from a page, "
+    print("LEFT OUT: sections 5 to 7 -- Windows installs from a page, "
           "there is no manager to watch")
 else:
-    was_silent = os.environ.pop("VPM_SILENT", None)
-    vpm.package_manager_command = lambda update=False: tuple(SLOW)
     heard = []
-    try:
-        ran = vpm.install_over_package_manager(asked=True, say=heard.append)
-    finally:
-        vpm.package_manager_command = was_command
-        if was_silent is not None:
-            os.environ["VPM_SILENT"] = was_silent
+    with Unguarded():
+        vpm.package_manager_command = lambda update=False: tuple(SLOW)
+        try:
+            ran = vpm.install_over_package_manager(asked=True,
+                                                   say=heard.append)
+        finally:
+            vpm.package_manager_command = was_command
     check("the install reports that it worked", ran is True,
           "answer %r, %d lines" % (ran, len(heard)))
     check("the program's own line went to the sink",
@@ -188,22 +260,20 @@ else:
           % (len([x for x in heard if x.endswith("\n")]), len(heard)))
 
     print("\n6. The whole job, with its lines going where somebody sees")
-    was_silent = os.environ.pop("VPM_SILENT", None)
-    vpm.package_manager_command = lambda update=False: tuple(SLOW)
     shown = []
     log_here = os.path.join(tempfile.mkdtemp(prefix="vpm_watched_"),
                             "videopodcast-magic.log")
     was_log = vpm.log_path
-    vpm.log_path = lambda: log_here
-    del vpm._LOG_ASIDE[:]
-    try:
-        trouble = vpm.install_job(False, shown.append)
-    finally:
-        vpm.package_manager_command = was_command
-        vpm.log_path = was_log
+    with Unguarded():
+        vpm.package_manager_command = lambda update=False: tuple(SLOW)
+        vpm.log_path = lambda: log_here
         del vpm._LOG_ASIDE[:]
-        if was_silent is not None:
-            os.environ["VPM_SILENT"] = was_silent
+        try:
+            trouble = vpm.install_job(False, shown.append)
+        finally:
+            vpm.package_manager_command = was_command
+            vpm.log_path = was_log
+            del vpm._LOG_ASIDE[:]
     whole = "".join(shown)
     check("a job that worked reports no trouble", trouble == "",
           "trouble %r, %d lines" % (trouble, len(shown)))
@@ -238,16 +308,23 @@ else:
           "%d characters in %s" % (len(kept), os.path.basename(log_here)))
 
     print("\n7. A job that failed hands back what to do about it")
-    was_silent = os.environ.pop("VPM_SILENT", None)
-    vpm.package_manager_command = lambda update=False: (
-        sys.executable, "-c", "raise SystemExit(3)")
+    # Driven onto Linux, and that is the point of the section rather
+    # than a detail of it: there the manager is the first of two doors
+    # and a built ffmpeg is the second, so an install has only failed
+    # when both have. A Mac has no second door, and the section would
+    # measure the easier half of the case and pass it off as the whole.
     failed = []
-    try:
-        trouble = vpm.install_job(False, failed.append)
-    finally:
-        vpm.package_manager_command = was_command
-        if was_silent is not None:
-            os.environ["VPM_SILENT"] = was_silent
+    was_where = (vpm.sys.platform, vpm.platform.machine)
+    with Unguarded():
+        vpm.package_manager_command = lambda update=False: (
+            sys.executable, "-c", "raise SystemExit(3)")
+        vpm.sys.platform = "linux"
+        vpm.platform.machine = lambda: "x86_64"
+        try:
+            trouble = vpm.install_job(False, failed.append)
+        finally:
+            vpm.package_manager_command = was_command
+            vpm.sys.platform, vpm.platform.machine = was_where
     check("an install that failed comes back with a sentence, not silence",
           trouble.startswith(vpm.T(
               'Nothing runs until that is put right. This way: %s')
@@ -257,6 +334,15 @@ else:
           vpm.T('Start the program again to pick it up.')
           not in "".join(failed),
           "%d lines, %r" % (len(failed), "".join(failed)[-60:]))
+    # The three sections above are the only ones without VPM_SILENT,
+    # and this is what says so afterwards. It is counted at the socket
+    # and not at a list of functions, so a road that grows a second
+    # door tomorrow lands here loudly instead of downloading.
+    check("no section of this test opens a connection to the network",
+          not outward,
+          "%d addresses opened, wanted 0: %s -- the package manager is "
+          "not the only door out of install_ffmpeg"
+          % (len(outward), outward[:2]))
 
 print("\n8. The button in the box leads to the watched install")
 # The box is answered here rather than by a person: exec returns at
@@ -319,6 +405,8 @@ check("with no window to show it in the old way is still taken",
       len(plain) == 1 and quit_asked == [True],
       "%d installs run the old way, %d requests to quit"
       % (len(plain), len(quit_asked)))
+
+shutil.rmtree(ROOM, ignore_errors=True)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if left_out:
