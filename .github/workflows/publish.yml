@@ -4,7 +4,15 @@ name: publish
 # of runs reads as a heap of unrelated sentences. A run of this one is
 # one thing -- a release, off one branch, under one title -- and it says
 # so, with the number the list is ordered by.
-run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}: ${{ inputs.title }}"
+#
+# "separation on" is not decoration and it is not a variable. Since
+# 4.9.2026 an ordinary push runs the suite without the speaker
+# separation, and the six jobs of a release run look the same in the
+# list as the six of a push. The suite this file calls appears under no
+# run of its own, so this line is the only place a reader ever sees
+# which of the two a release had -- and it is always the whole one,
+# which is why it can be written out flat.
+run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}, separation on: ${{ inputs.title }}"
 
 # Making the release, once everything a release stands on is true.
 #
@@ -132,6 +140,18 @@ jobs:
     name: "Suite"
     needs: ready
     uses: ./.github/workflows/tests.yml
+    # On, and this is the one place it is ever turned on by itself. A
+    # push runs the everyday suite; a release answers for the whole
+    # program, and cutting by who is speaking is what the program is
+    # for -- so the one test that really runs the separation runs here.
+    # It costs about two minutes of installing on each of the six jobs.
+    #
+    # tests.yml defaults it to false, and this says true rather than
+    # leaning on that default from the other side: whoever reads this
+    # file must be able to see what a release tests without opening
+    # the other one.
+    with:
+      speaker_split: true
 
   publish:
     name: "Publish: the evidence, then the tag"
