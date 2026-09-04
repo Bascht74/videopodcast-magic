@@ -16,7 +16,12 @@ the log, and ends by saying what has to happen next; that a job which
 failed hands back a sentence instead of that promise; and that the
 button in the ffmpeg box leads there rather than to a hidden run, ends
 nothing while it goes, and falls back to the old way where there is no
-window to show it in.
+window to show it in. Then the long silence in the middle of a build:
+that the line a manager goes quiet under is told from the ones it
+races past, that the sentence explaining the wait hangs on that line
+and is said once, and that a dot keeps coming while nothing else does.
+Last, that what has to happen afterwards is offered in a box rather
+than laid down as the last of two hundred lines.
 
 No package manager is ever really called. The command is replaced by a
 harmless one that prints, waits and prints again -- so what is
@@ -406,11 +411,155 @@ check("with no window to show it in the old way is still taken",
       "%d installs run the old way, %d requests to quit"
       % (len(plain), len(quit_asked)))
 
+print("\n9. The line a package manager goes quiet under is known")
+check("a build command is what a manager says before it goes quiet",
+      vpm.build_begins("==> ./configure --enable-shared --cc=clang"),
+      "read %r as the start of a build: %r"
+      % ("==> ./configure",
+         vpm.build_begins("==> ./configure --enable-shared --cc=clang")))
+check("fetching is not taken for the start of a build",
+      not vpm.build_begins("==> Fetching downloads for: ffmpeg"),
+      "read %r as a build: %r"
+      % ("==> Fetching downloads for: ffmpeg",
+         vpm.build_begins("==> Fetching downloads for: ffmpeg")))
+check("nor is a bottle that is poured in seconds",
+      not vpm.build_begins("==> Pouring ffmpeg--9.0.1.bottle.tar.gz"),
+      "read %r as a build: %r"
+      % ("==> Pouring ffmpeg--9.0.1.bottle.tar.gz",
+         vpm.build_begins("==> Pouring ffmpeg--9.0.1.bottle.tar.gz")))
+
+print("\n10. A build that says nothing still moves, and says why")
+# A stand-in for a manager that compiles: it names what it is about to
+# build and then goes quiet, which is what brew does -- the build's own
+# output goes into a log file and nothing is printed until it is over.
+BUILDING = [sys.executable, "-c",
+            "import sys, time;"
+            "print('==> Fetching downloads for: ffmpeg');"
+            "print('==> ./configure --enable-shared');sys.stdout.flush();"
+            "time.sleep(1.2);print('==> make install')"]
+saw = []
+PATIENCE = vpm.T('Now it is being compiled, and that is the long part: '
+                 'minutes on a fast machine and a good deal longer on an '
+                 'older one. Nothing is stuck -- a dot appears every few '
+                 'seconds for as long as it works.')
+
+
+def heard(text):
+    """The window's line sink, the way install_job builds it."""
+    saw.append(text if text.endswith("\n") else text + "\n")
+
+
+eye, halt = vpm.sign_of_life(heard, saw.append, every=0.25)
+vpm.run_watched(BUILDING, None, eye)
+halt()
+stream = "".join(saw)
+at_build = stream.find("==> ./configure")
+at_note = stream.find(PATIENCE)
+check("the patience sentence stands under the build line, not above it",
+      at_build >= 0 and at_note > at_build,
+      "build line at %d, sentence at %d" % (at_build, at_note))
+check("it is said once, however many build steps follow",
+      stream.count(PATIENCE) == 1 and stream.count("==> ") == 3,
+      "%d sentences for %d lines beginning ==> "
+      % (stream.count(PATIENCE), stream.count("==> ")))
+check("something moves while the manager says nothing",
+      saw.count(".") >= 2,
+      "%d dots in %.1f s of silence, wanted 2 or more"
+      % (saw.count("."), 1.2))
+last_dot = max([i for i, x in enumerate(saw) if x == "."] or [-1])
+check("the row of dots ends before the next line the manager says",
+      last_dot >= 0 and saw[last_dot + 1:last_dot + 2] == ["\n"],
+      "after the last dot at %d came %r"
+      % (last_dot, saw[last_dot + 1:last_dot + 2]))
+check("what the manager said arrives beside the dots",
+      "==> make install\n" in saw,
+      "%d pieces, the last of them %r" % (len(saw), saw[-2:]))
+
+print("\n11. The restart is offered in a box, not lost in the pane")
+# The box is answered here rather than by a person, and the program is
+# not really started again: what is measured is which button leads
+# where, and that the box comes up at all.
+was_exec = QtWidgets.QMessageBox.exec
+was_clicked = QtWidgets.QMessageBox.clickedButton
+was_warning = QtWidgets.QMessageBox.warning
+was_again = vpm.start_again
+was_job = vpm.install_job
+was_offer = vpm.restart_offer
+was_sink_two = vpm.UPDATE_SINK
+was_log = vpm.log_path
+boxes, warned, restarts, offers, jobs = [], [], [], [], []
+window = QtWidgets.QWidget()
+log_aside_here = os.path.join(tempfile.mkdtemp(prefix="vpm_restart_"),
+                              "videopodcast-magic.log")
+try:
+    QtWidgets.QMessageBox.exec = lambda self: boxes.append(self.text()) or 0
+    QtWidgets.QMessageBox.warning = \
+        lambda parent, title, text: warned.append(text)
+    vpm.start_again = lambda: restarts.append(True)
+    vpm.log_path = lambda: log_aside_here
+    del vpm._LOG_ASIDE[:]
+    with Unguarded():
+        QtWidgets.QMessageBox.clickedButton = lambda self: self.buttons()[0]
+        took = vpm.restart_offer(window)
+        QtWidgets.QMessageBox.clickedButton = lambda self: self.buttons()[1]
+        later = vpm.restart_offer(window)
+    silent = vpm.restart_offer(window)
+finally:
+    QtWidgets.QMessageBox.exec = was_exec
+    QtWidgets.QMessageBox.clickedButton = was_clicked
+    QtWidgets.QMessageBox.warning = was_warning
+    vpm.start_again = was_again
+    vpm.log_path = was_log
+    del vpm._LOG_ASIDE[:]
+check("a box is what says ffmpeg arrived",
+      boxes[:1] == [vpm.T('ffmpeg is in place.')],
+      "%d boxes, the first saying %r" % (len(boxes), boxes[:1]))
+check("the button in it starts the program again",
+      took is True and restarts == [True],
+      "answer %r, %d restarts asked for" % (took, len(restarts)))
+check("answering Later starts nothing",
+      later is False and len(restarts) == 1,
+      "answer %r, %d restarts asked for" % (later, len(restarts)))
+check("a restart that did not work says so in a box, not in a line",
+      len(warned) == 1 and vpm.T('Starting again did not work. Close '
+                                 'the window and start the program the '
+                                 'way you did before.') in warned,
+      "%d warnings, %r" % (len(warned), warned[:1]))
+check("a test run is offered no box",
+      silent is False and len(boxes) == 2,
+      "under VPM_SILENT %r the answer was %r and %d boxes stood"
+      % (os.environ.get("VPM_SILENT"), silent, len(boxes)))
+
+try:
+    vpm.restart_offer = lambda w: offers.append(True) or True
+    ticker = vpm.restart_when_done(window, ["the install went wrong"])
+    waited(lambda: not ticker.isActive(),
+           lambda: (ticker.isActive(), len(offers)), bound=20.0, still=5.0)
+    check("an install that ended badly offers no restart",
+          offers == [] and not ticker.isActive(),
+          "%d boxes offered, the timer still turning: %r"
+          % (len(offers), ticker.isActive()))
+    vpm.install_job = lambda update, say: ""
+    vpm.UPDATE_SINK = lambda job: jobs.append(job)
+    armed = vpm.install_watched(QtWidgets.QWidget(), None, False)
+    jobs[0](lambda text: None)
+    waited(lambda: bool(offers),
+           lambda: (len(jobs), len(offers)), bound=20.0, still=5.0)
+    check("the box comes up by itself once the install has ended",
+          armed is True and offers == [True],
+          "%d jobs handed to the sink, answer %r, %d boxes offered"
+          % (len(jobs), armed, len(offers)))
+finally:
+    vpm.restart_offer = was_offer
+    vpm.install_job = was_job
+    vpm.UPDATE_SINK = was_sink_two
+    shutil.rmtree(os.path.dirname(log_aside_here), ignore_errors=True)
+
 shutil.rmtree(ROOM, ignore_errors=True)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if left_out:
-    print("Good as far as it went -- 5 of 8 sections: %s"
+    print("Good as far as it went -- 8 of 11 sections: %s"
           % "; ".join(left_out))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)
