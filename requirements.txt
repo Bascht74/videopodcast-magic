@@ -17,3 +17,11 @@ certifi
 # Speech recognition. Large, and pulled in at once because the
 # program uses it as soon as a transcript is wanted.
 faster-whisper
+# The speaker separation. Cutting by who is speaking is what this
+# program is for, so it is not an extra -- and it is the largest thing
+# here by far: with torch and torchvision some 828 MB, measured
+# 4.9.2026. torchvision is named although pyannote pulls it in anyway,
+# because torchmetrics imports its image half eagerly and without it
+# "import pyannote.audio" dies at a name it never uses.
+pyannote.audio
+torchvision

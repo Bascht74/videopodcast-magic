@@ -2,8 +2,8 @@
 # -*- coding: utf-8 -*-
 """Put processed audio back into video files.
 
-    python3 videopodcast_magic.py            graphical interface
-    python3 videopodcast_magic.py --help     all switches
+    videopodcast-magic                       graphical interface
+    videopodcast-magic --help                all switches
 
 Design and rationale: see the manual under docs/ next to this file.
 """
@@ -35,13 +35,13 @@ import time
 # ---------------------------------------------------------------------------
 # Language
 # ---------------------------------------------------------------------------
-# Every message is written in English here. A translation lives in a
-# file beside this one, keyed by the English text, and T() looks it up.
-# A missing entry therefore shows English, not a gap.
+# Every message is written in English here. A translation lives in the
+# folder "language" beside this one, keyed by the English text; T() looks
+# it up, and a missing entry shows English rather than a gap.
 #
 # Adding a language takes three steps:
-#   1. Copy videopodcast_magic_texts_de.py, putting the new two-letter
-#      code in place of "de", and name that code at the end of this file.
+#   1. Copy language/de.py to the new two-letter code, and name that
+#      code at the end of this file.
 #   2. Translate the right-hand side of each entry. Entries left out stay
 #      English.
 #   3. Nothing else. --lang offers the new code and a system set to it
@@ -52,7 +52,7 @@ CATALOGUE = {}        # language -> {English text: translation}
 
 
 def texts_of_language(code):
-    """Return one language's texts, out of the file beside this one.
+    """Return one language's texts, out of the folder beside this one.
 
     An import by name finds that file in an installed copy, but not
     when the program is loaded from an absolute path -- which is how
@@ -61,9 +61,9 @@ def texts_of_language(code):
     that is running happens to be called.
     """
     import importlib.util
-    name = "videopodcast_magic_texts_" + code
+    name = "videopodcast_magic_language_" + code
     beside = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          name + ".py")
+                          "language", code + ".py")
     spec = importlib.util.spec_from_file_location(name, beside)
     texts = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(texts)
@@ -194,11 +194,11 @@ def channel_text(count):
 INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
 
 
-# The oldest build measured: 8.1.2 hands a camera's sample
-# description, colour box and data track through a copy unchanged.
-# Older ones may too -- nobody has tried, and a floor stands where the
-# measuring stopped rather than where the guessing does.
-FFMPEG_FLOOR = (8, 1, 2)
+# What this program answers for. It rose to 9.0.1 the day all six
+# builder jobs carried it and all three systems had a way of getting
+# it offered to them. soxr is no part of it: without soxr the clock
+# comes out a hundred times coarser, and coarser is not broken.
+FFMPEG_FLOOR = (9, 0, 1)
 
 
 def version_text(numbers):
@@ -280,6 +280,94 @@ def soxr_available():
     return _SOXR
 
 
+def forget_soxr():
+    """Measure soxr again the next time it is asked for.
+
+    An install puts another ffmpeg in place, and the answer kept from
+    before it is then a statement about the build that is gone. Every
+    place that installs one forgets this, so that what is reported
+    afterwards is what really arrived.
+    """
+    global _SOXR
+    _SOXR = None
+
+
+def tools_folder(make=False):
+    """Where a build this program fetched itself lives, or None.
+
+    Not the cache: that is the one folder everybody is told may be
+    deleted, and deleting it must not take ffmpeg with it. Not beside
+    the program either -- an installed copy sits in site-packages,
+    which pip owns and writes over. VPM_TOOLS points it somewhere
+    else; a test run has no place here at all.
+    """
+    base = os.environ.get("VPM_TOOLS") or ""
+    if not base:
+        if os.environ.get("VPM_SILENT"):
+            # A test run fetches nothing and keeps nothing, so it has
+            # no folder to keep it in either. The same rule the
+            # settings store is under, and for the same reason.
+            return None
+        if sys.platform == "darwin":
+            base = os.path.expanduser("~/Library/Application Support")
+        elif os.name == "nt":
+            # LOCALAPPDATA and not APPDATA: a fetched ffmpeg is
+            # bigger than a roaming profile has any business
+            # carrying from machine to machine.
+            base = (os.environ.get("LOCALAPPDATA")
+                    or os.path.expanduser("~"))
+        else:
+            base = (os.environ.get("XDG_DATA_HOME")
+                    or os.path.expanduser("~/.local/share"))
+    folder = os.path.join(base, "videopodcast-magic", "tools")
+    if not make:
+        return folder
+    try:
+        os.makedirs(folder, exist_ok=True)
+    except OSError:
+        return None
+    return folder
+
+
+def certificate_file():
+    """Return the bundle HTTPS connections are verified against.
+
+    A Python installed from python.org brings no certificates of its
+    own, and every download then fails with CERTIFICATE_VERIFY_FAILED.
+    certifi is the bundle; it is already on disc wherever pip has run
+    once, and it is installed if it is not.
+    """
+    import importlib
+    certifi = _really_there("certifi")
+    if certifi is None:
+        if not _pip_install("certifi"):
+            return None
+        importlib.invalidate_caches()
+        certifi = _really_there("certifi")
+        if certifi is None:
+            return None
+    try:
+        where = certifi.where()
+    except Exception:
+        return None
+    return where if os.path.exists(where) else None
+
+
+def https_context():
+    """An SSL context that can verify, not the default one.
+
+    The default context trusts whatever this Python was handed on
+    the way in, and this one was handed nothing.
+    """
+    import ssl
+    bundle = certificate_file()
+    if not bundle:
+        print(T('  No certificate bundle found -- an HTTPS download '
+                'may fail.'))
+        return ssl.create_default_context()
+    return ssl.create_default_context(cafile=bundle)
+
+
 def find_required_tools():
     """Locate ffmpeg and ffprobe, and check they are new enough.
 
@@ -291,6 +379,15 @@ def find_required_tools():
     window will show it is not yet known.
     """
     here = os.path.dirname(os.path.abspath(__file__))
+    # A build this program fetched goes in front of the search path,
+    # not behind it. Behind it, a distribution's ffmpeg 6.1.1 would
+    # keep answering and the fetched 9.0.1 would never be reached.
+    # Nothing lies in that folder that this program did not put there.
+    ours = tools_folder()
+    was = os.environ.get("PATH", "")
+    if ours and shutil.which("ffmpeg", path=ours) \
+            and ours not in was.split(os.pathsep):
+        os.environ["PATH"] = ours + os.pathsep + was
     missing = [tool for tool in ("ffmpeg", "ffprobe") if shutil.which(tool) is None]
     if missing and os.path.isdir(here):
         os.environ["PATH"] = here + os.pathsep + os.environ.get("PATH", "")
@@ -319,24 +416,19 @@ def tools_repaired(kind, says, asked=False):
     else, so it is not put a second time.
     """
     print(as_warn(says))
-    if install_over_package_manager(update=kind != "missing", asked=asked):
+    if install_ffmpeg(update=kind != "missing", asked=asked):
         # Asked again, not taken on trust: a package manager can report
         # success having just laid down an ffmpeg that is still too old
         # for this.
+        forget_soxr()
         kind, says = find_required_tools()
         if not kind:
             print(T('That worked.'))
+            print("  " + soxr_note())
             return True
         print(as_warn(says))
-    # The advice for the machine in hand, not for the other two. On
-    # macOS it is the command that was offered above, word for word, so
-    # the two cannot say different things.
-    how = {"darwin": " ".join(package_manager_command(kind != "missing"))
-           or "brew install %s" % BREW_FFMPEG,
-           "win32": T('from ffmpeg.org, and the folder into PATH')}.get(
-        sys.platform, T('over the package manager: apt install ffmpeg, '
-                        'dnf install ffmpeg'))
-    print(T('Nothing runs until that is put right. This way: %s') % how)
+    print(T('Nothing runs until that is put right. This way: %s')
+          % how_to_get_ffmpeg(kind != "missing"))
     return False
 
 
@@ -353,10 +445,43 @@ QUIET_MANAGER = {
 }
 
 
-# What this button mends is the version, and the main tap has 9.0.1
-# as a built bottle. The tap that carries soxr has no bottle at all,
-# so it would compile in the window's own thread.
-BREW_FFMPEG = ("ffmpeg",)
+# Measured 4.9.2026: homebrew/core builds ffmpeg without soxr in every
+# version there is, and only this tap has libsoxr, by name. It has no
+# bottle, so the button compiles: two to three minutes, and the price
+# of the fine clock correction where nothing can be fetched instead.
+BREW_FFMPEG = ("homebrew-ffmpeg/ffmpeg/ffmpeg", "--with-libsoxr")
+
+
+def brew_ffmpeg_from_elsewhere():
+    """True where a brew ffmpeg from another tap is standing in the way.
+
+    Measured 4.9.2026: with homebrew/core's ffmpeg installed, brew
+    refuses the tap outright and names uninstalling as the way. So it
+    is asked rather than guessed, out of the keg's own receipt -- a
+    file answers at once and brew takes seconds.
+    """
+    brew = shutil.which("brew")
+    if not brew:
+        return False
+    cellar = os.path.join(os.path.dirname(os.path.dirname(brew)),
+                          "Cellar", "ffmpeg")
+    try:
+        kegs = sorted(os.listdir(cellar))
+    except OSError:
+        return False
+    for keg in kegs:
+        try:
+            with open(os.path.join(cellar, keg, "INSTALL_RECEIPT.json"),
+                      "rb") as f:
+                came = json.loads(f.read().decode("utf-8"))
+        except (OSError, ValueError, UnicodeDecodeError):
+            # A keg whose receipt cannot be read is still a keg in the
+            # way, and brew will say so. Better to make room for
+            # nothing than to run a command that cannot work.
+            return True
+        if (came.get("source") or {}).get("tap") != "homebrew-ffmpeg/ffmpeg":
+            return True
+    return False
 
 
 def package_manager_command(update=False):
@@ -371,14 +496,18 @@ def package_manager_command(update=False):
     """
     if sys.platform == "darwin":
         if shutil.which("brew"):
-            # --yes is brew's own switch, and reinstall takes it too.
-            # NONINTERACTIVE alone no longer covers the confirmation
-            # newer versions ask before they install anything.
-            if update:
+            # --yes is brew's own, and NONINTERACTIVE no longer
+            # covers the confirmation. Building again is only that
+            # where the tap's own build is installed: anything else
+            # is taken out of the way, and then there is nothing left.
+            if update and not brew_ffmpeg_from_elsewhere():
                 return ("brew", "reinstall", "--yes") + BREW_FFMPEG
             return ("brew", "install", "--yes") + BREW_FFMPEG
         return ()
     if sys.platform == "win32":
+        # No manager here. What Windows gets instead is a built ffmpeg
+        # fetched by install_ffmpeg, which is the door both roads go
+        # through.
         return ()
     for tool, rest, lift in (
             ("apt-get", ("install", "-y", "ffmpeg"),
@@ -410,40 +539,88 @@ def manager_environment(command):
     return clean
 
 
-def install_over_package_manager(update=False, asked=False):
+def run_watched(command, env=None, say=None, started=None):
+    """Run a command and hand out what it says while it says it.
+
+    A package manager's own output is the only sign that anything is
+    happening, so stderr is folded into stdout and each line goes out
+    as it arrives -- newline and all, because the window's pane breaks
+    its blocks on those. *started* is handed the process, so whoever
+    asked can reach it. Returns the exit code, or None where the
+    command could not be started at all.
+    """
+    # Nothing is piped where nobody is listening, and that is not
+    # laziness: a pipe would also take sudo's password prompt, which
+    # carries no newline and would sit unseen in a buffer while the
+    # terminal waits for a password nobody has been asked for.
+    piped = ({"stdout": subprocess.PIPE, "stderr": subprocess.STDOUT,
+              "bufsize": 1, "universal_newlines": True,
+              "errors": "replace"} if say else {})
+    try:
+        child = subprocess.Popen(list(command), env=env, **piped)
+    except OSError as e:
+        (say or print)(T('  That did not work: %s') % e)
+        return None
+    if started:
+        started(child)
+    if say:
+        try:
+            for line in child.stdout:
+                say(line)
+            child.stdout.close()
+        except Exception as e:
+            # A pipe that breaks mid-command is worth a line: silence
+            # here reads as a command that said nothing. The handle is
+            # left to be collected -- closing it is what just failed.
+            say(T('  That did not work: %s') % e)
+    return child.wait()
+
+
+def install_over_package_manager(update=False, asked=False, say=None,
+                                 started=None):
     """Offer the package manager, and run it if that is wanted.
 
     True when ffmpeg was installed. Asked only where somebody can
     answer: a window started from the desktop has no console, and a
     question nobody sees would hang the start for good. *asked* says
-    the question has already been put in the window, so the console
-    does not put it again.
+    it was already put in the window. *say* takes every line, the
+    program's own and the manager's; without one they go to print,
+    which is where a command line shows its output.
     """
-    if sys.platform == "win32":
-        return open_ffmpeg_page()
+    tell = (lambda text: say(text + "\n")) if say else print
+    if os.environ.get("VPM_SILENT"):
+        # A test run installs nothing and asks nobody. Before the
+        # platforms, because the Windows branch asks a question too.
+        return False
     command = package_manager_command(update)
     if not command:
+        # Windows has no manager, and a Mac without brew has none
+        # either. install_ffmpeg goes on from here.
         return False
     printed = " ".join(command)
     if INSTALL_TOOLS or asked:
         # VPM_INSTALL_TOOLS: whoever set it has answered in advance.
         # For a test, a build machine, anything with nobody in front
         # of it -- and it still says what it is doing.
-        print(T('  Installing it: %s') % printed)
+        tell(T('  Installing it: %s') % printed)
     elif not sys.stdin.isatty():
-        print(T('  On this machine: %s') % printed)
+        tell(T('  On this machine: %s') % printed)
         return False
     else:
-        print(T('  This machine can install it properly: %s') % printed)
+        tell(T('  This machine can install it properly: %s') % printed)
         answer = input(T('  Run that now? [Y/n] ')).strip().lower()
         if answer and not answer.startswith(("y", "j")):
             return False
-    try:
-        p = subprocess.run(list(command), env=manager_environment(command))
-    except OSError as e:
-        print(T('  That did not work: %s') % e)
-        return False
-    return p.returncode == 0
+    if command[0] == "brew" and brew_ffmpeg_from_elsewhere():
+        # Room first, or brew refuses the tap outright. Said out loud,
+        # because for a moment afterwards this machine has no ffmpeg at
+        # all and somebody reading the pane should know why.
+        room = ("brew", "uninstall", "--ignore-dependencies", "ffmpeg")
+        tell(T('  Taking the ffmpeg that is there out of the way first: '
+               '%s') % " ".join(room))
+        run_watched(room, manager_environment(room), say, started)
+    return run_watched(command, manager_environment(command),
+                       say, started) == 0
 
 
 def open_page(url):
@@ -469,7 +646,7 @@ def open_page(url):
 
 
 def open_ffmpeg_page():
-    """Offer to open ffmpeg.org. Windows has no manager to ask.
+    """Offer to open ffmpeg.org. The last way out where nothing else works.
 
     Always False: a download in a browser is not finished when this
     returns, so the run cannot go on as though ffmpeg were there.
@@ -484,6 +661,215 @@ def open_ffmpeg_page():
         return False
     open_page("https://ffmpeg.org/download.html")
     return False
+
+
+# Where a built ffmpeg comes from for the two systems that compile
+# none. Measured 4.9.2026 by fetching both archives and reading the
+# configure line out of the binary: win64 and linux64 are both
+# n9.0.1-11-ge47273f4d9, both carry --enable-libsoxr, 121 and 161 MB.
+
+# "latest" is a moving tag on the 9.0 line, so what arrived is asked
+# afterwards rather than promised here, and no size goes into a text.
+# Every archive is named the same way: the line, the machine, the
+# licence, the line again, the kind of archive.
+FFMPEG_BUILD_PLACE = ("https://github.com/BtbN/FFmpeg-Builds/releases"
+                      "/download/latest/ffmpeg-n9.0-latest-%s-gpl-9.0.%s")
+
+
+def ffmpeg_build_url():
+    """Where the built ffmpeg for this machine is, or "".
+
+    macOS gets none on purpose. There is no native arm64 build to
+    fetch, and this program does not run under Rosetta -- so a Mac
+    compiles its own out of the tap, which is what BREW_FFMPEG is for.
+    A 32-bit machine gets none either: there is no build for one, and
+    a name that answers nothing is worse than no name.
+    """
+    arch = platform.machine().lower()
+    arm = arch.startswith("arm") or arch == "aarch64"
+    if "64" not in arch:
+        return ""
+    if sys.platform.startswith("linux"):
+        return FFMPEG_BUILD_PLACE % ("linuxarm64" if arm else "linux64",
+                                     "tar.xz")
+    if sys.platform == "win32":
+        return FFMPEG_BUILD_PLACE % ("winarm64" if arm else "win64", "zip")
+    return ""
+
+
+def fetch_archive(url, where, say=None):
+    """Fetch that address into that file. "" when it arrived.
+
+    The one place in this road that opens a connection, so a test
+    replaces this one function and then measures what the program does
+    with the answer instead of the weather.
+    """
+    import urllib.request
+    said = 0
+    try:
+        with urllib.request.urlopen(url, context=https_context(),
+                                    timeout=120) as answer:
+            whole = int(answer.headers.get("Content-Length") or 0)
+            with open(where, "wb") as out:
+                while True:
+                    block = answer.read(1 << 20)
+                    if not block:
+                        break
+                    out.write(block)
+                    # Every ten of them, not every block: the pane
+                    # breaks its blocks on newlines, and a line per
+                    # block would be a hundred and fifty of them.
+                    if say and out.tell() - said >= 10 << 20:
+                        said = out.tell()
+                        say(T('  %d of %d MB')
+                            % (said >> 20, whole >> 20) + "\n")
+    except Exception as e:
+        return T('The build could not be fetched: %s') % e
+    return ""
+
+
+def unpack_tools(archive, folder):
+    """Take ffmpeg and ffprobe out of that archive into that folder.
+
+    Only those two, by their bare name, and only regular files: an
+    archive is a list of paths somebody else wrote, and nothing in it
+    decides where anything lands here. Returns how many arrived.
+    """
+    wanted = ("ffmpeg", "ffprobe", "ffmpeg.exe", "ffprobe.exe")
+    done = 0
+
+    def put(name, stream):
+        where = os.path.join(folder, os.path.basename(name))
+        with open(where, "wb") as out:
+            shutil.copyfileobj(stream, out)
+        os.chmod(where, 0o755)
+
+    if archive.endswith(".zip"):
+        import zipfile
+        with zipfile.ZipFile(archive) as zf:
+            for one in zf.infolist():
+                if not one.is_dir() \
+                        and os.path.basename(one.filename) in wanted:
+                    with zf.open(one) as stream:
+                        put(one.filename, stream)
+                    done += 1
+        return done
+    import tarfile
+    with tarfile.open(archive) as tf:
+        for one in tf:
+            if one.isfile() and os.path.basename(one.name) in wanted:
+                stream = tf.extractfile(one)
+                if stream is not None:
+                    put(one.name, stream)
+                    done += 1
+    return done
+
+
+def fetch_ffmpeg_build(asked=False, say=None):
+    """Fetch a built ffmpeg into this program's own folder. True if it came.
+
+    Windows and Linux go this way: Windows has no package manager to
+    ask, and what a distribution's manager holds is under the floor --
+    Ubuntu 24.04 carries 6.1.1. macOS never comes here; it builds its
+    own out of the tap.
+    """
+    tell = (lambda text: say(text + "\n")) if say else print
+    if os.environ.get("VPM_SILENT"):
+        # A test run fetches nothing. First line, before the address is
+        # so much as built: no test of this program goes to the network.
+        return False
+    url = ffmpeg_build_url()
+    folder = tools_folder(make=True)
+    if not url or not folder:
+        return open_ffmpeg_page() if sys.platform == "win32" else False
+    name = url.rsplit("/", 1)[-1]
+    if not (INSTALL_TOOLS or asked):
+        if not sys.stdin.isatty():
+            tell(T('  On this machine: %s') % url)
+            return False
+        tell(T('  A built ffmpeg 9.0.1 with soxr can be fetched: %s') % url)
+        answer = input(T('  Fetch it now? [Y/n] ')).strip().lower()
+        if answer and not answer.startswith(("y", "j")):
+            return False
+    tell(T('  Fetching a built ffmpeg. It is a big one, so this takes '
+           'a few minutes: %s') % url)
+    keep = tempfile.mkdtemp(prefix="vpm_ffmpeg_")
+    archive = os.path.join(keep, name)
+    try:
+        trouble = fetch_archive(url, archive, say)
+        if trouble:
+            tell("  " + trouble)
+            return open_ffmpeg_page() if sys.platform == "win32" else False
+        try:
+            came = unpack_tools(archive, folder)
+        except Exception as e:
+            tell(T('  The build could not be unpacked: %s') % e)
+            return False
+    finally:
+        shutil.rmtree(keep, ignore_errors=True)
+    if came < 2:
+        tell(T('  The archive held %d of the two programs.') % came)
+        return False
+    # In front of the search path, so the fetched one answers rather
+    # than whatever the system had. find_required_tools does the same
+    # on the next start; this makes it true within this run as well.
+    if folder not in os.environ.get("PATH", "").split(os.pathsep):
+        os.environ["PATH"] = folder + os.pathsep + os.environ.get("PATH", "")
+    forget_soxr()
+    tell(T('  It is here: %s') % folder)
+    return True
+
+
+def install_ffmpeg(update=False, asked=False, say=None, started=None):
+    """Get an ffmpeg, whichever way this machine has. True when it came.
+
+    The one door, and the order in it is the point. The package
+    manager first, because on some systems it is already right and it
+    is the tidier answer where it is. Then the tools are asked again --
+    a manager can report success having laid down 6.1.1 -- and only
+    where that is still not enough is a built one fetched.
+    """
+    if install_over_package_manager(update=update, asked=asked,
+                                   say=say, started=started):
+        forget_soxr()
+        if not find_required_tools()[0]:
+            return True
+    return fetch_ffmpeg_build(asked=asked, say=say)
+
+
+def how_to_get_ffmpeg(update=False):
+    """The advice for the machine in hand, in one sentence.
+
+    One place, three readers -- the console, the box on the window and
+    the job behind its button -- so none of the three can say something
+    the other two do not.
+    """
+    command = " ".join(package_manager_command(update))
+    if command:
+        return command
+    url = ffmpeg_build_url()
+    if url:
+        return url
+    if sys.platform == "darwin":
+        return T('install Homebrew from brew.sh, then this again')
+    if sys.platform == "win32":
+        return T('from ffmpeg.org, and the folder into PATH')
+    return T('over the package manager: apt install ffmpeg, '
+             'dnf install ffmpeg')
+
+
+def soxr_note():
+    """What this ffmpeg does to the clock drift, in one sentence.
+
+    Said, never demanded. Without soxr the drift between two cameras
+    comes out in steps of 21 ppm instead of 0.21 -- a hundred times
+    coarser, and coarser is not broken.
+    """
+    if soxr_available():
+        return T('This ffmpeg has soxr: the clock drift between cameras '
+                 'comes out in steps of 0.21 ppm.')
+    return T('This ffmpeg has no soxr: the clock drift between cameras '
+             'comes out in steps of 21 ppm instead of 0.21.')
 
 
 # The API key lives in the OS credential store -- macOS keychain, Windows
@@ -814,7 +1200,7 @@ def _require_module(module, package=None):
 NEEDS_PYTHON = (3, 10)
 LIKES_PYTHON = "3.14.7"
 if sys.version_info < NEEDS_PYTHON:
-    sys.exit("videopodcast_magic.py needs Python %d.%d or newer -- this is "
+    sys.exit("videopodcast-magic needs Python %d.%d or newer -- this is "
              "%d.%d. Recommended version: %s."
              % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
 
@@ -1766,16 +2152,83 @@ BAD_MARK = "[BAD]"
 _LOG_ASIDE = []
 
 
-def log_path():
-    """Return where the log goes: next to the script.
+def installed_by_a_package_manager():
+    """The folder a package manager owns this file in, or "".
 
-    There it is found without searching. If that is not writable -- the
-    script on a read-only volume, say -- the system cache folder is used.
+    Two things hang on it. An installed copy is not written over by
+    the self-update: something else keeps the record of which version
+    is there, and writing the file would leave that record wrong. And
+    an installed copy does not keep its log beside itself: that folder
+    belongs to pip, not to the person running the program.
     """
-    here = os.path.dirname(os.path.abspath(__file__))
-    if os.path.isdir(here) and os.access(here, os.W_OK):
-        return os.path.join(here, "videopodcast-magic.log")
-    folder = cache_folder()
+    import sysconfig
+    here = os.path.abspath(__file__)
+    import site
+    # site.USER_SITE, not getusersitepackages(): the call raises where
+    # the user folder is switched off, the name is always there, and it
+    # is None when there is no such folder.
+    owned = [sysconfig.get_paths().get(k) for k in ("purelib", "platlib")]
+    owned.append(site.USER_SITE)
+    for folder in owned:
+        if folder and here.startswith(os.path.abspath(folder) + os.sep):
+            return folder
+    return ""
+
+
+def log_folder():
+    """The folder a log belongs in on this system, or None.
+
+    Neither the cache nor the settings: the cache is the one folder
+    everybody is told they may delete, and a setting follows somebody
+    to the next machine while a log says what happened on this one.
+    Every platform keeps a third place for exactly that, named beside
+    each branch below. VPM_LOGS points the whole thing somewhere else.
+    """
+    base = os.environ.get("VPM_LOGS") or ""
+    if base:
+        folder = os.path.join(base, "videopodcast-magic")
+    elif os.environ.get("VPM_SILENT"):
+        # A test run has no business in the log folder of whoever
+        # started it, and the suite already points VPM_CACHE at a
+        # throwaway. A test with business here names its own VPM_LOGS.
+        return cache_folder("logs")
+    elif sys.platform == "darwin":
+        # What Console.app shows.
+        folder = os.path.expanduser("~/Library/Logs/videopodcast-magic")
+    elif os.name == "nt":
+        # LOCALAPPDATA and not APPDATA: a log must not travel with a
+        # roaming profile. Its own folder beside the cache, so that
+        # emptying the cache does not take it along.
+        folder = os.path.join(os.environ.get("LOCALAPPDATA")
+                              or os.path.expanduser("~"),
+                              "videopodcast-magic", "Logs")
+    else:
+        # XDG names this one for logs in so many words.
+        folder = os.path.join(os.environ.get("XDG_STATE_HOME")
+                              or os.path.expanduser("~/.local/state"),
+                              "videopodcast-magic")
+    try:
+        os.makedirs(folder, exist_ok=True)
+    except OSError:
+        return None
+    return folder
+
+
+def log_path():
+    """Where the log goes: beside the program, or in the user's place.
+
+    Beside the program it is found without searching, and that is
+    right for a copy somebody downloaded into a folder of their own.
+    For an installed copy "beside the program" is site-packages, which
+    pip owns: written over at the next install, sometimes read-only,
+    and no place for anybody's data. So an installed run writes where
+    this system keeps logs, and so does a copy that cannot write.
+    """
+    if not installed_by_a_package_manager():
+        here = os.path.dirname(os.path.abspath(__file__))
+        if os.path.isdir(here) and os.access(here, os.W_OK):
+            return os.path.join(here, "videopodcast-magic.log")
+    folder = log_folder()
     return os.path.join(folder, "videopodcast-magic.log") if folder else None
 
 
@@ -11101,8 +11554,7 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
                       % (as_hms(how_long / SPEAKER_SPLIT_SPEED),
                          as_hms(how_long)))
             if not speaker_split_available():
-                print(T('  The environment for it is not here yet: about '
-                        '%d MB are fetched now.') % SPEAKER_SETUP_MB)
+                print("  " + speaker_split_missing())
         # A separation already on this machine costs nothing to read,
         # so a dry run hands it on instead of stopping here. Only a
         # measurement that would have to be made is left undone.
@@ -11110,11 +11562,8 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
             print(T('  (measuring only: nothing separated)'))
             return [], ""
         if not stored and not speaker_split_available():
-            trouble = speaker_split_setup(
-                report=lambda text, share: show_progress(text, share))
-            if trouble:
-                print("  %s" % trouble)
-                return [], ""
+            print("  %s" % speaker_split_missing())
+            return [], ""
         segments, trouble = speaker_split_cached(
             source, count,
             report=lambda text, share: show_progress(text, share))
@@ -12977,7 +13426,7 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
     print(T('    Queued -- in Resolve only "Render All" is left.'))
     if hdr:
         print(T('    Whether the finished file passes as HDR:\n      '
-                'videopodcast_magic.py --hdr-check %s')
+                'videopodcast-magic --hdr-check %s')
               % os.path.join(folder, name + ".mp4"))
     return True
 
@@ -14915,7 +15364,7 @@ def refresh_cut_list(d, file_path):
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
-    d["created_by"] = ('videopodcast_magic.py %s (cut list refreshed)'
+    d["created_by"] = ('videopodcast-magic %s (cut list refreshed)'
                        % VERSION)
     # Written beside it and moved into place. This file is the whole
     # product of a long run -- the measured offsets, the cut, the speaker
@@ -15385,7 +15834,7 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                         'start of the axis.') % ", ".join(unmeasured)))
     handover = {
         "format": FILE_FORMAT,
-        "created_by": "videopodcast_magic.py %s" % VERSION,
+        "created_by": "videopodcast-magic %s" % VERSION,
         "production": args.production or 'Production',
         "fps": resolve_timeline_rate(fps),
         "fps_measured": round(fps, 4),
@@ -18185,6 +18634,17 @@ def redirect_console():
     file_path = log_path()
     if not file_path:
         return None
+    # The aside handle may already stand open on the file about to be
+    # renamed -- the tool check runs a process before this, and every
+    # outside call is written down. Left alone, the whole run's aside
+    # lines would land in the previous run's log. Measured 4.9.2026.
+    while _LOG_ASIDE:
+        kept = _LOG_ASIDE.pop()
+        try:
+            if kept is not None:
+                kept.close()
+        except Exception:
+            kept = None
     # The backup is called ..._1.log rather than ....log.1 --
     # otherwise Finder does not know the extension and will not open it.
     before_value = os.path.splitext(file_path)[0] + "_1.log"
@@ -19719,30 +20179,6 @@ def read_words(path):
 
 #---------------------------------------------------------- Certificates
 
-def certificate_file():
-    """Return the bundle HTTPS connections are verified against.
-
-    A Python installed from python.org brings no certificates of its
-    own, and every download then fails with CERTIFICATE_VERIFY_FAILED.
-    certifi is the bundle; it is already on disc wherever pip has run
-    once, and it is installed if it is not.
-    """
-    import importlib
-    certifi = _really_there("certifi")
-    if certifi is None:
-        if not _pip_install("certifi"):
-            return None
-        importlib.invalidate_caches()
-        certifi = _really_there("certifi")
-        if certifi is None:
-            return None
-    try:
-        where = certifi.where()
-    except Exception:
-        return None
-    return where if os.path.exists(where) else None
-
-
 # =====================================================================
 #  Keeping itself up to date
 # =====================================================================
@@ -19765,7 +20201,7 @@ RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
 RELEASE_LIST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
                 "/releases?per_page=30")
 RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
-            "/videopodcast-magic/%s/videopodcast_magic.py")
+            "/videopodcast-magic/%s/videopodcast_magic/__init__.py")
 # Off for a test run: a suite must not reach for the network, and it
 # must certainly not swap the file it is testing.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
@@ -19976,7 +20412,7 @@ def self_checked(raw):
     if "VERSION = " not in text or "CATALOGUE" not in text:
         return "", T('That file is not this program.')
     try:
-        compile(text, "videopodcast_magic.py", "exec")
+        compile(text, "videopodcast_magic/__init__.py", "exec")
     except SyntaxError as e:
         return "", T('That file does not compile: line %s.') % e.lineno
     return text, ""
@@ -19993,27 +20429,6 @@ def fetch_new_self(tag):
     except Exception as e:
         return "", T('The new version could not be fetched: %s') % e
     return self_checked(raw)
-
-
-def installed_by_a_package_manager():
-    """The folder a package manager owns this file in, or "".
-
-    Where the program was installed rather than downloaded, something
-    else keeps a record of which version is there. Writing over the
-    file leaves that record standing and wrong.
-    """
-    import sysconfig
-    here = os.path.abspath(__file__)
-    import site
-    # site.USER_SITE, not getusersitepackages(): the call raises where
-    # the user folder is switched off, the name is always there, and it
-    # is None when there is no such folder.
-    owned = [sysconfig.get_paths().get(k) for k in ("purelib", "platlib")]
-    owned.append(site.USER_SITE)
-    for folder in owned:
-        if folder and here.startswith(os.path.abspath(folder) + os.sep):
-            return folder
-    return ""
 
 
 def put_new_self(text):
@@ -20241,21 +20656,6 @@ def start_again():
     except OSError as e:
         print(T('Starting again did not work: %s') % e)
         print(T('Start it by hand: %s %s') % (sys.executable, here))
-
-
-def https_context():
-    """An SSL context that can verify, not the default one.
-
-    The default context trusts whatever this Python was handed on
-    the way in, and this one was handed nothing.
-    """
-    import ssl
-    bundle = certificate_file()
-    if not bundle:
-        print(T('  No certificate bundle found -- an HTTPS download '
-                'may fail.'))
-        return ssl.create_default_context()
-    return ssl.create_default_context(cafile=bundle)
 
 
 def use_certificates():
@@ -20881,11 +21281,6 @@ SPEAKER_GAP_S = 0.75
 # bar, so it need not be guessed.
 SPEAKER_SPLIT_SPEED = 28.0
 
-# What the environment costs on a machine that has nothing yet. Where
-# torch is already on disc it is a quarter of that. Said out loud
-# before it is fetched.
-SPEAKER_SETUP_MB = 218
-
 # From four processors upwards everything starts at once: measured,
 # the different kinds of work do not slow each other down at all --
 # the separation stays at 0 % beside speech recognition, ffmpeg and
@@ -20957,7 +21352,8 @@ def speaker_model_folder():
 # Where the model comes from when it is not there yet. The same
 # repository the program itself comes from, so the two always match.
 MODEL_BASE = ("https://raw.githubusercontent.com/Bascht74"
-              "/videopodcast-magic/%s/models/" + SPEAKER_MODEL_NAME + "/")
+              "/videopodcast-magic/%s/videopodcast_magic/models/"
+              + SPEAKER_MODEL_NAME + "/")
 MODEL_MB = 33
 
 
@@ -21121,110 +21517,64 @@ def speaker_model_mark(folder=""):
 
 #------------------------------------------------------ The environment
 
-def speaker_venv_folder():
-    """Where the environment the separation runs in lives."""
-    folder = cache_folder("pyannote")
-    return os.path.join(folder, "venv") if folder else ""
+def speaker_split_missing():
+    """The one sentence for "it cannot run here", with the way back.
 
-
-def speaker_venv_python(folder=""):
-    """The interpreter of that environment, or "" if it is not there."""
-    base = folder or speaker_venv_folder()
-    if not base:
-        return ""
-    if os.name == "nt":
-        here = os.path.join(base, "Scripts", "python.exe")
-    else:
-        here = os.path.join(base, "bin", "python")
-    return here if os.path.exists(here) else ""
-
-
-def speaker_setup_mark(folder=""):
-    """The note left behind once the environment is usable.
-
-    Importing pyannote takes seconds, so the question "is it there"
-    is not answered by importing it every time the window redraws.
+    One place, so the console, the window and the dry run cannot say
+    three different things about the same fault. The way back is the
+    same command that installed the program: pyannote stands on the
+    list pip reads, so one command puts it back.
     """
-    base = folder or speaker_venv_folder()
-    return os.path.join(base, "vpm_ready") if base else ""
+    return T('The speaker separation is not installed here. This puts '
+             'it back: %s') % ("pip3 install -U " + PIP_SOURCE)
+
+
+def speaker_python():
+    """The interpreter the separation runs in: this one.
+
+    pyannote stands on the list pip reads, so it is here already and
+    one command repairs both. The separate *process* is another
+    matter and stays: the telemetry switch has to be thrown before
+    anything else happens, and a crash inside torch must not take the
+    window with it.
+    """
+    return sys.executable
+
+
+# Measured once and kept: importing pyannote takes seconds, and the
+# question is asked wherever a separation might be wanted. forget_
+# speaker_split() throws it away, because after an install the answer
+# from before it is about an installation that is gone.
+_SPEAKER_READY = None
+
+
+def forget_speaker_split():
+    """Ask again whether the separation can run."""
+    global _SPEAKER_READY
+    _SPEAKER_READY = None
 
 
 def speaker_split_available(deep=False):
-    """Say whether the separation can run without setting anything up.
+    """Say whether the separation can run. Measured, not assumed.
 
-    *deep* imports the package in the environment and takes a few
-    seconds; without it the note left by the setup is trusted.
+    The import is really done, in a process of its own: that is the
+    only thing that answers the question, and a note left behind by an
+    earlier run answers a different one. *deep* asks again from
+    scratch rather than reading the answer kept in this run.
     """
-    python = speaker_venv_python()
-    if not python:
-        return False
-    if not deep:
-        mark = speaker_setup_mark()
-        return bool(mark and os.path.exists(mark))
-    try:
-        p = subprocess.run([python, "-c", "import pyannote.audio"],
-                           stdout=subprocess.DEVNULL,
-                           stderr=subprocess.DEVNULL)
-    except OSError:
-        return False
-    return p.returncode == 0
-
-
-def speaker_split_setup(report=None):
-    """Build the environment the separation runs in.
-
-    --system-site-packages, so a torch already on the machine is used
-    rather than fetched again: measured, that is the difference
-    between 218 MB and 58 MB.
-
-    Returns "" when it worked, otherwise a sentence saying what did
-    not.
-    """
-    if SPEAKER_SPLIT_OFF:
-        return T('The speaker separation is not set up.')
-    base = speaker_venv_folder()
-    if not base:
-        return T('The cache folder cannot be written to.')
-    if report:
-        report(T('Setting up the speaker separation (about %d MB) ...')
-               % SPEAKER_SETUP_MB, 0.05)
-    if not speaker_venv_python(base):
+    global _SPEAKER_READY
+    if deep:
+        _SPEAKER_READY = None
+    if _SPEAKER_READY is None:
         try:
-            p = subprocess.run([sys.executable, "-m", "venv",
-                                "--system-site-packages", base],
-                               stdout=subprocess.PIPE,
-                               stderr=subprocess.STDOUT)
-        except OSError as e:
-            return T('The speaker separation reports: %s') % e
-        if p.returncode != 0 or not speaker_venv_python(base):
-            note = (p.stdout or b"").decode("utf-8", "replace").strip()
-            return T('The speaker separation reports: %s') \
-                % (note.splitlines() or [""])[-1][:160]
-    if report:
-        report(T('Setting up the speaker separation (about %d MB) ...')
-               % SPEAKER_SETUP_MB, 0.2)
-    # pip runs code out of the packages it installs, so it is not
-    # handed the environment this program runs in.
-    clean = dict(os.environ)
-    clean.pop("AUPHONIC_TOKEN", None)
-    try:
-        p = subprocess.run([speaker_venv_python(base), "-m", "pip",
-                            "install", "pyannote.audio"],
-                           stdout=subprocess.PIPE,
-                           stderr=subprocess.STDOUT, env=clean)
-    except OSError as e:
-        return T('The speaker separation reports: %s') % e
-    if p.returncode != 0:
-        note = (p.stdout or b"").decode("utf-8", "replace").strip()
-        return T('The speaker separation reports: %s') \
-            % (note.splitlines() or [""])[-1][:160]
-    mark = speaker_setup_mark(base)
-    try:
-        with open(mark, "w", encoding="utf-8") as f:
-            f.write(time.strftime("%Y-%m-%d %H:%M:%S"))
-    except OSError:
-        pass
-    return ""
+            p = subprocess.run([speaker_python(), "-c",
+                                "import pyannote.audio"],
+                               stdout=subprocess.DEVNULL,
+                               stderr=subprocess.DEVNULL)
+            _SPEAKER_READY = p.returncode == 0
+        except OSError:
+            _SPEAKER_READY = False
+    return _SPEAKER_READY
 
 
 #------------------------------------------------------- The worker
@@ -21249,17 +21599,27 @@ import sys
 
 
 def hush():
-    """Switch off what pyannote would send home. Nothing else first."""
+    """Switch off what pyannote would send home. "" when it is off.
+
+    Two different things can go wrong here and they used to come back
+    as one word. The package may not load at all -- a dependency of a
+    dependency taken out by hand, say -- and then what comes back is
+    that error, so the sentence names it. Or it loads and has no such
+    switch, and then the refusal stands and "telemetry" is the truth.
+    """
+    loaded, first = False, ""
     for where in ("pyannote.audio.telemetry", "pyannote.audio"):
         try:
             mod = __import__(where, fromlist=["set_telemetry_metrics"])
-        except Exception:
+        except Exception as e:
+            first = first or "%s: %s" % (e.__class__.__name__, e)
             continue
+        loaded = True
         switch = getattr(mod, "set_telemetry_metrics", None)
         if switch is not None:
             switch(False)
-            return True
-    return False
+            return ""
+    return "telemetry" if loaded else (first or "telemetry")
 
 
 def read_header():
@@ -21279,8 +21639,9 @@ def say(text):
 
 
 def main():
-    if not hush():
-        print(json.dumps({"error": "telemetry"}))
+    trouble = hush()
+    if trouble:
+        print(json.dumps({"error": trouble}))
         return 3
     head = read_header()
     if not head:
@@ -21379,9 +21740,9 @@ def speaker_split_run(path, num_speakers=0, report=None,
     folder = speaker_model_folder()
     if not folder:
         # Not there yet: fetch it once, beside the program, where it
-        # then stays. Whoever asked for a separation has asked for the
-        # 218 MB environment already; the 33 MB of the model itself
-        # need no second question.
+        # then stays. Whoever asked for a separation has installed
+        # pyannote and torch along with the program already; the 33 MB
+        # of the model itself need no second question.
         if report:
             report(T('Fetching the model (about %d MB) ...') % MODEL_MB,
                    0.02)
@@ -21396,7 +21757,7 @@ def speaker_split_run(path, num_speakers=0, report=None,
     if wrong:
         return [], T('The model file %s does not match its checksum.') \
             % wrong
-    python = speaker_venv_python()
+    python = speaker_python()
     worker = speaker_worker_file()
     if not python or not worker:
         return [], T('The speaker separation is not set up.')
@@ -21492,6 +21853,12 @@ def _speaker_split_talk(python, worker, head, wave, environment,
         return [], T('pyannote sends a trace home on every run and this '
                      'version offers no way to switch it off, so the '
                      'separation was not started.')
+    if d.get("error"):
+        # Anything else the worker refused on is its own error, and it
+        # is handed on as it stands: a package that will not load says
+        # which name it died at, and that is what a repair needs.
+        return [], T('The speaker separation reports: %s') \
+            % str(d["error"])[:160]
     if proc.returncode != 0 or "segments" not in d:
         note = (trouble or [""])[-1]
         return [], T('The speaker separation reports: %s') % note[:160]
@@ -22711,7 +23078,7 @@ def speaker_split_work(source, count, note, stopping, done):
     segments, trouble = [], ""
     try:
         if not speaker_split_available():
-            trouble = speaker_split_setup(note)
+            trouble = speaker_split_missing()
         if not trouble:
             segments, trouble = speaker_split_cached(
                 source, count, report=note, stopping=stopping)
@@ -24297,11 +24664,11 @@ def collect_with_continuations(paths, no_followups, apart=(), together=()):
 def build_argument_parser():
     """Define all command line switches."""
     ap = argparse.ArgumentParser(
-        prog="videopodcast_magic.py",
-        description="videopodcast_magic.py %s -- put processed audio into "
+        prog="videopodcast-magic",
+        description="videopodcast-magic %s -- put processed audio into "
                     "video files as the first audio track" % VERSION)
     ap.add_argument("--version", action="version",
-                    version="videopodcast_magic.py %s   %s"
+                    version="videopodcast-magic %s   %s"
                             % (VERSION, python_note()))
     ap.add_argument("--lang", choices=languages(), default=None,
                     help="language of the messages (default: the system's)")
@@ -24364,10 +24731,9 @@ def build_argument_parser():
                          "instead of the one the run would pick itself. A "
                          "run picks a single audio recording, or the "
                          "longest camera track where there is none, and "
-                         "takes it apart on its own. The setup fetches "
-                         "about %d MB the first time and the run takes "
-                         "minutes. (default: whatever the run picks)"
-                         % SPEAKER_SETUP_MB)
+                         "takes it apart on its own. What it needs came "
+                         "with the program; the run takes minutes. "
+                         "(default: whatever the run picks)")
     ap.add_argument("--update", dest="update_now",
                     action="store_true", default=False,
                     help="fetch the newer version and put this one "
@@ -24634,17 +25000,19 @@ def main():
         # argparse prints and exits by itself; nothing here needs a tool.
         build_argument_parser().parse_args()
         return 0
+    ap = build_argument_parser()
+    args = ap.parse_args()
+    # The language before the first sentence is made, not before the
+    # first one is printed: the complaint about ffmpeg below is written
+    # down here and shown much later. Only where one was typed, or the
+    # system's language and the one kept from an earlier run are lost.
+    if args.lang:
+        set_language(args.lang)
     # --update wants no files and no tools, so it is answered before
     # either is looked for -- a broken installation is one of the
     # reasons to reach for it. It is the only way the command line
     # fetches anything.
-    if "--update" in sys.argv[1:]:
-        # Only where one was typed. set_language(None) means English,
-        # and would throw away both the system's language and the one
-        # somebody chose in an earlier run.
-        chosen = build_argument_parser().parse_args().lang
-        if chosen:
-            set_language(chosen)
+    if args.update_now:
         return update_from_command_line()
     # Everything this program does goes through ffmpeg, so below the
     # floor there is nothing to start. Behind only_reading() and
@@ -24652,7 +25020,6 @@ def main():
     # installation and must not fail on the thing it repairs.
     global TOOL_TROUBLE
     TOOL_TROUBLE = find_required_tools()
-    ap = build_argument_parser()
     clean_envelope_cache()
     clean_probe_cache()
     clean_preflight_cache()
@@ -24664,25 +25031,16 @@ def main():
         del rest[i:i + 2]
     rest = [a for a in rest if not a.startswith("--lang=")]
     if not rest:
-        if len(sys.argv) > 1:
-            chosen = ap.parse_args(sys.argv[1:]).lang
-            if chosen:
-                set_language(chosen)
         # Qt before the console goes into the log file. It is a hundred
         # megabyte download on a machine that has none, and behind the
         # redirect the terminal would stand silent for minutes and then
         # exit without a word.
         _require_module("PySide6.QtWidgets", "PySide6")
-        try:
-            print(T('Messages of this run: %s') % log_path())
-            sys.stdout.flush()
-        except Exception:
-            pass
+        # Nothing is said here: this path ends in a window, and the
+        # program is not started from a console. Where the log is
+        # stands in the Help menu instead.
         redirect_console()
         return gui()
-    args = ap.parse_args()
-    if args.lang:
-        set_language(args.lang)
     force_utf8_output()
     enable_colour_output()
     # Whoever typed a command line has a console, so it is said there --
@@ -24690,8 +25048,13 @@ def main():
     # is starting.
     if TOOL_TROUBLE[0] and not tools_repaired(*TOOL_TROUBLE):
         return 1
-    print("videopodcast_magic.py %s   %s\n%s\n"
+    print("videopodcast-magic %s   %s\n%s\n"
           % (VERSION, python_note(), running_from()))
+    # Said, not asked. A run started from a script must not stop for a
+    # question, and this is not a fault -- only a coarser correction.
+    # Where nothing could be done about it, nothing is said either.
+    if not soxr_available() and ffmpeg_can_be_had():
+        print(as_warn(soxr_note()))
     update_note()
     args.auphonic_done = getattr(args, "auphonic_done", None)
     args.auphonic_resume = getattr(args, "auphonic_resume", None)
@@ -25837,6 +26200,7 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
                           "videopodcast-magic#readme"))
     act(help_menu, T('What changed in this version'),
         lambda: changes_shown(window))
+    log_entry(act, help_menu, window)
     help_menu.addSeparator()
     act(help_menu, T('Look for a newer version now'),
         lambda: update_offer(window, asked=True))
@@ -29272,7 +29636,7 @@ def run_argv(values, assignment_file_path=""):
                 T('Two cameras would produce the same new file. Please '
                   'give different names.'))
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast_magic.py %s" % VERSION,
+                "created_by": "videopodcast-magic %s" % VERSION,
                 "production": (values.get("production") or "").strip()
                 or 'Production', "tracks_of": tracks, "cameras": cameras}
         # What the separation heard travels with the assignment. Raw and
@@ -29296,7 +29660,7 @@ def run_argv(values, assignment_file_path=""):
         # too: since 24.8.2026 this path cuts as well, and numbers that
         # do not reach the run are numbers that do nothing.
         plan = {"format": FILE_FORMAT,
-                "created_by": "videopodcast_magic.py %s" % VERSION,
+                "created_by": "videopodcast-magic %s" % VERSION,
                 "speakers_of": values["speakers_of"],
                 "voices_of": voices_of_values(values)}
         argv += ["--speakers-from", assignment_file_path]
@@ -29520,6 +29884,43 @@ def keychain_row_add(into, keep_button):
     # repeat -- it starts no process and puts nothing on the screen.
     watch.start(500)
     return look
+
+
+def log_open():
+    """Hand the log of this run to whatever opens a text file here.
+
+    The same way an address is opened, because it is the same
+    mechanism: the Windows shell, open on a Mac, xdg-open elsewhere.
+    Nothing is waited for -- the window carries on while the editor
+    comes up, which on a cold start takes seconds.
+    """
+    where = log_path()
+    if not where or not os.path.isfile(where):
+        return False
+    return open_page(where)
+
+
+def log_entry(act, where, window):
+    """Put the way to the log into the menu, alive while there is one.
+
+    The console used to name the log file at every start and does not
+    any more -- nothing is said in front of the window -- so this is
+    where somebody finds it. Greyed and not hidden where there is
+    nothing to open: an entry that is missing teaches nobody that
+    there is a log at all, and the reason stands on the entry.
+    """
+    entry = act(where, T('Show the log of this run'), log_open)
+
+    def alive():
+        file_path = log_path()
+        there = bool(file_path) and os.path.isfile(file_path)
+        entry.setEnabled(there)
+        entry.setToolTip(file_path if there
+                         else T('Nothing has been written yet.'))
+
+    alive()
+    where.aboutToShow.connect(alive)
+    return entry
 
 
 def restore_entry(act, where, window):
@@ -36505,6 +36906,8 @@ def after_window(window, app, QtCore):
     """
     if TOOL_TROUBLE[0]:
         return tools_offer(window, app)
+    if soxr_offer(window):
+        return None
     QtCore.QTimer.singleShot(1500, lambda: update_offer(window))
 
 
@@ -36513,27 +36916,128 @@ def tools_offer(window, app):
 
     A box on the window rather than a line anywhere: nothing is ever
     said in front of the window, and there is no console to say it in.
-    Whatever is answered the run ends afterwards -- what the start
-    looked for has changed under it, and starting again is the honest
-    way to pick that up.
+    Answered with Quit, the run ends. Answered with the button it does
+    not: the install writes into the Output tab, and somebody has to
+    be able to read what it said there.
     """
     QtWidgets = _qt_widgets()
     kind, says = TOOL_TROUBLE
     box = QtWidgets.QMessageBox(window)
     box.setWindowTitle("ffmpeg")
     box.setText(says)
-    box.setInformativeText(T('Nothing runs until that is put right.'))
-    printed = " ".join(package_manager_command(kind != "missing"))
+    printed = how_to_get_ffmpeg(kind != "missing")
+    # What the button lets somebody in for, before they press it: a
+    # package manager may build from source and a built one is over a
+    # hundred megabytes, so either way it is minutes rather than
+    # seconds. Only where there is a button to press.
+    box.setInformativeText(
+        T('Nothing runs until that is put right.') + ("\n\n" + T(
+            'Getting it takes a few minutes, and what it says appears '
+            'under Output.') if ffmpeg_can_be_had() else ""))
     do = None
-    if printed or sys.platform == "win32":
-        do = box.addButton(T('Get it: %s') % (printed or "ffmpeg.org"),
+    if ffmpeg_can_be_had() or sys.platform == "win32":
+        do = box.addButton(T('Get it: %s') % printed,
                            QtWidgets.QMessageBox.AcceptRole)
     box.addButton(T('Quit'), QtWidgets.QMessageBox.RejectRole)
     trouble_log("ffmpeg -- %s" % says)
     box.exec()
     if do is not None and box.clickedButton() is do:
-        install_over_package_manager(update=kind != "missing", asked=True)
+        if install_watched(window, app, kind != "missing"):
+            return True
+        # No window to show it in -- the way it went before, and then
+        # the run ends as it always did.
+        install_ffmpeg(update=kind != "missing", asked=True)
     app.quit()
+    return False
+
+
+def soxr_offer(window):
+    """Offer a finer ffmpeg where this one has no soxr. True if it was taken.
+
+    Not a gate: the run goes on either way, and that is the whole
+    difference from the box above. Asked once per version and then
+    written down -- a box that comes back at every start over
+    something that is not broken is a box people learn to click away.
+    """
+    if os.environ.get("VPM_SILENT") or not ffmpeg_can_be_had():
+        # A test run is offered nothing, and neither is a machine with
+        # no way of getting a better build.
+        return False
+    if soxr_available() or settings().get("soxr-asked") == VERSION:
+        return False
+    QtWidgets = _qt_widgets()
+    box = QtWidgets.QMessageBox(window)
+    box.setWindowTitle("ffmpeg")
+    box.setText(soxr_note())
+    box.setInformativeText(
+        T('Everything works without it. Getting a build that has it '
+          'takes a few minutes, and what it says appears under Output.'))
+    do = box.addButton(T('Get it: %s') % how_to_get_ffmpeg(True),
+                       QtWidgets.QMessageBox.AcceptRole)
+    box.addButton(T('Carry on'), QtWidgets.QMessageBox.RejectRole)
+    keep_setting("soxr-asked", VERSION)
+    box.exec()
+    if box.clickedButton() is not do:
+        return False
+    return bool(install_watched(window, None, True))
+
+
+def ffmpeg_can_be_had():
+    """True where this machine has a way of getting ffmpeg at all.
+
+    A package manager, or a built one to fetch. Where neither answers
+    there is no button to press, only a sentence saying where to look.
+    """
+    return bool(package_manager_command() or ffmpeg_build_url())
+
+
+def install_watched(window, app, update):
+    """Get ffmpeg with what it says under Output, not behind the window.
+
+    Before this the command ran in the window's own thread with its
+    output going nowhere anybody could see. This is the road the
+    update already takes: a thread of its own while the window stays
+    alive, and every line into the Output tab. Nothing is ended here
+    -- a window that stays open is one somebody can read the failure
+    in. False where there is no window to show it in.
+    """
+    if UPDATE_SINK is None:
+        return False
+    UPDATE_SINK(lambda say: install_job(update, say))
+    return True
+
+
+def install_job(update, say):
+    """The install itself, every line to *say*. Trouble, or "" when done.
+
+    What somebody let themselves in for stands first, before the
+    manager's own first line: this may build from source, and that is
+    minutes rather than seconds. Every line goes into the log beside
+    the pane as well -- what the pane holds is gone when the window
+    goes, and the file is where somebody is sent afterwards.
+    """
+    def line(text):
+        said = text if text.endswith("\n") else text + "\n"
+        log_aside(said.rstrip("\n"))
+        say(said)
+
+    line("")
+    line(as_head(T('Installing ffmpeg')))
+    line(T('This takes a few minutes -- a package manager may build '
+           'from source. What it says appears here.'))
+    good = install_ffmpeg(update=update, asked=True, say=line)
+    # Asked again, not taken on trust: a package manager can report
+    # success having just laid down an ffmpeg still too old for this.
+    forget_soxr()
+    if good and not find_required_tools()[0]:
+        line(as_good(T('That worked.')))
+        # What really arrived, asked rather than announced: nothing
+        # here promises soxr, so nothing here may claim it either.
+        line("  " + soxr_note())
+        line(T('Start the program again to pick it up.'))
+        return ""
+    return T('Nothing runs until that is put right. This way: %s') \
+        % how_to_get_ffmpeg(update)
 
 
 def about_show(window):

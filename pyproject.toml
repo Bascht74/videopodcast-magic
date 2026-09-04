@@ -37,6 +37,23 @@ dependencies = [
     "PySide6",   # the window, and the player in it
     "certifi",   # what an https connection is checked against
     "faster-whisper",   # speech recognition, used as soon as a transcript is
+    # The speaker separation, and it is not an extra: cutting by who is
+    # speaking is what this program is for. It brings torch and
+    # torchvision with it, so an installation is some 828 MB rather than
+    # a few -- measured 4.9.2026, torch alone 536 MB.
+    #
+    # It stands here rather than in a folder of its own so that one
+    # command repairs everything. A separate environment is out of
+    # pip's reach: a package removed from it by hand stays removed, and
+    # "pip3 install -U" does not notice. That is not a story -- it
+    # happened on 4.9.2026, torchvision went, and the program answered
+    # with a sentence about telemetry that had nothing to do with it.
+    "pyannote.audio",
+    # Named although pyannote pulls it in anyway. torchmetrics imports
+    # its image half eagerly, so without torchvision "import
+    # pyannote.audio" dies at a name it never uses. Naming it here means
+    # a repair is one command and not a diagnosis.
+    "torchvision",
 ]
 
 # gui-scripts, not scripts. On macOS and Linux the two produce a
@@ -48,11 +65,13 @@ dependencies = [
 videopodcast-magic = "videopodcast_magic:main"
 
 [tool.setuptools]
-# The program and the German texts are two files, and both have to
-# travel: the program reads the second from beside itself and stops
-# with the missing path if it is not there.
-py-modules = ["videopodcast_magic", "videopodcast_magic_texts_de",
-              "videopodcast_magic_texts_es", "videopodcast_magic_texts_pt",
-              "videopodcast_magic_texts_fr", "videopodcast_magic_texts_ru",
-              "videopodcast_magic_texts_zh", "videopodcast_magic_texts_ja",
-              "videopodcast_magic_texts_hi", "videopodcast_magic_texts_ar"]
+# The program is a folder, and the translations are a folder in it. Both
+# are named: setuptools ships packages, not stray directories, so
+# language/ needs its own __init__.py and its own name here or an
+# installed copy speaks English only.
+#
+# models/ is deliberately absent -- 31 MB of speaker model that the
+# program fetches when it is first needed. Naming it would put that
+# weight into every installation, for the many who never separate
+# speakers.
+packages = ["videopodcast_magic", "videopodcast_magic.language"]
