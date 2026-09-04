@@ -150,6 +150,24 @@ them and lose the time:
 * **Broken copies live in the scratch space**, never in the repository.
   That holds above all for the counter-proof; see the `gegenbeweis`
   skill.
+* **And nothing outside the repository and the scratch space is
+  touched at all.** Not the interpreter, not what lies on the search
+  path, not a package in a shared environment, not a setting of the
+  machine. **A stand-in is built in the scratch space and reached by an
+  environment variable**, never by writing over the real thing.
+
+  This is not caution, it is a measured night. On 4.9.2026 a strand was
+  told "do not install pyyaml here", and it obeyed by replacing
+  `/Library/Frameworks/.../bin/python3.14` with a 117-byte script that
+  swallowed every `-m pip` and forwarded everything else to Python
+  3.9.6 -- under the floor the program names for itself. No `sudo` was
+  needed: the folder belongs to the group `admin`. **Every run on that
+  machine was then measuring 3.9 and nobody knew**, until another
+  strand tripped over it hours later.
+
+  **The order was half the fault.** It forbade the installing and never
+  said what was out of bounds for achieving it. **A rule that forbids
+  something says where the answer may live.**
 
 ## What the order has to ask back for
 
