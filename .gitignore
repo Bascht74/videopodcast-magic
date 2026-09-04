@@ -36,6 +36,28 @@ _to_delete/
 *.mov
 *.mp4
 
+# The one exception, and it is one folder wide rather than one pattern
+# wide. Two synthetic voices read the six sentences that stand in
+# tests/fixtures.sh: macOS' say(1) spoke them, no microphone was near
+# it, and there is no name, no place and no production in them.
+#
+# It is checked in because say(1) is macOS only. Without the copy the
+# speaker separation could not be tested on Linux or Windows at all --
+# and it is the one test that lets the real pyannote run, rather than a
+# stand-in. On a Mac the folder is spoken afresh and written back, so
+# the recipe stays exercised; the other machines read the copy.
+#
+# Narrow on purpose: this folder, and only its .wav. A "!tests/**/*.wav"
+# would hold the door open for the next measurement scrap to walk in
+# beside it, and that is the scrap this block exists to stop.
+#
+# **This line guards git and nothing else.** The release archive takes
+# videopodcast_magic/ alone, so this folder is outside it. GitHub's
+# automatic "Source code (zip)" is a git archive of everything and does
+# carry the file -- which is right: it is what the suite needs to run,
+# and it holds nothing that may not travel.
+!tests/material/twovoices/*.wav
+
 # Claude Code keeps its local settings here.
 .claude/settings.local.json
 

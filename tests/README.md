@@ -84,7 +84,7 @@ root, and `fixture_root.py` tells the Python side where it is.
 | `playertest` | a minute of picture and sound, enough for a cut of five shots |
 | `interview` | a whole small production: three recordings, three cameras, a project file |
 | `mixer` | one file with eight channels, one case on each |
-| `twovoices` | two synthetic voices taking turns, for the speaker separation |
+| `twovoices` | two synthetic voices taking turns, for the speaker separation. Spoken on a Mac and written back into `tests/material/twovoices/`, read from there everywhere else -- `say(1)` is macOS's alone |
 
 A finished folder carries a `.built` marker, and the marker may name the
 recipe that wrote it: a folder built by an older `fixtures.sh` is then

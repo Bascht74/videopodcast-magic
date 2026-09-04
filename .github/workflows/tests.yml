@@ -444,21 +444,22 @@ jobs:
           # model travels in git and is held against its manifest three
           # steps up. Nothing is fetched for this test any more.
           #
-          # What is left is the material, and it decides where the test
-          # can run. The two voices are really spoken, by say(1), which
-          # only macOS has -- so it is set aside under Linux and Windows
-          # below, and runs here on the Mac. Measured 4.9.2026 on run
-          # 33890253599, macos-latest / py3.14: the runner built the
-          # fixture itself, "twovoices built (Samantha, Daniel)", and
-          # finished with 0 of 1 allowed skips.
+          # The material used to decide where the test could run, and it
+          # does not any more: tests/material/twovoices travels in git.
+          # A machine with say(1) speaks the folder afresh and writes it
+          # back, a machine without one reads the copy -- so Linux has
+          # the two voices now and runs the test like the Mac. Measured
+          # 4.9.2026 on run 33890253599, macos-latest / py3.14: the
+          # runner built the fixture itself, "twovoices built (Samantha,
+          # Daniel)", and finished with 0 of 1 allowed skips.
+          #
+          # Windows keeps it set aside, and for a new reason: cost, not
+          # impossibility. It is the job that sets the queue at 439-467 s
+          # against Linux's 213 s (run 33890253599), and pyannote on a
+          # Windows CPU is unmeasured. Whoever has a number for it can
+          # take the line out.
           case "$RUNNER_OS" in
             Linux)
-              aside voice_split_hears_two \
-                "it separates a recording of two voices really spoken,
-                 and say(1) writes them -- macOS only. Here the fixture
-                 is not built and the test would skip, spending the
-                 run's one allowance on a test that was never going to
-                 run."
               aside auphonic_key_kept \
                 "it writes into the Windows registry under
                  HKEY_CURRENT_USER. Linux has no registry, so there is
@@ -466,9 +467,12 @@ jobs:
               ;;
             Windows)
               aside voice_split_hears_two \
-                "the same as on Linux: the two voices it listens to are
-                 spoken by say(1), and Windows has no say(1), so the
-                 fixture holding them is never built here."
+                "the material reaches this machine now -- it is checked
+                 in -- so this is a price, not an impossibility. Windows
+                 sets the queue at 439-467 s against Linux's 213 s, and
+                 what the separation costs on a Windows CPU has not been
+                 measured. Linux runs it; measure this one and it can
+                 run here too."
               aside source_resolve_recalled \
                 "it starts run.sh twice as a child and reads the closing
                  block out of it. On Windows the nested run comes back
