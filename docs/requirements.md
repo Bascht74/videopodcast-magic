@@ -79,7 +79,8 @@ happens then.
 
 **The model.** Telling the voices on a recording apart is the speaker
 separation, and it needs a trained model. The program fetches it from
-its own repository into the folder `models/` beside the program. It
+its own repository into the folder `models/` inside the program's own
+folder. It
 holds every file against its SHA-256 checksum and writes only what
 matches.
 

@@ -7,7 +7,8 @@ description: The window has changed and the pictures in the manual show a state 
 
 Every picture exists twice: English as `docs/images/NAME.png`, German as
 `docs/images/NAME.de.png`. None of them is taken by hand.
-`docs/notes/shoot_screenshots.py` loads `videopodcast_magic.py` as a
+`docs/notes/shoot_screenshots.py` loads the program out of
+`videopodcast_magic/` as a
 module, opens a project built from the test fixtures, steps through the
 tabs and saves `window.grab()`. No desktop in the frame, no foreign
 window, and repeatable at any time.
@@ -132,8 +133,8 @@ both languages, and what was found. "Nothing" is an answer; a pass that
 names no picture has not been made.
 
 Hence the three nets in the script: `load_api_key` returns empty,
-`AUPHONIC_TOKEN` is cleared out of the environment, and the three
-`speaker_split_*` are replaced. **A picture pass reads no key, computes
+`AUPHONIC_TOKEN` is cleared out of the environment, and four names are netted -- the three `speaker_split_*`
+and `fetch_model`, which is the one thing left that reaches the network. **A picture pass reads no key, computes
 no separation and installs nothing.** Before anybody removes one of
 them, they have to know what stands in the picture afterwards.
 

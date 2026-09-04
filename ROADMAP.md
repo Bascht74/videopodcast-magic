@@ -58,22 +58,23 @@ recording. Everything the window showed in red stands there too, with
 the time of day -- a red mark is gone the moment its row is drawn
 again, and the complaint about it arrives hours later.
 
-It is a Python program: one large file, `videopodcast_magic.py`, with
-the files it reads its texts out of beside it. It is installed with
-`pip3 install git+...` and there is nothing to build. Fetching the one
-file and starting it was the other way in until 4.9.2026 and is not one
-any more -- a copy without the files beside it stops during the import. Python 3.10 or newer has to be there, and `ffmpeg`, which is
+It is a Python program: a folder, `videopodcast_magic/`, holding one
+large file and beside it the files it reads its texts out of. It is
+installed with `pip3 install git+...` and there is nothing to build.
+Fetching one file and starting it was the other way in until 4.9.2026
+and is not one any more -- a copy without the rest of the folder stops
+during the import. Python 3.10 or newer has to be there, and `ffmpeg`, which is
 not Python and is the one thing pip cannot bring; every Python package
 it needs is on the list pip reads and arrives with the install. macOS
 and Windows are what it is used on, and Linux works with two limits.
 
-**It was one file until 4.9.2026, and it is on the way to being
-several.** The texts went out first, into a file for each language; the
-aim is a folder `videopodcast_magic/` with an `__init__.py` and no
-`videopodcast_magic.py` left at all. It is nowhere near there: today it
-is still one big file with its texts alongside. What follows for
-anybody working on it is only this -- the program is copied with all of
-its files, never on its own. A suite of 220 tests runs at every
+**It was one file until 4.9.2026, and it is a folder now.** The texts
+went out first, into a file for each language, and the rest followed
+the same day: the folder holds the program, the languages and the
+speaker model. The big file inside it is still big, and cutting it up
+is the work that goes on. What follows for anybody working on it is
+only this -- the program is copied as a folder, never as the file
+inside it. A suite of 220 tests runs at every
 push: six runs side by side, three systems and two versions of Python.
 Beside it stand four more that want a real Resolve and cannot run
 anywhere else. The six are not equally fast, and Windows is the slow

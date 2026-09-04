@@ -19,36 +19,36 @@ section 5. How to do it is here.
 the test against that copy. The repository is not touched.**
 
 ```bash
-mkdir -p /tmp/cp && cp -R videopodcast_magic*.py /tmp/cp/
-ls /tmp/cp/            # nothing there? then the pattern has gone stale
-mv /tmp/cp/videopodcast_magic.py /tmp/cp/broken.py
-# break exactly the one thing the check is about, in /tmp/cp/broken.py
+mkdir -p /tmp/cp && cp -R videopodcast_magic /tmp/cp/broken
+# break exactly the one thing the check is about, in /tmp/cp/broken/__init__.py
 cd tests && LANG=C LC_ALL=C LANGUAGE=en VPM_SILENT=1 \
   VPM_NO_SPEAKER_SPLIT=1 VPM_NO_UPDATE_CHECK=1 \
-  VPM_SCRIPT=/tmp/cp/broken.py python3 <name>_test.py
+  VPM_SCRIPT=/tmp/cp/broken/__init__.py python3 <name>_test.py
 ```
 
-**The star is the whole point, and getting it wrong poisons the
-register.** The texts live in files of their own beside the program now,
-and it reads them out of the folder it sits in. A copy of the program
-alone raises `FileNotFoundError` on the first line -- so the test goes
-red, **and red is exactly what a counter-proof wants to see.** The row
-then goes into `tests/state/counterproof` as earned while proving
-nothing about the check at all. Measured 4.9.2026, the day the catalogue
-moved out.
+**Copying the whole folder is the whole point, and getting it wrong
+poisons the register.** The texts live in a `language/` folder beside
+the program, and it reads them out of the folder it sits in. A copy of
+the file alone raises `FileNotFoundError` during the import -- so the
+test goes red, **and red is exactly what a counter-proof wants to
+see.** The row then goes into `tests/state/counterproof` as earned while
+proving nothing about the check at all. Measured 4.9.2026, the day the
+program became a folder.
 
 **So read the red line before believing it.** A counter-proof is done
 when the test fails *for the reason you broke*, named in the line. One
 that dies on an import has proved that a file was missing.
 
-**And look at what the copy caught.** The pattern above is right for
-today and will go stale: the program is being taken apart, and the day
-it becomes a folder `videopodcast_magic/` that `*.py` matches nothing --
-**the copy then succeeds, copies nothing, and every counter-proof after
-it is red for want of a program.** Which is why the `ls` is in the
-recipe and not in a sentence: a pattern that has gone stale is invisible
-in the return code and obvious in the listing. When the folder comes,
-this line becomes `cp -R videopodcast_magic /tmp/cp/`.
+**And the day the old recipe went stale is worth keeping.** This line
+copied a shape of file name until 4.9.2026 and carried an `ls` under it,
+because the fear was that a stale pattern would copy nothing quietly and
+leave every counter-proof after it red for want of a program. The folder
+came that day, and the fear was measured and wrong: bash's `cp` says
+`No such file or directory` and returns 1, zsh refuses the line itself
+with `no matches found`, `zip` warns and returns 12. **A pattern that
+has gone stale stops the person reading it**, so the `ls` came out with
+the pattern. What stayed is the other half: a recipe naming a shape of
+file name goes stale, and one naming a folder does not.
 
 **The language variables are not optional.** Without `LANG=C LC_ALL=C
 LANGUAGE=en` the program runs German on this Mac — `LANG=C` alone does

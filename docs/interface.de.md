@@ -490,10 +490,16 @@ nur wo nichts gemessen wurde, die eigene Uhr der Datei.
 - Formate, die der Rechner nicht abspielen kann (MXF, R3D, manche
   ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
-Die Ausgabe landet zusätzlich in `videopodcast-magic.log`, und die
-Datei liegt neben der Programmdatei — nach einer Installation also in
-dem Ordner, in den pip sie geschrieben hat; die Zeile, die das
-Programm beim Start ausgibt, nennt den ganzen Pfad. Die erste Zeile
+Die Ausgabe landet zusätzlich in `videopodcast-magic.log`, und wo diese
+Datei liegt, hängt davon ab, wie das Programm auf den Rechner gekommen
+ist. Läuft es aus einem eigenen Ordner, liegt das Protokoll neben dem
+Programm. Ist es installiert, schreibt es dorthin, wo das System seine
+Protokolle sammelt — auf dem Mac nach `~/Library/Logs/videopodcast-magic/`,
+unter Windows unter `%LOCALAPPDATA%`, sonst in den Ordner, den der
+Desktop-Standard dafür vorsieht —, denn der Ordner, in den pip
+installiert hat, gehört pip und wird bei der nächsten Installation
+überschrieben. Die Zeile, die das Programm beim Start ausgibt, nennt in
+beiden Fällen den ganzen Pfad. Die erste Zeile
 der Datei nennt Version, Zeit, Betriebssystem und Python,
 die Zeile darunter den Pfad, aus dem das Programm gestartet wurde --
 mehrere Kopien des Programms teilen sich ein Protokoll, und ohne diese

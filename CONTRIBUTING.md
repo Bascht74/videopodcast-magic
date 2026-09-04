@@ -51,27 +51,28 @@ in the first review.
 
 ## What the program is
 
-`videopodcast_magic.py` is the program, and `videopodcast_magic_texts_de.py`
-beside it holds every German text. There is nothing to build:
-`pyproject.toml` makes a package of those modules and puts a
-`videopodcast-magic` command on the path. The names carry an underscore
-while the repository and the command carry a hyphen, because only an
-underscore can be imported.
+The folder `videopodcast_magic/` is the program: `__init__.py` in it is
+the program itself, `language/de.py` inside it holds every German text,
+and `models/` holds the speaker model. There is nothing to build:
+`pyproject.toml` makes a package of that folder and puts a
+`videopodcast-magic` command on the path. The folder carries an
+underscore while the repository and the command carry a hyphen, because
+only an underscore can be imported.
 
-**It was one file until 4.9.2026, and it is being taken apart.** The
-catalogue moved out first; the aim is a folder `videopodcast_magic/`
-with an `__init__.py` in it and no `videopodcast_magic.py` left. None
-of that is finished, and the one part of it you have to know is this:
-**copy the program with the star, never alone.**
+**It was one file until 4.9.2026, and it is a folder now.** The
+catalogue moved out first and the rest followed the same day. The one
+part of it you have to know is this: **copy the folder, never the file
+inside it.**
 
 ```bash
-cp videopodcast_magic*.py /tmp/somewhere/      # not just the one file
+cp -R videopodcast_magic /tmp/somewhere/      # the folder, not one file
 ```
 
-The program reads its texts out of the folder it sits in, so a copy
-without them stops on the first line with a `FileNotFoundError` -- 210
-of 223 tests red at once, measured 4.9.2026. Wherever this page says
-"a copy of the program", it means all of them.
+The program reads its texts out of the folder it sits in, so a lone
+`__init__.py` stops during the import with a `FileNotFoundError` on
+`language/de.py` -- measured 4.9.2026, and every test that loads it
+goes down with it. Wherever this page says "a copy of the program", it
+means the folder.
 
 **Users install it with pip3 and no other way** -- that is the rule in
 `CLAUDE.md`, and it is why every Python package the program needs
@@ -103,7 +104,7 @@ about your machine and not about the program.
 ## The five rules that get a pull request turned away
 
 **1. Every user-visible string exists twice.** English in the source,
-German in `videopodcast_magic_texts_de.py` beside the program, keyed by
+German in `language/de.py` inside the program's folder, keyed by
 the English wording and reached through `T()`. Change one side and
 `text_no_german_left_test.py` turns red. The
 same holds for the manual: `docs/name.md` and `docs/name.de.md` change
@@ -114,8 +115,8 @@ translation of the English sentence.
 seen red is not known to check anything — in one day seventeen were
 found that had been green for months while testing nothing. So: break
 the one thing your check is about, in a copy of the program under
-`/tmp` -- `videopodcast_magic*.py`, all of them -- run the test against
-it with `VPM_SCRIPT=<the copy of the program itself>`, and keep
+`/tmp` -- `cp -R videopodcast_magic /tmp/...`, the whole folder -- run
+the test against it with `VPM_SCRIPT=<the copy's own __init__.py>`, and keep
 the red line. Then the entry in `tests/state/counterproof`: the test,
 the date, the check's wording, what you broke, the red line verbatim.
 `source_checks_proved_test.py` is a ratchet over the checks still

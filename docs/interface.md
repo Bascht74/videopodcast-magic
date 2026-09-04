@@ -457,9 +457,15 @@ the file's own clock only where nothing was measured.
 - Formats the machine cannot play (MXF, R3D, some ProRes variants) get a
   button for `ffplay`.
 
-The output also goes to `videopodcast-magic.log`, which sits beside the
-program file -- after an install that is the folder pip wrote it into,
-and the line the program prints as it starts names the whole path. Its
+The output also goes to `videopodcast-magic.log`, and where that file
+lies depends on how the program came onto the machine. A copy running
+out of a folder of its own writes the log beside the program. An
+installed copy writes it where the system keeps its logs --
+`~/Library/Logs/videopodcast-magic/` on a Mac, under `%LOCALAPPDATA%`
+on Windows, in the folder the desktop standard names for such things
+elsewhere -- because the folder pip installed into belongs to pip and is
+written over at the next install. The line the program prints as it
+starts names the whole path either way. Its
 first line names version, time, operating system and Python, and the line
 under it the path the program was started from -- several copies of the
 program share one log, and without that line nobody can tell later which

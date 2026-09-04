@@ -1,6 +1,6 @@
 # What was measured
 
-For `videopodcast_magic.py`. Each entry says where a number comes from:
+For the folder `videopodcast_magic/`. Each entry says where a number comes from:
 what was measured, how, and what came out. Not part of the manual and
 English only: this is for whoever changes the program, not for whoever
 uses it.

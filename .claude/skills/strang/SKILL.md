@@ -42,16 +42,14 @@ working in it. "Everything else" reads as a courtesy; a path reads as a
 border.
 
 **The program is not one file any more, so a border drawn round one
-name leaks.** It was `videopodcast_magic.py` alone until 4.9.2026; the
-texts then moved out into a file for each language, and the aim is a
-folder `videopodcast_magic/` with an `__init__.py` and no
-`videopodcast_magic.py` left. An order that names yesterday's file
-leaves today's wide open. So name the program as a **pattern** --
-`videopodcast_magic*.py`, and `videopodcast_magic/` once that exists --
-and the border survives the next cut without anybody maintaining a list
-of names.
+name leaks.** It was a single file until 4.9.2026; the texts moved out
+into a file for each language, and the same day the rest followed into
+the folder `videopodcast_magic/`. An order that names yesterday's file
+leaves today's wide open. So name the program as the **folder** --
+`videopodcast_magic/`, everything in it -- and the border survives the
+next cut inside it without anybody maintaining a list of names.
 
-**One file, one owner is unchanged by that.** The pattern says where
+**One file, one owner is unchanged by that.** The folder says where
 the border runs, not that one strand owns everything inside it. Where
 two strands really do work on different files of the program, the order
 names each file on its own.
@@ -91,8 +89,8 @@ editor that applies by proximity puts the lines silently beside the right
 place, and nothing goes red.
 
 **The real case is in `docs/notes/aufgaben.md`**, in the plan for the 29
-remaining path places: two of the old lines occur **twice** in
-`videopodcast_magic.py` and need the following line taken into the anchor
+remaining path places: two of the old lines occur **twice** in the
+program's own file and need the following line taken into the anchor
 to be unique. That was found by counting. Seventeen replacements were cut
 against that file; an uncounted anchor among them lands in the wrong
 function.
@@ -187,7 +185,8 @@ Order: <one sentence: what is different at the end>
 
 You own:      <paths, absolute>
 Not yours:    <paths, absolute, by name — including the program,
-               videopodcast_magic*.py, if somebody is working in it>
+               videopodcast_magic/ and everything in it, if somebody
+               is working in it>
 Prepare only: <a foreign file you deliver old-text/new-text pairs for
                instead of waiting. Text anchors, no line numbers; every
                anchor matches exactly once.>
