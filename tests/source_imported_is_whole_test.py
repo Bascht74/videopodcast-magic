@@ -16,10 +16,10 @@ import subprocess
 import sys
 import tempfile
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.path.realpath(os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py"))
+SCRIPT = os.path.realpath(the_program.SCRIPT)
 
 MARK = "WHOLE-REPORT"
 # Reading the file costs a fifth of a second here and the builder is

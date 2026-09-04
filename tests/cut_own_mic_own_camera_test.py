@@ -19,9 +19,9 @@ Nothing goes out: the run is given --without-auphonic and no key, so
 there is nothing to send with.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import csv, json, re, subprocess, sys, tempfile, time, wave
 import numpy as np
 
@@ -129,7 +129,7 @@ subprocess.run(build, check=True)
 # costs a second and pulls a window toolkit in with it. A plan with the
 # wrong number is refused before anything is measured.
 form = re.search(r"^FILE_FORMAT = (\d+)",
-                 open(SCRIPT, encoding="utf-8").read(), re.M)
+                 the_program.text(), re.M)
 # Anna's track carries her camera, so the cut knows where she sits
 # without any voice of the separation naming her. The room recording is
 # a track with no camera: the people in it are on screen through their

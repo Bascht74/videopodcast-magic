@@ -9,9 +9,9 @@ prints, so the question is put to the written file itself: how many
 audio tracks are in it, and what is each one called.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import json, re, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
@@ -103,7 +103,7 @@ subprocess.run(build, check=True)
 # program imported for it: importing 30000 lines to learn one integer
 # costs a second and pulls a window toolkit in with it.
 form = re.search(r"^FILE_FORMAT = (\d+)",
-                 open(SCRIPT, encoding="utf-8").read(), re.M)
+                 the_program.text(), re.M)
 # CamWide is in the assignment as a camera and in nobody's track: that
 # is the wide shot, and it is the case the counting exists for. It must
 # come out with the mix and nothing else, or "more tracks is better"

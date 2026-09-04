@@ -19,11 +19,10 @@ letter -- the overall mix included, which is why it is asked about on
 its own as well.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import glob
-import importlib.util
 import json
 import re
 import subprocess
@@ -39,10 +38,7 @@ import numpy as np
 # asked here.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 # The same environment the suite gives every test, so a run by hand

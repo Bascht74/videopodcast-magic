@@ -21,10 +21,10 @@ VPM_LAYOUT_PLATFORM=cocoa, which is where it was made to fall.
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 
 # The platform the suite has. cocoa, windows or xcb runs the same
@@ -43,7 +43,6 @@ WINDOW = (1600, 1000)
 PATIENCE = 60.0
 POLL = 50
 
-import importlib.util
 from PySide6 import QtCore, QtWidgets
 
 import key_store_apart
@@ -62,10 +61,7 @@ def check(name, ok, extra=""):
 
 
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The credential store gets a name of its own before the window comes
 # up: starting it saves the key it read, and the real one is not this
 # test's to touch.

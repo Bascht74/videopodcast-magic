@@ -45,17 +45,14 @@ import time
 HERE = os.path.dirname(os.path.abspath(__file__))
 TESTS = os.path.dirname(HERE)
 ROOT = os.path.dirname(TESTS)
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
+sys.path.insert(0, TESTS)
+import the_program
+SCRIPT = the_program.SCRIPT
 
 
 def program():
     """Load the program under test, in English."""
-    import importlib.util
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    vpm = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = vpm
-    spec.loader.exec_module(vpm)
+    vpm = the_program.load()
     vpm.set_language("en")
     return vpm
 

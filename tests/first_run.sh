@@ -14,8 +14,9 @@
 #   bash first_run.sh --for-real   delete it, after one question
 #
 # With --then-install it does the whole thing in one go: it clears the
-# machine and then does what the manual tells a stranger to do -- fetch
-# the one file into ~/videopodcast-magic and start it. That is the
+# machine and then fetches the program into ~/videopodcast-magic and
+# starts it. Every file of it, not one -- the texts stand beside it,
+# one per language, and it dies on import without them. That is the
 # round trip: nothing installed, then the program bringing everything
 # it needs by itself, the way anybody else would get it.
 #
@@ -326,17 +327,54 @@ if [ $THEN_INSTALL -eq 1 ]; then
     echo "-------------------------------------------------------------------"
     mkdir -p "$INTO" || { echo " $INTO cannot be made."; exit 1; }
     if [ $FROM_HERE -eq 1 ]; then
-        cp "$REPO/videopodcast_magic.py" "$INTO/" || exit 1
+        # Every file of the program, not the one: the texts stand
+        # beside it, one file per language, and it reads them from
+        # there. Named by shape, so a language added later travels too.
+        cp "$REPO"/videopodcast_magic*.py "$INTO/" || exit 1
         echo " taken from $REPO"
     else
-        # What the manual tells a stranger to do: fetch the one file and
-        # start it. There is nothing else to install -- the program
-        # brings what it needs when it needs it.
-        URL="https://raw.githubusercontent.com/Bascht74"
-        URL="$URL/videopodcast-magic/main/videopodcast_magic.py"
-        if ! "$PY" -c "import urllib.request as u, sys; \
-u.urlretrieve(sys.argv[1], sys.argv[2])" \
-                "$URL" "$INTO/videopodcast_magic.py"; then
+        # The state at main, fetched and started. Not one file any
+        # more: the texts stand beside the program, one per language,
+        # and the program without them dies on import. Which files
+        # those are is asked of github.com rather than written down
+        # here, so a language added later travels by itself -- the same
+        # shape the branch above copies by, and the same one
+        # .github/workflows/release.yml fetches a tag by.
+        API="https://api.github.com/repos/Bascht74"
+        API="$API/videopodcast-magic/contents?ref=main"
+        RAW="https://raw.githubusercontent.com/Bascht74"
+        RAW="$RAW/videopodcast-magic/main"
+        if ! "$PY" - "$API" "$RAW" "$INTO" <<'EOF'
+import json, re, subprocess, sys
+api, raw, into = sys.argv[1:4]
+
+
+def curl(url, *more):
+    """What an address answers, over curl rather than urllib.
+
+    A Python from python.org verifies against a certificate store macOS
+    never gives it -- measured 4.9.2026, urlretrieve here died on
+    CERTIFICATE_VERIFY_FAILED against raw.githubusercontent.com. curl
+    carries its own. tests/text_release_ready_test.py fetches the same
+    way and says the same thing.
+    """
+    return subprocess.run(["curl", "-fsSL", url] + list(more),
+                          stdout=subprocess.PIPE)
+
+
+got = curl(api)
+if got.returncode:
+    sys.exit(" github.com did not answer (curl %d)" % got.returncode)
+names = [one["name"] for one in json.loads(got.stdout)
+         if re.match(r"videopodcast_magic.*[.]py$", one["name"])]
+if not names:
+    sys.exit(" github.com named no file the program is made of")
+for name in names:
+    if curl(raw + "/" + name, "-o", into + "/" + name).returncode:
+        sys.exit(" %s did not come down" % name)
+print(" %d files: the program and the texts beside it" % len(names))
+EOF
+        then
             echo " The program could not be fetched. Nothing installed."
             exit 1
         fi

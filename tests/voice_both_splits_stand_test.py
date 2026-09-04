@@ -22,9 +22,9 @@ counted rather than believed. The cache is stood in for as well, which
 is what keeps the real one out of it.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import array, json, random, subprocess, sys, tempfile, time, wave
 
 # One clock for both processes: the child runs this file from the top
@@ -91,15 +91,11 @@ def look(case, media, folder):
     # two separations do to each other, so it is switched back on here
     # -- and every way into the real one is stood in for below.
     os.environ.pop("VPM_NO_SPEAKER_SPLIT", None)
-    import importlib.util
     from PySide6 import QtCore, QtGui, QtWidgets
     from PySide6.QtTest import QTest
 
     app = QtWidgets.QApplication(sys.argv[:1])
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    vpm = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = vpm
-    spec.loader.exec_module(vpm)
+    vpm = the_program.load()
     # Settled here too, or a standalone run on a German machine would
     # hold English keys against a German window.
     vpm.set_language("en")

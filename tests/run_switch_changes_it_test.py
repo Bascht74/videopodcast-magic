@@ -13,11 +13,10 @@ running. Whether the cut is right is not asked here, only that the
 switch moves it.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import concurrent.futures
-import importlib.util
 import io
 import json
 import shutil
@@ -29,10 +28,7 @@ import wave
 
 import numpy as np
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()

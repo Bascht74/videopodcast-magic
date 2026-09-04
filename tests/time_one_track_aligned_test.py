@@ -18,9 +18,9 @@ the file's start for it. No key is given, so nothing is sent to
 auphonic.com.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import json, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)

@@ -11,20 +11,17 @@ there, where none may happen. The cut comes out of the run itself. The
 interval at zero, nothing asks it.
 """
 import contextlib
-import importlib.util
 import io
 import os
 import shutil
 import sys
 import tempfile
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()

@@ -6,17 +6,15 @@ under it. A finding about the third block belongs to that row, not to a
 row of its own and not to the general notes.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import gc, importlib.util, shutil, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import gc, shutil, sys, tempfile, time, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 

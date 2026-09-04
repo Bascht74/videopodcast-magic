@@ -9,16 +9,13 @@ the file and handing the gate its numbers; the cheap way staying where
 it reaches; and a recording that fits nowhere, placed by neither.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, subprocess, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import subprocess, sys, tempfile, time, wave
 import numpy as np
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()

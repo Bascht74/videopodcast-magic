@@ -8,14 +8,11 @@ it thrown away the window measured the speakers on one clock and the
 run on another.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import sys, importlib.util, time
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, time
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -142,7 +139,7 @@ check("paths into the void -> no crash", d == {},
         % (len(d.get("axis") or {}), d))
 
 print("\n6. The interface really calls this path")
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 PASSED_ON = "return axis_with_blocks(paths, real_tc, HOP, blocks_of)"
 check("axis_measure only passes it on",
         PASSED_ON in source,

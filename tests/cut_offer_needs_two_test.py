@@ -40,6 +40,7 @@ these cases already expect. Both are found by their column names.
 VPM_CUT_GATE_DUMP=1 prints what the children said.
 """
 import os, sys, json, subprocess, tempfile, time
+import the_program
 
 # All six at once. The repeat below is for a lock inside Qt that runs
 # used to walk into; it costs nothing where it never fires, and it is
@@ -49,8 +50,7 @@ AT_ONCE = 6
 PATIENCE = 100
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 
 # One recording and two cameras out of the shared fixture. The second
@@ -184,13 +184,9 @@ def look(case):
     # The separation never starts here: what it would have found is in
     # the project file, and a run would fetch a model.
     os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
-    import importlib.util
     from PySide6 import QtCore, QtWidgets
     app = QtWidgets.QApplication(sys.argv[:1])
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    vpm = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = vpm
-    spec.loader.exec_module(vpm)
+    vpm = the_program.load()
     # Nothing here may reach the network or the keychain.
     vpm.list_presets = lambda key: []
     vpm.load_api_key = lambda: ""

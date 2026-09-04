@@ -12,10 +12,10 @@ run_three_ways_agree has it, and this one stops there.
 """
 import os
 import sys
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
@@ -25,7 +25,6 @@ os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 # project file, and a run would fetch a model.
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 
-import importlib.util
 import glob
 import json
 import shutil
@@ -37,10 +36,7 @@ from PySide6 import QtCore, QtGui, QtWidgets
 from fixture_root import fixture
 
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""
 vpm.update_offer = lambda *a, **k: None

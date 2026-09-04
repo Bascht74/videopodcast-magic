@@ -19,9 +19,9 @@ log cannot answer it -- a run that really reaches the service prints
 neither its address nor a word about uploading.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import csv, json, re, subprocess, sys, tempfile, time, wave
 import numpy as np
 
@@ -128,7 +128,7 @@ subprocess.run(build, check=True)
 # costs a second and pulls a window toolkit in with it. A plan with the
 # wrong number is refused before anything is measured.
 form = re.search(r"^FILE_FORMAT = (\d+)",
-                 open(SCRIPT, encoding="utf-8").read(), re.M)
+                 the_program.text(), re.M)
 # The two microphones are the tracks and carry no camera, so they are
 # measured and counted but have no picture to win. The separation was
 # made on the first camera's sound and found three voices; voices_of

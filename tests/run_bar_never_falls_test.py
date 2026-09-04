@@ -20,13 +20,10 @@ the program's own calls, so a name written out or held in a constant is
 seen and one built at run time is not -- the line says which.
 """
 import ast, os, sys, time
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -231,7 +228,7 @@ print("\n6. The stages have one set of names")
 # taken out of a loop, is collected apart and named in the line.
 said = set()
 unread = []
-for node in ast.walk(ast.parse(open(SCRIPT, encoding="utf-8").read())):
+for node in ast.walk(ast.parse(the_program.text())):
     if not (isinstance(node, ast.Call) and node.args
             and getattr(node.func, "id", "") == "step_begin"):
         continue

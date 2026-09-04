@@ -6,13 +6,11 @@ on: no counter, no clock. Each name brings the blocks already found for
 it, so naming one block of a chain brings the whole chain.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, struct, sys, tempfile, time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import struct, sys, tempfile, time
+vpm = the_program.load()
 WORK = tempfile.mkdtemp(prefix="together_")
 began = time.time()
 done = 0

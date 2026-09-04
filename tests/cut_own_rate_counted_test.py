@@ -10,19 +10,15 @@ one before it really stopped; last a camera the handover gives no rate.
 The stand-in media pool takes whatever it is handed, so this says what
 the program built, not what Resolve would accept.
 """
-import importlib.util
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 began = time.time()
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 done = 0

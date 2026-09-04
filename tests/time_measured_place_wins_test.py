@@ -15,14 +15,12 @@ missing; and a camera whose sound gives nothing, which the axis
 places by its clock rather than stopping on.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, io, json, struct, subprocess, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import io, json, struct, subprocess, sys, tempfile, time
 import contextlib
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 WORK = tempfile.mkdtemp(prefix="measuredplace_")
 began = time.time()
 done = 0

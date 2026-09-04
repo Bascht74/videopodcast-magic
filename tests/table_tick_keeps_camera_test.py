@@ -16,10 +16,10 @@ asks that.
 """
 import os
 import time
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile, wave
+SCRIPT = the_program.SCRIPT
+import json, shutil, subprocess, sys, tempfile, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
@@ -30,9 +30,7 @@ app = QtWidgets.QApplication(sys.argv[:1])
 # project file; the last window closing would otherwise take the
 # application with it before anything is read back.
 app.setQuitOnLastWindowClosed(False)
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""

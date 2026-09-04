@@ -9,13 +9,11 @@ tags first and for the bracket after; the fourth applies no tags and
 prints no tag line at all. Nothing reaches the disk.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, re, io, time, shutil, tempfile, contextlib
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, re, io, time, shutil, tempfile, contextlib
+vpm = the_program.load()
 
 # The line being read is a user-visible one, so it is read in the
 # language the source is written in, whatever LANG says on this machine.

@@ -8,16 +8,14 @@ window the Start button opens. Free space is read twice and can differ
 by a byte, so only the size is compared.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import collections, importlib.util, json, re, sys, time
+SCRIPT = the_program.SCRIPT
+import collections, json, re, sys, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True)]
 vpm.load_api_key = lambda: ""

@@ -18,14 +18,11 @@ import io
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()
@@ -137,7 +134,7 @@ check("and it carries the sharpness, beside the +0.00 ppm",
 print("\n4. One wording, in one place")
 # Two roads report the same measurement. Written out twice they drift,
 # and that is how one of them came to say nothing at all for versions.
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 program = ast.parse(source)
 
 

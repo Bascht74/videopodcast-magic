@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 """The entry "work without Auphonic" instead of a tick of its own."""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import sys, importlib.util, time
+SCRIPT = the_program.SCRIPT
+import sys, time
 
 began = time.time()
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 done = 0
 error = []
@@ -213,7 +210,7 @@ check("key without preset: an error message",
            said(messages)))
 
 print("\n8. The old tick is really gone")
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 check("no QCheckBox 'this time without'",
         "this time without auphonic.com" not in source,
         "'this time without auphonic.com' stands %d times in %s, wanted 0"

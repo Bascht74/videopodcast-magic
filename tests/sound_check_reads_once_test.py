@@ -9,14 +9,12 @@ asked for, one progress stream that never falls back, a track that is not
 there named instead of reported as a bad match, and one track alone.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import contextlib, importlib.util, io, subprocess, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import contextlib, io, subprocess, sys, tempfile, time
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 WORK = tempfile.mkdtemp(prefix="checkread_")
 RATE, SECONDS = 4000, 4.0

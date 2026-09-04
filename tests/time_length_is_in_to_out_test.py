@@ -11,22 +11,18 @@ the situation it is really in and says what does work instead, in the
 language of the run: without a picture there is no reference camera to
 name, and the message used to name one anyway."""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import contextlib
 import io
 import sys
 import time
-import importlib.util
 
 began = time.time()
 # No Qt here: the four functions this asks after live at module
 # level, and building an application for them doubled the run.
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-m = importlib.util.module_from_spec(spec); sys.modules["vpm"] = m
-spec.loader.exec_module(m)
+m = the_program.load()
 
 done = 0
 bad = []

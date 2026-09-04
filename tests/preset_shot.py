@@ -1,16 +1,13 @@
 # -*- coding: utf-8 -*-
 """Shot of the Auphonic box: the list entry instead of the checkbox."""
-import os, sys, importlib.util
+import os, sys
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # No account is asked for here: the preset list and the key come from
 # these two stubs, under the names the program uses today.
 vpm.list_presets = lambda key: [

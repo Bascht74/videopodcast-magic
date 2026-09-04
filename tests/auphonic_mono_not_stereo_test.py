@@ -6,15 +6,13 @@ is asked for. Auphonic appends rather than replaces, so an output
 sent twice is computed and billed twice.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, time
+SCRIPT = the_program.SCRIPT
+import sys, time
 began = time.time()
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 done = 0
 bad = []
 

@@ -8,19 +8,17 @@ the picture itself, which is sent the double click and the escape that
 used to do it. Last, that no player carries the command by another name.
 """
 import ast
-import io
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")
 
-import importlib.util
 
 from PySide6 import QtCore, QtGui, QtWidgets, QtMultimedia
 from PySide6 import QtMultimediaWidgets
@@ -28,10 +26,7 @@ from PySide6.QtCore import Qt
 
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 done = 0
@@ -58,7 +53,7 @@ def hint(widget, text):
 print("1. The four names that would ask for it")
 # Read as a tree, not searched for as text: a name inside a comment or a
 # catalogue entry is not a call, and a search over the text finds both.
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 WORDS = ("setFullScreen", "showFullScreen", "isFullScreen",
          "WindowFullScreen")
 spots = sorted((node.lineno, node.attr)

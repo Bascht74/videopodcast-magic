@@ -1,18 +1,14 @@
 # -*- coding: utf-8 -*-
 """Does the cut player really jump where it is told to?"""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import sys, time
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_PLAYER_DEBUG"] = "1"
-import importlib.util
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 from PySide6 import QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets
 from PySide6.QtCore import Qt

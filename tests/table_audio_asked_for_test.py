@@ -8,10 +8,10 @@ in it, never by a column number, and it stands in two places at once --
 on the file sheet and beside the player -- which the checks walk between.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, json, shutil, subprocess, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import json, shutil, subprocess, sys, tempfile, time
 
 # One clock for both processes: the child runs this file from the top
 # as well, and stops in look() before the parent's own part.
@@ -23,10 +23,7 @@ CAMERAS = ("Wide_C003.mov", "Guest_C009.mov")
 
 def load():
     """The program, freshly imported into this process."""
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    module = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = module
-    spec.loader.exec_module(module)
+    module = the_program.load()
     return module
 
 

@@ -6,14 +6,12 @@ at the same moment, two clip-on microphones on two people hear each other
 late. The delay is built in on purpose, so the answer is known beforehand.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, struct, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import shutil, struct, sys, tempfile, time, wave
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0

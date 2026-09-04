@@ -15,9 +15,9 @@ judgement here is put back on the recording's axis first -- read off the
 camera's own sound, the one track that is cut together with the picture.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import json, re, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
@@ -160,7 +160,7 @@ subprocess.run(build, check=True)
 # The file format number is read out of the program rather than the
 # program imported for it: importing it to learn one integer costs a
 # second and pulls a window toolkit in with it.
-form = re.search(r"^FILE_FORMAT = (\d+)", open(SCRIPT, encoding="utf-8").read(),
+form = re.search(r"^FILE_FORMAT = (\d+)", the_program.text(),
                  re.M)
 plan = {"format": int(form.group(1)) if form else 3, "created_by": "test",
         "production": "MW",

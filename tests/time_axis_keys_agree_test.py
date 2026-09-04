@@ -15,13 +15,11 @@ hands back, that the readers find a file under either name, and that
 the window has no reader of its own.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, subprocess, sys, tempfile, time, wave
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import shutil, subprocess, sys, tempfile, time, wave
+vpm = the_program.load()
 import numpy as np
 
 began = time.time()
@@ -180,7 +178,7 @@ check("the separated recording is placed against the earliest of them",
 #--------------------------------------------- 4. And the window agrees
 
 print("\n4. The window has no reader of its own")
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 asks = [ln.strip() for ln in source.splitlines()
         if '["axis"].get(' in ln or '(axis or {}).get(' in ln
         or '("axis") or {}).get(' in ln]

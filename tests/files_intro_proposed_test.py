@@ -12,18 +12,15 @@ an episode: where it is already given away, the next file with no
 place is left out instead of taking the mark off the first.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, subprocess, sys, time, wave
+SCRIPT = the_program.SCRIPT
+import shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -258,7 +255,7 @@ check("with the intro free the same file becomes the intro",
       alone.get() == vpm.TYPE_INTRO,
       "%s, wanted %s" % (alone.get(), vpm.TYPE_INTRO))
 
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 called = source.count("kind_proposal_say(state.get(\"clip_kinds\")")
 defined = source.count("def kind_proposal_apply")
 check("the window goes through the proposal and not past it",

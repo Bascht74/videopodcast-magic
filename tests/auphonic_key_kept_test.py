@@ -21,6 +21,7 @@ import sys
 import time
 import traceback
 import uuid
+import the_program
 
 began = time.time()
 done = 0
@@ -55,8 +56,7 @@ def finish(skipped=""):
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 
 def where_apart(got, want):
@@ -101,14 +101,10 @@ LONG = "not-a-key-" + "x" * 4000
 # section asks about the names it keeps and those have to be readable on
 # every machine -- the Mac names above all, which is where the fault
 # was. Loading it writes nothing anywhere.
-import importlib.util                                  # noqa: E402
 import key_store_apart                                 # noqa: E402
 
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The Mac side of the same move: service and account go to throwaway
 # names of their own. REG_PATH goes with them and is set again below,
 # to the name this file's own sections write under.

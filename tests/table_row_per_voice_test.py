@@ -17,9 +17,9 @@ Two windows: a project carrying three voices and one carrying none,
 both arranged so that no separation can start.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import json, re, subprocess, sys, tempfile, time, wave
 
 # One clock for both processes: the child runs this file from the top
@@ -55,15 +55,11 @@ def look(case, media):
     # a stored result to the screen, so it is switched back on here and
     # every way into it is counted rather than assumed shut.
     os.environ.pop("VPM_NO_SPEAKER_SPLIT", None)
-    import importlib.util
     from PySide6 import QtCore, QtWidgets
     from PySide6.QtTest import QTest
 
     app = QtWidgets.QApplication(sys.argv[:1])
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    vpm = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = vpm
-    spec.loader.exec_module(vpm)
+    vpm = the_program.load()
     # The language is settled here too, or a standalone run on a German
     # machine would compare English keys with a German window.
     vpm.set_language("en")

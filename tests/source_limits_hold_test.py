@@ -10,10 +10,10 @@ while the other side is left raw. All of it is counted as ratchets, so
 the numbers may fall and never rise.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import ast, io, re, sys, time, tokenize
+SCRIPT = the_program.SCRIPT
+import ast, re, sys, time, tokenize
 sys.path.insert(0, HERE)
 import ratchet
 
@@ -53,7 +53,7 @@ def over(held):
         ["%s %d>%d" % (mark, measure, allowed)
          for mark, measure, allowed, _line in held.worse[:3]])
 
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 lines = source.splitlines()
 tree = ast.parse(source)
 

@@ -10,14 +10,12 @@ whether it holds the file it was asked about, so a red line names
 the first thing that was wrong and not a consequence of it.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, struct, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import struct, sys, tempfile, time, wave
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 WORK = tempfile.mkdtemp(prefix="whynotjoined_")
 began = time.time()
 done = 0

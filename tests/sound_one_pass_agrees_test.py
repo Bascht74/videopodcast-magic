@@ -7,14 +7,12 @@ is only allowed if the numbers do not move -- so the same file is read
 both ways and the two are held against each other.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, subprocess, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import subprocess, sys, tempfile, time, wave
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 WORK = tempfile.mkdtemp(prefix="chanread_")
 began = time.time()
 done = 0

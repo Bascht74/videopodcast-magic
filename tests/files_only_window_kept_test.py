@@ -9,14 +9,12 @@ picture against the source camera, "the handover" describes the
 delivered file, and "what it wrote" is the line the log owes the user.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import hashlib, importlib.util, json, subprocess, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import hashlib, json, subprocess, sys, tempfile, time, wave
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 # The same environment the suite gives every test, so a run by hand
 # measures the same thing. Speaker separation is off: it fetches a

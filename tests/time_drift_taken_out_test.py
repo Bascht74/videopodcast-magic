@@ -8,10 +8,10 @@ returned one, and what is left of the offset and of the clock drift is
 measured again by a second route.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, subprocess, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import subprocess, sys, tempfile, time
 import numpy as np
 
 began = time.time()
@@ -34,10 +34,7 @@ def bytes_of(file_path):
         return -1
 
 
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 SR = vpm.SR
 T = tempfile.mkdtemp(prefix="drift_")
 

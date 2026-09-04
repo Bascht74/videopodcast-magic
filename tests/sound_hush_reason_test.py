@@ -8,15 +8,12 @@ number, the log gives nobody anything to turn a knob by.
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-import importlib.util
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -50,7 +47,7 @@ check("a channel under -70 dBFS is converter noise",
       silent == [False, True] and why[1][0] == "quiet", str(why[1]))
 check("and that line says the level",
       "-71" in vpm.hush_reason(2, why), vpm.hush_reason(2, why))
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 check("one rule, not the same rule typed twice",
       source.count("def channel_hush(") == 1
       and source.count("silent, why = channel_hush(level)") == 2,

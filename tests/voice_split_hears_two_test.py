@@ -13,10 +13,10 @@ turn is one stretch under one label with its edges where truth has them.
 """
 import os
 import sys
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
@@ -29,11 +29,8 @@ os.environ.pop("VPM_NO_SPEAKER_SPLIT", None)
 # put it, so this one test looks where the program looks in earnest.
 os.environ.pop("VPM_CACHE", None)
 
-import importlib.util
 import time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 # Nearly three times the worst boundary error measured, so a slower
 # machine does not turn it red. Further out than a third of a second

@@ -17,13 +17,11 @@ and that the window looks for both under the same name. The clean-up
 itself lives inside the window and is read out of the source.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, subprocess, sys, tempfile, time, wave
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import shutil, subprocess, sys, tempfile, time, wave
+vpm = the_program.load()
 import numpy as np
 
 began = time.time()
@@ -141,7 +139,7 @@ check("and it is the curve that was worked out",
 #------------------------------------------ 3. And the window looks there
 
 print("\n3. What the window does with a file that leaves the list")
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 clears = ("keys = set(path_key(p) for p in gone)" in source
           and "for api_key in [k for k in _ENV if k[0] in keys]" in source)
 check("the clean-up looks for the curve under that same name", clears,

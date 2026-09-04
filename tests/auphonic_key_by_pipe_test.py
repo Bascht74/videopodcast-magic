@@ -15,6 +15,7 @@ import subprocess
 import sys
 import time
 import uuid
+import the_program
 
 began = time.time()
 
@@ -57,8 +58,7 @@ def stop():
 
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 
 def where_apart(got, want):
@@ -336,12 +336,8 @@ if bad:
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 
-import importlib.util                                       # noqa: E402
 import key_store_apart                                      # noqa: E402
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 # Qt comes up here, before every way of starting a program is nailed
 # shut below, and offscreen: the last section builds a row of widgets

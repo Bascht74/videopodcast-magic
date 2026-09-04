@@ -13,13 +13,11 @@ them, "nobody set a point" the window the interface fills in by itself,
 gathering underneath.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import contextlib, importlib.util, io, shutil, subprocess, sys, tempfile, time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import contextlib, io, shutil, subprocess, sys, tempfile, time
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()
