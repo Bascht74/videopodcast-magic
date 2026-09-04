@@ -9,6 +9,10 @@ called before the language is settled -- and then the case itself, a
 run below the floor read in both directions, against a copy whose
 floor no ffmpeg on this machine can reach.
 
+The chain is built over every piece of the program, not over the way
+in alone: T() is written in a piece of its own and called by bare name
+everywhere, and a chain out of one file finds no way to it at all.
+
 The limit of the method: argparse's own words -- the usage line,
 "unrecognized arguments" -- are English whatever the language, and no
 T() carries them. They are not what this measures.
@@ -40,56 +44,63 @@ def check(name, ok, extra=""):
 
 SCRIPT = the_program.SCRIPT
 m = the_program.load()
-TREE = ast.parse(the_program.text())
+PIECES = the_program.pieces()
+TREES = [(where, ast.parse(body)) for where, body in PIECES]
 
 # ------------------------------------------------------------- the shape
 print("1. Nothing speaks before the language is settled")
 
-# Only functions the program itself defines at its top level, and only
-# calls made by bare name. A method called `set` or `split` on some
-# object elsewhere carries the name of a function here otherwise, and
-# the chain below then reports a way that does not exist.
+# Only functions the program itself defines at the top level of one of
+# its pieces, and only calls made by bare name. A method called `set`
+# or `split` on some object elsewhere carries the name of a function
+# here otherwise, and the chain below then reports a way that does not
+# exist. Every piece, because a name is called here and written next
+# door, and a chain that stops at the file boundary finds nothing.
 MODULE = {}
-for node in TREE.body:
-    if isinstance(node, ast.FunctionDef):
-        MODULE.setdefault(node.name, []).append(node)
+for where, tree in TREES:
+    for node in tree.body:
+        if isinstance(node, ast.FunctionDef):
+            MODULE.setdefault(node.name, []).append((where, node))
 
 
-def calls_in(node):
+def calls_in(node, where):
     """Every function of this program that piece of source calls."""
     out = []
     for bit in ast.walk(node):
         if isinstance(bit, ast.Call) and isinstance(bit.func, ast.Name) \
                 and bit.func.id in MODULE:
-            out.append((bit.func.id, bit.lineno))
+            out.append((bit.func.id, where, bit.lineno))
     return out
 
 
 EDGES = {}
-for name, nodes in MODULE.items():
-    EDGES[name] = [one for node in nodes for one in calls_in(node)]
+for name, written in MODULE.items():
+    EDGES[name] = [one for where, node in written
+                   for one in calls_in(node, where)]
 
 
 def way_to_T(name, above=()):
     """The chain of calls from that function down to T(), or None.
 
     The chain and not a yes: a red line saying only that something
-    speaks leaves the reader to find out through what.
+    speaks leaves the reader to find out through what. Each step
+    carries the piece it stands in as well as the line, because a
+    number on its own points into whichever file the reader assumes.
     """
     if name in above or name not in EDGES:
         return None
-    for called, line in EDGES[name]:
+    for called, where, line in EDGES[name]:
         if called in ("T", "TN"):
-            return ["%s (line %d)" % (called, line)]
+            return ["%s (%s line %d)" % (called, where, line)]
         rest = way_to_T(called, above + (name,))
         if rest:
-            return ["%s (line %d)" % (called, line)] + rest
+            return ["%s (%s line %d)" % (called, where, line)] + rest
     return None
 
 
-MAIN = [node for node in TREE.body
+MAIN = [(where, node) for where, tree in TREES for node in tree.body
         if isinstance(node, ast.FunctionDef) and node.name == "main"]
-BODY = MAIN[0].body if MAIN else []
+AT, BODY = (MAIN[0][0], MAIN[0][1].body) if MAIN else ("nowhere", [])
 settles = None
 for i, one in enumerate(BODY):
     if any(isinstance(bit, ast.Call) and isinstance(bit.func, ast.Name)
@@ -103,19 +114,30 @@ check("main settles the language before it does its work",
          "statement %d calls" % settles if settles is not None
          else "none of them calls"))
 
+# Without this the judgement below stands over a chain that reaches
+# nothing and is green for nothing -- which is what it was the day T()
+# moved into a piece of its own and this reading went on building its
+# chain out of the way in alone.
+speakers = [name for name in MODULE if way_to_T(name)]
+check("the chain reaches T() at all",
+      bool(speakers),
+      "%d of %d functions over %d piece(s) reach T(); at 0 the "
+      "judgement below is true whatever the program does"
+      % (len(speakers), len(MODULE), len(PIECES)))
+
 # Everything above that statement. Where there is none, that is the
 # whole of main(), and this check falls with the one above rather than
 # passing over a program that never settles a language at all.
 early = []
 for one in BODY[:settles]:
-    for called, line in calls_in(one):
+    for called, where, line in calls_in(one, AT):
         if called in ("T", "TN"):
-            early.append("%s itself (line %d)" % (called, line))
+            early.append("%s itself (%s line %d)" % (called, where, line))
             continue
         way = way_to_T(called)
         if way:
-            early.append("%s (line %d) -> %s"
-                         % (called, line, " -> ".join(way)))
+            early.append("%s (%s line %d) -> %s"
+                         % (called, where, line, " -> ".join(way)))
 check("nothing that can say a sentence is called before that",
       bool(MAIN) and not early,
       "%d call(s) in main() before the language is settled reach T(): %s"

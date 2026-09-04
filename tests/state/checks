@@ -164,7 +164,7 @@ sound_tracks_written	31
 source_checks_proved	22
 source_imported_is_whole	5
 source_limits_hold	15
-source_no_loose_ends	10
+source_no_loose_ends	11
 source_no_real_names	6
 source_numpy_comes_last	4
 source_reds_carry_value	6
@@ -187,7 +187,7 @@ table_stereo_splits	5
 table_tick_keeps_camera	13
 text_german_arrives	11
 text_index_targets_exist	26
-text_lang_settled_first	6
+text_lang_settled_first	7
 text_lists_match	25
 text_no_german_left	49
 text_only_texts_change	80
@@ -262,7 +262,7 @@ window_play_follows_tab	23
 window_prework_box_goes	3
 window_setup_kept_apart	19
 window_size_as_run	6
-window_speaker_cell_fits	11
+window_speaker_cell_fits	15
 window_speakers_as_run	14
 window_stages_named	16
 window_stands_still	2
