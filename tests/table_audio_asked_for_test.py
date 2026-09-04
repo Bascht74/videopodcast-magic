@@ -45,7 +45,7 @@ def look(media):
     vpm.list_presets = lambda key: []
     vpm.load_api_key = lambda: ""
     vpm.update_offer = lambda *a, **k: None
-    vpm.speaker_split_setup = lambda *a, **k: "not in a test"
+    vpm.speaker_split_available = lambda deep=False: True
     vpm.speaker_split_run = lambda *a, **k: ([], "not in a test")
 
     bad = []

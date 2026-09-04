@@ -126,7 +126,7 @@ def no_install(*packages):
     return False
 
 
-def no_manager(update=False, asked=False):
+def no_manager(update=False, asked=False, say=None, started=None):
     """The package manager is never really asked from a test.
 
     The same arguments as the real one, so a call the real one would

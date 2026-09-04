@@ -20,7 +20,7 @@ echo "Python: $("$PY" -V 2>&1)"
 # while the working file is being written on, and without this line the
 # two runs look alike in the log and a result is read against the wrong
 # file.
-echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic.py}"
+echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic/__init__.py}"
 # Without ffmpeg most of the suite goes red, and none of those reds say
 # anything about the program: they say the machine has no ffmpeg. The
 # program brings none of its own either -- it names the package manager

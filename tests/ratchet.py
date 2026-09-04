@@ -23,7 +23,11 @@ import json
 import os
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-IN_TREE = os.path.join(os.path.dirname(HERE), "videopodcast_magic.py")
+# The program is a folder, and its entry is literally `__init__.py`. A
+# path that still names the old single file matches nothing, and then
+# every run under VPM_SCRIPT silently declines to write the state.
+IN_TREE = os.path.join(os.path.dirname(HERE), "videopodcast_magic",
+                       "__init__.py")
 
 
 def state_is_ours():

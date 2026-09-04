@@ -79,10 +79,10 @@ truth_file = os.path.join(folder, "truth.txt")
 if not (os.path.isfile(talk) and os.path.isfile(truth_file)):
     leave("no spoken material in %s -- fixtures.sh builds it where "
           "say(1) is there" % folder)
-if not vpm.speaker_venv_python():
-    leave("the speaker separation is not set up (no environment under "
-          "%s) -- it is 218 MB, and a test does not fetch that"
-          % vpm.speaker_venv_folder())
+if not vpm.speaker_split_available(deep=True):
+    leave("pyannote does not import under %s -- it comes with the "
+          "program now, so pip3 install -U of this package puts it "
+          "back; a test does not fetch it" % vpm.speaker_python())
 if not vpm.speaker_model_folder():
     leave("no separation model beside %s -- it is 33 MB, and a test "
           "does not fetch that either" % SCRIPT)

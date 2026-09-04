@@ -1,10 +1,11 @@
 # -*- coding: utf-8 -*-
 """The ffmpeg the program insists on: new enough, and only that.
 
-One condition, not two. The floor is the oldest build measured to hand
-a camera file's boxes through a copy unchanged; soxr is no part of it,
-because a build without soxr takes the clock drift out in steps of
-21 ppm instead of 0.21 -- coarser, and coarser is not broken.
+One condition, not two. The floor is what this program answers for;
+soxr is no part of it, because a build without soxr takes the clock
+drift out in steps of 21 ppm instead of 0.21 -- coarser, and coarser
+is not broken. Offering one that has it is a different matter, and it
+is measured in run_ffmpeg_offered_test.py.
 
 The version is read off the line ffmpeg prints, so the reading is held
 against lines real builds really write -- Homebrew, evermeet, Debian,
@@ -12,10 +13,11 @@ gyan, and one straight out of git that carries a commit where the
 number should be. Then in order: the floor itself, what the decision
 makes of a version above and below it, that both tools are asked and
 the old one named, that a build without soxr still lets the run start,
-that what brew is offered is the bottle and not the tap -- the tap has
-no bottle at all, so that button would compile in the window's own
-thread -- that installing and building again are different commands, and that the ways out -- --help, --version,
---update -- still answer while the gate is shut.
+that what brew is offered is the tap that carries soxr and asks for
+it by name, that a build from another tap is taken out of the way
+first, that installing and building again are different commands, and
+that the ways out -- --help, --version, --update -- still answer while
+the gate is shut.
 """
 import os
 import the_program
@@ -77,11 +79,11 @@ check("a build with no number in it yields no version",
                              "Copyright")[0],))
 
 # ---------------------------------------------------------------- the floor
-check("the floor is ffmpeg 8.1.2", m.FFMPEG_FLOOR == (8, 1, 2),
+check("the floor is ffmpeg 9.0.1", m.FFMPEG_FLOOR == (9, 0, 1),
       "the program says %s, this test %s"
-      % (m.version_text(m.FFMPEG_FLOOR), "8.1.2"))
-check("8.1.1 is under the floor and 8.1.2 is not",
-      (8, 1, 1) < m.FFMPEG_FLOOR <= (8, 1, 2),
+      % (m.version_text(m.FFMPEG_FLOOR), "9.0.1"))
+check("9.0.0 is under the floor and 9.0.1 is not",
+      (9, 0, 0) < m.FFMPEG_FLOOR <= (9, 0, 1),
       "floor %s" % m.version_text(m.FFMPEG_FLOOR))
 
 # ------------------------------------------------- what the decision makes
@@ -111,7 +113,7 @@ def decide(answers, soxr=True):
         m.soxr_available = real_soxr
 
 
-new = ((8, 1, 2), "8.1.2")
+new = ((9, 0, 1), "9.0.1")
 old = ((8, 0, 0), "8.0-tessus")
 none = (None, "N-120722-g230fafe68a")
 
@@ -150,12 +152,15 @@ check("an ffmpeg at the floor built without soxr still lets the run start",
       "correction is a note and not a reason to refuse" % (kind, says))
 
 # ----------------------------------------- what brew is offered, exactly
-# Measured on 4.9.2026: homebrew/core builds ffmpeg without soxr, and
-# the ffmpeg on this machine comes from the tap homebrew-ffmpeg/ffmpeg,
-# where libsoxr is optional and has to be asked for by name. A plain
-# "brew install ffmpeg" therefore installs exactly what the program
-# complains about a moment later. Driven, not read off this machine, so
-# the judgement is the same on a builder that has no brew.
+# Measured on 4.9.2026: homebrew/core builds ffmpeg without soxr in
+# every version there is -- its 9.0.1 answers "Requested resampling
+# engine is unavailable" -- and libsoxr lives only in the tap
+# homebrew-ffmpeg/ffmpeg, as an option that has to be asked for by
+# name. A plain "brew install ffmpeg" therefore installs exactly what
+# the fine clock correction cannot use. Driven, not read off this
+# machine, so the judgement is the same on a builder that has no brew:
+# which keg is installed here decides whether brew is told to install
+# or to build again, and that is driven too.
 class OnlyBrew:
     """A search path with brew on it and nothing else."""
 
@@ -165,32 +170,54 @@ class OnlyBrew:
 
 
 was_shutil, was_platform = m.shutil, m.sys.platform
+was_foreign = m.brew_ffmpeg_from_elsewhere
 try:
     m.shutil = OnlyBrew()
     m.sys.platform = "darwin"
+    # No foreign keg in the way: then install and build-again are two
+    # commands. With one in the way there is nothing to build again,
+    # which is the check under these two.
+    m.brew_ffmpeg_from_elsewhere = lambda: False
     mac_install = m.package_manager_command()
     mac_again = m.package_manager_command(update=True)
+    m.brew_ffmpeg_from_elsewhere = lambda: True
+    mac_blocked = m.package_manager_command(update=True)
 finally:
     m.shutil, m.sys.platform = was_shutil, was_platform
+    m.brew_ffmpeg_from_elsewhere = was_foreign
 # Written out twice rather than looped: a check whose wording is worked
 # out at run time cannot be found in state/counterproof, which reads
 # the wording out of the source.
-# What the button mends is the version. The tap that carries soxr has
-# no bottle at all -- measured 4.9.2026, brew info answers with none --
-# so offering it would compile in the window's own thread, minutes to
-# an hour, for a want that is a note and not a refusal.
-WRONG = ("it offers %r -- the tap has no bottle, so this button would "
-         "compile in the window's own thread")
-check("the brew command to install ffmpeg offers the bottle, not the tap",
-      "ffmpeg" in mac_install and "homebrew-ffmpeg/ffmpeg/ffmpeg"
-      not in mac_install, WRONG % (" ".join(mac_install),))
-check("the brew command to build it again offers the bottle, not the tap",
-      "ffmpeg" in mac_again and "homebrew-ffmpeg/ffmpeg/ffmpeg"
-      not in mac_again, WRONG % (" ".join(mac_again),))
+WRONG = ("it offers %r -- homebrew/core carries no build with soxr in "
+         "any version, so this button would install what the fine clock "
+         "correction cannot use")
+check("the brew command to install ffmpeg names the tap that carries soxr",
+      "homebrew-ffmpeg/ffmpeg/ffmpeg" in mac_install,
+      WRONG % (" ".join(mac_install),))
+check("the brew command to build it again names the tap that carries soxr",
+      "homebrew-ffmpeg/ffmpeg/ffmpeg" in mac_again,
+      WRONG % (" ".join(mac_again),))
+# The tap has libsoxr as an option, not as a default: without the word
+# the build comes out the same as the core one.
+check("and both ask for soxr by name",
+      "--with-libsoxr" in mac_install and "--with-libsoxr" in mac_again,
+      "install %r, build again %r"
+      % (" ".join(mac_install), " ".join(mac_again)))
 check("installing and building it again are different brew commands",
       mac_install != mac_again,
       "both are %r -- told to install what is already there brew answers "
       "'already installed' and does nothing" % (" ".join(mac_install),))
+# Measured 4.9.2026: with homebrew/core's ffmpeg installed, brew
+# refuses the tap outright -- "Formulae with the same name from
+# different taps cannot be installed at the same time" -- and there is
+# then nothing to build again, only something to make room for.
+check("with a build from another tap in the way it installs rather "
+      "than builds again",
+      mac_blocked == mac_install,
+      "it offers %r where a foreign keg is installed, and %r where none "
+      "is -- brew answers 'not installed' to a reinstall of a formula "
+      "it is about to be made to forget"
+      % (" ".join(mac_blocked), " ".join(mac_install)))
 
 # --------------------------------- the window offers what the console does
 # Two places build the command -- tools_repaired for the console,
@@ -253,6 +280,7 @@ boxes = {}
 try:
     m._qt_widgets = lambda: Widgets
     m.shutil, m.sys.platform = OnlyBrew(), "darwin"
+    m.brew_ffmpeg_from_elsewhere = lambda: False
     for kind, sentence in (("missing", "ffmpeg, ffprobe is missing."),
                            ("old", "Here: ffmpeg 8.0-tessus.")):
         m.TOOL_TROUBLE = (kind, sentence)
@@ -263,6 +291,7 @@ try:
 finally:
     m._qt_widgets, m.TOOL_TROUBLE = was_qt, was_trouble
     m.shutil, m.sys.platform = was_shutil, was_platform
+    m.brew_ffmpeg_from_elsewhere = was_foreign
 
 
 def offered(kind):
@@ -306,8 +335,14 @@ check("with neither tool anywhere the complaint is that they are missing",
       "said %r, %r" % (kind, says))
 
 # --------------------------------------------------- install against lift
-install = m.package_manager_command()
-lift = m.package_manager_command(update=True)
+# The foreign keg is driven away here too: with one in the way there
+# is deliberately nothing to build again, and that is the check above.
+try:
+    m.brew_ffmpeg_from_elsewhere = lambda: False
+    install = m.package_manager_command()
+    lift = m.package_manager_command(update=True)
+finally:
+    m.brew_ffmpeg_from_elsewhere = was_foreign
 if not install:
     print("LEFT OUT: no package manager on this machine, so the two "
           "commands cannot be compared -- install one, or run this "

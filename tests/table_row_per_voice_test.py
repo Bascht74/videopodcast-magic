@@ -86,7 +86,8 @@ def look(case, media):
         separations.append("reading the cache")
         return []
 
-    vpm.speaker_split_setup = no_setup
+    vpm.fetch_model = no_setup
+    vpm.speaker_split_available = lambda deep=False: True
     vpm.speaker_split_run = no_split
     vpm.speaker_cache_read = no_cache
 

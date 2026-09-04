@@ -1,6 +1,6 @@
 # The test suite
 
-228 tests against `../videopodcast_magic.py`. Every one of them stands
+233 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -96,7 +96,7 @@ force` rebuilds regardless.
 
 | Variable | Effect |
 |---|---|
-| `VPM_SCRIPT` | which script is tested (default: the one in the folder above) |
+| `VPM_SCRIPT` | which copy of the program is tested, named by its own `__init__.py` (default: the one in the folder above) |
 | `VPM_PYTHON` | which interpreter runs the suite (default: the version the program recommends, if it is installed) |
 | `VPM_MEDIA` | folder with a project to open (default: the `interview` fixture) |
 | `VPM_FIXTURES` | where the six shared folders live (default: `/tmp/vpm-fixtures-<uid>`) |
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-228 tests. The name is the one a red line carries, and beside it the
+233 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -355,6 +355,7 @@ it is green.
 | `voice_raw_times_kept` | Local speaker separation: the arithmetic around the model. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
 | `voice_split_hears_two` | Let the speaker separation really run, on two voices we spoke. |
+| `voice_split_names_fault` | A separation that will not run says which fault it hit, not a story. |
 | `voice_tracks_read_once` | The tracks of a run are read once, whatever the reading is used for. |
 | `voice_turns_found` | Speech is found back where it was put, offset and all. |
 | `voice_words_intact` | Speech recognition: the words, their times and their punctuation. |
@@ -491,6 +492,9 @@ it is green.
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
 | `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and only that. |
 | `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
+| `run_ffmpeg_offered` | Getting ffmpeg is offered on all three systems, and a test run gets none. |
+| `run_install_is_watched` | Installing ffmpeg shows what it is doing while it does it. |
+| `run_log_within_reach` | The log of a run is where whoever started it can get at it. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
 | `run_only_newer_offered` | Keeping itself up to date must not surprise anybody or guess. |
@@ -512,6 +516,7 @@ it is green.
 |---|---|
 | `text_german_arrives` | The German texts are a file of their own, and every way in brings them. |
 | `text_index_targets_exist` | The index has to point at sections that are really there. |
+| `text_lang_settled_first` | Nothing this program says is made before the language is settled. |
 | `text_lists_match` | Where the manual copies a list out of the program, it has to match. |
 | `text_no_german_left` | Hunt down the last German word, and check the catalogue itself. |
 | `text_only_texts_change` | The language machinery: catalogue, detection, switch, log colours. |

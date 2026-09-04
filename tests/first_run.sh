@@ -15,10 +15,11 @@
 #
 # With --then-install it does the whole thing in one go: it clears the
 # machine and then fetches the program into ~/videopodcast-magic and
-# starts it. Every file of it, not one -- the texts stand beside it,
-# one per language, and it dies on import without them. That is the
-# round trip: nothing installed, then the program bringing everything
-# it needs by itself, the way anybody else would get it.
+# starts it. The whole folder, not one file -- the program is a folder
+# with its texts in a folder inside it, one file per language, and it
+# dies on import without them. That is the round trip: nothing
+# installed, then the program bringing everything it needs by itself,
+# the way anybody else would get it.
 #
 #   bash first_run.sh --for-real --then-install
 #   bash first_run.sh --for-real --then-install --to PATH
@@ -37,7 +38,7 @@
 #   keychain     the auphonic key
 #
 # What it never touches:
-#   * models/ beside the program. The separation model travels with the
+#   * models/ inside the program. The separation model travels with the
 #     program and is not fetched, so removing it does not test an
 #     install -- it breaks the program.
 #   * project folders and their results.
@@ -327,25 +328,28 @@ if [ $THEN_INSTALL -eq 1 ]; then
     echo "-------------------------------------------------------------------"
     mkdir -p "$INTO" || { echo " $INTO cannot be made."; exit 1; }
     if [ $FROM_HERE -eq 1 ]; then
-        # Every file of the program, not the one: the texts stand
-        # beside it, one file per language, and it reads them from
-        # there. Named by shape, so a language added later travels too.
-        cp "$REPO"/videopodcast_magic*.py "$INTO/" || exit 1
+        # The whole folder, not a file: the program is a folder, its
+        # texts lie in a folder inside it, and it reads them from
+        # there. Copying the folder is why a language added later
+        # travels by itself. The model inside it travels too -- it is
+        # not fetched, so a copy without it cannot separate speakers.
+        cp -R "$REPO/videopodcast_magic" "$INTO/" || exit 1
+        rm -rf "$INTO/videopodcast_magic/__pycache__"
         echo " taken from $REPO"
     else
         # The state at main, fetched and started. Not one file any
-        # more: the texts stand beside the program, one per language,
-        # and the program without them dies on import. Which files
+        # more: the program is a folder and its texts lie in a folder
+        # inside it, and without them it dies on import. Which files
         # those are is asked of github.com rather than written down
-        # here, so a language added later travels by itself -- the same
-        # shape the branch above copies by, and the same one
-        # .github/workflows/release.yml fetches a tag by.
+        # here, so a language added later travels by itself. models/ is
+        # left where it is: 31 MB that this way in never fetched
+        # either.
         API="https://api.github.com/repos/Bascht74"
-        API="$API/videopodcast-magic/contents?ref=main"
+        API="$API/videopodcast-magic/contents/videopodcast_magic"
         RAW="https://raw.githubusercontent.com/Bascht74"
-        RAW="$RAW/videopodcast-magic/main"
+        RAW="$RAW/videopodcast-magic/main/videopodcast_magic"
         if ! "$PY" - "$API" "$RAW" "$INTO" <<'EOF'
-import json, re, subprocess, sys
+import json, os, subprocess, sys
 api, raw, into = sys.argv[1:4]
 
 
@@ -362,17 +366,30 @@ def curl(url, *more):
                           stdout=subprocess.PIPE)
 
 
-got = curl(api)
-if got.returncode:
-    sys.exit(" github.com did not answer (curl %d)" % got.returncode)
-names = [one["name"] for one in json.loads(got.stdout)
-         if re.match(r"videopodcast_magic.*[.]py$", one["name"])]
+def python_files(under):
+    """Every .py in one folder of the program, by its path inside it."""
+    got = curl(api + under + "?ref=main")
+    if got.returncode:
+        sys.exit(" github.com did not answer (curl %d)" % got.returncode)
+    found = []
+    for one in json.loads(got.stdout):
+        deeper = under + "/" + one["name"]
+        if one["type"] == "file" and one["name"].endswith(".py"):
+            found.append(deeper.lstrip("/"))
+        elif one["type"] == "dir" and one["name"] != "models":
+            found += python_files(deeper)
+    return found
+
+
+names = python_files("")
 if not names:
     sys.exit(" github.com named no file the program is made of")
 for name in names:
-    if curl(raw + "/" + name, "-o", into + "/" + name).returncode:
+    target = os.path.join(into, "videopodcast_magic", name)
+    os.makedirs(os.path.dirname(target), exist_ok=True)
+    if curl(raw + "/" + name, "-o", target).returncode:
         sys.exit(" %s did not come down" % name)
-print(" %d files: the program and the texts beside it" % len(names))
+print(" %d files: the program and the texts inside it" % len(names))
 EOF
         then
             echo " The program could not be fetched. Nothing installed."
@@ -381,7 +398,10 @@ EOF
         echo " fetched from github.com"
     fi
     cd "$INTO" || exit 1
-    exec "$PY" videopodcast_magic.py
+    # The way in has to keep the name __init__.py -- only for that name
+    # does Python look in the folder beside it, which is where the
+    # texts are.
+    exec "$PY" videopodcast_magic/__init__.py
 fi
 
 echo " What happens by itself from here:"

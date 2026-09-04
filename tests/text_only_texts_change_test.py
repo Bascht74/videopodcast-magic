@@ -9,20 +9,20 @@ not there: whether --lang is acted on cannot be read off the parser,
 and a wording held against the output would only say what language the
 machine itself is set to.
 """
-import os
+import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-# The German texts are a file of their own beside the program. The
-# program reads them from there, so this test looks in the same place
-# and a snapshot run reads the snapshot's own texts.
-TEXTS_DE = os.path.join(os.path.dirname(SCRIPT),
-                        "videopodcast_magic_texts_de.py")
-import ast, importlib.util, io, re, subprocess, sys, time, tokenize
+sys.path.insert(0, HERE)
+import the_program
+SCRIPT = the_program.SCRIPT
+# The German texts are a file of their own in the folder "language"
+# beside the way in. The program reads them from there, so this test
+# looks in the same place and a snapshot run reads the snapshot's own
+# texts.
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.py")
+import ast, importlib.util, io, re, subprocess, time, tokenize
 
 began = time.time()
 
-sys.path.insert(0, HERE)
 import ratchet
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
