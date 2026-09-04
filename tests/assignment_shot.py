@@ -228,21 +228,30 @@ def stirring():
                   if w.isVisible()))
 
 
-def gave_up(what, ms, limit, life):
-    """Why a wait ended, in numbers: only this line reaches another machine."""
+def gave_up(what, ms, limit, life, missing=None):
+    """Why a wait ended, in numbers: only this line reaches another machine.
+
+    *missing* says which of the several things the step waits for are
+    not there. Without it the line says the window stood still and not
+    what it stood still for, and that is the half somebody can act on.
+    """
     took = time.monotonic() - watch["began"]
+    try:
+        lacking = (", still wanting %s" % missing()) if missing else ""
+    except Exception as no_reading:
+        lacking = ", and what is missing could not be read: %s" % no_reading
     if life is None:
-        return ("waited %.1f s for %s, and it never came -- %d tries in "
+        return ("waited %.1f s for %s%s, and it never came -- %d tries in "
                 "%.1f s, and nothing here that would say whether the "
                 "window was still moving"
-                % (limit * ms / 1000.0, what, watch["tries"], took))
-    return ("gave up on %s: nothing moved for %.1f s, %d tries in a row "
+                % (limit * ms / 1000.0, what, lacking, watch["tries"], took))
+    return ("gave up on %s: nothing moved for %.1f s, %d tries in a row%s "
             "-- %d changes before that, %.1f s altogether"
-            % (what, time.monotonic() - watch["since"], limit,
+            % (what, time.monotonic() - watch["since"], limit, lacking,
                watch["moved"], took))
 
 
-def hold(ok, what, life=None):
+def hold(ok, what, life=None, missing=None):
     """Wait for the window to get there, and give up at a standstill.
 
     The step comes back every few milliseconds until <ok> is true. What
@@ -271,7 +280,7 @@ def hold(ok, what, life=None):
     else:
         watch["idle"] += 1
     if watch["idle"] >= limit:
-        fail(gave_up(what, ms, limit, life))
+        fail(gave_up(what, ms, limit, life, missing))
         holding[0] = None
         app.quit()
         return True
@@ -328,6 +337,30 @@ def ready():
             and not working())
 
 
+def still_lacking():
+    """Which of the four things ready() waits for are not there yet.
+
+    Four conditions and one wait: without this the red line names the
+    wait and leaves the reader to find out which of the four held it.
+    The bars are counted here although the life sign leaves them out --
+    one of them creeping is no life, one of them standing is the answer.
+    """
+    now = reading()
+    say = []
+    for name, column in (("tree", TREE()), ("cameras", CAMERAS())):
+        found = with_column(now, column)
+        say.append("%s %s" % (name, "not on the sheet" if found is None
+                              else "%d rows" % len(found[1])))
+    if showing(vpm.T('Measuring time axis ...')):
+        say.append("the axis is still being measured")
+    up = ["%d of %d" % (b.value(), b.maximum())
+          for b in win().findChildren(QtWidgets.QProgressBar)
+          if b.isVisible()]
+    if up:
+        say.append("%d bar(s) still up at %s" % (len(up), ", ".join(up)))
+    return ", ".join(say)
+
+
 def show(head, rows, name):
     """Print one list, with what hangs under a row indented under it."""
     print("%s: %s" % (name, " | ".join(head)))
@@ -353,16 +386,20 @@ def step():
             boxes = [cb for cb in win().findChildren(QtWidgets.QCheckBox)
                      if cb.text().startswith(multitrack)]
             if hold(any(cb.isEnabled() for cb in boxes),
-                    "the Multitrack tick", stirring): return
+                    "the Multitrack tick", stirring,
+                    lambda: "%d such tick(s), not one of them awake"
+                            % len(boxes)): return
             for cb in boxes:
                 if cb.isEnabled():
                     cb.setChecked(True)
         elif i == 3:
-            if hold(built(), "the assignment sheet", stirring): return
+            if hold(built(), "the assignment sheet", stirring,
+                    lambda: "the sheets there are: %s" % sheet_names()):
+                return
             if not tab(vpm.T('Assignment && time window')[:9]): return
         elif i == 4:
             if hold(ready(), "the two lists of the assignment sheet",
-                    stirring): return
+                    stirring, still_lacking): return
             app.processEvents()
             keep(win().grab(), "assignment")
             lists = reading()
