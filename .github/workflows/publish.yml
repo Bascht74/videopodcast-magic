@@ -116,7 +116,10 @@ jobs:
   # the whole of a release. Red here means no tag, and the six jobs say
   # which of them fell.
   tests:
-    name: "The suite"
+    # Short, because it is written in front of every one of the six
+    # names below it: "Suite / macOS py3.10" reads, "The suite /
+    # macos-latest / py3.14" is cut off before it says anything.
+    name: "Suite"
     needs: ready
     uses: ./.github/workflows/tests.yml
 
