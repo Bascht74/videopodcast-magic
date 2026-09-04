@@ -866,34 +866,30 @@ jobs:
             fi
           }
 
-          api="https://api.github.com/repos/$GITHUB_REPOSITORY/contents"
-          raw="https://raw.githubusercontent.com/$GITHUB_REPOSITORY/$TAG"
-          echo "$api?ref=$TAG"
-          names=""
+          # The archive is the list -- no API call, so no rate limit and
+          # no jq. Its address is fixed once the tag exists, and Python
+          # opens it, which is the one tool certain to be here.
+          raw="https://github.com/$GITHUB_REPOSITORY/releases/download/$TAG"
+          echo "$raw/videopodcast_magic.zip"
+          ok=0
           for try in 1 2 3 4 5; do
-            names=$(curl -fsSL --retry 2 "$api?ref=$TAG" \
-                    | jq -r '.[].name | select(test("^videopodcast_magic.*[.]py$"))')
-            [ -n "$names" ] && break
+            curl -fsSL --retry 2 -o vpm.zip "$raw/videopodcast_magic.zip" \
+              && { ok=1; break; }
             echo "  ... no answer yet (try $try of 5)"
             sleep 10
           done
-          n=$(printf '%s\n' "$names" | grep -c . || true)
-          [ -n "$names" ] && ok=1 || ok=0
-          check "the tag says which files the program is" "$ok" "$n files"
+          check "the archive came down" "$ok" "$(wc -c < vpm.zip 2>/dev/null) bytes"
           [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
 
-          mkdir -p got
-          ok=1
-          for name in $names; do
-            curl -fsSL --retry 3 -o "got/$name" "$raw/$name" \
-              || { echo "  ... $name did not come down"; ok=0; }
-          done
-          check "they all came down" "$ok" "$n of $n"
+          python -c "import zipfile; zipfile.ZipFile('vpm.zip').extractall('.')"
+          n=$(ls videopodcast_magic*.py | wc -l | tr -d ' ')
+          [ "$n" -ge 2 ] && ok=1 || ok=0
+          check "it holds the program and its texts" "$ok" "$n files"
           [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
-          # The program finds its texts beside itself, whatever it is
-          # called -- so renaming it proves the neighbours are what carry
-          # it, not the name.
-          mv got/videopodcast_magic.py vpm.py && mv got/*.py . || true
+          # Renamed on purpose: the program finds its texts beside
+          # itself, whatever it is called, so this proves the neighbours
+          # carry it and not the name.
+          mv videopodcast_magic.py vpm.py
 
           echo
           set +e
