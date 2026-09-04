@@ -77,10 +77,11 @@ the voice. Measured on two voices out of one separated recording and a
 third person on a microphone of their own, each with a camera: all three
 speak in the cut, and the picture goes to all three cameras.
 
-The setup fetches about 218 MB the first time, the model about 33 MB
-after it. [What it needs](requirements.md#getting-the-program) says
-where the model comes from, and the measurements behind the 218 MB are
-in [What was measured](../development/measurements.md).
+What the separation runs on came with the installation; nothing has to
+be set up for it. The one thing still fetched is the model itself,
+about 33 MB, the first time a separation is asked for, and that happens
+without a question. [What it needs](requirements.md#getting-the-program)
+says where the model comes from.
 
 Over the whole file the separation hears the run-up before the show as
 well. The conversion cuts to the time window, but the number of
@@ -420,10 +421,13 @@ boundaries; the same chapter says what the wide shot does then.
 
 ### When something goes wrong
 
-* **The row says the separation is not set up.** It fetches what it
-  needs on the first run. If that fails, the run carries on: with a
-  track per person the speakers come from the tracks, otherwise the cut
-  stays out.
+* **The row says the separation is not installed here.** Something has
+  gone missing out of the installation. The message names the command
+  that puts it back -- the same one that installed the program, with
+  `-U` -- and it is one command for everything, not for the separation
+  alone. Until then the run carries on without it: with a track per
+  person the speakers come from the tracks, otherwise the cut stays
+  out.
 * **The separation breaks off with a message.** The log says what
   happened. With a track per person those tracks are measured as they
   always are and the cut still comes, one speaker per track; on one

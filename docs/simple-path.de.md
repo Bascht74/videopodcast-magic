@@ -347,6 +347,7 @@ Diese Optionen gibt es im Fenster nicht.
   er nichts, denn das Video trägt keine Einzelspuren.
 - `--no-camera-audio` lässt die eigene Spur der Kamera aus der neuen
   Datei weg.
-- `--help` setzt `[simple path only]` oder `[multitrack only]` an einen
-  Schalter, der nur auf einem Weg wirkt. Beide Kennzeichnungen bleiben
-  englisch, auch bei `--lang de`.
+- `--help` setzt `[multitrack only]` an die drei Schalter, die ohne das
+  Häkchen nichts tun. Die Kennzeichnung bleibt englisch, auch bei
+  `--lang de`. [Alle Schalter](command-line.de.md) sagt zu jedem
+  Schalter, auf welchem Weg er wirkt.

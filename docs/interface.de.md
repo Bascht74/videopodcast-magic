@@ -361,9 +361,11 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   liegen -- die Knöpfe gehören zu diesen Dateien, und so sagt das Blatt,
   wie die Dinge stehen, statt wie ein misslungener Lauf auszusehen.
   **Dieser Reiter ist die Konsole des Programms**, nicht nur die eines
-  Laufs: auch was pip schreibt, während es eine neuere Fassung holt,
-  landet hier — denn aus einem Terminal startet das Programm niemand
-  mehr.
+  Laufs: Hier landet, was pip schreibt, während es eine neuere Fassung
+  holt, und ebenso jede Zeile einer ffmpeg-Installation — was die
+  Paketverwaltung von sich gibt oder wie weit der Download ist, Minute
+  für Minute. Aus einem Terminal startet das Programm niemand mehr,
+  also ist dies das Terminal.
 
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
 Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
@@ -498,8 +500,11 @@ Protokolle sammelt — auf dem Mac nach `~/Library/Logs/videopodcast-magic/`,
 unter Windows unter `%LOCALAPPDATA%`, sonst in den Ordner, den der
 Desktop-Standard dafür vorsieht —, denn der Ordner, in den pip
 installiert hat, gehört pip und wird bei der nächsten Installation
-überschrieben. Die Zeile, die das Programm beim Start ausgibt, nennt in
-beiden Fällen den ganzen Pfad. Die erste Zeile
+überschrieben. **Wo sie liegt, wird nirgends ausgegeben**: Vor dem
+Fenster wird überhaupt nichts gesagt, und der Weg dorthin ist deshalb
+**Hilfe > Protokoll dieses Laufs anzeigen**. Der Eintrag öffnet die
+Datei mit dem, womit dieser Rechner Textdateien öffnet; solange nichts
+zu öffnen ist, steht er grau da und sagt das auch. Die erste Zeile
 der Datei nennt Version, Zeit, Betriebssystem und Python,
 die Zeile darunter den Pfad, aus dem das Programm gestartet wurde --
 mehrere Kopien des Programms teilen sich ein Protokoll, und ohne diese
@@ -631,8 +636,10 @@ ist ein untätiges.
 
 **Ansicht** nennt die Reiter beim Namen, statt sie zu nummerieren.
 **Hilfe** enthält den Weg in dieses Handbuch, **Was sich in dieser
-Version geändert hat**, **Nach Update suchen ...** und **Über Video
-Podcast Magic**.
+Version geändert hat**, **Protokoll dieses Laufs anzeigen**, **Nach
+Update suchen ...** und **Über Video Podcast Magic**. Über **Protokoll
+dieses Laufs anzeigen** findet man das Protokoll überhaupt erst — vor
+dem Fenster wird nichts ausgegeben, was es nennen würde.
 
 Auf dem Mac sitzt die Menüleiste oben am Bildschirmrand, sonst oben im
 Fenster. **Einstellungen ...** wandert dort ins Programmmenü und steht
@@ -813,11 +820,20 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 
 - **Das Fenster bleibt leer, und es lässt sich nichts hineinlegen**:
   dann fehlen `ffmpeg` und `ffprobe`, oder das ffmpeg dieser Maschine
-  ist älter als 8.1.2. Nichts, was die beiden braucht, geht dann noch —
+  ist älter als 9.0.1. Nichts, was die beiden braucht, geht dann noch —
   Dateien hinzufügen, ein Projekt öffnen, die Zeitachse messen, ein
-  Lauf. Die Meldung nennt die gefundene Fassung und die, die gebraucht
-  wird; [Was gebraucht wird](requirements.de.md#woher-ffmpeg-kommt)
-  sagt, woher man sie bekommt.
+  Lauf. Ein Kasten nennt die gefundene Fassung und die, die gebraucht
+  wird, und neben **Beenden** steht ein Knopf, der eine holt: Auf dem
+  Mac wird gebaut, unter Windows und Linux geholt oder installiert, und
+  jede Zeile davon erscheint unter **Ausgabe**, während das Fenster
+  bedienbar bleibt. Das dauert Minuten, und der Kasten sagt das, bevor
+  gedrückt wird. [Was gebraucht
+  wird](requirements.de.md#woher-ffmpeg-kommt) sagt, was auf welchem
+  System geschieht.
+- **Ein Kasten sagt, diesem ffmpeg fehle soxr**: Kaputt ist nichts. Der
+  Lauf geht ohnehin weiter, nur wird der Uhrengang zwischen den Kameras
+  hundertmal gröber ausgeglichen. **Weiter** behält das vorhandene, und
+  in dieser Version wird nicht noch einmal gefragt.
 - **Start** bleibt gesperrt: die Zeile unter den Knöpfen nennt, was
   fehlt, und das gemeinte Feld oder die gemeinte Zeile wird rot. Ist
   das nachgetragen, gibt der Knopf sich frei.

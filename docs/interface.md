@@ -333,8 +333,10 @@ Four tabs, in the order they are needed.
   to those files, so the sheet says where things stand instead of
   looking like a run that failed. **This tab is the program's
   console**, and not only a run's: what pip writes while it fetches a
-  newer version lands here too, because nobody starts the program from
-  a terminal any more.
+  newer version lands here, and so does every line of an ffmpeg being
+  installed -- the package manager's own output, or the download,
+  minute by minute. Nobody starts the program from a terminal any more,
+  so this is the terminal.
 
 **Multitrack (one track per speaker)** has a line of its own under the
 assignment table, above the Auphonic box. It works with auphonic.com and
@@ -464,8 +466,11 @@ installed copy writes it where the system keeps its logs --
 `~/Library/Logs/videopodcast-magic/` on a Mac, under `%LOCALAPPDATA%`
 on Windows, in the folder the desktop standard names for such things
 elsewhere -- because the folder pip installed into belongs to pip and is
-written over at the next install. The line the program prints as it
-starts names the whole path either way. Its
+written over at the next install. **Nothing is printed to say where it
+went**: nothing at all is said before the window is up, so the way to
+it is **Help > Show the log of this run**, which opens it in whatever
+this machine opens text files with. The entry is greyed until there is
+something to open, and says so. Its
 first line names version, time, operating system and Python, and the line
 under it the path the program was started from -- several copies of the
 program share one log, and without that line nobody can tell later which
@@ -586,8 +591,10 @@ does not put itself back on the bar and it does not drop files into the
 emptied list. An empty window is an idle one.
 
 **View** names the tabs rather than numbering them. **Help** holds the
-way into this manual, **What changed in this version**, **Look for a
-newer version now** and **About Video Podcast Magic**.
+way into this manual, **What changed in this version**, **Show the log
+of this run**, **Look for a newer version now** and **About Video
+Podcast Magic**. **Show the log of this run** is how the log is found
+at all -- nothing is printed before the window to name it.
 
 On a Mac the menu bar sits at the top of the screen, everywhere else at
 the top of the window. **Settings ...** moves into the application menu
@@ -761,10 +768,19 @@ nothing are told apart.
 
 - **The window stays empty and nothing can be added**: `ffmpeg` and
   `ffprobe` are missing, or the ffmpeg on this machine is older than
-  8.1.2. Nothing that needs the two is possible then -- adding files,
-  opening a project, measuring the time axis, a run. The message names
-  the version found and the one needed; [What it
-  needs](requirements.md#where-ffmpeg-comes-from) says how to get it.
+  9.0.1. Nothing that needs the two is possible then -- adding files,
+  opening a project, measuring the time axis, a run. A box names the
+  version found and the one needed, and beside **Quit** stands a button
+  that gets one: on a Mac it builds it, on Windows and Linux it fetches
+  or installs it, and every line of that appears under **Output** while
+  the window stays usable. It takes minutes, and the box says so before
+  it is pressed. [What it
+  needs](requirements.md#where-ffmpeg-comes-from) says what happens on
+  which system.
+- **A box says this ffmpeg has no soxr**: nothing is wrong. The run
+  works either way, only the clock drift between the cameras comes out
+  a hundred times more coarsely. **Carry on** keeps what is there, and
+  the question is not asked again in this version.
 - **Start** stays locked: the line under the buttons names what is
   missing, and the field or the row it means turns red. Fill that in
   and the button frees itself.

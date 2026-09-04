@@ -173,6 +173,7 @@ explains the word comes first.
 * **Settings ...**: `interface`, "What Settings ... holds"
 * **Short gap up to**: `camera-cut`, "Setting the knobs"
 * **Source Audio Channels**: `resolve`, "Choosing the multicam audio"
+* **soxr**: `requirements`, "Where ffmpeg comes from"
 * **speaker name**: `multitrack`, "Setting the assignment"; `speech`,
   "Naming the voices"
 * **speaker separation**: `speech`, "Separating the speakers";
@@ -203,7 +204,7 @@ Beside the manual stand the documents for whoever changes the program
 rather than uses it. They are English only.
 
 They are in `development/`, next to this folder. [Inside the
-script](../development/internals.md) says how the one file is put
+script](../development/internals.md) says how the program is put
 together and how each step works. [What was
 measured](../development/measurements.md) holds the evidence behind the
 numbers: hit rates, run times, distributions, comparisons. [Coding

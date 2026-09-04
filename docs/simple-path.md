@@ -329,6 +329,7 @@ These options are not in the window.
   decides there whether the blocks are kept singly. Where there is
   picture it changes nothing, because the video holds no single tracks.
 - `--no-camera-audio` leaves the camera's own track out of the new file.
-- `--help` puts `[simple path only]` or `[multitrack only]` on a switch
-  that works on one path only. Both markers stay English, even with
-  `--lang de`.
+- `--help` puts `[multitrack only]` on the three switches that do
+  nothing without the tick. The marker stays English, even with
+  `--lang de`. [All switches](command-line.md) says of every switch
+  which path it works on.

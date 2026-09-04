@@ -81,11 +81,11 @@ zwei Stimmen aus einer getrennten Aufnahme und einer dritten Person am
 eigenen Mikrofon, jede mit einer Kamera: alle drei reden im Schnitt, und
 das Bild geht auf alle drei Kameras.
 
-Die Einrichtung lädt beim ersten Mal rund 218 MB, das Modell danach
-etwa 33 MB. [Was gebraucht wird](requirements.de.md#das-programm-installieren)
-sagt, woher das Modell kommt, und die Messungen hinter den 218 MB
-stehen in [What was measured](../development/measurements.md)
-(englisch).
+Worauf die Trennung rechnet, kam mit der Installation; eingerichtet
+werden muss dafür nichts. Geholt wird nur noch das Modell selbst, etwa
+33 MB, beim ersten Trennen, und das ohne Rückfrage. [Was gebraucht
+wird](requirements.de.md#das-programm-installieren) sagt, woher das
+Modell kommt.
 
 Auf der ganzen Datei hört die Trennung auch den Vorlauf vor der
 Sendung. Beim Umrechnen wird auf das Zeitfenster geschnitten, aber die
@@ -444,10 +444,13 @@ dasselbe Kapitel sagt, was der Weitwinkel dann tut.
 
 ### Wenn etwas klemmt
 
-* **Die Zeile der Aufnahme sagt, die Trennung ist nicht eingerichtet.**
-  Beim ersten Lauf holt sie sich, was sie braucht. Misslingt das, geht
-  der Lauf weiter: mit je Person einer Spur kommen die Sprecher aus den
-  Spuren, sonst bleibt der Schnitt aus.
+* **Die Zeile der Aufnahme sagt, die Trennung sei hier nicht
+  installiert.** Aus der Installation ist etwas abhandengekommen. Die
+  Meldung nennt den Befehl, der es wieder hinstellt — denselben, mit
+  dem das Programm installiert wurde, mit `-U` —, und dieser eine
+  Befehl gilt für alles, nicht nur für die Trennung. Bis dahin geht der
+  Lauf ohne sie weiter: mit je Person einer Spur kommen die Sprecher
+  aus den Spuren, sonst bleibt der Schnitt aus.
 * **Die Trennung bricht mit einer Meldung ab.** Das Protokoll sagt, was
   war. Mit je Person einer Spur werden diese Spuren gemessen wie immer,
   und der Schnitt kommt trotzdem, ein Sprecher je Spur; auf einer
