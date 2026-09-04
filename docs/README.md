@@ -8,8 +8,8 @@ its own; nothing here has to be read from front to back.
 
 ## Contents
 
-* **[What it needs](requirements.md)**: Python, ffmpeg, the two
-  packages, and what differs per platform.
+* **[What it needs](requirements.md)**: the one command that installs
+  it, Python, ffmpeg, and what differs per platform.
 * **[The interface](interface.md)**: the window, tab by tab -- and how
   the common time axis is measured.
 * **[Preflight](preflight.md)**: what is checked before a run starts,
@@ -84,7 +84,7 @@ explains the word comes first.
 * **envelope**: `interface`, "The four tabs"; `multitrack`, "Running several
   files at once"
 * **faster-whisper**: `speech`, "How the program writes the text down"
-* **ffmpeg**: `requirements`, "Where ffmpeg, PySide6 and numpy come from"
+* **ffmpeg**: `requirements`, "Where ffmpeg comes from"
 * **ffplay**: `interface`, "The four tabs"
 * **First cut by speaker (box)**: `camera-cut`, "How the cut comes about";
   `interface`, "The four tabs"
@@ -146,8 +146,7 @@ explains the word comes first.
   "Where each camera sits"
 * **Out point**: see In point
 * **outro**: `resolve`, "Setting intro and outro"
-* **package manager**: `requirements`, "Where ffmpeg, PySide6 and numpy come
-  from"
+* **package manager**: `requirements`, "Where ffmpeg comes from"
 * **pip, pipx (installing)**: `requirements`, "Getting the program"
 * **`placed_by` (handover file)**: `resolve`, "Where each camera sits"
 * **player, preview**: `interface`, "The four tabs"; `camera-cut`, "How the
@@ -158,7 +157,7 @@ explains the word comes first.
   checked"
 * **project file**: `camera-cut`, "What the project file keeps";
   `interface`, "How the time axis is measured"
-* **PySide6**: `requirements`, "Where ffmpeg, PySide6 and numpy come from"
+* **PySide6**: `requirements`, "Getting the program"
 * **raw recording (level)**: `camera-cut`, "How the preview players choose
   file and sound"
 * **reaction cut**: `camera-cut`, "Setting the knobs"

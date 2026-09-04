@@ -360,6 +360,10 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   eines Projekts hoch, wenn im Ausgabeordner schon fertige Dateien
   liegen -- die Knöpfe gehören zu diesen Dateien, und so sagt das Blatt,
   wie die Dinge stehen, statt wie ein misslungener Lauf auszusehen.
+  **Dieser Reiter ist die Konsole des Programms**, nicht nur die eines
+  Laufs: auch was pip schreibt, während es eine neuere Fassung holt,
+  landet hier — denn aus einem Terminal startet das Programm niemand
+  mehr.
 
 **Multitrack (je Sprecher eine Spur)** hat eine eigene Zeile unter der
 Zuordnungstabelle, über dem Auphonic-Kasten. Es geht mit auphonic.com
@@ -486,8 +490,11 @@ nur wo nichts gemessen wurde, die eigene Uhr der Datei.
 - Formate, die der Rechner nicht abspielen kann (MXF, R3D, manche
   ProRes-Spielarten), bekommen einen Knopf für `ffplay`.
 
-Die Ausgabe landet zusätzlich in `videopodcast-magic.log` neben dem
-Script. Die erste Zeile nennt Version, Zeit, Betriebssystem und Python,
+Die Ausgabe landet zusätzlich in `videopodcast-magic.log`, und die
+Datei liegt neben der Programmdatei — nach einer Installation also in
+dem Ordner, in den pip sie geschrieben hat; die Zeile, die das
+Programm beim Start ausgibt, nennt den ganzen Pfad. Die erste Zeile
+der Datei nennt Version, Zeit, Betriebssystem und Python,
 die Zeile darunter den Pfad, aus dem das Programm gestartet wurde --
 mehrere Kopien des Programms teilen sich ein Protokoll, und ohne diese
 Zeile ist später nicht zu sagen, welche davon was geschrieben hat. Jeder
@@ -681,34 +688,25 @@ Es zeigt, was sich in der neuen Version geändert hat, in ihren eigenen
 Worten, und darunter die Adresse. Zwei Knöpfe:
 
 - **Später** lässt die laufende Version an ihrem Platz.
-- **Aktualisieren** holt die neue Version, setzt sie an die Stelle der
-  Datei und startet das Programm neu.
+- **Aktualisieren** übergibt die Arbeit an pip. Bevor gefragt wird,
+  nennt das Fenster den Ordner, in den die neue Fassung geht — die
+  Antwort wird also gegeben, wenn man weiß, wo sie landet.
 
-Das Programm liest, was herunterkommt, bevor es das benutzt: es muss
-lesbarer Text sein, es muss wie dieses Programm aussehen, und es muss
-sich übersetzen lassen. Wenn eine der drei Prüfungen fehlschlägt, bleibt
-die Datei liegen, die funktioniert, und das Fenster sagt, was nicht
-stimmte.
+**Das Programm überschreibt sich nicht selbst, und das mit Absicht.**
+Es wurde mit pip3 installiert, und pip führt Buch darüber, welche
+Fassung liegt; die Datei zu überschreiben ließe diesen Nachweis stehen
+und falsch werden. **Aktualisieren** führt deshalb denselben Befehl
+aus, den man auch selbst tippen würde — `pip3 install -U` auf die
+Adresse, aus der das Programm kam —, und zwar in dem Python, in dem
+das Programm läuft: die Installation, die die neue Fassung bekommt,
+ist die, die auch starten würde.
 
-Die Version, die lief, bleibt als `videopodcast_magic.py.old` neben der
-neuen liegen. **Hilfe > Zurück auf 2.26.1-beta** setzt sie wieder ein;
-der Eintrag nennt die Nummer aus dieser Datei und steht nur im Menü,
-solange die Datei da ist.
-
-Es wird vorher gefragt, und die aufbewahrte Datei muss dieselben drei
-Prüfungen bestehen wie das, was herunterkommt. Danach startet das
-Programm neu. Die Datei ist damit aufgebraucht, und vorwärts geht es
-wieder über das Update aus dem Netz.
-
-**Wo das Programm installiert und nicht geholt wurde, ersetzt es sich
-nicht selbst.** Dort führt etwas anderes Buch darüber, welche Fassung
-liegt, und die Datei zu überschreiben ließe diesen Nachweis stehen und
-falsch werden. **Aktualisieren** hört deshalb auf, nennt den Ordner,
-in den installiert wurde, und sagt, es sei auf demselben Weg zu
-aktualisieren — `pip3 install -U` auf die Adresse, aus der es kam;
-[Was gebraucht wird](requirements.de.md#das-programm-holen) schreibt
-den Befehl aus. Nach einer neueren Fassung wird weiterhin gefragt, und
-die, die draußen ist, wird weiterhin genannt.
+**Jede Zeile, die pip schreibt, läuft in den vierten Reiter,
+Ausgabe, sobald sie kommt.** Dort sieht man zu: das Fenster bleibt
+bedienbar, die letzte Zeile sagt, dass die neue Fassung liegt, und ab
+dem nächsten Start läuft sie. Bricht pip mit einem Fehler ab, sagt der
+Reiter es und behält jede Zeile darüber — der Grund steht darin, und
+die Fassung, die funktioniert, ist unangetastet.
 
 Das Häkchen **Diese Version überspringen** legt eine Fassung beiseite.
 Bei der nächsten fragt das Fenster wieder, und über **Hilfe > Nach
@@ -856,12 +854,12 @@ Prüfzeichens in der Dateiliste.
 
 Im Fenster gibt es diese Optionen nicht.
 
-`--update` holt die neuere Fassung und legt die laufende als
-`videopodcast_magic.py.old` daneben. Ein Lauf von der Kommandozeile sagt
-nur, daß eine neuere da ist -- aus einem Script gestartet darf er an
-keiner Frage stehen bleiben, und ungefragt holt er nichts. Wo das
-Programm installiert wurde, schreibt auch `--update` nichts und sagt
-dasselbe wie das Fenster.
+`--update` tut dasselbe wie der Knopf, nur ohne Fenster: es führt pip
+auf die Adresse aus, aus der das Programm kam, und pip schreibt dabei
+ins Terminal statt in den Reiter Ausgabe. Ein Lauf mit irgendetwas
+anderem auf der Kommandozeile sagt nur, dass eine neuere Fassung
+draußen ist — aus einem Script gestartet darf er an keiner Frage
+stehen bleiben, und ungefragt holt er nichts.
 
 `VPM_NO_UPDATE_CHECK` in der Umgebung schaltet das Ganze ab, den
 Menüeintrag mit. Der Eintrag sagt das dann, statt nachzusehen. Diese

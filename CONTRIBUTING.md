@@ -52,12 +52,17 @@ in the first review.
 ## What the program is
 
 One file, `videopodcast_magic.py`, about 40 000 lines. That one file is
-the whole program, fetched or installed, and there is nothing to build:
-`pyproject.toml` makes a package of that one module and puts a
-`videopodcast-magic` command on the path. The file carries an
-underscore while the repository and the command carry a hyphen, because
-only an underscore can be imported. For the tests nothing has to be
-installed beyond PySide6, numpy and ffmpeg on the path.
+the whole program and there is nothing to build: `pyproject.toml` makes
+a package of that one module and puts a `videopodcast-magic` command on
+the path. The file carries an underscore while the repository and the
+command carry a hyphen, because only an underscore can be imported.
+
+**Users install it with pip3 and no other way** -- that is the rule in
+`CLAUDE.md`, and it is why every Python package the program needs
+stands in `pyproject.toml` and `requirements.txt`. Working on it, you
+run the file out of the clone instead; the tests do the same, and for
+them nothing has to be installed beyond what `requirements.txt` names
+and ffmpeg on the path.
 
 ```bash
 git clone https://github.com/Bascht74/videopodcast-magic.git

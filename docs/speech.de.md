@@ -82,7 +82,7 @@ eigenen Mikrofon, jede mit einer Kamera: alle drei reden im Schnitt, und
 das Bild geht auf alle drei Kameras.
 
 Die Einrichtung lädt beim ersten Mal rund 218 MB, das Modell danach
-etwa 33 MB. [Was gebraucht wird](requirements.de.md#das-programm-holen)
+etwa 33 MB. [Was gebraucht wird](requirements.de.md#das-programm-installieren)
 sagt, woher das Modell kommt, und die Messungen hinter den 218 MB
 stehen in [What was measured](../development/measurements.md)
 (englisch).

@@ -11,20 +11,20 @@ zusammenpasst — bevor irgendetwas geschrieben wird.*
 
 **Version 3.0.0b0.** Es macht die Arbeit, für die es geschrieben wurde,
 jede Woche, an echtem Material. Der Schritt auf 3 ist ein Bruch und
-kein Haufen neuer Funktionen: die Datei heißt jetzt
-`videopodcast_magic.py`, damit sie sich nicht nur holen, sondern auch
-installieren lässt — wer den alten Namen irgendwo stehen hat, schreibt
-ihn einmal um. Das Format der Projektdatei kann sich weiterhin ändern,
-und eine ältere Datei wird mit einer klaren Meldung abgewiesen statt
-halb gelesen.
+kein Haufen neuer Funktionen: das Programm wird jetzt installiert, mit
+pip3, und ist danach ein Befehl namens `videopodcast-magic`. Wer es
+irgendwo noch als Datei startet, schreibt das einmal um. Das Format
+der Projektdatei kann sich weiterhin ändern, und eine ältere Datei
+wird mit einer klaren Meldung abgewiesen statt halb gelesen.
 
-`videopodcast_magic.py` — aufbereiteten Ton als erste Tonspur in
+`videopodcast-magic` — aufbereiteten Ton als erste Tonspur in
 Videodateien legen und daraus alles bauen, was der Schnitt danach braucht:
 die Kameras auf einer Zeitachse, einen ersten Schnitt nach Sprecher und ein
 DaVinci-Resolve-Projekt.
 
 Eine Python-Datei, rund 40 000 Zeilen. Diese eine Datei ist das ganze
-Programm, ob geholt oder installiert, und zu bauen ist daran nichts.
+Programm, und zu bauen ist daran nichts: pip macht ein Paket daraus
+und legt den Befehl in den Suchpfad.
 
 ## Warum es das gibt
 
@@ -50,54 +50,60 @@ auf der Platte bis zum fertigen Resolve-Projekt, steht in
 
 ## Installieren
 
-Es gibt zwei Wege hinein, und der erste ist nach wie vor eine Datei.
-
-**Geholt.** `videopodcast_magic.py` holen und starten — mehr ist nicht
-zu installieren:
-
-```
-python3 -c "import urllib.request as u; u.urlretrieve('https://raw.githubusercontent.com/Bascht74/videopodcast-magic/main/videopodcast_magic.py', 'videopodcast_magic.py')"
-python3 videopodcast_magic.py
-```
-
-Oder einfacher: die Adresse im Browser öffnen, die Datei speichern und
-starten. Unter Windows `python` statt `python3` schreiben. Das ist der
-Weg zum Hineinschauen, für eine Maschine, an der man einmal sitzt, und
-für eine Fassung, die neben ihrem Material liegen bleiben soll: die
-Datei ist das ganze Programm, und man kann sie lesen, bevor man sie
-startet.
-
-**Installiert.** Wer das Programm jede Woche braucht, installiert es
-einmal; danach ist es ein Befehl wie jeder andere, aus jedem Ordner
-heraus:
+Ein Befehl, und einen zweiten Weg hinein gibt es nicht:
 
 ```
 pip3 install git+https://github.com/Bascht74/videopodcast-magic
 videopodcast-magic
 ```
 
-Die neuere Fassung kommt auf demselben Weg und tritt an die Stelle der
-installierten:
+Die neuere Fassung kommt über dieselbe Adresse und tritt an die Stelle
+der installierten:
 
 ```
 pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
 ```
 
-Beides ist eine Sache von Sekunden. Die beiden großen Pakete zieht
-keiner der beiden Befehle mit: die holt sich das Programm weiterhin
-selbst, beim ersten Start, und fragt vorher.
+**Beim ersten Befehl heißt es warten. Er dauert Minuten, und das soll
+er.** Alles, was das Programm an Python braucht, kommt in diesem einen
+Zug mit — das Fenster, die Messungen, die Zertifikate, die
+Spracherkennung. Danach wird nichts mehr hinter dem Rücken nachgeholt,
+und beim ersten Öffnen des Fensters fehlt nichts. Gemessen am
+4. September 2026 auf einem Mac: fünf Minuten, 498 MB über die
+Leitung, 1,4 GB auf der Platte. Fast alles davon ist das Fenster:
+`PySide6` allein kommt in einem Stück von 332 MB, und genau so sieht
+eine erste Installation aus, wenn man denkt, sie hänge. Jedes `-U`
+danach ist eine Sache von Sekunden — zwölf, gemessen, als sich die
+Versionsnummer nicht bewegt hatte —, denn pip liest die Ablage,
+vergleicht die Nummer und hört auf, wo dort schon die installierte
+steht.
 
 **Verweigert `pip3 install` den Dienst** mit dem Hinweis, diese
 Umgebung werde von außen verwaltet, dann gehört dieses Python einem
-Paketverwalter — dem von Homebrew oder dem der Linux-Distribution. Die
-Meldung nennt `pipx` beim Namen, und das ist der richtige Rat:
+Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
+der pip aus dem heraushält, was er selbst pflegt, und die Meldung
+nennt den Weg daran vorbei:
 `pipx install git+https://github.com/Bascht74/videopodcast-magic` legt
 das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
-Python 3.10 oder neuer muss vorher da sein; das eine kann das Programm
-nicht mitbringen. Alles andere holt es sich, wenn es gebraucht wird,
-und sagt dabei, was es tut: `numpy` und `PySide6` beim ersten Start,
-die Sprechertrennung samt Modell beim ersten Trennen.
+Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
+**Python selbst**, 3.10 oder neuer, und **`ffmpeg` samt `ffprobe`**.
+Die beiden Werkzeuge sucht das Programm im Suchpfad, bietet die
+Paketverwaltung der Maschine an und fragt, bevor es sie ausführt, und
+sonst sagt es, woher man sie bekommt.
+
+**Eine Falle, am 4. September 2026 gemessen.** Ein pip, das die
+Projektdatei liest, hört unterhalb von Python 3.10 auf und sagt,
+welche Version es erwartet hätte. Das pip, das macOS mit seinem
+eigenen Python 3.9 mitbringt — `/usr/bin/pip3` —, liest sie nicht: es
+antwortet `Successfully installed UNKNOWN-0.0.0` und hinterlässt einen
+leeren Ordner dieses Namens, keinen Befehl und keine Fehlermeldung.
+Wer `UNKNOWN` liest, hat das falsche pip erwischt; dann Python 3.10
+oder neuer installieren und dessen `pip3` nehmen.
+
+Später, und nur wenn jemand will, wofür sie da sind, holt es noch
+zwei Dinge: die Umgebung, in der die Sprechertrennung läuft, und ihr
+Modell.
 
 **Zum Modell.** Die Trennung liest es aus einem Ordner neben dem
 Programm — ohne Konto, ohne Zugangsschlüssel, und nach dem einen
@@ -108,18 +114,18 @@ Es holt das Modell nur beim ersten Mal.
 ## Loslegen
 
 ```
-python3 videopodcast_magic.py                          Oberfläche
-python3 videopodcast_magic.py TON.wav VIDEO.mov
-python3 videopodcast_magic.py TON.wav                  nur zusammensetzen
-python3 videopodcast_magic.py TON.wav *.mov --out Fertig
-python3 videopodcast_magic.py VIDEO.mov                nimmt den Kameraton
-python3 videopodcast_magic.py --lang de|en             Sprache der Meldungen
-python3 videopodcast_magic.py --help                   alle Schalter
+videopodcast-magic                          Oberfläche
+videopodcast-magic TON.wav VIDEO.mov
+videopodcast-magic TON.wav                  nur zusammensetzen
+videopodcast-magic TON.wav *.mov --out Fertig
+videopodcast-magic VIDEO.mov                nimmt den Kameraton
+videopodcast-magic --lang de|en             Sprache der Meldungen
+videopodcast-magic --help                   alle Schalter
 ```
 
-Wo das Programm installiert wurde statt geholt, steht in jeder dieser
-Zeilen `videopodcast-magic` anstelle von `python3 videopodcast_magic.py`,
-und es nimmt dieselben Schalter.
+Hat pip den Befehl in einen Ordner gelegt, den der Suchpfad nicht
+erreicht, steht in jeder dieser Zeilen `python3 -m videopodcast_magic`
+an seiner Stelle, mit denselben Schaltern.
 
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
 erkannt, die Reihenfolge ist egal. `--lang de` oder `--lang en` legt die
@@ -133,13 +139,14 @@ wird.*
 
 ## Was gebraucht wird
 
-Python 3.10 oder neuer, `ffmpeg` und `ffprobe` im Suchpfad und zwei Pakete
-— `PySide6` für das Fenster, `numpy` für die Messungen. Fehlt eines der
-beiden Pakete, bietet das Programm an, es zu holen, und fragt vorher; es
-installiert nichts ungefragt. Ein eigenes ffmpeg bringt es nicht mit —
-dafür bietet es den Paketverwalter des Systems an, und sonst sagt es,
-woher man es bekommt. Benutzt wird das Ganze auf macOS und Windows; Linux
-läuft mit zwei Einschränkungen.
+Python 3.10 oder neuer, dazu `ffmpeg` und `ffprobe` im Suchpfad. Mehr
+steht nicht auf der Liste: alles andere ist ein Python-Paket, jedes
+davon steht auf der Liste, die pip liest, und die Installation bringt
+sie alle mit. ffmpeg ist die Ausnahme, die es nicht sein kann, denn es
+ist kein Python — ein eigenes bringt das Programm nicht mit, es bietet
+den Paketverwalter des Systems an und fragt vorher, und sonst sagt es,
+woher man es bekommt. Benutzt wird das Ganze auf macOS und Windows;
+Linux läuft mit zwei Einschränkungen.
 
 Die Einzelheiten, samt empfohlener Python-Version und den Unterschieden je
 Plattform, stehen in
@@ -147,8 +154,9 @@ Plattform, stehen in
 
 ## Das Handbuch
 
-* **[Was gebraucht wird](docs/requirements.de.md)**: Python, ffmpeg, die
-  beiden Pakete, und was sich je Plattform unterscheidet.
+* **[Was gebraucht wird](docs/requirements.de.md)**: der eine Befehl,
+  der es installiert, Python, ffmpeg, und was sich je Plattform
+  unterscheidet.
 * **[Die Oberfläche](docs/interface.de.md)**: das Fenster, Reiter für
   Reiter — und was zu tun ist, wenn es keinen Timecode gibt.
 * **[Vorflug](docs/preflight.de.md)**: was vor einem Lauf geprüft wird,
