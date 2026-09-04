@@ -189,8 +189,13 @@ jobs:
           sudo install -m755 "/tmp/$name/bin/ffmpeg" "/tmp/$name/bin/ffprobe" \
                              /usr/local/bin/
           ffmpeg -version | head -1
-          ffmpeg -version | tr ' ' '\n' | grep -c enable-libsoxr \
-            || { echo "FAIL: this build has no soxr"; exit 1; }
+          # Said, not demanded. soxr decides how finely the clock drift
+          # between cameras comes out -- 0.21 ppm against 21 -- and
+          # coarser is not broken, so a build without it must not fail a
+          # job. It is printed because a run that behaves oddly in the
+          # drift correction is read back from here.
+          ffmpeg -version | tr ' ' '\n' | grep -q enable-libsoxr \
+            && echo "soxr:   yes" || echo "soxr:   no"
 
       - name: "Install: ffmpeg and a time limit (macOS)"
         if: runner.os == 'macOS'
