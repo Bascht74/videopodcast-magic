@@ -385,25 +385,64 @@ fi
 # names are asked for. Measured over four pairs -- Samantha/Daniel,
 # Samantha/Kathy, Samantha/Fred, Anna/Daniel -- the separation told all
 # four apart and put every boundary within 0.11 s, so the order below
-# is a preference and not a condition. Where fewer than two of them are
-# there the folder is not built and the test skips.
-if have "$FIX/twovoices"; then
+# is a preference and not a condition.
+#
+# The material is also checked in, under tests/material/twovoices, and
+# that is what Linux and Windows use: say(1) is macOS only, so without
+# a copy in the repository the separation could not be tested there at
+# all -- and it is the one test that lets the real pyannote run. The
+# copy costs 1.0 MB and holds nothing but these six sentences.
+#
+# Where say(1) is there the folder is spoken afresh anyway, and the
+# result is written back over the checked-in copy. So the recipe stays
+# exercised instead of quietly rotting, and a changed voice, a changed
+# say(1) or a changed sentence shows up as a diff somebody sees.
+# -bitexact is what makes that diff worth looking at: without it
+# ffmpeg writes its own version into the file (ISFT Lavf...), and every
+# ffmpeg update would produce a 34-byte diff at unchanged sound --
+# noise that teaches you to stop looking. With it, a diff means the
+# sound is different. Measured 4.9.2026: 16 builds on one Mac gave the
+# same bytes to the byte.
+#
+# THE PRICE, and it is taken with open eyes: the two macOS jobs speak
+# the material, the other four read the copy. Should they ever drift
+# apart -- a new Apple voice, a changed say(1) -- macOS is testing
+# something different from Linux, and nothing goes red. There is no
+# checksum guard on purpose: the builder's ffmpeg moves with Homebrew,
+# so a guard would go red on Homebrew's schedule rather than on the
+# material's, and a check that cries wolf is worse than none. What
+# catches a drift is the diff on this folder, and a person reading it.
+#
+# The word below changed when -bitexact came in, so a machine carrying
+# material from before speaks it once more and lands on the new bytes.
+KEPT="$HERE/material/twovoices"
+TWOVOICES_BUILD=bitexact-1
+if have "$FIX/twovoices" "$TWOVOICES_BUILD"; then
   echo "  "$FIX/twovoices"    already there"
-elif ! command -v say > /dev/null 2>&1; then
-  echo "  "$FIX/twovoices"    skipped -- no say(1) on this machine"
 else
-  # Two voices out of the ones this machine really has.
-  spoken=$(say -v '?' 2>/dev/null | sed 's/ .*//' | sort -u)
+  # Two voices out of the ones this machine really has. Without say(1)
+  # -- Linux, Windows -- the list stays empty and the copy is used.
   picked=()
-  for want in Samantha Daniel Alex Karen Moira Tessa Fiona Victoria \
-              Serena Fred Anna Markus Petra Yannick; do
-    if [ "${#picked[@]}" -lt 2 ] && echo "$spoken" | grep -qx "$want"
-    then
-      picked+=("$want")
-    fi
-  done
+  if command -v say > /dev/null 2>&1; then
+    spoken=$(say -v '?' 2>/dev/null | sed 's/ .*//' | sort -u)
+    for want in Samantha Daniel Alex Karen Moira Tessa Fiona Victoria \
+                Serena Fred Anna Markus Petra Yannick; do
+      if [ "${#picked[@]}" -lt 2 ] && echo "$spoken" | grep -qx "$want"
+      then
+        picked+=("$want")
+      fi
+    done
+  fi
   if [ "${#picked[@]}" -lt 2 ]; then
-    echo "  "$FIX/twovoices"    skipped -- fewer than two known voices"
+    if [ -f "$KEPT/talk.wav" ]; then
+      rm -rf "$FIX/twovoices" && mkdir -p "$FIX/twovoices"
+      cp "$KEPT/talk.wav" "$KEPT/truth.txt" "$KEPT/voices.txt" \
+         "$FIX/twovoices/"
+      done_with "$FIX/twovoices" "$TWOVOICES_BUILD"
+      echo "  "$FIX/twovoices"    taken from tests/material"
+    else
+      echo "  "$FIX/twovoices"    skipped -- no say(1) and no copy kept"
+    fi
   else
     V1="${picked[0]}"; V2="${picked[1]}"
     rm -rf "$FIX/twovoices" && mkdir -p "$FIX/twovoices"
@@ -451,10 +490,15 @@ one time axis, if I understand it right."
     say_turn B "$V2" 5 "Exactly. Without a common clock nothing lines \
 up and every cut lands in the wrong place."
     $FF -f concat -safe 0 -i list.txt -c:a pcm_s16le -ar 16000 -ac 1 \
-      talk.wav -y
+      -bitexact talk.wav -y
     printf '%s %s\n' "$V1" "$V2" > voices.txt
     rm -f piece*.wav hush*.wav list.txt
-    done_with "$FIX/twovoices"
-    echo "  "$FIX/twovoices"    built ($V1, $V2)"
+    done_with "$FIX/twovoices" "$TWOVOICES_BUILD"
+    # Back into the repository, so the four machines without say(1)
+    # read what this one just spoke. Identical bytes leave no diff;
+    # different bytes are the signal described above.
+    mkdir -p "$KEPT"
+    cp talk.wav truth.txt voices.txt "$KEPT/"
+    echo "  "$FIX/twovoices"    built ($V1, $V2), copy in tests/material"
   fi
 fi
