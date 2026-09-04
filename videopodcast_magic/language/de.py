@@ -182,6 +182,10 @@ TEXTS = {
         'Das Handbuch',
     'What changed in this version':
         'Was sich in dieser Version geändert hat',
+    'Show the log of this run':
+        'Protokoll dieses Laufs anzeigen',
+    'Nothing has been written yet.':
+        'Es ist noch nichts geschrieben worden.',
     'Look for a newer version now':
         'Nach Update suchen ...',
     '  No certificate bundle found -- an HTTPS download may fail.':
@@ -220,8 +224,6 @@ TEXTS = {
     'Reading the audio ...': 'Der Ton wird gelesen ...',
     'Nothing was audible in the recording.':
         'In der Aufnahme war nichts zu hören.',
-    'Setting up the speaker separation (about %d MB) ...':
-        'Die Sprechertrennung wird eingerichtet (rund %d MB) ...',
     'Speaker separation is switched off for this project.':
         'Die Sprechertrennung ist für dieses Projekt abgeschaltet.',
     'Who speaks when can be worked out on this machine, from any one '
@@ -237,6 +239,9 @@ TEXTS = {
         'Die Sprechertrennung meldet: %s',
     'The speaker separation is not set up.':
         'Die Sprechertrennung ist nicht eingerichtet.',
+    'The speaker separation is not installed here. This puts it back: %s':
+        'Die Sprechertrennung ist hier nicht installiert. Das holt sie '
+        'zurück: %s',
     'Fetching the model (about %d MB) ...':
         'Modell wird geholt (etwa %d MB) ...',
     'Fetching the model (about %d MB): %s':
@@ -257,8 +262,6 @@ TEXTS = {
         'Programm.',
     'The model file %s does not match its checksum.':
         'Die Modelldatei %s stimmt nicht mit ihrer Prüfsumme überein.',
-    'The cache folder cannot be written to.':
-        'In den Zwischenspeicherordner lässt sich nicht schreiben.',
     'pyannote sends a trace home on every run and this version offers '
     'no way to switch it off, so the separation was not started.':
         'pyannote schickt bei jedem Lauf eine Spur nach Hause, und '
@@ -692,9 +695,9 @@ TEXTS = {
     '    Video track %d could not be renamed.':
         '    Bildspur %d ließ sich nicht umbenennen.',
     '    Whether the finished file passes as HDR:\n      '
-    'videopodcast_magic.py --hdr-check %s':
+    'videopodcast-magic --hdr-check %s':
         '    Ob die fertige Datei als HDR durchgeht:\n      '
-        'videopodcast_magic.py --hdr-check %s',
+        'videopodcast-magic --hdr-check %s',
     '    not possible: %s':
         '    nicht möglich: %s',
     '   (sound path negative -- something is wrong)':
@@ -1622,8 +1625,6 @@ TEXTS = {
         'KAMERATON HERAUSZIEHEN',
     'FOR RESOLVE':
         'FÜR RESOLVE',
-    'Messages of this run: %s':
-        'Meldungen dieses Laufs: %s',
     'NO AUDIO FILE -- USING THE CAMERA AUDIO':
         'KEINE TONDATEI -- ICH NEHME DEN KAMERATON',
     'NO SEPARATE AUDIO RECORDINGS -- USING THE CAMERA AUDIO':
@@ -2266,6 +2267,54 @@ TEXTS = {
         'Beenden',
     'That worked.':
         'Das hat geklappt.',
+    'Installing ffmpeg':
+        'ffmpeg wird installiert',
+    'Start the program again to pick it up.':
+        'Starte das Programm neu, damit es das mitbekommt.',
+    'Getting it takes a few minutes, and what it says appears under '
+    'Output.':
+        'Das Holen dauert ein paar Minuten, und was es sagt, steht unter '
+        'Ausgabe.',
+    'This takes a few minutes -- a package manager may build from source. '
+    'What it says appears here.':
+        'Das dauert ein paar Minuten -- ein Paketverwalter baut '
+        'womöglich aus dem Quelltext. Was er sagt, steht hier.',
+    '  Taking the ffmpeg that is there out of the way first: %s':
+        '  Das vorhandene ffmpeg kommt zuerst aus dem Weg: %s',
+    '  A built ffmpeg 9.0.1 with soxr can be fetched: %s':
+        '  Ein fertiges ffmpeg 9.0.1 mit soxr lässt sich holen: %s',
+    '  Fetch it now? [Y/n] ':
+        '  Jetzt holen? [J/n] ',
+    '  Fetching a built ffmpeg. It is a big one, so this takes a few '
+    'minutes: %s':
+        '  Ein fertiges ffmpeg wird geholt. Es ist groß, das dauert also '
+        'ein paar Minuten: %s',
+    '  %d of %d MB':
+        '  %d von %d MB',
+    'The build could not be fetched: %s':
+        'Der fertige Bau ließ sich nicht holen: %s',
+    '  The build could not be unpacked: %s':
+        '  Der fertige Bau ließ sich nicht auspacken: %s',
+    '  The archive held %d of the two programs.':
+        '  Das Archiv enthielt %d der beiden Programme.',
+    '  It is here: %s':
+        '  Es liegt hier: %s',
+    'install Homebrew from brew.sh, then this again':
+        'Homebrew von brew.sh installieren, dann das hier noch einmal',
+    'This ffmpeg has soxr: the clock drift between cameras comes out in '
+    'steps of 0.21 ppm.':
+        'Dieses ffmpeg hat soxr: der Uhrengang zwischen den Kameras wird '
+        'in Schritten von 0,21 ppm ausgeglichen.',
+    'This ffmpeg has no soxr: the clock drift between cameras comes out in '
+    'steps of 21 ppm instead of 0.21.':
+        'Diesem ffmpeg fehlt soxr: der Uhrengang zwischen den Kameras wird '
+        'in Schritten von 21 ppm statt 0,21 ausgeglichen.',
+    'Everything works without it. Getting a build that has it takes a few '
+    'minutes, and what it says appears under Output.':
+        'Es geht auch ohne. Einen Bau zu holen, der es hat, dauert ein '
+        'paar Minuten, und was er sagt, steht unter Ausgabe.',
+    'Carry on':
+        'Weiter',
     'Not mandatory -- YouTube then applies default values (Sony BVM-X300). '
     'To get them: in Resolve switch on HDR10+ under Color Management, run '
     '"Analyze All Shots" on the Color page and tick "Embed HDR10 Metadata" '
@@ -3505,10 +3554,6 @@ TEXTS = {
         '  Schon einmal getrennt: zurückgelesen, nicht neu gemessen.',
     '  About %s of computing for %s of audio.':
         '  Etwa %s Rechenzeit für %s Ton.',
-    '  The environment for it is not here yet: about %d MB are fetched '
-    'now.':
-        '  Die Umgebung dafür fehlt noch: etwa %d MB werden jetzt '
-        'geholt.',
     '  (measuring only: nothing separated)':
         '  (nur gemessen: nichts getrennt)',
     '  From %s: %d voice.': '  Aus %s: %d Stimme.',
