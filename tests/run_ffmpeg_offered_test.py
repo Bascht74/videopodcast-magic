@@ -11,9 +11,11 @@ The sections in order: a way on every system; what a test run may do,
 which is nothing; the note about soxr following the measurement rather
 than the hope; that an install throws the old measurement away before
 it reports; and what an archive is allowed to give up, which is the
-two programs and nothing else. No connection is ever opened -- the one
-function that would open it is replaced, so what is measured is what
-the program does with the answer.
+two programs, runnable, and nothing else. Whether a file may be run is
+asked of each system in its own terms -- Unix answers with the owner's
+execute bit, Windows with the ending, and a mode says nothing there.
+No connection is ever opened -- the one function that would open it is
+replaced, so what is measured is what the program does with the answer.
 """
 import os
 import the_program
@@ -310,14 +312,36 @@ check("and the soxr answer measured before it is thrown away",
 print("\n5. An archive gives up the two programs and nothing else")
 
 WORK = tempfile.mkdtemp(prefix="vpm_ffbuild_")
-INSIDE = ["build/bin/ffmpeg", "build/bin/ffprobe", "build/bin/ffplay",
+# The two programs are called ffmpeg.exe and ffprobe.exe in the Windows
+# build and carry no ending anywhere else -- and that ending is what
+# Windows starts a file by. So the archive here is shaped like the one
+# this system really gets, and the last question below is asked about a
+# file that could really run.
+EXE = ".exe" if sys.platform == "win32" else ""
+BOTH = ["ffmpeg" + EXE, "ffprobe" + EXE]
+INSIDE = ["build/bin/ffmpeg" + EXE, "build/bin/ffprobe" + EXE,
+          "build/bin/ffplay" + EXE,
           "build/doc/general.html", "build/LICENSE.txt",
           # A path that tries to climb out of the folder it is
           # unpacked into. Nothing in an archive may decide where a
           # file lands, so this one has to end up beside the others.
           # One step up and no more, so that a broken version writes
           # into the test's own folder and not into the machine.
-          "../ffmpeg"]
+          "../ffmpeg" + EXE]
+
+
+def may_be_started(path):
+    """The system's own answer to whether that file can be run.
+
+    Unix hangs it on the owner's execute bit, and os.access asks the
+    kernel for that rather than reading a mode here. Windows hangs it
+    on the ending instead: os.chmod sets only the read-only flag there
+    and the mode comes back 0o666 whatever was asked for, so a mode is
+    no answer to this question at all.
+    """
+    if sys.platform == "win32":
+        return os.path.isfile(path) and path.lower().endswith(".exe")
+    return os.access(path, os.X_OK)
 
 
 def build_zip(where):
@@ -350,29 +374,33 @@ try:
                               out_tar)
     left_zip = sorted(os.listdir(out_zip))
     left_tar = sorted(os.listdir(out_tar))
-    outside = os.path.exists(os.path.join(WORK, "ffmpeg"))
+    outside = os.path.exists(os.path.join(WORK, "ffmpeg" + EXE))
+    runnable = [may_be_started(os.path.join(out_zip, n)) for n in left_zip]
     modes = [oct(os.stat(os.path.join(out_zip, n)).st_mode & 0o777)
              for n in left_zip]
 finally:
     shutil.rmtree(WORK, ignore_errors=True)
 
 check("a zip gives up ffmpeg and ffprobe and nothing beside them",
-      left_zip == ["ffmpeg", "ffprobe"] and from_zip == 3,
-      "it left %r behind and reported %d files, wanted "
-      "['ffmpeg', 'ffprobe'] and 3 -- ffplay, the documentation and the "
-      "licence are 150 MB of what nobody asked for" % (left_zip, from_zip))
+      left_zip == BOTH and from_zip == 3,
+      "it left %r behind and reported %d files, wanted %r and 3 -- "
+      "ffplay, the documentation and the licence are 150 MB of what "
+      "nobody asked for" % (left_zip, from_zip, BOTH))
 check("a tar gives up the same two and nothing beside them",
-      left_tar == ["ffmpeg", "ffprobe"] and from_tar == 3,
-      "it left %r behind and reported %d files, wanted "
-      "['ffmpeg', 'ffprobe'] and 3" % (left_tar, from_tar))
+      left_tar == BOTH and from_tar == 3,
+      "it left %r behind and reported %d files, wanted %r and 3"
+      % (left_tar, from_tar, BOTH))
 check("a path in the archive cannot decide where a file lands",
       outside is False,
       "an entry called %r was written outside the folder it was "
       "unpacked into" % (INSIDE[-1],))
-check("and what is unpacked may be run",
-      modes == ["0o755", "0o755"],
-      "the two came out as %r, wanted 0o755 -- a file fetched out of an "
-      "archive carries no permission anybody can rely on" % (modes,))
+check("and what is unpacked may be started on this system",
+      runnable == [True, True],
+      "on %s the two answered %r under the names %r, with the modes %r "
+      "-- wanted both runnable: a file out of an archive carries no "
+      "permission and no ending anybody can rely on, so the program has "
+      "to give it what this system starts a file by"
+      % (sys.platform, runnable, left_zip, modes))
 
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
