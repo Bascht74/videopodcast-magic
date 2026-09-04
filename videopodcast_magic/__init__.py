@@ -2116,6 +2116,20 @@ BAD_MARK = "[BAD]"
 _LOG_ASIDE = []
 
 
+def inside_folder(here, folder, paths=os.path):
+    """Is that file inside this folder, however the two are spelled?
+
+    One folder answers to more than one name: a link leads to it under
+    another, and Python 3.10 on Windows spells the library folder lib
+    where sysconfig spells it Lib. Held against each other as text they
+    say no about one folder. The path module is an argument so that
+    this machine can be asked what another one makes of two names.
+    """
+    here = paths.normcase(paths.realpath(here))
+    folder = paths.normcase(paths.realpath(folder))
+    return here.startswith(folder + paths.sep)
+
+
 def installed_by_a_package_manager():
     """The folder a package manager owns this file in, or "".
 
@@ -2126,7 +2140,6 @@ def installed_by_a_package_manager():
     belongs to pip, not to the person running the program.
     """
     import sysconfig
-    here = os.path.abspath(__file__)
     import site
     # site.USER_SITE, not getusersitepackages(): the call raises where
     # the user folder is switched off, the name is always there, and it
@@ -2134,7 +2147,7 @@ def installed_by_a_package_manager():
     owned = [sysconfig.get_paths().get(k) for k in ("purelib", "platlib")]
     owned.append(site.USER_SITE)
     for folder in owned:
-        if folder and here.startswith(os.path.abspath(folder) + os.sep):
+        if folder and inside_folder(__file__, folder):
             return folder
     return ""
 
