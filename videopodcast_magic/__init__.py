@@ -30113,21 +30113,48 @@ def split_column_fit(tree, column, stretch=1):
 
 
 def cells_laid_out(cells):
-    """Let the view measure its rows again, once for the whole pass.
+    """Give every cell the height its text needs, and lay the rows out.
 
-    A cell written to after the sheet was laid out keeps the height of
-    the empty cell, and a wrapping label then loses every line but its
-    last. This is the only thing that puts it right: writing the
-    height on to the item itself changes nothing, measured with the
-    longest text that cell can be handed. True where a view was found.
+    A wrapping label offers a height worked out at a width of its own
+    choosing. Here that offer comes out right; on the Windows builder
+    it came out 14 px under what the text needed and a line went
+    missing. So the height is not left to the offer: the width is read
+    off the laid-out label and the height demanded from it. Twice
+    round, because the first pass is what gives the label its width.
+    """
+    view = cells_are_shown_in(cells)
+    if view is None:
+        return False
+    view.doItemsLayout()
+    moved = False
+    for _path, _button, mark, _item in list(cells or ()):
+        # Let go of last time's height before asking again: a label
+        # counts its own minimum into the answer, so an emptied cell
+        # would still say it needs four lines. An empty one answers
+        # -1, which is no height at all.
+        was = mark.minimumHeight()
+        mark.setMinimumHeight(0)
+        needs = max(0, mark.heightForWidth(max(1, mark.width())))
+        if needs:
+            mark.setMinimumHeight(needs)
+        moved = moved or needs != was
+    if moved:
+        view.doItemsLayout()
+    return True
+
+
+def cells_are_shown_in(cells):
+    """The view those cells stand in, or None where there is not one.
+
+    The way out of a cell and back to the whole: tree_build makes the
+    view the model's parent, so any one item knows where it is drawn.
     """
     for _path, _button, _mark, item in list(cells or ()):
         model = item.model()
         view = model.parent() if model is not None else None
         if hasattr(view, "doItemsLayout"):
-            view.doItemsLayout()
-            return True
-    return False
+            return view
+    return None
 
 
 def split_cell_build(path, on_stop, item):
