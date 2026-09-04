@@ -84,8 +84,8 @@ TEXTS = {
         'अभी नया संस्करण खोजें',
     'Separating speakers':
         'वक्ताओं का पृथक्करण',
-    'Separating speakers ...':
-        'वक्ताओं को अलग किया जा रहा है ...',
+    'Separating ...':
+        'अलग किया जा रहा है ...',
     'Voice':
         'आवाज़',
     'Break off':

@@ -11,8 +11,10 @@ wrap; a row grows to a text that wraps and comes back down when the
 cell is emptied; everything the cell can show, up to the longest report
 a separation can hand it, is readable in both languages; the same again
 in a font drawn as wide as the widest we build for; at the narrowest
-window the program allows, none of it has to be scrolled sideways; and
-a recording whose voices hang under it stays open while its cell is
+window the program allows, in either language and across the fonts we
+build for, the name field keeps a width somebody can type in and the
+column carrying the button can be brought fully into view; and a
+recording whose voices hang under it stays open while its cell is
 written.
 
 Measured offscreen on a tree built and filled by the same functions the
@@ -101,7 +103,6 @@ def sheet(width):
     for c in range(len(columns)):
         tree.resizeColumnToContents(c)
     tree.setColumnWidth(0, max(220, tree.columnWidth(0) + 30))
-    tree.setColumnWidth(1, max(160, tree.columnWidth(1)))
     vpm.split_column_fit(tree, 4)
     holder.show()
     app.processEvents()
@@ -178,7 +179,7 @@ holder, tree, cells, nodes = sheet(NARROWEST)
 room = tree.columnWidth(4)
 mark_font = cells[0][2].fontMetrics()
 button_wide = cells[0][1].sizeHint().width()
-running = vpm.T('Separating speakers ...')
+running = vpm.T('Separating ...')
 counted = vpm.TN(2, 'Separated: %d speaker', 'Separated: %d speakers') % 2
 check("the column holds the running caption and its button",
       room >= mark_font.horizontalAdvance(running) + button_wide,
@@ -297,19 +298,61 @@ check("and the running caption still on one line, in that font",
       % ["%s: %d px, %d px wide, %d px of text" % x
          for x in far["running"]])
 
-print("\n5. Nothing has to be scrolled sideways")
-vpm.set_language("de")
-holder, tree, cells, nodes = sheet(NARROWEST)
-written(cells, missing_caption())
-wanted = sum(tree.columnWidth(c) for c in range(5))
-check("at the narrowest window the columns fit the width there is",
-      wanted <= tree.viewport().width()
-      and tree.horizontalScrollBar().maximum() == 0,
-      "%d px of columns in a viewport %d px wide, scroll range 0..%d, "
-      "window at least %d px"
-      % (wanted, tree.viewport().width(),
-         tree.horizontalScrollBar().maximum(), NARROWEST))
-holder.deleteLater()
+print("\n5. Nothing is squeezed away or put out of reach")
+# Both languages, because which of them asks the column for more room
+# is not fixed: it is measured from two captions that must not wrap,
+# and shortening one German caption made English the wider of the two.
+#
+# What is asked here changed once the name column stopped stretching.
+# It used to be that nothing had to be scrolled sideways -- and that
+# was only ever true because the name field gave way, down to 79 px on
+# the Windows builder, in the one column somebody types into. Room for
+# the name comes first now, and the tree scrolls instead; so what is
+# asked is that the scrolling really reaches the far column, which is
+# where the button to break a separation off sits.
+narrow = []
+was_font = QtWidgets.QApplication.font()
+try:
+    # Swept rather than measured at one width, because the squeeze does
+    # not live at either end. Wide open there is room to spare, and in
+    # the widest font we build for the tree scrolls so far that every
+    # column keeps its own size. It is the middle that hurts -- the
+    # window a little too narrow for what is in it -- and that is where
+    # the Windows builder sits.
+    for how_wide in (100, 120, 136, 160, WIDER):
+        in_a_wider_font(how_wide)
+        for language in ("de", "en"):
+            vpm.set_language(language)
+            holder, tree, cells, nodes = sheet(NARROWEST)
+            written(cells, missing_caption())
+            # Scrolled the whole way over, because what is asked is
+            # not that the far column is narrow enough in principle
+            # but that it really stands inside the viewport there.
+            bar = tree.horizontalScrollBar()
+            bar.setValue(bar.maximum())
+            app.processEvents()
+            head = tree.header()
+            narrow.append(("%s at %d%%" % (language, how_wide),
+                           head.sectionViewportPosition(4),
+                           tree.columnWidth(4),
+                           tree.viewport().width(),
+                           tree.columnWidth(1)))
+            holder.deleteLater()
+finally:
+    QtWidgets.QApplication.setFont(was_font)
+check("the column carrying the button can be brought fully into view",
+      all(0 <= left and left + wide <= room
+          for _l, left, wide, room, _n in narrow),
+      "scrolled the whole way over, at the narrowest window of %d px; %s"
+      % (NARROWEST, ", ".join(
+          "%s: the Speakers column %d px wide sits at %d in a viewport "
+          "%d px wide" % (x[0], x[2], x[1], x[3]) for x in narrow)))
+check("the field a name is typed into keeps its least width",
+      all(name >= vpm.NAME_COLUMN_LEAST
+          for _l, _w, _r, _b, name in narrow),
+      "at least %d px wanted; %s"
+      % (vpm.NAME_COLUMN_LEAST,
+         ", ".join("%s: %d px" % (x[0], x[4]) for x in narrow)))
 
 print("\n6. A recording that is open stays open while its cell is written")
 # The voices hang under their recording, and the height of a row is put

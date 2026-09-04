@@ -21906,7 +21906,7 @@ def _speaker_split_talk(python, worker, head, wave, environment,
                 except (ValueError, IndexError):
                     share = 0.0
                 if report:
-                    report(T('Separating speakers ...'),
+                    report(T('Separating ...'),
                            0.05 + 0.9 * max(0.0, min(1.0, share)))
             elif text:
                 trouble.append(text)
@@ -22818,7 +22818,7 @@ def split_cells_write(cells, busy, running, by_source, note):
                 mark.setText(note[1])
                 mark.setStyleSheet("color: %s" % note[2])
             elif mine:
-                mark.setText(T('Separating speakers ...'))
+                mark.setText(T('Separating ...'))
                 mark.setStyleSheet("color: %s" % COLOURS["quiet"])
             elif done:
                 mark.setText(TN(len(found), 'Separated: %d speaker',
@@ -30074,6 +30074,13 @@ def speaks_as(widget, what, row_name=""):
                              if row_name else what)
     return widget
 
+# How narrow the name field may get. It is typed into, so it is the one
+# column that must not give way: Qt lets a stretching column fall to
+# 16 px and says nothing, and on the Windows builder this one went to
+# 79 px at the narrowest window while everything still "fitted".
+NAME_COLUMN_LEAST = 160
+
+
 def split_column_room(widget):
     """How wide the Speakers column has to be for what it will hold.
 
@@ -30088,27 +30095,53 @@ def split_column_room(widget):
     mark.setFont(widget.font())
     button = _qw.QPushButton(T('Break off'))
     button.setFont(widget.font())
-    running = caption_room(mark, 0, [T('Separating speakers ...'),
+    running = caption_room(mark, 0, [T('Separating ...'),
                                      T('Breaking off ...')])
     done = caption_room(mark, 0, [TN(2, 'Separated: %d speaker',
                                      'Separated: %d speakers') % 2])
     return max(running + button.sizeHint().width() + 6, done) + 12
 
 
-def split_column_fit(tree, column, stretch=1):
+def split_column_fit(tree, column, stretch=1, least=NAME_COLUMN_LEAST):
     """Give the Speakers column its width, and the rest to the names.
 
-    Out of the window so it can be measured without one, and in one
-    place so what is measured and what is drawn cannot drift apart.
-    The column is fixed and the name column takes whatever is left: a
-    button squeezed to half its caption is worse than a name field one
-    word narrower, and a name field scrolls its own content.
+    Out of the window, so it cannot drift from what is drawn. What is
+    left over is handed out here rather than by a stretching column,
+    and never below *least*: a stretching one falls as far as Qt likes
+    -- 79 px on the Windows builder, in the field a name is typed into.
+    Where that will not fit, the tree scrolls, which is the lesser harm.
     """
+    from PySide6 import QtCore as _qc
     from PySide6 import QtWidgets as _qw
     head = tree.header()
     head.setStretchLastSection(False)
+    head.setSectionResizeMode(stretch, _qw.QHeaderView.Interactive)
     tree.setColumnWidth(column, split_column_room(tree))
-    head.setSectionResizeMode(stretch, _qw.QHeaderView.Stretch)
+    others = [c for c in range(head.count()) if c != stretch]
+    # What the column was asked for before the room was shared out. It
+    # never goes below that again: the leftover can be nothing at all,
+    # and a column handed nothing is a field with no name in it.
+    asked = max(least, tree.columnWidth(stretch))
+
+    def share_out():
+        free = tree.viewport().width() - sum(tree.columnWidth(c)
+                                             for c in others)
+        tree.setColumnWidth(stretch, max(asked, free))
+
+    tree._share_out = share_out
+
+    class ShareWithWindow(_qc.QObject):
+        """Hand the name column the room left over as the window moves."""
+
+        def eventFilter(self, watched, what):
+            if what.type() == _qc.QEvent.Resize:
+                tree._share_out()
+            return False
+
+    if not hasattr(tree, "_share"):
+        tree._share = ShareWithWindow(tree)
+        tree.viewport().installEventFilter(tree._share)
+    share_out()
     return tree.columnWidth(column)
 
 
@@ -35074,7 +35107,6 @@ def gui():
         # content. The first column of the tree carries the triangles and the
         # indentation as well, so it is measured with room for both.
         tree_audio.setColumnWidth(0, max(220, tree_audio.columnWidth(0) + 30))
-        tree_audio.setColumnWidth(1, max(160, tree_audio.columnWidth(1)))
         # The new file name is long, so it gets whatever is left.
         table_video.horizontalHeader().setStretchLastSection(False)
         table_video.horizontalHeader().setSectionResizeMode(

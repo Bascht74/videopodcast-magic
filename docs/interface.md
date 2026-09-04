@@ -156,8 +156,8 @@ Four tabs, in the order they are needed.
   separation nobody has answered for leaves the field empty and the
   rows hidden, and answering later brings them up at once, with the
   names and cameras they already had. The fifth column, **Speakers**,
-  says how that stands -- **Separating speakers ...** and **Break off**
-  while it runs, in that row and no other, then **Separated: 4
+  says how that stands -- **Separating ...** and **Break off** while
+  it runs, in that row and no other, then **Separated: 4
   speakers**, and a reason where the separation could not run. It is a
   report and nothing else: no separation is started there, and changing
   one's mind means going back to the field.

@@ -84,8 +84,8 @@ TEXTS = {
         'Chercher maintenant une version plus récente',
     'Separating speakers':
         'Séparation des locuteurs',
-    'Separating speakers ...':
-        'Séparation des locuteurs ...',
+    'Separating ...':
+        'Séparation ...',
     'Voice':
         'Voix',
     'Break off':

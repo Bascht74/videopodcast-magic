@@ -84,14 +84,14 @@ TEXTS = {
         '新しいバージョンを今すぐ確認',
     'Separating speakers':
         '話者の分離',
-    'Separating speakers ...':
-        '話者を分離中 ...',
+    'Separating ...':
+        '分離中 ...',
     'Voice':
         '声',
     'Break off':
         '中止',
     'Breaking off ...':
-        '中止しています ...',
+        '中止中 ...',
     'Not on this machine':
         'このマシンにはありません',
     'Reading the audio ...':
