@@ -304,7 +304,9 @@ the `colr` box of the camera files first. Three things count as HDR:
 If a camera writes nothing usable into `colr`, the script reads its
 QuickTime keys as well; most cameras note the curve there. The search runs
 on word markers (`apple log`, `s-log`, `v-log`, `logc`, …), not on "log".
-If the project settings say otherwise, the project wins.
+A marker has to stand as a word of its own, and a version digit may follow
+it: `s-log3` and `logc4` count, a shot described as "vlogger in shot" does
+not. If the project settings say otherwise, the project wins.
 
 | Setting | SDR | HDR |
 |---|---|---|
@@ -404,8 +406,11 @@ the file is still sound.
 
 The log then says under **Camera atoms** whether the atom was added and
 which curve it names. In the file list the curve stands in the **Colour**
-row. It carries a plain name if one is known (Apple Log, Apple Log 2),
-otherwise the identifier as it stands.
+row. It carries a plain name if one is known — "Apple Log (Rec.2020)" or
+"Apple Log 2 (Apple Wide Gamut)" — otherwise the identifier as it stands.
+The space belongs in the name: the newer iPhones write no primaries into
+`colr` at all, so this row is the only place the picture says which space
+it is in, and a table meant for the one would be laid on the other.
 
 ### Grading a whole camera at once
 

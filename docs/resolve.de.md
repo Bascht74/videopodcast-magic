@@ -326,8 +326,10 @@ Drei Sachen gelten als HDR:
 Wenn eine Kamera nichts Brauchbares in den `colr`-Block schreibt, liest
 das Script zusätzlich ihre QuickTime-Schlüssel; dort steht bei den
 meisten Kameras die Kurve. Gesucht wird nach Wortmarken (`apple log`,
-`s-log`, `v-log`, `logc`, …), nicht nach „log“. Sagen die
-Projekteinstellungen etwas anderes, sticht das Projekt.
+`s-log`, `v-log`, `logc`, …), nicht nach „log“. Eine Wortmarke muss als
+eigenes Wort dastehen, eine Versionsziffer darf ihr folgen: `s-log3` und
+`logc4` zählen, ein Bild mit dem Vermerk „Vlogger im Bild“ nicht. Sagen
+die Projekteinstellungen etwas anderes, sticht das Projekt.
 
 | Einstellung | SDR | HDR |
 |---|---|---|
@@ -433,8 +435,12 @@ noch heil ist.
 
 Im Protokoll steht danach unter **Kameraatome**, ob das Atom nachgetragen
 wurde und welche Kurve es nennt. In der Dateiliste steht die Kurve in der
-Zeile **Farbe**. Sie trägt einen Klarnamen, wenn einer bekannt ist (Apple
-Log, Apple Log 2), sonst die Kennung, wie sie dasteht.
+Zeile **Farbe**. Sie trägt einen Klarnamen, wenn einer bekannt ist —
+„Apple Log (Rec.2020)“ oder „Apple Log 2 (Apple Wide Gamut)“ —, sonst die
+Kennung, wie sie dasteht. Der Farbraum gehört in den Namen: die neueren
+iPhones schreiben gar keine Primärfarben in den `colr`-Block, damit ist
+diese Zeile die einzige Stelle, an der das Bild seinen Farbraum nennt —
+und eine Tabelle für den einen läge sonst auf dem anderen.
 
 ### Eine ganze Kamera auf einmal korrigieren
 
