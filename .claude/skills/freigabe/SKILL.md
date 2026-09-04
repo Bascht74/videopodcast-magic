@@ -1,6 +1,6 @@
 ---
 name: freigabe
-description: A new version is about to go out -- somebody names a version, a number, a tag or a release, or asks whether this state is finished and ready to be published.
+description: A new version is about to go out -- somebody says "publish", names a version, a number, a tag or a release, or asks whether this state is finished and ready to be published.
 ---
 
 # Releasing a version
@@ -9,6 +9,13 @@ description: A new version is about to go out -- somebody names a version, a num
 mark: a tag whose attachment does not match what was tested is worse
 than no tag. Five things belong to a version, and the tag is none of
 them -- it is what follows once they hold.
+
+**Since 4.9.2026 nobody sets that tag by hand.** One word starts
+`.github/workflows/publish.yml`, and it does the mechanics: it reads the
+number, cuts the notes, builds the archive, sets the tag, makes the
+release, and stops where any of that does not hold. **It cannot check
+the five things.** Those are the whole of this document, and they are
+still yours.
 
 ## Beforehand: the builder's times
 
@@ -71,19 +78,64 @@ a number means anything.
 
 ## The mechanics, in this order
 
-**Set the number.** `VERSION = "..."` in the program itself,
-`videopodcast_magic/__init__.py`, around line 930. The same number stands as the topmost numbered section in
-`CHANGELOG.md`, and as `**Version ....**` in `README.md`,
-`README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
-`tests/text_release_ready_test.py` holds those six against each other.
+**Since 4.9.2026 the mechanics are a workflow, and the word is the whole
+of your part in them.** The owner says *publish*; the tool starts
+`.github/workflows/publish.yml` over the GitHub connection; the workflow
+reads the version out of the program, cuts the notes out of the
+changelog, builds the archive and the sum beside it, sets the tag and
+makes the release. **Nothing is tagged by hand and nothing is published
+by hand any more** -- no `git tag`, no `git push origin v...`, no
+`gh release create`. A tag pushed from a desk is not a shortcut now, it
+is a fault: the workflow would find that tag already standing and stop,
+and the release nobody made would have to be made by hand after all.
 
-**A seventh place, and no test here reaches it: `version = "..."` in
+Everything under this heading is still the source, because the workflow
+has no reasoning of its own: every command in it is quoted out of here
+-- the four exclusions of the archive, the manifest beside it, the awk
+over the changelog, the spelling of the tag. **Change one of them here
+and the workflow says the old thing until somebody carries it over**,
+and nothing tells you: no test holds the two against each other
+(4.9.2026).
+
+### The workflow is the mechanics, and the five things are not mechanics
+
+**The workflow takes the handgrips, not the judgement: it can see that
+the suite was green on this commit and that the changelog has a section
+under this number, and it cannot see a manual that still describes last
+version's program, a picture run that was never made, or an open list
+that has drifted two releases -- so a run that ends in a release proves
+that the mechanics held, and never that the version was ready.**
+
+The five things above stand exactly as they stood. What has moved is
+only that "the tag comes last" now happens inside a machine, four
+minutes after the word, with nobody watching. **That is the danger of
+this change**: a run that goes through green from end to end leaves the
+feeling that everything was seen to. Six checks were seen to. The other
+five are yours, they are the ones nobody will ask you about, and the
+workflow will happily hang a tag on a version whose manual is a version
+behind.
+
+So the word is said when 1 to 5 hold, and not when the suite is green.
+Green is one of the five.
+
+### Still by hand, and before the word
+
+**Set the number.** `VERSION = "..."` in the program itself,
+`videopodcast_magic/__init__.py`. The same number stands as the topmost
+numbered section in `CHANGELOG.md`, and as `**Version ....**` in
+`README.md`, `README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
+`tests/text_release_ready_test.py` holds those six against each other,
+and the workflow's first question is whether that test was green here.
+
+**A seventh place, and no test reaches it: `version = "..."` in
 `pyproject.toml`.** It is what pip hands somebody who installs rather
 than fetches, and a package calling itself one thing while the program
-calls itself another looks amiss nowhere on the release page.
-`.github/workflows/release.yml` holds it against the program letter for
-letter -- but only once the release is out, and by then the push is
-long gone. So it is set by hand, with the other six, before the push.
+calls itself another looks amiss nowhere on the release page. Two
+workflows hold it against the program letter for letter now, and only
+one of them is in time: `publish.yml` reads both lines and stops before
+the tag; `.github/workflows/release.yml` asks the same question once the
+release is out, when the push is long gone. So it is set by hand, with
+the other six, before the word.
 
 **Which number**, by Semantic Versioning:
 
@@ -95,15 +147,32 @@ What that refers to is the command-line switches, the format of the
 project file, and the names of what comes out. **Manual, tests or notes
 alone get no new number.**
 
-**One run per attempt at a release.** Everything finished first -- every
-file, every register, the whole suite green here -- then **one** push.
-Then wait, without adding anything. A commit pushed after it kills the
-run that was going to be the evidence, and the list of runs stops saying
-which state was really tested. Green -> the tag. Red -> repair, and the
-next push is the next attempt.
+**Write the changelog section before the push, because the workflow
+reads it and does not write it.** Skill `changelog` says what goes in
+one. What the workflow does with it is cut everything between
+`## [<number>]` and the next line beginning `## `, so two things about
+the heading are not cosmetic: **the square brackets belong in it**, and
+**the number in it is the number in the program, letter for letter**.
+A section that is missing, spelt differently or empty stops the run --
+before the tag, which is the whole reason that question is asked twice
+in this project.
 
-**Before that push, count what is left over.** The commonest way to
-break this rule is not impatience, it is a file forgotten while staging:
+**One run per attempt at a release, and the workflow now insists on
+it.** Everything finished first -- every file, every register, the whole
+suite green here -- then **one** push. Then wait, without adding
+anything. This was a rule about evidence and it is a mechanism now: the
+workflow asks GitHub for a *successful run of `tests.yml` on this very
+commit*, and a green run on the commit before it is no answer. A second
+commit pushed after the first therefore does not merely muddy the list
+of runs -- it moves the head the dispatch would run against, and the
+release stops at step 1 until the suite has answered for that commit
+too. (Read out of `publish.yml` and `tests.yml`, not measured: the run
+it asks about is the one job with the six-way matrix, `fail-fast:
+false`, so that run is successful only when all six were.)
+
+**Before the word, count what is left over.** The commonest way to break
+the one-run rule is not impatience, it is a file forgotten while
+staging:
 
 ```bash
 git status --short            # must be empty, or every line explained
@@ -116,16 +185,16 @@ stays -- a state file another strand owns is a reason; "I did not see
 it" is the fault this check exists for. It has happened: `tests/resolve.sh`
 was missed, reached as a second commit, and killed the first run.
 
-**And before that push, count what git cannot see.** `git status`
-answers for the files git knows about. A package is not built out of
-git: setuptools builds it out of this folder and keeps a `build/`
-beside it that `.gitignore` hides -- and **setuptools uses that folder
-again instead of building afresh**, so whatever lay in it last time
-goes into the new package too.
+**And before the word, count what git cannot see.** `git status` answers
+for the files git knows about. A package is not built out of git:
+setuptools builds it out of this folder and keeps a `build/` beside it
+that `.gitignore` hides -- and **setuptools uses that folder again
+instead of building afresh**, so whatever lay in it last time goes into
+the new package too.
 
 Measured 4.9.2026, the day the program became a folder: `pip3 wheel
---no-deps .` in a checkout still holding the morning's `build/lib/`
-came out with 21 files -- the new package, and beside it the
+--no-deps .` in a checkout still holding the morning's `build/lib/` came
+out with 21 files -- the new package, and beside it the
 `videopodcast_magic.py` and the nine `videopodcast_magic_texts_*.py`
 that do not exist any more. After
 `rm -rf build videopodcast_magic.egg-info`: 11 files. **git was clean,
@@ -192,40 +261,18 @@ file gone from the folder itself: then both sides lack it and the diff
 is content. `git status` answers for that one, which is why it stands
 above this and not instead of it.
 
-**Not in `.github/workflows/release.yml`, and that is the whole
-point.** The runner checks the tag out fresh and installs from a git
-URL, so a `build/` from last time cannot exist there -- the check would
-be green for ever, on a machine where the fault cannot happen. It has
-to be asked here, on the disc where the folder lies, and before the
-push rather than after the tag.
+**This one stays on the disc, and no workflow can take it.** Neither
+`publish.yml` nor `release.yml` can ask it: both work in a checkout made
+seconds ago, where a stale `build/` cannot exist, so the check would be
+green for ever on a machine where the fault is impossible. It has to be
+asked here, on the disc where the folder lies, and before the word.
 
-**Then wait** until the suite is green on all six jobs. Only then the
-tag. **It is `v` plus the number in the program, letter for letter** --
-the program builds the address it fetches its model from out of
-`VERSION` that way, so a tag spelled differently sends a fresh
-installation to an address that is not there.
-`.github/workflows/release.yml` holds the two against each other:
+### The word, and the one box the workflow cannot fill
 
-```bash
-git tag -a v2.5.0-beta -m "videopodcast-magic 2.5.0-beta"
-git push origin v2.5.0-beta
-```
-
-**The notes are cut out of the changelog, not written again:**
-
-```bash
-awk '/^## \[2\.5\.0-beta\]/{f=1;next} /^## \[/{f=0} f' CHANGELOG.md \
-    > /tmp/notes.md
-```
-
-The square brackets belong in the pattern; without them the release
-comes out empty. For the oldest bracketed section the stop mark is
-`/^## /`, otherwise awk reads on past it.
-
-**The release title carries the humour, and nothing else does.** Not
-the notes, not a closing line -- the headline. It is what somebody sees
-in the list of releases before they open anything, and it is the one
-place in this project where a lighter tone costs nothing.
+**The release title carries the humour, and nothing else does.** Not the
+notes, not a closing line -- the headline. It is what somebody sees in
+the list of releases before they open anything, and it is the one place
+in this project where a lighter tone costs nothing.
 
 It says what this version is really about while it does it. Half a
 sentence after the number:
@@ -233,6 +280,9 @@ sentence after the number:
 ```
 2.23.0-beta -- the project asks before it measures, and stops when told
 ```
+
+**Only the half after the `--` is typed anywhere**; the number and the
+dashes are put in front by the workflow.
 
 Nothing else here carries a joke: the changelog is looked things up in,
 the commits are searched through, the manual is read while working. A
@@ -243,38 +293,101 @@ title about that one thing. It reads as something a person wrote: out of
 the thing itself, no exclamation mark, no explanation behind it. If
 nothing comes, dry beats laboured.
 
-**The archive goes on at creation, not afterwards. Built at the top of
-the checkout, and the tree clean:**
+**This is the one thing in a release a machine cannot supply, and it is
+the only thing the dispatch asks for.** `publish.yml` has a single input,
+`title`, and what goes in it is **the half sentence and not the number**:
+the workflow reads the number out of the program and puts it in front
+itself, so the headline and the tag are built out of the same one number
+and cannot come apart. Two ways to get it wrong, and the run stops on
+both rather than guessing: an empty box (a bare number is not a quieter
+title, it is a missing one, and nothing downstream would ever notice
+it), and a half sentence that already begins with the number (it says
+what to type instead rather than silently stripping it).
+
+### What the workflow asks, and where it stops
+
+In its own order. Whoever knows this list does not have to open the
+YAML:
+
+0. **The title is not empty.** First because it costs nothing -- no
+   checkout, no network -- and the commonest wrong start is found in two
+   seconds.
+1. **The suite is green on this very commit.** It asks GitHub for a
+   completed, successful run of `tests.yml` whose head is this commit,
+   and prints the newest one it found. No run, still running, or red:
+   stop.
+2. **One version number.** The program and `pyproject.toml` each carry
+   exactly one line to read, and the two say the same thing. The title
+   does not repeat the number. Stop on any of the three.
+3. **The changelog section exists and is not empty.** The cut goes into
+   the notes file; nothing to publish until there is something in it.
+4. **The tag does not exist yet.** `git ls-remote` against the remote --
+   a tag is the one thing here nobody can take back once it has been
+   fetched, so a tag already standing means this run has nothing to do.
+5. **The archive is the program.** It builds the zip and the sum, then
+   holds the archive's listing against what is at this commit, both
+   directions. A wrong archive is stopped here rather than found hanging
+   on a tag.
+6. **The tag, then the release on it** -- and this is the first step
+   that changes anything outside the runner. The tag is annotated and
+   made by `git` on this very commit, not left to `gh` (which would make
+   a lightweight one and, where the tag is absent, hang it on the
+   default branch's head). **If the release will not be made, the tag is
+   taken down again**, because a tag with no release is a mark with no
+   evidence -- and step 4 of the next attempt would refuse to run into
+   it.
+
+Two runs cannot overlap (`concurrency: publish`, and a publish is never
+cancelled halfway), and the run says what it is in the list of runs
+rather than borrowing the commit subject.
+
+**What it does not ask, on purpose.** Everything that judges a release
+already standing stays in `.github/workflows/release.yml`, which runs on
+`release: published`: the archive against the tree at the tag byte for
+byte, the notes against the changelog line by line, the addresses a
+fetched copy updates itself from, and that the thing installs and
+answers `--version`. Three questions are in both files, each marked
+"too late" where it stands in `publish.yml` -- program against
+`pyproject.toml`, the section not empty, the archive's listing. Not
+duplication: after the tag, an answer only tells you what you can no
+longer change.
+
+**So the publish run is not the last one to watch.** `publish.yml` going
+green means the mark was set well; `release.yml`, which starts by itself
+the moment the release is published, is what says the thing hanging on
+it is right.
+
+### Why the archive is what it is
+
+The workflow builds it, out of the top of the checkout, with the
+recipe's four exclusions:
 
 ```bash
-rm -f /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt
 zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic \
     -x '*/__pycache__/*' '*/.DS_Store' '*.log' 'videopodcast_magic/models/*'
 ( cd /tmp && shasum -a 256 videopodcast_magic.zip > SHA256SUMS.txt )
-
-gh release create v2.5.0-beta \
-   --title "2.5.0-beta -- <half a sentence>" \
-   --notes-file /tmp/notes.md --latest \
-   /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt
 ```
 
-**The `rm -f` is not tidiness.** `zip` adds to an archive that is
-already there instead of replacing it, so without it a second attempt
-ships yesterday's files beside today's and nothing says so. And from
-the top of the checkout, so the folder inside is named
-`videopodcast_magic/`: whoever unpacks it has the program in a folder
-of their choosing and it starts there.
+**The `rm -f` in front of it is not tidiness.** `zip` adds to an archive
+that is already there instead of replacing it, so without it a second
+attempt ships yesterday's files beside today's and nothing says so. And
+from the top of the checkout, so the folder inside is named
+`videopodcast_magic/`: whoever unpacks it has the program in a folder of
+their choosing and it starts there.
 
 **The four exclusions are not tidiness either, and one of them is the
-rule.** Measured 4.9.2026, zipping the folder plainly: 32 085 423
-bytes and 42 files, against 593 059 and 13 with them. Three sweep in
-junk -- `.DS_Store`, the compiled `__pycache__`, and the 31 MB speaker
-model, which is fetched rather than shipped. The fourth is why this
-paragraph is in bold: **an uninstalled run writes its log beside the
-program**, so `videopodcast_magic/videopodcast-magic.log` lies in the
-folder on any machine the program has been started on -- and on this
-machine that log holds the file names of a real production. `.gitignore`
-keeps it out of git; only `-x '*.log'` keeps it out of the archive.
+rule.** Measured 4.9.2026, zipping the folder plainly: 32 085 423 bytes
+and 42 files, against 593 059 and 13 with them. Three sweep in junk --
+`.DS_Store`, the compiled `__pycache__`, and the 31 MB speaker model,
+which is fetched rather than shipped. The fourth is why this paragraph
+is in bold: **an uninstalled run writes its log beside the program**, so
+`videopodcast_magic/videopodcast-magic.log` lies in the folder on any
+machine the program has been started on -- and on this machine that log
+holds the file names of a real production. `.gitignore` keeps it out of
+git; only `-x '*.log'` keeps it out of the archive. A runner's fresh
+checkout has none of the four and the exclusions stay all the same: the
+archive is to say what it is on any machine it is ever built on, and
+this one is built on a Mac whenever somebody checks the recipe by hand.
 
 **An archive and not a file, since 4.9.2026.** The texts of each
 language stand in a folder beside the program that day, and the program
@@ -306,11 +419,11 @@ places.
 A language added tomorrow is a file in `language/` and travels by
 itself; so does a piece cut out of the big file into a module beside
 it. That day came on 4.9.2026, and this line was what changed: it named
-a pattern of file names and names the folder now. The workflow follows
-by itself, because it lists what is at the tag rather than holding a
-list of its own. What does not follow by itself is the `starts:` job in
-the workflow and the fetch in `tests/first_run.sh`: both ask github.com
-for names ending in `.py`.
+a pattern of file names and names the folder now. Both workflows follow
+by themselves, because they list what is at the commit rather than
+holding a list of their own. What does not follow by itself is the
+`starts:` job in `release.yml` and the fetch in `tests/first_run.sh`:
+both ask github.com for names ending in `.py`.
 
 **Two files hang on a release: the archive and the sum of it.** The sum
 is made from the archive that is about to go up and goes up beside it.
@@ -320,36 +433,44 @@ be built twice into the same bytes -- it carries the times and the order
 the files went in -- so a sum over the files inside would be one nobody
 could repeat against what is in their hand, while the archive's own sum
 is exactly that. Whether the files inside are the ones that were tagged
-is the workflow's question, and it answers it byte for byte without
+is `release.yml`'s question, and it answers it byte for byte without
 needing a sum.
 
-Why a file of its own rather than a line in the notes: **whoever
-checks it is not a person.** The notes are prose and change shape from
-version to version; a manifest is read by a program. The model already
-carries one under exactly this name and in exactly this format, so one
-reader serves both -- a line whose first field is 64 characters, the
-file name last, comments skipped.
+Why a file of its own rather than a line in the notes: **whoever checks
+it is not a person.** The notes are prose and change shape from version
+to version; a manifest is read by a program. The model already carries
+one under exactly this name and in exactly this format, so one reader
+serves both -- a line whose first field is 64 characters, the file name
+last, comments skipped. Which is also why the sum is made from inside
+`/tmp`: the name in the manifest is to carry no path.
 
 **Without it, somebody who downloads has nothing in their hand.** The
 release workflow holds the archive against the tag, but that is our
 answer to ourselves; it is not something the person downloading can
 repeat.
 
-Three releases went out with nothing attached at all. The check for it
-sits in `.github/workflows/release.yml` and runs on
-`release: published`: whoever creates first and uploads after has
-already seen it red -- and a check that is red by design is one nobody
-reads for long.
+Three releases went out with nothing attached at all. That is the fault
+the attachment step in `publish.yml` cannot repeat -- both files are
+named in the same `gh release create` that makes the release, so a
+release without them is no longer a thing a tired hand can produce.
 
-**No `--prerelease`.** Then look that "Latest" is on it:
+### Afterwards
+
+**`--latest`, and no `--prerelease`.** The workflow sets it, and the
+reason is not neatness: a fetched copy asks github.com for the *newest*
+release when it looks for an update, and a release that is not the
+latest is one it never sees. Should it ever have to be put right by
+hand:
 
 ```bash
 gh release view v<number>
-gh release edit v<number> --prerelease=false --latest   # if it is not
+gh release edit v<number> --prerelease=false --latest
 ```
 
 **If a changelog section changes later, the release text is pulled up
-with it**, for every release it touches and not only the newest:
+with it** -- for every release it touches and not only the newest. This
+is the one `gh` command still typed here, because the workflow only ever
+runs once per version:
 
 ```bash
 gh release edit v<number> --notes-file /tmp/n.md

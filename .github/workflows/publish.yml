@@ -1,0 +1,462 @@
+name: publish
+
+# The commit subject is what GitHub calls a run by default, so the list
+# of runs reads as a heap of unrelated sentences. A run of this one is
+# one thing -- a release, off one branch, under one title -- and it says
+# so, with the number the list is ordered by.
+run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}: ${{ inputs.title }}"
+
+# Making the release, once everything a release stands on is true.
+#
+# Until today the tag was pushed by hand and the release made by hand
+# beside it, out of the recipe in .claude/skills/freigabe/SKILL.md.
+# That recipe is still the source for every command in here -- the four
+# exclusions of the archive, the manifest beside it, the awk over the
+# changelog, the spelling of the tag. What has changed is who types
+# them. Nobody does. One word, one run, and either a release or a
+# reason.
+#
+# The division of labour with .github/workflows/release.yml is the
+# whole design of this file, and it is not "what is checked where" but
+# "when":
+#
+#   this file answers BEFORE the tag exists, and every check in it is
+#   one that would otherwise make a tag that cannot be taken back;
+#
+#   release.yml answers AFTER the release is published, and judges the
+#   release that is now standing there -- the archive against the tree
+#   at the tag byte for byte, the notes against the changelog, the
+#   addresses the program updates itself from, that it installs and
+#   answers.
+#
+# So nothing that release.yml asks is asked here a second time, except
+# where its answer would come too late to be of any use. Those places
+# are marked, one by one, with the word "too late" and the reason.
+#
+# What this file may not do: tests.yml belongs to somebody else and is
+# not touched, so the suite is not called in here as a workflow_call.
+# It is asked about instead -- through the API, about this very commit.
+
+on:
+  # By hand, and by nothing else. A release is a decision, and the one
+  # thing in it a machine cannot supply is typed into the box below.
+  workflow_dispatch:
+    inputs:
+      title:
+        description: >
+          The half sentence after the number, e.g. "the project asks
+          before it measures, and stops when told". The number is put
+          in front for you.
+        required: true
+        type: string
+
+# Two releases at once is not a thing that can end well: both would
+# read the same version out of the program and race for the same tag.
+# And a publish is never cancelled halfway, so the second waits rather
+# than killing the first.
+concurrency:
+  group: publish
+  cancel-in-progress: false
+
+permissions:
+  # write, because this run creates the tag and the release.
+  contents: write
+  # read, because step 1 asks the API about the suite's runs. contents
+  # does not reach them; the runs of a workflow are the actions scope.
+  actions: read
+
+jobs:
+
+  # The title first, in a job of its own, because it is free -- no
+  # checkout, no network, no suite. The commonest way to start this
+  # wrongly must not cost a full run of six jobs to find out about.
+  ready:
+    name: "Ready: the title, which no workflow can invent"
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      TITLE: ${{ inputs.title }}
+    steps:
+
+      # ------------------------------------------------------------
+      # 0. The title, which no workflow can invent.
+      #
+      # Empty means stop, and it is worth saying why rather than
+      # falling back on the bare number. The release title is the only
+      # thing anybody sees in the list of releases before they open
+      # something, and the freigabe recipe gives it one job: to say
+      # what this version is really about while it does it. A number on
+      # its own is not a quieter title, it is a missing one -- and
+      # nothing downstream would ever notice, because release.yml holds
+      # the notes against the changelog and asks nothing about the
+      # headline. So the omission would come out looking like a
+      # finished release.
+      #
+      # Stopping costs one more dispatch, and whoever set this going is
+      # standing right there, having just said the word. required: true
+      # marks the box in the web form as well, but the API does not
+      # enforce it, so the box is not the check -- this is.
+      - name: "0. The title, which no workflow can invent"
+        run: |
+          if [ -z "$(printf '%s' "$TITLE" | tr -d '[:space:]')" ]; then
+            echo "FAIL: no title given."
+            echo "      The release title is the half sentence after"
+            echo "      the number, and it is the only thing anybody"
+            echo "      reads in the list of releases before opening"
+            echo "      anything. Start this again and say what this"
+            echo "      version is about, e.g.:"
+            echo "        the project asks before it measures, and stops when told"
+            exit 1
+          fi
+          echo "title: $TITLE"
+
+  # The suite itself, on this very commit, in this very run. It used to
+  # be asked of the API whether somebody had run it earlier; running it
+  # here says the same thing without the question, and one word does
+  # the whole of a release. Red here means no tag, and the six jobs say
+  # which of them fell.
+  tests:
+    name: "The suite"
+    needs: ready
+    uses: ./.github/workflows/tests.yml
+
+  publish:
+    name: "Publish: the evidence, then the tag"
+    needs: tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      # The title is somebody's prose, and prose with a backtick in it
+      # becomes a command where it is written straight into a shell
+      # line. It comes in through the environment, never through
+      # ${{ }} inside a run:.
+      TITLE: ${{ inputs.title }}
+      # The commit this run is about, written down once. Everything
+      # below asks about this and about nothing else: the suite's run,
+      # the checkout, the tag. A push landing on the branch while this
+      # runs changes nothing here.
+      SHA: ${{ github.sha }}
+
+    steps:
+
+      # The suite has run in this very workflow, on this very commit,
+      # in the job above. It used to be asked of the API here whether
+      # somebody had run it earlier; that question cannot be asked any
+      # more and must not be, because a called workflow is part of this
+      # run and appears under no run of its own. What is tagged below
+      # is what was tested, and nothing has to be held against anything
+      # to know it.
+
+      - uses: actions/checkout@v5
+        with:
+          # The commit, not the branch. And the whole history, because
+          # the tag is pushed from here: a shallow clone can be refused
+          # on a push, and nobody has measured whether a tag-only push
+          # is one of the cases where it is. 59.5 MiB of pack (measured
+          # 4.9.2026), which is seconds, and once per release.
+          ref: ${{ github.sha }}
+          fetch-depth: 0
+
+      # ------------------------------------------------------------
+      # 2. The version, read out of the program, and the title built
+      #    on it.
+      #
+      # Read, never typed. A number in the dispatch box would be a
+      # second place for it to be wrong.
+      #
+      # pyproject.toml is the reason this step is not just a read.
+      # tests/text_release_ready_test.py holds six places against each
+      # other -- the program, the changelog, both READMEs, both
+      # roadmaps -- and it has run already, on this commit, in step 1.
+      # It does not reach pyproject.toml. That seventh place is what
+      # pip hands somebody who installs, and a package calling itself
+      # one thing while the program calls itself another looks amiss
+      # nowhere on the release page.
+      #
+      # release.yml does hold the two against each other -- letter for
+      # letter -- but only once the release is out. Too late: by then
+      # the tag is standing. So it is asked here as well, and this is
+      # the first of the three places where this file repeats it on
+      # purpose.
+      #
+      # No import, and no tomllib. Importing the program writes
+      # bytecode into the package folder -- measured 4.9.2026, eleven
+      # files before an import and twenty after -- and the archive four
+      # steps down is built out of that folder. The line is read
+      # instead. Both files carry exactly one such line (measured
+      # 4.9.2026); if a second ever appears, this says so rather than
+      # picking one.
+      - name: "2. One version number, and the title built on it"
+        run: |
+          for pair in "videopodcast_magic/__init__.py:^VERSION = \"" \
+                      "pyproject.toml:^version = \""; do
+            file="${pair%%:*}"
+            mark="${pair#*:}"
+            n=$(grep -c "$mark" "$file" || true)
+            if [ "$n" != "1" ]; then
+              echo "FAIL: $file holds $n lines matching $mark, wanted 1."
+              exit 1
+            fi
+          done
+          program=$(sed -n 's/^VERSION = "\(.*\)"$/\1/p' \
+                    videopodcast_magic/__init__.py)
+          packed=$(sed -n 's/^version = "\(.*\)"$/\1/p' pyproject.toml)
+          if [ "$program" != "$packed" ]; then
+            echo "FAIL: the program says '$program', pyproject.toml says"
+            echo "      '$packed'. Both are set by hand and they have to"
+            echo "      say the same thing before the tag, because after"
+            echo "      it nobody can move either."
+            exit 1
+          fi
+          echo "version: $program"
+
+          # The number is put in front here, so the headline and the tag
+          # cannot come apart: both are built out of the one number that
+          # was just read. What was typed is the half sentence.
+          if [ "${TITLE#"$program"}" != "$TITLE" ]; then
+            echo "FAIL: the title already starts with the version."
+            echo "      Type only the half sentence after the number;"
+            echo "      the number is put in front for you. Given:"
+            echo "        $TITLE"
+            exit 1
+          fi
+          # Only the two numbers travel on. The title stays in the
+          # environment it came in on and is put together where it is
+          # used: a line written into GITHUB_ENV is parsed, so somebody
+          # else's prose with a newline in it would be setting whatever
+          # it liked in the steps below.
+          {
+            echo "VERSION=$program"
+            echo "TAG=v$program"
+          } >> "$GITHUB_ENV"
+          echo "tag will be:   v$program"
+          echo "title will be: $program -- $TITLE"
+
+      # ------------------------------------------------------------
+      # 3. The changelog section, cut out and not written again.
+      #
+      # The recipe's awk, with one change, and the change is why the
+      # warning above it in the recipe matters. There the version is
+      # typed into the pattern and its dots are escaped by hand
+      # (2\.5\.0-beta); here it comes out of a variable, and an
+      # unescaped 3.0.0b3 as a regex has three dots that match any
+      # character while [ and ] open a character class. So the start is
+      # matched as plain text -- index(...) == 1 is "this line begins
+      # with these characters" -- and the closing bracket is part of it,
+      # so [3.0.0b3] cannot be caught by a section [3.0.0b30].
+      #
+      # The stop mark is /^## / and not /^## \[/, which is the second
+      # half of the recipe's warning: the oldest sections in this file
+      # are written "## 0.5.0" without brackets, and awk with the
+      # narrower mark reads straight past them to the end of the file.
+      # ### inside a section is not matched -- the mark wants a space in
+      # the third place.
+      #
+      # Measured 4.9.2026 against [3.0.0b3]: 92 lines, 4312 bytes,
+      # beginning at "### Added" and stopping before "## [3.0.0b2]",
+      # with nothing of 3.0.0b2 in it.
+      #
+      # Whether the section is in both languages and keeps its shape is
+      # tests/text_release_ready_test.py's question, and it was green in
+      # step 1. What is asked here is only that the cut came out
+      # holding something -- the second of the three places this file
+      # repeats release.yml on purpose. It holds the release notes
+      # against the changelog line for line, so an empty body is
+      # certainly found there; but it is found hanging on a tag, and
+      # that is too late.
+      - name: "3. The changelog section, cut out and not written again"
+        run: |
+          awk -v want="## [$VERSION]" \
+              'index($0, want) == 1 {f = 1; next} /^## /{f = 0} f' \
+              CHANGELOG.md > /tmp/notes.md
+          if ! grep -q '[^[:space:]]' /tmp/notes.md; then
+            echo "FAIL: CHANGELOG.md has no section '## [$VERSION]', or"
+            echo "      it is empty -- the cut came to" \
+                 "$(wc -c < /tmp/notes.md | tr -d ' ') bytes."
+            echo "      The release notes are that section and are"
+            echo "      never written a second time, so there is"
+            echo "      nothing to publish until it is there."
+            exit 1
+          fi
+          echo "notes: $(wc -l < /tmp/notes.md | tr -d ' ') lines," \
+               "$(wc -c < /tmp/notes.md | tr -d ' ') bytes"
+
+      # ------------------------------------------------------------
+      # 4. The tag does not exist yet.
+      #
+      # A tag is the one thing here that cannot be taken back once
+      # anybody has fetched it. If it is standing already, this run has
+      # nothing to do -- either the release was made and this is a
+      # second attempt at it, or the number was not raised.
+      #
+      # Measured 4.9.2026: git ls-remote returns 0 whether the tag is
+      # there or not. The answer is the output, not the exit code, and
+      # that is what is looked at.
+      - name: "4. The tag does not exist yet"
+        run: |
+          found=$(git ls-remote --tags origin "refs/tags/$TAG")
+          if [ -n "$found" ]; then
+            echo "FAIL: $TAG is already there:"
+            echo "      $found"
+            echo "      Either this version is out and the number was"
+            echo "      not raised, or a run before this one got as far"
+            echo "      as the tag. Look at the releases page before"
+            echo "      anything is deleted."
+            exit 1
+          fi
+          echo "$TAG is free"
+
+      # ------------------------------------------------------------
+      # 5. The archive, and the sum somebody who is not us can check it
+      #    by.
+      #
+      # Straight out of the recipe, exclusions and all. Why the four:
+      # the recipe measured it on 4.9.2026 -- zipping the folder
+      # plainly comes to 32 085 423 bytes against 593 059 with them.
+      # __pycache__ is bytecode that is not in the repository,
+      # .DS_Store is a Mac's litter, models/ is 31 MB of speaker model
+      # that the program fetches for itself when it first needs it --
+      # and the fourth is the one that is a rule rather than tidiness.
+      # An uninstalled run writes its log beside the program, so
+      # videopodcast_magic/videopodcast-magic.log lies in that folder on
+      # any machine the program has been started on, and on the owner's
+      # machine that log carries the file names of a real production.
+      # .gitignore keeps it out of git; only -x '*.log' keeps it out of
+      # here. A fresh checkout has none of the four, and the exclusions
+      # stay all the same: the archive says what it is, on any machine
+      # it is ever built on.
+      #
+      # rm -f is not tidiness either: zip adds to an archive that is
+      # already there rather than replacing it.
+      #
+      # From the top of the checkout, so the folder inside is named
+      # videopodcast_magic/ and whoever unpacks it has the program
+      # ready to start.
+      #
+      # The sum is over the archive, not over the files in it. An
+      # archive cannot be built twice into the same bytes -- it carries
+      # the times and the order the files went in -- so a sum over the
+      # files would be one nobody could repeat against what is in their
+      # hand, while the archive's own sum is exactly that. Made from
+      # inside /tmp so the name in the manifest carries no path:
+      # release.yml reads it with awk, first field 64 characters, file
+      # name last.
+      #
+      # The listing at the end is the third and last place this file
+      # repeats release.yml on purpose. There the archive is held
+      # against the tree at the tag, byte for byte, which is the
+      # stronger question -- and it can only be asked once the tag
+      # exists. Too late: an archive that came out wrong would be found
+      # hanging on a tag nobody can move. So the cheap half of it is
+      # asked here, both directions at once, with the same prune and
+      # the same LC_ALL=C sort on both sides (a Mac's sort and Python's
+      # sorted() disagree about punctuation, and two sorters make a
+      # difference out of nothing).
+      #
+      # Measured 4.9.2026 on the working tree: 598 706 bytes, 11 files,
+      # and the same 11 that git tracks under videopodcast_magic/
+      # outside models/.
+      - name: "5. The archive, and the sum to check it by"
+        run: |
+          rm -f /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt
+          zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic \
+              -x '*/__pycache__/*' '*/.DS_Store' '*.log' \
+                 'videopodcast_magic/models/*'
+          ( cd /tmp && shasum -a 256 videopodcast_magic.zip \
+                       > SHA256SUMS.txt )
+          cat /tmp/SHA256SUMS.txt
+
+          find videopodcast_magic -type d \
+                 \( -name models -o -name __pycache__ \) -prune \
+               -o -type f -print 2>/dev/null \
+            | LC_ALL=C sort > /tmp/here.txt
+          python3 - /tmp/videopodcast_magic.zip > /tmp/found.txt <<'PY'
+          import sys, zipfile
+          for name in zipfile.ZipFile(sys.argv[1]).namelist():
+              if not name.endswith("/"):
+                  print(name)
+          PY
+          LC_ALL=C sort /tmp/found.txt > /tmp/inside.txt
+          # A pattern that matches nothing returns nothing and says
+          # nothing about it, so the emptiness is asked about rather
+          # than walked past -- an empty listing would hold an empty
+          # archive to be perfect.
+          if [ ! -s /tmp/here.txt ]; then
+            echo "FAIL: no file found under videopodcast_magic/."
+            exit 1
+          fi
+          if ! diff /tmp/here.txt /tmp/inside.txt; then
+            echo "FAIL: the archive is not the program."
+            echo "      < is at this commit and missing from it,"
+            echo "      > is in it and does not belong there."
+            echo "      $(wc -l < /tmp/here.txt | tr -d ' ') files here," \
+                 "$(wc -l < /tmp/inside.txt | tr -d ' ') in the archive."
+            exit 1
+          fi
+          echo "archive: $(wc -l < /tmp/inside.txt | tr -d ' ') files," \
+               "$(wc -c < /tmp/videopodcast_magic.zip | tr -d ' ') bytes"
+
+      # ------------------------------------------------------------
+      # 6. The tag, and the release on it.
+      #
+      # The tag is v plus the version, letter for letter. Not a
+      # convention: the program builds the address it fetches its
+      # speaker model from out of VERSION that way, so a tag spelled
+      # differently sends a fresh installation to an address that is
+      # not there.
+      #
+      # Annotated, like every tag in this repository before it, and
+      # made here rather than left to gh: gh would make a lightweight
+      # one, and where the tag does not exist yet it would hang it on
+      # the default branch's head rather than on the commit the suite
+      # answered for. --verify-tag says the release must attach to the
+      # tag that is already standing, and --target names the commit for
+      # the case where it somehow is not.
+      #
+      # --latest and no --prerelease: the program asks github.com for
+      # the newest release when it looks for an update, and a release
+      # that is not the latest is one it never sees.
+      #
+      # The two together, in one step, because of what half of them
+      # would be. A tag with no release behind it is a mark with no
+      # evidence attached -- and worse, this run's own step 4 would
+      # refuse to make the release on a second attempt, because the tag
+      # is now there. So if the release will not be made, the tag goes
+      # again, and the next attempt starts from nothing.
+      - name: "6. The tag, and the release on it"
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email \
+            "41898282+github-actions[bot]@users.noreply.github.com"
+          git tag -a "$TAG" -m "videopodcast-magic $VERSION"
+          git push origin "$TAG"
+          echo "$TAG pushed, on $SHA"
+
+          if ! gh release create "$TAG" \
+                 --verify-tag \
+                 --target "$SHA" \
+                 --title "$VERSION -- $TITLE" \
+                 --notes-file /tmp/notes.md \
+                 --latest \
+                 /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt; then
+            echo "FAIL: the release was not made."
+            echo "      Taking $TAG down again, so that this can be"
+            echo "      started afresh rather than run into its own tag."
+            git push origin --delete "$TAG" \
+              || echo "      ... and the tag would not go. Remove it by hand."
+            exit 1
+          fi
+          url=$(gh release view "$TAG" --json url --jq .url)
+          echo "released: $url"
+          {
+            echo "## $VERSION -- $TITLE"
+            echo
+            echo "* tag \`$TAG\` on \`$SHA\`"
+            echo "* $url"
+            echo "* the archive and \`SHA256SUMS.txt\` hang on it"
+            echo
+            echo "release.yml now answers for it: the archive against"
+            echo "the tree at the tag, the notes against the changelog,"
+            echo "and that it installs and starts."
+          } >> "$GITHUB_STEP_SUMMARY"
