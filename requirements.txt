@@ -9,3 +9,11 @@
 # Mac, the package manager on Linux, ffmpeg.org on Windows.
 numpy
 PySide6
+# The list of trusted authorities an https connection is checked
+# against. Python brings none of its own, and without it the check
+# for new versions and the speaker model both fail with
+# CERTIFICATE_VERIFY_FAILED.
+certifi
+# Speech recognition. Large, and pulled in at once because the
+# program uses it as soon as a transcript is wanted.
+faster-whisper
