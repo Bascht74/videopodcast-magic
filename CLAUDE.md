@@ -86,6 +86,51 @@ disagree badly. **What you wait for is the longest job, not the sum**:
 the six run side by side. And a single reading of a macOS job says
 almost nothing; the same commit has come back 950 and 1091 seconds.
 
+## What has to hold, and what is only a way of getting there
+
+Told on 4.9.2026, after five of these had been taken for ground that
+was only standing. **Everything not on this list is a means.** The
+test for any proposal is one question: does it make something simpler
+or let something be dropped, **without losing the cut video or making
+it worse**?
+
+**The ground:**
+
+1. **Cameras onto one time axis, cut by who is speaking.** This is the
+   thing itself. Without it nothing else has a point.
+2. **The sound has to be publishable, and no voice may go under.**
+3. **It runs on real material, every week.** What breaks that is not
+   progress, however clean it is.
+4. **Nothing out of a real production leaves this machine.**
+5. **The cut has to be transferable, and the EDL is the floor.**
+   DaVinci Resolve is the comfortable way and stays the target -- the
+   Studio edition costs 300 euro once, updates included, and that is a
+   price the owner accepts. But the program also writes
+   `<name>_speakers.edl` and `<name>_cameracut.edl`, and those import
+   into Resolve free and into other editors. **Less comfort, the same
+   cut.** So the ground is the transfer, not the edition.
+
+**Everything else was a position, and several have already moved**: the
+program had to run without pip, had to work without Qt, had to fetch
+what it needed at run time, had to be one downloadable file. None of
+those is true any more, and each of them had a good reason written
+beside it in the source -- **which is why they read as ground.** The
+source records what was true, not what is.
+
+**One thing about the fifth is worth knowing, and it is not a hole.**
+The program's own text says external scripting -- the way it talks to
+Resolve -- may be reserved for the Studio edition since 19.1, and that
+no official statement was found; every measurement here was made
+against Studio 21.0.4.5. That looked like a threat to the ground until
+the owner named the floor: the EDL is written whatever happens, so a
+run without scripting still hands over a cut.
+
+**And the lesson from raising it is the more useful half.** The risk
+was reported before looking for what already covered it -- the two EDL
+files have been built for a long time. A finding is not finished when
+the danger is named; it is finished when what would catch it has been
+looked for.
+
 ## The rules that are not negotiable
 
 **The Auphonic API key never goes into a script, a document or a command

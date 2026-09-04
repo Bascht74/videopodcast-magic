@@ -1,6 +1,6 @@
 # The test suite
 
-220 tests against `../videopodcast_magic.py`. Every one of them stands
+221 tests against `../videopodcast_magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-220 tests. The name is the one a red line carries, and beside it the
+221 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -517,6 +517,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `source_checks_proved` | Which checks have been seen red, and which have not. |
+| `source_imported_is_whole` | Importing the program gives the whole of it, whatever argv said. |
 | `source_limits_hold` | Style check for comments and docstrings. |
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
 | `source_no_real_names` | Nothing off a real production and nobody's name is in a shipped file. |

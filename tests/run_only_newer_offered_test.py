@@ -13,8 +13,9 @@ spellings, that nothing a user did once can stop the looking, that
 the switches which did that are gone, that what comes back is read
 before it is believed, that the old file is kept, that one version
 may be passed over, that a release text is shown in one language,
-what the command line says and fetches, and that a look which could
-not happen says so instead of reading as nothing newer.
+what the command line says and fetches, that a look which could not
+happen says so instead of reading as nothing newer, and that an
+installation is handed to pip rather than written over.
 """
 import os
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -759,6 +760,224 @@ check("and it does not say there is nothing newer",
       NOTHING_NEW not in spoken and spoken.strip() != "",
       "it said %r, where a look that happened and found nothing would say"
       " %r" % (sayable(spoken.strip()[:120]), NOTHING_NEW))
+
+print("\n13. An installation is updated by pip, not by a file swap")
+# pip is the one thing here that must never be the real one. The
+# stand-in refuses a command whose program is not on this machine, the
+# way starting one really does, so a wrong call cannot come back
+# looking like a good one.
+import subprocess
+import sysconfig
+
+PURELIB = sysconfig.get_paths()["purelib"]
+INSTALLED = os.path.join(PURELIB, "videopodcast_magic.py")
+LOOSE = os.path.join(tempfile.mkdtemp(prefix="vpm_update_loose_"),
+                     "videopodcast_magic.py")
+ORDERS = []          # every command a stand-in pip was asked to start
+GOT = []             # every piece of text the program handed on
+HANDED = []          # how much had been handed on as each line was read
+ASKED = []           # every address the installed --update asked for
+PIP_SAYS = [b"Collecting videopodcast-magic\n",
+            b"Building wheel for videopodcast-magic\n",
+            b"Successfully installed videopodcast-magic-9.9.9\n"]
+PIP_CODE = [0]
+
+
+class Trickle(object):
+    """pip's output, and a note of what was passed on before each line."""
+
+    def __iter__(self):
+        for line in PIP_SAYS:
+            HANDED.append(len(GOT))
+            yield line
+
+
+class StandInPip(object):
+    """As much of Popen as the program uses, and nothing more.
+
+    A command whose first word is no program on this machine is refused
+    with OSError, the way exec refuses one: a stand-in that starts
+    anything would let a wrong call pass for a good one.
+    """
+
+    def __init__(self, order, stdout=None, stderr=None):
+        ORDERS.append(list(order))
+        if not os.path.exists(order[0]):
+            raise OSError(2, "no such program: %s" % order[0])
+        self.stdout = Trickle()
+
+    def wait(self):
+        return PIP_CODE[0]
+
+
+def with_pip(what):
+    """Run *what* with pip replaced, and put the real one back after."""
+    was = subprocess.Popen
+    subprocess.Popen = StandInPip
+    try:
+        return what()
+    finally:
+        subprocess.Popen = was
+
+
+IN_PLACE = vpm.T('%s is installed. It runs from the next start.') % "v9.9.9"
+trouble = with_pip(lambda: vpm.pip_update("v9.9.9", GOT.append))
+WANTED = [sys.executable, "-m", "pip"]
+check("pip runs in the Python this program runs in",
+      bool(ORDERS) and ORDERS[0][:3] == WANTED,
+      "pip was started as %r, wanted %r at the front"
+      % (ORDERS[0][:3] if ORDERS else None, WANTED))
+check("pip is told to upgrade from the repository itself",
+      bool(ORDERS) and ORDERS[0][3:] == ["install", "-U", vpm.PIP_SOURCE]
+      and vpm.PIP_SOURCE.startswith("git+https://github.com/"),
+      "the rest of the command was %r and the address is %r, wanted "
+      "install -U and a git+https address"
+      % (ORDERS[0][3:] if ORDERS else None, vpm.PIP_SOURCE))
+# Written down as each line was read, not counted at the end: what this
+# is about is a run of minutes whose output arrives while it runs.
+STEPS = list(range(1, len(PIP_SAYS) + 1))
+check("what pip says is passed on as it comes, not collected first",
+      HANDED == STEPS,
+      "as each of the %d lines was read, %r pieces had gone to the "
+      "window, wanted %r" % (len(PIP_SAYS), HANDED, STEPS))
+check("the new version is named once pip is through", IN_PLACE in "".join(GOT),
+      "the window was handed %r, wanted %r in it"
+      % ("".join(GOT)[-60:], IN_PLACE))
+check("a pip that went through is not reported as trouble", trouble == "",
+      "pip returned 0 and pip_update said %r, wanted ''" % (trouble,))
+
+del GOT[:], ORDERS[:], HANDED[:]
+PIP_CODE[0] = 3
+trouble = with_pip(lambda: vpm.pip_update("v9.9.9", GOT.append))
+check("a pip that stops part way says so and names the number",
+      trouble != "" and "3" in trouble,
+      "pip returned 3 and pip_update said %r, wanted a sentence with 3 "
+      "in it" % (trouble,))
+check("and nothing then claims the new version is installed",
+      IN_PLACE not in "".join(GOT),
+      "the window was handed %r, which must not carry %r"
+      % ("".join(GOT)[-60:], IN_PLACE))
+
+
+def no_pip_at_all(order, stdout=None, stderr=None):
+    """A machine whose Python has no pip in it."""
+    ORDERS.append(list(order))
+    raise OSError(2, "no such program: %s" % order[0])
+
+
+del GOT[:], ORDERS[:]
+was_popen = subprocess.Popen
+subprocess.Popen = no_pip_at_all
+try:
+    trouble = vpm.pip_update("v9.9.9", GOT.append)
+finally:
+    subprocess.Popen = was_popen
+check("a pip that cannot be started is reported, not passed over",
+      trouble != "" and IN_PLACE not in "".join(GOT),
+      "starting pip raised and pip_update said %r, having handed over %r"
+      % (trouble, "".join(GOT)[-60:]))
+
+was_file = vpm.__file__
+try:
+    vpm.__file__ = INSTALLED
+    owner = vpm.installed_by_a_package_manager()
+    vpm.__file__ = LOOSE
+    loose = vpm.installed_by_a_package_manager()
+finally:
+    vpm.__file__ = was_file
+check("a file in the folder pip installs into counts as installed",
+      owner == PURELIB, "%r for a file in %r, wanted the folder itself"
+      % (owner, PURELIB))
+check("and one in a folder of its own does not", loose == "",
+      "%r for a file in %r, wanted ''" % (loose, os.path.dirname(LOOSE)))
+check("the window promises something else where pip owns the folder",
+      vpm.update_promise(PURELIB) != vpm.update_promise(""),
+      "both said %r, wanted two different sentences"
+      % (vpm.update_promise("")[:60],))
+check("and it names the folder pip will write into",
+      PURELIB in vpm.update_promise(PURELIB),
+      "it said %r, wanted %r in it"
+      % (vpm.update_promise(PURELIB)[:80], PURELIB))
+
+JOBS = []
+was_sink = vpm.UPDATE_SINK
+try:
+    vpm.UPDATE_SINK = JOBS.append
+    answer = vpm.update_fetched("v9.9.9", PURELIB)
+    vpm.UPDATE_SINK = None
+    without = vpm.update_fetched("v9.9.9", PURELIB)
+finally:
+    vpm.UPDATE_SINK = was_sink
+check("an installed program is handed to the window, not written over",
+      answer == "" and len(JOBS) == 1,
+      "update_fetched said %r and handed the window %d jobs, wanted '' "
+      "and one" % (answer, len(JOBS)))
+del GOT[:], ORDERS[:]
+PIP_CODE[0] = 0
+if JOBS:
+    with_pip(lambda: JOBS[0](GOT.append))
+check("and what the window is handed starts pip",
+      bool(ORDERS) and ORDERS[0][:3] == WANTED,
+      "the job the window got started %r, wanted %r at the front"
+      % (ORDERS[0][:3] if ORDERS else None, WANTED))
+check("without a window to show pip, the update is refused with a word",
+      without != "",
+      "update_fetched with no window said %r, wanted a sentence"
+      % (without,))
+
+
+class Said(object):
+    """One answer from github, in the shape urlopen hands back."""
+
+    def __init__(self, body):
+        self.body = body
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *_):
+        return False
+
+    def read(self):
+        return self.body
+
+
+def only_the_release(url, *rest, **more):
+    """Answer the version question, and refuse to hand out the program."""
+    where = str(getattr(url, "full_url", url))
+    ASKED.append(where)
+    if RAW in where:
+        raise IOError("the program file is not fetched in an installation")
+    return Said(json.dumps({
+        "tag_name": "v9.9.9", "html_url": "https://example/v9.9.9",
+        "body": "what changed"}).encode("utf-8"))
+
+
+def update_run_installed():
+    """--update while the program sits where pip installed it."""
+    was, out = urllib.request.urlopen, io.StringIO()
+    was_here, was_stdout = vpm.__file__, sys.stdout
+    sys.stdout = out
+    urllib.request.urlopen = only_the_release
+    vpm.__file__ = INSTALLED
+    try:
+        return with_pip(vpm.update_from_command_line), out.getvalue()
+    finally:
+        sys.stdout = was_stdout
+        urllib.request.urlopen = was
+        vpm.__file__ = was_here
+
+
+del ORDERS[:]
+code, spoken = update_run_installed()
+check("--update in an installation lets pip do it instead of refusing",
+      code == 0 and bool(ORDERS) and ORDERS[0][:3] == WANTED,
+      "returned %r, pip was started as %r, and it said %r"
+      % (code, ORDERS[0][:3] if ORDERS else None, spoken.strip()[:60]))
+check("and it fetches no program file of its own in that case",
+      not [a for a in ASKED if RAW in a],
+      "of the %d addresses asked for, these carry the raw file: %r"
+      % (len(ASKED), [a for a in ASKED if RAW in a][:2]))
 
 check("no look in this whole run left the machine", not WENT_OUT,
       "%d addresses got past the stand-ins, the first of them %s"
