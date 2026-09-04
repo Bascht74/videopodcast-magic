@@ -237,6 +237,8 @@ TEXTS = {
         'auphonic.com.',
     'The speaker separation reports: %s':
         'Die Sprechertrennung meldet: %s',
+    'Speaker separation not available. The log says why.':
+        'Sprechererkennung nicht verfügbar. Das Protokoll sagt, warum.',
     'The speaker separation is not set up.':
         'Die Sprechertrennung ist nicht eingerichtet.',
     'The speaker separation is not installed here. This puts it back: %s':

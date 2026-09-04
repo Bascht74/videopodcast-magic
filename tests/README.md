@@ -1,6 +1,6 @@
 # The test suite
 
-234 tests against the program in `../videopodcast_magic/`. Every one of them stands
+236 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-234 tests. The name is the one a red line carries, and beside it the
+236 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -353,6 +353,7 @@ it is green.
 | `voice_note_translated` | Nothing the speech recogniser prints reaches the screen in its words. |
 | `voice_questions_rank` | Who is asking the questions, as a proposal and never as a verdict. |
 | `voice_raw_times_kept` | Local speaker separation: the arithmetic around the model. |
+| `voice_reason_reaches_log` | Why the separation cannot run reaches the log, and not a guess. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
 | `voice_split_hears_two` | Let the speaker separation really run, on two voices we spoke. |
 | `voice_split_names_fault` | A separation that will not run says which fault it hit, not a story. |
@@ -458,6 +459,7 @@ it is green.
 | `window_prework_box_goes` | The box that shows the prework goes away once the prework is over. |
 | `window_setup_kept_apart` | What is set up once, and what is decided every time. |
 | `window_size_as_run` | The window's summary names the size the run really needs. |
+| `window_speaker_cell_fits` | Whatever is written into the Speakers cell can be read there. |
 | `window_speakers_as_run` | The window's preview counts the same speakers as the run will. |
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_stands_still` | Left alone, the window stops measuring and stops moving a Kind. |
