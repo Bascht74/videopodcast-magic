@@ -37,9 +37,24 @@ merge.
 
 **The order names both sides: which files the strand owns, and which
 are somebody else's.** Name the foreign ones **by path**, not as
-"everything else" — above all `videopodcast_magic.py` when another
-strand is working in it. "Everything else" reads as a courtesy; a path
-reads as a border.
+"everything else" — above all the program itself when another strand is
+working in it. "Everything else" reads as a courtesy; a path reads as a
+border.
+
+**The program is not one file any more, so a border drawn round one
+name leaks.** It was `videopodcast_magic.py` alone until 4.9.2026; the
+texts then moved out into a file for each language, and the aim is a
+folder `videopodcast_magic/` with an `__init__.py` and no
+`videopodcast_magic.py` left. An order that names yesterday's file
+leaves today's wide open. So name the program as a **pattern** --
+`videopodcast_magic*.py`, and `videopodcast_magic/` once that exists --
+and the border survives the next cut without anybody maintaining a list
+of names.
+
+**One file, one owner is unchanged by that.** The pattern says where
+the border runs, not that one strand owns everything inside it. Where
+two strands really do work on different files of the program, the order
+names each file on its own.
 
 **A folder is not a category.** Four strands were told to leave
 `docs/notes/` alone as history, and all four obeyed — while the two
@@ -171,8 +186,8 @@ comes back.
 Order: <one sentence: what is different at the end>
 
 You own:      <paths, absolute>
-Not yours:    <paths, absolute, by name — including
-               videopodcast_magic.py if somebody is working in it>
+Not yours:    <paths, absolute, by name — including the program,
+               videopodcast_magic*.py, if somebody is working in it>
 Prepare only: <a foreign file you deliver old-text/new-text pairs for
                instead of waiting. Text anchors, no line numbers; every
                anchor matches exactly once.>

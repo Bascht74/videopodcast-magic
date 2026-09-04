@@ -19,12 +19,36 @@ section 5. How to do it is here.
 the test against that copy. The repository is not touched.**
 
 ```bash
-cp videopodcast_magic.py /tmp/broken.py
-# break exactly the one thing the check is about
+mkdir -p /tmp/cp && cp -R videopodcast_magic*.py /tmp/cp/
+ls /tmp/cp/            # nothing there? then the pattern has gone stale
+mv /tmp/cp/videopodcast_magic.py /tmp/cp/broken.py
+# break exactly the one thing the check is about, in /tmp/cp/broken.py
 cd tests && LANG=C LC_ALL=C LANGUAGE=en VPM_SILENT=1 \
   VPM_NO_SPEAKER_SPLIT=1 VPM_NO_UPDATE_CHECK=1 \
-  VPM_SCRIPT=/tmp/broken.py python3 <name>_test.py
+  VPM_SCRIPT=/tmp/cp/broken.py python3 <name>_test.py
 ```
+
+**The star is the whole point, and getting it wrong poisons the
+register.** The texts live in files of their own beside the program now,
+and it reads them out of the folder it sits in. A copy of the program
+alone raises `FileNotFoundError` on the first line -- so the test goes
+red, **and red is exactly what a counter-proof wants to see.** The row
+then goes into `tests/state/counterproof` as earned while proving
+nothing about the check at all. Measured 4.9.2026, the day the catalogue
+moved out.
+
+**So read the red line before believing it.** A counter-proof is done
+when the test fails *for the reason you broke*, named in the line. One
+that dies on an import has proved that a file was missing.
+
+**And look at what the copy caught.** The pattern above is right for
+today and will go stale: the program is being taken apart, and the day
+it becomes a folder `videopodcast_magic/` that `*.py` matches nothing --
+**the copy then succeeds, copies nothing, and every counter-proof after
+it is red for want of a program.** Which is why the `ls` is in the
+recipe and not in a sentence: a pattern that has gone stale is invisible
+in the return code and obvious in the listing. When the folder comes,
+this line becomes `cp -R videopodcast_magic /tmp/cp/`.
 
 **The language variables are not optional.** Without `LANG=C LC_ALL=C
 LANGUAGE=en` the program runs German on this Mac — `LANG=C` alone does
