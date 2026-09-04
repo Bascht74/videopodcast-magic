@@ -33,9 +33,19 @@ run-name: "publish #${{ github.run_number }} from ${{ github.ref_name }}: ${{ in
 # where its answer would come too late to be of any use. Those places
 # are marked, one by one, with the word "too late" and the reason.
 #
-# What this file may not do: tests.yml belongs to somebody else and is
-# not touched, so the suite is not called in here as a workflow_call.
-# It is asked about instead -- through the API, about this very commit.
+# The suite is called from here as a workflow_call, and tests.yml
+# carries the trigger for it. The first build of this file asked the API
+# instead, whether somebody had run the suite on this commit -- and that
+# question can never be answered: a workflow called with uses: is part
+# of the calling run and appears under no run of its own. Calling it
+# makes "what is tagged is what was tested" true by construction rather
+# than by reference.
+#
+# It costs a second full run of the suite on a commit the push has
+# already answered for -- measured 4.9.2026, ten minutes of wall clock
+# and 2985 s of builder time for an answer that was already in. Whether
+# that price is worth the certainty is written down as a question for
+# the owner, not settled here.
 
 on:
   # By hand, and by nothing else. A release is a decision, and the one
