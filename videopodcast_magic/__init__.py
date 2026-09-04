@@ -8574,6 +8574,23 @@ def python_note():
     return "Python %s  (recommended version %s)" % (now, LIKES_PYTHON)
 
 
+def prework_standing(shares):
+    """How far the prework has got, and one line per file still at it.
+
+    Every task of a file counts the same, and every file counts the
+    same however many tasks it has. What is finished leaves the list:
+    the row has served its purpose and the list stays short.
+    """
+    per_file = {}
+    for (path, _task), value in shares.items():
+        per_file.setdefault(path, []).append(value)
+    got = dict((p, sum(v) / len(v)) for p, v in per_file.items())
+    total = sum(got.values()) / len(got)
+    lines = ["%s   %3.0f %%" % (os.path.basename(p), 100.0 * got[p])
+             for p in sorted(got, key=os.path.basename) if got[p] < 0.999]
+    return total, lines
+
+
 def prework_weight(file_path, task):
     """How much of the bar a piece of prework is worth.
 
@@ -33184,24 +33201,13 @@ def gui():
         if not prework_shares:
             prework_box.hide()
             return
-        per_file = {}
-        for (p, _a), value in prework_shares.items():
-            per_file.setdefault(p, []).append(value)
-        total = (sum(sum(v) / len(v) for v in per_file.values())
-                  / len(per_file))
+        total, lines = prework_standing(prework_shares)
         # The bar only moves forward. Adding a file lowers the average
         # arithmetically, but a bar jumping back looks like a fault even though
         # nothing is lost.
         status = max(prework_run.get("bar", 0), int(round(100 * total)))
         prework_run["bar"] = status
         prework_progress_bar.setValue(status)
-        # What is done disappears from the list: the row has served its purpose
-        # and the list stays short.
-        lines = ["%s   %3.0f %%" % (os.path.basename(p),
-                                     100.0 * sum(v) / len(v))
-                  for p, v in sorted(per_file.items(),
-                                     key=lambda x: os.path.basename(x[0]))
-                  if sum(v) / len(v) < 0.999]
         prework_label.setText(T('Prework -- read audio and compute '
                                 'envelopes:\n') + "\n".join(lines))
         prework_box.show()
@@ -33209,6 +33215,15 @@ def gui():
             prework_shares.clear()
             prework_run["bar"] = 0
             QtCore.QTimer.singleShot(1200, prework_box.hide)
+        elif total >= 0.999 and not prework_ask_again.isActive():
+            # This runs on a report, and no report follows a thread
+            # counting itself out -- so the question is asked once more
+            # rather than never. One look is on its way at a time.
+            prework_ask_again.start(200)
+
+    prework_ask_again = QtCore.QTimer(prework_box)
+    prework_ask_again.setSingleShot(True)
+    prework_ask_again.timeout.connect(prework_status_show)
 
     bridge.progress.connect(prework_display_text)
 
