@@ -25,3 +25,6 @@ _to_delete/
 
 # Claude Code keeps its local settings here.
 .claude/settings.local.json
+build/
+dist/
+*.egg-info/

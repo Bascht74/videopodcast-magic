@@ -4,13 +4,31 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, a first cut
 by speaker, and a DaVinci Resolve project.
 
-One file, `videopodcast_magic.py`, about 40 000 lines. That one file is
-the whole program and there is nothing to build. It is reached two
-ways: fetched and called, or installed with pip -- `pyproject.toml`
-makes a package of that one module and puts a `videopodcast-magic`
-command on the path. The file carries an underscore while the
-repository and the command carry a hyphen, because only an underscore
-can be imported.
+`videopodcast_magic.py` is the program, and beside it lie the text
+files it reads its languages out of -- `videopodcast_magic_texts_de.py`
+is the German one. There is nothing to build, and one way in:
+`pip3 install git+...`, which is its own section further down.
+`pyproject.toml` makes a package of those modules and puts a
+`videopodcast-magic` command on the path. The names carry an underscore
+while the repository and the command carry a hyphen, because only an
+underscore can be imported.
+
+**Fetching the one file and calling it is not a way in any more.** It
+was one until 4.9.2026, and older notes still say so. Measured that
+day:
+a `videopodcast_magic.py` on its own stops while it is being imported,
+with `FileNotFoundError` on `videopodcast_magic_texts_de.py` -- before
+`main()` is ever reached, so there is nothing to see and nothing to
+fall back to.
+
+**It used to be one file, and it is being taken apart.** The catalogue
+went first, on 4.9.2026; the aim is a folder `videopodcast_magic/` with
+an `__init__.py` in it and no `videopodcast_magic.py` left at all. That
+is not where it stands today: today it is one large file with its texts
+beside it, and more cuts are to come. **So nothing here copies,
+checksums or ships "the script" any more** -- it takes every
+`videopodcast_magic*.py`. What happens when it does not is measured
+under *Running the tests*, and it is 210 red tests.
 
 **Working from outside, or opening a pull request? Read
 `CONTRIBUTING.md` first.** It holds the same rules in the form somebody
@@ -43,17 +61,27 @@ A full run takes a couple of minutes. Copy the script to a snapshot,
 start the suite against that, and do the next thing:
 
 ```bash
-mkdir -p /tmp/snap && cp videopodcast_magic.py /tmp/snap/vpm_sNN.py
+mkdir -p /tmp/snap && cp -R videopodcast_magic*.py /tmp/snap/
+ls /tmp/snap/          # empty? then the pattern has gone stale, see below
+mv /tmp/snap/videopodcast_magic.py /tmp/snap/vpm_sNN.py
 ln -sfn "$PWD/models" /tmp/snap/models       # or the run skips and returns 1
 (VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
 
-**The link is not optional.** What the program looks for beside itself is
-not beside the copy, and the speaker model is 33 MB -- so
-`voice_split_hears_two` bows out, the run skips twice where one is
-allowed, and it **returns 1 with every check in it green**. Measured on
-1.9.2026: two skips against a bare snapshot, one against the working
-file, and green with the link.
+**Neither the link nor the star is optional**, and they fail in
+different ways.
+
+Without the link: what the program looks for beside itself is not beside
+the copy, and the speaker model is 33 MB -- so `voice_split_hears_two`
+bows out, the run skips twice where one is allowed, and it **returns 1
+with every check in it green**. Measured on 1.9.2026: two skips against a
+bare snapshot, one against the working file, and green with the link.
+
+Without the star: the catalogue is a file of its own beside the program
+now, loaded from the folder the program sits in. Copy the program alone
+and **210 of 223 tests go red at once** with a `FileNotFoundError` --
+measured 4.9.2026. Every `videopodcast_magic*.py` belongs beside the
+snapshot, and the star is what keeps that true as more of them appear.
 
 ## What a release is
 
@@ -210,8 +238,10 @@ there, in front of somebody, asked rather than done.
 somebody asked for it.
 
 **English in the source, German from the catalogue.** Every user-visible
-string goes through `T()`; the German lives in `CATALOGUE["de"]` at the
-end of the file. Changing a string means changing both sides, or
+string goes through `T()`; the German lives in
+`videopodcast_magic_texts_de.py` beside the program, keyed by the
+English wording, and is read from the folder the program sits in.
+Changing a string means changing both sides, or
 `text_no_german_left_test.py` turns red.
 
 **Measure, do not guess.** If a number is needed, it gets measured. What
@@ -225,6 +255,29 @@ as "without PyPI there is no updating". `pip3` does it in three
 seconds -- measured, but only after the owner asked. A finding about
 one tool, one switch, one platform says nothing about the one beside
 it. Where it is named anyway, it is named as unmeasured.
+
+**What is unmeasured may be named, and may never decide.** That rule
+above says how a thing is labelled; this one says what the label
+permits, and without it the label changes nothing. A case nobody asked
+for and nobody measured is not a reason to keep something -- it is a
+note. So two questions stand in front of every recommendation to leave
+a thing as it is: **who asked for this case, and who measured it?** If
+the answer to both is nobody, what falls away is the recommendation,
+not the thing.
+
+Measured on 4.9.2026, and this is why it is written down: `+write_colr`
+was to stay because an older ffmpeg "might" behave as the comment
+beside it claimed. Only ffmpeg 9 had been measured. Nobody was running
+an older one, nobody had asked, and the risk was invented on the spot
+-- then allowed to decide. The owner's answer took one line: ffmpeg
+9.0.1 becomes the floor, and below it nothing runs but the download.
+**Supporting old versions is a position, not ground.**
+
+**And the surroundings are rarely as fixed as they look.** An old
+version, a foreign tool, an operating system: those are mostly
+decisions, not laws of nature. Whoever takes them as given builds
+detours around a wall that could have been moved. **The question is not
+"what is there?" but "what do we require?"**
 
 **Green here is not green there, and the gap is what this machine
 carries.** Measured in the night to 4.9.2026: a change was green on

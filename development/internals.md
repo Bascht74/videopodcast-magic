@@ -1,8 +1,9 @@
 # Inside the script
 
-For `videopodcast_magic.py`. How the one file is put together, and how
-each step works. Not part of the manual and English only: this is for
-whoever changes the program, not for whoever uses it.
+For `videopodcast_magic.py` and the text files beside it. How the
+program is put together, and how each step works. Not part of the
+manual and English only: this is for whoever changes the program, not
+for whoever uses it.
 
 What was measured is in [What was measured](measurements.md): hit
 rates, run times, distributions, comparisons.
@@ -11,12 +12,24 @@ rates, run times, distributions, comparisons.
 
 ## How the script is put together
 
-The core is a single file, on purpose: fetch, call, done, nothing to
-build. It can now be installed as well -- `pyproject.toml` makes a
-package of that one module and puts a `videopodcast-magic` command on
-the path -- and nothing inside the file knows the difference: it is the
-same file either way, and the name carries an underscore only because a
-hyphen cannot be imported.
+`videopodcast_magic.py` holds the program; beside it lies a file per
+language that holds nothing but texts. There is nothing to build. It
+can be installed as well -- `pyproject.toml` makes a package of those
+modules and puts a `videopodcast-magic` command on the path -- and
+nothing inside knows the difference: it is the same code either way,
+and the names carry an underscore only because a hyphen cannot be
+imported.
+
+**It was a single file, on purpose, until 4.9.2026, and that is now
+being undone.** The catalogue was the first piece to move out. The aim
+is a folder `videopodcast_magic/` with an `__init__.py` in it and no
+`videopodcast_magic.py` left at all; what stands today is the first cut
+towards it, one large file with its texts beside it, and further cuts
+are to come. One thing follows from it already, and it holds whatever
+the next cut does: **the program is never copied alone.** It reads its
+texts out of the folder it sits in, so `videopodcast_magic*.py` travels
+together or the copy stops on its first line with a
+`FileNotFoundError`.
 
 One rule holds inside it: everything that computes or decides sits as a
 function at the top level and can be tested without a window. `gui()`
@@ -664,9 +677,17 @@ rate gives.
 ## German and English: what lives where
 
 The whole source is English: names, messages, comments. German exists
-only as translation strings, in `CATALOGUE["de"]` at the end of the
-file, keyed by the English text. `T()` looks them up; a missing entry
-shows English rather than a gap.
+only as translation strings, in `videopodcast_magic_texts_de.py` beside
+the program, keyed by the English text. That file holds one name,
+`TEXTS`, and no code, so that a translator can work in it without
+reading the program -- 1 498 entries, counted 4.9.2026.
+
+`texts_of_language("de")` reads it out of the folder the program sits
+in, not by import name: a program loaded from an absolute path, which
+is how every test loads it, leaves its own folder off the search path.
+What comes back is put into `CATALOGUE`, keyed by the language code.
+`T()` looks a text up there; a missing entry shows English rather than
+a gap.
 
 `--lang de` or `--lang en` fixes the language of a run. Without the
 switch `system_locale()` decides, from `LANGUAGE`, `LC_ALL`,
@@ -688,10 +709,19 @@ they always go English. The CSV files are comma separated with a full
 stop as the decimal mark, in every language: two runs have to stay
 comparable.
 
-A further language costs no code: copy the `CATALOGUE["de"]` block,
-give it the new two-letter code, translate the right-hand sides.
-`--lang` offers it afterwards, and a system set to it picks it up by
-itself.
+A further language is one file and one line: copy
+`videopodcast_magic_texts_de.py` to a name carrying the new two-letter
+code, translate the right-hand sides, and name that code where the
+catalogue is filled at the end of the program --
+`CATALOGUE["xx"] = texts_of_language("xx")`. `--lang` offers it
+afterwards, and a system set to it picks it up by itself.
+
+**A language file may be incomplete, and it still works.** Measured
+4.9.2026: an entry that is not there falls back to the English source
+text, and a language stands in `languages()` by nothing more than
+having an entry in `CATALOGUE`. So a file with a fifth of its lines
+translated is a usable language and can be filled in later; nothing
+has to be finished before it is added.
 
 The test suite is English throughout. `source_limits_hold_test.py` watches the
 source: German comments, narrating comments, text lines over 79

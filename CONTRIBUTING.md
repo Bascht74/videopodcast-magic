@@ -51,11 +51,27 @@ in the first review.
 
 ## What the program is
 
-One file, `videopodcast_magic.py`, about 40 000 lines. That one file is
-the whole program and there is nothing to build: `pyproject.toml` makes
-a package of that one module and puts a `videopodcast-magic` command on
-the path. The file carries an underscore while the repository and the
-command carry a hyphen, because only an underscore can be imported.
+`videopodcast_magic.py` is the program, and `videopodcast_magic_texts_de.py`
+beside it holds every German text. There is nothing to build:
+`pyproject.toml` makes a package of those modules and puts a
+`videopodcast-magic` command on the path. The names carry an underscore
+while the repository and the command carry a hyphen, because only an
+underscore can be imported.
+
+**It was one file until 4.9.2026, and it is being taken apart.** The
+catalogue moved out first; the aim is a folder `videopodcast_magic/`
+with an `__init__.py` in it and no `videopodcast_magic.py` left. None
+of that is finished, and the one part of it you have to know is this:
+**copy the program with the star, never alone.**
+
+```bash
+cp videopodcast_magic*.py /tmp/somewhere/      # not just the one file
+```
+
+The program reads its texts out of the folder it sits in, so a copy
+without them stops on the first line with a `FileNotFoundError` -- 210
+of 223 tests red at once, measured 4.9.2026. Wherever this page says
+"a copy of the program", it means all of them.
 
 **Users install it with pip3 and no other way** -- that is the rule in
 `CLAUDE.md`, and it is why every Python package the program needs
@@ -87,8 +103,9 @@ about your machine and not about the program.
 ## The five rules that get a pull request turned away
 
 **1. Every user-visible string exists twice.** English in the source,
-German in `CATALOGUE["de"]` at the end of the file, reached through
-`T()`. Change one side and `text_no_german_left_test.py` turns red. The
+German in `videopodcast_magic_texts_de.py` beside the program, keyed by
+the English wording and reached through `T()`. Change one side and
+`text_no_german_left_test.py` turns red. The
 same holds for the manual: `docs/name.md` and `docs/name.de.md` change
 together, and the German is the same thought in German, not a
 translation of the English sentence.
@@ -97,7 +114,8 @@ translation of the English sentence.
 seen red is not known to check anything — in one day seventeen were
 found that had been green for months while testing nothing. So: break
 the one thing your check is about, in a copy of the program under
-`/tmp`, run the test against it with `VPM_SCRIPT=<the copy>`, and keep
+`/tmp` -- `videopodcast_magic*.py`, all of them -- run the test against
+it with `VPM_SCRIPT=<the copy of the program itself>`, and keep
 the red line. Then the entry in `tests/state/counterproof`: the test,
 the date, the check's wording, what you broke, the red line verbatim.
 `source_checks_proved_test.py` is a ratchet over the checks still

@@ -1,7 +1,7 @@
 # Coding guidelines
 
-For `videopodcast_magic.py`. These grew out of the work on this
-program. What is written here either proved right while building it, or
+For `videopodcast_magic.py` and the text files beside it. These grew
+out of the work on this program. What is written here either proved right while building it, or
 was learned by getting it wrong.
 
 ---
@@ -32,7 +32,9 @@ The reason for the split: code is read by people who are at home in
 English as their technical language. It also has to sit well with
 third-party libraries, which carry English names anyway. What the user
 reads should be in the user's own language. That is what the catalogue
-at the end of the file is for, and today it holds German.
+is for. It stood at the end of the program until 4.9.2026 and lives
+beside it now, in a file of its own per language --
+`videopodcast_magic_texts_de.py` is the German one.
 
 **The seam is always a quoted string.** A German word never appears in
 an identifier, and it appears nowhere else in the source either. The
@@ -422,8 +424,9 @@ direction. SDR material was therefore delivered wrapped in HDR.
 **Every place the same reasoning lives.** One word renamed in the
 tooltip while the same collision stood in the palette and in the
 progress code. One lookup by file name mended while three others still
-looked up by file name. Before finishing, search the file for the
-pattern, not for the line.
+looked up by file name. Before finishing, search the source for the
+pattern, not for the line -- and the source is every
+`videopodcast_magic*.py`, not just the big one.
 
 **Zero, one, two, many.** Two is where it breaks. Two cameras writing
 the same file name, two channels of one pair, two items on one track,

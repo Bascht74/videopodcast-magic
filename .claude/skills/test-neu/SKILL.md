@@ -275,8 +275,9 @@ itself at once, here, instead of four minutes later on six machines.
 ## 9. Visible texts
 
 **What a user sees goes through `T()`, and the German lives in
-`CATALOGUE["de"]`.** If the check brings a new string into the program,
-both sides change, or `text_no_german_left_test.py` turns red.
+`videopodcast_magic_texts_de.py` beside the program.** If the check
+brings a new string into the program, both sides change, or
+`text_no_german_left_test.py` turns red.
 
 **A text is never written out literally in a test.** A button is found
 through `vpm.T('Add files ...')`, and the test sets `vpm.set_language(
