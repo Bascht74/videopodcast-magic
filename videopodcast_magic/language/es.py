@@ -84,14 +84,14 @@ TEXTS = {
         'Buscar ahora una versión más reciente',
     'Separating speakers':
         'Separando hablantes',
-    'Separating speakers ...':
-        'Separando hablantes ...',
+    'Separating ...':
+        'Separando ...',
     'Voice':
         'Voz',
     'Break off':
         'Interrumpir',
     'Breaking off ...':
-        'Interrumpiendo ...',
+        'Interrupción ...',
     'Not on this machine':
         'No en esta máquina',
     'Reading the audio ...':

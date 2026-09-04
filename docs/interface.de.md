@@ -172,8 +172,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   hat, lässt das Feld leer und die Zeilen verborgen, und eine spätere
   Antwort holt sie sofort hoch, mit den Namen und Kameras, die sie
   schon hatten. Die fünfte Spalte, **Sprecher**, sagt, wie es darum
-  steht -- **Sprecher werden getrennt ...** und **Abbrechen**, solange
-  es läuft, in dieser Zeile und in keiner anderen, danach **Getrennt: 4
+  steht -- **Trennen ...** und **Abbrechen**, solange es läuft, in
+  dieser Zeile und in keiner anderen, danach **Getrennt: 4
   Sprecher**, und einen Grund, wo die Trennung nicht laufen konnte. Sie
   ist eine Auskunft und sonst nichts: dort startet keine Trennung, und
   wer es sich anders überlegt, geht zurück ins Feld.

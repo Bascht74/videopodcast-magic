@@ -84,8 +84,8 @@ TEXTS = {
         'Проверить наличие новой версии',
     'Separating speakers':
         'Разделение говорящих',
-    'Separating speakers ...':
-        'Разделение говорящих ...',
+    'Separating ...':
+        'Разделение ...',
     'Voice':
         'Голос',
     'Break off':

@@ -214,12 +214,12 @@ TEXTS = {
     '  Speaker separation (%s): %d speakers out of %s of audio':
         '  Sprechertrennung (%s): %d Sprecher aus %s Ton',
     'Separating speakers': 'Sprecher werden getrennt',
-    'Separating speakers ...': 'Sprecher werden getrennt ...',
+    'Separating ...': 'Trennen ...',
     'Separated: %d speaker': 'Getrennt: %d Sprecher',
     'Separated: %d speakers': 'Getrennt: %d Sprecher',
     'Voice': 'Stimme',
     'Break off': 'Abbrechen',
-    'Breaking off ...': 'Wird abgebrochen ...',
+    'Breaking off ...': 'Abbruch ...',
     'Not on this machine': 'Auf diesem Rechner nicht',
     'Reading the audio ...': 'Der Ton wird gelesen ...',
     'Nothing was audible in the recording.':

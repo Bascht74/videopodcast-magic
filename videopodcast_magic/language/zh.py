@@ -84,8 +84,8 @@ TEXTS = {
         '立即检查是否有更新的版本',
     'Separating speakers':
         '分离说话人',
-    'Separating speakers ...':
-        '正在分离说话人 ...',
+    'Separating ...':
+        '正在分离 ...',
     'Voice':
         '声音',
     'Break off':
