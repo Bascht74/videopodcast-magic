@@ -4,14 +4,19 @@
 A name that is read but never set; a getattr on an attribute that does
 not exist; a dictionary key that is written but never read. The move to
 English snagged on exactly those more than once, and no test noticed.
+
+The translations are looked at too, and they are not in the program: it
+reads every language file beside it, and says so when it read none --
+a section that finds nothing left to judge is green and worth nothing.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import ast
 import builtins
 import collections
+import glob
 import io
 import re
 import sys
@@ -25,7 +30,7 @@ began = time.time()
 
 STATE = os.path.join(HERE, "state", "consistency_state.json")
 state = ratchet.Ratchet(STATE)
-src = io.open(SCRIPT, encoding="utf-8").read()
+src = the_program.text()
 tree = ast.parse(src)
 lines = src.split("\n")
 
@@ -244,33 +249,61 @@ check("no call with the wrong number of values", not bad_calls,
       str(bad_calls[:4]))
 
 print("\n6. What the catalogue promises does exist")
-catalogue = {}
-# The pairs as they stand in the source. A dict keeps one value per key,
-# so a key written twice with two translations loses one of them without
-# a sound; only the list before the dict is made still shows both.
+# The translations do not stand in the program any more; each language
+# is a file beside it, `videopodcast_magic_texts_<code>.py`, holding one
+# name. `texts_of_language` reads them from beside the program whatever
+# that copy is called, so this looks in the same place -- and it takes
+# every file it finds there rather than one by name, because a language
+# added tomorrow would otherwise be the next thing nobody measures.
+BESIDE = os.path.dirname(os.path.abspath(SCRIPT))
+languages = sorted(glob.glob(os.path.join(
+    BESIDE, "videopodcast_magic_texts_*.py")))
+# The pairs as they stand in the source. `ast.literal_eval` would make a
+# dict of them, and a dict keeps one value per key -- a key written twice
+# with two translations loses one of them without a sound. So they are
+# gathered while the tree is walked, before any dict exists.
 pairs = []
-for node in ast.walk(tree):
-    if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict) \
-            and isinstance(node.targets[0], ast.Subscript) \
-            and len(node.value.keys) > 10:
+for path in languages:
+    where = os.path.basename(path)
+    for node in ast.walk(ast.parse(io.open(path, encoding="utf-8").read())):
+        if not (isinstance(node, ast.Assign)
+                and isinstance(node.value, ast.Dict)
+                and any(isinstance(t, ast.Name) and t.id == "TEXTS"
+                        for t in node.targets)):
+            continue
         for key, value in zip(node.value.keys, node.value.values):
-            if isinstance(key, ast.Constant) \
-                    and isinstance(value, ast.Constant):
-                catalogue[key.value] = value.value
-                pairs.append((key.value, value.value, key.lineno))
+            if isinstance(key, ast.Constant) and isinstance(key.value, str) \
+                    and isinstance(value, ast.Constant) \
+                    and isinstance(value.value, str):
+                pairs.append((key.value, value.value, where, key.lineno))
+# Without this the two judgements below stand over an empty list and are
+# green for nothing -- which is what they were the day the texts moved
+# out of the program and this section went on reading the program.
+silent = sorted(set(os.path.basename(p) for p in languages)
+                - set(w for _, _, w, _ in pairs))
+check("the languages beside the program were read",
+      bool(languages) and not silent,
+      "%d files beside %s, %d entries in them, read nothing: %s"
+      % (len(languages), os.path.basename(SCRIPT), len(pairs),
+         silent[:3] or "none"))
 P = re.compile(r"%[-+ #0-9.*]*[a-zA-Z%]")
-mismatched = [k for k, v in catalogue.items()
-              if P.findall(k) != P.findall(v)]
+mismatched = ["%s line %d: %r wants %s, the translation has %s"
+              % (where, at, key[:40], P.findall(key), P.findall(value))
+              for key, value, where, at in pairs
+              if P.findall(key) != P.findall(value)]
 check("placeholders the same in both languages", not mismatched,
-      str(mismatched[:3]))
+      "%d of %d entries differ, first: %s"
+      % (len(mismatched), len(pairs), mismatched[:3]))
 meanings = collections.defaultdict(dict)
-for key, value, where in pairs:
-    meanings[key].setdefault(value, where)
-duplicates = ["line %d: %r means %r and %r"
-              % (sorted(said.values())[1], key[:40],
+for key, value, where, at in pairs:
+    meanings[(where, key)].setdefault(value, at)
+duplicates = ["%s line %d: %r means %r and %r"
+              % (where, sorted(said.values())[1], key[:40],
                  sorted(said)[0][:40], sorted(said)[1][:40])
-              for key, said in meanings.items() if len(said) > 1]
-check("no two meanings per key", not duplicates, str(duplicates[:3]))
+              for (where, key), said in meanings.items() if len(said) > 1]
+check("no two meanings per key", not duplicates,
+      "%d of %d entries said twice, first: %s"
+      % (len(duplicates), len(pairs), duplicates[:3]))
 
 print("\n7. Tests that check something")
 # A test that only prints catches a crash and nothing else. A ratchet,

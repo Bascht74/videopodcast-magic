@@ -5,17 +5,18 @@ Where nothing else worked, ffmpeg used to be fetched with pip -- a
 wheel carrying the two programs inside itself. It wrote into whatever
 Python happened to be running, a system one included, and nobody had
 been asked. The sections: the source, where no install of ffmpeg is
-left to find; and a search with an empty path, which has to end in the
-advice for this machine and try nothing on the way. The probe puts a
+left to find; and a search with an empty path, which has to come back
+saying both are missing and try nothing on the way, and the saying of
+it, which has to carry the advice for this machine. The probe puts a
 recorder in place of the two installers, so it says what the program
 asked for, not what pip would have made of it.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import ast
-import importlib.util
+import io
 import shutil
 import sys
 import tempfile
@@ -26,10 +27,7 @@ import time
 # for here.
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()
@@ -54,8 +52,7 @@ def stop():
 
 #--------------------------------------------------------- 1. The source
 
-with open(SCRIPT, encoding="utf-8") as f:
-    TREE = ast.parse(f.read(), filename=SCRIPT)
+TREE = ast.parse(the_program.text(), filename=SCRIPT)
 
 INSTALLER = "_pip_install"
 
@@ -129,23 +126,37 @@ def no_install(*packages):
     return False
 
 
-def no_manager():
-    """The package manager is never really asked from a test."""
+def no_manager(update=False, asked=False):
+    """The package manager is never really asked from a test.
+
+    The same arguments as the real one, so a call the real one would
+    take and this one would not shows up as a TypeError here rather
+    than as a check that quietly stopped biting.
+    """
+    asked_manager.append((update, asked))
     return False
+
+
+asked_manager = []
 
 
 was_path = os.environ.get("PATH", "")
 was_pip = vpm._pip_install
 was_manager = vpm.install_over_package_manager
-ended = "the search came back without saying anything"
+ended, said = ("", ""), ""
 try:
     vpm._pip_install = no_install
     vpm.install_over_package_manager = no_manager
     os.environ["PATH"] = EMPTY
+    ended = vpm.find_required_tools()
+    # And what the run makes of it. Said with print, so it lands
+    # wherever the run is showing its output; caught here to read.
+    keep_out, sys.stdout = sys.stdout, io.StringIO()
     try:
-        vpm.find_required_tools()
-    except SystemExit as e:
-        ended = e.code
+        vpm.tools_repaired(*ended)
+        said = sys.stdout.getvalue()
+    finally:
+        sys.stdout = keep_out
 finally:
     os.environ["PATH"] = was_path
     vpm._pip_install = was_pip
@@ -154,10 +165,11 @@ finally:
     # test before it has counted what it found.
     shutil.rmtree(EMPTY, ignore_errors=True)
 
-# What the advice has to begin with, out of the catalogue, so the
-# reading does not tie itself to one language.
-NOT_FOUND = vpm.T('Not found: %s.\nThe programs must be in the search path '
-                  'or next to this file (%s).\nHere: %s').split("%s")[0]
+# Out of the catalogue, so the reading does not tie itself to one
+# language.
+IS_MISSING = vpm.T('%s is missing.').split("%s")[-1].strip(" .")
+NOTHING_RUNS = vpm.T(
+    'Nothing runs until that is put right. This way: %s').split("%s")[0]
 
 print("\n2. A search that has nothing to find")
 on_hand = [tool for tool in ("ffmpeg", "ffprobe")
@@ -170,11 +182,21 @@ check("a search that finds no ffmpeg installs nothing",
       not asked_pip,
       "%d installs asked for, wanted 0: %s"
       % (len(asked_pip), asked_pip[:3]))
-check("and it ends by saying where the two programs come from",
-      isinstance(ended, str) and ended.startswith(NOT_FOUND)
-      and "ffmpeg" in ended and "ffprobe" in ended,
-      "it ended on %r, wanted one beginning %r and naming both"
-      % (str(ended)[:90], NOT_FOUND))
+check("and it comes back saying both of them are missing",
+      ended[0] == "missing" and IS_MISSING in ended[1]
+      and "ffmpeg" in ended[1] and "ffprobe" in ended[1],
+      "it came back with %r, wanted 'missing' and both named" % (ended,))
+# Nothing is said inside the search itself: at that point in the run it
+# is not known whether there is a console to say it in, and a sentence
+# written where nobody is looking is the same as no sentence.
+check("saying it carries the advice for this machine",
+      NOTHING_RUNS in said and ("ffmpeg" in said),
+      "the saying was %r, wanted %r in it"
+      % (" ".join(said.split())[:90], NOTHING_RUNS))
+check("and it asked the package manager exactly once",
+      len(asked_manager) == 1,
+      "the manager was asked %d times, wanted 1: %s"
+      % (len(asked_manager), asked_manager[:3]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

@@ -161,19 +161,18 @@ check("and every German text about it uses that word", not apart,
 #------------------------------------------------------ umlauts where none belong
 section("Umlauts and eszett only where German lives")
 GERMAN_LETTERS = re.compile(r"[äöüÄÖÜß]")
-border = source.find('CATALOGUE["de"] = {')
-# Everything below rests on this number: not found, find() gives -1, the
-# whole file counts as "above the catalogue", and the next two sections
-# report every German word in it. Said here, so the cause is named.
-check("the line the catalogue starts at was found", border > 0,
-      "CATALOGUE[\"de\"] = { is not in %s" % os.path.basename(SCRIPT))
-head = source[:border] if border > 0 else ""
+# The German texts live in a file of their own, so the program itself is
+# read whole. Everything below rests on it having been read at all: an
+# empty string holds no umlaut and no abbreviation either, and the two
+# sections would report nothing wrong. Said here, so the cause is named.
+check("the program itself was read", source.count("\n") > 1000,
+      "%d lines in %s, wanted over 1000"
+      % (source.count("\n"), os.path.basename(SCRIPT)))
 hits = []
-for i, line in enumerate(head.splitlines(), 1):
+for i, line in enumerate(source.splitlines(), 1):
     if GERMAN_LETTERS.search(line):
         hits.append((i, line.strip()[:60]))
-check("no umlaut in the program above the catalogue", not hits,
-      str(hits[:3]))
+check("no umlaut in the program", not hits, str(hits[:3]))
 # Inside the catalogue: only the values may carry them, never the keys.
 key_hits = [k for k in catalogue if GERMAN_LETTERS.search(k)]
 check("no umlaut in an English catalogue key", not key_hits,
@@ -186,7 +185,7 @@ SHORTHAND = (r"\b(?:z\s?\.?\s?B|bzw|ggf|u\s?\.?\s?a|d\s?\.?\s?h|usw|evtl"
              r"|o\s?\.?\s?ä|Abb|Nr|ca)\.")
 SHORT = re.compile(SHORTHAND)
 found = []
-for i, line in enumerate(head.splitlines(), 1):
+for i, line in enumerate(source.splitlines(), 1):
     m = SHORT.search(line)
     if m:
         found.append((i, m.group(0)))

@@ -8,15 +8,12 @@ reused only where path, time and size match for every file, one
 changed file discarding all of it: a partly stale axis is worse than
 measuring again. The last section holds the program to these four."""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import sys, tempfile, shutil, importlib.util, time
+SCRIPT = the_program.SCRIPT
+import sys, tempfile, shutil, time
 began = time.time()
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 done = 0
 bad = []
@@ -233,7 +230,7 @@ check("without an absolute flag it counts as relative",
 shutil.rmtree(D2, ignore_errors=True)
 
 print("\n5. The interface really calls this path")
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 for call in ("header_value = recordings_text(",
              "fresh = pending_prework(",
              "from_s, until, absolute = window_suggestion(",
@@ -241,14 +238,15 @@ for call in ("header_value = recordings_text(",
     check("calls %s" % call.split("=")[-1].strip()[:20], call in source,
           "%d places in %s hold %r, wanted at least 1"
           % (source.count(call), os.path.basename(SCRIPT), call))
-# Only the code half, so the catalogue's own entry does not count as a
-# second place that builds the line. The "or" this replaces passed as
-# soon as either half held, which is to say always.
-code_only = source.split('CATALOGUE["de"] = {', 1)[0]
+# The whole program counts. This used to cut the catalogue off first,
+# so that its own entry was not read as a second place building the
+# line; the translations moved into files of their own, the cut found
+# nothing to cut at and quietly did nothing. The answer is the same
+# either way, and now it says so. The "or" this replaces passed as soon
+# as either half held, which is to say always.
 check("the header line is built in one place only",
-      code_only.count("recordings from") == 1,
-      "%d places outside the catalogue build it, wanted 1"
-      % code_only.count("recordings from"))
+      source.count("recordings from") == 1,
+      "%d places build it, wanted 1" % source.count("recordings from"))
 OLD_WINDOW = 'start_var.set(timecode_string(min(starts), fps))'
 check("the old window computation is gone", OLD_WINDOW not in source,
         "%d places still hold %r, wanted 0"

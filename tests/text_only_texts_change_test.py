@@ -13,6 +13,11 @@ import os
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     os.path.dirname(HERE), "videopodcast_magic.py")
+# The German texts are a file of their own beside the program. The
+# program reads them from there, so this test looks in the same place
+# and a snapshot run reads the snapshot's own texts.
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT),
+                        "videopodcast_magic_texts_de.py")
 import ast, importlib.util, io, re, subprocess, sys, time, tokenize
 
 began = time.time()
@@ -38,6 +43,16 @@ def check(name, ok, extra=""):
 
 state.announce()
 
+# The code this file uses wherever it needs a language that is not
+# there. "qa" is a country, not a language, so no catalogue can ever
+# answer to it, and nothing here ships one. French used to stand in
+# that place: the day a French catalogue arrived, the check below went
+# red and the section under it deleted the real catalogue on its way
+# out. A language that exists cannot play a language that does not.
+# The checks spell the code out in their names, because the
+# counter-proof register reads those as literals.
+SPARE = "qa"
+
 print("1. Which languages there are")
 check("English is the source", vpm.SOURCE_LANG == "en",
         "SOURCE_LANG is %r, wanted 'en'" % vpm.SOURCE_LANG)
@@ -47,30 +62,45 @@ got = vpm.known_language("de_DE.UTF-8")
 check("de_DE.UTF-8 becomes de", got == "de", "%r, wanted 'de'" % got)
 got = vpm.known_language("de-AT")
 check("de-AT becomes de", got == "de", "%r, wanted 'de'" % got)
-got = vpm.known_language("fr_FR")
-check("fr_FR becomes en", got == "en",
-        "%r, wanted 'en' -- there is no French catalogue" % got)
+got = vpm.known_language("qa_QA")
+check("qa_QA becomes en", got == "en",
+        "%r, wanted 'en' -- the program speaks %s, and no %r catalogue is "
+        "among them" % (got, vpm.languages(), SPARE))
 got = vpm.known_language("")
 check("nothing becomes en", got == "en",
         "the empty code gives %r, wanted 'en'" % got)
 
 print("\n2. One more language needs only a catalogue entry")
-vpm.CATALOGUE["fr"] = {"Content": "Contenu"}
+# A catalogue is put in at run time, under the spare code, and the
+# three steps at the head of the program say that is the whole of what
+# it takes. It has to be the spare code and not a language the program
+# really ships: the entry is taken out again below, and taking a real
+# one out would leave every check after this point talking to a program
+# with a language missing.
+was = vpm.CATALOGUE.get(SPARE)
+vpm.CATALOGUE[SPARE] = {"Content": "Content in qa"}
 try:
-    check("fr is now on offer", "fr" in vpm.languages(),
-            "languages() %s, wanted 'fr' among them" % vpm.languages())
-    got = vpm.known_language("fr_FR")
-    check("fr_FR now becomes fr", got == "fr", "%r, wanted 'fr'" % got)
-    vpm.set_language("fr")
+    check("qa is now on offer", SPARE in vpm.languages(),
+            "languages() %s, wanted %r among them"
+            % (vpm.languages(), SPARE))
+    got = vpm.known_language("qa_QA")
+    check("qa_QA now becomes qa", got == SPARE,
+            "%r, wanted %r" % (got, SPARE))
+    vpm.set_language(SPARE)
     got = vpm.T("Content")
-    check("translated text comes out French", got == "Contenu",
-            "T('Content') under %r is %r, wanted 'Contenu'" % (vpm.LANG, got))
+    check("translated text comes out of the added catalogue",
+            got == "Content in qa",
+            "T('Content') under %r is %r, wanted 'Content in qa'"
+            % (vpm.LANG, got))
     got = vpm.T("Outro")
     check("missing text stays English", got == "Outro",
-            "T('Outro') under %r is %r, wanted 'Outro' -- the fr catalogue "
-            "has no entry for it" % (vpm.LANG, got))
+            "T('Outro') under %r is %r, wanted 'Outro' -- the %r catalogue "
+            "has no entry for it" % (vpm.LANG, got, SPARE))
 finally:
-    del vpm.CATALOGUE["fr"]
+    if was is None:
+        vpm.CATALOGUE.pop(SPARE, None)
+    else:
+        vpm.CATALOGUE[SPARE] = was
 vpm.set_language("de")
 
 print("\n3. Translating and filling in")
@@ -105,8 +135,9 @@ print("\n4. The --lang switch")
 # could not see this catalogue either and would be red with nothing
 # broken. Nothing in the program points that way today, and a red on the
 # two judgements below sends the reader to those three steps first.
-SPARE = "qa"     # a code no catalogue here uses; whatever stood under
-                 # it is put back at once, so a real one would survive
+# SPARE stands at the head of the file: a code no catalogue answers to.
+# Whatever stood under it is put back at once, so a real one would
+# survive even if the code ever stopped being spare.
 was = vpm.CATALOGUE.get(SPARE)
 vpm.CATALOGUE[SPARE] = {"Content": "Content"}
 try:
@@ -564,6 +595,7 @@ print("\n17. No German word outside the catalogue")
 # Two dictionaries decide, and the catalogue acts as a third: a word
 # German knows and English does not is German, and so is every word the
 # German side of the catalogue uses and the English side does not.
+german = io.open(TEXTS_DE, encoding="utf-8").read()
 GERMAN_KEEP = set("""
 bilder dokumente filme musik schreibtisch deutsch
 """.split())          # folder names on a German system, on purpose
@@ -590,9 +622,8 @@ def word_parts(word):
 
 def catalogue_words():
     """German words the catalogue uses and the English side does not."""
-    i = source.find('CATALOGUE["de"] = {')
     keys, values = set(), set()
-    for node in ast.walk(ast.parse(source[i:])):
+    for node in ast.walk(ast.parse(german)):
         if not isinstance(node, ast.Dict):
             continue
         for a, b in zip(node.keys, node.values):
@@ -615,11 +646,10 @@ def german_check():
 
 _known = catalogue_words()
 _is_german = german_check()
-_border = source[:source.find('CATALOGUE["de"] = {')].count("\n") + 1
+# The whole program, top to bottom: the German it used to carry at the
+# end now stands in a file of its own, and nothing in here may be German.
 _found = []
 for _t in tokenize.generate_tokens(io.StringIO(source).readline):
-    if _t.start[0] >= _border:
-        break
     if _t.type not in (tokenize.NAME, tokenize.STRING, tokenize.COMMENT):
         continue
     # A long run without a space is data (base64, a hash), not language.
@@ -668,16 +698,14 @@ def english_check():
     return lambda w: w in en and w not in de
 
 
-_at = source.find('CATALOGUE["de"] = {')
-_above = source[:_at].count("\n")
 _entries = []
-for _node in ast.walk(ast.parse(source[_at:])):
+for _node in ast.walk(ast.parse(german)):
     if not isinstance(_node, ast.Dict):
         continue
     for _a, _b in zip(_node.keys, _node.values):
         if isinstance(_a, ast.Constant) and isinstance(_a.value, str) \
                 and isinstance(_b, ast.Constant) and isinstance(_b.value, str):
-            _entries.append((_above + _a.lineno, _a.value, _b.value))
+            _entries.append((_a.lineno, _a.value, _b.value))
 check("the German catalogue can be read as pairs", len(_entries) > 500,
         "%d entries" % len(_entries))
 
@@ -715,8 +743,7 @@ if _english is None:
           "catalogue entries, pip install pyspellchecker" % len(_entries))
 else:
     # The fingerprint is the word plus the entry it was left in, never
-    # the line: the catalogue sits at the end of the file and every entry
-    # above shifts the ones below it.
+    # the line: every entry added above one shifts it down a row.
     _held = state.places("english_words", ratchet.tally(
         [("%s in %r" % (_w, _key[:48]), _line)
          for _line, _w, _key in _forgotten]))

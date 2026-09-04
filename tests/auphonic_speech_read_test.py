@@ -8,16 +8,14 @@ against a stand-in that notes the address instead of opening it, so
 what is checked is which files are asked for and which are left alone.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import shutil, sys, tempfile, time
 
 began = time.time()
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 done = 0
 bad = []
@@ -65,10 +63,27 @@ try:
     check("an English one suggests eng",
           vpm.language_of_system() == "eng",
           "en_GB.UTF-8 gave %r, wanted 'eng'" % vpm.language_of_system())
-    os.environ["LANG"] = "es_ES.UTF-8"
-    check("a Spanish one suggests spa -- not the interface language",
-          vpm.language_of_system() == "spa",
-          "es_ES.UTF-8 gave %r, wanted 'spa'" % vpm.language_of_system())
+    # Spanish stood here until Spanish became an interface language.
+    # From that day known_language() answered "es" for es_ES, so the
+    # very fault this is about -- the locale read through the interface
+    # language -- no longer changed the answer, and the check went on
+    # being green while proving nothing. The locale is asked of the
+    # program now: a language it can transcribe but has no texts for.
+    # Add a translation for it and another one takes its place.
+    spoken_only = [(tag, vpm.SPEECH_CODES[tag])
+                   for tag, _n in vpm.SPOKEN_LANGUAGES
+                   if vpm.SPEECH_CODES.get(tag)
+                   and vpm.SPEECH_CODES[tag] not in vpm.languages()]
+    check("some spoken language is one the interface does not speak",
+          bool(spoken_only),
+          "%d of %d spoken languages have no catalogue, interface speaks %s"
+          % (len(spoken_only), len(vpm.SPOKEN_LANGUAGES), vpm.languages()))
+    tag, code = spoken_only[0] if spoken_only else ("(none)", "xx")
+    os.environ["LANG"] = "%s_%s.UTF-8" % (code, code.upper())
+    check("a language with no catalogue suggests itself, not English",
+          vpm.language_of_system() == tag,
+          "%s_%s.UTF-8 gave %r, wanted %r -- the interface has no %r"
+          % (code, code.upper(), vpm.language_of_system(), tag, code))
     os.environ["LANG"] = "xx_XX.UTF-8"
     check("an unknown one suggests nothing",
           vpm.language_of_system() == "",

@@ -1,6 +1,6 @@
 # The test suite
 
-223 tests against `../videopodcast_magic.py`. Every one of them stands
+227 tests against `../videopodcast_magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-223 tests. The name is the one a red line carries, and beside it the
+227 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -252,15 +252,16 @@ it is green.
 
 | Test | Green means |
 |---|---|
-| `files_atom_travels` | A logs atom lost by ffmpeg's copy is put back into the new file. |
+| `files_atom_travels` | Atoms lost by ffmpeg's copy are put back into the new file. |
 | `files_block_out_and_back` | Taking one block out of a recording, and putting it back. |
 | `files_block_stays_apart` | A block taken out of a recording by hand stays out. |
 | `files_blocks_join_exact` | Blocks join only where the file names match letter for letter. |
 | `files_by_file_holds` | The dictionary of files finds one file under any of its names. |
 | `files_clock_links_blocks` | Blocks that carry a clock in the name instead of a counter. |
-| `files_colour_carried` | Colour tags, QuickTime keys and named audio tracks reach the result. |
+| `files_colour_carried` | Colour tags, metadata keys and named audio tracks reach the result. |
 | `files_curve_kept_once` | One file leaves one envelope, whatever name it was asked for. |
 | `files_cut_without_keys` | A camera is cut to the window even where its key frames cannot be read. |
+| `files_data_track_kept` | A camera's data track is carried over only where ffmpeg writes it whole. |
 | `files_foreign_untouched` | Copying atoms over onto everything that is not a camera file. |
 | `files_hdr_complete` | #65: Does a finished file carry everything that marks it as HDR? |
 | `files_intro_proposed` | A jingle is proposed as the intro, not for "ignore this video". |
@@ -484,8 +485,10 @@ it is green.
 |---|---|
 | `run_bar_never_falls` | The bar neither falls back nor stands still. |
 | `run_bar_tracks_work` | The one bar: weights, creeping, and never going backwards. |
+| `run_choice_kept` | A choice made in one run is found by the next, and by nobody else. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
+| `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and built with soxr. |
 | `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |
@@ -506,6 +509,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `text_german_arrives` | The German texts are a file of their own, and every way in brings them. |
 | `text_index_targets_exist` | The index has to point at sections that are really there. |
 | `text_lists_match` | Where the manual copies a list out of the program, it has to match. |
 | `text_no_german_left` | Hunt down the last German word, and check the catalogue itself. |

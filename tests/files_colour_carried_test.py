@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
-"""Colour tags, QuickTime keys and named audio tracks reach the result.
+"""Colour tags, metadata keys and named audio tracks reach the result.
 
 The simple path writes its camera file with write_camera_file. What the
 source carries has to come out the other side: the three colour tags,
-the QuickTime key, the camera's own audio beside the track that was
-added, and each track under the name it was given.
+the colour box byte for byte, every metadata key and not only the Apple
+ones, the camera's own audio beside the track that was added, and each
+track under the name it was given. And the other way round -- a source
+with no colour box must not come out with one invented for it, and a
+camera that writes no Apple key at all must still get a line.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, subprocess, sys, json, tempfile, time
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import io, subprocess, sys, json, tempfile, time
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -129,6 +129,77 @@ check("the camera's audio and the added one",
 check("both tracks under the name they were given",
       names == [args.name, args.name_camera],
       "%r, expected %r" % (names, [args.name, args.name_camera]))
+
+# --- the colour box itself, not ffprobe's name for it ----------------
+# The names above can agree while the box differs; the promise is that
+# the box travels unchanged, so the numbers in it are read directly.
+before, after = vpm.mov_colour_tags(video), vpm.mov_colour_tags(target)
+check("the colour box arrives with the same numbers in it",
+      before is not None and after == before,
+      "source %r, new file %r" % (before, after))
+
+# --- and a source that has none keeps none ---------------------------
+# ffmpeg can be asked to write a colour box whatever the source said,
+# and it then puts "unspecified" -- 2/2/2 -- into a file that had
+# nothing. Nothing is gained by that and the check above it then
+# reports a difference the writing itself made.
+bare = os.path.join(T, "bare.mov")
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-f", "lavfi",
+                "-i", "testsrc=size=320x180:rate=30:duration=2",
+                "-f", "lavfi", "-i", "sine=frequency=300:duration=2",
+                "-c:v", "libx264", "-pix_fmt", "yuv420p",
+                "-c:a", "pcm_s16le", "-shortest", bare], check=True)
+check("the source without a colour box really has none",
+      vpm.mov_colour_tags(bare) is None,
+      "read %r, wanted nothing" % (vpm.mov_colour_tags(bare),))
+bare_out = os.path.join(T, "bare_done.mov")
+bare_info = vpm.video_facts(bare)
+vpm.write_camera_file(bare, bare_info, [(args.name, audio)], bare_out,
+                      0.0, 1.0, False, args)
+check("a source without a colour box does not gain an invented one",
+      vpm.mov_colour_tags(bare_out) is None,
+      "the new file says %r, wanted nothing -- 2/2/2 is "
+      "\"unspecified\" and was never in the source"
+      % (vpm.mov_colour_tags(bare_out),))
+
+# --- every metadata key, not only the Apple ones ---------------------
+plain = os.path.join(T, "plain.mov")
+subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-c", "copy",
+                "-metadata", "artist=Presenter",
+                "-metadata", "model=WideCam One",
+                "-metadata", "description=a camera that writes no Apple key",
+                "-movflags", "+write_colr+use_metadata_tags", plain],
+               check=True)
+keys = vpm.file_metadata(plain)
+check("a camera that writes no Apple key still carries keys",
+      keys and not [k for k in keys if k.startswith("com.")],
+      "read %d keys, %d of them Apple ones"
+      % (len(keys), len([k for k in keys if k.startswith("com.")])))
+check("what the container says about itself is not counted as camera data",
+      not [k for k in keys if k in ("major_brand", "minor_version",
+                                    "compatible_brands", "encoder")],
+      "counted %r among the camera keys"
+      % ([k for k in keys if k in ("major_brand", "minor_version",
+                                   "compatible_brands", "encoder")],))
+plain_out = os.path.join(T, "plain_done.mov")
+vpm.write_camera_file(plain, vpm.video_facts(plain), [(args.name, audio)],
+                      plain_out, 0.0, 1.0, False, args)
+gone = [k for k in keys if k not in vpm.file_metadata(plain_out)]
+check("a plain key reaches the new file as an Apple one does",
+      not gone, "missing from the new file: %r of %d" % (gone, len(keys)))
+
+# The line itself: a camera with no Apple key used to get none at all,
+# neither good nor bad, and a loss there was reported by nobody.
+said = io.StringIO()
+keep_out, sys.stdout = sys.stdout, said
+try:
+    vpm.check_camera_metadata(plain, plain_out)
+finally:
+    sys.stdout = keep_out
+check("and it gets a line of its own, where it used to get none",
+      "%d" % len(keys) in said.getvalue(),
+      "the report said %r, wanted the %d keys named in it"
+      % (said.getvalue().strip()[:70], len(keys)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

@@ -8,21 +8,19 @@ there, it is the file that was loaded and not the one that was invoked,
 and last a second copy started in a folder of its own writes that
 folder's path into the header of its own log.
 """
+import glob
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
-import importlib.util
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -90,6 +88,16 @@ check("it names the file that was loaded, not the one invoked",
 lab = tempfile.mkdtemp(prefix="which-script-")
 copy = os.path.join(lab, "a-second-copy.py")
 shutil.copyfile(SCRIPT, copy)
+# The program is more than one file: its texts stand beside it, one
+# file per language, and the program reads them from there. So a copy
+# of the program alone is not a program. What comes along is named by
+# its shape and never one by one -- a list would be right today and
+# wrong the day a language is added, and this test would say the log
+# header was wrong when in truth the copy never started.
+for near in sorted(glob.glob(os.path.join(os.path.dirname(SCRIPT),
+                                          "videopodcast_magic*.py"))):
+    if not os.path.samefile(near, SCRIPT):
+        shutil.copyfile(near, os.path.join(lab, os.path.basename(near)))
 log = os.path.join(lab, "videopodcast-magic.log")
 CODE = ("import importlib.util, sys\n"
         "s = importlib.util.spec_from_file_location('vpm', sys.argv[1])\n"

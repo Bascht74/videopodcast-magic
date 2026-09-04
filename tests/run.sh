@@ -103,6 +103,14 @@ RUN_TEMP_CACHE="${TMPDIR:-/tmp}/vpm_cache_$(id -u)_$$"
 mkdir -p "$RUN_TEMP_CACHE"
 export VPM_CACHE="$RUN_TEMP_CACHE"
 
+# And one settings folder per run, thrown away with it. A cache and a
+# choice are two things: a test that wants a fresh cache may want a
+# settings file that stands, so they are two variables. Without this,
+# VPM_SILENT alone makes the store refuse a place, and no test writes.
+RUN_TEMP_SETTINGS="${TMPDIR:-/tmp}/vpm_settings_$(id -u)_$$"
+mkdir -p "$RUN_TEMP_SETTINGS"
+export VPM_SETTINGS="$RUN_TEMP_SETTINGS"
+
 # The shared fixture folders are read-only. Building them here, before
 # the fan-out, keeps two tests from racing for the same files.
 if ! bash "$HERE/fixtures.sh"; then
@@ -148,9 +156,10 @@ clean_up() {
   if [ -n "$KEEP_TEMP" ]; then
     echo "temporary material kept in $RUN_TEMP"
     echo "cache of this run kept in $RUN_TEMP_CACHE"
+    echo "settings of this run kept in $RUN_TEMP_SETTINGS"
     echo "what each test reported kept in $OUT"
   else
-    rm -rf "$RUN_TEMP" "$RUN_TEMP_CACHE" "$OUT"
+    rm -rf "$RUN_TEMP" "$RUN_TEMP_CACHE" "$RUN_TEMP_SETTINGS" "$OUT"
   fi
 }
 trap clean_up EXIT

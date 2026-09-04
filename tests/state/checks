@@ -70,15 +70,16 @@ cut_two_stay_two	15
 cut_voice_on_its_camera	18
 cut_wide_colour_apart	11
 cut_wide_not_on_speech	6
-files_atom_travels	11
+files_atom_travels	17
 files_block_out_and_back	10
 files_block_stays_apart	15
 files_blocks_join_exact	3
 files_by_file_holds	28
 files_clock_links_blocks	30
-files_colour_carried	7
+files_colour_carried	14
 files_curve_kept_once	12
 files_cut_without_keys	5
+files_data_track_kept	13
 files_foreign_untouched	37
 files_hdr_complete	34
 files_intro_proposed	24
@@ -103,7 +104,7 @@ project_grades_stay_off	8
 project_handover_built	81
 project_hdr_follows	49
 project_keeps_answers	13
-project_output_says_hdr	18
+project_output_says_hdr	21
 project_real_frame	4
 project_render_kept	4
 project_render_queued	67
@@ -117,9 +118,11 @@ project_two_stay_two	6
 project_two_timelines_go	16
 run_bar_never_falls	20
 run_bar_tracks_work	29
+run_choice_kept	17
 run_command_built	62
 run_dry_reports_voices	13
-run_ffmpeg_not_fetched	6
+run_ffmpeg_new_enough	26
+run_ffmpeg_not_fetched	8
 run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	83
@@ -157,7 +160,7 @@ sound_tracks_written	31
 source_checks_proved	22
 source_imported_is_whole	5
 source_limits_hold	15
-source_no_loose_ends	9
+source_no_loose_ends	10
 source_no_real_names	6
 source_numpy_comes_last	4
 source_reds_carry_value	6
@@ -178,6 +181,7 @@ table_row_per_channel	11
 table_row_per_voice	41
 table_stereo_splits	5
 table_tick_keeps_camera	13
+text_german_arrives	11
 text_index_targets_exist	26
 text_lists_match	25
 text_no_german_left	49
