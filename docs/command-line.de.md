@@ -128,7 +128,7 @@ führt die Kapitel auf.
   bevor etwas geschieht, und gibt die ganze Liste der Schalter aus. Die
   Schreibweise mit den Tabellen oben vergleichen.
 * **Der Lauf hält sofort an und nennt eine ffmpeg-Fassung.** Dieses
-  ffmpeg ist älter als 9.0.1, oder es fehlt ganz. Mit Schaltern
+  ffmpeg ist älter als 8.1.2, oder es fehlt ganz. Mit Schaltern
   gestartet, sagt das Programm es in dem Terminal, aus dem es gestartet
   wurde, und zwar bevor etwas geschieht; `--help` und `--version`
   antworten weiterhin. [Was gebraucht

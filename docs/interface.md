@@ -755,7 +755,7 @@ nothing are told apart.
 
 - **The window stays empty and nothing can be added**: `ffmpeg` and
   `ffprobe` are missing, or the ffmpeg on this machine is older than
-  9.0.1. Nothing that needs the two is possible then -- adding files,
+  8.1.2. Nothing that needs the two is possible then -- adding files,
   opening a project, measuring the time axis, a run. The message names
   the version found and the one needed; [What it
   needs](requirements.md#where-ffmpeg-comes-from) says how to get it.

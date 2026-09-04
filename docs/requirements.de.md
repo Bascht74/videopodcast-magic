@@ -61,10 +61,11 @@ kann pip nicht mitbringen:
   keine Fehlermeldung. **Wer `UNKNOWN` liest, hat das falsche pip
   erwischt**, und die Antwort darauf ist, Python 3.10 oder neuer zu
   installieren und dessen `pip3` zu nehmen.
-* **`ffmpeg` 9.0.1 oder neuer, mit soxr gebaut, samt `ffprobe`.** Sie
-  sind kein Python, und keine Liste, die pip liest, hat einen Platz für
-  sie. [Woher ffmpeg kommt](#woher-ffmpeg-kommt) sagt, warum diese
-  Fassung, warum soxr, und was das Programm ohne sie tut.
+* **`ffmpeg` 8.1.2 oder neuer, samt `ffprobe`.** Sie sind kein Python,
+  und keine Liste, die pip liest, hat einen Platz für sie. [Woher
+  ffmpeg kommt](#woher-ffmpeg-kommt) sagt, warum diese Fassung, was das
+  Programm darunter tut, und warum der angebotene Bau soxr mitbringt,
+  obwohl er nicht darauf besteht.
 
 Zweierlei holt das Programm später nach, und nur, wenn jemand will,
 wofür es da ist:
@@ -116,31 +117,33 @@ kann**, denn sie sind kein Python, und keine Liste, die pip liest, hat
 einen Platz für sie. Jedes andere Stück kam mit der Installation; diese
 beiden müssen auf der Maschine liegen.
 
-**9.0.1 ist die Untergrenze, und darunter läuft nichts.** Das Bild aus
+**8.1.2 ist die Untergrenze, und darunter läuft nichts.** Das Bild aus
 einer Kameradatei wird unverändert durchkopiert, und was daneben steht,
 soll genauso unverändert ankommen: der Farbkasten, die Aufnahmekurve,
-die Dolby-Vision-Angaben, der Zeitcode, die Schlüssel der Kamera. Erst
-ab Fassung 9 ist bekannt, was davon ankommt. Eine ältere lässt einen
-Teil fallen, und welchen, hängt davon ab, wie sie gebaut wurde — das
-Ergebnis sähe richtig aus und wäre falsch, und zwar an genau der Stelle,
-an der niemand nachsieht. Ein Boden, den man nicht kennt, ist kein
-Boden; deshalb ist die Zahl eine Voraussetzung und keine Empfehlung.
+die Dolby-Vision-Angaben, der Zeitcode, die Schlüssel der Kamera. 8.1.2
+ist die älteste Fassung, an der nachgemessen wurde, dass all das
+durchkommt — und diese Messung ist der ganze Grund für die Zahl. Ältere
+schaffen es vielleicht auch; versucht hat es niemand, und eine
+Untergrenze, die eine ungemessene Fassung nennt, ist eine Vermutung mit
+einer Zahl davor. Was eine ältere fallen lässt, hängt davon ab, wie sie
+gebaut wurde: Das Ergebnis sähe richtig aus und wäre falsch, und zwar an
+genau der Stelle, an der niemand nachsieht.
 
-**Und soxr, und das ist eine zweite Bedingung und kein Komfort.** Die
-Kameras kommen auf eine Zeitachse, und ihre Uhren laufen auseinander —
-ein paar Millionstel, was über eine Stunde Bilder sind. Das
-herauszurechnen heißt, Ton um einen Faktor dicht bei eins zu dehnen,
-und der einfache Rechenweg kann nur auf ganze Abtastraten runden: bei
-48 kHz sind das Schritte von 21 ppm. Mit soxr ist der Schritt 0,21 ppm,
-also hundertmal feiner. Eine Fassung kann demnach 9.0.1 sein und
-trotzdem der falsche Bau; das Programm sagt, welches von beidem nicht
-stimmt, statt beides in einen Topf zu werfen.
+**soxr ist keine zweite Bedingung, sondern ein Unterschied in der
+Genauigkeit.** Die Kameras kommen auf eine Zeitachse, und ihre Uhren
+laufen auseinander — ein paar Millionstel, was über eine Stunde Bilder
+sind. Das herauszurechnen heißt, Ton um einen Faktor dicht bei eins zu
+dehnen, und der einfache Rechenweg kann nur auf ganze Abtastraten
+runden: bei 48 kHz sind das Schritte von 21 ppm. Mit soxr ist der
+Schritt 0,21 ppm, also hundertmal feiner. Ein Bau ohne soxr läuft
+deshalb, rechnet den Uhrengang gröber heraus und sagt das einmal in den
+Meldungen des Laufs. Darum holt der Befehl, den das Programm anbietet,
+einen Bau mit soxr, obwohl es einen ohne annimmt.
 
-**Ob sie fehlt, zu alt ist oder ohne soxr gebaut wurde, macht keinen
-Unterschied: Das Fenster geht auf und bleibt leer.** Gesperrt ist
-alles, was die beiden Werkzeuge braucht, und nicht erst der Lauf —
-Dateien hinzufügen, ein Projekt öffnen, die Zeitachse messen. Die
-Meldung nennt das Gefundene und das, was gebraucht wird.
+**Fehlt eines oder ist es zu alt, geht das Fenster auf und bleibt
+leer.** Gesperrt ist alles, was die beiden Werkzeuge braucht, und nicht
+erst der Lauf — Dateien hinzufügen, ein Projekt öffnen, die Zeitachse
+messen. Die Meldung nennt das Gefundene und das, was gebraucht wird.
 
 **Gesagt wird es dort, wo jemand es lesen kann**: im Fenster, wenn eines
 da ist; im Terminal, wenn das Programm mit Schaltern gestartet wurde;
@@ -161,9 +164,9 @@ in das hinein, was dem Besitzer der Maschine gehört:
   das Programm an, ffmpeg.org zu öffnen. Der Ordner mit `ffmpeg.exe`
   gehört danach in PATH oder die Dateien neben das Programm.
 * **Unter macOS ist es nicht `brew install ffmpeg`.** Homebrews
-  eigenes ffmpeg wird ohne soxr gebaut, dieser Befehl installiert also
-  genau das, was das Programm einen Augenblick später ablehnt.
-  Angeboten wird stattdessen
+  eigenes ffmpeg wird in keiner angebotenen Fassung mit soxr gebaut,
+  dieser Befehl installiert also eines, das den Uhrengang hundertmal
+  gröber herausrechnen muss. Angeboten wird stattdessen
   `brew install --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`:
   der Tap, der soxr hat, und die Option, die danach fragt. Das baut aus
   dem Quelltext und dauert.
@@ -174,14 +177,14 @@ in das hinein, was dem Besitzer der Maschine gehört:
   mit nein zu beantworten lässt es genauso stehen. Ein eigenes ffmpeg
   bringt das Programm nicht mit: was es braucht, muss auf der Maschine
   liegen, und wer es nicht hat, holt es sich einmal von Hand.
-* **Wenn eines da ist und nicht stimmt -- zu alt oder ohne soxr:** Dann
-  muss es neu gebaut und nicht ein zweites Mal installiert werden. Auf
-  die Aufforderung, etwas zu installieren, was schon da ist, antwortet
-  eine Paketverwaltung „ist schon installiert“ und tut nichts. Unter
-  macOS heißt das
+* **Wenn eines da ist und zu alt ist:** Dann muss es neu gebaut und
+  nicht ein zweites Mal installiert werden. Auf die Aufforderung, etwas
+  zu installieren, was schon da ist, antwortet eine Paketverwaltung
+  „ist schon installiert“ und tut nichts. Unter macOS heißt das
   `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`.
-  Das Paket einer Distribution ist oft älter als 9; wo es das ist,
-  führt die Version von ffmpeg.org am schnellsten zu einer, die passt.
+  Das Paket einer Distribution ist manchmal älter als 8.1.2; wo es das
+  ist, führt die Version von ffmpeg.org am schnellsten zu einer, die
+  passt.
 
 In `requirements.txt` stehen dieselben Python-Pakete, die pip aus
 `pyproject.toml` liest, für alle, die sie lieber vor der Installation
@@ -221,16 +224,18 @@ es ebenfalls, mit zwei Einschränkungen:
   Ordner, in dem es liegt, steht nicht im Suchpfad. Ihn dort
   aufnehmen und neu starten.
 * **Das Fenster geht auf und bleibt leer, und die Meldung nennt eine
-  ffmpeg-Fassung.** Dieses ffmpeg ist älter als 9.0.1. Es muss neu
+  ffmpeg-Fassung.** Dieses ffmpeg ist älter als 8.1.2. Es muss neu
   gebaut werden -- unter macOS mit
   `brew reinstall --yes homebrew-ffmpeg/ffmpeg/ffmpeg --with-libsoxr`,
   sonst mit der Version von ffmpeg.org --, danach neu starten.
   `ffmpeg -version` in einem Terminal sagt, welche gerade im Suchpfad
   steht.
-* **Das Fenster geht auf und bleibt leer, und die Meldung nennt soxr.**
-  Dieses ffmpeg ist neu genug, wurde aber ohne soxr gebaut. Derselbe
-  Befehl bringt es in Ordnung; `ffmpeg -version` führt
-  `--enable-libsoxr` unter den Bauoptionen auf, wo es da ist.
+* **Die Meldungen des Laufs sagen, dieses ffmpeg habe kein soxr.**
+  Kaputt ist damit nichts, und gesperrt auch nichts: Der Uhrengang wird
+  dann in Schritten von 21 ppm statt 0,21 herausgerechnet. Wer den
+  feineren Weg will, installiert den oben genannten Bau und startet neu.
+  `ffmpeg -version` führt `--enable-libsoxr` unter den Bauoptionen auf,
+  wo es da ist.
 
 Mehr braucht das Programm nicht. Was das Fenster danach zeigt, Reiter
 für Reiter, steht in [Die Oberfläche](interface.de.md).

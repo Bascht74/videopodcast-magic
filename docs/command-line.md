@@ -128,7 +128,7 @@ chapters.
   anything happens and prints the whole list of switches. Compare the
   spelling with the tables above.
 * **The run stops at once and names an ffmpeg version.** This ffmpeg is
-  older than 9.0.1, or it is missing altogether. Started with switches
+  older than 8.1.2, or it is missing altogether. Started with switches
   the program says so in the terminal it was started from, before
   anything happens; `--help` and `--version` still answer. [What it
   needs](requirements.md#where-ffmpeg-comes-from) says why that version

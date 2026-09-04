@@ -488,7 +488,7 @@ it is green.
 | `run_choice_kept` | A choice made in one run is found by the next, and by nobody else. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |
-| `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and built with soxr. |
+| `run_ffmpeg_new_enough` | The ffmpeg the program insists on: new enough, and only that. |
 | `run_ffmpeg_not_fetched` | The program fetches no ffmpeg of its own: it finds one, or says how. |
 | `run_metrics_add_up` | The metrics CSV: does it hold what it should, and are the numbers right? |
 | `run_odd_clock_named` | A clock that was never set is found, and blocks group as recordings. |

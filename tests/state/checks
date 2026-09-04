@@ -39,7 +39,7 @@ auphonic_mono_not_stereo	7
 auphonic_none_chosen	4
 auphonic_preset_fits	5
 auphonic_run_delivers	73
-auphonic_speech_read	13
+auphonic_speech_read	14
 auphonic_stays_quiet	30
 cut_all_shots_land	4
 cut_both_are_shown	18
@@ -121,7 +121,7 @@ run_bar_tracks_work	29
 run_choice_kept	17
 run_command_built	62
 run_dry_reports_voices	13
-run_ffmpeg_new_enough	26
+run_ffmpeg_new_enough	23
 run_ffmpeg_not_fetched	8
 run_metrics_add_up	51
 run_odd_clock_named	17
