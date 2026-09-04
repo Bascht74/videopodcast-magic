@@ -4,21 +4,22 @@
 [Inhalt](README.de.md).*
 
 `--help` gibt diese Liste auch aus, immer auf Englisch. Vorgaben in Klammern.
-Ein Schalter, der nur auf einem Weg wirkt, trägt `[multitrack only]`
-oder `[simple path only]`, hier wie in `--help`; beide Marken bleiben
-englisch, in welcher Sprache der Lauf auch läuft.
+Ein Schalter, der nur auf einem Weg wirkt, trägt in den Tabellen hier
+`[multitrack only]` oder `[simple path only]`; in `--help` sind drei von
+ihnen ebenso gekennzeichnet, und die Marke bleibt englisch, in welcher
+Sprache der Lauf auch läuft.
 
 ![Der Anfang eines Laufs im Terminal](images/terminal.de.png)
 
 *`--multitrack --lufs -16 --dry-run` am Ende des Aufrufs, darunter die
-Version und das Python, dann der Vorflug mit sieben Prüfungen und zwei
-Hinweisen. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
+Version und das Python, dann der Vorflug mit acht Prüfungen und einem
+Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 
 ## Grundlagen
 
 | Schalter | Wirkung |
 |---|---|
-| `--lang {de,en}` | Sprache der Meldungen (Systemsprache) |
+| `--lang KÜRZEL` | Sprache der Meldungen: `de`, `en`, `es`, `fr`, `hi`, `ja`, `pt`, `ru`, `zh` (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
@@ -128,12 +129,16 @@ führt die Kapitel auf.
   bevor etwas geschieht, und gibt die ganze Liste der Schalter aus. Die
   Schreibweise mit den Tabellen oben vergleichen.
 * **Der Lauf hält sofort an und nennt eine ffmpeg-Fassung.** Dieses
-  ffmpeg ist älter als 8.1.2, oder es fehlt ganz. Mit Schaltern
+  ffmpeg ist älter als 9.0.1, oder es fehlt ganz. Mit Schaltern
   gestartet, sagt das Programm es in dem Terminal, aus dem es gestartet
-  wurde, und zwar bevor etwas geschieht; `--help` und `--version`
-  antworten weiterhin. [Was gebraucht
-  wird](requirements.de.md#woher-ffmpeg-kommt) sagt, warum diese
-  Fassung und woher man sie bekommt.
+  wurde, und zwar bevor etwas geschieht, und bietet dort an, eines zu
+  holen; `--help`, `--version` und `--update` antworten weiterhin. [Was
+  gebraucht wird](requirements.de.md#woher-ffmpeg-kommt) sagt, warum
+  diese Fassung und woher man sie bekommt.
+* **Eine Zeile sagt, diesem ffmpeg fehle soxr.** Das wird gesagt, nicht
+  gefragt, und nichts hält an: Der Uhrengang zwischen den Kameras wird
+  dann in hundertmal gröberen Stufen ausgeglichen. Gesagt wird es nur
+  dort, wo sich auf diesem Rechner etwas daran ändern ließe.
 * **Ein Wert mit einem Leerzeichen darin.** In Anführungszeichen
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.

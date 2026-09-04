@@ -5,20 +5,21 @@
 
 `--help` prints this list too, always in English. Defaults in brackets.
 A switch that works on one path only carries `[multitrack only]` or
-`[simple path only]`, here and in `--help`; both markers stay English
-whatever the language of the run.
+`[simple path only]` in the tables here; `--help` marks three of them
+the same way, and the marker stays English whatever the language of the
+run.
 
 ![The start of a run in the terminal](images/terminal.png)
 
 *`--multitrack --lufs -16 --dry-run` at the end of the call, the version
-and the Python underneath, then the preflight with seven checks and two
-hints. Without a key the multitrack run stops there.*
+and the Python underneath, then the preflight with eight checks and one
+hint. Without a key the multitrack run stops there.*
 
 ## Basics
 
 | Switch | Does |
 |---|---|
-| `--lang {de,en}` | language of the messages (system language) |
+| `--lang CODE` | language of the messages: `de`, `en`, `es`, `fr`, `hi`, `ja`, `pt`, `ru`, `zh` (system language) |
 | `--out FOLDER` | where the results go (next to each video) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |
@@ -128,11 +129,16 @@ chapters.
   anything happens and prints the whole list of switches. Compare the
   spelling with the tables above.
 * **The run stops at once and names an ffmpeg version.** This ffmpeg is
-  older than 8.1.2, or it is missing altogether. Started with switches
+  older than 9.0.1, or it is missing altogether. Started with switches
   the program says so in the terminal it was started from, before
-  anything happens; `--help` and `--version` still answer. [What it
+  anything happens, and offers to fetch one there; `--help`,
+  `--version` and `--update` still answer. [What it
   needs](requirements.md#where-ffmpeg-comes-from) says why that version
   and how to get it.
+* **A line says this ffmpeg has no soxr.** That is said, not asked, and
+  nothing stops: the clock drift between the cameras then comes out in
+  steps a hundred times coarser. It is said only where something could
+  be done about it on this machine.
 * **A value with a space in it.** Put it in quotes:
   `--auphonic-preset "<name of the preset>"`. Without them the second
   word arrives as a file name.

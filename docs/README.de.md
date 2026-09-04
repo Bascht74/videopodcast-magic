@@ -160,6 +160,7 @@ der das Wort erklärt, steht vorn.
 * **Schnittgrundlage (Zeile unter der Vorschau)**: `interface`, „Die
   vier Reiter“
 * **Source Audio Channels**: `resolve`, „Den Multicam-Ton wählen“
+* **soxr**: `requirements`, „Woher ffmpeg kommt“
 * **Sprechername**: `multitrack`, „Die Zuordnung setzen“; `speech`, „Die
   Stimmen benennen“
 * **Sprechertrennung**: `speech`, „Die Sprecher trennen“; `simple-path`,
@@ -209,7 +210,7 @@ Neben dem Handbuch stehen die Dokumente für alle, die das Programm
 ändern statt es zu benutzen. Sie sind alle englisch.
 
 Sie liegen in `development/`, neben diesem Ordner. [Inside the
-script](../development/internals.md) sagt, wie die eine Datei aufgebaut
+script](../development/internals.md) sagt, wie das Programm aufgebaut
 ist und wie jeder Schritt arbeitet. [What was
 measured](../development/measurements.md) hält die Belege hinter den
 Zahlen: Trefferquoten, Laufzeiten, Verteilungen, Vergleiche. [Coding
