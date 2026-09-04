@@ -1,16 +1,14 @@
 # -*- coding: utf-8 -*-
 """The program loads without numpy, so --help and --version stay cheap.
 
-numpy is fetched in the last lines of the file, after the catalogue has
-settled the language, and not at all for a run that only reads. A
-default value in a def line is evaluated while the file is being read,
-where np is still None, and that breaks every run -- py_compile does not
-see it, because it never runs the body. In order: a child process with
-every road to numpy shut reads the file to the end, np is still None
-afterwards, nothing reached for numpy at all, and a walk over the syntax
-tree names every default value and top-level line that reads np. The
-child names only the first fault; the walk names them all, but only
-those the file states outright.
+Nothing fetches numpy while the file is read: a stand-in holds the
+name until the first calculation asks for it. A default value in a def
+line is evaluated as the file is read, so one reaching for numpy there
+would fetch it for every --help, and py_compile does not see that
+because it never runs the body. In order: a child with every road to
+numpy shut reads the file to the end, what stands under np afterwards,
+that nothing reached for numpy at all, and a walk over the syntax tree
+naming every default value and top-level line that reads np.
 """
 import ast
 import json
@@ -68,8 +66,8 @@ class NoNumpy:
 sys.modules.pop("numpy", None)
 # In front of everything else, so find_spec never gets past it.
 sys.meta_path.insert(0, NoNumpy())
-# Set before the file is read: ONLY_READING is worked out in its body,
-# and without this the program fetches numpy and starts pip.
+# The cheap door in particular: whoever only wants the version number
+# is the one who must not be made to wait for twenty megabytes.
 sys.argv = ["videopodcast_magic.py", "--version"]
 
 out = {"loaded": False, "kind": "", "message": "", "line": 0, "source": "",
@@ -186,8 +184,9 @@ check("the program is read to the end with numpy out of reach",
 # --- and it did not fetch numpy on the way ----------------------------
 
 after = report.get("np") or "(no report at all)"
-check("np is still None after a run that only reads the version",
-      after == "None", "np is %s once the file has been read" % after)
+check("a run that only reads the version leaves np filled, not empty",
+      after != "None" and after != "(no np at all)",
+      "np is %s once the file has been read" % after)
 
 check("nothing reaches for numpy while only the version is read",
       not asked,
