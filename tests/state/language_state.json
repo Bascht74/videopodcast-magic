@@ -1,25 +1,76 @@
 {
  "english_words": {
-  "audio in 'gets audio from'": [1, 29174],
-  "frame in 'One frame back.'": [1, 28696],
-  "frame in 'One frame forward.'": [1, 29622],
-  "output in '    %-22s stays at \"Same as Project\" -- the proj'": [1, 27246],
-  "output in '    Caution: the project stands at %s, the mater'": [1, 27291],
-  "settings in 'Without it every player has to guess, and all gu'": [1, 29052],
-  "upload in 'Files are missing there -- without a new upload '": [1, 28525]
+  "audio in 'gets audio from'": [
+   1,
+   29174
+  ],
+  "frame in 'One frame back.'": [
+   1,
+   28696
+  ],
+  "frame in 'One frame forward.'": [
+   1,
+   29622
+  ],
+  "output in '    %-22s stays at \"Same as Project\" -- the proj'": [
+   1,
+   27246
+  ],
+  "output in '    Caution: the project stands at %s, the mater'": [
+   1,
+   27291
+  ],
+  "settings in 'Without it every player has to guess, and all gu'": [
+   1,
+   29052
+  ],
+  "upload in 'Files are missing there -- without a new upload '": [
+   1,
+   28525
+  ]
  },
  "german_words": 0,
  "uncoloured": 0,
  "untranslated_prints": {
-  "build_resolve_project prints '\\n  Import'": [1, 12930],
-  "build_resolve_project prints '\\nRESOLVE'": [1, 12878],
-  "distribute_tracks_to_cameras.one_camera prints '  Timecode:        %s'": [1, 9765],
-  "extract_audio_from_video prints '  Timecode %s'": [1, 8119],
-  "main prints 'videopodcast_magic.py %s   %s\\n%s\\n'": [1, 24182],
-  "print_audio_track_mapping prints '      GetAudioMapping   %s'": [1, 11806],
-  "print_audio_track_mapping prints '\\n  TIMELINES'": [1, 11826],
-  "print_presets prints 'Presets:'": [1, 1705],
-  "print_production prints '  Status:      %s'": [1, 3111],
-  "qt_cut_player.CutPlayer._switch_to prints '  player: programme %8.3f  picture %-32s at '": [1, 22708]
+  "build_resolve_project prints '\\n  Import'": [
+   1,
+   12930
+  ],
+  "build_resolve_project prints '\\nRESOLVE'": [
+   1,
+   12878
+  ],
+  "distribute_tracks_to_cameras.one_camera prints '  Timecode:        %s'": [
+   1,
+   9765
+  ],
+  "extract_audio_from_video prints '  Timecode %s'": [
+   1,
+   8119
+  ],
+  "main prints 'videopodcast-magic %s   %s\\n%s\\n'": [
+   1,
+   24182
+  ],
+  "print_audio_track_mapping prints '      GetAudioMapping   %s'": [
+   1,
+   11806
+  ],
+  "print_audio_track_mapping prints '\\n  TIMELINES'": [
+   1,
+   11826
+  ],
+  "print_presets prints 'Presets:'": [
+   1,
+   1705
+  ],
+  "print_production prints '  Status:      %s'": [
+   1,
+   3111
+  ],
+  "qt_cut_player.CutPlayer._switch_to prints '  player: programme %8.3f  picture %-32s at '": [
+   1,
+   22708
+  ]
  }
 }

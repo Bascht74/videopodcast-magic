@@ -125,7 +125,6 @@ def look(case, media, folder):
     # The environment is never built and the model is never fetched:
     # both would take hundreds of megabytes off the network.
     vpm.speaker_split_available = lambda deep=False: True
-    vpm.speaker_split_setup = lambda report=None: ""
     # A fixed mark, so the project file's separations still fit their
     # model whether or not this machine carries one.
     vpm.speaker_model_mark = lambda folder="": "testmark"

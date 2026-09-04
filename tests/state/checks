@@ -121,8 +121,11 @@ run_bar_tracks_work	29
 run_choice_kept	17
 run_command_built	62
 run_dry_reports_voices	13
-run_ffmpeg_new_enough	23
+run_ffmpeg_new_enough	25
 run_ffmpeg_not_fetched	8
+run_ffmpeg_offered	19
+run_install_is_watched	24
+run_log_within_reach	20
 run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	83
@@ -183,6 +186,7 @@ table_stereo_splits	5
 table_tick_keeps_camera	13
 text_german_arrives	11
 text_index_targets_exist	26
+text_lang_settled_first	6
 text_lists_match	25
 text_no_german_left	49
 text_only_texts_change	80
@@ -232,6 +236,7 @@ voice_questions_rank	28
 voice_raw_times_kept	70
 voice_source_travels	21
 voice_split_hears_two	8
+voice_split_names_fault	7
 voice_tracks_read_once	4
 voice_turns_found	6
 voice_words_intact	48

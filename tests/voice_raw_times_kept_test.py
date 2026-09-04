@@ -316,17 +316,26 @@ if worker is None:
     print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
     sys.exit(1 if bad else 0)
 body = [n for n in worker.body if isinstance(n, ast.FunctionDef)]
-first = [n for n in body if n.name == "main"][0].body[0]
+main_body = [n for n in body if n.name == "main"][0].body
+first = main_body[0]
 check("the first thing main does is switch the telemetry off",
-      isinstance(first, ast.If)
-      and "hush" in ast.dump(first.test), ast.dump(first.test)[:60])
-reports = [v.value for n in ast.walk(first) if isinstance(n, ast.Dict)
-           for v in n.values if isinstance(v, ast.Constant)]
+      "hush" in ast.dump(first), ast.dump(first)[:60])
+# What hush() answers is kept, and the refusal hangs on it. The word
+# "telemetry" is no longer looked for here on purpose: the switch
+# reports the fault it really met, and a package that will not load at
+# all is a different one from a package that will not be quietened.
+kept = (getattr(first.targets[0], "id", "")
+        if isinstance(first, ast.Assign) and first.targets else "")
+refusal = main_body[1]
+leaves = [n for n in ast.walk(refusal) if isinstance(n, ast.Return)]
 check("and without that switch it refuses to run",
-      "telemetry" in ast.dump(first),
-      "'telemetry' found %d times in that branch, wanted at least 1; "
-      "it reports %s"
-      % (ast.dump(first).count("telemetry"), reports))
+      isinstance(refusal, ast.If) and bool(kept)
+      and kept in ast.dump(refusal.test)
+      and any(isinstance(r.value, ast.Constant) and r.value.value
+              for r in leaves),
+      "what follows it is %s, hanging on %r, and it leaves with %s"
+      % (type(refusal).__name__, kept,
+         [getattr(r.value, "value", None) for r in leaves]))
 check("the waveform goes in, not the path",
       '"waveform"' in vpm.SPEAKER_SPLIT_WORKER
       and "16000" not in vpm.SPEAKER_SPLIT_WORKER,
@@ -417,13 +426,12 @@ def talk_recorder(python, worker, head, wave, environment, report,
 
 
 real = (vpm.speaker_model_folder, vpm.speaker_model_checked,
-        vpm.speaker_venv_python, vpm.speaker_worker_file,
+        vpm.speaker_python, vpm.speaker_worker_file,
         vpm.decode_audio, vpm._speaker_split_talk)
 # The four things the run wants in place before it decodes anything.
 vpm.speaker_model_folder = lambda: tone_folder
 vpm.speaker_model_checked = lambda folder="": ""
-vpm.speaker_venv_python = lambda folder="": os.path.join(tone_folder,
-                                                         "python")
+vpm.speaker_python = lambda: os.path.join(tone_folder, "python")
 vpm.speaker_worker_file = lambda: os.path.join(tone_folder, "worker.py")
 vpm.decode_audio = decode_recorder
 vpm._speaker_split_talk = talk_recorder
@@ -431,7 +439,7 @@ try:
     _segments, why = vpm.speaker_split_run(tone)
 finally:
     (vpm.speaker_model_folder, vpm.speaker_model_checked,
-     vpm.speaker_venv_python, vpm.speaker_worker_file,
+     vpm.speaker_python, vpm.speaker_worker_file,
      vpm.decode_audio, vpm._speaker_split_talk) = real
 last_asked = dtype_told(asked[-1]) if asked else "not called at all"
 check("the separation asks the decoder for float32",

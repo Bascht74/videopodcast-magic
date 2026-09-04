@@ -33,7 +33,10 @@ if [ -z "$PY" ]; then
 fi
 export VPM_PYTHON="$PY"
 echo "Python: $("$PY" -V 2>&1)"
-echo "Script: ${VPM_SCRIPT:-$(dirname "$HERE")/videopodcast_magic.py}"
+# Asked of the_program rather than spelled out again: the program moved
+# from one file into a folder once, and a path written down twice goes
+# stale in the copy nobody runs.
+echo "Script: $("$PY" -c 'import the_program; print(the_program.SCRIPT)')"
 
 # ffprobe counts the audio tracks in the camera files, and without it the
 # program falls back to a guess -- then red or green says something about
@@ -104,13 +107,9 @@ fi
 # here with a readable line instead of three tracebacks.
 echo
 if ! "$PY" - <<'PROBE'
-import os, sys, importlib.util
-script = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(os.getcwd()), "videopodcast_magic.py")
-spec = importlib.util.spec_from_file_location("vpm", script)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+import sys
+import the_program
+vpm = the_program.load()
 vpm.set_language("en")
 works, lines = vpm.check_resolve()
 for line in lines:

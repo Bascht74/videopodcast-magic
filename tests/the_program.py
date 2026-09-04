@@ -28,7 +28,7 @@ import sys
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
+    ROOT, "videopodcast_magic", "__init__.py")
 
 
 def load(name="vpm"):

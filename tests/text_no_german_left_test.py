@@ -15,12 +15,17 @@ import ast, io, os, re, sys, time
 began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
 import importlib.util
 sys.path.insert(0, os.path.dirname(
     os.path.abspath(__file__)))
 from fixture_root import fixture
+import the_program
+SCRIPT = the_program.SCRIPT
+# The program is a folder, so its file is called __init__.py and the
+# name alone says nothing. What a failing line names is the folder and
+# the file together.
+SHOWN = os.path.join(os.path.basename(os.path.dirname(SCRIPT)),
+                     os.path.basename(SCRIPT))
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
@@ -166,8 +171,7 @@ GERMAN_LETTERS = re.compile(r"[äöüÄÖÜß]")
 # empty string holds no umlaut and no abbreviation either, and the two
 # sections would report nothing wrong. Said here, so the cause is named.
 check("the program itself was read", source.count("\n") > 1000,
-      "%d lines in %s, wanted over 1000"
-      % (source.count("\n"), os.path.basename(SCRIPT)))
+      "%d lines in %s, wanted over 1000" % (source.count("\n"), SHOWN))
 hits = []
 for i, line in enumerate(source.splitlines(), 1):
     if GERMAN_LETTERS.search(line):
@@ -375,11 +379,19 @@ else:
     check("the German run says something at all", len(out) > 2000,
           "%d characters" % len(out))
     # Words that are English and not also German, and not a term the
-    # German text uses as it stands.
-    ENGLISH = re.compile(r"(?<![A-Za-z])(the|and|with|from|into|"
+    # German text uses as it stands. A hyphen counts as a letter on
+    # both sides, because a word glued to one belongs to a name and
+    # not to a sentence: the switch --with-libsoxr, the switch
+    # --without-auphonic, the cut rule wide-after. Measured 4.9.2026,
+    # so the price is known: of the 4877 lines of the English manual
+    # this pattern catches, eight fall out of its reach that way, and
+    # all eight are names. The limit is the other side of that -- an
+    # English line whose only word from the list is glued to a hyphen
+    # now goes through.
+    ENGLISH = re.compile(r"(?<![A-Za-z-])(the|and|with|from|into|"
                          r"which|would|there|their|because|"
                          r"before|after|between|through|without)"
-                         r"(?![A-Za-z])")
+                         r"(?![A-Za-z-])")
     left = []
     for line in out.splitlines():
         # Paths and file names carry English words and are not text.

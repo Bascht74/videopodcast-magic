@@ -1,16 +1,15 @@
 # -*- coding: utf-8 -*-
 """The German texts are a file of their own, and every way in brings them.
 
-The file beside the program holds the texts and the program holds none;
+The file inside the program holds the texts and the program holds none;
 nothing was lost in the move. Then the three ways the program is
 reached -- started by its path, read from an absolute path the way the
 tests do, imported by name from a folder on the search path -- each has
-to come up German, and the list pip installs by has to carry both
-files. Last the order: the language is settled only once the texts
-stand, so a machine set to German comes up German.
+to come up German, and the list pip installs by has to carry the folder
+they lie in. Last the order: the language is settled only once the
+texts stand, so a machine set to German comes up German.
 """
 import ast
-import glob
 import importlib.util
 import io
 import os
@@ -27,11 +26,15 @@ began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
-# The program reads its texts from beside itself, so this test looks in
-# the same place: against a snapshot that is the snapshot's own texts.
-TEXTS_DE = os.path.join(os.path.dirname(SCRIPT),
-                        "videopodcast_magic_texts_de.py")
+    ROOT, "videopodcast_magic", "__init__.py")
+# The program is a folder now, and it reads its texts out of a folder
+# inside it, so this test looks in the same place: against a snapshot
+# that is the snapshot's own texts.
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.py")
+# What a failing line names. The way in is called __init__.py, so its
+# bare name says nothing; the folder in front of it does.
+INSIDE = os.path.relpath(TEXTS_DE, os.path.dirname(SCRIPT))
+PROGRAM = os.path.basename(os.path.dirname(SCRIPT))
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 
 # What the catalogue held on the day it moved out of the program. A
@@ -66,8 +69,7 @@ def texts_of(path):
 print("1. The texts stand in a file of their own")
 there = os.path.exists(TEXTS_DE)
 check("the German texts are a file beside the program", there,
-      "%s beside %s: %s" % (os.path.basename(TEXTS_DE),
-                            os.path.basename(SCRIPT),
+      "%s inside %s: %s" % (INSIDE, PROGRAM,
                             "there" if there else "not there"))
 catalogue = texts_of(TEXTS_DE) if there else {}
 source = io.open(SCRIPT, encoding="utf-8").read()
@@ -84,7 +86,7 @@ check("the program itself carries no catalogue of texts", not back,
 check("nothing was lost on the way out of the program",
       len(catalogue) >= ENTRIES,
       "%d entries in %s, wanted %d or more"
-      % (len(catalogue), os.path.basename(TEXTS_DE), ENTRIES))
+      % (len(catalogue), INSIDE, ENTRIES))
 wanted = catalogue.get(COMPLAINT, "").split("%s")[0]
 # The three ways below read the run for this German wording. Without
 # it they would look for the empty string and find it every time.
@@ -132,18 +134,18 @@ check("read from an absolute path, the program speaks German",
       "T(%r) begins %r, wanted %r"
       % (COMPLAINT, got[:len(wanted) or 16], wanted))
 
-# The shape an installation has: every file of the program in one
-# folder, and the folder on the search path. A copy, so nothing is
-# imported twice here. What travels is named by its shape and never one
-# by one: a list would be right today and wrong the day a language is
-# added, and pip installs by shape too.
+# The shape an installation has: the program's folder under a folder on
+# the search path. A copy, so nothing is imported twice here. The whole
+# folder travels and never a list of files -- a list would be right
+# today and wrong the day a language is added, and pip ships the folder
+# too. models/ stays behind: 31 MB of speaker model that no way in here
+# reads, and pip does not ship it either.
 installed = os.path.join(work, "site")
 os.makedirs(installed)
-shutil.copy(SCRIPT, os.path.join(installed, "videopodcast_magic.py"))
-for near in sorted(glob.glob(os.path.join(os.path.dirname(SCRIPT),
-                                          "videopodcast_magic*.py"))):
-    if not os.path.samefile(near, SCRIPT):
-        shutil.copy(near, installed)
+shutil.copytree(os.path.dirname(SCRIPT),
+                os.path.join(installed, "videopodcast_magic"),
+                ignore=shutil.ignore_patterns("models", "__pycache__",
+                                              "*.log"))
 BY_NAME = ("import videopodcast_magic as v\n"
            "v.set_language('de')\n"
            "print(len(v.CATALOGUE['de']))\n"
@@ -160,29 +162,43 @@ check("imported by name, the program speaks German",
       % (byname.stdout.strip()[:40] or "nothing", byname.returncode))
 
 # What makes that third way true of a real installation. setuptools
-# takes a list of names and no pattern, so the list is held against the
-# program instead of against a name written down here: every language
-# the program takes in has to be on it, or an installed copy asks for a
-# file pip never brought and does not start.
-needed = ["videopodcast_magic"]
+# ships packages and leaves a stray folder lying, so every folder the
+# program reads out of needs a name of its own on the list -- and the
+# list is held against the program instead of against a name written
+# down here: a folder pip never brought leaves an installed copy
+# speaking English only.
+folders = set()
 for node in ast.walk(program):
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-            and node.func.id == "texts_of_language" and node.args \
-            and isinstance(node.args[0], ast.Constant):
-        needed.append("videopodcast_magic_texts_" + node.args[0].value)
+    if not (isinstance(node, ast.FunctionDef)
+            and node.name == "texts_of_language"):
+        continue
+    for bit in ast.walk(node):
+        # A folder and not merely a word that looks like one: it has to
+        # be a folder that really lies inside the program.
+        if isinstance(bit, ast.Constant) and isinstance(bit.value, str) \
+                and os.path.isdir(os.path.join(os.path.dirname(SCRIPT),
+                                               bit.value)):
+            folders.add(bit.value)
+needed = ["videopodcast_magic"] + ["videopodcast_magic." + one
+                                   for one in sorted(folders)]
 POM = os.path.join(ROOT, "pyproject.toml")
-# From the key to the closing bracket, not the first line: the list grew
-# past what fits on one, and reading only the first would have called
-# every name below it missing.
+# From the key to the closing bracket, not the first line: the list may
+# outgrow one line, and reading only the first would call every name
+# below it missing. "packages =" and not "packages", because the word
+# itself stands in the lines of reasoning above the list as well.
 whole = io.open(POM, encoding="utf-8").read()
 row = ""
-if "py-modules" in whole:
-    rest = whole.split("py-modules", 1)[1]
+if "packages =" in whole:
+    rest = whole.split("packages =", 1)[1]
     row = rest.split("]", 1)[0] if "]" in rest else rest
 short = [name for name in needed if '"%s"' % name not in row]
-check("pip is told to install every file the program loads", not short,
-      "%d of the %d files the program loads are not in py-modules: %s"
-      % (len(short), len(needed), short or "none"))
+# Without the second half this is green over a list of one the day the
+# search above finds no folder, and says nothing about the texts.
+check("pip is told to install every file the program loads",
+      not short and len(needed) > 1,
+      "the program plus %d folder(s) it reads out of, %d of those %d "
+      "names not in packages: %s"
+      % (len(folders), len(short), len(needed), short or "none"))
 
 # -------------------------------------------------------------- the order
 print("\n3. The language is settled after the texts stand")

@@ -12,16 +12,16 @@ import ast, io, os, re, sys, time
 began = time.time()
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-ROOT = os.path.dirname(HERE)
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
-# The German texts are a file of their own beside the program, and the
-# program reads them from there; this test looks in the same place, so
-# a snapshot run reads the snapshot's own texts.
-TEXTS_DE = os.path.join(os.path.dirname(SCRIPT),
-                        "videopodcast_magic_texts_de.py")
 sys.path.insert(0, HERE)
 import ratchet
+import the_program
+
+SCRIPT = the_program.SCRIPT
+# The German texts are a file of their own in the folder "language"
+# beside the way in, and the program reads them from there; this test
+# looks in the same place, so a snapshot run reads the snapshot's own
+# texts.
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.py")
 
 STATE = os.path.join(HERE, "state", "catalogue_shape_state.json")
 state = ratchet.Ratchet(STATE)

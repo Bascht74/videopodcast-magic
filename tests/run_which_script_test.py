@@ -8,7 +8,6 @@ there, it is the file that was loaded and not the one that was invoked,
 and last a second copy started in a folder of its own writes that
 folder's path into the header of its own log.
 """
-import glob
 import os
 import shutil
 import subprocess
@@ -86,19 +85,27 @@ check("it names the file that was loaded, not the one invoked",
 # --- and what a second copy writes into its own log -------------------
 
 lab = tempfile.mkdtemp(prefix="which-script-")
-copy = os.path.join(lab, "a-second-copy.py")
-shutil.copyfile(SCRIPT, copy)
-# The program is more than one file: its texts stand beside it, one
-# file per language, and the program reads them from there. So a copy
-# of the program alone is not a program. What comes along is named by
-# its shape and never one by one -- a list would be right today and
-# wrong the day a language is added, and this test would say the log
-# header was wrong when in truth the copy never started.
-for near in sorted(glob.glob(os.path.join(os.path.dirname(SCRIPT),
-                                          "videopodcast_magic*.py"))):
-    if not os.path.samefile(near, SCRIPT):
-        shutil.copyfile(near, os.path.join(lab, os.path.basename(near)))
-log = os.path.join(lab, "videopodcast-magic.log")
+# The program is a folder, not a file: its texts lie in a folder inside
+# it and it reads them from there, so a copy of the way in alone is not
+# a program. And the way in has to keep its name -- Python searches the
+# folder beside a file only for `__init__.py`. So what gets a name of
+# its own here is the folder, and the whole folder travels rather than
+# a list of files: a list would be right today and wrong the day a
+# language is added, and this test would say the log header was wrong
+# when in truth the copy never started. models/ stays behind, 31 MB of
+# speaker model that nothing here reads.
+#
+# And the log stays behind above all. A run writes its log beside the
+# program, so the working copy has one lying in it; carried along, it
+# would answer the two judgements below before the copy had written a
+# byte -- there is a log, and it is not empty. Measured: 5598 bytes of
+# it, from an earlier run.
+home = os.path.join(lab, "a-second-copy")
+shutil.copytree(os.path.dirname(SCRIPT), home,
+                ignore=shutil.ignore_patterns("models", "__pycache__",
+                                              "*.log"))
+copy = os.path.join(home, os.path.basename(SCRIPT))
+log = os.path.join(home, "videopodcast-magic.log")
 CODE = ("import importlib.util, sys\n"
         "s = importlib.util.spec_from_file_location('vpm', sys.argv[1])\n"
         "m = importlib.util.module_from_spec(s)\n"
@@ -119,7 +126,7 @@ size = os.path.getsize(log) if os.path.isfile(log) else -1
 check("that run leaves a log beside the copy it ran from",
       size > 0,
       "%r -- %d bytes, wanted more than 0, %d files in the folder"
-      % (log, size, len(os.listdir(lab))))
+      % (log, size, len(os.listdir(home))))
 
 head = []
 if size > 0:
