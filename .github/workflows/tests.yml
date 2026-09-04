@@ -41,7 +41,14 @@ permissions:
 
 jobs:
   suite:
-    name: ${{ matrix.os }} / py${{ matrix.python }}
+    # No slash in it, and that is the whole point. GitHub's list of
+    # jobs shows only the last piece after a slash, so six jobs called
+    # "<system> / py<version>" came out as py3.14 and py3.10 six times
+    # over -- and which system is which was nowhere. Read off a picture
+    # of the first release run, not measured; the next run says whether
+    # it holds. The short name is the reader's word for the machine, not
+    # the runner image's.
+    name: ${{ matrix.label }} py${{ matrix.python }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 30
     strategy:
@@ -61,16 +68,22 @@ jobs:
         # matter for anyone out there on 3.10 as well.
         include:
           - os: ubuntu-latest
+            label: Linux
             python: '3.14'
           - os: ubuntu-latest
+            label: Linux
             python: '3.10'
           - os: windows-latest
+            label: Windows
             python: '3.14'
           - os: windows-latest
+            label: Windows
             python: '3.10'
           - os: macos-latest
+            label: macOS
             python: '3.14'
           - os: macos-latest
+            label: macOS
             python: '3.10'
 
     env:
