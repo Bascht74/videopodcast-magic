@@ -161,14 +161,19 @@ in this project.
 it.** Everything finished first -- every file, every register, the whole
 suite green here -- then **one** push. Then wait, without adding
 anything. This was a rule about evidence and it is a mechanism now: the
-workflow asks GitHub for a *successful run of `tests.yml` on this very
-commit*, and a green run on the commit before it is no answer. A second
-commit pushed after the first therefore does not merely muddy the list
-of runs -- it moves the head the dispatch would run against, and the
-release stops at step 1 until the suite has answered for that commit
-too. (Read out of `publish.yml` and `tests.yml`, not measured: the run
-it asks about is the one job with the six-way matrix, `fail-fast:
-false`, so that run is successful only when all six were.)
+workflow **runs the suite itself**, on the commit the dispatch was
+started against, and makes the tag only where all six jobs came back.
+A second commit pushed after the first therefore does not merely muddy
+the list of runs -- it moves the head the next dispatch would run
+against, and the suite answers for that commit instead.
+
+**Why it runs the suite rather than asking whether somebody did.** The
+first build asked the API for a successful run of `tests.yml` on this
+commit. Measured 4.9.2026: a workflow called with `uses:` is part of
+the calling run and appears under **no run of its own**, so that
+question would have found nothing and every release would have stopped
+at it. Running the suite here answers the same thing without the
+question, and one word does the whole of a release.
 
 **Before the word, count what is left over.** The commonest way to break
 the one-run rule is not impatience, it is a file forgotten while
@@ -312,10 +317,10 @@ YAML:
 0. **The title is not empty.** First because it costs nothing -- no
    checkout, no network -- and the commonest wrong start is found in two
    seconds.
-1. **The suite is green on this very commit.** It asks GitHub for a
-   completed, successful run of `tests.yml` whose head is this commit,
-   and prints the newest one it found. No run, still running, or red:
-   stop.
+1. **The suite runs, here, on this commit.** `tests.yml` is called from
+   this workflow, so the six jobs are part of this run and answer for
+   the commit the dispatch was started against. Red on any of them:
+   no tag.
 2. **One version number.** The program and `pyproject.toml` each carry
    exactly one line to read, and the two say the same thing. The title
    does not repeat the number. Stop on any of the three.
