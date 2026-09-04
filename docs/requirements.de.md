@@ -82,8 +82,8 @@ dann kommt.
 
 **Zum Modell.** Die Stimmen einer Aufnahme auseinanderzuhalten ist die
 Sprechertrennung, und sie braucht ein trainiertes Modell. Das Programm
-holt es aus seinem eigenen Repository in den Ordner `models/` neben
-dem Programm. Es hält jede Datei gegen ihre SHA-256-Prüfsumme und
+holt es aus seinem eigenen Repository in den Ordner `models/` im Ordner
+des Programms selbst. Es hält jede Datei gegen ihre SHA-256-Prüfsumme und
 schreibt nur, was übereinstimmt.
 
 Die Trennung liest das Modell danach aus diesem Ordner, ohne Konto,

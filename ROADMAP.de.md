@@ -62,24 +62,24 @@ steht dort ebenfalls, mit der Uhrzeit — eine rote Marke ist weg, sobald
 ihre Zeile neu gezeichnet wird, und die Beschwerde darüber kommt Stunden
 später.
 
-Es ist ein Python-Programm: eine große Datei, `videopodcast_magic.py`,
-und daneben die Dateien, aus denen es seine Texte liest. Installiert
-wird es mit `pip3 install git+...`, zu bauen ist daran nichts. Die eine
-Datei zu holen und zu starten war bis zum 4.9.2026 der zweite Weg
-hinein und ist keiner mehr -- eine Kopie ohne die Dateien daneben
-bleibt schon beim Import stehen. Python 3.10 oder neuer muss da sein
+Es ist ein Python-Programm: ein Ordner, `videopodcast_magic/`, in dem
+eine große Datei liegt und daneben die Dateien, aus denen es seine
+Texte liest. Installiert wird es mit `pip3 install git+...`, zu bauen
+ist daran nichts. Eine einzelne Datei zu holen und zu starten war bis
+zum 4.9.2026 der zweite Weg hinein und ist keiner mehr -- eine Kopie
+ohne den übrigen Ordner bleibt schon beim Import stehen. Python 3.10 oder neuer muss da sein
 und `ffmpeg`, das kein Python ist und das Einzige, was pip nicht
 mitbringen kann; jedes Python-Paket, das es braucht, steht auf der
 Liste, die pip liest, und kommt mit der Installation. Benutzt wird es
 unter macOS und Windows, unter Linux läuft es mit zwei Einschränkungen.
 
-**Bis zum 4.9.2026 war es eine Datei, und es ist unterwegs zu
-mehreren.** Zuerst gingen die Texte heraus, je Sprache eine Datei; das
-Ziel ist ein Ordner `videopodcast_magic/` mit einer `__init__.py` und
-gar keiner `videopodcast_magic.py` mehr. Dort ist es noch lange nicht:
-heute ist es weiter eine große Datei mit ihren Texten daneben. Für
-jeden, der daran arbeitet, folgt daraus nur eines -- das Programm wird
-mit allen seinen Dateien kopiert, nie allein. Eine
+**Bis zum 4.9.2026 war es eine Datei, und jetzt ist es ein Ordner.**
+Zuerst gingen die Texte heraus, je Sprache eine Datei, und am selben
+Tag folgte der Rest: im Ordner liegen das Programm, die Sprachen und
+das Sprechermodell. Die große Datei darin ist weiter groß, und sie zu
+zerlegen ist die Arbeit, die weitergeht. Für jeden, der daran
+arbeitet, folgt daraus nur eines -- das Programm wird als Ordner
+kopiert, nie als die Datei darin. Eine
 Suite aus 220 Tests läuft bei jedem Push: sechs Läufe nebeneinander,
 drei Systeme und zwei Python-Versionen. Daneben liegen vier weitere,
 die ein echtes Resolve brauchen und nirgends sonst laufen können. Die sechs sind nicht gleich

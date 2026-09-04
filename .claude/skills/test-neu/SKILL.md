@@ -259,8 +259,10 @@ one day came from that one assumption, each in a different disguise:
   all six.
 * **A snapshot has nothing beside it.** Under `VPM_SCRIPT` the program
   is a copy in `/tmp`, and what the program looks for next to itself --
-  the speaker model, the log, the project file -- is not there. Two tests
-  sat out silently for months on that.
+  the log, the project file -- is not there. The speaker model is the
+  exception since 4.9.2026: it lies inside the program's own folder and
+  travels with a `cp -R` of it. Two tests sat out silently for months on
+  that.
 
 **The proof is a clone, and it costs one command:**
 
@@ -275,7 +277,7 @@ itself at once, here, instead of four minutes later on six machines.
 ## 9. Visible texts
 
 **What a user sees goes through `T()`, and the German lives in
-`videopodcast_magic_texts_de.py` beside the program.** If the check
+`language/de.py` inside the program's folder.** If the check
 brings a new string into the program, both sides change, or
 `text_no_german_left_test.py` turns red.
 

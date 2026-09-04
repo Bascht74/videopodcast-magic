@@ -4,31 +4,30 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, a first cut
 by speaker, and a DaVinci Resolve project.
 
-`videopodcast_magic.py` is the program, and beside it lie the text
-files it reads its languages out of -- `videopodcast_magic_texts_de.py`
-is the German one. There is nothing to build, and one way in:
+The folder `videopodcast_magic/` is the program. `__init__.py` in it is
+the program itself, `language/` beside that holds one file per language
+-- `language/de.py` is the German one -- and `models/` holds the
+speaker model. There is nothing to build, and one way in:
 `pip3 install git+...`, which is its own section further down.
-`pyproject.toml` makes a package of those modules and puts a
-`videopodcast-magic` command on the path. The names carry an underscore
-while the repository and the command carry a hyphen, because only an
-underscore can be imported.
+`pyproject.toml` makes a package of that folder and puts a
+`videopodcast-magic` command on the path. The folder carries an
+underscore while the repository and the command carry a hyphen, because
+only an underscore can be imported.
 
-**Fetching the one file and calling it is not a way in any more.** It
-was one until 4.9.2026, and older notes still say so. Measured that
-day:
-a `videopodcast_magic.py` on its own stops while it is being imported,
-with `FileNotFoundError` on `videopodcast_magic_texts_de.py` -- before
+**Fetching one file and calling it is not a way in any more.** It was
+one until 4.9.2026, and older notes still say so. Measured that day and
+again after the move: an `__init__.py` on its own stops while it is
+being imported, with `FileNotFoundError` on `language/de.py` -- before
 `main()` is ever reached, so there is nothing to see and nothing to
 fall back to.
 
-**It used to be one file, and it is being taken apart.** The catalogue
-went first, on 4.9.2026; the aim is a folder `videopodcast_magic/` with
-an `__init__.py` in it and no `videopodcast_magic.py` left at all. That
-is not where it stands today: today it is one large file with its texts
-beside it, and more cuts are to come. **So nothing here copies,
-checksums or ships "the script" any more** -- it takes every
-`videopodcast_magic*.py`. What happens when it does not is measured
-under *Running the tests*, and it is 210 red tests.
+**It used to be one file, and it is a folder now.** The catalogue went
+out first on 4.9.2026 and the rest followed the same day, so the aim
+described here for months is reached: a folder with an `__init__.py` in
+it and no single program file left. **So nothing here copies,
+checksums or ships "the script" any more** -- it takes the folder,
+whole. What happens when it does not is measured under *Running the
+tests*.
 
 **Working from outside, or opening a pull request? Read
 `CONTRIBUTING.md` first.** It holds the same rules in the form somebody
@@ -57,31 +56,44 @@ A test is green when it returns 0 and prints neither a traceback nor
 `source_no_loose_ends_test.py` and `text_whole_sentences_test.py`. Do not delete
 `tests/state/`.
 
-A full run takes a couple of minutes. Copy the script to a snapshot,
+A full run takes a couple of minutes. Copy the program to a snapshot,
 start the suite against that, and do the next thing:
 
 ```bash
-mkdir -p /tmp/snap && cp -R videopodcast_magic*.py /tmp/snap/
-ls /tmp/snap/          # empty? then the pattern has gone stale, see below
-mv /tmp/snap/videopodcast_magic.py /tmp/snap/vpm_sNN.py
-ln -sfn "$PWD/models" /tmp/snap/models       # or the run skips and returns 1
-(VPM_SCRIPT=/tmp/snap/vpm_sNN.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
+mkdir -p /tmp/snap && cp -R videopodcast_magic /tmp/snap/vpm_sNN
+(VPM_SCRIPT=/tmp/snap/vpm_sNN/__init__.py nohup bash run.sh > /tmp/suiteNN.log 2>&1 &)
 ```
 
-**Neither the link nor the star is optional**, and they fail in
-different ways.
+**The copy is a folder, and that is the whole of it.** The snapshot is
+not renamed any more and nothing is linked into it: the folder carries
+the number, and the languages and the model travel inside it. Measured
+on 4.9.2026 against a copy made by exactly these two lines: nine
+languages in it, `text_german_arrives` green, and
+`voice_split_hears_two` running rather than bowing out for want of a
+model.
 
-Without the link: what the program looks for beside itself is not beside
-the copy, and the speaker model is 33 MB -- so `voice_split_hears_two`
-bows out, the run skips twice where one is allowed, and it **returns 1
-with every check in it green**. Measured on 1.9.2026: two skips against a
-bare snapshot, one against the working file, and green with the link.
+**Copy the folder, not the file in it.** An `__init__.py` on its own
+looks for its texts in a `language/` that is not there and stops on the
+first one, and so does every test that loads it.
 
-Without the star: the catalogue is a file of its own beside the program
-now, loaded from the folder the program sits in. Copy the program alone
-and **210 of 223 tests go red at once** with a `FileNotFoundError` --
-measured 4.9.2026. Every `videopodcast_magic*.py` belongs beside the
-snapshot, and the star is what keeps that true as more of them appear.
+**And take the model with it, because it is free.** Measured on
+4.9.2026, three runs each, from this disc to `/tmp`: the whole folder is
+0.05 s and 36 MB, and leaving the 31 MB model out to link it back
+instead is 0.05 s and 4.2 MB. **Same time, so copy the lot** -- the
+link only adds a step that can be forgotten, and forgetting it eats the
+whole allowance: without a `models/` beside the copy,
+`voice_split_hears_two` bows out with *no separation model beside ...*,
+and the summary then reads *skips: 1 of at most 1 allowed* -- measured
+4.9.2026, so any second skip turns the run red.
+
+**The old pattern is gone, and it goes noisily.** The recipe here read
+`cp -R videopodcast_magic*.py` until 4.9.2026, and that matches nothing
+now. Measured the same day: under bash `cp` says `No such file or
+directory` and returns 1, zsh refuses the line itself with `no matches
+found`, `zip` warns `name not matched` and returns 12. So a stale
+pattern in an older note stops the person reading it rather than
+handing them an empty snapshot -- but it is stale, and what it means is
+the folder.
 
 ## What a release is
 
@@ -238,9 +250,9 @@ there, in front of somebody, asked rather than done.
 somebody asked for it.
 
 **English in the source, German from the catalogue.** Every user-visible
-string goes through `T()`; the German lives in
-`videopodcast_magic_texts_de.py` beside the program, keyed by the
-English wording, and is read from the folder the program sits in.
+string goes through `T()`; the German lives in `language/de.py` inside
+the program's folder, keyed by the English wording, and is read out of
+the folder the program sits in.
 Changing a string means changing both sides, or
 `text_no_german_left_test.py` turns red.
 
@@ -281,9 +293,18 @@ a floor: ffmpeg 9.0.1, below it nothing runs. It was set because 9 was
 what had been measured -- and it turned **all six builder jobs red at
 once**, because they carry 8.1.2. The measurement that then took five
 minutes says 8.1.2 hands the metadata through perfectly well. The
-floor stands at 8.1.2 today, on the owner's rule for where a floor
+floor went to 8.1.2 that day, on the owner's rule for where a floor
 belongs: **only what we know.** A floor says what we answer for; it
 does not claim that what lies below is broken.
+
+**It stands at 9.0.1 again since the evening of 4.9.2026 -- and how it
+got there is the whole lesson.** The same number, the opposite way
+round: first the program was given something to offer on all three
+systems, then the builders were measured and mended (Homebrew was
+serving 8.1.2 off a formula index frozen at image-build day), and only
+then did the floor rise. **A floor is raised last, never first.** What
+it costs to do it the other way was measured that morning: six red jobs
+in one push.
 
 **The two failures are one failure.** Both times something unmeasured
 was allowed to decide -- once for the old, once against it. Caution

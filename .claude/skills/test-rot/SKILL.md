@@ -43,17 +43,19 @@ straight from Python measures the environment, not the program.
 ### 2. The snapshot
 
 **`VPM_SCRIPT` points at a copy, and what lies beside the program does
-not lie beside the copy.** The speaker separation model is looked for
-under `os.path.dirname(__file__)/models/…`, the log file is put beside
-the program, the project file likewise.
+not lie beside the copy.** The log file is put beside the program, the
+project file likewise. The speaker separation model is looked for under
+`os.path.dirname(__file__)/models/…` too, and since 4.9.2026 that is
+inside the program's own folder -- so it travels with a `cp -R` of the
+folder, and is missing only from a copy that left part of it behind.
 
 Two tests sat out silently for months because of this — not red, but
 skipped, and a skipped test looks harmless in the summary.
 
 How it shows: a `SKIPPED:`, a "left a piece out", a path under
 `/tmp/snap/` in the message. The probe costs one run: the same test
-without `VPM_SCRIPT`, against the working file. If it goes green, it was
-the snapshot.
+without `VPM_SCRIPT`, against the working folder. If it goes green, it
+was the snapshot.
 
 ### 3. Beside the others, or alone?
 
