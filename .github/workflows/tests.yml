@@ -224,7 +224,12 @@ jobs:
             libxcb-cursor0 libxcb-icccm4 libxcb-keysyms1 libxcb-shape0 \
             libxcb-randr0 libxcb-render-util0 libxcb-image0 libxcb-sync1 \
             libxcb-xfixes0 libxcb-xkb1 libxcb-xinerama0 \
-            libfontconfig1 libfreetype6
+            libfontconfig1 libfreetype6 libpulse0
+          # libpulse0 is named here because QtMultimedia loads it and
+          # dies without it. It used to arrive as a by-catch of
+          # apt-get install ffmpeg; the static build brought that to
+          # light by not dragging it along. A dependency nobody names
+          # is one nobody can miss until it is gone.
 
       # Here, and not before the installations. Asked before them, this
       # step answered "ffmpeg: NOT THERE" in every job that has ever run
