@@ -9,14 +9,21 @@ in afterwards was cut off at the top and at the right.
 Sections: the column is wide enough for the two captions that must not
 wrap; a row grows to a text that wraps and comes back down when the
 cell is emptied; everything the cell can show, up to the longest report
-a separation can hand it, is readable in both languages; at the
-narrowest window the program allows, none of it has to be scrolled
-sideways; and a recording whose voices hang under it stays open while
-its cell is written.
+a separation can hand it, is readable in both languages; the same again
+in a font drawn as wide as the widest we build for; at the narrowest
+window the program allows, none of it has to be scrolled sideways; and
+a recording whose voices hang under it stays open while its cell is
+written.
 
 Measured offscreen on a tree built and filled by the same functions the
 window uses, so what is measured here and what is drawn there cannot
-drift apart.
+drift apart. The height a text needs is worked out here by the font's
+own bounding box, a different road from the one the program takes.
+
+What the cell is given has to be asked for and not left to the label's
+own offer, and that is a judgement of its own: the offer is right on
+this machine and was 14 px short on the Windows builder, so a run here
+can confirm the asking but never the offer.
 """
 import os
 import re
@@ -27,7 +34,7 @@ import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
-from PySide6 import QtWidgets
+from PySide6 import QtGui, QtWidgets
 
 app = QtWidgets.QApplication(sys.argv[:1])
 vpm = the_program.load()
@@ -50,6 +57,22 @@ def check(name, ok, extra=""):
 NARROWEST = int(re.search(r"window\.setMinimumSize\((\d+),",
                           the_program.text()).group(1))
 PATH = "/tmp/Presenter_2026-09-04.wav"
+# The same nominal font is drawn 1.89 times as wide on Windows as on
+# this Mac -- measured on the builder over both languages, and written
+# down beside WIDE_FONT in the program. A stretched font is that
+# difference and nothing else: the glyphs get wider, the line height
+# stays, which is exactly what makes a wrapping label need more lines
+# than its own size hint admits.
+WIDER = 189
+
+
+def in_a_wider_font(times):
+    """Draw everything from here on in a font that much wider."""
+    was = QtWidgets.QApplication.font()
+    wide = QtGui.QFont(was)
+    wide.setStretch(times)
+    QtWidgets.QApplication.setFont(wide)
+    return was
 
 
 def sheet(width):
@@ -109,12 +132,26 @@ def unreadable(mark):
 
     A wrapping label is cut at the top: it makes as many lines as it
     needs and the row shows the last of them. One that does not wrap
-    is cut at the right instead. Both read the same way to somebody
-    looking at it, so both come back as one number.
+    is cut at the right instead. The height it needs is worked out
+    here by the font's own bounding box for a wrapped paragraph --
+    a different road from the heightForWidth the program asks, so the
+    judgement is not the program's arithmetic handed back to it.
     """
-    if mark.wordWrap():
-        return mark.heightForWidth(max(1, mark.width())) - mark.height()
-    return mark.sizeHint().width() - mark.width()
+    if not mark.wordWrap():
+        return mark.sizeHint().width() - mark.width()
+    from PySide6 import QtCore
+    box = mark.fontMetrics().boundingRect(
+        QtCore.QRect(0, 0, max(1, mark.width()), 0),
+        QtCore.Qt.TextWordWrap, mark.text())
+    return box.height() - mark.height()
+
+
+def needs(mark):
+    """The height the wrapped text needs at the width the label has."""
+    from PySide6 import QtCore
+    return mark.fontMetrics().boundingRect(
+        QtCore.QRect(0, 0, max(1, mark.width()), 0),
+        QtCore.Qt.TextWordWrap, mark.text()).height()
 
 
 def missing_caption():
@@ -124,13 +161,15 @@ def missing_caption():
 def reported_caption():
     """The longest the cell can be made to show.
 
-    speaker_split_done hands it up to 200 characters of what the
-    separation itself reported, so short captions are not the whole of
-    what has to fit in there.
+    speaker_split_show cuts what the separation reported to 200
+    characters and hands the cell that, so short captions are not the
+    whole of what has to fit in there. Cut to the same 200 here, so
+    the longest case really is the one being measured.
     """
-    return vpm.T('The speaker separation reports: %s') % (
+    return (vpm.T('The speaker separation reports: %s') % (
         "ImportError: Can't determine version for bottleneck, raised "
-        "while the pipeline that tells voices apart was being built")
+        "while the pipeline that tells voices apart was being built "
+        "out of the models lying beside the program"))[:200]
 
 
 print("\n1. The column is measured for what it will hold")
@@ -170,7 +209,7 @@ holder.deleteLater()
 
 print("\n3. Everything the cell can show is readable, both languages")
 over = {"missing": [], "running": [], "counted": [], "reported": [],
-        "button": []}
+        "button": [], "asked": []}
 for language in ("en", "de"):
     vpm.set_language(language)
     holder, tree, cells, nodes = sheet(NARROWEST)
@@ -179,40 +218,86 @@ for language in ("en", "de"):
     over["missing"].append((language, unreadable(mark), mark.width(),
                             mark.height()))
     written(cells, busy=True)
-    over["running"].append((language, unreadable(mark), mark.width(),
-                            mark.height()))
+    over["running"].append((language,
+                            needs(mark) - mark.fontMetrics().height(),
+                            mark.width(), needs(mark)))
     over["button"].append((language,
                            button.sizeHint().width() - button.width(),
                            button.width(), button.sizeHint().width()))
     written(cells, found=2)
-    over["counted"].append((language, unreadable(mark), mark.width(),
-                            mark.height()))
+    over["counted"].append((language,
+                            needs(mark) - mark.fontMetrics().height(),
+                            mark.width(), needs(mark)))
     written(cells, reported_caption())
     over["reported"].append((language, unreadable(mark), mark.width(),
                              mark.height()))
+    over["asked"].append((language, needs(mark) - mark.minimumHeight(),
+                          mark.minimumHeight(), needs(mark)))
     holder.deleteLater()
 check("the sentence pointing at the log is readable in full",
       all(x[1] <= 0 for x in over["missing"]),
       "short by %s"
       % ["%s: %d px over in a label %dx%d" % x for x in over["missing"]])
-check("the running caption is readable beside its button",
+check("the running caption stands on one line beside its button",
       all(x[1] <= 0 for x in over["running"]),
-      "short by %s"
-      % ["%s: %d px over in a label %dx%d" % x for x in over["running"]])
-check("a finished count of speakers is readable in full",
+      "over one line by %s"
+      % ["%s: %d px, %d px wide, %d px of text" % x
+         for x in over["running"]])
+check("a finished count of speakers stands on one line",
       all(x[1] <= 0 for x in over["counted"]),
-      "short by %s"
-      % ["%s: %d px over in a label %dx%d" % x for x in over["counted"]])
+      "over one line by %s"
+      % ["%s: %d px, %d px wide, %d px of text" % x
+         for x in over["counted"]])
 check("a long reason from the separation is readable in full",
       all(x[1] <= 0 for x in over["reported"]),
       "short by %s"
       % ["%s: %d px over in a label %dx%d" % x for x in over["reported"]])
+check("the height a cell asks for is measured, not left to a guess",
+      all(x[1] <= 0 for x in over["asked"]),
+      "short by %s"
+      % ["%s: %d px, asked for %d of %d needed" % x
+         for x in over["asked"]])
 check("the button keeps its whole caption while a separation runs",
       all(x[1] <= 0 for x in over["button"]),
       "short by %s"
       % ["%s: %d px missing, %d px of %d" % x for x in over["button"]])
 
-print("\n4. Nothing has to be scrolled sideways")
+print("\n4. And in a font drawn as wide as the widest we build for")
+was_font = in_a_wider_font(WIDER)
+far = {"reported": [], "missing": [], "running": []}
+try:
+    for language in ("en", "de"):
+        vpm.set_language(language)
+        holder, tree, cells, nodes = sheet(NARROWEST)
+        _path, button, mark, _item = cells[0]
+        written(cells, reported_caption())
+        far["reported"].append((language, unreadable(mark), mark.width(),
+                                mark.height()))
+        written(cells, missing_caption())
+        far["missing"].append((language, unreadable(mark), mark.width(),
+                               mark.height()))
+        written(cells, busy=True)
+        far["running"].append((language,
+                               needs(mark) - mark.fontMetrics().height(),
+                               mark.width(), needs(mark)))
+        holder.deleteLater()
+finally:
+    QtWidgets.QApplication.setFont(was_font)
+check("a long reason is readable in the widest font we build for",
+      all(x[1] <= 0 for x in far["reported"]),
+      "in a font %d%% as wide, short by %s" % (WIDER,
+      ["%s: %d px over in a label %dx%d" % x for x in far["reported"]]))
+check("so is the sentence pointing at the log, in that font",
+      all(x[1] <= 0 for x in far["missing"]),
+      "short by %s"
+      % ["%s: %d px over in a label %dx%d" % x for x in far["missing"]])
+check("and the running caption still on one line, in that font",
+      all(x[1] <= 0 for x in far["running"]),
+      "over one line by %s"
+      % ["%s: %d px, %d px wide, %d px of text" % x
+         for x in far["running"]])
+
+print("\n5. Nothing has to be scrolled sideways")
 vpm.set_language("de")
 holder, tree, cells, nodes = sheet(NARROWEST)
 written(cells, missing_caption())
@@ -226,7 +311,7 @@ check("at the narrowest window the columns fit the width there is",
          tree.horizontalScrollBar().maximum(), NARROWEST))
 holder.deleteLater()
 
-print("\n5. A recording that is open stays open while its cell is written")
+print("\n6. A recording that is open stays open while its cell is written")
 # The voices hang under their recording, and the height of a row is put
 # right by laying the items out again -- which must not fold the tree
 # up under the hand that opened it.
