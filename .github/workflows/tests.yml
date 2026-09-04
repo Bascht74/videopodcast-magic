@@ -4,7 +4,14 @@ name: tests
 # of runs reads as a heap of unrelated sentences. A run is one thing --
 # the suite, on a commit -- and it says so, in the same shape every
 # time, with the number the list is ordered by.
-run-name: "suite #${{ github.run_number }} on ${{ github.ref_name }}"
+#
+# And since 4.9.2026 two suites go under this name: one with the speaker
+# separation in it and one without. A green run whose line does not say
+# which of the two it was is worth half a run, so the line says it, in
+# both directions -- "off" is written out rather than left to be
+# inferred from a missing word, because a reader who does not know the
+# default cannot read a silence.
+run-name: "suite #${{ github.run_number }} on ${{ github.ref_name }} -- separation ${{ (inputs.speaker_split == true || inputs.speaker_split == 'true') && 'on' || 'off' }}"
 
 on:
   # Branches only. A tag points at a commit the suite has already
@@ -21,13 +28,40 @@ on:
   # whole world's cron jobs start at once and the runners queue.
   schedule:
     - cron: '17 5 * * 1'
+  # The switch is written out twice below, once here and once under
+  # workflow_call, and the duplication is not an oversight. The two
+  # blocks are separate and inherit nothing from one another: declared
+  # under only one of them, the other way in has no such input at all,
+  # falls to the empty string, and comes out "off" -- green, and with
+  # nobody the wiser. So both carry it, with the same name, the same
+  # type and the same default, and publish.yml overrides the default
+  # rather than relying on it.
   workflow_dispatch:
+    inputs:
+      speaker_split:
+        description: >
+          Run the speaker separation as well. Off by default: pyannote
+          and torch are 828 MB and about two minutes of installing on
+          every one of the six jobs, and exactly one test uses them.
+          Every release turns it on.
+        type: boolean
+        default: false
   # Called by publish.yml, so that a release runs the suite itself
   # rather than asking whether somebody ran it earlier. The called
   # workflow runs on the caller's commit, which is the whole point:
   # what is tagged is what was tested, and nothing has to be held
   # against anything afterwards.
   workflow_call:
+    inputs:
+      speaker_split:
+        description: >
+          Run the speaker separation as well. publish.yml passes true,
+          because a release answers for the whole program. The default
+          is false so that this workflow behaves the same way whoever
+          calls it and however it is started.
+        type: boolean
+        required: false
+        default: false
 
 # A second push to the same branch makes the first run pointless.
 # The event is part of the group, or the weekly run would be cancelled
@@ -113,8 +147,64 @@ jobs:
       VPM_NO_SPEAKER_SPLIT: '1'
       VPM_NO_UPDATE_CHECK: '1'
 
+      # The switch, worked out once and read by every step below it.
+      #
+      # It is not VPM_NO_SPEAKER_SPLIT and must not be confused with it.
+      # That one is the program's own, it is set to 1 here and in
+      # run.sh whatever this run does, and it only keeps the program
+      # from starting the separation of its own accord. This one decides
+      # something else entirely: whether pyannote and torch are
+      # installed at all, and whether the one test that really runs the
+      # separation is in the folder.
+      #
+      # Three ways in and one expression for all three. Under
+      # workflow_dispatch and workflow_call the input is a real boolean,
+      # so the first half answers; started through the API or gh, the
+      # same input arrives as the string "true", which is why the second
+      # half is there -- GitHub casts across types by turning both sides
+      # into numbers, and 'true' is not a number, so 'true' == true is
+      # false. Under push, pull_request and schedule there is no input
+      # at all: the empty string, which is neither, and the run comes
+      # out off. Off is what a push should be, so the one case that
+      # cannot be measured from here is also the one where every reading
+      # gives the same answer.
+      SPEAKER_SPLIT: ${{ inputs.speaker_split == true || inputs.speaker_split == 'true' }}
+
     steps:
       - uses: actions/checkout@v5
+
+      # Before setup-python, because this file is one of the three the
+      # pip cache's key is hashed over, and it is the only one of them
+      # that says which of the two installations this run makes.
+      #
+      # Without it the key is the same for both, and the shape of what
+      # follows is one this house has already paid for once: the key
+      # used to hang on requirements-dev.txt alone, which had not
+      # changed since 22.8.2026, so every run hit the primary key and a
+      # hit is exactly the case in which nothing is written back. Here
+      # it would be a run with the separation getting the cache of a run
+      # without it -- no torch wheels in it, 828 MB fetched again,
+      # primary key hit, nothing saved, for ever. Both runs stay green
+      # throughout, which is why it has to be settled here rather than
+      # noticed later.
+      #
+      # Computed on this machine 4.9.2026 with @actions/glob's own
+      # hashFiles -- sha256 over the concatenated per-file sha256
+      # digests, in the order the paths are named:
+      #   speaker_split false   f4da26726aa831bb...
+      #   speaker_split true    8aa0145cb2efb3f1...
+      #
+      # In the workspace, and that is not a matter of taste. hashFiles
+      # walks past every file whose path does not begin with
+      # GITHUB_WORKSPACE and says so only in its own debug log -- so a
+      # marker under RUNNER_TEMP would be ignored, the other two files
+      # would still hash, the key would come out identical for both
+      # runs, and nothing anywhere would go red.
+      - name: "Record: whether this run installs the separation"
+        shell: bash
+        run: |
+          printf '%s\n' "$SPEAKER_SPLIT" > ci-speaker-split.txt
+          echo "speaker_split: $SPEAKER_SPLIT"
 
       # Both lists, and that is the whole point. The key of the pip cache
       # is a hash over the files named here, and requirements-dev.txt is
@@ -133,6 +223,10 @@ jobs:
       # 4f0debf968642fc2..., and hashing requirements-dev.txt alone here
       # gives the same digits, which is how the cause was pinned down
       # rather than guessed.
+      #
+      # And the third path is the switch, written down by the step
+      # above. Two installations under one key is the same defect in a
+      # new coat, and it is argued out where that file is written.
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
@@ -140,6 +234,7 @@ jobs:
           cache-dependency-path: |
             requirements-dev.txt
             requirements.txt
+            ci-speaker-split.txt
 
       # Git for Windows rewrites text files to CRLF on checkout. The model
       # beside the program carries a manifest of SHA-256 sums, and one of
@@ -378,7 +473,99 @@ jobs:
         shell: bash
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements-dev.txt
+
+          # With the separation on, the list is installed exactly as it
+          # is written and as it has always been. That path is not
+          # touched, so every measurement made against it still holds.
+          #
+          # With it off, the list is still the one list. It is not
+          # copied and there is no second file to keep in step -- a
+          # second file is a second truth, and it goes stale the first
+          # time somebody adds a package over there. requirements-dev.txt
+          # is flattened here, its "-r" lines pulled in where they stand,
+          # and the two packages that only the separation needs are
+          # struck out of the result. Add a package to either list and it
+          # arrives in both runs; the only thing named here is what is
+          # left out.
+          #
+          # And what is named here is held to being real. A filter that
+          # matches nothing removes nothing and says nothing about it --
+          # which is how a run would go on fetching 828 MB while its own
+          # line claimed the separation was off. So each name has to be
+          # struck for the step to go on, and the day requirements.txt
+          # spells one of them differently this stops rather than
+          # quietly installing everything.
+          if [ "$SPEAKER_SPLIT" = "true" ]; then
+            python -m pip install -r requirements-dev.txt
+          else
+            flat="$RUNNER_TEMP/requirements-flat.txt"
+            slim="$RUNNER_TEMP/requirements-ci.txt"
+            struck="$RUNNER_TEMP/requirements-struck.txt"
+            # The two the separation brings, and nothing else. torch is
+            # not among them because nothing names it: it comes in
+            # behind pyannote.audio, and it goes when pyannote.audio
+            # does. Whether it really went is not assumed here -- it is
+            # asked at the foot of this step, on the machine itself.
+            HEAVY="pyannote.audio torchvision"
+
+            dir=$(dirname requirements-dev.txt)
+            : > "$flat"
+            while IFS= read -r line || [ -n "$line" ]; do
+              case "$line" in
+                -r\ *|--requirement\ *|-r=*|--requirement=*)
+                  cat "$dir/${line#*[ =]}" >> "$flat" ;;
+                *)
+                  printf '%s\n' "$line" >> "$flat" ;;
+              esac
+            done < requirements-dev.txt
+            # One level of "-r" is all there has ever been, and this is
+            # what says so rather than assuming it: a second level would
+            # otherwise be handed to pip unexpanded, its packages never
+            # looked at, and the strike below would pass over them.
+            if grep -qE '^[[:space:]]*(-r|--requirement)([[:space:]]|=)' \
+               "$flat"; then
+              echo "FAIL: a -r line is still standing after"
+              echo "      requirements-dev.txt was flattened, so a list"
+              echo "      inside a list was not looked at and what it"
+              echo "      names has not been held against $HEAVY."
+              exit 1
+            fi
+
+            # The name is what stands before the version, the extras,
+            # the environment marker and any comment -- so pyannote.audio,
+            # pyannote.audio>=3.1, pyannote.audio[x] and
+            # "pyannote.audio ; sys_platform != 'win32'" are one and the
+            # same line to this. Measured here 4.9.2026 against all four
+            # spellings.
+            : > "$struck"
+            awk -v heavy="$HEAVY" -v struck="$struck" '
+              BEGIN { n = split(heavy, h, " ")
+                      for (i = 1; i <= n; i++) drop[tolower(h[i])] = 1 }
+              { name = $0
+                sub(/#.*$/, "", name)
+                sub(/[<>=!~;[].*$/, "", name)
+                gsub(/[[:space:]]/, "", name)
+                if (tolower(name) in drop) { print name >> struck; next }
+                print }
+            ' "$flat" > "$slim"
+
+            for name in $HEAVY; do
+              if ! grep -qix -- "$name" "$struck"; then
+                echo "FAIL: '$name' is to be left out of a run without the"
+                echo "      separation, and no line of requirements.txt"
+                echo "      names it any more. Either it was renamed or it"
+                echo "      is gone. Nothing was left out on its account,"
+                echo "      so this run would have installed the whole"
+                echo "      list while saying it did not."
+                exit 1
+              fi
+            done
+            echo "left out: $(tr '\n' ' ' < "$struck")"
+            echo "installing $(grep -c '' "$slim") lines of the" \
+                 "$(grep -c '' "$flat") in requirements-dev.txt"
+            python -m pip install -r "$slim"
+          fi
+
           python -c "import numpy, PySide6; \
             print('numpy', numpy.__version__); \
             print('PySide6', PySide6.__version__)"
@@ -396,16 +583,79 @@ jobs:
           # macOS job that suddenly takes minutes longer is read back
           # from this line rather than guessed at.
           #
-          # And on Linux and Windows no test touches pyannote at all,
-          # while the two of them fetch a torch of 529 MB and 118 MB
-          # for it (measured off the package index the same day). This
-          # is the only place there that ever asks whether what was
-          # fetched imports.
+          # On Windows nothing touches pyannote even with the switch on,
+          # because voice_split_hears_two is set aside there for its
+          # cost -- so this is the only place there that ever asks
+          # whether what was fetched imports at all. That job pays 136 s
+          # of installing (measured 4.9.2026 on run 33917380431) for a
+          # package no test on it opens, and whether it should keep
+          # paying is a question for the owner, not one this file
+          # settles.
           #
-          # Nothing here fails a job: where the import does not come,
-          # the test that wants it says so itself and skips.
-          python - <<'PY'
-          import time
+          # With the switch on, nothing here fails a job: where the
+          # import does not come, the test that wants it says so itself
+          # and skips. That is weaker than it looks and is written down
+          # rather than left standing -- run.sh allows one skip, the
+          # suite currently uses none, so a release whose torch quietly
+          # failed to import would go green with the separation never
+          # run. Making it fail here instead would want six logs read
+          # first, to know the import really does come on all six; until
+          # somebody has done that, an unmeasured guess must not be what
+          # turns releases red.
+          #
+          # With the switch off the direction turns round, and there the
+          # answer is worth a job. The saving is the whole point of the
+          # switch, so it is proved on the machine rather than argued
+          # for here: nothing of the separation may be installed. If one
+          # of the three ever turns up anyway, something else on the
+          # list has begun to pull it in, the two minutes are gone, and
+          # the run says so instead of going quietly green.
+          python - "$SPEAKER_SPLIT" <<'PY'
+          import re, sys, time
+
+          wanted = sys.argv[1] == "true"
+          HEAVY = ("torch", "torchvision", "pyannote.audio")
+
+
+          def flat(name):
+              """The one spelling a package has, whoever writes it down.
+
+              requirements.txt says pyannote.audio and the installed
+              package calls itself pyannote-audio -- measured here
+              4.9.2026, and it is exactly the trap this check is against:
+              held letter for letter, the name would never match, nothing
+              would ever be reported, and the step would pass whatever
+              was on the machine. So both sides are flattened the way the
+              packaging rule does it, runs of . _ - to one -, lower case.
+              """
+              return re.sub(r"[-_.]+", "-", name).lower()
+
+
+          if not wanted:
+              import importlib.metadata as md
+              heavy = {flat(n) for n in HEAVY}
+              here = set()
+              for dist in md.distributions():
+                  try:
+                      name = dist.metadata["Name"] or ""
+                  except Exception:
+                      continue
+                  if name and flat(name) in heavy:
+                      here.add(name)
+              if here:
+                  print("FAIL: this run was started with the speaker")
+                  print("      separation off, and %s"
+                        % ", ".join(sorted(here)))
+                  print("      %s installed all the same. Something else"
+                        % ("is" if len(here) == 1 else "are"))
+                  print("      on the list now pulls it in, so the two")
+                  print("      minutes this switch saves are gone and the")
+                  print("      names struck out above are no longer all")
+                  print("      of it.")
+                  raise SystemExit(1)
+              print("separation: not installed, and nothing here needs it")
+              raise SystemExit(0)
+
           began = time.time()
           try:
               import torch
@@ -446,8 +696,34 @@ jobs:
             echo "$1 -- $2" >> "$RUNNER_TEMP/aside.txt"
             n=$((n+1))
           }
-          # voice_split_hears_two is no longer in this list, and the
-          # reason it was here has run out rather than been argued
+          # The switch first, because it holds on all six and the
+          # systems below it do not.
+          #
+          # voice_split_hears_two is the only test that really runs the
+          # separation. The two others that name pyannote work with
+          # stand-ins and say so in their own first lines, and the rest
+          # of the suite only ever sets VPM_NO_SPEAKER_SPLIT -- so with
+          # the switch off, pyannote and torch were never installed and
+          # this one test is the whole of what cannot run.
+          #
+          # Taken out, not left to skip, and that is the rule of this
+          # step rather than a preference: run.sh allows one skipped
+          # test in the whole suite and the six jobs currently use none
+          # of that allowance. A test that quietly spent it would leave
+          # the suite green, the barrier used up, and the next test that
+          # really did stop checking with nothing left to catch it.
+          # Taken out it is counted, named, and printed under the run.
+          if [ "$SPEAKER_SPLIT" != "true" ]; then
+            aside voice_split_hears_two \
+              "this run was started with speaker_split off, so pyannote
+               and torch were not installed -- 828 MB and about two
+               minutes on each of the six jobs, for the one test that
+               uses them. Every release runs it: publish.yml calls this
+               workflow with speaker_split true. To run it here, start
+               this workflow by hand and turn the switch on."
+          fi
+          # voice_split_hears_two is no longer in the list below, and
+          # the reason it was there has run out rather than been argued
           # away. From 1.9.2026 it was set aside on all six, because
           # the separation then built an environment of its own in the
           # cache at first use -- 218 MB fetched by the program, and a
@@ -479,13 +755,23 @@ jobs:
                  nothing here for it to walk."
               ;;
             Windows)
-              aside voice_split_hears_two \
-                "the material reaches this machine now -- it is checked
-                 in -- so this is a price, not an impossibility. Windows
-                 sets the queue at 439-467 s against Linux's 213 s, and
-                 what the separation costs on a Windows CPU has not been
-                 measured. Linux runs it; measure this one and it can
-                 run here too."
+              # Two reasons can reach this one test -- the switch above
+              # and Windows' own cost -- and only one of them may be
+              # written under the run, or the summary says a thing was
+              # taken out twice. The switch spoke first where it holds,
+              # and it is the truer reason there: with it off the
+              # package is not on the machine at all, so the cost this
+              # line weighs was never paid. What is left here is the
+              # case where the switch was on.
+              if [ -f voice_split_hears_two_test.py ]; then
+                aside voice_split_hears_two \
+                  "the material reaches this machine now -- it is checked
+                   in -- so this is a price, not an impossibility. Windows
+                   sets the queue at 439-467 s against Linux's 213 s, and
+                   what the separation costs on a Windows CPU has not been
+                   measured. Linux runs it; measure this one and it can
+                   run here too."
+              fi
               aside source_resolve_recalled \
                 "it starts run.sh twice as a child and reads the closing
                  block out of it. On Windows the nested run comes back
@@ -570,6 +856,14 @@ jobs:
             echo
             echo '```'
             python -VV
+            # In the same words as the run's own name, so a reader who
+            # comes here from the list of runs finds the same sentence
+            # rather than having to work out that they mean each other.
+            if [ "$SPEAKER_SPLIT" = "true" ]; then
+              echo "separation: on  -- pyannote and torch installed"
+            else
+              echo "separation: off -- pyannote and torch not installed"
+            fi
             cat "$RUNNER_TEMP/ffmpeg.txt" 2>/dev/null || echo "ffmpeg:"\
               "the run did not get as far as saying"
             grep -E "^green:" "$S" 2>/dev/null || echo "the suite did not"\
