@@ -363,6 +363,50 @@ jobs:
           python -c "import numpy, PySide6; \
             print('numpy', numpy.__version__); \
             print('PySide6', PySide6.__version__)"
+          # Said, not demanded, the way the soxr line is said. Two
+          # things are worth reading back from here and nothing else
+          # writes them down.
+          #
+          # Which processor the separation gets is the whole difference
+          # between seconds and minutes for voice_split_hears_two.
+          # Measured 4.9.2026, Apple M4 Pro, on the 31 s of speech the
+          # test uses: 1.4 s of computing on mps against 13.1 s on the
+          # processor -- and both found the same six turns with the
+          # same worst edge, 0.091 s against the 0.30 s the test
+          # allows. So the processor is slower and not wrongly, and a
+          # macOS job that suddenly takes minutes longer is read back
+          # from this line rather than guessed at.
+          #
+          # And on Linux and Windows no test touches pyannote at all,
+          # while the two of them fetch a torch of 529 MB and 118 MB
+          # for it (measured off the package index the same day). This
+          # is the only place there that ever asks whether what was
+          # fetched imports.
+          #
+          # Nothing here fails a job: where the import does not come,
+          # the test that wants it says so itself and skips.
+          python - <<'PY'
+          import time
+          began = time.time()
+          try:
+              import torch
+              import pyannote.audio
+          except Exception as e:
+              print("pyannote: %s: %s" % (e.__class__.__name__, e))
+          else:
+              where = "cpu"
+              for name, ask in (("mps", lambda: torch.backends.mps.is_available()),
+                                ("cuda", lambda: torch.cuda.is_available())):
+                  try:
+                      if ask():
+                          where = name
+                          break
+                  except Exception:
+                      pass
+              print("pyannote %s, torch %s on %s, imported in %.1f s"
+                    % (getattr(pyannote.audio, "__version__", "?"),
+                       torch.__version__, where, time.time() - began))
+          PY
 
       # A test that cannot run here is taken out by name, with the reason
       # written beside it, and the count is printed. Nothing is taken out
@@ -383,22 +427,42 @@ jobs:
             echo "$1 -- $2" >> "$RUNNER_TEMP/aside.txt"
             n=$((n+1))
           }
-          # No runner can run this one: it needs the 218 MB pyannote
-          # environment, and a builder must not fetch that. Left to skip
-          # it would spend the run's one allowance on a test nobody
-          # expects to run here.
-          aside voice_split_hears_two \
-            "it separates a recording by voice, which wants a 218 MB
-             environment no runner installs. Set aside on all six rather
-             than skipping on all six."
+          # voice_split_hears_two is no longer in this list, and the
+          # reason it was here has run out rather than been argued
+          # away. From 1.9.2026 it was set aside on all six, because
+          # the separation then built an environment of its own in the
+          # cache at first use -- 218 MB fetched by the program, and a
+          # builder must not fetch that. Both halves have since moved:
+          # pyannote and torch stand in requirements.txt and go down in
+          # "Install: the Python packages" like everything else, and the
+          # model travels in git and is held against its manifest three
+          # steps up. Nothing is fetched for this test any more.
+          #
+          # What is left is the material, and it decides where the test
+          # can run. The two voices are really spoken, by say(1), which
+          # only macOS has -- so it is set aside under Linux and Windows
+          # below, and runs here on the Mac. Measured 4.9.2026 on run
+          # 33890253599, macos-latest / py3.14: the runner built the
+          # fixture itself, "twovoices built (Samantha, Daniel)", and
+          # finished with 0 of 1 allowed skips.
           case "$RUNNER_OS" in
             Linux)
+              aside voice_split_hears_two \
+                "it separates a recording of two voices really spoken,
+                 and say(1) writes them -- macOS only. Here the fixture
+                 is not built and the test would skip, spending the
+                 run's one allowance on a test that was never going to
+                 run."
               aside auphonic_key_kept \
                 "it writes into the Windows registry under
                  HKEY_CURRENT_USER. Linux has no registry, so there is
                  nothing here for it to walk."
               ;;
             Windows)
+              aside voice_split_hears_two \
+                "the same as on Linux: the two voices it listens to are
+                 spoken by say(1), and Windows has no say(1), so the
+                 fixture holding them is never built here."
               aside source_resolve_recalled \
                 "it starts run.sh twice as a child and reads the closing
                  block out of it. On Windows the nested run comes back
