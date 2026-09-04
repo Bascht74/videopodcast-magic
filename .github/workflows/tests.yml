@@ -501,6 +501,7 @@ jobs:
             flat="$RUNNER_TEMP/requirements-flat.txt"
             slim="$RUNNER_TEMP/requirements-ci.txt"
             struck="$RUNNER_TEMP/requirements-struck.txt"
+            both="$RUNNER_TEMP/requirements-sorted.txt"
             # The two the separation brings, and nothing else. torch is
             # not among them because nothing names it: it comes in
             # behind pyannote.audio, and it goes when pyannote.audio
@@ -537,17 +538,24 @@ jobs:
             # "pyannote.audio ; sys_platform != 'win32'" are one and the
             # same line to this. Measured here 4.9.2026 against all four
             # spellings.
-            : > "$struck"
-            awk -v heavy="$HEAVY" -v struck="$struck" '
+            # One pass, two answers, and the shell does both redirects.
+            # awk must not open a file itself here: RUNNER_TEMP on
+            # Windows is D:\a\_temp, and awk reads the backslash in a
+            # redirect target as an escape -- measured 5.9.2026, it tried
+            # to write to D:_temp and the step died. Reading a path given
+            # on the command line is unaffected.
+            awk -v heavy="$HEAVY" '
               BEGIN { n = split(heavy, h, " ")
                       for (i = 1; i <= n; i++) drop[tolower(h[i])] = 1 }
               { name = $0
                 sub(/#.*$/, "", name)
                 sub(/[<>=!~;[].*$/, "", name)
                 gsub(/[[:space:]]/, "", name)
-                if (tolower(name) in drop) { print name >> struck; next }
-                print }
-            ' "$flat" > "$slim"
+                if (tolower(name) in drop) { print "-\t" name; next }
+                print "+\t" $0 }
+            ' "$flat" > "$both"
+            sed -n 's/^-\t//p' "$both" > "$struck"
+            sed -n 's/^+\t//p' "$both" > "$slim"
 
             for name in $HEAVY; do
               if ! grep -qix -- "$name" "$struck"; then
