@@ -1,23 +1,22 @@
 # -*- coding: utf-8 -*-
-"""The ffmpeg the program insists on: new enough, and built with soxr.
+"""The ffmpeg the program insists on: new enough, and only that.
 
-Two conditions, not one. A build can be 9.0.1 and still be the wrong
-build: soxr is what the fine clock correction is made of, and without
-it the drift between cameras comes out in steps of 21 ppm instead of
-0.21 -- so the two faults are told apart and each gets its own
-sentence.
+One condition, not two. The floor is the oldest build measured to hand
+a camera file's boxes through a copy unchanged; soxr is no part of it,
+because a build without soxr takes the clock drift out in steps of
+21 ppm instead of 0.21 -- coarser, and coarser is not broken.
 
 The version is read off the line ffmpeg prints, so the reading is held
 against lines real builds really write -- Homebrew, evermeet, Debian,
 gyan, and one straight out of git that carries a commit where the
 number should be. Then in order: the floor itself, what the decision
 makes of a version above and below it, that both tools are asked and
-the old one named, that a build without soxr is refused by name, that
-what brew is offered names the tap and the option -- homebrew/core
-builds ffmpeg without soxr, so the plain command would install what
-the program complains about afterwards -- that installing and building
-again are different commands, and that the ways out -- --help,
---version, --update -- still answer while the gate is shut.
+the old one named, that a build without soxr still lets the run start,
+that what brew is offered names the tap and the option -- homebrew/core
+builds ffmpeg without soxr in any version, and soxr is what the fine
+clock correction is made of -- that installing and building again are
+different commands, and that the ways out -- --help, --version,
+--update -- still answer while the gate is shut.
 """
 import os
 import the_program
@@ -79,11 +78,11 @@ check("a build with no number in it yields no version",
                              "Copyright")[0],))
 
 # ---------------------------------------------------------------- the floor
-check("the floor is ffmpeg 9.0.1", m.FFMPEG_FLOOR == (9, 0, 1),
+check("the floor is ffmpeg 8.1.2", m.FFMPEG_FLOOR == (8, 1, 2),
       "the program says %s, this test %s"
-      % (m.version_text(m.FFMPEG_FLOOR), "9.0.1"))
-check("9.0.0 is under the floor and 9.0.1 is not",
-      (9, 0, 0) < m.FFMPEG_FLOOR <= (9, 0, 1),
+      % (m.version_text(m.FFMPEG_FLOOR), "8.1.2"))
+check("8.1.1 is under the floor and 8.1.2 is not",
+      (8, 1, 1) < m.FFMPEG_FLOOR <= (8, 1, 2),
       "floor %s" % m.version_text(m.FFMPEG_FLOOR))
 
 # ------------------------------------------------- what the decision makes
@@ -99,9 +98,10 @@ old_path = os.environ.get("PATH", "")
 def decide(answers, soxr=True):
     """find_required_tools() with the tools answering what they are told.
 
-    soxr is driven as well as the version, and not left to the ffmpeg
-    of the machine underneath: on one built without it every check
-    below would come back "soxr" and say nothing about the version.
+    soxr is driven as well as the version, although the decision does
+    not ask about it any more. That is the point: the check below is
+    then a statement about the program and not about the ffmpeg of the
+    machine underneath, which here has no soxr and elsewhere may.
     """
     m.tool_version = lambda tool: answers[tool]
     m.soxr_available = lambda: soxr
@@ -112,7 +112,7 @@ def decide(answers, soxr=True):
         m.soxr_available = real_soxr
 
 
-new = ((9, 0, 1), "9.0.1")
+new = ((8, 1, 2), "8.1.2")
 old = ((8, 0, 0), "8.0-tessus")
 none = (None, "N-120722-g230fafe68a")
 
@@ -139,25 +139,16 @@ check("a version that cannot be read is not a version above the floor",
       "said %r, %r" % (kind, says))
 
 # ------------------------------------------------------------- soxr
-# The second condition, and the reason it is one: soxr is what the fine
-# clock correction is made of. Without it the intermediate rate the
-# chain needs is out of reach and the drift comes out in steps of
-# 21 ppm instead of 0.21 -- a hundred times coarser, on the very thing
-# the program is for. A build can be new enough and still be that
-# build, so the version passing is not the whole answer.
+# Not a second condition, and this is where that is pinned down. soxr
+# is what the fine clock correction is made of: without it the drift
+# comes out in steps of 21 ppm instead of 0.21, a hundred times
+# coarser. Coarser is not broken, though, and Homebrew offers no build
+# that has soxr -- so such a build runs, and rate_filter_chain says
+# once what it costs. Anybody putting the refusal back finds this red.
 kind, says = decide({"ffmpeg": new, "ffprobe": new}, soxr=False)
-check("an ffmpeg above the floor built without soxr is refused too",
-      kind == "soxr", "said %r, %r -- wanted 'soxr'" % (kind, says))
-check("and the complaint names soxr rather than the version",
-      "soxr" in says and m.version_text(m.FFMPEG_FLOOR) not in says,
-      "said %r" % (says,))
-# Told apart, not lumped together: the two have different ways out, and
-# one wording for both would send somebody to upgrade a build that is
-# already the newest there is.
-kind_old, says_old = decide({"ffmpeg": old, "ffprobe": new}, soxr=False)
-check("too old and no soxr are two faults with two sentences",
-      kind_old == "old" and says_old != says,
-      "the old one said %r, the soxr one %r" % (kind_old, kind))
+check("an ffmpeg at the floor built without soxr still lets the run start",
+      kind == "", "said %r, %r -- wanted nothing, because a coarser clock "
+      "correction is a note and not a reason to refuse" % (kind, says))
 
 # ----------------------------------------- what brew is offered, exactly
 # Measured on 4.9.2026: homebrew/core builds ffmpeg without soxr, and
@@ -260,8 +251,7 @@ try:
     m._qt_widgets = lambda: Widgets
     m.shutil, m.sys.platform = OnlyBrew(), "darwin"
     for kind, sentence in (("missing", "ffmpeg, ffprobe is missing."),
-                           ("old", "Here: ffmpeg 8.0-tessus."),
-                           ("soxr", "This ffmpeg was built without soxr.")):
+                           ("old", "Here: ffmpeg 8.0-tessus.")):
         m.TOOL_TROUBLE = (kind, sentence)
         Box.made = []
         app = Application()
@@ -288,22 +278,16 @@ check("the box offers building it again where one is there but too old",
       offered("old") == " ".join(mac_again),
       "the box offers %r, the console %r"
       % (offered("old"), " ".join(mac_again)))
-check("the box offers building it again where soxr is what is missing",
-      offered("soxr") == " ".join(mac_again),
-      "the box offers %r, the console %r -- an ffmpeg that is there and "
-      "only built wrong is not installed a second time"
-      % (offered("soxr"), " ".join(mac_again)))
 # Two claims, so two checks: a conjunction only one half of which has
 # ever been seen red says nothing about the other half.
-SAID = ["ffmpeg, ffprobe is missing.", "Here: ffmpeg 8.0-tessus.",
-        "This ffmpeg was built without soxr."]
+SAID = ["ffmpeg, ffprobe is missing.", "Here: ffmpeg 8.0-tessus."]
 check("the box shows the complaint itself, not a wording of its own",
       [box.shown for box, _a in boxes.values()] == SAID,
       "shown %r, wanted %r"
       % ([b.shown[:34] for b, _a in boxes.values()],
          [s[:34] for s in SAID]))
 check("and the run ends behind the box, whatever was answered",
-      [app.quit_asked for _b, app in boxes.values()] == [1, 1, 1],
+      [app.quit_asked for _b, app in boxes.values()] == [1, 1],
       "quit asked %r -- what the start looked for has changed under it, "
       "so a window left standing would go on with the old answer"
       % ([a.quit_asked for _b, a in boxes.values()],))

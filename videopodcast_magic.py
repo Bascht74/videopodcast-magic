@@ -194,10 +194,11 @@ def channel_text(count):
 INSTALL_TOOLS = bool(os.environ.get("VPM_INSTALL_TOOLS"))
 
 
-# A condition, not a wish: ffmpeg 9.0.1 is the first that hands a
-# camera's sample description and colour box through a copy unchanged,
-# and what this program promises about metadata rests on that.
-FFMPEG_FLOOR = (9, 0, 1)
+# The oldest build measured: 8.1.2 hands a camera's sample
+# description, colour box and data track through a copy unchanged.
+# Older ones may too -- nobody has tried, and a floor stands where the
+# measuring stopped rather than where the guessing does.
+FFMPEG_FLOOR = (8, 1, 2)
 
 
 def version_text(numbers):
@@ -269,10 +270,9 @@ def _have_soxr():
 def soxr_available():
     """Whether this ffmpeg can resample with soxr, asked once.
 
-    Two callers and one answer: the check at the start, which refuses
-    to run without it, and the filter chain, which is what needs it.
-    The measurement costs 23 ms -- half of what asking both tools their
-    version costs -- so the start can afford it.
+    One caller, the filter chain, and it asks per track -- so the
+    answer is kept rather than measured again. The measurement costs
+    23 ms.
     """
     global _SOXR
     if _SOXR is None:
@@ -281,14 +281,14 @@ def soxr_available():
 
 
 def find_required_tools():
-    """Locate ffmpeg and ffprobe, and check they are good enough.
+    """Locate ffmpeg and ffprobe, and check they are new enough.
 
-    Two conditions, not one: new enough, and built with soxr -- a build
-    can be 9.0.1 and still take the clock drift out a hundred times too
-    coarsely, so the two are separate faults with separate ways out.
-    Returns ("", "") where all is well, else which of "missing", "old"
-    and "soxr" it is and the sentence for it. Nothing is printed here:
-    whether a console or the window will show it is not yet known.
+    soxr is no part of it: a build without soxr takes the clock drift
+    out a hundred times more coarsely, and coarser is not broken --
+    rate_filter_chain says so once where it matters. Returns ("", "")
+    where all is well, else which of "missing" and "old" it is and the
+    sentence for it. Nothing is printed here: whether a console or the
+    window will show it is not yet known.
     """
     here = os.path.dirname(os.path.abspath(__file__))
     missing = [tool for tool in ("ffmpeg", "ffprobe") if shutil.which(tool) is None]
@@ -302,11 +302,6 @@ def find_required_tools():
         return "old", T('Here: %s. Needed: %s or newer.') % (
             ", ".join("%s %s" % (tool, says) for tool, says in old),
             version_text(FFMPEG_FLOOR))
-    if not soxr_available():
-        return "soxr", T('This ffmpeg was built without soxr. The clock '
-                         'drift between the cameras could then only be '
-                         'taken out in steps of 21 ppm instead of 0.21 -- '
-                         'a hundred times coarser.')
     return "", ""
 
 
@@ -327,7 +322,7 @@ def tools_repaired(kind, says, asked=False):
     if install_over_package_manager(update=kind != "missing", asked=asked):
         # Asked again, not taken on trust: a package manager can report
         # success having just laid down an ffmpeg that is still too old
-        # for this, or one built without soxr.
+        # for this.
         kind, says = find_required_tools()
         if not kind:
             print(T('That worked.'))
@@ -359,9 +354,9 @@ QUIET_MANAGER = {
 
 
 # Not plain "ffmpeg": measured 4.9.2026, homebrew/core builds it
-# without soxr, and soxr is what the fine clock correction is made of.
-# The tap has it as an option, so the tap and the option are part of
-# the command or the program installs what it refuses afterwards.
+# without soxr in every version, and soxr is what the fine clock
+# correction is made of. So the tap and the option belong to the
+# command, or the correction works in steps a hundred times coarser.
 BREW_FFMPEG = ("homebrew-ffmpeg/ffmpeg/ffmpeg", "--with-libsoxr")
 
 

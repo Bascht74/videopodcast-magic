@@ -36,14 +36,11 @@ nicht.
 
 ### Changed
 
-- **ffmpeg 9.0.1 or newer is required now.** Below it the window opens
+- **ffmpeg 8.1.2 or newer is required now.** Below it the window opens
   and stays empty: adding files, opening a project and the run itself
-  are barred. Only from version 9 on is it known what of a camera file
-  arrives unchanged, and carrying that through is half the work.
-- **That ffmpeg has to be built with soxr.** Without it the clock drift
-  between two cameras can only be taken out in steps of 21 ppm instead
-  of 0.21, a hundred times coarser. The program says which of the two is
-  wrong and names the command that puts it right.
+  are barred. 8.1.2 is the oldest build measured to hand a camera
+  file's colour box, recording curve and Dolby Vision entries through
+  unchanged.
 - A release does not carry the program as one file any more. Installing
   is `pip3 install git+...`, and pip brings every file; the release page
   carries an archive of them beside its checksums.
@@ -88,15 +85,11 @@ nicht.
 
 ### Geändert
 
-- **ffmpeg 9.0.1 oder neuer ist jetzt Voraussetzung.** Darunter geht das
+- **ffmpeg 8.1.2 oder neuer ist jetzt Voraussetzung.** Darunter geht das
   Fenster auf und bleibt leer: Dateien hinzufügen, ein Projekt öffnen
-  und der Lauf selbst sind gesperrt. Erst ab Fassung 9 ist bekannt, was
-  aus einer Kameradatei unverändert ankommt, und das durchzureichen ist
-  die halbe Arbeit.
-- **Dieses ffmpeg muss mit soxr gebaut sein.** Ohne das lässt sich der
-  Uhrengang zwischen zwei Kameras nur in Schritten von 21 ppm statt 0,21
-  herausrechnen, also hundertmal gröber. Das Programm sagt, welches von
-  beiden nicht stimmt, und nennt den Befehl, der es richtigstellt.
+  und der Lauf selbst sind gesperrt. 8.1.2 ist die älteste Fassung, an
+  der nachgemessen wurde, dass Farbkasten und Dolby-Vision-Angaben einer
+  Kameradatei unverändert durchkommen.
 - Eine Freigabe trägt das Programm nicht mehr als eine Datei.
   Installiert wird mit `pip3 install git+...`, und pip holt alle Dateien;
   die Freigabeseite trägt statt dessen ein Archiv davon neben den

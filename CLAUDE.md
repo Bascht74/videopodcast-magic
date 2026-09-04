@@ -265,13 +265,30 @@ a thing as it is: **who asked for this case, and who measured it?** If
 the answer to both is nobody, what falls away is the recommendation,
 not the thing.
 
-Measured on 4.9.2026, and this is why it is written down: `+write_colr`
-was to stay because an older ffmpeg "might" behave as the comment
-beside it claimed. Only ffmpeg 9 had been measured. Nobody was running
-an older one, nobody had asked, and the risk was invented on the spot
--- then allowed to decide. The owner's answer took one line: ffmpeg
-9.0.1 becomes the floor, and below it nothing runs but the download.
-**Supporting old versions is a position, not ground.**
+Measured on 4.9.2026, and it went wrong twice in one day over the same
+tool, in opposite directions -- which is why it is written down at
+length.
+
+**First, to keep something.** `+write_colr` was to stay because an
+older ffmpeg "might" behave as the comment beside it claimed. Only
+ffmpeg 9 had been measured. Nobody was running an older one, nobody had
+asked, and the risk was invented on the spot, then allowed to decide.
+The owner's answer: **supporting old versions is a position, not
+ground.**
+
+**Then, to shut something out.** Out of the same unmeasured place came
+a floor: ffmpeg 9.0.1, below it nothing runs. It was set because 9 was
+what had been measured -- and it turned **all six builder jobs red at
+once**, because they carry 8.1.2. The measurement that then took five
+minutes says 8.1.2 hands the metadata through perfectly well. The
+floor stands at 8.1.2 today, on the owner's rule for where a floor
+belongs: **only what we know.** A floor says what we answer for; it
+does not claim that what lies below is broken.
+
+**The two failures are one failure.** Both times something unmeasured
+was allowed to decide -- once for the old, once against it. Caution
+that points outward and caution that points inward are the same
+mistake, and neither is safer than the other.
 
 **And the surroundings are rarely as fixed as they look.** An old
 version, a foreign tool, an operating system: those are mostly

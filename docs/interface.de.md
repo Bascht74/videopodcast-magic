@@ -807,7 +807,7 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
 
 - **Das Fenster bleibt leer, und es lässt sich nichts hineinlegen**:
   dann fehlen `ffmpeg` und `ffprobe`, oder das ffmpeg dieser Maschine
-  ist älter als 9.0.1. Nichts, was die beiden braucht, geht dann noch —
+  ist älter als 8.1.2. Nichts, was die beiden braucht, geht dann noch —
   Dateien hinzufügen, ein Projekt öffnen, die Zeitachse messen, ein
   Lauf. Die Meldung nennt die gefundene Fassung und die, die gebraucht
   wird; [Was gebraucht wird](requirements.de.md#woher-ffmpeg-kommt)

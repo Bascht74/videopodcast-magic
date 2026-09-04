@@ -2266,12 +2266,6 @@ TEXTS = {
         'Beenden',
     'That worked.':
         'Das hat geklappt.',
-    'This ffmpeg was built without soxr. The clock drift between the '
-    'cameras could then only be taken out in steps of 21 ppm instead of '
-    '0.21 -- a hundred times coarser.':
-        'Dieses ffmpeg wurde ohne soxr gebaut. Der Uhrengang zwischen den '
-        'Kameras ließe sich dann nur in Schritten von 21 ppm statt 0,21 '
-        'herausrechnen -- hundertmal gröber.',
     'Not mandatory -- YouTube then applies default values (Sony BVM-X300). '
     'To get them: in Resolve switch on HDR10+ under Color Management, run '
     '"Analyze All Shots" on the Color page and tick "Embed HDR10 Metadata" '
