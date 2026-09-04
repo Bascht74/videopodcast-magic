@@ -71,8 +71,8 @@ a number means anything.
 
 ## The mechanics, in this order
 
-**Set the number.** `VERSION = "..."` in `videopodcast_magic.py`, around
-line 700. The same number stands as the topmost numbered section in
+**Set the number.** `VERSION = "..."` in the program itself,
+`videopodcast_magic/__init__.py`, around line 930. The same number stands as the topmost numbered section in
 `CHANGELOG.md`, and as `**Version ....**` in `README.md`,
 `README.de.md`, `ROADMAP.md` and `ROADMAP.de.md`.
 `tests/text_release_ready_test.py` holds those six against each other.
@@ -115,6 +115,89 @@ the whole thing. Look at every remaining line and say out loud why it
 stays -- a state file another strand owns is a reason; "I did not see
 it" is the fault this check exists for. It has happened: `tests/resolve.sh`
 was missed, reached as a second commit, and killed the first run.
+
+**And before that push, count what git cannot see.** `git status`
+answers for the files git knows about. A package is not built out of
+git: setuptools builds it out of this folder and keeps a `build/`
+beside it that `.gitignore` hides -- and **setuptools uses that folder
+again instead of building afresh**, so whatever lay in it last time
+goes into the new package too.
+
+Measured 4.9.2026, the day the program became a folder: `pip3 wheel
+--no-deps .` in a checkout still holding the morning's `build/lib/`
+came out with 21 files -- the new package, and beside it the
+`videopodcast_magic.py` and the nine `videopodcast_magic_texts_*.py`
+that do not exist any more. After
+`rm -rf build videopodcast_magic.egg-info`: 11 files. **git was clean,
+the working tree was clean, and only the package was wrong.** Nothing
+would have shown it.
+
+So what is lying about goes:
+
+```bash
+rm -rf build dist ./*.egg-info
+```
+
+and then the package is built and looked into. **Always `--no-deps`**:
+without it pip builds every dependency as well, and torch alone is
+536 MB.
+
+```bash
+rm -rf /tmp/vpm-wheel
+pip3 wheel --no-deps . -w /tmp/vpm-wheel
+
+find videopodcast_magic \( -name models -o -name __pycache__ \) -prune \
+     -o -name '*.py' -print | LC_ALL=C sort > /tmp/vpm-here.txt
+python3 - /tmp/vpm-wheel/*.whl <<'PY' | LC_ALL=C sort > /tmp/vpm-inside.txt
+import sys, zipfile
+for name in zipfile.ZipFile(sys.argv[1]).namelist():
+    if not name.endswith("/") and ".dist-info/" not in name:
+        print(name)
+PY
+[ -s /tmp/vpm-here.txt ] \
+  || echo "FAIL  no .py file under videopodcast_magic/ -- wrong folder?"
+diff /tmp/vpm-here.txt /tmp/vpm-inside.txt \
+  && echo "ok    the package is the program and nothing else" \
+  || echo "FAIL  < is missing from the package, > does not belong in it"
+
+rm -rf build dist ./*.egg-info /tmp/vpm-wheel
+```
+
+**Tidying up is a request to the next person; looking inside is the
+answer.** Which is why the second block does not tidy first: it builds
+out of whatever is lying here, so a `build/` the line above did not
+reach -- a second checkout, the wrong folder, a build made in
+between -- comes out red rather than quietly right. And it clears up
+after itself, because a check that leaves a `build/` behind lays the
+trap it exists for.
+
+**It asks after the shape, not the number.** Eleven files is today; a
+tenth language tomorrow is a file in `language/` and travels by itself,
+and a written-down eleven would turn a good release red. `models/` and
+`__pycache__` are pruned on this side for the same reasons as in the
+archive: 31 MB of speaker model that the program fetches itself, and
+bytecode that is not in the repository at all. `*.py` is what
+setuptools ships out of a package that declares no data of its own; the
+day it declares some, this line names it too.
+
+**Both directions at once, and one case is not covered here.** Measured
+4.9.2026 on copies: a `build/lib/` holding a stale
+`videopodcast_magic_texts_de.py` comes out as
+`> videopodcast_magic_texts_de.py`, by name; and a `pyproject.toml`
+whose `packages` has lost `videopodcast_magic.language` comes out as
+ten `<` lines -- which is the only place that fault is caught at all,
+because the archive is built out of the folder and pip's own
+`--version` answers in English either way. What it does not see is a
+file gone from the folder itself: then both sides lack it and the diff
+is content. `git status` answers for that one, which is why it stands
+above this and not instead of it.
+
+**Not in `.github/workflows/release.yml`, and that is the whole
+point.** The runner checks the tag out fresh and installs from a git
+URL, so a `build/` from last time cannot exist there -- the check would
+be green for ever, on a machine where the fault cannot happen. It has
+to be asked here, on the disc where the folder lies, and before the
+push rather than after the tag.
 
 **Then wait** until the suite is green on all six jobs. Only then the
 tag. **It is `v` plus the number in the program, letter for letter** --
@@ -165,7 +248,8 @@ the checkout, and the tree clean:**
 
 ```bash
 rm -f /tmp/videopodcast_magic.zip /tmp/SHA256SUMS.txt
-zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic*.py
+zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic \
+    -x '*/__pycache__/*' '*/.DS_Store' '*.log' 'videopodcast_magic/models/*'
 ( cd /tmp && shasum -a 256 videopodcast_magic.zip > SHA256SUMS.txt )
 
 gh release create v2.5.0-beta \
@@ -177,18 +261,31 @@ gh release create v2.5.0-beta \
 **The `rm -f` is not tidiness.** `zip` adds to an archive that is
 already there instead of replacing it, so without it a second attempt
 ships yesterday's files beside today's and nothing says so. And from
-the top of the checkout, so the names inside are bare: whoever unpacks
-it has the program in a folder of their choosing and it starts there.
+the top of the checkout, so the folder inside is named
+`videopodcast_magic/`: whoever unpacks it has the program in a folder
+of their choosing and it starts there.
+
+**The four exclusions are not tidiness either, and one of them is the
+rule.** Measured 4.9.2026, zipping the folder plainly: 32 085 423
+bytes and 42 files, against 593 059 and 13 with them. Three sweep in
+junk -- `.DS_Store`, the compiled `__pycache__`, and the 31 MB speaker
+model, which is fetched rather than shipped. The fourth is why this
+paragraph is in bold: **an uninstalled run writes its log beside the
+program**, so `videopodcast_magic/videopodcast-magic.log` lies in the
+folder on any machine the program has been started on -- and on this
+machine that log holds the file names of a real production. `.gitignore`
+keeps it out of git; only `-x '*.log'` keeps it out of the archive.
 
 **An archive and not a file, since 4.9.2026.** The texts of each
-language stand in files beside the program that day, and the program
-alone does not start -- `FileNotFoundError` on the first line, measured.
-So all of it goes up or none of it does.
+language stand in a folder beside the program that day, and the program
+alone does not start -- `FileNotFoundError` on `language/de.py` during
+the import, measured. So all of it goes up or none of it does.
 
 **And an archive of the program, not of the repository.** GitHub hangs
 "Source code (zip)" on every release by itself: 63 735 119 bytes,
-because the whole tree is in it. The ten files of the program came to
-588 141 (measured 4.9.2026). That small one is what "the state of the
+because the whole tree is in it. The program's own files came to
+593 059 (measured 4.9.2026, after the move to a folder; 588 141 the
+same day, before it). That small one is what "the state of the
 program" means, and it is the reason to attach anything at all --
 **installing is `pip3 install git+...` and nothing else**, so the
 attachment documents a state rather than offering a way in. The owner,
@@ -205,15 +302,15 @@ name it letter for letter, the way `SHA256SUMS.txt` is named, and a
 name built out of the tag would have to be built the same way in three
 places.
 
-**The star picks by shape, and that is the whole of the maintenance.**
-A language added tomorrow is a file matching `videopodcast_magic*.py`
-and travels by itself. The day the program becomes a folder
-`videopodcast_magic/`, **this line is the one that changes** --
-`zip -X -r /tmp/videopodcast_magic.zip videopodcast_magic` -- and the
-workflow follows by itself, because it lists what is at the tag rather
-than holding a list of its own. What does not follow by itself that day
-is the `starts:` job in the workflow and the fetch in
-`tests/first_run.sh`: both ask github.com for names ending in `.py`.
+**The folder picks by place, and that is the whole of the maintenance.**
+A language added tomorrow is a file in `language/` and travels by
+itself; so does a piece cut out of the big file into a module beside
+it. That day came on 4.9.2026, and this line was what changed: it named
+a pattern of file names and names the folder now. The workflow follows
+by itself, because it lists what is at the tag rather than holding a
+list of its own. What does not follow by itself is the `starts:` job in
+the workflow and the fetch in `tests/first_run.sh`: both ask github.com
+for names ending in `.py`.
 
 **Two files hang on a release: the archive and the sum of it.** The sum
 is made from the archive that is about to go up and goes up beside it.

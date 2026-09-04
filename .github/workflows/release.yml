@@ -88,9 +88,9 @@ jobs:
         run: |
           python - <<'PY' >> "$GITHUB_ENV"
           import importlib.util, sys
-          sys.argv = ["videopodcast_magic.py", "--version"]
+          sys.argv = ["videopodcast_magic/__init__.py", "--version"]
           spec = importlib.util.spec_from_file_location(
-              "vpm", "videopodcast_magic.py")
+              "vpm", "videopodcast_magic/__init__.py")
           vpm = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(vpm)
           for name in ("VERSION", "RELEASES", "RAW_FILE", "MODEL_BASE",
@@ -131,21 +131,25 @@ jobs:
           check "newer_release asks about this repository" "$ok" \
             "$RELEASES"
           # Two names that are nearly the same and are not the same:
-          # the repository is videopodcast-magic, the file in it is
-          # videopodcast_magic.py, because only an underscore can be
-          # imported. Before 3.0.0 both were spelled with the hyphen,
+          # the repository is videopodcast-magic, the package in it is
+          # videopodcast_magic, because only an underscore can be
+          # imported. The way in is that package's __init__.py, and it
+          # can be called nothing else: only for that name does
+          # spec_from_file_location open the folder beside it, so the
+          # program can be moved but not renamed. Before 3.0.0 both
+          # repository and program were spelled with the hyphen,
           # so an address that built the file name out of the
           # repository name came out right by accident. It no longer
           # does, and this is the check that says so -- an update
           # fetches RAW_FILE and nothing else, so a wrong one here is
           # every installed copy unable to reach the next version.
           want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
-          want="$want/%s/videopodcast_magic.py"
+          want="$want/%s/videopodcast_magic/__init__.py"
           [ "$RAW_FILE" = "$want" ] && ok=1 || ok=0
           check "fetch_new_self fetches from this repository" "$ok" \
             "$RAW_FILE"
           want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
-          want="$want/%s/models/$SPEAKER_MODEL_NAME/"
+          want="$want/%s/videopodcast_magic/models/$SPEAKER_MODEL_NAME/"
           [ "$MODEL_BASE" = "$want" ] && ok=1 || ok=0
           check "fetch_model fetches from this repository" "$ok" \
             "$MODEL_BASE"
@@ -224,7 +228,7 @@ jobs:
           check("it is this program, not an error page",
                 "VERSION = " in text and "CATALOGUE" in text)
           try:
-              compile(text, "videopodcast_magic.py", "exec")
+              compile(text, "videopodcast_magic/__init__.py", "exec")
               check("it compiles", True)
           except SyntaxError as e:
               check("it compiles", False, "line %s" % e.lineno)
@@ -237,9 +241,10 @@ jobs:
 
           echo
           echo "3. It is the file that was tagged"
-          cmp -s /tmp/came-down.py videopodcast_magic.py && ok=1 || ok=0
+          cmp -s /tmp/came-down.py videopodcast_magic/__init__.py \
+            && ok=1 || ok=0
           a=$(shasum -a 256 /tmp/came-down.py | cut -c1-16)
-          b=$(shasum -a 256 videopodcast_magic.py | cut -c1-16)
+          b=$(shasum -a 256 videopodcast_magic/__init__.py | cut -c1-16)
           check "byte for byte the file at this tag" "$ok" \
             "$a... came down, $b... was tagged"
           said=$(sed -n 's/^VERSION = "\(.*\)"$/\1/p' /tmp/came-down.py \
@@ -454,9 +459,9 @@ jobs:
           set +e
           python - <<'PY'
           import importlib.util, json, sys
-          sys.argv = ["videopodcast_magic.py", "--version"]
+          sys.argv = ["videopodcast_magic/__init__.py", "--version"]
           spec = importlib.util.spec_from_file_location(
-              "vpm", "videopodcast_magic.py")
+              "vpm", "videopodcast_magic/__init__.py")
           vpm = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(vpm)
           mine = json.load(open("/tmp/release.json"))["tag_name"]
@@ -567,20 +572,44 @@ jobs:
 
           # Both directions at once, so a file left out and a file that
           # does not belong come out as the same line. The listing is
-          # taken the way the archive is built -- everything whose name
-          # begins with videopodcast_magic, files only -- so a language
-          # added tomorrow is asked about without this being touched,
-          # and the day the program becomes a folder of that name the
-          # listing follows it by itself.
+          # taken the way the archive is built -- the package folder,
+          # files only -- so a language added tomorrow is asked about
+          # without this being touched.
+          #
+          # Two folders inside it are left out, and the archive leaves
+          # out the same two. models/ is 31 MB of speaker model
+          # (measured 4.9.2026: the package is 36 MB, of which 31 is
+          # the model). The archive is the program, not its data: pip
+          # does not ship the model either, the program fetches it when
+          # it first needs it, and an attachment that carries it is 31
+          # MB somebody downloads to read a state. __pycache__ is not
+          # in the repository at all, but the step above imports the
+          # program, and importing it writes bytecode into the package.
+          # Measured 4.9.2026: eleven files before that import, twenty
+          # after -- so without this the listing here holds nine .pyc
+          # files the archive cannot have, and a good release goes red.
+          #
+          # Only this side leaves them out. If the archive carries them
+          # anyway that is a fault, and the diff below is what names it.
           #
           # One sorter for both sides, and LC_ALL=C so that it is the
-          # order of the bytes. Measured 4.9.2026: a Mac's sort puts
-          # videopodcast_magic.py last and Python's sorted() puts it
-          # first, because the collation of a locale steps over the
-          # punctuation -- so two sorters make a difference out of
-          # nothing and turn a good release red.
-          find videopodcast_magic* -type f 2>/dev/null \
+          # order of the bytes. Measured 4.9.2026: a Mac's sort and
+          # Python's sorted() disagree about where punctuation goes,
+          # because the collation of a locale steps over it -- so two
+          # sorters make a difference out of nothing and turn a good
+          # release red.
+          find videopodcast_magic -type d \
+                 \( -name models -o -name __pycache__ \) -prune \
+               -o -type f -print 2>/dev/null \
             | LC_ALL=C sort > /tmp/here.txt
+          # A pattern that matches nothing returns nothing and says
+          # nothing about it -- no shell reports it and no exit code
+          # carries it. So the emptiness is asked about rather than
+          # walked past: an empty listing here would hold an empty
+          # archive to be perfect.
+          [ -s /tmp/here.txt ] && ok=1 || ok=0
+          check "the tag holds files of the program" "$ok" \
+            "$(wc -l < /tmp/here.txt | tr -d ' ') of them"
           LC_ALL=C sort /tmp/found.txt > /tmp/inside.txt
           diff /tmp/here.txt /tmp/inside.txt > /tmp/differ.txt \
             && ok=1 || ok=0
@@ -657,6 +686,19 @@ jobs:
             || { echo "FAIL: $fails of these"; exit 1; }
 
       - name: "Contract: it installs as a package and answers"
+        # That it installs and answers, not which files are in it.
+        # Which files are in it is asked on the disc, in the freigabe
+        # skill, before the push: setuptools builds a package out of
+        # the working folder and uses the `build/` beside it again
+        # instead of building afresh, so a `build/` from an older shape
+        # of the program walks into the new package while git stays
+        # clean -- measured 4.9.2026, 21 files instead of 11. Here that
+        # cannot happen and so cannot be seen: the checkout is fresh
+        # and pip installs from a git URL, so the check would be green
+        # for ever on a machine where the fault does not exist. Whoever
+        # builds one here anyway builds a second answer to a question
+        # that is already answered earlier and in the right place.
+        #
         # Every check has its say, even after one before it has
         # gone red: a run that stops at the first is a run that
         # has to be done again to see the rest.
@@ -845,14 +887,15 @@ jobs:
         with:
           python-version: ${{ matrix.python }}
 
-      # No checkout and no packages: what is asked here is that the files
-      # standing at the tag start when they stand beside each other,
-      # which is what pip hands somebody. It used to fetch one file,
-      # because the program was one; since the texts moved into files of
-      # their own a lone program dies on import, so the list is asked for
-      # rather than written down -- a language added tomorrow travels by
-      # itself. --version and --help are the two ways in that the program
-      # promises to answer without numpy.
+      # No checkout and no packages: what is asked here is that the
+      # files standing at the tag start when they stand beside each
+      # other, which is what pip hands somebody. It used to fetch one
+      # file, because the program was one; since 4.9.2026 the program is
+      # a package folder and a piece of it on its own dies on import, so
+      # the whole folder is fetched and what is in it is counted rather
+      # than written down -- a language added tomorrow travels by
+      # itself. --version and --help are the two ways in that the
+      # program promises to answer without numpy.
       - name: "Start: fetch what stands at the tag, then run it"
         shell: bash
         run: |
@@ -882,18 +925,33 @@ jobs:
           [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
 
           python -c "import zipfile; zipfile.ZipFile('vpm.zip').extractall('.')"
-          n=$(ls videopodcast_magic*.py | wc -l | tr -d ' ')
+          # Counted inside the folder, not by a name pattern beside it.
+          # Until 4.9.2026 this was "ls videopodcast_magic*.py", and the
+          # day the program became a folder that pattern matched
+          # nothing -- which nothing reports: a glob that hits nothing
+          # is handed on unchanged, ls says its own thing about it, and
+          # the count that comes out is 0 either way. The "|| n=0" is
+          # there so the counting itself cannot end the step before the
+          # line below has said what was found.
+          n=$(find videopodcast_magic -type f -name '*.py' 2>/dev/null \
+              | wc -l | tr -d ' ') || n=0
           [ "$n" -ge 2 ] && ok=1 || ok=0
           check "it holds the program and its texts" "$ok" "$n files"
+          [ -f videopodcast_magic/__init__.py ] && ok=1 || ok=0
+          check "and the way in is where it has to be" "$ok" \
+            "videopodcast_magic/__init__.py"
           [ "$ok" = "1" ] || { echo "FAIL: 1 of these"; exit 1; }
-          # Renamed on purpose: the program finds its texts beside
-          # itself, whatever it is called, so this proves the neighbours
-          # carry it and not the name.
-          mv videopodcast_magic.py vpm.py
+          # Renamed on purpose, one level up from where it used to be:
+          # the program finds its texts beside itself, whatever the
+          # folder is called, so this proves the neighbours carry it and
+          # not the name. The folder can be called anything; the file
+          # inside it cannot be called anything but __init__.py, which
+          # is why the rename moved up here.
+          mv videopodcast_magic vpm
 
           echo
           set +e
-          said=$(python vpm.py --version 2>&1)
+          said=$(python vpm/__init__.py --version 2>&1)
           rc=$?
           set -e
           [ "$rc" = "0" ] && ok=1 || ok=0
@@ -905,7 +963,7 @@ jobs:
           check "--version names ${TAG#v}" "$ok" "$said"
 
           set +e
-          python vpm.py --help > /tmp/help.txt 2>&1
+          python vpm/__init__.py --help > /tmp/help.txt 2>&1
           rc=$?
           set -e
           [ "$rc" = "0" ] && ok=1 || ok=0

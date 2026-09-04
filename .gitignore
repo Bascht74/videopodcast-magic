@@ -6,9 +6,22 @@ __pycache__/
 tests/media/
 tests/shots/
 
-# The program writes its log next to itself.
-videopodcast-magic.log
-videopodcast-magic_1.log
+# The program writes its log next to itself, and "next to itself" is
+# inside videopodcast_magic/ now. Named by shape rather than by the two
+# names that exist today: the run keeps one older log as _1.log, and a
+# third name tomorrow would otherwise walk into the repository.
+#
+# A log holds the file names of whatever was cut with it, so on a real
+# machine it holds a real production's -- which is why it may never
+# travel.
+#
+# **This line guards git and nothing else.** The release archive is
+# built from the working folder, not from git, so it needs its own
+# exclusion -- it has one, in .github/workflows/release.yml and in the
+# freigabe skill, and both sides have to keep saying the same thing.
+# Whoever removes one of the three because the other two look like
+# enough puts a log of somebody's episode on a public release page.
+videopodcast-magic*.log
 
 # Working notes from real productions: material for the two of us, not
 # part of what is delivered. They stay on the owner's disk.
@@ -25,6 +38,20 @@ _to_delete/
 
 # Claude Code keeps its local settings here.
 .claude/settings.local.json
+
+# What setuptools leaves lying beside the program when a package is
+# built out of this folder.
+#
+# **These three lines guard git and nothing else**, and on 4.9.2026
+# that was the whole trouble: a package is not built out of git, and
+# setuptools uses `build/` again instead of building afresh. So a
+# `build/lib/` from the morning, when the program was still one file,
+# put that file and its nine text files into the afternoon's package --
+# while `git status` stayed empty and nothing anywhere said a word.
+#
+# What answers for it is in the freigabe skill: the three are removed
+# before the package is built, and afterwards the package is opened and
+# held against the folder.
 build/
 dist/
 *.egg-info/
