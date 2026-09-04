@@ -5,13 +5,11 @@ A tick set by hand outlives the measurement, and after a block is
 taken away the channel it paired may carry nothing at all.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, time
+vpm = the_program.load()
 began = time.time()
 done = 0
 bad = []

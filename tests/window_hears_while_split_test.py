@@ -12,19 +12,16 @@ model nor a recogniser runs -- the separation is stood in for by one
 that blocks until this test lets it go, so "while" is measured.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import ast
-import importlib.util
 import shutil
 import sys
 import tempfile
 import threading
 import time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -180,7 +177,7 @@ check("and words of a recording nobody asked about are dropped",
       "nothing and once" % (stale.get("speakers_words"), len(woken)))
 
 print("\n3. The window takes that road")
-tree = ast.parse(open(SCRIPT, encoding="utf-8").read())
+tree = ast.parse(the_program.text())
 kick = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)
         and n.name == "speaker_split_kick_off"]
 calls = sorted(set(n.func.id for one in kick for n in ast.walk(one)

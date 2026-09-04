@@ -23,11 +23,11 @@ import re
 import subprocess
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ME = os.path.basename(__file__)
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 # The test that asked the neighbouring question -- which files can reach a
 # Resolve at all, and what shuts the way. Its answer is read out of it
 # rather than written down a second time here.
@@ -346,7 +346,7 @@ check("the doors and the nail come out of the test that listed them",
 DOORS = tuple(sorted(set(DOORS_THERE) | set(DOORS_HERE)))
 program = ""
 try:
-    program = io.open(SCRIPT, encoding="utf-8").read()
+    program = the_program.text()
 except (OSError, UnicodeDecodeError):
     program = ""
 opens = calls_in(program, ("scriptapp",)) if program else None

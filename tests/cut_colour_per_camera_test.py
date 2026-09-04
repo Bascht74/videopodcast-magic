@@ -8,13 +8,11 @@ its own sixteen names and refuses anything else silently, so the run
 finds out which ones an installation takes rather than trusting a list.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, time
+vpm = the_program.load()
 began = time.time()
 done = 0
 bad = []

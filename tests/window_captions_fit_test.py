@@ -29,10 +29,10 @@ Windows is the reported case -- both font checks are left out, because a
 red line would then name the platform and not the program.
 """
 import os, sys, json, subprocess, time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 
 LANGUAGES = ("en", "de")
@@ -106,14 +106,10 @@ def measure(language):
     """Build the window in that language and report every caption."""
     os.environ["QT_QPA_PLATFORM"] = PLATFORM
     os.environ["VPM_SILENT"] = "1"
-    import importlib.util
     from PySide6 import QtCore, QtGui, QtWidgets
 
     app = QtWidgets.QApplication(sys.argv[:1])
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    vpm = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = vpm
-    spec.loader.exec_module(vpm)
+    vpm = the_program.load()
     # Nothing may reach the network or the keychain: what is wanted is
     # the window, not a run.
     vpm.list_presets = lambda key: []

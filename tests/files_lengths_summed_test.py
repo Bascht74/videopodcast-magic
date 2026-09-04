@@ -14,21 +14,17 @@ import os
 import subprocess
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
-import importlib.util
 
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
 began = time.time()
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-m = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = m
-spec.loader.exec_module(m)
+m = the_program.load()
 
 done = 0
 bad = []

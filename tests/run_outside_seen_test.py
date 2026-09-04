@@ -16,15 +16,12 @@ the day it was spelled out twice the answer became "not measured" for
 ever and the work went back in the queue on every redraw.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import ast, importlib.util, io, json, subprocess, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import ast, io, json, subprocess, sys, tempfile, time
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 WORK = tempfile.mkdtemp(prefix="outsideseen_")
 began = time.time()
@@ -132,7 +129,7 @@ print("\n4. What the store is filed under is built in one place")
 # The bug this is about: the name was spelled out with the recipe mark
 # in the one place that stores, and without it in the two that ask
 # whether something was measured. Both must come from the same call.
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 tree = ast.parse(source)
 spelt = source.count('"channelfacts')
 check("the name of the store is not spelled out beside its maker",

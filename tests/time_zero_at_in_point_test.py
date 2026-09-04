@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 """#66: Where does programme time start on the clock, and what hangs on it?"""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import copy, sys, inspect, importlib.util, time
+SCRIPT = the_program.SCRIPT
+import copy, sys, inspect, time
 # A test must never play sound at somebody working next to it. The
 # program reads the variable with bool(), so even "0" silences it.
 os.environ.setdefault("VPM_SILENT", "1")
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0

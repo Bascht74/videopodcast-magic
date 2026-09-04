@@ -12,20 +12,17 @@ narrow for the separation, which holds a whole episode in memory at
 once.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import ast
-import importlib.util
 import json
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -201,7 +198,7 @@ check("but one that has a place is, whatever its sound scored",
       "%s against %s" % (told(anyway), told((one, "one recording"))))
 # What the window hands over is a call, not a value this can read back,
 # so the program's own text is the only place the answer stands.
-program = open(SCRIPT, encoding="utf-8").read()
+program = the_program.text()
 check("the window hands over what nothing could place, not what "
       "sounded weak",
       'placeless=state.get("no_place")' in program

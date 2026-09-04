@@ -1,18 +1,15 @@
 # -*- coding: utf-8 -*-
 """Shots of the Resolve cut tab -- lists, speaker box, preview."""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import re, sys, time, importlib.util
+SCRIPT = the_program.SCRIPT
+import re, sys, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")   # never beep at a person
 from PySide6 import QtWidgets, QtCore, QtGui
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # No network and no real key for a screenshot. list_presets returns
 # (name, uuid, multitrack) triples; load_api_key returns the stored key.
 vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True),

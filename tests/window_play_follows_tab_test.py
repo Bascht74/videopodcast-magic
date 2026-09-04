@@ -22,12 +22,11 @@ at all, so the visibility is a check of its own before it.
 """
 import os
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
-import importlib.util
 import json
 import shutil
 import subprocess
@@ -43,10 +42,7 @@ from PySide6.QtTest import QTest
 
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""

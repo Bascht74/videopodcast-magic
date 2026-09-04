@@ -25,18 +25,15 @@ Windows starts no #!/bin/sh file -- no key is given and those two
 judgements are left out rather than claimed.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, subprocess, sys, time, wave
+SCRIPT = the_program.SCRIPT
+import shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The one message this file reads out of the program is translated here,
 # in the parent, and the parent's language is the shell's: the program
 # skips LANG=C on purpose and asks the system, which on a German Mac

@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """The one bar in the footer: does it come, rise, and go again?"""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import sys, tempfile, time
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 # A cache of its own, and an empty one. There is nothing to show where
 # there is nothing to do: with what was measured kept between runs, a
@@ -12,9 +12,7 @@ os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ["VPM_CACHE"] = tempfile.mkdtemp(prefix="vpm_footer_cache_")
 from PySide6 import QtWidgets, QtCore
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True)]
 vpm.load_api_key = lambda: ""
 sys.path.insert(0, HERE)

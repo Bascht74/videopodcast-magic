@@ -8,13 +8,11 @@ further, or the timeline starts with a hole. Where the first word comes
 late enough by itself, nothing moves and the jingle goes into the run-up.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, time
+vpm = the_program.load()
 FPS = 30.0
 began = time.time()
 done = 0

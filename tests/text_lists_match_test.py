@@ -28,12 +28,12 @@ better answer; the bold labels of a chapter, most of which are
 subheadings rather than labels; and screenshots, which no test judges
 without a reference image per system.
 """
-import importlib.util
 import io
 import os
 import re
 import sys
 import time
+import the_program
 
 began = time.time()
 
@@ -47,14 +47,10 @@ except (AttributeError, ValueError):
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 DOCS = os.path.join(ROOT, "docs")
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
-source = io.open(SCRIPT, encoding="utf-8").read()
+vpm = the_program.load()
+source = the_program.text()
 GERMAN = vpm.CATALOGUE["de"]
 
 done = 0

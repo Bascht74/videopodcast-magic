@@ -12,14 +12,13 @@ one; a name bound at the top in two sections counts for both.
 """
 import ast
 import bisect
-import io
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 began = time.time()
 done = 0
@@ -41,7 +40,7 @@ def check(name, ok, extra=""):
 GROUND = "(the ground)"
 RULE = "#---"
 
-src = io.open(SCRIPT, encoding="utf-8").read()
+src = the_program.text()
 lines = src.split("\n")
 
 names = [GROUND]

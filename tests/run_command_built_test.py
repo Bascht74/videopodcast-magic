@@ -8,15 +8,12 @@ a person can read, while a merely doubtful case becomes a question.
 The last sections hold gui() to calling this and keeping no assembly
 of its own, since two builders of one command line drift apart."""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import sys, importlib.util, time
+SCRIPT = the_program.SCRIPT
+import sys, time
 began = time.time()
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 done = 0
 # The list is called error and not bad because section 17 already gives

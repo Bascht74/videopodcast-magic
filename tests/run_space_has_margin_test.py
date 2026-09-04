@@ -14,14 +14,12 @@ What free space really is comes from the system, so it is replaced
 here: the check is about the judgement, not about this machine's disk.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import collections
-import importlib.util, subprocess, sys, tempfile, time, wave
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+import subprocess, sys, tempfile, time, wave
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()

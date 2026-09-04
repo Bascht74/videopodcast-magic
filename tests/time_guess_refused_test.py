@@ -11,25 +11,22 @@ offers, and last the same question on the recording side, where
 another caller has to read the same verdict.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import glob, importlib.util, shutil, subprocess, sys, time, wave
+SCRIPT = the_program.SCRIPT
+import glob, shutil, subprocess, sys, time, wave
 import numpy as np
 sys.path.insert(0, HERE)
 from fixture_root import fixture
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The sentences the run prints are held against the ones this process
 # asks the program for, so both sides have to speak the same language.
 vpm.set_language("en")
 # The program's own text. Two sections below count places in it -- how
 # many gates ask the sample points, and how many set the refusal mark --
 # and the first of them stands before the run, so it is read here once.
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",

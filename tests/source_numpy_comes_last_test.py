@@ -18,10 +18,10 @@ import subprocess
 import sys
 import tempfile
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.path.realpath(os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py"))
+SCRIPT = os.path.realpath(the_program.SCRIPT)
 
 MARK = "NUMPY-REPORT"
 # Reading the file costs well under a second here and the builder is
@@ -228,8 +228,7 @@ def reads_np_while_read(tree):
 source = ""
 unreadable = ""
 try:
-    with open(SCRIPT, encoding="utf-8") as f:
-        source = f.read()
+    source = the_program.text()
     tree = ast.parse(source)
 except OSError as trouble:
     unreadable = "%s is not readable: %s" % (SCRIPT, trouble)

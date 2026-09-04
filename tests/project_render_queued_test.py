@@ -9,15 +9,12 @@ queue empty. The one thing that does touch the filesystem is the target
 name: an existing delivery must not be rendered over.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, tempfile, io, contextlib, time
+SCRIPT = the_program.SCRIPT
+import sys, tempfile, io, contextlib, time
 began = time.time()
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 done = 0
 bad = []

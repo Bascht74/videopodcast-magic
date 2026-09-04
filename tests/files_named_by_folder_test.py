@@ -17,13 +17,11 @@ it; and no language stands in the list. What a section rests on is
 checked before it, so a red line names the first thing that was wrong.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, io, re, sys, tempfile, time
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import io, re, sys, tempfile, time
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -153,7 +151,7 @@ check("a folder user-dirs.dirs does not name is still a production",
       got == "Interview_7", "%r wanted 'Interview_7'" % got)
 
 print("\n6. No language is written into the list")
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 check("the built-in list and the function that guesses are both in the source",
       "\nGENERAL_FOLDERS = (" in source
       and "\ndef guess_production_name" in source,

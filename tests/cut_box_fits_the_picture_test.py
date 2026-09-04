@@ -9,22 +9,20 @@ takes none, that a narrower camera does not pull it back, and the air.
 The height the box itself gets is the layout's, and is not measured.
 """
 import ast
-import io
 import os
 import shutil
 import subprocess
 import sys
 import tempfile
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")
 
-import importlib.util
 
 from PySide6 import QtCore, QtGui, QtWidgets, QtMultimedia
 from PySide6 import QtMultimediaWidgets
@@ -32,10 +30,7 @@ from PySide6.QtCore import Qt
 
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 done = 0
@@ -83,7 +78,7 @@ print("0. The handler for the frames")
 # being built, reaches an object that is not there yet. Read as a tree:
 # the line the signal is connected on has to come after every line that
 # binds something the handler touches.
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 start, handler = None, []
 for node in ast.walk(ast.parse(source)):
     if not (isinstance(node, ast.ClassDef) and node.name == "CutPlayer"):

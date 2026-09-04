@@ -19,26 +19,22 @@ import time
 import shutil
 import tempfile
 import subprocess
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 os.environ.setdefault("QT_QPA_PLATFORM", "offscreen")
 os.environ["VPM_NO_UPDATE_CHECK"] = "1"
 os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
 os.environ.pop("AUPHONIC_TOKEN", None)
 
-import importlib.util
 
 from PySide6 import QtWidgets, QtCore
 
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 vpm.update_offer = lambda *a, **k: None
 vpm.list_presets = lambda key: []

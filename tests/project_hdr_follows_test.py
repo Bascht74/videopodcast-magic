@@ -9,15 +9,12 @@ Whether Resolve then delivers what it was told is not visible from
 here.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import sys, tempfile, time
 began = time.time()
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 # An empty folder of our own: free_render_name() renames around a file
 # that is already there, and then the target name is not the one asked

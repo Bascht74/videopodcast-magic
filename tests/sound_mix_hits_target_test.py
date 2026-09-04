@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """Loudness: does the range come along, and does it still normalise?"""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, subprocess, tempfile, time
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, subprocess, tempfile, time
+vpm = the_program.load()
 T = tempfile.mkdtemp(prefix="loud_")
 
 def track(file_path, expression):

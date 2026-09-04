@@ -18,17 +18,15 @@ happen says so instead of reading as nothing newer, and that an
 installation is handed to pip rather than written over.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 # The suite sets this, and the module reads it while it is loading.
 os.environ.pop("VPM_NO_UPDATE_CHECK", None)
-import importlib.util, io, ssl, subprocess, sys, tempfile, time
+import io, ssl, subprocess, sys, tempfile, time
 import urllib.request
 began = time.time()
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The real one, kept before any section puts a stand-in in its place:
 # the sections further down point VPM_CACHE at a folder of their own
 # and want the reading that answers it.
@@ -294,7 +292,7 @@ print("\n5. The switches that stopped it are gone")
 # before a namespace ever existed, so a parser that does not know them
 # proves nothing on its own. The whole text is read, and the program
 # is asked as a user asks it.
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 
 
 def times(*words):

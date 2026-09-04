@@ -116,10 +116,10 @@ import subprocess
 import tempfile
 import time
 import wave
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 sys.path.insert(0, HERE)
 
 # Three cameras out of the shared fixture, each with a timecode of its
@@ -370,15 +370,11 @@ def look(case):
     os.environ["VPM_NO_UPDATE_CHECK"] = "1"
     os.environ["VPM_NO_SPEAKER_SPLIT"] = "1"
     os.environ["VPM_PLAYER_LOG"] = "1"
-    import importlib.util
     from PySide6 import QtCore, QtWidgets
     from fixture_root import fixture
 
     app = QtWidgets.QApplication(sys.argv[:1])
-    spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-    vpm = importlib.util.module_from_spec(spec)
-    sys.modules["vpm"] = vpm
-    spec.loader.exec_module(vpm)
+    vpm = the_program.load()
     vpm.set_language("en")
     # Nothing may reach the network or the keychain: what is wanted is
     # the window, not a run.

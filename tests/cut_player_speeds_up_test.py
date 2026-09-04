@@ -10,15 +10,14 @@ behind would switch the picture where the sound has long gone.
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 os.environ.setdefault("VPM_SILENT", "1")
 
-import importlib.util
 
 from PySide6 import QtCore, QtGui, QtWidgets, QtMultimedia
 from PySide6 import QtMultimediaWidgets
@@ -26,10 +25,7 @@ from PySide6.QtCore import Qt
 
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 done = 0

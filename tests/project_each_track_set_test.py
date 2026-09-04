@@ -12,10 +12,10 @@ stand-in here; what is measured is which calls the program makes and
 what it puts into them.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, json, sys, copy, time
+SCRIPT = the_program.SCRIPT
+import json, sys, copy, time
 
 began = time.time()
 done = 0
@@ -30,10 +30,7 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 UUID = "PresetTestProduction01"
 OLD = {"filtering": True, "denoise": False, "gain": 0}

@@ -11,14 +11,12 @@ alone is that block's answer, no block at all is unreadable, and two
 blocks of unequal channel count do not fit -- the reason names both.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, struct, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import struct, sys, tempfile, time
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 SR = vpm.SR
 WORK = tempfile.mkdtemp(prefix="blocksfacts_")
 began = time.time()

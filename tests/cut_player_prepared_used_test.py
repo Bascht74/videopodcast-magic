@@ -22,10 +22,10 @@ production's prepared tracks below the material.
 """
 import math
 import os
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 import json
 import shutil
 import struct
@@ -79,13 +79,9 @@ TURNS = {TYPED: [(0, 20), (40, 60), (80, 100)],
 from PySide6 import QtCore, QtWidgets     # noqa: E402  after the platform
 from PySide6.QtTest import QTest          # noqa: E402
 
-import importlib.util                     # noqa: E402
 
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The language is settled, or a run on a German machine would compare
 # English keys against a German window.
 vpm.set_language("en")

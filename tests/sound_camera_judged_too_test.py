@@ -12,14 +12,12 @@ on the camera it came out of, and the command line cuts what the
 interface would. None of it goes through the interface itself.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, subprocess, sys, tempfile, time
+SCRIPT = the_program.SCRIPT
+import subprocess, sys, tempfile, time
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 SR = vpm.SR
 WORK = tempfile.mkdtemp(prefix="camerachannels_")
 began = time.time()

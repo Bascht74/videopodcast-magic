@@ -1,17 +1,14 @@
 # -*- coding: utf-8 -*-
 """#65: Does a finished file carry everything that marks it as HDR?"""
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import sys, time, importlib.util
+SCRIPT = the_program.SCRIPT
+import sys, time
 sys.path.insert(0, os.path.dirname(
     os.path.abspath(__file__)))
 from fixture_root import fixture
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 D = fixture("hdrtest")
 FOREIGN = fixture("foreign")

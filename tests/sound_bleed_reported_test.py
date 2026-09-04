@@ -18,14 +18,12 @@ The report's figures are medians over a few windows, so they are held to
 a tolerance rather than read off exactly.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, re, sys, tempfile, time, wave
+SCRIPT = the_program.SCRIPT
+import re, sys, tempfile, time, wave
 import numpy as np
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 # The report is read as text below, so the language it is written in has
 # to be settled here rather than left to whatever the machine says.
 vpm.set_language("en")

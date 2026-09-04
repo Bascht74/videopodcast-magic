@@ -13,14 +13,11 @@ third camera arrive only if the program notices the silent refusal and
 inserts picture and audio separately.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, sys, time
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, time
+vpm = the_program.load()
 # The files do not exist here, so the count cannot be read out of them.
 vpm.audio_track_count = lambda cam: cam["audio"]
 

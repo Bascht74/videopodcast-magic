@@ -9,23 +9,19 @@ The second question is the same one a step further out -- the mark
 builds a parser of its own and never reached the place it was set in.
 """
 import ast
-import importlib.util
 import os
 import re
 import subprocess
 import sys
 import time
+import the_program
 
 began = time.time()
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    ROOT, "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 done = 0
 bad = []
@@ -61,7 +57,7 @@ print("1. Every switch is read somewhere")
 check("build_argument_parser hands out its switches",
       len(switches) > 20, "%d" % len(switches))
 
-source = open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 tree = ast.parse(source)
 defined_in = [node for node in ast.walk(tree)
               if isinstance(node, ast.FunctionDef)

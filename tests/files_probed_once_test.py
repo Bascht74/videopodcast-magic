@@ -21,14 +21,12 @@ words instead of sending the other back to the recogniser, and neither
 started a second time while it is still being written down.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, shutil, struct, subprocess, sys, tempfile, threading
+SCRIPT = the_program.SCRIPT
+import shutil, struct, subprocess, sys, tempfile, threading
 import time, wave
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0

@@ -11,18 +11,16 @@ window opening on the button and closing again, and last whether the run
 got through its steps at all rather than breaking off.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, json, shutil, sys, tempfile, time, traceback, wave
+SCRIPT = the_program.SCRIPT
+import json, shutil, sys, tempfile, time, traceback, wave
 import numpy as np
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 from PySide6 import QtCore, QtWidgets
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 vpm.list_presets = lambda key: []
 vpm.load_api_key = lambda: ""

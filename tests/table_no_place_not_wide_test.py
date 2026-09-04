@@ -9,28 +9,23 @@ choice, what a hand and a missing measurement leave alone, the
 derivation, which stops picking such a file, and last that every table
 builds the field in the one place where the bar is hung.
 """
-import io
 import os
 import sys
 import time
+import the_program
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
+SCRIPT = the_program.SCRIPT
 
 os.environ["QT_QPA_PLATFORM"] = "offscreen"
 
-import importlib.util
 
 from PySide6 import QtWidgets
 from PySide6.QtCore import Qt
 
 began = time.time()
 app = QtWidgets.QApplication(sys.argv[:1])
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec)
-sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 vpm.set_language("en")
 
 QUIET = vpm.COLOURS["quiet"]
@@ -180,7 +175,7 @@ check("two barred entries each keep their own reason",
 # The three tables that show a Kind ask one function for the cell, and
 # that is where the bar is hung. A table building its own would offer
 # the wide shot again while everything here stayed green.
-source = io.open(SCRIPT, encoding="utf-8").read()
+source = the_program.text()
 built, one_place = (source.count("clip_kind_cell("),
                     source.count("kind_cell_for("))
 check("every table asks the one place for its Kind field",

@@ -22,10 +22,10 @@ the spelling they arrived in, so whatever they are then stored in or
 compared against has to settle the shape as well.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import ast, importlib.util, io, json, sys, time
+SCRIPT = the_program.SCRIPT
+import ast, json, sys, time
 
 # Before the program is loaded: path_key reads os.path.normcase at every
 # call, so the fold can be switched on and off around it.
@@ -44,9 +44,7 @@ os.path.normcase = normcase_that_folds
 import posixpath, ntpath
 posixpath.normcase = normcase_that_folds
 
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -176,7 +174,7 @@ HOLD_FILES = [
 HOLD_FILES_SET = [("gui", "no_join"),
                   ("collect_with_continuations", "apart"),
                   ("group_recording_parts", "apart")]
-tree = ast.parse(io.open(SCRIPT, encoding="utf-8").read())
+tree = ast.parse(the_program.text())
 where = {}
 for node in ast.walk(tree):
     if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
