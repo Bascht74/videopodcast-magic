@@ -97,11 +97,30 @@ jobs:
     steps:
       - uses: actions/checkout@v5
 
+      # Both lists, and that is the whole point. The key of the pip cache
+      # is a hash over the files named here, and requirements-dev.txt is
+      # two lines: "-r requirements.txt" and pyspellchecker. Every package
+      # the program really needs stands in the other file, which the key
+      # never looked at -- so a package added over there left the key
+      # unchanged, the primary key hit, and a hit is exactly the case in
+      # which nothing is written back. The wheels were fetched again on
+      # every run, for ever, and the cache stayed at the state of
+      # 22.8.2026, the last day requirements-dev.txt itself changed.
+      #
+      # Measured 4.9.2026 on run 33890253599: "Cache hit occurred on the
+      # primary key ..., not saving cache" in all six jobs, seven wheels
+      # re-fetched on Linux and six on Windows -- the ones faster-whisper
+      # brought in that morning. The key in that log is
+      # 4f0debf968642fc2..., and hashing requirements-dev.txt alone here
+      # gives the same digits, which is how the cause was pinned down
+      # rather than guessed.
       - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python }}
           cache: pip
-          cache-dependency-path: requirements-dev.txt
+          cache-dependency-path: |
+            requirements-dev.txt
+            requirements.txt
 
       # Git for Windows rewrites text files to CRLF on checkout. The model
       # beside the program carries a manifest of SHA-256 sums, and one of
@@ -109,7 +128,7 @@ jobs:
       - name: "Check out: verify the speaker model survived it"
         shell: bash
         run: |
-          M=models/speaker-diarization-community-1
+          M=videopodcast_magic/models/speaker-diarization-community-1
           echo "core.autocrlf: $(git config --get core.autocrlf || echo '(unset)')"
           python -c "import hashlib,sys; \
             print('config.yaml as it lies here:', \
@@ -126,7 +145,7 @@ jobs:
           git config core.autocrlf false
           git rm --cached -r -q .
           git reset --hard -q
-          M=models/speaker-diarization-community-1
+          M=videopodcast_magic/models/speaker-diarization-community-1
           python -c "import hashlib,sys; \
             print('config.yaml now:', \
               hashlib.sha256(open(sys.argv[1],'rb').read()).hexdigest())" \
@@ -142,7 +161,7 @@ jobs:
         run: |
           python - <<'PY'
           import hashlib, os, re, sys
-          M = "models/speaker-diarization-community-1"
+          M = "videopodcast_magic/models/speaker-diarization-community-1"
           manifest = os.path.join(M, "SHA256SUMS.txt")
           # Text mode, so a CRLF the checkout may have left behind does
           # not end up inside the file name.
@@ -175,9 +194,10 @@ jobs:
       # nothing newer is in its archive. A static build settles it in
       # half a minute -- and it is the one of the three runners that
       # carries soxr, so the fine clock correction is exercised
-      # somewhere. macOS stays on what brew gives (8.1.2, no soxr) and
-      # Windows on what choco gives (9.0.1): three runners, two sides of
-      # the floor, and both paths through the drift correction.
+      # somewhere. macOS takes what brew gives once its own formula
+      # index has been refreshed (9.0.1, no soxr) and Windows what choco
+      # gives (9.0.1): three runners, and both paths through the drift
+      # correction.
       - name: "Install: ffmpeg (Linux)"
         if: runner.os == 'Linux'
         run: |
@@ -200,16 +220,79 @@ jobs:
       - name: "Install: ffmpeg and a time limit (macOS)"
         if: runner.os == 'macOS'
         run: |
-          # Not "only if none is there": the runner image brings one
-          # along, and it was 8.1.2 while homebrew/core carries 9.0.1.
-          # The program names a floor, so what counts is the version and
+          set -e
+          # Not "only if none is there": what counts is the version and
           # not the presence. The bottle is poured in seconds; no build.
-          # soxr is not asked for here -- core has it in no version, and
-          # for a test run the coarser drift correction is fine.
-          brew install ffmpeg || brew upgrade ffmpeg || true
-          ffmpeg -version | head -1
+          #
+          # brew update first, and that is the whole of the difference.
+          # The runner image carries a Homebrew whose formula index is
+          # frozen at the day the image was built, and nothing refreshes
+          # it by itself. Measured 4.9.2026 out of the last green run:
+          # brew fetched the manifest for 8.1.2_1, printed no
+          # "Auto-updating" line anywhere in the run, and homebrew/core
+          # had 9.0.1 that same hour.
+          #
+          # Nothing on these three lines decides anything, and that is
+          # on purpose: a bad minute at github.com must not be a red
+          # suite. They are said and walked past, and what judges is the
+          # version at the foot of this step -- which is a better line
+          # to read than a brew error, because it names what was wanted
+          # and what is there.
+          brew update || brew update \
+            || echo "brew update did not run -- the check below decides"
+          brew install ffmpeg || brew upgrade ffmpeg \
+            || echo "brew could not put ffmpeg down -- likewise"
+          ffmpeg -version | sed -n 1p
+          # Said, not demanded, the way the Linux step says it. soxr
+          # decides how finely the clock drift between cameras comes
+          # out and coarser is not broken; homebrew/core builds without
+          # it in every version. The owner, 4.9.2026: on the build
+          # machines a version without soxr is taken even in case of
+          # doubt -- for the tests that is fine. A hard soxr check here
+          # would be a mine: Linux goes red the day BtbN changes its
+          # build.
           ffmpeg -version | tr ' ' '\n' | grep -q enable-libsoxr \
             && echo "soxr:   yes" || echo "soxr:   no"
+
+          # And now the step is held to what it just claimed to do.
+          # It used to end in "|| true", which swallowed every failure:
+          # the whole line could fail and the job walked on green. That
+          # is why this Mac sat on 8.1.2 for weeks while the other two
+          # runners were on 9.0.1 and nobody saw it -- a version was
+          # printed, and a printed version is read by nobody.
+          #
+          # No version number is written here. brew is asked what its
+          # formula names and what it actually put down, so the day the
+          # formula moves this rises by itself and no second place has
+          # to be remembered. Two questions, and they fail differently:
+          # a stale index leaves formula and keg apart, something
+          # earlier on PATH leaves keg and the answering binary apart.
+          formula=$(brew info --json=v2 --formula ffmpeg \
+            | python -c "import json, sys; print(json.load(sys.stdin) \
+                ['formulae'][0]['versions']['stable'])") || formula=""
+          keg=$(brew list --versions ffmpeg | awk '{print $2}') || keg=""
+          said=$(ffmpeg -version | sed -n 1p \
+                 | sed -n 's/^ffmpeg version n\{0,1\}\([0-9][0-9.]*\).*/\1/p')
+          echo "formula: ${formula:-?}  installed: ${keg:-?}  answering: ${said:-?}"
+          bad=0
+          if [ -z "$formula" ] || [ "${keg%%_*}" != "$formula" ]; then
+            bad=1
+            echo "FAIL: homebrew/core names ffmpeg ${formula:-nothing} and"
+            echo "      brew put down ${keg:-nothing}. Either the formula"
+            echo "      index is still stale after brew update, or the"
+            echo "      install did not take. Nothing below this line has"
+            echo "      been run against the ffmpeg this suite needs."
+          fi
+          if [ -z "$said" ] || [ "$said" != "${keg%%_*}" ]; then
+            bad=1
+            echo "FAIL: brew put down ${keg:-nothing} and the ffmpeg that"
+            echo "      answers says ${said:-nothing}. The one that"
+            echo "      answers is $(command -v ffmpeg || echo 'nowhere on PATH')."
+            echo "      Either nothing was installed at all, or"
+            echo "      something ahead of /opt/homebrew/bin on PATH is"
+            echo "      being asked instead of what was installed."
+          fi
+          [ "$bad" = "0" ] || exit 1
           # macOS brings no timeout(1), and run.sh says so and then runs
           # the tests unguarded. One test that hangs there sits until the
           # job's thirty minutes are up and leaves nothing behind. GNU
