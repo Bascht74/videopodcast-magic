@@ -3,51 +3,81 @@
 *In English: [requirements.md](requirements.md). Zurück zum
 [Inhalt](README.de.md).*
 
-## Das Programm holen
+## Das Programm installieren
 
-Es führen zwei Wege hinein, und die
-[README](../README.de.md#installieren) hält zu jedem den Befehl.
+Ein Befehl installiert es, und einen zweiten Weg hinein gibt es nicht:
 
-**Geholt**: die eine Datei `videopodcast_magic.py` nehmen, mit
-`python3` starten, sonst ist nichts zu installieren. Gut zum
-Hineinschauen, für eine Maschine, an der man einmal sitzt, und für
-eine Fassung, die neben ihrem Material liegen bleibt.
+```
+pip3 install git+https://github.com/Bascht74/videopodcast-magic
+```
 
-**Installiert**: der Befehl
-`pip3 install git+https://github.com/Bascht74/videopodcast-magic`
-legt das Programm in dieses Python und hinterlässt den Befehl
-`videopodcast-magic`, aufrufbar aus jedem Ordner. Derselbe Befehl mit
-`-U` holt die neuere Fassung. Gut, wo das Programm jede Woche
-gebraucht wird.
+Zurück bleibt der Befehl `videopodcast-magic`, aufrufbar aus jedem
+Ordner. Alles, was das Programm an Python braucht, kommt in diesem
+einen Zug mit: `PySide6` für das Fenster, `numpy` für die Messungen,
+`certifi` für die Stellen, gegen die eine https-Verbindung geprüft
+wird, `faster-whisper` für die Spracherkennung auf einem System, das
+selbst keine mitbringt. Danach wird nichts mehr hinter jemandes Rücken
+nachgeholt, und beim ersten Öffnen des Fensters fehlt nichts.
+
+**Dieser erste Befehl dauert Minuten, und die Wartezeit sind diese
+Pakete.** Gemessen am 4. September 2026, auf einem Mac mit leerem
+Zwischenspeicher: fünf Minuten, 498 MB geholt und danach 1,4 GB auf
+der Platte. Fast alles davon ist das Fenster — `PySide6` allein macht
+443 MB des Downloads aus, in zwei Stücken von 332 und 111 MB, und
+1,2 GB ausgepackt. An einer schnellen Leitung ist es früher vorbei; an
+einer langsamen hängt nichts, sondern es lädt gerade das Stück von
+332 MB.
+
+**Die neuere Fassung kommt über dieselbe Adresse, und die ist eine
+Sache von Sekunden:**
+
+```
+pip3 install -U git+https://github.com/Bascht74/videopodcast-magic
+```
+
+Dazwischen steht kein Paketverzeichnis: die Adresse ist die Ablage
+selbst. pip liest sie jedes Mal neu, vergleicht die Versionsnummer
+dort mit der installierten und lässt alles liegen, wo beide dieselbe
+ist. Am selben Tag gemessen: zwölf Sekunden für ein `-U`, das nichts
+Neueres fand, und kein einziges Paket angefasst.
 
 Verweigert `pip3 install` den Dienst mit dem Hinweis, diese Umgebung
 werde von außen verwaltet, dann gehört dieses Python einem
 Paketverwalter — dem von Homebrew oder dem der Linux-Distribution —,
-und die Meldung nennt `pipx`. Das ist der richtige Rat: `pipx` auf
-dieselbe Adresse legt das Programm in eine eigene Umgebung und den
-Befehl in den Suchpfad.
+der pip aus dem heraushält, was er selbst pflegt, und die Meldung
+nennt den Weg daran vorbei: `pipx install` auf dieselbe Adresse legt
+das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
-So oder so muss Python 3.10 oder neuer vorher da sein. Das eine kann
-das Programm nicht mitbringen.
+Zweierlei muss vor diesem Befehl auf der Maschine liegen, denn beides
+kann pip nicht mitbringen:
 
-Alles andere holt sich das Programm, wenn es gebraucht wird, und sagt
-dabei, was es tut:
+* **Python 3.10 oder neuer, und dessen pip.** Ein pip, das die
+  Projektdatei liest, hört unterhalb von 3.10 auf und nennt die
+  Version, die es erwartet hätte. **Das pip, das macOS mit seinem
+  eigenen Python 3.9 mitbringt, liest sie gar nicht und meldet keinen
+  Fehler**: am 4. September 2026 gemessen, antwortete `/usr/bin/pip3`
+  — pip 21.2.4 — mit `Successfully installed UNKNOWN-0.0.0` und ließ
+  einen leeren Ordner dieses Namens zurück. Kein Modul, kein Befehl,
+  keine Fehlermeldung. **Wer `UNKNOWN` liest, hat das falsche pip
+  erwischt**, und die Antwort darauf ist, Python 3.10 oder neuer zu
+  installieren und dessen `pip3` zu nehmen.
+* **`ffmpeg` und `ffprobe`.** Sie sind kein Python, und keine Liste,
+  die pip liest, hat einen Platz für sie. [Woher ffmpeg
+  kommt](#woher-ffmpeg-kommt) sagt, was das Programm tut, wenn sie
+  fehlen.
 
-* `numpy` und `PySide6` beim ersten Start, über pip. Das meiste davon
-  ist `PySide6`: etwa 250 MB unter Windows und Linux, etwa 440 MB
-  unter macOS.
-* `ffmpeg` und `ffprobe`, wenn sie fehlen -- über die Paketverwaltung
-  dieses Systems, und nur dann, wenn das erlaubt wird. Auf einem
-  anderen Weg holt das Programm sie nicht. Der Abschnitt darunter
-  sagt, wie.
+Zweierlei holt das Programm später nach, und nur, wenn jemand will,
+wofür es da ist:
+
 * Die Umgebung, in der die Sprechertrennung läuft, etwa 218 MB, beim
   ersten Trennen.
 * Das Modell für die Trennung, etwa 33 MB, gleich danach.
-* Die Nummer der neuesten Version, von github.com, kurz nachdem das
-  Fenster steht. Das Programm sendet dabei nichts und holt diese
-  Version erst, wenn jemand es verlangt.
-  [Die Oberfläche](interface.de.md#sich-selbst-aktuell-halten) sagt,
-  was dann kommt.
+
+Und nach einem fragt es bloß: nach der Nummer der neuesten Version,
+bei github.com, kurz nachdem das Fenster steht. Das Programm sendet
+dabei nichts und holt diese Version erst, wenn jemand es verlangt.
+[Die Oberfläche](interface.de.md#sich-selbst-aktuell-halten) sagt, was
+dann kommt.
 
 **Zum Modell.** Die Stimmen einer Aufnahme auseinanderzuhalten ist die
 Sprechertrennung, und sie braucht ein trainiertes Modell. Das Programm
@@ -61,7 +91,7 @@ ersten Mal.
 
 ## Welches Python das Programm braucht
 
-3.10 oder neuer, darunter sagt das Programm es und hört auf. Die
+3.10 oder neuer, darunter lehnt pip die Installation ab. Die
 Untergrenze ist das, was die Oberfläche braucht: PySide6 baut
 unterhalb von 3.10 nicht. Die Testsuite läuft auf 3.14.7, der Version,
 die hier täglich benutzt wird. Sie deckt nur 3.14.7 ab; was zwischen
@@ -79,9 +109,14 @@ wenn es eine andere ist: `Python 3.11.15  (recommended version 3.14.7)`.
 laufenden Datei. Dieses Python ist das empfohlene, also folgt keine
 Klammer.*
 
-## Woher ffmpeg, PySide6 und numpy kommen
+## Woher ffmpeg kommt
 
-Das Programm sucht `ffmpeg` und `ffprobe` zuerst im Suchpfad, dann
+**`ffmpeg` und `ffprobe` sind das eine, was pip nicht mitbringen
+kann**, denn sie sind kein Python, und keine Liste, die pip liest, hat
+einen Platz für sie. Jedes andere Stück kam mit der Installation; diese
+beiden müssen auf der Maschine liegen.
+
+Das Programm sucht sie zuerst im Suchpfad, dann
 neben sich. Fehlen sie danach immer noch, nennt es die Paketverwaltung
 dieser Maschine und fragt, bevor es sie ausführt -- ungefragt tut es
 das nie, denn eine Paketverwaltung schreibt außerhalb des Programms,
@@ -107,17 +142,9 @@ dort gestellt, wo der Lauf ein Terminal vor sich hat. Ohne eines fragt
 das Programm nichts, sondern hört so auf, wie es der letzte Punkt oben
 beschreibt.
 
-Für die Oberfläche `PySide6` (Qt), für die Messungen `numpy`. Das
-Programm installiert das Fehlende beim Start über pip nach. Nur Python
-muss schon da sein. In `requirements.txt` stehen die beiden Pakete für
-alle, die sie lieber vorher oder in einer virtuellen Umgebung
-installieren.
-
-Wenn eine Paketverwaltung die Python-Installation als extern verwaltet
-kennzeichnet, installiert das Programm die beiden Pakete daran vorbei
-und sagt es. Um der Paketverwaltung aus dem Weg zu gehen: die beiden
-Pakete vorher selbst installieren, in einer virtuellen Umgebung oder
-über die Pakete der Distribution.
+In `requirements.txt` stehen dieselben Python-Pakete, die pip aus
+`pyproject.toml` liest, für alle, die sie lieber vor der Installation
+in einer virtuellen Umgebung haben.
 
 ## Was sich je Plattform unterscheidet
 
@@ -130,21 +157,28 @@ es ebenfalls, mit zwei Einschränkungen:
 
 ## Wenn etwas klemmt
 
-* **Das Programm hört auf und nennt die Python-Version.** Dieses
-  Python ist älter als 3.10. Eine neuere installieren und neu starten.
-* **pip bekommt `numpy` oder `PySide6` nicht installiert.** Die
-  letzten Zeilen von pip sagen, woran es liegt. Beide selbst
-  installieren, mit `pip install numpy PySide6`, am besten in einer
-  virtuellen Umgebung.
+* **pip lehnt ab und nennt eine Python-Version.** Dieses Python ist
+  älter als 3.10. Eine neuere installieren und denselben Befehl dieser
+  geben.
+* **pip antwortet `Successfully installed UNKNOWN-0.0.0`.**
+  Installiert wurde nichts. Dieses pip ist zu alt, um die Projektdatei
+  zu lesen; auf einem Mac ist das `/usr/bin/pip3`, und es gehört zu
+  Python 3.9. Python 3.10 oder neuer installieren und den Befehl
+  dessen `pip3` geben.
+* **pip sagt, die Umgebung werde von außen verwaltet.** Dieses Python
+  gehört einem Paketverwalter. `pipx install` auf dieselbe Adresse ist
+  der Weg daran vorbei.
+* **Die Installation bricht mittendrin ab.** Die letzten Zeilen von
+  pip sagen, woran es liegt. Fast immer ist es der Download von
+  `PySide6`, das Stück von 332 MB: denselben Befehl noch einmal geben.
+* **`videopodcast-magic` ist danach kein bekannter Befehl.** pip hat
+  ihn in einen Ordner gelegt, der nicht im Suchpfad steht. Entweder
+  diesen Ordner in den Suchpfad aufnehmen oder das Programm über
+  Python erreichen: `python3 -m videopodcast_magic` braucht keinen
+  eigenen Befehl und nimmt dieselben Schalter.
 * **`ffmpeg` wird auch nach der Installation nicht gefunden.** Der
-  Ordner mit `ffmpeg` steht nicht im Suchpfad. Die beiden Dateien
-  stattdessen neben `videopodcast_magic.py` legen.
-* **`videopodcast-magic` ist nach der Installation kein bekannter
-  Befehl.** pip hat den Befehl in einen Ordner gelegt, der nicht im
-  Suchpfad steht. Entweder diesen Ordner in den Suchpfad aufnehmen
-  oder das Programm über Python erreichen:
-  `python3 -m videopodcast_magic` braucht keinen eigenen Befehl und
-  nimmt dieselben Schalter.
+  Ordner, in dem es liegt, steht nicht im Suchpfad. Ihn dort
+  aufnehmen und neu starten.
 
 Mehr braucht das Programm nicht. Was das Fenster danach zeigt, Reiter
 für Reiter, steht in [Die Oberfläche](interface.de.md).

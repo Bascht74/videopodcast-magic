@@ -510,7 +510,7 @@ Output Color Space.
 **Nachsehen an der fertigen Datei:**
 
 ```
-videopodcast_magic.py --hdr-check Produktion.mp4
+videopodcast-magic --hdr-check Produktion.mp4
 ```
 
 Das prüft alle Punkte der Tabelle und sagt zu jedem, was zu tun wäre. Es
@@ -609,7 +609,7 @@ keine Sicherungskopie an.
   Renderauftrag wieder auf eine einzige Datei stellen und noch einmal
   rendern.
 - **Die fertige Datei läuft als SDR.**
-  `videopodcast_magic.py --hdr-check DATEI` aufrufen und tun, was dort
+  `videopodcast-magic --hdr-check DATEI` aufrufen und tun, was dort
   steht.
 - **Eine Perspektive bringt den falschen Ton.** Die Umwandlung lief mit
   einer anderen Einstellung als **Quellaudiokanäle verwenden**. Noch

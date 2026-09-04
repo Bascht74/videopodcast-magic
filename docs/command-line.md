@@ -25,7 +25,7 @@ hints. Without a key the multitrack run stops there.*
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0)  `[multitrack only]` |
 | `--dry-run` | only measure and report, write nothing |
 | `--version` | version number, and the Python this runs on |
-| `--update` | fetch the newer version and put this one beside it as `videopodcast_magic.py.old`; a run only ever says that one is out. Where the program was installed, it writes nothing and says to update it the way it was installed |
+| `--update` | run `pip3 install -U` on the address the program came from, in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
 
 ## What happens to audio and picture
 

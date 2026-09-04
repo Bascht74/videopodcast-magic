@@ -8,8 +8,9 @@ für sich; nichts davon muss von vorn bis hinten gelesen werden.
 
 ## Inhalt
 
-* **[Was gebraucht wird](requirements.de.md)**: Python, ffmpeg, die
-  beiden Pakete, und was sich je Plattform unterscheidet.
+* **[Was gebraucht wird](requirements.de.md)**: der eine Befehl, der
+  es installiert, Python, ffmpeg, und was sich je Plattform
+  unterscheidet.
 * **[Die Oberfläche](interface.de.md)**: das Fenster, Reiter für
   Reiter — und wie die gemeinsame Zeitachse gemessen wird.
 * **[Vorflug](preflight.de.md)**: was vor einem Lauf geprüft wird, und
@@ -80,7 +81,7 @@ der das Wort erklärt, steht vorn.
 * **Farbgruppe**: `resolve`, „Eine ganze Kamera auf einmal korrigieren“
 * **Farbvergleich**: `camera-cut`, „Was Kennzahlen und Farbvergleich messen“
 * **faster-whisper**: `speech`, „Wie das Programm den Text mitschreibt“
-* **ffmpeg**: `requirements`, „Woher ffmpeg, PySide6 und numpy kommen“
+* **ffmpeg**: `requirements`, „Woher ffmpeg kommt“
 * **ffplay**: `interface`, „Die vier Reiter“
 * **Fortsetzungsdatei**: `simple-path`, „Was neben dem Mix ins Video kommt“;
   `interface`, „Die vier Reiter“
@@ -116,7 +117,7 @@ der das Wort erklärt, steht vorn.
 * **Marker**: `resolve`, „Eine Kamera“; `resolve`, „Der Knopf und die beiden
   Timelines“
 * **Mindestschnittdauer**: `camera-cut`, „Die Stellschrauben einstellen“
-* **Modell (Sprechertrennung)**: `requirements`, „Das Programm holen“;
+* **Modell (Sprechertrennung)**: `requirements`, „Das Programm installieren“;
   `speech`, „Die Sprecher trennen“
 * **Mono-Faltung**: `channels`, „Stereo bleibt Stereo“
 * **MOV**: `simple-path`, „Warum das Ziel immer MOV ist“
@@ -128,9 +129,8 @@ der das Wort erklärt, steht vorn.
   setzen“
 * **ohne Auphonic arbeiten**: `auphonic`, „Ohne Auphonic arbeiten“
 * **Out-Punkt**: siehe In-Punkt
-* **Paketverwaltung**: `requirements`, „Woher ffmpeg, PySide6 und numpy
-  kommen“
-* **pip, pipx (installieren)**: `requirements`, „Das Programm holen“
+* **Paketverwaltung**: `requirements`, „Woher ffmpeg kommt“
+* **pip, pipx (installieren)**: `requirements`, „Das Programm installieren“
 * **`placed_by` (Übergabedatei)**: `resolve`, „Wo jede Kamera sitzt“
 * **Player, Vorschau**: `interface`, „Die vier Reiter“; `camera-cut`, „Wie
   die Vorschau-Player Datei und Ton wählen“; `camera-cut`, „Was das Bild
@@ -144,7 +144,7 @@ der das Wort erklärt, steht vorn.
 * **Protokoll (`videopodcast-magic.log`)**: `interface`, „Die vier Reiter“
 * **Prüfzeichen ✓ ! ✕**: `interface`, „Die vier Reiter“; `preflight`, „Was
   geprüft wird“
-* **PySide6**: `requirements`, „Woher ffmpeg, PySide6 und numpy kommen“
+* **PySide6**: `requirements`, „Das Programm installieren“
 * **Reaktionsschnitt**: `camera-cut`, „Die Stellschrauben einstellen“
 * **Redet mindestens**: `camera-cut`, „Die Stellschrauben einstellen“
 * **Renderauftrag**: `resolve`, „Was der Renderauftrag setzt“

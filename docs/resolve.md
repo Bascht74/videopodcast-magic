@@ -478,7 +478,7 @@ Color Space.
 **Looking at the finished file:**
 
 ```
-videopodcast_magic.py --hdr-check Production.mp4
+videopodcast-magic --hdr-check Production.mp4
 ```
 
 That checks every point of the table and says for each what would have to
@@ -571,7 +571,7 @@ backup copy.
   **Render job**. Set the delivery back to a single file at the render
   job in Resolve and render again.
 - **The finished file plays as SDR.** Run
-  `videopodcast_magic.py --hdr-check <file>` and do what it names.
+  `videopodcast-magic --hdr-check <file>` and do what it names.
 - **An angle brings the wrong sound.** The conversion ran with a setting
   other than **Use Source Audio Channels**. Convert again.
 

@@ -331,7 +331,10 @@ Four tabs, in the order they are needed.
   **Create Resolve project**. It also comes up on opening a project
   whose output folder already holds finished files -- the buttons belong
   to those files, so the sheet says where things stand instead of
-  looking like a run that failed.
+  looking like a run that failed. **This tab is the program's
+  console**, and not only a run's: what pip writes while it fetches a
+  newer version lands here too, because nobody starts the program from
+  a terminal any more.
 
 **Multitrack (one track per speaker)** has a line of its own under the
 assignment table, above the Auphonic box. It works with auphonic.com and
@@ -454,7 +457,9 @@ the file's own clock only where nothing was measured.
 - Formats the machine cannot play (MXF, R3D, some ProRes variants) get a
   button for `ffplay`.
 
-The output also goes to `videopodcast-magic.log` next to the script. Its
+The output also goes to `videopodcast-magic.log`, which sits beside the
+program file -- after an install that is the folder pip wrote it into,
+and the line the program prints as it starts names the whole path. Its
 first line names version, time, operating system and Python, and the line
 under it the path the program was started from -- several copies of the
 program share one log, and without that line nobody can tell later which
@@ -637,32 +642,24 @@ what changed in the new version, in its own words, and the address
 underneath. Two buttons:
 
 - **Later** leaves the version that is running in place.
-- **Update** fetches the new version, puts it in place of the file and
-  starts the program again.
+- **Update** hands the job to pip. Before it asks, the window names
+  the folder the new version is going into, so the answer is given
+  knowing where it lands.
 
-The program reads what comes down before it uses it: it has to be
-readable text, it has to look like this program, and it has to compile.
-If one of the three fails, the file that works stays where it is and the
-window says what was wrong.
+**The program does not write over itself, and that is deliberate.** It
+was installed with pip3, and pip keeps the record of which version is
+in place; writing over the file would leave that record standing and
+wrong. So **Update** runs the same command anybody would type --
+`pip3 install -U` on the address the program came from -- in the
+Python the program is running in, so the installation that gets the
+new version is the one that would start.
 
-The version that was running stays beside the new one as
-`videopodcast_magic.py.old`. **Help > Back to 2.26.1-beta** puts it
-back; the entry names the version out of that file and stands in the
-menu only while the file is there.
-
-It asks first, and the kept file has to pass the same three checks as
-what comes down. Then the program starts again. That uses the file up,
-and the way forward is the update over the network again.
-
-**Where the program was installed rather than fetched, it does not
-replace itself.** Something else keeps a record there of which version
-is in place, and writing over the file would leave that record
-standing and wrong. So **Update** stops, names the folder the program
-was installed into, and says to update it the way it was installed --
-`pip3 install -U` on the address it came from, which
-[What it needs](requirements.md#getting-the-program) writes out. The
-question about a newer version is still asked, and still names the one
-that is out.
+**Every line pip writes goes into the fourth tab, Output, as it
+arrives.** That tab is where to watch: the window stays usable, the
+last line says the new version is in place, and it runs from the next
+start. Where pip stops with an error, the tab says so and keeps every
+line above it -- the reason is in there, and the version that works
+has not been touched.
 
 The tick **Skip this version** puts one version aside. The next one
 asks again, and **Help > Look for a newer version now** asks whenever
@@ -801,12 +798,12 @@ list.
 
 The window does not offer these.
 
-`--update` fetches the newer version and puts the running one beside it
-as `videopodcast_magic.py.old`. A run from the command line only ever
-says that a newer one is out -- started from a script, it must not stop
-at a question, and it fetches nothing unasked. Where the program was
-installed, `--update` writes nothing either and says the same thing the
-window says.
+`--update` does what the button does, without the window: it runs pip
+on the address the program came from, and pip writes into the terminal
+instead of into the Output tab. A run with anything else on the
+command line only ever says that a newer version is out -- started
+from a script it must not stop at a question, and it fetches nothing
+unasked.
 
 `VPM_NO_UPDATE_CHECK` in the environment switches the whole thing off,
 the menu entry with it. The entry then says so instead of looking. That
