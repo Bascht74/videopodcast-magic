@@ -144,8 +144,8 @@ subprocess.run(["ffmpeg", "-v", "error", "-i", SOURCE, "-c", "copy",
 out = vpm.copy_mov_atoms(SOURCE, good_target)
 check("logs carried over", out == ["logs"], str(out))
 curve = vpm.log_curve_from_atom(vpm._logs_atom_text(good_target))
-check("text is there", curve == "Apple Log",
-        "read back %r, wanted %r" % (curve, "Apple Log"))
+check("text is there", curve == "Apple Log 2 (Apple Wide Gamut)",
+        "read back %r, wanted %r" % (curve, "Apple Log 2 (Apple Wide Gamut)"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(error) if error else "ALL OK")

@@ -2698,7 +2698,9 @@ def camera_metadata(file_path):
 
     They name the device and app used. Resolve reads them; without them
     it cannot tell that a phone recorded in log, because the colr box of
-    those files reports the transfer function as unspecified.
+    those files reports the transfer function as unspecified. Only the
+    com. keys, because these have to reach the new file unchanged, and a
+    plain key such as encoder is rewritten by whatever wrote it.
     """
     try:
         d = ffprobe_json(file_path)
@@ -3007,26 +3009,26 @@ def _logs_atom_text(file_path):
     return ""
 
 
+# The atom holds a reverse domain name whose middle piece is the colour
+# space; no digit anywhere says which of the two curves it is.
+LOG_ATOM_NAMES = {"com.apple.rec2020.apple-log": "Apple Log (Rec.2020)",
+                  "com.apple.apple-wide-gamut.apple-log":
+                      "Apple Log 2 (Apple Wide Gamut)"}
+
+
 def log_curve_from_atom(text):
     """Return the recording curve named by the logs atom.
 
-    The atom holds a reverse domain name. Known identifiers get a plain
-    name, anything else is shown verbatim: an unknown identifier is
-    information, an invented name would not be.
+    The name carries the colour space too: the same curve is recorded in
+    two of them, and a table built for one lays the wrong space on the
+    other. Known identifiers get a plain name, anything else is shown
+    verbatim -- an unknown identifier is information, an invented name
+    would not be.
     """
     raw = (text or "").replace("\x00", " ").strip()
     if not raw:
         return ""
-    t = raw.lower()
-    # Longer identifier first, or "apple-log" swallows the two.
-    for piece, name in (("apple-log-2", "Apple Log 2"),
-                         ("apple-log2", "Apple Log 2"),
-                         ("applelog2", "Apple Log 2"),
-                         ("apple-log", "Apple Log"),
-                         ("applelog", "Apple Log")):
-        if piece in t:
-            return name
-    return raw
+    return LOG_ATOM_NAMES.get(raw.lower(), raw)
 
 
 def check_colour_survived(source, target, extend=False):
@@ -11873,6 +11875,22 @@ LOG_MARKERS = ("apple log", "applelog", "s-log", "slog", "v-log", "vlog",
               "redlogfilm", "log gamma")
 
 
+def _marker_stands_alone(hay, label):
+    """Say whether a marker is a word of its own, not a piece of one.
+
+    A version digit may follow it -- slog3, logc4 -- a letter may not,
+    or the word "Vlogger" would name a recording curve.
+    """
+    at = hay.find(label)
+    while at >= 0:
+        after = hay[at + len(label):at + len(label) + 1]
+        if (not (at and hay[at - 1].isalnum())
+                and (after.isdigit() or not after.isalnum())):
+            return True
+        at = hay.find(label, at + 1)
+    return False
+
+
 # Names for the ITU-T H.273 codes. Anything not in the list is shown as a
 # number rather than guessed. 2 means "unspecified" in both lists: the file
 # says nothing about its colour.
@@ -11899,7 +11917,7 @@ def _log_in_colour_tags(tags):
             continue
         hay = ("%s %s" % (api_key, value)).lower()
         for label in LOG_MARKERS:
-            if label in hay:
+            if _marker_stands_alone(hay, label):
                 return "%s = %s" % (api_key, value)
     return ""
 
@@ -11984,14 +12002,17 @@ def camera_text(tags):
     d = {}
     for api_key, value in sorted((tags or {}).items()):
         short = str(api_key).rsplit(".", 1)[-1].lower()
-        if short in ("make", "model", "software", "firmware") and str(value).strip():
+        if (short in ("make", "model", "software", "firmware", "encoder")
+                and str(value).strip()):
             d.setdefault(short, str(value).strip())
     maker, model = d.get("make", ""), d.get("model", "")
     if model.lower().startswith(maker.lower()) and maker:
         device = model           # some write the manufacturer into it as well
     else:
         device = " ".join(x for x in (maker, model) if x)
-    software = d.get("software") or d.get("firmware") or ""
+    # Last of all what wrote the file: some cameras put their own name in
+    # "encoder" and say it in no other key.
+    software = d.get("software") or d.get("firmware") or d.get("encoder") or ""
     if device and software:
         return "%s  --  Software %s" % (device, software)
     return device or software or T('no information in the file')
@@ -12249,7 +12270,8 @@ def hdr_from_project(p):
         wl = value.lower()
         if any(x in wl for x in ("2100", "st2084", "pq", "hlg", "hdr")):
             return True, "%s = %s" % (api_key, value)
-        if "2020" in wl or any(m in wl for m in LOG_MARKERS):
+        if "2020" in wl or any(_marker_stands_alone(wl, m)
+                               for m in LOG_MARKERS):
             return True, "%s = %s" % (api_key, value)
         if wl and wl not in ("", "none"):
             return False, "%s = %s" % (api_key, value)

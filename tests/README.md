@@ -1,6 +1,6 @@
 # The test suite
 
-221 tests against `../videopodcast_magic.py`. Every one of them stands
+223 tests against `../videopodcast_magic.py`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-221 tests. The name is the one a red line carries, and beside it the
+223 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -267,6 +267,7 @@ it is green.
 | `files_joined_by_hand` | Putting files into one recording by hand. |
 | `files_left_out_named` | A file left out of a recording is named, with the reason. |
 | `files_lengths_summed` | Does the preflight compare recordings instead of blocks? |
+| `files_named_as_written` | Curve and camera are named from the file's words, not from a likeness. |
 | `files_named_by_folder` | Which folder name is a production, and which one says nothing. |
 | `files_old_file_refused` | The format check: an older file is reported, not read. |
 | `files_only_window_kept` | A time window shortens the cameras and leaves every frame where it was. |
@@ -402,6 +403,7 @@ it is green.
 | `project_handover_built` | The handover is built from data alone, without a window. |
 | `project_hdr_follows` | The render job carries the codec, profile and tags of its range. |
 | `project_keeps_answers` | The saved project holds what was answered, and nothing else. |
+| `project_output_says_hdr` | The project's output colour space decides HDR, and silence is not no. |
 | `project_real_frame` | The frame of the project is one a camera really recorded. |
 | `project_render_kept` | A render never writes over the delivery before it. |
 | `project_render_queued` | The render job handed to Resolve carries format, codec and settings. |
