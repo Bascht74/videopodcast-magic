@@ -85,6 +85,7 @@ files_intro_proposed	24
 files_joined_by_hand	20
 files_left_out_named	7
 files_lengths_summed	6
+files_named_as_written	15
 files_named_by_folder	27
 files_old_file_refused	30
 files_only_window_kept	16
@@ -102,6 +103,7 @@ project_grades_stay_off	8
 project_handover_built	81
 project_hdr_follows	49
 project_keeps_answers	13
+project_output_says_hdr	18
 project_real_frame	4
 project_render_kept	4
 project_render_queued	67
