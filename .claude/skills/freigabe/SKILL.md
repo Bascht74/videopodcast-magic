@@ -132,7 +132,7 @@ and the workflow's first question is whether that test was green here.
 than fetches, and a package calling itself one thing while the program
 calls itself another looks amiss nowhere on the release page. Two
 workflows hold it against the program letter for letter now, and only
-one of them is in time: `publish.yml` reads both lines and stops before
+one of them is in time: `.github/workflows/publish.yml` reads both lines and stops before
 the tag; `.github/workflows/release.yml` asks the same question once the
 release is out, when the push is long gone. So it is set by hand, with
 the other six, before the word.
@@ -168,7 +168,7 @@ the list of runs -- it moves the head the next dispatch would run
 against, and the suite answers for that commit instead.
 
 **Why it runs the suite rather than asking whether somebody did.** The
-first build asked the API for a successful run of `tests.yml` on this
+first build asked the API for a successful run of `.github/workflows/tests.yml` on this
 commit. Measured 4.9.2026: a workflow called with `uses:` is part of
 the calling run and appears under **no run of its own**, so that
 question would have found nothing and every release would have stopped
@@ -199,8 +199,8 @@ the new package too.
 
 Measured 4.9.2026, the day the program became a folder: `pip3 wheel
 --no-deps .` in a checkout still holding the morning's `build/lib/` came
-out with 21 files -- the new package, and beside it the
-`videopodcast_magic.py` and the nine `videopodcast_magic_texts_*.py`
+out with 21 files -- the new package, and beside it the flat
+videopodcast_magic.py and the nine videopodcast_magic_texts_ files
 that do not exist any more. After
 `rm -rf build videopodcast_magic.egg-info`: 11 files. **git was clean,
 the working tree was clean, and only the package was wrong.** Nothing
@@ -250,14 +250,13 @@ tenth language tomorrow is a file in `language/` and travels by itself,
 and a written-down eleven would turn a good release red. `models/` and
 `__pycache__` are pruned on this side for the same reasons as in the
 archive: 31 MB of speaker model that the program fetches itself, and
-bytecode that is not in the repository at all. `*.py` is what
+bytecode that is not in the repository at all. The .py pattern is what
 setuptools ships out of a package that declares no data of its own; the
 day it declares some, this line names it too.
 
 **Both directions at once, and one case is not covered here.** Measured
 4.9.2026 on copies: a `build/lib/` holding a stale
-`videopodcast_magic_texts_de.py` comes out as
-`> videopodcast_magic_texts_de.py`, by name; and a `pyproject.toml`
+videopodcast_magic_texts_de.py comes out as a `>` line naming it; and a `pyproject.toml`
 whose `packages` has lost `videopodcast_magic.language` comes out as
 ten `<` lines -- which is the only place that fault is caught at all,
 because the archive is built out of the folder and pip's own
@@ -267,7 +266,7 @@ is content. `git status` answers for that one, which is why it stands
 above this and not instead of it.
 
 **This one stays on the disc, and no workflow can take it.** Neither
-`publish.yml` nor `release.yml` can ask it: both work in a checkout made
+`.github/workflows/publish.yml` nor `.github/workflows/release.yml` can ask it: both work in a checkout made
 seconds ago, where a stale `build/` cannot exist, so the check would be
 green for ever on a machine where the fault is impossible. It has to be
 asked here, on the disc where the folder lies, and before the word.
@@ -278,6 +277,12 @@ asked here, on the disc where the folder lies, and before the word.
 notes, not a closing line -- the headline. It is what somebody sees in
 the list of releases before they open anything, and it is the one place
 in this project where a lighter tone costs nothing.
+
+**It is English.** The notes say everything twice and the program speaks
+nine languages; the headline does not. Counted 4.9.2026: seven of the
+eight newest titles are English and one is German, and the odd one out
+reads as a slip rather than a choice. The rule had never said so, and
+the gap cost a wrong proposal that evening -- so it says so now.
 
 It says what this version is really about while it does it. Half a
 sentence after the number:
@@ -299,7 +304,7 @@ the thing itself, no exclamation mark, no explanation behind it. If
 nothing comes, dry beats laboured.
 
 **This is the one thing in a release a machine cannot supply, and it is
-the only thing the dispatch asks for.** `publish.yml` has a single input,
+the only thing the dispatch asks for.** `.github/workflows/publish.yml` has a single input,
 `title`, and what goes in it is **the half sentence and not the number**:
 the workflow reads the number out of the program and puts it in front
 itself, so the headline and the tag are built out of the same one number
@@ -317,7 +322,7 @@ YAML:
 0. **The title is not empty.** First because it costs nothing -- no
    checkout, no network -- and the commonest wrong start is found in two
    seconds.
-1. **The suite runs, here, on this commit.** `tests.yml` is called from
+1. **The suite runs, here, on this commit.** `.github/workflows/tests.yml` is called from
    this workflow, so the six jobs are part of this run and answer for
    the commit the dispatch was started against. Red on any of them:
    no tag.
@@ -352,13 +357,13 @@ already standing stays in `.github/workflows/release.yml`, which runs on
 byte, the notes against the changelog line by line, the addresses a
 fetched copy updates itself from, and that the thing installs and
 answers `--version`. Three questions are in both files, each marked
-"too late" where it stands in `publish.yml` -- program against
+"too late" where it stands in `.github/workflows/publish.yml` -- program against
 `pyproject.toml`, the section not empty, the archive's listing. Not
 duplication: after the tag, an answer only tells you what you can no
 longer change.
 
-**So the publish run is not the last one to watch.** `publish.yml` going
-green means the mark was set well; `release.yml`, which starts by itself
+**So the publish run is not the last one to watch.** `.github/workflows/publish.yml` going
+green means the mark was set well; `.github/workflows/release.yml`, which starts by itself
 the moment the release is published, is what says the thing hanging on
 it is right.
 
@@ -396,7 +401,7 @@ this one is built on a Mac whenever somebody checks the recipe by hand.
 
 **An archive and not a file, since 4.9.2026.** The texts of each
 language stand in a folder beside the program that day, and the program
-alone does not start -- `FileNotFoundError` on `language/de.py` during
+alone does not start -- `FileNotFoundError` on `videopodcast_magic/language/de.py` during
 the import, measured. So all of it goes up or none of it does.
 
 **And an archive of the program, not of the repository.** GitHub hangs
@@ -427,7 +432,7 @@ it. That day came on 4.9.2026, and this line was what changed: it named
 a pattern of file names and names the folder now. Both workflows follow
 by themselves, because they list what is at the commit rather than
 holding a list of their own. What does not follow by itself is the
-`starts:` job in `release.yml` and the fetch in `tests/first_run.sh`:
+`starts:` job in `.github/workflows/release.yml` and the fetch in `tests/first_run.sh`:
 both ask github.com for names ending in `.py`.
 
 **Two files hang on a release: the archive and the sum of it.** The sum
@@ -438,7 +443,7 @@ be built twice into the same bytes -- it carries the times and the order
 the files went in -- so a sum over the files inside would be one nobody
 could repeat against what is in their hand, while the archive's own sum
 is exactly that. Whether the files inside are the ones that were tagged
-is `release.yml`'s question, and it answers it byte for byte without
+is `.github/workflows/release.yml`'s question, and it answers it byte for byte without
 needing a sum.
 
 Why a file of its own rather than a line in the notes: **whoever checks
@@ -455,7 +460,7 @@ answer to ourselves; it is not something the person downloading can
 repeat.
 
 Three releases went out with nothing attached at all. That is the fault
-the attachment step in `publish.yml` cannot repeat -- both files are
+the attachment step in `.github/workflows/publish.yml` cannot repeat -- both files are
 named in the same `gh release create` that makes the release, so a
 release without them is no longer a thing a tired hand can produce.
 
