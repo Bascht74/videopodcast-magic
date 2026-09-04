@@ -106,6 +106,18 @@ brought up to date. The skill `freigabe` says how each is done and in
 what order, `changelog` how a section is written, `handbuch` how a
 chapter is, and `bilder` how the pictures are taken.
 
+**And the tag is not typed by hand any more.** Decided on 4.9.2026: the
+owner says the word, you dispatch `.github/workflows/publish.yml` over
+the GitHub connection, and the workflow does the rest -- it asks the API
+whether the suite came back green on this very commit, reads the version
+out of the program, cuts the changelog section, and only then makes tag
+and release. A missing section, a tag that is already there, a
+`pyproject.toml` that says another number: it stops before the mark,
+because everything it asks would otherwise be found hanging on a tag
+nobody can move. **The owner clicks nothing, and nothing here pushes a
+tag again.** The five things above are still done by hand and before the
+word; `freigabe` has the rest.
+
 **What the manual pass turns up becomes a test, and before the tag.**
 That pass is the only one that reads the program as a user, and it finds
 what the tests do not: a switch that is taken and does nothing, a track

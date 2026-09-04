@@ -22,6 +22,12 @@ on:
   schedule:
     - cron: '17 5 * * 1'
   workflow_dispatch:
+  # Called by publish.yml, so that a release runs the suite itself
+  # rather than asking whether somebody ran it earlier. The called
+  # workflow runs on the caller's commit, which is the whole point:
+  # what is tagged is what was tested, and nothing has to be held
+  # against anything afterwards.
+  workflow_call:
 
 # A second push to the same branch makes the first run pointless.
 # The event is part of the group, or the weekly run would be cancelled
