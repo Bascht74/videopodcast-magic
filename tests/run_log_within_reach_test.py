@@ -3,21 +3,26 @@
 
 Sections: a copy nobody installed writes beside itself; an installed
 copy writes where the platform keeps logs and never into the folder
-pip owns; VPM_LOGS moves the whole of it; a start without switches
-says nothing in front of its window while a start that only reads the
-switches still answers; that the file the menu opens is the one this
-run writes into and not the copy kept from the run before; and that
-the Help menu offers it.
+pip owns; VPM_LOGS moves the whole of it; one folder spelled two ways
+is still the folder pip owns; a start without switches says nothing in
+front of its window while a start that only reads the switches still
+answers; that the file the menu opens is the one this run writes into
+and not the copy kept from the run before; and that the Help menu
+offers it.
 
 The installed case is rebuilt, not installed: a throwaway environment
 is made and the module files are copied into the folder pip would put
 them in. Nothing here goes outside, and pip's build step fetches. So
 what this proves is what the program looks at -- the folder its file
-stands in -- and not pip's own wheel.
+stands in -- and not pip's own wheel. The second spelling is a link
+where the system makes one; the two spellings Windows itself produces
+are put to ntpath, which answers here what it answers there.
 """
 import glob
 import io
+import ntpath
 import os
+import posixpath
 import shutil
 import subprocess
 import sys
@@ -179,7 +184,54 @@ want_moved = os.path.join(elsewhere, "videopodcast-magic",
 check("VPM_LOGS moves the log of an installed copy", moved == want_moved,
       "%s against %s" % (moved or "nothing", want_moved))
 
-print("\n3. Nothing is said in front of the window")
+print("\n3. One folder, two spellings")
+# The names are written out rather than built from purelib: what went
+# wrong on Windows was that the package's own path said lib where
+# sysconfig said Lib, and ntpath answers here what it answers there.
+OWNED = "D:\\a\\vpm\\installed\\Lib\\site-packages"
+UNDER = ("D:\\a\\vpm\\installed\\lib\\site-packages"
+         "\\videopodcast_magic\\__init__.py")
+BESIDE_IT = ("D:\\a\\vpm\\installed\\Lib\\site-packages-old"
+             "\\videopodcast_magic\\__init__.py")
+POSIX_OWNED = "/x/vpm/installed/Lib/site-packages"
+POSIX_UNDER = ("/x/vpm/installed/lib/site-packages"
+               "/videopodcast_magic/__init__.py")
+check("on a system blind to case, lib and Lib are one folder",
+      vpm.inside_folder(UNDER, OWNED, ntpath),
+      "%s under %s" % (UNDER, OWNED))
+check("on a system that tells case apart, they are two folders",
+      not vpm.inside_folder(POSIX_UNDER, POSIX_OWNED, posixpath),
+      "%s under %s" % (POSIX_UNDER, POSIX_OWNED))
+check("a folder whose name only begins the same is not the one pip owns",
+      not vpm.inside_folder(BESIDE_IT, OWNED, ntpath),
+      "%s under %s" % (BESIDE_IT, OWNED))
+
+# And the whole program under a second spelling, not only the one
+# judgement: a link to the folder pip owns, put in front of the child's
+# path, so its file arrives under a name sysconfig never says.
+link = os.path.join(work, "another-spelling")
+try:
+    os.symlink(purelib, link)
+    no_link = ""
+except OSError as e:
+    no_link = str(e)
+if no_link:
+    print("LEFT OUT: no second spelling of that folder can be made here"
+          " -- %s" % no_link)
+else:
+    code, said, went_wrong = ask(python, SAY,
+                                 child_env(home, {"PYTHONPATH": link}))
+    rows = said.splitlines()
+    check("a copy found under a second spelling knows it was installed",
+          code == 0 and rows[:1] == ["True"],
+          "code %d, said %r, wrong %r" % (code, rows[:1], went_wrong[-200:]))
+    twice = rows[1] if len(rows) > 1 else ""
+    check("and its log stays out of the folder pip owns then too",
+          bool(twice) and not os.path.realpath(twice).startswith(
+              os.path.realpath(purelib) + os.sep),
+          "%s against %s" % (twice or "nothing", purelib or "no folder"))
+
+print("\n4. Nothing is said in front of the window")
 # The window is replaced by a stand-in that returns at once, and so is
 # the redirect that would take the console into the file: what main()
 # prints on the way to the window has to stay visible, or this section
@@ -200,7 +252,7 @@ check("a start that only reads the switches still answers",
       asked.strip() != "",
       "%d characters: %r" % (len(asked), asked[:60]))
 
-print("\n4. The log the menu opens is the one this run writes")
+print("\n5. The log the menu opens is the one this run writes")
 # In a child, because the redirect takes the descriptors of whoever
 # calls it and this test still has to be able to print. The log is
 # pointed at a folder of its own, so nothing here writes into the
@@ -231,7 +283,7 @@ check("and what was written before it stands in the kept one",
       "BEFORE-THE-REDIRECT" in before and "BEFORE-THE-REDIRECT" not in now,
       "%d characters kept, %d in the new log" % (len(before), len(now)))
 
-print("\n5. The window offers the way to the log")
+print("\n6. The window offers the way to the log")
 window = QtWidgets.QWidget()
 tabs = QtWidgets.QTabWidget()
 tabs.addTab(QtWidgets.QWidget(), "One")
