@@ -723,7 +723,7 @@ AUDIO_SUFFIXES = (".wav", ".bwf", ".flac", ".aif", ".aiff", ".mp3", ".m4a",
 VIDEO_SUFFIXES = (".mov", ".mp4", ".m4v", ".mxf", ".mkv", ".avi", ".mts",
                  ".m2ts", ".mpg", ".mpeg", ".webm", ".r3d")
 TRAILING_NUMBER = re.compile(r"^(.*?)(\d+)$")
-VERSION = "3.0.0b0"
+VERSION = "3.0.0b1"
 PROJECT_PREFIX = "videopodcast-magic_"  # project file: prefix + production
 # The names inside the stored files. It counts up whenever a key or
 # a stored value is renamed. An older file is refused with a clear

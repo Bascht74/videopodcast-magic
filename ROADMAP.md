@@ -15,7 +15,7 @@ gone through for 3.0.0b0.
 
 ## Where the program stands today
 
-**Version 3.0.0b0.** It runs every week, on real material.
+**Version 3.0.0b1.** It runs every week, on real material.
 
 It does the work that comes before the edit: it puts the processed
 audio into the video files as the first track, brings recorders and
