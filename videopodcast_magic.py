@@ -657,10 +657,31 @@ if sys.version_info < NEEDS_PYTHON:
              "%d.%d. Recommended version: %s."
              % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
 
-# Reading the switch list or the version number needs neither numpy nor
-# ffmpeg. Both are answered before anything is fetched.
-ONLY_READING = any(a in ("-h", "--help", "--version") for a in sys.argv[1:])
-np = None            # set below, unless this run is only reading
+def only_reading(argv):
+    """True where the command line only wants the switch list or the version.
+
+    A question about the command line, asked where the command line is
+    read. Reading it needs neither numpy nor ffmpeg.
+    """
+    return any(a in ("-h", "--help", "--version") for a in argv)
+
+
+class Numpy:
+    """Stands in for numpy until the first calculation asks for it.
+
+    What this file holds must not depend on how the program was
+    started, or its parts cannot import one another. Importing it
+    fetches nothing; --version answers cheaply because it calculates
+    nothing, not because argv was read while the file was being read.
+    """
+
+    def __getattr__(self, name):
+        global np
+        np = _require_module("numpy")
+        return getattr(np, name)
+
+
+np = Numpy()
 
 def count_process_starts(where):
     """Write one line per process this program starts, into a file.
@@ -17770,10 +17791,10 @@ def watch_outside_calls():
     """Route every call to another program past the log.
 
     Wrapped here rather than at the 46 call sites: what is asked of a
-    call site is forgotten by the next one somebody writes. Only where
-    this file is the program being run -- loaded as a module, the
-    replacement would reach into the loader too, and its own processes
-    have nothing to do with a run.
+    call site is forgotten by the next one somebody writes. Called from
+    main(), where somebody has asked for a run -- done while the file
+    is read, the replacement would reach into whoever imported it, and
+    their processes have nothing to do with a run.
     """
     subprocess.run = run_outside
     subprocess.Popen = popen_outside
@@ -19386,6 +19407,12 @@ RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
 # Off for a test run: a suite must not reach for the network, and it
 # must certainly not swap the file it is testing.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
+# What pip is pointed at where the program was installed rather than
+# downloaded. No PyPI in it: pip reads the repository itself and
+# compares what is there with what is installed.
+PIP_SOURCE = "git+https://github.com/Bascht74/videopodcast-magic"
+UPDATE_SINK = None   # set by the GUI: callable(job) that runs job(say)
+                     # in a thread, its lines going into the Output tab
 
 
 def update_skip_file():
@@ -19654,6 +19681,71 @@ def put_new_self(text):
     return ""
 
 
+def pip_update(tag, say):
+    """Let pip fetch that release. "" when it worked, or why not.
+
+    The Python this is running in, so the installation that gets the
+    new version is the one that would run it. Every line pip writes is
+    handed on as it arrives: the first install fetches a gigabyte of
+    packages, and a window with nothing in it looks broken.
+    """
+    order = [sys.executable, "-m", "pip", "install", "-U", PIP_SOURCE]
+    say("  %s\n" % " ".join(order))
+    try:
+        started = subprocess.Popen(order, stdout=subprocess.PIPE,
+                                   stderr=subprocess.STDOUT)
+    except OSError as e:
+        return T('pip could not be started: %s') % e
+    for line in started.stdout:
+        say(line.decode("utf-8", "replace"))
+    code = started.wait()
+    if code:
+        return T('pip stopped with %s. What it managed stands in the '
+                 'lines above.') % code
+    say(T('%s is installed. It runs from the next start.') % tag + "\n")
+    return ""
+
+
+def update_promise(owner):
+    """What the window says it will do before it asks.
+
+    Two different things happen, so two different sentences are owed.
+    *owner* is the folder a package manager installed this into, and
+    where there is one the program does not write over itself: pip
+    does it, into that folder.
+    """
+    if owner:
+        return T('Update? pip fetches it into %s. What pip says appears '
+                 'under Output, and the new version runs from the next '
+                 'start.') % owner
+    return T('Update? The run then begins from the new version. The one '
+             'running now stays beside it as videopodcast_magic.py.old.')
+
+
+def update_fetched(tag, owner):
+    """Put that release in place. "" where it is under way, or why not.
+
+    An installation is pip's to change: writing over the file would
+    leave its record of the version standing and wrong. pip takes
+    minutes, so the window runs it beside itself rather than in its
+    own thread. A loose file is written over and the program starts
+    again from it.
+    """
+    if owner:
+        if UPDATE_SINK is None:
+            return T('There is no window to show what pip says.')
+        UPDATE_SINK(lambda say: pip_update(tag, say))
+        return ""
+    text, trouble = fetch_new_self(tag)
+    if not text:
+        return trouble
+    trouble = put_new_self(text)
+    if trouble:
+        return trouble
+    start_again()
+    return ""
+
+
 def update_note():
     """Say on the command line that a newer version is out.
 
@@ -19686,6 +19778,13 @@ def update_from_command_line():
         return 1
     if not tag:
         print(T('No newer version found. This one is %s.') % VERSION)
+        return 0
+    if installed_by_a_package_manager():
+        # Whoever typed --update has a console, so pip writes into it.
+        trouble = pip_update(tag, write_through)
+        if trouble:
+            print(trouble)
+            return 1
         return 0
     text, trouble = fetch_new_self(tag)
     if not text:
@@ -24166,7 +24265,10 @@ def build_argument_parser():
 
 def main():
     force_utf8_output()
-    if ONLY_READING:
+    # Here rather than beside the last line of the file: a run started
+    # through the installed command never passes that line.
+    watch_outside_calls()
+    if only_reading(sys.argv[1:]):
         # argparse prints and exits by itself; nothing here needs a tool.
         build_argument_parser().parse_args()
         return 0
@@ -30759,6 +30861,49 @@ def assignment_marks_show(audio_fields, assign_lines, video_fields,
                 video_reason.setVisible(False)
 
 
+def make_log_writer(state, post):
+    """The window's own way of taking a line of output.
+
+    Outside gui() because it decides nothing: it hands the text to the
+    queue the window drains. Every absolute path that really exists is
+    kept as a result on the way through, so the button that opens the
+    result folder has a target.
+    """
+    def write(text):
+        for line in text.splitlines():
+            path = line.strip()
+            if os.path.isabs(path) and os.path.exists(path):
+                if path not in state["results"]:
+                    state["results"].append(path)
+        post.put(text)
+
+    return write
+
+
+def make_update_sink(state, write, show, timer):
+    """The window's way of running a long job with its output in view.
+
+    The road a run takes, and for the same reason: the job works in a
+    thread of its own while the window stays alive, its lines go into
+    the Output tab, and the flag the window watches keeps a run from
+    starting on top of it and brings the buttons back at the end.
+    """
+    def beside(job):
+        show()
+        state["running"] = True
+
+        def loop():
+            trouble = job(write)
+            if trouble:
+                write(as_bad("\n" + trouble + "\n"))
+            state["running"] = False
+
+        threading.Thread(target=loop, daemon=True).start()
+        timer.start()
+
+    return beside
+
+
 def gui_run_loop(argv, state, write, ask_user, bridge, bridge_emit,
                  run_step_order):
     """Do the actual run in a worker thread and catch what it says.
@@ -30858,7 +31003,7 @@ def gui():
     Qt = QtCore.Qt
     Cursor = QtGui.QTextCursor
 
-    global OUTPUT_SINK, GUI_RUNNING
+    global OUTPUT_SINK, GUI_RUNNING, UPDATE_SINK
     GUI_RUNNING = True
 
     # The ffmpeg backend of Qt would otherwise print the whole format block to
@@ -35584,14 +35729,7 @@ def gui():
     only_resolve.clicked.connect(only_resolve_start_run)
 
     # ------------------------------------------------------------- The run
-    def write(text):
-        # Read the result paths too, so "open folder" has a target.
-        for line in text.splitlines():
-            path = line.strip()
-            if os.path.isabs(path) and os.path.exists(path):
-                if path not in state["results"]:
-                    state["results"].append(path)
-        post.put(text)
+    write = make_log_writer(state, post)
 
     output_timer = QtCore.QTimer(window)
     output_timer.setInterval(80)
@@ -35619,6 +35757,7 @@ def gui():
             preview_compute()
 
     output_timer.timeout.connect(clear)
+    UPDATE_SINK = make_update_sink(state, write, output_show, output_timer)
 
     # Runs in the window thread while the worker thread waits.
     bridge.question.connect(
@@ -36317,6 +36456,7 @@ def update_offer(window, asked=False):
     # it does not translate, and gives it four lines to be read in.
     # What somebody is about to install is not a detail.
     from PySide6 import QtCore
+    owner = installed_by_a_package_manager()
     box = QtWidgets.QDialog(window)
     box.setWindowTitle(T('A newer version is out'))
     box.resize(680, 560)
@@ -36328,9 +36468,7 @@ def update_offer(window, asked=False):
     head.setFont(font)
     rows.addWidget(head)
 
-    said = QtWidgets.QLabel(
-        T('Update? The run then begins from the new version. The one '
-          'running now stays beside it as videopodcast_magic.py.old.'))
+    said = QtWidgets.QLabel(update_promise(owner))
     said.setWordWrap(True)
     rows.addWidget(said)
 
@@ -36377,15 +36515,9 @@ def update_offer(window, asked=False):
         set_update_skipped(tag)
     if answered != QtWidgets.QDialog.Accepted:
         return
-    text, trouble = fetch_new_self(tag)
-    if not text:
-        warn_box(QtWidgets, window, T('A newer version is out'), trouble)
-        return
-    trouble = put_new_self(text)
+    trouble = update_fetched(tag, owner)
     if trouble:
         warn_box(QtWidgets, window, T('A newer version is out'), trouble)
-        return
-    start_again()
 
 
 def restore_offer(window):
@@ -36482,6 +36614,19 @@ CATALOGUE["de"] = {
     'running now stays beside it as videopodcast_magic.py.old.':
         'Aktualisieren? Danach läuft die neue Version. Die aktuelle '
         'Version bleibt als videopodcast_magic.py.old daneben liegen.',
+    'Update? pip fetches it into %s. What pip says appears under '
+    'Output, and the new version runs from the next start.':
+        'Aktualisieren? pip holt sie nach %s. Was pip sagt, steht unter '
+        'Ausgabe, und die neue Fassung läuft ab dem nächsten Start.',
+    'pip could not be started: %s':
+        'pip ließ sich nicht starten: %s',
+    'pip stopped with %s. What it managed stands in the lines above.':
+        'pip hat mit %s aufgehört. Was es geschafft hat, steht in den '
+        'Zeilen darüber.',
+    '%s is installed. It runs from the next start.':
+        '%s ist installiert. Ab dem nächsten Start läuft sie.',
+    'There is no window to show what pip says.':
+        'Es gibt kein Fenster, das zeigen könnte, was pip sagt.',
     'an intro or outro with two channels is a stereo mix -- not measured':
         'ein Vorspann oder Abspann mit zwei Kanälen ist eine '
         'Stereomischung -- nicht gemessen',
@@ -40299,15 +40444,6 @@ CATALOGUE["de"] = {
 
 LANG = known_language(system_locale())
 
-# numpy comes last, so its one message about installing goes out in the
-# language the catalogue has just settled. And not at all for somebody
-# who only wants to read the switch list: fetching twenty megabytes to
-# answer --help is not a fair trade.
-if not ONLY_READING:
-    np = _require_module("numpy")
-
 
 if __name__ == "__main__":
-    watch_outside_calls()
-
     sys.exit(main())
