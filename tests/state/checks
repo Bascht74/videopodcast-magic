@@ -124,8 +124,8 @@ run_dry_reports_voices	13
 run_ffmpeg_new_enough	25
 run_ffmpeg_not_fetched	8
 run_ffmpeg_offered	19
-run_install_is_watched	24
-run_log_within_reach	20
+run_install_is_watched	25
+run_log_within_reach	25
 run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	83
