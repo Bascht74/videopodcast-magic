@@ -32,6 +32,29 @@ import threading
 import time
 
 
+PIECES = {}    # the pieces of the program already read, by their path
+
+
+def beside(name):
+    """One piece of this program, out of the folder this file lies in.
+
+    Read from its path, and not imported by name. The program is
+    started three ways -- installed, as a plain file, and executed from
+    an absolute path under a name a test picks -- and an import by name
+    finds the piece in the first of them only.
+    """
+    import importlib.util
+    where = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                         name, "__init__.py")
+    if where not in PIECES:
+        spec = importlib.util.spec_from_file_location(
+            "videopodcast_magic." + name, where)
+        piece = importlib.util.module_from_spec(spec)
+        PIECES[where] = piece
+        spec.loader.exec_module(piece)
+    return PIECES[where]
+
+
 # ---------------------------------------------------------------------------
 # Language
 # ---------------------------------------------------------------------------
@@ -47,8 +70,15 @@ import time
 #   3. Nothing else. --lang offers the new code and a system set to it
 #      picks it automatically.
 
-SOURCE_LANG = "en"    # the language the texts in this file are written in
-CATALOGUE = {}        # language -> {English text: translation}
+language = beside("language")
+CATALOGUE = language.CATALOGUE
+SOURCE_LANG = language.SOURCE_LANG
+LANG = language.LANG
+T = language.T
+TN = language.TN
+known_language = language.known_language
+languages = language.languages
+system_locale = language.system_locale
 
 
 def texts_of_language(code):
@@ -62,62 +92,24 @@ def texts_of_language(code):
     """
     import importlib.util
     name = "videopodcast_magic_language_" + code
-    beside = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                          "language", code + ".py")
-    spec = importlib.util.spec_from_file_location(name, beside)
+    beside_it = os.path.join(os.path.dirname(os.path.abspath(__file__)),
+                             "language", code + ".py")
+    spec = importlib.util.spec_from_file_location(name, beside_it)
     texts = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(texts)
     return texts.TEXTS
 
 
-def languages():
-    """Return every language code this program can speak, sorted."""
-    return sorted(set(CATALOGUE) | {SOURCE_LANG})
+def set_language(name):
+    """Switch every message to that language, English if it is unknown.
 
-
-def known_language(code):
-    """Reduce a locale name to a language this program has texts for.
-
-    "de_DE.UTF-8" becomes "de". Anything without a catalogue becomes
-    English, because that is what the untranslated texts already are.
+    The code is held twice: beside this file, where T() reads it, and
+    here, which is where a reader of this program and every test look
+    for it. One door sets both, so they cannot come apart.
     """
-    # LANGUAGE may hold a list, "de:en"; the first entry counts.
-    code = re.split(r"[-_.@:]", (code or "").strip())[0].lower()
-    return code if code in languages() else SOURCE_LANG
-
-
-def system_locale():
-    """Return the locale name the system asks for, or "".
-
-    The environment is asked first, because that is what a terminal
-    session sets. A double-clicked app starts without it, so macOS and
-    Windows are asked directly before the C library gets a turn.
-    """
-    for name in ("LANGUAGE", "LC_ALL", "LC_MESSAGES", "LANG"):
-        value = os.environ.get(name) or ""
-        if value and value not in ("C", "POSIX"):
-            return value
-    if sys.platform == "darwin":
-        try:
-            p = subprocess.run(["defaults", "read", "-g", "AppleLocale"],
-                               capture_output=True, text=True, timeout=5)
-            if p.returncode == 0 and p.stdout.strip():
-                return p.stdout.strip()
-        except Exception:
-            pass
-    if os.name == "nt":
-        try:
-            import ctypes
-            buffer = ctypes.create_unicode_buffer(85)
-            if ctypes.windll.kernel32.GetUserDefaultLocaleName(buffer, 85):
-                return buffer.value
-        except Exception:
-            pass
-    try:
-        import locale
-        return locale.getlocale()[0] or ""
-    except Exception:
-        return ""
+    global LANG
+    LANG = language.set_language(name)
+    return LANG
 
 
 def kept_language():
@@ -133,15 +125,6 @@ def kept_language():
     return kept if isinstance(kept, str) and kept in languages() else ""
 
 
-LANG = SOURCE_LANG    # set once the catalogue is loaded, see the file end
-
-
-def set_language(name):
-    """Switch every message to that language, English if it is unknown."""
-    global LANG
-    LANG = known_language(name)
-
-
 def group_text(number):
     """Group the thousands the way the chosen language does."""
     return format(int(number), ",d").replace(",", T(","))
@@ -151,25 +134,6 @@ def decimal_text(text):
     """Write the decimal point the way the chosen language writes it."""
     mark = T(".")
     return text.replace(".", mark) if mark != "." else text
-
-
-def T(text, *args):
-    """Return a message in the chosen language, %-arguments applied.
-
-    The English wording is the key, so the code stays readable and an
-    untranslated text shows up in English instead of disappearing.
-    """
-    out = CATALOGUE.get(LANG, {}).get(text, text)
-    return out % args if args else out
-
-
-def TN(number, one, many):
-    """Pick the singular or the plural wording; both are translated.
-
-    Languages do not agree on how a plural is built, so each wording is
-    its own text instead of a suffix glued on in the code.
-    """
-    return T(one if number == 1 else many)
 
 
 def channel_text(count):
@@ -37528,7 +37492,7 @@ CATALOGUE["hi"] = texts_of_language("hi")
 # Where the window's language comes from: what somebody chose in an
 # earlier run, and the system where nobody has chosen yet. --lang beats
 # both, and main() applies it once the command line has been read.
-LANG = kept_language() or known_language(system_locale())
+LANG = set_language(kept_language() or system_locale())
 
 
 if __name__ == "__main__":
