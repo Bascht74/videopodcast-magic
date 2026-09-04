@@ -127,6 +127,13 @@ führt die Kapitel auf.
 * **Ein Schalter, den das Programm nicht kennt.** Der Lauf hält an,
   bevor etwas geschieht, und gibt die ganze Liste der Schalter aus. Die
   Schreibweise mit den Tabellen oben vergleichen.
+* **Der Lauf hält sofort an und nennt eine ffmpeg-Fassung.** Dieses
+  ffmpeg ist älter als 9.0.1, oder es fehlt ganz. Mit Schaltern
+  gestartet, sagt das Programm es in dem Terminal, aus dem es gestartet
+  wurde, und zwar bevor etwas geschieht; `--help` und `--version`
+  antworten weiterhin. [Was gebraucht
+  wird](requirements.de.md#woher-ffmpeg-kommt) sagt, warum diese
+  Fassung und woher man sie bekommt.
 * **Ein Wert mit einem Leerzeichen darin.** In Anführungszeichen
   setzen: `--auphonic-preset "<Name des Presets>"`. Ohne sie kommt das
   zweite Wort als Dateiname an.
