@@ -1,23 +1,23 @@
 # -*- coding: utf-8 -*-
-"""A logs atom lost by ffmpeg's copy is put back into the new file.
+"""Atoms lost by ffmpeg's copy are put back into the new file.
 
-The source is built here and the atom written into its video sample
-description by hand, the way a camera writes it -- so the program's own
-reader has to find the moov box and that description first. Then in
+The source is built here and the atoms written into its video sample
+description by hand, the way a camera writes them -- so the program's
+own reader has to find the moov box and that description first. Then in
 order: the source carries the atom and ffprobe still reads it, copying
 with -c:v copy drops it, copy_mov_atoms names what it put back and the
 atom is there again, the file stays readable and decodable, and a
-second run adds nothing and leaves the atom as it stood.
+second run adds nothing and leaves the atom as it stood. Last the
+others on the list -- the older gamma and both Dolby Vision boxes --
+and the one that is deliberately not on it: a 3D box beside the one
+ffmpeg writes itself leaves a file nothing will open.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, json, shutil, struct, subprocess, sys, tempfile, time
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-m = importlib.util.module_from_spec(spec); sys.modules["vpm"] = m
-spec.loader.exec_module(m)
+SCRIPT = the_program.SCRIPT
+import json, shutil, struct, subprocess, sys, tempfile, time
+m = the_program.load()
 
 began = time.time()
 done = 0
@@ -180,6 +180,107 @@ if insert(raw):
           "returned %r" % (again,))
     check("and the atom stands unchanged", still == CONTENT,
           (still or b"nothing").decode("latin1", "replace"))
+
+    # --- the others on the list, and the one that is not -------------
+    # gama holds the curve of older QuickTime recordings, dvcC and dvvC
+    # the Dolby Vision set. st3d says how a 3D picture is packed and is
+    # deliberately absent from the list.
+    def box(kind, payload):
+        return struct.pack(">I4s", 8 + len(payload), kind) + payload
+
+    MORE = {b"gama": box(b"gama", struct.pack(">I", 144179)),
+            b"dvcC": box(b"dvcC", bytes([1, 0, 10, 53] + [0] * 20)),
+            b"dvvC": box(b"dvvC", bytes([1, 0, 16, 37] + [0] * 20)),
+            b"st3d": box(b"st3d", b"\x00\x00\x00\x00\x02")}
+
+    def sub_boxes(file_path):
+        """The kinds of the video sample description's sub-boxes."""
+        above = m._top_level_boxes(file_path)
+        mo = next(((p, n) for a, p, n in above if a == b"moov"), None)
+        if not mo:
+            return []
+        with open(file_path, "rb") as f:
+            f.seek(mo[0]); moov = f.read(mo[1])
+        chain = m._video_track_chain(moov, 0, len(moov), 8)
+        if not chain:
+            return []
+        e_i, _ = chain[-1]
+        e_size = struct.unpack(">I", moov[e_i:e_i + 4])[0]
+        return [bytes(k) for _i, _s, k, _h
+                in m._atom_boxes(moov, e_i + 8 + 78, e_i + e_size)]
+
+    def prepared(name, kinds):
+        """A source carrying those atoms, and a target written from it."""
+        src = os.path.join(folder, "src_%s.mov" % name)
+        subprocess.run(["ffmpeg", "-v", "error", "-y", "-i", raw, "-map", "0",
+                        "-c", "copy", "-movflags", "+write_colr", src],
+                       check=True)
+        atoms = b"".join(MORE[k] for k in kinds)
+        above = m._top_level_boxes(src)
+        pos, size = above[-1][1], above[-1][2]
+        with open(src, "rb") as f:
+            f.seek(pos); moov = bytearray(f.read(size))
+        chain = m._video_track_chain(moov, 0, len(moov), 8)
+        e_i, _ = chain[-1]
+        e_size = struct.unpack(">I", moov[e_i:e_i + 4])[0]
+        for i, _k in chain:
+            struct.pack_into(">I", moov, i,
+                             struct.unpack(">I", moov[i:i + 4])[0] + len(atoms))
+        moov = moov[:e_i + e_size] + atoms + moov[e_i + e_size:]
+        with open(src, "r+b") as f:
+            f.seek(pos); f.write(moov); f.truncate(pos + len(moov))
+        dst = os.path.join(folder, "dst_%s.mov" % name)
+        subprocess.run(["ffmpeg", "-v", "error", "-i", src, "-map", "0",
+                        "-c:v", "copy", "-c:a", "pcm_s24le",
+                        "-map_metadata", "0",
+                        "-movflags", "+use_metadata_tags", "-y", dst],
+                       check=True)
+        return src, dst
+
+    wanted = [b"gama", b"dvcC", b"dvvC"]
+    src, dst = prepared("more", wanted)
+    have = sub_boxes(src)
+    check("the source carries the gamma and both Dolby Vision boxes",
+          all(k in have for k in wanted),
+          "found %r, wanted %r among them"
+          % ([k.decode("latin1") for k in have],
+             [k.decode("latin1") for k in wanted]))
+    lost = [k for k in wanted if k not in sub_boxes(dst)]
+    check("ffmpeg's copy drops all three of them", lost == wanted,
+          "dropped %r, wanted all three dropped"
+          % ([k.decode("latin1") for k in lost],))
+    got = m.copy_mov_atoms(src, dst)
+    check("all three are on the list and are put back",
+          sorted(got) == sorted(k.decode("latin1") for k in wanted),
+          "put back %r, wanted %r"
+          % (sorted(got), sorted(k.decode("latin1") for k in wanted)))
+    read = subprocess.run(["ffprobe", "-v", "error", "-show_streams",
+                           "-select_streams", "v:0", dst],
+                          capture_output=True)
+    check("and the file with them in it still opens",
+          read.returncode == 0 and b"DOVI" in read.stdout,
+          "return code %d, Dolby Vision read back %s %s"
+          % (read.returncode, b"DOVI" in read.stdout,
+             one_line(read.stderr)))
+
+    # The 3D box: ffmpeg writes one of its own into the target, and the
+    # two beside each other make a file nothing will open. Copying it
+    # back would trade a lost packing for a lost file.
+    src3, dst3 = prepared("st3d", [b"st3d"])
+    check("a 3D source makes ffmpeg write a box of its own",
+          b"vexu" in sub_boxes(dst3),
+          "the new file carries %r, wanted vexu among them"
+          % ([k.decode("latin1") for k in sub_boxes(dst3)],))
+    # Why it is not on the list stands in the source beside the list,
+    # and is not checked here: it is a fault of the writer's, and a
+    # check that held ffmpeg to it would go red the day ffmpeg mended
+    # it -- red at somebody who had broken nothing.
+    # Once, into a name: copying twice would put the atom in on the
+    # first call and find it there on the second, and the failure line
+    # would then report the second answer for the first one's fault.
+    put = m.copy_mov_atoms(src3, dst3)
+    check("the 3D box is not on the list and is not put back", put == [],
+          "put back %r, wanted nothing" % (put,))
 else:
     print("  the source was never prepared, so the checks below "
           "could not run")

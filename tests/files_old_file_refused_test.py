@@ -14,14 +14,11 @@ Where the test reads the source it reads the file under test, so a run
 against a snapshot searches the snapshot and not the working file.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import importlib.util, io, json, sys, tempfile, time
-spec = importlib.util.spec_from_file_location(
-    "vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import io, json, sys, tempfile, time
+vpm = the_program.load()
 
 began = time.time()
 done = 0
@@ -92,25 +89,28 @@ check("the complaint is English where the run is English",
       "%d characters ending %r" % (len(english), english[-40:]))
 
 print("\n3. Nothing is converted")
-source = io.open(SCRIPT,
-                 encoding="utf-8").read()
-# The old words may stand only as a label in the catalogue, never as a
-# comparison value. They stay German here because German is searched for.
-without_catalogue = source.split('CATALOGUE["de"] = {')[0]
-# What is searched is everything before the catalogue. If that marker
-# turned up early -- in a comment, in a second place -- the searches
-# below would run over a handful of lines and stay green on a program
-# full of leftovers, so how much of it is being read is asked first.
-check("the search covers the code in front of the catalogue",
-      len(without_catalogue) > len(source) // 2,
-      "%d of %d characters searched" % (len(without_catalogue), len(source)))
+source = the_program.text()
+# The whole program is searched. The translations live in files of
+# their own beside it, so nothing in here is a catalogue and a German
+# word left in the code cannot hide behind being a label. Until today
+# this cut the source at the catalogue's opening line; the catalogue
+# moved out, the cut found nothing, and the cut piece was the whole
+# source -- which the old guard could not see, because it asked whether
+# the piece was shorter than half of itself.
+# So what is read is held against the file it was read from: a reader
+# that came back with a fragment would let every search below pass over
+# almost nothing and stay green on a program full of leftovers.
+on_disk = os.path.getsize(SCRIPT)
+check("the search covers the whole program",
+      on_disk > 0 and len(source) > on_disk // 2,
+      "%d characters searched, %d bytes in %s"
+      % (len(source), on_disk, os.path.basename(SCRIPT)))
 for label in ("Inhalt", "nur in den Mix", "Audio ignorieren",
              "ohne Auphonic arbeiten", "Vorspann", "Abspann"):
     check("the old name %r is gone from the code" % label,
-          '"%s"' % label not in without_catalogue,
-          "found %d times in the %d characters before the catalogue"
-          % (without_catalogue.count('"%s"' % label),
-             len(without_catalogue)))
+          '"%s"' % label not in source,
+          "found %d times in the %d characters of the program"
+          % (source.count('"%s"' % label), len(source)))
 check("no table converts an older file instead of refusing it",
       "MIGRAT" not in source.upper() and "umstellen_alt" not in source,
       "MIGRAT %d times, umstellen_alt %d times in %d characters"

@@ -8,16 +8,15 @@ cameras really deliver, where a version digit follows the marker; two
 invented names burying a marker inside a longer word, where the word
 boundary is decided; an ordinary SDR space, which says no; the spaces
 carrying HDR in their name; the cases where nothing can be read, which
-say nothing -- not no; and the reason, read back on a yes and on a no.
+say nothing -- not no; the reason, read back on a yes and on a no; and
+which curve is read out of every output colour space Resolve offers.
 """
 import os
+import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
-    os.path.dirname(HERE), "videopodcast_magic.py")
-import sys, time, importlib.util
-spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
-vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
-spec.loader.exec_module(vpm)
+SCRIPT = the_program.SCRIPT
+import sys, time
+vpm = the_program.load()
 vpm.set_language("en")
 
 began = time.time()
@@ -154,6 +153,45 @@ check("a project that refuses to answer says nothing at all", got is None,
 got, why = vpm.hdr_from_project(Project(""))
 check("an answer that is no dictionary says nothing at all", got is None,
       "read back %r for an empty string of settings, wanted None" % (got,))
+
+# --- every output colour space Resolve offers, and what catches it ---
+# Written out as values: these are the names Resolve 21 carries, and a
+# loop that worked them out would work them out as wrongly as the
+# program does. PQ and HLG on one side, the spaces that are neither on
+# the other -- and nothing may be caught by both.
+PQ_NAMES = ("Rec.2100 ST2084", "Rec.2100 ST2084 (1000 nit)",
+            "Rec.2100 ST2084 (Scene)", "Rec.2020 ST2084 1000 nits",
+            "P3-D65 ST2084 (1000 nit)", "HDR PQ", "HDR Rec.2020 PQ",
+            "HDR ST.2084")
+HLG_NAMES = ("Rec.2100 HLG", "Rec.2100 HLG (Scene)", "HDR HLG",
+             "HDR Rec.2020 HLG", "Rec.2020 HLG ARIB STD-B67")
+NEITHER = ("Rec.709", "Rec.709 Gamma 2.4", "Rec.709 BT.1886",
+           "Rec.2020", "Rec.2020 Gamma 2.4", "SDR Rec.709",
+           "SDR Rec.2020", "P3-D65", "DCI-P3", "Rec.601")
+
+
+class OneSetting:
+    """A project that answers with one output colour space and nothing else."""
+
+    def __init__(self, value):
+        self.value = value
+
+    def GetSetting(self, name):
+        return {"colorSpaceOutput": self.value}
+
+
+missed = [n for n in PQ_NAMES
+          if vpm.hdr_kind_from_project(OneSetting(n))[0] != "pq"]
+check("every PQ output colour space is read as PQ", not missed,
+      "%d of %d not caught: %r" % (len(missed), len(PQ_NAMES), missed[:3]))
+missed = [n for n in HLG_NAMES
+          if vpm.hdr_kind_from_project(OneSetting(n))[0] != "hlg"]
+check("every HLG output colour space is read as HLG", not missed,
+      "%d of %d not caught: %r" % (len(missed), len(HLG_NAMES), missed[:3]))
+wrong = [(n, vpm.hdr_kind_from_project(OneSetting(n))[0]) for n in NEITHER
+         if vpm.hdr_kind_from_project(OneSetting(n))[0] is not None]
+check("a space that is neither is read as neither", not wrong,
+      "%d of %d taken for HDR: %r" % (len(wrong), len(NEITHER), wrong[:3]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

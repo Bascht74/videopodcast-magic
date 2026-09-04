@@ -27,7 +27,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "videopodcast-magic"
-version = "3.0.0b1"
+version = "3.0.0b2"
 description = "Raw material from a video podcast becomes an edited episode"
 readme = "README.md"
 requires-python = ">=3.10"
@@ -48,4 +48,11 @@ dependencies = [
 videopodcast-magic = "videopodcast_magic:main"
 
 [tool.setuptools]
-py-modules = ["videopodcast_magic"]
+# The program and the German texts are two files, and both have to
+# travel: the program reads the second from beside itself and stops
+# with the missing path if it is not there.
+py-modules = ["videopodcast_magic", "videopodcast_magic_texts_de",
+              "videopodcast_magic_texts_es", "videopodcast_magic_texts_pt",
+              "videopodcast_magic_texts_fr", "videopodcast_magic_texts_ru",
+              "videopodcast_magic_texts_zh", "videopodcast_magic_texts_ja",
+              "videopodcast_magic_texts_hi", "videopodcast_magic_texts_ar"]

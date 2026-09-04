@@ -15,6 +15,11 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     ROOT, "videopodcast_magic.py")
+# The German texts are a file of their own beside the program, and the
+# program reads them from there; this test looks in the same place, so
+# a snapshot run reads the snapshot's own texts.
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT),
+                        "videopodcast_magic_texts_de.py")
 sys.path.insert(0, HERE)
 import ratchet
 
@@ -37,23 +42,15 @@ def check(what, ok, detail=""):
 source = io.open(SCRIPT, encoding="utf-8").read()
 tree = ast.parse(source)
 
-# The German side is read out of the syntax tree instead of importing
-# the program: a dictionary of literals evaluates without running
-# anything, so nothing here can open a window.
+# The German side is read out of the syntax tree of the texts file
+# instead of importing the program: a dictionary of literals evaluates
+# without running anything, so nothing here can open a window.
 catalogue = {}
-for node in tree.body:
-    if not isinstance(node, ast.Assign):
-        continue
-    for target in node.targets:
-        if isinstance(target, ast.Subscript) \
-                and isinstance(target.value, ast.Name) \
-                and target.value.id == "CATALOGUE":
-            try:
-                catalogue = ast.literal_eval(node.value)
-            except ValueError:
-                catalogue = {}
+for node in ast.parse(io.open(TEXTS_DE, encoding="utf-8").read()).body:
+    if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
+        catalogue = ast.literal_eval(node.value)
 check("the German catalogue could be read", len(catalogue) > 100,
-      "%d entries" % len(catalogue))
+      "%d entries in %s" % (len(catalogue), os.path.basename(TEXTS_DE)))
 
 
 def is_call(node):
