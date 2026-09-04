@@ -23,12 +23,14 @@ out of a helper would be counted against whichever test imported it.
 import importlib.util
 import io
 import os
+import re
 import sys
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 ROOT = os.path.dirname(HERE)
 SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
     ROOT, "videopodcast_magic", "__init__.py")
+FOLDER = os.path.dirname(os.path.abspath(SCRIPT))
 
 
 def load(name="vpm"):
@@ -60,3 +62,48 @@ def text():
     folder opens as a directory and not as a file.
     """
     return io.open(SCRIPT, encoding="utf-8").read()
+
+
+# A translation is data, not program: one name and nothing else. Held
+# apart by what stands in the file rather than by where it lies, so a
+# ninth language tomorrow needs nothing written here.
+HOLDS_TEXTS = re.compile(r"^TEXTS = \{", re.M)
+HOLDS_CODE = re.compile(r"^(?:def |class |import |from )", re.M)
+
+
+def a_catalogue(body):
+    """Whether that file holds a translation rather than program."""
+    return bool(HOLDS_TEXTS.search(body)) and not HOLDS_CODE.search(body)
+
+
+def pieces():
+    """Every piece of the program, each as (its name, its text).
+
+    `text()` above answers for one file, and a reader that builds a
+    tree or a call graph out of it measures a program with holes in it
+    the moment a piece moves out -- silently, because a name that is no
+    longer there is simply never reached. This hands back all of them.
+
+    Not joined into one string, because a good many of these readers
+    print a line number and a number into a joined text points
+    nowhere. The name beside each piece is its path under the
+    program's folder, so a number keeps somewhere to point. Whoever
+    only searches for a word may join them and has the catalogues
+    already left out: a translation is data, and three checks go red
+    over it for the wrong reason.
+    """
+    entry = os.path.relpath(os.path.abspath(SCRIPT), FOLDER)
+    entry = entry.replace(os.sep, "/")
+    found = []
+    for here, folders, files in os.walk(FOLDER):
+        folders[:] = [one for one in folders if one != "__pycache__"]
+        for one in files:
+            if not one.endswith(".py"):
+                continue
+            body = io.open(os.path.join(here, one), encoding="utf-8").read()
+            if a_catalogue(body):
+                continue
+            name = os.path.relpath(os.path.join(here, one), FOLDER)
+            found.append((name.replace(os.sep, "/"), body))
+    found.sort(key=lambda piece: (piece[0] != entry, piece[0]))
+    return found
