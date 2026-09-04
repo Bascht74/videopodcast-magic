@@ -234,6 +234,7 @@ voice_names_when_sure	55
 voice_note_translated	9
 voice_questions_rank	28
 voice_raw_times_kept	70
+voice_reason_reaches_log	6
 voice_source_travels	21
 voice_split_hears_two	8
 voice_split_names_fault	7
@@ -259,6 +260,7 @@ window_play_follows_tab	23
 window_prework_box_goes	3
 window_setup_kept_apart	19
 window_size_as_run	6
+window_speaker_cell_fits	11
 window_speakers_as_run	14
 window_stages_named	16
 window_stands_still	2

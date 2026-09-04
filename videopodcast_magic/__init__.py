@@ -21613,12 +21613,25 @@ def speaker_python():
 # speaker_split() throws it away, because after an install the answer
 # from before it is about an installation that is gone.
 _SPEAKER_READY = None
+_SPEAKER_WHY = ""
 
 
 def forget_speaker_split():
     """Ask again whether the separation can run."""
-    global _SPEAKER_READY
-    _SPEAKER_READY = None
+    global _SPEAKER_READY, _SPEAKER_WHY
+    _SPEAKER_READY, _SPEAKER_WHY = None, ""
+
+
+def speaker_split_why():
+    """What the import really said when it failed, or "".
+
+    The one line that names the fault, out of whatever the other
+    process wrote. Without it the window can only guess at a cause,
+    and "not installed" was printed once for a program that was
+    installed and whose import fell over a library beside it.
+    """
+    speaker_split_available()
+    return _SPEAKER_WHY
 
 
 def speaker_split_available(deep=False):
@@ -21629,7 +21642,7 @@ def speaker_split_available(deep=False):
     earlier run answers a different one. *deep* asks again from
     scratch rather than reading the answer kept in this run.
     """
-    global _SPEAKER_READY
+    global _SPEAKER_READY, _SPEAKER_WHY
     if deep:
         _SPEAKER_READY = None
     if _SPEAKER_READY is None:
@@ -21637,10 +21650,17 @@ def speaker_split_available(deep=False):
             p = subprocess.run([speaker_python(), "-c",
                                 "import pyannote.audio"],
                                stdout=subprocess.DEVNULL,
-                               stderr=subprocess.DEVNULL)
+                               stderr=subprocess.PIPE)
             _SPEAKER_READY = p.returncode == 0
-        except OSError:
-            _SPEAKER_READY = False
+            # The last line of a traceback is the exception itself, and
+            # that is the one line worth keeping: the frames above it
+            # say where pyannote imports its own libraries, which
+            # nobody reading this can do anything about.
+            said = (p.stderr or b"").decode("utf-8", "replace").strip()
+            _SPEAKER_WHY = "" if _SPEAKER_READY or not said \
+                else said.splitlines()[-1].strip()
+        except OSError as e:
+            _SPEAKER_READY, _SPEAKER_WHY = False, str(e)
     return _SPEAKER_READY
 
 
@@ -22782,7 +22802,7 @@ def split_cells_write(cells, busy, running, by_source, note):
     the table has been built again while this was on its way.
     """
     running = os.path.abspath(running) if running else ""
-    for path, button, mark in list(cells or ()):
+    for path, button, mark, _item in list(cells or ()):
         here = os.path.abspath(path)
         mine = busy and here == running
         found = separations_of(by_source, path)
@@ -22803,6 +22823,10 @@ def split_cells_write(cells, busy, running, by_source, note):
                 mark.setText("")
         except RuntimeError:
             return False
+    # After the texts and not between them: the rows have to be as
+    # tall as what now stands in them, and a line shorter again when
+    # that is cleared.
+    cells_laid_out(cells)
     return True
 
 
@@ -23145,7 +23169,14 @@ def speaker_split_work(source, count, note, stopping, done):
     segments, trouble = [], ""
     try:
         if not speaker_split_available():
-            trouble = speaker_split_missing()
+            # The cell is one line wide in a table; the reason is a
+            # traceback's last line and the way back is a pip3 command.
+            # Both go where there is room for them, and the cell says
+            # where that is.
+            trouble_log(speaker_split_why()
+                        or speaker_split_missing())
+            trouble = T('Speaker separation not available. The log '
+                        'says why.')
         if not trouble:
             segments, trouble = speaker_split_cached(
                 source, count, report=note, stopping=stopping)
@@ -30040,14 +30071,71 @@ def speaks_as(widget, what, row_name=""):
                              if row_name else what)
     return widget
 
-def split_cell_build(path, on_stop):
+def split_column_room(widget):
+    """How wide the Speakers column has to be for what it will hold.
+
+    Not for what stands in it: it is filled minutes later, when a
+    separation reports, and a column that measures its contents
+    measured an empty one. Measured in the font that draws, over the
+    two captions that must not wrap -- the running one, which shares
+    the cell with the button, and the finished count.
+    """
+    from PySide6 import QtWidgets as _qw
+    mark = _qw.QLabel("")
+    mark.setFont(widget.font())
+    button = _qw.QPushButton(T('Break off'))
+    button.setFont(widget.font())
+    running = caption_room(mark, 0, [T('Separating speakers ...'),
+                                     T('Breaking off ...')])
+    done = caption_room(mark, 0, [TN(2, 'Separated: %d speaker',
+                                     'Separated: %d speakers') % 2])
+    return max(running + button.sizeHint().width() + 6, done) + 12
+
+
+def split_column_fit(tree, column, stretch=1):
+    """Give the Speakers column its width, and the rest to the names.
+
+    Out of the window so it can be measured without one, and in one
+    place so what is measured and what is drawn cannot drift apart.
+    The column is fixed and the name column takes whatever is left: a
+    button squeezed to half its caption is worse than a name field one
+    word narrower, and a name field scrolls its own content.
+    """
+    from PySide6 import QtWidgets as _qw
+    head = tree.header()
+    head.setStretchLastSection(False)
+    tree.setColumnWidth(column, split_column_room(tree))
+    head.setSectionResizeMode(stretch, _qw.QHeaderView.Stretch)
+    return tree.columnWidth(column)
+
+
+def cells_laid_out(cells):
+    """Let the view measure its rows again, once for the whole pass.
+
+    A cell written to after the sheet was laid out keeps the height of
+    the empty cell, and a wrapping label then loses every line but its
+    last. This is the only thing that puts it right: writing the
+    height on to the item itself changes nothing, measured with the
+    longest text that cell can be handed. True where a view was found.
+    """
+    for _path, _button, _mark, item in list(cells or ()):
+        model = item.model()
+        view = model.parent() if model is not None else None
+        if hasattr(view, "doItemsLayout"):
+            view.doItemsLayout()
+            return True
+    return False
+
+
+def split_cell_build(path, on_stop, item):
     """The Speakers cell of one recording: its state, and a way out.
 
     Nothing here starts a separation -- that is answered in the name
     field of the same row -- so the cell only says what came of it and
-    carries the button that breaks a running one off. Returns the cell,
-    the button and the label: both are written to again while a run is
-    going on.
+    carries the button that breaks a running one off. Returns the cell
+    and what has to be reached again while a run goes on: the button,
+    the label, and the row's own item, which is the way from here back
+    to the view that has to measure the row again.
     """
     from PySide6 import QtWidgets as _qw
     box = _qw.QWidget()
@@ -30061,11 +30149,12 @@ def split_cell_build(path, on_stop):
     mark = label("", COLOURS["quiet"])
     # Word wrap, because the cell is written to again after the column
     # was measured: a reason the separation could not run is hundreds
-    # of pixels wide, and two lines are better than a cut one.
+    # of pixels wide, and two lines are better than a cut one. Making
+    # room for the second line is cells_laid_out's business.
     mark.setWordWrap(True)
     row.addWidget(mark, 1)
     row.addWidget(button)
-    return box, button, mark
+    return box, (path, button, mark, item)
 
 
 def typed_part(new, old):
@@ -34740,9 +34829,9 @@ def gui():
             # spread over every camera has nothing to do with who is
             # heard on it.
             if not SPEAKER_SPLIT_OFF:
-                box_, button_, mark_ = split_cell_build(first, split_stop)
+                box_, cell_ = split_cell_build(first, split_stop, node[4])
                 tree_field(tree_audio, node, 4, box_)
-                state["split_cells"].append((first, button_, mark_))
+                state["split_cells"].append(cell_)
             # The voices go under the row before the row is filled in:
             # whether this recording has any is what decides what it
             # carries itself.
@@ -34962,16 +35051,11 @@ def gui():
             1, QtWidgets.QHeaderView.Stretch)
         tree_audio.header().setStretchLastSection(True)
         if not SPEAKER_SPLIT_OFF:
-            # The last column carries a button, and a button that is
-            # squeezed shows half its caption. So the room left over
-            # goes to the name field instead, which scrolls its content
-            # rather than cutting it.
-            audio_head = tree_audio.header()
-            audio_head.setStretchLastSection(False)
-            audio_head.setSectionResizeMode(
-                4, QtWidgets.QHeaderView.ResizeToContents)
-            audio_head.setSectionResizeMode(
-                1, QtWidgets.QHeaderView.Stretch)
+            # A width for what the column will hold, not for what is in
+            # it: it is written to minutes later, and a column that
+            # measures its contents measured an empty one. The room
+            # left over goes to the name field, which scrolls its own.
+            split_column_fit(tree_audio, 4)
         # The camera list now stands, so queue what can be prepared: the
         # envelope for every camera, plus the camera audio for those
         # contributing it.
