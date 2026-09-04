@@ -39,7 +39,12 @@ dependencies = [
     "faster-whisper",   # speech recognition, used as soon as a transcript is
 ]
 
-[project.scripts]
+# gui-scripts, not scripts. On macOS and Linux the two produce a
+# starter that is byte for byte the same; on Windows this one builds an
+# .exe with no console window behind the interface, and starts it with
+# pythonw. Measured by reading the PE header of both: subsystem 2
+# against 3.
+[project.gui-scripts]
 videopodcast-magic = "videopodcast_magic:main"
 
 [tool.setuptools]
