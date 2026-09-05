@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in Arabic.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# 327 of the program's 1498 texts stand here. Every text that is
-# not in this file appears in English: T() gives back the key it was
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
 #
@@ -28,11 +29,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "المونتاج باللقطة الواسعة"
 
-msgid "on %d camera"
-msgstr "على %d كاميرا"
+msgid "on %s camera"
+msgstr "على %s كاميرا"
 
-msgid "on %d cameras"
-msgstr "على %d كاميرات"
+msgid "on %s cameras"
+msgstr "على %s كاميرات"
 
 msgid "no camera yet"
 msgstr "لا كاميرا بعد"
@@ -151,14 +152,14 @@ msgstr "متحدث إضافي في %s"
 msgid "One more speaker in"
 msgstr "إضافة متحدث آخر"
 
-msgid "%d:%02d min"
-msgstr "%d:%02d د"
+msgid "%s:%02d min"
+msgstr "%s:%02d د"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d إلى %d:%02d (%.1f ث)"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d إلى %d:%02d (%s ث)"
 
-msgid "%s and %d more"
-msgstr "%s و%d أخرى"
+msgid "%s and %s more"
+msgstr "%s و%s أخرى"
 
 msgid "%s speech time"
 msgstr "زمن كلام %s"
@@ -280,23 +281,23 @@ msgstr "فتح المشروع"
 msgid "not readable"
 msgstr "غير قابل للقراءة"
 
-msgid "%d audio track"
-msgstr "مسار صوتي %d"
+msgid "%s audio track"
+msgstr "مسار صوتي %s"
 
-msgid "%d audio tracks"
-msgstr "%d مسارات صوتية"
+msgid "%s audio tracks"
+msgstr "%s مسارات صوتية"
 
-msgid "%d clip"
-msgstr "مقطع %d"
+msgid "%s clip"
+msgstr "مقطع %s"
 
-msgid "%d clips"
-msgstr "%d مقاطع"
+msgid "%s clips"
+msgstr "%s مقاطع"
 
-msgid "%d video track"
-msgstr "مسار فيديو %d"
+msgid "%s video track"
+msgstr "مسار فيديو %s"
 
-msgid "%d video tracks"
-msgstr "%d مسارات فيديو"
+msgid "%s video tracks"
+msgstr "%s مسارات فيديو"
 
 msgid "  (this file ends earlier)"
 msgstr "  (ينتهي هذا الملف قبل ذلك)"
@@ -307,17 +308,17 @@ msgstr " (متوقف مؤقتًا)"
 msgid " (playing)"
 msgstr " (قيد التشغيل)"
 
-msgid "%d channel"
-msgstr "قناة %d"
+msgid "%s channel"
+msgstr "قناة %s"
 
-msgid "%d channels"
-msgstr "%d قنوات"
+msgid "%s channels"
+msgstr "%s قنوات"
 
-msgid "%d file"
-msgstr "ملف %d"
+msgid "%s file"
+msgstr "ملف %s"
 
-msgid "%d files"
-msgstr "%d ملفات"
+msgid "%s files"
+msgstr "%s ملفات"
 
 msgid "... or add files ..."
 msgstr "... أو إضافة ملفات ..."
@@ -340,8 +341,8 @@ msgstr "كتل"
 msgid "Camera"
 msgstr "كاميرا"
 
-msgid "Camera audio, %d to go ..."
-msgstr "صوت الكاميرا، بقي %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "صوت الكاميرا، بقي %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- معاينة  (المدة %s)"
@@ -778,23 +779,23 @@ msgstr "غير معروف"
 msgid "video file"
 msgstr "ملف فيديو"
 
-msgid "%d audio recording"
-msgstr "تسجيل صوتي %d"
+msgid "%s audio recording"
+msgstr "تسجيل صوتي %s"
 
-msgid "%d audio recordings"
-msgstr "%d تسجيلات صوتية"
+msgid "%s audio recordings"
+msgstr "%s تسجيلات صوتية"
 
-msgid "%d camera"
-msgstr "كاميرا %d"
+msgid "%s camera"
+msgstr "كاميرا %s"
 
-msgid "%d cameras"
-msgstr "%d كاميرات"
+msgid "%s cameras"
+msgstr "%s كاميرات"
 
-msgid "%d video file"
-msgstr "ملف فيديو %d"
+msgid "%s video file"
+msgstr "ملف فيديو %s"
 
-msgid "%d video files"
-msgstr "%d ملفات فيديو"
+msgid "%s video files"
+msgstr "%s ملفات فيديو"
 
 msgid "Caution"
 msgstr "تنبيه"

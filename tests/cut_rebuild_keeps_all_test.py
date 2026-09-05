@@ -216,7 +216,8 @@ check("both marks come back, not only the first",
          sorted(os.path.basename(p)
                 for p in vpm.marked_wide_shots(settings))))
 check("and the rebuild says it has two wide shots, not one",
-      (vpm.T('  %d wide shots: the cut uses %s.') % (2, "A")) in full_log,
+      (vpm.T('  %s wide shots: the cut uses %s.')
+       % (vpm.group_text(2), "A")) in full_log,
       "wanted the line for 2 wide shots, cut cameras %s"
       % cameras_in(full_cut))
 
