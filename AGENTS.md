@@ -182,6 +182,12 @@ Each of these cost something, and `development/decisions.md` says what.
   files by path. **If you do not split, write one sentence saying why.**
   A file another strand owns is not a reason to wait -- prepare
   instead. Skill `strang`.
+* **A big fan-out is proposed, never started.** Over about 25 strands
+  that each read a file -- the owner drew the line at 2.5 million
+  tokens on 5.9.2026 -- say what it would cost and let him decide.
+  The number is knowable before the run: strands times what one costs.
+  Skill `workflow` says which shape blows past it, and what costs a
+  fortieth and finds the same.
 * **Say what was measured and what was assumed.** Never claim a test
   passed without running it.
 * **Every check owes a counter-proof, and it is written down.** A check
