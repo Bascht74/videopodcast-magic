@@ -75,4 +75,4 @@ videopodcast-magic = "videopodcast_magic:main"
 # weight into every installation, for the many who never separate
 # speakers.
 packages = ["videopodcast_magic", "videopodcast_magic.language",
-            "videopodcast_magic.ui"]
+            "videopodcast_magic.speech", "videopodcast_magic.ui"]
