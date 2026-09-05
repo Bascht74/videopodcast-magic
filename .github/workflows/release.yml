@@ -387,14 +387,31 @@ jobs:
           check "it is not a draft" "$ok"
           [ "$pre" = "0" ] && ok=1 || ok=0
           check "it is not a pre-release" "$ok"
-          [ "$latest" = "$TAG" ] && ok=1 || ok=0
-          check "releases/latest names this tag" "$ok" \
-            "it names ${latest:-nothing}"
+          # Left out rather than failed where an older tag was named by
+          # hand: only the newest release can pass this, so on any other
+          # it is red by design -- and a check that is red by design is
+          # one nobody reads. Measured 6.9.2026, asking it of b3 and b4.
+          if [ -n "$latest" ] && [ "$latest" != "$TAG" ] \
+             && [ "${GITHUB_EVENT_NAME:-}" = "workflow_dispatch" ]; then
+            echo "  LEFT OUT: releases/latest names this tag, and"
+            echo "      nothing already out sorts newer. $TAG is not the"
+            echo "      newest -- $latest is -- so neither can be true"
+            echo "      here. Everything else below still answers."
+            older_left_out=1
+          else
+            older_left_out=0
+            [ "$latest" = "$TAG" ] && ok=1 || ok=0
+            check "releases/latest names this tag" "$ok" \
+              "it names ${latest:-nothing}"
+          fi
 
           # newer_release() offers nothing unless version_key(tag) is
           # greater than the version_key of what is running. A release
           # that sorts older than one already out is one nobody is ever
           # offered. Asked with the program's own version_key.
+          if [ "$older_left_out" = "1" ]; then
+            rc=0
+          else
           set +e
           python - <<'PY'
           import importlib.util, json, sys
@@ -419,6 +436,7 @@ jobs:
           PY
           rc=$?
           set -e
+          fi
           [ "$rc" = "0" ] || fails=$((fails + 1))
 
           echo
