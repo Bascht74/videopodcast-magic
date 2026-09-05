@@ -55,14 +55,22 @@ def fresh_cache(what):
 fresh_cache("start")
 
 print("1. Which earlier versions are put on offer")
-# Thirty releases, five of them from before the repository was a package
-# at all. Handed over shuffled rather than sorted: a list that arrives
-# in order lets a program that never sorts look right.
+# Five releases from before the repository was a package at all, and
+# above them the pre-releases of 3.0.0 and twenty finished ones.
+# Handed over shuffled rather than sorted: a list that arrives in order
+# lets a program that never sorts look right.
+#
+# The one the program is at comes from VERSION and is not written down.
+# Measured 5.9.2026: with the five betas spelled out, the day the
+# number went to 3.0.0b5 the note named a release the list did not
+# hold, the offer opened on the newest instead, and all six machines
+# went red on a release that was otherwise finished.
 UNDER_THE_FLOOR = ["v2.28.0-beta", "v2.29.0-beta", "v2.30.0-beta",
                    "v2.31.0-beta", "v2.32.0-beta"]
-ON_OFFER = (["v3.0.0b%d" % n for n in range(5)]
-            + ["v3.%d.0" % n for n in range(20)])
-THIRTY = sorted(UNDER_THE_FLOOR + ON_OFFER)
+ON_OFFER = sorted(set(["v3.0.0b%d" % n for n in range(5)]
+                      + ["v" + vpm.VERSION]
+                      + ["v3.%d.0" % n for n in range(20)]))
+ALL_TAGS = sorted(UNDER_THE_FLOOR + ON_OFFER)
 RUNNING = "v3.20.0"
 # Written out rather than worked out: the newest twenty of the
 # twenty-five pip could install, newest first. The five pre-releases of
@@ -102,7 +110,7 @@ def the_releases(url, *rest, **more):
     ASKED.append(where)
     if where != vpm.RELEASE_LIST:
         raise IOError("nothing but the list of releases is answered here")
-    return Said(json.dumps([{"tag_name": t} for t in THIRTY]).encode("utf-8"))
+    return Said(json.dumps([{"tag_name": t} for t in ALL_TAGS]).encode("utf-8"))
 
 
 def with_releases(what):
@@ -119,7 +127,7 @@ older, trouble = with_releases(lambda: vpm.older_releases(RUNNING))
 check("exactly twenty earlier versions are put on offer",
       len(older) == 20 and not trouble,
       "%d of the %d releases came back, %d of them installable, and the "
-      "trouble was %r" % (len(older), len(THIRTY), len(ON_OFFER), trouble))
+      "trouble was %r" % (len(older), len(ALL_TAGS), len(ON_OFFER), trouble))
 # Asked again from low down, and that is the point: with twenty-five
 # above the floor the cap alone keeps the five below it out, and this
 # judgement would be green with no floor in the program at all. From
@@ -236,17 +244,21 @@ PIP_CODE[0] = 0
 # text would never match one.
 fresh_cache("pick")
 with_pip(lambda: vpm.pip_update("v3.12.0", GOT.append))
-# Asked from v3.2.0 rather than from v3.20.0 on purpose: from there the
-# version just left behind is the third on offer and not the first, so
-# an offer that simply opened on the newest would not pass for one that
-# read the note.
-seven, _said = with_releases(lambda: vpm.older_releases("v3.2.0"))
+# Asked from three above the running version, not from the top: from
+# there the one just left behind is the third on offer and not the
+# first, so an offer that simply opened on the newest would not pass
+# for one that read the note. Worked out rather than written down --
+# the day the number moves, a fixed asking point stops holding the
+# running version at all.
+ORDERED = sorted(ON_OFFER, key=vpm.version_key, reverse=True)
+FROM_ABOVE = ORDERED[max(0, ORDERED.index("v" + vpm.VERSION) - 3)]
+from_two, _said = with_releases(lambda: vpm.older_releases(FROM_ABOVE))
 check("the offer opens on the version the last install left behind",
-      vpm.back_pick(seven) == "v" + vpm.VERSION,
+      vpm.back_pick(from_two) == "v" + vpm.VERSION,
       "the install left %r behind, the %d on offer are %r, the newest "
       "of them is %r, and the offer opened on %r"
-      % (vpm.updated_from(), len(seven), seven[:4],
-         seven[0] if seven else None, vpm.back_pick(seven)))
+      % (vpm.updated_from(), len(from_two), from_two[:4],
+         from_two[0] if from_two else None, vpm.back_pick(from_two)))
 fresh_cache("nopick")
 check("and on the newest of them where nothing was noted",
       vpm.back_pick(older) == "v3.19.0",

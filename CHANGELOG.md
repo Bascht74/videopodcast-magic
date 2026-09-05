@@ -25,6 +25,112 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b5] - 2026-09-05
+
+### Added
+
+- **A place in the program list.** The first start now lays one where
+  this system keeps its programs -- a bundle in the Applications folder
+  on macOS, an entry in the Start menu on Windows, a launcher in the
+  desktop's program list on Linux. Whoever installed with pip had a
+  command and nothing else. It is laid once, and one deleted by hand is
+  not laid again.
+- **The language of the window is chosen in the settings.** Nine
+  languages were in the program and only the system's own could reach
+  them. The settings now offer a list, and a language chosen there is
+  spoken from the next start.
+- **A run that installed a new version offers to start again.** The
+  window that is open is still the old one, and it said so and left it
+  there. Now it offers the restart, and the same offer comes after
+  ffmpeg has been fetched.
+- **A way back to an earlier version.** Help offers the last twenty
+  releases older than the one running, and going back installs the one
+  that is chosen. Nothing below 3.0.0b0 is offered -- the repository was
+  not a package yet, so pip would have nothing to build.
+
+### Changed
+
+- **Numbers are said the way the language writes them.** "1234 files"
+  came out with the same digits in every language; in German that reads
+  as one point two three four. 205 places now take the thousands mark
+  and the decimal mark from the catalogue itself, so a language that
+  writes neither is right without a line of its own.
+- **Russian says a count's wording in three forms.** Russian wants one
+  wording at 1 and 21, another at 2 to 4, a third at 5 and up. Nine
+  counted things -- files, cameras, clips, channels, tracks, recordings
+  -- now carry all three.
+- **There is one road to a newer version, and it is pip.** The second
+  road wrote a single file over the installed program and left six of
+  its pieces on the version before; it could not have worked since the
+  program became a folder. `--update` goes the same road as the button
+  in the window.
+
+### Fixed
+
+- **ffmpeg is found when the program is started from the Dock.** Out of
+  a terminal it ran, out of the Finder it said "ffmpeg is missing" --
+  the same machine, the same installation, two answers. The search now
+  also looks where the package managers of each system install, behind
+  the path and never in front of it.
+- **The update installs the version it names.** The window offered
+  "3.0.0b4 is out", ran pip without naming it, and pip took the head of
+  the default branch -- then said "3.0.0b4 is installed". The release
+  that was offered is now the one that goes to pip.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Ein Platz in der Programmliste.** Der erste Start legt ihn dort an,
+  wo dieses System seine Programme zeigt -- ein Bündel im
+  Programme-Ordner auf dem Mac, ein Eintrag im Startmenü unter Windows,
+  ein Starter in der Programmliste unter Linux. Wer mit pip installiert
+  hatte, hatte einen Befehl und sonst nichts. Angelegt wird es einmal,
+  und was von Hand gelöscht wurde, kommt nicht wieder.
+- **Die Sprache des Fensters wird in den Einstellungen gewählt.** Neun
+  Sprachen lagen im Programm, und erreichbar war nur die des Systems.
+  Die Einstellungen bieten jetzt eine Liste an; die gewählte Sprache
+  gilt ab dem nächsten Start.
+- **Nach einer eingespielten Aktualisierung wird der Neustart
+  angeboten.** Das offene Fenster ist weiter das alte -- das stand da
+  und blieb dann so stehen. Jetzt bietet es den Neustart an, und
+  dasselbe Angebot kommt, nachdem ffmpeg geholt wurde.
+- **Ein Weg zurück zu einer früheren Fassung.** Das Hilfemenü bietet die
+  letzten zwanzig Fassungen an, die älter sind als die laufende, und der
+  Rückweg installiert die gewählte. Nichts unter 3.0.0b0 wird angeboten
+  -- so weit zurück war das Verzeichnis noch kein Paket, pip hätte
+  nichts zu bauen.
+
+### Geändert
+
+- **Zahlen stehen so da, wie die Sprache sie schreibt.** „1234 Dateien"
+  kam in jeder Sprache mit denselben Ziffern; auf Deutsch liest sich das
+  als eins Komma zwei drei vier. 205 Stellen holen Tausender- und
+  Dezimalzeichen jetzt aus dem Katalog selbst, also stimmt eine Sprache,
+  die weder Punkt noch Komma schreibt, ohne eine eigene Zeile.
+- **Russisch nennt eine gezählte Sache in drei Formen.** Russisch will
+  bei 1 und 21 ein Wort, bei 2 bis 4 ein anderes, ab 5 ein drittes. Neun
+  gezählte Dinge -- Dateien, Kameras, Klips, Kanäle, Spuren, Aufnahmen
+  -- tragen jetzt alle drei.
+- **Es gibt einen Weg zu einer neueren Fassung, und der ist pip.** Der
+  zweite Weg schrieb eine einzelne Datei über das installierte Programm
+  und ließ sechs seiner Stücke auf der Fassung davor; seit das Programm
+  ein Ordner ist, konnte er gar nicht mehr funktionieren. `--update`
+  geht denselben Weg wie der Knopf im Fenster.
+
+### Behoben
+
+- **ffmpeg wird gefunden, wenn das Programm aus dem Dock startet.** Aus
+  dem Terminal lief es, aus dem Finder sagte es „ffmpeg fehlt" --
+  dieselbe Maschine, dieselbe Installation, zwei Antworten. Die Suche
+  sieht jetzt auch dort nach, wo die Paketverwaltungen der drei Systeme
+  ablegen -- hinter dem Suchpfad und nie davor.
+- **Die Aktualisierung installiert die Fassung, die sie nennt.** Das
+  Fenster bot „3.0.0b4 ist draußen" an, rief pip ohne diese Nummer auf,
+  und pip nahm den Kopf des Standardzweigs -- und sagte danach „3.0.0b4
+  ist installiert". Die angebotene Fassung ist jetzt die, die zu pip
+  geht.
+
 ## [3.0.0b4] - 2026-09-05
 
 ### Changed
