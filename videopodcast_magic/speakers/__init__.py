@@ -31,6 +31,7 @@ decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
 file_fingerprint = PROGRAM.file_fingerprint
 file_timecode = PROGRAM.file_timecode
+group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 https_context = PROGRAM.https_context
 json = PROGRAM.json
@@ -248,8 +249,9 @@ def fetch_model(report=None, ref=""):
     done = 0
     for name in sorted(sums):
         if report:
-            report(T('Fetching the model (about %d MB): %s')
-                   % (MODEL_MB, name), 0.05 + 0.9 * done / len(sums))
+            report(T('Fetching the model (about %s MB): %s')
+                   % (group_text(MODEL_MB), name),
+                   0.05 + 0.9 * done / len(sums))
         try:
             data = take(name)
         except Exception as e:
@@ -593,8 +595,8 @@ def speaker_split_run(path, num_speakers=0, report=None,
         # pyannote and torch along with the program already; the 33 MB
         # of the model itself need no second question.
         if report:
-            report(T('Fetching the model (about %d MB) ...') % MODEL_MB,
-                   0.02)
+            report(T('Fetching the model (about %s MB) ...')
+                   % group_text(MODEL_MB), 0.02)
         trouble = fetch_model(report)
         if trouble:
             return [], trouble
@@ -716,9 +718,10 @@ def _speaker_split_talk(python, worker, head, wave, environment,
     # log beside the time it took.
     found = len(set(x[0] for x in d["segments"]))
     print(TN(found,
-             '  Speaker separation (%s): %d speaker out of %s of audio',
-             '  Speaker separation (%s): %d speakers out of %s of audio')
-          % (device[-1] if device else "cpu", found, as_hms(seconds)))
+             '  Speaker separation (%s): %s speaker out of %s of audio',
+             '  Speaker separation (%s): %s speakers out of %s of audio')
+          % (device[-1] if device else "cpu", group_text(found),
+             as_hms(seconds)))
     return speaker_segments_group(d["segments"]), ""
 
 
@@ -1578,8 +1581,9 @@ def split_cells_write(cells, busy, running, by_source, note):
                 mark.setText(T('Separating ...'))
                 mark.setStyleSheet("color: %s" % COLOURS["quiet"])
             elif done:
-                mark.setText(TN(len(found), 'Separated: %d speaker',
-                                'Separated: %d speakers') % len(found))
+                mark.setText(TN(len(found), 'Separated: %s speaker',
+                                'Separated: %s speakers')
+                             % group_text(len(found)))
                 mark.setStyleSheet("color: %s" % COLOURS["good"])
             else:
                 mark.setText("")

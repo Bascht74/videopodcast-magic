@@ -230,6 +230,7 @@ voice_bleed_gone_first	15
 voice_both_splits_stand	18
 voice_both_ways_agree	20
 voice_close_mics_mixed	47
+voice_counts_grouped	3
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_language_arrives	15

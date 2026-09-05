@@ -323,11 +323,11 @@ msgstr "  Spracherkennung (%s): %s Wörter in %s s"
 msgid "  Speech recognition (%s): %s words, read back"
 msgstr "  Spracherkennung (%s): %s Wörter, zurückgelesen"
 
-msgid "  Speaker separation (%s): %d speaker out of %s of audio"
-msgstr "  Sprechertrennung (%s): %d Sprecher aus %s Ton"
+msgid "  Speaker separation (%s): %s speaker out of %s of audio"
+msgstr "  Sprechertrennung (%s): %s Sprecher aus %s Ton"
 
-msgid "  Speaker separation (%s): %d speakers out of %s of audio"
-msgstr "  Sprechertrennung (%s): %d Sprecher aus %s Ton"
+msgid "  Speaker separation (%s): %s speakers out of %s of audio"
+msgstr "  Sprechertrennung (%s): %s Sprecher aus %s Ton"
 
 msgid "Separating speakers"
 msgstr "Sprecher werden getrennt"
@@ -335,11 +335,11 @@ msgstr "Sprecher werden getrennt"
 msgid "Separating ..."
 msgstr "Trennen ..."
 
-msgid "Separated: %d speaker"
-msgstr "Getrennt: %d Sprecher"
+msgid "Separated: %s speaker"
+msgstr "Getrennt: %s Sprecher"
 
-msgid "Separated: %d speakers"
-msgstr "Getrennt: %d Sprecher"
+msgid "Separated: %s speakers"
+msgstr "Getrennt: %s Sprecher"
 
 msgid "Voice"
 msgstr "Stimme"
@@ -388,11 +388,11 @@ msgstr "Die Sprechertrennung ist nicht eingerichtet."
 msgid "The speaker separation is not installed here. This puts it back: %s"
 msgstr "Die Sprechertrennung ist hier nicht installiert. Das holt sie zurück: %s"
 
-msgid "Fetching the model (about %d MB) ..."
-msgstr "Modell wird geholt (etwa %d MB) ..."
+msgid "Fetching the model (about %s MB) ..."
+msgstr "Modell wird geholt (etwa %s MB) ..."
 
-msgid "Fetching the model (about %d MB): %s"
-msgstr "Modell wird geholt (etwa %d MB): %s"
+msgid "Fetching the model (about %s MB): %s"
+msgstr "Modell wird geholt (etwa %s MB): %s"
 
 msgid "The model could not be fetched: %s"
 msgstr "Das Modell ließ sich nicht holen: %s"
