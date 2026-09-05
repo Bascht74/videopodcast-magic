@@ -5236,8 +5236,8 @@ def split_column_room(widget):
     button.setFont(widget.font())
     running = caption_room(mark, 0, [T('Separating ...'),
                                      T('Stopping ...')])
-    done = caption_room(mark, 0, [TN(2, 'Separated: %d speaker',
-                                     'Separated: %d speakers') % 2])
+    done = caption_room(mark, 0, [TN(2, 'Separated: %s speaker',
+                                     'Separated: %s speakers') % 2])
     return max(running + button.sizeHint().width() + 6, done) + 12
 
 

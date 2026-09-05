@@ -157,8 +157,8 @@ msgstr "%s:%02d 分"
 msgid "%s -- %d:%02d to %d:%02d (%s s)"
 msgstr "%s -- %d:%02d〜%d:%02d（%s 秒）"
 
-msgid "%s and %d more"
-msgstr "%s ほか %d 件"
+msgid "%s and %s more"
+msgstr "%s ほか %s 件"
 
 msgid "%s speech time"
 msgstr "%s の発話時間"
@@ -307,20 +307,14 @@ msgstr "（一時停止中）"
 msgid " (playing)"
 msgstr "（再生中）"
 
-msgid "%d channel"
-msgstr "%d チャンネル"
+msgid "%s channel"
+msgstr "%s チャンネル"
 
-msgid "%d channels"
-msgstr "%d チャンネル"
-
-msgid "%d file"
-msgstr "ファイル %d 個"
+msgid "%s channels"
+msgstr "%s チャンネル"
 
 msgid "%s file"
 msgstr "ファイル %s 個"
-
-msgid "%d files"
-msgstr "ファイル %d 個"
 
 msgid "%s files"
 msgstr "ファイル %s 個"

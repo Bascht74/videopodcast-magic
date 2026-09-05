@@ -158,8 +158,8 @@ msgstr "%s:%02d мин"
 msgid "%s -- %d:%02d to %d:%02d (%s s)"
 msgstr "%s -- %d:%02d – %d:%02d (%s с)"
 
-msgid "%s and %d more"
-msgstr "%s и ещё %d"
+msgid "%s and %s more"
+msgstr "%s и ещё %s"
 
 msgid "%s speech time"
 msgstr "время речи %s"
@@ -308,20 +308,14 @@ msgstr " (пауза)"
 msgid " (playing)"
 msgstr " (воспроизведение)"
 
-msgid "%d channel"
-msgstr "%d канал"
+msgid "%s channel"
+msgstr "%s канал"
 
-msgid "%d channels"
-msgstr "%d каналов"
-
-msgid "%d file"
-msgstr "%d файл"
+msgid "%s channels"
+msgstr "%s каналов"
 
 msgid "%s file"
 msgstr "%s файл"
-
-msgid "%d files"
-msgstr "%d файлов"
 
 msgid "%s files"
 msgstr "%s файлов"

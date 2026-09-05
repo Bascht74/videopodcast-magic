@@ -158,8 +158,8 @@ msgstr "%s:%02d د"
 msgid "%s -- %d:%02d to %d:%02d (%s s)"
 msgstr "%s -- %d:%02d إلى %d:%02d (%s ث)"
 
-msgid "%s and %d more"
-msgstr "%s و%d أخرى"
+msgid "%s and %s more"
+msgstr "%s و%s أخرى"
 
 msgid "%s speech time"
 msgstr "زمن كلام %s"
@@ -308,20 +308,14 @@ msgstr " (متوقف مؤقتًا)"
 msgid " (playing)"
 msgstr " (قيد التشغيل)"
 
-msgid "%d channel"
-msgstr "قناة %d"
+msgid "%s channel"
+msgstr "قناة %s"
 
-msgid "%d channels"
-msgstr "%d قنوات"
-
-msgid "%d file"
-msgstr "ملف %d"
+msgid "%s channels"
+msgstr "%s قنوات"
 
 msgid "%s file"
 msgstr "ملف %s"
-
-msgid "%d files"
-msgstr "%d ملفات"
 
 msgid "%s files"
 msgstr "%s ملفات"
