@@ -9,9 +9,12 @@ a pull request that misses them cannot be merged however good the idea
 is. They are all here. It takes ten minutes to read and saves a round
 of review.
 
-If you are an AI assistant working on somebody's behalf: read
-`CLAUDE.md` as well. It is the same rules with the reasoning behind
-them.
+`AGENTS.md` is the source these rules are cut from, and
+`development/decisions.md` holds the measured case behind each one --
+which day it was learned, and what it cost. Read those two if a rule
+here looks arbitrary. If you are an AI assistant working on somebody's
+behalf, read `AGENTS.md` before the first edit; `CLAUDE.md` points
+there too.
 
 ## The skills are not optional
 
@@ -66,7 +69,7 @@ in the first review.
 ## What the program is
 
 The folder `videopodcast_magic/` is the program, in pieces:
-`__init__.py` is the way in and holds most of it, `language/de.py`
+`__init__.py` is the way in and holds most of it, `language/de.po`
 holds every German text, `ui/` holds the window. `models/` holds the
 speaker model and is not code. There is nothing to build:
 `pyproject.toml` makes a package of that folder and puts a
@@ -84,8 +87,8 @@ cp -R videopodcast_magic /tmp/somewhere/      # the folder, not one file
 ```
 
 The program reads its texts out of the folder it sits in, so a lone
-`__init__.py` stops during the import with a `FileNotFoundError` on
-`language/de.py` -- measured 4.9.2026, and every test that loads it
+`__init__.py` stops during the import with a `FileNotFoundError` on the
+catalogue beside it -- measured 4.9.2026, and every test that loads it
 goes down with it. Wherever this page says "a copy of the program", it
 means the folder.
 
@@ -119,7 +122,7 @@ about your machine and not about the program.
 ## The five rules that get a pull request turned away
 
 **1. Every user-visible string exists twice.** English in the source,
-German in `language/de.py` inside the program's folder, keyed by
+German in `language/de.po` inside the program's folder, keyed by
 the English wording and reached through `T()`. Change one side and
 `text_no_german_left_test.py` turns red. The
 same holds for the manual: `docs/name.md` and `docs/name.de.md` change

@@ -129,3 +129,26 @@ where they really write at once.
 
 If the script bounds anything — the top ten, no retry, a sample —
 `log()` it. A silent cap reads afterwards as complete coverage.
+
+## Before it counts as done
+
+1. Was the work-list scouted here, cheaply, before the script was
+   written?
+2. Is it a chain and not a barrier -- `pipeline()` wherever an item can
+   run its whole way on its own?
+3. Where a barrier stands, does the next stage really need all of the
+   previous one at once?
+4. Is the effort set per stage: `'low'` for the mechanical, `'high'`
+   where something is decided or refuted?
+5. Does every finding go to an agent whose job is to prove it wrong?
+6. Is that agent told to reject when unsure, and are the rejections
+   asked for with their reasons?
+7. Is there one agent whose only task is to ask what everyone missed,
+   given the others' findings and sent at the sources they did not read?
+8. Does the schema's `evidence` field have to hold what was measured?
+9. Does every prompt carry the five -- where it is and that it only
+   reads, what is already known, that the description is a signpost and
+   not a source, the limits of this machine, measured against read?
+10. Is it one file, one agent, with each prompt naming the files that
+    are somebody else's?
+11. Is anything the script bounded written into the log?

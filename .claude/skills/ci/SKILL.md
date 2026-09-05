@@ -8,6 +8,16 @@ order: 60
 
 # The builder's answer
 
+A commit has been pushed and six machines are answering, or one of them
+has come back red. This file decides how the answer is waited for, what
+it is worth once it arrives, what is done with the queue after a green
+run, and how a red job caused by the machine is told from one caused by
+us. What to do with a test that is red, wobbling or not to be trusted is
+the skill `test-rot`; what a release needs beyond a green run is
+`freigabe`.
+
+## Waited for, not asked after
+
 **Nothing tells this machine when a run ends.** The answer used to be
 fetched by asking again, and again, and between two asks the work went
 on against a state the builder had already faulted. Twice in one day a
@@ -60,10 +70,15 @@ stands between a push and an answer is the longest job, not the sum** --
 they run side by side. The sum is what the builder is billed.
 
 A single reading of a macOS job says almost nothing: the same commit has
-come back at 950 and at 1091 seconds. Two runs, or a steadier machine,
+come back at 950 and at 1091 seconds, and once at 651 against 1088.
+Never believe a jump from a single reading. Two runs, or a steadier machine,
 before a number means anything.
 
 ## After a green run, the queue
+
+**Before every release, fetch the builder's times and look at them.**
+This is the moment the command is run, and this section is the whole
+account of it -- nothing else in the project keeps a copy.
 
 The suite runs the long tests first so nobody waits, and it takes that
 order from `tests/state/longest`. **Those times have to come from the
@@ -166,3 +181,30 @@ looked at again is how a real fault survives for weeks. If it was the
 machine, the line says which tool was missing and on which image; if it
 was us, the red line goes into the counter-proof register where it
 belongs.
+
+## Before it counts as done
+
+The pass before a red run is called explained.
+
+1. Was the answer waited for -- `await_ci.sh` as a background command
+   the harness holds -- rather than asked after?
+2. Did the run it reports belong to HEAD, not to the push before?
+3. Was the whole run finished before a log was read?
+4. Is the step that failed named, not just the job? Setup step or suite
+   step?
+5. Machine or us: does the failure sort by platform or by runner image,
+   and does the red line name a program or a judgement?
+6. Language, snapshot, contention and deadline -- ruled out before
+   anything was changed?
+7. If the machine: was the smallest rerun used, and was no commit pushed
+   to trigger it?
+8. Was the same job red twice in the same step? Then it is ours, and the
+   rerunning stops.
+9. If reruns carried it: has one whole run gone green on one state
+   before the tag?
+10. If it was us: one repair, then one push, then the waiting again.
+11. Is it written down which of the two it was -- the missing tool and
+    its image, or the red line in the counter-proof register?
+12. After a green run: `bash builder_times.sh`, and no dead rows left
+    behind by a rename?
+13. Does every workflow touched carry a `run-name:` of its own?
