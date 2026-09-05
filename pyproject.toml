@@ -76,7 +76,8 @@ videopodcast-magic = "videopodcast_magic:main"
 # speakers.
 packages = ["videopodcast_magic", "videopodcast_magic.cut",
             "videopodcast_magic.language", "videopodcast_magic.resolve",
-            "videopodcast_magic.speech", "videopodcast_magic.ui"]
+            "videopodcast_magic.speakers", "videopodcast_magic.speech",
+            "videopodcast_magic.ui"]
 
 # The nine translations are data, not program, and setuptools ships
 # only Python out of a package unless it is told otherwise. Without
