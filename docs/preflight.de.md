@@ -11,7 +11,8 @@ anfängt. Diesen Durchgang nennt es den Vorflug. Auf dem Reiter **Dateien
 Dateiliste erneut. Ein Satz unter der Liste sagt, was gefunden wurde,
 und jede Zeile trägt ein Prüfzeichen ([Die Oberfläche](interface.de.md)).
 Der Zeiger auf dem Prüfzeichen oder die aufgeklappte Zeile zeigt, was
-dahintersteht.
+dahintersteht. Im Wortlaut stehen die Befunde außerdem im Protokoll und
+unter **Ausgabe**: der Satz zählt sie, diese beiden nennen sie.
 
 ![Die Dateiliste mit den Prüfzeichen aus dem Vorflug](images/files.de.png)
 
