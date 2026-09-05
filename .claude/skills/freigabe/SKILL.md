@@ -40,22 +40,49 @@ stopped somewhere, or when a command in it is being changed.
    anything noticing:
 
    ```bash
-   gh issue view <roadmap issue> --json updatedAt,title
-   git log --oneline v<previous>..HEAD -- docs/notes/aufgaben.md | wc -l
+   grep -c '^## ' docs/notes/aufgaben.md        # what it holds today
+   tail -1 tests/state/notes                    # what it held last time
    ```
 
-   Three lines go into the release report, and a blank one stops the
+   Two lines go into the release report, and a blank one stops the
    release:
 
-   * `aufgaben.md: N entries struck off since v<previous>, M added`
-   * `roadmap issue: last touched <date>, <what changed in it>`
+   * `aufgaben.md: N sections, M written since v<previous>` -- **and M
+     may not be nought.** A release in which nothing was written to the
+     notes is a round nobody recorded.
    * `nothing this version's changelog claims is still standing as open`
 
-   **The real case: "Where the program stands today" in the roadmap said
-   2.24.0-beta while the program was at 2.25.0-beta.** It had drifted two
-   releases with nothing noticing (`80f46d5`, 1.9.2026). The *number* is
-   held mechanically in six places now; the *content* of the list is held
-   by nothing but these three lines.
+   Then `tests/state/notes` gains a line, `v<number> <N>`, and it goes
+   in with the version. That file is the only place the count survives
+   between releases, because the notes themselves do not.
+
+   **Where `docs/notes/` is not on the disc, the first line says so and
+   the release goes on.** It is in `.gitignore` on purpose -- it carries
+   material out of real productions -- so it is here and on no clone.
+   Two tests already handle it that way; this is the same rule.
+
+   **What used to stand here could not be carried out, and it was wrong
+   twice over.** It said `git log v<previous>..HEAD --
+   docs/notes/aufgaben.md | wc -l`, which answers **0** for ever,
+   because the file is not in the repository at all. And even where it
+   ran it would answer the wrong question: it counts *commits that
+   touched a file*, while the line beneath it claimed "N entries struck
+   off, M added" -- a commit count cannot say that. The second fault
+   would have gone unseen for years behind the first. And "struck off"
+   describes a list that gets ticked; ours is a journal that only grows.
+
+   **The roadmap is not asked here any more. It is a gate.** Step 3b of
+   `.github/workflows/publish.yml` reads the roadmap issue and refuses
+   to tag where it does not name the version going out. So the roadmap
+   is brought up to date **before** the word is said, the same way the
+   changelog section is -- both describe a version that is about to
+   exist.
+
+   **The real case, and why it became a gate: "Where the program stands
+   today" in the roadmap said 2.24.0-beta while the program was at
+   2.25.0-beta.** It had drifted two releases with nothing noticing
+   (`80f46d5`, 1.9.2026) -- and what was supposed to have caught it was
+   a line in a report. A report nobody grades holds nothing.
 
 ## The workflow takes the handgrips, not the judgement
 

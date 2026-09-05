@@ -82,6 +82,9 @@ permissions:
   # read, because step 1 asks the API about the suite's runs. contents
   # does not reach them; the runs of a workflow are the actions scope.
   actions: read
+  # read, because step 3b asks the roadmap issue which version it says
+  # the program is at. Issues are their own scope as well.
+  issues: read
 
 jobs:
 
@@ -165,6 +168,9 @@ jobs:
       # line. It comes in through the environment, never through
       # ${{ }} inside a run:.
       TITLE: ${{ inputs.title }}
+      # Which issue carries the roadmap. One number, in one place, so
+      # that moving the roadmap is one edit and not a search.
+      ROADMAP: 1
       # The commit this run is about, written down once. Everything
       # below asks about this and about nothing else: the suite's run,
       # the checkout, the tag. A push landing on the branch while this
@@ -314,6 +320,49 @@ jobs:
           fi
           echo "notes: $(wc -l < /tmp/notes.md | tr -d ' ') lines," \
                "$(wc -c < /tmp/notes.md | tr -d ' ') bytes"
+
+      # ------------------------------------------------------------
+      # 3b. The roadmap issue names the version that is going out.
+      #
+      # Of the five things a version needs, four are held by something:
+      # the suite by six jobs, the number by six files and a test, the
+      # changelog by the step above, the pictures by a pass that is
+      # repeatable. The fifth -- that the open list and the roadmap are
+      # brought up to date -- was held by a line in a report, and a
+      # report nobody grades holds nothing.
+      #
+      # It has already failed once, and quietly: "Where the program
+      # stands today" said 2.24.0-beta while the program was at
+      # 2.25.0-beta, and it had drifted two releases with nothing
+      # noticing (80f46d5, 1.9.2026).
+      #
+      # So it is asked here, where a wrong answer costs a run and not a
+      # tag. The issue has to say the number BEFORE the tag, the same
+      # way the changelog section does -- both describe a version that
+      # is about to exist, and both are written by hand while the work
+      # is still in the head that did it.
+      - name: "3b. The roadmap issue names this version"
+        run: |
+          body=$(gh issue view "$ROADMAP" --json body --jq .body) || {
+            echo "FAIL: issue #$ROADMAP could not be read. It is the"
+            echo "      roadmap, and this step is the only thing that"
+            echo "      holds it against the program. If the number"
+            echo "      moved, say so here rather than turning the"
+            echo "      check off."
+            exit 1
+          }
+          if ! printf '%s' "$body" | grep -qF "$VERSION"; then
+            echo "FAIL: issue #$ROADMAP does not say $VERSION anywhere."
+            echo "      It names: $(printf '%s' "$body" \
+                 | grep -oE '[0-9]+\.[0-9]+\.[0-9]+[A-Za-z0-9.-]*' \
+                 | sort -u | tr '\n' ' ')"
+            echo "      The roadmap is what somebody outside reads to"
+            echo "      find out where this is. Bring it up to date and"
+            echo "      dispatch again -- it is two minutes, and it is"
+            echo "      one of the five things a version is."
+            exit 1
+          fi
+          echo "roadmap: issue #$ROADMAP names $VERSION"
 
       # ------------------------------------------------------------
       # 4. The tag does not exist yet.
