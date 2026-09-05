@@ -39,8 +39,11 @@ def check(what, ok, detail=""):
         bad.append(what)
 
 
-source = io.open(SCRIPT, encoding="utf-8").read()
-tree = ast.parse(source)
+# Every piece of the program, not the file it starts in alone: the
+# interface is where sentences get glued together, and a check that
+# reads one file stops seeing that the day the interface moves out.
+PIECES = the_program.pieces()
+TREES = [(name, ast.parse(body)) for name, body in PIECES]
 
 # The German side is read out of the syntax tree of the texts file
 # instead of importing the program: a dictionary of literals evaluates
@@ -107,18 +110,19 @@ def is_open(text):
 # would be reported twice.
 inner = set()
 chains = []
-for node in ast.walk(tree):
-    if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
-        if id(node) in inner:
-            continue
-        for sub in ast.walk(node):
-            if sub is not node and isinstance(sub, ast.BinOp) \
-                    and isinstance(sub.op, ast.Add):
-                inner.add(id(sub))
-        chains.append(node)
+for piece, tree in TREES:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.BinOp) and isinstance(node.op, ast.Add):
+            if id(node) in inner:
+                continue
+            for sub in ast.walk(node):
+                if sub is not node and isinstance(sub, ast.BinOp) \
+                        and isinstance(sub.op, ast.Add):
+                    inner.add(id(sub))
+            chains.append((piece, node))
 
 glued = []
-for chain in chains:
+for piece, chain in chains:
     parts = flatten(chain)
     spots = [i for i, p in enumerate(parts) if translated(p) is not None]
     for first, second in zip(spots, spots[1:]):
@@ -137,14 +141,14 @@ for chain in chains:
         elif any(is_open(t) for t in left):
             why = "the first piece stops mid-sentence"
         if why:
-            glued.append((chain.lineno, why,
+            glued.append(("%s %d" % (piece, chain.lineno), why,
                           (left[0] if left else "")[:34],
                           (right[0] if right else "")[:34]))
 
 check("no translated piece glued onto another", not glued,
       "%d" % len(glued))
 for line, why, left, right in glued[:8]:
-    print("      line %-6d %s" % (line, why))
+    print("      line %-14s %s" % (line, why))
     print("          %r + ... + %r" % (left, right))
 
 # ------------------------------- 2. dropped into a slot with a percent sign
@@ -165,20 +169,22 @@ GOVERNING = [
 ARTICLE = re.compile(r"^\W*(?:%s)\b" % "|".join(GOVERNING), re.IGNORECASE)
 
 inserted = []
-for node in ast.walk(tree):
-    if not (isinstance(node, ast.BinOp) and isinstance(node.op, ast.Mod)):
-        continue
-    if not is_call(node.left):
-        continue
-    host = texts_of(node.left)
-    for sub in ast.walk(node.right):
-        if not is_call(sub):
+for piece, tree in TREES:
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.BinOp)
+                and isinstance(node.op, ast.Mod)):
             continue
-        for text in texts_of(sub):
-            german = catalogue.get(text, text)
-            if ARTICLE.match(german):
-                inserted.append((node.lineno, text,
-                                 (host[0] if host else "")[:44]))
+        if not is_call(node.left):
+            continue
+        host = texts_of(node.left)
+        for sub in ast.walk(node.right):
+            if not is_call(sub):
+                continue
+            for text in texts_of(sub):
+                german = catalogue.get(text, text)
+                if ARTICLE.match(german):
+                    inserted.append(("%s %d" % (piece, node.lineno), text,
+                                     (host[0] if host else "")[:44]))
 
 state.announce()
 # The fingerprint is the piece and the sentence it goes into, both in
@@ -195,7 +201,7 @@ if held.tightened:
     print("      ratchet tightened: %d -> %d"
           % (held.limit, len(inserted)))
 for line, text, host in sorted(inserted)[:6]:
-    print("      line %-6d %-26r into %r" % (line, text[:24], host))
+    print("      line %-14s %-26r into %r" % (line, text[:24], host))
 
 # ------------------------------------------ 3. a text that is only a joiner
 print("\n3. No translated text that is nothing but a function word")
@@ -209,15 +215,16 @@ FUNCTION_WORD = re.compile(
 ALLOWED = {" and ", "on", "off"}
 
 bare = set()
-for node in ast.walk(tree):
-    if not is_call(node):
-        continue
-    for text in texts_of(node):
-        if FUNCTION_WORD.match(text) and text not in ALLOWED:
-            bare.add((node.lineno, text))
+for piece, tree in TREES:
+    for node in ast.walk(tree):
+        if not is_call(node):
+            continue
+        for text in texts_of(node):
+            if FUNCTION_WORD.match(text) and text not in ALLOWED:
+                bare.add(("%s %d" % (piece, node.lineno), text))
 check("no text that is only a function word", not bare, "%d" % len(bare))
 for line, text in sorted(bare)[:8]:
-    print("      line %-6d %r -> %r"
+    print("      line %-14s %r -> %r"
           % (line, text, catalogue.get(text, text)))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

@@ -129,8 +129,8 @@ print("\n4. What the store is filed under is built in one place")
 # The bug this is about: the name was spelled out with the recipe mark
 # in the one place that stores, and without it in the two that ask
 # whether something was measured. Both must come from the same call.
-source = the_program.text()
-tree = ast.parse(source)
+source = the_program.whole()
+tree = ast.parse(the_program.text())
 spelt = source.count('"channelfacts')
 check("the name of the store is not spelled out beside its maker",
       spelt <= 1, "%d places write it as text, wanted at most 1" % spelt)

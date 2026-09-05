@@ -401,7 +401,7 @@ print("\n5. The project file")
 # its own body is cut out of the source and run for real against a
 # folder of its own: the file that comes out is the one the program
 # writes, not a copy of the rule in another shape.
-source = the_program.text()
+source = the_program.whole()
 
 
 def lifted(name):

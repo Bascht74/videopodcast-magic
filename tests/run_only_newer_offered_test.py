@@ -292,14 +292,14 @@ print("\n5. The switches that stopped it are gone")
 # before a namespace ever existed, so a parser that does not know them
 # proves nothing on its own. The whole text is read, and the program
 # is asked as a user asks it.
-source = the_program.text()
+source = the_program.whole()
 
 
 def times(*words):
     """How often each of those stands in the program, as evidence."""
-    return "%s in the %d characters of %s" % (
+    return "%s in the %d characters of the program" % (
         ", ".join("%s %d time(s)" % (w, source.count(w)) for w in words),
-        len(source), os.path.basename(SCRIPT))
+        len(source))
 
 
 OFF_SWITCHES = ("--no-update-check", "--update-check")

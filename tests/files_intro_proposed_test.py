@@ -255,7 +255,7 @@ check("with the intro free the same file becomes the intro",
       alone.get() == vpm.TYPE_INTRO,
       "%s, wanted %s" % (alone.get(), vpm.TYPE_INTRO))
 
-source = the_program.text()
+source = the_program.whole()
 called = source.count("kind_proposal_say(state.get(\"clip_kinds\")")
 defined = source.count("def kind_proposal_apply")
 check("the window goes through the proposal and not past it",

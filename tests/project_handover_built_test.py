@@ -128,7 +128,7 @@ check("the co-host moves just the same",
         "%r against [[0.0, 60.0]]" % (w["speakers"][1]["sections"],))
 
 print("\n6. The interface really takes this way")
-source = the_program.text()
+source = the_program.whole()
 lines_in_source = source.count("\n") + 1
 calls = source.count("d, reason = build_handover(")
 check("off_speakers calls build_handover", calls > 0,

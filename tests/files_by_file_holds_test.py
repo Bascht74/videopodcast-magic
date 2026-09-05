@@ -174,10 +174,13 @@ HOLD_FILES = [
 HOLD_FILES_SET = [("gui", "no_join"),
                   ("collect_with_continuations", "apart"),
                   ("group_recording_parts", "apart")]
-tree = ast.parse(the_program.text())
+# Every piece of the program: the window is one of its own, and half
+# the dictionaries this section is about are built inside it.
 where = {}
-for node in ast.walk(tree):
-    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+for _piece, _body in the_program.pieces():
+    for node in ast.walk(ast.parse(_body)):
+        if not isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            continue
         for st in ast.walk(node):
             if not isinstance(st, ast.Assign) or len(st.targets) != 1:
                 continue

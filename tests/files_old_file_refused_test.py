@@ -89,7 +89,7 @@ check("the complaint is English where the run is English",
       "%d characters ending %r" % (len(english), english[-40:]))
 
 print("\n3. Nothing is converted")
-source = the_program.text()
+source = the_program.whole()
 # The whole program is searched. The translations live in files of
 # their own beside it, so nothing in here is a catalogue and a German
 # word left in the code cannot hide behind being a label. Until today
@@ -97,14 +97,27 @@ source = the_program.text()
 # moved out, the cut found nothing, and the cut piece was the whole
 # source -- which the old guard could not see, because it asked whether
 # the piece was shorter than half of itself.
-# So what is read is held against the file it was read from: a reader
+# So what is read is held against what the program weighs: a reader
 # that came back with a fragment would let every search below pass over
 # almost nothing and stay green on a program full of leftovers.
-on_disk = os.path.getsize(SCRIPT)
+#
+# Asked exactly, and not as a share. "More than half" was a whole
+# program's worth while the program was one file. It is not one now:
+# the entry alone is 65 % of it, so a reader that lost the entire
+# window -- 571 262 characters -- still cleared the floor and the
+# guard stayed green. Measured 5.9.2026, on the counter-proof for this
+# very line. Any piece smaller than half can go missing that way.
+#
+# So every piece has to be in there, by its own text. That is what
+# "the whole program" means, and it costs one substring search per
+# piece.
+on_disk = the_program.on_disk()
+loose = [name for name, body in the_program.pieces() if body not in source]
 check("the search covers the whole program",
-      on_disk > 0 and len(source) > on_disk // 2,
-      "%d characters searched, %d bytes in %s"
-      % (len(source), on_disk, os.path.basename(SCRIPT)))
+      on_disk > 0 and not loose and len(source) > on_disk // 2,
+      "%d characters searched, %d bytes on disk in %d piece(s), missing: %s"
+      % (len(source), on_disk, len(the_program.pieces()),
+         ", ".join(loose) or "none"))
 for label in ("Inhalt", "nur in den Mix", "Audio ignorieren",
              "ohne Auphonic arbeiten", "Vorspann", "Abspann"):
     check("the old name %r is gone from the code" % label,

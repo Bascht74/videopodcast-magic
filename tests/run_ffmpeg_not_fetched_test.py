@@ -52,7 +52,11 @@ def stop():
 
 #--------------------------------------------------------- 1. The source
 
-TREE = ast.parse(the_program.text(), filename=SCRIPT)
+# Every piece of the program: a pip call that moved into the window
+# would otherwise not be looked at, and this check is about there being
+# none anywhere.
+TREES = [(name, ast.parse(body, filename=name))
+         for name, body in the_program.pieces()]
 
 INSTALLER = "_pip_install"
 
@@ -80,7 +84,7 @@ def installs_in(node):
     return out
 
 
-SEARCH = [n for n in ast.walk(TREE)
+SEARCH = [n for _piece, tree in TREES for n in ast.walk(tree)
           if isinstance(n, ast.FunctionDef)
           and n.name == "find_required_tools"]
 
@@ -96,7 +100,8 @@ check("no pip install stands in the search for the two programs",
       "%d calls to %s in find_required_tools, wanted 0: %s"
       % (len(inside), INSTALLER, inside[:3]))
 
-everywhere = installs_in(TREE)
+everywhere = [one for _piece, tree in TREES
+              for one in installs_in(tree)]
 named = [one for one in everywhere
          if any("ffmpeg" in str(w).lower() for w in one[1])]
 check("and no pip install anywhere in the program names ffmpeg",

@@ -8,12 +8,18 @@ blocks, docstrings, functions -- the except branches that only pass, and
 the paths put into shape on one side of a comparison or of a lookup
 while the other side is left raw. All of it is counted as ratchets, so
 the numbers may fall and never rise.
+
+Every piece of the program is read, not the file it starts in alone: a
+ratchet over one file falls of its own accord the day a piece moves
+into a file of its own, and a fall looks like progress. The place a
+find is held under is the function it sits in and not the file, so
+moving a function from one piece to another moves nothing here.
 """
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
-import ast, re, sys, time, tokenize
+import ast, io, re, sys, time, tokenize
 sys.path.insert(0, HERE)
 import ratchet
 
@@ -53,29 +59,41 @@ def over(held):
         ["%s %d>%d" % (mark, measure, allowed)
          for mark, measure, allowed, _line in held.worse[:3]])
 
-source = the_program.text()
-lines = source.splitlines()
-tree = ast.parse(source)
-
 # ------------------------------------------------------------ Get the texts
-def docstring_nodes():
+# Each find carries the piece it stands in beside its line, so a number
+# printed here still points somewhere. The piece is never part of a
+# fingerprint: a find is held under the function it sits in, and a
+# function that moves house keeps its name.
+def where(piece, line):
+    """Where a find sits, for a person reading the run."""
+    return "%s %d" % (piece, line)
+
+
+trees = []      # (piece, tree, the name of the function each node sits in)
+comments = []   # (piece, line, the comment without its hash)
+docs = []       # (name, piece, first line, text, last line)
+lines = []      # (piece, line, the line as it stands)
+
+for piece, body in the_program.pieces():
+    tree = ast.parse(body)
+    trees.append((piece, tree, ratchet.owners(tree)))
+    for number, line in enumerate(body.splitlines(), 1):
+        lines.append((piece, number, line))
+    for tok in tokenize.generate_tokens(io.StringIO(body).readline):
+        if tok.type == tokenize.COMMENT:
+            comments.append((piece, tok.start[0],
+                             tok.string.lstrip("# ").strip()))
     for k in ast.walk(tree):
         if isinstance(k, (ast.Module, ast.ClassDef, ast.FunctionDef,
                           ast.AsyncFunctionDef)):
             d = ast.get_docstring(k)
             if d:
                 node = k.body[0].value
-                yield (getattr(k, "name", "<module>"), node.lineno, d,
-                       node.end_lineno)
+                docs.append((getattr(k, "name", "<module>"), piece,
+                             node.lineno, d, node.end_lineno))
 
-comments = []
-with open(SCRIPT, "rb") as f:
-    for tok in tokenize.tokenize(f.readline):
-        if tok.type == tokenize.COMMENT:
-            comments.append((tok.start[0], tok.string.lstrip("# ").strip()))
-
-docs = list(docstring_nodes())
-print("%d comment lines, %d docstrings" % (len(comments), len(docs)))
+print("%d pieces, %d comment lines, %d docstrings"
+      % (len(trees), len(comments), len(docs)))
 
 # ---------------------------------------------------------------- Language
 # German words that do not exist in English. This list is the evidence,
@@ -100,12 +118,12 @@ def without_quotes(text):
 
 def german_spots():
     out = []
-    for line, text in comments:
+    for piece, line, text in comments:
         if GERMAN.search(without_quotes(text)):
-            out.append(("Comment", line, text[:60]))
-    for name, line, text, _e in docs:
+            out.append(("Comment", where(piece, line), text[:60]))
+    for name, piece, line, text, _e in docs:
         if GERMAN.search(without_quotes(text)):
-            out.append(("Docstring", line, name))
+            out.append(("Docstring", where(piece, line), name))
     return out
 
 german = german_spots()
@@ -137,13 +155,13 @@ NARRATING = [
 hits = []
 for pattern, reason in NARRATING:
     r = re.compile(pattern)
-    for line, text in comments:
+    for piece, line, text in comments:
         if r.search(text):
-            hits.append((line, reason, text[:60]))
-    for name, line, text, _e in docs:
+            hits.append((where(piece, line), reason, text[:60]))
+    for name, piece, line, text, _e in docs:
         for t in text.splitlines():
             if r.search(t):
-                hits.append((line, reason,
+                hits.append((where(piece, line), reason,
                              "%s: %s" % (name, t.strip()[:50])))
 # A ratchet while the changeover runs; in the end this stands at zero.
 limit_n = state.number("narrating", len(hits))
@@ -151,54 +169,64 @@ check("narrating: %d spots (ratchet %d)" % (len(hits), limit_n),
         len(hits) <= limit_n,
         "" if len(hits) <= limit_n else "there are more now")
 for line, reason, text in hits[:10]:
-    print("      line %-6d %-32s %s" % (line, reason, text))
+    print("      line %-14s %-32s %s" % (line, reason, text))
 
 # ------------------------------------------------------------------ Length
 # Text only: code lines that run long are a different building site.
-text_lines = set(line for line, _t in comments)
-for _n, first, _t, last in docs:
-    text_lines.update(range(first, last + 1))
-too_long = [(i + 1, len(line)) for i, line in enumerate(lines)
-            if len(line) > LINE_MAX and (i + 1) in text_lines]
+text_lines = set((piece, line) for piece, line, _t in comments)
+for _n, piece, first, _t, last in docs:
+    text_lines.update((piece, n) for n in range(first, last + 1))
+too_long = [(piece, number, len(line)) for piece, number, line in lines
+            if len(line) > LINE_MAX and (piece, number) in text_lines]
 limit_l = state.number("long_lines", len(too_long))
 check("text lines over %d characters: %d (ratchet %d)"
         % (LINE_MAX, len(too_long), limit_l), len(too_long) <= limit_l,
         "" if len(too_long) <= limit_l else "there are more now")
-for line, length in too_long[:5]:
-    print("      line %d: %d characters -- %s"
-          % (line, length, lines[line-1].strip()[:50]))
+held_lines = dict(((piece, number), line) for piece, number, line in lines)
+for piece, number, length in too_long[:5]:
+    print("      line %s: %d characters -- %s"
+          % (where(piece, number), length,
+             held_lines[(piece, number)].strip()[:50]))
 
-blocks, run, from_s = [], 0, 0
-for i, line in enumerate(lines, 1):
-    if line.strip().startswith("#"):
-        if not run: from_s = i
-        run += 1
-    else:
-        if run > BLOCK_MAX: blocks.append((from_s, run))
+# A run of comment lines is counted inside one piece: the last block of
+# one file and the first of the next are two blocks, not one.
+by_piece = {}
+for piece, number, line in lines:
+    by_piece.setdefault(piece, []).append(line)
+
+blocks, runs = [], []
+for piece, body in by_piece.items():
+    run, from_s = 0, 0
+    for number, line in enumerate(body, 1):
+        if line.strip().startswith("#"):
+            if not run:
+                from_s = number
+            run += 1
+            continue
+        if run > BLOCK_MAX:
+            blocks.append((where(piece, from_s), run))
+        if run:
+            runs.append(run)
         run = 0
+    if run > BLOCK_MAX:
+        blocks.append((where(piece, from_s), run))
+    if run:
+        runs.append(run)
 check("no comment block over %d lines" % BLOCK_MAX, not blocks,
         str(blocks[:4]))
 
-runs, run = [], 0
-for line in lines:
-    if line.strip().startswith("#"):
-        run += 1
-    else:
-        if run: runs.append(run)
-        run = 0
-if run: runs.append(run)
 over_b = [r for r in runs if r > BLOCK_WANTED]
 limit_b = state.number("long_blocks", len(over_b))
 check("comment blocks over %d lines: %d (ratchet %d)"
         % (BLOCK_WANTED, len(over_b), limit_b), len(over_b) <= limit_b,
         "" if len(over_b) <= limit_b else "there are more now")
 
-long_docs = [(n, len(t.splitlines())) for n, _z, t, _e in docs
+long_docs = [(n, len(t.splitlines())) for n, _p, _z, t, _e in docs
              if len(t.splitlines()) > DOCSTRING_MAX]
 check("no docstring over %d lines" % DOCSTRING_MAX, not long_docs,
         str(long_docs[:4]))
 
-over_d = [n for n, _z, t, _e in docs
+over_d = [n for n, _p, _z, t, _e in docs
           if len(t.splitlines()) > DOCSTRING_WANTED]
 limit_d = state.number("long_docstrings", len(over_d))
 check("docstrings over %d lines: %d (ratchet %d)"
@@ -207,7 +235,7 @@ check("docstrings over %d lines: %d (ratchet %d)"
 
 # ----------------------------------------------------------------- Heading
 bad_head = []
-for name, line, text, _e in docs:
+for name, piece, line, text, _e in docs:
     head = text.splitlines()[0].strip()
     if len(head) > HEAD_MAX:
         bad_head.append((name, "first line too long"))
@@ -228,11 +256,14 @@ for n, w in bad_head[:8]:
 # suffix on in brackets either. TN(count, one, many) exists for this:
 # both wordings are separate texts and both get translated.
 lazy = []
-for node in ast.walk(ast.parse(source)):
-    if isinstance(node, ast.Constant) and isinstance(node.value, str):
-        if re.search(r"[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df]{3,}"
-                     r"\((?:s|n|e|en)\)", node.value):
-            lazy.append((node.lineno, node.value.strip()[:58]))
+for piece, tree, _seen in trees:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Constant) and isinstance(node.value, str):
+            if re.search(
+                    r"[A-Za-z\u00c4\u00d6\u00dc\u00e4\u00f6\u00fc\u00df]{3,}"
+                    r"\((?:s|n|e|en)\)", node.value):
+                lazy.append((where(piece, node.lineno),
+                             node.value.strip()[:58]))
 limit_p = state.number("lazy_plural", len(lazy))
 check("lazy plurals: %d (ratchet %d)" % (len(lazy), limit_p),
         len(lazy) <= limit_p,
@@ -240,34 +271,36 @@ check("lazy plurals: %d (ratchet %d)" % (len(lazy), limit_p),
         % (len(lazy) - limit_p, lazy[:3]))
 state.note(limit_p, len(lazy))
 for line, text in lazy[:8]:
-    print("      line %-6d %s" % (line, text))
+    print("      line %-14s %s" % (line, text))
 
 # ------------------------------------------------- How big a function got
 # coding_guidelines.md sets 300 lines and several functions are far over
 # it; freezing that number would say it is acceptable. The state holds
 # one entry per oversized function, by name: one dropping under the
 # limit does not buy room for another to climb over it.
-tree = ast.parse(source)
-seen = ratchet.owners(tree)
 sizes = []
-for node in ast.walk(tree):
-    if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
-        end = getattr(node, "end_lineno", None)
-        if end:
-            sizes.append((end - node.lineno + 1,
-                          ratchet.qualified(seen, node), node.lineno))
+for piece, tree, seen in trees:
+    for node in ast.walk(tree):
+        if isinstance(node, (ast.FunctionDef, ast.AsyncFunctionDef)):
+            end = getattr(node, "end_lineno", None)
+            if end:
+                sizes.append((end - node.lineno + 1,
+                              ratchet.qualified(seen, node), node.lineno,
+                              piece))
 sizes.sort(reverse=True)
 big = [s for s in sizes if s[0] > 300]
 
 held = state.places("over_300",
-                    dict((name, (1, line)) for _size, name, line in big))
+                    dict((name, (1, line))
+                         for _size, name, line, _piece in big))
 check("functions over 300 lines: %d (ratchet %d)" % (len(big), held.limit),
         held.ok, over(held))
 held.report()
 if held.tightened:
     print("      ratchet tightened: %d -> %d" % (held.limit, len(big)))
-for size, name, line in big[:8]:
-    print("      %-28s %5d lines, from line %d" % (name[:28], size, line))
+for size, name, line, piece in big[:8]:
+    print("      %-28s %5d lines, from line %s"
+          % (name[:28], size, where(piece, line)))
 
 largest = sizes[0][0] if sizes else 0
 # Only the biggest is held, as a bare number that has nothing to swap
@@ -286,15 +319,16 @@ state.note(limit_l, largest)
 # trade. The exception type is deliberately not part of the fingerprint:
 # narrowing `except Exception` improves the handler and must not go red.
 silent = []
-for node in ast.walk(tree):
-    if not isinstance(node, ast.ExceptHandler):
-        continue
-    body = [b for b in node.body
-            if not (isinstance(b, ast.Expr)
-                    and isinstance(b.value, ast.Constant)
-                    and isinstance(b.value.value, str))]
-    if len(body) == 1 and isinstance(body[0], ast.Pass):
-        silent.append((seen.get(id(node), "<module>"), node.lineno))
+for piece, tree, seen in trees:
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.ExceptHandler):
+            continue
+        body = [b for b in node.body
+                if not (isinstance(b, ast.Expr)
+                        and isinstance(b.value, ast.Constant)
+                        and isinstance(b.value.value, str))]
+        if len(body) == 1 and isinstance(body[0], ast.Pass):
+            silent.append((seen.get(id(node), "<module>"), node.lineno))
 held = state.places("silent_except", ratchet.tally(silent))
 check("except branches that only pass: %d (ratchet %d)"
       % (len(silent), held.limit), held.ok, over(held))
@@ -327,13 +361,14 @@ def brings_into_shape(node):
 
 
 lopsided = []
-for node in ast.walk(tree):
-    if not isinstance(node, ast.Compare):
-        continue
-    sides = [brings_into_shape(s)
-             for s in [node.left] + list(node.comparators)]
-    if any(s is True for s in sides) and not all(sides):
-        lopsided.append((seen.get(id(node), "<module>"), node.lineno))
+for piece, tree, seen in trees:
+    for node in ast.walk(tree):
+        if not isinstance(node, ast.Compare):
+            continue
+        sides = [brings_into_shape(s)
+                 for s in [node.left] + list(node.comparators)]
+        if any(s is True for s in sides) and not all(sides):
+            lopsided.append((seen.get(id(node), "<module>"), node.lineno))
 held = state.places("one_sided_paths", ratchet.tally(lopsided))
 check("paths shaped on one side of a comparison: %d (ratchet %d)"
       % (len(lopsided), held.limit), held.ok, over(held))
@@ -367,10 +402,12 @@ def keys_of(node):
 
 
 half_shaped = []
-for node in ast.walk(tree):
-    for slot in keys_of(node):
-        if brings_into_shape(slot) is True:
-            half_shaped.append((seen.get(id(node), "<module>"), node.lineno))
+for piece, tree, seen in trees:
+    for node in ast.walk(tree):
+        for slot in keys_of(node):
+            if brings_into_shape(slot) is True:
+                half_shaped.append((seen.get(id(node), "<module>"),
+                                    node.lineno))
 held = state.places("one_sided_keys", ratchet.tally(half_shaped))
 check("paths used as a key without the one shape: %d (ratchet %d)"
       % (len(half_shaped), held.limit), held.ok, over(held))
@@ -381,7 +418,7 @@ if held.tightened:
 
 # The one shape has to be one shape. abspath alone leaves the case and
 # the separator, so two names for one file still compare unequal.
-key = [n for n in ast.walk(tree)
+key = [n for _piece, tree, _seen in trees for n in ast.walk(tree)
        if isinstance(n, (ast.FunctionDef, ast.AsyncFunctionDef))
        and n.name == "path_key"]
 # The calls it makes, not the words it uses: a docstring naming normcase

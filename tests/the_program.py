@@ -64,6 +64,17 @@ def text():
     return io.open(SCRIPT, encoding="utf-8").read()
 
 
+def whole():
+    """Every piece of the program joined, for a reader hunting a word.
+
+    A word search does not care which file the word stands in, and
+    twenty readers would otherwise write the same loop. Never for a
+    line number: a number into this points nowhere -- `pieces()` hands
+    the same text back with the name of the piece each part came from.
+    """
+    return "\n".join(body for _name, body in pieces())
+
+
 # A translation is data, not program: one name and nothing else. Held
 # apart by what stands in the file rather than by where it lies, so a
 # ninth language tomorrow needs nothing written here.
@@ -74,6 +85,22 @@ HOLDS_CODE = re.compile(r"^(?:def |class |import |from )", re.M)
 def a_catalogue(body):
     """Whether that file holds a translation rather than program."""
     return bool(HOLDS_TEXTS.search(body)) and not HOLDS_CODE.search(body)
+
+
+def on_disk():
+    """How many bytes the whole program weighs, over all its pieces.
+
+    A floor worked out from one file was a floor over the whole
+    program until the window moved out of it. Two guards asked
+    getsize(SCRIPT) and went on measuring the entry alone -- one of
+    them exists to notice a reader that came back with a fragment, and
+    it let the whole window go missing and stayed green. Asked here
+    once, so the next piece to leave moves both by itself.
+    """
+    # The names pieces() hands back are relative to the folder,
+    # which is what makes them printable beside a line number.
+    return sum(os.path.getsize(os.path.join(FOLDER, name))
+               for name, _body in pieces())
 
 
 def pieces():

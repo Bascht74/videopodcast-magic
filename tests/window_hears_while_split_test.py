@@ -177,8 +177,11 @@ check("and words of a recording nobody asked about are dropped",
       "nothing and once" % (stale.get("speakers_words"), len(woken)))
 
 print("\n3. The window takes that road")
-tree = ast.parse(the_program.text())
-kick = [n for n in ast.walk(tree) if isinstance(n, ast.FunctionDef)
+# Every piece of the program: the road it takes starts in the window,
+# and the window is a piece of its own.
+kick = [n for _piece, body in the_program.pieces()
+        for n in ast.walk(ast.parse(body))
+        if isinstance(n, ast.FunctionDef)
         and n.name == "speaker_split_kick_off"]
 calls = sorted(set(n.func.id for one in kick for n in ast.walk(one)
                    if isinstance(n, ast.Call)

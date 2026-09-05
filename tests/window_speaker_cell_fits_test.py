@@ -57,7 +57,7 @@ def check(name, ok, extra=""):
 # The narrowest the window can be made, read out of the program rather
 # than written down here: a number kept in two places drifts apart.
 NARROWEST = int(re.search(r"window\.setMinimumSize\((\d+),",
-                          the_program.text()).group(1))
+                          the_program.whole()).group(1))
 PATH = "/tmp/Presenter_2026-09-04.wav"
 # The same nominal font is drawn 1.89 times as wide on Windows as on
 # this Mac -- measured on the builder over both languages, and written

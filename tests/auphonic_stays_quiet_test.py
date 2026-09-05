@@ -53,7 +53,7 @@ for key in TURNED_AWAY[1:]:
           said.endswith(".") or said.endswith("?"), repr(said))
 
 print("\n3. Nothing is fetched at the start")
-source = the_program.text()
+source = the_program.whole()
 # A timer, in every shape it could come back in.
 timers = re.findall(r"singleShot\([^)]*presets_load", source)
 check("no timer calls presets_load", not timers,

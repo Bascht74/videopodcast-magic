@@ -8,6 +8,11 @@ The switch section really starts the program, twice, on a file that is
 not there: whether --lang is acted on cannot be read off the parser,
 and a wording held against the output would only say what language the
 machine itself is set to.
+
+What is read as text is read out of every piece of the program, not out
+of the file it starts in: a word looked for in one file goes missing
+the day it moves into another, and a check that asks whether a word is
+gone then passes because the file it read no longer holds it.
 """
 import os, sys
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -341,22 +346,29 @@ print("\n8. The log window colours the same way")
 # The source is read as text, so no window and no Qt: an application
 # built here bought nothing and cost half the run. The branch that
 # stood in for a missing PySide6 asserted True and could not fail.
-source = io.open(SCRIPT, encoding="utf-8").read()
+# Every piece of the program, not the file it starts in alone: a word
+# looked for in one file is not found once it moves into another, and
+# a check that only says "it is not there any more" then passes for
+# the wrong reason.
+PIECES = the_program.pieces()
+source = "\n".join(body for _name, body in PIECES)
 
 
 def sightings(needle):
     """How often a piece of source stands in the program, and where first.
 
     The evidence for every check that looks for a literal: the count says
-    what was found, and the line number says where to go and look. Whole,
-    never cut -- a shortened needle hides the half that mattered.
+    what was found, and the piece and line say where to go and look.
+    Whole, never cut -- a shortened needle hides the half that mattered.
     """
-    n = source.count(needle)
+    n = sum(body.count(needle) for _name, body in PIECES)
     if not n:
         return "stands 0 times in the program"
-    return "stands %d %s in the program, first on line %d" % (
-        n, "time" if n == 1 else "times",
-        source[:source.find(needle)].count("\n") + 1)
+    for name, body in PIECES:
+        if needle in body:
+            return "stands %d %s in the program, first in %s on line %d" % (
+                n, "time" if n == 1 else "times", name,
+                body[:body.find(needle)].count("\n") + 1)
 
 
 check("the log reads the marker",
@@ -370,16 +382,17 @@ check("the file gets the text without the marker",
            sightings("self.having.write(strip_marks(text))")))
 
 print("\n9. Every T() text is in the catalogue")
-tree = ast.parse(io.open(SCRIPT, encoding="utf-8").read())
+TREES = [(name, ast.parse(body)) for name, body in PIECES]
 asked = []
-for node in ast.walk(tree):
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-            and node.func.id in ("T", "TN") and node.args:
-        # T(text, ...) -- TN(number, singular, plural)
-        args = node.args[1:] if node.func.id == "TN" else node.args[:1]
-        for a in args:
-            if isinstance(a, ast.Constant) and isinstance(a.value, str):
-                asked.append(a.value)
+for _name, tree in TREES:
+    for node in ast.walk(tree):
+        if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+                and node.func.id in ("T", "TN") and node.args:
+            # T(text, ...) -- TN(number, singular, plural)
+            args = node.args[1:] if node.func.id == "TN" else node.args[:1]
+            for a in args:
+                if isinstance(a, ast.Constant) and isinstance(a.value, str):
+                    asked.append(a.value)
 for t in vpm.CHOICE_LABELS.values():
     asked.append(t)
 absent = sorted(set(t for t in asked if t not in vpm.CATALOGUE["de"]))
@@ -400,42 +413,50 @@ def first_text(node):
             continue
         return None
 
-unmarked = []
-for node in ast.walk(tree):
+def heading_without_marker(node):
+    """The first line of an output call that shouts and carries no marker."""
     if not isinstance(node, ast.Call) or not node.args:
-        continue
+        return None
     if isinstance(node.func, ast.Name):
         name = node.func.id
     elif isinstance(node.func, ast.Attribute):
         # f.write(...) writes a file, not the log.
         if isinstance(node.func.value, ast.Name) \
                 and node.func.value.id in ("f", "file"):
-            continue
+            return None
         name = node.func.attr
     else:
         name = ""
     if name not in OUTPUT:
-        continue
+        return None
     if isinstance(node.args[0], ast.Call) \
             and isinstance(node.args[0].func, ast.Name) \
             and node.args[0].func.id in MARKERS:
-        continue
+        return None
     t = first_text(node.args[0])
     if t is None:
-        continue
+        return None
     first = ([line for line in t.split("\n") if line.strip()]
              or [""])[0]
     head = first.strip().split(":", 1)[0]
     if first[:1] not in (" ", "\t") and len(head) > 2 \
             and head == head.upper() and re.search(r"[A-Z]", head) \
             and not head.startswith("%"):
-        unmarked.append((node.lineno, first[:60]))
+        return first[:60]
+    return None
+
+
+unmarked = []
+for piece, tree in TREES:
+    for node in ast.walk(tree):
+        first = heading_without_marker(node)
+        if first is not None:
+            unmarked.append(("%s %d" % (piece, node.lineno), first))
 old = state.number("uncoloured", len(unmarked))
 check("headings without a marker: %d (ratchet %d)" % (len(unmarked), old),
         len(unmarked) <= old, str(unmarked[:3]))
 
 print("\n11. The old word detection is really gone")
-source = io.open(SCRIPT, encoding="utf-8").read()
 check("no log_line_kind any more", "log_line_kind" not in source,
         "log_line_kind %s, wanted 0 times" % sightings("log_line_kind"))
 # The words the old guesser read the colour off, one check each and
@@ -515,7 +536,6 @@ vpm.set_language("de")
 
 print("\n14. No translation as early as import time")
 import ast as _ast
-_b = _ast.parse(source)
 def _module_level(node):
     for k in _ast.iter_child_nodes(node):
         if isinstance(k, (_ast.FunctionDef, _ast.AsyncFunctionDef,
@@ -526,25 +546,28 @@ def _module_level(node):
             yield k
         for x in _module_level(k):
             yield x
-_early = list(_module_level(_b))
+_early = [("%s %d" % (_piece, _k.lineno))
+          for _piece, _b in TREES for _k in _module_level(_b)]
 check("no T()/TN() at module level", not _early,
-        str([k.lineno for k in _early[:3]]))
+        str(_early[:3]))
 
 
 print("\n15. The marker stays in the log")
 import ast as _a2
-_b2 = _a2.parse(source)
 _MARK = {"as_head", "as_good", "as_warn", "as_bad"}
 _in_file = []
-for _k in _a2.walk(_b2):
-    if isinstance(_k, _a2.Call) and isinstance(_k.func, _a2.Attribute) \
-            and _k.func.attr == "write" \
-            and isinstance(_k.func.value, _a2.Name) \
-            and _k.func.value.id in ("f", "file"):
+for _piece, _b2 in TREES:
+    for _k in _a2.walk(_b2):
+        if not (isinstance(_k, _a2.Call)
+                and isinstance(_k.func, _a2.Attribute)
+                and _k.func.attr == "write"
+                and isinstance(_k.func.value, _a2.Name)
+                and _k.func.value.id in ("f", "file")):
+            continue
         for _x in _a2.walk(_k):
             if isinstance(_x, _a2.Call) and isinstance(_x.func, _a2.Name) \
                     and _x.func.id in _MARK:
-                _in_file.append(_k.lineno)
+                _in_file.append("%s %d" % (_piece, _k.lineno))
 check("no marker in a written file", not _in_file, str(_in_file[:3]))
 
 print("\n16. Numbers in files do not hang on the language")
@@ -785,22 +808,25 @@ def _shown(node):
     return []
 
 
-_whole = ast.parse(source)
-_where = ratchet.owners(_whole)
 _prints, _raw = 0, []
-for _node in ast.walk(_whole):
-    if not (isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name)
-            and _node.func.id == "print" and _node.args):
-        continue
-    _prints += 1
-    if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
-           and n.func.id in ("T", "TN") for n in ast.walk(_node.args[0])):
-        continue
-    for _text in _shown(_node.args[0]):
-        if _WORDY.search(_text):
-            _raw.append(("%s prints %r"
-                         % (_where.get(id(_node), "<module>"), _text[:44]),
-                         _node.lineno))
+for _piece, _whole in TREES:
+    _where = ratchet.owners(_whole)
+    for _node in ast.walk(_whole):
+        if not (isinstance(_node, ast.Call)
+                and isinstance(_node.func, ast.Name)
+                and _node.func.id == "print" and _node.args):
+            continue
+        _prints += 1
+        if any(isinstance(n, ast.Call) and isinstance(n.func, ast.Name)
+               and n.func.id in ("T", "TN")
+               for n in ast.walk(_node.args[0])):
+            continue
+        for _text in _shown(_node.args[0]):
+            if _WORDY.search(_text):
+                _raw.append(("%s prints %r"
+                             % (_where.get(id(_node), "<module>"),
+                                _text[:44]),
+                             _node.lineno))
 # The count before the judgement: a detector that reads no print at all
 # would report nothing left in English and look like the best news of
 # the run.

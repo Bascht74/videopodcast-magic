@@ -210,7 +210,7 @@ check("key without preset: an error message",
            said(messages)))
 
 print("\n8. The old tick is really gone")
-source = the_program.text()
+source = the_program.whole()
 check("no QCheckBox 'this time without'",
         "this time without auphonic.com" not in source,
         "'this time without auphonic.com' stands %d times in %s, wanted 0"

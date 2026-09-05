@@ -4,7 +4,7 @@
  "largest_function": 5106,
  "lazy_plural": 0,
  "long_blocks": 105,
- "long_docstrings": 140,
+ "long_docstrings": 141,
  "long_lines": 0,
  "narrating": 0,
  "one_sided_keys": {
@@ -101,6 +101,7 @@
   "step_begin": [1, 14964],
   "step_report": [1, 14973],
   "stop_asked_for": [1, 25018],
+  "system_locale": [2, 58],
   "usable_clip_colours": [2, 11874],
   "video_envelope": [2, 17838],
   "write_handover": [1, 13177]

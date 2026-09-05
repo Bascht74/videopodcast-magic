@@ -225,23 +225,33 @@ def reads_np_while_read(tree):
     return sorted(found)
 
 
-source = ""
+# Every piece of the program, because every one of them is executed
+# while the program is being read: a piece that reads np at its top
+# pulls numpy in just as surely as the file the program starts in.
+read = []
 unreadable = ""
+lines = 0
+places = []
 try:
-    source = the_program.text()
-    tree = ast.parse(source)
+    read = the_program.pieces()
 except OSError as trouble:
     unreadable = "%s is not readable: %s" % (SCRIPT, trouble)
-except SyntaxError as trouble:
-    unreadable = "%s does not parse, line %s" % (SCRIPT, trouble.lineno)
-lines = source.splitlines()
-places = [] if unreadable else reads_np_while_read(tree)
-first = " ".join(lines[places[0] - 1].split())[:100] if places else ""
+for piece, body in read:
+    try:
+        tree = ast.parse(body)
+    except SyntaxError as trouble:
+        unreadable = "%s does not parse, line %s" % (piece, trouble.lineno)
+        continue
+    rows = body.splitlines()
+    lines += len(rows)
+    for at in reads_np_while_read(tree):
+        places.append(("%s %d" % (piece, at),
+                       " ".join(rows[at - 1].split())[:100]))
 check("no default value and no top-level line reads np",
       not places and not unreadable,
       unreadable or "%d of %d lines read np%s"
-      % (len(places), len(lines),
-         (", the first is %d: %s" % (places[0], first)) if places else ""))
+      % (len(places), lines,
+         (", the first is %s: %s" % places[0]) if places else ""))
 
 shutil.rmtree(work, ignore_errors=True)
 

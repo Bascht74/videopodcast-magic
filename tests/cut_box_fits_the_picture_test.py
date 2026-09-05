@@ -78,7 +78,7 @@ print("0. The handler for the frames")
 # being built, reaches an object that is not there yet. Read as a tree:
 # the line the signal is connected on has to come after every line that
 # binds something the handler touches.
-source = the_program.text()
+source = the_program.whole()
 start, handler = None, []
 for node in ast.walk(ast.parse(source)):
     if not (isinstance(node, ast.ClassDef) and node.name == "CutPlayer"):

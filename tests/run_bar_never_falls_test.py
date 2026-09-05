@@ -228,18 +228,21 @@ print("\n6. The stages have one set of names")
 # taken out of a loop, is collected apart and named in the line.
 said = set()
 unread = []
-for node in ast.walk(ast.parse(the_program.text())):
-    if not (isinstance(node, ast.Call) and node.args
-            and getattr(node.func, "id", "") == "step_begin"):
-        continue
-    what = node.args[0]
-    if isinstance(what, ast.Constant) and isinstance(what.value, str):
-        said.add(what.value)
-    elif isinstance(what, ast.Name) and isinstance(
-            getattr(vpm, what.id, None), str):
-        said.add(getattr(vpm, what.id))
-    else:
-        unread.append("line %d" % what.lineno)
+# Every piece of the program: a stage announced from the window would
+# otherwise never be held against the plan.
+for piece, body in the_program.pieces():
+    for node in ast.walk(ast.parse(body)):
+        if not (isinstance(node, ast.Call) and node.args
+                and getattr(node.func, "id", "") == "step_begin"):
+            continue
+        what = node.args[0]
+        if isinstance(what, ast.Constant) and isinstance(what.value, str):
+            said.add(what.value)
+        elif isinstance(what, ast.Name) and isinstance(
+                getattr(vpm, what.id, None), str):
+            said.add(getattr(vpm, what.id))
+        else:
+            unread.append("line %s %d" % (piece, what.lineno))
 aside = "" if not unread else "; announcements not read as a name: %s" % (
     ", ".join(unread))
 planned = set()

@@ -175,7 +175,7 @@ check("two barred entries each keep their own reason",
 # The three tables that show a Kind ask one function for the cell, and
 # that is where the bar is hung. A table building its own would offer
 # the wide shot again while everything here stayed green.
-source = the_program.text()
+source = the_program.whole()
 built, one_place = (source.count("clip_kind_cell("),
                     source.count("kind_cell_for("))
 check("every table asks the one place for its Kind field",

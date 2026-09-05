@@ -29,7 +29,12 @@ SHOWN = os.path.join(os.path.basename(os.path.dirname(SCRIPT)),
 spec = importlib.util.spec_from_file_location("vpm", SCRIPT)
 vpm = importlib.util.module_from_spec(spec); sys.modules["vpm"] = vpm
 spec.loader.exec_module(vpm)
-source = io.open(SCRIPT, encoding="utf-8").read()
+# Every piece of the program, not the file it starts in alone: an
+# umlaut that moves into another piece would otherwise leave the
+# check green, and a catalogue entry the interface asks for would
+# be reported as one nobody can reach.
+PIECES = the_program.pieces()
+TREES = [(name, ast.parse(body)) for name, body in PIECES]
 done = 0
 bad = []
 
@@ -68,36 +73,43 @@ def check(what, ok, detail=""):
 
 
 #-------------------------------------------------------------- the catalogue
-tree = ast.parse(source)
 catalogue_node = None
 catalogue_at = []
-for node in tree.body:
-    if isinstance(node, ast.Assign):
+for _piece, tree in TREES:
+    for node in tree.body:
+        if not isinstance(node, ast.Assign):
+            continue
         for target in node.targets:
             if isinstance(target, ast.Subscript) \
                     and isinstance(target.value, ast.Name) \
                     and target.value.id == "CATALOGUE":
                 catalogue_node = node
-                catalogue_at.append(node.lineno)
+                catalogue_at.append("%s %d" % (_piece, node.lineno))
 section("The catalogue as data")
 check("the catalogue is one assignment at the end",
       catalogue_node is not None,
       "%d assignments to CATALOGUE[...] stand at the top level of the "
       "program, at lines %s" % (len(catalogue_at), catalogue_at))
 inside = {id(n) for n in ast.walk(catalogue_node)} if catalogue_node else set()
-elsewhere = {n.value for n in ast.walk(tree) if id(n) not in inside
-             and isinstance(n, ast.Constant) and isinstance(n.value, str)}
+elsewhere = {n.value for _piece, tree in TREES
+             for n in ast.walk(tree) if id(n) not in inside
+             and isinstance(n, ast.Constant)
+             and isinstance(n.value, str)}
 catalogue = vpm.CATALOGUE["de"]
 unreachable = [k for k in catalogue if k not in elsewhere]
 check("no entry nobody can reach", not unreachable,
       "%d: %s" % (len(unreachable), [repr(x)[:40] for x in unreachable[:3]]))
 
 wanted = set()
-for node in ast.walk(tree):
-    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
-            and node.func.id in ("T", "TN"):
+for _piece, tree in TREES:
+    for node in ast.walk(tree):
+        if not (isinstance(node, ast.Call)
+                and isinstance(node.func, ast.Name)
+                and node.func.id in ("T", "TN")):
+            continue
         for a in node.args:
-            if isinstance(a, ast.Constant) and isinstance(a.value, str):
+            if isinstance(a, ast.Constant) \
+                    and isinstance(a.value, str):
                 wanted.add(a.value)
 absent = sorted(w for w in wanted if w not in catalogue)
 check("no text without a translation", not absent,
@@ -170,12 +182,15 @@ GERMAN_LETTERS = re.compile(r"[äöüÄÖÜß]")
 # read whole. Everything below rests on it having been read at all: an
 # empty string holds no umlaut and no abbreviation either, and the two
 # sections would report nothing wrong. Said here, so the cause is named.
-check("the program itself was read", source.count("\n") > 1000,
-      "%d lines in %s, wanted over 1000" % (source.count("\n"), SHOWN))
+read = sum(body.count("\n") for _piece, body in PIECES)
+check("the program itself was read", read > 1000,
+      "%d lines in %d piece(s) under %s, wanted over 1000"
+      % (read, len(PIECES), SHOWN))
 hits = []
-for i, line in enumerate(source.splitlines(), 1):
-    if GERMAN_LETTERS.search(line):
-        hits.append((i, line.strip()[:60]))
+for piece, body in PIECES:
+    for i, line in enumerate(body.splitlines(), 1):
+        if GERMAN_LETTERS.search(line):
+            hits.append(("%s %d" % (piece, i), line.strip()[:60]))
 check("no umlaut in the program", not hits, str(hits[:3]))
 # Inside the catalogue: only the values may carry them, never the keys.
 key_hits = [k for k in catalogue if GERMAN_LETTERS.search(k)]
@@ -189,10 +204,11 @@ SHORTHAND = (r"\b(?:z\s?\.?\s?B|bzw|ggf|u\s?\.?\s?a|d\s?\.?\s?h|usw|evtl"
              r"|o\s?\.?\s?ä|Abb|Nr|ca)\.")
 SHORT = re.compile(SHORTHAND)
 found = []
-for i, line in enumerate(source.splitlines(), 1):
-    m = SHORT.search(line)
-    if m:
-        found.append((i, m.group(0)))
+for piece, body in PIECES:
+    for i, line in enumerate(body.splitlines(), 1):
+        m = SHORT.search(line)
+        if m:
+            found.append(("%s %d" % (piece, i), m.group(0)))
 check("none in the program", not found, str(found[:3]))
 in_keys = [k for k in catalogue if SHORT.search(k)]
 check("none in an English catalogue key", not in_keys,

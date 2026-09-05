@@ -198,7 +198,7 @@ check("but one that has a place is, whatever its sound scored",
       "%s against %s" % (told(anyway), told((one, "one recording"))))
 # What the window hands over is a call, not a value this can read back,
 # so the program's own text is the only place the answer stands.
-program = the_program.text()
+program = the_program.whole()
 check("the window hands over what nothing could place, not what "
       "sounded weak",
       'placeless=state.get("no_place")' in program

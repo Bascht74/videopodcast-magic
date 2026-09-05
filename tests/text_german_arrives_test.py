@@ -72,11 +72,31 @@ check("the German texts are a file beside the program", there,
       "%s inside %s: %s" % (INSIDE, PROGRAM,
                             "there" if there else "not there"))
 catalogue = texts_of(TEXTS_DE) if there else {}
-source = io.open(SCRIPT, encoding="utf-8").read()
-program = ast.parse(source)
+def every_piece():
+    """The program and every piece of it, as (name shown, its text).
+
+    Not through the helper beside this test, for the reason at the top:
+    a piece of the program is a file called __init__.py under the
+    program's folder, and a translation is never one of those.
+    """
+    folder = os.path.dirname(SCRIPT)
+    out = []
+    for here, folders, files in os.walk(folder):
+        folders[:] = [d for d in folders if d != "__pycache__"]
+        if "__init__.py" not in files:
+            continue
+        path = os.path.join(here, "__init__.py")
+        out.append((os.path.relpath(path, folder),
+                    io.open(path, encoding="utf-8").read()))
+    return sorted(out)
+
+
 # The shape that moved out: a dictionary written straight into
-# CATALOGUE. One of those in the program means the texts are back.
-back = [n.lineno for n in ast.walk(program)
+# CATALOGUE. One of those in any piece means the texts are back, so
+# every piece is read and not the file the program starts in alone.
+back = ["%s %d" % (piece, n.lineno)
+        for piece, body in every_piece()
+        for n in ast.walk(ast.parse(body))
         if isinstance(n, ast.Assign) and isinstance(n.value, ast.Dict)
         and isinstance(n.targets[0], ast.Subscript)
         and getattr(n.targets[0].value, "id", "") == "CATALOGUE"]
@@ -167,7 +187,19 @@ check("imported by name, the program speaks German",
 # list is held against the program instead of against a name written
 # down here: a folder pip never brought leaves an installed copy
 # speaking English only.
+program = ast.parse(dict(every_piece())["__init__.py"])
 folders = set()
+# The pieces the program fetches for itself are folders it reads out of
+# too: beside("ui") lays the same claim on pip as the texts do, and a
+# folder pip never brought opens no window.
+for node in ast.walk(program):
+    if isinstance(node, ast.Call) and isinstance(node.func, ast.Name) \
+            and node.func.id == "beside" and node.args \
+            and isinstance(node.args[0], ast.Constant) \
+            and isinstance(node.args[0].value, str) \
+            and os.path.isdir(os.path.join(os.path.dirname(SCRIPT),
+                                           node.args[0].value)):
+        folders.add(node.args[0].value)
 for node in ast.walk(program):
     if not (isinstance(node, ast.FunctionDef)
             and node.name == "texts_of_language"):

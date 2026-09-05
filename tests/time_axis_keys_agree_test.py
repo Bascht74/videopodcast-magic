@@ -178,7 +178,7 @@ check("the separated recording is placed against the earliest of them",
 #--------------------------------------------- 4. And the window agrees
 
 print("\n4. The window has no reader of its own")
-source = the_program.text()
+source = the_program.whole()
 asks = [ln.strip() for ln in source.splitlines()
         if '["axis"].get(' in ln or '(axis or {}).get(' in ln
         or '("axis") or {}).get(' in ln]

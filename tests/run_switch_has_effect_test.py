@@ -57,9 +57,10 @@ print("1. Every switch is read somewhere")
 check("build_argument_parser hands out its switches",
       len(switches) > 20, "%d" % len(switches))
 
-source = the_program.text()
-tree = ast.parse(source)
-defined_in = [node for node in ast.walk(tree)
+# Every piece of the program: a switch whose only reader sits in the
+# window would otherwise be reported as taken and never read.
+TREES = [ast.parse(body) for _piece, body in the_program.pieces()]
+defined_in = [node for tree in TREES for node in ast.walk(tree)
               if isinstance(node, ast.FunctionDef)
               and node.name == "build_argument_parser"]
 check("build_argument_parser found in the source", len(defined_in) == 1,
@@ -76,34 +77,35 @@ NAMESPACE = ("args", "a", "ns", "opts", "options", "parsed")
 read_by_name = set()
 keys = set()
 compared = set()
-for node in ast.walk(tree):
-    if id(node) in parser_nodes:
-        continue
-    if isinstance(node, ast.Attribute) and isinstance(node.ctx, ast.Load):
-        holder = node.value
-        if (isinstance(holder, ast.Name) and holder.id in NAMESPACE) or (
-                isinstance(holder, ast.Call)
-                and isinstance(holder.func, ast.Attribute)
-                and holder.func.attr.startswith("parse_")):
-            read_by_name.add(node.attr)
-    if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
-            and node.func.id in ("getattr", "hasattr")
-            and len(node.args) >= 2
-            and isinstance(node.args[1], ast.Constant)):
-        read_by_name.add(node.args[1].value)
-    if isinstance(node, ast.Dict):
-        keys.update(k.value for k in node.keys
-                    if isinstance(k, ast.Constant) and isinstance(k.value, str))
-    if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant):
-        keys.add(node.slice.value)
-    if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
-            and node.func.attr in ("get", "setdefault", "pop")
-            and node.args and isinstance(node.args[0], ast.Constant)):
-        keys.add(node.args[0].value)
-    if isinstance(node, ast.Compare):
-        for side in [node.left] + list(node.comparators):
-            if isinstance(side, ast.Constant) and isinstance(side.value, str):
-                compared.add(side.value)
+for tree in TREES:
+    for node in ast.walk(tree):
+        if id(node) in parser_nodes:
+            continue
+        if isinstance(node, ast.Attribute) and isinstance(node.ctx, ast.Load):
+            holder = node.value
+            if (isinstance(holder, ast.Name) and holder.id in NAMESPACE) or (
+                    isinstance(holder, ast.Call)
+                    and isinstance(holder.func, ast.Attribute)
+                    and holder.func.attr.startswith("parse_")):
+                read_by_name.add(node.attr)
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Name)
+                and node.func.id in ("getattr", "hasattr")
+                and len(node.args) >= 2
+                and isinstance(node.args[1], ast.Constant)):
+            read_by_name.add(node.args[1].value)
+        if isinstance(node, ast.Dict):
+            keys.update(k.value for k in node.keys
+                        if isinstance(k, ast.Constant) and isinstance(k.value, str))
+        if isinstance(node, ast.Subscript) and isinstance(node.slice, ast.Constant):
+            keys.add(node.slice.value)
+        if (isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute)
+                and node.func.attr in ("get", "setdefault", "pop")
+                and node.args and isinstance(node.args[0], ast.Constant)):
+            keys.add(node.args[0].value)
+        if isinstance(node, ast.Compare):
+            for side in [node.left] + list(node.comparators):
+                if isinstance(side, ast.Constant) and isinstance(side.value, str):
+                    compared.add(side.value)
 
 # The rest of the ways in, and they are real ones: the cut rules travel
 # as dictionary keys, and --update-check is answered off sys.argv before
