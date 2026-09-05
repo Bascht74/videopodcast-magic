@@ -15,8 +15,9 @@ this program is read first, that a copy no package manager owns is
 told rather than written over, that one version may be passed over,
 that a release text is shown in one language, what the command line
 says, what --update does to such a copy, that a look which could not
-happen says so instead of reading as nothing newer, and that an
-installation goes to pip by the same command the window uses.
+happen says so instead of reading as nothing newer, that an
+installation goes to pip by the same command the window uses, and
+that the command names the release that was offered.
 """
 import os
 import the_program
@@ -843,11 +844,21 @@ check("pip runs in the Python this program runs in",
       "pip was started as %r, wanted %r at the front"
       % (ORDERS[0][:3] if ORDERS else None, WANTED))
 check("pip is told to upgrade from the repository itself",
-      bool(ORDERS) and ORDERS[0][3:] == ["install", "-U", vpm.PIP_SOURCE]
+      bool(ORDERS) and ORDERS[0][3:5] == ["install", "-U"]
       and vpm.PIP_SOURCE.startswith("git+https://github.com/"),
       "the rest of the command was %r and the address is %r, wanted "
       "install -U and a git+https address"
       % (ORDERS[0][3:] if ORDERS else None, vpm.PIP_SOURCE))
+# The command itself, not the sentence beside it. The address without a
+# release on it is the head of the default branch, and pip would fetch
+# that while the line underneath named the release -- the one thing
+# nothing here could see, because every other check reads the words the
+# program says rather than the words it hands to pip.
+AT_RELEASE = vpm.PIP_SOURCE + "@v9.9.9"
+check("pip is asked for the release that was offered, not for a branch",
+      bool(ORDERS) and ORDERS[0][5:] == [AT_RELEASE],
+      "pip was pointed at %r, wanted the one address %r"
+      % (ORDERS[0][5:] if ORDERS else None, AT_RELEASE))
 # Written down as each line was read, not counted at the end: what this
 # is about is a run of minutes whose output arrives while it runs.
 STEPS = list(range(1, len(PIP_SAYS) + 1))

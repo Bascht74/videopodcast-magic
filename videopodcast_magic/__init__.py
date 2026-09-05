@@ -13348,8 +13348,9 @@ RELEASE_LIST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
 # must certainly not swap the file it is testing.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
 # What pip is pointed at where the program was installed rather than
-# downloaded. No PyPI in it: pip reads the repository itself and
-# compares what is there with what is installed.
+# downloaded. No PyPI in it: pip reads the repository itself, and
+# pip_update hangs the release on the end, because the address alone
+# is the head of the default branch.
 PIP_SOURCE = "git+https://github.com/Bascht74/videopodcast-magic"
 UPDATE_SINK = None   # set by the GUI: callable(job) that runs job(say)
                      # in a thread, its lines going into the Output tab
@@ -13577,12 +13578,14 @@ def not_installed_note():
 def pip_update(tag, say):
     """Let pip fetch that release. "" when it worked, or why not.
 
-    The Python this is running in, so the installation that gets the
-    new version is the one that would run it. Every line pip writes is
-    handed on as it arrives: the first install fetches a gigabyte of
-    packages, and a window with nothing in it looks broken.
+    The Python this is running in, so what gets the new version is the
+    installation that would run it, and *tag* on the address, because
+    the address alone is the head of the default branch while the line
+    at the end names the release. pip's lines go on as they arrive:
+    the first install fetches a gigabyte, and silence looks broken.
     """
-    order = [sys.executable, "-m", "pip", "install", "-U", PIP_SOURCE]
+    order = [sys.executable, "-m", "pip", "install", "-U",
+             PIP_SOURCE + "@" + tag]
     say("  %s\n" % " ".join(order))
     try:
         started = subprocess.Popen(order, stdout=subprocess.PIPE,
