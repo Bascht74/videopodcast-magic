@@ -51,8 +51,12 @@ if ! command -v gh >/dev/null 2>&1; then
   exit 2
 fi
 if [ -z "$RUN" ]; then
-  RUN=$(gh run list --branch main --status success --limit 1 \
-        --json databaseId --jq '.[0].databaseId' 2>/dev/null)
+  # --workflow, not just the newest green run on main: since 5.9.2026
+  # a second workflow answers there -- the one that takes a deleted
+  # branch's caches with it -- and it has no test job at all. Without
+  # the name this asked that run for its slowest test and got 'null'.
+  RUN=$(gh run list --branch main --status success --workflow tests \
+        --limit 1 --json databaseId --jq '.[0].databaseId' 2>/dev/null)
 fi
 if [ -z "$RUN" ]; then
   echo "no green run found on main" >&2
@@ -60,9 +64,14 @@ if [ -z "$RUN" ]; then
 fi
 
 # The slowest job of this run, by wall clock, unless one was named.
+#
+# Every job of the tests workflow, and no filter on the name. It used
+# to keep only the ones with a "/" in them, from the day they were
+# called "macos-latest / py3.14"; they are called "macOS py3.14" now,
+# so the filter kept nothing and the slowest job came back as null.
 if [ -z "$JOB" ]; then
   JOB=$(gh run view "$RUN" --json jobs --jq '
-    [.jobs[] | select(.name | contains("/"))
+    [.jobs[]
      | {name, s: ((.completedAt | fromdate) - (.startedAt | fromdate))}]
     | sort_by(-.s) | .[0] | "\(.name)\t\(.s)"' 2>/dev/null)
   said=${JOB#*$'\t'}
