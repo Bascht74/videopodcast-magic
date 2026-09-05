@@ -117,6 +117,12 @@ msgstr "このバージョンの変更点"
 msgid "Look for a newer version now"
 msgstr "新しいバージョンを今すぐ確認"
 
+msgid "Back to an earlier version ..."
+msgstr "以前のバージョンに戻す ..."
+
+msgid "Back to an earlier version"
+msgstr "以前のバージョンに戻す"
+
 msgid "Separating speakers"
 msgstr "話者の分離"
 

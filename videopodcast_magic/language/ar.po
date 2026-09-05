@@ -118,6 +118,12 @@ msgstr "ما تغيّر في هذا الإصدار"
 msgid "Look for a newer version now"
 msgstr "ابحث الآن عن إصدار أحدث"
 
+msgid "Back to an earlier version ..."
+msgstr "العودة إلى إصدار أقدم ..."
+
+msgid "Back to an earlier version"
+msgstr "العودة إلى إصدار أقدم"
+
 msgid "Separating speakers"
 msgstr "فصل المتحدثين"
 
