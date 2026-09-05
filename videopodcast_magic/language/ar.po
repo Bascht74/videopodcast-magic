@@ -152,8 +152,8 @@ msgstr "متحدث إضافي في %s"
 msgid "One more speaker in"
 msgstr "إضافة متحدث آخر"
 
-msgid "%d:%02d min"
-msgstr "%d:%02d د"
+msgid "%s:%02d min"
+msgstr "%s:%02d د"
 
 msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
 msgstr "%s -- %d:%02d إلى %d:%02d (%.1f ث)"

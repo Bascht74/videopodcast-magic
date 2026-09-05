@@ -42,6 +42,7 @@ auphonic_run_delivers	73
 auphonic_speech_read	14
 auphonic_stays_quiet	30
 cut_all_shots_land	4
+cut_amounts_grouped	5
 cut_both_are_shown	18
 cut_box_fits_the_picture	13
 cut_colour_per_camera	32
