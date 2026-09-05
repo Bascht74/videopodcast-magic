@@ -424,8 +424,23 @@ jobs:
         if: runner.os == 'Windows'
         shell: bash
         run: |
-          command -v ffmpeg > /dev/null 2>&1 \
-            || choco install ffmpeg -y --no-progress
+          if command -v ffmpeg > /dev/null 2>&1; then
+            exit 0
+          fi
+          choco install ffmpeg -y --no-progress || true
+          # Asked of the machine, not of choco's return code. Measured
+          # 5.9.2026: community.chocolatey.org answered 504, choco said
+          # "Unable to find package 'ffmpeg'" and "installed 0/0
+          # packages" -- and returned 0. The step went green, and the
+          # run fell two steps later with a bare exit 127 that named
+          # nothing. Once in fifteen runs, both Windows jobs at once,
+          # which is what an outage somewhere else looks like.
+          if ! command -v ffmpeg > /dev/null 2>&1; then
+            echo "FAIL: no ffmpeg after choco install, and choco"
+            echo "      reported success. What the package server"
+            echo "      answered stands above this line."
+            exit 1
+          fi
 
       - name: "Install: what Qt needs without a screen (Linux)"
         if: runner.os == 'Linux'
@@ -920,7 +935,20 @@ jobs:
             "VPM_NO_SPEAKER_SPLIT=$VPM_NO_SPEAKER_SPLIT" \
             "VPM_NO_UPDATE_CHECK=$VPM_NO_UPDATE_CHECK"
           echo "       VPM_MEDIA=$VPM_MEDIA"
-          names=$(sed -n 's/^green:.*red: [0-9]*//p' "$RUNNER_TEMP/suite.log")
+          # Nothing to read where the suite never started, and the
+          # step runs under set -e: without this, sed dies on the
+          # missing file and this step becomes the error the job
+          # reports -- burying the step that really fell. Measured on
+          # 5.9.2026: an outage at the package server the ffmpeg step
+          # fetches from (504) ended as "sed: can't read
+          # D:\a\_temp/suite.log", and the 504 was five hundred lines up.
+          log="$RUNNER_TEMP/suite.log"
+          if [ ! -f "$log" ]; then
+            echo "no suite.log, so the suite never started. What fell is"
+            echo "a step above this one -- read that one, not this."
+            exit 0
+          fi
+          names=$(sed -n 's/^green:.*red: [0-9]*//p' "$log")
           # Unquoted on purpose: word splitting collapses the run of
           # blanks that line ends in. Since run.sh began going red for
           # more skips than it allows, the suite can fail with "red: 0"
