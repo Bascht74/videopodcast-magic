@@ -90,6 +90,18 @@ def po_pairs(path):
     a check exists to catch exactly that. The header entry, whose
     English side is empty, is left out -- it carries no text.
 
+    A counted thing carries `msgid_plural` and a wording per form in
+    place of the one `msgstr`, and it comes back by its **first**
+    wording: one pair, the English singular against `msgstr[0]`. One
+    pair and not one per form, because the wordings above the first
+    all answer to the same English plural, and a caller that keeps one
+    value per key would read three right wordings as one key said three
+    times. What that leaves uncovered -- whether `msgstr[1]` and the
+    rest carry the same placeholders -- the plural section of
+    `text_only_texts_change_test.py` says outright, wording by wording.
+    Before 5.9.2026 this reader knew none of that and handed a counted
+    entry back with an empty translation.
+
     A reader of its own rather than the program's. A check that reads
     its subject with the subject's own eyes says only that the two
     agree, never that either is right.
@@ -110,6 +122,15 @@ def po_pairs(path):
             keep()
             key, value, at, began = "", None, "msgid", number
             line = line[len("msgid "):]
+        elif line.startswith("msgid_plural ") or line.startswith("msgstr["):
+            # The second English wording, and every form after the
+            # first: read past them, continuation lines included.
+            if line.startswith("msgstr[0] "):
+                value, at = "", "msgstr"
+                line = line[len("msgstr[0] "):]
+            else:
+                at = None
+                continue
         elif line.startswith("msgstr "):
             value, at = "", "msgstr"
             line = line[len("msgstr "):]
