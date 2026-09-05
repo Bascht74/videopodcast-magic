@@ -1019,6 +1019,9 @@ msgstr "تم تثبيت %s."
 msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
 msgstr "هذه النافذة ما زالت النسخة التي بدأت بها. يمكنها إعادة التشغيل الآن والظهور بالنسخة الجديدة، أو تفعل ذلك بنفسك لاحقًا."
 
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "تعمل هذه النسخة من مجلد خاص بها، لذا لا يوجد ما يحدّثه pip هنا. هذا يثبّتها: %s"
+
 msgid "Language of the window"
 msgstr "لغة النافذة"
 

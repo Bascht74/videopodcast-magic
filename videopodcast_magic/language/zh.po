@@ -1018,6 +1018,9 @@ msgstr "%s 已装好。"
 msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
 msgstr "此窗口仍是启动时的那个版本。可以现在重新启动并以新版本运行，也可以稍后自己来。"
 
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "此副本从自己的文件夹运行，pip 在这里没有可更新的内容。用这个安装它：%s"
+
 msgid "Language of the window"
 msgstr "窗口语言"
 
