@@ -12,10 +12,22 @@ rates, run times, distributions, comparisons.
 
 ## How the script is put together
 
-`videopodcast_magic/__init__.py` holds the program; the folder
-`language/` beside it holds a file per language that holds nothing but
-texts, and `models/` holds the speaker model. There is nothing to
-build. It can be installed as well -- `pyproject.toml` makes a package
+`videopodcast_magic/__init__.py` is the way in and holds most of the
+program; each piece that has moved out sits beside it in a folder of
+its own -- `language/` holds a file per language that holds nothing but
+texts, `ui/` holds the window and everything it shows, asks or offers.
+`models/` holds the speaker model. There is nothing to build.
+
+**How a piece is joined on, and why it is not an import.** `beside()`
+reads the piece out of the folder and hands the program in before the
+file is read; the piece then binds by name what it takes, one line per
+name, because `source_no_loose_ends` wants a visible origin for every
+name in its own file. What is bound again while the program runs -- the
+five sinks, `LANG`, `TOOL_TROUBLE` and the rest -- is reached through
+`PROGRAM.` instead, and a name bent from outside is written through
+into every piece that holds it. That last line is what keeps the suite
+working: it bends 119 of the program's names, and a copy would part
+from the original at the first assignment. It can be installed as well -- `pyproject.toml` makes a package
 of that folder and puts a `videopodcast-magic` command on the path --
 and nothing inside knows the difference: it is the same code either
 way, and the name carries an underscore only because a hyphen cannot be

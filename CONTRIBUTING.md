@@ -51,9 +51,10 @@ in the first review.
 
 ## What the program is
 
-The folder `videopodcast_magic/` is the program: `__init__.py` in it is
-the program itself, `language/de.py` inside it holds every German text,
-and `models/` holds the speaker model. There is nothing to build:
+The folder `videopodcast_magic/` is the program, in pieces:
+`__init__.py` is the way in and holds most of it, `language/de.py`
+holds every German text, `ui/` holds the window. `models/` holds the
+speaker model and is not code. There is nothing to build:
 `pyproject.toml` makes a package of that folder and puts a
 `videopodcast-magic` command on the path. The folder carries an
 underscore while the repository and the command carry a hyphen, because
