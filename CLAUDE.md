@@ -4,11 +4,22 @@ Raw material from a video podcast becomes an edited episode: the good
 audio inside the video files, the cameras on one time axis, a first cut
 by speaker, and a DaVinci Resolve project.
 
-The folder `videopodcast_magic/` is the program. `__init__.py` in it is
-the program itself, `language/` beside that holds one file per language
--- `language/de.py` is the German one -- and `models/` holds the
-speaker model. There is nothing to build, and one way in:
-`pip3 install git+...`, which is its own section further down.
+The folder `videopodcast_magic/` is the program, and it comes in
+pieces. `__init__.py` is the way in and holds most of it; every piece
+that has moved out sits beside it in a folder of its own with an
+`__init__.py` of its own -- `language/` holds one file per language
+(`language/de.py` is the German one), `ui/` holds the window since
+5.9.2026. `models/` holds the speaker model and is not code.
+
+**A piece is read out of the folder, not imported from it.** The entry
+hands itself in (`ui = beside("ui", program=PROGRAM)`), the piece binds
+by name what it takes, and a name that is bound again while the program
+runs is reached through `PROGRAM.` rather than copied -- else the suite,
+which bends 119 of the program's names from outside, would find a stale
+copy. `development/internals.md` has the reasoning.
+
+There is nothing to build, and one way in: `pip3 install git+...`,
+which is its own section further down.
 `pyproject.toml` makes a package of that folder and puts a
 `videopodcast-magic` command on the path. The folder carries an
 underscore while the repository and the command carry a hyphen, because
