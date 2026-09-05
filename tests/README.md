@@ -368,6 +368,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `cut_all_shots_land` | Checks the cut timeline: lengths fit, no gaps, nothing drops out. |
+| `cut_amounts_grouped` | The cut's report writes amounts as the language does, names not. |
 | `cut_both_are_shown` | Two talk at once: does the camera showing both come up? |
 | `cut_box_fits_the_picture` | The picture keeps its shape, and the note under it keeps to two lines. |
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |

@@ -151,8 +151,8 @@ msgstr "Mais um falante em %s"
 msgid "One more speaker in"
 msgstr "Mais um locutor"
 
-msgid "%d:%02d min"
-msgstr "%d:%02d min"
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
 
 msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
 msgstr "%s -- %d:%02d a %d:%02d (%.1f s)"
