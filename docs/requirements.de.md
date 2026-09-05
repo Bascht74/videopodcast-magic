@@ -137,9 +137,7 @@ Eine Untergrenze sagt, wofür das Programm geradesteht; sie behauptet
 nicht, alles darunter sei kaputt. Gegen 9.0.1 wird hier gemessen, und
 9.0.1 ist zugleich die Fassung, die das Programm auf allen drei
 Systemen selbst besorgen kann — eine Untergrenze, die niemand erreicht,
-gehört damit nicht zu den Dingen, die hier schiefgehen können. Vorher
-lag sie bei 8.1.2, und auch dieser Bau reicht das Bild einwandfrei
-durch.
+gehört damit nicht zu den Dingen, die hier schiefgehen können.
 
 **soxr ist keine zweite Bedingung, sondern ein Unterschied in der
 Genauigkeit.** Die Kameras kommen auf eine Zeitachse, und ihre Uhren
