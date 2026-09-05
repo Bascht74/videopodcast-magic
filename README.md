@@ -81,10 +81,10 @@ the refusal names the way round it:
 the program in an environment of its own and the command on the path.
 
 Two things pip cannot bring, because neither is Python: **Python
-itself**, 3.10 or newer, and **`ffmpeg` 8.1.2 or newer, with
+itself**, 3.10 or newer, and **`ffmpeg` 9.0.1 or newer, with
 `ffprobe`**. For the two tools the program looks on the search path,
 offers the package manager of the machine and asks before it runs it,
-and otherwise says where to fetch them. Below 8.1.2 the window opens
+and otherwise says where to fetch them. Below 9.0.1 the window opens
 and stays empty. That number is not a guess: it is the oldest version
 measured to hand the camera's own entries -- colour box, recording
 curve, Dolby Vision, timecode -- through untouched beside the
@@ -135,7 +135,7 @@ camera.*
 
 ## What it needs
 
-Python 3.10 or newer, and `ffmpeg` 8.1.2 or newer with `ffprobe` on the
+Python 3.10 or newer, and `ffmpeg` 9.0.1 or newer with `ffprobe` on the
 search path. That is the whole list: everything else is a Python
 package, every one of them stands on the list pip reads, and the
 install brings them all. ffmpeg is the exception it cannot help being,
