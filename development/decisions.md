@@ -371,3 +371,75 @@ they broke a table, a tree walk and a return shape that no longer
 exist. What a check claims did not change, so its wording stands; what
 it takes to make it fall did change, and the register says so.
 
+
+---
+
+## The shortcut on the first start, and what it cost to weigh
+
+Measured on 5.9.2026, when the program learned to put itself where a
+person looks for programs -- a bundle in Applications, an entry in the
+Start menu, a launcher in the desktop's program list.
+
+**A piece of its own, and read where it is called.** It came in as 773
+lines built to stand alone. Cut to what this program needs -- the
+resizing of artwork that is not an icon size went, because the picture
+we ship is one; so did a way of asking what stands there today, which
+had no caller. Then the cost was measured rather than argued: reading
+the piece is **0.07 ms**, median of two hundred, against **56 ms** for
+the program's own import warm and 1.5 s cold. It is noise, and the
+piece stays a piece.
+
+**The finding was not the file, it was the three imports over it.**
+`plistlib`, `sysconfig` and `collections` are not loaded anywhere else
+in this program, and asking for the three of them at the top of the
+piece cost **2.5 to 3.5 ms on every start** -- forty times the file
+itself -- for code that runs once in the life of an installation. They
+are asked for inside the two functions that need them, and the
+namedtuple was written out as a small class. **A stdlib import is not
+free because it is stdlib**, and the ratio, not the number, is what
+makes it worth looking at.
+
+**One picture at 256 by 256, and not the drawing script.** The other
+strand offered a script that draws the symbol at any size: 7 kB of
+source against 10.9 kB of picture, and it hits the 82 px of the Dock
+and the 96 px of a Finder list exactly, which no fixed file does. It
+needs Qt. The shortcut is laid before the window is built and on a
+command-line run Qt is never loaded at all, so the script would tie a
+decoration to the heaviest thing in the program. 256 is the one size
+all three formats take: `.icns` has a slot for it, `.ico` refuses
+anything over 256, and the icon theme on Linux keeps it under
+`256x256`. A 512 would leave Windows with the blank sheet. What it
+costs is a Finder "get info" at 512 points, which is scaled up.
+
+**And the picture is in `desktop/` rather than at the top of the
+package, which is the whole reason it is safe.** The check in
+`text_german_arrives_test.py` walks every folder the program reads out
+of with `beside()` and demands that each kind of file in it is named in
+`[tool.setuptools.package-data]`. A file at the top of the package is
+not covered by it. Measured both ways: with the line the wheel carries
+`videopodcast_magic/desktop/icon.png`; without it the wheel carries no
+PNG at all and says nothing -- the same silence the nine translations
+went missing in earlier the same day.
+
+**What is said, and where.** One line, no box, no question: a shortcut
+was made and where, or none was and why. It is printed, and `AGENTS.md`
+says nothing is ever said before the window. The tension is smaller
+than it looks: the only start that lays anything is the first, and the
+first cannot come from the Dock or the Start menu, because what they
+start is what the first start creates. So the line is printed to a
+console every time it is printed at all. It goes into the log as well,
+for the start that has no console. Where the program was never
+installed by pip -- a checkout somebody is working in -- nothing is
+laid and nothing is printed, only written down: a line on every start
+of every working copy is noise, not information.
+
+**Windows and Linux are unmeasured, and that has to be said.** There is
+no Windows and no Linux here. The macOS bundle was written and read
+back by the system that owns it: `plutil` takes the plist, `sips` reads
+the 256 out of the `.icns`, `mdls` calls the folder
+`com.apple.application-bundle`, and the runner inside it starts the
+program. The Linux launcher is written here and read back here, which
+says its text is right and nothing about a desktop. The Windows link is
+not written at all -- it needs the shell object that owns the `.lnk`
+format -- and the test says so on a `LEFT OUT` line rather than
+pretending.
