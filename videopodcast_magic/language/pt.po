@@ -1013,3 +1013,12 @@ msgstr "não ir antes"
 
 msgid "Answering speaker"
 msgstr "Quem responde"
+
+msgid "Language of the window"
+msgstr "Idioma da janela"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "O idioma escolhido aqui vale a partir do próximo início."
+
+msgid "The language of the system (%s)"
+msgstr "O idioma do sistema (%s)"

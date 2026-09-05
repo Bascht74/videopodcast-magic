@@ -6455,3 +6455,12 @@ msgstr "Antwortender"
 
 msgid "  %dx away from the speaker because a shot ran longer than %.0f s"
 msgstr "  %dx weg vom Sprecher, weil eine Einstellung länger als %.0f s stand"
+
+msgid "Language of the window"
+msgstr "Sprache des Fensters"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Eine hier gewählte Sprache gilt ab dem nächsten Start."
+
+msgid "The language of the system (%s)"
+msgstr "Die Sprache des Systems (%s)"

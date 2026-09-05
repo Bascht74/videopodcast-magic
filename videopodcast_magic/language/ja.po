@@ -1011,3 +1011,12 @@ msgstr "早めに切り替えない"
 
 msgid "Answering speaker"
 msgstr "応答者"
+
+msgid "Language of the window"
+msgstr "ウィンドウの言語"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "ここで選んだ言語は次回の起動から使われます。"
+
+msgid "The language of the system (%s)"
+msgstr "システムの言語 (%s)"
