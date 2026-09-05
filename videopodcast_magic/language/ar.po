@@ -169,12 +169,8 @@ msgstr "الإخراج"
 msgid "Access to auphonic.com"
 msgstr "الوصول إلى auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr ""
-"يُطلب كلاهما مرة واحدة ثم يبقيان. يذهب المفتاح إلى %s، ولا يُكتب في ملف "
-"أبدًا."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "يُطلب الوصول والاتصال مرة واحدة ثم يبقيان. يذهب المفتاح إلى %s، ولا يُكتب في ملف أبدًا."
 
 msgid "Checking files"
 msgstr "فحص الملفات"
@@ -1015,3 +1011,12 @@ msgstr "لا تنتقل مبكرًا"
 
 msgid "Answering speaker"
 msgstr "المتحدث المجيب"
+
+msgid "Language of the window"
+msgstr "لغة النافذة"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "اللغة المختارة هنا تُستخدم من التشغيل التالي."
+
+msgid "System language (%s)"
+msgstr "لغة النظام (%s)"

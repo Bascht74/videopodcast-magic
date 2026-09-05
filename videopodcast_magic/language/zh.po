@@ -168,10 +168,8 @@ msgstr "输出"
 msgid "Access to auphonic.com"
 msgstr "访问 auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr "两者只询问一次，之后保留。密钥存入%s，绝不写入文件。"
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "访问与连接只询问一次，之后保留。密钥存入%s，绝不写入文件。"
 
 msgid "Checking files"
 msgstr "检查文件"
@@ -1012,3 +1010,12 @@ msgstr "不提前切换"
 
 msgid "Answering speaker"
 msgstr "答话者"
+
+msgid "Language of the window"
+msgstr "窗口语言"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "在此选择的语言将于下次启动时生效。"
+
+msgid "System language (%s)"
+msgstr "系统语言 (%s)"

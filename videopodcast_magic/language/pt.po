@@ -168,12 +168,8 @@ msgstr "Saída"
 msgid "Access to auphonic.com"
 msgstr "Acesso a auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr ""
-"Ambos são pedidos uma vez e ficam. A chave vai para o %s, nunca para um "
-"arquivo."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "O acesso e a ligação são pedidos uma vez e ficam. A chave vai para o %s, nunca para um arquivo."
 
 msgid "Checking files"
 msgstr "Verificando arquivos"
@@ -1014,3 +1010,12 @@ msgstr "não ir antes"
 
 msgid "Answering speaker"
 msgstr "Quem responde"
+
+msgid "Language of the window"
+msgstr "Idioma da janela"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "O idioma escolhido aqui vale a partir do próximo início."
+
+msgid "System language (%s)"
+msgstr "Idioma do sistema (%s)"

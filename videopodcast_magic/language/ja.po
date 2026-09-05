@@ -168,10 +168,8 @@ msgstr "出力"
 msgid "Access to auphonic.com"
 msgstr "auphonic.com へのアクセス"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr "どちらも一度だけ尋ね、以後は保持されます。キーは%sに入り、ファイルには入りません。"
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "アクセスと接続は一度だけ尋ね、以後は保持されます。キーは%sに入り、ファイルには入りません。"
 
 msgid "Checking files"
 msgstr "ファイルの確認"
@@ -1012,3 +1010,12 @@ msgstr "早めに切り替えない"
 
 msgid "Answering speaker"
 msgstr "応答者"
+
+msgid "Language of the window"
+msgstr "ウィンドウの言語"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "ここで選んだ言語は次回の起動から使われます。"
+
+msgid "System language (%s)"
+msgstr "システムの言語 (%s)"
