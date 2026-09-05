@@ -716,11 +716,17 @@ das Programm läuft: die Installation, die die neue Fassung bekommt,
 ist die, die auch starten würde.
 
 **Jede Zeile, die pip schreibt, läuft in den vierten Reiter,
-Ausgabe, sobald sie kommt.** Dort sieht man zu: das Fenster bleibt
-bedienbar, die letzte Zeile sagt, dass die neue Fassung liegt, und ab
-dem nächsten Start läuft sie. Bricht pip mit einem Fehler ab, sagt der
-Reiter es und behält jede Zeile darüber — der Grund steht darin, und
-die Fassung, die funktioniert, ist unangetastet.
+Ausgabe, sobald sie kommt.** Dort sieht man zu, und das Fenster bleibt
+bedienbar, während er sich füllt. Bricht pip mit einem Fehler ab, sagt
+der Reiter es und behält jede Zeile darüber — der Grund steht darin,
+und die Fassung, die funktioniert, ist unangetastet.
+
+**Ist es durchgelaufen, sagt es ein Kasten und bietet den Neustart
+an.** Er nennt die Fassung, die angekommen ist, sagt, dass dieses
+Fenster noch die alte ist, und lässt die Wahl: jetzt neu starten und
+mit der neuen hochkommen, oder später selbst. Wer später wählt,
+verliert nichts — die neue Fassung liegt so oder so auf dem Rechner,
+und der nächste Start nimmt sie.
 
 Das Häkchen **Diese Version überspringen** legt eine Fassung beiseite.
 Bei der nächsten fragt das Fenster wieder, und über **Hilfe > Nach
