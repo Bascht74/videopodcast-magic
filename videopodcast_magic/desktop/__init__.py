@@ -462,6 +462,11 @@ def _stub_text(target):
         "# laid down; delete this bundle and the program is untouched.\n"
         'PATH="%s:/opt/homebrew/bin:/usr/local/bin:$PATH"\n'
         "export PATH\n"
+        "# The second this was clicked. Everything before Python is\n"
+        "# running cannot be timed from inside it, and that is where a\n"
+        "# slow start hides.\n"
+        "VPM_STARTED=$(date +%%s)\n"
+        "export VPM_STARTED\n"
         'exec "%s" "$@"\n' % (folder.replace('"', '\\"'),
                               target.replace('"', '\\"')))
 

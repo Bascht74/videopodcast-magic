@@ -159,6 +159,7 @@ legend_markup = PROGRAM.legend_markup
 list_presets = PROGRAM.list_presets
 load_api_key = PROGRAM.load_api_key
 log_aside = PROGRAM.log_aside
+mark_time = PROGRAM.mark_time
 log_path = PROGRAM.log_path
 longest_stretch = PROGRAM.longest_stretch
 loudness_field_build = PROGRAM.loudness_field_build
@@ -12087,10 +12088,10 @@ def gui():
 
     mode_toggled()
     window.show()
+    mark_time("the window is up")
     # A moment after the window is up, not before: the first thing
-    # somebody sees should be their files, not a question about
-    # updates. Unless ffmpeg is too old -- that is then the one thing
-    # the window has to offer, and it comes at once.
+    # somebody sees should be their files, not a question about updates
+    # -- unless ffmpeg is too old, which comes at once.
     QtCore.QTimer.singleShot(0, lambda: after_window(window, app, QtCore))
     return app.exec()
 
