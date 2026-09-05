@@ -537,32 +537,24 @@ stopped in.
 ### What Settings ... holds
 
 The button **Settings ...** sits in the footer, next to **Start**. Behind
-it stands what is set up once and then left alone: the key for
-auphonic.com with the tick that stores it, and whether Resolve answers.
+it stands what is set up once and then left alone: the language the
+window speaks, the key for auphonic.com with the tick that stores it,
+and whether Resolve answers.
 The preset belongs to the production being made and stands where the
 tracks are decided, under the assignment table.
 
-The window behind the button holds two boxes.
+At the top stands **Language of the window**. Its first entry is the
+system's own language, and it says which one that is, so nobody has to
+guess what they are choosing. Under it the nine the program speaks,
+each written the way that language writes it -- Русский, 中文, 日本語
+and the six in Latin letters. A name is written in its own language on
+purpose: whoever is looking for a language may not read the one the
+window is standing in.
 
-- **Access to auphonic.com**: the field for the API key and the tick that
-  keeps it (**Save in Keychain** on a Mac, **Save in Registry** on
-  Windows). **Connect** checks the key and fetches the presets. On a Mac
-  with the keychain locked the tick is grey, a line under it says so, and
-  **Open Keychain Access** beside that line opens the program that
-  unlocks it; the tick comes back on its own once it is open. Where the
-  store refuses the key, **Connect** takes the tick off again and writes
-  **The key was not saved** with the reason -- the tick never stands
-  green over a key that will be gone at the next start.
-- **Connection to Resolve**: whether Resolve answers, with its version if
-  it does and the reasons if it does not. **Check again** asks once more,
-  and so does opening the window.
-  [DaVinci Resolve](resolve.md) says what a no means.
-
-![The settings window](images/settings.png)
-
-*Behind Settings ...: the key for auphonic.com, and whether Resolve
-answers.*
-
+The choice is spoken from the next start, and the line above the field
+says so before anybody picks. The window settles its language once,
+while it is being built, and every caption in it has its words by the
+time it stands there.
 ## Reaching everything by menu or key
 
 The menu bar carries four menus: **File**, **View**, **Player** and

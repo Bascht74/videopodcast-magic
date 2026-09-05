@@ -70,6 +70,28 @@ The concurrency cap is `min(16, cores - 2)` per workflow — on a machine
 with fourteen cores, twelve at once. Passing more items than that is
 fine; they queue.
 
+## Count the strands before you start, and ask past the line
+
+**A run of more than about 25 strands that each read a file is asked
+for, not started.** The owner set the line on 5.9.2026, in tokens:
+**over 2.5 million, ask.** A reading strand over a middling file costs
+50 to 150 thousand, so 25 is where the two meet.
+
+**The number is knowable before the run and has to be written down.**
+Strands times cost each, in one line, in the message that proposes it.
+
+**And the shape that blows past it is always the same one: a verifier
+per finding.** Measured that day -- fifteen documents, one reader each,
+then three sceptics on every finding: 85 findings became 255 strands,
+**271 in all and 13.5 million tokens in an hour.** The number stood
+before the run started; nobody worked it out.
+
+**What costs a fortieth and finds the same: one reviewer per file, not
+per finding.** Give it every finding of that file at once and let it
+attack the lot. The same day, a run over 257 places in five files came
+back with **31 strands**. Only where a file really hands back a
+contested case does that case get a reader of its own.
+
 ## Refuting is the point
 
 A finder that reports and nobody checks is a finder that reports

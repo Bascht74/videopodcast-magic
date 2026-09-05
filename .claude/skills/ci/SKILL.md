@@ -99,6 +99,32 @@ names tests that no longer exist, `run.sh` finds no time for any of
 them, and the queue orders nothing until this has run against a green
 run made *after* the rename. It does not heal by itself.
 
+## A branch that is deleted takes two things with it
+
+**Its caches, and every pull request standing on it.**
+
+The caches are handled by `.github/workflows/caches.yml` since 5.9.2026
+-- it answers the `delete` event and takes what belonged to that ref.
+Before it existed they stayed until the seven-day rule or until the ten
+gigabytes were full, and then it was main's that went.
+
+**The pull requests are not handled, and there is nothing to build.**
+GitHub does not move a stacked pull request to the base's base; it
+**closes** it, and a closed one cannot be reopened or retargeted --
+`Cannot change the base branch of a closed pull request`. Measured
+5.9.2026: deleting `werkzeuge-finden` after its merge closed #15, which
+stood on it. The work was not lost, but the pull request, its body and
+its checks were, and a new one had to be opened.
+
+**So the order is fixed:** merge the base, then **retarget every pull
+request that stands on it** (`gh pr edit <n> --base main`), then delete
+the branch. Asking first costs one line:
+
+```bash
+gh pr list --state open --json number,baseRefName \
+   --jq '.[] | select(.baseRefName=="<the branch>") | .number'
+```
+
 ## Watch what the runs are called
 
 GitHub names a run after the commit subject unless it is told otherwise,
@@ -203,6 +229,8 @@ The pass before a red run is called explained.
 9. If reruns carried it: has one whole run gone green on one state
    before the tag?
 10. If it was us: one repair, then one push, then the waiting again.
+11. Deleting a branch: was every pull request standing on it retargeted
+    first? Once it is closed with the base, it cannot be reopened.
 11. Is it written down which of the two it was -- the missing tool and
     its image, or the red line in the counter-proof register?
 12. After a green run: `bash builder_times.sh`, and no dead rows left

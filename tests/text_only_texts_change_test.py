@@ -4,6 +4,11 @@
 And the seam itself: every line the program prints goes through the
 catalogue, or it comes out English in a German run.
 
+How a count picks a wording is asked of the catalogue, not of the
+program: a PO header carries its language's own rule, and the last
+section reads real rules -- German, French, Japanese, Russian, Arabic
+-- and holds them against what CLDR says.
+
 The switch section really starts the program, twice, on a file that is
 not there: whether --lang is acted on cannot be read off the parser,
 and a wording held against the output would only say what language the
@@ -24,7 +29,8 @@ SCRIPT = the_program.SCRIPT
 # looks in the same place and a snapshot run reads the snapshot's own
 # texts.
 TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.po")
-import ast, importlib.util, io, re, subprocess, time, tokenize
+import ast, importlib.util, io, re, shutil, subprocess, tempfile
+import time, tokenize
 
 began = time.time()
 
@@ -828,6 +834,87 @@ check("printed lines outside the catalogue: %d (ratchet %d)"
 _held.report()
 if _held.tightened:
     print("      ratchet tightened to %d" % len(_raw))
+
+# ------------------------------------------- How a count picks a wording
+# English and German want two wordings, Russian three, Arabic six,
+# Japanese one. The rule is not in the program: a PO header carries its
+# own, and the reader turns it into a tree once per language.
+RU_RULE = ("nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+           "n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);")
+AR_RULE = ("nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : "
+           "n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);")
+REAL_RULES = {"de": "nplurals=2; plural=(n != 1);",
+              "fr": "nplurals=2; plural=(n > 1);",
+              "ja": "nplurals=1; plural=0;",
+              "ru": RU_RULE, "ar": AR_RULE}
+
+_read = vpm.language.plural_rule("Plural-Forms: " + RU_RULE + "\nLast: x\n")
+check("the rule is read out of a header, not off the last line",
+      _read is not None and _read[0] == 3,
+      "read %s, wanted three wordings" % (_read and _read[0],))
+
+check("a header with no rule in it gives nothing back",
+      vpm.language.plural_rule("Content-Type: text/plain\n") is None,
+      "wanted nothing where the header says nothing")
+
+check("a rule that cannot be read gives nothing back rather than falling "
+      "over", vpm.language.plural_rule(
+          "Plural-Forms: nplurals=2; plural=(n ? ? 1);") is None,
+      "wanted nothing from an expression with a hole in it")
+
+# Set by hand out of CLDR, never computed from the same formula: an
+# expectation that comes out of what it checks proves nothing.
+RU_WANT = {0: 2, 1: 0, 2: 1, 4: 1, 5: 2, 11: 2, 21: 0, 22: 1, 101: 0}
+_ru = vpm.language.plural_rule("Plural-Forms: " + RU_RULE)
+# `not _ru` first: where the rule was not read at all, Russian asks for
+# nothing right, and this must say so rather than fall over on a None.
+_wrong = [n for n, want in RU_WANT.items()
+          if not _ru or _ru[1](n) != want]
+check("Russian asks for the wording CLDR says, over nine counts",
+      not _wrong, "wrong at %s" % (sorted(_wrong) or "none",))
+
+_out = []
+for _code, _text in sorted(REAL_RULES.items()):
+    _how_many, _tree = vpm.language.plural_rule("Plural-Forms: " + _text)
+    for _n in range(201):
+        _i = _tree(_n)
+        if not 0 <= _i < _how_many:
+            _out.append("%s n=%d wants %d of %d" % (_code, _n, _i, _how_many))
+check("no count from 0 to 200 asks for a wording that is not there",
+      not _out, "%d outside, first %s" % (len(_out), _out[:1] or "none"))
+
+_folder = tempfile.mkdtemp()
+_po = os.path.join(_folder, "qa.po")
+io.open(_po, "w", encoding="utf-8").write(
+    'msgid ""\nmsgstr ""\n"Plural-Forms: %s\\n"\n\n'
+    'msgid "%%d clip"\nmsgid_plural "%%d clips"\n'
+    'msgstr[0] "one"\nmsgstr[1] "few"\nmsgstr[2] "many"\n\n'
+    'msgid "Content"\nmsgstr "plain"\n' % RU_RULE)
+_texts, _forms, _header = vpm.language.read_po(_po)
+check("an entry with msgid_plural is read into its wordings, in order",
+      _forms.get("%d clip") == ["one", "few", "many"],
+      "read %s" % (_forms.get("%d clip"),))
+check("a plural entry is no ordinary text, and the ordinary ones still "
+      "arrive", "%d clip" not in _texts and _texts.get("Content") == "plain",
+      "%d ordinary entries, plural among them: %s"
+      % (len(_texts), "%d clip" in _texts))
+
+_bare = os.path.join(_folder, "qb.po")
+io.open(_bare, "w", encoding="utf-8").write(
+    'msgid ""\nmsgstr ""\n"Content-Type: text/plain\\n"\n\n'
+    'msgid "%d clip"\nmsgid_plural "%d clips"\n'
+    'msgstr[0] "one"\nmsgstr[1] "many"\n')
+check("wordings without a rule beside them leave the English one standing",
+      vpm.language.plural_rule(vpm.language.read_po(_bare)[2]) is None,
+      "a file with wordings and no rule must give no rule")
+shutil.rmtree(_folder, ignore_errors=True)
+
+# The one that has to stay true after the catalogues gain plurals: it
+# forbids the half-done state, not the repair.
+_halfway = [code for code, forms in vpm.language.PLURALS.items()
+            if forms and code not in vpm.language.PLURAL_RULE]
+check("every catalogue with plural wordings carries a rule as well",
+      not _halfway, "wordings but no rule in %s" % (_halfway or "none",))
 
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")

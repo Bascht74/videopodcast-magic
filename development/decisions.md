@@ -201,20 +201,25 @@ had been measured. Nobody was running an older one, nobody had asked,
 and the risk was invented on the spot, then allowed to decide. The
 owner's answer: **supporting old versions is a position, not ground.**
 
-**Then, to shut something out.** Out of the same unmeasured place came a
-floor: ffmpeg 9.0.1, below it nothing runs. It was set because 9 was
-what had been measured -- and it turned **all six builder jobs red at
-once**, because they carry 8.1.2. The measurement that then took five
-minutes says 8.1.2 hands the metadata through perfectly well. The floor
-went to 8.1.2 that day, on the owner's rule for where a floor belongs:
-**only what we know.**
+**The floor is ffmpeg 9.0.1 and has been since the evening of
+4.9.2026. Below it nothing runs.** What follows is how it got there,
+and every older number in it is a reading from one day, not a build
+anybody may fetch today.
 
-**It stands at 9.0.1 again since the evening of 4.9.2026 -- and how it
-got there is the whole lesson.** The same number, the opposite way
-round: first the program was given something to offer on all three
-systems, then the builders were measured and mended (Homebrew was
-serving 8.1.2 off a formula index frozen at image-build day), and only
-then did the floor rise. **A floor is raised last, never first.** What
+**Then, to shut something out.** Out of the same unmeasured place came
+that floor, set because 9 was what had been measured -- and it turned
+**all six builder jobs red at once**, because what they carried that
+morning was older. The measurement that then took five minutes said
+that older build handed the metadata through. So the floor was lowered
+to meet the builders for a day, on the owner's rule for where a floor
+belongs: **only what we know.**
+
+**It stands at 9.0.1 again since that evening -- and how it got there
+is the whole lesson.** The same number, the opposite way round: first
+the program was given something to offer on all three systems, then the
+builders were measured and mended (Homebrew was serving an older build
+off a formula index frozen at image-build day), and only then did the
+floor rise. **A floor is raised last, never first.** What
 it costs to do it the other way was measured that morning: six red jobs
 in one push.
 
@@ -335,3 +340,84 @@ Anything else that stands twice is a fault. Four such were measured on
   home: `ci`, because that is the moment the command is run;
 * **`run-name:` on every workflow**, in `freigabe`, `ci` and the short
   page -- home: `ci`, because it is about how a list of runs reads.
+
+---
+
+## The plural rule is read by the standard library, not by us
+
+**5.9.2026.** A PO header carries its language's plural rule as a C
+expression over one name: `nplurals=3; plural=(n%10==1 && n%100!=11 ? 0
+: ...)`. Something has to turn that into an index.
+
+**118 lines of our own stood here for an afternoon, and they were not
+wrong.** Measured against `gettext.c2py` over nine languages and every
+count from 0 to 1000: **9009 comparisons, not one difference.** They
+were unnecessary, and that is the finding -- the standard library has
+had `c2py` for as long as it has had `.mo` files, and nobody looked.
+
+**It is also the stricter of the two.** Measured: c2py refuses an
+expression nested too deep (*"plural form expression is too complex"*)
+and refuses a `;` outright; ours took twenty-two levels of brackets
+without a word. A catalogue is the one file in this program a stranger
+is invited to edit, so the strict reader is the right one.
+
+**The one cost, and it is named rather than hidden:** `c2py` is not in
+`gettext.__all__`. So it is asked for and not assumed -- where it is
+missing, no language has a rule, every count falls back on the English
+one, and nothing breaks. It has been in CPython for decades and
+`GNUTranslations` uses it for every catalogue in the world; removing it
+would break far more than this program.
+
+**Three counter-proofs died with the old code** and were earned again:
+they broke a table, a tree walk and a return shape that no longer
+exist. What a check claims did not change, so its wording stands; what
+it takes to make it fall did change, and the register says so.
+
+---
+
+## The search path a program gets, and the one it is started from
+
+Measured 5.9.2026. `find_required_tools` looked for ffmpeg with
+`shutil.which` and nothing else, so it saw only what was in `PATH` --
+and on macOS what is in `PATH` depends on how the program was started.
+`launchctl getenv PATH` is empty on this Mac and `getconf PATH` answers
+`/usr/bin:/bin:/usr/sbin:/sbin`, so a program opened from the Dock or
+the Finder inherits those four and no more. Homebrew puts ffmpeg in
+`/opt/homebrew/bin`. Out of a terminal it ran; out of the Finder it said
+"ffmpeg is missing" -- the same machine, the same install, two answers.
+
+**A fault that depends on how somebody started the program is the worst
+shape a fault can take**, because the bug report and the reproduction
+never meet. So the search now also looks where the package managers of
+each system leave a program: `/opt/homebrew/bin`, `/usr/local/bin` and
+`/opt/local/bin` on a Mac (Homebrew on Apple silicon, Homebrew on Intel,
+MacPorts); `/usr/local/bin`, `/snap/bin` and `~/.local/bin` on Linux;
+Chocolatey, Scoop and winget on Windows. Only the macOS three are
+measured, and they are measured on one Mac; the rest is read.
+
+**Four rules cut it to size.** A build this program fetched itself keeps
+the front of the path, so a distribution's older ffmpeg cannot win.
+The manager folders go behind the real path, so whoever has an ffmpeg on
+their path keeps that one. A folder that is not on the disc never enters
+`PATH`, or the path would grow at every start. And each system gets its
+own folders only -- nothing is installed, nothing outside this one
+process's environment is touched.
+
+**The repair made three checks stop checking, and that is the more
+expensive half of this entry.** Three checks in
+`run_ffmpeg_new_enough_test.py` start the program in a child process
+with one empty folder as the whole search path, to prove that `--help`,
+`--version` and `--update` still answer while the ffmpeg gate is shut.
+From the moment the search looked in the manager folders as well, that
+empty path shut nothing on any machine with an ffmpeg from a manager:
+the three stayed green and proved only that three switches answer.
+Nothing went red to say so.
+
+**So the switch is its own, and a check stands in front of them.**
+`VPM_NO_MANAGER_PATH` is set by that test alone and by nothing else --
+deliberately not a second meaning hung on `VPM_SILENT`, which the whole
+suite runs under and which would have silenced the seven checks that
+measure the repair. And before the three, one check asks the child
+outright what its own search came back with, and wants `missing`. A
+check whose precondition can quietly stop holding needs a check on the
+precondition, or the day it stops holding is a day nobody hears about.

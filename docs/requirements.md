@@ -120,6 +120,17 @@ follows.*
 they are not Python and no list pip reads has a place for them. Every
 other piece came with the install; these two have to be on the machine.
 
+**Where they are looked for.** On the search path first, and then where
+the package managers of this system usually leave a program: Homebrew
+and MacPorts on macOS, snap and the folder a single user installs into
+on Linux, Chocolatey, Scoop and winget on Windows. That second look is
+what makes a double-click behave like a command line, because a program
+opened from the Dock or the Finder inherits almost nothing of the search
+path a terminal has -- without it the same ffmpeg is there when typed
+and gone when clicked. An ffmpeg the program fetched for itself stays
+ahead of all of them, and one already on the search path keeps its place
+ahead of anything a manager left.
+
 **9.0.1 is the floor, and below it nothing runs.** The picture out of a
 camera file is copied through untouched, and what stands beside it is
 meant to arrive untouched with it: the colour box, the recording curve,
@@ -131,8 +142,7 @@ A floor says what the program answers for; it does not claim that
 everything below it is broken. 9.0.1 is the version this is measured
 against, and it is the one the program can put on the machine itself,
 on all three systems -- so a floor nobody can reach is not one of the
-things that can go wrong here. The floor stood at 8.1.2 before, and
-that build carries the picture through perfectly well.
+things that can go wrong here.
 
 **soxr is not a second condition, it is a difference in precision.**
 The cameras are put on one time axis, and their clocks run apart -- a
@@ -247,8 +257,11 @@ well, with two limits:
   terminal. There is no second way in: **`python3 -m
   videopodcast_magic` used to start the program and does not any
   more.**
-* **`ffmpeg` is still not found after installing it.** The folder
-  holding it is not on the search path. Put it there and start again.
+* **`ffmpeg` is still not found after installing it.** The folders the
+  usual package managers install into are looked in without anything
+  having to be set up, so this now points at an ffmpeg unpacked by hand
+  somewhere of your own. Put that folder on the search path and start
+  again.
 * **The window opens and stays empty, and the message names an ffmpeg
   version.** This ffmpeg is older than 9.0.1. The button in that box
   gets a new one; what it does appears under **Output**. By hand it is

@@ -17,7 +17,10 @@ that what brew is offered is the tap that carries soxr and asks for
 it by name, that a build from another tap is taken out of the way
 first, that installing and building again are different commands, and
 that the ways out -- --help, --version, --update -- still answer while
-the gate is shut.
+the gate is shut. That the gate really is shut is a check of its own
+before those three, and not something the setting up is trusted for:
+an empty search path alone stopped shutting it the day the search
+began looking where the package managers of each system install.
 """
 import os
 import the_program
@@ -325,11 +328,17 @@ check("and the run ends behind the box, whatever was answered",
       % ([a.quit_asked for _b, a in boxes.values()],))
 
 # Nothing on the path at all: the older complaint, and it must still work.
+# The folders a package manager installs into are driven away with it --
+# one of them holds an ffmpeg on the machine running this, and then the
+# path would not be empty and the complaint would be about the machine.
+was_folders = m.manager_folders
 os.environ["PATH"] = empty
 try:
+    m.manager_folders = lambda: []
     kind, says = m.find_required_tools()
 finally:
     os.environ["PATH"] = old_path
+    m.manager_folders = was_folders
 check("with neither tool anywhere the complaint is that they are missing",
       kind == "missing" and "ffmpeg" in says and "ffprobe" in says,
       "said %r, %r" % (kind, says))
@@ -358,6 +367,13 @@ else:
 env = dict(os.environ)
 env.update({"LANG": "C", "LC_ALL": "C", "LANGUAGE": "en",
             "VPM_SILENT": "1", "VPM_NO_UPDATE_CHECK": "1",
+            # An empty path shuts the gate only where nothing else is
+            # looked in, and the search also looks where the package
+            # managers of this system install. So the child is told to
+            # leave those alone; without it the gate stands open on
+            # every machine that has an ffmpeg from a manager, and the
+            # three checks below stay green while proving nothing.
+            "VPM_NO_MANAGER_PATH": "1",
             # An empty folder and nothing else, so the child finds no
             # ffmpeg at all -- the shut gate in its harshest form. In
             # front of the real path it would not be shut: the real
@@ -374,6 +390,24 @@ def started(*more):
     text = (p.stdout or b"").decode("utf-8", "replace")
     return p.returncode, " ".join(text.split())[:150]
 
+
+# Asked outright, and in the very environment the three below run in:
+# what the child's own search comes back with. A precondition, so it
+# stands in front of them and not among them -- the three say nothing
+# about a gate, only about switches answering, unless this one holds.
+ASK = ("import the_program; "
+       "print(the_program.load().find_required_tools()[0])")
+probe = subprocess.run([sys.executable, "-c", ASK], cwd=HERE,
+                       capture_output=True, env=env,
+                       stdin=subprocess.DEVNULL)
+shut = " ".join((probe.stdout or b"").decode("utf-8", "replace").split())
+grumble = " ".join((probe.stderr or b"").decode("utf-8", "replace").split())
+check("the gate the three ways out stand behind is really shut",
+      shut == "missing",
+      "the child's own search came back %r, wanted 'missing' -- return "
+      "code %d, %r. Anything else and the three below answer about a "
+      "gate that never closed"
+      % (shut, probe.returncode, grumble[-60:] or "nothing said"))
 
 code, text = started("--version")
 check("--version still answers while the gate is shut",
