@@ -500,10 +500,10 @@ try:
     del vpm._LOG_ASIDE[:]
     with Unguarded():
         QtWidgets.QMessageBox.clickedButton = lambda self: self.buttons()[0]
-        took = vpm.restart_offer(window)
+        took = vpm.restart_offer(window, vpm.ffmpeg_in_place())
         QtWidgets.QMessageBox.clickedButton = lambda self: self.buttons()[1]
-        later = vpm.restart_offer(window)
-    silent = vpm.restart_offer(window)
+        later = vpm.restart_offer(window, vpm.ffmpeg_in_place())
+    silent = vpm.restart_offer(window, vpm.ffmpeg_in_place())
 finally:
     QtWidgets.QMessageBox.exec = was_exec
     QtWidgets.QMessageBox.clickedButton = was_clicked
@@ -531,8 +531,9 @@ check("a test run is offered no box",
       % (os.environ.get("VPM_SILENT"), silent, len(boxes)))
 
 try:
-    vpm.restart_offer = lambda w: offers.append(True) or True
-    ticker = vpm.restart_when_done(window, ["the install went wrong"])
+    vpm.restart_offer = lambda w, said: offers.append(True) or True
+    ticker = vpm.restart_when_done(window, ["the install went wrong"],
+                                   vpm.ffmpeg_in_place())
     waited(lambda: not ticker.isActive(),
            lambda: (ticker.isActive(), len(offers)), bound=20.0, still=5.0)
     check("an install that ended badly offers no restart",
