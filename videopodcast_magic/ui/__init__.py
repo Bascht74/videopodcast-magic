@@ -4955,7 +4955,7 @@ def language_box_build():
     # The first entry names the language it will really bring, which
     # is what this program has texts for: an Italian system reads
     # English here rather than a promise nobody can keep.
-    chooser.addItem(T('The language of the system (%s)')
+    chooser.addItem(T('System language (%s)')
                     % language_name(known_language(system_locale())), "")
     for code, name in sorted(((c, language_name(c)) for c in languages()),
                              key=lambda pair: pair[1].lower()):
@@ -4996,8 +4996,8 @@ def settings_dialog_build(parent, access_box, resolve_box, keep_where):
     rows.addWidget(access_box)
     rows.addWidget(resolve_box)
     rows.addWidget(label(
-        T('Both are asked once and then stay. The key goes into the %s, '
-          'never into a file.') % keep_where, COLOURS["quiet"]))
+        T('Access and connection are asked once and then stay. The '
+          'key goes into the %s, never into a file.') % keep_where, COLOURS["quiet"]))
     close_row = _qw.QHBoxLayout()
     rows.addLayout(close_row)
     close_row.addStretch(1)
