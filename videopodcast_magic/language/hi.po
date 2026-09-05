@@ -22,6 +22,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Cut with the wide shot"
 msgstr "वाइड शॉट के साथ कट"
@@ -167,12 +168,8 @@ msgstr "आउटपुट"
 msgid "Access to auphonic.com"
 msgstr "auphonic.com तक पहुँच"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr ""
-"दोनों एक बार पूछे जाते हैं और फिर बने रहते हैं। कुंजी %s में जाती है, कभी "
-"किसी फ़ाइल में नहीं।"
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "पहुँच और कनेक्शन एक बार पूछे जाते हैं और फिर बने रहते हैं। कुंजी %s में जाती है, कभी किसी फ़ाइल में नहीं।"
 
 msgid "Checking files"
 msgstr "फ़ाइलों की जाँच"
@@ -1013,3 +1010,12 @@ msgstr "पहले न जाएँ"
 
 msgid "Answering speaker"
 msgstr "उत्तर देने वाला"
+
+msgid "Language of the window"
+msgstr "विंडो की भाषा"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "यहाँ चुनी गई भाषा अगली बार शुरू करने पर लागू होगी।"
+
+msgid "System language (%s)"
+msgstr "सिस्टम की भाषा (%s)"

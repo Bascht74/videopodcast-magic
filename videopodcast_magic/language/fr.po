@@ -22,6 +22,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
 msgid "Cut with the wide shot"
 msgstr "Montage avec le plan large"
@@ -167,12 +168,8 @@ msgstr "Sortie"
 msgid "Access to auphonic.com"
 msgstr "Accès à auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr ""
-"Les deux sont demandés une fois puis restent. La clé va dans le %s, "
-"jamais dans un fichier."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "L'accès et la connexion sont demandés une fois puis restent. La clé va dans le %s, jamais dans un fichier."
 
 msgid "Checking files"
 msgstr "Vérification des fichiers"
@@ -1013,3 +1010,12 @@ msgstr "ne pas anticiper"
 
 msgid "Answering speaker"
 msgstr "Celui qui répond"
+
+msgid "Language of the window"
+msgstr "Langue de la fenêtre"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "La langue choisie ici s'applique au prochain démarrage."
+
+msgid "System language (%s)"
+msgstr "Langue du système (%s)"
