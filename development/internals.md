@@ -13,21 +13,23 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in and holds most of the
-program -- 14 713 lines. Seven pieces have moved out, and each sits
+program -- 13 000 lines. Nine pieces have moved out, and each sits
 beside it in a folder of its own with an `__init__.py` in it: `ui/`
-holds the window and everything it shows, asks or offers (12 928
+holds the window and everything it shows, asks or offers (12 841
 lines); `cut/` who is on camera when, and what carries it out of here
-(3 927); `resolve/` the project in DaVinci Resolve, timelines, colour,
+(3 926); `resolve/` the project in DaVinci Resolve, timelines, colour,
 render and markers (2 755); `speakers/` who is speaking, out of the
-sound alone (2 060); `preflight/` whether the material fits together
-before the first long step, and the ffmpeg run that shows its progress
-(1 508); `speech/` what is said and when, and what is written down from
-it (1 130); `language/` a `.po` file per language, nothing but texts in
-it, and the reader that looks one up (313). All counted 5.9.2026, and
-the figure of the day is `wc -l`, not this paragraph. `models/` is an
-eighth folder and the odd one out: the speaker model lives there and no
-code at all, so `beside()` never reaches for it. There is nothing to
-build.
+sound alone (2 060); `pipeline/` the chain the recordings run through
+until the camera files are written (1 880); `preflight/` whether the
+material fits together before the first long step, and the ffmpeg run
+that shows its progress (1 508); `speech/` what is said and when, and
+what is written down from it (1 130); `desktop/` the picture and the
+shortcut the first start lays down (657); `language/` a `.po` file per
+language, nothing but texts in it, and the reader that looks one up
+(313). All counted 6.9.2026, and the figure of the day is `wc -l`, not
+this paragraph. `models/` is a tenth folder and the odd one out: the
+speaker model lives there and no code at all, so `beside()` never
+reaches for it. There is nothing to build.
 
 **How a piece is joined on, and why it is not an import.** `beside()`
 reads the piece out of the folder and hands the program in before the
