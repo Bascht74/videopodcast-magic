@@ -188,6 +188,10 @@ Each of these cost something, and `development/decisions.md` says what.
   The number is knowable before the run: strands times what one costs.
   Skill `workflow` says which shape blows past it, and what costs a
   fortieth and finds the same.
+* **What is cheap and can be done now is done, not listed.** The open
+  list is for what costs a round of its own. Writing "this belongs in
+  every strand's order" onto it, instead of writing it into the order,
+  buys a second place to maintain and nothing else.
 * **Say what was measured and what was assumed.** Never claim a test
   passed without running it.
 * **Every check owes a counter-proof, and it is written down.** A check
