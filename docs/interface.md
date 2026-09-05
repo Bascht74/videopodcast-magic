@@ -158,7 +158,8 @@ Four tabs, in the order they are needed.
   names and cameras they already had. The fifth column, **Speakers**,
   says how that stands -- **Separating ...** and **Break off** while
   it runs, in that row and no other, then **Separated: 4
-  speakers**, and a reason where the separation could not run. It is a
+  speakers**, and where it could not run, a short sentence pointing at
+  the log, which carries the reason itself. It is a
   report and nothing else: no separation is started there, and changing
   one's mind means going back to the field.
 

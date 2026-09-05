@@ -10,7 +10,9 @@ that the preflight. On the **Files & production** tab this happens by
 itself, and again after every change to the file list. One sentence under
 the list says what was found, and each row carries a mark
 ([The interface](interface.md)). Hovering over the mark, or opening the
-row, shows what stands behind it.
+row, shows what stands behind it. Every finding stands in full in the log
+and under **Output** as well: the sentence counts them, those two say
+which ones.
 
 ![The file list with the marks from the preflight](images/files.png)
 

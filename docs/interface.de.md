@@ -174,7 +174,8 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   schon hatten. Die fünfte Spalte, **Sprecher**, sagt, wie es darum
   steht -- **Trennen ...** und **Abbrechen**, solange es läuft, in
   dieser Zeile und in keiner anderen, danach **Getrennt: 4
-  Sprecher**, und einen Grund, wo die Trennung nicht laufen konnte. Sie
+  Sprecher**, und wo sie nicht laufen konnte, einen kurzen Satz, der
+  aufs Protokoll verweist -- dort steht der Grund selbst. Sie
   ist eine Auskunft und sonst nichts: dort startet keine Trennung, und
   wer es sich anders überlegt, geht zurück ins Feld.
 
