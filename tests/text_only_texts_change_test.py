@@ -7,7 +7,9 @@ catalogue, or it comes out English in a German run.
 How a count picks a wording is asked of the catalogue, not of the
 program: a PO header carries its language's own rule, and the last
 section reads real rules -- German, French, Japanese, Russian, Arabic
--- and holds them against what CLDR says.
+-- and holds them against what CLDR says. Then it holds the shipped
+Russian catalogue to its own rule: three wordings for every counted
+thing it answers for, and the right one of the three at seven counts.
 
 The switch section really starts the program, twice, on a file that is
 not there: whether --lang is acted on cannot be read off the parser,
@@ -936,6 +938,100 @@ _halfway = [code for code, forms in vpm.language.PLURALS.items()
             if forms and code not in vpm.language.PLURAL_RULE]
 check("every catalogue with plural wordings carries a rule as well",
       not _halfway, "wordings but no rule in %s" % (_halfway or "none",))
+
+# Everything above reads rules; from here the shipped Russian catalogue
+# itself is asked. A rule that is explained in a header and never used
+# leaves a reader with one plural for 2, 5 and 21, and nothing above
+# would say so: the rule reads fine, the wordings are simply not there.
+RU_FORMS = 3          # what Russian has, written out, not read back
+
+# Which of the three a count wants, out of CLDR and not out of the
+# formula this checks: [0] where the count ends in 1 but not in 11,
+# [1] where it ends in 2, 3 or 4 but not in 12 to 14, [2] the rest.
+RU_ONE, RU_FEW, RU_MANY = (1, 21, 101), (2, 22), (5, 11)
+
+# The nine counted things the Russian catalogue answers for: the two
+# English wordings TN() is called with, then the three Russian ones.
+# Written out as values -- an expectation computed from the catalogue
+# would say that the file agrees with itself and nothing else. The last
+# row says two of its three the same way, and that is Russian, not a
+# slip: after "on" the count and the thing both stand in the
+# prepositional, where two and five look alike.
+RU_SAYS = [
+    ('%s audio recording', '%s audio recordings',
+     "%s звукозапись", "%s звукозаписи", "%s звукозаписей"),
+    ('%s audio track', '%s audio tracks',
+     "%s звуковая дорожка", "%s звуковые дорожки", "%s звуковых дорожек"),
+    ('%s camera', '%s cameras',
+     "%s камера", "%s камеры", "%s камер"),
+    ('%s channel', '%s channels',
+     "%s канал", "%s канала", "%s каналов"),
+    ('%s clip', '%s clips',
+     "%s клип", "%s клипа", "%s клипов"),
+    ('%s file', '%s files',
+     "%s файл", "%s файла", "%s файлов"),
+    ('%s video file', '%s video files',
+     "%s видеофайл", "%s видеофайла", "%s видеофайлов"),
+    ('%s video track', '%s video tracks',
+     "%s видеодорожка", "%s видеодорожки", "%s видеодорожек"),
+    ('on %s camera', 'on %s cameras',
+     "на %s камере", "на %s камерах", "на %s камерах"),
+]
+
+# Every English singular a count picks a wording for, read out of the
+# program rather than listed here: one added tomorrow is then counted
+# from the day it is written.
+_counted = set()
+for _name, _tree in TREES:
+    for _node in ast.walk(_tree):
+        if isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name) \
+                and _node.func.id == "TN" and len(_node.args) >= 3 \
+                and isinstance(_node.args[1], ast.Constant):
+            _counted.add(_node.args[1].value)
+
+# A counted thing translated with a single msgstr is the state this
+# whole section exists against: Russian then says "5 файл". Untouched
+# wordings are passed over -- they come out English, which is a
+# different decision -- so this forbids the half-done entry, never the
+# thirty-one nobody has translated yet.
+_thin = []
+for _w in sorted(_counted):
+    _forms = vpm.language.PLURALS.get("ru", {}).get(_w, ())
+    if _w in vpm.CATALOGUE.get("ru", {}):
+        _thin.append("%r: one wording, not %d" % (_w, RU_FORMS))
+    elif _forms and len([f for f in _forms if f]) != RU_FORMS:
+        _thin.append("%r: %d wordings, %d of them said"
+                     % (_w, len(_forms), len([f for f in _forms if f])))
+check("a counted wording Russian answers for carries all three forms",
+      not _thin, "%d of %d counted wordings thin, first: %s"
+      % (len(_thin), len(_counted), _thin[:2] or "none"))
+
+
+def ru_at(counts, form):
+    """Every Russian wording that is not the wanted one, as text."""
+    out = []
+    for row in RU_SAYS:
+        for n in counts:
+            got = vpm.TN(n, row[0], row[1])
+            if got != row[2 + form]:
+                out.append("%r at %d: %r, wanted %r"
+                           % (row[0], n, got, row[2 + form]))
+    return out
+
+
+vpm.set_language("ru")
+_ones = ru_at(RU_ONE, 0)
+check("Russian at 1, 21 and 101 says the wording for a single thing",
+      not _ones, "%d of %d wrong, first: %s"
+      % (len(_ones), len(RU_ONE) * len(RU_SAYS), _ones[:2] or "none"))
+_few = ru_at(RU_FEW, 1)
+check("Russian at 2 and 22 says the wording for two to four",
+      not _few, "%d of %d wrong, first: %s"
+      % (len(_few), len(RU_FEW) * len(RU_SAYS), _few[:2] or "none"))
+_many = ru_at(RU_MANY, 2)
+check("Russian at 5 and 11 says the wording for many",
+      not _many, "%d of %d wrong, first: %s"
+      % (len(_many), len(RU_MANY) * len(RU_SAYS), _many[:2] or "none"))
 
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")
