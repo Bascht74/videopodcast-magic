@@ -125,10 +125,10 @@ msgstr "فصل ..."
 msgid "Voice"
 msgstr "صوت"
 
-msgid "Break off"
+msgid "Stop"
 msgstr "إيقاف"
 
-msgid "Breaking off ..."
+msgid "Stopping ..."
 msgstr "إيقاف ..."
 
 msgid "Not on this machine"
