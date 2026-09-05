@@ -26,7 +26,7 @@ hint. Without a key the multitrack run stops there.*
 | `--parallel COUNT` | this many video files at once; 0 decides for you, 1 one after another (0)  `[multitrack only]` |
 | `--dry-run` | only measure and report, write nothing |
 | `--version` | version number, and the Python this runs on |
-| `--update` | run `pip3 install -U` on the address the program came from, in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
+| `--update` | run `pip3 install -U` on the address the program came from with the newest release hung on the end, in the Python it is running in, and write what pip says into the terminal. Any other run only ever says that a newer version is out |
 
 ## What happens to audio and picture
 

@@ -19,7 +19,14 @@ on:
   push:
     branches:
       - '**'
-  pull_request:
+  # No pull_request. It ran a second time on the branch merged into
+  # main, and that is a different question from the one the push
+  # answers -- but only where main has moved under the branch, and with
+  # one person writing it has not. Measured 5.9.2026: every push to a
+  # branch with an open request cost twelve jobs where six answer, 20
+  # runs in ninety minutes. What is given up is "green apart, broken
+  # together", and after a merge main says so anyway, one step later.
+  # The day a second person writes here, this comes back.
   # Nothing here is pinned: requirements.txt names numpy and PySide6
   # without a version, ffmpeg is whatever the package service has that
   # day, and the Python patch levels move under setup-python. So a green
@@ -66,9 +73,14 @@ on:
 # A second push to the same branch makes the first run pointless.
 # The event is part of the group, or the weekly run would be cancelled
 # by the first push of the week -- which is the one week it is there for.
+#
+# On main it is never pointless. A tag can hang on any commit there, and
+# a tag whose attachment nothing answered for is worse than no tag.
+# Measured 5.9.2026: ba63d8e on main was cancelled by the push after it
+# and stands to this day with no answer of its own.
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
   contents: read
