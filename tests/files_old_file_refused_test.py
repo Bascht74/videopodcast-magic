@@ -197,16 +197,26 @@ check("the handover file is stamped where it is built",
 # Without the function the next check would read a piece of some other
 # part of the file, or fall over an index; either way it would not be
 # about the Resolve path any more.
-pieces = source.split("def build_resolve_project")
+#
+# Cut out of the one piece that holds it, not out of all of them
+# joined. The function moved into resolve/ on 5.9.2026 and is the last
+# one there, so a slice over the joined text ran past the end of that
+# piece and took the first 4241 characters of the next one with it --
+# 10 262 characters became 14 504. The check went on saying ok with
+# the line it looks for taken out. Measured on the cut itself, in both
+# directions.
+holds = [(name, body) for name, body in the_program.pieces()
+         if "def build_resolve_project" in body]
 check("the Resolve path is in the source to be searched",
-      len(pieces) > 1,
-      "%d pieces after splitting %d characters on the name"
-      % (len(pieces), len(source)))
-resolve_body = pieces[1].split("\ndef ")[0] if len(pieces) > 1 else ""
+      len(holds) == 1,
+      "%d of %d pieces hold build_resolve_project"
+      % (len(holds), len(the_program.pieces())))
+resolve_body = (holds[0][1].split("def build_resolve_project")[1]
+                .split("\ndef ")[0]) if len(holds) == 1 else ""
 check("the Resolve path asks for the complaint before it builds",
       "complaint = format_complaint(d)" in resolve_body,
-      "%d characters of build_resolve_project searched"
-      % len(resolve_body))
+      "%d characters of build_resolve_project searched in %s"
+      % (len(resolve_body), holds[0][0] if holds else "no piece"))
 
 print("\n6. Placeholders and their dictionary match")
 import ast, re
