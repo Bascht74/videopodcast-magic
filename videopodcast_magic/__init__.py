@@ -368,6 +368,32 @@ def https_context():
     return ssl.create_default_context(cafile=bundle)
 
 
+def manager_folders():
+    """Where a package manager on this system usually leaves a program.
+
+    Started from the Dock or the Finder rather than from a terminal, a
+    program inherits almost no search path, so an ffmpeg a manager
+    installed is out of reach although it is on the disc. Whether these
+    are really there is not asked here; the caller drops the rest.
+    """
+    if sys.platform == "darwin":
+        # Homebrew on Apple silicon, Homebrew on Intel, MacPorts.
+        return ["/opt/homebrew/bin", "/usr/local/bin", "/opt/local/bin"]
+    if sys.platform == "win32":
+        # Chocolatey, Scoop, winget -- none of the three is on the
+        # path of a program somebody double-clicked.
+        home = os.path.expanduser("~")
+        data = os.environ.get("ProgramData") or "C:\\ProgramData"
+        local = os.environ.get("LOCALAPPDATA") or home
+        return [os.path.join(data, "chocolatey", "bin"),
+                os.path.join(home, "scoop", "shims"),
+                os.path.join(local, "Microsoft", "WindowsApps")]
+    # A build installed by hand, snap, and what pip and pipx write for
+    # one user. Homebrew on Apple silicon has no business here.
+    return ["/usr/local/bin", "/snap/bin",
+            os.path.expanduser("~/.local/bin")]
+
+
 def find_required_tools():
     """Locate ffmpeg and ffprobe, and check they are new enough.
 
@@ -388,6 +414,22 @@ def find_required_tools():
     if ours and shutil.which("ffmpeg", path=ours) \
             and ours not in was.split(os.pathsep):
         os.environ["PATH"] = ours + os.pathsep + was
+    # Behind the search path and never in front of it: whoever has an
+    # ffmpeg on the path keeps that one. Only folders that are there
+    # go in, or the path grows by three at every start.
+    path = os.environ.get("PATH", "")
+    known = path.split(os.pathsep)
+    # A test that has to act as though no ffmpeg lay anywhere sets
+    # VPM_NO_MANAGER_PATH: an empty search path is no longer empty on a
+    # machine where a manager has installed one. Nothing else reads it,
+    # and the program never sets it itself.
+    look_in = [] if os.environ.get("VPM_NO_MANAGER_PATH") \
+        else manager_folders()
+    more = [one for one in look_in
+            if one not in known and os.path.isdir(one)]
+    if more:
+        os.environ["PATH"] = os.pathsep.join(
+            ([path] if path else []) + more)
     missing = [tool for tool in ("ffmpeg", "ffprobe") if shutil.which(tool) is None]
     if missing and os.path.isdir(here):
         os.environ["PATH"] = here + os.pathsep + os.environ.get("PATH", "")
