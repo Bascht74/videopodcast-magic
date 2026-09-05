@@ -1,0 +1,6 @@
+# How many sections docs/notes/aufgaben.md held at each release.
+# The notes are not in the repository -- they carry material out of
+# real productions -- so this is the only place the count survives
+# from one release to the next. One line per version, written with
+# the number. Skill `freigabe`, section "The five things".
+v3.0.0b4 289
