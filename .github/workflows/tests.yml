@@ -78,8 +78,20 @@ on:
 # a tag whose attachment nothing answered for is worse than no tag.
 # Measured 5.9.2026: ba63d8e on main was cancelled by the push after it
 # and stands to this day with no answer of its own.
+#
+# cancel-in-progress alone does not do it, and that was measured the
+# same day. It protects a run that has started; it does not protect one
+# that is waiting. GitHub holds a single pending run per group, and the
+# next arrival takes its place. Five merges inside forty-four seconds
+# left two commits -- 8b389c2 and 4ed164b -- cancelled with not one job
+# ever begun: `gh run view` reports no jobs at all for them.
+#
+# So every commit on main gets a group to itself, and nothing can take
+# its place. Elsewhere the group stays per branch, where a second push
+# really does make the first run pointless.
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name
+    }}${{ github.ref == 'refs/heads/main' && github.sha || '' }}
   cancel-in-progress: ${{ github.ref != 'refs/heads/main' }}
 
 permissions:
