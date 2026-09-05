@@ -1013,3 +1013,12 @@ msgstr "पहले न जाएँ"
 
 msgid "Answering speaker"
 msgstr "उत्तर देने वाला"
+
+msgid "Language of the window"
+msgstr "विंडो की भाषा"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "यहाँ चुनी गई भाषा अगली बार शुरू करने पर लागू होगी।"
+
+msgid "The language of the system (%s)"
+msgstr "सिस्टम की भाषा (%s)"

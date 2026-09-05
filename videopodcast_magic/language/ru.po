@@ -1011,3 +1011,12 @@ msgstr "не переходить раньше"
 
 msgid "Answering speaker"
 msgstr "Отвечающий"
+
+msgid "Language of the window"
+msgstr "Язык окна"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Выбранный здесь язык действует со следующего запуска."
+
+msgid "The language of the system (%s)"
+msgstr "Язык системы (%s)"

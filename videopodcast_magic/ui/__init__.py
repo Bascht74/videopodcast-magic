@@ -138,14 +138,20 @@ installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
 joined_channels = PROGRAM.joined_channels
 json = PROGRAM.json
 keep_setting = PROGRAM.keep_setting
+kept_language = PROGRAM.kept_language
 key_complaint = PROGRAM.key_complaint
 key_refused_note = PROGRAM.key_refused_note
 key_store_locked = PROGRAM.key_store_locked
 key_store_trouble = PROGRAM.key_store_trouble
 kind_on_show = PROGRAM.kind_on_show
+known_language = PROGRAM.known_language
 label_of = PROGRAM.label_of
 label_say = PROGRAM.label_say
+# Out of the language piece itself. The program binds what it uses of
+# that piece one name at a time, and this is not one of them.
+language_name = PROGRAM.language.language_name
 language_of_system = PROGRAM.language_of_system
+languages = PROGRAM.languages
 legend_markup = PROGRAM.legend_markup
 list_presets = PROGRAM.list_presets
 load_api_key = PROGRAM.load_api_key
@@ -237,6 +243,7 @@ strip_marks = PROGRAM.strip_marks
 styles_follow_scheme = PROGRAM.styles_follow_scheme
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
+system_locale = PROGRAM.system_locale
 tc_column_write = PROGRAM.tc_column_write
 tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
@@ -4923,20 +4930,69 @@ def speakers_to_cameras(assign_lines, voice_lines, voiced=()):
     return where_to
 
 
+def language_box_build():
+    """The box that says which language the window speaks.
+
+    A box of its own, because it is the one setting here about the
+    program itself while the two beside it are each about a service
+    outside it. Made here rather than taken in: nothing on any sheet
+    shows it, so there is nothing to borrow.
+    """
+    from PySide6 import QtWidgets as _qw
+    box = _qw.QGroupBox(T('Language of the window'))
+    rows = _qw.QVBoxLayout(box)
+    # Above the field and not below it. Somebody who reads it after
+    # choosing has already chosen, and is waiting for a window that
+    # is not going to change.
+    note = label(T('A language chosen here is spoken from the next '
+                   'start.'), COLOURS["quiet"])
+    # Wrapped, because the German sentence is the longer one and the
+    # note beside this box is measured 89 px too wide for want of it.
+    note.setWordWrap(True)
+    rows.addWidget(note)
+    chooser = _qw.QComboBox()
+    speaks_as(chooser, T('Language of the window'))
+    # The first entry names the language it will really bring, which
+    # is what this program has texts for: an Italian system reads
+    # English here rather than a promise nobody can keep.
+    chooser.addItem(T('The language of the system (%s)')
+                    % language_name(known_language(system_locale())), "")
+    for code, name in sorted(((c, language_name(c)) for c in languages()),
+                             key=lambda pair: pair[1].lower()):
+        chooser.addItem(name, code)
+    # An empty setting is the first entry's own value, so a kept
+    # language nobody has ever chosen lands there by itself.
+    stands_at = chooser.findData(kept_language())
+    chooser.setCurrentIndex(stands_at if stands_at >= 0 else 0)
+    # Connected after the index is set: before it, opening the window
+    # would write down a choice nobody made.
+    chooser.currentIndexChanged.connect(
+        lambda *_: keep_setting("language", chooser.currentData() or ""))
+    field_row = _qw.QHBoxLayout()
+    rows.addLayout(field_row)
+    field_row.addWidget(chooser)
+    field_row.addStretch(1)
+    return box
+
+
 def settings_dialog_build(parent, access_box, resolve_box, keep_where):
-    """Assemble the Settings window out of the two boxes it borrows.
+    """Assemble the Settings window out of the boxes that go in it.
 
     Out here for the reason cut_fields_build gives: this is widget
-    assembly and nothing else, and the window is long enough. The two
-    boxes are built where they are used on the page and move in here on
-    the first click -- which is why this is a builder taking them in
-    rather than a builder making them.
+    assembly and nothing else, and the window is long enough. Two of
+    the boxes are built where they are used on the page and move in
+    here on the first click -- which is why this is a builder taking
+    them in rather than a builder making them.
     """
     from PySide6 import QtWidgets as _qw
     d = _qw.QDialog(parent)
     d.setWindowTitle(T('Settings'))
     d.setMinimumWidth(620)
     rows = _qw.QVBoxLayout(d)
+    # First, and the two that follow keep their note under them: it
+    # says "Both", and a third box between them would take that word
+    # away from the two it is about.
+    rows.addWidget(language_box_build())
     rows.addWidget(access_box)
     rows.addWidget(resolve_box)
     rows.addWidget(label(
