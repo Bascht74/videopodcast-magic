@@ -129,7 +129,7 @@ run_install_is_watched	40
 run_log_within_reach	25
 run_metrics_add_up	51
 run_odd_clock_named	17
-run_only_newer_offered	87
+run_only_newer_offered	88
 run_outside_seen	14
 run_prework_listed	43
 run_promise_is_written	12
@@ -190,7 +190,7 @@ text_index_targets_exist	26
 text_lang_settled_first	7
 text_lists_match	30
 text_no_german_left	49
-text_only_texts_change	80
+text_only_texts_change	89
 text_release_ready	35
 text_skills_listed	12
 text_tests_listed	9
