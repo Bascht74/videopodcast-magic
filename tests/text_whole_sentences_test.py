@@ -21,7 +21,7 @@ SCRIPT = the_program.SCRIPT
 # beside the way in, and the program reads them from there; this test
 # looks in the same place, so a snapshot run reads the snapshot's own
 # texts.
-TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.py")
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.po")
 
 STATE = os.path.join(HERE, "state", "catalogue_shape_state.json")
 state = ratchet.Ratchet(STATE)
@@ -45,13 +45,10 @@ def check(what, ok, detail=""):
 PIECES = the_program.pieces()
 TREES = [(name, ast.parse(body)) for name, body in PIECES]
 
-# The German side is read out of the syntax tree of the texts file
-# instead of importing the program: a dictionary of literals evaluates
-# without running anything, so nothing here can open a window.
-catalogue = {}
-for node in ast.parse(io.open(TEXTS_DE, encoding="utf-8").read()).body:
-    if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
-        catalogue = ast.literal_eval(node.value)
+# The German side is read straight out of the PO file instead of
+# importing the program: nothing here runs the program, so nothing here
+# can open a window.
+catalogue = the_program.po_texts(TEXTS_DE)
 check("the German catalogue could be read", len(catalogue) > 100,
       "%d entries in %s" % (len(catalogue), os.path.basename(TEXTS_DE)))
 

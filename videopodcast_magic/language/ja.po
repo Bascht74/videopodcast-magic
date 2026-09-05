@@ -1,0 +1,1013 @@
+# What is translated of this program's messages, in Japanese.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# 327 of the program's 1498 texts stand here. Every text that is
+# not in this file appears in English: T() gives back the key it was
+# handed when it finds no entry, so what is missing reads rather than
+# breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Japanese speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: ja\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Cut with the wide shot"
+msgstr "ワイドショットでのカット"
+
+msgid "on %d camera"
+msgstr "%d 台のカメラに"
+
+msgid "on %d cameras"
+msgstr "%d 台のカメラに"
+
+msgid "no camera yet"
+msgstr "まだカメラなし"
+
+msgid "A newer version is out"
+msgstr "新しいバージョンがあります"
+
+msgid "%s is out. This is %s."
+msgstr "%s が出ています。動作中は %s です。"
+
+msgid "Multitrack mode"
+msgstr "マルチトラック方式"
+
+msgid "Singletrack mode"
+msgstr "シングルトラック方式"
+
+msgid "fetching from auphonic.com ..."
+msgstr "auphonic.com から取得中 ..."
+
+msgid "What changed since %s:"
+msgstr "%s 以降の変更点:"
+
+msgid "Update"
+msgstr "更新"
+
+msgid "Later"
+msgstr "あとで"
+
+msgid "Go back"
+msgstr "戻る"
+
+msgid "About Video Podcast Magic"
+msgstr "Video Podcast Magic について"
+
+msgid "&File"
+msgstr "ファイル(&F)"
+
+msgid "&View"
+msgstr "表示(&V)"
+
+msgid "&Player"
+msgstr "プレーヤー(&P)"
+
+msgid "&Help"
+msgstr "ヘルプ(&H)"
+
+msgid "Play and pause"
+msgstr "再生と一時停止"
+
+msgid "Fast forward"
+msgstr "早送り"
+
+msgid "Play forward, faster on every press"
+msgstr "早送り、押すたびに速く"
+
+msgid "Pause"
+msgstr "一時停止"
+
+msgid "One frame back"
+msgstr "1 フレーム戻る"
+
+msgid "One frame forward"
+msgstr "1 フレーム進む"
+
+msgid "One second back"
+msgstr "1 秒戻る"
+
+msgid "One second forward"
+msgstr "1 秒進む"
+
+msgid "Ten seconds back"
+msgstr "10 秒戻る"
+
+msgid "Ten seconds forward"
+msgstr "10 秒進む"
+
+msgid "The manual"
+msgstr "マニュアル"
+
+msgid "What changed in this version"
+msgstr "このバージョンの変更点"
+
+msgid "Look for a newer version now"
+msgstr "新しいバージョンを今すぐ確認"
+
+msgid "Separating speakers"
+msgstr "話者の分離"
+
+msgid "Separating ..."
+msgstr "分離中 ..."
+
+msgid "Voice"
+msgstr "声"
+
+msgid "Break off"
+msgstr "中止"
+
+msgid "Breaking off ..."
+msgstr "中止中 ..."
+
+msgid "Not on this machine"
+msgstr "このマシンにはありません"
+
+msgid "Reading the audio ..."
+msgstr "音声を読み込み中 ..."
+
+msgid "Speakers"
+msgstr "話者"
+
+msgid "Speaker %d"
+msgstr "話者 %d"
+
+msgid "One more speaker in %s"
+msgstr "%s にもう一人の話者"
+
+msgid "One more speaker in"
+msgstr "話者をもう一人追加"
+
+msgid "%d:%02d min"
+msgstr "%d:%02d 分"
+
+msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
+msgstr "%s -- %d:%02d〜%d:%02d（%.1f 秒）"
+
+msgid "%s and %d more"
+msgstr "%s ほか %d 件"
+
+msgid "%s speech time"
+msgstr "%s の発話時間"
+
+msgid "Output"
+msgstr "出力"
+
+msgid "Access to auphonic.com"
+msgstr "auphonic.com へのアクセス"
+
+msgid ""
+"Both are asked once and then stay. The key goes into the %s, never into a "
+"file."
+msgstr "どちらも一度だけ尋ね、以後は保持されます。キーは%sに入り、ファイルには入りません。"
+
+msgid "Checking files"
+msgstr "ファイルの確認"
+
+msgid "Measuring time axis"
+msgstr "時間軸を測定中"
+
+msgid "Resolve answers"
+msgstr "Resolve の応答"
+
+msgid "Settings"
+msgstr "設定"
+
+msgid "Settings ..."
+msgstr "設定 ..."
+
+msgid "done"
+msgstr "完了"
+
+msgid ","
+msgstr ","
+
+msgid "."
+msgstr "."
+
+msgid "Kind"
+msgstr "種類"
+
+msgid "Speech time"
+msgstr "発話時間"
+
+msgid "Share"
+msgstr "割合"
+
+msgid "Colour"
+msgstr "色"
+
+msgid "Preset"
+msgstr "プリセット"
+
+msgid "Preset:"
+msgstr "プリセット："
+
+msgid "Start"
+msgstr "開始"
+
+msgid "Production"
+msgstr "制作"
+
+msgid "Target"
+msgstr "目標"
+
+msgid "none"
+msgstr "なし"
+
+msgid "Length"
+msgstr "長さ"
+
+msgid "no camera of its own"
+msgstr "専用カメラなし"
+
+msgid "do not use"
+msgstr "使用しない"
+
+msgid "several speakers"
+msgstr "複数の話者"
+
+msgid "Content"
+msgstr "本編"
+
+msgid "Intro"
+msgstr "イントロ"
+
+msgid "Outro"
+msgstr "アウトロ"
+
+msgid "ignore this video"
+msgstr "この映像を無視"
+
+msgid "Open project ..."
+msgstr "プロジェクトを開く ..."
+
+msgid "Save project"
+msgstr "プロジェクトを保存"
+
+msgid "Close project"
+msgstr "プロジェクトを閉じる"
+
+msgid "Guest"
+msgstr "ゲスト"
+
+msgid "Host"
+msgstr "ホスト"
+
+msgid "Host %d"
+msgstr "ホスト %d"
+
+msgid "Skip this version"
+msgstr "このバージョンを見送る"
+
+msgid "Project found"
+msgstr "プロジェクトが見つかりました"
+
+msgid "Open the project"
+msgstr "プロジェクトを開く"
+
+msgid "not readable"
+msgstr "読み取れません"
+
+msgid "%d audio track"
+msgstr "音声トラック %d 本"
+
+msgid "%d audio tracks"
+msgstr "音声トラック %d 本"
+
+msgid "%d clip"
+msgstr "%d クリップ"
+
+msgid "%d clips"
+msgstr "%d クリップ"
+
+msgid "%d video track"
+msgstr "映像トラック %d 本"
+
+msgid "%d video tracks"
+msgstr "映像トラック %d 本"
+
+msgid "  (this file ends earlier)"
+msgstr "  (このファイルは先に終わります)"
+
+msgid " (paused)"
+msgstr "（一時停止中）"
+
+msgid " (playing)"
+msgstr "（再生中）"
+
+msgid "%d channel"
+msgstr "%d チャンネル"
+
+msgid "%d channels"
+msgstr "%d チャンネル"
+
+msgid "%d file"
+msgstr "ファイル %d 個"
+
+msgid "%d files"
+msgstr "ファイル %d 個"
+
+msgid "... or add files ..."
+msgstr "... またはファイルを追加 ..."
+
+msgid "Add files ..."
+msgstr "ファイルを追加 ..."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "割り当て：どの音声トラックがどのカメラのものか"
+
+msgid "Audio"
+msgstr "音声"
+
+msgid "Bleed"
+msgstr "かぶり"
+
+msgid "Blocks"
+msgstr "ブロック"
+
+msgid "Camera"
+msgstr "カメラ"
+
+msgid "Camera audio, %d to go ..."
+msgstr "カメラ音声、残り %d ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- プレビュー（長さ %s）"
+
+msgid "Cannot start yet: %s"
+msgstr "まだ開始できません: %s"
+
+msgid "Check again"
+msgstr "再確認"
+
+msgid "Close"
+msgstr "閉じる"
+
+msgid "Drag audio and video files here"
+msgstr "音声と映像のファイルをここにドラッグ"
+
+msgid "Fetching audio"
+msgstr "音声を取得"
+
+msgid "Fetching audio ..."
+msgstr "音声を取得中 ..."
+
+msgid "File"
+msgstr "ファイル"
+
+msgid "Drag to move the position."
+msgstr "ドラッグして位置を移動します。"
+
+msgid "Keychain"
+msgstr "キーチェーン"
+
+msgid "Measuring time axis ..."
+msgstr "時間軸を計測中 ..."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "マルチトラック（話者ごとに1トラック）"
+
+msgid "No files or project opened yet."
+msgstr "まだファイルもプロジェクトも開いていません。"
+
+msgid "No files selected yet."
+msgstr "まだファイルが選ばれていません。"
+
+msgid "Not ready yet:"
+msgstr "まだ準備できていません:"
+
+msgid "One frame back."
+msgstr "1 フレーム戻ります。"
+
+msgid "One second back."
+msgstr "1 秒戻ります。"
+
+msgid "Only one speaker"
+msgstr "話者は一人だけ"
+
+msgid "Open result folder"
+msgstr "結果フォルダーを開く"
+
+msgid "Overwrite"
+msgstr "上書き"
+
+msgid "Overwrite files"
+msgstr "ファイルを上書き"
+
+msgid "Play and pause."
+msgstr "再生と一時停止をします。"
+
+msgid "Preview running ..."
+msgstr "プレビュー実行中 ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "前処理 -- 音声を読み、エンベロープを計算します：\n"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "auphonic.com での処理（任意）"
+
+msgid "Production name"
+msgstr "制作名"
+
+msgid "Resolve running ..."
+msgstr "Resolve 実行中 ..."
+
+msgid "Save in Keychain"
+msgstr "キーチェーンに保存"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "話者。トラックから自前で測定"
+
+msgid "Ten seconds back."
+msgstr "10 秒戻ります。"
+
+msgid ""
+"The audio recording of every speaker, plus the cameras.\n"
+"The order does not matter -- the program recognises what is what.\n"
+"For a multi-part recording the first block is enough."
+msgstr ""
+"話者ごとの録音と、各カメラ。\n"
+"順序は問いません -- どれが何かはプログラムが判別します。\n"
+"分割録画なら最初のブロックだけで足ります。"
+
+msgid "%s -- being checked"
+msgstr "%s -- 確認中"
+
+msgid "Open Keychain Access"
+msgstr "「キーチェーンアクセス」を開く"
+
+msgid "There is no result yet."
+msgstr "まだ結果がありません。"
+
+msgid "To the In point."
+msgstr "イン点へ移動します。"
+
+msgid "To the start."
+msgstr "先頭へ移動します。"
+
+msgid "Track"
+msgstr "トラック"
+
+msgid "Video"
+msgstr "映像"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s（%s）-- 同時発話は二重に数えます"
+
+msgid "Wide shot at most"
+msgstr "引き画は最大"
+
+msgid "Wide shot at the latest"
+msgstr "引き画は遅くとも"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "冒頭のあいさつと最後の別れは引き画で"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- 下げるだけ、上げない"
+
+msgid "average"
+msgstr "平均"
+
+msgid "checking ..."
+msgstr "確認中 ..."
+
+msgid "complete"
+msgstr "完了"
+
+msgid "hear assigned audio"
+msgstr "割り当てた音声を聞く"
+
+msgid "next to each video file"
+msgstr "各映像ファイルの隣に"
+
+msgid "not checked yet"
+msgstr "未確認"
+
+msgid "nothing loaded yet"
+msgstr "まだ何も読み込まれていません"
+
+msgid "nothing selected"
+msgstr "何も選ばれていません"
+
+msgid "off"
+msgstr "オフ"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "処理済みトラックを検出 -- 何もアップロードしません"
+
+msgid "reset"
+msgstr "リセット"
+
+msgid "running ..."
+msgstr "実行中 ..."
+
+msgid "selected"
+msgstr "選択済み"
+
+msgid "shorter shots are merged in"
+msgstr "これより短いショットは統合されます"
+
+msgid "the picture changes this much later than the sound"
+msgstr "画は音よりこれだけ遅れて切り替わる"
+
+msgid "unspecified"
+msgstr "未指定"
+
+msgid "Files && production"
+msgstr "ファイル && 制作"
+
+msgid "Assignment && time window"
+msgstr "割り当て && 時間枠"
+
+msgid "Resolve cut"
+msgstr "Resolve のカット"
+
+msgid "Camera audio"
+msgstr "カメラ音声"
+
+msgid "Camera audio %s"
+msgstr "カメラ音声 %s"
+
+msgid "a track of its own"
+msgstr "専用のトラック"
+
+msgid "with Channel %d one stereo track"
+msgstr "チャンネル %d と合わせてステレオ 1 トラック"
+
+msgid "not found"
+msgstr "見つかりません"
+
+msgid "a recording of its own"
+msgstr "専用の録音"
+
+msgid "Cameras only"
+msgstr "カメラのみ"
+
+msgid "End %s"
+msgstr "終了 %s"
+
+msgid "Error"
+msgstr "エラー"
+
+msgid "Mark In"
+msgstr "イン点を設定"
+
+msgid "Mark Out"
+msgstr "アウト点を設定"
+
+msgid "Minimum Edit Duration"
+msgstr "最短ショット長"
+
+msgid "No files given."
+msgstr "ファイルが指定されていません。"
+
+msgid "Speaker"
+msgstr "話者"
+
+msgid "Start %s"
+msgstr "開始 %s"
+
+msgid "Take from source files"
+msgstr "元ファイルから取得"
+
+msgid "Take the camera audio"
+msgstr "カメラ音声を使う"
+
+msgid "Transfer"
+msgstr "受け渡し"
+
+msgid "Wide shot after"
+msgstr "引き画は"
+
+msgid "no folder"
+msgstr "フォルダーなし"
+
+msgid "no text"
+msgstr "テキストなし"
+
+msgid "unnamed"
+msgstr "名前なし"
+
+msgid "Audio recording"
+msgstr "音声録音"
+
+msgid "Building the sum"
+msgstr "合計を作成"
+
+msgid "Camera cut"
+msgstr "カメラ切り替え"
+
+msgid "%s -- preview"
+msgstr "%s -- プレビュー"
+
+msgid "Cancel"
+msgstr "キャンセル"
+
+msgid "Connect"
+msgstr "接続"
+
+msgid "Connection to Resolve"
+msgstr "Resolve への接続"
+
+msgid "Continue"
+msgstr "続ける"
+
+msgid "Create Resolve project"
+msgstr "Resolve プロジェクトを作成"
+
+msgid "In point %s"
+msgstr "イン点 %s"
+
+msgid "Out point %s"
+msgstr "アウト点 %s"
+
+msgid "Dry run"
+msgstr "試し実行"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128、放送"
+
+msgid "Go ahead"
+msgstr "実行する"
+
+msgid "Keep it saved"
+msgstr "保存したままにする"
+
+msgid "Measure"
+msgstr "計測"
+
+msgid "Measuring loudness"
+msgstr "ラウドネスの計測"
+
+msgid "Merge them"
+msgstr "まとめる"
+
+msgid "do not use the audio"
+msgstr "音声を使わない"
+
+msgid "use the audio"
+msgstr "音声を使う"
+
+msgid "Mute."
+msgstr "消音します。"
+
+msgid "No project open."
+msgstr "プロジェクトが開かれていません。"
+
+msgid "Not recognised"
+msgstr "認識できません"
+
+msgid "Note"
+msgstr "注記"
+
+msgid "One frame forward."
+msgstr "1 フレーム進みます。"
+
+msgid "One second forward."
+msgstr "1 秒進みます。"
+
+msgid "Output folder"
+msgstr "出力フォルダー"
+
+msgid "Choose the output folder"
+msgstr "出力フォルダーを選ぶ"
+
+msgid "Output folder ..."
+msgstr "出力フォルダ ..."
+
+msgid "Podcast directories, mono"
+msgstr "ポッドキャスト配信先、モノラル"
+
+msgid "Podcast directories, stereo"
+msgstr "ポッドキャスト配信先、ステレオ"
+
+msgid "Preview player"
+msgstr "プレビュープレーヤー"
+
+msgid "Preview player%s"
+msgstr "プレビュープレーヤー%s"
+
+msgid "Processing"
+msgstr "処理"
+
+msgid "Project"
+msgstr "プロジェクト"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "ここから良い頃合いを探します"
+
+msgid "and here it is cut, good moment or not"
+msgstr "ここで切る。良い頃合いかどうかに関わらず"
+
+msgid "After a question"
+msgstr "質問のあと"
+
+msgid "Question"
+msgstr "質問"
+
+msgid "Remove"
+msgstr "削除"
+
+msgid "Remove all"
+msgstr "すべて削除"
+
+msgid "Remove from list"
+msgstr "リストから削除"
+
+msgid "Resolve answers%s"
+msgstr "Resolve の応答%s"
+
+msgid "Show in Finder."
+msgstr "Finder に表示します。"
+
+msgid "Silence"
+msgstr "無音"
+
+msgid "Speaker name"
+msgstr "話者名"
+
+msgid "Speaker names"
+msgstr "話者名"
+
+msgid "Ten seconds forward."
+msgstr "10 秒進みます。"
+
+msgid "Window %s%s"
+msgstr "ウィンドウ %s%s"
+
+msgid "audio file"
+msgstr "音声ファイル"
+
+msgid "cancel"
+msgstr "キャンセル"
+
+msgid "cancelled"
+msgstr "キャンセルしました"
+
+msgid "nothing"
+msgstr "なし"
+
+msgid "nothing to do"
+msgstr "行うことはありません"
+
+msgid "to In point"
+msgstr "イン点へ"
+
+msgid "to Out point"
+msgstr "アウト点へ"
+
+msgid "too short"
+msgstr "短すぎます"
+
+msgid "unknown"
+msgstr "不明"
+
+msgid "video file"
+msgstr "映像ファイル"
+
+msgid "%d audio recording"
+msgstr "音声録音 %d 件"
+
+msgid "%d audio recordings"
+msgstr "音声録音 %d 件"
+
+msgid "%d camera"
+msgstr "カメラ %d 台"
+
+msgid "%d cameras"
+msgstr "カメラ %d 台"
+
+msgid "%d video file"
+msgstr "映像ファイル %d 個"
+
+msgid "%d video files"
+msgstr "映像ファイル %d 個"
+
+msgid "Caution"
+msgstr "注意"
+
+msgid "on"
+msgstr "オン"
+
+msgid "First cut by speaker"
+msgstr "話者による最初のカット"
+
+msgid "Speakers, separated by voice"
+msgstr "声で分けた話者"
+
+msgid "Reading the plan"
+msgstr "計画を読み込む"
+
+msgid "Audio out of the cameras"
+msgstr "カメラからの音声"
+
+msgid "Common time axis"
+msgstr "共通の時間軸"
+
+msgid "Processing at auphonic.com"
+msgstr "auphonic.com での処理"
+
+msgid "Loudness"
+msgstr "ラウドネス"
+
+msgid "Loudness and levels"
+msgstr "ラウドネスとレベル"
+
+msgid "Who speaks when"
+msgstr "誰がいつ話すか"
+
+msgid "Writing the camera files"
+msgstr "カメラファイルを書き出す"
+
+msgid "Handover and result"
+msgstr "受け渡しと結果"
+
+msgid "measurement running ..."
+msgstr "計測中 ..."
+
+msgid "Looking at the channels"
+msgstr "チャンネルを確認"
+
+msgid "unused input -- ignored"
+msgstr "未使用の入力 -- 無視しました"
+
+msgid "uncertain -- %s"
+msgstr "不確実 -- %s"
+
+msgid "Language"
+msgstr "言語"
+
+msgid "not set"
+msgstr "未設定"
+
+msgid "German"
+msgstr "ドイツ語"
+
+msgid "English"
+msgstr "英語"
+
+msgid "French"
+msgstr "フランス語"
+
+msgid "Spanish"
+msgstr "スペイン語"
+
+msgid "Italian"
+msgstr "イタリア語"
+
+msgid "Dutch"
+msgstr "オランダ語"
+
+msgid "Portuguese"
+msgstr "ポルトガル語"
+
+msgid "Polish"
+msgstr "ポーランド語"
+
+msgid "Russian"
+msgstr "ロシア語"
+
+msgid "Swedish"
+msgstr "スウェーデン語"
+
+msgid "Danish"
+msgstr "デンマーク語"
+
+msgid "Norwegian"
+msgstr "ノルウェー語"
+
+msgid "Finnish"
+msgstr "フィンランド語"
+
+msgid "Czech"
+msgstr "チェコ語"
+
+msgid "Turkish"
+msgstr "トルコ語"
+
+msgid "Greek"
+msgstr "ギリシャ語"
+
+msgid "Hungarian"
+msgstr "ハンガリー語"
+
+msgid "Romanian"
+msgstr "ルーマニア語"
+
+msgid "Ukrainian"
+msgstr "ウクライナ語"
+
+msgid "Catalan"
+msgstr "カタルーニャ語"
+
+msgid "Arabic"
+msgstr "アラビア語"
+
+msgid "Hebrew"
+msgstr "ヘブライ語"
+
+msgid "Japanese"
+msgstr "日本語"
+
+msgid "Chinese"
+msgstr "中国語"
+
+msgid "Korean"
+msgstr "韓国語"
+
+msgid "Speaks at least"
+msgstr "発話が最低"
+
+msgid "below this the camera does not follow"
+msgstr "これ未満ではカメラは追わない"
+
+msgid "Answer on screen earlier"
+msgstr "応答を早めに映す"
+
+msgid "before the question ends"
+msgstr "質問が終わる前に"
+
+msgid "Wide shot at least"
+msgstr "引き画は最低"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "挿入した引き画は最低このくらい保つ"
+
+msgid "and at most this long"
+msgstr "長くてもこの長さまで"
+
+msgid "Long monologue"
+msgstr "長い独話"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "一人が「引き画は」を超えて話し続ける"
+
+msgid "Several speak at once"
+msgstr "複数が同時に話す"
+
+msgid "and no camera shows exactly them"
+msgstr "その人たちを正確に映すカメラがない"
+
+msgid "Nobody speaks"
+msgstr "誰も話さない"
+
+msgid "no voice is heard at all here"
+msgstr "ここではまったく声が聞こえない"
+
+msgid "Short gap up to"
+msgstr "短い間は最大"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "この長さの無音では画は変えない"
+
+msgid "Recognition uncertain"
+msgstr "認識が不確か"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "話者認識がほつれる、あるいは残りが山になる"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "応答が始まる前に画を切り替える"
+
+msgid "Wide shot"
+msgstr "引き画"
+
+msgid "Wide shot %d"
+msgstr "ワイドショット %d"
+
+msgid "(wide shot)"
+msgstr "（ワイドショット）"
+
+msgid "No speaker"
+msgstr "話者なし"
+
+msgid "Listener"
+msgstr "聞き手"
+
+msgid "Alternating"
+msgstr "交互"
+
+msgid "No camera change"
+msgstr "カメラを切り替えない"
+
+msgid "Hold a short gap"
+msgstr "短い間を保つ"
+
+msgid "do not go early"
+msgstr "早めに切り替えない"
+
+msgid "Answering speaker"
+msgstr "応答者"

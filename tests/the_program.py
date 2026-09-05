@@ -75,16 +75,60 @@ def whole():
     return "\n".join(body for _name, body in pieces())
 
 
-# A translation is data, not program: one name and nothing else. Held
-# apart by what stands in the file rather than by where it lies, so a
-# ninth language tomorrow needs nothing written here.
-HOLDS_TEXTS = re.compile(r"^TEXTS = \{", re.M)
-HOLDS_CODE = re.compile(r"^(?:def |class |import |from )", re.M)
+# What a backslash means inside a PO string, for the reader below: the
+# letter above, the character below.
+PO_CODES = dict(zip('ntr"\\abfv', '\n\t\r"\\\a\b\f\v'))
+PO_ESCAPE = re.compile(r"\\(.)")
+PO_QUOTED = re.compile(r'^"(.*)"$')
 
 
-def a_catalogue(body):
-    """Whether that file holds a translation rather than program."""
-    return bool(HOLDS_TEXTS.search(body)) and not HOLDS_CODE.search(body)
+def po_pairs(path):
+    """Every entry of a PO file, as (English, translation, line number).
+
+    A list and not a dictionary: a key written twice with two
+    translations loses one of them in a dictionary without a sound, and
+    a check exists to catch exactly that. The header entry, whose
+    English side is empty, is left out -- it carries no text.
+
+    A reader of its own rather than the program's. A check that reads
+    its subject with the subject's own eyes says only that the two
+    agree, never that either is right.
+    """
+    found = []
+    key = value = at = None
+    began = 0
+
+    def keep():
+        if key:
+            found.append((key, value or "", began))
+
+    for number, line in enumerate(io.open(path, encoding="utf-8"), 1):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("msgid "):
+            keep()
+            key, value, at, began = "", None, "msgid", number
+            line = line[len("msgid "):]
+        elif line.startswith("msgstr "):
+            value, at = "", "msgstr"
+            line = line[len("msgstr "):]
+        quoted = PO_QUOTED.match(line)
+        if not quoted or at is None:
+            continue
+        piece = PO_ESCAPE.sub(lambda m: PO_CODES.get(m.group(1), m.group(1)),
+                              quoted.group(1))
+        if at == "msgid":
+            key += piece
+        else:
+            value += piece
+    keep()
+    return found
+
+
+def po_texts(path):
+    """One language's entries as {English wording: translation}."""
+    return dict((key, value) for key, value, _at in po_pairs(path))
 
 
 def on_disk():
@@ -114,10 +158,10 @@ def pieces():
     Not joined into one string, because a good many of these readers
     print a line number and a number into a joined text points
     nowhere. The name beside each piece is its path under the
-    program's folder, so a number keeps somewhere to point. Whoever
-    only searches for a word may join them and has the catalogues
-    already left out: a translation is data, and three checks go red
-    over it for the wrong reason.
+    program's folder, so a number keeps somewhere to point.
+
+    The nine translations are not among them and need no keeping out:
+    they are PO files, and only Python is program.
     """
     entry = os.path.relpath(os.path.abspath(SCRIPT), FOLDER)
     entry = entry.replace(os.sep, "/")
@@ -128,8 +172,6 @@ def pieces():
             if not one.endswith(".py"):
                 continue
             body = io.open(os.path.join(here, one), encoding="utf-8").read()
-            if a_catalogue(body):
-                continue
             name = os.path.relpath(os.path.join(here, one), FOLDER)
             found.append((name.replace(os.sep, "/"), body))
     found.sort(key=lambda piece: (piece[0] != entry, piece[0]))

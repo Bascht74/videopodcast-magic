@@ -1,0 +1,1015 @@
+# What is translated of this program's messages, in Portuguese.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# 327 of the program's 1498 texts stand here. Every text that is
+# not in this file appears in English: T() gives back the key it was
+# handed when it finds no entry, so what is missing reads rather than
+# breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Portuguese speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: pt\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Cut with the wide shot"
+msgstr "Corte com o plano geral"
+
+msgid "on %d camera"
+msgstr "em %d câmera"
+
+msgid "on %d cameras"
+msgstr "em %d câmeras"
+
+msgid "no camera yet"
+msgstr "ainda sem câmera"
+
+msgid "A newer version is out"
+msgstr "Há uma versão mais recente"
+
+msgid "%s is out. This is %s."
+msgstr "%s está disponível. Aqui roda %s."
+
+msgid "Multitrack mode"
+msgstr "Modo multipista"
+
+msgid "Singletrack mode"
+msgstr "Modo faixa única"
+
+msgid "fetching from auphonic.com ..."
+msgstr "obtendo de auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "O que mudou desde %s:"
+
+msgid "Update"
+msgstr "Atualizar"
+
+msgid "Later"
+msgstr "Mais tarde"
+
+msgid "Go back"
+msgstr "Voltar"
+
+msgid "About Video Podcast Magic"
+msgstr "Sobre o Video Podcast Magic"
+
+msgid "&File"
+msgstr "&Arquivo"
+
+msgid "&View"
+msgstr "E&xibir"
+
+msgid "&Player"
+msgstr "&Reprodutor"
+
+msgid "&Help"
+msgstr "A&juda"
+
+msgid "Play and pause"
+msgstr "Reproduzir e pausar"
+
+msgid "Fast forward"
+msgstr "Avanço rápido"
+
+msgid "Play forward, faster on every press"
+msgstr "Avançar, mais rápido a cada toque"
+
+msgid "Pause"
+msgstr "Pausa"
+
+msgid "One frame back"
+msgstr "Um quadro atrás"
+
+msgid "One frame forward"
+msgstr "Um quadro à frente"
+
+msgid "One second back"
+msgstr "Um segundo atrás"
+
+msgid "One second forward"
+msgstr "Um segundo à frente"
+
+msgid "Ten seconds back"
+msgstr "Dez segundos atrás"
+
+msgid "Ten seconds forward"
+msgstr "Dez segundos à frente"
+
+msgid "The manual"
+msgstr "O manual"
+
+msgid "What changed in this version"
+msgstr "O que mudou nesta versão"
+
+msgid "Look for a newer version now"
+msgstr "Procurar agora uma versão mais recente"
+
+msgid "Separating speakers"
+msgstr "Separando falantes"
+
+msgid "Separating ..."
+msgstr "Separando ..."
+
+msgid "Voice"
+msgstr "Voz"
+
+msgid "Break off"
+msgstr "Interromper"
+
+msgid "Breaking off ..."
+msgstr "Interrupção ..."
+
+msgid "Not on this machine"
+msgstr "Não nesta máquina"
+
+msgid "Reading the audio ..."
+msgstr "Lendo o áudio ..."
+
+msgid "Speakers"
+msgstr "Falantes"
+
+msgid "Speaker %d"
+msgstr "Falante %d"
+
+msgid "One more speaker in %s"
+msgstr "Mais um falante em %s"
+
+msgid "One more speaker in"
+msgstr "Mais um locutor"
+
+msgid "%d:%02d min"
+msgstr "%d:%02d min"
+
+msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
+msgstr "%s -- %d:%02d a %d:%02d (%.1f s)"
+
+msgid "%s and %d more"
+msgstr "%s e mais %d"
+
+msgid "%s speech time"
+msgstr "tempo de fala de %s"
+
+msgid "Output"
+msgstr "Saída"
+
+msgid "Access to auphonic.com"
+msgstr "Acesso a auphonic.com"
+
+msgid ""
+"Both are asked once and then stay. The key goes into the %s, never into a "
+"file."
+msgstr ""
+"Ambos são pedidos uma vez e ficam. A chave vai para o %s, nunca para um "
+"arquivo."
+
+msgid "Checking files"
+msgstr "Verificando arquivos"
+
+msgid "Measuring time axis"
+msgstr "Medindo o eixo do tempo"
+
+msgid "Resolve answers"
+msgstr "Resolve responde"
+
+msgid "Settings"
+msgstr "Configurações"
+
+msgid "Settings ..."
+msgstr "Configurações ..."
+
+msgid "done"
+msgstr "concluído"
+
+msgid ","
+msgstr "."
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Tipo"
+
+msgid "Speech time"
+msgstr "Tempo de fala"
+
+msgid "Share"
+msgstr "Parcela"
+
+msgid "Colour"
+msgstr "Cor"
+
+msgid "Preset"
+msgstr "Predefinição"
+
+msgid "Preset:"
+msgstr "Predefinição:"
+
+msgid "Start"
+msgstr "Iniciar"
+
+msgid "Production"
+msgstr "Produção"
+
+msgid "Target"
+msgstr "Alvo"
+
+msgid "none"
+msgstr "nenhum"
+
+msgid "Length"
+msgstr "Duração"
+
+msgid "no camera of its own"
+msgstr "sem câmera própria"
+
+msgid "do not use"
+msgstr "não usar"
+
+msgid "several speakers"
+msgstr "vários locutores"
+
+msgid "Content"
+msgstr "Conteúdo"
+
+msgid "Intro"
+msgstr "Abertura"
+
+msgid "Outro"
+msgstr "Encerramento"
+
+msgid "ignore this video"
+msgstr "ignorar este vídeo"
+
+msgid "Open project ..."
+msgstr "Abrir projeto ..."
+
+msgid "Save project"
+msgstr "Salvar projeto"
+
+msgid "Close project"
+msgstr "Fechar projeto"
+
+msgid "Guest"
+msgstr "Convidado"
+
+msgid "Host"
+msgstr "Apresentador"
+
+msgid "Host %d"
+msgstr "Apresentador %d"
+
+msgid "Skip this version"
+msgstr "Ignorar esta versão"
+
+msgid "Project found"
+msgstr "Projeto encontrado"
+
+msgid "Open the project"
+msgstr "Abrir o projeto"
+
+msgid "not readable"
+msgstr "não legível"
+
+msgid "%d audio track"
+msgstr "%d faixa de áudio"
+
+msgid "%d audio tracks"
+msgstr "%d faixas de áudio"
+
+msgid "%d clip"
+msgstr "%d clipe"
+
+msgid "%d clips"
+msgstr "%d clipes"
+
+msgid "%d video track"
+msgstr "%d faixa de vídeo"
+
+msgid "%d video tracks"
+msgstr "%d faixas de vídeo"
+
+msgid "  (this file ends earlier)"
+msgstr "  (este arquivo termina antes)"
+
+msgid " (paused)"
+msgstr " (em pausa)"
+
+msgid " (playing)"
+msgstr " (reproduzindo)"
+
+msgid "%d channel"
+msgstr "%d canal"
+
+msgid "%d channels"
+msgstr "%d canais"
+
+msgid "%d file"
+msgstr "%d arquivo"
+
+msgid "%d files"
+msgstr "%d arquivos"
+
+msgid "... or add files ..."
+msgstr "... ou adicionar arquivos ..."
+
+msgid "Add files ..."
+msgstr "Adicionar arquivos ..."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Atribuição: qual faixa de áudio pertence a qual câmera"
+
+msgid "Audio"
+msgstr "Áudio"
+
+msgid "Bleed"
+msgstr "Vazamento"
+
+msgid "Blocks"
+msgstr "Blocos"
+
+msgid "Camera"
+msgstr "Câmera"
+
+msgid "Camera audio, %d to go ..."
+msgstr "Áudio da câmera, faltam %d ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- pré-visualização  (duração %s)"
+
+msgid "Cannot start yet: %s"
+msgstr "Ainda não pode começar: %s"
+
+msgid "Check again"
+msgstr "Verificar de novo"
+
+msgid "Close"
+msgstr "Fechar"
+
+msgid "Drag audio and video files here"
+msgstr "Arraste aqui os arquivos de áudio e vídeo"
+
+msgid "Fetching audio"
+msgstr "Obtendo o áudio"
+
+msgid "Fetching audio ..."
+msgstr "Obtendo o áudio ..."
+
+msgid "File"
+msgstr "Arquivo"
+
+msgid "Drag to move the position."
+msgstr "Arraste para mover a posição."
+
+msgid "Keychain"
+msgstr "Chaveiro"
+
+msgid "Measuring time axis ..."
+msgstr "Medindo o eixo do tempo ..."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Multipista (uma faixa por locutor)"
+
+msgid "No files or project opened yet."
+msgstr "Ainda não foi aberto nenhum arquivo nem projeto."
+
+msgid "No files selected yet."
+msgstr "Ainda nenhum arquivo selecionado."
+
+msgid "Not ready yet:"
+msgstr "Ainda não está pronto:"
+
+msgid "One frame back."
+msgstr "Um quadro atrás."
+
+msgid "One second back."
+msgstr "Um segundo atrás."
+
+msgid "Only one speaker"
+msgstr "Apenas um falante"
+
+msgid "Open result folder"
+msgstr "Abrir a pasta de resultados"
+
+msgid "Overwrite"
+msgstr "Sobrescrever"
+
+msgid "Overwrite files"
+msgstr "Sobrescrever arquivos"
+
+msgid "Play and pause."
+msgstr "Reproduzir e pausar."
+
+msgid "Preview running ..."
+msgstr "Pré-visualização em curso ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Trabalho prévio -- ler o áudio e calcular as envolventes:\n"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Processamento em auphonic.com (opcional)"
+
+msgid "Production name"
+msgstr "Nome da produção"
+
+msgid "Resolve running ..."
+msgstr "Resolve em curso ..."
+
+msgid "Save in Keychain"
+msgstr "Salvar no Chaveiro"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Locutores, medidos pelo programa a partir das faixas"
+
+msgid "Ten seconds back."
+msgstr "Dez segundos atrás."
+
+msgid ""
+"The audio recording of every speaker, plus the cameras.\n"
+"The order does not matter -- the program recognises what is what.\n"
+"For a multi-part recording the first block is enough."
+msgstr ""
+"A gravação de áudio de cada locutor, mais as câmeras.\n"
+"A ordem não importa -- o programa reconhece o que é o quê.\n"
+"Para uma gravação em várias partes basta o primeiro bloco."
+
+msgid "%s -- being checked"
+msgstr "%s -- sendo verificado"
+
+msgid "Open Keychain Access"
+msgstr "Abrir Acesso às Chaves"
+
+msgid "There is no result yet."
+msgstr "Ainda não há resultado."
+
+msgid "To the In point."
+msgstr "Ao ponto de entrada."
+
+msgid "To the start."
+msgstr "Ao início."
+
+msgid "Track"
+msgstr "Faixa"
+
+msgid "Video"
+msgstr "Vídeo"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- falar ao mesmo tempo conta duas vezes"
+
+msgid "Wide shot at most"
+msgstr "Plano geral no máximo"
+
+msgid "Wide shot at the latest"
+msgstr "Plano geral o mais tardar"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Plano geral para a saudação no início e a despedida no fim"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- só abaixa, nunca aumenta"
+
+msgid "average"
+msgstr "média"
+
+msgid "checking ..."
+msgstr "verificando ..."
+
+msgid "complete"
+msgstr "completo"
+
+msgid "hear assigned audio"
+msgstr "ouvir o áudio atribuído"
+
+msgid "next to each video file"
+msgstr "ao lado de cada arquivo de vídeo"
+
+msgid "not checked yet"
+msgstr "ainda não verificado"
+
+msgid "nothing loaded yet"
+msgstr "ainda nada carregado"
+
+msgid "nothing selected"
+msgstr "nada selecionado"
+
+msgid "off"
+msgstr "desligado"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "faixas já processadas encontradas -- nada é enviado"
+
+msgid "reset"
+msgstr "redefinir"
+
+msgid "running ..."
+msgstr "em execução ..."
+
+msgid "selected"
+msgstr "selecionado"
+
+msgid "shorter shots are merged in"
+msgstr "planos mais curtos são fundidos"
+
+msgid "the picture changes this much later than the sound"
+msgstr "a imagem muda isto mais tarde que o som"
+
+msgid "unspecified"
+msgstr "não especificado"
+
+msgid "Files && production"
+msgstr "Arquivos && produção"
+
+msgid "Assignment && time window"
+msgstr "Atribuição && janela de tempo"
+
+msgid "Resolve cut"
+msgstr "Corte no Resolve"
+
+msgid "Camera audio"
+msgstr "Áudio da câmera"
+
+msgid "Camera audio %s"
+msgstr "Áudio da câmera %s"
+
+msgid "a track of its own"
+msgstr "uma faixa própria"
+
+msgid "with Channel %d one stereo track"
+msgstr "com o canal %d uma faixa estéreo"
+
+msgid "not found"
+msgstr "não encontrado"
+
+msgid "a recording of its own"
+msgstr "uma gravação própria"
+
+msgid "Cameras only"
+msgstr "Apenas câmeras"
+
+msgid "End %s"
+msgstr "Fim %s"
+
+msgid "Error"
+msgstr "Erro"
+
+msgid "Mark In"
+msgstr "Marcar entrada"
+
+msgid "Mark Out"
+msgstr "Marcar saída"
+
+msgid "Minimum Edit Duration"
+msgstr "Duração mínima do plano"
+
+msgid "No files given."
+msgstr "Nenhum arquivo informado."
+
+msgid "Speaker"
+msgstr "Locutor"
+
+msgid "Start %s"
+msgstr "Início %s"
+
+msgid "Take from source files"
+msgstr "Obter dos arquivos de origem"
+
+msgid "Take the camera audio"
+msgstr "Usar o áudio da câmera"
+
+msgid "Transfer"
+msgstr "Transferir"
+
+msgid "Wide shot after"
+msgstr "Plano geral após"
+
+msgid "no folder"
+msgstr "sem pasta"
+
+msgid "no text"
+msgstr "sem texto"
+
+msgid "unnamed"
+msgstr "sem nome"
+
+msgid "Audio recording"
+msgstr "Gravação de áudio"
+
+msgid "Building the sum"
+msgstr "Construindo a soma"
+
+msgid "Camera cut"
+msgstr "Corte de câmera"
+
+msgid "%s -- preview"
+msgstr "%s -- pré-visualização"
+
+msgid "Cancel"
+msgstr "Cancelar"
+
+msgid "Connect"
+msgstr "Conectar"
+
+msgid "Connection to Resolve"
+msgstr "Conexão com o Resolve"
+
+msgid "Continue"
+msgstr "Continuar"
+
+msgid "Create Resolve project"
+msgstr "Criar projeto do Resolve"
+
+msgid "In point %s"
+msgstr "Ponto de entrada %s"
+
+msgid "Out point %s"
+msgstr "Ponto de saída %s"
+
+msgid "Dry run"
+msgstr "Execução de teste"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, radiodifusão"
+
+msgid "Go ahead"
+msgstr "Prosseguir"
+
+msgid "Keep it saved"
+msgstr "Mantê-lo salvo"
+
+msgid "Measure"
+msgstr "Medir"
+
+msgid "Measuring loudness"
+msgstr "Medindo a sonoridade"
+
+msgid "Merge them"
+msgstr "Uni-los"
+
+msgid "do not use the audio"
+msgstr "não usar o áudio"
+
+msgid "use the audio"
+msgstr "usar o áudio"
+
+msgid "Mute."
+msgstr "Silenciar."
+
+msgid "No project open."
+msgstr "Nenhum projeto aberto."
+
+msgid "Not recognised"
+msgstr "Não reconhecido"
+
+msgid "Note"
+msgstr "Nota"
+
+msgid "One frame forward."
+msgstr "Um quadro à frente."
+
+msgid "One second forward."
+msgstr "Um segundo à frente."
+
+msgid "Output folder"
+msgstr "Pasta de saída"
+
+msgid "Choose the output folder"
+msgstr "Escolher a pasta de saída"
+
+msgid "Output folder ..."
+msgstr "Pasta de saída ..."
+
+msgid "Podcast directories, mono"
+msgstr "Diretórios de podcast, mono"
+
+msgid "Podcast directories, stereo"
+msgstr "Diretórios de podcast, estéreo"
+
+msgid "Preview player"
+msgstr "Reprodutor de pré-visualização"
+
+msgid "Preview player%s"
+msgstr "Reprodutor de pré-visualização%s"
+
+msgid "Processing"
+msgstr "Processamento"
+
+msgid "Project"
+msgstr "Projeto"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "a partir daqui procura-se um bom momento para isso"
+
+msgid "and here it is cut, good moment or not"
+msgstr "e aqui se corta, seja bom momento ou não"
+
+msgid "After a question"
+msgstr "Após uma pergunta"
+
+msgid "Question"
+msgstr "Pergunta"
+
+msgid "Remove"
+msgstr "Remover"
+
+msgid "Remove all"
+msgstr "Remover tudo"
+
+msgid "Remove from list"
+msgstr "Remover da lista"
+
+msgid "Resolve answers%s"
+msgstr "Resolve responde%s"
+
+msgid "Show in Finder."
+msgstr "Mostrar no Finder."
+
+msgid "Silence"
+msgstr "Silêncio"
+
+msgid "Speaker name"
+msgstr "Nome do falante"
+
+msgid "Speaker names"
+msgstr "Nomes dos falantes"
+
+msgid "Ten seconds forward."
+msgstr "Dez segundos à frente."
+
+msgid "Window %s%s"
+msgstr "Janela %s%s"
+
+msgid "audio file"
+msgstr "arquivo de áudio"
+
+msgid "cancel"
+msgstr "cancelar"
+
+msgid "cancelled"
+msgstr "cancelado"
+
+msgid "nothing"
+msgstr "nada"
+
+msgid "nothing to do"
+msgstr "nada a fazer"
+
+msgid "to In point"
+msgstr "ao ponto de entrada"
+
+msgid "to Out point"
+msgstr "ao ponto de saída"
+
+msgid "too short"
+msgstr "curto demais"
+
+msgid "unknown"
+msgstr "desconhecido"
+
+msgid "video file"
+msgstr "arquivo de vídeo"
+
+msgid "%d audio recording"
+msgstr "%d gravação de áudio"
+
+msgid "%d audio recordings"
+msgstr "%d gravações de áudio"
+
+msgid "%d camera"
+msgstr "%d câmera"
+
+msgid "%d cameras"
+msgstr "%d câmeras"
+
+msgid "%d video file"
+msgstr "%d arquivo de vídeo"
+
+msgid "%d video files"
+msgstr "%d arquivos de vídeo"
+
+msgid "Caution"
+msgstr "Atenção"
+
+msgid "on"
+msgstr "ligado"
+
+msgid "First cut by speaker"
+msgstr "Primeiro corte por falante"
+
+msgid "Speakers, separated by voice"
+msgstr "Falantes, separados por voz"
+
+msgid "Reading the plan"
+msgstr "Lendo o plano"
+
+msgid "Audio out of the cameras"
+msgstr "Áudio das câmeras"
+
+msgid "Common time axis"
+msgstr "Eixo de tempo comum"
+
+msgid "Processing at auphonic.com"
+msgstr "Processamento em auphonic.com"
+
+msgid "Loudness"
+msgstr "Sonoridade"
+
+msgid "Loudness and levels"
+msgstr "Sonoridade e níveis"
+
+msgid "Who speaks when"
+msgstr "Quem fala quando"
+
+msgid "Writing the camera files"
+msgstr "Gravando os arquivos de câmera"
+
+msgid "Handover and result"
+msgstr "Entrega e resultado"
+
+msgid "measurement running ..."
+msgstr "medição em curso ..."
+
+msgid "Looking at the channels"
+msgstr "Examinando os canais"
+
+msgid "unused input -- ignored"
+msgstr "entrada não usada -- ignorada"
+
+msgid "uncertain -- %s"
+msgstr "incerto -- %s"
+
+msgid "Language"
+msgstr "Idioma"
+
+msgid "not set"
+msgstr "não definido"
+
+msgid "German"
+msgstr "Alemão"
+
+msgid "English"
+msgstr "Inglês"
+
+msgid "French"
+msgstr "Francês"
+
+msgid "Spanish"
+msgstr "Espanhol"
+
+msgid "Italian"
+msgstr "Italiano"
+
+msgid "Dutch"
+msgstr "Holandês"
+
+msgid "Portuguese"
+msgstr "Português"
+
+msgid "Polish"
+msgstr "Polonês"
+
+msgid "Russian"
+msgstr "Russo"
+
+msgid "Swedish"
+msgstr "Sueco"
+
+msgid "Danish"
+msgstr "Dinamarquês"
+
+msgid "Norwegian"
+msgstr "Norueguês"
+
+msgid "Finnish"
+msgstr "Finlandês"
+
+msgid "Czech"
+msgstr "Tcheco"
+
+msgid "Turkish"
+msgstr "Turco"
+
+msgid "Greek"
+msgstr "Grego"
+
+msgid "Hungarian"
+msgstr "Húngaro"
+
+msgid "Romanian"
+msgstr "Romeno"
+
+msgid "Ukrainian"
+msgstr "Ucraniano"
+
+msgid "Catalan"
+msgstr "Catalão"
+
+msgid "Arabic"
+msgstr "Árabe"
+
+msgid "Hebrew"
+msgstr "Hebraico"
+
+msgid "Japanese"
+msgstr "Japonês"
+
+msgid "Chinese"
+msgstr "Chinês"
+
+msgid "Korean"
+msgstr "Coreano"
+
+msgid "Speaks at least"
+msgstr "Fala pelo menos"
+
+msgid "below this the camera does not follow"
+msgstr "abaixo disto a câmera não acompanha"
+
+msgid "Answer on screen earlier"
+msgstr "Resposta antes na tela"
+
+msgid "before the question ends"
+msgstr "antes de a pergunta acabar"
+
+msgid "Wide shot at least"
+msgstr "Plano geral pelo menos"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "o plano geral inserido dura pelo menos isto"
+
+msgid "and at most this long"
+msgstr "e no máximo esta duração"
+
+msgid "Long monologue"
+msgstr "Monólogo longo"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "uma pessoa continua falando além de \"Plano geral após\""
+
+msgid "Several speak at once"
+msgstr "Vários falam ao mesmo tempo"
+
+msgid "and no camera shows exactly them"
+msgstr "e nenhuma câmera mostra exatamente eles"
+
+msgid "Nobody speaks"
+msgstr "Ninguém fala"
+
+msgid "no voice is heard at all here"
+msgstr "aqui não se ouve voz nenhuma"
+
+msgid "Short gap up to"
+msgstr "Pausa curta até"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "um silêncio assim longo deixa a imagem parada"
+
+msgid "Recognition uncertain"
+msgstr "Reconhecimento incerto"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "o reconhecimento de locutores se desfia ou deixa um monte"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "a imagem passa para a resposta antes de ela começar"
+
+msgid "Wide shot"
+msgstr "Plano geral"
+
+msgid "Wide shot %d"
+msgstr "Plano geral %d"
+
+msgid "(wide shot)"
+msgstr "(plano geral)"
+
+msgid "No speaker"
+msgstr "Nenhum falante"
+
+msgid "Listener"
+msgstr "Quem escuta"
+
+msgid "Alternating"
+msgstr "Alternando"
+
+msgid "No camera change"
+msgstr "Sem troca de câmera"
+
+msgid "Hold a short gap"
+msgstr "Manter uma pausa curta"
+
+msgid "do not go early"
+msgstr "não ir antes"
+
+msgid "Answering speaker"
+msgstr "Quem responde"
