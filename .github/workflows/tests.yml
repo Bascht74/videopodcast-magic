@@ -511,6 +511,29 @@ jobs:
           # spells one of them differently this stops rather than
           # quietly installing everything.
           if [ "$SPEAKER_SPLIT" = "true" ]; then
+            # On Linux pip's default answer for torch is the CUDA build.
+            # Measured 5.9.2026 on run 33955547419: this step fetches
+            # 3504 MB there, and 2188 MB of that is fourteen nvidia_*
+            # packages -- 62 %, and not one byte of it is reachable on a
+            # builder with no graphics card. It is also what fills the
+            # cache: 12.6 GB against a limit of 10.
+            #
+            # The CPU build carries the same version numbers, checked in
+            # the index before this was written rather than assumed:
+            # torch 2.14.0+cpu and torchvision 0.29.0+cpu exist for
+            # cp310 and cp314 on manylinux_2_28_x86_64, and those are
+            # the two the jobs run. So what is tested is the same
+            # program, without the part of it that cannot be used here.
+            #
+            # Linux only: macOS and Windows have no CUDA build to fall
+            # into, and pip already fetches the plain wheel there. And
+            # ahead of the list, so pyannote finds torch already in
+            # place and does not pull the other one in behind it.
+            if [ "$RUNNER_OS" = "Linux" ]; then
+              python -m pip install \
+                --index-url https://download.pytorch.org/whl/cpu \
+                torch torchvision
+            fi
             python -m pip install -r requirements-dev.txt
           else
             flat="$RUNNER_TEMP/requirements-flat.txt"
