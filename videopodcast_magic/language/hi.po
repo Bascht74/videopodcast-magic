@@ -28,11 +28,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "वाइड शॉट के साथ कट"
 
-msgid "on %d camera"
-msgstr "%d कैमरे पर"
+msgid "on %s camera"
+msgstr "%s कैमरे पर"
 
-msgid "on %d cameras"
-msgstr "%d कैमरों पर"
+msgid "on %s cameras"
+msgstr "%s कैमरों पर"
 
 msgid "no camera yet"
 msgstr "अभी कोई कैमरा नहीं"
@@ -154,8 +154,8 @@ msgstr "एक और वक्ता जोड़ें"
 msgid "%d:%02d min"
 msgstr "%d:%02d मि"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d से %d:%02d (%.1f से)"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d से %d:%02d (%s से)"
 
 msgid "%s and %d more"
 msgstr "%s और %d अन्य"
@@ -316,8 +316,14 @@ msgstr "%d चैनल"
 msgid "%d file"
 msgstr "%d फ़ाइल"
 
+msgid "%s file"
+msgstr "%s फ़ाइल"
+
 msgid "%d files"
 msgstr "%d फ़ाइलें"
+
+msgid "%s files"
+msgstr "%s फ़ाइलें"
 
 msgid "... or add files ..."
 msgstr "... या फ़ाइलें जोड़ें ..."
@@ -340,8 +346,8 @@ msgstr "खंड"
 msgid "Camera"
 msgstr "कैमरा"
 
-msgid "Camera audio, %d to go ..."
-msgstr "कैमरा ऑडियो, %d शेष ..."
+msgid "Camera audio, %s to go ..."
+msgstr "कैमरा ऑडियो, %s शेष ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- पूर्वावलोकन  (अवधि %s)"
@@ -778,23 +784,23 @@ msgstr "अज्ञात"
 msgid "video file"
 msgstr "वीडियो फ़ाइल"
 
-msgid "%d audio recording"
-msgstr "%d ऑडियो रिकॉर्डिंग"
+msgid "%s audio recording"
+msgstr "%s ऑडियो रिकॉर्डिंग"
 
-msgid "%d audio recordings"
-msgstr "%d ऑडियो रिकॉर्डिंग"
+msgid "%s audio recordings"
+msgstr "%s ऑडियो रिकॉर्डिंग"
 
-msgid "%d camera"
-msgstr "%d कैमरा"
+msgid "%s camera"
+msgstr "%s कैमरा"
 
-msgid "%d cameras"
-msgstr "%d कैमरे"
+msgid "%s cameras"
+msgstr "%s कैमरे"
 
-msgid "%d video file"
-msgstr "%d वीडियो फ़ाइल"
+msgid "%s video file"
+msgstr "%s वीडियो फ़ाइल"
 
-msgid "%d video files"
-msgstr "%d वीडियो फ़ाइलें"
+msgid "%s video files"
+msgstr "%s वीडियो फ़ाइलें"
 
 msgid "Caution"
 msgstr "सावधान"
