@@ -184,7 +184,8 @@ der das Wort erklärt, steht vorn.
   3:1-Regel misst“; `camera-cut`, „Sprecher ohne Auphonic messen“
 * **Uhrengang**: `overview`, „Was es einem abnimmt“; `command-line`, „Was
   mit Ton und Bild geschieht“; `interface`, „Die vier Reiter“
-* **Update**: `interface`, „Sich selbst aktuell halten“
+* **Update**: `interface`, „Sich selbst aktuell halten“;
+  `interface`, „Der Weg zurück auf eine ältere Version“
 * **Verknüpfung, Startmenü-Eintrag, Symbol**: `requirements`, „Wo es
   nach dem ersten Start auftaucht“
 * **Versatz**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton wählen“;

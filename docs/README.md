@@ -194,7 +194,8 @@ explains the word comes first.
 * **timecode, virtual**: `interface`, "How the time axis is measured"
 * **transcript**: `speech`, "How the program writes the text down";
   `auphonic`, "The transcript is made here"
-* **update**: `interface`, "Keeping itself up to date"
+* **update**: `interface`, "Keeping itself up to date";
+  `interface`, "The way back to an earlier version"
 * **voice**: `speech`, "Naming the voices"
 * **wide shot**: `camera-cut`, "How the program places the wide shot";
   `camera-cut`, "How the cut comes about"; `camera-cut`, "What the picture

@@ -10,14 +10,16 @@ cannot pass over a real look.
 The sections: which version is newer, that only a newer one is
 offered, that a pre-release sorts under its release in both
 spellings, that nothing a user did once can stop the looking, that
-the switches which did that are gone, that what takes the place of
-this program is read first, that a copy no package manager owns is
-told rather than written over, that one version may be passed over,
-that a release text is shown in one language, what the command line
-says, what --update does to such a copy, that a look which could not
-happen says so instead of reading as nothing newer, that an
+the switches which did that are gone, that a copy no package manager
+owns is told rather than written over, that one version may be passed
+over, that a release text is shown in one language, what the command
+line says, what --update does to such a copy, that a look which could
+not happen says so instead of reading as nothing newer, that an
 installation goes to pip by the same command the window uses, and
 that the command names the release that was offered.
+
+The way back out of a version is not here: it is one road further
+on, and `run_way_back_offered_test.py` holds it.
 """
 import os
 import the_program
@@ -354,45 +356,7 @@ check("and the program refuses it the way it refuses a made-up name",
       "returned %d saying %r, while a made-up name returned %d saying %r"
       % (off_code, off_said[-70:], made_code, made_said[-70:]))
 
-print("\n6. What takes the place of this program is read first")
-# The last gate in front of restore_old_self. Since the program became
-# a folder and pip the only way into it, the file kept beside it as
-# .old is the only thing that ever takes its place, and there is
-# nothing behind it to fall back on.
-good = b'VERSION = "9.9.9"\nCATALOGUE = {}\n'
-text, trouble = vpm.self_checked(good)
-check("a whole program is taken", bool(text) and not trouble,
-      "%d of the %d characters came back, and the trouble was %r"
-      % (len(text or ""), len(good), trouble))
-text, trouble = vpm.self_checked(b'<html>404</html>')
-check("an error page is refused", not text and bool(trouble),
-      "<html>404</html> gave back %d characters of program, trouble %r"
-      % (len(text or ""), trouble))
-# The wording is not checked: the message goes through T() and is
-# German in a German run. What matters is that it is refused and that
-# a broken file and an error page do not get the same answer.
-text, trouble = vpm.self_checked(b'VERSION = "9"\nCATALOGUE = {\n')
-_, other = vpm.self_checked(b'<html>404</html>')
-check("something that does not compile is refused",
-      not text and bool(trouble),
-      "an unclosed brace gave back %d characters of program, trouble %r"
-      % (len(text or ""), trouble))
-check("and says something else than an error page does", trouble != other,
-      "the unclosed brace says %r, the 404 page says %r" % (trouble, other))
-# Held against the error page's reason too, not only against "it was
-# refused". The question under this one turns away anything that is
-# not this program, and it answers bytes that never decoded as well --
-# so the decoding could be taken out altogether and this stayed green.
-# Measured on 2.9.2026: decoding with errors="replace" left every
-# check in the file green.
-text, trouble = vpm.self_checked(b'\xff\xfe not text')
-check("bytes that are not text are refused, not as an error page",
-      not text and bool(trouble) and trouble != other,
-      "two bytes that are no utf-8 gave back %d characters of program,"
-      " trouble %r, where an error page says %r"
-      % (len(text or ""), trouble, other))
-
-print("\n7. A copy nobody installed is told, not written over")
+print("\n6. A copy nobody installed is told, not written over")
 # The way that is gone: one file was fetched from a tag and written
 # over the way in. That file has not been there since 4.9.2026, and
 # the program is a folder -- writing it would have left ui, cut,
@@ -421,7 +385,7 @@ check("and the sentence names the command that installs it properly",
       WAY_IN in said_no, "it said %r, wanted %r in it"
       % (said_no, WAY_IN))
 
-print("\n8. Passing over one version")
+print("\n7. Passing over one version")
 # The one answer left that a person can give, and it is about one
 # version: the next release has another name and asks again.
 import tempfile as _tf
@@ -494,7 +458,7 @@ finally:
 # The window shows one of them. Two windows show this text and only one
 # was cutting, so a German reader was handed the English half -- and it
 # is the half that comes first.
-print("\n9. The window shows one language")
+print("\n8. The window shows one language")
 TWO = ("**English**\n\n### Changed\n\n- the English point\n\n---\n\n"
        "**Deutsch**\n\n### Ge\u00e4ndert\n\n- der deutsche Punkt")
 
@@ -553,7 +517,7 @@ check("a release without the two halves is kept whole",
       "wanted 'just one language here' among the %d characters %r"
       % (len(text), text))
 
-print("\n10. The command line says it and fetches nothing")
+print("\n9. The command line says it and fetches nothing")
 # A run started out of a script must not stop to ask anything, so the
 # command line gets a line and no box. Fetching is a second step and
 # has its own switch.
@@ -628,7 +592,7 @@ check("and nothing is said where nothing is newer", quiet == "",
       "with github saying v1.0.0 to a running %s it printed %r"
       % (vpm.VERSION, quiet))
 
-print("\n11. --update against a copy pip never installed")
+print("\n10. --update against a copy pip never installed")
 # The switch is pip's road and pip's alone, so a copy running out of a
 # folder of its own has nothing for pip to update. It is pointed at a
 # copy of its own all the same: a switch that once wrote over the file
@@ -694,7 +658,7 @@ check("and with VPM_NO_UPDATE_CHECK it fetches nothing and says so",
       code == 1 and spoken.strip() != "",
       "returned %r and said %r, wanted 1 and a word" % (code, spoken.strip()))
 
-print("\n12. Not being able to look is not nothing new")
+print("\n11. Not being able to look is not nothing new")
 # The fault this is about: every failure came back as the empty answer,
 # which is what "there is nothing newer" looks like as well. Measured on
 # 3.9.2026 in a fresh environment without certifi -- the certificate
@@ -784,7 +748,7 @@ check("and it does not say there is nothing newer",
       "it said %r, where a look that happened and found nothing would say"
       " %r" % (sayable(spoken.strip()[:120]), NOTHING_NEW))
 
-print("\n13. An installation is updated by pip, by one command")
+print("\n12. An installation is updated by pip, by one command")
 # pip is the one thing here that must never be the real one. The
 # stand-in refuses a command whose program is not on this machine, the
 # way starting one really does, so a wrong call cannot come back

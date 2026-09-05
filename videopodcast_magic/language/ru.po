@@ -138,6 +138,12 @@ msgstr "Что изменилось в этой версии"
 msgid "Look for a newer version now"
 msgstr "Проверить наличие новой версии"
 
+msgid "Back to an earlier version ..."
+msgstr "Вернуться к более ранней версии ..."
+
+msgid "Back to an earlier version"
+msgstr "Вернуться к более ранней версии"
+
 msgid "Separating speakers"
 msgstr "Разделение говорящих"
 

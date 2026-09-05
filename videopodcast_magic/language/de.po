@@ -69,6 +69,39 @@ msgstr "%s ist installiert. Ab dem nächsten Start läuft sie."
 msgid "There is no window to show what pip says."
 msgstr "Es gibt kein Fenster, das zeigen könnte, was pip sagt."
 
+msgid "Back to an earlier version ..."
+msgstr "Zurück auf eine ältere Version ..."
+
+msgid "Back to an earlier version"
+msgstr "Zurück auf eine ältere Version"
+
+msgid "Could not look for earlier versions: %s"
+msgstr "Nach älteren Versionen ließ sich nicht suchen: %s"
+
+msgid "The list of earlier versions could not be read."
+msgstr "Die Liste der älteren Versionen war nicht lesbar."
+
+msgid "No version earlier than %s is out that pip can install."
+msgstr "Es gibt keine Version vor %s, die pip installieren kann."
+
+msgid "This is %s. Which version shall pip put in its place?"
+msgstr "Hier läuft %s. Welche Version soll pip an ihre Stelle setzen?"
+
+msgid ""
+"pip fetches it into %s, and what pip says appears under Output. The "
+"version chosen here runs from the next start.\n"
+"\n"
+"It brings the program back and nothing else. What a newer version wrote "
+"into the settings stays written, and projects and their files are left as "
+"they are."
+msgstr ""
+"pip holt sie nach %s, und was pip sagt, steht unter Ausgabe. Die hier "
+"gewählte Version läuft ab dem nächsten Start.\n"
+"\n"
+"Zurück kommt das Programm, sonst nichts. Was eine neuere Version in die "
+"Einstellungen geschrieben hat, bleibt geschrieben, und Projekte und ihre "
+"Dateien bleiben unberührt."
+
 msgid "an intro or outro with two channels is a stereo mix -- not measured"
 msgstr ""
 "ein Vorspann oder Abspann mit zwei Kanälen ist eine Stereomischung -- "
@@ -133,42 +166,8 @@ msgstr "Aktualisieren"
 msgid "Later"
 msgstr "Später"
 
-msgid "That file is not readable text."
-msgstr "Diese Datei ist kein lesbarer Text."
-
-msgid "That file is not this program."
-msgstr "Diese Datei ist nicht dieses Programm."
-
-msgid "That file does not compile: line %s."
-msgstr "Diese Datei lässt sich nicht übersetzen: Zeile %s."
-
-msgid "Back to %s"
-msgstr "Zurück auf %s"
-
-msgid "Back to the kept version"
-msgstr "Zurück auf die aufbewahrte Version"
-
-msgid "The kept version"
-msgstr "Die aufbewahrte Version"
-
 msgid "Go back"
 msgstr "Zurückgehen"
-
-msgid "There is no version kept beside this one."
-msgstr "Neben dieser Version liegt keine aufbewahrte."
-
-msgid "The kept version could not be read: %s"
-msgstr "Die aufbewahrte Version ließ sich nicht lesen: %s"
-
-msgid ""
-"The kept copy could not be removed: %s\n"
-"  It holds what is running now. %s can go."
-msgstr ""
-"Die aufbewahrte Kopie ließ sich nicht entfernen: %s\n"
-"  Sie enthält, was jetzt läuft. %s kann weg."
-
-msgid "The kept version could not be put in place: %s"
-msgstr "Die aufbewahrte Version ließ sich nicht einsetzen: %s"
 
 msgid "Starting again did not work: %s"
 msgstr "Der Neustart hat nicht geklappt: %s"
@@ -2054,21 +2053,6 @@ msgid ""
 msgstr ""
 "Nur diese eine. Die nächste Version fragt wieder, und Hilfe > Nach Update "
 "suchen fragt jederzeit."
-
-msgid ""
-"%s takes the place of %s, and the file kept beside this one is used up. "
-"Forward again means fetching %s over the network. The program starts "
-"again straight away.\n"
-"\n"
-"The next start offers %s once more: \"%s\" puts that off, \"%s\" passes "
-"over that one version."
-msgstr ""
-"%s tritt an die Stelle von %s, und die daneben aufbewahrte Datei ist "
-"aufgebraucht. Wieder vorwärts heißt %s über das Netz holen. Das Programm "
-"startet sofort neu.\n"
-"\n"
-"Der nächste Start bietet %s erneut an: „%s\" verschiebt das, „%s\" "
-"übergeht diese eine Version."
 
 msgid "  %s is there already -- not fetched twice"
 msgstr "  %s ist schon da -- nicht zweimal geholt"
