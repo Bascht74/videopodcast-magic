@@ -12330,10 +12330,10 @@ def redirect_console():
         # Header: version, time, machine -- and which copy of the
         # script this was. Several runnable copies of the same version
         # are the normal case here: the snapshot the test suite runs
-        # against, the .old the self-update leaves behind, the download
-        # in the Downloads folder. They share one log file, and without
-        # the path nobody can tell later why one run came out different
-        # from another.
+        # against, the one pip installed, a checkout somebody started
+        # by its path. They share one log file, and without the path
+        # nobody can tell later why one run came out different from
+        # another.
         file.write("Video Podcast Magic %s   %s   %s %s   %s\n%s\n\n"
                     % (VERSION,
                        time.strftime("%Y-%m-%d %H:%M:%S"),
@@ -13355,6 +13355,13 @@ PIP_SOURCE = "git+https://github.com/Bascht74/videopodcast-magic"
 UPDATE_SINK = None   # set by the GUI: callable(job) that runs job(say)
                      # in a thread, its lines going into the Output tab
 
+# How far back the way back reaches. Below v3.0.0b0 the repository is
+# no package at all -- v2.32.0-beta carries neither pyproject.toml nor
+# setup.py -- so pip sent there fetches what it cannot install. Twenty,
+# because a list longer than its window is no longer a choice.
+OLDEST_TO_GO_BACK_TO = "v3.0.0b0"
+MOST_TO_GO_BACK_TO = 20
+
 
 def update_skip_file():
     """Where the version somebody chose to pass over is kept."""
@@ -13383,6 +13390,42 @@ def set_update_skipped(tag):
     an answer about all of them, and nothing else here says no.
     """
     where = update_skip_file()
+    if not where:
+        return
+    try:
+        with open(where, "w", encoding="utf-8") as f:
+            f.write(str(tag or ""))
+    except OSError:
+        return
+
+
+def updated_from_file():
+    """Where the version the last install left behind is kept."""
+    folder = cache_folder()
+    return os.path.join(folder, "updated_from") if folder else ""
+
+
+def updated_from():
+    """The version that was running before the last install, or "".
+
+    Whoever goes looking for the way back has, nearly every time, just
+    been moved off exactly that version, so it is what the list of
+    earlier versions opens on. A guess and no more: it is the entry
+    that is picked out, never the only one on offer.
+    """
+    where = updated_from_file()
+    if not where or not os.path.exists(where):
+        return ""
+    try:
+        with open(where, encoding="utf-8") as f:
+            return f.read().strip()
+    except OSError:
+        return ""
+
+
+def set_updated_from(tag):
+    """Note the version an install that went through left behind."""
+    where = updated_from_file()
     if not where:
         return
     try:
@@ -13477,6 +13520,61 @@ def releases_in_between(newest, running):
                         for _k, tag, body in want if body)
 
 
+def older_releases(running):
+    """The versions to go back to, newest first, and why not: (list, "").
+
+    Older than *running* and never *running* itself, none below
+    OLDEST_TO_GO_BACK_TO, at most MOST_TO_GO_BACK_TO of them.
+
+    An empty list with nothing beside it means there is nothing older
+    to go back to. An empty list with a sentence means nobody knows,
+    and the two must not read alike: saying something reassuring where
+    nothing was seen is worse than saying it could not be seen.
+
+    The address answers with the newest thirty releases, so somebody
+    thirty releases behind gets nothing here. That is the right
+    answer for them: what they want is the way forward.
+    """
+    try:
+        import urllib.request
+        with urllib.request.urlopen(RELEASE_LIST, context=https_context(),
+                                    timeout=20) as answer:
+            found = json.load(answer)
+    except Exception as e:
+        return [], T('Could not look for earlier versions: %s') % e
+    if not isinstance(found, list):
+        return [], T('The list of earlier versions could not be read.')
+    floor, here = version_key(OLDEST_TO_GO_BACK_TO), version_key(running)
+    want = []
+    for one in found:
+        if not isinstance(one, dict) or one.get("draft"):
+            continue
+        tag = str(one.get("tag_name") or "")
+        if not tag:
+            continue
+        if floor <= version_key(tag) < here:
+            want.append((version_key(tag), tag))
+    want.sort(reverse=True)
+    return [tag for _key, tag in want[:MOST_TO_GO_BACK_TO]], ""
+
+
+def back_pick(older):
+    """Which of *older* the way back is opened on, or "" for none.
+
+    The version the last install left behind where it is still on
+    offer, otherwise the newest -- a note gone stale must not take
+    the choice with it. Held by version_key and not as text: what is
+    noted is this program's own VERSION, 3.0.0b4, while the release
+    carrying it is tagged v3.0.0b4, and as text those never meet.
+    """
+    was = updated_from()
+    if was:
+        for tag in older:
+            if version_key(tag) == version_key(was):
+                return tag
+    return older[0] if older else ""
+
+
 def newer_release(asked=False):
     """(tag, page, what changed, trouble) of a newer release.
 
@@ -13535,32 +13633,6 @@ def newer_release(asked=False):
     return (tag, str(found.get("html_url") or ""), whole or text, "")
 
 
-def self_checked(raw):
-    """Read before it is believed: (text, "") or ("", why).
-
-    Three questions of anything that is about to become this program:
-    is it readable text, does it look like this program rather than
-    like an error page somebody saved over it, and does it compile.
-    Asked of what lies beside the program as .old, which is the last
-    thing left that can take its place and has nothing behind it to
-    fall back on, so it is asked exactly as hard.
-    """
-    if isinstance(raw, bytes):
-        try:
-            text = raw.decode("utf-8")
-        except UnicodeDecodeError:
-            return "", T('That file is not readable text.')
-    else:
-        text = raw
-    if "VERSION = " not in text or "CATALOGUE" not in text:
-        return "", T('That file is not this program.')
-    try:
-        compile(text, "videopodcast_magic/__init__.py", "exec")
-    except SyntaxError as e:
-        return "", T('That file does not compile: line %s.') % e.lineno
-    return text, ""
-
-
 def not_installed_note():
     """The one sentence for "pip has nothing here to update".
 
@@ -13576,13 +13648,14 @@ def not_installed_note():
 
 
 def pip_update(tag, say):
-    """Let pip fetch that release. "" when it worked, or why not.
+    """Let pip put that release in place. "" when it worked, or why not.
 
-    The Python this is running in, so what gets the new version is the
-    installation that would run it, and *tag* on the address, because
-    the address alone is the head of the default branch while the line
-    at the end names the release. pip's lines go on as they arrive:
-    the first install fetches a gigabyte, and silence looks broken.
+    The one road, forwards and backwards alike: *tag* is a release
+    somebody chose, and a direct git address tells pip to install what
+    the address names rather than only to climb. The Python this is
+    running in, so what changes is the installation that would run,
+    and pip's lines go on as they arrive: the first install fetches a
+    gigabyte, and silence looks broken.
     """
     order = [sys.executable, "-m", "pip", "install", "-U",
              PIP_SOURCE + "@" + tag]
@@ -13598,6 +13671,10 @@ def pip_update(tag, say):
     if code:
         return T('pip stopped with %s. What it managed stands in the '
                  'lines above.') % code
+    # Written only where pip went through, and it is what was running
+    # until this moment: the way back opens on it, because whoever
+    # wants the way back has just been moved off that one version.
+    set_updated_from(VERSION)
     say(T('%s is installed. It runs from the next start.') % tag + "\n")
     return ""
 
@@ -13686,77 +13763,6 @@ def update_from_command_line():
         print(trouble)
         return 1
     return 0
-
-
-def old_self_file():
-    """The version kept beside this one by an update, or "".
-
-    Only when it is really there. The way back is not offered greyed
-    out where there is nothing to go back to -- a switch that can never
-    be pressed is a question nobody answers.
-    """
-    beside = os.path.abspath(__file__) + ".old"
-    return beside if os.path.isfile(beside) else ""
-
-
-def version_in_file(path):
-    """The version a copy of this program carries, or "".
-
-    Read out of the text, not by importing it: importing a file that
-    may be broken is the very thing the caller is trying to avoid.
-    """
-    try:
-        with open(path, encoding="utf-8", errors="replace") as f:
-            text = f.read()
-    except OSError:
-        return ""
-    found = re.search(r'^VERSION = "([^"]+)"', text, re.M)
-    return found.group(1) if found else ""
-
-
-def restore_old_self():
-    """Put the kept version back in place of this one. "" or why not.
-
-    The kept file is used up: afterwards it is the program and there is
-    no .old any more, so the entry offering this disappears by itself.
-    The way forward is the update over the network again, one file of
-    about a megabyte.
-
-    Nothing is touched unless the kept file passes the same three
-    checks an update passes. It is the only guard there is here.
-    """
-    beside = old_self_file()
-    if not beside:
-        return T('There is no version kept beside this one.')
-    try:
-        with open(beside, "rb") as f:
-            raw = f.read()
-    except OSError as e:
-        return T('The kept version could not be read: %s') % e
-    text, trouble = self_checked(raw)
-    if trouble:
-        return trouble
-    here = os.path.abspath(__file__)
-    step = here + ".back"
-    try:
-        with open(step, "w", encoding="utf-8") as f:
-            f.write(text)
-        shutil.copymode(here, step)
-        # Written beside it and then moved over in one go: a program
-        # file caught half written is one that starts no more.
-        os.replace(step, here)
-    except OSError as e:
-        return T('The kept version could not be put in place: %s') % e
-    try:
-        os.remove(beside)
-    except OSError as e:
-        # The swap has happened, so this is not a failure -- but the
-        # leftover copy keeps the menu entry standing, and it now holds
-        # what is already running. Offering it again would do nothing,
-        # and somebody would wonder why. So it says so once.
-        print(T('The kept copy could not be removed: %s\n  It holds '
-                'what is running now. %s can go.') % (e, beside))
-    return ""
 
 
 def start_again():

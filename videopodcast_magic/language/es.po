@@ -117,6 +117,12 @@ msgstr "Qué ha cambiado en esta versión"
 msgid "Look for a newer version now"
 msgstr "Buscar ahora una versión más reciente"
 
+msgid "Back to an earlier version ..."
+msgstr "Volver a una versión anterior ..."
+
+msgid "Back to an earlier version"
+msgstr "Volver a una versión anterior"
+
 msgid "Separating speakers"
 msgstr "Separando hablantes"
 

@@ -628,7 +628,8 @@ ist ein untätiges.
 **Ansicht** nennt die Reiter beim Namen, statt sie zu nummerieren.
 **Hilfe** enthält den Weg in dieses Handbuch, **Was sich in dieser
 Version geändert hat**, **Protokoll dieses Laufs anzeigen**, **Nach
-Update suchen ...** und **Über Video Podcast Magic**. Über **Protokoll
+Update suchen ...**, **Zurück auf eine ältere Version ...** und **Über
+Video Podcast Magic**. Über **Protokoll
 dieses Laufs anzeigen** findet man das Protokoll überhaupt erst — vor
 dem Fenster wird nichts ausgegeben, was es nennen würde.
 
@@ -715,6 +716,47 @@ die Fassung, die funktioniert, ist unangetastet.
 Das Häkchen **Diese Version überspringen** legt eine Fassung beiseite.
 Bei der nächsten fragt das Fenster wieder, und über **Hilfe > Nach
 Update suchen ...** jederzeit.
+
+## Der Weg zurück auf eine ältere Version
+
+Eine neue Version kann es schlimmer machen statt besser. Der Ausweg
+heißt **Hilfe > Zurück auf eine ältere Version ...**, und dieser
+Eintrag steht immer da: dahinter liegt eine Frage an github, und kein
+Menü kennt die Antwort, bevor sie gestellt wurde.
+
+Das Fenster, das aufgeht, zeigt die Versionen, die vor der hier
+laufenden erschienen sind, die neueste zuoberst, höchstens zwanzig.
+Nichts steht darin, was älter ist als die erste Version, die sich
+überhaupt mit pip installieren ließ -- weiter zurück war das Programm
+noch kein Paket, und pip holt dort etwas, das es nicht einsetzen kann.
+**Vorausgewählt ist die Version, die das letzte Update abgelöst hat**,
+denn nach der sucht fast immer, wer hierherkommt; jede andere aus der
+Liste ist einen Klick entfernt.
+
+**Zurückgehen** übergibt die gewählte Version an pip, und zwar mit
+genau dem Befehl, den auch **Aktualisieren** ausführt: dieselbe
+Adresse, die gewählte Version hinten angehängt, in dem Python, in dem
+das Programm läuft. Was pip sagt, läuft in den vierten Reiter,
+**Ausgabe**, und ab dem nächsten Start läuft die gewählte Version. Ein
+zweites Verfahren gibt es dafür nicht -- vorwärts und rückwärts sind
+derselbe Weg, und verschieden ist nur, welche Version darauf genannt
+wird.
+
+**Zurück kommt das Programm, sonst nichts.** Die Einstellungen wandern
+nicht mit: was eine neuere Version hineingeschrieben hat, bleibt
+stehen, und die ältere liest es so, wie es dasteht. Projekte und die
+Dateien darin bleiben ebenfalls unberührt. Hat eine neue Version unter
+**Einstellungen ...** eine Antwort umgestellt und der Rückschritt setzt
+sie nicht zurück, dann geht das von Hand.
+
+Statt einer Liste können zwei Antworten kommen, und die beiden heißen
+Verschiedenes. Gibt es nichts Älteres, sagt das Fenster das. Ließ sich
+die Liste nicht holen -- kein Netz, oder ein Zertifikatsspeicher, den
+dieses Python nicht lesen kann --, dann sagt es das und behauptet
+nicht, es gebe keinen Weg zurück. Und wurde diese Kopie nicht mit pip
+installiert, sagt es auch das und nennt den Befehl, der sie richtig
+installiert: ohne Nachweis, welche Version liegt, hat pip nichts
+zurückzusetzen.
 
 ## Wie die Zeitachse gemessen wird
 
@@ -842,9 +884,14 @@ Jingle von einer Kamera unterschieden wird, die nichts gehört hat.
   Wahl — die ersten beiden nur, solange keine andere Datei die Marke
   hält; **Inhalt** und **Weitwinkel** sind gesperrt, und daran ändert
   auch keine Hand etwas.
-- **Das Update ging nicht durch**: die Datei, die funktioniert, bleibt
-  liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach Update
-  suchen ...** versucht es noch einmal.
+- **Das Update ging nicht durch**: die Version, die funktioniert,
+  bleibt liegen, und das Fenster sagt, was nicht stimmte. **Hilfe > Nach
+  Update suchen ...** versucht es noch einmal.
+- **Eine neue Version hat es schlimmer gemacht**: **Hilfe > Zurück auf
+  eine ältere Version ...** zeigt die Versionen vor dieser an und lässt
+  pip die gewählte wieder einsetzen. Zurück kommt das Programm, nicht
+  die Einstellungen -- siehe „Der Weg zurück auf eine ältere Version"
+  weiter oben.
 - **Beim Nachfragen mitschicken**: die Version aus `--version`, das
   Betriebssystem, `videopodcast-magic.log` und was man vorhatte, vor
   den Einzelheiten des Fehlers. Beide Player schreiben in dieses

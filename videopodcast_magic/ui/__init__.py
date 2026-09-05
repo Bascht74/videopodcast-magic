@@ -86,6 +86,7 @@ axis_answer_kept = PROGRAM.axis_answer_kept
 axis_still_valid = PROGRAM.axis_still_valid
 axis_with_blocks = PROGRAM.axis_with_blocks
 axis_worth_measuring = PROGRAM.axis_worth_measuring
+back_pick = PROGRAM.back_pick
 block_at = PROGRAM.block_at
 blocks_facts = PROGRAM.blocks_facts
 build_handover = PROGRAM.build_handover
@@ -168,7 +169,8 @@ multitrack_state_note = PROGRAM.multitrack_state_note
 names_used_twice = PROGRAM.names_used_twice
 newer_release = PROGRAM.newer_release
 no_place_message = PROGRAM.no_place_message
-old_self_file = PROGRAM.old_self_file
+not_installed_note = PROGRAM.not_installed_note
+older_releases = PROGRAM.older_releases
 open_in_file_manager = PROGRAM.open_in_file_manager
 open_key_store_app = PROGRAM.open_key_store_app
 open_page = PROGRAM.open_page
@@ -197,7 +199,6 @@ recordings_text = PROGRAM.recordings_text
 release_text_in = PROGRAM.release_text_in
 remembered_forget = PROGRAM.remembered_forget
 resolve_installed = PROGRAM.resolve_installed
-restore_old_self = PROGRAM.restore_old_self
 rules_from_cut_box = PROGRAM.rules_from_cut_box
 run_stages = PROGRAM.run_stages
 safe_filename = PROGRAM.safe_filename
@@ -258,7 +259,7 @@ trouble_log = PROGRAM.trouble_log
 unpack_kind = PROGRAM.unpack_kind
 update_fetched = PROGRAM.update_fetched
 update_promise = PROGRAM.update_promise
-version_in_file = PROGRAM.version_in_file
+updated_from = PROGRAM.updated_from
 video_envelope = PROGRAM.video_envelope
 video_facts = PROGRAM.video_facts
 video_summary = PROGRAM.video_summary
@@ -1388,7 +1389,12 @@ def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
     help_menu.addSeparator()
     act(help_menu, T('Look for a newer version now'),
         lambda: update_offer(window, asked=True))
-    restore_entry(act, help_menu, window)
+    # Always there, never greyed and never hidden: what stands behind
+    # it is a question to github, and no menu being built can know the
+    # answer. The entry that hid itself hid the way out for good, from
+    # the day the file it looked for stopped being written.
+    act(help_menu, T('Back to an earlier version ...'),
+        lambda: restore_offer(window))
     about = act(help_menu, T('About Video Podcast Magic'),
                 lambda: about_show(window))
     about.setMenuRole(QtGui.QAction.AboutRole)
@@ -5154,22 +5160,6 @@ def log_entry(act, where, window):
     alive()
     where.aboutToShow.connect(alive)
     return entry
-
-
-def restore_entry(act, where, window):
-    """Put the way back into the menu, where there is one to go back to.
-
-    Nothing at all where no update has left an .old beside the program:
-    greyed out would be a promise that cannot be kept. Read once, when
-    the menu is built -- going back starts the program over, so this
-    entry never outlives the file it names.
-    """
-    kept = old_self_file()
-    if not kept:
-        return
-    back = version_in_file(kept)
-    act(where, (T('Back to %s') % back) if back
-        else T('Back to the kept version'), lambda: restore_offer(window))
 
 
 # --- Helpers that hold nothing from gui() -----------------
@@ -12851,41 +12841,59 @@ def update_offer(window, asked=False):
 
 
 def restore_offer(window):
-    """Ask, then put the kept version back and start again.
+    """Ask which earlier version, then hand that one to pip.
 
-    Asked with the same weight as the update itself: it changes which
-    program runs from the next second on, and this way is the one
-    somebody takes when the newer one has just gone wrong on them.
+    The way somebody takes when the newer version has just gone wrong
+    on them, and it is asked with the weight of the update itself: it
+    decides which program runs from the next start. A list and not one
+    name, because the version that broke something is not always the
+    one before this, and the one before this is only the first guess.
     """
     QtWidgets = _qt_widgets()
-    beside = old_self_file()
-    if not beside:
+    title = T('Back to an earlier version')
+    owner = installed_by_a_package_manager()
+    if not owner:
+        # Nothing pip keeps a record of, so there is nothing for pip to
+        # put back. Said before a list is fetched that could not be
+        # acted on anyway.
+        warn_box(QtWidgets, window, title, not_installed_note())
         return
-    back = version_in_file(beside)
-    title = (T('Back to %s') % back) if back \
-        else T('Back to the kept version')
+    older, trouble = older_releases(VERSION)
+    if trouble or not older:
+        # Two different answers, and they must not read alike: one says
+        # nothing older is out, the other says nobody could look.
+        QtWidgets.QMessageBox.information(
+            window, title,
+            trouble or T('No version earlier than %s is out that pip can '
+                         'install.') % VERSION)
+        return
     box = QtWidgets.QDialog(window)
     box.setWindowTitle(title)
     box.setMinimumWidth(620)
     rows = QtWidgets.QVBoxLayout(box)
     rows.setContentsMargins(18, 16, 18, 14)
     rows.setSpacing(14)
-    head = QtWidgets.QLabel(title)
+    head = QtWidgets.QLabel(
+        T('This is %s. Which version shall pip put in its place?')
+        % VERSION)
     font = head.font()
     font.setBold(True)
     head.setFont(font)
     rows.addWidget(head)
-    # The buttons of the update window are named through T() rather
-    # than written out here: a name copied into a sentence points into
-    # thin air the day the button is renamed.
+    picked = QtWidgets.QComboBox()
+    picked.addItems(older)
+    picked.setCurrentIndex(older.index(back_pick(older)))
+    speaks_as(picked, title)
+    rows.addWidget(picked)
+    # What a step back does not do stands here rather than nowhere: it
+    # is the one thing about it that surprises people, and afterwards
+    # is too late.
     said = QtWidgets.QLabel(
-        T('%s takes the place of %s, and the file kept beside this one '
-          'is used up. Forward again means fetching %s over the '
-          'network. The program starts again straight '
-          'away.\n\nThe next start offers %s once more: "%s" puts that '
-          'off, "%s" passes over that one version.')
-        % (back or T('The kept version'), VERSION, VERSION, VERSION,
-           T('Later'), T('Skip this version')))
+        T('pip fetches it into %s, and what pip says appears under '
+          'Output. The version chosen here runs from the next '
+          'start.\n\nIt brings the program back and nothing else. What '
+          'a newer version wrote into the settings stays written, and '
+          'projects and their files are left as they are.') % owner)
     said.setWordWrap(True)
     rows.addWidget(said)
     feet = QtWidgets.QHBoxLayout()
@@ -12900,11 +12908,11 @@ def restore_offer(window):
     feet.addWidget(now)
     if box.exec() != QtWidgets.QDialog.Accepted:
         return
-    trouble = restore_old_self()
+    # The same road as the update, down to the command: pip is handed
+    # the tag that was chosen, and its lines go into the Output tab.
+    trouble = update_fetched(picked.currentText(), owner)
     if trouble:
         warn_box(QtWidgets, window, title, trouble)
-        return
-    start_again()
 
 
 def _qt_widgets():
