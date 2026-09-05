@@ -58,7 +58,7 @@ empty field and no voice rows. Nothing measured is lost -- the voices
 stay in the project and in the cache folder, and picking **several
 speakers** later brings them up at once, with their names and cameras
 and without computing again. The last column says how far that got and
-offers **Break off** while it runs ([Speech recognition and speaker
+offers **Stop** while it runs ([Speech recognition and speaker
 separation](speech.md)). Nothing there starts a separation: a name
 typed over **several speakers** hides the voice rows again and keeps
 what was worked out, and what brings them back is the answer in the

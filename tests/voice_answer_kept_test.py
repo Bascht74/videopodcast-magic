@@ -223,7 +223,7 @@ print("\nThe three buttons of the footer row")
 vpm.list_presets = lambda key: [("Podcast_Multitrack", "u1", True)]
 vpm.load_api_key = lambda: ""
 WANTED = {vpm.T('Start'), vpm.T('Dry run'), vpm.T('Settings ...'),
-          vpm.T('Break off')}
+          vpm.T('Stop')}
 step = [0]
 
 

@@ -8,6 +8,16 @@ order: 50
 
 # A commit message
 
+A commit is about to be made and its message written, or a subject line
+has to be judged before it goes into the log. This file decides what the
+subject has to carry, what belongs in the body and what does not, the
+two lines every message ends with, and when a commit is made at all.
+The worked cases -- subjects out of this repository that failed, with
+what would have stood instead, and the ones that carried -- are in
+`.claude/skills/commit/examples.md`.
+
+## The difficulty
+
 The message is read in a list, without the diff beside it. That is the
 whole difficulty. `git log --oneline` and the commit list on github.com
 show one line per commit and nothing else, and somebody scanning that
@@ -86,66 +96,13 @@ probe cannot be about worthiness, only about clarity, and it becomes:
 what about it?** A subject that fails both halves of the probe is not a
 subject.
 
-## Ten from this repository
+## Where the cases are
 
-Bad, and what would have carried instead:
-
-* `c746179` **"tests that check, and a rule that says how"** -- names
-  the smaller half of a commit that is six commits. Instead, six
-  subjects, among them `--multitrack with no video lays the recordings
-  against each other`, `a file that fits nothing and is far shorter is
-  proposed as "Intro"`, `"Close project" calls off the measuring too`,
-  and `seventeen tests checked less than their heading promised`.
-
-* `a268a82` **"what one way can do, the other can"** -- names neither
-  way nor what either does. Three commits, the first of them `--lufs is
-  applied on a run with no picture too`.
-
-* `9c76ea9` **"count the wobbles instead of losing them with the runs"**
-  -- "the wobbles" and "the runs" are shop words for a state only the
-  author knows. `wobbly.sh keeps the tests that are red beside others
-  and green alone`. The release check asking github.com for the
-  attachment is a second commit.
-
-* `5cd9077` **"three more points, and the manual on the loudness"** --
-  counts the work and names none of it. Two commits: `the changelog
-  gains the three fixes that came after it was written`, and `the
-  loudness chapter no longer calls the run with no picture an
-  exception`.
-
-* `80b6298` **"the picture of the cut shows the buttons where they
-  stay"** -- reads as if this commit had stopped the buttons moving. It
-  changed three PNGs. `the picture of the cut band, taken after the
-  reading stopped shifting the row`.
-
-* `f1aefe4` **"the test material speaks"** -- a sentence with no
-  referent. `the test microphones carry speech, so the separation finds
-  something in them`; the numbers -- none before, seven, four and five
-  now -- go in the body.
-
-* `fd428c7` **"the rename had turned off the release workflow"** --
-  names the fault well and stops there. `the release workflow has its
-  trigger back after a rename ate it`.
-
-Good, and why:
-
-* `c506337` **"say it when Resolve refuses one file per delivery"** --
-  quotes the setting by its name, says what the program does now.
-  Became a changelog point almost unchanged. It still carries 219 lines
-  of a new check that the subject does not mention: a right subject does
-  not make a commit one thing.
-
-* `f275a5f` **"the zoom buttons stay under the pointer"** -- the
-  reader's own experience, no shop words, and the measurement (104
-  pixels) sits in the body where it belongs.
-
-* `0fb9d5b` **"--head and --tail are gone"** -- names the two things
-  exactly as they stood on the command line. Anybody who used them knows
-  at once that this concerns them.
-
-* `d0e8771` **"a file that fits nowhere cannot be the wide shot
-  either"** -- names the entry that is barred and the rule behind it in
-  one line.
+**Ten from this repository, bad and good**, each with what would have
+carried instead or why it carried, stand in
+`.claude/skills/commit/examples.md`. That file is read when a subject
+line will not come, or when one has to be held against a line that
+worked -- not every time a commit is made.
 
 ## The body
 
@@ -217,3 +174,31 @@ first.
 **Nothing is pushed unless that was asked for too**, and a tag is its
 own decision -- see the `freigabe` skill for what has to be true before
 one is set.
+
+## Before it counts as done
+
+The pass before `git commit` runs.
+
+1. Was this commit asked for? If not, it is not made.
+2. Is `main` checked out? Then a branch comes first.
+3. Does the subject name the thing by the name somebody meets it under
+   -- a switch, an entry, a button, a file, a test, a chapter?
+4. Does it say what is different afterwards, rather than what the work
+   was or how much of it there was?
+5. Where something was broken: does the line say what holds now, not
+   only what failed?
+6. Can a stranger place every noun in it without the diff open?
+7. `git diff --stat`: do the files fall into groups that could have gone
+   out separately? Then this is two commits, not one.
+8. The probe: would the line pass as a changelog point -- or, where it
+   deserves no point, would a stranger know which thing changed and what
+   about it?
+9. Is the body plain words, with the reason and every number that was
+   measured?
+10. Is the date, the name, the file list and the story of the day out of
+    the body?
+11. `git log -1 --format=%B | tail -2` -- both trailer lines, in this
+    order?
+12. The loop over `origin/main..HEAD` -- does it print nothing? A commit
+    it names is amended before the next one is made.
+13. Is anything being pushed or tagged that nobody asked for?

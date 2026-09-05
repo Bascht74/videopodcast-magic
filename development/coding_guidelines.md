@@ -33,8 +33,9 @@ English as their technical language. It also has to sit well with
 third-party libraries, which carry English names anyway. What the user
 reads should be in the user's own language. That is what the catalogue
 is for. It stood at the end of the program until 4.9.2026 and lives in
-the folder `language/` beside it now, in a file of its own per language
--- `language/de.py` is the German one.
+the folder `language/` beside it now, in a PO file of its own per
+language -- `language/de.po` is the German one, `msgid` the English
+wording and `msgstr` what is said instead.
 
 **The seam is always a quoted string.** A German word never appears in
 an identifier, and it appears nowhere else in the source either. The

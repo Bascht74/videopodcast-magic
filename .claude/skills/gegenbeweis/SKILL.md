@@ -8,13 +8,19 @@ order: 40
 
 # Showing that a check bites
 
-Green says nothing about the program until the same check has been seen
-red with the thing it is about broken. **No change to a test and no new
-test is finished until its entry stands in
-`tests/state/counterproof`.**
+A check in `tests/` has just been written or changed, and it is green.
+This document says how the same check is shown to go red when the thing
+it is about is false, and how that proof is written into
+`tests/state/counterproof`. Two other skills point here instead of
+repeating it, so what stands below is the whole account. Why it is held
+so tightly is in `development/test_guidelines.md`, section 5.
 
-Why this is held so tightly is in `development/test_guidelines.md`,
-section 5. How to do it is here.
+## Green is not evidence
+
+**Green says nothing about the program until the same check has been
+seen red with the thing it is about broken. No change to a test and no
+new test is finished until its entry stands in
+`tests/state/counterproof`.**
 
 ## The run
 
@@ -60,6 +66,11 @@ which answers `de_DE`. The test then holds an English expectation
 against German output and goes **red for the wrong reason**, which is
 not a counter-proof but a lost hour. `run.sh` sets these three and the
 three beside them; a test started on its own has to set them itself.
+
+**The same warning stands in the `test-rot` and `test-neu` skills, and
+that repetition is deliberate** -- each of the three is reached without
+reading the other two, and a wrongly set `LANGUAGE` costs an hour, so it
+is not to be tidied away into one place.
 
 **Where the check is not about a place in the program but about a
 computation over data**, the falsified version belongs in the test
@@ -157,11 +168,13 @@ The five fields of an entry:
 5. **The red line, word for word.** It has to contain `FAIL`, and it
    must contain no tab, or it falls apart into several fields.
 
-The `open` rows are the census of what is still owed. **How many there
-are is not written down here**: a count of our own state goes stale
-between two commits, and a wrong one discourages. `bash run.sh
-source_checks_proved` says it, and `docs/notes/aufgaben.md` keeps what
-it said when somebody last looked.
+The `open` rows are the census of what is still owed. They are the
+ratchet: the number may fall, never rise. **So a new test gets a
+finished entry, not an `open` row** — an `open` row would raise it.
+**How many there are is not written down here**: a count of our own
+state goes stale between two commits, and a wrong one discourages. `bash
+run.sh source_checks_proved` says it, and `docs/notes/aufgaben.md` keeps
+what it said when somebody last looked.
 
 **A row is addressed by its wording, never by its line number.** The
 file is written by many hands in one night, and every entry above a row
@@ -174,9 +187,6 @@ unrelated file's counter-proof.
 looks the pair up. The same holds for a machine: a merge keyed on
 `(test, wording)` replaces the right row and cannot damage a
 neighbour's. One keyed on a line number can.
-They are the
-ratchet: the number may fall, never rise. **So a new test gets a
-finished entry, not an `open` row** — an `open` row would raise it.
 
 **Delete that test's `open` row in the same edit that adds its entry.**
 With both rows carrying the same wording, `source_checks_proved_test.py`
@@ -196,7 +206,8 @@ So a row survives the **file** being renamed, and it dies when a
   register twice, and the run says so.
 * **A finished row whose wording no check says any more** is just as
   red. Whoever rewords a check takes its old row out and earns a new
-  one — see §12 of `test-neu`.
+  one. §12 of `test-neu` says why a check whose name is computed can
+  never have a row at all.
 
 Both only happen when nothing else in that run is red. And
 `source_checks_proved_test.py` writes the file back itself — do not edit it by
@@ -239,28 +250,31 @@ checks, and the ratchet said nothing (`80f46d5`, 1.9.2026).
 ## When the counter-proof will not go red
 
 **Then the first question is: the check, or the stand-in?** Anybody who
-does not ask it is taking a generous stand-in for a check that passed.
+does not ask it is taking a generous stand-in for a check that passed --
+and invisibly, because everything stays green.
 
 **A stand-in has to be at least as strict as the real thing in every
-point the check touches.** Two ways it fails to be, and both have
-happened here:
+point the check touches.** Four questions, and the two cases in the
+middle have both happened here:
 
-* **It invents what the real thing refuses.** A stand-in media pool
+* **Does it allow more than the real thing?** That is the general form,
+  and the three below are the shapes it has taken.
+* **Does it invent what the real thing refuses?** A stand-in media pool
   created every track it was asked for. The check "only one video track
   was made" was green while things sat on tracks that did not exist.
   How to spot it: the check stays green when you ask the program for
   something plainly impossible. Ask the stand-in for something that
   cannot exist — if it answers politely, the stand-in is the fault.
-* **It lacks a method whose absence the real thing would make felt.** A
-  stand-in timeline had no way to delete a track. The function that
-  removes empty tracks ran into a swallowed exception, and ten empty
-  tracks survived every run. How to spot it: **an `except` that prints
-  nothing**, in the program as in the stand-in. Find the ones on the
-  path the check takes, and make them talk once.
-
-**The swallowed exception is the dangerous case**, because not even a
-traceback appears: the program asks for something the stand-in does not
-have, and the test sees none of it.
+* **Is it missing a call whose absence the real thing would make
+  noticeable?** A stand-in timeline had no way to delete a track. The
+  function that removes empty tracks ran into a swallowed exception, and
+  ten empty tracks survived every run. How to spot it: **an `except`
+  that prints nothing**, in the program as in the stand-in. Find the
+  ones on the path the check takes, and make them talk once.
+* **Does an `except` swallow the answer?** **The swallowed exception is
+  the dangerous case**, because not even a traceback appears: the
+  program asks for something the stand-in does not have, and the test
+  sees none of it.
 
 **So the counter-proof tests not only the check but the scaffolding
 under it.** That is its second return.
@@ -275,3 +289,20 @@ only be false outside this program — a third-party tool that cannot be
 broken without being replaced — then a stricter stand-in is the
 counter-proof, or it is a smoke test and says so in its head. **What
 does not count as a reason: there are a lot of them.**
+
+## Before it counts as done
+
+1. The whole program folder copied into scratch space, not the file in it?
+2. Exactly one thing broken -- a sign, a limit, a call -- and nothing larger?
+3. The run carried `LANG=C LC_ALL=C LANGUAGE=en` and a `VPM_CACHE` of its own?
+4. This broken copy carries a serial number no earlier one has used?
+5. The red line read -- does it name what you broke, and not a missing file?
+6. One row per check, changed ones as well as new, and never one per file?
+7. All five fields: test, date, wording, what was broken, the red line?
+8. Is what was broken precise enough to repeat without thinking?
+9. That test's `open` row deleted in the same edit that added the entry?
+10. Every row and hand-off addressed by test and wording, never by line?
+11. A touched check whose wording held still: fourth field quoted, answered yes?
+12. If it would not go red: was the stand-in asked before the check was blamed?
+13. Other checks that should have caught it and stayed green -- reported?
+14. `bash run.sh source_checks_proved` green, with nothing else red in it?

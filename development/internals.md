@@ -13,10 +13,18 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in and holds most of the
-program; each piece that has moved out sits beside it in a folder of
-its own -- `language/` holds a file per language that holds nothing but
-texts, `ui/` holds the window and everything it shows, asks or offers.
-`models/` holds the speaker model. There is nothing to build.
+program -- 17 975 lines. Five pieces have moved out, and each sits
+beside it in a folder of its own with an `__init__.py` in it: `ui/`
+holds the window and everything it shows, asks or offers (12 857
+lines); `cut/` who is on camera when, and what carries it out of here
+(3 916); `resolve/` the project in DaVinci Resolve, timelines, colour,
+render and markers (2 740); `speech/` what is said and when, and what
+is written down from it (1 127); `language/` a `.po` file per language,
+nothing but texts in it, and the reader that looks one up (198). All
+counted 5.9.2026, and the figure of the day is `wc -l`, not this
+paragraph. `models/` is a sixth folder and the odd one out: the speaker
+model lives there and no code at all, so `beside()` never reaches for
+it. There is nothing to build.
 
 **How a piece is joined on, and why it is not an import.** `beside()`
 reads the piece out of the folder and hands the program in before the
@@ -33,15 +41,29 @@ and nothing inside knows the difference: it is the same code either
 way, and the name carries an underscore only because a hyphen cannot be
 imported.
 
+**The catalogues only travel because they are named.** setuptools packs
+`.py` and nothing else, so `[tool.setuptools.package-data]` in
+`pyproject.toml` names `"videopodcast_magic.language" = ["*.po"]`.
+Before that line stood there the built wheel held not one `.po` file,
+and nothing went red over it: it was found by looking inside the wheel,
+which is the only place it shows. Both halves measured 5.9.2026 -- the
+same package built without the line puts no `.po` into the wheel and
+with it puts them in, and a copy of the program with every `.po`
+deleted starts, still answers `languages()` with all nine codes, holds
+an empty `CATALOGUE["de"]`, and says everything in English.
+
 **It was a single file, on purpose, until 4.9.2026, and that day it
 became a folder.** The catalogue was the first piece to move out and
 the rest followed the same day. The large file is still large and
 further cuts are to come, but the shape is now the one aimed at: a
 folder with an `__init__.py` in it and no single program file left. One
 thing follows from it, and it holds whatever the next cut does: **the
-program is never copied out of its folder.** It reads its texts out of
+program is never copied out of its folder.** It reads its pieces out of
 the folder it sits in, so the folder travels whole or the copy stops
-during the import with a `FileNotFoundError` on `language/de.py`.
+during the import with a `FileNotFoundError` on `language/__init__.py`,
+the reader beside it -- measured 5.9.2026 with the lone file copied out.
+The `.po` files are the quieter half of the same rule: without them the
+program starts and says everything in English, and nothing complains.
 
 One rule holds inside it: everything that computes or decides sits as a
 function at the top level and can be tested without a window. `gui()`
@@ -689,14 +711,18 @@ rate gives.
 ## German and English: what lives where
 
 The whole source is English: names, messages, comments. German exists
-only as translation strings, in `language/de.py` in the program's own
-folder, keyed by the English text. That file holds one name,
-`TEXTS`, and no code, so that a translator can work in it without
-reading the program -- 1 498 entries, counted 4.9.2026.
+only as translation strings, in `language/de.po` in the program's own
+folder, keyed by the English text. That file is PO and holds no code at
+all: one entry per message, `msgid` the English wording the program is
+written in and `msgstr` what is said instead, so that a translator can
+work in it without reading the program -- 1 531 entries, counted
+5.9.2026.
 
-`texts_of_language("de")` reads it out of the folder the program sits
-in, not by import name: a program loaded from an absolute path, which
-is how every test loads it, leaves its own folder off the search path.
+`texts_of_language("de")` -- the project's own reader in
+`language/__init__.py`, not `gettext` and not `polib`, and nothing is
+compiled -- reads it out of the folder the program sits in, not by
+import name: a program loaded from an absolute path, which is how every
+test loads it, leaves its own folder off the search path.
 What comes back is put into `CATALOGUE`, keyed by the language code.
 `T()` looks a text up there; a missing entry shows English rather than
 a gap.
@@ -721,10 +747,10 @@ they always go English. The CSV files are comma separated with a full
 stop as the decimal mark, in every language: two runs have to stay
 comparable.
 
-A further language is one file and one line: copy
-`language/de.py` to a name carrying the new two-letter
-code, translate the right-hand sides, and name that code where the
-catalogue is filled at the end of the program --
+A further language is one file and one line: copy `language/de.po` to a
+name carrying the new two-letter code, translate every `msgstr` and
+leave every `msgid` as it stands -- it is the key -- and name that code
+where the catalogue is filled at the end of the program --
 `CATALOGUE["xx"] = texts_of_language("xx")`. `--lang` offers it
 afterwards, and a system set to it picks it up by itself.
 

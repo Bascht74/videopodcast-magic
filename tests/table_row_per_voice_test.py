@@ -532,10 +532,10 @@ def look(case, media):
               bool(labels(vpm.TN(len(FOUND), 'Separated: %d speaker',
                                  'Separated: %d speakers') % len(FOUND))),
               str([x.text() for x in labels(separated)]))
-        running = [b.text() for b in buttons(vpm.T('Break off'))
+        running = [b.text() for b in buttons(vpm.T('Stop'))
                    if b.isVisible()]
         check("and nothing is being computed", not running,
-              "%d Break off buttons on show, wanted 0: %s"
+              "%d Stop buttons on show, wanted 0: %s"
               % (len(running), running))
 
     def say_one_name():
@@ -636,10 +636,10 @@ def look(case, media):
         check("and nothing says a separation was found",
               not labels(separated), str([x.text() for x
                                           in labels(separated)]))
-        running = [b.text() for b in buttons(vpm.T('Break off'))
+        running = [b.text() for b in buttons(vpm.T('Stop'))
                    if b.isVisible()]
         check("and nothing is being computed", not running,
-              "%d Break off buttons on show, wanted 0: %s"
+              "%d Stop buttons on show, wanted 0: %s"
               % (len(running), running))
         check("and nothing has been separated", not separations,
               str(separations))

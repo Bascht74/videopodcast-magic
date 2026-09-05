@@ -8,10 +8,11 @@ order: 80
 
 # A section of the changelog
 
-`CHANGELOG.md` is not a list of the work. It is what a stranger reads
-who uses the program and wants to know what this version does
-differently for them. The release text on GitHub is that same section,
-not a summary of it.
+A version is due, or a point has to be added. `CHANGELOG.md` is not a
+list of the work. It is what a stranger reads who uses the program and
+wants to know what this version does differently for them. The release
+text on GitHub is that same section, not a summary of it. The last
+section here is the read-back as a list.
 
 ## Both languages, in one section
 
@@ -68,6 +69,9 @@ gone.
   the reader can find it.
 * **What it was, what it is now, what follows for them.** In that
   order, and rarely more than three sentences.
+* **The first sentence has to name the thing that changed.** Read it
+  alone; if it does not say which thing changed, no later sentence
+  rescues it.
 * **One point says one thing.** A second fact gets a point of its own,
   or none.
 * **Do not justify the old state.** Why it was wrong belongs in the
@@ -76,6 +80,20 @@ gone.
   commit beside it, and the sentence has to parse for a native reader.
 * **Where a measurement is the point, the number goes in** -- a number
   is understood without context. Where it is not, leave it out.
+
+## Two numbers in one point
+
+**Where two numbers in a point measure different things, one of them
+goes** -- into a second point, or out. This is the one that got through
+on 1.9.2026: "a speaker on 3.5 %" and "it is 5.3 % now" stood in one
+sentence, one a share of speaking time and the other a share of
+misplaced speech. A reader had to ask what it meant. Where both must
+stay, say them in different units: half against a twentieth reads at a
+glance, 50 % against 5.3 % does not.
+
+**And a number carries its setup with it.** A share of a test that is
+not described is noise. Either the setup goes in, or the number does
+not.
 
 ## Under Fixed, half a point is not a point
 
@@ -146,28 +164,11 @@ without anything of yours around it. If a number's meaning has to be
 supplied from your own head to make the sentence work, the sentence is
 missing it.
 
-**Read every point once more as somebody who was not there.** Not the whole section -- one point at a time, out of
-its neighbours, the way a reader meets it in a release list. The skill
-says elsewhere that an exhortation gets skipped; so this is a list of
-questions with answers, and a point that fails one is rewritten.
-
-1. **Two numbers in one point: can they be mistaken for each other?**
-   This is the one that got through on 1.9.2026: "a speaker on 3.5 %" and
-   "it is 5.3 % now" stood in one sentence, one a share of speaking time
-   and the other a share of misplaced speech. A reader had to ask what
-   it meant. **Where two numbers in a point measure different things,
-   one of them goes** -- into a second point, or out. Where both must
-   stay, say them in different units: half against a twentieth reads at
-   a glance, 50 % against 5.3 % does not.
-2. **Does a number in it need the setup to make sense?** A share of a
-   test that is not described is noise. Either the setup goes in, or the
-   number does not.
-3. **Read the first sentence alone.** If it does not say which thing
-   changed, no later sentence rescues it.
-4. **Under Fixed: is the second half there** -- what happens now, not
-   only what was wrong?
-5. **Is there a word in it only somebody who built it would use?**
-6. **Would a stranger have to open the commit to understand it?**
+**One point at a time**, out of its neighbours, the way a reader meets
+it in a release list -- not the whole section. The skill says elsewhere
+that an exhortation gets skipped; so the read-back is the list of
+questions at the end of this file, and a point that fails one is
+rewritten.
 
 **The German half is read again on its own, not against the English
 one.** A point carried over reads as a translation, and a number that
@@ -183,3 +184,18 @@ belongs in there at all.**
 
 A green test does not mean the section is finished. It means nothing is
 in the way of reading it.
+
+## Before it counts as done
+
+Every point read on its own, out of the file rather than out of memory:
+
+1. Two numbers in one point: can they be mistaken for each other?
+2. Does a number in it need the setup to make sense?
+3. Read the first sentence alone -- does it say which thing changed?
+4. Under Fixed: is the second half there -- what happens now, not only
+   what was wrong?
+5. Is there a word in it only somebody who built it would use?
+6. Would a stranger have to open the commit to understand it?
+7. Does the German half read on its own, as German rather than as a
+   carried-over English sentence?
+8. Does this point belong in the section at all?

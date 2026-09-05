@@ -8,6 +8,13 @@ order: 30
 
 # Taking a red test apart
 
+A test is red, wobbling, or green and not to be trusted. This document
+says in which order the three possible causes are ruled out, and it runs
+from cheap to expensive. What belongs in `tests/state/counterproof` once
+a repair is made is in the `gegenbeweis` skill.
+
+## The question, and the order it is asked in
+
 The question is: **is it the program, the test, or the stand-in?** It is
 expensive when answered wrongly and cheap when asked in the right order.
 
@@ -59,6 +66,11 @@ How it shows: a `SKIPPED:`, a "left a piece out", a path under
 `/tmp/snap/` in the message. The probe costs one run: the same test
 without `VPM_SCRIPT`, against the working folder. If it goes green, it
 was the snapshot.
+
+**These two steps stand in the `gegenbeweis` and `test-neu` skills as
+well, and that repetition is deliberate** -- each of the three places is
+reached without reading the other two, and a wrongly set `LANGUAGE`
+costs an hour, so it is not to be tidied away into one place.
 
 ### 3. Beside the others, or alone?
 
@@ -123,18 +135,10 @@ does not ask it mistakes a generous stand-in for a passed check — and
 invisibly, because everything stays green.
 
 A stand-in must be **at least as strict as the real thing** in every
-point the check touches. Four questions:
-
-* **Does it allow more than the real thing?**
-* **Does it invent what the real thing refuses?** A stand-in media pool
-  invented every track it was asked for; "only one video track created"
-  was therefore green while things lay on tracks that did not exist.
-* **Is it missing a call whose absence the real thing would make
-  noticeable?** A stand-in timeline had no way to delete a track. The
-  function that removes empty tracks ran into a swallowed exception, and
-  ten empty tracks survived every run.
-* **Does an `except` swallow the answer?** The most dangerous case,
-  because then not even a traceback appears.
+point the check touches. The four questions that find where it is not,
+and the two measured cases behind them, are in the `gegenbeweis` skill:
+that is where the counter-proof lives, and this step only says which
+door to go through.
 
 ### 6. The test itself
 
@@ -208,3 +212,22 @@ green while doing it.
 At the end stands a sentence saying **what was wrong** — language,
 snapshot, contention, deadline, stand-in, test or program — and the
 number it was seen by.
+
+## Before it counts as done
+
+1. Did the run go through `run.sh`, so all six variables were set (§1)?
+2. Under `VPM_SCRIPT`: does the same test go green against the folder (§2)?
+3. Was a `SKIPPED:` read as a finding rather than as a pass (§2)?
+4. The `unsteady` line in the run read, and `wobbly.sh` asked what it has (§3)?
+5. If contention: written down that the test found nothing, not counted green (§3)?
+6. Does the red line name a deadline rather than a condition (§4)?
+7. If so: checked on the builder, and the deadline left where it was (§4)?
+8. Was the stand-in asked its four questions before the check was blamed (§5)?
+9. Does the test still check what its docstring says (§6)?
+10. Falsely green until now -- and if so, since when did it check nothing (§6)?
+11. Does the failed claim rest on a precondition with no check of its own (§6)?
+12. Only after all of that: was the program looked at (§7)?
+13. Program wrong: the red line word for word in `tests/state/counterproof` (§7)?
+14. Is there a `check` at all, and does the printed count match the docstring?
+15. Does it bow out with `SKIPPED:` and a reason, never a silent `sys.exit(0)`?
+16. One sentence at the end naming what was wrong, and the number seen by?

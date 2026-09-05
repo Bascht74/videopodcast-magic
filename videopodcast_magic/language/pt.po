@@ -125,10 +125,10 @@ msgstr "Separando ..."
 msgid "Voice"
 msgstr "Voz"
 
-msgid "Break off"
+msgid "Stop"
 msgstr "Interromper"
 
-msgid "Breaking off ..."
+msgid "Stopping ..."
 msgstr "Interrupção ..."
 
 msgid "Not on this machine"
