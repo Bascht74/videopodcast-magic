@@ -120,25 +120,26 @@ has already put on the machine: delete it and the program itself is
 untouched, and remove the program with pip and the entry stays behind
 until somebody throws it away like any other icon.
 
-**It says one line while it does it:**
+**It writes one line into the log while it does it:**
 
 ```
 A shortcut to this program was made: <path>
 ```
 
-Every start after that is silent.
+It does not reach the screen: nothing is said before the window.
+Every start after that writes nothing at all.
 
 **Nothing here can hold a start up.** Where the place cannot be
 written -- a folder that may not be written into, a system that gives
-no answer -- the program names the reason in one line and goes on into
-its window as usual:
+no answer -- the program writes the reason into a second log line
+and goes on into its window as usual:
 
 ```
 No shortcut to this program was made: <reason>
 ```
 
-Both lines stand in the log as well, **Help > Show the log of this
-run**.
+Both lines stand there and nowhere else, to be read under **Help > Show
+the log of this run**.
 
 **Deleted by hand, it stays deleted.** The program writes down the
 place it laid. Finding that place empty later while the folder around
@@ -150,8 +151,8 @@ entry deletes it once.
 installed command, and that command moves house when the Python under
 it is replaced -- after which the icon is still there and starts
 nothing. Where the program finds its own entry pointing at something
-that is gone, it writes it afresh and says the same line again. That is
-the one start after the first that is not silent.
+that is gone, it writes it afresh and the same line into the log
+again. That is the one start after the first that writes anything.
 
 ## Which Python the program needs
 
