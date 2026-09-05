@@ -541,6 +541,12 @@ eine rote Marke an einer Zeile der Dateiliste -- eine rote Marke ist
 weg, sobald die Zeile neu gezeichnet wird, und die Beschwerde darüber
 kommt Stunden später.
 
+Eine Zeile mit dem Vorsatz **[TIME]** sagt, wie weit in den Start
+hinein jeder Schritt erreicht war -- gezählt ab der Sekunde, in der
+das Symbol angeklickt wurde, wo das Programm so gestartet wurde, und
+sonst ab dem Augenblick, in dem es zu laufen begann. Ein Start, der
+zwanzig Sekunden braucht, lässt sich damit nachlesen statt raten.
+
 Das alles geht nicht in die Ausgabe des Laufs selbst, sondern nur in die
 Datei: im Fenster würde es die Fortschrittsbalken zerreißen. Die neuen
 Zeilen sind englisch wie die [GUI]-Zeilen; nur der Wortlaut einer roten

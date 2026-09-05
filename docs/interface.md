@@ -503,6 +503,12 @@ red line under a box, a red mark on a row of the file list -- a red mark
 is gone as soon as the row is drawn again, and the complaint about it
 arrives hours later.
 
+A line marked **[TIME]** says how far into the start each step
+was reached -- counted from the second the icon was clicked, where the
+program was started that way, and otherwise from the moment it began
+to run. A start that takes twenty seconds can be read afterwards instead
+of guessed at.
+
 None of that goes into what the run itself prints, only into the file:
 in the window it would tear the progress bars apart. The new lines are
 English, like the [GUI] ones; only the wording of a red message stands

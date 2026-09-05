@@ -9,6 +9,7 @@ nothing unless a home of its own is named. The macOS and the Linux
 shape are written here and read back; the Windows one is left out,
 because writing a .lnk needs a shell object this machine has not.
 """
+import inspect
 import io
 import os
 import shutil
@@ -268,6 +269,70 @@ finally:
             os.environ[name] = was
     vpm.forget_settings()
     shutil.rmtree(mine, ignore_errors=True)
+
+
+print("\n8. What a start from the Dock costs can be read afterwards")
+# A start from an icon has no console and no way to set a variable, so
+# the second it was clicked has to come from the thing that was
+# clicked. Without it the ten seconds before Python is running cannot
+# be told apart from the ten after.
+# A home of its own: the first one's bundle was taken away in section 5.
+clicked, clicked_starter = a_home()
+dock = desktop.make_shortcut(root=clicked, target=clicked_starter,
+                             png=PICTURE, system="darwin")
+stub = os.path.join(dock.where, "Contents", "MacOS", "videopodcast-magic")
+with open(stub, encoding="utf-8") as f:
+    runner = f.read()
+check("the bundle writes down the second it was clicked",
+      "VPM_STARTED=$(date +%s)" in runner
+      and "export VPM_STARTED" in runner
+      and runner.index("VPM_STARTED") < runner.index("exec "),
+      "the runner says %r" % runner[-160:])
+
+held_started = os.environ.get("VPM_STARTED")
+os.environ["VPM_STARTED"] = "%d" % (time.time() - 12)
+try:
+    vpm.mark_time("a made-up step")
+finally:
+    if held_started is None:
+        os.environ.pop("VPM_STARTED", None)
+    else:
+        os.environ["VPM_STARTED"] = held_started
+# The last one, not the only one: run.sh repeats a red test alone in
+# the same TMPDIR, so a second run appends to the same log.
+said = [one for one in log_now().splitlines()
+        if "a made-up step" in one]
+last = said[-1] if said else ""
+counted = float(last.split()[2]) if said else -1.0
+check("and the log says how long the start took from that second",
+      last.startswith("[TIME]") and "since the click" in last
+      and 12.0 <= counted < 13.0,
+      "%d line(s), last %r" % (len(said), last))
+
+
+print("\n9. The line lands in the log of this run, not in the one before")
+# Order, not behaviour, and the reason is that behaviour cannot be had
+# cheaply here: redirect_console() takes the file descriptors, and a
+# test that called it would lose its own output. What it does is name
+# the running log ..._1.log and open a new one -- so a line written
+# before it is in the backup, where Help > Show the log never looks.
+# Measured on a real machine 5.9.2026: that is exactly where it went.
+source = inspect.getsource(vpm.main)
+laid_at = source.find("lay_on_first_start()")
+turned_at = source.find("redirect_console()")
+check("the shortcut is laid after the console has been redirected",
+      laid_at > 0 and turned_at > 0 and laid_at > turned_at,
+      "lay at %d, redirect at %d in main()" % (laid_at, turned_at))
+# Not indented deeper than the function: inside the branch that ends
+# in a window, a run on the command line would never reach it.
+laid_line = [one for one in source.splitlines()
+             if "lay_on_first_start()" in one]
+check("and it is laid on the command line road as well",
+      len(laid_line) == 1
+      and len(laid_line[0]) - len(laid_line[0].lstrip()) == 4,
+      "%d call(s), indented %d"
+      % (len(laid_line),
+         len(laid_line[0]) - len(laid_line[0].lstrip()) if laid_line else -1))
 
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
