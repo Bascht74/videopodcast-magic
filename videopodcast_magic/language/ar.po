@@ -1013,3 +1013,9 @@ msgstr "لا تنتقل مبكرًا"
 
 msgid "Answering speaker"
 msgstr "المتحدث المجيب"
+
+msgid "%s is in place."
+msgstr "تم تثبيت %s."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "هذه النافذة ما زالت النسخة التي بدأت بها. يمكنها إعادة التشغيل الآن والظهور بالنسخة الجديدة، أو تفعل ذلك بنفسك لاحقًا."

@@ -1013,3 +1013,9 @@ msgstr "ne pas anticiper"
 
 msgid "Answering speaker"
 msgstr "Celui qui répond"
+
+msgid "%s is in place."
+msgstr "%s est installé."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Cette fenêtre est encore la version avec laquelle elle a démarré. Elle peut redémarrer maintenant et revenir avec la nouvelle, ou vous le ferez plus tard."

@@ -1011,3 +1011,9 @@ msgstr "не переходить раньше"
 
 msgid "Answering speaker"
 msgstr "Отвечающий"
+
+msgid "%s is in place."
+msgstr "%s установлена."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Это окно всё ещё та версия, с которой оно запустилось. Оно может перезапуститься сейчас и подняться уже новой, либо вы сделаете это позже сами."

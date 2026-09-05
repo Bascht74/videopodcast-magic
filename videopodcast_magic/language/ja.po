@@ -1011,3 +1011,9 @@ msgstr "早めに切り替えない"
 
 msgid "Answering speaker"
 msgstr "応答者"
+
+msgid "%s is in place."
+msgstr "%s を入れました。"
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "このウィンドウはまだ起動したときのバージョンです。いま再起動すれば新しいもので立ち上がりますし、あとで自分で行うこともできます。"
