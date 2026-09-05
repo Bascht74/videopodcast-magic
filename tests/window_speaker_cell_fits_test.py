@@ -180,7 +180,7 @@ room = tree.columnWidth(4)
 mark_font = cells[0][2].fontMetrics()
 button_wide = cells[0][1].sizeHint().width()
 running = vpm.T('Separating ...')
-counted = vpm.TN(2, 'Separated: %d speaker', 'Separated: %d speakers') % 2
+counted = vpm.TN(2, 'Separated: %s speaker', 'Separated: %s speakers') % 2
 check("the column holds the running caption and its button",
       room >= mark_font.horizontalAdvance(running) + button_wide,
       "%d px of column against %d px of caption and %d px of button"

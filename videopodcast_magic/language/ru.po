@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in Russian.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# 327 of the program's 1498 texts stand here. Every text that is
-# not in this file appears in English: T() gives back the key it was
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
 #
@@ -28,11 +29,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "Монтаж с общим планом"
 
-msgid "on %d camera"
-msgstr "на %d камере"
+msgid "on %s camera"
+msgstr "на %s камере"
 
-msgid "on %d cameras"
-msgstr "на %d камерах"
+msgid "on %s cameras"
+msgstr "на %s камерах"
 
 msgid "no camera yet"
 msgstr "пока нет камеры"
@@ -157,14 +158,14 @@ msgstr "Ещё один говорящий в %s"
 msgid "One more speaker in"
 msgstr "Ещё один говорящий"
 
-msgid "%d:%02d min"
-msgstr "%d:%02d мин"
+msgid "%s:%02d min"
+msgstr "%s:%02d мин"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d – %d:%02d (%.1f с)"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d – %d:%02d (%s с)"
 
-msgid "%s and %d more"
-msgstr "%s и ещё %d"
+msgid "%s and %s more"
+msgstr "%s и ещё %s"
 
 msgid "%s speech time"
 msgstr "время речи %s"
@@ -286,23 +287,23 @@ msgstr "Открыть проект"
 msgid "not readable"
 msgstr "не читается"
 
-msgid "%d audio track"
-msgstr "%d звуковая дорожка"
+msgid "%s audio track"
+msgstr "%s звуковая дорожка"
 
-msgid "%d audio tracks"
-msgstr "%d звуковых дорожек"
+msgid "%s audio tracks"
+msgstr "%s звуковых дорожек"
 
-msgid "%d clip"
-msgstr "%d клип"
+msgid "%s clip"
+msgstr "%s клип"
 
-msgid "%d clips"
-msgstr "%d клипов"
+msgid "%s clips"
+msgstr "%s клипов"
 
-msgid "%d video track"
-msgstr "%d видеодорожка"
+msgid "%s video track"
+msgstr "%s видеодорожка"
 
-msgid "%d video tracks"
-msgstr "%d видеодорожек"
+msgid "%s video tracks"
+msgstr "%s видеодорожек"
 
 msgid "  (this file ends earlier)"
 msgstr "  (этот файл заканчивается раньше)"
@@ -313,17 +314,17 @@ msgstr " (пауза)"
 msgid " (playing)"
 msgstr " (воспроизведение)"
 
-msgid "%d channel"
-msgstr "%d канал"
+msgid "%s channel"
+msgstr "%s канал"
 
-msgid "%d channels"
-msgstr "%d каналов"
+msgid "%s channels"
+msgstr "%s каналов"
 
-msgid "%d file"
-msgstr "%d файл"
+msgid "%s file"
+msgstr "%s файл"
 
-msgid "%d files"
-msgstr "%d файлов"
+msgid "%s files"
+msgstr "%s файлов"
 
 msgid "... or add files ..."
 msgstr "... или добавить файлы ..."
@@ -346,8 +347,8 @@ msgstr "Блоки"
 msgid "Camera"
 msgstr "Камера"
 
-msgid "Camera audio, %d to go ..."
-msgstr "Звук камер, осталось %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "Звук камер, осталось %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- предпросмотр  (длительность %s)"
@@ -784,23 +785,23 @@ msgstr "неизвестно"
 msgid "video file"
 msgstr "видеофайл"
 
-msgid "%d audio recording"
-msgstr "%d звукозапись"
+msgid "%s audio recording"
+msgstr "%s звукозапись"
 
-msgid "%d audio recordings"
-msgstr "%d звукозаписей"
+msgid "%s audio recordings"
+msgstr "%s звукозаписей"
 
-msgid "%d camera"
-msgstr "%d камера"
+msgid "%s camera"
+msgstr "%s камера"
 
-msgid "%d cameras"
-msgstr "%d камер"
+msgid "%s cameras"
+msgstr "%s камер"
 
-msgid "%d video file"
-msgstr "%d видеофайл"
+msgid "%s video file"
+msgstr "%s видеофайл"
 
-msgid "%d video files"
-msgstr "%d видеофайлов"
+msgid "%s video files"
+msgstr "%s видеофайлов"
 
 msgid "Caution"
 msgstr "Внимание"

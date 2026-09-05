@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in French.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# 327 of the program's 1498 texts stand here. Every text that is
-# not in this file appears in English: T() gives back the key it was
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
 #
@@ -27,11 +28,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "Montage avec le plan large"
 
-msgid "on %d camera"
-msgstr "sur %d caméra"
+msgid "on %s camera"
+msgstr "sur %s caméra"
 
-msgid "on %d cameras"
-msgstr "sur %d caméras"
+msgid "on %s cameras"
+msgstr "sur %s caméras"
 
 msgid "no camera yet"
 msgstr "pas encore de caméra"
@@ -156,14 +157,14 @@ msgstr "Un locuteur de plus dans %s"
 msgid "One more speaker in"
 msgstr "Un intervenant de plus"
 
-msgid "%d:%02d min"
-msgstr "%d:%02d min"
+msgid "%s:%02d min"
+msgstr "%s:%02d min"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d à %d:%02d (%.1f s)"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d à %d:%02d (%s s)"
 
-msgid "%s and %d more"
-msgstr "%s et %d de plus"
+msgid "%s and %s more"
+msgstr "%s et %s de plus"
 
 msgid "%s speech time"
 msgstr "temps de parole de %s"
@@ -285,23 +286,23 @@ msgstr "Ouvrir le projet"
 msgid "not readable"
 msgstr "illisible"
 
-msgid "%d audio track"
-msgstr "%d piste audio"
+msgid "%s audio track"
+msgstr "%s piste audio"
 
-msgid "%d audio tracks"
-msgstr "%d pistes audio"
+msgid "%s audio tracks"
+msgstr "%s pistes audio"
 
-msgid "%d clip"
-msgstr "%d clip"
+msgid "%s clip"
+msgstr "%s clip"
 
-msgid "%d clips"
-msgstr "%d clips"
+msgid "%s clips"
+msgstr "%s clips"
 
-msgid "%d video track"
-msgstr "%d piste vidéo"
+msgid "%s video track"
+msgstr "%s piste vidéo"
 
-msgid "%d video tracks"
-msgstr "%d pistes vidéo"
+msgid "%s video tracks"
+msgstr "%s pistes vidéo"
 
 msgid "  (this file ends earlier)"
 msgstr "  (ce fichier se termine plus tôt)"
@@ -312,17 +313,17 @@ msgstr " (en pause)"
 msgid " (playing)"
 msgstr " (lecture)"
 
-msgid "%d channel"
-msgstr "%d canal"
+msgid "%s channel"
+msgstr "%s canal"
 
-msgid "%d channels"
-msgstr "%d canaux"
+msgid "%s channels"
+msgstr "%s canaux"
 
-msgid "%d file"
-msgstr "%d fichier"
+msgid "%s file"
+msgstr "%s fichier"
 
-msgid "%d files"
-msgstr "%d fichiers"
+msgid "%s files"
+msgstr "%s fichiers"
 
 msgid "... or add files ..."
 msgstr "... ou ajouter des fichiers ..."
@@ -345,8 +346,8 @@ msgstr "Blocs"
 msgid "Camera"
 msgstr "Caméra"
 
-msgid "Camera audio, %d to go ..."
-msgstr "Audio des caméras, encore %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "Audio des caméras, encore %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- aperçu  (durée %s)"
@@ -783,23 +784,23 @@ msgstr "inconnu"
 msgid "video file"
 msgstr "fichier vidéo"
 
-msgid "%d audio recording"
-msgstr "%d enregistrement audio"
+msgid "%s audio recording"
+msgstr "%s enregistrement audio"
 
-msgid "%d audio recordings"
-msgstr "%d enregistrements audio"
+msgid "%s audio recordings"
+msgstr "%s enregistrements audio"
 
-msgid "%d camera"
-msgstr "%d caméra"
+msgid "%s camera"
+msgstr "%s caméra"
 
-msgid "%d cameras"
-msgstr "%d caméras"
+msgid "%s cameras"
+msgstr "%s caméras"
 
-msgid "%d video file"
-msgstr "%d fichier vidéo"
+msgid "%s video file"
+msgstr "%s fichier vidéo"
 
-msgid "%d video files"
-msgstr "%d fichiers vidéo"
+msgid "%s video files"
+msgstr "%s fichiers vidéo"
 
 msgid "Caution"
 msgstr "Attention"
