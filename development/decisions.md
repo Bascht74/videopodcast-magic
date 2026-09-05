@@ -335,3 +335,34 @@ Anything else that stands twice is a fault. Four such were measured on
   home: `ci`, because that is the moment the command is run;
 * **`run-name:` on every workflow**, in `freigabe`, `ci` and the short
   page -- home: `ci`, because it is about how a list of runs reads.
+
+## The plural rule is read by the standard library, not by us
+
+**5.9.2026.** A PO header carries its language's plural rule as a C
+expression over one name: `nplurals=3; plural=(n%10==1 && n%100!=11 ? 0
+: ...)`. Something has to turn that into an index.
+
+**118 lines of our own stood here for an afternoon, and they were not
+wrong.** Measured against `gettext.c2py` over nine languages and every
+count from 0 to 1000: **9009 comparisons, not one difference.** They
+were unnecessary, and that is the finding -- the standard library has
+had `c2py` for as long as it has had `.mo` files, and nobody looked.
+
+**It is also the stricter of the two.** Measured: c2py refuses an
+expression nested too deep (*"plural form expression is too complex"*)
+and refuses a `;` outright; ours took twenty-two levels of brackets
+without a word. A catalogue is the one file in this program a stranger
+is invited to edit, so the strict reader is the right one.
+
+**The one cost, and it is named rather than hidden:** `c2py` is not in
+`gettext.__all__`. So it is asked for and not assumed -- where it is
+missing, no language has a rule, every count falls back on the English
+one, and nothing breaks. It has been in CPython for decades and
+`GNUTranslations` uses it for every catalogue in the world; removing it
+would break far more than this program.
+
+**Three counter-proofs died with the old code** and were earned again:
+they broke a table, a tree walk and a return shape that no longer
+exist. What a check claims did not change, so its wording stands; what
+it takes to make it fall did change, and the register says so.
+

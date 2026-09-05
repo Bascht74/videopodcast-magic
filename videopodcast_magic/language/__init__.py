@@ -222,123 +222,33 @@ def set_language(name):
 
 
 # A header carries its language's plural rule as a C expression over one
-# name: "nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : ...)". Read into
-# a tree once per language and walked per count -- read, never evaluated,
-# because a catalogue is the one file here a stranger is invited to edit.
-RULE_TOKEN = re.compile(r"\s*(\d+|n|\?|:|\|\||&&|[=!<>]=|[<>]|%|\(|\))")
-# The header is many lines and Plural-Forms is rarely the last of them,
-# so the rule ends at its own line end and not at the end of the header.
+# name. Reading it is gettext's own job and gettext is in the standard
+# library; c2py is the very function that gives the header its meaning
+# everywhere else. Why not our own: development/decisions.md.
+try:
+    from gettext import c2py as plural_reader
+except ImportError:
+    plural_reader = None
+
 RULE_HEAD = re.compile(r"nplurals\s*=\s*(\d+)\s*;\s*"
                        r"plural\s*=\s*([^\n]+)")
-COMPARE = ("==", "!=", "<", "<=", ">", ">=")
-RULE_DO = {"||": lambda a, b: 1 if (a or b) else 0,
-           "&&": lambda a, b: 1 if (a and b) else 0,
-           "==": lambda a, b: 1 if a == b else 0,
-           "!=": lambda a, b: 1 if a != b else 0,
-           "<": lambda a, b: 1 if a < b else 0,
-           "<=": lambda a, b: 1 if a <= b else 0,
-           ">": lambda a, b: 1 if a > b else 0,
-           ">=": lambda a, b: 1 if a >= b else 0,
-           "%": lambda a, b: a % b if b else 0}
-
-
-class RuleReader(object):
-    """Reads the expression by precedence, from ternary down to atom."""
-
-    def __init__(self, text):
-        self.t, self.at = [], 0
-        while len(text) > self.at and text[self.at:].strip():
-            found = RULE_TOKEN.match(text, self.at)
-            if not found:
-                raise ValueError("cannot read %r" % text[self.at:][:20])
-            self.t.append(found.group(1))
-            self.at = found.end()
-        self.at = 0
-
-    def peek(self):
-        return self.t[self.at] if self.at < len(self.t) else None
-
-    def take(self, want=None):
-        got = self.peek()
-        if want and got != want:
-            raise ValueError("wanted %r, found %r" % (want, got))
-        self.at += 1
-        return got
-
-    def ternary(self):
-        cond = self.two("||", self.andalso)
-        if self.peek() != "?":
-            return cond
-        self.take("?")
-        yes = self.ternary()
-        self.take(":")
-        return ("?", cond, yes, self.ternary())
-
-    def two(self, sign, below):
-        left = below()
-        while self.peek() == sign:
-            self.take()
-            left = (sign, left, below())
-        return left
-
-    def andalso(self):
-        return self.two("&&", self.compare)
-
-    def compare(self):
-        left = self.remainder()
-        while self.peek() in COMPARE:
-            sign = self.take()
-            left = (sign, left, self.remainder())
-        return left
-
-    def remainder(self):
-        return self.two("%", self.atom)
-
-    def atom(self):
-        got = self.take()
-        if got == "(":
-            inside = self.ternary()
-            self.take(")")
-            return inside
-        if got == "n":
-            return ("n",)
-        if got is not None and got.isdigit():
-            return ("k", int(got))
-        raise ValueError("cannot read %r here" % got)
 
 
 def plural_rule(header):
-    """How many wordings this language has, and the rule that picks one.
+    """How many wordings this language has, and what picks one of them.
 
     Nothing back where the header says nothing or says something that
     cannot be read: the caller then keeps the English rule, which is
     right for English and wrong quietly rather than loudly.
     """
     found = RULE_HEAD.search(header or "")
-    if not found:
+    if not found or plural_reader is None:
         return None
     try:
-        reader = RuleReader(found.group(2).strip().rstrip(";"))
-        tree = reader.ternary()
-        if reader.peek() is not None:
-            return None
-        return int(found.group(1)), tree
-    except (ValueError, IndexError):
+        return int(found.group(1)), plural_reader(found.group(2).strip()
+                                                  .rstrip(";"))
+    except (ValueError, TypeError):
         return None
-
-
-def which_form(tree, number):
-    """Which of the wordings a count wants, counting from zero."""
-    kind = tree[0]
-    if kind == "n":
-        return number
-    if kind == "k":
-        return tree[1]
-    if kind == "?":
-        return which_form(tree[2] if which_form(tree[1], number)
-                          else tree[3], number)
-    return RULE_DO[kind](which_form(tree[1], number),
-                         which_form(tree[2], number))
 
 
 def T(text, *args):
@@ -363,8 +273,11 @@ def TN(number, one, many):
     forms = PLURALS.get(LANG, {}).get(one)
     rule = PLURAL_RULE.get(LANG)
     if forms and rule:
-        how_many, tree = rule
-        wanted = which_form(tree, number)
+        how_many, which = rule
+        try:
+            wanted = which(number)
+        except Exception:
+            wanted = -1
         if 0 <= wanted < min(how_many, len(forms)) and forms[wanted]:
             return forms[wanted]
     return T(one if number == 1 else many)

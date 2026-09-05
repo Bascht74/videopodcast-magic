@@ -866,8 +866,10 @@ check("a rule that cannot be read gives nothing back rather than falling "
 # expectation that comes out of what it checks proves nothing.
 RU_WANT = {0: 2, 1: 0, 2: 1, 4: 1, 5: 2, 11: 2, 21: 0, 22: 1, 101: 0}
 _ru = vpm.language.plural_rule("Plural-Forms: " + RU_RULE)
+# `not _ru` first: where the rule was not read at all, Russian asks for
+# nothing right, and this must say so rather than fall over on a None.
 _wrong = [n for n, want in RU_WANT.items()
-          if vpm.language.which_form(_ru[1], n) != want]
+          if not _ru or _ru[1](n) != want]
 check("Russian asks for the wording CLDR says, over nine counts",
       not _wrong, "wrong at %s" % (sorted(_wrong) or "none",))
 
@@ -875,7 +877,7 @@ _out = []
 for _code, _text in sorted(REAL_RULES.items()):
     _how_many, _tree = vpm.language.plural_rule("Plural-Forms: " + _text)
     for _n in range(201):
-        _i = vpm.language.which_form(_tree, _n)
+        _i = _tree(_n)
         if not 0 <= _i < _how_many:
             _out.append("%s n=%d wants %d of %d" % (_code, _n, _i, _how_many))
 check("no count from 0 to 200 asks for a wording that is not there",
