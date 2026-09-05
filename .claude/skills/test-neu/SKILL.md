@@ -400,12 +400,41 @@ one day came from that one assumption, each in a different disguise:
 **The proof is a clone, and it costs one command:**
 
 ```bash
-git archive HEAD | tar -x -C "$(mktemp -d)"
+d=$(mktemp -d) && git archive HEAD | tar -x -C "$d" && ( cd "$d" && git init -q )
 ```
+
+**The `git init` is not tidiness.** Measured 5.9.2026: a plain `tar -x`
+tree has no `.git`, `source_no_real_names` then skips with "no git here
+-- this asks the repository what it ships, and a folder cannot answer
+it", the run has two skips of at most one allowed, and it comes back
+red with nothing red in it. An empty repository answers the question
+the check asks.
 
 Run the test in that tree. What is green there is green on the builder;
 what needs the notes, a snapshot's neighbours or a full folder shows
 itself at once, here, instead of four minutes later on six machines.
+
+## 8c. A number that is also in the program is not written down twice
+
+**Fetch it from there.** A test that spells out what the program says
+is green until the program says something else, and then it is red for
+a reason that is not a fault.
+
+**The version number is the dearest of them**, because it moves exactly
+once per release and the test looks green every day in between.
+Measured 6.9.2026, and it cost a release its first attempt:
+`run_way_back_offered` held a stand-in list of releases that spelled
+out `v3.0.0b0` to `v3.0.0b4`. The hour VERSION became `3.0.0b5`, the
+note an install writes named a release the list did not hold, and all
+six machines went red on work that was otherwise finished.
+
+**And the repair is measured against a different number, not against
+today's.** The first fix took the list from `VERSION` and was green --
+and would have held for exactly one release, because the point the
+list was *asked from* was still written down. That only showed against
+a copy set two releases ahead.
+
+So: derive it, and prove the derivation by moving the number.
 
 ## 9. Visible texts
 
@@ -524,6 +553,9 @@ counter-proofs lost.
 10. **Skipping is visible** (§7). `SKIPPED:` with the reason and the
     way back, and the count under `SKIPS_ALLOWED`?
 11. **It cleans up, and does not take the folder for the world** (§8,
-    §8b). Has the clone been run?
+    §8b). Has the clone been run, with a `git init` in it?
+15b. Does any judgement spell out a number the program also holds --
+    the version above all? Taken from there, and proved by moving it
+    (§8c)?
 12. **The head has been reread** (§3). Does its first line still
     describe what the test claims today?
