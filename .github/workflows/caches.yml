@@ -1,0 +1,79 @@
+name: caches go with the branch
+
+# A branch that is deleted leaves its caches behind. GitHub throws a
+# cache out after seven days without a read, or sooner when the ten
+# gigabytes for the whole repository are full -- and then it throws out
+# the oldest, which is main's, because a feature branch was written to
+# more recently. So the branch that is gone evicts the one everybody
+# needs.
+#
+# Measured 5.9.2026, before this file existed: 7.77 GB of the 10 in
+# use, 13 entries. Six feature branches held one entry each, all of
+# them the same key -- setup-python-Linux-x64-24.04-Ubuntu-python-
+# 3.14.7-pip-f4da2672..., 680 MB, six times over. A branch may read
+# only its own caches and the default branch's, so six branches build
+# and store the same 680 MB rather than sharing one.
+#
+# That is why this is worth a file: not tidiness, but that main's six
+# caches were 3.79 GB and the branches' 3.98 GB, and the next push
+# would have started evicting.
+run-name: "the caches of ${{ github.event.ref }} go with it"
+
+on:
+  delete:
+
+permissions:
+  actions: write
+
+jobs:
+  sweep:
+    # A tag carries no caches, and neither does anything else this
+    # event fires for.
+    if: github.event.ref_type == 'branch'
+    name: take what belonged to ${{ github.event.ref }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: every cache of the branch that is gone
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GONE: ${{ github.event.ref }}
+          REPO: ${{ github.repository }}
+        run: |
+          ref="refs/heads/$GONE"
+          # -f rather than a query string typed by hand: a branch name
+          # may hold a slash, and gh encodes it.
+          list=$(gh api -X GET "repos/$REPO/actions/caches" \
+                    -f ref="$ref" -f per_page=100 \
+                    --jq '(.actions_caches // [])[] | "\(.id) \(.size_in_bytes)"')
+          if [ -z "$list" ]; then
+            echo "no cache belonged to $ref"
+            exit 0
+          fi
+          taken=0
+          bytes=0
+          while read -r id size; do
+            # One failure does not stop the rest: what is left over is
+            # thrown out by the seven-day rule anyway, and a red run
+            # here would say a branch was not deleted, which is false.
+            if gh api -X DELETE "repos/$REPO/actions/caches/$id"; then
+              taken=$((taken + 1))
+              bytes=$((bytes + size))
+            else
+              echo "could not take cache $id -- left to the seven-day rule"
+            fi
+          done <<< "$list"
+          echo "$taken cache entries of $ref taken, $((bytes / 1048576)) MB"
+          echo "### $taken entries, $((bytes / 1048576)) MB" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: what the repository holds now
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPO: ${{ github.repository }}
+        run: |
+          # The number in the log is the point of this step: whoever
+          # reads a run wants to know how close the ten gigabytes are,
+          # not that a delete answered 204.
+          gh api -X GET "repos/$REPO/actions/caches" -f per_page=100 \
+             --jq '(.actions_caches // []) | "\(length) entries, \(([.[].size_in_bytes] | add // 0) / 1048576 | floor) MB of the 10240 this repository has"' \
+             | tee -a "$GITHUB_STEP_SUMMARY"
