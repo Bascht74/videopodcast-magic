@@ -25,6 +25,110 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b4] - 2026-09-05
+
+### Changed
+
+- The nine translations were Python files and are now `.po` files, the
+  format translators and their tools already know. Anybody who wants to
+  correct a wording opens `language/ru.po`, changes the line under the
+  English one and is done; deleting an entry still puts that text back
+  into English. No translation was changed by the move.
+
+### Fixed
+
+- The **Speakers** column in the assignment sheet was cut off, because
+  it was measured while every cell in it was still empty -- a
+  separation fills them minutes later. It is now as wide as what goes
+  into it, and a row grows taller when its text wraps.
+- Where a speaker separation could not run, the cell guessed at a
+  reason. It now says one short sentence and points at the log, where
+  the real error stands.
+- The field a speaker's name is typed into could be squeezed to 79 px
+  at the smallest window, while the sheet still reported that
+  everything fitted. It now keeps room for a name, and where the rest
+  will not fit beside it the sheet scrolls sideways.
+- While ffmpeg is being compiled the window stood still for minutes and
+  looked as though it had hung. It now says that the long part is
+  starting and sets a dot every few seconds.
+- Once ffmpeg was there, the sentence asking whether to start again was
+  the last of two hundred lines and went unread. It now stands in a box
+  of its own.
+- The preflight said "11 checked, 5 findings" and nowhere which five.
+  The findings now stand in the log and under **Output** as well.
+- The length line said "length 1:26:31.601 (instead of 1:26:31.601)"
+  where an out point sat behind the last frame. It now names the
+  measured window only where it really is another one.
+
+### Tests
+
+- The manual is held against the program value by value, not only
+  switch by switch, and the READMEs are read as well: every value a
+  switch takes is named in its row, no row names one the program
+  refuses, and the front pages offer no way in but the command pip
+  installs.
+
+### Documentation
+
+- Both READMEs said that `python3 -m videopodcast_magic` stands in
+  place of the command where pip put it out of the search path. It does
+  not, and has not since the program became a folder. They now say what
+  the requirements chapter says: pip's own warning names the folder.
+
+**Deutsch**
+
+### Geändert
+
+- Die neun Übersetzungen lagen als Python-Dateien vor und liegen jetzt
+  als `.po`-Dateien -- das Format, das Übersetzer und ihre Werkzeuge
+  ohnehin kennen. Wer eine Formulierung richtigstellen will, öffnet
+  `language/ru.po`, ändert die Zeile unter der englischen und ist
+  fertig; ein gelöschter Eintrag lässt den Text weiterhin auf Englisch
+  erscheinen. Beim Umzug hat sich keine Übersetzung geändert.
+
+### Behoben
+
+- Die Spalte **Sprecher** im Zuordnungsblatt wurde abgeschnitten, weil
+  sie gemessen wurde, solange jede Zelle darin noch leer war -- eine
+  Trennung füllt sie erst Minuten später. Sie ist jetzt so breit wie
+  das, was hineinkommt, und eine Zeile wächst mit, wenn ihr Text
+  umbricht.
+- Konnte eine Sprechertrennung nicht laufen, riet die Zelle an einer
+  Ursache herum. Sie sagt jetzt einen kurzen Satz und verweist aufs
+  Protokoll, wo der wirkliche Fehler steht.
+- Das Feld, in das ein Sprechername getippt wird, konnte im kleinsten
+  Fenster auf 79 Pixel zusammengedrückt werden, während das Blatt
+  weiterhin meldete, es passe alles. Es behält jetzt Platz für einen
+  Namen, und was daneben nicht mehr hingeht, wird seitlich gescrollt.
+- Während ffmpeg übersetzt wird, stand das Fenster minutenlang still
+  und sah aus, als hänge es. Es sagt jetzt, dass der lange Teil
+  beginnt, und setzt alle paar Sekunden einen Punkt.
+- War ffmpeg da, ging der Satz mit der Frage nach einem Neustart als
+  letzte von zweihundert Zeilen unter. Er steht jetzt in einem eigenen
+  Kasten.
+- Der Vorflug sagte „11 geprüft, 5 Hinweise" und nirgends, welche fünf.
+  Die Hinweise stehen jetzt auch im Protokoll und unter **Ausgabe**.
+- Die Längenzeile sagte „Länge 1:26:31,601 (statt 1:26:31,601)", wo ein
+  Out-Punkt hinter dem letzten Bild lag. Sie nennt das gemessene
+  Fenster jetzt nur noch, wo es wirklich ein anderes ist.
+
+### Tests
+
+- Das Handbuch wird nicht mehr nur Schalter für Schalter gegen das
+  Programm gehalten, sondern auch Wert für Wert, und die READMEs werden
+  mitgelesen: jeder Wert, den ein Schalter annimmt, steht in seiner
+  Zeile, keine Zeile nennt einen, den das Programm ablehnt, und die
+  Titelseiten bieten keinen anderen Weg hinein an als den Befehl, den
+  pip einrichtet.
+
+### Dokumentation
+
+- Beide READMEs sagten, `python3 -m videopodcast_magic` stehe an der
+  Stelle des Befehls, wenn pip ihn außerhalb des Suchpfads abgelegt
+  hat. Das tut es nicht, und seit das Programm ein Ordner ist, tat es
+  das nie. Sie sagen jetzt dasselbe wie das Kapitel über die
+  Voraussetzungen: pips eigene Warnung nennt den Ordner.
+
 ## [3.0.0b3] - 2026-09-04
 
 ### Added
