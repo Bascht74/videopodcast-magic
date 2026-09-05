@@ -121,18 +121,19 @@ videopodcast-magic TON.wav VIDEO.mov
 videopodcast-magic TON.wav                  nur zusammensetzen
 videopodcast-magic TON.wav *.mov --out Fertig
 videopodcast-magic VIDEO.mov                nimmt den Kameraton
-videopodcast-magic --lang de|en             Sprache der Meldungen
+videopodcast-magic --lang fr                Sprache der Meldungen
 videopodcast-magic --help                   alle Schalter
 ```
 
 Hat pip den Befehl in einen Ordner gelegt, den der Suchpfad nicht
-erreicht, steht in jeder dieser Zeilen `python3 -m videopodcast_magic`
-an seiner Stelle, mit denselben Schaltern.
+erreicht, nennt pips eigene Warnung diesen Ordner: ihn in den Suchpfad
+aufnehmen und ein neues Terminal öffnen. Einen zweiten Weg hinein gibt
+es nicht.
 
 Ohne Argumente öffnet sich die Oberfläche. Die Dateien werden an der Endung
-erkannt, die Reihenfolge ist egal. `--lang de` oder `--lang en` legt die
-Sprache fest; ohne den Schalter entscheidet die Systemsprache. Nur `--help`
-bleibt englisch.
+erkannt, die Reihenfolge ist egal. `--lang` legt die Sprache fest -- neun
+stehen zur Wahl, `docs/command-line.de.md` nennt sie; ohne den Schalter
+entscheidet die Systemsprache. Nur `--help` bleibt englisch.
 
 ![Der Reiter Zuordnung](docs/images/assignment.de.png)
 

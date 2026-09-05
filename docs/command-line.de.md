@@ -82,7 +82,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--reaction-gap SEKUNDEN` | wie schnell die Antwort auf die Frage folgen muss, damit der Reaktionsschnitt greift (3) |
 | `--reaction-hold ANTEIL` | wie viel der zehn Sekunden nach der Frage der Antwortende halten muss, zwischen 0 und 1 (0,7) |
 | `--on-monologue WERT` | einer redet allein, länger als `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
-| `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: dieselben vier Werte (wide) |
+| `--on-together WERT` | mehrere reden zugleich, und keine Kamera zeigt genau sie: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-silence WERT` | es redet überhaupt niemand: `wide`, `hold-brief`, `hold` (wide) |
 | `--on-uncertain WERT` | die Erkennung ist unsicher, und es redet jemand: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-question WERT` | nach einer Frage: `off`, `answer`, `listener` (answer) |

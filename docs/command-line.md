@@ -82,7 +82,7 @@ hint. Without a key the multitrack run stops there.*
 | `--reaction-gap SECONDS` | how soon the answer has to follow the question for the reaction cut to fire (3) |
 | `--reaction-hold SHARE` | how much of the ten seconds after the question the answering speaker has to hold, between 0 and 1 (0.7) |
 | `--on-monologue VALUE` | one person holds the floor longer than `--wide-after`: `wide`, `listener`, `alternate`, `hold` (alternate) |
-| `--on-together VALUE` | several speak at once and no camera shows exactly them: the same four values (wide) |
+| `--on-together VALUE` | several speak at once and no camera shows exactly them: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-silence VALUE` | nobody speaks at all: `wide`, `hold-brief`, `hold` (wide) |
 | `--on-uncertain VALUE` | the recognition is uncertain and somebody is speaking: `wide`, `listener`, `alternate`, `hold` (wide) |
 | `--on-question VALUE` | after a question: `off`, `answer`, `listener` (answer) |
