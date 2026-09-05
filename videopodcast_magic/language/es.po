@@ -157,8 +157,8 @@ msgstr "%d:%02d min"
 msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
 msgstr "%s -- %d:%02d a %d:%02d (%.1f s)"
 
-msgid "%s and %d more"
-msgstr "%s y %d más"
+msgid "%s and %s more"
+msgstr "%s y %s más"
 
 msgid "%s speech time"
 msgstr "tiempo de habla de %s"
@@ -307,17 +307,17 @@ msgstr " (en pausa)"
 msgid " (playing)"
 msgstr " (reproduciendo)"
 
-msgid "%d channel"
-msgstr "%d canal"
+msgid "%s channel"
+msgstr "%s canal"
 
-msgid "%d channels"
-msgstr "%d canales"
+msgid "%s channels"
+msgstr "%s canales"
 
-msgid "%d file"
-msgstr "%d archivo"
+msgid "%s file"
+msgstr "%s archivo"
 
-msgid "%d files"
-msgstr "%d archivos"
+msgid "%s files"
+msgstr "%s archivos"
 
 msgid "... or add files ..."
 msgstr "... o añadir archivos ..."
