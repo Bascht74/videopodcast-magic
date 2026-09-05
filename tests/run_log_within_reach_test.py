@@ -351,6 +351,48 @@ check("asked with no file at that place, it opens nothing",
       refused is False and opened == [],
       "answer %r, %r handed over" % (refused, opened))
 
+print("\nWhat the console writes and what is written aside do not"
+      " collide")
+# In a child, because redirect_console() takes over the two handles
+# this test prints through. Once it has, an aside line and a printed
+# line are two writers on one file -- and before 5.9.2026 they kept two
+# write positions, so the one behind wrote over the other. A real start
+# put "rogram list is settled" into the log that day.
+# Against a copy, because a copy nobody installed writes its log
+# beside itself -- which is the shape this test has already proved.
+mixing = os.path.join(work, "mixing")
+shutil.copytree(os.path.dirname(SCRIPT), os.path.join(mixing, "prog"))
+for old_log in glob.glob(os.path.join(mixing, "prog", "*.log")):
+    os.remove(old_log)
+apart = subprocess.run(
+    [sys.executable, "-c",
+     "import importlib.util, os, sys\n"
+     "spec = importlib.util.spec_from_file_location('vpm', sys.argv[1])\n"
+     "m = importlib.util.module_from_spec(spec)\n"
+     "sys.modules['vpm'] = m\n"
+     "spec.loader.exec_module(m)\n"
+     "m.redirect_console()\n"
+     "for i in range(40):\n"
+     "    m.log_aside('ASIDE %02d %s' % (i, 'a' * 60))\n"
+     "    print('CONSOLE %02d %s' % (i, 'c' * 60))\n",
+     os.path.join(mixing, "prog", "__init__.py")],
+    env=dict(os.environ, VPM_SILENT="1"),
+    capture_output=True, text=True, timeout=120)
+written = ""
+name = os.path.join(mixing, "prog", "videopodcast-magic.log")
+if os.path.exists(name):
+    with io.open(name, encoding="utf-8", errors="replace") as f:
+        written = f.read()
+stands = set(written.splitlines())
+wanted = ["ASIDE %02d %s" % (i, "a" * 60) for i in range(40)] \
+    + ["CONSOLE %02d %s" % (i, "c" * 60) for i in range(40)]
+missing = [one for one in wanted if one not in stands]
+check("every line the two writers wrote stands whole in the log",
+      not missing,
+      "%d of 80 missing, first %r, and the log holds %d lines"
+      % (len(missing), missing[0][:40] if missing else "",
+         len(stands)))
+
 shutil.rmtree(work, ignore_errors=True)
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))

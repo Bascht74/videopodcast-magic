@@ -75,14 +75,19 @@ videopodcast-magic = "videopodcast_magic:main"
 # weight into every installation, for the many who never separate
 # speakers.
 packages = ["videopodcast_magic", "videopodcast_magic.cut",
-            "videopodcast_magic.language", "videopodcast_magic.resolve",
-            "videopodcast_magic.speakers", "videopodcast_magic.speech",
-            "videopodcast_magic.ui"]
+            "videopodcast_magic.desktop", "videopodcast_magic.language",
+            "videopodcast_magic.resolve", "videopodcast_magic.speakers",
+            "videopodcast_magic.speech", "videopodcast_magic.ui"]
 
 # The nine translations are data, not program, and setuptools ships
 # only Python out of a package unless it is told otherwise. Without
 # this line the wheel carries the reader and no texts, and an
 # installed copy speaks English only -- measured 5.9.2026: zero .po
 # files in the wheel, and nothing said about it anywhere.
+#
+# The program's picture is the second of them, and the same line is
+# what carries it: without this the shortcut laid on the first start
+# shows the system's blank sheet, and nothing says why.
 [tool.setuptools.package-data]
+"videopodcast_magic.desktop" = ["*.png"]
 "videopodcast_magic.language" = ["*.po"]

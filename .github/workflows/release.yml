@@ -4,12 +4,12 @@ run-name: "release #${{ github.run_number }} of ${{ inputs.tag || github.ref_nam
 # What a release has to be, asked of the release itself.
 #
 # The program keeps itself up to date: it asks github.com for the
-# newest release, fetches one file from a tag, and starts again from
-# it. Three addresses carry that, and all three are written into the
-# program rather than into this file:
+# newest release and then lets pip fetch the repository. Three
+# addresses carry that, and all three are written into the program
+# rather than into this file:
 #
 #   newer_release()   asks RELEASES for the tag of the newest release
-#   fetch_new_self()  fetches RAW_FILE % tag, the one file
+#   pip_update()      runs pip install -U PIP_SOURCE, the repository
 #   fetch_model()     fetches MODEL_BASE % model_reference(), the model
 #
 # So this workflow does not restate them. It imports the program at
@@ -93,7 +93,7 @@ jobs:
               "vpm", "videopodcast_magic/__init__.py")
           vpm = importlib.util.module_from_spec(spec)
           spec.loader.exec_module(vpm)
-          for name in ("VERSION", "RELEASES", "RAW_FILE", "MODEL_BASE",
+          for name in ("VERSION", "RELEASES", "PIP_SOURCE", "MODEL_BASE",
                        "SPEAKER_MODEL_NAME"):
               print("%s=%s" % (name, getattr(vpm, name)))
           PY
@@ -133,21 +133,25 @@ jobs:
           # Two names that are nearly the same and are not the same:
           # the repository is videopodcast-magic, the package in it is
           # videopodcast_magic, because only an underscore can be
-          # imported. The way in is that package's __init__.py, and it
-          # can be called nothing else: only for that name does
-          # spec_from_file_location open the folder beside it, so the
-          # program can be moved but not renamed. Before 3.0.0 both
-          # repository and program were spelled with the hyphen,
-          # so an address that built the file name out of the
-          # repository name came out right by accident. It no longer
-          # does, and this is the check that says so -- an update
-          # fetches RAW_FILE and nothing else, so a wrong one here is
-          # every installed copy unable to reach the next version.
-          want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
-          want="$want/%s/videopodcast_magic/__init__.py"
-          [ "$RAW_FILE" = "$want" ] && ok=1 || ok=0
-          check "fetch_new_self fetches from this repository" "$ok" \
-            "$RAW_FILE"
+          # imported. pip is pointed at the repository and carries the
+          # hyphen; the model lies inside the package and carries the
+          # underscore. Before 3.0.0 both were spelled with the
+          # hyphen, so an address built out of the wrong one of the two
+          # came out right by accident. It no longer does, and these
+          # two checks are what say so -- an update is this one command
+          # and nothing else, so a wrong address here is every
+          # installed copy unable to reach the next version.
+          #
+          # Not the same question as "pip installs it from this tag"
+          # further down: that one builds the address out of
+          # GITHUB_REPOSITORY and proves the address works. This one
+          # asks whether the address the program itself holds is that
+          # address. Only both together say that an installed copy
+          # reaches the next version.
+          want="git+https://github.com/$GITHUB_REPOSITORY"
+          [ "$PIP_SOURCE" = "$want" ] && ok=1 || ok=0
+          check "pip_update installs from this repository" "$ok" \
+            "$PIP_SOURCE"
           want="https://raw.githubusercontent.com/$GITHUB_REPOSITORY"
           want="$want/%s/videopodcast_magic/models/$SPEAKER_MODEL_NAME/"
           [ "$MODEL_BASE" = "$want" ] && ok=1 || ok=0
@@ -170,92 +174,27 @@ jobs:
           [ "$fails" = "0" ] && echo "All good." \
             || { echo "FAIL: $fails of these"; exit 1; }
 
-      - name: "Contract: fetch the program from the address it updates from"
-        # Every check has its say, even after one before it has
-        # gone red: a run that stops at the first is a run that
-        # has to be done again to see the rest.
-        if: ${{ !cancelled() && env.VERSION != '' }}
-        run: |
-          fails=0
-          check() {
-            if [ "$2" = "1" ]; then
-              printf '  %-52s ok   %s\n' "$1" "${3:-}"
-            else
-              printf '  %-52s FAIL %s\n' "$1" "${3:-}"
-              fails=$((fails + 1))
-            fi
-          }
-          # A tag is not on raw.githubusercontent.com the second it is
-          # pushed. Five tries over fifty seconds, so a cache that has
-          # not caught up is a wait and not a red run.
-          fetch() {
-            for try in 1 2 3 4 5; do
-              curl -fsSL --retry 2 -o "$2" "$1" && return 0
-              echo "  ... no answer yet from $1 (try $try of 5)"
-              sleep 10
-            done
-            return 1
-          }
-
-          url=$(printf "$RAW_FILE" "$TAG")
-          echo "1. $url"
-          fetch "$url" /tmp/came-down.py && ok=1 || ok=0
-          check "the file the program fetches is there" "$ok" "$url"
-          if [ "$ok" = "0" ]; then
-            echo "FAIL: nothing came down, so nothing else can be asked"
-            exit 1
-          fi
-          echo "   $(wc -c < /tmp/came-down.py) bytes"
-
-          echo
-          echo "2. The three questions self_checked() asks of it"
-          set +e
-          python - /tmp/came-down.py <<'PY'
-          import sys
-          raw = open(sys.argv[1], "rb").read()
-          bad = 0
-          def check(name, ok, extra=""):
-              global bad
-              print("  %-52s %s %s"
-                    % (name, "ok  " if ok else "FAIL", extra))
-              bad += 0 if ok else 1
-          try:
-              text = raw.decode("utf-8")
-          except UnicodeDecodeError as e:
-              check("it is readable text", False, str(e))
-              sys.exit(1)
-          check("it is readable text", True, "%d bytes" % len(raw))
-          check("it is this program, not an error page",
-                "VERSION = " in text and "CATALOGUE" in text)
-          try:
-              compile(text, "videopodcast_magic/__init__.py", "exec")
-              check("it compiles", True)
-          except SyntaxError as e:
-              check("it compiles", False, "line %s" % e.lineno)
-          sys.exit(1 if bad else 0)
-          PY
-          rc=$?
-          set -e
-          [ "$rc" = "0" ] && ok=1 || ok=0
-          check "what came down passes self_checked()" "$ok"
-
-          echo
-          echo "3. It is the file that was tagged"
-          cmp -s /tmp/came-down.py videopodcast_magic/__init__.py \
-            && ok=1 || ok=0
-          a=$(shasum -a 256 /tmp/came-down.py | cut -c1-16)
-          b=$(shasum -a 256 videopodcast_magic/__init__.py | cut -c1-16)
-          check "byte for byte the file at this tag" "$ok" \
-            "$a... came down, $b... was tagged"
-          said=$(sed -n 's/^VERSION = "\(.*\)"$/\1/p' /tmp/came-down.py \
-                 | head -1)
-          [ "$said" = "$VERSION" ] && ok=1 || ok=0
-          check "it carries the version of this tag" "$ok" \
-            "it says $said"
-
-          echo
-          [ "$fails" = "0" ] && echo "All good." \
-            || { echo "FAIL: $fails of these"; exit 1; }
+      # There used to be a step here that fetched one file from
+      # raw.githubusercontent.com -- the second way to a newer version,
+      # which wrote that one file over the program -- and asked
+      # self_checked()'s three questions of what came down. RAW_FILE,
+      # fetch_new_self() and put_new_self() are gone from the program:
+      # since it became a folder, writing one file over it would leave
+      # ui, cut, resolve, speakers, speech and language on the version
+      # before.
+      #
+      # Not because the address stopped answering. Measured 5.9.2026:
+      # it answers 200 at main and at v3.0.0b3, because
+      # videopodcast_magic/__init__.py really is at that path -- so
+      # every check in this step would have come out green over a way
+      # that no longer exists. It had to be taken out; it would never
+      # have gone red by itself.
+      #
+      # What it asked is asked further down instead, of the way that is
+      # left: "pip_update installs from this repository" holds the
+      # program's own address against this repository, and "it installs
+      # as a package and answers" installs from it and makes the
+      # installed copy say its version.
 
       - name: "Contract: fetch the model from the address it builds"
         # Every check has its say, even after one before it has
@@ -840,7 +779,7 @@ jobs:
             echo "Asked of ${GITHUB_REPOSITORY} on"\
                  "\`$GITHUB_EVENT_NAME\`."
             echo
-            echo "* the file: \`$(printf "$RAW_FILE" "$TAG")\`"
+            echo "* pip: \`pip3 install -U $PIP_SOURCE\`"
             echo "* the model: \`$(printf "$MODEL_BASE" "v$VERSION")\`"
             echo "* the release: \`$RELEASES\`"
           } >> "$GITHUB_STEP_SUMMARY"

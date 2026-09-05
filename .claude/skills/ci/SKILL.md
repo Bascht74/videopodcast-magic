@@ -116,9 +116,18 @@ GitHub does not move a stacked pull request to the base's base; it
 stood on it. The work was not lost, but the pull request, its body and
 its checks were, and a new one had to be opened.
 
-**So the order is fixed:** merge the base, then **retarget every pull
-request that stands on it** (`gh pr edit <n> --base main`), then delete
-the branch. Asking first costs one line:
+**And deleting is a step of its own, never an appendix.** Measured
+5.9.2026, an hour after the paragraph above was written: `gh pr merge 11`
+and `git push origin --delete` went out in one chain. The merge failed on
+nine catalogue conflicts, the delete ran anyway, and the pull request
+closed with its branch. **Recovered from `refs/pull/11/head`** -- GitHub
+keeps a pull request's head even when the branch is gone -- but the
+recovery cost more than the check would have. Merge, read the answer,
+then delete.
+
+**So the order is fixed:** merge the base, read that it merged, then
+**retarget every pull request that stands on it**
+(`gh pr edit <n> --base main`), then delete the branch. Asking first costs one line:
 
 ```bash
 gh pr list --state open --json number,baseRefName \
@@ -231,6 +240,9 @@ The pass before a red run is called explained.
 10. If it was us: one repair, then one push, then the waiting again.
 11. Deleting a branch: was every pull request standing on it retargeted
     first? Once it is closed with the base, it cannot be reopened.
+12. Was the merge read before the branch was deleted, rather than the
+    two sent out in one chain? A failed merge plus a delete that ran
+    anyway costs a pull request.
 11. Is it written down which of the two it was -- the missing tool and
     its image, or the red line in the counter-proof register?
 12. After a green run: `bash builder_times.sh`, and no dead rows left
