@@ -6455,3 +6455,9 @@ msgstr "Antwortender"
 
 msgid "  %dx away from the speaker because a shot ran longer than %.0f s"
 msgstr "  %dx weg vom Sprecher, weil eine Einstellung länger als %.0f s stand"
+
+msgid "%s is in place."
+msgstr "%s ist eingespielt."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Dieses Fenster ist noch die Fassung, mit der es gestartet ist. Es kann jetzt neu starten und mit der neuen hochkommen, oder du machst das später selbst."
