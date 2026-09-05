@@ -1018,6 +1018,12 @@ msgstr "पहले न जाएँ"
 msgid "Answering speaker"
 msgstr "उत्तर देने वाला"
 
+msgid "%s is in place."
+msgstr "%s स्थापित हो गया।"
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "यह विंडो अब भी वही संस्करण है जिसके साथ यह शुरू हुई थी। यह अभी फिर से शुरू होकर नए संस्करण में आ सकती है, या आप बाद में स्वयं ऐसा कर सकते हैं।"
+
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "यह प्रति अपने ही फ़ोल्डर से चलती है, इसलिए pip के पास यहाँ अपडेट करने को कुछ नहीं है। इससे यह स्थापित होती है: %s"
 

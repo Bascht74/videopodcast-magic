@@ -1018,6 +1018,12 @@ msgstr "não ir antes"
 msgid "Answering speaker"
 msgstr "Quem responde"
 
+msgid "%s is in place."
+msgstr "%s está instalado."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Esta janela ainda é a versão com que arrancou. Pode reiniciar agora e voltar com a nova, ou fá-lo você mais tarde."
+
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Esta cópia corre a partir de uma pasta própria, por isso o pip não tem aqui nada para atualizar. Isto instala-a: %s"
 
