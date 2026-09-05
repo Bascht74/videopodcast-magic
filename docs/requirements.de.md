@@ -184,6 +184,19 @@ kann**, denn sie sind kein Python, und keine Liste, die pip liest, hat
 einen Platz für sie. Jedes andere Stück kam mit der Installation; diese
 beiden müssen auf der Maschine liegen.
 
+**Wo das Programm sie sucht.** Zuerst im Suchpfad, danach dort, wo die
+Paketverwaltungen dieses Systems ein Programm gewöhnlich ablegen: unter
+macOS Homebrew und MacPorts, unter Linux snap und der Ordner, in den ein
+einzelner Benutzer installiert, unter Windows Chocolatey, Scoop und
+winget. Dieser zweite Blick ist der Grund, warum ein Doppelklick sich
+verhält wie eine Kommandozeile: Wer das Programm aus dem Dock oder aus
+dem Finder startet, erbt so gut wie nichts von dem Suchpfad, den ein
+Terminal mitbringt -- ohne ihn wäre dasselbe ffmpeg da, sobald man es
+tippt, und verschwunden, sobald man klickt. Ein ffmpeg, das sich das
+Programm selbst geholt hat, steht dabei vor allen anderen, und eines,
+das schon im Suchpfad steht, behält seinen Platz vor allem, was eine
+Paketverwaltung abgelegt hat.
+
 **9.0.1 ist die Untergrenze, und darunter läuft nichts.** Das Bild aus
 einer Kameradatei wird unverändert durchkopiert, und was daneben steht,
 soll genauso unverändert ankommen: der Farbkasten, die Aufnahmekurve,
@@ -318,6 +331,13 @@ es ebenfalls, mit zwei Einschränkungen:
   aufnehmen und ein neues Terminal öffnen. Einen zweiten Weg hinein
   gibt es nicht: **`python3 -m videopodcast_magic` hat das Programm
   früher gestartet und tut es nicht mehr.**
+* **`ffmpeg` wird auch nach der Installation nicht gefunden.** In den
+  Ordnern der gängigen Paketverwaltungen sieht das Programm von sich
+  aus nach, ohne dass dafür etwas eingerichtet werden müsste. Bleibt es
+  trotzdem dabei, liegt dieses ffmpeg irgendwo, wohin es von Hand
+  ausgepackt wurde: diesen Ordner in den Suchpfad aufnehmen und neu
+  starten.
+
 * **Das Symbol oder der Startmenü-Eintrag ist weg und kommt nicht
   wieder.** So ist es gedacht: Was von Hand weggeräumt wurde, wird
   kein zweites Mal angelegt. Der installierte Befehl startet das
