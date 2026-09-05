@@ -104,6 +104,12 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
     if there:
         old = _points_at(where, system)
         if old and _is_a_starter(old):
+            # Written down although nothing was laid. Settings that were
+            # reset would otherwise hold a working entry and no note, and
+            # the next one taken away by hand would come back -- against
+            # the one promise this makes.
+            if write_down is not None and kept.get(KEPT) != where:
+                write_down(KEPT, where)
             return Laid(where, False, "")
 
     if target is None:
