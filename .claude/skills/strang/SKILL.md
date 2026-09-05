@@ -9,7 +9,10 @@ order: 10
 # Cutting an order for a strand
 
 Before the first edit, not after. Splitting a half-edited folder is not
-a split; it is a merge by hand, waiting to happen.
+a split; it is a merge by hand, waiting to happen. Below: when to split,
+where the border runs, what the order has to carry and what it asks back
+for. `CLAUDE.md` holds the rule that a split is accounted for either
+way; the measured cases stand beside the rules they belong to.
 
 ## When to split
 
@@ -252,3 +255,31 @@ changed description, needs the session restarted once before anybody can
 call it. Measured: nine skills written in one session stayed documents
 for the rest of it, and their bodies were readable the whole time --
 nobody could find them.
+
+## Before it counts as done
+
+1. Was the split cut before the first edit, or the sentence written
+   saying why not?
+2. Does every strand own its own files, the foreign ones named by path
+   and the program as the folder `videopodcast_magic/`?
+3. Where the order excludes a folder, does it say what kind of thing?
+4. Is a foreign file prepared rather than waited for -- verbatim
+   old-text/new-text pairs on text anchors, never line numbers?
+5. Does every anchor match exactly once, counted at cutting and again
+   when the file came free?
+6. No name, path, production or preset in the order that must not stand
+   in the repository?
+7. Does it name what this machine cannot do -- no `timeout`, windows
+   offscreen only, nothing committed or pushed, broken copies in the
+   scratch space, nothing outside the repository touched?
+8. Where it forbids something, does it say where the answer may live?
+9. Does it ask back for the counter-proof, the red line word for word?
+10. For measured or read, on every statement?
+11. For report, do not repair?
+12. Does it say the description is a signpost and not a source?
+13. Is the template filled in, with no line left blank?
+14. Were the prepared edits put in the moment the file came free, an
+    anchor that had stopped matching once cut again?
+15. Was a contradiction handled first, and every finding from outside an
+    order written into `docs/notes/` or made a strand of its own?
+16. Did a changed `description` line get the session restarted once?

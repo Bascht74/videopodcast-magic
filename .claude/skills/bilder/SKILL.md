@@ -8,6 +8,14 @@ order: 100
 
 # The pictures in the manual
 
+The window has moved and the manual still shows the old one, or a
+release is due and the pictures belong to it. This file says when a
+picture pass is made, what it needs, how it is run, what is looked at
+afterwards and what is written down. The fuller source is
+`docs/notes/bilder.md`, and the last section is the pass read back.
+
+## Where the pictures come from
+
 Every picture exists twice: English as `docs/images/NAME.png`, German as
 `docs/images/NAME.de.png`. None of them is taken by hand.
 `docs/notes/shoot_screenshots.py` loads the program out of
@@ -104,32 +112,38 @@ in the manual.
 **The set is bounded by the checksum comparison above: every picture
 whose sum moved is looked at in both languages, and the answers are
 written down.** "Look at them" gets skipped; six questions with answers
-do not. The first four each caught a fault no test had; 5 and 6 are
-there to stop the next one.
+do not. The six stand at the end of this file. The first four each
+caught a fault no test had; the last two are there to stop the next one.
+What follows here is what each of them once caught.
 
-1. **Is a label cut off, is anything overlapping?** The German sentence
-   is the longer one; what fits in English says nothing. Four German
-   buttons and a checkbox wanted a measured 548 px in a row of about
-   480 px. **Ask it again after the correction** -- the first attempt, a
-   minimum width, turned cut off into overlapping, and without the second
-   picture that would have passed as fixed. Only a row of its own solved
-   it, the same way in **both** languages.
-2. **Does every word on it come out of the right catalogue?** A checkbox
-   saying „mit Channel 2 zusammenlegen" stood next to rows called
-   „Kanal 1": three catalogue entries left in English.
-3. **Does every sentence assembled from pieces parse?** „Der Schlüssel
-   geht nie in eine Datei" was built from building blocks and took the
-   wrong article.
-4. **Is anything on it out of the list below that may appear on no
-   picture?** Once the settings window came out with a filled field
-   **API Key** and a ticked **Im Schlüsselbund speichern** -- the program
-   had fetched the key from the Keychain at start. Noticed by looking,
-   not from the return code.
-5. **Does it show the program prettier than it is?** A label that is cut
-   off gets fixed in the program, never widened in the shooting script.
-6. **Did it change for the reason you expected?** A sum that moved where
-   nothing was touched is itself the finding -- a picture pass that
-   catches something nobody asked for is the return on the whole pass.
+**The German sentence is the longer one; what fits in English says
+nothing.** Four German buttons and a checkbox wanted a measured 548 px
+in a row of about 480 px. **Ask it again after the correction** -- the
+first attempt, a minimum width, turned cut off into overlapping, and
+without the second picture that would have passed as fixed. Only a row
+of its own solved it, the same way in **both** languages.
+
+**Every word on a picture comes out of the catalogue of its own
+language.** A checkbox saying „mit Channel 2 zusammenlegen" stood next
+to rows called „Kanal 1": three catalogue entries left in English.
+
+**A sentence assembled from pieces still has to parse.** „Der Schlüssel
+geht nie in eine Datei" was built from building blocks and took the
+wrong article.
+
+**Nothing off the list below may stand on a picture.** Once the settings
+window came out with a filled field **API Key** and a ticked **Im
+Schlüsselbund speichern** -- the program had fetched the key from the
+Keychain at start. Noticed by looking, not from the return code.
+
+**A picture that shows the program prettier than it is, is no picture.**
+A label that is cut off gets fixed in the program, never widened in the
+shooting script.
+
+**A picture changes for a reason, and it is the reason you expected.** A
+sum that moved where nothing was touched is itself the finding -- a
+picture pass that catches something nobody asked for is the return on
+the whole pass.
 
 **One line per changed picture goes into the release report:** the name,
 both languages, and what was found. "Nothing" is an answer; a pass that
@@ -141,9 +155,9 @@ and `fetch_model`, which is the one thing left that reaches the network. **A pic
 no separation and installs nothing.** Before anybody removes one of
 them, they have to know what stands in the picture afterwards.
 
-**What may appear on no picture** (question 4): real production names,
-real presets or production IDs, paths from a private disc, people's
-names, a key. Only fixture names and `/tmp` paths.
+**What may appear on no picture**: real production names, real presets
+or production IDs, paths from a private disc, people's names, a key.
+Only fixture names and `/tmp` paths.
 
 ## Afterwards, note what has become invalid
 
@@ -177,3 +191,18 @@ not matter for a measurement; for a picture it would be a fault.
 
 Whoever is unsure takes the invisible form. A picture that is 0.43 % off
 is better than an interruption.
+
+## Before it counts as done
+
+Every picture whose checksum moved, in both languages, and the answers
+written down:
+
+1. Is a label cut off, is anything overlapping -- in the German picture
+   as well as in the English one?
+2. Does every word on it come out of the right catalogue?
+3. Does every sentence assembled from pieces parse?
+4. Is anything on it out of the list that may appear on no picture?
+5. Does it show the program prettier than it is?
+6. Did it change for the reason you expected?
+7. Is there one line per changed picture in the release report, and one
+   record of what the change invalidated?
