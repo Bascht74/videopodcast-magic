@@ -15631,6 +15631,10 @@ def main():
     clean_envelope_cache()
     clean_probe_cache()
     clean_preflight_cache()
+    # A place in the program list, laid once and never again. Read here
+    # rather than at the top of the file: it runs once in the life of an
+    # installation, and reading the piece costs 0.07 ms on every start.
+    beside("desktop", program=PROGRAM).lay_on_first_start()
     # --lang alone is not a job: it only picks the language, so the window
     # still opens. Anything else on the command line means a run.
     rest = list(sys.argv[1:])
