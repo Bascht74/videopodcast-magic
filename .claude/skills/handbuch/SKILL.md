@@ -8,8 +8,13 @@ order: 90
 
 # The manual
 
-`docs/` holds it, one chapter per file: English as `docs/<name>.md`,
-German as `docs/<name>.de.md`.
+Something a user can see has changed and the manual still describes the
+old state, or a chapter is to be brought up to date in the other
+language. `docs/` holds it, one chapter per file: English as
+`docs/<name>.md`, German as `docs/<name>.de.md`. The last section here
+is the pass read back.
+
+## Both languages, or the test turns red
 
 **Changing a chapter means changing both.** Otherwise
 `text_no_german_left_test.py` turns red. The test asks two things: that
@@ -33,6 +38,8 @@ passed over. One of them was a function a merge had silently removed.
 **So write down what does not add up, as you go** -- and somewhere it
 will be found again. A chapter that phrases its way around a discrepancy
 has thrown the finding away.
+
+## One line per chapter, and the two halves counted apart
 
 **Every chapter read leaves one line, and "nothing" is one of the
 answers:**
@@ -105,3 +112,18 @@ the thought differently.
   German chapter says "Trockenlauf", not "Dry run".
 * **What the reader can do, in the order they do it.** A chapter follows
   the handgrip, not the layout of the program.
+
+## Before it counts as done
+
+1. Is every chapter that changed changed in both languages?
+2. Does the German chapter read as German, and not as the English one
+   carried over line by line?
+3. Is one line per chapter read written down, with the text half and the
+   program half counted apart?
+4. Does that pass name its chapters, rather than reporting that the
+   chapters are up to date?
+5. Has every finding become a test before the tag -- or an entry with
+   its shape written out: what is set up, what is checked, what has to
+   be broken for it to go red?
+6. Was everything outside the errand reported rather than repaired in
+   passing?
