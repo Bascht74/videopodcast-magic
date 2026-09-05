@@ -86,10 +86,10 @@ nennt den Weg daran vorbei:
 das Programm in eine eigene Umgebung und den Befehl in den Suchpfad.
 
 Zweierlei kann pip nicht mitbringen, weil beides kein Python ist:
-**Python selbst**, 3.10 oder neuer, und **`ffmpeg` 8.1.2 oder neuer,
+**Python selbst**, 3.10 oder neuer, und **`ffmpeg` 9.0.1 oder neuer,
 samt `ffprobe`**. Die beiden Werkzeuge sucht das Programm im Suchpfad,
 bietet die Paketverwaltung der Maschine an und fragt, bevor es sie
-ausführt, und sonst sagt es, woher man sie bekommt. Unter 8.1.2 geht
+ausführt, und sonst sagt es, woher man sie bekommt. Unter 9.0.1 geht
 das Fenster auf und bleibt leer: erst diese Fassung reicht neben dem
 Bild auch die Angaben der Kamera unverändert durch — Farbkasten,
 Aufnahmekurve, Dolby Vision, Zeitcode.
@@ -142,7 +142,7 @@ wird.*
 
 ## Was gebraucht wird
 
-Python 3.10 oder neuer, dazu `ffmpeg` 8.1.2 oder neuer samt `ffprobe`
+Python 3.10 oder neuer, dazu `ffmpeg` 9.0.1 oder neuer samt `ffprobe`
 im Suchpfad. Mehr steht nicht auf der Liste: alles andere ist ein
 Python-Paket, jedes davon steht auf der Liste, die pip liest, und die
 Installation bringt sie alle mit. ffmpeg ist die Ausnahme, die es nicht
