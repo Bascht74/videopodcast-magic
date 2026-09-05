@@ -133,6 +133,7 @@ run_only_newer_offered	83
 run_outside_seen	14
 run_prework_listed	43
 run_promise_is_written	12
+run_shortcut_laid_once	20
 run_simple_path_agrees	26
 run_space_has_margin	17
 run_stays_local	20
@@ -268,5 +269,6 @@ window_speakers_as_run	14
 window_stages_named	16
 window_stands_still	2
 window_start_runs	4
+window_symbol_from_file	5
 window_view_reaches_tabs	10
 window_zoom_stays_in	32

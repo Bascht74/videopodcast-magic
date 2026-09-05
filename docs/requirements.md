@@ -96,6 +96,63 @@ The separation then reads the model from that folder, without an
 account, a token or a network. The program fetches it only the first
 time.
 
+## Where it turns up after the first start
+
+The install leaves a command behind, and a command has to be typed.
+**The first time the program runs, it lays itself a place where this
+system shows programs**, so that from then on it starts the way
+everything else does:
+
+* **macOS**: a program of its own in the **Applications** folder of
+  your own home folder -- not the one that belongs to the whole
+  machine. It starts and can be kept in the Dock like any other
+  program.
+* **Windows**: an entry in your own Start menu, under the program's
+  name.
+* **Linux**: an entry the desktop reads, and beside it the picture in
+  the folder an icon theme looks in, so the entry keeps its picture
+  when the desktop changes theme or scale. When a desktop picks a new
+  entry up is the desktop's own affair: one shows it at once, another
+  after the next login.
+
+Nothing is installed here. What is laid down points at the command pip
+has already put on the machine: delete it and the program itself is
+untouched, and remove the program with pip and the entry stays behind
+until somebody throws it away like any other icon.
+
+**It says one line while it does it:**
+
+```
+A shortcut to this program was made: <path>
+```
+
+Every start after that is silent.
+
+**Nothing here can hold a start up.** Where the place cannot be
+written -- a folder that may not be written into, a system that gives
+no answer -- the program names the reason in one line and goes on into
+its window as usual:
+
+```
+No shortcut to this program was made: <reason>
+```
+
+Both lines stand in the log as well, **Help > Show the log of this
+run**.
+
+**Deleted by hand, it stays deleted.** The program writes down the
+place it laid. Finding that place empty later while the folder around
+it still stands, it reads that as an answer: nothing is laid a second
+time, and nothing is said about it either. So whoever does not want the
+entry deletes it once.
+
+**It does come back where it stopped working.** The entry points at the
+installed command, and that command moves house when the Python under
+it is replaced -- after which the icon is still there and starts
+nothing. Where the program finds its own entry pointing at something
+that is gone, it writes it afresh and says the same line again. That is
+the one start after the first that is not silent.
+
 ## Which Python the program needs
 
 3.10 or newer, and pip refuses the install below that. The floor is
@@ -246,6 +303,11 @@ well, with two limits:
   terminal. There is no second way in: **`python3 -m
   videopodcast_magic` used to start the program and does not any
   more.**
+* **The icon or the Start menu entry is gone and does not come back.**
+  That is how it is meant to be: an entry taken away by hand is not
+  laid a second time. The installed command still starts the program
+  from a terminal, and an alias, a shortcut or a launcher of your own
+  may point at it.
 * **`ffmpeg` is still not found after installing it.** The folder
   holding it is not on the search path. Put it there and start again.
 * **The window opens and stays empty, and the message names an ffmpeg
