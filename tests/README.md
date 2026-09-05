@@ -1,6 +1,6 @@
 # The test suite
 
-240 tests against the program in `../videopodcast_magic/`. Every one of them stands
+241 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-240 tests. The name is the one a red line carries, and beside it the
+241 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -344,6 +344,7 @@ it is green.
 | `voice_both_splits_stand` | A second separation leaves the first its voices, names and cameras. |
 | `voice_both_ways_agree` | The window and the command line separate the same way. |
 | `voice_close_mics_mixed` | Microphones that hear each other are mixed and taken apart by voice. |
+| `voice_counts_grouped` | The separation counts voices as the language does, project files not. |
 | `voice_every_word_placed` | The words on the speakers, and the three files that come of it. |
 | `voice_failed_read_named` | A reading that fails costs its tracks the cut, and the log says so. |
 | `voice_language_arrives` | The language asked for reaches the recognition as a code it takes. |
