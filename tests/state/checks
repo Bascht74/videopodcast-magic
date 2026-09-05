@@ -140,6 +140,7 @@ run_switch_changes_it	12
 run_switch_has_effect	8
 run_threads_keep_order	17
 run_three_ways_agree	19
+run_update_says_it_landed	5
 run_which_script	7
 silent	auphonic_key_kept
 sound_all_blocks_count	18

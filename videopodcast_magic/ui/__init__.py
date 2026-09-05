@@ -12292,7 +12292,7 @@ def install_watched(window, app, update):
         return trouble
 
     PROGRAM.UPDATE_SINK(job)
-    restart_when_done(window, ended)
+    restart_when_done(window, ended, ffmpeg_in_place())
     return True
 
 
@@ -12333,13 +12333,13 @@ def install_job(update, say):
         % how_to_get_ffmpeg(update)
 
 
-def restart_when_done(window, ended):
-    """Wait for the install in the other thread, then offer the restart.
+def restart_when_done(window, ended, said):
+    """Wait for the job in the other thread, then offer the restart.
 
     A timer rather than a call out of that thread: a box belongs to
     the window's own thread and to no other. It stops itself either
-    way, and it offers nothing where the install came back with
-    trouble -- there is nothing to pick up then.
+    way, and it offers nothing where the job came back with trouble
+    -- there is nothing to pick up then. *said* is the words.
     """
     from PySide6 import QtCore
     watch = QtCore.QTimer(window)
@@ -12350,15 +12350,35 @@ def restart_when_done(window, ended):
             return
         watch.stop()
         if ended[0] == "":
-            restart_offer(window)
+            restart_offer(window, said)
 
     watch.timeout.connect(look)
     watch.start()
     return watch
 
 
-def restart_offer(window):
-    """Say in a box that ffmpeg is there, and offer the restart.
+def ffmpeg_in_place():
+    """What the restart box says once ffmpeg arrived: title, head, rest."""
+    return ("ffmpeg", T('ffmpeg is in place.'),
+            T('The program reads it when it starts. It can start again '
+              'now, or you can do that yourself later.'))
+
+
+def version_in_place(tag):
+    """What the restart box says once that version arrived.
+
+    Three things somebody needs and cannot see: which version is now
+    on the disc, that the window in front of them is still the old
+    one, and that they may take the restart or leave it.
+    """
+    return ("Video Podcast Magic", T('%s is in place.') % tag,
+            T('This window is still the version it started as. It can '
+              'start again now and come up as the new one, or you can '
+              'do that yourself later.'))
+
+
+def restart_offer(window, said):
+    """Say in a box what arrived, and offer the restart. *said* is the words.
 
     A box rather than a line: in the Output tab that sentence is the
     last of two hundred the package manager wrote, and it goes under
@@ -12368,13 +12388,12 @@ def restart_offer(window):
     """
     if os.environ.get("VPM_SILENT"):
         return False
+    title, arrived, rest = said
     QtWidgets = _qt_widgets()
     box = QtWidgets.QMessageBox(window)
-    box.setWindowTitle("ffmpeg")
-    box.setText(T('ffmpeg is in place.'))
-    box.setInformativeText(
-        T('The program reads it when it starts. It can start again '
-          'now, or you can do that yourself later.'))
+    box.setWindowTitle(title)
+    box.setText(arrived)
+    box.setInformativeText(rest)
     do = box.addButton(T('Start again now'),
                        QtWidgets.QMessageBox.AcceptRole)
     box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
@@ -12385,7 +12404,7 @@ def restart_offer(window):
     # Only reached where the start failed: one that works never comes
     # back. So it is said where the offer stood, and not on a console
     # this program does not have.
-    warn_box(QtWidgets, window, "ffmpeg",
+    warn_box(QtWidgets, window, title,
              T('Starting again did not work. Close the window and '
                'start the program the way you did before.'))
     return True
@@ -12789,9 +12808,42 @@ def update_offer(window, asked=False):
         set_update_skipped(tag)
     if answered != QtWidgets.QDialog.Accepted:
         return
-    trouble = update_fetched(tag, owner)
+    trouble = update_watched(window, tag, owner)
     if trouble:
         warn_box(QtWidgets, window, T('A newer version is out'), trouble)
+
+
+def update_watched(window, tag, owner):
+    """Put that version in place and offer the restart once it is in.
+
+    update_fetched hands pip to the window and comes back while pip is
+    still fetching, so a box said there would be said too early. The
+    sink is wrapped for that one call instead: what the job ended with
+    lands in a list, and the timer the ffmpeg install uses turns it
+    into the box. Trouble, or "".
+    """
+    ended = []
+    sink = PROGRAM.UPDATE_SINK
+
+    def watched(job):
+        def watch(say):
+            trouble = job(say)
+            ended.append(trouble)
+            return trouble
+
+        sink(watch)
+
+    if sink is not None:
+        PROGRAM.UPDATE_SINK = watched
+    try:
+        trouble = update_fetched(tag, owner)
+    finally:
+        PROGRAM.UPDATE_SINK = sink
+    # Only the road pip takes: the other one writes over a loose file
+    # and starts again by itself, so there is nothing left to offer.
+    if not trouble and owner:
+        restart_when_done(window, ended, version_in_place(tag))
+    return trouble
 
 
 def restore_offer(window):
