@@ -1,6 +1,6 @@
 # The test suite
 
-240 tests against the program in `../videopodcast_magic/`. Every one of them stands
+241 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-240 tests. The name is the one a red line carries, and beside it the
+241 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -339,6 +339,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `voice_amounts_grouped` | The speech recognition says its amounts the way the language does. |
 | `voice_answer_kept` | The two proposals that fill a field nobody has answered. |
 | `voice_bleed_gone_first` | #80: does the bleed get taken out before the speech detection? |
 | `voice_both_splits_stand` | A second separation leaves the first its voices, names and cameras. |
