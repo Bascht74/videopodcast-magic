@@ -128,7 +128,7 @@ run_ffmpeg_not_fetched	15
 run_ffmpeg_offered	19
 run_findings_reach_both	6
 run_install_is_watched	40
-run_log_within_reach	25
+run_log_within_reach	26
 run_metrics_add_up	51
 run_odd_clock_named	17
 run_only_newer_offered	83

@@ -12433,6 +12433,11 @@ def redirect_console():
                        python_note(), running_from()))
         os.dup2(file.fileno(), 1)
         os.dup2(file.fileno(), 2)
+        # The aside lines go through this same handle from now on: two
+        # handles on one file keep two write positions, and whichever
+        # is behind writes over what the other put there. Measured
+        # 5.9.2026 -- a line came out as "rogram list is settled".
+        _LOG_ASIDE.append(file)
     except Exception:
         return None
     return file_path
