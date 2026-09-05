@@ -16,6 +16,22 @@
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
 # entry left out appears in English.
+#
+# A counted thing is the exception, and Russian is why the machinery
+# for it exists: English picks between one and everything else, Russian
+# between three. Such an entry carries msgid_plural and msgstr[0],
+# msgstr[1], msgstr[2] in place of the single msgstr, and the header
+# line below says which count wants which of them -- [0] where the
+# count ends in 1 but not in 11, [1] where it ends in 2, 3 or 4 but not
+# in 12 to 14, [2] everywhere else. The wordings are read as a list, so
+# a form left empty costs that form and not the entry.
+#
+# The English plural keeps its own ordinary entry beside such a group,
+# and it is not spare: it is what a run falls back on where the rule
+# cannot be read at all, and Russian then says the many-wording instead
+# of English. The English singular has no entry of its own -- that
+# would be the same msgid twice -- so in that one case a count of one
+# comes out English.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -30,7 +46,10 @@ msgid "Cut with the wide shot"
 msgstr "Монтаж с общим планом"
 
 msgid "on %s camera"
-msgstr "на %s камере"
+msgid_plural "on %s cameras"
+msgstr[0] "на %s камере"
+msgstr[1] "на %s камерах"
+msgstr[2] "на %s камерах"
 
 msgid "on %s cameras"
 msgstr "на %s камерах"
@@ -288,19 +307,28 @@ msgid "not readable"
 msgstr "не читается"
 
 msgid "%s audio track"
-msgstr "%s звуковая дорожка"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s звуковая дорожка"
+msgstr[1] "%s звуковые дорожки"
+msgstr[2] "%s звуковых дорожек"
 
 msgid "%s audio tracks"
 msgstr "%s звуковых дорожек"
 
 msgid "%s clip"
-msgstr "%s клип"
+msgid_plural "%s clips"
+msgstr[0] "%s клип"
+msgstr[1] "%s клипа"
+msgstr[2] "%s клипов"
 
 msgid "%s clips"
 msgstr "%s клипов"
 
 msgid "%s video track"
-msgstr "%s видеодорожка"
+msgid_plural "%s video tracks"
+msgstr[0] "%s видеодорожка"
+msgstr[1] "%s видеодорожки"
+msgstr[2] "%s видеодорожек"
 
 msgid "%s video tracks"
 msgstr "%s видеодорожек"
@@ -315,13 +343,19 @@ msgid " (playing)"
 msgstr " (воспроизведение)"
 
 msgid "%s channel"
-msgstr "%s канал"
+msgid_plural "%s channels"
+msgstr[0] "%s канал"
+msgstr[1] "%s канала"
+msgstr[2] "%s каналов"
 
 msgid "%s channels"
 msgstr "%s каналов"
 
 msgid "%s file"
-msgstr "%s файл"
+msgid_plural "%s files"
+msgstr[0] "%s файл"
+msgstr[1] "%s файла"
+msgstr[2] "%s файлов"
 
 msgid "%s files"
 msgstr "%s файлов"
@@ -786,19 +820,28 @@ msgid "video file"
 msgstr "видеофайл"
 
 msgid "%s audio recording"
-msgstr "%s звукозапись"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s звукозапись"
+msgstr[1] "%s звукозаписи"
+msgstr[2] "%s звукозаписей"
 
 msgid "%s audio recordings"
 msgstr "%s звукозаписей"
 
 msgid "%s camera"
-msgstr "%s камера"
+msgid_plural "%s cameras"
+msgstr[0] "%s камера"
+msgstr[1] "%s камеры"
+msgstr[2] "%s камер"
 
 msgid "%s cameras"
 msgstr "%s камер"
 
 msgid "%s video file"
-msgstr "%s видеофайл"
+msgid_plural "%s video files"
+msgstr[0] "%s видеофайл"
+msgstr[1] "%s видеофайла"
+msgstr[2] "%s видеофайлов"
 
 msgid "%s video files"
 msgstr "%s видеофайлов"

@@ -2275,6 +2275,30 @@ ENV_MARK = "[ENV]"
 BAD_MARK = "[BAD]"
 
 
+TIME_MARK = "[TIME]"
+
+# When this run began. The bundle a start from the Dock goes through
+# puts its own second into VPM_STARTED before it hands over, because
+# what happens before Python is running cannot be timed from inside it
+# -- and that was exactly the ten seconds nobody could name on 5.9.2026.
+_BEGAN = time.time()
+
+
+def mark_time(what):
+    """Write down how far into the start this is.
+
+    Into the log and nowhere else. Five of these say where a slow start
+    spends its time, which no amount of reading the source settles.
+    """
+    began, whence = _BEGAN, "this program"
+    outside = (os.environ.get("VPM_STARTED") or "").strip()
+    if outside.replace(".", "", 1).isdigit():
+        began, whence = float(outside), "the click"
+    log_aside("%s %s  %6.2f s since %s  %s"
+              % (TIME_MARK, time.strftime("%H:%M:%S"),
+                 time.time() - began, whence, what))
+
+
 _LOG_ASIDE = []
 
 
@@ -12409,6 +12433,11 @@ def redirect_console():
                        python_note(), running_from()))
         os.dup2(file.fileno(), 1)
         os.dup2(file.fileno(), 2)
+        # The aside lines go through this same handle from now on: two
+        # handles on one file keep two write positions, and whichever
+        # is behind writes over what the other put there. Measured
+        # 5.9.2026 -- a line came out as "rogram list is settled".
+        _LOG_ASIDE.append(file)
     except Exception:
         return None
     return file_path
@@ -15698,6 +15727,7 @@ def main():
     # Here rather than beside the last line of the file: a run started
     # through the installed command never passes that line.
     watch_outside_calls()
+    mark_time("the program is read and running")
     if only_reading(sys.argv[1:]):
         # argparse prints and exits by itself; nothing here needs a tool.
         build_argument_parser().parse_args()
@@ -15722,6 +15752,7 @@ def main():
     # installation and must not fail on the thing it repairs.
     global TOOL_TROUBLE
     TOOL_TROUBLE = find_required_tools()
+    mark_time("the tools are found")
     clean_envelope_cache()
     clean_probe_cache()
     clean_preflight_cache()
@@ -15732,7 +15763,8 @@ def main():
         i = rest.index("--lang")
         del rest[i:i + 2]
     rest = [a for a in rest if not a.startswith("--lang=")]
-    if not rest:
+    to_the_window = not rest
+    if to_the_window:
         # Qt before the console goes into the log file. It is a hundred
         # megabyte download on a machine that has none, and behind the
         # redirect the terminal would stand silent for minutes and then
@@ -15742,6 +15774,14 @@ def main():
         # program is not started from a console. Where the log is
         # stands in the Help menu instead.
         redirect_console()
+        mark_time("the log is open")
+    # A place in the program list, laid once and never again. Below the
+    # branch on purpose: redirect_console() renames the running log to
+    # the backup, so a line written before it lands in the log of the
+    # run before, where the Help menu never looks.
+    beside("desktop", program=PROGRAM).lay_on_first_start()
+    mark_time("the place in the program list is settled")
+    if to_the_window:
         return gui()
     force_utf8_output()
     enable_colour_output()
