@@ -1,6 +1,9 @@
 ---
 name: workflow
 description: A task is wide enough that several agents should work on it at once -- an audit across many files, a sweep for one class of fault, a question where an answer has to be refuted before it is believed. How the script is cut so it runs fast and comes back trustworthy.
+when: a task is wide enough for several agents at once
+tables: claude, contributing, agents
+order: 110
 ---
 
 # Orchestrating a workflow

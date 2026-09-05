@@ -1,6 +1,9 @@
 ---
 name: bilder
 description: The window has changed and the pictures in the manual show a state that no longer exists, or a release is coming up and the pictures belong to it.
+when: the window changed, or a release is coming
+tables: claude, contributing, agents
+order: 100
 ---
 
 # The pictures in the manual

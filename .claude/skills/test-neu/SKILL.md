@@ -1,6 +1,9 @@
 ---
 name: test-neu
 description: Anything inside a `tests/*_test.py` is about to change -- a new file, a section, a rewritten `check`, a name, a docstring, a printed line, a cleanup. Also when it is only one line, and also when no judgement changes.
+when: anything inside a `tests/*_test.py` changes -- also one line, also when no judgement changes
+tables: claude, contributing, agents, pr
+order: 20
 ---
 
 # Writing or changing a test

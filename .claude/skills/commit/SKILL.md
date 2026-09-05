@@ -1,6 +1,9 @@
 ---
 name: commit
 description: A commit is about to be made and its message written, or a subject line has to be judged before it goes into the log -- and above all when the work was big enough that one commit may really be two.
+when: a commit message is about to be written
+tables: claude, contributing, agents, pr
+order: 50
 ---
 
 # A commit message

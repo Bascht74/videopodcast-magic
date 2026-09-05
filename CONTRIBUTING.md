@@ -21,6 +21,8 @@ not afterwards, not from memory, not "I know what it says". A pull
 request that shows a skill was not read is turned back, whatever else
 is in it.
 
+<!-- skills begin: written by development/skill_table.py, not by hand -->
+
 | when this is about to happen | read first |
 |---|---|
 | a task touches more than one file | `strang` |
@@ -28,14 +30,26 @@ is in it.
 | a test is red, wobbling, or green and not to be trusted | `test-rot` |
 | a check was written or changed and is green | `gegenbeweis` |
 | a commit message is about to be written | `commit` |
+| a commit has been pushed and the builder has not answered yet | `ci` |
 | a section of `CHANGELOG.md` is written or changed | `changelog` |
 | something a user can see has changed and `docs/` still says the old thing | `handbuch` |
-| the window changed | `bilder` |
+| the window changed, or a release is coming | `bilder` |
 | a task is wide enough for several agents at once | `workflow` |
 
-Two are the owner's alone and not yours: `freigabe` (a version goes
-out) and `bilder` beyond reading it — the pictures need a logged-in
-screen on the owner's Mac.
+<!-- skills end -->
+
+One is the owner's alone and is not in that table: `freigabe`, when a
+version goes out. `bilder` is there because the window can change under
+your hands, but taking the pictures is the owner's too — they need a
+logged-in screen on his Mac.
+
+**The table is generated, so do not edit it here.** Every `SKILL.md`
+carries its own row -- the situation, which copies show it, and where
+it stands. `python3 development/skill_table.py` writes this table and
+the three beside it out of the skills, `--check` compares instead of
+writing and names what has gone stale, and the suite runs that
+comparison. So a reworded row here is lost at the next run: reword the
+`when:` line in the skill instead.
 
 **This is not politeness, it is arithmetic.** The rules in these
 documents were each written after something went wrong, and the

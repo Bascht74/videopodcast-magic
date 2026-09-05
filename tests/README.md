@@ -1,6 +1,6 @@
 # The test suite
 
-238 tests against the program in `../videopodcast_magic/`. Every one of them stands
+239 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-238 tests. The name is the one a red line carries, and beside it the
+239 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -526,6 +526,7 @@ it is green.
 | `text_no_german_left` | Hunt down the last German word, and check the catalogue itself. |
 | `text_only_texts_change` | The language machinery: catalogue, detection, switch, log colours. |
 | `text_release_ready` | What a release has to have, checked instead of remembered. |
+| `text_skills_listed` | Every copy of the skill table says what the skills themselves say. |
 | `text_tests_listed` | README.md lists every test with the sentence that test stands for. |
 | `text_whole_sentences` | No sentence may be glued together out of translated pieces. |
 

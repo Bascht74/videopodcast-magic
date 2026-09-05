@@ -1,6 +1,9 @@
 ---
 name: strang
 description: A task is about to touch more than one file, or more than two pieces that do not need each other, and nothing has been edited yet — how to cut the order for a strand so that what comes back is usable, and when to work alone instead.
+when: a task touches more than one file
+tables: claude, contributing, agents, pr
+order: 10
 ---
 
 # Cutting an order for a strand

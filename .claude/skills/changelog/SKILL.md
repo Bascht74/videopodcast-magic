@@ -1,6 +1,9 @@
 ---
 name: changelog
 description: A section of CHANGELOG.md is to be written or changed -- a new version is due, a point has to be added, or somebody has to decide whether a change belongs in it at all.
+when: a section of `CHANGELOG.md` is written or changed
+tables: claude, contributing, agents, pr
+order: 80
 ---
 
 # A section of the changelog
