@@ -1,0 +1,1013 @@
+# What is translated of this program's messages, in Russian.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# 327 of the program's 1498 texts stand here. Every text that is
+# not in this file appears in English: T() gives back the key it was
+# handed when it finds no entry, so what is missing reads rather than
+# breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Russian speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Cut with the wide shot"
+msgstr "Монтаж с общим планом"
+
+msgid "on %d camera"
+msgstr "на %d камере"
+
+msgid "on %d cameras"
+msgstr "на %d камерах"
+
+msgid "no camera yet"
+msgstr "пока нет камеры"
+
+msgid "A newer version is out"
+msgstr "Вышла более новая версия"
+
+msgid "%s is out. This is %s."
+msgstr "Вышла %s. Здесь работает %s."
+
+msgid "Multitrack mode"
+msgstr "Режим Multitrack"
+
+msgid "Singletrack mode"
+msgstr "Режим одной дорожки"
+
+msgid "fetching from auphonic.com ..."
+msgstr "загрузка с auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Что изменилось с %s:"
+
+msgid "Update"
+msgstr "Обновить"
+
+msgid "Later"
+msgstr "Позже"
+
+msgid "Go back"
+msgstr "Вернуться"
+
+msgid "About Video Podcast Magic"
+msgstr "О программе Video Podcast Magic"
+
+msgid "&File"
+msgstr "&Файл"
+
+msgid "&View"
+msgstr "&Вид"
+
+msgid "&Player"
+msgstr "&Проигрыватель"
+
+msgid "&Help"
+msgstr "&Справка"
+
+msgid "Play and pause"
+msgstr "Воспроизведение и пауза"
+
+msgid "Fast forward"
+msgstr "Перемотка вперёд"
+
+msgid "Play forward, faster on every press"
+msgstr "Воспроизведение вперёд, быстрее с каждым нажатием"
+
+msgid "Pause"
+msgstr "Пауза"
+
+msgid "One frame back"
+msgstr "На кадр назад"
+
+msgid "One frame forward"
+msgstr "На кадр вперёд"
+
+msgid "One second back"
+msgstr "На секунду назад"
+
+msgid "One second forward"
+msgstr "На секунду вперёд"
+
+msgid "Ten seconds back"
+msgstr "На десять секунд назад"
+
+msgid "Ten seconds forward"
+msgstr "На десять секунд вперёд"
+
+msgid "The manual"
+msgstr "Руководство"
+
+msgid "What changed in this version"
+msgstr "Что изменилось в этой версии"
+
+msgid "Look for a newer version now"
+msgstr "Проверить наличие новой версии"
+
+msgid "Separating speakers"
+msgstr "Разделение говорящих"
+
+msgid "Separating ..."
+msgstr "Разделение ..."
+
+msgid "Voice"
+msgstr "Голос"
+
+msgid "Break off"
+msgstr "Прервать"
+
+msgid "Breaking off ..."
+msgstr "Прерывание ..."
+
+msgid "Not on this machine"
+msgstr "Не на этом компьютере"
+
+msgid "Reading the audio ..."
+msgstr "Чтение звука ..."
+
+msgid "Speakers"
+msgstr "Говорящие"
+
+msgid "Speaker %d"
+msgstr "Говорящий %d"
+
+msgid "One more speaker in %s"
+msgstr "Ещё один говорящий в %s"
+
+msgid "One more speaker in"
+msgstr "Ещё один говорящий"
+
+msgid "%d:%02d min"
+msgstr "%d:%02d мин"
+
+msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
+msgstr "%s -- %d:%02d – %d:%02d (%.1f с)"
+
+msgid "%s and %d more"
+msgstr "%s и ещё %d"
+
+msgid "%s speech time"
+msgstr "время речи %s"
+
+msgid "Output"
+msgstr "Вывод"
+
+msgid "Access to auphonic.com"
+msgstr "Доступ к auphonic.com"
+
+msgid ""
+"Both are asked once and then stay. The key goes into the %s, never into a "
+"file."
+msgstr "Оба спрашиваются один раз и остаются. Ключ попадает в %s, но не в файл."
+
+msgid "Checking files"
+msgstr "Проверка файлов"
+
+msgid "Measuring time axis"
+msgstr "Измерение оси времени"
+
+msgid "Resolve answers"
+msgstr "Resolve отвечает"
+
+msgid "Settings"
+msgstr "Настройки"
+
+msgid "Settings ..."
+msgstr "Настройки ..."
+
+msgid "done"
+msgstr "готово"
+
+msgid ","
+msgstr " "
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Вид"
+
+msgid "Speech time"
+msgstr "Время речи"
+
+msgid "Share"
+msgstr "Доля"
+
+msgid "Colour"
+msgstr "Цвет"
+
+msgid "Preset"
+msgstr "Пресет"
+
+msgid "Preset:"
+msgstr "Пресет:"
+
+msgid "Start"
+msgstr "Запуск"
+
+msgid "Production"
+msgstr "Продукция"
+
+msgid "Target"
+msgstr "Цель"
+
+msgid "none"
+msgstr "нет"
+
+msgid "Length"
+msgstr "Длительность"
+
+msgid "no camera of its own"
+msgstr "без собственной камеры"
+
+msgid "do not use"
+msgstr "не использовать"
+
+msgid "several speakers"
+msgstr "несколько говорящих"
+
+msgid "Content"
+msgstr "Содержание"
+
+msgid "Intro"
+msgstr "Заставка"
+
+msgid "Outro"
+msgstr "Концовка"
+
+msgid "ignore this video"
+msgstr "пропустить это видео"
+
+msgid "Open project ..."
+msgstr "Открыть проект ..."
+
+msgid "Save project"
+msgstr "Сохранить проект"
+
+msgid "Close project"
+msgstr "Закрыть проект"
+
+msgid "Guest"
+msgstr "Гость"
+
+msgid "Host"
+msgstr "Ведущий"
+
+msgid "Host %d"
+msgstr "Ведущий %d"
+
+msgid "Skip this version"
+msgstr "Пропустить эту версию"
+
+msgid "Project found"
+msgstr "Проект найден"
+
+msgid "Open the project"
+msgstr "Открыть проект"
+
+msgid "not readable"
+msgstr "не читается"
+
+msgid "%d audio track"
+msgstr "%d звуковая дорожка"
+
+msgid "%d audio tracks"
+msgstr "%d звуковых дорожек"
+
+msgid "%d clip"
+msgstr "%d клип"
+
+msgid "%d clips"
+msgstr "%d клипов"
+
+msgid "%d video track"
+msgstr "%d видеодорожка"
+
+msgid "%d video tracks"
+msgstr "%d видеодорожек"
+
+msgid "  (this file ends earlier)"
+msgstr "  (этот файл заканчивается раньше)"
+
+msgid " (paused)"
+msgstr " (пауза)"
+
+msgid " (playing)"
+msgstr " (воспроизведение)"
+
+msgid "%d channel"
+msgstr "%d канал"
+
+msgid "%d channels"
+msgstr "%d каналов"
+
+msgid "%d file"
+msgstr "%d файл"
+
+msgid "%d files"
+msgstr "%d файлов"
+
+msgid "... or add files ..."
+msgstr "... или добавить файлы ..."
+
+msgid "Add files ..."
+msgstr "Добавить файлы ..."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Назначение: какая звуковая дорожка принадлежит какой камере"
+
+msgid "Audio"
+msgstr "Звук"
+
+msgid "Bleed"
+msgstr "Просачивание"
+
+msgid "Blocks"
+msgstr "Блоки"
+
+msgid "Camera"
+msgstr "Камера"
+
+msgid "Camera audio, %d to go ..."
+msgstr "Звук камер, осталось %d ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- предпросмотр  (длительность %s)"
+
+msgid "Cannot start yet: %s"
+msgstr "Пока нельзя начать: %s"
+
+msgid "Check again"
+msgstr "Проверить снова"
+
+msgid "Close"
+msgstr "Закрыть"
+
+msgid "Drag audio and video files here"
+msgstr "Перетащите сюда звуковые и видеофайлы"
+
+msgid "Fetching audio"
+msgstr "Получение звука"
+
+msgid "Fetching audio ..."
+msgstr "Получение звука ..."
+
+msgid "File"
+msgstr "Файл"
+
+msgid "Drag to move the position."
+msgstr "Потяните, чтобы изменить позицию."
+
+msgid "Keychain"
+msgstr "Связка ключей"
+
+msgid "Measuring time axis ..."
+msgstr "Измерение оси времени ..."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Многодорожечно (по дорожке на говорящего)"
+
+msgid "No files or project opened yet."
+msgstr "Пока не открыт ни файл, ни проект."
+
+msgid "No files selected yet."
+msgstr "Файлы ещё не выбраны."
+
+msgid "Not ready yet:"
+msgstr "Пока не готово:"
+
+msgid "One frame back."
+msgstr "На кадр назад."
+
+msgid "One second back."
+msgstr "На секунду назад."
+
+msgid "Only one speaker"
+msgstr "Только один говорящий"
+
+msgid "Open result folder"
+msgstr "Открыть папку с результатом"
+
+msgid "Overwrite"
+msgstr "Перезаписать"
+
+msgid "Overwrite files"
+msgstr "Перезаписать файлы"
+
+msgid "Play and pause."
+msgstr "Воспроизведение и пауза."
+
+msgid "Preview running ..."
+msgstr "Предпросмотр выполняется ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Подготовка -- прочитать звук и вычислить огибающие:\n"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Обработка на auphonic.com (необязательно)"
+
+msgid "Production name"
+msgstr "Название выпуска"
+
+msgid "Resolve running ..."
+msgstr "Resolve выполняется ..."
+
+msgid "Save in Keychain"
+msgstr "Сохранить в связке ключей"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Говорящие, измерены самой программой по дорожкам"
+
+msgid "Ten seconds back."
+msgstr "На десять секунд назад."
+
+msgid ""
+"The audio recording of every speaker, plus the cameras.\n"
+"The order does not matter -- the program recognises what is what.\n"
+"For a multi-part recording the first block is enough."
+msgstr ""
+"Звуковая запись каждого говорящего плюс камеры.\n"
+"Порядок не важен -- программа сама разбирается, что есть что.\n"
+"Для записи из нескольких частей достаточно первого блока."
+
+msgid "%s -- being checked"
+msgstr "%s -- проверяется"
+
+msgid "Open Keychain Access"
+msgstr "Открыть «Связку ключей»"
+
+msgid "There is no result yet."
+msgstr "Результата пока нет."
+
+msgid "To the In point."
+msgstr "К точке входа."
+
+msgid "To the start."
+msgstr "В начало."
+
+msgid "Track"
+msgstr "Дорожка"
+
+msgid "Video"
+msgstr "Видео"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- одновременная речь считается дважды"
+
+msgid "Wide shot at most"
+msgstr "Общий план не более"
+
+msgid "Wide shot at the latest"
+msgstr "Общий план не позже"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Общий план для приветствия в начале и прощания в конце"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- только понижает, никогда не повышает"
+
+msgid "average"
+msgstr "в среднем"
+
+msgid "checking ..."
+msgstr "проверка ..."
+
+msgid "complete"
+msgstr "полностью"
+
+msgid "hear assigned audio"
+msgstr "слушать назначенный звук"
+
+msgid "next to each video file"
+msgstr "рядом с каждым видеофайлом"
+
+msgid "not checked yet"
+msgstr "ещё не проверено"
+
+msgid "nothing loaded yet"
+msgstr "пока ничего не загружено"
+
+msgid "nothing selected"
+msgstr "ничего не выбрано"
+
+msgid "off"
+msgstr "выкл."
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "найдены обработанные дорожки -- ничего не выгружается"
+
+msgid "reset"
+msgstr "сброс"
+
+msgid "running ..."
+msgstr "выполняется ..."
+
+msgid "selected"
+msgstr "выбрано"
+
+msgid "shorter shots are merged in"
+msgstr "более короткие планы сливаются"
+
+msgid "the picture changes this much later than the sound"
+msgstr "картинка меняется настолько позже звука"
+
+msgid "unspecified"
+msgstr "не указано"
+
+msgid "Files && production"
+msgstr "Файлы && продукция"
+
+msgid "Assignment && time window"
+msgstr "Назначение && временное окно"
+
+msgid "Resolve cut"
+msgstr "Монтаж в Resolve"
+
+msgid "Camera audio"
+msgstr "Звук камеры"
+
+msgid "Camera audio %s"
+msgstr "Звук камеры %s"
+
+msgid "a track of its own"
+msgstr "собственная дорожка"
+
+msgid "with Channel %d one stereo track"
+msgstr "с каналом %d одна стереодорожка"
+
+msgid "not found"
+msgstr "не найдено"
+
+msgid "a recording of its own"
+msgstr "собственная запись"
+
+msgid "Cameras only"
+msgstr "Только камеры"
+
+msgid "End %s"
+msgstr "Конец %s"
+
+msgid "Error"
+msgstr "Ошибка"
+
+msgid "Mark In"
+msgstr "Отметить вход"
+
+msgid "Mark Out"
+msgstr "Отметить выход"
+
+msgid "Minimum Edit Duration"
+msgstr "Минимальная длина плана"
+
+msgid "No files given."
+msgstr "Файлы не указаны."
+
+msgid "Speaker"
+msgstr "Говорящий"
+
+msgid "Start %s"
+msgstr "Начало %s"
+
+msgid "Take from source files"
+msgstr "Взять из исходных файлов"
+
+msgid "Take the camera audio"
+msgstr "Взять звук камеры"
+
+msgid "Transfer"
+msgstr "Передача"
+
+msgid "Wide shot after"
+msgstr "Общий план после"
+
+msgid "no folder"
+msgstr "нет папки"
+
+msgid "no text"
+msgstr "нет текста"
+
+msgid "unnamed"
+msgstr "без имени"
+
+msgid "Audio recording"
+msgstr "Звукозапись"
+
+msgid "Building the sum"
+msgstr "Сборка суммы"
+
+msgid "Camera cut"
+msgstr "Монтаж камер"
+
+msgid "%s -- preview"
+msgstr "%s -- предпросмотр"
+
+msgid "Cancel"
+msgstr "Отмена"
+
+msgid "Connect"
+msgstr "Подключить"
+
+msgid "Connection to Resolve"
+msgstr "Соединение с Resolve"
+
+msgid "Continue"
+msgstr "Продолжить"
+
+msgid "Create Resolve project"
+msgstr "Создать проект Resolve"
+
+msgid "In point %s"
+msgstr "Точка входа %s"
+
+msgid "Out point %s"
+msgstr "Точка выхода %s"
+
+msgid "Dry run"
+msgstr "Пробный прогон"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, вещание"
+
+msgid "Go ahead"
+msgstr "Продолжать"
+
+msgid "Keep it saved"
+msgstr "Оставить сохранённым"
+
+msgid "Measure"
+msgstr "Измерить"
+
+msgid "Measuring loudness"
+msgstr "Измерение громкости"
+
+msgid "Merge them"
+msgstr "Объединить их"
+
+msgid "do not use the audio"
+msgstr "не использовать звук"
+
+msgid "use the audio"
+msgstr "использовать звук"
+
+msgid "Mute."
+msgstr "Отключить звук."
+
+msgid "No project open."
+msgstr "Проект не открыт."
+
+msgid "Not recognised"
+msgstr "Не распознано"
+
+msgid "Note"
+msgstr "Замечание"
+
+msgid "One frame forward."
+msgstr "На кадр вперёд."
+
+msgid "One second forward."
+msgstr "На секунду вперёд."
+
+msgid "Output folder"
+msgstr "Папка вывода"
+
+msgid "Choose the output folder"
+msgstr "Выбрать папку вывода"
+
+msgid "Output folder ..."
+msgstr "Папка вывода ..."
+
+msgid "Podcast directories, mono"
+msgstr "Каталоги подкастов, моно"
+
+msgid "Podcast directories, stereo"
+msgstr "Каталоги подкастов, стерео"
+
+msgid "Preview player"
+msgstr "Проигрыватель предпросмотра"
+
+msgid "Preview player%s"
+msgstr "Плеер предпросмотра%s"
+
+msgid "Processing"
+msgstr "Обработка"
+
+msgid "Project"
+msgstr "Проект"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "начиная отсюда ищется подходящий момент"
+
+msgid "and here it is cut, good moment or not"
+msgstr "и здесь режется, удачный момент или нет"
+
+msgid "After a question"
+msgstr "После вопроса"
+
+msgid "Question"
+msgstr "Вопрос"
+
+msgid "Remove"
+msgstr "Удалить"
+
+msgid "Remove all"
+msgstr "Удалить все"
+
+msgid "Remove from list"
+msgstr "Удалить из списка"
+
+msgid "Resolve answers%s"
+msgstr "Resolve отвечает%s"
+
+msgid "Show in Finder."
+msgstr "Показать в Finder."
+
+msgid "Silence"
+msgstr "Тишина"
+
+msgid "Speaker name"
+msgstr "Имя говорящего"
+
+msgid "Speaker names"
+msgstr "Имена говорящих"
+
+msgid "Ten seconds forward."
+msgstr "На десять секунд вперёд."
+
+msgid "Window %s%s"
+msgstr "Окно %s%s"
+
+msgid "audio file"
+msgstr "звуковой файл"
+
+msgid "cancel"
+msgstr "отменить"
+
+msgid "cancelled"
+msgstr "отменено"
+
+msgid "nothing"
+msgstr "ничего"
+
+msgid "nothing to do"
+msgstr "делать нечего"
+
+msgid "to In point"
+msgstr "к точке входа"
+
+msgid "to Out point"
+msgstr "к точке выхода"
+
+msgid "too short"
+msgstr "слишком коротко"
+
+msgid "unknown"
+msgstr "неизвестно"
+
+msgid "video file"
+msgstr "видеофайл"
+
+msgid "%d audio recording"
+msgstr "%d звукозапись"
+
+msgid "%d audio recordings"
+msgstr "%d звукозаписей"
+
+msgid "%d camera"
+msgstr "%d камера"
+
+msgid "%d cameras"
+msgstr "%d камер"
+
+msgid "%d video file"
+msgstr "%d видеофайл"
+
+msgid "%d video files"
+msgstr "%d видеофайлов"
+
+msgid "Caution"
+msgstr "Внимание"
+
+msgid "on"
+msgstr "вкл."
+
+msgid "First cut by speaker"
+msgstr "Первая нарезка по говорящим"
+
+msgid "Speakers, separated by voice"
+msgstr "Говорящие, разделённые по голосу"
+
+msgid "Reading the plan"
+msgstr "Чтение плана"
+
+msgid "Audio out of the cameras"
+msgstr "Звук из камер"
+
+msgid "Common time axis"
+msgstr "Общая ось времени"
+
+msgid "Processing at auphonic.com"
+msgstr "Обработка на auphonic.com"
+
+msgid "Loudness"
+msgstr "Громкость"
+
+msgid "Loudness and levels"
+msgstr "Громкость и уровни"
+
+msgid "Who speaks when"
+msgstr "Кто когда говорит"
+
+msgid "Writing the camera files"
+msgstr "Запись файлов камер"
+
+msgid "Handover and result"
+msgstr "Передача и результат"
+
+msgid "measurement running ..."
+msgstr "измерение выполняется ..."
+
+msgid "Looking at the channels"
+msgstr "Просмотр каналов"
+
+msgid "unused input -- ignored"
+msgstr "неиспользованный вход -- пропущен"
+
+msgid "uncertain -- %s"
+msgstr "неточно -- %s"
+
+msgid "Language"
+msgstr "Язык"
+
+msgid "not set"
+msgstr "не задано"
+
+msgid "German"
+msgstr "Немецкий"
+
+msgid "English"
+msgstr "Английский"
+
+msgid "French"
+msgstr "Французский"
+
+msgid "Spanish"
+msgstr "Испанский"
+
+msgid "Italian"
+msgstr "Итальянский"
+
+msgid "Dutch"
+msgstr "Нидерландский"
+
+msgid "Portuguese"
+msgstr "Португальский"
+
+msgid "Polish"
+msgstr "Польский"
+
+msgid "Russian"
+msgstr "Русский"
+
+msgid "Swedish"
+msgstr "Шведский"
+
+msgid "Danish"
+msgstr "Датский"
+
+msgid "Norwegian"
+msgstr "Норвежский"
+
+msgid "Finnish"
+msgstr "Финский"
+
+msgid "Czech"
+msgstr "Чешский"
+
+msgid "Turkish"
+msgstr "Турецкий"
+
+msgid "Greek"
+msgstr "Греческий"
+
+msgid "Hungarian"
+msgstr "Венгерский"
+
+msgid "Romanian"
+msgstr "Румынский"
+
+msgid "Ukrainian"
+msgstr "Украинский"
+
+msgid "Catalan"
+msgstr "Каталанский"
+
+msgid "Arabic"
+msgstr "Арабский"
+
+msgid "Hebrew"
+msgstr "Иврит"
+
+msgid "Japanese"
+msgstr "Японский"
+
+msgid "Chinese"
+msgstr "Китайский"
+
+msgid "Korean"
+msgstr "Корейский"
+
+msgid "Speaks at least"
+msgstr "Говорит не менее"
+
+msgid "below this the camera does not follow"
+msgstr "ниже этого камера не следует"
+
+msgid "Answer on screen earlier"
+msgstr "Ответ в кадре раньше"
+
+msgid "before the question ends"
+msgstr "до конца вопроса"
+
+msgid "Wide shot at least"
+msgstr "Общий план не менее"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "вставленный общий план держится не меньше этого"
+
+msgid "and at most this long"
+msgstr "и не длиннее этого"
+
+msgid "Long monologue"
+msgstr "Длинный монолог"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "один человек говорит дольше, чем «Общий план после»"
+
+msgid "Several speak at once"
+msgstr "Говорят несколько сразу"
+
+msgid "and no camera shows exactly them"
+msgstr "и ни одна камера не показывает именно их"
+
+msgid "Nobody speaks"
+msgstr "Никто не говорит"
+
+msgid "no voice is heard at all here"
+msgstr "здесь вообще не слышно голоса"
+
+msgid "Short gap up to"
+msgstr "Короткая пауза до"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "такая длинная тишина не трогает картинку"
+
+msgid "Recognition uncertain"
+msgstr "Распознавание ненадёжно"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "распознавание говорящих распадается или оставляет кучу"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "картинка переходит к ответу до его начала"
+
+msgid "Wide shot"
+msgstr "Общий план"
+
+msgid "Wide shot %d"
+msgstr "Общий план %d"
+
+msgid "(wide shot)"
+msgstr "(общий план)"
+
+msgid "No speaker"
+msgstr "Нет говорящего"
+
+msgid "Listener"
+msgstr "Слушающий"
+
+msgid "Alternating"
+msgstr "Попеременно"
+
+msgid "No camera change"
+msgstr "Без смены камеры"
+
+msgid "Hold a short gap"
+msgstr "Держать короткую паузу"
+
+msgid "do not go early"
+msgstr "не переходить раньше"
+
+msgid "Answering speaker"
+msgstr "Отвечающий"

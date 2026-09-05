@@ -307,34 +307,22 @@ check("no call with the wrong number of values", not bad_calls,
 
 print("\n7. What the catalogue promises does exist")
 # The translations do not stand in the program any more; each language
-# is a file `<code>.py` in the folder "language" beside the way in,
-# holding one name. `texts_of_language` reads them from there whatever
-# the copy that is running is called, so this looks in the same place --
-# and it takes every file it finds there rather than one by name,
-# because a language added tomorrow would otherwise be the next thing
-# nobody measures. Only `__init__.py` is left out: it carries no texts
-# and is there so that pip ships the folder at all.
+# is a file `<code>.po` in the folder "language" beside the way in.
+# `texts_of_language` reads them from there whatever the copy that is
+# running is called, so this looks in the same place -- and it takes
+# every file it finds there rather than one by name, because a language
+# added tomorrow would otherwise be the next thing nobody measures.
 BESIDE = os.path.join(os.path.dirname(os.path.abspath(SCRIPT)), "language")
-languages = sorted(p for p in glob.glob(os.path.join(BESIDE, "*.py"))
-                   if os.path.basename(p) != "__init__.py")
-# The pairs as they stand in the source. `ast.literal_eval` would make a
-# dict of them, and a dict keeps one value per key -- a key written twice
-# with two translations loses one of them without a sound. So they are
-# gathered while the tree is walked, before any dict exists.
+languages = sorted(glob.glob(os.path.join(BESIDE, "*.po")))
+# The pairs as they stand in the file. A dictionary keeps one value per
+# key -- a key written twice with two translations loses one of them
+# without a sound -- so they are gathered as a list, before any
+# dictionary exists.
 pairs = []
 for path in languages:
     where = os.path.basename(path)
-    for node in ast.walk(ast.parse(io.open(path, encoding="utf-8").read())):
-        if not (isinstance(node, ast.Assign)
-                and isinstance(node.value, ast.Dict)
-                and any(isinstance(t, ast.Name) and t.id == "TEXTS"
-                        for t in node.targets)):
-            continue
-        for key, value in zip(node.value.keys, node.value.values):
-            if isinstance(key, ast.Constant) and isinstance(key.value, str) \
-                    and isinstance(value, ast.Constant) \
-                    and isinstance(value.value, str):
-                pairs.append((key.value, value.value, where, key.lineno))
+    for key, value, at in the_program.po_pairs(path):
+        pairs.append((key, value, where, at))
 # Without this the two judgements below stand over an empty list and are
 # green for nothing -- which is what they were the day the texts moved
 # out of the program and this section went on reading the program.

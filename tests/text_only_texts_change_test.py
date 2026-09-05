@@ -23,7 +23,7 @@ SCRIPT = the_program.SCRIPT
 # beside the way in. The program reads them from there, so this test
 # looks in the same place and a snapshot run reads the snapshot's own
 # texts.
-TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.py")
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.po")
 import ast, importlib.util, io, re, subprocess, time, tokenize
 
 began = time.time()
@@ -618,7 +618,7 @@ print("\n17. No German word outside the catalogue")
 # Two dictionaries decide, and the catalogue acts as a third: a word
 # German knows and English does not is German, and so is every word the
 # German side of the catalogue uses and the English side does not.
-german = io.open(TEXTS_DE, encoding="utf-8").read()
+german = the_program.po_pairs(TEXTS_DE)
 GERMAN_KEEP = set("""
 bilder dokumente filme musik schreibtisch deutsch
 """.split())          # folder names on a German system, on purpose
@@ -646,14 +646,9 @@ def word_parts(word):
 def catalogue_words():
     """German words the catalogue uses and the English side does not."""
     keys, values = set(), set()
-    for node in ast.walk(ast.parse(german)):
-        if not isinstance(node, ast.Dict):
-            continue
-        for a, b in zip(node.keys, node.values):
-            if isinstance(a, ast.Constant) and isinstance(a.value, str):
-                keys.update(word_parts(a.value))
-            if isinstance(b, ast.Constant) and isinstance(b.value, str):
-                values.update(word_parts(b.value))
+    for english, translation, _at in german:
+        keys.update(word_parts(english))
+        values.update(word_parts(translation))
     return values - keys
 
 
@@ -721,14 +716,7 @@ def english_check():
     return lambda w: w in en and w not in de
 
 
-_entries = []
-for _node in ast.walk(ast.parse(german)):
-    if not isinstance(_node, ast.Dict):
-        continue
-    for _a, _b in zip(_node.keys, _node.values):
-        if isinstance(_a, ast.Constant) and isinstance(_a.value, str) \
-                and isinstance(_b, ast.Constant) and isinstance(_b.value, str):
-            _entries.append((_a.lineno, _a.value, _b.value))
+_entries = [(_at, _key, _value) for _key, _value, _at in german]
 check("the German catalogue can be read as pairs", len(_entries) > 500,
         "%d entries" % len(_entries))
 

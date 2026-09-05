@@ -1,0 +1,1015 @@
+# What is translated of this program's messages, in Hindi.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# 327 of the program's 1498 texts stand here. Every text that is
+# not in this file appears in English: T() gives back the key it was
+# handed when it finds no entry, so what is missing reads rather than
+# breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Hindi speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: hi\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "Cut with the wide shot"
+msgstr "वाइड शॉट के साथ कट"
+
+msgid "on %d camera"
+msgstr "%d कैमरे पर"
+
+msgid "on %d cameras"
+msgstr "%d कैमरों पर"
+
+msgid "no camera yet"
+msgstr "अभी कोई कैमरा नहीं"
+
+msgid "A newer version is out"
+msgstr "एक नया संस्करण उपलब्ध है"
+
+msgid "%s is out. This is %s."
+msgstr "%s आ चुका है। यहाँ %s चल रहा है।"
+
+msgid "Multitrack mode"
+msgstr "मल्टीट्रैक मोड"
+
+msgid "Singletrack mode"
+msgstr "सिंगलट्रैक मोड"
+
+msgid "fetching from auphonic.com ..."
+msgstr "auphonic.com से लाया जा रहा है ..."
+
+msgid "What changed since %s:"
+msgstr "%s के बाद क्या बदला:"
+
+msgid "Update"
+msgstr "अद्यतन करें"
+
+msgid "Later"
+msgstr "बाद में"
+
+msgid "Go back"
+msgstr "वापस जाएँ"
+
+msgid "About Video Podcast Magic"
+msgstr "Video Podcast Magic के बारे में"
+
+msgid "&File"
+msgstr "&फ़ाइल"
+
+msgid "&View"
+msgstr "&दृश्य"
+
+msgid "&Player"
+msgstr "&प्लेयर"
+
+msgid "&Help"
+msgstr "स&हायता"
+
+msgid "Play and pause"
+msgstr "चलाएँ और रोकें"
+
+msgid "Fast forward"
+msgstr "तेज़ आगे"
+
+msgid "Play forward, faster on every press"
+msgstr "आगे चलाएँ, हर बार दबाने पर तेज़"
+
+msgid "Pause"
+msgstr "रोकें"
+
+msgid "One frame back"
+msgstr "एक फ़्रेम पीछे"
+
+msgid "One frame forward"
+msgstr "एक फ़्रेम आगे"
+
+msgid "One second back"
+msgstr "एक सेकंड पीछे"
+
+msgid "One second forward"
+msgstr "एक सेकंड आगे"
+
+msgid "Ten seconds back"
+msgstr "दस सेकंड पीछे"
+
+msgid "Ten seconds forward"
+msgstr "दस सेकंड आगे"
+
+msgid "The manual"
+msgstr "नियमावली"
+
+msgid "What changed in this version"
+msgstr "इस संस्करण में क्या बदला"
+
+msgid "Look for a newer version now"
+msgstr "अभी नया संस्करण खोजें"
+
+msgid "Separating speakers"
+msgstr "वक्ताओं का पृथक्करण"
+
+msgid "Separating ..."
+msgstr "अलग किया जा रहा है ..."
+
+msgid "Voice"
+msgstr "आवाज़"
+
+msgid "Break off"
+msgstr "रोक दें"
+
+msgid "Breaking off ..."
+msgstr "रोका जा रहा है ..."
+
+msgid "Not on this machine"
+msgstr "इस मशीन पर नहीं"
+
+msgid "Reading the audio ..."
+msgstr "ऑडियो पढ़ा जा रहा है ..."
+
+msgid "Speakers"
+msgstr "वक्ता"
+
+msgid "Speaker %d"
+msgstr "वक्ता %d"
+
+msgid "One more speaker in %s"
+msgstr "%s में एक और वक्ता"
+
+msgid "One more speaker in"
+msgstr "एक और वक्ता जोड़ें"
+
+msgid "%d:%02d min"
+msgstr "%d:%02d मि"
+
+msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
+msgstr "%s -- %d:%02d से %d:%02d (%.1f से)"
+
+msgid "%s and %d more"
+msgstr "%s और %d अन्य"
+
+msgid "%s speech time"
+msgstr "%s का बोलने का समय"
+
+msgid "Output"
+msgstr "आउटपुट"
+
+msgid "Access to auphonic.com"
+msgstr "auphonic.com तक पहुँच"
+
+msgid ""
+"Both are asked once and then stay. The key goes into the %s, never into a "
+"file."
+msgstr ""
+"दोनों एक बार पूछे जाते हैं और फिर बने रहते हैं। कुंजी %s में जाती है, कभी "
+"किसी फ़ाइल में नहीं।"
+
+msgid "Checking files"
+msgstr "फ़ाइलों की जाँच"
+
+msgid "Measuring time axis"
+msgstr "समय अक्ष मापा जा रहा है"
+
+msgid "Resolve answers"
+msgstr "Resolve के उत्तर"
+
+msgid "Settings"
+msgstr "सेटिंग्स"
+
+msgid "Settings ..."
+msgstr "सेटिंग्स ..."
+
+msgid "done"
+msgstr "पूर्ण"
+
+msgid ","
+msgstr ","
+
+msgid "."
+msgstr "."
+
+msgid "Kind"
+msgstr "प्रकार"
+
+msgid "Speech time"
+msgstr "बोलने का समय"
+
+msgid "Share"
+msgstr "हिस्सा"
+
+msgid "Colour"
+msgstr "रंग"
+
+msgid "Preset"
+msgstr "प्रीसेट"
+
+msgid "Preset:"
+msgstr "प्रीसेट:"
+
+msgid "Start"
+msgstr "शुरू"
+
+msgid "Production"
+msgstr "प्रोडक्शन"
+
+msgid "Target"
+msgstr "लक्ष्य"
+
+msgid "none"
+msgstr "कोई नहीं"
+
+msgid "Length"
+msgstr "अवधि"
+
+msgid "no camera of its own"
+msgstr "अपना कैमरा नहीं"
+
+msgid "do not use"
+msgstr "उपयोग न करें"
+
+msgid "several speakers"
+msgstr "कई वक्ता"
+
+msgid "Content"
+msgstr "सामग्री"
+
+msgid "Intro"
+msgstr "इंट्रो"
+
+msgid "Outro"
+msgstr "आउट्रो"
+
+msgid "ignore this video"
+msgstr "इस वीडियो को अनदेखा करें"
+
+msgid "Open project ..."
+msgstr "प्रोजेक्ट खोलें ..."
+
+msgid "Save project"
+msgstr "परियोजना सहेजें"
+
+msgid "Close project"
+msgstr "परियोजना बंद करें"
+
+msgid "Guest"
+msgstr "अतिथि"
+
+msgid "Host"
+msgstr "मेज़बान"
+
+msgid "Host %d"
+msgstr "मेज़बान %d"
+
+msgid "Skip this version"
+msgstr "यह संस्करण छोड़ें"
+
+msgid "Project found"
+msgstr "परियोजना मिली"
+
+msgid "Open the project"
+msgstr "परियोजना खोलें"
+
+msgid "not readable"
+msgstr "पढ़ा नहीं जा सकता"
+
+msgid "%d audio track"
+msgstr "%d ऑडियो ट्रैक"
+
+msgid "%d audio tracks"
+msgstr "%d ऑडियो ट्रैक"
+
+msgid "%d clip"
+msgstr "%d क्लिप"
+
+msgid "%d clips"
+msgstr "%d क्लिप"
+
+msgid "%d video track"
+msgstr "%d वीडियो ट्रैक"
+
+msgid "%d video tracks"
+msgstr "%d वीडियो ट्रैक"
+
+msgid "  (this file ends earlier)"
+msgstr "  (यह फ़ाइल पहले समाप्त होती है)"
+
+msgid " (paused)"
+msgstr " (रुका हुआ)"
+
+msgid " (playing)"
+msgstr " (चल रहा है)"
+
+msgid "%d channel"
+msgstr "%d चैनल"
+
+msgid "%d channels"
+msgstr "%d चैनल"
+
+msgid "%d file"
+msgstr "%d फ़ाइल"
+
+msgid "%d files"
+msgstr "%d फ़ाइलें"
+
+msgid "... or add files ..."
+msgstr "... या फ़ाइलें जोड़ें ..."
+
+msgid "Add files ..."
+msgstr "फ़ाइलें जोड़ें ..."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "नियतन: कौन-सा ऑडियो ट्रैक किस कैमरे का है"
+
+msgid "Audio"
+msgstr "ऑडियो"
+
+msgid "Bleed"
+msgstr "रिसाव"
+
+msgid "Blocks"
+msgstr "खंड"
+
+msgid "Camera"
+msgstr "कैमरा"
+
+msgid "Camera audio, %d to go ..."
+msgstr "कैमरा ऑडियो, %d शेष ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- पूर्वावलोकन  (अवधि %s)"
+
+msgid "Cannot start yet: %s"
+msgstr "अभी शुरू नहीं हो सकता: %s"
+
+msgid "Check again"
+msgstr "फिर जाँचें"
+
+msgid "Close"
+msgstr "बंद करें"
+
+msgid "Drag audio and video files here"
+msgstr "ऑडियो और वीडियो फ़ाइलें यहाँ खींचें"
+
+msgid "Fetching audio"
+msgstr "ऑडियो लाना"
+
+msgid "Fetching audio ..."
+msgstr "ऑडियो लाया जा रहा है ..."
+
+msgid "File"
+msgstr "फ़ाइल"
+
+msgid "Drag to move the position."
+msgstr "स्थिति बदलने के लिए खींचें।"
+
+msgid "Keychain"
+msgstr "कीचेन"
+
+msgid "Measuring time axis ..."
+msgstr "समय-अक्ष मापा जा रहा है ..."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "मल्टीट्रैक (प्रति वक्ता एक ट्रैक)"
+
+msgid "No files or project opened yet."
+msgstr "अभी कोई फ़ाइल या परियोजना नहीं खोली गई।"
+
+msgid "No files selected yet."
+msgstr "अभी कोई फ़ाइल चुनी नहीं गई।"
+
+msgid "Not ready yet:"
+msgstr "अभी तैयार नहीं:"
+
+msgid "One frame back."
+msgstr "एक फ़्रेम पीछे।"
+
+msgid "One second back."
+msgstr "एक सेकंड पीछे।"
+
+msgid "Only one speaker"
+msgstr "केवल एक वक्ता"
+
+msgid "Open result folder"
+msgstr "परिणाम फ़ोल्डर खोलें"
+
+msgid "Overwrite"
+msgstr "अधिलेखित करें"
+
+msgid "Overwrite files"
+msgstr "फ़ाइलें अधिलेखित करें"
+
+msgid "Play and pause."
+msgstr "चलाएँ और रोकें।"
+
+msgid "Preview running ..."
+msgstr "पूर्वावलोकन चल रहा है ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "पूर्वकार्य -- ऑडियो पढ़ें और एनवेलप की गणना करें:\n"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "auphonic.com पर प्रोसेसिंग (वैकल्पिक)"
+
+msgid "Production name"
+msgstr "प्रोडक्शन नाम"
+
+msgid "Resolve running ..."
+msgstr "Resolve चल रहा है ..."
+
+msgid "Save in Keychain"
+msgstr "कीचेन में सहेजें"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "वक्ता, ट्रैकों से स्वयं मापे गए"
+
+msgid "Ten seconds back."
+msgstr "दस सेकंड पीछे।"
+
+msgid ""
+"The audio recording of every speaker, plus the cameras.\n"
+"The order does not matter -- the program recognises what is what.\n"
+"For a multi-part recording the first block is enough."
+msgstr ""
+"हर वक्ता की ऑडियो रिकॉर्डिंग, और साथ में कैमरे।\n"
+"क्रम मायने नहीं रखता -- प्रोग्राम खुद पहचान लेता है कि क्या है।\n"
+"कई हिस्सों वाली रिकॉर्डिंग के लिए पहला खंड ही काफ़ी है।"
+
+msgid "%s -- being checked"
+msgstr "%s -- जाँचा जा रहा है"
+
+msgid "Open Keychain Access"
+msgstr "Keychain Access खोलें"
+
+msgid "There is no result yet."
+msgstr "अभी कोई परिणाम नहीं है।"
+
+msgid "To the In point."
+msgstr "इन-पॉइंट पर।"
+
+msgid "To the start."
+msgstr "शुरुआत पर।"
+
+msgid "Track"
+msgstr "ट्रैक"
+
+msgid "Video"
+msgstr "वीडियो"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- एक साथ बोलना दो बार गिना जाता है"
+
+msgid "Wide shot at most"
+msgstr "वाइड शॉट अधिकतम"
+
+msgid "Wide shot at the latest"
+msgstr "वाइड शॉट अधिकतम विलंब"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "शुरू में अभिवादन और अंत में विदाई के लिए वाइड शॉट"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- केवल घटाता है, कभी बढ़ाता नहीं"
+
+msgid "average"
+msgstr "औसत"
+
+msgid "checking ..."
+msgstr "जाँच हो रही है ..."
+
+msgid "complete"
+msgstr "पूर्ण"
+
+msgid "hear assigned audio"
+msgstr "नियत ऑडियो सुनें"
+
+msgid "next to each video file"
+msgstr "हर वीडियो फ़ाइल के बगल में"
+
+msgid "not checked yet"
+msgstr "अभी जाँचा नहीं गया"
+
+msgid "nothing loaded yet"
+msgstr "अभी कुछ लोड नहीं हुआ"
+
+msgid "nothing selected"
+msgstr "कुछ भी चयनित नहीं"
+
+msgid "off"
+msgstr "बंद"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "संसाधित ट्रैक मिले -- कुछ भी अपलोड नहीं होता"
+
+msgid "reset"
+msgstr "रीसेट"
+
+msgid "running ..."
+msgstr "चल रहा है ..."
+
+msgid "selected"
+msgstr "चयनित"
+
+msgid "shorter shots are merged in"
+msgstr "छोटे शॉट मिला दिए जाते हैं"
+
+msgid "the picture changes this much later than the sound"
+msgstr "चित्र ध्वनि से इतना बाद बदलता है"
+
+msgid "unspecified"
+msgstr "अनिर्दिष्ट"
+
+msgid "Files && production"
+msgstr "फ़ाइलें && प्रोडक्शन"
+
+msgid "Assignment && time window"
+msgstr "नियतन && समय खिड़की"
+
+msgid "Resolve cut"
+msgstr "Resolve कट"
+
+msgid "Camera audio"
+msgstr "कैमरा ऑडियो"
+
+msgid "Camera audio %s"
+msgstr "कैमरा ऑडियो %s"
+
+msgid "a track of its own"
+msgstr "अपना अलग ट्रैक"
+
+msgid "with Channel %d one stereo track"
+msgstr "चैनल %d के साथ एक स्टीरियो ट्रैक"
+
+msgid "not found"
+msgstr "नहीं मिला"
+
+msgid "a recording of its own"
+msgstr "अपनी अलग रिकॉर्डिंग"
+
+msgid "Cameras only"
+msgstr "केवल कैमरे"
+
+msgid "End %s"
+msgstr "अंत %s"
+
+msgid "Error"
+msgstr "त्रुटि"
+
+msgid "Mark In"
+msgstr "इन चिह्नित करें"
+
+msgid "Mark Out"
+msgstr "आउट चिह्नित करें"
+
+msgid "Minimum Edit Duration"
+msgstr "न्यूनतम शॉट अवधि"
+
+msgid "No files given."
+msgstr "कोई फ़ाइल नहीं दी गई।"
+
+msgid "Speaker"
+msgstr "वक्ता"
+
+msgid "Start %s"
+msgstr "आरंभ %s"
+
+msgid "Take from source files"
+msgstr "स्रोत फ़ाइलों से लें"
+
+msgid "Take the camera audio"
+msgstr "कैमरा ऑडियो लें"
+
+msgid "Transfer"
+msgstr "स्थानांतरण"
+
+msgid "Wide shot after"
+msgstr "वाइड शॉट के बाद"
+
+msgid "no folder"
+msgstr "कोई फ़ोल्डर नहीं"
+
+msgid "no text"
+msgstr "कोई पाठ नहीं"
+
+msgid "unnamed"
+msgstr "बिना नाम"
+
+msgid "Audio recording"
+msgstr "ऑडियो रिकॉर्डिंग"
+
+msgid "Building the sum"
+msgstr "योग बनाना"
+
+msgid "Camera cut"
+msgstr "कैमरा कट"
+
+msgid "%s -- preview"
+msgstr "%s -- पूर्वावलोकन"
+
+msgid "Cancel"
+msgstr "रद्द करें"
+
+msgid "Connect"
+msgstr "जोड़ें"
+
+msgid "Connection to Resolve"
+msgstr "Resolve से कनेक्शन"
+
+msgid "Continue"
+msgstr "जारी रखें"
+
+msgid "Create Resolve project"
+msgstr "Resolve परियोजना बनाएँ"
+
+msgid "In point %s"
+msgstr "इन पॉइंट %s"
+
+msgid "Out point %s"
+msgstr "आउट पॉइंट %s"
+
+msgid "Dry run"
+msgstr "सूखा परीक्षण"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, प्रसारण"
+
+msgid "Go ahead"
+msgstr "आगे बढ़ें"
+
+msgid "Keep it saved"
+msgstr "सहेजा हुआ रखें"
+
+msgid "Measure"
+msgstr "मापें"
+
+msgid "Measuring loudness"
+msgstr "लाउडनेस मापना"
+
+msgid "Merge them"
+msgstr "इन्हें मिलाएँ"
+
+msgid "do not use the audio"
+msgstr "ऑडियो का उपयोग न करें"
+
+msgid "use the audio"
+msgstr "ऑडियो का उपयोग करें"
+
+msgid "Mute."
+msgstr "मौन करें।"
+
+msgid "No project open."
+msgstr "कोई परियोजना खुली नहीं है।"
+
+msgid "Not recognised"
+msgstr "पहचाना नहीं गया"
+
+msgid "Note"
+msgstr "टिप्पणी"
+
+msgid "One frame forward."
+msgstr "एक फ़्रेम आगे।"
+
+msgid "One second forward."
+msgstr "एक सेकंड आगे।"
+
+msgid "Output folder"
+msgstr "आउटपुट फ़ोल्डर"
+
+msgid "Choose the output folder"
+msgstr "आउटपुट फ़ोल्डर चुनें"
+
+msgid "Output folder ..."
+msgstr "आउटपुट फ़ोल्डर ..."
+
+msgid "Podcast directories, mono"
+msgstr "पॉडकास्ट निर्देशिकाएँ, मोनो"
+
+msgid "Podcast directories, stereo"
+msgstr "पॉडकास्ट निर्देशिकाएँ, स्टीरियो"
+
+msgid "Preview player"
+msgstr "पूर्वावलोकन प्लेयर"
+
+msgid "Preview player%s"
+msgstr "पूर्वावलोकन प्लेयर%s"
+
+msgid "Processing"
+msgstr "प्रसंस्करण"
+
+msgid "Project"
+msgstr "परियोजना"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "यहाँ से इसके लिए अच्छा क्षण खोजा जाता है"
+
+msgid "and here it is cut, good moment or not"
+msgstr "और यहाँ काटा जाता है, अच्छा क्षण हो या न हो"
+
+msgid "After a question"
+msgstr "प्रश्न के बाद"
+
+msgid "Question"
+msgstr "प्रश्न"
+
+msgid "Remove"
+msgstr "हटाएँ"
+
+msgid "Remove all"
+msgstr "सभी हटाएँ"
+
+msgid "Remove from list"
+msgstr "सूची से हटाएँ"
+
+msgid "Resolve answers%s"
+msgstr "Resolve के उत्तर%s"
+
+msgid "Show in Finder."
+msgstr "Finder में दिखाएँ।"
+
+msgid "Silence"
+msgstr "मौन"
+
+msgid "Speaker name"
+msgstr "वक्ता का नाम"
+
+msgid "Speaker names"
+msgstr "वक्ताओं के नाम"
+
+msgid "Ten seconds forward."
+msgstr "दस सेकंड आगे।"
+
+msgid "Window %s%s"
+msgstr "खिड़की %s%s"
+
+msgid "audio file"
+msgstr "ऑडियो फ़ाइल"
+
+msgid "cancel"
+msgstr "रद्द करें"
+
+msgid "cancelled"
+msgstr "रद्द किया गया"
+
+msgid "nothing"
+msgstr "कुछ नहीं"
+
+msgid "nothing to do"
+msgstr "करने को कुछ नहीं"
+
+msgid "to In point"
+msgstr "इन पॉइंट पर"
+
+msgid "to Out point"
+msgstr "आउट पॉइंट पर"
+
+msgid "too short"
+msgstr "बहुत छोटा"
+
+msgid "unknown"
+msgstr "अज्ञात"
+
+msgid "video file"
+msgstr "वीडियो फ़ाइल"
+
+msgid "%d audio recording"
+msgstr "%d ऑडियो रिकॉर्डिंग"
+
+msgid "%d audio recordings"
+msgstr "%d ऑडियो रिकॉर्डिंग"
+
+msgid "%d camera"
+msgstr "%d कैमरा"
+
+msgid "%d cameras"
+msgstr "%d कैमरे"
+
+msgid "%d video file"
+msgstr "%d वीडियो फ़ाइल"
+
+msgid "%d video files"
+msgstr "%d वीडियो फ़ाइलें"
+
+msgid "Caution"
+msgstr "सावधान"
+
+msgid "on"
+msgstr "चालू"
+
+msgid "First cut by speaker"
+msgstr "वक्ता के अनुसार पहला कट"
+
+msgid "Speakers, separated by voice"
+msgstr "आवाज़ से अलग किए गए वक्ता"
+
+msgid "Reading the plan"
+msgstr "योजना पढ़ना"
+
+msgid "Audio out of the cameras"
+msgstr "कैमरों से ऑडियो"
+
+msgid "Common time axis"
+msgstr "साझा समय-अक्ष"
+
+msgid "Processing at auphonic.com"
+msgstr "auphonic.com पर प्रसंस्करण"
+
+msgid "Loudness"
+msgstr "लाउडनेस"
+
+msgid "Loudness and levels"
+msgstr "लाउडनेस और स्तर"
+
+msgid "Who speaks when"
+msgstr "कौन कब बोलता है"
+
+msgid "Writing the camera files"
+msgstr "कैमरा फ़ाइलें लिखना"
+
+msgid "Handover and result"
+msgstr "सौंपना और परिणाम"
+
+msgid "measurement running ..."
+msgstr "माप चल रहा है ..."
+
+msgid "Looking at the channels"
+msgstr "चैनल देखना"
+
+msgid "unused input -- ignored"
+msgstr "अप्रयुक्त इनपुट -- अनदेखा किया गया"
+
+msgid "uncertain -- %s"
+msgstr "अनिश्चित -- %s"
+
+msgid "Language"
+msgstr "भाषा"
+
+msgid "not set"
+msgstr "निर्धारित नहीं"
+
+msgid "German"
+msgstr "जर्मन"
+
+msgid "English"
+msgstr "अंग्रेज़ी"
+
+msgid "French"
+msgstr "फ़्रेंच"
+
+msgid "Spanish"
+msgstr "स्पेनिश"
+
+msgid "Italian"
+msgstr "इतालवी"
+
+msgid "Dutch"
+msgstr "डच"
+
+msgid "Portuguese"
+msgstr "पुर्तगाली"
+
+msgid "Polish"
+msgstr "पोलिश"
+
+msgid "Russian"
+msgstr "रूसी"
+
+msgid "Swedish"
+msgstr "स्वीडिश"
+
+msgid "Danish"
+msgstr "डेनिश"
+
+msgid "Norwegian"
+msgstr "नॉर्वेजियन"
+
+msgid "Finnish"
+msgstr "फ़िनिश"
+
+msgid "Czech"
+msgstr "चेक"
+
+msgid "Turkish"
+msgstr "तुर्की"
+
+msgid "Greek"
+msgstr "ग्रीक"
+
+msgid "Hungarian"
+msgstr "हंगेरियन"
+
+msgid "Romanian"
+msgstr "रोमानियाई"
+
+msgid "Ukrainian"
+msgstr "यूक्रेनी"
+
+msgid "Catalan"
+msgstr "कातालान"
+
+msgid "Arabic"
+msgstr "अरबी"
+
+msgid "Hebrew"
+msgstr "हिब्रू"
+
+msgid "Japanese"
+msgstr "जापानी"
+
+msgid "Chinese"
+msgstr "चीनी"
+
+msgid "Korean"
+msgstr "कोरियाई"
+
+msgid "Speaks at least"
+msgstr "कम से कम बोलता है"
+
+msgid "below this the camera does not follow"
+msgstr "इससे कम पर कैमरा नहीं जाता"
+
+msgid "Answer on screen earlier"
+msgstr "उत्तर पहले परदे पर"
+
+msgid "before the question ends"
+msgstr "प्रश्न समाप्त होने से पहले"
+
+msgid "Wide shot at least"
+msgstr "वाइड शॉट कम से कम"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "डाला गया वाइड शॉट कम से कम इतना टिकता है"
+
+msgid "and at most this long"
+msgstr "और अधिकतम इतना लंबा"
+
+msgid "Long monologue"
+msgstr "लंबा एकालाप"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "एक व्यक्ति \"वाइड शॉट के बाद\" से आगे बोलता रहता है"
+
+msgid "Several speak at once"
+msgstr "कई एक साथ बोलते हैं"
+
+msgid "and no camera shows exactly them"
+msgstr "और कोई कैमरा ठीक उन्हें नहीं दिखाता"
+
+msgid "Nobody speaks"
+msgstr "कोई नहीं बोलता"
+
+msgid "no voice is heard at all here"
+msgstr "यहाँ कोई आवाज़ नहीं सुनाई देती"
+
+msgid "Short gap up to"
+msgstr "छोटा अंतराल तक"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "इतनी लंबी चुप्पी चित्र को नहीं बदलती"
+
+msgid "Recognition uncertain"
+msgstr "पहचान अनिश्चित"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "वक्ता पहचान बिखर जाती है या ढेर छोड़ देती है"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "चित्र उत्तर शुरू होने से पहले उस पर जाता है"
+
+msgid "Wide shot"
+msgstr "वाइड शॉट"
+
+msgid "Wide shot %d"
+msgstr "वाइड शॉट %d"
+
+msgid "(wide shot)"
+msgstr "(वाइड शॉट)"
+
+msgid "No speaker"
+msgstr "कोई वक्ता नहीं"
+
+msgid "Listener"
+msgstr "श्रोता"
+
+msgid "Alternating"
+msgstr "बारी-बारी से"
+
+msgid "No camera change"
+msgstr "कैमरा न बदलें"
+
+msgid "Hold a short gap"
+msgstr "छोटा अंतराल बनाए रखें"
+
+msgid "do not go early"
+msgstr "पहले न जाएँ"
+
+msgid "Answering speaker"
+msgstr "उत्तर देने वाला"

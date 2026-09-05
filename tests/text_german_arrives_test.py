@@ -13,6 +13,7 @@ import ast
 import importlib.util
 import io
 import os
+import re
 import shutil
 import subprocess
 import sys
@@ -30,7 +31,7 @@ SCRIPT = os.environ.get("VPM_SCRIPT") or os.path.join(
 # The program is a folder now, and it reads its texts out of a folder
 # inside it, so this test looks in the same place: against a snapshot
 # that is the snapshot's own texts.
-TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.py")
+TEXTS_DE = os.path.join(os.path.dirname(SCRIPT), "language", "de.po")
 # What a failing line names. The way in is called __init__.py, so its
 # bare name says nothing; the folder in front of it does.
 INSIDE = os.path.relpath(TEXTS_DE, os.path.dirname(SCRIPT))
@@ -57,12 +58,48 @@ def check(name, ok, extra=""):
         bad.append("%s [%s]" % (name, extra or "no numbers"))
 
 
+# What a backslash means inside a PO string.
+CODES = dict(zip('ntr"\\abfv', '\n\t\r"\\\a\b\f\v'))
+ESCAPE = re.compile(r"\\(.)")
+QUOTED = re.compile(r'^"(.*)"$')
+
+
 def texts_of(path):
-    """The dictionary a texts file holds, read without running it."""
-    for node in ast.parse(io.open(path, encoding="utf-8").read()).body:
-        if isinstance(node, ast.Assign) and isinstance(node.value, ast.Dict):
-            return ast.literal_eval(node.value)
-    return {}
+    """What a PO file says, as {English wording: translation}.
+
+    A reader of its own, the same as the rest of this file: what is
+    measured here is how the program is reached, and borrowing the
+    program's reader would make it the thing under test. The header
+    entry has an empty English side and is not a text.
+    """
+    texts, key, value, at = {}, None, None, None
+
+    def keep():
+        if key:
+            texts[key] = value or ""
+
+    for line in io.open(path, encoding="utf-8"):
+        line = line.strip()
+        if not line or line.startswith("#"):
+            continue
+        if line.startswith("msgid "):
+            keep()
+            key, value, at = "", None, "msgid"
+            line = line[len("msgid "):]
+        elif line.startswith("msgstr "):
+            value, at = "", "msgstr"
+            line = line[len("msgstr "):]
+        quoted = QUOTED.match(line)
+        if not quoted or at is None:
+            continue
+        piece = ESCAPE.sub(lambda m: CODES.get(m.group(1), m.group(1)),
+                           quoted.group(1))
+        if at == "msgid":
+            key += piece
+        else:
+            value += piece
+    keep()
+    return texts
 
 
 # ---------------------------------------------------------- one file
@@ -200,17 +237,6 @@ for node in ast.walk(program):
             and os.path.isdir(os.path.join(os.path.dirname(SCRIPT),
                                            node.args[0].value)):
         folders.add(node.args[0].value)
-for node in ast.walk(program):
-    if not (isinstance(node, ast.FunctionDef)
-            and node.name == "texts_of_language"):
-        continue
-    for bit in ast.walk(node):
-        # A folder and not merely a word that looks like one: it has to
-        # be a folder that really lies inside the program.
-        if isinstance(bit, ast.Constant) and isinstance(bit.value, str) \
-                and os.path.isdir(os.path.join(os.path.dirname(SCRIPT),
-                                               bit.value)):
-            folders.add(bit.value)
 needed = ["videopodcast_magic"] + ["videopodcast_magic." + one
                                    for one in sorted(folders)]
 POM = os.path.join(ROOT, "pyproject.toml")
@@ -226,11 +252,38 @@ if "packages =" in whole:
 short = [name for name in needed if '"%s"' % name not in row]
 # Without the second half this is green over a list of one the day the
 # search above finds no folder, and says nothing about the texts.
-check("pip is told to install every file the program loads",
+check("pip is told to install every folder the program loads",
       not short and len(needed) > 1,
       "the program plus %d folder(s) it reads out of, %d of those %d "
       "names not in packages: %s"
       % (len(folders), len(short), len(needed), short or "none"))
+
+# And the other half, which the list of packages does not cover.
+# setuptools ships Python out of a package and leaves everything else
+# lying, so a translation -- data, not program -- reaches nobody unless
+# its kind of file is named as well. Measured 5.9.2026: without that
+# name the wheel carried the reader and none of the nine texts, and an
+# installed copy spoke English with nothing said anywhere.
+data = set()
+for one in sorted(folders):
+    for name in sorted(os.listdir(os.path.join(os.path.dirname(SCRIPT),
+                                               one))):
+        kind = os.path.splitext(name)[1]
+        if kind and kind != ".py" and not name.startswith("."):
+            data.add("videopodcast_magic.%s|*%s" % (one, kind))
+# From the section header to the next one, so a name under a different
+# heading cannot pass for this one.
+block = ""
+if "[tool.setuptools.package-data]" in whole:
+    block = whole.split("[tool.setuptools.package-data]", 1)[1].split("\n[", 1)[0]
+unshipped = sorted(one for one in data
+                   if '"%s"' % one.split("|")[0] not in block
+                   or '"%s"' % one.split("|")[1] not in block)
+check("pip is told to install the texts, which are not Python",
+      bool(data) and not unshipped,
+      "%d kind(s) of data beside the program, %d of them not in "
+      "package-data: %s"
+      % (len(data), len(unshipped), unshipped or "none"))
 
 # -------------------------------------------------------------- the order
 print("\n3. The language is settled after the texts stand")

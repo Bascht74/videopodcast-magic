@@ -118,10 +118,9 @@ def take_from(piece):
 # it up, and a missing entry shows English rather than a gap.
 #
 # Adding a language takes three steps:
-#   1. Copy language/de.py to the new two-letter code, and name that
+#   1. Copy language/de.po to the new two-letter code, and name that
 #      code at the end of this file.
-#   2. Translate the right-hand side of each entry. Entries left out stay
-#      English.
+#   2. Translate every msgstr. Entries left out stay English.
 #   3. Nothing else. --lang offers the new code and a system set to it
 #      picks it automatically.
 
@@ -134,25 +133,7 @@ TN = language.TN
 known_language = language.known_language
 languages = language.languages
 system_locale = language.system_locale
-
-
-def texts_of_language(code):
-    """Return one language's texts, out of the folder beside this one.
-
-    An import by name finds that file in an installed copy, but not
-    when the program is loaded from an absolute path -- which is how
-    every test loads it, and Python leaves the folder off the search
-    path then. So it is read from beside this file, whatever the copy
-    that is running happens to be called.
-    """
-    import importlib.util
-    name = "videopodcast_magic_language_" + code
-    beside_it = os.path.join(os.path.dirname(os.path.abspath(__file__)),
-                             "language", code + ".py")
-    spec = importlib.util.spec_from_file_location(name, beside_it)
-    texts = importlib.util.module_from_spec(spec)
-    spec.loader.exec_module(texts)
-    return texts.TEXTS
+texts_of_language = language.texts_of_language
 
 
 def set_language(name):
