@@ -165,6 +165,36 @@ def languages():
     return sorted(set(CATALOGUE) | {SOURCE_LANG})
 
 
+# What a language calls itself. Never through T(): whoever looks for a
+# language looks for its own name, and may not read the language the
+# window is standing in at that moment. That is why the names are a
+# table here and not entries in the catalogue.
+LANGUAGE_NAMES = dict(
+    # Arabic is named although languages() does not offer it: the day
+    # the window sets a reading direction, a missing name must not be
+    # what holds the offer up.
+    ar="العربية",
+    de="Deutsch",
+    en="English",
+    es="Español",
+    fr="Français",
+    hi="हिन्दी",
+    ja="日本語",
+    pt="Português",
+    ru="Русский",
+    zh="中文",
+)
+
+
+def language_name(code):
+    """Return what that language calls itself, or the code as it came.
+
+    A code with no name of its own hands the code back, so nothing
+    somebody picks a language from ever shows an empty row.
+    """
+    return LANGUAGE_NAMES.get(code, code)
+
+
 def known_language(code):
     """Reduce a locale name to a language this program has texts for.
 

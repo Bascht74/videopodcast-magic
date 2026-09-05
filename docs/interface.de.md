@@ -576,35 +576,25 @@ sagt die Zeile, in welchem Abschnitt.
 
 ### Was hinter Einstellungen ... steht
 
-Der Knopf **Einstellungen ...** sitzt im Fußbereich, neben **Start**.
-Dahinter steht, was man einmal einrichtet und dann nicht mehr anfasst:
-der Schlüssel für auphonic.com samt Häkchen, das ihn ablegt, und ob
-Resolve antwortet. Das Preset gehört zur Produktion und steht dort, wo
-über die Spuren entschieden wird: unter der Zuordnungstabelle.
+Der Schalter **Einstellungen ...** sitzt in der Fußzeile, neben
+**Start**. Dahinter steht, was einmal eingerichtet wird und dann liegen
+bleibt: die Sprache des Fensters, der Schlüssel für auphonic.com mit dem
+Haken, der ihn ablegt, und ob Resolve antwortet.
+Das Preset gehört zur Produktion, die gerade entsteht, und steht dort,
+wo über die Spuren entschieden wird, unter der Zuordnungstabelle.
 
-Das Fenster hinter dem Knopf hat zwei Kästen.
+Ganz oben steht **Sprache des Fensters**. Der erste Eintrag ist die
+Sprache des Systems, und er nennt sie beim Namen -- niemand soll raten
+müssen, was er da wählt. Darunter die neun, die das Programm spricht,
+jede unter ihrem eigenen Namen: Deutsch, English, Español, Français,
+Português, Русский, हिन्दी, 中文, 日本語. Dass ein Name in seiner
+eigenen Sprache steht, ist Absicht: wer eine Sprache sucht, versteht die
+Sprache, in der das Fenster gerade steht, womöglich nicht.
 
-- **Zugang zu auphonic.com**: das Feld für den API Key und das Häkchen,
-  das ihn behält (**Im Schlüsselbund speichern** auf dem Mac, **In der
-  Registry speichern** unter Windows). **Verbinden** prüft den Schlüssel
-  und holt die Presets. Ist der Schlüsselbund auf dem Mac zugesperrt, ist
-  das Häkchen grau, eine Zeile darunter sagt es, und
-  **Schlüsselbundverwaltung öffnen** daneben öffnet das Programm, das ihn
-  aufsperrt; danach wacht das Häkchen von selbst wieder auf. Nimmt die
-  Ablage den Schlüssel nicht an, nimmt **Verbinden** das Häkchen wieder
-  heraus und schreibt **Der Schlüssel wurde nicht gespeichert** samt
-  Grund dazu — es steht nie gesetzt über einem Schlüssel, der beim
-  nächsten Start fort ist.
-- **Verbindung zu Resolve**: ob Resolve antwortet, mit Version, wenn ja,
-  und den Gründen, wenn nein. **Erneut prüfen** fragt noch einmal, das
-  Öffnen des Fensters ebenso.
-  [DaVinci Resolve](resolve.de.md) sagt, was ein Nein bedeutet.
-
-![Das Einstellungsfenster](images/settings.de.png)
-
-*Hinter Einstellungen ...: der Schlüssel für auphonic.com, und ob
-Resolve antwortet.*
-
+Die Wahl gilt ab dem nächsten Start, und die Zeile über dem Feld sagt es,
+bevor jemand wählt. Das Fenster legt seine Sprache einmal fest, während
+es gebaut wird; jede Beschriftung darin hat ihre Wörter, sobald es
+dasteht.
 ## Alles über Menü oder Taste erreichen
 
 Die Menüleiste trägt vier Menüs: **Datei**, **Ansicht**, **Wiedergabe**

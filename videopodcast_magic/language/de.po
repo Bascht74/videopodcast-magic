@@ -532,12 +532,8 @@ msgstr "Ausgabe"
 msgid "Access to auphonic.com"
 msgstr "Zugang zu auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr ""
-"Beides wird einmal eingetragen und bleibt dann. Der Schlüssel geht nie in "
-"eine Datei, sondern hierhin: %s."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Zugang und Verbindung werden einmal eingetragen und bleiben dann. Der Schlüssel geht nie in eine Datei, sondern hierhin: %s."
 
 msgid "Checking files"
 msgstr "Dateien werden geprüft"
@@ -6456,3 +6452,12 @@ msgstr "Antwortender"
 
 msgid "  %dx away from the speaker because a shot ran longer than %.0f s"
 msgstr "  %dx weg vom Sprecher, weil eine Einstellung länger als %.0f s stand"
+
+msgid "Language of the window"
+msgstr "Sprache des Fensters"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Eine hier gewählte Sprache gilt ab dem nächsten Start."
+
+msgid "System language (%s)"
+msgstr "Systemsprache (%s)"

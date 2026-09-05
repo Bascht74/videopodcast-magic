@@ -169,10 +169,8 @@ msgstr "Вывод"
 msgid "Access to auphonic.com"
 msgstr "Доступ к auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr "Оба спрашиваются один раз и остаются. Ключ попадает в %s, но не в файл."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Доступ и соединение спрашиваются один раз и остаются. Ключ попадает в %s, но не в файл."
 
 msgid "Checking files"
 msgstr "Проверка файлов"
@@ -1013,3 +1011,12 @@ msgstr "не переходить раньше"
 
 msgid "Answering speaker"
 msgstr "Отвечающий"
+
+msgid "Language of the window"
+msgstr "Язык окна"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Выбранный здесь язык действует со следующего запуска."
+
+msgid "System language (%s)"
+msgstr "Язык системы (%s)"
