@@ -157,9 +157,11 @@ The five fields of an entry:
 5. **The red line, word for word.** It has to contain `FAIL`, and it
    must contain no tab, or it falls apart into several fields.
 
-The `open` rows are the census of what is still owed, and there are
-more of them than finished entries -- about two thirds of the file. A
-row that carries a red line is the exception so far, not the rule.
+The `open` rows are the census of what is still owed. **How many there
+are is not written down here**: a count of our own state goes stale
+between two commits, and a wrong one discourages. `bash run.sh
+source_checks_proved` says it, and `docs/notes/aufgaben.md` keeps what
+it said when somebody last looked.
 
 **A row is addressed by its wording, never by its line number.** The
 file is written by many hands in one night, and every entry above a row

@@ -8,6 +8,29 @@ order: 20
 
 # Writing or changing a test
 
+## Before any of it: should this check exist at all?
+
+Everything below decides **where** a check goes and **how** it is
+written. This decides **whether**. It comes first because it is the
+only question that can save all the rest.
+
+**Do not write a check because something was changed.** Write one where
+there is something that could break without anybody noticing, and say
+in one sentence **what it protects**. A function that only hands its
+argument on, a wrapper that adds no judgement of its own, a value read
+straight back out of a dictionary: those break loudly or not at all.
+
+**And here a needless check costs more than almost anywhere else.** It
+owes a counter-proof, a deliberately broken copy, a run against it, a
+row in the register -- and it is then read by everybody who comes after.
+Elsewhere a useless test is a file; here it is a chain.
+
+**When you are not sure, do not write it.** Describe the check and what
+it would catch, and let Sebastian decide. That costs one sentence and
+is reversible; the chain above is neither.
+
+---
+
 `development/test_guidelines.md` says **why** all of this is so. This
 says **how, and in what order**. Every rule stands in one place only:
 the sections carry the mechanism, the measurement and the case, the
