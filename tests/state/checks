@@ -123,8 +123,8 @@ run_bar_tracks_work	29
 run_choice_kept	17
 run_command_built	62
 run_dry_reports_voices	13
-run_ffmpeg_new_enough	25
-run_ffmpeg_not_fetched	8
+run_ffmpeg_new_enough	26
+run_ffmpeg_not_fetched	15
 run_ffmpeg_offered	19
 run_findings_reach_both	6
 run_install_is_watched	40
