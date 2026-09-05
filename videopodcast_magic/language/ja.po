@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in Japanese.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# 327 of the program's 1498 texts stand here. Every text that is
-# not in this file appears in English: T() gives back the key it was
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
 #
