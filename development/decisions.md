@@ -201,20 +201,25 @@ had been measured. Nobody was running an older one, nobody had asked,
 and the risk was invented on the spot, then allowed to decide. The
 owner's answer: **supporting old versions is a position, not ground.**
 
-**Then, to shut something out.** Out of the same unmeasured place came a
-floor: ffmpeg 9.0.1, below it nothing runs. It was set because 9 was
-what had been measured -- and it turned **all six builder jobs red at
-once**, because they carry 8.1.2. The measurement that then took five
-minutes says 8.1.2 hands the metadata through perfectly well. The floor
-went to 8.1.2 that day, on the owner's rule for where a floor belongs:
-**only what we know.**
+**The floor is ffmpeg 9.0.1 and has been since the evening of
+4.9.2026. Below it nothing runs.** What follows is how it got there,
+and every older number in it is a reading from one day, not a build
+anybody may fetch today.
 
-**It stands at 9.0.1 again since the evening of 4.9.2026 -- and how it
-got there is the whole lesson.** The same number, the opposite way
-round: first the program was given something to offer on all three
-systems, then the builders were measured and mended (Homebrew was
-serving 8.1.2 off a formula index frozen at image-build day), and only
-then did the floor rise. **A floor is raised last, never first.** What
+**Then, to shut something out.** Out of the same unmeasured place came
+that floor, set because 9 was what had been measured -- and it turned
+**all six builder jobs red at once**, because what they carried that
+morning was older. The measurement that then took five minutes said
+that older build handed the metadata through. So the floor was lowered
+to meet the builders for a day, on the owner's rule for where a floor
+belongs: **only what we know.**
+
+**It stands at 9.0.1 again since that evening -- and how it got there
+is the whole lesson.** The same number, the opposite way round: first
+the program was given something to offer on all three systems, then the
+builders were measured and mended (Homebrew was serving an older build
+off a formula index frozen at image-build day), and only then did the
+floor rise. **A floor is raised last, never first.** What
 it costs to do it the other way was measured that morning: six red jobs
 in one push.
 
@@ -335,6 +340,38 @@ Anything else that stands twice is a fault. Four such were measured on
   home: `ci`, because that is the moment the command is run;
 * **`run-name:` on every workflow**, in `freigabe`, `ci` and the short
   page -- home: `ci`, because it is about how a list of runs reads.
+
+---
+
+## The plural rule is read by the standard library, not by us
+
+**5.9.2026.** A PO header carries its language's plural rule as a C
+expression over one name: `nplurals=3; plural=(n%10==1 && n%100!=11 ? 0
+: ...)`. Something has to turn that into an index.
+
+**118 lines of our own stood here for an afternoon, and they were not
+wrong.** Measured against `gettext.c2py` over nine languages and every
+count from 0 to 1000: **9009 comparisons, not one difference.** They
+were unnecessary, and that is the finding -- the standard library has
+had `c2py` for as long as it has had `.mo` files, and nobody looked.
+
+**It is also the stricter of the two.** Measured: c2py refuses an
+expression nested too deep (*"plural form expression is too complex"*)
+and refuses a `;` outright; ours took twenty-two levels of brackets
+without a word. A catalogue is the one file in this program a stranger
+is invited to edit, so the strict reader is the right one.
+
+**The one cost, and it is named rather than hidden:** `c2py` is not in
+`gettext.__all__`. So it is asked for and not assumed -- where it is
+missing, no language has a rule, every count falls back on the English
+one, and nothing breaks. It has been in CPython for decades and
+`GNUTranslations` uses it for every catalogue in the world; removing it
+would break far more than this program.
+
+**Three counter-proofs died with the old code** and were earned again:
+they broke a table, a tree walk and a return shape that no longer
+exist. What a check claims did not change, so its wording stands; what
+it takes to make it fall did change, and the register says so.
 
 ---
 

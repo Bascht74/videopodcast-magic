@@ -142,8 +142,7 @@ A floor says what the program answers for; it does not claim that
 everything below it is broken. 9.0.1 is the version this is measured
 against, and it is the one the program can put on the machine itself,
 on all three systems -- so a floor nobody can reach is not one of the
-things that can go wrong here. The floor stood at 8.1.2 before, and
-that build carries the picture through perfectly well.
+things that can go wrong here.
 
 **soxr is not a second condition, it is a difference in precision.**
 The cameras are put on one time axis, and their clocks run apart -- a
