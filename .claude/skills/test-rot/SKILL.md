@@ -1,6 +1,9 @@
 ---
 name: test-rot
 description: A test in `tests/` is red, wobbling, or green and not to be trusted — red on the builder and green here, red beside the others and green alone, a counter-proof that will not go red. Before anything is changed in the program, the test or a stand-in.
+when: a test is red, wobbling, or green and not to be trusted
+tables: claude, contributing, agents, pr
+order: 30
 ---
 
 # Taking a red test apart

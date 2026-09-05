@@ -389,6 +389,8 @@ working, and by every strand they send out. A skill nobody opens at the
 right moment is a document, and this project has learned that twice in
 one day.
 
+<!-- skills begin: written by development/skill_table.py, not by hand -->
+
 | when this is about to happen | read first |
 |---|---|
 | a task touches more than one file | `strang` |
@@ -396,11 +398,30 @@ one day.
 | a test is red, wobbling, or green and not to be trusted | `test-rot` |
 | a check was written or changed and is green | `gegenbeweis` |
 | a commit message is about to be written | `commit` |
+| a commit has been pushed and the builder has not answered yet | `ci` |
 | a version is going out | `freigabe` |
 | a section of `CHANGELOG.md` is written or changed | `changelog` |
 | something a user can see has changed and `docs/` still says the old thing | `handbuch` |
 | the window changed, or a release is coming | `bilder` |
 | a task is wide enough for several agents at once | `workflow` |
+
+<!-- skills end -->
+
+**That table is not typed by hand.** Each `SKILL.md` carries its own
+row -- the situation, which of the four copies show it, and where it
+stands -- and `python3 development/skill_table.py` writes the table
+into this file, into `CONTRIBUTING.md`, into `AGENTS.md` and into the
+pull request template out of them. `--check` compares instead of
+writing and names what has gone stale; `text_skills_listed_test.py`
+runs that comparison inside the suite. Measured on 5.9.2026, and it is
+why: the four copies stood in four wordings, and `ci` -- the situation
+after *every* push -- was in none of them.
+
+**The copies do not all show the same rows, and that is declared in
+the skill.** `freigabe` is only here, because only the owner publishes;
+the pull request template leaves out the four a contributor never
+reaches. What is no longer allowed to differ is the *wording*: one
+situation, one sentence, everywhere it appears.
 
 `development/` is not in that table on purpose: it is looked things up
 in, not worked through. `coding_guidelines.md` says how the code is

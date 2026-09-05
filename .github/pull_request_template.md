@@ -37,15 +37,25 @@ situation it is read BEFORE the first edit. Name the ones that applied.
 "None applied, because ..." is a fine answer; a wrong "all of them" is
 found in the first review.
 
+[skills begin: written by development/skill_table.py, not by hand]
+
 | situation | skill |
 |---|---|
-| the change touches more than one file | `strang` |
-| anything inside a tests/*_test.py changed | `test-neu` |
-| a test was red, wobbling, or green and not to be trusted | `test-rot` |
+| a task touches more than one file | `strang` |
+| anything inside a `tests/*_test.py` changes -- also one line, also when no judgement changes | `test-neu` |
+| a test is red, wobbling, or green and not to be trusted | `test-rot` |
 | a check was written or changed and is green | `gegenbeweis` |
-| the commit message | `commit` |
-| a section of CHANGELOG.md | `changelog` |
-| a user can see the change and docs/ said the old thing | `handbuch` |
+| a commit message is about to be written | `commit` |
+| a section of `CHANGELOG.md` is written or changed | `changelog` |
+| something a user can see has changed and `docs/` still says the old thing | `handbuch` |
+
+[skills end]
+
+Four of the eleven are not in this list, on purpose: freigabe (only
+the owner publishes), bilder (only he takes the pictures), ci (the
+builder's answer comes after the push, not before the first edit) and
+workflow (how an order is cut for several agents, which is nobody's
+business but yours). CONTRIBUTING.md has the longer table.
 -->
 
 Read:

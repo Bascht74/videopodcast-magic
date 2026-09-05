@@ -1,6 +1,9 @@
 ---
 name: freigabe
 description: A new version is about to go out -- somebody says "publish", names a version, a number, a tag or a release, or asks whether this state is finished and ready to be published.
+when: a version is going out
+tables: claude
+order: 70
 ---
 
 # Releasing a version

@@ -1,6 +1,9 @@
 ---
 name: gegenbeweis
 description: A check in tests/ has just been written or changed and it is green — how to show that the same check goes red when the thing it is about is false, and how to write the proof into tests/state/counterproof.
+when: a check was written or changed and is green
+tables: claude, contributing, agents, pr
+order: 40
 ---
 
 # Showing that a check bites

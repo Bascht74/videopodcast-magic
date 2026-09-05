@@ -1,6 +1,9 @@
 ---
 name: handbuch
 description: Something a user can see or feel has changed in the program and the manual under docs/ still describes the old state -- or a chapter is to be written, checked, or brought up to date in the other language.
+when: something a user can see has changed and `docs/` still says the old thing
+tables: claude, contributing, agents, pr
+order: 90
 ---
 
 # The manual

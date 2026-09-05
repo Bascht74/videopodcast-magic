@@ -1,6 +1,9 @@
 ---
 name: ci
 description: A commit has just been pushed, or a run on the builder is being waited for, or one has come back red. Six machines answer in four minutes and nothing here says when -- so the answer has to be waited for rather than asked after.
+when: a commit has been pushed and the builder has not answered yet
+tables: claude, contributing, agents
+order: 60
 ---
 
 # The builder's answer
