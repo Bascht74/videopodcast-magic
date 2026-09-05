@@ -279,23 +279,23 @@ msgstr "プロジェクトを開く"
 msgid "not readable"
 msgstr "読み取れません"
 
-msgid "%d audio track"
-msgstr "音声トラック %d 本"
+msgid "%s audio track"
+msgstr "音声トラック %s 本"
 
-msgid "%d audio tracks"
-msgstr "音声トラック %d 本"
+msgid "%s audio tracks"
+msgstr "音声トラック %s 本"
 
-msgid "%d clip"
-msgstr "%d クリップ"
+msgid "%s clip"
+msgstr "%s クリップ"
 
-msgid "%d clips"
-msgstr "%d クリップ"
+msgid "%s clips"
+msgstr "%s クリップ"
 
-msgid "%d video track"
-msgstr "映像トラック %d 本"
+msgid "%s video track"
+msgstr "映像トラック %s 本"
 
-msgid "%d video tracks"
-msgstr "映像トラック %d 本"
+msgid "%s video tracks"
+msgstr "映像トラック %s 本"
 
 msgid "  (this file ends earlier)"
 msgstr "  (このファイルは先に終わります)"

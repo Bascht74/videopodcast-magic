@@ -280,23 +280,23 @@ msgstr "فتح المشروع"
 msgid "not readable"
 msgstr "غير قابل للقراءة"
 
-msgid "%d audio track"
-msgstr "مسار صوتي %d"
+msgid "%s audio track"
+msgstr "مسار صوتي %s"
 
-msgid "%d audio tracks"
-msgstr "%d مسارات صوتية"
+msgid "%s audio tracks"
+msgstr "%s مسارات صوتية"
 
-msgid "%d clip"
-msgstr "مقطع %d"
+msgid "%s clip"
+msgstr "مقطع %s"
 
-msgid "%d clips"
-msgstr "%d مقاطع"
+msgid "%s clips"
+msgstr "%s مقاطع"
 
-msgid "%d video track"
-msgstr "مسار فيديو %d"
+msgid "%s video track"
+msgstr "مسار فيديو %s"
 
-msgid "%d video tracks"
-msgstr "%d مسارات فيديو"
+msgid "%s video tracks"
+msgstr "%s مسارات فيديو"
 
 msgid "  (this file ends earlier)"
 msgstr "  (ينتهي هذا الملف قبل ذلك)"
