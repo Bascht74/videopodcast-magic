@@ -236,6 +236,16 @@ GONE = os.path.join(ROOM, "no_such_folder")
 EXE = ".exe" if sys.platform == "win32" else ""
 
 
+def as_compared(where):
+    """A path the way this system tells two of them apart.
+
+    shutil.which builds the ending out of PATHEXT, which is written in
+    capitals on Windows, so a file laid down as ffmpeg.exe comes back as
+    ffmpeg.EXE. Comparing the two letter for letter measures PATHEXT.
+    """
+    return os.path.normcase(where) if where else where
+
+
 def lay_down(folder):
     """Put something shutil.which can find under both tool names."""
     os.makedirs(folder)
@@ -300,7 +310,8 @@ astray = [tail for tail in TAILS
 print("\n3. Where a package manager leaves its things")
 check("a manager's ffmpeg is found with nothing on the path",
       dock == ("", "")
-      and dock_at == os.path.join(BY_MANAGER, "ffmpeg" + EXE),
+      and as_compared(dock_at)
+      == as_compared(os.path.join(BY_MANAGER, "ffmpeg" + EXE)),
       "the search came back %r and found ffmpeg at %r, wanted no "
       "complaint and the one under %r -- this is the program started "
       "from the Dock" % (dock, dock_at, BY_MANAGER))
@@ -313,7 +324,8 @@ check("the path does not grow when the search runs twice",
       "%r stands %d times in the path after two searches, wanted once"
       % (BY_MANAGER, twice_path.split(os.pathsep).count(BY_MANAGER)))
 check("an ffmpeg already on the path is the one that answers",
-      kept_at == os.path.join(ON_PATH, "ffmpeg" + EXE),
+      as_compared(kept_at)
+      == as_compared(os.path.join(ON_PATH, "ffmpeg" + EXE)),
       "it answered with %r, wanted the one under %r -- what a manager "
       "left goes behind the path, never in front of it"
       % (kept_at, ON_PATH))
