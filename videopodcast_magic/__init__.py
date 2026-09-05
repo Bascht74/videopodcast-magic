@@ -184,7 +184,7 @@ def channel_text(count):
     except (TypeError, ValueError):
         return T('channel count unknown')
     return {1: "mono", 2: "stereo"}.get(
-        count, TN(count, '%d channel', '%d channels') % count)
+        count, TN(count, '%s channel', '%s channels') % group_text(count))
 
 
 # Set to answer yes before the question is asked: a test run, a build
@@ -845,8 +845,9 @@ def fetch_archive(url, where, say=None):
                     # block would be a hundred and fifty of them.
                     if say and out.tell() - said >= 10 << 20:
                         said = out.tell()
-                        say(T('  %d of %d MB')
-                            % (said >> 20, whole >> 20) + "\n")
+                        say(T('  %s of %s MB')
+                            % (group_text(said >> 20),
+                               group_text(whole >> 20)) + "\n")
     except Exception as e:
         return T('The build could not be fetched: %s') % e
     return ""
@@ -932,7 +933,8 @@ def fetch_ffmpeg_build(asked=False, say=None):
     finally:
         shutil.rmtree(keep, ignore_errors=True)
     if came < 2:
-        tell(T('  The archive held %d of the two programs.') % came)
+        tell(T('  The archive held %s of the two programs.')
+             % group_text(came))
         return False
     # In front of the search path, so the fetched one answers rather
     # than whatever the system had. find_required_tools does the same
@@ -3391,8 +3393,8 @@ def run_single_production(audio, preset, presetname, key, target_folder,
     _curl_call(key, ["-o", target, url],
           progress=T('Downloading %s') % name)
     if os.path.getsize(target) < 1000:
-        raise RuntimeError(T('downloaded file is only %d bytes')
-                           % os.path.getsize(target))
+        raise RuntimeError(T('downloaded file is only %s bytes')
+                           % group_text(os.path.getsize(target)))
     print(T('  Result: %s (%s) -- stays next to the video file\n')
           % (os.path.basename(target), as_data_size(os.path.getsize(target) / 1e6)))
     fetch_text_outputs(key, files, target_folder, skip=best)
@@ -3648,14 +3650,15 @@ def check_camera_metadata(source, target):
         return
     missing = [k for k in a if k not in b]
     if not missing:
-        print(T('  Camera data:     %d keys carried over (%s)')
-              % (len(a), a.get("com.apple.quicktime.model")
+        print(T('  Camera data:     %s keys carried over (%s)')
+              % (group_text(len(a)), a.get("com.apple.quicktime.model")
                  or a.get("model")
                  or a.get("com.apple.quicktime.software") or "..."))
     else:
-        print(as_warn(T('  Camera data:     Caution, %d of %d keys are '
+        print(as_warn(T('  Camera data:     Caution, %s of %s keys are '
                         'missing in the new file: %s')
-                      % (len(missing), len(a), ", ".join(missing[:4]))))
+                      % (group_text(len(missing)), group_text(len(a)),
+                         ", ".join(missing[:4]))))
         print(T('                   Resolve may then not recognise the '
                 'input colour space.'))
 
@@ -3852,8 +3855,8 @@ def copy_mov_atoms(source, target, kinds=ATOMS_TO_COPY):
         if kind not in kinds:
             continue
         if size > ATOM_LIMIT:
-            print(T('  Atom %s skipped: %d bytes are too much for it.')
-                  % (kind.decode("latin1"), size))
+            print(T('  Atom %s skipped: %s bytes are too much for it.')
+                  % (kind.decode("latin1"), group_text(size)))
             continue
         existing[kind] = src[i:i + size]
     if not existing:
@@ -4037,9 +4040,9 @@ def video_summary(file_path, info):
         channels = channel_text(a.get("channels"))
         count = len(info["audio"])
         lines.append((T('Camera audio'),
-                      TN(count, '%d track, %s, %s Hz, %s',
-                         '%d tracks, %s, %s Hz, %s')
-                      % (count, a.get("codec_name", "?"),
+                      TN(count, '%s track, %s, %s Hz, %s',
+                         '%s tracks, %s, %s Hz, %s')
+                      % (group_text(count), a.get("codec_name", "?"),
                          a.get("sample_rate", "?"), channels)))
     else:
         lines.append((T('Camera audio'), T('no audio track present')))
@@ -4107,13 +4110,15 @@ def report_timecode_check(audio_start, info, measured, indent="  "):
                 'probably a clock never set. The measurement is used.')
               % indent)
     elif abs(deviation) > 0.5 / fps:
-        print(T('%s  Deviation:                      %s  (%.1f frames)')
-              % (indent, as_hms(deviation), abs(deviation) * fps))
+        print(T('%s  Deviation:                      %s  (%s frames)')
+              % (indent, as_hms(deviation),
+                 decimal_text("%.1f" % (abs(deviation) * fps))))
         print(T('%s  The timecode does not fit what is heard. The '
                 'measurement is used.') % indent)
     else:
-        print(T('%s  Deviation:                      %s  (%.1f frames) -- fits')
-              % (indent, as_hms(deviation), abs(deviation) * fps))
+        print(T('%s  Deviation:                      %s  (%s frames) -- fits')
+              % (indent, as_hms(deviation),
+                 decimal_text("%.1f" % (abs(deviation) * fps))))
 
 
 #---------------------------------------------------------- Collecting files
@@ -4733,7 +4738,9 @@ def run_multitrack_production(key, preset_uuid, title, tracks, target_folder,
     upload_args = ["-X", "POST", AUPHONIC + "/api/production/%s/upload.json" % uuid]
     for track in tracks:
         upload_args += ["-F", "%s=@%s" % (track["name"], track["axis"])]
-    d = _parse_json(_curl_call(key, upload_args, progress=T('Uploading %d tracks') % len(tracks)))
+    d = _parse_json(_curl_call(
+        key, upload_args,
+        progress=T('Uploading %s tracks') % group_text(len(tracks))))
     absent = [x.get("id") for x in ((d.get("data") or {}).get(
         "multi_input_files") or []) if not x.get("input_file")]
     if absent:
@@ -5111,8 +5118,8 @@ def ask_track_names(old, fresh, default_value=None):
         print(T('    Track %d  %-22s (here: %s)')
               % (i, name, old[i - 1] if i <= len(old) else "--"))
     if len(old) != len(fresh):
-        print(T('  There are %d tracks there and %d here -- that does not '
-                'match.') % (len(fresh), len(old)))
+        print(T('  There are %s tracks there and %s here -- that does not '
+                'match.') % (group_text(len(fresh)), group_text(len(old))))
         possible = [("upload", T('upload everything again and recompute -- '
                                  'this costs credit')),
                     ("abort", T('cancel'))]
@@ -5227,9 +5234,10 @@ def reuse_production(key, existing, request, preset, tracks,
             key, uuid, request.get("multi_input_files") or [], existing)
         parts = []
         if changed:
-            parts.append(T('%d brought to the preset') % len(changed))
+            parts.append(T('%s brought to the preset')
+                         % group_text(len(changed)))
         if same:
-            parts.append(T('%d were already right') % len(same))
+            parts.append(T('%s were already right') % group_text(len(same)))
         print(T('  Tracks: %s') % (", ".join(parts) or T('nothing to do')))
         for line in bad:
             print(as_warn(T('  Caution: track %s -- it keeps its settings.') % line))
@@ -5237,9 +5245,9 @@ def reuse_production(key, existing, request, preset, tracks,
         now = after.get("multi_input_files") or []
         if len(now) > len(existing.get("multi_input_files") or []):
             raise RuntimeError(
-                T('Tracks were added while changing (now %d). That makes '
+                T('Tracks were added while changing (now %s). That makes '
                   'the mix\n  wrong. Please delete the tracks without a '
-                  'file at auphonic.com.') % len(now))
+                  'file at auphonic.com.') % group_text(len(now)))
     if upload_again:
         print(T('  The files are uploaded again -- this costs credit.'))
         upload_args = ["-X", "POST",
@@ -5247,7 +5255,8 @@ def reuse_production(key, existing, request, preset, tracks,
         for track in tracks:
             upload_args += ["-F", "%s=@%s" % (track["name"], track["axis"])]
         d = _parse_json(_curl_call(key, upload_args,
-                        progress=T('Uploading %d tracks') % len(tracks)))
+                        progress=T('Uploading %s tracks')
+                        % group_text(len(tracks))))
         absent = [x.get("id") for x in ((d.get("data") or {}).get(
             "multi_input_files") or []) if not x.get("input_file")]
         if absent:
@@ -5727,17 +5736,22 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
             place_track_on_axis(done, target, a_corr, clock_drift, 0.0, window_length2,
                            drift=bool(clock_drift_ppm))
             track["ready"] = target
-            remark = (T('  -->  aligned, clock drift %+.1f ppm taken out') % clock_drift_ppm) if clock_drift_ppm \
+            remark = (T('  -->  aligned, clock drift %s ppm taken out')
+                      % decimal_text("%+.1f" % clock_drift_ppm)) \
+                if clock_drift_ppm \
                 else T('  -->  aligned')
         else:
             track["ready"] = done
         uncertain = st.get("points", 0) < 5 or spread > 150.0
-        line = (T('  %-20s offset %+.1f ms%s, length %+.3f s, spread %.0f '
-                  'ms, %d of %d points%s%s')
-                % (track["name"], ms,
-                   "" if fine is None else T(' (fine: %+.1f ms)') % fine,
-                   length, spread, st.get("points", 0),
-                   st.get("candidates", 0), remark,
+        line = (T('  %-20s offset %s ms%s, length %s s, spread %s '
+                  'ms, %s of %s points%s%s')
+                % (track["name"], decimal_text("%+.1f" % ms),
+                   "" if fine is None else T(' (fine: %s ms)')
+                   % decimal_text("%+.1f" % fine),
+                   decimal_text("%+.3f" % length),
+                   decimal_text("%.0f" % spread),
+                   group_text(st.get("points", 0)),
+                   group_text(st.get("candidates", 0)), remark,
                    T('   Caution: measurement unusable') if uncertain else ""))
         print(as_warn(line) if uncertain else line)
         if uncertain:
@@ -5799,9 +5813,12 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
                                                                   'yardstick'))
         if m_have is not None:
             after_yardstick = True
-            print(T('  Mixdown from auphonic.com: %.1f LUFS, peak %.1f '
-                    'dBTP (%s)') % (m_have, m_peak if m_peak is not None else 0.0,
-                            os.path.basename(master)))
+            print(T('  Mixdown from auphonic.com: %s LUFS, peak %s '
+                    'dBTP (%s)')
+                  % (decimal_text("%.1f" % m_have),
+                     decimal_text("%.1f" % (m_peak if m_peak is not None
+                                            else 0.0)),
+                     os.path.basename(master)))
             target_lufs = m_have
     total_sum = os.path.join(tmpdir, "measure_sum.wav")
     ready = [track["ready"] for track in tracks]
@@ -5837,10 +5854,11 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
         print(T('  Loudness not measurable -- it stays as it is.'))
         return 0.0, None
     if keep:
-        print(T('  Sum of tracks:     %.1f LUFS, peak %.1f dBTP%s')
-              % (have, peak if peak is not None else 0.0,
-                 T(', range %.1f LU') % lra_range if lra_range is not None
-                 else ""))
+        print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
+              % (decimal_text("%.1f" % have),
+                 decimal_text("%.1f" % (peak if peak is not None else 0.0)),
+                 T(', range %s LU') % decimal_text("%.1f" % lra_range)
+                 if lra_range is not None else ""))
         print(T('  Not adjusted:      taken from the source files -- no gain '
                 'on any track and no\n                     limiter. The '
                 'sound leaves exactly as it came in.'))
@@ -5848,18 +5866,22 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
             remove_quietly(total_sum)
         return 0.0, None
     gain = target_lufs - have
-    print(T('  Sum of tracks:     %.1f LUFS, peak %.1f dBTP%s')
-          % (have, peak if peak is not None else 0.0,
-             T(', range %.1f LU') % lra_range if lra_range is not None else ""))
-    print(T('  Target:            %.1f LUFS  ->  %+.1f dB on every track')
-          % (target_lufs, gain))
+    print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
+          % (decimal_text("%.1f" % have),
+             decimal_text("%.1f" % (peak if peak is not None else 0.0)),
+             T(', range %s LU') % decimal_text("%.1f" % lra_range)
+             if lra_range is not None else ""))
+    print(T('  Target:            %s LUFS  ->  %s dB on every track')
+          % (decimal_text("%.1f" % target_lufs),
+             decimal_text("%+.1f" % gain)))
     # Without a ceiling the gain would have to drop far enough for the loudest
     # peak to fit -- a single scraping chair can cost eight decibels. So the
     # gain stays and a limiter catches the peaks.
     if peak is not None and gain > CEILING_DBTP - peak:
-        print(T('  Peaks:             %+.1f dB above %.1f dBTP -- the '
+        print(T('  Peaks:             %s dB above %s dBTP -- the '
                 'limiter catches them')
-              % (peak + gain - CEILING_DBTP, CEILING_DBTP))
+              % (decimal_text("%+.1f" % (peak + gain - CEILING_DBTP)),
+                 decimal_text("%.1f" % CEILING_DBTP)))
     # How much the limiter would have to take off is only known once the curve
     # is computed. Taking off more than a handful of decibels means not that
     # the peak does not fit the target but that the target does not fit the
@@ -5871,39 +5893,47 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
     limit = 12.0 if after_yardstick else LIMIT_MAX_DB
     if gone > limit + 0.05:
         back = gone - limit
-        print(T('  Too much:          the limiter would have to take %.1f '
-                'dB away. More than %.0f dB\n                     sounds '
-                'squashed -- %.1f dB less gain.') % (gone, limit, back))
+        print(T('  Too much:          the limiter would have to take %s '
+                'dB away. More than %s dB\n                     sounds '
+                'squashed -- %s dB less gain.')
+              % (decimal_text("%.1f" % gone), decimal_text("%.0f" % limit),
+                 decimal_text("%.1f" % back)))
         gain -= back
         curve, gone = limiter_curve(measured_on, tmpdir, gain)
-        print(T('  Remains:           %+.1f dB on every track, that is '
-                '%.1f LUFS instead of %.1f') % (gain, have + gain,
-                                   target_lufs))
+        print(T('  Remains:           %s dB on every track, that is '
+                '%s LUFS instead of %s')
+              % (decimal_text("%+.1f" % gain),
+                 decimal_text("%.1f" % (have + gain)),
+                 decimal_text("%.1f" % target_lufs)))
     if gone > 0.05:
-        print(T('  Limiter:           at most %.1f dB, the same curve on '
+        print(T('  Limiter:           at most %s dB, the same curve on '
                 'every track%s')
-              % (gone, T(' (auphonic.com takes the same amount)')
+              % (decimal_text("%.1f" % gone),
+                 T(' (auphonic.com takes the same amount)')
                  if after_yardstick else ""))
     # For checking in the editor. -16 LUFS is the figure for web and podcast;
     # broadcast measures against -23, where the meter reads correspondingly
     # higher.
-    print(T('  Result:            about %.1f LUFS, peak %.1f dBTP')
-          % (have + gain, CEILING_DBTP if gone > 0.05
-             else min(CEILING_DBTP, (peak or 0.0) + gain)))
+    print(T('  Result:            about %s LUFS, peak %s dBTP')
+          % (decimal_text("%.1f" % (have + gain)),
+             decimal_text("%.1f" % (CEILING_DBTP if gone > 0.05
+                                    else min(CEILING_DBTP,
+                                             (peak or 0.0) + gain)))))
     # The loudness range measures whether any dynamics are left. A limiter that
     # only catches peaks leaves it almost untouched; where it gets small,
     # something was squashed -- and then not by the limiter but by whatever was
     # done before.
     if lra_range is not None:
         if lra_range < 2.0:
-            print(as_warn(T('  Caution: range      only %.1f LU -- very '
+            print(as_warn(T('  Caution: range      only %s LU -- very '
                             'tight. Speech is usually 3 to 7 LU;\n          '
                             '           below that it sounds squashed. '
                             'Check how strongly the leveler\n               '
-                            '      is set at auphonic.com.') % lra_range))
+                            '      is set at auphonic.com.')
+                          % decimal_text("%.1f" % lra_range)))
         else:
-            print(T('  Range:             %.1f LU (speech is usually 3 to '
-                    '7 LU)') % lra_range)
+            print(T('  Range:             %s LU (speech is usually 3 to '
+                    '7 LU)') % decimal_text("%.1f" % lra_range))
     if ours:
         remove_quietly(total_sum)
     return gain, curve
@@ -6685,11 +6715,11 @@ def hush_reason(which, why):
     """
     reason = why[which - 1] if 0 < which <= len(why) else None
     if reason and reason[0] == "under" and reason[1] < float("inf"):
-        return T('Channel %d is %.0f dB under the loudest -- nothing '
-                 'plugged in') % (which, reason[1])
+        return T('Channel %d is %s dB under the loudest -- nothing '
+                 'plugged in') % (which, decimal_text("%.0f" % reason[1]))
     if reason and reason[1] > float("-inf"):
-        return T('Channel %d at %.0f dBFS -- only converter noise '
-                 'left') % (which, reason[1])
+        return T('Channel %d at %s dBFS -- only converter noise '
+                 'left') % (which, decimal_text("%.0f" % reason[1]))
     return T('Channel %d is silent -- unused input') % which
 
 
@@ -6715,7 +6745,8 @@ def apart_places(agreed, places):
     """
     if not agreed or not places:
         return ""
-    return T(', agreed at %d of %d places') % (agreed, places)
+    return T(', agreed at %s of %s places') % (group_text(agreed),
+                                              group_text(places))
 
 
 def channel_joins(facts, kind=None):
@@ -6769,8 +6800,10 @@ def channel_joins(facts, kind=None):
             # metres is what lets anyone check the answer against the
             # room the recording was made in.
             out.append((k, False, True,
-                        T('probably two microphones -- about %.1f m '
-                          'apart%s') % ((late or 0.0) * 0.343, stood_on)))
+                        T('probably two microphones -- about %s m '
+                          'apart%s')
+                        % (decimal_text("%.1f" % ((late or 0.0) * 0.343)),
+                           stood_on)))
         elif at_zero is not None and at_zero >= PAIR_AT_ZERO:
             # The share is high enough. Two more questions before this
             # is called a pair, because the share alone answers "yes"
@@ -6783,8 +6816,9 @@ def channel_joins(facts, kind=None):
                 # agree. Same wording as the plain two-microphone case:
                 # it is the same finding, reached the long way round.
                 out.append((k, False, True,
-                            T('probably two microphones -- about %.1f m '
-                              'apart%s') % (metres, stood_on)))
+                            T('probably two microphones -- about %s m '
+                              'apart%s')
+                            % (decimal_text("%.1f" % metres), stood_on)))
             elif beside and at_zero - max(beside) < PAIR_STANDS_OUT:
                 out.append((k, False, False,
                             T('not recognisable -- these two agree no '
@@ -6800,10 +6834,10 @@ def channel_joins(facts, kind=None):
             # a quiet recording from two channels that really share
             # nothing.
             out.append((k, False, False,
-                        T('not recognisable -- only %d of %d places '
-                          'where both channels carry sound, %d needed')
-                        % (places or 0, PAIR_PLACES,
-                           PAIR_ENOUGH_PLACES)))
+                        T('not recognisable -- only %s of %s places '
+                          'where both channels carry sound, %s needed')
+                        % (group_text(places or 0), group_text(PAIR_PLACES),
+                           group_text(PAIR_ENOUGH_PLACES))))
     return out
 
 
@@ -7079,8 +7113,10 @@ def shapes_match(first, second):
     if a == b:
         return True, ""
     if a[0] != b[0]:
-        return False, (T('%d channels against %d') % (a[0], b[0]))
-    return False, (T('%d Hz against %d Hz') % (a[1], b[1]))
+        return False, (T('%s channels against %s')
+                       % (group_text(a[0]), group_text(b[0])))
+    return False, (T('%s Hz against %s Hz')
+                   % (group_text(a[1]), group_text(b[1])))
 
 
 def blocks_facts(paths):
@@ -7840,7 +7876,8 @@ def merge_plan_entries(plan):
             if len(e["blocks"]) > 1]
     if len(combined) < len(plan):
         print(T('  In summary: %s')
-              % ", ".join(T('%s from %d recordings') % (n, k) for n, k in more))
+              % ", ".join(T('%s from %s recordings') % (n, group_text(k))
+                           for n, k in more))
     return combined
 
 
@@ -7971,8 +8008,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             e.get("speakers") or "?")
     multiple = {cam: v for cam, v in combined.items() if len(v) > 1 and cam}
     for cam, v in multiple.items():
-        print(T('  %s gets %d tracks mixed together: %s')
-              % (os.path.basename(cam), len(v), ", ".join(v)))
+        print(T('  %s gets %s tracks mixed together: %s')
+              % (os.path.basename(cam), group_text(len(v)), ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
         every = [e.get("speakers") or "?" for e in plan]
@@ -8012,7 +8049,7 @@ def join_the_plan(plan, tmpdir):
             source, join_info = join_with_report(
                 blocks, os.path.join(tmpdir,
                                      "raw_%s.wav" % safe_filename(name)))
-            hint = T('%d blocks') % join_info["blocks"]
+            hint = T('%s blocks') % group_text(join_info["blocks"])
         else:
             source, hint = blocks[0], ""
         made.append({"name": name, "source": source, "hint": hint,
@@ -8128,11 +8165,14 @@ def measure_tracks_against_each_other(tracks):
         # it. Without it a track put there by phase shows +0.00 ppm and
         # nothing else, and that reads as a drift measured at zero.
         track["hint"] = which_way_placed(st, track.get("hint") or "")
-        print(T('  %-20s offset %s, clock drift %+.2f ppm (+/- %.2f), '
-                'residual spread %.1f ms, %d of %d points%s')
-              % (track["name"], as_hms(a), st.get("ppm", 0.0),
-                 st.get("ppm_error", 0.0), st.get("spread_ms", 0.0),
-                 st.get("points", 0), st.get("candidates", 0),
+        print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
+                'residual spread %s ms, %s of %s points%s')
+              % (track["name"], as_hms(a),
+                 decimal_text("%+.2f" % st.get("ppm", 0.0)),
+                 decimal_text("%.2f" % st.get("ppm_error", 0.0)),
+                 decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                 group_text(st.get("points", 0)),
+                 group_text(st.get("candidates", 0)),
                  "  [" + track["hint"] + "]" if track.get("hint") else ""))
     return placed
 
@@ -8314,13 +8354,13 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
     if len(rates) > 1:
         print(as_head(T('\nDIFFERENT FRAME RATES: %s')
                       % ", ".join("%.3f" % r for r in rates)))
-        print(T('  The Timeline gets %g: the highest of them, or the '
+        print(T('  The Timeline gets %s: the highest of them, or the '
                 'next rate Resolve\n  has above it. Converted upwards '
                 'Resolve repeats frames, downwards it\n  throws them '
                 'away. Every camera keeps its own rate, and the cut '
                 'counts\n  in that one.')
-              % resolve_timeline_rate(
-                  timeline_frame_rate(args, videos, None)))
+              % decimal_text("%g" % resolve_timeline_rate(
+                  timeline_frame_rate(args, videos, None))))
     if len(sizes) > 1:
         print(as_head(T('\nDIFFERENT FRAME SIZES: %s') % ", ".join(sizes)))
         print(T('  Of no consequence for the sound.'))
@@ -8335,11 +8375,14 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         if v not in position:
             continue
         a, b, st = position[v]
-        print(T('  %-20s offset %s, clock drift %+.2f ppm (+/- %.2f), '
-                'residual spread %.1f ms, %d of %d points')
-              % (os.path.basename(v), as_hms(a), st.get("ppm", 0.0),
-                 st.get("ppm_error", 0.0), st.get("spread_ms", 0.0),
-                 st.get("points", 0), st.get("candidates", 0)))
+        print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
+                'residual spread %s ms, %s of %s points')
+              % (os.path.basename(v), as_hms(a),
+                 decimal_text("%+.2f" % st.get("ppm", 0.0)),
+                 decimal_text("%.2f" % st.get("ppm_error", 0.0)),
+                 decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                 group_text(st.get("points", 0)),
+                 group_text(st.get("candidates", 0))))
 
     tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
     # A dozen paths leave this function before the folder is removed at the
@@ -8376,11 +8419,14 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                        # own, and only this still names the recording.
                        "from_camera": e.get("from_camera") or "",
                        "blocks": list(blocks), "hint": hint})
-        print(T('  %-20s offset %s, clock drift %+.2f ppm (+/- %.2f), '
-                'residual spread %.1f ms, %d of %d points%s')
-              % (name, as_hms(a), st.get("ppm", 0.0), st.get("ppm_error", 0.0),
-                 st.get("spread_ms", 0.0), st.get("points", 0),
-                 st.get("candidates", 0),
+        print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
+                'residual spread %s ms, %s of %s points%s')
+              % (name, as_hms(a),
+                 decimal_text("%+.2f" % st.get("ppm", 0.0)),
+                 decimal_text("%.2f" % st.get("ppm_error", 0.0)),
+                 decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                 group_text(st.get("points", 0)),
+                 group_text(st.get("candidates", 0)),
                  "  [" + hint + "]" if hint else ""))
     if not tracks:
         print(T('\nNo audio track could be aligned -- there is nothing to '
@@ -8426,9 +8472,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 if v != ref_clip[0]] or [0])
     if t1 - t0 <= 0 or (seen == 0 and t1 - t0 < AXIS_MIN_WINDOW_S):
         print(T('\nSound and picture have only %s in common, and the '
-                'alignment found %d sample points in it. That is too '
+                'alignment found %s sample points in it. That is too '
                 'little to place anything on.')
-              % (as_hms(max(0, t1 - t0)), seen))
+              % (as_hms(max(0, t1 - t0)), group_text(seen)))
         return 1
     print(T('  Common window:       %s to %s (%s)')
           % (as_hms(t0), as_hms(t1), as_hms(t1 - t0)))
@@ -8500,7 +8546,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         clock_drift = (track["b"] - 1.0) * 1e6
         print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
                                 as_data_size(size_in_mb(target)),
-                                T(', clock drift %+.1f ppm taken out') % clock_drift
+                                T(', clock drift %s ppm taken out')
+                                % decimal_text("%+.1f" % clock_drift)
                                 if drift else T(', clock drift left in')))
     verify_alignment(tracks, t0, t1,
                      drift_allowed=not getattr(args, "no_drift", False))
@@ -8560,8 +8607,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             if abs(length - window) <= 60:
                 track["done"] = file_path
                 existing.remove(best)
-                print(T('    %-20s <- %s  (%s, name similarity %.2f)')
-                      % (track["name"], best, as_hms(length), quality))
+                print(T('    %-20s <- %s  (%s, name similarity %s)')
+                      % (track["name"], best, as_hms(length),
+                         decimal_text("%.2f" % quality)))
                 continue
             if trimmed and abs(length - measured) <= 60:
                 # A prepended jingle lengthens the file; everything sits
@@ -8575,8 +8623,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 track["edge"] = MARGIN
                 existing.remove(best)
                 print(T('    %-20s <- %s  (%s, trimmed to the time window, '
-                        'name similarity %.2f)')
-                      % (track["name"], best, as_hms(length), quality))
+                        'name similarity %s)')
+                      % (track["name"], best, as_hms(length),
+                         decimal_text("%.2f" % quality)))
                 continue
             print(T('    %-20s <- %s  BUT %s -- neither the time window '
                     '(%s) nor the\n    %-20s    whole measured range (%s). '
@@ -8690,14 +8739,16 @@ def check_written_file(target, items, n_camera, args, fps):
     # than none, because it is read as evidence.
     if g < WEAK_MATCH:
         print(T('  Check:           the two tracks cannot be compared '
-                '(match %.2f, %.2f is the floor). This says nothing '
-                'about the timing.') % (g, WEAK_MATCH))
+                '(match %s, %s is the floor). This says nothing '
+                'about the timing.')
+              % (decimal_text("%.2f" % g), decimal_text("%.2f" % WEAK_MATCH)))
         return
     ms = k * HOP
     off = abs(ms) > 1000.0 / fps
-    line = (T('  Check:           %s against the camera track %+.0f ms '
-              '(match %.2f)%s')
-            % (items[index_number][0], ms, g,
+    line = (T('  Check:           %s against the camera track %s ms '
+              '(match %s)%s')
+            % (items[index_number][0], decimal_text("%+.0f" % ms),
+               decimal_text("%.2f" % g),
                T('   Caution: more than one frame') if off else ""))
     print(as_warn(line) if off else line)
 
@@ -8786,8 +8837,9 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     full_mix = mix_tracks([track["ready"] for track in tracks],
                         os.path.join(tmpdir, "mix_full.wav"), gain,
                         curve, channels=wide)
-    print(TN(wide, '  Full-Mix from %d tracks, %d channel',
-             '  Full-Mix from %d tracks, %d channels') % (len(tracks), wide))
+    print(TN(wide, '  Full-Mix from %s tracks, %s channel',
+             '  Full-Mix from %s tracks, %s channels')
+          % (group_text(len(tracks)), group_text(wide)))
 
     # What is said and when, out of the finished mix. It runs beside the
     # cameras rather than in front of them: the words are needed only
@@ -8955,9 +9007,11 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         if a2 is not None:
             serious = abs(deviation) > 1.0 / fps
             print(T('  Cross-check:     %s from the Full-Mix, deviation '
-                    '%+.0f ms (%d of %d points)%s')
-                  % (as_hms(a2), deviation * 1000.0, st2.get("points", 0),
-                     st2.get("candidates", 0),
+                    '%s ms (%s of %s points)%s')
+                  % (as_hms(a2),
+                     decimal_text("%+.0f" % (deviation * 1000.0)),
+                     group_text(st2.get("points", 0)),
+                     group_text(st2.get("candidates", 0)),
                      T('   Caution: more than one frame') if serious else ""))
         # The reference camera is what the others were measured
         # against, so there is nothing here that was measured. The line
@@ -8967,14 +9021,18 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print(T('  Clock drift:     nothing measured -- this is the '
                     'reference the others are held against'))
         else:
-            print(T('  Clock drift:     %+.2f ppm (+/- %.2f), residual spread '
-                    '%.1f ms, %d of %d points')
-                  % ((b - 1.0) * 1e6, st.get("ppm_error", 0.0),
-                     st.get("spread_ms", 0.0), st.get("points", 0),
-                     st.get("candidates", 0) or 0))
-            print(T('  Drift over the running time: %+.3f s = %.1f frames  -->  %s') % (total, abs(total) * fps,
-                                 T('is actively taken out') if drift
-                                 else T('is left in')))
+            print(T('  Clock drift:     %s ppm (+/- %s), residual spread '
+                    '%s ms, %s of %s points')
+                  % (decimal_text("%+.2f" % ((b - 1.0) * 1e6)),
+                     decimal_text("%.2f" % st.get("ppm_error", 0.0)),
+                     decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                     group_text(st.get("points", 0)),
+                     group_text(st.get("candidates", 0) or 0)))
+            print(T('  Drift over the running time: %s s = %s frames  -->  %s')
+                  % (decimal_text("%+.3f" % total),
+                     decimal_text("%.1f" % (abs(total) * fps)),
+                     T('is actively taken out') if drift
+                     else T('is left in')))
         print()
         outdir, target = output_path[v]
         os.makedirs(outdir, exist_ok=True)
@@ -9335,11 +9393,12 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
     if middle:
         spread = max(abs(line[2][0]) for line in lines)
         if spread > 12:
-            print(as_warn(T('  Caution: %.0f steps of brightness '
-                            'difference -- visible when switching.') % spread))
+            print(as_warn(T('  Caution: %s steps of brightness '
+                            'difference -- visible when switching.')
+                          % decimal_text("%.0f" % spread)))
         else:
-            print(T('  The cameras lie close together (at most %.0f steps '
-                    'of brightness).') % spread)
+            print(T('  The cameras lie close together (at most %s steps '
+                    'of brightness).') % decimal_text("%.0f" % spread))
     return lines
 
 
@@ -9875,8 +9934,8 @@ def refresh_cut_list(d, file_path):
     if d["cut"] == before_value:
         print(T('  The cut stays as it was.'))
     else:
-        print(T('  The cut has changed: %d shots instead of %d.')
-              % (len(d["cut"]), len(before_value)))
+        print(T('  The cut has changed: %s shots instead of %s.')
+              % (group_text(len(d["cut"])), group_text(len(before_value))))
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
@@ -10052,10 +10111,10 @@ def measure_offsets_by_crosstalk(tracks, rate=16000):
             # nobody can tell them apart from the line.
             if len(window) < ENOUGH_WINDOWS:
                 lines.append((track["name"], tracks[j]["name"],
-                               T('only %d seconds where %s speaks alone, '
-                                 '%d needed')
-                               % (len(window), track["name"],
-                                  ENOUGH_WINDOWS)))
+                               T('only %s seconds where %s speaks alone, '
+                                 '%s needed')
+                               % (group_text(len(window)), track["name"],
+                                  group_text(ENOUGH_WINDOWS))))
                 continue
             values, best = [], 0.0
             for f in window:
@@ -10069,10 +10128,12 @@ def measure_offsets_by_crosstalk(tracks, rate=16000):
                 measurements[(i, j)] = values
             else:
                 lines.append((track["name"], tracks[j]["name"],
-                               T('bleed too indistinct: %d of %d seconds '
-                                 'usable, sharpest %.1f of %.0f needed')
-                               % (len(values), len(window), best,
-                                  SHARP_ENOUGH)))
+                               T('bleed too indistinct: %s of %s seconds '
+                                 'usable, sharpest %s of %s needed')
+                               % (group_text(len(values)),
+                                  group_text(len(window)),
+                                  decimal_text("%.1f" % best),
+                                  decimal_text("%.0f" % SHARP_ENOUGH))))
     return measurements, lines
 
 
@@ -10152,11 +10213,14 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                 continue
             pairs[(i, j)] = solution
             gone, d0, k, n, rest = solution
-            print(T('    %-14s <-> %-14s sound path %4.1f ms (%.2f m), '
-                    'offset %+6.1f ms, drift %+5.1f ppm '
-                    '(%d points, %.1f ms left over)%s')
-                  % (tracks[i]["name"], tracks[j]["name"], gone,
-                     max(0.0, gone) / 1000.0 * 343.0, d0, k, n, rest,
+            print(T('    %-14s <-> %-14s sound path %4s ms (%s m), '
+                    'offset %6s ms, drift %5s ppm '
+                    '(%s points, %s ms left over)%s')
+                  % (tracks[i]["name"], tracks[j]["name"],
+                     decimal_text("%.1f" % gone),
+                     decimal_text("%.2f" % (max(0.0, gone) / 1000.0 * 343.0)),
+                     decimal_text("%+.1f" % d0), decimal_text("%+.1f" % k),
+                     group_text(n), decimal_text("%.1f" % rest),
                      T('   (sound path negative -- something is wrong)')
                      if gone < -1.0 else ""))
     if not pairs:
@@ -10192,9 +10256,10 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         if abs(k) < limit_ppm:
             k = 0.0
         if abs(d0) > 250.0 or abs(k) > 100.0:
-            print(T('    %-20s %+.0f ms / %+.0f ppm -- that cannot be '
+            print(T('    %-20s %s ms / %s ppm -- that cannot be '
                     'right, track\n    %-20s stays where it is.')
-                  % (track["name"], d0, k, ""))
+                  % (track["name"], decimal_text("%+.0f" % d0),
+                     decimal_text("%+.0f" % k), ""))
             continue
         # "audio time = a + b * reference time": read d0 too early means
         # shifting a by b*d0, and the drift multiplies b.
@@ -10212,8 +10277,10 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         print(T('    All tracks are in place -- nothing to move.'))
         return
     for name, d0, k in shifted:
-        print(T('    %-20s shifted by %+.1f ms%s')
-              % (name, -d0, T(', clock drift %+.1f ppm taken out') % -k
+        print(T('    %-20s shifted by %s ms%s')
+              % (name, decimal_text("%+.1f" % -d0),
+                 T(', clock drift %s ppm taken out')
+                 % decimal_text("%+.1f" % -k)
                  if abs(k) >= limit_ppm else ""))
     try:
         measurements2, _ = measure_offsets_by_crosstalk(tracks)
@@ -10418,8 +10485,8 @@ def axis_text(data):
             else T('time axis measured -- jumps land at the same point'))
     weak = (data or {}).get("weak") or ()
     if weak:
-        text += TN(len(weak), ', %d file does not fit',
-                   ', %d files do not fit') % len(weak)
+        text += TN(len(weak), ', %s file does not fit',
+                   ', %s files do not fit') % group_text(len(weak))
     return text
 
 
@@ -10776,9 +10843,10 @@ def recordings_text(chains, file_count):
     draw a distinction that does not exist.
     """
     if chains == file_count:
-        return TN(file_count, '%d file', '%d files') % file_count
-    return TN(chains, '%d recording from %d files',
-              '%d recordings from %d files') % (chains, file_count)
+        return TN(file_count, '%s file', '%s files') % group_text(file_count)
+    return TN(chains, '%s recording from %s files',
+              '%s recordings from %s files') % (group_text(chains),
+                                                group_text(file_count))
 
 
 def pending_prework(paths, having_audio=(), has_audio=lambda p: False,
@@ -11316,13 +11384,13 @@ def check_mode_fits_input(audio_paths, args):
     if chains < 2:
         return as_warn(
             T('MULTITRACK NOT POSSIBLE\n  At least two input tracks are '
-              'needed, and only %d was found.\n  A track is a recording of '
+              'needed, and only %s was found.\n  A track is a recording of '
               'its own, a channel of a multichannel\n  recorder, or the '
               'audio of a camera -- that counts as soon as its\n  Camera '
               'audio says "use the audio". Without two of them there\n  '
               'is nothing to decouple, and the same file runs through as an\n'
               '  ordinary production.')
-            % chains)
+            % group_text(chains))
     # A key is only needed where something is going to be sent. With
     # --auphonic-done the tracks are already finished and lie in a
     # folder -- from auphonic.com, or from a mixing desk, or from
@@ -11708,7 +11776,7 @@ class SharedProgressBar(object):
 
     def show(self, share):
         line = "\r  %s [%-30s] %3.0f %%" % (
-            T('%s (%d files)') % (self.text, self.how_many),
+            T('%s (%s files)') % (self.text, group_text(self.how_many)),
             "#" * int(share * 30), share * 100)
         if OUTPUT_SINK:
             OUTPUT_SINK(line)
@@ -11971,7 +12039,7 @@ class ProgressPlan(object):
         first = self.caption.get(busy[0]) or busy[0]
         if len(busy) == 1:
             return first
-        return T('%s and %d more') % (first, len(busy) - 1)
+        return T('%s and %s more') % (first, group_text(len(busy) - 1))
 
 
 def write_through(text):
@@ -12688,8 +12756,8 @@ def join_with_report(paths, target, keep_parts=False):
     """
     source, join_info = join_audio_parts(paths, target, keep_parts=keep_parts)
     if join_info.get("tc"):
-        print(T('  %d blocks joined via timecode, start %s')
-              % (join_info["blocks"],
+        print(T('  %s blocks joined via timecode, start %s')
+              % (group_text(join_info["blocks"]),
                  timecode_string(join_info["start"] / float(SR))))
         for at_s, g in join_info.get("gaps_found", []):
             if g > 0:
@@ -12711,8 +12779,9 @@ def join_with_report(paths, target, keep_parts=False):
                 print(T('  Only the mix goes into the video '
                         '(--no-single-tracks).'))
     else:
-        print(T('  %d blocks joined in name order (no timecode -- gaps '
-                'would not be recognisable)') % join_info["blocks"])
+        print(T('  %s blocks joined in name order (no timecode -- gaps '
+                'would not be recognisable)')
+              % group_text(join_info["blocks"]))
     return source, join_info
 
 
@@ -12887,7 +12956,9 @@ def audio_range_covered_by_video(audio, video, edge_s=60.0):
                              t0 + int((t1 - t0) * 0.7)), win_coarse)]
     level = float(np.median(means)) if means else 0.0
     if level < 0.15:
-        return 0, n_audio, {"reason": T('no match in the middle either (%.2f)') % level}
+        return 0, n_audio, {"reason":
+                            T('no match in the middle either (%s)')
+                            % decimal_text("%.2f" % level)}
     threshold = max(0.12, 0.5 * level)
     R = int(edge_s * 1000 / HOP)
     step_coarse = int(0.5 * 1000 / HOP)
@@ -13251,10 +13322,12 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
         # warn carries the name where the caller has one. Without it
         # a run with several recordings prints a heap of warnings
         # nobody can put back against a file.
-        print(as_warn(T('      WARNING: weak match for %s (%.3f, %.2f is '
+        print(as_warn(T('      WARNING: weak match for %s (%s, %s is '
                         'the floor). The two may not belong together.')
                       % (warn if isinstance(warn, str)
-                         else T('this pair of files'), g, WEAK_MATCH)))
+                         else T('this pair of files'),
+                         decimal_text("%.3f" % g),
+                         decimal_text("%.2f" % WEAK_MATCH))))
 
     duration_v = len(env_video) * HOP / 1000.0
     W = int(window_s * 1000 / HOP)
@@ -14152,7 +14225,8 @@ def check_camera_file(file_path):
     if b["varies"]:
         out.append(Finding(
             "hint", "",
-            T('Frame spacing varies by %.0f %% -- the frame timing is uneven.') % (100 * b["spread"]),
+            T('Frame spacing varies by %s %% -- the frame timing is uneven.')
+            % decimal_text("%.0f" % (100 * b["spread"])),
             T('Uneven frame timing cannot be evened out through the '
               'audio. If the sample points spread during alignment as '
               'well, convert to a fixed frame rate.')))
@@ -14164,21 +14238,22 @@ def check_camera_file(file_path):
         spare = abs(b["offset_s"]) * b["nominal"]
         out.append(Finding(
             "hint", "",
-            (T('%s fps, not the %s in the file -- %.0f more frames in '
+            (T('%s fps, not the %s in the file -- %s more frames in '
                'the same length.') if quicker else
-             T('%s fps, not the %s in the file -- %.0f fewer frames in '
+             T('%s fps, not the %s in the file -- %s fewer frames in '
                'the same length.'))
             % (decimal_text("%.4f" % b["mean"]),
-               decimal_text("%.3f" % b["nominal"]), spare),
+               decimal_text("%.3f" % b["nominal"]),
+               decimal_text("%.0f" % spare)),
             (T('The frames stand a little shorter; the file is not any '
                'longer for it. Editing software leaves out about one '
-               'frame every %.0f s, and picture and camera audio stay '
+               'frame every %s s, and picture and camera audio stay '
                'together.') if quicker else
              T('The frames stand a little longer; the file is not any '
                'shorter for it. Editing software repeats about one '
-               'frame every %.0f s, and picture and camera audio stay '
+               'frame every %s s, and picture and camera audio stay '
                'together.'))
-            % (b["duration"] / max(1.0, spare))))
+            % decimal_text("%.0f" % (b["duration"] / max(1.0, spare)))))
     return out, {"name": name, "nominal": b["nominal"], "mean": b["mean"],
                   "duration": b["duration"], "width": b["width"],
                   "height": b["height"], "path": os.path.abspath(file_path),
@@ -14216,9 +14291,9 @@ def compare_cameras(data):
         matrix = {d["colour"][2] for d in without_colour if len(d["colour"]) > 2}
         out.append(Finding(
             "hint", T('Colour space'),
-            T('%d of %d video files carry no curve and no colour space in '
+            T('%s of %s video files carry no curve and no colour space in '
               'the colr box%s -- probably log material.')
-            % (len(without_colour), len(data),
+            % (group_text(len(without_colour)), group_text(len(data)),
                T(' -- only the matrix says BT.2020')
                if matrix == {MATRIX_BT2020} else ""),
             T('Used as it stands -- nothing is invented. Check in Resolve '
@@ -14344,8 +14419,8 @@ def check_audio_file(file_path):
     if channels > 2:
         out.append(Finding(
             "good", "",
-            T('%d channels -- cut into tracks, see the rows above.')
-            % channels,
+            T('%s channels -- cut into tracks, see the rows above.')
+            % group_text(channels),
             T('Every pair of channels is judged on its own: one stereo '
               'track, or two microphones and therefore two tracks. Silent '
               'inputs drop out. The rows under the file say what was '
@@ -14360,9 +14435,9 @@ def check_audio_file(file_path):
         out.append(Finding(
             "hint", "",
             T('Channel %d is against the stop: %s times three samples or '
-              'more in a row, the longest %s (%.1f ms), the first at %s.')
+              'more in a row, the longest %s (%s ms), the first at %s.')
             % (channel + 1, group_text(runs), group_text(longest),
-               milliseconds, as_hms(first)),
+               decimal_text("%.1f" % milliseconds), as_hms(first)),
             T('Counted here, sample by sample, at the rate the file was '
               'recorded at: a run of three or more samples on the highest '
               'value an integer format can hold. One or two are rounding '
@@ -14606,19 +14681,20 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
             bad += 1
         out.append(Finding(
             "good" if good else "hint", T('Bleed'),
-            T("%s%s in %s's microphone only %.1f dB quieter")
+            T("%s%s in %s's microphone only %s dB quieter")
             % ("" if good else T('Limits the de-bleed: '),
-               names[i], names[j], separation)
+               names[i], names[j], decimal_text("%.1f" % separation))
             if not good else
-            T("%s in %s's microphone: %.1f dB quieter than in their own.")
-            % (names[i], names[j], separation),
+            T("%s in %s's microphone: %s dB quieter than in their own.")
+            % (names[i], names[j], decimal_text("%.1f" % separation)),
             "" if good else
             T('It arose during the recording and cannot be changed '
               'now. The less the microphones are separated, the more '
               'cautiously De-Bleed at auphonic.com can work. Next '
               'time: three times as far from the neighbouring '
               'microphone as from your own mouth, then the '
-              'neighbouring voice sits about %.1f dB lower.') % THREE_TO_ONE_DB,
+              'neighbouring voice sits about %s dB lower.')
+            % decimal_text("%.1f" % THREE_TO_ONE_DB),
             os.path.abspath(audio_paths[j])))
     if not out:
         return [Finding("hint", T('Bleed'),
@@ -14627,9 +14703,10 @@ def check_crosstalk(audio_paths, rate=16000, window=5, long=20.0,
     if bad:
         out.append(Finding(
             "hint", T('3:1 rule'),
-            T('%d of %d comparisons are below %.1f dB -- every recording '
+            T('%s of %s comparisons are below %s dB -- every recording '
               'against every other, in both directions.')
-            % (bad, len(out), THREE_TO_ONE_DB),
+            % (group_text(bad), group_text(len(out)),
+               decimal_text("%.1f" % THREE_TO_ONE_DB)),
             T('This comes from the recording, not afterwards: the '
               'microphones sit too close together or too far from the '
               'mouth.')))
@@ -14732,9 +14809,9 @@ def space_summary_lines(target, audio_paths, video_paths, multitrack,
     except Exception:
         return [T('Target: %s') % where]
     return [TN(len(video_paths),
-               'This makes %d video file, about %s. Target: %s',
-               'This makes %d video files, about %s. Target: %s')
-            % (len(video_paths), as_data_size(needed), where),
+               'This makes %s video file, about %s. Target: %s',
+               'This makes %s video files, about %s. Target: %s')
+            % (group_text(len(video_paths)), as_data_size(needed), where),
             T('Free space there: %s') % as_data_size(free)]
 
 
@@ -15014,13 +15091,13 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
         if target is not None:
             out.append(Finding(
                 "good", T('Loudness'),
-                T('the preset masters to %.0f LUFS -- that stands, nothing '
-                  'of ours adjusts.') % target))
+                T('the preset masters to %s LUFS -- that stands, nothing '
+                  'of ours adjusts.') % decimal_text("%.0f" % target)))
     elif target is not None and abs(target - float(lufs)) > 0.05:
         out.append(Finding(
             "abort", T('Loudness'),
-            T('the preset masters to %.0f LUFS, the calculation uses %.0f.')
-            % (target, lufs),
+            T('the preset masters to %s LUFS, the calculation uses %s.')
+            % (decimal_text("%.0f" % target), decimal_text("%.0f" % lufs)),
             T('Both at once does not work: the returning tracks would go '
               'to one value, our own mix to the other. Either set --lufs '
               '%.0f or change the preset.')
@@ -15064,15 +15141,16 @@ def report_findings(findings, heading, anyway=False):
     abort = [b for b in findings if b.kind == "abort"]
     hints = [b for b in findings if b.kind == "hint"]
     fixed = [b for b in findings if b.kind == "fixed"]
-    parts = [T('%d checked') % len(findings)]
+    parts = [T('%s checked') % group_text(len(findings))]
     if fixed:
-        parts.append(TN(len(fixed), '%d fixed on its own',
-                        '%d fixed on their own') % len(fixed))
+        parts.append(TN(len(fixed), '%s fixed on its own',
+                        '%s fixed on their own') % group_text(len(fixed)))
     if hints:
-        parts.append(TN(len(hints), '%d hint', '%d hints') % len(hints))
+        parts.append(TN(len(hints), '%s hint', '%s hints')
+                     % group_text(len(hints)))
     if abort:
-        parts.append(TN(len(abort), '%d reason to stop',
-                        '%d reasons to stop') % len(abort))
+        parts.append(TN(len(abort), '%s reason to stop',
+                        '%s reasons to stop') % group_text(len(abort)))
     print("    %s" % ", ".join(parts))
     if abort and not anyway:
         print(as_bad(T('\nStopped before the first long step. With --anyway '
