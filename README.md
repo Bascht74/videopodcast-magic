@@ -115,17 +115,18 @@ videopodcast-magic AUDIO.wav VIDEO.mov
 videopodcast-magic AUDIO.wav                join only
 videopodcast-magic AUDIO.wav *.mov --out Done
 videopodcast-magic VIDEO.mov                takes the camera sound
-videopodcast-magic --lang de|en             language of the messages
+videopodcast-magic --lang fr                language of the messages
 videopodcast-magic --help                   all switches
 ```
 
 Where pip put the command somewhere the search path does not reach,
-`python3 -m videopodcast_magic` stands in place of the command in every
-one of those lines and takes the same switches.
+pip's own warning names that folder: put it on the path and open a new
+terminal. There is no second way in.
 
 Without arguments the interface opens. Files are told apart by extension;
-the order does not matter. `--lang de` or `--lang en` fixes the language;
-without it the system locale decides. Only `--help` stays English.
+the order does not matter. `--lang` fixes the language -- nine are on
+offer, and `docs/command-line.md` names them; without it the system locale
+decides. Only `--help` stays English.
 
 ![The assignment tab](docs/images/assignment.png)
 
