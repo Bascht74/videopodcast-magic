@@ -1,0 +1,340 @@
+# -*- coding: utf-8 -*-
+"""One shortcut is laid on the first start, and never a second time.
+
+Where it goes on each of the three systems; that the first start
+writes it and says where; that the second says nothing; that one taken
+away by hand does not come back; that a place which cannot be written
+says why instead of stopping the start; and that a test run lays
+nothing unless a home of its own is named. The macOS and the Linux
+shape are written here and read back; the Windows one is left out,
+because writing a .lnk needs a shell object this machine has not.
+"""
+import inspect
+import io
+import os
+import shutil
+import sys
+import tempfile
+import time
+
+import the_program
+
+began = time.time()
+vpm = the_program.load()
+vpm.set_language("en")
+desktop = vpm.beside("desktop", program=vpm.PROGRAM)
+
+done = 0
+bad = []
+
+
+def check(name, ok, extra=""):
+    global done
+    done += 1
+    print("  %-58s %s %s" % (name, "ok" if ok else "FAIL", extra))
+    if not ok:
+        bad.append("%s [%s]" % (name, extra or "no numbers"))
+
+
+def a_home():
+    """A home folder of our own, with a starter pip might have laid."""
+    root = tempfile.mkdtemp(prefix="vpm_home_")
+    starter = os.path.join(root, "bin", "videopodcast-magic")
+    os.makedirs(os.path.dirname(starter))
+    with open(starter, "w", encoding="utf-8") as f:
+        f.write("#!/bin/sh\nexit 0\n")
+    os.chmod(starter, 0o755)
+    return root, starter
+
+
+PICTURE = desktop.icon_bytes()
+
+
+print("1. Where the pointer would go, on each of the three systems")
+# abspath, because that is what place() does with a root -- on
+# Windows "/tmp/x" becomes "D:\\tmp\\x", and a hand-built
+# expectation would measure the drive letter and nothing else.
+ROOT = os.path.abspath("/tmp/vpm_nowhere")
+want = os.path.join(ROOT, "Applications", "videopodcast-magic.app")
+got = desktop.place(root=ROOT, system="darwin")
+check("the macOS entry stands in the Applications folder of that home",
+      got == want, "%s against %s" % (got, want))
+
+want = os.path.join(ROOT, "AppData", "Roaming", "Microsoft", "Windows",
+                    "Start Menu", "Programs", "videopodcast-magic.lnk")
+got = desktop.place(root=ROOT, system="nt")
+check("the Windows entry stands in the Start menu of that home",
+      got == want, "%s against %s" % (got, want))
+
+want = os.path.join(ROOT, ".local", "share", "applications",
+                    "videopodcast-magic.desktop")
+got = desktop.place(root=ROOT, system="posix")
+check("the Linux entry stands where the desktop reads its program list",
+      got == want, "%s against %s" % (got, want))
+
+
+print("\n2. The first start writes it, and says where")
+first, starter = a_home()
+laid = desktop.make_shortcut(root=first, target=starter, png=PICTURE,
+                             system="darwin")
+check("the first start writes the entry under the path it names",
+      laid.made and os.path.exists(laid.where),
+      "made=%s, on disk=%s, at %s"
+      % (laid.made, os.path.exists(laid.where), laid.where))
+
+check("the line it says names the place that was written to",
+      laid.say == vpm.T('A shortcut to this program was made: %s')
+      % laid.where, "it said %r" % laid.say)
+
+points = desktop._points_at(laid.where, "darwin")
+check("the runner inside it calls the starter it was handed",
+      points == starter, "%s against %s" % (points, starter))
+
+icns = os.path.join(laid.where, "Contents", "Resources",
+                    "videopodcast-magic.icns")
+check("the picture is written into the entry as a whole icns file",
+      os.path.exists(icns)
+      and os.path.getsize(icns) == len(PICTURE) + 16,
+      "%d bytes against the %d of the picture plus 16"
+      % (os.path.getsize(icns) if os.path.exists(icns) else 0,
+         len(PICTURE)))
+
+
+print("\n3. The Linux shape, written here and read back")
+lin, lin_starter = a_home()
+launcher = desktop.make_shortcut(root=lin, target=lin_starter, png=PICTURE,
+                                 system="posix")
+points = desktop._points_at(launcher.where, "posix")
+check("the launcher names the starter on the line the desktop runs",
+      points == lin_starter, "%s against %s" % (points, lin_starter))
+
+# A home of its own: the one above already holds a launcher, and an
+# entry that is there and still runs is finished business.
+# A dollar, not a quote: _exec_quote escapes both, and Windows allows
+# a dollar in a file name where it forbids a quote outright. So the
+# same claim is made on all three systems instead of one.
+crook, crook_starter = a_home()
+odd = os.path.join(os.path.dirname(crook_starter), "a $PATH one")
+shutil.copy(crook_starter, odd)
+crooked = desktop.make_shortcut(root=crook, target=odd, png=PICTURE,
+                                system="posix")
+check("a starter whose name is escaped on the Exec line comes back whole",
+      desktop._points_at(crooked.where, "posix") == odd,
+      "%s against %s"
+      % (desktop._points_at(crooked.where, "posix"), odd))
+
+themed = os.path.join(lin, ".local", "share", "icons", "hicolor",
+                      "256x256", "apps", "videopodcast-magic.png")
+check("the picture goes where the icon theme looks for that name",
+      os.path.exists(themed)
+      and os.path.getsize(themed) == len(PICTURE),
+      "%d bytes at %s"
+      % (os.path.getsize(themed) if os.path.exists(themed) else 0, themed))
+
+print("LEFT OUT: the Windows link is not written here. A .lnk is written"
+      " by the shell object that owns the format, reached through"
+      " PowerShell, and this machine has none -- run this test on Windows"
+      " to see that piece.")
+
+
+print("\n4. The second start writes nothing and says nothing")
+kept = {desktop.KEPT: laid.where}
+stub = os.path.join(laid.where, "Contents", "MacOS", "videopodcast-magic")
+before = (os.path.getmtime(stub), os.path.getsize(stub))
+time.sleep(0.01)
+again = desktop.make_shortcut(root=first, target=starter, png=PICTURE,
+                              kept=kept, system="darwin")
+check("the second start writes nothing", not again.made,
+      "made=%s, and it looked at %s" % (again.made, again.where))
+check("the second start says nothing", again.say == "",
+      "it said %r" % again.say)
+after = (os.path.getmtime(stub), os.path.getsize(stub))
+check("what the first start wrote stands there untouched",
+      after == before, "%r against %r" % (after, before))
+# Settings can be reset or lost. An entry that is found good and never
+# written down would then be laid again after the next hand-deletion.
+noted = {}
+good = desktop.make_shortcut(root=first, target=starter, png=PICTURE,
+                             kept={}, write_down=noted.__setitem__,
+                             system="darwin")
+check("an entry found already good is written down all the same",
+      not good.made and noted.get(desktop.KEPT) == laid.where,
+      "made=%s, written down %r, wanted %r"
+      % (good.made, noted.get(desktop.KEPT), laid.where))
+
+
+print("\n5. One taken away by hand does not come back")
+shutil.rmtree(laid.where)
+gone = desktop.make_shortcut(root=first, target=starter, png=PICTURE,
+                             kept=kept, system="darwin")
+check("a shortcut taken away by hand is not laid a second time",
+      not gone.made and not os.path.exists(laid.where),
+      "made=%s, on disk=%s" % (gone.made, os.path.exists(laid.where)))
+check("and nothing is said about the one that was taken away",
+      gone.say == "", "it said %r" % gone.say)
+
+second, other = a_home()
+elsewhere = desktop.make_shortcut(root=second, target=other, png=PICTURE,
+                                  kept=kept, system="darwin")
+check("the same note does not keep a second machine from getting one",
+      elsewhere.made and os.path.exists(elsewhere.where),
+      "made=%s at %s" % (elsewhere.made, elsewhere.where))
+
+
+print("\n6. A place that cannot be written says why, the start goes on")
+blocked, blocked_starter = a_home()
+in_the_way = os.path.join(blocked, "Applications")
+with open(in_the_way, "w", encoding="utf-8") as f:
+    f.write("not a folder\n")
+try:
+    stopped = desktop.make_shortcut(root=blocked, target=blocked_starter,
+                                    png=PICTURE, system="darwin")
+    raised = ""
+except Exception as e:
+    stopped = None
+    raised = "%s: %s" % (type(e).__name__, e)
+check("a place that cannot be written stops nothing and raises nothing",
+      stopped is not None and not stopped.made,
+      "it raised %r" % raised if raised else "made=%s" % stopped.made)
+said = stopped.say if stopped is not None else ""
+head = vpm.T('No shortcut to this program was made: %s') % ""
+check("and it says one line that names the place it could not write",
+      said.startswith(head) and len(said.splitlines()) == 1
+      and (in_the_way in said
+           or in_the_way.replace("\\", "\\\\") in said),
+      "%d line(s), %r" % (len(said.splitlines()), said[-70:]))
+
+
+print("\n7. A run marked as a test lays nothing unless it names a home")
+# A home and a starter of our own for this section, so that a guard
+# broken for a counter-proof still cannot reach the account this runs
+# in: expanduser reads HOME, and no starter means nothing is written.
+kept_env = dict((name, os.environ.get(name))
+                for name in ("VPM_SHORTCUT", "VPM_SETTINGS", "HOME",
+                             "VPM_LOGS"))
+mine = tempfile.mkdtemp(prefix="vpm_choices_")
+os.environ["VPM_SETTINGS"] = mine
+os.environ["VPM_LOGS"] = mine
+
+
+def log_now():
+    """Everything the log holds at this moment, or ""."""
+    where = vpm.log_path()
+    if not where or not os.path.exists(where):
+        return ""
+    with open(where, encoding="utf-8", errors="replace") as f:
+        return f.read()
+
+os.environ["HOME"] = tempfile.mkdtemp(prefix="vpm_nohome_")
+os.environ.pop("VPM_SHORTCUT", None)
+vpm.forget_settings()
+looked = desktop.command_path
+try:
+    desktop.command_path = lambda name=None: ""
+    quiet = desktop.lay_on_first_start()
+    check("a test run with no home of its own lays nothing at all",
+          not quiet.made and quiet.where == "",
+          "made=%s, where=%r" % (quiet.made, quiet.where))
+
+    named, named_starter = a_home()
+    os.environ["VPM_SHORTCUT"] = named
+    desktop.command_path = lambda name=None: named_starter
+    # Nothing on the console: this runs before the window opens and
+    # before the console is redirected, so a line here would land in a
+    # terminal that nobody asked to look at.
+    console = io.StringIO()
+    was_out = sys.stdout
+    sys.stdout = console
+    try:
+        asked = desktop.lay_on_first_start()
+    finally:
+        sys.stdout = was_out
+    check("the laying says nothing on the console", console.getvalue() == "",
+          "it printed %r" % console.getvalue())
+    check("but the line stands in the log",
+          "shortcut -- " in log_now() and asked.where in log_now(),
+          "the log ends %r" % log_now()[-90:])
+    check("a test run that names one gets a shortcut in it",
+          asked.made and os.path.exists(asked.where),
+          "made=%s at %s" % (asked.made, asked.where))
+    check("and the path it laid is written down for the next start",
+          vpm.settings().get(desktop.KEPT) == asked.where,
+          "%r against %r" % (vpm.settings().get(desktop.KEPT), asked.where))
+finally:
+    desktop.command_path = looked
+    for name, was in kept_env.items():
+        if was is None:
+            os.environ.pop(name, None)
+        else:
+            os.environ[name] = was
+    vpm.forget_settings()
+    shutil.rmtree(mine, ignore_errors=True)
+
+
+print("\n8. What a start from the Dock costs can be read afterwards")
+# A start from an icon has no console and no way to set a variable, so
+# the second it was clicked has to come from the thing that was
+# clicked. Without it the ten seconds before Python is running cannot
+# be told apart from the ten after.
+# A home of its own: the first one's bundle was taken away in section 5.
+clicked, clicked_starter = a_home()
+dock = desktop.make_shortcut(root=clicked, target=clicked_starter,
+                             png=PICTURE, system="darwin")
+stub = os.path.join(dock.where, "Contents", "MacOS", "videopodcast-magic")
+with open(stub, encoding="utf-8") as f:
+    runner = f.read()
+check("the bundle writes down the second it was clicked",
+      "VPM_STARTED=$(date +%s)" in runner
+      and "export VPM_STARTED" in runner
+      and runner.index("VPM_STARTED") < runner.index("exec "),
+      "the runner says %r" % runner[-160:])
+
+held_started = os.environ.get("VPM_STARTED")
+os.environ["VPM_STARTED"] = "%d" % (time.time() - 12)
+try:
+    vpm.mark_time("a made-up step")
+finally:
+    if held_started is None:
+        os.environ.pop("VPM_STARTED", None)
+    else:
+        os.environ["VPM_STARTED"] = held_started
+# The last one, not the only one: run.sh repeats a red test alone in
+# the same TMPDIR, so a second run appends to the same log.
+said = [one for one in log_now().splitlines()
+        if "a made-up step" in one]
+last = said[-1] if said else ""
+counted = float(last.split()[2]) if said else -1.0
+check("and the log says how long the start took from that second",
+      last.startswith("[TIME]") and "since the click" in last
+      and 12.0 <= counted < 13.0,
+      "%d line(s), last %r" % (len(said), last))
+
+
+print("\n9. The line lands in the log of this run, not in the one before")
+# Order, not behaviour, and the reason is that behaviour cannot be had
+# cheaply here: redirect_console() takes the file descriptors, and a
+# test that called it would lose its own output. What it does is name
+# the running log ..._1.log and open a new one -- so a line written
+# before it is in the backup, where Help > Show the log never looks.
+# Measured on a real machine 5.9.2026: that is exactly where it went.
+source = inspect.getsource(vpm.main)
+laid_at = source.find("lay_on_first_start()")
+turned_at = source.find("redirect_console()")
+check("the shortcut is laid after the console has been redirected",
+      laid_at > 0 and turned_at > 0 and laid_at > turned_at,
+      "lay at %d, redirect at %d in main()" % (laid_at, turned_at))
+# Not indented deeper than the function: inside the branch that ends
+# in a window, a run on the command line would never reach it.
+laid_line = [one for one in source.splitlines()
+             if "lay_on_first_start()" in one]
+check("and it is laid on the command line road as well",
+      len(laid_line) == 1
+      and len(laid_line[0]) - len(laid_line[0].lstrip()) == 4,
+      "%d call(s), indented %d"
+      % (len(laid_line),
+         len(laid_line[0]) - len(laid_line[0].lstrip()) if laid_line else -1))
+
+
+print("\n%d checks in %.2f s" % (done, time.time() - began))
+print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
+sys.exit(1 if bad else 0)
