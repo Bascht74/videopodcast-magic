@@ -9,8 +9,8 @@ für sich; nichts davon muss von vorn bis hinten gelesen werden.
 ## Inhalt
 
 * **[Was gebraucht wird](requirements.de.md)**: der eine Befehl, der
-  es installiert, Python, welches ffmpeg und warum, und was sich je
-  Plattform unterscheidet.
+  es installiert, wo es nach dem ersten Start auftaucht, Python,
+  welches ffmpeg und warum, und was sich je Plattform unterscheidet.
 * **[Die Oberfläche](interface.de.md)**: das Fenster, Reiter für
   Reiter — und wie die gemeinsame Zeitachse gemessen wird.
 * **[Vorflug](preflight.de.md)**: was vor einem Lauf geprüft wird, und
@@ -185,6 +185,8 @@ der das Wort erklärt, steht vorn.
 * **Uhrengang**: `overview`, „Was es einem abnimmt“; `command-line`, „Was
   mit Ton und Bild geschieht“; `interface`, „Die vier Reiter“
 * **Update**: `interface`, „Sich selbst aktuell halten“
+* **Verknüpfung, Startmenü-Eintrag, Symbol**: `requirements`, „Wo es
+  nach dem ersten Start auftaucht“
 * **Versatz**: `camera-cut`, „Wie die Vorschau-Player Datei und Ton wählen“;
   `simple-path`, „Was neben dem Mix ins Video kommt“; `resolve`, „Wo jede
   Kamera sitzt“

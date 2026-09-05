@@ -9,7 +9,8 @@ its own; nothing here has to be read from front to back.
 ## Contents
 
 * **[What it needs](requirements.md)**: the one command that installs
-  it, Python, which ffmpeg and why, and what differs per platform.
+  it, where it turns up after the first start, Python, which ffmpeg
+  and why, and what differs per platform.
 * **[The interface](interface.md)**: the window, tab by tab -- and how
   the common time axis is measured.
 * **[Preflight](preflight.md)**: what is checked before a run starts,
@@ -172,6 +173,8 @@ explains the word comes first.
   shot"; `speech`, "What the text is for"
 * **Settings ...**: `interface`, "What Settings ... holds"
 * **Short gap up to**: `camera-cut`, "Setting the knobs"
+* **shortcut, Start menu entry, icon**: `requirements`, "Where it turns
+  up after the first start"
 * **Source Audio Channels**: `resolve`, "Choosing the multicam audio"
 * **soxr**: `requirements`, "Where ffmpeg comes from"
 * **speaker name**: `multitrack`, "Setting the assignment"; `speech`,
