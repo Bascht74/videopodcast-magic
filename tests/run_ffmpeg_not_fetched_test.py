@@ -5,9 +5,12 @@ Where nothing else worked, ffmpeg used to be fetched with pip -- a
 wheel carrying the two programs inside itself. It wrote into whatever
 Python happened to be running, a system one included, and nobody had
 been asked. The sections: the source, where no install of ffmpeg is
-left to find; and a search with an empty path, which has to come back
+left to find; a search with an empty path, which has to come back
 saying both are missing and try nothing on the way, and the saying of
-it, which has to carry the advice for this machine. The probe puts a
+it, which has to carry the advice for this machine; and where it looks
+beside the path, which is where the package managers of each system
+leave a program -- found with nothing on the path, behind whatever is
+on it already, and only where a folder really is. The probe puts a
 recorder in place of the two installers, so it says what the program
 asked for, not what pip would have made of it.
 """
@@ -148,10 +151,16 @@ asked_manager = []
 was_path = os.environ.get("PATH", "")
 was_pip = vpm._pip_install
 was_manager = vpm.install_over_package_manager
+was_folders = vpm.manager_folders
 ended, said = ("", ""), ""
 try:
     vpm._pip_install = no_install
     vpm.install_over_package_manager = no_manager
+    # The search looks in the folders a package manager installs into
+    # as well, and on the machine running this one of them holds an
+    # ffmpeg. Driven away, or the empty path would not be empty and
+    # this section would measure the machine instead of the program.
+    vpm.manager_folders = lambda: []
     os.environ["PATH"] = EMPTY
     ended = vpm.find_required_tools()
     # And what the run makes of it. Said with print, so it lands
@@ -166,6 +175,7 @@ finally:
     os.environ["PATH"] = was_path
     vpm._pip_install = was_pip
     vpm.install_over_package_manager = was_manager
+    vpm.manager_folders = was_folders
     # ignore_errors, because a folder that would not go must not end the
     # test before it has counted what it found.
     shutil.rmtree(EMPTY, ignore_errors=True)
@@ -202,6 +212,126 @@ check("and it asked the package manager exactly once",
       len(asked_manager) == 1,
       "the manager was asked %d times, wanted 1: %s"
       % (len(asked_manager), asked_manager[:3]))
+
+
+#------------------------- 3. Where a package manager leaves its things
+
+# The other half of the first line: what the search does find, and
+# where. Started out of the Dock or the Finder rather than a terminal,
+# a program on macOS inherits /usr/bin:/bin:/usr/sbin:/sbin and no
+# more, so an ffmpeg under /opt/homebrew/bin is on the disc and out of
+# reach. The folders are made here and the program is told they are
+# the ones a manager uses, so the judgements are about the program and
+# not about what this machine happens to have installed. The empty
+# path is a folder of this test's own and not /usr/bin:/bin: on a
+# Linux builder /usr/bin holds an ffmpeg, and the Dock case would then
+# be measured against the wrong one.
+ROOM = tempfile.mkdtemp(prefix="vpm_managers_")
+NO_PATH = os.path.join(ROOM, "empty")
+BY_MANAGER = os.path.join(ROOM, "manager_bin")
+ON_PATH = os.path.join(ROOM, "path_bin")
+GONE = os.path.join(ROOM, "no_such_folder")
+# Windows starts a file by its ending and nothing else, so the two
+# stand-ins carry the ending the real builds carry there.
+EXE = ".exe" if sys.platform == "win32" else ""
+
+
+def lay_down(folder):
+    """Put something shutil.which can find under both tool names."""
+    os.makedirs(folder)
+    for tool in ("ffmpeg", "ffprobe"):
+        where = os.path.join(folder, tool + EXE)
+        with open(where, "w") as out:
+            out.write("")
+        os.chmod(where, 0o755)
+
+
+os.makedirs(NO_PATH)
+lay_down(BY_MANAGER)
+lay_down(ON_PATH)
+
+held_folders = vpm.manager_folders
+held_version = vpm.tool_version
+held_path = os.environ.get("PATH", "")
+dock, dock_at, dock_path, twice_path, kept_at = None, None, "", "", None
+try:
+    # The stand-ins answer nothing when they are run, so the version is
+    # driven: what is measured here is where the two were found, and
+    # reading a version off them is a different test's business.
+    vpm.tool_version = lambda tool: ((9, 0, 1), "9.0.1")
+    os.environ["PATH"] = NO_PATH
+    vpm.manager_folders = lambda: [BY_MANAGER, GONE]
+    dock = vpm.find_required_tools()
+    dock_at = shutil.which("ffmpeg")
+    dock_path = os.environ.get("PATH", "")
+    vpm.find_required_tools()
+    twice_path = os.environ.get("PATH", "")
+    # And the other way round: one on the path, one where a manager
+    # would have left it, and the path has to win.
+    os.environ["PATH"] = ON_PATH
+    vpm.manager_folders = lambda: [BY_MANAGER]
+    vpm.find_required_tools()
+    kept_at = shutil.which("ffmpeg")
+finally:
+    os.environ["PATH"] = held_path
+    vpm.manager_folders = held_folders
+    vpm.tool_version = held_version
+    shutil.rmtree(ROOM, ignore_errors=True)
+
+
+def folders_on(system):
+    """What the program would look in on that system, separators flat."""
+    was = vpm.sys.platform
+    vpm.sys.platform = system
+    try:
+        return [one.replace("\\", "/") for one in vpm.manager_folders()]
+    finally:
+        vpm.sys.platform = was
+
+
+MAC = folders_on("darwin")
+LINUX = folders_on("linux")
+WINDOWS = folders_on("win32")
+HOME_BIN = os.path.expanduser("~/.local/bin").replace("\\", "/")
+TAILS = ["chocolatey/bin", "scoop/shims", "Microsoft/WindowsApps"]
+astray = [tail for tail in TAILS
+          if not [one for one in WINDOWS if one.endswith(tail)]]
+
+print("\n3. Where a package manager leaves its things")
+check("a manager's ffmpeg is found with nothing on the path",
+      dock == ("", "")
+      and dock_at == os.path.join(BY_MANAGER, "ffmpeg" + EXE),
+      "the search came back %r and found ffmpeg at %r, wanted no "
+      "complaint and the one under %r -- this is the program started "
+      "from the Dock" % (dock, dock_at, BY_MANAGER))
+check("a folder that is not on the disc stays out of the path",
+      GONE not in dock_path.split(os.pathsep),
+      "the path came back %r, and %r is no folder on this machine"
+      % (dock_path[-70:], GONE))
+check("the path does not grow when the search runs twice",
+      twice_path.split(os.pathsep).count(BY_MANAGER) == 1,
+      "%r stands %d times in the path after two searches, wanted once"
+      % (BY_MANAGER, twice_path.split(os.pathsep).count(BY_MANAGER)))
+check("an ffmpeg already on the path is the one that answers",
+      kept_at == os.path.join(ON_PATH, "ffmpeg" + EXE),
+      "it answered with %r, wanted the one under %r -- what a manager "
+      "left goes behind the path, never in front of it"
+      % (kept_at, ON_PATH))
+check("a Mac is looked in where Homebrew and MacPorts install",
+      set(["/opt/homebrew/bin", "/usr/local/bin",
+           "/opt/local/bin"]) <= set(MAC),
+      "it looks in %r -- Homebrew is /opt/homebrew/bin on Apple "
+      "silicon and /usr/local/bin on Intel, MacPorts /opt/local/bin"
+      % (MAC,))
+check("a Linux machine is looked in where its own managers install",
+      "/snap/bin" in LINUX and HOME_BIN in LINUX
+      and "/opt/homebrew/bin" not in LINUX,
+      "it looks in %r, wanted /snap/bin and %r among them and no "
+      "folder belonging to another system" % (LINUX, HOME_BIN))
+check("Windows is looked in where Chocolatey, Scoop and winget put it",
+      not astray,
+      "%d of %d wanted endings are missing: %s -- it looks in %r"
+      % (len(astray), len(TAILS), astray, WINDOWS))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
