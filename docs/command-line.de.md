@@ -26,7 +26,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 | `--parallel ANZAHL` | so viele Videodateien gleichzeitig; 0 entscheidet selbst, 1 nacheinander (0)  `[multitrack only]` |
 | `--dry-run` | nur messen und berichten, nichts schreiben |
 | `--version` | Nummer der Version, und auf welchem Python das läuft |
-| `--update` | `pip3 install -U` auf die Adresse ausführen, aus der das Programm kam, in dem Python, in dem es läuft, und schreiben, was pip sagt. Jeder andere Lauf sagt nur, dass eine neuere Version draußen ist |
+| `--update` | `pip3 install -U` auf die Adresse ausführen, aus der das Programm kam, mit der neuesten Fassung hintendran, in dem Python, in dem es läuft, und schreiben, was pip sagt. Jeder andere Lauf sagt nur, dass eine neuere Version draußen ist |
 
 ## Was mit Ton und Bild geschieht
 

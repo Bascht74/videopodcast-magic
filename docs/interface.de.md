@@ -875,8 +875,9 @@ Prüfzeichens in der Dateiliste.
 Im Fenster gibt es diese Optionen nicht.
 
 `--update` tut dasselbe wie der Knopf, nur ohne Fenster: es führt pip
-auf die Adresse aus, aus der das Programm kam, und pip schreibt dabei
-ins Terminal statt in den Reiter Ausgabe. Ein Lauf mit irgendetwas
+auf die Adresse aus, aus der das Programm kam, mit der eben
+angebotenen Fassung hintendran, und pip schreibt dabei ins Terminal
+statt in den Reiter Ausgabe. Ein Lauf mit irgendetwas
 anderem auf der Kommandozeile sagt nur, dass eine neuere Fassung
 draußen ist — aus einem Script gestartet darf er an keiner Frage
 stehen bleiben, und ungefragt holt er nichts.

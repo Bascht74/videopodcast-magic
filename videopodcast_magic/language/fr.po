@@ -1012,6 +1012,9 @@ msgstr "ne pas anticiper"
 msgid "Answering speaker"
 msgstr "Celui qui répond"
 
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Cette copie tourne depuis un dossier à elle, pip n'a donc rien à mettre à jour ici. Voici ce qui l'installe : %s"
+
 msgid "Language of the window"
 msgstr "Langue de la fenêtre"
 

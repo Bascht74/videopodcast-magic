@@ -1012,6 +1012,9 @@ msgstr "早めに切り替えない"
 msgid "Answering speaker"
 msgstr "応答者"
 
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "このコピーは自分のフォルダーから動いているため、pip がここで更新するものはありません。次のコマンドで入ります: %s"
+
 msgid "Language of the window"
 msgstr "ウィンドウの言語"
 

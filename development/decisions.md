@@ -175,6 +175,44 @@ program's console now, because nobody starts it from one.
 
 ---
 
+## One road to a newer version, and why the second had to go
+
+Decided on 5.9.2026, and it follows straight from the section above. The
+program had two roads: pip, where a package manager owned the folder,
+and, where none did, one file fetched from the tag and written over its
+own way in, the one that had been running kept beside it as `.old`.
+
+**The second was dead, and would have been wrong alive.** The address it
+fetched, `RAW_FILE % tag`, ended in `videopodcast_magic.py` -- a file
+that has not been there since the program became a folder on 4.9.2026.
+It answers 404; that was measured elsewhere and not here, because no
+test in this repository reaches the network. And had it answered, one
+file written over `__init__.py` would have left `ui`, `cut`, `resolve`,
+`speakers`, `speech` and `language` standing on the version before: a
+mixed program, which is worse than no update at all.
+
+**What was left was the one case it was never meant for.** It only fired
+where the way in was not in site-packages, and since installing is pip3
+and nothing else, that is somebody running out of a checked-out folder.
+For them, a program that writes over their own source file is the last
+thing they want.
+
+So there is one road, and `--update` takes it: the same `pip_update()`
+the window's button hands to its thread, in the same Python, with the
+same command. What differs is only where pip's lines go -- through
+`write_through` on a console, through `UPDATE_SINK` into the fourth tab.
+Where pip owns nothing, both say so and do nothing, out of one sentence
+in one place that names what the case is and the command that installs
+it properly.
+
+**What fetching left behind is still standing.** Nothing writes an
+`.old` any more, so `restore_old_self()` and the Help entry that offers
+it can only find one left over from before 3.0.0, beside a checked-out
+copy. They were left because the window is another strand's file, and
+they are the next thing to go.
+
+---
+
 ## A measurement holds for the thing measured, and not for its neighbour
 
 Measured on 3.9.2026: a strand found that `pipx` cannot update an
