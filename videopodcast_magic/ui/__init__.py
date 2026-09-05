@@ -112,6 +112,7 @@ cut_box_title = PROGRAM.cut_box_title
 cut_has_people = PROGRAM.cut_has_people
 cut_statistics = PROGRAM.cut_statistics
 cut_title_of = PROGRAM.cut_title_of
+decimal_text = PROGRAM.decimal_text
 delete_api_key = PROGRAM.delete_api_key
 desktop_is_dark = PROGRAM.desktop_is_dark
 every_audio_block = PROGRAM.every_audio_block
@@ -126,6 +127,7 @@ finished_tracks_find = PROGRAM.finished_tracks_find
 forget_soxr = PROGRAM.forget_soxr
 format_complaint = PROGRAM.format_complaint
 group_recording_parts = PROGRAM.group_recording_parts
+group_text = PROGRAM.group_text
 guess_camera_name = PROGRAM.guess_camera_name
 guess_production_name = PROGRAM.guess_production_name
 guess_speaker_name = PROGRAM.guess_speaker_name
@@ -727,9 +729,9 @@ def chain_fill_in(group, row, discarded, selected,
     else:
         total = sum(lengths) / float(SR)
     node = item(group,
-                    TN(len(row) - 1, '%s  + %d continuation',
-                       '%s  + %d continuations')
-                    % (os.path.basename(row[0]), len(row) - 1),
+                    TN(len(row) - 1, '%s  + %s continuation',
+                       '%s  + %s continuations')
+                    % (os.path.basename(row[0]), group_text(len(row) - 1)),
                     os.path.dirname(row[0]), "audio", files_for_it=row)
     # The continuations point at this row too: a finding about block 3
     # belongs to the recording, not to nowhere.
@@ -744,12 +746,12 @@ def chain_fill_in(group, row, discarded, selected,
         # Length and timecode apply to the whole recording, not to the
         # first block -- the format is the same for all of them.
         if k == T('Length'):
-            value = (T('%s  (%s)  --  %s  --  %d blocks')
+            value = (T('%s  (%s)  --  %s  --  %s blocks')
                  % (as_hms(total), as_data_size(sum(size_in_mb(x) for x in row)),
                     T('Timecode from %s')
                     % timecode_string(min(t for t in tcs if t is not None))
                     if any(t is not None for t in tcs)
-                    else T('no timecode'), len(row)))
+                    else T('no timecode'), group_text(len(row))))
         item(node, "      " + k, value)
     for i, (p, n, t) in enumerate(zip(row, lengths, tcs), 1):
         source_text = (T('selected') if os.path.abspath(p) in selected
@@ -1724,8 +1726,9 @@ def folded_summary(tree, row):
             seen.append(pick)
     if not seen:
         return T('no camera yet')
-    return (TN(len(seen), 'on %d camera', 'on %d cameras') % len(seen)
-            + ((T(', %d without') % without) if without else ""))
+    return (TN(len(seen), 'on %s camera', 'on %s cameras')
+            % group_text(len(seen))
+            + ((T(', %s without') % group_text(without)) if without else ""))
 
 
 def row_picker_for(tree):
@@ -2124,9 +2127,10 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
                 return
             for a, b, who in self.cut:
                 if a <= t < b:
-                    self.setToolTip(T('%s -- %d:%02d to %d:%02d (%.1f s)')
+                    self.setToolTip(T('%s -- %d:%02d to %d:%02d (%s s)')
                                     % (who, int(a) // 60, int(a) % 60,
-                                       int(b) // 60, int(b) % 60, b - a))
+                                       int(b) // 60, int(b) % 60,
+                                       decimal_text("%.1f" % (b - a))))
                     return
             self.setToolTip("")
 
@@ -2379,9 +2383,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 return True
             if self.total.elapsed() > PATIENCE_MS:
                 print(T('  Player: %s stays at %s instead of %s -- given '
-                        'up after %d attempts (%s)')
+                        'up after %s attempts (%s)')
                       % (self.name, _sec(have), _sec(self.want),
-                         self.attempts, _position(self.p)))
+                         group_text(self.attempts), _position(self.p)))
                 self.want = None
                 return True
             if self.last_percent.elapsed() >= SPACING_MS:
@@ -2957,7 +2961,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.fast_button.setText(
                 "%g\u00d7" % self._speed if fast else "")
             self.fast_button.setAccessibleName(
-                T('Fast forward, %g times speed') % self._speed if fast
+                T('Fast forward, %s times speed')
+                % decimal_text("%g" % self._speed) if fast
                 else T('Fast forward'))
 
         def play(self):
@@ -3934,7 +3939,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 else Qt.ToolButtonIconOnly)
             self.fast_button.setText("%g\u00d7" % self._speed if fast else "")
             self.fast_button.setAccessibleName(
-                T('Fast forward, %g times speed') % self._speed if fast
+                T('Fast forward, %s times speed')
+                % decimal_text("%g" % self._speed) if fast
                 else T('Fast forward'))
 
         def picture_show(self):
@@ -4748,9 +4754,10 @@ def run_argv(values, assignment_file_path=""):
             messages.append((
                 "question", T('Cameras only'),
                 T('There are no separate audio recordings. Then the audio '
-                  'of the %d cameras is used -- each becomes a track, and '
+                  'of the %s cameras is used -- each becomes a track, and '
                   'Auphonic removes the bleed.')
-                % len(values.get("rows") or []), T('Take the camera audio')))
+                % group_text(len(values.get("rows") or [])),
+                T('Take the camera audio')))
         if len(lines) < 2:
             return error(
                 T('Multitrack needs several tracks'),
@@ -5219,8 +5226,8 @@ def split_column_room(widget):
     button.setFont(widget.font())
     running = caption_room(mark, 0, [T('Separating ...'),
                                      T('Stopping ...')])
-    done = caption_room(mark, 0, [TN(2, 'Separated: %d speaker',
-                                     'Separated: %d speakers') % 2])
+    done = caption_room(mark, 0, [TN(2, 'Separated: %s speaker',
+                                     'Separated: %s speakers') % 2])
     return max(running + button.sizeHint().width() + 6, done) + 12
 
 
@@ -6266,7 +6273,7 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
         return kid
 
     if not all(probe_has(channel_facts_name(), x) for x in row):
-        channel_row(T('      %d channels') % how_many,
+        channel_row(T('      %s channels') % group_text(how_many),
                     T('measurement running ...'))
         return
     # Over the whole recording: the first block can be the soundcheck,
@@ -6606,9 +6613,9 @@ def broken_off_report(where, results):
     return "\n".join([
         T('\nStopped during: %s') % (where or "?"),
         TN(len(done),
-           '%d file was finished before that and is whole: %s',
-           '%d files were finished before that and are whole: %s')
-        % (len(done), ", ".join(done) or "-"),
+           '%s file was finished before that and is whole: %s',
+           '%s files were finished before that and are whole: %s')
+        % (group_text(len(done)), ", ".join(done) or "-"),
         T('Everything after that step is missing. The folder holds a '
           'part of a run, not a result.')])
 
@@ -6715,9 +6722,9 @@ def wide_too_short(number):
     least = float(number.get("min-edit-duration") or 0.0)
     if holds <= 0 or least <= 0 or holds >= least:
         return ""
-    return T('The wide shot holds %g s, less than the shortest shot of '
-             '%g s -- so it is merged away again and never appears.\n') % (
-                 holds, least)
+    return T('The wide shot holds %s s, less than the shortest shot of '
+             '%s s -- so it is merged away again and never appears.\n') % (
+                 decimal_text("%g" % holds), decimal_text("%g" % least))
 
 
 def run_done_text(dry):
@@ -6825,13 +6832,13 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n):
     parts = []
     if audio_file_list:
         parts.append("%s%s" % (
-            TN(recordings, '%d audio recording', '%d audio recordings')
-            % recordings,
+            TN(recordings, '%s audio recording', '%s audio recordings')
+            % group_text(recordings),
             "" if recordings == audio_file_list
-            else T(' from %d files') % audio_file_list))
+            else T(' from %s files') % group_text(audio_file_list)))
     if videos_n:
-        parts.append(TN(videos_n, '%d video file', '%d video files')
-                     % videos_n)
+        parts.append(TN(videos_n, '%s video file', '%s video files')
+                     % group_text(videos_n))
     sentence = ", ".join(parts) if parts else T('nothing selected')
     # What belongs to a file that does not take part is shown on its row,
     # not in the balance below.
@@ -6844,7 +6851,7 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n):
         return (sentence + T(' -- 1 note: %s') % hints[0].text[:110],
                 COLOURS["warning"])
     if hints:
-        return (sentence + T(' -- %d notes') % len(hints),
+        return (sentence + T(' -- %s notes') % group_text(len(hints)),
                 COLOURS["warning"])
     return sentence + T(' -- nothing to fault.'), COLOURS["quiet"]
 
@@ -7704,9 +7711,8 @@ def gui():
         if not general:
             return
         group = item(items, T('GENERAL NOTES'),
-                        TN(len(general), '%d point', '%d points')
-                        % len(general),
-                        "group", True)
+                        TN(len(general), '%s point', '%s points')
+                        % group_text(len(general)), "group", True)
         group.setData(0, Qt.UserRole + 2, True)
         group.setExpanded(True)
         for b in general:
@@ -7933,8 +7939,8 @@ def gui():
                 header_value = recordings_text(len(chains), file_count)
                 state["audio_recordings"] = len(chains)
             else:
-                chains, header_value = (
-                    None, TN(len(own), '%d file', '%d files') % len(own))
+                chains, header_value = None, TN(
+                    len(own), '%s file', '%s files') % group_text(len(own))
             group = item(items, title, header_value, "group", True,
                             group_kind=kind)
             group.setExpanded(True)
@@ -8069,8 +8075,8 @@ def gui():
                 return
             how = T('audio file') if kind == "audio" else T('video file')
             if not ask(T('Remove all'),
-                    T('Remove all %d %ss from the list?\n\n%s')
-                    % (len(affected), how,
+                    T('Remove all %s %ss from the list?\n\n%s')
+                    % (group_text(len(affected)), how,
                        "\n".join("  " + os.path.basename(p)
                                   for p in affected[:12])
                        + ("\n  ..." if len(affected) > 12 else "")),
@@ -11912,10 +11918,10 @@ def gui():
                 if kind_now(p) not in CAMERA_TYPES]
         duration = window_length()
         lines = ["%s, %s%s"
-                  % (TN(len(content), '%d camera', '%d cameras')
-                     % len(content),
-                     TN(len(audio_files), '%d audio recording',
-                        '%d audio recordings') % len(audio_files),
+                  % (TN(len(content), '%s camera', '%s cameras')
+                     % group_text(len(content)),
+                     TN(len(audio_files), '%s audio recording',
+                        '%s audio recordings') % group_text(len(audio_files)),
                      ", " + duration if duration else "")]
         for kind, name in edge:
             lines.append("%s: %s" % (label_of(kind), name))
@@ -11967,7 +11973,8 @@ def gui():
                     return
                 with prework_lock:
                     pending = len(prework_queue) + prework_run["threads"]
-                start_run.setText(T('Camera audio, %d to go ...') % pending)
+                start_run.setText(T('Camera audio, %s to go ...')
+                                  % group_text(pending))
                 QtCore.QTimer.singleShot(300, check_again)
 
             check_again()
@@ -12737,12 +12744,12 @@ def preset_mode_note(preset_list, multitrack_on):
                if preset_fits_mode(mt, multitrack_on)]
     if not preset_list or fitting:
         return "", fitting
-    return ((T('The key is good. Of the %d presets in the account none '
+    return ((T('The key is good. Of the %s presets in the account none '
                'is a Multitrack one, so the list stays empty.')
              if multitrack_on else
-             T('The key is good. Of the %d presets in the account none '
+             T('The key is good. Of the %s presets in the account none '
                'is a Singletrack one, so the list stays empty.'))
-            % len(preset_list), fitting)
+            % group_text(len(preset_list)), fitting)
 
 
 def update_offer(window, asked=False):

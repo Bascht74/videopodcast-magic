@@ -1,8 +1,9 @@
 # What is translated of this program's messages, in Japanese.
 #
 # Keyed by the English wording, the same as the German file beside it.
-# 327 of the program's 1498 texts stand here. Every text that is
-# not in this file appears in English: T() gives back the key it was
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
 # handed when it finds no entry, so what is missing reads rather than
 # breaks.
 #
@@ -27,11 +28,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "ワイドショットでのカット"
 
-msgid "on %d camera"
-msgstr "%d 台のカメラに"
+msgid "on %s camera"
+msgstr "%s 台のカメラに"
 
-msgid "on %d cameras"
-msgstr "%d 台のカメラに"
+msgid "on %s cameras"
+msgstr "%s 台のカメラに"
 
 msgid "no camera yet"
 msgstr "まだカメラなし"
@@ -156,14 +157,14 @@ msgstr "%s にもう一人の話者"
 msgid "One more speaker in"
 msgstr "話者をもう一人追加"
 
-msgid "%d:%02d min"
-msgstr "%d:%02d 分"
+msgid "%s:%02d min"
+msgstr "%s:%02d 分"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d〜%d:%02d（%.1f 秒）"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d〜%d:%02d（%s 秒）"
 
-msgid "%s and %d more"
-msgstr "%s ほか %d 件"
+msgid "%s and %s more"
+msgstr "%s ほか %s 件"
 
 msgid "%s speech time"
 msgstr "%s の発話時間"
@@ -285,23 +286,23 @@ msgstr "プロジェクトを開く"
 msgid "not readable"
 msgstr "読み取れません"
 
-msgid "%d audio track"
-msgstr "音声トラック %d 本"
+msgid "%s audio track"
+msgstr "音声トラック %s 本"
 
-msgid "%d audio tracks"
-msgstr "音声トラック %d 本"
+msgid "%s audio tracks"
+msgstr "音声トラック %s 本"
 
-msgid "%d clip"
-msgstr "%d クリップ"
+msgid "%s clip"
+msgstr "%s クリップ"
 
-msgid "%d clips"
-msgstr "%d クリップ"
+msgid "%s clips"
+msgstr "%s クリップ"
 
-msgid "%d video track"
-msgstr "映像トラック %d 本"
+msgid "%s video track"
+msgstr "映像トラック %s 本"
 
-msgid "%d video tracks"
-msgstr "映像トラック %d 本"
+msgid "%s video tracks"
+msgstr "映像トラック %s 本"
 
 msgid "  (this file ends earlier)"
 msgstr "  (このファイルは先に終わります)"
@@ -312,17 +313,17 @@ msgstr "（一時停止中）"
 msgid " (playing)"
 msgstr "（再生中）"
 
-msgid "%d channel"
-msgstr "%d チャンネル"
+msgid "%s channel"
+msgstr "%s チャンネル"
 
-msgid "%d channels"
-msgstr "%d チャンネル"
+msgid "%s channels"
+msgstr "%s チャンネル"
 
-msgid "%d file"
-msgstr "ファイル %d 個"
+msgid "%s file"
+msgstr "ファイル %s 個"
 
-msgid "%d files"
-msgstr "ファイル %d 個"
+msgid "%s files"
+msgstr "ファイル %s 個"
 
 msgid "... or add files ..."
 msgstr "... またはファイルを追加 ..."
@@ -345,8 +346,8 @@ msgstr "ブロック"
 msgid "Camera"
 msgstr "カメラ"
 
-msgid "Camera audio, %d to go ..."
-msgstr "カメラ音声、残り %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "カメラ音声、残り %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- プレビュー（長さ %s）"
@@ -783,23 +784,23 @@ msgstr "不明"
 msgid "video file"
 msgstr "映像ファイル"
 
-msgid "%d audio recording"
-msgstr "音声録音 %d 件"
+msgid "%s audio recording"
+msgstr "音声録音 %s 件"
 
-msgid "%d audio recordings"
-msgstr "音声録音 %d 件"
+msgid "%s audio recordings"
+msgstr "音声録音 %s 件"
 
-msgid "%d camera"
-msgstr "カメラ %d 台"
+msgid "%s camera"
+msgstr "カメラ %s 台"
 
-msgid "%d cameras"
-msgstr "カメラ %d 台"
+msgid "%s cameras"
+msgstr "カメラ %s 台"
 
-msgid "%d video file"
-msgstr "映像ファイル %d 個"
+msgid "%s video file"
+msgstr "映像ファイル %s 個"
 
-msgid "%d video files"
-msgstr "映像ファイル %d 個"
+msgid "%s video files"
+msgstr "映像ファイル %s 個"
 
 msgid "Caution"
 msgstr "注意"
