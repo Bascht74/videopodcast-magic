@@ -157,8 +157,8 @@ msgstr "%d:%02d 分"
 msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
 msgstr "%s——%d:%02d 至 %d:%02d（%.1f 秒）"
 
-msgid "%s and %d more"
-msgstr "%s 及另外 %d 个"
+msgid "%s and %s more"
+msgstr "%s 及另外 %s 个"
 
 msgid "%s speech time"
 msgstr "%s 的说话时长"
@@ -307,17 +307,17 @@ msgstr "（已暂停）"
 msgid " (playing)"
 msgstr "（播放中）"
 
-msgid "%d channel"
-msgstr "%d 个声道"
+msgid "%s channel"
+msgstr "%s 个声道"
 
-msgid "%d channels"
-msgstr "%d 个声道"
+msgid "%s channels"
+msgstr "%s 个声道"
 
-msgid "%d file"
-msgstr "%d 个文件"
+msgid "%s file"
+msgstr "%s 个文件"
 
-msgid "%d files"
-msgstr "%d 个文件"
+msgid "%s files"
+msgstr "%s 个文件"
 
 msgid "... or add files ..."
 msgstr "... 或添加文件 ..."
