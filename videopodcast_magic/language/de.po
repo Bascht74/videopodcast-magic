@@ -6433,3 +6433,12 @@ msgstr "Eine hier gewählte Sprache gilt ab dem nächsten Start."
 
 msgid "System language (%s)"
 msgstr "Systemsprache (%s)"
+
+msgid "A shortcut to this program was made: %s"
+msgstr "Eine Verknüpfung zu diesem Programm wurde angelegt: %s"
+
+msgid "No shortcut to this program was made: %s"
+msgstr "Es wurde keine Verknüpfung zu diesem Programm angelegt: %s"
+
+msgid "it was written and was not there afterwards"
+msgstr "sie wurde geschrieben und war danach nicht vorhanden"
