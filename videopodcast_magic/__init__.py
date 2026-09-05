@@ -13327,7 +13327,7 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
 #  Keeping itself up to date
 # =====================================================================
 # The program can look whether a newer release is out and, if somebody
-# says so, fetch it and start again. Three rules hold it in place:
+# says so, let pip fetch it. Three rules hold it in place:
 #
 #   * Looking is free and needs no permission: one question for a
 #     version number, nothing sent. It always looks; only
@@ -13335,8 +13335,8 @@ def align_envelopes(env_video, env_audio, HOP=5.0, sample_points=None, window_s=
 #   * Fetching is asked every single time: the window in a box, the
 #     command line with a line and --update. Never unasked, and never
 #     while a run is going on.
-#   * What comes down is read before it is used: a file that does not
-#     compile is not written over the one that works.
+#   * pip fetches it, and there is no second way: this is a folder,
+#     and writing over the way in leaves the rest of it behind.
 
 RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
             "/releases/latest")
@@ -13344,8 +13344,6 @@ RELEASES = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
 # releases wants to read all three, not only the newest.
 RELEASE_LIST = ("https://api.github.com/repos/Bascht74/videopodcast-magic"
                 "/releases?per_page=30")
-RAW_FILE = ("https://raw.githubusercontent.com/Bascht74"
-            "/videopodcast-magic/%s/videopodcast_magic/__init__.py")
 # Off for a test run: a suite must not reach for the network, and it
 # must certainly not swap the file it is testing.
 UPDATE_OFF = bool(os.environ.get("VPM_NO_UPDATE_CHECK"))
@@ -13541,10 +13539,10 @@ def self_checked(raw):
 
     Three questions of anything that is about to become this program:
     is it readable text, does it look like this program rather than
-    like an error page a proxy put there, and does it compile. They are
-    asked of what comes down from the network and of what lies beside
-    the program as .old -- the second one has nothing behind it to fall
-    back on, so it is asked exactly as hard.
+    like an error page somebody saved over it, and does it compile.
+    Asked of what lies beside the program as .old, which is the last
+    thing left that can take its place and has nothing behind it to
+    fall back on, so it is asked exactly as hard.
     """
     if isinstance(raw, bytes):
         try:
@@ -13562,44 +13560,18 @@ def self_checked(raw):
     return text, ""
 
 
-def fetch_new_self(tag):
-    """Fetch that release of this program. (text, "") or ("", why)."""
-    try:
-        import urllib.request
-        with urllib.request.urlopen(RAW_FILE % tag,
-                                    context=https_context(),
-                                    timeout=120) as answer:
-            raw = answer.read()
-    except Exception as e:
-        return "", T('The new version could not be fetched: %s') % e
-    return self_checked(raw)
+def not_installed_note():
+    """The one sentence for "pip has nothing here to update".
 
-
-def put_new_self(text):
-    """Write it in place of this file, the old one kept beside it.
-
-    Returns "" when it worked. The old file stays as .old: an update
-    that turns out wrong should not need the network to be undone.
-
-    Where a package manager owns the folder, nothing is written: that
-    would leave its record of the version standing and wrong.
+    One place, so the window and the console cannot say two different
+    things about the same case. pip is the only way in and therefore
+    the only way on; a copy running out of a folder of its own is not
+    a version pip keeps a record of, so the way on is the command that
+    installs it properly.
     """
-    here = os.path.abspath(__file__)
-    owner = installed_by_a_package_manager()
-    if owner:
-        return T('This was installed rather than downloaded, into %s. '
-                 'Update it the way it was installed, or the record '
-                 'kept there would go on naming the old version.') % owner
-    try:
-        beside = here + ".new"
-        with open(beside, "w", encoding="utf-8") as f:
-            f.write(text)
-        shutil.copymode(here, beside)
-        shutil.copyfile(here, here + ".old")
-        os.replace(beside, here)
-    except OSError as e:
-        return T('The new version could not be written: %s') % e
-    return ""
+    return T('This copy runs out of a folder of its own, so pip has '
+             'nothing here to update. This installs it: %s') % (
+                 "pip3 install -U " + PIP_SOURCE)
 
 
 def pip_update(tag, say):
@@ -13632,38 +13604,30 @@ def update_promise(owner):
 
     Two different things happen, so two different sentences are owed.
     *owner* is the folder a package manager installed this into, and
-    where there is one the program does not write over itself: pip
-    does it, into that folder.
+    where there is one pip fetches the new version into it. Where
+    there is none there is nothing pip keeps a record of, and the
+    sentence says so before the button is pressed rather than after.
     """
     if owner:
         return T('Update? pip fetches it into %s. What pip says appears '
                  'under Output, and the new version runs from the next '
                  'start.') % owner
-    return T('Update? The run then begins from the new version. The one '
-             'running now stays beside it as videopodcast_magic.py.old.')
+    return not_installed_note()
 
 
 def update_fetched(tag, owner):
-    """Put that release in place. "" where it is under way, or why not.
+    """Hand that release to pip. "" where it is under way, or why not.
 
-    An installation is pip's to change: writing over the file would
-    leave its record of the version standing and wrong. pip takes
-    minutes, so the window runs it beside itself rather than in its
-    own thread. A loose file is written over and the program starts
-    again from it.
+    pip is the only way in and therefore the only way on: it keeps the
+    record of which version is installed, and this program is a folder
+    whose way in is one file of nine. pip takes minutes, so the window
+    runs it beside itself rather than in its own thread.
     """
-    if owner:
-        if UPDATE_SINK is None:
-            return T('There is no window to show what pip says.')
-        UPDATE_SINK(lambda say: pip_update(tag, say))
-        return ""
-    text, trouble = fetch_new_self(tag)
-    if not text:
-        return trouble
-    trouble = put_new_self(text)
-    if trouble:
-        return trouble
-    start_again()
+    if not owner:
+        return not_installed_note()
+    if UPDATE_SINK is None:
+        return T('There is no window to show what pip says.')
+    UPDATE_SINK(lambda say: pip_update(tag, say))
     return ""
 
 
@@ -13672,23 +13636,30 @@ def update_note():
 
     A line and nothing else. A run started out of a script must not
     stop to ask anything, so there is no box and no question here, and
-    nothing at all is fetched: --update does that, and only that.
+    nothing at all is fetched. What the second line names is the way
+    that works here: --update where pip owns this copy, and the
+    command that installs it where nothing owns it.
     """
     tag, page, _changed, _trouble = newer_release()
     if not tag:
         return
     print(T('%s is out. This is %s.') % (tag, VERSION))
-    print(T('--update fetches it and puts it in place.'))
+    if installed_by_a_package_manager():
+        print(T('--update fetches it and puts it in place.'))
+    else:
+        print(not_installed_note())
     if page:
         print("  %s" % page)
 
 
 def update_from_command_line():
-    """Fetch the newer version and put it in place. 0, or 1 with a word.
+    """Let pip fetch the newer version. 0, or 1 with a word.
 
-    Asked for outright, so a version passed over in the window does not
-    stand against it. Nothing is started again afterwards: a command
-    line hands the next run back to whoever is at the keyboard.
+    Asked for outright, so a version passed over in the window does
+    not stand against it. The same machinery as the window's button,
+    down to the command: what differs is where pip's lines go.
+    Nothing is started again afterwards: a command line hands the next
+    run back to whoever is at the keyboard.
     """
     if UPDATE_OFF:
         print(T('The check for new versions is switched off here.'))
@@ -13700,23 +13671,17 @@ def update_from_command_line():
     if not tag:
         print(T('No newer version found. This one is %s.') % VERSION)
         return 0
-    if installed_by_a_package_manager():
-        # Whoever typed --update has a console, so pip writes into it.
-        trouble = pip_update(tag, write_through)
-        if trouble:
-            print(trouble)
-            return 1
-        return 0
-    text, trouble = fetch_new_self(tag)
-    if not text:
-        print(trouble)
+    if not installed_by_a_package_manager():
+        print(not_installed_note())
         return 1
-    trouble = put_new_self(text)
+    # Whoever typed --update has a console, so pip writes into it as it
+    # goes -- write_through is to this what UPDATE_SINK is to the
+    # window, and pip's first install fetches a gigabyte: a console
+    # standing silent for minutes looks like a program that has hung.
+    trouble = pip_update(tag, write_through)
     if trouble:
         print(trouble)
         return 1
-    print(T('%s is in place. The version before it is beside it as '
-            'videopodcast_magic.py.old.') % tag)
     return 0
 
 
@@ -15386,10 +15351,10 @@ def build_argument_parser():
                          "(default: whatever the run picks)")
     ap.add_argument("--update", dest="update_now",
                     action="store_true", default=False,
-                    help="fetch the newer version and put this one "
-                         "beside it as videopodcast_magic.py.old. A run "
-                         "only ever says that one is out; nothing is "
-                         "fetched without this. (default: off)")
+                    help="let pip fetch the newer version, in the Python "
+                         "this is running in, and write what pip says "
+                         "here. A run only ever says that one is out; "
+                         "nothing is fetched without this. (default: off)")
     ap.add_argument("--speakers-from", dest="speakers_from", default=None,
                     metavar="FILE",
                     help="take a finished separation out of a project or "
