@@ -6406,6 +6406,12 @@ msgstr "Antwortender"
 msgid "  %sx away from the speaker because a shot ran longer than %s s"
 msgstr "  %sx weg vom Sprecher, weil eine Einstellung länger als %s s stand"
 
+msgid "%s is in place."
+msgstr "%s ist eingespielt."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Dieses Fenster ist noch die Fassung, mit der es gestartet ist. Es kann jetzt neu starten und mit der neuen hochkommen, oder du machst das später selbst."
+
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Diese Kopie läuft aus einem eigenen Ordner, pip hat hier also nichts zu aktualisieren. Das installiert sie: %s"
 

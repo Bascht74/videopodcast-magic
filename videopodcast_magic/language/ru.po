@@ -1062,6 +1062,12 @@ msgstr "не переходить раньше"
 msgid "Answering speaker"
 msgstr "Отвечающий"
 
+msgid "%s is in place."
+msgstr "%s установлена."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Это окно всё ещё та версия, с которой оно запустилось. Оно может перезапуститься сейчас и подняться уже новой, либо вы сделаете это позже сами."
+
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Эта копия работает из собственной папки, поэтому pip здесь нечего обновлять. Установить её можно так: %s"
 

@@ -668,11 +668,17 @@ Python the program is running in, so the installation that gets the
 new version is the one that would start.
 
 **Every line pip writes goes into the fourth tab, Output, as it
-arrives.** That tab is where to watch: the window stays usable, the
-last line says the new version is in place, and it runs from the next
-start. Where pip stops with an error, the tab says so and keeps every
-line above it -- the reason is in there, and the version that works
-has not been touched.
+arrives.** That tab is where to watch, and the window stays usable
+while it fills. Where pip stops with an error, the tab says so and
+keeps every line above it -- the reason is in there, and the version
+that works has not been touched.
+
+**When it has gone through, a box says so and offers the restart.** It
+names the version that arrived, says that this window is still the one
+it started as, and leaves the choice: start again now and come up as
+the new one, or do that later. Nothing is lost by choosing later --
+the new version is on the machine either way, and the next start
+picks it up.
 
 The tick **Skip this version** puts one version aside. The next one
 asks again, and **Help > Look for a newer version now** asks whenever
