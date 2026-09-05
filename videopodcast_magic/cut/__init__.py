@@ -83,7 +83,6 @@ media_seconds = PROGRAM.media_seconds
 microphones_apart_db = PROGRAM.microphones_apart_db
 mix_width = PROGRAM.mix_width
 normalise_loudness = PROGRAM.normalise_loudness
-np = PROGRAM.np
 os = PROGRAM.os
 own_frame_rate = PROGRAM.own_frame_rate
 parallel_map = PROGRAM.parallel_map
