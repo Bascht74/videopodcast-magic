@@ -11,7 +11,7 @@ order: 110
 A workflow is worth it for three things and nothing else: **to be
 thorough** (fan out and cover), **to be sure** (independent finders, then
 refuters), and **to reach further than one context holds** (a sweep over
-a 36000-line file, an audit across 145 tests).
+a file too big to read at once, an audit across every test there is).
 
 It is not worth it to be fast. A single edit with a known cause is
 faster by hand, and a workflow around it is ceremony.

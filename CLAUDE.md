@@ -383,6 +383,15 @@ one. The skill `gegenbeweis` says
 how it is done, including the question to ask when a counter-proof
 refuses to go red.
 
+**A skill carries rules and the cases that taught them -- not the state
+of the repository.** A number that justifies a rule stays, because it
+is about a day that is over: the commit that was six commits, the wheel
+that shipped 21 files instead of 11. A number that says how things
+stand today does not: it goes stale between two commits, and a stale
+one discourages or misleads. One said two thirds of the counter-proof
+register were still owed; it was 12 % when somebody finally counted.
+**Those belong in `docs/notes/`, or in a command that answers them.**
+
 **The skills are not suggestions. Each one names a situation, and in
 that situation it is read before the first edit** -- by whoever is
 working, and by every strand they send out. A skill nobody opens at the
