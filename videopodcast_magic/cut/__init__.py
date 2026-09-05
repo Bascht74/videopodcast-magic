@@ -13,9 +13,9 @@ that nothing in here comes from nowhere.
 PROGRAM = PROGRAM
 
 # What the program has and this piece uses, bound once so that the
-# cutting reads as it did in the one file. Two are missing:
-# GUI_RUNNING, which the program sets when the window comes up, and
-# choices_shut, whose file is read after this one. Both stay below.
+# cutting reads as it did in the one file. Three are missing and stay
+# below: GUI_RUNNING, which the program sets when the window comes up;
+# choices_shut and distribute_tracks_to_cameras, whose files come later.
 
 ByFile = PROGRAM.ByFile
 CAMERA_TYPES = PROGRAM.CAMERA_TYPES
@@ -67,7 +67,6 @@ csv_line = PROGRAM.csv_line
 cut_log_heading = PROGRAM.cut_log_heading
 decimal_text = PROGRAM.decimal_text
 decode_audio = PROGRAM.decode_audio
-distribute_tracks_to_cameras = PROGRAM.distribute_tracks_to_cameras
 ffprobe_json = PROGRAM.ffprobe_json
 file_fingerprint = PROGRAM.file_fingerprint
 file_timecode = PROGRAM.file_timecode
@@ -3444,7 +3443,7 @@ def finish_without_auphonic(args, tracks, cameras, videos, tmpdir, position,
         os.path.abspath(videos[0][0]))
     gain, curve = normalise_loudness(tracks, args.lufs, tmpdir, None,
                                      channels=mix_width(tracks))
-    return distribute_tracks_to_cameras(
+    return PROGRAM.distribute_tracks_to_cameras(
         args, tracks, cameras, videos, tmpdir, gain, position, t0,
         ref_clip, t1, curve, segment_list=segment_list)
 
