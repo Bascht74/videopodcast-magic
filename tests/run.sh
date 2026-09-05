@@ -44,11 +44,26 @@ done
 # tests run unguarded, and that is said out loud. On Windows the name
 # finds a timeout.exe that only waits and limits nothing, so each
 # candidate is made to run "true" under a limit before it is used.
+#
+# It stood at 900 until 5.9.2026, and what that cost was measured that
+# day: window_play_follows_tab hung on the Linux py3.14 job and burnt
+# the full quarter of an hour before the limit killed it. The run went
+# green all the same -- the pass that runs a red test again, alone,
+# finished it in seconds -- so nothing was red and the job took 18:21
+# instead of the usual 3:30. The queue waits for the longest job, so
+# that quarter of an hour is what a release waits.
+#
+# 300 comes from tests/state/longest, the per-test seconds of the
+# slowest of the six builder jobs: the dearest test there is 47 s and
+# the two that wobble are 10 and 11. So the bound is six times the
+# slowest test that finishes, and it is never reached by one that does.
+# It caps what a hang costs; it does not mend the hang, and the shape
+# of that repair stands in docs/notes/aufgaben.md.
 LIMIT=""
 for candidate in timeout gtimeout; do
   command -v "$candidate" > /dev/null 2>&1 || continue
   if "$candidate" 5 true > /dev/null 2>&1 < /dev/null; then
-    LIMIT="$candidate 900"; break
+    LIMIT="$candidate 300"; break
   fi
   echo "$candidate is on the search path, but it does not limit a run to"
   echo "  a number of seconds -- on Windows that is the system's own"
