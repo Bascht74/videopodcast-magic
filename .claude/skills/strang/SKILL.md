@@ -151,6 +151,23 @@ them and lose the time:
   the line it was waiting for never ran. Whoever writes a wait tries it
   once on something that finishes in a second.
 * **Windows offscreen only.** Nothing may jump onto the screen.
+* **Its own fixture root.** `run.sh` puts the material in
+  `/tmp/vpm-fixtures-<user id>` -- one folder per person, not per run.
+  Two suites at once therefore read and write the same material.
+  Measured 5.9.2026: three `time_*` checks went red for that alone and
+  were green run singly. So every order carries
+  `VPM_FIXTURES=/tmp/vpm-fixtures-<strand>` and builds into it.
+* **Never `pkill`.** A pattern like `_test.py` or `ffmpeg` matches every
+  other strand on this machine. Measured 5.9.2026: one `pkill -9` took
+  down the runs of six others, and the `rc=137` lines were first read
+  here as the machine running out of memory -- an explanation that fits
+  is not a measurement. Only the process ids a strand started itself.
+* **Its copies go when the measurement is written.** Not at the end.
+  A copy with rendered material runs to gigabytes; 638 of them filled
+  the system disc to 240 MB free on 5.9.2026, and ffmpeg then failed
+  inside tests that had nothing wrong with them. `/private/tmp` is on
+  the system disc. What a strand keeps is its numbers and its red
+  lines, never its trees.
 * **Nothing is committed, nothing is pushed.** Not even "just to be
   safe".
 * **Broken copies live in the scratch space**, never in the repository.
@@ -219,6 +236,8 @@ Read first:   <file, section — what the rules say about this>
 
 This machine: no timeout, windows offscreen only, nothing committed,
               nothing pushed, broken copies in scratch space only.
+              Own VPM_FIXTURES, never pkill, and the copies go as soon
+              as the measurement is written.
 
 Send back:
   - what you changed, one sentence per file
