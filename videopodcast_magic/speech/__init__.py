@@ -446,11 +446,12 @@ def write_transcript_files(folder, base, words, segments=()):
         return []
     total = len(said)
     if segments:
-        print(T('  %s words: %.1f %% to one voice, %.1f %% to two, '
-                '%.1f %% in a gap')
-              % (group_text(total), 100.0 * tally["clear"] / total,
-                 100.0 * tally["shared"] / total,
-                 100.0 * tally["gap"] / total))
+        print(T('  %s words: %s %% to one voice, %s %% to two, '
+                '%s %% in a gap')
+              % (group_text(total),
+                 decimal_text("%.1f" % (100.0 * tally["clear"] / total)),
+                 decimal_text("%.1f" % (100.0 * tally["shared"] / total)),
+                 decimal_text("%.1f" % (100.0 * tally["gap"] / total))))
     else:
         print(T('  %s words, without names -- nobody was separated')
               % group_text(total))
@@ -522,9 +523,9 @@ def read_word_tsv(path):
             out.append(speech_word(start, end, parts[2]))
     if timeless:
         print(TN(timeless,
-                 '  %d word came back without a time and was left out.',
-                 '  %d words came back without a time and were left '
-                 'out.') % timeless)
+                 '  %s word came back without a time and was left out.',
+                 '  %s words came back without a time and were left '
+                 'out.') % group_text(timeless))
     out.sort(key=lambda w: (w["start"], w["end"]))
     return out
 
@@ -743,8 +744,8 @@ def recogniser_program(build=True):
             pass
         return None
     os.replace(out, binary)
-    print(T('  The speech recogniser is built (%.1f s).')
-          % (time.time() - started))
+    print(T('  The speech recogniser is built (%s s).')
+          % decimal_text("%.1f" % (time.time() - started)))
     return binary
 
 
@@ -1008,8 +1009,9 @@ def recognise_speech(audio_path, language="", way=""):
                 'brings one, otherwise faster-whisper is installed.'))
         return None, ""
     words_cache_write(mark, language, took, words)
-    print(T('  Speech recognition (%s): %s words in %.1f s')
-          % (took, group_text(len(words)), time.time() - started))
+    print(T('  Speech recognition (%s): %s words in %s s')
+          % (took, group_text(len(words)),
+             decimal_text("%.1f" % (time.time() - started))))
     return words, took
 
 
@@ -1042,8 +1044,9 @@ def words_at_hand(audio_path, language=""):
     if words is None:
         return []
     words_cache_write(mark, language, took, words)
-    print(T('  Speech recognition (%s): %s words in %.1f s')
-          % (took, group_text(len(words)), time.time() - started))
+    print(T('  Speech recognition (%s): %s words in %s s')
+          % (took, group_text(len(words)),
+             decimal_text("%.1f" % (time.time() - started))))
     return words
 
 

@@ -42,6 +42,7 @@ auphonic_run_delivers	73
 auphonic_speech_read	14
 auphonic_stays_quiet	30
 cut_all_shots_land	4
+cut_amounts_grouped	5
 cut_both_are_shown	18
 cut_box_fits_the_picture	13
 cut_colour_per_camera	32
@@ -96,6 +97,7 @@ files_project_first	14
 files_project_offered	35
 files_set_aside_skipped	14
 files_split_found_again	10
+project_amounts_grouped	3
 project_cameras_land	23
 project_each_track_set	5
 project_every_offset	9
@@ -190,7 +192,8 @@ text_index_targets_exist	26
 text_lang_settled_first	7
 text_lists_match	30
 text_no_german_left	49
-text_only_texts_change	89
+text_numbers_fit_reader	7
+text_only_texts_change	90
 text_release_ready	35
 text_skills_listed	12
 text_tests_listed	9
@@ -222,11 +225,13 @@ time_tracks_sit_together	4
 time_which_way_is_said	13
 time_window_is_shared	11
 time_zero_at_in_point	77
+voice_amounts_grouped	5
 voice_answer_kept	24
 voice_bleed_gone_first	15
 voice_both_splits_stand	18
 voice_both_ways_agree	20
 voice_close_mics_mixed	47
+voice_counts_grouped	3
 voice_every_word_placed	32
 voice_failed_read_named	5
 voice_language_arrives	15
@@ -245,6 +250,7 @@ voice_tracks_read_once	4
 voice_turns_found	6
 voice_words_intact	48
 window_all_come_up	6
+window_amounts_grouped	3
 window_answers_arrive	39
 window_axis_asks_again	2
 window_captions_fit	12

@@ -362,8 +362,8 @@ def look(case, media):
 
     file_names = {os.path.basename(recording), os.path.basename(video)}
     # "Separated: " in whatever language the window is speaking.
-    separated = vpm.TN(1, 'Separated: %d speaker',
-                       'Separated: %d speakers').split("%d")[0]
+    separated = vpm.TN(1, 'Separated: %s speaker',
+                       'Separated: %s speakers').split("%s")[0]
     several = vpm.label_of(vpm.SEVERAL_SPEAKERS)
     picks = [os.path.basename(video), vpm.MIX_ONLY,
              os.path.basename(video)]
@@ -460,8 +460,8 @@ def look(case, media):
               str(headings_of(tree())))
         # What was measured is kept and shown: the silence is about the
         # answer.
-        mark = vpm.TN(len(FOUND), 'Separated: %d speaker',
-                      'Separated: %d speakers') % len(FOUND)
+        mark = vpm.TN(len(FOUND), 'Separated: %s speaker',
+                      'Separated: %s speakers') % len(FOUND)
         check("the row says all the same what was separated",
               bool(labels(mark)),
               str([x.text() for x in labels(separated)]))
@@ -529,8 +529,8 @@ def look(case, media):
               str([b.text() for b in
                    buttons(vpm.T('One more speaker in'))]))
         check("and the window says what was found",
-              bool(labels(vpm.TN(len(FOUND), 'Separated: %d speaker',
-                                 'Separated: %d speakers') % len(FOUND))),
+              bool(labels(vpm.TN(len(FOUND), 'Separated: %s speaker',
+                                 'Separated: %s speakers') % len(FOUND))),
               str([x.text() for x in labels(separated)]))
         running = [b.text() for b in buttons(vpm.T('Stop'))
                    if b.isVisible()]
@@ -562,8 +562,8 @@ def look(case, media):
         check("the Speakers cell puts no button on show",
               not buttons_in_cell(), "%d on show: %s"
               % (len(buttons_in_cell()), buttons_in_cell()))
-        stands = [vpm.TN(len(FOUND), 'Separated: %d speaker',
-                         'Separated: %d speakers') % len(FOUND)]
+        stands = [vpm.TN(len(FOUND), 'Separated: %s speaker',
+                         'Separated: %s speakers') % len(FOUND)]
         check("and the cell still says how the separation stands",
               labels_in_cell() == stands,
               "%s, wanted %s" % (labels_in_cell(), stands))
