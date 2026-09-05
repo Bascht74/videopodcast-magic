@@ -26,7 +26,7 @@ row in the register -- and it is then read by everybody who comes after.
 Elsewhere a useless test is a file; here it is a chain.
 
 **When you are not sure, do not write it.** Describe the check and what
-it would catch, and let Sebastian decide. That costs one sentence and
+it would catch, and let the owner decide. That costs one sentence and
 is reversible; the chain above is neither.
 
 ---
