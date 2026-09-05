@@ -22,6 +22,8 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 "
+"&& n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
 
 msgid "Cut with the wide shot"
 msgstr "Монтаж с общим планом"
@@ -167,10 +169,8 @@ msgstr "Вывод"
 msgid "Access to auphonic.com"
 msgstr "Доступ к auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr "Оба спрашиваются один раз и остаются. Ключ попадает в %s, но не в файл."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Доступ и соединение спрашиваются один раз и остаются. Ключ попадает в %s, но не в файл."
 
 msgid "Checking files"
 msgstr "Проверка файлов"
@@ -1017,3 +1017,12 @@ msgstr "%s установлена."
 
 msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
 msgstr "Это окно всё ещё та версия, с которой оно запустилось. Оно может перезапуститься сейчас и подняться уже новой, либо вы сделаете это позже сами."
+
+msgid "Language of the window"
+msgstr "Язык окна"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Выбранный здесь язык действует со следующего запуска."
+
+msgid "System language (%s)"
+msgstr "Язык системы (%s)"
