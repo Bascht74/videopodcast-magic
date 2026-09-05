@@ -28,11 +28,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "Montage avec le plan large"
 
-msgid "on %d camera"
-msgstr "sur %d caméra"
+msgid "on %s camera"
+msgstr "sur %s caméra"
 
-msgid "on %d cameras"
-msgstr "sur %d caméras"
+msgid "on %s cameras"
+msgstr "sur %s caméras"
 
 msgid "no camera yet"
 msgstr "pas encore de caméra"
@@ -154,8 +154,8 @@ msgstr "Un intervenant de plus"
 msgid "%s:%02d min"
 msgstr "%s:%02d min"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d à %d:%02d (%.1f s)"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d à %d:%02d (%s s)"
 
 msgid "%s and %d more"
 msgstr "%s et %d de plus"
@@ -316,8 +316,14 @@ msgstr "%d canaux"
 msgid "%d file"
 msgstr "%d fichier"
 
+msgid "%s file"
+msgstr "%s fichier"
+
 msgid "%d files"
 msgstr "%d fichiers"
+
+msgid "%s files"
+msgstr "%s fichiers"
 
 msgid "... or add files ..."
 msgstr "... ou ajouter des fichiers ..."
@@ -340,8 +346,8 @@ msgstr "Blocs"
 msgid "Camera"
 msgstr "Caméra"
 
-msgid "Camera audio, %d to go ..."
-msgstr "Audio des caméras, encore %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "Audio des caméras, encore %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- aperçu  (durée %s)"
@@ -778,23 +784,23 @@ msgstr "inconnu"
 msgid "video file"
 msgstr "fichier vidéo"
 
-msgid "%d audio recording"
-msgstr "%d enregistrement audio"
+msgid "%s audio recording"
+msgstr "%s enregistrement audio"
 
-msgid "%d audio recordings"
-msgstr "%d enregistrements audio"
+msgid "%s audio recordings"
+msgstr "%s enregistrements audio"
 
-msgid "%d camera"
-msgstr "%d caméra"
+msgid "%s camera"
+msgstr "%s caméra"
 
-msgid "%d cameras"
-msgstr "%d caméras"
+msgid "%s cameras"
+msgstr "%s caméras"
 
-msgid "%d video file"
-msgstr "%d fichier vidéo"
+msgid "%s video file"
+msgstr "%s fichier vidéo"
 
-msgid "%d video files"
-msgstr "%d fichiers vidéo"
+msgid "%s video files"
+msgstr "%s fichiers vidéo"
 
 msgid "Caution"
 msgstr "Attention"

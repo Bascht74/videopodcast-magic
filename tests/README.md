@@ -446,6 +446,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `window_all_come_up` | The interface really builds itself -- in both languages. |
+| `window_amounts_grouped` | The window says its amounts the way the language does. |
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
