@@ -22,6 +22,7 @@ msgstr ""
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "Cut with the wide shot"
 msgstr "Montaje con el plano general"
@@ -167,10 +168,8 @@ msgstr "Salida"
 msgid "Access to auphonic.com"
 msgstr "Acceso a auphonic.com"
 
-msgid ""
-"Both are asked once and then stay. The key goes into the %s, never into a "
-"file."
-msgstr "Ambos se piden una vez y se quedan. La clave va al %s, nunca a un archivo."
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "El acceso y la conexión se piden una vez y se quedan. La clave va al %s, nunca a un archivo."
 
 msgid "Checking files"
 msgstr "Comprobando archivos"
@@ -1014,3 +1013,12 @@ msgstr "Quien responde"
 
 msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
 msgstr "Esta copia se ejecuta desde una carpeta propia, así que pip no tiene nada que actualizar aquí. Esto la instala: %s"
+
+msgid "Language of the window"
+msgstr "Idioma de la ventana"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "El idioma elegido aquí se usa a partir del próximo inicio."
+
+msgid "System language (%s)"
+msgstr "Idioma del sistema (%s)"
