@@ -10,12 +10,14 @@ cannot pass over a real look.
 The sections: which version is newer, that only a newer one is
 offered, that a pre-release sorts under its release in both
 spellings, that nothing a user did once can stop the looking, that
-the switches which did that are gone, that what comes back is read
-before it is believed, that the old file is kept, that one version
-may be passed over, that a release text is shown in one language,
-what the command line says and fetches, that a look which could not
-happen says so instead of reading as nothing newer, and that an
-installation is handed to pip rather than written over.
+the switches which did that are gone, that what takes the place of
+this program is read first, that a copy no package manager owns is
+told rather than written over, that one version may be passed over,
+that a release text is shown in one language, what the command line
+says, what --update does to such a copy, that a look which could not
+happen says so instead of reading as nothing newer, that an
+installation goes to pip by the same command the window uses, and
+that the command names the release that was offered.
 """
 import os
 import the_program
@@ -23,7 +25,7 @@ HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
 # The suite sets this, and the module reads it while it is loading.
 os.environ.pop("VPM_NO_UPDATE_CHECK", None)
-import io, ssl, subprocess, sys, tempfile, time
+import io, ssl, subprocess, sys, sysconfig, tempfile, time
 import urllib.request
 began = time.time()
 vpm = the_program.load()
@@ -70,6 +72,18 @@ def held_by(path):
         return open(path, encoding="utf-8").read()
     except OSError as e:
         return "<unreadable: %s>" % e.strerror
+
+
+# The folder pip installs into on this machine, and one it never
+# touched. Which of the two the program runs from decides everything
+# about updating, so four sections below need both, and the command
+# the program names as the way in is built the way the program builds
+# it rather than written out.
+PURELIB = sysconfig.get_paths()["purelib"]
+INSTALLED = os.path.join(PURELIB, "videopodcast_magic.py")
+LOOSE = os.path.join(tempfile.mkdtemp(prefix="vpm_update_loose_"),
+                     "videopodcast_magic.py")
+WAY_IN = "pip3 install -U " + vpm.PIP_SOURCE
 
 
 print("1. Which version is newer")
@@ -340,37 +354,25 @@ check("and the program refuses it the way it refuses a made-up name",
       "returned %d saying %r, while a made-up name returned %d saying %r"
       % (off_code, off_said[-70:], made_code, made_said[-70:]))
 
-print("\n6. What comes back is read before it is believed")
-def with_body(body):
-    class Answer(object):
-        def read(self):
-            return body
-        def __enter__(self):
-            return self
-        def __exit__(self, *rest):
-            return False
-    import urllib.request
-    was = urllib.request.urlopen
-    urllib.request.urlopen = lambda *a, **k: Answer()
-    try:
-        return vpm.fetch_new_self("v9.9.9")
-    finally:
-        urllib.request.urlopen = was
-
+print("\n6. What takes the place of this program is read first")
+# The last gate in front of restore_old_self. Since the program became
+# a folder and pip the only way into it, the file kept beside it as
+# .old is the only thing that ever takes its place, and there is
+# nothing behind it to fall back on.
 good = b'VERSION = "9.9.9"\nCATALOGUE = {}\n'
-text, trouble = with_body(good)
+text, trouble = vpm.self_checked(good)
 check("a whole program is taken", bool(text) and not trouble,
       "%d of the %d characters came back, and the trouble was %r"
       % (len(text or ""), len(good), trouble))
-text, trouble = with_body(b'<html>404</html>')
+text, trouble = vpm.self_checked(b'<html>404</html>')
 check("an error page is refused", not text and bool(trouble),
       "<html>404</html> gave back %d characters of program, trouble %r"
       % (len(text or ""), trouble))
 # The wording is not checked: the message goes through T() and is
 # German in a German run. What matters is that it is refused and that
 # a broken file and an error page do not get the same answer.
-text, trouble = with_body(b'VERSION = "9"\nCATALOGUE = {\n')
-_, other = with_body(b'<html>404</html>')
+text, trouble = vpm.self_checked(b'VERSION = "9"\nCATALOGUE = {\n')
+_, other = vpm.self_checked(b'<html>404</html>')
 check("something that does not compile is refused",
       not text and bool(trouble),
       "an unclosed brace gave back %d characters of program, trouble %r"
@@ -383,32 +385,41 @@ check("and says something else than an error page does", trouble != other,
 # so the decoding could be taken out altogether and this stayed green.
 # Measured on 2.9.2026: decoding with errors="replace" left every
 # check in the file green.
-text, trouble = with_body(b'\xff\xfe not text')
+text, trouble = vpm.self_checked(b'\xff\xfe not text')
 check("bytes that are not text are refused, not as an error page",
       not text and bool(trouble) and trouble != other,
       "two bytes that are no utf-8 gave back %d characters of program,"
       " trouble %r, where an error page says %r"
       % (len(text or ""), trouble, other))
 
-print("\n7. The old file is kept")
-work = tempfile.mkdtemp()
-mine = os.path.join(work, "videopodcast_magic.py")
-with open(mine, "w", encoding="utf-8") as f:
+print("\n7. A copy nobody installed is told, not written over")
+# The way that is gone: one file was fetched from a tag and written
+# over the way in. That file has not been there since 4.9.2026, and
+# the program is a folder -- writing it would have left ui, cut,
+# resolve, speakers, speech and language on the version before.
+GONE = ("fetch_new_self", "put_new_self", "RAW_FILE")
+check("no way is left that writes a fetched file over this one",
+      not any(w in source for w in GONE), times(*GONE))
+with open(LOOSE, "w", encoding="utf-8") as f:
     f.write("the one that works\n")
-was_file = vpm.__file__
-vpm.__file__ = mine
+JOBS_LOOSE = []
+was_file, was_sink = vpm.__file__, vpm.UPDATE_SINK
 try:
-    trouble = vpm.put_new_self("the new one\n")
+    vpm.__file__ = LOOSE
+    vpm.UPDATE_SINK = JOBS_LOOSE.append
+    said_no = vpm.update_fetched("v9.9.9",
+                                 vpm.installed_by_a_package_manager())
 finally:
-    vpm.__file__ = was_file
-check("writing works", not trouble, "put_new_self said %r" % (trouble,))
-now = held_by(mine)
-check("the new one is in place", now == "the new one\n",
-      "videopodcast_magic.py holds %r, wanted %r" % (now, "the new one\n"))
-kept = held_by(mine + ".old")
-check("the old one is beside it", kept == "the one that works\n",
-      "videopodcast_magic.py.old holds %r, wanted %r"
-      % (kept, "the one that works\n"))
+    vpm.__file__, vpm.UPDATE_SINK = was_file, was_sink
+check("a copy no package manager owns is not updated", said_no != "",
+      "update_fetched said %r for a copy in a folder of its own, wanted"
+      " a sentence" % (said_no,))
+check("and nothing is handed to the window for it either", not JOBS_LOOSE,
+      "the window was handed %d job(s) for a copy nobody installed,"
+      " wanted 0" % (len(JOBS_LOOSE),))
+check("and the sentence names the command that installs it properly",
+      WAY_IN in said_no, "it said %r, wanted %r in it"
+      % (said_no, WAY_IN))
 
 print("\n8. Passing over one version")
 # The one answer left that a person can give, and it is about one
@@ -551,8 +562,8 @@ vpm.VERSION = "2.15.0-beta"
 RAW = "raw.githubusercontent.com"
 
 
-def said_on_the_line(tag):
-    """What update_note() prints, and which addresses it asked for."""
+def said_on_the_line(tag, where=INSTALLED):
+    """What update_note() prints from *where*, and the addresses asked."""
     asked = []
 
     class Answer(object):
@@ -569,9 +580,9 @@ def said_on_the_line(tag):
             return self.body
 
     def opened(url, *a, **k):
-        where = str(getattr(url, "full_url", url))
-        asked.append(where)
-        if RAW in where:
+        at = str(getattr(url, "full_url", url))
+        asked.append(at)
+        if RAW in at:
             return Answer(b'VERSION = "9.9.9"\nCATALOGUE = {}\n')
         return Answer(json.dumps({
             "tag_name": tag, "html_url": "https://example/%s" % tag,
@@ -579,12 +590,14 @@ def said_on_the_line(tag):
 
     was, out = urllib.request.urlopen, io.StringIO()
     was_stdout, sys.stdout = sys.stdout, out
+    was_here, vpm.__file__ = vpm.__file__, where
     urllib.request.urlopen = opened
     try:
         vpm.update_note()
     finally:
         sys.stdout = was_stdout
         urllib.request.urlopen = was
+        vpm.__file__ = was_here
     return out.getvalue(), asked
 
 
@@ -603,15 +616,23 @@ check("and the way to fetch it is named with it",
 check("but nothing of the program itself is fetched",
       not any(RAW in one for one in asked),
       "%d addresses asked for, %s" % (len(asked), asked))
+# The other copy: a switch that would refuse must not be the one it is
+# pointed at. What it gets instead is the command that installs it.
+elsewhere, _asked = said_on_the_line("v2.19.0-beta", where=LOOSE)
+check("and a copy nobody installed is pointed at pip instead",
+      WAY_IN in elsewhere and "--update" not in elsewhere,
+      "a copy in a folder of its own was told %r, wanted %r in it and no"
+      " '--update'" % (elsewhere, WAY_IN))
 quiet, asked = said_on_the_line("v1.0.0")
 check("and nothing is said where nothing is newer", quiet == "",
       "with github saying v1.0.0 to a running %s it printed %r"
       % (vpm.VERSION, quiet))
 
-print("\n11. --update puts the new version in place")
-# The only way the command line fetches anything. It writes over the
-# file it is running from, so it is pointed at a copy of its own --
-# nothing here may touch the program under test.
+print("\n11. --update against a copy pip never installed")
+# The switch is pip's road and pip's alone, so a copy running out of a
+# folder of its own has nothing for pip to update. It is pointed at a
+# copy of its own all the same: a switch that once wrote over the file
+# it ran from must be asked against a file that may be written.
 HOME = tempfile.mkdtemp(prefix="vpm_update_self_")
 COPY = os.path.join(HOME, "videopodcast_magic.py")
 with open(COPY, "w", encoding="utf-8") as f:
@@ -634,8 +655,8 @@ def update_run(tag, switched_off=False):
             return self.body
 
     def opened(url, *a, **k):
-        where = str(getattr(url, "full_url", url))
-        if RAW in where:
+        at = str(getattr(url, "full_url", url))
+        if RAW in at:
             return Answer(b'VERSION = "9.9.9"\nCATALOGUE = {}\n')
         return Answer(json.dumps({
             "tag_name": tag, "html_url": "https://example/%s" % tag,
@@ -655,15 +676,19 @@ def update_run(tag, switched_off=False):
 
 
 code, spoken = update_run("v2.19.0-beta")
-check("--update reports that it worked", code == 0,
-      "returned %r and said %r, wanted 0" % (code, spoken.strip()[:80]))
+check("--update does not update a copy pip never installed", code != 0,
+      "returned %r and said %r, wanted anything but 0"
+      % (code, spoken.strip()[:80]))
 now = held_by(COPY)
-check("and the new version is in place", now.startswith('VERSION = "9.9.9"'),
-      "the copy holds %r, wanted the fetched program" % (now[:40],))
-kept = held_by(COPY + ".old")
-check("and the one that ran is beside it", kept == "the one that works\n",
-      "videopodcast_magic.py.old holds %r, wanted %r"
-      % (kept, "the one that works\n"))
+check("and the file it runs from is left exactly as it was",
+      now == "the one that works\n",
+      "the copy holds %r, wanted %r" % (now[:60], "the one that works\n"))
+left = sorted(os.listdir(HOME))
+check("and nothing new is left in the folder beside it",
+      left == ["videopodcast_magic.py"],
+      "the folder holds %r, wanted only the copy itself" % (left,))
+check("and it says what to do about that copy instead", WAY_IN in spoken,
+      "it said %r, wanted %r in it" % (spoken.strip()[:120], WAY_IN))
 code, spoken = update_run("v2.19.0-beta", switched_off=True)
 check("and with VPM_NO_UPDATE_CHECK it fetches nothing and says so",
       code == 1 and spoken.strip() != "",
@@ -759,18 +784,11 @@ check("and it does not say there is nothing newer",
       "it said %r, where a look that happened and found nothing would say"
       " %r" % (sayable(spoken.strip()[:120]), NOTHING_NEW))
 
-print("\n13. An installation is updated by pip, not by a file swap")
+print("\n13. An installation is updated by pip, by one command")
 # pip is the one thing here that must never be the real one. The
 # stand-in refuses a command whose program is not on this machine, the
 # way starting one really does, so a wrong call cannot come back
 # looking like a good one.
-import subprocess
-import sysconfig
-
-PURELIB = sysconfig.get_paths()["purelib"]
-INSTALLED = os.path.join(PURELIB, "videopodcast_magic.py")
-LOOSE = os.path.join(tempfile.mkdtemp(prefix="vpm_update_loose_"),
-                     "videopodcast_magic.py")
 ORDERS = []          # every command a stand-in pip was asked to start
 GOT = []             # every piece of text the program handed on
 HANDED = []          # how much had been handed on as each line was read
@@ -826,11 +844,21 @@ check("pip runs in the Python this program runs in",
       "pip was started as %r, wanted %r at the front"
       % (ORDERS[0][:3] if ORDERS else None, WANTED))
 check("pip is told to upgrade from the repository itself",
-      bool(ORDERS) and ORDERS[0][3:] == ["install", "-U", vpm.PIP_SOURCE]
+      bool(ORDERS) and ORDERS[0][3:5] == ["install", "-U"]
       and vpm.PIP_SOURCE.startswith("git+https://github.com/"),
       "the rest of the command was %r and the address is %r, wanted "
       "install -U and a git+https address"
       % (ORDERS[0][3:] if ORDERS else None, vpm.PIP_SOURCE))
+# The command itself, not the sentence beside it. The address without a
+# release on it is the head of the default branch, and pip would fetch
+# that while the line underneath named the release -- the one thing
+# nothing here could see, because every other check reads the words the
+# program says rather than the words it hands to pip.
+AT_RELEASE = vpm.PIP_SOURCE + "@v9.9.9"
+check("pip is asked for the release that was offered, not for a branch",
+      bool(ORDERS) and ORDERS[0][5:] == [AT_RELEASE],
+      "pip was pointed at %r, wanted the one address %r"
+      % (ORDERS[0][5:] if ORDERS else None, AT_RELEASE))
 # Written down as each line was read, not counted at the end: what this
 # is about is a run of minutes whose output arrives while it runs.
 STEPS = list(range(1, len(PIP_SAYS) + 1))
@@ -914,6 +942,7 @@ del GOT[:], ORDERS[:]
 PIP_CODE[0] = 0
 if JOBS:
     with_pip(lambda: JOBS[0](GOT.append))
+FROM_WINDOW = list(ORDERS[0]) if ORDERS else []
 check("and what the window is handed starts pip",
       bool(ORDERS) and ORDERS[0][:3] == WANTED,
       "the job the window got started %r, wanted %r at the front"
@@ -968,14 +997,22 @@ def update_run_installed():
 
 del ORDERS[:]
 code, spoken = update_run_installed()
+FROM_LINE = list(ORDERS[0]) if ORDERS else []
 check("--update in an installation lets pip do it instead of refusing",
       code == 0 and bool(ORDERS) and ORDERS[0][:3] == WANTED,
       "returned %r, pip was started as %r, and it said %r"
       % (code, ORDERS[0][:3] if ORDERS else None, spoken.strip()[:60]))
-check("and it fetches no program file of its own in that case",
-      not [a for a in ASKED if RAW in a],
-      "of the %d addresses asked for, these carry the raw file: %r"
-      % (len(ASKED), [a for a in ASKED if RAW in a][:2]))
+# The whole of the command, not its first three words: two roads to
+# the same pip is two places to mend, and the window's is the one that
+# was measured.
+check("and it starts the very command the window's job starts",
+      bool(FROM_LINE) and FROM_LINE == FROM_WINDOW,
+      "the command line started %r, the window's job started %r"
+      % (FROM_LINE, FROM_WINDOW))
+STRAY = [a for a in ASKED if not a.startswith("https://api.github.com/")]
+check("and --update asks for nothing but the release itself", not STRAY,
+      "of the %d addresses asked for, %d go elsewhere: %r"
+      % (len(ASKED), len(STRAY), STRAY[:2]))
 
 check("no look in this whole run left the machine", not WENT_OUT,
       "%d addresses got past the stand-ins, the first of them %s"
