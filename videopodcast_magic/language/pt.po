@@ -279,23 +279,23 @@ msgstr "Abrir o projeto"
 msgid "not readable"
 msgstr "não legível"
 
-msgid "%d audio track"
-msgstr "%d faixa de áudio"
+msgid "%s audio track"
+msgstr "%s faixa de áudio"
 
-msgid "%d audio tracks"
-msgstr "%d faixas de áudio"
+msgid "%s audio tracks"
+msgstr "%s faixas de áudio"
 
-msgid "%d clip"
-msgstr "%d clipe"
+msgid "%s clip"
+msgstr "%s clipe"
 
-msgid "%d clips"
-msgstr "%d clipes"
+msgid "%s clips"
+msgstr "%s clipes"
 
-msgid "%d video track"
-msgstr "%d faixa de vídeo"
+msgid "%s video track"
+msgstr "%s faixa de vídeo"
 
-msgid "%d video tracks"
-msgstr "%d faixas de vídeo"
+msgid "%s video tracks"
+msgstr "%s faixas de vídeo"
 
 msgid "  (this file ends earlier)"
 msgstr "  (este arquivo termina antes)"

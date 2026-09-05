@@ -279,23 +279,23 @@ msgstr "打开项目"
 msgid "not readable"
 msgstr "不可读"
 
-msgid "%d audio track"
-msgstr "%d 条音轨"
+msgid "%s audio track"
+msgstr "%s 条音轨"
 
-msgid "%d audio tracks"
-msgstr "%d 条音轨"
+msgid "%s audio tracks"
+msgstr "%s 条音轨"
 
-msgid "%d clip"
-msgstr "%d 个片段"
+msgid "%s clip"
+msgstr "%s 个片段"
 
-msgid "%d clips"
-msgstr "%d 个片段"
+msgid "%s clips"
+msgstr "%s 个片段"
 
-msgid "%d video track"
-msgstr "%d 条视频轨"
+msgid "%s video track"
+msgstr "%s 条视频轨"
 
-msgid "%d video tracks"
-msgstr "%d 条视频轨"
+msgid "%s video tracks"
+msgstr "%s 条视频轨"
 
 msgid "  (this file ends earlier)"
 msgstr "  (此文件结束得更早)"

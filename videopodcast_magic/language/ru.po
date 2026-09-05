@@ -280,23 +280,23 @@ msgstr "Открыть проект"
 msgid "not readable"
 msgstr "не читается"
 
-msgid "%d audio track"
-msgstr "%d звуковая дорожка"
+msgid "%s audio track"
+msgstr "%s звуковая дорожка"
 
-msgid "%d audio tracks"
-msgstr "%d звуковых дорожек"
+msgid "%s audio tracks"
+msgstr "%s звуковых дорожек"
 
-msgid "%d clip"
-msgstr "%d клип"
+msgid "%s clip"
+msgstr "%s клип"
 
-msgid "%d clips"
-msgstr "%d клипов"
+msgid "%s clips"
+msgstr "%s клипов"
 
-msgid "%d video track"
-msgstr "%d видеодорожка"
+msgid "%s video track"
+msgstr "%s видеодорожка"
 
-msgid "%d video tracks"
-msgstr "%d видеодорожек"
+msgid "%s video tracks"
+msgstr "%s видеодорожек"
 
 msgid "  (this file ends earlier)"
 msgstr "  (этот файл заканчивается раньше)"

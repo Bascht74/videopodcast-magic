@@ -32,6 +32,7 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 ask_choice = PROGRAM.ask_choice
 camera_metadata = PROGRAM.camera_metadata
+decimal_text = PROGRAM.decimal_text
 ffprobe_json = PROGRAM.ffprobe_json
 first_and_last_word = PROGRAM.first_and_last_word
 format_complaint = PROGRAM.format_complaint
@@ -401,9 +402,10 @@ def apply_project_settings(p, d):
     value = "%g" % resolve_timeline_rate(d.get("fps") or 30.0)
     if d.get("fps_measured") and abs(d["fps_measured"]
                                      - resolve_timeline_rate(d["fps"])) > 0.001:
-        print(T('    Measured %g frames/s -- Resolve only knows fixed '
+        print(T('    Measured %s frames/s -- Resolve only knows fixed '
                 'rates,\n    %s is used.')
-              % (d["fps_measured"], value))
+              % (decimal_text("%g" % d["fps_measured"]),
+                 decimal_text(value)))
     applied = []
     for api_key, value in (("timelineFrameRate", value),
                           ("timelinePlaybackFrameRate", value),
@@ -807,9 +809,9 @@ def check_hdr(file_path):
     have_hdr = bool(curve and curve.kind == "good") and not serious
     print("\n  %s" % (
         T('The file is tagged as HDR.') if have_hdr and not hints
-        else TN(len(hints), 'The file is tagged as HDR, with %d note.',
-                'The file is tagged as HDR, with %d notes.')
-        % len(hints) if have_hdr
+        else TN(len(hints), 'The file is tagged as HDR, with %s note.',
+                'The file is tagged as HDR, with %s notes.')
+        % group_text(len(hints)) if have_hdr
         else T('The file is NOT recognised as HDR.')))
     return 0 if have_hdr else 1
 
@@ -1256,7 +1258,8 @@ def set_loudness_target(p, target_lufs):
     if not hit:
         print(T('    Loudness meter target level not found -- please set '
                 'it by hand:\n    Project Settings > Fairlight > Target '
-                'Loudness Level %g LUFS.') % target_lufs)
+                'Loudness Level %s LUFS.')
+              % decimal_text("%g" % target_lufs))
         return None
     api_key = hit[0]
     wanted = "%g" % target_lufs
@@ -1275,7 +1278,8 @@ def import_media(mp, paths):
         raise RuntimeError(T('These files do not exist:\n  ')
                            + "\n  ".join(missing))
     fresh = mp.ImportMedia(list(paths)) or []
-    print(T('  %d of %d files imported.') % (len(fresh), len(paths)))
+    print(T('  %s of %s files imported.')
+          % (group_text(len(fresh)), group_text(len(paths))))
     # Two cameras can write C0001.MP4 in two folders. Looked up by name
     # both land on one media pool item, and the second camera then gets the
     # first one's picture without a word. Resolve reports the real path, so
@@ -1514,8 +1518,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
         # into Resolve. The window would look frozen with nothing said.
         if not tl.AddTrack("video"):
             print(as_warn(T('  Resolve refuses more video tracks -- '
-                            '%d of %d cameras fit.')
-                          % (tl.GetTrackCount("video"), len(cameras))))
+                            '%s of %s cameras fit.')
+                          % (group_text(tl.GetTrackCount("video")),
+                             group_text(len(cameras)))))
             break
     # Room for the audio: the cameras run simultaneously, so their audio tracks
     # all need room side by side. Otherwise Resolve places only what fits and
@@ -1525,8 +1530,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     while tl.GetTrackCount("audio") < needed:
         if not tl.AddTrack("audio"):
             break
-    print(T('  %d video tracks, %d audio tracks created (%s)')
-          % (tl.GetTrackCount("video"), tl.GetTrackCount("audio"),
+    print(T('  %s video tracks, %s audio tracks created (%s)')
+          % (group_text(tl.GetTrackCount("video")),
+             group_text(tl.GetTrackCount("audio")),
              " + ".join("%s %d" % (cam["track"], audio_track_count(cam))
                         for cam in cameras)))
 
@@ -1604,7 +1610,8 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
     for i, cam in enumerate(cameras, 1):
         if not tl.SetTrackName("video", i, cam["track"]):
             print(T('    Video track %d could not be renamed.') % i)
-    print(T('  %d video tracks, named after the speakers:') % len(cameras))
+    print(T('  %s video tracks, named after the speakers:')
+          % group_text(len(cameras)))
     for i, cam in enumerate(cameras, 1):
         # The track carries the file's name, so printing both says the
         # same thing twice -- and these names run long.
@@ -1630,9 +1637,9 @@ def build_camera_timeline(mp, tl, cameras, clips, d, every_tracks=False):
             if track <= len(names):
                 tl.SetTrackName("audio", track, names[track - 1])
         print(TN(tl.GetTrackCount("audio"),
-                 '  %d audio track stays: %s',
-                 '  %d audio tracks stay: %s')
-              % (tl.GetTrackCount("audio"),
+                 '  %s audio track stays: %s',
+                 '  %s audio tracks stay: %s')
+              % (group_text(tl.GetTrackCount("audio")),
                  ", ".join(names[:tl.GetTrackCount("audio")]) or T('unnamed')))
     else:
         trim_audio_tracks(tl, cameras, present)
@@ -1753,8 +1760,9 @@ def trim_audio_tracks(tl, cameras, video_items):
         except Exception as e:
             print(T('    %-24s Linking failed: %s') % (cam["track"], e))
     if linked:
-        print(TN(linked, '    Picture and audio linked again: %d angle',
-                 '    Picture and audio linked again: %d angles') % linked)
+        print(TN(linked, '    Picture and audio linked again: %s angle',
+                 '    Picture and audio linked again: %s angles')
+              % group_text(linked))
     # Name the audio tracks like the video tracks; the order is right now.
     n = tl.GetTrackCount("audio")
     row = []
@@ -1771,12 +1779,12 @@ def trim_audio_tracks(tl, cameras, video_items):
             tl.SetTrackName("audio", track, name)
         row.append((track, name or (tl.GetTrackName("audio", track) or ""),
                       len(item)))
-    print(TN(n, '  %d audio track remains:',
-             '  %d audio tracks remain:') % n)
+    print(TN(n, '  %s audio track remains:',
+             '  %s audio tracks remain:') % group_text(n))
     for track, name, count in row:
         print("    A%-3d %-30s %s" % (track, name,
-                                       TN(count, '%d clip', '%d clips')
-                                       % count))
+                                       TN(count, '%s clip', '%s clips')
+                                       % group_text(count)))
 
 
 def remove_empty_audio_tracks(tl):
@@ -1798,8 +1806,8 @@ def remove_empty_audio_tracks(tl):
         except Exception:
             pass
     if gone:
-        print(TN(gone, '    %d empty audio track removed',
-                 '    %d empty audio tracks removed') % gone)
+        print(TN(gone, '    %s empty audio track removed',
+                 '    %s empty audio tracks removed') % group_text(gone))
 
 
 def source_channel_count(clip):
@@ -1910,8 +1918,8 @@ def print_audio_track_mapping():
                      '      --> interpreted as %s audio track%s',
                      '      --> interpreted as %s audio tracks%s')
                   % (n if n is not None else T('not readable'),
-                     TN(channels, ' of %d embedded channel',
-                        ' of %d embedded channels') % channels
+                     TN(channels, ' of %s embedded channel',
+                        ' of %s embedded channels') % group_text(channels)
                      if channels else ""))
     if not seen:
         print(T('    No clips found.'))
@@ -1924,13 +1932,16 @@ def print_audio_track_mapping():
         nv, na = tl.GetTrackCount("video"), tl.GetTrackCount("audio")
         print(T('\n    %s  --  %s, %s')
               % (tl.GetName(),
-                 TN(nv, '%d video track', '%d video tracks') % nv,
-                 TN(na, '%d audio track', '%d audio tracks') % na))
+                 TN(nv, '%s video track', '%s video tracks')
+                 % group_text(nv),
+                 TN(na, '%s audio track', '%s audio tracks')
+                 % group_text(na)))
         for s in range(1, nv + 1):
             item = tl.GetItemListInTrack("video", s) or []
             print("      V%-3d %-24s %s"
                   % (s, (tl.GetTrackName("video", s) or "")[:24],
-                     TN(len(item), '%d clip', '%d clips') % len(item)))
+                     TN(len(item), '%s clip', '%s clips')
+                     % group_text(len(item))))
         for s in range(1, na + 1):
             item = tl.GetItemListInTrack("audio", s) or []
             first_one = ""
@@ -1939,9 +1950,10 @@ def print_audio_track_mapping():
                     first_one = item[0].GetName() or ""
                 except Exception:
                     first_one = "?"
-            print("      A%-3d %-24s %-10s %s"
+            print("      A%-3d %-24s %-11s %s"
                   % (s, (tl.GetTrackName("audio", s) or "")[:24],
-                     TN(len(item), '%d clip', '%d clips') % len(item),
+                     TN(len(item), '%s clip', '%s clips')
+                     % group_text(len(item)),
                      first_one[:40]))
     print(T('\n  Nothing was changed.'))
     return 0
@@ -2152,15 +2164,17 @@ def colour_clips_by_camera(tl, cameras):
     for track in sorted(applied, key=lambda s: -applied[s]):
         print("      %-28s %-10s %s"
               % (track, assigned.get(track) or "?",
-                 TN(applied[track], '%d clip', '%d clips') % applied[track]))
+                 TN(applied[track], '%s clip', '%s clips')
+                 % group_text(applied[track])))
     if duplicate:
         print(TN(duplicate,
-                 '      More angles than colours -- %d colour occurs twice.',
-                 '      More angles than colours -- %d colours occur twice.')
-              % duplicate)
+                 '      More angles than colours -- %s colour occurs twice.',
+                 '      More angles than colours -- %s colours occur twice.')
+              % group_text(duplicate))
     if failed:
-        print(TN(failed, '      %d clip left without a colour.',
-                 '      %d clips left without a colour.') % failed)
+        print(TN(failed, '      %s clip left without a colour.',
+                 '      %s clips left without a colour.')
+              % group_text(failed))
 
 
 def create_colour_groups(p, tl, cameras):
@@ -2212,8 +2226,8 @@ def create_colour_groups(p, tl, cameras):
         print(T('    Colour groups: %s -- all clips assigned')
               % ", ".join(sorted(done)))
     for n in incomplete:
-        print(T('    Colour group %-24s only %d of %d clips')
-              % (n, done[n][0], done[n][1]))
+        print(T('    Colour group %-24s only %s of %s clips')
+              % (n, group_text(done[n][0]), group_text(done[n][1])))
 
 
 def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
@@ -2278,9 +2292,9 @@ def insert_intro_and_outro(mp, tl, d, clips, fps, origin, lead_in):
     # lands somewhere else.
     try:
         up_v2 = tl.GetItemListInTrack("video", 2) or []
-        print(TN(len(up_v2), '    V2 now holds %d clip: %s',
-                 '    V2 now holds %d clips: %s')
-              % (len(up_v2),
+        print(TN(len(up_v2), '    V2 now holds %s clip: %s',
+                 '    V2 now holds %s clips: %s')
+              % (group_text(len(up_v2)),
                  ", ".join((x.GetName() or "?") for x in up_v2) or T('none')))
     except Exception as e:
         print(T('    V2 could not be read back: %s') % e)
@@ -2386,8 +2400,8 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
             part["endFrame"] - part["startFrame"], fps,
             after_camera[used][3])
     if replaced:
-        print(T('    %dx the intended camera was not running -- a '
-                'different one is there.') % replaced)
+        print(T('    %sx the intended camera was not running -- a '
+                'different one is there.') % group_text(replaced))
     for e in sorted(skipped):
         print(T('    Left without picture: %s') % e)
     if not item:
@@ -2406,12 +2420,12 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
                         'is empty. Nothing\n  else is built on it.')))
         return tl
     if len(landed) < len(item):
-        print(as_warn(T('  Only %d of %d shots are on the Timeline.')
-                      % (len(landed), len(item))))
+        print(as_warn(T('  Only %s of %s shots are on the Timeline.')
+                      % (group_text(len(landed)), group_text(len(item)))))
     on_it = sum(float(x.GetDuration() or 0) for x in landed) / max(
         1.0, float(resolve_timeline_rate(d.get("fps"))))
-    print(T('  %d shots, %.1f s in total, without their audio.')
-          % (len(landed), on_it))
+    print(T('  %s shots, %s s in total, without their audio.')
+          % (group_text(len(landed)), decimal_text("%.1f" % on_it)))
 
     if mix is None:
         print(T('  No Full-Mix found -- the Timeline stays silent.'))
@@ -2485,8 +2499,9 @@ def add_speaker_markers(tl, speaker, d, from_s=0.0):
                 break
         else:
             lost += 1
-    print(TN(applied, '  %d marker set%s.', '  %d markers set%s.')
-          % (applied, T(', %d not (no free picture)') % lost
+    print(TN(applied, '  %s marker set%s.', '  %s markers set%s.')
+          % (group_text(applied),
+             T(', %s not (no free picture)') % group_text(lost)
              if lost else ""))
     return applied
 

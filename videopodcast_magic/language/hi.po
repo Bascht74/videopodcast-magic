@@ -279,23 +279,23 @@ msgstr "परियोजना खोलें"
 msgid "not readable"
 msgstr "पढ़ा नहीं जा सकता"
 
-msgid "%d audio track"
-msgstr "%d ऑडियो ट्रैक"
+msgid "%s audio track"
+msgstr "%s ऑडियो ट्रैक"
 
-msgid "%d audio tracks"
-msgstr "%d ऑडियो ट्रैक"
+msgid "%s audio tracks"
+msgstr "%s ऑडियो ट्रैक"
 
-msgid "%d clip"
-msgstr "%d क्लिप"
+msgid "%s clip"
+msgstr "%s क्लिप"
 
-msgid "%d clips"
-msgstr "%d क्लिप"
+msgid "%s clips"
+msgstr "%s क्लिप"
 
-msgid "%d video track"
-msgstr "%d वीडियो ट्रैक"
+msgid "%s video track"
+msgstr "%s वीडियो ट्रैक"
 
-msgid "%d video tracks"
-msgstr "%d वीडियो ट्रैक"
+msgid "%s video tracks"
+msgstr "%s वीडियो ट्रैक"
 
 msgid "  (this file ends earlier)"
 msgstr "  (यह फ़ाइल पहले समाप्त होती है)"
