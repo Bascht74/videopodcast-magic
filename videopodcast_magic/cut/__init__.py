@@ -73,6 +73,7 @@ file_fingerprint = PROGRAM.file_fingerprint
 file_timecode = PROGRAM.file_timecode
 find_pauses = PROGRAM.find_pauses
 frames_to_timecode = PROGRAM.frames_to_timecode
+group_text = PROGRAM.group_text
 hdr_from_sources = PROGRAM.hdr_from_sources
 how_many_processors = PROGRAM.how_many_processors
 is_drop_frame = PROGRAM.is_drop_frame
@@ -499,8 +500,9 @@ def roles_report(order, tracks=()):
         return []
     out = [as_head(T('\nWHO ASKS -- a proposal, and nothing is set from it'))]
     for name, sentences, questions, held in order:
-        out.append(T('  %-20s %s speaking, %d of %d sentences a question')
-                   % (name, as_hms(held), questions, sentences))
+        out.append(T('  %-20s %s speaking, %s of %s sentences a question')
+                   % (name, as_hms(held), group_text(questions),
+                      group_text(sentences)))
     out.append(T('  The order carries, the distance between them does not: '
                  'measured over four episodes it never turned round, while '
                  'the distance between first and last changed fourfold. It '
@@ -893,10 +895,10 @@ def microphones_report(rows):
     out = [as_head(T('\nWHICH MICROPHONE -- a proposal, and nothing is set '
                      'from it'))]
     for voice, track, share, distance in rows:
-        out.append(T('  %-20s sounds like %-20s %d %% of it inside that '
-                     'track, %d points ahead of the next')
-                   % (voice, track, round(100 * share),
-                      round(100 * distance)))
+        out.append(T('  %-20s sounds like %-20s %s %% of it inside that '
+                     'track, %s points ahead of the next')
+                   % (voice, track, group_text(round(100 * share)),
+                      group_text(round(100 * distance))))
     out.append(T('  It holds under one assumption: one microphone per '
                  'person, and each of them carrying only that person. '
                  'Where the tracks overlap too much to be told apart, or '
@@ -993,9 +995,9 @@ def question_report(rules):
                  'written down from the finished mix during\n            '
                  'the run; without them the setting does nothing.')
     counted = rules.get("question_tally") or {}
-    out = [T('  Question: %d in the transcript, %d became a reaction cut.')
-           % (int(counted.get("questions") or 0),
-              int(counted.get("used") or 0))]
+    out = [T('  Question: %s in the transcript, %s became a reaction cut.')
+           % (group_text(counted.get("questions") or 0),
+              group_text(counted.get("used") or 0))]
     reasons = ((counted.get("asked_by_main"),
                 T('the main speaker asked')),
                (counted.get("same_camera"),
@@ -1340,12 +1342,12 @@ def cut_basis_line(basis, speakers, length):
     neighbours have been taken out of them as well.
     """
     if basis == "auphonic":
-        text = T('from the processed Auphonic tracks -- %d speakers, %s')
+        text = T('from the processed Auphonic tracks -- %s speakers, %s')
     elif basis == "run":
-        text = T('from the finished run -- %d speakers, %s')
+        text = T('from the finished run -- %s speakers, %s')
     else:
-        text = T('measured from the recordings -- %d speakers, %s')
-    return (text % (speakers, as_hms(length)),
+        text = T('measured from the recordings -- %s speakers, %s')
+    return (text % (group_text(speakers), as_hms(length)),
             COLOURS["good" if basis in ("run", "auphonic") else "warning"])
 
 def project_opened_note(target):
@@ -1691,7 +1693,7 @@ def as_minutes(seconds):
     translated.
     """
     s = int(round(max(0.0, seconds)))
-    return T("%d:%02d min") % (s // 60, s % 60)
+    return T("%s:%02d min") % (group_text(s // 60), s % 60)
 
 def speaker_statistics(d):
     """Return who speaks how much and how often.
@@ -1832,7 +1834,8 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                     group, lambda t: decode_audio(t[1], rate=rate))):
                 read[entry[1]] = x
         if report:
-            report(T('Measuring %s (%d of %d)') % (name, i + 1, len(tracks)))
+            report(T('Measuring %s (%s of %s)')
+                   % (name, group_text(i + 1), group_text(len(tracks))))
         x = read.pop(file_path, None)
         if x is None:
             x = decode_audio(file_path, rate=rate)
@@ -1881,20 +1884,21 @@ def speakers_from_tracks(tracks, block=0.1, rate=8000, over_db=10.0,
                 note(T('  Bleed not separable: %s') % reason)
             elif far:
                 worst = min(far)
-                note(T('  Bleed measured, %s in %s only %.1f dB quieter '
+                note(T('  Bleed measured, %s in %s only %s dB quieter '
                        '-- taken out of the speech detection')
-                     % (worst[1], worst[2], worst[0]))
+                     % (worst[1], worst[2],
+                        decimal_text("%.1f" % worst[0])))
                 # Where a pair offers no moment of one voice alone, its
                 # entry stays 0 and that much bleed is left in. The
                 # separation still happens -- half a model beats none --
                 # but silence here would look like a clean measurement.
                 pairs = len(c) * (len(c) - 1)
                 if len(far) < pairs:
-                    note(T('  Caution: only %d of %d pairs measurable. For '
+                    note(T('  Caution: only %s of %s pairs measurable. For '
                            'the rest no moment was found where exactly one '
                            'person speaks, so their bleed stays in -- the '
                            'speaker detection is unreliable here.')
-                         % (len(far), pairs))
+                         % (group_text(len(far)), group_text(pairs)))
             else:
                 note(T('  No moment found where exactly one person speaks '
                        '-- the bleed stays in the speech detection.'))
@@ -3144,9 +3148,10 @@ def separation_source_of_run(args, tracks, video_paths, mixable=False,
 def voices_reported(segments):
     """Say who speaks how long, and in how many passages."""
     for name, segs in segments:
-        print(TN(len(segs), '  %-20s %s in %d passage',
-                 '  %-20s %s in %d passages')
-              % (name, as_hms(sum(b - a for a, b in segs)), len(segs)))
+        print(TN(len(segs), '  %-20s %s in %s passage',
+                 '  %-20s %s in %s passages')
+              % (name, as_hms(sum(b - a for a, b in segs)),
+                 group_text(len(segs))))
 
 def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
     """Work out who speaks when, before the audio is processed.
@@ -3215,8 +3220,9 @@ def separation_for_run(args, tracks, position, t0, t1, video_paths=()):
         if why == "microphones mixed":
             args._speakers_mixed = True
             print(T('  The microphones hear each other too well to say who '
-                    'is speaking, so the separation listens to all %d of '
-                    'them at once, on this machine.') % len(tracks))
+                    'is speaking, so the separation listens to all %s of '
+                    'them at once, on this machine.')
+                  % group_text(len(tracks)))
         else:
             print(T('  In %s, on this machine.') % os.path.basename(source))
         count = int(getattr(args, "speakers_count", 0) or 0)
@@ -3348,8 +3354,8 @@ def speakers_for_the_cut(args, tracks):
             named = []
     if voices:
         print(as_head(T('\nSPEAKERS -- SEPARATED BY VOICE')))
-        print(TN(len(voices), '  From %s: %d voice.', '  From %s: %d voices.')
-              % (where_from, len(voices)))
+        print(TN(len(voices), '  From %s: %s voice.', '  From %s: %s voices.')
+              % (where_from, group_text(len(voices))))
         for line in named:
             print(line)
     if left:
@@ -3394,9 +3400,10 @@ def name_voices_by_microphone(voices, box):
         return [], [T('  Which voice belongs to which microphone could '
                       'not be told, so the tracks are measured instead.')]
     called = dict((voice, track) for voice, track, _level, _ahead in rows)
-    lines = [T('  %-20s is %-20s %.1f dB ahead of the next microphone, '
+    lines = [T('  %-20s is %-20s %s dB ahead of the next microphone, '
                'the recording level taken out')
-             % (voice, track, ahead) for voice, track, _l, ahead in rows]
+             % (voice, track, decimal_text("%.1f" % ahead))
+             for voice, track, _l, ahead in rows]
     return ([(called.get(name, name), segs) for name, segs in voices or ()],
             lines)
 
@@ -3576,9 +3583,10 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                                         rate_of.get(v) or fps)
             if said == "clock" and abs(clock - where) > 1.0 / max(
                     1.0, float(fps)):
-                print(T('  %s: the measurement puts it at %+.3f s, the '
-                        'timecode at %+.3f s -- the measurement is used.')
-                      % (cam["name"], where, clock))
+                print(T('  %s: the measurement puts it at %s s, the '
+                        'timecode at %s s -- the measurement is used.')
+                      % (cam["name"], decimal_text("%+.3f" % where),
+                         decimal_text("%+.3f" % clock)))
         items.append({
             "file": file,
             "source": v,
@@ -3863,8 +3871,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
         # Several are allowed. Which one the cut uses is not a thing to
         # work out from a majority -- that would be a rule nobody asked
         # for -- so it is said instead.
-        print(T('  %d wide shots: the cut uses %s.')
-              % (len(wides), wides[0]))
+        print(T('  %s wide shots: the cut uses %s.')
+              % (group_text(len(wides)), wides[0]))
     cut = camera_cut(
         segment_list, length, camera_of, wide_shot,
         args.min_edit_duration, getattr(args, "delay", 0.3),
@@ -3886,15 +3894,17 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
             at_latest=getattr(args, "wide_latest", 120.0), edge=edges_on,
             rules=rules))
     if wide_after > 0 and len(cut) > before_value and not PROGRAM.GUI_RUNNING:
-        print(T('  %dx away from the speaker because a shot ran '
-                'longer than %.0f s') % ((len(cut) - before_value) // 2,
-                                    wide_after))
+        print(T('  %sx away from the speaker because a shot ran '
+                'longer than %s s')
+              % (group_text((len(cut) - before_value) // 2),
+                 decimal_text("%.0f" % wide_after)))
     was = len(cut)
     cut, detail = cut_split_where_one_camera(cut, segment_list, camera_of,
                                               args.min_edit_duration)
     if len(cut) > was:
-        print(T('  One camera for everybody: cut into %d shots at the '
-                'change of speaker, so Resolve can group them.') % len(cut))
+        print(T('  One camera for everybody: cut into %s shots at the '
+                'change of speaker, so Resolve can group them.')
+              % group_text(len(cut)))
     with open(stem + "_cameracut.csv", "w", encoding="utf-8") as f:
         f.write(csv_line(("Shot", "Camera", "Speaker", "Start TC",
                           "End TC", "Duration s")))
@@ -3910,7 +3920,8 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
 
     # The individual numbers are in the interface and in the files; what came
     # of them is enough here.
-    print(T('  %d speakers, %d shots, shortest %.1f s')
-          % (len(segment_list), len(cut),
-             min((b - a) for a, b, _ in cut) if cut else 0))
+    print(T('  %s speakers, %s shots, shortest %s s')
+          % (group_text(len(segment_list)), group_text(len(cut)),
+             decimal_text("%.1f" % (min((b - a) for a, b, _ in cut)
+                                    if cut else 0))))
     return cut, segment_list

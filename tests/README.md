@@ -1,6 +1,6 @@
 # The test suite
 
-240 tests against the program in `../videopodcast_magic/`. Every one of them stands
+246 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-240 tests. The name is the one a red line carries, and beside it the
+246 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -339,11 +339,13 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `voice_amounts_grouped` | The speech recognition says its amounts the way the language does. |
 | `voice_answer_kept` | The two proposals that fill a field nobody has answered. |
 | `voice_bleed_gone_first` | #80: does the bleed get taken out before the speech detection? |
 | `voice_both_splits_stand` | A second separation leaves the first its voices, names and cameras. |
 | `voice_both_ways_agree` | The window and the command line separate the same way. |
 | `voice_close_mics_mixed` | Microphones that hear each other are mixed and taken apart by voice. |
+| `voice_counts_grouped` | The separation counts voices as the language does, project files not. |
 | `voice_every_word_placed` | The words on the speakers, and the three files that come of it. |
 | `voice_failed_read_named` | A reading that fails costs its tracks the cut, and the log says so. |
 | `voice_language_arrives` | The language asked for reaches the recognition as a code it takes. |
@@ -367,6 +369,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `cut_all_shots_land` | Checks the cut timeline: lengths fit, no gaps, nothing drops out. |
+| `cut_amounts_grouped` | The cut's report writes amounts as the language does, names not. |
 | `cut_both_are_shown` | Two talk at once: does the camera showing both come up? |
 | `cut_box_fits_the_picture` | The picture keeps its shape, and the note under it keeps to two lines. |
 | `cut_colour_per_camera` | Clip colours: one per angle, and the same one every time. |
@@ -400,6 +403,7 @@ it is green.
 
 | Test | Green means |
 |---|---|
+| `project_amounts_grouped` | Resolve's report writes amounts as the language does, addresses not. |
 | `project_cameras_land` | Every camera reaches the timeline on picture and sound tracks of its own. |
 | `project_each_track_set` | Checks: on reuse the tracks are switched over one at a time. |
 | `project_every_offset` | Every camera reaches the handover with its offset -- and only a camera. |
@@ -442,6 +446,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `window_all_come_up` | The interface really builds itself -- in both languages. |
+| `window_amounts_grouped` | The window says its amounts the way the language does. |
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
@@ -525,6 +530,7 @@ it is green.
 | `text_lang_settled_first` | Nothing this program says is made before the language is settled. |
 | `text_lists_match` | Where the manual copies a list out of the program, it has to match. |
 | `text_no_german_left` | Hunt down the last German word, and check the catalogue itself. |
+| `text_numbers_fit_reader` | A number takes the language's form for a person, never for a machine. |
 | `text_only_texts_change` | The language machinery: catalogue, detection, switch, log colours. |
 | `text_release_ready` | What a release has to have, checked instead of remembered. |
 | `text_skills_listed` | Every copy of the skill table says what the skills themselves say. |
