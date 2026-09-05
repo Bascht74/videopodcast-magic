@@ -125,10 +125,10 @@ msgstr "अलग किया जा रहा है ..."
 msgid "Voice"
 msgstr "आवाज़"
 
-msgid "Break off"
+msgid "Stop"
 msgstr "रोक दें"
 
-msgid "Breaking off ..."
+msgid "Stopping ..."
 msgstr "रोका जा रहा है ..."
 
 msgid "Not on this machine"

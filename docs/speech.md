@@ -16,9 +16,8 @@ On the **Assignment & time window** tab every recording carries a
 field says the recording is that one person. The one entry that can be
 picked instead, **several speakers**, says there are several, and the
 program goes and works out who speaks when in that one recording.
-While a run is going, the **Speakers** cell of that row offers **Break
-off** and the other rows offer nothing: one recording is separated at
-a time.
+While a run is going, the **Speakers** cell of that row offers **Stop**
+and the other rows offer nothing: one recording is separated at a time.
 
 The field starts empty, with the name the file name suggests standing
 in it in grey. Nothing else fills it in. A recording that carries a

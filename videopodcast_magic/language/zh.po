@@ -125,10 +125,10 @@ msgstr "正在分离 ..."
 msgid "Voice"
 msgstr "声音"
 
-msgid "Break off"
+msgid "Stop"
 msgstr "中止"
 
-msgid "Breaking off ..."
+msgid "Stopping ..."
 msgstr "正在中止 ..."
 
 msgid "Not on this machine"

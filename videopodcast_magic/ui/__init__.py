@@ -5169,10 +5169,10 @@ def split_column_room(widget):
     from PySide6 import QtWidgets as _qw
     mark = _qw.QLabel("")
     mark.setFont(widget.font())
-    button = _qw.QPushButton(T('Break off'))
+    button = _qw.QPushButton(T('Stop'))
     button.setFont(widget.font())
     running = caption_room(mark, 0, [T('Separating ...'),
-                                     T('Breaking off ...')])
+                                     T('Stopping ...')])
     done = caption_room(mark, 0, [TN(2, 'Separated: %d speaker',
                                      'Separated: %d speakers') % 2])
     return max(running + button.sizeHint().width() + 6, done) + 12
@@ -5281,8 +5281,8 @@ def split_cell_build(path, on_stop, item):
     row = _qw.QHBoxLayout(box)
     row.setContentsMargins(0, 0, 0, 0)
     row.setSpacing(6)
-    button = _qw.QPushButton(T('Break off'))
-    speaks_as(button, T('Break off'), os.path.basename(path))
+    button = _qw.QPushButton(T('Stop'))
+    speaks_as(button, T('Stop'), os.path.basename(path))
     button.clicked.connect(lambda *_, x=path: on_stop(x))
     button.setVisible(False)
     mark = label("", COLOURS["quiet"])
@@ -5659,9 +5659,9 @@ def measuring_stop(state, paths, prework_clean_up, split_stop, split_run,
     state["axis_running"] = False
     split_stop()
     split_run["busy"] = False
-    # What split_stop wrote into the row goes with it: "Breaking off
-    # ..." must not be the last thing said about a production that is
-    # no longer open.
+    # What split_stop wrote into the row goes with it: "Stopping ..."
+    # must not be the last thing said about a production that is no
+    # longer open.
     state["split_note"] = None
     state["speakers_running"] = ""
     hide_bar()
@@ -6558,7 +6558,7 @@ def broken_off_report(where, results):
     """
     done = [os.path.basename(x) for x in (results or [])]
     return "\n".join([
-        T('\nBroken off during: %s') % (where or "?"),
+        T('\nStopped during: %s') % (where or "?"),
         TN(len(done),
            '%d file was finished before that and is whole: %s',
            '%d files were finished before that and are whole: %s')
@@ -6580,15 +6580,15 @@ def break_off_button(QtWidgets, state, say):
     *state* is the window's own note of what is going on, and *say*
     writes a line where the run writes.
     """
-    button = QtWidgets.QPushButton(T('Break off'))
+    button = QtWidgets.QPushButton(T('Stop'))
     button.setVisible(False)
 
     def pressed():
         if not state.get("running"):
             return
         button.setEnabled(False)
-        button.setText(T('Breaking off ...'))
-        say(T('\nBreaking off. The run stops as soon as it can do so '
+        button.setText(T('Stopping ...'))
+        say(T('\nStopping. The run ends as soon as it can do so '
               'without leaving a file half written -- one moment.\n'))
         stop_asked_for(state.get("run_step") or "")
 
@@ -6645,7 +6645,7 @@ def break_off_arm(button):
     """Put the button back the way it was, for the run about to start."""
     stop_forget()
     button.setEnabled(True)
-    button.setText(T('Break off'))
+    button.setText(T('Stop'))
     button.setVisible(True)
 
 
@@ -9191,7 +9191,7 @@ def gui():
         if not split_run["busy"]:
             return
         split_run["stop"] = True
-        speaker_split_show(T('Breaking off ...'),
+        speaker_split_show(T('Stopping ...'),
                            where=state.get("speakers_running") or "")
 
     def voices_stored_for(path):

@@ -156,7 +156,7 @@ Four tabs, in the order they are needed.
   separation nobody has answered for leaves the field empty and the
   rows hidden, and answering later brings them up at once, with the
   names and cameras they already had. The fifth column, **Speakers**,
-  says how that stands -- **Separating ...** and **Break off** while
+  says how that stands -- **Separating ...** and **Stop** while
   it runs, in that row and no other, then **Separated: 4
   speakers**, and where it could not run, a short sentence pointing at
   the log, which carries the reason itself. It is a
@@ -166,7 +166,7 @@ Four tabs, in the order they are needed.
   Each recording keeps a separation of its own, and several stand side
   by side: every row counts the voices of its own recording, and taking
   a second one apart leaves the first one's rows, names and cameras
-  where they are. Only **Break off** is ever in one row alone, because
+  where they are. Only **Stop** is ever in one row alone, because
   one recording is worked through at a time.
 
   A name is a person, and a person stands on the sheet once. A name that
