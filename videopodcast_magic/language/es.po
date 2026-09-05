@@ -1011,3 +1011,6 @@ msgstr "no ir antes"
 
 msgid "Answering speaker"
 msgstr "Quien responde"
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Esta copia se ejecuta desde una carpeta propia, así que pip no tiene nada que actualizar aquí. Esto la instala: %s"

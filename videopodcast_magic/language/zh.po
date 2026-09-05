@@ -1011,3 +1011,6 @@ msgstr "不提前切换"
 
 msgid "Answering speaker"
 msgstr "答话者"
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "此副本从自己的文件夹运行，pip 在这里没有可更新的内容。用这个安装它：%s"

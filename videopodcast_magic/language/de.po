@@ -48,13 +48,6 @@ msgid "%s is out. This is %s."
 msgstr "%s ist da. Hier läuft %s."
 
 msgid ""
-"Update? The run then begins from the new version. The one running now "
-"stays beside it as videopodcast_magic.py.old."
-msgstr ""
-"Aktualisieren? Danach läuft die neue Version. Die aktuelle Version bleibt "
-"als videopodcast_magic.py.old daneben liegen."
-
-msgid ""
 "Update? pip fetches it into %s. What pip says appears under Output, and "
 "the new version runs from the next start."
 msgstr ""
@@ -139,9 +132,6 @@ msgstr "Aktualisieren"
 msgid "Later"
 msgstr "Später"
 
-msgid "The new version could not be fetched: %s"
-msgstr "Die neue Version ließ sich nicht holen: %s"
-
 msgid "That file is not readable text."
 msgstr "Diese Datei ist kein lesbarer Text."
 
@@ -150,9 +140,6 @@ msgstr "Diese Datei ist nicht dieses Programm."
 
 msgid "That file does not compile: line %s."
 msgstr "Diese Datei lässt sich nicht übersetzen: Zeile %s."
-
-msgid "The new version could not be written: %s"
-msgstr "Die neue Version ließ sich nicht schreiben: %s"
 
 msgid "Back to %s"
 msgstr "Zurück auf %s"
@@ -193,13 +180,6 @@ msgstr "Keine neuere Version gefunden. Hier läuft %s."
 
 msgid "--update fetches it and puts it in place."
 msgstr "--update holt sie und setzt sie ein."
-
-msgid ""
-"%s is in place. The version before it is beside it as "
-"videopodcast_magic.py.old."
-msgstr ""
-"%s ist eingesetzt. Die vorige Fassung liegt als videopodcast_magic.py.old "
-"daneben."
 
 msgid "The check for new versions is switched off here."
 msgstr "Die Suche nach neuen Versionen ist hier abgeschaltet."
@@ -1885,15 +1865,6 @@ msgstr "  Von Hand:  %s -m pip install %s"
 
 msgid "Could not look for a newer version: %s"
 msgstr "Konnte nicht nach einer neueren Fassung sehen: %s"
-
-msgid ""
-"This was installed rather than downloaded, into %s. Update it the way it "
-"was installed, or the record kept there would go on naming the old "
-"version."
-msgstr ""
-"Das hier wurde installiert und nicht heruntergeladen, nach %s. "
-"Aktualisiere es auf demselben Weg, sonst nennt der Nachweis dort weiter "
-"die alte Fassung."
 
 msgid "%s is missing. The first time it takes a few minutes."
 msgstr "%s fehlt. Beim ersten Mal dauert es ein paar Minuten."
@@ -6455,3 +6426,6 @@ msgstr "Antwortender"
 
 msgid "  %dx away from the speaker because a shot ran longer than %.0f s"
 msgstr "  %dx weg vom Sprecher, weil eine Einstellung länger als %.0f s stand"
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Diese Kopie läuft aus einem eigenen Ordner, pip hat hier also nichts zu aktualisieren. Das installiert sie: %s"
