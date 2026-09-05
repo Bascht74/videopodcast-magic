@@ -405,6 +405,27 @@ absent = sorted(set(t for t in asked if t not in vpm.CATALOGUE["de"]))
 check("no gap in the German catalogue", not absent,
         "%d missing: %s" % (len(absent), absent[:3]))
 
+# read_po overwrites the first entry without a word, so a wording that
+# stands twice is invisible everywhere else. Measured 5.9.2026: a
+# doubled entry ran green through this test, text_no_german_left,
+# text_german_arrives and source_no_loose_ends. It is what a merge of
+# two catalogues makes when one branch renamed a wording and the other
+# laid the new one beside the old.
+twice = []
+for name in sorted(vpm.CATALOGUE):
+    where = os.path.join(os.path.dirname(vpm.__file__), "language",
+                         "%s.po" % name)
+    if not os.path.exists(where):
+        continue
+    said = {}
+    with io.open(where, encoding="utf-8") as f:
+        for line in f:
+            if line.startswith("msgid \"") and line.strip() != 'msgid ""':
+                said[line.strip()] = said.get(line.strip(), 0) + 1
+    twice += ["%s: %s" % (name, k) for k, n in sorted(said.items()) if n > 1]
+check("no wording stands twice in a catalogue", not twice,
+      "%d doubled: %s" % (len(twice), twice[:3]))
+
 print("\n10. No output line guesses its colour from the wording")
 OUTPUT = {"print", "write_through", "write", "append_text", "OUTPUT_SINK"}
 MARKERS = {"as_head", "as_good", "as_warn", "as_bad"}
