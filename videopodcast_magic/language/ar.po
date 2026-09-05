@@ -1013,3 +1013,6 @@ msgstr "لا تنتقل مبكرًا"
 
 msgid "Answering speaker"
 msgstr "المتحدث المجيب"
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "تعمل هذه النسخة من مجلد خاص بها، لذا لا يوجد ما يحدّثه pip هنا. هذا يثبّتها: %s"
