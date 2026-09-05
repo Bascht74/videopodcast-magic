@@ -118,6 +118,12 @@ msgstr "इस संस्करण में क्या बदला"
 msgid "Look for a newer version now"
 msgstr "अभी नया संस्करण खोजें"
 
+msgid "Back to an earlier version ..."
+msgstr "पिछले संस्करण पर लौटें ..."
+
+msgid "Back to an earlier version"
+msgstr "पिछले संस्करण पर लौटें"
+
 msgid "Separating speakers"
 msgstr "वक्ताओं का पृथक्करण"
 

@@ -98,6 +98,65 @@ Die Trennung liest das Modell danach aus diesem Ordner, ohne Konto,
 ohne Zugangsschlüssel und ohne Netz. Das Programm holt es nur beim
 ersten Mal.
 
+## Wo es nach dem ersten Start auftaucht
+
+Die Installation hinterlässt einen Befehl, und ein Befehl will getippt
+werden. **Beim allerersten Start legt sich das Programm daher selbst
+einen Platz dort an, wo dieses System seine Programme zeigt** — von da
+an startet es wie jedes andere auch:
+
+* **macOS**: ein eigenes Programm im Ordner **Programme** des eigenen
+  Benutzers, nicht in dem, der der ganzen Maschine gehört. Es startet
+  von dort und lässt sich ins Dock legen wie jedes andere Programm.
+* **Windows**: ein Eintrag im eigenen Startmenü, unter dem Namen des
+  Programms.
+* **Linux**: ein Eintrag, den die Arbeitsumgebung liest, und daneben
+  das Bild in dem Ordner, in dem ein Symbolthema danach sucht — so
+  behält der Eintrag sein Bild auch dann, wenn die Arbeitsumgebung
+  Thema oder Größe wechselt. Wann eine Arbeitsumgebung einen neuen
+  Eintrag aufnimmt, bleibt ihre eigene Sache: die eine zeigt ihn
+  sofort, die andere erst nach der nächsten Anmeldung.
+
+Installiert wird dabei nichts. Was angelegt wird, zeigt auf den Befehl,
+den pip längst auf die Maschine gelegt hat: Wer den Eintrag löscht,
+rührt das Programm nicht an, und wer das Programm mit pip entfernt,
+behält den Eintrag, bis er ihn wie jedes andere Symbol wegwirft.
+
+**Dabei schreibt es eine Zeile ins Protokoll:**
+
+```
+Eine Verknüpfung zu diesem Programm wurde angelegt: <Pfad>
+```
+
+Auf dem Bildschirm steht sie nicht: vor dem Fenster sagt das Programm
+nichts. Jeder Start danach schreibt auch nichts mehr.
+
+**Der Start hängt davon nicht ab.** Lässt sich der Platz nicht
+beschreiben — ein Ordner, in den nicht geschrieben werden darf, ein
+System, das keine Antwort gibt —, schreibt das Programm den Grund in eine
+zweite Protokollzeile und geht wie gewohnt weiter ins Fenster:
+
+```
+Es wurde keine Verknüpfung zu diesem Programm angelegt: <Grund>
+```
+
+Beide Zeilen stehen nur dort, zu lesen unter **Hilfe > Protokoll dieses
+Laufs anzeigen**.
+
+**Von Hand gelöscht, bleibt gelöscht.** Das Programm schreibt sich den
+Platz auf, den es angelegt hat. Ist dieser Platz später leer, während
+der Ordner darum herum noch steht, versteht es das als Antwort: Es legt
+nichts ein zweites Mal an und sagt auch nichts mehr dazu. Wer den
+Eintrag nicht haben will, löscht ihn also genau einmal.
+
+**Zurück kommt er nur, wenn er nicht mehr funktioniert.** Der Eintrag
+zeigt auf den installierten Befehl, und der zieht um, sobald das Python
+darunter ausgetauscht wird — danach steht das Symbol noch da und
+startet nichts mehr. Zeigt der Eintrag auf etwas, das es nicht mehr
+gibt, schreibt das Programm ihn neu und dieselbe Zeile noch
+einmal ins Protokoll. Das ist der einzige Start nach dem ersten, der
+überhaupt etwas schreibt.
+
 ## Welches Python das Programm braucht
 
 3.10 oder neuer, darunter lehnt pip die Installation ab. Die
@@ -278,6 +337,15 @@ es ebenfalls, mit zwei Einschränkungen:
   trotzdem dabei, liegt dieses ffmpeg irgendwo, wohin es von Hand
   ausgepackt wurde: diesen Ordner in den Suchpfad aufnehmen und neu
   starten.
+
+* **Das Symbol oder der Startmenü-Eintrag ist weg und kommt nicht
+  wieder.** So ist es gedacht: Was von Hand weggeräumt wurde, wird
+  kein zweites Mal angelegt. Der installierte Befehl startet das
+  Programm weiterhin aus dem Terminal, und ein Alias, eine Verknüpfung
+  oder ein selbst gebauter Starter darf darauf zeigen.
+* **`ffmpeg` wird auch nach der Installation nicht gefunden.** Der
+  Ordner, in dem es liegt, steht nicht im Suchpfad. Ihn dort
+  aufnehmen und neu starten.
 * **Das Fenster geht auf und bleibt leer, und die Meldung nennt eine
   ffmpeg-Fassung.** Dieses ffmpeg ist älter als 9.0.1. Der Knopf in
   diesem Kasten holt ein neues; was er dabei tut, erscheint unter

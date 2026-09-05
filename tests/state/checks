@@ -128,13 +128,14 @@ run_ffmpeg_not_fetched	15
 run_ffmpeg_offered	19
 run_findings_reach_both	6
 run_install_is_watched	40
-run_log_within_reach	25
+run_log_within_reach	26
 run_metrics_add_up	51
 run_odd_clock_named	17
-run_only_newer_offered	88
+run_only_newer_offered	83
 run_outside_seen	14
 run_prework_listed	43
 run_promise_is_written	12
+run_shortcut_laid_once	28
 run_simple_path_agrees	26
 run_space_has_margin	17
 run_stays_local	20
@@ -143,6 +144,7 @@ run_switch_has_effect	8
 run_threads_keep_order	17
 run_three_ways_agree	19
 run_update_says_it_landed	5
+run_way_back_offered	15
 run_which_script	7
 silent	auphonic_key_kept
 sound_all_blocks_count	18
@@ -275,5 +277,6 @@ window_speakers_as_run	14
 window_stages_named	16
 window_stands_still	2
 window_start_runs	4
+window_symbol_from_file	5
 window_view_reaches_tabs	10
 window_zoom_stays_in	32

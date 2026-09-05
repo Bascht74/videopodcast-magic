@@ -1,6 +1,6 @@
 # The test suite
 
-246 tests against the program in `../videopodcast_magic/`. Every one of them stands
+249 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-246 tests. The name is the one a red line carries, and beside it the
+249 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -470,6 +470,7 @@ it is green.
 | `window_stages_named` | The footer bar during a run: stages, weights, and the end reached. |
 | `window_stands_still` | Left alone, the window stops measuring and stops moving a Kind. |
 | `window_start_runs` | The start button must build a command line and start a run. |
+| `window_symbol_from_file` | The window's symbol is the picture in the file, and nowhere else. |
 | `window_view_reaches_tabs` | The View menu reaches every tab that stands, by name and by key. |
 | `window_zoom_stays_in` | Zoom on the cut band: in, out, and what a press then means. |
 
@@ -511,6 +512,7 @@ it is green.
 | `run_outside_seen` | Every call to another program is in the log, and none in the output. |
 | `run_prework_listed` | Header line, prework, window suggestion and axis reuse all hold. |
 | `run_promise_is_written` | What the run promises as audio tracks is what it writes. |
+| `run_shortcut_laid_once` | One shortcut is laid on the first start, and never a second time. |
 | `run_simple_path_agrees` | One simple-path run end to end: every promise kept, and it agrees. |
 | `run_space_has_margin` | Room for the run is judged with a margin, and on both disks at once. |
 | `run_stays_local` | A whole multitrack run that finishes on this machine alone. |
@@ -519,6 +521,7 @@ it is green.
 | `run_threads_keep_order` | Doing several things at once: in order, complete, and honest about errors. |
 | `run_three_ways_agree` | Window, project file and command line come to the same cut. |
 | `run_update_says_it_landed` | An update that went through says so, and offers the restart. |
+| `run_way_back_offered` | Going back to an earlier version is offered, and never into a dead end. |
 | `run_which_script` | The log names the copy of the script that is running. |
 
 ### `text_` -- the texts: catalogue, manual, changelog
