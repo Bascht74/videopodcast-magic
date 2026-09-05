@@ -337,6 +337,82 @@ check("the chapters link to each other at all", links > 20,
 found("%d links and %d anchors, all of them lead somewhere"
       % (links, anchors), dead)
 
+print("\n6. The values a switch takes, and the way in the READMEs offer")
+# Two more lists the program keeps and a document writes down.
+#
+# A set of values goes stale exactly as a switch does, and it did: both
+# READMEs offered "--lang de|en" while the parser took nine. The rows
+# spell their values in backticks and nothing else, so both directions
+# can be read straight off them.
+#
+# And the front page names a way in of its own. One of them was
+# "python3 -m videopodcast_magic", which stopped working the day the
+# program became a folder: the requirements chapter says so in both
+# languages while the README went on promising it, which is the shape
+# no test here could see.
+# The judgements below are spelt out rather than handed to found():
+# the counter-proof register reads the first argument of a literal
+# check(...) and nothing else, so a wording that reaches check only
+# through a helper is a judgement no ratchet can see. Twenty-three
+# of those stand in this folder -- measured 5.9.2026, and written
+# down in the notes rather than mended here, because mending it
+# raises the ratchet by every one of them at once.
+VALUE = re.compile(r"`([a-z][a-z-]{1,11})`")
+takes = dict((name, sorted(action.choices))
+             for name, action in switches.items()
+             if getattr(action, "choices", None))
+# Named rather than counted: --lang is the one both chapters and both
+# READMEs spell out, so a section that no longer sees it is a section
+# that no longer guards the place this was written for.
+check("the language switch takes a fixed set of values",
+      "--lang" in takes and len(takes) > 2,
+      "%d switches take one: %s" % (len(takes), ", ".join(sorted(takes))))
+
+unnamed, refused = [], []
+for chapter, _german in CHAPTERS:
+    for switch, said, number in rows_of(chapter):
+        if switch not in takes:
+            continue
+        named = set(VALUE.findall(said))
+        for value in takes[switch]:
+            if value not in named:
+                unnamed.append("%s:%d %s takes '%s', the row does not "
+                               "name it" % (chapter, number, switch, value))
+        for value in sorted(named - set(takes[switch])):
+            refused.append("%s:%d %s names '%s', the program refuses it"
+                           % (chapter, number, switch, value))
+check("every value a switch takes is named in its row", not unnamed,
+      "%d, first: %s" % (len(unnamed), unnamed[0]) if unnamed else "")
+for case in unnamed:
+    print("      %s" % case)
+check("no row names a value the program refuses", not refused,
+      "%d, first: %s" % (len(refused), refused[0]) if refused else "")
+for case in refused:
+    print("      %s" % case)
+
+READMES = ("README.md", "README.de.md")
+SWITCH = re.compile(r"(?<![\w-])(--[a-z][a-z0-9-]*)")
+other_ways, unknown = [], []
+for name in READMES:
+    for number, line in enumerate(io.open(
+            os.path.join(ROOT, name), encoding="utf-8").read().splitlines(), 1):
+        if "-m videopodcast_magic" in line:
+            other_ways.append("%s:%d offers 'python3 -m videopodcast_magic', "
+                              "and the package has had no __main__ since it "
+                              "became a folder" % (name, number))
+        for switch in SWITCH.findall(line):
+            if switch not in switches:
+                unknown.append("%s:%d names %s, the program has no such "
+                               "switch" % (name, number, switch))
+check("the READMEs offer no way in but the command pip installs", not other_ways,
+      "%d, first: %s" % (len(other_ways), other_ways[0]) if other_ways else "")
+for case in other_ways:
+    print("      %s" % case)
+check("every switch the READMEs name is one the program has", not unknown,
+      "%d, first: %s" % (len(unknown), unknown[0]) if unknown else "")
+for case in unknown:
+    print("      %s" % case)
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 if bad:
     print("FAIL: %d of the checks" % len(bad))
