@@ -284,8 +284,8 @@ def look(case, media, folder):
 
     def separated(n):
         """What a row says when that many voices were found in it."""
-        return vpm.TN(n, 'Separated: %d speaker',
-                      'Separated: %d speakers') % n
+        return vpm.TN(n, 'Separated: %s speaker',
+                      'Separated: %s speakers') % n
 
     def name_field_of(short):
         """The field the name of that recording is answered in."""
