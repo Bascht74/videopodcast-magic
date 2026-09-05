@@ -122,25 +122,26 @@ den pip längst auf die Maschine gelegt hat: Wer den Eintrag löscht,
 rührt das Programm nicht an, und wer das Programm mit pip entfernt,
 behält den Eintrag, bis er ihn wie jedes andere Symbol wegwirft.
 
-**Dabei sagt es eine Zeile:**
+**Dabei schreibt es eine Zeile ins Protokoll:**
 
 ```
 Eine Verknüpfung zu diesem Programm wurde angelegt: <Pfad>
 ```
 
-Jeder Start danach schweigt.
+Auf dem Bildschirm steht sie nicht: vor dem Fenster sagt das Programm
+nichts. Jeder Start danach schreibt auch nichts mehr.
 
 **Der Start hängt davon nicht ab.** Lässt sich der Platz nicht
 beschreiben — ein Ordner, in den nicht geschrieben werden darf, ein
-System, das keine Antwort gibt —, nennt das Programm den Grund in einer
-Zeile und geht wie gewohnt weiter ins Fenster:
+System, das keine Antwort gibt —, schreibt das Programm den Grund in eine
+zweite Protokollzeile und geht wie gewohnt weiter ins Fenster:
 
 ```
 Es wurde keine Verknüpfung zu diesem Programm angelegt: <Grund>
 ```
 
-Beide Zeilen stehen auch im Protokoll, **Hilfe > Protokoll dieses Laufs
-anzeigen**.
+Beide Zeilen stehen nur dort, zu lesen unter **Hilfe > Protokoll dieses
+Laufs anzeigen**.
 
 **Von Hand gelöscht, bleibt gelöscht.** Das Programm schreibt sich den
 Platz auf, den es angelegt hat. Ist dieser Platz später leer, während
@@ -152,8 +153,9 @@ Eintrag nicht haben will, löscht ihn also genau einmal.
 zeigt auf den installierten Befehl, und der zieht um, sobald das Python
 darunter ausgetauscht wird — danach steht das Symbol noch da und
 startet nichts mehr. Zeigt der Eintrag auf etwas, das es nicht mehr
-gibt, schreibt das Programm ihn neu und sagt dieselbe Zeile noch
-einmal. Das ist der einzige Start nach dem ersten, der nicht schweigt.
+gibt, schreibt das Programm ihn neu und dieselbe Zeile noch
+einmal ins Protokoll. Das ist der einzige Start nach dem ersten, der
+überhaupt etwas schreibt.
 
 ## Welches Python das Programm braucht
 

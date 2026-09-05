@@ -443,3 +443,42 @@ says its text is right and nothing about a desktop. The Windows link is
 not written at all -- it needs the shell object that owns the `.lnk`
 format -- and the test says so on a `LEFT OUT` line rather than
 pretending.
+
+---
+
+## A guard that asks what a run is not, and what that cost
+
+**5.9.2026.** `lay_on_first_start()` asked `VPM_SILENT` and laid nothing
+when it was set. Every test run through `run.sh` sets it, so the suite
+was safe, and that was measured: after a whole run the owner's
+`~/Applications` held nothing.
+
+**A measurement copy run by hand sets no such thing.** At 20:18:11 a
+bundle appeared in the owner's own Applications folder, and
+`~/Library/Application Support/videopodcast-magic/settings.json` was
+created in the same second. pip did not install the piece that lays
+bundles until **20:49:06**, half an hour later -- so it was not the
+installed program, and it was not the owner starting it. It was one of
+ours, out of a folder in scratch space, finding the installed starter
+on `PATH` like any other program would.
+
+**The log that would name the run died with the copy**: a run from a
+checkout writes its log beside itself, and the counter-proof copies are
+deleted when the measurement is written. So the culprit is not named
+here. It does not have to be -- what has to change is the question.
+
+**A guard that asks "is this a test?" is wrong however it is spelled.**
+It can only list the ways a run marks itself, and a run that forgets
+one passes. The condition is now positive:
+`installed_by_a_package_manager()`, with `VPM_SHORTCUT` as the way a
+test names a home of its own. A copy in scratch space is never
+installed, so no forgotten variable can reach the owner's account
+again.
+
+**Two things fall out of it.** A checkout that happens to have an
+installed starter on `PATH` -- the ordinary state of a developer's
+machine -- now lays nothing, which is right and was not true before.
+And the line the laying says goes into the log and never to the
+console: it runs before the window opens and before the console is
+redirected, so a print there is the one line somebody sees in a
+terminal they did not ask for.

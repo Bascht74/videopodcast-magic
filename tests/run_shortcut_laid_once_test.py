@@ -9,6 +9,7 @@ nothing unless a home of its own is named. The macOS and the Linux
 shape are written here and read back; the Windows one is left out,
 because writing a .lnk needs a shell object this machine has not.
 """
+import io
 import os
 import shutil
 import sys
@@ -49,7 +50,10 @@ PICTURE = desktop.icon_bytes()
 
 
 print("1. Where the pointer would go, on each of the three systems")
-ROOT = "/tmp/vpm_nowhere"
+# abspath, because that is what place() does with a root -- on
+# Windows "/tmp/x" becomes "D:\\tmp\\x", and a hand-built
+# expectation would measure the drive letter and nothing else.
+ROOT = os.path.abspath("/tmp/vpm_nowhere")
 want = os.path.join(ROOT, "Applications", "videopodcast-magic.app")
 got = desktop.place(root=ROOT, system="darwin")
 check("the macOS entry stands in the Applications folder of that home",
@@ -102,6 +106,17 @@ launcher = desktop.make_shortcut(root=lin, target=lin_starter, png=PICTURE,
 points = desktop._points_at(launcher.where, "posix")
 check("the launcher names the starter on the line the desktop runs",
       points == lin_starter, "%s against %s" % (points, lin_starter))
+
+# A home of its own: the one above already holds a launcher, and an
+# entry that is there and still runs is finished business.
+crook, crook_starter = a_home()
+odd = os.path.join(os.path.dirname(crook_starter), 'a "quoted" one')
+shutil.copy(crook_starter, odd)
+crooked = desktop.make_shortcut(root=crook, target=odd, png=PICTURE,
+                                system="posix")
+check("a starter whose name carries a quote comes back whole",
+      desktop._points_at(crooked.where, "posix") == odd,
+      "%s against %s" % (desktop._points_at(crooked.where, "posix"), odd))
 
 themed = os.path.join(lin, ".local", "share", "icons", "hicolor",
                       "256x256", "apps", "videopodcast-magic.png")
@@ -179,8 +194,9 @@ check("a place that cannot be written stops nothing and raises nothing",
 said = stopped.say if stopped is not None else ""
 head = vpm.T('No shortcut to this program was made: %s') % ""
 check("and it says one line that names the place it could not write",
-      said.startswith(head) and in_the_way in said
-      and len(said.splitlines()) == 1,
+      said.startswith(head) and len(said.splitlines()) == 1
+      and (in_the_way in said
+           or in_the_way.replace("\\", "\\\\") in said),
       "%d line(s), %r" % (len(said.splitlines()), said[-70:]))
 
 
@@ -189,9 +205,21 @@ print("\n7. A run marked as a test lays nothing unless it names a home")
 # broken for a counter-proof still cannot reach the account this runs
 # in: expanduser reads HOME, and no starter means nothing is written.
 kept_env = dict((name, os.environ.get(name))
-                for name in ("VPM_SHORTCUT", "VPM_SETTINGS", "HOME"))
+                for name in ("VPM_SHORTCUT", "VPM_SETTINGS", "HOME",
+                             "VPM_LOGS"))
 mine = tempfile.mkdtemp(prefix="vpm_choices_")
 os.environ["VPM_SETTINGS"] = mine
+os.environ["VPM_LOGS"] = mine
+
+
+def log_now():
+    """Everything the log holds at this moment, or ""."""
+    where = vpm.log_path()
+    if not where or not os.path.exists(where):
+        return ""
+    with open(where, encoding="utf-8", errors="replace") as f:
+        return f.read()
+
 os.environ["HOME"] = tempfile.mkdtemp(prefix="vpm_nohome_")
 os.environ.pop("VPM_SHORTCUT", None)
 vpm.forget_settings()
@@ -206,7 +234,21 @@ try:
     named, named_starter = a_home()
     os.environ["VPM_SHORTCUT"] = named
     desktop.command_path = lambda name=None: named_starter
-    asked = desktop.lay_on_first_start()
+    # Nothing on the console: this runs before the window opens and
+    # before the console is redirected, so a line here would land in a
+    # terminal that nobody asked to look at.
+    console = io.StringIO()
+    was_out = sys.stdout
+    sys.stdout = console
+    try:
+        asked = desktop.lay_on_first_start()
+    finally:
+        sys.stdout = was_out
+    check("the laying says nothing on the console", console.getvalue() == "",
+          "it printed %r" % console.getvalue())
+    check("but the line stands in the log",
+          "shortcut -- " in log_now() and asked.where in log_now(),
+          "the log ends %r" % log_now()[-90:])
     check("a test run that names one gets a shortcut in it",
           asked.made and os.path.exists(asked.where),
           "made=%s at %s" % (asked.made, asked.where))

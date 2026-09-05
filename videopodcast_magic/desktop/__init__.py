@@ -19,6 +19,7 @@ PROGRAM = PROGRAM
 T = PROGRAM.T
 VERSION = PROGRAM.VERSION
 keep_setting = PROGRAM.keep_setting
+installed_by_a_package_manager = PROGRAM.installed_by_a_package_manager
 log_aside = PROGRAM.log_aside
 os = PROGRAM.os
 settings = PROGRAM.settings
@@ -64,19 +65,19 @@ class Laid(object):
 def lay_on_first_start():
     """Lay the pointer if this start is the first one, and say so.
 
-    The one way in. VPM_SHORTCUT stands in for the home folder the way
-    VPM_LOGS stands in for the log folder; without it a run that marks
-    itself as a test lays nothing at all, because a test has no
-    business in the program list of whoever started it.
+    Only an installed copy lays anything; VPM_SHORTCUT stands in for
+    the home folder the way VPM_LOGS does for the log folder. The
+    condition is positive on purpose -- development/decisions.md says
+    what it cost to learn that. And the line goes into the log, never
+    onto the console: this runs before the window opens.
     """
     root = os.environ.get("VPM_SHORTCUT") or ""
-    if not root and os.environ.get("VPM_SILENT"):
+    if not root and not installed_by_a_package_manager():
         return Laid("", False, "")
     laid = make_shortcut(root=root or None, kept=settings(),
                          write_down=keep_setting)
     if laid.say:
         log_aside("shortcut -- %s" % laid.say)
-        print(laid.say)
     return laid
 
 
@@ -372,14 +373,26 @@ def _out_of_stub(where):
 
 
 def _out_of_launcher(where):
-    """The starter a .desktop file names on its Exec line."""
+    """The starter a .desktop file names on its Exec line.
+
+    Undoing exactly what _exec_quote did. Splitting on the next double
+    quote instead would stop at an escaped one and hand back half a
+    path -- and a backslash would come back doubled.
+    """
     with open(where, encoding="utf-8", errors="replace") as f:
         for line in f:
-            if line.startswith("Exec="):
-                rest = line[5:].strip()
-                if rest.startswith('"'):
-                    return rest[1:].split('"')[0]
+            if not line.startswith("Exec="):
+                continue
+            rest = line[5:].strip()
+            if not rest.startswith('"'):
                 return rest.split(" ")[0]
+            out, i = [], 1
+            while i < len(rest) and rest[i] != '"':
+                if rest[i] == "\\" and i + 1 < len(rest):
+                    i += 1
+                out.append(rest[i])
+                i += 1
+            return "".join(out)
     return ""
 
 
