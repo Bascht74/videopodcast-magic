@@ -529,6 +529,7 @@ it is green.
 | `text_lang_settled_first` | Nothing this program says is made before the language is settled. |
 | `text_lists_match` | Where the manual copies a list out of the program, it has to match. |
 | `text_no_german_left` | Hunt down the last German word, and check the catalogue itself. |
+| `text_numbers_fit_reader` | A number takes the language's form for a person, never for a machine. |
 | `text_only_texts_change` | The language machinery: catalogue, detection, switch, log colours. |
 | `text_release_ready` | What a release has to have, checked instead of remembered. |
 | `text_skills_listed` | Every copy of the skill table says what the skills themselves say. |

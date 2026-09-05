@@ -157,8 +157,8 @@ msgstr "%s:%02d मि"
 msgid "%s -- %d:%02d to %d:%02d (%s s)"
 msgstr "%s -- %d:%02d से %d:%02d (%s से)"
 
-msgid "%s and %d more"
-msgstr "%s और %d अन्य"
+msgid "%s and %s more"
+msgstr "%s और %s अन्य"
 
 msgid "%s speech time"
 msgstr "%s का बोलने का समय"
@@ -307,20 +307,14 @@ msgstr " (रुका हुआ)"
 msgid " (playing)"
 msgstr " (चल रहा है)"
 
-msgid "%d channel"
-msgstr "%d चैनल"
+msgid "%s channel"
+msgstr "%s चैनल"
 
-msgid "%d channels"
-msgstr "%d चैनल"
-
-msgid "%d file"
-msgstr "%d फ़ाइल"
+msgid "%s channels"
+msgstr "%s चैनल"
 
 msgid "%s file"
 msgstr "%s फ़ाइल"
-
-msgid "%d files"
-msgstr "%d फ़ाइलें"
 
 msgid "%s files"
 msgstr "%s फ़ाइलें"
