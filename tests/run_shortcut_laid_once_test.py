@@ -109,14 +109,18 @@ check("the launcher names the starter on the line the desktop runs",
 
 # A home of its own: the one above already holds a launcher, and an
 # entry that is there and still runs is finished business.
+# A dollar, not a quote: _exec_quote escapes both, and Windows allows
+# a dollar in a file name where it forbids a quote outright. So the
+# same claim is made on all three systems instead of one.
 crook, crook_starter = a_home()
-odd = os.path.join(os.path.dirname(crook_starter), 'a "quoted" one')
+odd = os.path.join(os.path.dirname(crook_starter), "a $PATH one")
 shutil.copy(crook_starter, odd)
 crooked = desktop.make_shortcut(root=crook, target=odd, png=PICTURE,
                                 system="posix")
-check("a starter whose name carries a quote comes back whole",
+check("a starter whose name is escaped on the Exec line comes back whole",
       desktop._points_at(crooked.where, "posix") == odd,
-      "%s against %s" % (desktop._points_at(crooked.where, "posix"), odd))
+      "%s against %s"
+      % (desktop._points_at(crooked.where, "posix"), odd))
 
 themed = os.path.join(lin, ".local", "share", "icons", "hicolor",
                       "256x256", "apps", "videopodcast-magic.png")
