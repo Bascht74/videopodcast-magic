@@ -65,13 +65,14 @@ dependencies = [
 videopodcast-magic = "videopodcast_magic:main"
 
 [tool.setuptools]
-# The program is a folder, and the translations are a folder in it. Both
-# are named: setuptools ships packages, not stray directories, so
-# language/ needs its own __init__.py and its own name here or an
-# installed copy speaks English only.
+# The program is a folder, and every piece of it is a folder in it. All
+# of them are named: setuptools ships packages, not stray directories,
+# so each piece needs its own __init__.py and its own name here, or an
+# installed copy speaks English only and opens no window.
 #
 # models/ is deliberately absent -- 31 MB of speaker model that the
 # program fetches when it is first needed. Naming it would put that
 # weight into every installation, for the many who never separate
 # speakers.
-packages = ["videopodcast_magic", "videopodcast_magic.language"]
+packages = ["videopodcast_magic", "videopodcast_magic.language",
+            "videopodcast_magic.ui"]

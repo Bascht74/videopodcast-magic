@@ -346,16 +346,16 @@ check("the doors and the nail come out of the test that listed them",
 DOORS = tuple(sorted(set(DOORS_THERE) | set(DOORS_HERE)))
 program = ""
 try:
-    program = the_program.text()
+    program = the_program.whole()
 except (OSError, UnicodeDecodeError):
     program = ""
 opens = calls_in(program, ("scriptapp",)) if program else None
 holders = sorted((opens or {}).get("scriptapp", ()))
 check("the program opens its connection in the one place a test nails",
       holders == [NAIL] and bool(NAIL),
-      "scriptapp is called in %s, the nail is %r, %d characters of %s"
+      "scriptapp is called in %s, the nail is %r, over %d characters"
       % (quiet(", ".join(holders) or "nothing this could read"),
-         quiet(NAIL or "none"), len(program), quiet(os.path.basename(SCRIPT))))
+         quiet(NAIL or "none"), len(program)))
 
 reached = calls_in(program, (NAIL,)) if (program and NAIL) else None
 ground = calls_in(files.get(GROUND, ""), (NAIL,)) if NAIL else None

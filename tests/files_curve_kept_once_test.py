@@ -139,7 +139,7 @@ check("and it is the curve that was worked out",
 #------------------------------------------ 3. And the window looks there
 
 print("\n3. What the window does with a file that leaves the list")
-source = the_program.text()
+source = the_program.whole()
 clears = ("keys = set(path_key(p) for p in gone)" in source
           and "for api_key in [k for k in _ENV if k[0] in keys]" in source)
 check("the clean-up looks for the curve under that same name", clears,

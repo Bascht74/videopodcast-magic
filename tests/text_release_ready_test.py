@@ -38,12 +38,15 @@ def text_of(path):
     return io.open(path, encoding="utf-8").read()
 
 print("1. One version number, named the same everywhere")
-source = text_of(SCRIPT)
+# Every piece of the program joined: the key filter this test lifts out
+# sits inside the window, which is a piece of its own, and a version
+# read out of the file the program starts in would have been all that
+# was ever read here.
+source = the_program.whole()
 found = re.search(r'^VERSION = "([^"]+)"', source, re.M)
 check("the program says which version it is", bool(found),
-      "VERSION = %r, wanted one line of it in the %d lines of %s"
-      % (found.group(1) if found else None,
-         source.count("\n") + 1, os.path.basename(SCRIPT)))
+      "VERSION = %r, wanted one line of it in the %d lines of the program"
+      % (found.group(1) if found else None, source.count("\n") + 1))
 version = found.group(1) if found else ""
 
 changelog = text_of(os.path.join(ROOT, "CHANGELOG.md"))
@@ -469,14 +472,20 @@ else:
     # with the list, so nothing has to be fetched to see it.
     #
     # Two floors, because the two shapes are not the same size. The
-    # file only ever grew, so half of the one in the working tree is
-    # under every release that was ever made. The archive holds the
-    # same program compressed: measured 4.9.2026, 1 950 864 bytes of
-    # source came to 588 141, about a third of what the program alone
-    # weighs -- so a sixth of that is half again of the smallest it has
-    # been, and far above anything half-written.
-    floor = os.path.getsize(SCRIPT) // 2
-    floor_zip = os.path.getsize(SCRIPT) // 6
+    # program only ever grew, so half of what it weighs in the working
+    # tree is under every release that was ever made. The archive holds
+    # the same program compressed: measured 4.9.2026, 1 950 864 bytes
+    # of source came to 588 141, about a third of what the program
+    # alone weighs -- so a sixth of that is half again of the smallest
+    # it has been, and far above anything half-written.
+    #
+    # The program, not the file it starts in. Those were the same
+    # thing until the window moved out on 5.9.2026, and for as long as
+    # they were, "it only ever grew" held. Read off one file the floor
+    # fell from 817 204 to 538 770 in a single commit, and an appended
+    # program of 600 KB would have passed as whole.
+    floor = the_program.on_disk() // 2
+    floor_zip = the_program.on_disk() // 6
     stubs = ["%s: %s at %d bytes" % (one.get("tag_name"), a.get("name"),
                                      a.get("size") or 0)
              for one in want for a in one.get("assets", [])

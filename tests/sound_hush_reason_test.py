@@ -47,7 +47,7 @@ check("a channel under -70 dBFS is converter noise",
       silent == [False, True] and why[1][0] == "quiet", str(why[1]))
 check("and that line says the level",
       "-71" in vpm.hush_reason(2, why), vpm.hush_reason(2, why))
-source = the_program.text()
+source = the_program.whole()
 check("one rule, not the same rule typed twice",
       source.count("def channel_hush(") == 1
       and source.count("silent, why = channel_hush(level)") == 2,

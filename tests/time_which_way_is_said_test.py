@@ -134,8 +134,9 @@ check("and it carries the sharpness, beside the +0.00 ppm",
 print("\n4. One wording, in one place")
 # Two roads report the same measurement. Written out twice they drift,
 # and that is how one of them came to say nothing at all for versions.
-source = the_program.text()
-program = ast.parse(source)
+# Every piece of the program: a second copy of a wording drifts from
+# the first wherever it stands, and the window is a piece of its own.
+TREES = [ast.parse(body) for _piece, body in the_program.pieces()]
 
 
 def built_in_places(wording):
@@ -147,7 +148,7 @@ def built_in_places(wording):
     The German catalogue carries the English as its key, and a key
     builds nothing, so only a call to T is counted.
     """
-    return sum(1 for node in ast.walk(program)
+    return sum(1 for program in TREES for node in ast.walk(program)
                if isinstance(node, ast.Call)
                and isinstance(node.func, ast.Name) and node.func.id == "T"
                and len(node.args) == 1

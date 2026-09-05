@@ -230,7 +230,7 @@ check("without an absolute flag it counts as relative",
 shutil.rmtree(D2, ignore_errors=True)
 
 print("\n5. The interface really calls this path")
-source = the_program.text()
+source = the_program.whole()
 for call in ("header_value = recordings_text(",
              "fresh = pending_prework(",
              "from_s, until, absolute = window_suggestion(",

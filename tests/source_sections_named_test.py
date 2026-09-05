@@ -40,7 +40,13 @@ def check(name, ok, extra=""):
 GROUND = "(the ground)"
 RULE = "#---"
 
-src = the_program.text()
+# Every piece of the program, one behind the other, each after the
+# first with a dividing line of its own in front of it: a piece is
+# a section too, and the table then says what crosses between them
+# rather than stopping at the file the program starts in.
+src = "\n".join(("#---- %s\n%s" % (name, body)) if number else body
+                for number, (name, body)
+                in enumerate(the_program.pieces()))
 lines = src.split("\n")
 
 names = [GROUND]

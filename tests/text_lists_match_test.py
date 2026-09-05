@@ -50,7 +50,7 @@ DOCS = os.path.join(ROOT, "docs")
 SCRIPT = the_program.SCRIPT
 
 vpm = the_program.load()
-source = the_program.text()
+source = the_program.whole()
 GERMAN = vpm.CATALOGUE["de"]
 
 done = 0

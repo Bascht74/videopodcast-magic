@@ -26,7 +26,7 @@ vpm.set_language("en")
 # The program's own text. Two sections below count places in it -- how
 # many gates ask the sample points, and how many set the refusal mark --
 # and the first of them stands before the run, so it is read here once.
-source = the_program.text()
+source = the_program.whole()
 
 os.environ.setdefault("VPM_NO_SPEAKER_SPLIT", "1")
 ENV = dict(os.environ, LANG="C", LC_ALL="C", LANGUAGE="en",

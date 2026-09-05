@@ -53,11 +53,13 @@ def hint(widget, text):
 print("1. The four names that would ask for it")
 # Read as a tree, not searched for as text: a name inside a comment or a
 # catalogue entry is not a call, and a search over the text finds both.
-source = the_program.text()
+# Every piece of the program: the window is a piece of its own, and a
+# full screen asked for in it would otherwise never be looked at.
 WORDS = ("setFullScreen", "showFullScreen", "isFullScreen",
          "WindowFullScreen")
-spots = sorted((node.lineno, node.attr)
-               for node in ast.walk(ast.parse(source))
+spots = sorted(("%s %d" % (piece, node.lineno), node.attr)
+               for piece, body in the_program.pieces()
+               for node in ast.walk(ast.parse(body))
                if isinstance(node, ast.Attribute) and node.attr in WORDS)
 check("no line in the program asks a widget for full screen",
       not spots, "%d spots, the first %s" % (len(spots), spots[:3]))

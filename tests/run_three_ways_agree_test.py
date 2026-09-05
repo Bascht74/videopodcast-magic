@@ -336,8 +336,11 @@ print("\n6. Nothing the window writes stops half way")
 # one place that puts them there. A setting added there and nowhere
 # else is the fault this section is for.
 KEYS = []
-for node in ast.walk(ast.parse(the_program.text())):
-    if isinstance(node, ast.FunctionDef) and node.name == "settings_extend":
+for _piece, _body in the_program.pieces():
+    for node in ast.walk(ast.parse(_body)):
+        if not (isinstance(node, ast.FunctionDef)
+                and node.name == "settings_extend"):
+            continue
         for inner in ast.walk(node):
             if not isinstance(inner, ast.Assign):
                 continue

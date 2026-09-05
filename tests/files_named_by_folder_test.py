@@ -151,7 +151,7 @@ check("a folder user-dirs.dirs does not name is still a production",
       got == "Interview_7", "%r wanted 'Interview_7'" % got)
 
 print("\n6. No language is written into the list")
-source = the_program.text()
+source = the_program.whole()
 check("the built-in list and the function that guesses are both in the source",
       "\nGENERAL_FOLDERS = (" in source
       and "\ndef guess_production_name" in source,
