@@ -79,9 +79,11 @@ concurrency:
 permissions:
   # write, because this run creates the tag and the release.
   contents: write
-  # read, because step 1 asks the API about the suite's runs. contents
-  # does not reach them; the runs of a workflow are the actions scope.
-  actions: read
+  # write, and read would not do. Step 1 asks the API about the suite's
+  # runs, which contents does not reach -- but the last step also asks
+  # release.yml to answer for what was just published, and starting a
+  # run is a write in this scope.
+  actions: write
   # read, because step 3b asks the roadmap issue which version it says
   # the program is at. Issues are their own scope as well.
   issues: read
@@ -542,3 +544,15 @@ jobs:
             echo "the tree at the tag, the notes against the changelog,"
             echo "and that it installs and starts."
           } >> "$GITHUB_STEP_SUMMARY"
+
+          # Asked for, not waited for. The release above was made with
+          # the built-in token, and GitHub raises no workflow run from
+          # an event that token caused -- workflow_dispatch is the one
+          # exception, and this is it.
+          #
+          # Without this line the sentence above is a promise nobody
+          # keeps: measured 6.9.2026, release.yml last ran for v3.0.0b2
+          # and slept through b3, b4 and b5, while every publish said
+          # it would answer.
+          gh workflow run release.yml -f tag="$TAG"
+          echo "release.yml asked for $TAG"
