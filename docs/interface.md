@@ -828,8 +828,9 @@ list.
 The window does not offer these.
 
 `--update` does what the button does, without the window: it runs pip
-on the address the program came from, and pip writes into the terminal
-instead of into the Output tab. A run with anything else on the
+on the address the program came from, with the release it just
+offered hung on the end, and pip writes into the terminal instead of
+into the Output tab. A run with anything else on the
 command line only ever says that a newer version is out -- started
 from a script it must not stop at a question, and it fetches nothing
 unasked.
