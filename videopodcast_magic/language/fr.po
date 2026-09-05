@@ -1018,6 +1018,9 @@ msgstr "%s est installé."
 msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
 msgstr "Cette fenêtre est encore la version avec laquelle elle a démarré. Elle peut redémarrer maintenant et revenir avec la nouvelle, ou vous le ferez plus tard."
 
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Cette copie tourne depuis un dossier à elle, pip n'a donc rien à mettre à jour ici. Voici ce qui l'installe : %s"
+
 msgid "Language of the window"
 msgstr "Langue de la fenêtre"
 
