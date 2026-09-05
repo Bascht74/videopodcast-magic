@@ -591,9 +591,10 @@ emptied list. An empty window is an idle one.
 
 **View** names the tabs rather than numbering them. **Help** holds the
 way into this manual, **What changed in this version**, **Show the log
-of this run**, **Look for a newer version now** and **About Video
-Podcast Magic**. **Show the log of this run** is how the log is found
-at all -- nothing is printed before the window to name it.
+of this run**, **Look for a newer version now**, **Back to an earlier
+version ...** and **About Video Podcast Magic**. **Show the log of this
+run** is how the log is found at all -- nothing is printed before the
+window to name it.
 
 On a Mac the menu bar sits at the top of the screen, everywhere else at
 the top of the window. **Settings ...** moves into the application menu
@@ -676,6 +677,44 @@ has not been touched.
 The tick **Skip this version** puts one version aside. The next one
 asks again, and **Help > Look for a newer version now** asks whenever
 it is chosen.
+
+## The way back to an earlier version
+
+A new version can make things worse instead of better. **Help > Back to
+an earlier version ...** is the way out, and it is always there: what
+lies behind it is a question to github, and no menu can know the answer
+before it is asked.
+
+The window that opens holds a list of the versions that were published
+before the one running here, newest first, and at most twenty of them.
+Nothing older than the first version that could be installed with pip is
+on that list -- further back the program was not a package at all, and
+pip sent there fetches something it cannot put in place. **The list
+opens on the version the last update left behind**, because that is
+nearly always the one somebody is looking for; every other version on
+the list is one click away.
+
+**Go back** hands the chosen version to pip, by the very command
+**Update** uses -- the same address with the chosen version hung on the
+end, in the Python the program runs in. Its lines arrive in the fourth
+tab, **Output**, and the chosen version runs from the next start. This
+is not a second machinery: forwards and backwards are one road, and the
+only difference is which version is named on it.
+
+**A step back brings the program back, and nothing else.** Settings are
+not rolled back with it: what a newer version wrote into them stays
+written, and it is read by the older version as it stands. Projects and
+the files in them are left alone as well. Where a new version changed an
+answer in **Settings ...** and going back does not put it right, it is
+set by hand.
+
+Two answers instead of a list mean two different things, and they do not
+read alike. Where nothing older is out, the window says so. Where the
+list could not be fetched -- no network, or a certificate store this
+Python cannot read -- it says that instead, rather than reporting that
+there is no way back. And where pip did not install this copy, it says
+so and names the command that installs it properly: without a record of
+which version is in place there is nothing for pip to put back.
 
 ## How the time axis is measured
 
@@ -795,9 +834,13 @@ nothing are told apart.
   this video** are the answers on offer -- the first two only where no
   other file holds that mark; **Content** and **Wide shot** are barred,
   and no hand overrules that.
-- **The update did not go through**: the file that works stays where it
-  is, and the window says what was wrong. **Help > Look for a newer
+- **The update did not go through**: the version that works stays in
+  place, and the window says what was wrong. **Help > Look for a newer
   version now** tries again.
+- **A new version made things worse**: **Help > Back to an earlier
+  version ...** offers the versions published before this one and lets
+  pip put the chosen one back. It brings the program back and not the
+  settings -- see "The way back to an earlier version" above.
 - **Asking for help**: send the version from `--version`, the operating
   system, `videopodcast-magic.log` and what you were trying to do, before
   the details of the fault. Both players write down in that log what they

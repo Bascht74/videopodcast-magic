@@ -118,6 +118,12 @@ msgstr "此版本的变化"
 msgid "Look for a newer version now"
 msgstr "立即检查是否有更新的版本"
 
+msgid "Back to an earlier version ..."
+msgstr "回到较早的版本 ..."
+
+msgid "Back to an earlier version"
+msgstr "回到较早的版本"
+
 msgid "Separating speakers"
 msgstr "分离说话人"
 

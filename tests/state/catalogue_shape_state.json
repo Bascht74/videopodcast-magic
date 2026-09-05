@@ -8,7 +8,6 @@
   "' of %s embedded channel' into '      --> interpreted as %s audio track%s'": [1, "resolve/__init__.py 1917"],
   "' of %s embedded channels' into '      --> interpreted as %s audio track%s'": [1, "resolve/__init__.py 1917"],
   "', no audio' into '    %-10s from %s, %s long%s'": [1, 10755],
-  "'The kept version' into '%s takes the place of %s, and the file kept '": [1, 26733],
   "'no text' into '  Camera atoms:    %s added -- %s'": [1, 8187],
   "'off' into '    No setting for the versions found -- ple'": [1, 8637],
   "'off' into '    Settings not listable -- please set by h'": [1, 8630],
