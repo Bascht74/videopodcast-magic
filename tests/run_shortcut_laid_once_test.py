@@ -131,6 +131,16 @@ check("the second start says nothing", again.say == "",
 after = (os.path.getmtime(stub), os.path.getsize(stub))
 check("what the first start wrote stands there untouched",
       after == before, "%r against %r" % (after, before))
+# Settings can be reset or lost. An entry that is found good and never
+# written down would then be laid again after the next hand-deletion.
+noted = {}
+good = desktop.make_shortcut(root=first, target=starter, png=PICTURE,
+                             kept={}, write_down=noted.__setitem__,
+                             system="darwin")
+check("an entry found already good is written down all the same",
+      not good.made and noted.get(desktop.KEPT) == laid.where,
+      "made=%s, written down %r, wanted %r"
+      % (good.made, noted.get(desktop.KEPT), laid.where))
 
 
 print("\n5. One taken away by hand does not come back")
