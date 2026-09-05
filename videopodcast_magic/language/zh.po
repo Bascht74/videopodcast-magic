@@ -28,11 +28,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "使用全景的剪辑"
 
-msgid "on %d camera"
-msgstr "在 %d 台摄像机上"
+msgid "on %s camera"
+msgstr "在 %s 台摄像机上"
 
-msgid "on %d cameras"
-msgstr "在 %d 台摄像机上"
+msgid "on %s cameras"
+msgstr "在 %s 台摄像机上"
 
 msgid "no camera yet"
 msgstr "尚无摄像机"
@@ -154,8 +154,8 @@ msgstr "再加一位发言人"
 msgid "%d:%02d min"
 msgstr "%d:%02d 分"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s——%d:%02d 至 %d:%02d（%.1f 秒）"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s——%d:%02d 至 %d:%02d（%s 秒）"
 
 msgid "%s and %d more"
 msgstr "%s 及另外 %d 个"
@@ -316,8 +316,14 @@ msgstr "%d 个声道"
 msgid "%d file"
 msgstr "%d 个文件"
 
+msgid "%s file"
+msgstr "%s 个文件"
+
 msgid "%d files"
 msgstr "%d 个文件"
+
+msgid "%s files"
+msgstr "%s 个文件"
 
 msgid "... or add files ..."
 msgstr "... 或添加文件 ..."
@@ -340,8 +346,8 @@ msgstr "片段"
 msgid "Camera"
 msgstr "摄像机"
 
-msgid "Camera audio, %d to go ..."
-msgstr "摄像机声音，还剩 %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "摄像机声音，还剩 %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s——预览（时长 %s）"
@@ -778,23 +784,23 @@ msgstr "未知"
 msgid "video file"
 msgstr "视频文件"
 
-msgid "%d audio recording"
-msgstr "%d 个音频录音"
+msgid "%s audio recording"
+msgstr "%s 个音频录音"
 
-msgid "%d audio recordings"
-msgstr "%d 个音频录音"
+msgid "%s audio recordings"
+msgstr "%s 个音频录音"
 
-msgid "%d camera"
-msgstr "%d 台摄像机"
+msgid "%s camera"
+msgstr "%s 台摄像机"
 
-msgid "%d cameras"
-msgstr "%d 台摄像机"
+msgid "%s cameras"
+msgstr "%s 台摄像机"
 
-msgid "%d video file"
-msgstr "%d 个视频文件"
+msgid "%s video file"
+msgstr "%s 个视频文件"
 
-msgid "%d video files"
-msgstr "%d 个视频文件"
+msgid "%s video files"
+msgstr "%s 个视频文件"
 
 msgid "Caution"
 msgstr "注意"

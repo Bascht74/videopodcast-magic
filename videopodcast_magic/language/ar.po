@@ -29,11 +29,11 @@ msgstr ""
 msgid "Cut with the wide shot"
 msgstr "المونتاج باللقطة الواسعة"
 
-msgid "on %d camera"
-msgstr "على %d كاميرا"
+msgid "on %s camera"
+msgstr "على %s كاميرا"
 
-msgid "on %d cameras"
-msgstr "على %d كاميرات"
+msgid "on %s cameras"
+msgstr "على %s كاميرات"
 
 msgid "no camera yet"
 msgstr "لا كاميرا بعد"
@@ -155,8 +155,8 @@ msgstr "إضافة متحدث آخر"
 msgid "%d:%02d min"
 msgstr "%d:%02d د"
 
-msgid "%s -- %d:%02d to %d:%02d (%.1f s)"
-msgstr "%s -- %d:%02d إلى %d:%02d (%.1f ث)"
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d إلى %d:%02d (%s ث)"
 
 msgid "%s and %d more"
 msgstr "%s و%d أخرى"
@@ -317,8 +317,14 @@ msgstr "%d قنوات"
 msgid "%d file"
 msgstr "ملف %d"
 
+msgid "%s file"
+msgstr "ملف %s"
+
 msgid "%d files"
 msgstr "%d ملفات"
+
+msgid "%s files"
+msgstr "%s ملفات"
 
 msgid "... or add files ..."
 msgstr "... أو إضافة ملفات ..."
@@ -341,8 +347,8 @@ msgstr "كتل"
 msgid "Camera"
 msgstr "كاميرا"
 
-msgid "Camera audio, %d to go ..."
-msgstr "صوت الكاميرا، بقي %d ..."
+msgid "Camera audio, %s to go ..."
+msgstr "صوت الكاميرا، بقي %s ..."
 
 msgid "%s -- preview  (length %s)"
 msgstr "%s -- معاينة  (المدة %s)"
@@ -779,23 +785,23 @@ msgstr "غير معروف"
 msgid "video file"
 msgstr "ملف فيديو"
 
-msgid "%d audio recording"
-msgstr "تسجيل صوتي %d"
+msgid "%s audio recording"
+msgstr "تسجيل صوتي %s"
 
-msgid "%d audio recordings"
-msgstr "%d تسجيلات صوتية"
+msgid "%s audio recordings"
+msgstr "%s تسجيلات صوتية"
 
-msgid "%d camera"
-msgstr "كاميرا %d"
+msgid "%s camera"
+msgstr "كاميرا %s"
 
-msgid "%d cameras"
-msgstr "%d كاميرات"
+msgid "%s cameras"
+msgstr "%s كاميرات"
 
-msgid "%d video file"
-msgstr "ملف فيديو %d"
+msgid "%s video file"
+msgstr "ملف فيديو %s"
 
-msgid "%d video files"
-msgstr "%d ملفات فيديو"
+msgid "%s video files"
+msgstr "%s ملفات فيديو"
 
 msgid "Caution"
 msgstr "تنبيه"

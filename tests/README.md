@@ -1,6 +1,6 @@
 # The test suite
 
-240 tests against the program in `../videopodcast_magic/`. Every one of them stands
+241 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-240 tests. The name is the one a red line carries, and beside it the
+241 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -443,6 +443,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `window_all_come_up` | The interface really builds itself -- in both languages. |
+| `window_amounts_grouped` | The window says its amounts the way the language does. |
 | `window_answers_arrive` | What the window is told is what the calculation gets. |
 | `window_axis_asks_again` | A file added while the time axis is measured is measured too. |
 | `window_captions_fit` | Does every visible caption fit the field that carries it? |
