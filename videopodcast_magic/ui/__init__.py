@@ -4315,6 +4315,180 @@ def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
     # above says something else.
     video_kinds_again(video_kind_again)
 
+def make_footer(Qt, QtCore, QtWidgets, window, vertical, state, files,
+                plan, bridge, late, multitrack, without_auphonic,
+                settings_open):
+    """The bottom row of the window: the one bar, and the four buttons.
+
+    Outside gui() because it is one strip answered end to end -- the bar
+    for the whole run, the plan behind it that says what each stage is
+    worth, and the buttons that start, try, stop and set up. What goes
+    into the log while the run lasts belongs to the run, so the break-off
+    reaches back through state["write"]: the writer is made further down
+    in gui(). Qt comes in as a parameter, imported inside gui().
+    """
+    # Above the buttons, not under them: a line below the bottom row
+    # reads like a footnote to the window rather than the answer to
+    # "why can I not press this". Decided 30.8.2026.
+    start_note = label("", COLOURS["quiet"])
+    vertical.addWidget(start_note)
+    foot = QtWidgets.QHBoxLayout()
+    vertical.addLayout(foot)
+    total_bar = QtWidgets.QProgressBar()
+    total_bar.setRange(0, 1000)
+    total_bar.setTextVisible(False)
+    total_bar.setFixedHeight(12)
+    # Wide enough to read a share off it. The bar grows with the window
+    # instead of standing at a fixed 170 px: measured, the stretch behind
+    # it took every spare pixel, so the bar stayed at its minimum however
+    # wide the window was. The stretch factor below lets it take the
+    # larger part of the free space, the maximum keeps it from running
+    # across a very wide screen and pushing the reason for a grey Start
+    # button out of sight.
+    total_bar.setMinimumWidth(220)
+    total_bar.setMaximumWidth(620)
+    hint(total_bar, T('Everything still outstanding, measured against '
+                      'what is done. Long pieces of work take up more of '
+                      'the bar than short ones.'))
+    total_line = label("", COLOURS["quiet"])
+    foot.addWidget(total_bar, 3)
+    foot.addWidget(total_line, 1)
+    total_bar.hide()
+    total_line.hide()
+    total_state = {"full_since": 0.0}
+
+    run_step_order = []
+
+    def plan_wipe():
+        total_hide(plan, total_state, total_bar, total_line)
+
+    def run_plan_build():
+        """Announce the stages of the run before it starts.
+
+        The whole job at once, not stage by stage: a bar that only learns
+        of the next stage when the last one ends jumps backwards at every
+        boundary and tells nobody anything.
+
+        The plan before it is thrown away, finished or still going.
+        Pressing start while the measuring after a project still ran
+        added the run to what was there; the bar then stood still for
+        two stages at 0.500, because it never falls and the truth had
+        to climb back to it. Standing still says the wrong thing as
+        surely as falling back. Safe, because report() puts an unknown
+        step back -- see tests/progress_plan_test.py.
+        """
+        plan_wipe()
+        cameras = len([1 for p, a in files if a == "video"])
+        stages = run_stages(bool(multitrack.get()), cameras,
+                            not without_auphonic(),
+                            speakers=bool(multitrack.get()
+                                          or state.get("speakers_local")))
+        run_step_order[:] = [name for name, _w, _c in stages]
+        for name, weight, caption in stages:
+            plan.add("run:" + name, weight, caption)
+
+    def run_step_take(name, share):
+        """One stage of the run reports. Runs in the window thread.
+
+        A stage beginning means every earlier one is over, whether it ran
+        or was skipped -- with auphonic.com the speaker detection never
+        happens, and a step left at nothing would hold the bar back for
+        the rest of the job.
+        """
+        if name not in run_step_order:
+            plan.add("run:" + name, 1.0, name)
+            run_step_order.append(name)
+        if share < 0:
+            for earlier in run_step_order[:run_step_order.index(name)]:
+                plan.done("run:" + earlier)
+            plan.begin("run:" + name)
+            return
+        plan.report("run:" + name, share)
+
+    bridge.run_step.connect(run_step_take)
+
+    def total_show():
+        """Refresh the one bar. A timer calls this, not the work.
+
+        The work reports from several threads and at very different
+        rates; letting each report redraw would mean either a bar that
+        stutters or one that stands still for a minute at a time.
+        """
+        try:
+            total_paint(Qt, plan, total_state, total_bar, total_line)
+        except RuntimeError:
+            # The window is closing and the widgets are already gone.
+            # A timer still firing into them must not turn into a
+            # traceback on the way out.
+            total_clock.stop()
+
+    total_clock = QtCore.QTimer(window)
+    total_clock.timeout.connect(total_show)
+    total_clock.start(200)
+    foot.addStretch(1)
+    # Only the Resolve part: after a run, or where a handover file from earlier
+    # is already in the output folder. Then nothing has to be recomputed -- one
+    # looks at the result and creates the project after.
+    start_run = QtWidgets.QPushButton(T('Start'))
+    start_run.setEnabled(False)
+    hint(start_run, T('Measure, align, process, write files.'))
+    # Both run buttons sit in a frame of their own: it is what makes the
+    # tooltip of a switched-off button reachable at all, and it is what
+    # keeps the two standing on one line. button_in_a_frame says why.
+    start_run_env_curve = button_in_a_frame(QtWidgets, start_run)
+    foot.addWidget(start_run_env_curve)
+    preview_button = QtWidgets.QPushButton(T('Dry run'))
+    preview_button.setEnabled(False)
+    hint(preview_button,
+            T('Measure only -- nothing is written or uploaded.'))
+    foot.addWidget(button_in_a_frame(QtWidgets, preview_button))
+    break_off = break_off_button(QtWidgets, state, lambda t: state["write"](t))
+    foot.addWidget(break_off)
+    # The two run buttons are one pair and switch off the same way: both
+    # keep their shape and fade into the same muted blue. The rank stays
+    # readable -- the main action is filled, the dry run only outlined --
+    # but neither of them looks pressable while it is off.
+    start_run.setStyleSheet(
+        "QPushButton { background: %s; color: %s; font-weight: bold; "
+        "border: 1px solid %s; border-radius: 5px; padding: 6px 21px; }"
+        "QPushButton:disabled { background: %s; color: %s; "
+        "border-color: %s; }"
+        "QPushButton:hover:!disabled { background: %s; border-color: %s; }"
+        % (COLOURS["heading"], COLOURS["sheet"], COLOURS["heading"],
+           COLOURS["off"], COLOURS["off_text"], COLOURS["off"],
+           COLOURS["value"], COLOURS["value"]))
+    preview_button.setStyleSheet(
+        "QPushButton { background: %s; color: %s; "
+        "border: 1px solid %s; border-radius: 5px; padding: 6px 17px; }"
+        "QPushButton:disabled { background: transparent; color: %s; "
+        "border-color: %s; }"
+        "QPushButton:hover:!disabled { background: %s; }"
+        % (COLOURS["box"], COLOURS["heading"], COLOURS["heading"],
+           COLOURS["off_text"], COLOURS["off"], COLOURS["backdrop"]))
+    # Settings belongs with the buttons, not beside the tabs: it is not
+    # a step of the work, so it stays flat and keeps its distance, but
+    # the footer is where a button is looked for.
+    settings_button = QtWidgets.QPushButton(T('Settings ...'))
+    settings_button.setFlat(True)
+    hint(settings_button, T('Key for auphonic.com, and whether Resolve '
+                            'answers.'))
+    settings_button.clicked.connect(lambda: settings_open())
+    foot.addSpacing(18)
+    foot.addWidget(settings_button)
+    row_same_height([start_run, preview_button, break_off, settings_button])
+
+    # In full and in view: a tooltip is out of reach for the keyboard.
+    start_note.setWordWrap(True)
+    start_note.setVisible(False)
+    # Named so it can be found: the test looks for this line, and a
+    # reading program announces it by name rather than as "label".
+    start_note.setObjectName("start_note")
+    start_note.setAccessibleName(T('Why the run cannot start'))
+    late["start_note"] = start_note
+    return (start_run, start_run_env_curve, preview_button, break_off,
+            plan_wipe, run_plan_build, run_step_order, total_clock)
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -6973,164 +7147,14 @@ def gui():
     # ------------------------------------------------------------------
     # Footer
     # ------------------------------------------------------------------
-    # Above the buttons, not under them: a line below the bottom row
-    # reads like a footnote to the window rather than the answer to
-    # "why can I not press this". Decided 30.8.2026.
-    start_note = label("", COLOURS["quiet"])
-    vertical.addWidget(start_note)
-    foot = QtWidgets.QHBoxLayout()
-    vertical.addLayout(foot)
-    total_bar = QtWidgets.QProgressBar()
-    total_bar.setRange(0, 1000)
-    total_bar.setTextVisible(False)
-    total_bar.setFixedHeight(12)
-    # Wide enough to read a share off it. The bar grows with the window
-    # instead of standing at a fixed 170 px: measured, the stretch behind
-    # it took every spare pixel, so the bar stayed at its minimum however
-    # wide the window was. The stretch factor below lets it take the
-    # larger part of the free space, the maximum keeps it from running
-    # across a very wide screen and pushing the reason for a grey Start
-    # button out of sight.
-    total_bar.setMinimumWidth(220)
-    total_bar.setMaximumWidth(620)
-    hint(total_bar, T('Everything still outstanding, measured against '
-                      'what is done. Long pieces of work take up more of '
-                      'the bar than short ones.'))
-    total_line = label("", COLOURS["quiet"])
-    foot.addWidget(total_bar, 3)
-    foot.addWidget(total_line, 1)
-    total_bar.hide()
-    total_line.hide()
-    total_state = {"full_since": 0.0}
-
-    run_step_order = []
-
-    def plan_wipe():
-        total_hide(plan, total_state, total_bar, total_line)
-
-    def run_plan_build():
-        """Announce the stages of the run before it starts.
-
-        The whole job at once, not stage by stage: a bar that only learns
-        of the next stage when the last one ends jumps backwards at every
-        boundary and tells nobody anything.
-
-        The plan before it is thrown away, finished or still going.
-        Pressing start while the measuring after a project still ran
-        added the run to what was there; the bar then stood still for
-        two stages at 0.500, because it never falls and the truth had
-        to climb back to it. Standing still says the wrong thing as
-        surely as falling back. Safe, because report() puts an unknown
-        step back -- see tests/progress_plan_test.py.
-        """
-        plan_wipe()
-        cameras = len([1 for p, a in files if a == "video"])
-        stages = run_stages(bool(multitrack.get()), cameras,
-                            not without_auphonic(),
-                            speakers=bool(multitrack.get()
-                                          or state.get("speakers_local")))
-        run_step_order[:] = [name for name, _w, _c in stages]
-        for name, weight, caption in stages:
-            plan.add("run:" + name, weight, caption)
-
-    def run_step_take(name, share):
-        """One stage of the run reports. Runs in the window thread.
-
-        A stage beginning means every earlier one is over, whether it ran
-        or was skipped -- with auphonic.com the speaker detection never
-        happens, and a step left at nothing would hold the bar back for
-        the rest of the job.
-        """
-        if name not in run_step_order:
-            plan.add("run:" + name, 1.0, name)
-            run_step_order.append(name)
-        if share < 0:
-            for earlier in run_step_order[:run_step_order.index(name)]:
-                plan.done("run:" + earlier)
-            plan.begin("run:" + name)
-            return
-        plan.report("run:" + name, share)
-
-    bridge.run_step.connect(run_step_take)
-
-    def total_show():
-        """Refresh the one bar. A timer calls this, not the work.
-
-        The work reports from several threads and at very different
-        rates; letting each report redraw would mean either a bar that
-        stutters or one that stands still for a minute at a time.
-        """
-        try:
-            total_paint(Qt, plan, total_state, total_bar, total_line)
-        except RuntimeError:
-            # The window is closing and the widgets are already gone.
-            # A timer still firing into them must not turn into a
-            # traceback on the way out.
-            total_clock.stop()
-
-    total_clock = QtCore.QTimer(window)
-    total_clock.timeout.connect(total_show)
-    total_clock.start(200)
-    foot.addStretch(1)
-    # Only the Resolve part: after a run, or where a handover file from earlier
-    # is already in the output folder. Then nothing has to be recomputed -- one
-    # looks at the result and creates the project after.
-    start_run = QtWidgets.QPushButton(T('Start'))
-    start_run.setEnabled(False)
-    hint(start_run, T('Measure, align, process, write files.'))
-    # Both run buttons sit in a frame of their own: it is what makes the
-    # tooltip of a switched-off button reachable at all, and it is what
-    # keeps the two standing on one line. button_in_a_frame says why.
-    start_run_env_curve = button_in_a_frame(QtWidgets, start_run)
-    foot.addWidget(start_run_env_curve)
-    preview_button = QtWidgets.QPushButton(T('Dry run'))
-    preview_button.setEnabled(False)
-    hint(preview_button,
-            T('Measure only -- nothing is written or uploaded.'))
-    foot.addWidget(button_in_a_frame(QtWidgets, preview_button))
-    break_off = break_off_button(QtWidgets, state, lambda t: write(t))
-    foot.addWidget(break_off)
-    # The two run buttons are one pair and switch off the same way: both
-    # keep their shape and fade into the same muted blue. The rank stays
-    # readable -- the main action is filled, the dry run only outlined --
-    # but neither of them looks pressable while it is off.
-    start_run.setStyleSheet(
-        "QPushButton { background: %s; color: %s; font-weight: bold; "
-        "border: 1px solid %s; border-radius: 5px; padding: 6px 21px; }"
-        "QPushButton:disabled { background: %s; color: %s; "
-        "border-color: %s; }"
-        "QPushButton:hover:!disabled { background: %s; border-color: %s; }"
-        % (COLOURS["heading"], COLOURS["sheet"], COLOURS["heading"],
-           COLOURS["off"], COLOURS["off_text"], COLOURS["off"],
-           COLOURS["value"], COLOURS["value"]))
-    preview_button.setStyleSheet(
-        "QPushButton { background: %s; color: %s; "
-        "border: 1px solid %s; border-radius: 5px; padding: 6px 17px; }"
-        "QPushButton:disabled { background: transparent; color: %s; "
-        "border-color: %s; }"
-        "QPushButton:hover:!disabled { background: %s; }"
-        % (COLOURS["box"], COLOURS["heading"], COLOURS["heading"],
-           COLOURS["off_text"], COLOURS["off"], COLOURS["backdrop"]))
-    # Settings belongs with the buttons, not beside the tabs: it is not
-    # a step of the work, so it stays flat and keeps its distance, but
-    # the footer is where a button is looked for.
-    settings_button = QtWidgets.QPushButton(T('Settings ...'))
-    settings_button.setFlat(True)
-    hint(settings_button, T('Key for auphonic.com, and whether Resolve '
-                            'answers.'))
-    settings_button.clicked.connect(lambda: settings_open())
-    foot.addSpacing(18)
-    foot.addWidget(settings_button)
-    row_same_height([start_run, preview_button, break_off, settings_button])
-
-    # In full and in view: a tooltip is out of reach for the keyboard.
-    start_note.setWordWrap(True)
-    start_note.setVisible(False)
-    # Named so it can be found: the test looks for this line, and a
-    # reading program announces it by name rather than as "label".
-    start_note.setObjectName("start_note")
-    start_note.setAccessibleName(T('Why the run cannot start'))
-    late["start_note"] = start_note
+    # What comes back is what the rest of the window reaches for: the
+    # two run buttons and the frame that carries the reason a grey Start
+    # gives, the break-off, the plan behind the bar and the order of its
+    # stages, and the timer that has to be stopped when the window goes.
+    (start_run, start_run_env_curve, preview_button, break_off,
+     plan_wipe, run_plan_build, run_step_order, total_clock) = make_footer(
+        Qt, QtCore, QtWidgets, window, vertical, state, files,
+        plan, bridge, late, multitrack, without_auphonic, settings_open)
 
     # ------------------------------------------------------------------
     # Project file
@@ -7446,6 +7470,10 @@ def gui():
 
     # ------------------------------------------------------------- The run
     write = make_log_writer(state, post)
+    # The footer stands before this line and its break-off button says
+    # into the log why it stopped. Reached back the way the other
+    # forward references in here are reached.
+    state["write"] = write
 
     output_timer = QtCore.QTimer(window)
     output_timer.setInterval(80)
