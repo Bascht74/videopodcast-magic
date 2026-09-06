@@ -154,6 +154,7 @@ label_say = PROGRAM.label_say
 # Out of the language piece itself. The program binds what it uses of
 # that piece one name at a time, and this is not one of them.
 language_name = PROGRAM.language.language_name
+reads_right_to_left = PROGRAM.language.reads_right_to_left
 language_of_system = PROGRAM.language_of_system
 languages = PROGRAM.languages
 legend_markup = PROGRAM.legend_markup
@@ -4633,6 +4634,20 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
             FINDING_WORD, set_mark, item)
 
 
+def app_language_set(QtCore, Qt, app):
+    """Give Qt its own words, and turn the window the way they read.
+
+    One door, because both answer the same question -- what language
+    this is. On the application, where Qt puts the direction itself
+    when it finds its own Arabic, so a machine whose Qt brings none
+    gets the same window as one whose Qt does. Set either way round,
+    or a second window in one process finds the first one's still up.
+    """
+    qt_own_words(QtCore, app)
+    app.setLayoutDirection(Qt.RightToLeft if reads_right_to_left(PROGRAM.LANG)
+                           else Qt.LeftToRight)
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -4668,7 +4683,7 @@ def gui():
         app = QtWidgets.QApplication(sys.argv[:1])
     app.setApplicationName("Video Podcast Magic")
     app.setApplicationDisplayName("Video Podcast Magic")
-    qt_own_words(QtCore, app)
+    app_language_set(QtCore, Qt, app)
 
     # With the system in dark mode the same roles get dark shades. Otherwise a
     # white box would stand in a dark window, and the lists Qt draws itself
