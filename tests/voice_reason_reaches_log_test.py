@@ -4,12 +4,14 @@
 The answer used to be a returncode and nothing else, and everything the
 failed import wrote went to the null device -- so a program that was
 installed, and whose import fell over a library beside it, was reported
-as not installed.
+as not installed. Then the log cut what it was handed at 200
+characters, which is the width of a cell in the window and not the
+width of a file.
 
 Sections: what is kept from a failed import, what is kept from one that
 worked, and what is kept when the interpreter cannot be started at all;
-then the whole job, which puts one short line in the cell of the sheet
-and the reason itself in the log beside it.
+then the whole job, which puts the reason in the cell of the sheet, the
+way back under it, and all of both in the log.
 
 No interpreter is really asked. The one call that starts one is replaced
 by an answer written here, so what is measured is what the program does
@@ -23,6 +25,9 @@ import tempfile
 import time
 import the_program
 
+# Nothing is installed while this runs. run.sh sets it for the whole
+# suite; set here as well, so a run started by hand installs nothing.
+os.environ.setdefault("VPM_SILENT", "1")
 HERE = os.path.dirname(os.path.abspath(__file__))
 SCRIPT = the_program.SCRIPT
 vpm = the_program.load()
@@ -100,42 +105,60 @@ check("an interpreter that cannot be started is a reason too",
       gone is False and "no such interpreter" in said,
       "available %r, kept %r" % (gone, said))
 
-print("\n2. The cell says one line, the log says why")
-SHORT = vpm.T('Speaker separation not available. The log says why.')
+print("\n2. The cell, the line under it, and the log")
+
+# The fault of 6.9.2026, on a machine where the separation was
+# installed: numpy would not load, and the one line that says why is
+# longer than the 200 characters the log used to keep of it.
+LONG_FALL = (b"Traceback (most recent call last):\n"
+             b"ImportError: numpy._core.multiarray failed to import\n"
+             b"Original error was: dlopen(/tmp/pyroom/numpy/_core/"
+             b"_multiarray_umath.cpython-314-darwin.so, 0x0002): tried:"
+             b" '/tmp/pyroom/numpy/_core/_multiarray_umath.so' (no such"
+             b" file), '/tmp/elsewhere/_multiarray_umath.so' (no such"
+             b" file), '/tmp/third/_multiarray_umath.so' (no such file)\n")
+LONG_LAST = LONG_FALL.decode("utf-8").strip().splitlines()[-1]
+
 here = tempfile.mkdtemp(prefix="vpm_split_log_")
-log_here = os.path.join(here, "videopodcast-magic.log")
 was_log = vpm.log_path
 answers = []
+
+
+def worked_through(said, name):
+    """One whole job against that answer, and the log it wrote."""
+    where = os.path.join(here, name)
+    del vpm._LOG_ASIDE[:]
+    vpm.log_path = lambda: where
+    with Answered(1, said):
+        vpm.speaker_split_work("/tmp/no such recording.wav", 0,
+                               lambda *_a: None, lambda: False,
+                               answers.append)
+    del vpm._LOG_ASIDE[:]
+    return (io.open(where, encoding="utf-8").read()
+            if os.path.isfile(where) else "")
+
+
 try:
-    vpm.log_path = lambda: log_here
-    del vpm._LOG_ASIDE[:]
-    with Answered(1, FELL_OVER):
-        vpm.speaker_split_work("/tmp/no such recording.wav", 0,
-                               lambda *_a: None, lambda: False,
-                               answers.append)
-    del vpm._LOG_ASIDE[:]
-    kept = (io.open(log_here, encoding="utf-8").read()
-            if os.path.isfile(log_here) else "")
+    kept = worked_through(FELL_OVER, "fell.log")
     # A second time with nothing said, so the way back is all there is.
-    del vpm._LOG_ASIDE[:]
-    quiet_log = os.path.join(here, "quiet.log")
-    vpm.log_path = lambda: quiet_log
-    with Answered(1, b""):
-        vpm.speaker_split_work("/tmp/no such recording.wav", 0,
-                               lambda *_a: None, lambda: False,
-                               answers.append)
-    del vpm._LOG_ASIDE[:]
-    silent = (io.open(quiet_log, encoding="utf-8").read()
-              if os.path.isfile(quiet_log) else "")
+    silent = worked_through(b"", "quiet.log")
+    # And a third with a reason longer than a cell has room for.
+    whole = worked_through(LONG_FALL, "long.log")
 finally:
     vpm.log_path = was_log
     del vpm._LOG_ASIDE[:]
     shutil.rmtree(here, ignore_errors=True)
 
 trouble = answers[0][3] if answers else "no answer at all"
-check("the cell gets one short line and not the reason",
-      trouble == SHORT and LAST not in trouble,
-      "cell says %r, wanted %r" % (trouble, SHORT))
+first, _sep, rest = trouble.partition("\n")
+WANTED = vpm.T('The speaker separation reports: %s') % LAST
+check("the cell gets the reason and not a pointer to a log file",
+      first == WANTED,
+      "cell says %r, wanted %r" % (first, WANTED))
+check("the way back stands under it, whole, for the line beneath the table",
+      rest == vpm.speaker_split_missing(),
+      "under it stands %r, wanted %r"
+      % (rest, vpm.speaker_split_missing()))
 check("and the reason itself stands in the log",
       LAST in kept,
       "%d characters of log, %r among them"
@@ -144,6 +167,10 @@ check("where the import said nothing, the way back is logged instead",
       vpm.speaker_split_missing()[:40] in silent,
       "%d characters of log, %r among them"
       % (len(silent), silent.strip()[-70:]))
+check("a reason wider than a cell reaches the log uncut",
+      LONG_LAST in whole,
+      "%d characters of reason against %d of log, which ends %r"
+      % (len(LONG_LAST), len(whole), whole.strip()[-40:]))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")

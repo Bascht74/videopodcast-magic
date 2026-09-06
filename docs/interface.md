@@ -837,12 +837,15 @@ lies on the axis to the frame; what is missing is only the second
 opinion, and the measurement bars nothing for it.
 
 A file with no place at all says **does not fit the other files: sound
-not recognised, no timecode. Its sound cannot be used.** and stands red.
-Its sound has nothing in common with the rest of the material and no
+not recognised, no timecode.** and stands red, and under that the note
+says what became of it: **Set to Intro; Outro is one click away.**, or
+**Left out, Intro being taken already; Outro is one click away.** Its
+sound has nothing in common with the rest of the material and no
 timecode puts it among the others, so it cannot be cut into the episode:
 in the column **Kind**, **Content** and **Wide shot** are barred for it,
 it is set to **Intro** -- or to **ignore this video** where another file
-already holds the intro -- and the log says which of the two and why.
+already holds the intro -- and the note beside the file says which of
+the two, so the row and the note say the same thing.
 That is not a proposal but a statement about the material, and it holds
 however the **Kind** got there.
 

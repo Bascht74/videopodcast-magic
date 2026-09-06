@@ -247,9 +247,10 @@ voice_names_when_sure	55
 voice_note_translated	9
 voice_questions_rank	28
 voice_raw_times_kept	70
-voice_reason_reaches_log	6
+voice_reason_reaches_log	8
 voice_source_travels	21
 voice_split_hears_two	8
+voice_split_mends_itself	11
 voice_split_names_fault	7
 voice_tracks_read_once	4
 voice_turns_found	6
@@ -268,6 +269,7 @@ window_idle_bar_hidden	6
 window_marks_take_spot	27
 window_menu_greys_along	27
 window_no_full_screen	5
+window_note_names_kind	4
 window_notes_break_up	6
 window_offers_restart	13
 window_picture_returns	8

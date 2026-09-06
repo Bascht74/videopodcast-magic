@@ -20,6 +20,9 @@ PIP_SOURCE = PROGRAM.PIP_SOURCE
 SR = PROGRAM.SR
 T = PROGRAM.T
 TN = PROGRAM.TN
+TYPE_IGNORED = PROGRAM.TYPE_IGNORED
+TYPE_INTRO = PROGRAM.TYPE_INTRO
+TYPE_OUTRO = PROGRAM.TYPE_OUTRO
 VERSION = PROGRAM.VERSION
 as_hms = PROGRAM.as_hms
 cache_folder = PROGRAM.cache_folder
@@ -31,9 +34,11 @@ file_timecode = PROGRAM.file_timecode
 hashlib = PROGRAM.hashlib
 https_context = PROGRAM.https_context
 json = PROGRAM.json
+label_of = PROGRAM.label_of
 number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
+pip_repair = PROGRAM.pip_repair
 remove_quietly = PROGRAM.remove_quietly
 run_ffmpeg_with_progress = PROGRAM.run_ffmpeg_with_progress
 running_from = PROGRAM.running_from
@@ -316,6 +321,16 @@ def speaker_model_mark(folder=""):
 
 #------------------------------------------------------ The environment
 
+# What the separation stands on, named because a repair has to name
+# it. torchvision is pulled in anyway; without it torchmetrics dies at
+# a name it never uses, so a repair that leaves it out repairs nothing.
+SPEAKER_PACKAGES = ("pyannote.audio", "torchvision")
+
+# One attempt in a run, and this list is what holds it: a second
+# recording must not start the same install over again.
+_SPEAKER_MENDED = []
+
+
 def speaker_split_missing():
     """The one sentence for "it cannot run here", with the way back.
 
@@ -336,8 +351,14 @@ def speaker_python():
     """
     return sys.executable
 def forget_speaker_split():
-    """Ask again whether the separation can run."""
+    """Ask again whether the separation can run, and mend it again too.
+
+    Everything this run knew about the separation is void, the one
+    attempt at a repair with it: whoever throws the answer away is
+    saying the ground under it has moved.
+    """
     PROGRAM._SPEAKER_READY, PROGRAM._SPEAKER_WHY = None, ""
+    del _SPEAKER_MENDED[:]
 
 
 def speaker_split_why():
@@ -377,6 +398,40 @@ def speaker_split_available(deep=False):
             PROGRAM._SPEAKER_READY, PROGRAM._SPEAKER_WHY = \
                 False, str(e)
     return PROGRAM._SPEAKER_READY
+
+
+def speaker_split_mend(say=None):
+    """One attempt in this run to put the separation back. True where it runs.
+
+    pip is given the packages the separation stands on, and then the
+    question is put again from scratch: an install that reported
+    success proves nothing until the import really goes through. The
+    list above holds it to one attempt, so a machine with no way in
+    does not spend the same minutes on every recording.
+    """
+    if _SPEAKER_MENDED:
+        return speaker_split_available()
+    _SPEAKER_MENDED.append(True)
+    if say:
+        say(T('Putting the speaker separation back ...'), 0.02)
+    if not pip_repair(SPEAKER_PACKAGES):
+        return speaker_split_available()
+    return speaker_split_available(deep=True)
+
+
+def speaker_split_trouble():
+    """What a separation that cannot run says: a short line, then the whole.
+
+    Two texts in one, parted at the line break. The first is what fits
+    in the cell of a row, which is one line wide; under it goes the
+    sentence with the command that puts it back, for the line under
+    the table where there is room. The reason itself, uncut, is in the
+    log.
+    """
+    why = speaker_split_why()
+    return ((T('The speaker separation reports: %s') % why[:80]) if why
+            else T('The speaker separation is not set up.')) \
+        + "\n" + speaker_split_missing()
 
 
 #------------------------------------------------------- The worker
@@ -1070,20 +1125,34 @@ def speaker_split_wanted(asked):
     return True if sys.platform == "darwin" else None
 
 
-def split_line_write(line, words, never, wanted, busy, any_files):
+def split_line_write(line, words, never, wanted, busy, any_files,
+                     note=None):
     """The line under the assignment table -- and mostly nothing at all.
 
-    It speaks only where this machine does not work the separation out
-    on its own: where somebody said no for this project, and where
-    nobody has been asked yet -- there the question and its button are
-    the whole point of the line. Where the answer is yes it says
+    It speaks where this machine does not work the separation out on
+    its own -- somebody said no, or nobody has been asked, and there
+    the question and its button are the point of it -- and where a
+    separation could not run: that reason belongs here, not in the
+    cell it happened in, which is one line wide. Otherwise it says
     nothing, the state standing in each recording's own row.
     """
-    if SPEAKER_SPLIT_OFF or wanted is True:
+    if SPEAKER_SPLIT_OFF:
+        line.setVisible(False)
+        return
+    # Everything below the note's first line. The cell takes the
+    # first line; what does not fit there is what stands here.
+    said = "\n".join((note[1] if note else "").split("\n")[1:]).strip()
+    never.setVisible(wanted is None and not busy)
+    if said:
+        words.setText(said)
+        words.setStyleSheet("color: %s" % note[2])
+        line.setVisible(True)
+        return
+    if wanted is True:
         line.setVisible(False)
         return
     line.setVisible(bool(any_files))
-    never.setVisible(wanted is None and not busy)
+    words.setStyleSheet("color: %s" % COLOURS["quiet"])
     words.setText(T('Speaker separation is switched off for this project.')
                   if wanted is False else
                   T('Who speaks when can be worked out on this machine, '
@@ -1121,19 +1190,43 @@ def tc_column_write(rows, real_tc, axis, absolute):
     return True
 
 
-def weak_note(caption, placeless):
+def weak_decision(kind):
+    """What became of a file with no place, in the words on the screen.
+
+    The program moves such a file off content and the wide shot at the
+    moment it finds it, so a line that only complains stands beside a
+    row that already says something else, and the two read as a
+    contradiction. *kind* is what the row says now.
+    """
+    if kind == TYPE_INTRO:
+        return T('Set to %s; %s is one click away.') \
+            % (label_of(TYPE_INTRO), label_of(TYPE_OUTRO))
+    if kind == TYPE_IGNORED:
+        return T('Left out, %s being taken already; %s is one click '
+                 'away.') % (label_of(TYPE_INTRO), label_of(TYPE_OUTRO))
+    return T('Its sound cannot be used.')
+
+
+def weak_note(caption, placeless, kind=""):
     """What a file whose sound was not recognised says beside its name.
 
     Two ways lead to a place and one is enough: with a timecode only
     the second opinion is missing, without one there is no place at
-    all and its sound is out of the run.
+    all and its sound is out of the run. Then the finding comes first
+    and what was done about it under it.
     """
     if placeless:
         return T('%s\n   does not fit the other files: sound not '
-                 'recognised, no timecode.\n   Its sound cannot be used.') \
-            % caption
+                 'recognised, no timecode.\n   %s') \
+            % (caption, weak_decision(kind))
     return T('%s\n   sound not recognised; placed by its timecode') \
         % caption
+
+
+def weak_kind(kinds, path):
+    """What the Kind field of that file says now, or "" where none does."""
+    value = (kinds or ByFile()).get(path)
+    return value.get() if value is not None else ""
 
 
 def weak_colour(odd, placeless):
@@ -1143,12 +1236,13 @@ def weak_colour(odd, placeless):
     return COLOURS["warning"] if odd else COLOURS["text"]
 
 
-def weak_nodes_mark(nodes, weak, no_place=()):
+def weak_nodes_mark(nodes, weak, no_place=(), kinds=None):
     """Mark the rows of the file list that do not fit the time axis.
 
     Usually picked by mistake, out of another recording. *no_place* are
     the ones no timecode places either: those are refused, the rest
-    only warned about. Returns the rows that are gone.
+    only warned about. *kinds* says what each was set to instead.
+    Returns the rows that are gone.
     """
     import PySide6.QtGui as _qg
     nowhere = set(no_place or ())
@@ -1163,7 +1257,8 @@ def weak_nodes_mark(nodes, weak, no_place=()):
             for column in (0, 2):
                 item.setForeground(column, ink)
             if odd:
-                item.setText(2, weak_note(os.path.dirname(p), placeless))
+                item.setText(2, weak_note(os.path.dirname(p), placeless,
+                                          weak_kind(kinds, p)))
         except RuntimeError:
             dropped.append(p)
     return dropped
@@ -1178,12 +1273,15 @@ def weak_marks_show(state, nodes):
     """
     weak = state.get("weak") or ()
     nowhere = state.get("no_place") or ()
-    dropped = weak_nodes_mark(nodes, weak, nowhere)
-    weak_rows_mark(state.get("file_rows") or (), weak, nowhere)
+    # What the Kind field of each file says now, so the note can name
+    # the decision the program has already taken on that file.
+    kinds = state.get("clip_kinds")
+    dropped = weak_nodes_mark(nodes, weak, nowhere, kinds)
+    weak_rows_mark(state.get("file_rows") or (), weak, nowhere, kinds)
     return dropped
 
 
-def weak_rows_mark(rows, weak, no_place=()):
+def weak_rows_mark(rows, weak, no_place=(), kinds=None):
     """The same mark on the recordings of the assignment tree.
 
     *rows* is (its row in the tree, the file, the plain caption), one
@@ -1208,7 +1306,7 @@ def weak_rows_mark(rows, weak, no_place=()):
             # travels beside the row, or a second pass nests sentences.
             said = plain
             if odd:
-                said = weak_note(plain, placeless)
+                said = weak_note(plain, placeless, weak_kind(kinds, p))
             row[0].setText(said)
             # The column can be narrower than the sentence.
             row[0].setToolTip(said if odd else "")
@@ -1428,7 +1526,9 @@ def split_cells_write(cells, busy, running, by_source, note):
         try:
             button.setVisible(mine)
             if note and note[0] == here:
-                mark.setText(note[1])
+                # The first line of it and no more: the cell is one
+                # line wide, and the rest stands under the table.
+                mark.setText(note[1].split("\n")[0][:200])
                 mark.setStyleSheet("color: %s" % note[2])
             elif mine:
                 mark.setText(T('Separating ...'))
@@ -1746,13 +1846,15 @@ def speaker_split_work(source, count, note, stopping, done):
     """
     segments, trouble = [], ""
     try:
+        # Asked from scratch every time one is started: the answer was
+        # measured minutes ago at best, and something installed since
+        # then must not go unnoticed until the window is restarted.
+        if not speaker_split_available(deep=True):
+            speaker_split_mend(note)
         if not speaker_split_available():
-            # The cell is one line wide in a table; the reason and the
-            # way back go to the log, and the cell says where that is.
             trouble_log(speaker_split_why()
                         or speaker_split_missing())
-            trouble = T('Speaker separation not available. The log '
-                        'says why.')
+            trouble = speaker_split_trouble()
         if not trouble:
             segments, trouble = speaker_split_cached(
                 source, count, report=note, stopping=stopping)

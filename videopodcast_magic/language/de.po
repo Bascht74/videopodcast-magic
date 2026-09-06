@@ -383,8 +383,8 @@ msgstr ""
 msgid "The speaker separation reports: %s"
 msgstr "Die Sprechertrennung meldet: %s"
 
-msgid "Speaker separation not available. The log says why."
-msgstr "Sprechererkennung nicht verfügbar. Das Protokoll sagt, warum."
+msgid "Putting the speaker separation back ..."
+msgstr "Die Sprechertrennung wird zurückgeholt ..."
 
 msgid "The speaker separation is not set up."
 msgstr "Die Sprechertrennung ist nicht eingerichtet."
@@ -1912,6 +1912,9 @@ msgstr "  Jetzt ausführen? [J/n] "
 msgid "  That did not work: %s"
 msgstr "  Das hat nicht geklappt: %s"
 
+msgid "  Putting it back: %s"
+msgstr "  Wird zurückgeholt: %s"
+
 msgid ""
 "  ffmpeg.org has builds for Windows. The folder with ffmpeg.exe then has "
 "to go into PATH, or the files next to this program."
@@ -3073,11 +3076,20 @@ msgstr "%r ist keine Zahl."
 msgid ""
 "%s\n"
 "   does not fit the other files: sound not recognised, no timecode.\n"
-"   Its sound cannot be used."
+"   %s"
 msgstr ""
 "%s\n"
 "   passt nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode.\n"
-"   Der Ton ist nicht verwendbar."
+"   %s"
+
+msgid "Set to %s; %s is one click away."
+msgstr "Als %s eingetragen; %s ist einen Klick entfernt."
+
+msgid "Left out, %s being taken already; %s is one click away."
+msgstr "Bleibt draußen, %s ist schon vergeben; %s ist einen Klick entfernt."
+
+msgid "Its sound cannot be used."
+msgstr "Der Ton ist nicht verwendbar."
 
 msgid ""
 "%s\n"

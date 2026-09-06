@@ -535,15 +535,18 @@ def watch_outside_calls():
 
 
 def trouble_log(text):
-    """Write down what the window is showing in red.
+    """Write down what the window is showing in red, and all of it.
 
     A red mark in the window is gone the moment the row is drawn again,
-    and the complaint about it arrives hours later. In the log it keeps.
+    and the complaint about it arrives hours later. In the log it keeps
+    -- whole: a cell in the window is one line wide and a file is not,
+    and a reason cut off in the middle names nothing. The line breaks
+    go, so one entry stays one line under its own time.
     """
     said = " ".join(str(text or "").split())
     if said:
         log_aside("%s %s  %s"
-                  % (BAD_MARK, time.strftime("%H:%M:%S"), said[:200]))
+                  % (BAD_MARK, time.strftime("%H:%M:%S"), said))
 
 
 def redirect_console():

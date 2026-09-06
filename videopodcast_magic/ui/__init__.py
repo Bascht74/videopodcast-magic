@@ -3221,7 +3221,8 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
                                if text else None)
         split_line_write(split_line, split_label, split_never,
                          speaker_split_wanted(state.get("speakers_wanted")),
-                         split_run["busy"], bool(files))
+                         split_run["busy"], bool(files),
+                         state.get("split_note"))
         split_cells_show()
 
     def split_cells_show():
@@ -3251,7 +3252,7 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         plan.done("speakers:" + source)
         state["speakers_running"] = ""
         if trouble:
-            speaker_split_show(trouble[:200], COLOURS["error"], where=source)
+            speaker_split_show(trouble, COLOURS["error"], where=source)
             return
         if not segments:
             speaker_split_show("", COLOURS["quiet"])
