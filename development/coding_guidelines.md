@@ -321,9 +321,9 @@ files side by side on one screen are worth more than long lines.
 
 ## 12. The one exception: `gui()`
 
-`gui()` is 3497 lines long -- twelve times the rule above. Measured on
-6 September 2026, after nine pieces were lifted out of it in one night;
-it was 5753 on 23 August. `source_limits_hold_test.py` prints the
+`gui()` is 3026 lines long -- ten times the rule above. Measured on
+6 September 2026, after fourteen pieces were lifted out of it to module
+level in the same file; it was 5753 on 23 August. `source_limits_hold_test.py` prints the
 figure of the day on every run, so the current number is read there and
 not here. This is a decision, not an oversight, and this is where the
 reasons live.
@@ -333,9 +333,9 @@ button needs a callback, and the callback needs the button, the field
 beside it and the value both of them mean. In C++ the shared place for
 that is a class with fields; in Python it is a function with functions
 inside it. Both write down the same thing. Only one of them counts as a
-class with 121 methods, the other as a function with 3497 lines.
-Counted with the compiler's own bookkeeping, not by eye. 121
-definitions sit directly in `gui()` and hold 65 percent of its lines;
+class with 107 methods, the other as a function with 3026 lines.
+Counted with the compiler's own bookkeeping, not by eye. 107
+definitions sit directly in `gui()` and hold 63 percent of its lines;
 they were 182 and 76 percent before the cutting began. `state`, a
 single dictionary, is captured by most of them.
 
@@ -389,7 +389,7 @@ It is not a licence.
 - **The number goes down, never up.** `source_limits_hold_test.py` prints the largest
   function on every run, and a ratchet holds whatever comes off. Nothing
   here freezes any number as acceptable. It has gone 5753, 5106, 3497,
-  and the ratchet took every step.
+  3233, 3026, and the ratchet took every step.
 
 **The long version** is `docs/notes/gui_struktur.md`: the map of the
 banner sections with the seam measured at each one. It also holds what

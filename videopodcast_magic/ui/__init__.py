@@ -4660,6 +4660,259 @@ def app_language_set(QtCore, Qt, app):
                            else Qt.LeftToRight)
 
 
+def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
+                      out_folder, production_var, start_var, end_var,
+                      speech_language, lufs_value, edge_on, multitrack,
+                      cut_var, channel_choice, clip_kind_values,
+                      audio_use_values, no_join, join_to, remembered,
+                      assign_lines, camera_lines, axis_file,
+                      project_collect, project_move, settings_extend,
+                      commonest_folder, folder_show, items_fresh,
+                      window_enable, tab_gone, output_show, mode_toggled,
+                      player_follow_up, plan_wipe, prework_clean_up,
+                      split_stop, split_run, preview_compute,
+                      presets_wanted_now, presets_filter,
+                      resolve_button_check, result_button_check, write):
+    """The project file: write it, close it, open it again.
+
+    Outside gui() because the three are one theme and answer each
+    other -- project_new is the one list of what belongs to a
+    production, and project_open runs it before laying the file's own
+    answers on top. What the window holds comes in as an argument and
+    keeps its name inside, Qt among it. The call sits below the log
+    writer and resolve_button_check, two of those arguments.
+    """
+
+    def project_write(argv):
+        """Store what this run did, so it can be reopened.
+
+        Not the state of every button but what counts: the files, the output
+        folder and the command line. That is enough to repeat the same run, or
+        just the Resolve part of it.
+        """
+        project_move()
+        file_path = axis_file()
+        if not file_path:
+            return
+        # The API key does not belong in a file.
+        clean, skip = [], False
+        for part in argv[1:]:
+            if skip:
+                skip = False
+                continue
+            if part == "--auphonic-api-key":
+                skip = True
+                continue
+            clean.append(part)
+        axis_old = (project_collect(file_path).get("timeline") or [])
+        d = {"format": FILE_FORMAT,
+             "version": VERSION,
+             "files": [{"path": p, "kind": a} for p, a in files],
+             "timeline": axis_old,
+             "timeline_absolute": bool(state.get("axis_absolute")),
+             "call": clean}
+        settings_extend(d)
+        try:
+            with open(file_path, "w", encoding="utf-8") as f:
+                json.dump(d, f, ensure_ascii=False, indent=1)
+        except OSError as e:
+            write(T('  Project file not writable (%s)\n') % e)
+            return
+        write(as_head(T('PROJECT SAVED\n  %s\n  This run can be opened again '
+                        'later -- top left\n  "Open project ..."\n\n') % file_path))
+
+    def project_new():
+        """Empty the window, the way a new production starts.
+
+        Until now the only way to a second production was to quit the
+        program and start it again. Asked for on 30.8.2026: a close
+        project and a new one in the menu, so that a second production
+        does not need a restart.
+
+        This is also the list of what belongs to a project and what does
+        not, and it is the only such list: opening a project runs it
+        first and then puts the file's answers on top, so the two cannot
+        drift apart. Anything left standing here would be carried from
+        one production into the next, which is the fault that took the
+        output folder out of an old handover file.
+        """
+        measuring_stop(state, [p for p, _a in files], prework_clean_up,
+                       split_stop, split_run, plan_wipe)
+        state["closing"] = False
+        tab_gone(sheet2)
+        log.clear()
+        state["results"] = []
+        state["project_from"] = ""
+        window.setWindowTitle(window_title())
+        files[:] = []
+        out_folder.set("")
+        production_var.set("")
+        start_var.set("")
+        end_var.set("")
+        clip_kind_values.clear()
+        audio_use_values.clear()
+        no_join.clear()
+        join_to.clear()
+        channel_choice.clear()
+        for name in ("wide_set_aside", "voiced", "projects_offered",
+                     "speakers_source_chosen", "forced_own",
+                     "result_folder", "resolve_json", "voice_marks",
+                     "cut_basis", "run_auphonic") + SPEAKER_STATE:
+            state.pop(name, None)
+        words_forgotten(state)
+        # Emptied, not taken away: the time axis is read by name in
+        # several places, and a missing key there is a KeyError rather
+        # than an empty axis.
+        state["axis"] = {}
+        state["axis_clock"] = {}
+        state["axis_absolute"] = False
+        # The timecode belonged to the material that has just gone; left
+        # standing, the menu went on offering marks on an empty window.
+        state["tc_there"] = False
+        state["speakers_local"] = {}
+        state["speakers_source"] = ""
+        state["speakers_by"] = ByFile()
+        state["speakers_count"] = 0
+        state["speakers_wanted"] = None
+        state["preset_wanted"] = ""
+        # Back to what they hold when the program has just started, so a
+        # second production begins the way the first one did.
+        speech_language.set(language_of_system())
+        lufs_value.set(loudness_last())
+        edge_on.set(True)
+        multitrack.set(False)
+        items_fresh()
+        folder_show()
+        window_enable()
+        resolve_button_check()
+        result_button_check()
+        preview_compute()
+
+    def project_open(file_path=""):
+        file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
+            window, T('Open json project file'),
+            out_folder.get() or commonest_folder() or "",
+            T('Video Podcast Magic (%s*.json);;JSON files (*.json);;All '
+              'files (*)') % PROJECT_PREFIX)[0]
+        if not file_path:
+            return
+        d, file_path = find_project_file(file_path)
+        if d is None:
+            report('Project',
+                   T('This is not a project file, and there is none in the '
+                     'same folder.\n\nThe search is for %s*.json -- the '
+                     'script writes it into the output folder at start.')
+                   % PROJECT_PREFIX)
+            return
+        complaint = format_complaint(d)
+        if complaint:
+            report('Project', "%s\n\n%s" % (os.path.basename(file_path),
+                                             complaint))
+            return
+        # Emptied first, by the one list of what belongs to a project,
+        # and the file's answers put on top. Two clearing lists would
+        # drift, and what one of them forgot would travel from the last
+        # production into this one.
+        project_new()
+        state["project_from"] = file_path
+        window.setWindowTitle(window_title(file_path))
+        present, missing = project_files(d)
+        files[:] = present
+        # Before anything is drawn: every file measured once, in
+        # parallel. What follows then asks its questions of memory.
+        probe_warm([x for x, _ in present])
+        for s, value in (d.get("camera_cut") or {}).items():
+            if s in cut_var:
+                cut_var[s].set(value)
+        out_folder.set(d.get("out_folder") or "")
+        folder_show()
+        production_var.set(d.get("production") or "")
+        edge_on.set(bool(d.get("wide_at_edges", True)))
+        # Set before the tables are built: the window prefill leaves standing
+        # whatever is already there.
+        start_var.set(d.get("in_point") or "")
+        end_var.set(d.get("out_point") or "")
+        # Restore the assignment before the tables are built, or the interface
+        # suggests something and overwrites it.
+        assign_lines[:] = []
+        camera_lines[:] = []
+        remembered.clear()
+        # Intro, outro and "ignore this video" hang on the file, not on the
+        # table, so they outlive the table being rebuilt. Opening another
+        # project has to take them with it: a file that was the intro there
+        # would otherwise still be the intro here, and two of them stop the
+        # run.
+        if d.get("speech_language"):
+            speech_language.set(d["speech_language"])
+        # The saved project beats what was chosen last. null is an answer
+        # here, so the key decides and not the value; a file from before
+        # there was a choice carries none and changes nothing.
+        if "lufs" in d:
+            lufs_value.set(d["lufs"])
+        # The separations come back before the tables are built, or
+        # the voices would be missing until they had run again.
+        state["speakers_by"] = speakers_all_from_project(d)
+        source, found, _called = speakers_from_project(d)
+        state["speakers_local"] = found
+        state["speakers_source"] = source or (d.get("speakers_source") or "")
+        state["speakers_count"] = int(
+            ((d.get("speakers") or {}).get("num_speakers")) or 0)
+        speakers_front_pick(state)
+        state["speakers_wanted"] = (bool(d["speakers_local"])
+                                    if "speakers_local" in d else None)
+        no_join.update(d.get("apart") or [])
+        join_to.update(d.get("together") or {})
+        for p, choice in (d.get("channels") or {}).items():
+            channel_choice[p] = {int(k): bool(v) for k, v in choice.items()}
+        state["preset_wanted"] = d.get("preset") or ""
+        for api_key, value in (d.get("assignment") or {}).items():
+            remembered[api_key] = (tuple(value) if isinstance(value, list)
+                                   else value)
+        voice_keys_carry_source(remembered,
+                                state.get("speakers_source") or "")
+        if d.get("multitrack"):
+            multitrack.set(True)
+        preset_list_bring(state, presets_wanted_now, presets_filter)
+        items_fresh()
+        if multitrack.get():
+            # The tick fires nothing where it already stood, so the later
+            # tabs are told by hand that the project is open.
+            mode_toggled()
+        state["results"] = []
+        for name in SPEAKER_STATE:
+            state.pop(name, None)
+        target = out_folder.get()
+        # The handover of that project's own run, looked for where the
+        # note below sends the reader, and only where it names the same
+        # cameras. Without it the note promised "Create Resolve
+        # project" while the button stayed grey.
+        state["resolve_json"] = find_handover_file(
+            target, os.path.dirname(os.path.abspath(file_path)),
+            ours=[b for b, _n, _own, _own_name in camera_lines])
+        if target and os.path.isdir(target) and any(
+                n.lower().endswith(VIDEO_SUFFIXES) for n in os.listdir(target)):
+            # Results from earlier: the sheet comes along, since its buttons
+            # are there. So it does not look like a failed run, it says where
+            # things stand.
+            state["result_folder"] = target
+            output_show(False)
+            log.append_text(as_head(project_opened_note(target)))
+        else:
+            state["result_folder"] = None
+        resolve_button_check()
+        result_button_check()
+        preview_compute()
+        # The In point and Out point are back, so fetch the file containing
+        # them into the player. Otherwise "to In point" and "to Out point" go
+        # nowhere right after opening.
+        player_follow_up(spot_also=True)
+        if missing:
+            report('Project', T('These files no longer exist:\n  ')
+                   + "\n  ".join(missing[:12]))
+
+    return project_write, project_new, project_open
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -7210,113 +7463,9 @@ def gui():
         plan, bridge, late, multitrack, without_auphonic, settings_open)
 
     # ------------------------------------------------------------------
-    # Project file
+    # Project file -- writing, closing and opening it stand in
+    # make_project_file(); this one asks for a folder first.
     # ------------------------------------------------------------------
-    def project_write(argv):
-        """Store what this run did, so it can be reopened.
-
-        Not the state of every button but what counts: the files, the output
-        folder and the command line. That is enough to repeat the same run, or
-        just the Resolve part of it.
-        """
-        project_move()
-        file_path = axis_file()
-        if not file_path:
-            return
-        # The API key does not belong in a file.
-        clean, skip = [], False
-        for part in argv[1:]:
-            if skip:
-                skip = False
-                continue
-            if part == "--auphonic-api-key":
-                skip = True
-                continue
-            clean.append(part)
-        axis_old = (project_collect(file_path).get("timeline") or [])
-        d = {"format": FILE_FORMAT,
-             "version": VERSION,
-             "files": [{"path": p, "kind": a} for p, a in files],
-             "timeline": axis_old,
-             "timeline_absolute": bool(state.get("axis_absolute")),
-             "call": clean}
-        settings_extend(d)
-        try:
-            with open(file_path, "w", encoding="utf-8") as f:
-                json.dump(d, f, ensure_ascii=False, indent=1)
-        except OSError as e:
-            write(T('  Project file not writable (%s)\n') % e)
-            return
-        write(as_head(T('PROJECT SAVED\n  %s\n  This run can be opened again '
-                        'later -- top left\n  "Open project ..."\n\n') % file_path))
-
-    def project_new():
-        """Empty the window, the way a new production starts.
-
-        Until now the only way to a second production was to quit the
-        program and start it again. Asked for on 30.8.2026: a close
-        project and a new one in the menu, so that a second production
-        does not need a restart.
-
-        This is also the list of what belongs to a project and what does
-        not, and it is the only such list: opening a project runs it
-        first and then puts the file's answers on top, so the two cannot
-        drift apart. Anything left standing here would be carried from
-        one production into the next, which is the fault that took the
-        output folder out of an old handover file.
-        """
-        measuring_stop(state, [p for p, _a in files], prework_clean_up,
-                       split_stop, split_run, plan_wipe)
-        state["closing"] = False
-        tab_gone(sheet2)
-        log.clear()
-        state["results"] = []
-        state["project_from"] = ""
-        window.setWindowTitle(window_title())
-        files[:] = []
-        out_folder.set("")
-        production_var.set("")
-        start_var.set("")
-        end_var.set("")
-        clip_kind_values.clear()
-        audio_use_values.clear()
-        no_join.clear()
-        join_to.clear()
-        channel_choice.clear()
-        for name in ("wide_set_aside", "voiced", "projects_offered",
-                     "speakers_source_chosen", "forced_own",
-                     "result_folder", "resolve_json", "voice_marks",
-                     "cut_basis", "run_auphonic") + SPEAKER_STATE:
-            state.pop(name, None)
-        words_forgotten(state)
-        # Emptied, not taken away: the time axis is read by name in
-        # several places, and a missing key there is a KeyError rather
-        # than an empty axis.
-        state["axis"] = {}
-        state["axis_clock"] = {}
-        state["axis_absolute"] = False
-        # The timecode belonged to the material that has just gone; left
-        # standing, the menu went on offering marks on an empty window.
-        state["tc_there"] = False
-        state["speakers_local"] = {}
-        state["speakers_source"] = ""
-        state["speakers_by"] = ByFile()
-        state["speakers_count"] = 0
-        state["speakers_wanted"] = None
-        state["preset_wanted"] = ""
-        # Back to what they hold when the program has just started, so a
-        # second production begins the way the first one did.
-        speech_language.set(language_of_system())
-        lufs_value.set(loudness_last())
-        edge_on.set(True)
-        multitrack.set(False)
-        items_fresh()
-        folder_show()
-        window_enable()
-        resolve_button_check()
-        result_button_check()
-        preview_compute()
-
     def project_save():
         """Write the project file now, without running anything.
 
@@ -7340,128 +7489,6 @@ def gui():
         report(T('Save project'),
                T('Written:\n\n  %s') % where if where
                else T('Nothing was written -- there is no material yet.'))
-
-    def project_open(file_path=""):
-        file_path = file_path or QtWidgets.QFileDialog.getOpenFileName(
-            window, T('Open json project file'),
-            out_folder.get() or commonest_folder() or "",
-            T('Video Podcast Magic (%s*.json);;JSON files (*.json);;All '
-              'files (*)') % PROJECT_PREFIX)[0]
-        if not file_path:
-            return
-        d, file_path = find_project_file(file_path)
-        if d is None:
-            report('Project',
-                   T('This is not a project file, and there is none in the '
-                     'same folder.\n\nThe search is for %s*.json -- the '
-                     'script writes it into the output folder at start.')
-                   % PROJECT_PREFIX)
-            return
-        complaint = format_complaint(d)
-        if complaint:
-            report('Project', "%s\n\n%s" % (os.path.basename(file_path),
-                                             complaint))
-            return
-        # Emptied first, by the one list of what belongs to a project,
-        # and the file's answers put on top. Two clearing lists would
-        # drift, and what one of them forgot would travel from the last
-        # production into this one.
-        project_new()
-        state["project_from"] = file_path
-        window.setWindowTitle(window_title(file_path))
-        present, missing = project_files(d)
-        files[:] = present
-        # Before anything is drawn: every file measured once, in
-        # parallel. What follows then asks its questions of memory.
-        probe_warm([x for x, _ in present])
-        for s, value in (d.get("camera_cut") or {}).items():
-            if s in cut_var:
-                cut_var[s].set(value)
-        out_folder.set(d.get("out_folder") or "")
-        folder_show()
-        production_var.set(d.get("production") or "")
-        edge_on.set(bool(d.get("wide_at_edges", True)))
-        # Set before the tables are built: the window prefill leaves standing
-        # whatever is already there.
-        start_var.set(d.get("in_point") or "")
-        end_var.set(d.get("out_point") or "")
-        # Restore the assignment before the tables are built, or the interface
-        # suggests something and overwrites it.
-        assign_lines[:] = []
-        camera_lines[:] = []
-        remembered.clear()
-        # Intro, outro and "ignore this video" hang on the file, not on the
-        # table, so they outlive the table being rebuilt. Opening another
-        # project has to take them with it: a file that was the intro there
-        # would otherwise still be the intro here, and two of them stop the
-        # run.
-        if d.get("speech_language"):
-            speech_language.set(d["speech_language"])
-        # The saved project beats what was chosen last. null is an answer
-        # here, so the key decides and not the value; a file from before
-        # there was a choice carries none and changes nothing.
-        if "lufs" in d:
-            lufs_value.set(d["lufs"])
-        # The separations come back before the tables are built, or
-        # the voices would be missing until they had run again.
-        state["speakers_by"] = speakers_all_from_project(d)
-        source, found, _called = speakers_from_project(d)
-        state["speakers_local"] = found
-        state["speakers_source"] = source or (d.get("speakers_source") or "")
-        state["speakers_count"] = int(
-            ((d.get("speakers") or {}).get("num_speakers")) or 0)
-        speakers_front_pick(state)
-        state["speakers_wanted"] = (bool(d["speakers_local"])
-                                    if "speakers_local" in d else None)
-        no_join.update(d.get("apart") or [])
-        join_to.update(d.get("together") or {})
-        for p, choice in (d.get("channels") or {}).items():
-            channel_choice[p] = {int(k): bool(v) for k, v in choice.items()}
-        state["preset_wanted"] = d.get("preset") or ""
-        for api_key, value in (d.get("assignment") or {}).items():
-            remembered[api_key] = (tuple(value) if isinstance(value, list)
-                                   else value)
-        voice_keys_carry_source(remembered,
-                                state.get("speakers_source") or "")
-        if d.get("multitrack"):
-            multitrack.set(True)
-        preset_list_bring(state, presets_wanted_now, presets_filter)
-        items_fresh()
-        if multitrack.get():
-            # The tick fires nothing where it already stood, so the later
-            # tabs are told by hand that the project is open.
-            mode_toggled()
-        state["results"] = []
-        for name in SPEAKER_STATE:
-            state.pop(name, None)
-        target = out_folder.get()
-        # The handover of that project's own run, looked for where the
-        # note below sends the reader, and only where it names the same
-        # cameras. Without it the note promised "Create Resolve
-        # project" while the button stayed grey.
-        state["resolve_json"] = find_handover_file(
-            target, os.path.dirname(os.path.abspath(file_path)),
-            ours=[b for b, _n, _own, _own_name in camera_lines])
-        if target and os.path.isdir(target) and any(
-                n.lower().endswith(VIDEO_SUFFIXES) for n in os.listdir(target)):
-            # Results from earlier: the sheet comes along, since its buttons
-            # are there. So it does not look like a failed run, it says where
-            # things stand.
-            state["result_folder"] = target
-            output_show(False)
-            log.append_text(as_head(project_opened_note(target)))
-        else:
-            state["result_folder"] = None
-        resolve_button_check()
-        result_button_check()
-        preview_compute()
-        # The In point and Out point are back, so fetch the file containing
-        # them into the player. Otherwise "to In point" and "to Out point" go
-        # nowhere right after opening.
-        player_follow_up(spot_also=True)
-        if missing:
-            report('Project', T('These files no longer exist:\n  ')
-                   + "\n  ".join(missing[:12]))
 
     def resolve_button_check():
         # The simple path creates a handover too -- there the multicam timeline
@@ -7527,6 +7554,25 @@ def gui():
     # into the log why it stopped. Reached back the way the other
     # forward references in here are reached.
     state["write"] = write
+
+    # ------------------------------------------------------------------
+    # Project file -- the three lifted out of here. Below the writer,
+    # because it and resolve_button_check go in as arguments.
+    # ------------------------------------------------------------------
+    (project_write, project_new, project_open) = make_project_file(
+        QtWidgets, window, state, files, log, report, sheet2,
+        out_folder, production_var, start_var, end_var,
+        speech_language, lufs_value, edge_on, multitrack,
+        cut_var, channel_choice, clip_kind_values,
+        audio_use_values, no_join, join_to, remembered,
+        assign_lines, camera_lines, axis_file,
+        project_collect, project_move, settings_extend,
+        commonest_folder, folder_show, items_fresh,
+        window_enable, tab_gone, output_show, mode_toggled,
+        player_follow_up, plan_wipe, prework_clean_up,
+        split_stop, split_run, preview_compute,
+        presets_wanted_now, presets_filter,
+        resolve_button_check, result_button_check, write)
 
     output_timer = QtCore.QTimer(window)
     output_timer.setInterval(80)
