@@ -70,7 +70,6 @@ finish_without_auphonic = PROGRAM.finish_without_auphonic
 format_complaint = PROGRAM.format_complaint
 futures = PROGRAM.futures
 group_recording_parts = PROGRAM.group_recording_parts
-group_text = PROGRAM.group_text
 guess_camera_name = PROGRAM.guess_camera_name
 guess_production_name = PROGRAM.guess_production_name
 guess_speaker_name = PROGRAM.guess_speaker_name
@@ -545,7 +544,7 @@ def merge_plan_entries(plan):
             if len(e["blocks"]) > 1]
     if len(combined) < len(plan):
         print(T('  In summary: %s')
-              % ", ".join(T('%s from %s recordings') % (n, group_text(k))
+              % ", ".join(T('%s from %s recordings') % (n, number_text(k, 0))
                            for n, k in more))
     return combined
 
@@ -678,7 +677,7 @@ def show_multitrack_plan(args, audio_paths, video_paths):
     multiple = {cam: v for cam, v in combined.items() if len(v) > 1 and cam}
     for cam, v in multiple.items():
         print(T('  %s gets %s tracks mixed together: %s')
-              % (os.path.basename(cam), group_text(len(v)), ", ".join(v)))
+              % (os.path.basename(cam), number_text(len(v), 0), ", ".join(v)))
     if cameras:
         print(T('\n  This produces:'))
         every = [e.get("speakers") or "?" for e in plan]
@@ -718,7 +717,7 @@ def join_the_plan(plan, tmpdir):
             source, join_info = join_with_report(
                 blocks, os.path.join(tmpdir,
                                      "raw_%s.wav" % safe_filename(name)))
-            hint = T('%s blocks') % group_text(join_info["blocks"])
+            hint = T('%s blocks') % number_text(join_info["blocks"], 0)
         else:
             source, hint = blocks[0], ""
         made.append({"name": name, "source": source, "hint": hint,
@@ -840,8 +839,8 @@ def measure_tracks_against_each_other(tracks):
                  number_text(st.get("ppm", 0.0), 2, plus=True),
                  number_text(st.get("ppm_error", 0.0), 2),
                  number_text(st.get("spread_ms", 0.0)),
-                 group_text(st.get("points", 0)),
-                 group_text(st.get("candidates", 0)),
+                 number_text(st.get("points", 0), 0),
+                 number_text(st.get("candidates", 0), 0),
                  "  [" + track["hint"] + "]" if track.get("hint") else ""))
     return placed
 
@@ -981,7 +980,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
             print(T('  %s runs at %s frames/s, a rate Resolve has no '
                     'Timeline for -- it is converted, not left out')
                   % (os.path.basename(v),
-                     decimal_text("%.3f" % file_frame_rate(info))))
+                     number_text(file_frame_rate(info), 3)))
         videos.append((v, info))
     if videos and not getattr(args, "production", ""):
         # The same name the ordinary path gives a production: the folder
@@ -1050,8 +1049,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                  number_text(st.get("ppm", 0.0), 2, plus=True),
                  number_text(st.get("ppm_error", 0.0), 2),
                  number_text(st.get("spread_ms", 0.0)),
-                 group_text(st.get("points", 0)),
-                 group_text(st.get("candidates", 0))))
+                 number_text(st.get("points", 0), 0),
+                 number_text(st.get("candidates", 0), 0)))
 
     tmpdir = tempfile.mkdtemp(prefix="vpm_mt_")
     # A dozen paths leave this function before the folder is removed at the
@@ -1094,8 +1093,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                  number_text(st.get("ppm", 0.0), 2, plus=True),
                  number_text(st.get("ppm_error", 0.0), 2),
                  number_text(st.get("spread_ms", 0.0)),
-                 group_text(st.get("points", 0)),
-                 group_text(st.get("candidates", 0)),
+                 number_text(st.get("points", 0), 0),
+                 number_text(st.get("candidates", 0), 0),
                  "  [" + hint + "]" if hint else ""))
     if not tracks:
         print(T('\nNo audio track could be aligned -- there is nothing to '
@@ -1143,7 +1142,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print(T('\nSound and picture have only %s in common, and the '
                 'alignment found %s sample points in it. That is too '
                 'little to place anything on.')
-              % (as_hms(max(0, t1 - t0)), group_text(seen)))
+              % (as_hms(max(0, t1 - t0)), number_text(seen, 0)))
         return 1
     print(T('  Common window:       %s to %s (%s)')
           % (as_hms(t0), as_hms(t1), as_hms(t1 - t0)))
@@ -1278,7 +1277,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 existing.remove(best)
                 print(T('    %-20s <- %s  (%s, name similarity %s)')
                       % (track["name"], best, as_hms(length),
-                         decimal_text("%.2f" % quality)))
+                         number_text(quality, 2)))
                 continue
             if trimmed and abs(length - measured) <= 60:
                 # A prepended jingle lengthens the file; everything sits
@@ -1294,7 +1293,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 print(T('    %-20s <- %s  (%s, trimmed to the time window, '
                         'name similarity %s)')
                       % (track["name"], best, as_hms(length),
-                         decimal_text("%.2f" % quality)))
+                         number_text(quality, 2)))
                 continue
             print(T('    %-20s <- %s  BUT %s -- neither the time window '
                     '(%s) nor the\n    %-20s    whole measured range (%s). '
@@ -1410,14 +1409,14 @@ def check_written_file(target, items, n_camera, args, fps):
         print(T('  Check:           the two tracks cannot be compared '
                 '(match %s, %s is the floor). This says nothing '
                 'about the timing.')
-              % (decimal_text("%.2f" % g), decimal_text("%.2f" % WEAK_MATCH)))
+              % (number_text(g, 2), number_text(WEAK_MATCH, 2)))
         return
     ms = k * HOP
     off = abs(ms) > 1000.0 / fps
     line = (T('  Check:           %s against the camera track %s ms '
               '(match %s)%s')
             % (items[index_number][0], number_text(ms, 0, plus=True),
-               decimal_text("%.2f" % g),
+               number_text(g, 2),
                T('   Caution: more than one frame') if off else ""))
     print(as_warn(line) if off else line)
 
@@ -1478,7 +1477,7 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                         curve, channels=wide)
     print(TN(wide, '  Full-Mix from %s tracks, %s channel',
              '  Full-Mix from %s tracks, %s channels')
-          % (group_text(len(tracks)), group_text(wide)))
+          % (number_text(len(tracks), 0), number_text(wide, 0)))
 
     # What is said and when, out of the finished mix. It runs beside the
     # cameras rather than in front of them: the words are needed only
@@ -1649,8 +1648,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                     '%s ms (%s of %s points)%s')
                   % (as_hms(a2),
                      number_text(deviation * 1000.0, 0, plus=True),
-                     group_text(st2.get("points", 0)),
-                     group_text(st2.get("candidates", 0)),
+                     number_text(st2.get("points", 0), 0),
+                     number_text(st2.get("candidates", 0), 0),
                      T('   Caution: more than one frame') if serious else ""))
         # The reference camera is what the others were measured
         # against, so there is nothing here that was measured. The line
@@ -1665,8 +1664,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                   % (number_text((b - 1.0) * 1e6, 2, plus=True),
                      number_text(st.get("ppm_error", 0.0), 2),
                      number_text(st.get("spread_ms", 0.0)),
-                     group_text(st.get("points", 0)),
-                     group_text(st.get("candidates", 0) or 0)))
+                     number_text(st.get("points", 0), 0),
+                     number_text(st.get("candidates", 0) or 0, 0)))
             print(T('  Drift over the running time: %s s = %s frames  -->  %s')
                   % (number_text(total, 3, plus=True),
                      number_text(abs(total) * fps),
