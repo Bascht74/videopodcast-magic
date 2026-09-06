@@ -8,17 +8,21 @@ the other way round -- that is what shows the marks come out of the
 catalogue and not out of the program. The third asks for both marks in
 one number, where a thousands mark stands beside a decimal place. The
 fourth asks for the thousands mark on a whole number, which has no
-decimal place to carry the other one. The last is the direction that
-costs something when it is wrong: what leaves for a machine -- the
-filter chain handed to ffmpeg, the iXML block written into the
-delivered track, the name that track is written under -- keeps plain
-digits under German too.
+decimal place to carry the other one. The fifth asks a size, where a
+unit stands beside the digits and must not be counted among them. The
+sixth asks an offset that no single measurement can reach, only the
+chain of them. The seventh asks what is written where there is no
+number to write. The last is the direction that costs something when
+it is wrong: what leaves for a machine -- the filter chain handed to
+ffmpeg, the iXML block written into the delivered track, the name that
+track is written under -- keeps plain digits under German too.
 
-The channel facts, the picture's timecode and the camera file's frame
-rate are stand-in dictionaries, so what is judged is what the program
-writes, not what a recorder would have measured. No wording is held
-against anything, only the shape of the number, so the checks stand
-whether a catalogue carries the sentence or not.
+The channel facts, the picture's timecode, the camera file's frame
+rate and the bleed between two microphones are stand-in dictionaries,
+so what is judged is what the program writes, not what a recorder
+would have measured. No wording is held against anything, only the
+shape of the number, so the checks stand whether a catalogue carries
+the sentence or not.
 """
 import contextlib
 import io
@@ -176,7 +180,71 @@ check("the frames a camera file is short by carry the thousands mark too",
       % (said, "30.000", "30000", SHORT_BY, int(TWO_HOURS * CLAIMED_FPS),
          TWO_HOURS, CLAIMED_FPS))
 
-print("\n5. German: a machine reads it, so the digits stay plain")
+print("\n5. German: the unit stands beside the number, not inside it")
+# A size went into the helper as one finished string with its unit
+# already in it, and then only the decimal mark could be set: telling
+# the thousands apart needs the digits told apart from the rest first.
+# A 1 TB card is the first size with four digits before the point.
+CARD_MB = 1024000.0
+vpm.set_language("de")
+said = vpm.as_data_size(CARD_MB)
+check("a card's size keeps its unit and carries the thousands mark",
+      said == "1.024,0 GB",
+      "as_data_size(%s) is %r, wanted %r" % (CARD_MB, said, "1.024,0 GB"))
+
+print("\n6. German: an offset no single measurement could reach")
+# The bleed between two microphones is read at most 120 ms out, so no
+# one hop can print four digits -- the chain of them can. Ten tracks in
+# a line, every hop at that cap and all leaning the same way, and the
+# tenth stands 1080 ms off the first. Only the reading is a stand-in;
+# the fit, the chain and the line are the program's own.
+CAP_MS = 120.0
+IN_A_LINE = 10
+
+
+def bleed_at_the_cap(tracks, rate=16000):
+    """Stand in for the crosstalk reading: every neighbour at the cap."""
+    heard = {}
+    for i in range(len(tracks) - 1):
+        heard[(i, i + 1)] = [(s + 0.5, CAP_MS) for s in range(3)]
+        heard[(i + 1, i)] = [(s + 0.5, -CAP_MS) for s in range(3)]
+    return heard, []
+
+
+# The first two land inside the 250 ms the program still believes and
+# would have their files rewritten. They are handed no source, so the
+# run leaves them where they are; from the third on the line is printed.
+chained = [{"name": "role %d" % i, "axis": "/tmp/no-such-track-%d.wav" % i,
+            "source": "" if i < 3 else "/tmp/no-such-track-%d.wav" % i,
+            "a": 0.0, "b": 1.0} for i in range(IN_A_LINE)]
+real_bleed = vpm.bearings.measure_offsets_by_crosstalk
+vpm.bearings.measure_offsets_by_crosstalk = bleed_at_the_cap
+try:
+    report = printed(
+        lambda: vpm.bearings.verify_alignment(chained, 0.0, 60.0))
+finally:
+    vpm.bearings.measure_offsets_by_crosstalk = real_bleed
+said = holding(report, "+1.080", "+1080")
+check("a chained offset carries the thousands mark on the line that "
+      "refuses it",
+      "+1.080 ms" in report and "+1080 ms" not in report,
+      "%r -- wanted %r in it and %r not, over %s hops of %s ms"
+      % (said, "+1.080 ms", "+1080 ms", IN_A_LINE - 1, CAP_MS))
+
+print("\n7. Where there is no number, the line says so and the run goes on")
+# A fit with no spread of its own reports its error as inf, and that
+# error is printed in the same line as the drift. The half-helper wrote
+# the word; the whole one has to as well, or the report stops the run at
+# the very place it was describing.
+try:
+    written_out = vpm.number_text(float("inf"), 2)
+except Exception as trouble:
+    written_out = "stopped: %s" % type(trouble).__name__
+check("a number that is not finite is written out, not thrown",
+      written_out == "inf",
+      "number_text(inf, 2) is %r, wanted %r" % (written_out, "inf"))
+
+print("\n8. German: a machine reads it, so the digits stay plain")
 # From here on the run is German, which is the language whose thousands
 # mark is a full stop -- the one that would silently turn a rate into a
 # different number, a file name into another file, an XML field into

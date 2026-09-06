@@ -62,7 +62,7 @@ def size_in_mb(file_path):
 def as_data_size(mb_value):
     """Format a byte count for reading: 542 MB, 1,024 MB, 28.9 GB."""
     if mb_value >= 1000:
-        return decimal_text("%.1f GB" % (mb_value / 1000.0))
+        return "%s GB" % number_text(mb_value / 1000.0, 1)
     return "%s MB" % group_text(math.ceil(mb_value))
 
 

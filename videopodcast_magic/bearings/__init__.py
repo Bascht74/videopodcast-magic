@@ -52,6 +52,7 @@ gcc_phat_offset = PROGRAM.gcc_phat_offset
 glob = PROGRAM.glob
 group_text = PROGRAM.group_text
 json = PROGRAM.json
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
 parse_timecode = PROGRAM.parse_timecode
@@ -975,7 +976,8 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                   % (tracks[i]["name"], tracks[j]["name"],
                      decimal_text("%.1f" % gone),
                      decimal_text("%.2f" % (max(0.0, gone) / 1000.0 * 343.0)),
-                     decimal_text("%+.1f" % d0), decimal_text("%+.1f" % k),
+                     number_text(d0, 1, plus=True),
+                     number_text(k, 1, plus=True),
                      group_text(n), decimal_text("%.1f" % rest),
                      T('   (sound path negative -- something is wrong)')
                      if gone < -1.0 else ""))
@@ -1014,8 +1016,8 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         if abs(d0) > 250.0 or abs(k) > 100.0:
             print(T('    %-20s %s ms / %s ppm -- that cannot be '
                     'right, track\n    %-20s stays where it is.')
-                  % (track["name"], decimal_text("%+.0f" % d0),
-                     decimal_text("%+.0f" % k), ""))
+                  % (track["name"], number_text(d0, 0, plus=True),
+                     number_text(k, 0, plus=True), ""))
             continue
         # "audio time = a + b * reference time": read d0 too early means
         # shifting a by b*d0, and the drift multiplies b.
@@ -1034,9 +1036,9 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         return
     for name, d0, k in shifted:
         print(T('    %-20s shifted by %s ms%s')
-              % (name, decimal_text("%+.1f" % -d0),
+              % (name, number_text(-d0, 1, plus=True),
                  T(', clock drift %s ppm taken out')
-                 % decimal_text("%+.1f" % -k)
+                 % number_text(-k, 1, plus=True)
                  if abs(k) >= limit_ppm else ""))
     try:
         measurements2, _ = measure_offsets_by_crosstalk(tracks)
@@ -1048,9 +1050,10 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
         for j in range(i + 1, len(tracks)):
             found = solve_pair_offsets(measurements2, i, j)
             if found:
-                parts.append("%s/%s %+.1f ms %+.1f ppm"
+                parts.append("%s/%s %s ms %s ppm"
                              % (tracks[i]["name"], tracks[j]["name"],
-                                found[1], found[2]))
+                                number_text(found[1], 1, plus=True),
+                                number_text(found[2], 1, plus=True)))
     if not parts:
         print(T('    Cross-check: not measurable'))
         return

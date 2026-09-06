@@ -36,6 +36,7 @@ file_timecode = PROGRAM.file_timecode
 group_text = PROGRAM.group_text
 gui_log = PROGRAM.gui_log
 math = PROGRAM.math
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 parse_time_point = PROGRAM.parse_time_point
 parse_timecode = PROGRAM.parse_timecode
@@ -425,7 +426,7 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
                     self.setToolTip(T('%s -- %d:%02d to %d:%02d (%s s)')
                                     % (who, int(a) // 60, int(a) % 60,
                                        int(b) // 60, int(b) % 60,
-                                       decimal_text("%.1f" % (b - a))))
+                                       number_text(b - a)))
                     return
             self.setToolTip("")
 

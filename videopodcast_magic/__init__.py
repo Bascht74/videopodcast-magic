@@ -187,6 +187,11 @@ def number_text(number, places=1, plus=False):
     # wrote, while both halves are still plain digits.
     text = "%.*f" % (max(0, int(places)), float(number))
     ahead = "-" if text.startswith("-") else ("+" if plus else "")
+    # "inf" and "nan" carry no digits to group, and int() stops the run
+    # over them. A fit with no spread of its own reports its error as
+    # inf, so this is reachable; decimal_text handed the word on.
+    if not text.lstrip("-")[:1].isdigit():
+        return ahead + text.lstrip("-")
     whole, _, rest = text.lstrip("-").partition(".")
     whole = format(int(whole), ",d").replace(",", T(","))
     return ahead + whole + (T(".") + rest if rest else "")
