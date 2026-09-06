@@ -2121,12 +2121,13 @@ pieces_answer_together()
 # of its own beside this one. How to add a language: see the top.
 
 CATALOGUE["de"] = texts_of_language("de")
-# German is complete; the nine after it are partial, and every text
+# German is complete; the ten after it are partial, and every text
 # they leave out appears in English. Arabic reads from right to left,
 # and the window turns itself round for it.
 CATALOGUE["es"] = texts_of_language("es")
 CATALOGUE["pt"] = texts_of_language("pt")
 CATALOGUE["fr"] = texts_of_language("fr")
+CATALOGUE["tr"] = texts_of_language("tr")
 CATALOGUE["ru"] = texts_of_language("ru")
 CATALOGUE["uk"] = texts_of_language("uk")
 CATALOGUE["zh"] = texts_of_language("zh")
