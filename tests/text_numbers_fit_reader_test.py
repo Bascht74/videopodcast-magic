@@ -7,16 +7,18 @@ comma; the second asks the same two in English, where both marks are
 the other way round -- that is what shows the marks come out of the
 catalogue and not out of the program. The third asks for both marks in
 one number, where a thousands mark stands beside a decimal place. The
-last is the direction that costs something when it is wrong: what
-leaves for a machine -- the filter chain handed to ffmpeg, the iXML
-block written into the delivered track, the name that track is written
-under -- keeps plain digits under German too.
+fourth asks for the thousands mark on a whole number, which has no
+decimal place to carry the other one. The last is the direction that
+costs something when it is wrong: what leaves for a machine -- the
+filter chain handed to ffmpeg, the iXML block written into the
+delivered track, the name that track is written under -- keeps plain
+digits under German too.
 
-The channel facts and the picture's timecode are stand-in
-dictionaries, so what is judged is what the program writes, not what a
-recorder would have measured. No wording is held against anything, only
-the shape of the number, so the checks stand whether a catalogue
-carries the sentence or not.
+The channel facts, the picture's timecode and the camera file's frame
+rate are stand-in dictionaries, so what is judged is what the program
+writes, not what a recorder would have measured. No wording is held
+against anything, only the shape of the number, so the checks stand
+whether a catalogue carries the sentence or not.
 """
 import contextlib
 import io
@@ -130,7 +132,51 @@ check("the frames a timecode is out by carry the thousands mark too",
       "%r -- wanted %r in it and %r not, for %s s at %s frames a second"
       % (said, "1.475,0", "1475,0", LATE_S, FPS))
 
-print("\n4. German: a machine reads it, so the digits stay plain")
+print("\n4. German: a whole number, with no decimal place beside it")
+# The other half of the same fault. "%.0f" writes no point, so
+# decimal_text found nothing to replace and handed the digits back
+# ungrouped, in every language alike. 2000 has one place for a
+# thousands mark and none at all for a decimal one.
+ROUND = 2000.0
+vpm.set_language("de")
+written_out = vpm.number_text(ROUND, 0)
+check("a whole number is grouped and carries no decimal mark",
+      written_out == "2.000",
+      "number_text(%s, 0) is %r, wanted %r"
+      % (ROUND, written_out, "2.000"))
+
+# And a line a person really sees. The preflight says how many frames a
+# camera file is short of what its container claims: two hours at 25
+# frames a second would be 180000, the file holds 150000, so it is
+# 30000 frames and 1200 seconds short. The frame rate comes from a
+# stand-in here, and the path is one nothing lies under, so what the
+# rest of the check reads off the disk is "nothing there".
+CLAIMED_FPS = 25.0
+FRAMES = 150000
+TWO_HOURS = 7200.0
+SHORT_BY = int(TWO_HOURS * CLAIMED_FPS) - FRAMES
+MADE_UP = {"path": "/tmp/no-such-camera.mov", "nominal": CLAIMED_FPS,
+           "mean": FRAMES / TWO_HOURS, "duration": TWO_HOURS,
+           "videos": FRAMES, "varies": False, "spread": 0.0,
+           "offset_s": TWO_HOURS - FRAMES / CLAIMED_FPS, "codec": "h264",
+           "width": 1920, "height": 1080, "gaps": 0}
+real_one = vpm.preflight.inspect_frame_rate
+vpm.preflight.inspect_frame_rate = lambda path: dict(MADE_UP)
+try:
+    found, _facts = quietly(
+        lambda: vpm.preflight.check_camera_file(MADE_UP["path"]))
+finally:
+    vpm.preflight.inspect_frame_rate = real_one
+report = "\n".join(f.text for f in found)
+said = holding(report, "30.000", "30000")
+check("the frames a camera file is short by carry the thousands mark too",
+      "30.000" in report and "30000" not in report,
+      "%r -- wanted %r in it and %r not, for %s frames of the %s a "
+      "container claiming %s s at %s holds"
+      % (said, "30.000", "30000", SHORT_BY, int(TWO_HOURS * CLAIMED_FPS),
+         TWO_HOURS, CLAIMED_FPS))
+
+print("\n5. German: a machine reads it, so the digits stay plain")
 # From here on the run is German, which is the language whose thousands
 # mark is a full stop -- the one that would silently turn a rate into a
 # different number, a file name into another file, an XML field into

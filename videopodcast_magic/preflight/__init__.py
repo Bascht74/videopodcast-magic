@@ -434,7 +434,7 @@ def check_camera_file(file_path):
         out.append(Finding(
             "hint", "",
             T('Frame spacing varies by %s %% -- the frame timing is uneven.')
-            % decimal_text("%.0f" % (100 * b["spread"])),
+            % number_text(100 * b["spread"], 0),
             T('Uneven frame timing cannot be evened out through the '
               'audio. If the sample points spread during alignment as '
               'well, convert to a fixed frame rate.')))
@@ -452,7 +452,7 @@ def check_camera_file(file_path):
                'the same length.'))
             % (decimal_text("%.4f" % b["mean"]),
                decimal_text("%.3f" % b["nominal"]),
-               decimal_text("%.0f" % spare)),
+               number_text(spare, 0)),
             (T('The frames stand a little shorter; the file is not any '
                'longer for it. Editing software leaves out about one '
                'frame every %s s, and picture and camera audio stay '
@@ -461,7 +461,7 @@ def check_camera_file(file_path):
                'shorter for it. Editing software repeats about one '
                'frame every %s s, and picture and camera audio stay '
                'together.'))
-            % decimal_text("%.0f" % (b["duration"] / max(1.0, spare)))))
+            % number_text(b["duration"] / max(1.0, spare), 0)))
     return out, {"name": name, "nominal": b["nominal"], "mean": b["mean"],
                   "duration": b["duration"], "width": b["width"],
                   "height": b["height"], "path": os.path.abspath(file_path),
