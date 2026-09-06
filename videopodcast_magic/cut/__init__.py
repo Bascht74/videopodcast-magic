@@ -63,7 +63,6 @@ clause_break_times = PROGRAM.clause_break_times
 clip_colour_rgb = PROGRAM.clip_colour_rgb
 clocks_apart = PROGRAM.clocks_apart
 colour_per_camera = PROGRAM.colour_per_camera
-csv_line = PROGRAM.csv_line
 cut_log_heading = PROGRAM.cut_log_heading
 decode_audio = PROGRAM.decode_audio
 ffprobe_json = PROGRAM.ffprobe_json
@@ -108,7 +107,6 @@ speaker_split_stored = PROGRAM.speaker_split_stored
 speakers_on_window_axis = PROGRAM.speakers_on_window_axis
 speech_word = PROGRAM.speech_word
 speech_words_kick_off = PROGRAM.speech_words_kick_off
-stand_in_camera = PROGRAM.stand_in_camera
 step_begin = PROGRAM.step_begin
 struct = PROGRAM.struct
 subprocess = PROGRAM.subprocess
@@ -2409,6 +2407,27 @@ def speech_on_cameras(tracks, cut, camera_of, wide_shot, step=0.1):
                 off_camera += 1
     return in_frame, on_wide, off_camera
 
+def stand_in_camera(names):
+    """What stands in front of a silence where no camera is a wide shot.
+
+    Not a wide shot, and it must not act as one: everything the wide
+    shot settings ask for is switched off wherever this is used.
+
+    All that matters here is that the preview and the run reach for the
+    same camera -- and they did not. The preview took the first of its
+    own list, the run took the reference clip, and in a real shoot both
+    are real cameras, so it showed as two different cuts rather than as
+    a fault. Found 25.8.2026, and only reachable at all since a camera
+    with a speaker stopped counting as a wide shot.
+
+    By name, not by position: the two lists are built in different
+    places and nothing says they are sorted alike, so a rule that hangs
+    on the order would let them drift again on the day one of them is
+    built differently.
+    """
+    return sorted(n for n in names if n)[:1] or ["Wide"]
+
+
 def cut_statistics(d, min_len=MIN_EDIT_DURATION_S, delay=0.3,
                    after=WIDE_AFTER_S,
                        holds=5.0, at_latest=120.0, edge=True,
@@ -2903,6 +2922,22 @@ def write_edl(file_path, title, segments, zero, fps):
             f.write("%03d  AX       A     C        %s %s %s %s\n"
                     % (i, t0, t1, t0, t1))
             f.write("* FROM CLIP NAME: %s\n\n" % name)
+
+def csv_line(values):
+    """One row of a CSV file: comma separated, quoted where it matters.
+
+    Comma and full stop, in every language. These files are read by other
+    programs and compared across months; a separator that follows the
+    language of the run would make two runs incomparable.
+    """
+    out = []
+    for x in values:
+        x = str(x)
+        if any(c in x for c in ',";\r\n'):
+            x = '"%s"' % x.replace('"', '""')
+        out.append(x)
+    return ",".join(out) + "\n"
+
 
 def write_metrics_csv(file_path, tracks, cut, segment_list, cameras,
                          args, colours=None, gain=0.0):

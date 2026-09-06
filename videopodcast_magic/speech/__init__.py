@@ -16,12 +16,13 @@ PROGRAM = PROGRAM
 # recognition reads as it did in the one file. Not one of them is a
 # name the program rebinds while it runs, so none of them has to stay
 # PROGRAM.something the way a few of the window's do.
+SPEECH_CODES = PROGRAM.SPEECH_CODES
 T = PROGRAM.T
 TN = PROGRAM.TN
 VERSION = PROGRAM.VERSION
 _pip_install = PROGRAM._pip_install
 cache_folder = PROGRAM.cache_folder
-file_content_mark = PROGRAM.file_content_mark
+certificate_file = PROGRAM.certificate_file
 hashlib = PROGRAM.hashlib
 json = PROGRAM.json
 number_text = PROGRAM.number_text
@@ -29,13 +30,11 @@ os = PROGRAM.os
 outside_work = PROGRAM.outside_work
 platform = PROGRAM.platform
 re = PROGRAM.re
-speech_locale = PROGRAM.speech_locale
 subprocess = PROGRAM.subprocess
 sys = PROGRAM.sys
 tempfile = PROGRAM.tempfile
 threading = PROGRAM.threading
 time = PROGRAM.time
-use_certificates = PROGRAM.use_certificates
 
 
 # =====================================================================
@@ -780,6 +779,19 @@ def macos_recognition_ready():
     return os.path.exists(binary) or not os.path.exists(refused)
 
 
+def speech_locale(language):
+    """The recogniser's code for the tag the interface carries.
+
+    The Language field and --speech-language hold what ffmpeg wants on
+    the audio track: three letters. Both recognisers want the two-letter
+    code. "ger" matched no locale and was dropped without a word, so the
+    machine's own language decided and the field did nothing -- asked
+    for "eng" on a German Mac, the recognition ran in de_DE.
+    """
+    tag = (language or "").strip()
+    return SPEECH_CODES.get(tag.lower(), tag)
+
+
 def macos_words(audio_path, language=""):
     """Let the recognition macOS brings with it write the words.
 
@@ -834,6 +846,22 @@ def whisper_arithmetic():
     if sys.platform == "darwin" and platform.machine() == "arm64":
         return "float32"
     return "int8"
+
+
+def use_certificates():
+    """Point the libraries that fetch on their own at the bundle.
+
+    They read these two variables and nothing else; without them the
+    model download fails on a Python that has no certificates.
+    """
+    bundle = certificate_file()
+    if not bundle:
+        print(T('  No certificate bundle found -- an HTTPS download '
+                'may fail.'))
+        return None
+    os.environ.setdefault("SSL_CERT_FILE", bundle)
+    os.environ.setdefault("REQUESTS_CA_BUNDLE", bundle)
+    return bundle
 
 
 def whisper_words(audio_path, language="", install=True):
@@ -973,6 +1001,31 @@ def words_stored(mark, language, ways):
         if words is not None:
             return words, way
     return None, ""
+
+
+# How much is read at a time when marking a file by its content. A
+# larger block buys nothing: the hashing sets the pace, not the disk.
+CONTENT_BLOCK = 1 << 20
+
+
+def file_content_mark(file_path):
+    """Return what a file holds, as one string over size and content.
+
+    For a file whose name says nothing: a mix is written into a fresh
+    folder on every run, so path and time can never meet themselves,
+    and a modification time cannot tell two writes inside one second
+    apart either. Costs about a third of a second per gigabyte, read
+    or cached. "" where the file cannot be read.
+    """
+    mark = hashlib.sha1()
+    try:
+        with open(file_path, "rb") as f:
+            mark.update(b"%d\n" % os.fstat(f.fileno()).st_size)
+            for block in iter(lambda: f.read(CONTENT_BLOCK), b""):
+                mark.update(block)
+    except OSError:
+        return ""
+    return mark.hexdigest()
 
 
 def recognise_speech(audio_path, language="", way=""):

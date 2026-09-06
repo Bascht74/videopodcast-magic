@@ -40,6 +40,16 @@ def names(files):
     return [os.path.basename(x) for x in files]
 
 
+def collected(chains):
+    """The files of every recording, read through in the order they lie.
+
+    group_recording_parts answers one (row, discarded) pair per
+    recording; the order this test is about is the order the files
+    stand in when those rows are read one after another.
+    """
+    return [x for row, _discarded in chains for x in row]
+
+
 folder = tempfile.mkdtemp(prefix="vpm_together_")
 # The row, in the order somebody typed it: not alphabetical, and its
 # smallest name is neither the first nor the last of the three.
@@ -60,7 +70,7 @@ check("the material stands on disc before anything is collected",
       len(there) == 5,
       "5 wanted, %d created: %s" % (len(there), names(there)))
 
-out, _ = vpm.collect_with_continuations(row, True, together=[row])
+out = collected(vpm.group_recording_parts(row, True, together=[row]))
 check("a hand-forced row comes back with every file it names",
       sorted(names(out)) == ["Alpha.wav", "Mike.wav", "Zulu.wav"],
       "3 wanted ['Alpha.wav', 'Mike.wav', 'Zulu.wav'], %d back %s"
@@ -69,8 +79,8 @@ check("a hand-forced row keeps the order it was named in",
       names(out) == ["Zulu.wav", "Alpha.wav", "Mike.wav"],
       "wanted ['Zulu.wav', 'Alpha.wav', 'Mike.wav'], got %s" % (names(out),))
 
-out, _ = vpm.collect_with_continuations(
-    row + [behind], True, together=[row])
+out = collected(vpm.group_recording_parts(
+    row + [behind], True, together=[row]))
 check("a loose file beside a hand-forced row is not lost",
       sorted(names(out))
       == ["Alpha.wav", "Bravo.wav", "Mike.wav", "Zulu.wav"],
@@ -81,14 +91,14 @@ check("a loose name after the row's smallest sorts behind the row",
       "wanted ['Zulu.wav', 'Alpha.wav', 'Mike.wav', 'Bravo.wav'], got %s"
       % (names(out),))
 
-out, _ = vpm.collect_with_continuations(
-    row + [ahead], True, together=[row])
+out = collected(vpm.group_recording_parts(
+    row + [ahead], True, together=[row]))
 check("a loose name before the row's smallest sorts ahead of the row",
       names(out) == ["Aaron.wav", "Zulu.wav", "Alpha.wav", "Mike.wav"],
       "wanted ['Aaron.wav', 'Zulu.wav', 'Alpha.wav', 'Mike.wav'], got %s"
       % (names(out),))
 
-out, _ = vpm.collect_with_continuations(row + [behind], True)
+out = collected(vpm.group_recording_parts(row + [behind], True))
 check("without --together everything sorts by name",
       names(out) == ["Alpha.wav", "Bravo.wav", "Mike.wav", "Zulu.wav"],
       "wanted ['Alpha.wav', 'Bravo.wav', 'Mike.wav', 'Zulu.wav'], got %s"

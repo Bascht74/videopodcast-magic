@@ -55,7 +55,6 @@ check_camera_metadata = PROGRAM.check_camera_metadata
 check_colour_survived = PROGRAM.check_colour_survived
 check_data_tracks = PROGRAM.check_data_tracks
 choose_preset = PROGRAM.choose_preset
-common_window = PROGRAM.common_window
 copy_mov_atoms = PROGRAM.copy_mov_atoms
 cross_correlate = PROGRAM.cross_correlate
 decode_audio = PROGRAM.decode_audio
@@ -961,6 +960,30 @@ def send_aligned_tracks(args, tracks, folder, tmpdir, window, title=""):
         print(T('\nEnded without a result: %s') % ", ".join(missing))
         return 1
     return None if verify_returned_tracks(tracks, window, tmpdir) else 1
+
+
+def common_window(camera_areas):
+    """The stretch every camera saw, and the two that decide it.
+
+    *camera_areas* is (from, to, name) per camera, in reference camera
+    time. Returns (t0, begins_with, t1, ends_with).
+
+    Every camera, not any camera. A window wider than a camera reaches
+    has a stretch where a cut to that camera finds no picture, and the
+    episode then comes out shorter than the window said it would.
+    Measured on 26.8.2026 over the test interview: the beginning lay
+    12.567 s before one of three cameras began, and on the fixture the
+    window even began at -0.180 s -- before its own zero. Whoever wants
+    that stretch anyway sets an In point of their own; what is derived
+    is a window every camera can fill. Decided on 29.8.2026.
+
+    A function of its own rather than a step inside the timebase: it is
+    arithmetic and nothing else, and arithmetic can be held against
+    numbers without building a window and an hour of sound first.
+    """
+    t0, begins_with = max((x, name) for x, _y, name in camera_areas)
+    t1, ends_with = min((y, name) for _x, y, name in camera_areas)
+    return t0, begins_with, t1, ends_with
 
 
 def build_common_timebase(args, plan, cameras, video_paths, title=""):
