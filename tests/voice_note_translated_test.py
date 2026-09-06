@@ -10,6 +10,7 @@ same thing seen from outside, with the recogniser replaced by a
 stand-in that writes exactly the line the real one writes.
 """
 import os
+import re
 import sys
 import time
 import io
@@ -68,8 +69,13 @@ check("the German run gets the German sentence",
           '  Recognised in %s: ready in %s s, heard in %s s']
       % ("de-DE", "0,1", "25,8"),
       "%r" % german[:70])
-check("and German and English are not the same line",
-      german != said, "%r against %r" % (german[:40], said[:40]))
+# Without stripping the digits this compares nothing: the numbers go
+# through the decimal mark, so German writes 0,1 where English writes
+# 0.1 and the two lines differ with not a word translated.
+_words = lambda line: re.sub(r"[\d.,]+", "", line)
+check("and German and English differ in their words, not their numbers",
+      _words(german) != _words(said),
+      "%r against %r" % (_words(german)[:40], _words(said)[:40]))
 
 print("\n3. A line nobody expected is passed on as a fault")
 vpm.set_language("en")
