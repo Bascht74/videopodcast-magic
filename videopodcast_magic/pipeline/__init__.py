@@ -837,9 +837,9 @@ def measure_tracks_against_each_other(tracks):
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points%s')
               % (track["name"], as_hms(a),
-                 decimal_text("%+.2f" % st.get("ppm", 0.0)),
-                 decimal_text("%.2f" % st.get("ppm_error", 0.0)),
-                 decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                 number_text(st.get("ppm", 0.0), 2, plus=True),
+                 number_text(st.get("ppm_error", 0.0), 2),
+                 number_text(st.get("spread_ms", 0.0)),
                  group_text(st.get("points", 0)),
                  group_text(st.get("candidates", 0)),
                  "  [" + track["hint"] + "]" if track.get("hint") else ""))
@@ -1047,9 +1047,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points')
               % (os.path.basename(v), as_hms(a),
-                 decimal_text("%+.2f" % st.get("ppm", 0.0)),
-                 decimal_text("%.2f" % st.get("ppm_error", 0.0)),
-                 decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                 number_text(st.get("ppm", 0.0), 2, plus=True),
+                 number_text(st.get("ppm_error", 0.0), 2),
+                 number_text(st.get("spread_ms", 0.0)),
                  group_text(st.get("points", 0)),
                  group_text(st.get("candidates", 0))))
 
@@ -1091,9 +1091,9 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print(T('  %-20s offset %s, clock drift %s ppm (+/- %s), '
                 'residual spread %s ms, %s of %s points%s')
               % (name, as_hms(a),
-                 decimal_text("%+.2f" % st.get("ppm", 0.0)),
-                 decimal_text("%.2f" % st.get("ppm_error", 0.0)),
-                 decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                 number_text(st.get("ppm", 0.0), 2, plus=True),
+                 number_text(st.get("ppm_error", 0.0), 2),
+                 number_text(st.get("spread_ms", 0.0)),
                  group_text(st.get("points", 0)),
                  group_text(st.get("candidates", 0)),
                  "  [" + hint + "]" if hint else ""))
@@ -1216,7 +1216,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
         print("    %s, %s%s" % (as_hms(sample_count(target) / float(SR)),
                                 as_data_size(size_in_mb(target)),
                                 T(', clock drift %s ppm taken out')
-                                % decimal_text("%+.1f" % clock_drift)
+                                % number_text(clock_drift, 1, plus=True)
                                 if drift else T(', clock drift left in')))
     verify_alignment(tracks, t0, t1,
                      drift_allowed=not getattr(args, "no_drift", False))
@@ -1662,14 +1662,14 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         else:
             print(T('  Clock drift:     %s ppm (+/- %s), residual spread '
                     '%s ms, %s of %s points')
-                  % (decimal_text("%+.2f" % ((b - 1.0) * 1e6)),
-                     decimal_text("%.2f" % st.get("ppm_error", 0.0)),
-                     decimal_text("%.1f" % st.get("spread_ms", 0.0)),
+                  % (number_text((b - 1.0) * 1e6, 2, plus=True),
+                     number_text(st.get("ppm_error", 0.0), 2),
+                     number_text(st.get("spread_ms", 0.0)),
                      group_text(st.get("points", 0)),
                      group_text(st.get("candidates", 0) or 0)))
             print(T('  Drift over the running time: %s s = %s frames  -->  %s')
-                  % (decimal_text("%+.3f" % total),
-                     decimal_text("%.1f" % (abs(total) * fps)),
+                  % (number_text(total, 3, plus=True),
+                     number_text(abs(total) * fps),
                      T('is actively taken out') if drift
                      else T('is left in')))
         print()
