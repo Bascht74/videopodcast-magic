@@ -634,179 +634,19 @@ def enable_colour_output():
     sys.stderr = ColourWriter(sys.stderr, colour)
 
 
-class Value(object):
-    """A value several observers can watch.
+# A piece of its own, in the folder "dials" beside this one. Read
+# where its lines stood: it reads no name out of the program, and six
+# pieces below bind twenty-six of its names at their heads.
+dials = beside("dials", program=PROGRAM)
+take_from(dials)
 
-    Qt normally binds a value to its input widget. The assignment table is
-    rebuilt on every change, so its widgets disappear while the entered
-    values must survive. The value lives here and the widget follows it.
-    """
-
-    def __init__(self, value=""):
-        self._value = value
-        self._listeners = []
-
-    def get(self):
-        return self._value
-
-    def typed(self):
-        """Only the answer given here, with nothing standing in for it.
-
-        The plain reading is get(). This one is for the two places that
-        have to tell an answer from a guess: what a widget shows, and
-        what is written into the project file. On every value but a
-        name field the two are the same string.
-        """
-        return self._value
-
-    def set(self, value):
-        if value == self._value:
-            return
-        self._value = value
-        for f in list(self._listeners):
-            try:
-                f()
-            except Exception:
-                pass
-
-    def listen(self, f):
-        self._listeners.append(f)
-        return f
-
-
-# What can be shown where "whoever speaks is on screen" gives no
-# answer. The names are the values of the four choice fields below and
-# of the switches behind them.
-SHOT_WIDE = "wide"
-SHOT_LISTENER = "listener"
-SHOT_ALTERNATE = "alternate"
-SHOT_HOLD = "hold"
-SHOT_HOLD_BRIEF = "hold-brief"
-SHOT_OFF = "off"
-SHOT_ANSWER = "answer"
-
-SHOT_NAMES = {
-    SHOT_WIDE: 'Wide shot',
-    SHOT_LISTENER: 'Listener',
-    SHOT_ALTERNATE: 'Alternating',
-    SHOT_HOLD: 'No camera change',
-    # Holding without an end is a different answer from holding a
-    # breath, so the two are two entries and the seconds stand in a
-    # field of their own.
-    SHOT_HOLD_BRIEF: 'Hold a short gap',
-    # Named after what does not happen, not after a switch position:
-    # in a row labelled "Question" the picture going early is the only
-    # thing there is to leave alone.
-    SHOT_OFF: 'do not go early',
-    SHOT_ANSWER: 'Answering speaker',
-}
-
-# The shortest a shot may stand. A camera that changes faster than the
-# viewer can settle on a face reads as nervous. One value for the
-# interface, the switch and every default, or the two cut differently.
-MIN_EDIT_DURATION_S = 3.0
-
-# Up to here a gap with nobody in it counts as a breath rather than as
-# an end, where the cut is told to hold one. Measured over 83 minutes
-# on 2.9.2026: at one second no picture stands on a silent person for
-# longer than 4.0 s, from two seconds on the first ones over five appear.
-SILENCE_HOLD_S = 1.0
-
-# The camera cut is derived from who speaks when; these numbers decide
-# how fine it turns out. Per entry: switch, label, default, unit,
-# short explanation beside it, longer one in the tooltip.
-CUT_FIELDS = (
-    ("min-edit-duration", 'Minimum Edit Duration',
-     "%.1f" % MIN_EDIT_DURATION_S, "s",
-     'shorter shots are merged in',
-     'Shorter shots fall into the following one.'),
-    ("min-speech-to-switch", 'Speaks at least', "1.5", "s",
-     'below this the camera does not follow',
-     ('A short "yes" does not move the picture. Without this a block of '
-      'half a second draws the camera over, and the minimum edit '
-      'duration then holds it there for seconds.')),
-    ("silence-hold", 'Short gap up to', "%.1f" % SILENCE_HOLD_S, "s",
-     'so long a silence leaves the picture alone',
-     ('Only where "Nobody speaks" is set to hold a short gap. A gap up '
-      'to this long changes nothing, a longer one goes to the wide '
-      'shot. Above two seconds the picture begins to stand on someone '
-      'silent for over five seconds.')),
-    # Resolve's own name for it, in the German window as well, so it stays
-    # English. The double quotes are the mark: this one is not translated.
-    ("edit-change-delay", "Edit Change Delay", "0.3", "s",
-     'the picture changes this much later than the sound',
-     'A negative value makes the picture lead the sound.'),
-    ("reaction-lead", 'Answer on screen earlier', "1.5", "s",
-     'before the question ends',
-     ('Zero is where the asker stops, not where the answer starts: the '
-      'pause between them belongs to the question. Applies only where '
-      '"After a question" asks for it, and the Edit Change Delay is '
-      'not added again.')),
-    ("wide-after", 'Wide shot after', "70", "s",
-     'from here on a good moment for it is looked for',
-     ('The soft limit of the pair: from here the program waits for a '
-      'sentence boundary and puts the wide shot there, not on the '
-      'clock. 0 turns it off. "Wide shot at the latest" is the hard '
-      'limit, where it cuts without one.')),
-    ("wide-latest", 'Wide shot at the latest', "120", "s",
-     'and here it is cut, good moment or not',
-     ('The hard limit of the pair: where no sentence boundary has '
-      'turned up since "Wide shot after", the longest speech pause '
-      'stands in for one, and at this point the cut happens whatever '
-      'is being said.')),
-    ("wide-length", 'Wide shot at least', "5", "s",
-     'so long the inserted wide shot stands at least',
-     ('It then runs to the end of the sentence. Below five seconds the '
-      'look reads as a twitch.')),
-    ("wide-most", 'Wide shot at most', "15", "s",
-     'and at most this long',
-     ('Where the end of the sentence lies beyond it, the last clause '
-      'break before it ends the shot -- it is not cut off mid-sentence.')),
-)
-
-# The cases where the speech does not say whom to show, and what is
-# shown instead. Per entry: switch, label, default, the values it
-# takes, short explanation beside it, longer one in the tooltip.
-CUT_CHOICES = (
-    # First, and directly under "Answer on screen earlier": the two
-    # belong to one question and used to stand at opposite ends of the
-    # tab, in words that did not meet.
-    ("on-question", 'After a question', SHOT_ANSWER,
-     (SHOT_OFF, SHOT_ANSWER, SHOT_LISTENER),
-     'the picture goes to the answer before it starts',
-     ('Only after a question that is not the main speaker\'s, when '
-      'somebody else takes over at once and keeps the floor.\n"do not '
-      'go early" means no early camera change: the picture follows '
-      'the sound here as it does everywhere else.')),
-    ("on-monologue", 'Long monologue', SHOT_ALTERNATE,
-     (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
-     'one person holds the floor past "Wide shot after"',
-     ('"Alternating" remembers what the last break of this monologue '
-      'showed. The listener only gets the picture when someone on that '
-      'camera was heard in the last 20 seconds; otherwise the wide '
-      'shot.')),
-    ("on-together", 'Several speak at once', SHOT_WIDE,
-     (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
-     'and no camera shows exactly them',
-     'Cutting into a jumble looks frantic.'),
-    # Directly above "Recognition uncertain", because the two were
-    # taken for one another: nobody speaking is not the recognition
-    # being unsure, and this is the case that decides a fifth of the
-    # running time against that one's three thousandths.
-    ("on-silence", 'Nobody speaks', SHOT_WIDE,
-     (SHOT_WIDE, SHOT_HOLD_BRIEF, SHOT_HOLD),
-     'no voice is heard at all here',
-     ('A breath in the middle of a sentence and the end of a thought '
-      'are both silence, and the program cannot tell them apart. Only '
-      'the length can: "Short gap up to" says how long a silence may '
-      'be and still count as a breath.')),
-    ("on-uncertain", 'Recognition uncertain', SHOT_WIDE,
-     (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
-     'the speaker recognition frays or leaves a heap behind',
-     ('Guessing puts the wrong person on screen for seconds; the wide '
-      'shot is right in every case. Somebody is speaking here -- where '
-      'nobody is, "Nobody speaks" decides.')),
-)
+# What this file itself calls out of it. The rest of what it brings
+# answers here too, through take_from above; these three are written
+# out because they are read below, and a name read here and bound
+# nowhere here is a loose end.
+CUT_CHOICES = dials.CUT_CHOICES
+MIN_EDIT_DURATION_S = dials.MIN_EDIT_DURATION_S
+SILENCE_HOLD_S = dials.SILENCE_HOLD_S
 
 
 def shell_quote(cmd):
@@ -823,157 +663,21 @@ def shell_quote(cmd):
 _PROBE = {}
 
 
-def path_key(path):
-    """The one shape a path takes when two of them are compared.
+# A piece of its own, in the folder "filing" beside this one. Read
+# where its lines stood: ten pieces below bind twenty of its names at
+# their heads, and no line above it reads one.
+filing = beside("filing", program=PROGRAM)
+take_from(filing)
 
-    abspath settles the folder and nothing else: on Windows the same
-    file reached two ways keeps the case and the separator it was typed
-    with, and compares unequal. normcase settles both, and on a Mac it
-    changes nothing. Every comparison and every path used as a key goes
-    through here, so the fault where one side is put into shape and the
-    other is not cannot be written.
-    """
-    return os.path.normcase(os.path.abspath(path))
+# file_stamp, _PROBE and _ffprobe_text stay behind. The probe cache
+# further down reads all three, and the ground may read no name a
+# piece holds; a dividing line above them is out as well, because
+# kept_language at the top reads settings from further down.
 
-
-class ByFile(dict):
-    """A dictionary of files: one entry per file, whatever it is called.
-
-    The same file arrives typed by hand, out of a file dialogue and out
-    of a project file, and on Windows those differ in case while
-    meaning one file. Finding therefore goes through path_key on every
-    side. The key keeps the spelling it was first written under, so
-    what is walked over, shown or saved is the name on the disc.
-    """
-
-    # A key that is not a string passes through untouched. A key made
-    # of a path and something else is built where it is built, and
-    # path_key belongs in that one place -- see prework_api_key.
-
-    def __init__(self, *given, **named):
-        dict.__init__(self)
-        self._spelt = {}
-        if given or named:
-            self.update(*given, **named)
-
-    def _index(self):
-        """The spelling each file sits under, rebuilt if it is gone.
-
-        A dictionary can come into being without __init__ -- fromkeys,
-        a copy read back in -- and a lookup against an index that is
-        not there would quietly miss.
-        """
-        try:
-            return self._spelt
-        except AttributeError:
-            self._spelt = {path_key(k): k for k in self if isinstance(k, str)}
-            return self._spelt
-
-    def _as_stored(self, key):
-        """The key this file already sits under, or the key itself."""
-        if not isinstance(key, str):
-            return key
-        if dict.__contains__(self, key):
-            return key
-        return self._index().get(path_key(key), key)
-
-    def __getitem__(self, key):
-        return dict.__getitem__(self, self._as_stored(key))
-
-    def __setitem__(self, key, value):
-        here = self._as_stored(key)
-        dict.__setitem__(self, here, value)
-        if isinstance(key, str):
-            self._index()[path_key(key)] = here
-
-    def __delitem__(self, key):
-        here = self._as_stored(key)
-        dict.__delitem__(self, here)
-        if isinstance(here, str):
-            self._index().pop(path_key(here), None)
-
-    def __contains__(self, key):
-        return dict.__contains__(self, self._as_stored(key))
-
-    def __ior__(self, other):
-        self.update(other)
-        return self
-
-    def get(self, key, fallback=None):
-        return dict.get(self, self._as_stored(key), fallback)
-
-    def setdefault(self, key, fallback=None):
-        here = self._as_stored(key)
-        if dict.__contains__(self, here):
-            return dict.__getitem__(self, here)
-        self[key] = fallback
-        return fallback
-
-    def pop(self, key, *fallback):
-        here = self._as_stored(key)
-        got = dict.pop(self, here, *fallback)
-        if isinstance(here, str):
-            self._index().pop(path_key(here), None)
-        return got
-
-    def popitem(self):
-        key, value = dict.popitem(self)
-        if isinstance(key, str):
-            self._index().pop(path_key(key), None)
-        return key, value
-
-    def clear(self):
-        dict.clear(self)
-        self._index().clear()
-
-    def update(self, *given, **named):
-        for other in given:
-            pairs = other.items() if hasattr(other, "items") else other
-            for key, value in pairs:
-                self[key] = value
-        for key, value in named.items():
-            self[key] = value
-
-    def copy(self):
-        return ByFile(self)
-
-
-class FileSet(set):
-    """A set of files: one entry per file, whatever it is called.
-
-    The companion to ByFile, and for the same reason. Only the members
-    that are strings are put into shape; anything else passes through.
-    """
-
-    def __init__(self, given=()):
-        set.__init__(self)
-        self.update(given)
-
-    @staticmethod
-    def _shape(item):
-        return path_key(item) if isinstance(item, str) else item
-
-    def __contains__(self, item):
-        return set.__contains__(self, self._shape(item))
-
-    def add(self, item):
-        set.add(self, self._shape(item))
-
-    def discard(self, item):
-        set.discard(self, self._shape(item))
-
-    def remove(self, item):
-        set.remove(self, self._shape(item))
-
-    def update(self, *given):
-        for other in given:
-            for item in other or ():
-                self.add(item)
-
-    def difference_update(self, *given):
-        for other in given:
-            for item in other or ():
-                self.discard(item)
+# What this file itself calls out of it: the two containers. path_key
+# is not among them -- it is read inside the piece and nowhere here.
+ByFile = filing.ByFile
+FileSet = filing.FileSet
 
 
 def file_stamp(path):
