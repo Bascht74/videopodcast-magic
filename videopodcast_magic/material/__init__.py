@@ -2203,8 +2203,9 @@ def shapes_match(first, second):
     if a[0] != b[0]:
         return False, (T('%s channels against %s')
                        % (number_text(a[0], 0), number_text(b[0], 0)))
-    return False, (T('%s Hz against %s Hz')
-                   % (number_text(a[1], 0), number_text(b[1], 0)))
+    return False, (T('%s kHz against %s kHz')
+                   % (number_text(a[1] / 1000.0, None),
+                      number_text(b[1] / 1000.0, None)))
 
 
 def blocks_facts(paths):
