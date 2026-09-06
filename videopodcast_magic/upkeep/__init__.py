@@ -463,9 +463,9 @@ def update_fetched(tag, owner):
     """Hand that release to pip. "" where it is under way, or why not.
 
     pip is the only way in and therefore the only way on: it keeps the
-    record of which version is installed, and this program is a folder
-    whose way in is one file of nine. pip takes minutes, so the window
-    runs it beside itself rather than in its own thread.
+    record of which version is installed, and this program is a whole
+    folder, not the one file its way in looks like. pip takes minutes,
+    so the window runs it beside itself rather than in its own thread.
     """
     if not owner:
         return not_installed_note()
