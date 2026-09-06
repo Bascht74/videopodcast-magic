@@ -53,6 +53,7 @@ parallel_map = PROGRAM.parallel_map
 parse_timecode = PROGRAM.parse_timecode
 path_key = PROGRAM.path_key
 place_track_on_axis = PROGRAM.place_track_on_axis
+qt_palette = PROGRAM.qt_palette
 re = PROGRAM.re
 shapes_match = PROGRAM.shapes_match
 subprocess = PROGRAM.subprocess
@@ -336,11 +337,15 @@ def sheet_recoloured(sheet, dark):
 
 
 def app_style_set(app):
-    """Put the palette into the style sheet of the whole program.
+    """Put the palette into the whole program, twice over.
 
-    Its own function so it can be set again when the desktop switches
-    between light and dark.
+    Into Qt's own palette first: the ground of the window and of a
+    scrolled sheet is painted from that and carries no style sheet, so
+    nothing else on the way reaches it. Then into the style sheet.
+    Its own function so both are set again when the desktop switches.
     """
+    import PySide6.QtGui as _qg
+    app.setPalette(qt_palette(_qg, COLOURS))
     app.setStyleSheet("""
     QGroupBox {
         border: 1px solid %(frame)s; border-radius: 6px;

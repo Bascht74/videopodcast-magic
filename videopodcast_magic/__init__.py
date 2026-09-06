@@ -356,7 +356,7 @@ take_from(choices)
 # A piece of its own, in the folder "livery" beside this one. Read
 # where its lines stood: it takes only os, re and sys, all three
 # imports at the top of this file, and fourteen pieces below bind
-# fifteen of its names at their heads, metadata the first of them.
+# sixteen of its names at their heads, metadata the first of them.
 livery = beside("livery", program=PROGRAM)
 take_from(livery)
 
