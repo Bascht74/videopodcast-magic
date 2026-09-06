@@ -1,16 +1,11 @@
 # -*- coding: utf-8 -*-
 """The dials the cut is set with, and the value a dial holds.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead.
-Nothing of the program is bound below: this piece reads no name that
-it does not set itself.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in. Nothing is bound below.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own. It is
-# the one name in here that comes from outside, and no line reads it.
+# Put here by beside() before this file is read; no line reads it.
 PROGRAM = PROGRAM
 
 
@@ -21,9 +16,8 @@ PROGRAM = PROGRAM
 class Value(object):
     """A value several observers can watch.
 
-    Qt normally binds a value to its input widget. The assignment table is
-    rebuilt on every change, so its widgets disappear while the entered
-    values must survive. The value lives here and the widget follows it.
+    Qt binds a value to its input widget, but the assignment table is
+    rebuilt on every change: the widgets go, the values must not.
     """
 
     def __init__(self, value=""):
@@ -36,10 +30,9 @@ class Value(object):
     def typed(self):
         """Only the answer given here, with nothing standing in for it.
 
-        The plain reading is get(). This one is for the two places that
-        have to tell an answer from a guess: what a widget shows, and
-        what is written into the project file. On every value but a
-        name field the two are the same string.
+        get() is the plain reading; this is for the two places that must
+        tell an answer from a guess -- what a widget shows, and what the
+        project file saves. Only on a name field do the two differ.
         """
         return self._value
 
@@ -57,10 +50,7 @@ class Value(object):
         self._listeners.append(f)
         return f
 
-
-# What can be shown where "whoever speaks is on screen" gives no
-# answer. The names are the values of the four choice fields below and
-# of the switches behind them.
+# What is shown where "whoever speaks is on screen" gives no answer.
 SHOT_WIDE = "wide"
 SHOT_LISTENER = "listener"
 SHOT_ALTERNATE = "alternate"
@@ -75,30 +65,25 @@ SHOT_NAMES = {
     SHOT_ALTERNATE: 'Alternating',
     SHOT_HOLD: 'No camera change',
     # Holding without an end is a different answer from holding a
-    # breath, so the two are two entries and the seconds stand in a
-    # field of their own.
+    # breath, so the seconds stand in a field of their own.
     SHOT_HOLD_BRIEF: 'Hold a short gap',
-    # Named after what does not happen, not after a switch position:
-    # in a row labelled "Question" the picture going early is the only
-    # thing there is to leave alone.
+    # Named after what does not happen: in a row labelled "Question"
+    # the picture going early is the only thing to leave alone.
     SHOT_OFF: 'do not go early',
     SHOT_ANSWER: 'Answering speaker',
 }
 
-# The shortest a shot may stand. A camera that changes faster than the
-# viewer can settle on a face reads as nervous. One value for the
-# interface, the switch and every default, or the two cut differently.
+# The shortest a shot may stand: a camera changing faster than the
+# viewer can settle on a face reads as nervous. One value for all.
 MIN_EDIT_DURATION_S = 3.0
 
-# Up to here a gap with nobody in it counts as a breath rather than as
-# an end, where the cut is told to hold one. Measured over 83 minutes
-# on 2.9.2026: at one second no picture stands on a silent person for
-# longer than 4.0 s, from two seconds on the first ones over five appear.
+# Up to here a gap with nobody in it is a breath, not an end. At one
+# second nothing stands on a silent person past 4.0 s; at two, the
+# first over five appear.
 SILENCE_HOLD_S = 1.0
 
-# The camera cut is derived from who speaks when; these numbers decide
-# how fine it turns out. Per entry: switch, label, default, unit,
-# short explanation beside it, longer one in the tooltip.
+# How fine the camera cut turns out. Per entry: switch, label,
+# default, unit, short explanation beside it, longer in the tooltip.
 CUT_FIELDS = (
     ("min-edit-duration", 'Minimum Edit Duration',
      "%.1f" % MIN_EDIT_DURATION_S, "s",
@@ -148,13 +133,10 @@ CUT_FIELDS = (
       'break before it ends the shot -- it is not cut off mid-sentence.')),
 )
 
-# The cases where the speech does not say whom to show, and what is
-# shown instead. Per entry: switch, label, default, the values it
-# takes, short explanation beside it, longer one in the tooltip.
+# Where the speech does not say whom to show. Per entry: switch,
+# label, default, the values it takes, short explanation, tooltip.
 CUT_CHOICES = (
-    # First, and directly under "Answer on screen earlier": the two
-    # belong to one question and used to stand at opposite ends of the
-    # tab, in words that did not meet.
+    # Directly under "Answer on screen earlier": one question, one place.
     ("on-question", 'After a question', SHOT_ANSWER,
      (SHOT_OFF, SHOT_ANSWER, SHOT_LISTENER),
      'the picture goes to the answer before it starts',
@@ -173,10 +155,9 @@ CUT_CHOICES = (
      (SHOT_WIDE, SHOT_LISTENER, SHOT_ALTERNATE, SHOT_HOLD),
      'and no camera shows exactly them',
      'Cutting into a jumble looks frantic.'),
-    # Directly above "Recognition uncertain", because the two were
-    # taken for one another: nobody speaking is not the recognition
-    # being unsure, and this is the case that decides a fifth of the
-    # running time against that one's three thousandths.
+    # Directly above "Recognition uncertain", easily taken for it:
+    # nobody speaking is not recognition being unsure, and this case
+    # decides a fifth of the running time against three thousandths.
     ("on-silence", 'Nobody speaks', SHOT_WIDE,
      (SHOT_WIDE, SHOT_HOLD_BRIEF, SHOT_HOLD),
      'no voice is heard at all here',

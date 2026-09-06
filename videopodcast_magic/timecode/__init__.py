@@ -1,19 +1,14 @@
 # -*- coding: utf-8 -*-
 """Time and timecode: reading a clock off a file, and writing one.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# reading reads as it did in the one file. All six stand above the
-# seam, so each is a copy of what was there and none is read late.
+# Bound above the seam, so each is a copy and none is read late.
 
 SR = PROGRAM.SR
 T = PROGRAM.T
@@ -40,9 +35,8 @@ def timecode_string(seconds, fps=30.0):
 def parse_timecode(s, fps=30.0):
     """Parse '6.4087', '0:06', '1:23:45' or '17:15:56:12' into seconds.
 
-    Drop frame writes the last colon as a semicolon, '17:15:56;12'. That
-    is the same value; how the frames are counted is a question for
-    timecode_to_frames, not for a length in seconds.
+    Drop frame writes the last colon as a semicolon, '17:15:56;12' --
+    the same value; how frames are counted is timecode_to_frames's.
     """
     t = str(s).strip().replace(";", ":")
     p = t.split(":")
@@ -71,9 +65,8 @@ def frame_rate_fraction(fps):
 def is_drop_frame(tc):
     """Report whether a timecode string is drop frame.
 
-    The notation decides, not the frame rate: drop frame uses a semicolon
-    before the frames. 29.97 exists in both flavours, so guessing from the
-    rate is wrong half the time. No marker means non-drop.
+    The notation decides, not the frame rate: 29.97 exists in both
+    flavours. A semicolon before the frames means drop, nothing non-drop.
     """
     return ";" in str(tc or "")
 
@@ -81,10 +74,8 @@ def is_drop_frame(tc):
 def timecode_moved(tc, by_s, fps=30.0):
     """A timecode string moved on by *by_s* seconds.
 
-    Cutting a head off a camera moves the moment its first frame was
-    taken, and whoever plays the file reads that moment off the
-    timecode. The semicolon of drop frame is kept: losing it turns the
-    same frame into a different time of day for whoever reads it.
+    Cutting a head moves the moment the first frame was taken. The
+    drop-frame semicolon is kept, or the frame reads as another time.
     """
     moved = timecode_string(parse_timecode(tc, fps) + by_s, fps)
     if is_drop_frame(tc):
@@ -96,8 +87,7 @@ def timecode_moved(tc, by_s, fps=30.0):
 def build_ixml(name, tr, fps, bits=24, channels=1, df=False):
     """Build the iXML block for one track.
 
-    Resolve is happy with bext alone, but Premiere and Media Composer fall
-    back to iXML. Writing both costs nothing.
+    Resolve is happy with bext alone; Premiere and Media Composer need iXML.
     """
     num, the_one = frame_rate_fraction(fps)
     ndf = not df
@@ -153,11 +143,9 @@ def append_ixml(file_path, xml):
 def parse_time_point(s, fps=30.0):
     """Parse a --in-point/--out-point time.
 
-    Returns (seconds, absolute). Absolute means wall clock since
-    midnight, i.e. a timecode; everything else counts from the start of
-    the window. A leading plus is optional, a bare number is seconds,
-    and a negative value measures back from the window end -- that one
-    only for --out-point.
+    Returns (seconds, absolute): absolute is wall clock since midnight,
+    a timecode; everything else counts from the start of the window. A
+    negative value measures back from its end, only for --out-point.
     """
     t = str(s).strip()
     if not t:
@@ -198,9 +186,8 @@ def sample_count(path):
 
 
 def _sample_count(path):
-    # Out of the one description of the file rather than a second call
-    # of its own: duration_ts counts samples exactly, where a duration
-    # in seconds has already been rounded.
+    # Out of the one description of the file, not a second call:
+    # duration_ts counts samples exactly, a duration in seconds is rounded.
     d = ffprobe_json(path)
     a = next((x for x in d.get("streams", [])
               if x.get("codec_type") == "audio"), {})
@@ -237,18 +224,16 @@ def _bext_time_reference(path):
                 return struct.unpack("<Q", b[338:346])[0] if len(b) >= 346 else None
             f.seek(sz + (sz & 1), os.SEEK_CUR)
 
-
 DAY_S = 24 * 60 * 60
 
 
 def unwrap_day(value, near):
     """Move *value* by whole days until it sits closest to *near*.
 
-    A timecode starts over at midnight, so a recording running across it
-    looks 23 hours away and every difference is out by a day. Nothing is
-    added to either axis -- that would make one absolute and the other
-    not -- so the two meet only where they are compared. Half a day is
-    the fence: past it a night is indistinguishable from a day's gap.
+    A timecode starts over at midnight, so a recording running across
+    it looks 23 hours away. Nothing is added to either axis, so the two
+    meet only where they are compared. Half a day is the fence: past it
+    a night is indistinguishable from a day's gap.
     """
     if value is None or near is None:
         return value
@@ -258,11 +243,10 @@ def unwrap_day(value, near):
 def clocks_apart(spans):
     """Which of these time windows share their time with no other.
 
-    *spans* is [(start, length, key), ...] read off the timecode.
-    Material from one recording overlaps; a window overlapping with none
-    came off a clock never set. All are first brought onto one axis
-    around the middle, or a shoot across midnight would look the same.
-    Fewer than three say nothing. Returns (apart, moved, placed).
+    *spans* is [(start, length, key), ...] read off the timecode; all
+    are first brought onto one axis around the middle. A window that
+    overlaps none came off a clock never set. Fewer than three say
+    nothing. Returns (apart, moved, placed).
     """
     spans = [(float(a), max(1.0, float(n or 0.0)), k) for a, n, k in spans]
     if len(spans) < 3:
@@ -276,16 +260,12 @@ def clocks_apart(spans):
     moved, placed = [], []
     for i, (a, n, k) in enumerate(spans):
         shifted = unwrap_day(a, middle)
-        # A file starting at 00:00:00 is not a recording that began in
-        # the first second after midnight, it is a recorder whose clock
-        # was never set -- and unwrapping it would drop it neatly among
-        # the cameras and hide exactly the fault this is here for.
+        # A file starting at 00:00:00 is a clock never set, not a run
+        # begun after midnight; unwrapping it would hide that fault.
         if a < 1.0:
             shifted = a
-        # Moving a file a whole day is a claim, and only worth making if
-        # the file then lands among the others. A recorder left hours
-        # out also moves under plain arithmetic and still overlaps
-        # nothing, so the move is taken back.
+        # Moving a file a whole day is a claim, worth making only if it
+        # then lands among the others; otherwise the move is taken back.
         if shifted != a and not alone(i, shifted, n, spans):
             moved.append(k)
             placed.append((shifted, n, k))
@@ -295,15 +275,12 @@ def clocks_apart(spans):
                 if alone(i, a, n, placed)), moved, placed)
 
 
-
-
 def picture_rate(probed):
     """The frame rate of the picture in an ffprobe answer, or nothing.
 
     ffprobe writes it as a fraction, '30000/1001' for 29.97. The mean
-    over the file comes first, because it is frames over duration and
-    therefore always a real number; the nominal rate is what the
-    container claims and is a timebase in a few odd files.
+    over the file comes first -- frames over duration, always real; the
+    nominal rate is what the container claims, a timebase in odd files.
     """
     v = next((s for s in probed.get("streams", ())
               if s.get("codec_type") == "video"), None)
@@ -319,10 +296,8 @@ def file_timecode(path, fps=None):
     """Return the start time in seconds from bext or a timecode track.
 
     The frames of a timecode are frames, so the rate decides what they
-    are worth: read at the wrong rate the start lands whole frames out.
-    Where no rate is passed the file's own is taken. A sound file has
-    none, so its frames belong to the reference picture and a caller who
-    knows that rate passes it; without one 30 is the fallback.
+    are worth: at the wrong rate the start lands whole frames out. A
+    sound file has none of its own; without one passed in, 30.
     """
     tr = bext_time_reference(path)
     if tr is not None:
@@ -330,9 +305,8 @@ def file_timecode(path, fps=None):
     d = ffprobe_json(path)
     rate = float(fps) if fps else (picture_rate(d) or 30.0)
     # The tracks before the file: a track's clock is what the camera
-    # wrote, the file level is what ffmpeg made of it, and the camera
-    # wins where they disagree. A file that keeps a clock nowhere else
-    # -- MXF and AVI do -- is still read, only afterwards.
+    # wrote, the file level what ffmpeg made of it, and the camera wins.
+    # A file that keeps one nowhere else -- MXF, AVI -- is read after.
     for source in [s.get("tags", {}) or {} for s in d.get("streams", [])] +\
                   [d.get("format", {}).get("tags", {})]:
         if source.get("timecode"):

@@ -1,22 +1,17 @@
 # -*- coding: utf-8 -*-
 """The moving picture: the player, the cut band and the log view.
 
-A piece of the program, read out of the folder beside the way in by
-beside(). It cannot import the file it was cut out of, because that
-file is still being read while this one is; the program is handed in
-instead, and every name this piece uses out of it is bound below, by
-name. Nothing here reads back into the window: what the window still
-calls out of this piece it binds there, by name, in its turn.
+Read out of the folder beside the way in by beside(). It cannot import
+the file it was cut out of -- that file is still being read -- so the
+program is handed in and every name is bound below, by name. Nothing
+reads back into the window; the window binds back by name in its turn.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# player reads as it did in the window. Not one of them is a name the
-# program binds again while it runs -- such a name is read through
-# PROGRAM. where it is used, and there is none of that sort in here.
+# What this piece uses out of the program, bound once. A name the
+# program binds again while it runs is read through PROGRAM. instead.
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 COLOURS = PROGRAM.COLOURS
 CUT_CHOICES = PROGRAM.CUT_CHOICES
@@ -51,23 +46,18 @@ timecode_string = PROGRAM.timecode_string
 video_facts = PROGRAM.video_facts
 
 
-# Two names came out of the window with the block, so that this piece
-# reads nothing back out of it. pause_if_running is called here and
-# nowhere else; digits_font the window still uses once, and binds back
-# by name like the rest.
+# Two names came out of the window with the block, so this piece reads
+# nothing back out of it.
 def digits_font(QtGui, widget):
     """The system's typewriter face, at the size the widget is drawn in.
 
-    For readings made of digits. In a proportional face the columns
-    shift about as the digits change, and a time that moves while it
-    counts is read as the layout moving, not the clock.
+    In a proportional face a time that moves while it counts is read as
+    the layout moving, not the clock.
     """
     font = QtGui.QFontDatabase.systemFont(QtGui.QFontDatabase.FixedFont)
     font.setPointSize(max(9, widget.font().pointSize()))
-    # The hint, because the name is not always one this machine knows:
-    # a windowless Qt answers the Linux alias "monospace" everywhere,
-    # and without the hint the text falls back to the interface face --
-    # which is not fixed width, and measures 12 per cent narrower.
+    # Without the hint the text falls back to the interface face, which
+    # is not fixed width and measures 12 per cent narrower.
     font.setStyleHint(QtGui.QFont.Monospace)
     return font
 
@@ -75,19 +65,11 @@ def digits_font(QtGui, widget):
 def pause_if_running(QtMultimedia, *players):
     """Stop the players that are running, and leave the others alone.
 
-    QMediaPlayer.pause() is not free on a player that never started.
-    What lies behind it is built when it is first needed, and building
-    it connects objects -- which waits for a lock that another player's
-    decoding threads hold while they are starting up. The window then
-    does not come back at all.
-
-    Measured 28.8.2026 on two tests of this project, both stopped for
-    good in QMediaPlayer::pause, and one of them with a single window
-    open -- so this is not a thing only a test can reach.
-
-    A player that is not playing has nothing to pause, so the question
-    is asked first: playbackState only reads what is already noted and
-    builds nothing.
+    QMediaPlayer.pause() is not free on a player that never started:
+    what lies behind it is built on first use, and building it waits
+    for a lock another player's decoding threads hold while they start
+    up -- the window then never comes back. playbackState only reads
+    what is already noted, so asking first builds nothing.
     """
     for one in players:
         try:
@@ -95,19 +77,14 @@ def pause_if_running(QtMultimedia, *players):
                     == QtMultimedia.QMediaPlayer.PlayingState):
                 one.pause()
         except Exception:
-            # A player already taken down answers nothing, and the
-            # window is going anyway.
+            # A player already taken down answers nothing.
             pass
 
 
-# The same nine point font runs about twice as wide on Windows as it
-# does on macOS -- 1.89 times, measured on GitHub's runners over both
-# languages on 24.8.2026, with 62 captions standing cut off in fields
-# sized for the Mac, the worst of them by 136 px. Linux lies between
-# the two and misses by 9 px in one spot. So the fields grow on
-# Windows and nowhere else: the Mac layout is the one the manual's
-# pictures show, and the one where four cut buttons and a checkbox
-# were already weighed against a row 480 px wide.
+# The same nine point font runs 1.89 times as wide on Windows as on
+# macOS, so the fields grow there and nowhere else: the Mac layout is
+# the one the manual's pictures show, and the one four cut buttons and
+# a checkbox were weighed against in a row 480 px wide.
 WIDE_FONT = sys.platform == "win32"
 
 
@@ -116,19 +93,10 @@ def caption_room(widget, base, captions=()):
 
     Measured in the font that is drawing rather than added as a
     constant: a surcharge in pixels fits one font and misses the next.
-    A widget already carrying its text is asked for its own size hint,
-    which counts the frame its style draws around it. Where several
-    fields share one width every caption is handed in, because the
-    widest of them decides; one average character is left as air.
-
-    Measured on every system, not on Windows alone. It never returns
-    less than the designed width, so where the design already fits
-    nothing moves: measured on 25.8.2026, not one of the 150 captions
-    on this machine wants more than its base. Windows was where it was
-    needed first, at 1.89 times the width for the same nominal font,
-    but the fixed numbers left "+10 s" 9 px short on Linux and the
-    tests red at every push since the CI was set up. Sans Serif 9.0 is
-    not the same font file on two systems.
+    Sans Serif 9.0 is not the same font file on two systems, and fixed
+    numbers left "+10 s" 9 px short on Linux. Where several fields
+    share one width every caption is handed in, because the widest of
+    them decides; one average character is left as air.
     """
     metrics = widget.fontMetrics()
     want = widget.sizeHint().width()
@@ -142,8 +110,7 @@ def cut_caption_room(widget, base):
     """Width of the caption column beside the camera cut numbers.
 
     All the rows share it, so all the captions are measured: a column
-    as wide as its own caption would leave the fields beside it
-    ragged.
+    as wide as its own caption leaves the fields beside it ragged.
     """
     return caption_room(widget, base, [T(f[1]) for f in CUT_FIELDS]
                         + [T(c[1]) for c in CUT_CHOICES])
@@ -152,9 +119,7 @@ def cut_caption_room(widget, base):
 def cut_choice_room(widget, base):
     """Width of the drop-downs beside the camera cut captions.
 
-    All the rows share it, so every entry any of them offers is
-    measured: a box as wide as its own longest entry leaves the column
-    ragged, and the widest entry anywhere decides.
+    All the rows share it, so the widest entry anywhere decides.
     """
     return caption_room(widget, base,
                         [T(SHOT_NAMES.get(n, n))
@@ -165,11 +130,9 @@ def box_room(box, base):
     """Fix a box at its designed width, and at what fits in it.
 
     Only the finished box knows how much room it wants, so it watches
-    its own layout and is let out when what it carries has grown -- on
-    every system, not on Windows alone. A missing font family is
-    replaced by a wider one anywhere: measured on 2.9.2026, the
-    player's line wants 519 px here, about 590 in a substitute 12 %
-    wider, against a box fixed at 580.
+    its own layout and is let out when what it carries has grown. A
+    substitute font 12 % wider takes the player's line from 519 px to
+    about 590, against a box fixed at 580.
     """
     box.setFixedWidth(base)
     from PySide6 import QtCore
@@ -197,8 +160,7 @@ def box_grown(box):
 def make_drop_area(QtCore, QtGui, QtWidgets):
     """The area files are dragged onto while the list is empty.
 
-    Once something is in the list it disappears -- the list is then the
-    drop area itself.
+    Once something is in the list, the list is the drop area itself.
     """
 
     class DropArea(QtWidgets.QFrame):
@@ -209,8 +171,7 @@ def make_drop_area(QtCore, QtGui, QtWidgets):
             self.colours = colours
             self.setAcceptDrops(True)
             self.setFrameShape(QtWidgets.QFrame.StyledPanel)
-            # With a name, so the dashed border runs around the area only and
-            # not around every label inside it.
+            # Named, so the dashed border runs around the area only.
             self.setObjectName("droparea")
             position = QtWidgets.QVBoxLayout(self)
             position.setAlignment(QtCore.Qt.AlignCenter)
@@ -233,8 +194,7 @@ def make_drop_area(QtCore, QtGui, QtWidgets):
             button = QtWidgets.QPushButton(T('... or add files ...'))
             button.setFixedWidth(220)
             button.clicked.connect(lambda: pick())
-            # Opening an earlier project only works here, at the start --
-            # once files are in the list it would overwrite them.
+            # Only here: once files are in the list it would overwrite them.
             button2 = QtWidgets.QPushButton(T('Open project ...'))
             button2.setFixedWidth(220)
             button2.clicked.connect(lambda: project())
@@ -277,9 +237,7 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
     """A band showing the computed camera cut.
 
     One bar per shot in the colour of its camera -- the same colour the
-    clips will carry in Resolve. That shows the rhythm without rendering
-    anything: where one camera holds for a long time, where it stutters,
-    where the wide shot steps in.
+    clips will carry in Resolve. It shows the rhythm without rendering.
     """
 
     class CutBand(QtWidgets.QWidget):
@@ -311,10 +269,8 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
                 max((b for _a, b, _w in self.cut), default=0.0))
             self.view = None
             self.update()
-            # The whole length is on show again, and it is a different
-            # length from the one before. The reading beside the band
-            # hangs on this signal, so it follows new material without
-            # anybody having to zoom first.
+            # The reading beside the band hangs on this signal, so it
+            # follows new material without anybody having to zoom first.
             self.zoomed.emit()
 
         # -- What is on show -------------------------------------------
@@ -327,9 +283,8 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
         def zoom(self, factor, around=None):
             """Show half as much, or twice as much, around one point.
 
-            Around the position by default: zooming in is done to look
-            at where one is, and a magnifier that jumps somewhere else
-            has to be dragged back every time.
+            Around the position by default: a magnifier that jumps
+            somewhere else has to be dragged back every time.
             """
             if self.length <= 0:
                 return
@@ -354,10 +309,8 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
             """What is on show, for a label beside the band.
 
             Without the milliseconds as_hms carries: this says which
-            stretch is on screen, not where a cut sits. Unzoomed that
-            is the whole material, and with no material yet it is zero
-            to zero. It is never empty: a hole beside the zoom buttons
-            says nothing about what the third one restores.
+            stretch is on screen, not where a cut sits. Never empty --
+            a hole says nothing about what the third button restores.
             """
             a, b = self.window()
 
@@ -369,9 +322,8 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
 
         def label_set(self, seconds):
             self.spot = seconds
-            # The view follows the position rather than being left
-            # behind: zoomed in, playing would otherwise run out of the
-            # picture within seconds.
+            # The view follows the position: zoomed in, playing would
+            # otherwise run out of the picture within seconds.
             if self.view is not None and seconds is not None:
                 a, b = self.window()
                 span = b - a
@@ -444,8 +396,7 @@ def qt_cut_band(QtCore, QtGui, QtWidgets, Qt):
                 painter.fillRect(x0, 0, x1 - x0, height,
                                QtGui.QColor(self.colours.get(who, "#888888")))
             # A scale, or the band is a coloured stripe without meaning.
-            # The step follows what is on show: minutes over the whole
-            # thing, seconds once zoomed in far enough.
+            # The step follows what is on show.
             painter.setPen(QtGui.QPen(QtGui.QColor(0, 0, 0, 90)))
             span = ends - begins
             step = 1.0
@@ -474,10 +425,8 @@ SILENT_PLAYER = bool(os.environ.get("VPM_SILENT"))
 def loud(value):
     """The volume to set: nothing at all where VPM_SILENT is set.
 
-    The suite plays real files, and a machine that beeps its way through
-    a run is no use to anybody working beside it. Volume and mute are
-    all the switch touches, so where the playhead lands -- what the
-    tests measure -- is untouched.
+    Volume and mute are all the switch touches, so where the playhead
+    lands -- what the tests measure -- is untouched.
     """
     return 0.0 if SILENT_PLAYER else value
 
@@ -490,11 +439,8 @@ def hushed(on):
 def audio_sink(QtMultimedia, parent):
     """A player's audio output, silent from the start where asked.
 
-    Full and not four fifths. Measured on 24.8.2026: Qt takes nothing
-    above 1.0 -- setVolume(1.5) reads back as 1.0 and no change is
-    signalled -- so 0.8 was giving away 1.94 dB against a ceiling that
-    cannot be raised. On a recording that sits 18 dB below the
-    delivery target, that is 1.94 dB nobody had to lose.
+    Full and not four fifths: Qt takes nothing above 1.0, so 0.8 gives
+    away 1.94 dB against a ceiling that cannot be raised.
     """
     out = QtMultimedia.QAudioOutput(parent)
     out.setVolume(loud(1.0))
@@ -505,8 +451,8 @@ def audio_sink(QtMultimedia, parent):
 def readable_on(colour):
     """Black or white, whichever can be read on *colour*.
 
-    The threshold is where the two contrasts meet: sRGB luminance
-    0.179 by WCAG 2.1, so a middling colour still takes black.
+    Threshold where the two contrasts meet: sRGB luminance 0.179 by
+    WCAG 2.1, so a middling colour still takes black.
     """
     digits = str(colour or "").lstrip("#")
     if len(digits) != 6 or any(c not in "0123456789abcdefABCDEF"
@@ -524,28 +470,23 @@ def readable_on(colour):
 def speakers_at(sections_per_name, t):
     """Who is speaking at programme time *t*, in the order handed in.
 
-    Several at once are all of them: two people talking over each
-    other are two names, and picking one would answer a question
-    nobody asked. Nobody speaking is an empty list, which is an
-    answer too.
+    Several at once are all of them: picking one would answer a
+    question nobody asked. Nobody speaking is an empty list.
     """
     return [name for name, spans in (sections_per_name or ())
             if any(a <= t < b for a, b in spans)]
 
 
-# How long a name stands before another may take its place. A voice
-# that interjects for a moment would flash past unread otherwise; the
-# price is that the name lags the sound by up to this much.
+# How long a name stands before another may take its place. The price
+# is that the name lags the sound by up to this much.
 NAME_HOLD_S = 0.5
 
 
 class NameHold(object):
     """Keep a name up long enough to be read.
 
-    Display only. What comes out of here never travels back into the
-    cut: the picture switches where the cut says, whatever name is
-    still standing. Time is programme time, so the same run of a
-    programme gives the same names every time.
+    Display only: the picture switches where the cut says, whatever
+    name is still standing. Time is programme time, so a run repeats.
     """
 
     def __init__(self, at_least=NAME_HOLD_S):
@@ -574,15 +515,13 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                       QtMultimediaWidgets, label, hint, COLOURS):
     """Play the computed cut without rendering anything.
 
-    Two video surfaces sit on top of each other: one shows, the other is
-    already loading the next shot and starts shortly before. At the cut it
-    only switches over, which costs no frame. The audio comes from one file
-    throughout so nothing jumps at the cuts.
+    Two video surfaces sit on top of each other: one shows, the other
+    is already loading the next shot. At the cut it only switches over,
+    which costs no frame; the audio comes from one file throughout.
 
-    Seeking is a request in Qt, not a command: before loading, before the
-    first frame and in mid-playback, setPosition is silently discarded.
-    Every seek therefore goes through a Seeker that checks whether it
-    actually took and retries if not.
+    Seeking is a request in Qt, not a command -- setPosition is
+    silently discarded before loading, before the first frame and in
+    mid-playback -- so every seek goes through a Seeker that retries.
     """
 
     # The box the pictures sit in. It is also what a stretch with no
@@ -695,11 +634,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
     class ShotNote(QtWidgets.QWidget):
         """Who speaks and which camera runs, in the shot's colour.
 
-        One display for both cases, and only its height differs: under
-        a picture it is a strip as high as its two lines, without one
-        it covers the whole area. The colour is opaque either way -- a
-        video surface cannot be written on through, and text on an
-        unknown picture cannot be read.
+        Only the height differs between the two cases: a strip under a
+        picture, the whole area without one. Opaque either way -- a
+        video surface cannot be written on through.
         """
 
         def __init__(self, parent=None):
@@ -727,8 +664,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             """The camera name, cut at the front where it is too wide.
 
             What tells two cameras apart sits at the end of these names,
-            in the take and the camera number, so the front is what
-            goes. Qt's own single ellipsis marks where.
+            in the take and the camera number.
             """
             return metrics.elidedText(text, Qt.ElideLeft, width)
 
@@ -740,13 +676,10 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             bold = QtGui.QFontMetrics(self.strong)
             high = bold.height()
             # The two lines stand in the middle of whatever they are
-            # given, across and down. Both cases then read the same,
-            # and a strip cut to their height needs no second rule.
+            # given, so both cases read the same.
             top = room.top() + max(0, (room.height() - 2 * high) // 2)
-            # The camera on top, who is speaking underneath. The
-            # colour field then reads like the band below it, which is
-            # a band of camera shots -- and one camera can carry
-            # several speakers, which is what the second line is for.
+            # The camera on top, who is speaking underneath: the colour
+            # field then reads like the band of camera shots below it.
             painter.setFont(self.strong)
             painter.drawText(
                 QtCore.QRect(room.left(), top, room.width(), high),
@@ -768,16 +701,14 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         LEAD_IN = 1.0
 
         # How thick the shot's colour lies round the picture. A hairline
-        # round a moving picture is not caught out of the corner of the
-        # eye, which is the only place this is ever looked at.
+        # is not caught out of the corner of the eye.
         FRAME = 6
 
         # Air under the note, in the box's own colour. Two coloured
         # areas touching are read as one, and the cut band is next.
         GAP = 8
 
-        # The shape of the picture before one has been measured. Every
-        # camera here has been 16:9 so far, and it is what the box was.
+        # The shape of the picture before one has been measured.
         SHAPE = 16.0 / 9.0
 
         def __init__(self, parent=None):
@@ -786,9 +717,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             position.setContentsMargins(0, 0, 0, 0)
             position.setSpacing(6)
             # The box the picture and the note share. It keeps the size
-            # the picture alone used to have: what the picture gives up
-            # by taking its own shape stays inside the box and does not
-            # move the window.
+            # the picture alone had, so taking a shape moves no window.
             self.box = QtWidgets.QWidget()
             self.box.setMinimumHeight(302)
             self.box.setMinimumWidth(320)
@@ -804,22 +733,17 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.surfaces, self.videos = [], []
             for _ in (0, 1):
                 f = QtMultimediaWidgets.QVideoWidget()
-                # Without this the width follows the picture currently loaded,
-                # and the whole window jumps on switching.
+                # Or the width follows the loaded picture and the window jumps.
                 f.setSizePolicy(QtWidgets.QSizePolicy.Ignored,
                                 QtWidgets.QSizePolicy.Ignored)
                 f.setMinimumSize(1, 1)
                 p = QtMultimedia.QMediaPlayer(self)
                 p.setVideoOutput(f)
                 self.stack.addWidget(f)
-                # Make the window for the picture now, while no player
-                # has a file yet. Made later -- the first time somebody
-                # opens this tab -- it is made while the players are
-                # starting up, and then two threads reach for the same
-                # lock inside Qt. Measured 28.8.2026 on the gate test,
-                # which builds six windows at once: without this, half
-                # the runs stood in QWidget::createWinId and never came
-                # back.
+                # Make the window now, while no player has a file yet.
+                # Made later it is made while the players are starting
+                # up, and two threads reach for the same lock inside Qt
+                # -- QWidget::createWinId then never comes back.
                 f.winId()
                 self.surfaces.append(f)
                 self.videos.append(p)
@@ -829,8 +753,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.box.installEventFilter(self)
             self.hold = NameHold()
             # Only now: what answers this signal lays the note out, and
-            # a signal is connected when everything it touches exists,
-            # never earlier. Qt decides on its own when it delivers.
+            # Qt decides on its own when it delivers.
             for f in self.surfaces:
                 f.videoSink().videoSizeChanged.connect(
                     lambda _s=None, w=f: self._shape_seen(
@@ -855,16 +778,14 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                     lambda _f, txt, n=name:
                     print(T('  Player: %s reports an error -- %s')
                           % (n, txt)))
-            # When the output device changes -- headphones in, headphones out
-            # -- the old QAudioOutput keeps playing into nothing: the display
-            # runs, nothing is heard. So follow the new device.
+            # On a device change -- headphones in, headphones out -- the
+            # old QAudioOutput plays into nothing, so follow the new one.
             try:
                 self.devices = QtMultimedia.QMediaDevices(self)
                 self.devices.audioOutputsChanged.connect(self._follow_device)
             except Exception:
                 self.devices = None
-            # The rail runs from In point to Out point: there is nothing to see
-            # beyond, so it cannot be dragged beyond either.
+            # From In point to Out point: nothing to see beyond either.
             self.rail = QtWidgets.QSlider(Qt.Horizontal)
             self.rail.setRange(0, 1000)
             self.rail.sliderMoved.connect(self._dragged)
@@ -872,8 +793,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.position = position
             digits = digits_font(QtGui, self)
             # One line: In point on the left, Out point on the right,
-            # where we are in the middle. The length is already in the
-            # heading, and the camera stands in the picture itself.
+            # where we are in the middle.
             line = QtWidgets.QHBoxLayout()
             position.addLayout(line)
             self.left_label = label("", COLOURS["value"], True)
@@ -894,17 +814,14 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             small.setPointSize(max(6, digits.pointSize() - 4))
             self.readouts = label("", COLOURS["quiet"])
             self.readouts.setFont(small)
-            # Only while something runs. With the player stopped the line is
-            # just one line less picture.
+            # Only while something runs, or it is one line less picture.
             self.readouts.setVisible(False)
             status.addWidget(self.readouts)
             bar = QtWidgets.QHBoxLayout()
             position.addLayout(bar)
 
-            # All the same height: buttons with an icon and buttons with text
-            # compute different heights otherwise. And all icons the same size:
-            # the system icons come in different sizes and look lopsided side
-            # by side.
+            # All the same height and icon size: icon buttons and text
+            # buttons compute different heights, system icons differ too.
             HEIGHT = 30
             SYMBOL = QtCore.QSize(18, 18)
 
@@ -948,8 +865,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             step("+1 F", T('One frame forward.'), 1.0 / 30.0)
             step("+1 s", T('One second forward.'), 1.0)
             step("+10 s", T('Ten seconds forward.'), 10.0)
-            # At the end of the transport, where the steps forward end
-            # -- the same place and the same button as on the preview.
+            # The same place and the same button as on the preview.
             self.fast_button = button("SP_MediaSeekForward",
                                       T('Play forward, twice as fast on '
                                         'every press -- the L key.'),
@@ -973,9 +889,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.clock = QtCore.QTimer(self)
             self.clock.setInterval(40)
             self.clock.timeout.connect(self._tick)
-            # Programme time runs on a clock of its own. Hanging it off the
-            # audio position would mean stopping as soon as the player dislikes
-            # a file.
+            # Programme time runs on a clock of its own: off the audio
+            # position it would stop as soon as a file is disliked.
             self.stopwatch = QtCore.QElapsedTimer()
             self.base = 0.0
             self._t = 0.0
@@ -999,11 +914,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def _shape_seen(self, size):
             """Take a picture's shape, if it is wider than what is set.
 
-            Only wider, and never back: cutting between two cameras of
-            different format would move the whole player every few
-            seconds, which is worse than a strip beside the narrower
-            one. So the box ends up as wide as the widest camera, and
-            no picture ever gets a band over and under it.
+            Only wider, never back: cutting between two formats would
+            otherwise move the whole player every few seconds.
             """
             if size.height() <= 0 or size.width() <= 0:
                 return
@@ -1025,12 +937,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def _note_place(self):
             """Fit the picture to its shape and put the note under it.
 
-            The picture keeps the size it had at most, never more, and
-            the note under it is as high as its two lines. Whatever
-            stays free below falls to the box's own colour, so the
-            strip reads as a caption to the picture. A strip of that
-            colour stays free at the foot in any case, or the note and
-            the cut band under it read as one thing.
+            Whatever stays free below falls to the box's own colour, so
+            the strip reads as a caption. A strip of it stays free at
+            the foot, or note and cut band read as one thing.
             """
             wide, high = self.box.width(), self.box.height() - self.GAP
             lines = self.note.line_room()
@@ -1041,9 +950,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.stack.setGeometry((wide - across) // 2, 0, across,
                                    seen + 2 * self.FRAME)
             # As wide as the framed picture, so frame and note read as
-            # one block rather than as a band laid under a picture.
-            # Without a picture there is nothing to caption and nothing
-            # to sit under, so there the colour keeps the whole box.
+            # one block. Without a picture the colour keeps the box.
             over = 0 if self._blank else self.stack.height()
             deep = high if self._blank else min(lines, high - over)
             self.note.setGeometry(self.stack.x(), over,
@@ -1053,15 +960,12 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def _note_show(self, t, j):
             """Say who speaks and which camera runs at programme time *t*.
 
-            Reading only: the hold below moves nothing but this note,
-            and *j* comes from the cut as it was handed over.
+            Reading only: the hold below moves nothing but this note.
             """
             who = self.cut[j][2] if j is not None else None
             colour = self.colours.get(who) or BACKDROP
-            # Never an empty line: a blank reads as a fault, a sentence
-            # says that nobody is speaking. The mark for the wide shot
-            # stands beside the name, never in its place -- the wide
-            # shot is a choice of camera, not a silence.
+            # Never an empty line: a blank reads as a fault. The wide
+            # shot mark stands beside the name, never in its place.
             said = "  ".join(self.hold.at(speakers_at(self.speaking, t), t))
             said = said or T('No speaker')
             if who in self.wides:
@@ -1098,10 +1002,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                     pass
 
         def replace_rail(self, widget):
-            """Replace the rail with something better.
-
-            The cut band shows more in the same place than a grey line.
-            """
+            """Replace the rail with the cut band, which shows more."""
             i = self.position.indexOf(self.rail)
             self.rail.setParent(None)
             self.rail = None
@@ -1138,10 +1039,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def set(self, cut, files, offset, audio_file, audio_offset,
                    begins=0.0, until=None, tc0=None,
                    wides=None, colours=None, speaking=None):
-            # Where the viewer was, and whether they were watching. A
-            # fresh cut arrives whenever the window recomputes its
-            # preview, and the picture has to follow it -- but the place
-            # and the playing belong to whoever is sitting there.
+            # A fresh cut arrives on every recompute and the picture
+            # follows, but the place and the playing belong to the viewer.
             ran, where = self._playing, self._time()
             self.pause()
             # Every shot, a camera without a file included: the sound
@@ -1181,10 +1080,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def jump(self, t):
             """Seek to a point in programme time.
 
-            Always done at a standstill: a running player often refuses the new
-            position, and the programme clock would run away during the seek.
-            Playback resumes only once picture and audio are both there, which
-            the tick handles.
+            Always at a standstill: a running player often refuses the
+            new position. The tick resumes once picture and audio sit.
             """
             t = max(self.begins, min(self.until or t, t))
             # A jump is a new place, and the speed it was reached at
@@ -1200,9 +1097,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             self.audio_seek.seek_to(
                 (t - self.audio_offset) * 1000, T('Audio at programme time'))
             self.now = None
-            # Seek on the *visible* surface. Switching to the other would mean
-            # showing one that is still loading -- during playback that shows
-            # nothing, or the previous shot.
+            # Seek on the *visible* surface: the other is still loading
+            # and would show nothing, or the previous shot.
             self._follow_up(t, at_once=True,
                              slot=self.stack.currentIndex())
             if not self.clock.isActive():
@@ -1219,9 +1115,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def faster(self):
             """Play forward, and double the rate on every further press.
 
-            1x, 2x, 4x, 8x, and there it stays -- the same rates and the
-            same button as the preview player, so one key does one
-            thing on both tabs.
+            1x, 2x, 4x, 8x, as on the preview player: one key, one thing.
             """
             if not self.cut:
                 return
@@ -1234,9 +1128,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
         def speed_set(self, rate):
             """Ask for a playback rate and keep the one that arrived.
 
-            The programme clock runs on the rate as well: at twice speed
-            the cut arrives twice as soon, and a clock left at 1x would
-            switch the picture where the sound has long gone.
+            The programme clock runs on the rate too, or the picture
+            switches where the sound has long gone.
             """
             if self._playing and not self._seeking \
                     and self.stopwatch.isValid():
@@ -1257,10 +1150,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 else Qt.ToolButtonIconOnly)
             self.fast_button.setText(
                 "%g\u00d7" % self._speed if fast else "")
-            # No place after the point, because there is never one:
-            # faster() asks for 1, 2, 4 and 8 and nothing else, and Qt
-            # hands the rate back as it was set -- measured on the
-            # ffmpeg backend, 1.5 included.
+            # No place after the point: faster() asks for 1, 2, 4 and 8
+            # and Qt hands the rate back as it was set.
             self.fast_button.setAccessibleName(
                 T('Fast forward, %s times speed')
                 % number_text(self._speed, 0) if fast
@@ -1270,8 +1161,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             if not self.cut:
                 return
             # The other player first: two pictures running at once are
-            # two moments at once, and neither can be judged. What it
-            # is set to is in gui(), where both players are known.
+            # two moments at once, and neither can be judged.
             quiet = getattr(self, "hush", None)
             if quiet:
                 quiet()
@@ -1300,8 +1190,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             except Exception:
                 pass
             self._play_when_ready(self.stack.currentIndex())
-            # A "play" that does not arrive otherwise shows up only as silence.
-            # Check after a moment and try again.
+            # A play that does not arrive shows up only as silence.
             QtCore.QTimer.singleShot(400, self._recheck_audio)
 
         def _recheck_audio(self):
@@ -1417,11 +1306,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             def status(p, unit, offset):
                 """Report everything converted back to programme time.
 
-                The raw positions in the files stand on their own and tell
-                nobody whether they are right -- three different numbers can
-                all be correct and three identical ones all wrong. Converted,
-                every one has to read the same as the clock, and the bracket
-                behind shows how far off it is.
+                Raw file positions tell nobody whether they are right;
+                converted, every one has to read the same as the clock.
                 """
                 spot = p.position() / 1000.0 + offset
                 return "%s %7.2f (%+.2f)%s" % (
@@ -1430,8 +1316,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                     T(' target %.2f') % (unit.want / 1000.0 + offset)
                     if unit.pending() else "")
 
-            # For the audio the output too: where it runs according to the
-            # display and nothing is heard, the answer is here.
+            # The output too: running on the display and nothing heard.
             self.readouts.setText(
                 T('Clock %7.2f%s | B1[%s] %s | B2[%s] %s | Audio %s %s')
                 % (t, T(' SEEKING') if self._seeking else "",
@@ -1463,10 +1348,8 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             _a, _b, who = self.cut[j]
             want = max(0.0, t - self.offset.get(who, 0.0))
             fresh = self.loaded[slot] != j
-            # Where picture and sound are being put, read word for word
-            # by a test. Two numbers that should mean the same moment;
-            # where they do not, the sound runs against the wrong
-            # picture -- heard long before it can be pointed at.
+            # Read word for word by a test: two numbers that should mean
+            # the same moment, or sound runs against the wrong picture.
             if os.environ.get("VPM_PLAYER_LOG"):
                 print("  player: programme %8.3f  picture %-32s "
                       "at %8.3f (offset %8.3f)  sound %8.3f (offset %8.3f)"
@@ -1475,12 +1358,10 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
             if fresh:
                 self._load(slot, j)
             self.stack.setCurrentIndex(slot)
-            # Showing a surface puts it on top of its brothers, and the
-            # note is one of them.
+            # Showing a surface puts it over its brothers, note included.
             self.note.raise_()
             self.now = j
-            # Set the position again: a prepared surface otherwise sits where
-            # it was loaded, in doubt right at the front.
+            # Again: a prepared surface otherwise sits where it was loaded.
             p = self.videos[slot]
             if abs(p.position() - want * 1000) > HIT_MS or fresh:
                 self.seekers[slot].seek_to(
@@ -1534,22 +1415,16 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                      ffplay_preview, real_tc, state):
     """The building blocks of the preview: rail, video surface, player.
 
-    They sit outside gui() because they have nothing to do with the rest of
-    the layout -- a video player is a video player. They are still built
-    only once Qt is loaded: without Qt the script keeps working on the
-    command line, and a class inheriting from a Qt widget could not even be
-    defined then.
-
-    Whatever is needed from gui() comes in as an argument and keeps its
-    name inside.
+    Built only once Qt is loaded: without Qt the script keeps working
+    on the command line, and a class inheriting from a Qt widget could
+    not even be defined then. What gui() supplies comes in as arguments.
     """
     from PySide6 import QtMultimedia, QtMultimediaWidgets
     class WindowSlider(QtWidgets.QSlider):
         """A slider showing what is left of the material.
 
-        The chosen time window lies as a light band over the rail, the
-        discarded parts grey before and after it. Dragging then shows whether
-        the position is still inside.
+        The chosen window lies as a light band over the rail, the
+        discarded parts grey before and after it.
         """
 
         def __init__(self, parent=None):
@@ -1561,17 +1436,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def colours_apply(self):
             """Paint the rail in the colours of this desktop.
 
-            The rail is drawn grey throughout -- only what lies between
-            the In point and the Out point is blue. Otherwise the
-            system would colour everything left of the handle and two
-            unrelated things would look alike.
-
-            The three values come from COLOURS, so the rail follows a
-            dark desktop; a fixed light grey stood there before at
-            10.7 against a dark box, a white band in a dark window.
-            Measured 23.8.2026: the outline against the handle is now
-            5.2 light and 6.0 dark, where the fixed pair gave 2.9 --
-            under the 3 that WCAG 1.4.11 asks of a control.
+            Grey throughout -- only between In point and Out point is
+            it blue, or the system colours everything left of the
+            handle and two unrelated things look alike. The values come
+            from COLOURS: 5.2 light and 6.0 dark against the handle,
+            over the 3 that WCAG 1.4.11 asks of a control.
             """
             self.setStyleSheet("""
                 QSlider::groove:horizontal {
@@ -1616,8 +1485,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 return
             painter = QtGui.QPainter(self)
             painter.setRenderHint(QtGui.QPainter.Antialiasing)
-            # Leave the handle clear, or the band draws a line right through
-            # it.
+            # Leave the handle clear, or the band draws right through it.
             handle_rect = self.style().subControlRect(
                 QtWidgets.QStyle.CC_Slider, self._options(),
                 QtWidgets.QStyle.SC_SliderHandle, self)
@@ -1640,23 +1508,22 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.initStyleOption(opt)
             return opt
 
-    # Qt's own surface. Nothing is caught on it: the picture fills the
-    # box it has been given and there is no full screen to leave.
+    # Qt's own surface. Nothing is caught on it: no full screen to leave.
     VideoSurface = QtMultimediaWidgets.QVideoWidget
 
     class Player(QtWidgets.QWidget):
+        """The viewer: a window inside the window that stays put.
+
+        Qt plays what it knows itself; MXF, R3D and some ProRes
+        variants go to ffplay instead of raising an error. In point
+        and Out point are set from here, and the point that is seen
+        is the point that is meant.
+        """
 
         plays = True
         # Signal for the still fetched in the background.
         still_ready = QtCore.Signal(bytes, str, int)
 
-        T('The viewer: a window inside the window that stays put.\n\n        '
-          'Qt plays audio and video itself -- that is enough for the\n      '
-          '  usual formats. What the machine does not know (MXF, R3D,\n     '
-          '   some ProRes variants) the player hands on to ffplay instead\n '
-          '       of throwing an error.\n\n        In point and Out point are '
-          'set from here as well: the point you\n        see is the point '
-          'you mean.\n        ')
 
         def __init__(self, parent=None):
             QtWidgets.QWidget.__init__(self, parent)
@@ -1664,8 +1531,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.tc0 = None            # wall clock time at file start
             self.fps = 30.0
             self.failed = None
-            # What the line above the picture says when nothing is wrong,
-            # so a refusal written over it can be taken back again.
+            # What the title says when nothing is wrong, so a refusal
+            # written over it can be taken back.
             self._title_plain = None
             position = QtWidgets.QVBoxLayout(self)
             position.setContentsMargins(0, 0, 0, 0)
@@ -1673,20 +1540,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.title = label(T('nothing loaded yet'), COLOURS["quiet"])
             self.title.setWordWrap(True)
             position.addWidget(self.title)
-            # Whoever embeds the player can take the file name into their own
-            # heading and save the line here.
+            # An embedder can take the file name into its own heading.
             self.heading = None
             self.video = VideoSurface(self)
-            # Fixed height: otherwise the picture claims half the interface as
-            # soon as Qt knows the resolution of the file.
+            # Fixed, or the picture claims half the interface as soon as
+            # Qt knows the resolution of the file.
             self.video.setFixedHeight(302)
             self.video.setMinimumWidth(320)
             self.video.setSizePolicy(QtWidgets.QSizePolicy.Expanding,
                                     QtWidgets.QSizePolicy.Fixed)
             self.video.setStyleSheet("background: #101418;")
-            # A paused player draws nothing on some machines, so the frame is
-            # fetched with ffmpeg and laid over the top -- that works for
-            # formats Qt will not play too.
+            # A paused player draws nothing on some machines, so the
+            # frame is fetched with ffmpeg and laid over the top.
             self.still = QtWidgets.QLabel()
             self.still.setAlignment(Qt.AlignCenter)
             self.still.setStyleSheet("background: #101418;")
@@ -1708,8 +1573,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.extern.clicked.connect(self.outside_show)
             self.extern.hide()
             position.addWidget(self.extern)
-            # First the rail across the full width, the buttons below -- the
-            # way every player is laid out.
+            # Rail across the full width, buttons below, as every player is.
             self.slider = WindowSlider()
             self.slider.setRange(0, 1000)
             self.slider.sliderMoved.connect(self.scrub)
@@ -1718,22 +1582,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.slider.sliderReleased.connect(self.released)
             self._held = False
             self._should_play = False
-            # Fast forward doubles from here. Only forwards: a negative
-            # rate is accepted by Qt but the ffmpeg backend underneath
-            # reports 0.00 back and stands still, so backwards is not
-            # offered at all rather than offered and dead.
+            # Fast forward doubles from here. Only forwards: Qt accepts
+            # a negative rate but the ffmpeg backend reports 0.00 back
+            # and stands still.
             self._speed = 1.0
             self._muted = False
-            # The picture should follow while dragging but not be decoded on
-            # every pixel: four times a second is enough.
+            # Follow while dragging, but not decode on every pixel.
             self._scrub_target = None
             position.addWidget(hint(self.slider, T('Drag to move the position.')))
-            # Fixed character width, or the line shifts back and forth with
-            # every changing digit.
+            # Fixed character width, or the line shifts with every digit.
             digits = digits_font(QtGui, self)
-            # Under the rail first the configured window and its buttons --
-            # that is the handle. Only then where we are, and the transport at
-            # the bottom.
+            # Under the rail first the configured window and its
+            # buttons, then where we are, then the transport.
             cut_row = QtWidgets.QHBoxLayout()
             position.addLayout(cut_row)
             self.cut_left = label("", COLOURS["value"], True)
@@ -1742,12 +1602,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.cut_right = label("", COLOURS["value"], True)
             cut_row.addWidget(self.cut_right)
             # The window length on a line of its own, under the two
-            # boundaries it spans. In the row above, In point and Out
-            # point and the gaps take 300 of the 560 px; the German
-            # sentence about a file that starts later wants 288 of the
-            # 260 left over, the one about a file outside the window
-            # 300. The line costs 16 px of height in a box that has 260
-            # px of them unused underneath it.
+            # boundaries it spans: In point, Out point and the gaps take
+            # 300 of the 560 px, and the German sentence about a file
+            # that starts later wants 288 of the 260 left over.
             window_row = QtWidgets.QHBoxLayout()
             position.addLayout(window_row)
             window_row.addStretch(1)
@@ -1756,24 +1613,15 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             window_row.addStretch(1)
             for m in (self.cut_left, self.cut_middle, self.cut_right):
                 m.setFont(QtGui.QFont(digits))
-            # Stays empty if nobody fills it: the interface puts its cut
-            # buttons in here.
+            # Stays empty until the interface puts its cut buttons in.
             self.cut_bar = QtWidgets.QHBoxLayout()
             position.addLayout(self.cut_bar)
-            # A line of its own for the checkbox. It used to stand in the
-            # row above, between the four cut buttons: in English the
-            # five fit, in German they do not, and the label came out
-            # cut off after two thirds. Measured: the four German
+            # A line of its own for the checkbox: the four German cut
             # buttons and the checkbox want 548 px in a row about 480 px
-            # wide. Made
-            # unshrinkable it stopped being cut off and started sitting
-            # on top of the next button instead -- which is why it now
-            # has a line to itself in both languages rather than one
-            # language having a layout of its own.
+            # wide. One layout for both languages, not one per language.
             self.under_cut = QtWidgets.QHBoxLayout()
             position.addLayout(self.under_cut)
-            # Left where the file starts, right where it ends, in the middle
-            # where we are.
+            # Left the file's start, right its end, in the middle where we are.
             time_row = QtWidgets.QHBoxLayout()
             position.addLayout(time_row)
             self.left_label = label("", COLOURS["quiet"])
@@ -1796,10 +1644,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 return self.style().standardIcon(
                     getattr(QtWidgets.QStyle, name))
 
-            # All buttons equally wide across the line, so the transport is
-            # where the eye looks for it and not at the left edge. Same height
-            # and same icon size too: the system icons come in different
-            # sizes.
+            # All buttons equally wide, so the transport is where the eye
+            # looks for it. Same height and icon size; system icons vary.
             HEIGHT = 30
             SYMBOL = QtCore.QSize(18, 18)
 
@@ -1842,9 +1688,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             step("+1 s", T('One second forward.'), seconds=1.0)
             step("+10 s", T('Ten seconds forward.'), seconds=10.0)
             # Fast forward has a button of its own, at the end of the
-            # transport where the steps forward end. The L key did the
-            # same thing before and did it invisibly: a key nobody is
-            # told about is a key nobody presses.
+            # transport: a key nobody is told about is never pressed.
             self.fast_button = button("SP_MediaSeekForward",
                                       T('Play forward, twice as fast on '
                                         'every press -- the L key.'),
@@ -1859,8 +1703,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             bar.addWidget(hint(wide(self.loud),
                                T('Volume. 100 is as loud as it goes -- '
                                  'Qt takes nothing above that.')), 2)
-            # The checkbox sits a line lower with the cut buttons: there is
-            # room there, and it belongs to the same handle.
+            # A line lower with the cut buttons: there is room, same handle.
             self.track_checkbox = QtWidgets.QCheckBox(T('hear assigned audio'))
             self.under_cut.addWidget(self.track_checkbox)
             self.under_cut.addStretch(1)
@@ -1869,10 +1712,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.track_checkbox.setToolTip(T('The recording assigned to this '
                                          'camera instead of the camera '
                                          'audio.'))
-            # Second player: the picture comes from the camera, the audio from
-            # the assigned recording. Both are set to the same position and
-            # started together -- enough for a preview; measuring and aligning
-            # happen in the run.
+            # Second player: picture from the camera, audio from the
+            # assigned recording, set together. Enough for a preview.
             self._muted = False
             self.track_audio = audio_sink(QtMultimedia, self)
             self.track = QtMultimedia.QMediaPlayer(self)
@@ -1894,15 +1735,13 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self._target_at = 0.0   # when that jump was asked for
             self._moaned = None     # the refusal already reported
             self._target_ms = None
-            # At a standstill a still fetched by ffmpeg is shown, during
-            # playback the video surface. Reason: some camera formats -- 10 bit
-            # 4:2:2 for instance -- Qt cannot get onto the GPU ("failed to get
-            # textures for frame"), and the surface would stay black.
+            # At a standstill an ffmpeg still, during playback the video
+            # surface: some camera formats -- 10 bit 4:2:2 -- Qt cannot
+            # get onto the GPU, and the surface would stay black.
             self.player.videoSink().videoFrameChanged.connect(
                 self.frame_arrived)
             self.audio_adjust()
-            # Once here, so the fast forward button carries its name for
-            # a screen reader before anything has been loaded.
+            # Once here, so the button carries its name for a screen reader.
             self.speed_show()
             self.player.errorOccurred.connect(self.on_error)
 
@@ -1910,11 +1749,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def load(self, file_path, seconds=None, running=False):
             """Show a different file at the same point.
 
-            Playback stops on the switch, otherwise comparing two cameras would
-            start the audio every time. If old and new file both carry a
-            measured place the seek goes to the same moment in the
-            events, not the same offset from the file start: cameras
-            begin at different times. The clocks are the fallback.
+            Playback stops on the switch, or comparing two cameras
+            starts the audio every time. Where both carry a measured
+            place the seek goes to the same moment in the events, not
+            the same offset from the file start; clocks are the fallback.
             """
             old_one_position = self.position()
             old_one_spot = self.spot_s()
@@ -1937,8 +1775,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             if seconds is None:
                 old_timer, old_axis = old_one_position
                 # The measurement first, for both ends at once: two
-                # clocks each carry their own idea of the time, and the
-                # difference stays in the result. See track_follow_up.
+                # clocks each carry their own idea of the time.
                 if old_axis is not None and self.axis_s() is not None:
                     seconds = old_axis - self.axis_s()
                 elif old_timer is not None and self.tc0 is not None:
@@ -1946,10 +1783,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 else:
                     seconds = old_one_spot
                 if seconds < 0.0:
-                    # This camera had not started at that moment. Its
-                    # front is what can be shown, but the moment is
-                    # kept: read back out of a file that cannot hold
-                    # it, it would be lost for the next switch too.
+                    # This camera had not started then. Its front is
+                    # shown, but the moment is kept for the next switch.
                     self._moment = old_one_position
                     seconds = 0.0
                 else:
@@ -1960,9 +1795,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self._title_show(self._title_plain)
             self.extern.hide()
             # And the picture back: a refused format takes the surface
-            # away, and that state belonged to the player rather than to
-            # the file -- one such file cost every later one its picture,
-            # sound running and nothing to be seen.
+            # away, and that state belongs to the file, not the player.
             self.picture_show()
             self.stack.setVisible(not audio_file)
             # Remember first, then set: setSource can fire "loaded"
@@ -1974,13 +1807,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             self.player.setPosition(target)
             self.track_adjust()
             self._should_play = bool(running)
-            # Not started here even where it is wanted: setPosition on
-            # a source that has not loaded does nothing, so a player
-            # started now runs the file's front until the jump lands.
-            # loaded() starts it once the position sits.
+            # Not started here even where wanted: setPosition on an
+            # unloaded source does nothing, so it would run the file's
+            # front. loaded() starts it once the position sits.
             if not running:
-                # Fetch a frame right on loading. The previous one stays up
-                # until it arrives -- better than a black surface.
+                # The previous frame stays up until this one arrives.
                 QtCore.QTimer.singleShot(0, self.expect_frame)
             self.set_mark()
             self.spot(int(max(0.0, seconds) * 1000))
@@ -1999,9 +1830,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def _window_length(self):
             """Return the length of the configured window.
 
-            Computed from the two settings, not from their positions in this
-            file: with In point before this file's first frame, the length of
-            the file would appear instead of the length of the window.
+            From the two settings, not from their positions in this
+            file, or an early In point shows the file's length instead.
             """
             try:
                 a, abs_a = parse_time_point(state["in_point"], self.fps)
@@ -2034,8 +1864,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                     return None
                 value -= self.tc0
             elif value >= 0 and self.axis_s() is not None:
-                # Relative values count from the start of the material, not
-                # from the start of this file.
+                # Relative values count from the material, not from this file.
                 value -= self.axis_s()
             elif value < 0:
                 value = self.player.duration() / 1000.0 + value
@@ -2058,20 +1887,17 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def seek_settle(self):
             """Ask for the jump again until the new file is really there.
 
-            A freshly opened file falls back to its front after it has
-            reported itself loaded -- measured 18 to 88 ms, never twice
-            the same -- and the single shot fired on that report went
-            with it. A clock of its own, since a still picture reports
-            no position and nothing would ask again.
+            A freshly opened file falls back to its front 18 to 88 ms
+            after reporting itself loaded, never twice the same. A
+            clock of its own: a still picture reports no position.
             """
             if self._target_ms is None:
                 return
             here = self.player.position()
             waited = time.monotonic() - self._target_at
             if here >= self._target_ms - SEEK_HIT_MS:
-                # At the mark or past it. Playing on moves forward, a
-                # file that fell back is behind -- so "past it" is never
-                # the fault, and no state has to be waited for.
+                # At the mark or past it. A file that fell back is
+                # behind, so "past it" is never the fault.
                 if waited >= SEEK_SETTLE_S:
                     self._target_ms = None
                     if not self._should_play:
@@ -2096,8 +1922,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def play_when_ready(self):
             """Start only once the jump has landed.
 
-            Started earlier, the next attempt pulls the picture back --
-            the cut player says the same thing in _play_when_ready.
+            Started earlier, the next attempt pulls the picture back.
             """
             if self._target_ms is not None:
                 return
@@ -2145,8 +1970,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
             """Play on from here, at the speed currently set."""
             if self.file_path is None:
                 return
-            # The cut player first, for the reason given at its own
-            # play: two pictures running at once cannot be judged.
+            # The cut player first: two pictures at once cannot be judged.
             quiet = getattr(self, "hush", None)
             if quiet:
                 quiet()
@@ -2164,15 +1988,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def pause(self):
             """Hold the picture, and put the speed back to normal.
 
-            Everything that leaves the running picture -- pausing, a
-            jump, another file -- goes back to 1x. A rate that survives
-            out of sight is one nobody can explain the odd sound by
-            afterwards, and the way on from a standstill is the play
-            button, which says nothing about eight times speed.
-
-            There is no stop beside this. Stopping would mean going
-            back to the beginning, and nothing here wants that: what
-            the transport is for is holding a passage still.
+            Everything that leaves the running picture goes back to 1x:
+            a rate surviving out of sight explains no odd sound later.
+            There is no stop beside this -- it would go back to the
+            beginning, and the transport is for holding a passage still.
             """
             if self.file_path is None:
                 return
@@ -2200,9 +2019,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def faster(self):
             """Play forward, and double the rate on every further press.
 
-            1x, 2x, 4x, 8x, and there it stays: beyond that the sound
-            carries nothing to find a passage by, which is what fast
-            forward is for. Backward is not offered -- see _speed.
+            1x, 2x, 4x, 8x: beyond that the sound carries nothing to
+            find a passage by. Backward is not offered -- see _speed.
             """
             if self.file_path is None:
                 return
@@ -2216,9 +2034,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def speed_set(self, rate):
             """Ask for a playback rate and keep the one that arrived.
 
-            Qt takes a rate without promising it, and the backend below
-            may hand back another. What is shown is therefore what the
-            player reports, not what was asked for.
+            Qt takes a rate without promising it, so what is shown is
+            what the player reports, not what was asked for.
             """
             self.player.setPlaybackRate(rate)
             self.track.setPlaybackRate(rate)
@@ -2229,19 +2046,16 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def speed_show(self):
             """Put the rate on the fast forward button; nothing at 1x.
 
-            On the button that made it: the rate is what that button
-            does, and the play button keeps one meaning. It also keeps
-            the row stiller -- measured at the narrowest the transport
-            goes, a number beside the play icon pushes five of the ten
-            buttons 26 pixels along, beside this one it pushes one.
+            On the button that made it, and it keeps the row stiller: a
+            number beside the play icon pushes five of the ten buttons
+            26 px along, beside this one it pushes one.
             """
             fast = self._speed > 1.01
             self.fast_button.setToolButtonStyle(
                 Qt.ToolButtonTextBesideIcon if fast
                 else Qt.ToolButtonIconOnly)
             self.fast_button.setText("%g\u00d7" % self._speed if fast else "")
-            # No place after the point, because there is never one --
-            # see the same line in the cut player.
+            # No place after the point -- see the same line in the cut player.
             self.fast_button.setAccessibleName(
                 T('Fast forward, %s times speed')
                 % number_text(self._speed, 0) if fast
@@ -2250,8 +2064,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def picture_show(self):
             """Put up the page the stack calls the current one.
 
-            Which of the two carries the picture is the stack's answer;
-            this only undoes a page hidden behind its back.
+            This only undoes a page hidden behind the stack's back.
             """
             here = self.stack.currentWidget()
             if here is not None:
@@ -2260,14 +2073,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def trouble_gone(self):
             """Take the refusal back once pictures arrive again.
 
-            It is an answer about one attempt, not about the player, so
-            a picture running again settles it -- without this only
-            loading another file did, and the button stood on beside it.
+            It is an answer about one attempt, not about the player.
             """
             if not self.extern.isVisible():
                 return
-            # Pictures again, so the refusal may be reported again: what
-            # was silenced was the storm, not the fault.
+            # Pictures again, so the refusal may be reported again.
             self._moaned = None
             self.extern.hide()
             self.picture_show()
@@ -2294,10 +2104,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def still_fetch(self):
             """Fetch a single frame from this position, in the background.
 
-            Only ever one at a time. Dragging would otherwise fire a new ffmpeg
-            call at the same 30 GB file every tenth of a second and the machine
-            would fall behind. A request arriving meanwhile simply replaces the
-            pending one -- only the last position chosen is of interest anyway.
+            Only ever one at a time, or dragging fires an ffmpeg call at
+            a 30 GB file every tenth of a second. A request arriving
+            meanwhile replaces the pending one.
             """
             if not self.file_path or os.path.splitext(self.file_path)[1].lower() \
                     in AUDIO_SUFFIXES:
@@ -2350,7 +2159,6 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 Qt.SmoothTransformation))
             self.stack.setCurrentWidget(self.still)
 
-
         # --- the assigned audio track
         def track_adjust(self):
             """Pick the audio for the picture: own or assigned."""
@@ -2366,9 +2174,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 self.track_checkbox.setEnabled(bool(self.find_track))
                 self.audio_adjust()
                 return
-            # A recording arrives as all its blocks; which one plays
-            # depends on where the picture stands, so track_follow_up
-            # picks it.
+            # A recording arrives as all its blocks; track_follow_up
+            # picks the one the picture stands in.
             if list(wanted_value) != self.track_blocks:
                 self.track_blocks = list(wanted_value)
                 self.track_path = None
@@ -2379,9 +2186,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def _label_track(self):
             """Label the checkbox with what is playing and how loud it is.
 
-            Depending on the recording level, a raw recording sits 16 to 36 dB
-            below the processed audio. Switching between the two players, that
-            is easily mistaken for a fault.
+            A raw recording sits 16 to 36 dB below the processed audio,
+            which switching between the two players mistakes for a fault.
             """
             playing = self.track_path or (self.track_blocks
                                            or [None])[0]
@@ -2405,11 +2211,10 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def track_where(self):
             """Which block belongs under the picture now, and where in it.
 
-            Both ends of this out of the same reckoning: two clocks are
-            seconds apart -- 2.35 s where that was found -- and taking
-            one from the other leaves exactly that between sound and
-            picture. The clocks are the fallback, and then for both at
-            once. Returns (path, seconds into it, which reckoning).
+            Both ends out of the same reckoning: two clocks stand
+            seconds apart -- 2.35 s measured -- and mixing them leaves
+            exactly that between sound and picture. Returns (path,
+            seconds into it, which reckoning).
             """
             here = self.axis_spot()
             if here is not None:
@@ -2431,9 +2236,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 return
             path, into, whose = self.track_where()
             if path is None:
-                # Not this recording's moment. Its first block is loaded
-                # and stays ready, but silent -- sounding here would put
-                # it against a picture it does not belong to.
+                # Not this recording's moment. Its first block stays
+                # ready but silent, against a picture it does not fit.
                 path = self.track_blocks[0]
             if path != self.track_path:
                 self.track_path = path
@@ -2452,8 +2256,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                         len(self.track_blocks)))
             self._track_target = ms
             self.track.setPosition(ms)
-            # Only where playback is really wanted -- the short nudge for the
-            # still is silent and must not start anything here.
+            # Only where playback is wanted: the nudge for the still is silent.
             if self._should_play:
                 self.track.play()
             else:
@@ -2522,11 +2325,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def time_mark(self, seconds_from_begin):
             """Return a position in this file as wall clock time.
 
-            Out of the measurement wherever it carries a wall clock:
-            it has held every file against the others, while a single
-            clock carries only its own idea of the time. The file's own
-            timecode answers where nothing was measured, and a measured
-            axis with no clock behind it says so.
+            Out of the measurement where it carries a wall clock: it
+            has held every file against the others, while a single
+            clock carries only its own idea of the time.
             """
             a = self.axis_s()
             if a is not None and state.get("axis_absolute"):
@@ -2550,10 +2351,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def track_watch(self):
             """Take over where the picture has run past a boundary.
 
-            The audio runs free once it is put in place, so nothing
-            would notice a block ending: it just falls silent. And a
-            recording beginning later than the picture stands has to
-            come in when its moment arrives. A lookup on every tick,
+            The audio runs free once placed, so a block ending would go
+            unnoticed -- it just falls silent. A lookup on every tick,
             acting only on a change.
             """
             if not self.track_blocks:
@@ -2570,8 +2369,7 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 self.track_follow_up()
 
         def spot(self, ms):
-            # Arrived: from here the player's own position is the truth
-            # again, and playing on has to move it away from the mark.
+            # Arrived: from here the player's own position is the truth.
             if (self._wanted_ms is not None
                     and abs(ms - self._wanted_ms) <= SPOT_ARRIVED_MS):
                 self._wanted_ms = None
@@ -2590,10 +2388,9 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def spot_s(self):
             """Where the player stands, in seconds.
 
-            Where it was sent, until it arrives: a file plays from its
-            front while the jump is on its way, and a camera switch
-            reading that front loses the moment -- for this switch and
-            every one after it, since each counts from the last.
+            Where it was sent, until it arrives: a switch reading the
+            file's front while the jump is on its way loses the moment,
+            for this switch and every one after it.
             """
             ms = self.player.position()
             want = self._wanted_ms
@@ -2620,20 +2417,15 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def position(self):
             """Return where we are, by clock and by measured axis.
 
-            Where a file cannot hold the moment -- it begins later --
-            the moment kept at the switch answers instead of the front
-            of that file, so the next switch lands right again.
+            Where a file begins later than the moment, the moment kept
+            at the switch answers instead of that file's front.
             """
             if self._moment is not None and not self.spot_s():
                 return self._moment
             return self.timer_s(), self.axis_spot()
 
         def _title_show(self, text):
-            """Show the file name.
-
-            In the heading where there is one, otherwise in the line above the
-            picture.
-            """
+            """Show the file name, in the heading or in the line above."""
             if self.heading is not None:
                 self.heading(text)
             else:
@@ -2646,22 +2438,18 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def on_error(self, error, *_):
             """Offer ffplay when Qt cannot handle the format.
 
-            Not automatically: a window opening unasked startles more than it
-            helps. A button takes the place of the picture and says why it
-            cannot be shown here.
+            Not automatically: a window opening unasked startles.
             """
             if error == QtMultimedia.QMediaPlayer.NoError:
                 return
-            # Once per file and error. Measured 3.9.2026: Qt raised one
-            # of these 2590 times in two seconds, because the stop()
-            # below fed the play() in loaded(), which raised it again.
+            # Once per file and error: the stop() below feeds the play()
+            # in loaded(), which raises it again -- 2590 times in two
+            # seconds.
             if self._moaned == (self.file_path, str(error)):
                 return
             self._moaned = (self.file_path, str(error))
-            # What Qt really complains about, in the log: on screen
-            # every refusal reads alike, and a file whose picture is
-            # fine while only its sound breaks looks exactly like an
-            # unknown format. Here the difference survives.
+            # What Qt really complains about, in the log: on screen a
+            # broken sound track reads like an unknown format.
             gui_log("%s refused: %s (code %s)"
                      % (os.path.basename(self.file_path or "-"),
                         self.player.errorString() or "no reason given",
@@ -2726,9 +2514,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
         def jump_to(self, text):
             return False
 
-        # The menu binds these directly. Without them the window never
-        # gets built on a Qt without multimedia -- the menu is switched
-        # off there instead, see *plays*.
+        # The menu binds these directly, or the window never gets built
+        # on a Qt without multimedia -- see *plays*.
         plays = False
 
         def toggle(self):
@@ -2749,31 +2536,21 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 def make_log_view(QtGui, QtWidgets, Cursor):
     """The log pane of the output tab, once Qt is there.
 
-    Outside gui() for the same reason as the player widgets: a log pane
-    is a log pane and has nothing to do with the rest of the layout, and
-    a class inheriting from a Qt widget cannot even be defined while the
-    script is running on the command line without Qt.
+    Outside gui() for the same reason as the player widgets.
     """
     class LogView(QtWidgets.QTextEdit):
         """The log pane, coloured so the structure is visible.
 
         Headings get a coloured band, warnings and errors their own
-        colour. Otherwise it is a wall of text to search through.
-
-        The colours are the ones of the scheme in force, as everywhere
-        else in the window. What is particular here is where they sit:
-        in the formats new lines are written in, and in the format
-        already sitting on every line written earlier. Neither is a
-        style sheet, so ``styles_follow_scheme`` does not reach them,
-        and a log is the one thing in the window that cannot simply be
-        built again -- it is what a run said. Hence ``colours_apply``,
-        which paints what is there rather than making it anew.
+        colour. The colours sit in the formats, not in a style sheet,
+        so ``styles_follow_scheme`` does not reach them -- and a log
+        cannot be built again, it is what a run said. Hence
+        ``colours_apply``, which paints what is there.
         """
 
         # The kind of a line is kept on the line itself, in the one slot
-        # Qt gives a text block for a caller's own use. Reading the kind
-        # back out of the wording would tie it to one language, the same
-        # reason ``split_kind`` is told the kind rather than guessing it.
+        # Qt gives a text block. Reading it back out of the wording
+        # would tie it to one language.
         KINDS = ("text", "heading", "good", "warning", "error",
                  "value", "quiet")
 
@@ -2803,14 +2580,9 @@ def make_log_view(QtGui, QtWidgets, Cursor):
         def colours_apply(self):
             """Paint the log in the colours now in force.
 
-            Called when the desktop switches between light and dark.
             The ground under the pane changes with the scheme, so what
-            stands on it has to change with it. Measured on 26.8.2026:
-            a run written while the desktop was light and then read on
-            the dark sheet stood at a contrast of 1.00 -- #222222 on
-            #1d232a -- and a heading written after the switch at 1.55,
-            #1f4e79 on #233040. That is the dark blue on dark grey in
-            the photograph.
+            stands on it has to change too: a run written light and
+            read on the dark sheet stands at a contrast of 1.00.
             """
             self._formats_build()
             doc = self.document()

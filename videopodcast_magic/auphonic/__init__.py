@@ -1,21 +1,18 @@
 # -*- coding: utf-8 -*-
 """The processing: the tracks go to auphonic.com and come back.
 
-A piece of the program, read out of the folder beside it by beside().
-It cannot import the file it was cut out of, because that file is
-still being read while this one is; the program is handed in instead,
-and every name this piece uses out of it is bound below, by name.
-No key stands in here: it is asked for where it is needed and goes
-into the call to curl, never into a log line, a file or a message.
+A piece of the program, read by beside(). It cannot import the file it
+was cut out of, so the program is handed in and every name used out of
+it is bound below. No key stands in here: it is asked for where it is
+needed and goes into the call to curl, never into a log line, a file
+or a message.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# beside() puts the program here before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the
-# processing reads as it did in the one file. One name is missing, and
-# the block under the list says which and why.
+# What this piece uses out of the program, bound once. One name is
+# missing, and the block under the list says which and why.
 
 T = PROGRAM.T
 as_data_size = PROGRAM.as_data_size
@@ -44,10 +41,9 @@ tempfile = PROGRAM.tempfile
 time = PROGRAM.time
 widest_track = PROGRAM.widest_track
 
-# OUTPUT_SINK is the one. The window sets it on the program object,
-# and that is a write the pieces are never told about, so a copy taken
-# here would answer with the run before -- None, and the progress line
-# would reach nobody. It is read as PROGRAM.OUTPUT_SINK where used.
+# OUTPUT_SINK is the one: the window sets it on the program object, a
+# write the pieces are never told about, so a copy here would answer
+# None and the progress line would reach nobody.
 
 
 AUPHONIC = "https://auphonic.com"
@@ -56,10 +52,9 @@ AUPHONIC = "https://auphonic.com"
 def api_key_source(args=None):
     """Return (the API key, where it came from).
 
-    Read in order: command line, environment, credential store -- so a
-    key in AUPHONIC_TOKEN goes out even where another one is stored.
-    Which of the three answered travels with the key: a complaint
-    naming the store for a key from elsewhere misdirects the reader.
+    Read in order: command line, environment, credential store. Which of
+    the three answered travels with the key, or a complaint names the
+    store for a key that came from elsewhere.
     """
     given = getattr(args, "auphonic_key", "") if args is not None else ""
     if given:
@@ -81,11 +76,7 @@ def key_refused_note(origin, error):
 
 
 def api_key_from_anywhere(args):
-    """Return the API key.
-
-    Checked in order: the command line argument, the environment, the OS
-    credential store.
-    """
+    """Return the API key: command line, environment, credential store."""
     key = api_key_source(args)[0]
     if not key:
         raise RuntimeError(T('No API key. Pass --auphonic-api-key KEY, set '
@@ -98,40 +89,35 @@ def api_key_from_anywhere(args):
 def _curl_call(key, arguments, output_binary=False, progress=False):
     """Run curl with the key in a config file rather than in argv.
 
-    In argv the key would be visible in the process list for the duration
-    of the call.
+    In argv it would stand in the process list for the length of the call.
     """
     fd, conf = tempfile.mkstemp(prefix="auph_", suffix=".conf")
     os.close(fd)
     leftovers = []
     closing, running = [], []
     try:
-        # The one file that holds the key in plain text, and the finally
-        # below removes it whatever happened. mkstemp already creates it
-        # owner-readable; the chmod says so again for the reader.
+        # The one file that holds the key in plain text; the finally
+        # below removes it whatever happened. Owner-readable only.
         os.chmod(conf, 0o600)
-        # curl reads this file as configuration, so the key goes in as a
-        # value and not as more configuration: a quotation mark or a line
-        # break inside it would otherwise start a directive of its own.
-        # curl's own escaping inside a quoted value is a backslash.
+        # curl reads this file as configuration, so the key goes in as
+        # a value: a quotation mark or a line break in it would start a
+        # directive of its own. curl escapes with a backslash.
         safe = (str(key).replace("\\", "\\\\").replace('"', '\\"')
                 .replace("\r", "").replace("\n", ""))
         with open(conf, "w", encoding="utf-8") as f:
             f.write('header = "Authorization: bearer %s"\n' % safe)
         if progress:
-            # curl's own bar has no percentage and cannot be indented, so
-            # its plain progress table is read and the usual bar drawn
-            # from it. The answer goes to a file rather than a pipe: an
-            # unread stdout pipe fills up and stalls the transfer.
+            # curl's own bar has no percentage and cannot be indented,
+            # so its table is read and our bar drawn from it. The answer
+            # goes to a file: an unread pipe fills up and stalls it.
             fd, body = tempfile.mkstemp(prefix="auph_", suffix=".out")
             os.close(fd)
             leftovers.append(body)
             answer_file = open(body, "wb")
             closing.append(answer_file)
-            # Only the connection is limited here, never the
-            # transfer: an upload of several gigabytes may take as long
-            # as it takes, but a server that never answers at all must
-            # not hold the run.
+            # Only the connection is limited, never the transfer: an
+            # upload of gigabytes takes as long as it takes, but a
+            # server that never answers must not hold the run.
             proc = subprocess.Popen(["curl", "-S", "-L",
                                      "--connect-timeout", "15",
                                      "--config", conf]
@@ -182,17 +168,15 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                 "\n".join(said[-20:]).encode("utf-8", "replace"))
         else:
             # Long enough for a call that fetches a list of presets,
-            # short enough that somebody still believes the window is
-            # alive. Without it the button waits for good.
+            # short enough to look alive. Without it the button waits.
             p = subprocess.run(["curl", "-sS", "-L",
                                 "--connect-timeout", "15",
                                 "--max-time", "60",
                                 "--config", conf] + arguments,
                                capture_output=True)
     finally:
-        # A transfer that was broken off leaves curl writing into a file
-        # nobody reads any more. It is stopped here, or it would go on
-        # downloading gigabytes for a call that has already failed.
+        # A broken-off transfer leaves curl writing into a file nobody
+        # reads: stopped here, or it downloads gigabytes for nothing.
         for child in running:
             if child.poll() is None:
                 try:
@@ -205,18 +189,15 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                 handle.close()
             except Exception:
                 pass
-        # The config file holds the key, so it goes whatever happened --
+        # The config file holds the key, so it goes whatever happened,
         # and a failure to remove it must not replace the real error.
-        # Where it cannot be removed it is overwritten first: a file that
-        # stays behind should at least not still hold the key.
+        # What cannot be removed is overwritten: no file keeps the key.
         for path in [conf] + leftovers:
             try:
                 os.unlink(path)
             except FileNotFoundError:
-                # Already gone is the goal, not a failure. Without this
-                # the branch below made a fresh empty file at that path
-                # -- one per upload and one per download, left lying in
-                # the temp folder for ever.
+                # Already gone is the goal, not a failure: the branch
+                # below would make a fresh empty file at that path.
                 continue
             except OSError:
                 try:
@@ -226,8 +207,7 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                     pass
     if p.returncode:
         error = (p.stderr or b"").decode("utf-8", "replace")[-800:]
-        # A return code is the name of a failure, not an amount of
-        # anything: plain digits, so it can be looked up as it stands.
+        # A return code is a name, not an amount: plain digits to look up.
         raise RuntimeError(error or T('curl ended with %d') % p.returncode)
     return p.stdout if output_binary else p.stdout.decode("utf-8", "replace")
 
@@ -242,10 +222,8 @@ def _parse_json(text):
 def key_complaint(key):
     """What is wrong with this key before it is sent, or "".
 
-    Only what can be told without asking anybody: whether there is one,
-    and whether it looks pasted wrong. The length and character set of a
-    real key are not written down here -- a guessed format would turn
-    away a key that works. Whether a key is good only auphonic.com knows.
+    Only what can be told without asking anybody. No length and no
+    character set -- a guessed format would turn away a key that works.
     """
     if not key:
         return T('There is no key.')
@@ -263,9 +241,8 @@ def list_presets(key):
 
     ``minimal_data=1`` for two reasons: without it the answer is capped
     at ten presets whatever the limit says, and it is the form carrying
-    ``is_multitrack``, the field that tells the two kinds apart. An
-    unclassified preset comes back as None -- unknown, not ordinary, or
-    a Multitrack preset drops out of a list it belongs in.
+    ``is_multitrack``. An unclassified preset comes back as None --
+    unknown, not ordinary.
     """
     d = _parse_json(_curl_call(key, [
         AUPHONIC + "/api/presets.json?minimal_data=1&limit=100"]))
@@ -284,9 +261,8 @@ def list_presets(key):
 def preset_fits_mode(mark, multitrack):
     """Does a preset belong in the list for this mode?
 
-    Only a preset we can place is ever thrown out. Where the answer
-    carried no mark the kind is unknown, and unknown is shown rather
-    than dropped: hiding a preset is worse than one entry too many.
+    Only a preset we can place is thrown out: an unknown kind is shown
+    rather than dropped, hiding one being worse than one entry too many.
     """
     return mark is None or bool(mark) == bool(multitrack)
 
@@ -294,9 +270,8 @@ def preset_fits_mode(mark, multitrack):
 def presets_for_mode(key, multitrack):
     """Return only the presets that match the mode.
 
-    A multitrack preset in a plain production (or the other way round)
-    produces a production Auphonic refuses to start, so mismatched presets
-    are never offered.
+    A multitrack preset in a plain production, or the other way round,
+    makes a production Auphonic refuses to start.
     """
     return [(n, u, m) for n, u, m in list_presets(key)
             if preset_fits_mode(m, multitrack)]
@@ -309,8 +284,7 @@ def print_presets(key, multitrack=False):
               else T('No Singletrack preset found in the account.'))
         return 0
     print("Presets:")
-    # The number in front is what gets typed back at the prompt below,
-    # so it stays plain -- and %2d is what keeps the names in a column.
+    # The number in front is typed back below; %2d keeps a column.
     for i, (name, _, _) in enumerate(items, 1):
         print("  %2d  %s" % (i, name))
     return 0
@@ -335,10 +309,9 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         raise RuntimeError(T('No presets stored in the account. One can be '
                              'created in the web interface.'))
     def done(uuid, name):
-        # Checked whatever the loudness is set to. Without a target of
-        # ours the loudness comparison stays quiet, but whether a
-        # Multitrack preset carries a track template decides whether the
-        # tracks come back processed at all.
+        # Checked whatever the loudness is set to: whether a Multitrack
+        # preset carries a track template decides whether the tracks
+        # come back processed at all.
         findings = check_preset(key, uuid or name, name, lufs, multitrack)
         if report_findings(findings, T('does the preset fit the run?'),
                           anyway):
@@ -358,8 +331,7 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
                        'is needed.')) % name)
         print(T('No preset is called %r.') % wanted)
     print(T('Which Auphonic preset should process this file?'))
-    # Same list, same reason: this is the number the answer below is
-    # compared against, so it must read the way it has to be typed.
+    # Same list, same reason: this is the number to be typed back.
     for i, (name, uuid, _) in enumerate(items, 1):
         print("  %2d  %s" % (i, name))
     if not sys.stdin.isatty():
@@ -372,8 +344,7 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         if answer.isdigit() and 1 <= int(answer) <= len(items):
             name, uuid, _ = items[int(answer) - 1]
             return done(uuid, name)
-        # The bound on what may be typed, not a count of presets: it
-        # has to look like the numbers standing in the list above.
+        # The bound on what may be typed, not a count of presets.
         print(T('  Please give a number between 1 and %d.') % len(items))
 
 
@@ -381,10 +352,9 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
 TRANSCRIPT_SUFFIXES = (".json", ".srt", ".vtt", ".txt", ".html", ".xml")
 
 
-# What may be sent back when a production is updated. The answer to a
-# query carries more than that -- size, checksum, download address --
-# and sending those back would be describing a file that does not exist
-# yet.
+# What may be sent back when a production is updated. A query answers
+# with more -- size, checksum, download address -- and sending those
+# back describes a file that does not exist yet.
 OUTPUT_FILE_KEYS = ("format", "ending", "bitrate", "mono_mixdown",
                     "split_on_chapters", "suffix", "filename",
                     "outgoing_services")
@@ -398,11 +368,9 @@ def output_file_wish(f):
 def wishes_then_start(key, uuid, stereo=False):
     """Set what the simple API cannot, then start the production.
 
-    The simple API takes a file and a preset and nothing else; keeping
-    two channels is not in it. It is settled in one call, and that call
-    starts the production -- one created without "action=start" waits
-    for exactly this. The existing output files are read and sent back,
-    or the audio the preset asks for goes.
+    The simple API takes a file and a preset and nothing else, so keeping
+    two channels is settled in one further call -- the one that starts
+    the production, which without "action=start" waits for exactly this.
     """
     if not stereo:
         return
@@ -412,9 +380,8 @@ def wishes_then_start(key, uuid, stereo=False):
     wish = [output_file_wish(f) for f in already]
     request = {}
     if stereo:
-        # The preset decides whether the mixdown is folded to one channel.
-        # With a stereo recording that fold cannot be undone afterwards, so
-        # the flag is cleared on every output the preset asks for.
+        # The preset folds the mixdown to one channel, and with a
+        # stereo recording that cannot be undone afterwards.
         for f in wish:
             if f.get("mono_mixdown"):
                 f["mono_mixdown"] = False
@@ -444,10 +411,9 @@ def run_single_production(audio, preset, presetname, key, target_folder,
     title = title or os.path.splitext(os.path.basename(audio))[0]
     size = os.path.getsize(audio) / 1e6
     stereo = kept_channels(audio) == 2
-    # What the file really has, not what the run keeps of it:
-    # kept_channels answers one for anything above two, which would
-    # call a four channel recording mono in the log. Only the wording
-    # changes here, not what happens to the file.
+    # What the file really has, not what the run keeps: kept_channels
+    # answers one for anything above two, which would call a four
+    # channel recording mono in the log. Only the wording changes.
     try:
         really = int(channel_count(audio))
     except (OSError, ValueError, RuntimeError):
@@ -466,8 +432,7 @@ def run_single_production(audio, preset, presetname, key, target_folder,
         print(T('  (measuring only: nothing uploaded)\n'))
         return None
     # With a stereo recording the production is created but not started:
-    # the mono fold has to be switched off, and that is a second call.
-    # Without it the production starts straight away.
+    # switching the mono fold off is a second call.
     later = stereo
     make = ["-X", "POST", AUPHONIC + "/api/simple/productions.json",
             "-F", "preset=%s" % preset,
@@ -494,8 +459,7 @@ def run_single_production(audio, preset, presetname, key, target_folder,
     last, horizon = None, 150.0        # a guess: two and a half minutes,
                                        # doubling from there
     end = started + wait_s
-    # The same waiting the multitrack production does, and the same
-    # function: one production is watched like several.
+    # The same waiting the multitrack production does, in one function.
     p = wait_for_production(key, uuid, wait_s)
 
     files = p.get("output_files") or []
@@ -526,8 +490,7 @@ def run_single_production(audio, preset, presetname, key, target_folder,
 def fetch_text_outputs(key, files, target_folder, skip=None):
     """Fetch what a production wrote about the audio, not the audio.
 
-    Transcript, subtitles, chapter marks: paid for with the production
-    either way, and useless if they stay on the server.
+    Transcript, subtitles, chapter marks: paid for either way.
     """
     fetched = set()
     for f in files or []:
@@ -539,9 +502,8 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
             continue
         if not name.lower().endswith(TRANSCRIPT_SUFFIXES):
             continue
-        # Two outputs of the same name land in the same file, so the
-        # second download overwrites the first and both were paid for.
-        # It happens where a production carries the same format twice.
+        # Two outputs of one name land in the same file, and the second
+        # download overwrites the first though both were paid for.
         if name in fetched:
             print(T('  %s is there already -- not fetched twice') % name)
             continue
@@ -555,9 +517,8 @@ def fetch_text_outputs(key, files, target_folder, skip=None):
             print(T('  %s could not be fetched: %s') % (name, e))
 
 
-# What must not go from a preset into a production: identifiers,
-# times, states. Everything else is adopted, including fields
-# Auphonic adds later, so nothing has to be maintained here.
+# What must not go from a preset into a production: identifiers, times,
+# states. Everything else is adopted, fields added later included.
 PRESET_READ_ONLY = (
     "uuid", "preset_name", "creation_time", "change_time", "status",
     "status_string", "error_status", "error_message", "warning_status",
@@ -578,8 +539,7 @@ def find_output_format(key, find, avoid=()):
     """Find an Auphonic output format by its name.
 
     The identifiers are undocumented, so they are looked up rather than
-    guessed: /api/info/output_files.json lists every output format with
-    its identifier and name.
+    guessed: /api/info/output_files.json lists them all.
     """
     try:
         d = _parse_json(_curl_call(key, [AUPHONIC + "/api/info/output_files.json"]))
@@ -606,9 +566,8 @@ def find_output_format(key, find, avoid=()):
 def missing_outputs(existing, wanted):
     """Return the output formats still missing from a production.
 
-    Auphonic appends rather than replaces on update: sending a format that
-    already exists leaves it in the production twice, and it is billed and
-    computed twice.
+    Auphonic appends rather than replaces on update: a format sent twice
+    stands in the production twice, billed and computed twice.
     """
     def fingerprint(e):
         return (str((e or {}).get("format") or "").lower(),
@@ -620,9 +579,8 @@ def missing_outputs(existing, wanted):
             continue
         present.add(fingerprint(e))
         # The response carries the format but no suffix; the file name
-        # has it. Where the channel count is not stated both readings
-        # count as present -- an upload sent twice is computed and
-        # billed twice, and that is the worse mistake.
+        # has it. With no channel count stated both readings count as
+        # present -- sending one twice is the worse mistake.
         name = str(e.get("filename") or "")
         stem = os.path.splitext(name)[0]
         kind = str(e.get("format") or "").lower()
@@ -633,8 +591,7 @@ def missing_outputs(existing, wanted):
             for mono in both:
                 present.add((kind, suffix, mono))
         elif e.get("suffix"):
-            # An output that is configured but not rendered yet has no
-            # file name to read a suffix from. It carries its own.
+            # Configured but not rendered: no file name, its own suffix.
             for mono in both:
                 present.add((kind, str(e["suffix"]).lower(), mono))
     absent = []
@@ -649,11 +606,9 @@ def missing_outputs(existing, wanted):
 def master_output_format(key, stereo=False):
     """Request the finished mixdown as well -- 24 bit WAV.
 
-    Not needed as audio but as a yardstick: it shows how loud our own
-    mix of the same tracks should end up, and it costs no extra credit
-    because the production is computed anyway. One channel would be
-    enough and half the download, but only while every track is mono --
-    with a stereo track the yardstick would sit decibels off the mix.
+    Not as audio but as a yardstick for how loud our own mix should end
+    up, and it costs no extra credit. One channel would be half the
+    download, but with a stereo track it would sit decibels off the mix.
     """
     kind = (find_output_format(key, ("wav-24bit",))
            or find_output_format(key, ("wav",), avoid=("zip", "tracks")))
@@ -668,10 +623,9 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
                              stereo=False):
     """Build the production request from the preset that was read.
 
-    The preset cannot simply be sent along: Auphonic then merges its
-    tracks with ours and the production stays incomplete. So it is read
-    and its contents adopted, except what we set ourselves. The first
-    preset track's settings apply to all of ours, leaving the count free.
+    The preset cannot be sent along: Auphonic then merges its tracks
+    with ours and the production stays incomplete. So it is read and
+    adopted except what we set; its first track's settings apply to all.
     """
     request = {k: v for k, v in preset.items() if k not in PRESET_READ_ONLY}
     template = {}
@@ -682,12 +636,10 @@ def build_multitrack_request(preset, title, names, base_name, key=None,
     request["multi_input_files"] = [
         {"type": "multitrack", "id": n, "algorithms": dict(template)}
         for n in names]
-    # We choose the output ourselves: the single tracks only. The mixdown
-    # is built from them afterwards to match the cameras.
+    # The single tracks only; the mixdown is built from them afterwards.
     request["output_files"] = [{"format": "tracks", "ending": "wav.zip"}]
     if key:
-        # The finished mixdown comes along as a yardstick: it shows how loud
-        # our own mix should end up.
+        # The finished mixdown comes along as a yardstick for the mix.
         mst = master_output_format(key, stereo)
         if mst:
             request["output_files"].append(mst)
@@ -739,9 +691,8 @@ def print_production(p):
             print("    %-46s %s" % (n, what))
     else:
         print(T('  Results:     none'))
-    # Without the tracks nothing works, without the mixdown the loudness
-    # has no yardstick. Left unsaid, a missing one turns "reuse" into a
-    # dead end.
+    # Without the tracks nothing works and without the mixdown the
+    # loudness has no yardstick; unsaid, "reuse" becomes a dead end.
     small = [(n or "").lower() for n in done]
     has_zip = any(n.endswith(".zip") for n in small)
     has_master = any(n.endswith(".wav") for n in small)
@@ -751,8 +702,7 @@ def print_production(p):
     if not has_master:
         missing.append(T('the mixdown as the yardstick'))
     if missing:
-        # Always the production at auphonic.com, not the local disk --
-        # everything is downloaded again anyway.
+        # Always the production at auphonic.com, not the local disk.
         print(T('  Missing:     %s') % ", ".join(missing))
     return all(d for _, d in uploaded) and bool(uploaded), has_zip, missing
 
@@ -760,9 +710,8 @@ def print_production(p):
 def update_production(key, uuid, request):
     """Bring an existing production's settings up to the preset.
 
-    Uploaded files stay in place: Auphonic matches tracks by identifier and
-    that does not change. Presets can therefore be tried out without
-    uploading again -- only the upload costs credit, not the computation.
+    Uploaded files stay in place -- Auphonic matches tracks by
+    identifier -- so another preset costs no upload and no credit.
     """
     fd, js = tempfile.mkstemp(suffix=".json")
     os.close(fd)
@@ -792,9 +741,8 @@ def read_production(key, uuid):
 def update_track(key, uuid, track_id, algorithms):
     """Change the settings of a single track.
 
-    Auphonic only matches a track through its own URL. Sending the track
-    list to the production appends instead of matching -- three tracks
-    become six, the second three without a file.
+    Auphonic matches a track only through its own URL: the track list
+    sent to the production appends instead -- three tracks become six.
     """
     fd, js = tempfile.mkstemp(suffix=".json")
     os.close(fd)
@@ -817,9 +765,8 @@ def update_track(key, uuid, track_id, algorithms):
 def update_all_tracks(key, uuid, wanted, existing):
     """Bring the tracks of an existing production up to the preset.
 
-    *wanted* is the track list from our request: one identifier and the
-    preset settings per track. Each track is addressed individually.
-    Returns (changed, unchanged, errors).
+    *wanted* is the track list from our request, one identifier and the
+    preset settings per track. Returns (changed, unchanged, errors).
     """
     present = dict((str(t.get("id")), t) for t in
               (existing.get("multi_input_files") or []))
@@ -934,16 +881,14 @@ def download_results(key, p, names, target_folder, base):
     target = os.path.join(cache, zip_file.get("filename"))
     _curl_call(key, ["-o", target, zip_file.get("download_url")],
           progress=T('Downloading %s') % zip_file.get("filename"))
-    # Whatever else the preset produces -- chapter marks, transcript,
-    # analyses -- belongs here too. It is paid for either way.
+    # Whatever else the preset produces belongs here: it is paid for.
     already = set()
     for f in (p.get("output_files") or []):
         name = f.get("filename") or ""
         if not name or not f.get("download_url") or f is zip_file:
             continue
         if name.lower() in already:
-            # Two output kinds with the same file name: the second would only
-            # overwrite the first. Once is enough.
+            # Two output kinds of one file name: the second overwrites.
             print(T('  %s is in the production twice -- fetched once.')
                   % name)
             continue
@@ -960,8 +905,7 @@ def download_results(key, p, names, target_folder, base):
 def ask_reuse_production(complete, has_result, default_value=None, missing=()):
     """Ask what should happen to the existing production."""
     possible = []
-    # Reuse is only offered where everything needed is there: without
-    # the statistics there would be no camera cut.
+    # Reuse only where all of it is there: no statistics, no camera cut.
     if has_result and not missing:
         possible.append(("result", T('take the existing result (nothing '
                                      'computed, nothing paid)')))
@@ -979,9 +923,8 @@ def ask_reuse_production(complete, has_result, default_value=None, missing=()):
 def rename_tracks(tracks, names, request, new_one):
     """Rename the speakers to the track names used by the production.
 
-    Matching goes by position, and the rename applies everywhere: to the
-    tracks -- which drive file names, statistics and camera assignment --
-    and to the request sent to Auphonic.
+    By position, and everywhere at once: the tracks drive file names,
+    statistics and camera assignment, and the request goes to Auphonic.
     """
     for track, old, fresh in zip(tracks, list(names), new_one):
         print("    %-22s -> %s" % (old, fresh))
@@ -994,8 +937,7 @@ def rename_tracks(tracks, names, request, new_one):
 def ask_track_names(old, fresh, default_value=None):
     """Ask what to do when the production uses different track names."""
     print(T('\n  The tracks are named differently there:'))
-    # The track number names the track at Auphonic; the two counts
-    # below it are quantities and go through the helper.
+    # The track number names the track; the counts below are quantities.
     for i, name in enumerate(fresh, 1):
         print(T('    Track %d  %-22s (here: %s)')
               % (i, name, old[i - 1] if i <= len(old) else "--"))
@@ -1021,13 +963,11 @@ def reuse_production(key, existing, request, preset, tracks,
                                names, target_folder, base, wait_s, carry_on):
     """Reuse a production that already exists.
 
-    Only the upload costs credit, not the computation. Trying different
-    presets therefore means leaving the files in place and recomputing.
+    Only the upload costs credit, so another preset means recomputing.
     """
     print(T('\n  THERE IS ALREADY A PRODUCTION WITH THIS NAME'))
     complete, has_result, missing = print_production(existing)
-    # "reuse" answers the second question; for the first it means
-    # "recompute, upload nothing".
+    # "reuse" here means: recompute, upload nothing.
     choice = ask_reuse_production(complete, has_result,
                             "rerun" if carry_on == "adopt" else carry_on,
                             missing)
@@ -1044,10 +984,9 @@ def reuse_production(key, existing, request, preset, tracks,
               'uploads again; this costs credit.'))
     upload_again = (choice == "upload")
     if not upload_again:
-        # There the tracks are named as they were on upload, the result files
-        # in the ZIP are named after that, and Auphonic matches the files
-        # through it. Where the names differ we either adopt theirs, which
-        # costs nothing, or upload again. We never upload unasked.
+        # There the tracks keep their upload names, the ZIP is named
+        # after them, and Auphonic matches through it. Where they differ
+        # we adopt theirs or upload again, never unasked.
         there = [x.get("id") for x in
                 (existing.get("multi_input_files") or [])]
         if sorted(there) != sorted(names):
@@ -1086,14 +1025,12 @@ def reuse_production(key, existing, request, preset, tracks,
           % (preset.get("preset_name") or "?"))
     change = dict(request)
     if not upload_again:
-        # The track list stays out here. Auphonic appends it on update instead
-        # of matching it -- three tracks became six, the second three without
-        # a file. The tracks follow individually in a moment, each through its
-        # own URL; only that way are they matched.
+        # The track list stays out: Auphonic appends it on update rather
+        # than matching -- three tracks become six. They follow one by
+        # one below, each through its own URL.
         change.pop("multi_input_files", None)
         change.pop("is_multitrack", None)
-        # The same goes for the output files: what is already there must not
-        # come along again, or Auphonic computes it twice.
+        # The same for the output files, or Auphonic computes them twice.
         absent_ones = missing_outputs(existing.get("output_files"),
                                      request.get("output_files") or [])
         if absent_ones:
@@ -1111,8 +1048,7 @@ def reuse_production(key, existing, request, preset, tracks,
                             'delete them at auphonic.com.') % ", ".join(str(u) for u in left_over)))
     update_production(key, uuid, change)
     if not upload_again:
-        # The track list could not go above, since the production appends it.
-        # Each track through its own URL does work.
+        # The track list could not go above; its own URL per track does.
         changed, same, bad = update_all_tracks(
             key, uuid, request.get("multi_input_files") or [], existing)
         parts = []
@@ -1176,10 +1112,9 @@ def wait_for_production(key, uuid, wait_s):
             while elapsed >= horizon:
                 horizon *= 2
             share = min(0.99, elapsed / horizon)
-            # The bar is redrawn over itself, so every field has to
-            # keep its width: %3.0f is what holds the %% in place. It
-            # runs 0 to 99 with no decimal place, so there is no mark
-            # for a language to set either way.
+            # The bar is redrawn over itself, so every field keeps its
+            # width: %3.0f is what holds the %% in place. 0 to 99 with
+            # no decimal place, so no mark a language could set.
             sys.stdout.write("\r  [%-30s] %3.0f %%  %s  %s        "
                              % ("#" * int(share * 30), share * 100,
                                 as_hms(elapsed), text))
@@ -1202,8 +1137,7 @@ def tracks_folder(folder, create=True):
 def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
     """Unpack the ZIP and match its files to the track names.
 
-    Auphonic does not guarantee how it names the files in the ZIP, so no
-    name is assumed; the closest match is used.
+    Auphonic does not say how it names them; the closest match is used.
     """
     import zipfile
     folder = tracks_folder(target_folder)
@@ -1218,10 +1152,9 @@ def match_zip_entries_to_tracks(zip_file_path, names, target_folder):
         os.unlink(zip_file_path)
     except OSError:
         pass
-    # What the entries do not have in common. Where each carries the
-    # episode title and the title carries the speakers' names, the
-    # whole name tells them apart worse than nothing: "Guest" scored
-    # 0.286 against the Host entry and 0.278 against its own.
+    # What the entries do not have in common: where each carries the
+    # episode title and the title the speakers' names, the whole name
+    # tells them apart worse than nothing -- 0.286 against 0.278.
     stems = [os.path.splitext(os.path.basename(d))[0] for d in files]
     head = os.path.commonprefix(stems) if len(stems) > 1 else ""
     tail = (os.path.commonprefix([x[::-1] for x in stems])[::-1]

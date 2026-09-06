@@ -1,20 +1,15 @@
 # -*- coding: utf-8 -*-
 """The list of chosen files: the widget, and what changes what is in it.
 
-A piece of the program, read out of the folder beside the way in by
-beside(). It cannot import the file it was cut out of, because that
-file is still being read while this one is; the program is handed in
-instead, and every name this piece uses out of it is bound below, by
-name. What the window still calls out of it, it binds there in turn.
+A piece of the program, read in by beside(): it cannot import the file
+it was cut out of, so the program is handed in and bound below by name.
 """
 
-# The program itself. beside() puts it here before this file is read,
-# and the line under that binds it to a name of this file's own.
+# Put here by beside() before this file is read.
 PROGRAM = PROGRAM
 
-# What the program has and this piece uses, bound once so that the two
-# makers read as they did in the window. Two names are missing, and the
-# two blocks under the list say which and why.
+# Bound above the seam. Two names are missing, and the two blocks
+# under the list say which and why.
 
 AUDIO_SUFFIXES = PROGRAM.AUDIO_SUFFIXES
 COLOURS = PROGRAM.COLOURS
@@ -38,20 +33,17 @@ trouble_log = PROGRAM.trouble_log
 video_facts = PROGRAM.video_facts
 video_summary = PROGRAM.video_summary
 
-# join_box_fill is the first one missing. It stands in the window
+# join_box_fill is the first one missing: it stands in the window
 # below the line this file is read at, so a copy taken here is an
-# AttributeError -- and no earlier seam mends that, because the window
-# has to bind what this brings before it calls it.
+# AttributeError, and no earlier seam mends that.
 
-# chain_fill_in is the second, and it stands above that line. It goes
-# the same way all the same: both are asked as PROGRAM.something where
-# they are called, by which time the window has been read whole and
-# take_from() has carried each of them to the program.
+# chain_fill_in is the second, and stands above that line. It goes the
+# same way: both are asked as PROGRAM.something where they are called,
+# by which time the window has been read whole.
 
 # What the fittings bring. beside() lays its path against the folder
-# the way in sits in, whoever calls it, so this finds
-# videopodcast_magic/fittings/ and not a folder under this one; the
-# window has read it already and is handed the same module back.
+# the way in sits in, so this finds videopodcast_magic/fittings/ and
+# not a folder under this one; the window is handed the same module.
 fittings = beside("fittings", program=PROGRAM)
 _list_accepts = fittings._list_accepts
 label = fittings.label
@@ -59,33 +51,25 @@ speaks_as = fittings.speaks_as
 
 
 #-------------------------------------------------- The list as a widget
-# The tree on the first tab with its five columns, its stripes and its
-# marks. It holds no state of the window: what a dropped file does
-# reaches take_paths through state, which gui() fills in.
+# The tree on the first tab with its five columns. It holds no state of
+# the window: a dropped file reaches take_paths through state.
 
 
 def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
     """Tab 1: the list of chosen files, with its stripes and its marks.
 
-    Outside gui() because it is the widget and nothing else: the tree
-    with its five columns, what a file dropped on it does, the sentence
-    under it that the check writes into, the two colour tables refilled
-    when the desktop changes, and the maker of a single row. A dropped
-    file reaches take_paths through state, which gui() fills in further
-    down -- what goes into the list is decided there, not here.
+    Outside gui() because it is the widget and nothing else: the tree,
+    what a file dropped on it does, the sentence the check writes into,
+    the colour tables, and the maker of a single row.
     """
     items = QtWidgets.QTreeWidget()
     items.setColumnCount(5)
-    # Column 0 carries the file name and the tree structure, column 1 the check
-    # mark, column 2 the value. The mark cannot go in column 0: indentation and
-    # the expand arrow sit in front of it there.
-    # Columns 3 and 4 are the two decisions a video file carries: what it
-    # is, and whether its sound is material. Both are about the material
-    # itself, so they stand where the material is listed.
+    # Column 0 carries the name and the tree structure, column 1 the
+    # check mark -- indentation and the arrow sit in front of column 0.
+    # Columns 3 and 4: what a video file is, and whether its sound counts.
     items.setHeaderLabels([T('File'), "", "", T('Kind'), T('Camera audio')])
-    # Not uniform: those two hold drop-downs, and a drop-down is taller
-    # than a line of text. Uniform gives every row the first row's height
-    # and the fields come out squashed.
+    # Not uniform: those two hold drop-downs, taller than a line of
+    # text, and uniform squashes them to the first row's height.
     items.setUniformRowHeights(False)
     items.header().setSectionResizeMode(0, QtWidgets.QHeaderView.Interactive)
     items.header().setSectionResizeMode(1, QtWidgets.QHeaderView.Fixed)
@@ -108,30 +92,26 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
             e.acceptProposedAction()
             state["take_paths"](paths)
 
-    # Dropping onto the full list works too -- somebody who already has files
-    # and adds one is not looking for a button.
+    # Dropping onto the full list works too, not only onto the empty one.
     items.dragEnterEvent = _list_accepts
     items.dragMoveEvent = _list_accepts
     items.dropEvent = _list_takes
 
-    # Below the list, one sentence on what the check found. The details are
-    # marks in the first column; whoever wants more hovers over them or expands
-    # the file.
+    # Below the list, one sentence on what the check found. The details
+    # are marks in the first column; hovering or expanding says more.
     preflight_line = label("", COLOURS["quiet"])
     preflight_line.setWordWrap(True)
     preflight_line.setVisible(False)
     sheet1_position.addWidget(preflight_line)
 
-    # The stripes of the file list: light on light, dark on dark. They should
-    # structure the rows, not outshine them.
+    # The stripes: light on light, dark on dark, structure without glare.
     SHADES = {}
 
     def stripes_pick():
         """Fill the stripes of the file list for this desktop.
 
-        Refilled in place, and read off ON_DARK rather than asking the
-        desktop a second time: two independent answers to the same
-        question drift apart the moment one of them is refreshed.
+        Refilled in place and read off ON_DARK rather than asking the
+        desktop again: two answers to one question drift apart.
         """
         SHADES.clear()
         SHADES.update({"group": QtGui.QColor("#2f3b49"),
@@ -156,8 +136,7 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
                 item.setFont(column, s)
         return item
 
-    # What goes in the first, narrow column. A mark says more than a line of
-    # text as long as there are only three of them.
+    # A mark says more than a line of text while there are only three.
     MARKS = {}
 
     def marks_pick():
@@ -195,8 +174,8 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
         p = QtWidgets.QTreeWidgetItem(parent, [text, "", value])
         if kind:
             line_colourise(p, kind, bold)
-            # Kept, not only painted: Remove has to tell a single block
-            # of a recording from the recording itself.
+            # Kept, not only painted: Remove tells a block from its own
+            # recording.
             p.setData(0, Qt.UserRole + 3, kind)
         if files_for_it is not None:
             p.setData(0, Qt.UserRole, list(files_for_it))
@@ -208,9 +187,8 @@ def make_file_list(Qt, QtGui, QtWidgets, sheet1_position, state):
             FINDING_WORD, set_mark, item)
 
 #------------------------------------------ Adding, removing, and again
-# The five that change what the list holds and build every row out of
-# it afterwards. They answer each other, which is why they are one
-# call and not five.
+# The five that change what the list holds and build every row again.
+# They answer each other, which is why they are one call and not five.
 
 
 def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
@@ -227,25 +205,17 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
 
     Outside gui() because the five are one theme and answer each other:
     take_paths and remove change what `files` holds, and both end in
-    items_fresh, which builds every row again and asks for a new check.
-    What the window holds comes in as an argument and keeps its name
-    inside. The call sits above the project file, which takes
-    items_fresh; project_open comes back the other way, through state.
+    items_fresh, which builds every row again and asks for a check.
     """
 
     def join_row_show(node, path, heads):
         """Offer to put this recording into another one.
 
         The counterpart to "stands on its own" on a block: there a file
-        that was found is taken out, here one that was not found is put
-        in. Needed where the file names say nothing -- a recorder that
-        numbers by neither a counter nor a clock -- and where two
-        recorders were started one after the other on purpose.
-
-        Only offered while there is another recording to join, and never
-        on the recording somebody is already joining into: a chain of
-        joins would be a puzzle, not a setting. What the clocks rule
-        out is greyed rather than offered -- join_barred says which.
+        that was found is taken out, here one that was not is put in --
+        for a recorder that numbers by neither counter nor clock. Only
+        offered while there is another recording to join, and never on
+        the one being joined into; join_barred says what is greyed.
         """
         others = [h for h in heads if path_key(h) != path_key(path)
                   and h not in join_to]
@@ -270,24 +240,19 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
             QtCore.QTimer.singleShot(0, preflight_kick_off)
 
         box.currentIndexChanged.connect(chosen)
-        # In the wide column, not beside it: this box holds file names,
-        # and column one is only as wide as a checkbox.
+        # In the wide column: column one is only as wide as a checkbox.
         items.setItemWidget(kid, 2, box)
 
     def items_fresh():
         probe_warm([p for p, _ in files])
         items.clear()
-        # The rows are gone with it, so what could draw them again goes
-        # too; the loop below hands back what the new list holds.
+        # The rows are gone with it, so what could draw them again goes too.
         video_kind_again.clear()
         prework_node.clear()
         lines_node.clear()
         # Which blocks belong to which recording is worked out below, for
-        # the audio files that are in the list now. Emptied here rather
-        # than there: with the last audio file gone, the loop below never
-        # reaches the audio branch, and what stayed behind kept the
-        # removed files in every_audio_block -- so the work for a file
-        # nobody selected any more was queued again and again.
+        # the audio files in the list now. Emptied here rather than
+        # there: with the last one gone the loop never reaches that branch.
         blocks_of.clear()
         recording_of.clear()
         remove_button.setEnabled(False)
@@ -339,8 +304,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                         lines = [(T('Error'), str(e)[:120])]
                     for k, value in lines:
                         item(node, "      " + k, value)
-                    # Collapsed: the format details are reference material, not
-                    # news. Whoever needs them expands the file.
+                    # Collapsed: format details are reference, not news.
                     node.setExpanded(False)
                 continue
             for p in sorted(own,
@@ -362,19 +326,14 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         drop_area.setVisible(not files)
         items.setVisible(bool(files))
         preflight_line.setVisible(bool(files))
-        # Re-enter what has already been measured at once, so the list does not
-        # stand there briefly without marks.
+        # Re-enter what is measured, so the list is never briefly markless.
         if state.get("preflight_findings"):
             preflight_fill_in(state["preflight_findings"])
         preflight_kick_off()
         bar_env_curve.setVisible(bool(files))
-        # The name comes from the material. The output folder comes from
+        # The name comes from the material, the output folder from
         # nobody: a handover file in a subfolder belongs to the run that
-        # wrote it, may be days old and from another measurement, and a
-        # setting taken out of it looks exactly like an answer somebody
-        # gave here. Settled on 30.8.2026: the project file has to be
-        # enough, everything else is made again. So the folder stays
-        # empty until it is chosen.
+        # wrote it, so the folder stays empty until it is chosen.
         if files and not production_var.get().strip():
             production_var.set(guess_production_name(files[0][0]))
         show_weak()
@@ -411,10 +370,9 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
             report(T('Not recognised'),
                    T('These files are neither audio nor video and stay '
                      'out:\n\n  %s') % "\n  ".join(unknown[:12]))
-        # Asked before the files are measured. Opening the project
-        # replaces the list with its own files, so everything measured
-        # first was measured for nothing -- and it builds that list
-        # itself, which is why nothing more happens here then.
+        # Asked before the files are measured: opening the project
+        # replaces the list with its own files and builds that list
+        # itself, so anything measured first was measured for nothing.
         if project_offer(QtWidgets, window, state, [x for x, _ in files],
                          ask, state["project_open"]):
             return
@@ -432,8 +390,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         choice = items.currentItem()
         if choice is None:
             return
-        # On a group header it means all of it. That is a bigger thing than one
-        # file, so it asks.
+        # On a group header it means all of it, so it asks.
         kind = choice.data(0, Qt.UserRole + 1)
         single_block = False
         if kind:
@@ -451,10 +408,9 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                 return
             gone = set(os.path.abspath(p) for p in affected)
         else:
-            # Upwards from the clicked node until one stands for files. With a
-            # multi-part recording the whole recording always goes -- a single
-            # block could not be deselected anyway, it would be found again on
-            # the next rebuild.
+            # Upwards from the clicked node until one stands for files.
+            # With a multi-part recording the whole recording always goes:
+            # a single block would be found again on the next rebuild.
             node = choice
             while node is not None and node.data(0, Qt.UserRole) is None:
                 node = node.parent()
@@ -464,8 +420,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
             single_block = node.data(0, Qt.UserRole + 3) == "block"
             if single_block:
                 # One block out of a recording: it must stay out. The
-                # search for continuations looks in the folder, not in
-                # the list.
+                # search for continuations looks in the folder, not here.
                 no_join.update(gone)
         files[:] = [(p, a) for p, a in files
                       if os.path.abspath(p) not in gone]
@@ -477,9 +432,8 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
         prework_clean_up(gone)
         items_fresh()
         # After the tables are built again, not before: building them
-        # writes back every row they hold, and the row that has just
-        # gone is among them until then. The project file is written
-        # out of this store, so a row leaving the screen leaves it too.
+        # writes back every row they hold, and the row that has just gone
+        # is among them until then. This store feeds the project file.
         remembered_forget(remembered, gone)
 
     return items_fresh, take_paths, add_files, remove
