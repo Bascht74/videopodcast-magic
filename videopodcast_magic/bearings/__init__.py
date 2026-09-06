@@ -119,6 +119,8 @@ def measure_picture_levels(file_path, spots=5, t0=0.0, t1=None):
     values = {"y": [], "u": [], "v": [], "sat": []}
     for time in points:
         try:
+            # A seek point handed to ffmpeg. A German decimal comma
+            # here is a different second, or none it will accept.
             p = subprocess.run(
                 ["ffmpeg", "-v", "error", "-ss", "%.3f" % time, "-i", file_path,
                  "-frames:v", "1", "-vf", "signalstats,metadata=print:file=-",
@@ -180,13 +182,20 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
             dy = values.get("y", 0) - middle.get("y", 0)
             du = values.get("u", 0) - middle.get("u", 0)
             dv = values.get("v", 0) - middle.get("v", 0)
-            distance = "%+6.1f  %+5.1f  %+5.1f" % (dy, du, dv)
+            # Padded as text, not formatted as a number, because the
+            # widths are what keep this a table. Measured in both
+            # languages: levels up to 1023 keep the columns they had,
+            # and only the last field can grow, where nothing follows.
+            distance = "%6s  %5s  %5s" % (number_text(dy, 1, plus=True),
+                                          number_text(du, 1, plus=True),
+                                          number_text(dv, 1, plus=True))
         else:
             dy = du = dv = 0.0
             distance = T('-- only one camera')
-        print("  %-24s %8.1f %8.1f %8.1f   %s"
-              % (name[:24], values.get("y", 0), values.get("u", 0), values.get("v", 0),
-                 distance))
+        print("  %-24s %8s %8s %8s   %s"
+              % (name[:24], number_text(values.get("y", 0), 1),
+                 number_text(values.get("u", 0), 1),
+                 number_text(values.get("v", 0), 1), distance))
         lines.append((name, values, (dy, du, dv)))
     if middle:
         spread = max(abs(line[2][0]) for line in lines)
@@ -463,6 +472,8 @@ def mix_file_from_handover(d):
         if any("full" in n for n in names) and os.path.exists(
                 cam.get("file") or ""):
             idx = [i for i, n in enumerate(names, 1) if "full" in n][0]
+            # The track number names the track in that file, the way
+            # the editor counts them: plain digits.
             return cam["file"], (T('%s, audio track %d') % (cam["camera"], idx))
     return None, ""
 
