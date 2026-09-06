@@ -551,9 +551,9 @@ tracks are decided, under the assignment table.
 
 At the top stands **Language of the window**. Its first entry is the
 system's own language, and it says which one that is, so nobody has to
-guess what they are choosing. Under it the twelve the program speaks,
+guess what they are choosing. Under it the thirteen the program speaks,
 each written the way that language writes it -- العربية, Русский,
-Українська, हिन्दी, 中文, 日本語 and the six in Latin letters. A name is
+Українська, हिन्दी, 中文, 日本語 and the seven in Latin letters. A name is
 written in its own language on purpose: whoever is looking for a
 language may not read the one the window is standing in.
 
