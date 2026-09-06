@@ -131,7 +131,6 @@ label_say = PROGRAM.label_say
 language_name = PROGRAM.language.language_name
 reads_right_to_left = PROGRAM.language.reads_right_to_left
 languages = PROGRAM.languages
-legend_markup = PROGRAM.legend_markup
 list_presets = PROGRAM.list_presets
 load_api_key = PROGRAM.load_api_key
 log_aside = PROGRAM.log_aside
@@ -899,8 +898,9 @@ def window_title(project=""):
 
 tables = beside("tables", program=PROGRAM)
 
-# What the window still calls out of it, bound by name. widget_width is
-# read by no code here and stands all the same: the fittings ask for it.
+# What the window binds out of it by name. widget_width and file_span
+# are read by no code here and stand all the same: the fittings ask
+# the program for the one, a test for the other.
 file_span = tables.file_span
 fix_table_width = tables.fix_table_width
 folded_summary = tables.folded_summary
@@ -923,17 +923,21 @@ widget_width = tables.widget_width
 
 player = beside("player", program=PROGRAM)
 
-# What the window calls out of it, bound by name. NAME_HOLD_S is read
-# by no code here: take_from() carries it to the program.
+# What the window binds out of it by name. Not every one is read here:
+# take_from() carries them all to the program, and that is where the
+# menus and the tests ask for them.
 NAME_HOLD_S = player.NAME_HOLD_S
 box_room = player.box_room
 caption_room = player.caption_room
 cut_caption_room = player.cut_caption_room
 cut_choice_room = player.cut_choice_room
 digits_font = player.digits_font
+make_band_and_player = player.make_band_and_player
 make_drop_area = player.make_drop_area
 make_log_view = player.make_log_view
+make_player_choice = player.make_player_choice
 make_player_widgets = player.make_player_widgets
+player_menu = player.player_menu
 qt_cut_band = player.qt_cut_band
 qt_cut_player = player.qt_cut_player
 
@@ -2160,179 +2164,6 @@ def audio_under_camera(camera_path, kind_of, done,
     return None
 
 
-def make_player_choice(files, clip_kind_values, assign_lines, start_var,
-                       end_var, player, remembered, state, window_enable):
-    """Which file the player shows, and where it starts inside it.
-
-    Outside gui() because it decides nothing about the window: it reads
-    the two boundary fields, the file list and the Kinds. `state`,
-    `files` and `remembered` go on being written through.
-    """
-    def player_load(file_path, seconds=None):
-        """Load a file into the player and remember which it was.
-
-        The choice belongs in the project. And what was running goes on
-        running: switching cameras while watching is comparing them.
-        """
-        remembered["player_file"] = file_path
-        player.load(file_path, seconds, running=player.now_playing())
-        if not state.get("closing"):
-            window_enable()      # it decides whether a boundary can be set
-
-    def player_spot_wanted(file_path):
-        """Return where the player should start in this file.
-
-        Preferably where it was left; otherwise at the In point, since
-        the start of the file usually shows only the setup.
-        """
-        spot = remembered.get("player_spot")
-        if (remembered.get("player_file") == file_path
-                and isinstance(spot, (int, float)) and spot > 0.0):
-            return float(spot)
-        span = picture_span(file_path)
-        text = start_var.get()
-        if not span or not (text or "").strip():
-            return None
-        try:
-            value, absolute = parse_time_point(text, span["fps"])
-        except Exception:
-            return None
-        if value is None:
-            return None
-        if absolute:
-            if span["tc0"] is None:
-                return None
-            value -= span["tc0"]
-        elif value >= 0:
-            if span["axis"] is None:
-                return None
-            value -= span["axis"]
-        else:
-            value = span["duration"] + value
-        if not (0.0 <= value <= span["duration"] + 0.05):
-            return None
-        return max(0.0, value)
-
-    def picture_span(file_path):
-        """What this file knows about its place in time, on this axis."""
-        return file_span(file_path, state["axis"])
-
-    def covers(file_path, text):
-        """Report whether a time value lies inside this video file.
-
-        None means undecidable -- a timecode against a file that has
-        none, or a value on an axis that was never measured.
-        """
-        # A cheap early return, not a guard: the time reader answers None
-        # for empty text anyway. It saves reading the file's span.
-        if not (text or "").strip():
-            return None
-        span = picture_span(file_path)
-        if not span or not span["duration"]:
-            return None
-        try:
-            value, absolute = parse_time_point(text, span["fps"])
-        except Exception:
-            return None
-        if value is None:
-            return None
-        if absolute:
-            if span["tc0"] is None:
-                return None
-            value -= span["tc0"]
-        elif value >= 0:
-            if span["axis"] is None:
-                return None
-            value -= span["axis"]
-        else:
-            value = span["duration"] + value
-        return -0.05 <= value <= span["duration"] + 0.05
-
-    def player_candidates():
-        """Return the video files eligible for the player.
-
-        Never one set to "ignore this video". Intro and outro neither:
-        they do not show the events the time window is about.
-        """
-        out = []
-        for file_path, kind in files:
-            if kind != "video":
-                continue
-            value = clip_kind_values.get(file_path)
-            if value is not None and value.get() not in CAMERA_TYPES:
-                continue
-            out.append(file_path)
-        return sorted(out, key=lambda x: os.path.basename(x).lower())
-
-    def player_suggestion():
-        """Return the file that belongs in the player.
-
-        First one containing In point *and* Out point, or the two jump
-        buttons go nowhere; then one containing at least one boundary.
-        Among equals the camera with no speaker -- the wide shot, which
-        shows the most -- then the longest. A previous choice wins a tie.
-        """
-        videos = player_candidates()
-        if not videos:
-            return None
-        taken = set(cv.get() for _r, _nv, cv in assign_lines)
-
-        def hit(file_path):
-            return sum(1 for t in (start_var.get(), end_var.get())
-                       if covers(file_path, t) is True)
-
-        def quality(file_path):
-            free = 0 if os.path.basename(file_path) in taken else 1
-            span = picture_span(file_path)
-            return (hit(file_path), free, (span or {}).get("duration") or 0.0)
-
-        # The remembered choice holds while it covers the boundaries just
-        # as well; failing it on "the wide shot is longer" forgets it.
-        last_time = remembered.get("player_file")
-        if last_time in videos and hit(last_time) == max(hit(b)
-                                                         for b in videos):
-            return last_time
-        return max(videos, key=quality)
-
-    def main_track_show(force=False):
-        """Load a picture into the player so the box is not empty.
-
-        Without *force* whatever is playing stays. With *force* the file
-        is chosen again -- after opening a project, say.
-        """
-        suggestion = player_suggestion()
-        if suggestion is None:
-            return
-        if player.file_path and not force:
-            return
-        if player.file_path == suggestion:
-            return
-        player_load(suggestion, player_spot_wanted(suggestion))
-
-    def player_follow_up(spot_also=False):
-        """Swap the player file if it no longer covers the boundaries.
-
-        With *spot_also* it also jumps to the remembered position, for
-        opening a project.
-        """
-        swapped = False
-        if ((start_var.get() or "").strip()
-                or (end_var.get() or "").strip()):
-            if not (player.file_path and all(
-                    covers(player.file_path, t) is not False
-                    for t in (start_var.get(), end_var.get()))):
-                main_track_show(force=True)
-                swapped = True
-        if spot_also and not swapped and player.file_path:
-            where_to = player_spot_wanted(player.file_path)
-            if where_to is not None:
-                player.jump(int(where_to * 1000))
-
-    return (player_load, player_spot_wanted, picture_span, covers,
-            player_candidates, player_suggestion, main_track_show,
-            player_follow_up)
-
-
 def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
                     files, remembered, state, tree_open, multitrack, player,
                     assignment_check, player_load, speaker_split_kick_off,
@@ -2981,139 +2812,6 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
     split_never.clicked.connect(speaker_split_never)
 
     return speaker_split_kick_off, split_stop, voices_of, several_set
-
-
-def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
-                         QtMultimediaWidgets, NoPlayer, state, files,
-                         assign_lines, clip_kind_values,
-                         forecast_outer, view_player):
-    """The cut band, the player below it, and what those two show.
-
-    Both draw the same computed cut and follow one position, so they are
-    built together. What the player is fed with is decided in gui(),
-    where the cut data stands, and reached back through
-    state["player_load_cut"].
-    """
-    # The cut band: the computed cut over the full length, one bar per
-    # shot in the colour its clip gets in Resolve later.
-    CutBand = qt_cut_band(QtCore, QtGui, QtWidgets, Qt)
-    cut_band = CutBand()
-    hint(cut_band, T('Each shot in the colour of its camera. Hover for '
-                     'camera and duration, click to jump.'))
-    # One label that wraps, not a row of widgets: legend_markup says
-    # why, and does the work.
-    band_legend = label("", COLOURS["quiet"])
-    band_legend.setTextFormat(Qt.RichText)
-    band_legend.setWordWrap(True)
-    band_legend.setContentsMargins(0, 2, 0, 0)
-
-    def legend_show(numbers):
-        """Which colour belongs to which camera."""
-        band_legend.setText(legend_markup(numbers))
-
-    def band_show(numbers):
-        present = bool(numbers and numbers.get("cut"))
-        band_legend.setVisible(present)
-        if present:
-            end = max(b for _a, b, _w in numbers["cut"])
-            cut_band.set(numbers["cut"], numbers.get("colours") or {}, end)
-            legend_show(numbers)
-        # Built in gui() after this function has handed back the player
-        # it feeds, so it cannot be a parameter.
-        state["player_load_cut"](numbers)
-
-    # The player below always shows something: with a cut it plays it and
-    # switches camera at every cut; otherwise the wide shot.
-    if QtMultimedia is not None:
-        CutPlayer = qt_cut_player(QtCore, QtGui, QtWidgets, Qt,
-                                           QtMultimedia, QtMultimediaWidgets,
-                                           label, hint, COLOURS)
-        cut_player = CutPlayer()
-    else:
-        cut_player = NoPlayer()
-    # Each player silences the other when it starts: two at once are
-    # two moments at once, and neither can be judged.
-    cut_player.hush = hush_when_running(view_player, "_should_play")
-    view_player.hush = hush_when_running(cut_player, "_playing")
-    forecast_outer.addWidget(cut_player, 1)
-    # Zoom on the band. Over an hour of material a single shot is two
-    # pixels wide, and whether a cut sits in a pause cannot be seen
-    # there at all. In and out by a factor of two around the position.
-    band_row = QtWidgets.QWidget()
-    band_line = QtWidgets.QHBoxLayout(band_row)
-    band_line.setContentsMargins(0, 0, 0, 0)
-    band_line.setSpacing(6)
-    band_line.addWidget(cut_band, 1)
-    zoom_span = label("", COLOURS["quiet"])
-    # The same typewriter digits the player uses for its times below.
-    zoom_span.setFont(digits_font(QtGui, zoom_span))
-
-    # Pinned, and measured after the font is set: the band takes what is
-    # left, so a text that grows pushes the row along -- 104 px at the
-    # first zoom, and the button walks out from under the pointer.
-    zoom_span.setFixedWidth(caption_room(zoom_span, 0,
-                                         ["00:00:00 -- 00:00:00"]))
-
-    def zoom_show():
-        zoom_span.setText(cut_band.zoom_text())
-
-    band_line.addWidget(zoom_button(
-        QtWidgets, "\u2212", T('Show twice as much (minus key, or the wheel over '
-                    'the band)'), lambda: cut_band.zoom(2.0)))
-    band_line.addWidget(zoom_button(
-        QtWidgets, "+", T('Show half as much, around the current position (plus '
-               'key, or the wheel over the band)'),
-        lambda: cut_band.zoom(0.5)))
-    band_line.addWidget(zoom_button(
-        QtWidgets, "\u25ad", T('The whole length again (0 key)'),
-        lambda: cut_band.zoom_all()))
-    band_line.addWidget(zoom_span)
-    cut_band.zoomed.connect(zoom_show)
-    # Once here, or it stands empty until somebody zooms: the signal
-    # above fires on a change, and nothing has changed yet.
-    zoom_show()
-
-    # The band takes the place of the position rail: it shows the same time
-    # plus which camera runs when. The legend stays below.
-    if hasattr(cut_player, "replace_rail"):
-        cut_player.replace_rail(band_row)
-    else:
-        forecast_outer.addWidget(band_row)
-    forecast_outer.addWidget(band_legend)
-
-    def band_spot_chosen(t):
-        state["band_spot"] = t
-        cut_band.label_set(t)
-        try:
-            cut_player.jump(t)
-        except Exception:
-            pass
-
-    cut_band.selected.connect(band_spot_chosen)
-    if hasattr(cut_player, "position_changed"):
-        cut_player.position_changed.connect(cut_band.label_set)
-        cut_player.position_changed.connect(lambda *_: zoom_show())
-
-    def preview_file():
-        """What is shown while there is no cut.
-
-        The file assigned to no speaker, which is the wide shot. Failing that,
-        the first one that is neither intro nor outro.
-        """
-        videos = [p for p, a in files
-                  if a == "video"
-                  and (p not in clip_kind_values
-                       or clip_kind_values[p].get() in CAMERA_TYPES)]
-        if not videos:
-            return None
-        taken = set()
-        for _chain, _nv, cv in assign_lines:
-            if cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                taken.add(cv.get())
-        free = [b for b in videos if os.path.basename(b) not in taken]
-        return (free or videos)[0]
-
-    return cut_band, cut_player, band_show, preview_file
 
 
 def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
@@ -6489,20 +6187,8 @@ def gui():
 
 
 #------------------------------------------------ Once the window stands
-# What the window opens after it is up: the player menu, the offers for
-# a missing tool, the version boxes, and the preset list.
-
-
-def player_menu(menu, player):
-    """The player menu, greyed out where there is no player.
-
-    A Qt without multimedia hands out the stand-in, which opens ffplay in
-    a window of its own. Every entry here would then do nothing, and that
-    is worse than one visibly not available.
-    """
-    out = menu.addMenu(T('&Player'))
-    out.menuAction().setEnabled(getattr(player, "plays", True))
-    return out
+# What the window opens after it is up: the offers for a missing
+# tool, the version boxes, and the preset list.
 
 
 def after_window(window, app, QtCore):
