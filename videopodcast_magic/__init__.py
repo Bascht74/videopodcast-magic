@@ -2120,10 +2120,9 @@ pieces_answer_together()
 # of its own beside this one. How to add a language: see the top.
 
 CATALOGUE["de"] = texts_of_language("de")
-# German is complete; the seven after it are partial, and every text
-# they leave out appears in English. Arabic is translated and stands
-# beside them, but is not offered: the window never sets a reading
-# direction, so it would come out left to right.
+# German is complete; the eight after it are partial, and every text
+# they leave out appears in English. Arabic reads from right to left,
+# and the window turns itself round for it.
 CATALOGUE["es"] = texts_of_language("es")
 CATALOGUE["pt"] = texts_of_language("pt")
 CATALOGUE["fr"] = texts_of_language("fr")
@@ -2131,6 +2130,7 @@ CATALOGUE["ru"] = texts_of_language("ru")
 CATALOGUE["zh"] = texts_of_language("zh")
 CATALOGUE["ja"] = texts_of_language("ja")
 CATALOGUE["hi"] = texts_of_language("hi")
+CATALOGUE["ar"] = texts_of_language("ar")
 
 # Where the window's language comes from: what somebody chose in an
 # earlier run, and the system where nobody has chosen yet. --lang beats
