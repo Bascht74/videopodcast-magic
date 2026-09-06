@@ -115,7 +115,6 @@ finished_tracks_find = PROGRAM.finished_tracks_find
 forget_soxr = PROGRAM.forget_soxr
 format_complaint = PROGRAM.format_complaint
 group_recording_parts = PROGRAM.group_recording_parts
-group_text = PROGRAM.group_text
 guess_camera_name = PROGRAM.guess_camera_name
 guess_production_name = PROGRAM.guess_production_name
 guess_speaker_name = PROGRAM.guess_speaker_name
@@ -576,7 +575,7 @@ def chain_fill_in(group, row, discarded, selected,
     node = item(group,
                     TN(len(row) - 1, '%s  + %s continuation',
                        '%s  + %s continuations')
-                    % (os.path.basename(row[0]), group_text(len(row) - 1)),
+                    % (os.path.basename(row[0]), number_text(len(row) - 1, 0)),
                     os.path.dirname(row[0]), "audio", files_for_it=row)
     # The continuations point at this row too: a finding about block 3
     # belongs to the recording, not to nowhere.
@@ -596,7 +595,7 @@ def chain_fill_in(group, row, discarded, selected,
                     T('Timecode from %s')
                     % timecode_string(min(t for t in tcs if t is not None))
                     if any(t is not None for t in tcs)
-                    else T('no timecode'), group_text(len(row))))
+                    else T('no timecode'), number_text(len(row), 0)))
         item(node, "      " + k, value)
     for i, (p, n, t) in enumerate(zip(row, lengths, tcs), 1):
         source_text = (T('selected') if os.path.abspath(p) in selected
@@ -1635,7 +1634,7 @@ def channel_rows_build(node, path, Qt, QtCore, QtWidgets, blocks_of,
         return kid
 
     if not all(probe_has(channel_facts_name(), x) for x in row):
-        channel_row(T('      %s channels') % group_text(how_many),
+        channel_row(T('      %s channels') % number_text(how_many, 0),
                     T('measurement running ...'))
         return
     # Over the whole recording: the first block can be the soundcheck,
@@ -1947,7 +1946,7 @@ def broken_off_report(where, results):
         TN(len(done),
            '%s file was finished before that and is whole: %s',
            '%s files were finished before that and are whole: %s')
-        % (group_text(len(done)), ", ".join(done) or "-"),
+        % (number_text(len(done), 0), ", ".join(done) or "-"),
         T('Everything after that step is missing. The folder holds a '
           'part of a run, not a result.')])
 
@@ -2144,7 +2143,7 @@ def speech_table_fill(Qt, QtGui, QtWidgets, table, d):
         for column, text in ((0, e["name"]),
                              (1, as_minutes(e["seconds"])),
                              (2, "%s %%" % number_text(e["share"], 1)),
-                             (3, group_text(e["blocks"])),
+                             (3, number_text(e["blocks"], 0)),
                              (4, "%s s" % number_text(e["mean"], 1))):
             p = QtWidgets.QTableWidgetItem(text)
             if column:
@@ -2177,12 +2176,12 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n):
     if audio_file_list:
         parts.append("%s%s" % (
             TN(recordings, '%s audio recording', '%s audio recordings')
-            % group_text(recordings),
+            % number_text(recordings, 0),
             "" if recordings == audio_file_list
-            else T(' from %s files') % group_text(audio_file_list)))
+            else T(' from %s files') % number_text(audio_file_list, 0)))
     if videos_n:
         parts.append(TN(videos_n, '%s video file', '%s video files')
-                     % group_text(videos_n))
+                     % number_text(videos_n, 0))
     sentence = ", ".join(parts) if parts else T('nothing selected')
     # What belongs to a file that does not take part is shown on its row,
     # not in the balance below.
@@ -2195,7 +2194,7 @@ def preflight_sentence(findings, audio_file_list, recordings, videos_n):
         return (sentence + T(' -- 1 note: %s') % hints[0].text[:110],
                 COLOURS["warning"])
     if hints:
-        return (sentence + T(' -- %s notes') % group_text(len(hints)),
+        return (sentence + T(' -- %s notes') % number_text(len(hints), 0),
                 COLOURS["warning"])
     return sentence + T(' -- nothing to fault.'), COLOURS["quiet"]
 
@@ -4945,9 +4944,10 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
         duration = window_length()
         lines = ["%s, %s%s"
                   % (TN(len(content), '%s camera', '%s cameras')
-                     % group_text(len(content)),
+                     % number_text(len(content), 0),
                      TN(len(audio_files), '%s audio recording',
-                        '%s audio recordings') % group_text(len(audio_files)),
+                        '%s audio recordings')
+                     % number_text(len(audio_files), 0),
                      ", " + duration if duration else "")]
         for kind, name in edge:
             lines.append("%s: %s" % (label_of(kind), name))
@@ -5000,7 +5000,7 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
                 with prework_lock:
                     pending = len(prework_queue) + prework_run["threads"]
                 start_run.setText(T('Camera audio, %s to go ...')
-                                  % group_text(pending))
+                                  % number_text(pending, 0))
                 QtCore.QTimer.singleShot(300, check_again)
 
             check_again()
@@ -5377,7 +5377,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
                 state["audio_recordings"] = len(chains)
             else:
                 chains, header_value = None, TN(
-                    len(own), '%s file', '%s files') % group_text(len(own))
+                    len(own), '%s file', '%s files') % number_text(len(own), 0)
             group = item(items, title, header_value, "group", True,
                             group_kind=kind)
             group.setExpanded(True)
@@ -5513,7 +5513,7 @@ def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
             how = T('audio file') if kind == "audio" else T('video file')
             if not ask(T('Remove all'),
                     T('Remove all %s %ss from the list?\n\n%s')
-                    % (group_text(len(affected)), how,
+                    % (number_text(len(affected), 0), how,
                        "\n".join("  " + os.path.basename(p)
                                   for p in affected[:12])
                        + ("\n  ..." if len(affected) > 12 else "")),
@@ -6209,7 +6209,7 @@ def gui():
             return
         group = item(items, T('GENERAL NOTES'),
                         TN(len(general), '%s point', '%s points')
-                        % group_text(len(general)), "group", True)
+                        % number_text(len(general), 0), "group", True)
         group.setData(0, Qt.UserRole + 2, True)
         group.setExpanded(True)
         for b in general:
@@ -8621,7 +8621,7 @@ def preset_mode_note(preset_list, multitrack_on):
              if multitrack_on else
              T('The key is good. Of the %s presets in the account none '
                'is a Singletrack one, so the list stays empty.'))
-            % group_text(len(preset_list)), fitting)
+            % number_text(len(preset_list), 0), fitting)
 
 
 def update_offer(window, asked=False):

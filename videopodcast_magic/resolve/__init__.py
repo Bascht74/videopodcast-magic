@@ -32,7 +32,6 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 ask_choice = PROGRAM.ask_choice
 camera_metadata = PROGRAM.camera_metadata
-decimal_text = PROGRAM.decimal_text
 ffprobe_json = PROGRAM.ffprobe_json
 first_and_last_word = PROGRAM.first_and_last_word
 format_complaint = PROGRAM.format_complaint
@@ -399,13 +398,14 @@ def same_setting_value(a, b):
 
 def apply_project_settings(p, d):
     """Set frame rate, drop frame and resolution, then verify they took."""
-    value = "%g" % resolve_timeline_rate(d.get("fps") or 30.0)
+    rate = resolve_timeline_rate(d.get("fps") or 30.0)
+    value = "%g" % rate
     if d.get("fps_measured") and abs(d["fps_measured"]
                                      - resolve_timeline_rate(d["fps"])) > 0.001:
         print(T('    Measured %s frames/s -- Resolve only knows fixed '
                 'rates,\n    %s is used.')
-              % (decimal_text("%g" % d["fps_measured"]),
-                 decimal_text(value)))
+              % (number_text(d["fps_measured"], None),
+                 number_text(rate, None)))
     applied = []
     for api_key, value in (("timelineFrameRate", value),
                           ("timelinePlaybackFrameRate", value),
@@ -1256,10 +1256,14 @@ def set_loudness_target(p, target_lufs):
     # "audioMeterLoudnessScale" is the scale, not the target.
     hit = [k for k in hit if "scale" not in k.lower()]
     if not hit:
+        # Not through the language: the number is typed into Resolve's
+        # own field, and three lines down the program sets that field
+        # to the same "%g" string. A German comma there is a number the
+        # person cannot type back.
         print(T('    Loudness meter target level not found -- please set '
                 'it by hand:\n    Project Settings > Fairlight > Target '
                 'Loudness Level %s LUFS.')
-              % decimal_text("%g" % target_lufs))
+              % ("%g" % target_lufs))
         return None
     api_key = hit[0]
     wanted = "%g" % target_lufs

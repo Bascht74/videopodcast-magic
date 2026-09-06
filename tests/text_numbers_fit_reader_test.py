@@ -11,11 +11,13 @@ fourth asks for the thousands mark on a whole number, which has no
 decimal place to carry the other one. The fifth asks a size, where a
 unit stands beside the digits and must not be counted among them. The
 sixth asks an offset that no single measurement can reach, only the
-chain of them. The seventh asks what is written where there is no
-number to write. The last is the direction that costs something when
-it is wrong: what leaves for a machine -- the filter chain handed to
-ffmpeg, the iXML block written into the delivered track, the name that
-track is written under -- keeps plain digits under German too.
+chain of them. The seventh asks what is written where the digits
+cannot be grouped -- a fit's error of inf, and the exponent form a
+number over a million takes when no fixed places are asked for. The
+last is the direction that costs something when it is wrong: what
+leaves for a machine -- the filter chain handed to ffmpeg, the iXML
+block written into the delivered track, the name that track is written
+under -- keeps plain digits under German too.
 
 The channel facts, the picture's timecode, the camera file's frame
 rate and the bleed between two microphones are stand-in dictionaries,
@@ -137,10 +139,10 @@ check("the frames a timecode is out by carry the thousands mark too",
       % (said, "1.475,0", "1475,0", LATE_S, FPS))
 
 print("\n4. German: a whole number, with no decimal place beside it")
-# The other half of the same fault. "%.0f" writes no point, so
-# decimal_text found nothing to replace and handed the digits back
-# ungrouped, in every language alike. 2000 has one place for a
-# thousands mark and none at all for a decimal one.
+# The other half of the same fault. "%.0f" writes no point, so the
+# half-helper that only set the decimal mark found nothing to replace
+# and handed the digits back ungrouped, in every language alike. 2000
+# has one place for a thousands mark and none at all for a decimal one.
 ROUND = 2000.0
 vpm.set_language("de")
 written_out = vpm.number_text(ROUND, 0)
@@ -231,7 +233,7 @@ check("a chained offset carries the thousands mark on the line that "
       "%r -- wanted %r in it and %r not, over %s hops of %s ms"
       % (said, "+1.080 ms", "+1080 ms", IN_A_LINE - 1, CAP_MS))
 
-print("\n7. Where there is no number, the line says so and the run goes on")
+print("\n7. Where the digits cannot be grouped, the run goes on all the same")
 # A fit with no spread of its own reports its error as inf, and that
 # error is printed in the same line as the drift. The half-helper wrote
 # the word; the whole one has to as well, or the report stops the run at
@@ -243,6 +245,21 @@ except Exception as trouble:
 check("a number that is not finite is written out, not thrown",
       written_out == "inf",
       "number_text(inf, 2) is %r, wanted %r" % (written_out, "inf"))
+
+# The other shape with no digits to group. Asked for as many places as
+# the number needs, a number over a million comes back as "1e+06": it
+# opens with a digit, so the guard above waves it through, and int()
+# stops over the "e". No site asks that of a number that big today, and
+# the guard is what keeps the day one does from costing anything.
+MILLION = 1e6
+try:
+    written_out = vpm.number_text(MILLION, None)
+except Exception as trouble:
+    written_out = "stopped: %s" % type(trouble).__name__
+check("a number written in exponent form is written out, not thrown",
+      written_out == "1e+06",
+      "number_text(%s, None) is %r, wanted %r"
+      % (MILLION, written_out, "1e+06"))
 
 print("\n8. German: a machine reads it, so the digits stay plain")
 # From here on the run is German, which is the language whose thousands
