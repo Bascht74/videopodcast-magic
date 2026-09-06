@@ -22,28 +22,29 @@ loader, the version check, the run, the values more than one piece
 reads, and the catalogue.
 
 What is in them, largest first, every folder of the program on the list
-and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
+and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **7130** -- the window and everything it shows, asks or offers
-* `cut/` **3960** -- who is on camera when, and what carries it out of
+* `ui/` **6513** -- the window and everything it shows, asks or offers
+* `cut/` **3676** -- who is on camera when, and what carries it out of
   here
-* `player/` **2657** -- the moving picture: the player, the cut band,
-  the log view
+* `player/` **3018** -- the moving picture: the player, the cut band,
+  the log view, the player menu, and the hush that stops one player
+  when the other starts
 * `resolve/` **2591** -- the DaVinci Resolve project, timelines, colour,
   markers
 * `material/` **2417** -- channels, chains, continuation files, what a
   track is made of
-* `bearings/` **2071** -- the time axis, the offsets, which camera
+* `bearings/` **2075** -- the time axis, the offsets, which camera
   belongs to which voice
-* `speakers/` **1967** -- who is speaking, out of the sound alone
-* `pipeline/` **1918** -- the chain the recordings run until the camera
+* `speakers/` **2157** -- who is speaking, out of the sound alone
+* `pipeline/` **1972** -- the chain the recordings run until the camera
   files are written
 * `preflight/` **1385** -- whether the material fits together before the
   first long step
-* `speech/` **1182** -- what is said and when, and what is written down
+* `speech/` **1089** -- what is said and when, and what is written down
   from it
-* `auphonic/` **1176** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1314** -- the sending to auphonic.com and the fetching
   back
 * `setup/` **1089** -- finding ffmpeg, installing a missing module,
   keeping the key
@@ -55,9 +56,9 @@ figure of the day is that command, not this paragraph**:
   about itself
 * `orders/` **703** -- the command line a run is given: written out of
   the window, and read back off the line
-* `herald/` **608** -- the progress bar, the stages, the console and log
+* `herald/` **615** -- the progress bar, the stages, the console and log
   redirection
-* `desktop/` **601** -- the picture and the shortcut the first start
+* `desktop/` **865** -- the picture and the shortcut the first start
   lays down
 * `upkeep/` **457** -- which release is out, the way back, and pip
   putting one in place
@@ -65,14 +66,14 @@ figure of the day is that command, not this paragraph**:
   shown in, and what adding and removing do to it
 * `prework/` **435** -- the audio, envelopes, channels and tracks
   fetched in advance, and the bar that counts them
-* `language/` **352** -- a .po file per language and the reader that
+* `language/` **324** -- a .po file per language and the reader that
   looks one up
 * `tables/` **348** -- the tables and trees the window builds
 * `running/` **344** -- what a run is offered before it starts, the
   command line it builds, and the thread it goes in
 * `timecode/` **317** -- timecode strings, frame rates, the clock a file
   carries
-* `livery/` **241** -- the colours, the marks that say what kind a line
+* `livery/` **276** -- the colours, the marks that say what kind a line
   is, and the room a name or a table may take
 * `menus/` **237** -- the menu bar and what follows it
 * `workbench/` **232** -- what more than one piece reaches over for:
@@ -503,7 +504,7 @@ way every window in this table was found.
 | `bearings/` | binds the material's names; the window's colours and the cut list it reads late | after the material, before the checking |
 | `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
 | `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
-| `speakers/` | the cut binds 20 of its names and the window 39; `orders/` and three pieces the window reads bind one or two more | before all of them |
+| `speakers/` | the cut binds 20 of its names and the window 28; `orders/` and three pieces the window reads bind one or two more | before all of them |
 | `resolve/` | binds `Finding`, which the preflight above brings in | here, and not where it is first used |
 | `cut/` | the window binds its names | before the line that reads the window |
 | `pipeline/` | binds the cut's names; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
