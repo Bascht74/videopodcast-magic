@@ -16,6 +16,23 @@
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
 # entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -29,7 +46,9 @@ msgid "Cut with the wide shot"
 msgstr "Corte com o plano geral"
 
 msgid "on %s camera"
-msgstr "em %s câmera"
+msgid_plural "on %s cameras"
+msgstr[0] "em %s câmera"
+msgstr[1] "em %s câmeras"
 
 msgid "on %s cameras"
 msgstr "em %s câmeras"
@@ -287,19 +306,25 @@ msgid "not readable"
 msgstr "não legível"
 
 msgid "%s audio track"
-msgstr "%s faixa de áudio"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s faixa de áudio"
+msgstr[1] "%s faixas de áudio"
 
 msgid "%s audio tracks"
 msgstr "%s faixas de áudio"
 
 msgid "%s clip"
-msgstr "%s clipe"
+msgid_plural "%s clips"
+msgstr[0] "%s clipe"
+msgstr[1] "%s clipes"
 
 msgid "%s clips"
 msgstr "%s clipes"
 
 msgid "%s video track"
-msgstr "%s faixa de vídeo"
+msgid_plural "%s video tracks"
+msgstr[0] "%s faixa de vídeo"
+msgstr[1] "%s faixas de vídeo"
 
 msgid "%s video tracks"
 msgstr "%s faixas de vídeo"
@@ -314,13 +339,17 @@ msgid " (playing)"
 msgstr " (reproduzindo)"
 
 msgid "%s channel"
-msgstr "%s canal"
+msgid_plural "%s channels"
+msgstr[0] "%s canal"
+msgstr[1] "%s canais"
 
 msgid "%s channels"
 msgstr "%s canais"
 
 msgid "%s file"
-msgstr "%s arquivo"
+msgid_plural "%s files"
+msgstr[0] "%s arquivo"
+msgstr[1] "%s arquivos"
 
 msgid "%s files"
 msgstr "%s arquivos"
@@ -785,19 +814,25 @@ msgid "video file"
 msgstr "arquivo de vídeo"
 
 msgid "%s audio recording"
-msgstr "%s gravação de áudio"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s gravação de áudio"
+msgstr[1] "%s gravações de áudio"
 
 msgid "%s audio recordings"
 msgstr "%s gravações de áudio"
 
 msgid "%s camera"
-msgstr "%s câmera"
+msgid_plural "%s cameras"
+msgstr[0] "%s câmera"
+msgstr[1] "%s câmeras"
 
 msgid "%s cameras"
 msgstr "%s câmeras"
 
 msgid "%s video file"
-msgstr "%s arquivo de vídeo"
+msgid_plural "%s video files"
+msgstr[0] "%s arquivo de vídeo"
+msgstr[1] "%s arquivos de vídeo"
 
 msgid "%s video files"
 msgstr "%s arquivos de vídeo"
