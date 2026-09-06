@@ -30,6 +30,7 @@ SPOT_ARRIVED_MS = PROGRAM.SPOT_ARRIVED_MS
 T = PROGRAM.T
 TN = PROGRAM.TN
 as_hms = PROGRAM.as_hms
+as_written = PROGRAM.as_written
 block_at = PROGRAM.block_at
 decimal_text = PROGRAM.decimal_text
 file_timecode = PROGRAM.file_timecode
@@ -930,7 +931,9 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
 
             def step(text, tooltip_text, seconds):
                 button = QtWidgets.QToolButton()
-                button.setText(text)
+                # as_written, or an Arabic window shows "-10 s" as
+                # "s 10-" and the sign lands on the other side.
+                button.setText(as_written(text))
                 button.setAutoRaise(True)
                 button.setMinimumWidth(caption_room(button, 42))
                 button.clicked.connect(lambda _=False, x=seconds: self.nudge(x))
@@ -1815,7 +1818,8 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
 
             def step(text, tooltip_text, seconds=None, videos=None):
                 button = QtWidgets.QToolButton()
-                button.setText(text)
+                # as_written, for the reason the preview player gives.
+                button.setText(as_written(text))
                 button.setAutoRaise(True)
                 button.setMinimumWidth(caption_room(button, 42))
                 button.clicked.connect(
