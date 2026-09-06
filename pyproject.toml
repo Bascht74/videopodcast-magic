@@ -75,17 +75,23 @@ videopodcast-magic = "videopodcast_magic:main"
 # weight into every installation, for the many who never separate
 # speakers.
 #
-# player/, fittings/, tables/ and menus/ are the four nothing red would
-# notice if they were missing here. text_german_arrives holds this list
-# against the beside() calls it finds, and it reads the way in and no
-# other file; all four are asked for from inside ui/__init__.py, so
-# that check cannot see them. Take a name out and the suite stays green
-# and the wheel opens no player. Measured 6.9.2026.
+# player/, fittings/, tables/, menus/ and filelist/ are the five the way
+# in never fetches: all five are asked for from inside ui/__init__.py,
+# player/ again from fittings/ and fittings/ again from filelist/.
+# text_german_arrives reads the way in and no other file, so it cannot
+# see them; source_piece_list_holds walks the beside() calls in every
+# piece and does. Measured 6.9.2026 on a copy, one name off the list at
+# a time: without "videopodcast_magic.player" source_piece_list_holds
+# goes red and names the call site it read the folder from
+# (fittings/__init__.py line 41) while text_german_arrives stays green,
+# "videopodcast_magic.filelist" the same from ui/__init__.py line 1380,
+# and "videopodcast_magic.speech", which the way in fetches itself,
+# turns both of them red. No name comes off this list quietly any more.
 #
-# orders/ was the fifth of them until build_argument_parser moved into
-# it the same day and the way in began to read it as well. Measured on
-# a broken copy: take "videopodcast_magic.orders" off this list and
-# text_german_arrives went green before the move and red after it.
+# orders/ stood among them until build_argument_parser moved into it
+# the same day and the way in began to read it as well: measured on a
+# broken copy, "videopodcast_magic.orders" off this list left
+# text_german_arrives green before that move and turned it red after.
 packages = [
     "videopodcast_magic",
     "videopodcast_magic.auphonic",

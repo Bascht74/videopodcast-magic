@@ -322,8 +322,9 @@ files side by side on one screen are worth more than long lines.
 ## 12. The one exception: `gui()`
 
 `gui()` is 2334 lines long -- eight times the rule above. Measured on
-6 September 2026, after eighteen pieces were lifted out of it to
-module level in the same file; it was 5753 on 23 August. `source_limits_hold_test.py` prints the
+6 September 2026, after eighteen pieces were lifted out of it, sixteen
+of them to module level in the same file and two on into `filelist/`;
+it was 5753 on 23 August. `source_limits_hold_test.py` prints the
 figure of the day on every run, so the current number is read there and
 not here. This is a decision, not an oversight, and this is where the
 reasons live.
@@ -333,37 +334,41 @@ button needs a callback, and the callback needs the button, the field
 beside it and the value both of them mean. In C++ the shared place for
 that is a class with fields; in Python it is a function with functions
 inside it. Both write down the same thing. Only one of them counts as a
-class with 88 methods, the other as a function with 2334 lines.
-Counted with the compiler's own bookkeeping, not by eye. 88
-definitions sit directly in `gui()` and hold 51 percent of its lines;
-they were 182 and 76 percent before the cutting began. `state`, a
-single dictionary, is captured by most of them.
+class with 89 members, the other as a function with 2334 lines.
+Counted with the compiler's own bookkeeping, not by eye: 89 definitions
+stand directly in the body of `gui()` -- 88 functions and the `Bridge`
+class -- and hold 51 percent of its lines. Under that same rule they
+were 182 and 76 percent before the cutting began. `state`, a single
+dictionary, is captured by most of them.
 
-**Why the obvious split does not work.** 91 forward references: 43 of
-the inner functions read 69 names that the text binds further down.
-`buttons_check` uses a button that comes into being 4131 lines later.
-Those three numbers were counted before the last two lifts and by a rule
-this paper does not write down; a fresh count on 6.9.2026 by a different
-rule gave 57, 23 and 46, which is a second measurement and not a
-correction of the first. **Read them as the order of magnitude they
-are**, and whoever needs an exact figure counts it and writes the rule
-beside it.
+**Why the obvious split does not work.** 113 forward references: 48 of
+the inner functions read 73 names that the text binds further down, and
+`buttons_check` uses a button that comes into being 1640 lines later.
+**The rule those numbers are counted by**, written down so that anybody
+can count them again: compile the file, take the code object of each
+function standing directly in the body of `gui()`, and count the pair
+once for every name in that function's `co_freevars` whose first
+binding in the text of `gui()` -- bindings inside a nested definition
+left out -- stands below that function's last line.
 That works only because a closure looks a name up late, at the call and
 not at the definition. Those names can never become parameters, at no
 price and in no order -- **but that is not the end of it, and nine cuts
 measured the third way.** A name bound below the seam is reached
 through `state`, the dictionary the file already carries for its own
 reasons: `gui()` writes `state["preview_soon"] = preview_kick_off` and
-the lifted block calls `state["preview_soon"]()`. Nine such hooks stand
-in the file now. What each one costs is one line in `gui()`, and what
-it needs is a counter-proof read off the log -- a callback missing from
-a Qt slot leaves the test green. Cutting a section out and
-handing it what it needs gives functions with forty to eighty
+the lifted block calls `state["preview_soon"]()`. Six such hooks stand
+there now -- `gui()` puts a function of its own into `state` under that
+name and something outside `gui()` calls it back through the same key,
+which is how they are counted. What each one costs is one line in
+`gui()`, and what it needs is a counter-proof read off the log -- a
+callback missing from a Qt slot leaves the test green. Cutting a
+section out and handing it what it needs gives functions with forty to eighty
 parameters, or a build in two phases. Create everything, then wire it.
-Lifting the shared state into an object was weighed too: 280 captured
-names become 280 attributes. Afterwards each of the 182 methods may
-still touch every one of them. A seam of width zero separates nothing.
-It buys the number and leaves the structure where it was.
+Lifting the shared state into an object was weighed too: every captured
+name becomes an attribute, one for one, and afterwards every one of the
+definitions may still touch every one of them. A seam of width zero
+separates nothing. It buys the number and leaves the structure where it
+was.
 
 **PySide6 is imported inside `gui()`**, because without Qt the program
 has to keep working on the command line. A class inheriting from a Qt
@@ -381,15 +386,19 @@ It is not a licence.
 - **New code that gets by without a widget does not go into `gui()`.**
   Computation, checking, preparation: whatever touches no widget is
   written beside `gui()` and takes what it needs as an argument.
-  Eighteen of them live out there now. `make_key_note` and
-  `make_log_writer` were the first; then nine in one night --
-  `make_player_choice`, `make_voice_rows`, `make_prework_bar`,
-  `make_prework_tasks`, `make_preview`, `make_speaker_split`,
-  `make_band_and_player`, `assignment_tables_build`, `make_footer` --
-  and after them `make_file_list`, `make_project_file` and
-  `make_run_start`, `make_preflight`, `make_file_changes` and
-  `make_time_axis`. The last six are the pattern to copy: one theme
-  each, and the factory hands back the names `gui()` still needs.
+  Eighteen of them live outside it now, sixteen at module level in the
+  same file and two carried on into `filelist/`. `make_key_note`,
+  `make_log_writer` and `make_update_sink` were the first; then nine in
+  one night -- `make_player_choice`, `make_voice_rows`,
+  `make_prework_bar`, `make_prework_tasks`, `make_preview`,
+  `make_speaker_split`, `make_band_and_player`,
+  `assignment_tables_build`, `make_footer` -- and after them
+  `make_file_list`, `make_project_file` and `make_run_start`,
+  `make_preflight`, `make_file_changes` and `make_time_axis`, of which
+  `make_file_list` and `make_file_changes` went on to `filelist/` when
+  the file list became a piece. The last six are the pattern to copy:
+  one theme each, and the factory hands back the names `gui()` still
+  needs.
   The docstring of `make_player_widgets` states the rule: "Whatever is
   needed from gui() comes in as an argument and keeps its name
   inside."
@@ -398,8 +407,10 @@ It is not a licence.
   `co_freevars` of the compiled function, not a search through the text.
 - **The number goes down, never up.** `source_limits_hold_test.py` prints the largest
   function on every run, and a ratchet holds whatever comes off. Nothing
-  here freezes any number as acceptable. It has gone 5753, 5106, 3497,
-  3233, 3026, 2789, 2477, 2334, and the ratchet took every step.
+  here freezes any number as acceptable. It stood at 5753 on 23 August,
+  and `largest_function` in `tests/state/style_state.json` has carried
+  it down from there step by step; that file and its history are the
+  record, so no list of the steps is kept here to go stale.
 
 **The long version** is `docs/notes/gui_struktur.md`: the map of the
 banner sections with the seam measured at each one. It also holds what
