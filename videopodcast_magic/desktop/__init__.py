@@ -89,16 +89,18 @@ def make_shortcut(root=None, target=None, png=None, kept=None,
         return Laid(where, False, "")
 
     # What is already there is asked before the starter is looked up:
-    # an entry that still runs is finished business.
+    # an entry that still runs is finished business, unless it is one
+    # of ours from before the architecture was named in it.
     there = os.path.exists(where)
-    if there:
-        old = _points_at(where, system)
-        if old and _is_a_starter(old):
-            # Written down although nothing was laid: reset settings
-            # would otherwise hold a working entry and no note.
-            if write_down is not None and kept.get(KEPT) != where:
-                write_down(KEPT, where)
-            return Laid(where, False, "")
+    stands = there and _is_a_starter(_points_at(where, system) or "")
+    if stands:
+        run_as = _lay_again_as(where, system, run_as)
+    if stands and not run_as:
+        # Written down although nothing was laid: reset settings
+        # would otherwise hold a working entry and no note.
+        if write_down is not None and kept.get(KEPT) != where:
+            write_down(KEPT, where)
+        return Laid(where, False, "")
 
     if target is None:
         target = _starter_or_nothing()
@@ -340,8 +342,22 @@ def _out_of_stub(where):
     with open(stub, encoding="utf-8", errors="replace") as f:
         for line in f:
             if line.startswith("exec "):
-                return line[5:].strip().split('" "')[0].strip('"')
+                return _past_the_arch(
+                    line[5:].strip()).split('" "')[0].strip('"')
     return ""
+
+
+def _past_the_arch(rest):
+    """What an exec line names, past a request for an architecture.
+
+    Ours asks on a line of its own, but somebody who put the request
+    into this line by hand still has an entry that names a starter.
+    """
+    words = rest.split(" ", 2)
+    if len(words) == 3 and words[1][:1] == "-" \
+            and os.path.basename(words[0]) == "arch":
+        return words[2]
+    return rest
 
 
 def _out_of_launcher(where):
@@ -374,6 +390,10 @@ def _out_of_launcher(where):
 # The one program that can grant an architecture. Without it there is
 # nothing to ask with, and the Dock's choice stands.
 ARCH_TOOL = "/usr/bin/arch"
+
+# The line that says a runner inside an entry is this program's own.
+# Written into every one, and the only thing that may be laid again.
+WRITTEN_BY = "# Written by videopodcast-magic."
 
 # What a Mach-O header calls a processor, under the names ARCH_TOOL
 # takes. A file names one of these per architecture it carries.
@@ -533,6 +553,33 @@ def architecture_to_ask_for():
                                   machine_architecture())
 
 
+def _lay_again_as(where, system, run_as):
+    """The architecture an entry that stands is to be laid again for.
+
+    "" is the ordinary answer and leaves the entry alone. Only one of
+    ours that names none while one is asked for now is out of date, and
+    the entry it writes names one, so this cannot ask twice.
+    """
+    if system != "darwin" or not _ours_and_silent(where):
+        return ""
+    return architecture_to_ask_for() if run_as is None else run_as
+
+
+def _ours_and_silent(where):
+    """Whether the runner inside an entry is ours and names none.
+
+    A runner this program did not write, and one somebody has put an
+    architecture into since, are both left exactly as they are.
+    """
+    try:
+        with open(os.path.join(where, "Contents", "MacOS", COMMAND),
+                  encoding="utf-8", errors="replace") as f:
+            runner = f.read()
+    except OSError:
+        return False
+    return WRITTEN_BY in runner and ARCH_TOOL not in runner
+
+
 def architecture_mismatch(running, installed):
     """The sentence for a process that cannot load what is installed.
 
@@ -619,7 +666,7 @@ def _stub_text(target, run_as=""):
     quoted = target.replace('"', '\\"')
     return (
         "#!/bin/sh\n"
-        "# Written by videopodcast-magic. Points at the starter pip\n"
+        "%s Points at the starter pip\n"
         "# laid down; delete this bundle and the program is untouched.\n"
         'PATH="%s:/opt/homebrew/bin:/usr/local/bin:$PATH"\n'
         "export PATH\n"
@@ -628,8 +675,8 @@ def _stub_text(target, run_as=""):
         "# slow start hides.\n"
         "VPM_STARTED=$(date +%%s)\n"
         "export VPM_STARTED\n"
-        % folder.replace('"', '\\"')) + _ask_for_arch(quoted, run_as) + (
-        'exec "%s" "$@"\n' % quoted)
+        % (WRITTEN_BY, folder.replace('"', '\\"'))
+    ) + _ask_for_arch(quoted, run_as) + ('exec "%s" "$@"\n' % quoted)
 
 
 def _ask_for_arch(quoted, run_as):

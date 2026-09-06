@@ -6,9 +6,10 @@ built for one processor can be told apart; the rule that picks one of
 them, over made-up sets rather than over this machine; the cut over a
 folder of packages; the entry the Dock reads, with the architecture in
 it, the plain start still under it and nothing at all on a system that
-cannot grant one; and the sentence a person gets where the two no
-longer fit. Every architecture in here is a stand-in: six builder jobs
-and one of them is an Apple Silicon Mac.
+cannot grant one; an entry from before the architecture was named in
+it, laid again once and never after; and the sentence a person gets
+where the two no longer fit. Every architecture in here is a stand-in:
+six builder jobs and one of them is an Apple Silicon Mac.
 """
 import os
 import shutil
@@ -56,6 +57,14 @@ def a_file(folder, name, raw):
     with open(where, "wb") as f:
         f.write(raw)
     return where
+
+
+def a_home(root):
+    """A home folder with a starter in it, the way pip leaves one."""
+    starter = a_file(root, os.path.join("bin", "videopodcast-magic"),
+                     b"#!/bin/sh\nexit 0\n")
+    os.chmod(starter, 0o755)
+    return root, starter
 
 
 ROOM = tempfile.mkdtemp(prefix="vpm_arch_")
@@ -122,10 +131,7 @@ check("a folder with no compiled package settles nothing",
 
 
 print("\n4. The entry the Dock reads, and where nothing is asked for")
-home = os.path.join(ROOM, "home")
-starter = a_file(home, os.path.join("bin", "videopodcast-magic"),
-                 b"#!/bin/sh\nexit 0\n")
-os.chmod(starter, 0o755)
+home, starter = a_home(os.path.join(ROOM, "home"))
 laid = desktop.make_shortcut(root=home, target=starter, png=b"",
                              system="darwin", run_as="arm64")
 stub = os.path.join(laid.where, "Contents", "MacOS", "videopodcast-magic")
@@ -174,7 +180,101 @@ check("and it is asked for where the system and the tool are both there",
       % desktop._may_ask("darwin", tool))
 
 
-print("\n5. What a person is told when the two no longer fit")
+print("\n5. An entry from before, laid again exactly once")
+# run_as is handed in throughout: the real answer is this machine's,
+# and the claims below have to hold on all six builder jobs.
+older, older_starter = a_home(os.path.join(ROOM, "from_before"))
+was = desktop.make_shortcut(root=older, target=older_starter, png=b"",
+                            system="darwin", run_as="")
+kept_inside = os.path.join(was.where, "Contents", "Resources", "left_here")
+with open(kept_inside, "w", encoding="utf-8") as f:
+    f.write("put here between the two starts\n")
+
+fresh = desktop.make_shortcut(root=older, target=older_starter, png=b"",
+                              system="darwin", run_as="arm64")
+with open(os.path.join(fresh.where, "Contents", "MacOS",
+                       "videopodcast-magic"), encoding="utf-8") as f:
+    runner = f.read()
+check("an entry of ours that names no architecture is laid again",
+      fresh.made and desktop.ARCH_TOOL in runner,
+      "made=%s, and %d line(s) name the tool"
+      % (fresh.made, len([1 for one in runner.splitlines()
+                          if desktop.ARCH_TOOL in one])))
+
+third = desktop.make_shortcut(root=older, target=older_starter, png=b"",
+                              system="darwin", run_as="arm64")
+check("and the start after that lays nothing",
+      not third.made, "made=%s at %s" % (third.made, third.where))
+
+marker = os.path.join(third.where, "Contents", "Resources", "kept_now")
+with open(marker, "w", encoding="utf-8") as f:
+    f.write("put here after the laying\n")
+fourth = desktop.make_shortcut(root=older, target=older_starter, png=b"",
+                               system="darwin", run_as="arm64")
+check("and what stands in it is not thrown away and written afresh",
+      os.path.exists(marker) and not fourth.made,
+      "the file put in it is %s, made=%s"
+      % ("still there" if os.path.exists(marker) else "gone", fourth.made))
+
+# The owner's own case: an architecture written into the runner by
+# hand. It names one, so nothing here may lay it again.
+hand, hand_starter = a_home(os.path.join(ROOM, "by_hand"))
+laid_by_hand = desktop.make_shortcut(root=hand, target=hand_starter,
+                                     png=b"", system="darwin", run_as="")
+hand_stub = os.path.join(laid_by_hand.where, "Contents", "MacOS",
+                         "videopodcast-magic")
+with open(hand_stub, encoding="utf-8") as f:
+    edited = f.read().replace(
+        'exec "%s"' % hand_starter,
+        'exec /usr/bin/arch -arm64 "%s"' % hand_starter)
+with open(hand_stub, "w", encoding="utf-8") as f:
+    f.write(edited)
+points = desktop._points_at(laid_by_hand.where, "darwin")
+check("a runner asking for one on its own exec line still names the starter",
+      points == hand_starter, "%s against %s" % (points, hand_starter))
+
+after_hand = desktop.make_shortcut(root=hand, target=hand_starter, png=b"",
+                                   system="darwin", run_as="arm64")
+check("an architecture written in by hand is left exactly as it is",
+      not after_hand.made and open(hand_stub, encoding="utf-8").read()
+      == edited, "made=%s, and the runner is %s"
+      % (after_hand.made,
+         "unchanged" if open(hand_stub, encoding="utf-8").read() == edited
+         else "not what was written"))
+
+# A runner without the line that says this program wrote it: something
+# else made it, and rewriting an entry of unknown shape is worse.
+strange, strange_starter = a_home(os.path.join(ROOM, "not_ours"))
+laid_strange = desktop.make_shortcut(root=strange, target=strange_starter,
+                                     png=b"", system="darwin", run_as="")
+strange_stub = os.path.join(laid_strange.where, "Contents", "MacOS",
+                            "videopodcast-magic")
+with open(strange_stub, encoding="utf-8") as f:
+    foreign = "\n".join(one for one in f.read().splitlines()
+                        if desktop.WRITTEN_BY not in one) + "\n"
+with open(strange_stub, "w", encoding="utf-8") as f:
+    f.write(foreign)
+after_strange = desktop.make_shortcut(root=strange, target=strange_starter,
+                                      png=b"", system="darwin",
+                                      run_as="arm64")
+check("a runner this program did not write is left exactly as it is",
+      not after_strange.made
+      and open(strange_stub, encoding="utf-8").read() == foreign,
+      "made=%s, and the runner is %s"
+      % (after_strange.made,
+         "unchanged" if open(strange_stub, encoding="utf-8").read() == foreign
+         else "not what was written"))
+
+quiet_home, quiet_starter = a_home(os.path.join(ROOM, "nothing_to_ask"))
+desktop.make_shortcut(root=quiet_home, target=quiet_starter, png=b"",
+                      system="darwin", run_as="")
+left = desktop.make_shortcut(root=quiet_home, target=quiet_starter, png=b"",
+                             system="darwin", run_as="")
+check("and none of it happens where no architecture is asked for",
+      not left.made, "made=%s at %s" % (left.made, left.where))
+
+
+print("\n6. What a person is told when the two no longer fit")
 # Two architectures installed, so that naming them is a different
 # claim from the command underneath, which names only the first.
 said = desktop.architecture_mismatch("x86_64", set(["arm64", "i386"]))

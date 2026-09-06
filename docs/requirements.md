@@ -170,6 +170,16 @@ program that grants one, packages that agree on no architecture: in
 each of these the entry is written exactly as it was written before.
 Windows and Linux are not touched by any of it.
 
+**An entry from an earlier version is laid again, once.** An update
+does not rewrite what is already in the Applications folder, so an
+entry made before this could go on starting the wrong architecture for
+ever. The first start that finds its own entry naming none, while one
+would now be asked for, writes it afresh and the line above into the
+log. From then on the entry names an architecture and is left alone —
+so this happens once and not at every start. Two entries are left
+exactly as they are: one somebody has put an architecture into by
+hand, and one this program did not write.
+
 ## Which Python the program needs
 
 3.10 or newer, and pip refuses the install below that. The floor is

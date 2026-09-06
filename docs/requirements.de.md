@@ -174,6 +174,17 @@ das eine Architektur zuteilt, Pakete, die sich auf keine gemeinsame
 einigen: In jedem dieser Fälle wird der Eintrag genau so geschrieben
 wie zuvor. Windows und Linux rührt das alles gar nicht an.
 
+**Einen Eintrag aus einer früheren Fassung legt das Programm einmal
+neu an.** Eine Aktualisierung schreibt nicht um, was im Ordner
+Programme schon steht — ein Eintrag von vorher würde also für immer
+weiter die falsche Architektur starten. Der erste Start, der seinen
+eigenen Eintrag ohne Architektur vorfindet, während eine gefragt wäre,
+schreibt ihn neu und die Zeile von oben ins Protokoll. Danach nennt der
+Eintrag eine Architektur und bleibt unangetastet; das geschieht also
+einmal und nicht bei jedem Start. Zwei Einträge bleiben, wie sie sind:
+einer, in den jemand von Hand eine Architektur geschrieben hat, und
+einer, den dieses Programm nicht geschrieben hat.
+
 ## Welches Python das Programm braucht
 
 3.10 oder neuer, darunter lehnt pip die Installation ab. Die
