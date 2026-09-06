@@ -25,6 +25,83 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b6] - 2026-09-06
+
+### Added
+
+- **The window speaks Arabic, and reads from right to left.** Menu bar,
+  tabs, boxes, tables and the settings sheet all turn round when Arabic
+  is chosen; the log keeps its own direction, so a line beginning with a
+  path or a timecode stays as it was written. Arabic is the tenth
+  language on offer.
+
+### Fixed
+
+- **The speaker table and the wide shot warning say their numbers in the
+  language.** Six numbers in the window went through no language at all.
+  A speaker's share of the talking read "71.4 %" in German and their
+  count of speech blocks "1234"; a wide shot set to a million seconds
+  read "1,5e+06 s", which is a number in no language at all. They now go
+  the same road as the rest.
+- **A count gets the word its own language has for it.** In Arabic two
+  is not said like five and five is not said like eleven, and the
+  program said the same thing for all three: the catalogue carried a
+  rule for six forms and no wordings under it, so every count fell back
+  on the English two. In French nought took the plural, where French
+  writes the singular. Nine languages now say a count in their own
+  forms, and one that has none -- Japanese, Chinese -- no longer has a
+  plural invented for it.
+- **The step buttons under the player keep their sign in front in
+  Arabic.** A window that reads from right to left moved the leading
+  sign to the other end: "-10 s" came out as "s 10-", and the loudness
+  target "-16 LUFS (Podcast directories, stereo)" as "LUFS 16- (...)" --
+  a different number, not merely a different order. Sixteen labels now
+  read the way they are written, and no other language is touched.
+- **A run no longer stops on a measurement that has no number.** Where a
+  fit has nothing to measure its spread against, the spread is
+  infinity -- and writing it out raised an error instead of saying so.
+  The line now says "inf" and the run goes on.
+
+**Deutsch**
+
+### Hinzugefügt
+
+- **Das Fenster spricht Arabisch und liest von rechts nach links.**
+  Menüleiste, Reiter, Kästen, Tabellen und das Einstellungsblatt drehen
+  sich um, sobald Arabisch gewählt ist; das Protokoll behält seine
+  eigene Richtung, damit eine Zeile, die mit einem Pfad oder einem
+  Timecode beginnt, so stehenbleibt, wie sie geschrieben wurde. Arabisch
+  ist die zehnte angebotene Sprache.
+
+### Behoben
+
+- **Die Sprechertabelle und der Weitwinkel-Hinweis sagen ihre Zahlen in
+  der Sprache.** Sechs Zahlen im Fenster gingen durch gar keine Sprache.
+  Der Redeanteil eines Sprechers stand auf Deutsch als „71.4 %" da und
+  seine Zahl an Sprachblöcken als „1234"; ein Weitwinkel von einer
+  Million Sekunden als „1,5e+06 s" -- das ist in gar keiner Sprache eine
+  Zahl. Sie gehen jetzt denselben Weg wie der Rest.
+- **Ein Zähler bekommt das Wort, das seine Sprache dafür hat.** Auf
+  Arabisch heißt zwei nicht wie fünf und fünf nicht wie elf, und das
+  Programm sagte für alle drei dasselbe: der Katalog trug eine Regel für
+  sechs Formen und keine Wortlaute darunter, also fiel jeder Zähler auf
+  die englischen zwei zurück. Auf Französisch nahm die Null die Mehrzahl,
+  wo Französisch die Einzahl schreibt. Neun Sprachen sagen einen Zähler
+  jetzt in ihren eigenen Formen, und einer Sprache ohne Mehrzahl --
+  Japanisch, Chinesisch -- wird keine mehr angedichtet.
+- **Die Schrittknöpfe unter dem Spieler behalten auf Arabisch ihr
+  Vorzeichen vorn.** In einem Fenster, das von rechts nach links liest,
+  rutschte das Vorzeichen ans andere Ende: aus „-10 s" wurde „s 10-",
+  aus dem Lautheitsziel „-16 LUFS (Podcast-Verzeichnisse, stereo)" wurde
+  „LUFS 16- (...)" -- eine andere Zahl, nicht bloß eine andere
+  Reihenfolge. Sechzehn Beschriftungen lesen sich jetzt so, wie sie
+  geschrieben sind, und in den anderen Sprachen ändert sich nichts.
+- **Ein Lauf bleibt nicht mehr an einer Messung ohne Zahl stehen.** Wo
+  eine Anpassung nichts hat, woran sie ihre Streuung messen könnte, ist
+  die Streuung unendlich -- und sie hinzuschreiben warf einen Fehler,
+  statt es zu sagen. Die Zeile sagt jetzt „inf", und der Lauf geht
+  weiter.
+
 ## [3.0.0b5] - 2026-09-05
 
 ### Added
