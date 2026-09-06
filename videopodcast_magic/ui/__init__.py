@@ -3711,6 +3711,145 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
     return speaker_split_kick_off, split_stop, voices_of, several_set
 
 
+def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
+                         QtMultimediaWidgets, NoPlayer, state, files,
+                         assign_lines, clip_kind_values,
+                         forecast_outer, view_player):
+    """The cut band, the player below it, and what those two show.
+
+    Both draw the same computed cut and follow one position, so they
+    are built together. What the player is fed with is decided in
+    gui(), where the cut data stands, and reached back through
+    state["player_load_cut"] -- the way state["preview_soon"] is
+    already reached from here.
+    """
+    # The cut band: the computed cut over the full length, one bar per shot in
+    # the colour of its camera. The clips in Resolve get the same colours
+    # later.
+    CutBand = qt_cut_band(QtCore, QtGui, QtWidgets, Qt)
+    cut_band = CutBand()
+    hint(cut_band, T('Each shot in the colour of its camera. Hover for '
+                     'camera and duration, click to jump.'))
+    # One label that wraps, not a row of widgets: legend_markup says
+    # why, and does the work.
+    band_legend = label("", COLOURS["quiet"])
+    band_legend.setTextFormat(Qt.RichText)
+    band_legend.setWordWrap(True)
+    band_legend.setContentsMargins(0, 2, 0, 0)
+
+    def legend_show(numbers):
+        """Which colour belongs to which camera."""
+        band_legend.setText(legend_markup(numbers))
+
+    def band_show(numbers):
+        present = bool(numbers and numbers.get("cut"))
+        band_legend.setVisible(present)
+        if present:
+            end = max(b for _a, b, _w in numbers["cut"])
+            cut_band.set(numbers["cut"], numbers.get("colours") or {}, end)
+            legend_show(numbers)
+        # Built in gui() after this function has handed back the
+        # player it feeds, so it cannot be a parameter. The way over
+        # is the one preview_soon takes.
+        state["player_load_cut"](numbers)
+
+    # The player below. It always shows something: with a cut it plays it and
+    # switches camera at every cut; otherwise the file belonging to no speaker,
+    # usually the wide shot.
+    if QtMultimedia is not None:
+        CutPlayer = qt_cut_player(QtCore, QtGui, QtWidgets, Qt,
+                                           QtMultimedia, QtMultimediaWidgets,
+                                           label, hint, COLOURS)
+        cut_player = CutPlayer()
+    else:
+        cut_player = NoPlayer()
+    # Each player silences the other when it starts: two at once are
+    # two moments at once, and neither can be judged.
+    cut_player.hush = hush_when_running(view_player, "_should_play")
+    view_player.hush = hush_when_running(cut_player, "_playing")
+    forecast_outer.addWidget(cut_player, 1)
+    # Zoom on the band. Over an hour of material a single shot is two
+    # pixels wide, and whether a cut sits in a pause or in the middle of
+    # a word cannot be seen there at all. In and out by a factor of two
+    # around the current position.
+    band_row = QtWidgets.QWidget()
+    band_line = QtWidgets.QHBoxLayout(band_row)
+    band_line.setContentsMargins(0, 0, 0, 0)
+    band_line.setSpacing(6)
+    band_line.addWidget(cut_band, 1)
+    zoom_span = label("", COLOURS["quiet"])
+    # The same typewriter digits the player uses for its times below.
+    zoom_span.setFont(digits_font(QtGui, zoom_span))
+
+    # Pinned, and measured after the font is set. The reading sits
+    # after the buttons and the band takes what is left, so a text that
+    # grows pushes the row along -- 104 px at the first zoom, and the
+    # button walks out from under the pointer.
+    zoom_span.setFixedWidth(caption_room(zoom_span, 0,
+                                         ["00:00:00 -- 00:00:00"]))
+
+    def zoom_show():
+        zoom_span.setText(cut_band.zoom_text())
+
+    band_line.addWidget(zoom_button(
+        QtWidgets, "\u2212", T('Show twice as much (minus key, or the wheel over '
+                    'the band)'), lambda: cut_band.zoom(2.0)))
+    band_line.addWidget(zoom_button(
+        QtWidgets, "+", T('Show half as much, around the current position (plus '
+               'key, or the wheel over the band)'),
+        lambda: cut_band.zoom(0.5)))
+    band_line.addWidget(zoom_button(
+        QtWidgets, "\u25ad", T('The whole length again (0 key)'),
+        lambda: cut_band.zoom_all()))
+    band_line.addWidget(zoom_span)
+    cut_band.zoomed.connect(zoom_show)
+    # Once here, or it stands empty until somebody zooms: the signal
+    # above fires on a change, and nothing has changed yet.
+    zoom_show()
+
+    # The band takes the place of the position rail: it shows the same time
+    # plus which camera runs when. The legend stays below.
+    if hasattr(cut_player, "replace_rail"):
+        cut_player.replace_rail(band_row)
+    else:
+        forecast_outer.addWidget(band_row)
+    forecast_outer.addWidget(band_legend)
+
+    def band_spot_chosen(t):
+        state["band_spot"] = t
+        cut_band.label_set(t)
+        try:
+            cut_player.jump(t)
+        except Exception:
+            pass
+
+    cut_band.selected.connect(band_spot_chosen)
+    if hasattr(cut_player, "position_changed"):
+        cut_player.position_changed.connect(cut_band.label_set)
+        cut_player.position_changed.connect(lambda *_: zoom_show())
+
+    def preview_file():
+        """What is shown while there is no cut.
+
+        The file assigned to no speaker, which is the wide shot. Failing that,
+        the first one that is neither intro nor outro.
+        """
+        videos = [p for p, a in files
+                  if a == "video"
+                  and (p not in clip_kind_values
+                       or clip_kind_values[p].get() in CAMERA_TYPES)]
+        if not videos:
+            return None
+        taken = set()
+        for _chain, _nv, cv in assign_lines:
+            if cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
+                taken.add(cv.get())
+        free = [b for b in videos if os.path.basename(b) not in taken]
+        return (free or videos)[0]
+
+    return cut_band, cut_player, band_show, preview_file
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -6487,126 +6626,12 @@ def gui():
     speech_table.setMinimumWidth(240)
     speech_table.setHorizontalScrollBarPolicy(Qt.ScrollBarAsNeeded)
 
-    # The cut band: the computed cut over the full length, one bar per shot in
-    # the colour of its camera. The clips in Resolve get the same colours
-    # later.
-    CutBand = qt_cut_band(QtCore, QtGui, QtWidgets, Qt)
-    cut_band = CutBand()
-    hint(cut_band, T('Each shot in the colour of its camera. Hover for '
-                     'camera and duration, click to jump.'))
-    # One label that wraps, not a row of widgets: legend_markup says
-    # why, and does the work.
-    band_legend = label("", COLOURS["quiet"])
-    band_legend.setTextFormat(Qt.RichText)
-    band_legend.setWordWrap(True)
-    band_legend.setContentsMargins(0, 2, 0, 0)
-
-    def legend_show(numbers):
-        """Which colour belongs to which camera."""
-        band_legend.setText(legend_markup(numbers))
-
-    def band_show(numbers):
-        present = bool(numbers and numbers.get("cut"))
-        band_legend.setVisible(present)
-        if present:
-            end = max(b for _a, b, _w in numbers["cut"])
-            cut_band.set(numbers["cut"], numbers.get("colours") or {}, end)
-            legend_show(numbers)
-        player_load_cut(numbers)
-
-    # The player below. It always shows something: with a cut it plays it and
-    # switches camera at every cut; otherwise the file belonging to no speaker,
-    # usually the wide shot.
-    if QtMultimedia is not None:
-        CutPlayer = qt_cut_player(QtCore, QtGui, QtWidgets, Qt,
-                                           QtMultimedia, QtMultimediaWidgets,
-                                           label, hint, COLOURS)
-        cut_player = CutPlayer()
-    else:
-        cut_player = NoPlayer()
-    # Each player silences the other when it starts: two at once are
-    # two moments at once, and neither can be judged.
-    cut_player.hush = hush_when_running(player, "_should_play")
-    player.hush = hush_when_running(cut_player, "_playing")
-    forecast_outer.addWidget(cut_player, 1)
-    # Zoom on the band. Over an hour of material a single shot is two
-    # pixels wide, and whether a cut sits in a pause or in the middle of
-    # a word cannot be seen there at all. In and out by a factor of two
-    # around the current position.
-    band_row = QtWidgets.QWidget()
-    band_line = QtWidgets.QHBoxLayout(band_row)
-    band_line.setContentsMargins(0, 0, 0, 0)
-    band_line.setSpacing(6)
-    band_line.addWidget(cut_band, 1)
-    zoom_span = label("", COLOURS["quiet"])
-    # The same typewriter digits the player uses for its times below.
-    zoom_span.setFont(digits_font(QtGui, zoom_span))
-
-    # Pinned, and measured after the font is set. The reading sits
-    # after the buttons and the band takes what is left, so a text that
-    # grows pushes the row along -- 104 px at the first zoom, and the
-    # button walks out from under the pointer.
-    zoom_span.setFixedWidth(caption_room(zoom_span, 0,
-                                         ["00:00:00 -- 00:00:00"]))
-
-    def zoom_show():
-        zoom_span.setText(cut_band.zoom_text())
-
-    band_line.addWidget(zoom_button(
-        QtWidgets, "\u2212", T('Show twice as much (minus key, or the wheel over '
-                    'the band)'), lambda: cut_band.zoom(2.0)))
-    band_line.addWidget(zoom_button(
-        QtWidgets, "+", T('Show half as much, around the current position (plus '
-               'key, or the wheel over the band)'),
-        lambda: cut_band.zoom(0.5)))
-    band_line.addWidget(zoom_button(
-        QtWidgets, "\u25ad", T('The whole length again (0 key)'),
-        lambda: cut_band.zoom_all()))
-    band_line.addWidget(zoom_span)
-    cut_band.zoomed.connect(zoom_show)
-    # Once here, or it stands empty until somebody zooms: the signal
-    # above fires on a change, and nothing has changed yet.
-    zoom_show()
-
-    # The band takes the place of the position rail: it shows the same time
-    # plus which camera runs when. The legend stays below.
-    if hasattr(cut_player, "replace_rail"):
-        cut_player.replace_rail(band_row)
-    else:
-        forecast_outer.addWidget(band_row)
-    forecast_outer.addWidget(band_legend)
-
-    def band_spot_chosen(t):
-        state["band_spot"] = t
-        cut_band.label_set(t)
-        try:
-            cut_player.jump(t)
-        except Exception:
-            pass
-
-    cut_band.selected.connect(band_spot_chosen)
-    if hasattr(cut_player, "position_changed"):
-        cut_player.position_changed.connect(cut_band.label_set)
-        cut_player.position_changed.connect(lambda *_: zoom_show())
-
-    def preview_file():
-        """What is shown while there is no cut.
-
-        The file assigned to no speaker, which is the wide shot. Failing that,
-        the first one that is neither intro nor outro.
-        """
-        videos = [p for p, a in files
-                  if a == "video"
-                  and (p not in clip_kind_values
-                       or clip_kind_values[p].get() in CAMERA_TYPES)]
-        if not videos:
-            return None
-        taken = set()
-        for _chain, _nv, cv in assign_lines:
-            if cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                taken.add(cv.get())
-        free = [b for b in videos if os.path.basename(b) not in taken]
-        return (free or videos)[0]
+    # The cut band and the player under it, with what they show.
+    (cut_band, cut_player, band_show,
+     preview_file) = make_band_and_player(
+        Qt, QtCore, QtGui, QtWidgets, QtMultimedia, QtMultimediaWidgets,
+        NoPlayer, state, files, assign_lines, clip_kind_values,
+        forecast_outer, player)
 
     def audio_for_cut(d, cameras, offset):
         """Return the audio to run under the camera cut: (file, offset).
@@ -6680,6 +6705,9 @@ def gui():
         # Without a cut the band stays as a position display, in one colour.
         cut_band.set([(0.0, duration or 1.0, name)],
                            {name: COLOURS["head"]}, duration or 1.0)
+    # band_show reaches for this through state: it is built above the
+    # line that made it, so it cannot be handed over as a parameter.
+    state["player_load_cut"] = player_load_cut
     band_show(None)
     resolve_left.addStretch(1)
     # No stretch on the right: the room below belongs to the preview picture,
