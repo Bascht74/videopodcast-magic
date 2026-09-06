@@ -25,6 +25,56 @@ Die Versionen unter 1.0.0-beta tragen kein Datum. Sie wurden im
 Nachhinein nummeriert, ein verlässliches Freigabedatum gibt es zu ihnen
 nicht.
 
+## [3.0.0b8] - 2026-09-06
+
+### Fixed
+
+- **The loudness target you are asked to type into Resolve now reads the
+  way Resolve reads it.** Where the program cannot find the meter's
+  target setting it asks for the number by hand, and it wrote that
+  number in the language of the window: a German run said "-23,5" for a
+  field the program itself sets to "-23.5". A number meant for another
+  program's input box is not one a person reads, so it goes plain now.
+  Only a target with a decimal place changes, and only in a comma
+  language.
+
+- **A sample rate is said in kilohertz.** The same 48 kHz was written
+  two ways in the same window -- "48000 Hz" in the file's own summary
+  and "48.000 Hz" three lines further down. Everything a person reads
+  now says "48 kHz", and 44100 says "44,1 kHz". What ffmpeg and Resolve
+  read is untouched and still plain: a number for a machine is not a
+  number for a reader.
+
+- **The list of differing frame rates is written the way the language
+  writes it.** It said "23.976, 25.000" with an English decimal point,
+  six lines above a sentence that said the chosen rate correctly. Both
+  halves of that message now agree.
+
+**Deutsch**
+
+### Behoben
+
+- **Der Lautheits-Zielwert, den man von Hand in Resolve eintragen soll,
+  steht jetzt so da, wie Resolve ihn liest.** Findet das Programm die
+  Zieleinstellung der Anzeige nicht, bittet es darum, die Zahl von Hand
+  zu setzen -- und schrieb sie in der Sprache des Fensters: ein
+  deutscher Lauf nannte „-23,5" für ein Feld, das das Programm selbst
+  auf „-23.5" setzt. Eine Zahl für das Eingabefeld eines anderen
+  Programms ist keine zum Lesen, also bleibt sie jetzt schmucklos.
+  Betroffen ist nur ein Zielwert mit Nachkommastelle.
+
+- **Eine Abtastrate steht in Kilohertz da.** Dieselben 48 kHz standen im
+  selben Fenster zweimal verschieden -- „48000 Hz" in der Übersicht der
+  Datei und „48.000 Hz" drei Zeilen weiter. Alles, was ein Mensch liest,
+  sagt jetzt „48 kHz", und 44100 sagt „44,1 kHz". Was ffmpeg und Resolve
+  lesen, bleibt unangetastet und blank: eine Zahl für eine Maschine ist
+  keine Zahl für einen Leser.
+
+- **Die Liste der abweichenden Bildraten steht so da, wie die Sprache
+  sie schreibt.** Sie sagte „23.976, 25.000" mit englischem Dezimalpunkt
+  -- sechs Zeilen über einem Satz, der die gewählte Rate richtig nannte.
+  Beide Hälften derselben Meldung stimmen jetzt überein.
+
 ## [3.0.0b7] - 2026-09-06
 
 ### Added
