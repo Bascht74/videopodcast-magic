@@ -400,7 +400,7 @@ def speaker_split_available(deep=False):
     return PROGRAM._SPEAKER_READY
 
 
-def speaker_split_mend(note=None):
+def speaker_split_mend(say=None):
     """One attempt in this run to put the separation back. True where it runs.
 
     pip is given the packages the separation stands on, and then the
@@ -412,8 +412,8 @@ def speaker_split_mend(note=None):
     if _SPEAKER_MENDED:
         return speaker_split_available()
     _SPEAKER_MENDED.append(True)
-    if note:
-        note(T('Putting the speaker separation back ...'), 0.02)
+    if say:
+        say(T('Putting the speaker separation back ...'), 0.02)
     if not pip_repair(SPEAKER_PACKAGES):
         return speaker_split_available()
     return speaker_split_available(deep=True)
