@@ -12,42 +12,81 @@ rates, run times, distributions, comparisons.
 
 ## How the script is put together
 
-`videopodcast_magic/__init__.py` is the way in and holds most of the
-program -- 10 551 lines. Twelve pieces have moved out, and each sits
-beside it in a folder of its own with an `__init__.py` in it: `ui/`
-holds the window and everything it shows, asks or offers (10 042
-lines); `cut/` who is on camera when, and what carries it out of here
-(3 925); `player/` the moving picture -- the player, the cut band and
-the log view (2 876); `resolve/` the project in DaVinci Resolve,
-timelines, colour, render and markers (2 755); `speakers/` who is
-speaking, out of the sound alone (2 060); `pipeline/` the chain the
-recordings run through until the camera files are written (1 880);
-`preflight/` whether the material fits together before the first long
-step, and the ffmpeg run that shows its progress (1 507); `auphonic/`
-the sending to auphonic.com and the fetching back -- the key, the
-presets, the production, the waiting (1 226); `setup/` finding ffmpeg,
-offering the way to get one, installing a missing module and keeping
-the key (1 161); `speech/` what is said and when, and what is written
-down from it (1 130); `desktop/` the picture and the shortcut the
-first start lays down (657); `language/` a `.po` file per language,
-nothing but texts in it, and the reader that looks one up (313). All
-counted 6.9.2026 with `wc -l`, and the figure of the day is that
-command, not this paragraph. `models/` is a thirteenth folder and the
-odd one out: the speaker model lives there and no code at all, so
-`beside()` never reaches for it. There is nothing to build.
+`videopodcast_magic/__init__.py` is the way in, and it is not where the
+program lives any more -- 2 858 lines of it, against 17 975 the night
+the cutting began. **Twenty-four pieces have moved out**, each in a
+folder of its own beside it with an `__init__.py` in it, and the way in
+reaches them with `beside()`.
 
-**One piece is asked for by another piece, and that costs a check.**
-`player/` is the only one the way in never names: `ui/__init__.py`
-asks for it, where the block it holds used to stand. `beside()` does
-not mind -- it lays its path against the folder the *way in* sits in,
-whoever calls it, so `beside("player")` out of `ui/` finds
-`videopodcast_magic/player/`, one folder up from the caller and beside
-its own. What does mind is `text_german_arrives`: it collects the
+What is in them, largest first, all counted 6.9.2026 with `wc -l` --
+and **the figure of the day is that command, not this paragraph**:
+
+* `ui/` **8364** -- the window and everything it shows, asks or offers
+* `cut/` **3925** -- who is on camera when, and what carries it out of
+  here
+* `player/` **2876** -- the moving picture: the player, the cut band,
+  the log view
+* `resolve/` **2755** -- the DaVinci Resolve project, timelines, colour,
+  markers
+* `material/` **2613** -- channels, chains, continuation files, what a
+  track is made of
+* `bearings/` **2337** -- the time axis, the offsets, which camera
+  belongs to which voice
+* `speakers/` **2060** -- who is speaking, out of the sound alone
+* `pipeline/` **1880** -- the chain the recordings run until the camera
+  files are written
+* `preflight/` **1507** -- whether the material fits together before the
+  first long step
+* `auphonic/` **1226** -- the sending to auphonic.com and the fetching
+  back
+* `hearing/` **1175** -- decoding, envelopes, bands, phase, aligning
+  audio to video
+* `setup/` **1161** -- finding ffmpeg, installing a missing module,
+  keeping the key
+* `speech/` **1130** -- what is said and when, and what is written down
+  from it
+* `fittings/` **884** -- helpers that shape what the window shows and
+  hold none of its state
+* `metadata/` **740** -- MOV atoms, colour tags, what a recording says
+  about itself
+* `herald/` **662** -- the progress bar, the stages, the console and log
+  redirection
+* `desktop/` **657** -- the picture and the shortcut the first start
+  lays down
+* `tables/` **409** -- the tables and trees the window builds
+* `orders/` **395** -- what the window holds, read back as a command
+  line
+* `timecode/` **343** -- timecode strings, frame rates, the clock a file
+  carries
+* `language/` **313** -- a .po file per language and the reader that
+  looks one up
+* `menus/` **272** -- the menu bar and what follows it
+* `dials/` **193** -- the kinds a shot can be, the cut fields and their
+  choices
+* `filing/` **173** -- path_key, ByFile and FileSet
+
+`models/` is a twenty-fifth folder and the odd one out: the speaker
+model lives there and no code at all, so `beside()` never reaches for
+it. There is nothing to build.
+
+**Five pieces are asked for by another piece, not by the way in.**
+`player/`, `fittings/`, `tables/`, `orders/` and `menus/` are read out
+of `ui/__init__.py`, where the blocks they hold used to stand, and
+`player/` again out of `fittings/`. `beside()` does not mind -- it lays
+its path against the folder the *way in* sits in, whoever calls it, so
+`beside("player")` out of `ui/` finds `videopodcast_magic/player/`, one
+folder up from the caller and beside its own.
+
+**What did mind was the check.** `text_german_arrives` collects the
 `beside(...)` folder names out of the way in and holds them against
-`packages =`, and it reads no other file. A `beside()` in a piece is
-invisible to it. So `"videopodcast_magic.player"` stands in
-`pyproject.toml` unguarded -- take it out and the suite stays green
-and the installed copy opens no player. Measured 6.9.2026.
+`packages =`, and it reads no other file -- so a `beside()` inside a
+piece was invisible to it. Measured 6.9.2026: take
+`"videopodcast_magic.player"` out of `pyproject.toml` and the whole
+suite stays green while the installed copy opens no window.
+`source_piece_list_holds_test.py` closes that: it walks every
+`beside()` call in **every** piece, holds the folders against the list
+in both directions, and its fourth judgement goes red the day the
+search is ever narrowed back to the way in alone.
 
 **How a piece is joined on, and why it is not an import.** `beside()`
 reads the piece out of the folder and hands the program in before the
