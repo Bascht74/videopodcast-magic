@@ -226,6 +226,8 @@ def _curl_call(key, arguments, output_binary=False, progress=False):
                     pass
     if p.returncode:
         error = (p.stderr or b"").decode("utf-8", "replace")[-800:]
+        # A return code is the name of a failure, not an amount of
+        # anything: plain digits, so it can be looked up as it stands.
         raise RuntimeError(error or T('curl ended with %d') % p.returncode)
     return p.stdout if output_binary else p.stdout.decode("utf-8", "replace")
 
@@ -307,6 +309,8 @@ def print_presets(key, multitrack=False):
               else T('No Singletrack preset found in the account.'))
         return 0
     print("Presets:")
+    # The number in front is what gets typed back at the prompt below,
+    # so it stays plain -- and %2d is what keeps the names in a column.
     for i, (name, _, _) in enumerate(items, 1):
         print("  %2d  %s" % (i, name))
     return 0
@@ -354,6 +358,8 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
                        'is needed.')) % name)
         print(T('No preset is called %r.') % wanted)
     print(T('Which Auphonic preset should process this file?'))
+    # Same list, same reason: this is the number the answer below is
+    # compared against, so it must read the way it has to be typed.
     for i, (name, uuid, _) in enumerate(items, 1):
         print("  %2d  %s" % (i, name))
     if not sys.stdin.isatty():
@@ -366,6 +372,8 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
         if answer.isdigit() and 1 <= int(answer) <= len(items):
             name, uuid, _ = items[int(answer) - 1]
             return done(uuid, name)
+        # The bound on what may be typed, not a count of presets: it
+        # has to look like the numbers standing in the list above.
         print(T('  Please give a number between 1 and %d.') % len(items))
 
 
@@ -986,6 +994,8 @@ def rename_tracks(tracks, names, request, new_one):
 def ask_track_names(old, fresh, default_value=None):
     """Ask what to do when the production uses different track names."""
     print(T('\n  The tracks are named differently there:'))
+    # The track number names the track at Auphonic; the two counts
+    # below it are quantities and go through the helper.
     for i, name in enumerate(fresh, 1):
         print(T('    Track %d  %-22s (here: %s)')
               % (i, name, old[i - 1] if i <= len(old) else "--"))
@@ -1166,6 +1176,10 @@ def wait_for_production(key, uuid, wait_s):
             while elapsed >= horizon:
                 horizon *= 2
             share = min(0.99, elapsed / horizon)
+            # The bar is redrawn over itself, so every field has to
+            # keep its width: %3.0f is what holds the %% in place. It
+            # runs 0 to 99 with no decimal place, so there is no mark
+            # for a language to set either way.
             sys.stdout.write("\r  [%-30s] %3.0f %%  %s  %s        "
                              % ("#" * int(share * 30), share * 100,
                                 as_hms(elapsed), text))

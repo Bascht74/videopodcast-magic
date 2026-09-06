@@ -177,6 +177,8 @@ def extract_audio_from_video(file_path, tmpdir):
         # saves the alignment from guessing.
         try:
             t0 = parse_timecode(info["tc"], max(1.0, info["fps"]))
+            # A field of the BWF header, counted in samples and read
+            # by the editor, never by a person: plain digits.
             command += ["-metadata",
                        "time_reference=%d" % int(round(t0 * SR))]
             print("  Timecode %s" % info["tc"])
@@ -315,6 +317,9 @@ def plan_from_camera_audio(video_paths, tmpdir, cameras=None, title=""):
                 break
         reason, cam = name, 2
         while name in taken:
+            # Part of the name, and the name is the identifier: it goes
+            # to Auphonic as the track id and into the file name below.
+            # Plain digits, or the two would not match.
             name = "%s %d" % (reason, cam)
             cam += 1
         taken.add(name)
@@ -667,7 +672,8 @@ def show_multitrack_plan(args, audio_paths, video_paths):
         print("  %-20s %-34s %s%s"
               % (e.get("speakers") or T('unnamed'),
                  os.path.basename(blocks[0])
-                 + ("  (+%d)" % (len(blocks) - 1) if len(blocks) > 1 else ""),
+                 + ("  (+%s)" % number_text(len(blocks) - 1, 0)
+                    if len(blocks) > 1 else ""),
                  as_hms(total), "  ->  " + target))
     combined = {}
     for e in plan:
@@ -691,6 +697,10 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                                       cam["name"] + ".mov"))
             for idx, what in enumerate(
                     track_order_for_camera(own, every, singles), 1):
+                # The track number names the track, it does not count
+                # anything: it is what the editor sees in the strip and
+                # what the writer below numbers by. Plain digits, the
+                # way Resolve's own track numbers stay plain.
                 print(T('        Track %d: %s') % (idx, what))
     return build_common_timebase(args, plan, cameras, video_paths, title)
 
@@ -1020,7 +1030,7 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                        for _, i in videos})
     if len(rates) > 1:
         print(as_head(T('\nDIFFERENT FRAME RATES: %s')
-                      % ", ".join("%.3f" % r for r in rates)))
+                      % ", ".join(number_text(r, 3) for r in rates)))
         print(T('  The Timeline gets %s: the highest of them, or the '
                 'next rate Resolve\n  has above it. Converted upwards '
                 'Resolve repeats frames, downwards it\n  throws them '
@@ -1548,6 +1558,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         while target.lower() in sources or target.lower() in taken:
             count += 1
             tail = args.suffix or "_audio"
+            # A file name: plain digits, the way every other name this
+            # program writes keeps them.
             target = os.path.join(outdir, "%s%s%s.mov"
                                   % (stem, tail,
                                      "" if count == 2 else "_%d" % count))
@@ -1694,6 +1706,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
             print(as_bad(T('  Error while writing: %s') % e))
             return None
         track_names = [name for name, _ in items]
+        # The track number names the track in the finished file -- what
+        # the editor clicks on, not a count of anything. Plain digits.
         for i, (name, _) in enumerate(items, 1):
             print(T('  Audio track %d:   %s') % (i, name))
         if not args.no_camera_audio and info["audio"]:
@@ -1778,6 +1792,8 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
         show_progress(T('Saving %s') % name, 0.0)
         command = ["ffmpeg", "-v", "error", "-i", source, "-c:a", "copy"]
         if tc_start is not None:
+            # Same field, same reason as above: the BWF header is a
+            # file format, and a thousands mark in it is a broken file.
             command += ["-write_bext", "1", "-metadata",
                        "time_reference=%d" % int(round(tc_start * SR))]
         shell_quote(command + ["-y", target])
