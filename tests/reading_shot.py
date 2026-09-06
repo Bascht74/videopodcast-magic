@@ -36,6 +36,24 @@ def way(widget):
     return "right" if widget.layoutDirection() == RIGHT else "left"
 
 
+def labels():
+    """Print every label of the window that carries its own wording.
+
+    The buttons that carry text rather than an icon, and every entry of
+    every drop-down. Printed with repr(), because what this is about --
+    the marks that settle a reading -- is invisible and would not
+    survive the pipe otherwise. Nothing is judged here: the test lays
+    each of them out and reads back what order they come in.
+    """
+    for w in app.allWidgets():
+        if isinstance(w, QtWidgets.QToolButton) and w.text().strip():
+            print("label %r" % w.text())
+        if isinstance(w, QtWidgets.QComboBox):
+            for i in range(w.count()):
+                if w.itemText(i).strip():
+                    print("label %r" % w.itemText(i))
+
+
 n = [0]
 
 
@@ -53,6 +71,7 @@ def step():
             print("window", way(win()))
             boxes = win().findChildren(QtWidgets.QGroupBox)
             print("box", way(boxes[0]) if boxes else "none")
+            labels()
             win().grab().save("%s/reading_%s.png" % (OUT, WHICH))
             # The Settings window is the second one the program puts up,
             # and the only one a shot can reach without material: it
