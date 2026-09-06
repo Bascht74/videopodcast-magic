@@ -51,7 +51,6 @@ _joins_seamlessly = PROGRAM._joins_seamlessly
 _require_module = PROGRAM._require_module
 api_key_source = PROGRAM.api_key_source
 app_style_set = PROGRAM.app_style_set
-apply_time_window = PROGRAM.apply_time_window
 as_bad = PROGRAM.as_bad
 as_data_size = PROGRAM.as_data_size
 as_good = PROGRAM.as_good
@@ -61,8 +60,6 @@ as_minutes = PROGRAM.as_minutes
 as_relative_time = PROGRAM.as_relative_time
 assignment_pairs = PROGRAM.assignment_pairs
 assignment_rows = PROGRAM.assignment_rows
-audio_clock_of = PROGRAM.audio_clock_of
-audio_start_of = PROGRAM.audio_start_of
 audio_summary = PROGRAM.audio_summary
 axis_answer_kept = PROGRAM.axis_answer_kept
 axis_still_valid = PROGRAM.axis_still_valid
@@ -71,12 +68,10 @@ axis_worth_measuring = PROGRAM.axis_worth_measuring
 back_pick = PROGRAM.back_pick
 beside = PROGRAM.beside
 blocks_facts = PROGRAM.blocks_facts
-build_handover = PROGRAM.build_handover
 camera_after_a_mark = PROGRAM.camera_after_a_mark
 camera_gets_from = PROGRAM.camera_gets_from
 camera_name_suggestion = PROGRAM.camera_name_suggestion
 camera_row_cameras = PROGRAM.camera_row_cameras
-camera_start_of = PROGRAM.camera_start_of
 camera_to_remember = PROGRAM.camera_to_remember
 cameras_in_track_order = PROGRAM.cameras_in_track_order
 cameras_with_a_speaker = PROGRAM.cameras_with_a_speaker
@@ -87,10 +82,8 @@ channel_joins = PROGRAM.channel_joins
 check_resolve = PROGRAM.check_resolve
 collect_findings = PROGRAM.collect_findings
 colours_pick = PROGRAM.colours_pick
-cut_basis_line = PROGRAM.cut_basis_line
 cut_box_title = PROGRAM.cut_box_title
 cut_has_people = PROGRAM.cut_has_people
-cut_statistics = PROGRAM.cut_statistics
 cut_title_of = PROGRAM.cut_title_of
 delete_api_key = PROGRAM.delete_api_key
 desktop_is_dark = PROGRAM.desktop_is_dark
@@ -125,9 +118,9 @@ key_store_trouble = PROGRAM.key_store_trouble
 kind_on_show = PROGRAM.kind_on_show
 known_language = PROGRAM.known_language
 label_of = PROGRAM.label_of
-label_say = PROGRAM.label_say
 # Out of the language piece: the program binds neither of these two.
 language_name = PROGRAM.language.language_name
+make_preview = PROGRAM.make_preview
 reads_right_to_left = PROGRAM.language.reads_right_to_left
 languages = PROGRAM.languages
 list_presets = PROGRAM.list_presets
@@ -140,7 +133,6 @@ loudness_field_build = PROGRAM.loudness_field_build
 loudness_last = PROGRAM.loudness_last
 main = PROGRAM.main
 make_speaker_split = PROGRAM.make_speaker_split
-metrics_sentence = PROGRAM.metrics_sentence
 multitrack_state_note = PROGRAM.multitrack_state_note
 names_used_twice = PROGRAM.names_used_twice
 newer_release = PROGRAM.newer_release
@@ -163,7 +155,6 @@ preset_entries = PROGRAM.preset_entries
 preset_list_bring = PROGRAM.preset_list_bring
 preset_missing_rows = PROGRAM.preset_missing_rows
 preset_mode_note = PROGRAM.preset_mode_note
-preview_handover = PROGRAM.preview_handover
 preview_out_of_date = PROGRAM.preview_out_of_date
 probe_has = PROGRAM.probe_has
 probe_warm = PROGRAM.probe_warm
@@ -172,29 +163,22 @@ project_opened_note = PROGRAM.project_opened_note
 question_note_build = PROGRAM.question_note_build
 release_text_in = PROGRAM.release_text_in
 resolve_installed = PROGRAM.resolve_installed
-rules_from_cut_box = PROGRAM.rules_from_cut_box
 run_stages = PROGRAM.run_stages
 safe_filename = PROGRAM.safe_filename
 sample_count = PROGRAM.sample_count
-separation_sources = PROGRAM.separation_sources
 set_update_skipped = PROGRAM.set_update_skipped
 settings = PROGRAM.settings
 sign_of_life = PROGRAM.sign_of_life
 size_in_mb = PROGRAM.size_in_mb
 soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
-speaker_measure_loop = PROGRAM.speaker_measure_loop
 speaker_statistics = PROGRAM.speaker_statistics
 speakers_all_from_project = PROGRAM.speakers_all_from_project
-speakers_all_on_window_axis = PROGRAM.speakers_all_on_window_axis
-speakers_for_run = PROGRAM.speakers_for_run
 speakers_from_project = PROGRAM.speakers_from_project
 speakers_front_pick = PROGRAM.speakers_front_pick
 speakers_project_block = PROGRAM.speakers_project_block
 speakers_still_wanted = PROGRAM.speakers_still_wanted
 speakers_stored = PROGRAM.speakers_stored
-speakers_window_all = PROGRAM.speakers_window_all
-speech_heading = PROGRAM.speech_heading
 start_again = PROGRAM.start_again
 store_api_key = PROGRAM.store_api_key
 strip_marks = PROGRAM.strip_marks
@@ -205,11 +189,8 @@ system_locale = PROGRAM.system_locale
 tc_column_write = PROGRAM.tc_column_write
 threading = PROGRAM.threading
 time = PROGRAM.time
-timecode_seconds = PROGRAM.timecode_seconds
 timecode_string = PROGRAM.timecode_string
 timeline_entries = PROGRAM.timeline_entries
-track_recordings_of = PROGRAM.track_recordings_of
-tracks_awaiting_measure = PROGRAM.tracks_awaiting_measure
 trouble_log = PROGRAM.trouble_log
 update_fetched = PROGRAM.update_fetched
 update_promise = PROGRAM.update_promise
@@ -227,16 +208,12 @@ voice_suggest_round = PROGRAM.voice_suggest_round
 voices_answer_kept = PROGRAM.voices_answer_kept
 warn_box = PROGRAM.warn_box
 weak_marks_show = PROGRAM.weak_marks_show
-why_no_cut = PROGRAM.why_no_cut
 wide_bar_of = PROGRAM.wide_bar_of
 wide_cameras_of = PROGRAM.wide_cameras_of
-wide_marks_applied = PROGRAM.wide_marks_applied
 wide_note_build = PROGRAM.wide_note_build
 wide_settings_grey = PROGRAM.wide_settings_grey
 window_suggestion = PROGRAM.window_suggestion
 words_forgotten = PROGRAM.words_forgotten
-words_from_handover = PROGRAM.words_from_handover
-words_settings_grey = PROGRAM.words_settings_grey
 
 
 def app_icon(QtGui):
@@ -2335,272 +2312,6 @@ def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
 
     return (assignment_state_show, voice_play, assignment_row_show,
             folded_show, voice_add, voices_build, voices_remember)
-
-
-def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
-                 camera_lines, voice_lines, cut_var, cut_parts, edge_on,
-                 start_var, end_var, multitrack, out_folder, clip_kind_value,
-                 wide_cameras_now, commonest_folder, band_show, speech_show,
-                 window_info_show, question_note, cut_column, forecast_box,
-                 preview_label, speech_title, speech_table):
-    """The preview: who speaks when, and what the cut would look like.
-
-    Outside gui() because it is one question answered end to end: the
-    handover built from the assignment, the measurement that fills what
-    it leaves open, and the numbers under the picture. Qt comes in as a
-    parameter -- PySide6 is imported inside gui().
-    """
-
-    def off_speakers():
-        """Build a handover from who speaks when and the assignment.
-
-        Turning the cut values then needs no Resolve run to see the
-        effect. Where nothing is found, the reason is stated.
-        """
-        # The separations first: they separate people rather than levels,
-        # and are there before anything has been uploaded.
-        apart = separation_sources(speakers_for_run(state, voice_lines))
-        rows = track_recordings_of(assign_lines)
-        segment_list, length = speakers_all_on_window_axis(
-            state, voice_lines, assign_lines, audio_start)
-        state["stat_measured"] = not bool(segment_list)
-        # And every track no separation speaks for: the run takes those
-        # too, and a preview that leaves people out is a different cut.
-        segment_list, length = speakers_window_all(
-            segment_list, length, state.get("speakers_measured"),
-            rows, apart)
-        state["tracks_left"] = tracks_awaiting_measure(
-            rows, state.get("speakers_measured"), apart)
-        where_to = speakers_to_cameras(assign_lines, voice_lines,
-                                       state.get("voiced") or set())
-        axis = state.get("axis") or {}
-
-        d, reason = build_handover(segment_list, length, where_to,
-            [{"track": t, "file": b,
-              "start_s": camera_start(b),      # the mark, or the preview
-              "wide_marked": clip_kind_value(b).get() == TYPE_WIDE}
-             for b, t in camera_tracks_of(camera_lines)],
-            audio_origin=[audio_start_of(row[0], axis)
-                      for row, _nv, cv in assign_lines
-                      if cv.get() != IGNORE_AUDIO and os.path.exists(row[0])],
-            camera_origin=[camera_start_of(b)
-                           for b, _n, _own, _own_flag in camera_lines],
-            places=(out_folder.get(), commonest_folder()))
-        if d is None:
-            state["reason"] = reason
-        return d
-
-    def audio_start(file_path):
-        """Return where this recording starts on the common time axis.
-
-        The same road as audio_start_of: two places answering it apart
-        is how a clock that was never set gets believed here while the
-        first tab says out loud that it cannot be right.
-        """
-        t = audio_start_of(file_path, state.get("axis") or {})
-        return 0.0 if t is None else float(t)
-
-    def camera_start(file_path):
-        """Return where this file starts on the common time axis.
-
-        The measurement first, then the timecode. Without either the
-        beginning -- then all files lie on top of each other and the
-        preview still shows the rhythm.
-        """
-        a = (state.get("axis") or {}).get(path_key(file_path))
-        if a is None:
-            try:
-                a = timecode_seconds(video_facts(file_path))
-            except (OSError, ValueError, RuntimeError):
-                a = None
-        return float(a) if a is not None else 0.0
-
-    def forecast_empty(empty):
-        """While nothing is computed the box holds only the hint."""
-        for widget in (speech_title, speech_table):
-            widget.setVisible(not empty)
-
-    def speaker_measure_done(result):
-        segment_list, length, error = result
-        state["speakers_measuring"] = False
-        if error:
-            state["measure_failed"] = True
-            label_say(measure_label, error[:160], COLOURS["error"])
-            return
-        state["speakers_measured"] = {"segments": segment_list,
-                                        "length": length}
-        state["cut_basis"] = "measured"
-        label_say(measure_label,
-                  *cut_basis_line("measured", len(segment_list), length))
-        # preview_soon: through state. The kick-off hangs on the
-        # debounce timer and is made after this function has run.
-        state["preview_soon"]()
-
-    def speaker_measure():
-        """Derive the speech segments from the tracks themselves."""
-        tracks = []
-        for row, name_value, camera_value in assign_lines:
-            if camera_value.get() == IGNORE_AUDIO:
-                continue
-            name = name_value.get() or os.path.basename(row[0])
-            tracks.append((name, row[0], audio_start(row[0]),
-                           audio_clock_of(row[0], state.get("axis_clock"))))
-        if not tracks:
-            label_say(measure_label, T('No audio tracks are assigned.'),
-                      COLOURS["error"])
-            return
-        begin = min(v for _n, _p, v, _b in tracks)
-        tracks = [(n, p, v - begin, b) for n, p, v, b in tracks]
-        state["measure_failed"] = False
-        state["speakers_measuring"] = True
-        measure_line.setVisible(True)
-        label_say(measure_label, T('working out who speaks when ...'),
-                  COLOURS["quiet"])
-        threading.Thread(target=speaker_measure_loop,
-                         args=(tracks, bridge, bridge_emit),
-                         daemon=True).start()
-
-    measure_line = QtWidgets.QWidget()
-    _measure_row = QtWidgets.QHBoxLayout(measure_line)
-    _measure_row.setContentsMargins(0, 0, 0, 0)
-    measure_label = label("", COLOURS["quiet"])
-    measure_label.setWordWrap(True)
-    hint(measure_label, T('Works out who speaks when from the tracks '
-              'themselves -- one microphone per person, level against its '
-              'own noise floor. Where everybody is on one recording, '
-              '"several speakers" in the Speaker name field is the way.'))
-    _measure_row.addWidget(measure_label, 1)
-    cut_column.addWidget(measure_line)
-    bridge.speakers_measured.connect(speaker_measure_done)
-    bridge.speaker_note.connect(measure_label.setText)
-    measure_line.setVisible(False)
-
-    forecast_empty(True)
-
-    def preview_set(text, colour=None):
-        preview_label.setTextFormat(Qt.RichText)
-        preview_label.setText(text)
-        preview_label.setStyleSheet("color: %s" % (colour or COLOURS["value"]))
-
-    def preview_compute():
-        # Kept in state at the end of this def: an answer on the
-        # assignment sheet has to reach the preview without a run.
-        d = None
-        state["reason"] = ""
-        # The handover of a run. Only where there is none does the
-        # window work the speakers out for itself.
-        d = preview_handover(state)
-        if d is None:
-            d = off_speakers()
-        # A change on the assignment sheet reaches the preview without
-        # a run: the file may be older than the answer.
-        now = state.get("wide_cameras_now")
-        if d is not None and now:
-            try:
-                on = {}
-                for _row, nv, cv in assign_lines:
-                    nm = nv.get()
-                    if nm and cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                        on[nm] = cv.get()
-                for _label, nv, cv in voice_lines:
-                    nm = nv.get().strip()
-                    if nm and cv.get() not in (MIX_ONLY, IGNORE_AUDIO):
-                        on[nm] = cv.get()
-                wides, said = now()
-                d = wide_marks_applied(d, wides, on, said)
-                # The window is applied below by apply_time_window, out
-                # of start_s. Here as well would move it a second time.
-            except RuntimeError:
-                # A widget went while we asked it. The rebuild that
-                # took it away brings its own answer, so this one goes.
-                d = None
-        if d is None:
-            state["statistics"] = False
-            speech_show(None)
-            # Empty table headers promise content that does not exist.
-            forecast_empty(True)
-            forecast_box.setTitle(T('%s -- preview') % cut_title_of(
-                voice_lines, multitrack.get(), assign_lines,
-                len(camera_lines)))
-            state["cut_numbers"] = None
-            band_show(None)
-            preview_set(T('No speakers are known yet -- they are worked '
-                          'out of the tracks as soon as this tab is opened. '
-                          'Where everybody is on one recording, "several '
-                          'speakers" in the Speaker name field is the way.'),
-                        COLOURS["quiet"])
-            preview_label.setToolTip(state.get("reason") or "")
-            measure_line.setVisible(bool(state.get("tracks_left")))
-            return
-        state["statistics"] = True
-        # The line stays and says what the cut stands on: somebody whose
-        # track is unmeasured is in the cut and not in this picture.
-        measure_line.setVisible(True)
-        if state.get("tracks_left"):
-            measure_label.setText(T('%s not measured yet -- in the cut, '
-                                    'not yet in this preview.')
-                                  % ", ".join(state["tracks_left"]))
-        loaded, bad = slider_numbers(
-            {numbers: cut_var[numbers].get() for numbers in cut_var})
-        if bad:
-            preview_set(T('%r is not a number.')
-                            % cut_var[bad].get().strip(),
-                            COLOURS["warning"])
-            return
-        number = {numbers: v[1] for numbers, v in loaded.items()}
-        # A manually set time window shifts everything, or the preview would
-        # show a cut that will not exist that way.
-        d, complaint = apply_time_window(d, start_var.get(), end_var.get())
-        if complaint:
-            preview_set(complaint, COLOURS["warning"])
-            return
-        speech_show(d)
-        if not (state.get("tracks_left") or state.get("measure_failed")):
-            label_say(measure_label, *cut_basis_line(
-                state.get("cut_basis"), len(d.get("speakers") or []),
-                float(d.get("length_s") or 0.0)))
-        window_info_show()
-        # The words come with the handover; the greying belongs here, or
-        # it runs before the handover is read and answers from last round.
-        state["words_there"] = bool(words_from_handover(d))
-        if state.get("cut_box_there"):
-            words_settings_grey(cut_parts, question_note,
-                                state["words_there"],
-                                bool(wide_cameras_now()[0]), COLOURS["quiet"])
-        try:
-            numbers = cut_statistics(d, number["min-edit-duration"],
-                number["edit-change-delay"], number["wide-after"],
-                number["wide-length"], number["wide-latest"],
-                bool(edge_on.get()), rules_from_cut_box(
-                    number, {k: cut_var[k].get() for k in cut_var}))
-        except Exception as e:
-            preview_set(T('Preview not possible: %s') % e,
-                            COLOURS["warning"])
-            return
-        if not numbers:
-            preview_set(why_no_cut(d), COLOURS["warning"])
-            return
-        preview_label.setStyleSheet("")
-        preview_label.setToolTip("")
-        forecast_empty(False)
-        try:
-            forecast_box.setTitle(T('%s -- preview  (length %s)') % (
-                cut_title_of(voice_lines, multitrack.get(),
-                             assign_lines, len(camera_lines)),
-                as_hms(max(b for _a, b, _w in numbers["cut"]))))
-        except Exception:
-            pass
-        # Where the segments come from belongs with them: self-measured is
-        # coarser than what auphonic.com delivers.
-        speech_title.setText(speech_heading(
-            state.get("stat_measured"), state.get("speech_time_total") or ""))
-        state["cut_numbers"] = numbers
-        state["cut_data"] = d
-        band_show(numbers)
-        preview_label.setText(wide_too_short(number)
-                              + metrics_sentence(numbers, COLOURS, as_minutes))
-
-    return preview_compute, speaker_measure
 
 
 def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
