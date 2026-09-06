@@ -1214,9 +1214,9 @@ def queue_render_job(p, tl, d, folder, name, project_is_new=False):
              else ""))
     # The interface has no key for the audio bitrate. So write down what should
     # be there, and nobody has to look for it.
-    print(T('    %-22s AAC, %s Hz, two channel  (bitrate cannot be set '
+    print(T('    %-22s AAC, %s kHz, two channel  (bitrate cannot be set '
             'remotely --\n%s%s kbit/s are the recommendation for stereo)')
-          % (T('Audio'), number_text(SR, 0), " " * 28,
+          % (T('Audio'), number_text(SR / 1000.0, None), " " * 28,
              RENDER_AUDIO_KBIT))
     print("    %-22s %s" % (T('Target'),
                             os.path.join(folder, name + ".mp4")))

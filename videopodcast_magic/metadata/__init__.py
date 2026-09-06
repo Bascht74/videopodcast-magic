@@ -64,6 +64,21 @@ def as_data_size(mb_value):
     return "%s MB" % number_text(math.ceil(mb_value), 0)
 
 
+def khz_text(value):
+    """A sample rate in kilohertz, the way a person reads one.
+
+    48000 gives "48" and 44100 gives "44.1", as many places as the
+    number needs; the unit stands in the sentence and not here, so a
+    catalogue key goes on saying what its slots hold. ffprobe hands
+    the rate over as text and can hand over none, and one that cannot
+    be read cannot be divided: then "?" stands where the digits would.
+    """
+    try:
+        return number_text(float(value) / 1000.0, None)
+    except (TypeError, ValueError):
+        return "?"
+
+
 def audio_summary(file_path):
     """Return key facts about an audio file as (label, value) pairs."""
     d = ffprobe_json(file_path)
@@ -79,8 +94,9 @@ def audio_summary(file_path):
     # of the timecode are worth 1/25 s, and a line printed at 30 would
     # give the file back a timecode it never carried.
     rate = picture_rate(d) or 30.0
-    return [("Format", "%s, %s, %s Hz, %s" % (a.get("codec_name", "?"), depth,
-                                              a.get("sample_rate", "?"), channels)),
+    return [("Format", "%s, %s, %s kHz, %s"
+             % (a.get("codec_name", "?"), depth,
+                khz_text(a.get("sample_rate")), channels)),
             (T('Length'), "%s  (%s)  --  %s"
              % (as_hms(sample_count(file_path) / float(SR)), as_data_size(size_in_mb(file_path)),
                 "Timecode %s" % timecode_string(tc, rate) if tc is not None
@@ -658,10 +674,10 @@ def video_summary(file_path, info):
         channels = channel_text(a.get("channels"))
         count = len(info["audio"])
         lines.append((T('Camera audio'),
-                      TN(count, '%s track, %s, %s Hz, %s',
-                         '%s tracks, %s, %s Hz, %s')
+                      TN(count, '%s track, %s, %s kHz, %s',
+                         '%s tracks, %s, %s kHz, %s')
                       % (number_text(count, 0), a.get("codec_name", "?"),
-                         a.get("sample_rate", "?"), channels)))
+                         khz_text(a.get("sample_rate")), channels)))
     else:
         lines.append((T('Camera audio'), T('no audio track present')))
     return lines

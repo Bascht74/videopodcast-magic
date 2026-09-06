@@ -14,17 +14,19 @@ sixth asks an offset that no single measurement can reach, only the
 chain of them. The seventh asks what is written where the digits
 cannot be grouped -- a fit's error of inf, and the exponent form a
 number over a million takes when no fixed places are asked for. The
-last is the direction that costs something when it is wrong: what
+eighth asks where a sample rate is said to a person: it is said in
+kilohertz, and one that cannot be read is marked rather than divided.
+The last is the direction that costs something when it is wrong: what
 leaves for a machine -- the filter chain handed to ffmpeg, the iXML
 block written into the delivered track, the name that track is written
 under -- keeps plain digits under German too.
 
 The channel facts, the picture's timecode, the camera file's frame
-rate and the bleed between two microphones are stand-in dictionaries,
-so what is judged is what the program writes, not what a recorder
-would have measured. No wording is held against anything, only the
-shape of the number, so the checks stand whether a catalogue carries
-the sentence or not.
+rate, the bleed between two microphones and the answers ffprobe would
+give are stand-in dictionaries, so what is judged is what the program
+writes, not what a recorder would have measured. No sentence is held
+against anything, only the shape of a number and the unit it is said
+in, so the checks stand whether a catalogue carries the wording or not.
 """
 import contextlib
 import io
@@ -261,11 +263,112 @@ check("a number written in exponent form is written out, not thrown",
       "number_text(%s, None) is %r, wanted %r"
       % (MILLION, written_out, "1e+06"))
 
-print("\n8. German: a machine reads it, so the digits stay plain")
-# From here on the run is German, which is the language whose thousands
-# mark is a full stop -- the one that would silently turn a rate into a
-# different number, a file name into another file, an XML field into
-# text no reader parses.
+print("\n8. German: a rate a person reads is said in kilohertz")
+# The owner chose this out of four laid before him: a sample rate a
+# person reads is written in kilohertz. 44100 is the rate that tells
+# the two forms apart at a glance -- "44,1 kHz" against the "44.100 Hz"
+# that stood here before, where the German thousands mark is the very
+# character the decimal comma is not, so a rate left undivided cannot
+# pass for a rate that was.
+vpm.set_language("de")
+# Two rates of the test's own, not fetched from the program: what is
+# judged is the form a rate is said in, and that holds whatever rate
+# the run itself works at. One of them needs a decimal place and the
+# other does not, so both forms stand in the one sentence below.
+CAMERA_RATE = 44100
+OTHER_RATE = 48000
+
+
+def probe_answer(rate, channels=2, depth="24"):
+    """One ffprobe answer for a recording made at that rate.
+
+    A field given None is left out altogether, which is what ffprobe
+    really does: measured on this machine, a stream that carries no
+    rate comes back with no `sample_rate` key rather than with a
+    placeholder in it, and a file with no audio stream at all leaves
+    the program the same empty dictionary.
+    """
+    stream = {"codec_type": "audio", "codec_name": "pcm_s24le",
+              "channels": channels, "sample_fmt": "s32"}
+    if rate is not None:
+        stream["sample_rate"] = str(rate)
+    if depth is not None:
+        stream["bits_per_raw_sample"] = depth
+    return {"streams": [stream], "format": {"duration": "8.0"}}
+
+
+# What the preflight says about one recording. Nothing is read off a
+# disc: the answer ffprobe would give is handed over instead, and the
+# clipping count is taken out of the way because it decodes the file.
+real_probe = vpm.preflight.ffprobe_json
+real_clipping = vpm.preflight.clipping_facts
+try:
+    vpm.preflight.ffprobe_json = lambda path: probe_answer(CAMERA_RATE, 8)
+    vpm.preflight.clipping_facts = lambda path: {}
+    found, _facts = quietly(
+        lambda: vpm.preflight.check_audio_file("/tmp/no-such-recording.wav"))
+finally:
+    vpm.preflight.ffprobe_json = real_probe
+    vpm.preflight.clipping_facts = real_clipping
+report = "\n".join(f.text for f in found)
+said = holding(report, "kHz", "Hz")
+check("the rate a recording is reported at is said in kilohertz",
+      "44,1 kHz" in report and "44.100" not in report,
+      "%r -- wanted %r in it and %r not, for a recording at %d Hz"
+      % (said, "44,1 kHz", "44.100", CAMERA_RATE))
+
+# Two blocks that cannot be laid end to end, because they were recorded
+# at different rates. The refusal names both, and a person reads it.
+SHAPES = {"/tmp/no-such-block-1.wav": probe_answer(OTHER_RATE),
+          "/tmp/no-such-block-2.wav": probe_answer(CAMERA_RATE)}
+real_probe = vpm.material.ffprobe_json
+try:
+    vpm.material.ffprobe_json = lambda path: SHAPES[path]
+    fits, said = vpm.material.shapes_match(*sorted(SHAPES))
+finally:
+    vpm.material.ffprobe_json = real_probe
+check("the refusal to join two rates names both of them in kilohertz",
+      not fits and "48 kHz" in said and "44,1 kHz" in said
+      and "48.000" not in said and "44.100" not in said,
+      "fits=%s, %r -- wanted %r and %r in it, %r and %r not"
+      % (fits, said, "48 kHz", "44,1 kHz", "48.000", "44.100"))
+
+# The camera's own audio, in the row the file report writes for it.
+# Nothing here is bent: a path that is not there answers "no
+# information in the file" for the colour and the camera by itself.
+CAMERA = {"video": {"codec_name": "h264", "width": 1920, "height": 1080},
+          "fps": 25.0, "nominal": 25.0, "duration": 8.0, "tc": "",
+          "audio": [probe_answer(CAMERA_RATE)["streams"][0]], "tags": {}}
+said = dict(vpm.metadata.video_summary("/tmp/no-such-camera.mov", CAMERA)
+            ).get(vpm.T('Camera audio'), "")
+check("the camera's own rate is said in kilohertz as well",
+      "44,1 kHz" in said and "44.100" not in said,
+      "%r -- wanted %r in it and %r not, for a camera at %d Hz"
+      % (said, "44,1 kHz", "44.100", CAMERA_RATE))
+
+# And the rate that is not in the file at all. A rate that cannot be
+# read is not a rate that can be divided, so it is marked instead --
+# with the question mark the bit depth in the same row has always used
+# for the same reason, which is why the two are asked for together: one
+# convention, not two. The wrong answer that would pass unnoticed is
+# int(rate or 0), and that one prints a rate of nought.
+real_probe = vpm.metadata.ffprobe_json
+try:
+    vpm.metadata.ffprobe_json = lambda path: probe_answer(None, 8, None)
+    said = dict(vpm.metadata.audio_summary("/tmp/no-such-recording.wav")
+                ).get("Format", "")
+finally:
+    vpm.metadata.ffprobe_json = real_probe
+check("a rate that cannot be read is marked, not divided",
+      "? kHz" in said and "? bit" in said and "0 kHz" not in said,
+      "%r -- wanted %r and %r in it and %r not"
+      % (said, "? kHz", "? bit", "0 kHz"))
+
+print("\n9. German: a machine reads it, so the digits stay plain")
+# The run stays German, which is the language whose thousands mark is a
+# full stop -- the one that would silently turn a rate into a different
+# number, a file name into another file, an XML field into text no
+# reader parses.
 vpm.set_language("de")
 
 # The resample chain that takes the clock drift out. Both branches of
