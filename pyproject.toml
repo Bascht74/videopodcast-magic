@@ -103,6 +103,7 @@ packages = [
     "videopodcast_magic.preflight",
     "videopodcast_magic.resolve",
     "videopodcast_magic.setup",
+    "videopodcast_magic.soundings",
     "videopodcast_magic.speakers",
     "videopodcast_magic.speech",
     "videopodcast_magic.tables",
