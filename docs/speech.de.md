@@ -444,13 +444,17 @@ dasselbe Kapitel sagt, was der Weitwinkel dann tut.
 
 ### Wenn etwas klemmt
 
-* **Die Zeile der Aufnahme sagt, die Trennung sei hier nicht
-  installiert.** Aus der Installation ist etwas abhandengekommen. Die
-  Meldung nennt den Befehl, der es wieder hinstellt — denselben, mit
-  dem das Programm installiert wurde, mit `-U` —, und dieser eine
-  Befehl gilt für alles, nicht nur für die Trennung. Bis dahin geht der
-  Lauf ohne sie weiter: mit je Person einer Spur kommen die Sprecher
-  aus den Spuren, sonst bleibt der Schnitt aus.
+* **Die Zeile der Aufnahme sagt, was die Trennung meldet.** Aus der
+  Installation ist etwas abhandengekommen. Das Programm versucht von
+  sich aus einmal, die Pakete über pip zurückzuholen, und fragt danach
+  neu nach; klappt das, wird nichts gemeldet und die Trennung läuft
+  einfach. Klappt es nicht, steht in der Zeile der Aufnahme der Grund
+  selbst — die Zeile, an der der Import gescheitert ist —, und unter
+  der Tabelle steht der Befehl, der es wieder hinstellt: derselbe, mit
+  dem das Programm installiert wurde, mit `-U`. Im Protokoll steht
+  beides, ungekürzt. Bis dahin geht der Lauf ohne sie weiter: mit je
+  Person einer Spur kommen die Sprecher aus den Spuren, sonst bleibt
+  der Schnitt aus.
 * **Die Trennung bricht mit einer Meldung ab.** Das Protokoll sagt, was
   war. Mit je Person einer Spur werden diese Spuren gemessen wie immer,
   und der Schnitt kommt trotzdem, ein Sprecher je Spur; auf einer

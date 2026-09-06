@@ -420,13 +420,16 @@ boundaries; the same chapter says what the wide shot does then.
 
 ### When something goes wrong
 
-* **The row says the separation is not installed here.** Something has
-  gone missing out of the installation. The message names the command
-  that puts it back -- the same one that installed the program, with
-  `-U` -- and it is one command for everything, not for the separation
-  alone. Until then the run carries on without it: with a track per
-  person the speakers come from the tracks, otherwise the cut stays
-  out.
+* **The row says what the separation reports.** Something has gone
+  missing out of the installation. The program tries once by itself to
+  put the packages back over pip and asks again afterwards; where that
+  works, nothing is said and the separation simply runs. Where it does
+  not, the row of the recording carries the reason itself -- the line
+  the failed import wrote -- and the line under the table carries the
+  command that puts it back, the same one that installed the program,
+  with `-U`. The log carries both, whole. Until then the run carries on
+  without it: with a track per person the speakers come from the
+  tracks, otherwise the cut stays out.
 * **The separation breaks off with a message.** The log says what
   happened. With a track per person those tracks are measured as they
   always are and the cut still comes, one speaker per track; on one

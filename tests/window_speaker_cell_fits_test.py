@@ -156,16 +156,16 @@ def needs(mark):
 
 
 def missing_caption():
-    return vpm.T('Speaker separation not available. The log says why.')
+    return vpm.T('The speaker separation is not set up.')
 
 
 def reported_caption():
     """The longest the cell can be made to show.
 
-    speaker_split_show cuts what the separation reported to 200
-    characters and hands the cell that, so short captions are not the
-    whole of what has to fit in there. Cut to the same 200 here, so
-    the longest case really is the one being measured.
+    split_cells_write takes the first line of what the separation
+    reported and cuts that to 200 characters, so short captions are
+    not the whole of what has to fit in there. Cut to the same 200
+    here, so the longest case really is the one being measured.
     """
     return (vpm.T('The speaker separation reports: %s') % (
         "ImportError: Can't determine version for bottleneck, raised "
@@ -235,7 +235,7 @@ for language in ("en", "de"):
     over["asked"].append((language, needs(mark) - mark.minimumHeight(),
                           mark.minimumHeight(), needs(mark)))
     holder.deleteLater()
-check("the sentence pointing at the log is readable in full",
+check("the sentence saying it is not set up is readable in full",
       all(x[1] <= 0 for x in over["missing"]),
       "short by %s"
       % ["%s: %d px over in a label %dx%d" % x for x in over["missing"]])
@@ -288,7 +288,7 @@ check("a long reason is readable in the widest font we build for",
       all(x[1] <= 0 for x in far["reported"]),
       "in a font %d%% as wide, short by %s" % (WIDER,
       ["%s: %d px over in a label %dx%d" % x for x in far["reported"]]))
-check("so is the sentence pointing at the log, in that font",
+check("so is the sentence saying it is not set up, in that font",
       all(x[1] <= 0 for x in far["missing"]),
       "short by %s"
       % ["%s: %d px over in a label %dx%d" % x for x in far["missing"]])

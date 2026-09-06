@@ -50,6 +50,31 @@ nicht.
   six lines above a sentence that said the chosen rate correctly. Both
   halves of that message now agree.
 
+- **The speaker separation puts itself back before it gives up.** A
+  window that came up while the separation could not run said so for as
+  long as it stayed open, whatever was installed in the meantime. Every
+  separation now asks again from scratch, and where the answer is no
+  the program runs pip once itself and asks a second time. Where that
+  works it simply separates and says nothing about it.
+
+- **A separation that still cannot run says why, in the row and under
+  the table.** The row of the recording used to say "Speaker separation
+  not available. The log says why." and the reason lay in a file. The
+  row now carries the reason itself, and the line under the assignment
+  table carries the command that puts the separation back.
+
+- **The log keeps a reason whole.** Every red message was cut to 200
+  characters on its way into the log -- the width of a cell in the
+  window, not of a file -- and the half that named the cause was
+  regularly the half that went. Nothing is shortened there now.
+
+- **A file that fits nothing says what became of it.** It stood in red
+  saying its sound could not be used, while the column **Kind** beside
+  it already said **Intro**, and the two read as contradicting each
+  other. The note now says the finding and the decision under it: set
+  to **Intro**, or left out where another file already holds the intro,
+  and that **Outro** is one click away.
+
 **Deutsch**
 
 ### Behoben
@@ -74,6 +99,34 @@ nicht.
   sie schreibt.** Sie sagte „23.976, 25.000" mit englischem Dezimalpunkt
   -- sechs Zeilen über einem Satz, der die gewählte Rate richtig nannte.
   Beide Hälften derselben Meldung stimmen jetzt überein.
+
+- **Die Sprechertrennung holt sich selbst zurück, bevor sie aufgibt.**
+  Ein Fenster, das hochkam, während die Trennung nicht laufen konnte,
+  sagte das, solange es offen blieb -- gleich, was inzwischen
+  installiert wurde. Jede Trennung fragt jetzt neu nach, und lautet die
+  Antwort nein, lässt das Programm einmal pip laufen und fragt ein
+  zweites Mal. Klappt das, trennt es einfach und sagt nichts dazu.
+
+- **Eine Trennung, die dann immer noch nicht läuft, sagt warum -- in
+  der Zeile und unter der Tabelle.** In der Zeile der Aufnahme stand
+  „Sprechererkennung nicht verfügbar. Das Protokoll sagt, warum.", und
+  der Grund lag in einer Datei. Jetzt steht der Grund selbst in der
+  Zeile, und unter der Zuordnungstabelle steht der Befehl, der die
+  Trennung wieder hinstellt.
+
+- **Das Protokoll behält einen Grund ganz.** Jede rote Meldung wurde auf
+  dem Weg ins Protokoll bei 200 Zeichen abgeschnitten -- der Breite
+  einer Zelle im Fenster, nicht der einer Datei --, und was die Ursache
+  benannte, fiel regelmäßig genau dort weg. Gekürzt wird dort jetzt
+  nichts mehr.
+
+- **Eine Datei, die zu nichts passt, sagt, was mit ihr geschehen ist.**
+  Sie stand rot da und sagte, ihr Ton sei nicht verwendbar, während in
+  der Spalte **Typ** daneben schon **Vorspann** stand -- beides las sich
+  wie ein Widerspruch. Der Vermerk sagt jetzt den Befund und darunter
+  die Entscheidung: auf **Vorspann** gesetzt, oder draußen gelassen,
+  wenn eine andere Datei den Vorspann schon hält, und dass **Abspann**
+  einen Klick entfernt ist.
 
 ## [3.0.0b7] - 2026-09-06
 

@@ -359,6 +359,7 @@ it is green.
 | `voice_reason_reaches_log` | Why the separation cannot run reaches the log, and not a guess. |
 | `voice_source_travels` | Where the speakers of a run come from, and how they reach it. |
 | `voice_split_hears_two` | Let the speaker separation really run, on two voices we spoke. |
+| `voice_split_mends_itself` | A separation that cannot run mends itself once, or says the way back. |
 | `voice_split_names_fault` | A separation that will not run says which fault it hit, not a story. |
 | `voice_tracks_read_once` | The tracks of a run are read once, whatever the reading is used for. |
 | `voice_turns_found` | Speech is found back where it was put, offset and all. |
@@ -459,6 +460,7 @@ it is green.
 | `window_marks_take_spot` | What Mark In and Mark Out set is where the player stands. |
 | `window_menu_greys_along` | The five File entries that switch are as grey as the window. |
 | `window_no_full_screen` | Nothing in the window takes the picture full screen any more. |
+| `window_note_names_kind` | A file with no place is told what became of it, not only what is wrong. |
 | `window_notes_break_up` | A note too long for its place breaks into lines, and its box gives. |
 | `window_offers_restart` | The window offers to start again when another language is chosen. |
 | `window_picture_returns` | A refused format does not outlive the attempt it was about. |
