@@ -591,16 +591,37 @@ wo über die Spuren entschieden wird, unter der Zuordnungstabelle.
 
 Ganz oben steht **Sprache des Fensters**. Der erste Eintrag ist die
 Sprache des Systems, und er nennt sie beim Namen -- niemand soll raten
-müssen, was er da wählt. Darunter die neun, die das Programm spricht,
+müssen, was er da wählt. Darunter die zehn, die das Programm spricht,
 jede unter ihrem eigenen Namen: Deutsch, English, Español, Français,
-Português, Русский, हिन्दी, 中文, 日本語. Dass ein Name in seiner
-eigenen Sprache steht, ist Absicht: wer eine Sprache sucht, versteht die
-Sprache, in der das Fenster gerade steht, womöglich nicht.
+Português, Русский, हिन्दी, 中文, 日本語, العربية. Dass ein Name in
+seiner eigenen Sprache steht, ist Absicht: wer eine Sprache sucht,
+versteht die Sprache, in der das Fenster gerade steht, womöglich nicht.
+
+**Arabisch dreht das Fenster um.** Menüleiste, Reiter, Kästen, Tabellen
+und dieses Einstellungsblatt lesen sich von rechts nach links, so wie
+ein arabischer Leser es erwartet. Das Protokoll behält seine eigene
+Richtung: eine Zeile, die mit einem Pfad oder einem Timecode anfängt,
+steht so da, wie sie geschrieben wurde -- was ein Lauf über sich selbst
+sagt, ist kein Satz in irgendeiner Sprache.
 
 Die Wahl gilt ab dem nächsten Start, und die Zeile über dem Feld sagt es,
 bevor jemand wählt. Das Fenster legt seine Sprache einmal fest, während
 es gebaut wird; jede Beschriftung darin hat ihre Wörter, sobald es
 dasteht.
+
+**Das Fenster spricht die gewählte Sprache, was daneben läuft, meist
+nicht.** Menüleiste, Reiter und Schalter tragen die gewählte Sprache in
+jeder angebotenen Sprache. Was das Programm während der Arbeit sagt --
+die Zeilen, die während eines Laufs durchlaufen -- bleibt englisch. Bei
+Spanisch, Französisch und Arabisch ist das gleich weit: das Programm
+sagt rund 1400 verschiedene Dinge, und jede Übersetzung trägt etwa 330
+davon -- die, die man vor einem Lauf liest, nicht die während. Was
+nicht übersetzt ist, erscheint auf Englisch und nicht als Lücke.
+
+Deutsch ist die Ausnahme, und auch dort ist es nicht alles: etwa jeder
+achte Text hat auch auf Deutsch keinen Eintrag und steht dann englisch
+da.
+
 ## Alles über Menü oder Taste erreichen
 
 Die Menüleiste trägt vier Menüs: **Datei**, **Ansicht**, **Wiedergabe**
