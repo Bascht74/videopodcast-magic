@@ -124,6 +124,44 @@ check("no name without an origin", not unresolved,
       "%d name(s) without one, out of %d looked at in %d piece(s): %s"
       % (len(unresolved), looked_at, len(PIECES), unresolved[:4]))
 
+# And the other way round. The head lines `X = PROGRAM.X` at the top of
+# a piece are written out for a reader and for the check above, not for
+# the machine: take_from() has already put those names in place, so a
+# line for a name nobody reads changes nothing and says something
+# false. It is what a lift leaves behind. Measured 6.9.2026, after
+# fourteen functions had moved out of gui(): seventeen such lines stood
+# in ui/__init__.py, math and re among them.
+#
+# The entry is left out. It binds names for the pieces to fetch, so a
+# name it never reads itself is the ordinary case there, not a loose
+# end.
+head_lines = 0
+never_read = []
+for where, body in PIECES:
+    if where == "__init__.py":
+        continue
+    tree = ast.parse(body, where)
+    heads = {}
+    for node in tree.body:
+        if not isinstance(node, ast.Assign) or len(node.targets) != 1:
+            continue
+        target, value = node.targets[0], node.value
+        if isinstance(target, ast.Name) \
+                and isinstance(value, ast.Attribute) \
+                and isinstance(value.value, ast.Name) \
+                and value.value.id == "PROGRAM":
+            heads.setdefault(target.id, node.lineno)
+    head_lines += len(heads)
+    read = set(node.id for node in ast.walk(tree)
+               if isinstance(node, ast.Name)
+               and isinstance(node.ctx, ast.Load))
+    for name in sorted(heads):
+        if name not in read:
+            never_read.append("%s:%d %s" % (where, heads[name], name))
+check("no name fetched from the way in that its piece never reads",
+      not never_read, "%d of %d head lines dead, first: %s"
+      % (len(never_read), head_lines, never_read[:4] or "none"))
+
 print("\n3. getattr/hasattr/setattr hit an attribute that exists")
 # Every name the module ever sets or reads as an attribute.
 attributes = set()
