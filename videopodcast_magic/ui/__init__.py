@@ -5174,6 +5174,387 @@ def make_run_start(QtCore, state, files, log, report, ask, write, ask_user,
     return start, only_resolve_start_run
 
 
+def make_preflight(state, files, plan, bridge, bridge_emit, preflight_line,
+                   set_mark, append_findings, show_overall, lines_node,
+                   no_join, together_now, multitrack, assign_lines,
+                   clip_kind_values):
+    """Checking the files in the background, and showing what came back.
+
+    Outside gui() because the three are one theme: the list changed, so
+    it is measured again, and the marks the measurement returns go back
+    into the same rows. What the window holds comes in as an argument
+    and keeps its name inside. The call sits below clip_kind_values,
+    which preflight_kick_off reads.
+    """
+
+    def preflight_fill_in(findings):
+        """Write the preflight findings into the list."""
+        plan.done("check")
+        if not files:
+            return
+        # Remember them: the list is rebuilt on every change and the marks
+        # would be lost.
+        state["preflight_findings"] = findings
+        # The worst mark per file -- one hint weighs more than nine lines of
+        # "fine". Which file is meant the finding says itself; a name
+        # comparison would miss too often.
+        rank = {"good": 0, "fixed": 1, "hint": 2, "abort": 3}
+        # Collected per *row*, not per file: a multi-part recording has three
+        # files but only one row. Otherwise the last block would overwrite the
+        # mark and the hints of the first.
+        per_node, general = {}, []
+        for b in findings:
+            node = lines_node.get(b.file) if b.file else None
+            if node is not None:
+                per_node.setdefault(id(node), (node, []))[1].append(b)
+            elif b.kind != "good":
+                # No row for it, so into the general group rather than counting
+                # the finding and showing it nowhere.
+                general.append(b)
+        for node, its_findings in per_node.values():
+            worst = max(its_findings, key=lambda x: rank[x.kind])
+            set_mark(node, worst.kind, worst.text)
+            append_findings(node, its_findings)
+        show_overall(general)
+        # The sentence below: what is there, and whether anything speaks
+        # against it.
+        sentence, colour_line = preflight_sentence(
+            findings, len([1 for _p, a in files if a == "audio"]),
+            state.get("audio_recordings"),
+            len([1 for _p, a in files if a == "video"]))
+        preflight_line.setText(sentence)
+        preflight_line.setStyleSheet("color: %s;" % colour_line)
+
+    def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
+                         set_aside=(), apart=(), together=()):
+        """Measure in the background so the interface does not freeze."""
+        try:
+            findings = collect_findings(audio_files, videos_p, False,
+                                        crosstalk, set_aside, apart,
+                                        together)
+        except Exception as e:
+            # An empty list would read as "nothing to fault", and the run
+            # would start on material nobody looked at.
+            findings = [Finding("abort", T('Check'),
+                                T('the check itself stopped: %s') % e)]
+        if state.get("preflight_run") == label_run:
+            bridge_emit(bridge.preflight, findings)
+
+    def preflight_kick_off():
+        """Re-check after every change to the file list.
+
+        Measured and cached per file, so adding a camera waits only for that
+        one.
+        """
+        if not files:
+            # Counted on, so the answer of a check still running
+            # against the old list is dropped when it arrives.
+            state["preflight_run"] = state.get("preflight_run", 0) + 1
+            plan.drop(["check"])
+            preflight_line.setText("")
+            return
+        # What is explicitly left out or discarded as video is still checked,
+        # or its row would be the only one without a mark. It does not enter
+        # the comparisons though, and its finding does not count towards the
+        # balance.
+        gone = set()
+        for row, _nv, cv in assign_lines:
+            if cv.get() == IGNORE_AUDIO:
+                gone.update(path_key(x) for x in row)
+        for file_path, value in clip_kind_values.items():
+            if value.get() == TYPE_IGNORED:
+                gone.add(path_key(file_path))
+        audio_files = [p for p, a in files if a == "audio"]
+        videos_p = [p for p, a in files if a == "video"]
+        label_run = state.get("preflight_run", 0) + 1
+        state["preflight_run"] = label_run
+        plan.begin("check", T('Checking files'), 2.0)
+        preflight_line.setText(T('checking ...'))
+        preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
+        # Crosstalk is a question about per-speaker tracks. Without multitrack
+        # there are none, and while nothing is assigned it is not even settled
+        # which file is a microphone and which a mix.
+        threading.Thread(target=preflight_work_loop,
+                         args=(audio_files, videos_p, label_run,
+                               bool(multitrack.get()), gone,
+                               frozenset(no_join),
+                               tuple(tuple(g) for g in together_now())),
+                         daemon=True).start()
+
+    return preflight_fill_in, preflight_kick_off
+
+
+def make_file_changes(Qt, QtCore, QtWidgets, window, state, files, ask,
+                      report, items, item, drop_area, preflight_line,
+                      preflight_fill_in, preflight_kick_off, blocks_of,
+                      recording_of, join_to, no_join, lines_node,
+                      prework_node, video_kind_again, channel_rows_show,
+                      audio_use_now, video_choices_show, settings_show,
+                      buttons_check, show_weak, assignment_fresh,
+                      finished_tracks_check, prework_clean_up, remembered,
+                      together_now, production_var, commonest_folder,
+                      remove_button, bar_env_curve):
+    """The file list changing: adding, removing, and reading it again.
+
+    Outside gui() because the five are one theme and answer each other:
+    take_paths and remove change what `files` holds, and both end in
+    items_fresh, which builds every row again and asks for a new check.
+    What the window holds comes in as an argument and keeps its name
+    inside. The call sits above the project file, which takes
+    items_fresh; project_open comes back the other way, through state.
+    """
+
+    def join_row_show(node, path, heads):
+        """Offer to put this recording into another one.
+
+        The counterpart to "stands on its own" on a block: there a file
+        that was found is taken out, here one that was not found is put
+        in. Needed where the file names say nothing -- a recorder that
+        numbers by neither a counter nor a clock -- and where two
+        recorders were started one after the other on purpose.
+
+        Only offered while there is another recording to join, and never
+        on the recording somebody is already joining into: a chain of
+        joins would be a puzzle, not a setting. What the clocks rule
+        out is greyed rather than offered -- join_barred says which.
+        """
+        others = [h for h in heads if path_key(h) != path_key(path)
+                  and h not in join_to]
+        if not others:
+            return
+        kid = QtWidgets.QTreeWidgetItem(["      " + T('belongs to'), "", ""])
+        kid.setData(0, Qt.UserRole + 2, "join")
+        node.insertChild(0, kid)
+        box = join_box_fill(QtWidgets.QComboBox(), path, others, blocks_of)
+        i = box.findData(join_to.get(path) or "")
+        box.setCurrentIndex(i if i >= 0 else 0)
+
+        def chosen(_i=0, file_path=os.path.abspath(path), b=box):
+            target = b.currentData() or ""
+            if target:
+                join_to[file_path] = target
+            else:
+                join_to.pop(file_path, None)
+            QtCore.QTimer.singleShot(0, items_fresh)
+            QtCore.QTimer.singleShot(0, assignment_fresh)
+            QtCore.QTimer.singleShot(0, preflight_kick_off)
+
+        box.currentIndexChanged.connect(chosen)
+        # In the wide column, not beside it: this box holds file names,
+        # and column one is only as wide as a checkbox.
+        items.setItemWidget(kid, 2, box)
+
+    def items_fresh():
+        probe_warm([p for p, _ in files])
+        items.clear()
+        # The rows are gone with it, so what could draw them again goes
+        # too; the loop below hands back what the new list holds.
+        video_kind_again.clear()
+        prework_node.clear()
+        lines_node.clear()
+        # Which blocks belong to which recording is worked out below, for
+        # the audio files that are in the list now. Emptied here rather
+        # than there: with the last audio file gone, the loop below never
+        # reaches the audio branch, and what stayed behind kept the
+        # removed files in every_audio_block -- so the work for a file
+        # nobody selected any more was queued again and again.
+        blocks_of.clear()
+        recording_of.clear()
+        remove_button.setEnabled(False)
+        # Once for the whole list: the rule looks at every file at once.
+        own_now, forced_now = audio_use_now()
+        state["own_cameras"] = list(own_now)
+        state["forced_own"] = list(forced_now)
+        for kind, title in (("audio", T('AUDIO')), ("video", "VIDEO")):
+            own = [p for p, a in files if a == kind]
+            if not own:
+                continue
+            if kind == "audio":
+                chains = group_recording_parts(own, apart=no_join,
+                                               together=together_now())
+                file_count = sum(len(r) for r, _ in chains)
+                header_value = recordings_text(len(chains), file_count)
+                state["audio_recordings"] = len(chains)
+            else:
+                chains, header_value = None, TN(
+                    len(own), '%s file', '%s files') % group_text(len(own))
+            group = item(items, title, header_value, "group", True,
+                            group_kind=kind)
+            group.setExpanded(True)
+            if kind == "audio":
+                selected = set(os.path.abspath(p) for p in own)
+                heads = [r[0] for r, _d in chains]
+                for r, _d in chains:
+                    head = os.path.abspath(r[0])
+                    blocks_of[head] = [os.path.abspath(x) for x in r]
+                    for x in r:
+                        recording_of[x] = head
+                for row, discarded in chains:
+                    if len(row) > 1:
+                        node = chain_fill_in(
+                            group, row, discarded, selected, item,
+                            lines_node, channel_rows_show)
+                        join_row_show(node, row[0], heads)
+                        continue
+                    p = row[0]
+                    node = item(group, os.path.basename(p),
+                                    os.path.dirname(p), "audio",
+                                    files_for_it=[p])
+                    lines_node[p] = node
+                    join_row_show(node, p, heads)
+                    channel_rows_show(node, p)
+                    try:
+                        lines = audio_summary(p)
+                    except Exception as e:
+                        lines = [(T('Error'), str(e)[:120])]
+                    for k, value in lines:
+                        item(node, "      " + k, value)
+                    # Collapsed: the format details are reference material, not
+                    # news. Whoever needs them expands the file.
+                    node.setExpanded(False)
+                continue
+            for p in sorted(own,
+                            key=lambda x: os.path.basename(x).lower()):
+                node = item(group, os.path.basename(p),
+                                os.path.dirname(p), "video", files_for_it=[p])
+                prework_node[p] = (node, os.path.dirname(p))
+                lines_node[p] = node
+                video_choices_show(node, p, own_now, forced_now)
+                channel_rows_show(node, p)
+                try:
+                    lines = video_summary(p, video_facts(p))
+                except Exception as e:
+                    lines = [(T('Error'), str(e)[:120])]
+                for k, value in lines:
+                    item(node, "      " + k, value)
+                node.setExpanded(False)
+        # The drop area gives way to the list as soon as something is in it.
+        drop_area.setVisible(not files)
+        items.setVisible(bool(files))
+        preflight_line.setVisible(bool(files))
+        # Re-enter what has already been measured at once, so the list does not
+        # stand there briefly without marks.
+        if state.get("preflight_findings"):
+            preflight_fill_in(state["preflight_findings"])
+        preflight_kick_off()
+        bar_env_curve.setVisible(bool(files))
+        # The name comes from the material. The output folder comes from
+        # nobody: a handover file in a subfolder belongs to the run that
+        # wrote it, may be days old and from another measurement, and a
+        # setting taken out of it looks exactly like an answer somebody
+        # gave here. Settled on 30.8.2026: the project file has to be
+        # enough, everything else is made again. So the folder stays
+        # empty until it is chosen.
+        if files and not production_var.get().strip():
+            production_var.set(guess_production_name(files[0][0]))
+        show_weak()
+        finished_tracks_check()
+        buttons_check()
+        settings_show()
+        assignment_fresh()
+
+    def take_paths(new_one, quiet=False):
+        """Take paths into the list, from the file dialog or dragged in.
+
+        Folders are expanded: dragging in the recording folder means the files
+        in it, not the folder.
+        """
+        paths = []
+        for p in new_one:
+            if os.path.isdir(p):
+                for name in sorted(os.listdir(p)):
+                    paths.append(os.path.join(p, name))
+            else:
+                paths.append(p)
+        unknown = []
+        for p in paths:
+            e = os.path.splitext(p)[1].lower()
+            kind = ("audio" if e in AUDIO_SUFFIXES
+                   else "video" if e in VIDEO_SUFFIXES else None)
+            if kind is None:
+                if not os.path.basename(p).startswith("."):
+                    unknown.append(os.path.basename(p))
+                continue
+            if p not in [x for x, _ in files]:
+                files.append((p, kind))
+        if unknown and not quiet:
+            report(T('Not recognised'),
+                   T('These files are neither audio nor video and stay '
+                     'out:\n\n  %s') % "\n  ".join(unknown[:12]))
+        # Asked before the files are measured. Opening the project
+        # replaces the list with its own files, so everything measured
+        # first was measured for nothing -- and it builds that list
+        # itself, which is why nothing more happens here then.
+        if project_offer(QtWidgets, window, state, [x for x, _ in files],
+                         ask, state["project_open"]):
+            return
+        items_fresh()
+
+    def add_files():
+        pattern = (T('Audio and video (%s);;All files (*)')
+                  % " ".join("*" + e for e in AUDIO_SUFFIXES + VIDEO_SUFFIXES))
+        new_one, _ = QtWidgets.QFileDialog.getOpenFileNames(
+            window, T('Select audio and video files'),
+            commonest_folder() or "", pattern)
+        take_paths(new_one)
+
+    def remove():
+        choice = items.currentItem()
+        if choice is None:
+            return
+        # On a group header it means all of it. That is a bigger thing than one
+        # file, so it asks.
+        kind = choice.data(0, Qt.UserRole + 1)
+        single_block = False
+        if kind:
+            affected = [p for p, a in files if a == kind]
+            if not affected:
+                return
+            how = T('audio file') if kind == "audio" else T('video file')
+            if not ask(T('Remove all'),
+                    T('Remove all %s %ss from the list?\n\n%s')
+                    % (group_text(len(affected)), how,
+                       "\n".join("  " + os.path.basename(p)
+                                  for p in affected[:12])
+                       + ("\n  ..." if len(affected) > 12 else "")),
+                    T('Remove from list')):
+                return
+            gone = set(os.path.abspath(p) for p in affected)
+        else:
+            # Upwards from the clicked node until one stands for files. With a
+            # multi-part recording the whole recording always goes -- a single
+            # block could not be deselected anyway, it would be found again on
+            # the next rebuild.
+            node = choice
+            while node is not None and node.data(0, Qt.UserRole) is None:
+                node = node.parent()
+            if node is None:
+                return
+            gone = set(os.path.abspath(p) for p in node.data(0, Qt.UserRole))
+            single_block = node.data(0, Qt.UserRole + 3) == "block"
+            if single_block:
+                # One block out of a recording: it must stay out. The
+                # search for continuations looks in the folder, not in
+                # the list.
+                no_join.update(gone)
+        files[:] = [(p, a) for p, a in files
+                      if os.path.abspath(p) not in gone]
+        # A whole recording leaving takes the marks of its blocks with
+        # it: adding the files again then joins them up as before.
+        if not single_block:
+            for p in list(gone):
+                no_join.difference_update(recording_family(p))
+        prework_clean_up(gone)
+        items_fresh()
+        # After the tables are built again, not before: building them
+        # writes back every row they hold, and the row that has just
+        # gone is among them until then. The project file is written
+        # out of this store, so a row leaving the screen leaves it too.
+        remembered_forget(remembered, gone)
+
+    return items_fresh, take_paths, add_files, remove
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -5665,140 +6046,6 @@ def gui():
                 for column in (0, 1, 2):
                     line.setToolTip(column, b.advice)
 
-    def preflight_fill_in(findings):
-        """Write the preflight findings into the list."""
-        plan.done("check")
-        if not files:
-            return
-        # Remember them: the list is rebuilt on every change and the marks
-        # would be lost.
-        state["preflight_findings"] = findings
-        # The worst mark per file -- one hint weighs more than nine lines of
-        # "fine". Which file is meant the finding says itself; a name
-        # comparison would miss too often.
-        rank = {"good": 0, "fixed": 1, "hint": 2, "abort": 3}
-        # Collected per *row*, not per file: a multi-part recording has three
-        # files but only one row. Otherwise the last block would overwrite the
-        # mark and the hints of the first.
-        per_node, general = {}, []
-        for b in findings:
-            node = lines_node.get(b.file) if b.file else None
-            if node is not None:
-                per_node.setdefault(id(node), (node, []))[1].append(b)
-            elif b.kind != "good":
-                # No row for it, so into the general group rather than counting
-                # the finding and showing it nowhere.
-                general.append(b)
-        for node, its_findings in per_node.values():
-            worst = max(its_findings, key=lambda x: rank[x.kind])
-            set_mark(node, worst.kind, worst.text)
-            append_findings(node, its_findings)
-        show_overall(general)
-        # The sentence below: what is there, and whether anything speaks
-        # against it.
-        sentence, colour_line = preflight_sentence(
-            findings, len([1 for _p, a in files if a == "audio"]),
-            state.get("audio_recordings"),
-            len([1 for _p, a in files if a == "video"]))
-        preflight_line.setText(sentence)
-        preflight_line.setStyleSheet("color: %s;" % colour_line)
-
-    def preflight_work_loop(audio_files, videos_p, label_run, crosstalk,
-                         set_aside=(), apart=(), together=()):
-        """Measure in the background so the interface does not freeze."""
-        try:
-            findings = collect_findings(audio_files, videos_p, False,
-                                        crosstalk, set_aside, apart,
-                                        together)
-        except Exception as e:
-            # An empty list would read as "nothing to fault", and the run
-            # would start on material nobody looked at.
-            findings = [Finding("abort", T('Check'),
-                                T('the check itself stopped: %s') % e)]
-        if state.get("preflight_run") == label_run:
-            bridge_emit(bridge.preflight, findings)
-
-    def preflight_kick_off():
-        """Re-check after every change to the file list.
-
-        Measured and cached per file, so adding a camera waits only for that
-        one.
-        """
-        if not files:
-            # Counted on, so the answer of a check still running
-            # against the old list is dropped when it arrives.
-            state["preflight_run"] = state.get("preflight_run", 0) + 1
-            plan.drop(["check"])
-            preflight_line.setText("")
-            return
-        # What is explicitly left out or discarded as video is still checked,
-        # or its row would be the only one without a mark. It does not enter
-        # the comparisons though, and its finding does not count towards the
-        # balance.
-        gone = set()
-        for row, _nv, cv in assign_lines:
-            if cv.get() == IGNORE_AUDIO:
-                gone.update(path_key(x) for x in row)
-        for file_path, value in clip_kind_values.items():
-            if value.get() == TYPE_IGNORED:
-                gone.add(path_key(file_path))
-        audio_files = [p for p, a in files if a == "audio"]
-        videos_p = [p for p, a in files if a == "video"]
-        label_run = state.get("preflight_run", 0) + 1
-        state["preflight_run"] = label_run
-        plan.begin("check", T('Checking files'), 2.0)
-        preflight_line.setText(T('checking ...'))
-        preflight_line.setStyleSheet("color: %s;" % COLOURS["quiet"])
-        # Crosstalk is a question about per-speaker tracks. Without multitrack
-        # there are none, and while nothing is assigned it is not even settled
-        # which file is a microphone and which a mix.
-        threading.Thread(target=preflight_work_loop,
-                         args=(audio_files, videos_p, label_run,
-                               bool(multitrack.get()), gone,
-                               frozenset(no_join),
-                               tuple(tuple(g) for g in together_now())),
-                         daemon=True).start()
-
-    def join_row_show(node, path, heads):
-        """Offer to put this recording into another one.
-
-        The counterpart to "stands on its own" on a block: there a file
-        that was found is taken out, here one that was not found is put
-        in. Needed where the file names say nothing -- a recorder that
-        numbers by neither a counter nor a clock -- and where two
-        recorders were started one after the other on purpose.
-
-        Only offered while there is another recording to join, and never
-        on the recording somebody is already joining into: a chain of
-        joins would be a puzzle, not a setting. What the clocks rule
-        out is greyed rather than offered -- join_barred says which.
-        """
-        others = [h for h in heads if path_key(h) != path_key(path)
-                  and h not in join_to]
-        if not others:
-            return
-        kid = QtWidgets.QTreeWidgetItem(["      " + T('belongs to'), "", ""])
-        kid.setData(0, Qt.UserRole + 2, "join")
-        node.insertChild(0, kid)
-        box = join_box_fill(QtWidgets.QComboBox(), path, others, blocks_of)
-        i = box.findData(join_to.get(path) or "")
-        box.setCurrentIndex(i if i >= 0 else 0)
-
-        def chosen(_i=0, file_path=os.path.abspath(path), b=box):
-            target = b.currentData() or ""
-            if target:
-                join_to[file_path] = target
-            else:
-                join_to.pop(file_path, None)
-            QtCore.QTimer.singleShot(0, items_fresh)
-            QtCore.QTimer.singleShot(0, assignment_fresh)
-            QtCore.QTimer.singleShot(0, preflight_kick_off)
-
-        box.currentIndexChanged.connect(chosen)
-        # In the wide column, not beside it: this box holds file names,
-        # and column one is only as wide as a checkbox.
-        items.setItemWidget(kid, 2, box)
-
     def audio_use_value(path):
         """Whether this video file's sound is material -- one per file.
 
@@ -5848,218 +6095,6 @@ def gui():
         audio_use_bind(sound_box, audio_use_value(path), why)
         items.setItemWidget(node, 4, sound)
 
-    def items_fresh():
-        probe_warm([p for p, _ in files])
-        items.clear()
-        # The rows are gone with it, so what could draw them again goes
-        # too; the loop below hands back what the new list holds.
-        video_kind_again.clear()
-        prework_node.clear()
-        lines_node.clear()
-        # Which blocks belong to which recording is worked out below, for
-        # the audio files that are in the list now. Emptied here rather
-        # than there: with the last audio file gone, the loop below never
-        # reaches the audio branch, and what stayed behind kept the
-        # removed files in every_audio_block -- so the work for a file
-        # nobody selected any more was queued again and again.
-        blocks_of.clear()
-        recording_of.clear()
-        remove_button.setEnabled(False)
-        # Once for the whole list: the rule looks at every file at once.
-        own_now, forced_now = audio_use_now()
-        state["own_cameras"] = list(own_now)
-        state["forced_own"] = list(forced_now)
-        for kind, title in (("audio", T('AUDIO')), ("video", "VIDEO")):
-            own = [p for p, a in files if a == kind]
-            if not own:
-                continue
-            if kind == "audio":
-                chains = group_recording_parts(own, apart=no_join,
-                                               together=together_now())
-                file_count = sum(len(r) for r, _ in chains)
-                header_value = recordings_text(len(chains), file_count)
-                state["audio_recordings"] = len(chains)
-            else:
-                chains, header_value = None, TN(
-                    len(own), '%s file', '%s files') % group_text(len(own))
-            group = item(items, title, header_value, "group", True,
-                            group_kind=kind)
-            group.setExpanded(True)
-            if kind == "audio":
-                selected = set(os.path.abspath(p) for p in own)
-                heads = [r[0] for r, _d in chains]
-                for r, _d in chains:
-                    head = os.path.abspath(r[0])
-                    blocks_of[head] = [os.path.abspath(x) for x in r]
-                    for x in r:
-                        recording_of[x] = head
-                for row, discarded in chains:
-                    if len(row) > 1:
-                        node = chain_fill_in(
-                            group, row, discarded, selected, item,
-                            lines_node, channel_rows_show)
-                        join_row_show(node, row[0], heads)
-                        continue
-                    p = row[0]
-                    node = item(group, os.path.basename(p),
-                                    os.path.dirname(p), "audio",
-                                    files_for_it=[p])
-                    lines_node[p] = node
-                    join_row_show(node, p, heads)
-                    channel_rows_show(node, p)
-                    try:
-                        lines = audio_summary(p)
-                    except Exception as e:
-                        lines = [(T('Error'), str(e)[:120])]
-                    for k, value in lines:
-                        item(node, "      " + k, value)
-                    # Collapsed: the format details are reference material, not
-                    # news. Whoever needs them expands the file.
-                    node.setExpanded(False)
-                continue
-            for p in sorted(own,
-                            key=lambda x: os.path.basename(x).lower()):
-                node = item(group, os.path.basename(p),
-                                os.path.dirname(p), "video", files_for_it=[p])
-                prework_node[p] = (node, os.path.dirname(p))
-                lines_node[p] = node
-                video_choices_show(node, p, own_now, forced_now)
-                channel_rows_show(node, p)
-                try:
-                    lines = video_summary(p, video_facts(p))
-                except Exception as e:
-                    lines = [(T('Error'), str(e)[:120])]
-                for k, value in lines:
-                    item(node, "      " + k, value)
-                node.setExpanded(False)
-        # The drop area gives way to the list as soon as something is in it.
-        drop_area.setVisible(not files)
-        items.setVisible(bool(files))
-        preflight_line.setVisible(bool(files))
-        # Re-enter what has already been measured at once, so the list does not
-        # stand there briefly without marks.
-        if state.get("preflight_findings"):
-            preflight_fill_in(state["preflight_findings"])
-        preflight_kick_off()
-        bar_env_curve.setVisible(bool(files))
-        # The name comes from the material. The output folder comes from
-        # nobody: a handover file in a subfolder belongs to the run that
-        # wrote it, may be days old and from another measurement, and a
-        # setting taken out of it looks exactly like an answer somebody
-        # gave here. Settled on 30.8.2026: the project file has to be
-        # enough, everything else is made again. So the folder stays
-        # empty until it is chosen.
-        if files and not production_var.get().strip():
-            production_var.set(guess_production_name(files[0][0]))
-        show_weak()
-        finished_tracks_check()
-        buttons_check()
-        settings_show()
-        assignment_fresh()
-
-    def take_paths(new_one, quiet=False):
-        """Take paths into the list, from the file dialog or dragged in.
-
-        Folders are expanded: dragging in the recording folder means the files
-        in it, not the folder.
-        """
-        paths = []
-        for p in new_one:
-            if os.path.isdir(p):
-                for name in sorted(os.listdir(p)):
-                    paths.append(os.path.join(p, name))
-            else:
-                paths.append(p)
-        unknown = []
-        for p in paths:
-            e = os.path.splitext(p)[1].lower()
-            kind = ("audio" if e in AUDIO_SUFFIXES
-                   else "video" if e in VIDEO_SUFFIXES else None)
-            if kind is None:
-                if not os.path.basename(p).startswith("."):
-                    unknown.append(os.path.basename(p))
-                continue
-            if p not in [x for x, _ in files]:
-                files.append((p, kind))
-        if unknown and not quiet:
-            report(T('Not recognised'),
-                   T('These files are neither audio nor video and stay '
-                     'out:\n\n  %s') % "\n  ".join(unknown[:12]))
-        # Asked before the files are measured. Opening the project
-        # replaces the list with its own files, so everything measured
-        # first was measured for nothing -- and it builds that list
-        # itself, which is why nothing more happens here then.
-        if project_offer(QtWidgets, window, state, [x for x, _ in files],
-                         ask, project_open):
-            return
-        items_fresh()
-
-    # A file dropped straight onto the list lands here, and the list is
-    # built before this function exists.
-    state["take_paths"] = take_paths
-
-    def add_files():
-        pattern = (T('Audio and video (%s);;All files (*)')
-                  % " ".join("*" + e for e in AUDIO_SUFFIXES + VIDEO_SUFFIXES))
-        new_one, _ = QtWidgets.QFileDialog.getOpenFileNames(
-            window, T('Select audio and video files'),
-            commonest_folder() or "", pattern)
-        take_paths(new_one)
-
-    def remove():
-        choice = items.currentItem()
-        if choice is None:
-            return
-        # On a group header it means all of it. That is a bigger thing than one
-        # file, so it asks.
-        kind = choice.data(0, Qt.UserRole + 1)
-        single_block = False
-        if kind:
-            affected = [p for p, a in files if a == kind]
-            if not affected:
-                return
-            how = T('audio file') if kind == "audio" else T('video file')
-            if not ask(T('Remove all'),
-                    T('Remove all %s %ss from the list?\n\n%s')
-                    % (group_text(len(affected)), how,
-                       "\n".join("  " + os.path.basename(p)
-                                  for p in affected[:12])
-                       + ("\n  ..." if len(affected) > 12 else "")),
-                    T('Remove from list')):
-                return
-            gone = set(os.path.abspath(p) for p in affected)
-        else:
-            # Upwards from the clicked node until one stands for files. With a
-            # multi-part recording the whole recording always goes -- a single
-            # block could not be deselected anyway, it would be found again on
-            # the next rebuild.
-            node = choice
-            while node is not None and node.data(0, Qt.UserRole) is None:
-                node = node.parent()
-            if node is None:
-                return
-            gone = set(os.path.abspath(p) for p in node.data(0, Qt.UserRole))
-            single_block = node.data(0, Qt.UserRole + 3) == "block"
-            if single_block:
-                # One block out of a recording: it must stay out. The
-                # search for continuations looks in the folder, not in
-                # the list.
-                no_join.update(gone)
-        files[:] = [(p, a) for p, a in files
-                      if os.path.abspath(p) not in gone]
-        # A whole recording leaving takes the marks of its blocks with
-        # it: adding the files again then joins them up as before.
-        if not single_block:
-            for p in list(gone):
-                no_join.difference_update(recording_family(p))
-        prework_clean_up(gone)
-        items_fresh()
-        # After the tables are built again, not before: building them
-        # writes back every row they hold, and the row that has just
-        # gone is among them until then. The project file is written
-        # out of this store, so a row leaving the screen leaves it too.
-        remembered_forget(remembered, gone)
-
     def removable():
         """Enable removal only when the selection actually offers something."""
         node = items.currentItem()
@@ -6087,12 +6122,10 @@ def gui():
     # way is decided -- a project would overwrite them. The other direction
     # works: files can be added to an opened project.
     add_button = QtWidgets.QPushButton(T('Add files ...'))
-    add_button.clicked.connect(add_files)
     bar.addWidget(hint(add_button,
                        T('Order does not matter. For a multi-part '
                          'recording the first block is enough.')))
     remove_button = QtWidgets.QPushButton(T('Remove'))
-    remove_button.clicked.connect(remove)
     remove_button.setEnabled(False)
     # "Remove" on its own leaves open what goes; on screen the list
     # beside it says so, read out it does not.
@@ -6840,6 +6873,16 @@ def gui():
 
     # The time axis is measured elsewhere and proposes a Kind from there.
     state["clip_kinds"] = clip_kind_values
+
+    # ------------------------------------------------------------------
+    # The check in the background -- the three lifted out of here. Below
+    # clip_kind_values, which preflight_kick_off reads.
+    # ------------------------------------------------------------------
+    preflight_fill_in, preflight_kick_off = make_preflight(
+        state, files, plan, bridge, bridge_emit, preflight_line,
+        set_mark, append_findings, show_overall, lines_node,
+        no_join, together_now, multitrack, assign_lines,
+        clip_kind_values)
 
     # Below clip_kind_values, which player_candidates reads: the eight
     # are only called out of other closures, so binding them here is
@@ -7784,6 +7827,29 @@ def gui():
     state["write"] = write
 
     # ------------------------------------------------------------------
+    # The file list changing -- the five lifted out of here. Above the
+    # project file, which takes items_fresh; take_paths goes back.
+    # ------------------------------------------------------------------
+    items_fresh, take_paths, add_files, remove = make_file_changes(
+        Qt, QtCore, QtWidgets, window, state, files, ask,
+        report, items, item, drop_area, preflight_line,
+        preflight_fill_in, preflight_kick_off, blocks_of,
+        recording_of, join_to, no_join, lines_node,
+        prework_node, video_kind_again, channel_rows_show,
+        audio_use_now, video_choices_show, settings_show,
+        buttons_check, show_weak, assignment_fresh,
+        finished_tracks_check, prework_clean_up, remembered,
+        together_now, production_var, commonest_folder,
+        remove_button, bar_env_curve)
+
+    # A file dropped straight onto the list lands here; the buttons of
+    # the bar above stand long before the five exist, and are hung on
+    # them here rather than there.
+    state["take_paths"] = take_paths
+    add_button.clicked.connect(add_files)
+    remove_button.clicked.connect(remove)
+
+    # ------------------------------------------------------------------
     # Project file -- the three lifted out of here. Below the writer,
     # because it and resolve_button_check go in as arguments.
     # ------------------------------------------------------------------
@@ -7801,6 +7867,9 @@ def gui():
         split_stop, split_run, preview_compute,
         presets_wanted_now, presets_filter,
         resolve_button_check, result_button_check, write)
+    # take_paths asks whether the files just dropped in carry a
+    # project of their own, and it is made here, below it.
+    state["project_open"] = project_open
 
     output_timer = QtCore.QTimer(window)
     output_timer.setInterval(80)

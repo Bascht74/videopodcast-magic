@@ -321,9 +321,9 @@ files side by side on one screen are worth more than long lines.
 
 ## 12. The one exception: `gui()`
 
-`gui()` is 2789 lines long -- nine times the rule above. Measured on
-6 September 2026, after fifteen pieces were lifted out of it to module
-level in the same file; it was 5753 on 23 August. `source_limits_hold_test.py` prints the
+`gui()` is 2477 lines long -- eight times the rule above. Measured on
+6 September 2026, after seventeen pieces were lifted out of it to
+module level in the same file; it was 5753 on 23 August. `source_limits_hold_test.py` prints the
 figure of the day on every run, so the current number is read there and
 not here. This is a decision, not an oversight, and this is where the
 reasons live.
@@ -333,15 +333,21 @@ button needs a callback, and the callback needs the button, the field
 beside it and the value both of them mean. In C++ the shared place for
 that is a class with fields; in Python it is a function with functions
 inside it. Both write down the same thing. Only one of them counts as a
-class with 103 methods, the other as a function with 2789 lines.
-Counted with the compiler's own bookkeeping, not by eye. 103
-definitions sit directly in `gui()` and hold 60 percent of its lines;
+class with 95 methods, the other as a function with 2477 lines.
+Counted with the compiler's own bookkeeping, not by eye. 95
+definitions sit directly in `gui()` and hold 54 percent of its lines;
 they were 182 and 76 percent before the cutting began. `state`, a
 single dictionary, is captured by most of them.
 
 **Why the obvious split does not work.** 91 forward references: 43 of
 the inner functions read 69 names that the text binds further down.
 `buttons_check` uses a button that comes into being 4131 lines later.
+Those three numbers were counted before the last two lifts and by a rule
+this paper does not write down; a fresh count on 6.9.2026 by a different
+rule gave 57, 23 and 46, which is a second measurement and not a
+correction of the first. **Read them as the order of magnitude they
+are**, and whoever needs an exact figure counts it and writes the rule
+beside it.
 That works only because a closure looks a name up late, at the call and
 not at the definition. Those names can never become parameters, at no
 price and in no order -- **but that is not the end of it, and nine cuts
@@ -375,14 +381,15 @@ It is not a licence.
 - **New code that gets by without a widget does not go into `gui()`.**
   Computation, checking, preparation: whatever touches no widget is
   written beside `gui()` and takes what it needs as an argument.
-  Fifteen of them live out there now. `make_key_note` and
+  Seventeen of them live out there now. `make_key_note` and
   `make_log_writer` were the first; then nine in one night --
   `make_player_choice`, `make_voice_rows`, `make_prework_bar`,
   `make_prework_tasks`, `make_preview`, `make_speaker_split`,
   `make_band_and_player`, `assignment_tables_build`, `make_footer` --
   and after them `make_file_list`, `make_project_file` and
-  `make_run_start`. The last three are the pattern to copy: one theme
-  each, and the factory hands back the names `gui()` still needs.
+  `make_run_start`, `make_preflight` and `make_file_changes`. The last
+  five are the pattern to copy: one theme each, and the factory hands
+  back the names `gui()` still needs.
   The docstring of `make_player_widgets` states the rule: "Whatever is
   needed from gui() comes in as an argument and keeps its name
   inside."
@@ -392,7 +399,7 @@ It is not a licence.
 - **The number goes down, never up.** `source_limits_hold_test.py` prints the largest
   function on every run, and a ratchet holds whatever comes off. Nothing
   here freezes any number as acceptable. It has gone 5753, 5106, 3497,
-  3233, 3026, 2789, and the ratchet took every step.
+  3233, 3026, 2789, 2477, and the ratchet took every step.
 
 **The long version** is `docs/notes/gui_struktur.md`: the map of the
 banner sections with the seam measured at each one. It also holds what
