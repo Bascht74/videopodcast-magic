@@ -23,9 +23,9 @@ VERSION = PROGRAM.VERSION
 _LOG_ASIDE = PROGRAM._LOG_ASIDE
 atexit = PROGRAM.atexit
 contextlib = PROGRAM.contextlib
-group_text = PROGRAM.group_text
 log_aside = PROGRAM.log_aside
 log_path = PROGRAM.log_path
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 outside_flush = PROGRAM.outside_flush
 outside_say = PROGRAM.outside_say
@@ -106,7 +106,7 @@ class SharedProgressBar(object):
 
     def show(self, share):
         line = "\r  %s [%-30s] %3.0f %%" % (
-            T('%s (%s files)') % (self.text, group_text(self.how_many)),
+            T('%s (%s files)') % (self.text, number_text(self.how_many, 0)),
             "#" * int(share * 30), share * 100)
         if PROGRAM.OUTPUT_SINK:
             PROGRAM.OUTPUT_SINK(line)
@@ -366,7 +366,7 @@ class ProgressPlan(object):
         first = self.caption.get(busy[0]) or busy[0]
         if len(busy) == 1:
             return first
-        return T('%s and %s more') % (first, group_text(len(busy) - 1))
+        return T('%s and %s more') % (first, number_text(len(busy) - 1, 0))
 
 
 def write_through(text):

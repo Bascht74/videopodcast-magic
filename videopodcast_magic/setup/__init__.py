@@ -21,8 +21,8 @@ FFMPEG_FLOOR = PROGRAM.FFMPEG_FLOOR
 INSTALL_TOOLS = PROGRAM.INSTALL_TOOLS
 T = PROGRAM.T
 ctypes = PROGRAM.ctypes
-group_text = PROGRAM.group_text
 json = PROGRAM.json
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 platform = PROGRAM.platform
 re = PROGRAM.re
@@ -688,8 +688,8 @@ def fetch_archive(url, where, say=None):
                     if say and out.tell() - said >= 10 << 20:
                         said = out.tell()
                         say(T('  %s of %s MB')
-                            % (group_text(said >> 20),
-                               group_text(whole >> 20)) + "\n")
+                            % (number_text(said >> 20, 0),
+                               number_text(whole >> 20, 0)) + "\n")
     except Exception as e:
         return T('The build could not be fetched: %s') % e
     return ""
@@ -776,7 +776,7 @@ def fetch_ffmpeg_build(asked=False, say=None):
         shutil.rmtree(keep, ignore_errors=True)
     if came < 2:
         tell(T('  The archive held %s of the two programs.')
-             % group_text(came))
+             % number_text(came, 0))
         return False
     # In front of the search path, so the fetched one answers rather
     # than whatever the system had. find_required_tools does the same
