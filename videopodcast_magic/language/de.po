@@ -6522,6 +6522,29 @@ msgstr "Sprache des Fensters"
 msgid "A language chosen here is spoken from the next start."
 msgstr "Eine hier gewählte Sprache gilt ab dem nächsten Start."
 
+msgid "Start the window again -- what is open is lost"
+msgstr "Fenster neu starten -- Geöffnetes geht verloren"
+
+msgid "The files, the project and the time window go with the old window."
+msgstr ""
+"Die geladenen Dateien, das Projekt und das Zeitfenster bleiben beim alten "
+"Fenster zurück."
+
+msgid ""
+"Starting the window again brings it at once. What is open goes with the old "
+"window; leaving it alone costs nothing and the new language comes at the "
+"next start."
+msgstr ""
+"Ein Neustart des Fensters bringt sie sofort. Was geöffnet ist, bleibt beim "
+"alten Fenster zurück; wer es stehen lässt, verliert nichts und bekommt die "
+"neue Sprache beim nächsten Start."
+
+msgid ""
+"The run is still going. The window can be started again once it is finished."
+msgstr ""
+"Der Lauf läuft noch. Sobald er fertig ist, lässt sich das Fenster neu "
+"starten."
+
 msgid "System language (%s)"
 msgstr "Systemsprache (%s)"
 

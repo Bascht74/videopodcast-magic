@@ -563,10 +563,26 @@ reader expects. The log keeps its own direction: a line that begins
 with a path or a timecode stays as it was written, because a run's own
 words are not a sentence in any language.
 
-The choice is spoken from the next start, and the line above the field
-says so before anybody picks. The window settles its language once,
-while it is being built, and every caption in it has its words by the
-time it stands there.
+The choice is written down the moment it is made, and the line above
+the field says what happens next. As long as the language picked is the
+one the window is already speaking, that line promises the next start
+and nothing else is offered. The moment it is another language, a
+button **Start the window again -- what is open is lost** appears
+beside the field and the line changes: starting again brings the new
+language at once, leaving the button alone costs nothing, and the
+choice stands either way.
+
+The button is worth taking before the work begins rather than in the
+middle of it, because the window it builds is an empty one. The files
+loaded, the project opened, the In and Out points and the two later
+tabs stay behind with the old window, which closes as the new one comes
+up. Nothing of that can be fetched back except by opening the project
+again. While a run is going the button does nothing at all: the line
+above the field then says that the run is still going and that the
+window can be started again once it is finished.
+
+The window settles its language once, while it is being built, and
+every caption in it has its words by the time it stands there.
 
 **The window speaks the language you chose; what runs beside it mostly
 does not.** The menu bar, the tabs and the buttons carry the chosen

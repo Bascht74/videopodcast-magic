@@ -1093,13 +1093,20 @@ voices_of_values = orders.voices_of_values
 # needs. The way to the log of a run stands at the end of it.
 
 
-def language_box_build():
+# What gui() answers with when the window is to be built again in
+# another language. Neither 0 nor 1: those two are a finished run and a
+# failed one, and main() hands both of them straight back to the shell.
+LANGUAGE_AGAIN = 7
+
+
+def language_box_build(parent, state):
     """The box that says which language the window speaks.
 
     A box of its own, because it is the one setting here about the
     program itself while the two beside it are each about a service
     outside it. Made here rather than taken in: nothing on any sheet
-    shows it, so there is nothing to borrow.
+    shows it, so there is nothing to borrow. The offer to fetch that
+    language now stands in it too, and takes the state to see a run.
     """
     from PySide6 import QtWidgets as _qw
     box = _qw.QGroupBox(T('Language of the window'))
@@ -1127,18 +1134,67 @@ def language_box_build():
     # language nobody has ever chosen lands there by itself.
     stands_at = chooser.findData(kept_language())
     chooser.setCurrentIndex(stands_at if stands_at >= 0 else 0)
+    fetch = _qw.QPushButton(
+        T('Start the window again -- what is open is lost'))
+    fetch.setVisible(False)
+    hint(fetch, T('The files, the project and the time window go with '
+                  'the old window.'))
+
+    def would_speak():
+        """The language this box would bring, as a code.
+
+        The empty entry is the system's language, and the system may
+        name one this program has no texts for -- then it is English
+        that arrives, and English that has to be compared.
+        """
+        return known_language(chooser.currentData() or system_locale())
+
+    def offer_show():
+        """Offer the new language only where there is a new one."""
+        other = would_speak() != PROGRAM.LANG
+        fetch.setVisible(other)
+        note.setText(
+            T('Starting the window again brings it at once. What is '
+              'open goes with the old window; leaving it alone costs '
+              'nothing and the new language comes at the next start.')
+            if other else
+            T('A language chosen here is spoken from the next start.'))
+
+    def start_again():
+        """Take this window down and ask for one in the new language."""
+        # Not while a run is going: the run writes into this window,
+        # and a new one would take its log and its buttons with it.
+        if state.get("running"):
+            note.setText(T('The run is still going. The window can be '
+                           'started again once it is finished.'))
+            return
+        box.window().close()
+        # Closed and not deleted: the run loop, the colour watch and
+        # the update sink of this window hang on the application and
+        # outlive it, and they would reach a deleted window.
+        parent.close()
+        _qt_widgets().QApplication.instance().exit(LANGUAGE_AGAIN)
+
+    def chosen(*_):
+        """Write the choice down, and offer what it can bring now."""
+        keep_setting("language", chooser.currentData() or "")
+        offer_show()
+
     # Connected after the index is set: before it, opening the window
     # would write down a choice nobody made.
-    chooser.currentIndexChanged.connect(
-        lambda *_: keep_setting("language", chooser.currentData() or ""))
+    chooser.currentIndexChanged.connect(chosen)
     field_row = _qw.QHBoxLayout()
     rows.addLayout(field_row)
     field_row.addWidget(chooser)
+    fetch.clicked.connect(start_again)
+    field_row.addWidget(fetch)
     field_row.addStretch(1)
+    offer_show()
     return box
 
 
-def settings_dialog_build(parent, access_box, resolve_box, keep_where):
+def settings_dialog_build(parent, access_box, resolve_box, keep_where,
+                          state):
     """Assemble the Settings window out of the boxes that go in it.
 
     Out here for the reason cut_fields_build gives: this is widget
@@ -1155,7 +1211,7 @@ def settings_dialog_build(parent, access_box, resolve_box, keep_where):
     # First, and the two that follow keep their note under them: it
     # says "Both", and a third box between them would take that word
     # away from the two it is about.
-    rows.addWidget(language_box_build())
+    rows.addWidget(language_box_build(parent, state))
     rows.addWidget(access_box)
     rows.addWidget(resolve_box)
     rows.addWidget(label(
@@ -5069,7 +5125,7 @@ def gui():
         d = settings_window.get("dialog")
         if d is None:
             d = settings_window["dialog"] = settings_dialog_build(
-                window, access_box, resolve_box, keep_where)
+                window, access_box, resolve_box, keep_where, state)
         # Whether Resolve answers is worth knowing at the moment somebody
         # looks, not as it was at some point earlier: Resolve gets started
         # and stopped, and a verdict from ten minutes ago is worth

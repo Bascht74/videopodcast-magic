@@ -604,10 +604,26 @@ Richtung: eine Zeile, die mit einem Pfad oder einem Timecode anfängt,
 steht so da, wie sie geschrieben wurde -- was ein Lauf über sich selbst
 sagt, ist kein Satz in irgendeiner Sprache.
 
-Die Wahl gilt ab dem nächsten Start, und die Zeile über dem Feld sagt es,
-bevor jemand wählt. Das Fenster legt seine Sprache einmal fest, während
-es gebaut wird; jede Beschriftung darin hat ihre Wörter, sobald es
-dasteht.
+Die Wahl wird sofort festgehalten, und die Zeile über dem Feld sagt,
+was als Nächstes geschieht. Solange die gewählte Sprache die ist, in
+der das Fenster ohnehin steht, verspricht diese Zeile den nächsten
+Start, und mehr wird nicht angeboten. Sobald es eine andere ist,
+erscheint neben dem Feld der Schalter **Fenster neu starten --
+Geöffnetes geht verloren**, und die Zeile ändert sich: ein Neustart
+bringt die neue Sprache sofort, wer den Schalter stehen lässt, verliert
+nichts, und festgehalten ist die Wahl in beiden Fällen.
+
+Der Schalter lohnt sich vor der Arbeit und nicht mittendrin, denn das
+Fenster, das er baut, ist ein leeres. Die geladenen Dateien, das
+geöffnete Projekt, die Marken In und Out und die beiden hinteren Reiter
+bleiben beim alten Fenster, das sich schließt, sobald das neue steht.
+Zurückholen lässt sich davon nichts, außer indem man das Projekt noch
+einmal öffnet. Solange ein Lauf läuft, tut der Schalter überhaupt
+nichts: die Zeile über dem Feld sagt dann, dass der Lauf noch läuft und
+dass sich das Fenster neu starten lässt, sobald er fertig ist.
+
+Das Fenster legt seine Sprache einmal fest, während es gebaut wird; jede
+Beschriftung darin hat ihre Wörter, sobald es dasteht.
 
 **Das Fenster spricht die gewählte Sprache, was daneben läuft, meist
 nicht.** Menüleiste, Reiter und Schalter tragen die gewählte Sprache in
