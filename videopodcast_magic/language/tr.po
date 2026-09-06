@@ -1,0 +1,1084 @@
+# What is translated of this program's messages, in Turkish.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
+# handed when it finds no entry, so what is missing reads rather than
+# breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Turkish speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# change the msgstr and leave the msgid exactly as it stands -- the
+# msgid is the key the program looks a message up by, and a changed one
+# is a text nobody finds any more. Delete an entry and that text is
+# English again. Anyone who speaks Turkish is welcome to take part; one
+# corrected line is a whole contribution.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Two here: [0] where the count is one, [1] everywhere else.
+# Both read alike in all nine, and that is Turkish and not a
+# half-finished entry: a noun after a numeral takes no plural
+# suffix, so it is "3 dosya" exactly as it is "1 dosya". The
+# second wording is kept rather than dropped because CLDR and
+# GNU gettext both give Turkish the two categories one and
+# other, so a wording that wants to say "tek" at one has a
+# place to stand. Do not make [1] "%s dosyalar" -- that is the
+# one correction here that would be wrong.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: tr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Geniş çekimle kurgu"
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "%s kamerada"
+msgstr[1] "%s kamerada"
+
+msgid "on %s cameras"
+msgstr "%s kamerada"
+
+msgid "no camera yet"
+msgstr "henüz kamera yok"
+
+msgid "A newer version is out"
+msgstr "Daha yeni bir sürüm çıktı"
+
+msgid "%s is out. This is %s."
+msgstr "%s çıktı. Buradaki %s."
+
+msgid "Multitrack mode"
+msgstr "Çok izli mod"
+
+msgid "Singletrack mode"
+msgstr "Tek izli mod"
+
+msgid "fetching from auphonic.com ..."
+msgstr "auphonic.com'dan alınıyor ..."
+
+msgid "What changed since %s:"
+msgstr "%s sürümünden bu yana değişenler:"
+
+msgid "Update"
+msgstr "Güncelle"
+
+msgid "Later"
+msgstr "Sonra"
+
+msgid "Go back"
+msgstr "Geri dön"
+
+msgid "About Video Podcast Magic"
+msgstr "Video Podcast Magic hakkında"
+
+msgid "&File"
+msgstr "&Dosya"
+
+msgid "&View"
+msgstr "&Görünüm"
+
+msgid "&Player"
+msgstr "&Oynatıcı"
+
+msgid "&Help"
+msgstr "&Yardım"
+
+msgid "Play and pause"
+msgstr "Oynat ve duraklat"
+
+msgid "Fast forward"
+msgstr "İleri sar"
+
+msgid "Play forward, faster on every press"
+msgstr "İleri oynat, her basışta daha hızlı"
+
+msgid "Pause"
+msgstr "Duraklat"
+
+msgid "One frame back"
+msgstr "Bir kare geri"
+
+msgid "One frame forward"
+msgstr "Bir kare ileri"
+
+msgid "One second back"
+msgstr "Bir saniye geri"
+
+msgid "One second forward"
+msgstr "Bir saniye ileri"
+
+msgid "Ten seconds back"
+msgstr "On saniye geri"
+
+msgid "Ten seconds forward"
+msgstr "On saniye ileri"
+
+msgid "The manual"
+msgstr "El kitabı"
+
+msgid "What changed in this version"
+msgstr "Bu sürümde neler değişti"
+
+msgid "Look for a newer version now"
+msgstr "Şimdi daha yeni bir sürüm ara"
+
+msgid "Back to an earlier version ..."
+msgstr "Önceki bir sürüme dön ..."
+
+msgid "Back to an earlier version"
+msgstr "Önceki bir sürüme dön"
+
+msgid "Separating speakers"
+msgstr "Konuşmacılar ayrılıyor"
+
+msgid "Separating ..."
+msgstr "Ayrılıyor ..."
+
+msgid "Voice"
+msgstr "Konuşma"
+
+msgid "Stop"
+msgstr "Durdur"
+
+msgid "Stopping ..."
+msgstr "Durduruluyor ..."
+
+msgid "Not on this machine"
+msgstr "Bu makinede değil"
+
+msgid "Reading the audio ..."
+msgstr "Ses okunuyor ..."
+
+msgid "Speakers"
+msgstr "Konuşmacılar"
+
+msgid "Speaker %d"
+msgstr "Konuşmacı %d"
+
+msgid "One more speaker in %s"
+msgstr "%s içinde bir konuşmacı daha"
+
+msgid "One more speaker in"
+msgstr "Bir konuşmacı daha"
+
+msgid "%s:%02d min"
+msgstr "%s:%02d dk"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d ile %d:%02d arası (%s sn)"
+
+msgid "%s and %s more"
+msgstr "%s ve %s tane daha"
+
+msgid "%s speech time"
+msgstr "%s konuşma süresi"
+
+msgid "Output"
+msgstr "Çıktı"
+
+msgid "Access to auphonic.com"
+msgstr "auphonic.com erişimi"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Erişim ve bağlantı bir kez sorulur, sonra kalır. Anahtar %s içine gider, asla bir dosyaya."
+
+msgid "Checking files"
+msgstr "Dosyalar denetleniyor"
+
+msgid "Measuring time axis"
+msgstr "Zaman ekseni ölçülüyor"
+
+msgid "Resolve answers"
+msgstr "Resolve yanıt veriyor"
+
+msgid "Settings"
+msgstr "Ayarlar"
+
+msgid "Settings ..."
+msgstr "Ayarlar ..."
+
+msgid "done"
+msgstr "bitti"
+
+msgid ","
+msgstr "."
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Tür"
+
+msgid "Speech time"
+msgstr "Konuşma süresi"
+
+msgid "Share"
+msgstr "Pay"
+
+msgid "Colour"
+msgstr "Renk"
+
+msgid "Preset"
+msgstr "Hazır ayar"
+
+msgid "Preset:"
+msgstr "Hazır ayar:"
+
+msgid "Start"
+msgstr "Başlat"
+
+msgid "Production"
+msgstr "Prodüksiyon"
+
+msgid "Target"
+msgstr "Hedef"
+
+msgid "none"
+msgstr "yok"
+
+msgid "Length"
+msgstr "Süre"
+
+msgid "no camera of its own"
+msgstr "kendine ait kamera yok"
+
+msgid "do not use"
+msgstr "kullanma"
+
+msgid "several speakers"
+msgstr "birden çok konuşmacı"
+
+msgid "Content"
+msgstr "İçerik"
+
+msgid "Intro"
+msgstr "Giriş"
+
+msgid "Outro"
+msgstr "Kapanış"
+
+msgid "ignore this video"
+msgstr "bu videoyu yok say"
+
+msgid "Open project ..."
+msgstr "Projeyi aç ..."
+
+msgid "Save project"
+msgstr "Projeyi kaydet"
+
+msgid "Close project"
+msgstr "Projeyi kapat"
+
+msgid "Guest"
+msgstr "Konuk"
+
+msgid "Host"
+msgstr "Sunucu"
+
+msgid "Host %d"
+msgstr "Sunucu %d"
+
+msgid "Skip this version"
+msgstr "Bu sürümü atla"
+
+msgid "Project found"
+msgstr "Proje bulundu"
+
+msgid "Open the project"
+msgstr "Projeyi aç"
+
+msgid "not readable"
+msgstr "okunamıyor"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s ses izi"
+msgstr[1] "%s ses izi"
+
+msgid "%s audio tracks"
+msgstr "%s ses izi"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s klip"
+msgstr[1] "%s klip"
+
+msgid "%s clips"
+msgstr "%s klip"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s video izi"
+msgstr[1] "%s video izi"
+
+msgid "%s video tracks"
+msgstr "%s video izi"
+
+msgid "  (this file ends earlier)"
+msgstr "  (bu dosya daha erken bitiyor)"
+
+msgid " (paused)"
+msgstr " (duraklatıldı)"
+
+msgid " (playing)"
+msgstr " (oynatılıyor)"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s kanal"
+msgstr[1] "%s kanal"
+
+msgid "%s channels"
+msgstr "%s kanal"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s dosya"
+msgstr[1] "%s dosya"
+
+msgid "%s files"
+msgstr "%s dosya"
+
+msgid "... or add files ..."
+msgstr "... ya da dosya ekle ..."
+
+msgid "Add files ..."
+msgstr "Dosya ekle ..."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Atama: hangi ses izi hangi kameraya ait"
+
+msgid "Audio"
+msgstr "Ses"
+
+msgid "Bleed"
+msgstr "Sızma"
+
+msgid "Blocks"
+msgstr "Bloklar"
+
+msgid "Camera"
+msgstr "Kamera"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Kamera sesi, %s kaldı ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- önizleme  (süre %s)"
+
+msgid "Cannot start yet: %s"
+msgstr "Henüz başlatılamıyor: %s"
+
+msgid "Check again"
+msgstr "Yeniden denetle"
+
+msgid "Close"
+msgstr "Kapat"
+
+msgid "Drag audio and video files here"
+msgstr "Ses ve video dosyalarını buraya sürükleyin"
+
+msgid "Fetching audio"
+msgstr "Ses alınıyor"
+
+msgid "Fetching audio ..."
+msgstr "Ses alınıyor ..."
+
+msgid "File"
+msgstr "Dosya"
+
+msgid "Drag to move the position."
+msgstr "Konumu taşımak için sürükleyin."
+
+msgid "Keychain"
+msgstr "Anahtar Zinciri"
+
+msgid "Measuring time axis ..."
+msgstr "Zaman ekseni ölçülüyor ..."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Çok izli (konuşmacı başına bir iz)"
+
+msgid "No files or project opened yet."
+msgstr "Henüz dosya ya da proje açılmadı."
+
+msgid "No files selected yet."
+msgstr "Henüz dosya seçilmedi."
+
+msgid "Not ready yet:"
+msgstr "Henüz hazır değil:"
+
+msgid "One frame back."
+msgstr "Bir kare geri."
+
+msgid "One second back."
+msgstr "Bir saniye geri."
+
+msgid "Only one speaker"
+msgstr "Yalnızca bir konuşmacı"
+
+msgid "Open result folder"
+msgstr "Sonuç klasörünü aç"
+
+msgid "Overwrite"
+msgstr "Üzerine yaz"
+
+msgid "Overwrite files"
+msgstr "Dosyaların üzerine yaz"
+
+msgid "Play and pause."
+msgstr "Oynat ve duraklat."
+
+msgid "Preview running ..."
+msgstr "Önizleme sürüyor ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Ön çalışma -- sesi oku ve zarfları hesapla:\n"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "auphonic.com'da işleme (isteğe bağlı)"
+
+msgid "Production name"
+msgstr "Prodüksiyon adı"
+
+msgid "Resolve running ..."
+msgstr "Resolve çalışıyor ..."
+
+msgid "Save in Keychain"
+msgstr "Anahtar Zinciri'ne kaydet"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Konuşmacılar, izlerden kendi ölçümüyle"
+
+msgid "Ten seconds back."
+msgstr "On saniye geri."
+
+msgid ""
+"The audio recording of every speaker, plus the cameras.\n"
+"The order does not matter -- the program recognises what is what.\n"
+"For a multi-part recording the first block is enough."
+msgstr ""
+"Her konuşmacının ses kaydı, artı kameralar.\n"
+"Sıra önemli değil -- program neyin ne olduğunu tanır.\n"
+"Çok parçalı bir kayıtta ilk blok yeter."
+
+msgid "%s -- being checked"
+msgstr "%s -- denetleniyor"
+
+msgid "Open Keychain Access"
+msgstr "Anahtar Zinciri Erişimi'ni aç"
+
+msgid "There is no result yet."
+msgstr "Henüz bir sonuç yok."
+
+msgid "To the In point."
+msgstr "Giriş noktasına."
+
+msgid "To the start."
+msgstr "Başa."
+
+msgid "Track"
+msgstr "İz"
+
+msgid "Video"
+msgstr "Video"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- aynı anda konuşma iki kez sayılır"
+
+msgid "Wide shot at most"
+msgstr "Geniş çekim en çok"
+
+msgid "Wide shot at the latest"
+msgstr "Geniş çekim en geç"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Başta selamlama, sonda veda için geniş çekim"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- yalnızca kısar, asla yükseltmez"
+
+msgid "average"
+msgstr "ortalama"
+
+msgid "checking ..."
+msgstr "denetleniyor ..."
+
+msgid "complete"
+msgstr "eksiksiz"
+
+msgid "hear assigned audio"
+msgstr "atanan sesi dinle"
+
+msgid "next to each video file"
+msgstr "her video dosyasının yanında"
+
+msgid "not checked yet"
+msgstr "henüz denetlenmedi"
+
+msgid "nothing loaded yet"
+msgstr "henüz bir şey yüklenmedi"
+
+msgid "nothing selected"
+msgstr "seçim yok"
+
+msgid "off"
+msgstr "kapalı"
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "işlenmiş izler bulundu -- hiçbir şey yüklenmiyor"
+
+msgid "reset"
+msgstr "sıfırla"
+
+msgid "running ..."
+msgstr "sürüyor ..."
+
+msgid "selected"
+msgstr "seçili"
+
+msgid "shorter shots are merged in"
+msgstr "daha kısa çekimler birleştirilir"
+
+msgid "the picture changes this much later than the sound"
+msgstr "görüntü, sesten bu kadar sonra değişir"
+
+msgid "unspecified"
+msgstr "belirtilmemiş"
+
+msgid "Files && production"
+msgstr "Dosyalar && prodüksiyon"
+
+msgid "Assignment && time window"
+msgstr "Atama && zaman aralığı"
+
+msgid "Resolve cut"
+msgstr "Resolve kurgusu"
+
+msgid "Camera audio"
+msgstr "Kamera sesi"
+
+msgid "Camera audio %s"
+msgstr "Kamera sesi %s"
+
+msgid "a track of its own"
+msgstr "kendine ait bir iz"
+
+msgid "with Channel %d one stereo track"
+msgstr "%d. kanalla bir stereo iz"
+
+msgid "not found"
+msgstr "bulunamadı"
+
+msgid "a recording of its own"
+msgstr "kendine ait bir kayıt"
+
+msgid "Cameras only"
+msgstr "Yalnızca kameralar"
+
+msgid "End %s"
+msgstr "Bitiş %s"
+
+msgid "Error"
+msgstr "Hata"
+
+msgid "Mark In"
+msgstr "Giriş işaretle"
+
+msgid "Mark Out"
+msgstr "Çıkış işaretle"
+
+msgid "Minimum Edit Duration"
+msgstr "En kısa çekim süresi"
+
+msgid "No files given."
+msgstr "Dosya verilmedi."
+
+msgid "Speaker"
+msgstr "Konuşmacı"
+
+msgid "Start %s"
+msgstr "Başlangıç %s"
+
+msgid "Take from source files"
+msgstr "Kaynak dosyalardan al"
+
+msgid "Take the camera audio"
+msgstr "Kamera sesini al"
+
+msgid "Transfer"
+msgstr "Aktarım"
+
+msgid "Wide shot after"
+msgstr "Şu süreden sonra geniş çekim"
+
+msgid "no folder"
+msgstr "klasör yok"
+
+msgid "no text"
+msgstr "metin yok"
+
+msgid "unnamed"
+msgstr "adsız"
+
+msgid "Audio recording"
+msgstr "Ses kaydı"
+
+msgid "Building the sum"
+msgstr "Toplam miks oluşturuluyor"
+
+msgid "Camera cut"
+msgstr "Kamera kurgusu"
+
+msgid "%s -- preview"
+msgstr "%s -- önizleme"
+
+msgid "Cancel"
+msgstr "İptal"
+
+msgid "Connect"
+msgstr "Bağlan"
+
+msgid "Connection to Resolve"
+msgstr "Resolve bağlantısı"
+
+msgid "Continue"
+msgstr "Devam et"
+
+msgid "Create Resolve project"
+msgstr "Resolve projesi oluştur"
+
+msgid "In point %s"
+msgstr "Giriş noktası %s"
+
+msgid "Out point %s"
+msgstr "Çıkış noktası %s"
+
+msgid "Dry run"
+msgstr "Deneme çalışması"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, yayın"
+
+msgid "Go ahead"
+msgstr "Devam"
+
+msgid "Keep it saved"
+msgstr "Kayıtlı kalsın"
+
+msgid "Measure"
+msgstr "Ölç"
+
+msgid "Measuring loudness"
+msgstr "Ses yüksekliği ölçülüyor"
+
+msgid "Merge them"
+msgstr "Birleştir"
+
+msgid "do not use the audio"
+msgstr "sesi kullanma"
+
+msgid "use the audio"
+msgstr "sesi kullan"
+
+msgid "Mute."
+msgstr "Sesi kapat."
+
+msgid "No project open."
+msgstr "Açık proje yok."
+
+msgid "Not recognised"
+msgstr "Tanınmadı"
+
+msgid "Note"
+msgstr "Not"
+
+msgid "One frame forward."
+msgstr "Bir kare ileri."
+
+msgid "One second forward."
+msgstr "Bir saniye ileri."
+
+msgid "Output folder"
+msgstr "Çıktı klasörü"
+
+msgid "Choose the output folder"
+msgstr "Çıktı klasörünü seç"
+
+msgid "Output folder ..."
+msgstr "Çıktı klasörü ..."
+
+msgid "Podcast directories, mono"
+msgstr "Podcast dizinleri, mono"
+
+msgid "Podcast directories, stereo"
+msgstr "Podcast dizinleri, stereo"
+
+msgid "Preview player"
+msgstr "Önizleme oynatıcısı"
+
+msgid "Preview player%s"
+msgstr "Önizleme oynatıcısı%s"
+
+msgid "Processing"
+msgstr "İşleme"
+
+msgid "Project"
+msgstr "Proje"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "buradan sonra bunun için uygun bir an aranır"
+
+msgid "and here it is cut, good moment or not"
+msgstr "ve burada kesilir, uygun an olsun olmasın"
+
+msgid "After a question"
+msgstr "Bir sorudan sonra"
+
+msgid "Question"
+msgstr "Soru"
+
+msgid "Remove"
+msgstr "Kaldır"
+
+msgid "Remove all"
+msgstr "Tümünü kaldır"
+
+msgid "Remove from list"
+msgstr "Listeden kaldır"
+
+msgid "Resolve answers%s"
+msgstr "Resolve yanıt veriyor%s"
+
+msgid "Show in Finder."
+msgstr "Finder'da göster."
+
+msgid "Silence"
+msgstr "Sessizlik"
+
+msgid "Speaker name"
+msgstr "Konuşmacı adı"
+
+msgid "Speaker names"
+msgstr "Konuşmacı adları"
+
+msgid "Ten seconds forward."
+msgstr "On saniye ileri."
+
+msgid "Window %s%s"
+msgstr "Pencere %s%s"
+
+msgid "audio file"
+msgstr "ses dosyası"
+
+msgid "cancel"
+msgstr "iptal"
+
+msgid "cancelled"
+msgstr "iptal edildi"
+
+msgid "nothing"
+msgstr "hiçbir şey"
+
+msgid "nothing to do"
+msgstr "yapılacak bir şey yok"
+
+msgid "to In point"
+msgstr "giriş noktasına"
+
+msgid "to Out point"
+msgstr "çıkış noktasına"
+
+msgid "too short"
+msgstr "çok kısa"
+
+msgid "unknown"
+msgstr "bilinmiyor"
+
+msgid "video file"
+msgstr "video dosyası"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s ses kaydı"
+msgstr[1] "%s ses kaydı"
+
+msgid "%s audio recordings"
+msgstr "%s ses kaydı"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s kamera"
+msgstr[1] "%s kamera"
+
+msgid "%s cameras"
+msgstr "%s kamera"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s video dosyası"
+msgstr[1] "%s video dosyası"
+
+msgid "%s video files"
+msgstr "%s video dosyası"
+
+msgid "Caution"
+msgstr "Dikkat"
+
+msgid "on"
+msgstr "açık"
+
+msgid "First cut by speaker"
+msgstr "Konuşmacıya göre ilk kurgu"
+
+msgid "Speakers, separated by voice"
+msgstr "Konuşmacılar, sese göre ayrıldı"
+
+msgid "Reading the plan"
+msgstr "Plan okunuyor"
+
+msgid "Audio out of the cameras"
+msgstr "Kameralardan gelen ses"
+
+msgid "Common time axis"
+msgstr "Ortak zaman ekseni"
+
+msgid "Processing at auphonic.com"
+msgstr "auphonic.com'da işleme"
+
+msgid "Loudness"
+msgstr "Ses yüksekliği"
+
+msgid "Loudness and levels"
+msgstr "Ses yüksekliği ve seviyeler"
+
+msgid "Who speaks when"
+msgstr "Kim ne zaman konuşuyor"
+
+msgid "Writing the camera files"
+msgstr "Kamera dosyaları yazılıyor"
+
+msgid "Handover and result"
+msgstr "Devir ve sonuç"
+
+msgid "measurement running ..."
+msgstr "ölçüm sürüyor ..."
+
+msgid "Looking at the channels"
+msgstr "Kanallara bakılıyor"
+
+msgid "unused input -- ignored"
+msgstr "kullanılmayan giriş -- yok sayıldı"
+
+msgid "uncertain -- %s"
+msgstr "belirsiz -- %s"
+
+msgid "Language"
+msgstr "Dil"
+
+msgid "not set"
+msgstr "ayarlanmadı"
+
+msgid "German"
+msgstr "Almanca"
+
+msgid "English"
+msgstr "İngilizce"
+
+msgid "French"
+msgstr "Fransızca"
+
+msgid "Spanish"
+msgstr "İspanyolca"
+
+msgid "Italian"
+msgstr "İtalyanca"
+
+msgid "Dutch"
+msgstr "Felemenkçe"
+
+msgid "Portuguese"
+msgstr "Portekizce"
+
+msgid "Polish"
+msgstr "Lehçe"
+
+msgid "Russian"
+msgstr "Rusça"
+
+msgid "Swedish"
+msgstr "İsveççe"
+
+msgid "Danish"
+msgstr "Danca"
+
+msgid "Norwegian"
+msgstr "Norveççe"
+
+msgid "Finnish"
+msgstr "Fince"
+
+msgid "Czech"
+msgstr "Çekçe"
+
+msgid "Turkish"
+msgstr "Türkçe"
+
+msgid "Greek"
+msgstr "Yunanca"
+
+msgid "Hungarian"
+msgstr "Macarca"
+
+msgid "Romanian"
+msgstr "Rumence"
+
+msgid "Ukrainian"
+msgstr "Ukraynaca"
+
+msgid "Catalan"
+msgstr "Katalanca"
+
+msgid "Arabic"
+msgstr "Arapça"
+
+msgid "Hebrew"
+msgstr "İbranice"
+
+msgid "Japanese"
+msgstr "Japonca"
+
+msgid "Chinese"
+msgstr "Çince"
+
+msgid "Korean"
+msgstr "Korece"
+
+msgid "Speaks at least"
+msgstr "En az şu kadar konuşur"
+
+msgid "below this the camera does not follow"
+msgstr "bunun altında kamera takip etmez"
+
+msgid "Answer on screen earlier"
+msgstr "Yanıt ekranda daha erken"
+
+msgid "before the question ends"
+msgstr "soru bitmeden önce"
+
+msgid "Wide shot at least"
+msgstr "Geniş çekim en az"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "araya konan geniş çekim en az bu kadar durur"
+
+msgid "and at most this long"
+msgstr "ve en çok bu kadar"
+
+msgid "Long monologue"
+msgstr "Uzun monolog"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "bir kişi “Şu süreden sonra geniş çekim” süresini aşarak konuşmayı sürdürür"
+
+msgid "Several speak at once"
+msgstr "Birden çok kişi aynı anda konuşuyor"
+
+msgid "and no camera shows exactly them"
+msgstr "ve hiçbir kamera tam olarak onları göstermiyor"
+
+msgid "Nobody speaks"
+msgstr "Kimse konuşmuyor"
+
+msgid "no voice is heard at all here"
+msgstr "burada hiç ses duyulmuyor"
+
+msgid "Short gap up to"
+msgstr "Şu süreye kadar kısa boşluk"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "bu kadar uzun bir sessizlik görüntüye dokunmaz"
+
+msgid "Recognition uncertain"
+msgstr "Tanıma belirsiz"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "konuşmacı tanıma dağılıyor ya da arkasında bir yığın bırakıyor"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "görüntü, yanıt başlamadan önce yanıta geçer"
+
+msgid "Wide shot"
+msgstr "Geniş çekim"
+
+msgid "Wide shot %d"
+msgstr "Geniş çekim %d"
+
+msgid "(wide shot)"
+msgstr "(geniş çekim)"
+
+msgid "No speaker"
+msgstr "Konuşmacı yok"
+
+msgid "Listener"
+msgstr "Dinleyen"
+
+msgid "Alternating"
+msgstr "Dönüşümlü"
+
+msgid "No camera change"
+msgstr "Kamera değişikliği yok"
+
+msgid "Hold a short gap"
+msgstr "Kısa boşluğu koru"
+
+msgid "do not go early"
+msgstr "erken geçme"
+
+msgid "Answering speaker"
+msgstr "Yanıt veren konuşmacı"
+
+msgid "%s is in place."
+msgstr "%s kuruldu."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Bu pencere hâlâ başladığı sürüm. Şimdi yeniden başlayıp yeni sürüm olarak açılabilir ya da bunu daha sonra kendiniz yapabilirsiniz."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Bu kopya kendine ait bir klasörden çalışıyor, bu yüzden pip'in burada güncelleyeceği bir şey yok. Şu komut kurar: %s"
+
+msgid "Language of the window"
+msgstr "Pencerenin dili"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Burada seçilen dil bir sonraki başlangıçtan itibaren konuşulur."
+
+msgid "System language (%s)"
+msgstr "Sistem dili (%s)"
