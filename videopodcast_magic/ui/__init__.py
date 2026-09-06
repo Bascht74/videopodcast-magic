@@ -3850,6 +3850,471 @@ def make_band_and_player(Qt, QtCore, QtGui, QtWidgets, QtMultimedia,
     return cut_band, cut_player, band_show, preview_file
 
 
+def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,
+                            assign_position, audio_fields, camera_lines,
+                            clip_kind_values, file_rows, files, no_join,
+                            own_audio_names, piece_label, production_var,
+                            remembered, split_files, state, suggestions,
+                            tree_open, video_fields, video_kind_again,
+                            voice_lines, assignment_check,
+                            assignment_remember, assignment_row_show,
+                            assignment_state_show, audio_use_now,
+                            audio_use_value, cell, clip_kind_value,
+                            folded_show, kind_answered, line_show,
+                            main_track_show, prework_kick_off, several_set,
+                            show_weak, speaker_split_kick_off, split_stop,
+                            tc_column_show, together_now, voice_add,
+                            voices_build, voices_of, wide_cameras_now,
+                            window_enable, window_position_show,
+                            window_prefill):
+    """Two tables: audio recordings above, video files below.
+
+    Whatever is needed from gui() comes in as an argument and keeps its
+    name inside. The widgets are made here and hung into the layout
+    handed in; the lists and dictionaries belong to the window and are
+    emptied at the start of every rebuild. Two names bound further down
+    in gui() come through *state*, as state["preview_soon"] already does.
+    """
+    assignment_remember()
+    for p in forget:
+        remembered.pop("video:" + p, None)
+    # Between the old table going and the new one arriving is a
+    # moment with nothing in it, and Qt paints it: a flash, as if a
+    # window had opened. Painting waits for the next turn of the
+    # loop, when the new table stands.
+    holder = assign_position.parentWidget()
+    if holder is not None and holder.updatesEnabled():
+        holder.setUpdatesEnabled(False)
+        QtCore.QTimer.singleShot(
+            0, lambda h=holder: h.setUpdatesEnabled(True))
+    old = state.get("assignment_content")
+    if old is not None:
+        old.setParent(None)
+        old.deleteLater()
+    # The marks of the old table went with its widgets.
+    content = QtWidgets.QWidget()
+    column_layout = QtWidgets.QVBoxLayout(content)
+    column_layout.setContentsMargins(0, 0, 0, 0)
+    column_layout.setSpacing(10)
+    # In front of the Multitrack tick and the prework bar.
+    assign_position.insertWidget(0, content)
+    state["assignment_content"] = content
+    assign_lines[:] = []
+    # Cleared with the rest: the voices belong to the tree that
+    # has just gone, and a row that no longer exists must not
+    # still be able to say which camera it is on.
+    voice_lines[:] = []
+    file_rows[:] = []
+    state["split_cells"] = []
+    state["voiced"] = set()
+    audio_fields[:] = []
+    video_fields[:] = []
+    # The two lines carrying a reason are widgets of that table
+    # too. Left pointing at the old ones, the next check writes
+    # into something Qt has deleted -- a crash, not a mark.
+    state["audio_reason"] = None
+    state["video_reason"] = None
+    audio_files = [p for p, a in files if a == "audio"]
+    videos = sorted([p for p, a in files if a == "video"],
+                    key=lambda x: os.path.basename(x).lower())
+    # A camera contributing its audio is an input track like any other, so
+    # it is in the same table above. The dictionary is the window's and
+    # is emptied here: a rebuild starts over.
+    own_audio_names.clear()
+    # What a cut-out piece is called: the label the cutting gave it,
+    # "Camera 1" and "Camera 2" for two clip-on microphones on one
+    # camera. Without it the piece would be named after its file, which
+    # carries the channel number and not the person.
+    piece_label.clear()
+    for _src, _pieces in split_files.items():
+        for _path, _label in _pieces or []:
+            piece_label[_path] = _label
+    # The file list's own derivation, called and not copied: both
+    # tabs show one value and must not disagree about it.
+    own_now, forced = audio_use_now()
+    chains, camera_audio, own = assignment_rows(
+        audio_files, videos, own_now,
+        split_of=lambda x: [t[0] for t in
+                            split_files.get(x) or []],
+        apart=no_join, together=together_now())
+    state["camera_audio"] = camera_audio
+    state["own_audio_rows"] = own
+    state["own_cameras"] = list(own_now)
+    state["forced_own"] = list(forced)
+    if not chains:
+        column_layout.addWidget(label(
+            T('No sound in use yet -- add an audio recording, or set '
+              'a video file\'s Camera audio to "use the audio" in the '
+              'file list.'), COLOURS["quiet"]))
+        # Before the exit, not after the table: the time axis is
+        # measured over the envelope of every file and is needed
+        # whether or not any sound is in use. Leaving here first
+        # would take a project its time axis.
+        if videos:
+            prework_kick_off(list(videos))
+        # And the button, for the same reason: the way in here is
+        # also taking the last sound away, and then it stood
+        # enabled with an empty reason beside it.
+        assignment_check()
+        return
+    # The cameras first, then the two special cases. MIX_ONLY means the
+    # track is processed and in the mix but is not the first track on any
+    # camera. IGNORE_AUDIO leaves it out entirely -- useful where the
+    # matching video is still missing.
+    targets = ([os.path.basename(b) for b in videos]
+             + [MIX_ONLY, IGNORE_AUDIO])
+    wide = wide_bar_of(targets, *wide_cameras_now(),
+                       aside=state.setdefault("wide_set_aside", {}))
+    barred = wide["barred"]
+    head = T('Audio recording')
+    belongs_head = T('belongs to')
+    # The column for the separation is only there where there is a
+    # separation to have: with it switched off it would be a column
+    # of empty cells offering something the program cannot do.
+    # It no longer holds a button -- asking for the voices to be
+    # told apart is an answer in the name field of the same row --
+    # only what came of it, and a way to break off while it runs.
+    columns = [head, T('Speaker name'), belongs_head, "Timecode"]
+    if not SPEAKER_SPLIT_OFF:
+        columns.append(T('Speakers'))
+    tree_audio = tree_build(columns)
+    state["assignment_tree"] = tree_audio
+    state["row_picker"] = row_picker_for(tree_audio)
+    column_layout.addWidget(tree_audio, 1)
+    audio_file_list = []
+    # Without timecode a position cannot be converted onto the common axis.
+    # Where not one file carries one, the values are relative to the first.
+    tc_of_row = []
+    for row, _ in chains:
+        try:
+            tc_of_row.append(file_timecode(row[0]))
+        except Exception:
+            tc_of_row.append(None)
+    without_tc = not any(t is not None for t in tc_of_row)
+    state["without_tc"] = without_tc
+    if not without_tc:
+        state["tc_there"] = True
+    for (row, _) in chains:
+        first = row[0]
+        camera_track = os.path.abspath(first) in state["own_audio_rows"]
+        from_camera = state["own_audio_rows"].get(first) \
+            if isinstance(state["own_audio_rows"], dict) else None
+        stem = (guess_camera_name(from_camera or first)
+                 if camera_track else guess_speaker_name(first))
+        # So the two rows of one camera can be told apart.
+        if piece_label.get(first):
+            stem = piece_label[first]
+        if camera_track:
+            stem = remembered.get("ownname:" + first) or stem
+        caption = os.path.basename(first)
+        if camera_track:
+            caption += T('   (camera audio)')
+        elif len(row) > 1:
+            caption += "  (+%d)" % (len(row) - 1)
+        node = tree_row(tree_audio, None, [caption])
+        node[0].setData(first, Qt.UserRole + 1)
+        audio_file_list.append(first)
+        file_rows.append((node, first, caption))
+        old_name, old_camera = remembered.get("audio:" + first, (None, None))
+        # Empty until somebody answers, with the guess offered in
+        # grey and never written in. The field itself knows both,
+        # so no reader of it has to.
+        name_value = SpeakerName(old_name or "", stem)
+        # The voices this recording is showing. Where there are any,
+        # the assignment belongs to them and not here: two answers
+        # one above the other could contradict each other, and the
+        # rule is that the assignment has exactly one level.
+        kids = voices_of(first)
+        if kids:
+            state["voiced"].add(os.path.abspath(first))
+        if SPEAKER_SPLIT_OFF:
+            # Nothing can be told apart on this machine, so there is
+            # only one answer to give and a plain field to give it in.
+            name_field = field_bind(QtWidgets.QLineEdit(), name_value)
+            speaks_as(name_field, T('Speaker name'), caption)
+        else:
+            # Only an answer picks the answer. What was found used
+            # to do it, so a separation that came back with four
+            # voices set the field to "several speakers" without
+            # anybody saying so.
+            said = remembered.get("several:" + first)
+            several_value = Value(bool(said))
+            several_value.listen(
+                lambda *_, p=first, v=several_value: several_set(
+                    p, v.get()))
+            name_field = speaker_name_cell(name_value, several_value,
+                                           caption)
+        tree_field(tree_audio, node, 1, name_field)
+        row_picker_watch(state["row_picker"], name_field)
+        # Before the branch below, so that a row without a selector
+        # says how its separation stands too: whether a recording is
+        # spread over every camera has nothing to do with who is
+        # heard on it.
+        if not SPEAKER_SPLIT_OFF:
+            box_, cell_ = split_cell_build(first, split_stop, node[4])
+            tree_field(tree_audio, node, 4, box_)
+            state["split_cells"].append(cell_)
+        # The voices go under the row before the row is filled in:
+        # whether this recording has any is what decides what it
+        # carries itself.
+        if voices_build(tree_audio, node, first, videos, targets, wide):
+            tree_audio.setExpanded(node[0].index(),
+                                   tree_open.get(first, True))
+            folded_show(node[0].index())
+        # Where the voices hang underneath, the rows below carry the
+        # cameras and this row carries none -- the assignment has
+        # exactly one level. The cell says so instead of standing
+        # empty, which left the reader to work it out. The Multitrack
+        # tick does not come into it: which camera a recording belongs
+        # to is the same question with the tick and without it.
+        if kids:
+            tree_cell(node, 2, T('the voices below carry the cameras'),
+                      COLOURS["quiet"])
+            # MIX_ONLY is the truth here: no track belongs to one camera
+            # alone.
+            assign_lines.append((row, name_value, Value(MIX_ONLY)))
+            continue
+        # Camera rows get the full selector too. A clip-on microphone
+        # plugged into one camera does not mean the person is filmed by
+        # that camera -- two microphones on one camera are usually two
+        # people sitting in front of two others. The camera the audio
+        # came from is only the preselection.
+        own_camera = (os.path.basename(from_camera or first)
+                      if camera_track else "")
+        was = camera_after_a_mark("audio:" + first, old_camera, wide,
+            name_value.get() or os.path.basename(first))
+        picked, worked_out = camera_row_cameras(
+            was, wide["pickable"], name_value.get(), videos,
+            own_camera="" if own_camera in barred else own_camera)
+        camera_value = Value(MIX_ONLY if picked in barred else picked)
+        camera_value.derived = worked_out
+        box = QtWidgets.QComboBox()
+        speaks_as(box, belongs_head, caption)
+        fill_choices(box, targets, camera_value.get())
+        choices_shut(box, barred, wide["why"], COLOURS["quiet"])
+
+        def chosen(_i=0, b=box, value=camera_value, f=name_field):
+            """Hand the value on; an ignored track needs no name."""
+            v = b.currentData()
+            value.set(v)
+            f.setEnabled(v != IGNORE_AUDIO)
+
+        box.currentIndexChanged.connect(chosen)
+        chosen()
+        # When the camera changes, the summary below no longer fits.
+        box.currentIndexChanged.connect(
+            lambda *_: QtCore.QTimer.singleShot(0, state["refresh_names"]))
+        tree_field(tree_audio, node, 2, box)
+        row_picker_watch(state["row_picker"], box)
+        if camera_track:
+            own_audio_names.setdefault(from_camera or first,
+                                       []).append(name_value)
+        assign_lines.append((row, name_value, camera_value))
+        audio_fields.append(name_field)
+        name_value.listen(lambda *_: QtCore.QTimer.singleShot(
+            0, assignment_check))
+    # A voice the separation missed is still asked for below the
+    # tree: it is not a row of the tree but the input to another
+    # separation, and it belongs to no one recording in particular.
+    more = more_speakers_row(audio_file_list, voice_add)
+    if more is not None:
+        column_layout.addWidget(more)
+    audio_reason = label("", COLOURS["error"])
+    audio_reason.setWordWrap(True)
+    audio_reason.setVisible(False)
+    column_layout.addWidget(audio_reason)
+    state["audio_reason"] = audio_reason
+    # The rows that carry a file, which is not every row: the
+    # timecode and the "does not fit" mark belong to a recording,
+    # and a voice has neither.
+    state["file_rows"] = list(file_rows)
+    tc_column_show()
+    # One tree where there were two tables, so it may be as tall as
+    # both were: 120 each, and the heading the second one had.
+    tree_rows_fit(tree_audio, 266)
+    for _signal in (tree_audio.expanded, tree_audio.collapsed):
+        _signal.connect(folded_show)
+    tree_audio.selectionModel().selectionChanged.connect(
+        lambda *_, t=tree_audio: assignment_row_show(t))
+
+    window_position_show()
+
+    # --- second table: what the new video files should be called
+    if not production_var.get():
+        production_var.set(guess_production_name(chains[0][0][0]))
+    camera_lines[:] = []
+    # What comes out, and the two decisions that can only be made
+    # after watching: what the clip is, and whether its sound is
+    # material. Both stand in the file list as well, on the same
+    # value -- that a clip is in truth an outro is noticed in the
+    # player, and the player is here.
+    table_video = table_build([T('Camera'), T('new file name'),
+                               T('gets audio from'), T('Kind'),
+                               T('Camera audio')])
+    column_layout.addWidget(table_video, 1)
+    video_reason = label("", COLOURS["error"])
+    video_reason.setWordWrap(True)
+    video_reason.setVisible(False)
+    column_layout.addWidget(video_reason)
+    state["video_reason"] = video_reason
+    taken = {}
+    for _, nv, cv in assign_lines:
+        taken.setdefault(cv.get(), []).append(nv)
+    wides, said = wide_cameras_now()
+
+    def kinds_refresh():
+        """Say the Kind column again, with the wide shot as it is now.
+
+        A voice given a name and a camera makes that camera one
+        somebody sits in front of, so it is no longer the derived
+        wide shot. The table is built before that answer exists.
+
+        Both tables that show a Kind, not only this one: the file
+        list on the first tab shows the same derivation, and left
+        out it goes on saying "Wide shot" for every camera while
+        this one says something else.
+        """
+        if state.get("closing"):
+            return
+        video_kinds_again(video_kind_again)
+        try:
+            fresh, marked = wide_cameras_now()
+            for i, path in enumerate(videos):
+                if i >= table_video.rowCount():
+                    break
+                box_cell, _box = kind_cell_for(
+                    path, clip_kind_value(path), fresh, marked,
+                    state.get("no_place"), clip_kind_values,
+                    COLOURS["quiet"], lambda q=path: kind_answered(q))
+                table_video.setCellWidget(i, 3, box_cell)
+        except RuntimeError:
+            # The table was rebuilt under us; the new one is right.
+            return
+
+    state["kinds_refresh"] = kinds_refresh
+    for row, b in enumerate(videos):
+        short = os.path.basename(b)
+        table_video.insertRow(row)
+        cell(table_video, row, 0, short)
+        clip_kind = clip_kind_value(b)
+        kind_cell, _kind_box = kind_cell_for(
+            b, clip_kind, wides, said, state.get("no_place"),
+            clip_kind_values, COLOURS["quiet"],
+            lambda p=b: kind_answered(p))
+        table_video.setCellWidget(row, 3, kind_cell)
+        own_audio = audio_use_value(b)
+        used, why = audio_use_settled(b, own_now, forced,
+                                      has_sound(b), clip_kind.get())
+        if clip_kind.get() not in CAMERA_TYPES:
+            # A finished clip has nothing to assign and gets no new name --
+            # it is used directly. Rather than offering empty fields that
+            # do nothing, a sentence is there instead. Its Camera audio
+            # is built all the same, greyed out with the reason beside
+            # it: "a finished clip -- only placed, not processed" is
+            # the answer to the question the field raises, and a blank
+            # cell answers nothing.
+            cell(table_video, row, 1,
+                  T('stays out') if clip_kind.get() == TYPE_IGNORED
+                  else T('used directly'),
+                  COLOURS["quiet"])
+            cell(table_video, row, 2, "")
+            sound_off, sound_off_box = camera_audio_cell(
+                short, used, why, COLOURS["quiet"], True)
+            audio_use_bind(sound_off_box, own_audio, why)
+            table_video.setCellWidget(row, 4, sound_off)
+            continue
+        # A camera can contribute its own audio too -- the wide shot with
+        # the room microphone, say, or where somebody has no recording of
+        # their own. It is then a track like any other: with a speaker
+        # name, it goes up, gets processed and is in the mix.
+        # One camera can give more than one track: two clip-on
+        # microphones on two channels are two speakers, and both names
+        # belong in the file name of that camera.
+        mine = own_audio_names.get(b) or []
+        own_audio_name = mine[0] if mine else Value(
+            remembered.get("ownname:" + b) or guess_camera_name(b))
+        own = list(taken.get(short) or [])
+        if used:
+            own += mine or [own_audio_name]
+        suggestion = camera_name_suggestion(production_var.get(),
+                                            short, own)
+        suggestions[b] = suggestion
+        name_value = Value(remembered.get("video:" + b) or suggestion)
+        name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
+        speaks_as(name_entry, T('new file name'), short)
+        from_the_front(name_entry)
+        table_video.setCellWidget(row, 1, name_entry)
+        cell(table_video, row, 2, camera_gets_from(short, wide, own),
+             COLOURS["quiet"])
+        # The file list's field again, on the same value: it stands
+        # here because the player does, and usable sound is heard.
+        sound, sound_box = camera_audio_cell(short, used, why,
+                                             COLOURS["quiet"], True)
+        audio_use_bind(sound_box, own_audio, why)
+        table_video.setCellWidget(row, 4, sound)
+        camera_lines.append((b, name_value, own_audio, own_audio_name))
+        video_fields.append(name_entry)
+        name_value.listen(lambda *_: QtCore.QTimer.singleShot(
+            0, assignment_check))
+    table_rows_fit(table_video)
+    table_video.itemSelectionChanged.connect(
+        lambda t=table_video, d=list(videos): line_show(t, d))
+    table_video.resizeColumnsToContents()
+    for c in range(len(columns)):
+        tree_audio.resizeColumnToContents(c)
+    # The name columns carry input fields, which must not shrink to their
+    # content. The first column of the tree carries the triangles and the
+    # indentation as well, so it is measured with room for both.
+    tree_audio.setColumnWidth(0, max(220, tree_audio.columnWidth(0) + 30))
+    # The new file name is long, so it gets whatever is left.
+    table_video.horizontalHeader().setStretchLastSection(False)
+    table_video.horizontalHeader().setSectionResizeMode(
+        1, QtWidgets.QHeaderView.Stretch)
+    tree_audio.header().setStretchLastSection(True)
+    if not SPEAKER_SPLIT_OFF:
+        # A width for what the column will hold, not for what is in
+        # it: it is written to minutes later, and a column that
+        # measures its contents measured an empty one. The room
+        # left over goes to the name field, which scrolls its own.
+        split_column_fit(tree_audio, 4)
+    # The camera list now stands, so queue what can be prepared: the
+    # envelope for every camera, plus the camera audio for those
+    # contributing it.
+    window_prefill(videos)
+    window_enable()
+    show_weak()
+    main_track_show()
+    every_cameras = [p for p, _n, _k, _own_name in camera_lines]
+    # Every camera goes in either way -- the time axis lives on those
+    # envelopes. Only the second task, fetching the sound itself, is
+    # for the ones whose audio was set to "use".
+    having_audio = [p for p in every_cameras if p in own_now]
+    # The audio recordings belong in it: the time axis needs their
+    # envelopes just as much, and the bar should show that they are being
+    # worked on.
+    # Every block, not only the row's first: a recording made of three
+    # blocks has to be measured and the In point all three.
+    every = list(every_cameras)
+    for r, _nv, _cv in assign_lines:
+        for x in r:
+            if x not in every:
+                every.append(x)
+    if every:
+        prework_kick_off(every, having_audio)
+    # Beside the prework, not behind it: the two do not slow each
+    # other down, and the separation is the long one of the two.
+    speaker_split_kick_off()
+    assignment_check()
+    assignment_state_show()
+    # The last camera to be given a speaker takes the wide shot away.
+    state["wide_state_show"]()
+    # And the file list says so too. It is built when the files come
+    # in, which is before anybody is assigned, and the Kind it shows
+    # is derived from exactly that -- so without this the first tab
+    # goes on calling every camera the wide shot while the table
+    # above says something else.
+    video_kinds_again(video_kind_again)
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -5743,446 +6208,26 @@ def gui():
          assignment_check, player_load, speaker_split_kick_off,
          voices_of)
 
+    # Two dictionaries of files the table builder fills and empties
+    # again. They are made here because the window owns them.
+    own_audio_names = ByFile()
+    piece_label = ByFile()
+
     def assignment_fresh(forget=()):
-        """Two tables: audio recordings above, video files below."""
-        assignment_remember()
-        for p in forget:
-            remembered.pop("video:" + p, None)
-        # Between the old table going and the new one arriving is a
-        # moment with nothing in it, and Qt paints it: a flash, as if a
-        # window had opened. Painting waits for the next turn of the
-        # loop, when the new table stands.
-        holder = assign_position.parentWidget()
-        if holder is not None and holder.updatesEnabled():
-            holder.setUpdatesEnabled(False)
-            QtCore.QTimer.singleShot(
-                0, lambda h=holder: h.setUpdatesEnabled(True))
-        old = state.get("assignment_content")
-        if old is not None:
-            old.setParent(None)
-            old.deleteLater()
-        # The marks of the old table went with its widgets.
-        content = QtWidgets.QWidget()
-        column_layout = QtWidgets.QVBoxLayout(content)
-        column_layout.setContentsMargins(0, 0, 0, 0)
-        column_layout.setSpacing(10)
-        # In front of the Multitrack tick and the prework bar.
-        assign_position.insertWidget(0, content)
-        state["assignment_content"] = content
-        assign_lines[:] = []
-        # Cleared with the rest: the voices belong to the tree that
-        # has just gone, and a row that no longer exists must not
-        # still be able to say which camera it is on.
-        voice_lines[:] = []
-        file_rows[:] = []
-        state["split_cells"] = []
-        state["voiced"] = set()
-        audio_fields[:] = []
-        video_fields[:] = []
-        # The two lines carrying a reason are widgets of that table
-        # too. Left pointing at the old ones, the next check writes
-        # into something Qt has deleted -- a crash, not a mark.
-        state["audio_reason"] = None
-        state["video_reason"] = None
-        audio_files = [p for p, a in files if a == "audio"]
-        videos = sorted([p for p, a in files if a == "video"],
-                        key=lambda x: os.path.basename(x).lower())
-        # A camera contributing its audio is an input track like any other, so
-        # it is in the same table above.
-        own_audio_names = ByFile()
-        # What a cut-out piece is called: the label the cutting gave it,
-        # "Camera 1" and "Camera 2" for two clip-on microphones on one
-        # camera. Without it the piece would be named after its file, which
-        # carries the channel number and not the person.
-        piece_label = ByFile()
-        for _src, _pieces in split_files.items():
-            for _path, _label in _pieces or []:
-                piece_label[_path] = _label
-        # The file list's own derivation, called and not copied: both
-        # tabs show one value and must not disagree about it.
-        own_now, forced = audio_use_now()
-        chains, camera_audio, own = assignment_rows(
-            audio_files, videos, own_now,
-            split_of=lambda x: [t[0] for t in
-                                split_files.get(x) or []],
-            apart=no_join, together=together_now())
-        state["camera_audio"] = camera_audio
-        state["own_audio_rows"] = own
-        state["own_cameras"] = list(own_now)
-        state["forced_own"] = list(forced)
-        if not chains:
-            column_layout.addWidget(label(
-                T('No sound in use yet -- add an audio recording, or set '
-                  'a video file\'s Camera audio to "use the audio" in the '
-                  'file list.'), COLOURS["quiet"]))
-            # Before the exit, not after the table: the time axis is
-            # measured over the envelope of every file and is needed
-            # whether or not any sound is in use. Leaving here first
-            # would take a project its time axis.
-            if videos:
-                prework_kick_off(list(videos))
-            # And the button, for the same reason: the way in here is
-            # also taking the last sound away, and then it stood
-            # enabled with an empty reason beside it.
-            assignment_check()
-            return
-        # The cameras first, then the two special cases. MIX_ONLY means the
-        # track is processed and in the mix but is not the first track on any
-        # camera. IGNORE_AUDIO leaves it out entirely -- useful where the
-        # matching video is still missing.
-        targets = ([os.path.basename(b) for b in videos]
-                 + [MIX_ONLY, IGNORE_AUDIO])
-        wide = wide_bar_of(targets, *wide_cameras_now(),
-                           aside=state.setdefault("wide_set_aside", {}))
-        barred = wide["barred"]
-        head = T('Audio recording')
-        belongs_head = T('belongs to')
-        # The column for the separation is only there where there is a
-        # separation to have: with it switched off it would be a column
-        # of empty cells offering something the program cannot do.
-        # It no longer holds a button -- asking for the voices to be
-        # told apart is an answer in the name field of the same row --
-        # only what came of it, and a way to break off while it runs.
-        columns = [head, T('Speaker name'), belongs_head, "Timecode"]
-        if not SPEAKER_SPLIT_OFF:
-            columns.append(T('Speakers'))
-        tree_audio = tree_build(columns)
-        state["assignment_tree"] = tree_audio
-        state["row_picker"] = row_picker_for(tree_audio)
-        column_layout.addWidget(tree_audio, 1)
-        audio_file_list = []
-        # Without timecode a position cannot be converted onto the common axis.
-        # Where not one file carries one, the values are relative to the first.
-        tc_of_row = []
-        for row, _ in chains:
-            try:
-                tc_of_row.append(file_timecode(row[0]))
-            except Exception:
-                tc_of_row.append(None)
-        without_tc = not any(t is not None for t in tc_of_row)
-        state["without_tc"] = without_tc
-        if not without_tc:
-            state["tc_there"] = True
-        for (row, _) in chains:
-            first = row[0]
-            camera_track = os.path.abspath(first) in state["own_audio_rows"]
-            from_camera = state["own_audio_rows"].get(first) \
-                if isinstance(state["own_audio_rows"], dict) else None
-            stem = (guess_camera_name(from_camera or first)
-                     if camera_track else guess_speaker_name(first))
-            # So the two rows of one camera can be told apart.
-            if piece_label.get(first):
-                stem = piece_label[first]
-            if camera_track:
-                stem = remembered.get("ownname:" + first) or stem
-            caption = os.path.basename(first)
-            if camera_track:
-                caption += T('   (camera audio)')
-            elif len(row) > 1:
-                caption += "  (+%d)" % (len(row) - 1)
-            node = tree_row(tree_audio, None, [caption])
-            node[0].setData(first, Qt.UserRole + 1)
-            audio_file_list.append(first)
-            file_rows.append((node, first, caption))
-            old_name, old_camera = remembered.get("audio:" + first, (None, None))
-            # Empty until somebody answers, with the guess offered in
-            # grey and never written in. The field itself knows both,
-            # so no reader of it has to.
-            name_value = SpeakerName(old_name or "", stem)
-            # The voices this recording is showing. Where there are any,
-            # the assignment belongs to them and not here: two answers
-            # one above the other could contradict each other, and the
-            # rule is that the assignment has exactly one level.
-            kids = voices_of(first)
-            if kids:
-                state["voiced"].add(os.path.abspath(first))
-            if SPEAKER_SPLIT_OFF:
-                # Nothing can be told apart on this machine, so there is
-                # only one answer to give and a plain field to give it in.
-                name_field = field_bind(QtWidgets.QLineEdit(), name_value)
-                speaks_as(name_field, T('Speaker name'), caption)
-            else:
-                # Only an answer picks the answer. What was found used
-                # to do it, so a separation that came back with four
-                # voices set the field to "several speakers" without
-                # anybody saying so.
-                said = remembered.get("several:" + first)
-                several_value = Value(bool(said))
-                several_value.listen(
-                    lambda *_, p=first, v=several_value: several_set(
-                        p, v.get()))
-                name_field = speaker_name_cell(name_value, several_value,
-                                               caption)
-            tree_field(tree_audio, node, 1, name_field)
-            row_picker_watch(state["row_picker"], name_field)
-            # Before the branch below, so that a row without a selector
-            # says how its separation stands too: whether a recording is
-            # spread over every camera has nothing to do with who is
-            # heard on it.
-            if not SPEAKER_SPLIT_OFF:
-                box_, cell_ = split_cell_build(first, split_stop, node[4])
-                tree_field(tree_audio, node, 4, box_)
-                state["split_cells"].append(cell_)
-            # The voices go under the row before the row is filled in:
-            # whether this recording has any is what decides what it
-            # carries itself.
-            if voices_build(tree_audio, node, first, videos, targets, wide):
-                tree_audio.setExpanded(node[0].index(),
-                                       tree_open.get(first, True))
-                folded_show(node[0].index())
-            # Where the voices hang underneath, the rows below carry the
-            # cameras and this row carries none -- the assignment has
-            # exactly one level. The cell says so instead of standing
-            # empty, which left the reader to work it out. The Multitrack
-            # tick does not come into it: which camera a recording belongs
-            # to is the same question with the tick and without it.
-            if kids:
-                tree_cell(node, 2, T('the voices below carry the cameras'),
-                          COLOURS["quiet"])
-                # MIX_ONLY is the truth here: no track belongs to one camera
-                # alone.
-                assign_lines.append((row, name_value, Value(MIX_ONLY)))
-                continue
-            # Camera rows get the full selector too. A clip-on microphone
-            # plugged into one camera does not mean the person is filmed by
-            # that camera -- two microphones on one camera are usually two
-            # people sitting in front of two others. The camera the audio
-            # came from is only the preselection.
-            own_camera = (os.path.basename(from_camera or first)
-                          if camera_track else "")
-            was = camera_after_a_mark("audio:" + first, old_camera, wide,
-                name_value.get() or os.path.basename(first))
-            picked, worked_out = camera_row_cameras(
-                was, wide["pickable"], name_value.get(), videos,
-                own_camera="" if own_camera in barred else own_camera)
-            camera_value = Value(MIX_ONLY if picked in barred else picked)
-            camera_value.derived = worked_out
-            box = QtWidgets.QComboBox()
-            speaks_as(box, belongs_head, caption)
-            fill_choices(box, targets, camera_value.get())
-            choices_shut(box, barred, wide["why"], COLOURS["quiet"])
-
-            def chosen(_i=0, b=box, value=camera_value, f=name_field):
-                """Hand the value on; an ignored track needs no name."""
-                v = b.currentData()
-                value.set(v)
-                f.setEnabled(v != IGNORE_AUDIO)
-
-            box.currentIndexChanged.connect(chosen)
-            chosen()
-            # When the camera changes, the summary below no longer fits.
-            box.currentIndexChanged.connect(
-                lambda *_: QtCore.QTimer.singleShot(0, refresh_names))
-            tree_field(tree_audio, node, 2, box)
-            row_picker_watch(state["row_picker"], box)
-            if camera_track:
-                own_audio_names.setdefault(from_camera or first,
-                                           []).append(name_value)
-            assign_lines.append((row, name_value, camera_value))
-            audio_fields.append(name_field)
-            name_value.listen(lambda *_: QtCore.QTimer.singleShot(
-                0, assignment_check))
-        # A voice the separation missed is still asked for below the
-        # tree: it is not a row of the tree but the input to another
-        # separation, and it belongs to no one recording in particular.
-        more = more_speakers_row(audio_file_list, voice_add)
-        if more is not None:
-            column_layout.addWidget(more)
-        audio_reason = label("", COLOURS["error"])
-        audio_reason.setWordWrap(True)
-        audio_reason.setVisible(False)
-        column_layout.addWidget(audio_reason)
-        state["audio_reason"] = audio_reason
-        # The rows that carry a file, which is not every row: the
-        # timecode and the "does not fit" mark belong to a recording,
-        # and a voice has neither.
-        state["file_rows"] = list(file_rows)
-        tc_column_show()
-        # One tree where there were two tables, so it may be as tall as
-        # both were: 120 each, and the heading the second one had.
-        tree_rows_fit(tree_audio, 266)
-        for _signal in (tree_audio.expanded, tree_audio.collapsed):
-            _signal.connect(folded_show)
-        tree_audio.selectionModel().selectionChanged.connect(
-            lambda *_, t=tree_audio: assignment_row_show(t))
-
-        window_position_show()
-
-        # --- second table: what the new video files should be called
-        if not production_var.get():
-            production_var.set(guess_production_name(chains[0][0][0]))
-        camera_lines[:] = []
-        # What comes out, and the two decisions that can only be made
-        # after watching: what the clip is, and whether its sound is
-        # material. Both stand in the file list as well, on the same
-        # value -- that a clip is in truth an outro is noticed in the
-        # player, and the player is here.
-        table_video = table_build([T('Camera'), T('new file name'),
-                                   T('gets audio from'), T('Kind'),
-                                   T('Camera audio')])
-        column_layout.addWidget(table_video, 1)
-        video_reason = label("", COLOURS["error"])
-        video_reason.setWordWrap(True)
-        video_reason.setVisible(False)
-        column_layout.addWidget(video_reason)
-        state["video_reason"] = video_reason
-        taken = {}
-        for _, nv, cv in assign_lines:
-            taken.setdefault(cv.get(), []).append(nv)
-        wides, said = wide_cameras_now()
-
-        def kinds_refresh():
-            """Say the Kind column again, with the wide shot as it is now.
-
-            A voice given a name and a camera makes that camera one
-            somebody sits in front of, so it is no longer the derived
-            wide shot. The table is built before that answer exists.
-
-            Both tables that show a Kind, not only this one: the file
-            list on the first tab shows the same derivation, and left
-            out it goes on saying "Wide shot" for every camera while
-            this one says something else.
-            """
-            if state.get("closing"):
-                return
-            video_kinds_again(video_kind_again)
-            try:
-                fresh, marked = wide_cameras_now()
-                for i, path in enumerate(videos):
-                    if i >= table_video.rowCount():
-                        break
-                    box_cell, _box = kind_cell_for(
-                        path, clip_kind_value(path), fresh, marked,
-                        state.get("no_place"), clip_kind_values,
-                        COLOURS["quiet"], lambda q=path: kind_answered(q))
-                    table_video.setCellWidget(i, 3, box_cell)
-            except RuntimeError:
-                # The table was rebuilt under us; the new one is right.
-                return
-
-        state["kinds_refresh"] = kinds_refresh
-        for row, b in enumerate(videos):
-            short = os.path.basename(b)
-            table_video.insertRow(row)
-            cell(table_video, row, 0, short)
-            clip_kind = clip_kind_value(b)
-            kind_cell, _kind_box = kind_cell_for(
-                b, clip_kind, wides, said, state.get("no_place"),
-                clip_kind_values, COLOURS["quiet"],
-                lambda p=b: kind_answered(p))
-            table_video.setCellWidget(row, 3, kind_cell)
-            own_audio = audio_use_value(b)
-            used, why = audio_use_settled(b, own_now, forced,
-                                          has_sound(b), clip_kind.get())
-            if clip_kind.get() not in CAMERA_TYPES:
-                # A finished clip has nothing to assign and gets no new name --
-                # it is used directly. Rather than offering empty fields that
-                # do nothing, a sentence is there instead. Its Camera audio
-                # is built all the same, greyed out with the reason beside
-                # it: "a finished clip -- only placed, not processed" is
-                # the answer to the question the field raises, and a blank
-                # cell answers nothing.
-                cell(table_video, row, 1,
-                      T('stays out') if clip_kind.get() == TYPE_IGNORED
-                      else T('used directly'),
-                      COLOURS["quiet"])
-                cell(table_video, row, 2, "")
-                sound_off, sound_off_box = camera_audio_cell(
-                    short, used, why, COLOURS["quiet"], True)
-                audio_use_bind(sound_off_box, own_audio, why)
-                table_video.setCellWidget(row, 4, sound_off)
-                continue
-            # A camera can contribute its own audio too -- the wide shot with
-            # the room microphone, say, or where somebody has no recording of
-            # their own. It is then a track like any other: with a speaker
-            # name, it goes up, gets processed and is in the mix.
-            # One camera can give more than one track: two clip-on
-            # microphones on two channels are two speakers, and both names
-            # belong in the file name of that camera.
-            mine = own_audio_names.get(b) or []
-            own_audio_name = mine[0] if mine else Value(
-                remembered.get("ownname:" + b) or guess_camera_name(b))
-            own = list(taken.get(short) or [])
-            if used:
-                own += mine or [own_audio_name]
-            suggestion = camera_name_suggestion(production_var.get(),
-                                                short, own)
-            suggestions[b] = suggestion
-            name_value = Value(remembered.get("video:" + b) or suggestion)
-            name_entry = field_bind(QtWidgets.QLineEdit(), name_value)
-            speaks_as(name_entry, T('new file name'), short)
-            from_the_front(name_entry)
-            table_video.setCellWidget(row, 1, name_entry)
-            cell(table_video, row, 2, camera_gets_from(short, wide, own),
-                 COLOURS["quiet"])
-            # The file list's field again, on the same value: it stands
-            # here because the player does, and usable sound is heard.
-            sound, sound_box = camera_audio_cell(short, used, why,
-                                                 COLOURS["quiet"], True)
-            audio_use_bind(sound_box, own_audio, why)
-            table_video.setCellWidget(row, 4, sound)
-            camera_lines.append((b, name_value, own_audio, own_audio_name))
-            video_fields.append(name_entry)
-            name_value.listen(lambda *_: QtCore.QTimer.singleShot(
-                0, assignment_check))
-        table_rows_fit(table_video)
-        table_video.itemSelectionChanged.connect(
-            lambda t=table_video, d=list(videos): line_show(t, d))
-        table_video.resizeColumnsToContents()
-        for c in range(len(columns)):
-            tree_audio.resizeColumnToContents(c)
-        # The name columns carry input fields, which must not shrink to their
-        # content. The first column of the tree carries the triangles and the
-        # indentation as well, so it is measured with room for both.
-        tree_audio.setColumnWidth(0, max(220, tree_audio.columnWidth(0) + 30))
-        # The new file name is long, so it gets whatever is left.
-        table_video.horizontalHeader().setStretchLastSection(False)
-        table_video.horizontalHeader().setSectionResizeMode(
-            1, QtWidgets.QHeaderView.Stretch)
-        tree_audio.header().setStretchLastSection(True)
-        if not SPEAKER_SPLIT_OFF:
-            # A width for what the column will hold, not for what is in
-            # it: it is written to minutes later, and a column that
-            # measures its contents measured an empty one. The room
-            # left over goes to the name field, which scrolls its own.
-            split_column_fit(tree_audio, 4)
-        # The camera list now stands, so queue what can be prepared: the
-        # envelope for every camera, plus the camera audio for those
-        # contributing it.
-        window_prefill(videos)
-        window_enable()
-        show_weak()
-        main_track_show()
-        every_cameras = [p for p, _n, _k, _own_name in camera_lines]
-        # Every camera goes in either way -- the time axis lives on those
-        # envelopes. Only the second task, fetching the sound itself, is
-        # for the ones whose audio was set to "use".
-        having_audio = [p for p in every_cameras if p in own_now]
-        # The audio recordings belong in it: the time axis needs their
-        # envelopes just as much, and the bar should show that they are being
-        # worked on.
-        # Every block, not only the row's first: a recording made of three
-        # blocks has to be measured and the In point all three.
-        every = list(every_cameras)
-        for r, _nv, _cv in assign_lines:
-            for x in r:
-                if x not in every:
-                    every.append(x)
-        if every:
-            prework_kick_off(every, having_audio)
-        # Beside the prework, not behind it: the two do not slow each
-        # other down, and the separation is the long one of the two.
-        speaker_split_kick_off()
-        assignment_check()
-        assignment_state_show()
-        # The last camera to be given a speaker takes the wide shot away.
-        wide_state_show()
-        # And the file list says so too. It is built when the files come
-        # in, which is before anybody is assigned, and the Kind it shows
-        # is derived from exactly that -- so without this the first tab
-        # goes on calling every camera the wide shot while the table
-        # above says something else.
-        video_kinds_again(video_kind_again)
+        """Build both tables again, out of the piece above gui()."""
+        assignment_tables_build(
+            forget, Qt, QtCore, QtWidgets, assign_lines, assign_position,
+            audio_fields, camera_lines, clip_kind_values, file_rows, files,
+            no_join, own_audio_names, piece_label, production_var,
+            remembered, split_files, state, suggestions, tree_open,
+            video_fields, video_kind_again, voice_lines, assignment_check,
+            assignment_remember, assignment_row_show, assignment_state_show,
+            audio_use_now, audio_use_value, cell, clip_kind_value,
+            folded_show, kind_answered, line_show, main_track_show,
+            prework_kick_off, several_set, show_weak, speaker_split_kick_off,
+            split_stop, tc_column_show, together_now, voice_add,
+            voices_build, voices_of, wide_cameras_now, window_enable,
+            window_position_show, window_prefill)
 
     # The separation stands above this line and redraws both tables when
     # a result comes back; the way over is the one preview_soon takes.
@@ -6193,6 +6238,10 @@ def gui():
         untouched = [p for p, nv, _k, _n in camera_lines
                       if nv.get() == suggestions.get(p)]
         assignment_fresh(untouched)
+
+    # The table builder stands above gui() and is written before this,
+    # so the way over is state -- as state["preview_soon"] already is.
+    state["refresh_names"] = refresh_names
 
     def mode_toggled():
         """The checkbox changed: what the later tabs show changes with it.
@@ -6568,6 +6617,9 @@ def gui():
                                bool(wide_cameras_now()[0]), COLOURS["quiet"],
                                bool(state.get("words_there")))
             preview_kick_off()
+
+    # The same way over as refresh_names above, and for the same reason.
+    state["wide_state_show"] = wide_state_show
     # Preview: as soon as a handover file from earlier is there, the cut can be
     # recomputed on every change without writing anything. Then the effect of a
     # number is visible rather than guessed.
