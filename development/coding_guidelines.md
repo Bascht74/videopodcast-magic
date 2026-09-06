@@ -410,7 +410,12 @@ It is not a licence.
   here freezes any number as acceptable. It stood at 5753 on 23 August,
   and `largest_function` in `tests/state/style_state.json` has carried
   it down from there step by step; that file and its history are the
-  record, so no list of the steps is kept here to go stale.
+  record, so no list of the steps is kept here to go stale. **Once the
+  number rose**, on 30 August: `c746179` wrote a fall to 5218 into the
+  state while `gui()` had in fact grown to 5267 -- the run there is red
+  on its own ratchet -- and `c506337` put the measured figure back by
+  hand. The function did not grow that day; the record of it was wrong
+  for fourteen minutes.
 
 **The long version** is `docs/notes/gui_struktur.md`: the map of the
 banner sections with the seam measured at each one. It also holds what
