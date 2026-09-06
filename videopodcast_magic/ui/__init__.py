@@ -1016,252 +1016,27 @@ def menus_follow(late):
         entry.setEnabled(bool(here and here()))
 
 
-def player_of_tab(tabs, players):
-    """The player standing on the tab showing now, or None elsewhere.
+#------------------------------------------------------------- The menus
+# A piece of its own, in the folder "menus" beside the way in and not
+# beside this file: beside() lays its path against the folder the
+# program starts in, whoever calls it. Read where its block stood.
 
-    Which tab a player is on is nowhere written down: the sheet is
-    asked whether the player is inside it. A player folded away is
-    none: the Resolve preview goes when there is no cut to show, and
-    the transport used to drive a picture nobody could see.
-    """
-    sheet = tabs.currentWidget()
-    if sheet is None:
-        return None
-    for one in players:
-        if (one is not None and sheet.isAncestorOf(one)
-                and one.isVisibleTo(sheet)):
-            return one
-    return None
+menus = beside("menus", program=PROGRAM)
 
-
-def player_loaded(one):
-    """Whether a player has anything at all to play.
-
-    The preview player holds one file, the cut player a list of shots.
-    Both are empty until material arrives, and every transport command
-    on an empty player returns without doing anything -- which from
-    outside looks exactly like a program that is broken.
-    """
-    return bool(getattr(one, "file_path", None) or getattr(one, "cut", None))
+# What the rest of the window calls out of it, bound by name: a name
+# read here and bound nowhere here is a loose end. Three of the four
+# are read on this side by no code and stand here all the same -- one
+# test asks the program for player_loaded, and dir() keeps the rest.
+build_menus = menus.build_menus
+player_loaded = menus.player_loaded
+player_of_tab = menus.player_of_tab
+transport = menus.transport
 
 
-def transport(pick, what, *rest):
-    """One transport command, to the player of the tab showing now.
-
-    A player that does not have that command is left alone rather than
-    raising: which player is meant is decided at the press, and the
-    stand-in for a Qt without multimedia knows less than the others.
-    """
-    doing = getattr(pick(), what, None)
-    if doing is not None:
-        doing(*rest)
-
-
-def build_menus(QtGui, QtCore, QtWidgets, window, tabs, player, does,
-                switched=None, cut_player=None, late=None, buttons=None,
-                project_here=None):
-    """The whole menu bar, from a table of what each entry does.
-
-    Outside gui() because it decides nothing. Every entry is a name, a
-    key and something to call, and all three come in; what is left here
-    is the order they stand in, and where the lines between them go.
-    *buttons* are the ones the switched entries follow, in their order.
-    """
-
-    def act(where, text, doing, keys="", inside=None):
-        """One menu entry, with its key.
-
-        *inside* scopes the key to a widget: the player keys are bare
-        ones -- Space, I, O, the arrows -- and a bare key must not fire
-        while somebody is typing a name into a field. Attached to the
-        player, they work when the player has the focus and nowhere
-        else, and the menu still shows them. Several widgets may be
-        named, and then the key works at whichever of them has it.
-        """
-        action = QtGui.QAction(text, window)
-        action.triggered.connect(lambda _=False: doing())
-        if keys:
-            action.setShortcut(QtGui.QKeySequence(keys))
-            if inside is not None:
-                action.setShortcutContext(
-                    QtCore.Qt.WidgetWithChildrenShortcut)
-                for widget in (inside if isinstance(inside, (list, tuple))
-                               else [inside]):
-                    widget.addAction(action)
-        where.addAction(action)
-        return action
-
-    menu = QtWidgets.QMenuBar()
-
-    # Three groups, in the order the work goes: the project first,
-    # because a session begins by opening one or starting a new one;
-    # then the material; then the run. Before this the project was not
-    # in the menu at all -- the only way to a second production was to
-    # quit the program and start it again.
-    file_menu = menu.addMenu(T('&File'))
-    act(file_menu, T('Open project ...'), does["open project"], "Ctrl+P")
-    project_entries = [
-        act(file_menu, T('Save project'), does["save project"], "Ctrl+S"),
-        act(file_menu, T('Close project'), does["close project"], "Ctrl+W")]
-    file_menu.addSeparator()
-    act(file_menu, T('Add files ...'), does["add files"], "Ctrl+O")
-    remove_entry = act(file_menu, T('Remove'), does["remove"],
-                       "Ctrl+Backspace")
-    act(file_menu, T('Output folder ...'), does["output folder"],
-        "Ctrl+Shift+O")
-    file_menu.addSeparator()
-    run_entries = [act(file_menu, T('Start'), does["start"], "Ctrl+R"),
-                   act(file_menu, T('Dry run'), does["dry run"],
-                       "Ctrl+Shift+R")]
-    followers = [remove_entry] + run_entries
-    # The window decides what lives here, not the menu: these five are
-    # handed over and switched with the buttons that do the same thing.
-    # Born grey, because an empty window has nothing to remove, nothing
-    # to save and nothing to start, and a fresh entry is born alive.
-    for entry in project_entries + followers:
-        entry.setEnabled(False)
-    if late is not None:
-        late["menu_project"] = project_entries
-        late["menu_follows"] = list(zip(followers, buttons or ()))
-        late["project_here"] = project_here
-        # A menu built once carries the state of then, and the buttons
-        # move while it stands: a run greys them, so does a selection.
-        # Asked again on opening, as the View and Player menus are.
-        file_menu.aboutToShow.connect(lambda: menus_follow(late))
-    file_menu.addSeparator()
-    # Qt moves anything it recognises as settings into the application
-    # menu on a Mac, which is where people look for it.
-    settings_action = act(file_menu, T('Settings ...'), does["settings"],
-                          "Ctrl+,")
-    settings_action.setMenuRole(QtGui.QAction.PreferencesRole)
-
-    # The tabs by their own names, not "1. tab, 2. tab, 3. tab". The
-    # name is read off the tab, so the menu says what the tab says; the
-    # tick a finished tab carries is left out, since it comes and goes
-    # and a menu entry that changes under the hand is worse than none.
-    view_menu = menu.addMenu(T('&View'))
-    def view_menu_fill():
-        """Name the tabs that are there, each time the menu opens.
-
-        The menu is built once, at the end of gui(), when only the
-        first tab stands -- the other two arrive with the material. So
-        a menu filled once names one tab for ever, and Ctrl+2 and
-        Ctrl+3 name nothing at all. Qt has no signal for a tab
-        arriving, and it has one for a menu opening.
-        """
-        view_menu.clear()
-        for number in range(tabs.count()):
-            named = tabs.tabText(number).replace("&&", "&")
-            shown = act(view_menu, named.replace("\u2713", "").strip(),
-                        lambda i=number: tabs.setCurrentIndex(i),
-                        "Ctrl+%d" % (number + 1))
-            # The entry shows the key and must not answer it: the same
-            # key on the window would then be a second answer, Qt calls
-            # that ambiguous and fires neither. Every key was dead the
-            # moment somebody had opened this menu once.
-            shown.setShortcutContext(QtCore.Qt.WidgetShortcut)
-
-    view_menu_fill()
-    view_menu.aboutToShow.connect(view_menu_fill)
-    # The keys are not the menu's. A shortcut on a menu entry exists
-    # only while that entry does, and refilling on opening would leave
-    # Ctrl+2 dead until somebody had opened the menu once. These hang
-    # on the window and wait for their tab.
-    for number in range(TABS_AT_MOST):
-        keyed = QtGui.QShortcut(
-            QtGui.QKeySequence("Ctrl+%d" % (number + 1)), window)
-        keyed.activated.connect(
-            lambda i=number: (tabs.setCurrentIndex(i)
-                              if i < tabs.count() else None))
-
-    play_menu = player_menu(menu, player)
-    # There are two players -- the preview on the assignment tab and the
-    # cut player on the Resolve tab -- and which one is meant is decided
-    # at the moment somebody presses, not when the entry is built: the
-    # tab changes and the menu stands.
-    both = [player] + ([cut_player] if cut_player is not None else [])
-    played = []
-
-    def playing():
-        return player_of_tab(tabs, both)
-
-    def play_enable():
-        """Grey the transport out where there is no player to drive.
-
-        On the file tab and on the output tab there is no player at
-        all, and on the others none until material has arrived. And an
-        entry the player of this tab cannot do stays grey as well.
-        Asked again whenever the menu opens, for the same reason the
-        View menu is refilled -- a menu built once carries the state
-        of then.
-        """
-        one = playing()
-        on = player_loaded(one)
-        for entry, what in played:
-            entry.setEnabled(on and hasattr(one, what))
-
-    played.append((act(play_menu, T('Play and pause'),
-                       lambda: transport(playing, "toggle"), "Space", both),
-                   "toggle"))
-    # L and K as in every editing program: L runs forward, K holds. J is
-    # missing on purpose: backwards the ffmpeg backend under Qt reports
-    # a rate of 0.00 and stands still, and a key that does nothing is
-    # worse than none. K holds and never starts -- that is what it does
-    # in an editing program, and the space bar is there for the other
-    # half.
-    played.append((act(play_menu, T('Play forward, faster on every press'),
-                       lambda: transport(playing, "faster"), "L", both),
-                   "faster"))
-    played.append((act(play_menu, T('Pause'),
-                       lambda: transport(playing, "pause"), "K", both),
-                   "pause"))
-    play_menu.addSeparator()
-    for text, keys, seconds in (
-            (T('One frame back'), "Left", -1.0 / 30.0),
-            (T('One frame forward'), "Right", 1.0 / 30.0),
-            (T('One second back'), "Shift+Left", -1.0),
-            (T('One second forward'), "Shift+Right", 1.0),
-            (T('Ten seconds back'), "Alt+Left", -10.0),
-            (T('Ten seconds forward'), "Alt+Right", 10.0)):
-        played.append((act(play_menu, text,
-                           lambda s=seconds: transport(playing, "nudge", s),
-                           keys, both), "nudge"))
-    play_enable()
-    play_menu.aboutToShow.connect(play_enable)
-    tabs.currentChanged.connect(lambda *_: play_enable())
-    play_menu.addSeparator()
-    # The same four things the buttons under the player do, and they
-    # are greyed with them: the buttons went dead without a time axis
-    # while the menu wrote +0:00:00.000 into both fields.
-    for text, doing, keys in (
-            (T('Mark In'), does["mark in"], "I"),
-            (T('Mark Out'), does["mark out"], "O"),
-            (T('to In point'), does["to in"], "Shift+I"),
-            (T('to Out point'), does["to out"], "Shift+O")):
-        entry = act(play_menu, text, doing, keys, player)
-        if switched is not None:
-            switched.append(entry)
-
-    help_menu = menu.addMenu(T('&Help'))
-    act(help_menu, T('The manual'),
-        lambda: open_page("https://github.com/Bascht74/"
-                          "videopodcast-magic#readme"))
-    act(help_menu, T('What changed in this version'),
-        lambda: changes_shown(window))
-    log_entry(act, help_menu, window)
-    help_menu.addSeparator()
-    act(help_menu, T('Look for a newer version now'),
-        lambda: update_offer(window, asked=True))
-    # Always there, never greyed and never hidden: what stands behind
-    # it is a question to github, and no menu being built can know the
-    # answer. The entry that hid itself hid the way out for good, from
-    # the day the file it looked for stopped being written.
-    act(help_menu, T('Back to an earlier version ...'),
-        lambda: restore_offer(window))
-    about = act(help_menu, T('About Video Podcast Magic'),
-                lambda: about_show(window))
-    about.setMenuRole(QtGui.QAction.AboutRole)
-    return menu
+#--------------------------------------------------------- The title bar
+# What stands in the title bar of the window, and nothing else.
+# It is read from three places in gui() and from no piece beside
+# this one, so it stays here rather than travelling.
 
 
 def window_title(project=""):
@@ -1351,6 +1126,12 @@ slider_argv = orders.slider_argv
 slider_numbers = orders.slider_numbers
 speakers_to_cameras = orders.speakers_to_cameras
 voices_of_values = orders.voices_of_values
+
+
+#---------------------------------------- The settings sheet and the log
+# The Settings window: the language box, the boxes for the key and
+# for Resolve assembled into it, and the row the macOS keychain
+# needs. The way to the log of a run stands at the end of it.
 
 
 def language_box_build():
@@ -1612,6 +1393,12 @@ total_hide = fittings.total_hide
 total_paint = fittings.total_paint
 voice_row_cells = fittings.voice_row_cells
 zoom_button = fittings.zoom_button
+
+
+#-------------------------------------------- What the window works with
+# Everything gui() calls that is not a fitting and not a piece of
+# its own: the prework, the rows of the assignment sheet, the
+# buttons that break a run off, and the run loop itself.
 
 
 def prepared_tracks_in(folder):
@@ -2676,6 +2463,12 @@ def audio_under_camera(camera_path, kind_of, done,
         if name in done:
             return [done[name]]
     return None
+
+
+#----------------------------------------------------- The window itself
+# One function, and the largest in the program. What could be
+# lifted out of it stands above and below; what is left holds the
+# widgets it builds and reaches for them by closure.
 
 
 def gui():
@@ -7786,6 +7579,12 @@ def gui():
     return app.exec()
 
 
+
+
+#------------------------------------------------ Once the window stands
+# What the window opens after it is up: the player menu, the
+# offers for a missing tool, the boxes about this version and the
+# next one, and the preset list it fetches when it is opened.
 
 
 def player_menu(menu, player):
