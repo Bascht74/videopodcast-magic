@@ -4,6 +4,19 @@
 And the seam itself: every line the program prints goes through the
 catalogue, or it comes out English in a German run.
 
+A number is the other half of that seam, and it runs both ways: what a
+person reads follows the language -- the decimal mark, the thousands
+mark, the clock -- while what is written into a file does not, so a CSV
+keeps its dot and its comma whatever the program is set to. Both halves
+are asked of the source as well, so a mark put back by hand is found
+before anybody sees it.
+
+Three more the seam rests on: a stored value, a switch and its targets
+stay English while the label beside them is translated; nothing is
+translated as early as import time, when no language has been chosen
+yet; and the marker that gives a log line its colour never reaches a
+written file.
+
 How a count picks a wording is asked of the catalogue, not of the
 program: a PO header carries its language's own rule, and the last
 section reads real rules -- German, French, Japanese, Russian, Arabic

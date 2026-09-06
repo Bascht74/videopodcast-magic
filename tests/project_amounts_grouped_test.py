@@ -4,7 +4,8 @@
 Three sections in the order they come: a count out of the audio
 cleanup, which takes the thousands mark; the track number printed
 beside it, which keeps its plain digits; and a measured frame rate,
-which takes the decimal comma.
+which takes the decimal comma and is held as a whole number, so that a
+place gained is caught as well as a place lost.
 
 The timeline and the project are stand-ins, so what is judged is what
 the program prints, not what Resolve would make of it. No wording is
@@ -13,6 +14,7 @@ these checks stand whether a catalogue carries the sentence or not.
 """
 import contextlib
 import io
+import re
 import sys
 import time
 
@@ -146,12 +148,21 @@ check("the audio track the camera was kept on is not grouped",
       % (said, "A%d" % HOME, "A1.234"))
 
 print("\n3. A measured frame rate takes the decimal comma")
+# "29,97" is a piece of "29,970" as well, so asking whether it stands
+# somewhere in the report catches a decimal place that went away and
+# not one that came. What is asked instead is what stands beside it: a
+# digit or a mark on either side means the program printed a different
+# number. The wanted number is written out here rather than worked out
+# the way the program works it out -- an expectation that takes the
+# program's own road agrees with it whatever the road does.
+WHOLE_RATE = re.compile(r"(?<![\d.,])29,97(?![\d.,])")
 d = {"fps": 30.0, "fps_measured": 29.97002997, "width": 1920, "height": 1080}
 rates = spoken(lambda: vpm.apply_project_settings(P(), d))
 said = holding(rates, "29,97", "29.97")
-check("the measured rate carries the German decimal mark",
-      "29,97" in rates and "29.97" not in rates,
-      "%r -- wanted %r in it and %r not" % (said, "29,97", "29.97"))
+check("the measured rate is 29,97 whole, in the German form",
+      bool(WHOLE_RATE.search(rates)) and "29.97" not in rates,
+      "%r -- wanted %r with no digit or mark beside it, and %r nowhere"
+      % (said, "29,97", "29.97"))
 
 vpm.set_language("en")
 
