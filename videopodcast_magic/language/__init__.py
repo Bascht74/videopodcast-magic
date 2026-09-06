@@ -170,9 +170,6 @@ def languages():
 # window is standing in at that moment. That is why the names are a
 # table here and not entries in the catalogue.
 LANGUAGE_NAMES = dict(
-    # Arabic is named although languages() does not offer it: the day
-    # the window sets a reading direction, a missing name must not be
-    # what holds the offer up.
     ar="العربية",
     de="Deutsch",
     en="English",
@@ -184,6 +181,22 @@ LANGUAGE_NAMES = dict(
     ru="Русский",
     zh="中文",
 )
+
+
+# Which languages are written from right to left. A table here for the
+# same reason as the names above: it is a fact about the language and
+# not about the window, and four of these five have no catalogue yet.
+RIGHT_TO_LEFT = ("ar", "fa", "he", "ur", "yi")
+
+
+def reads_right_to_left(code):
+    """Whether that language is written from right to left.
+
+    A locale name goes through known_language() first, so what arrives
+    here is a bare code. Anything else answers no, which is the way
+    round that leaves a window as every other language leaves it.
+    """
+    return code in RIGHT_TO_LEFT
 
 
 def language_name(code):
