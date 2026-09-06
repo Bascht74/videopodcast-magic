@@ -3584,8 +3584,8 @@ def write_handover(args, tracks, cameras, videos, folder, tc_start,
                     1.0, float(fps)):
                 print(T('  %s: the measurement puts it at %s s, the '
                         'timecode at %s s -- the measurement is used.')
-                      % (cam["name"], decimal_text("%+.3f" % where),
-                         decimal_text("%+.3f" % clock)))
+                      % (cam["name"], number_text(where, 3, plus=True),
+                         number_text(clock, 3, plus=True)))
         items.append({
             "file": file,
             "source": v,
@@ -3921,6 +3921,6 @@ def write_cut_list(args, segment_list, tracks, cameras, videos, folder,
     # of them is enough here.
     print(T('  %s speakers, %s shots, shortest %s s')
           % (group_text(len(segment_list)), group_text(len(cut)),
-             decimal_text("%.1f" % (min((b - a) for a, b, _ in cut)
-                                    if cut else 0))))
+             number_text(min((b - a) for a, b, _ in cut)
+                         if cut else 0)))
     return cut, segment_list
