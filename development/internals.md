@@ -301,6 +301,25 @@ which stands 800 lines *above* that seam, answers `AttributeError:
 'Program' object has no attribute 'chain_fill_in'`, and the same name
 at the call site answers the very function the window holds.
 
+**And a piece cannot bind its own name at its head either -- there the
+`def` has not run.** This one wears the same coat as the rule above and
+is a different animal: it is not a name that arrives late, it is a name
+that arrives *here*, further down the same file. Measured 7.9.2026 while
+the six `preset_*` names moved into `auphonic/`: a head line for
+`preset_fits_mode`, which `auphonic/` defines at its own line 261,
+answers `AttributeError: 'Program' object has no attribute
+'preset_fits_mode'`, rc=1 -- because at the head neither the `def` nor
+`take_from` has run.
+
+The way out is neither `PROGRAM.` nor `beside()`: it is **no head line
+at all**. The piece reads its own names the way any module does. So
+whoever moves a function into a piece has to sort the names it reads
+into three heaps, not two -- what the programme already carries (head
+line), what only exists after `ui/` (`PROGRAM.` at the use, or off the
+piece with `beside()`), and **what the receiving piece already owns
+(nothing to do)**. The third heap looks exactly like the second from
+outside, and only the run tells them apart.
+
 **A cycle is broken by deleting the binding line, not by forwarding.**
 A function of the same name that calls the real one is bound into the
 way in under its own name before the real one exists, and the call ends
@@ -483,7 +502,7 @@ way every window in this table was found.
 | `material/` | the checking binds the camera margin, the clipping and `parallel_map` out of it | before the checking |
 | `bearings/` | binds the material's names; the window's colours and the cut list it reads late | after the material, before the checking |
 | `preflight/` | binds `RUN_STOP`; the separation binds its `run_ffmpeg_with_progress` | after `RUN_STOP`, before the separation |
-| `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
+| `auphonic/` | binds `check_preset` and `report_findings` out of `preflight/`, and `gui_log` out of `herald/`; `preflight/` reaches back for the one name that would close the circle, `read_preset`, through `PROGRAM.` | after the checking, because `choose_preset` asks it whether the preset fits |
 | `speakers/` | the cut binds 20 of its names and the window 39; `orders/` and three pieces the window reads bind one or two more | before all of them |
 | `resolve/` | binds `Finding`, which the preflight above brings in | here, and not where it is first used |
 | `cut/` | the window binds its names | before the line that reads the window |

@@ -24,6 +24,7 @@ ask_choice = PROGRAM.ask_choice
 channel_count = PROGRAM.channel_count
 channel_text = PROGRAM.channel_text
 check_preset = PROGRAM.check_preset
+gui_log = PROGRAM.gui_log
 json = PROGRAM.json
 kept_channels = PROGRAM.kept_channels
 load_api_key = PROGRAM.load_api_key
@@ -346,6 +347,143 @@ def choose_preset(key, wanted, multitrack=False, lufs=None,
             return done(uuid, name)
         # The bound on what may be typed, not a count of presets.
         print(T('  Please give a number between 1 and %d.') % len(items))
+
+
+def preset_box_widget(QtWidgets, state, fetch):
+    """The class for the preset list, which fetches itself when opened.
+
+    Opening the list is the moment somebody wants to know what
+    auphonic.com has; before that nothing is asked. Fetching takes a
+    moment, so it says so rather than opening on the one entry it has --
+    and whoever receives them opens it again. A factory, not a class.
+    """
+
+    class PresetBox(QtWidgets.QComboBox):
+
+        def showPopup(self):
+            if not state.get("presets") and not state.get("presets_busy"):
+                state["presets_open_after"] = True
+                fetch()
+                if state.get("presets_busy"):
+                    self.addItem(T('fetching from auphonic.com ...'), "")
+                    self.model().item(self.count() - 1).setEnabled(False)
+            QtWidgets.QComboBox.showPopup(self)
+
+    return PresetBox
+
+
+def preset_list_bring(state, fetch, apply_wish):
+    """Bring the preset list up after a project was opened.
+
+    The list is otherwise only fetched when somebody opens the box --
+    so a project carrying a preset finds nothing to put it in, and the
+    box says "without auphonic.com", which the project did not ask for.
+    """
+    if (state.get("preset_wanted") and not state.get("presets")
+            and not state.get("presets_busy")):
+        fetch()
+    else:
+        apply_wish()
+
+
+def preset_box_fill(box, entries, state, none_value):
+    """Put the rows into the preset list and pick what is wanted.
+
+    Without auphonic.com stays selected until somebody picks: landing on
+    the first entry of an arriving list would spend credit because a list
+    came. Where the list cannot hold the wish -- key refused, no net --
+    it stays in *state*, or the stand-in would be stored.
+    """
+    before_value = box.currentData() or ""
+    box.blockSignals(True)
+    box.clear()
+    for value, text, pickable in entries:
+        box.addItem(text, value)
+        if not pickable:
+            box.model().item(box.count() - 1).setEnabled(False)
+    box.setCurrentIndex(0)
+    box.setEnabled(True)
+    wanted = state.get("preset_wanted") or before_value or ""
+    if wanted:
+        i = box.findData(wanted)
+        if i >= 0:
+            box.setCurrentIndex(i)
+            state.pop("preset_wanted", None)
+        elif wanted != none_value:
+            state["preset_wanted"] = wanted
+            # Not in the list yet -- being fetched, or refused. Its value
+            # stays "without auphonic.com", so a run spends nothing.
+            box.addItem(T('%s -- being checked') % wanted, none_value)
+            box.model().item(box.count() - 1).setEnabled(False)
+            box.setCurrentIndex(box.count() - 1)
+    box.blockSignals(False)
+    # What the box was asked for and what it settled on. A wish left
+    # standing means the list could not hold it.
+    gui_log("presets: %d in the list, wanted %r, before %r -> %r%s"
+             % (box.count(), state.get("preset_wanted") or "", before_value,
+                box.currentData(),
+                "" if not state.get("preset_wanted") else " (not placed)"))
+
+
+def preset_entries(presets, multitrack_on, none_label, none_value):
+    """The rows of the preset list: (value, text, can be picked).
+
+    The first row is not a preset but the decision to run without
+    auphonic.com, always there. Three states, not the same: *presets*
+    None means nobody has looked; an empty list is an account with no
+    preset; a full list with nothing fitting is all the other mode.
+    """
+    kind = (T('Multitrack mode') if multitrack_on
+            else T('Singletrack mode'))
+    rows = [(none_value, none_label, True)]
+    fitting = [(n, mt) for n, _u, mt in (presets or [])
+               if preset_fits_mode(mt, multitrack_on)]
+    for name, mark in fitting:
+        # The bracket names the mode, so it may only stand where the mode
+        # is known: an unclassified preset gets its own name and no more.
+        rows.append((name, "%s  (%s)" % (name, kind) if mark is not None
+                     else name, True))
+    if presets is None or fitting:
+        return rows
+    if presets:
+        none_yet, no_multi, no_single = preset_missing_rows()
+        rows.append(("", no_multi if multitrack_on else no_single, False))
+    else:
+        rows.append(("", preset_missing_rows()[0], False))
+    return rows
+
+
+def preset_missing_rows():
+    """The three sentences a list with nothing to pick can carry.
+
+    In one place because two callers need them: the list puts one in, and
+    the field has to be wide enough for the widest. Order: no preset at
+    all, no Multitrack one, no Singletrack one. They say "of your own"
+    and not "in the account" -- all we ever see is what somebody made.
+    """
+    return (T('No preset of your own -- create one on auphonic.com'),
+            T('No Multitrack preset of your own -- create one'),
+            T('No Singletrack preset of your own -- create one'))
+
+
+def preset_mode_note(preset_list, multitrack_on):
+    """What to say where the list came back and shows nothing.
+
+    The presets are filtered by the mode, and an account without one of
+    the kind in use leaves the list at its single entry -- which reads
+    like a key that was refused, and is not. Returns (sentence or "",
+    the presets that fit).
+    """
+    fitting = [n for n, _u, mt in (preset_list or [])
+               if preset_fits_mode(mt, multitrack_on)]
+    if not preset_list or fitting:
+        return "", fitting
+    return ((T('The key is good. Of the %s presets in the account none '
+               'is a Multitrack one, so the list stays empty.')
+             if multitrack_on else
+             T('The key is good. Of the %s presets in the account none '
+               'is a Singletrack one, so the list stays empty.'))
+            % number_text(len(preset_list), 0), fitting)
 
 
 # Output files with these endings are text about the audio, not audio.
