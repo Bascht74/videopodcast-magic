@@ -58,7 +58,6 @@ choose_preset = PROGRAM.choose_preset
 common_window = PROGRAM.common_window
 copy_mov_atoms = PROGRAM.copy_mov_atoms
 cross_correlate = PROGRAM.cross_correlate
-decimal_text = PROGRAM.decimal_text
 decode_audio = PROGRAM.decode_audio
 decode_audio_tracks = PROGRAM.decode_audio_tracks
 envelope = PROGRAM.envelope
@@ -1027,8 +1026,8 @@ def build_common_timebase(args, plan, cameras, video_paths, title=""):
                 'Resolve repeats frames, downwards it\n  throws them '
                 'away. Every camera keeps its own rate, and the cut '
                 'counts\n  in that one.')
-              % decimal_text("%g" % resolve_timeline_rate(
-                  timeline_frame_rate(args, videos, None))))
+              % number_text(resolve_timeline_rate(
+                  timeline_frame_rate(args, videos, None)), None))
     if len(sizes) > 1:
         print(as_head(T('\nDIFFERENT FRAME SIZES: %s') % ", ".join(sizes)))
         print(T('  Of no consequence for the sound.'))

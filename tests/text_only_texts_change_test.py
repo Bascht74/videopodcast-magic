@@ -543,16 +543,16 @@ check("no German choice values", not bad_choices, str(bad_choices))
 
 print("\n13. Every language writes numbers its own way")
 vpm.set_language("de")
-got = vpm.decimal_text("%.3f" % 25.0)
+got = vpm.number_text(25.0, 3)
 check("German: comma", got == "25,000",
-        "decimal_text('25.000') under %r is %r, wanted '25,000'"
+        "number_text(25.0, 3) under %r is %r, wanted '25,000'"
         % (vpm.LANG, got))
 check("German: clock time", vpm.as_hms(3725.5) == "1:02:05,500",
         "as_hms(3725.5) is %r, wanted '1:02:05,500'" % vpm.as_hms(3725.5))
 vpm.set_language("en")
-got = vpm.decimal_text("%.3f" % 25.0)
+got = vpm.number_text(25.0, 3)
 check("English: dot", got == "25.000",
-        "decimal_text('25.000') under %r is %r, wanted '25.000'"
+        "number_text(25.0, 3) under %r is %r, wanted '25.000'"
         % (vpm.LANG, got))
 check("English: clock time", vpm.as_hms(3725.5) == "1:02:05.500",
         "as_hms(3725.5) is %r, wanted '1:02:05.500'" % vpm.as_hms(3725.5))
@@ -561,13 +561,15 @@ check("no hard-coded comma left in the source",
         "%r %s, wanted 0 times"
         % ('replace(".", ",")', sightings('replace(".", ",")')))
 vpm.set_language("de")
-got = vpm.group_text(48000)
+got = vpm.number_text(48000, 0)
 check("German: thousands with a dot", got == "48.000",
-        "group_text(48000) under %r is %r, wanted '48.000'" % (vpm.LANG, got))
+        "number_text(48000, 0) under %r is %r, wanted '48.000'"
+        % (vpm.LANG, got))
 vpm.set_language("en")
-got = vpm.group_text(48000)
+got = vpm.number_text(48000, 0)
 check("English: thousands with a comma", got == "48,000",
-        "group_text(48000) under %r is %r, wanted '48,000'" % (vpm.LANG, got))
+        "number_text(48000, 0) under %r is %r, wanted '48,000'"
+        % (vpm.LANG, got))
 check("no hard-coded thousands mark left",
         'format(SR, ",d").replace' not in source,
         "%r %s, wanted 0 times"
