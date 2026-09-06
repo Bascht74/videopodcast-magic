@@ -21,9 +21,7 @@ TN = PROGRAM.TN
 VERSION = PROGRAM.VERSION
 _pip_install = PROGRAM._pip_install
 cache_folder = PROGRAM.cache_folder
-decimal_text = PROGRAM.decimal_text
 file_content_mark = PROGRAM.file_content_mark
-group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 json = PROGRAM.json
 number_text = PROGRAM.number_text
@@ -449,13 +447,13 @@ def write_transcript_files(folder, base, words, segments=()):
     if segments:
         print(T('  %s words: %s %% to one voice, %s %% to two, '
                 '%s %% in a gap')
-              % (group_text(total),
-                 decimal_text("%.1f" % (100.0 * tally["clear"] / total)),
-                 decimal_text("%.1f" % (100.0 * tally["shared"] / total)),
-                 decimal_text("%.1f" % (100.0 * tally["gap"] / total))))
+              % (number_text(total, 0),
+                 number_text(100.0 * tally["clear"] / total, 1),
+                 number_text(100.0 * tally["shared"] / total, 1),
+                 number_text(100.0 * tally["gap"] / total, 1)))
     else:
         print(T('  %s words, without names -- nobody was separated')
-              % group_text(total))
+              % number_text(total, 0))
     stem = os.path.join(folder, base)
     written = []
     for ending, content in (
@@ -526,7 +524,7 @@ def read_word_tsv(path):
         print(TN(timeless,
                  '  %s word came back without a time and was left out.',
                  '  %s words came back without a time and were left '
-                 'out.') % group_text(timeless))
+                 'out.') % number_text(timeless, 0))
     out.sort(key=lambda w: (w["start"], w["end"]))
     return out
 
@@ -996,7 +994,7 @@ def recognise_speech(audio_path, language="", way=""):
         [name for wanted, name in WORD_WAYS if way in ("", wanted)])
     if words is not None:
         print(T('  Speech recognition (%s): %s words, read back')
-              % (took, group_text(len(words))))
+              % (took, number_text(len(words), 0)))
         return words, took
     took = ""
     if way in ("", "macos"):
@@ -1011,7 +1009,7 @@ def recognise_speech(audio_path, language="", way=""):
         return None, ""
     words_cache_write(mark, language, took, words)
     print(T('  Speech recognition (%s): %s words in %s s')
-          % (took, group_text(len(words)),
+          % (took, number_text(len(words), 0),
              number_text(time.time() - started)))
     return words, took
 
@@ -1035,7 +1033,7 @@ def words_at_hand(audio_path, language=""):
                                [name for _wanted, name in WORD_WAYS])
     if words is not None:
         print(T('  Speech recognition (%s): %s words, read back')
-              % (took, group_text(len(words))))
+              % (took, number_text(len(words), 0)))
         return words
     words = macos_words(audio_path, language)
     took = "macOS"
@@ -1046,7 +1044,7 @@ def words_at_hand(audio_path, language=""):
         return []
     words_cache_write(mark, language, took, words)
     print(T('  Speech recognition (%s): %s words in %s s')
-          % (took, group_text(len(words)),
+          % (took, number_text(len(words), 0),
              number_text(time.time() - started)))
     return words
 

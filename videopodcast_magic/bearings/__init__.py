@@ -39,7 +39,6 @@ as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
 cannot_be_placed = PROGRAM.cannot_be_placed
 channel_count = PROGRAM.channel_count
-decimal_text = PROGRAM.decimal_text
 decode_audio = PROGRAM.decode_audio
 expand_chains_to_tracks = PROGRAM.expand_chains_to_tracks
 ffprobe_json = PROGRAM.ffprobe_json
@@ -50,7 +49,6 @@ fit_places_it = PROGRAM.fit_places_it
 format_complaint = PROGRAM.format_complaint
 gcc_phat_offset = PROGRAM.gcc_phat_offset
 glob = PROGRAM.glob
-group_text = PROGRAM.group_text
 json = PROGRAM.json
 number_text = PROGRAM.number_text
 os = PROGRAM.os
@@ -195,10 +193,10 @@ def report_picture_comparison(cameras, t0=0.0, t1=None):
         if spread > 12:
             print(as_warn(T('  Caution: %s steps of brightness '
                             'difference -- visible when switching.')
-                          % decimal_text("%.0f" % spread)))
+                          % number_text(spread, 0)))
         else:
             print(T('  The cameras lie close together (at most %s steps '
-                    'of brightness).') % decimal_text("%.0f" % spread))
+                    'of brightness).') % number_text(spread, 0))
     return lines
 
 
@@ -736,7 +734,8 @@ def refresh_cut_list(d, file_path):
         print(T('  The cut stays as it was.'))
     else:
         print(T('  The cut has changed: %s shots instead of %s.')
-              % (group_text(len(d["cut"])), group_text(len(before_value))))
+              % (number_text(len(d["cut"]), 0),
+                 number_text(len(before_value), 0)))
     d["speakers"] = [{"name": n, "sections": [[round(a, 3), round(b, 3)]
                                                 for a, b in segs2]}
                      for n, segs2 in segs]
@@ -870,8 +869,9 @@ def measure_offsets_by_crosstalk(tracks, rate=16000):
                 lines.append((track["name"], tracks[j]["name"],
                                T('only %s seconds where %s speaks alone, '
                                  '%s needed')
-                               % (group_text(len(window)), track["name"],
-                                  group_text(ENOUGH_WINDOWS))))
+                               % (number_text(len(window), 0),
+                                  track["name"],
+                                  number_text(ENOUGH_WINDOWS, 0))))
                 continue
             values, best = [], 0.0
             for f in window:
@@ -887,10 +887,10 @@ def measure_offsets_by_crosstalk(tracks, rate=16000):
                 lines.append((track["name"], tracks[j]["name"],
                                T('bleed too indistinct: %s of %s seconds '
                                  'usable, sharpest %s of %s needed')
-                               % (group_text(len(values)),
-                                  group_text(len(window)),
-                                  decimal_text("%.1f" % best),
-                                  decimal_text("%.0f" % SHARP_ENOUGH))))
+                               % (number_text(len(values), 0),
+                                  number_text(len(window), 0),
+                                  number_text(best, 1),
+                                  number_text(SHARP_ENOUGH, 0))))
     return measurements, lines
 
 
@@ -974,11 +974,11 @@ def verify_alignment(tracks, t0=None, t1=None, limit_ms=1.0,
                     'offset %6s ms, drift %5s ppm '
                     '(%s points, %s ms left over)%s')
                   % (tracks[i]["name"], tracks[j]["name"],
-                     decimal_text("%.1f" % gone),
-                     decimal_text("%.2f" % (max(0.0, gone) / 1000.0 * 343.0)),
+                     number_text(gone, 1),
+                     number_text(max(0.0, gone) / 1000.0 * 343.0, 2),
                      number_text(d0, 1, plus=True),
                      number_text(k, 1, plus=True),
-                     group_text(n), decimal_text("%.1f" % rest),
+                     number_text(n, 0), number_text(rest, 1),
                      T('   (sound path negative -- something is wrong)')
                      if gone < -1.0 else ""))
     if not pairs:
@@ -1245,7 +1245,7 @@ def axis_text(data):
     weak = (data or {}).get("weak") or ()
     if weak:
         text += TN(len(weak), ', %s file does not fit',
-                   ', %s files do not fit') % group_text(len(weak))
+                   ', %s files do not fit') % number_text(len(weak), 0)
     return text
 
 
@@ -1577,10 +1577,11 @@ def recordings_text(chains, file_count):
     draw a distinction that does not exist.
     """
     if chains == file_count:
-        return TN(file_count, '%s file', '%s files') % group_text(file_count)
+        return (TN(file_count, '%s file', '%s files')
+                % number_text(file_count, 0))
     return TN(chains, '%s recording from %s files',
-              '%s recordings from %s files') % (group_text(chains),
-                                                group_text(file_count))
+              '%s recordings from %s files') % (number_text(chains, 0),
+                                                number_text(file_count, 0))
 
 
 def pending_prework(paths, having_audio=(), has_audio=lambda p: False,
@@ -2124,7 +2125,7 @@ def check_mode_fits_input(audio_paths, args):
               'audio says "use the audio". Without two of them there\n  '
               'is nothing to decouple, and the same file runs through as an\n'
               '  ordinary production.')
-            % group_text(chains))
+            % number_text(chains, 0))
     # A key is only needed where something is going to be sent. With
     # --auphonic-done the tracks are already finished and lie in a
     # folder -- from auphonic.com, or from a mixing desk, or from
