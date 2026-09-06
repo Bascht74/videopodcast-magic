@@ -1,6 +1,6 @@
 # The test suite
 
-250 tests against the program in `../videopodcast_magic/`. Every one of them stands
+251 tests against the program in `../videopodcast_magic/`. Every one of them stands
 in the table at the end of this file, with the sentence that says what
 holds when it is green.
 
@@ -244,7 +244,7 @@ fault would sit, not what the material is about;
 
 <!-- overview begins -- written by overview.py, not by hand -->
 
-250 tests. The name is the one a red line carries, and beside it the
+251 tests. The name is the one a red line carries, and beside it the
 first line of that test's docstring: what holds about the program when
 it is green.
 
@@ -551,6 +551,7 @@ it is green.
 | `source_no_loose_ends` | Looks for half-finished renames and other loose ends. |
 | `source_no_real_names` | Nothing off a real production and nobody's name is in a shipped file. |
 | `source_numpy_comes_last` | The program loads without numpy, so --help and --version stay cheap. |
+| `source_piece_list_holds` | Every folder the program reads out of is on pip's list, and no other. |
 | `source_reds_carry_value` | A check that falls says what came out, not only that it fell. |
 | `source_resolve_door_shut` | A test that calls at a door to Resolve has nailed it shut first. |
 | `source_resolve_recalled` | The reminder about the Resolve tests reaches a person, not the builder. |
