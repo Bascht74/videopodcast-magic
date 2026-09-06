@@ -55,7 +55,6 @@ parallel_map = PROGRAM.parallel_map
 parse_time_point = PROGRAM.parse_time_point
 path_key = PROGRAM.path_key
 progress_from_line = PROGRAM.progress_from_line
-read_preset = PROGRAM.read_preset
 show_progress = PROGRAM.show_progress
 shutil = PROGRAM.shutil
 stop_wanted = PROGRAM.stop_wanted
@@ -69,17 +68,17 @@ timecode_string = PROGRAM.timecode_string
 unwrap_day = PROGRAM.unwrap_day
 write_beside_then_move = PROGRAM.write_beside_then_move
 
-# Five of the nine stand in a piece read after this one: MATRIX_BT2020
-# in the project, and caption_room, hint, label and speaks_as in the
-# window. Bound up here they would be an AttributeError, so they are
-# reached through PROGRAM where they are used.
+# Six of the ten stand in a piece read after this one: read_preset in
+# the processing -- a circle, because choose_preset over there asks
+# check_preset here -- MATRIX_BT2020 in the project, and caption_room,
+# hint, label and speaks_as in the window. All through PROGRAM.
 
-# Three more are bent while the run goes on, and a copy taken here
+# Three of the ten are bent while the run goes on, and a copy taken here
 # would answer with the value of the run before: set_language rebinds
 # LANG, and the window sets GUI_RUNNING and OUTPUT_SINK on the program
 # object, which is a write the pieces are never told about.
 
-# numpy is the ninth, and the one name here that the program has still
+# numpy is the tenth, and the one name here that the program has still
 # to fetch: it holds a stand-in until the first sum asks, and binds the
 # real module under its own name then -- which a copy taken up there
 # would never see. So this asks the program once, the same way.
@@ -1276,7 +1275,7 @@ def check_preset(key, uuid, presetname, lufs, multitrack):
     to surface first. The preset is read out rather than trusted by name.
     """
     try:
-        p = read_preset(key, uuid)
+        p = PROGRAM.read_preset(key, uuid)
     except Exception as e:
         return [Finding("hint", T('Preset'),
                        T('not readable (%s) -- unchecked.') % str(e)[:60])]
