@@ -75,6 +75,7 @@ explains the word comes first.
 * **cut basis (the line under the preview)**: `interface`, "The four
   tabs"
 * **Cut with the wide shot (box)**: `camera-cut`, "How the cut comes about"
+* **dark mode**: `interface`, "What Settings ... holds"
 * **de-bleed**: `auphonic`, "Working without Auphonic"; `preflight`, "How
   the report measures bleed against the 3:1 rule"
 * **drop frame**: `resolve`, "The button and the two timelines"
