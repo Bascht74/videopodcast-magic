@@ -199,6 +199,29 @@ def reads_right_to_left(code):
     return code in RIGHT_TO_LEFT
 
 
+# The pair that holds a label together. U+2066 says "read what follows
+# the way it reads itself", U+2069 closes it again. Both are invisible
+# and neither has a width, in any language. Written as escapes because
+# a character nobody can see is a character somebody deletes.
+ISOLATE = "\u2066"
+ISOLATE_END = "\u2069"
+
+
+def as_written(text):
+    """A label laid out by its own reading, not by the window's.
+
+    In a right-to-left window a sign or a digit at the edge of a Latin
+    group falls to the paragraph and is moved to the other end: "-10 s"
+    is shown as "s 10-", which is a different number. The pair above
+    settles the reading from the inside, whatever the window does.
+
+    Nothing is added where the window reads left to right.
+    """
+    if not text or not reads_right_to_left(LANG):
+        return text
+    return ISOLATE + text + ISOLATE_END
+
+
 def language_name(code):
     """Return what that language calls itself, or the code as it came.
 

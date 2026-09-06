@@ -35,6 +35,7 @@ as_data_size = PROGRAM.as_data_size
 as_head = PROGRAM.as_head
 as_hms = PROGRAM.as_hms
 as_warn = PROGRAM.as_warn
+as_written = PROGRAM.as_written
 cache_folder = PROGRAM.cache_folder
 channel_text = PROGRAM.channel_text
 clean_old_files = PROGRAM.clean_old_files
@@ -1094,8 +1095,12 @@ def loudness_choices():
     anything else would be a silent remote control of somebody else's
     service -- and without auphonic.com the sound stays as it is in the
     source files.
+
+    The caption goes through as_written: it is a label and nothing
+    else, and its minus sign is the whole difference between -16 and
+    16.
     """
-    out = [(target, "%.0f LUFS (%s)" % (target, T(what_for)))
+    out = [(target, as_written("%.0f LUFS (%s)" % (target, T(what_for))))
            for target, what_for in PLATFORMS.values()]
     out.append((None, T('Take from source files')))
     return out
