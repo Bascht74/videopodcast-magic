@@ -16,6 +16,24 @@
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
 # entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# One here: the wording does not change with the count at
+# all, and msgstr[0] is the whole of it.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -29,7 +47,8 @@ msgid "Cut with the wide shot"
 msgstr "ワイドショットでのカット"
 
 msgid "on %s camera"
-msgstr "%s 台のカメラに"
+msgid_plural "on %s cameras"
+msgstr[0] "%s 台のカメラに"
 
 msgid "on %s cameras"
 msgstr "%s 台のカメラに"
@@ -287,19 +306,22 @@ msgid "not readable"
 msgstr "読み取れません"
 
 msgid "%s audio track"
-msgstr "音声トラック %s 本"
+msgid_plural "%s audio tracks"
+msgstr[0] "音声トラック %s 本"
 
 msgid "%s audio tracks"
 msgstr "音声トラック %s 本"
 
 msgid "%s clip"
-msgstr "%s クリップ"
+msgid_plural "%s clips"
+msgstr[0] "%s クリップ"
 
 msgid "%s clips"
 msgstr "%s クリップ"
 
 msgid "%s video track"
-msgstr "映像トラック %s 本"
+msgid_plural "%s video tracks"
+msgstr[0] "映像トラック %s 本"
 
 msgid "%s video tracks"
 msgstr "映像トラック %s 本"
@@ -314,13 +336,15 @@ msgid " (playing)"
 msgstr "（再生中）"
 
 msgid "%s channel"
-msgstr "%s チャンネル"
+msgid_plural "%s channels"
+msgstr[0] "%s チャンネル"
 
 msgid "%s channels"
 msgstr "%s チャンネル"
 
 msgid "%s file"
-msgstr "ファイル %s 個"
+msgid_plural "%s files"
+msgstr[0] "ファイル %s 個"
 
 msgid "%s files"
 msgstr "ファイル %s 個"
@@ -785,19 +809,22 @@ msgid "video file"
 msgstr "映像ファイル"
 
 msgid "%s audio recording"
-msgstr "音声録音 %s 件"
+msgid_plural "%s audio recordings"
+msgstr[0] "音声録音 %s 件"
 
 msgid "%s audio recordings"
 msgstr "音声録音 %s 件"
 
 msgid "%s camera"
-msgstr "カメラ %s 台"
+msgid_plural "%s cameras"
+msgstr[0] "カメラ %s 台"
 
 msgid "%s cameras"
 msgstr "カメラ %s 台"
 
 msgid "%s video file"
-msgstr "映像ファイル %s 個"
+msgid_plural "%s video files"
+msgstr[0] "映像ファイル %s 個"
 
 msgid "%s video files"
 msgstr "映像ファイル %s 個"
