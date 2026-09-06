@@ -6583,3 +6583,10 @@ msgstr "Es wurde keine Verknüpfung zu diesem Programm angelegt: %s"
 
 msgid "it was written and was not there afterwards"
 msgstr "sie wurde geschrieben und war danach nicht vorhanden"
+
+msgid ""
+"This program is running as %s and the packages installed for it are %s, "
+"so none of them can be loaded. This starts it right: %s"
+msgstr ""
+"Dieses Programm läuft als %s, die dafür installierten Pakete sind %s -- "
+"geladen werden kann davon keines. So startet es richtig: %s"

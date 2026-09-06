@@ -154,6 +154,32 @@ nothing. Where the program finds its own entry pointing at something
 that is gone, it writes it afresh and the same line into the log
 again. That is the one start after the first that writes anything.
 
+**On macOS the entry settles the processor as well.** A Python for the
+Mac can carry two processor architectures in one file, while the
+packages installed for it are usually built for one of them. Started
+from the Dock such a Python comes up in whichever of the two the system
+picks, and where that is the one the packages were not built for,
+nothing that computes can be loaded -- the speaker separation is then
+reported as unavailable although everything is installed. So the entry
+names the architecture itself: the one the interpreter carries, the
+installed packages fit and this machine runs.
+
+**Where there is nothing to choose, nothing changes.** An Intel Mac, a
+Python built for one architecture alone, a system without the small
+program that grants one, packages that agree on no architecture: in
+each of these the entry is written exactly as it was written before.
+Windows and Linux are not touched by any of it.
+
+**An entry from an earlier version is laid again, once.** An update
+does not rewrite what is already in the Applications folder, so an
+entry made before this could go on starting the wrong architecture for
+ever. The first start that finds its own entry naming none, while one
+would now be asked for, writes it afresh and the line above into the
+log. From then on the entry names an architecture and is left alone —
+so this happens once and not at every start. Two entries are left
+exactly as they are: one somebody has put an architecture into by
+hand, and one this program did not write.
+
 ## Which Python the program needs
 
 3.10 or newer, and pip refuses the install below that. The floor is
