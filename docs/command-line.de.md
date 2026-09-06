@@ -19,7 +19,7 @@ Hinweis. Ohne Schlüssel hält der Multitrack-Lauf dort an.*
 
 | Schalter | Wirkung |
 |---|---|
-| `--lang KÜRZEL` | Sprache der Meldungen: `ar`, `de`, `en`, `es`, `fr`, `hi`, `ja`, `pt`, `ru`, `uk`, `zh` (Systemsprache) |
+| `--lang KÜRZEL` | Sprache der Meldungen: `ar`, `de`, `en`, `es`, `fr`, `hi`, `ja`, `pt`, `ru`, `tr`, `uk`, `zh` (Systemsprache) |
 | `--out ORDNER` | wohin die Ergebnisse kommen (neben jedes Video) |
 | `--suffix TEXT` | wird an den Dateinamen gehängt (`_audio`) |
 | `--name-camera TEXT` | Name der Kameraspur (`Camera Original`) |
