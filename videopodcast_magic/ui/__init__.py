@@ -33,6 +33,7 @@ SPEAKER_ROWS_SHOWN = PROGRAM.SPEAKER_ROWS_SHOWN
 SPEAKER_SPLIT_OFF = PROGRAM.SPEAKER_SPLIT_OFF
 SPEAKER_SPLIT_SPEED = PROGRAM.SPEAKER_SPLIT_SPEED
 SPEAKER_STATE = PROGRAM.SPEAKER_STATE
+SPEECH_CODES = PROGRAM.SPEECH_CODES
 SR = PROGRAM.SR
 Stopped = PROGRAM.Stopped
 T = PROGRAM.T
@@ -129,7 +130,6 @@ label_say = PROGRAM.label_say
 # Out of the language piece: the program binds neither of these two.
 language_name = PROGRAM.language.language_name
 reads_right_to_left = PROGRAM.language.reads_right_to_left
-language_of_system = PROGRAM.language_of_system
 languages = PROGRAM.languages
 legend_markup = PROGRAM.legend_markup
 list_presets = PROGRAM.list_presets
@@ -201,7 +201,6 @@ speech_heading = PROGRAM.speech_heading
 speech_words_done = PROGRAM.speech_words_done
 split_cells_write = PROGRAM.split_cells_write
 split_line_write = PROGRAM.split_line_write
-spoken_language_choices = PROGRAM.spoken_language_choices
 start_again = PROGRAM.start_again
 store_api_key = PROGRAM.store_api_key
 strip_marks = PROGRAM.strip_marks
@@ -265,6 +264,48 @@ def app_icon(QtGui):
 
 
 #-------------------------------------------------------------- Interface
+
+# What the language field offers -- only languages with both codes,
+# since an unknown recognition code would promise a transcript that
+# cannot come. SPEECH_CODES, in the program, holds the second code.
+SPOKEN_LANGUAGES = (
+    ("ger", "German"), ("eng", "English"), ("fra", "French"),
+    ("spa", "Spanish"), ("ita", "Italian"), ("nld", "Dutch"),
+    ("por", "Portuguese"), ("pol", "Polish"), ("rus", "Russian"),
+    ("swe", "Swedish"), ("dan", "Danish"), ("nor", "Norwegian"),
+    ("fin", "Finnish"), ("ces", "Czech"), ("tur", "Turkish"),
+    ("ell", "Greek"), ("hun", "Hungarian"), ("ron", "Romanian"),
+    ("ukr", "Ukrainian"), ("cat", "Catalan"), ("ara", "Arabic"),
+    ("heb", "Hebrew"), ("jpn", "Japanese"), ("zho", "Chinese"),
+    ("kor", "Korean"),
+)
+
+
+def spoken_language_choices():
+    """Return [(tag, name)] for the language field, by name."""
+    return sorted(((tag, T(name)) for tag, name in SPOKEN_LANGUAGES),
+                  key=lambda x: x[1].lower())
+
+
+def language_of_system():
+    """Return the track tag the system language suggests, or "".
+
+    Only a suggestion for the empty field: the operating system does not
+    know what language was spoken in a recording.
+    """
+    # The locale is read directly, not through known_language: that
+    # one answers which language the *interface* speaks and falls back
+    # to English. A Spanish system would then suggest English, and the
+    # recording would be tagged wrongly.
+    head = (system_locale() or "").replace("_", "-").split("-")[0]
+    head = head.strip().lower()
+    if len(head) != 2:
+        return ""
+    for tag, _name in SPOKEN_LANGUAGES:
+        if SPEECH_CODES.get(tag) == head:
+            return tag
+    return ""
+
 
 def audio_use_settled(video, chosen, forced, has_sound=True,
                       kind=TYPE_CONTENT):

@@ -45,12 +45,7 @@ PROGRAM.__dict__ = globals()   # the names themselves, never a copy of them
 
 
 class OneName(types.ModuleType):
-    """The program, whose pieces answer to the same names.
-
-    A piece binds what it uses under its own name, so a bend from
-    outside -- only a test bends -- would reach this copy alone. Bent
-    here, every piece that carries the name follows.
-    """
+    """The program, whose pieces answer to the same names."""
 
     def __setattr__(self, name, value):
         types.ModuleType.__setattr__(self, name, value)
@@ -60,11 +55,7 @@ class OneName(types.ModuleType):
 
 
 def pieces_answer_together():
-    """Let a name bent on this program reach the pieces holding it.
-
-    True where it took. A run that never registers this file under
-    its own name has no module object, and bends nothing either.
-    """
+    """Let a name bent on this program reach the pieces holding it."""
     me = sys.modules.get(__name__)
     if me is None or vars(me).get("__file__") != __file__:
         return False
@@ -73,13 +64,7 @@ def pieces_answer_together():
 
 
 def beside(name, program=None):
-    """One piece of this program, out of the folder this file lies in.
-
-    By path, never by name: an import by name finds the piece only in
-    an installed copy, and the program is also started as a plain file
-    and from a path under a name a test picks. *program* is handed in
-    before the piece is read, to bind out of.
-    """
+    """One piece of this program, by path and never by name."""
     import importlib.util
     where = os.path.join(os.path.dirname(os.path.abspath(__file__)),
                          name, "__init__.py")
@@ -95,12 +80,7 @@ def beside(name, program=None):
 
 
 def take_from(piece):
-    """Bind what a piece brought of its own, under this program.
-
-    A piece is not a library beside the program: what it brings
-    answers here under the same name, so nothing outside has to know
-    which file it ended up in.
-    """
+    """Bind what a piece brought of its own, under this program."""
     for name, what in list(piece.__dict__.items()):
         if not name.startswith("__") and name not in globals():
             globals()[name] = what
@@ -109,6 +89,7 @@ def take_from(piece):
 # take_from places every name long before, so the `X = piece.X` lines
 # below say nothing about the binding order: they are for a reader, and
 # for source_no_loose_ends, which wants an origin for every name read.
+# What each read binds, and why it stands there: development/internals.md.
 
 
 #---------------------------------------------------------------- Language
@@ -131,12 +112,7 @@ texts_of_language = language.texts_of_language
 
 
 def set_language(name):
-    """Switch every message to that language, English if it is unknown.
-
-    The code is held twice -- beside this file, where T() reads it,
-    and here, where a reader and every test look for it. One door sets
-    both, so they cannot come apart.
-    """
+    """Switch every message to that language, English if it is unknown."""
     global LANG
     LANG = language.set_language(name)
     return LANG
@@ -155,8 +131,6 @@ def kept_language():
     return kept if isinstance(kept, str) and kept in languages() else ""
 
 
-# Read between the language and the setting up, and both edges are
-# measured: above, no T; after setup, no number_text. Either is fatal.
 workbench = beside("workbench", program=PROGRAM)
 take_from(workbench)
 
@@ -169,8 +143,6 @@ only_reading = workbench.only_reading
 FFMPEG_FLOOR = (9, 0, 1)
 
 
-# Read at the top: what stands under it wants tools and modules that
-# may not be there yet, so it binds only what is above this line.
 setup = beside("setup", program=PROGRAM)
 take_from(setup)
 
@@ -202,12 +174,7 @@ if sys.version_info < NEEDS_PYTHON:
              % (NEEDS_PYTHON + sys.version_info[:2] + (LIKES_PYTHON,)))
 
 class Numpy:
-    """Stands in for numpy until the first calculation asks for it.
-
-    Importing the program fetches nothing, so --version answers
-    cheaply because it calculates nothing, not because argv was read
-    while the file was being read.
-    """
+    """Stands in for numpy until the first calculation asks for it."""
 
     def __getattr__(self, name):
         global np
@@ -241,12 +208,10 @@ FILE_FORMAT = 3
 # audio track after it, and a handover read back is looked up by it.
 MIX_TRACK_NAME = "Full-Mix"
 
-# It takes T alone; ten pieces below bind its names at their heads.
 choices = beside("choices", program=PROGRAM)
 take_from(choices)
 
 
-# It takes os, re and sys only; fourteen pieces below bind its names.
 livery = beside("livery", program=PROGRAM)
 take_from(livery)
 
@@ -255,7 +220,6 @@ enable_colour_output = livery.enable_colour_output
 force_utf8_output = livery.force_utf8_output
 
 
-# It reads no name out of the program; six pieces below bind its own.
 dials = beside("dials", program=PROGRAM)
 take_from(dials)
 
@@ -264,7 +228,6 @@ MIN_EDIT_DURATION_S = dials.MIN_EDIT_DURATION_S
 SILENCE_HOLD_S = dials.SILENCE_HOLD_S
 
 
-# Ten pieces below bind its names; no line above this one reads any.
 filing = beside("filing", program=PROGRAM)
 take_from(filing)
 
@@ -272,16 +235,12 @@ ByFile = filing.ByFile
 FileSet = filing.FileSet
 
 
-# Read before logbook, which binds cache_folder at its head.
-# kept_language stands far above and reaches settings through PROGRAM.
 stowage = beside("stowage", program=PROGRAM)
 take_from(stowage)
 
 cache_folder = stowage.cache_folder
 
 
-# Read after cache_folder above and before soundings, which binds
-# outside_say at its head, as do desktop, hearing, herald and ui.
 logbook = beside("logbook", program=PROGRAM)
 take_from(logbook)
 
@@ -289,8 +248,6 @@ installed_by_a_package_manager = logbook.installed_by_a_package_manager
 mark_time = logbook.mark_time
 
 
-# Read after outside_say above and before timecode, which binds
-# ffprobe_json at its head, as do ten pieces after it.
 soundings = beside("soundings", program=PROGRAM)
 take_from(soundings)
 
@@ -299,7 +256,6 @@ ffprobe_json = soundings.ffprobe_json
 
 
 #---------------------------------------------------------- Time and timecode
-# Read above every piece below: twelve bind its names at their heads.
 timecode = beside("timecode", program=PROGRAM)
 take_from(timecode)
 
@@ -319,55 +275,12 @@ SPEECH_CODES = {
 }
 
 
-# What the interface offers -- only languages with both codes, since
-# an unknown recognition code would promise a transcript that cannot come.
-SPOKEN_LANGUAGES = (
-    ("ger", "German"), ("eng", "English"), ("fra", "French"),
-    ("spa", "Spanish"), ("ita", "Italian"), ("nld", "Dutch"),
-    ("por", "Portuguese"), ("pol", "Polish"), ("rus", "Russian"),
-    ("swe", "Swedish"), ("dan", "Danish"), ("nor", "Norwegian"),
-    ("fin", "Finnish"), ("ces", "Czech"), ("tur", "Turkish"),
-    ("ell", "Greek"), ("hun", "Hungarian"), ("ron", "Romanian"),
-    ("ukr", "Ukrainian"), ("cat", "Catalan"), ("ara", "Arabic"),
-    ("heb", "Hebrew"), ("jpn", "Japanese"), ("zho", "Chinese"),
-    ("kor", "Korean"),
-)
-
-
-def spoken_language_choices():
-    """Return [(tag, name)] for the language field, by name."""
-    return sorted(((tag, T(name)) for tag, name in SPOKEN_LANGUAGES),
-                  key=lambda x: x[1].lower())
-
-
-def language_of_system():
-    """Return the track tag the system language suggests, or "".
-
-    Only a suggestion for the empty field: the operating system does not
-    know what language was spoken in a recording.
-    """
-    # The locale is read directly, not through known_language: that
-    # one answers which language the *interface* speaks and falls back
-    # to English. A Spanish system would then suggest English, and the
-    # recording would be tagged wrongly.
-    head = (system_locale() or "").replace("_", "-").split("-")[0]
-    head = head.strip().lower()
-    if len(head) != 2:
-        return ""
-    for tag, _name in SPOKEN_LANGUAGES:
-        if SPEECH_CODES.get(tag) == head:
-            return tag
-    return ""
-
-
 #-------------------------------------------------------- What a file says
-# Read above the six pieces that bind its names at their heads.
 metadata = beside("metadata", program=PROGRAM)
 take_from(metadata)
 
 
 #---------------------------------------------------------- The herald
-# Read before the material, which binds the progress line at its head.
 
 # The window sets this on the program, a write that reaches no piece,
 # so it stays on this side of the seam.
@@ -383,8 +296,6 @@ write_through = herald.write_through
 
 
 #--------------------------------------------------------- The hearing
-# Read after the herald, whose progress line it binds, and before the
-# material, which binds twelve of its names.
 
 hearing = beside("hearing", program=PROGRAM)
 take_from(hearing)
@@ -393,8 +304,6 @@ clean_envelope_cache = hearing.clean_envelope_cache
 
 
 #--------------------------------------------- Keeping itself up to date
-# Read after the herald, whose write_through it binds, and before the
-# separation, which binds PIP_SOURCE.
 
 # Set by the window on the program, a write that reaches no piece:
 # callable(job), running job(say) in a thread into the Output tab.
@@ -408,8 +317,6 @@ update_note = upkeep.update_note
 
 
 #---------------------------------------------------------- What is said
-# SPEECH_CODES above is the last name it binds, so anywhere from there
-# down would do; here, above the run that wants it.
 
 speech = beside("speech", program=PROGRAM)
 take_from(speech)
@@ -596,8 +503,6 @@ RUN_STOP = {"wanted": False, "children": set(), "at": ""}
 
 
 #---------------------------------------------------------- The material
-# Read before the checking, which binds the camera margin, the
-# clipping and parallel_map out of it.
 
 material = beside("material", program=PROGRAM)
 take_from(material)
@@ -618,8 +523,6 @@ widest_track = material.widest_track
 
 
 #---------------------------------------------------------- The bearings
-# Read after the material, whose names it binds, and before the
-# checking; the window's colours and the cut list it reads late.
 
 bearings = beside("bearings", program=PROGRAM)
 take_from(bearings)
@@ -631,8 +534,6 @@ together_chains = bearings.together_chains
 
 
 #--------------------------------------------------------- The preflight
-# Read after RUN_STOP, which it binds, and before the separation,
-# which binds run_ffmpeg_with_progress out of it.
 
 preflight = beside("preflight", program=PROGRAM)
 take_from(preflight)
@@ -647,8 +548,6 @@ run_preflight = preflight.run_preflight
 
 
 #---------------------------------------------------------- The processing
-# Read after the checking, because choose_preset asks it whether the
-# preset fits; the checking reaches back for read_preset, through PROGRAM.
 
 auphonic = beside("auphonic", program=PROGRAM)
 take_from(auphonic)
@@ -659,7 +558,6 @@ tracks_folder = auphonic.tracks_folder
 
 
 #-------------------------------------------------------- The separation
-# Read before the cut and the window, which bind names out of it.
 
 # The two stay here, measured: the separation writes them back with
 # PROGRAM.name = value, and source_names_stay_fresh goes red over a
@@ -673,8 +571,6 @@ take_from(speakers)
 
 
 #---------------------------------------------------------- The project
-# Read here, not where it is first used: it binds Finding, which the
-# preflight above brings in.
 
 resolve = beside("resolve", program=PROGRAM)
 take_from(resolve)
@@ -704,7 +600,6 @@ timeline_frame_rate = resolve.timeline_frame_rate
 
 
 #-------------------------------------------------------------- The cut
-# Read before the line that reads the window, which binds its names.
 
 cut = beside("cut", program=PROGRAM)
 take_from(cut)
@@ -725,8 +620,6 @@ write_metrics_csv = cut.write_metrics_csv
 
 
 #------------------------------------------------------------ The chain
-# Read after the cut, whose names it uses, and before the window,
-# which binds unpack_kind out of it.
 
 pipeline = beside("pipeline", program=PROGRAM)
 take_from(pipeline)
@@ -736,9 +629,6 @@ multitrack_or_single = pipeline.multitrack_or_single
 
 
 #------------------------------------------------------------ The orders
-# Read this late because its head binds MIN_SPEECH_TO_SWITCH_S and
-# WIDE_AFTER_S out of the cut just above. The window asks beside() for
-# the same piece and is handed this one, read already.
 orders = beside("orders", program=PROGRAM)
 take_from(orders)
 
@@ -746,8 +636,6 @@ build_argument_parser = orders.build_argument_parser
 
 
 #-------------------------------------------------------- The interface
-# Read on the way to the window and not here: a run on the command
-# line opens none and never reads it.
 
 
 def window():
@@ -765,11 +653,7 @@ def window():
 
 
 def __getattr__(name):
-    """A name of the window, asked for before the window was read.
-
-    What the window brings stands here once it has been read; until
-    then this answers by reading it.
-    """
+    """A name of the window, asked for before the window was read."""
     if name.startswith("__"):
         raise AttributeError(name)
     piece = window()
