@@ -1,4 +1,4 @@
-"""The one bar: weights, creeping, and never going backwards."""
+"""The one bar: weights, creeping, never going backwards, and its line."""
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -139,6 +139,31 @@ check("and nothing outstanding", not left, "busy %r, wanted False" % (left,))
 whole = p.total()
 check("the bar stands at the end", abs(whole - 1.0) < 1e-9,
       "the bar stands at %.9f, wanted 1.0" % whole)
+
+# A step is known by a key that carries a path, and that key used to
+# reach the window whenever the caption was lost.
+KEY = "speakers:/Volumes/Somewhere/Recordings/Zoom-020.wav"
+SAID = "Separating speakers: Zoom-020.wav"
+p = vpm.ProgressPlan()
+p.report(KEY, 0.4)
+check("a step with no caption says nothing rather than its own name",
+      p.line() == "", "the line reads %r" % p.line())
+p = vpm.ProgressPlan()
+p.begin(KEY, SAID)
+p.clear()
+p.report(KEY, 0.4, SAID)
+check("a caption lost to a clear comes back with the next report",
+      p.line() == SAID, "the line reads %r, wanted %r" % (p.line(), SAID))
+p = vpm.ProgressPlan()
+p.report("read", 0.2, "Reading audio")
+p.report(KEY, 0.4)
+check("a named step speaks for a bare one beside it",
+      p.line() == vpm.T('%s and %d more') % ("Reading audio", 1),
+      "the line reads %r" % p.line())
+said = vpm.speakers_step_said("/Volumes/Somewhere/Recordings/Zoom-020.wav")
+check("the line names the recording and not the folder it lies in",
+      "Zoom-020.wav" in said and "/" not in said,
+      "the caption reads %r" % said)
 
 print("\n7. An empty plan says nothing and does not divide by zero")
 p = vpm.ProgressPlan()
