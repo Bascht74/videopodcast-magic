@@ -16,6 +16,33 @@
 # One entry per message: msgid is the English wording the
 # program is written in, msgstr what is said instead. An
 # entry left out appears in English.
+#
+# A counted thing is the exception to that one entry. It carries
+# msgid_plural and one msgstr[i] per wording this language has, in
+# place of the single msgstr, and the Plural-Forms line in the
+# header below says how many that is and which count wants which.
+# Six here: [0] for none, [1] for one, [2] for two, [3] where
+# the last two digits are 3 to 10, [4] where they are 11 to
+# 99, [5] for the rest. Each is a different shape of the word
+# -- the dual is its own word, and after 11 to 99 the noun
+# stands in the accusative singular. Two of the six are a
+# judgement and no Arabic speaker has seen them: [0] takes the
+# plural, the way an Arabic window writes a count of none,
+# where strict grammar would give it the singular; and [3]
+# carries the case ending its construction asks for, which a
+# window often leaves off. Correcting either costs nothing but
+# this file.
+#
+# The wordings are read as a list, so a form left empty costs that
+# form and not the entry. Every form carries the same %s the
+# English wording does: the program applies the count to whatever
+# comes back, and a form without it stops the run on a number
+# nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a
+# group. It is not spare: it is what a run falls back on where the
+# rule cannot be read at all. The English singular has no entry of
+# its own -- that would be the same msgid twice.
 msgid ""
 msgstr ""
 "Project-Id-Version: videopodcast-magic\n"
@@ -30,7 +57,13 @@ msgid "Cut with the wide shot"
 msgstr "المونتاج باللقطة الواسعة"
 
 msgid "on %s camera"
-msgstr "على %s كاميرا"
+msgid_plural "on %s cameras"
+msgstr[0] "على %s كاميرات"
+msgstr[1] "على كاميرا %s"
+msgstr[2] "على كاميرتين %s"
+msgstr[3] "على %s كاميراتٍ"
+msgstr[4] "على %s كاميرًا"
+msgstr[5] "على %s كاميرا"
 
 msgid "on %s cameras"
 msgstr "على %s كاميرات"
@@ -288,19 +321,37 @@ msgid "not readable"
 msgstr "غير قابل للقراءة"
 
 msgid "%s audio track"
-msgstr "مسار صوتي %s"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s مسارات صوتية"
+msgstr[1] "مسار صوتي %s"
+msgstr[2] "مساران صوتيان %s"
+msgstr[3] "%s مساراتٍ صوتيةٍ"
+msgstr[4] "%s مسارًا صوتيًا"
+msgstr[5] "%s مسار صوتي"
 
 msgid "%s audio tracks"
 msgstr "%s مسارات صوتية"
 
 msgid "%s clip"
-msgstr "مقطع %s"
+msgid_plural "%s clips"
+msgstr[0] "%s مقاطع"
+msgstr[1] "مقطع %s"
+msgstr[2] "مقطعان %s"
+msgstr[3] "%s مقاطعَ"
+msgstr[4] "%s مقطعًا"
+msgstr[5] "%s مقطع"
 
 msgid "%s clips"
 msgstr "%s مقاطع"
 
 msgid "%s video track"
-msgstr "مسار فيديو %s"
+msgid_plural "%s video tracks"
+msgstr[0] "%s مسارات فيديو"
+msgstr[1] "مسار فيديو %s"
+msgstr[2] "مسارا فيديو %s"
+msgstr[3] "%s مساراتِ فيديو"
+msgstr[4] "%s مسارَ فيديو"
+msgstr[5] "%s مسار فيديو"
 
 msgid "%s video tracks"
 msgstr "%s مسارات فيديو"
@@ -315,13 +366,25 @@ msgid " (playing)"
 msgstr " (قيد التشغيل)"
 
 msgid "%s channel"
-msgstr "قناة %s"
+msgid_plural "%s channels"
+msgstr[0] "%s قنوات"
+msgstr[1] "قناة %s"
+msgstr[2] "قناتان %s"
+msgstr[3] "%s قنواتٍ"
+msgstr[4] "%s قناةً"
+msgstr[5] "%s قناة"
 
 msgid "%s channels"
 msgstr "%s قنوات"
 
 msgid "%s file"
-msgstr "ملف %s"
+msgid_plural "%s files"
+msgstr[0] "%s ملفات"
+msgstr[1] "ملف %s"
+msgstr[2] "ملفان %s"
+msgstr[3] "%s ملفاتٍ"
+msgstr[4] "%s ملفًا"
+msgstr[5] "%s ملف"
 
 msgid "%s files"
 msgstr "%s ملفات"
@@ -786,19 +849,37 @@ msgid "video file"
 msgstr "ملف فيديو"
 
 msgid "%s audio recording"
-msgstr "تسجيل صوتي %s"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s تسجيلات صوتية"
+msgstr[1] "تسجيل صوتي %s"
+msgstr[2] "تسجيلان صوتيان %s"
+msgstr[3] "%s تسجيلاتٍ صوتيةٍ"
+msgstr[4] "%s تسجيلًا صوتيًا"
+msgstr[5] "%s تسجيل صوتي"
 
 msgid "%s audio recordings"
 msgstr "%s تسجيلات صوتية"
 
 msgid "%s camera"
-msgstr "كاميرا %s"
+msgid_plural "%s cameras"
+msgstr[0] "%s كاميرات"
+msgstr[1] "كاميرا %s"
+msgstr[2] "كاميرتان %s"
+msgstr[3] "%s كاميراتٍ"
+msgstr[4] "%s كاميرًا"
+msgstr[5] "%s كاميرا"
 
 msgid "%s cameras"
 msgstr "%s كاميرات"
 
 msgid "%s video file"
-msgstr "ملف فيديو %s"
+msgid_plural "%s video files"
+msgstr[0] "%s ملفات فيديو"
+msgstr[1] "ملف فيديو %s"
+msgstr[2] "ملفا فيديو %s"
+msgstr[3] "%s ملفاتِ فيديو"
+msgstr[4] "%s ملفَ فيديو"
+msgstr[5] "%s ملف فيديو"
 
 msgid "%s video files"
 msgstr "%s ملفات فيديو"
