@@ -32,9 +32,7 @@ TN = PROGRAM.TN
 as_hms = PROGRAM.as_hms
 as_written = PROGRAM.as_written
 block_at = PROGRAM.block_at
-decimal_text = PROGRAM.decimal_text
 file_timecode = PROGRAM.file_timecode
-group_text = PROGRAM.group_text
 gui_log = PROGRAM.gui_log
 math = PROGRAM.math
 number_text = PROGRAM.number_text
@@ -682,7 +680,7 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 print(T('  Player: %s stays at %s instead of %s -- given '
                         'up after %s attempts (%s)')
                       % (self.name, _sec(have), _sec(self.want),
-                         group_text(self.attempts), _position(self.p)))
+                         number_text(self.attempts, 0), _position(self.p)))
                 self.want = None
                 return True
             if self.last_percent.elapsed() >= SPACING_MS:
@@ -1259,9 +1257,13 @@ def qt_cut_player(QtCore, QtGui, QtWidgets, Qt, QtMultimedia,
                 else Qt.ToolButtonIconOnly)
             self.fast_button.setText(
                 "%g\u00d7" % self._speed if fast else "")
+            # No place after the point, because there is never one:
+            # faster() asks for 1, 2, 4 and 8 and nothing else, and Qt
+            # hands the rate back as it was set -- measured on the
+            # ffmpeg backend, 1.5 included.
             self.fast_button.setAccessibleName(
                 T('Fast forward, %s times speed')
-                % decimal_text("%g" % self._speed) if fast
+                % number_text(self._speed, 0) if fast
                 else T('Fast forward'))
 
         def play(self):
@@ -2238,9 +2240,11 @@ def make_player_widgets(QtCore, QtGui, QtWidgets, Qt, label, hint,
                 Qt.ToolButtonTextBesideIcon if fast
                 else Qt.ToolButtonIconOnly)
             self.fast_button.setText("%g\u00d7" % self._speed if fast else "")
+            # No place after the point, because there is never one --
+            # see the same line in the cut player.
             self.fast_button.setAccessibleName(
                 T('Fast forward, %s times speed')
-                % decimal_text("%g" % self._speed) if fast
+                % number_text(self._speed, 0) if fast
                 else T('Fast forward'))
 
         def picture_show(self):
