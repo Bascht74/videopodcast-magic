@@ -499,7 +499,7 @@ it is green.
 | Test | Green means |
 |---|---|
 | `run_bar_never_falls` | The bar neither falls back nor stands still. |
-| `run_bar_tracks_work` | The one bar: weights, creeping, and never going backwards. |
+| `run_bar_tracks_work` | The one bar: weights, creeping, never going backwards, and its line. |
 | `run_choice_kept` | A choice made in one run is found by the next, and by nobody else. |
 | `run_command_built` | run_argv() builds the command line and the plan, or says why not. |
 | `run_dry_reports_voices` | A dry run hands on the separation it read back instead of nothing. |

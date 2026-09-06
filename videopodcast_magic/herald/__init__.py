@@ -322,14 +322,21 @@ class ProgressPlan(object):
                 if n in self.began and self.share[n] < 0.999]
 
     def line(self):
-        """One line for beside the bar: what is being worked on."""
+        """One line for beside the bar: what is being worked on.
+
+        Only a step that was given a caption speaks here. One whose
+        caption was lost -- clear() empties them while work goes on,
+        and report() puts the step back without one -- says nothing,
+        where it used to show the internal name it is known by.
+        """
         busy = self.running()
-        if not busy:
+        said = [self.caption[n] for n in busy if self.caption.get(n)]
+        if not said:
             return ""
-        first = self.caption.get(busy[0]) or busy[0]
         if len(busy) == 1:
-            return first
-        return T('%s and %s more') % (first, number_text(len(busy) - 1, 0))
+            return said[0]
+        return T('%s and %s more') % (said[0],
+                                      number_text(len(busy) - 1, 0))
 
 
 def write_through(text):
