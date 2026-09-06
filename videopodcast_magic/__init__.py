@@ -130,6 +130,7 @@ SOURCE_LANG = language.SOURCE_LANG
 LANG = language.LANG
 T = language.T
 TN = language.TN
+as_written = language.as_written
 known_language = language.known_language
 languages = language.languages
 system_locale = language.system_locale

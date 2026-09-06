@@ -5,10 +5,14 @@ Arabic is the only language on offer that reads from right to left.
 The table is asked first; then the real window is started twice, in
 Arabic and in English, and each run is read for its last word, for a
 traceback -- a fault in a Qt slot ends a run on a nought -- and for
-the direction of the window and of the Settings sheet. Mirroring is
-not all of it: "-10 s" comes out "s 10-", reported and not judged here.
+the direction of the window and of the Settings sheet. Then the labels
+each run printed are counted and laid out again here, and read for the
+order the eye meets them in: a seek button says "-10 s" and not
+"s 10-", a loudness target keeps its number in front, and a window
+that reads left to right carries no direction mark at all -- which is
+what every other language rests on.
 """
-import os, re, shutil, subprocess, sys, tempfile, time
+import ast, os, re, shutil, subprocess, sys, tempfile, time
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, HERE)
@@ -161,6 +165,109 @@ check("the window reads from left to right in English",
       said("en", "window") == "left",
       "the window reads %r, wanted 'left'; the application reads %r"
       % (said("en", "window"), said("en", "app")))
+
+print("\n5. What a label carrying a number reads like")
+# Qt comes up here too, offscreen and after both windows are done with.
+# Laying a label out is the only way to learn what order the eye meets
+# it in; reading the string forwards says nothing, because the two
+# directions of Unicode move characters and not bytes.
+os.environ["QT_QPA_PLATFORM"] = "offscreen"
+from PySide6 import QtCore, QtGui, QtWidgets
+
+reader = QtWidgets.QApplication(sys.argv[:1])
+# The marks that settle a reading. They have no picture and no width,
+# so they come out of the order again: what is compared is what is
+# read, not where a mark was put.
+MARKS = "\u2066\u2067\u2068\u2069\u200e\u200f"
+# A seek button is a sign, a number and a unit; a loudness target is a
+# negative number in LUFS. Neither wording is translated -- they are
+# units -- so the shape finds them in every language.
+SEEK = re.compile(r"^[-+]\d+ [sF]$")
+LOUD = re.compile(r"^(-\d+ LUFS )\(")
+
+
+def bare(text):
+    """The label without the marks that carry no picture."""
+    return "".join(c for c in text if c not in MARKS)
+
+
+def labels_of(code):
+    """Every label that run printed, as the window held it."""
+    out = []
+    for line in runs[code][0].split("\n"):
+        if line.startswith("label "):
+            try:
+                out.append(ast.literal_eval(line[len("label "):]))
+            except (SyntaxError, ValueError):
+                pass
+    return out
+
+
+def order(text):
+    """The characters of *text* as the eye meets them, right to left.
+
+    Read off the glyphs Qt lays out, so the answer comes from the same
+    two-directional engine that draws the window, and not from a second
+    one written here. A character carrying no glyph of its own keeps
+    the place of the one before it, so nothing drops out silently.
+    """
+    layout = QtGui.QTextLayout(text)
+    option = QtGui.QTextOption()
+    option.setTextDirection(QtCore.Qt.RightToLeft)
+    layout.setTextOption(option)
+    layout.beginLayout()
+    line = layout.createLine()
+    line.setLineWidth(100000)
+    layout.endLayout()
+    at, last = [], 0.0
+    for i, sign in enumerate(text):
+        seen = [p.x() for r in line.glyphRuns(i, 1) for p in r.positions()]
+        at.append((min(seen) if seen else None, sign))
+    placed = []
+    for x, sign in at:
+        placed.append((last if x is None else x, sign))
+        if x is not None:
+            last = x
+    placed.sort(key=lambda p: p[0])
+    return "".join(s for _x, s in placed if s not in MARKS)
+
+
+seek = [x for x in labels_of("ar") if SEEK.match(bare(x))]
+loud = [x for x in labels_of("ar") if LOUD.match(bare(x))]
+# Before anything is read out of them: were they there? An empty list
+# passes every judgement below, and the line would then say the labels
+# read well while in truth the window put none up.
+check("the Arabic window put up the seek buttons and the loudness targets",
+      len(seek) == 12 and len(loud) == 4,
+      "%d seek buttons and %d loudness targets out of %d labels"
+      % (len(seek), len(loud), len(labels_of("ar"))))
+
+wrong = [(bare(x), order(x)) for x in seek if order(x) != bare(x)]
+check("every seek button in Arabic reads the way it is written",
+      not wrong,
+      "%d of %d turned round, first %s"
+      % (len(wrong), len(seek),
+         "%r reads %r" % wrong[0] if wrong else "none"))
+
+# The bracket carries Arabic, which reads from right to left inside it
+# and should. What must not move is the number in front of it.
+astray = [(bare(x), order(x)) for x in loud
+          if not order(x).startswith(LOUD.match(bare(x)).group(1))]
+check("every loudness target in Arabic keeps its number in front",
+      not astray,
+      "%d of %d lost it, first %s"
+      % (len(astray), len(loud),
+         "%r reads %r" % astray[0] if astray else "none"))
+
+# The other way round, and it is the one that costs everybody else: a
+# mark put in whatever the language would change every width and every
+# comparison in the nine languages that never needed one.
+marked = [x for x in labels_of("en") if bare(x) != x]
+check("no label of an English window carries a direction mark",
+      not marked and labels_of("en"),
+      "%d of %d labels marked, first %r"
+      % (len(marked), len(labels_of("en")),
+         marked[0] if marked else "none"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
