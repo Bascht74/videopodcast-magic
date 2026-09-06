@@ -13,22 +13,24 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in and holds most of the
-program -- 13 000 lines. Nine pieces have moved out, and each sits
+program -- 12 000 lines. Ten pieces have moved out, and each sits
 beside it in a folder of its own with an `__init__.py` in it: `ui/`
 holds the window and everything it shows, asks or offers (12 841
 lines); `cut/` who is on camera when, and what carries it out of here
-(3 926); `resolve/` the project in DaVinci Resolve, timelines, colour,
+(3 925); `resolve/` the project in DaVinci Resolve, timelines, colour,
 render and markers (2 755); `speakers/` who is speaking, out of the
 sound alone (2 060); `pipeline/` the chain the recordings run through
 until the camera files are written (1 880); `preflight/` whether the
 material fits together before the first long step, and the ffmpeg run
-that shows its progress (1 508); `speech/` what is said and when, and
-what is written down from it (1 130); `desktop/` the picture and the
-shortcut the first start lays down (657); `language/` a `.po` file per
-language, nothing but texts in it, and the reader that looks one up
-(313). All counted 6.9.2026, and the figure of the day is `wc -l`, not
-this paragraph. `models/` is a tenth folder and the odd one out: the
-speaker model lives there and no code at all, so `beside()` never
+that shows its progress (1 508); `setup/` finding ffmpeg, offering the
+way to get one, installing a missing module and keeping the key
+(1 161); `speech/` what is said and when, and what is written down
+from it (1 130); `desktop/` the picture and the shortcut the first
+start lays down (657); `language/` a `.po` file per language, nothing
+but texts in it, and the reader that looks one up (313). All counted
+6.9.2026 with `wc -l`, and the figure of the day is that command, not
+this paragraph. `models/` is an eleventh folder and the odd one out:
+the speaker model lives there and no code at all, so `beside()` never
 reaches for it. There is nothing to build.
 
 **How a piece is joined on, and why it is not an import.** `beside()`
@@ -45,6 +47,25 @@ of that folder and puts a `videopodcast-magic` command on the path --
 and nothing inside knows the difference: it is the same code either
 way, and the name carries an underscore only because a hyphen cannot be
 imported.
+
+**A piece asks the program where the program is, never itself.** A
+piece lies one folder deeper than the way in, so `__file__` in it names
+that deeper folder. `find_required_tools` looks for an ffmpeg lying
+beside the program and asks `PROGRAM.__file__` for the place; with the
+piece's own `__file__` there it puts `videopodcast_magic/setup` on the
+search path and answers "ffmpeg, ffprobe is missing." with both of them
+lying beside the program -- measured 6.9.2026 on a copy that kept
+`__file__`, against the same copy that asks the program.
+
+**Where a piece is read decides what it can bind.** Most of them stand
+at the end of the way in, after everything they take; `setup/` is read
+at the top instead, because what stands under it wants ffmpeg or a
+module that may not be installed yet -- and so it can bind only what is
+above that line. `as_warn` is the one name it uses that is not, and it
+goes through `PROGRAM.` for that reason and no other. `FFMPEG_FLOOR`
+stays on the near side of the seam as well, and that one is measured:
+`text_lang_settled_first` rewrites the floor line in the way in to put
+a run under it, and reads no other file.
 
 **The catalogues only travel because they are named.** setuptools packs
 `.py` and nothing else, so `[tool.setuptools.package-data]` in
