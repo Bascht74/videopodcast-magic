@@ -25,8 +25,8 @@ What is in them, largest first, every folder of the program on the list
 and counted 7.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **6513** -- the window and everything it shows, asks or offers
-* `cut/` **3676** -- who is on camera when, and what carries it out of
+* `ui/` **6224** -- the window and everything it shows, asks or offers
+* `cut/` **3955** -- who is on camera when, and what carries it out of
   here
 * `player/` **3018** -- the moving picture: the player, the cut band,
   the log view, the player menu, and the hush that stops one player
@@ -302,6 +302,23 @@ which stands 800 lines *above* that seam, answers `AttributeError:
 'Program' object has no attribute 'chain_fill_in'`, and the same name
 at the call site answers the very function the window holds.
 
+**And a piece read *after* the receiving one is just as far away as one
+read out of `ui/`.** This is the same rule as the first, seen from a
+distance nobody looks at: the way in reads its pieces in order, and a
+name is on the programme only once its own piece has been read and
+`take_from` has run. Measured 7.9.2026 while `make_preview` moved into
+`cut/`: `slider_numbers` and `speakers_to_cameras` live in `orders/`,
+which the way in reads at line 632, and `cut/` is read at 604 --
+twenty-eight lines earlier, and that is enough. A head line for either
+answers the same `AttributeError` with rc=1.
+
+From outside this looks exactly like a name of `ui/`, and it is not:
+both pieces are read by the way in, both stand on the programme long
+before any window. **What decides is only the order of the two reads.**
+So whoever moves a function into a piece looks up where the receiving
+piece is read, and treats every piece below that line as unreachable
+from its head.
+
 **And a piece cannot bind its own name at its head either -- there the
 `def` has not run.** This one wears the same coat as the rule above and
 is a different animal: it is not a name that arrives late, it is a name
@@ -510,7 +527,7 @@ way every window in this table was found.
 | `pipeline/` | binds the cut's names; `prework/`, which the window reads, binds its `unpack_kind` | after the cut, before the window |
 | `orders/` | its head binds `MIN_SPEECH_TO_SWITCH_S` and `WIDE_AFTER_S` out of the cut just above | this late for that reason. The window asks `beside()` for the same piece and is handed this one, read already |
 | `desktop/` | asked for inside `main()`, not at the top level | below the branch on purpose: `redirect_console()` renames the running log, so a line written above it lands in the log of the run before |
-| `ui/` | binds 39 names out of `speakers/` and 32 out of `cut/`, both read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
+| `ui/` | binds 19 names out of `speakers/` and 20 out of `cut/`, both read above it | on the way to the window and not in the list: a run on the command line opens none and never reads it |
 
 ### The seven functions the seam is made of
 
