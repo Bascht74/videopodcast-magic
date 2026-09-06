@@ -50,6 +50,7 @@ group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 math = PROGRAM.math
 no_place_message = PROGRAM.no_place_message
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 probe_remember = PROGRAM.probe_remember
 progress_from_line = PROGRAM.progress_from_line
@@ -835,7 +836,7 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
         uncertain = st.get("points", 0) < 5 or spread > 150.0
         line = (T('  %-20s offset %s ms%s, length %s s, spread %s '
                   'ms, %s of %s points%s%s')
-                % (track["name"], decimal_text("%+.1f" % ms),
+                % (track["name"], number_text(ms, plus=True),
                    "" if fine is None else T(' (fine: %s ms)')
                    % decimal_text("%+.1f" % fine),
                    decimal_text("%+.3f" % length),

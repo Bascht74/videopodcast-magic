@@ -50,6 +50,7 @@ json = PROGRAM.json
 log_curve_from_atom = PROGRAM.log_curve_from_atom
 math = PROGRAM.math
 mov_colour_tags = PROGRAM.mov_colour_tags
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 parallel_map = PROGRAM.parallel_map
 parse_time_point = PROGRAM.parse_time_point
@@ -644,7 +645,7 @@ def check_audio_file(file_path):
             T('Channel %d is against the stop: %s times three samples or '
               'more in a row, the longest %s (%s ms), the first at %s.')
             % (channel + 1, group_text(runs), group_text(longest),
-               decimal_text("%.1f" % milliseconds), as_hms(first)),
+               number_text(milliseconds), as_hms(first)),
             T('Counted here, sample by sample, at the rate the file was '
               'recorded at: a run of three or more samples on the highest '
               'value an integer format can hold. One or two are rounding '
