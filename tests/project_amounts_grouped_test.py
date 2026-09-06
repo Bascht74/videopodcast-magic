@@ -4,8 +4,8 @@
 Three sections in the order they come: a count out of the audio
 cleanup, which takes the thousands mark; the track number printed
 beside it, which keeps its plain digits; and a measured frame rate,
-which takes the decimal comma and is held as a whole number, so that a
-place gained is caught as well as a place lost.
+which takes the decimal comma. All three are held as whole numbers, so
+that a place gained is caught as well as a place lost.
 
 The timeline and the project are stand-ins, so what is judged is what
 the program prints, not what Resolve would make of it. No wording is
@@ -131,30 +131,36 @@ tracks[HOME] = [Item("G.mov"), Item("G.mov")]
 tl = TL(tracks)
 cameras = [{"track": "Guest", "file": "G.mov", "source": "G.mov"}]
 
+# Every one of the three wanted numbers is a piece of a longer one --
+# "1.233" of "1.233,0", "A1234" of "A12340", "29,97" of "29,970" -- so
+# asking whether it stands somewhere in the report catches a place that
+# went away and not one that came. What is asked instead is what stands
+# beside it: a digit, a comma or a dot on either side means the program
+# printed a different number.
+WHOLE_EMPTIED = re.compile(r"(?<![\d.,])1\.233(?![\d.,])")
+WHOLE_HOME = re.compile(r"(?<![\d.,])A1234(?![\d.,])")
+
 print("1. A count takes the thousands mark of the language")
 report = spoken(lambda: vpm.trim_audio_tracks(
     tl, cameras, {"Guest": [Item("G.mov")]}))
 said = holding(report, "%d" % EMPTIED, "1.233")
-check("the emptied audio tracks are counted in the German form",
-      "1.233" in report and "1233" not in report,
-      "%r -- wanted %r in it and %r not"
+check("the emptied audio tracks are counted 1.233 whole, in the German form",
+      bool(WHOLE_EMPTIED.search(report)) and "1233" not in report,
+      "%r -- wanted %r with no digit or mark beside it, and %r nowhere"
       % (said, "1.233", "%d" % EMPTIED))
 
 print("\n2. A track number keeps its plain digits")
 said = holding(report, "A%d" % HOME, "A1.234")
-check("the audio track the camera was kept on is not grouped",
-      "A1234" in report and "A1.234" not in report,
-      "%r -- wanted %r in it and %r not"
+check("the audio track the camera was kept on is A1234 whole, ungrouped",
+      bool(WHOLE_HOME.search(report)) and "A1.234" not in report,
+      "%r -- wanted %r with no digit or mark beside it, and %r nowhere"
       % (said, "A%d" % HOME, "A1.234"))
 
 print("\n3. A measured frame rate takes the decimal comma")
-# "29,97" is a piece of "29,970" as well, so asking whether it stands
-# somewhere in the report catches a decimal place that went away and
-# not one that came. What is asked instead is what stands beside it: a
-# digit or a mark on either side means the program printed a different
-# number. The wanted number is written out here rather than worked out
-# the way the program works it out -- an expectation that takes the
-# program's own road agrees with it whatever the road does.
+# The wanted number is written out here rather than worked out the way
+# the program works it out -- an expectation that takes the program's
+# own road agrees with it whatever the road does. That holds for the
+# two above as well.
 WHOLE_RATE = re.compile(r"(?<![\d.,])29,97(?![\d.,])")
 d = {"fps": 30.0, "fps_measured": 29.97002997, "width": 1920, "height": 1080}
 rates = spoken(lambda: vpm.apply_project_settings(P(), d))
