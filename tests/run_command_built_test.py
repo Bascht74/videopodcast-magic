@@ -5,8 +5,9 @@ Three independent claims. The command line is the one that would be
 written by hand; the plan beside it carries what no switch can, the
 cameras and the tracks; and what cannot be run is refused with a title
 a person can read, while a merely doubtful case becomes a question.
-The last sections hold gui() to calling this and keeping no assembly
-of its own, since two builders of one command line drift apart."""
+The last sections hold the window to calling this and keeping no
+assembly of its own, since two builders of one command line drift
+apart. The window is gui() and the pieces lifted out of it."""
 import os
 import the_program
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -356,9 +357,14 @@ check("the other row without", "audio_done" not in plan["tracks_of"][1],
 
 print("\n16. The interface really calls run_argv")
 import inspect
-source = inspect.getsource(vpm.gui)
+# The window is gui() and the pieces lifted out of it, joined. Reading
+# gui() alone lets a check on absence go green because what it looks
+# for moved house rather than went away -- project_write left gui() for
+# make_project_file and took the line that throws the key out with it.
+source = (inspect.getsource(vpm.gui)
+          + inspect.getsource(vpm.make_project_file))
 check("call present", "run_argv(values, assign_file)" in source,
-        "16. gui() names run_argv in %s, wanted one reading "
+        "16. the window names run_argv in %s, wanted one reading "
         "run_argv(values, assign_file)"
         % ([l.strip() for l in source.splitlines() if "run_argv(" in l]
            or "no line at all",))
@@ -366,15 +372,15 @@ check("call present", "run_argv(values, assign_file)" in source,
 # a list read by both would be logic deciding what is tested.
 tinkering = ['argv += ["--auphonic-api-key"', '"--multitrack", "--assign"',
              'argv += ["--" + key']
-check("no argv tinkering left in gui()",
+check("no argv tinkering left in the window",
         'argv += ["--auphonic-api-key"' not in source
         and '"--multitrack", "--assign"' not in source
         and 'argv += ["--" + key' not in source,
-        "16. gui() still carries %s of the 3 fragments, wanted none"
+        "16. the window still carries %s of the 3 fragments, wanted none"
         % ([t for t in tinkering if t in source],))
 check("the key is still thrown out when saving",
         'if part == "--auphonic-api-key":' in source,
-        "16. gui() names --auphonic-api-key in %s, wanted one reading "
+        "16. the window names --auphonic-api-key in %s, wanted one reading "
         "if part == \"--auphonic-api-key\":"
         % ([l.strip() for l in source.splitlines()
             if "--auphonic-api-key" in l] or "no line at all",))
@@ -400,7 +406,7 @@ check("a non-number is reported", bad == "wide-after",
         "17. reported %r, wanted 'wide-after'" % (bad,))
 check("and the same list is shared with only_resolve_start_run",
         "slider_argv(values)" in source,
-        "17. gui() calls slider_argv(values) %d times, wanted at least 1"
+        "17. the window calls slider_argv(values) %d times, wanted at least 1"
         % source.count("slider_argv(values)"))
 
 print("\n%d checks in %.2f s" % (done, time.time() - began))
