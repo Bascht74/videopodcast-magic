@@ -13,27 +13,41 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in and holds most of the
-program -- 10 551 lines. Eleven pieces have moved out, and each sits
+program -- 10 551 lines. Twelve pieces have moved out, and each sits
 beside it in a folder of its own with an `__init__.py` in it: `ui/`
-holds the window and everything it shows, asks or offers (12 841
+holds the window and everything it shows, asks or offers (10 042
 lines); `cut/` who is on camera when, and what carries it out of here
-(3 925); `resolve/` the project in DaVinci Resolve, timelines, colour,
-render and markers (2 755); `speakers/` who is speaking, out of the
-sound alone (2 060); `pipeline/` the chain the recordings run through
-until the camera files are written (1 880); `preflight/` whether the
-material fits together before the first long step, and the ffmpeg run
-that shows its progress (1 507); `auphonic/` the sending to
-auphonic.com and the fetching back -- the key, the presets, the
-production, the waiting (1 226); `setup/` finding ffmpeg, offering the
-way to get one, installing a missing module and keeping the key
-(1 161); `speech/` what is said and when, and what is written down
-from it (1 130); `desktop/` the picture and the shortcut the first
-start lays down (657); `language/` a `.po` file per language, nothing
-but texts in it, and the reader that looks one up (313). All counted
-6.9.2026 with `wc -l`, and the figure of the day is that command, not
-this paragraph. `models/` is a twelfth folder and the odd one out:
-the speaker model lives there and no code at all, so `beside()` never
-reaches for it. There is nothing to build.
+(3 925); `player/` the moving picture -- the player, the cut band and
+the log view (2 876); `resolve/` the project in DaVinci Resolve,
+timelines, colour, render and markers (2 755); `speakers/` who is
+speaking, out of the sound alone (2 060); `pipeline/` the chain the
+recordings run through until the camera files are written (1 880);
+`preflight/` whether the material fits together before the first long
+step, and the ffmpeg run that shows its progress (1 507); `auphonic/`
+the sending to auphonic.com and the fetching back -- the key, the
+presets, the production, the waiting (1 226); `setup/` finding ffmpeg,
+offering the way to get one, installing a missing module and keeping
+the key (1 161); `speech/` what is said and when, and what is written
+down from it (1 130); `desktop/` the picture and the shortcut the
+first start lays down (657); `language/` a `.po` file per language,
+nothing but texts in it, and the reader that looks one up (313). All
+counted 6.9.2026 with `wc -l`, and the figure of the day is that
+command, not this paragraph. `models/` is a thirteenth folder and the
+odd one out: the speaker model lives there and no code at all, so
+`beside()` never reaches for it. There is nothing to build.
+
+**One piece is asked for by another piece, and that costs a check.**
+`player/` is the only one the way in never names: `ui/__init__.py`
+asks for it, where the block it holds used to stand. `beside()` does
+not mind -- it lays its path against the folder the *way in* sits in,
+whoever calls it, so `beside("player")` out of `ui/` finds
+`videopodcast_magic/player/`, one folder up from the caller and beside
+its own. What does mind is `text_german_arrives`: it collects the
+`beside(...)` folder names out of the way in and holds them against
+`packages =`, and it reads no other file. A `beside()` in a piece is
+invisible to it. So `"videopodcast_magic.player"` stands in
+`pyproject.toml` unguarded -- take it out and the suite stays green
+and the installed copy opens no player. Measured 6.9.2026.
 
 **How a piece is joined on, and why it is not an import.** `beside()`
 reads the piece out of the folder and hands the program in before the
