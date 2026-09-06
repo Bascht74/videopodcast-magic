@@ -961,6 +961,44 @@ def delete_api_key():
     return False
 
 
+def pip_repair(packages):
+    """Let pip put those packages back, unasked. True where it went through.
+
+    For something that was installed once and does not import any
+    more: the question was answered at installing, so it is not put
+    again. Plain and then --user, no third, the same two the ordinary
+    install takes. What it says goes through print, which in a window
+    lands in the log.
+    """
+    if os.environ.get("VPM_SILENT"):
+        # A test run installs nothing. Before everything else, so that
+        # no path around it can exist.
+        return False
+    print(T('  Putting it back: %s') % " ".join(packages))
+    # pip runs code out of what it installs, so the key does not
+    # travel into it -- the same rule the ordinary install is handed.
+    clean = dict(os.environ)
+    clean.pop("AUPHONIC_TOKEN", None)
+    last = ""
+    for extra_text in ([], ["--user"]):
+        try:
+            p = subprocess.run([sys.executable, "-m", "pip", "install",
+                                "-U"] + extra_text + list(packages),
+                               stdout=subprocess.PIPE,
+                               stderr=subprocess.STDOUT, env=clean)
+        except OSError as e:
+            print(T('  That did not work: %s') % e)
+            return False
+        if p.returncode == 0:
+            return True
+        last = (p.stdout or b"").decode("utf-8", "replace").strip()
+    # Why it failed: else the sentence the window shows next is the
+    # same command again, and nobody learns anything.
+    for line in last.splitlines()[-4:]:
+        print("    %s" % line)
+    return False
+
+
 def _pip_install(*packages):
     """Ask, then run pip. False where the answer is no.
 

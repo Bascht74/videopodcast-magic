@@ -891,16 +891,19 @@ Timecode platziert**. Sie liegt framegenau auf der Achse; es fehlt allein
 die Gegenprobe, und die Messung sperrt für sie nichts.
 
 Eine Datei, die überhaupt keinen Platz hat, trägt den Vermerk **passt
-nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode. Der Ton
-ist nicht verwendbar.** und steht in Rot. Ihr Ton hat mit dem übrigen
-Material nichts gemeinsam, und kein Timecode ordnet sie zwischen die
-anderen ein; deshalb lässt sie sich nicht in die Folge hineinschneiden:
-In der Spalte **Typ** sind **Inhalt** und **Weitwinkel** für sie
-gesperrt, sie wird auf **Vorspann** gesetzt — auf **Video ignorieren**,
-wenn eine andere Datei den Vorspann schon hält —, und das Protokoll
-sagt, welches von beidem und warum. Das ist kein Vorschlag, sondern eine
-Feststellung über das Material, und sie gilt, wie der **Typ** auch
-dorthin gekommen ist.
+nicht zu den anderen Dateien: Ton nicht erkannt, kein Timecode.** und
+steht in Rot; darunter sagt der Vermerk, was mit ihr geschehen ist:
+**Als Vorspann eingetragen; Abspann ist einen Klick entfernt.** oder
+**Bleibt draußen, Vorspann ist schon vergeben; Abspann ist einen Klick
+entfernt.** Ihr Ton hat mit dem übrigen Material nichts gemeinsam, und
+kein Timecode ordnet sie zwischen die anderen ein; deshalb lässt sie
+sich nicht in die Folge hineinschneiden: In der Spalte **Typ** sind
+**Inhalt** und **Weitwinkel** für sie gesperrt, sie wird auf
+**Vorspann** gesetzt — auf **Video ignorieren**, wenn eine andere Datei
+den Vorspann schon hält —, und der Vermerk neben der Datei sagt,
+welches von beidem; Zeile und Vermerk sagen also dasselbe. Das ist kein
+Vorschlag, sondern eine Feststellung über das Material, und sie gilt,
+wie der **Typ** auch dorthin gekommen ist.
 
 War an einer solchen Datei überhaupt nichts zu messen, wird ihr
 stattdessen **Video ignorieren** vorgeschlagen. Das ist ein Vorschlag

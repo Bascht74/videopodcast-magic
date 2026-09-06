@@ -15,7 +15,7 @@ zuletzt für 3.0.0b2 durchgegangen worden.
 
 ## Wo das Programm heute steht
 
-**Version 3.0.0b8.** Es läuft jede Woche, an echtem Material.
+**Version 3.0.0b9.** Es läuft jede Woche, an echtem Material.
 
 Es macht die Arbeit vor dem Schnitt: aufbereiteten Ton als erste Spur
 in die Videodateien legen, Rekorder und Kameras auf eine Zeitachse
