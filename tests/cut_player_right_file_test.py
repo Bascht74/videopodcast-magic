@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 """#62: The player takes the file that holds the In point and the Out point.
 
-The rules sit inside gui() and cannot be called from outside, so the
-three of them are lifted by name out of gui()'s own body and run here
-over six made-up files on one time axis: what is judged is the
-program's code, not a copy kept beside it. The sections: the rules come
-out and answer, the order they put the files in, the kinds that never
-come into question, the file chosen last, what covers() says about the
-axis, a missing timecode and the ends of a file, the values it can and
-cannot answer, the order over two cards, and nothing left to play at
-all. What the method
+The rules sit inside make_player_choice() as closures over its
+arguments and cannot be called from outside, so the three of them are
+lifted by name out of that body and run here over six made-up files on
+one time axis: what is judged is the program's code, not a copy kept
+beside it. The sections: the rules come out and answer, the order they
+put the files in, the kinds that never come into question, the file
+chosen last, what covers() says about the axis, a missing timecode and
+the ends of a file, the values it can and cannot answer, the order over
+two cards, and nothing left to play at all. What the method
 costs, in full: the three have to keep their names and stay directly
-inside gui() -- their order, their parameters and their layout are
-free; a rule that starts reading a further name out of gui() shows up
-as no answer at all; and nothing here says the window ever reaches
-these rules.
+inside make_player_choice() -- their order, their parameters and their
+layout are free; a rule that starts reading a further name out of it
+shows up as no answer at all; and nothing here says the window ever
+reaches these rules.
 """
 import os
 import the_program
@@ -98,12 +98,12 @@ def picture_span(file_path):
 
 print("0. The player's own rules are cut out of the script and run here")
 WANTED = ("covers", "player_candidates", "player_suggestion")
-# Each rule is taken on its own, by name, out of gui()'s own body, and
-# only as far as gui() says it reaches. So their order among each other,
-# a parameter added to one of them and the way their lines are laid out
-# are all free, and a statement of gui()'s standing between two of them
-# is not dragged along and cannot raise in here unnoticed.
-source = inspect.getsource(vpm.gui)
+# Each rule is taken on its own, by name, out of the body it stands in,
+# and only as far as that body says it reaches. So their order among
+# each other, a parameter added to one of them and the way their lines
+# are laid out are all free, and a statement standing between two of
+# them is not dragged along and cannot raise in here unnoticed.
+source = inspect.getsource(vpm.make_player_choice)
 cut = {}
 for node in ast.parse(source).body[0].body:
     if isinstance(node, ast.FunctionDef) and node.name in WANTED:
@@ -127,9 +127,11 @@ standing = sum(1 for n in WANTED if callable(rules.get(n)))
 ran = standing == len(WANTED) and not trouble
 check("the player's own rules run here, cut out of the script",
         ran,
-        "%d of %d rules standing out of %d characters cut from gui()%s%s"
+        "%d of %d rules standing out of %d characters cut from"
+        " make_player_choice()%s%s"
         % (standing, len(WANTED), len(block),
-           "; gui() holds no " + ", ".join(missing) if missing else "",
+           "; make_player_choice() holds no " + ", ".join(missing)
+           if missing else "",
            ", " + trouble if trouble else ""))
 
 answered = ""
