@@ -94,6 +94,7 @@ packages = [
     "videopodcast_magic.hearing",
     "videopodcast_magic.herald",
     "videopodcast_magic.language",
+    "videopodcast_magic.logbook",
     "videopodcast_magic.material",
     "videopodcast_magic.menus",
     "videopodcast_magic.metadata",
