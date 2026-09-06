@@ -164,15 +164,12 @@ HOLD_FILES = [
     ("distribute_tracks_to_cameras", "offsets"),
     ("distribute_tracks_to_cameras", "lengths"),
     ("assignment_rows", "own"), ("by_recording", "after_file_path"),
-    ("collect_with_continuations", "joined"),
-    ("collect_with_continuations", "rank"),
     ("import_media", "after_path"),
     ("one_separation_on_axis", "where"),
     ("plan_from_camera_audio", "named"),
     ("voice_names_by_source", "out"),
 ]
 HOLD_FILES_SET = [("gui", "no_join"),
-                  ("collect_with_continuations", "apart"),
                   ("group_recording_parts", "apart")]
 # Every piece of the program: the window is one of its own, and half
 # the dictionaries this section is about are built inside it.

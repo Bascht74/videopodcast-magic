@@ -450,22 +450,6 @@ clean_probe_cache = soundings.clean_probe_cache
 ffprobe_json = soundings.ffprobe_json
 
 
-def csv_line(values):
-    """One row of a CSV file: comma separated, quoted where it matters.
-
-    Comma and full stop, in every language. These files are read by other
-    programs and compared across months; a separator that follows the
-    language of the run would make two runs incomparable.
-    """
-    out = []
-    for x in values:
-        x = str(x)
-        if any(c in x for c in ',";\r\n'):
-            x = '"%s"' % x.replace('"', '""')
-        out.append(x)
-    return ",".join(out) + "\n"
-
-
 #---------------------------------------------------------- Time and timecode
 # A piece of its own, in the folder "timecode" beside this one. Read
 # above every piece below it: twelve of them bind sixteen of its names
@@ -490,19 +474,6 @@ SPEECH_CODES = {
     "ara": "ar", "heb": "he", "hun": "hu", "ron": "ro", "rum": "ro",
     "ukr": "uk", "cat": "ca",
 }
-
-
-def speech_locale(language):
-    """The recogniser's code for the tag the interface carries.
-
-    The Language field and --speech-language hold what ffmpeg wants on
-    the audio track: three letters. Both recognisers want the two-letter
-    code. "ger" matched no locale and was dropped without a word, so the
-    machine's own language decided and the field did nothing -- asked
-    for "eng" on a German Mac, the recognition ran in de_DE.
-    """
-    tag = (language or "").strip()
-    return SPEECH_CODES.get(tag.lower(), tag)
 
 
 # What the interface offers. The tag is what ffmpeg wants on the audio
@@ -564,10 +535,10 @@ take_from(metadata)
 # sliders -- stands in a piece of its own, in the folder "bearings"
 # beside this one, and is read far below, where the pieces are read.
 
-# Three functions stay here with the constants they use, each for one
-# measured reason: a piece read before the bearings binds it at its
-# head, and a head binding reaches into this file only. The material
-# binds safe_filename and gcc_phat_offset, what is said the third.
+# Two functions stay here with the constant they use, for one measured
+# reason: pieces read before the bearings bind them at their heads --
+# the hearing and the material -- and a head binding reaches into this
+# file only.
 
 
 def safe_filename(name):
@@ -606,31 +577,6 @@ def gcc_phat_offset(x, y, rate, max_ms=120.0):
         fine = 0.0
     return ((k - size + fine) / rate * 1000.0,
             peak / (float(np.std(corr_window)) + 1e-12))
-
-
-# How much is read at a time when marking a file by its content. A
-# larger block buys nothing: the hashing sets the pace, not the disk.
-CONTENT_BLOCK = 1 << 20
-
-
-def file_content_mark(file_path):
-    """Return what a file holds, as one string over size and content.
-
-    For a file whose name says nothing: a mix is written into a fresh
-    folder on every run, so path and time can never meet themselves,
-    and a modification time cannot tell two writes inside one second
-    apart either. Costs about a third of a second per gigabyte, read
-    or cached. "" where the file cannot be read.
-    """
-    mark = hashlib.sha1()
-    try:
-        with open(file_path, "rb") as f:
-            mark.update(b"%d\n" % os.fstat(f.fileno()).st_size)
-            for block in iter(lambda: f.read(CONTENT_BLOCK), b""):
-                mark.update(block)
-    except OSError:
-        return ""
-    return mark.hexdigest()
 
 
 #---------------------------------------------------------------- Video data
@@ -733,28 +679,11 @@ update_from_command_line = upkeep.update_from_command_line
 update_note = upkeep.update_note
 
 
-#---------------------------------------------------------- Certificates
-
-def use_certificates():
-    """Point the libraries that fetch on their own at the bundle.
-
-    They read these two variables and nothing else; without them the
-    model download fails on a Python that has no certificates.
-    """
-    bundle = certificate_file()
-    if not bundle:
-        print(T('  No certificate bundle found -- an HTTPS download '
-                'may fail.'))
-        return None
-    os.environ.setdefault("SSL_CERT_FILE", bundle)
-    os.environ.setdefault("REQUESTS_CA_BUNDLE", bundle)
-    return bundle
-
-
 #---------------------------------------------------------- What is said
-# A piece of its own, in the folder "speech" beside this one. Read
-# here and not where it is first used, because it binds what it takes
-# out of this file: use_certificates above is the last of that.
+# A piece of its own, in the folder "speech" beside this one. It binds
+# what it takes out of this file, and SPEECH_CODES is the last of that
+# -- so it could be read from there down; it is read here, above the
+# run that wants it.
 
 speech = beside("speech", program=PROGRAM)
 take_from(speech)
@@ -777,61 +706,6 @@ write_transcript_files = speech.write_transcript_files
 
 
 #--------------------------------------------------------------------- Run
-
-def collect_with_continuations(paths, no_followups, apart=(), together=()):
-    """The given files plus their continuations, without duplicates.
-
-    *apart* names blocks that stand on their own, *together* files that
-    belong to one recording although their names do not say so -- see
-    group_recording_parts.
-    """
-    apart = FileSet(apart or ())
-    joined = ByFile()
-    for row in together_chains(together):
-        for x in row:
-            if x not in apart:
-                joined[x] = [y for y in row if y not in apart]
-    out, seen, hints = [], set(), []
-    for p in paths:
-        if os.path.abspath(p) in seen:
-            continue
-        if p in joined:
-            row, discarded = list(joined[p]), []
-        elif no_followups or p in apart:
-            row, discarded = [p], []
-        else:
-            row, discarded = find_continuation_files(os.path.abspath(p))
-            row = [x for x in row if x not in apart
-                   and x not in joined]
-        for path in row:
-            if os.path.abspath(path) not in seen:
-                seen.add(os.path.abspath(path))
-                out.append(path)
-        hints += discarded
-    # Sort by name so the order of selection does not matter: giving only the
-    # first block or all three in any order yields the same list. A row
-    # forced together by hand is the one thing that keeps its order.
-    # --together promises "these files are one recording, in this
-    # order", and sorting the row by name would break that promise on
-    # every name that is not already alphabetical.
-    #
-    # The row travels as one block, and the block sorts under the
-    # alphabetically smallest name in it. Not under the name given
-    # first: the whole point of sorting here is that the order of
-    # selection makes no difference, and a block that moved with the
-    # order it was typed in would put that difference straight back.
-    rank = ByFile()
-    for row in together_chains(together):
-        row = [x for x in row if x not in apart]
-        if not row:
-            continue
-        smallest = min(os.path.basename(x).lower() for x in row)
-        for k, x in enumerate(row):
-            rank[x] = (smallest, k)
-    out.sort(key=lambda x: rank.get(
-        x, (os.path.basename(x).lower(), 0)))
-    return out, hints
-
 
 def main():
     force_utf8_output()
@@ -999,51 +873,6 @@ def main():
 #------------------------------------------------ Beside the window
 # Named here rather than inside the interface section: none of them
 # touches a widget, and other sections reach in for them.
-
-
-def stand_in_camera(names):
-    """What stands in front of a silence where no camera is a wide shot.
-
-    Not a wide shot, and it must not act as one: everything the wide
-    shot settings ask for is switched off wherever this is used.
-
-    All that matters here is that the preview and the run reach for the
-    same camera -- and they did not. The preview took the first of its
-    own list, the run took the reference clip, and in a real shoot both
-    are real cameras, so it showed as two different cuts rather than as
-    a fault. Found 25.8.2026, and only reachable at all since a camera
-    with a speaker stopped counting as a wide shot.
-
-    By name, not by position: the two lists are built in different
-    places and nothing says they are sorted alike, so a rule that hangs
-    on the order would let them drift again on the day one of them is
-    built differently.
-    """
-    return sorted(n for n in names if n)[:1] or ["Wide"]
-
-
-def common_window(camera_areas):
-    """The stretch every camera saw, and the two that decide it.
-
-    *camera_areas* is (from, to, name) per camera, in reference camera
-    time. Returns (t0, begins_with, t1, ends_with).
-
-    Every camera, not any camera. A window wider than a camera reaches
-    has a stretch where a cut to that camera finds no picture, and the
-    episode then comes out shorter than the window said it would.
-    Measured on 26.8.2026 over the test interview: the beginning lay
-    12.567 s before one of three cameras began, and on the fixture the
-    window even began at -0.180 s -- before its own zero. Whoever wants
-    that stretch anyway sets an In point of their own; what is derived
-    is a window every camera can fill. Decided on 29.8.2026.
-
-    Sitting out here rather than inside the run because it is
-    arithmetic and nothing else, and arithmetic can be held against
-    numbers without building a window and an hour of sound first.
-    """
-    t0, begins_with = max((x, name) for x, _y, name in camera_areas)
-    t1, ends_with = min((y, name) for _x, y, name in camera_areas)
-    return t0, begins_with, t1, ends_with
 
 
 def finished_tracks_find(base):

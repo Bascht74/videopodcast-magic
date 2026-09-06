@@ -93,9 +93,11 @@ check("a block set apart stays out of the group",
 check("and is a recording of its own", ["Rec_02.wav"] in names(row),
       str(names(row)))
 
-#--------------------------------------------- the same for the file collector
-out, _hints = vpm.collect_with_continuations([one], False,
-                                             together=[[one, three]])
+#--------------------------------- a joined file that is not in the list
+# Only Alpha is chosen. Charlie is named in --together and nowhere else,
+# so it can only arrive through the joining.
+rows = vpm.group_recording_parts([one], False, together=[[one, three]])
+out = [x for r, _d in rows for x in r]
 check("collecting one file brings what was joined to it",
       [os.path.basename(x) for x in out] == ["Alpha.wav", "Charlie.wav"],
       str([os.path.basename(x) for x in out]))

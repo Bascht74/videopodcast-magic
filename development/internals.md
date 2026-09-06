@@ -13,7 +13,7 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 1 355 lines of it, against the 37 535 it held
+program lives any more -- 1 184 lines of it, against the 37 535 it held
 on 4.9.2026, the day the single file became a folder. **Thirty-three
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
@@ -23,7 +23,7 @@ and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
 * `ui/` **7735** -- the window and everything it shows, asks or offers
-* `cut/` **3925** -- who is on camera when, and what carries it out of
+* `cut/` **3960** -- who is on camera when, and what carries it out of
   here
 * `player/` **2885** -- the moving picture: the player, the cut band,
   the log view
@@ -34,7 +34,7 @@ figure of the day is that command, not this paragraph**:
 * `bearings/` **2352** -- the time axis, the offsets, which camera
   belongs to which voice
 * `speakers/` **2060** -- who is speaking, out of the sound alone
-* `pipeline/` **1895** -- the chain the recordings run until the camera
+* `pipeline/` **1918** -- the chain the recordings run until the camera
   files are written
 * `preflight/` **1512** -- whether the material fits together before the
   first long step
@@ -44,7 +44,7 @@ figure of the day is that command, not this paragraph**:
   audio to video
 * `setup/` **1161** -- finding ffmpeg, installing a missing module,
   keeping the key
-* `speech/` **1129** -- what is said and when, and what is written down
+* `speech/` **1182** -- what is said and when, and what is written down
   from it
 * `fittings/` **884** -- helpers that shape what the window shows and
   hold none of its state
