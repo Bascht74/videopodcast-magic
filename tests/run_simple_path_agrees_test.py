@@ -376,8 +376,8 @@ print("\n7. The log counts what the files hold")
 people = sorted({r["Speaker"] for r in turns})
 shortest = min([float(r["Duration s"]) for r in shots] or [0.0])
 sentence = vpm.T('  %s speakers, %s shots, shortest %s s') % (
-    vpm.group_text(len(people)), vpm.group_text(len(shots)),
-    vpm.decimal_text("%.1f" % shortest))
+    vpm.number_text(len(people), 0), vpm.number_text(len(shots), 0),
+    vpm.number_text(shortest, 1))
 piece = vpm.T('  %s speakers, %s shots, shortest %s s').split("%s")[1]
 its_own = next((l.strip() for l in said.splitlines() if piece in l), "")
 check("the log's count of speakers and shots is what the files hold",
