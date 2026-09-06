@@ -31,7 +31,6 @@ ProgressPlan = PROGRAM.ProgressPlan
 RUN_STOP = PROGRAM.RUN_STOP
 SPEAKER_ROWS_SHOWN = PROGRAM.SPEAKER_ROWS_SHOWN
 SPEAKER_SPLIT_OFF = PROGRAM.SPEAKER_SPLIT_OFF
-SPEAKER_SPLIT_SPEED = PROGRAM.SPEAKER_SPLIT_SPEED
 SPEAKER_STATE = PROGRAM.SPEAKER_STATE
 SPEECH_CODES = PROGRAM.SPEECH_CODES
 SR = PROGRAM.SR
@@ -140,7 +139,7 @@ longest_stretch = PROGRAM.longest_stretch
 loudness_field_build = PROGRAM.loudness_field_build
 loudness_last = PROGRAM.loudness_last
 main = PROGRAM.main
-media_seconds = PROGRAM.media_seconds
+make_speaker_split = PROGRAM.make_speaker_split
 metrics_sentence = PROGRAM.metrics_sentence
 multitrack_state_note = PROGRAM.multitrack_state_note
 names_used_twice = PROGRAM.names_used_twice
@@ -180,31 +179,22 @@ sample_count = PROGRAM.sample_count
 separation_sources = PROGRAM.separation_sources
 set_update_skipped = PROGRAM.set_update_skipped
 settings = PROGRAM.settings
-sheet_speaker_names = PROGRAM.sheet_speaker_names
 sign_of_life = PROGRAM.sign_of_life
 size_in_mb = PROGRAM.size_in_mb
 soxr_available = PROGRAM.soxr_available
 soxr_note = PROGRAM.soxr_note
-speaker_label_names = PROGRAM.speaker_label_names
 speaker_measure_loop = PROGRAM.speaker_measure_loop
-speaker_source_pick = PROGRAM.speaker_source_pick
-speaker_split_begin = PROGRAM.speaker_split_begin
-speaker_split_wanted = PROGRAM.speaker_split_wanted
 speaker_statistics = PROGRAM.speaker_statistics
 speakers_all_from_project = PROGRAM.speakers_all_from_project
 speakers_all_on_window_axis = PROGRAM.speakers_all_on_window_axis
 speakers_for_run = PROGRAM.speakers_for_run
 speakers_from_project = PROGRAM.speakers_from_project
 speakers_front_pick = PROGRAM.speakers_front_pick
-speakers_keep = PROGRAM.speakers_keep
 speakers_project_block = PROGRAM.speakers_project_block
 speakers_still_wanted = PROGRAM.speakers_still_wanted
 speakers_stored = PROGRAM.speakers_stored
 speakers_window_all = PROGRAM.speakers_window_all
 speech_heading = PROGRAM.speech_heading
-speech_words_done = PROGRAM.speech_words_done
-split_cells_write = PROGRAM.split_cells_write
-split_line_write = PROGRAM.split_line_write
 start_again = PROGRAM.start_again
 store_api_key = PROGRAM.store_api_key
 strip_marks = PROGRAM.strip_marks
@@ -227,7 +217,6 @@ video_facts = PROGRAM.video_facts
 voice_key = PROGRAM.voice_key
 voice_key_parts = PROGRAM.voice_key_parts
 voice_keys_carry_source = PROGRAM.voice_keys_carry_source
-voice_lines_here_not = PROGRAM.voice_lines_here_not
 voice_marks_of = PROGRAM.voice_marks_of
 voice_name_free = PROGRAM.voice_name_free
 voice_names_by_source = PROGRAM.voice_names_by_source
@@ -236,7 +225,6 @@ voice_names_store = PROGRAM.voice_names_store
 voice_row_marks = PROGRAM.voice_row_marks
 voice_suggest_round = PROGRAM.voice_suggest_round
 voices_answer_kept = PROGRAM.voices_answer_kept
-voices_under = PROGRAM.voices_under
 warn_box = PROGRAM.warn_box
 weak_marks_show = PROGRAM.weak_marks_show
 why_no_cut = PROGRAM.why_no_cut
@@ -1605,22 +1593,6 @@ def queue_once(QtCore, pending, key, work):
     QtCore.QTimer.singleShot(0, run)
 
 
-def hush_when_running(who, mark):
-    """Stop the other player, but only if it is running.
-
-    Two pictures at once are two moments at once, so one player stops the
-    other. Told to stop while still starting up, the media player stands
-    in a lock another thread holds -- one run in eight. *mark* is the
-    player's own note of whether it runs: asking Qt is what blocks.
-    """
-    def quiet():
-        hold = getattr(who, "pause", None)
-        if hold and getattr(who, mark, False):
-            hold()
-
-    return quiet
-
-
 def not_on_the_axis(path, kinds, remembered):
     """Why the file in the player carries no window boundary, or "".
 
@@ -2629,194 +2601,6 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
                               + metrics_sentence(numbers, COLOURS, as_minutes))
 
     return preview_compute, speaker_measure
-
-
-def speakers_step_said(source):
-    """What the line under the overall bar says while one is separated.
-
-    The name and not the path: the bar stands in the window, not in the
-    folder, and the line has one line's room.
-    """
-    return T('Separating speakers: %s') % os.path.basename(source)
-
-
-def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
-                       assign_lines, voice_lines, remembered, split_run,
-                       split_line, split_label, split_never, axis_store):
-    """Separate the speakers, locally, and say where that stands.
-
-    A third source for the same thing: who speaks when. auphonic.com says
-    it from its statistics, speakers_from_tracks measures it where every
-    person has a microphone, and this works it out from one recording.
-    Three names built further down in gui() come through *state*.
-    """
-    # A thread of its own and an entry of its own on the bar, and no
-    # place in the prework count: axis_work_loop waits in "while
-    # prework_busy()", and three minutes there hold up the time axis.
-    def speaker_split_source(alone=False):
-        """Which file the separation listens to, and why that one."""
-        audio_files = [p for p, a in files if a == "audio"]
-        videos = [p for p, a in files if a == "video"]
-        # The derived answer, not the stored one: a camera whose sound is
-        # the only sound there is was never clicked.
-        return speaker_source_pick(
-            audio_files, videos, state.get("own_cameras") or (),
-            chosen=state.get("speakers_source_chosen") or "",
-            placeless=state.get("no_place") or (), alone=alone)
-
-    def speaker_split_show(text="", colour=None, where=""):
-        """Say where the separation stands: in the row of its file.
-
-        What is happening to a recording belongs in the line that shows
-        it, so the state goes into the Speakers cell of the row. *where*
-        names the recording a message belongs to.
-        """
-        state["split_note"] = ((os.path.abspath(where) if where else "",
-                                text, colour or COLOURS["quiet"])
-                               if text else None)
-        split_line_write(split_line, split_label, split_never,
-                         speaker_split_wanted(state.get("speakers_wanted")),
-                         split_run["busy"], bool(files),
-                         state.get("split_note"))
-        split_cells_show()
-
-    def split_cells_show():
-        """Write the state of the separation into every file's row."""
-        if SPEAKER_SPLIT_OFF:
-            return
-        if not split_cells_write(state.get("split_cells") or (),
-                                 split_run["busy"],
-                                 state.get("speakers_running") or "",
-                                 state.get("speakers_by") or ByFile(),
-                                 state.get("split_note")):
-            state["split_cells"] = []
-
-    def speaker_split_note(text, share):
-        """Runs in the window thread: the row and the bar together."""
-        source = state.get("speakers_running") or ""
-        speaker_split_show(text, where=source)
-        if source:
-            # The caption travels with every report: pressing Start clears
-            # the plan under a running separation, leaving the step bare.
-            plan.report("speakers:" + source, share,
-                        speakers_step_said(source))
-
-    bridge.speakers_split_note.connect(speaker_split_note)
-
-    def speaker_split_done(result):
-        """The separation came back: keep it, store it, show it."""
-        source, count, segments, trouble = result
-        split_run["busy"] = False
-        plan.done("speakers:" + source)
-        state["speakers_running"] = ""
-        if trouble:
-            speaker_split_show(trouble, COLOURS["error"], where=source)
-            return
-        if not segments:
-            speaker_split_show("", COLOURS["quiet"])
-            return
-        # The names are an assignment, not a measurement: a voice that
-        # had one keeps it, and the stand-in counts past the sheet.
-        called = dict(speakers_stored(state, source).get("names") or {})
-        speakers_keep(state, source, segments, count, dict(
-            speaker_label_names(segments, called, sheet_speaker_names(
-                assign_lines, voice_lines_here_not(voice_lines, source),
-                state.get("voiced") or ()))))
-        axis_store(state.get("axis") or {})
-        state["assignment_fresh"]()
-        speaker_split_show()
-        state["preview_soon"]()
-
-    bridge.speakers_split.connect(speaker_split_done)
-    bridge.speakers_heard.connect(
-        lambda r: speech_words_done(state, r, state["preview_soon"]))
-
-    def speaker_split_kick_off(fresh=False):
-        """Start the separation where there is something to separate.
-
-        Nothing is computed again for a moved time window, a new In point
-        or a renamed speaker: those are arithmetic on what is stored. Only
-        a changed source file or a hand-set number of speakers start it
-        over. Without *fresh* nobody asked, so the source must be alone.
-        """
-        if split_run["busy"] or not files:
-            return
-        source, _why = speaker_split_source(alone=not fresh)
-        if not source:
-            speaker_split_show()
-            return
-        count = int(state.get("speakers_count") or 0)
-        if not fresh:
-            if speakers_stored(state, source).get("segments"):
-                speaker_split_show()
-                return
-            if not speaker_split_wanted(state.get("speakers_wanted")):
-                speaker_split_show()
-                return
-        state["speakers_wanted"] = True
-        split_run["busy"] = True
-        split_run["stop"] = False
-        label_run = state.get("speakers_run", 0) + 1
-        state["speakers_run"] = label_run
-        state["speakers_running"] = source
-        # Measured at 28 times real time on the graphics unit, so the
-        # share of the bar is known rather than guessed.
-        plan.add("speakers:" + source,
-                 max(2.0, media_seconds(source) / SPEAKER_SPLIT_SPEED),
-                 speakers_step_said(source))
-        plan.begin("speakers:" + source, speakers_step_said(source))
-        speaker_split_show()
-        speaker_split_begin(state, split_run, bridge, bridge_emit,
-                            source, count, label_run,
-                            state["speech_language"].get())
-
-    def split_stop(_source=""):
-        """The one button left in a row: stop listening to it."""
-        if not split_run["busy"]:
-            return
-        split_run["stop"] = True
-        speaker_split_show(T('Stopping ...'),
-                           where=state.get("speakers_running") or "")
-
-    def voices_stored_for(path):
-        """How many voices of this very recording are already here.
-
-        It does not depend on what the row is showing: a row that says
-        one person still carries what was measured on it.
-        """
-        return len(voices_under(path, True, state.get("speakers_by")))
-
-    def voices_of(path):
-        """The voices to show under this recording, if any."""
-        return voices_under(path, remembered.get("several:" + path),
-                            state.get("speakers_by"))
-
-    def several_set(path, on):
-        """The name field was answered: several speakers, or one again.
-
-        Switching back hides the rows underneath and throws nothing
-        away: what was measured stays in the project and in the cache.
-        """
-        remembered["several:" + path] = bool(on)
-        if on and not voices_stored_for(path) and not SPEAKER_SPLIT_OFF:
-            if state.get("speakers_source_chosen") != path:
-                # A number of speakers set by hand belongs to the
-                # recording it was set for, not to the next one.
-                state["speakers_count"] = 0
-            state["speakers_source_chosen"] = path
-            QtCore.QTimer.singleShot(
-                0, lambda: speaker_split_kick_off(fresh=True))
-        QtCore.QTimer.singleShot(0, lambda: state["assignment_fresh"]())
-
-    def speaker_split_never():
-        """The other button: not on this machine, and remember it."""
-        state["speakers_wanted"] = False
-        axis_store(state.get("axis") or {})
-        speaker_split_show()
-
-    split_never.clicked.connect(speaker_split_never)
-
-    return speaker_split_kick_off, split_stop, voices_of, several_set
 
 
 def assignment_tables_build(forget, Qt, QtCore, QtWidgets, assign_lines,

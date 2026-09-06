@@ -386,19 +386,20 @@ It is not a licence.
 - **New code that gets by without a widget does not go into `gui()`.**
   Computation, checking, preparation: whatever touches no widget is
   written beside `gui()` and takes what it needs as an argument.
-  Eighteen of them live outside it now, sixteen at module level in the
-  same file and two carried on into `filelist/`. `make_key_note`,
+  **Twenty-three of them live outside it now, and only eleven are still
+  in the window's own file** -- counted 7.9.2026 with `ast` over every
+  piece: `ui/` 11, `player/` 5, `filelist/` and `prework/` 2 each,
+  `desktop/`, `running/` and `speakers/` 1 each. `make_key_note`,
   `make_log_writer` and `make_update_sink` were the first; then nine in
-  one night -- `make_player_choice`, `make_voice_rows`,
-  `make_prework_bar`, `make_prework_tasks`, `make_preview`,
-  `make_speaker_split`, `make_band_and_player`,
-  `assignment_tables_build`, `make_footer` -- and after them
-  `make_file_list`, `make_project_file` and `make_run_start`,
-  `make_preflight`, `make_file_changes` and `make_time_axis`, of which
-  `make_file_list` and `make_file_changes` went on to `filelist/` when
-  the file list became a piece. The last six are the pattern to copy:
-  one theme each, and the factory hands back the names `gui()` still
-  needs.
+  one night, and after them six more.
+  **A factory that leaves `gui()` often leaves the file next**, and
+  that is the pattern rather than an accident: `make_file_list` and
+  `make_file_changes` went to `filelist/`, `make_player_choice` and
+  `make_band_and_player` to `player/`, `make_speaker_split` to
+  `speakers/`. Pulling a block out of `gui()` names it, and a named
+  block shows which piece it belonged to all along.
+  The factory hands back the names `gui()` still needs, one theme
+  each.
   The docstring of `make_player_widgets` states the rule: "Whatever is
   needed from gui() comes in as an argument and keeps its name
   inside."
