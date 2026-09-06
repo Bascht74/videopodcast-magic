@@ -13,44 +13,45 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 1 363 lines of it, against 17 975 the night
-the cutting began. **Thirty-one pieces have moved out**, each in a folder
-of its own beside it with an `__init__.py` in it, and the way in
-reaches them with `beside()`.
+program lives any more -- 1 355 lines of it, against the 37 535 it held
+on 4.9.2026, the day the single file became a folder. **Thirty-one
+pieces have moved out**, each in a folder of its own beside it with an
+`__init__.py` in it, and the way in reaches them with `beside()`.
 
-What is in them, largest first, all counted 6.9.2026 with `wc -l` --
-and **the figure of the day is that command, not this paragraph**.
-Twenty-six of the thirty-one are named here; `choices/`, `livery/`,
-`logbook/`, `soundings/` and `stowage/` are not, and want a line each:
+What is in them, largest first, every folder of the program on the list
+and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
+figure of the day is that command, not this paragraph**:
 
 * `ui/` **8427** -- the window and everything it shows, asks or offers
 * `cut/` **3925** -- who is on camera when, and what carries it out of
   here
-* `player/` **2876** -- the moving picture: the player, the cut band,
+* `player/` **2885** -- the moving picture: the player, the cut band,
   the log view
-* `resolve/` **2755** -- the DaVinci Resolve project, timelines, colour,
+* `resolve/` **2760** -- the DaVinci Resolve project, timelines, colour,
   markers
-* `material/` **2613** -- channels, chains, continuation files, what a
+* `material/` **2612** -- channels, chains, continuation files, what a
   track is made of
-* `bearings/` **2337** -- the time axis, the offsets, which camera
+* `bearings/` **2341** -- the time axis, the offsets, which camera
   belongs to which voice
 * `speakers/` **2060** -- who is speaking, out of the sound alone
-* `pipeline/` **1880** -- the chain the recordings run until the camera
+* `pipeline/` **1879** -- the chain the recordings run until the camera
   files are written
-* `preflight/` **1507** -- whether the material fits together before the
+* `preflight/` **1512** -- whether the material fits together before the
   first long step
-* `auphonic/` **1226** -- the sending to auphonic.com and the fetching
+* `auphonic/` **1229** -- the sending to auphonic.com and the fetching
   back
-* `hearing/` **1175** -- decoding, envelopes, bands, phase, aligning
+* `hearing/` **1174** -- decoding, envelopes, bands, phase, aligning
   audio to video
 * `setup/` **1161** -- finding ffmpeg, installing a missing module,
   keeping the key
-* `speech/` **1130** -- what is said and when, and what is written down
+* `speech/` **1129** -- what is said and when, and what is written down
   from it
 * `fittings/` **884** -- helpers that shape what the window shows and
   hold none of its state
-* `metadata/` **740** -- MOV atoms, colour tags, what a recording says
+* `metadata/` **755** -- MOV atoms, colour tags, what a recording says
   about itself
+* `orders/` **748** -- the command line a run is given: written out of
+  the window, and read back off the line
 * `herald/` **662** -- the progress bar, the stages, the console and log
   redirection
 * `desktop/` **657** -- the picture and the shortcut the first start
@@ -59,26 +60,36 @@ Twenty-six of the thirty-one are named here; `choices/`, `livery/`,
   putting one in place
 * `filelist/` **485** -- the list of chosen files: the tree it is
   shown in, and what adding and removing do to it
-* `tables/` **409** -- the tables and trees the window builds
-* `orders/` **748** -- the command line a run is given: written out of
-  the window, and read back off the line
+* `tables/` **410** -- the tables and trees the window builds
+* `language/` **352** -- a .po file per language and the reader that
+  looks one up
 * `timecode/` **343** -- timecode strings, frame rates, the clock a file
   carries
-* `language/` **313** -- a .po file per language and the reader that
-  looks one up
 * `menus/` **272** -- the menu bar and what follows it
+* `livery/` **265** -- the colours, the marks that say what kind a line
+  is, and the room a name or a table may take
+* `logbook/` **222** -- where the log of a run goes, and what goes into
+  it
+* `stowage/` **198** -- where things are put down between one run and
+  the next: the work folder, what somebody chose, and the write that is
+  moved into place rather than left half done
 * `dials/` **193** -- the kinds a shot can be, the cut fields and their
   choices
 * `filing/` **173** -- path_key, ByFile and FileSet
+* `soundings/` **148** -- what has been measured of a file, taken once
+  and kept
+* `choices/` **88** -- the values a choice box holds, and what they are
+  called
 
-`models/` is a twenty-fifth folder and the odd one out: the speaker
-model lives there and no code at all, so `beside()` never reaches for
-it. There is nothing to build.
+`models/` is the odd one out among the folders: the speaker model lives
+there and no code at all, so `beside()` never reaches for it. There is
+nothing to build.
 
 **Five pieces are asked for by another piece, not by the way in.**
 `player/`, `fittings/`, `tables/`, `menus/` and `filelist/` are read
 out of `ui/__init__.py`, where the blocks they hold used to stand, and
-`player/` again out of `fittings/`. `orders/` was the fifth until
+two of them again one folder deeper: `player/` out of `fittings/` and
+`fittings/` out of `filelist/`. `orders/` stood among them until
 6.9.2026, when `build_argument_parser` moved into it and the way in
 began to read it too -- the window then asks `beside()` for a piece
 that is read already. `beside()` does not mind -- it lays
@@ -89,13 +100,19 @@ folder up from the caller and beside its own.
 **What did mind was the check.** `text_german_arrives` collects the
 `beside(...)` folder names out of the way in and holds them against
 `packages =`, and it reads no other file -- so a `beside()` inside a
-piece was invisible to it. Measured 6.9.2026: take
-`"videopodcast_magic.player"` out of `pyproject.toml` and the whole
-suite stays green while the installed copy opens no window.
-`source_piece_list_holds_test.py` closes that: it walks every
-`beside()` call in **every** piece, holds the folders against the list
-in both directions, and its fourth judgement goes red the day the
-search is ever narrowed back to the way in alone.
+piece was invisible to it, and an installed copy could open no window
+with nothing red anywhere. `source_piece_list_holds_test.py` closes
+that: it walks every `beside()` call in **every** piece, holds the
+folders against the list in both directions, and its fourth judgement
+goes red the day the search is ever narrowed back to the way in alone.
+Both halves measured 6.9.2026 on a copy, one name taken off
+`packages =` at a time: `"videopodcast_magic.player"` leaves
+`text_german_arrives` green and turns `source_piece_list_holds` red,
+which names the call site it read the folder from
+(`fittings/__init__.py line 41`); `"videopodcast_magic.filelist"` does
+the same, from `ui/__init__.py line 1380`; and
+`"videopodcast_magic.speech"`, which the way in fetches itself, turns
+both of them red. So no name can come off this list quietly any more.
 
 **How a piece is joined on, and why it is not an import.** `beside()`
 reads the piece out of the folder and hands the program in before the
@@ -105,8 +122,10 @@ name in its own file. What is bound again while the program runs -- the
 five sinks, `LANG`, `TOOL_TROUBLE` and the rest -- is reached through
 `PROGRAM.` instead, and a name bent from outside is written through
 into every piece that holds it. That last line is what keeps the suite
-working: it bends 119 of the program's names, and a copy would part
-from the original at the first assignment. It can be installed as well -- `pyproject.toml` makes a package
+working: it bends 124 of the program's names -- counted 6.9.2026 as the
+attributes the suite assigns on the module `the_program.load()` hands
+back, over every `tests/*.py` -- and a copy would part from the
+original at the first assignment. It can be installed as well -- `pyproject.toml` makes a package
 of that folder and puts a `videopodcast-magic` command on the path --
 and nothing inside knows the difference: it is the same code either
 way, and the name carries an underscore only because a hyphen cannot be
@@ -150,8 +169,8 @@ and nothing went red over it: it was found by looking inside the wheel,
 which is the only place it shows. Both halves measured 5.9.2026 -- the
 same package built without the line puts no `.po` into the wheel and
 with it puts them in, and a copy of the program with every `.po`
-deleted starts, still answers `languages()` with all nine codes, holds
-an empty `CATALOGUE["de"]`, and says everything in English.
+deleted starts, still answers `languages()` with every code it knows,
+holds an empty `CATALOGUE["de"]`, and says everything in English.
 
 **It was a single file, on purpose, until 4.9.2026, and that day it
 became a folder.** The catalogue was the first piece to move out and
@@ -195,9 +214,13 @@ only builds the interface. So far:
 
 `choose_zero_point` is four lines and was twice the cause of a misplaced
 cut. Now the rule stands in one place and has test cases. The other way
-round, the building blocks of the interface (`cell`, `table_build`,
-`item`, `report`, `mark_red`) stay in `gui()`. They are called from
-over a hundred places and decide nothing.
+round, a building block of the interface that decides nothing does not
+have to leave the function it is called from: `cell` and `report` are
+still inside `gui()` for that reason alone. Where such a block is
+wanted in more than one place it moves, and three of them have --
+`table_build` into `tables/`, `mark_red` into `fittings/`, `item` into
+`filelist/` -- so this is not a rule against moving them, only against
+moving them for the sake of the count.
 
 `run_argv` shows no dialogs. It returns a list of `(kind, title, text,
 button)` in the order intended. `"error"` means show and abort,
@@ -692,11 +715,19 @@ format number stays 3.
 
 ## How a spot for the wide shot is scored
 
-Each candidate gets a weighted sum of three criteria:
+A sentence or a clause boundary near the wanted spot wins outright, and
+nothing is weighed at all: `cut_point` answers and the search stops
+there.
+
+Only where there is no usable boundary does a score come in, over the
+speech pauses lying in the stretch, and it is a sum of two:
 
 - length of the pause, capped at 2 s, x3,
-- closeness to the next entry of another speaker, ramp over 6 s, x4,
-- distance from the wanted spot, x1.5, negative.
+- distance from the wanted spot, measured against the shot length, x1.5,
+  negative.
+
+With no pause either, the spot is set by the clock: the stretch is
+divided into even strides no longer than the latest a cut may come.
 
 ## How a heap of leftovers is found
 
@@ -930,8 +961,11 @@ only as translation strings, in `language/de.po` in the program's own
 folder, keyed by the English text. That file is PO and holds no code at
 all: one entry per message, `msgid` the English wording the program is
 written in and `msgstr` what is said instead, so that a translator can
-work in it without reading the program -- 1 531 entries, counted
-5.9.2026.
+work in it without reading the program. Counted 6.9.2026: 1 531 `msgid`
+lines beside the header entry, of which 1 491 carry a translation and
+reach `CATALOGUE["de"]`. The two numbers are not the same reading, and
+an entry left empty is not a fault -- the last paragraph of this
+section says why.
 
 `texts_of_language("de")` -- the project's own reader in
 `language/__init__.py`, not `gettext` and not `polib`, and nothing is
@@ -957,10 +991,12 @@ the CSV files. The keys are English (`speakers`, `cameras`, `length_s`,
 meaning into old names.
 
 Numbers are split. On screen they follow the language (25,000 against
-25.000, 1.2 s against 1,2 s; `group_text`, `decimal_text`), into files
-they always go English. The CSV files are comma separated with a full
-stop as the decimal mark, in every language: two runs have to stay
-comparable.
+25.000, 1.2 s against 1,2 s), into files they always go English. One
+helper does all of it: `number_text(number, places=1, plus=False)`,
+where `places=None` means as many places as the number needs and
+`plus=True` puts a sign in front of a positive one. The CSV files are
+comma separated with a full stop as the decimal mark, in every
+language: two runs have to stay comparable.
 
 A further language is one file and one line: copy `language/de.po` to a
 name carrying the new two-letter code, translate every `msgstr` and
@@ -978,5 +1014,10 @@ has to be finished before it is added.
 
 The test suite is English throughout. `source_limits_hold_test.py` watches the
 source: German comments, narrating comments, text lines over 79
-characters, over-long blocks, docstring headings without a full stop.
-Every counter is at zero.
+characters, over-long blocks, over-long docstrings, docstring headings
+without a full stop. The counters that are not about length stand at
+zero and are held there. The two that are -- `long_blocks` and
+`long_docstrings` -- do not: those are ratcheted down instead, because
+the rule came in over a source that was already written. What each
+stands at is in `tests/state/style_state.json`, which is where to read
+it and not here.
