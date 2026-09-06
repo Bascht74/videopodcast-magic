@@ -39,14 +39,12 @@ cannot_be_placed = PROGRAM.cannot_be_placed
 colour_arguments = PROGRAM.colour_arguments
 data_track_maps = PROGRAM.data_track_maps
 datetime = PROGRAM.datetime
-decimal_text = PROGRAM.decimal_text
 decode_audio = PROGRAM.decode_audio
 envelope = PROGRAM.envelope
 ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 fit_places_it = PROGRAM.fit_places_it
 gcc_phat_offset = PROGRAM.gcc_phat_offset
-group_text = PROGRAM.group_text
 hashlib = PROGRAM.hashlib
 math = PROGRAM.math
 no_place_message = PROGRAM.no_place_message
@@ -841,8 +839,8 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                    % number_text(fine, 1, plus=True),
                    number_text(length, 3, plus=True),
                    number_text(spread, 0),
-                   group_text(st.get("points", 0)),
-                   group_text(st.get("candidates", 0)), remark,
+                   number_text(st.get("points", 0), 0),
+                   number_text(st.get("candidates", 0), 0), remark,
                    T('   Caution: measurement unusable') if uncertain else ""))
         print(as_warn(line) if uncertain else line)
         if uncertain:
@@ -906,9 +904,8 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
             after_yardstick = True
             print(T('  Mixdown from auphonic.com: %s LUFS, peak %s '
                     'dBTP (%s)')
-                  % (decimal_text("%.1f" % m_have),
-                     decimal_text("%.1f" % (m_peak if m_peak is not None
-                                            else 0.0)),
+                  % (number_text(m_have, 1),
+                     number_text(m_peak if m_peak is not None else 0.0, 1),
                      os.path.basename(master)))
             target_lufs = m_have
     total_sum = os.path.join(tmpdir, "measure_sum.wav")
@@ -946,9 +943,9 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
         return 0.0, None
     if keep:
         print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
-              % (decimal_text("%.1f" % have),
-                 decimal_text("%.1f" % (peak if peak is not None else 0.0)),
-                 T(', range %s LU') % decimal_text("%.1f" % lra_range)
+              % (number_text(have, 1),
+                 number_text(peak if peak is not None else 0.0, 1),
+                 T(', range %s LU') % number_text(lra_range, 1)
                  if lra_range is not None else ""))
         print(T('  Not adjusted:      taken from the source files -- no gain '
                 'on any track and no\n                     limiter. The '
@@ -958,21 +955,21 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
         return 0.0, None
     gain = target_lufs - have
     print(T('  Sum of tracks:     %s LUFS, peak %s dBTP%s')
-          % (decimal_text("%.1f" % have),
-             decimal_text("%.1f" % (peak if peak is not None else 0.0)),
-             T(', range %s LU') % decimal_text("%.1f" % lra_range)
+          % (number_text(have, 1),
+             number_text(peak if peak is not None else 0.0, 1),
+             T(', range %s LU') % number_text(lra_range, 1)
              if lra_range is not None else ""))
     print(T('  Target:            %s LUFS  ->  %s dB on every track')
-          % (decimal_text("%.1f" % target_lufs),
-             decimal_text("%+.1f" % gain)))
+          % (number_text(target_lufs, 1),
+             number_text(gain, 1, plus=True)))
     # Without a ceiling the gain would have to drop far enough for the loudest
     # peak to fit -- a single scraping chair can cost eight decibels. So the
     # gain stays and a limiter catches the peaks.
     if peak is not None and gain > CEILING_DBTP - peak:
         print(T('  Peaks:             %s dB above %s dBTP -- the '
                 'limiter catches them')
-              % (decimal_text("%+.1f" % (peak + gain - CEILING_DBTP)),
-                 decimal_text("%.1f" % CEILING_DBTP)))
+              % (number_text(peak + gain - CEILING_DBTP, 1, plus=True),
+                 number_text(CEILING_DBTP, 1)))
     # How much the limiter would have to take off is only known once the curve
     # is computed. Taking off more than a handful of decibels means not that
     # the peak does not fit the target but that the target does not fit the
@@ -987,29 +984,28 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
         print(T('  Too much:          the limiter would have to take %s '
                 'dB away. More than %s dB\n                     sounds '
                 'squashed -- %s dB less gain.')
-              % (decimal_text("%.1f" % gone), decimal_text("%.0f" % limit),
-                 decimal_text("%.1f" % back)))
+              % (number_text(gone, 1), number_text(limit, 0),
+                 number_text(back, 1)))
         gain -= back
         curve, gone = limiter_curve(measured_on, tmpdir, gain)
         print(T('  Remains:           %s dB on every track, that is '
                 '%s LUFS instead of %s')
-              % (decimal_text("%+.1f" % gain),
-                 decimal_text("%.1f" % (have + gain)),
-                 decimal_text("%.1f" % target_lufs)))
+              % (number_text(gain, 1, plus=True),
+                 number_text(have + gain, 1),
+                 number_text(target_lufs, 1)))
     if gone > 0.05:
         print(T('  Limiter:           at most %s dB, the same curve on '
                 'every track%s')
-              % (decimal_text("%.1f" % gone),
+              % (number_text(gone, 1),
                  T(' (auphonic.com takes the same amount)')
                  if after_yardstick else ""))
     # For checking in the editor. -16 LUFS is the figure for web and podcast;
     # broadcast measures against -23, where the meter reads correspondingly
     # higher.
     print(T('  Result:            about %s LUFS, peak %s dBTP')
-          % (decimal_text("%.1f" % (have + gain)),
-             decimal_text("%.1f" % (CEILING_DBTP if gone > 0.05
-                                    else min(CEILING_DBTP,
-                                             (peak or 0.0) + gain)))))
+          % (number_text(have + gain, 1),
+             number_text(CEILING_DBTP if gone > 0.05
+                         else min(CEILING_DBTP, (peak or 0.0) + gain), 1)))
     # The loudness range measures whether any dynamics are left. A limiter that
     # only catches peaks leaves it almost untouched; where it gets small,
     # something was squashed -- and then not by the limiter but by whatever was
@@ -1021,10 +1017,10 @@ def normalise_loudness(tracks, target_lufs, tmpdir, master=None, channels=1):
                             '           below that it sounds squashed. '
                             'Check how strongly the leveler\n               '
                             '      is set at auphonic.com.')
-                          % decimal_text("%.1f" % lra_range)))
+                          % number_text(lra_range, 1)))
         else:
             print(T('  Range:             %s LU (speech is usually 3 to '
-                    '7 LU)') % decimal_text("%.1f" % lra_range))
+                    '7 LU)') % number_text(lra_range, 1))
     if ours:
         remove_quietly(total_sum)
     return gain, curve
@@ -1807,10 +1803,10 @@ def hush_reason(which, why):
     reason = why[which - 1] if 0 < which <= len(why) else None
     if reason and reason[0] == "under" and reason[1] < float("inf"):
         return T('Channel %d is %s dB under the loudest -- nothing '
-                 'plugged in') % (which, decimal_text("%.0f" % reason[1]))
+                 'plugged in') % (which, number_text(reason[1], 0))
     if reason and reason[1] > float("-inf"):
         return T('Channel %d at %s dBFS -- only converter noise '
-                 'left') % (which, decimal_text("%.0f" % reason[1]))
+                 'left') % (which, number_text(reason[1], 0))
     return T('Channel %d is silent -- unused input') % which
 
 
@@ -1836,8 +1832,8 @@ def apart_places(agreed, places):
     """
     if not agreed or not places:
         return ""
-    return T(', agreed at %s of %s places') % (group_text(agreed),
-                                              group_text(places))
+    return T(', agreed at %s of %s places') % (number_text(agreed, 0),
+                                              number_text(places, 0))
 
 
 def channel_joins(facts, kind=None):
@@ -1893,7 +1889,7 @@ def channel_joins(facts, kind=None):
             out.append((k, False, True,
                         T('probably two microphones -- about %s m '
                           'apart%s')
-                        % (decimal_text("%.1f" % ((late or 0.0) * 0.343)),
+                        % (number_text((late or 0.0) * 0.343, 1),
                            stood_on)))
         elif at_zero is not None and at_zero >= PAIR_AT_ZERO:
             # The share is high enough. Two more questions before this
@@ -1909,7 +1905,7 @@ def channel_joins(facts, kind=None):
                 out.append((k, False, True,
                             T('probably two microphones -- about %s m '
                               'apart%s')
-                            % (decimal_text("%.1f" % metres), stood_on)))
+                            % (number_text(metres, 1), stood_on)))
             elif beside and at_zero - max(beside) < PAIR_STANDS_OUT:
                 out.append((k, False, False,
                             T('not recognisable -- these two agree no '
@@ -1927,8 +1923,9 @@ def channel_joins(facts, kind=None):
             out.append((k, False, False,
                         T('not recognisable -- only %s of %s places '
                           'where both channels carry sound, %s needed')
-                        % (group_text(places or 0), group_text(PAIR_PLACES),
-                           group_text(PAIR_ENOUGH_PLACES))))
+                        % (number_text(places or 0, 0),
+                           number_text(PAIR_PLACES, 0),
+                           number_text(PAIR_ENOUGH_PLACES, 0))))
     return out
 
 
@@ -2205,9 +2202,9 @@ def shapes_match(first, second):
         return True, ""
     if a[0] != b[0]:
         return False, (T('%s channels against %s')
-                       % (group_text(a[0]), group_text(b[0])))
+                       % (number_text(a[0], 0), number_text(b[0], 0)))
     return False, (T('%s Hz against %s Hz')
-                   % (group_text(a[1]), group_text(b[1])))
+                   % (number_text(a[1], 0), number_text(b[1], 0)))
 
 
 def blocks_facts(paths):
