@@ -1699,10 +1699,10 @@ def camera_output_name(production, camera, speaker=()):
     """Build the name of the new video file.
 
     The speakers sit in the middle, behind the first part of the camera
-    name, so the front stays readable as which camera it was and the
-    identifier stays at the back. Where the camera is already named
-    almost like the speaker the name would appear twice, and the
-    comparison is forgiving enough that a typo counts as the same.
+    name, so the front reads as which camera it was and the identifier
+    stays at the back. Where the camera is already named almost like
+    the speaker it is not said twice, forgivingly enough that a typo
+    counts as the same. *production* only recognises older material.
     """
     stem = os.path.splitext(os.path.basename(camera))[0]
     # Split only where what follows carries a number: that is a counter
@@ -1715,16 +1715,15 @@ def camera_output_name(production, camera, speaker=()):
                           or name_already_in(stem, speaker)):
         who = ""
     front = (production or "").strip() or 'Production'
-    # A stem already beginning with the production is not split further,
-    # or the speaker lands inside the production's own name.
+    # Earlier versions put the production in front, and their files come
+    # back through here. Such a stem is not split further, or the speaker
+    # lands inside the production's own name.
     if front and stem.lower().startswith(front.lower()):
         parts = [stem]
-    if len(parts) == 2 and not who:
-        name = "%s_%s" % (front, stem)
-    elif len(parts) == 2:
-        name = "%s_%s_%s_%s" % (front, parts[0], who, parts[1])
+    if len(parts) == 2 and who:
+        name = "%s_%s_%s" % (parts[0], who, parts[1])
     else:
-        name = "_".join(x for x in (front, stem, who) if x)
+        name = "_".join(x for x in (stem, who) if x)
     return without_repeated_words(name)
 
 

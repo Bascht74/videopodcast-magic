@@ -649,18 +649,14 @@ def show_multitrack_plan(args, audio_paths, video_paths):
             for e in plan:
                 who.setdefault(e["camera"], []).append(
                     e["speakers"])
-            cameras = [{"video": v, "name": "%s_%s"
-                        % (safe_filename(title or 'Production'),
-                           "+".join(names))}
+            cameras = [{"video": v, "name": "+".join(names)}
                        for v, names in who.items()]
     if not cameras and video_paths:
         # No assignment file and no names from the plan: one entry per
-        # video file, named after the file plus the suffix. Without this
-        # the run wrote camera files under the source's own name and no
-        # handover at all, which is what the whole run is for.
+        # video file, named after the file. The ending that keeps it off
+        # the source is hung on where every target name is settled.
         cameras = [{"video": os.path.abspath(path),
-                    "name": os.path.splitext(os.path.basename(path))[0]
-                            + (args.suffix or "_audio")}
+                    "name": os.path.splitext(os.path.basename(path))[0]}
                    for path in video_paths]
     plan = merge_plan_entries(plan)
     for e in plan:
@@ -692,8 +688,9 @@ def show_multitrack_plan(args, audio_paths, video_paths):
                    or getattr(args, "no_single_tracks", False) else every)
         for cam in cameras:
             own = combined.get(cam["video"]) or []
-            print("    %s  ->  %s" % (os.path.basename(cam["video"]),
-                                      cam["name"] + ".mov"))
+            print("    %s  ->  %s"
+                  % (os.path.basename(cam["video"]),
+                     cam["name"] + (args.suffix or "_audio") + ".mov"))
             for idx, what in enumerate(
                     track_order_for_camera(own, every, singles), 1):
                 # The track number names the track, it does not count
@@ -1478,6 +1475,52 @@ def finish_camera_file(source, info, target, items, args, fps):
     check_written_file(target, items, len(info["audio"]), args, fps)
 
 
+def written_before_here(folder, production):
+    """What this production's own record says an earlier run wrote here.
+
+    The handover file is the only honest answer to "did we make this?".
+    A target standing in it is our own earlier delivery and may be
+    replaced quietly; anything else at a target belongs to somebody,
+    and a run about to walk over it has to say so out loud.
+    """
+    js = os.path.join(folder, "%s_resolve.json"
+                      % safe_filename(production or 'Production'))
+    if not os.path.exists(js):
+        return set()
+    try:
+        with open(js, encoding="utf-8") as f:
+            written = (json.load(f) or {}).get("cameras") or []
+    except (OSError, ValueError) as e:
+        print(T('  The record of earlier runs here cannot be read (%s), so '
+                'everything already in place is reported.') % e)
+        return set()
+    return set(path_key(c["file"]) for c in written if c.get("file"))
+
+
+def replacement_lines(targets, ours):
+    """What to say about targets a file is already lying at.
+
+    Out here because it is a reading and nothing else, and a reading can
+    be held against files without an hour of sound first. Our own
+    earlier delivery goes quietly: running a production again is the
+    everyday case, and a mark there would teach people to skip marks.
+    Anything else is marked and named whole.
+    """
+    out = []
+    for target in targets:
+        if not os.path.exists(target):
+            continue
+        if path_key(target) in ours:
+            out.append(T('  %s is there from an earlier run of this '
+                         'production and is replaced.')
+                       % os.path.basename(target))
+        else:
+            out.append(as_bad(T('  %s is already there and is written over '
+                                '-- this production has no record of making '
+                                'it.') % target))
+    return out
+
+
 def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
               position, t0, ref_clip=None, t1=None, curve=None,
               segment_list=None):
@@ -1570,24 +1613,37 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
     # camera's, which a second thread may be reading at that moment -- and
     # two cameras with the same file name would write the same file at once.
     output_path, taken = {}, set()
+    # Up here rather than beside the tracks it also names: what a target
+    # would replace is asked of the record lying in it.
+    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
+        os.path.abspath(videos[0][0]))
     sources = set(os.path.abspath(_v).lower() for _v, _i in videos)
     for _v, _info in videos:
         _v = os.path.abspath(_v)
         stem = output_name.get(path_key(_v)) or os.path.splitext(
             os.path.basename(_v))[0]
         outdir = os.path.abspath(args.out) if args.out else os.path.dirname(_v)
-        target = os.path.join(outdir, stem + ".mov")
+        # The ending is always hung on. Without it the name a camera is
+        # given can be the source's own stem, and next to each video file
+        # that is the source's own name.
+        tail = args.suffix or "_audio"
+        target = os.path.join(outdir, stem + tail + ".mov")
         count = 1
         while target.lower() in sources or target.lower() in taken:
             count += 1
-            tail = args.suffix or "_audio"
             # A file name: plain digits, the way every other name this
             # program writes keeps them.
-            target = os.path.join(outdir, "%s%s%s.mov"
-                                  % (stem, tail,
-                                     "" if count == 2 else "_%d" % count))
+            target = os.path.join(outdir, "%s%s_%d.mov"
+                                  % (stem, tail, count))
         taken.add(target.lower())
         output_path[_v] = (outdir, target)
+    # Before the first camera is written, so a run about to walk over
+    # somebody's file can still be stopped.
+    for line in replacement_lines(
+            [p for _o, p in output_path.values()],
+            written_before_here(folder,
+                                getattr(args, "production", ""))):
+        print(line)
     results, error = [], 0
     lengths = ByFile()    # output file -> running time delivered
     # An In or Out point is what makes the cameras carry a stretch
@@ -1797,8 +1853,6 @@ def distribute_tracks_to_cameras(args, tracks, cameras, videos, tmpdir, gain,
                     if os.path.abspath(path) in order else len(order))
 
     # --- keep the finished tracks, not only hidden inside the videos
-    folder = os.path.abspath(args.out) if args.out else os.path.dirname(
-        os.path.abspath(videos[0][0]))
     cache = tracks_folder(folder)
     print(as_head(T('\nSAVING TRACKS')))
     # The stored tracks belong to programme time, not to a camera, so
