@@ -2649,6 +2649,242 @@ def make_player_choice(files, clip_kind_values, assign_lines, start_var,
             player_follow_up)
 
 
+def make_voice_rows(Qt, QtCore, assign_lines, camera_lines, voice_lines,
+                    files, remembered, state, tree_open, multitrack, player,
+                    assignment_check, player_load, speaker_split_kick_off,
+                    voices_of):
+    """The rows of the assignment tree, and the voices under them.
+
+    Outside gui() because none of it builds a widget. `state`, `files`,
+    `remembered`, `tree_open` and the three row lists are the window's
+    own objects and go on being written through. `player` is a
+    parameter on purpose -- a module-level name player already holds
+    the piece read by beside(), and a hoisted function reading it
+    freely would have picked up the module instead of the widget.
+    """
+    def assignment_state_show():
+        """What the material allows: the cut box, and the tick's line.
+
+        The camera cut needs speakers told apart, and whether they came
+        of separate tracks or of one recording taken apart is no part
+        of it -- hanging the box off the Multitrack tick hid the cut
+        from everybody with one recording and four voices in it. The
+        line beside the tick says why Multitrack is not on offer, where
+        the question is asked instead of at the start button.
+
+        The widgets are looked up and not closed over: this runs while
+        the window is still being built.
+        """
+        boxes = state.get("cut_boxes")
+        if boxes:
+            pairs = assignment_pairs(voice_lines, assign_lines)
+            seen = len(camera_lines)
+            on = bool(multitrack.get()) or cut_has_people(pairs, seen)
+            boxes[0].setTitle(cut_box_title(pairs, multitrack.get(), seen))
+            boxes[0].setVisible(on)
+            boxes[1].setVisible(on)
+            boxes[2].setVisible(not on)
+        note = state.get("multitrack_note")
+        if note is not None:
+            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
+            note.setText(multitrack_state_note(
+                len(used), sum(1 for _b, _nv, own, _n in camera_lines
+                               if not own.get())))
+
+    def voice_play(key):
+        """Hand that voice to the player on the right.
+
+        Without hearing it a name is a guess, and hearing it once is
+        rarely enough. A player of its own played eight seconds and
+        stopped, with no way back. The one on the right has the rail,
+        the pause, the ten second jumps and the In and Out points, and
+        it plays a recording as it lies: an audio file shows its name
+        where the picture would be.
+
+        It jumps into the middle of the longest stretch and not to its
+        start, because the first moment of a passage is often the tail
+        of somebody else's word. *key* carries the recording, so the
+        row plays its own file and not whichever was separated last.
+        """
+        source, label = voice_key_parts(key)
+        source = source or state.get("speakers_source") or ""
+        stretch = longest_stretch(
+            speakers_stored(state, source).get("segments"), label)
+        if not source or not stretch:
+            return
+        length = min(8.0, stretch[1] - stretch[0])
+        begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
+        player.load(source, seconds=begin, running=True)
+
+    def assignment_row_show(tree):
+        """A clicked row in the assignment tree, whichever level it is.
+
+        The recording goes into the player like any other file. A voice
+        has no file of its own, so the player opens the recording it
+        was heard in and jumps to where that voice speaks longest. That
+        is the whole of what a Listen button in the row would offer, so
+        there is none.
+
+        Which of the two a row is, the row itself says: the file hangs
+        on a recording, the label of the voice on a voice.
+        """
+        row = tree_row_of(tree, tree.currentIndex())
+        if row is None:
+            return
+        if row[0].data(Qt.UserRole + 2):
+            voice_play(row[0].data(Qt.UserRole + 2))
+        elif row[0].data(Qt.UserRole + 1):
+            player_load(row[0].data(Qt.UserRole + 1))
+
+    def folded_show(where):
+        """Open, the voices carry the assignment; folded, the row sums up.
+
+        The assignment has exactly one level. Where the voices are on
+        the screen they carry it and the recording above them shows
+        nothing beside its name -- two answers one above the other
+        could contradict each other, which is what the two tables
+        before this did. Folded away, the voices are not on the screen,
+        and then the row says what went with them -- their cameras. Not
+        how many they are: the Speakers column of the same row already
+        says that, and the number stood there twice.
+
+        Which way a recording was left is kept, so that reaching the
+        sheet again finds it as it was, and the tree takes the height
+        its open rows need.
+        """
+        tree = state.get("assignment_tree")
+        row = tree_row_of(tree, where) if tree is not None else None
+        if row is None:
+            return
+        p, many = row[0].data(Qt.UserRole + 1), row[0].rowCount()
+        if not p or not many:
+            return
+        open_now = tree.isExpanded(where)
+        tree_open[p] = open_now
+        tree_cell(row, 2, "" if open_now else folded_summary(tree, row),
+                  COLOURS["quiet"])
+        tree_rows_fit(tree, 266)
+
+    def voice_add(source):
+        """Say there is one more voice on that recording than was found.
+
+        A row without segments would say nothing, so this is the input
+        to a fresh separation rather than an entry in a list: the
+        number of speakers is set and the recording is listened to
+        again.
+        """
+        found = len(speakers_stored(state, source).get("segments") or ())
+        state["speakers_source_chosen"] = source
+        state["speakers_count"] = found + 1
+        speaker_split_kick_off(fresh=True)
+
+    def voices_build(tree, under, path, videos, targets, wide=None):
+        """The voices heard in one recording, hung under its row.
+
+        Everything here counts per camera and not per speaker: two
+        voices set to the same camera are one condition, and what one
+        of them did counts for both. Which is why the camera sits on
+        the voice and not on the file.
+
+        *wide* is what wide_bar_of worked out, handed in rather than
+        asked again. Returns how many voices there were, so the caller
+        knows whether the recording is a parent at all.
+        """
+        wide = wide or wide_bar_of(targets, (), False, {})
+        barred = wide["barred"]
+        found = voices_of(path)
+        # The names of this recording, not of the window.
+        called = dict(speakers_stored(state, path).get("names") or {})
+        for label, _parts in found:
+            key = voice_key(path, label)
+            name_value = SpeakerName(voice_name_free(
+                remembered.get("voicename:" + key) or called.get(label),
+                [nv.get() for _k, nv, _c in voice_lines]))
+            picked, worked_out = camera_row_cameras(
+                camera_after_a_mark("voice:" + key,
+                                    remembered.get("voice:" + key), wide,
+                                    name_value.get().strip() or label),
+                wide["pickable"], name_value.get(), videos)
+            camera_value = Value(MIX_ONLY if picked in barred else picked)
+            camera_value.derived = worked_out
+            # The first column says which of the two levels this row
+            # is, indented under the recording, the way the file list
+            # writes "belongs to" and "4 channels" under a file. Not
+            # the file name and not the speaker's: the one stands in
+            # the row above, the other in the field beside it.
+            kid = tree_row(tree, under, [])
+            tree_cell(kid, 0, T('Voice'), COLOURS["quiet"])
+            kid[0].setData(key, Qt.UserRole + 2)
+            field, box = voice_row_cells(name_value, camera_value,
+                                         targets, name_value.get())
+            choices_shut(box, barred, wide["why"], COLOURS["quiet"])
+            tree_field(tree, kid, 1, field)
+            tree_field(tree, kid, 2, box)
+            row_picker_watch(state["row_picker"], field, box)
+            voice_row_marks(state, key, name_value, camera_value,
+                            field, box)
+            def voice_answered(*_):
+                """Store it, mark it, and say the Kind column again.
+
+                Name and camera both count: the wide shot is derived
+                from the cameras nobody is assigned to. The mark is the
+                same way the rows above answer, on the same wait: a
+                name already on somebody else is red while it is typed.
+                """
+                queue_once(QtCore, state, "voices", voices_remember)
+                QtCore.QTimer.singleShot(0, assignment_check)
+                queue_once(QtCore, state, "kinds",
+                           state.get("kinds_refresh"))
+                # The preview reads a handover older than this
+                # answer, so it is told -- through the usual wait.
+                soon = state.get("preview_soon")
+                if soon:
+                    soon()
+
+            name_value.listen(voice_answered)
+            camera_value.listen(voice_answered)
+            voice_lines.append((key, name_value, camera_value))
+        return len(found)
+
+    def voices_remember():
+        """Keep the names and cameras given to the voices."""
+        if not voice_lines:
+            # Switched back to a single name: the rows are hidden, and
+            # what was measured and named must survive that -- three
+            # minutes of computing are not undone by a mis-click.
+            return
+        # Each recording's names go back to that recording.
+        named = voice_names_by_source(voice_lines,
+                                      state.get("speakers_source") or "")
+        voice_names_store(state, named)
+        for k, nv, cv in voice_lines:
+            # Only a real override, the same rule the recordings above
+            # follow: a camera the program worked out itself goes back
+            # as nothing, so renaming a voice moves its camera too.
+            remembered["voice:" + k] = camera_to_remember(
+                cv.get(), getattr(cv, "derived", None))
+            # The name as well, not only the camera: state alone does
+            # not reach the project file, and the name is what
+            # auphonic.com puts on the track.
+            said = nv.get().strip()
+            if said:
+                remembered["voicename:" + k] = said
+            else:
+                remembered.pop("voicename:" + k, None)
+        voices_answer_kept(remembered, files, named)
+        # A voice that has just been given a camera may be the second
+        # one, and with it the camera cut becomes possible.
+        assignment_state_show()
+        # Bound below this block in gui(), so it is reached the way
+        # voice_answered above reaches it: through state.
+        soon = state.get("preview_soon")
+        if soon:
+            soon()
+
+    return (assignment_state_show, voice_play, assignment_row_show,
+            folded_show, voice_add, voices_build, voices_remember)
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -5008,220 +5244,14 @@ def gui():
     # rows underneath, and a sheet that hides its own subject is no use.
     tree_open = ByFile()
 
-    def assignment_state_show():
-        """What the material allows: the cut box, and the tick's line.
-
-        The camera cut needs speakers told apart, and whether they came
-        of separate tracks or of one recording taken apart is no part
-        of it -- hanging the box off the Multitrack tick hid the cut
-        from everybody with one recording and four voices in it. The
-        line beside the tick says why Multitrack is not on offer, where
-        the question is asked instead of at the start button.
-
-        The widgets are looked up and not closed over: this runs while
-        the window is still being built.
-        """
-        boxes = state.get("cut_boxes")
-        if boxes:
-            pairs = assignment_pairs(voice_lines, assign_lines)
-            seen = len(camera_lines)
-            on = bool(multitrack.get()) or cut_has_people(pairs, seen)
-            boxes[0].setTitle(cut_box_title(pairs, multitrack.get(), seen))
-            boxes[0].setVisible(on)
-            boxes[1].setVisible(on)
-            boxes[2].setVisible(not on)
-        note = state.get("multitrack_note")
-        if note is not None:
-            used = [r for r in assign_lines if r[2].get() != IGNORE_AUDIO]
-            note.setText(multitrack_state_note(
-                len(used), sum(1 for _b, _nv, own, _n in camera_lines
-                               if not own.get())))
-
-    def voice_play(key):
-        """Hand that voice to the player on the right.
-
-        Without hearing it a name is a guess, and hearing it once is
-        rarely enough. A player of its own played eight seconds and
-        stopped, with no way back. The one on the right has the rail,
-        the pause, the ten second jumps and the In and Out points, and
-        it plays a recording as it lies: an audio file shows its name
-        where the picture would be.
-
-        It jumps into the middle of the longest stretch and not to its
-        start, because the first moment of a passage is often the tail
-        of somebody else's word. *key* carries the recording, so the
-        row plays its own file and not whichever was separated last.
-        """
-        source, label = voice_key_parts(key)
-        source = source or state.get("speakers_source") or ""
-        stretch = longest_stretch(
-            speakers_stored(state, source).get("segments"), label)
-        if not source or not stretch:
-            return
-        length = min(8.0, stretch[1] - stretch[0])
-        begin = stretch[0] + max(0.0, (stretch[1] - stretch[0] - length) / 2)
-        player.load(source, seconds=begin, running=True)
-
-    def assignment_row_show(tree):
-        """A clicked row in the assignment tree, whichever level it is.
-
-        The recording goes into the player like any other file. A voice
-        has no file of its own, so the player opens the recording it
-        was heard in and jumps to where that voice speaks longest. That
-        is the whole of what a Listen button in the row would offer, so
-        there is none.
-
-        Which of the two a row is, the row itself says: the file hangs
-        on a recording, the label of the voice on a voice.
-        """
-        row = tree_row_of(tree, tree.currentIndex())
-        if row is None:
-            return
-        if row[0].data(Qt.UserRole + 2):
-            voice_play(row[0].data(Qt.UserRole + 2))
-        elif row[0].data(Qt.UserRole + 1):
-            player_load(row[0].data(Qt.UserRole + 1))
-
-    def folded_show(where):
-        """Open, the voices carry the assignment; folded, the row sums up.
-
-        The assignment has exactly one level. Where the voices are on
-        the screen they carry it and the recording above them shows
-        nothing beside its name -- two answers one above the other
-        could contradict each other, which is what the two tables
-        before this did. Folded away, the voices are not on the screen,
-        and then the row says what went with them -- their cameras. Not
-        how many they are: the Speakers column of the same row already
-        says that, and the number stood there twice.
-
-        Which way a recording was left is kept, so that reaching the
-        sheet again finds it as it was, and the tree takes the height
-        its open rows need.
-        """
-        tree = state.get("assignment_tree")
-        row = tree_row_of(tree, where) if tree is not None else None
-        if row is None:
-            return
-        p, many = row[0].data(Qt.UserRole + 1), row[0].rowCount()
-        if not p or not many:
-            return
-        open_now = tree.isExpanded(where)
-        tree_open[p] = open_now
-        tree_cell(row, 2, "" if open_now else folded_summary(tree, row),
-                  COLOURS["quiet"])
-        tree_rows_fit(tree, 266)
-
-    def voice_add(source):
-        """Say there is one more voice on that recording than was found.
-
-        A row without segments would say nothing, so this is the input
-        to a fresh separation rather than an entry in a list: the
-        number of speakers is set and the recording is listened to
-        again.
-        """
-        found = len(speakers_stored(state, source).get("segments") or ())
-        state["speakers_source_chosen"] = source
-        state["speakers_count"] = found + 1
-        speaker_split_kick_off(fresh=True)
-
-    def voices_build(tree, under, path, videos, targets, wide=None):
-        """The voices heard in one recording, hung under its row.
-
-        Everything here counts per camera and not per speaker: two
-        voices set to the same camera are one condition, and what one
-        of them did counts for both. Which is why the camera sits on
-        the voice and not on the file.
-
-        *wide* is what wide_bar_of worked out, handed in rather than
-        asked again. Returns how many voices there were, so the caller
-        knows whether the recording is a parent at all.
-        """
-        wide = wide or wide_bar_of(targets, (), False, {})
-        barred = wide["barred"]
-        found = voices_of(path)
-        # The names of this recording, not of the window.
-        called = dict(speakers_stored(state, path).get("names") or {})
-        for label, _parts in found:
-            key = voice_key(path, label)
-            name_value = SpeakerName(voice_name_free(
-                remembered.get("voicename:" + key) or called.get(label),
-                [nv.get() for _k, nv, _c in voice_lines]))
-            picked, worked_out = camera_row_cameras(
-                camera_after_a_mark("voice:" + key,
-                                    remembered.get("voice:" + key), wide,
-                                    name_value.get().strip() or label),
-                wide["pickable"], name_value.get(), videos)
-            camera_value = Value(MIX_ONLY if picked in barred else picked)
-            camera_value.derived = worked_out
-            # The first column says which of the two levels this row
-            # is, indented under the recording, the way the file list
-            # writes "belongs to" and "4 channels" under a file. Not
-            # the file name and not the speaker's: the one stands in
-            # the row above, the other in the field beside it.
-            kid = tree_row(tree, under, [])
-            tree_cell(kid, 0, T('Voice'), COLOURS["quiet"])
-            kid[0].setData(key, Qt.UserRole + 2)
-            field, box = voice_row_cells(name_value, camera_value,
-                                         targets, name_value.get())
-            choices_shut(box, barred, wide["why"], COLOURS["quiet"])
-            tree_field(tree, kid, 1, field)
-            tree_field(tree, kid, 2, box)
-            row_picker_watch(state["row_picker"], field, box)
-            voice_row_marks(state, key, name_value, camera_value,
-                            field, box)
-            def voice_answered(*_):
-                """Store it, mark it, and say the Kind column again.
-
-                Name and camera both count: the wide shot is derived
-                from the cameras nobody is assigned to. The mark is the
-                same way the rows above answer, on the same wait: a
-                name already on somebody else is red while it is typed.
-                """
-                queue_once(QtCore, state, "voices", voices_remember)
-                QtCore.QTimer.singleShot(0, assignment_check)
-                queue_once(QtCore, state, "kinds",
-                           state.get("kinds_refresh"))
-                # The preview reads a handover older than this
-                # answer, so it is told -- through the usual wait.
-                soon = state.get("preview_soon")
-                if soon:
-                    soon()
-
-            name_value.listen(voice_answered)
-            camera_value.listen(voice_answered)
-            voice_lines.append((key, name_value, camera_value))
-        return len(found)
-
-    def voices_remember():
-        """Keep the names and cameras given to the voices."""
-        if not voice_lines:
-            # Switched back to a single name: the rows are hidden, and
-            # what was measured and named must survive that -- three
-            # minutes of computing are not undone by a mis-click.
-            return
-        # Each recording's names go back to that recording.
-        named = voice_names_by_source(voice_lines,
-                                      state.get("speakers_source") or "")
-        voice_names_store(state, named)
-        for k, nv, cv in voice_lines:
-            # Only a real override, the same rule the recordings above
-            # follow: a camera the program worked out itself goes back
-            # as nothing, so renaming a voice moves its camera too.
-            remembered["voice:" + k] = camera_to_remember(
-                cv.get(), getattr(cv, "derived", None))
-            # The name as well, not only the camera: state alone does
-            # not reach the project file, and the name is what
-            # auphonic.com puts on the track.
-            said = nv.get().strip()
-            if said:
-                remembered["voicename:" + k] = said
-            else:
-                remembered.pop("voicename:" + k, None)
-        voices_answer_kept(remembered, files, named)
-        # A voice that has just been given a camera may be the second
-        # one, and with it the camera cut becomes possible.
-        assignment_state_show()
-        preview_kick_off()
+    # Bound here, above assignment_fresh, which reaches for all seven,
+    # and above the assignment_state_show() further down in this body.
+    (assignment_state_show, voice_play, assignment_row_show, folded_show,
+     voice_add, voices_build, voices_remember) = make_voice_rows(
+         Qt, QtCore, assign_lines, camera_lines, voice_lines, files,
+         remembered, state, tree_open, multitrack, player,
+         assignment_check, player_load, speaker_split_kick_off,
+         voices_of)
 
     def assignment_fresh(forget=()):
         """Two tables: audio recordings above, video files below."""
