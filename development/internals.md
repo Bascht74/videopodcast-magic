@@ -13,13 +13,15 @@ rates, run times, distributions, comparisons.
 ## How the script is put together
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
-program lives any more -- 2 858 lines of it, against 17 975 the night
-the cutting began. **Twenty-four pieces have moved out**, each in a
-folder of its own beside it with an `__init__.py` in it, and the way in
+program lives any more -- 1 363 lines of it, against 17 975 the night
+the cutting began. **Thirty pieces have moved out**, each in a folder
+of its own beside it with an `__init__.py` in it, and the way in
 reaches them with `beside()`.
 
 What is in them, largest first, all counted 6.9.2026 with `wc -l` --
-and **the figure of the day is that command, not this paragraph**:
+and **the figure of the day is that command, not this paragraph**.
+Twenty-five of the thirty are named here; `choices/`, `livery/`,
+`logbook/`, `soundings/` and `stowage/` are not, and want a line each:
 
 * `ui/` **8364** -- the window and everything it shows, asks or offers
 * `cut/` **3925** -- who is on camera when, and what carries it out of
@@ -53,6 +55,8 @@ and **the figure of the day is that command, not this paragraph**:
   redirection
 * `desktop/` **657** -- the picture and the shortcut the first start
   lays down
+* `upkeep/` **540** -- which release is out, the way back, and pip
+  putting one in place
 * `tables/` **409** -- the tables and trees the window builds
 * `orders/` **748** -- the command line a run is given: written out of
   the window, and read back off the line
@@ -253,6 +257,16 @@ it**, measured 6.9.2026 on a copy. Three of the four cases were found by
 a red run and this one only by counting the names that cross. So
 `__file__` is counted like any other name over the seam, not looked for
 after something breaks.
+
+**And the obvious way to measure it hides it.** Bending `vpm.__file__ =
+somewhere` from a test looks like the way to ask whether a piece names
+the program or itself -- and it is not. That write goes through
+`OneName.__setattr__`, which puts `__file__` into every piece as well,
+so the piece's own `__file__` becomes the way in's and a plain
+`__file__` answers correctly by accident. Measured 6.9.2026 while
+`start_again` moved into `upkeep/`: the first broken copy came back "the
+same file: true" and the fault was there all along. The only reading
+that answers is the program read from where it really lies.
 
 **Where a piece is read costs as much as where it is cut.** The same
 range of lines needed 27 late names read at the place the code stood
