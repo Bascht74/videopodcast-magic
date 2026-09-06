@@ -172,6 +172,26 @@ def decimal_text(text):
     return text.replace(".", mark) if mark != "." else text
 
 
+def number_text(number, places=1, plus=False):
+    """Group the thousands and set the decimal mark, as the language does.
+
+    The two above do one half each; a number with a decimal place needs
+    both -- German printed "2000,0 ms" beside "1.234 points". Not in two
+    passes over the finished text: one language's thousands mark is
+    another's decimal mark, and measured on German the second pass reads
+    what the first wrote, "1,234,5" one way round and "1.234.5" the
+    other. So the halves are marked apart. *plus* signs a positive one.
+    """
+    # French and Russian group with a space, so nothing here may look
+    # for a particular character: the cut is made at the point "%f"
+    # wrote, while both halves are still plain digits.
+    text = "%.*f" % (max(0, int(places)), float(number))
+    ahead = "-" if text.startswith("-") else ("+" if plus else "")
+    whole, _, rest = text.lstrip("-").partition(".")
+    whole = format(int(whole), ",d").replace(",", T(","))
+    return ahead + whole + (T(".") + rest if rest else "")
+
+
 def channel_text(count):
     """Say a channel count the way a person would.
 

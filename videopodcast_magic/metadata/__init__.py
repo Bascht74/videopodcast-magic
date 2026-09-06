@@ -26,6 +26,7 @@ ffprobe_json = PROGRAM.ffprobe_json
 file_timecode = PROGRAM.file_timecode
 group_text = PROGRAM.group_text
 math = PROGRAM.math
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 parse_timecode = PROGRAM.parse_timecode
 picture_rate = PROGRAM.picture_rate
@@ -731,10 +732,10 @@ def report_timecode_check(audio_start, info, measured, indent="  "):
     elif abs(deviation) > 0.5 / fps:
         print(T('%s  Deviation:                      %s  (%s frames)')
               % (indent, as_hms(deviation),
-                 decimal_text("%.1f" % (abs(deviation) * fps))))
+                 number_text(abs(deviation) * fps)))
         print(T('%s  The timecode does not fit what is heard. The '
                 'measurement is used.') % indent)
     else:
         print(T('%s  Deviation:                      %s  (%s frames) -- fits')
               % (indent, as_hms(deviation),
-                 decimal_text("%.1f" % (abs(deviation) * fps))))
+                 number_text(abs(deviation) * fps)))

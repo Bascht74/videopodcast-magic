@@ -44,6 +44,7 @@ log_curve_from_atom = PROGRAM.log_curve_from_atom
 math = PROGRAM.math
 mix_file_from_handover = PROGRAM.mix_file_from_handover
 mov_colour_tags = PROGRAM.mov_colour_tags
+number_text = PROGRAM.number_text
 os = PROGRAM.os
 path_key = PROGRAM.path_key
 refresh_cut_list = PROGRAM.refresh_cut_list
@@ -2425,7 +2426,7 @@ def build_cut_timeline(mp, tl, cut, cameras, clips, d, mix=None,
     on_it = sum(float(x.GetDuration() or 0) for x in landed) / max(
         1.0, float(resolve_timeline_rate(d.get("fps"))))
     print(T('  %s shots, %s s in total, without their audio.')
-          % (group_text(len(landed)), decimal_text("%.1f" % on_it)))
+          % (group_text(len(landed)), number_text(on_it)))
 
     if mix is None:
         print(T('  No Full-Mix found -- the Timeline stays silent.'))
