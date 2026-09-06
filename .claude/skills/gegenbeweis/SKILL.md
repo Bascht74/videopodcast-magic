@@ -78,6 +78,46 @@ itself, next to the check: the same reading over a faked list, with the
 offset turned round, with the switch off. That version stays in scratch
 space too, or is taken back out after the run.
 
+## The copy protects the program, not the world
+
+**Before breaking a guard that keeps a run out of somebody's own files,
+fence the environment.** The scratch copy holds the program. It does not
+hold the home folder, the credential store, the network or the package
+manager -- and a guard is exactly the thing that keeps a run away from
+those. Take it out, and the broken copy reaches the real ones.
+
+Measured on 6.9.2026, and it cost the owner their window: the
+counter-proof for `run_choice_kept`'s "a silent run with no folder named
+refuses a place" takes the two lines `if os.environ.get("VPM_SILENT"):
+return None` out of `settings_folder`. That check's own subprocess names
+no settings folder on purpose -- that is what it checks -- so with the
+guard gone it fell through to `~/Library/Application Support` and the
+next line ran `keep_setting('language', 'zh')`. **The program spoke
+Chinese at the next start, and nothing in the run said so.** The row was
+earned correctly by every rule in this document.
+
+**So: read what the guard guards, and shut that road before you break
+it.** For a folder that is `HOME`, `APPDATA` and `XDG_CONFIG_HOME`
+pointed at a throwaway; for the credential store the three names it goes
+under; for the network and the package manager the place that opens
+them, replaced. It costs one line in the environment and it leaves the
+question untouched -- with `HOME` pointed elsewhere the same break still
+answers `FAIL wanted None, got ...Support/videopodcast-magic/settings.json`,
+word for word what the register holds.
+
+**The three guards in this program that carry this risk**, and the checks
+whose counter-proofs take them out: `settings_folder`'s `VPM_SILENT` line
+(the settings), `key_store_off_limits` (the keychain, and reading is
+refused with writing because a failure line prints what it read), and the
+`VPM_SILENT` guards in `fetch_ffmpeg_build`, `tools_folder` and
+`install_over_package_manager` (the network and pip). The last three are
+fenced by their tests in-process; the first was not.
+
+**And afterwards, look.** Not at the return code -- at the thing the
+guard guards. `ls` the folder, compare the file, ask whether anything
+appeared that was not there before. A counter-proof that leaves damage
+behind is green.
+
 ## One trap when they are done in series
 
 **Give every broken copy its own file name.** Python keeps a
@@ -296,6 +336,10 @@ does not count as a reason: there are a lot of them.**
 2. Exactly one thing broken -- a sign, a limit, a call -- and nothing larger?
 3. The run carried `LANG=C LC_ALL=C LANGUAGE=en` and a `VPM_CACHE` of its own?
 4. This broken copy carries a serial number no earlier one has used?
+4b. Does the break take out a guard that keeps a run out of somebody's
+   own files -- the settings, the store, the network, the package
+   manager? Then: environment fenced first, and the guarded thing
+   looked at afterwards?
 5. The red line read -- does it name what you broke, and not a missing file?
 6. One row per check, changed ones as well as new, and never one per file?
 7. All five fields: test, date, wording, what was broken, the red line?
