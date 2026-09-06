@@ -14,16 +14,16 @@ rates, run times, distributions, comparisons.
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
 program lives any more -- 1 363 lines of it, against 17 975 the night
-the cutting began. **Thirty pieces have moved out**, each in a folder
+the cutting began. **Thirty-one pieces have moved out**, each in a folder
 of its own beside it with an `__init__.py` in it, and the way in
 reaches them with `beside()`.
 
 What is in them, largest first, all counted 6.9.2026 with `wc -l` --
 and **the figure of the day is that command, not this paragraph**.
-Twenty-five of the thirty are named here; `choices/`, `livery/`,
+Twenty-six of the thirty-one are named here; `choices/`, `livery/`,
 `logbook/`, `soundings/` and `stowage/` are not, and want a line each:
 
-* `ui/` **8364** -- the window and everything it shows, asks or offers
+* `ui/` **8427** -- the window and everything it shows, asks or offers
 * `cut/` **3925** -- who is on camera when, and what carries it out of
   here
 * `player/` **2876** -- the moving picture: the player, the cut band,
@@ -57,6 +57,8 @@ Twenty-five of the thirty are named here; `choices/`, `livery/`,
   lays down
 * `upkeep/` **540** -- which release is out, the way back, and pip
   putting one in place
+* `filelist/` **485** -- the list of chosen files: the tree it is
+  shown in, and what adding and removing do to it
 * `tables/` **409** -- the tables and trees the window builds
 * `orders/` **748** -- the command line a run is given: written out of
   the window, and read back off the line
@@ -73,9 +75,9 @@ Twenty-five of the thirty are named here; `choices/`, `livery/`,
 model lives there and no code at all, so `beside()` never reaches for
 it. There is nothing to build.
 
-**Four pieces are asked for by another piece, not by the way in.**
-`player/`, `fittings/`, `tables/` and `menus/` are read out of
-`ui/__init__.py`, where the blocks they hold used to stand, and
+**Five pieces are asked for by another piece, not by the way in.**
+`player/`, `fittings/`, `tables/`, `menus/` and `filelist/` are read
+out of `ui/__init__.py`, where the blocks they hold used to stand, and
 `player/` again out of `fittings/`. `orders/` was the fifth until
 6.9.2026, when `build_argument_parser` moved into it and the way in
 began to read it too -- the window then asks `beside()` for a piece
@@ -232,6 +234,19 @@ by this rule, not by a red test.
 of a piece is read while the way in is still being read, so a copy of
 something further down is an `AttributeError`. It is reached as
 `PROGRAM.<name>` where it is used.
+
+**And so does a name that lives in another piece, wherever the seam
+stands.** `PROGRAM` is not the module: `PROGRAM.__dict__ = globals()`
+makes `PROGRAM.x` a plain lookup in the way in's globals, which never
+reaches the way in's own `__getattr__` and so never reads a piece to
+answer. A name of `ui/` is in there only once `take_from(ui)` has run,
+which is after `ui/` has been read whole -- so a piece read out of
+`ui/` cannot bind one of `ui/`'s names at its head at any seam, early
+or late, and reads it as `PROGRAM.<name>` where it calls it. Measured
+6.9.2026 while `filelist/` was cut: a head line for `chain_fill_in`,
+which stands 800 lines *above* that seam, answers `AttributeError:
+'Program' object has no attribute 'chain_fill_in'`, and the same name
+at the call site answers the very function the window holds.
 
 **A cycle is broken by deleting the binding line, not by forwarding.**
 A function of the same name that calls the real one is bound into the
