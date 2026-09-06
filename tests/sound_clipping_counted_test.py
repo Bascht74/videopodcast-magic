@@ -140,7 +140,7 @@ if written(hot16) and written(sides):
     check("as a hint, never a reason to stop", not aborts,
           "%d of %d findings would stop the run, wanted %d"
           % (len(aborts), len(found), 0))
-    counted = vpm.group_text(runs16)
+    counted = vpm.number_text(runs16, 0)
     check("and says how many, not just that it happened",
           bool(hints) and counted in hints[0].text,
           "looked for %s runs in: %s"

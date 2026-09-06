@@ -176,15 +176,15 @@ check("and the cut then holds the opening on the marked camera",
 two_cut, two_log = a_run(FOUR + ("CamW", "CamX"))
 back_cut, back_log = a_run(FOUR + ("CamX", "CamW"))
 check("two free cameras are counted, and the one used is named",
-      two_log.count(COUNTED % (vpm.group_text(2), "CamW")) == 1,
+      two_log.count(COUNTED % (vpm.number_text(2, 0), "CamW")) == 1,
       "%r stands %d times in the log, wanted 1"
-      % (COUNTED % (vpm.group_text(2), "CamW"),
-         two_log.count(COUNTED % (vpm.group_text(2), "CamW"))))
+      % (COUNTED % (vpm.number_text(2, 0), "CamW"),
+         two_log.count(COUNTED % (vpm.number_text(2, 0), "CamW"))))
 check("with a single wide shot nothing is counted out loud",
-      wide_log.count(COUNTED % (vpm.group_text(1), "CamW")) == 0,
+      wide_log.count(COUNTED % (vpm.number_text(1, 0), "CamW")) == 0,
       "%r stands %d times in the log, wanted 0"
-      % (COUNTED % (vpm.group_text(1), "CamW"),
-         wide_log.count(COUNTED % (vpm.group_text(1), "CamW"))))
+      % (COUNTED % (vpm.number_text(1, 0), "CamW"),
+         wide_log.count(COUNTED % (vpm.number_text(1, 0), "CamW"))))
 check("of two the cut takes the first and shows the other nowhere",
       "CamW" in cameras_of(two_cut) and "CamX" not in cameras_of(two_cut),
       "the cut uses %s, wanted CamW among them and no CamX"

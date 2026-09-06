@@ -162,39 +162,31 @@ def kept_language():
     return kept if isinstance(kept, str) and kept in languages() else ""
 
 
-def group_text(number):
-    """Group the thousands the way the chosen language does."""
-    return format(int(number), ",d").replace(",", T(","))
-
-
-def decimal_text(text):
-    """Write the decimal point the way the chosen language writes it."""
-    mark = T(".")
-    return text.replace(".", mark) if mark != "." else text
-
-
 def number_text(number, places=1, plus=False):
     """Group the thousands and set the decimal mark, as the language does.
 
-    The two above do one half each; a number with a decimal place needs
-    both -- German printed "2000,0 ms" beside "1.234 points". Not in two
-    passes over the finished text: one language's thousands mark is
-    another's decimal mark, and measured on German the second pass reads
-    what the first wrote, "1,234,5" one way round and "1.234.5" the
-    other. So the halves are marked apart. *plus* signs a positive one.
+    Not in two passes over the finished text: one language's thousands
+    mark is another's decimal mark, and measured on German the second
+    pass reads what the first wrote, "1,234,5" one way round and
+    "1.234.5" the other. So the halves are marked apart. *places* None
+    writes as many places as the number needs, the way "%g" does, and
+    *plus* signs a positive one.
     """
     # French and Russian group with a space, so nothing here may look
     # for a particular character: the cut is made at the point "%f"
     # wrote, while both halves are still plain digits.
-    text = "%.*f" % (max(0, int(places)), float(number))
+    text = ("%g" % float(number) if places is None
+            else "%.*f" % (max(0, int(places)), float(number)))
     ahead = "-" if text.startswith("-") else ("+" if plus else "")
     # "inf" and "nan" carry no digits to group, and int() stops the run
     # over them. A fit with no spread of its own reports its error as
-    # inf, so this is reachable; decimal_text handed the word on.
+    # inf, so this is reachable, and the word is handed on whole.
     if not text.lstrip("-")[:1].isdigit():
         return ahead + text.lstrip("-")
     whole, _, rest = text.lstrip("-").partition(".")
-    whole = format(int(whole), ",d").replace(",", T(","))
+    # Over a million "%g" writes "1e+06", and int() stops over that too.
+    if whole.isdigit():
+        whole = format(int(whole), ",d").replace(",", T(","))
     return ahead + whole + (T(".") + rest if rest else "")
 
 
@@ -210,7 +202,7 @@ def channel_text(count):
     except (TypeError, ValueError):
         return T('channel count unknown')
     return {1: "mono", 2: "stereo"}.get(
-        count, TN(count, '%s channel', '%s channels') % group_text(count))
+        count, TN(count, '%s channel', '%s channels') % number_text(count, 0))
 
 
 # Set to answer yes before the question is asked: a test run, a build
