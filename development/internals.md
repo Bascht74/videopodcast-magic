@@ -54,8 +54,8 @@ and **the figure of the day is that command, not this paragraph**:
 * `desktop/` **657** -- the picture and the shortcut the first start
   lays down
 * `tables/` **409** -- the tables and trees the window builds
-* `orders/` **395** -- what the window holds, read back as a command
-  line
+* `orders/` **748** -- the command line a run is given: written out of
+  the window, and read back off the line
 * `timecode/` **343** -- timecode strings, frame rates, the clock a file
   carries
 * `language/` **313** -- a .po file per language and the reader that
@@ -69,10 +69,13 @@ and **the figure of the day is that command, not this paragraph**:
 model lives there and no code at all, so `beside()` never reaches for
 it. There is nothing to build.
 
-**Five pieces are asked for by another piece, not by the way in.**
-`player/`, `fittings/`, `tables/`, `orders/` and `menus/` are read out
-of `ui/__init__.py`, where the blocks they hold used to stand, and
-`player/` again out of `fittings/`. `beside()` does not mind -- it lays
+**Four pieces are asked for by another piece, not by the way in.**
+`player/`, `fittings/`, `tables/` and `menus/` are read out of
+`ui/__init__.py`, where the blocks they hold used to stand, and
+`player/` again out of `fittings/`. `orders/` was the fifth until
+6.9.2026, when `build_argument_parser` moved into it and the way in
+began to read it too -- the window then asks `beside()` for a piece
+that is read already. `beside()` does not mind -- it lays
 its path against the folder the *way in* sits in, whoever calls it, so
 `beside("player")` out of `ui/` finds `videopodcast_magic/player/`, one
 folder up from the caller and beside its own.
