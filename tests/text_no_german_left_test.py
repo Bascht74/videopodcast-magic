@@ -96,7 +96,13 @@ elsewhere = {n.value for _piece, tree in TREES
              and isinstance(n, ast.Constant)
              and isinstance(n.value, str)}
 catalogue = vpm.CATALOGUE["de"]
-unreachable = [k for k in catalogue if k not in elsewhere]
+# A counted thing lives in PLURALS, not in CATALOGUE: read_po puts a
+# msgid carrying a msgid_plural into the wordings and leaves it out of
+# the ordinary texts. Both are entries somebody wrote and both can go
+# stale, so both are held against what the program really says.
+plurals = vpm.language.PLURALS.get("de", {})
+unreachable = [k for k in list(catalogue) + list(plurals)
+               if k not in elsewhere]
 check("no entry nobody can reach", not unreachable,
       "%d: %s" % (len(unreachable), [repr(x)[:40] for x in unreachable[:3]]))
 
@@ -111,7 +117,8 @@ for _piece, tree in TREES:
             if isinstance(a, ast.Constant) \
                     and isinstance(a.value, str):
                 wanted.add(a.value)
-absent = sorted(w for w in wanted if w not in catalogue)
+absent = sorted(w for w in wanted
+                if w not in catalogue and w not in plurals)
 check("no text without a translation", not absent,
       "%d: %s" % (len(absent), [repr(x)[:40] for x in absent[:3]]))
 

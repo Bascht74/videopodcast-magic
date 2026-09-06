@@ -10,6 +10,11 @@ section reads real rules -- German, French, Japanese, Russian, Arabic
 -- and holds them against what CLDR says. Then it holds the shipped
 Russian catalogue to its own rule: three wordings for every counted
 thing it answers for, and the right one of the three at seven counts.
+Last of all it asks the same of every language the program offers, so
+that a catalogue cannot arrive with a rule and no wordings under it:
+Arabic at the six counts it tells apart, French at nought and at two,
+where French counts differently from English and where an exchange of
+its two forms would otherwise hide.
 
 The switch section really starts the program, twice, on a file that is
 not there: whether --lang is acted on cannot be read off the parser,
@@ -403,7 +408,13 @@ for _name, tree in TREES:
                     asked.append(a.value)
 for t in vpm.CHOICE_LABELS.values():
     asked.append(t)
-absent = sorted(set(t for t in asked if t not in vpm.CATALOGUE["de"]))
+# A counted thing lives in PLURALS, not in CATALOGUE: read_po puts a
+# msgid with a msgid_plural under it into the wordings and leaves it out
+# of the ordinary texts. Looking only in CATALOGUE would report the
+# forty German counted things as gaps the day they became blocks.
+absent = sorted(set(t for t in asked
+                    if t not in vpm.CATALOGUE["de"]
+                    and t not in vpm.language.PLURALS.get("de", {})))
 check("no gap in the German catalogue", not absent,
         "%d missing: %s" % (len(absent), absent[:3]))
 
@@ -982,12 +993,17 @@ RU_SAYS = [
 # program rather than listed here: one added tomorrow is then counted
 # from the day it is written.
 _counted = set()
+# The plural wording beside each, so a count can be asked for below
+# without the English pair being written out a second time here.
+_counted_many = {}
 for _name, _tree in TREES:
     for _node in ast.walk(_tree):
         if isinstance(_node, ast.Call) and isinstance(_node.func, ast.Name) \
                 and _node.func.id == "TN" and len(_node.args) >= 3 \
                 and isinstance(_node.args[1], ast.Constant):
             _counted.add(_node.args[1].value)
+            if isinstance(_node.args[2], ast.Constant):
+                _counted_many[_node.args[1].value] = _node.args[2].value
 
 # A counted thing translated with a single msgstr is the state this
 # whole section exists against: Russian then says "5 файл". Untouched
@@ -1032,6 +1048,104 @@ _many = ru_at(RU_MANY, 2)
 check("Russian at 5 and 11 says the wording for many",
       not _many, "%d of %d wrong, first: %s"
       % (len(_many), len(RU_MANY) * len(RU_SAYS), _many[:2] or "none"))
+
+# --------------------------------- Every language, not only Russian
+# Everything above asks the Russian catalogue. Nothing above asks the
+# other eight anything at all, and that is the hole a tenth language
+# walks into: Arabic shipped a rule for six wordings and no wordings,
+# so eight different counts came out as two. These four hold every
+# language the program offers, present and future, so a catalogue
+# cannot arrive half again.
+
+# One count out of each of the six classes Arabic distinguishes, set
+# out of CLDR and not read back from the header these check.
+AR_SIX = (0, 1, 2, 3, 11, 100)
+# French puts nought with the singular -- plural=(n > 1) -- where
+# English puts it with the plural. No other language here does that.
+FR_ZERO, FR_ONE, FR_TWO = 0, 1, 2
+
+_speaks = [_c for _c in vpm.languages() if _c != vpm.SOURCE_LANG]
+
+_ruleless = [_c for _c in _speaks if _c not in vpm.language.PLURAL_RULE]
+check("every language the program offers carries a plural rule of its own",
+      not _ruleless, "%d of %d without a rule: %s"
+      % (len(_ruleless), len(_speaks), _ruleless or "none"))
+
+# A counted thing standing in a catalogue as one ordinary text is the
+# half-done state: the rule in the header is then never consulted, and
+# the count falls back on the English two. Things nobody has translated
+# are in neither place and are passed over -- they come out English,
+# which is a different decision.
+_bare = []
+for _c in _speaks:
+    _has_forms = vpm.language.PLURALS.get(_c, {})
+    _plain = vpm.CATALOGUE.get(_c, {})
+    for _w in sorted(_counted):
+        if _w in _plain and _w not in _has_forms:
+            _bare.append("%s %r" % (_c, _w))
+check("a counted thing a catalogue answers for carries wordings, not one "
+      "text", not _bare, "%d of %d language-and-thing pairs bare, first: %s"
+      % (len(_bare), len(_speaks) * len(_counted), _bare[:2] or "none"))
+
+_miscount = []
+for _c in _speaks:
+    _rule = vpm.language.PLURAL_RULE.get(_c)
+    for _w, _forms in sorted(vpm.language.PLURALS.get(_c, {}).items()):
+        _said = [_f for _f in _forms if _f]
+        if _rule and len(_said) != _rule[0]:
+            _miscount.append("%s %r: %d said, header counts %d"
+                             % (_c, _w, len(_said), _rule[0]))
+check("a catalogue says as many wordings as its own header counts",
+      not _miscount, "%d entries off, first: %s"
+      % (len(_miscount), _miscount[:2] or "none"))
+
+# From here the two languages whose rule is not the English one are
+# asked at the counts where they differ from it. An empty list of
+# things is a fall, not a pass: that is the state this exists against.
+vpm.set_language("ar")
+_ar = sorted(set(_counted) & set(vpm.language.PLURALS.get("ar", {})))
+_flat = []
+for _w in _ar:
+    _said = set(vpm.TN(_n, _w, _counted_many[_w]) for _n in AR_SIX)
+    if len(_said) != len(AR_SIX):
+        _flat.append("%r: %d of %d at %s"
+                     % (_w, len(_said), len(AR_SIX), AR_SIX))
+check("Arabic says a different thing at 0, 1, 2, 3, 11 and 100",
+      bool(_ar) and not _flat,
+      "%d of %d counted things flatter than %d, first: %s"
+      % (len(_flat), len(_ar), len(AR_SIX), _flat[:2] or "none"))
+
+vpm.set_language("fr")
+_fr = sorted(set(_counted) & set(vpm.language.PLURALS.get("fr", {})))
+_zero = []
+for _w in _fr:
+    _at = [vpm.TN(_n, _w, _counted_many[_w])
+           for _n in (FR_ZERO, FR_ONE, FR_TWO)]
+    if not (_at[0] == _at[1] != _at[2]):
+        _zero.append("%r: 0 %r, 1 %r, 2 %r" % (_w, _at[0], _at[1], _at[2]))
+check("French says at nought what it says at one, and not what it says at "
+      "two", bool(_fr) and not _zero,
+      "%d of %d counted things wrong at nought, first: %s"
+      % (len(_zero), len(_fr), _zero[:2] or "none"))
+
+# The one above cannot see the two forms exchanged: with plural=(n > 1)
+# nought and one take the same form, so a swap keeps them equal and only
+# moves which wording both of them say. So the wording at two is held
+# against the ordinary entry the catalogue still carries for the English
+# plural -- two roads to the same text, and a swap sends them apart.
+_swapped = []
+for _w in _fr:
+    _plural = vpm.CATALOGUE.get("fr", {}).get(_counted_many[_w])
+    if _plural is None:
+        _swapped.append("%r: no ordinary entry for its plural" % (_w,))
+        continue
+    _said = vpm.TN(FR_TWO, _w, _counted_many[_w])
+    if _said != _plural:
+        _swapped.append("%r: at two %r, catalogue %r" % (_w, _said, _plural))
+check("what French says at two is the wording its catalogue holds for the "
+      "plural", bool(_fr) and not _swapped,
+      "%d of %d wrong at two, first: %s"
+      % (len(_swapped), len(_fr), _swapped[:2] or "none"))
 
 # The suite runs under LANG=C, so hand the module back in English.
 vpm.set_language("en")
