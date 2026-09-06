@@ -828,7 +828,7 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                            drift=bool(clock_drift_ppm))
             track["ready"] = target
             remark = (T('  -->  aligned, clock drift %s ppm taken out')
-                      % decimal_text("%+.1f" % clock_drift_ppm)) \
+                      % number_text(clock_drift_ppm, 1, plus=True)) \
                 if clock_drift_ppm \
                 else T('  -->  aligned')
         else:
@@ -838,8 +838,8 @@ def verify_returned_tracks(tracks, window_length2, tmpdir):   # noqa: C901
                   'ms, %s of %s points%s%s')
                 % (track["name"], number_text(ms, plus=True),
                    "" if fine is None else T(' (fine: %s ms)')
-                   % decimal_text("%+.1f" % fine),
-                   decimal_text("%+.3f" % length),
+                   % number_text(fine, 1, plus=True),
+                   number_text(length, 3, plus=True),
                    number_text(spread, 0),
                    group_text(st.get("points", 0)),
                    group_text(st.get("candidates", 0)), remark,

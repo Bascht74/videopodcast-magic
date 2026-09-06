@@ -746,7 +746,7 @@ def recogniser_program(build=True):
         return None
     os.replace(out, binary)
     print(T('  The speech recogniser is built (%s s).')
-          % decimal_text("%.1f" % (time.time() - started)))
+          % number_text(time.time() - started))
     return binary
 
 
@@ -765,12 +765,12 @@ def speech_note_said(note):
     """
     found = SPEECH_TIMING.match(str(note or "").strip())
     if found:
-        # Through decimal_text, or a German run reads "0.1 s" -- the
+        # Through number_text, or a German run reads "0.1 s" -- the
         # catalogue turns the sentence and left the number English.
         return T('  Recognised in %s: ready in %s s, heard in %s s') \
             % (found.group(1).replace("_", "-"),
-               decimal_text("%.1f" % float(found.group(2))),
-               decimal_text("%.1f" % float(found.group(3))))
+               number_text(float(found.group(2))),
+               number_text(float(found.group(3))))
     return T('  The speech recognition reports: %s') % note
 
 
