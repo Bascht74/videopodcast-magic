@@ -331,8 +331,8 @@ msgstr[1] "  Sprechertrennung (%s): %s Sprecher aus %s Ton"
 msgid "  Speaker separation (%s): %s speakers out of %s of audio"
 msgstr "  Sprechertrennung (%s): %s Sprecher aus %s Ton"
 
-msgid "Separating speakers"
-msgstr "Sprecher werden getrennt"
+msgid "Separating speakers: %s"
+msgstr "Sprecher werden getrennt: %s"
 
 msgid "Separating ..."
 msgstr "Trennen ..."

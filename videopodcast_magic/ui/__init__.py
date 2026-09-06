@@ -3179,6 +3179,17 @@ def make_preview(Qt, QtWidgets, state, bridge, bridge_emit, assign_lines,
     return preview_compute, speaker_measure
 
 
+def speakers_step_said(source):
+    """What the line under the overall bar says while one is separated.
+
+    A sentence and the recording's own name, because that is what
+    tells somebody which of their files is being worked on. The name
+    and not the path: the bar stands in their window, not in their
+    folder, and the line has one line's room.
+    """
+    return T('Separating speakers: %s') % os.path.basename(source)
+
+
 def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
                        assign_lines, voice_lines, remembered, split_run,
                        split_line, split_label, split_never, axis_store):
@@ -3241,7 +3252,12 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         source = state.get("speakers_running") or ""
         speaker_split_show(text, where=source)
         if source:
-            plan.report("speakers:" + source, share)
+            # The caption travels with every report, not only with the
+            # first: pressing Start clears the plan under a separation
+            # that is still running, and a report without one puts the
+            # step back bare.
+            plan.report("speakers:" + source, share,
+                        speakers_step_said(source))
 
     bridge.speakers_split_note.connect(speaker_split_note)
 
@@ -3311,8 +3327,8 @@ def make_speaker_split(QtCore, state, bridge, bridge_emit, plan, files,
         # share of the bar is known rather than guessed.
         plan.add("speakers:" + source,
                  max(2.0, media_seconds(source) / SPEAKER_SPLIT_SPEED),
-                 T('Separating speakers'))
-        plan.begin("speakers:" + source, T('Separating speakers'))
+                 speakers_step_said(source))
+        plan.begin("speakers:" + source, speakers_step_said(source))
         speaker_split_show()
         speaker_split_begin(state, split_run, bridge, bridge_emit,
                             source, count, label_run,
