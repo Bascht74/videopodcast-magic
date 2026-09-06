@@ -591,9 +591,9 @@ wo über die Spuren entschieden wird, unter der Zuordnungstabelle.
 
 Ganz oben steht **Sprache des Fensters**. Der erste Eintrag ist die
 Sprache des Systems, und er nennt sie beim Namen -- niemand soll raten
-müssen, was er da wählt. Darunter die zehn, die das Programm spricht,
+müssen, was er da wählt. Darunter die elf, die das Programm spricht,
 jede unter ihrem eigenen Namen: Deutsch, English, Español, Français,
-Português, Русский, हिन्दी, 中文, 日本語, العربية. Dass ein Name in
+Português, Русский, Українська, हिन्दी, 中文, 日本語, العربية. Dass ein Name in
 seiner eigenen Sprache steht, ist Absicht: wer eine Sprache sucht,
 versteht die Sprache, in der das Fenster gerade steht, womöglich nicht.
 
