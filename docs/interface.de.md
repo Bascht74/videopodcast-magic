@@ -53,6 +53,32 @@ Vier Reiter, in der Reihenfolge, in der man sie braucht.
   wird aus dem Ordner vorgeschlagen, in dem das Material liegt, und
   lässt sich überschreiben.
 
+  **Eine Datei, die überschrieben wird, wird vorher benannt.** Die
+  Endung `_audio` hält den Lauf von dem Material fern, das man ihm
+  gegeben hat; von allem übrigen im Ausgabeordner hält sie ihn nicht ab
+  -- von einem Export, den jemand von Hand gebaut hat, von der
+  Lieferung eines früheren Laufs, vom Ergebnis einer anderen Produktion
+  unter demselben Namen. Der Lauf weigert sich deswegen nicht, und er
+  denkt sich auch keinen Namen daneben aus: beides machte aus jedem
+  zweiten Durchgang ein `_audio_2`. Er sagt es stattdessen -- im
+  Protokoll und unter **Ausgabe**, bevor die erste Kameradatei
+  geschrieben wird, solange Abbrechen noch nichts kostet.
+
+  Zwei Sätze, und sie sind nicht gleich laut. Eine Datei, die diese
+  Produktion hier schon einmal angelegt hat, bekommt eine ruhige Zeile
+  mit ihrem Namen: *stammt aus einem früheren Lauf dieser Produktion
+  und wird ersetzt*. Alles andere steht rot da und mit ganzem Pfad:
+  *ist schon da und wird überschrieben -- in dieser Produktion ist
+  nicht vermerkt, dass sie die Datei angelegt hat*. Woran das
+  auseinandergehalten wird, ist einzig der Vermerk, den ein früherer
+  Lauf dieser Produktion in jenem Ordner hinterlassen hat -- nicht der
+  Name und nicht das Datum. Ist der Vermerk verlorengegangen, wurde die
+  Produktion umbenannt oder zeigt der Ausgabeordner inzwischen
+  woandershin, dann steht der laute Satz auch über der eigenen
+  Lieferung. Der Lauf ist lieber einmal zu laut, und er behauptet dabei
+  nur, was er weiß: dass hier nichts darüber vermerkt ist -- und nicht,
+  dass es niemand war.
+
   Jede Videodatei trägt in der Liste das Feld **Kameraton**. Es steht
   auf **Ton nicht verwenden**, bis jemand es auf **Ton verwenden**
   stellt. Dann geht dieser Ton denselben Weg wie eine eingelesene
@@ -582,6 +608,24 @@ Ein Abschnitt, der gar nicht vorkommt, steht auch nicht in der Liste; der
 Balken hält also keinen Anteil für ihn zurück. Bleibt ein Lauf stehen,
 sagt die Zeile, in welchem Abschnitt.
 
+**Die Zeile steht als Satz da, nie als Name, unter dem das Programm die
+Sache intern führt.** Während eine Aufnahme in Sprecher getrennt wird,
+heißt es dort **Sprecher werden getrennt:** und dahinter der bloße Name
+dieser Aufnahme -- der Name, nicht der Ordner, in dem sie liegt: der
+Balken steht im Fenster, und dort ist Platz für eine Zeile. Die
+messende Hälfte schreibt es genauso: den Namen der Datei und daneben,
+was gerade mit ihr geschieht, **Hüllkurve** etwa oder **Kanäle werden
+untersucht**.
+
+Läuft mehr als eines zugleich, nennt die Zeile das erste und zählt den
+Rest: **und 1 weitere**. Hat das, was gerade läuft, keine eigene
+Beschriftung, bleibt die Zeile leer. Das ist so gewollt: ein Schritt,
+der nichts zu sagen hat, sagt nichts -- statt auf das Wort
+zurückzufallen, unter dem er intern abgelegt ist. Dieses Wort sagte
+niemandem etwas und zöge unter Umständen einen ganzen Pfad mit ins
+Fenster. Ist alles fertig, steht dort einen Augenblick lang **fertig**,
+dann verschwinden Zeile und Balken zusammen.
+
 ### Was hinter Einstellungen ... steht
 
 Der Schalter **Einstellungen ...** sitzt in der Fußzeile, neben
@@ -651,6 +695,21 @@ nicht übersetzt ist, erscheint auf Englisch und nicht als Lücke.
 Deutsch ist die Ausnahme, und auch dort ist es nicht alles: etwa jeder
 achte Text hat auch auf Deutsch keinen Eintrag und steht dann englisch
 da.
+
+**Hell und dunkel wird hier nicht eingestellt, und anderswo auch
+nicht.** Einen solchen Eintrag gibt es weder auf diesem Blatt noch in
+einem Menü, denn das Fenster nimmt die Antwort von dem Schreibtisch, auf
+dem es steht. Stellt man den Schreibtisch um, während das Programm
+läuft, geht das Fenster im selben Augenblick mit -- in beide Richtungen,
+ohne Druck auf irgendetwas und ohne Neustart: Kästen, Tabellen,
+Reiterleiste, der Grund dahinter und die Zeilen, die schon unter
+**Ausgabe** stehen, wechseln gemeinsam.
+
+Gesetzt werden dabei nur die Farben, die das Programm für sich selbst
+benennt. Was es nicht benennt, bleibt so, wie der Schreibtisch es hält;
+die Akzentfarbe, die jemand für seinen Rechner gewählt hat, bleibt also
+seine -- was in einer Liste ausgewählt oder in einem Feld markiert ist,
+sieht aus wie überall sonst auf diesem Schreibtisch.
 
 ## Alles über Menü oder Taste erreichen
 

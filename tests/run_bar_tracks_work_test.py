@@ -174,6 +174,32 @@ check("not busy", not bare_busy, "busy %r, wanted False" % (bare_busy,))
 check("no line", bare_line == "",
       "line %r, wanted %r" % (bare_line, ""))
 
+print("\n8. A stage nobody announced still gets no caption")
+# The window announces its stages before a run and gives each a
+# caption. A stage that reports without having been announced is
+# caught by a guard, and that guard used to hand the plan the stage's
+# own key -- the one thing section 6 exists to keep out of the line.
+# Read out of the source because the guard sits inside the window's
+# own closure, where nothing can call it without a window.
+import ast as _ast
+_ui = os.path.join(os.path.dirname(SCRIPT), "ui", "__init__.py")
+with open(_ui, encoding="utf-8") as _fh:
+    _src = _fh.read()
+_guard = [n for n in _ast.walk(_ast.parse(_src))
+          if isinstance(n, _ast.FunctionDef) and n.name == "run_step_take"]
+_adds = [c for g in _guard for c in _ast.walk(g)
+         if isinstance(c, _ast.Call) and isinstance(c.func, _ast.Attribute)
+         and c.func.attr == "add"]
+check("the guard for an unannounced stage is there to be read",
+      len(_guard) == 1 and len(_adds) == 1,
+      "%d such functions, %d add calls in them" % (len(_guard), len(_adds)))
+_caption = (_adds[0].args[2:3] or [None])[0] if _adds else None
+check("it hands the plan no caption, so no internal key can reach the line",
+      _caption is None and not _adds[0].keywords,
+      "the call carries %d positional arguments and %d named"
+      % (len(_adds[0].args) if _adds else -1,
+         len(_adds[0].keywords) if _adds else -1))
+
 print("\n%d checks in %.2f s" % (done, time.time() - began))
 print("FAIL: " + " | ".join(bad) if bad else "ALL OK")
 sys.exit(1 if bad else 0)

@@ -69,6 +69,7 @@ der das Wort erklärt, steht vorn.
 * **De-Bleed**: `auphonic`, „Ohne Auphonic arbeiten“; `preflight`, „Wie der
   Bericht das Übersprechen gegen die 3:1-Regel misst“
 * **Drop-Frame**: `resolve`, „Der Knopf und die beiden Timelines“
+* **Dunkelmodus**: `interface`, „Was hinter Einstellungen ... steht“
 * **Edit Change Delay**: `camera-cut`, „Die Stellschrauben einstellen“
 * **EDL**: `camera-cut`, „Wie der Schnitt entsteht“
 * **Eingangsspur**: `multitrack`, „Die Zuordnung setzen“; `interface`, „Die

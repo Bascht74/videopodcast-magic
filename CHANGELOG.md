@@ -27,6 +27,30 @@ nicht.
 
 ## [3.0.0b9] - 2026-09-06
 
+### Added
+
+- **A language chosen in the Settings window can be had at once.** The
+  window said the new language would be spoken from the next start, and
+  that was all it did. A button now stands beside the chooser as soon
+  as the two differ -- "Start the window again -- what is open is lost"
+  -- and pressing it builds the window afresh in the chosen language.
+  It does nothing while a run is going, and says so.
+
+- **A restart asks what becomes of the work.** Three things send the
+  application round again -- another language, a new version, a new
+  ffmpeg -- and all three now ask the same question first: **Save and
+  restart**, **Restart without saving**, or **Cancel**. Saved, the new
+  window opens the project again and everything stands where it stood.
+
+### Changed
+
+- **The field "new file name" no longer begins with the production.**
+  It read "<production>_<camera>" for every camera in every project,
+  and with the output going into a folder of its own the folder already
+  says the production. The run's own ending -- `_audio`, or whatever
+  `--suffix` says -- is hung on every target name instead, so a target
+  can no longer land on a file named after the camera.
+
 ### Fixed
 
 - **The window now follows a desktop switched to dark right down to its
@@ -35,6 +59,29 @@ nicht.
   background behind them light, so the window read as half changed. The
   background, the entry fields and the switched-off controls now go dark
   with the rest, and come back to light when the desktop does.
+
+- **Speaker separation runs again on an Apple Silicon Mac.** The entry
+  in Applications let the system pick the processor architecture, and
+  where it picked the wrong one the window came up perfectly while
+  everything behind it fell over: "Speaker separation not available"
+  with the packages installed and importable from a terminal. The entry
+  now asks for the architecture every installed package fits and starts
+  Python in that one.
+
+- **A file that is written over is named before it happens.** Where a
+  target landed on a file already on the disc, that file was replaced
+  without a word -- the guard against a clash asks the run's own videos
+  and never the disc. Every such file is now named before the first
+  camera is written, and one this production made itself reads
+  differently from one it has no record of -- that one stands in red,
+  with its whole path.
+
+- **The line under the overall bar says what is being worked on, in
+  words.** While speakers were separated it read
+  "speakers:/Volumes/.../Zoom-020.wav" -- an internal step name with the
+  whole path of a recording in it. It now reads "Separating speakers:
+  Zoom-020.wav", and a step that was given no caption says nothing
+  instead of falling back on its own name.
 
 - **The speaker separation puts itself back before it gives up.** A
   window that came up while the separation could not run said so for as
@@ -63,6 +110,33 @@ nicht.
 
 **Deutsch**
 
+### Hinzugefügt
+
+- **Eine im Einstellungsfenster gewählte Sprache ist sofort zu haben.**
+  Das Fenster sagte, die neue Sprache werde ab dem nächsten Start
+  gesprochen, und dabei blieb es. Neben der Auswahl steht jetzt ein
+  Schalter, sobald beide auseinandergehen -- „Fenster neu starten --
+  was offen ist, geht verloren" --, und ein Druck darauf baut das
+  Fenster in der gewählten Sprache neu auf. Während ein Lauf geht, tut
+  er nichts und sagt das auch.
+
+- **Vor einem Neustart wird gefragt, was aus der Arbeit wird.** Drei
+  Dinge schicken die Anwendung neu los -- eine andere Sprache, eine
+  neue Version, ein neues ffmpeg --, und alle drei fragen jetzt
+  dasselbe zuerst: **Sichern und neu starten**, **Ohne Sichern neu
+  starten** oder **Abbrechen**. Gesichert, öffnet das neue Fenster das
+  Projekt wieder, und alles steht, wo es stand.
+
+### Geändert
+
+- **Das Feld „neuer Dateiname" beginnt nicht mehr mit der
+  Produktion.** Dort stand „<Produktion>_<Kamera>", in jedem Projekt
+  für jede Kamera, und da die Ausgabe in einen eigenen Ordner geht,
+  sagt der Ordner die Produktion bereits. Stattdessen hängt die Endung
+  des Laufs -- `_audio`, oder was `--suffix` sagt -- an jedem Zielnamen,
+  damit ein Ziel nicht mehr auf einer Datei landen kann, die nach der
+  Kamera heißt.
+
 ### Behoben
 
 - **Das Fenster geht jetzt bis zum Hintergrund mit, wenn der Schreibtisch
@@ -71,6 +145,30 @@ nicht.
   Hintergrund dahinter blieb aber hell -- das Fenster sah halb umgestellt
   aus. Hintergrund, Eingabefelder und abgeschaltete Bedienelemente
   wechseln jetzt mit, und zurück, sobald der Schreibtisch zurückwechselt.
+
+- **Die Sprechertrennung läuft auf einem Apple-Silicon-Mac wieder.**
+  Der Eintrag in „Programme" überließ dem System die Wahl der
+  Prozessorarchitektur, und wo die Wahl falsch ausfiel, kam das Fenster
+  tadellos hoch, während alles dahinter umfiel: „Sprechererkennung
+  nicht verfügbar", bei installierten Paketen, die sich im Terminal
+  einwandfrei laden ließen. Der Eintrag fragt jetzt nach der
+  Architektur, zu der jedes installierte Paket passt, und startet
+  Python in dieser.
+
+- **Eine Datei, die überschrieben wird, wird vorher benannt.** Traf ein
+  Ziel auf eine Datei, die schon auf der Platte lag, wurde sie
+  wortlos ersetzt -- die Sicherung gegen Namensgleichheit fragt die
+  Videos des Laufs und nie die Platte. Jede solche Datei wird jetzt
+  genannt, bevor die erste Kamera geschrieben wird, und eine aus einem
+  früheren Lauf derselben Produktion liest sich anders als eine, über
+  die diese Produktion nichts weiß -- die steht rot da, mit ganzem Pfad.
+
+- **Die Zeile unter dem Gesamtbalken sagt in Worten, woran gerade
+  gearbeitet wird.** Während Sprecher getrennt wurden, stand dort
+  „speakers:/Volumes/.../Zoom-020.wav" -- ein interner Schrittname mit
+  dem ganzen Pfad einer Aufnahme darin. Jetzt steht dort „Sprecher
+  werden getrennt: Zoom-020.wav", und ein Schritt ohne Beschriftung
+  sagt nichts, statt auf seinen eigenen Namen zurückzufallen.
 
 - **Die Sprechertrennung holt sich selbst zurück, bevor sie aufgibt.**
   Ein Fenster, das hochkam, während die Trennung nicht laufen konnte,

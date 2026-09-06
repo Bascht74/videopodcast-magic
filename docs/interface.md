@@ -48,6 +48,28 @@ Four tabs, in the order they are needed.
   The production name is suggested from the folder the material lies
   in, and can be typed over.
 
+  **A file the run writes over is named before it happens.** The
+  `_audio` ending keeps the run off the material it was given; it does
+  not keep it off everything else lying in the output folder -- an export made by hand,
+  a delivery from an earlier run, another production's result under the
+  same name. The run neither refuses nor invents a name around such a
+  file, because either would turn every second run into `_audio_2`. It
+  says so instead, in the log and under **Output**, before the first
+  camera file is written, where stopping still costs nothing.
+
+  Two sentences, and they are not equally loud. A file this production
+  made here before gets a quiet line naming it: *is there from an
+  earlier run of this production and is replaced*. Anything else is
+  marked red and stands there with its whole path: *is already there
+  and is written over -- this production has no record of making it*.
+  What tells the two apart is the record an earlier run of this
+  production left in that folder, and nothing else -- not the name, not
+  the day the file was written. So a folder whose record was lost, a
+  production since renamed, an output folder pointed somewhere new: the
+  run says the loud sentence about its own delivery too. It errs
+  towards saying it, and it says only what it knows -- that nothing here
+  records making that file, not that nobody did.
+
   Every video file carries **Camera audio** in the list. It reads
   **do not use the audio** until somebody sets it to **use the audio**.
   Set, that sound goes the same way as a recording that was read in:
@@ -542,6 +564,23 @@ A stage that will not happen is not in the list at all, so the bar holds
 no share back for it. If a run stops, the line says which stage it
 stopped in.
 
+**The line reads as a sentence, and never as a name the program uses
+inside itself.** While a recording is being separated into speakers it
+says **Separating speakers:** and the bare name of that recording --
+the name, not the folder it lies in, because the bar stands in the
+window and has one line's room there. The measuring half writes the
+same way: the name of the file and, beside it, what is being done to
+it, **Envelope** or **Looking at the channels**.
+
+Where more than one thing is under way, the line names the first and
+counts the rest -- **and 1 more**. Where what is running carries no
+wording of its own, the line stays empty. That is the deliberate
+answer: a step with nothing to say says nothing, rather than falling
+back on the word it is filed under, which would mean nothing to a
+reader and could drag a whole path onto the screen with it. Once
+everything is done the line reads **done** for a moment, and then it
+and the bar go away together.
+
 ### What Settings ... holds
 
 The button **Settings ...** sits in the footer, next to **Start**. Behind
@@ -608,6 +647,20 @@ is not translated shows in English rather than as a gap.
 
 German is the exception, and even there it is not all of it: about one
 text in eight has no German either and stands in English too.
+
+**Light and dark are not set here, and nowhere else either.** There is
+no such entry, in this sheet or in any menu, because the window takes
+the answer from the desktop it stands on. Switch the desktop over while
+the program is running and the window comes with it, in the same
+moment and in both directions, with nothing to press and nothing to
+start again: the boxes, the tables, the tab bar, the ground behind them
+and the lines already standing under **Output** all change together.
+
+Only the colours the program names for itself are set that way. What it
+does not name is left as the desktop has it, so the accent colour
+somebody picked for their machine stays theirs -- what is selected in a
+list, or marked in a field, keeps the colour it has everywhere else on
+that desktop.
 
 ## Reaching everything by menu or key
 
