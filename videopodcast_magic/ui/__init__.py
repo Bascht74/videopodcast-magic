@@ -2465,6 +2465,190 @@ def audio_under_camera(camera_path, kind_of, done,
     return None
 
 
+def make_player_choice(files, clip_kind_values, assign_lines, start_var,
+                       end_var, player, remembered, state, window_enable):
+    """Which file the player shows, and where it starts inside it.
+
+    Outside gui() because it decides nothing about the window: it reads
+    the two boundary fields, the file list and the Kinds, and answers
+    with a video file and a time in it. `state`, `files` and
+    `remembered` are the window's own objects and go on being written
+    through.
+    """
+    def player_load(file_path, seconds=None):
+        """Load a file into the player and remember which it was.
+
+        The choice belongs in the project. And what was running goes on
+        running: switching cameras while watching is comparing them.
+        """
+        remembered["player_file"] = file_path
+        player.load(file_path, seconds, running=player.now_playing())
+        if not state.get("closing"):
+            window_enable()      # it decides whether a boundary can be set
+
+    def player_spot_wanted(file_path):
+        """Return where the player should start in this file.
+
+        Preferably where it was left, which is stored in the project file.
+        Otherwise at the In point: the start of the file usually shows only the
+        setup.
+        """
+        spot = remembered.get("player_spot")
+        if (remembered.get("player_file") == file_path
+                and isinstance(spot, (int, float)) and spot > 0.0):
+            return float(spot)
+        span = picture_span(file_path)
+        text = start_var.get()
+        if not span or not (text or "").strip():
+            return None
+        try:
+            value, absolute = parse_time_point(text, span["fps"])
+        except Exception:
+            return None
+        if value is None:
+            return None
+        if absolute:
+            if span["tc0"] is None:
+                return None
+            value -= span["tc0"]
+        elif value >= 0:
+            if span["axis"] is None:
+                return None
+            value -= span["axis"]
+        else:
+            value = span["duration"] + value
+        if not (0.0 <= value <= span["duration"] + 0.05):
+            return None
+        return max(0.0, value)
+
+    def picture_span(file_path):
+        """What this file knows about its place in time, on this axis."""
+        return file_span(file_path, state["axis"])
+
+    def covers(file_path, text):
+        """Report whether a time value lies inside this video file.
+
+        None means undecidable -- the value is a timecode and the file has
+        none, or it counts from the start of the material and the time axis
+        has not been measured.
+        """
+        # A cheap early return, not a guard: four lines down the time
+        # reader answers None for empty text just the same, so taking
+        # this line out changes nothing anybody can see. It saves
+        # reading the file's span for a field nobody has filled in.
+        if not (text or "").strip():
+            return None
+        span = picture_span(file_path)
+        if not span or not span["duration"]:
+            return None
+        try:
+            value, absolute = parse_time_point(text, span["fps"])
+        except Exception:
+            return None
+        if value is None:
+            return None
+        if absolute:
+            if span["tc0"] is None:
+                return None
+            value -= span["tc0"]
+        elif value >= 0:
+            if span["axis"] is None:
+                return None
+            value -= span["axis"]
+        else:
+            value = span["duration"] + value
+        return -0.05 <= value <= span["duration"] + 0.05
+
+    def player_candidates():
+        """Return the video files eligible for the player.
+
+        Never one set to "ignore this video", which does not take part anyway.
+        Intro and outro neither: they do not show the events the time window is
+        about.
+        """
+        out = []
+        for file_path, kind in files:
+            if kind != "video":
+                continue
+            value = clip_kind_values.get(file_path)
+            if value is not None and value.get() not in CAMERA_TYPES:
+                continue
+            out.append(file_path)
+        return sorted(out, key=lambda x: os.path.basename(x).lower())
+
+    def player_suggestion():
+        """Return the file that belongs in the player.
+
+        First choice is one containing In point *and* Out point, otherwise the
+        two jump buttons go nowhere. Then one containing at least one boundary.
+        Among equals the camera with no speaker assigned: that is the wide shot
+        and shows the most. Among those the longest. A previous choice wins a
+        tie.
+        """
+        videos = player_candidates()
+        if not videos:
+            return None
+        taken = set(cv.get() for _r, _nv, cv in assign_lines)
+
+        def hit(file_path):
+            return sum(1 for t in (start_var.get(), end_var.get())
+                       if covers(file_path, t) is True)
+
+        def quality(file_path):
+            free = 0 if os.path.basename(file_path) in taken else 1
+            span = picture_span(file_path)
+            return (hit(file_path), free, (span or {}).get("duration") or 0.0)
+
+        # The remembered choice holds as long as it covers the boundaries just
+        # as well. Letting it fail on "the wide shot is longer" would mean not
+        # remembering it at all.
+        last_time = remembered.get("player_file")
+        if last_time in videos and hit(last_time) == max(hit(b)
+                                                         for b in videos):
+            return last_time
+        return max(videos, key=quality)
+
+    def main_track_show(force=False):
+        """Load a picture into the player so the box is not empty.
+
+        Without *force* whatever is playing stays. With *force* the file is
+        chosen again -- after opening a project, say, when In point and Out
+        point suddenly exist and the old file does not contain them.
+        """
+        suggestion = player_suggestion()
+        if suggestion is None:
+            return
+        if player.file_path and not force:
+            return
+        if player.file_path == suggestion:
+            return
+        player_load(suggestion, player_spot_wanted(suggestion))
+
+    def player_follow_up(spot_also=False):
+        """Swap the player file if it no longer covers the boundaries.
+
+        With *spot_also* it additionally jumps to the remembered position --
+        when opening a project, where the player would otherwise sit at the
+        start of the file.
+        """
+        swapped = False
+        if ((start_var.get() or "").strip()
+                or (end_var.get() or "").strip()):
+            if not (player.file_path and all(
+                    covers(player.file_path, t) is not False
+                    for t in (start_var.get(), end_var.get()))):
+                main_track_show(force=True)
+                swapped = True
+        if spot_also and not swapped and player.file_path:
+            where_to = player_spot_wanted(player.file_path)
+            if where_to is not None:
+                player.jump(int(where_to * 1000))
+
+    return (player_load, player_spot_wanted, picture_span, covers,
+            player_candidates, player_suggestion, main_track_show,
+            player_follow_up)
+
+
 #----------------------------------------------------- The window itself
 # One function, and the largest in the program. What could be
 # lifted out of it stands above and below; what is left holds the
@@ -4717,175 +4901,6 @@ def gui():
         if 0 <= row < len(file_list) and file_list[row]:
             player_load(file_list[row])
 
-    def player_load(file_path, seconds=None):
-        """Load a file into the player and remember which it was.
-
-        The choice belongs in the project. And what was running goes on
-        running: switching cameras while watching is comparing them.
-        """
-        remembered["player_file"] = file_path
-        player.load(file_path, seconds, running=player.now_playing())
-        if not state.get("closing"):
-            window_enable()      # it decides whether a boundary can be set
-
-    def player_spot_wanted(file_path):
-        """Return where the player should start in this file.
-
-        Preferably where it was left, which is stored in the project file.
-        Otherwise at the In point: the start of the file usually shows only the
-        setup.
-        """
-        spot = remembered.get("player_spot")
-        if (remembered.get("player_file") == file_path
-                and isinstance(spot, (int, float)) and spot > 0.0):
-            return float(spot)
-        span = picture_span(file_path)
-        text = start_var.get()
-        if not span or not (text or "").strip():
-            return None
-        try:
-            value, absolute = parse_time_point(text, span["fps"])
-        except Exception:
-            return None
-        if value is None:
-            return None
-        if absolute:
-            if span["tc0"] is None:
-                return None
-            value -= span["tc0"]
-        elif value >= 0:
-            if span["axis"] is None:
-                return None
-            value -= span["axis"]
-        else:
-            value = span["duration"] + value
-        if not (0.0 <= value <= span["duration"] + 0.05):
-            return None
-        return max(0.0, value)
-
-    def picture_span(file_path):
-        """What this file knows about its place in time, on this axis."""
-        return file_span(file_path, state["axis"])
-
-    def covers(file_path, text):
-        """Report whether a time value lies inside this video file.
-
-        None means undecidable -- the value is a timecode and the file has
-        none, or it counts from the start of the material and the time axis
-        has not been measured.
-        """
-        # A cheap early return, not a guard: four lines down the time
-        # reader answers None for empty text just the same, so taking
-        # this line out changes nothing anybody can see. It saves
-        # reading the file's span for a field nobody has filled in.
-        if not (text or "").strip():
-            return None
-        span = picture_span(file_path)
-        if not span or not span["duration"]:
-            return None
-        try:
-            value, absolute = parse_time_point(text, span["fps"])
-        except Exception:
-            return None
-        if value is None:
-            return None
-        if absolute:
-            if span["tc0"] is None:
-                return None
-            value -= span["tc0"]
-        elif value >= 0:
-            if span["axis"] is None:
-                return None
-            value -= span["axis"]
-        else:
-            value = span["duration"] + value
-        return -0.05 <= value <= span["duration"] + 0.05
-
-    def player_candidates():
-        """Return the video files eligible for the player.
-
-        Never one set to "ignore this video", which does not take part anyway.
-        Intro and outro neither: they do not show the events the time window is
-        about.
-        """
-        out = []
-        for file_path, kind in files:
-            if kind != "video":
-                continue
-            value = clip_kind_values.get(file_path)
-            if value is not None and value.get() not in CAMERA_TYPES:
-                continue
-            out.append(file_path)
-        return sorted(out, key=lambda x: os.path.basename(x).lower())
-
-    def player_suggestion():
-        """Return the file that belongs in the player.
-
-        First choice is one containing In point *and* Out point, otherwise the
-        two jump buttons go nowhere. Then one containing at least one boundary.
-        Among equals the camera with no speaker assigned: that is the wide shot
-        and shows the most. Among those the longest. A previous choice wins a
-        tie.
-        """
-        videos = player_candidates()
-        if not videos:
-            return None
-        taken = set(cv.get() for _r, _nv, cv in assign_lines)
-
-        def hit(file_path):
-            return sum(1 for t in (start_var.get(), end_var.get())
-                       if covers(file_path, t) is True)
-
-        def quality(file_path):
-            free = 0 if os.path.basename(file_path) in taken else 1
-            span = picture_span(file_path)
-            return (hit(file_path), free, (span or {}).get("duration") or 0.0)
-
-        # The remembered choice holds as long as it covers the boundaries just
-        # as well. Letting it fail on "the wide shot is longer" would mean not
-        # remembering it at all.
-        last_time = remembered.get("player_file")
-        if last_time in videos and hit(last_time) == max(hit(b)
-                                                         for b in videos):
-            return last_time
-        return max(videos, key=quality)
-
-    def main_track_show(force=False):
-        """Load a picture into the player so the box is not empty.
-
-        Without *force* whatever is playing stays. With *force* the file is
-        chosen again -- after opening a project, say, when In point and Out
-        point suddenly exist and the old file does not contain them.
-        """
-        suggestion = player_suggestion()
-        if suggestion is None:
-            return
-        if player.file_path and not force:
-            return
-        if player.file_path == suggestion:
-            return
-        player_load(suggestion, player_spot_wanted(suggestion))
-
-    def player_follow_up(spot_also=False):
-        """Swap the player file if it no longer covers the boundaries.
-
-        With *spot_also* it additionally jumps to the remembered position --
-        when opening a project, where the player would otherwise sit at the
-        start of the file.
-        """
-        swapped = False
-        if ((start_var.get() or "").strip()
-                or (end_var.get() or "").strip()):
-            if not (player.file_path and all(
-                    covers(player.file_path, t) is not False
-                    for t in (start_var.get(), end_var.get()))):
-                main_track_show(force=True)
-                swapped = True
-        if spot_also and not swapped and player.file_path:
-            where_to = player_spot_wanted(player.file_path)
-            if where_to is not None:
-                player.jump(int(where_to * 1000))
-
     clip_kind_values = ByFile()
     # One value per video file, shown twice -- file list and player. Not
     # a second store: the same object both times.
@@ -4893,6 +4908,15 @@ def gui():
 
     # The time axis is measured elsewhere and proposes a Kind from there.
     state["clip_kinds"] = clip_kind_values
+
+    # Below clip_kind_values, which player_candidates reads: the eight
+    # are only called out of other closures, so binding them here is
+    # early enough.
+    (player_load, player_spot_wanted, picture_span, covers,
+     player_candidates, player_suggestion, main_track_show,
+     player_follow_up) = make_player_choice(
+         files, clip_kind_values, assign_lines, start_var, end_var,
+         player, remembered, state, window_enable)
 
     def clip_kind_value(path):
         """One video file's Kind -- one value, and two places show it."""
