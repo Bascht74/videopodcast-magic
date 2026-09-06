@@ -176,9 +176,11 @@ LANGUAGE_NAMES = dict(
     es="Español",
     fr="Français",
     hi="हिन्दी",
+    it="Italiano",
     ja="日本語",
     pt="Português",
     ru="Русский",
+    tr="Türkçe",
     uk="Українська",
     zh="中文",
 )

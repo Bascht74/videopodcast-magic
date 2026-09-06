@@ -193,12 +193,26 @@ read = sum(body.count("\n") for _piece, body in PIECES)
 check("the program itself was read", read > 1000,
       "%d lines in %d piece(s) under %s, wanted over 1000"
       % (read, len(PIECES), SHOWN))
+# One place in the program writes letters like these and is not German:
+# LANGUAGE_NAMES, where every language stands under its own name.
+# Turkish is Türkçe and there is no other way to write it. So each of
+# those names is struck out of the line before it is judged, and what
+# is left is held to the rule -- a line that carries an umlaut anywhere
+# else still falls, and so does one that carries a second umlaut beside
+# the name.
+OWN_NAMES = sorted(vpm.language.LANGUAGE_NAMES.values(), key=len,
+                   reverse=True)
 hits = []
 for piece, body in PIECES:
     for i, line in enumerate(body.splitlines(), 1):
-        if GERMAN_LETTERS.search(line):
+        bare = line
+        for own in OWN_NAMES:
+            bare = bare.replace(own, "")
+        if GERMAN_LETTERS.search(bare):
             hits.append(("%s %d" % (piece, i), line.strip()[:60]))
-check("no umlaut in the program", not hits, str(hits[:3]))
+check("no umlaut in the program outside a language's own name", not hits,
+      "%d, and %d names struck out first: %s"
+      % (len(hits), len(OWN_NAMES), hits[:3]))
 # Inside the catalogue: only the values may carry them, never the keys.
 key_hits = [k for k in catalogue if GERMAN_LETTERS.search(k)]
 check("no umlaut in an English catalogue key", not key_hits,
