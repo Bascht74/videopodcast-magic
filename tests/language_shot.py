@@ -60,7 +60,7 @@ def offer():
     in the process: a button nothing put on a sheet is still alive as
     long as a closure holds it, and would answer here for ever.
     """
-    said = vpm.T('Start the window again -- what is open is lost')
+    said = vpm.T('Restart the application')
     c = combo()
     if c is None:
         return None
@@ -83,6 +83,14 @@ def live_state():
     return dict(zip(sink.__code__.co_freevars,
                     [c.cell_contents for c in sink.__closure__])).get(
                         "state") or {}
+
+
+def question():
+    """The box asking what becomes of the work, while one stands."""
+    for d in app.topLevelWidgets():
+        if isinstance(d, QtWidgets.QMessageBox) and d.isVisible():
+            return d
+    return None
 
 
 def note_text():
@@ -157,6 +165,11 @@ def step():
             # Armed before the click: the click ends this event loop,
             # and a timer set afterwards would never be set at all.
             QtCore.QTimer.singleShot(4000, step)
+            # Nothing has been added in this window, so nothing may be
+            # asked. A box would hold the click here for ever, so it
+            # is looked for from outside rather than waited on.
+            QtCore.QTimer.singleShot(800, lambda: say(
+                "question with nothing added %s" % (question() is not None)))
             offer().click()
             return
         elif i == 6:

@@ -138,6 +138,10 @@ check("a run still going leaves the window where it is",
 check("a run still going is said where the choice was made",
       said("note while running") == repr(RUNNING),
       "it says %s" % (said("note while running") or "nothing"))
+check("nothing is asked where nothing has been added to the window",
+      said("question with nothing added") == "False",
+      "a question stood there: %r"
+      % (said("question with nothing added") or "nobody looked"))
 check("taking the offer brings a window speaking the chosen language",
       said("language now") == said("aiming at") != "",
       "aimed at %r, the second window speaks %r"

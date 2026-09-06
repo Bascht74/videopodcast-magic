@@ -567,19 +567,30 @@ The choice is written down the moment it is made, and the line above
 the field says what happens next. As long as the language picked is the
 one the window is already speaking, that line promises the next start
 and nothing else is offered. The moment it is another language, a
-button **Start the window again -- what is open is lost** appears
-beside the field and the line changes: starting again brings the new
-language at once, leaving the button alone costs nothing, and the
-choice stands either way.
+button **Restart the application** appears beside the field and the
+line changes: starting again brings the new language at once, and
+leaving the button alone costs nothing, because the choice stands
+either way.
 
-The button is worth taking before the work begins rather than in the
-middle of it, because the window it builds is an empty one. The files
-loaded, the project opened, the In and Out points and the two later
-tabs stay behind with the old window, which closes as the new one comes
-up. Nothing of that can be fetched back except by opening the project
-again. While a run is going the button does nothing at all: the line
-above the field then says that the run is still going and that the
-window can be started again once it is finished.
+Pressing it asks first, as long as something has been added to the
+window. **Save and restart** writes the project file and opens it again
+in the new window: the files, the production, the assignment, the In
+and Out points and the later sheets all come back, and only the words
+are different. **Restart without saving** leaves the project file
+exactly as it lies; the new window comes up empty and the files have to
+be added afresh. **Cancel** does nothing at all -- the window stays as
+it is, the chosen language stays in the field, and the button waits to
+be pressed later. Where nothing has been added there is nothing to
+lose, and nothing is asked.
+
+While a run is going the button does nothing at all: the line above the
+field then says that the run is still going and that the application
+can be started again once it is finished.
+
+The same question comes before the other two ways the program starts
+again -- after a new version has been installed, and after ffmpeg has
+been fetched. Both of those replace the running program, so what the
+window is holding would go the same way.
 
 The window settles its language once, while it is being built, and
 every caption in it has its words by the time it stands there.

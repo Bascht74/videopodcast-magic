@@ -1098,6 +1098,12 @@ voices_of_values = orders.voices_of_values
 # failed one, and main() hands both of them straight back to the shell.
 LANGUAGE_AGAIN = 7
 
+# The window's own question before it is torn down: write the work to a
+# project file, or not, or think better of the whole thing. The window
+# puts it here as it is built, so the three ways out -- another
+# language, a new version, a new ffmpeg -- all ask the same one.
+RESTART_ASK = [None]
+
 
 def language_box_build(parent, state):
     """The box that says which language the window speaks.
@@ -1134,11 +1140,9 @@ def language_box_build(parent, state):
     # language nobody has ever chosen lands there by itself.
     stands_at = chooser.findData(kept_language())
     chooser.setCurrentIndex(stands_at if stands_at >= 0 else 0)
-    fetch = _qw.QPushButton(
-        T('Start the window again -- what is open is lost'))
+    fetch = _qw.QPushButton(T('Restart the application'))
     fetch.setVisible(False)
-    hint(fetch, T('The files, the project and the time window go with '
-                  'the old window.'))
+    hint(fetch, T('The work can be written to a project file first.'))
 
     def would_speak():
         """The language this box would bring, as a code.
@@ -1154,19 +1158,26 @@ def language_box_build(parent, state):
         other = would_speak() != PROGRAM.LANG
         fetch.setVisible(other)
         note.setText(
-            T('Starting the window again brings it at once. What is '
-              'open goes with the old window; leaving it alone costs '
-              'nothing and the new language comes at the next start.')
+            T('Starting the application again brings it at once, and '
+              'asks first what is to happen to the work. Leaving it '
+              'alone costs nothing -- it comes at the next start.')
             if other else
             T('A language chosen here is spoken from the next start.'))
 
-    def start_again():
+    def restart_now():
         """Take this window down and ask for one in the new language."""
         # Not while a run is going: the run writes into this window,
         # and a new one would take its log and its buttons with it.
         if state.get("running"):
             note.setText(T('The run is still going. The window can be '
                            'started again once it is finished.'))
+            return
+        # What happens to the work is one question for every way out
+        # of a window, and the window itself answers it. No is no: the
+        # sheet stays open, the choice stays in the box and the button
+        # stays where it is, so it can be pressed again later.
+        ask = RESTART_ASK[0]
+        if ask is not None and not ask():
             return
         box.window().close()
         # Closed and not deleted: the run loop, the colour watch and
@@ -1186,7 +1197,7 @@ def language_box_build(parent, state):
     field_row = _qw.QHBoxLayout()
     rows.addLayout(field_row)
     field_row.addWidget(chooser)
-    fetch.clicked.connect(start_again)
+    fetch.clicked.connect(restart_now)
     field_row.addWidget(fetch)
     field_row.addStretch(1)
     offer_show()
@@ -4150,14 +4161,72 @@ def app_language_set(QtCore, Qt, app):
                            else Qt.LeftToRight)
 
 
+def restart_question(window, state, files, out_folder, report, folder_pick,
+                     axis_file, axis_store):
+    """Ask what becomes of the work before the application starts again.
+
+    One question for the three ways out -- another language, a new
+    version, a new ffmpeg -- so it says restart and not what is behind
+    it. True to go on, False to leave everything standing. Where
+    nothing has been added there is nothing to lose, and nothing is
+    asked.
+    """
+    if not files:
+        return True
+    QtWidgets = _qt_widgets()
+    box = QtWidgets.QMessageBox(window)
+    box.setWindowTitle(T('Restart the application'))
+    box.setText(T('The application is about to start again. Shall the '
+                  'work be written to a project file first?'))
+    box.setInformativeText(
+        T('Written, the new window opens the project again and '
+          'everything stands where it stood. Not written, it comes up '
+          'empty and the files have to be added afresh.'))
+    keep = box.addButton(T('Save and restart'),
+                         QtWidgets.QMessageBox.AcceptRole)
+    drop = box.addButton(T('Restart without saving'),
+                         QtWidgets.QMessageBox.DestructiveRole)
+    box.addButton(T('Cancel'), QtWidgets.QMessageBox.RejectRole)
+    box.exec()
+    pressed = box.clickedButton()
+    # Nothing of an earlier restart may survive this one: the note is
+    # what the next window opens, and a stale one would open the wrong
+    # production.
+    keep_setting("restart_project", "")
+    if pressed is drop:
+        state["restart_saving"] = False
+        return True
+    if pressed is not keep:
+        return False
+    if not out_folder.get():
+        # The same handgrip as Save project: the sentence first and the
+        # chooser after it, because a folder dialog opening by itself
+        # does not say why it is there.
+        report(T('Save project'),
+               T('The project file goes into the output folder, and '
+                 'none is chosen yet. Please choose one.'))
+        folder_pick()
+    # Written here and not left to the way out: one of the three
+    # callers replaces the whole process, and nothing of this window
+    # runs after that.
+    axis_store(state.get("axis") or {})
+    keep_setting("restart_project", axis_file() or "")
+    # Written now, so this window writes no more -- and a window that
+    # has been taken down keeps its clean-up hanging on the
+    # application, so without this it would write its production again
+    # at every later restart and at the quit after them all.
+    state["restart_saving"] = False
+    return True
+
+
 def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
                       out_folder, production_var, start_var, end_var,
                       speech_language, lufs_value, edge_on, multitrack,
                       cut_var, channel_choice, clip_kind_values,
                       audio_use_values, no_join, join_to, remembered,
-                      assign_lines, camera_lines, axis_file,
+                      assign_lines, camera_lines, axis_file, axis_store,
                       project_collect, project_move, settings_extend,
-                      commonest_folder, folder_show, items_fresh,
+                      commonest_folder, folder_show, folder_pick, items_fresh,
                       window_enable, tab_gone, output_show, mode_toggled,
                       player_follow_up, plan_wipe, prework_clean_up,
                       split_stop, split_run, preview_compute,
@@ -4400,6 +4469,26 @@ def make_project_file(QtWidgets, window, state, files, log, report, sheet2,
             report('Project', T('These files no longer exist:\n  ')
                    + "\n  ".join(missing[:12]))
 
+    def project_open_after_restart():
+        """Open again what the window had open when it started again.
+
+        Posted and not done here: this maker runs while the window is
+        still being built, and project_open fills tables that do not
+        stand yet. The note is forgotten before it is acted on, so a
+        file that cannot be opened is not opened at every start.
+        """
+        from PySide6 import QtCore
+        again = settings().get("restart_project") or ""
+        if not again:
+            return
+        keep_setting("restart_project", "")
+        if os.path.isfile(again):
+            QtCore.QTimer.singleShot(0, lambda: project_open(again))
+
+    RESTART_ASK[0] = lambda: restart_question(
+        window, state, files, out_folder, report, folder_pick,
+        axis_file, axis_store)
+    project_open_after_restart()
     return project_write, project_new, project_open
 
 
@@ -4554,6 +4643,11 @@ def make_time_axis(state, files, plan, bridge, bridge_emit, assign_lines,
         time. The file size and mtime are stored with it: if those no longer
         match, it is measured again rather than carried on wrongly.
         """
+        # A restart the person told not to save writes nothing. The
+        # window's clean-up calls this on every way out, and it would
+        # otherwise put down exactly what was just declined.
+        if state.get("restart_saving") is False:
+            return
         project_move()
         file_path = axis_file()
         if not file_path:
@@ -6849,9 +6943,9 @@ def gui():
         speech_language, lufs_value, edge_on, multitrack,
         cut_var, channel_choice, clip_kind_values,
         audio_use_values, no_join, join_to, remembered,
-        assign_lines, camera_lines, axis_file,
+        assign_lines, camera_lines, axis_file, axis_store,
         project_collect, project_move, settings_extend,
-        commonest_folder, folder_show, items_fresh,
+        commonest_folder, folder_show, folder_pick, items_fresh,
         window_enable, tab_gone, output_show, mode_toggled,
         player_follow_up, plan_wipe, prework_clean_up,
         split_stop, split_run, preview_compute,
@@ -7263,6 +7357,13 @@ def restart_offer(window, said):
     box.addButton(T('Later'), QtWidgets.QMessageBox.RejectRole)
     box.exec()
     if box.clickedButton() is not do:
+        return False
+    # The same question the language button asks, because this way out
+    # costs the same: the process is replaced, and what the window held
+    # is gone with it. Said no to, the offer is declined and nothing
+    # happens -- which is what Later would have done.
+    ask = RESTART_ASK[0]
+    if ask is not None and not ask():
         return False
     start_again()
     # Only reached where the start failed: one that works never comes
