@@ -82,6 +82,7 @@ videopodcast-magic = "videopodcast_magic:main"
 # the name out and the suite stays green and the wheel opens no
 # player. Measured 6.9.2026.
 packages = ["videopodcast_magic", "videopodcast_magic.auphonic",
+            "videopodcast_magic.bearings",
             "videopodcast_magic.cut", "videopodcast_magic.desktop",
             "videopodcast_magic.language", "videopodcast_magic.material",
             "videopodcast_magic.pipeline", "videopodcast_magic.player",
