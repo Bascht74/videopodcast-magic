@@ -19,7 +19,7 @@ hint. Without a key the multitrack run stops there.*
 
 | Switch | Does |
 |---|---|
-| `--lang CODE` | language of the messages: `ar`, `de`, `en`, `es`, `fr`, `hi`, `ja`, `pt`, `ru`, `zh` (system language) |
+| `--lang CODE` | language of the messages: `ar`, `de`, `en`, `es`, `fr`, `hi`, `ja`, `pt`, `ru`, `uk`, `zh` (system language) |
 | `--out FOLDER` | where the results go (next to each video) |
 | `--suffix TEXT` | added to the file name (`_audio`) |
 | `--name-camera TEXT` | name of the camera track (`Camera Original`) |

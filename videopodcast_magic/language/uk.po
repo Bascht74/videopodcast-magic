@@ -1,0 +1,1100 @@
+# What is translated of this program's messages, in Ukrainian.
+#
+# Keyed by the English wording, the same as the German file beside it.
+# Part of the program's texts stand here -- the captions the window
+# itself carries, not the report that runs beside them. Every text that
+# is not in this file appears in English: T() gives back the key it was
+# handed when it finds no entry, so what is missing reads rather than
+# breaks.
+#
+# These translations were written by Claude, an Anthropic model, out of
+# what it knows. No translation service was asked, no Ukrainian speaker
+# has read them, and nobody has reviewed a single line. Treat every
+# entry as a first draft. Correcting one costs nothing but this file:
+# delete an entry and that text is English again.
+#
+# Anybody who speaks Ukrainian is welcome to take part and make this
+# better, and one entry is a whole contribution. Change the msgstr,
+# leave the msgid exactly as it stands -- it is the key the program
+# looks a text up by -- and send it in. Nothing else in the program has
+# to be touched, and nothing here is anybody's to defend: the file was
+# written to be corrected.
+#
+# One entry per message: msgid is the English wording the
+# program is written in, msgstr what is said instead. An
+# entry left out appears in English.
+#
+# A counted thing is the exception, and Ukrainian is one of the
+# languages the machinery for it exists for: English picks between one
+# and everything else, Ukrainian between three. Such an entry carries
+# msgid_plural and msgstr[0], msgstr[1], msgstr[2] in place of the
+# single msgstr, and the header line below says which count wants which
+# of them -- [0] where the count ends in 1 but not in 11, [1] where it
+# ends in 2, 3 or 4 but not in 12 to 14, [2] everywhere else. So 1, 21
+# and 101 take the first, 2 and 24 the second, 5, 11 and 14 the third.
+# The wordings are read as a list, so a form left empty costs that form
+# and not the entry.
+#
+# Two of the three are not always different words. After 2, 3 and 4
+# Ukrainian puts the noun in the nominative plural, and in the locative
+# -- "on %s cameras" -- the plural is one word for every count above
+# one, so [1] and [2] are the same there and that is the language, not
+# a slip.
+#
+# Every form carries the same %s the English wording does: the program
+# applies the count to whatever comes back, and a form without it stops
+# the run on a number nobody tried.
+#
+# The English plural keeps its own ordinary entry beside such a group,
+# and it is not spare: it is what a run falls back on where the rule
+# cannot be read at all, and Ukrainian then says the many-wording
+# instead of English. The English singular has no entry of its own --
+# that would be the same msgid twice -- so in that one case a count of
+# one comes out English.
+msgid ""
+msgstr ""
+"Project-Id-Version: videopodcast-magic\n"
+"Language: uk\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 "
+"&& n%10<=4 && (n%100<12 || n%100>14) ? 1 : 2);\n"
+
+msgid "Cut with the wide shot"
+msgstr "Монтаж із загальним планом"
+
+msgid "on %s camera"
+msgid_plural "on %s cameras"
+msgstr[0] "на %s камері"
+msgstr[1] "на %s камерах"
+msgstr[2] "на %s камерах"
+
+msgid "on %s cameras"
+msgstr "на %s камерах"
+
+msgid "no camera yet"
+msgstr "поки немає камери"
+
+msgid "A newer version is out"
+msgstr "Вийшла новіша версія"
+
+msgid "%s is out. This is %s."
+msgstr "Вийшла %s. Тут працює %s."
+
+msgid "Multitrack mode"
+msgstr "Режим Multitrack"
+
+msgid "Singletrack mode"
+msgstr "Режим однієї доріжки"
+
+msgid "fetching from auphonic.com ..."
+msgstr "завантаження з auphonic.com ..."
+
+msgid "What changed since %s:"
+msgstr "Що змінилося з %s:"
+
+msgid "Update"
+msgstr "Оновити"
+
+msgid "Later"
+msgstr "Пізніше"
+
+msgid "Go back"
+msgstr "Повернутися"
+
+msgid "About Video Podcast Magic"
+msgstr "Про програму Video Podcast Magic"
+
+msgid "&File"
+msgstr "&Файл"
+
+msgid "&View"
+msgstr "&Вигляд"
+
+msgid "&Player"
+msgstr "&Програвач"
+
+msgid "&Help"
+msgstr "&Довідка"
+
+msgid "Play and pause"
+msgstr "Відтворення і пауза"
+
+msgid "Fast forward"
+msgstr "Перемотування вперед"
+
+msgid "Play forward, faster on every press"
+msgstr "Відтворення вперед, швидше з кожним натисканням"
+
+msgid "Pause"
+msgstr "Пауза"
+
+msgid "One frame back"
+msgstr "На кадр назад"
+
+msgid "One frame forward"
+msgstr "На кадр вперед"
+
+msgid "One second back"
+msgstr "На секунду назад"
+
+msgid "One second forward"
+msgstr "На секунду вперед"
+
+msgid "Ten seconds back"
+msgstr "На десять секунд назад"
+
+msgid "Ten seconds forward"
+msgstr "На десять секунд вперед"
+
+msgid "The manual"
+msgstr "Посібник"
+
+msgid "What changed in this version"
+msgstr "Що змінилося в цій версії"
+
+msgid "Look for a newer version now"
+msgstr "Перевірити наявність нової версії"
+
+msgid "Back to an earlier version ..."
+msgstr "Повернутися до попередньої версії ..."
+
+msgid "Back to an earlier version"
+msgstr "Повернутися до попередньої версії"
+
+msgid "Separating speakers"
+msgstr "Розділення мовців"
+
+msgid "Separating ..."
+msgstr "Розділення ..."
+
+msgid "Voice"
+msgstr "Голос"
+
+msgid "Stop"
+msgstr "Перервати"
+
+msgid "Stopping ..."
+msgstr "Переривання ..."
+
+msgid "Not on this machine"
+msgstr "Не на цьому комп'ютері"
+
+msgid "Reading the audio ..."
+msgstr "Читання звуку ..."
+
+msgid "Speakers"
+msgstr "Мовці"
+
+msgid "Speaker %d"
+msgstr "Мовець %d"
+
+msgid "One more speaker in %s"
+msgstr "Ще один мовець у %s"
+
+msgid "One more speaker in"
+msgstr "Ще один мовець"
+
+msgid "%s:%02d min"
+msgstr "%s:%02d хв"
+
+msgid "%s -- %d:%02d to %d:%02d (%s s)"
+msgstr "%s -- %d:%02d – %d:%02d (%s с)"
+
+msgid "%s and %s more"
+msgstr "%s і ще %s"
+
+msgid "%s speech time"
+msgstr "час мовлення %s"
+
+msgid "Output"
+msgstr "Вивід"
+
+msgid "Access to auphonic.com"
+msgstr "Доступ до auphonic.com"
+
+msgid "Access and connection are asked once and then stay. The key goes into the %s, never into a file."
+msgstr "Доступ і з'єднання запитуються один раз і далі залишаються. Ключ потрапляє у %s, ніколи у файл."
+
+msgid "Checking files"
+msgstr "Перевірка файлів"
+
+msgid "Measuring time axis"
+msgstr "Вимірювання осі часу"
+
+msgid "Resolve answers"
+msgstr "Resolve відповідає"
+
+msgid "Settings"
+msgstr "Налаштування"
+
+msgid "Settings ..."
+msgstr "Налаштування ..."
+
+msgid "done"
+msgstr "готово"
+
+msgid ","
+msgstr " "
+
+msgid "."
+msgstr ","
+
+msgid "Kind"
+msgstr "Вид"
+
+msgid "Speech time"
+msgstr "Час мовлення"
+
+msgid "Share"
+msgstr "Частка"
+
+msgid "Colour"
+msgstr "Колір"
+
+msgid "Preset"
+msgstr "Пресет"
+
+msgid "Preset:"
+msgstr "Пресет:"
+
+msgid "Start"
+msgstr "Запуск"
+
+msgid "Production"
+msgstr "Випуск"
+
+msgid "Target"
+msgstr "Ціль"
+
+msgid "none"
+msgstr "немає"
+
+msgid "Length"
+msgstr "Тривалість"
+
+msgid "no camera of its own"
+msgstr "без власної камери"
+
+msgid "do not use"
+msgstr "не використовувати"
+
+msgid "several speakers"
+msgstr "кілька мовців"
+
+msgid "Content"
+msgstr "Зміст"
+
+msgid "Intro"
+msgstr "Заставка"
+
+msgid "Outro"
+msgstr "Кінцівка"
+
+msgid "ignore this video"
+msgstr "пропустити це відео"
+
+msgid "Open project ..."
+msgstr "Відкрити проєкт ..."
+
+msgid "Save project"
+msgstr "Зберегти проєкт"
+
+msgid "Close project"
+msgstr "Закрити проєкт"
+
+msgid "Guest"
+msgstr "Гість"
+
+msgid "Host"
+msgstr "Ведучий"
+
+msgid "Host %d"
+msgstr "Ведучий %d"
+
+msgid "Skip this version"
+msgstr "Пропустити цю версію"
+
+msgid "Project found"
+msgstr "Проєкт знайдено"
+
+msgid "Open the project"
+msgstr "Відкрити проєкт"
+
+msgid "not readable"
+msgstr "не читається"
+
+msgid "%s audio track"
+msgid_plural "%s audio tracks"
+msgstr[0] "%s звукова доріжка"
+msgstr[1] "%s звукові доріжки"
+msgstr[2] "%s звукових доріжок"
+
+msgid "%s audio tracks"
+msgstr "%s звукових доріжок"
+
+msgid "%s clip"
+msgid_plural "%s clips"
+msgstr[0] "%s кліп"
+msgstr[1] "%s кліпи"
+msgstr[2] "%s кліпів"
+
+msgid "%s clips"
+msgstr "%s кліпів"
+
+msgid "%s video track"
+msgid_plural "%s video tracks"
+msgstr[0] "%s відеодоріжка"
+msgstr[1] "%s відеодоріжки"
+msgstr[2] "%s відеодоріжок"
+
+msgid "%s video tracks"
+msgstr "%s відеодоріжок"
+
+msgid "  (this file ends earlier)"
+msgstr "  (цей файл закінчується раніше)"
+
+msgid " (paused)"
+msgstr " (пауза)"
+
+msgid " (playing)"
+msgstr " (відтворення)"
+
+msgid "%s channel"
+msgid_plural "%s channels"
+msgstr[0] "%s канал"
+msgstr[1] "%s канали"
+msgstr[2] "%s каналів"
+
+msgid "%s channels"
+msgstr "%s каналів"
+
+msgid "%s file"
+msgid_plural "%s files"
+msgstr[0] "%s файл"
+msgstr[1] "%s файли"
+msgstr[2] "%s файлів"
+
+msgid "%s files"
+msgstr "%s файлів"
+
+msgid "... or add files ..."
+msgstr "... або додати файли ..."
+
+msgid "Add files ..."
+msgstr "Додати файли ..."
+
+msgid "Assignment: which audio track belongs to which camera"
+msgstr "Призначення: яка звукова доріжка належить якій камері"
+
+msgid "Audio"
+msgstr "Звук"
+
+msgid "Bleed"
+msgstr "Просочування"
+
+msgid "Blocks"
+msgstr "Блоки"
+
+msgid "Camera"
+msgstr "Камера"
+
+msgid "Camera audio, %s to go ..."
+msgstr "Звук камер, залишилося %s ..."
+
+msgid "%s -- preview  (length %s)"
+msgstr "%s -- попередній перегляд  (тривалість %s)"
+
+msgid "Cannot start yet: %s"
+msgstr "Поки не можна почати: %s"
+
+msgid "Check again"
+msgstr "Перевірити знову"
+
+msgid "Close"
+msgstr "Закрити"
+
+msgid "Drag audio and video files here"
+msgstr "Перетягніть сюди звукові та відеофайли"
+
+msgid "Fetching audio"
+msgstr "Отримання звуку"
+
+msgid "Fetching audio ..."
+msgstr "Отримання звуку ..."
+
+msgid "File"
+msgstr "Файл"
+
+msgid "Drag to move the position."
+msgstr "Потягніть, щоб змінити позицію."
+
+msgid "Keychain"
+msgstr "Зв'язка ключів"
+
+msgid "Measuring time axis ..."
+msgstr "Вимірювання осі часу ..."
+
+msgid "Multitrack (one track per speaker)"
+msgstr "Багатодоріжково (по доріжці на мовця)"
+
+msgid "No files or project opened yet."
+msgstr "Поки не відкрито ні файлу, ні проєкту."
+
+msgid "No files selected yet."
+msgstr "Файли ще не вибрано."
+
+msgid "Not ready yet:"
+msgstr "Поки не готово:"
+
+msgid "One frame back."
+msgstr "На кадр назад."
+
+msgid "One second back."
+msgstr "На секунду назад."
+
+msgid "Only one speaker"
+msgstr "Лише один мовець"
+
+msgid "Open result folder"
+msgstr "Відкрити теку з результатом"
+
+msgid "Overwrite"
+msgstr "Перезаписати"
+
+msgid "Overwrite files"
+msgstr "Перезаписати файли"
+
+msgid "Play and pause."
+msgstr "Відтворення і пауза."
+
+msgid "Preview running ..."
+msgstr "Триває попередній перегляд ..."
+
+msgid "Prework -- read audio and compute envelopes:\n"
+msgstr "Підготовка -- прочитати звук і обчислити обвідні:\n"
+
+msgid "Processing at auphonic.com (optional)"
+msgstr "Обробка на auphonic.com (необов'язково)"
+
+msgid "Production name"
+msgstr "Назва випуску"
+
+msgid "Resolve running ..."
+msgstr "Resolve виконується ..."
+
+msgid "Save in Keychain"
+msgstr "Зберегти у зв'язці ключів"
+
+msgid "Speakers, self-measured from the tracks"
+msgstr "Мовці, виміряні самою програмою за доріжками"
+
+msgid "Ten seconds back."
+msgstr "На десять секунд назад."
+
+msgid ""
+"The audio recording of every speaker, plus the cameras.\n"
+"The order does not matter -- the program recognises what is what.\n"
+"For a multi-part recording the first block is enough."
+msgstr ""
+"Звукозапис кожного мовця плюс камери.\n"
+"Порядок не важливий -- програма сама розпізнає, що є що.\n"
+"Для запису з кількох частин достатньо першого блоку."
+
+msgid "%s -- being checked"
+msgstr "%s -- перевіряється"
+
+msgid "Open Keychain Access"
+msgstr "Відкрити «Зв'язку ключів»"
+
+msgid "There is no result yet."
+msgstr "Результату поки немає."
+
+msgid "To the In point."
+msgstr "До точки входу."
+
+msgid "To the start."
+msgstr "На початок."
+
+msgid "Track"
+msgstr "Доріжка"
+
+msgid "Video"
+msgstr "Відео"
+
+msgid "%s (%s) -- talking at once counts twice"
+msgstr "%s (%s) -- одночасне мовлення рахується двічі"
+
+msgid "Wide shot at most"
+msgstr "Загальний план не більше"
+
+msgid "Wide shot at the latest"
+msgstr "Загальний план не пізніше"
+
+msgid "Wide shot for greeting at the start and farewell at the end"
+msgstr "Загальний план для привітання на початку і прощання в кінці"
+
+msgid "YouTube -- turns down only, never up"
+msgstr "YouTube -- лише знижує, ніколи не підвищує"
+
+msgid "average"
+msgstr "у середньому"
+
+msgid "checking ..."
+msgstr "перевірка ..."
+
+msgid "complete"
+msgstr "повністю"
+
+msgid "hear assigned audio"
+msgstr "слухати призначений звук"
+
+msgid "next to each video file"
+msgstr "поряд з кожним відеофайлом"
+
+msgid "not checked yet"
+msgstr "ще не перевірено"
+
+msgid "nothing loaded yet"
+msgstr "поки нічого не завантажено"
+
+msgid "nothing selected"
+msgstr "нічого не вибрано"
+
+msgid "off"
+msgstr "вимк."
+
+msgid "processed tracks found -- nothing is uploaded"
+msgstr "знайдено оброблені доріжки -- нічого не вивантажується"
+
+msgid "reset"
+msgstr "скинути"
+
+msgid "running ..."
+msgstr "виконується ..."
+
+msgid "selected"
+msgstr "вибрано"
+
+msgid "shorter shots are merged in"
+msgstr "коротші плани зливаються"
+
+msgid "the picture changes this much later than the sound"
+msgstr "картинка змінюється настільки пізніше за звук"
+
+msgid "unspecified"
+msgstr "не вказано"
+
+msgid "Files && production"
+msgstr "Файли && випуск"
+
+msgid "Assignment && time window"
+msgstr "Призначення && часове вікно"
+
+msgid "Resolve cut"
+msgstr "Монтаж у Resolve"
+
+msgid "Camera audio"
+msgstr "Звук камери"
+
+msgid "Camera audio %s"
+msgstr "Звук камери %s"
+
+msgid "a track of its own"
+msgstr "власна доріжка"
+
+msgid "with Channel %d one stereo track"
+msgstr "з каналом %d одна стереодоріжка"
+
+msgid "not found"
+msgstr "не знайдено"
+
+msgid "a recording of its own"
+msgstr "власний запис"
+
+msgid "Cameras only"
+msgstr "Лише камери"
+
+msgid "End %s"
+msgstr "Кінець %s"
+
+msgid "Error"
+msgstr "Помилка"
+
+msgid "Mark In"
+msgstr "Позначити вхід"
+
+msgid "Mark Out"
+msgstr "Позначити вихід"
+
+msgid "Minimum Edit Duration"
+msgstr "Мінімальна довжина плану"
+
+msgid "No files given."
+msgstr "Файли не вказано."
+
+msgid "Speaker"
+msgstr "Мовець"
+
+msgid "Start %s"
+msgstr "Початок %s"
+
+msgid "Take from source files"
+msgstr "Взяти з вихідних файлів"
+
+msgid "Take the camera audio"
+msgstr "Взяти звук камери"
+
+msgid "Transfer"
+msgstr "Передавання"
+
+msgid "Wide shot after"
+msgstr "Загальний план після"
+
+msgid "no folder"
+msgstr "немає теки"
+
+msgid "no text"
+msgstr "немає тексту"
+
+msgid "unnamed"
+msgstr "без назви"
+
+msgid "Audio recording"
+msgstr "Звукозапис"
+
+msgid "Building the sum"
+msgstr "Складання суми"
+
+msgid "Camera cut"
+msgstr "Монтаж камер"
+
+msgid "%s -- preview"
+msgstr "%s -- попередній перегляд"
+
+msgid "Cancel"
+msgstr "Скасувати"
+
+msgid "Connect"
+msgstr "Підключити"
+
+msgid "Connection to Resolve"
+msgstr "З'єднання з Resolve"
+
+msgid "Continue"
+msgstr "Продовжити"
+
+msgid "Create Resolve project"
+msgstr "Створити проєкт Resolve"
+
+msgid "In point %s"
+msgstr "Точка входу %s"
+
+msgid "Out point %s"
+msgstr "Точка виходу %s"
+
+msgid "Dry run"
+msgstr "Пробний запуск"
+
+msgid "EBU R128, broadcast"
+msgstr "EBU R128, мовлення"
+
+msgid "Go ahead"
+msgstr "Продовжувати"
+
+msgid "Keep it saved"
+msgstr "Залишити збереженим"
+
+msgid "Measure"
+msgstr "Виміряти"
+
+msgid "Measuring loudness"
+msgstr "Вимірювання гучності"
+
+msgid "Merge them"
+msgstr "Об'єднати їх"
+
+msgid "do not use the audio"
+msgstr "не використовувати звук"
+
+msgid "use the audio"
+msgstr "використовувати звук"
+
+msgid "Mute."
+msgstr "Вимкнути звук."
+
+msgid "No project open."
+msgstr "Проєкт не відкрито."
+
+msgid "Not recognised"
+msgstr "Не розпізнано"
+
+msgid "Note"
+msgstr "Зауваження"
+
+msgid "One frame forward."
+msgstr "На кадр вперед."
+
+msgid "One second forward."
+msgstr "На секунду вперед."
+
+msgid "Output folder"
+msgstr "Тека виводу"
+
+msgid "Choose the output folder"
+msgstr "Вибрати теку виводу"
+
+msgid "Output folder ..."
+msgstr "Тека виводу ..."
+
+msgid "Podcast directories, mono"
+msgstr "Каталоги подкастів, моно"
+
+msgid "Podcast directories, stereo"
+msgstr "Каталоги подкастів, стерео"
+
+msgid "Preview player"
+msgstr "Програвач попереднього перегляду"
+
+msgid "Preview player%s"
+msgstr "Програвач попереднього перегляду%s"
+
+msgid "Processing"
+msgstr "Обробка"
+
+msgid "Project"
+msgstr "Проєкт"
+
+msgid "from here on a good moment for it is looked for"
+msgstr "починаючи звідси шукається слушний момент"
+
+msgid "and here it is cut, good moment or not"
+msgstr "а тут ріжеться, слушний момент чи ні"
+
+msgid "After a question"
+msgstr "Після запитання"
+
+msgid "Question"
+msgstr "Запитання"
+
+msgid "Remove"
+msgstr "Вилучити"
+
+msgid "Remove all"
+msgstr "Вилучити всі"
+
+msgid "Remove from list"
+msgstr "Вилучити зі списку"
+
+msgid "Resolve answers%s"
+msgstr "Resolve відповідає%s"
+
+msgid "Show in Finder."
+msgstr "Показати у Finder."
+
+msgid "Silence"
+msgstr "Тиша"
+
+msgid "Speaker name"
+msgstr "Ім'я мовця"
+
+msgid "Speaker names"
+msgstr "Імена мовців"
+
+msgid "Ten seconds forward."
+msgstr "На десять секунд вперед."
+
+msgid "Window %s%s"
+msgstr "Вікно %s%s"
+
+msgid "audio file"
+msgstr "звуковий файл"
+
+msgid "cancel"
+msgstr "скасувати"
+
+msgid "cancelled"
+msgstr "скасовано"
+
+msgid "nothing"
+msgstr "нічого"
+
+msgid "nothing to do"
+msgstr "нічого робити"
+
+msgid "to In point"
+msgstr "до точки входу"
+
+msgid "to Out point"
+msgstr "до точки виходу"
+
+msgid "too short"
+msgstr "занадто коротко"
+
+msgid "unknown"
+msgstr "невідомо"
+
+msgid "video file"
+msgstr "відеофайл"
+
+msgid "%s audio recording"
+msgid_plural "%s audio recordings"
+msgstr[0] "%s звукозапис"
+msgstr[1] "%s звукозаписи"
+msgstr[2] "%s звукозаписів"
+
+msgid "%s audio recordings"
+msgstr "%s звукозаписів"
+
+msgid "%s camera"
+msgid_plural "%s cameras"
+msgstr[0] "%s камера"
+msgstr[1] "%s камери"
+msgstr[2] "%s камер"
+
+msgid "%s cameras"
+msgstr "%s камер"
+
+msgid "%s video file"
+msgid_plural "%s video files"
+msgstr[0] "%s відеофайл"
+msgstr[1] "%s відеофайли"
+msgstr[2] "%s відеофайлів"
+
+msgid "%s video files"
+msgstr "%s відеофайлів"
+
+msgid "Caution"
+msgstr "Увага"
+
+msgid "on"
+msgstr "увімк."
+
+msgid "First cut by speaker"
+msgstr "Перша нарізка за мовцями"
+
+msgid "Speakers, separated by voice"
+msgstr "Мовці, розділені за голосом"
+
+msgid "Reading the plan"
+msgstr "Читання плану"
+
+msgid "Audio out of the cameras"
+msgstr "Звук із камер"
+
+msgid "Common time axis"
+msgstr "Спільна вісь часу"
+
+msgid "Processing at auphonic.com"
+msgstr "Обробка на auphonic.com"
+
+msgid "Loudness"
+msgstr "Гучність"
+
+msgid "Loudness and levels"
+msgstr "Гучність і рівні"
+
+msgid "Who speaks when"
+msgstr "Хто коли говорить"
+
+msgid "Writing the camera files"
+msgstr "Запис файлів камер"
+
+msgid "Handover and result"
+msgstr "Передавання і результат"
+
+msgid "measurement running ..."
+msgstr "вимірювання виконується ..."
+
+msgid "Looking at the channels"
+msgstr "Перегляд каналів"
+
+msgid "unused input -- ignored"
+msgstr "невикористаний вхід -- пропущено"
+
+msgid "uncertain -- %s"
+msgstr "неточно -- %s"
+
+msgid "Language"
+msgstr "Мова"
+
+msgid "not set"
+msgstr "не задано"
+
+msgid "German"
+msgstr "Німецька"
+
+msgid "English"
+msgstr "Англійська"
+
+msgid "French"
+msgstr "Французька"
+
+msgid "Spanish"
+msgstr "Іспанська"
+
+msgid "Italian"
+msgstr "Італійська"
+
+msgid "Dutch"
+msgstr "Нідерландська"
+
+msgid "Portuguese"
+msgstr "Португальська"
+
+msgid "Polish"
+msgstr "Польська"
+
+msgid "Russian"
+msgstr "Російська"
+
+msgid "Swedish"
+msgstr "Шведська"
+
+msgid "Danish"
+msgstr "Данська"
+
+msgid "Norwegian"
+msgstr "Норвезька"
+
+msgid "Finnish"
+msgstr "Фінська"
+
+msgid "Czech"
+msgstr "Чеська"
+
+msgid "Turkish"
+msgstr "Турецька"
+
+msgid "Greek"
+msgstr "Грецька"
+
+msgid "Hungarian"
+msgstr "Угорська"
+
+msgid "Romanian"
+msgstr "Румунська"
+
+msgid "Ukrainian"
+msgstr "Українська"
+
+msgid "Catalan"
+msgstr "Каталонська"
+
+msgid "Arabic"
+msgstr "Арабська"
+
+msgid "Hebrew"
+msgstr "Іврит"
+
+msgid "Japanese"
+msgstr "Японська"
+
+msgid "Chinese"
+msgstr "Китайська"
+
+msgid "Korean"
+msgstr "Корейська"
+
+msgid "Speaks at least"
+msgstr "Говорить не менше"
+
+msgid "below this the camera does not follow"
+msgstr "нижче цього камера не стежить"
+
+msgid "Answer on screen earlier"
+msgstr "Відповідь у кадрі раніше"
+
+msgid "before the question ends"
+msgstr "до кінця запитання"
+
+msgid "Wide shot at least"
+msgstr "Загальний план не менше"
+
+msgid "so long the inserted wide shot stands at least"
+msgstr "вставлений загальний план тримається щонайменше стільки"
+
+msgid "and at most this long"
+msgstr "і не довше за це"
+
+msgid "Long monologue"
+msgstr "Довгий монолог"
+
+msgid "one person holds the floor past \"Wide shot after\""
+msgstr "одна людина говорить довше, ніж «Загальний план після»"
+
+msgid "Several speak at once"
+msgstr "Говорять кілька одразу"
+
+msgid "and no camera shows exactly them"
+msgstr "і жодна камера не показує саме їх"
+
+msgid "Nobody speaks"
+msgstr "Ніхто не говорить"
+
+msgid "no voice is heard at all here"
+msgstr "тут узагалі не чути голосу"
+
+msgid "Short gap up to"
+msgstr "Коротка пауза до"
+
+msgid "so long a silence leaves the picture alone"
+msgstr "така довга тиша не чіпає картинку"
+
+msgid "Recognition uncertain"
+msgstr "Розпізнавання ненадійне"
+
+msgid "the speaker recognition frays or leaves a heap behind"
+msgstr "розпізнавання мовців розпадається або залишає купу"
+
+msgid "the picture goes to the answer before it starts"
+msgstr "картинка переходить до відповіді ще до її початку"
+
+msgid "Wide shot"
+msgstr "Загальний план"
+
+msgid "Wide shot %d"
+msgstr "Загальний план %d"
+
+msgid "(wide shot)"
+msgstr "(загальний план)"
+
+msgid "No speaker"
+msgstr "Немає мовця"
+
+msgid "Listener"
+msgstr "Слухач"
+
+msgid "Alternating"
+msgstr "Поперемінно"
+
+msgid "No camera change"
+msgstr "Без зміни камери"
+
+msgid "Hold a short gap"
+msgstr "Тримати коротку паузу"
+
+msgid "do not go early"
+msgstr "не переходити раніше"
+
+msgid "Answering speaker"
+msgstr "Відповідач"
+
+msgid "%s is in place."
+msgstr "%s встановлено."
+
+msgid "This window is still the version it started as. It can start again now and come up as the new one, or you can do that yourself later."
+msgstr "Це вікно все ще та версія, з якою воно запустилося. Воно може перезапуститися зараз і піднятися вже новим, або ви зробите це пізніше самі."
+
+msgid "This copy runs out of a folder of its own, so pip has nothing here to update. This installs it: %s"
+msgstr "Ця копія працює з власної теки, тому pip тут нічого оновлювати. Встановити її можна так: %s"
+
+msgid "Language of the window"
+msgstr "Мова вікна"
+
+msgid "A language chosen here is spoken from the next start."
+msgstr "Вибрана тут мова діє з наступного запуску."
+
+msgid "System language (%s)"
+msgstr "Мова системи (%s)"
