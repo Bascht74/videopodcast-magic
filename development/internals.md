@@ -14,7 +14,7 @@ rates, run times, distributions, comparisons.
 
 `videopodcast_magic/__init__.py` is the way in, and it is not where the
 program lives any more -- 1 355 lines of it, against the 37 535 it held
-on 4.9.2026, the day the single file became a folder. **Thirty-one
+on 4.9.2026, the day the single file became a folder. **Thirty-two
 pieces have moved out**, each in a folder of its own beside it with an
 `__init__.py` in it, and the way in reaches them with `beside()`.
 
@@ -22,7 +22,7 @@ What is in them, largest first, every folder of the program on the list
 and counted 6.9.2026 with `wc -l` over its `__init__.py` -- and **the
 figure of the day is that command, not this paragraph**:
 
-* `ui/` **8427** -- the window and everything it shows, asks or offers
+* `ui/` **8024** -- the window and everything it shows, asks or offers
 * `cut/` **3925** -- who is on camera when, and what carries it out of
   here
 * `player/` **2885** -- the moving picture: the player, the cut band,
@@ -60,6 +60,8 @@ figure of the day is that command, not this paragraph**:
   putting one in place
 * `filelist/` **485** -- the list of chosen files: the tree it is
   shown in, and what adding and removing do to it
+* `prework/` **471** -- the audio, envelopes, channels and tracks
+  fetched in advance, and the bar that counts them
 * `tables/` **410** -- the tables and trees the window builds
 * `language/` **352** -- a .po file per language and the reader that
   looks one up
@@ -85,11 +87,11 @@ figure of the day is that command, not this paragraph**:
 there and no code at all, so `beside()` never reaches for it. There is
 nothing to build.
 
-**Five pieces are asked for by another piece, not by the way in.**
-`player/`, `fittings/`, `tables/`, `menus/` and `filelist/` are read
-out of `ui/__init__.py`, where the blocks they hold used to stand, and
-two of them again one folder deeper: `player/` out of `fittings/` and
-`fittings/` out of `filelist/`. `orders/` stood among them until
+**Six pieces are asked for by another piece, not by the way in.**
+`player/`, `fittings/`, `tables/`, `menus/`, `filelist/` and `prework/`
+are read out of `ui/__init__.py`, where the blocks they hold used to
+stand, and two of them again one folder deeper: `player/` out of
+`fittings/` and `fittings/` out of `filelist/`. `orders/` stood among them until
 6.9.2026, when `build_argument_parser` moved into it and the way in
 began to read it too -- the window then asks `beside()` for a piece
 that is read already. `beside()` does not mind -- it lays
@@ -110,7 +112,7 @@ Both halves measured 6.9.2026 on a copy, one name taken off
 `text_german_arrives` green and turns `source_piece_list_holds` red,
 which names the call site it read the folder from
 (`fittings/__init__.py line 41`); `"videopodcast_magic.filelist"` does
-the same, from `ui/__init__.py line 1380`; and
+the same, from `ui/__init__.py line 1366`; and
 `"videopodcast_magic.speech"`, which the way in fetches itself, turns
 both of them red. So no name can come off this list quietly any more.
 
