@@ -604,10 +604,38 @@ Richtung: eine Zeile, die mit einem Pfad oder einem Timecode anfängt,
 steht so da, wie sie geschrieben wurde -- was ein Lauf über sich selbst
 sagt, ist kein Satz in irgendeiner Sprache.
 
-Die Wahl gilt ab dem nächsten Start, und die Zeile über dem Feld sagt es,
-bevor jemand wählt. Das Fenster legt seine Sprache einmal fest, während
-es gebaut wird; jede Beschriftung darin hat ihre Wörter, sobald es
-dasteht.
+Die Wahl wird sofort festgehalten, und die Zeile über dem Feld sagt,
+was als Nächstes geschieht. Solange die gewählte Sprache die ist, in
+der das Fenster ohnehin steht, verspricht diese Zeile den nächsten
+Start, und mehr wird nicht angeboten. Sobald es eine andere ist,
+erscheint neben dem Feld der Schalter **Anwendung neu starten**, und
+die Zeile ändert sich: ein Neustart bringt die neue Sprache sofort, und
+wer den Schalter stehen lässt, verliert nichts -- festgehalten ist die
+Wahl in beiden Fällen.
+
+Ein Druck darauf fragt zuerst, sofern etwas im Fenster liegt.
+**Speichern und neu starten** schreibt die Projektdatei und öffnet sie
+im neuen Fenster wieder: die Dateien, die Produktion, die Zuordnung,
+die Marken In und Out und die hinteren Reiter sind alle wieder da, nur
+die Wörter sind andere. **Neu starten, ohne zu speichern** lässt die
+Projektdatei genau so liegen, wie sie liegt; das neue Fenster kommt
+leer hoch, und die Dateien müssen neu hinzugefügt werden.
+**Abbrechen** tut gar nichts -- das Fenster bleibt, wie es ist, die
+gewählte Sprache bleibt im Feld stehen, und der Schalter wartet auf den
+nächsten Druck. Wurde nichts hinzugefügt, gibt es nichts zu verlieren,
+und es wird auch nicht gefragt.
+
+Solange ein Lauf läuft, tut der Schalter überhaupt nichts: die Zeile
+über dem Feld sagt dann, dass der Lauf noch läuft und dass sich die
+Anwendung neu starten lässt, sobald er fertig ist.
+
+Dieselbe Frage kommt vor den beiden anderen Neustarts -- nachdem eine
+neue Version installiert wurde und nachdem ffmpeg geholt wurde. Beide
+ersetzen das laufende Programm, und was im Fenster liegt, ginge auf
+demselben Weg verloren.
+
+Das Fenster legt seine Sprache einmal fest, während es gebaut wird; jede
+Beschriftung darin hat ihre Wörter, sobald es dasteht.
 
 **Das Fenster spricht die gewählte Sprache, was daneben läuft, meist
 nicht.** Menüleiste, Reiter und Schalter tragen die gewählte Sprache in

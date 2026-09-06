@@ -767,7 +767,15 @@ def main():
     beside("desktop", program=PROGRAM).lay_on_first_start()
     mark_time("the place in the program list is settled")
     if to_the_window:
-        return window().gui()
+        piece = window()
+        while True:
+            code = piece.gui()
+            if code != piece.LANGUAGE_AGAIN:
+                return code
+            # A language was chosen in the window and the window took
+            # itself down for it. The choice is written down already;
+            # it is read back here so the next window speaks it.
+            set_language(kept_language() or system_locale())
     force_utf8_output()
     enable_colour_output()
     # Whoever typed a command line has a console, so it is said there --
